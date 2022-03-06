@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct RuleSig : IEquatable<RuleSig>
+        public readonly struct RuleSig : IEquatable<RuleSig>, IComparable<RuleSig>
         {
             public readonly Identifier Name;
 
@@ -30,10 +30,13 @@ namespace Z0
                 => src is RuleSig x && Equals(x);
 
             public string Format()
-                => string.Format("{0} {1}()", ReturnType, Name);
+                => XedFormatters.format(this);
 
             public override string ToString()
                 => Format();
+
+            public int CompareTo(RuleSig src)
+                => Name.CompareTo(src.Name);
         }
     }
 }

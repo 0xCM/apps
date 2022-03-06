@@ -35,15 +35,17 @@ namespace Z0
 
             U5,
 
-            U6,
-
             U8,
 
             U16,
 
             U64,
 
-            Hex8,
+            X4,
+
+            X3,
+
+            X8,
 
             Imm8,
 

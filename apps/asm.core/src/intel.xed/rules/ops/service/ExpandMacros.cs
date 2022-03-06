@@ -110,7 +110,7 @@ namespace Z0
             return output.Delimit(Chars.Space).Format();
         }
 
-        static void ExpandMacros(Index<RuleTable> src)
+        static void ExpandMacros(Index<RuleTermTable> src)
         {
             var count = src.Count;
             for(var i=0; i<count; i++)
@@ -130,7 +130,7 @@ namespace Z0
             }
         }
 
-        static void ExpandMacros(ConstLookup<RuleMacroKind,MacroSpec> specs, ref RuleTable src)
+        static void ExpandMacros(ConstLookup<RuleMacroKind,MacroSpec> specs, ref RuleTermTable src)
         {
             ref var expressions = ref src.Expressions;
             var count = expressions.Count;
@@ -138,13 +138,13 @@ namespace Z0
                 ExpandMacros(specs, ref expressions[i]);
         }
 
-        static void ExpandMacros(ConstLookup<RuleMacroKind,MacroSpec> specs, ref RuleExpr src)
+        static void ExpandMacros(ConstLookup<RuleMacroKind,MacroSpec> specs, ref RuleTermExpr src)
         {
             ExpandMacros(specs, src.Premise);
             ExpandMacros(specs, src.Consequent);
         }
 
-        static void ExpandMacros(ConstLookup<RuleMacroKind,MacroSpec> specs, Index<RuleCriterion> src)
+        static void ExpandMacros(ConstLookup<RuleMacroKind,MacroSpec> specs, Index<RuleTerm> src)
         {
             var count = src.Count;
             for(var i=0; i<count; i++)
@@ -156,7 +156,7 @@ namespace Z0
             src.Expression = ExpandMacros(specs,src.Expression);
         }
 
-        static void ExpandMacros(ConstLookup<RuleMacroKind,MacroSpec> specs, ref RuleCriterion src)
+        static void ExpandMacros(ConstLookup<RuleMacroKind,MacroSpec> specs, ref RuleTerm src)
         {
             if(MacroKinds.Lookup(src.Value, out var name))
                 src = src.WithValue(specs[name].Assignments.Format());

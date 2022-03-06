@@ -5,11 +5,15 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedRules;
 
     public class XedParsers
     {
+        [MethodImpl(Inline)]
         public static XedParsers create()
-            => new XedParsers();
+            => Instance;
+
+        static XedParsers Instance = new();
 
         readonly EnumParser<OperandWidthKind> OpWidthParser = new();
 
@@ -29,64 +33,72 @@ namespace Z0
 
         readonly EnumParser<TextPropKind> TextProps = new();
 
+        readonly EnumParser<FieldKind> FieldKinds = new();
+
         XedParsers()
         {
 
 
         }
 
+        public bool Parse(string src, out FieldKind dst)
+            => FieldKinds.Parse(src, out dst);
+
+        public bool FieldKind(string src, out FieldKind dst)
+            => FieldKinds.Parse(src, out dst);
+
         public bool Parse(string src, out OperandWidthKind dst)
             => OpWidthParser.Parse(src, out dst);
 
-        public bool ParseOpWidth(string src, out OperandWidthKind dst)
+        public bool OpWidth(string src, out OperandWidthKind dst)
             => OpWidthParser.Parse(src, out dst);
 
         public bool Parse(string src, out OperandAction dst)
             => OpActions.Parse(src, out dst);
 
-        public bool ParseAction(string src, out OperandAction dst)
+        public bool Action(string src, out OperandAction dst)
             => OpActions.Parse(src, out dst);
 
         public bool Parse(string src, out PointerWidthKind dst)
             => PointerWidths.Parse(src, out dst);
 
-        public bool ParsePtrWidth(string src, out PointerWidthKind dst)
+        public bool PtrWidth(string src, out PointerWidthKind dst)
             => PointerWidths.Parse(src, out dst);
 
         public bool Parse(string src, out NonterminalKind dst)
             => Nonterminals.Parse(src, out dst);
 
-        public bool ParseNonterm(string src, out NonterminalKind dst)
+        public bool Nonterm(string src, out NonterminalKind dst)
             => Nonterminals.Parse(src, out dst);
 
         public bool Parse(string src, out XedRegId dst)
             => Regs.Parse(src, out dst);
 
-        public bool ParseRegLiteral(string src, out XedRegId dst)
+        public bool RegLiteral(string src, out XedRegId dst)
             => Regs.Parse(src, out dst);
 
         public bool Parse(string src, out ElementType dst)
             => ElementTypes.Parse(src, out dst);
 
-        public bool ParseElementType(string src, out ElementType dst)
+        public bool ElementType(string src, out ElementType dst)
             => ElementTypes.Parse(src, out dst);
 
         public bool Parse(string src, out OpVisiblity dst)
             => Visibilities.Parse(src, out dst);
 
-        public bool ParseVisibility(string src, out OpVisiblity dst)
+        public bool OpVis(string src, out OpVisiblity dst)
             => Visibilities.Parse(src, out dst);
 
         public bool Parse(string src, out EncodingGroup dst)
             => EncodingGroups.Parse(src, out dst);
 
-        public bool ParseGroup(string src, out EncodingGroup dst)
+        public bool Group(string src, out EncodingGroup dst)
             => EncodingGroups.Parse(src, out dst);
 
         public bool Parse(string src, out TextPropKind dst)
             => TextProps.Parse(src, out dst);
 
-        public bool ParseTextProp(string src, out TextPropKind dst)
+        public bool TextProp(string src, out TextPropKind dst)
             => TextProps.Parse(src, out dst);
     }
 }

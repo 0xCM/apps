@@ -97,34 +97,34 @@ namespace Z0
                 break;
 
                 case REG:
-                case RM:
                 case SIBBASE:
-                case SIBINDEX:
                 case VEXDEST210:
-                case SRM:
                 case HINT:
                 case MASK:
                 case ROUNDC:
                 case SEG_OVD:
                 case VEXVALID:
-                {
                     dst = F.U3;
-                }
+                break;
+
+                case SIBINDEX:
+                case RM:
+                case SRM:
+                    dst = F.X3;
+                break;
+
+                case ESRC:
+                    dst = F.X4;
                 break;
 
                 case MAP:
-                case ESRC:
                 case NELEM:
                 case SCALE:
-                {
                     dst = F.U4;
-                }
                 break;
 
                 case BCAST:
-                {
                     dst = F.U5;
-                }
                 break;
 
                 case BRDISP_WIDTH:
@@ -158,7 +158,7 @@ namespace Z0
 
                 case NOMINAL_OPCODE:
                 {
-                    dst = F.Hex8;
+                    dst = F.X8;
                 }
                 break;
 

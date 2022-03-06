@@ -45,7 +45,6 @@ namespace Z0
 
         public static H Max => KMax;
 
-
         public K Value {get;}
 
         [MethodImpl(Inline)]
@@ -114,7 +113,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public int CompareTo(H src)
-            => Value.CompareTo(src.Value);
+            => ((byte)Value).CompareTo((byte)src.Value);
 
         [MethodImpl(Inline)]
         public static implicit operator H(K src)

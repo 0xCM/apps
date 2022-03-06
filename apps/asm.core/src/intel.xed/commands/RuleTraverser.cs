@@ -25,31 +25,31 @@ namespace Z0
                 Traverse(src.Patterns);
             }
 
-            public void Traverse(ReadOnlySpan<RuleTable> src)
+            public void Traverse(ReadOnlySpan<RuleTermTable> src)
             {
                 iter(src,t => Traverse(t), Pll);
             }
 
-            public void Traverse(in RuleTable src)
+            public void Traverse(in RuleTermTable src)
             {
                 Traverse(src, src.Expressions);
             }
 
-            public void Traverse(in RuleTable table, ReadOnlySpan<RuleExpr> src)
+            public void Traverse(in RuleTermTable table, ReadOnlySpan<RuleTermExpr> src)
             {
                 Traversing(table);
                 var sig = table.Sig;
                 iter(src, e => Traverse(sig, e));
             }
 
-            public void Traverse(RuleSig table, in RuleExpr src)
+            public void Traverse(RuleSig table, in RuleTermExpr src)
             {
                 Traversing(table, src);
                 iter(src.Premise, p => Traverse(table,p));
                 iter(src.Consequent, c => Traverse(table,c));
             }
 
-            public void Traverse(RuleSig table, in RuleCriterion src)
+            public void Traverse(RuleSig table, in RuleTerm src)
             {
                 Traversing(table, src);
             }
@@ -76,7 +76,7 @@ namespace Z0
 
             }
 
-            protected virtual void Traversing(in RuleTable src)
+            protected virtual void Traversing(in RuleTermTable src)
             {
 
             }
@@ -91,12 +91,12 @@ namespace Z0
 
             }
 
-            protected virtual void Traversing(in RuleSig table, in RuleCriterion src)
+            protected virtual void Traversing(in RuleSig table, in RuleTerm src)
             {
 
             }
 
-            protected virtual void Traversing(in RuleSig table, in RuleExpr src)
+            protected virtual void Traversing(in RuleSig table, in RuleTermExpr src)
             {
 
             }

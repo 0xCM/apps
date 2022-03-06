@@ -35,7 +35,7 @@ namespace Z0
             EmitRuleTables(src, XedPaths.DocTarget(XedDocKind.EncDecRuleTableExp));
         }
 
-        FS.FilePath EmitRuleTables(ReadOnlySpan<RuleTable> src, FS.FilePath dst)
+        FS.FilePath EmitRuleTables(ReadOnlySpan<RuleTermTable> src, FS.FilePath dst)
         {
             var count = src.Length;
             var emitting = EmittingFile(dst);

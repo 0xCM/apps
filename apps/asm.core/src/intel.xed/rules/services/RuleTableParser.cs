@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
 namespace Z0
 {
@@ -17,7 +18,7 @@ namespace Z0
     {
         public struct RuleTableParser
         {
-            public static Outcome parse(string spec, CriterionKind ck, out RuleCriterion dst)
+            static Outcome parse(string spec, CriterionKind ck, out RuleTerm dst)
             {
                 var result = Outcome.Success;
                 var fk = FK.INVALID;
@@ -30,14 +31,14 @@ namespace Z0
 
                 if(k >= 0)
                 {
-                    op = RO.Neq;
+                    op = RO.CmpNeq;
                     name = text.left(spec,k);
                     fv = text.right(spec,k + Neq.Length - 1);
                 }
                 else if(j >=0 )
                 {
                     if(ck == CK.Premise)
-                        op = RO.Eq;
+                        op = RO.CmpEq;
                     else if(ck == CK.Consequent)
                         op = RO.Assign;
                     name = text.left(spec,j);
@@ -67,14 +68,14 @@ namespace Z0
                 if(result)
                     dst = criterion(ck, fk, op, fv);
                 else
-                    dst = RuleCriterion.Empty;
+                    dst = RuleTerm.Empty;
                 return result;
             }
 
-            public static RuleExpr expr(RuleFormKind kind, string premise, string consequent = EmptyString)
+            static RuleTermExpr expr(RuleFormKind kind, string premise, string consequent = EmptyString)
             {
-                var left = sys.empty<RuleCriterion>();
-                var right = sys.empty<RuleCriterion>();
+                var left = sys.empty<RuleTerm>();
+                var right = sys.empty<RuleTerm>();
 
                 if(nonempty(premise))
                     left = criteria(premise, CK.Premise);
@@ -82,14 +83,14 @@ namespace Z0
                 if(nonempty(consequent))
                     right = criteria(consequent, CK.Consequent);
 
-                return new RuleExpr(kind, left, right);
+                return new RuleTermExpr(kind, left, right);
             }
 
-            public static Index<RuleCriterion> criteria(string src, CriterionKind kind)
+            static Index<RuleTerm> criteria(string src, CriterionKind kind)
             {
                 var parts = text.trim(text.split(src, Chars.Space)).Where(x => nonempty(x) && !Skip.Contains(x));
                 var count = parts.Length;
-                var buffer = alloc<RuleCriterion>(count);
+                var buffer = alloc<RuleTerm>(count);
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var part = ref skip(parts, i);
@@ -102,13 +103,15 @@ namespace Z0
                 return buffer;
             }
 
-            RuleTable Table;
+            RuleTermTable Table;
 
-            List<RuleTable> Tables;
+            RuleTable Table2;
+
+            List<RuleTermTable> Tables;
+
+            List<RuleTable> Tables2;
 
             LineReader Reader;
-
-            Symbols<FieldKind> OperandKinds;
 
             RuleFormKind Kind;
 
@@ -116,13 +119,13 @@ namespace Z0
 
             public RuleTableParser()
             {
-                OperandKinds = Symbols.index<FieldKind>();
-                Table = RuleTable.Empty;
+                Table = RuleTermTable.Empty;
+                Table2 = RuleTable.Empty;
                 Reader = default;
                 Tables = new();
                 Line = TextLine.Empty;
                 Kind = 0;
-
+                Tables2 = new();
             }
 
             public Outcome Parse(TextLine src)
@@ -143,27 +146,45 @@ namespace Z0
                 return result;
             }
 
-            public Index<RuleTable> Parse(ReadOnlySpan<TextLine> src)
+            public Outcome Parse2(TextLine src)
             {
-                Tables.Clear();
-                for(var i=0; i<src.Length; i++)
+                Line = src;
+                var result = Outcome.Success;
+                Kind = RuleParser.classify(Line);
+                if(Kind == SeqDeclaration)
+                    ParseSeqTerms();
+
+                while(Kind == RuleDeclaration)
                 {
-                    ref readonly var line = ref skip(src,i);
-                    var result = Parse(line);
+                    result = ParseRuleDecl2();
                     if(result.Fail)
-                        Errors.Throw(result.Message);
+                        return result;
                 }
 
-                return Tables.ToArray();
+                return result;
             }
 
-            public Index<RuleTable> Parse(FS.FilePath src)
+            public Index<RuleTermTable> Parse(FS.FilePath src)
             {
                 try
                 {
                     Reader = src.Utf8LineReader();
                     Parse();
                     return Tables.ToArray();
+                }
+                finally
+                {
+                    Reader.Dispose();
+                }
+            }
+
+            public Index<RuleTable> Parse2(FS.FilePath src)
+            {
+                try
+                {
+                    Reader = src.Utf8LineReader();
+                    Parse2();
+                    return Tables2.ToArray();
                 }
                 finally
                 {
@@ -182,6 +203,17 @@ namespace Z0
                 }
             }
 
+            void Parse2()
+            {
+                while(Reader.Next(out var line))
+                {
+                    if(line.IsEmpty || line.StartsWith(Chars.Hash))
+                        continue;
+
+                    Parse2(line).Require();
+                }
+            }
+
             void ParseSeqTerms()
             {
                 while(Reader.Next(out Line))
@@ -197,10 +229,58 @@ namespace Z0
                 }
             }
 
-            Outcome ParseRuleDeclTerms()
+            Outcome ParseRuleDeclTerms2()
             {
                 var result = Outcome.Success;
                 var expressions = list<RuleExpr>();
+                while(Reader.Next(out Line))
+                {
+                    if(Line.IsEmpty || Line.StartsWith(Chars.Hash))
+                        continue;
+
+                    Kind = RuleParser.classify(Line);
+                    if(Kind == 0)
+                        continue;
+
+                    var content = normalize(Line.Content);
+                    var parts = sys.empty<string>();
+                    if(Kind == EncodeStep)
+                    {
+                        parts = text.split(content, EncStep).Map(x => x.Trim());
+                        if(parts.Length == 2)
+                            expressions.Add(RuleTables.expr(Kind, parts[0], parts[1]));
+                        else
+                        {
+                            result = (false, StepParseFailed.Format(content));
+                            break;
+                        }
+                    }
+                    else if(Kind == DecodeStep)
+                    {
+                        parts = text.split(content, DecStep).Map(x => x.Trim());
+                        if(parts.Length == 1)
+                            expressions.Add(RuleTables.expr(Kind, parts[0]));
+                        else if(parts.Length == 2)
+                            expressions.Add(RuleTables.expr(Kind, parts[0], parts[1]));
+                        else
+                        {
+                            result = (false, StepParseFailed.Format(content));
+                            break;
+                        }
+                    }
+                    else
+                        break;
+                }
+
+                if(result)
+                    Table2.Expressions = expressions.ToArray();
+                return result;
+            }
+
+            Outcome ParseRuleDeclTerms()
+            {
+                var result = Outcome.Success;
+                var expressions = list<RuleTermExpr>();
                 while(Reader.Next(out Line))
                 {
                     if(Line.IsEmpty || Line.StartsWith(Chars.Hash))
@@ -245,6 +325,39 @@ namespace Z0
                 return result;
             }
 
+            Outcome ParseRuleDecl2()
+            {
+                var result = Outcome.Success;
+                var ruledecl = text.trim(text.left(Line.Content, TableDeclSyntax));
+                var i = text.index(ruledecl, Chars.Space);
+                var name = EmptyString;
+                var ret = EmptyString;
+                if(i > 0)
+                {
+                    name = text.right(ruledecl,i);
+                    ret = text.left(ruledecl,i);
+                }
+                else
+                    name = ruledecl;
+
+                result = ParseRuleDeclTerms2();
+
+                if(Skip.Contains(name))
+                {
+                    Table2 = RuleTable.Empty;
+                    return true;
+                }
+
+                if(result.Fail)
+                    return result;
+
+                Table2.Name = name;
+                Table2.ReturnType = ret;
+                Tables2.Add(Table2);
+                Table2 = RuleTable.Empty;
+                return result;
+            }
+
             Outcome ParseRuleDecl()
             {
                 var result = Outcome.Success;
@@ -264,7 +377,7 @@ namespace Z0
 
                 if(Skip.Contains(name))
                 {
-                    Table = RuleTable.Empty;
+                    Table = RuleTermTable.Empty;
                     return true;
                 }
 
@@ -274,7 +387,7 @@ namespace Z0
                 Table.Name = name;
                 Table.ReturnType = ret;
                 Tables.Add(Table);
-                Table = RuleTable.Empty;
+                Table = RuleTermTable.Empty;
                 return result;
             }
 

@@ -55,23 +55,8 @@ namespace Z0
             }
 
             public string Format()
-            {
-                var dst = text.buffer();
-                for(var i=0; i<Count; i++)
-                {
-                    ref readonly var src = ref this[i];
-                    if(i==0)
-                    {
-                        dst.AppendFormat("{0} |", src);
-                    }
-                    else
-                    {
-                        dst.AppendFormat("{0}| ", src);
-                    }
-                }
+                => XedFormatters.format(this);
 
-                return dst.Emit();
-            }
 
             public override string ToString()
                 => Format();

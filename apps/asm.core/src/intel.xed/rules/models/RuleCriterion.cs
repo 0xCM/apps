@@ -9,38 +9,21 @@ namespace Z0
     {
         public struct RuleCriterion
         {
-            const string DefaultValue = "otherwise";
-
-            const string VacantValue = "nothing";
-
             public readonly CriterionKind Kind;
 
             public readonly FieldKind Field;
 
             public readonly RuleOperator Operator;
 
-            public readonly string Value;
-
-            readonly NameResolver Resolver;
+            public readonly ulong Value;
 
             [MethodImpl(Inline)]
-            public RuleCriterion(CriterionKind kind, FieldKind field, RuleOperator @op, string value)
+            public RuleCriterion(CriterionKind kind, FieldKind field, RuleOperator @op, ulong value)
             {
                 Kind = kind;
                 Field = field;
                 Operator = @op;
                 Value = value;
-                Resolver = NameResolver.Empty;
-            }
-
-            [MethodImpl(Inline)]
-            public RuleCriterion(CriterionKind kind, FieldKind field, NameResolver resolver)
-            {
-                Kind = kind;
-                Field = field;
-                Resolver = resolver;
-                Value = string.Format("{0}()", resolver.Name);
-                Operator = 0;
             }
 
             public bool IsPremise
@@ -55,20 +38,8 @@ namespace Z0
                 get => Kind == CriterionKind.Consequent;
             }
 
-            public bool IsDefault
-            {
-                [MethodImpl(Inline)]
-                get => Value == DefaultValue;
-            }
-
-            public bool IsVacant
-            {
-                [MethodImpl(Inline)]
-                get => Value == VacantValue;
-            }
-
             [MethodImpl(Inline)]
-            public RuleCriterion WithValue(string value)
+            public RuleCriterion WithValue(ulong value)
                 => new RuleCriterion(Kind, Field, Operator, value);
 
             public string Format()
@@ -77,7 +48,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static RuleCriterion Empty => new RuleCriterion(0,0,0,EmptyString);
+            public static RuleCriterion Empty => new RuleCriterion(0,0,0,0);
         }
     }
 }

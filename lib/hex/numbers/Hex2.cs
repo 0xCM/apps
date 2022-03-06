@@ -9,7 +9,7 @@ namespace Z0
     using W = W2;
 
     [DataWidth(2)]
-    public readonly struct Hex2 : IHexNumber<H,W,K>
+    public readonly struct Hex2 //: IHexNumber<H,W,K>
     {
         [Parser]
         public static Outcome parse(string src, out H dst)
@@ -92,16 +92,20 @@ namespace Z0
             get => ((byte)Value).FormatHex(specifier:false, zpad:true);
         }
 
-        [MethodImpl(Inline)]
         public string Format()
             => Text;
+
+        [MethodImpl(Inline)]
+        public string Format(bool zpad = false, bool prespec = false, bool uppercase = false)
+            => ((byte)Value).FormatHex(zpad ? 2 : 1, prespec:prespec, postspec:false, @case: uppercase ?  LetterCaseKind.Upper : LetterCaseKind.Lower);
+
 
         public override string ToString()
             => Text;
 
         [MethodImpl(Inline)]
         public int CompareTo(H src)
-            => Value.CompareTo(src.Value);
+            => ((byte)Value).CompareTo((byte)src.Value);
 
         [MethodImpl(Inline)]
         public static implicit operator H(K src)

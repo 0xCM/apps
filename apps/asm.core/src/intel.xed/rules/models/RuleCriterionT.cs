@@ -10,23 +10,39 @@ namespace Z0
         public readonly struct RuleCriterion<T>
             where T : unmanaged
         {
-            public readonly FieldKind Kind;
+            public readonly bool IsPremise;
+
+            public readonly CriterionKind Kind;
+
+            public readonly FieldKind Field;
 
             public readonly RuleOperator Operator;
 
             public readonly T Value;
 
             [MethodImpl(Inline)]
-            public RuleCriterion(FieldKind kind, RuleOperator op, T value)
+            public RuleCriterion(CriterionKind kind, FieldKind field, RuleOperator op, T value)
             {
-                Kind = kind;
+                IsPremise = kind == CriterionKind.Premise;
+                Field = field;
                 Operator = op;
                 Value = value;
+                Kind = kind;
+            }
+
+            [MethodImpl(Inline)]
+            public RuleCriterion(bool premise, CriterionKind kind, FieldKind field, RuleOperator op, T value)
+            {
+                IsPremise = premise;
+                Field = field;
+                Operator = op;
+                Value = value;
+                Kind = kind;
             }
 
             [MethodImpl(Inline)]
             public RuleCriterion<T> WithValue(T value)
-                => new RuleCriterion<T>(Kind,Operator,value);
+                => new RuleCriterion<T>(Kind, Field,Operator,value);
         }
     }
 }

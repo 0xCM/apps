@@ -7,16 +7,16 @@ namespace Z0
 {
     partial class XedRules
     {
-        public struct RuleExpr
+        public struct RuleTermExpr
         {
             public RuleFormKind Kind;
 
-            public Index<CriterionSpec> Premise;
+            public Index<RuleTerm> Premise;
 
-            public Index<CriterionSpec> Consequent;
+            public Index<RuleTerm> Consequent;
 
             [MethodImpl(Inline)]
-            public RuleExpr(RuleFormKind kind, Index<CriterionSpec> premise, Index<CriterionSpec> consequent)
+            public RuleTermExpr(RuleFormKind kind, Index<RuleTerm> premise, Index<RuleTerm> consequent)
             {
                 Kind = kind;
                 Premise = premise;

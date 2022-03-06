@@ -72,8 +72,6 @@ namespace Z0
             {
                 var input = text.despace(src);
                 var attribs = input;
-                //var i = text.index(input, Chars.Eq);
-                //var attribs = i > 0 ? text.left(input, i) : input;
                 return ParseOp(attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty));
             }
 
@@ -82,22 +80,6 @@ namespace Z0
                 var input = text.despace(src);
                 var i = text.index(input, Chars.Colon, Chars.Eq);
                 var attribs = text.right(src,i);
-                // var i = text.index(input, Chars.Colon);
-                // var j = text.index(input, Chars.Eq);
-                // var index = -1;
-                // if(i > 0 && j > 0)
-                //     index = i < j ? i : j;
-                // else if(i>0 && j<0)
-                //     index = i;
-                // else if(j>0 && i<0)
-                //     index = j;
-
-                // var attribs = EmptyString;
-                // if(j > 0)
-                //     attribs = text.right(input,j);
-                // else if(i > 0)
-                //     attribs = text.right(input,i);
-
                 Name(src, out var name);
                 return ParseOp(attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty));
             }
@@ -220,12 +202,12 @@ namespace Z0
 
                 if(count >= 1)
                 {
-                    if(Parsers.ParseAction(props[0], out var action))
+                    if(Parsers.Action(props[0], out var action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 2)
                 {
-                    if(Parsers.ParseOpWidth(props[1], out var width))
+                    if(Parsers.OpWidth(props[1], out var width))
                         seek(buffer,i++) = width;
                 }
 
@@ -243,12 +225,12 @@ namespace Z0
                 var i=0;
                 if(count >= 1)
                 {
-                    if(Parsers.ParseAction(props[0], out var action))
+                    if(Parsers.Action(props[0], out var action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 2)
                 {
-                    if(Parsers.ParseOpWidth(props[1], out var width))
+                    if(Parsers.OpWidth(props[1], out var width))
                         seek(buffer,i++) = width;
                 }
 
@@ -272,12 +254,12 @@ namespace Z0
                 }
                 if(count >= 2)
                 {
-                    if(Parsers.ParseAction(props[1], out var action))
+                    if(Parsers.Action(props[1], out var action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 3)
                 {
-                    if(Parsers.ParsePtrWidth(props[2], out var width))
+                    if(Parsers.PtrWidth(props[2], out var width))
                         seek(buffer,i++) = width;
                 }
 
@@ -296,19 +278,19 @@ namespace Z0
                 var i=0;
                 if(count >= 1)
                 {
-                    if(Parsers.ParseAction(props[0], out var action))
+                    if(Parsers.Action(props[0], out var action))
                         seek(buffer,i++) = action;
                 }
 
                 if(count >= 2)
                 {
-                    if(Parsers.ParseOpWidth(props[1], out var width))
+                    if(Parsers.OpWidth(props[1], out var width))
                         seek(buffer,i++) = width;
                 }
 
                 if(count >= 3)
                 {
-                    if(Parsers.ParseElementType(props[2], out var type))
+                    if(Parsers.ElementType(props[2], out var type))
                         seek(buffer,i++) = type;
                 }
 
@@ -328,18 +310,18 @@ namespace Z0
 
                 if(count >= 1)
                 {
-                    if(Parsers.ParseAction(props[0], out var action))
+                    if(Parsers.Action(props[0], out var action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 2)
                 {
-                    if(Parsers.ParseOpWidth(props[1], out var width))
+                    if(Parsers.OpWidth(props[1], out var width))
                         seek(buffer,i++) = width;
                 }
 
                 if(count >= 3)
                 {
-                    if(Parsers.ParseElementType(props[2], out var type))
+                    if(Parsers.ElementType(props[2], out var type))
                         seek(buffer,i++) = type;
                 }
 
@@ -348,7 +330,7 @@ namespace Z0
                     var j = text.index(props[3], Chars.Eq);
                     if(j > 0)
                     {
-                        if(Parsers.ParseTextProp(text.right(props[3], j), out var tp))
+                        if(Parsers.TextProp(text.right(props[3], j), out var tp))
                             seek(buffer,i++) = tp;
                     }
                 }
@@ -375,15 +357,15 @@ namespace Z0
                     if(j > 0)
                         p0 = text.left(p0,j);
 
-                    if(Parsers.ParseNonterm(p0, out var nonterm))
+                    if(Parsers.Nonterm(p0, out var nonterm))
                         seek(buffer, i++) = nonterm;
                     else
                     {
-                        if(Parsers.ParseRegLiteral(p0,  out var register))
+                        if(Parsers.RegLiteral(p0,  out var register))
                             seek(buffer, i++) = register;
                         else
                         {
-                            if(Parsers.ParseGroup(p0, out var group))
+                            if(Parsers.Group(p0, out var group))
                                 seek(buffer,i++) = group;
                             else
                                 seek(buffer, i++) = RegResolvers.Instance.Create(p0);
@@ -393,17 +375,17 @@ namespace Z0
 
                 if(count >= 2)
                 {
-                    if(Parsers.ParseAction(props[1], out var action))
+                    if(Parsers.Action(props[1], out var action))
                         seek(buffer,i++) = action;
                 }
 
                 if(count >= 3)
                 {
-                    if(Parsers.ParseOpWidth(props[2], out var width))
+                    if(Parsers.OpWidth(props[2], out var width))
                         seek(buffer,i++) = width;
                     else
                     {
-                        if(Parsers.ParseVisibility(props[2], out var supp))
+                        if(Parsers.OpVis(props[2], out var supp))
                         {
                             seek(buffer,i++) = supp;
                         }
@@ -412,14 +394,14 @@ namespace Z0
 
                 if(count >= 4)
                 {
-                    if(Parsers.ParseOpWidth(props[3], out var width))
+                    if(Parsers.OpWidth(props[3], out var width))
                         seek(buffer,i++) = width;
                     else
                     {
                         var j = text.index(props[3], Chars.Eq);
                         if(j > 0)
                         {
-                            if(Parsers.ParseTextProp(text.right(props[3], j), out var tp))
+                            if(Parsers.TextProp(text.right(props[3], j), out var tp))
                                 seek(buffer,i++) = tp;
                         }
                     }
@@ -427,7 +409,7 @@ namespace Z0
 
                 if(count >= 5)
                 {
-                    if(Parsers.ParseElementType(props[4], out var type))
+                    if(Parsers.ElementType(props[4], out var type))
                         seek(buffer,i++) = type;
                 }
 

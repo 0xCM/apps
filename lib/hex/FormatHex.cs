@@ -216,39 +216,39 @@ namespace Z0
                 => core.@readonly(src).FormatHex(sep, prespec, uppercase);
 
         [Op]
-        public static string FormatHex(this sbyte src, int digits, bool prespec = false, bool postspec = false)
-            => HexFormatter.format8i(src, digits, prespec, postspec);
+        public static string FormatHex(this sbyte src, int digits, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => HexFormatter.format8i(src, digits, prespec, postspec, @case);
 
         [Op]
-        public static string FormatHex(this byte src, int digits, bool prespec = false, bool postspec = false)
-            => HexFormatter.format8u(src, digits, prespec, postspec);
+        public static string FormatHex(this byte src, int digits, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => HexFormatter.format8u(src, digits, prespec, postspec, @case);
 
         [Op]
-        public static string FormatHex(this short src, int digits, bool prespec = false, bool postspec = false)
-            => HexFormatter.format16i(src, digits, prespec, postspec);
+        public static string FormatHex(this short src, int digits, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => HexFormatter.format16i(src, digits, prespec, postspec, @case);
 
         [Op]
-        public static string FormatHex(this ushort src, int digits, bool prespec = false, bool postspec = false)
-            => HexFormatter.format16u(src, digits, prespec, postspec);
+        public static string FormatHex(this ushort src, int digits, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => HexFormatter.format16u(src, digits, prespec, postspec, @case);
 
         [Op]
-        public static string FormatHex(this int src, int digits, bool prespec = false, bool postspec = false)
-            => HexFormatter.format32i(src, digits, prespec, postspec);
+        public static string FormatHex(this int src, int digits, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => HexFormatter.format32i(src, digits, prespec, postspec, @case);
 
         [Op]
-        public static string FormatHex(this uint src, int digits, bool prespec = false, bool postspec = false)
-            => HexFormatter.format32u(src, digits, prespec, postspec);
+        public static string FormatHex(this uint src, int digits, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => HexFormatter.format32u(src, digits, prespec, postspec, @case);
 
         [Op]
-        public static string FormatHex(this ulong src, int digits, bool prespec = false, bool postspec = false)
-            => HexFormatter.format64u(src, digits, prespec, postspec);
+        public static string FormatHex(this ulong src, int digits, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => HexFormatter.format64u(src, digits, prespec, postspec, @case);
 
         [Op]
-        public static string FormatHex(this long src, int digits, bool prespec = false, bool postspec = false)
-            => HexFormatter.format64i(src, digits, prespec, postspec);
+        public static string FormatHex(this long src, int digits, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => HexFormatter.format64i(src, digits, prespec, postspec, @case);
 
         [Op]
-        public static string FormatTrimmedHex(this ushort src, bool prespec = false, bool postspec = false)
+        public static string FormatTrimmedHex(this ushort src, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
         {
             if(src <= byte.MaxValue)
                 return src.FormatHex(2, prespec, postspec);

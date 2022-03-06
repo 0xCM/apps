@@ -11,7 +11,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public Index<NonterminalRule> CalcNonterminals(ReadOnlySpan<RuleTable> src)
+        public Index<NonterminalRule> CalcNonterminals(ReadOnlySpan<RuleTermTable> src)
         {
             var nonterms = NonterminalKinds().Map(x => (x.ToString(),x)).ToDictionary();
             var count = src.Length;
@@ -26,7 +26,7 @@ namespace Z0
             return buffer.ToArray();
         }
 
-        public Index<TerminalRule> CalcTerminals(ReadOnlySpan<RuleTable> src)
+        public Index<TerminalRule> CalcTerminals(ReadOnlySpan<RuleTermTable> src)
         {
             var nonterms = NonterminalKinds().Map(x => (x.ToString(),x)).ToDictionary();
             var count = src.Length;

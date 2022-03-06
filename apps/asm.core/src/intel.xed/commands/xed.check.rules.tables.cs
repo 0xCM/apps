@@ -20,7 +20,7 @@ namespace Z0
             return true;
         }
 
-        Index<RuleCall> Calls(Index<RuleTable> src)
+        Index<RuleCall> Calls(Index<RuleTermTable> src)
         {
             var count = src.Count;
             var dst = text.buffer();
@@ -47,13 +47,13 @@ namespace Z0
             return buffer.ToArray();
         }
 
-        static bool calls(in RuleTable src, out Index<RuleCriterion> dst)
+        static bool calls(in RuleTermTable src, out Index<RuleTerm> dst)
         {
             var expr = src.Expressions;
             var count = src.Expressions.Count;
             ref readonly var name = ref src.Name;
-            var buffer = hashset<RuleCriterion>();
-            dst = sys.empty<RuleCriterion>();
+            var buffer = hashset<RuleTerm>();
+            dst = sys.empty<RuleTerm>();
             for(var i=0; i<expr.Length; i++)
             {
                 ref readonly var x = ref expr[i];

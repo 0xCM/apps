@@ -7,13 +7,22 @@ namespace Z0
 {
     partial class XedRules
     {
-        public Index<RuleTable> CalcEncRuleTables()
+        public Index<RuleTermTable> CalcEncRuleTables()
             => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.EncRuleTable));
 
-        public Index<RuleTable> CalcDecRuleTables()
+        public Index<RuleTermTable> CalcDecRuleTables()
             => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.DecRuleTable));
 
-        public Index<RuleTable> CalcEncDecRuleTables()
+        public Index<RuleTermTable> CalcEncDecRuleTables()
             => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.EncDecRuleTable));
+
+        public Index<RuleTable> CalcEncRuleTables2()
+            => new RuleTableParser().Parse2(XedPaths.DocSource(XedDocKind.EncRuleTable));
+
+        public Index<RuleTable> CalcDecRuleTables2()
+            => new RuleTableParser().Parse2(XedPaths.DocSource(XedDocKind.DecRuleTable));
+
+        public Index<RuleTable> CalcEncDecRuleTables2()
+            => new RuleTableParser().Parse2(XedPaths.DocSource(XedDocKind.EncDecRuleTable));
     }
 }

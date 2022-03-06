@@ -9,10 +9,10 @@ namespace Z0
     {
         public readonly struct TerminalRule : IRule
         {
-            public readonly RuleTable Def;
+            public readonly RuleTermTable Def;
 
             [MethodImpl(Inline)]
-            public TerminalRule(RuleTable rule)
+            public TerminalRule(RuleTermTable rule)
             {
                 Def = rule;
             }
@@ -24,13 +24,13 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            RuleTable IRule.Def
+            RuleTermTable IRule.Def
                 => Def;
 
-            public static implicit operator TerminalRule(RuleTable src)
+            public static implicit operator TerminalRule(RuleTermTable src)
                 => new TerminalRule(src);
 
-            public static TerminalRule Empty => new TerminalRule(RuleTable.Empty);
+            public static TerminalRule Empty => new TerminalRule(RuleTermTable.Empty);
         }
     }
 }

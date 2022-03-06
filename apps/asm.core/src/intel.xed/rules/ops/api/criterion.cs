@@ -6,6 +6,7 @@
 namespace Z0
 {
     using Asm;
+
     using static XedModels;
     using static XedRules.FieldKind;
 
@@ -13,13 +14,47 @@ namespace Z0
 
     partial class XedRules
     {
-        public static bool criterion(FieldKind kind, RuleOperator op, string value, out CriterionSpec dst)
+        [MethodImpl(Inline), Op]
+        public static RuleTerm criterion(CriterionKind kind, FieldKind field, RuleOperator op, string value)
+            => new RuleTerm(kind, field,op, value);
+
+        [MethodImpl(Inline), Op]
+        public static RuleTerm criterion(CriterionKind kind, FieldKind field, NameResolver resolver)
+            => new RuleTerm(kind, field, resolver);
+
+        [MethodImpl(Inline), Op]
+        public static CriterionSpec criterion(bool premise, NameResolver resolver)
+            => new CriterionSpec(premise, FieldKind.INVALID, RuleOperator.Call, FieldDataType.Empty, (uint)(int)resolver);
+
+        [MethodImpl(Inline), Op]
+        public static CriterionSpec criterion(bool premise, NontermCall call)
+            => new CriterionSpec(premise, FieldKind.INVALID, RuleOperator.Call, FieldDataType.Empty, (ushort)call.Kind);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static CriterionSpec criterion<T>(bool premise, FieldKind field, RuleOperator op, T value)
+            where T : unmanaged
+                => convert(new RuleCriterion<T>(premise, 0, field, op, value), datatype(field));
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        static CriterionSpec convert<T>(in RuleCriterion<T> src, FieldDataType type)
+            where T : unmanaged
+                => new CriterionSpec(src.IsPremise, src.Field, src.Operator, type, core.u64(src.Value));
+
+        [Op]
+        public static bool criterion(CriterionKind ck, FieldKind field, RuleOperator op, string value, out CriterionSpec dst)
         {
             var result = false;
-            var dk = datakind(kind);
+            var dk = datakind(field);
             var dt = datatype(dk);
+            var premise = ck == CriterionKind.Premise;
             dst = default;
-            switch(kind)
+            if(op == RuleOperator.Call)
+            {
+                dst = criterion(premise, NameResolvers.Instance.Create(value));
+                return true;
+            }
+
+            switch(field)
             {
                 case AGEN:
                 case AMD3DNOW:
@@ -50,7 +85,6 @@ namespace Z0
                 case MPXMODE:
                 case MUST_USE_EVEX:
                 case NEEDREX:
-                case NEED_MEMDISP:
                 case NEED_SIB:
                 case NOREX:
                 case NO_RETURN:
@@ -81,7 +115,7 @@ namespace Z0
                 {
                     if(bit.parse(value, out var x))
                     {
-                        dst = convert(criterion(kind, op, x), dt);
+                        dst = criterion(premise, field, op, x);
                         result = true;
                     }
                 }
@@ -103,40 +137,33 @@ namespace Z0
                 {
                     if(byte.TryParse(value, out var x))
                     {
-                        dst = convert(criterion(kind, op, x), dt);
+                        dst = criterion(premise, field, op, x);
                         result = true;
                     }
                 }
                 break;
 
-                case REG:
-                case RM:
                 case SIBBASE:
-                case SIBINDEX:
-                case VEXDEST210:
-                case SRM:
                 case HINT:
-                case MASK:
                 case ROUNDC:
                 case SEG_OVD:
                 case VEXVALID:
                 {
                     if(byte.TryParse(value, out var x))
                     {
-                        dst = convert(criterion(kind, op, x), dt);
+                        dst = criterion(premise, field, op, x);
                         result = true;
                     }
                 }
                 break;
 
                 case MAP:
-                case ESRC:
                 case NELEM:
                 case SCALE:
                 {
                     if(byte.TryParse(value, out var x))
                     {
-                        dst = convert(criterion(kind, op, x), dt);
+                        dst = criterion(premise, field, op, x);
                         result = true;
                     }
                 }
@@ -146,7 +173,7 @@ namespace Z0
                 {
                     if(byte.TryParse(value, out var x))
                     {
-                        dst = convert(criterion(kind, op, x), dt);
+                        dst = criterion(premise, field, op, x);
                         result = true;
                     }
                 }
@@ -168,11 +195,11 @@ namespace Z0
                 case POS_MODRM:
                 case POS_NOMINAL_OPCODE:
                 case POS_SIB:
-                case UIMM1:
+                case NEED_MEMDISP:
                 {
                     if(byte.TryParse(value, out var x))
                     {
-                        dst = convert(criterion(kind, op, x), dt);
+                        dst = criterion(premise, field, op, x);
                         result = true;
                     }
                 }
@@ -183,17 +210,43 @@ namespace Z0
                 {
                     if(ushort.TryParse(value, out var x))
                     {
-                        dst = convert(criterion(kind, op, x), dt);
+                        dst = criterion(premise, field, op, x);
                         result = true;
                     }
                 }
                 break;
 
+                case SIBINDEX:
+                case REG:
+                case RM:
+                case VEXDEST210:
+                case SRM:
+                case MASK:
+                {
+                    if(DataParser.parse(value, out Hex3 x))
+                    {
+                        dst = criterion(premise, field, op, x);
+                        result = true;
+                    }
+                }
+                break;
+
+                case ESRC:
+                {
+                    if(DataParser.parse(value, out Hex4 x))
+                    {
+                        dst = criterion(premise, field, op, x);
+                        result = true;
+                    }
+                }
+                break;
+
+
                 case NOMINAL_OPCODE:
                 {
                     if(DataParser.parse(value, out Hex8 x))
                     {
-                        dst = convert(criterion(kind, op, x), dt);
+                        dst = criterion(premise, field, op, x);
                         result = true;
                     }
                 }
@@ -201,24 +254,18 @@ namespace Z0
 
                 case DISP:
                 {
-                    if(Disp64.parse(value, out var x))
-                    {
-                        dst = convert(criterion(kind, op, x), dt);
-                        result = true;
-                    }
+                    dst = criterion(premise, field, op, DispFieldSpec.parse(value));
+                    result = true;
                 }
                 break;
 
+                case UIMM1:
                 case UIMM0:
                 {
-                    if(ulong.TryParse(value, out var x))
-                    {
-                        dst = convert(criterion(kind, op, x), dt);
-                        result = true;
-                    }
+                    dst = criterion(premise, field, op, ImmFieldSpec.parse(value));
+                    result = true;
                 }
                 break;
-
 
                 case BASE0:
                 case BASE1:
@@ -237,9 +284,10 @@ namespace Z0
                 case REG8:
                 case REG9:
                 {
-                    if(DataParser.eparse(value, out XedRegId x))
+
+                    if(DataParser.eparse(text.remove(value, "XED_REG_"), out XedRegId x))
                     {
-                        dst = convert(criterion(kind, op, x), dt);
+                        dst = criterion(premise, field, op, x);
                         result = true;
                     }
                 }
@@ -248,7 +296,7 @@ namespace Z0
                 {
                     if(DataParser.eparse(value, out ChipCode x))
                     {
-                        dst = convert(criterion(kind, op, x), dt);
+                        dst = criterion(premise, field, op, x);
                         result = true;
                     }
                 }
@@ -258,7 +306,7 @@ namespace Z0
                 {
                     if(DataParser.eparse(value, out ErrorKind x))
                     {
-                        dst = convert(criterion(kind, op, x), dt);
+                        dst = criterion(premise, field, op, x);
                         result = true;
                     }
                 }
@@ -268,7 +316,7 @@ namespace Z0
                 {
                     if(DataParser.eparse(value, out IClass x))
                     {
-                        dst = convert(criterion(kind, op, x), dt);
+                        dst = criterion(premise, field, op, x);
                         result = true;
                     }
                 }
@@ -279,23 +327,5 @@ namespace Z0
             }
             return result;
         }
-
-        [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(CriterionKind kind, FieldKind field, RuleOperator op, string value)
-            => new RuleCriterion(kind, field,op, value);
-
-        [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(CriterionKind kind, FieldKind field, NameResolver resolver)
-            => new RuleCriterion(kind, field, resolver);
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        static RuleCriterion<T> criterion<T>(FieldKind kind, RuleOperator op, T value)
-            where T : unmanaged
-                => new RuleCriterion<T>(kind, op, value);
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        static CriterionSpec convert<T>(in RuleCriterion<T> src, FieldDataType type)
-            where T : unmanaged
-                => new CriterionSpec(src.Kind, src.Operator, type, core.u64(src.Value));
     }
 }

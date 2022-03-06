@@ -19,10 +19,10 @@ namespace Z0
             Assign,
 
             [Symbol("==")]
-            Eq,
+            CmpEq,
 
             [Symbol("!=")]
-            Neq,
+            CmpNeq,
 
             [Symbol("()")]
             Call,

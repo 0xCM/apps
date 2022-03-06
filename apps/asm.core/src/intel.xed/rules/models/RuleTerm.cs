@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public struct RuleCriterion2
+        public struct RuleTerm
         {
             public readonly CriterionKind Kind;
 
@@ -15,32 +15,34 @@ namespace Z0
 
             public readonly RuleOperator Operator;
 
-            public readonly ulong Value;
+            public readonly string Value;
+
+            readonly NameResolver Resolver;
 
             [MethodImpl(Inline)]
-            public RuleCriterion2(CriterionKind kind, FieldKind field, RuleOperator @op, ulong value)
+            public RuleTerm(CriterionKind kind, FieldKind field, RuleOperator @op, string value)
             {
                 Kind = kind;
                 Field = field;
                 Operator = @op;
                 Value = value;
-            }
-
-            public bool IsPremise
-            {
-                [MethodImpl(Inline)]
-                get => Kind == CriterionKind.Premise;
-            }
-
-            public bool IsConsequent
-            {
-                [MethodImpl(Inline)]
-                get => Kind == CriterionKind.Consequent;
+                Resolver = NameResolver.Empty;
             }
 
             [MethodImpl(Inline)]
-            public RuleCriterion2 WithValue(ulong value)
-                => new RuleCriterion2(Kind, Field, Operator, value);
+            public RuleTerm(CriterionKind kind, FieldKind field, NameResolver resolver)
+            {
+                Kind = kind;
+                Field = field;
+                Resolver = resolver;
+                Value = string.Format("{0}()", resolver.Name);
+                Operator = 0;
+            }
+
+
+            [MethodImpl(Inline)]
+            public RuleTerm WithValue(string value)
+                => new RuleTerm(Kind, Field, Operator, value);
 
             public string Format()
                 => XedFormatters.format(this);
@@ -48,7 +50,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static RuleCriterion2 Empty => new RuleCriterion2(0,0,0,0);
+            public static RuleTerm Empty => new RuleTerm(0,0,0,EmptyString);
         }
     }
 }

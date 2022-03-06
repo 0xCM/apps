@@ -12,40 +12,75 @@ namespace Z0
     {
         // [Patterns], [Tables]
 
-        ConcurrentDictionary<RuleSig,Index<RuleExpr>> TableLookup;
+        ConcurrentDictionary<RuleSig,Index<RuleTermExpr>> RuleExpressions;
 
-        public ConstLookup<RuleSig,Index<RuleExpr>> Tables
-            => TableLookup;
+        ConcurrentDictionary<RuleSig, ConcurrentBag<CriterionSpec>> Premise;
 
-        readonly Action<string> F;
+        ConcurrentDictionary<RuleSig, ConcurrentBag<CriterionSpec>> Consequent;
 
-        public RuleTraverserX(Action<string> f)
+        ConcurrentDictionary<RuleSig, RuleTable> Tables2;
+
+        public ConstLookup<RuleSig,Index<RuleTermExpr>> Expressions
+            => RuleExpressions;
+
+        public ConstLookup<RuleSig,RuleTable> Tables
+            => Tables2;
+
+        readonly Action<string> Errors;
+
+        public RuleTraverserX(Action<string> errors, bool pll = true)
+            : base(pll)
         {
-            F = f;
+            Errors = errors;
         }
 
         protected override void Traversing(RuleSet src)
         {
-            TableLookup = new();
+            RuleExpressions = new();
+            Premise = new();
+            Consequent = new();
+            Tables2 = new();
         }
 
         // [RuleExpr]
-        protected override void Traversing(in RuleTable src)
+        protected override void Traversing(in RuleTermTable src)
         {
-            TableLookup.TryAdd(src.Sig, src.Expressions);
-            //F(src.Sig.Format());
+            Premise.TryAdd(src.Sig, new());
+            RuleExpressions.TryAdd(src.Sig, src.Expressions);
+            Tables2.TryAdd(src.Sig, RuleTables.table(src));
         }
 
         // [Premise], [Consequent]
-        protected override void Traversing(in RuleSig table, in RuleExpr src)
+        protected override void Traversing(in RuleSig table, in RuleTermExpr src)
         {
             //F(src.Format());
 
         }
 
-        protected override void Traversing(in RuleSig table, in RuleCriterion src)
+        protected override void Traversing(in RuleSig table, in RuleTerm src)
         {
-            //F(src.Format());
+            var value = src.Format();
+            if(RuleTables.spec(value, src.Kind, out CriterionSpec spec))
+            {
+                if(spec.IsPremise)
+                {
+                    if(Premise.TryGetValue(table, out var dst))
+                        dst.Add(spec);
+                }
+                else if(spec.IsConsequent)
+                {
+                    if(Consequent.TryGetValue(table, out var dst))
+                        dst.Add(spec);
+                }
+                else
+                {
+                    Errors(string.Format("Unkinded criterion:{0}", value));
+                }
+            }
+            else
+            {
+                Errors(AppMsg.ParseFailure.Format(nameof(RuleTerm), value));
+            }
         }
 
         // [Tokens]
@@ -60,7 +95,6 @@ namespace Z0
         {
             //F(token.Format());
         }
-
     }
 
 }

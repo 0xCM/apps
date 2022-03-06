@@ -7,6 +7,9 @@ namespace Z0
 {
     partial class XedRules
     {
+        public static RuleSig sig(in RuleTermTable src)
+            => new RuleSig(src.Name, src.ReturnType.IsNonEmpty ? src.ReturnType.Text : "void");
+
         public static RuleSig sig(in RuleTable src)
             => new RuleSig(src.Name, src.ReturnType.IsNonEmpty ? src.ReturnType.Text : "void");
     }

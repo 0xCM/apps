@@ -11,12 +11,12 @@ namespace Z0
     {
         public readonly struct NonterminalRule : IRule<NonterminalKind>
         {
-            public readonly RuleTable Def;
+            public readonly RuleTermTable Def;
 
             public readonly NonterminalKind Kind;
 
             [MethodImpl(Inline)]
-            public NonterminalRule(RuleTable def, NonterminalKind kind)
+            public NonterminalRule(RuleTermTable def, NonterminalKind kind)
             {
                 Def = def;
                 Kind = kind;
@@ -29,16 +29,16 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            RuleTable IRule.Def
+            RuleTermTable IRule.Def
                 => Def;
 
             NonterminalKind IRule<NonterminalKind>.Kind
                 => Kind;
 
-            public static implicit operator NonterminalRule((RuleTable rule, NonterminalKind kind) src)
+            public static implicit operator NonterminalRule((RuleTermTable rule, NonterminalKind kind) src)
                 => new NonterminalRule(src.rule, src.kind);
 
-            public static NonterminalRule Empty => new NonterminalRule(RuleTable.Empty, 0);
+            public static NonterminalRule Empty => new NonterminalRule(RuleTermTable.Empty, 0);
         }
     }
 }

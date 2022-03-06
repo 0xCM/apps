@@ -7,22 +7,22 @@ namespace Z0
 {
     partial class XedRules
     {
-        public class RuleSet
+        public class RuleSet2
         {
             public RuleSetKind Kind {get;}
 
             public Index<RulePattern> Patterns {get;}
 
-            public Index<RuleTermTable> Tables {get;}
+            public Index<RuleTable> Tables {get;}
 
-            public RuleSet(RuleSetKind kind, RulePattern[] patterns, RuleTermTable[] tables)
+            public RuleSet2(RuleSetKind kind, RulePattern[] patterns, RuleTable[] tables)
             {
                 Kind = kind;
                 Patterns = patterns;
                 Tables = tables;
             }
 
-            public static RuleSet Empty => new RuleSet(0, sys.empty<RulePattern>(), sys.empty<RuleTermTable>());
+            public static RuleSet2 Empty => new RuleSet2(0, sys.empty<RulePattern>(), sys.empty<RuleTable>());
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Z0
             }
 
             public string Format()
-                => Value != 0 ? Symbols.expr(Value).Format() : EmptyString;
+                => XedFormatters.format(Value);
 
             public override string ToString()
                 => Format();

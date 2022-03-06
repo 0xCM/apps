@@ -10,7 +10,9 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct CriterionSpec
         {
-            public readonly FieldKind Kind;
+            public readonly bool IsPremise;
+
+            public readonly FieldKind Field;
 
             public readonly RuleOperator Operator;
 
@@ -19,20 +21,36 @@ namespace Z0
             public readonly ulong Data;
 
             [MethodImpl(Inline)]
-            internal CriterionSpec(FieldKind kind, RuleOperator op, FieldDataType type, ulong data)
+            internal CriterionSpec(bool premise, FieldKind field, RuleOperator op, FieldDataType type, ulong data)
             {
-                Kind = kind;
+                IsPremise = premise;
+                Field = field;
                 Operator = op;
                 DataType = type;
                 Data = data;
             }
+
+            public bool IsConsequent
+            {
+                [MethodImpl(Inline)]
+                get => !IsPremise;
+            }
+
+            [MethodImpl(Inline)]
+            public ImmFieldSpec AsImmField()
+                => core.@as<ulong,ImmFieldSpec>(Data);
+
+            [MethodImpl(Inline)]
+            public DispFieldSpec AsDispField()
+                => core.@as<ulong,DispFieldSpec>(Data);
 
             public string Format()
                 => XedFormatters.format(this);
 
             public override string ToString()
                 => Format();
-        }
 
+            public static CriterionSpec Empty => default;
+        }
     }
 }

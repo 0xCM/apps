@@ -31,11 +31,13 @@ namespace Z0
                     width = 2;
                     break;
 
+                case X3:
                 case U3:
                 case B3:
                     width = 3;
                     break;
 
+                case X4:
                 case U4:
                 case B4:
                     width = 4;
@@ -47,7 +49,6 @@ namespace Z0
                     width = 5;
                     break;
 
-                case U6:
                 case B6:
                     width = 6;
                     break;
@@ -57,7 +58,7 @@ namespace Z0
                     break;
 
                 case InstClass:
-                case K.Hex8:
+                case X8:
                 case K.Imm8:
                 case U8:
                 case B8:

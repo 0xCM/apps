@@ -11,6 +11,29 @@ namespace Z0
 
     partial class XedCmdProvider
     {
+        [CmdOp("xed/check/specs")]
+        Outcome CheckRuleSpecs(CmdArgs args)
+        {
+            void Traversed(string src)
+            {
+                Write(src, FlairKind.Error);
+            }
+
+            var traverser = new RuleTraverserX(Traversed, false);
+            var rules = Xed.Rules.ExpandMacros(Xed.Rules.CalcRuleSet(RuleSetKind.EncDec));
+            traverser.Traverse(rules);
+            var tables = traverser.Tables;
+            var sigs = tables.Keys.ToArray().Sort();
+            var path = AppDb.XedPath("xed.rules.tables", FileKind.Txt);
+            var emitting = EmittingFile(path);
+            using var writer = path.AsciWriter();
+            for(var i=0; i<sigs.Length; i++)
+                writer.WriteLine(tables[skip(sigs,i)].Format());
+
+            EmittedFile(emitting, sigs.Length);
+            return true;
+        }
+
         [CmdOp("xed/check/rules")]
         Outcome CheckRules(CmdArgs args)
         {
@@ -21,7 +44,7 @@ namespace Z0
             }
             var traverser = new RuleTraverserX(Traversed);
             traverser.Traverse(rules);
-            var tables = traverser.Tables;
+            var tables = traverser.Expressions;
             var sigs = tables.Keys;
             var count = sigs.Length;
             var buffer = text.buffer();

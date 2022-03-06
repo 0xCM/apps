@@ -9,7 +9,7 @@ namespace Z0
     {
         public interface IRule : ITextual
         {
-            RuleTable Def {get;}
+            RuleTermTable Def {get;}
         }
 
         public interface IRule<K> : IRule
