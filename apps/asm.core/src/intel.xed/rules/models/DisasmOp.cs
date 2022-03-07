@@ -24,21 +24,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public DisasmOp(RuleOpName name, Register value)
-            {
-                Name = name;
-                Value = value;
-            }
-
-            [MethodImpl(Inline)]
             public DisasmOp(RuleOpName name, text31 value)
-            {
-                Name = name;
-                Value = value;
-            }
-
-            [MethodImpl(Inline)]
-            public DisasmOp(RuleOpName name, Imm value)
             {
                 Name = name;
                 Value = value;

@@ -66,7 +66,6 @@ namespace Z0
                     }
                     else
                         _UnknownFields.Add(facet);
-
                 }
                 dst.RuleState = State.RuleState;
             }

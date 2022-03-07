@@ -8,13 +8,12 @@ namespace Z0
     using Asm;
 
     using static XedRules;
+
     partial class XedDisasmSvc
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct DisasmState
         {
-            public imm64 UIMM0Val;
-
             public Disp64 DISPVal;
 
             public Disp RELBRVal;

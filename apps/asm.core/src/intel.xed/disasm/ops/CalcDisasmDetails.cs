@@ -115,7 +115,7 @@ namespace Z0
             if(rules.NOMINAL_OPCODE != code[ocpos])
                 return (false, string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", rules.NOMINAL_OPCODE, rules.MODRM_BYTE));
 
-            var disasmops = CalcDisasmOps(machine,code, state);
+            var ops = CalcDisasmOps(machine, code, state);
             var opcount = block.OperandCount;
             for(var k=0; k<opcount; k++)
             {
@@ -136,7 +136,7 @@ namespace Z0
                 var opname = XedRules.opname(info.Kind);
                 opdetail.OpName = opname;
                 var optxt = EmptyString;
-                if(disasmops.TryGetValue(opname, out var opval))
+                if(ops.TryGetValue(opname, out var opval))
                 {
                     opdetail.Def = opval;
                     optxt = opval.Format();
@@ -146,7 +146,7 @@ namespace Z0
                 opdetail.DefDescription = string.Format(DisasmOpDetails.RenderPattern, title, opname, optxt, info.Action, info.Visiblity, width, indicator, info.Prop2);
             }
 
-            if(disasmops.TryGetValue(RuleOpName.DISP, out var disp))
+            if(ops.TryGetValue(RuleOpName.DISP, out var disp))
                 dst.Disp = (Disp)disp.Value;
 
             var prefix = ocpos != 0 ? slice(code.Bytes,0,ocpos) : default;
