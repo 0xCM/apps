@@ -14,8 +14,6 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct DisasmState
         {
-            public Disp64 DISPVal;
-
             public Disp RELBRVal;
 
             public text31 AGENVal;

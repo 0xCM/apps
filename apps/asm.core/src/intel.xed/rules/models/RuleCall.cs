@@ -9,25 +9,22 @@ namespace Z0
     {
         public readonly struct RuleCall : IEquatable<RuleCall>
         {
-            public readonly Identifier Source;
-
-            public readonly Identifier Target;
+            public readonly NameResolver Target;
 
             [MethodImpl(Inline)]
-            public RuleCall(Identifier src, Identifier dst)
+            public RuleCall(NameResolver dst)
             {
-                Source = src;
                 Target = dst;
             }
 
             public string Format()
-                => string.Format("{0} -> {1}", Source, Target);
+                => RuleTables.format(this);
 
             public override string ToString()
                 => Format();
 
             public bool Equals(RuleCall src)
-                => Target.Equals(src.Target) && Source.Equals(src.Source);
+                => Target.Equals(src.Target);
 
             public override bool Equals(object src)
                 => src is RuleCall x && Equals(x);
@@ -42,6 +39,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public static bool operator !=(RuleCall a, RuleCall b)
                 => !a.Equals(b);
+
+            [MethodImpl(Inline)]
+            public static implicit operator RuleCall(NameResolver src)
+                => new RuleCall(src);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using static core;
 
-    using static OpModeKind;
+    using static RuntimeModeKind;
     using static OpszKind;
 
     using SZ = AsmPrefixCodes.SizeOverrideCode;
@@ -99,7 +99,7 @@ namespace Z0.Asm
         /// <param name="default"></param>
         /// <param name="effective"></param>
         [Op]
-        public static bit opsz(OpModeKind mode, OpszKind @default, OpszKind effective)
+        public static bit opsz(RuntimeModeKind mode, OpszKind @default, OpszKind effective)
             => mode switch{
                 IA32e => effective switch {
                     W16 => 1,

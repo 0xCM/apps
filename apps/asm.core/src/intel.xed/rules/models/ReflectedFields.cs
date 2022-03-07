@@ -9,9 +9,9 @@ namespace Z0
     {
         public sealed class ReflectedFields : PairedLookup<FieldKind,FieldInfo>
         {
-            static FieldInfo[] fields = typeof(RuleState).DeclaredInstanceFields().Tagged<RuleOperandAttribute>();
+            static FieldInfo[] fields = typeof(RuleState).DeclaredInstanceFields().Tagged<RuleFieldAttribute>();
 
-            static Dictionary<FieldKind,FieldInfo> kinds = fields.Select(f => (f.Tag<RuleOperandAttribute>().Require().Kind,f)).ToDictionary();
+            static Dictionary<FieldKind,FieldInfo> kinds = fields.Select(f => (f.Tag<RuleFieldAttribute>().Require().Kind,f)).ToDictionary();
 
             public ReflectedFields()
                 : base(kinds)

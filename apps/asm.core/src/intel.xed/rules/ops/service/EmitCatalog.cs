@@ -14,27 +14,40 @@ namespace Z0
     {
         public void EmitCatalog()
         {
-            var enc = EmitEncInstDefs();
-            var dec = EmitDecInstDefs();
-            var rules = EmitRulePatterns(enc,dec);
+            // var enc = EmitEncInstDefs();
+            // var dec = EmitDecInstDefs();
+            EmitPatterns();
+            EmitPatternDetails();
+            EmitRuleTables();
             EmitFieldDefs();
             EmitRuleSeq();
-            EmitEncRuleTables();
-            EmitDecRuleTables();
-            EmitEncDecRuleTables();
+            // EmitEncRuleTables();
+            // EmitDecRuleTables();
+            // EmitEncDecRuleTables();
             EmitOperandWidths();
             EmitPointerWidths();
             EmitOpCodeKinds();
             EmitMacroAssignments();
             EmitRuleFields();
-            EmitPatternDetails();
+        }
+
+        void EmitRuleTables()
+        {
+            var tables = CalcRuleTables();
+            var sigs = tables.Keys.ToArray().Sort();
+            var path = AppDb.XedPath("xed.rules.tables", FileKind.Txt);
+            var emitting = EmittingFile(path);
+            using var writer = path.AsciWriter();
+            for(var i=0; i<sigs.Length; i++)
+                writer.WriteLine(tables[skip(sigs,i)].Format());
+
+            EmittedFile(emitting, sigs.Length);
         }
 
         Index<OpWidth> EmitOperandWidths()
         {
             var src = CalcOperandWidths();
-            var dst = ProjectDb.TablePath<OpWidth>("xed");
-            TableEmit(src.View,dst);
+            TableEmit(src.View, AppDb.XedTable<OpWidth>());
             return src;
         }
 
@@ -45,14 +58,5 @@ namespace Z0
             TableEmit(src.View, PointerWidthInfo.RenderWidths, dst);
             return src;
         }
-
-        Index<RulePatternInfo> EmitRulePatterns(Index<InstDef> enc, Index<InstDef> dec)
-        {
-            var patterns = CalcPatternInfo(enc);
-            TableEmit(patterns.View, RulePatternInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.EncRulePatterns));
-            TableEmit(CalcPatternInfo(dec).View, RulePatternInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.DecRulePatterns));
-            return patterns;
-        }
-
     }
 }

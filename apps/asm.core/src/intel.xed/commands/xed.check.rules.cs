@@ -9,28 +9,55 @@ namespace Z0
 
     partial class XedCmdProvider
     {
-        [CmdOp("xed/check/specs")]
+        [CmdOp("xed/check/rules")]
         Outcome CheckRuleSpecs(CmdArgs args)
         {
-            void Traversed(string src)
-            {
-                Write(src, FlairKind.Error);
-            }
-
-            var traverser = new RuleTraverserX(Traversed, false);
-            var rules = Xed.Rules.ExpandMacros(Xed.Rules.CalcRuleSet(RuleSetKind.EncDec));
-            traverser.Traverse(rules);
-            var tables = traverser.Tables;
+            var tables = Xed.Rules.CalcRuleTables();
             var sigs = tables.Keys.ToArray().Sort();
-            var path = AppDb.XedPath("xed.rules.tables", FileKind.Txt);
-            var emitting = EmittingFile(path);
-            using var writer = path.AsciWriter();
+            var regs = Xed.CalcRegMap();
             for(var i=0; i<sigs.Length; i++)
-                writer.WriteLine(tables[skip(sigs,i)].Format());
+            {
+                var table = tables[skip(sigs,i)];
+                if(table.ComputesRegister)
+                {
+                    Write(table.Sig);
 
-            EmittedFile(emitting, sigs.Length);
+                    var express = table.Expressions;
+                    for(var j=0; j<express.Count; j++)
+                    {
+                        ref readonly var expr = ref express[j];
+                        var criteria = expr.Consequent.Where(x => !x.IsError);
+                        for(var k=0; k<criteria.Length; k++)
+                        {
+                            ref readonly var criterion = ref criteria[k];
+                            if(criterion.IsOutReg)
+                            {
+                                var reg = criterion.AsXedReg();
+                                if(reg == 0 || reg == XedRegId.ERROR)
+                                    continue;
+
+                                if(regs.Map(reg, out var mapped))
+                                {
+                                    Write(string.Format("  {0}", mapped));
+                                }
+                                else
+                                {
+                                    Warn(string.Format("  {0}", reg));
+                                }
+                            }
+                            else if(criterion.IsNonterminal)
+                            {
+                                Write(string.Format("  {0}", criterion));
+                            }
+
+
+                            //Write(string.Format("   {0}", criterion.Format()));
+                        }
+                    }
+
+                }
+            }
             return true;
         }
-
     }
 }

@@ -57,22 +57,8 @@ namespace Z0
 
         AppDb AppDb => Service(Wf.AppDb);
 
-        OpCodeKinds CalcOpCodeKinds()
-            => Data(nameof(CalcOpCodeKinds), () => new OpCodeKinds());
-
-        public OpCodeKinds LoadOpCodeKinds()
-            => CalcOpCodeKinds();
-
-        public RuleOpParser OpParser => Service(RuleOpParser.create);
-
-        public Index<PointerWidthInfo> LoadPointerWidths()
-            => Data(nameof(LoadPointerWidths), () => mapi(PointerWidths, (i,w) => w.ToRecord((byte)i)));
-
-        public Index<OpWidth> LoadOperandWidths()
-            => Data(nameof(LoadOperandWidths), CalcOperandWidths);
-
-        public ReadOnlySpan<NonterminalKind> NonterminalKinds()
-            => Symbols.index<NonterminalKind>().Kinds;
+        public Index<PointerWidthInfo> CalcPointerWidths()
+            => Data(nameof(CalcPointerWidths), () => mapi(PointerWidths, (i,w) => w.ToRecord((byte)i)));
 
         Outcome ParseIClass(string src, out IClass dst)
             => InstClasses.ExprKind(src, out dst);

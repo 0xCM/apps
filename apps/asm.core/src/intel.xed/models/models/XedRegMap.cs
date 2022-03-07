@@ -19,7 +19,7 @@ namespace Z0
             dst.RegClass = reg.RegClass;
             dst.RegSize = reg.Size;
             dst.RegName = reg.Name;
-            dst.RegIndex = reg.Index;
+            dst.RegIndex = (byte)reg.Index;
             return dst;
         }
 
@@ -34,7 +34,15 @@ namespace Z0
         }
 
         public RegOp Map(XedRegId id)
-            => LookupData[id];
+        {
+            if(LookupData.Find(id, out var reg))
+                return reg;
+            else
+                return RegOp.Empty;
+        }
+
+        public bool Map(XedRegId id, out RegOp dst)
+            => LookupData.Find(id, out dst);
 
         public ReadOnlySpan<RegMapEntry> Entries
         {

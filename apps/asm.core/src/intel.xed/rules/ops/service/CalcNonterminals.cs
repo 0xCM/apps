@@ -9,11 +9,14 @@ namespace Z0
 
     using static core;
 
+    using static XedModels;
+
     partial class XedRules
     {
-        public Index<NonterminalRule> CalcNonterminals(ReadOnlySpan<RuleTermTable> src)
+        public Index<NonterminalRule> CalcNonterminals(ReadOnlySpan<RuleTable> src)
         {
-            var nonterms = NonterminalKinds().Map(x => (x.ToString(),x)).ToDictionary();
+            var kinds = Symbols.index<NonterminalKind>().Kinds;
+            var nonterms = kinds.Map(x => (x.ToString(),x)).ToDictionary();
             var count = src.Length;
             var buffer = list<NonterminalRule>();
             for(var i=0; i<count; i++)
@@ -26,19 +29,5 @@ namespace Z0
             return buffer.ToArray();
         }
 
-        public Index<TerminalRule> CalcTerminals(ReadOnlySpan<RuleTermTable> src)
-        {
-            var nonterms = NonterminalKinds().Map(x => (x.ToString(),x)).ToDictionary();
-            var count = src.Length;
-            var buffer = list<TerminalRule>();
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var rule = ref src[i];
-                var name = rule.Name.Format().ToUpperInvariant();
-                if(!nonterms.ContainsKey(name))
-                    buffer.Add(rule);
-            }
-            return buffer.ToArray();
-        }
     }
 }

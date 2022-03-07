@@ -448,17 +448,21 @@ namespace Z0
             public static string format(DispFieldSpec src)
                 => src.Width == 0 ? EmptyString : string.Format("{0}[{1}/{2}]", "DISP", src.Kind, src.Width);
 
+            public static string format(RuleCall src)
+                => src.Target.IsEmpty ? EmptyString : string.Format("{0}()", src.Target);
+
             public static string format(in RuleCriterion src)
             {
                 var dst = EmptyString;
                 if(src.Operator == RuleOperator.Call)
-                {
-                    var resolver = (NameResolver)src.Data;
-                    if(resolver.IsNonEmpty)
-                        dst = string.Format("{0}()", resolver.Name);
-                    else
-                        dst = RP.Error;
-                }
+                    dst = format(src.AsCall());
+                // {
+                //     var resolver = (NameResolver)src.Data;
+                //     if(resolver.IsNonEmpty)
+                //         dst = string.Format("{0}()", resolver.Name);
+                //     else
+                //         dst = RP.Error;
+                // }
                 else if(src.Field == FieldKind.UIMM0 || src.Field == FieldKind.UIMM1)
                     dst = format(src.AsImmField());
                 else if(src.Field == FieldKind.DISP)
@@ -659,7 +663,7 @@ namespace Z0
                     RuleTables.format(src.Field.DataType, src.Field.Data));
 
             public static string format(in NonterminalRule src)
-                => XedFormatters.format(src.Def);
+                => format(src.Table);
 
             public static string format(FieldConstraint src)
                 => string.Format("{0}{1}{2}", XedFormatters.format(src.Field), XedFormatters.format(src.Kind), literal(src.LiteralKind, src.Value));

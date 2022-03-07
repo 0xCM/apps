@@ -748,7 +748,7 @@ namespace Z0
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var field = ref skip(fields,i);
-                    var tag = field.Tag<RuleOperandAttribute>();
+                    var tag = field.Tag<RuleFieldAttribute>();
                     if(tag)
                         dst.TryAdd(tag.Value.Kind, field);
                 }
@@ -766,7 +766,7 @@ namespace Z0
                     record.Pos = i;
                     record.Name = field.Name;
                     record.Type = field.FieldType.IsEnum ? string.Format("enum<{0}>", field.FieldType.Name) : field.FieldType.DisplayName();
-                    var tag = field.Tag<RuleOperandAttribute>();
+                    var tag = field.Tag<RuleFieldAttribute>();
                     if(tag)
                     {
                         record.Width = tag.Value.Width;

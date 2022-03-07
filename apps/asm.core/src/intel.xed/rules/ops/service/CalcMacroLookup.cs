@@ -9,9 +9,6 @@ namespace Z0
 
     partial class XedRules
     {
-        // public ConstLookup<RuleMacroKind,MacroAssignment> CalcMacroLookup()
-        //     => Data(nameof(CalcMacroLookup), () => CalcMacroAssignments().Map(x => (x.MacroName, x)).ToDictionary());
-
         public Index<MacroAssignment> CalcMacroAssignments()
         {
             return Data(nameof(CalcMacroAssignments),Calc);

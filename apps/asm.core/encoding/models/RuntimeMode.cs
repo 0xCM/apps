@@ -4,22 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public readonly struct OperatingMode
+    public readonly struct RuntimeMode
     {
-        public OpModeKind Kind {get;}
+        public RuntimeModeKind Kind {get;}
 
         [MethodImpl(Inline)]
-        public OperatingMode(OpModeKind kind)
+        public RuntimeMode(RuntimeModeKind kind)
         {
             Kind = kind;
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator OperatingMode(OpModeKind src)
-            => new OperatingMode(src);
+        public static implicit operator RuntimeMode(RuntimeModeKind src)
+            => new RuntimeMode(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator OpModeKind(OperatingMode src)
+        public static implicit operator RuntimeModeKind(RuntimeMode src)
             => src.Kind;
     }
 }

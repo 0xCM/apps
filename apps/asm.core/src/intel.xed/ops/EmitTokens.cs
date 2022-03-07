@@ -12,12 +12,6 @@ namespace Z0.Asm
     {
         const string xed = "xed";
 
-        public void EmitTokens()
-        {
-            //EmitRawTokens();
-            //EmitTokenSummaries();
-        }
-
         void EmitTokenSummaries()
         {
             ApiMetadata.EmitApiTokens(xed, xed);

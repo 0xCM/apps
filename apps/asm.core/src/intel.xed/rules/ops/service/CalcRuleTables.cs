@@ -5,15 +5,30 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class XedRules
     {
+        public ConstLookup<RuleSig,RuleTable> CalcRuleTables()
+        {
+            void OnError(string src)
+            {
+                Write(src, FlairKind.Error);
+            }
+
+            var collector = new TableCollector(OnError, true);
+            collector.Traverse(ExpandMacros(CalcRuleSet(RuleSetKind.EncDec)));
+            var tables = collector.Tables;
+            return tables;
+        }
+
         public Index<RuleTermTable> CalcEncRuleTables()
-            => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.EncRuleTable));
+            => Data(nameof(CalcEncRuleTables), () => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.EncRuleTable)));
 
         public Index<RuleTermTable> CalcDecRuleTables()
-            => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.DecRuleTable));
+            => Data(nameof(CalcDecRuleTables), () => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.DecRuleTable)));
 
         public Index<RuleTermTable> CalcEncDecRuleTables()
-            => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.EncDecRuleTable));
+            => Data(nameof(CalcEncDecRuleTables), () => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.EncDecRuleTable)));
     }
 }

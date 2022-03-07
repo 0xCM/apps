@@ -5,21 +5,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
+    using static core;
+
+    using static XedModels;
+
 
     partial class XedRules
     {
-        public class RuleOperandAttribute : Attribute
-        {
-            public RuleOperandAttribute(FieldKind kind, byte width)
-            {
-                Kind = kind;
-                Width = width;
-            }
+        public OpCodeKinds CalcOpCodeKinds()
+            => Data(nameof(CalcOpCodeKinds), () => new OpCodeKinds());
 
-            public FieldKind Kind {get;}
-
-            public byte Width {get;}
-        }
     }
 }

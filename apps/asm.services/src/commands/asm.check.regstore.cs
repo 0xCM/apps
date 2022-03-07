@@ -16,6 +16,19 @@ namespace Z0
             where T : unmanaged
                 => new AsmRegValue<T>(name,value);
 
+
+        [CmdOp("asm/check/regs")]
+        Outcome CheckRegs(CmdArgs args)
+        {
+            var symbols = Symbols.index<RegKind>();
+            var kinds = symbols.Kinds;
+            for(var i=0; i<kinds.Length; i++)
+            {
+            }
+
+
+            return true;
+        }
         [CmdOp("asm/check/regstore")]
         Outcome CheckRegstore(CmdArgs args)
         {

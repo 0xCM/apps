@@ -109,6 +109,9 @@ namespace Z0.Asm
         [Symbol("gp8hi", "A hi gp8 register")]
         GP8HI = 15,
 
+        /// <summary>
+        /// Classifies test registers
+        /// </summary>
         [Symbol("tr", "A test register")]
         TR = 16,
     }

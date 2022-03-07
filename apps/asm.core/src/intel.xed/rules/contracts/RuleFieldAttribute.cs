@@ -5,17 +5,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+
     partial class XedRules
     {
-        public interface IRule : ITextual
+        public class RuleFieldAttribute : Attribute
         {
-            RuleTermTable Def {get;}
-        }
+            public RuleFieldAttribute(FieldKind kind, byte width)
+            {
+                Kind = kind;
+                Width = width;
+            }
 
-        public interface IRule<K> : IRule
-            where K : unmanaged
-        {
-            K Kind {get;}
+            public FieldKind Kind {get;}
+
+            public byte Width {get;}
         }
     }
 }

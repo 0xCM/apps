@@ -253,28 +253,28 @@ namespace Z0.Asm
         [Symbol("rdi")]
         RDI = G64.RDI,
 
-        [Symbol("r8q")]
+        [Symbol("r8")]
         R8Q = G64.R8Q,
 
-        [Symbol("r9q")]
+        [Symbol("r9")]
         R9Q = G64.R9Q,
 
-        [Symbol("r10q")]
+        [Symbol("r10")]
         R10Q = G64.R10Q,
 
-        [Symbol("r11q")]
+        [Symbol("r11")]
         R11Q = G64.R11Q,
 
-        [Symbol("r12q")]
+        [Symbol("r12")]
         R12Q = G64.R12Q,
 
-        [Symbol("r13q")]
+        [Symbol("r13")]
         R13Q = G64.R13Q,
 
-        [Symbol("r14q")]
+        [Symbol("r14")]
         R14Q = G64.R14Q,
 
-        [Symbol("r15q")]
+        [Symbol("r15")]
         R15Q = G64.R15Q,
 
         // ~ 128-bit vectorized registers
@@ -727,28 +727,28 @@ namespace Z0.Asm
         // ~ MMX registers
         // ~ ------------------------------------------------------------------
 
-        [Symbol("MM(0)")]
+        [Symbol("mm0")]
         MM0 = MM.MM0,
 
-        [Symbol("MM(1)")]
+        [Symbol("mm1")]
         MM1 = MM.MM1,
 
-        [Symbol("MM(2)")]
+        [Symbol("mm2")]
         MM2 = MM.MM2,
 
-        [Symbol("MM(3)")]
+        [Symbol("mm3")]
         MM3 = MM.MM3,
 
-        [Symbol("MM(4)")]
+        [Symbol("mm4")]
         MM4 = MM.MM4,
 
-        [Symbol("MM(5)")]
+        [Symbol("mm5")]
         MM5 = MM.MM5,
 
-        [Symbol("MM(6)")]
+        [Symbol("mm6")]
         MM6 = MM.MM6,
 
-        [Symbol("MM(7)")]
+        [Symbol("mm7")]
         MM7 = MM.MM7,
 
         // ~ Intruction pointer registers

@@ -30,11 +30,33 @@ namespace Z0
                 Data = data;
             }
 
+            public bool IsError
+            {
+                [MethodImpl(Inline)]
+                get => Field == FieldKind.ERROR;
+            }
+
+            public bool IsOutReg
+            {
+                [MethodImpl(Inline)]
+                get => Field == FieldKind.OUTREG;
+            }
+
             public bool IsConsequent
             {
                 [MethodImpl(Inline)]
                 get => !IsPremise;
             }
+
+            public bool IsNonterminal
+            {
+                [MethodImpl(Inline)]
+                get => Operator == RuleOperator.Call;
+            }
+
+            [MethodImpl(Inline)]
+            public RuleCall AsCall()
+                => (NameResolver)Data;
 
             [MethodImpl(Inline)]
             public ImmFieldSpec AsImmField()
@@ -43,6 +65,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public DispFieldSpec AsDispField()
                 => core.@as<ulong,DispFieldSpec>(Data);
+
+            [MethodImpl(Inline)]
+            public XedRegId AsXedReg()
+                => (XedRegId)Data;
 
             public string Format()
                 => RuleTables.format(this);

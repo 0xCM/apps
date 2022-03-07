@@ -15,6 +15,12 @@ namespace Z0
 
             public Index<RuleExpr> Expressions;
 
+            public bool ComputesRegister
+            {
+                [MethodImpl(Inline)]
+                get => ReturnType == "xed_reg_enum_t";
+            }
+
             public RuleSig Sig
                 => sig(this);
 

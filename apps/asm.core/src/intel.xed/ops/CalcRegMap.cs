@@ -16,20 +16,16 @@ namespace Z0.Asm
             static XedRegMap calc()
             {
                 var symsrc = Symbols.index<XedRegId>();
-                var symexpr = dict<string,XedRegId>();
                 var symdst = Symbols.index<RegKind>();
                 var dst = dict<XedRegId,RegOp>();
-                foreach(var kind in symsrc.Kinds)
-                {
-                    if(kind == 0)
-                        continue;
-                    symexpr[kind.ToString().ToLower()] = kind;
-                }
 
-                foreach(var k in symexpr.Keys)
+                var a = Symbols.index<RegKind>().View.Map(x => (x.Expr.Format(), x.Kind)).ToDictionary();
+                var b = Symbols.index<XedRegId>().View;
+                foreach(var xedreg in b)
                 {
-                    if(symdst.Lookup(k, out var sym))
-                        dst[symexpr[k]] = sym.Kind;
+                    var match = xedreg.Expr.Format().ToLower();
+                    if(a.TryGetValue(match, out var kind))
+                        dst[xedreg.Kind] = kind;
                 }
 
                 return new XedRegMap(dst);

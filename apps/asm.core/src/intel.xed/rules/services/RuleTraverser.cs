@@ -97,11 +97,6 @@ namespace Z0
 
             }
 
-            protected virtual void Traversing(in RuleSig table, in RuleTerm src)
-            {
-
-            }
-
             protected virtual void Traversing(in RuleSig table, in RuleCriterion src)
             {
 

@@ -14,7 +14,6 @@ namespace Z0.Asm
             XedPaths.Targets().Clear(true);
             EmitChipMap();
             ImportForms();
-            EmitTokens();
             EmitIsaForms();
             EmitRegmap();
             Rules.EmitCatalog();

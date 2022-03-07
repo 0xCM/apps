@@ -239,28 +239,28 @@ namespace Z0
 
         K7,
 
-        [Symbol("MM0")]
+        [Symbol("mm0")]
         MMX0,
 
-        [Symbol("MM1")]
+        [Symbol("mm1")]
         MMX1,
 
-        [Symbol("MM2")]
+        [Symbol("mm2")]
         MMX2,
 
-        [Symbol("MM3")]
+        [Symbol("mm3")]
         MMX3,
 
-        [Symbol("MM4")]
+        [Symbol("mm4")]
         MMX4,
 
-        [Symbol("MM5")]
+        [Symbol("mm5")]
         MMX5,
 
-        [Symbol("MM6")]
+        [Symbol("mm6")]
         MMX6,
 
-        [Symbol("MM7")]
+        [Symbol("mm7")]
         MMX7,
 
         SSP,
@@ -379,46 +379,54 @@ namespace Z0
         [Ignore]
         TMP15,
 
+        [Symbol("tr0")]
         TMM0,
 
+        [Symbol("tr1")]
         TMM1,
 
+        [Symbol("tr2")]
         TMM2,
 
+        [Symbol("tr3")]
         TMM3,
 
+        [Symbol("tr4")]
         TMM4,
 
+        [Symbol("tr5")]
         TMM5,
 
+        [Symbol("tr6")]
         TMM6,
 
+        [Symbol("tr7")]
         TMM7,
 
         UIF,
 
-        [Symbol("ST(0)")]
+        [Symbol("st0")]
         ST0,
 
-        [Symbol("ST(1)")]
+        [Symbol("st1")]
         ST1,
 
-        [Symbol("ST(2)")]
+        [Symbol("st2")]
         ST2,
 
-        [Symbol("ST(3)")]
+        [Symbol("st3")]
         ST3,
 
-        [Symbol("ST(4)")]
+        [Symbol("st4")]
         ST4,
 
-        [Symbol("ST(5)")]
+        [Symbol("st5")]
         ST5,
 
-        [Symbol("ST(6)")]
+        [Symbol("st6")]
         ST6,
 
-        [Symbol("ST(7)")]
+        [Symbol("st7")]
         ST7,
 
         XCR0,

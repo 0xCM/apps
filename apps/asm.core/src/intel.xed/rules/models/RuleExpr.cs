@@ -20,6 +20,12 @@ namespace Z0
                 Consequent = consequent;
             }
 
+            public bool IsNonterminal
+            {
+                [MethodImpl(Inline)]
+                get => Consequent.Any(x => x.IsNonterminal);
+            }
+
             public string Format()
                 => RuleTables.format(this);
 

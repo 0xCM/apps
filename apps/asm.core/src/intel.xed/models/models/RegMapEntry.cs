@@ -23,7 +23,7 @@ namespace Z0
 
             public text7 RegName;
 
-            public RegIndex RegIndex;
+            public byte RegIndex;
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,8,8};
         }
