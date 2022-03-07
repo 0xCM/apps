@@ -79,22 +79,22 @@ namespace Z0
                         break;
                         case T.FieldSeg:
                         {
-                            var seg = token.AsFieldSeg();
-                            if(seg.IsLiteral)
-                            {
-                                Update(seg.ToAssignment());
-                                counter++;
-                            }
+                            // var seg = token.AsFieldSeg();
+                            // if(seg.IsLiteral)
+                            // {
+                            //     Update(seg.ToAssignment());
+                            //     counter++;
+                            // }
                         }
                         break;
                         case T.Macro:
                         {
-                            var macro = XedRules.macro(token.AsMacro());
-                            for(var j=0; j<macro.Assignments.Count; j++, counter++)
-                            {
-                                ref readonly var a = ref macro.Assignments[j];
-                                Update(a);
-                            }
+                            // var macro = XedRules.macro(token.AsMacro());
+                            // for(var j=0; j<macro.Assignments.Count; j++, counter++)
+                            // {
+                            //     ref readonly var a = ref macro.Assignments[j];
+                            //     Update(a);
+                            // }
                         }
                         break;
                         case T.Nonterm:
@@ -139,7 +139,7 @@ namespace Z0
                     break;
 
                     case K.RELBR:
-                        state.RELBRVal = (Disp)src.Value;
+                        state.RELBR = (bit)src.Value;
                     break;
 
                     case K.BRDISP_WIDTH:
@@ -171,7 +171,7 @@ namespace Z0
                     break;
 
                     case K.DISP:
-                        state.DISPVal = src.Value;
+                        state.DISP =  src.Value;
                     break;
 
                     case K.DISP_WIDTH:
@@ -733,7 +733,7 @@ namespace Z0
             public ConstLookup<FieldKind,object> Values()
             {
                 var dst = dict<FieldKind,object>();
-                var kinds = new FieldLookup();
+                var kinds = new ReflectedFields();
                 var fields = kinds.RightValues;
                 foreach(var f in fields)
                     dst.Add(kinds[f], f.GetValue(state));

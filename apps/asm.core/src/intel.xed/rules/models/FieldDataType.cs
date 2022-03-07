@@ -20,11 +20,11 @@ namespace Z0
                 Width = width;
             }
 
-            public static FieldDataType Empty => default;
-
             [MethodImpl(Inline)]
             public static implicit operator FieldDataType((FieldDataKind kind, ushort width) src)
                 => new FieldDataType(src.kind, src.width);
+
+            public static FieldDataType Empty => default;
         }
     }
 }

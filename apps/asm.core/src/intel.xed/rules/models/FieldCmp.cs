@@ -10,18 +10,27 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential)]
         public readonly struct FieldCmp
         {
-            public readonly FieldKind Field;
-
             public readonly RuleOperator Operator;
 
-            public readonly ulong Data;
+            public readonly FieldValue Field;
 
             [MethodImpl(Inline)]
             public FieldCmp(FieldKind field, RuleOperator op, ulong data)
             {
-                Field = field;
                 Operator = op;
-                Data = data;
+                Field = (field,data);
+            }
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Field.IsEmpty;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Field.IsNonEmpty;
             }
 
             public string Format()

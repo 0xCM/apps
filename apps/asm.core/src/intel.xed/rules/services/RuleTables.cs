@@ -652,13 +652,17 @@ namespace Z0
                 => src.Field == 0 ? "nothing" : string.Format("{0}={1}", XedFormatters.format(src.Field), src.Value);
 
             public static string format(FieldCmp src)
-                => src.Field == 0 ? EmptyString : string.Format("{0}{1}{2}", XedFormatters.format(src.Field), XedFormatters.format(src.Operator), RuleTables.format(datatype(src.Field), src.Data));
+                => src.IsEmpty ? EmptyString
+                    : string.Format("{0}{1}{2}",
+                    XedFormatters.format(src.Field.Kind),
+                    XedFormatters.format(src.Operator),
+                    RuleTables.format(src.Field.DataType, src.Field.Data));
 
             public static string format(in NonterminalRule src)
                 => XedFormatters.format(src.Def);
 
             public static string format(FieldConstraint src)
-                => string.Format("{0}{1}{2}", XedFormatters.format(src.Field), XedFormatters.format(src.Kind), literal(src.LiteralKind,src.Value));
+                => string.Format("{0}{1}{2}", XedFormatters.format(src.Field), XedFormatters.format(src.Kind), literal(src.LiteralKind, src.Value));
 
             public static string format(NontermCall src)
                 => string.Format("<{0}>()", format(src.Kind));

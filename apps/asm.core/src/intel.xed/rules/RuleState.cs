@@ -396,15 +396,16 @@ namespace Z0
             [RuleOperand(K.ERROR, 1)]
             public ErrorKind ERROR;
 
-            public Disp64 DISPVal;
+            [RuleOperand(K.DISP, 64)]
+            public Disp64 DISP;
+
+            public Disp RELBRVal;
 
             public text31 AGENVal;
 
             public text31 MEM0Val;
 
             public text31 MEM1Val;
-
-            public Disp RELBRVal;
 
             public static RuleState Empty => default;
         }

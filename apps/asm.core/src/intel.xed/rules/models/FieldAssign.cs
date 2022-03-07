@@ -21,6 +21,18 @@ namespace Z0
                 Value = data;
             }
 
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Field == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Field != 0;
+            }
+
             public string Format()
                 => RuleTables.format(this);
 

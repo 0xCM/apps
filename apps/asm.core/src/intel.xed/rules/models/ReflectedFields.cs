@@ -7,13 +7,13 @@ namespace Z0
 {
     partial class XedRules
     {
-        public sealed class FieldLookup : PairedLookup<FieldKind,FieldInfo>
+        public sealed class ReflectedFields : PairedLookup<FieldKind,FieldInfo>
         {
             static FieldInfo[] fields = typeof(RuleState).DeclaredInstanceFields().Tagged<RuleOperandAttribute>();
 
             static Dictionary<FieldKind,FieldInfo> kinds = fields.Select(f => (f.Tag<RuleOperandAttribute>().Require().Kind,f)).ToDictionary();
 
-            public FieldLookup()
+            public ReflectedFields()
                 : base(kinds)
             {
 
