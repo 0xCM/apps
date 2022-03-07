@@ -60,12 +60,6 @@ namespace Z0
             [RuleOperand(K.IMM1, 1)]
             public bit IMM1;
 
-            [RuleOperand(K.IMM_WIDTH, 3)]
-            public byte IMM_WIDTH;
-
-            [RuleOperand(K.IMM1_BYTES, 3)]
-            public byte IMM1_BYTES;
-
             [RuleOperand(K.LOCK, 1)]
             public bit LOCK;
 
@@ -147,33 +141,6 @@ namespace Z0
             [RuleOperand(K.UBIT, 1)]
             public bit UBIT;
 
-            [RuleOperand(K.USING_DEFAULT_SEGMENT0, 1)]
-            public bit USING_DEFAULT_SEGMENT0;
-
-            /// <summary>
-            /// Indicates an overridden segment selector that was not the default segment selector
-            /// </summary>
-            [RuleOperand(K.USING_DEFAULT_SEGMENT1, 1)]
-            public bit USING_DEFAULT_SEGMENT1;
-
-            [RuleOperand(K.VEXDEST3, 1)]
-            public bit VEXDEST3;
-
-            [RuleOperand(K.VEXDEST4, 1)]
-            public bit VEXDEST4;
-
-            [RuleOperand(K.VEX_C4, 1)]
-            public bit VEX_C4;
-
-            [RuleOperand(K.RELBR, 1)]
-            public bit RELBR;
-
-            [RuleOperand(K.VEX_PREFIX, 2)]
-            public byte VEX_PREFIX;
-
-            [RuleOperand(K.VL, 3)]
-            public byte VL;
-
             [RuleOperand(K.WBNOINVD, 1)]
             public bit WBNOINVD;
 
@@ -203,6 +170,36 @@ namespace Z0
 
             [RuleOperand(K.MEM1, 1)]
             public bit MEM1;
+
+            [RuleOperand(K.USING_DEFAULT_SEGMENT0, 1)]
+            public bit USING_DEFAULT_SEGMENT0;
+
+            [RuleOperand(K.USING_DEFAULT_SEGMENT1, 1)]
+            public bit USING_DEFAULT_SEGMENT1;
+
+            [RuleOperand(K.VEXDEST3, 1)]
+            public bit VEXDEST3;
+
+            [RuleOperand(K.VEXDEST4, 1)]
+            public bit VEXDEST4;
+
+            [RuleOperand(K.VEX_C4, 1)]
+            public bit VEX_C4;
+
+            [RuleOperand(K.RELBR, 1)]
+            public bit RELBR;
+
+            [RuleOperand(K.IMM_WIDTH, 3)]
+            public byte IMM_WIDTH;
+
+            [RuleOperand(K.IMM1_BYTES, 3)]
+            public byte IMM1_BYTES;
+
+            [RuleOperand(K.VEX_PREFIX, 2)]
+            public byte VEX_PREFIX;
+
+            [RuleOperand(K.VL, 3)]
+            public byte VL;
 
             [RuleOperand(K.DEFAULT_SEG, 2)]
             public byte DEFAULT_SEG;
@@ -270,9 +267,6 @@ namespace Z0
             [RuleOperand(K.VEXVALID, 3)]
             public byte VEXVALID;
 
-            [RuleOperand(K.ERROR, 1)]
-            public ErrorKind ERROR;
-
             [RuleOperand(K.ESRC, 4)]
             public uint4 ESRC;
 
@@ -281,12 +275,6 @@ namespace Z0
 
             [RuleOperand(K.NELEM, 4)]
             public byte NELEM;
-
-            [RuleOperand(K.BCAST,5)]
-            public BCastKind BCAST;
-
-            [RuleOperand(K.CHIP, 8)]
-            public ChipCode CHIP;
 
             [RuleOperand(K.BRDISP_WIDTH, 8)]
             public byte BRDISP_WIDTH;
@@ -333,11 +321,29 @@ namespace Z0
             [RuleOperand(K.POS_SIB, 4)]
             public byte POS_SIB;
 
+            [RuleOperand(K.ELEMENT_SIZE, 9)]
+            public ushort ELEMENT_SIZE;
+
+            [RuleOperand(K.MEM_WIDTH, 16)]
+            public ushort MEM_WIDTH;
+
+            [RuleOperand(K.SCALE, 4)]
+            public byte SCALE;
+
             [RuleOperand(K.IMM0, 64)]
             public imm64 UIMM0;
 
             [RuleOperand(K.UIMM1, 8)]
             public imm8 UIMM1;
+
+            [RuleOperand(K.ICLASS, 16)]
+            public IClass ICLASS;
+
+            [RuleOperand(K.CHIP, 8)]
+            public ChipCode CHIP;
+
+            [RuleOperand(K.BCAST,5)]
+            public BCastKind BCAST;
 
             [RuleOperand(K.BASE0, 9)]
             public XedRegId BASE0;
@@ -345,14 +351,8 @@ namespace Z0
             [RuleOperand(K.BASE1, 9)]
             public XedRegId BASE1;
 
-            [RuleOperand(K.ELEMENT_SIZE, 9)]
-            public ushort ELEMENT_SIZE;
-
             [RuleOperand(K.INDEX, 9)]
             public XedRegId INDEX;
-
-            [RuleOperand(K.SCALE, 4)]
-            public byte SCALE;
 
             [RuleOperand(K.OUTREG, 9)]
             public XedRegId OUTREG;
@@ -393,11 +393,8 @@ namespace Z0
             [RuleOperand(K.SEG1, 9)]
             public XedRegId SEG1;
 
-            [RuleOperand(K.ICLASS, 16)]
-            public IClass ICLASS;
-
-            [RuleOperand(K.MEM_WIDTH, 16)]
-            public ushort MEM_WIDTH;
+            [RuleOperand(K.ERROR, 1)]
+            public ErrorKind ERROR;
 
             public Disp64 DISPVal;
 

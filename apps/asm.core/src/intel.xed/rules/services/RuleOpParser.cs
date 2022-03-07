@@ -290,7 +290,7 @@ namespace Z0
 
                 if(count >= 3)
                 {
-                    if(Parsers.ElementType(props[2], out var type))
+                    if(Parsers.ElementKind(props[2], out var type))
                         seek(buffer,i++) = type;
                 }
 
@@ -321,7 +321,7 @@ namespace Z0
 
                 if(count >= 3)
                 {
-                    if(Parsers.ElementType(props[2], out var type))
+                    if(Parsers.ElementKind(props[2], out var type))
                         seek(buffer,i++) = type;
                 }
 
@@ -409,7 +409,7 @@ namespace Z0
 
                 if(count >= 5)
                 {
-                    if(Parsers.ElementType(props[4], out var type))
+                    if(Parsers.ElementKind(props[4], out var type))
                         seek(buffer,i++) = type;
                 }
 

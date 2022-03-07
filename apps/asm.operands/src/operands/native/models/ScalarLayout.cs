@@ -22,10 +22,10 @@ namespace Z0
 
         public readonly ushort StorageWidth;
 
-        public readonly ScalarClass Class;
+        public readonly NativeClass Class;
 
         [MethodImpl(Inline)]
-        public ScalarLayout(ushort content, ushort storage, ScalarClass @class)
+        public ScalarLayout(ushort content, ushort storage, NativeClass @class)
         {
             ContentWidth = content;
             StorageWidth = storage;

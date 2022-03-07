@@ -6,7 +6,7 @@ namespace Z0
 {
     public interface IScalarType : ISizedType
     {
-        ScalarClass ScalarClass {get;}
+        NativeClass NativeClass {get;}
 
         ulong IType.Kind
             => 0;

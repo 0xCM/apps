@@ -89,15 +89,15 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator NativeType(NativeCellType src)
-            => define(src);
+            => new NativeType(src);
 
         [MethodImpl(Inline)]
         public static implicit operator NativeType(NativeSegType src)
-            => define(src);
+            => new NativeType(src);
 
         [MethodImpl(Inline)]
         public static implicit operator NativeType(NativeSegKind src)
-            => define(src);
+            => new NativeType(src);
 
         [MethodImpl(Inline)]
         public static bool operator ==(NativeType a, NativeType b)

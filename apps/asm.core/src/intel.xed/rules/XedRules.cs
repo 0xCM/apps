@@ -53,6 +53,8 @@ namespace Z0
 
         XedPaths XedPaths => Service(Wf.XedPaths);
 
+        XedParsers Parsers => Service(XedParsers.create);
+
         AppDb AppDb => Service(Wf.AppDb);
 
         OpCodeKinds CalcOpCodeKinds()
@@ -66,7 +68,7 @@ namespace Z0
         public Index<PointerWidthInfo> LoadPointerWidths()
             => Data(nameof(LoadPointerWidths), () => mapi(PointerWidths, (i,w) => w.ToRecord((byte)i)));
 
-        public Index<OperandWidth> LoadOperandWidths()
+        public Index<OpWidth> LoadOperandWidths()
             => Data(nameof(LoadOperandWidths), CalcOperandWidths);
 
         public ReadOnlySpan<NonterminalKind> NonterminalKinds()
@@ -113,14 +115,14 @@ namespace Z0
             return result;
         }
 
-        ConstLookup<string,OperandWidth> LoadOpWidthsLookup()
+        ConstLookup<string,OpWidth> LoadOpWidthsLookup()
         {
             return Data(nameof(LoadOpWidthsLookup), Load);
 
-            ConstLookup<string,OperandWidth> Load()
+            ConstLookup<string,OpWidth> Load()
             {
                 var widths = LoadOperandWidths();
-                var dst = dict<string,OperandWidth>();
+                var dst = dict<string,OpWidth>();
                 var symbols = Symbols.index<OperandWidthKind>();
                 var count = widths.Length;
                 for(var i=0; i<count; i++)
@@ -157,7 +159,7 @@ namespace Z0
 
         static Symbols<PointerWidthKind> PointerWidthKinds;
 
-        static Symbols<ElementType> DataTypes;
+        static Symbols<ElementKind> DataTypes;
 
         static Symbols<RuleOpName> OpNames;
 
@@ -185,7 +187,7 @@ namespace Z0
             OpNames = Symbols.index<RuleOpName>();
             PointerWidthKinds = Symbols.index<PointerWidthKind>();
             Supressions = Symbols.index<OpVisiblity>();
-            DataTypes = Symbols.index<ElementType>();
+            DataTypes = Symbols.index<ElementKind>();
             EncodingGroups = Symbols.index<EncodingGroup>();
             MacroLookup = RuleMacros.lookup();
        }

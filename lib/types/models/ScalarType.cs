@@ -6,13 +6,13 @@ namespace Z0
 {
     public class ScalarType : SizedType, IScalarType, IEquatable<ScalarType>
     {
-        public ScalarClass ScalarClass {get;}
+        public NativeClass NativeClass {get;}
 
         [MethodImpl(Inline)]
-        public ScalarType(Identifier name, ScalarClass kind, BitWidth content, BitWidth storage)
+        public ScalarType(Identifier name, NativeClass kind, BitWidth content, BitWidth storage)
             : base(name, nameof(ScalarType), (ulong)kind, content, storage)
         {
-            ScalarClass = kind;
+            NativeClass = kind;
         }
 
 
@@ -22,7 +22,7 @@ namespace Z0
         public static ScalarType Empty
         {
             [MethodImpl(Inline)]
-            get => new ScalarType(EmptyString, ScalarClass.None, 0, 0);
+            get => new ScalarType(EmptyString, NativeClass.None, 0, 0);
         }
     }
 }

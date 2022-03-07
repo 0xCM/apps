@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     public class ScalarBitSeqType : ScalarType
     {
         [MethodImpl(Inline)]
         public ScalarBitSeqType(uint content, NativeSize storage)
-            : base(EmptyString, ScalarClass.U, content, storage)
+            : base(EmptyString, NativeClass.U, content, storage)
         {
             NativeWidth = storage;
         }

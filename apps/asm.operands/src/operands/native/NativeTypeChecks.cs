@@ -209,6 +209,5 @@ namespace Z0
             NumericClaims.eq(NativeTypes.segkind(typeof(SpanBlock256<float>)), NativeSegKind.Seg256x32f);
             NumericClaims.eq(NativeTypes.segkind(typeof(SpanBlock256<double>)), NativeSegKind.Seg256x64f);
         }
-
     }
 }

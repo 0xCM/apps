@@ -114,8 +114,8 @@ namespace Z0
                 => (RegResolver)(int)Data;
 
             [MethodImpl(Inline)]
-            public ElementType AsElementType()
-                => (ElementType)Data;
+            public ElementKind AsElementType()
+                => (ElementKind)Data;
 
             [MethodImpl(Inline)]
             public OpVisiblity AsVisiblity()
@@ -172,7 +172,7 @@ namespace Z0
                 => new OperandAttrib(K.RegResolver, (uint)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator OperandAttrib(ElementType src)
+            public static implicit operator OperandAttrib(ElementKind src)
                 => new OperandAttrib(K.DataType, (uint)src);
 
             [MethodImpl(Inline)]

@@ -10,7 +10,6 @@ namespace Z0
 
     partial class XedCmdProvider
     {
-
         [CmdOp("xed/check/patterns")]
         Outcome CheckPatterns(CmdArgs args)
         {

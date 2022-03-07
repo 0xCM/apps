@@ -8,8 +8,9 @@ namespace Z0
     /// Classifies scalar types
     /// </summary>
     [SymSource("types")]
-    public enum ScalarClass : byte
+    public enum NativeClass : byte
     {
+        [Symbol("")]
         None,
 
         [Symbol("b", "Designates a bit type")]

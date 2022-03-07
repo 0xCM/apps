@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static ScalarClass;
+    using static NativeClass;
 
     partial class NativeTypes
     {
         [Op]
-        public static char indicator(ScalarClass @class)
+        public static char indicator(NativeClass @class)
             => @class switch {
                 B => Chars.b,
                 U => Chars.u,

@@ -10,7 +10,7 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         public static NativeType seg(NativeCellType cellType, byte cellCount)
-            => new NativeType(NativeSegType.define(cellType, cellCount));
+            => new NativeType(NativeSizes.seg(cellType, cellCount));
 
         [MethodImpl(Inline), Op]
         public static NativeType seg(NativeSegKind kind)

@@ -7,13 +7,13 @@ namespace Z0
     public readonly struct NativeCellType : INativeType<NativeCellType>
     {
         [MethodImpl(Inline)]
-        public static NativeCellType define(NativeSize size, ScalarClass @class)
+        public static NativeCellType define(NativeSize size, NativeClass @class)
             => new NativeCellType(size, @class);
 
         readonly byte Data;
 
         [MethodImpl(Inline)]
-        internal NativeCellType(NativeSize size, ScalarClass @class)
+        internal NativeCellType(NativeSize size, NativeClass @class)
         {
             Data = (byte)((uint)size.Code | (uint)@class << 4);
         }
@@ -24,10 +24,10 @@ namespace Z0
             get => (NativeSizeCode)(Data & 0xF);
         }
 
-        public ScalarClass Class
+        public NativeClass Class
         {
             [MethodImpl(Inline)]
-            get => (ScalarClass)(Data >> 4);
+            get => (NativeClass)(Data >> 4);
         }
 
         public BitWidth Width
@@ -39,7 +39,7 @@ namespace Z0
         public bool IsVoid
         {
             [MethodImpl(Inline)]
-            get => Class == ScalarClass.None;
+            get => Class == NativeClass.None;
         }
 
         [MethodImpl(Inline)]

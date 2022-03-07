@@ -200,7 +200,7 @@ namespace Z0
         /// Defines a scalar type of specified class and width
         /// </summary>
         [TypeSyntax(Scalar)]
-        public static TypeSpec scalar(ScalarClass @class, BitWidth w) => string.Format(Scalar, symbol(@class), w);
+        public static TypeSpec scalar(NativeClass @class, BitWidth w) => string.Format(Scalar, symbol(@class), w);
 
         /// <summary>
         /// Defines a scalar type predicated on a specified underlying type
@@ -406,7 +406,7 @@ namespace Z0
         /// </summary>
         /// <param name="name">The class name</param>
         [TypeSyntax(S)]
-        public static NamedKind kind(string name) => string.Format(Kind,name);
+        public static Name kind(string name) => string.Format(Kind,name);
 
         /// <summary>
         /// Defines a string of arbitrary length

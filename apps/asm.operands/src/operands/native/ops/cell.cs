@@ -13,28 +13,28 @@ namespace Z0
             => NativeType.define(NativeCellType.Void);
 
         [MethodImpl(Inline), Op]
-        public static NativeType cell(NativeSize size, ScalarClass @class)
+        public static NativeType cell(NativeSize size, NativeClass @class)
             => new NativeType(NativeCellType.define(size,@class));
 
         [MethodImpl(Inline), Op]
         public static NativeType unsigned(NativeSize size)
-            => new NativeType(NativeCellType.define(size, ScalarClass.U));
+            => new NativeType(NativeCellType.define(size, NativeClass.U));
 
         [MethodImpl(Inline), Op]
         public static NativeType signed(NativeSize size)
-            => new NativeType(NativeCellType.define(size, ScalarClass.I));
+            => new NativeType(NativeCellType.define(size, NativeClass.I));
 
         [MethodImpl(Inline), Op]
         public static NativeType fractional(NativeSize size)
-            => new NativeType(NativeCellType.define(size, ScalarClass.F));
+            => new NativeType(NativeCellType.define(size, NativeClass.F));
 
         [MethodImpl(Inline), Op]
         public static NativeType character(NativeSize size)
-            => new NativeType(NativeCellType.define(size, ScalarClass.C));
+            => new NativeType(NativeCellType.define(size, NativeClass.C));
 
         [MethodImpl(Inline), Op]
         public static NativeType bit()
-            => new NativeType(NativeCellType.define(W.W8, ScalarClass.B));
+            => new NativeType(NativeCellType.define(W.W8, NativeClass.B));
 
         [MethodImpl(Inline), Op]
         public static NativeType u8()

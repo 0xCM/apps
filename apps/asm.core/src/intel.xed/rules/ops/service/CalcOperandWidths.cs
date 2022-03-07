@@ -10,9 +10,9 @@ namespace Z0
 
     partial class XedRules
     {
-        public Index<OperandWidth> CalcOperandWidths()
+        public Index<OpWidth> CalcOperandWidths()
         {
-            var buffer = list<OperandWidth>();
+            var buffer = list<OpWidth>();
             var src = XedPaths.DocSource(XedDocKind.Widths);
             using var reader = src.Utf8LineReader();
             var result = Outcome.Success;
@@ -37,7 +37,7 @@ namespace Z0
                 ref readonly var c1 = ref skip(cells,1);
                 ref readonly var c2 = ref skip(cells,2);
 
-                var dst = default(OperandWidth);
+                var dst = default(OpWidth);
 
                 result = OpWidthKinds.ExprKind(c0, out dst.Code);
                 if(result.Fail)
@@ -46,16 +46,19 @@ namespace Z0
                     break;
                 }
 
-                dst.Name = OpWidthKinds[dst.Code].Expr.Format();
+                if(dst.Code == 0)
+                    continue;
 
-                result = DataTypes.ExprKind(c1, out dst.BaseType);
+                dst.Name = OpWidthKinds[dst.Code].Expr.Format();
+                result = Parsers.ElementType(c1, out dst.EType);
                 if(result.Fail)
                 {
-                    result = (false,Msg.ParseFailure.Format(nameof(dst.BaseType), c1));
+                    result = (false,Msg.ParseFailure.Format(nameof(dst.EType), c1));
                     break;
                 }
+                dst.EWidth = width(dst.Code, dst.EType);
 
-                static Outcome ParseWidthValue(string src, out uint bits)
+                static Outcome ParseWidthValue(string src, out ushort bits)
                 {
                     var result = Outcome.Success;
                     bits = 0;
@@ -66,7 +69,7 @@ namespace Z0
                     {
                         result = DataParser.parse(src, out ushort bytes);
                         if(result)
-                            bits = (uint)(bytes*8);
+                            bits = (ushort)(bytes*8);
                     }
                     return result;
                 }
@@ -96,13 +99,15 @@ namespace Z0
                     break;
                 }
 
+                dst.Seg = SegType.define(@class(dst.Code), dst.Width64, width(dst.Code, dst.EType));
+
                 buffer.Add(dst);
             }
 
             if(result.Fail)
                 Error(result.Message);
 
-            return buffer.ToArray();
+            return buffer.ToArray().Sort();
         }
     }
 }

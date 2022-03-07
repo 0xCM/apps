@@ -7,14 +7,6 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential,Pack=1)]
     public readonly struct NativeSegType : INativeType<NativeSegType>
     {
-        [MethodImpl(Inline)]
-        public static NativeSegType define(NativeCellType type, byte count)
-            => new NativeSegType(type,count);
-
-        [MethodImpl(Inline)]
-        public static NativeSegType define(NativeSegKind kind)
-            => core.@as<NativeSegKind,NativeSegType>(kind);
-
         public readonly NativeCellType CellType;
 
         public readonly byte CellCount;

@@ -8,100 +8,11 @@ namespace Z0
 
     using static XedModels.BCastKind;
     using static Asm.AsmBroadcastClass;
-    using W = XedModels.OperandWidthKind;
 
     partial struct XedModels
     {
-        public static NativeSize size(OperandWidthKind src)
-        {
-            var result = default(NativeSize);
-            switch(src)
-            {
-                case W.B:
-                case W.I8:
-                case W.U8:
-                    result = NativeSizeCode.W8;
-                    break;
-                case W.W:
-                case W.I16:
-                case W.U16:
-                case W.F16:
-                case W.WRD:
-                    result = NativeSizeCode.W16;
-                    break;
-                case W.D:
-                case W.F32:
-                case W.I32:
-                case W.U32:
-                case W.Z:
-                    result = NativeSizeCode.W32;
-                    break;
-                case W.Q:
-                case W.F64:
-                case W.I64:
-                case W.U64:
-                case W.MSKW:
-                case W.MB:
-                case W.MW:
-                case W.MD:
-                case W.MQ:
-                case W.V:
-                case W.Y:
-                case W.SD:
-                    result = NativeSizeCode.W64;
-                    break;
-                case W.F80:
-                    result  = NativeSizeCode.W80;
-                    break;
-                case W.DQ:
-                case W.X128:
-                case W.XB:
-                case W.XW:
-                case W.XD:
-                case W.XQ:
-                case W.XUB:
-                case W.XUW:
-                case W.XUD:
-                case W.XUQ:
-                case W.PS:
-                case W.PD:
-                    result = NativeSizeCode.W128;
-                    break;
-                case W.YB:
-                case W.YW:
-                case W.YD:
-                case W.YQ:
-                case W.YUB:
-                case W.YUW:
-                case W.YUD:
-                case W.YUQ:
-                case W.QQ:
-                case W.Y128:
-                    result = NativeSizeCode.W256;
-                break;
-                case W.ZB:
-                case W.ZW:
-                case W.ZD:
-                case W.ZQ:
-                case W.ZMSKW:
-                case W.ZF32:
-                case W.ZF64:
-                case W.ZUB:
-                case W.ZU8:
-                case W.ZU16:
-                case W.ZU32:
-                case W.ZU64:
-                case W.ZI8:
-                case W.ZI16:
-                case W.ZI32:
-                case W.ZI64:
-                    result = NativeSizeCode.W512;
-                break;
-            }
-            return result;
-        }
         [Op]
-        public AsmBroadcastInfo BroadcastSpec(BCastKind kind)
+        public static AsmBroadcastInfo spec(BCastKind kind)
         {
             var dst = AsmBroadcastInfo.Empty;
             var id = (uint5)(byte)kind;

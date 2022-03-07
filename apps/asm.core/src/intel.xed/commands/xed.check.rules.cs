@@ -7,8 +7,6 @@ namespace Z0
     using static core;
     using static XedRules;
 
-    using F = XedFormatters;
-
     partial class XedCmdProvider
     {
         [CmdOp("xed/check/specs")]

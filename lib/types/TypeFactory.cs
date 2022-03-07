@@ -5,7 +5,7 @@
 namespace Z0
 {
     using Specs = TypeSyntax;
-    using SK = ScalarClass;
+    using SK = NativeClass;
 
     [ApiHost]
     public readonly struct TypeFactory
@@ -74,7 +74,7 @@ namespace Z0
                 => new SizedType<K>(name,kind,content,storage);
 
         [MethodImpl(Inline), Op]
-        public static ScalarType scalar(Identifier name, ScalarClass @class, BitWidth content, BitWidth storage)
+        public static ScalarType scalar(Identifier name, NativeClass @class, BitWidth content, BitWidth storage)
             => new ScalarType(name,@class,content,storage);
 
         [MethodImpl(Inline), Op, Closures(Closure)]

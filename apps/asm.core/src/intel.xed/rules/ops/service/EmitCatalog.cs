@@ -30,10 +30,10 @@ namespace Z0
             EmitPatternDetails();
         }
 
-        Index<OperandWidth> EmitOperandWidths()
+        Index<OpWidth> EmitOperandWidths()
         {
             var src = CalcOperandWidths();
-            var dst = ProjectDb.TablePath<OperandWidth>("xed");
+            var dst = ProjectDb.TablePath<OpWidth>("xed");
             TableEmit(src.View,dst);
             return src;
         }

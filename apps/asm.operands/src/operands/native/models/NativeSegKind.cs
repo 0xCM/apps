@@ -6,7 +6,7 @@ namespace Z0
 {
     using System;
 
-    using SC = ScalarClass;
+    using SC = NativeClass;
     using SZ = NativeSizeCode;
 
     /// <summary>

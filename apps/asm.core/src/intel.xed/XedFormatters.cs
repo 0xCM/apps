@@ -123,7 +123,7 @@ namespace Z0
             => PointerWidthKinds[src].Expr.Text;
 
         [MethodImpl(Inline), Op]
-        public static string format(ElementType src)
+        public static string format(ElementKind src)
             => ElementTypes[src].Expr.Text;
 
         [MethodImpl(Inline), Op]
@@ -232,7 +232,7 @@ namespace Z0
 
         static Symbols<PointerWidthKind> PointerWidthKinds;
 
-        static Symbols<ElementType> ElementTypes;
+        static Symbols<ElementKind> ElementTypes;
 
         static Symbols<RuleOpName> OpNames;
 
@@ -260,7 +260,7 @@ namespace Z0
             OpNames = Symbols.index<RuleOpName>();
             PointerWidthKinds = Symbols.index<PointerWidthKind>();
             OpVis = Symbols.index<OpVisiblity>();
-            ElementTypes = Symbols.index<ElementType>();
+            ElementTypes = Symbols.index<ElementKind>();
             EncodingGroups = Symbols.index<EncodingGroup>();
             AttribKinds = Symbols.index<AttributeKind>();
             TextProps = Symbols.index<TextPropKind>();

@@ -16,14 +16,14 @@ namespace Z0
 
         public K Kind {get;}
 
-        public ScalarClass ScalarClass {get;}
+        public NativeClass NativeClass {get;}
 
         public BitWidth ContentWidth {get;}
 
         public BitWidth StorageWidth {get;}
 
         [MethodImpl(Inline)]
-        public ScalarType(Identifier name, ScalarClass @class, K kind)
+        public ScalarType(Identifier name, NativeClass @class, K kind)
         {
             Name = name;
             Kind = kind;
@@ -49,12 +49,12 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator ScalarType(ScalarType<K> src)
-            => new ScalarType(src.Name, src.ScalarClass, src.ContentWidth, src.StorageWidth);
+            => new ScalarType(src.Name, src.NativeClass, src.ContentWidth, src.StorageWidth);
 
         public static ScalarType Empty
         {
             [MethodImpl(Inline)]
-            get => new ScalarType(EmptyString, ScalarClass.None, 0, 0);
+            get => new ScalarType(EmptyString, NativeClass.None, 0, 0);
         }
     }
 }

@@ -11,30 +11,36 @@ namespace Z0
     [DataType("string")]
     public readonly struct @string : IString<string>, IComparable<T>, IEquatable<T>
     {
-        readonly string Data;
+        readonly string Storage;
 
         [MethodImpl(Inline)]
         public @string(string src)
         {
-            Data = src ?? EmptyString;
+            Storage = src ?? EmptyString;
         }
 
         public string Value
         {
             [MethodImpl(Inline)]
-            get => Data ?? EmptyString;
+            get => Storage ?? EmptyString;
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => empty(Data);
+            get => empty(Storage);
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => nonempty(Data);
+            get => nonempty(Storage);
+        }
+
+        public ReadOnlySpan<char> Data
+        {
+            [MethodImpl(Inline)]
+            get => Value;
         }
 
         public int Length
@@ -63,12 +69,6 @@ namespace Z0
         public override bool Equals(object src)
             => src is T x && Equals(x);
 
-        public static T Empty
-        {
-            [MethodImpl(Inline)]
-            get => new T(EmptyString);
-        }
-
         [MethodImpl(Inline)]
         public static implicit operator T(string src)
             => new T(src);
@@ -76,6 +76,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator string(T src)
             => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator ReadOnlySpan<char>(T src)
+            => src.Data;
 
         public static bool operator ==(T a, T b)
             => a.Equals(b);
@@ -98,5 +102,11 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bool operator >=(T a, T b)
             => a.CompareTo(b) >= 0;
+
+        public static T Empty
+        {
+            [MethodImpl(Inline)]
+            get => new T(EmptyString);
+        }
     }
 }

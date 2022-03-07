@@ -25,7 +25,7 @@ namespace Z0
 
         readonly EnumParser<XedRegId> Regs = new();
 
-        readonly EnumParser<ElementType> ElementTypes = new();
+        readonly EnumParser<ElementKind> ElementKinds = new();
 
         readonly EnumParser<OpVisiblity> Visibilities = new();
 
@@ -77,14 +77,24 @@ namespace Z0
         public bool RegLiteral(string src, out XedRegId dst)
             => Regs.Parse(src, out dst);
 
-        public bool Parse(string src, out ElementType dst)
-            => ElementTypes.Parse(src, out dst);
+        public bool Parse(string src, out ElementKind dst)
+            => ElementKinds.Parse(src, out dst);
 
-        public bool ElementType(string src, out ElementType dst)
-            => ElementTypes.Parse(src, out dst);
+        public bool ElementKind(string src, out ElementKind dst)
+            => ElementKinds.Parse(src, out dst);
 
         public bool Parse(string src, out OpVisiblity dst)
             => Visibilities.Parse(src, out dst);
+
+        public bool ElementType(string src, out ElementType dst)
+        {
+            var result = ElementKinds.Parse(src, out var kind);
+            dst = kind;
+            return result;
+        }
+
+        public bool Parse(string src, out ElementType dst)
+            => ElementType(src, out dst);
 
         public bool OpVis(string src, out OpVisiblity dst)
             => Visibilities.Parse(src, out dst);

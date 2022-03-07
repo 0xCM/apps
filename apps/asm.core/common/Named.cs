@@ -41,7 +41,7 @@ namespace Z0
             => (name,names);
 
         [MethodImpl(Inline), Op]
-        public static NamedKind kind(string name)
+        public static Name kind(string name)
             => name;
 
         [MethodImpl(Inline), Op]

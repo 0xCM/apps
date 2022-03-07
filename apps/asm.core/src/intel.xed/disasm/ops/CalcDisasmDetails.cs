@@ -129,31 +129,31 @@ namespace Z0
             var opcount = block.OperandCount;
             for(var k=0; k<opcount; k++)
             {
+                ref var detail = ref dst.OpDetails[k];
                 ref readonly var opsrc = ref skip(block.Operands, k);
                 result = ParseOpInfo(opsrc.Content, out var info);
                 if(result.Fail)
                     break;
 
-                ref var opdetail = ref dst.OpDetails[k];
-                opdetail.OpInfo = info;
+                detail.OpInfo = info;
 
                 var title = string.Format("Op{0}", k);
-                var opwidth = OperandWidth(info.WidthType);
-                opdetail.OpWidth = opwidth;
-                var indicator = opwidth.Name;
-                var width = opwidth.Width64;
-                var widthdesc = string.Format("{0}:{1}", opwidth.Name, opwidth.Width64);
+                var winfo = OperandWidth(info.WidthType);
+                detail.OpWidth = winfo;
+                var indicator = winfo.Name;
+                var width = winfo.Width64;
+                var widthdesc = string.Format("{0}:{1}", winfo.Name, winfo.Width64);
                 var opname = XedRules.opname(info.Kind);
-                opdetail.OpName = opname;
+                detail.OpName = opname;
                 var optxt = EmptyString;
                 if(ops.TryGetValue(opname, out var opval))
                 {
-                    opdetail.Def = opval;
+                    detail.Def = opval;
                     optxt = opval.Format();
-                    opdetail.RuleDescription = optxt;
+                    detail.RuleDescription = optxt;
                 }
 
-                opdetail.DefDescription = string.Format(DisasmOpDetails.RenderPattern, title, opname, optxt, info.Action, info.Visiblity, width, indicator, info.Prop2);
+                detail.DefDescription = string.Format(DisasmOpDetails.RenderPattern, title, opname, optxt, info.Action, info.Visiblity, width, indicator, info.Prop2);
             }
 
             if(ops.TryGetValue(RuleOpName.DISP, out var disp))

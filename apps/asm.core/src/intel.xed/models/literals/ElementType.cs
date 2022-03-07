@@ -7,76 +7,35 @@ namespace Z0
 {
     partial struct XedModels
     {
-        /// <summary>
-        ///  all-element-types.txt
-        /// </summary>
-        [SymSource(xed)]
-        public enum ElementType : byte
+        public readonly struct ElementType
         {
-            INVALID = 0,
+            public readonly ElementKind Kind;
 
-            [Symbol("b80")]
-            B80,
+            [MethodImpl(Inline)]
+            public ElementType(ElementKind kind)
+            {
+                Kind = kind;
+            }
 
-            [Symbol("bf16")]
-            BF16,
+            public string Name
+            {
+                [MethodImpl(Inline)]
+                get => XedFormatters.format(Kind);
+            }
 
-            [Symbol("f16")]
-            F16,
+            public string Format()
+                => Name;
 
-            [Symbol("f32")]
-            F32,
+            public override string ToString()
+                => Format();
 
-            [Symbol("f64")]
-            F64,
+            [MethodImpl(Inline)]
+            public static implicit operator ElementType(ElementKind src)
+                => new ElementType(src);
 
-            [Symbol("f80")]
-            F80,
-
-            [Symbol("i1")]
-            I1,
-
-            [Symbol("i16")]
-            I16,
-
-            [Symbol("i32")]
-            I32,
-
-            [Symbol("i64")]
-            I64,
-
-            [Symbol("i8")]
-            I8,
-
-            [Symbol("int")]
-            INT,
-
-            [Symbol("struct")]
-            STRUCT,
-
-            [Symbol("u128")]
-            U128,
-
-            [Symbol("u16")]
-            U16,
-
-            [Symbol("u256")]
-            U256,
-
-            [Symbol("u32")]
-            U32,
-
-            [Symbol("u64")]
-            U64,
-
-            [Symbol("u8")]
-            U8,
-
-            [Symbol("uint")]
-            UINT,
-
-            [Symbol("var")]
-            VAR,
-       }
+            [MethodImpl(Inline)]
+            public static implicit operator ElementKind(ElementType src)
+                => src.Kind;
+        }
     }
 }
