@@ -4,6 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using static XedRules;
+
+
     public class WsDataCollection
     {
         public readonly FileCatalog Files;
@@ -18,7 +21,7 @@ namespace Z0.Asm
 
         public readonly Index<AsmSyntaxRow> SyntaxRows;
 
-        public readonly Index<AsmDisasmDetail> XedRows;
+        public readonly Index<DisasmDetail> XedRows;
 
         public readonly Index<ObjDumpRow> ObjDumpRows;
 
@@ -27,7 +30,7 @@ namespace Z0.Asm
             FileCatalog files,
             Index<AsmSyntaxRow> syntax,
             Index<AsmInstructionRow> inst,
-            Index<AsmDisasmDetail> xed,
+            Index<DisasmDetail> xed,
             Index<ObjDumpRow> objdump,
             CoffSymIndex coffsym,
             ObjBlock[] objblocks
@@ -44,11 +47,11 @@ namespace Z0.Asm
             locker = new();
         }
 
-        ConstLookup<InstructionId,AsmDisasmDetail> _DetailLookup;
+        ConstLookup<InstructionId,DisasmDetail> _DetailLookup;
 
         object locker;
 
-        public ConstLookup<InstructionId,AsmDisasmDetail> DetailLookup
+        public ConstLookup<InstructionId,DisasmDetail> DetailLookup
         {
             get
             {

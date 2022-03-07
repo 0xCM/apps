@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public struct OperandDetails : IIndex<OperandDetail>
+        public struct DisasmOpDetails : IIndex<DisasmOpDetail>
         {
             public const string RenderPattern = "{0,-4} | {1,-8} | {2,-24} | {3,-10} | {4,-12} | {5,-12} | {6,-12} | {7,-12}";
 
@@ -16,15 +16,15 @@ namespace Z0
             public static string Header(int index)
                 => string.Format(RenderPattern, ColPatterns.Select(x => string.Format(x, index)));
 
-            public Index<OperandDetail> Details;
+            public Index<DisasmOpDetail> Details;
 
             [MethodImpl(Inline)]
-            public OperandDetails(OperandDetail[] src)
+            public DisasmOpDetails(DisasmOpDetail[] src)
             {
                 Details = src;
             }
 
-            public OperandDetail[] Storage
+            public DisasmOpDetail[] Storage
             {
                 [MethodImpl(Inline)]
                 get => Details.Storage;
@@ -42,13 +42,13 @@ namespace Z0
                 get => Details.Length;
             }
 
-            public ref OperandDetail this[int i]
+            public ref DisasmOpDetail this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Details[i];
             }
 
-            public ref OperandDetail this[uint i]
+            public ref DisasmOpDetail this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Details[i];
@@ -62,11 +62,11 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator OperandDetails(OperandDetail[] src)
-                => new OperandDetails(src);
+            public static implicit operator DisasmOpDetails(DisasmOpDetail[] src)
+                => new DisasmOpDetails(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator OperandDetail[](OperandDetails src)
+            public static implicit operator DisasmOpDetail[](DisasmOpDetails src)
                 => src.Storage;
         }
     }

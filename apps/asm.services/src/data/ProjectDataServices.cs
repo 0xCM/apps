@@ -34,9 +34,10 @@ namespace Z0
             var context = Projects.Context(project, receiver);
             CollectObjDump(context);
             CollectObjSyms(context);
-            CollectCoffIndex(context);
-            CollectMc(context);
-            CollectDisasmDetail(context);
+            Coff.Collect(context);
+            CollectAsmSyntax(context);
+            CollectMcInstructions(context);
+            XedDisasm.CollectDisasm(context);
             return receiver.Emit();
         }
    }

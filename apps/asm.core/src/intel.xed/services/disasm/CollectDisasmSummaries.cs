@@ -8,7 +8,7 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        public AsmDisasmSummaryDocs CollectDisasmSummaries(WsContext context)
+        AsmDisasmSummaryDocs CollectDisasmSummaries(WsContext context)
         {
             var src = Projects.XedDisasmSources(context.Project);
             var count = src.Count;

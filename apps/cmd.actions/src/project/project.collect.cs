@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using llvm;
-    using Asm;
-    using System.Linq;
-
     using static core;
-    using static XedRules;
+
     partial class ProjectCmdProvider
     {
         [CmdOp("project/collect")]
@@ -18,104 +14,6 @@ namespace Z0
             var project = Project();
             var data = ProjectData.Collect(project);
             return true;
-        }
-
-        [CmdOp("project/disasm/detail")]
-        Outcome CollectDisasmDetail(CmdArgs args)
-        {
-            var context = Projects.Context(Project());
-            var details = ProjectData.CollectDisasmDetail(context);
-            var count = details.Count;
-            var max = 0;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var detail = ref details[i];
-                ref readonly var ops = ref detail.Operands;
-                var opcount = ops.Count;
-                for(var j=0; j<opcount; j++)
-                {
-                    ref readonly var op = ref ops[j];
-                    ref readonly var fk = ref op.Def.Kind;
-                    if(fk == FieldKind.MEM0)
-                    {
-                        ref readonly var desc = ref op.RuleDescription;
-                        if(op.RuleDescription.Length > max)
-                        {
-                            max = desc.Length;
-                            Write(desc);
-                        }
-                    }
-
-                }
-            }
-
-            Write(string.Format("Max MEM0 length:{0}", max));
-
-            return true;
-        }
-
-        void Recode(WsDataCollection data)
-        {
-            static void BeginFile(in ObjDumpRow row, ITextBuffer dst)
-            {
-                dst.AppendLine(AsmDirectives.define(AsmDirectiveKind.DK_INTEL_SYNTAX, AsmDirectiveOp.noprefix));
-                dst.AppendLine();
-            }
-
-            var project = data.Project;
-            var files = data.Files;
-            var objdump = data.ObjDumpRows;
-            var xed = data.DetailLookup;
-            var buffer = text.buffer();
-            var docid = objdump.First.OriginId;
-            var file = files[docid];
-            var docname = file.DocName;
-            var counter = 0u;
-            var blockname = EmptyString;
-            BeginFile(objdump.First, buffer);
-            for(var i=0; i<objdump.Count; i++, counter++)
-            {
-                ref readonly var row = ref objdump[i];
-                if(row.OriginId != docid)
-                {
-                    var outpath = AppDb.CgStagePath(project.Name.Format(), docname, FileKind.Asm);
-                    FileEmit(buffer.Emit(), counter, outpath, TextEncodingKind.Asci);
-                    docid = row.OriginId;
-                    file = files[docid];
-                    docname = file.DocName;
-                    counter = 0;
-                    blockname = EmptyString;
-                    BeginFile(row, buffer);
-                }
-
-                if(blockname != row.BlockName)
-                {
-                    if(empty(blockname))
-                    {
-                        blockname = row.BlockName;
-                        buffer.AppendLine(asm.label(blockname));
-                    }
-                    else
-                    {
-                        buffer.AppendLine();
-                        blockname = row.BlockName;
-                        buffer.AppendLine(asm.label(blockname));
-                    }
-                }
-
-                if(xed.Find(row.InstructionId, out var x))
-                {
-                    buffer.IndentLineFormat(4, "{0,-56} # {1,-42} | {2}/{3}", row.Asm, row.Encoded, x.IForm, x.OpCode);
-                }
-                else
-                    buffer.IndentLineFormat(4, "{0,-56} # {1}", row.Asm, row.Encoded);
-
-                if(i == objdump.Count - 1)
-                {
-                    var outpath = AppDb.CgStagePath(project.Name.Format(), docname, FileKind.Asm);
-                    FileEmit(buffer.Emit(), counter, outpath, TextEncodingKind.Asci);
-                }
-            }
         }
 
 
@@ -262,7 +160,7 @@ namespace Z0
         Outcome XedCollect(CmdArgs args)
         {
             var context = Projects.Context(Project());
-            var details = XedDisasm.CollectDisasmDetails(context);
+            XedDisasm.CollectDisasm(context);
             return true;
         }
    }

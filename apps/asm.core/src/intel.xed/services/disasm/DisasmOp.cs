@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public struct InstOperand
+        public struct DisasmOp
         {
             public byte Index;
 

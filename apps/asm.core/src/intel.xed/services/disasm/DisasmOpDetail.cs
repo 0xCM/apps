@@ -10,9 +10,9 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public struct OperandDetail
+        public struct DisasmOpDetail
         {
-            public InstOperand Def;
+            public DisasmOp Def;
 
             public OperandWidth Width;
 

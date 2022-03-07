@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using static XedRules;
+
     public class WsEventReceiver
     {
         IProjectWs Project;
@@ -14,7 +16,7 @@ namespace Z0.Asm
 
         Index<AsmInstructionRow> InstructionRows;
 
-        Index<AsmDisasmDetail> XedRows;
+        Index<DisasmDetail> XedRows;
 
         Index<ObjDumpRow> ObjDumpRows;
 
@@ -69,7 +71,7 @@ namespace Z0.Asm
             InstructionRows = src;
         }
 
-        public virtual void Collected(Index<AsmDisasmDetail> src)
+        public virtual void Collected(Index<DisasmDetail> src)
         {
             XedRows = src;
         }

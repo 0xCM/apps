@@ -56,7 +56,7 @@ namespace Z0
                 : value;
         }
 
-        public static string format(in OperandDetails src)
+        public static string format(in DisasmOpDetails src)
         {
             var dst = text.buffer();
             for(var i=0; i<src.Count; i++)

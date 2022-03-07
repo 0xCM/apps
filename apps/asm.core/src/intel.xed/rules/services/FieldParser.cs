@@ -83,7 +83,7 @@ namespace Z0
                 return result;
             }
 
-            public Outcome ParseInstOperand(string src, out InstOperand dst)
+            public Outcome ParseDisasmOperand(string src, out DisasmOp dst)
             {
                 dst = default;
                 if(text.length(src) < 3)
@@ -94,20 +94,17 @@ namespace Z0
                 var idx = text.trim(text.left(src,2));
                 result = DataParser.parse(idx, out dst.Index);
                 if(result.Fail)
-                    return (false, string.Format("Parsing operand index from {0} failed", idx));
+                    return (false,AppMsg.ParseFailure.Format(nameof(dst.Index), idx));
 
                 var aspects = text.trim(text.right(src,2));
                 var parts = text.split(aspects, Chars.FSlash);
                 if(parts.Length != 6)
-                {
-                    result = (false, string.Format("Unexpected number of operand aspects in {0}", aspects));
-                    return result;
-                }
+                    return (false, string.Format("Unexpected number of operand aspects in {0}", aspects));
 
                 var i=0;
                 result = DataParser.eparse(skip(parts,i++), out dst.Kind);
                 if(result.Fail)
-                    return (false, string.Format("Parsing {0} from '{1}' failed", nameof(dst.Kind), skip(parts,i-1)));
+                    return (false, AppMsg.ParseFailure.Format(nameof(dst.Kind), skip(parts,i-1)));
 
                 result = DataParser.eparse(skip(parts,i++), out dst.Action);
                 if(result.Fail)
