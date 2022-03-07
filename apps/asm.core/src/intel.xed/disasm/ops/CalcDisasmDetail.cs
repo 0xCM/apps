@@ -12,6 +12,52 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
+        Outcome CalcDisasmOp(string src, out DisasmOp dst)
+        {
+            dst = default;
+            if(text.length(src) < 3)
+                return (false,RP.Empty);
+            var result = Outcome.Success;
+            var data = span(src);
+
+            var idx = text.trim(text.left(src,2));
+            result = DataParser.parse(idx, out dst.Index);
+            if(result.Fail)
+                return (false,AppMsg.ParseFailure.Format(nameof(dst.Index), idx));
+
+            var aspects = text.trim(text.right(src,2));
+            var parts = text.split(aspects, Chars.FSlash);
+            if(parts.Length != 6)
+                return (false, string.Format("Unexpected number of operand aspects in {0}", aspects));
+
+            var i=0;
+            result = DataParser.eparse(skip(parts,i++), out dst.Kind);
+            if(result.Fail)
+                return (false, AppMsg.ParseFailure.Format(nameof(dst.Kind), skip(parts,i-1)));
+
+            result = DataParser.eparse(skip(parts,i++), out dst.Action);
+            if(result.Fail)
+                return result;
+
+            result = DataParser.eparse(skip(parts,i++), out dst.WidthType);
+            if(result.Fail)
+                return result;
+
+            result = DataParser.eparse(skip(parts,i++), out dst.Visiblity);
+            if(result.Fail)
+                return result;
+
+            result = DataParser.eparse(skip(parts,i++), out dst.Lookup);
+            if(result.Fail)
+                return result;
+
+            result = DataParser.parse(skip(parts,i++), out dst.Prop2);
+            if(result.Fail)
+                return result;
+
+            return result;
+        }
+
         Outcome CalcDisasmDetail(in DisasmLineBlock block, in AsmDisasmSummary summary, out DisasmDetail dst)
         {
             dst = default;
@@ -35,8 +81,9 @@ namespace Z0
             dst.IForm = inst.Form;
             dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
 
-            var parser = new FieldParser();
-            parser.ParseState(inst.Props.Edit, out var state);
+            var parser = new DisasmFieldParser();
+            parser.ParseState(inst.Props.Edit, out var disasmstate);
+            ref readonly var state = ref disasmstate.RuleState;
             var machine = RuleMachine.create(state);
 
             dst.Offsets = machine.Offsets();
@@ -55,7 +102,7 @@ namespace Z0
             for(var k=0; k<opcount; k++)
             {
                 ref readonly var opsrc = ref skip(block.Operands, k);
-                result = parser.ParseDisasmOperand(opsrc.Content, out var op);
+                result = CalcDisasmOp(opsrc.Content, out var op);
                 if(result.Fail)
                     break;
 

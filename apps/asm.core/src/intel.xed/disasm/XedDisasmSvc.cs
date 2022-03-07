@@ -8,6 +8,8 @@ namespace Z0
 
     using static core;
     using static XedModels;
+    using static XedRules;
+    using K = XedRules.FieldKind;
 
     public partial class XedDisasmSvc : AppService<XedDisasmSvc>
     {
@@ -31,7 +33,7 @@ namespace Z0
 
         protected override void OnInit()
         {
-            var dst = dict<OperandWidthKind, OperandWidth>();
+            var dst = dict<OperandWidthKind,OperandWidth>();
             iter(Rules.LoadOperandWidths(), w => dst.TryAdd(w.Code, w));
             OperandWidths = dst;
         }
@@ -39,5 +41,17 @@ namespace Z0
         OperandWidth OperandWidth(OperandWidthKind type)
             => OperandWidths[type];
 
+        void UpdateState(RuleMachine machine, in FieldAssign src, ref DisasmState state)
+        {
+            var kind = src.Field;
+            var result = Outcome.Success;
+            machine.Update(src);
+            switch(kind)
+            {
+                case K.DISP:
+                    state.DISP = src.Value;
+                break;
+            }
+        }
     }
 }
