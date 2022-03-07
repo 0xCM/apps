@@ -66,9 +66,6 @@ namespace Z0
             [RuleOperand(K.IMM1_BYTES, 3)]
             public byte IMM1_BYTES;
 
-            [RuleOperand(K.UIMM0, 64)]
-            public imm64 UIMM0;
-
             [RuleOperand(K.LOCK, 1)]
             public bit LOCK;
 
@@ -126,9 +123,6 @@ namespace Z0
             [RuleOperand(K.REALMODE, 1)]
             public bit REALMODE;
 
-            [RuleOperand(K.RELBR,64)]
-            public Disp RELBR;
-
             [RuleOperand(K.REX, 1)]
             public bit REX;
 
@@ -170,6 +164,9 @@ namespace Z0
 
             [RuleOperand(K.VEX_C4, 1)]
             public bit VEX_C4;
+
+            [RuleOperand(K.RELBR, 1)]
+            public bit RELBR;
 
             [RuleOperand(K.VEX_PREFIX, 2)]
             public byte VEX_PREFIX;
@@ -336,6 +333,9 @@ namespace Z0
             [RuleOperand(K.POS_SIB, 4)]
             public byte POS_SIB;
 
+            [RuleOperand(K.IMM0, 64)]
+            public imm64 UIMM0;
+
             [RuleOperand(K.UIMM1, 8)]
             public imm8 UIMM1;
 
@@ -399,14 +399,15 @@ namespace Z0
             [RuleOperand(K.MEM_WIDTH, 16)]
             public ushort MEM_WIDTH;
 
-            [RuleOperand(K.DISP, 64)]
-            public Disp64 DISP;
+            public Disp64 DISPVal;
 
             public text31 AGENVal;
 
             public text31 MEM0Val;
 
             public text31 MEM1Val;
+
+            public Disp RELBRVal;
 
             public static RuleState Empty => default;
         }

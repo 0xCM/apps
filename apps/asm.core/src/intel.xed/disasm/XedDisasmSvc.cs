@@ -40,18 +40,5 @@ namespace Z0
 
         OperandWidth OperandWidth(OperandWidthKind type)
             => OperandWidths[type];
-
-        void UpdateState(RuleMachine machine, in FieldAssign src, ref DisasmState state)
-        {
-            var kind = src.Field;
-            var result = Outcome.Success;
-            machine.Update(src);
-            switch(kind)
-            {
-                case K.DISP:
-                    state.DISP = src.Value;
-                break;
-            }
-        }
     }
 }

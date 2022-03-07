@@ -10,14 +10,14 @@ namespace Z0
     using static XedRules;
     partial class XedDisasmSvc
     {
-        [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct DisasmState
         {
-            public const string TableId = "xed.disasm.state";
+            public imm64 UIMM0Val;
 
-            public imm64 UIMM0;
+            public Disp64 DISPVal;
 
-            public Disp64 DISP;
+            public Disp RELBRVal;
 
             public text31 AGENVal;
 
@@ -28,7 +28,6 @@ namespace Z0
             public RuleState RuleState;
 
             public static DisasmState Empty => default;
-
         }
     }
 }

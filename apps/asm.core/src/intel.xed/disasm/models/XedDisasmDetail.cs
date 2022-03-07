@@ -65,7 +65,7 @@ namespace Z0
 
             public EncodingOffsets Offsets;
 
-            public DisasmOpDetails Operands;
+            public DisasmOpDetails OpDetails;
 
             public AsmRowKey Key
             {

@@ -50,15 +50,15 @@ namespace Z0
                 var count = src.Length;
                 var dispwidth = 0u;
                 var relbranch = Disp.Empty;
+                dst = DisasmState.Empty;
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var facet = ref skip(src,i);
-                    var kind = K.INVALID;
                     if(FieldKinds.Lookup(facet.Key, out var k))
                     {
                         var value = text.trim(facet.Value);
-                        kind = k.Kind;
-                        var result = XedRules.RuleParser.state(value, kind, ref State.RuleState);
+                        var kind = k.Kind;
+                        var result = update(value, kind, ref State);
                         if(result.Fail)
                             _Failures[kind] = value;
                         else
@@ -68,8 +68,44 @@ namespace Z0
                         _UnknownFields.Add(facet);
 
                 }
-                dst = DisasmState.Empty;
                 dst.RuleState = State.RuleState;
+            }
+
+            static Outcome update(string src, FieldKind kind, ref DisasmState state)
+            {
+                var result = Outcome.Success;
+                switch(kind)
+                {
+                    case K.DISP:
+                        result = Disp64.parse(src, out state.DISPVal);
+                        state.RuleState.DISPVal = state.DISPVal;
+                    break;
+
+                    case K.RELBR:
+                        result = Disp.parse(src, Sizes.native(state.RuleState.BRDISP_WIDTH), out state.RELBRVal);
+                        state.RuleState.RELBRVal = state.RELBRVal;
+                    break;
+
+                    case K.AGEN:
+                        result = DataParser.parse(src, out state.AGENVal);
+                        state.RuleState.AGENVal = state.AGENVal;
+                    break;
+
+                    case K.MEM0:
+                        result = DataParser.parse(src, out state.MEM0Val);
+                        state.RuleState.MEM0Val = state.MEM0Val;
+                    break;
+
+                    case K.MEM1:
+                        result = DataParser.parse(src, out state.MEM1Val);
+                        state.RuleState.MEM1Val = state.MEM1Val;
+                    break;
+
+                    default:
+                        result = XedRules.RuleParser.state(src, kind, ref state.RuleState);
+                    break;
+                }
+                return result;
             }
         }
     }

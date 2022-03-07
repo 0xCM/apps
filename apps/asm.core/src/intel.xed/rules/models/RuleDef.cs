@@ -13,10 +13,10 @@ namespace Z0
         {
             public readonly RulePatternInfo Pattern;
 
-            public readonly Index<RuleOperand> Operands;
+            public readonly Index<RuleOp> Operands;
 
             [MethodImpl(Inline)]
-            public RuleDef(RulePatternInfo pattern, RuleOperand[] ops)
+            public RuleDef(RulePatternInfo pattern, RuleOp[] ops)
             {
                 Pattern = pattern;
                 Operands = ops;

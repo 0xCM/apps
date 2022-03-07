@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
-        public static MachineRequest request(RequestKind kind, RulePatternInfo rule, params RuleOperand[] ops)
+        public static MachineRequest request(RequestKind kind, RulePatternInfo rule, params RuleOp[] ops)
             => new MachineRequest(kind, XedRules.rule(rule, ops));
 
         [MethodImpl(Inline), Op]

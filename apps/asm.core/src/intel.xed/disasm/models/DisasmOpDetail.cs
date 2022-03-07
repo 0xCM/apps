@@ -12,13 +12,13 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public struct DisasmOpDetail
         {
+            public DisasmOpInfo OpInfo;
+
+            public OperandWidth OpWidth;
+
+            public RuleOpName OpName;
+
             public DisasmOp Def;
-
-            public OperandWidth Width;
-
-            public RuleOpName RuleOpName;
-
-            public RuleOperand Rule;
 
             public @string RuleDescription;
 
@@ -27,19 +27,19 @@ namespace Z0
             public byte Index
             {
                 [MethodImpl(Inline)]
-                get => Def.Index;
+                get => OpInfo.Index;
             }
 
             public FieldKind FieldKind
             {
                 [MethodImpl(Inline)]
-                get => Def.Kind;
+                get => OpInfo.Kind;
             }
 
             public OperandAction Action
             {
                 [MethodImpl(Inline)]
-                get => Def.Action;
+                get => OpInfo.Action;
             }
 
             public string Format()

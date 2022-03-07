@@ -12,7 +12,6 @@ namespace Z0
     using FK = XedRules.RuleFormKind;
     using K = XedRules.FieldKind;
 
-
     partial class XedRules
     {
         internal readonly struct RuleParser
@@ -248,10 +247,6 @@ namespace Z0
                 var result = Outcome.Success;
                 switch(kind)
                 {
-                    case K.AGEN:
-                        result = DataParser.parse(src, out state.AGENVal);
-                    break;
-
                     case K.AMD3DNOW:
                         state.AMD3DNOW = bit.On;
                     break;
@@ -277,7 +272,7 @@ namespace Z0
                     break;
 
                     case K.RELBR:
-                        result = Disp.parse(src, Sizes.native(state.BRDISP_WIDTH), out state.RELBR);
+                        result = Disp.parse(src, Sizes.native(state.BRDISP_WIDTH), out state.RELBRVal);
                     break;
 
                     case K.BRDISP_WIDTH:
@@ -306,10 +301,6 @@ namespace Z0
 
                     case K.DF64:
                         state.DF64 = bit.On;
-                    break;
-
-                    case K.DISP:
-                        result = Disp64.parse(src, out state.DISP);
                     break;
 
                     case K.DISP_WIDTH:
@@ -426,14 +417,6 @@ namespace Z0
 
                     case K.MAX_BYTES:
                         result = DataParser.parse(src, out state.MAX_BYTES);
-                    break;
-
-                    case K.MEM0:
-                        result = DataParser.parse(src, out state.MEM0Val);
-                    break;
-
-                    case K.MEM1:
-                        result = DataParser.parse(src, out state.MEM1Val);
                     break;
 
                     case K.MEM_WIDTH:
