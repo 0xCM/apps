@@ -17,13 +17,6 @@ namespace Z0
             public object Value;
 
             [MethodImpl(Inline)]
-            public DisasmOp(RuleOpName name, byte value)
-            {
-                Name = name;
-                Value = value;
-            }
-
-            [MethodImpl(Inline)]
             public DisasmOp(RuleOpName name, text31 value)
             {
                 Name = name;
@@ -43,7 +36,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static DisasmOp Empty => new DisasmOp(RuleOpName.None, uint4.Min);
+            public static DisasmOp Empty => new DisasmOp(RuleOpName.None, Disp.Empty);
         }
     }
 }

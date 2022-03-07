@@ -67,12 +67,15 @@ namespace Z0
                     else
                         _UnknownFields.Add(facet);
                 }
+
                 dst.RuleState = State.RuleState;
             }
 
             static Outcome update(string src, FieldKind kind, ref DisasmState state)
             {
-                var result = Outcome.Success;
+                ref var rules = ref state.RuleState;
+                var result = XedRules.RuleParser.state(src, kind, ref rules);
+
                 switch(kind)
                 {
                     case K.DISP:
@@ -81,8 +84,7 @@ namespace Z0
                     break;
 
                     case K.RELBR:
-                        result = Disp.parse(src, Sizes.native(state.RuleState.BRDISP_WIDTH), out state.RELBRVal);
-                        state.RuleState.RELBRVal = state.RELBRVal;
+                        state.RELBRVal = rules.RELBRVal;
                     break;
 
                     case K.AGEN:
@@ -98,10 +100,6 @@ namespace Z0
                     case K.MEM1:
                         result = DataParser.parse(src, out state.MEM1Val);
                         state.RuleState.MEM1Val = state.MEM1Val;
-                    break;
-
-                    default:
-                        result = XedRules.RuleParser.state(src, kind, ref state.RuleState);
                     break;
                 }
                 return result;

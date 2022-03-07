@@ -46,21 +46,31 @@ namespace Z0
         static DisasmOps CalcDisasmOps(RuleMachine machine, in AsmHexCode code, in DisasmState state)
         {
             ref readonly var rules = ref state.RuleState;
+
             var ops = list<DisasmOp>();
-            if(state.RuleState.DISP_WIDTH != 0)
+
+            if(rules.DISP_WIDTH != 0)
                 ops.Add(new DisasmOp(N.DISP, disp(rules, code)));
-
-            if(state.MEM0Val.IsNonEmpty)
-                ops.Add(new DisasmOp(N.MEM0, state.MEM0Val));
-
-            if(state.MEM1Val.IsNonEmpty)
-                ops.Add(new DisasmOp(N.MEM1, state.MEM1Val));
-
-            if(state.AGENVal.IsNonEmpty)
-                ops.Add(new DisasmOp(N.AGEN, state.AGENVal));
 
             if(rules.BRDISP_WIDTH != 0)
                 ops.Add(new DisasmOp(N.RELBR, (Disp)state.RELBRVal));
+            else if(state.RELBRVal.IsNonZero)
+                ops.Add(new DisasmOp(N.RELBR, rules.RELBRVal));
+
+            if(state.MEM0Val.IsNonEmpty)
+                ops.Add(new DisasmOp(N.MEM0, state.MEM0Val));
+            else if(state.MEM0Val.IsNonEmpty)
+                ops.Add(new DisasmOp(N.MEM0, rules.MEM0Val));
+
+            if(state.MEM1Val.IsNonEmpty)
+                ops.Add(new DisasmOp(N.MEM1, state.MEM1Val));
+            else if(rules.MEM1Val.IsNonEmpty)
+                ops.Add(new DisasmOp(N.MEM1, rules.MEM1Val));
+
+            if(state.AGENVal.IsNonEmpty)
+                ops.Add(new DisasmOp(N.AGEN, state.AGENVal));
+            else if(state.AGENVal.IsNonEmpty)
+                ops.Add(new DisasmOp(N.AGEN, rules.AGENVal));
 
             var dst = map(ops, o => (o.Name, o)).ToDictionary();
             iter(machine.RuleOps(code).Values, o => dst.TryAdd(o.Name, convert(o)));
