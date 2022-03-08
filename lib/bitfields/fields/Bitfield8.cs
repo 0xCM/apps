@@ -31,6 +31,15 @@ namespace Z0
             get => bytes(_State);
         }
 
+        public bit this[byte pos]
+        {
+            [MethodImpl(Inline)]
+            get => bits.test(_State, pos);
+
+            [MethodImpl(Inline)]
+            set => bits.set(_State, pos, value);
+        }
+
         public S this[byte min, byte max]
         {
             [MethodImpl(Inline)]
@@ -50,7 +59,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public readonly S Extract(byte min, byte max)
-            => bits.extract(_State, min, max);
+            => api.extract(_State, min, max);
 
         [MethodImpl(Inline)]
         public void Store(S src, byte min, byte max)

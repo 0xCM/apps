@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
@@ -101,12 +97,12 @@ namespace Z0
         /// <summary>
         /// Extracts a contiguous sequence of bits defined by an inclusive range
         /// </summary>
-        /// <param name="first">The first bit position</param>
-        /// <param name="last">The last bit position</param>
-        public ScalarBits<T> this[byte first, byte last]
+        /// <param name="min">The first bit position</param>
+        /// <param name="max">The last bit position</param>
+        public ScalarBits<T> this[byte min, byte max]
         {
             [MethodImpl(Inline)]
-            get => BitVectors.extract(this, first, last);
+            get => BitVectors.extract(this, min, max);
         }
 
         [MethodImpl(Inline)]

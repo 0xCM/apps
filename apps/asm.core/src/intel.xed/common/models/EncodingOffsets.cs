@@ -8,17 +8,6 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential,Pack=1)]
     public struct EncodingOffsets
     {
-        public static EncodingOffsets init()
-        {
-            var dst = new EncodingOffsets();
-            dst.OpCode = -1;
-            dst.ModRm = -1;
-            dst.Sib = -1;
-            dst.Imm0 = -1;
-            dst.Disp = -1;
-            return dst;
-        }
-
         public sbyte OpCode;
 
         public sbyte ModRm;
@@ -34,5 +23,23 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        [MethodImpl(Inline)]
+        static EncodingOffsets empty()
+        {
+            var dst = new EncodingOffsets();
+            dst.OpCode = -1;
+            dst.ModRm = -1;
+            dst.Sib = -1;
+            dst.Imm0 = -1;
+            dst.Disp = -1;
+            return dst;
+        }
+
+        public static EncodingOffsets Empty
+        {
+            [MethodImpl(Inline)]
+            get => empty();
+        }
     }
 }

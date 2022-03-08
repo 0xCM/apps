@@ -13,11 +13,10 @@ namespace Z0
     /// <summary>
     /// Defines a 32-bit bitfield over a parametric type
     /// </summary>
+    [StructLayout(LayoutKind.Sequential, Size=4)]
     public struct Bitfield32<T>
         where T : unmanaged
     {
-        public const byte Width = Bitfield32.Width;
-
         static W w => default;
 
         S _State;
@@ -52,6 +51,15 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => bytes(_State);
+        }
+
+        public bit this[byte pos]
+        {
+            [MethodImpl(Inline)]
+            get => bits.test(_State, pos);
+
+            [MethodImpl(Inline)]
+            set => bits.set(_State, pos, value);
         }
 
         public T this[byte min, byte max]

@@ -16,6 +16,7 @@ namespace Z0
     /// Defines 16 bytes of storage
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1), DataType("block<n:16,t:c8>", BlockKind.Char8)]
+    [DataWidth(Size*8,Size*8)]
     public struct AsciBlock16 : IAsciBlock<A>
     {
         public const ushort Size = 16;

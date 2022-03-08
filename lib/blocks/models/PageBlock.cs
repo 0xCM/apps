@@ -4,16 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using api = PageBlocks;
 
     [ApiComplete]
+    [DataWidth(PageSize*8,PageSize*8)]
     public unsafe struct PageBlock
     {
         /// <summary>

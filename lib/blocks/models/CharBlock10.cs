@@ -10,6 +10,7 @@ namespace Z0
     using B = CharBlock10;
 
     [StructLayout(LayoutKind.Sequential, Pack=2, Size=(int)Size), DataType("block<n:10,t:c16>")]
+    [DataWidth(Size*8,Size*8)]
     public struct CharBlock10 : ICharBlock<B>
     {
         /// <summary>

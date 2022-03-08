@@ -15,7 +15,7 @@ namespace Z0
 
         public const uint BlockCount = 8;
 
-        public const uint BlockSize = B.SZ;
+        public const uint BlockSize = B.Size;
 
         public const uint BankSize = BlockCount*BlockSize;
 

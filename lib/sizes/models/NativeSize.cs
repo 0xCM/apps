@@ -37,6 +37,10 @@ namespace Z0
             => new NativeSize(src);
 
         [MethodImpl(Inline)]
+        public static implicit operator NativeSize(NativeTypeWidth src)
+            => Sizes.native((uint)src);
+
+        [MethodImpl(Inline)]
         public static implicit operator NativeSizeCode(NativeSize src)
             => (NativeSizeCode)src.Code;
 

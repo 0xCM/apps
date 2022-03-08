@@ -40,7 +40,6 @@ namespace Z0
                 return src;
             else
                 return Z0.FileRef.Empty;
-                //return Errors.Throw<FileRef>(string.Format("Origin not found for {0}", dst.ToUri()));
         }
 
         public FileRef Root(in FileRef dst)
@@ -49,8 +48,6 @@ namespace Z0
                 return src;
             else
                 return Z0.FileRef.Empty;
-
-                //return Errors.Throw<FileRef>(string.Format("Origin not found for {0}", dst.Path.ToUri()));
         }
     }
 }

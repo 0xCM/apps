@@ -46,6 +46,14 @@ namespace Z0
             get => bytes(_State);
         }
 
+        public bit this[byte pos]
+        {
+            [MethodImpl(Inline)]
+            get => bits.test(_State, pos);
+
+            [MethodImpl(Inline)]
+            set => bits.set(_State, pos, value);
+        }
         public S this[byte min, byte max]
         {
             [MethodImpl(Inline)]

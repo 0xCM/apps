@@ -7,6 +7,7 @@ namespace Z0
     using static core;
 
     [DataType("cell<w:32>", Width, Width)]
+    [DataWidth(Width,Width)]
     public readonly struct Cell32 : IDataCell<Cell32,W32,uint>
     {
         public const uint Width = 32;

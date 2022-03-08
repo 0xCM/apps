@@ -24,7 +24,7 @@ namespace Z0
             Kind = 0ul;
         }
 
-        public DataTypeAttribute(string name,bool @virtual)
+        public DataTypeAttribute(string name, bool @virtual)
             : base(0)
         {
             NameSyntax = name;

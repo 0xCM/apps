@@ -14,21 +14,16 @@ namespace Z0
     {
         public void EmitCatalog()
         {
-            // var enc = EmitEncInstDefs();
-            // var dec = EmitDecInstDefs();
             EmitPatterns();
             EmitPatternDetails();
             EmitRuleTables();
             EmitFieldDefs();
             EmitRuleSeq();
-            // EmitEncRuleTables();
-            // EmitDecRuleTables();
-            // EmitEncDecRuleTables();
             EmitOperandWidths();
             EmitPointerWidths();
             EmitOpCodeKinds();
             EmitMacroAssignments();
-            EmitRuleFields();
+            EmitFieldSpecs();
         }
 
         void EmitRuleTables()

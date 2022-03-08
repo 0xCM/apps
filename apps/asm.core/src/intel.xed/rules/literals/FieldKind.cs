@@ -266,6 +266,8 @@ namespace Z0
             ZEROING,
 
             NO_RETURN,
+
+            PAD0,
         }
     }
 }

@@ -17,20 +17,9 @@ namespace Z0
             var files = catalog.Entries(FileKind.XedRawDisasm);
             var count = files.Count;
             var buffer = list<DisasmDetail>();
-            var docs = core.bag<AsmDisasmSummaryDoc>();
             var bag = core.bag<DisasmDetail>();
             var xedsvc = this;
-            iter(files, file => {
-
-                var blocks = XedDisasm.LoadFileBlocks(file);
-                result = XedDisasm.ParseSummaries(context, file, out var doc);
-                docs.Add(doc);
-                var rows = doc.View;
-                Require.equal((uint)rows.Length, blocks.LineBlocks.Count);
-                result = xedsvc.CalcDisasmDetails(context, blocks, bag);
-                result.Require();
-            },true);
-
+            iter(files, file => CalcDisasmDetails(context, file, bag).Require(), true);
             var details = bag.ToArray().Sort();
             for(var i=0u; i<details.Length; i++)
                 seek(details,i).Seq = i;
@@ -38,5 +27,9 @@ namespace Z0
             context.Receiver.Collected(details);
             return details;
         }
+
+        Outcome CalcDisasmDetails(WsContext context, in FileRef src, ConcurrentBag<DisasmDetail> dst)
+            => CalcDisasmDetails(context, XedDisasm.LoadFileBlocks(src), dst);
+
     }
 }

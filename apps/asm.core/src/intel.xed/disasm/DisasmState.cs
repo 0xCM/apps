@@ -9,7 +9,7 @@ namespace Z0
 
     using static XedRules;
 
-    partial class XedDisasmSvc
+    partial class XedDisasm
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct DisasmState

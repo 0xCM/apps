@@ -13,6 +13,7 @@ namespace Z0
     /// Covers 64 bytes of storage
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1), DataType("block<n:64,t:u8>")]
+    [DataWidth(Size*8,Size*8)]
     public struct ByteBlock64 : IStorageBlock<B>
     {
         public const ushort Size = 64;

@@ -4,17 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
     /// Reserves 4 pages of memory that cover 2^14 = 16,384 bytes
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = (int)Size)]
+    [DataWidth(Size*8,Size*8)]
     public struct PageBlock4 : IPageBlock<PageBlock4>
     {
         public const uint Size = PageCount*PageSize;

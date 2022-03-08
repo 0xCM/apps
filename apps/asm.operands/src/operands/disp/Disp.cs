@@ -8,6 +8,7 @@ namespace Z0.Asm
     /// Defines an 8, 16, or 32-bit signed displacement
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [DataWidth(72,72)]
     public readonly struct Disp : IDisplacement, IEquatable<Disp>
     {
         [Parser]

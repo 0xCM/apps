@@ -15,7 +15,7 @@ namespace Z0
 
     using P = XedRules.RuleParser;
 
-    partial class XedDisasmSvc
+    partial class XedDisasm
     {
         public class DisasmFieldParser
         {

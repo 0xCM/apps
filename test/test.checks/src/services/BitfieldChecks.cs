@@ -41,7 +41,7 @@ namespace Z0
             for(byte i=0; i<count; i++)
             {
                 ref readonly var seg = ref skip(specs,i);
-                var state = field.Read(i);
+                var state = field.Extract(i);
                 var j=0u;
 
                 var bitstring = BitRender.gformat(state, (byte)seg.SegWidth);

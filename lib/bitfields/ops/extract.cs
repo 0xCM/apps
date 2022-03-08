@@ -23,47 +23,47 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static byte extract(Bitfield8 src, byte pos, byte width)
-            => bits.slice(src.State, pos, width);
+        public static byte extract(Bitfield8 src, byte min, byte max)
+            => bits.extract(src.State, min, max);
 
         [MethodImpl(Inline), Op]
-        public static ushort extract(Bitfield16 src, byte pos, byte width)
-            => bits.slice(src.State, pos, width);
+        public static ushort extract(Bitfield16 src, byte min, byte max)
+            => bits.extract(src.State, min, max);
 
         [MethodImpl(Inline), Op]
-        public static uint extract(Bitfield32 src, byte pos, byte width)
-            => bits.slice(src.State, pos, width);
+        public static uint extract(Bitfield32 src, byte min, byte max)
+            => bits.extract(src.State, min, max);
 
         [MethodImpl(Inline), Op]
-        public static ulong extract(Bitfield64 src, byte i0, byte i1)
-            => bits.slice(src.State, i0, i1);
+        public static ulong extract(Bitfield64 src, byte min, byte max)
+            => bits.extract(src.State, min, max);
 
         [MethodImpl(Inline), Op, Closures(UInt8k)]
-        public static T extract<T>(Bitfield8<T> src, byte i0, byte i1)
+        public static T extract<T>(Bitfield8<T> src, byte min, byte max)
             where T : unmanaged
-                => @as<T>(bits.slice(src.State8u, i0, i1));
+                => @as<T>(bits.extract(src.State8u, min, max));
 
         [MethodImpl(Inline), Op, Closures(UInt8x16k)]
-        public static T extract<T>(Bitfield16<T> src, byte i0, byte i1)
+        public static T extract<T>(Bitfield16<T> src, byte min, byte max)
             where T : unmanaged
-                => @as<T>(bits.slice(src.State16u, i0, i1));
+                => @as<T>(bits.extract(src.State16u, min, max));
 
         [MethodImpl(Inline), Op, Closures(UInt8x16x32k)]
-        public static T extract<T>(Bitfield32<T> src, byte i0, byte i1)
+        public static T extract<T>(Bitfield32<T> src, byte min, byte max)
             where T : unmanaged
-                => @as<T>(bits.slice(src.State32u, i0, i1));
+                => @as<T>(bits.extract(src.State32u, min, max));
 
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]
-        public static T extract<T>(Bitfield64<T> src, byte i0, byte i1)
+        public static T extract<T>(Bitfield64<T> src, byte min, byte max)
             where T : unmanaged
-                => @as<T>(bits.slice(src.State, i0, i1));
+                => @as<T>(bits.extract(src.State, min, max));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static T extract<T>(in Bitfield<T> src, byte i)
             where T : unmanaged
         {
             ref readonly var spec = ref skip(src.SegSpecs,i);
-            return gbits.slice(src.State, (byte)spec.MinIndex, (byte)spec.SegWidth);
+            return gbits.extract(src.State, (byte)spec.MinIndex, (byte)spec.MaxIndex);
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
@@ -71,8 +71,8 @@ namespace Z0
             where T : unmanaged
             where K : unmanaged
         {
-            ref readonly var spec = ref skip(src.SegSpecs,i);
-            return gbits.slice(src.State, (byte)spec.MinIndex, (byte)spec.SegWidth);
+            ref readonly var spec = ref skip(src.SegSpecs, i);
+            return gbits.extract(src.State, (byte)spec.MinIndex, (byte)spec.MaxIndex);
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]

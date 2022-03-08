@@ -12,11 +12,10 @@ namespace Z0
     /// <summary>
     /// Defines an 8-bit bitfield over a parametric type
     /// </summary>
+    [StructLayout(LayoutKind.Sequential, Size=1)]
     public struct Bitfield8<T>
         where T : unmanaged
     {
-        public const byte Width = 8;
-
         S _State;
 
         [MethodImpl(Inline)]
@@ -43,6 +42,15 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => _State;
+        }
+
+        public bit this[byte pos]
+        {
+            [MethodImpl(Inline)]
+            get => bits.test(_State, pos);
+
+            [MethodImpl(Inline)]
+            set => bits.set(_State, pos, value);
         }
 
         public T this[byte min, byte max]

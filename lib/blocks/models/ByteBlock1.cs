@@ -9,7 +9,8 @@ namespace Z0
     using B = ByteBlock1;
     using api = StorageBlocks;
 
-    [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1), DataType("block<n:1,t:u8>")]
+    [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1), DataType("block<1>")]
+    [DataWidth(Size*8,Size*8)]
     public struct ByteBlock1 : IStorageBlock<B>
     {
         public static N1 N => default;

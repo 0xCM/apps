@@ -13,58 +13,10 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        Outcome CalcDisasmDetails(WsContext context, in DisasmFileBlocks src, ConcurrentBag<DisasmDetail> buffer)
-        {
-            var blocks = src.LineBlocks;
-            var count = blocks.Count;
-            var result = XedDisasm.ParseSummaries(context, src.Source, out var summaries);
-            if(result.Fail)
-                return result;
-
-            if(summaries.RowCount != count)
-            {
-                result = (false, string.Format("{0} != {1}", count, summaries.RowCount));
-                return result;
-            }
-
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var block = ref blocks[i];
-                ref readonly var encoding =ref summaries[i];
-                var detail = DisasmDetail.Empty;
-                result = CalcDisasmDetail(block, encoding, out detail);
-                if(result.Fail)
-                    break;
-                else
-                    buffer.Add(detail);
-            }
-
-            return result;
-        }
-
-        static DisasmOps CalcDisasmOps(in RuleState state, in AsmHexCode code)
-        {
-            var dst = dict<RuleOpName,DisasmOp>();
-            iter(XedRules.ops(state, code).Values, o => dst.TryAdd(o.Name, convert(o)));
-            return dst;
-        }
-
-        // static DisasmOps CalcDisasmOps(RuleMachine machine, in AsmHexCode code, in DisasmState state)
-        // {
-        //     ref readonly var rules = ref state.RuleState;
-        //     var dst = dict<RuleOpName,DisasmOp>();
-        //     iter(XedRules.ops(rules, code).Values, o => dst.TryAdd(o.Name, convert(o)));
-        //     return dst;
-        // }
-
-        [MethodImpl(Inline)]
-        static DisasmOp convert(RuleOp src)
-            => new DisasmOp(src.Name, src.Value);
-
         Outcome CalcDisasmDetail(in DisasmLineBlock block, in AsmDisasmSummary summary, out DisasmDetail dst)
         {
             dst = default;
-            var result = ParseInstruction(block, out var inst);
+            var result = CalcInstruction(block, out var inst);
             if(result.Fail)
             {
                 dst = default;
@@ -84,8 +36,7 @@ namespace Z0
             dst.IForm = inst.Form;
             dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
 
-            var parser = new DisasmFieldParser();
-            parser.ParseState(inst.Props.Edit, out var state);
+            XedDisasm.state(inst.Props.Edit, out var state);
             ref readonly var rules = ref state.RuleState;
             var machine = RuleMachine.create(rules);
             dst.Offsets = XedRules.offsets(rules);
@@ -215,61 +166,6 @@ namespace Z0
 
             dst.EASZ = Sizes.native(width((EASZ)rules.EASZ));
             dst.EOSZ = Sizes.native(width((EOSZ)rules.EOSZ));
-            var flags = XedRules.flags(rules);
-            return result;
-        }
-
-        Outcome ParseInstruction(in DisasmLineBlock block, out DisasmInstruction inst)
-        {
-            var result = Outcome.Success;
-            inst = default(DisasmInstruction);
-            ref readonly var content = ref block.Instruction.Content;
-            if(text.nonempty(content))
-            {
-                var j = text.index(content, Chars.Space);
-                if(j > 0)
-                {
-                    var expr = text.left(content,j);
-                    if(Classes.Lookup(expr, out var @class))
-                        inst.Class = @class;
-                    else
-                    {
-                        result = (false, AppMsg.ParseFailure.Format(nameof(IClass), content));
-                        return result;
-                    }
-
-                    var k = text.index(content, j+1, Chars.Space);
-                    if(k > 0)
-                    {
-                        expr = text.inside(content, j, k);
-                        if(Forms.Lookup(expr, out var form))
-                            inst.Form = form;
-                        else
-                        {
-                            result = (false, AppMsg.ParseFailure.Format(nameof(IFormType), expr));
-                            return result;
-                        }
-                    }
-
-                    var props = text.words(text.right(content,k), Chars.Comma);
-                    var kP = props.Count;
-                    inst.Props = alloc<Facet<string>>(kP);
-                    for(var m=0; m<kP; m++)
-                    {
-                        ref readonly var p = ref props[m];
-                        if(p.Contains(Chars.Colon))
-                        {
-                            var kv = text.split(p, Chars.Colon);
-                            if(kv.Length == 2)
-                                inst.Props[m] = (skip(kv,0).Trim(), skip(kv,1).Trim());
-                        }
-                        else
-                        {
-                            inst.Props[m] = (p.Trim(), EmptyString);
-                        }
-                    }
-                }
-            }
             return result;
         }
     }

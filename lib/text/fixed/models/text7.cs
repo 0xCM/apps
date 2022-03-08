@@ -9,11 +9,14 @@ namespace Z0
     using FC = FixedChars;
     using api = FixedChars;
 
+    [DataWidth(Size*8,Size*8)]
     public struct text7 : ISizedString<text7>
     {
         public const byte MaxLength = 7;
 
         public const byte PointSize = 1;
+
+        public const uint Size = 8;
 
         public ulong Storage;
 

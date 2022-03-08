@@ -5,12 +5,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class XedRules
     {
-        public void EmitRuleFields()
-            => TableEmit(CalcFieldSpecs().View, RuleFieldSpec.RenderWidths, AppDb.XedTable<RuleFieldSpec>());
-
-        void EmitMacroAssignments()
-            => TableEmit(CalcMacroAssignments().View, MacroAssignment.RenderWidths, XedPaths.DocTarget(XedDocKind.MacroAssignments));
+        [Op]
+        public static ref readonly StateFlags flags(in RuleState state)
+            => ref @as<StateFlags>(bytes(state));
     }
 }

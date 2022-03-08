@@ -28,13 +28,13 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public T Read(byte index)
-            => api.extract(this, index);
+        public T Extract(byte field)
+            => api.extract(this, field);
 
         [MethodImpl(Inline)]
-        public Bitfield<T> Store(byte index, T src)
+        public Bitfield<T> Store(byte field, T src)
         {
-            api.store(src, index, ref this);
+            api.store(src, field, ref this);
             return this;
         }
 

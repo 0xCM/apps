@@ -9,6 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
+
         public static bool fieldseg(FieldKind src)
         {
             var result = false;

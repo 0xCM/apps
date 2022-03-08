@@ -9,6 +9,7 @@ namespace Z0
     using F = Cell512;
 
     [DataType("cell<w:512>", Width, Width)]
+    [DataWidth(Width,Width)]
     public readonly struct Cell512 : IDataCell<Cell512,W512,Vector512<ulong>>
     {
         public const uint Size = 64;

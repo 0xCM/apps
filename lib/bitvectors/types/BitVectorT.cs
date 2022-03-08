@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     public struct BitVector<T> : IBitVector<BitVector<T>,T>
@@ -65,6 +61,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public ref ScalarBits<ulong> Scalar(W64 w, uint offset)
             => ref first(recover<ScalarBits<ulong>>(Segment(offset)));
-
     }
 }

@@ -9,9 +9,9 @@ namespace Z0
     {
         public readonly struct DisasmFileBlocks
         {
-            public FileRef Source {get;}
+            public readonly FileRef Source;
 
-            public Index<DisasmLineBlock> LineBlocks {get;}
+            public readonly Index<DisasmLineBlock> LineBlocks;
 
             [MethodImpl(Inline)]
             public DisasmFileBlocks(FileRef src, DisasmLineBlock[] blocks)

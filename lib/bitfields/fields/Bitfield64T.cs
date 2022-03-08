@@ -10,11 +10,10 @@ namespace Z0
     using S = System.UInt64;
     using W = W64;
 
+    [StructLayout(LayoutKind.Sequential, Size=8)]
     public struct Bitfield64<T>
         where T : unmanaged
     {
-        public const byte Width = Bitfield64.Width;
-
         static W w => default;
 
         S _State;
@@ -28,8 +27,8 @@ namespace Z0
             => _State = state;
 
         [MethodImpl(Inline)]
-        public T Extract(byte offset, byte width)
-            => api.extract(this, offset, width);
+        public readonly T Extract(byte min, byte max)
+            => api.extract(this, min, max);
 
         public Bitfield32<T> Lo
         {
@@ -47,6 +46,15 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => bytes(_State);
+        }
+
+        public bit this[byte pos]
+        {
+            [MethodImpl(Inline)]
+            get => bits.test(_State, pos);
+
+            [MethodImpl(Inline)]
+            set => bits.set(_State, pos, value);
         }
 
         public override string ToString()

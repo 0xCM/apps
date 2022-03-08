@@ -10,6 +10,7 @@ namespace Z0
     using B = CharBlock11;
 
     [StructLayout(LayoutKind.Sequential, Pack=2, Size=(int)Size), DataType("block<n:11,t:c16>")]
+    [DataWidth(Size*8,Size*8)]
     public struct CharBlock11 : ICharBlock<B>
     {
         public const ushort CharCount = 11;

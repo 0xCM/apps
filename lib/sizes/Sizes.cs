@@ -25,6 +25,14 @@ namespace Z0
             return (NativeSizeCode)i;
         }
 
+        /// <summary>
+        /// Computes the bit-width of the represented primitive
+        /// </summary>
+        /// <param name="src">The literal's bitfield</param>
+        [MethodImpl(Inline), Op]
+        public static NativeSize native(ClrPrimitiveKind src)
+            => native((uint)PrimalBits.width(src));
+
         [MethodImpl(Inline)]
         public static NativeSize native<W>(W w)
             where W : unmanaged, IDataWidth

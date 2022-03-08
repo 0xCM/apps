@@ -5,61 +5,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static XedModels;
-
-    using K = XedRules.FieldKind;
-    using N = XedRules.RuleOpName;
-    using T = XedRules.RuleTokenKind;
-
     using Asm;
+
+    using static core;
+
+    using N = XedRules.RuleOpName;
 
     partial class XedRules
     {
-        [Op]
-        public static EncodingOffsets offsets(in RuleState state)
-        {
-            var offsets = EncodingOffsets.init();
-            offsets.OpCode = (sbyte)(state.POS_NOMINAL_OPCODE);
-            if(state.HAS_MODRM)
-                offsets.ModRm = (sbyte)state.POS_MODRM;
-            if(state.POS_SIB != 0)
-                offsets.Sib = (sbyte)state.POS_SIB;
-            if(state.POS_DISP != 0)
-                offsets.Disp = (sbyte)state.POS_DISP;
-            if(state.IMM0)
-                offsets.Imm0 = (sbyte)state.POS_IMM;
-            return offsets;
-        }
-
-
-        [Op]
-        public static Index<K> flags(in RuleState state)
-        {
-            var flags = list<K>();
-            if(state.NEED_MEMDISP)
-                flags.Add(K.NEED_MEMDISP);
-            if(state.P4)
-                flags.Add(K.P4);
-            if(state.USING_DEFAULT_SEGMENT0)
-                flags.Add(K.USING_DEFAULT_SEGMENT0);
-            if(state.USING_DEFAULT_SEGMENT1)
-                flags.Add(K.USING_DEFAULT_SEGMENT1);
-            if(state.LZCNT)
-                flags.Add(K.LZCNT);
-            if(state.TZCNT)
-                flags.Add(K.TZCNT);
-            if(state.DF32)
-                flags.Add(K.DF32);
-            if(state.DF64)
-                flags.Add(K.DF64);
-            if(state.MUST_USE_EVEX)
-                flags.Add(K.MUST_USE_EVEX);
-            if(state.REXRR)
-                flags.Add(K.REXRR);
-            return flags.ToArray();
-        }
-
         public static RuleOperands ops(in RuleState state, in AsmHexCode code)
         {
             var _ops = list<RuleOp>();

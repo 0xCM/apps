@@ -11,10 +11,11 @@ namespace Z0
     using static Root;
     using static core;
 
-    [StructLayout(LayoutKind.Sequential, Size = (int)SZ)]
+    [StructLayout(LayoutKind.Sequential, Size = (int)Size)]
+    [DataWidth(Size*8,Size*8)]
     public struct PageBlock16x4 : IPageBlock<PageBlock16x4>
     {
-        public const uint SZ = PageCount*PageSize;
+        public const uint Size = PageCount*PageSize;
 
         public const uint PageCount = 64;
 

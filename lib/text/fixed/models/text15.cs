@@ -9,11 +9,14 @@ namespace Z0
     using FC = FixedChars;
     using api = FixedChars;
 
+    [DataWidth(Size*8,Size*8)]
     public struct text15 : ISizedString<text15>
     {
         public const byte MaxLength = 15;
 
         public const byte PointSize = 1;
+
+        public const uint Size = 16;
 
         public static W128 W => default;
 

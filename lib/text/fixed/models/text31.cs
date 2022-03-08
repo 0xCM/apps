@@ -6,14 +6,16 @@ namespace Z0
 {
     using static core;
 
-    using FC = FixedChars;
     using api = FixedChars;
 
+    [DataWidth(Size*8,Size*8)]
     public struct text31 : ISizedString<text31>
     {
         public const byte MaxLength = 31;
 
         public const byte PointSize = 1;
+
+        public const uint Size = 32;
 
         static N31 N => default;
 

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
     using static core;
 
     using api = CharBlocks;
@@ -18,6 +13,7 @@ namespace Z0
     /// Defines a character block b with capacity(b) = 2x16u
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack=2), DataType("block<n:2,t:c16>")]
+    [DataWidth(Size*8,Size*8)]
     public struct CharBlock2 : ICharBlock<B>
     {
         public static N2 N => default;

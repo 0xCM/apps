@@ -7,6 +7,7 @@ namespace Z0
     using Asm;
 
     [DataType("imm"), StructLayout(LayoutKind.Sequential, Pack=1)]
+    [DataWidth(72,72)]
     public readonly struct Imm : IImm<Imm,ulong>
     {
         public static Imm inc(Imm src)

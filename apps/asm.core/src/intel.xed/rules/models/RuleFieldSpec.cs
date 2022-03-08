@@ -12,7 +12,7 @@ namespace Z0
         {
             public const string TableName = "xed.rules.fields";
 
-            public const byte FieldCount = 5;
+            public const byte FieldCount = 7;
 
             public ushort Pos;
 
@@ -20,11 +20,15 @@ namespace Z0
 
             public FieldKind Kind;
 
-            public ushort Width;
+            public ushort FieldWidth;
+
+            public ushort DataWidth;
+
+            public ushort TotalSize;
 
             public Identifier Type;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,24,8,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,24,12,12,12,1};
         }
     }
 }

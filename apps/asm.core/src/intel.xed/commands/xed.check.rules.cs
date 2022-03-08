@@ -9,6 +9,14 @@ namespace Z0
 
     partial class XedCmdProvider
     {
+        [CmdOp("xed/check/disasm")]
+        Outcome CheckDisasm(CmdArgs args)
+        {
+            //var flags = XedRules.flags(rules);
+
+            return true;
+        }
+
         [CmdOp("xed/check/rules")]
         Outcome CheckRuleSpecs(CmdArgs args)
         {

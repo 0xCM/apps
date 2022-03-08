@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using A = AsciBlock32;
@@ -21,6 +16,7 @@ namespace Z0
     /// Defines 32 bytes of storage
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1)]
+    [DataWidth(Size*8,Size*8)]
     public struct AsciBlock32 : IAsciBlock<A>
     {
         public const ushort Size = 32;

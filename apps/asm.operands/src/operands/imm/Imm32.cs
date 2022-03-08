@@ -11,6 +11,7 @@ namespace Z0.Asm
     /// Defines a 32-bit immediate value
     /// </summary>
     [DataType(TypeSyntax.Imm32)]
+    [DataWidth(Width,Width)]
     public readonly struct imm32 : IImm<I,uint>
     {
         public const byte Width = 32;

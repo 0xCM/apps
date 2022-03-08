@@ -8,11 +8,14 @@ namespace Z0
 
     using api = FixedChars;
 
+    [DataWidth(Size*8,Size*8)]
     public struct text47 : ISizedString<text47>
     {
         public const byte MaxLength = 47;
 
         public const byte PointSize = 1;
+
+        public const uint Size = 48;
 
         static N47 N => default;
 

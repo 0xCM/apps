@@ -5,13 +5,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using K = XedRules.FieldKind;
+    using Asm;
 
-    using static XedRules;
+    using static core;
     using static XedModels;
+    using static XedRules;
 
     partial class XedDisasmSvc
     {
-
+        static DisasmOps CalcDisasmOps(in RuleState state, in AsmHexCode code)
+        {
+            var dst = dict<RuleOpName,DisasmOp>();
+            iter(XedRules.ops(state, code).Values, o => dst.TryAdd(o.Name, new DisasmOp(o.Name, o.Value)));
+            return dst;
+        }
     }
 }

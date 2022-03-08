@@ -10,6 +10,7 @@ namespace Z0
     using S = System.UInt16;
     using W = W16;
 
+    [StructLayout(LayoutKind.Sequential, Size=2)]
     public struct Bitfield16<T>
         where T : unmanaged
     {
@@ -55,6 +56,15 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => bytes(_State);
+        }
+
+        public bit this[byte pos]
+        {
+            [MethodImpl(Inline)]
+            get => bits.test(_State, pos);
+
+            [MethodImpl(Inline)]
+            set => bits.set(_State, pos, value);
         }
 
         public T this[byte min, byte max]
