@@ -31,7 +31,7 @@ namespace Z0
 
         readonly EnumParser<EncodingGroup> EncodingGroups = new();
 
-        readonly EnumParser<TextPropKind> TextProps = new();
+        readonly EnumParser<RuleOpModKind> TextProps = new();
 
         readonly EnumParser<FieldKind> FieldKinds = new();
 
@@ -40,6 +40,13 @@ namespace Z0
 
 
         }
+
+
+        public bool Num8(string src, out byte dst)
+            => NumericParser.num8(src, out dst);
+
+        public bool Parse(string src, out byte dst)
+            => Num8(src, out dst);
 
         public bool Parse(string src, out FieldKind dst)
             => FieldKinds.Parse(src, out dst);
@@ -102,13 +109,13 @@ namespace Z0
         public bool Parse(string src, out EncodingGroup dst)
             => EncodingGroups.Parse(src, out dst);
 
-        public bool Group(string src, out EncodingGroup dst)
+        public bool EncodingGroup(string src, out EncodingGroup dst)
             => EncodingGroups.Parse(src, out dst);
 
-        public bool Parse(string src, out TextPropKind dst)
+        public bool Parse(string src, out RuleOpModKind dst)
             => TextProps.Parse(src, out dst);
 
-        public bool TextProp(string src, out TextPropKind dst)
+        public bool TextProp(string src, out RuleOpModKind dst)
             => TextProps.Parse(src, out dst);
     }
 }

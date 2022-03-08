@@ -23,12 +23,12 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(UInt8x16x32k)]
         public static Bitfield8<T> lo<T>(Bitfield16<T> src)
             where T : unmanaged
-                => create(w8, to<T>((byte)src.State));
+                => create(w8, to<T>((byte)src.State16u));
 
         [MethodImpl(Inline), Op, Closures(UInt8x16x32k)]
         public static Bitfield16<T> lo<T>(Bitfield32<T> src)
             where T : unmanaged
-                => create(w16, to<T>((ushort)src.State));
+                => create(w16, to<T>((ushort)src.State32u));
 
         [MethodImpl(Inline), Op, Closures(UInt8x16x32k)]
         public static Bitfield32<T> lo<T>(Bitfield64<T> src)

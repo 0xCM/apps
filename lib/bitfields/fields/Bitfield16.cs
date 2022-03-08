@@ -22,18 +22,10 @@ namespace Z0
         public Bitfield16(S state)
             => _State = state;
 
-        [MethodImpl(Inline)]
-        public S Extract(byte min, byte max)
-            => bits.extract(_State, min, max);
-
-        [MethodImpl(Inline)]
-        public void Store(S src, byte min, byte max)
-            => bits.store(src, min, max, ref _State);
-
-        public ReadOnlySpan<byte> Bytes
+        public readonly S State
         {
             [MethodImpl(Inline)]
-            get => bytes(_State);
+            get => _State;
         }
 
         public Bitfield8 Lo
@@ -48,6 +40,38 @@ namespace Z0
             get => api.hi(this);
         }
 
+        public ReadOnlySpan<byte> Bytes
+        {
+            [MethodImpl(Inline)]
+            get => bytes(_State);
+        }
+
+        public S this[byte min, byte max]
+        {
+            [MethodImpl(Inline)]
+            get => Extract(min, max);
+
+            [MethodImpl(Inline)]
+            set => Store(value, min, max);
+        }
+
+        [MethodImpl(Inline)]
+        public readonly S Extract(byte min, byte max)
+            => bits.extract(_State, min, max);
+
+        [MethodImpl(Inline)]
+        public void Store(S src, byte min, byte max)
+            => bits.store(src, min, max, ref _State);
+
+        [MethodImpl(Inline)]
+        public readonly V Extract<V>(byte min, byte max)
+            => @as<S,V>(Extract(min,max));
+
+        [MethodImpl(Inline)]
+        public void Store<V>(V src, byte min, byte max)
+            => Store(@as<V,S>(src),min,max);
+
+
         public override string ToString()
             => Format();
 
@@ -57,12 +81,6 @@ namespace Z0
         [MethodImpl(Inline)]
         internal void Overwrite(S src)
             => _State = src;
-
-        internal S State
-        {
-            [MethodImpl(Inline)]
-            get => _State;
-        }
 
         [MethodImpl(Inline)]
         public static implicit operator S(Bitfield16 src)

@@ -22,8 +22,8 @@ namespace Z0
             var xedsvc = this;
             iter(files, file => {
 
-                var blocks = XedDisasmOps.LoadFileBlocks(file);
-                result = XedDisasmOps.ParseSummaries(context, file, out var doc);
+                var blocks = XedDisasm.LoadFileBlocks(file);
+                result = XedDisasm.ParseSummaries(context, file, out var doc);
                 docs.Add(doc);
                 var rows = doc.View;
                 Require.equal((uint)rows.Length, blocks.LineBlocks.Count);

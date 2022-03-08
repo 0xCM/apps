@@ -4,16 +4,35 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static core;
+    using static XedModels;
     using static XedRules;
 
-    partial class XedDisasmSvc
+    partial class XedDisasm
     {
-        static Outcome ParseOpInfo(string src, out DisasmOpInfo dst)
+        // OpSpec                                      | Opval
+        // MEM0/R/SPW/SUPPRESSED/IMM_CONST/1           | MEM0:ptr [RSP]
+        // MEM0/R/VV/EXPLICIT/IMM_CONST/1              | MEM0:ptr [RDX]
+
+        // REG0/W/V/EXPLICIT/NT_LOOKUP_FN/GPRV_B
+        // REG0/W/V/EXPLICIT/NT_LOOKUP_FN/GPRV_B
+        // REG0/R/SPW/SUPPRESSED/REG/STACKPOP
+        // REG1/W/Y/SUPPRESSED/NT_LOOKUP_FN/RIP        |
+
+        // REG0/W/MSKW/EXPLICIT/NT_LOOKUP_FN/MASK_R    | REG0:K0
+        // REG1/R/MSKW/EXPLICIT/NT_LOOKUP_FN/MASK1     | REG1:K0
+        // REG2/R/QQ/EXPLICIT/NT_LOOKUP_FN/YMM_N3      | REG2:YMM0
+
+        // IMM0/R/B/EXPLICIT/IMM_CONST/1               | IMM0:0x4
+
+        public static Outcome opinfo(string src, out DisasmOpInfo dst)
         {
             dst = default;
             if(text.length(src) < 3)
                 return (false,RP.Empty);
+
             var result = Outcome.Success;
             var data = span(src);
 
@@ -44,15 +63,28 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            result = DataParser.eparse(skip(parts,i++), out dst.Lookup);
+            result = DataParser.eparse(skip(parts,i++), out dst.LookupKind);
             if(result.Fail)
                 return result;
 
-            result = DataParser.parse(skip(parts,i++), out dst.Prop2);
-            if(result.Fail)
-                return result;
+            result = parse(skip(parts,i++), out dst.Selector);
 
             return result;
+        }
+
+        public static bool parse(string src, out ValueSelector dst)
+        {
+            if(Parsers.EncodingGroup(src, out var g))
+                dst = g;
+            else if(Parsers.Nonterm(src, out var nt))
+                dst = nt;
+            else if(Parsers.Num8(src, out var num8))
+                dst = num8;
+            else if(Parsers.RegLiteral(src, out var reg))
+                dst = reg;
+            else
+                dst = ValueSelector.Empty;
+            return dst.IsNonEmpty;
         }
     }
 }

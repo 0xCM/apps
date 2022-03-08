@@ -5,14 +5,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
+    using static XedModels;
+
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
-        public static MachineRequest request(RequestKind kind, RulePatternInfo rule, params RuleOp[] ops)
-            => new MachineRequest(kind, XedRules.rule(rule, ops));
-
-        [MethodImpl(Inline), Op]
-        public static MachineRequest request(RequestKind kind, RuleDef rule)
-            => new MachineRequest(kind, rule);
+        public static RulePattern pattern(uint seq, IClass @class, OpCodeKind kind, AsmOcValue value, params RuleToken[] tokens)
+            => new RulePattern(seq,@class, kind, ocvalue(tokens), tokens);
     }
 }

@@ -4,27 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
 
     using static XedRules;
 
     partial struct XedModels
     {
-        public struct DisasmOp
+        public readonly struct DisasmOp
         {
-            public RuleOpName Name;
+            public readonly RuleOpName Name;
 
-            public object Value;
-
-            [MethodImpl(Inline)]
-            public DisasmOp(RuleOpName name, text31 value)
-            {
-                Name = name;
-                Value = value;
-            }
+            public readonly object Value;
 
             [MethodImpl(Inline)]
-            public DisasmOp(RuleOpName name, Disp value)
+            public DisasmOp(RuleOpName name, object value)
             {
                 Name = name;
                 Value = value;
@@ -36,7 +28,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static DisasmOp Empty => new DisasmOp(RuleOpName.None, Disp.Empty);
+            public static DisasmOp Empty => new DisasmOp(RuleOpName.None, z8);
         }
     }
 }

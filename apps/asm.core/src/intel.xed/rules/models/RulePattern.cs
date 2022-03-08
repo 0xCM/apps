@@ -9,13 +9,8 @@ namespace Z0
 
     using static XedModels;
 
-
     partial class XedRules
     {
-        [MethodImpl(Inline), Op]
-        public static RulePattern pattern(uint seq, IClass @class, OpCodeKind kind, AsmOcValue value, params RuleToken[] tokens)
-            => new RulePattern(seq,@class, kind, ocvalue(tokens), tokens);
-
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public readonly struct RulePattern
         {

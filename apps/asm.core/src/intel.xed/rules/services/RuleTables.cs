@@ -41,9 +41,9 @@ namespace Z0
                     => new RuleCriterion(src.IsPremise, src.Field, src.Operator, type, core.u64(src.Value));
 
             [Op]
-            public static bool criterion(bool premise, FieldKind field, RuleOperator op, string value, out RuleCriterion dst)
+            public static Outcome criterion(bool premise, FieldKind field, RuleOperator op, string value, out RuleCriterion dst)
             {
-                var result = false;
+                var result = Outcome.Success;
                 var dk = datakind(field);
                 var dt = datatype(dk);
                 dst = default;
@@ -261,8 +261,8 @@ namespace Z0
                     case UIMM1:
                     case UIMM0:
                     {
-                        dst = criterion(premise, field, op, ImmFieldSpec.parse(value));
-                        result = true;
+                        result = RuleParser.immfield(value, out var x);
+                        dst = criterion(premise, field, op, x);
                     }
                     break;
 

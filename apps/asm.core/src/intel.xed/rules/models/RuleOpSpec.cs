@@ -17,7 +17,7 @@ namespace Z0
 
             public Index<string> Properties;
 
-            public Index<OperandAttrib> Attributes;
+            public Index<RuleOpAttrib> Attributes;
 
             public @string Expression;
 

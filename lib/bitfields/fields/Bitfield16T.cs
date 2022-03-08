@@ -27,47 +27,70 @@ namespace Z0
         public Bitfield16(S state)
             => _State = state;
 
+        public readonly T State
+        {
+            [MethodImpl(Inline)]
+            get => @as<uint,T>(_State);
+        }
+
+        internal readonly S State16u
+        {
+            [MethodImpl(Inline)]
+            get => _State;
+        }
+
+        public readonly Bitfield8<T> Lo
+        {
+            [MethodImpl(Inline)]
+            get => api.lo(this);
+        }
+
+        public readonly Bitfield8<T> Hi
+        {
+            [MethodImpl(Inline)]
+            get => api.hi(this);
+        }
+
+        public readonly ReadOnlySpan<byte> Bytes
+        {
+            [MethodImpl(Inline)]
+            get => bytes(_State);
+        }
+
+        public T this[byte min, byte max]
+        {
+            [MethodImpl(Inline)]
+            get => Extract(min, max);
+
+            [MethodImpl(Inline)]
+            set => Store(value, min, max);
+        }
+
+        public override string ToString()
+            => Format();
+
+        public readonly string Format()
+            => api.format(this);
+
         [MethodImpl(Inline)]
-        public T Extract(byte offset, byte width)
+        public readonly T Extract(byte offset, byte width)
             => api.extract(this, offset, width);
 
         [MethodImpl(Inline)]
         public void Store(T src, byte min, byte max)
             => bits.store(u16(src), min, max, ref _State);
 
-        public Bitfield8<T> Lo
-        {
-            [MethodImpl(Inline)]
-            get => api.lo(this);
-        }
+        [MethodImpl(Inline)]
+        public readonly V Extract<V>(byte min, byte max)
+            => @as<T,V>(Extract(min,max));
 
-        public Bitfield8<T> Hi
-        {
-            [MethodImpl(Inline)]
-            get => api.hi(this);
-        }
-
-        public ReadOnlySpan<byte> Bytes
-        {
-            [MethodImpl(Inline)]
-            get => bytes(_State);
-        }
-
-        public override string ToString()
-            => Format();
-
-        public string Format()
-            => api.format(this);
+        [MethodImpl(Inline)]
+        public void Store<V>(V src, byte min, byte max)
+            => Store(@as<V,T>(src),min,max);
 
         [MethodImpl(Inline)]
         internal void Overwrite(S src)
             => _State = src;
-
-        internal S State
-        {
-            [MethodImpl(Inline)]
-            get => _State;
-        }
 
         [MethodImpl(Inline)]
         public static implicit operator Bitfield16<T>(T src)
@@ -78,12 +101,16 @@ namespace Z0
             => new Bitfield16<T>(src);
 
         [MethodImpl(Inline)]
+        public static implicit operator T(Bitfield16<T> src)
+            => src.State;
+
+        [MethodImpl(Inline)]
         public static explicit operator S(Bitfield16<T> src)
-            => src._State;
+            => src.State16u;
 
         [MethodImpl(Inline)]
         public static implicit operator Bitfield16(Bitfield16<T> src)
-            => api.create(w, src.State);
+            => api.create(w, src.State16u);
 
     }
 }

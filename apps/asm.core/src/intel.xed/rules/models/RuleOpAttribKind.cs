@@ -5,19 +5,37 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    partial class XedRules
     {
-        public enum TextPropKind : byte
+        public enum RuleOpAttribKind : byte
         {
             None,
 
-            ZEROSTR,
+            Common,
 
-            ROUNDC,
+            Action,
 
-            SAE,
+            OpWidth,
 
-            BCASTSTR,
+            PtrWidth,
+
+            Nonterminal,
+
+            RegLiteral,
+
+            Scale,
+
+            RegResolver,
+
+            DataType,
+
+            Visibility,
+
+            Macro,
+
+            EncodingGroup,
+
+            Modifier,
         }
     }
 }

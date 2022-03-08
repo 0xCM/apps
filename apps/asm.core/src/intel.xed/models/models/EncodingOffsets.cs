@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [StructLayout(LayoutKind.Sequential,Pack=1)]
     public struct EncodingOffsets
     {
         public static EncodingOffsets init()
@@ -29,21 +30,7 @@ namespace Z0
         public sbyte Disp;
 
         public string Format()
-        {
-            var dst = text.buffer();
-            dst.Append(Chars.LBrace);
-            dst.AppendFormat("{0}={1}", "opcode", OpCode);
-            if(ModRm > 0)
-                dst.AppendFormat(", {0}={1}", "modrm", ModRm);
-            if(Sib > 0)
-                dst.AppendFormat(", {0}={1}", "sib",  Sib);
-            if(Disp > 0)
-                dst.AppendFormat(", {0}={1}", "disp", Disp);
-            if(Imm0 > 0)
-                dst.AppendFormat(", {0}={1}", "imm0", Imm0);
-            dst.Append(Chars.RBrace);
-            return dst.Emit();
-        }
+            => XedFormatters.format(this);
 
         public override string ToString()
             => Format();

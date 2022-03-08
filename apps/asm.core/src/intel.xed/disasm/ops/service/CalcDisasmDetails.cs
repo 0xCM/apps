@@ -17,7 +17,7 @@ namespace Z0
         {
             var blocks = src.LineBlocks;
             var count = blocks.Count;
-            var result = XedDisasmOps.ParseSummaries(context, src.Source, out var summaries);
+            var result = XedDisasm.ParseSummaries(context, src.Source, out var summaries);
             if(result.Fail)
                 return result;
 
@@ -42,24 +42,24 @@ namespace Z0
             return result;
         }
 
-        static DisasmOps CalcDisasmOps(RuleMachine machine, in AsmHexCode code, in DisasmState state)
+        static DisasmOps CalcDisasmOps(in RuleState state, in AsmHexCode code)
         {
-            ref readonly var rules = ref state.RuleState;
-
-            var ops = list<DisasmOp>();
-            var dst = map(ops, o => (o.Name, o)).ToDictionary();
-            iter(machine.RuleOps(code).Values, o => dst.TryAdd(o.Name, convert(o)));
+            var dst = dict<RuleOpName,DisasmOp>();
+            iter(XedRules.ops(state, code).Values, o => dst.TryAdd(o.Name, convert(o)));
             return dst;
         }
+
+        // static DisasmOps CalcDisasmOps(RuleMachine machine, in AsmHexCode code, in DisasmState state)
+        // {
+        //     ref readonly var rules = ref state.RuleState;
+        //     var dst = dict<RuleOpName,DisasmOp>();
+        //     iter(XedRules.ops(rules, code).Values, o => dst.TryAdd(o.Name, convert(o)));
+        //     return dst;
+        // }
 
         [MethodImpl(Inline)]
         static DisasmOp convert(RuleOp src)
-        {
-            var dst =default(DisasmOp);
-            dst.Name = src.Name;
-            dst.Value = src.Value;
-            return dst;
-        }
+            => new DisasmOp(src.Name, src.Value);
 
         Outcome CalcDisasmDetail(in DisasmLineBlock block, in AsmDisasmSummary summary, out DisasmDetail dst)
         {
@@ -88,8 +88,7 @@ namespace Z0
             parser.ParseState(inst.Props.Edit, out var state);
             ref readonly var rules = ref state.RuleState;
             var machine = RuleMachine.create(rules);
-
-            dst.Offsets = machine.Offsets();
+            dst.Offsets = XedRules.offsets(rules);
             dst.OpCode = rules.NOMINAL_OPCODE;
             dst.OpDetails = alloc<DisasmOpDetail>(block.OperandCount);
 
@@ -100,18 +99,17 @@ namespace Z0
             if(rules.NOMINAL_OPCODE != code[ocpos])
                 return (false, string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", rules.NOMINAL_OPCODE, rules.MODRM_BYTE));
 
-            var ops = CalcDisasmOps(machine, code, state);
+            var ops = CalcDisasmOps(rules, code);
             var opcount = block.OperandCount;
             for(var k=0; k<opcount; k++)
             {
                 ref var detail = ref dst.OpDetails[k];
                 ref readonly var opsrc = ref skip(block.Operands, k);
-                result = ParseOpInfo(opsrc.Content, out var info);
+                result = XedDisasm.opinfo(opsrc.Content, out detail.OpInfo);
                 if(result.Fail)
                     break;
 
-                detail.OpInfo = info;
-
+                var info = detail.OpInfo;
                 var title = string.Format("Op{0}", k);
                 var winfo = OperandWidth(info.WidthType);
                 detail.OpWidth = winfo;
@@ -128,7 +126,16 @@ namespace Z0
                     detail.RuleDescription = optxt;
                 }
 
-                detail.DefDescription = string.Format(DisasmOpDetails.RenderPattern, title, opname, optxt, info.Action, info.Visiblity, width, indicator, info.Prop2);
+                detail.DefDescription = string.Format(DisasmOpDetails.RenderPattern,
+                    title,
+                    opname,
+                    optxt,
+                    info.Action,
+                    info.Visiblity,
+                    width,
+                    indicator,
+                    info.Selector
+                    );
             }
 
             if(ops.TryGetValue(RuleOpName.DISP, out var disp))
@@ -208,8 +215,7 @@ namespace Z0
 
             dst.EASZ = Sizes.native(width((EASZ)rules.EASZ));
             dst.EOSZ = Sizes.native(width((EOSZ)rules.EOSZ));
-
-            var flags = machine.Flags().Delimit();
+            var flags = XedRules.flags(rules);
             return result;
         }
 

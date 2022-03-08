@@ -18,7 +18,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 var file = context.FileRef(src[i]);
-                var result = XedDisasmOps.ParseSummaries(context, file, out var summaries);
+                var result = XedDisasm.ParseSummaries(context, file, out var summaries);
 
                 if(result)
                 {

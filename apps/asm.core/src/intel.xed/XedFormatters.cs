@@ -11,11 +11,98 @@ namespace Z0
     using static core;
 
     using TK = XedRules.RuleTokenKind;
+    using K = XedRules.RuleOpAttribKind;
 
     public class XedFormatters
     {
         public static XedFormatters create()
             => new XedFormatters();
+
+        public static string format(RuleOpAttrib src)
+        {
+            var dst = EmptyString;
+            switch(src.Kind)
+            {
+                case K.Action:
+                    dst = format(src.AsAction());
+                break;
+                case K.OpWidth:
+                    dst = format(src.AsOpWidth());
+                break;
+
+                case K.PtrWidth:
+                    dst = format(src.AsPtrWidth());
+                break;
+
+                case K.DataType:
+                    dst = format(src.AsElementType());
+                break;
+
+                case K.EncodingGroup:
+                    dst = format(src.AsEncodingGroup());
+                break;
+
+                case K.Common:
+                    dst = format(src.AsCommon());
+                break;
+
+                case K.Modifier:
+                    dst = format(src.AsModifier());
+                break;
+
+                case K.Nonterminal:
+                    dst = Nonterminals[src.AsNonTerm()].Expr.Text;
+                break;
+
+                case K.Visibility:
+                    dst = format(src.AsVisiblity());
+                break;
+
+                case K.RegLiteral:
+                    dst = src.AsRegLiteral().ToString();
+                break;
+
+                case K.Scale:
+                    dst = src.AsScale().Format();
+                break;
+
+                case K.RegResolver:
+                    dst = src.AsRegResolver().Format();
+                break;
+
+                case K.Macro:
+                    dst = src.AsMacro().ToString();
+                break;
+
+            }
+            return dst;
+        }
+
+        public static string format(ValueSelector src)
+        {
+            var dst = EmptyString;
+            switch(src.Kind)
+            {
+                case ValueSelectorKind.EncodingGroup:
+                    dst = format((EncodingGroup)src.Spec);
+                break;
+                case ValueSelectorKind.Nonterminal:
+                    dst = format((NonterminalKind)src.Spec);
+                break;
+                case ValueSelectorKind.RegLiteral:
+                    dst = format((XedRegId)src.Spec);
+                break;
+                case ValueSelectorKind.Literal:
+                    dst = src.Spec.ToString();
+                break;
+            }
+            return dst;
+        }
+
+        public static string format(RuleOpModifier src)
+        {
+            return src.Kind.ToString();
+        }
 
         public static string format(in RuleToken src, bool showkind)
         {
@@ -71,6 +158,23 @@ namespace Z0
             return dst.Emit();
         }
 
+        public static string format(in EncodingOffsets src)
+        {
+            var dst = text.buffer();
+            dst.Append(Chars.LBrace);
+            dst.AppendFormat("{0}={1}", "opcode", src.OpCode);
+            if(src.ModRm > 0)
+                dst.AppendFormat(", {0}={1}", "modrm", src.ModRm);
+            if(src.Sib > 0)
+                dst.AppendFormat(", {0}={1}", "sib",  src.Sib);
+            if(src.Disp > 0)
+                dst.AppendFormat(", {0}={1}", "disp", src.Disp);
+            if(src.Imm0 > 0)
+                dst.AppendFormat(", {0}={1}", "imm0", src.Imm0);
+            dst.Append(Chars.RBrace);
+            return dst.Emit();
+        }
+
         public static string format(in RuleToken src)
             => format(src, false);
 
@@ -99,7 +203,7 @@ namespace Z0
             => ConstraintKinds[src].Expr.Text;
 
         [MethodImpl(Inline), Op]
-        public static string format(TextPropKind src)
+        public static string format(RuleOpModKind src)
             => TextProps[src].Expr.Text;
 
         [MethodImpl(Inline), Op]
@@ -240,7 +344,7 @@ namespace Z0
 
         static Symbols<EncodingGroup> EncodingGroups;
 
-        static Symbols<TextPropKind> TextProps;
+        static Symbols<RuleOpModKind> TextProps;
 
         static XedFormatters()
         {
@@ -263,7 +367,7 @@ namespace Z0
             ElementTypes = Symbols.index<ElementKind>();
             EncodingGroups = Symbols.index<EncodingGroup>();
             AttribKinds = Symbols.index<AttributeKind>();
-            TextProps = Symbols.index<TextPropKind>();
+            TextProps = Symbols.index<RuleOpModKind>();
        }
     }
 }

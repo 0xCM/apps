@@ -20,7 +20,9 @@ namespace Z0
 
         public const byte Encoded = 48;
 
-        public const byte AsmExpr = 48;
+        public const byte AsmExpr = 72;
+
+        public const byte IForm = 62;
 
         public const byte AsmSyntax = 120;
 

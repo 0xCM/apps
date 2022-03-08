@@ -27,32 +27,54 @@ namespace Z0
         public Bitfield8(S state)
             => _State = state;
 
-        [MethodImpl(Inline)]
-        public T Extract(byte offset, byte width)
-            => api.extract(this, offset, width);
+        public readonly T State
+        {
+            [MethodImpl(Inline)]
+            get => @as<uint,T>(_State);
+        }
 
-        [MethodImpl(Inline)]
-        public void Store(T src, byte min, byte max)
-            => bits.store(u8(src), min, max, ref _State);
-
-        public ReadOnlySpan<byte> Bytes
+        public readonly ReadOnlySpan<byte> Bytes
         {
             [MethodImpl(Inline)]
             get => bytes(_State);
         }
 
-
-        public override string ToString()
-            => Format();
-
-        public string Format()
-            => api.format(this);
-
-        internal S State
+        internal S State8u
         {
             [MethodImpl(Inline)]
             get => _State;
         }
+
+        public T this[byte min, byte max]
+        {
+            [MethodImpl(Inline)]
+            get => Extract(min, max);
+
+            [MethodImpl(Inline)]
+            set => Store(value, min, max);
+        }
+
+        [MethodImpl(Inline)]
+        public readonly T Extract(byte min, byte max)
+            => api.extract(this, min, max);
+
+        [MethodImpl(Inline)]
+        public void Store(T src, byte min, byte max)
+            => bits.store(u8(src), min, max, ref _State);
+
+        [MethodImpl(Inline)]
+        public readonly V Extract<V>(byte min, byte max)
+            => @as<T,V>(Extract(min,max));
+
+        [MethodImpl(Inline)]
+        public void Store<V>(V src, byte min, byte max)
+            => Store(@as<V,T>(src),min,max);
+
+        public readonly string Format()
+            => api.format(this);
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         internal void Overwrite(S src)
@@ -68,10 +90,14 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static explicit operator S(Bitfield8<T> src)
-            => src._State;
+            => src.State8u;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(Bitfield8<T> src)
+            => src.State;
 
         [MethodImpl(Inline)]
         public static implicit operator Bitfield8(Bitfield8<T> src)
-            => new Bitfield8(src.State);
+            => new Bitfield8(src.State8u);
     }
 }

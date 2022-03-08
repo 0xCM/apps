@@ -10,55 +10,6 @@ namespace Z0
 
     partial class XedRules
     {
-        // Index<RuleOpSpec> CalcOpSpecs(string src)
-        // {
-        //     var result = Outcome.Success;
-        //     var buffer = list<RuleOpSpec>();
-        //     var input = text.despace(src);
-        //     var i = text.index(input,Chars.Hash);
-        //     if(i > 0)
-        //         input = text.left(input,i);
-
-        //     if(empty(input))
-        //         return sys.empty<RuleOpSpec>();
-
-        //     try
-        //     {
-        //         if(input.Contains(Chars.Space))
-        //         {
-        //             var opssrc = text.split(input, Chars.Space);
-        //             var count = opssrc.Length;
-        //             for(var j=0; j<count; j++)
-        //             {
-        //                 ref readonly var x = ref skip(opssrc,j);
-        //                 try
-        //                 {
-        //                     var parsed = OpParser.ParseOp(x);
-        //                     if(parsed.IsNonEmpty)
-        //                         buffer.Add(parsed);
-        //                 }
-        //                 catch(Exception e)
-        //                 {
-        //                     Warn(e.Message);
-        //                     break;
-        //                 }
-        //             }
-        //         }
-        //         else
-        //         {
-        //             var parsed = OpParser.ParseOp(input);
-        //             if(parsed.IsNonEmpty)
-        //                 buffer.Add(parsed);
-        //         }
-        //     }
-        //     catch(Exception e)
-        //     {
-        //         Warn(e.Message);
-        //     }
-
-        //     return buffer.ToArray();
-        // }
-
         Outcome ParseOperand(RuleOpName name, string[] attribs, out RuleOpSpec dst)
         {
             var result = Outcome.Success;

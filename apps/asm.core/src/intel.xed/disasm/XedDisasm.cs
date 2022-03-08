@@ -8,12 +8,20 @@ namespace Z0
 
     using static core;
     using static XedModels;
+    using static XedRules;
 
-    public readonly struct XedDisasmOps
+    public partial class XedDisasm
     {
         const string XDIS = "XDIS ";
 
         const string YDIS = "YDIS:";
+
+        const NumericKind Closure = UnsignedInts;
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static DisasmOp<T> operand<T>(RuleOpName name, T value)
+            where T : unmanaged
+                => new DisasmOp<T>(name,value);
 
         public static Outcome ParseSummaries(WsContext context, in FileRef src, out AsmDisasmSummaryDoc dst)
         {
@@ -188,5 +196,9 @@ namespace Z0
 
             return result;
         }
+
+
+        static XedParsers Parsers = XedParsers.create();
+
     }
 }

@@ -7,37 +7,17 @@ namespace Z0
 {
     partial class XedRules
     {
-        public enum OperandAttribKind : byte
+        public enum RuleOpModKind : byte
         {
             None,
 
-            Common,
+            ZEROSTR,
 
-            Action,
+            ROUNDC,
 
-            OpWidth,
+            SAE,
 
-            PtrWidth,
-
-            Nonterminal,
-
-            RegLiteral,
-
-            Scale,
-
-            RegResolver,
-
-            DataType,
-
-            Visibility,
-
-            Macro,
-
-            EncodingGroup,
-
-            TextProp,
-
-
+            BCASTSTR,
         }
     }
 }

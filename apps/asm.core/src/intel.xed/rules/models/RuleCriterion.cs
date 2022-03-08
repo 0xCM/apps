@@ -36,6 +36,18 @@ namespace Z0
                 get => Field == FieldKind.ERROR;
             }
 
+            public bool IsAssignment
+            {
+                [MethodImpl(Inline)]
+                get => Operator == RuleOperator.Assign;
+            }
+
+            public bool IsComparison
+            {
+                [MethodImpl(Inline)]
+                get => Operator == RuleOperator.CmpNeq || Operator == RuleOperator.CmpEq;
+            }
+
             public bool IsOutReg
             {
                 [MethodImpl(Inline)]

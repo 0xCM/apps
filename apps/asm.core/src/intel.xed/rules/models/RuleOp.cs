@@ -6,15 +6,22 @@ namespace Z0
 {
     using Asm;
 
-    using static XedRules;
+    using static XedModels;
 
-    partial struct XedModels
+    partial class XedRules
     {
         public struct RuleOp
         {
             public RuleOpName Name;
 
             public object Value;
+
+            [MethodImpl(Inline)]
+            public RuleOp(RuleOpName name, object value)
+            {
+                Name = name;
+                Value = value;
+            }
 
             [MethodImpl(Inline)]
             public RuleOp(RuleOpName name, byte value)

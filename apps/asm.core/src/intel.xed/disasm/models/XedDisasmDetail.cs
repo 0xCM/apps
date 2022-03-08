@@ -104,8 +104,8 @@ namespace Z0
                 ColWidths.EASZ,
                 ColWidths.EOSZ,
                 ColWidths.AsmExpr,
-                54,
-                42,
+                ColWidths.IForm,
+                ColWidths.OriginName,
                 48,
                 1};
 

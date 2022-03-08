@@ -22,9 +22,9 @@ namespace Z0
 
             public OperandWidthKind WidthType;
 
-            public string Prop2;
+            public LookupKind LookupKind;
 
-            public LookupKind Lookup;
+            public ValueSelector Selector;
         }
     }
 }

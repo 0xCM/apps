@@ -137,7 +137,7 @@ namespace Z0
                         dst.Expression = expr;
                         dst.Name = name;
                         dst.Properties = props;
-                        dst.Attributes = sys.empty<OperandAttrib>();
+                        dst.Attributes = sys.empty<RuleOpAttrib>();
                     }
                     break;
 
@@ -181,7 +181,7 @@ namespace Z0
                             dst.Name = name;
                             dst.Kind = K.Macro;
                             dst.Properties = props;
-                            dst.Attributes = new OperandAttrib[]{macro.Name};
+                            dst.Attributes = new RuleOpAttrib[]{macro.Name};
                             dst.Expression = expr;
                         }
                     }
@@ -197,7 +197,7 @@ namespace Z0
                 dst.Name = name;
                 dst.Properties = props;
                 dst.Expression = expr;
-                Span<OperandAttrib> buffer = stackalloc OperandAttrib[4];
+                Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[4];
                 var i=0;
 
                 if(count >= 1)
@@ -221,7 +221,7 @@ namespace Z0
                 dst.Name = name;
                 dst.Properties = props;
                 dst.Expression = expr;
-                Span<OperandAttrib> buffer = stackalloc OperandAttrib[4];
+                Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[4];
                 var i=0;
                 if(count >= 1)
                 {
@@ -244,7 +244,7 @@ namespace Z0
                 dst.Name = name;
                 dst.Properties = props;
                 dst.Expression = expr;
-                Span<OperandAttrib> buffer = stackalloc OperandAttrib[4];
+                Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[4];
                 var i=0;
 
                 if(count >= 1)
@@ -274,7 +274,7 @@ namespace Z0
                 dst.Properties = props;
                 dst.Expression = expr;
 
-                Span<OperandAttrib> buffer = stackalloc OperandAttrib[4];
+                Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[4];
                 var i=0;
                 if(count >= 1)
                 {
@@ -305,7 +305,7 @@ namespace Z0
                 dst.Name = name;
                 dst.Properties = props;
                 dst.Expression = expr;
-                Span<OperandAttrib> buffer = stackalloc OperandAttrib[6];
+                Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[6];
                 var i=0;
 
                 if(count >= 1)
@@ -348,7 +348,7 @@ namespace Z0
                 dst.Properties = props;
                 dst.Expression = expr;
 
-                Span<OperandAttrib> buffer = stackalloc OperandAttrib[8];
+                Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[8];
                 var i=0;
                 if(count >= 1)
                 {
@@ -365,7 +365,7 @@ namespace Z0
                             seek(buffer, i++) = register;
                         else
                         {
-                            if(Parsers.Group(p0, out var group))
+                            if(Parsers.EncodingGroup(p0, out var group))
                                 seek(buffer,i++) = group;
                             else
                                 seek(buffer, i++) = RegResolvers.Instance.Create(p0);

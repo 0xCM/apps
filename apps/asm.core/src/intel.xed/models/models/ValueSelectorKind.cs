@@ -5,13 +5,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using K = XedRules.FieldKind;
-
-    using static XedRules;
-    using static XedModels;
-
-    partial class XedDisasmSvc
+    partial class XedRules
     {
+        public enum ValueSelectorKind : byte
+        {
+            None,
 
+            EncodingGroup,
+
+            Nonterminal,
+
+            Literal,
+
+            RegLiteral,
+        }
     }
 }

@@ -41,17 +41,17 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(UInt8k)]
         public static T extract<T>(Bitfield8<T> src, byte i0, byte i1)
             where T : unmanaged
-                => @as<T>(bits.slice(src.State, i0, i1));
+                => @as<T>(bits.slice(src.State8u, i0, i1));
 
         [MethodImpl(Inline), Op, Closures(UInt8x16k)]
         public static T extract<T>(Bitfield16<T> src, byte i0, byte i1)
             where T : unmanaged
-                => @as<T>(bits.slice(src.State, i0, i1));
+                => @as<T>(bits.slice(src.State16u, i0, i1));
 
         [MethodImpl(Inline), Op, Closures(UInt8x16x32k)]
         public static T extract<T>(Bitfield32<T> src, byte i0, byte i1)
             where T : unmanaged
-                => @as<T>(bits.slice(src.State, i0, i1));
+                => @as<T>(bits.slice(src.State32u, i0, i1));
 
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]
         public static T extract<T>(Bitfield64<T> src, byte i0, byte i1)
