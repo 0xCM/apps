@@ -35,6 +35,8 @@ namespace Z0
 
         readonly EnumParser<FieldKind> FieldKinds = new();
 
+        readonly EnumParser<FpuRegId> FpuRegs = new();
+
         XedParsers()
         {
 
@@ -79,10 +81,19 @@ namespace Z0
             => Nonterminals.Parse(src, out dst);
 
         public bool Parse(string src, out XedRegId dst)
-            => Regs.Parse(src, out dst);
+        {
+            var result = Regs.Parse(src, out dst);
+            if(!result)
+            {
+                result = FpuRegs.Parse(src, out var fpu);
+                if(result)
+                    dst = (XedRegId)fpu;
+            }
+            return result;
+        }
 
         public bool RegLiteral(string src, out XedRegId dst)
-            => Regs.Parse(src, out dst);
+            => Parse(src, out dst);
 
         public bool Parse(string src, out ElementKind dst)
             => ElementKinds.Parse(src, out dst);

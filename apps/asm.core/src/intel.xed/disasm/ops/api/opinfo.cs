@@ -72,8 +72,9 @@ namespace Z0
             return result;
         }
 
-        public static bool parse(string src, out ValueSelector dst)
+        public static Outcome parse(string src, out ValueSelector dst)
         {
+            var result = Outcome.Success;
             if(Parsers.EncodingGroup(src, out var g))
                 dst = g;
             else if(Parsers.Nonterm(src, out var nt))
@@ -83,8 +84,11 @@ namespace Z0
             else if(Parsers.RegLiteral(src, out var reg))
                 dst = reg;
             else
+            {
                 dst = ValueSelector.Empty;
-            return dst.IsNonEmpty;
+                result = (false,AppMsg.ParseFailure.Format(nameof(ValueSelector), src));
+            }
+            return result;
         }
     }
 }
