@@ -20,20 +20,7 @@ namespace Z0
             var context = Projects.Context(project, receiver);
             var files = context.Files(FileKind.XedRawDisasm);
             AppDb.Logs("xed").Clear();
-            for(var i=0; i<files.Count; i++)
-            {
-                ref readonly var file = ref files[i];
-                var blocks = XedDisasm.blocks(file);
-                CheckDisasm(context, blocks);
-                var details = Disasm.CalcDisasmDetails(context, file);
-                var count = details.Count;
-                for(var j=0; j < count; j++)
-                {
-                    ref readonly var detail = ref details[j];
-
-                }
-            }
-
+            iter(files, file => CheckDisasm(context, XedDisasm.blocks(file)),true);
             //var flags = XedRules.flags(rules);
 
             return true;
@@ -48,6 +35,7 @@ namespace Z0
             Require.equal(summaries.RowCount, src.Count);
             var counter = 0u;
             var state = RuleState.Empty;
+            var formatter = Tables.formatter<StateFlags>();
             using var writer = dst.AsciWriter();
             for(var i=0; i<src.Count; i++)
             {
@@ -73,8 +61,6 @@ namespace Z0
                     writer.AppendLineFormat("{0,-24} {1}", prop.Kind, prop.Format());
                     counter++;
                 }
-                writer.AppendLineFormat("{0,-24} {1}", "Flags", packed.Format());
-
 
             }
             EmittedFile(emitting,counter);

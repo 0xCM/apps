@@ -18,7 +18,7 @@ namespace Z0
         {
             var dst = 0ul;
             dst = (ulong)pack32x8x1(src);
-            dst |=(ulong)pack32x8x1(skip(src, 32)) << 32;
+            dst |=((ulong)pack32x8x1(skip(src, 32))) << 32;
             return dst;
         }
 
