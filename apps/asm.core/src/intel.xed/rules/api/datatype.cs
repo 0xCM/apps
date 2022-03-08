@@ -18,7 +18,9 @@ namespace Z0
         [Op]
         public static FieldDataType datatype(FieldDataKind kind)
         {
-            var dst = FieldDataType.Empty;
+            if(kind == K.Text)
+                return new FieldDataType(kind,0);
+
             var width = z16;
             switch(kind)
             {
@@ -81,7 +83,7 @@ namespace Z0
 
             }
 
-            return new FieldDataType(kind,width);
+            return new FieldDataType(kind, width);
         }
     }
 }

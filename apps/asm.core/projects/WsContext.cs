@@ -13,7 +13,7 @@ namespace Z0
 
         public IProjectWs Project {get;}
 
-        public FileCatalog Files {get;}
+        public FileCatalog Catalog {get;}
 
         public WsDataFlows Flows {get;}
 
@@ -22,17 +22,26 @@ namespace Z0
         WsContext(IProjectWs project, WsDataFlows flows, WsEventReceiver receiver = null)
         {
             Project = project;
-            Files = flows.FileCatalog;
+            Catalog = flows.FileCatalog;
             Flows = flows;
             Receiver = receiver ?? new();
             Receiver.Initialized(this);
         }
 
-        public FileRef FileRef(FS.FilePath path)
-            => Files[path];
+        public Index<FileRef> Files(FileKind k)
+            => Catalog.Entries(k);
 
-        public FileRef FileRef(uint docid)
-            => Files[docid];
+        public Index<FileRef> Files(FileKind k0, FileKind k1)
+            => Catalog.Entries(k0,k1);
+
+        public Index<FileRef> Files(FileKind k0, FileKind k1, FileKind k2)
+            => Catalog.Entries(k0,k1,k2);
+
+        public FileRef Ref(FS.FilePath path)
+            => Catalog[path];
+
+        public FileRef File(uint docid)
+            => Catalog[docid];
 
         public FileRef Root(in FS.FilePath dst)
         {

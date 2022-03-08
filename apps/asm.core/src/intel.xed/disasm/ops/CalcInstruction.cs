@@ -10,11 +10,11 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        Outcome CalcInstruction(in DisasmLineBlock block, out DisasmInstruction inst)
+        Outcome CalcInstruction(in DisasmLineBlock src, out DisasmInstruction dst)
         {
             var result = Outcome.Success;
-            inst = default(DisasmInstruction);
-            ref readonly var content = ref block.Instruction.Content;
+            dst = default(DisasmInstruction);
+            ref readonly var content = ref src.Instruction.Content;
             if(text.nonempty(content))
             {
                 var j = text.index(content, Chars.Space);
@@ -22,7 +22,7 @@ namespace Z0
                 {
                     var expr = text.left(content,j);
                     if(Classes.Lookup(expr, out var @class))
-                        inst.Class = @class;
+                        dst.Class = @class;
                     else
                     {
                         result = (false, AppMsg.ParseFailure.Format(nameof(IClass), content));
@@ -34,7 +34,7 @@ namespace Z0
                     {
                         expr = text.inside(content, j, k);
                         if(Forms.Lookup(expr, out var form))
-                            inst.Form = form;
+                            dst.Form = form;
                         else
                         {
                             result = (false, AppMsg.ParseFailure.Format(nameof(IFormType), expr));
@@ -42,23 +42,7 @@ namespace Z0
                         }
                     }
 
-                    var props = text.words(text.right(content,k), Chars.Comma);
-                    var kP = props.Count;
-                    inst.Props = alloc<Facet<string>>(kP);
-                    for(var m=0; m<kP; m++)
-                    {
-                        ref readonly var p = ref props[m];
-                        if(p.Contains(Chars.Colon))
-                        {
-                            var kv = text.split(p, Chars.Colon);
-                            if(kv.Length == 2)
-                                inst.Props[m] = (skip(kv,0).Trim(), skip(kv,1).Trim());
-                        }
-                        else
-                        {
-                            inst.Props[m] = (p.Trim(), EmptyString);
-                        }
-                    }
+                    dst.Props = XedDisasm.props(src);
                 }
             }
             return result;

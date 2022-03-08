@@ -15,10 +15,10 @@ namespace Z0
             public readonly FieldValue Field;
 
             [MethodImpl(Inline)]
-            public FieldCmp(FieldKind field, RuleOperator op, ulong data)
+            public FieldCmp(RuleOperator op, FieldValue value)
             {
                 Operator = op;
-                Field = (field,data);
+                Field = value;
             }
 
             public bool IsEmpty
@@ -39,7 +39,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static FieldCmp Empty => new FieldCmp(FieldKind.INVALID,0,0);
+            public static FieldCmp Empty => new FieldCmp(0,FieldValue.Empty);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Z0
             outdir.Clear();
             var result = Outcome.Success;
             var project = context.Project;
-            var files = context.Files.Entries(FileKind.Obj, FileKind.O);
+            var files = context.Catalog.Entries(FileKind.Obj, FileKind.O);
             var count = files.Count;
             for(var i=0; i<count; i++)
             {
@@ -73,7 +73,7 @@ namespace Z0
 
         public CoffObjectData LoadObjData(WsContext context)
         {
-            var files = context.Files.Entries(FileKind.Obj, FileKind.O);
+            var files = context.Catalog.Entries(FileKind.Obj, FileKind.O);
             var count = files.Count;
             var dst = dict<FS.FilePath,CoffObject>(count);
             for(var i=0; i<count; i++)
@@ -150,7 +150,7 @@ namespace Z0
                 ref readonly var header = ref view.Header;
                 var strings = view.StringTable;
                 var sections = view.SectionHeaders;
-                CalcObjHeaders(context, context.FileRef(path), buffer);
+                CalcObjHeaders(context, context.Ref(path), buffer);
             }
 
             var records = buffer.ToArray().Sort();
@@ -281,7 +281,7 @@ namespace Z0
         public Index<CoffSymRecord> CalcSymbols(WsContext context)
         {
             var buffer = list<CoffSymRecord>();
-            var files = context.Files.Entries(FileKind.Obj, FileKind.O);
+            var files = context.Catalog.Entries(FileKind.Obj, FileKind.O);
             var count = files.Count;
             var seq = 0u;
             for(var i=0; i<count; i++)
@@ -293,7 +293,7 @@ namespace Z0
         {
             var buffer = list<CoffSymRecord>();
             var src = LoadObjData(context);
-            var files = context.Files;
+            var files = context.Catalog;
             var paths = src.Paths.Array();
             var objCount = paths.Length;
             for(var i=0; i<objCount; i++)

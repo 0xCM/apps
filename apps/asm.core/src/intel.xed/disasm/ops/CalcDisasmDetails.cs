@@ -5,9 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    using static core;
     using static XedModels;
     using static XedRules;
 
@@ -20,12 +17,15 @@ namespace Z0
             return dst.ToArray().Sort();
         }
 
+        Outcome CalcDisasmDetails(WsContext context, in FileRef src, ConcurrentBag<DisasmDetail> dst)
+            => CalcDisasmDetails(context, XedDisasm.blocks(src), dst);
+
         public Index<DisasmDetail> CalcDisasmDetails(WsContext context, FS.FilePath src)
-            => CalcDisasmDetails(context,context.FileRef(src));
+            => CalcDisasmDetails(context, context.Ref(src));
 
         Outcome CalcDisasmDetails(WsContext context, in DisasmFileBlocks src, ConcurrentBag<DisasmDetail> buffer)
         {
-            var blocks = src.LineBlocks;
+            var blocks = src.Lines;
             var count = blocks.Count;
             var result = XedDisasm.ParseSummaries(context, src.Source, out var summaries);
             if(result.Fail)

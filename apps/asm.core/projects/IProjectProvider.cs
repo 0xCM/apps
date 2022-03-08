@@ -10,4 +10,9 @@ namespace Z0
 
         IProjectWs Project(ProjectId id);
     }
+
+    public interface IProjectConsumer<T>
+    {
+        T With(IProjectProvider provider);
+    }
 }

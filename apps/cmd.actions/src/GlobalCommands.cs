@@ -94,8 +94,13 @@ namespace Z0
         static ProjectCmdProvider inject(ICmdRunner src, ProjectCmdProvider dst)
             => dst.With(src);
 
-        static AsmCmdProvider inject(IProjectProvider src, AsmCmdProvider dst)
-            => dst.With(src);
+        // static AsmCmdProvider inject(IProjectProvider src, AsmCmdProvider dst)
+        //     => dst.With(src);
+
+        [MethodImpl(Inline)]
+        public static T inject<T>(IProjectProvider src, T dst)
+            where T : IProjectConsumer<T>
+                => dst.With(src);
 
         protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
         {
@@ -103,16 +108,14 @@ namespace Z0
             return array<ICmdProvider>(
                 this,
                 projects,
-                wf.XedCommands(),
+                inject(projects,wf.XedCommands()),
                 wf.ApiCommands(),
                 wf.LlvmCommands(),
                 wf.CodeGenCommands(),
                 wf.CheckCommands(),
-                inject(projects,wf.AsmCommands())
+                inject(projects, wf.AsmCommands())
                 );
         }
-
-        IntelXed Xed => Service(Wf.IntelXed);
 
         [CmdOp("asm-gen-models")]
         protected Outcome GenAsmModels(CmdArgs args)

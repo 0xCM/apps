@@ -8,14 +8,14 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static FieldAssign assign<T>(FieldKind field, T value)
+        public static FieldAssign assign<T>(FieldKind field, T fv)
             where T : unmanaged
-                => new FieldAssign(field, core.bw64(value));
+                => new FieldAssign(value(field, datatype(field),fv));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static MacroSpec assign<T>(RuleMacroKind name, FieldKind field, T value)
             where T : unmanaged
-                => new MacroSpec(name, assign(field,value));
+                => new MacroSpec(name, assign(field, value));
 
         [MethodImpl(Inline), Op]
         public static MacroSpec assign(RuleMacroKind name, params FieldAssign[] a0)

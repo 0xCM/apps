@@ -31,11 +31,15 @@ namespace Z0
 
         readonly EnumParser<EncodingGroup> EncodingGroups = new();
 
-        readonly EnumParser<RuleOpModKind> TextProps = new();
+        readonly EnumParser<RuleOpModKind> OpModKinds = new();
 
         readonly EnumParser<FieldKind> FieldKinds = new();
 
         readonly EnumParser<FpuRegId> FpuRegs = new();
+
+        readonly EnumParser<IClass> Classes = new();
+
+        readonly EnumParser<IFormType> Forms = new();
 
         XedParsers()
         {
@@ -124,9 +128,25 @@ namespace Z0
             => EncodingGroups.Parse(src, out dst);
 
         public bool Parse(string src, out RuleOpModKind dst)
-            => TextProps.Parse(src, out dst);
+            => OpModKinds.Parse(src, out dst);
 
-        public bool TextProp(string src, out RuleOpModKind dst)
-            => TextProps.Parse(src, out dst);
+        public bool OpKind(string src, out RuleOpModKind dst)
+            => OpModKinds.Parse(src, out dst);
+
+        public bool Parse(string src, out IClass dst)
+            => Classes.Parse(src, out dst);
+
+        public bool IClass(string src, out IClass dst)
+            => Classes.Parse(src, out dst);
+
+        public bool Form(string src, out IForm dst)
+        {
+            var result = Forms.Parse(src, out var type);
+            dst = type;
+            return result;
+        }
+
+        public bool Parse(string src, out IForm dst)
+            => Form(src, out dst);
     }
 }

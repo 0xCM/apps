@@ -29,8 +29,8 @@ namespace Z0
                 var dst = FieldAssign.Empty;
                 if(IsLiteral)
                 {
-                    BitNumbers.parse(Pattern.Format(), out uint5 value).Require();
-                    dst = new FieldAssign(Field, value);
+                    BitNumbers.parse(Pattern.Format(), out uint8b u8).Require();
+                    dst = new FieldAssign(value(Field, datatype(Field), (byte)u8));
                 }
                 return dst;
             }

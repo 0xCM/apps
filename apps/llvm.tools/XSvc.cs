@@ -54,10 +54,6 @@ namespace Z0
             => llvm.LlvmPaths.create(context);
 
         [Op]
-        public static ILlvmWorkspace LlvmWs(this IWfRuntime src)
-            => Z0.LlvmWs.create(src.Env.LlvmRoot);
-
-        [Op]
         public static LlvmToolset LLvmToolset(this IWfRuntime wf)
             => llvm.LlvmToolset.create(wf);
 

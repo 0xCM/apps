@@ -44,6 +44,7 @@ namespace Z0
         public static void AppendLine(this StreamWriter dst)
             => dst.WriteLine();
 
+
         [MethodImpl(Inline)]
         public static void AppendLine(this StreamWriter dst, object src)
             => dst.WriteLine(src);

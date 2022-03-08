@@ -9,7 +9,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        public static AttributeKind[] attributes(string src, char delimiter)
+        public static Index<AttributeKind> attributes(string src, char delimiter)
         {
             var parts = src.SplitClean(delimiter).ToReadOnlySpan();
             var count = parts.Length;

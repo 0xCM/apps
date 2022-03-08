@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public class AppDb : AppService<AppDb>
     {
         FS.FolderPath Root;
@@ -21,17 +19,23 @@ namespace Z0
         public FS.FolderPath Api(string scope)
             => Api() + FS.folder(scope);
 
-        public FS.FilePath ApiPath(string name, FS.FileExt ext)
-            => Api() + FS.file(name, ext);
-
         public FS.FilePath ApiPath(string name, FileKind kind)
-            => ApiPath(name, kind.Ext());
-
-        public FS.FilePath ApiPath(string scope, string name, FS.FileExt ext)
-            => Api(scope) + FS.file(name,ext);
+            => Api() + file(name,kind);
 
         public FS.FilePath ApiPath(string scope, string name, FileKind kind)
-            => ApiPath(scope,name, kind.Ext());
+            => Api(scope) + file(name, kind);
+
+        public FS.FolderPath Logs()
+            => Root + FS.folder("logs");
+
+        public FS.FolderPath Logs(string scope)
+            => Logs() + FS.folder(scope);
+
+        public FS.FilePath Log(string name, FileKind kind)
+            => Logs() + file(name, kind);
+
+        public FS.FilePath Log(string scope, string name, FileKind kind)
+            => Logs(scope) + file(name, kind);
 
         public FS.FolderPath Xed()
             => Root + FS.folder("xed");

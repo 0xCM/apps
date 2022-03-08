@@ -23,7 +23,7 @@ namespace Z0
             {
                 ref readonly var path = ref skip(src,i);
                 var origin = context.Root(path);
-                var fref = context.FileRef(path);
+                var fref = context.Ref(path);
                 using var reader = path.Utf8LineReader();
                 var counter = 0u;
                 while(reader.Next(out var line))

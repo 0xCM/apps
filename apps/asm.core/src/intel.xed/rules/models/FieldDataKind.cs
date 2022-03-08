@@ -66,6 +66,8 @@ namespace Z0
             MemWidth,
 
             Error,
+
+            Text,
         }
     }
 }

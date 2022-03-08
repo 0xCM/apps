@@ -24,6 +24,7 @@ namespace Z0
             }
 
             ref readonly var code = ref summary.Encoded;
+
             dst.Seq = summary.Seq;
             dst.DocSeq = summary.DocSeq;
             dst.OriginId = summary.OriginId;
@@ -38,7 +39,6 @@ namespace Z0
 
             XedDisasm.state(inst.Props.Edit, out var state);
             ref readonly var rules = ref state.RuleState;
-            var machine = RuleMachine.create(rules);
             dst.Offsets = XedRules.offsets(rules);
             dst.OpCode = rules.NOMINAL_OPCODE;
             dst.OpDetails = alloc<DisasmOpDetail>(block.OperandCount);

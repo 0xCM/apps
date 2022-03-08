@@ -14,7 +14,7 @@ namespace Z0
             var count = src.Length;
             var dst = list<McAsmDoc>();
             for(var i=0; i<count; i++)
-                dst.Add(CalcMcAsmDoc(context.FileRef(skip(src,i))));
+                dst.Add(CalcMcAsmDoc(context.Ref(skip(src,i))));
             return dst.ToArray();
         }
     }

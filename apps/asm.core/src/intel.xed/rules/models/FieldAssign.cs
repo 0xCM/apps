@@ -12,13 +12,19 @@ namespace Z0
         {
             public readonly FieldKind Field;
 
-            public readonly ulong Value;
+            readonly FieldValue _Value;
 
             [MethodImpl(Inline)]
-            public FieldAssign(FieldKind field, ulong data)
+            public FieldAssign(FieldValue value)
             {
-                Field = field;
-                Value = data;
+                Field = value.Kind;
+                _Value = value;
+            }
+
+            public readonly ulong Value
+            {
+                [MethodImpl(Inline)]
+                get => _Value.Data;
             }
 
             public bool IsEmpty
@@ -39,7 +45,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static FieldAssign Empty => new FieldAssign(FieldKind.INVALID,0);
+            public static FieldAssign Empty => new FieldAssign(FieldValue.Empty);
         }
     }
 }

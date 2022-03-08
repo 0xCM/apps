@@ -512,6 +512,22 @@ namespace Z0
                 }
             }
 
+            public static string format(FieldValue src)
+            {
+                var dst = EmptyString;
+                switch(src.Type.Kind)
+                {
+                    case FieldDataKind.Text:
+                        dst = ((NameResolver)((int)src.Data)).Format();
+                        break;
+                    default:
+                        dst = format(src.Type, src.Data);
+                    break;
+
+                }
+                return dst;
+            }
+
             public static string format(FieldDataType dt, ulong value)
                 => format(dt, bytes(value));
 
@@ -582,6 +598,12 @@ namespace Z0
                     case DK.U8:
                     {
                         byte x = first(data);
+                        value = x.ToString();
+                    }
+                    break;
+                    case DK.U16:
+                    {
+                        var x = @as<ushort>(data);
                         value = x.ToString();
                     }
                     break;
@@ -660,7 +682,7 @@ namespace Z0
                     : string.Format("{0}{1}{2}",
                     XedFormatters.format(src.Field.Kind),
                     XedFormatters.format(src.Operator),
-                    RuleTables.format(src.Field.DataType, src.Field.Data));
+                    RuleTables.format(src.Field));
 
             public static string format(in NonterminalRule src)
                 => format(src.Table);

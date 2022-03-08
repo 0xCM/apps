@@ -8,7 +8,6 @@ namespace Z0
     using System;
 
     using static core;
-
     using static XedModels;
 
     partial class XedRules
@@ -28,6 +27,5 @@ namespace Z0
             }
             return buffer.ToArray();
         }
-
     }
 }

@@ -24,30 +24,6 @@ namespace Z0
                 Parsers = XedParsers.create();
             }
 
-            public bool Name(string src, out RuleOpName dst)
-            {
-                var input = text.despace(src);
-                var i = text.index(input, Chars.Colon);
-                var j = text.index(input, Chars.Eq);
-
-                var index = -1;
-                if(i > 0 && j > 0)
-                {
-                    index = i < j ? i : j;
-                }
-                else if(i>0 && j<0)
-                {
-                    index = i;
-                }
-                else if(j>0 && i<0)
-                {
-                    index = j;
-                }
-
-                var namesrc = text.left(input, index);
-                return OpNames.ExprKind(namesrc, out dst);
-            }
-
             public Index<RuleOpSpec> ParseOps(string src)
             {
                 var result = Outcome.Success;
@@ -80,7 +56,7 @@ namespace Z0
                 var input = text.despace(src);
                 var i = text.index(input, Chars.Colon, Chars.Eq);
                 var attribs = text.right(src,i);
-                Name(src, out var name);
+                opname(src, out var name);
                 return ParseOp(attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty));
             }
 
@@ -330,7 +306,7 @@ namespace Z0
                     var j = text.index(props[3], Chars.Eq);
                     if(j > 0)
                     {
-                        if(Parsers.TextProp(text.right(props[3], j), out var tp))
+                        if(Parsers.OpKind(text.right(props[3], j), out var tp))
                             seek(buffer,i++) = tp;
                     }
                 }
@@ -401,7 +377,7 @@ namespace Z0
                         var j = text.index(props[3], Chars.Eq);
                         if(j > 0)
                         {
-                            if(Parsers.TextProp(text.right(props[3], j), out var tp))
+                            if(Parsers.OpKind(text.right(props[3], j), out var tp))
                                 seek(buffer,i++) = tp;
                         }
                     }

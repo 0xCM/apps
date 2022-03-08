@@ -36,7 +36,7 @@ namespace Z0.Asm
 
         public virtual void Initialized(WsContext context)
         {
-            Files = context.Files;
+            Files = context.Catalog;
             Project = context.Project;
         }
 

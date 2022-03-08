@@ -13,7 +13,7 @@ namespace Z0
         public Index<DisasmDetail> CollectDisasmDetails(WsContext context)
         {
             var result = Outcome.Success;
-            var catalog = context.Files;
+            var catalog = context.Catalog;
             var files = catalog.Entries(FileKind.XedRawDisasm);
             var count = files.Count;
             var buffer = list<DisasmDetail>();
@@ -27,9 +27,5 @@ namespace Z0
             context.Receiver.Collected(details);
             return details;
         }
-
-        Outcome CalcDisasmDetails(WsContext context, in FileRef src, ConcurrentBag<DisasmDetail> dst)
-            => CalcDisasmDetails(context, XedDisasm.LoadFileBlocks(src), dst);
-
     }
 }

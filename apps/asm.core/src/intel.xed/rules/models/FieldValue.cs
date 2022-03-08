@@ -11,19 +11,16 @@ namespace Z0
         {
             public readonly FieldKind Kind;
 
+            public readonly FieldDataType Type;
+
             public readonly ulong Data;
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind field, ulong value)
+            public FieldValue(FieldKind kind, FieldDataType type, ulong value)
             {
-                Kind = field;
+                Kind = kind;
+                Type = type;
                 Data = value;
-            }
-
-            public FieldDataType DataType
-            {
-                [MethodImpl(Inline)]
-                get => datatype(Kind);
             }
 
             public bool IsEmpty
@@ -38,9 +35,13 @@ namespace Z0
                 get => Kind != 0;
             }
 
-            [MethodImpl(Inline)]
-            public static implicit operator FieldValue((FieldKind field, ulong value) src)
-                => new FieldValue(src.field, src.value);
+            public string Format()
+                => RuleTables.format(this);
+
+            public override string ToString()
+                => Format();
+
+            public static FieldValue Empty => default;
         }
     }
 }

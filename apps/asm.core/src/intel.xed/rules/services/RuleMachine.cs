@@ -6,9 +6,7 @@
 namespace Z0
 {
     using static core;
-    using static XedModels;
 
-    using K = XedRules.FieldKind;
     using N = XedRules.RuleOpName;
     using T = XedRules.RuleTokenKind;
 
@@ -209,7 +207,6 @@ namespace Z0
                 }
                 return dst;
             }
-
         }
     }
 }

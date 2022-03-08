@@ -67,6 +67,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static explicit operator NameResolver(ulong src)
             => new NameResolver((int)src);
-
     }
 }

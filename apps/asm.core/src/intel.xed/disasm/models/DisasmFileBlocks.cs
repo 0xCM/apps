@@ -11,13 +11,31 @@ namespace Z0
         {
             public readonly FileRef Source;
 
-            public readonly Index<DisasmLineBlock> LineBlocks;
+            public readonly Index<DisasmLineBlock> Lines;
 
             [MethodImpl(Inline)]
-            public DisasmFileBlocks(FileRef src, DisasmLineBlock[] blocks)
+            public DisasmFileBlocks(FileRef src, DisasmLineBlock[] lines)
             {
                 Source = src;
-                LineBlocks = blocks;
+                Lines = lines;
+            }
+
+            public uint Count
+            {
+                [MethodImpl(Inline)]
+                get => Lines.Count;
+            }
+
+            public ref readonly DisasmLineBlock this[int i]
+            {
+                [MethodImpl(Inline)]
+                get => ref Lines[i];
+            }
+
+            public ref readonly DisasmLineBlock this[uint i]
+            {
+                [MethodImpl(Inline)]
+                get => ref Lines[i];
             }
         }
     }

@@ -153,7 +153,7 @@ namespace Z0
 
         public FileCatalog EmitCatalog(WsContext context)
         {
-            var catalog = context.Files;
+            var catalog = context.Catalog;
             EmitCatalog(context.Project, catalog);
             return catalog;
         }

@@ -36,7 +36,7 @@ namespace Z0
 
         public static Outcome ParseSummaries(WsContext context, in FileRef src, List<AsmDisasmSummary> dst)
         {
-            var blocks = LoadLineBlocks(src.Path);
+            var blocks = XedDisasm.blocks(src).Lines;
             var summaries = SummaryLines(blocks);
             var expr = expressions(blocks);
             var counter = 0u;
@@ -77,51 +77,6 @@ namespace Z0
             return true;
         }
 
-        public static DisasmFileBlocks LoadFileBlocks(in FileRef src)
-            => new DisasmFileBlocks(src, LoadLineBlocks(src.Path));
-
-        public static Index<DisasmLineBlock> LoadLineBlocks(FS.FilePath src)
-        {
-            var lines = src.ReadNumberedLines();
-            var count = lines.Length;
-            var dst = list<DisasmLineBlock>();
-            LoadLineBlocks(src,dst);
-            return dst.ToArray();
-        }
-
-        static void LoadLineBlocks(FS.FilePath src, List<DisasmLineBlock> dst)
-        {
-            var lines = src.ReadNumberedLines();
-            var count = lines.Length;
-            var blocklines = list<TextLine>();
-            var imax = count-1;
-            for(var i=0; i<imax; i++)
-            {
-                blocklines.Clear();
-
-                ref readonly var l0 = ref lines[i];
-                ref readonly var l1 = ref lines[i+1];
-                if(l0.IsNonEmpty && l1.IsNonEmpty)
-                {
-                    ref readonly var c0 = ref l0.Content;
-                    ref readonly var c1 = ref l1.Content;
-                    if(c1[0] == '0')
-                    {
-                        blocklines.Add(l0);
-                        blocklines.Add(l1);
-                        i++;
-                        while(i++ < imax)
-                        {
-                            ref readonly var l = ref lines[i];
-                            blocklines.Add(l);
-                            if(l.StartsWith(XDIS))
-                                break;
-                        }
-                        dst.Add(blocklines.ToArray());
-                    }
-                }
-            }
-        }
 
         static Outcome ParseIP(string src, out MemoryAddress dst)
         {

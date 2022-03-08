@@ -21,7 +21,7 @@ namespace Z0
             {
                 var uri = doc.Path.ToUri();
                 var origin = context.Root(doc.Path);
-                var fref = context.FileRef(doc.Path);
+                var fref = context.Ref(doc.Path);
                 var instructions = doc.Instructions;
                 var srcLines = doc.SourceLines;
                 var instLineNumbers = instructions.Keys.ToArray().Sort();

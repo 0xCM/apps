@@ -12,21 +12,17 @@ namespace Z0
         {
             public readonly FieldKind Kind;
 
+            public readonly FieldDataType Type;
+
             public readonly T Data;
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind field, T value)
+            public FieldValue(FieldKind field, FieldDataType type, T value)
             {
                 Kind = field;
+                Type = type;
                 Data = value;
             }
-
-            public FieldDataType DataType
-            {
-                [MethodImpl(Inline)]
-                get => datatype(Kind);
-            }
-
 
             public bool IsEmpty
             {
@@ -40,13 +36,15 @@ namespace Z0
                 get => Kind != 0;
             }
 
-            [MethodImpl(Inline)]
-            public static implicit operator FieldValue<T>((FieldKind field, T value) src)
-                => new FieldValue<T>(src.field, src.value);
+            public string Format()
+                => RuleTables.format(this);
+
+            public override string ToString()
+                => Format();
 
             [MethodImpl(Inline)]
             public static implicit operator FieldValue(FieldValue<T> src)
-                => new FieldValue(src.Kind, core.bw64(src.Data));
+                => new FieldValue(src.Kind, src.Type, core.bw64(src.Data));
         }
     }
 }

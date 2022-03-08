@@ -5,11 +5,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     partial class XedRules
     {
-        public OpCodeKinds CalcOpCodeKinds()
-            => Data(nameof(CalcOpCodeKinds), () => new OpCodeKinds());
+        [MethodImpl(Inline), Op]
+        public static NameResolver resolver(string src)
+            => NameResolvers.Instance.Create(src);
     }
 }

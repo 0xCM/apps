@@ -19,7 +19,7 @@ namespace Z0
             var buffer = list<AsmSyntaxRow>();
             var seq = 0u;
             for(var i=0; i<count; i++)
-                CalcAsmSyntaxRows(context, context.FileRef(skip(logs,i)), buffer);
+                CalcAsmSyntaxRows(context, context.Ref(skip(logs,i)), buffer);
             var rows = buffer.ToArray().Sort();
             for(var i=0u; i<rows.Length; i++)
                 seek(rows,i).Seq = i;

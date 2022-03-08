@@ -7,14 +7,13 @@ namespace Z0
 {
     partial class XedRules
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static FieldCmp neq<T>(FieldValue<T> src)
+        [MethodImpl(Inline)]
+        public static FieldValue<T> value<T>(FieldKind kind, FieldDataType type, T value)
             where T : unmanaged
-                => new FieldCmp(RuleOperator.CmpNeq, src);
+                => new FieldValue<T>(kind, type, value);
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static FieldCmp eq<T>(FieldValue<T> src)
-            where T : unmanaged
-                => new FieldCmp(RuleOperator.CmpEq, src);
+        [MethodImpl(Inline)]
+        public static FieldValue value(FieldKind kind, NameResolver resolver)
+            => new FieldValue(kind, datatype(FieldDataKind.Text), (ulong)resolver);
     }
 }

@@ -97,7 +97,7 @@ namespace Z0
         Index<AsmCodeBlocks> EmitAsmCodeBlocks(WsContext context, Alloc alloc)
         {
             Projects.AsmCodeDir(context.Project).Clear();
-            var files = context.Files.Entries(FileKind.ObjAsm);
+            var files = context.Catalog.Entries(FileKind.ObjAsm);
             var count = files.Count;
             var seq = 0u;
             var dst = list<AsmCodeBlocks>();
@@ -159,7 +159,7 @@ namespace Z0
             var buffer = bag<ObjDumpRow>();
 
             iter(src, path => {
-                result = ParseObjDumpSource(context, context.FileRef(path), out var records);
+                result = ParseObjDumpSource(context, context.Ref(path), out var records);
                 if(result.Fail)
                 {
                     Error(result.Message);
