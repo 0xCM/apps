@@ -7,16 +7,16 @@ namespace Z0
 {
     using static XedRules.FieldKind;
 
-    using F = XedRules.FieldDataKind;
+    using C = XedRules.FormatCode;
     using K = XedRules.FieldKind;
 
     partial class XedRules
     {
         [Op]
-        public static FieldDataKind datakind(FieldKind field)
+        public static FormatCode fcode(FieldKind src)
         {
-            var dst = F.None;
-            switch(field)
+            var dst = C.None;
+            switch(src)
             {
                 case AGEN:
                 case AMD3DNOW:
@@ -75,7 +75,7 @@ namespace Z0
                 case WBNOINVD:
                 case REXRR:
                 case SAE:
-                    dst = F.B1;
+                    dst = C.B1;
                 break;
 
                 case MOD:
@@ -92,7 +92,7 @@ namespace Z0
                 case VEX_PREFIX:
                 case VL:
                 {
-                    dst = F.U2;
+                    dst = C.U2;
                 }
                 break;
 
@@ -104,27 +104,27 @@ namespace Z0
                 case ROUNDC:
                 case SEG_OVD:
                 case VEXVALID:
-                    dst = F.U3;
+                    dst = C.U3;
                 break;
 
                 case SIBINDEX:
                 case RM:
                 case SRM:
-                    dst = F.X3;
+                    dst = C.X3;
                 break;
 
                 case ESRC:
-                    dst = F.X4;
+                    dst = C.X4;
                 break;
 
                 case MAP:
                 case NELEM:
                 case SCALE:
-                    dst = F.U4;
+                    dst = C.U4;
                 break;
 
                 case BCAST:
-                    dst = F.U5;
+                    dst = C.U5;
                 break;
 
                 case BRDISP_WIDTH:
@@ -137,6 +137,7 @@ namespace Z0
                 case NPREFIXES:
                 case NREXES:
                 case NSEG_PREFIXES:
+
                 case POS_DISP:
                 case POS_IMM:
                 case POS_IMM1:
@@ -145,32 +146,32 @@ namespace Z0
                 case POS_SIB:
                 case UIMM1:
                 {
-                    dst = F.U8;
+                    dst = C.U8;
                 }
                 break;
 
                 case ELEMENT_SIZE:
                 case MEM_WIDTH:
                 {
-                    dst = F.U16;
+                    dst = C.U16;
                 }
                 break;
 
                 case NOMINAL_OPCODE:
                 {
-                    dst = F.X8;
+                    dst = C.X8;
                 }
                 break;
 
                 case DISP:
                 {
-                    dst = F.Disp;
+                    dst = C.Disp;
                 }
                 break;
 
                 case UIMM0:
                 {
-                    dst = F.U64;
+                    dst = C.U64;
                 }
                 break;
 
@@ -191,24 +192,24 @@ namespace Z0
                 case REG8:
                 case REG9:
                 {
-                    dst = F.Reg;
+                    dst = C.Reg;
                 }
                 break;
                 case CHIP:
                 {
-                    dst = F.Chip;
+                    dst = C.Chip;
                 }
                 break;
 
                 case ERROR:
                 {
-                    dst = F.Error;
+                    dst = C.Error;
                 }
                 break;
 
                 case ICLASS:
                 {
-                    dst = F.InstClass;
+                    dst = C.InstClass;
                 }
                 break;
 

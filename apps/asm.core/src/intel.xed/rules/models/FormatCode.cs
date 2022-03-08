@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public enum FieldDataKind : byte
+        public enum FormatCode : byte
         {
             None,
 
@@ -39,6 +39,8 @@ namespace Z0
 
             U16,
 
+            U32,
+
             U64,
 
             X4,
@@ -46,10 +48,6 @@ namespace Z0
             X3,
 
             X8,
-
-            Imm8,
-
-            Imm64,
 
             Disp,
 
@@ -60,8 +58,6 @@ namespace Z0
             Reg,
 
             InstClass,
-
-            Mem,
 
             MemWidth,
 

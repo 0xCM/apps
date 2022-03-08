@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
-        public static ulong pack(in StateFlags src)
+        public static Bitfield64 pack(in StateFlags src)
             => BitPack.pack64x8x1(src);
     }
 }

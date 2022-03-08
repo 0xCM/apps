@@ -7,34 +7,9 @@ namespace Z0
 {
     using static core;
     using static XedModels;
-    using static XedRules;
-    using R = XedRules;
 
     partial class XedDisasm
     {
-        public static Index<R.FieldValue> props2(in DisasmLineBlock src)
-        {
-            var data = props(src);
-            var count = data.Count;
-            var dst = alloc<R.FieldValue>(count);
-            var state = RuleState.Empty;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var x = ref data[i];
-
-                if(Parsers.FieldKind(x.Key, out var kind))
-                {
-                    seek(dst,i) = XedRules.update(x.Value, kind, ref state);
-                }
-                else
-                {
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), x.Key));
-                }
-            }
-
-            return dst;
-
-        }
         public static Index<Facet<string>> props(in DisasmLineBlock src)
         {
             var dst = Index<Facet<string>>.Empty;

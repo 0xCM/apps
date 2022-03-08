@@ -14,7 +14,7 @@ namespace Z0
     using FK = XedRules.FieldKind;
     using RO = XedRules.RuleOperator;
     using SL = XedRules.SyntaxLiterals;
-    using DK = XedRules.FieldDataKind;
+    using DK = XedRules.FormatCode;
 
     partial class XedRules
     {
@@ -24,28 +24,26 @@ namespace Z0
 
             [MethodImpl(Inline), Op]
             static RuleCriterion criterion(bool premise, NameResolver resolver)
-                => new RuleCriterion(premise, FieldKind.INVALID, RuleOperator.Call, FieldDataType.Empty, (uint)(int)resolver);
+                => new RuleCriterion(premise, FieldKind.INVALID, RuleOperator.Call, 0, (uint)(int)resolver);
 
             [MethodImpl(Inline), Op]
             static RuleCriterion criterion(bool premise, NontermCall call)
-                => new RuleCriterion(premise, FieldKind.INVALID, RuleOperator.Call, FieldDataType.Empty, (ushort)call.Kind);
+                => new RuleCriterion(premise, FieldKind.INVALID, RuleOperator.Call, 0, (ushort)call.Kind);
 
             [MethodImpl(Inline), Op, Closures(Closure)]
             static RuleCriterion criterion<T>(bool premise, FieldKind field, RuleOperator op, T value)
                 where T : unmanaged
-                    => convert(new RuleCriterion<T>(premise, field, op, value), datatype(field));
+                    => untype(new RuleCriterion<T>(premise, field, op, value));
 
             [MethodImpl(Inline), Op, Closures(Closure)]
-            static RuleCriterion convert<T>(in RuleCriterion<T> src, FieldDataType type)
+            static RuleCriterion untype<T>(in RuleCriterion<T> src)
                 where T : unmanaged
-                    => new RuleCriterion(src.IsPremise, src.Field, src.Operator, type, core.u64(src.Value));
+                    => new RuleCriterion(src.IsPremise, src.Field, src.Operator, fcode(src.Field), core.u64(src.Value));
 
             [Op]
             public static Outcome criterion(bool premise, FieldKind field, RuleOperator op, string value, out RuleCriterion dst)
             {
                 var result = Outcome.Success;
-                var dk = datakind(field);
-                var dt = datatype(dk);
                 dst = default;
                 if(op == RuleOperator.Call)
                 {
@@ -456,13 +454,6 @@ namespace Z0
                 var dst = EmptyString;
                 if(src.Operator == RuleOperator.Call)
                     dst = format(src.AsCall());
-                // {
-                //     var resolver = (NameResolver)src.Data;
-                //     if(resolver.IsNonEmpty)
-                //         dst = string.Format("{0}()", resolver.Name);
-                //     else
-                //         dst = RP.Error;
-                // }
                 else if(src.Field == FieldKind.UIMM0 || src.Field == FieldKind.UIMM1)
                     dst = format(src.AsImmField());
                 else if(src.Field == FieldKind.DISP)
@@ -472,7 +463,7 @@ namespace Z0
                     dst = XedFormatters.format(src.Field);
                     if(src.Operator != 0)
                         dst += XedFormatters.format(src.Operator);
-                    dst += format(src.DataType, src.Data);
+                    dst += format(src.Code, src.Data);
                 }
                 return dst;
             }
@@ -489,7 +480,6 @@ namespace Z0
                 dst.AppendLine(Chars.RBrace);
                 return dst.Emit();
             }
-
 
             public static string format(in RuleExpr src)
             {
@@ -515,32 +505,47 @@ namespace Z0
             public static string format(FieldValue src)
             {
                 var dst = EmptyString;
-                switch(src.Type.Kind)
+                switch(src.FormatCode)
                 {
-                    case FieldDataKind.Text:
+                    case FormatCode.Text:
                         dst = ((NameResolver)((int)src.Data)).Format();
                         break;
                     default:
-                        dst = format(src.Type, src.Data);
+                        dst = format(src.FormatCode, src.Data);
                     break;
 
                 }
                 return dst;
             }
 
-            public static string format(FieldDataType dt, ulong value)
-                => format(dt, bytes(value));
+            public static string format(FormatCode code, ulong value)
+                => format(code, bytes(value));
 
-            public static string format(FieldDataType dt, ReadOnlySpan<byte> data)
+            static string format(uint2 src)
+                => src.Format();
+
+            static string format(uint3 src)
+                => src.Format();
+
+            static string format(uint4 src)
+                => src.Format();
+
+            static string format(Hex3 src)
+                => src.Format(prespec:true, uppercase:true);
+
+            static string format(Hex4 src)
+                => src.Format(prespec:true, uppercase:true);
+
+            static string format(Hex8 src)
+                => src.Format(prespec:true, uppercase:true);
+
+            public static string format(FormatCode dt, ReadOnlySpan<byte> data)
             {
-                var dk = dt.Kind;
-                var width = dt.Width;
+                var dk = dt;
                 var value = EmptyString;
                 switch(dk)
                 {
-                    case DK.Mem:
                     case DK.B1:
-                    case DK.Imm64:
                     {
                         bit x = first(data);
                         value = x.Format();
@@ -549,19 +554,19 @@ namespace Z0
                     case DK.B2:
                     {
                         uint2 x = first(data);
-                        value = x.Format();
+                        value = format(x);
                     }
                     break;
                     case DK.B3:
                     {
                         uint3 x = first(data);
-                        value = x.Format();
+                        value = format(x);
                     }
                     break;
                     case DK.B4:
                     {
                         uint4 x = first(data);
-                        value = x.Format();
+                        value = format(x);
                     }
                     break;
 
@@ -576,7 +581,6 @@ namespace Z0
                     {
                         uint3 x = first(data);
                         value = ((byte)x).ToString();
-
                     }
                     break;
 
@@ -594,7 +598,6 @@ namespace Z0
                     }
                     break;
 
-                    case DK.Imm8:
                     case DK.U8:
                     {
                         byte x = first(data);
@@ -616,19 +619,19 @@ namespace Z0
                     case DK.X3:
                     {
                         Hex3 x = first(data);
-                        value = x.Format(prespec:true, uppercase:true);
+                        value = format(x);
                     }
                     break;
                     case DK.X4:
                     {
                         Hex4 x = first(data);
-                        value = x.Format(prespec:true, uppercase:true);
+                        value = format(x);
                     }
                     break;
                     case DK.X8:
                     {
                         Hex8 x = first(data);
-                        value = x.Format(prespec:true, uppercase:true);
+                        value = format(x);
                     }
                     break;
                     case DK.Disp:
@@ -640,13 +643,13 @@ namespace Z0
                     case DK.Broadcast:
                     {
                         var x = @as<BCastKind>(data);
-                        value = BCastKinds[x].Expr.Format();
+                        value = XedFormatters.format(x);
                     }
                     break;
                     case DK.Chip:
                     {
                         var x = @as<ChipCode>(data);
-                        value = ChipCodes[x].Expr.Format();
+                        value = XedFormatters.format(x);
                     }
                     break;
                     case DK.Reg:
@@ -658,7 +661,7 @@ namespace Z0
                     case DK.InstClass:
                     {
                         var x = @as<IClass>(data);
-                        value = InstClasses[x].Expr.Format();
+                        value = XedFormatters.format(x);
                     }
                     break;
                     case DK.MemWidth:
@@ -672,23 +675,34 @@ namespace Z0
             }
 
             public static string format(BitfieldSeg src)
-                => string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]", XedFormatters.format(src.Field), src.Pattern);
+                => string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]",
+                    XedFormatters.format(src.Field),
+                    src.Pattern)
+                    ;
 
             public static string format(FieldAssign src)
-                => src.Field == 0 ? "nothing" : string.Format("{0}={1}", XedFormatters.format(src.Field), src.Value);
+                => src.Field == 0 ? "nothing" :
+                    string.Format("{0}={1}",
+                    XedFormatters.format(src.Field),
+                    src.Value);
 
             public static string format(FieldCmp src)
                 => src.IsEmpty ? EmptyString
                     : string.Format("{0}{1}{2}",
-                    XedFormatters.format(src.Field.Kind),
-                    XedFormatters.format(src.Operator),
-                    RuleTables.format(src.Field));
+                        XedFormatters.format(src.Field.Kind),
+                        XedFormatters.format(src.Operator),
+                        format(src.Field)
+                        );
 
             public static string format(in NonterminalRule src)
                 => format(src.Table);
 
             public static string format(FieldConstraint src)
-                => string.Format("{0}{1}{2}", XedFormatters.format(src.Field), XedFormatters.format(src.Kind), literal(src.LiteralKind, src.Value));
+                => string.Format("{0}{1}{2}",
+                        XedFormatters.format(src.Field),
+                        XedFormatters.format(src.Kind),
+                        literal(src.LiteralKind, src.Value)
+                        );
 
             public static string format(NontermCall src)
                 => string.Format("<{0}>()", format(src.Kind));
@@ -714,7 +728,7 @@ namespace Z0
                 return val;
             }
 
-           static HashSet<string> Skip;
+            static HashSet<string> Skip;
 
             static RuleTables()
             {

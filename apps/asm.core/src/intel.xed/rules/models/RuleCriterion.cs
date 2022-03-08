@@ -16,17 +16,17 @@ namespace Z0
 
             public readonly RuleOperator Operator;
 
-            public readonly FieldDataType DataType;
+            public readonly FormatCode Code;
 
             public readonly ulong Data;
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(bool premise, FieldKind field, RuleOperator op, FieldDataType type, ulong data)
+            internal RuleCriterion(bool premise, FieldKind field, RuleOperator op, FormatCode code, ulong data)
             {
                 IsPremise = premise;
                 Field = field;
                 Operator = op;
-                DataType = type;
+                Code = code;
                 Data = data;
             }
 

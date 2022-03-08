@@ -22,10 +22,9 @@ namespace Z0
             AppDb.Logs("xed").Clear();
             for(var i=0; i<files.Count; i++)
             {
-
                 ref readonly var file = ref files[i];
                 var blocks = XedDisasm.blocks(file);
-                CheckDisasm(blocks);
+                CheckDisasm(context, blocks);
                 var details = Disasm.CalcDisasmDetails(context, file);
                 var count = details.Count;
                 for(var j=0; j < count; j++)
@@ -40,12 +39,15 @@ namespace Z0
             return true;
         }
 
-        void CheckDisasm(in DisasmFileBlocks src)
+        void CheckDisasm(WsContext context, in DisasmFileBlocks src)
         {
             var name = src.Source.DocName;
             var dst = AppDb.Log("xed", name, FileKind.Log);
             var emitting = EmittingFile(dst);
+            XedDisasm.CalcSummaryDoc(context, src.Source, out var summaries);
+            Require.equal(summaries.RowCount, src.Count);
             var counter = 0u;
+            var state = RuleState.Empty;
             using var writer = dst.AsciWriter();
             for(var i=0; i<src.Count; i++)
             {
@@ -55,19 +57,27 @@ namespace Z0
                     writer.AppendLine();
                 }
 
+                state = RuleState.Empty;
                 ref readonly var block = ref src[i];
-                var props = XedDisasm.props2(block);
-                writer.AppendLineFormat("{0,-25}{1:D5}", "Instruction",  i);
+                ref readonly var summary = ref summaries[i];
+                var fields = XedDisasm.fields(block);
+                update(fields, ref state);
+                var flags = XedRules.flags(state);
+                var packed = XedRules.pack(flags);
+                writer.AppendLineFormat("{0,-24} | {1}", (Address32)summary.IP, summary.Asm);
                 writer.AppendLine(RP.PageBreak80);
-                for(var j=0; j<props.Count; j++)
+                writer.AppendLineFormat("{0,-24} {1}", nameof(summary.Encoded), summary.Encoded);
+                for(var j=0; j<fields.Count; j++)
                 {
-                    ref readonly var prop = ref props[j];
+                    ref readonly var prop = ref fields[j];
                     writer.AppendLineFormat("{0,-24} {1}", prop.Kind, prop.Format());
                     counter++;
                 }
+                writer.AppendLineFormat("{0,-24} {1}", "Flags", packed.Format());
+
+
             }
             EmittedFile(emitting,counter);
         }
-
     }
 }

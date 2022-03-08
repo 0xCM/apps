@@ -268,7 +268,6 @@ namespace Z0
             NO_RETURN,
 
             PAD0,
-
         }
     }
 }

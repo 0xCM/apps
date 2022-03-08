@@ -121,37 +121,19 @@ namespace Z0
 
         static Symbols<RuleMacroKind> MacroKinds;
 
-        static Symbols<BCastKind> BCastKinds;
-
-        static Symbols<ChipCode> ChipCodes;
-
         static Symbols<XedRegId> XedRegs;
 
         static Symbols<IClass> InstClasses;
-
-        static Symbols<RuleOperator> RuleOps;
-
-        static Symbols<DispExprKind> DispKinds;
 
         static Symbols<ConstraintKind> ConstraintKinds;
 
         static Symbols<NonterminalKind> Nonterminals;
 
-        static Symbols<OpCodeIndex> OcKindIndex;
-
-        static Symbols<OperandAction> OpActions;
-
         static Symbols<OperandWidthKind> OpWidthKinds;
 
         static Symbols<PointerWidthKind> PointerWidthKinds;
 
-        static Symbols<ElementKind> DataTypes;
-
         static Symbols<RuleOpName> OpNames;
-
-        static Symbols<OpVisiblity> Supressions;
-
-        static Symbols<EncodingGroup> EncodingGroups;
 
         static ConstLookup<RuleMacroKind,MacroSpec> MacroLookup;
 
@@ -159,22 +141,13 @@ namespace Z0
         {
             FieldKinds = Symbols.index<FieldKind>();
             MacroKinds = Symbols.index<RuleMacroKind>();
-            BCastKinds = Symbols.index<BCastKind>();
-            ChipCodes = Symbols.index<ChipCode>();
             XedRegs = Symbols.index<XedRegId>();
             OpWidthKinds = Symbols.index<OperandWidthKind>();
             InstClasses = Symbols.index<IClass>();
-            RuleOps = Symbols.index<RuleOperator>();
-            DispKinds = Symbols.index<DispExprKind>();
             ConstraintKinds = Symbols.index<ConstraintKind>();
             Nonterminals = Symbols.index<NonterminalKind>();
-            OcKindIndex = Symbols.index<OpCodeIndex>();
-            OpActions = Symbols.index<OperandAction>();
             OpNames = Symbols.index<RuleOpName>();
             PointerWidthKinds = Symbols.index<PointerWidthKind>();
-            Supressions = Symbols.index<OpVisiblity>();
-            DataTypes = Symbols.index<ElementKind>();
-            EncodingGroups = Symbols.index<EncodingGroup>();
             MacroLookup = RuleMacros.lookup();
        }
 

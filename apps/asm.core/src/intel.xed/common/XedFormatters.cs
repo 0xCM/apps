@@ -183,6 +183,10 @@ namespace Z0
             => RuleOps[src].Expr.Text;
 
         [MethodImpl(Inline), Op]
+        public static string format(BCastKind src)
+            => BCastKinds[src].Expr.Text;
+
+        [MethodImpl(Inline), Op]
         public static string format(XedRegId src)
             => src.ToString();
 
@@ -195,6 +199,14 @@ namespace Z0
             => EncodingGroups[src].Expr.Text;
 
         [MethodImpl(Inline), Op]
+        public static string format(ChipCode src)
+            => ChipCodes[src].Expr.Text;
+
+        [MethodImpl(Inline), Op]
+        public static string format(IClass src)
+            => Classes[src].Expr.Text;
+
+        [MethodImpl(Inline), Op]
         public static string format(FieldKind src)
             => FieldKinds[src].Expr.Text;
 
@@ -204,7 +216,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static string format(RuleOpModKind src)
-            => TextProps[src].Expr.Text;
+            => OpMods[src].Expr.Text;
 
         [MethodImpl(Inline), Op]
         public static string format(NonterminalKind src)
@@ -344,7 +356,9 @@ namespace Z0
 
         static Symbols<EncodingGroup> EncodingGroups;
 
-        static Symbols<RuleOpModKind> TextProps;
+        static Symbols<RuleOpModKind> OpMods;
+
+        static Symbols<IClass> Classes;
 
         static XedFormatters()
         {
@@ -367,7 +381,8 @@ namespace Z0
             ElementTypes = Symbols.index<ElementKind>();
             EncodingGroups = Symbols.index<EncodingGroup>();
             AttribKinds = Symbols.index<AttributeKind>();
-            TextProps = Symbols.index<RuleOpModKind>();
+            OpMods = Symbols.index<RuleOpModKind>();
+            Classes = Symbols.index<IClass>();
        }
     }
 }

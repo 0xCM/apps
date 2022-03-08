@@ -23,10 +23,10 @@ namespace Z0
             where T : unmanaged
                 => new DisasmOp<T>(name,value);
 
-        public static Outcome ParseSummaries(WsContext context, in FileRef src, out AsmDisasmSummaryDoc dst)
+        public static Outcome CalcSummaryDoc(WsContext context, in FileRef src, out AsmDisasmSummaryDoc dst)
         {
             var buffer = list<AsmDisasmSummary>();
-            var result = ParseSummaries(context, src,buffer);
+            var result = CalcSummaries(context, src,buffer);
             if(result)
                 dst = (src.Path,buffer.ToArray());
             else
@@ -34,7 +34,7 @@ namespace Z0
             return result;
         }
 
-        public static Outcome ParseSummaries(WsContext context, in FileRef src, List<AsmDisasmSummary> dst)
+        public static Outcome CalcSummaries(WsContext context, in FileRef src, List<AsmDisasmSummary> dst)
         {
             var blocks = XedDisasm.blocks(src).Lines;
             var summaries = SummaryLines(blocks);
@@ -76,7 +76,6 @@ namespace Z0
 
             return true;
         }
-
 
         static Outcome ParseIP(string src, out MemoryAddress dst)
         {

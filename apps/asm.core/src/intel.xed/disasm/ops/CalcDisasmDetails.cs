@@ -23,11 +23,11 @@ namespace Z0
         public Index<DisasmDetail> CalcDisasmDetails(WsContext context, FS.FilePath src)
             => CalcDisasmDetails(context, context.Ref(src));
 
-        Outcome CalcDisasmDetails(WsContext context, in DisasmFileBlocks src, ConcurrentBag<DisasmDetail> buffer)
+        Outcome CalcDisasmDetails(WsContext context, in DisasmFileBlocks src, ConcurrentBag<DisasmDetail> dst)
         {
             var blocks = src.Lines;
             var count = blocks.Count;
-            var result = XedDisasm.ParseSummaries(context, src.Source, out var summaries);
+            var result = XedDisasm.CalcSummaryDoc(context, src.Source, out var summaries);
             if(result.Fail)
                 return result;
 
@@ -46,7 +46,7 @@ namespace Z0
                 if(result.Fail)
                     break;
                 else
-                    buffer.Add(detail);
+                    dst.Add(detail);
             }
 
             return result;
