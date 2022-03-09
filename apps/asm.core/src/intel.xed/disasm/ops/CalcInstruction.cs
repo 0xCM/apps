@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        Outcome CalcInstruction(in DisasmLineBlock src, out DisasmInstruction dst)
+        public Outcome CalcInstruction(in DisasmLineBlock src, out DisasmInstruction dst)
         {
             var result = Outcome.Success;
             dst = default(DisasmInstruction);

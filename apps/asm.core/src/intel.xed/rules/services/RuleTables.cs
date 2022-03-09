@@ -24,11 +24,11 @@ namespace Z0
 
             [MethodImpl(Inline), Op]
             static RuleCriterion criterion(bool premise, NameResolver resolver)
-                => new RuleCriterion(premise, FieldKind.INVALID, RuleOperator.Call, 0, (uint)(int)resolver);
+                => new RuleCriterion(premise, 0, RuleOperator.Call, FormatCode.Call, (uint)(int)resolver);
 
             [MethodImpl(Inline), Op]
             static RuleCriterion criterion(bool premise, NontermCall call)
-                => new RuleCriterion(premise, FieldKind.INVALID, RuleOperator.Call, 0, (ushort)call.Kind);
+                => new RuleCriterion(premise, 0, RuleOperator.Call, FormatCode.Call, (ushort)call.Kind);
 
             [MethodImpl(Inline), Op, Closures(Closure)]
             static RuleCriterion criterion<T>(bool premise, FieldKind field, RuleOperator op, T value)
@@ -504,7 +504,11 @@ namespace Z0
             public static string format(FieldValue src)
             {
                 var dst = EmptyString;
+                if(src.IsEmpty)
+                    return EmptyString;
+
                 var data = bytes(src.Data);
+
                 switch(src.FormatCode)
                 {
                     case FormatCode.Text:
@@ -745,7 +749,6 @@ namespace Z0
                 }
                 return dst;
             }
-
 
             static string format(uint2 src)
                 => src.Format();

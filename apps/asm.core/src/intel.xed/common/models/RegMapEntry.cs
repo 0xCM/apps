@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     partial struct XedModels
     {
         [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableName)]

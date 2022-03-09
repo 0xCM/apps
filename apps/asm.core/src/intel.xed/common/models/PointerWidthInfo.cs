@@ -18,7 +18,7 @@ namespace Z0
 
             public text15 Name;
 
-            public char Spec;
+            public text7 Spec;
 
             public NativeSize Size;
 

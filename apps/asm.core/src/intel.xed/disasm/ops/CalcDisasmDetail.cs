@@ -35,6 +35,7 @@ namespace Z0
             dst.Encoded = summary.Encoded;
             dst.Asm = summary.Asm;
             dst.IForm = inst.Form;
+            dst.Mnemonic = inst.Class;
             dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
 
             XedDisasm.state(inst.Props.Edit, out var state);
@@ -77,7 +78,7 @@ namespace Z0
                     detail.RuleDescription = optxt;
                 }
 
-                detail.DefDescription = string.Format(DisasmOpDetails.RenderPattern,
+                detail.DefDescription = string.Format(DisasmOpDetail.RenderPattern,
                     title,
                     opname,
                     optxt,

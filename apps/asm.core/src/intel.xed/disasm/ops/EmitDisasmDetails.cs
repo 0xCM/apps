@@ -20,7 +20,7 @@ namespace Z0
             for(var k=0; k<6; k++)
             {
                 opheader.Append("| ");
-                opheader.Append(DisasmOpDetails.Header(k));
+                opheader.Append(DisasmOpDetail.Header(k));
             }
 
             var header = string.Format("{0}{1}", headerBase, opheader.Emit());

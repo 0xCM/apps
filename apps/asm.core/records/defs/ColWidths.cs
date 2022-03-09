@@ -24,6 +24,8 @@ namespace Z0
 
         public const byte IForm = 62;
 
+        public const byte Mnemonic = 18;
+
         public const byte AsmSyntax = 120;
 
         public const byte IP = 12;

@@ -12,6 +12,7 @@ namespace Z0
         [SymSource(xed), Flags]
         public enum PointerWidthKind
         {
+            [Symbol("")]
             INVALID,
 
             [Symbol("b")]

@@ -27,6 +27,7 @@ namespace Z0
             var result = true;
             var fieldval = FieldValue.Empty;
             var fc = fcode(kind);
+            Require.nonzero((byte)fc);
             switch(kind)
             {
                 case K.AMD3DNOW:

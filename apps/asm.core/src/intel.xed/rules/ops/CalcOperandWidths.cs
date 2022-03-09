@@ -42,10 +42,11 @@ namespace Z0
 
                 var dst = default(OpWidth);
 
+
                 result = OpWidthKinds.ExprKind(c0, out dst.Code);
                 if(result.Fail)
                 {
-                    result = (false,Msg.ParseFailure.Format(nameof(dst.Code), c0));
+                    result = (false, Msg.ParseFailure.Format(nameof(dst.Code), c0));
                     break;
                 }
 

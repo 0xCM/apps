@@ -88,6 +88,8 @@ namespace Z0
 
             Text,
 
+            Call,
+
             EnumName,
 
             EnumSymbol,

@@ -13,7 +13,7 @@ namespace Z0
         public static Index<Facet<string>> props(in DisasmLineBlock src)
         {
             var dst = Index<Facet<string>>.Empty;
-            ref readonly var content = ref src.Instruction.Content;
+            var content = text.despace(src.Instruction.Content);
             var j = text.index(content, Chars.Space);
             if(j > 0)
             {
@@ -22,7 +22,16 @@ namespace Z0
                 {
                     var props = text.words(text.right(content,k), Chars.Comma);
                     var count = props.Count;
+                    var y = text.left(content,j);
+                    var z = text.split(y,Chars.Space);
+
                     dst = alloc<Facet<string>>(count);
+                    // if(z.Length >= 2)
+                    // {
+                    //     dst[m++] = (nameof(IClass), skip(z,0).Trim());
+                    //     dst[m++] = (nameof(IForm), skip(z,1).Trim());
+                    // }
+
                     for(var m=0; m<count; m++)
                     {
                         ref readonly var prop = ref props[m];
@@ -35,8 +44,10 @@ namespace Z0
                         else
                             dst[m] = (prop.Trim(), EmptyString);
                     }
-
                 }
+
+
+
             }
             return dst;
         }

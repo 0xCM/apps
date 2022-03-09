@@ -137,7 +137,6 @@ namespace Z0
                 case NPREFIXES:
                 case NREXES:
                 case NSEG_PREFIXES:
-
                 case POS_DISP:
                 case POS_IMM:
                 case POS_IMM1:

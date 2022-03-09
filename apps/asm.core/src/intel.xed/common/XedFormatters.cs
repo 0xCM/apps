@@ -10,9 +10,10 @@ namespace Z0
 
     using static XedModels.BCastKind;
     using static Asm.BroadcastStrings;
-
+    using PW = XedModels.PointerWidthKind;
     using TK = XedRules.RuleTokenKind;
     using K = XedRules.RuleOpAttribKind;
+
 
     public class XedFormatters
     {
@@ -176,115 +177,99 @@ namespace Z0
         public static string format(in RuleToken src)
             => format(src, false);
 
-        [MethodImpl(Inline)]
         public static string format(RuleOpModKind src)
             => OpMods[src].Expr.Text;
 
-        [MethodImpl(Inline)]
         public static string format(RuleOpName src)
             => OpNames[src].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(RuleOperator src)
             => RuleOps[src].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(BCastKind src)
             => BCastFormatter.format(src);
 
-        [MethodImpl(Inline), Op]
         public static string format(XedRegId src)
             => XedRegs[src].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(OperandAction src)
             => OpActions[src].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(EncodingGroup src)
             => EncodingGroups[src].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(ChipCode src)
             => ChipCodes[src].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(IClass src)
             => Classes[src].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(FieldKind src)
             => FieldKinds[src].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(ConstraintKind src)
             => ConstraintKinds[src].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(NonterminalKind src)
-            => src == 0 ? EmptyString : Nonterminals[src].Expr.Text;
+            => Nonterminals[src].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(RuleMacroKind src)
             => MacroKinds[src].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(AttributeKind src)
             => AttribKinds[src].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(BCast8Kind src)
             => BCast8.Format(src);
 
-        [MethodImpl(Inline), Op]
         public static string format(BCast16Kind src)
             => BCast16.Format(src);
 
-        [MethodImpl(Inline), Op]
         public static string format(BCast32Kind src)
             => BCast32.Format(src);
 
-        [MethodImpl(Inline), Op]
         public static string format(BCast64Kind src)
             => BCast64.Format(src);
 
-        [MethodImpl(Inline), Op]
+        public static string format(VisibilityKind src)
+            => VisKind.Format(src);
+
         public static string format(OperandWidthKind src)
             => OpWidthKinds[src].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(PointerWidthKind src)
-            => PointerWidthKinds[src].Expr.Text;
+            => src switch{
+                PW.Byte => "b",
+                PW.Word => "w",
+                PW.DWord => "l",
+                PW.QWord => "q",
+                PW.XmmWord => "x",
+                PW.YmmWord => "y",
+                PW.ZmmWord => "z",
+                _ => EmptyString
+            };
 
-        [MethodImpl(Inline), Op]
         public static string format(ElementKind src)
             => ElementTypes[src].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(OpVisiblity src)
             => OpVis[src].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(OpCodeKind src)
             => OcKindIndex[ocindex(src)].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(DispExpr src)
             => DispKinds[src.Kind].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(EOSZ src)
             => EoszKinds[src].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(EASZ src)
             => EaszKinds[src].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(RoundingKind src)
             => RoundingKinds[src].Expr.Text;
 
-        [MethodImpl(Inline), Op]
         public static string format(ModeKind src)
             => ModeKinds.Format(src);
 
@@ -361,6 +346,8 @@ namespace Z0
         static EnumFormatter<BCast64Kind> BCast64 = new();
 
         static EnumFormatter<ModeKind> ModeKinds = new();
+
+        static EnumFormatter<VisibilityKind> VisKind = new();
 
         static Symbols<AttributeKind> AttribKinds;
 

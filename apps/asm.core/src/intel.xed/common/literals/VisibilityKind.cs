@@ -7,6 +7,21 @@ namespace Z0
 {
     partial struct XedModels
     {
+        public enum OpVisiblity : byte
+        {
+            [Symbol("")]
+            None = 0,
+
+            [Symbol("EXPL")]
+            Explicit,
+
+            [Symbol("IMPL")]
+            Implicit,
+
+            [Symbol("SUPP")]
+            Suppressed,
+        }
+
         [SymSource(xed)]
         public enum VisibilityKind : byte
         {

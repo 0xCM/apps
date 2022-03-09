@@ -8,6 +8,7 @@ namespace Z0
 
     using static core;
     using static XedRules;
+    using static XedModels;
 
     partial class XedDisasm
     {
@@ -58,9 +59,10 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            result = DataParser.eparse(skip(parts,i++), out dst.Visiblity);
+            result = DataParser.eparse(skip(parts,i++), out VisibilityKind vis);
             if(result.Fail)
                 return result;
+            dst.Visiblity = (OpVisiblity)vis;
 
             result = DataParser.eparse(skip(parts,i++), out dst.LookupKind);
             if(result.Fail)

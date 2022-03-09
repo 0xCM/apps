@@ -16,7 +16,7 @@ namespace Z0
         {
             public const string TableName = "xed.disasm.detail";
 
-            public const byte FieldCount = 25;
+            public const byte FieldCount = 26;
 
             public uint Seq;
 
@@ -31,6 +31,8 @@ namespace Z0
             public InstructionId InstructionId;
 
             public MemoryAddress IP;
+
+            public IClass Mnemonic;
 
             public AsmHexCode Encoded;
 
@@ -90,6 +92,7 @@ namespace Z0
                 ColWidths.EncodingId,
                 ColWidths.InstructionId,
                 ColWidths.IP,
+                ColWidths.Mnemonic,
                 ColWidths.Encoded,
                 ColWidths.Hex8,
                 ColWidths.Size,

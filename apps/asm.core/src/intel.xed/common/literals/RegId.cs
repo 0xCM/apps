@@ -8,13 +8,10 @@ namespace Z0
     [SymSource("xed"), DataWidth(9)]
     public enum XedRegId : ushort
     {
-        [Symbol("")]
         INVALID,
 
-        [Ignore]
         BNDCFGU,
 
-        [Ignore]
         BNDSTATUS,
 
         BND0,
@@ -239,28 +236,28 @@ namespace Z0
 
         K7,
 
-        [Symbol("mm0")]
+        [Symbol("MM0")]
         MMX0,
 
-        [Symbol("mm1")]
+        [Symbol("MM1")]
         MMX1,
 
-        [Symbol("mm2")]
+        [Symbol("MM2")]
         MMX2,
 
-        [Symbol("mm3")]
+        [Symbol("MM3")]
         MMX3,
 
-        [Symbol("mm4")]
+        [Symbol("MM4")]
         MMX4,
 
-        [Symbol("mm5")]
+        [Symbol("MM5")]
         MMX5,
 
-        [Symbol("mm6")]
+        [Symbol("MM6")]
         MMX6,
 
-        [Symbol("mm7")]
+        [Symbol("MM7")]
         MMX7,
 
         SSP,
@@ -307,16 +304,12 @@ namespace Z0
 
         X87OPCODE,
 
-        [Ignore]
         X87LASTCS,
 
-        [Ignore]
         X87LASTIP,
 
-        [Ignore]
         X87LASTDS,
 
-        [Ignore]
         X87LASTDP,
 
         ES,
@@ -331,102 +324,86 @@ namespace Z0
 
         GS,
 
-        [Ignore]
         TMP0,
 
-        [Ignore]
         TMP1,
 
-        [Ignore]
         TMP2,
 
-        [Ignore]
         TMP3,
 
-        [Ignore]
         TMP4,
 
-        [Ignore]
         TMP5,
 
-        [Ignore]
         TMP6,
 
-        [Ignore]
         TMP7,
 
-        [Ignore]
         TMP8,
 
-        [Ignore]
         TMP9,
 
-        [Ignore]
         TMP10,
 
-        [Ignore]
         TMP11,
 
-        [Ignore]
         TMP12,
 
-        [Ignore]
         TMP13,
 
-        [Ignore]
         TMP14,
 
-        [Ignore]
         TMP15,
 
-        [Symbol("tr0")]
+        [Symbol("TR0")]
         TMM0,
 
-        [Symbol("tr1")]
+        [Symbol("TR1")]
         TMM1,
 
-        [Symbol("tr2")]
+        [Symbol("TR2")]
         TMM2,
 
-        [Symbol("tr3")]
+        [Symbol("TR3")]
         TMM3,
 
-        [Symbol("tr4")]
+        [Symbol("TR4")]
         TMM4,
 
-        [Symbol("tr5")]
+        [Symbol("TR5")]
         TMM5,
 
-        [Symbol("tr6")]
+        [Symbol("TR6")]
         TMM6,
 
-        [Symbol("tr7")]
+        [Symbol("TR7")]
         TMM7,
 
         UIF,
 
-        [Symbol("st0")]
+        [Symbol("ST0")]
         ST0,
 
-        [Symbol("st1")]
+        [Symbol("ST1")]
         ST1,
 
-        [Symbol("st2")]
+        [Symbol("ST2")]
         ST2,
 
-        [Symbol("st3")]
+        [Symbol("ST3")]
         ST3,
 
-        [Symbol("st4")]
+        [Symbol("ST4")]
         ST4,
 
-        [Symbol("st5")]
+        [Symbol("ST5")]
         ST5,
 
-        [Symbol("st6")]
+        [Symbol("ST6")]
         ST6,
 
-        [Symbol("st7")]
+        [Symbol("ST7")]
         ST7,
 
         XCR0,

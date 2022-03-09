@@ -11,14 +11,14 @@ namespace Z0
         {
             public PointerWidthKind Kind {get;}
 
-            public char Spec {get;}
+            public text7 Spec {get;}
 
             public text15 Name {get;}
 
             public PointerWidth(Sym<PointerWidthKind> src)
             {
                 Kind = src.Kind;
-                Spec = src.Expr.Format()[0];
+                Spec =  XedFormatters.format(src.Kind);
                 Name = src.Kind.ToString().ToLower();
             }
 

@@ -117,11 +117,13 @@ namespace Z0
 
             public const XedRegId YMM_FIRST=YMM0;
 
-            public const XedRegId YMM_LAST=YMM31;
+            public const XedRegId YMM_LAST = YMM31;
 
-            public const XedRegId ZMM_FIRST=ZMM0;
+            public const XedRegId ZMM_FIRST = ZMM0;
 
-            public const XedRegId ZMM_LAST=ZMM31;
+            public const XedRegId ZMM_LAST = ZMM31;
+
+            public const XedRegId LAST = ZMM_LAST;
         }
     }
 }

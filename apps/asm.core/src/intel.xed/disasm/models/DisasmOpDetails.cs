@@ -9,13 +9,6 @@ namespace Z0
     {
         public struct DisasmOpDetails : IIndex<DisasmOpDetail>
         {
-            public const string RenderPattern = "{0,-4} | {1,-8} | {2,-24} | {3,-10} | {4,-12} | {5,-12} | {6,-12} | {7,-12}";
-
-            static string[] ColPatterns = new string[]{"Op{0}", "Op{0}Name", "Op{0}Val", "Op{0}Action", "Op{0}Vis", "Op{0}Width", "Op{0}WKind", "Op{0}Prop2"};
-
-            public static string Header(int index)
-                => string.Format(RenderPattern, ColPatterns.Select(x => string.Format(x, index)));
-
             public Index<DisasmOpDetail> Details;
 
             [MethodImpl(Inline)]
