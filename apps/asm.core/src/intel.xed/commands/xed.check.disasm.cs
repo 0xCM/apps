@@ -20,22 +20,29 @@ namespace Z0
             var context = Projects.Context(project, receiver);
             var files = context.Files(FileKind.XedRawDisasm);
             AppDb.Logs("xed").Clear();
+
+            FieldFormatter[FieldKind.EOSZ] = FieldFormatters.eosz;
+            FieldFormatter[FieldKind.EASZ] = FieldFormatters.easz;
+            FieldFormatter[FieldKind.MODE] = FieldFormatters.mode;
+
             iter(files, file => CheckDisasm(context, XedDisasm.blocks(file)),true);
             //var flags = XedRules.flags(rules);
 
             return true;
         }
 
+        FieldRender FieldFormatter => Service(FieldRender.create);
+
         void CheckDisasm(WsContext context, in DisasmFileBlocks src)
         {
             var name = src.Source.DocName;
+            var fieldrender = FieldFormatter;
             var dst = AppDb.Log("xed", name, FileKind.Log);
             var emitting = EmittingFile(dst);
             XedDisasm.CalcSummaryDoc(context, src.Source, out var summaries);
             Require.equal(summaries.RowCount, src.Count);
             var counter = 0u;
             var state = RuleState.Empty;
-            var formatter = Tables.formatter<StateFlags>();
             using var writer = dst.AsciWriter();
             for(var i=0; i<src.Count; i++)
             {
@@ -50,20 +57,37 @@ namespace Z0
                 ref readonly var summary = ref summaries[i];
                 var fields = XedDisasm.fields(block);
                 update(fields, ref state);
-                var flags = XedRules.flags(state);
-                var packed = XedRules.pack(flags);
-                writer.AppendLineFormat("{0,-24} | {1}", (Address32)summary.IP, summary.Asm);
+                ref readonly var flags = ref state.Flags;
+
+                writer.AppendLine((Address32)summary.IP);
                 writer.AppendLine(RP.PageBreak80);
+                writer.AppendLineFormat("{0,-24} {1}", nameof(summary.Asm), summary.Asm);
                 writer.AppendLineFormat("{0,-24} {1}", nameof(summary.Encoded), summary.Encoded);
+
+                var positions = XedRules.positions(state);
+                if(positions.OpCode >= 0)
+                    writer.AppendLineFormat("{0,-24} {1}", FieldKind.POS_NOMINAL_OPCODE, positions.OpCode);
+                if(positions.ModRm >= 0)
+                    writer.AppendLineFormat("{0,-24} {1}", FieldKind.POS_MODRM, positions.ModRm);
+                if(positions.Sib >= 0)
+                    writer.AppendLineFormat("{0,-24} {1}", FieldKind.POS_SIB, positions.Sib);
+                if(positions.Imm0 >= 0)
+                    writer.AppendLineFormat("{0,-24} {1}", FieldKind.POS_IMM, positions.Imm0);
+                if(positions.Imm1 >= 0)
+                    writer.AppendLineFormat("{0,-24} {1}", FieldKind.POS_IMM1, positions.Imm1);
+                if(positions.Disp >= 0)
+                    writer.AppendLineFormat("{0,-24} {1}", FieldKind.POS_DISP, positions.Disp);
+
                 for(var j=0; j<fields.Count; j++)
                 {
                     ref readonly var prop = ref fields[j];
-                    writer.AppendLineFormat("{0,-24} {1}", prop.Kind, prop.Format());
+                    if(!XedRules.ispos(prop.Kind))
+                        writer.AppendLineFormat("{0,-24} {1}", prop.Kind, fieldrender.Format(prop));
                     counter++;
                 }
-
             }
             EmittedFile(emitting,counter);
         }
+
     }
 }

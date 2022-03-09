@@ -5,12 +5,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class XedRules
     {
-        [Op]
-        public static ref readonly StateFlags flags(in RuleState state)
-            => ref @as<StateFlags>(bytes(state));
+        public interface IFieldFormatter
+        {
+            string Format(FieldValue src);
+        }
+
+        public interface IFieldFormatter<T> : IFieldFormatter
+            where T : unmanaged
+        {
+            string Format(FieldValue<T> src);
+
+            string IFieldFormatter.Format(FieldValue src)
+                => Format(src);
+        }
     }
 }

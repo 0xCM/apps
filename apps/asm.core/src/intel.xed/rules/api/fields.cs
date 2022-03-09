@@ -44,6 +44,7 @@ namespace Z0
             return dst;
 
         }
+
         static ushort datawidth(Type src)
         {
             var result = z16;

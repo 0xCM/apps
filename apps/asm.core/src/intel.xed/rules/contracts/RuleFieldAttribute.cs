@@ -11,7 +11,7 @@ namespace Z0
     {
         public class RuleFieldAttribute : Attribute
         {
-            public RuleFieldAttribute(FieldKind kind, byte width)
+            public RuleFieldAttribute(FieldKind kind, byte width = 0)
             {
                 Kind = kind;
                 Width = width;

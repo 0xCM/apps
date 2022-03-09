@@ -10,14 +10,6 @@ namespace Z0
 
     partial class XedRules
     {
-        public readonly struct FieldComparer : IComparer<FieldKind>
-        {
-            public int Compare(FieldKind a, FieldKind b)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public readonly struct FieldValue
         {

@@ -8,6 +8,7 @@ namespace Z0
     using Asm;
 
     using static XedModels;
+    using static core;
 
     using K = XedRules.FieldKind;
 
@@ -17,6 +18,12 @@ namespace Z0
         public struct RuleState
         {
             public const string TableId = "xed.rules.state";
+
+            public ref StateFlags Flags
+            {
+                [MethodImpl(Inline)]
+                get => ref @as<StateFlags>(bytes(this));
+            }
 
             [RuleField(K.ASZ, 1)]
             public bit ASZ;
@@ -31,10 +38,10 @@ namespace Z0
             public bit DF64;
 
             [RuleField(K.NO_SCALE_DISP8, 1)]
-            public bit NO_SCALE_DISP8; // 4
+            public bit NO_SCALE_DISP8;
 
             [RuleField(K.AMD3DNOW, 1)]
-            public bit AMD3DNOW; // 5
+            public bit AMD3DNOW;
 
             [RuleField(K.BCRC, 1)]
             public bit BCRC;
@@ -171,6 +178,30 @@ namespace Z0
             [RuleField(K.PAD0, 14*8)]
             ByteBlock14 PAD0;
 
+            [RuleField(K.POS_NOMINAL_OPCODE, 4)]
+            public byte POS_NOMINAL_OPCODE;
+
+            [RuleField(K.POS_MODRM, 4)]
+            public byte POS_MODRM;
+
+            [RuleField(K.POS_SIB, 4)]
+            public byte POS_SIB;
+
+            [RuleField(K.POS_IMM, 4)]
+            public byte POS_IMM;
+
+            [RuleField(K.POS_IMM1, 4)]
+            public byte POS_IMM1;
+
+            [RuleField(K.POS_DISP, 4)]
+            public byte POS_DISP;
+
+            [RuleField(K.MODE, 2)]
+            public byte MODE;
+
+            [RuleField(K.SMODE, 2)]
+            public byte SMODE;
+
             [RuleField(K.EASZ, 3)]
             public byte EASZ;
 
@@ -261,7 +292,6 @@ namespace Z0
             [RuleField(K.BCAST,5)]
             public BCastKind BCAST;
 
-
             [RuleField(K.BASE0, 9)]
             public XedRegId BASE0;
 
@@ -292,12 +322,6 @@ namespace Z0
             [RuleField(K.LLRC, 2)]
             public byte LLRC;
 
-            [RuleField(K.MODE, 2)]
-            public byte MODE;
-
-            [RuleField(K.SMODE, 2)]
-            public byte SMODE;
-
             [RuleField(K.SRM, 3)]
             public byte SRM;
 
@@ -316,24 +340,6 @@ namespace Z0
             [RuleField(FieldKind.MAX_BYTES, 4)]
             public byte MAX_BYTES;
 
-            [RuleField(K.POS_DISP, 4)]
-            public byte POS_DISP;
-
-            [RuleField(K.POS_IMM, 4)]
-            public byte POS_IMM;
-
-            [RuleField(K.POS_IMM1, 4)]
-            public byte POS_IMM1;
-
-            [RuleField(K.POS_MODRM, 4)]
-            public byte POS_MODRM;
-
-            [RuleField(K.POS_NOMINAL_OPCODE, 4)]
-            public byte POS_NOMINAL_OPCODE;
-
-            [RuleField(K.POS_SIB, 4)]
-            public byte POS_SIB;
-
             [RuleField(K.NELEM, 4)]
             public byte NELEM;
 
@@ -343,7 +349,7 @@ namespace Z0
             [RuleField(K.MEM_WIDTH, 16)]
             public ushort MEM_WIDTH;
 
-            [RuleField(K.IMM0, 64)]
+            [RuleField(K.UIMM0, 64)]
             public imm64 UIMM0;
 
             [RuleField(K.UIMM1, 8)]

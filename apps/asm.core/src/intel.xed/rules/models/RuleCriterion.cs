@@ -67,6 +67,10 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
+            public FieldValue ToFieldValue()
+                => new FieldValue(Field,Code,Data);
+
+            [MethodImpl(Inline)]
             public RuleCall AsCall()
                 => (NameResolver)Data;
 

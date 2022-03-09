@@ -11,8 +11,9 @@ namespace Z0.Asm
     /// https://docs.microsoft.com/en-us/cpp/assembler/masm/instruction-format?view=msvc-170
     /// </remarks>
     [SymSource("asm")]
-    public enum RoundingKind : byte
+    public enum RoundingMode : byte
     {
+        [Symbol("")]
         None,
 
         [Symbol("{sae}","Suppress all exceptions (no rounding needed)")]
@@ -21,13 +22,13 @@ namespace Z0.Asm
         [Symbol("{rn-sae}","Round to nearest, ties to even, suppress all exceptions")]
         RnSae,
 
-        [Symbol("{rz-sae}","Round toward zero, suppress all exception")]
-        RzSae,
-
         [Symbol("{rd-sae}","Round down (toward negative infinity), suppress all exceptions")]
         RdSae,
 
         [Symbol("{ru-sae}","Round up (toward positive infinity), suppress all exception")]
-        RuSae
+        RuSae,
+
+        [Symbol("{rz-sae}","Round toward zero, suppress all exception")]
+        RzSae,
     }
 }

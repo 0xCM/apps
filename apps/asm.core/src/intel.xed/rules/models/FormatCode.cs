@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+
     partial class XedRules
     {
         public enum FormatCode : byte
@@ -43,11 +44,33 @@ namespace Z0
 
             U64,
 
-            X4,
+            I8,
+
+            I16,
+
+            I32,
+
+            I64,
+
+            X2,
 
             X3,
 
+            X4,
+
+            X5,
+
+            X6,
+
+            X7,
+
             X8,
+
+            X16,
+
+            X32,
+
+            X64,
 
             Disp,
 
@@ -64,6 +87,12 @@ namespace Z0
             Error,
 
             Text,
+
+            EnumName,
+
+            EnumSymbol,
+
+            EnumValue
         }
     }
 }

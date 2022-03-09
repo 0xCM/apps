@@ -4,11 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedModels;
     using static XedRules;
     using static core;
+
+    using static XedModels.BCastKind;
+    using static Asm.BroadcastStrings;
 
     using TK = XedRules.RuleTokenKind;
     using K = XedRules.RuleOpAttribKind;
@@ -51,7 +52,7 @@ namespace Z0
                 break;
 
                 case K.Nonterminal:
-                    dst = Nonterminals[src.AsNonTerm()].Expr.Text;
+                    dst = format(src.AsNonTerm());
                 break;
 
                 case K.Visibility:
@@ -59,7 +60,7 @@ namespace Z0
                 break;
 
                 case K.RegLiteral:
-                    dst = src.AsRegLiteral().ToString();
+                    dst = format(src.AsRegLiteral());
                 break;
 
                 case K.Scale:
@@ -97,11 +98,6 @@ namespace Z0
                 break;
             }
             return dst;
-        }
-
-        public static string format(RuleOpModifier src)
-        {
-            return src.Kind.ToString();
         }
 
         public static string format(in RuleToken src, bool showkind)
@@ -171,6 +167,8 @@ namespace Z0
                 dst.AppendFormat(", {0}={1}", "disp", src.Disp);
             if(src.Imm0 > 0)
                 dst.AppendFormat(", {0}={1}", "imm0", src.Imm0);
+            if(src.Imm1 > 0)
+                dst.AppendFormat(", {0}={1}", "imm1", src.Imm1);
             dst.Append(Chars.RBrace);
             return dst.Emit();
         }
@@ -178,17 +176,25 @@ namespace Z0
         public static string format(in RuleToken src)
             => format(src, false);
 
+        [MethodImpl(Inline)]
+        public static string format(RuleOpModKind src)
+            => OpMods[src].Expr.Text;
+
+        [MethodImpl(Inline)]
+        public static string format(RuleOpName src)
+            => OpNames[src].Expr.Text;
+
         [MethodImpl(Inline), Op]
         public static string format(RuleOperator src)
             => RuleOps[src].Expr.Text;
 
         [MethodImpl(Inline), Op]
         public static string format(BCastKind src)
-            => BCastKinds[src].Expr.Text;
+            => BCastFormatter.format(src);
 
         [MethodImpl(Inline), Op]
         public static string format(XedRegId src)
-            => src.ToString();
+            => XedRegs[src].Expr.Text;
 
         [MethodImpl(Inline), Op]
         public static string format(OperandAction src)
@@ -215,10 +221,6 @@ namespace Z0
             => ConstraintKinds[src].Expr.Text;
 
         [MethodImpl(Inline), Op]
-        public static string format(RuleOpModKind src)
-            => OpMods[src].Expr.Text;
-
-        [MethodImpl(Inline), Op]
         public static string format(NonterminalKind src)
             => src == 0 ? EmptyString : Nonterminals[src].Expr.Text;
 
@@ -229,6 +231,22 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static string format(AttributeKind src)
             => AttribKinds[src].Expr.Text;
+
+        [MethodImpl(Inline), Op]
+        public static string format(BCast8Kind src)
+            => BCast8.Format(src);
+
+        [MethodImpl(Inline), Op]
+        public static string format(BCast16Kind src)
+            => BCast16.Format(src);
+
+        [MethodImpl(Inline), Op]
+        public static string format(BCast32Kind src)
+            => BCast32.Format(src);
+
+        [MethodImpl(Inline), Op]
+        public static string format(BCast64Kind src)
+            => BCast64.Format(src);
 
         [MethodImpl(Inline), Op]
         public static string format(OperandWidthKind src)
@@ -243,7 +261,7 @@ namespace Z0
             => ElementTypes[src].Expr.Text;
 
         [MethodImpl(Inline), Op]
-        public static string format(in OpVisiblity src)
+        public static string format(OpVisiblity src)
             => OpVis[src].Expr.Text;
 
         [MethodImpl(Inline), Op]
@@ -251,8 +269,24 @@ namespace Z0
             => OcKindIndex[ocindex(src)].Expr.Text;
 
         [MethodImpl(Inline), Op]
-        public static string format(in DispExpr src)
+        public static string format(DispExpr src)
             => DispKinds[src.Kind].Expr.Text;
+
+        [MethodImpl(Inline), Op]
+        public static string format(EOSZ src)
+            => EoszKinds[src].Expr.Text;
+
+        [MethodImpl(Inline), Op]
+        public static string format(EASZ src)
+            => EaszKinds[src].Expr.Text;
+
+        [MethodImpl(Inline), Op]
+        public static string format(RoundingKind src)
+            => RoundingKinds[src].Expr.Text;
+
+        [MethodImpl(Inline), Op]
+        public static string format(ModeKind src)
+            => ModeKinds.Format(src);
 
         public static string format(in RuleTermTable src)
         {
@@ -318,6 +352,16 @@ namespace Z0
             }
         }
 
+        static EnumFormatter<BCast8Kind> BCast8 = new();
+
+        static EnumFormatter<BCast16Kind> BCast16 = new();
+
+        static EnumFormatter<BCast32Kind> BCast32 = new();
+
+        static EnumFormatter<BCast64Kind> BCast64 = new();
+
+        static EnumFormatter<ModeKind> ModeKinds = new();
+
         static Symbols<AttributeKind> AttribKinds;
 
         static Symbols<FieldKind> FieldKinds;
@@ -360,6 +404,12 @@ namespace Z0
 
         static Symbols<IClass> Classes;
 
+        static Symbols<EASZ> EaszKinds;
+
+        static Symbols<EOSZ> EoszKinds;
+
+        static Symbols<RoundingKind> RoundingKinds;
+
         static XedFormatters()
         {
             FieldKinds = Symbols.index<FieldKind>();
@@ -383,6 +433,114 @@ namespace Z0
             AttribKinds = Symbols.index<AttributeKind>();
             OpMods = Symbols.index<RuleOpModKind>();
             Classes = Symbols.index<IClass>();
+            EaszKinds = Symbols.index<EASZ>();
+            EoszKinds = Symbols.index<EOSZ>();
+            RoundingKinds = Symbols.index<RoundingKind>();
        }
+
+        public readonly struct BCastFormatter : IFormatter<BCastKind>
+        {
+            [MethodImpl(Inline)]
+            public static string format(BCastKind src)
+                => Service.Format(src);
+
+            [MethodImpl(Inline)]
+            public string Format(BCastKind src)
+            {
+                if(src == 0)
+                    return EmptyString;
+                else
+                    return SymbolMap[(byte)src];
+            }
+
+            public static BCastFormatter Service => default;
+
+            static BCastFormatter()
+            {
+                MapSymbols();
+            }
+
+            static void MapSymbols()
+            {
+                var kinds = Symbols.index<BCastKind>().Kinds;
+                var count = kinds.Length - 1;
+                SymbolMap = alloc<string>(count);
+                for(int i=0, j=1; i<count; i++, j++)
+                {
+                    ref readonly var kind = ref skip(kinds,j);
+                    switch(kind)
+                    {
+                        case BCast_1TO2_8:
+                        case BCast_1TO2_16:
+                        case BCast_1TO2_32:
+                        case BCast_1TO2_64:
+                            SymbolMap[i] = BCast1to2;
+                            break;
+
+                        case BCast_1TO4_8:
+                        case BCast_1TO4_16:
+                        case BCast_1TO4_32:
+                        case BCast_1TO4_64:
+                            SymbolMap[i] = BCast1to4;
+                            break;
+
+                        case BCast_1TO8_8:
+                        case BCast_1TO8_16:
+                        case BCast_1TO8_32:
+                        case BCast_1TO8_64:
+                            SymbolMap[i] = BCast1to8;
+                            break;
+
+                        case BCast_1TO16_16:
+                        case BCast_1TO16_8:
+                        case BCast_1TO16_32:
+                            SymbolMap[i] = BCast1to16;
+                            break;
+
+                        case BCast_1TO32_8:
+                        case BCast_1TO32_16:
+                            SymbolMap[i] = BCast1to32;
+                            break;
+
+
+                        case BCast_1TO64_8:
+                            SymbolMap[i] = BCast1to64;
+                            break;
+
+                        case BCast_2TO4_64:
+                        case BCast_2TO4_32:
+                            SymbolMap[i] = BCast2to4;
+                            break;
+
+                        case BCast_2TO8_32:
+                        case BCast_2TO8_64:
+                            SymbolMap[i] = BCast2to8;
+                            break;
+
+                        case BCast_2TO16_32:
+                            SymbolMap[i] = BCast2to16;
+                            break;
+
+                        case BCast_4TO8_32:
+                        case BCast_4TO8_64:
+                            SymbolMap[i] = BCast4to8;
+                            break;
+
+                        case BCast_4TO16_32:
+                            SymbolMap[i] = BCast4to16;
+                            break;
+
+                        case BCast_8TO16_32:
+                            SymbolMap[i] = BCast8to16;
+                            break;
+
+                        default:
+                        break;
+                    }
+                }
+            }
+
+            static Index<string> SymbolMap;
+        }
     }
 }

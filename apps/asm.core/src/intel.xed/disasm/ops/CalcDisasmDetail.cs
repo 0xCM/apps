@@ -39,7 +39,7 @@ namespace Z0
 
             XedDisasm.state(inst.Props.Edit, out var state);
             ref readonly var rules = ref state.RuleState;
-            dst.Offsets = XedRules.offsets(rules);
+            dst.Offsets = XedRules.positions(rules);
             dst.OpCode = rules.NOMINAL_OPCODE;
             dst.OpDetails = alloc<DisasmOpDetail>(block.OperandCount);
 

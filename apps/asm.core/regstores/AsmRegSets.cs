@@ -454,13 +454,10 @@ namespace Z0.Asm
 
         static AsmRegSets Instance = new();
 
-
         [MethodImpl(Inline)]
         static string format(RegClassCode src)
             => RegClassFormatter.Format(src);
 
         static EnumFormatter<RegClassCode> RegClassFormatter = new();
-
-
     }
 }

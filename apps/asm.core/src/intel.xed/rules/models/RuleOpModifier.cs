@@ -23,6 +23,13 @@ namespace Z0
             public override string ToString()
                 => Format();
 
+            [MethodImpl(Inline)]
+            public static implicit operator RuleOpModKind(RuleOpModifier src)
+                => src.Kind;
+
+            [MethodImpl(Inline)]
+            public static implicit operator RuleOpModifier(RuleOpModKind src)
+                => new RuleOpModifier(src);
         }
     }
 }

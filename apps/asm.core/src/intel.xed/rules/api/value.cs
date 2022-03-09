@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class XedRules
     {
         [MethodImpl(Inline)]
@@ -15,5 +17,16 @@ namespace Z0
         [MethodImpl(Inline)]
         public static FieldValue value(FieldKind kind, NameResolver resolver)
             => new FieldValue(kind, FormatCode.Text, (ulong)resolver);
+
+        public ConstLookup<FieldKind,object> values<T>(in T src)
+            where T : unmanaged
+        {
+            var dst = dict<FieldKind,object>();
+            var kinds = new ReflectedFields();
+            var fields = kinds.RightValues;
+            foreach(var f in fields)
+                dst.Add(kinds[f], f.GetValue(src));
+            return dst;
+        }
     }
 }

@@ -7,6 +7,7 @@ namespace Z0
 {
     using static XedModels.EASZ;
     using static XedModels.EOSZ;
+    using static XedModels.ModeKind;
 
     using EK = XedModels.ElementKind;
     using OK = XedModels.OperandWidthKind;
@@ -253,7 +254,6 @@ namespace Z0
                 _ => 0,
             };
 
-
         [Op]
         public static uint width(EASZ src)
             => src switch
@@ -261,6 +261,27 @@ namespace Z0
                 EASZ16 => 16,
                 EASZ32 => 32,
                 EASZ64 => 64,
+                _ => 0,
+            };
+
+        [Op]
+        public static uint width(ModeKind src)
+            => src switch
+            {
+                Mode16 => 16,
+                Mode32 => 32,
+                Mode64 => 64,
+                _ => 0,
+            };
+
+        [Op]
+        public static uint widths(ModeKind src)
+            => src switch
+            {
+                Mode16 => 16,
+                Mode32 => 32,
+                Mode64 => 64,
+                Not64 => 16 | 32,
                 _ => 0,
             };
 

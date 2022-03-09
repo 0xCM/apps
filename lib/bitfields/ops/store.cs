@@ -8,66 +8,6 @@ namespace Z0
 
     partial struct Bitfields
     {
-        // [MethodImpl(Inline), Op]
-        // public static ref Bitfield8 store(byte src, byte offset, byte width, ref Bitfield8 dst)
-        // {
-        //     dst.Overwrite(math.or(dst.State, math.sll(src, width)));
-        //     return ref dst;
-        // }
-
-        // [MethodImpl(Inline), Op]
-        // public static ref Bitfield16 store(ushort src, byte offset, byte width, ref Bitfield16 dst)
-        // {
-        //     dst.Overwrite(math.or(dst.State, math.sll(src, width)));
-        //     return ref dst;
-        // }
-
-        // [MethodImpl(Inline), Op]
-        // public static ref Bitfield32 store(uint src, byte offset, byte width, ref Bitfield32 dst)
-        // {
-        //     dst.Overwrite(math.or(dst.State, math.sll(src, width)));
-        //     return ref dst;
-        // }
-
-        // [MethodImpl(Inline), Op]
-        // public static ref Bitfield64 store(ulong src, byte offset, byte width, ref Bitfield64 dst)
-        // {
-        //     dst.Overwrite(math.or(dst.State, math.sll(src, width)));
-        //     return ref dst;
-        // }
-
-        // [MethodImpl(Inline), Op, Closures(UInt8k)]
-        // public static ref Bitfield8<T> store<T>(T src, byte offset, byte width, ref Bitfield8<T> dst)
-        //     where T : unmanaged
-        // {
-        //     dst.Overwrite(math.or(dst.State8u, math.sll(u8(src), width)));
-        //     return ref dst;
-        // }
-
-        // [MethodImpl(Inline), Op, Closures(UInt8x16k)]
-        // public static ref Bitfield16<T> store<T>(T src, byte offset, byte width, ref Bitfield16<T> dst)
-        //     where T : unmanaged
-        // {
-        //     dst.Overwrite(math.or(dst.State16u, math.sll(u16(src), width)));
-        //     return ref dst;
-        // }
-
-        // [MethodImpl(Inline), Op, Closures(UInt8x16x32k)]
-        // public static ref Bitfield32<T> store<T>(T src, byte offset, byte width, ref Bitfield32<T> dst)
-        //     where T : unmanaged
-        // {
-        //     dst.Overwrite(math.or(dst.State32u, math.sll(u32(src), width)));
-        //     return ref dst;
-        // }
-
-        // [MethodImpl(Inline), Op, Closures(UnsignedInts)]
-        // public static ref Bitfield64<T> store<T>(T src, byte offset, byte width, ref Bitfield64<T> dst)
-        //     where T : unmanaged
-        // {
-        //     dst.Overwrite(math.or(dst.State, math.sll(u64(src), width)));
-        //     return ref dst;
-        // }
-
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ref Bitfield<T> store<T>(T src, byte field, ref Bitfield<T> dst)
             where T : unmanaged

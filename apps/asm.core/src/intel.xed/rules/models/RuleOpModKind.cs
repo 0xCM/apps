@@ -9,6 +9,7 @@ namespace Z0
     {
         public enum RuleOpModKind : byte
         {
+            [Symbol("")]
             None,
 
             ZEROSTR,

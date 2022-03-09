@@ -14,7 +14,7 @@ namespace Z0
     using FK = XedRules.FieldKind;
     using RO = XedRules.RuleOperator;
     using SL = XedRules.SyntaxLiterals;
-    using DK = XedRules.FormatCode;
+    using FC = XedRules.FormatCode;
 
     partial class XedRules
     {
@@ -281,7 +281,6 @@ namespace Z0
                     case REG8:
                     case REG9:
                     {
-
                         if(DataParser.eparse(text.remove(value, "XED_REG_"), out XedRegId x))
                         {
                             dst = criterion(premise, field, op, x);
@@ -463,7 +462,7 @@ namespace Z0
                     dst = XedFormatters.format(src.Field);
                     if(src.Operator != 0)
                         dst += XedFormatters.format(src.Operator);
-                    dst += format(src.Code, src.Data);
+                    dst += format(src.ToFieldValue());
                 }
                 return dst;
             }
@@ -505,21 +504,248 @@ namespace Z0
             public static string format(FieldValue src)
             {
                 var dst = EmptyString;
+                var data = bytes(src.Data);
                 switch(src.FormatCode)
                 {
                     case FormatCode.Text:
                         dst = ((NameResolver)((int)src.Data)).Format();
                         break;
-                    default:
-                        dst = format(src.FormatCode, src.Data);
+                    case FC.B1:
+                    {
+                        bit x = first(data);
+                        dst = x.Format();
+                    }
+                    break;
+                    case FC.B2:
+                    {
+                        uint2 x = first(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.B3:
+                    {
+                        uint3 x = first(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.B4:
+                    {
+                        uint4 x = first(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.B5:
+                    {
+                        uint5 x = first(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.B6:
+                    {
+                        uint6 x = first(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.B7:
+                    {
+                        uint7 x = first(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.B8:
+                    {
+                        uint8b x = first(data);
+                        dst = format(x);
+                    }
+                    break;
+
+                    case FC.U2:
+                    {
+                        byte x = (byte)(first(data) & 0b11);
+                        dst = format(x);
+                    }
+                    break;
+
+                    case FC.U3:
+                    {
+                        byte x = (byte)(first(data) & 0b111);
+                        dst = format(x);
+                    }
+                    break;
+
+                    case FC.U4:
+                    {
+                        byte x = (byte)(first(data) & 0b1111);
+                        dst = format(x);
+                    }
+                    break;
+
+                    case FC.U5:
+                    {
+                        byte x = (byte)(first(data) & 0b11111);
+                        dst = format(x);
+                    }
+                    break;
+
+                    case FC.U8:
+                    {
+                        var x = first(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.U16:
+                    {
+                        var x = @as<ushort>(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.U32:
+                    {
+                        var x = @as<uint>(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.U64:
+                    {
+                        var x = @as<ulong>(data);
+                        dst = format(x);
+                    }
+                    break;
+
+                    case FC.I8:
+                    {
+                        var x = @as<sbyte>(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.I16:
+                    {
+                        var x = @as<short>(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.I32:
+                    {
+                        var x = @as<int>(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.I64:
+                    {
+                        var x = @as<long>(data);
+                        dst = format(x);
+                    }
+                    break;
+
+                    case FC.X2:
+                    {
+                        Hex2 x = first(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.X3:
+                    {
+                        Hex3 x = first(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.X4:
+                    {
+                        Hex4 x = first(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.X5:
+                    {
+                        Hex5 x = first(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.X6:
+                    {
+                        Hex6 x = first(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.X7:
+                    {
+                        Hex7 x = first(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.X8:
+                    {
+                        Hex8 x = first(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.X16:
+                    {
+                        Hex16 x = @as<ushort>(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.X32:
+                    {
+                        Hex32 x = @as<uint>(data);
+                        dst = format(x);
+                    }
+                    break;
+                    case FC.X64:
+                    {
+                        Hex64 x = @as<ulong>(data);
+                        dst = format(x);
+                    }
+                    break;
+
+                    case FC.Disp:
+                    {
+                        Disp64 x = @as<long>(data);
+                        dst = x.Format();
+                    }
+                    break;
+
+                    case FC.Broadcast:
+                    {
+                        var x = @as<BCastKind>(data);
+                        dst = XedFormatters.format(x);
+                    }
+                    break;
+                    case FC.Chip:
+                    {
+                        var x = @as<ChipCode>(data);
+                        dst = XedFormatters.format(x);
+                    }
+                    break;
+                    case FC.Reg:
+                    {
+                        var x = @as<XedRegId>(data);
+                        dst = XedFormatters.format(x);
+                    }
+                    break;
+                    case FC.InstClass:
+                    {
+                        var x = @as<IClass>(data);
+                        dst = XedFormatters.format(x);
+                    }
+                    break;
+                    case FC.MemWidth:
+                    {
+                        var x = @as<ushort>(data);
+                        dst = x.ToString();
+                    }
+                    break;
+                    case FC.EnumSymbol:
+                    break;
+                    case FC.EnumValue:
+                    break;
+                    case FC.EnumName:
                     break;
 
                 }
                 return dst;
             }
 
-            public static string format(FormatCode code, ulong value)
-                => format(code, bytes(value));
 
             static string format(uint2 src)
                 => src.Format();
@@ -530,149 +756,71 @@ namespace Z0
             static string format(uint4 src)
                 => src.Format();
 
+            static string format(uint5 src)
+                => src.Format();
+
+            static string format(uint6 src)
+                => src.Format();
+
+            static string format(uint7 src)
+                => src.Format();
+
+            static string format(uint8b src)
+                => src.Format();
+
+            static string format(sbyte src)
+                => src.ToString();
+
+            static string format(short src)
+                => src.ToString();
+
+            static string format(int src)
+                => src.ToString();
+
+            static string format(long src)
+                => src.ToString();
+
+            static string format(byte src)
+                => src.ToString();
+
+            static string format(ushort src)
+                => src.ToString();
+
+            static string format(uint src)
+                => src.ToString();
+
+            static string format(ulong src)
+                => src.ToString();
+
+            static string format(Hex2 src)
+                => src.Format(prespec:true, uppercase:true);
+
             static string format(Hex3 src)
                 => src.Format(prespec:true, uppercase:true);
 
             static string format(Hex4 src)
                 => src.Format(prespec:true, uppercase:true);
 
+            static string format(Hex5 src)
+                => src.Format(prespec:true, uppercase:true);
+
+            static string format(Hex6 src)
+                => src.Format(prespec:true, uppercase:true);
+
+            static string format(Hex7 src)
+                => src.Format(prespec:true, uppercase:true);
+
             static string format(Hex8 src)
                 => src.Format(prespec:true, uppercase:true);
 
-            public static string format(FormatCode dt, ReadOnlySpan<byte> data)
-            {
-                var dk = dt;
-                var value = EmptyString;
-                switch(dk)
-                {
-                    case DK.B1:
-                    {
-                        bit x = first(data);
-                        value = x.Format();
-                    }
-                    break;
-                    case DK.B2:
-                    {
-                        uint2 x = first(data);
-                        value = format(x);
-                    }
-                    break;
-                    case DK.B3:
-                    {
-                        uint3 x = first(data);
-                        value = format(x);
-                    }
-                    break;
-                    case DK.B4:
-                    {
-                        uint4 x = first(data);
-                        value = format(x);
-                    }
-                    break;
+            static string format(Hex16 src)
+                => src.Format(prespec:true, uppercase:true);
 
-                    case DK.U2:
-                    {
-                        uint2 x = first(data);
-                        value = ((byte)x).ToString();
-                    }
-                    break;
+            static string format(Hex32 src)
+                => src.Format(prespec:true, uppercase:true);
 
-                    case DK.U3:
-                    {
-                        uint3 x = first(data);
-                        value = ((byte)x).ToString();
-                    }
-                    break;
-
-                    case DK.U4:
-                    {
-                        uint4 x = first(data);
-                        value = ((byte)x).ToString();
-                    }
-                    break;
-
-                    case DK.U5:
-                    {
-                        uint5 x = first(data);
-                        value = ((byte)x).ToString();
-                    }
-                    break;
-
-                    case DK.U8:
-                    {
-                        byte x = first(data);
-                        value = x.ToString();
-                    }
-                    break;
-                    case DK.U16:
-                    {
-                        var x = @as<ushort>(data);
-                        value = x.ToString();
-                    }
-                    break;
-                    case DK.U64:
-                    {
-                        var x = @as<ulong>(data);
-                        value = x.ToString();
-                    }
-                    break;
-                    case DK.X3:
-                    {
-                        Hex3 x = first(data);
-                        value = format(x);
-                    }
-                    break;
-                    case DK.X4:
-                    {
-                        Hex4 x = first(data);
-                        value = format(x);
-                    }
-                    break;
-                    case DK.X8:
-                    {
-                        Hex8 x = first(data);
-                        value = format(x);
-                    }
-                    break;
-                    case DK.Disp:
-                    {
-                        Disp64 x = @as<long>(data);
-                        value = x.Format();
-                    }
-                    break;
-                    case DK.Broadcast:
-                    {
-                        var x = @as<BCastKind>(data);
-                        value = XedFormatters.format(x);
-                    }
-                    break;
-                    case DK.Chip:
-                    {
-                        var x = @as<ChipCode>(data);
-                        value = XedFormatters.format(x);
-                    }
-                    break;
-                    case DK.Reg:
-                    {
-                        var x = @as<XedRegId>(data);
-                        value = XedFormatters.format(x);
-                    }
-                    break;
-                    case DK.InstClass:
-                    {
-                        var x = @as<IClass>(data);
-                        value = XedFormatters.format(x);
-                    }
-                    break;
-                    case DK.MemWidth:
-                    {
-                        var x = @as<ushort>(data);
-                        value = x.ToString();
-                    }
-                    break;
-                }
-                return value;
-            }
+            static string format(Hex64 src)
+                => src.Format(prespec:true, uppercase:true);
 
             public static string format(BitfieldSeg src)
                 => string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]",
