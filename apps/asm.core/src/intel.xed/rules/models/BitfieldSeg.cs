@@ -30,7 +30,7 @@ namespace Z0
                 if(IsLiteral)
                 {
                     BitNumbers.parse(Pattern.Format(), out uint8b u8).Require();
-                    dst = new FieldAssign(value(Field, fcode(Field), (byte)u8));
+                    dst = new FieldAssign(value(Field, (byte)u8));
                 }
                 return dst;
             }

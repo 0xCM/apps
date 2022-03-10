@@ -11,11 +11,13 @@ namespace Z0
         {
             None,
 
-            Common,
-
             Action,
 
             OpWidth,
+
+            Visibility,
+
+            Common,
 
             PtrWidth,
 
@@ -27,13 +29,11 @@ namespace Z0
 
             RegResolver,
 
-            DataType,
-
-            Visibility,
+            ElementType,
 
             Macro,
 
-            EncodingGroup,
+            EncGroup,
 
             Modifier,
         }

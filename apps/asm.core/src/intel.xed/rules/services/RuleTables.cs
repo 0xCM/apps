@@ -462,7 +462,7 @@ namespace Z0
                     dst = XedFormatters.format(src.Field);
                     if(src.Operator != 0)
                         dst += XedFormatters.format(src.Operator);
-                    dst += format(src.ToFieldValue());
+                    dst += format(src.AsValue());
                 }
                 return dst;
             }
@@ -508,8 +508,9 @@ namespace Z0
                     return EmptyString;
 
                 var data = bytes(src.Data);
+                var code = fcode(src.Kind);
 
-                switch(src.FormatCode)
+                switch(code)
                 {
                     case FormatCode.Text:
                         dst = ((NameResolver)((int)src.Data)).Format();
@@ -840,9 +841,9 @@ namespace Z0
             public static string format(FieldCmp src)
                 => src.IsEmpty ? EmptyString
                     : string.Format("{0}{1}{2}",
-                        XedFormatters.format(src.Field.Kind),
+                        XedFormatters.format(src.Left.Kind),
                         XedFormatters.format(src.Operator),
-                        format(src.Field)
+                        format(src.Left)
                         );
 
             public static string format(in NonterminalRule src)

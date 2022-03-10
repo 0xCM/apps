@@ -11,7 +11,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public readonly struct RuleOpAttrib
+        public readonly struct RuleOpAttrib : IComparable<RuleOpAttrib>, IEquatable<RuleOpAttrib>
         {
             public readonly RuleOpAttribKind Kind;
 
@@ -23,6 +23,20 @@ namespace Z0
                 Kind = kind;
                 Data = data;
             }
+
+            [MethodImpl(Inline)]
+            public int CompareTo(RuleOpAttrib src)
+                => ((uint)Kind).CompareTo((uint)src.Kind);
+
+            public string Format()
+                => XedFormatters.format(this);
+
+            public override string ToString()
+                => Format();
+
+            [MethodImpl(Inline)]
+            public bool Equals(RuleOpAttrib src)
+                => Kind == src.Kind && Data == src.Data;
 
             [MethodImpl(Inline)]
             public RuleOpModifier AsModifier()
@@ -76,12 +90,6 @@ namespace Z0
             public AttributeKind AsCommon()
                 => (AttributeKind)Data;
 
-            public string Format()
-                => XedFormatters.format(this);
-
-            public override string ToString()
-                => Format();
-
             [MethodImpl(Inline)]
             public static implicit operator RuleOpAttrib(OperandAction src)
                 => new RuleOpAttrib(K.Action, (ushort)src);
@@ -107,12 +115,8 @@ namespace Z0
                 => new RuleOpAttrib(K.Scale, (ushort)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(RegResolver src)
-                => new RuleOpAttrib(K.RegResolver, (uint)src);
-
-            [MethodImpl(Inline)]
             public static implicit operator RuleOpAttrib(ElementKind src)
-                => new RuleOpAttrib(K.DataType, (uint)src);
+                => new RuleOpAttrib(K.ElementType, (uint)src);
 
             [MethodImpl(Inline)]
             public static implicit operator RuleOpAttrib(OpVisiblity src)
@@ -124,7 +128,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator RuleOpAttrib(EncodingGroup src)
-                => new RuleOpAttrib(K.EncodingGroup, (uint)src);
+                => new RuleOpAttrib(K.EncGroup, (uint)src);
 
             [MethodImpl(Inline)]
             public static implicit operator RuleOpAttrib(AttributeKind src)
@@ -133,6 +137,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator RuleOpAttrib(RuleOpModKind src)
                 => new RuleOpAttrib(K.Modifier, (uint)src);
+
+            public static RuleOpAttrib Empty => default;
         }
     }
 }

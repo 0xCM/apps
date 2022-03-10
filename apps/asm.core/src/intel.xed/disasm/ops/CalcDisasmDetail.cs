@@ -145,7 +145,7 @@ namespace Z0
                 }
             }
 
-            if(rules.VEXVALID == (byte)VexKind.VV1)
+            if(rules.VEXVALID == (byte)VexClass.VV1)
             {
                 var vexcode = VexPrefix.code(prefix);
                 var vexsize = VexPrefix.size(vexcode.Value);
@@ -159,7 +159,7 @@ namespace Z0
                     dst.Vex = VexPrefix.define(AsmPrefixCodes.VexPrefixKind.xC5,skip(vexbytes, 1));
 
             }
-            else if(rules.VEXVALID == (byte)VexKind.EVV)
+            else if(rules.VEXVALID == (byte)VexClass.EVV)
                 dst.Evex = EvexPrefix.define(slice(prefix,legacyskip));
 
             if(rules.IMM0)

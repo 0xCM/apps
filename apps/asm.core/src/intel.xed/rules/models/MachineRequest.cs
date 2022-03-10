@@ -9,16 +9,6 @@ namespace Z0
     {
         public readonly struct MachineRequest
         {
-            public readonly RequestKind Kind;
-
-            public readonly RuleDef Rule;
-
-            [MethodImpl(Inline)]
-            public MachineRequest(RequestKind kind, RuleDef rule)
-            {
-                Kind = kind;
-                Rule = rule;
-            }
         }
     }
 }

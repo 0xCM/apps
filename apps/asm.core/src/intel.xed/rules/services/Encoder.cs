@@ -12,8 +12,6 @@ namespace Z0
             internal static Encoder create()
                 => new Encoder();
 
-            internal static Encoder create(MachineRequest request)
-                => new Encoder(request);
 
             Encoder()
             {

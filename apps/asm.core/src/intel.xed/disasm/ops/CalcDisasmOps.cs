@@ -16,7 +16,7 @@ namespace Z0
         static DisasmOps CalcDisasmOps(in RuleState state, in AsmHexCode code)
         {
             var dst = dict<RuleOpName,DisasmOp>();
-            iter(XedRules.ops(state, code).Values, o => dst.TryAdd(o.Name, new DisasmOp(o.Name, o.Value)));
+            iter(XedRules.opvals(state, code).Values, o => dst.TryAdd(o.Name, new DisasmOp(o.Name, o.Value)));
             return dst;
         }
     }

@@ -9,6 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
+        [Op]
         public static bool fieldseg(FieldKind src)
         {
             var result = false;
@@ -26,6 +27,7 @@ namespace Z0
             return result;
         }
 
+        [Op]
         public static bool fieldbit(FieldKind src)
         {
             var result = false;

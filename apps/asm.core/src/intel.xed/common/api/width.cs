@@ -15,6 +15,20 @@ namespace Z0
     partial struct XedModels
     {
         [Op]
+        public static ushort width(XedRegId src)
+            => (ushort)XedRegMap.Service.Map(src).Size.Width;
+
+        [Op]
+        public static ushort width(VexLengthKind src)
+            => src switch
+            {
+                VexLengthKind.VL128 => 128,
+                VexLengthKind.VL256 => 256,
+                VexLengthKind.VL512 => 512,
+                _ => 0
+            };
+
+        [Op]
         public static ushort width(OperandWidthKind src)
         {
             var dst = z16;
@@ -241,18 +255,6 @@ namespace Z0
                 _ => 0,
             };
 
-        [Op]
-        public static uint widths(EOSZ src)
-            => src switch
-            {
-                EOSZ8 => 8,
-                EOSZ16 => 16,
-                EOSZ32 => 32,
-                EOSZ64 => 64,
-                EOSZNot16 => 8 | (32 << 8) | (64 << 16),
-                EOSZNot64 => 8 | (16 << 8) | (32 << 16),
-                _ => 0,
-            };
 
         [Op]
         public static uint width(EASZ src)
@@ -295,5 +297,19 @@ namespace Z0
                 EASZNot16 => 32 | (64 << 8),
                 _ => 0,
             };
+
+        [Op]
+        public static uint widths(EOSZ src)
+            => src switch
+            {
+                EOSZ8 => 8,
+                EOSZ16 => 16,
+                EOSZ32 => 32,
+                EOSZ64 => 64,
+                EOSZNot16 => 8 | (32 << 8) | (64 << 16),
+                EOSZNot64 => 8 | (16 << 8) | (32 << 16),
+                _ => 0,
+            };
+
     }
 }

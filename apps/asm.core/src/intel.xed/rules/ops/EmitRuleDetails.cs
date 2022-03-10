@@ -5,22 +5,82 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     partial class XedRules
     {
         void EmitPatternDetails()
         {
-            EmitPatternDetails(CalcEncInstDefs(), AppDb.XedPath("xed.rules.enc.detail", FileKind.Txt));
-            EmitPatternDetails(CalcDecInstDefs(), AppDb.XedPath("xed.rules.dec.detail", FileKind.Txt));
+            EmitPatternDetails(CalcEncInstDefs(), AppDb.XedPath("xed.rules.enc.detail", FileKind.Txt), AppDb.XedPath("xed.rules.enc.ops", FileKind.Csv));
+            EmitPatternDetails(CalcDecInstDefs(), AppDb.XedPath("xed.rules.dec.detail", FileKind.Txt), AppDb.XedPath("xed.rules.dec.ops", FileKind.Csv));
         }
 
-        void EmitPatternDetails(Index<InstDef> defs, FS.FilePath path)
+        static bool attrib(ReadOnlySpan<RuleOpAttrib> src, RuleOpAttribKind kind, out RuleOpAttrib dst)
+        {
+            var result = false;
+            dst = RuleOpAttrib.Empty;
+            for(var i=0; i<src.Length; i++)
+            {
+                ref readonly var a = ref skip(src,i);
+                if(a.Kind == kind)
+                {
+                    dst = a;
+                    result = true;
+                    break;
+                }
+            }
+            return result;
+        }
+
+        void CalcPatternOps(uint id, in InstPatternSpec pattern, List<PatternOpDetail> dst)
+        {
+            ref readonly var ops = ref pattern.Operands;
+            var parser = RuleOpParser.create();
+            for(byte k=0; k<ops.Count; k++)
+            {
+                ref readonly var op = ref ops[k];
+                var detail = PatternOpDetail.Empty;
+
+                var spec = parser.ParseOp(op.Name, op.Expression);
+                var attribs = spec.Attributes.Sort();
+
+                detail.Pattern = id;
+                detail.OpIndex = k;
+                detail.Name = spec.Name;
+                detail.Kind = spec.Kind;
+                detail.Expression = op.Expression;
+                detail.Mnemonic = pattern.Mnemonic;
+
+                if(attrib(attribs, RuleOpAttribKind.Action, out var action))
+                    detail.Action = action;
+                if(attrib(attribs, RuleOpAttribKind.OpWidth, out var width))
+                    detail.Width = width;
+                if(attrib(attribs, RuleOpAttribKind.ElementType, out var et))
+                    detail.EType = et;
+                if(attrib(attribs, RuleOpAttribKind.EncGroup, out var encgroup))
+                    detail.EncGroup = encgroup;
+                if(attrib(attribs, RuleOpAttribKind.RegLiteral, out var reglit))
+                {
+                    detail.RegLit = reglit;
+                    //detail.OpWidth = XedModels.width(reglit.AsRegLiteral());
+                }
+                if(attrib(attribs, RuleOpAttribKind.Modifier, out var mod))
+                    detail.Modifier = mod;
+                if(attrib(attribs, RuleOpAttribKind.Visibility, out var visib))
+                    detail.Visibility = visib;
+
+                dst.Add(detail);
+            }
+        }
+
+        void EmitPatternDetails(Index<InstDef> defs, FS.FilePath detailpath, FS.FilePath opspath)
         {
             const string LabelPattern = "{0,-16} | {1}";
             var parser = RuleOpParser.create();
             var result = Outcome.Success;
             var seq = 0u;
-            var emitting = EmittingFile(path);
-            using var dst = path.AsciWriter();
+            var emitting = EmittingFile(detailpath);
+            var opsbuffer = list<PatternOpDetail>();
+            using var dst = detailpath.AsciWriter();
             for(var i=0; i<defs.Count; i++)
             {
                 ref readonly var def = ref defs[i];
@@ -52,9 +112,13 @@ namespace Z0
                         dst.AppendLine();
                     }
                     dst.AppendLine(RP.PageBreak100);
+
+                    CalcPatternOps(seq, pattern, opsbuffer);
                 }
             }
             EmittedFile(emitting,seq);
+
+            TableEmit(opsbuffer.ViewDeposited(), PatternOpDetail.RenderWidths, opspath);
         }
     }
 }

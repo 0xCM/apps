@@ -12,14 +12,14 @@ namespace Z0
 
     partial class XedRules
     {
-        public class RuleOpParser
+        public readonly struct RuleOpParser
         {
             public static RuleOpParser create()
                 => new();
 
-            XedParsers Parsers;
+            readonly XedParsers Parsers;
 
-            RuleOpParser()
+            public RuleOpParser()
             {
                 Parsers = XedParsers.create();
             }
@@ -58,6 +58,29 @@ namespace Z0
                 var attribs = text.right(src,i);
                 opname(src, out var name);
                 return ParseOp(attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty));
+            }
+
+            static bool opname(string src, out RuleOpName dst)
+            {
+                var input = text.despace(src);
+                var i = text.index(input, Chars.Colon);
+                var j = text.index(input, Chars.Eq);
+
+                var index = -1;
+                if(i > 0 && j > 0)
+                {
+                    index = i < j ? i : j;
+                }
+                else if(i>0 && j<0)
+                {
+                    index = i;
+                }
+                else if(j>0 && i<0)
+                {
+                    index = j;
+                }
+
+                return OpNames.ExprKind(text.left(input, index), out dst);
             }
 
             RuleOpSpec ParseOp(string expr, RuleOpName name, string[] props)
@@ -333,19 +356,16 @@ namespace Z0
                     if(j > 0)
                         p0 = text.left(p0,j);
 
-                    if(Parsers.Nonterm(p0, out var nonterm))
-                        seek(buffer, i++) = nonterm;
+                    if(Parsers.RegLiteral(p0,  out var register))
+                        seek(buffer, i++) = register;
                     else
                     {
-                        if(Parsers.RegLiteral(p0,  out var register))
-                            seek(buffer, i++) = register;
+                        if(Parsers.EncodingGroup(p0, out var group))
+                            seek(buffer, i++) = group;
+                        else if(Parsers.Nonterm(p0, out var nonterm))
+                            seek(buffer, i++) = nonterm;
                         else
-                        {
-                            if(Parsers.EncodingGroup(p0, out var group))
-                                seek(buffer,i++) = group;
-                            else
-                                seek(buffer, i++) = RegResolvers.Instance.Create(p0);
-                        }
+                            seek(buffer, i++) = new RuleOpAttrib(RuleOpAttribKind.RegResolver, (uint)RegResolvers.Instance.Create(p0));
                     }
                 }
 

@@ -10,13 +10,17 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline)]
-        public static FieldValue<T> value<T>(FieldKind kind, FormatCode code, T value)
+        public static FieldValue<T> value<T>(FieldKind kind, T value)
             where T : unmanaged
-                => new FieldValue<T>(kind, code, value);
+                => new FieldValue<T>(kind, value);
+
+        [MethodImpl(Inline)]
+        public static FieldValue value(FieldKind kind, ulong value)
+            => new FieldValue(kind, value);
 
         [MethodImpl(Inline)]
         public static FieldValue value(FieldKind kind, NameResolver resolver)
-            => new FieldValue(kind, FormatCode.Text, (ulong)resolver);
+            => new FieldValue(kind, (ulong)resolver);
 
         public ConstLookup<FieldKind,object> values<T>(in T src)
             where T : unmanaged

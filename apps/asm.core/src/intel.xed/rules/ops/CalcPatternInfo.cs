@@ -9,12 +9,6 @@ namespace Z0
 
     partial class XedRules
     {
-        public Index<RulePatternInfo> CalcDecPatternInfo()
-            => CalcPatternInfo(CalcDecInstDefs());
-
-        public Index<RulePatternInfo> CalcEncPatternInfo()
-            => CalcPatternInfo(CalcEncInstDefs());
-
         public Index<RulePatternInfo> CalcPatternInfo(ReadOnlySpan<InstDef> src)
         {
             var buffer = hashset<RulePatternInfo>();

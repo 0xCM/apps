@@ -11,10 +11,5 @@ namespace Z0
         public static Encoder encoder()
             => Encoder.create();
 
-        public static Encoder encoder(MachineRequest request)
-            => Encoder.create(request);
-
-        public static Encoder encoder(RulePatternInfo rule, params RuleOp[] ops)
-            => Encoder.create(request(RequestKind.Encode, rule,ops));
     }
 }

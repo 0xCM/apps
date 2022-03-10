@@ -15,15 +15,12 @@ namespace Z0
         {
             public readonly FieldKind Kind;
 
-            public readonly FormatCode FormatCode;
-
             public readonly ulong Data;
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, FormatCode code, ulong value)
+            public FieldValue(FieldKind kind, ulong value)
             {
                 Kind = kind;
-                FormatCode = code;
                 Data = value;
             }
 
@@ -39,11 +36,73 @@ namespace Z0
                 get => Kind != 0;
             }
 
+            [MethodImpl(Inline)]
+            public FieldValue WithValue(Disp64 src)
+                => new FieldValue(Kind,src);
+
+            [MethodImpl(Inline)]
+            public FieldValue WithValue(bit src)
+                => new FieldValue(Kind, (ulong)src);
+
+            [MethodImpl(Inline)]
+            public FieldValue WithValue(byte src)
+                => new FieldValue(Kind,src);
+
+            [MethodImpl(Inline)]
+            public FieldValue WithValue(ushort src)
+                => new FieldValue(Kind,src);
+
+            [MethodImpl(Inline)]
+            public FieldValue WithValue(XedRegId src)
+                => new FieldValue(Kind,(ulong)src);
+
+            [MethodImpl(Inline)]
+            public FieldValue WithValue(Hex8 src)
+                => new FieldValue(Kind,(ulong)src);
+
+            [MethodImpl(Inline)]
+            public FieldValue WithValue(imm8 src)
+                => new FieldValue(Kind,(ulong)src);
+
+            [MethodImpl(Inline)]
+            public FieldValue WithValue(imm64 src)
+                => new FieldValue(Kind,(ulong)src);
+
+            [MethodImpl(Inline)]
+            public FieldValue WithValue(BCastKind src)
+                => new FieldValue(Kind,(ulong)src);
+
+            [MethodImpl(Inline)]
+            public FieldValue WithValue(IClass src)
+                => new FieldValue(Kind,(ulong)src);
+
+            [MethodImpl(Inline)]
+            public FieldValue WithValue(ChipCode src)
+                => new FieldValue(Kind,(ulong)src);
+
+            [MethodImpl(Inline)]
+            public FieldValue WithValue(EASZ src)
+                => new FieldValue(Kind,(ulong)src);
+
+            [MethodImpl(Inline)]
+            public FieldValue WithValue(EOSZ src)
+                => new FieldValue(Kind,(ulong)src);
+
+            [MethodImpl(Inline)]
+            public bool Equals(FieldValue src)
+                => Kind == src.Kind && Data == src.Data;
+
+            public override bool Equals(object src)
+                => src is FieldValue x && Equals(x);
+
             public string Format()
                 => RuleTables.format(this);
 
             public override string ToString()
                 => Format();
+
+            public override int GetHashCode()
+                => (int)(((uint)Kind << 24) | (Data & 0xFFFFFF));
 
             [MethodImpl(Inline)]
             public static implicit operator XedRegId(FieldValue src)
@@ -116,6 +175,14 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator EOSZ(FieldValue src)
                 => (EOSZ)src.Data;
+
+            [MethodImpl(Inline)]
+            public static bool operator ==(FieldValue a, FieldValue b)
+                => a.Equals(b);
+
+            [MethodImpl(Inline)]
+            public static bool operator !=(FieldValue a, FieldValue b)
+                => !a.Equals(b);
 
             public static FieldValue Empty => default;
         }

@@ -20,6 +20,6 @@ namespace Z0.Asm
         }
 
         void EmitRegmap()
-            => TableEmit(CalcRegMap().Entries, RegMapEntry.RenderWidths, XedPaths.Table<RegMapEntry>());
+            => TableEmit(XedRegMap.Service.Entries, RegMapEntry.RenderWidths, XedPaths.Table<RegMapEntry>());
     }
 }

@@ -16,8 +16,6 @@ namespace Z0
 
             public readonly RuleOperator Operator;
 
-            public readonly FormatCode Code;
-
             public readonly ulong Data;
 
             [MethodImpl(Inline)]
@@ -26,7 +24,6 @@ namespace Z0
                 IsPremise = premise;
                 Field = field;
                 Operator = op;
-                Code = code;
                 Data = data;
             }
 
@@ -67,8 +64,8 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public FieldValue ToFieldValue()
-                => new FieldValue(Field, Code, Data);
+            public FieldValue AsValue()
+                => new FieldValue(Field, Data);
 
             [MethodImpl(Inline)]
             public RuleCall AsCall()

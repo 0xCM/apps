@@ -5,10 +5,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    partial struct XedModels
     {
-        [MethodImpl(Inline), Op]
-        public static RuleDef rule(RulePatternInfo pattern, params RuleOp[] ops)
-            => new RuleDef(pattern,ops);
+        public enum VexLengthKind
+        {
+            VL128 = 0,
+
+            VL256 = 1,
+
+            VL512 = 2,
+        }
     }
 }

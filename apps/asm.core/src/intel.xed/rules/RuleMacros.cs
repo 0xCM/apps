@@ -21,7 +21,7 @@ namespace Z0
     using M = XedRules.RuleMacroKind;
     using P = XedModels.RepPrefix;
     using D = XedModels.SegDefaultKind;
-    using V = XedModels.VexPrefixKind;
+    using V = XedModels.VexKind;
     using X = XedModels.XopMapKind;
 
     using static core;
@@ -255,23 +255,23 @@ namespace Z0
 
             [MethodImpl(Inline), Op]
             public static MacroSpec VV0()
-                => assign(M.VV0, K.VEXVALID, VexKind.VV0);
+                => assign(M.VV0, K.VEXVALID, VexClass.VV0);
 
             [MethodImpl(Inline), Op]
             public static MacroSpec VV1()
-                => assign(M.VV1, K.VEXVALID, VexKind.VV1);
+                => assign(M.VV1, K.VEXVALID, VexClass.VV1);
 
             [MethodImpl(Inline), Op]
             public static MacroSpec KVV()
-                => assign(M.KVV, K.VEXVALID, VexKind.KVV);
+                => assign(M.KVV, K.VEXVALID, VexClass.KVV);
 
             [MethodImpl(Inline), Op]
             public static MacroSpec EVV()
-                => assign(M.EVV, K.VEXVALID, VexKind.EVV);
+                => assign(M.EVV, K.VEXVALID, VexClass.EVV);
 
             [MethodImpl(Inline), Op]
             public static MacroSpec XOPV()
-                => assign(M.XOPV, K.VEXVALID, VexKind.XOPV);
+                => assign(M.XOPV, K.VEXVALID, VexClass.XOPV);
 
             [MethodImpl(Inline), Op]
             public static MacroSpec VNP()

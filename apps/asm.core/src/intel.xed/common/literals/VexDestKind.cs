@@ -14,31 +14,22 @@ namespace Z0
         {
             None,
 
-            [Symbol(PS.VEXDEST4)]
-            VEXDEST4,
-
-            [Symbol(PS.VEXDEST3)]
-            VEXDEST3,
-
-            [Symbol(PS.VEXDEST210)]
-            VEXDEST210,
-
             /// <summary>
             /// VEXDEST3=0b1 VEXDEST210=0b111
             /// </summary>
-            [Symbol(PS.NOVSR)]
+            [Symbol(PS.NOVSR, "VEXDEST3=0b1 VEXDEST210=0b111")]
             NOVSR,
 
             /// <summary>
             /// VEXDEST3=0b1 VEXDEST210=0b111 VEXDEST4=0b0
             /// </summary>
-            [Symbol(PS.NOEVSR)]
+            [Symbol(PS.NOEVSR, "VEXDEST3=0b1 VEXDEST210=0b111 VEXDEST4=0b0")]
             NOEVSR,
 
             /// <summary>
             /// VEXDEST3=0b1 VEXDEST210=0b111
             /// </summary>
-            [Symbol(PS.NO_SPARSE_EVSR)]
+            [Symbol(PS.NO_SPARSE_EVSR, "VEXDEST3=0b1 VEXDEST210=0b111")]
             NO_SPARSE_EVSR,
         }
     }

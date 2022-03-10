@@ -23,19 +23,6 @@ namespace Z0
             {
                 var data = (EASZ)src.Data;
                 var dst = width(data).ToString();
-                switch(src.FormatCode)
-                {
-                    case FormatCode.EnumValue:
-                        dst = src.Data.ToString();
-                    break;
-                    case FormatCode.EnumName:
-                        dst = data.ToString();
-                    break;
-                    case FormatCode.EnumSymbol:
-                        format(data);
-                    break;
-                }
-
                 return dst;
             }
 
@@ -44,19 +31,6 @@ namespace Z0
             {
                 var data = (EOSZ)src.Data;
                 var dst = width(data).ToString();
-                switch(src.FormatCode)
-                {
-                    case FormatCode.EnumValue:
-                        dst = src.Data.ToString();
-                    break;
-                    case FormatCode.EnumName:
-                        dst = data.ToString();
-                    break;
-                    case FormatCode.EnumSymbol:
-                        format(data);
-                    break;
-                }
-
                 return dst;
             }
 
@@ -65,19 +39,6 @@ namespace Z0
             {
                 var data = (ModeKind)src.Data;
                 var dst = width(data).ToString();
-                switch(src.FormatCode)
-                {
-                    case FormatCode.EnumValue:
-                        dst = src.Data.ToString();
-                    break;
-                    case FormatCode.EnumName:
-                        dst = data.ToString();
-                    break;
-                    case FormatCode.EnumSymbol:
-                        format(data);
-                    break;
-                }
-
                 return dst;
             }
 
@@ -90,7 +51,6 @@ namespace Z0
                 [MethodImpl(Inline)]
                 static string format(FieldValue src)
                     => RuleTables.format(src);
-
 
                 iter(new ReflectedFields().LeftValues, k => this[k] = format);
             }

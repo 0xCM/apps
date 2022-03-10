@@ -10,27 +10,30 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential)]
         public readonly struct FieldCmp
         {
+            public readonly FieldValue Left;
+
             public readonly RuleOperator Operator;
 
-            public readonly FieldValue Field;
+            public readonly FieldValue Right;
 
             [MethodImpl(Inline)]
-            public FieldCmp(RuleOperator op, FieldValue value)
+            public FieldCmp(FieldValue value, RuleOperator op, FieldValue right)
             {
+                Left = value;
                 Operator = op;
-                Field = value;
+                Right = right;
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Field.IsEmpty;
+                get => Left.IsEmpty;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Field.IsNonEmpty;
+                get => Left.IsNonEmpty;
             }
 
             public string Format()
@@ -39,7 +42,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static FieldCmp Empty => new FieldCmp(0,FieldValue.Empty);
+            public static FieldCmp Empty => new FieldCmp(FieldValue.Empty,0,FieldValue.Empty);
         }
     }
 }

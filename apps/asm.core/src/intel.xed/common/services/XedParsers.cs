@@ -86,7 +86,8 @@ namespace Z0
 
         public bool Parse(string src, out XedRegId dst)
         {
-            var result = Regs.Parse(src, out dst);
+            var input = text.remove(text.trim(src), "XED_REG_");
+            var result = Regs.Parse(input, out dst);
             if(!result)
             {
                 result = FpuRegs.Parse(src, out var fpu);

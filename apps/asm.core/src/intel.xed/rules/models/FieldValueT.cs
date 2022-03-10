@@ -12,15 +12,12 @@ namespace Z0
         {
             public readonly FieldKind Kind;
 
-            public readonly FormatCode FormatCode;
-
             public readonly T Data;
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind field, FormatCode fcode, T value)
+            public FieldValue(FieldKind field, T value)
             {
                 Kind = field;
-                FormatCode = fcode;
                 Data = value;
             }
 
@@ -44,7 +41,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator FieldValue(FieldValue<T> src)
-                => new FieldValue(src.Kind, src.FormatCode, core.bw64(src.Data));
+                => new FieldValue(src.Kind, core.bw64(src.Data));
         }
     }
 }

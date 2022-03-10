@@ -10,12 +10,12 @@ namespace Z0
     partial struct XedModels
     {
         [SymSource(xed_state), DataWidth(3)]
-        public enum VexKind : byte
+        public enum VexClass : byte
         {
             /// <summary>
             /// VEXVALID=0
             /// </summary>
-            [Symbol("VV0", "VEXVALID=0")]
+            [Symbol(PS.VV0, "VEXVALID=0")]
             VV0 = 0,
 
             /// <summary>

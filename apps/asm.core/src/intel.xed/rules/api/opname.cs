@@ -11,29 +11,6 @@ namespace Z0
 
     partial class XedRules
     {
-        public static bool opname(string src, out RuleOpName dst)
-        {
-            var input = text.despace(src);
-            var i = text.index(input, Chars.Colon);
-            var j = text.index(input, Chars.Eq);
-
-            var index = -1;
-            if(i > 0 && j > 0)
-            {
-                index = i < j ? i : j;
-            }
-            else if(i>0 && j<0)
-            {
-                index = i;
-            }
-            else if(j>0 && i<0)
-            {
-                index = j;
-            }
-
-            return OpNames.ExprKind(text.left(input, index), out dst);
-        }
-
         [Op]
         public static RuleOpName opname(FieldKind src)
         {

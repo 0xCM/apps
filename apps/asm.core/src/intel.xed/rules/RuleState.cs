@@ -262,23 +262,32 @@ namespace Z0
             [RuleField(K.REXB, 1)]
             public bit REXB;
 
+            /// <summary>
+            /// Specifies a <see cref='VexClass'/> value
+            /// </summary>
             [RuleField(K.VEXVALID, 3)]
             public byte VEXVALID;
 
+            /// <summary>
+            /// Specifies a <see cref='VexKind'/> value
+            /// </summary>
             [RuleField(K.VEX_PREFIX, 2)]
             public byte VEX_PREFIX;
 
+            /// <summary>
+            /// Specifies a <see cref='VexLengthKind'/ value
+            /// </summary>
             [RuleField(K.VL, 3)]
             public byte VL;
 
             [RuleField(K.REXRR, 1)]
             public bit REXRR;
 
-            [RuleField(K.VEXDEST3, 1)]
-            public bit VEXDEST3;
-
             [RuleField(K.VEXDEST4, 1)]
             public bit VEXDEST4;
+
+            [RuleField(K.VEXDEST3, 1)]
+            public bit VEXDEST3;
 
             [RuleField(K.VEXDEST210, 3)]
             public byte VEXDEST210;

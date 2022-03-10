@@ -8,13 +8,14 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static FieldCmp neq<T>(FieldValue<T> src)
-            where T : unmanaged
-                => new FieldCmp(RuleOperator.CmpNeq, src);
+        public static FieldCmp neq(FieldValue a, FieldValue b)
+            => new FieldCmp(a, RuleOperator.CmpNeq, b);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static FieldCmp eq<T>(FieldValue<T> src)
-            where T : unmanaged
-                => new FieldCmp(RuleOperator.CmpEq, src);
+        public static FieldCmp eq(FieldValue a, FieldValue b)
+            => new FieldCmp(a, RuleOperator.CmpEq, b);
+
+        public static FieldCmp cmp(FieldValue a, RuleOperator op, FieldValue b)
+            => new FieldCmp(a,op,b);
     }
 }

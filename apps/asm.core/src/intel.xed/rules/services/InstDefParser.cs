@@ -7,6 +7,7 @@ namespace Z0
 {
     using static core;
     using static Root;
+    using static XedModels;
 
     using P = XedRules.InstRulePart;
 
@@ -63,6 +64,7 @@ namespace Z0
                         var dst = default(InstDef);
                         var pattern = EmptyString;
                         var operands = list<InstPatternSpec>();
+                        var @class = IClass.INVALID;
                         while(!line.StartsWith(Chars.RBrace) && reader.Next(out line))
                         {
                             if(line.IsEmpty)
@@ -98,7 +100,10 @@ namespace Z0
                                             dst.Flags = Rules.CalcFlagActions(value);
                                         break;
                                         case P.IClass:
-                                            Rules.ParseIClass(value, out dst.Class);
+                                        {
+                                            if(Rules.ParseIClass(value, out dst.Class))
+                                                @class = dst.Class;
+                                        }
                                         break;
                                         case P.Operands:
                                         {
@@ -119,7 +124,7 @@ namespace Z0
                                                 }
                                             }
 
-                                            operands.Add(new InstPatternSpec(pattern, parser.ParseOps(value)));
+                                            operands.Add(new InstPatternSpec(@class, pattern, parser.ParseOps(value)));
                                             pattern=EmptyString;
                                         }
                                         break;

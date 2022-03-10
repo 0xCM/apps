@@ -10,6 +10,8 @@ namespace Z0
         [LiteralProvider("xed.vex")]
         public readonly struct VexPrefixSpecs
         {
+            public const string VV0 = nameof(VV0);
+
             public const string VV1 = nameof(VV1);
 
             public const string EVV = nameof(EVV);

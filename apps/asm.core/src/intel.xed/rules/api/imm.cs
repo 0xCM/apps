@@ -9,16 +9,21 @@ namespace Z0
 
     partial class XedRules
     {
-        public static Imm imm(in RuleState state, in AsmHexCode code)
+        [Op]
+        public static Imm imm0(in RuleState state, in AsmHexCode code)
         {
             var dst = Imm.Empty;
             if(state.IMM0)
-            {
-                var size = Sizes.native(state.IMM_WIDTH);
-                var signed = state.IMM0SIGNED;
-                var pos = state.POS_IMM;
-                dst = asm.imm(code, pos, signed, size);
-            }
+                dst = asm.imm(code, state.POS_IMM, state.IMM0SIGNED, Sizes.native(state.IMM_WIDTH));
+            return dst;
+        }
+
+        [Op]
+        public static Imm imm1(in RuleState state, in AsmHexCode code)
+        {
+            var dst = Imm.Empty;
+            if(state.IMM1)
+                dst = asm.imm(code, state.POS_IMM1, false, Sizes.native(state.IMM1_BYTES/8));
             return dst;
         }
     }

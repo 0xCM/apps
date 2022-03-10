@@ -15,7 +15,7 @@ namespace Z0
         {
             var tables = Xed.Rules.CalcRuleTables();
             var sigs = tables.Keys.ToArray().Sort();
-            var regs = Xed.CalcRegMap();
+            var regs = XedRegMap.Service;
             for(var i=0; i<sigs.Length; i++)
             {
                 var table = tables[skip(sigs,i)];
