@@ -9,14 +9,5 @@ namespace Z0
 
     partial class XedRules
     {
-        public Index<XedFieldDef> EmitFieldDefs()
-        {
-            var src = CalcFieldDefs();
-            EmitFieldDefs(src);
-            return src;
-        }
-
-        public void EmitFieldDefs(ReadOnlySpan<XedFieldDef> src)
-            => TableEmit(src, XedFieldDef.RenderWidths, XedPaths.FieldDefsTarget());
     }
 }

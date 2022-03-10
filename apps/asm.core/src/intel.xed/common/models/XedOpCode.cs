@@ -7,25 +7,38 @@ namespace Z0
 {
     using Asm;
 
-    using static XedModels;
-
     partial struct XedModels
     {
-        public readonly struct XedOpCode
+        [Record(TableId)]
+        public struct XedOpCode : IComparable<XedOpCode>
         {
-            public readonly IClass Class;
+            public const string TableId = "xed.opcodes";
 
-            public readonly OpCodeKind Kind;
+            public const byte FieldCount = 6;
 
-            public readonly AsmOcValue Value;
+            public uint Seq;
 
-            [MethodImpl(Inline)]
-            public XedOpCode(IClass @class, OpCodeKind kind, AsmOcValue value)
+            public OpCodeKind Kind;
+
+            public byte Index;
+
+            public AsmOcValue Value;
+
+            public IClass Class;
+
+            public TextBlock Source;
+
+            public int CompareTo(XedOpCode src)
             {
-                Class = @class;
-                Kind = kind;
-                Value = value;
+                var result = Index.CompareTo(src.Index);
+                if(result == 0)
+                {
+                    result = Value.CompareTo(src.Value);
+                }
+                return result;
             }
+
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,8,12,24,1};
         }
     }
 }

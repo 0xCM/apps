@@ -7,11 +7,11 @@ namespace Z0
 {
     using static NativeClass;
 
-    using W = XedModels.OperandWidthKind;
+    using W = XedModels.OperandWidthCode;
 
     partial struct XedModels
     {
-        public static NativeClass @class(OperandWidthKind src)
+        public static NativeClass @class(OperandWidthCode src)
         {
             var dst = NativeClass.None;
             switch(src)

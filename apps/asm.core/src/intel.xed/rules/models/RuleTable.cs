@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
     partial class XedRules
     {
         public struct RuleTable
@@ -14,6 +15,8 @@ namespace Z0
             public Identifier ReturnType;
 
             public Index<RuleExpr> Expressions;
+
+            public EncodingGroup EncodingGroup;
 
             public bool ComputesRegister
             {
@@ -25,7 +28,7 @@ namespace Z0
                 => sig(this);
 
             public string Format()
-                => RuleTables.format(this);
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

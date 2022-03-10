@@ -365,7 +365,7 @@ namespace Z0
                         else if(Parsers.Nonterm(p0, out var nonterm))
                             seek(buffer, i++) = nonterm;
                         else
-                            seek(buffer, i++) = new RuleOpAttrib(RuleOpAttribKind.RegResolver, (uint)RegResolvers.Instance.Create(p0));
+                            seek(buffer, i++) = new RuleOpAttrib(RuleOpClass.RegResolver, (uint)RegResolvers.Instance.Create(p0));
                     }
                 }
 

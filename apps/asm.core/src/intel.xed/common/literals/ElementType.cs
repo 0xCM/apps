@@ -20,7 +20,25 @@ namespace Z0
             public string Name
             {
                 [MethodImpl(Inline)]
-                get => XedFormatters.format(Kind);
+                get => XedRender.format(Kind);
+            }
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Kind == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Kind != 0;
+            }
+
+            public bool IsInt
+            {
+                [MethodImpl(Inline)]
+                get => Kind == ElementKind.INT;
             }
 
             public string Format()

@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static core;
     using static XedRules.FieldKind;
     using static XedModels;
@@ -14,14 +12,11 @@ namespace Z0
     using FK = XedRules.FieldKind;
     using RO = XedRules.RuleOperator;
     using SL = XedRules.SyntaxLiterals;
-    using FC = XedRules.FormatCode;
 
     partial class XedRules
     {
         public readonly struct RuleTables
         {
-            static XedParsers Parsers => XedParsers.create();
-
             [MethodImpl(Inline), Op]
             static RuleCriterion criterion(bool premise, NameResolver resolver)
                 => new RuleCriterion(premise, 0, RuleOperator.Call, FormatCode.Call, (uint)(int)resolver);
@@ -251,8 +246,9 @@ namespace Z0
 
                     case DISP:
                     {
-                        dst = criterion(premise, field, op, DispFieldSpec.parse(value));
-                        result = true;
+                        result = XedParsers.parse(value, out DispFieldSpec disp);
+                        if(result)
+                            dst = criterion(premise, field, op, disp);
                     }
                     break;
 
@@ -340,7 +336,7 @@ namespace Z0
                     opsym = "()";
                     i = text.index(input, '(');
                     fv = text.left(input,i);
-                    if(Parsers.Nonterm(fv, out var nt))
+                    if(XedParsers.parse(fv, out NonterminalKind nt))
                         dst = criterion(premise, nt);
                     else
                         dst = criterion(premise, NameResolvers.Instance.Create(fv));
@@ -373,7 +369,7 @@ namespace Z0
                 else if(text.contains(input,"UIMM0[") || text.contains(input, "DISP[") || text.contains(input, "UIMM1["))
                 {
                     name = text.left(input, text.index(input,'['));
-                    Parsers.Parse(name, out fk);
+                    XedParsers.parse(name, out fk);
                 }
 
                 if(nonempty(name) && fk == 0)
@@ -409,23 +405,6 @@ namespace Z0
                 return buffer;
             }
 
-            public static RuleTable table(in RuleTermTable src)
-            {
-                var buffer = alloc<RuleExpr>(src.Expressions.Count);
-                for(var i=0; i<src.Expressions.Count; i++)
-                {
-                    ref readonly var input = ref src.Expressions[i];
-                    var p = specs(true, input.Premise.Map(x=> x.Format()).Delimit(Chars.Space).Format());
-                    var c = specs(false, input.Consequent.Map(x=> x.Format()).Delimit(Chars.Space).Format());
-                    seek(buffer,i) = new RuleExpr(p,c);
-                }
-                var dst = RuleTable.Empty;
-                dst.Expressions = buffer;
-                dst.Name = src.Name;
-                dst.ReturnType = src.ReturnType;
-                return dst;
-            }
-
             public static RuleExpr expr(RuleFormKind kind, string premise, string consequent = EmptyString)
             {
                 var left = sys.empty<RuleCriterion>();
@@ -437,447 +416,6 @@ namespace Z0
                     right = specs(false, consequent);
 
                 return new RuleExpr(left, right);
-            }
-
-            public static string format(ImmFieldSpec src)
-                => src.Width == 0 ? EmptyString : string.Format("{0}{1}[i/{2}]", "UIMM", src.Index, src.Width);
-
-            public static string format(DispFieldSpec src)
-                => src.Width == 0 ? EmptyString : string.Format("{0}[{1}/{2}]", "DISP", src.Kind, src.Width);
-
-            public static string format(RuleCall src)
-                => src.Target.IsEmpty ? EmptyString : string.Format("{0}()", src.Target);
-
-            public static string format(in RuleCriterion src)
-            {
-                var dst = EmptyString;
-                if(src.Operator == RuleOperator.Call)
-                    dst = format(src.AsCall());
-                else if(src.Field == FieldKind.UIMM0 || src.Field == FieldKind.UIMM1)
-                    dst = format(src.AsImmField());
-                else if(src.Field == FieldKind.DISP)
-                    dst = format(src.AsDispField());
-                else
-                {
-                    dst = XedFormatters.format(src.Field);
-                    if(src.Operator != 0)
-                        dst += XedFormatters.format(src.Operator);
-                    dst += format(src.AsValue());
-                }
-                return dst;
-            }
-
-            public static string format(in RuleTable src)
-            {
-                var dst = text.buffer();
-                dst.AppendLine(sig(src));
-                var expressions = src.Expressions.View;
-                var count = expressions.Length;
-                dst.AppendLine(Chars.LBrace);
-                for(var i=0; i<count; i++)
-                    dst.IndentLine(4, format(skip(expressions, i)));
-                dst.AppendLine(Chars.RBrace);
-                return dst.Emit();
-            }
-
-            public static string format(in RuleExpr src)
-            {
-                var sep = " <=> ";
-                var dst = text.buffer();
-                render(src.Premise, dst);
-                dst.Append(sep);
-                render(src.Consequent, dst);
-                return dst.Emit();
-            }
-
-            static void render(ReadOnlySpan<RuleCriterion> src, ITextBuffer dst)
-            {
-                var count = src.Length;
-                for(var i=0; i<count; i++)
-                {
-                    if(i != 0)
-                        dst.Append(" && ");
-                    dst.Append(skip(src,i).Format());
-                }
-            }
-
-            public static string format(FieldValue src)
-            {
-                var dst = EmptyString;
-                if(src.IsEmpty)
-                    return EmptyString;
-
-                var data = bytes(src.Data);
-                var code = fcode(src.Kind);
-
-                switch(code)
-                {
-                    case FormatCode.Text:
-                        dst = ((NameResolver)((int)src.Data)).Format();
-                        break;
-                    case FC.B1:
-                    {
-                        bit x = first(data);
-                        dst = x.Format();
-                    }
-                    break;
-                    case FC.B2:
-                    {
-                        uint2 x = first(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.B3:
-                    {
-                        uint3 x = first(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.B4:
-                    {
-                        uint4 x = first(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.B5:
-                    {
-                        uint5 x = first(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.B6:
-                    {
-                        uint6 x = first(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.B7:
-                    {
-                        uint7 x = first(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.B8:
-                    {
-                        uint8b x = first(data);
-                        dst = format(x);
-                    }
-                    break;
-
-                    case FC.U2:
-                    {
-                        byte x = (byte)(first(data) & 0b11);
-                        dst = format(x);
-                    }
-                    break;
-
-                    case FC.U3:
-                    {
-                        byte x = (byte)(first(data) & 0b111);
-                        dst = format(x);
-                    }
-                    break;
-
-                    case FC.U4:
-                    {
-                        byte x = (byte)(first(data) & 0b1111);
-                        dst = format(x);
-                    }
-                    break;
-
-                    case FC.U5:
-                    {
-                        byte x = (byte)(first(data) & 0b11111);
-                        dst = format(x);
-                    }
-                    break;
-
-                    case FC.U8:
-                    {
-                        var x = first(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.U16:
-                    {
-                        var x = @as<ushort>(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.U32:
-                    {
-                        var x = @as<uint>(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.U64:
-                    {
-                        var x = @as<ulong>(data);
-                        dst = format(x);
-                    }
-                    break;
-
-                    case FC.I8:
-                    {
-                        var x = @as<sbyte>(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.I16:
-                    {
-                        var x = @as<short>(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.I32:
-                    {
-                        var x = @as<int>(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.I64:
-                    {
-                        var x = @as<long>(data);
-                        dst = format(x);
-                    }
-                    break;
-
-                    case FC.X2:
-                    {
-                        Hex2 x = first(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.X3:
-                    {
-                        Hex3 x = first(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.X4:
-                    {
-                        Hex4 x = first(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.X5:
-                    {
-                        Hex5 x = first(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.X6:
-                    {
-                        Hex6 x = first(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.X7:
-                    {
-                        Hex7 x = first(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.X8:
-                    {
-                        Hex8 x = first(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.X16:
-                    {
-                        Hex16 x = @as<ushort>(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.X32:
-                    {
-                        Hex32 x = @as<uint>(data);
-                        dst = format(x);
-                    }
-                    break;
-                    case FC.X64:
-                    {
-                        Hex64 x = @as<ulong>(data);
-                        dst = format(x);
-                    }
-                    break;
-
-                    case FC.Disp:
-                    {
-                        Disp64 x = @as<long>(data);
-                        dst = x.Format();
-                    }
-                    break;
-
-                    case FC.Broadcast:
-                    {
-                        var x = @as<BCastKind>(data);
-                        dst = XedFormatters.format(x);
-                    }
-                    break;
-                    case FC.Chip:
-                    {
-                        var x = @as<ChipCode>(data);
-                        dst = XedFormatters.format(x);
-                    }
-                    break;
-                    case FC.Reg:
-                    {
-                        var x = @as<XedRegId>(data);
-                        dst = XedFormatters.format(x);
-                    }
-                    break;
-                    case FC.InstClass:
-                    {
-                        var x = @as<IClass>(data);
-                        dst = XedFormatters.format(x);
-                    }
-                    break;
-                    case FC.MemWidth:
-                    {
-                        var x = @as<ushort>(data);
-                        dst = x.ToString();
-                    }
-                    break;
-                    case FC.EnumSymbol:
-                    break;
-                    case FC.EnumValue:
-                    break;
-                    case FC.EnumName:
-                    break;
-
-                }
-                return dst;
-            }
-
-            static string format(uint2 src)
-                => src.Format();
-
-            static string format(uint3 src)
-                => src.Format();
-
-            static string format(uint4 src)
-                => src.Format();
-
-            static string format(uint5 src)
-                => src.Format();
-
-            static string format(uint6 src)
-                => src.Format();
-
-            static string format(uint7 src)
-                => src.Format();
-
-            static string format(uint8b src)
-                => src.Format();
-
-            static string format(sbyte src)
-                => src.ToString();
-
-            static string format(short src)
-                => src.ToString();
-
-            static string format(int src)
-                => src.ToString();
-
-            static string format(long src)
-                => src.ToString();
-
-            static string format(byte src)
-                => src.ToString();
-
-            static string format(ushort src)
-                => src.ToString();
-
-            static string format(uint src)
-                => src.ToString();
-
-            static string format(ulong src)
-                => src.ToString();
-
-            static string format(Hex2 src)
-                => src.Format(prespec:true, uppercase:true);
-
-            static string format(Hex3 src)
-                => src.Format(prespec:true, uppercase:true);
-
-            static string format(Hex4 src)
-                => src.Format(prespec:true, uppercase:true);
-
-            static string format(Hex5 src)
-                => src.Format(prespec:true, uppercase:true);
-
-            static string format(Hex6 src)
-                => src.Format(prespec:true, uppercase:true);
-
-            static string format(Hex7 src)
-                => src.Format(prespec:true, uppercase:true);
-
-            static string format(Hex8 src)
-                => src.Format(prespec:true, uppercase:true);
-
-            static string format(Hex16 src)
-                => src.Format(prespec:true, uppercase:true);
-
-            static string format(Hex32 src)
-                => src.Format(prespec:true, uppercase:true);
-
-            static string format(Hex64 src)
-                => src.Format(prespec:true, uppercase:true);
-
-            public static string format(BitfieldSeg src)
-                => string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]",
-                    XedFormatters.format(src.Field),
-                    src.Pattern)
-                    ;
-
-            public static string format(FieldAssign src)
-                => src.Field == 0 ? "nothing" :
-                    string.Format("{0}={1}",
-                    XedFormatters.format(src.Field),
-                    src.Value);
-
-            public static string format(FieldCmp src)
-                => src.IsEmpty ? EmptyString
-                    : string.Format("{0}{1}{2}",
-                        XedFormatters.format(src.Left.Kind),
-                        XedFormatters.format(src.Operator),
-                        format(src.Left)
-                        );
-
-            public static string format(in NonterminalRule src)
-                => format(src.Table);
-
-            public static string format(FieldConstraint src)
-                => string.Format("{0}{1}{2}",
-                        XedFormatters.format(src.Field),
-                        XedFormatters.format(src.Kind),
-                        literal(src.LiteralKind, src.Value)
-                        );
-
-            public static string format(NontermCall src)
-                => string.Format("<{0}>()", format(src.Kind));
-
-            static string literal(FieldLiteralKind kind, byte src)
-            {
-                var val = EmptyString;
-                switch(kind)
-                {
-                    case FieldLiteralKind.BinaryLiteral:
-                        val = "0b" + ((uint8b)(src)).Format();
-                    break;
-                    case FieldLiteralKind.DecimalLiteral:
-                        val = src.ToString();
-                    break;
-                    case FieldLiteralKind.HexLiteral:
-                        val = ((Hex8)(src)).Format(prespec:true, uppercase:true);
-                    break;
-                    default:
-                        val = RP.Error;
-                    break;
-                }
-                return val;
             }
 
             static HashSet<string> Skip;

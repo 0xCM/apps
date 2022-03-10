@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static core;
+    using static XedModels;
 
     using OCP = XedModels.OcPatternNames;
 
@@ -16,10 +17,10 @@ namespace Z0
             public static XedOpCodeParser create()
                 =>new XedOpCodeParser();
 
-            public Index<RuleOpCode> Parse(ReadOnlySpan<RulePatternInfo> src)
+            public Index<XedOpCode> Parse(ReadOnlySpan<RulePatternInfo> src)
             {
                 var count = src.Length;
-                var buffer = alloc<RuleOpCode>(count);
+                var buffer = alloc<XedOpCode>(count);
                 for(var i=0u; i<count; i++)
                 {
                     ref readonly var rule = ref skip(src,i);

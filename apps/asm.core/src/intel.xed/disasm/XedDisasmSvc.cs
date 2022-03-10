@@ -19,7 +19,7 @@ namespace Z0
 
         WsProjects Projects => Service(Wf.WsProjects);
 
-        ConstLookup<OperandWidthKind,OpWidth> OperandWidths;
+        ConstLookup<OperandWidthCode,OpWidth> OperandWidths;
 
         public XedDisasmSvc()
         {
@@ -29,12 +29,12 @@ namespace Z0
 
         protected override void OnInit()
         {
-            var dst = dict<OperandWidthKind,OpWidth>();
+            var dst = dict<OperandWidthCode,OpWidth>();
             iter(Rules.LoadOperandWidths(), w => dst.TryAdd(w.Code, w));
             OperandWidths = dst;
         }
 
-        OpWidth OperandWidth(OperandWidthKind type)
+        OpWidth OperandWidth(OperandWidthCode type)
             => OperandWidths[type];
     }
 }

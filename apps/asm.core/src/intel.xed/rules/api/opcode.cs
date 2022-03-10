@@ -7,14 +7,10 @@ namespace Z0
 {
     using Asm;
 
-    using static XedModels;
     using static core;
 
     partial class XedRules
     {
-        public XedOpCode opcode(in RulePatternInfo src)
-            => new XedOpCode(src.Class, src.OpCodeKind, XedOpCodeParser.value(src));
-
         public static AsmOcValue ocvalue(ReadOnlySpan<RuleToken> tokens)
         {
             var count = tokens.Length;

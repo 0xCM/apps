@@ -26,10 +26,6 @@ namespace Z0
                 _ => 0,
             };
 
-        /// <summary>
-        /// Creates a <see cref='AttributeVector'/> from a <see cref='AttributeKind'> sequence
-        /// </summary>
-        /// <param name="src">The source attributes</param>
         [MethodImpl(Inline), Op]
         public static AttributeVector vector(ReadOnlySpan<AttributeKind> src)
         {

@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public enum OpVisiblity : byte
+        public enum OpVisibility : byte
         {
             [Symbol("")]
             None = 0,

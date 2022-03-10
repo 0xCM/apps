@@ -34,7 +34,7 @@ namespace Z0
             }
 
             public string Format()
-                => RuleTables.format(this);
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

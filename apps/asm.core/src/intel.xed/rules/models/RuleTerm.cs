@@ -44,7 +44,7 @@ namespace Z0
                 => new RuleTerm(IsPremise, Field, Operator, value);
 
             public string Format()
-                => XedFormatters.format(this);
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

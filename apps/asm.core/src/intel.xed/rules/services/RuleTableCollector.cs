@@ -4,17 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class XedRules
     {
         public sealed class TableCollector : RuleTraverser
         {
-            ConcurrentDictionary<RuleSig,Index<RuleTermExpr>> RuleExpressions;
+            ConcurrentDictionary<RuleSig,ConcurrentBag<RuleCriterion>> Premise;
 
-            ConcurrentDictionary<RuleSig, ConcurrentBag<RuleCriterion>> Premise;
+            ConcurrentDictionary<RuleSig,ConcurrentBag<RuleCriterion>> Consequent;
 
-            ConcurrentDictionary<RuleSig, ConcurrentBag<RuleCriterion>> Consequent;
-
-            ConcurrentDictionary<RuleSig, RuleTable> TableLookup;
+            ConcurrentDictionary<RuleSig,RuleTable> TableLookup;
 
             public ConstLookup<RuleSig,RuleTable> Tables
                 => TableLookup;
@@ -27,7 +27,6 @@ namespace Z0
 
             protected override void Traversing()
             {
-                RuleExpressions = new();
                 Premise = new();
                 Consequent = new();
                 TableLookup = new();
@@ -36,8 +35,7 @@ namespace Z0
             protected override void Traversing(in RuleTermTable src)
             {
                 Premise.TryAdd(src.Sig, new());
-                RuleExpressions.TryAdd(src.Sig, src.Expressions);
-                TableLookup.TryAdd(src.Sig, RuleTables.table(src));
+                TableLookup.TryAdd(src.Sig, table(src));
             }
 
             protected override void Traversing(in RuleSig table, in RuleCriterion src)
@@ -62,7 +60,25 @@ namespace Z0
             protected override void Traversing(uint pattern, in RuleToken token)
             {
             }
-        }
 
+
+            static RuleTable table(in RuleTermTable src)
+            {
+                var buffer = alloc<RuleExpr>(src.Expressions.Count);
+                for(var i=0; i<src.Expressions.Count; i++)
+                {
+                    ref readonly var input = ref src.Expressions[i];
+                    var p = RuleTables.specs(true, input.Premise.Map(x=> x.Format()).Delimit(Chars.Space).Format());
+                    var c = RuleTables.specs(false, input.Consequent.Map(x=> x.Format()).Delimit(Chars.Space).Format());
+                    seek(buffer,i) = new RuleExpr(p,c);
+                }
+                var dst = RuleTable.Empty;
+                dst.Expressions = buffer;
+                dst.Name = src.Name;
+                dst.ReturnType = src.ReturnType;
+                XedParsers.parse(src.Name, out dst.EncodingGroup);
+                return dst;
+            }
+        }
     }
 }

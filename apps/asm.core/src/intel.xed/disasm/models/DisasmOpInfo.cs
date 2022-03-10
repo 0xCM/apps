@@ -20,7 +20,7 @@ namespace Z0
 
             public Visibility Visiblity;
 
-            public OperandWidthKind WidthType;
+            public OperandWidthCode WidthCode;
 
             public LookupKind LookupKind;
 

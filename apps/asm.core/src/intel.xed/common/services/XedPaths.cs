@@ -85,7 +85,7 @@ namespace Z0
                  XedDocKind.EncRulePatterns => FS.file("xed.rules.enc.patterns", FS.Csv),
                  XedDocKind.DecRulePatterns => FS.file("xed.rules.dec.patterns", FS.Csv),
                  XedDocKind.OpCodeKinds => Tables.filename<OcMapKind>(),
-                 XedDocKind.OpCodes => Tables.filename<RuleOpCode>(),
+                 XedDocKind.OpCodes => Tables.filename<XedOpCode>(),
                  XedDocKind.OpEnc =>  FS.file("xed.rules.enc.operands", FS.Csv),
                  XedDocKind.OpDec => FS.file("xed.rules.dec.operands", FS.Csv),
                  XedDocKind.RuleSeq => FS.file("xed.rules.seq", FS.Txt),

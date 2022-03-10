@@ -7,18 +7,18 @@ namespace Z0
 {
     using static XedModels;
 
-    using K = XedRules.RuleOpAttribKind;
+    using K = XedRules.RuleOpClass;
 
     partial class XedRules
     {
         public readonly struct RuleOpAttrib : IComparable<RuleOpAttrib>, IEquatable<RuleOpAttrib>
         {
-            public readonly RuleOpAttribKind Kind;
+            public readonly RuleOpClass Kind;
 
             readonly uint Data;
 
             [MethodImpl(Inline)]
-            internal RuleOpAttrib(RuleOpAttribKind kind, uint data)
+            internal RuleOpAttrib(RuleOpClass kind, uint data)
             {
                 Kind = kind;
                 Data = data;
@@ -29,7 +29,7 @@ namespace Z0
                 => ((uint)Kind).CompareTo((uint)src.Kind);
 
             public string Format()
-                => XedFormatters.format(this);
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();
@@ -47,8 +47,8 @@ namespace Z0
                 => (OperandAction)Data;
 
             [MethodImpl(Inline)]
-            public OperandWidthKind AsOpWidth()
-                => (OperandWidthKind)Data;
+            public OperandWidthCode AsOpWidth()
+                => (OperandWidthCode)Data;
 
             [MethodImpl(Inline)]
             public PointerWidthKind AsPtrWidth()
@@ -75,8 +75,8 @@ namespace Z0
                 => (ElementKind)Data;
 
             [MethodImpl(Inline)]
-            public OpVisiblity AsVisiblity()
-                => (OpVisiblity)Data;
+            public OpVisibility AsVisiblity()
+                => (OpVisibility)Data;
 
             [MethodImpl(Inline)]
             public RuleMacroKind AsMacro()
@@ -95,7 +95,7 @@ namespace Z0
                 => new RuleOpAttrib(K.Action, (ushort)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(OperandWidthKind src)
+            public static implicit operator RuleOpAttrib(OperandWidthCode src)
                 => new RuleOpAttrib(K.OpWidth, (ushort)src);
 
             [MethodImpl(Inline)]
@@ -119,7 +119,7 @@ namespace Z0
                 => new RuleOpAttrib(K.ElementType, (uint)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(OpVisiblity src)
+            public static implicit operator RuleOpAttrib(OpVisibility src)
                 => new RuleOpAttrib(K.Visibility, (uint)src);
 
             [MethodImpl(Inline)]

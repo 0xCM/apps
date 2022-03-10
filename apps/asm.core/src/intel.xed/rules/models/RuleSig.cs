@@ -30,7 +30,7 @@ namespace Z0
                 => src is RuleSig x && Equals(x);
 
             public string Format()
-                => XedFormatters.format(this);
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

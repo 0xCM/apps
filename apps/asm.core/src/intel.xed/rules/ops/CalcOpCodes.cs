@@ -5,9 +5,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+
     partial class XedRules
     {
-        public Index<RuleOpCode> CalcOpCodes(ReadOnlySpan<RulePatternInfo> src)
+        public Index<XedOpCode> CalcOpCodes(ReadOnlySpan<RulePatternInfo> src)
             => XedOpCodeParser.create().Parse(src);
     }
 }

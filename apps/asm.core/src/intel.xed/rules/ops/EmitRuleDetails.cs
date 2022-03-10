@@ -8,13 +8,7 @@ namespace Z0
     using static core;
     partial class XedRules
     {
-        void EmitPatternDetails()
-        {
-            EmitPatternDetails(CalcEncInstDefs(), AppDb.XedPath("xed.rules.enc.detail", FileKind.Txt), AppDb.XedPath("xed.rules.enc.ops", FileKind.Csv));
-            EmitPatternDetails(CalcDecInstDefs(), AppDb.XedPath("xed.rules.dec.detail", FileKind.Txt), AppDb.XedPath("xed.rules.dec.ops", FileKind.Csv));
-        }
-
-        static bool attrib(ReadOnlySpan<RuleOpAttrib> src, RuleOpAttribKind kind, out RuleOpAttrib dst)
+        static bool attrib(ReadOnlySpan<RuleOpAttrib> src, RuleOpClass kind, out RuleOpAttrib dst)
         {
             var result = false;
             dst = RuleOpAttrib.Empty;
@@ -50,22 +44,22 @@ namespace Z0
                 detail.Expression = op.Expression;
                 detail.Mnemonic = pattern.Mnemonic;
 
-                if(attrib(attribs, RuleOpAttribKind.Action, out var action))
+                if(attrib(attribs, RuleOpClass.Action, out var action))
                     detail.Action = action;
-                if(attrib(attribs, RuleOpAttribKind.OpWidth, out var width))
+                if(attrib(attribs, RuleOpClass.OpWidth, out var width))
                     detail.Width = width;
-                if(attrib(attribs, RuleOpAttribKind.ElementType, out var et))
+                if(attrib(attribs, RuleOpClass.ElementType, out var et))
                     detail.EType = et;
-                if(attrib(attribs, RuleOpAttribKind.EncGroup, out var encgroup))
+                if(attrib(attribs, RuleOpClass.EncGroup, out var encgroup))
                     detail.EncGroup = encgroup;
-                if(attrib(attribs, RuleOpAttribKind.RegLiteral, out var reglit))
+                if(attrib(attribs, RuleOpClass.RegLiteral, out var reglit))
                 {
                     detail.RegLit = reglit;
                     //detail.OpWidth = XedModels.width(reglit.AsRegLiteral());
                 }
-                if(attrib(attribs, RuleOpAttribKind.Modifier, out var mod))
+                if(attrib(attribs, RuleOpClass.Modifier, out var mod))
                     detail.Modifier = mod;
-                if(attrib(attribs, RuleOpAttribKind.Visibility, out var visib))
+                if(attrib(attribs, RuleOpClass.Visibility, out var visib))
                     detail.Visibility = visib;
 
                 dst.Add(detail);

@@ -96,7 +96,7 @@ namespace Z0
                 => src is FieldValue x && Equals(x);
 
             public string Format()
-                => RuleTables.format(this);
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

@@ -14,7 +14,7 @@ namespace Z0
 
             public const byte FieldCount = 8;
 
-            public OperandWidthKind Code;
+            public OperandWidthCode Code;
 
             public text15 Name;
 
@@ -31,7 +31,7 @@ namespace Z0
             public SegType Seg;
 
             public string Format()
-                => string.Format("{0}:{1}w", XedFormatters.format(Code), Width64);
+                => string.Format("{0}:{1}w", XedRender.format(Code), Width64);
 
             public override string ToString()
                 => Format();

@@ -55,14 +55,14 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            result = DataParser.eparse(skip(parts,i++), out dst.WidthType);
+            result = DataParser.eparse(skip(parts,i++), out dst.WidthCode);
             if(result.Fail)
                 return result;
 
             result = DataParser.eparse(skip(parts,i++), out VisibilityKind vis);
             if(result.Fail)
                 return result;
-            dst.Visiblity = (OpVisiblity)vis;
+            dst.Visiblity = (OpVisibility)vis;
 
             result = DataParser.eparse(skip(parts,i++), out dst.LookupKind);
             if(result.Fail)

@@ -37,7 +37,7 @@ namespace Z0.Asm
             ApiMetadata.EmitTokens<LookupKind>(scope, xed);
             ApiMetadata.EmitTokens<NonterminalKind>(scope, xed);
             ApiMetadata.EmitTokens<FieldKind>(scope, xed);
-            ApiMetadata.EmitTokens<OperandWidthKind>(scope, xed);
+            ApiMetadata.EmitTokens<OperandWidthCode>(scope, xed);
             ApiMetadata.EmitTokens<OperandAction>(scope, xed);
             ApiMetadata.EmitTokens<PointerWidthKind>(scope, xed);
             ApiMetadata.EmitTokens<XedRegId>(scope, xed);

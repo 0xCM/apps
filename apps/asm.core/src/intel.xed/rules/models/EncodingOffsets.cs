@@ -31,7 +31,7 @@ namespace Z0
             public sbyte Disp;
 
             public string Format()
-                => XedFormatters.format(this);
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

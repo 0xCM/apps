@@ -7,9 +7,9 @@ namespace Z0
 {
     partial class XedRules
     {
-        void EmitPatterns()
+        Index<RulePatternInfo> EmitPatterns()
         {
-            EmitRulePatterns(CalcEncInstDefs(), CalcDecInstDefs());
+            return EmitRulePatterns(CalcEncInstDefs(), CalcDecInstDefs());
         }
 
         Index<RulePatternInfo> EmitRulePatterns(Index<InstDef> enc, Index<InstDef> dec)

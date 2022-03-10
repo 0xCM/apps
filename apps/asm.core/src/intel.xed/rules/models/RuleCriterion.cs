@@ -84,7 +84,7 @@ namespace Z0
                 => (XedRegId)Data;
 
             public string Format()
-                => RuleTables.format(this);
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

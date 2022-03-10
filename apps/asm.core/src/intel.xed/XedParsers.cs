@@ -6,6 +6,7 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
+    using static core;
 
     public class XedParsers
     {
@@ -15,7 +16,7 @@ namespace Z0
 
         static XedParsers Instance = new();
 
-        readonly EnumParser<OperandWidthKind> OpWidthParser = new();
+        readonly EnumParser<OperandWidthCode> OpWidthParser = new();
 
         readonly EnumParser<OperandAction> OpActions = new();
 
@@ -27,7 +28,7 @@ namespace Z0
 
         readonly EnumParser<ElementKind> ElementKinds = new();
 
-        readonly EnumParser<OpVisiblity> Visibilities = new();
+        readonly EnumParser<OpVisibility> OpVisKinds = new();
 
         readonly EnumParser<EncodingGroup> EncodingGroups = new();
 
@@ -44,9 +45,65 @@ namespace Z0
         XedParsers()
         {
 
-
         }
 
+        public static Outcome parse(string src, out DispFieldSpec dst)
+        {
+            var result = Outcome.Success;
+            dst = DispFieldSpec.Empty;
+            var i = text.index(src, Chars.LBracket);
+            var j = text.index(src, Chars.RBracket);
+            var kind = Chars.x;
+            var width = z8;
+            if(i > 0 && j > i)
+            {
+                var inside = text.inside(src,i,j);
+                var quotient = text.split(inside,Chars.FSlash);
+                if(quotient.Length != 2)
+                    return (false,AppMsg.ParseFailure.Format(nameof(DispFieldSpec), src));
+
+                ref readonly var upper = ref skip(quotient,0);
+                ref readonly var lower = ref skip(quotient,1);
+
+                if(upper.Length == 1)
+                    kind = upper[0];
+                if(!byte.TryParse(lower, out width))
+                    return (false, AppMsg.ParseFailure.Format(nameof(width), lower));
+            }
+
+            dst = new DispFieldSpec(width, kind);
+            return result;
+        }
+
+        public static bool parse(string src, out byte dst)
+            => Instance.Parse(src, out dst);
+
+        public static bool parse(string src, out FieldKind dst)
+            => Instance.Parse(src, out dst);
+
+        public static bool parse(string src, out OperandWidthCode dst)
+            => Instance.Parse(src, out dst);
+
+        public static bool parse(string src, out OperandAction dst)
+            => Instance.Parse(src, out dst);
+
+        public static bool parse(string src, out PointerWidthKind dst)
+            => Instance.Parse(src, out dst);
+
+        public static bool parse(string src, out NonterminalKind dst)
+            => Instance.Parse(src, out dst);
+
+        public static bool parse(string src, out XedRegId dst)
+            => Instance.Parse(src, out dst);
+
+        public static bool parse(string src, out ElementKind dst)
+            => Instance.Parse(src, out dst);
+
+        public static bool parse(string src, out OpVisibility dst)
+            => Instance.Parse(src, out dst);
+
+        public static bool parse(string src, out EncodingGroup dst)
+            => Instance.Parse(src, out dst);
 
         public bool Num8(string src, out byte dst)
             => NumericParser.num8(src, out dst);
@@ -60,10 +117,10 @@ namespace Z0
         public bool FieldKind(string src, out FieldKind dst)
             => FieldKinds.Parse(src, out dst);
 
-        public bool Parse(string src, out OperandWidthKind dst)
+        public bool Parse(string src, out OperandWidthCode dst)
             => OpWidthParser.Parse(src, out dst);
 
-        public bool OpWidth(string src, out OperandWidthKind dst)
+        public bool OpWidth(string src, out OperandWidthCode dst)
             => OpWidthParser.Parse(src, out dst);
 
         public bool Parse(string src, out OperandAction dst)
@@ -106,8 +163,8 @@ namespace Z0
         public bool ElementKind(string src, out ElementKind dst)
             => ElementKinds.Parse(src, out dst);
 
-        public bool Parse(string src, out OpVisiblity dst)
-            => Visibilities.Parse(src, out dst);
+        public bool Parse(string src, out OpVisibility dst)
+            => OpVisKinds.Parse(src, out dst);
 
         public bool ElementType(string src, out ElementType dst)
         {
@@ -119,8 +176,8 @@ namespace Z0
         public bool Parse(string src, out ElementType dst)
             => ElementType(src, out dst);
 
-        public bool OpVis(string src, out OpVisiblity dst)
-            => Visibilities.Parse(src, out dst);
+        public bool OpVis(string src, out OpVisibility dst)
+            => OpVisKinds.Parse(src, out dst);
 
         public bool Parse(string src, out EncodingGroup dst)
             => EncodingGroups.Parse(src, out dst);

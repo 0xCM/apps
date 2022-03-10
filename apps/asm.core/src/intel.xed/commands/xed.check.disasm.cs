@@ -12,34 +12,114 @@ namespace Z0
 
     using K = XedRules.FieldKind;
 
+
     partial class XedCmdProvider
     {
+        FieldRender FieldFormatter => Service(FieldRender.create);
+
+        XedDisasmSvc XedDisasmSvc => Service(Wf.XedDisasm);
+
         [CmdOp("xed/check/disasm")]
         Outcome CheckDisasm(CmdArgs args)
         {
-            var receiver = new WsEventReceiver();
-            var project = Project();
-            var context = Projects.Context(project, receiver);
+            var actions = new Action[]{CheckDisasm1,CheckDisasm2};
+            iter(actions, a => a(), true);
+            return true;
+        }
+
+        void CheckDisasm2(WsContext context, in FileRef file)
+        {
+            var details = XedDisasmSvc.CalcDisasmDetails(context,file);
+            var dst = AppDb.Log("xed",file.DocName, FileKind.Txt);
+            var emitting = EmittingFile(dst);
+            using var writer = dst.AsciWriter();
+            var buffer = text.buffer();
+            var counter = 0u;
+            foreach(var detail in details)
+            {
+                var mnemonic = detail.Mnemonic;
+                var ops = detail.Operands;
+                var count = ops.Count;
+
+                writer.AppendLineFormat("{0,-6} {1}", counter++, mnemonic);
+                writer.AppendLine(RP.PageBreak40);
+
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var op = ref ops[i];
+                    render(op, buffer);
+                    writer.AppendLine(buffer.Emit());
+
+                }
+                writer.WriteLine();
+            }
+            EmittedFile(emitting,counter);
+        }
+
+        static void render(in DisasmOpDetail src, ITextBuffer dst)
+        {
+            dst.AppendFormat("{0,-6} {1,-4}", src.Index, XedRender.format(src.OpName));
+
+            var kind = opkind(src.OpName);
+            ref readonly var selector = ref src.OpInfo.Selector;
+            switch(kind)
+            {
+                case RuleOpKind.Reg:
+                case RuleOpKind.Base:
+                case RuleOpKind.Index:
+                    if(selector.IsNonEmpty)
+                    {
+                        dst.AppendFormat(" {0}",selector);
+                        dst.AppendFormat("/{0}", XedRender.format(src.Action));
+
+                    }
+                break;
+                default:
+                    dst.AppendFormat(" {0}", XedRender.format(src.Action));
+                break;
+            }
+
+            ref readonly var width = ref src.OpWidth;
+
+            dst.AppendFormat("/{0}", XedRender.format(width.Code));
+
+            if(width.EType.IsNonEmpty && !width.EType.IsInt)
+                dst.AppendFormat("/{0}", src.OpWidth.EType);
+            if(!src.OpInfo.Visiblity.IsExplicit)
+                dst.AppendFormat("/{0}", src.OpInfo.Visiblity);
+            if(src.OpInfo.LookupKind != 0)
+                dst.AppendFormat("/{0}", src.OpInfo.LookupKind);
+
+        }
+
+
+        void CheckDisasm2()
+        {
+            var context = Projects.Context(Project());
             var files = context.Files(FileKind.XedRawDisasm);
-            AppDb.Logs("xed").Clear();
+            iter(files, file => CheckDisasm2(context,file),true);
+
+        }
+
+        void CheckDisasm1()
+        {
+            var project = Project();
+            var context = Projects.Context(project);
+            var files = context.Files(FileKind.XedRawDisasm);
+            AppDb.Logs("xed.props").Clear();
 
             FieldFormatter[K.EOSZ] = FieldFormatters.eosz;
             FieldFormatter[K.EASZ] = FieldFormatters.easz;
             FieldFormatter[K.MODE] = FieldFormatters.mode;
-
             iter(files, file => CheckDisasm(context, XedDisasm.blocks(file)),true);
-
-            return true;
         }
-
-        FieldRender FieldFormatter => Service(FieldRender.create);
 
         void CheckDisasm(WsContext context, in DisasmFileBlocks src)
         {
             const string FieldPattern = "{0,-24} | {1}";
             var name = src.Source.DocName;
             var fieldrender = FieldFormatter;
-            var dst = AppDb.Log("xed", name, FileKind.Log);
+            var dst = AppDb.Log("xed.props", name, FileKind.Log);
             var emitting = EmittingFile(dst);
             XedDisasm.CalcSummaryDoc(context, src.Source, out var summaries);
             Require.equal(summaries.RowCount, src.Count);

@@ -7,7 +7,7 @@ namespace Z0
 {
     using static core;
     using static XedModels;
-    using static XedFormatters;
+    using static XedRender;
 
     partial class XedRules
     {
@@ -50,7 +50,7 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 static string format(FieldValue src)
-                    => RuleTables.format(src);
+                    => XedRender.format(src);
 
                 iter(new ReflectedFields().LeftValues, k => this[k] = format);
             }

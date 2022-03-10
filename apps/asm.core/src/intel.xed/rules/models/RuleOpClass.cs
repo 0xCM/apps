@@ -5,15 +5,37 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     partial class XedRules
     {
-        OpCodeKinds EmitOpCodeKinds()
+        public enum RuleOpClass : byte
         {
-            var src = CalcOpCodeKinds();
-            TableEmit(src.Records, OcMapKind.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodeKinds));
-            return src;
+            None,
+
+            Action,
+
+            OpWidth,
+
+            Visibility,
+
+            Common,
+
+            PtrWidth,
+
+            Nonterminal,
+
+            RegLiteral,
+
+            Scale,
+
+            RegResolver,
+
+            ElementType,
+
+            Macro,
+
+            EncGroup,
+
+            Modifier,
         }
     }
 }

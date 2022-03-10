@@ -14,17 +14,43 @@ namespace Z0
     {
         public void EmitCatalog()
         {
-            EmitPatterns();
-            EmitPatternDetails();
-            EmitRuleTables();
-            EmitFieldDefs();
-            EmitRuleSeq();
-            EmitOperandWidths();
-            EmitPointerWidths();
-            EmitOpCodeKinds();
-            EmitMacroAssignments();
-            EmitFieldSpecs();
+            var patterns = EmitPatterns();
+            EmitOpCodes(patterns);
+            var actions = new Action[]{
+                EmitEncPatternDetails,
+                EmitDecPatternDetails,
+                EmitRuleTables,
+                EmitFieldDefs,
+                EmitRuleSeq,
+                EmitOperandWidths,
+                EmitPointerWidths,
+                EmitOpCodeKinds,
+                EmitMacroAssignments,
+                EmitFieldSpecs};
+
+            iter(actions, a => a(), false);
         }
+
+        void EmitFieldDefs()
+            => TableEmit(CalcFieldDefs().View, XedFieldDef.RenderWidths, XedPaths.FieldDefsTarget());
+
+        void EmitDecPatternDetails()
+            => EmitPatternDetails(CalcDecInstDefs(), AppDb.XedPath("xed.rules.dec.detail", FileKind.Txt), AppDb.XedPath("xed.rules.dec.ops", FileKind.Csv));
+
+        void EmitEncPatternDetails()
+            => EmitPatternDetails(CalcEncInstDefs(), AppDb.XedPath("xed.rules.enc.detail", FileKind.Txt), AppDb.XedPath("xed.rules.enc.ops", FileKind.Csv));
+
+        void EmitOpCodeKinds()
+            => TableEmit(CalcOpCodeKinds().Records, OcMapKind.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodeKinds));
+
+        void EmitMacroAssignments()
+            => TableEmit(CalcMacroAssignments().View, MacroAssignment.RenderWidths, XedPaths.DocTarget(XedDocKind.MacroAssignments));
+
+        void EmitFieldSpecs()
+            => TableEmit(CalcFieldSpecs().View, RuleFieldSpec.RenderWidths, AppDb.XedTable<RuleFieldSpec>());
+
+        void EmitOpCodes(Index<RulePatternInfo> patterns)
+            => TableEmit(CalcOpCodes(patterns).View, XedOpCode.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodes));
 
         void EmitRuleTables()
         {
@@ -39,19 +65,10 @@ namespace Z0
             EmittedFile(emitting, sigs.Length);
         }
 
-        Index<OpWidth> EmitOperandWidths()
-        {
-            var src = CalcOperandWidths();
-            TableEmit(src.View, AppDb.XedTable<OpWidth>());
-            return src;
-        }
+        void EmitOperandWidths()
+            => TableEmit(CalcOperandWidths().View, AppDb.XedTable<OpWidth>());
 
-        Index<PointerWidthInfo> EmitPointerWidths()
-        {
-            var src = mapi(PointerWidths.Where(x => x.Kind != 0), (i,w) => w.ToRecord((byte)i));
-            var dst = XedPaths.DocTarget(XedDocKind.PointerWidths);
-            TableEmit(src.View, PointerWidthInfo.RenderWidths, dst);
-            return src;
-        }
+        void EmitPointerWidths()
+            => TableEmit(CalcPointerWidths().View, PointerWidthInfo.RenderWidths,  XedPaths.DocTarget(XedDocKind.PointerWidths));
     }
 }

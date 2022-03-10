@@ -28,13 +28,13 @@ namespace Z0
                 var parts = text.split(text.despace(text.trim(expr)), Chars.Space);
                 var pad = -32;
                 var sep = " | ";
-                writer.WriteLine("{0,-16} | {1,-12} | {2}", info.Class, AsmOcValue.format(XedRules.ocvalue(pattern.Tokens)), XedFormatters.format(info.OpCodeKind));
+                writer.WriteLine("{0,-16} | {1,-12} | {2}", info.Class, AsmOcValue.format(XedRules.ocvalue(pattern.Tokens)), XedRender.format(info.OpCodeKind));
                 writer.WriteLine(expr);
                 writer.WriteLine(text.delimit(parts, sep, pad));
                 writer.WriteLine(text.delimit(pattern.Tokens, sep, pad));
                 var expansions = Xed.Rules.ExpandMacros(pattern.Tokens);
                 writer.WriteLine(text.delimit(expansions, sep, pad));
-                var expanded = text.delimit(expansions.Map(x => XedFormatters.format(x))," ");
+                var expanded = text.delimit(expansions.Map(x => XedRender.format(x))," ");
                 writer.WriteLine(expanded);
                 writer.WriteLine(RP.PageBreak1024);
             }

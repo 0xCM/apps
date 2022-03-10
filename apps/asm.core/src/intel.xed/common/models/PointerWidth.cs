@@ -18,7 +18,7 @@ namespace Z0
             public PointerWidth(Sym<PointerWidthKind> src)
             {
                 Kind = src.Kind;
-                Spec =  XedFormatters.format(src.Kind);
+                Spec =  XedRender.format(src.Kind);
                 Name = src.Kind.ToString().ToLower();
             }
 

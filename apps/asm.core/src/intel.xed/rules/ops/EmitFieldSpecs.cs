@@ -7,10 +7,6 @@ namespace Z0
 {
     partial class XedRules
     {
-        public void EmitFieldSpecs()
-            => TableEmit(CalcFieldSpecs().View, RuleFieldSpec.RenderWidths, AppDb.XedTable<RuleFieldSpec>());
 
-        void EmitMacroAssignments()
-            => TableEmit(CalcMacroAssignments().View, MacroAssignment.RenderWidths, XedPaths.DocTarget(XedDocKind.MacroAssignments));
     }
 }

@@ -42,7 +42,7 @@ namespace Z0
             ref readonly var rules = ref state.RuleState;
             dst.Offsets = XedRules.positions(rules);
             dst.OpCode = rules.NOMINAL_OPCODE;
-            dst.OpDetails = alloc<DisasmOpDetail>(block.OperandCount);
+            dst.Operands = alloc<DisasmOpDetail>(block.OperandCount);
 
             var ocpos = rules.POS_NOMINAL_OPCODE;
             var ocsrm = math.and((byte)rules.SRM, rules.NOMINAL_OPCODE);
@@ -55,7 +55,7 @@ namespace Z0
             var opcount = block.OperandCount;
             for(var k=0; k<opcount; k++)
             {
-                ref var detail = ref dst.OpDetails[k];
+                ref var detail = ref dst.Operands[k];
                 ref readonly var opsrc = ref skip(block.Operands, k);
                 result = XedDisasm.opinfo(opsrc.Content, out detail.OpInfo);
                 if(result.Fail)
@@ -63,7 +63,7 @@ namespace Z0
 
                 var info = detail.OpInfo;
                 var title = string.Format("Op{0}", k);
-                var winfo = OperandWidth(info.WidthType);
+                var winfo = OperandWidth(info.WidthCode);
                 detail.OpWidth = winfo;
                 var indicator = winfo.Name;
                 var width = winfo.Width64;

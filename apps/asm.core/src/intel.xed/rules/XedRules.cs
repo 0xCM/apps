@@ -58,7 +58,7 @@ namespace Z0
         AppDb AppDb => Service(Wf.AppDb);
 
         public Index<PointerWidthInfo> CalcPointerWidths()
-            => Data(nameof(CalcPointerWidths), () => mapi(PointerWidths, (i,w) => w.ToRecord((byte)i)));
+            => Data(nameof(CalcPointerWidths), () => mapi(PointerWidths.Where(x => x.Kind != 0), (i,w) => w.ToRecord((byte)i)));
 
         Outcome ParseIClass(string src, out IClass dst)
             => InstClasses.ExprKind(src, out dst);
@@ -109,7 +109,7 @@ namespace Z0
             {
                 var widths = LoadOperandWidths();
                 var dst = dict<string,OpWidth>();
-                var symbols = Symbols.index<OperandWidthKind>();
+                var symbols = Symbols.index<OperandWidthCode>();
                 var count = widths.Length;
                 for(var i=0; i<count; i++)
                     dst[symbols[widths[i].Code].Expr.Format()] = widths[i];
@@ -129,7 +129,7 @@ namespace Z0
 
         static Symbols<NonterminalKind> Nonterminals;
 
-        static Symbols<OperandWidthKind> OpWidthKinds;
+        static Symbols<OperandWidthCode> OpWidthKinds;
 
         static Symbols<PointerWidthKind> PointerWidthKinds;
 
@@ -142,7 +142,7 @@ namespace Z0
             FieldKinds = Symbols.index<FieldKind>();
             MacroKinds = Symbols.index<RuleMacroKind>();
             XedRegs = Symbols.index<XedRegId>();
-            OpWidthKinds = Symbols.index<OperandWidthKind>();
+            OpWidthKinds = Symbols.index<OperandWidthCode>();
             InstClasses = Symbols.index<IClass>();
             ConstraintKinds = Symbols.index<ConstraintKind>();
             Nonterminals = Symbols.index<NonterminalKind>();
@@ -151,7 +151,7 @@ namespace Z0
             MacroLookup = RuleMacros.lookup();
        }
 
-        static XedFormatters Formatters = XedFormatters.create();
+        static XedRender Formatters = XedRender.create();
 
         static MsgPattern<string> StepParseFailed => "Failed to parse step from '{0}'";
     }
