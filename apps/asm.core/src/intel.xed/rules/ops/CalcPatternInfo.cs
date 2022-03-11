@@ -9,20 +9,21 @@ namespace Z0
 
     partial class XedRules
     {
-        public Index<RulePatternInfo> CalcPatternInfo(ReadOnlySpan<InstDef> src)
+        Index<RulePatternInfo> CalcPatternInfo(ReadOnlySpan<InstDef> src)
         {
             var buffer = hashset<RulePatternInfo>();
             var instcount = src.Length;
             for(var i=0; i<instcount; i++)
             {
-                ref readonly var inst = ref skip(src,i);
-                var operands = inst.PatternSpecs;
+                ref readonly var def = ref skip(src,i);
+                var operands = def.PatternSpecs;
                 var opcount = operands.Length;
                 for(var j=0; j<opcount;j++)
                 {
                     ref readonly var op = ref operands[j];
                     var pattern = new RulePatternInfo();
-                    pattern.Class = inst.Class;
+                    pattern.Class = def.Class;
+                    pattern.InstId = def.Seq;
                     pattern.Hash = alg.hash.marvin(op.Expression.Text);
                     pattern.OpCodeKind = ockind(op.Expression.Text);
                     pattern.Expression = op.Expression;
@@ -48,28 +49,5 @@ namespace Z0
             return dst;
         }
 
-        public Index<RulePatternInfo> CalcPatternInfo(in InstDef inst)
-        {
-            var buffer = list<RulePatternInfo>();
-            CalcPatternInfo(inst, buffer);
-            return buffer.ToArray();
-        }
-
-        Index<RulePatternInfo> CalcPatternInfo(in InstDef inst, List<RulePatternInfo> buffer)
-        {
-            var operands = inst.PatternSpecs;
-            var opcount = operands.Length;
-            for(var j=0; j<opcount;j++)
-            {
-                ref readonly var op = ref operands[j];
-                var pattern = new RulePatternInfo();
-                pattern.Class = inst.Class;
-                pattern.Hash = alg.hash.marvin(op.Expression.Text);
-                pattern.OpCodeKind = ockind(op.Expression.Text);
-                pattern.Expression = op.Expression;
-                buffer.Add(pattern);
-            }
-            return buffer.ToArray();
-        }
    }
 }

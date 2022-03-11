@@ -9,11 +9,11 @@ namespace Z0
     {
         public enum RuleOpClass : byte
         {
-            None,
+            None = 0,
 
-            Action,
+            Action = 1,
 
-            OpWidth,
+            OpWidth = 2,
 
             Visibility,
 
@@ -26,8 +26,6 @@ namespace Z0
             RegLiteral,
 
             Scale,
-
-            RegResolver,
 
             ElementType,
 

@@ -22,7 +22,7 @@ namespace Z0
 
         DecRuleTableExp,
 
-        EncRulePatterns,
+        RulePatterns,
 
         EncDecRuleTable,
 

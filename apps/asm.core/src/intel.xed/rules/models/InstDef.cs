@@ -11,6 +11,8 @@ namespace Z0
     {
         public struct InstDef : IComparable<InstDef>
         {
+            public uint Seq;
+
             public IClass Class;
 
             public IForm Form;

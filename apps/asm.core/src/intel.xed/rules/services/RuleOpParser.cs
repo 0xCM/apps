@@ -30,34 +30,37 @@ namespace Z0
                 var buffer = list<RuleOpSpec>();
                 var input = text.despace(src);
                 var i = text.index(input,Chars.Hash);
+                var index = z8;
                 if(i > 0)
                     input = text.left(input,i);
 
                 var parts = input.Contains(Chars.Space) ? text.split(input, Chars.Space) : new string[]{input};
                 for(var j=0; j<parts.Length; j++)
                 {
-                    var parsed = ParseOp(skip(parts,j));
+                    var parsed = ParseOp(index++, skip(parts,j));
                     if(parsed.IsNonEmpty)
                         buffer.Add(parsed);
+                    else
+                        break;
                 }
 
                 return buffer.ToArray();
             }
 
-            public RuleOpSpec ParseOp(RuleOpName name, string src)
+            public RuleOpSpec ParseOp(byte index, RuleOpName name, string src)
             {
                 var input = text.despace(src);
                 var attribs = input;
-                return ParseOp(attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty));
+                return ParseOp(index, attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty));
             }
 
-            public RuleOpSpec ParseOp(string src)
+            RuleOpSpec ParseOp(byte index, string src)
             {
                 var input = text.despace(src);
                 var i = text.index(input, Chars.Colon, Chars.Eq);
                 var attribs = text.right(src,i);
                 opname(src, out var name);
-                return ParseOp(attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty));
+                return ParseOp(index, attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty));
             }
 
             static bool opname(string src, out RuleOpName dst)
@@ -83,7 +86,7 @@ namespace Z0
                 return OpNames.ExprKind(text.left(input, index), out dst);
             }
 
-            RuleOpSpec ParseOp(string expr, RuleOpName name, string[] props)
+            RuleOpSpec ParseOp(byte index, string expr, RuleOpName name, string[] props)
             {
                 var dst = new RuleOpSpec();
                 dst.Expression = expr;
@@ -100,43 +103,44 @@ namespace Z0
                     case REG8:
                     case REG9:
                     {
-                        ParseReg(K.Reg, expr, name, props, out dst);
+                        ParseReg(index, K.Reg, expr, name, props, out dst);
                     }
                     break;
 
                     case INDEX:
                     {
-                        ParseReg(K.Index, expr, name, props, out dst);
+                        ParseReg(index, K.Index, expr, name, props, out dst);
                     }
                     break;
 
                     case BASE0:
                     case BASE1:
                     {
-                        ParseReg(K.Base, expr, name, props, out dst);
+                        ParseReg(index, K.Base, expr, name, props, out dst);
                     }
                     break;
 
                     case SEG0:
                     case SEG1:
                     {
-                        ParseReg(K.Seg, expr, name, props, out dst);
+                        ParseReg(index, K.Seg, expr, name, props, out dst);
                     }
                     break;
 
                     case SCALE:
                     {
-                        ParseScale(K.Scale, expr, name, props, out dst);
+                        ParseScale(index, K.Scale, expr, name, props, out dst);
                     }
                     break;
 
                     case DISP:
                     {
+                        dst.Index = index;
                         dst.Kind = K.Disp;
                         dst.Expression = expr;
                         dst.Name = name;
-                        dst.Properties = props;
-                        dst.Attributes = sys.empty<RuleOpAttrib>();
+                        dst.AttribExpr = props;
+                        dst.Attribs = sys.empty<RuleOpAttrib>();
                     }
                     break;
 
@@ -144,32 +148,32 @@ namespace Z0
                     case IMM1:
                     case IMM2:
                     {
-                        ParseImm(K.Imm, expr, name, props, out dst);
+                        ParseImm(index, K.Imm, expr, name, props, out dst);
                     }
                     break;
 
                     case MEM0:
                     case MEM1:
                     {
-                        ParseMem(K.Mem, expr, name, props, out dst);
+                        ParseMem(index, K.Mem, expr, name, props, out dst);
                     }
                     break;
 
                     case AGEN:
                     {
-                        ParseMem(K.Agen, expr, name, props, out dst);
+                        ParseMem(index, K.Agen, expr, name, props, out dst);
                     }
                     break;
 
                     case PTR:
                     {
-                        ParsePtr(K.Ptr, expr, name, props, out dst);
+                        ParsePtr(index, K.Ptr, expr, name, props, out dst);
                     }
                     break;
 
                     case RELBR:
                     {
-                        ParseRelBr(K.RelBr, expr, name, props, out dst);
+                        ParseRelBr(index, K.RelBr, expr, name, props, out dst);
                     }
                     break;
 
@@ -177,10 +181,11 @@ namespace Z0
                     {
                         if(RuleMacros.spec(expr, out var macro))
                         {
+                            dst.Index = index;
                             dst.Name = name;
                             dst.Kind = K.Macro;
-                            dst.Properties = props;
-                            dst.Attributes = new RuleOpAttrib[]{macro.Name};
+                            dst.AttribExpr = props;
+                            dst.Attribs = new RuleOpAttrib[]{macro.Name};
                             dst.Expression = expr;
                         }
                     }
@@ -189,59 +194,62 @@ namespace Z0
                 return dst;
             }
 
-            void ParsePtr(K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
+            void ParsePtr(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
             {
                 var count = props.Count;
+                dst.Index = index;
                 dst.Kind = kind;
                 dst.Name = name;
-                dst.Properties = props;
+                dst.AttribExpr = props;
                 dst.Expression = expr;
                 Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[4];
                 var i=0;
 
                 if(count >= 1)
                 {
-                    if(Parsers.Action(props[0], out var action))
+                    if(Parsers.Parse(props[0], out OperandAction action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 2)
                 {
-                    if(Parsers.OpWidth(props[1], out var width))
+                    if(Parsers.Parse(props[1], out OperandWidthCode width))
                         seek(buffer,i++) = width;
                 }
 
-                dst.Attributes = slice(buffer,0,i).ToArray();
+                dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            void ParseRelBr(K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
+            void ParseRelBr(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
             {
                 var count = props.Count;
+                dst.Index = index;
                 dst.Kind = kind;
                 dst.Name = name;
-                dst.Properties = props;
+                dst.AttribExpr = props;
                 dst.Expression = expr;
                 Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[4];
                 var i=0;
                 if(count >= 1)
                 {
-                    if(Parsers.Action(props[0], out var action))
+                    if(Parsers.Parse(props[0], out OperandAction action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 2)
                 {
-                    if(Parsers.OpWidth(props[1], out var width))
+                    if(Parsers.Parse(props[1], out OperandWidthCode width))
                         seek(buffer,i++) = width;
                 }
 
-                dst.Attributes = slice(buffer,0,i).ToArray();
+                dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            void ParseScale(K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
+            void ParseScale(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
             {
                 var count = props.Count;
+                dst.Index = index;
                 dst.Kind = kind;
                 dst.Name = name;
-                dst.Properties = props;
+                dst.AttribExpr = props;
                 dst.Expression = expr;
                 Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[4];
                 var i=0;
@@ -253,74 +261,76 @@ namespace Z0
                 }
                 if(count >= 2)
                 {
-                    if(Parsers.Action(props[1], out var action))
+                    if(Parsers.Parse(props[1], out OperandAction action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 3)
                 {
-                    if(Parsers.PtrWidth(props[2], out var width))
-                        seek(buffer,i++) = width;
+                    if(Parsers.Parse(props[2], out PointerWidthKind pwidth))
+                        seek(buffer,i++) = pwidth;
                 }
 
-                dst.Attributes = slice(buffer,0,i).ToArray();
+                dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            void ParseImm(K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
+            void ParseImm(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
             {
                 var count = props.Count;
+                dst.Index = index;
                 dst.Kind = kind;
                 dst.Name = name;
-                dst.Properties = props;
+                dst.AttribExpr = props;
                 dst.Expression = expr;
 
                 Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[4];
                 var i=0;
                 if(count >= 1)
                 {
-                    if(Parsers.Action(props[0], out var action))
+                    if(Parsers.Parse(props[0], out OperandAction action))
                         seek(buffer,i++) = action;
                 }
 
                 if(count >= 2)
                 {
-                    if(Parsers.OpWidth(props[1], out var width))
+                    if(Parsers.Parse(props[1], out OperandWidthCode width))
                         seek(buffer,i++) = width;
                 }
 
                 if(count >= 3)
                 {
-                    if(Parsers.ElementKind(props[2], out var type))
+                    if(Parsers.Parse(props[2], out ElementKind type))
                         seek(buffer,i++) = type;
                 }
 
-                dst.Attributes = slice(buffer,0,i).ToArray();
+                dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
             // MEM0:r:vv:f64:TXT=BCASTSTR
-            void ParseMem(K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
+            void ParseMem(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
             {
                 var count = props.Count;
+                dst.Index = index;
                 dst.Kind = kind;
                 dst.Name = name;
-                dst.Properties = props;
+                dst.AttribExpr = props;
                 dst.Expression = expr;
                 Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[6];
                 var i=0;
 
                 if(count >= 1)
                 {
-                    if(Parsers.Action(props[0], out var action))
+                    if(Parsers.Parse(props[0], out OperandAction action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 2)
                 {
-                    if(Parsers.OpWidth(props[1], out var width))
+                    if(Parsers.Parse(props[1], out OperandWidthCode width))
                         seek(buffer,i++) = width;
                 }
 
                 if(count >= 3)
                 {
-                    if(Parsers.ElementKind(props[2], out var type))
+                    if(Parsers.Parse(props[2], out ElementKind type))
                         seek(buffer,i++) = type;
                 }
 
@@ -329,23 +339,24 @@ namespace Z0
                     var j = text.index(props[3], Chars.Eq);
                     if(j > 0)
                     {
-                        if(Parsers.OpKind(text.right(props[3], j), out var tp))
-                            seek(buffer,i++) = tp;
+                        if(Parsers.Parse(text.right(props[3], j), out RuleOpModKind mod))
+                            seek(buffer,i++) = mod;
                     }
                 }
 
-                dst.Attributes = slice(buffer,0,i).ToArray();
+                dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            void ParseReg(K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
+            void ParseReg(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
             {
                 var result = Outcome.Success;
                 var counter = 0;
                 var count = props.Count;
                 dst.Kind = kind;
                 dst.Name = name;
-                dst.Properties = props;
+                dst.AttribExpr = props;
                 dst.Expression = expr;
+                dst.Index = index;
 
                 Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[8];
                 var i=0;
@@ -356,32 +367,32 @@ namespace Z0
                     if(j > 0)
                         p0 = text.left(p0,j);
 
-                    if(Parsers.RegLiteral(p0,  out var register))
-                        seek(buffer, i++) = register;
+                    if(Parsers.Parse(p0,  out XedRegId regid))
+                        seek(buffer, i++) = regid;
                     else
                     {
-                        if(Parsers.EncodingGroup(p0, out var group))
+                        if(Parsers.Parse(p0, out EncodingGroup group))
                             seek(buffer, i++) = group;
-                        else if(Parsers.Nonterm(p0, out var nonterm))
+                        else if(Parsers.Parse(p0, out NonterminalKind nonterm))
                             seek(buffer, i++) = nonterm;
                         else
-                            seek(buffer, i++) = new RuleOpAttrib(RuleOpClass.RegResolver, (uint)RegResolvers.Instance.Create(p0));
+                            Errors.Throw(string.Format("Unable to parser rgister specification {0}", p0));
                     }
                 }
 
                 if(count >= 2)
                 {
-                    if(Parsers.Action(props[1], out var action))
+                    if(Parsers.Parse(props[1], out OperandAction action))
                         seek(buffer,i++) = action;
                 }
 
                 if(count >= 3)
                 {
-                    if(Parsers.OpWidth(props[2], out var width))
+                    if(Parsers.Parse(props[2], out OperandWidthCode width))
                         seek(buffer,i++) = width;
                     else
                     {
-                        if(Parsers.OpVis(props[2], out var supp))
+                        if(Parsers.Parse(props[2], out OpVisibility supp))
                         {
                             seek(buffer,i++) = supp;
                         }
@@ -390,26 +401,26 @@ namespace Z0
 
                 if(count >= 4)
                 {
-                    if(Parsers.OpWidth(props[3], out var width))
+                    if(Parsers.Parse(props[3], out OperandWidthCode width))
                         seek(buffer,i++) = width;
                     else
                     {
                         var j = text.index(props[3], Chars.Eq);
                         if(j > 0)
                         {
-                            if(Parsers.OpKind(text.right(props[3], j), out var tp))
-                                seek(buffer,i++) = tp;
+                            if(Parsers.Parse(text.right(props[3], j), out RuleOpModKind mod))
+                                seek(buffer,i++) = mod;
                         }
                     }
                 }
 
                 if(count >= 5)
                 {
-                    if(Parsers.ElementKind(props[4], out var type))
+                    if(Parsers.Parse(props[4], out ElementKind type))
                         seek(buffer,i++) = type;
                 }
 
-                dst.Attributes = slice(buffer,0,i).ToArray();
+                dst.Attribs = slice(buffer,0,i).ToArray();
             }
         }
    }

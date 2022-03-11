@@ -9,8 +9,12 @@ namespace Z0
 
     partial class XedRules
     {
-        public readonly struct InstPatternSpec
+        public readonly struct InstPatternSpec : IComparable<InstPatternSpec>
         {
+            public readonly uint PatternId;
+
+            public readonly uint InstId;
+
             public readonly IClass Mnemonic;
 
             public readonly TextBlock Expression;
@@ -18,17 +22,30 @@ namespace Z0
             public readonly Index<RuleOpSpec> Operands;
 
             [MethodImpl(Inline)]
-            public InstPatternSpec(IClass @class, string expr, RuleOpSpec[] ops)
+            public InstPatternSpec(uint seq, uint instid, IClass @class, string expr, RuleOpSpec[] ops)
             {
+                PatternId = seq;
+                InstId = instid;
                 Mnemonic = @class;
                 Expression = expr;
                 Operands = ops;
             }
 
             [MethodImpl(Inline)]
-            public InstPatternSpec WithPattern(string pattern)
-                => new InstPatternSpec(Mnemonic, pattern, Operands);
+            public InstPatternSpec WithInst(uint instid)
+                => new InstPatternSpec(PatternId, instid, Mnemonic, Expression, Operands);
 
+            [MethodImpl(Inline)]
+            public InstPatternSpec WithPattern(string pattern)
+                => new InstPatternSpec(PatternId, InstId, Mnemonic, pattern, Operands);
+
+            public int CompareTo(InstPatternSpec src)
+            {
+                var result = InstId.CompareTo(src.InstId);
+                if(result == 0)
+                    result = Expression.CompareTo(src.Expression);
+                return result;
+            }
             public string Format()
                 => string.Format("Expression:{0}\nOperands:{1}", Expression, Operands);
 

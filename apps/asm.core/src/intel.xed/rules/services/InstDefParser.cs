@@ -53,7 +53,7 @@ namespace Z0
                 var buffer = list<InstDef>();
                 using var reader = src.Utf8LineReader();
                 var parser = RuleOpParser.create();
-
+                var seq = 0u;
                 while(reader.Next(out var line))
                 {
                     if(line.IsEmpty || line.StartsWith(Chars.Hash) || line.EndsWith("::"))
@@ -79,13 +79,12 @@ namespace Z0
                                 if(empty(value))
                                     continue;
 
-
-                                if(ClassifyPart(name, out var p))
+                                if(ClassifyPart(Rules.PartNames, name, out var p))
                                 {
                                     switch(p)
                                     {
-                                        case P.IForm:
-                                            Rules.ParseIForm(value, out dst.Form);
+                                        case P.Form:
+                                            XedParsers.parse(value, out dst.Form);
                                         break;
                                         case P.Attributes:
                                             Rules.ParseAttribKinds(value, out dst.Attributes);
@@ -94,15 +93,17 @@ namespace Z0
                                             Rules.ParseCategory(value, out dst.Category);
                                         break;
                                         case P.Extension:
-                                            Rules.ParseExtension(value, out dst.Extension);
+                                            XedParsers.parse(value, out dst.Extension);
                                         break;
                                         case P.Flags:
-                                            dst.Flags = Rules.CalcFlagActions(value);
+                                            dst.Flags = XedRules.CalcFlagActions(value);
                                         break;
-                                        case P.IClass:
+                                        case P.Class:
                                         {
                                             if(Rules.ParseIClass(value, out dst.Class))
+                                            {
                                                 @class = dst.Class;
+                                            }
                                         }
                                         break;
                                         case P.Operands:
@@ -124,7 +125,7 @@ namespace Z0
                                                 }
                                             }
 
-                                            operands.Add(new InstPatternSpec(@class, pattern, parser.ParseOps(value)));
+                                            operands.Add(new InstPatternSpec(seq++, 0, @class, pattern, parser.ParseOps(value)));
                                             pattern=EmptyString;
                                         }
                                         break;
@@ -146,18 +147,28 @@ namespace Z0
                     }
                 }
 
-                return buffer.ToArray().Sort();
+                var defs = buffer.ToArray().Sort();
+                for(var i=0u; i<defs.Length; i++)
+                {
+                    ref var def = ref seek(defs,i);
+                    def.Seq = i;
+                    ref var patterns = ref def.PatternSpecs;
+                    for(var j=0; j<patterns.Count; j++)
+                        patterns[j] = patterns[j].WithInst(i);
+                }
+
+                return defs;
             }
 
-            bool ClassifyPart(string src, out InstRulePart part)
+            static bool ClassifyPart(Index<P,string> names, string src, out InstRulePart part)
             {
-                var count = Rules.PartNames.Count;
+                var count = names.Count;
                 var result = false;
                 part = default;
                 for(var i=0; i<count; i++)
                 {
                     var p = (InstRulePart)i;
-                    ref readonly var n = ref Rules.PartNames[p];
+                    ref readonly var n = ref names[p];
                     if(n == src)
                     {
                         part = p;

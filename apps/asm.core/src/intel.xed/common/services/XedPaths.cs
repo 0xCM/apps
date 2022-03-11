@@ -41,21 +41,8 @@ namespace Z0
         public FS.FilePath FieldDefsTarget()
             => XedTargets + Tables.filename<XedFieldDef>();
 
-        public FS.FilePath RuleTableExp(RuleSetKind kind)
-            => kind switch {
-                 RuleSetKind.Enc => DocTarget(XedDocKind.EncRuleTableExp),
-                 RuleSetKind.Dec => DocTarget(XedDocKind.DecRuleTableExp),
-                 RuleSetKind.EncDec => DocTarget(XedDocKind.EncDecRuleTableExp),
-                 _ => FS.FilePath.Empty
-            };
-
-        public FS.FilePath RulePatterns(RuleSetKind kind)
-            => kind switch {
-                 RuleSetKind.Enc => DocTarget(XedDocKind.EncRulePatterns),
-                 RuleSetKind.Dec => DocTarget(XedDocKind.DecRulePatterns),
-                 RuleSetKind.EncDec => DocTarget(XedDocKind.EncRulePatterns),
-                 _ => FS.FilePath.Empty
-            };
+        public FS.FilePath RulePatterns()
+            => DocTarget(XedDocKind.RulePatterns);
 
         public FS.FilePath DocSource(XedDocKind kind)
             => Sources() + (kind switch{
@@ -82,7 +69,7 @@ namespace Z0
                  XedDocKind.EncDecRuleTable => FS.file("xed.rules.encdec.tables", FS.Txt),
                  XedDocKind.Widths => FS.file("xed.rules.widths", FS.Csv),
                  XedDocKind.PointerWidths => Tables.filename<PointerWidthInfo>(),
-                 XedDocKind.EncRulePatterns => FS.file("xed.rules.enc.patterns", FS.Csv),
+                 XedDocKind.RulePatterns => FS.file("xed.rules.patterns", FS.Csv),
                  XedDocKind.DecRulePatterns => FS.file("xed.rules.dec.patterns", FS.Csv),
                  XedDocKind.OpCodeKinds => Tables.filename<OcMapKind>(),
                  XedDocKind.OpCodes => Tables.filename<XedOpCode>(),

@@ -7,11 +7,8 @@ namespace Z0
 {
     partial class XedRules
     {
-        public Index<InstDef> CalcEncInstDefs()
+        public Index<InstDef> CalcInstDefs()
             => CalcInstDefs(XedPaths.DocSource(XedDocKind.EncInstDef));
-
-        public Index<InstDef> CalcDecInstDefs()
-            => CalcInstDefs(XedPaths.DocSource(XedDocKind.DecInstDef));
 
         Index<InstDef> CalcInstDefs(FS.FilePath src)
             => InstDefParser.ParseInstDefs(src);

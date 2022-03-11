@@ -14,9 +14,11 @@ namespace Z0
         {
             public const string TableId = "xed.rules.patterns";
 
-            public const byte FieldCount = 5;
+            public const byte FieldCount = 6;
 
             public uint Seq;
+
+            public uint InstId;
 
             public Hash32 Hash;
 
@@ -40,7 +42,7 @@ namespace Z0
                 return i;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,12,24,16,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,6,12,24,16,1};
         }
     }
 }

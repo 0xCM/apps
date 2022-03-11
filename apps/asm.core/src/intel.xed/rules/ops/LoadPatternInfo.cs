@@ -9,9 +9,9 @@ namespace Z0
 
     partial class XedRules
     {
-        public Index<RulePatternInfo> LoadPatternInfo(RuleSetKind kind)
+        public Index<RulePatternInfo> LoadPatternInfo()
         {
-            var path = XedPaths.RulePatterns(kind);
+            var path = XedPaths.RulePatterns();
             const byte FieldCount = RulePatternInfo.FieldCount;
             var result = Outcome.Success;
             var src = path.ReadLines();
@@ -32,6 +32,7 @@ namespace Z0
                 var reader = cells.Reader();
                 var pattern = new RulePatternInfo();
                 result = DataParser.parse(reader.Next(), out pattern.Seq);
+                result = DataParser.parse(reader.Next(), out pattern.InstId);
                 result = DataParser.parse(reader.Next(), out pattern.Hash);
                 result = DataParser.eparse(reader.Next(), out pattern.Class);
                 result = DataParser.eparse(reader.Next(), out pattern.OpCodeKind);

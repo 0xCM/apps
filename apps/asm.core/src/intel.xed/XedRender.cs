@@ -72,10 +72,6 @@ namespace Z0
                     dst = src.AsScale().Format();
                 break;
 
-                case K.RegResolver:
-                    dst = src.AsRegResolver().Format();
-                break;
-
                 case K.Macro:
                     dst = src.AsMacro().ToString();
                 break;
@@ -121,19 +117,19 @@ namespace Z0
                     value = src.AsHexLit().Format(prespec:true,uppercase:true);
                 break;
                 case TK.Constraint:
-                    value = src.AsConstraint().Format();
+                    value = format(src.AsConstraint());
                 break;
                 case TK.FieldSeg:
                     value = src.AsFieldSeg().Format();
                 break;
                 case TK.Macro:
-                    value = src.AsMacro().Format();
+                    value = format(src.AsMacro());
                 break;
                 case TK.Nonterm:
-                    value = src.AsNonterm().Format();
+                    value = format(src.AsNonterm());
                 break;
                 case TK.Assignment:
-                    value = src.AsAssignment().Format();
+                    value = format(src.AsAssignment());
                 break;
             }
 
@@ -291,7 +287,7 @@ namespace Z0
             var count = expressions.Length;
             dst.AppendLine(Chars.LBrace);
             for(var i=0; i<count; i++)
-                dst.IndentLine(4, skip(expressions, i).Format());
+                dst.IndentLine(4, format(skip(expressions, i)));
             dst.AppendLine(Chars.RBrace);
             return dst.Emit();
         }
@@ -317,7 +313,7 @@ namespace Z0
                 if(i!=0)
                     dst.Append(Chars.Space);
 
-                dst.Append(a.Format());
+                dst.Append(format(a));
             }
             return dst.Emit();
         }
@@ -342,8 +338,7 @@ namespace Z0
             {
                 if(i != 0)
                     dst.Append(" && ");
-                ref readonly var c = ref skip(src,i);
-                dst.Append(c.Format());
+                dst.Append(format(skip(src,i)));
             }
         }
 
@@ -439,7 +434,6 @@ namespace Z0
             RoundingKinds = Symbols.index<RoundingKind>();
        }
 
-
         public static string format(ImmFieldSpec src)
             => src.Width == 0 ? EmptyString : string.Format("{0}{1}[i/{2}]", "UIMM", src.Index, src.Width);
 
@@ -460,9 +454,9 @@ namespace Z0
                 dst = format(src.AsDispField());
             else
             {
-                dst = XedRender.format(src.Field);
+                dst = format(src.Field);
                 if(src.Operator != 0)
-                    dst += XedRender.format(src.Operator);
+                    dst += format(src.Operator);
                 dst += format(src.AsValue());
             }
             return dst;
@@ -498,7 +492,7 @@ namespace Z0
             {
                 if(i != 0)
                     dst.Append(" && ");
-                dst.Append(skip(src,i).Format());
+                dst.Append(format(skip(src,i)));
             }
         }
 
@@ -714,25 +708,25 @@ namespace Z0
                 case FC.Broadcast:
                 {
                     var x = @as<BCastKind>(data);
-                    dst = XedRender.format(x);
+                    dst = format(x);
                 }
                 break;
                 case FC.Chip:
                 {
                     var x = @as<ChipCode>(data);
-                    dst = XedRender.format(x);
+                    dst = format(x);
                 }
                 break;
                 case FC.Reg:
                 {
                     var x = @as<XedRegId>(data);
-                    dst = XedRender.format(x);
+                    dst = format(x);
                 }
                 break;
                 case FC.InstClass:
                 {
                     var x = @as<IClass>(data);
-                    dst = XedRender.format(x);
+                    dst = format(x);
                 }
                 break;
                 case FC.MemWidth:
@@ -829,22 +823,16 @@ namespace Z0
             => src.Format(prespec:true, uppercase:true);
 
         public static string format(BitfieldSeg src)
-            => string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]",
-                XedRender.format(src.Field),
-                src.Pattern)
-                ;
+            => string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]", XedRender.format(src.Field), src.Pattern);
 
         public static string format(FieldAssign src)
-            => src.Field == 0 ? "nothing" :
-                string.Format("{0}={1}",
-                XedRender.format(src.Field),
-                src.Value);
+            => src.Field == 0 ? "nothing" : string.Format("{0}={1}", format(src.Field), src.Value);
 
         public static string format(FieldCmp src)
             => src.IsEmpty ? EmptyString
                 : string.Format("{0}{1}{2}",
-                    XedRender.format(src.Left.Kind),
-                    XedRender.format(src.Operator),
+                    format(src.Left.Kind),
+                    format(src.Operator),
                     format(src.Left)
                     );
 
@@ -853,13 +841,13 @@ namespace Z0
 
         public static string format(FieldConstraint src)
             => string.Format("{0}{1}{2}",
-                    XedRender.format(src.Field),
-                    XedRender.format(src.Kind),
+                    format(src.Field),
+                    format(src.Kind),
                     literal(src.LiteralKind, src.Value)
                     );
 
         public static string format(NontermCall src)
-            => string.Format("<{0}>()", format(src.Kind));
+            => string.Format("{0}()", format(src.Kind));
 
         static string literal(FieldLiteralKind kind, byte src)
         {

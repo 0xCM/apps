@@ -13,7 +13,7 @@ namespace Z0
         Outcome CheckOcmaps(CmdArgs args)
         {
             var result = Outcome.Success;
-            var patterns = Xed.Rules.LoadPatternInfo(RuleSetKind.Enc);
+            var patterns = Xed.Rules.LoadPatternInfo();
             var reader = patterns.Reader();
             var maps = Symbols.index<OpCodeKind>();
             var counts = maps.Counts();

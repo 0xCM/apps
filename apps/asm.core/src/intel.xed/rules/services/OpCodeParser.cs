@@ -25,6 +25,7 @@ namespace Z0
                 {
                     ref readonly var rule = ref skip(src,i);
                     ref var dst = ref seek(buffer,i);
+                    dst.InstId = rule.InstId;
                     dst.Kind = rule.OpCodeKind;
                     dst.Index = (byte)ocindex(rule.OpCodeKind);
                     dst.Value = value(rule);

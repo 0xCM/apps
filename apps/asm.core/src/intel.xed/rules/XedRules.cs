@@ -16,11 +16,7 @@ namespace Z0
 
         Symbols<CategoryKind> Categories;
 
-        Symbols<ExtensionKind> Extensions;
-
         Symbols<IsaKind> IsaKinds;
-
-        Symbols<IFormType> Forms;
 
         Index<InstRulePart,string> PartNames;
 
@@ -30,30 +26,20 @@ namespace Z0
 
         Symbols<FieldType> FieldTypes;
 
-        Symbols<RegFlag> Flags;
-
-        Symbols<FlagActionKind> FlagActionKinds;
-
         XedInstDefParser InstDefParser;
 
         public XedRules()
         {
             Categories = Symbols.index<CategoryKind>();
-            Extensions = Symbols.index<ExtensionKind>();
-            Forms = Symbols.index<IFormType>();
             IsaKinds = Symbols.index<IsaKind>();
             PointerWidths = map(PointerWidthKinds.View, s => (PointerWidth)s);
             Visibilities = Symbols.index<VisibilityKind>();
             FieldTypes = Symbols.index<FieldType>();
-            FlagActionKinds = Symbols.index<FlagActionKind>();
-            Flags = Symbols.index<RegFlag>();
             PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET,COMMENT};
             InstDefParser = new(this);
         }
 
         XedPaths XedPaths => Service(Wf.XedPaths);
-
-        XedParsers Parsers => Service(XedParsers.create);
 
         AppDb AppDb => Service(Wf.AppDb);
 
@@ -79,26 +65,6 @@ namespace Z0
         {
             dst = attributes(src,Chars.Space);
             return true;
-        }
-
-        Outcome ParseExtension(string src, out Extension dst)
-        {
-            dst = default;
-            var result = Extensions.ExprKind(src, out var kind);
-            if(result)
-                dst = kind;
-            return result;
-        }
-
-        Outcome ParseIForm(string src, out IForm dst)
-        {
-            dst = default;
-            Outcome result = Forms.ExprKind(src, out var kind);
-            if(result)
-                dst = kind;
-            else
-                result = (false, Msg.ParseFailure.Format(nameof(IFormType), src));
-            return result;
         }
 
         ConstLookup<string,OpWidth> LoadOpWidthsLookup()

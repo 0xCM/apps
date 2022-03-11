@@ -54,7 +54,7 @@ namespace Z0
                     continue;
 
                 dst.Name = OpWidthKinds[dst.Code].Expr.Format();
-                result = Parsers.ElementType(c1, out dst.EType);
+                result = XedParsers.parse(c1, out dst.EType);
                 if(result.Fail)
                 {
                     result = (false,Msg.ParseFailure.Format(nameof(dst.EType), c1));

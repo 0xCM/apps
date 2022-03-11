@@ -22,7 +22,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var prop = ref data[i];
-                if(Parsers.FieldKind(prop.Key, out var kind))
+                if(Parsers.Parse(prop.Key, out FieldKind kind))
                     seek(dst,i) = XedRules.update(prop.Value, kind, ref state);
                 else
                     Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), prop.Key));

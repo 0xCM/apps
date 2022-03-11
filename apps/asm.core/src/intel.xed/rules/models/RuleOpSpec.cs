@@ -11,18 +11,20 @@ namespace Z0
     {
         public struct RuleOpSpec
         {
+            public byte Index;
+
             public RuleOpName Name;
 
             public RuleOpKind Kind;
 
-            public Index<string> Properties;
+            public Index<string> AttribExpr;
 
-            public Index<RuleOpAttrib> Attributes;
+            public Index<RuleOpAttrib> Attribs;
 
             public @string Expression;
 
             public string Format()
-                => text.format("{0}:{1}", Name, Properties.Delimit(Chars.Colon).Format());
+                => text.format("{0}:{1}", Name, AttribExpr.Delimit(Chars.Colon).Format());
 
             public override string ToString()
                 => Format();

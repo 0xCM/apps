@@ -10,9 +10,7 @@ namespace Z0
         public ConstLookup<RuleSig,RuleTable> CalcRuleTables()
         {
             void OnError(string src)
-            {
-                Write(src, FlairKind.Error);
-            }
+                => Write(src, FlairKind.Error);
 
             var collector = new TableCollector(OnError, true);
             collector.Traverse(ExpandMacros(CalcRuleSet(RuleSetKind.EncDec)));

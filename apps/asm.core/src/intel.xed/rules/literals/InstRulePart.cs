@@ -12,9 +12,9 @@ namespace Z0
         /// </summary>
         public enum InstRulePart : byte
         {
-            IClass,
+            Class,
 
-            IForm,
+            Form,
 
             Attributes,
 

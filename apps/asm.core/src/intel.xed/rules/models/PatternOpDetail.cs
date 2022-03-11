@@ -6,14 +6,19 @@
 namespace Z0
 {
     using static XedModels;
+
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct PatternOpDetail
+        [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableName)]
+        public struct PatternOpDetail : IComparable<PatternOpDetail>
         {
-            public const byte FieldCount = 13;
+            public const byte FieldCount = 14;
 
-            public uint Pattern;
+            public const string TableName = "xed.rules.ops";
+
+            public uint InstId;
+
+            public uint PatternId;
 
             public IClass Mnemonic;
 
@@ -39,7 +44,19 @@ namespace Z0
 
             public RuleOpAttrib Visibility;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,8,8,8,32,8,10,8,16,12,8,1};
+            public int CompareTo(PatternOpDetail src)
+            {
+                var result = InstId.CompareTo(src.InstId);
+                if(result == 0)
+                {
+                    result = PatternId.CompareTo(src.PatternId);
+                    if(result == 0)
+                        result = OpIndex.CompareTo(src.OpIndex);
+                }
+                return result;
+            }
+
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,18,8,8,8,32,8,10,8,16,12,8,1};
 
             public static PatternOpDetail Empty => default;
         }

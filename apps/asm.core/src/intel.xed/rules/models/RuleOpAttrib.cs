@@ -67,10 +67,6 @@ namespace Z0
                 => (ScaleFactor)Data;
 
             [MethodImpl(Inline)]
-            public RegResolver AsRegResolver()
-                => (RegResolver)(int)Data;
-
-            [MethodImpl(Inline)]
             public ElementKind AsElementType()
                 => (ElementKind)Data;
 
@@ -137,6 +133,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator RuleOpAttrib(RuleOpModKind src)
                 => new RuleOpAttrib(K.Modifier, (uint)src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator RuleOpAttrib(RuleOpModifier src)
+                => new RuleOpAttrib(K.Modifier, (uint)src.Kind);
 
             public static RuleOpAttrib Empty => default;
         }

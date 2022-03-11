@@ -14,11 +14,15 @@ namespace Z0
     {
         public void EmitCatalog()
         {
-            var patterns = EmitPatterns();
-            EmitOpCodes(patterns);
+            var defs = CalcInstDefs();
+            var patterns = CalcPatternInfo(defs);
+            ExpandMacros(patterns);
+            patterns.Sort();
+            EmitPatterns(patterns);
             var actions = new Action[]{
-                EmitEncPatternDetails,
-                EmitDecPatternDetails,
+                () => EmitOpCodes(patterns),
+                () => EmitPatternDetails(defs),
+                () => EmitPatternOps(CalcPatternOps(defs)),
                 EmitRuleTables,
                 EmitFieldDefs,
                 EmitRuleSeq,
@@ -28,17 +32,28 @@ namespace Z0
                 EmitMacroAssignments,
                 EmitFieldSpecs};
 
-            iter(actions, a => a(), false);
+            iter(actions, a => a(), true);
         }
+
+        void EmitRuleSeq()
+        {
+            var src = CalcRuleSeq();
+            var dst = text.buffer();
+            iter(src, x => dst.AppendLine(x.Format()));
+            FileEmit(dst.Emit(), src.Count, XedPaths.DocTarget(XedDocKind.RuleSeq), TextEncodingKind.Asci);
+        }
+
+        void EmitPatterns(Index<RulePatternInfo> src)
+            => TableEmit(src.View, RulePatternInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.RulePatterns));
 
         void EmitFieldDefs()
             => TableEmit(CalcFieldDefs().View, XedFieldDef.RenderWidths, XedPaths.FieldDefsTarget());
 
-        void EmitDecPatternDetails()
-            => EmitPatternDetails(CalcDecInstDefs(), AppDb.XedPath("xed.rules.dec.detail", FileKind.Txt), AppDb.XedPath("xed.rules.dec.ops", FileKind.Csv));
+        void EmitPatternDetails(Index<InstDef> src)
+            => EmitPatternDetails(src, AppDb.XedPath("xed.rules.detail", FileKind.Txt));
 
-        void EmitEncPatternDetails()
-            => EmitPatternDetails(CalcEncInstDefs(), AppDb.XedPath("xed.rules.enc.detail", FileKind.Txt), AppDb.XedPath("xed.rules.enc.ops", FileKind.Csv));
+        void EmitPatternOps(Index<PatternOpDetail> src)
+            => TableEmit(src.View, PatternOpDetail.RenderWidths, AppDb.XedTable<PatternOpDetail>());
 
         void EmitOpCodeKinds()
             => TableEmit(CalcOpCodeKinds().Records, OcMapKind.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodeKinds));

@@ -14,9 +14,11 @@ namespace Z0
         {
             public const string TableId = "xed.opcodes";
 
-            public const byte FieldCount = 6;
+            public const byte FieldCount = 7;
 
             public uint Seq;
+
+            public uint InstId;
 
             public OpCodeKind Kind;
 
@@ -33,12 +35,14 @@ namespace Z0
                 var result = Index.CompareTo(src.Index);
                 if(result == 0)
                 {
-                    result = Value.CompareTo(src.Value);
+                    result = ((ushort)Class).CompareTo((ushort)(src.Class));
+                    if(result == 0)
+                        result = Source.CompareTo(src.Source);
                 }
                 return result;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,8,12,24,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,12,8,12,24,1};
         }
     }
 }
