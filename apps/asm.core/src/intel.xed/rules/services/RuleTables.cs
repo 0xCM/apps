@@ -50,13 +50,6 @@ namespace Z0
                     return true;
                 }
 
-                else if(op == RO.Seg)
-                {
-                    dst = criterion(premise, new BitfieldSeg(field, value, text.begins(value,"0b")));
-                    return true;
-                }
-
-
                 switch(field)
                 {
                     case AGEN:
@@ -328,6 +321,16 @@ namespace Z0
                     default:
                         break;
                 }
+
+                if(!result && op == RO.Seg)
+                {
+                    if(RuleParser.seg(value, out var seg))
+                    {
+                        dst = criterion(premise,seg);
+                        result = true;
+                    }
+                }
+
                 return result;
             }
 
@@ -377,17 +380,16 @@ namespace Z0
                     name = text.left(input,i);
                     fv = text.right(input, i + opsym.Length - 1);
                 }
-                else if(RuleParser.seg(input, out var seg))
+                else if(text.contains(input, Chars.LBracket) && text.contains(input, Chars.RBracket))
                 {
-                    op = RO.Seg;
-                    fk = seg.Field;
-                    fv = seg.Pattern.Format();
+                    i = text.index(input,Chars.LBracket);
+                    var j = text.index(input,Chars.RBracket);
+                    fv = text.inside(input,i,j);
+                    //op = RO.Seg;
+                    //name = text.left(input,i);
+                    XedParsers.parse(text.left(input,i), out fk);
                 }
-                // else if(text.contains(input,"UIMM0[") || text.contains(input, "DISP[") || text.contains(input, "UIMM1[") | text.contains(input, "ESRC["))
-                // {
-                //     name = text.left(input, text.index(input,'['));
-                //     XedParsers.parse(name, out fk);
-                // }
+
 
                 if(nonempty(name) && fk == 0)
                 {

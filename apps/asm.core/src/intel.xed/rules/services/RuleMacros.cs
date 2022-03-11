@@ -585,8 +585,6 @@ namespace Z0
             public static MacroSpec EMX_BROADCAST_4TO8_64()
                 => assign(M.EMX_BROADCAST_4TO8_64, K.BCAST, BCast_4TO8_64);
 
-
-
             [Op]
             public static uint expand(RuleToken src, Span<FieldAssign> dst)
             {
