@@ -45,7 +45,7 @@ namespace Z0
                 break;
 
                 case K.EncGroup:
-                    dst = format(src.AsEncodingGroup());
+                    dst = format(src.AsGroupName());
                 break;
 
                 case K.Common:
@@ -86,7 +86,7 @@ namespace Z0
             switch(src.Kind)
             {
                 case ValueSelectorKind.EncodingGroup:
-                    dst = format((EncodingGroup)src.Spec);
+                    dst = format((GroupName)src.Spec);
                 break;
                 case ValueSelectorKind.Nonterminal:
                     dst = format((NonterminalKind)src.Spec);
@@ -195,8 +195,11 @@ namespace Z0
         public static string format(OperandAction src)
             => OpActions[src].Expr.Text;
 
-        public static string format(EncodingGroup src)
+        public static string format(GroupName src)
             => EncodingGroups[src].Expr.Text;
+
+        public static string format(EncodingGroup src)
+            => string.Format("{0}()", format(src.Name));
 
         public static string format(ChipCode src)
             => ChipCodes[src].Expr.Text;
@@ -394,7 +397,7 @@ namespace Z0
 
         static Symbols<OpVisibility> OpVis;
 
-        static Symbols<EncodingGroup> EncodingGroups;
+        static Symbols<GroupName> EncodingGroups;
 
         static Symbols<RuleOpModKind> OpMods;
 
@@ -425,7 +428,7 @@ namespace Z0
             PointerWidthKinds = Symbols.index<PointerWidthKind>();
             OpVis = Symbols.index<OpVisibility>();
             ElementTypes = Symbols.index<ElementKind>();
-            EncodingGroups = Symbols.index<EncodingGroup>();
+            EncodingGroups = Symbols.index<GroupName>();
             AttribKinds = Symbols.index<AttributeKind>();
             OpMods = Symbols.index<RuleOpModKind>();
             Classes = Symbols.index<IClass>();
@@ -448,6 +451,8 @@ namespace Z0
             var dst = EmptyString;
             if(src.Operator == RuleOperator.Call)
                 dst = format(src.AsCall());
+            else if(src.Operator == RuleOperator.Seg)
+                dst = format(src.AsFieldSeg());
             else if(src.Field == FieldKind.UIMM0 || src.Field == FieldKind.UIMM1)
                 dst = format(src.AsImmField());
             else if(src.Field == FieldKind.DISP)
@@ -480,9 +485,19 @@ namespace Z0
             var sep = " <=> ";
             var dst = text.buffer();
             render(src.Premise, dst);
-            dst.Append(sep);
+            var a = dst.Emit();
+
             render(src.Consequent, dst);
-            return dst.Emit();
+            var b = dst.Emit();
+
+            if(empty(a) && empty(b))
+                return EmptyString;
+            else if(empty(a) && nonempty(b))
+                return string.Format("_{0}{1}", sep, b);
+            else if(nonempty(a) && empty(b))
+                return string.Format("{0}{1}_", a, sep);
+            else
+                return string.Format("{0}{1}{2}",a,sep,b);
         }
 
         static void render(ReadOnlySpan<RuleCriterion> src, ITextBuffer dst)
@@ -735,12 +750,6 @@ namespace Z0
                     dst = x.ToString();
                 }
                 break;
-                case FC.EnumSymbol:
-                break;
-                case FC.EnumValue:
-                break;
-                case FC.EnumName:
-                break;
 
             }
             return dst;
@@ -826,7 +835,7 @@ namespace Z0
             => string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]", XedRender.format(src.Field), src.Pattern);
 
         public static string format(FieldAssign src)
-            => src.Field == 0 ? "nothing" : string.Format("{0}={1}", format(src.Field), src.Value);
+            => src.IsEmpty ? EmptyString : string.Format("{0}={1}", format(src.Field), src.Value);
 
         public static string format(FieldCmp src)
             => src.IsEmpty ? EmptyString
@@ -869,6 +878,5 @@ namespace Z0
             }
             return val;
         }
-
     }
 }

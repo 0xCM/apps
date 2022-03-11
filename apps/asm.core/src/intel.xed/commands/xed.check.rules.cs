@@ -50,9 +50,6 @@ namespace Z0
                             {
                                 Write(string.Format("  {0}", criterion));
                             }
-
-
-                            //Write(string.Format("   {0}", criterion.Format()));
                         }
                     }
 

@@ -30,7 +30,7 @@ namespace Z0
 
         readonly EnumParser<OpVisibility> OpVisKinds = new();
 
-        readonly EnumParser<EncodingGroup> EncodingGroups = new();
+        readonly EnumParser<GroupName> EncodingGroups = new();
 
         readonly EnumParser<RuleOpModKind> OpModKinds = new();
 
@@ -47,6 +47,12 @@ namespace Z0
         readonly EnumParser<FlagActionKind> FlagActionKinds = new();
 
         readonly EnumParser<RegFlag> RegFlags = new();
+
+        readonly EnumParser<IsaKind> IsaKinds = new();
+
+        readonly EnumParser<CategoryKind> CategoryKinds = new();
+
+        readonly EnumParser<RuleOpName> RuleOpNames = new();
 
         XedParsers()
         {
@@ -80,7 +86,25 @@ namespace Z0
             return result;
         }
 
+        public static bool parse(string src, out RuleOpModKind dst)
+            => Instance.Parse(src, out dst);
+
+        public static bool parse(string src, out RuleOpName dst)
+            => Instance.Parse(src, out dst);
+
+        public static bool parse(string src, out CategoryKind dst)
+            => Instance.Parse(src, out dst);
+
+        public static bool parse(string src, out Category dst)
+            => Instance.Parse(src, out dst);
+
+        public static bool parse(string src, out IClass dst)
+            => Instance.Parse(src, out dst);
+
         public static bool parse(string src, out IForm dst)
+            => Instance.Parse(src, out dst);
+
+        public static bool parse(string src, out IsaKind dst)
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out Extension dst)
@@ -122,7 +146,7 @@ namespace Z0
         public static bool parse(string src, out OpVisibility dst)
             => Instance.Parse(src, out dst);
 
-        public static bool parse(string src, out EncodingGroup dst)
+        public static bool parse(string src, out GroupName dst)
             => Instance.Parse(src, out dst);
 
         public bool Num8(string src, out byte dst)
@@ -145,6 +169,9 @@ namespace Z0
 
         public bool Parse(string src, out PointerWidthKind dst)
             => PointerWidths.Parse(src, out dst);
+
+        public bool Parse(string src, out IsaKind dst)
+            => IsaKinds.Parse(src, out dst);
 
         public bool Parse(string src, out NonterminalKind dst)
             => Nonterminals.Parse(src, out dst);
@@ -190,7 +217,7 @@ namespace Z0
        public bool Parse(string src, out RegFlag dst)
             => RegFlags.Parse(src, out dst);
 
-        public bool Parse(string src, out EncodingGroup dst)
+        public bool Parse(string src, out GroupName dst)
             => EncodingGroups.Parse(src, out dst);
 
         public bool Parse(string src, out RuleOpModKind dst)
@@ -199,8 +226,28 @@ namespace Z0
         public bool Parse(string src, out FlagActionKind dst)
             => FlagActionKinds.Parse(src, out dst);
 
+       public bool Parse(string src, out RuleOpName dst)
+            => RuleOpNames.Parse(src, out dst);
+
         public bool Parse(string src, out IClass dst)
             => Classes.Parse(src, out dst);
+
+        public bool Parse(string src, out CategoryKind dst)
+            => CategoryKinds.Parse(src, out dst);
+
+        public bool Parse(string src, out Category dst)
+        {
+            if(Parse(src, out CategoryKind kind))
+            {
+                dst = kind;
+                return true;
+            }
+            else
+            {
+                dst = default;
+                return false;
+            }
+        }
 
         public bool Parse(string src, out IForm dst)
         {

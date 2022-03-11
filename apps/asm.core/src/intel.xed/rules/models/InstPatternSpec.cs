@@ -15,7 +15,7 @@ namespace Z0
 
             public readonly uint InstId;
 
-            public readonly IClass Mnemonic;
+            public readonly IClass Class;
 
             public readonly TextBlock Expression;
 
@@ -26,18 +26,18 @@ namespace Z0
             {
                 PatternId = seq;
                 InstId = instid;
-                Mnemonic = @class;
+                Class = @class;
                 Expression = expr;
                 Operands = ops;
             }
 
             [MethodImpl(Inline)]
             public InstPatternSpec WithInst(uint instid)
-                => new InstPatternSpec(PatternId, instid, Mnemonic, Expression, Operands);
+                => new InstPatternSpec(PatternId, instid, Class, Expression, Operands);
 
             [MethodImpl(Inline)]
             public InstPatternSpec WithPattern(string pattern)
-                => new InstPatternSpec(PatternId, InstId, Mnemonic, pattern, Operands);
+                => new InstPatternSpec(PatternId, InstId, Class, pattern, Operands);
 
             public int CompareTo(InstPatternSpec src)
             {

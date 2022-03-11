@@ -9,6 +9,8 @@ namespace Z0
     {
         public enum RuleMacroKind : byte
         {
+            None = 0,
+
             nothing,
 
             mod0,
@@ -173,6 +175,8 @@ namespace Z0
             VMAP0,
 
             V0F,
+
+            otherwise,
 
             V0F38,
 

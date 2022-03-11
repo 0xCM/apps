@@ -42,7 +42,6 @@ namespace Z0
 
                 var dst = default(OpWidth);
 
-
                 result = OpWidthKinds.ExprKind(c0, out dst.Code);
                 if(result.Fail)
                 {

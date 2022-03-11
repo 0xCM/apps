@@ -5,8 +5,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+    using static core;
+
     partial class XedRules
     {
-
+       Index<PointerWidthInfo> CalcPointerWidths()
+            => Data(nameof(CalcPointerWidths), () => mapi(PointerWidths.Where(x => x.Kind != 0), (i,w) => w.ToRecord((byte)i)));
     }
 }

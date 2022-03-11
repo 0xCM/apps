@@ -26,6 +26,8 @@ namespace Z0
 
             [Symbol("()")]
             Call,
+
+            Seg,
         }
     }
 }

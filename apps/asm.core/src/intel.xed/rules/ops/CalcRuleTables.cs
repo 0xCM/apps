@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class XedRules
     {
         public ConstLookup<RuleSig,RuleTable> CalcRuleTables()
@@ -13,9 +15,21 @@ namespace Z0
                 => Write(src, FlairKind.Error);
 
             var collector = new TableCollector(OnError, true);
-            collector.Traverse(ExpandMacros(CalcRuleSet(RuleSetKind.EncDec)));
-            var tables = collector.Tables;
-            return tables;
+            collector.Traverse(RuleMacros.expand(CalcEncDecRuleTables()));
+            var encdec = collector.Tables();
+
+            collector.Traverse(RuleMacros.expand(CalcEncRuleTables()));
+            var enc = collector.Tables();
+
+            var dst = dict<RuleSig,RuleTable>();
+
+            foreach(var key in encdec.Keys)
+                dst.Add(key, encdec[key]);
+
+            foreach(var key in enc.Keys)
+                dst.TryAdd(key, enc[key]);
+
+            return dst;
         }
 
         public Index<RuleTermTable> CalcEncRuleTables()

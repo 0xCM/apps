@@ -19,11 +19,11 @@ namespace Z0
         {
             [MethodImpl(Inline), Op]
             static RuleCriterion criterion(bool premise, NameResolver resolver)
-                => new RuleCriterion(premise, 0, RuleOperator.Call, FormatCode.Call, (uint)(int)resolver);
+                => new RuleCriterion(premise, 0, RuleOperator.Call, (uint)(int)resolver);
 
             [MethodImpl(Inline), Op]
             static RuleCriterion criterion(bool premise, NontermCall call)
-                => new RuleCriterion(premise, 0, RuleOperator.Call, FormatCode.Call, (ushort)call.Kind);
+                => new RuleCriterion(premise, 0, RuleOperator.Call, (ushort)call.Kind);
 
             [MethodImpl(Inline), Op, Closures(Closure)]
             static RuleCriterion criterion<T>(bool premise, FieldKind field, RuleOperator op, T value)
@@ -31,9 +31,13 @@ namespace Z0
                     => untype(new RuleCriterion<T>(premise, field, op, value));
 
             [MethodImpl(Inline), Op, Closures(Closure)]
+            static RuleCriterion criterion(bool premise, BitfieldSeg seg)
+                => new RuleCriterion(premise, seg.Field, RuleOperator.Seg, seg.Pattern.Storage);
+
+            [MethodImpl(Inline), Op, Closures(Closure)]
             static RuleCriterion untype<T>(in RuleCriterion<T> src)
                 where T : unmanaged
-                    => new RuleCriterion(src.IsPremise, src.Field, src.Operator, fcode(src.Field), core.u64(src.Value));
+                    => new RuleCriterion(src.IsPremise, src.Field, src.Operator, core.u64(src.Value));
 
             [Op]
             public static Outcome criterion(bool premise, FieldKind field, RuleOperator op, string value, out RuleCriterion dst)
@@ -45,6 +49,13 @@ namespace Z0
                     dst = criterion(premise, NameResolvers.Instance.Create(value));
                     return true;
                 }
+
+                else if(op == RO.Seg)
+                {
+                    dst = criterion(premise, new BitfieldSeg(field, value, text.begins(value,"0b")));
+                    return true;
+                }
+
 
                 switch(field)
                 {
@@ -366,11 +377,17 @@ namespace Z0
                     name = text.left(input,i);
                     fv = text.right(input, i + opsym.Length - 1);
                 }
-                else if(text.contains(input,"UIMM0[") || text.contains(input, "DISP[") || text.contains(input, "UIMM1["))
+                else if(RuleParser.seg(input, out var seg))
                 {
-                    name = text.left(input, text.index(input,'['));
-                    XedParsers.parse(name, out fk);
+                    op = RO.Seg;
+                    fk = seg.Field;
+                    fv = seg.Pattern.Format();
                 }
+                // else if(text.contains(input,"UIMM0[") || text.contains(input, "DISP[") || text.contains(input, "UIMM1[") | text.contains(input, "ESRC["))
+                // {
+                //     name = text.left(input, text.index(input,'['));
+                //     XedParsers.parse(name, out fk);
+                // }
 
                 if(nonempty(name) && fk == 0)
                 {

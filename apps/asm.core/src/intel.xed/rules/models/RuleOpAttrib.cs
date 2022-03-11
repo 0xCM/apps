@@ -79,8 +79,12 @@ namespace Z0
                 => (RuleMacroKind)Data;
 
             [MethodImpl(Inline)]
+            public GroupName AsGroupName()
+                => (GroupName)Data;
+
+            [MethodImpl(Inline)]
             public EncodingGroup AsEncodingGroup()
-                => (EncodingGroup)Data;
+                => (GroupName)Data;
 
             [MethodImpl(Inline)]
             public AttributeKind AsCommon()
@@ -123,7 +127,7 @@ namespace Z0
                 => new RuleOpAttrib(K.Macro, (uint)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(EncodingGroup src)
+            public static implicit operator RuleOpAttrib(GroupName src)
                 => new RuleOpAttrib(K.EncGroup, (uint)src);
 
             [MethodImpl(Inline)]

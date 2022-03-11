@@ -6,6 +6,7 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules.RuleOpName;
+    using static XedParsers;
     using static core;
 
     using K = XedRules.RuleOpKind;
@@ -17,11 +18,8 @@ namespace Z0
             public static RuleOpParser create()
                 => new();
 
-            readonly XedParsers Parsers;
-
             public RuleOpParser()
             {
-                Parsers = XedParsers.create();
             }
 
             public Index<RuleOpSpec> ParseOps(string src)
@@ -83,7 +81,7 @@ namespace Z0
                     index = j;
                 }
 
-                return OpNames.ExprKind(text.left(input, index), out dst);
+                return parse(text.left(input, index), out  dst);
             }
 
             RuleOpSpec ParseOp(byte index, string expr, RuleOpName name, string[] props)
@@ -207,12 +205,12 @@ namespace Z0
 
                 if(count >= 1)
                 {
-                    if(Parsers.Parse(props[0], out OperandAction action))
+                    if(parse(props[0], out OperandAction action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 2)
                 {
-                    if(Parsers.Parse(props[1], out OperandWidthCode width))
+                    if(parse(props[1], out OperandWidthCode width))
                         seek(buffer,i++) = width;
                 }
 
@@ -231,12 +229,12 @@ namespace Z0
                 var i=0;
                 if(count >= 1)
                 {
-                    if(Parsers.Parse(props[0], out OperandAction action))
+                    if(parse(props[0], out OperandAction action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 2)
                 {
-                    if(Parsers.Parse(props[1], out OperandWidthCode width))
+                    if(parse(props[1], out OperandWidthCode width))
                         seek(buffer,i++) = width;
                 }
 
@@ -261,12 +259,12 @@ namespace Z0
                 }
                 if(count >= 2)
                 {
-                    if(Parsers.Parse(props[1], out OperandAction action))
+                    if(parse(props[1], out OperandAction action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 3)
                 {
-                    if(Parsers.Parse(props[2], out PointerWidthKind pwidth))
+                    if(parse(props[2], out PointerWidthKind pwidth))
                         seek(buffer,i++) = pwidth;
                 }
 
@@ -286,19 +284,19 @@ namespace Z0
                 var i=0;
                 if(count >= 1)
                 {
-                    if(Parsers.Parse(props[0], out OperandAction action))
+                    if(parse(props[0], out OperandAction action))
                         seek(buffer,i++) = action;
                 }
 
                 if(count >= 2)
                 {
-                    if(Parsers.Parse(props[1], out OperandWidthCode width))
+                    if(parse(props[1], out OperandWidthCode width))
                         seek(buffer,i++) = width;
                 }
 
                 if(count >= 3)
                 {
-                    if(Parsers.Parse(props[2], out ElementKind type))
+                    if(parse(props[2], out ElementKind type))
                         seek(buffer,i++) = type;
                 }
 
@@ -319,18 +317,18 @@ namespace Z0
 
                 if(count >= 1)
                 {
-                    if(Parsers.Parse(props[0], out OperandAction action))
+                    if(parse(props[0], out OperandAction action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 2)
                 {
-                    if(Parsers.Parse(props[1], out OperandWidthCode width))
+                    if(parse(props[1], out OperandWidthCode width))
                         seek(buffer,i++) = width;
                 }
 
                 if(count >= 3)
                 {
-                    if(Parsers.Parse(props[2], out ElementKind type))
+                    if(parse(props[2], out ElementKind type))
                         seek(buffer,i++) = type;
                 }
 
@@ -339,7 +337,7 @@ namespace Z0
                     var j = text.index(props[3], Chars.Eq);
                     if(j > 0)
                     {
-                        if(Parsers.Parse(text.right(props[3], j), out RuleOpModKind mod))
+                        if(parse(text.right(props[3], j), out RuleOpModKind mod))
                             seek(buffer,i++) = mod;
                     }
                 }
@@ -367,13 +365,13 @@ namespace Z0
                     if(j > 0)
                         p0 = text.left(p0,j);
 
-                    if(Parsers.Parse(p0,  out XedRegId regid))
+                    if(parse(p0,  out XedRegId regid))
                         seek(buffer, i++) = regid;
                     else
                     {
-                        if(Parsers.Parse(p0, out EncodingGroup group))
+                        if(parse(p0, out GroupName group))
                             seek(buffer, i++) = group;
-                        else if(Parsers.Parse(p0, out NonterminalKind nonterm))
+                        else if(parse(p0, out NonterminalKind nonterm))
                             seek(buffer, i++) = nonterm;
                         else
                             Errors.Throw(string.Format("Unable to parser rgister specification {0}", p0));
@@ -382,17 +380,17 @@ namespace Z0
 
                 if(count >= 2)
                 {
-                    if(Parsers.Parse(props[1], out OperandAction action))
+                    if(parse(props[1], out OperandAction action))
                         seek(buffer,i++) = action;
                 }
 
                 if(count >= 3)
                 {
-                    if(Parsers.Parse(props[2], out OperandWidthCode width))
+                    if(parse(props[2], out OperandWidthCode width))
                         seek(buffer,i++) = width;
                     else
                     {
-                        if(Parsers.Parse(props[2], out OpVisibility supp))
+                        if(parse(props[2], out OpVisibility supp))
                         {
                             seek(buffer,i++) = supp;
                         }
@@ -401,14 +399,14 @@ namespace Z0
 
                 if(count >= 4)
                 {
-                    if(Parsers.Parse(props[3], out OperandWidthCode width))
+                    if(parse(props[3], out OperandWidthCode width))
                         seek(buffer,i++) = width;
                     else
                     {
                         var j = text.index(props[3], Chars.Eq);
                         if(j > 0)
                         {
-                            if(Parsers.Parse(text.right(props[3], j), out RuleOpModKind mod))
+                            if(parse(text.right(props[3], j), out RuleOpModKind mod))
                                 seek(buffer,i++) = mod;
                         }
                     }
@@ -416,7 +414,7 @@ namespace Z0
 
                 if(count >= 5)
                 {
-                    if(Parsers.Parse(props[4], out ElementKind type))
+                    if(parse(props[4], out ElementKind type))
                         seek(buffer,i++) = type;
                 }
 

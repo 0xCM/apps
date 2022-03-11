@@ -37,7 +37,7 @@ namespace Z0
             {
                 ref readonly var def = ref defs[i];
                 var patterns = def.PatternSpecs;
-                ExpandMacros(patterns);
+                RuleMacros.expand(patterns);
                 for(var j=0; j<patterns.Count; j++)
                 {
                     ref readonly var pattern = ref patterns[j];

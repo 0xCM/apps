@@ -1,0 +1,64 @@
+# obj\xed-encoder-3.c
+PREFIX_ENC()::
+	REP=2  ->	emit 0xf2 emit_type=numeric value=0xf2 nbits=8 	FB NO_RETURN=1 value=0x1
+	REP=3  ->	emit 0xf3 emit_type=numeric value=0xf3 nbits=8 	FB NO_RETURN=1 value=0x1
+	OSZ=1  ->	emit 0x66 emit_type=numeric value=0x66 nbits=8 	FB NO_RETURN=1 value=0x1
+	ASZ=1  ->	emit 0x67 emit_type=numeric value=0x67 nbits=8 	FB NO_RETURN=1 value=0x1
+	LOCK=1  ->	emit 0xf0 emit_type=numeric value=0xf0 nbits=8 	FB NO_RETURN=1 value=0x1
+	SEG_OVD=4  ->	emit 0x64 emit_type=numeric value=0x64 nbits=8 	FB NO_RETURN=1 value=0x1
+	SEG_OVD=5  ->	emit 0x65 emit_type=numeric value=0x65 nbits=8 	FB NO_RETURN=1 value=0x1
+	MODE=2 HINT=3  ->	emit 0x2e emit_type=numeric value=0x2e nbits=8 	FB NO_RETURN=1 value=0x1
+	MODE=2 HINT=4  ->	emit 0x3e emit_type=numeric value=0x3e nbits=8 	FB NO_RETURN=1 value=0x1
+	MODE=2 HINT=5  ->	emit 0x3e emit_type=numeric value=0x3e nbits=8 	FB NO_RETURN=1 value=0x1
+	MODE!=2 SEG_OVD=1  ->	emit 0x2e emit_type=numeric value=0x2e nbits=8 	FB NO_RETURN=1 value=0x1
+	MODE!=2 HINT=3  ->	emit 0x2e emit_type=numeric value=0x2e nbits=8 	FB NO_RETURN=1 value=0x1
+	MODE!=2 SEG_OVD=2  ->	emit 0x3e emit_type=numeric value=0x3e nbits=8 	FB NO_RETURN=1 value=0x1
+	MODE!=2 HINT=4  ->	emit 0x3e emit_type=numeric value=0x3e nbits=8 	FB NO_RETURN=1 value=0x1
+	MODE!=2 HINT=5  ->	emit 0x3e emit_type=numeric value=0x3e nbits=8 	FB NO_RETURN=1 value=0x1
+	MODE!=2 SEG_OVD=3  ->	emit 0x26 emit_type=numeric value=0x26 nbits=8 	FB NO_RETURN=1 value=0x1
+	MODE!=2 SEG_OVD=6  ->	emit 0x36 emit_type=numeric value=0x36 nbits=8 	FB NO_RETURN=1 value=0x1
+
+# obj\xed-encoder-3.c
+REX_PREFIX_ENC()::
+	MODE=2 NOREX=0 NEEDREX=1 REXW[w]=* REXB[b]=* REXX[x]=* REXR[r]=*  ->	emit 0b0100 emit_type=numeric value=0x4 nbits=4 	emit wrxb emit_type=letters nbits=4
+	MODE=2 NOREX=0 REX=1 REXW[w]=* REXB[b]=* REXX[x]=* REXR[r]=*  ->	emit 0b0100 emit_type=numeric value=0x4 nbits=4 	emit wrxb emit_type=letters nbits=4
+	MODE=2 NOREX=0 REXW[w]=1 REXB[b]=* REXX[x]=* REXR[r]=*  ->	emit 0b0100 emit_type=numeric value=0x4 nbits=4 	emit wrxb emit_type=letters nbits=4
+	MODE=2 NOREX=0 REXW[w]=* REXB[b]=1 REXX[x]=* REXR[r]=*  ->	emit 0b0100 emit_type=numeric value=0x4 nbits=4 	emit wrxb emit_type=letters nbits=4
+	MODE=2 NOREX=0 REXW[w]=* REXB[b]=* REXX[x]=1 REXR[r]=*  ->	emit 0b0100 emit_type=numeric value=0x4 nbits=4 	emit wrxb emit_type=letters nbits=4
+	MODE=2 NOREX=0 REXW[w]=* REXB[b]=* REXX[x]=* REXR[r]=1  ->	emit 0b0100 emit_type=numeric value=0x4 nbits=4 	emit wrxb emit_type=letters nbits=4
+	MODE=2 NEEDREX=0 REX=0 REXW=0 REXB=0 REXX=0 REXR=0  ->	nothing
+	MODE=1 REX=0 REXW=0 REXB=0 REXX=0 REXR=0  ->	nothing
+	MODE=0 REX=0 REXW=0 REXB=0 REXX=0 REXR=0  ->	nothing
+	MODE=2 NOREX=1 NEEDREX=1  ->	FB ERROR=XED_ERROR_GENERAL_ERROR
+	MODE=2 NOREX=1 REX=1  ->	FB ERROR=XED_ERROR_GENERAL_ERROR
+	MODE=2 NOREX=1 REXW=1  ->	FB ERROR=XED_ERROR_GENERAL_ERROR
+	MODE=2 NOREX=1 REXB=1  ->	FB ERROR=XED_ERROR_GENERAL_ERROR
+	MODE=2 NOREX=1 REXX=1  ->	FB ERROR=XED_ERROR_GENERAL_ERROR
+	MODE=2 NOREX=1 REXR=1  ->	FB ERROR=XED_ERROR_GENERAL_ERROR
+
+OSZ_NONTERM_ENC()::
+	VEXVALID=0 MODE=0 EOSZ=2 DF32=0  ->	FB OSZ=1 value=0x1
+	VEXVALID=0 MODE=1 EOSZ=1  ->	FB OSZ=1 value=0x1
+	VEXVALID=0 MODE=2 EOSZ=1  ->	FB OSZ=1 value=0x1
+	VEXVALID=0 MODE=2 EOSZ=3 DF64=0  ->	FB REXW=1 value=0x1
+	VEXVALID=0 MODE=0 EOSZ=1  ->	nothing
+	VEXVALID=0 MODE=0 EOSZ=2 DF32=1  ->	nothing
+	VEXVALID=0 MODE=1 EOSZ=2  ->	nothing
+	VEXVALID=0 MODE=2 EOSZ=2 DF64=0  ->	nothing
+	VEXVALID=0 MODE=2 EOSZ=3 DF64=1  ->	nothing
+	VEXVALID=0 MODE=2 EOSZ=2 DF64=1  ->	FB ERROR=XED_ERROR_GENERAL_ERROR
+
+VEXED_REX()::
+	VEXVALID=3  ->	nt NT[XOP_ENC]
+	VEXVALID=0  ->	nt NT[REX_PREFIX_ENC]
+	VEXVALID=1  ->	nt NT[NEWVEX_ENC]
+	VEXVALID=2  ->	nt NT[EVEX_ENC]
+
+VEX_TYPE_ENC()::
+	REXX=1  ->	emit 0xC4 emit_type=numeric value=0xc4 nbits=8 	FB VEX_C4=1 value=0x1
+	REXB=1  ->	emit 0xC4 emit_type=numeric value=0xc4 nbits=8 	FB VEX_C4=1 value=0x1
+	MAP=0  ->	emit 0xC4 emit_type=numeric value=0xc4 nbits=8 	FB VEX_C4=1 value=0x1
+	MAP=2  ->	emit 0xC4 emit_type=numeric value=0xc4 nbits=8 	FB VEX_C4=1 value=0x1
+	MAP=3  ->	emit 0xC4 emit_type=numeric value=0xc4 nbits=8 	FB VEX_C4=1 value=0x1
+	REXW=1  ->	emit 0xC4 emit_type=numeric value=0xc4 nbits=8 	FB VEX_C4=1 value=0x1
+

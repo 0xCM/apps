@@ -39,8 +39,13 @@ namespace Z0
             public override string ToString()
                 => Format();
 
+            [MethodImpl(Inline)]
             public int CompareTo(MacroSpec src)
                 => ((uint)Name).CompareTo((uint)src.Name);
+
+            [MethodImpl(Inline)]
+            public static implicit operator MacroSpec(RuleMacroKind name)
+                => new MacroSpec(name);
 
             public static MacroSpec Empty => new MacroSpec(RuleMacroKind.nothing, FieldAssign.Empty);
         }

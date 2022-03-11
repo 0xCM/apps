@@ -27,7 +27,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public ValueSelector(EncodingGroup src)
+            public ValueSelector(GroupName src)
             {
                 Spec = (ushort)src;
                 Kind = ValueSelectorKind.EncodingGroup;
@@ -69,7 +69,7 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator ValueSelector(EncodingGroup src)
+            public static implicit operator ValueSelector(GroupName src)
                 => new ValueSelector(src);
 
             [MethodImpl(Inline)]

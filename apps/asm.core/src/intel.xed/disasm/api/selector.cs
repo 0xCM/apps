@@ -13,7 +13,7 @@ namespace Z0
         public static Outcome selector(string src, out ValueSelector dst)
         {
             var result = Outcome.Success;
-            if(Parsers.Parse(src, out EncodingGroup g))
+            if(Parsers.Parse(src, out GroupName g))
                 dst = g;
             else if(Parsers.Parse(src, out NonterminalKind nt))
                 dst = nt;

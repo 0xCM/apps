@@ -14,6 +14,10 @@ namespace Z0
 
             public const string TableDeclSyntax = "()::";
 
+            public const string EncodeTableName = "_ENCODE";
+
+            public const string EncodeTableDecl = EncodeTableName + TableDeclSyntax;
+
             public const string CallSyntax = "()";
 
             public const string EncStep = " -> ";
@@ -33,7 +37,6 @@ namespace Z0
             public const char Assign = '=';
 
             public const char Eq = '=';
-
         }
     }
 }

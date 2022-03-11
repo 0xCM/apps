@@ -19,7 +19,7 @@ namespace Z0
         void CalcPatternOps(in InstDef def, ConcurrentBag<PatternOpDetail> dst)
         {
             ref readonly var patterns = ref def.PatternSpecs;
-            ExpandMacros(patterns);
+            RuleMacros.expand(patterns);
             for(var j=0; j<patterns.Count; j++)
             {
                 CalcPatternOps(patterns[j], dst);
@@ -43,7 +43,7 @@ namespace Z0
                 detail.Name = spec.Name;
                 detail.Kind = spec.Kind;
                 detail.Expression = op.Expression;
-                detail.Mnemonic = pattern.Mnemonic;
+                detail.Mnemonic = pattern.Class;
 
                 if(attrib(attribs, RuleOpClass.Action, out var action))
                     detail.Action = action;

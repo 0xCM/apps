@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static XedModels;
+
     partial class XedRules
     {
         public struct RuleTable
@@ -16,7 +17,10 @@ namespace Z0
 
             public Index<RuleExpr> Expressions;
 
-            public EncodingGroup EncodingGroup;
+            public GroupName EncodingGroup;
+
+            public bool DefinesEncoding
+                => Name.Content.EndsWith("_ENCODE");
 
             public bool ComputesRegister
             {

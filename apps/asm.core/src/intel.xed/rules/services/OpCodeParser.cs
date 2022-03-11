@@ -22,16 +22,7 @@ namespace Z0
                 var count = src.Length;
                 var buffer = alloc<XedOpCode>(count);
                 for(var i=0u; i<count; i++)
-                {
-                    ref readonly var rule = ref skip(src,i);
-                    ref var dst = ref seek(buffer,i);
-                    dst.InstId = rule.InstId;
-                    dst.Kind = rule.OpCodeKind;
-                    dst.Index = (byte)ocindex(rule.OpCodeKind);
-                    dst.Value = value(rule);
-                    dst.Class = rule.Class;
-                    dst.Source = rule.Expression;
-                }
+                    seek(buffer,i) = opcode(skip(src,i));
 
                 buffer.Sort();
                 for(var i=0u; i<count; i++)
@@ -40,11 +31,24 @@ namespace Z0
                 return buffer;
             }
 
-            internal static uint value(in string rule)
+            public static XedOpCode opcode(in RulePatternInfo rule)
             {
+                var dst = XedOpCode.Empty;
+                dst.InstId = rule.InstId;
+                dst.Kind = rule.OpCodeKind;
+                dst.Index = (byte)ocindex(rule.OpCodeKind);
+                dst.Value = value(rule);
+                dst.Class = rule.Class;
+                dst.Source = rule.Expression;
+                return dst;
+            }
+
+            static uint value(in RulePatternInfo src)
+            {
+                var expr = src.Expression.Text;
                 var dst = 0u;
                 var k = z8;
-                var parts = rule.Split(Chars.Space);
+                var parts = expr.Split(Chars.Space);
                 var count = parts.Length;
                 for(var i=0; i<count; i++)
                 {
@@ -62,9 +66,6 @@ namespace Z0
                 }
                 return dst;
             }
-
-            internal static uint value(in RulePatternInfo rule)
-                => value(rule.Expression);
 
             static bool ocbyte(string src, out Hex8 dst)
             {

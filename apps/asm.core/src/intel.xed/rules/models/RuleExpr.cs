@@ -31,6 +31,8 @@ namespace Z0
 
             public override string ToString()
                 => Format();
+
+            public static RuleExpr Empty => new RuleExpr(sys.empty<RuleCriterion>(), sys.empty<RuleCriterion>());
         }
     }
 }

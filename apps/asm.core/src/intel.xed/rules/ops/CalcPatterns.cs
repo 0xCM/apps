@@ -17,7 +17,7 @@ namespace Z0
             Index<RulePattern> Calc()
             {
                 var src = LoadPatternInfo();
-                return CalcPatterns(src,CalcOpCodes(src));
+                return CalcPatterns(src, CalcOpCodes(src));
             }
         }
 

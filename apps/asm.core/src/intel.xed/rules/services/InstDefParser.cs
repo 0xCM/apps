@@ -8,6 +8,7 @@ namespace Z0
     using static core;
     using static Root;
     using static XedModels;
+    using static XedParsers;
 
     using P = XedRules.InstRulePart;
 
@@ -84,23 +85,23 @@ namespace Z0
                                     switch(p)
                                     {
                                         case P.Form:
-                                            XedParsers.parse(value, out dst.Form);
+                                            parse(value, out dst.Form);
                                         break;
                                         case P.Attributes:
                                             Rules.ParseAttribKinds(value, out dst.Attributes);
                                         break;
                                         case P.Category:
-                                            Rules.ParseCategory(value, out dst.Category);
+                                            parse(value, out dst.Category);
                                         break;
                                         case P.Extension:
-                                            XedParsers.parse(value, out dst.Extension);
+                                            parse(value, out dst.Extension);
                                         break;
                                         case P.Flags:
                                             dst.Flags = XedRules.CalcFlagActions(value);
                                         break;
                                         case P.Class:
                                         {
-                                            if(Rules.ParseIClass(value, out dst.Class))
+                                            if(parse(value, out dst.Class))
                                             {
                                                 @class = dst.Class;
                                             }
@@ -133,7 +134,7 @@ namespace Z0
                                             pattern = ParseTokens(value);
                                         break;
                                         case P.Isa:
-                                            Rules.ParseIsaKind(value, out dst.Isa);
+                                            parse(value, out dst.Isa);
                                         break;
                                         case P.Comment:
                                             break;

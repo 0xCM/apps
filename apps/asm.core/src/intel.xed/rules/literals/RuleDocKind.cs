@@ -50,5 +50,4 @@ namespace Z0
 
         MacroAssignments
     }
-
 }

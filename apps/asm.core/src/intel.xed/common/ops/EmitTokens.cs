@@ -28,7 +28,7 @@ namespace Z0.Asm
             ApiMetadata.EmitTokens<BaseTypeKind>(scope, xed);
             ApiMetadata.EmitTokens<EASZ>(scope, xed);
             ApiMetadata.EmitTokens<EOSZ>(scope, xed);
-            ApiMetadata.EmitTokens<EncodingGroup>(scope, xed);
+            ApiMetadata.EmitTokens<GroupName>(scope, xed);
             ApiMetadata.EmitTokens<ExtensionKind>(scope, xed);
             ApiMetadata.EmitTokens<FormFacets>(scope, xed);
             ApiMetadata.EmitTokens<IClass>(scope, xed);

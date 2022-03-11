@@ -14,10 +14,6 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-        Symbols<CategoryKind> Categories;
-
-        Symbols<IsaKind> IsaKinds;
-
         Index<InstRulePart,string> PartNames;
 
         Index<PointerWidth> PointerWidths;
@@ -30,8 +26,6 @@ namespace Z0
 
         public XedRules()
         {
-            Categories = Symbols.index<CategoryKind>();
-            IsaKinds = Symbols.index<IsaKind>();
             PointerWidths = map(PointerWidthKinds.View, s => (PointerWidth)s);
             Visibilities = Symbols.index<VisibilityKind>();
             FieldTypes = Symbols.index<FieldType>();
@@ -42,24 +36,6 @@ namespace Z0
         XedPaths XedPaths => Service(Wf.XedPaths);
 
         AppDb AppDb => Service(Wf.AppDb);
-
-        public Index<PointerWidthInfo> CalcPointerWidths()
-            => Data(nameof(CalcPointerWidths), () => mapi(PointerWidths.Where(x => x.Kind != 0), (i,w) => w.ToRecord((byte)i)));
-
-        Outcome ParseIClass(string src, out IClass dst)
-            => InstClasses.ExprKind(src, out dst);
-
-        Outcome ParseIsaKind(string src, out IsaKind dst)
-            => IsaKinds.ExprKind(src, out dst);
-
-        Outcome ParseCategory(string src, out Category dst)
-        {
-            dst = default;
-            var result = Categories.ExprKind(src, out var kind);
-            if(result)
-                dst = kind;
-            return result;
-        }
 
         Outcome ParseAttribKinds(string src, out Index<AttributeKind> dst)
         {
@@ -87,10 +63,6 @@ namespace Z0
 
         static Symbols<RuleMacroKind> MacroKinds;
 
-        static Symbols<XedRegId> XedRegs;
-
-        static Symbols<IClass> InstClasses;
-
         static Symbols<ConstraintKind> ConstraintKinds;
 
         static Symbols<NonterminalKind> Nonterminals;
@@ -99,25 +71,18 @@ namespace Z0
 
         static Symbols<PointerWidthKind> PointerWidthKinds;
 
-        static Symbols<RuleOpName> OpNames;
-
         static ConstLookup<RuleMacroKind,MacroSpec> MacroLookup;
 
         static XedRules()
         {
             FieldKinds = Symbols.index<FieldKind>();
             MacroKinds = Symbols.index<RuleMacroKind>();
-            XedRegs = Symbols.index<XedRegId>();
             OpWidthKinds = Symbols.index<OperandWidthCode>();
-            InstClasses = Symbols.index<IClass>();
             ConstraintKinds = Symbols.index<ConstraintKind>();
             Nonterminals = Symbols.index<NonterminalKind>();
-            OpNames = Symbols.index<RuleOpName>();
             PointerWidthKinds = Symbols.index<PointerWidthKind>();
             MacroLookup = RuleMacros.lookup();
        }
-
-        static XedRender Formatters = XedRender.create();
 
         static MsgPattern<string> StepParseFailed => "Failed to parse step from '{0}'";
     }

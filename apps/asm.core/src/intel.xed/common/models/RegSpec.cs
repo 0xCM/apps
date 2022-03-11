@@ -14,7 +14,7 @@ namespace Z0
             readonly ushort Data;
 
             [MethodImpl(Inline)]
-            public RegSpec(EncodingGroup src)
+            public RegSpec(GroupName src)
             {
                 Kind = RegSpecKind.EncGroup;
                 Data = (ushort)src;
@@ -52,8 +52,8 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public EncodingGroup AsEncGroup()
-                => (EncodingGroup)Data;
+            public GroupName AsEncGroup()
+                => (GroupName)Data;
 
             [MethodImpl(Inline)]
             public XedRegId AsLiteral()
@@ -68,7 +68,7 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator RegSpec(EncodingGroup src)
+            public static implicit operator RegSpec(GroupName src)
                 => new RegSpec(src);
 
             [MethodImpl(Inline)]

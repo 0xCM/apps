@@ -26,7 +26,7 @@ namespace Z0
                     var k = m.Assignments.Count;
                     ref var dst = ref seek(buffer,i);
                     dst.Seq = i;
-                    dst.Assigned = (byte)i;
+                    dst.Assigned = (byte)assignments.Count;
                     dst.MacroName = m.Name;
                     if(k >= 1)
                         dst.A0 = assignments[j++];

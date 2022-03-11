@@ -13,6 +13,8 @@ namespace Z0
 
             RuleDeclaration,
 
+            EncodingRuleDecl,
+
             SeqDeclaration,
 
             EncodeStep,

@@ -19,13 +19,16 @@ namespace Z0
             public readonly ulong Data;
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(bool premise, FieldKind field, RuleOperator op, FormatCode code, ulong data)
+            internal RuleCriterion(bool premise, FieldKind field, RuleOperator op, ulong data)
             {
                 IsPremise = premise;
                 Field = field;
                 Operator = op;
                 Data = data;
             }
+
+            public BitfieldSeg AsFieldSeg()
+                => new BitfieldSeg(Field, (text7)Data, false);
 
             public bool IsError
             {
@@ -61,6 +64,12 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => Operator == RuleOperator.Call;
+            }
+
+            public bool IsFieldSeg
+            {
+                [MethodImpl(Inline)]
+                get => Operator == RuleOperator.Seg;
             }
 
             [MethodImpl(Inline)]

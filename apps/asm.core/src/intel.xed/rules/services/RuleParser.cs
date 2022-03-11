@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedRules.SyntaxLiterals;
     using static XedModels;
+    using static XedParsers;
     using static core;
 
     using FK = XedRules.RuleFormKind;
@@ -27,6 +26,8 @@ namespace Z0
                 var i = text.index(src.Content, Chars.Hash);
                 var content = (i> 0 ? text.left(src.Content,i) : src.Content).Trim();
 
+                if(content.EndsWith(EncodeTableDecl))
+                    return FK.EncodingRuleDecl;
                 if(content.EndsWith(TableDeclSyntax))
                     return FK.RuleDeclaration;
                 if(content.Contains(EncStep))
@@ -158,9 +159,9 @@ namespace Z0
 
             public static Outcome xedreg(string src, out XedRegId dst)
             {
-                var result = XedRegs.Lookup(src, out var reg);
+                var result = parse(src, out XedRegId reg);
                 if(result)
-                    dst = reg.Kind;
+                    dst = reg;
                 else
                 {
                     if(src == "MM0")
@@ -180,7 +181,6 @@ namespace Z0
                     }
 
                     dst = default;
-
                 }
                 return result;
             }
@@ -233,10 +233,10 @@ namespace Z0
                 {
                     name = text.left(src,i);
                     content = text.inside(src,i,j);
-                    if(FieldKinds.Lookup(name, out var sym))
+                    if(parse(name, out FieldKind kind))
                     {
                         var literal = text.begins(content,"0b");
-                        dst = new BitfieldSeg(sym.Kind, text.remove(content,"0b"), literal);
+                        dst = new BitfieldSeg(kind, text.remove(content,"0b"), literal);
                         result = true;
                     }
                 }

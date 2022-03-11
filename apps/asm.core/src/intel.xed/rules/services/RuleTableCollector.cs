@@ -16,20 +16,22 @@ namespace Z0
 
             ConcurrentDictionary<RuleSig,RuleTable> TableLookup;
 
-            public ConstLookup<RuleSig,RuleTable> Tables
+            public ConstLookup<RuleSig,RuleTable> Tables()
                 => TableLookup;
 
             public TableCollector(Action<string> errors, bool pll = true)
                 : base(errors,pll)
             {
-
+                Premise = new();
+                Consequent = new();
+                TableLookup = new();
             }
 
             protected override void Traversing()
             {
-                Premise = new();
-                Consequent = new();
-                TableLookup = new();
+                Premise.Clear();
+                Consequent.Clear();
+                TableLookup.Clear();
             }
 
             protected override void Traversing(in RuleTermTable src)
@@ -61,17 +63,18 @@ namespace Z0
             {
             }
 
-
             static RuleTable table(in RuleTermTable src)
             {
-                var buffer = alloc<RuleExpr>(src.Expressions.Count);
-                for(var i=0; i<src.Expressions.Count; i++)
+                var count = src.Expressions.Count;
+                var buffer = alloc<RuleExpr>(count);
+                for(var i=0; i<count; i++)
                 {
                     ref readonly var input = ref src.Expressions[i];
                     var p = RuleTables.specs(true, input.Premise.Map(x=> x.Format()).Delimit(Chars.Space).Format());
                     var c = RuleTables.specs(false, input.Consequent.Map(x=> x.Format()).Delimit(Chars.Space).Format());
-                    seek(buffer,i) = new RuleExpr(p,c);
+                    seek(buffer, i) = new RuleExpr(p,c);
                 }
+
                 var dst = RuleTable.Empty;
                 dst.Expressions = buffer;
                 dst.Name = src.Name;

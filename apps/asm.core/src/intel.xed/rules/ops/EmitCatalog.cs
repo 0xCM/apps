@@ -16,7 +16,7 @@ namespace Z0
         {
             var defs = CalcInstDefs();
             var patterns = CalcPatternInfo(defs);
-            ExpandMacros(patterns);
+            RuleMacros.expand(patterns);
             patterns.Sort();
             EmitPatterns(patterns);
             var actions = new Action[]{

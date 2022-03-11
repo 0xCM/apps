@@ -5,10 +5,8 @@
 namespace Z0
 {
     using Asm;
-    using static XedRules;
-    using static XedModels;
 
-    using C = XedRules.RuleOpClass;
+    using static XedRules;
 
     partial class XedCmdProvider
     {
@@ -35,7 +33,7 @@ namespace Z0
                 writer.WriteLine(text.delimit(parts, sep, pad));
                 writer.WriteLine(text.delimit(pattern.Tokens, sep, pad));
 
-                var expansions = Xed.Rules.ExpandMacros(pattern.Tokens);
+                var expansions = RuleMacros.expand(pattern.Tokens);
                 writer.WriteLine(text.delimit(expansions, sep, pad));
                 var expanded = text.delimit(expansions.Map(x => XedRender.format(x))," ");
                 writer.WriteLine(expanded);
@@ -45,35 +43,6 @@ namespace Z0
             EmittedFile(emitting,count);
 
             return result;
-        }
-
-        [CmdOp("xed/check/inst")]
-        Outcome CheckInstDefs(CmdArgs args)
-        {
-            void Print(string src)
-            {
-                Write(src);
-            }
-            var traverser = new XedInstTraverser(Xed, Print);
-            traverser.Traverse();
-            var patterns = traverser.Patterns();
-            // var count = patterns.Count;
-            // for(var i=0; i<count; i++)
-            // {
-            //     ref readonly var pattern = ref patterns[i];
-            //     Write(string.Format("{0,-10} | {1}", pattern.PatternId, pattern.Class));
-            // }
-            return true;
-
-            // var defs = Xed.Rules.CalcInstDefs();
-            // for(var i=0; i<defs.Count; i++)
-            // {
-            //     ref readonly var def = ref defs[i];
-            //     var patterns = def.PatternSpecs;
-            //     Xed.Rules.ExpandMacros(patterns);
-
-            // }
-
         }
     }
 }
