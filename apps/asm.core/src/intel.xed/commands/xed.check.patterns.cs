@@ -24,7 +24,7 @@ namespace Z0
             {
                 ref readonly var pattern = ref patterns[i];
                 ref readonly var info = ref descriptions[i];
-                var expr = info.Expression;
+                var expr = info.BodyExpr;
                 var parts = text.split(text.despace(text.trim(expr)), Chars.Space);
                 var pad = -32;
                 var sep = " | ";
@@ -32,10 +32,9 @@ namespace Z0
                 writer.WriteLine(expr);
                 writer.WriteLine(text.delimit(parts, sep, pad));
                 writer.WriteLine(text.delimit(pattern.Tokens, sep, pad));
-
-                var expansions = RuleMacros.expand(pattern.Tokens);
-                writer.WriteLine(text.delimit(expansions, sep, pad));
-                var expanded = text.delimit(expansions.Map(x => XedRender.format(x))," ");
+                var tokens = pattern.Tokens;
+                writer.WriteLine(text.delimit(tokens, sep, pad));
+                var expanded = text.delimit(tokens.Map(x => XedRender.format(x))," ");
                 writer.WriteLine(expanded);
                 writer.WriteLine(RP.PageBreak1024);
             }

@@ -24,9 +24,9 @@ namespace Z0
                     var pattern = new RulePatternInfo();
                     pattern.Class = def.Class;
                     pattern.InstId = def.Seq;
-                    pattern.Hash = alg.hash.marvin(op.Expression.Text);
-                    pattern.OpCodeKind = ockind(op.Expression.Text);
-                    pattern.Expression = op.Expression;
+                    pattern.Hash = alg.hash.marvin(op.BodyExpr.Text);
+                    pattern.OpCodeKind = ockind(op.BodyExpr.Text);
+                    pattern.BodyExpr = op.BodyExpr;
                     buffer.Add(pattern);
                 }
             }

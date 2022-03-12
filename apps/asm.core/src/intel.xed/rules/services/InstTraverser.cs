@@ -67,7 +67,7 @@ namespace Z0
                 Printer(string.Format("{0,-5} {1,-22} | {2}",
                     src.PatternId,
                     string.Format("{0} {1:D2}", XedRender.format(src.Class), PatternSeq++),
-                    src.Expression)
+                    src.BodyExpr)
                     );
                 Printer(RP.PageBreak160);
             }
@@ -80,7 +80,6 @@ namespace Z0
             public void Traverse(in InstDef def)
             {
                 var patterns = def.PatternSpecs;
-                RuleMacros.expand(patterns);
                 for(var j=0; j<patterns.Count; j++)
                 {
                     ref readonly var pattern = ref patterns[j];

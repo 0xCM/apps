@@ -34,9 +34,9 @@ namespace Z0
                 result = DataParser.parse(reader.Next(), out pattern.Seq);
                 result = DataParser.parse(reader.Next(), out pattern.InstId);
                 result = DataParser.parse(reader.Next(), out pattern.Hash);
-                result = DataParser.eparse(reader.Next(), out pattern.Class);
-                result = DataParser.eparse(reader.Next(), out pattern.OpCodeKind);
-                result = DataParser.parse(reader.Next(), out pattern.Expression);
+                result = XedParsers.parse(reader.Next(), out pattern.Class);
+                result = XedParsers.parse(reader.Next(), out pattern.OpCodeKind);
+                result = DataParser.parse(reader.Next(), out pattern.BodyExpr);
                 buffer.Add(pattern);
                 return result;
             }

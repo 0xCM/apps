@@ -14,46 +14,6 @@ namespace Z0
 
         static XedParsers Instance = new();
 
-        readonly EnumParser<OperandWidthCode> OpWidthParser = new();
-
-        readonly EnumParser<OperandAction> OpActions = new();
-
-        readonly EnumParser<PointerWidthKind> PointerWidths = new();
-
-        readonly EnumParser<NonterminalKind> Nonterminals = new();
-
-        readonly EnumParser<XedRegId> Regs = new();
-
-        readonly EnumParser<ElementKind> ElementKinds = new();
-
-        readonly EnumParser<OpVisibility> OpVisKinds = new();
-
-        readonly EnumParser<GroupName> EncodingGroups = new();
-
-        readonly EnumParser<RuleOpModKind> OpModKinds = new();
-
-        readonly EnumParser<FieldKind> FieldKinds = new();
-
-        readonly EnumParser<FpuRegId> FpuRegs = new();
-
-        readonly EnumParser<IClass> Classes = new();
-
-        readonly EnumParser<IFormType> Forms = new();
-
-        readonly EnumParser<ExtensionKind> ExtensionKinds = new();
-
-        readonly EnumParser<FlagActionKind> FlagActionKinds = new();
-
-        readonly EnumParser<RegFlag> RegFlags = new();
-
-        readonly EnumParser<IsaKind> IsaKinds = new();
-
-        readonly EnumParser<CategoryKind> CategoryKinds = new();
-
-        readonly EnumParser<RuleOpName> RuleOpNames = new();
-
-        readonly EnumParser<RuleMacroKind> MacroKinds = new();
-
         XedParsers()
         {
 
@@ -95,6 +55,9 @@ namespace Z0
         public static Outcome parse(string src, out DispFieldSpec dst)
             => Instance.Parse(src, out dst);
 
+        public static bool parse(string src, out OpCodeKind dst)
+            => Instance.Parse(src, out dst);
+
         public static bool parse(string src, out ImmFieldSpec dst)
             => Instance.Parse(src, out dst);
 
@@ -105,6 +68,9 @@ namespace Z0
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out CategoryKind dst)
+            => Instance.Parse(src, out dst);
+
+        public static bool parse(string src, out VexClass dst)
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out Category dst)
@@ -176,6 +142,9 @@ namespace Z0
         public bool Parse(string src, out ExtensionKind dst)
             => ExtensionKinds.Parse(src, out dst);
 
+        public bool Parse(string src, out VexClass dst)
+            => VexClasses.Parse(src, out dst);
+
         public bool Parse(string src, out OperandWidthCode dst)
             => OpWidthParser.Parse(src, out dst);
 
@@ -241,7 +210,7 @@ namespace Z0
         public bool Parse(string src, out FlagActionKind dst)
             => FlagActionKinds.Parse(src, out dst);
 
-       public bool Parse(string src, out RuleOpName dst)
+        public bool Parse(string src, out RuleOpName dst)
             => RuleOpNames.Parse(src, out dst);
 
         public bool Parse(string src, out IClass dst)
@@ -249,6 +218,9 @@ namespace Z0
 
         public bool Parse(string src, out CategoryKind dst)
             => CategoryKinds.Parse(src, out dst);
+
+        public bool Parse(string src, out OpCodeKind dst)
+            => OpCodeKinds.Parse(src, out dst);
 
         public bool Parse(string src, out Category dst)
         {

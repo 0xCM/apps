@@ -15,10 +15,10 @@ namespace Z0
                 => Write(src, FlairKind.Error);
 
             var collector = new TableCollector(OnError, true);
-            collector.Traverse(RuleMacros.expand(CalcEncDecRuleTables()));
+            collector.Traverse(MacroExpander.expand(CalcEncDecRuleTables()));
             var encdec = collector.Tables();
 
-            collector.Traverse(RuleMacros.expand(CalcEncRuleTables()));
+            collector.Traverse(MacroExpander.expand(CalcEncRuleTables()));
             var enc = collector.Tables();
 
             var dst = dict<RuleSig,RuleTable>();

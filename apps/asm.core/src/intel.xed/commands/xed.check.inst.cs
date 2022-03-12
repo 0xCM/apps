@@ -24,7 +24,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var pattern = ref patterns[i];
-                ref readonly var source = ref pattern.Expression;
+                ref readonly var source = ref pattern.BodyExpr;
                 writer.AppendLineFormat("Source -> {0}", source);
                 result = parsers.Parse(source, out Index<InstDefSeg> segs);
                 if(result.Fail)

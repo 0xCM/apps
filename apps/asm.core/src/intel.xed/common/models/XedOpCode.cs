@@ -28,7 +28,7 @@ namespace Z0
 
             public IClass Class;
 
-            public TextBlock Source;
+            public TextBlock Pattern;
 
             public int CompareTo(XedOpCode src)
             {
@@ -37,7 +37,7 @@ namespace Z0
                 {
                     result = ((ushort)Class).CompareTo((ushort)(src.Class));
                     if(result == 0)
-                        result = Source.CompareTo(src.Source);
+                        result = Pattern.CompareTo(src.Pattern);
                 }
                 return result;
             }

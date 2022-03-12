@@ -39,13 +39,13 @@ namespace Z0
                 dst.Index = (byte)ocindex(rule.OpCodeKind);
                 dst.Value = value(rule);
                 dst.Class = rule.Class;
-                dst.Source = rule.Expression;
+                dst.Pattern = rule.BodyExpr;
                 return dst;
             }
 
             static uint value(in RulePatternInfo src)
             {
-                var expr = src.Expression.Text;
+                var expr = src.BodyExpr.Text;
                 var dst = 0u;
                 var k = z8;
                 var parts = expr.Split(Chars.Space);

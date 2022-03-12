@@ -9,7 +9,6 @@ namespace Z0
     using static Root;
     using static XedModels;
     using static XedParsers;
-    using static XedRules.SyntaxLiterals;
 
     using P = XedRules.InstRulePart;
 
@@ -34,7 +33,7 @@ namespace Z0
                 return _PatternBuffer;
             }
 
-            string ParseTokens(string src)
+            string ParseBodyExpr(string src)
             {
                 var dst = ComponentBuffer();
                 var parts = text.split(text.despace(src), Chars.Space);
@@ -47,7 +46,7 @@ namespace Z0
                     dst.Append(part);
                 }
 
-                return dst.Emit();
+                return MacroExpander.expand(dst.Emit());
             }
 
             static TextLine cleanse(TextLine src)
@@ -76,7 +75,7 @@ namespace Z0
                     if(line.StartsWith(Chars.LBrace))
                     {
                         var dst = default(InstDef);
-                        var pattern = EmptyString;
+                        var bodyexpr = EmptyString;
                         var operands = list<InstPatternSpec>();
                         var @class = IClass.INVALID;
                         while(!line.StartsWith(Chars.RBrace) && reader.Next(out line))
@@ -141,12 +140,13 @@ namespace Z0
                                                 }
                                             }
 
-                                            operands.Add(new InstPatternSpec(seq++, 0, @class, pattern, sys.empty<InstDefSeg>(), parser.ParseOps(value)));
-                                            pattern=EmptyString;
+                                            XedParsers.parse(bodyexpr, out Index<InstDefSeg> body).Require();
+                                            operands.Add(new InstPatternSpec(seq++, 0, @class, bodyexpr, body, parser.ParseOps(value)));
+                                            bodyexpr=EmptyString;
                                         }
                                         break;
                                         case P.Pattern:
-                                            pattern = ParseTokens(value);
+                                            bodyexpr = ParseBodyExpr(value);
                                         break;
                                         case P.Isa:
                                             parse(value, out dst.Isa);

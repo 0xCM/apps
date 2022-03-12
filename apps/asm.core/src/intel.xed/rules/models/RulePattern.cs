@@ -34,10 +34,6 @@ namespace Z0
                 OcValue = value;
             }
 
-            [MethodImpl(Inline)]
-            public RulePattern WithTokens(RuleToken[] tokens)
-                => new RulePattern(Seq,Class,OcKind,OcValue,tokens);
-
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]

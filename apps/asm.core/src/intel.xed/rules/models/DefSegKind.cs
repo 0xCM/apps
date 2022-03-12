@@ -21,7 +21,7 @@ namespace Z0
 
             Assign,
 
-            Nonterm
+            Nonterm,
         }
     }
 }

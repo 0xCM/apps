@@ -26,19 +26,19 @@ namespace Z0
 
             public OpCodeKind OpCodeKind;
 
-            public TextBlock Expression;
+            public TextBlock BodyExpr;
 
             public override int GetHashCode()
                 => (int)Hash;
 
             public bool Equals(RulePatternInfo src)
-                => Expression.Equals(src.Expression);
+                => BodyExpr.Equals(src.BodyExpr);
 
             public int CompareTo(RulePatternInfo src)
             {
                 var i = ((ushort)Class).CompareTo(((ushort)src.Class));
                 if(i == 0)
-                    i = Expression.CompareTo(src.Expression);
+                    i = BodyExpr.CompareTo(src.BodyExpr);
                 return i;
             }
 

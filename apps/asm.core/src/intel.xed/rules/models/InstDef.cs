@@ -35,7 +35,7 @@ namespace Z0
                 if(result == 0)
                 {
                     if(PatternSpecs.IsNonEmpty && src.PatternSpecs.IsNonEmpty)
-                        result = PatternSpecs.First.Expression.CompareTo(src.PatternSpecs.First.Expression);
+                        result = PatternSpecs.First.BodyExpr.CompareTo(src.PatternSpecs.First.BodyExpr);
                 }
                 return result;
             }

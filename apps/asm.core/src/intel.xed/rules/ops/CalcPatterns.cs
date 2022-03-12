@@ -31,13 +31,13 @@ namespace Z0
             {
                 ref readonly var info = ref src[i];
                 ref readonly var opcode = ref opcodes[i];
-                var expr = info.Expression;
-                var result = parser.Parse(expr);
+                var result = parser.Parse(info.BodyExpr);
                 if(!result.Succeeded)
                 {
                     Errors.Throw(string.Format("Parse incomplete: {0}/{1} succeeded", result.ParsedCount, result.SourceCount));
                     break;
                 }
+
                 var tokens = slice(buffer, 0, result.ParsedCount).ToArray();
                 seek(dst,i) = pattern(i, opcode.Class, opcode.Kind, ocvalue(tokens), tokens);
             }

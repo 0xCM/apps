@@ -17,44 +17,37 @@ namespace Z0
 
             public readonly IClass Class;
 
-            public readonly TextBlock Expression;
+            public readonly TextBlock BodyExpr;
 
             public readonly Index<InstDefSeg> Body;
 
             public readonly Index<RuleOpSpec> Operands;
 
             [MethodImpl(Inline)]
-            public InstPatternSpec(uint seq, uint instid, IClass @class, string expr, InstDefSeg[] body,  RuleOpSpec[] ops)
+            public InstPatternSpec(uint seq, uint instid, IClass @class, string expr, InstDefSeg[] body, RuleOpSpec[] ops)
             {
                 PatternId = seq;
                 InstId = instid;
                 Class = @class;
-                Expression = expr;
+                Body = body;
+                BodyExpr = body.Delimit(Chars.Space).Format();
                 Operands = ops;
-                Body = sys.empty<InstDefSeg>();
             }
 
             [MethodImpl(Inline)]
             public InstPatternSpec WithInstId(uint instid)
-                => new InstPatternSpec(PatternId, instid, Class, Expression, Body, Operands);
-
-            [MethodImpl(Inline)]
-            public InstPatternSpec WithExpr(string expr)
-                => new InstPatternSpec(PatternId, InstId, Class, expr, Body, Operands);
-
-            [MethodImpl(Inline)]
-            public InstPatternSpec WithBody(params InstDefSeg[] body)
-                => new InstPatternSpec(PatternId, InstId, Class, Expression, body, Operands);
+                => new InstPatternSpec(PatternId, instid, Class, BodyExpr, Body, Operands);
 
             public int CompareTo(InstPatternSpec src)
             {
                 var result = InstId.CompareTo(src.InstId);
                 if(result == 0)
-                    result = Expression.CompareTo(src.Expression);
+                    result = BodyExpr.CompareTo(src.BodyExpr);
                 return result;
             }
+
             public string Format()
-                => string.Format("Expression:{0}\nOperands:{1}", Expression, Operands);
+                => string.Format("Expression:{0}\nOperands:{1}", BodyExpr, Operands);
 
             public override string ToString()
                 => Format();

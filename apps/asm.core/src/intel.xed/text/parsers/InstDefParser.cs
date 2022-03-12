@@ -23,8 +23,7 @@ namespace Z0
                 dst = alloc<InstDefSeg>(count);
                 for(var i=0; i<count; i++)
                 {
-                    ref readonly var part = ref skip(parts,i);
-                    result = Parse(part, out dst[i]);
+                    result = Parse(skip(parts,i), out dst[i]);
                     if(result.Fail)
                         break;
                 }
@@ -79,7 +78,6 @@ namespace Z0
                     result = parse(src, out NontermCall x);
                     if(result)
                         dst = x;
-
                 }
                 return result;
             }

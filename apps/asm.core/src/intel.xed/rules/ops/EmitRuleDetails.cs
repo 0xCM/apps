@@ -37,7 +37,6 @@ namespace Z0
             {
                 ref readonly var def = ref defs[i];
                 var patterns = def.PatternSpecs;
-                RuleMacros.expand(patterns);
                 for(var j=0; j<patterns.Count; j++)
                 {
                     ref readonly var pattern = ref patterns[j];
@@ -48,7 +47,7 @@ namespace Z0
                     dst.AppendLineFormat(LabelPattern, nameof(def.Category), def.Category);
                     dst.AppendLineFormat(LabelPattern, nameof(def.Extension), def.Extension);
                     dst.AppendLineFormat(LabelPattern, nameof(def.Flags), def.Flags.IsNonEmpty ? def.Flags.Delimit(fence:RenderFence.Embraced) : EmptyString);
-                    dst.AppendLineFormat(LabelPattern, nameof(pattern.Expression), pattern.Expression);
+                    dst.AppendLineFormat(LabelPattern, nameof(pattern.Body), pattern.BodyExpr);
                     dst.AppendLineFormat(LabelPattern, "Operands", RP.PageBreak80);
                     ref readonly var ops = ref pattern.Operands;
                     for(byte k=0; k<ops.Count; k++)

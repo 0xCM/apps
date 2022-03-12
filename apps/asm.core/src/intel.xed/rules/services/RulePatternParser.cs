@@ -56,13 +56,9 @@ namespace Z0
             {
                 Reset();
                 var i = text.index(src,Chars.Hash);
-                var input = text.despace(i > 0 ? text.left(src,i) : src);
+                var input = MacroExpander.expand(text.despace(i > 0 ? text.left(src,i) : src));
                 var result = Parse(text.split(input, Chars.Space));
                 return new (SourceCount, Index, result);
-            }
-
-            static RulePatternParser()
-            {
             }
        }
     }

@@ -19,7 +19,6 @@ namespace Z0
         void CalcPatternOps(in InstDef def, ConcurrentBag<PatternOpDetail> dst)
         {
             ref readonly var patterns = ref def.PatternSpecs;
-            RuleMacros.expand(patterns);
             for(var j=0; j<patterns.Count; j++)
             {
                 CalcPatternOps(patterns[j], dst);
