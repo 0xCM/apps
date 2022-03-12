@@ -64,7 +64,7 @@ namespace Z0
             public static bool IsAssign(string src)
                 => src.Contains(Assign);
 
-            public static bool IsFieldSeg(string src)
+            public static bool IsBitfieldSeg(string src)
             {
                 var i = text.index(src,Chars.LBracket);
                 var j = text.index(src,Chars.RBracket);

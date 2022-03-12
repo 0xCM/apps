@@ -186,6 +186,10 @@ namespace Z0
         public static string format(U src)
             => BitRender.gformat(src.data, FormatConfig8);
 
+        [MethodImpl(Inline)]
+        public static string format(U src, BitFormat config)
+            => BitRender.gformat(src.data, config);
+
         [MethodImpl(Inline), Op]
         public static Span<bit> bits(uint8b src)
         {

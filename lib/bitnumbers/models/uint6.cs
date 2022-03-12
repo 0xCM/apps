@@ -6,73 +6,69 @@ namespace Z0
 {
     using static BitNumbers;
 
-    using U = uint7;
-    using W = W7;
-    using K = BitSeq7;
+    using U = uint6;
+    using W = W6;
+    using K = BitSeq6;
     using T = System.Byte;
-    using N = N7;
+    using N = N6;
 
     /// <summary>
     /// Represents a value in the range [<see cef='MinLiteral'/>, <see cref='MaxLiteral'/>]
     /// </summary>
-    [DataType("u<w:7>", Width, 8)]
-    public readonly struct uint7 : IBitNumber<U,W,K,T>
+    [DataType("u<w:6>", Width, 8)]
+    public readonly struct uint6 : IBitNumber<U,W,K,T>
     {
-        public const byte BitCount = 7;
+        public const byte BitCount = 6;
 
         internal readonly T data;
 
         [MethodImpl(Inline)]
-        internal uint7(uint8b src)
+        internal uint6(uint8b src)
             => data = (byte)(src & MaxLiteral);
 
         [MethodImpl(Inline)]
-        internal uint7(byte src)
+        internal uint6(byte src)
             => data = (byte)(src & MaxLiteral);
 
         [MethodImpl(Inline)]
-        internal uint7(byte src, bool @unchecked)
+        internal uint6(byte src, bool @unchecked)
             => data = (byte)src;
 
         [MethodImpl(Inline)]
-        internal uint7(sbyte src)
+        internal uint6(sbyte src)
             => data = (byte)((uint)src & MaxLiteral);
 
         [MethodImpl(Inline)]
-        internal uint7(short src)
+        internal uint6(short src)
             => data = (byte)((uint)src & MaxLiteral);
 
         [MethodImpl(Inline)]
-        internal uint7(ushort src)
+        internal uint6(ushort src)
             => data = (byte)(src & MaxLiteral);
 
         [MethodImpl(Inline)]
-        internal uint7(int x)
+        internal uint6(int x)
             => data = (byte)((uint)x & MaxLiteral);
 
         [MethodImpl(Inline)]
-        internal uint7(uint src)
+        internal uint6(uint src)
             => data = (byte)(src & MaxLiteral);
 
         [MethodImpl(Inline)]
-        internal uint7(long src)
+        internal uint6(long src)
             => data = (byte)((uint)src & MaxLiteral);
 
         [MethodImpl(Inline)]
-        internal uint7(uint src, bool safe)
+        internal uint6(K src)
             => data = (byte)src;
 
         [MethodImpl(Inline)]
-        internal uint7(K src)
-            => data = (byte)src;
-
-        [MethodImpl(Inline)]
-        internal uint7(BitState src)
+        internal uint6(BitState src)
             => data = (byte)src;
 
 
         /// <summary>
-        /// Queries the state of an index-identified bit
+        /// Queries and manipulates a bit identified by its 0-based index
         /// </summary>
         public bit this[byte pos]
         {
@@ -126,13 +122,11 @@ namespace Z0
         public string Format(N2 b)
             => BitRender.gformat(data,Width);
 
-        [MethodImpl(Inline)]
-        public string Format(N16 b)
-            => data.FormatHex(false, false);
-
-        [MethodImpl(Inline)]
         public string Format()
              => format(this);
+
+        public string Format(BitFormat config)
+            => format(this,config);
 
         public override string ToString()
             => Format();
@@ -158,6 +152,10 @@ namespace Z0
             => src.data;
 
         [MethodImpl(Inline)]
+        public static implicit operator uint7(U src)
+            => new uint7(src.data);
+
+        [MethodImpl(Inline)]
         public static implicit operator U(uint8b src)
             => new U(src);
 
@@ -168,6 +166,14 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator K(U src)
             => (K)src.data;
+
+        [MethodImpl(Inline)]
+        public static explicit operator bit(U src)
+            => new bit(src.data & 1);
+
+        [MethodImpl(Inline)]
+        public static explicit operator U(bit src)
+            => (byte)src;
 
         /// <summary>
         /// Converts a 5-bit integer to an unsigned 8-bit integer
@@ -215,27 +221,27 @@ namespace Z0
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
         public static explicit operator U(byte src)
-            => uint7(src);
+            => uint6(src);
 
+        /// <summary>
+        /// Creates a 5-bit integer from the least four bits of the source operand
+        /// </summary>
+        /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
         public static implicit operator U(uint src)
-            => uint7(src);
+            => uint6(src);
 
+        /// <summary>
+        /// Creates a 5-bit integer from the least four bits of the source operand
+        /// </summary>
+        /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
         public static explicit operator U(ulong src)
-            => uint7(src);
-
-        [MethodImpl(Inline)]
-        public static explicit operator bit(U src)
-            => new bit(src.data & 1);
-
-        [MethodImpl(Inline)]
-        public static explicit operator U(bit src)
-            => (byte)src;
+            => uint6(src);
 
         [MethodImpl(Inline)]
         public static U @bool(bool x)
-            => uint7(x);
+            => uint6(x);
 
         [MethodImpl(Inline)]
         public static bool operator true(U x)
@@ -287,7 +293,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static U operator ~(U src)
-            => wrap7((byte)(~src.data & MaxLiteral));
+            => wrap6((byte)(~src.data & MaxLiteral));
 
         [MethodImpl(Inline)]
         public static U operator ++(U x)
@@ -322,24 +328,24 @@ namespace Z0
             => @bool(x.data >= y.data);
 
         /// <summary>
-        /// Specifies the inclusive lower bound of the <see cref='U'/> data type as a literal value
+        /// Specifies the inclusive lower bound of <see cref='U'/> as a literal value
         /// </summary>
         public const T MinLiteral = 0;
 
         /// <summary>
-        /// Specifies the inclusive upper bound of the <see cref='U'/> data type as a literal value
+        /// Specifies the inclusive upper bound of the <see cref='U'/> as a literal value
         /// </summary>
-        public const T MaxLiteral = 127;
+        public const T MaxLiteral = 63;
+
+        /// <summary>
+        /// Specifies the represented data type bit-width
+        /// </summary>
+        public const byte Width = 6;
 
         /// <summary>
         /// Specifies the count of unique values representable by a <see cref='U'/>
         /// </summary>
         public const byte Mod = MaxLiteral + 1;
-
-        /// <summary>
-        /// Specifies the represented data type bit-width
-        /// </summary>
-        public const byte Width = 7;
 
         public static W W => default;
 

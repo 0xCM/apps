@@ -243,6 +243,10 @@ namespace Z0
         public static string format(U src)
             => BitRender.gformat(src.data, FormatConfig5);
 
+        [MethodImpl(Inline)]
+        public static string format(U src, BitFormat config)
+            => BitRender.gformat(src.data, config);
+
         [MethodImpl(Inline), False]
         public static U @false(U a, U b)
             => U.Min;

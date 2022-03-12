@@ -50,60 +50,14 @@ namespace Z0
                 return dst.Emit();
             }
 
-            public Index<InstDefSeg> ParseBody(string src)
+            static TextLine cleanse(TextLine src)
             {
-                var result = Outcome.Success;
-                var parts = text.split(src, Chars.Space);
-                var count = parts.Length;
-                var dst = alloc<InstDefSeg>(count);
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var part = ref skip(parts,i);
-                    result = Parse(part, out seek(dst,i));
-                    if(result.Fail)
-                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(InstDefSeg), part));
-                }
-
-                return dst;
-            }
-
-            Outcome Parse(string src, out InstDefSeg dst)
-            {
-                dst = InstDefSeg.Empty;
-                var result = Outcome.Success;
-                if(text.begins(src,"0x"))
-                {
-                    result = parse(src, out Hex8 x);
-                    if(result)
-                        dst = x;
-                }
-                else if(IsFieldSeg(src))
-                {
-                    result = parse(src, out BitfieldSeg x);
-                    if(result)
-                        dst = x;
-                }
-                else if(IsAssign(src))
-                {
-                    result = parse(src, out FieldAssign x);
-                    if(result)
-                        dst = x;
-                }
-                else if(IsNeq(src))
-                {
-                    result = parse(src, out FieldConstraint x);
-                    if(result)
-                        dst = x;
-
-                }
-                else if(IsCall(src))
-                {
-                    result = parse(src, out NontermCall x);
-                    if(result)
-                        dst = x;
-
-                }
-                return result;
+                var dst = text.despace(src.Content);
+                var i = text.index(dst, Chars.Hash);
+                if(i > 0)
+                    dst = text.left(dst,i);
+                dst = text.trim(dst);
+                return new TextLine(src.LineNumber, dst);
             }
 
             public Index<InstDef> ParseInstDefs(FS.FilePath src)
@@ -117,6 +71,8 @@ namespace Z0
                     if(line.IsEmpty || line.StartsWith(Chars.Hash) || line.EndsWith("::"))
                         continue;
 
+                    line = cleanse(line);
+
                     if(line.StartsWith(Chars.LBrace))
                     {
                         var dst = default(InstDef);
@@ -128,6 +84,7 @@ namespace Z0
                             if(line.IsEmpty)
                                 continue;
 
+                            line = cleanse(line);
                             var i = text.index(line.Content, Chars.Colon);
 
                             if(i > 0)
@@ -172,6 +129,7 @@ namespace Z0
                                                 var result = text.left(line.Content, j);
                                                 while(reader.Next(out var x))
                                                 {
+                                                    x = cleanse(x);
                                                     j = text.index(x.Content, Chars.BSlash);
                                                     if(j > 0)
                                                         result = string.Format("{0} {1}", result, text.left(x.Content,j).Trim());

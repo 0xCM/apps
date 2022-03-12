@@ -6,69 +6,71 @@ namespace Z0
 {
     using static BitNumbers;
 
-    using U = uint5;
-    using W = W5;
-    using K = BitSeq5;
+    using U = uint2;
+    using W = W2;
+    using K = BitSeq2;
     using T = System.Byte;
-    using N = N5;
+    using N = N2;
 
     /// <summary>
     /// Represents a value in the range [<see cef='MinLiteral'/>, <see cref='MaxLiteral'/>]
     /// </summary>
-    [DataType("u<w:5>", Width, 8)]
-    public readonly struct uint5 : IBitNumber<U,W,K,T>
+    [DataType("u<w:2>", Width, 8)]
+    public readonly struct uint2 : IBitNumber<U,W,K,T>
     {
-        public const byte BitCount = 5;
+        public const byte BitCount = 2;
 
         internal readonly T data;
 
         [MethodImpl(Inline)]
-        internal uint5(uint8b src)
+        internal uint2(uint8b src)
             => data = (byte)(src & MaxLiteral);
 
         [MethodImpl(Inline)]
-        internal uint5(byte src)
+        internal uint2(byte src)
             => data = (byte)(src & MaxLiteral);
 
         [MethodImpl(Inline)]
-        internal uint5(byte src, bool @unchecked)
+        internal uint2(byte src, bool @unchecked)
             => data = (byte)src;
 
         [MethodImpl(Inline)]
-        internal uint5(sbyte src)
-            => data = (byte)((uint)src & MaxLiteral);
+        internal uint2(sbyte src)
+            => data = (byte)((byte)src & MaxLiteral);
 
         [MethodImpl(Inline)]
-        internal uint5(short src)
-            => data = (byte)((uint)src & MaxLiteral);
+        internal uint2(short src)
+            => data = (byte)((byte)src & MaxLiteral);
 
         [MethodImpl(Inline)]
-        internal uint5(ushort src)
+        internal uint2(ushort src)
             => data = (byte)(src & MaxLiteral);
 
         [MethodImpl(Inline)]
-        internal uint5(int x)
-            => data = (byte)((uint)x & MaxLiteral);
+        internal uint2(int x)
+            => data = (byte)((byte)x & MaxLiteral);
 
         [MethodImpl(Inline)]
-        internal uint5(uint src)
+        internal uint2(uint src)
             => data = (byte)(src & MaxLiteral);
 
         [MethodImpl(Inline)]
-        internal uint5(long src)
-            => data = (byte)((uint)src & MaxLiteral);
+        internal uint2(long src)
+            => data = (byte)((byte)src & MaxLiteral);
 
         [MethodImpl(Inline)]
-        internal uint5(uint src, bool safe)
+        internal uint2(uint src, bool safe)
             => data = (byte)src;
 
         [MethodImpl(Inline)]
-        internal uint5(K src)
+        internal uint2(K src)
             => data = (byte)src;
 
         [MethodImpl(Inline)]
-        internal uint5(BitState src)
+        internal uint2(BitState src)
             => data = (byte)src;
+
+
 
         /// <summary>
         /// Queries an index-identified bit
@@ -121,27 +123,21 @@ namespace Z0
             get => data == MinLiteral;
         }
 
-        [MethodImpl(Inline)]
-        public string Format(N2 b)
-            => BitRender.gformat(data);
-
-        [MethodImpl(Inline)]
-        public string Format(N16 b)
-            => data.FormatHex(false, false);
-
-        [MethodImpl(Inline)]
         public string Format()
              => format(this);
+
+        public string Format(BitFormat config)
+            => format(this,config);
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public bool Equals(U y)
-            => eq(this,y);
+        public bool Equals(U rhs)
+            => eq(this,rhs);
 
-        public override bool Equals(object y)
-            => y is U x && Equals(x);
+        public override bool Equals(object rhs)
+            => rhs is U x && Equals(x);
 
         public uint Hash
         {
@@ -152,29 +148,53 @@ namespace Z0
         public override int GetHashCode()
             => (int)Hash;
 
+       [MethodImpl(Inline)]
+        public static explicit operator U(uint3 src)
+            => uint2(src);
+
         [MethodImpl(Inline)]
-        public static implicit operator uint8b(U src)
-            => src.data;
+        public static explicit operator U(uint4 src)
+            => uint2(src);
+
+        [MethodImpl(Inline)]
+        public static explicit operator U(uint5 src)
+            => uint2(src);
+
+        [MethodImpl(Inline)]
+        public static explicit operator U(uint6 src)
+            => uint2(src);
+
+        [MethodImpl(Inline)]
+        public static explicit operator U(uint7 src)
+            => uint2(src);
 
         [MethodImpl(Inline)]
         public static implicit operator U(uint8b src)
             => new U(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator U(K src)
-            => new U(src);
+        public static implicit operator uint3(U src)
+            => new uint3(src.data);
 
         [MethodImpl(Inline)]
-        public static implicit operator K(U src)
-            => (K)src.data;
+        public static implicit operator uint4(U src)
+            => new uint4(src.data);
 
-        /// <summary>
-        /// Converts a 5-bit integer to an unsigned 8-bit integer
-        /// </summary>
-        /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
-        public static implicit operator byte(U src)
-            => (byte)src.data;
+        public static implicit operator uint5(U src)
+            => new uint5(src.data);
+
+        [MethodImpl(Inline)]
+        public static implicit operator uint6(U src)
+            => new uint6(src.data);
+
+        [MethodImpl(Inline)]
+        public static implicit operator uint7(U src)
+            => new uint7(src.data);
+
+        [MethodImpl(Inline)]
+        public static implicit operator uint8b(U src)
+            => new uint8b(src.data);
 
         [MethodImpl(Inline)]
         public static explicit operator bit(U src)
@@ -184,8 +204,44 @@ namespace Z0
         public static explicit operator U(bit src)
             => (byte)src;
 
+        [MethodImpl(Inline)]
+        public static implicit operator U(K src)
+            => new U(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator K(U src)
+            => (K)src.data;
+
+        [MethodImpl(Inline)]
+        public static implicit operator U(Hex2Kind src)
+            => (byte)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator U(X00 src)
+            => (byte)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator U(X01 src)
+            => (byte)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator U(X02 src)
+            => (byte)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator U(X03 src)
+            => (byte)src;
+
         /// <summary>
-        /// Converts a 5-bit integer to an unsigned 16-bit integer
+        /// Implicitly promotes a <see cref='U'> value to a <see cref='byte'/> value
+        /// </summary>
+        /// <param name="src">The source value</param>
+        [MethodImpl(Inline)]
+        public static implicit operator byte(U src)
+            => (byte)src.data;
+
+        /// <summary>
+        /// Implicitly promotes a <see cref='U'> value to a <see cref='ushort'/> value
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
@@ -193,7 +249,7 @@ namespace Z0
             => (ushort)src.data;
 
         /// <summary>
-        /// Converts a 5-bit integer to an unsigned 32-bit integer
+        /// Implicitly promotes a <see cref='U'> value to a <see cref='uint'/> value
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
@@ -201,7 +257,7 @@ namespace Z0
             => src.data;
 
         /// <summary>
-        /// Converts a 5-bit integer to an unsigned 65-bit integer
+        /// Implicitly promotes a <see cref='U'> value to a <see cref='ulong'/> value
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
@@ -209,7 +265,7 @@ namespace Z0
             => src.data;
 
         /// <summary>
-        /// Converts a 5-bit integer to a signed 32-bit integer
+        /// Implicitly promotes a <see cref='U'> value to a <see cref='int'/> value
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
@@ -217,32 +273,32 @@ namespace Z0
             => (int)src.data;
 
         /// <summary>
-        /// Creates a 5-bit integer from the least four bits of the source operand
+        /// Converts a <see cref='byte'> value to a <see cref='U'/> value, truncating as necessary
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
         public static explicit operator U(byte src)
-            => uint5(src);
+            => create(W,src);
 
         /// <summary>
-        /// Creates a 5-bit integer from the least four bits of the source operand
+        /// Creates a 3-bit integer from the least four bits of the source operand
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
         public static implicit operator U(uint src)
-            => uint5(src);
+            => create(W,src);
 
         /// <summary>
-        /// Creates a 5-bit integer from the least four bits of the source operand
+        /// Creates a 3-bit integer from the least four bits of the source operand
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
         public static explicit operator U(ulong src)
-            => uint5(src);
+            => create(W,src);
 
         [MethodImpl(Inline)]
         public static U @bool(bool src)
-            => uint5(src);
+            => create(W,src);
 
         [MethodImpl(Inline)]
         public static bool operator true(U x)
@@ -261,40 +317,40 @@ namespace Z0
             => sub(x,y);
 
         [MethodImpl(Inline)]
-        public static U operator * (U x, U y)
-            => mul(x,y);
+        public static U operator * (U lhs, U rhs)
+            => mul(lhs,rhs);
 
         [MethodImpl(Inline)]
-        public static U operator / (U x, U y)
-            => div(x,y);
+        public static U operator / (U lhs, U rhs)
+            => div(lhs,rhs);
 
         [MethodImpl(Inline)]
-        public static U operator % (U x, U y)
-            => mod(x,y);
+        public static U operator % (U lhs, U rhs)
+            => mod(lhs,rhs);
 
         [MethodImpl(Inline)]
-        public static U operator &(U x, U y)
-            => and(x,y);
+        public static U operator &(U lhs, U rhs)
+            => and(lhs,rhs);
 
         [MethodImpl(Inline)]
-        public static U operator |(U x, U y)
-            => or(x,y);
+        public static U operator |(U lhs, U rhs)
+            => or(lhs,rhs);
 
         [MethodImpl(Inline)]
-        public static U operator ^(U x, U y)
-            => xor(x,y);
+        public static U operator ^(U lhs, U rhs)
+            => xor(lhs,rhs);
 
         [MethodImpl(Inline)]
-        public static U operator >>(U x, int count)
-            => srl(x, (byte)count);
+        public static U operator >>(U lhs, int count)
+            => srl(lhs, (byte)count);
 
         [MethodImpl(Inline)]
-        public static U operator <<(U x, int count)
-            => sll(x, (byte)count);
+        public static U operator <<(U lhs, int count)
+            => sll(lhs, (byte)count);
 
         [MethodImpl(Inline)]
         public static U operator ~(U src)
-            => wrap5(~src.data & MaxLiteral);
+            => not(src);
 
         [MethodImpl(Inline)]
         public static U operator ++(U x)
@@ -305,28 +361,28 @@ namespace Z0
             => dec(x);
 
         [MethodImpl(Inline)]
-        public static bool operator ==(U x, U y)
-            => eq(x,y);
+        public static bool operator ==(U lhs, U rhs)
+            => eq(lhs,rhs);
 
         [MethodImpl(Inline)]
-        public static bool operator !=(U x, U y)
-            => !x.Equals(y);
+        public static bool operator !=(U lhs, U rhs)
+            => !lhs.Equals(rhs);
 
         [MethodImpl(Inline)]
-        public static U operator < (U x, U y)
-            => @bool(x.data < y.data);
+        public static U operator < (U lhs, U rhs)
+            => @bool(lhs.data < rhs.data);
 
         [MethodImpl(Inline)]
-        public static U operator <= (U x, U y)
-            => @bool(x.data <= y.data);
+        public static U operator <= (U lhs, U rhs)
+            => @bool(lhs.data <= rhs.data);
 
         [MethodImpl(Inline)]
-        public static U operator > (U x, U y)
-            => @bool(x.data > y.data);
+        public static U operator > (U lhs, U rhs)
+            => @bool(lhs.data > rhs.data);
 
         [MethodImpl(Inline)]
-        public static U operator >= (U x, U y)
-            => @bool(x.data >= y.data);
+        public static U operator >= (U lhs, U rhs)
+            => @bool(lhs.data >= rhs.data);
 
         /// <summary>
         /// Specifies the inclusive lower bound of the <see cref='U'/> data type as a literal value
@@ -336,25 +392,25 @@ namespace Z0
         /// <summary>
         /// Specifies the inclusive upper bound of the <see cref='U'/> data type as a literal value
         /// </summary>
-        public const T MaxLiteral = 31;
+        public const T MaxLiteral = 3;
 
         /// <summary>
-        /// Specifies the bit-width represented by <see cref='U'/>
+        /// Specifies the bit-width of the <see cref='U'/> data type
         /// </summary>
-        public const byte Width = 5;
+        public const byte Width = 2;
 
         /// <summary>
         /// Specifies the count of unique values representable by a <see cref='U'/>
         /// </summary>
-        public const byte Mod = (byte)MaxLiteral + 1;
+        public const uint Mod = MaxLiteral + 1;
 
         /// <summary>
-        /// Specifies the <see cref='Width'/> values as a type-level width
+        /// Specifies a <see cref='U'/> bitwidth <see ref='W'/> representative
         /// </summary>
         public static W W => default;
 
         /// <summary>
-        /// Specifies the <see cref='Width'/> values as a type-level natural
+        /// Specifies the <see cref='U'/> bit-width as a natural number
         /// </summary>
         public static N N => default;
 
@@ -399,6 +455,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => bits(this);
         }
-
-   }
+    }
 }

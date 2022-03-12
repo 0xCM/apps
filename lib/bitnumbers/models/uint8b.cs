@@ -122,9 +122,11 @@ namespace Z0
         public override bool Equals(object y)
             => data.Equals(y);
 
-        [MethodImpl(Inline)]
-        public string Format()
+         public string Format()
              => format(this);
+
+        public string Format(BitFormat config)
+            => format(this,config);
 
         public override string ToString()
             => Format();

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class BitMasks
     {
         [MethodImpl(Inline), Op]
@@ -23,7 +18,7 @@ namespace Z0
         {
             dst.Name = src.Name;
             dst.DataType = TypeSyntax.infer(src.Data?.GetType() ?? typeof(void));
-            dst.MaskData = BitNumber.infer(src.Data);
+            dst.MaskData = BitMaskData.infer(src.Data);
             dst.Text = src.Text;
             dst.Base = src.Base;
             return ref dst;

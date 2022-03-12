@@ -11,7 +11,9 @@ namespace Z0
         {
             None,
 
-            Hex8,
+            HexLiteral,
+
+            BitLiteral,
 
             Bitfield,
 

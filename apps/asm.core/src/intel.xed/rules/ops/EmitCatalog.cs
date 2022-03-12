@@ -18,7 +18,7 @@ namespace Z0
             var patterns = CalcPatternInfo(defs);
             RuleMacros.expand(patterns);
             patterns.Sort();
-            EmitPatterns(patterns);
+            EmitPatternInfo(patterns);
             var actions = new Action[]{
                 () => EmitOpCodes(patterns),
                 () => EmitPatternDetails(defs),
@@ -43,7 +43,7 @@ namespace Z0
             FileEmit(dst.Emit(), src.Count, XedPaths.DocTarget(XedDocKind.RuleSeq), TextEncodingKind.Asci);
         }
 
-        void EmitPatterns(Index<RulePatternInfo> src)
+        void EmitPatternInfo(Index<RulePatternInfo> src)
             => TableEmit(src.View, RulePatternInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.RulePatterns));
 
         void EmitFieldDefs()

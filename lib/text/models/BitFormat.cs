@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     /// <summary>
     /// Controls formatting when bitstring content is rendered as text
@@ -27,7 +23,7 @@ namespace Z0
             => BitFormatOptions.bitmax(maxbits, zpad);
 
         [MethodImpl(Inline), Op]
-        public static BitFormat limited(uint maxbits, uint zpad)
+        public static BitFormat limited(uint maxbits, uint zpad, bool specifier = false)
             => BitFormatOptions.bitmax(maxbits, (int)zpad);
 
         [MethodImpl(Inline), Op]

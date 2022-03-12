@@ -19,7 +19,7 @@ namespace Z0
 
         public TypeSpec DataType;
 
-        public BitNumber MaskData;
+        public BitMaskData MaskData;
 
         public string Text;
 

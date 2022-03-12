@@ -89,15 +89,11 @@ namespace Z0
             get => data == MinLiteral;
         }
 
-        /// <summary>
-        /// Renders the source value as as hexadecimal string
-        /// </summary>
-        [MethodImpl(Inline)]
         public string Format()
              => format(this);
 
-         public override string ToString()
-            => Format();
+        public string Format(BitFormat config)
+            => format(this,config);
 
         [MethodImpl(Inline)]
         public bool Equals(U y)

@@ -65,7 +65,7 @@ namespace Z0
             => math.and(M64, src);
 
         public string Format()
-            => ((BitNumber)this).Format();
+            => ((BitMaskData)this).Format();
 
         public override string ToString()
             => Format();
@@ -123,8 +123,8 @@ namespace Z0
             => math.xor(mask.M64, value);
 
         [MethodImpl(Inline)]
-        public static implicit operator BitNumber(BitMask src)
-            => new BitNumber(src.Value, src.Width);
+        public static implicit operator BitMaskData(BitMask src)
+            => new BitMaskData(src.Value, src.Width);
 
         public static BitMask Empty => default;
     }

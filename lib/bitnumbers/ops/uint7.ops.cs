@@ -250,11 +250,15 @@ namespace Z0
             => new U(src,false);
 
         static BitFormat FormatConfig7
-            => BitFormat.limited(U.Width,U.Width);
+            => BitFormat.limited(U.Width, U.Width);
 
         [MethodImpl(Inline)]
         public static string format(U src)
             => BitRender.gformat(src.data, FormatConfig7);
+
+        [MethodImpl(Inline)]
+        public static string format(U src, BitFormat config)
+            => BitRender.gformat(src.data, config);
 
         /// <summary>
         /// Promotes a <see cref='U2'/> to a <see cref='Z0.uint7'/>, as indicated by the <see cref='W7'/> selector

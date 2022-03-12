@@ -4,164 +4,244 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    using NK = NumericKind;
-
     public readonly struct BitNumber
     {
-        [Op]
-        public static BitNumber infer(object src)
-        {
-            if(src == null)
-                return BitNumber.Empty;
+        const byte WidthOffset = 56;
 
-            var kind = src.GetType().NumericKind();
-            return kind switch{
-                NK.U8 => (byte)src,
-                NK.U16 => (ushort)src,
-                NK.U32 => (uint)src,
-                NK.U64 => (ulong)src,
-                NK.I8 => (byte)(sbyte)src,
-                NK.I16 => (ushort)(short)src,
-                NK.I32 => (uint)(int)src,
-                NK.I64 => (ulong)(long)src,
-                _ => BitNumber.Empty
-            };
-        }
+        const ulong WidthMask = 0xFF000000_00000000;
+
+        const ulong ValueMask = ~WidthMask;
 
         readonly ulong Data;
 
-        public readonly byte DataWidth;
-
         [MethodImpl(Inline)]
-        public BitNumber(byte src)
+        internal BitNumber(ulong data, byte width)
         {
-            Data = src;
-            DataWidth = 8;
+            Data = (data & WidthMask) | ((ulong)width << WidthOffset);
         }
 
         [MethodImpl(Inline)]
-        public BitNumber(ushort src)
+        public BitNumber(uint1 data)
         {
-            Data = src;
-            DataWidth = 16;
+            Data = (ulong)data | ((ulong)1 << WidthOffset);
         }
 
         [MethodImpl(Inline)]
-        public BitNumber(uint src)
+        public BitNumber(bit data)
         {
-            Data = src;
-            DataWidth = 32;
+            Data = (ulong)data | ((ulong)1 << WidthOffset);
         }
 
         [MethodImpl(Inline)]
-        public BitNumber(ulong src)
+        public BitNumber(uint2 data)
         {
-            Data = src;
-            DataWidth = 64;
+            Data = (ulong)data | ((ulong)2 << WidthOffset);
         }
 
         [MethodImpl(Inline)]
-        public BitNumber(ulong src, byte width)
+        public BitNumber(uint3 data)
         {
-            Data = src;
-            DataWidth = width;
+            Data = (ulong)data | ((ulong)3 << WidthOffset);
         }
 
         [MethodImpl(Inline)]
-        public ref byte Value(out byte value)
+        public BitNumber(uint4 data)
         {
-            value = (byte)Data;
-            return ref value;
+            Data = (ulong)data | ((ulong)4 << WidthOffset);
         }
 
         [MethodImpl(Inline)]
-        public ref ushort Value(out ushort value)
+        public BitNumber(uint5 data)
         {
-            value = (ushort)Data;
-            return ref value;
+            Data = (ulong)data | ((ulong)5 << WidthOffset);
         }
 
         [MethodImpl(Inline)]
-        public ref uint Value(out uint value)
+        public BitNumber(uint6 data)
         {
-            value = (uint)Data;
-            return ref value;
+            Data = (ulong)data | ((ulong)6 << WidthOffset);
         }
 
         [MethodImpl(Inline)]
-        public ref ulong Value(out ulong value)
+        public BitNumber(uint7 data)
         {
-            value = Data;
-            return ref value;
+            Data = (ulong)data | ((ulong)7 << WidthOffset);
         }
 
-        public bool IsEmpty
+        [MethodImpl(Inline)]
+        public BitNumber(uint8b data)
+        {
+            Data = (ulong)data | ((ulong)8 << WidthOffset);
+        }
+
+        public byte Width
         {
             [MethodImpl(Inline)]
-            get => DataWidth == 0;
+            get => (byte)(Data >> WidthOffset);
         }
 
-        public bool IsNonEmpty
+        public bit Val1
         {
             [MethodImpl(Inline)]
-            get => DataWidth == 0;
+            get => (byte)Data;
         }
 
-        public NumericKind DataKind
+        public uint2 Val2
         {
             [MethodImpl(Inline)]
-            get
-            {
-                if(DataWidth <=8)
-                    return NumericKind.U8;
-                else if(DataWidth <=16)
-                    return NumericKind.U16;
-                else if(DataWidth <=32)
-                    return NumericKind.U32;
-                else
-                    return NumericKind.U64;
-            }
+            get => (byte)Data;
+        }
+
+        public uint3 Val3
+        {
+            [MethodImpl(Inline)]
+            get => (byte)Data;
+        }
+
+        public uint4 Val4
+        {
+            [MethodImpl(Inline)]
+            get => (byte)Data;
+        }
+
+        public uint5 Val5
+        {
+            [MethodImpl(Inline)]
+            get => (byte)Data;
+        }
+
+        public uint6 Val6
+        {
+            [MethodImpl(Inline)]
+            get => (byte)Data;
+        }
+
+        public uint7 Val7
+        {
+            [MethodImpl(Inline)]
+            get => (byte)Data;
+        }
+
+        public uint8b Val8
+        {
+            [MethodImpl(Inline)]
+            get => (byte)Data;
+        }
+
+        internal ulong Val56
+        {
+            [MethodImpl(Inline)]
+            get => Data & ValueMask;
         }
 
         public string Format()
         {
-            if(IsEmpty)
-                return EmptyString;
-
-            if(DataWidth <=8)
-                return ((byte)Data).FormatBits();
-            else if(DataWidth <=16)
-                return ((ushort)Data).FormatBits();
-            else if(DataWidth <=32)
-                return ((uint)Data).FormatBits();
-            else
-                return ((ulong)Data).FormatBits();
+            var width = Width;
+            var dst = EmptyString;
+            switch(width)
+            {
+                case 1:
+                    dst = Val1.Format();
+                break;
+                case 2:
+                    dst = Val2.Format();
+                break;
+                case 3:
+                    dst = Val3.Format();
+                break;
+                case 4:
+                    dst = Val4.Format();
+                break;
+                case 5:
+                    dst = Val5.Format();
+                break;
+                case 6:
+                    dst = Val6.Format();
+                break;
+                case 7:
+                    dst = Val7.Format();
+                break;
+                case 8:
+                    dst = Val8.Format();
+                break;
+                default:
+                    dst = Val56.FormatBits();
+                break;
+            }
+            return dst;
         }
 
-        public override string ToString()
-            => Format();
+        public string Format(BitFormat config)
+        {
+            var width = Width;
+            var dst = EmptyString;
+            switch(width)
+            {
+                case 1:
+                    dst = config.SpecifierPrefix ? "0b" + Val1.Format() : Val1.Format();
+                break;
+                case 2:
+                    dst = Val2.Format(config);
+                break;
+                case 3:
+                    dst = Val3.Format(config);
+                break;
+                case 4:
+                    dst = Val4.Format(config);
+                break;
+                case 5:
+                    dst = Val5.Format(config);
+                break;
+                case 6:
+                    dst = Val6.Format(config);
+                break;
+                case 7:
+                    dst = Val7.Format(config);
+                break;
+                case 8:
+                    dst = Val8.Format(config);
+                break;
+                default:
+                    dst = Val56.FormatBits(config);
+                break;
+            }
+            return dst;
+        }
 
         [MethodImpl(Inline)]
-        public static implicit operator BitNumber(byte src)
+        public static implicit operator BitNumber(uint1 src)
             => new BitNumber(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator BitNumber(ushort src)
+        public static implicit operator BitNumber(bit src)
             => new BitNumber(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator BitNumber(uint src)
+        public static implicit operator BitNumber(uint2 src)
             => new BitNumber(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator BitNumber(ulong src)
+        public static implicit operator BitNumber(uint3 src)
             => new BitNumber(src);
 
-        public static BitNumber Empty => default;
+        [MethodImpl(Inline)]
+        public static implicit operator BitNumber(uint4 src)
+            => new BitNumber(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator BitNumber(uint5 src)
+            => new BitNumber(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator BitNumber(uint6 src)
+            => new BitNumber(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator BitNumber(uint7 src)
+            => new BitNumber(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator BitNumber(uint8b src)
+            => new BitNumber(src);
     }
 }

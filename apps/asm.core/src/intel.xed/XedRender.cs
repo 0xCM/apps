@@ -768,6 +768,23 @@ namespace Z0
         static string format(uint5 src)
             => src.Format();
 
+        static string format3(uint5 src)
+        {
+            var storage = 0ul;
+            var dst = recover<AsciSymbol>(bytes(storage));
+            var i=0;
+            var j=(byte)(uint5.Width - 1);
+            seek(dst,i++) = Chars.D0;
+            seek(dst,i++) = Chars.b;
+            seek(dst,i++) = src[j--].ToChar();
+            seek(dst,i++) = src[j--].ToChar();
+            seek(dst,i++) = src[j--].ToChar();
+            seek(dst,i++) = src[j--].ToChar();
+            seek(dst,i++) = Chars.Underscore;
+            seek(dst,i++) = src[j].ToChar();
+            return new asci8(storage);
+        }
+
         static string format(uint6 src)
             => src.Format();
 
@@ -837,6 +854,7 @@ namespace Z0
         public static string format(FieldAssign src)
             => src.IsEmpty ? EmptyString : string.Format("{0}={1}", format(src.Field), src.Value);
 
+
         public static string format(FieldCmp src)
             => src.IsEmpty ? EmptyString
                 : string.Format("{0}{1}{2}",
@@ -864,14 +882,17 @@ namespace Z0
             var kind = src.Kind;
             switch(kind)
             {
-                case DefSegKind.Hex8:
+                case DefSegKind.HexLiteral:
                     dst = src.Map<Hex8,string>(kind, format);
+                break;
+                case DefSegKind.BitLiteral:
+                    dst = src.Map<uint5,string>(kind, format3);
                 break;
                 case DefSegKind.Bitfield:
                     dst = src.Map<BitfieldSeg,string>(kind, format);
                 break;
                 case DefSegKind.Constraint:
-                    dst = src.Map<FieldCmp,string>(kind, format);
+                    dst = src.Map<FieldConstraint,string>(kind, format);
                 break;
                 case DefSegKind.Assign:
                     dst = src.Map<FieldAssign,string>(kind, format);
