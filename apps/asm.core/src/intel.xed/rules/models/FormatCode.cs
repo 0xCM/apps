@@ -82,12 +82,13 @@ namespace Z0
 
             InstClass,
 
+            VexClass,
+
             MemWidth,
 
             Error,
 
             Text,
-
         }
     }
 }

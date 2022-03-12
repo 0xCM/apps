@@ -248,13 +248,18 @@ namespace Z0
                     dst = format(x);
                 }
                 break;
+                case FC.VexClass:
+                {
+                    var x = @as<VexClass>(data);
+                    dst = format(x);
+                }
+                break;
                 case FC.MemWidth:
                 {
                     var x = @as<ushort>(data);
                     dst = x.ToString();
                 }
                 break;
-
             }
             return dst;
         }

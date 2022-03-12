@@ -27,6 +27,14 @@ namespace Z0
 
         static EnumFormatter<VexKind> VexKinds = new();
 
+        static EnumFormatter<VexMapKind> VexMap = new();
+
+        static EnumFormatter<LegacyMapKind> LegacyMap = new();
+
+        static EnumFormatter<EvexMapKind> EvexMap = new();
+
         static EnumFormatter<AttributeKind> AttribKinds = new();
+
+        static EnumFormatter<OpCodeIndex> OcKindIndex = new();
     }
 }

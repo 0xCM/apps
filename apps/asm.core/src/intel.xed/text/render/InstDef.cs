@@ -26,11 +26,14 @@ namespace Z0
                 case DefSegKind.Constraint:
                     dst = src.Map<FieldConstraint,string>(kind, format);
                 break;
-                case DefSegKind.Assign:
+                case DefSegKind.FieldAssign:
                     dst = src.Map<FieldAssign,string>(kind, format);
                 break;
                 case DefSegKind.Nonterm:
                     dst = src.Map<NontermCall,string>(kind, format);
+                break;
+                case DefSegKind.FieldLiteral:
+                    dst = src.Map<XedRules.FieldValue,string>(kind, format);
                 break;
             }
             return dst;

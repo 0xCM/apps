@@ -5,20 +5,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using OCP = XedModels.OcPatternNames;
-
     partial struct XedModels
     {
         [SymSource(xed)]
         public enum EvexMapKind : byte
         {
-            [Symbol("Evex0F", OCP.EvexPattern0F)]
+            [Symbol("Evex0F", "MAP=1")]
             EVEX_MAP_0F=1,
 
-            [Symbol("Evex0F38", OCP.EvexPattern0F38)]
+            [Symbol("Evex0F38", "MAP=2")]
             EVEX_MAP_0F38=2,
 
-            [Symbol("Evex0F3A", OCP.EvexPattern0F3A)]
+            [Symbol("Evex0F3A", "MAP=3")]
             EVEX_MAP_0F3A=3,
         }
     }

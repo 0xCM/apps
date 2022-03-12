@@ -24,16 +24,17 @@ namespace Z0
                 for(var i=0u; i<count; i++)
                     seek(buffer,i) = opcode(skip(src,i));
 
-                buffer.Sort();
-                for(var i=0u; i<count; i++)
-                    seek(buffer,i).Seq = i;
+                // buffer.Sort();
+                // for(var i=0u; i<count; i++)
+                //     seek(buffer,i).Seq = i;
 
-                return buffer;
+                return buffer.Sort();
             }
 
             public static XedOpCode opcode(in RulePatternInfo rule)
             {
                 var dst = XedOpCode.Empty;
+                dst.PatternId = rule.PatternId;
                 dst.InstId = rule.InstId;
                 dst.Kind = rule.OpCodeKind;
                 dst.Index = (byte)ocindex(rule.OpCodeKind);

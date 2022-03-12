@@ -22,7 +22,7 @@ namespace Z0
         public static bool parse(string src, out uint5 dst)
             => Instance.Parse(src, out dst);
 
-        public static Outcome parse(string src, out Index<InstDefSeg> dst)
+        public static Outcome parse(string src, out InstPatternBody dst)
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out RuleMacroKind dst)
@@ -520,7 +520,7 @@ namespace Z0
             return result;
         }
 
-        public Outcome Parse(string src, out Index<InstDefSeg> dst)
+        public Outcome Parse(string src, out InstPatternBody dst)
             => InstDefParser.Service.Parse(src, out dst);
 
         [MethodImpl(Inline)]

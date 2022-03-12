@@ -18,6 +18,13 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format(E src)
-            => Syms[src].Expr.Text;
+        {
+            if(Syms.MapKind(src, out var a))
+                return a.Expr.Text;
+            else if(Syms.MapValue(core.bw64(src), out var b))
+                return b.Expr.Text;
+            else
+                return RP.Error;
+        }
     }
 }

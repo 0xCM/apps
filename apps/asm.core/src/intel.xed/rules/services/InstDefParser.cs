@@ -140,7 +140,7 @@ namespace Z0
                                                 }
                                             }
 
-                                            XedParsers.parse(bodyexpr, out Index<InstDefSeg> body).Require();
+                                            XedParsers.parse(bodyexpr, out InstPatternBody body).Require();
                                             operands.Add(new InstPatternSpec(seq++, 0, @class, bodyexpr, body, parser.ParseOps(value)));
                                             bodyexpr=EmptyString;
                                         }

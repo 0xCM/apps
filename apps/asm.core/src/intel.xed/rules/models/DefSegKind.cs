@@ -19,9 +19,11 @@ namespace Z0
 
             Constraint,
 
-            Assign,
+            FieldAssign,
 
             Nonterm,
+
+            FieldLiteral,
         }
     }
 }

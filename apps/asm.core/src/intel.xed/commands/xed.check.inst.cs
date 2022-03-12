@@ -26,11 +26,11 @@ namespace Z0
                 ref readonly var pattern = ref patterns[i];
                 ref readonly var source = ref pattern.BodyExpr;
                 writer.AppendLineFormat("Source -> {0}", source);
-                result = parsers.Parse(source, out Index<InstDefSeg> segs);
+                result = parsers.Parse(source, out InstPatternBody body);
                 if(result.Fail)
                     break;
 
-                render(segs,buffer);
+                XedRender.render(body,buffer);
                 var target = buffer.Emit();
                 writer.AppendLineFormat("Target <- {0}", target);
                 writer.AppendLine();
@@ -44,32 +44,5 @@ namespace Z0
             return result;
         }
 
-        static void render(ReadOnlySpan<InstDefSeg> src, ITextBuffer dst)
-        {
-            for(var i=0; i<src.Length; i++)
-            {
-                ref readonly var seg = ref skip(src,i);
-                if(i!=0)
-                    dst.Append(Chars.Space);
-                dst.Append(seg.Format());
-            }
-        }
-
-        void CheckInstDefs1()
-        {
-            var dst = AppDb.Log("xed.patterns", FileKind.Txt);
-            var emitting = EmittingFile(dst);
-            var counter = 0u;
-            using var writer = dst.AsciWriter();
-            void Print(string src)
-            {
-                writer.WriteLine(src);
-                counter++;
-            }
-            var traverser = new InstTraverser(Xed, Print);
-            traverser.Traverse();
-            var patterns = traverser.Patterns();
-            EmittedFile(emitting,counter);
-        }
     }
 }

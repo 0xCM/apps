@@ -22,7 +22,6 @@ namespace Z0
             var enc = collector.Tables();
 
             var dst = dict<RuleSig,RuleTable>();
-
             foreach(var key in encdec.Keys)
                 dst.Add(key, encdec[key]);
 

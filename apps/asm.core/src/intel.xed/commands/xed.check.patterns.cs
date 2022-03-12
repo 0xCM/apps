@@ -7,6 +7,10 @@ namespace Z0
     using Asm;
 
     using static XedRules;
+    using static XedModels;
+    using static XedRender;
+
+    using R = XedRules;
 
     partial class XedCmdProvider
     {
@@ -14,34 +18,81 @@ namespace Z0
         Outcome CheckPatterns(CmdArgs args)
         {
             var result = Outcome.Success;
-            var descriptions = Xed.Rules.LoadPatternInfo();
-            var path = AppDb.XedPath("xed.rules.patterns.checks", FileKind.Csv);
-            var emitting = EmittingFile(path);
-            var patterns = Xed.Rules.CalcPatterns();
-            var count = Require.equal(patterns.Length,descriptions.Length);
-            using var writer = path.AsciWriter();
+            var ipatterns = Xed.Rules.CalcInstPatterns();
+            var count = ipatterns.Count;
+            var dst = AppDb.XedPath("xed.rules", FileKind.Csv);
+            var emitting = EmittingFile(dst);
+            using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)
             {
-                ref readonly var pattern = ref patterns[i];
-                ref readonly var info = ref descriptions[i];
-                var expr = info.BodyExpr;
-                var parts = text.split(text.despace(text.trim(expr)), Chars.Space);
-                var pad = -32;
-                var sep = " | ";
-                writer.WriteLine("{0,-16} | {1,-12} | {2}", info.Class, AsmOcValue.format(XedRules.ocvalue(pattern.Tokens)), XedRender.format(info.OpCodeKind));
-                writer.WriteLine(expr);
-                writer.WriteLine(text.delimit(parts, sep, pad));
-                writer.WriteLine(text.delimit(pattern.Tokens, sep, pad));
-                var tokens = pattern.Tokens;
-                writer.WriteLine(text.delimit(tokens, sep, pad));
-                var expanded = text.delimit(tokens.Map(x => XedRender.format(x))," ");
-                writer.WriteLine(expanded);
-                writer.WriteLine(RP.PageBreak1024);
+                var ipattern = ipatterns[i];
+                ref readonly var id = ref ipattern.PatternId;
+
+                ref readonly var instid = ref ipattern.InstId;
+                ref readonly var @class = ref ipattern.Class;
+                ref readonly var form = ref ipattern.Form;
+                ref readonly var ext = ref ipattern.Extension;
+                ref readonly var isa = ref ipattern.Isa;
+                ref readonly var category = ref ipattern.Category;
+                ref readonly var attribs = ref ipattern.InstAttribs;
+                ref readonly var flags = ref ipattern.InstFlags;
+                ref readonly var def = ref ipattern.InstDef;
+                ref readonly var spec = ref ipattern.PatternSpec;
+                ref readonly var body = ref ipattern.Body;
+                ref readonly var ops = ref ipattern.Operands;
+
+                var ocval = XedRules.ocvalue(body);
+                writer.AppendLineFormat("{0,-24} | {1,-24} | {2}", format(@class), format(ocval), _format(body));
+
             }
-
             EmittedFile(emitting,count);
-
             return result;
+        }
+
+        public static string _format(in InstPatternBody src)
+        {
+            var dst = text.buffer();
+            _render(src, dst);
+            return dst.Emit();
+        }
+
+        public static void _render(in InstPatternBody src, ITextBuffer dst)
+        {
+            for(var i=0; i<src.PartCount; i++)
+            {
+                if(i!=0)
+                    dst.Append(Chars.Space);
+
+                ref readonly var part = ref src[i];
+                if(InstDefs.vexclass(part, out var vc))
+                    dst.Append(format(vc));
+                else if(InstDefs.vexkind(part, out var vk))
+                    dst.Append(format(vk));
+                else if(InstDefs.map(part, out var map))
+                {
+                    var vex = InstDefs.vex(src);
+                    if(vex != null)
+                    {
+                        switch(vex.Value)
+                        {
+                            case VexClass.VV0:
+                            case VexClass.VV1:
+                                dst.AppendFormat("{0}", format((VexMapKind)map));
+                                break;
+                            case VexClass.EVV:
+                                dst.AppendFormat("{0}", format((EvexMapKind)map));
+                                break;
+                            case VexClass.XOPV:
+                                dst.AppendFormat("{0}", format((XopMapKind)map));
+                                break;
+                        }
+                    }
+                    else
+                        dst.Append(format((LegacyMapKind)part.AsAssign().Value));
+                }
+                else
+                    dst.Append(format(part));
+            }
         }
     }
 }

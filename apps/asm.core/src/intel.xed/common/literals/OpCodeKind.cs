@@ -10,6 +10,8 @@ namespace Z0
         [SymSource(xed)]
         public enum OpCodeKind : ushort
         {
+            None = 0,
+
             [Symbol("Map0")]
             LEGACY_MAP0 = OpCodeClass.LEGACY | (ushort)((byte)LegacyMapKind.LEGACY_MAP0 << 8),
 

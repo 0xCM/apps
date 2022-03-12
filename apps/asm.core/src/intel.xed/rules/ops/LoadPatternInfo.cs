@@ -31,7 +31,7 @@ namespace Z0
 
                 var reader = cells.Reader();
                 var pattern = new RulePatternInfo();
-                result = DataParser.parse(reader.Next(), out pattern.Seq);
+                result = DataParser.parse(reader.Next(), out pattern.PatternId);
                 result = DataParser.parse(reader.Next(), out pattern.InstId);
                 result = DataParser.parse(reader.Next(), out pattern.Hash);
                 result = XedParsers.parse(reader.Next(), out pattern.Class);

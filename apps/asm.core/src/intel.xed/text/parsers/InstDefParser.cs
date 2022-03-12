@@ -15,7 +15,7 @@ namespace Z0
         {
             public static InstDefParser Service => default;
 
-            public Outcome Parse(string src, out Index<InstDefSeg> dst)
+            public Outcome Parse(string src, out InstPatternBody dst)
             {
                 var result = Outcome.Success;
                 var parts = text.trim(text.split(text.despace(src), Chars.Space));

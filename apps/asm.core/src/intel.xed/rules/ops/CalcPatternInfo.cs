@@ -37,7 +37,7 @@ namespace Z0
             for(var i=0u; i<count; i++)
             {
                 ref var record = ref seek(dst,i);
-                record.Seq = i;
+                record.PatternId = i;
                 hashes.Add(record.Hash);
             }
 
@@ -48,6 +48,5 @@ namespace Z0
 
             return dst;
         }
-
    }
 }

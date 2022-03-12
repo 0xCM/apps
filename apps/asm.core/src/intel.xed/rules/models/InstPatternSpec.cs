@@ -19,12 +19,12 @@ namespace Z0
 
             public readonly TextBlock BodyExpr;
 
-            public readonly Index<InstDefSeg> Body;
+            public readonly InstPatternBody Body;
 
             public readonly Index<RuleOpSpec> Operands;
 
             [MethodImpl(Inline)]
-            public InstPatternSpec(uint seq, uint instid, IClass @class, string expr, InstDefSeg[] body, RuleOpSpec[] ops)
+            public InstPatternSpec(uint seq, uint instid, IClass @class, string expr, InstPatternBody body, RuleOpSpec[] ops)
             {
                 PatternId = seq;
                 InstId = instid;

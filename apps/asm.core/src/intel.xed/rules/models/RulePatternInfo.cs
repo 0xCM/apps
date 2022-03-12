@@ -16,7 +16,7 @@ namespace Z0
 
             public const byte FieldCount = 6;
 
-            public uint Seq;
+            public uint PatternId;
 
             public uint InstId;
 
@@ -42,7 +42,7 @@ namespace Z0
                 return i;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,6,12,24,16,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,12,24,16,1};
         }
     }
 }

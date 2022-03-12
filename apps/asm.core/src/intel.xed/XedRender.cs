@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
     using static XedModels;
     using static XedRules;
     using static Asm.IntelXed;
@@ -16,6 +17,26 @@ namespace Z0
         public static XedRender create()
             => new XedRender();
 
+        public static string format(AsmOcValue src)
+            => AsmOcValue.format(src);
+
+        public static string format(in InstPatternBody src)
+        {
+            var dst = text.buffer();
+            render(src, dst);
+            return dst.Emit();
+        }
+
+        public static void render(in InstPatternBody src, ITextBuffer dst)
+        {
+            for(var i=0; i<src.PartCount; i++)
+            {
+                if(i!=0)
+                    dst.Append(Chars.Space);
+
+                dst.Append(format(src[i]));
+            }
+        }
 
         public static string format(ValueSelector src)
         {
@@ -105,6 +126,18 @@ namespace Z0
         public static string format(VexKind src)
             => VexKinds.Format(src);
 
+        public static string format(VexMapKind src)
+            => VexMap.Format(src);
+
+        public static string format(EvexMapKind src)
+            => EvexMap.Format(src);
+
+        public static string format(LegacyMapKind src)
+            => LegacyMap.Format(src);
+
+        public static string format(XopMapKind src)
+            => src == 0 ? EmptyString : src.ToString();
+
         public static string format(IClass src)
             => Classes[src].Expr.Text;
 
@@ -160,7 +193,10 @@ namespace Z0
             => OpVis[src].Expr.Text;
 
         public static string format(OpCodeKind src)
-            => OcKindIndex[ocindex(src)].Expr.Text;
+            => format(ocindex(src));
+
+        public static string format(OpCodeIndex src)
+            => OcKindIndex.Format(src);
 
         public static string format(DispExpr src)
             => DispKinds[src.Kind].Expr.Text;
@@ -256,8 +292,6 @@ namespace Z0
 
         static Symbols<NonterminalKind> Nonterminals;
 
-        static Symbols<OpCodeIndex> OcKindIndex;
-
         static Symbols<OperandAction> OpActions;
 
         static Symbols<OperandWidthCode> OpWidthKinds;
@@ -291,7 +325,6 @@ namespace Z0
             DispKinds = Symbols.index<DispExprKind>();
             ConstraintKinds = Symbols.index<ConstraintKind>();
             Nonterminals = Symbols.index<NonterminalKind>();
-            OcKindIndex = Symbols.index<OpCodeIndex>();
             OpActions = Symbols.index<OperandAction>();
             OpNames = Symbols.index<RuleOpName>();
             OpVis = Symbols.index<OpVisibility>();

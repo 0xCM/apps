@@ -9,9 +9,30 @@ namespace Z0
     using static XedModels;
 
     using OCP = XedModels.OcPatternNames;
+    using OCI = XedModels.OpCodeIndex;
 
     partial class XedRules
     {
+        [Op]
+        public static OpCodeKind ockind(OpCodeIndex src)
+            => src switch {
+                OCI.LegacyMap0 => LEGACY_MAP0,
+                OCI.LegacyMap1 => LEGACY_MAP1,
+                OCI.LegacyMap2 => LEGACY_MAP2,
+                OCI.LegacyMap3 => LEGACY_MAP3,
+                OCI.Amd3dNow => AMD_3DNOW,
+                OCI.Xop8 => XOP8,
+                OCI.Xop9 => XOP9,
+                OCI.XopA => XOPA,
+                OCI.Vex0F => VEX_MAP_0F,
+                OCI.Vex0F38 => VEX_MAP_0F38,
+                OCI.Vex0F3A => VEX_MAP_0F3A,
+                OCI.Evex0F => EVEX_MAP_0F,
+                OCI.Evex0F38 => EVEX_MAP_0F38,
+                OCI.Evex0F3A => EVEX_MAP_0F3A,
+                _=> OpCodeKind.None
+            };
+
         public static OpCodeKind ockind(string rule)
         {
             var content = rule;

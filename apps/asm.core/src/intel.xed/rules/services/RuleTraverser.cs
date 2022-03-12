@@ -20,13 +20,6 @@ namespace Z0
                 Pll = pll;
             }
 
-            public void Traverse(RuleSet src)
-            {
-                Traversing();
-                Traverse(src.Tables);
-                Traverse(src.Patterns);
-            }
-
             public void Traverse(ReadOnlySpan<RuleTermTable> src)
             {
                 iter(src,t => Traverse(t), Pll);
@@ -60,23 +53,6 @@ namespace Z0
                     Errors(AppMsg.ParseFailure.Format(nameof(RuleTerm), value));
             }
 
-            public void Traverse(ReadOnlySpan<RulePattern> src)
-            {
-                iter(src, p => Traverse(p), Pll);
-            }
-
-            public void Traverse(in RulePattern src)
-            {
-                Traversing(src);
-                var seq = src.Seq;
-                iter(src.Tokens, t => Traverse(seq,t));
-            }
-
-            public void Traverse(uint pattern, in RuleToken token)
-            {
-                Traversing(pattern, token);
-            }
-
             protected virtual void Traversing()
             {
 
@@ -87,15 +63,6 @@ namespace Z0
 
             }
 
-            protected virtual void Traversing(in RulePattern src)
-            {
-
-            }
-
-            protected virtual void Traversing(uint pattern, in RuleToken token)
-            {
-
-            }
 
             protected virtual void Traversing(in RuleSig table, in RuleCriterion src)
             {

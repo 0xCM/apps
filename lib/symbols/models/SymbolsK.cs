@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
-    using static Root;
     using static core;
 
     public class Symbols<K> : ISymIndex<K>
@@ -47,22 +42,20 @@ namespace Z0
             var dst = dict<K,Sym<K>>();
             var count = src.Count;
             for(var i=0; i<count; i++)
-            {
                 dst.TryAdd(src[i].Kind, src[i]);
-            }
             return dst;
         }
 
         public ref readonly Sym<K> this[uint index]
         {
             [MethodImpl(Inline)]
-            get => ref Data[index];
+            get => ref index < Data.Length ? ref Data[index] : ref Data[0];
         }
 
         public ref readonly Sym<K> this[K kind]
         {
             [MethodImpl(Inline)]
-            get => ref Data[bw32(kind)];
+            get => ref bw32(kind) < Data.Length ? ref Data[bw32(kind)] : ref Data[0];
         }
 
         [MethodImpl(Inline)]

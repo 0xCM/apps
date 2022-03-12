@@ -7,8 +7,6 @@ namespace Z0
 {
     using static core;
 
-    using static XedModels;
-
     partial class XedRules
     {
         public struct InstDefSeg
@@ -38,7 +36,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
-                data[15] = (byte)DefSegKind.Assign;
+                data[15] = (byte)DefSegKind.FieldAssign;
                 Data = data;
             }
 
@@ -80,19 +78,40 @@ namespace Z0
                 Data = data;
             }
 
+            [MethodImpl(Inline)]
+            public InstDefSeg(FieldValue src)
+            {
+                var data = ByteBlock16.Empty;
+                data = bytes(src);
+                data[15] = (byte)DefSegKind.FieldLiteral;
+                Data = data;
+            }
+
             public ref readonly DefSegKind Kind
             {
                 [MethodImpl(Inline)]
                 get => ref @as<DefSegKind>(Data[15]);
             }
 
+            [MethodImpl(Inline)]
+            public ref readonly FieldAssign AsAssign()
+                => ref @as<FieldAssign>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly FieldValue AsFieldLit()
+                => ref @as<FieldValue>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly Hex8 AsHexLit()
+                => ref @as<Hex8>(Data.First);
+
             public T Map<S,T>(DefSegKind kind, Func<S,T> f)
             {
                 var dst = default(T);
                 switch(kind)
                 {
-                    case DefSegKind.Assign:
-                        dst = f(@as<InstDefSeg,S>(@as<FieldAssign>(Data.First)));
+                    case DefSegKind.FieldAssign:
+                        dst = f(@as<InstDefSeg,S>(AsAssign()));
                     break;
                     case DefSegKind.Bitfield:
                         dst = f(@as<InstDefSeg,S>(@as<BitfieldSeg>(Data.First)));
@@ -101,13 +120,16 @@ namespace Z0
                         dst = f(@as<InstDefSeg,S>(@as<FieldConstraint>(Data.First)));
                     break;
                     case DefSegKind.HexLiteral:
-                        dst = f(@as<InstDefSeg,S>(@as<Hex8>(Data.First)));
+                        dst = f(@as<InstDefSeg,S>(AsHexLit()));
                     break;
                     case DefSegKind.BitLiteral:
                         dst = f(@as<InstDefSeg,S>(@as<uint5>(Data.First)));
                     break;
                     case DefSegKind.Nonterm:
                         dst = f(@as<InstDefSeg,S>(@as<NontermCall>(Data.First)));
+                    break;
+                    case DefSegKind.FieldLiteral:
+                        dst = f(@as<InstDefSeg,S>(AsFieldLit()));
                     break;
                 }
                 return dst;
@@ -122,10 +144,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator InstDefSeg(Hex8 src)
                 => new InstDefSeg(src);
-
-            // [MethodImpl(Inline)]
-            // public static implicit operator InstDefSeg(uint8b src)
-            //     => new InstDefSeg(src);
 
             [MethodImpl(Inline)]
             public static implicit operator InstDefSeg(uint5 src)
@@ -149,6 +167,10 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator InstDefSeg(BitNumber src)
+                => new InstDefSeg(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator InstDefSeg(FieldValue src)
                 => new InstDefSeg(src);
 
             public static InstDefSeg Empty => default;

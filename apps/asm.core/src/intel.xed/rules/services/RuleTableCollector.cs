@@ -54,15 +54,6 @@ namespace Z0
                 }
             }
 
-            protected override void Traversing(in RulePattern src)
-            {
-
-            }
-
-            protected override void Traversing(uint pattern, in RuleToken token)
-            {
-            }
-
             static RuleTable table(in RuleTermTable src)
             {
                 var count = src.Expressions.Count;
