@@ -17,14 +17,12 @@ namespace Z0
 
             public RuleOpKind Kind;
 
-            public Index<string> AttribExpr;
-
             public Index<RuleOpAttrib> Attribs;
 
             public @string Expression;
 
             public string Format()
-                => text.format("{0}:{1}", Name, AttribExpr.Delimit(Chars.Colon).Format());
+                => text.format("{0}:{1}", Name, Attribs.Delimit(Chars.Colon).Format());
 
             public override string ToString()
                 => Format();

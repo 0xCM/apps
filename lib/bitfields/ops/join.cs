@@ -6,7 +6,6 @@ namespace Z0
 {
     partial struct Bitfields
     {
-
         [MethodImpl(Inline), Op]
         public static ushort join(byte a0, byte a2)
             => (ushort)((uint)a0 | ((uint)a2 << 8));

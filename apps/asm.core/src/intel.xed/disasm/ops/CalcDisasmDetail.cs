@@ -160,7 +160,7 @@ namespace Z0
 
             }
             else if(rules.VEXVALID == (byte)VexClass.EVV)
-                dst.Evex = EvexPrefix.define(slice(prefix,legacyskip));
+                dst.Evex = AsmPrefix.evex(slice(prefix,legacyskip));
 
             if(rules.IMM0)
                 dst.Imm = asm.imm(code, rules.POS_IMM, rules.IMM0SIGNED, Sizes.native(rules.IMM_WIDTH));

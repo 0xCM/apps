@@ -90,6 +90,14 @@ namespace Z0
             return dst;
         }
 
+        [MethodImpl(Inline)]
+        public static implicit operator B(ReadOnlySpan<byte> src)
+            => api.block<B>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator B(Span<byte> src)
+            => api.block<B>(src);
+
         public static B Empty => default;
     }
 }

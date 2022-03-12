@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using RF = XedRules.RuleFormKind;
+
     partial class XedRules
     {
         [LiteralProvider]
@@ -37,6 +39,37 @@ namespace Z0
             public const char Assign = '=';
 
             public const char Eq = '=';
+
+            public static bool IsCall(string src)
+                => src.Contains(CallSyntax);
+
+            public static bool IsSeqDecl(string src)
+                => src.StartsWith(SeqDeclSyntax);
+
+            public static bool IsEncTableDecl(string src)
+                => src.EndsWith(EncodeTableDecl);
+
+            public static bool IsTableDecl(string src)
+                => src.EndsWith(TableDeclSyntax);
+
+            public static bool IsEncStep(string src)
+                => src.Contains(EncStep);
+
+            public static bool IsDecStep(string src)
+                => src.Contains(DecStep);
+
+            public static bool IsNeq(string src)
+                => src.Contains(Neq);
+
+            public static bool IsAssign(string src)
+                => src.Contains(Assign);
+
+            public static bool IsFieldSeg(string src)
+            {
+                var i = text.index(src,Chars.LBracket);
+                var j = text.index(src,Chars.RBracket);
+                return i > 0 && j>1;
+            }
         }
     }
 }

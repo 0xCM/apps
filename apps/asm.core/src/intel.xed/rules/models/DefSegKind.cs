@@ -7,35 +7,19 @@ namespace Z0
 {
     partial class XedRules
     {
-        public enum RuleOpClass : byte
+        public enum DefSegKind : byte
         {
-            None = 0,
+            None,
 
-            Action = 1,
+            Hex8,
 
-            OpWidth = 2,
+            Bitfield,
 
-            Visibility,
+            Constraint,
 
-            Common,
+            Assign,
 
-            PtrWidth,
-
-            Nonterminal,
-
-            RegLiteral,
-
-            Scale,
-
-            ElementType,
-
-            Macro,
-
-            EncGroup,
-
-            Modifier,
-
-            BitfieldSeg,
+            Nonterm
         }
     }
 }

@@ -305,7 +305,6 @@ namespace Z0
                 }
             }
 
-
             protected virtual void TraversingReg(in InstDef def, in InstPatternSpec pattern, in RuleOpSpec op)
             {
                 Print(op);

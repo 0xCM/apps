@@ -19,25 +19,32 @@ namespace Z0
 
             public readonly TextBlock Expression;
 
+            public readonly Index<InstDefSeg> Body;
+
             public readonly Index<RuleOpSpec> Operands;
 
             [MethodImpl(Inline)]
-            public InstPatternSpec(uint seq, uint instid, IClass @class, string expr, RuleOpSpec[] ops)
+            public InstPatternSpec(uint seq, uint instid, IClass @class, string expr, InstDefSeg[] body,  RuleOpSpec[] ops)
             {
                 PatternId = seq;
                 InstId = instid;
                 Class = @class;
                 Expression = expr;
                 Operands = ops;
+                Body = sys.empty<InstDefSeg>();
             }
 
             [MethodImpl(Inline)]
-            public InstPatternSpec WithInst(uint instid)
-                => new InstPatternSpec(PatternId, instid, Class, Expression, Operands);
+            public InstPatternSpec WithInstId(uint instid)
+                => new InstPatternSpec(PatternId, instid, Class, Expression, Body, Operands);
 
             [MethodImpl(Inline)]
-            public InstPatternSpec WithPattern(string pattern)
-                => new InstPatternSpec(PatternId, InstId, Class, pattern, Operands);
+            public InstPatternSpec WithExpr(string expr)
+                => new InstPatternSpec(PatternId, InstId, Class, expr, Body, Operands);
+
+            [MethodImpl(Inline)]
+            public InstPatternSpec WithBody(params InstDefSeg[] body)
+                => new InstPatternSpec(PatternId, InstId, Class, Expression, body, Operands);
 
             public int CompareTo(InstPatternSpec src)
             {

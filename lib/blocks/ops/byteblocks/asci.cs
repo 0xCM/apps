@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial class ByteBlocks
@@ -340,6 +336,5 @@ namespace Z0
             asci(src, n, ref bytes);
             return ref dst;
         }
-
     }
 }

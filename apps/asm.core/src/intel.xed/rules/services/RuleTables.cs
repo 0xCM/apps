@@ -259,8 +259,8 @@ namespace Z0
                     case UIMM1:
                     case UIMM0:
                     {
-                        result = RuleParser.immfield(value, out var x);
-                        dst = criterion(premise, field, op, x);
+                        result = XedParsers.parse(value, out ImmFieldSpec imm);
+                        dst = criterion(premise, field, op, imm);
                     }
                     break;
 
@@ -324,7 +324,7 @@ namespace Z0
 
                 if(!result && op == RO.Seg)
                 {
-                    if(RuleParser.seg(value, out var seg))
+                    if(XedParsers.parse(value, out BitfieldSeg seg))
                     {
                         dst = criterion(premise,seg);
                         result = true;

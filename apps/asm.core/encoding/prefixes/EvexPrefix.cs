@@ -8,24 +8,10 @@ namespace Z0.Asm
 
     public struct EvexPrefix
     {
-        [MethodImpl(Inline)]
-        public static EvexPrefix define(byte b0, byte b1, byte b2, byte b3)
-            => new EvexPrefix(Bytes.join(b0,b1,b2,b3));
+        readonly uint Data;
 
         [MethodImpl(Inline)]
-        public static EvexPrefix define(ReadOnlySpan<byte> src)
-        {
-            var count = min(src.Length,4);
-            var data = 0u;
-            for(var i=0; i<count; i++)
-                data |= ((uint)skip(src,i) << (i*8));
-            return new EvexPrefix(data);
-        }
-
-        uint Data;
-
-        [MethodImpl(Inline)]
-        EvexPrefix(uint data)
+        internal EvexPrefix(uint data)
         {
             Data = data;
         }
@@ -36,5 +22,4 @@ namespace Z0.Asm
         public override string ToString()
             => Format();
     }
-
 }

@@ -139,6 +139,10 @@ namespace Z0
         public static explicit operator bit(U src)
             => new bit(src.data & 1);
 
+        [MethodImpl(Inline)]
+        public static explicit operator U(bit src)
+            => (byte)src;
+
         /// <summary>
         /// Converts a 4-bit integer to an unsigned 8-bit integer
         /// </summary>

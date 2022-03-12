@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using U = uint2;
@@ -15,6 +11,19 @@ namespace Z0
 
     partial struct BitNumbers
     {
+        [MethodImpl(Inline), Op]
+        public static bit test(U src, byte pos)
+            => bit.test(src,pos);
+
+        [MethodImpl(Inline), Op]
+        public static U set(U src, byte pos, bit state)
+        {
+            if(pos < U.Width)
+                return wrap(w2, bit.set(src.data, pos, state));
+            else
+                return src;
+        }
+
         [MethodImpl(Inline), Op]
         public static string format(U src)
             => BitRender.gformat(src.data, BitFormat.limited(U.Width, U.Width));
@@ -283,19 +292,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static U sll(U a, byte b)
             => create(w2, a.data << b);
-
-        [MethodImpl(Inline), Op]
-        public static bit test(U src, byte pos)
-            => bit.test(src,pos);
-
-        [MethodImpl(Inline), Op]
-        public static U set(U src, byte pos, bit state)
-        {
-            if(pos < U.Width)
-                return wrap(w2, bit.set(src.data, pos, state));
-            else
-                return src;
-        }
 
         [MethodImpl(Inline), Op]
         public static bool eq(U x, U y)

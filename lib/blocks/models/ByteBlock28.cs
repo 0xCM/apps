@@ -58,11 +58,19 @@ namespace Z0
             where T : unmanaged
                 => ref seek(Storage<T>(), index);
 
-         public string Format()
+        public string Format()
             => api.format(this);
 
         public override string ToString()
             => Format();
+
+        [MethodImpl(Inline)]
+        public static implicit operator B(ReadOnlySpan<byte> src)
+            => api.block<B>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator B(Span<byte> src)
+            => api.block<B>(src);
 
        public static B Empty => default;
     }

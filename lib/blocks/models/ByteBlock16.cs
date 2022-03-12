@@ -20,6 +20,8 @@ namespace Z0
 
         public static N16 N => default;
 
+        public static W128 W => default;
+
         public ulong A;
 
         public ulong B;
@@ -78,7 +80,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public Vector128<T> Vector<T>()
             where T : unmanaged
-                => gcpu.vload<T>(w128, @as<T>(First));
+                => api.vector<T>(W, this);
 
         public string Format()
             => api.format(this);
@@ -91,15 +93,19 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator Vector128<byte>(B src)
-            => gcpu.vload(default(W128), src.Bytes);
+            => api.vector(W, src);
 
         [MethodImpl(Inline)]
         public static implicit operator B(Vector128<byte> src)
-        {
-            var dst = Empty;
-            gcpu.vstore(src, dst.Bytes);
-            return dst;
-        }
+            => api.block(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator B(ReadOnlySpan<byte> src)
+            => api.block(W,src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator B(Span<byte> src)
+            => api.block(W,src);
 
         public static B Empty => default;
     }

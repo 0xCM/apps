@@ -180,6 +180,10 @@ namespace Z0
         public static explicit operator bit(U src)
             => new bit(src.data & 1);
 
+        [MethodImpl(Inline)]
+        public static explicit operator U(bit src)
+            => (byte)src;
+
         /// <summary>
         /// Converts a 5-bit integer to an unsigned 16-bit integer
         /// </summary>

@@ -12,6 +12,7 @@ namespace Z0
 
     using FK = XedRules.FieldKind;
     using RO = XedRules.RuleOperator;
+    using RF = XedRules.RuleFormKind;
 
     partial class XedRules
     {
@@ -110,6 +111,25 @@ namespace Z0
                 return buffer;
             }
 
+            public static RF RuleForm(TextLine src)
+            {
+                var i = text.index(src.Content, Chars.Hash);
+                var content = (i> 0 ? text.left(src.Content,i) : src.Content).Trim();
+                if(IsEncTableDecl(content))
+                    return RF.EncodingRuleDecl;
+                if(IsTableDecl(content))
+                    return RF.RuleDeclaration;
+                if(IsEncStep(content))
+                    return RF.EncodeStep;
+                if(IsDecStep(content))
+                    return RF.DecodeStep;
+                if(IsCall(content))
+                    return RF.Invocation;
+                if(IsSeqDecl(content))
+                    return RF.SeqDeclaration;
+                return 0;
+            }
+
             RuleTermTable Table;
 
             RuleTable Table2;
@@ -139,7 +159,7 @@ namespace Z0
             {
                 Line = src;
                 var result = Outcome.Success;
-                Kind = RuleParser.classify(Line);
+                Kind = RuleForm(Line);
                 if(Kind == SeqDeclaration)
                     ParseSeqTerms();
 
@@ -157,7 +177,7 @@ namespace Z0
             {
                 Line = src;
                 var result = Outcome.Success;
-                Kind = RuleParser.classify(Line);
+                Kind = RuleForm(Line);
                 if(Kind == SeqDeclaration)
                     ParseSeqTerms();
 
@@ -228,7 +248,7 @@ namespace Z0
                     if(Line.IsEmpty || Line.StartsWith(Chars.Hash))
                         continue;
 
-                    Kind = RuleParser.classify(Line);
+                    Kind = RuleForm(Line);
                     if(Kind == 0 || Kind == Invocation)
                         continue;
                     else
@@ -245,7 +265,7 @@ namespace Z0
                     if(Line.IsEmpty || Line.StartsWith(Chars.Hash))
                         continue;
 
-                    Kind = RuleParser.classify(Line);
+                    Kind = RuleForm(Line);
                     if(Kind == 0)
                         continue;
 
@@ -293,7 +313,7 @@ namespace Z0
                     if(Line.IsEmpty || Line.StartsWith(Chars.Hash))
                         continue;
 
-                    Kind = RuleParser.classify(Line);
+                    Kind = RuleForm(Line);
                     if(Kind == 0)
                         continue;
 

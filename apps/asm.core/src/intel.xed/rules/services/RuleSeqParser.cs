@@ -23,7 +23,7 @@ namespace Z0
                     if(line.IsEmpty)
                         continue;
 
-                    var @class = RuleParser.classify(line);
+                    var @class = RuleTableParser.RuleForm(line);
                     if(@class == RuleFormKind.SeqDeclaration)
                     {
                         var content = text.despace(line.Content);
@@ -37,7 +37,7 @@ namespace Z0
                             buffer.Add(new RuleSeq(name, terms.ToArray()));
                             terms.Clear();
                             content = text.despace(skip(src,j).Content);
-                            if(RuleParser.IsSeqDecl(content))
+                            if(IsSeqDecl(content))
                             {
                                 i = text.index(content, Chars.Space);
                                 name = text.right(content, i);
@@ -57,7 +57,7 @@ namespace Z0
                 {
                     dst.Add(new RuleSeq(name, terms.ToArray()));
                     content = text.despace(skip(src,j).Content);
-                    if(RuleParser.IsSeqDecl(content))
+                    if(IsSeqDecl(content))
                     {
                         var i = text.index(content, Chars.Space);
                         name = text.right(content, i);
@@ -86,10 +86,10 @@ namespace Z0
                     if(q > 0)
                         content = text.left(content, q);
 
-                    if(RuleParser.IsCall(content))
+                    if(IsCall(content))
                     {
                         var k = text.index(content, CallSyntax);
-                        terms.Add(new RuleSeqTerm(text.left(content,k), RuleParser.IsCall(content)));
+                        terms.Add(new RuleSeqTerm(text.left(content,k), IsCall(content)));
                     }
                     else
                         terms.Add(new RuleSeqTerm(content, false));

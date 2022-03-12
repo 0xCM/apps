@@ -4,16 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static uint24;
 
     using U = uint24;
 
     partial struct BitNumbers
     {
+        [MethodImpl(Inline), Op]
+        public static bit test(U x, byte pos)
+            => bit.test(x.data, pos);
+
+        [MethodImpl(Inline), Op]
+        public static U set(U x, byte pos, bit state)
+            => new U(bit.set(x.data, pos, state));
+
         [MethodImpl(Inline), Op]
         public static U maxval(W24 w)
             => U.Max;
@@ -105,14 +109,6 @@ namespace Z0
             dst.Hi = (byte)(src >> 16);
             return ref dst;
         }
-
-        [MethodImpl(Inline), Op]
-        public static bit test(U x, byte pos)
-            => bit.test(x.data, pos);
-
-        [MethodImpl(Inline), Op]
-        public static U set(U x, byte pos, bit state)
-            => new U(bit.set(x.data, pos, state));
 
         [MethodImpl(Inline), Op]
         public static U add(U x, U y)

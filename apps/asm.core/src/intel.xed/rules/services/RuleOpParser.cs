@@ -137,7 +137,6 @@ namespace Z0
                         dst.Kind = K.Disp;
                         dst.Expression = expr;
                         dst.Name = name;
-                        dst.AttribExpr = props;
                         dst.Attribs = sys.empty<RuleOpAttrib>();
                     }
                     break;
@@ -182,7 +181,6 @@ namespace Z0
                             dst.Index = index;
                             dst.Name = name;
                             dst.Kind = K.Macro;
-                            dst.AttribExpr = props;
                             dst.Attribs = new RuleOpAttrib[]{macro.Name};
                             dst.Expression = expr;
                         }
@@ -198,7 +196,6 @@ namespace Z0
                 dst.Index = index;
                 dst.Kind = kind;
                 dst.Name = name;
-                dst.AttribExpr = props;
                 dst.Expression = expr;
                 Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[4];
                 var i=0;
@@ -223,7 +220,6 @@ namespace Z0
                 dst.Index = index;
                 dst.Kind = kind;
                 dst.Name = name;
-                dst.AttribExpr = props;
                 dst.Expression = expr;
                 Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[4];
                 var i=0;
@@ -247,7 +243,6 @@ namespace Z0
                 dst.Index = index;
                 dst.Kind = kind;
                 dst.Name = name;
-                dst.AttribExpr = props;
                 dst.Expression = expr;
                 Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[4];
                 var i=0;
@@ -277,7 +272,6 @@ namespace Z0
                 dst.Index = index;
                 dst.Kind = kind;
                 dst.Name = name;
-                dst.AttribExpr = props;
                 dst.Expression = expr;
 
                 Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[4];
@@ -310,7 +304,6 @@ namespace Z0
                 dst.Index = index;
                 dst.Kind = kind;
                 dst.Name = name;
-                dst.AttribExpr = props;
                 dst.Expression = expr;
                 Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[6];
                 var i=0;
@@ -352,7 +345,6 @@ namespace Z0
                 var count = props.Count;
                 dst.Kind = kind;
                 dst.Name = name;
-                dst.AttribExpr = props;
                 dst.Expression = expr;
                 dst.Index = index;
 

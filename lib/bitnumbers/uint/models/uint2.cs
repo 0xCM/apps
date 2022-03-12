@@ -202,6 +202,10 @@ namespace Z0
             => new bit(src.data & 1);
 
         [MethodImpl(Inline)]
+        public static explicit operator U(bit src)
+            => (byte)src;
+
+        [MethodImpl(Inline)]
         public static implicit operator U(K src)
             => new U(src);
 

@@ -10,7 +10,7 @@ namespace Z0.Asm
     {
         string Format(bit alt);
 
-        ReadOnlySpan<char> EncodedBits {get;}
+        ReadOnlySpan<char> Bitstring {get;}
 
         BitWidth RelWidth {get;}
 

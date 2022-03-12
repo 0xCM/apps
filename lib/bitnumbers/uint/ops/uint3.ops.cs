@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using U = uint3;
@@ -15,6 +11,19 @@ namespace Z0
 
     partial struct BitNumbers
     {
+        [MethodImpl(Inline), Op]
+        public static bit test(U src, byte pos)
+            => bit.test(src, pos);
+
+        [MethodImpl(Inline), Op]
+        public static U set(U src, byte pos, bit state)
+        {
+            if(pos < U.Width)
+                return wrap3(bit.set(src.data, pos, state));
+            else
+                return src;
+        }
+
         [MethodImpl(Inline), Op]
         public static U maxval(W w)
             => U.Max;
@@ -212,19 +221,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static U sll(U lhs, byte offset)
             => uint3(lhs.data << offset);
-
-        [MethodImpl(Inline), Op]
-        public static bit test(U src, byte pos)
-            => bit.test(src, pos);
-
-        [MethodImpl(Inline), Op]
-        public static U set(U src, byte pos, bit state)
-        {
-            if(pos < U.Width)
-                return wrap3(bit.set(src.data, pos, state));
-            else
-                return src;
-        }
 
         [MethodImpl(Inline), Op]
         public static bool eq(U x, U y)

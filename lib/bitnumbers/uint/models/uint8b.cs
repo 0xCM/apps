@@ -6,7 +6,7 @@ namespace Z0
 {
     using static BitNumbers;
 
-    using S = uint8b;
+    using U = uint8b;
     using W = W8;
     using K = BitSeq8;
     using T = System.Byte;
@@ -16,7 +16,7 @@ namespace Z0
     /// Represents the value of a type-level octet and thus is an integer in the range [0,255]
     /// </summary>
     [DataType("u<w:8>", Width, 8)]
-    public readonly struct uint8b : IBitNumber<S,W,K,T>
+    public readonly struct uint8b : IBitNumber<U,W,K,T>
     {
         public const byte BitCount = 8;
 
@@ -112,7 +112,7 @@ namespace Z0
             => movhi(src, this);
 
         [MethodImpl(Inline)]
-        public bool Equals(S y)
+        public bool Equals(U y)
             => data == y.data;
 
 
@@ -130,151 +130,155 @@ namespace Z0
             => Format();
 
        [MethodImpl(Inline)]
-        public static implicit operator S(K src)
-            => new S(src);
+        public static implicit operator U(K src)
+            => new U(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator K(S src)
+        public static implicit operator K(U src)
             => (K)src.data;
 
         [MethodImpl(Inline)]
-        public static S @bool(bool x)
+        public static U @bool(bool x)
             => x ? One : Zero;
 
         [MethodImpl(Inline)]
-        public static bool operator true(S x)
+        public static bool operator true(U x)
             => x.data != 0;
 
         [MethodImpl(Inline)]
-        public static bool operator false(S x)
+        public static bool operator false(U x)
             => x.data == 0;
 
         [MethodImpl(Inline)]
-        public static explicit operator bit(S src)
+        public static explicit operator bit(U src)
             => new bit(src.data & 1);
 
         [MethodImpl(Inline)]
-        public static implicit operator S(byte src)
-            => new S(src);
+        public static explicit operator U(bit src)
+            => (byte)src;
 
         [MethodImpl(Inline)]
-        public static implicit operator byte(S src)
+        public static implicit operator U(byte src)
+            => new U(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator byte(U src)
             => src.data;
 
         [MethodImpl(Inline)]
-        public static explicit operator sbyte(S src)
+        public static explicit operator sbyte(U src)
             => (sbyte)src.data;
 
         [MethodImpl(Inline)]
-        public static explicit operator short(S src)
+        public static explicit operator short(U src)
             => (short)src.data;
 
         [MethodImpl(Inline)]
-        public static implicit operator ushort(S src)
+        public static implicit operator ushort(U src)
             => src.data;
 
         [MethodImpl(Inline)]
-        public static explicit operator int(S src)
+        public static explicit operator int(U src)
             => (int)src.data;
 
         [MethodImpl(Inline)]
-        public static implicit operator uint(S src)
+        public static implicit operator uint(U src)
             => src.data;
 
         [MethodImpl(Inline)]
-        public static explicit operator long(S src)
+        public static explicit operator long(U src)
             => (long)src.data;
 
         [MethodImpl(Inline)]
-        public static implicit operator ulong(S src)
+        public static implicit operator ulong(U src)
             => src.data;
 
         [MethodImpl(Inline)]
-        public static implicit operator float(S src)
+        public static implicit operator float(U src)
             => src.data;
 
         [MethodImpl(Inline)]
-        public static implicit operator double(S src)
+        public static implicit operator double(U src)
             => src.data;
 
         [MethodImpl(Inline)]
-        public static S operator == (S x, S y)
+        public static U operator == (U x, U y)
             => @bool(x.data == y.data);
 
         [MethodImpl(Inline)]
-        public static S operator != (S x, S y)
+        public static U operator != (U x, U y)
             => @bool(x.data != y.data);
 
         [MethodImpl(Inline)]
-        public static S operator + (S x, S y)
+        public static U operator + (U x, U y)
             => wrap(x.data + y.data);
 
         [MethodImpl(Inline)]
-        public static S operator - (S x, S y)
+        public static U operator - (U x, U y)
             => wrap(x.data - y.data);
 
         [MethodImpl(Inline)]
-        public static S operator * (S x, S y)
+        public static U operator * (U x, U y)
             => wrap(x.data * y.data);
 
         [MethodImpl(Inline)]
-        public static S operator / (S x, S y)
+        public static U operator / (U x, U y)
             => wrap(x.data / y.data);
 
         [MethodImpl(Inline)]
-        public static S operator % (S x, S y)
+        public static U operator % (U x, U y)
             => wrap(x.data % y.data);
 
         [MethodImpl(Inline)]
-        public static S operator < (S x, S y)
+        public static U operator < (U x, U y)
             => @bool(x.data < y.data);
 
         [MethodImpl(Inline)]
-        public static S operator <= (S x, S y)
+        public static U operator <= (U x, U y)
             => @bool(x.data <= y.data);
 
         [MethodImpl(Inline)]
-        public static S operator > (S x, S y)
+        public static U operator > (U x, U y)
             => @bool(x.data > y.data);
 
         [MethodImpl(Inline)]
-        public static S operator >= (S x, S y)
+        public static U operator >= (U x, U y)
             => @bool(x.data >= y.data);
 
         [MethodImpl(Inline)]
-        public static S operator & (S x, S y)
-            => (S)(x.data & y.data);
+        public static U operator & (U x, U y)
+            => (U)(x.data & y.data);
 
         [MethodImpl(Inline)]
-        public static S operator | (S x, S y)
+        public static U operator | (U x, U y)
             => wrap(x.data | y.data);
 
         [MethodImpl(Inline)]
-        public static S operator ^ (S x, S y)
+        public static U operator ^ (U x, U y)
             => wrap(x.data ^ y.data);
 
         [MethodImpl(Inline)]
-        public static S operator >> (S x, int y)
+        public static U operator >> (U x, int y)
             => wrap(x.data >> y);
 
         [MethodImpl(Inline)]
-        public static S operator << (S x, int y)
+        public static U operator << (U x, int y)
             => wrap(x.data << y);
 
         [MethodImpl(Inline)]
-        public static S operator ~ (S src)
+        public static U operator ~ (U src)
             => wrap(~ src.data);
 
         [MethodImpl(Inline)]
-        public static S operator - (S src)
+        public static U operator - (U src)
             => wrap(~src.data + 1);
 
         [MethodImpl(Inline)]
-        public static S operator -- (S src)
+        public static U operator -- (U src)
             => dec(src);
 
         [MethodImpl(Inline)]
-        public static S operator ++ (S src)
+        public static U operator ++ (U src)
             => inc(src);
 
        public const T MinLiteral = 0;
@@ -282,7 +286,7 @@ namespace Z0
         public const T MaxLiteral = byte.MaxValue;
 
         /// <summary>
-        /// Specifies the bit-width represented by <see cref='S'/>
+        /// Specifies the bit-width represented by <see cref='U'/>
         /// </summary>
         public const byte Width = 8;
 
@@ -292,26 +296,26 @@ namespace Z0
 
         public static N N => default;
 
-        public static S Zero => 0;
+        public static U Zero => 0;
 
-        public static S One => 1;
+        public static U One => 1;
 
         /// <summary>
-        /// Specifies the minimum <see cref='S'/> value
+        /// Specifies the minimum <see cref='U'/> value
         /// </summary>
-        public static S Min
+        public static U Min
         {
             [MethodImpl(Inline)]
-            get => new S(MinLiteral);
+            get => new U(MinLiteral);
         }
 
         /// <summary>
-        /// Specifies the maximum <see cref='S'/> value
+        /// Specifies the maximum <see cref='U'/> value
         /// </summary>
-        public static S Max
+        public static U Max
         {
             [MethodImpl(Inline)]
-            get => new S(MaxLiteral);
+            get => new U(MaxLiteral);
         }
 
         public Span<bit> Bits
@@ -321,7 +325,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        static S wrap(int x)
-            => new S((byte)x);
+        static U wrap(int x)
+            => new U((byte)x);
     }
 }

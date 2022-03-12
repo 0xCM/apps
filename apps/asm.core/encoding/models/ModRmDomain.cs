@@ -16,7 +16,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static ModRmDomain define(ClosedInterval<uint2> mod,  ClosedInterval<uint3> reg, ClosedInterval<uint3> rm)
-            => new ModRmDomain(ModRmKind.Other, mod, reg, rm);
+            => new ModRmDomain(ModRmKind.None, mod, reg, rm);
 
         [MethodImpl(Inline)]
         public static ModRmDomain define(uint2 mod,  ClosedInterval<uint3> reg, ClosedInterval<uint3> rm)
@@ -49,8 +49,8 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         static ClosedInterval<uint2> mod(ModRmClass @class)
             => @class.Kind switch{
-                ModRmKind.Mod11 => (uint2.Max, uint2.Max),
-                ModRmKind.NotMod11 => (uint2.Min, uint2.Max - 1),
+                ModRmKind.RR => (uint2.Max, uint2.Max),
+                ModRmKind.RD => (uint2.Min, uint2.Max - 1),
                 _ => (uint2.Min, uint2.Max),
             };
 
@@ -58,11 +58,11 @@ namespace Z0.Asm
         static ModRmClass ModClass(ClosedInterval<uint2> src)
         {
             if(src.IsDegenerate && src.Min == uint2.Max)
-                return ModRmKind.Mod11;
+                return ModRmKind.RR;
             else if(src.Min == uint2.Min && src.Max == uint2.Max - 1)
-                return ModRmKind.NotMod11;
+                return ModRmKind.RD;
             else
-                return ModRmKind.Other;
+                return ModRmKind.None;
         }
 
         public readonly ModRmClass Class;

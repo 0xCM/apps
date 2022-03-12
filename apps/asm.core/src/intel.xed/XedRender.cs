@@ -858,6 +858,31 @@ namespace Z0
         public static string format(NontermCall src)
             => string.Format("{0}()", format(src.Kind));
 
+        public static string format(in InstDefSeg src)
+        {
+            var dst = EmptyString;
+            var kind = src.Kind;
+            switch(kind)
+            {
+                case DefSegKind.Hex8:
+                    dst = src.Map<Hex8,string>(kind, format);
+                break;
+                case DefSegKind.Bitfield:
+                    dst = src.Map<BitfieldSeg,string>(kind, format);
+                break;
+                case DefSegKind.Constraint:
+                    dst = src.Map<FieldCmp,string>(kind, format);
+                break;
+                case DefSegKind.Assign:
+                    dst = src.Map<FieldAssign,string>(kind, format);
+                break;
+                case DefSegKind.Nonterm:
+                    dst = src.Map<NontermCall,string>(kind, format);
+                break;
+            }
+            return dst;
+        }
+
         static string literal(FieldLiteralKind kind, byte src)
         {
             var val = EmptyString;

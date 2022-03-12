@@ -20,6 +20,8 @@ namespace Z0
 
         public static N32 N => default;
 
+        public static W256 W => default;
+
         ByteBlock16 A;
 
         ByteBlock16 B;
@@ -90,7 +92,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public Vector256<T> Vector<T>()
             where T : unmanaged
-                => gcpu.vload<T>(w256, @as<T>(First));
+                => api.vector<T>(W, this);
 
         public string Format()
             => api.format(this);
@@ -100,23 +102,19 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator Vector256<byte>(B src)
-            => cpu.vload(default(W256), src.Bytes);
+            => api.vector(W,src);
 
         [MethodImpl(Inline)]
         public static implicit operator B(Vector256<byte> src)
-        {
-            var dst = Empty;
-            cpu.vstore(src, dst.Bytes);
-            return dst;
-        }
+            => api.block(src);
 
         [MethodImpl(Inline)]
         public static implicit operator B(ReadOnlySpan<byte> src)
-        {
-            var dst = Empty;
-            api.copy(src,ref dst);
-            return dst;
-        }
+            => api.block(W,src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator B(Span<byte> src)
+            => api.block(W,src);
 
         public static B Empty => default;
     }

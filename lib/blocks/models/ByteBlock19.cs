@@ -75,6 +75,14 @@ namespace Z0
         public override string ToString()
             => Format();
 
-       public static ByteBlock19 Empty => default;
+        [MethodImpl(Inline)]
+        public static implicit operator B(ReadOnlySpan<byte> src)
+            => api.block<B>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator B(Span<byte> src)
+            => api.block<B>(src);
+
+        public static ByteBlock19 Empty => default;
     }
 }

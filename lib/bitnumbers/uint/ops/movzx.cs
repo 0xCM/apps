@@ -221,6 +221,15 @@ namespace Z0
             => new uint8b(src.data);
 
         /// <summary>
+        /// Zero-extends a <see cref='T.uint5'/> to a <see cref='T.uint8b'/>
+        /// </summary>
+        /// <param name="src">The source value</param>
+        /// <param name="w">The target width</param>
+        [MethodImpl(Inline), Op]
+        public static uint8b movzx(uint5 src, W8 w)
+            => new uint8b(src.data);
+
+        /// <summary>
         /// Zero-extends a <see cref='T.uint5'/> to a <see cref='T.uint6'/>
         /// </summary>
         /// <param name="src">The source value</param>
@@ -237,15 +246,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static uint7 movzx(uint5 src, W7 w )
             => new uint7(src.data, true);
-
-        /// <summary>
-        /// Zero-extends a <see cref='T.uint5'/> to a <see cref='T.uint8b'/>
-        /// </summary>
-        /// <param name="src">The source value</param>
-        /// <param name="w">The target width</param>
-        [MethodImpl(Inline), Op]
-        public static uint8b movzx(uint5 src, W8 w)
-            => new uint8b(src.data);
 
         /// <summary>
         /// Zero-extends a <see cref='T.uint6'/> to a <see cref='T.uint7'/>

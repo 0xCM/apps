@@ -229,6 +229,8 @@ namespace Z0.Asm
         [SymSource(HostName, Base16)]
         public enum LockPrefixCode : byte
         {
+            None = 0,
+
             [Symbol("F0", "Lock Prefix")]
             LOCK = 0xF0,
         }

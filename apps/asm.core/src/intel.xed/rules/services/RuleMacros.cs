@@ -680,7 +680,7 @@ namespace Z0
                 for(var i=0; i<src.Count; i++)
                 {
                     ref readonly var input = ref src[i];
-                    src[i] = input.WithPattern(expand(lu, input.Expression));
+                    src[i] = input.WithExpr(expand(lu, input.Expression));
                 }
             }
 

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using U = uint7;
@@ -15,6 +11,19 @@ namespace Z0
 
     partial struct BitNumbers
     {
+        [MethodImpl(Inline), Op]
+        public static bit test(U src, byte pos)
+            => bit.test(src,pos);
+
+        [MethodImpl(Inline), Op]
+        public static U set(U src, byte pos, bit state)
+        {
+            if(pos < U.Width)
+                return wrap7(bit.set(src.data, pos, state));
+            else
+                return src;
+        }
+
         [MethodImpl(Inline), Op]
         public static void render(U src, uint offset, Span<char> dst)
             => render(src, 7, offset, dst);
@@ -219,18 +228,6 @@ namespace Z0
         public static U sll(U a, byte b)
             => uint7(a.data << b);
 
-        [MethodImpl(Inline), Op]
-        public static bit test(U src, byte pos)
-            => bit.test(src,pos);
-
-        [MethodImpl(Inline), Op]
-        public static U set(U src, byte pos, bit state)
-        {
-            if(pos < U.Width)
-                return wrap7(bit.set(src.data, pos, state));
-            else
-                return src;
-        }
 
         [MethodImpl(Inline)]
         public static bool eq(U x, U y)

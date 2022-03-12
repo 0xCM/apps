@@ -14,6 +14,15 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline), Op]
+        public static uint copy(ReadOnlySpan<byte> src, ref byte dst)
+        {
+            var size = (uint)src.Length;
+            for(var i=0; i<size; i++)
+                seek(dst,i) = skip(src,i);
+            return size;
+        }
+
+        [MethodImpl(Inline), Op]
         public static ushort join(W16 w, byte a, byte b)
             => (ushort)((ushort)a | (ushort)b << 8);
 

@@ -17,9 +17,9 @@ namespace Z0.Asm
         public string Format()
             => Kind switch
             {
-                ModRmKind.Other => "mod[0b11:0b00] | reg[0b111:0b000] | rm[0b111:0b000]",
-                ModRmKind.Mod11 => "mod[0b11] | reg[0b111:0b000] | rm[0b111:0b000]",
-                ModRmKind.NotMod11 => "mod[0b10:0b00] | reg[0b111:0b000] | rm[0b111:0b000]",
+                ModRmKind.None => "mod[0b11:0b00] | reg[0b111:0b000] | rm[0b111:0b000]",
+                ModRmKind.RR => "mod[0b11] | reg[0b111:0b000] | rm[0b111:0b000]",
+                ModRmKind.RD => "mod[0b10:0b00] | reg[0b111:0b000] | rm[0b111:0b000]",
                 _ => EmptyString,
             };
 

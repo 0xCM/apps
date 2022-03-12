@@ -17,7 +17,7 @@ namespace Z0.Asm
     public struct RexPrefix : IAsmPrefix<RexPrefix>, IAsmByte<RexPrefix>
     {
         [MethodImpl(Inline), Op]
-        public static uint rex(RexPrefix src, ref uint i, Span<char> dst)
+        public static uint render(RexPrefix src, ref uint i, Span<char> dst)
         {
             var i0 = i;
             BitRender.render8x4(src.Encoded, ref  i, dst);

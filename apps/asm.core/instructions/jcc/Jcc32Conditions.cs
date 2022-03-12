@@ -27,7 +27,7 @@ namespace Z0.Asm
             get => Primary.Encoding;
         }
 
-        public ReadOnlySpan<char> EncodedBits
+        public ReadOnlySpan<char> Bitstring
         {
             [MethodImpl(Inline)]
             get => BitRender.render8x4(Encoding);

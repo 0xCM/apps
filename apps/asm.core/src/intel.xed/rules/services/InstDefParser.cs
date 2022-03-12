@@ -9,6 +9,7 @@ namespace Z0
     using static Root;
     using static XedModels;
     using static XedParsers;
+    using static XedRules.SyntaxLiterals;
 
     using P = XedRules.InstRulePart;
 
@@ -47,6 +48,62 @@ namespace Z0
                 }
 
                 return dst.Emit();
+            }
+
+            public Index<InstDefSeg> ParseBody(string src)
+            {
+                var result = Outcome.Success;
+                var parts = text.split(src, Chars.Space);
+                var count = parts.Length;
+                var dst = alloc<InstDefSeg>(count);
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var part = ref skip(parts,i);
+                    result = Parse(part, out seek(dst,i));
+                    if(result.Fail)
+                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(InstDefSeg), part));
+                }
+
+                return dst;
+            }
+
+            Outcome Parse(string src, out InstDefSeg dst)
+            {
+                dst = InstDefSeg.Empty;
+                var result = Outcome.Success;
+                if(text.begins(src,"0x"))
+                {
+                    result = parse(src, out Hex8 x);
+                    if(result)
+                        dst = x;
+                }
+                else if(IsFieldSeg(src))
+                {
+                    result = parse(src, out BitfieldSeg x);
+                    if(result)
+                        dst = x;
+                }
+                else if(IsAssign(src))
+                {
+                    result = parse(src, out FieldAssign x);
+                    if(result)
+                        dst = x;
+                }
+                else if(IsNeq(src))
+                {
+                    result = parse(src, out FieldConstraint x);
+                    if(result)
+                        dst = x;
+
+                }
+                else if(IsCall(src))
+                {
+                    result = parse(src, out NontermCall x);
+                    if(result)
+                        dst = x;
+
+                }
+                return result;
             }
 
             public Index<InstDef> ParseInstDefs(FS.FilePath src)
@@ -126,7 +183,7 @@ namespace Z0
                                                 }
                                             }
 
-                                            operands.Add(new InstPatternSpec(seq++, 0, @class, pattern, parser.ParseOps(value)));
+                                            operands.Add(new InstPatternSpec(seq++, 0, @class, pattern, sys.empty<InstDefSeg>(), parser.ParseOps(value)));
                                             pattern=EmptyString;
                                         }
                                         break;
@@ -155,7 +212,7 @@ namespace Z0
                     def.Seq = i;
                     ref var patterns = ref def.PatternSpecs;
                     for(var j=0; j<patterns.Count; j++)
-                        patterns[j] = patterns[j].WithInst(i);
+                        patterns[j] = patterns[j].WithInstId(i);
                 }
 
                 return defs;
