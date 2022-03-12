@@ -151,8 +151,6 @@ namespace Z0
             return result;
         }
 
-
-        static XedParsers Parsers = XedParsers.create();
-
+        static XedParsers Parsers = XedParsers.Service;
     }
 }

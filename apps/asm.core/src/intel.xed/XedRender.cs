@@ -9,17 +9,15 @@ namespace Z0
     using static XedModels;
     using static XedRules;
     using static Asm.IntelXed;
-
-    using R = XedRules;
-
     using static core;
 
+    using R = XedRules;
     using PW = XedModels.PointerWidthKind;
     using TK = XedRules.RuleTokenKind;
     using K = XedRules.RuleOpClass;
     using FC = XedRules.FormatCode;
 
-    public class XedRender
+    public partial class XedRender
     {
         public static XedRender create()
             => new XedRender();

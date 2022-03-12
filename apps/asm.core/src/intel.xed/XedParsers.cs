@@ -6,15 +6,10 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
-    using static XedRules.SyntaxLiterals;
     using static core;
 
-    public class XedParsers
+    public partial class XedParsers
     {
-        [MethodImpl(Inline)]
-        public static XedParsers create()
-            => Instance;
-
         public static XedParsers Service => Instance;
 
         static XedParsers Instance = new();
@@ -63,6 +58,9 @@ namespace Z0
         {
 
         }
+
+        public static bool parse(string src, out uint5 dst)
+            => Instance.Parse(src, out dst);
 
         public static Outcome parse(string src, out Index<InstDefSeg> dst)
             => Instance.Parse(src, out dst);
@@ -551,80 +549,14 @@ namespace Z0
         }
 
         public Outcome Parse(string src, out Index<InstDefSeg> dst)
-        {
-            var result = Outcome.Success;
-            var parts = text.trim(text.split(text.despace(src), Chars.Space));
-            var count = parts.Length;
-            dst = alloc<InstDefSeg>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var part = ref skip(parts,i);
-                result = Parse(part, out dst[i]);
-                if(result.Fail)
-                    break;
-            }
-
-            return result;
-        }
-
-        Outcome Parse(string src, out InstDefSeg dst)
-        {
-            dst = InstDefSeg.Empty;
-            Outcome result = (false, string.Format("Unrecognized segment '{0}'", src));
-            if(IsHexLiteral(src))
-            {
-                result = Parse(src, out Hex8 x);
-                if(result)
-                    dst = x;
-                else
-                    result = (false, AppMsg.ParseFailure.Format(nameof(Hex8), src));
-            }
-            else if(IsBinaryLiteral(src))
-            {
-                result = Parse(src, out uint5 x);
-                if(result)
-                    dst = x;
-                else
-                    result = (false, AppMsg.ParseFailure.Format(nameof(uint5), src));
-
-            }
-            else if(IsBitfieldSeg(src))
-            {
-                result = Parse(src, out BitfieldSeg x);
-                if(result)
-                    dst = x;
-            }
-            else if(IsNeq(src))
-            {
-                result = Parse(src, out FieldConstraint x);
-                if(result)
-                    dst = x;
-                else
-                    result = (false, AppMsg.ParseFailure.Format(nameof(FieldConstraint), src));
-
-            }
-            else if(IsAssign(src))
-            {
-                result = Parse(src, out FieldAssign x);
-                if(result)
-                    dst = x;
-            }
-            else if(IsCall(src))
-            {
-                result = Parse(src, out NontermCall x);
-                if(result)
-                    dst = x;
-
-            }
-            return result;
-        }
+            => InstDefParser.Service.Parse(src, out dst);
 
         [MethodImpl(Inline)]
-        static bool IsHexLiteral(string src)
+        internal static bool IsHexLiteral(string src)
             => text.begins(src, HexFormatSpecs.PreSpec);
 
         [MethodImpl(Inline)]
-        static bool IsBinaryLiteral(string src)
+        internal static bool IsBinaryLiteral(string src)
             => text.begins(src, "0b");
     }
 }
