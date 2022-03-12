@@ -14,7 +14,7 @@ namespace Z0
         {
             public const string TableId = "xed.rules.patterns";
 
-            public const byte FieldCount = 6;
+            public const byte FieldCount = 5;
 
             public uint PatternId;
 
@@ -23,8 +23,6 @@ namespace Z0
             public Hash32 Hash;
 
             public IClass Class;
-
-            public OpCodeKind OpCodeKind;
 
             public TextBlock BodyExpr;
 
@@ -42,7 +40,7 @@ namespace Z0
                 return i;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,12,24,16,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,12,24,1};
         }
     }
 }

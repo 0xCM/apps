@@ -5,32 +5,34 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using OCP = XedModels.OcPatternNames;
+
     partial struct XedModels
     {
         public enum OpCodeIndex : sbyte
         {
-            [Symbol("Map0")]
+            [Symbol(OCP.LegacyMap0Name)]
             LegacyMap0 = 0,
 
-            [Symbol("Map1")]
+            [Symbol(OCP.LegacyMap1Name, "0x0F")]
             LegacyMap1 = 1,
 
-            [Symbol("Map2")]
+            [Symbol(OCP.LegacyMap2Name, "0x0F 0x38")]
             LegacyMap2 = 2,
 
-            [Symbol("Map3")]
+            [Symbol(OCP.LegacyMap3Name, "0x0F 0x3A")]
             LegacyMap3 = 3,
 
-            [Symbol("Amd3D")]
+            [Symbol(OCP.Amd3dName, "0x0F 0x0F")]
             Amd3dNow = 4,
 
-            [Symbol("Xop8")]
+            [Symbol(OCP.Xop8Name)]
             Xop8 = 5,
 
-            [Symbol("Xop9")]
+            [Symbol(OCP.Xop9Name)]
             Xop9 = 6,
 
-            [Symbol("XopA")]
+            [Symbol(OCP.XopAName)]
             XopA = 7,
 
             [Symbol("Vex0F")]

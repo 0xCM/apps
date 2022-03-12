@@ -35,7 +35,6 @@ namespace Z0
                 result = DataParser.parse(reader.Next(), out pattern.InstId);
                 result = DataParser.parse(reader.Next(), out pattern.Hash);
                 result = XedParsers.parse(reader.Next(), out pattern.Class);
-                result = XedParsers.parse(reader.Next(), out pattern.OpCodeKind);
                 result = DataParser.parse(reader.Next(), out pattern.BodyExpr);
                 buffer.Add(pattern);
                 return result;

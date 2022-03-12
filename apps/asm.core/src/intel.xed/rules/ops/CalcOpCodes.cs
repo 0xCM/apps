@@ -6,10 +6,18 @@
 namespace Z0
 {
     using static XedModels;
+    using static core;
 
     partial class XedRules
     {
-        public Index<XedOpCode> CalcOpCodes(ReadOnlySpan<RulePatternInfo> src)
-            => XedOpCodeParser.create().Parse(src);
+        Index<XedOpCode> CalcOpCodes(Index<InstPattern> patterns)
+        {
+            var parser = XedOpCodeParser.create();
+            var count = patterns.Count;
+            var buffer = alloc<XedOpCode>(count);
+            for(var i=0; i<count;i++)
+                seek(buffer,i) = parser.Parse(patterns[i]);
+            return buffer.Sort();
+        }
     }
 }

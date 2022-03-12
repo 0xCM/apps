@@ -9,8 +9,10 @@ namespace Z0
     partial class XedRules
     {
         public Index<InstPattern> CalcInstPatterns()
+            => CalcInstPatterns(CalcInstDefs());
+
+        public Index<InstPattern> CalcInstPatterns(Index<InstDef> defs)
         {
-            var defs = CalcInstDefs();
             var dst = bag<InstPattern>();
             iter(defs, def => CalcInstPatterns(def, dst), true);
             return dst.ToArray().Sort();

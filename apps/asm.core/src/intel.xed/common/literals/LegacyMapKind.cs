@@ -12,19 +12,19 @@ namespace Z0
         [SymSource(xed)]
         public enum LegacyMapKind : byte
         {
-            [Symbol("Map0", EmptyString)]
+            [Symbol(OCP.LegacyMap0Name, EmptyString)]
             LEGACY_MAP0 = 0,
 
-            [Symbol("Map1", OCP.LegacyPattern1)]
+            [Symbol(OCP.LegacyMap1Name, OCP.LegacyPattern1)]
             LEGACY_MAP1 = 1,
 
-            [Symbol("Map2", OCP.LegacyPattern2)]
+            [Symbol(OCP.LegacyMap2Name, OCP.LegacyPattern2)]
             LEGACY_MAP2 = 2,
 
-            [Symbol("Map3", OCP.LegacyPattern3)]
+            [Symbol(OCP.LegacyMap3Name, OCP.LegacyPattern3)]
             LEGACY_MAP3 = 3,
 
-            [Symbol("Map3DNow", OCP.Amd3dNowPattern)]
+            [Symbol("3DNow", OCP.Amd3dNowPattern)]
             AMD_3DNOW = 4,
         }
     }

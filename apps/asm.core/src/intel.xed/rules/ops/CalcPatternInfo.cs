@@ -25,7 +25,6 @@ namespace Z0
                     pattern.Class = def.Class;
                     pattern.InstId = def.Seq;
                     pattern.Hash = alg.hash.marvin(op.BodyExpr.Text);
-                    pattern.OpCodeKind = ockind(op.BodyExpr.Text);
                     pattern.BodyExpr = op.BodyExpr;
                     buffer.Add(pattern);
                 }

@@ -33,7 +33,7 @@ namespace Z0
                 return _PatternBuffer;
             }
 
-            string ParseBodyExpr(string src)
+            string ExpandBody(string src)
             {
                 var dst = ComponentBuffer();
                 var parts = text.split(text.despace(src), Chars.Space);
@@ -76,6 +76,7 @@ namespace Z0
                     {
                         var dst = default(InstDef);
                         var bodyexpr = EmptyString;
+                        var rawbody = EmptyString;
                         var operands = list<InstPatternSpec>();
                         var @class = IClass.INVALID;
                         while(!line.StartsWith(Chars.RBrace) && reader.Next(out line))
@@ -141,12 +142,13 @@ namespace Z0
                                             }
 
                                             XedParsers.parse(bodyexpr, out InstPatternBody body).Require();
-                                            operands.Add(new InstPatternSpec(seq++, 0, @class, bodyexpr, body, parser.ParseOps(value)));
+                                            operands.Add(new InstPatternSpec(seq++, 0, @class, rawbody, body, parser.ParseOps(value)));
                                             bodyexpr=EmptyString;
                                         }
                                         break;
                                         case P.Pattern:
-                                            bodyexpr = ParseBodyExpr(value);
+                                            rawbody = value;
+                                            bodyexpr = ExpandBody(rawbody);
                                         break;
                                         case P.Isa:
                                             parse(value, out dst.Isa);

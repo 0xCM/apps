@@ -10,8 +10,6 @@ namespace Z0
     using static XedModels;
     using static XedRender;
 
-    using R = XedRules;
-
     partial class XedCmdProvider
     {
         [CmdOp("xed/check/patterns")]
@@ -21,6 +19,7 @@ namespace Z0
             var ipatterns = Xed.Rules.CalcInstPatterns();
             var count = ipatterns.Count;
             var dst = AppDb.XedPath("xed.rules", FileKind.Csv);
+            var ocparser = XedOpCodeParser.create();
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)
@@ -41,8 +40,8 @@ namespace Z0
                 ref readonly var body = ref ipattern.Body;
                 ref readonly var ops = ref ipattern.Operands;
 
-                var ocval = XedRules.ocvalue(body);
-                writer.AppendLineFormat("{0,-24} | {1,-24} | {2}", format(@class), format(ocval), _format(body));
+                var opcode = ocparser.Parse(ipattern);
+                writer.AppendLineFormat("{0,-24} | {1,-24} | {2}", format(@class), format(opcode.Kind), format(opcode.Value), _format(body));
 
             }
             EmittedFile(emitting,count);
@@ -62,6 +61,7 @@ namespace Z0
             {
                 if(i!=0)
                     dst.Append(Chars.Space);
+
 
                 ref readonly var part = ref src[i];
                 if(InstDefs.vexclass(part, out var vc))

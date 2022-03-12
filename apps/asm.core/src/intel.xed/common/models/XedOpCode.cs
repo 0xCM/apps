@@ -22,7 +22,7 @@ namespace Z0
 
             public OpCodeKind Kind;
 
-            public byte Index;
+            public sbyte Index;
 
             public AsmOcValue Value;
 
@@ -42,7 +42,7 @@ namespace Z0
                 return result;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,12,8,12,24,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,16,8,12,24,1};
 
             public static XedOpCode Empty => default;
         }

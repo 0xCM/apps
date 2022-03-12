@@ -6,9 +6,13 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedModels.OpCodeKind;
+    using static XedModels.VexMapKind;
+    using static XedModels.EvexMapKind;
+    using static XedModels.XopMapKind;
+    using static XedModels.LegacyMapKind;
 
     using I = XedModels.OpCodeIndex;
+    using K = XedModels.OpCodeKind;
 
     partial class XedRules
     {
@@ -16,20 +20,62 @@ namespace Z0
         public static OpCodeIndex ocindex(OpCodeKind kind)
             => kind switch
             {
+                K.LEGACY_00 => I.LegacyMap0,
+                K.LEGACY_0F => I.LegacyMap1,
+                K.LEGACY_0F38 => I.LegacyMap2,
+                K.LEGACY_0F3A => I.LegacyMap3,
+                K.AMD_3DNOW => I.Amd3dNow,
+                K.XOP8 => I.Xop8,
+                K.XOP9 => I.Xop9,
+                K.XOPA => I.XopA,
+                K.VEX_0F => I.Vex0F,
+                K.VEX_0F38 => I.Vex0F38,
+                K.VEX_0F3A => I.Vex0F3A,
+                K.EVEX_0F => I.Evex0F,
+                K.EVEX_0F38 => I.Evex0F38,
+                K.EVEX_0F3A => I.Evex0F3A,
+                _ => 0
+            };
+
+        [Op]
+        public static OpCodeIndex ocindex(VexMapKind kind)
+            => kind switch
+            {
+                VEX_MAP_0F => I.Vex0F,
+                VEX_MAP_0F38 => I.Vex0F38,
+                VEX_MAP_0F3A => I.Vex0F3A,
+                _ => 0
+            };
+
+        [Op]
+        public static OpCodeIndex ocindex(EvexMapKind kind)
+            => kind switch
+            {
+                EVEX_MAP_0F => I.Evex0F,
+                EVEX_MAP_0F38 => I.Evex0F38,
+                EVEX_MAP_0F3A => I.Evex0F3A,
+                _ => 0
+            };
+
+        [Op]
+        public static OpCodeIndex ocindex(XopMapKind kind)
+            => kind switch
+            {
+                XOP8 => I.Xop8,
+                XOP9 => I.Xop9,
+                XOPA => I.XopA,
+                _ => 0
+            };
+
+        [Op]
+        public static OpCodeIndex ocindex(LegacyMapKind kind)
+            => kind switch
+            {
                 LEGACY_MAP0 => I.LegacyMap0,
                 LEGACY_MAP1 => I.LegacyMap1,
                 LEGACY_MAP2 => I.LegacyMap2,
                 LEGACY_MAP3 => I.LegacyMap3,
                 AMD_3DNOW => I.Amd3dNow,
-                XOP8 => I.Xop8,
-                XOP9 => I.Xop9,
-                XOPA => I.XopA,
-                VEX_MAP_0F => I.Vex0F,
-                VEX_MAP_0F38 => I.Vex0F38,
-                VEX_MAP_0F3A => I.Vex0F3A,
-                EVEX_MAP_0F => I.Evex0F,
-                EVEX_MAP_0F38 => I.Evex0F38,
-                EVEX_MAP_0F3A => I.Evex0F3A,
                 _ => 0
             };
     }

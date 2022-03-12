@@ -85,6 +85,18 @@ namespace Z0.Asm
             Storage = src;
         }
 
+        public ref readonly byte this[int i]
+        {
+            [MethodImpl(Inline)]
+            get => ref Storage[i];
+        }
+
+        public ref readonly byte this[uint i]
+        {
+            [MethodImpl(Inline)]
+            get => ref Storage[i];
+        }
+
         public ReadOnlySpan<byte> ToSpan()
             => slice(Storage.Bytes, 0, StorageBlocks.trim(Storage).TrimmedSize);
 

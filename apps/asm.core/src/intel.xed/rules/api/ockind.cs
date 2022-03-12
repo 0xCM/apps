@@ -16,20 +16,20 @@ namespace Z0
         [Op]
         public static OpCodeKind ockind(OpCodeIndex src)
             => src switch {
-                OCI.LegacyMap0 => LEGACY_MAP0,
-                OCI.LegacyMap1 => LEGACY_MAP1,
-                OCI.LegacyMap2 => LEGACY_MAP2,
-                OCI.LegacyMap3 => LEGACY_MAP3,
+                OCI.LegacyMap0 => LEGACY_00,
+                OCI.LegacyMap1 => LEGACY_0F,
+                OCI.LegacyMap2 => LEGACY_0F38,
+                OCI.LegacyMap3 => LEGACY_0F3A,
                 OCI.Amd3dNow => AMD_3DNOW,
                 OCI.Xop8 => XOP8,
                 OCI.Xop9 => XOP9,
                 OCI.XopA => XOPA,
-                OCI.Vex0F => VEX_MAP_0F,
-                OCI.Vex0F38 => VEX_MAP_0F38,
-                OCI.Vex0F3A => VEX_MAP_0F3A,
-                OCI.Evex0F => EVEX_MAP_0F,
-                OCI.Evex0F38 => EVEX_MAP_0F38,
-                OCI.Evex0F3A => EVEX_MAP_0F3A,
+                OCI.Vex0F => VEX_0F,
+                OCI.Vex0F38 => VEX_0F38,
+                OCI.Vex0F3A => VEX_0F3A,
+                OCI.Evex0F => EVEX_0F,
+                OCI.Evex0F38 => EVEX_0F38,
+                OCI.Evex0F3A => EVEX_0F3A,
                 _=> OpCodeKind.None
             };
 
@@ -42,15 +42,15 @@ namespace Z0
             {
                 i = text.index(content, OCP.VexPattern0F38);
                 if(i>=0)
-                    return VEX_MAP_0F38;
+                    return VEX_0F38;
 
                 i = text.index(content, OCP.VexPattern0F3A);
                 if(i>=0)
-                    return VEX_MAP_0F3A;
+                    return VEX_0F3A;
 
                 i = text.index(content, OCP.VexPattern0F);
                 if(i>=0)
-                    return VEX_MAP_0F;
+                    return VEX_0F;
 
                 return 0;
             }
@@ -60,26 +60,26 @@ namespace Z0
             {
                 i = text.index(content, OCP.EvexPattern0F38);
                 if(i>=0)
-                    return EVEX_MAP_0F38;
+                    return EVEX_0F38;
 
                 i = text.index(content, OCP.EvexPattern0F3A);
                 if(i>=0)
-                    return EVEX_MAP_0F3A;
+                    return EVEX_0F3A;
 
                 i = text.index(content, OCP.EvexPattern0F);
                 if(i>=0)
-                    return EVEX_MAP_0F;
+                    return EVEX_0F;
 
                 return 0;
             }
 
             i = text.index(content, OCP.LegacyPattern2);
             if(i >= 0)
-                return LEGACY_MAP2;
+                return LEGACY_0F38;
 
             i = text.index(content, OCP.LegacyPattern3);
             if(i >= 0)
-                return LEGACY_MAP3;
+                return LEGACY_0F3A;
 
             i = text.index(content, OCP.Amd3dNowPattern);
             if(i >= 0)
@@ -87,7 +87,7 @@ namespace Z0
 
             i = text.index(content, OCP.LegacyPattern1);
             if(i >= 0)
-                return LEGACY_MAP1;
+                return LEGACY_0F;
 
             i = text.index(content, OCP.XopPattern8);
             if(i >= 0)
@@ -101,7 +101,7 @@ namespace Z0
             if(i >= 0)
                 return XOPA;
 
-            return LEGACY_MAP0;
+            return LEGACY_00;
         }
     }
 }

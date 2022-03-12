@@ -8,78 +8,119 @@ namespace Z0
     using static core;
     using static XedModels;
 
-    using OCP = XedModels.OcPatternNames;
+    using Asm;
 
     partial class XedRules
     {
-        public readonly struct XedOpCodeParser
+        public struct XedOpCodeParser
         {
             public static XedOpCodeParser create()
-                =>new XedOpCodeParser();
+                => new XedOpCodeParser();
 
-            public Index<XedOpCode> Parse(ReadOnlySpan<RulePatternInfo> src)
+            VexClass? VClass;
+
+            VexKind? VKind;
+
+            OpCodeIndex? OcIndex;
+
+            sbyte Map;
+
+            XedOpCode Result;
+
+            AsmOcValue OcValue;
+
+            void Clear()
             {
-                var count = src.Length;
-                var buffer = alloc<XedOpCode>(count);
-                for(var i=0u; i<count; i++)
-                    seek(buffer,i) = opcode(skip(src,i));
-
-                // buffer.Sort();
-                // for(var i=0u; i<count; i++)
-                //     seek(buffer,i).Seq = i;
-
-                return buffer.Sort();
+                VClass = null;
+                VKind = null;
+                Map = -1;
+                OcIndex = null;
+                Result = XedOpCode.Empty;
             }
 
-            public static XedOpCode opcode(in RulePatternInfo rule)
+            public XedOpCode Parse(in InstPattern src)
             {
-                var dst = XedOpCode.Empty;
-                dst.PatternId = rule.PatternId;
-                dst.InstId = rule.InstId;
-                dst.Kind = rule.OpCodeKind;
-                dst.Index = (byte)ocindex(rule.OpCodeKind);
-                dst.Value = value(rule);
-                dst.Class = rule.Class;
-                dst.Pattern = rule.BodyExpr;
-                return dst;
-            }
+                Clear();
+                ref readonly var body = ref src.Body;
+                Result.PatternId = src.PatternId;
+                Result.InstId = src.InstId;
+                Result.Pattern = XedRender.format(body);
+                Result.Class = src.Class;
 
-            static uint value(in RulePatternInfo src)
-            {
-                var expr = src.BodyExpr.Text;
-                var dst = 0u;
-                var k = z8;
-                var parts = expr.Split(Chars.Space);
-                var count = parts.Length;
-                for(var i=0; i<count; i++)
+                OcValue = ocvalue(body);
+                for(var i=0; i<body.PartCount; i++)
+                    Parse(body[i]);
+
+                if(OcIndex == null)
                 {
-                    ref readonly var part = ref skip(parts,i);
-                    if(part.Equals(OCP.VV1) || part.Equals(OCP.EVV) || part.Equals(OCP.XOPV))
-                        continue;
-
-                    if(ocbyte(part, out var b))
+                    if(OcValue[0] == 0x0F)
                     {
-                        dst |= ((uint)b << k*8);
-                        k++;
+                        if(OcValue[1] == 0x38)
+                        {
+                            OcIndex = OpCodeIndex.LegacyMap2;
+                        }
+                        else if(OcValue[1] == 0x3A)
+                        {
+                            OcIndex = OpCodeIndex.LegacyMap3;
+
+                        }
+                        else
+                            OcIndex = OpCodeIndex.LegacyMap1;
                     }
                     else
-                        break;
+                        OcIndex = OpCodeIndex.LegacyMap0;
                 }
-                return dst;
+
+                Result.Value = OcValue;
+                if(OcIndex != null)
+                {
+                    Result.Index = (sbyte)OcIndex.Value;
+                    Result.Kind = ockind(OcIndex.Value);
+                }
+                else
+                {
+                    Result.Index = -1;
+                }
+
+                return Result;
             }
 
-            static bool ocbyte(string src, out Hex8 dst)
+            void Parse(in InstDefSeg src)
             {
-                var t = text.trim(src);
-                if(text.index(t, "0b") >= 0)
+                if(InstDefs.vexclass(src, out var vc))
                 {
-                    if(BitNumbers.parse(text.remove(t, Chars.Underscore).Remove("0b"), out uint8b y))
+                    VClass = vc;
+                }
+                else if(InstDefs.vexkind(src, out var vk))
+                {
+                    VKind = vk;
+                }
+                else if(InstDefs.map(src, out var map))
+                {
+                    Map = (sbyte)map;
+                    if(VClass != null)
                     {
-                        dst = (byte)y;
-                        return true;
+                        switch(VClass.Value)
+                        {
+                            case VexClass.VV0:
+                            case VexClass.VV1:
+                            {
+                                OcIndex = ocindex((VexMapKind)Map);
+                            }
+                            break;
+                            case VexClass.EVV:
+                            {
+                                OcIndex = ocindex((EvexMapKind)Map);
+                            }
+                            break;
+                            case VexClass.XOPV:
+                            {
+                                OcIndex = ocindex((XopMapKind)Map);
+                                break;
+                            }
+                        }
                     }
                 }
-                return DataParser.parse(src, out dst);
             }
         }
     }

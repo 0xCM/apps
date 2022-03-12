@@ -19,17 +19,20 @@ namespace Z0
 
             public readonly TextBlock BodyExpr;
 
+            public readonly TextBlock RawBody;
+
             public readonly InstPatternBody Body;
 
             public readonly Index<RuleOpSpec> Operands;
 
             [MethodImpl(Inline)]
-            public InstPatternSpec(uint seq, uint instid, IClass @class, string expr, InstPatternBody body, RuleOpSpec[] ops)
+            public InstPatternSpec(uint seq, uint instid, IClass @class, string rawbody, InstPatternBody body, RuleOpSpec[] ops)
             {
                 PatternId = seq;
                 InstId = instid;
                 Class = @class;
                 Body = body;
+                RawBody = rawbody;
                 BodyExpr = body.Delimit(Chars.Space).Format();
                 Operands = ops;
             }

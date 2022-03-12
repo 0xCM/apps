@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedRules;
 
     partial class XedCmdProvider
     {
@@ -13,17 +12,17 @@ namespace Z0
         Outcome CheckOcmaps(CmdArgs args)
         {
             var result = Outcome.Success;
-            var patterns = Xed.Rules.LoadPatternInfo();
-            var reader = patterns.Reader();
-            var maps = Symbols.index<OpCodeKind>();
-            var counts = maps.Counts();
-            while(reader.Next(out var pattern))
-                counts.Inc(pattern.OpCodeKind);
+            // var patterns = Xed.Rules.LoadPatternInfo();
+            // var reader = patterns.Reader();
+            // var maps = Symbols.index<OpCodeKind>();
+            // var counts = maps.Counts();
+            // while(reader.Next(out var pattern))
+            //     counts.Inc(pattern.OpCodeKind);
 
-            var total = counts.Total();
-            Require.equal(total, patterns.Count);
+            // var total = counts.Total();
+            // Require.equal(total, patterns.Count);
 
-            Write(counts.Format());
+            // Write(counts.Format());
             return result;
         }
     }

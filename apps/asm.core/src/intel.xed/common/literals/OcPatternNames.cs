@@ -7,6 +7,12 @@ namespace Z0
 {
     partial struct XedModels
     {
+        public readonly struct OcPatternCodes
+        {
+
+
+        }
+
         public readonly struct OcPatternNames
         {
             public const string LegacyMapClass = "LEGACY";
@@ -48,6 +54,23 @@ namespace Z0
             public const string EvexPattern0F38 = "V0F38";
 
             public const string EvexPattern0F3A = "V0F3A";
+
+            public const string LegacyMap0Name = "LMap0";
+
+            public const string LegacyMap1Name = "LMap1";
+
+            public const string LegacyMap2Name = "LMap3";
+
+            public const string LegacyMap3Name = "LMap3";
+
+            public const string Amd3dName = "Amd3D";
+
+            public const string Xop8Name = "Xop8";
+
+            public const string Xop9Name = "Xop9";
+
+            public const string XopAName = "XopA";
+
         }
     }
 }
