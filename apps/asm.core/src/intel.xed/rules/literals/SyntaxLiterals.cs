@@ -10,40 +10,25 @@ namespace Z0
         [LiteralProvider]
         internal readonly struct SyntaxLiterals
         {
-            public const string SeqDeclSyntax = "SEQUENCE ";
+            const string SeqDeclSyntax = "SEQUENCE";
 
             public const string TableDeclSyntax = "()::";
 
-            public const string EncodeTableDecl = "_ENCODE" + "()::";
-
             public const string CallSyntax = "()";
 
-            public const string EncStep = " -> ";
+            public const string EncStep = "->";
 
-            public const string DecStep = " |";
+            public const string DecStep = "|";
 
-            public const string Neq = "!=";
+            const string Neq = "!=";
 
-            public const string REXW = "REXW[w]";
-
-            public const string REXB = "REXB[b]";
-
-            public const string REXR = "REXR[r]";
-
-            public const string REXX = "REXX[x]";
-
-            public const char Assign = '=';
-
-            public const char Eq = '=';
+            const char Assign = '=';
 
             public static bool IsCall(string src)
                 => src.EndsWith(CallSyntax);
 
             public static bool IsSeqDecl(string src)
                 => src.StartsWith(SeqDeclSyntax);
-
-            public static bool IsEncTableDecl(string src)
-                => src.EndsWith(EncodeTableDecl);
 
             public static bool IsTableDecl(string src)
                 => src.EndsWith(TableDeclSyntax);

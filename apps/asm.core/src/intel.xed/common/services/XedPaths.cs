@@ -62,6 +62,7 @@ namespace Z0
 
         public FS.FilePath DocTarget(XedDocKind kind)
             => Targets() + ( kind switch{
+                 XedDocKind.RuleTable => FS.file("xed.rules.tables", FS.Txt),
                  XedDocKind.EncInstDef => FS.file("xed.rules.enc", FS.Txt),
                  XedDocKind.DecInstDef=> FS.file("xed.rules.dec", FS.Txt),
                  XedDocKind.EncRuleTable => FS.file("xed.rules.enc.tables", FS.Txt),

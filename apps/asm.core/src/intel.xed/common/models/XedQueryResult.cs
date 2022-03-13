@@ -8,6 +8,7 @@ namespace Z0
     using System;
 
     using static XedModels;
+    using static XedRules;
 
     [Record(TableId)]
     public struct XedQueryResult
@@ -28,7 +29,7 @@ namespace Z0
 
         public ExtensionKind Extension;
 
-        public DelimitedIndex<AttributeKind> Attributes;
+        public InstAttribs Attributes;
 
         public static XedQueryResult Empty => default;
 

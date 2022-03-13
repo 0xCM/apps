@@ -23,7 +23,7 @@ namespace Z0
 
             public IsaKind Isa;
 
-            public Index<AttributeKind> Attributes;
+            public InstAttribs Attributes;
 
             public Index<FlagAction> Flags;
 

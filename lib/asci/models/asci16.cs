@@ -113,7 +113,7 @@ namespace Z0
         public TextBlock Text
         {
             [MethodImpl(Inline)]
-            get => Asci.format(this);
+            get => text.format(Decoded);
         }
 
         [MethodImpl(Inline)]
@@ -168,6 +168,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator string(A src)
             => src.Text;
+
+        [MethodImpl(Inline)]
+        public static explicit operator S(A src)
+            => src.Storage;
 
         [MethodImpl(Inline)]
         public static implicit operator ReadOnlySpan<byte>(A src)

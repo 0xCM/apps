@@ -9,9 +9,5 @@ namespace Z0
     {
         public static Index<MacroSpec> macros()
             => RuleMacros.specs();
-
-        [MethodImpl(Inline)]
-        public static MacroSpec macro(RuleMacroKind kind)
-            => MacroLookup[kind];
     }
 }

@@ -15,7 +15,7 @@ namespace Z0
 
         static PatternOpDetail detail(in InstPatternSpec pattern, byte k)
         {
-            ref readonly var ops = ref pattern.Operands;
+            ref readonly var ops = ref pattern.OpSpecs;
             var parser = RuleOpParser.create();
             ref readonly var op = ref ops[k];
             var detail = PatternOpDetail.Empty;

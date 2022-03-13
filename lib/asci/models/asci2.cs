@@ -80,7 +80,7 @@ namespace Z0
         public string Text
         {
             [MethodImpl(Inline)]
-            get => Asci.format(this);
+            get => text.format(Decoded);
         }
 
         [MethodImpl(Inline)]

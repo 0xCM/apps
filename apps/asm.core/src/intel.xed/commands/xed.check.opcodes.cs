@@ -6,6 +6,7 @@ namespace Z0
 {
     using static XedRules;
     using static XedRender;
+    using static XedModels;
     using static core;
 
     using Asm;
@@ -16,14 +17,13 @@ namespace Z0
         Outcome CheckOpCodes(CmdArgs args)
         {
             var patterns = Xed.Rules.CalcInstPatterns();
-            var ocx = opcodes(patterns);
             var lookup = patterns.Map(x => (x.PatternId,x)).ToDictionary();
-            var count = ocx.Count;
+            var count = patterns.Count;
             var buffer = alloc<PatternIdentity>(count);
             for(var i=0; i<count; i++)
             {
-                ref readonly var oc = ref ocx[i];
-                var pattern = lookup[oc.PatternId];
+                ref readonly var pattern = ref patterns[i];
+                ref readonly var oc = ref pattern.OpCode;
                 var id = identify(pattern);
                 ref var dst = ref seek(buffer,i);
                 dst.PatternId = pattern.PatternId;
@@ -41,17 +41,65 @@ namespace Z0
             return true;
         }
 
+
+        static Identifier identify(in RuleOpSpec src)
+        {
+            var bw = src.OpWidth;
+            var indicator = EmptyString;
+            var dst = EmptyString;
+            if(src.IsSegReg)
+            {
+                indicator = "sr";
+            }
+            else if(src.IsReg)
+            {
+                indicator = bw != 0 ? "r" : "reg";
+            }
+            else if(src.IsMem)
+            {
+                indicator = bw != 0 ? "m" : "mem";
+            }
+            else if(src.IsPtr)
+            {
+                indicator = "ptr";
+            }
+            else
+            {
+                indicator = format(src.Kind);
+            }
+
+            if(bw != 0)
+            {
+                dst = string.Format("{0}{1}", indicator, bw);
+            }
+            else
+                dst = indicator;
+
+            return dst;
+        }
+
         static Identifier identify(InstPattern src)
         {
             var dst = text.buffer();
-            dst.Append(format(src.Class).ToLower());
+            ref readonly var attribs = ref src.InstAttribs;
+            var name = EmptyString;
+            var locked = attribs.Locked;
+            if(locked)
+                name = text.remove(format(src.Class), "_LOCK").ToLower();
+            else
+                name = format(src.Class).ToLower();
+
+            dst.Append(name);
+
             for(var i=0; i<src.OperandCount; i++)
             {
                 dst.Append(Chars.Underscore);
-                ref readonly var op = ref src.Operands[i];
-                var w = op.OpWidth;
-                dst.AppendFormat("{0}{1}", format(op.Kind), w == 0 ? "V" : w);
+                ref readonly var op = ref src.OpSpecs[i];
+                dst.Append(identify(op));
             }
+
+            if(locked)
+                dst.Append("_locked");
 
             return dst.Emit();
         }

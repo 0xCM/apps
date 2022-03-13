@@ -24,14 +24,20 @@ namespace Z0
         public static string format(in RuleCriterion src)
         {
             var dst = EmptyString;
-            if(src.Operator == RuleOperator.Call)
-                dst = format(src.AsCall());
+            if(src.IsNontermCall)
+                dst = format(src.AsNontermCall());
+            else if(src.IsGroupCall)
+                dst = format(src.AsGroupCall());
+            else if(src.IsResolvableCall)
+                dst = format(src.AsResolvableCall());
             else if(src.Operator == RuleOperator.Seg)
                 dst = format(src.AsFieldSeg());
-            else if(src.Field == FieldKind.UIMM0 || src.Field == FieldKind.UIMM1)
-                dst = format(src.AsImmField());
-            else if(src.Field == FieldKind.DISP)
-                dst = format(src.AsDispField());
+            else if(src.Operator == RuleOperator.Literal)
+                dst = src.AsLiteral();
+            else if(src.IsError)
+            {
+                dst = "error";
+            }
             else
             {
                 dst = format(src.Field);

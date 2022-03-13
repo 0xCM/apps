@@ -6,12 +6,31 @@
 namespace Z0
 {
     using static core;
+    using static XedRules;
 
     partial struct XedModels
     {
-        public static Index<AttributeKind> attributes(string src, char delimiter)
+        public static InstAttribs attributes(string src)
         {
-            var parts = src.SplitClean(delimiter).ToReadOnlySpan();
+            var input = text.trim(src);
+            var sep = ',';
+            if(input.Contains(Chars.Colon))
+                sep = ':';
+            else if(input.Contains(Chars.Space))
+                sep = ' ';
+
+            if(text.fenced(input, RenderFence.Embraced))
+            {
+                if(input.Length > 2)
+                    input = text.unfence(input, RenderFence.Embraced);
+                else
+                    input = EmptyString;
+            }
+
+            if(empty(input))
+                return InstAttribs.Empty;
+
+            var parts = input.SplitClean(sep).ToReadOnlySpan();
             var count = parts.Length;
             if(count == 0)
                 return default;

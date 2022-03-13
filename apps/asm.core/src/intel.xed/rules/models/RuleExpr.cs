@@ -23,7 +23,7 @@ namespace Z0
             public bool IsNonterminal
             {
                 [MethodImpl(Inline)]
-                get => Consequent.Any(x => x.IsNonterminal);
+                get => Consequent.Any(x => x.IsNontermCall);
             }
 
             public string Format()

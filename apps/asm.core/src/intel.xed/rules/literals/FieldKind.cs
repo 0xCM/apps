@@ -10,7 +10,6 @@ namespace Z0
         [SymSource("xed")]
         public enum FieldKind : byte
         {
-            [Symbol("")]
             INVALID,
 
             AGEN,

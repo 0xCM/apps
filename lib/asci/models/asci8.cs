@@ -68,6 +68,7 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Asci.length(this);
         }
+
         public int Capacity
         {
             [MethodImpl(Inline)]
@@ -89,7 +90,7 @@ namespace Z0
         public TextBlock Text
         {
             [MethodImpl(Inline)]
-            get => Asci.format(this);
+            get => text.format(Decoded);
         }
 
         [MethodImpl(Inline)]
@@ -158,6 +159,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator A(S src)
             => new A(src);
+
+        [MethodImpl(Inline)]
+        public static explicit operator S(A src)
+            => src.Storage;
 
         [MethodImpl(Inline)]
         public static bool operator ==(A a, A b)

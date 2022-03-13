@@ -24,7 +24,7 @@ namespace Z0
                         continue;
 
                     var @class = RuleTableParser.RuleForm(line);
-                    if(@class == RuleFormKind.SeqDeclaration)
+                    if(@class == RuleFormKind.SeqDecl)
                     {
                         var content = text.despace(line.Content);
                         var i = text.index(content, Chars.Space);

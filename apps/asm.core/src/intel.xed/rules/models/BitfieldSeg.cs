@@ -12,27 +12,16 @@ namespace Z0
         {
             public readonly FieldKind Field;
 
-            public readonly text7 Pattern;
+            public readonly asci8 Pattern;
 
             public readonly bool IsLiteral;
 
             [MethodImpl(Inline)]
-            public BitfieldSeg(FieldKind field, text7 pattern, bool literal)
+            public BitfieldSeg(FieldKind field, asci8 pattern, bool literal)
             {
                 Field = field;
                 Pattern = pattern;
                 IsLiteral = literal;
-            }
-
-            public FieldAssign ToAssignment()
-            {
-                var dst = FieldAssign.Empty;
-                if(IsLiteral)
-                {
-                    BitNumbers.parse(Pattern.Format(), out uint8b u8).Require();
-                    dst = new FieldAssign(value(Field, (byte)u8));
-                }
-                return dst;
             }
 
             public bool IsEmpty

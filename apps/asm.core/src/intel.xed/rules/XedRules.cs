@@ -37,9 +37,9 @@ namespace Z0
 
         AppDb AppDb => Service(Wf.AppDb);
 
-        Outcome ParseAttribKinds(string src, out Index<AttributeKind> dst)
+        Outcome ParseAttribKinds(string src, out InstAttribs dst)
         {
-            dst = attributes(src,Chars.Space);
+            dst = attributes(src);
             return true;
         }
 
@@ -59,29 +59,14 @@ namespace Z0
             }
         }
 
-        static Symbols<FieldKind> FieldKinds;
-
-        static Symbols<RuleMacroKind> MacroKinds;
-
-        static Symbols<ConstraintKind> ConstraintKinds;
-
-        static Symbols<NonterminalKind> Nonterminals;
-
         static Symbols<OperandWidthCode> OpWidthKinds;
 
         static Symbols<PointerWidthKind> PointerWidthKinds;
 
-        static ConstLookup<RuleMacroKind,MacroSpec> MacroLookup;
-
         static XedRules()
         {
-            FieldKinds = Symbols.index<FieldKind>();
-            MacroKinds = Symbols.index<RuleMacroKind>();
             OpWidthKinds = Symbols.index<OperandWidthCode>();
-            ConstraintKinds = Symbols.index<ConstraintKind>();
-            Nonterminals = Symbols.index<NonterminalKind>();
             PointerWidthKinds = Symbols.index<PointerWidthKind>();
-            MacroLookup = RuleMacros.lookup();
        }
 
         static MsgPattern<string> StepParseFailed => "Failed to parse step from '{0}'";

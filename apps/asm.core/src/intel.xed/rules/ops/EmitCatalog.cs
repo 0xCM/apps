@@ -49,9 +49,6 @@ namespace Z0
         void TableEmit(Index<XedFieldDef> src)
             => TableEmit(src.View, XedFieldDef.RenderWidths, XedPaths.FieldDefsTarget());
 
-        // void EmitPatternDetails(Index<InstDef> src)
-        //     => EmitPatternDetails(src, AppDb.XedPath("xed.rules.detail", FileKind.Txt));
-
         void EmitPatternDetails(Index<InstPattern> src)
             => EmitPatternDetails(src, AppDb.XedPath("xed.rules.detail", FileKind.Txt));
 
@@ -69,13 +66,14 @@ namespace Z0
 
         void EmitRuleTables()
         {
-            var tables = CalcRuleTables();
-            var sigs = tables.Keys.ToArray().Sort();
-            var path = AppDb.XedPath("xed.rules.tables", FileKind.Txt);
+            var path = XedPaths.DocTarget(XedDocKind.RuleTable);
             var emitting = EmittingFile(path);
-            using var writer = path.AsciWriter();
-            for(var i=0; i<sigs.Length; i++)
-                writer.WriteLine(tables[skip(sigs,i)].Format());
+            using var dst = path.AsciWriter();
+            var src = CalcTables();
+            var sigs = src.Keys.ToArray().Sort();
+            var count = sigs.Length;
+            for(var i=0; i<count; i++)
+                dst.AppendLine(src[skip(sigs,i)].Format());
             EmittedFile(emitting, sigs.Length);
         }
 

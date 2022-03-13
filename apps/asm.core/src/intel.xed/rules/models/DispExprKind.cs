@@ -11,7 +11,6 @@ namespace Z0
         public enum DispExprKind : byte
         {
             [Symbol("d/8")]
-
             D8 = NativeSizeCode.W8,
 
             [Symbol("d/16")]

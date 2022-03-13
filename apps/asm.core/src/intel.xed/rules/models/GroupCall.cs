@@ -5,35 +5,31 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential)]
-        public readonly struct FieldCmp
+        [DataWidth(8)]
+        public readonly struct GroupCall
         {
-            public readonly FieldValue Left;
-
-            public readonly RuleOperator Operator;
-
-            public readonly FieldValue Right;
+            public readonly GroupName Target;
 
             [MethodImpl(Inline)]
-            public FieldCmp(FieldValue left, RuleOperator op, FieldValue right)
+            public GroupCall(GroupName kind)
             {
-                Left = left;
-                Operator = op;
-                Right = right;
+                Target = kind;
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Left.IsEmpty;
+                get => Target == 0;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Left.IsNonEmpty;
+                get => Target != 0;
             }
 
             public string Format()
@@ -42,7 +38,11 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static FieldCmp Empty => new FieldCmp(FieldValue.Empty,0,FieldValue.Empty);
+            [MethodImpl(Inline)]
+            public static implicit operator GroupCall(GroupName kind)
+                => new GroupCall(kind);
+
+            public static GroupCall Empty => default;
         }
     }
 }

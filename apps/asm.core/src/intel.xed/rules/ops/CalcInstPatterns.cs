@@ -29,7 +29,7 @@ namespace Z0
             {
                 ref readonly var spec = ref specs[j];
                 buffer.Clear();
-                ref readonly var ops = ref spec.Operands;
+                ref readonly var ops = ref spec.OpSpecs;
                 for(byte k=0; k<ops.Count; k++)
                     buffer.Add(detail(spec,k));
                 dst.Add(new InstPattern(def, spec, buffer.ToArray()));

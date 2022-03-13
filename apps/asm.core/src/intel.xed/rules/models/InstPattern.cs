@@ -15,12 +15,15 @@ namespace Z0
 
             public readonly InstPatternSpec PatternSpec;
 
+            public readonly XedOpCode OpCode;
+
             public readonly Index<PatternOpDetail> OpDetails;
 
             public InstPattern(InstDef inst, InstPatternSpec spec, Index<PatternOpDetail> details)
             {
                 InstDef = inst;
                 PatternSpec = spec;
+                OpCode = opcode(this);
                 OpDetails = details;
             }
 
@@ -42,21 +45,21 @@ namespace Z0
                 get => ref PatternSpec.BodyExpr;
             }
 
-            public ref readonly Index<RuleOpSpec> Operands
+            public ref readonly Index<RuleOpSpec> OpSpecs
             {
                 [MethodImpl(Inline)]
-                get => ref PatternSpec.Operands;
+                get => ref PatternSpec.OpSpecs;
             }
 
             public byte OperandCount
             {
                 [MethodImpl(Inline)]
-                get => (byte)PatternSpec.Operands.Count;
+                get => (byte)PatternSpec.OpSpecs.Count;
             }
 
             [MethodImpl(Inline)]
             public ref readonly RuleOpSpec Operand(byte index)
-                => ref PatternSpec.Operands[index];
+                => ref PatternSpec.OpSpecs[index];
 
             public ref readonly RuleOpSpec this[byte index]
             {
@@ -106,7 +109,7 @@ namespace Z0
                 get => ref InstDef.Isa;
             }
 
-            public ref readonly Index<AttributeKind> InstAttribs
+            public ref readonly InstAttribs InstAttribs
             {
                 [MethodImpl(Inline)]
                 get => ref InstDef.Attributes;

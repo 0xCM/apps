@@ -23,7 +23,7 @@ namespace Z0
 
             public readonly InstPatternBody Body;
 
-            public readonly Index<RuleOpSpec> Operands;
+            public readonly Index<RuleOpSpec> OpSpecs;
 
             [MethodImpl(Inline)]
             public InstPatternSpec(uint seq, uint instid, IClass @class, string rawbody, InstPatternBody body, RuleOpSpec[] ops)
@@ -34,12 +34,12 @@ namespace Z0
                 Body = body;
                 RawBody = rawbody;
                 BodyExpr = body.Delimit(Chars.Space).Format();
-                Operands = ops;
+                OpSpecs = ops;
             }
 
             [MethodImpl(Inline)]
             public InstPatternSpec WithInstId(uint instid)
-                => new InstPatternSpec(PatternId, instid, Class, BodyExpr, Body, Operands);
+                => new InstPatternSpec(PatternId, instid, Class, BodyExpr, Body, OpSpecs);
 
             public int CompareTo(InstPatternSpec src)
             {
@@ -50,7 +50,7 @@ namespace Z0
             }
 
             public string Format()
-                => string.Format("Expression:{0}\nOperands:{1}", BodyExpr, Operands);
+                => string.Format("Expression:{0}\nOperands:{1}", BodyExpr, OpSpecs);
 
             public override string ToString()
                 => Format();

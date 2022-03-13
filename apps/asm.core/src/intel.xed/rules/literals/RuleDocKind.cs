@@ -12,6 +12,8 @@ namespace Z0
 
         DecInstDef,
 
+        RuleTable,
+
         EncRuleTable,
 
         EncRuleTableExp,

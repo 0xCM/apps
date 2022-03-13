@@ -96,7 +96,7 @@ namespace Z0
         public TextBlock Text
         {
             [MethodImpl(Inline)]
-            get => Asci.format(this);
+            get => text.format(Decoded);
         }
 
         [MethodImpl(Inline)]

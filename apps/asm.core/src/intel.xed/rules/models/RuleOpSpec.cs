@@ -39,6 +39,54 @@ namespace Z0
                 get => Name != 0;
             }
 
+            public bool IsReg
+            {
+                [MethodImpl(Inline)]
+                get => Kind == RuleOpKind.Reg || Kind == RuleOpKind.Base || Kind == RuleOpKind.Index || Kind == RuleOpKind.Seg;
+            }
+
+            public bool IsBaseReg
+            {
+                [MethodImpl(Inline)]
+                get => Kind == RuleOpKind.Base;
+            }
+
+            public bool IsIndexReg
+            {
+                [MethodImpl(Inline)]
+                get => Kind == RuleOpKind.Index;
+            }
+
+            public bool IsSegReg
+            {
+                [MethodImpl(Inline)]
+                get => Kind == RuleOpKind.Seg;
+            }
+
+            public bool IsMem
+            {
+                [MethodImpl(Inline)]
+                get => Kind == RuleOpKind.Mem;
+            }
+
+            public bool IsImm
+            {
+                [MethodImpl(Inline)]
+                get => Kind == RuleOpKind.Imm;
+            }
+
+            public bool IsPtr
+            {
+                [MethodImpl(Inline)]
+                get => Kind == RuleOpKind.Ptr;
+            }
+
+            public bool IsDisp
+            {
+                [MethodImpl(Inline)]
+                get => Kind == RuleOpKind.Disp;
+            }
+
             public bool HasOpWidth
             {
                 [MethodImpl(Inline)]

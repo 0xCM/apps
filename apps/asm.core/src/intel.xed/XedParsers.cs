@@ -211,11 +211,11 @@ namespace Z0
             return result;
         }
 
-       public bool Parse(string src, out RegFlag dst)
+        public bool Parse(string src, out RegFlag dst)
             => RegFlags.Parse(src, out dst);
 
         public bool Parse(string src, out GroupName dst)
-            => EncodingGroups.Parse(src, out dst);
+            => GroupNames.Parse(src, out dst);
 
         public bool Parse(string src, out RuleOpModKind dst)
             => OpModKinds.Parse(src, out dst);

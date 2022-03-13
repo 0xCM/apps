@@ -12,16 +12,16 @@ namespace Z0
         {
             None = 0,
 
-            [Symbol("eamode16", "MODE=0")]
+            [Symbol("eamode16", "EASZ=1")]
             EASZ16 = 1,
 
-            [Symbol("eamode32", "MODE=1")]
+            [Symbol("eamode32", "EASZ=2")]
             EASZ32 = 2,
 
-            [Symbol("eamode64", "MODE=2")]
+            [Symbol("eamode64", "EASZ=3")]
             EASZ64 = 3,
 
-            [Symbol("eanot16", "MODE!=2")]
+            [Symbol("eanot16", "EASZ!=1")]
             EASZNot16 = 4,
         }
     }

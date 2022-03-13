@@ -7,12 +7,6 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public readonly struct OcPatternCodes
-        {
-
-
-        }
-
         public readonly struct OcPatternNames
         {
             public const string LegacyMapClass = "LEGACY";

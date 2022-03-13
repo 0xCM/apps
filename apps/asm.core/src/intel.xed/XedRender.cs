@@ -151,7 +151,7 @@ namespace Z0
             => Nonterminals[src].Expr.Text;
 
         public static string format(RuleMacroKind src)
-            => MacroKinds[src].Expr.Text;
+            => MacroKinds.Format(src);
 
         public static string format(AttributeKind src)
             => AttribKinds.Format(src);
@@ -237,7 +237,7 @@ namespace Z0
 
         static Symbols<FieldKind> FieldKinds;
 
-        static Symbols<RuleMacroKind> MacroKinds;
+        //static Symbols<RuleMacroKind> MacroKinds;
 
         static Symbols<ChipCode> ChipCodes;
 
@@ -276,7 +276,7 @@ namespace Z0
         static XedRender()
         {
             FieldKinds = Symbols.index<FieldKind>();
-            MacroKinds = Symbols.index<RuleMacroKind>();
+            //MacroKinds = Symbols.index<RuleMacroKind>();
             ChipCodes = Symbols.index<ChipCode>();
             XedRegs = Symbols.index<XedRegId>();
             OpWidthKinds = Symbols.index<OperandWidthCode>();
@@ -403,15 +403,27 @@ namespace Z0
             => src.Format(prespec:true, uppercase:true);
 
         public static string format(FieldAssign src)
-            => src.IsEmpty ? EmptyString : string.Format("{0}={1}", format(src.Field), src.Value);
+        {
+            if(src.IsEmpty)
+                return EmptyString;
+            else if(src.Field == 0)
+                return src.Value.ToString();
+            else
+                return string.Format("{0}={1}",format(src.Field), src.Value);
+        }
 
         public static string format(FieldCmp src)
-            => src.IsEmpty ? EmptyString
+        {
+            if(src.IsEmpty)
+                return EmptyString;
+
+            return src.IsEmpty ? EmptyString
                 : string.Format("{0}{1}{2}",
                     format(src.Left.Kind),
                     format(src.Operator),
-                    format(src.Left)
+                    format(src.Right)
                     );
+        }
 
         public static string format(in NonterminalRule src)
             => format(src.Table);

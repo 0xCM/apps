@@ -11,11 +11,9 @@ namespace Z0
         {
             None,
 
-            RuleDeclaration,
+            RuleDecl,
 
-            EncodingRuleDecl,
-
-            SeqDeclaration,
+            SeqDecl,
 
             EncodeStep,
 

@@ -23,7 +23,7 @@ namespace Z0
 
         readonly EnumParser<OpVisibility> OpVisKinds = new();
 
-        readonly EnumParser<GroupName> EncodingGroups = new();
+        readonly EnumParser<GroupName> GroupNames = new();
 
         readonly EnumParser<RuleOpModKind> OpModKinds = new();
 
@@ -56,6 +56,5 @@ namespace Z0
         readonly EnumParser<ErrorKind> ErrorKinds = new();
 
         readonly EnumParser<ChipCode> ChipCodes = new();
-
     }
 }

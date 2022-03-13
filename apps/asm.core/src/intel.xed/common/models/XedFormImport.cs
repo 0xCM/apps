@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedRules;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct XedFormImport : IComparable<XedFormImport>
@@ -26,7 +27,7 @@ namespace Z0
 
         public ExtensionKind Extension;
 
-        public DelimitedIndex<AttributeKind> Attributes;
+        public InstAttribs Attributes;
 
         public int CompareTo(XedFormImport src)
             => Index.CompareTo(src.Index);

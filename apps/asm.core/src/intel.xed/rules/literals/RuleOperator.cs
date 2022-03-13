@@ -28,6 +28,8 @@ namespace Z0
             Call,
 
             Seg,
+
+            Literal,
         }
     }
 }

@@ -17,17 +17,6 @@ namespace Z0
 
             public Index<RuleExpr> Expressions;
 
-            public GroupName EncodingGroup;
-
-            public bool DefinesEncoding
-                => Name.Content.EndsWith("_ENCODE");
-
-            public bool ComputesRegister
-            {
-                [MethodImpl(Inline)]
-                get => ReturnType == "xed_reg_enum_t";
-            }
-
             public RuleSig Sig
                 => sig(this);
 

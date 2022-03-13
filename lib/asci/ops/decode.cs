@@ -27,12 +27,12 @@ namespace Z0
             seek(dst, 1) = (char)(byte)(src.Storage >> 8);
             seek(dst, 2) = (char)(byte)(src.Storage >> 16);
             seek(dst, 3) = (char)(byte)(src.Storage >> 24);
-            return core.cover(dst, asci4.Size);
+            return slice(core.cover(dst, asci4.Size),0, src.Length);
         }
 
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<char> decode(in asci8 src)
-            => recover<char>(core.bytes(cpu.vlo(vpack.vinflate256x16u(cpu.vbytes(w128, src.Storage)))));
+            => slice(recover<char>(core.bytes(cpu.vlo(vpack.vinflate256x16u(cpu.vbytes(w128, src.Storage))))), 0, src.Length);
 
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<char> decode(in ByteBlock8 src)
@@ -53,14 +53,14 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<char> decode(in asci16 src)
-            => recover<char>(core.bytes(vpack.vinflate256x16u(src.Storage)));
+            => slice(recover<char>(core.bytes(vpack.vinflate256x16u(src.Storage))),0, src.Length);
 
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<char> decode(in asci32 src)
         {
             var lo = vpack.vinflatelo256x16u(src.Storage);
             var hi = vpack.vinflatehi256x16u(src.Storage);
-            return recover<char>(core.bytes(new V256x2(lo,hi)));
+            return slice(recover<char>(core.bytes(new V256x2(lo,hi))), 0, src.Length);
         }
 
         [MethodImpl(Inline), Op]
@@ -71,7 +71,7 @@ namespace Z0
             var x1 = vpack.vinflatehi256x16u(x.Lo);
             var x2 = vpack.vinflatelo256x16u(x.Hi);
             var x3 = vpack.vinflatehi256x16u(x.Hi);
-            return recover<char>(core.bytes(new V256x4(x0, x1, x2, x3)));
+            return slice(recover<char>(core.bytes(new V256x4(x0, x1, x2, x3))),0, src.Length);
         }
 
         [MethodImpl(Inline), Op]

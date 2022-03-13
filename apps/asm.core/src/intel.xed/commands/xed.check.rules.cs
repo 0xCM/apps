@@ -6,55 +6,21 @@ namespace Z0
 {
     using static core;
     using static XedRules;
-    using Asm;
 
     partial class XedCmdProvider
     {
         [CmdOp("xed/check/rules")]
         Outcome CheckRuleSpecs(CmdArgs args)
         {
-            var tables = Xed.Rules.CalcRuleTables();
-            var sigs = tables.Keys.ToArray().Sort();
-            var regs = XedRegMap.Service;
-            for(var i=0; i<sigs.Length; i++)
-            {
-                var table = tables[skip(sigs,i)];
-                if(table.ComputesRegister)
-                {
-                    Write(table.Sig);
-
-                    var express = table.Expressions;
-                    for(var j=0; j<express.Count; j++)
-                    {
-                        ref readonly var expr = ref express[j];
-                        var criteria = expr.Consequent.Where(x => !x.IsError);
-                        for(var k=0; k<criteria.Length; k++)
-                        {
-                            ref readonly var criterion = ref criteria[k];
-                            if(criterion.IsOutReg)
-                            {
-                                var reg = criterion.AsXedReg();
-                                if(reg == 0 || reg == XedRegId.ERROR)
-                                    continue;
-
-                                if(regs.Map(reg, out var mapped))
-                                {
-                                    Write(string.Format("  {0}", mapped));
-                                }
-                                else
-                                {
-                                    Warn(string.Format("  {0}", reg));
-                                }
-                            }
-                            else if(criterion.IsNonterminal)
-                            {
-                                Write(string.Format("  {0}", criterion));
-                            }
-                        }
-                    }
-
-                }
-            }
+            var path = AppDb.Log("xed.rules.tables.dec", FileKind.Txt);
+            var emitting = EmittingFile(path);
+            using var dst = path.AsciWriter();
+            var src = Xed.Rules.CalcDecTables();
+            var sigs = src.Keys.ToArray().Sort();
+            var count = sigs.Length;
+            for(var i=0; i<count; i++)
+                dst.AppendLine(src[skip(sigs,i)].Format());
+            EmittedFile(emitting, sigs.Length);
             return true;
         }
     }

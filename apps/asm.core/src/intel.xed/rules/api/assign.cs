@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+
     partial class XedRules
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
@@ -20,5 +22,37 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static MacroSpec assign(RuleMacroKind name, params FieldAssign[] a0)
             => new MacroSpec(name, a0);
+
+        [MethodImpl(Inline), Op]
+        public static FieldAssign assign(ModeKind src)
+            => assign(FieldKind.MODE, (byte)src);
+
+        [MethodImpl(Inline), Op]
+        public static FieldAssign assign(ModKind src)
+            => assign(FieldKind.MOD, (byte)src);
+
+        [MethodImpl(Inline), Op]
+        public static FieldAssign assign(Mode64WidthDefault src)
+            => assign(FieldKind.DF64, (byte)src);
+
+        [MethodImpl(Inline), Op]
+        public static FieldAssign assign(SMode src)
+            => assign(FieldKind.SMODE, (byte)src);
+
+        [MethodImpl(Inline), Op]
+        public static FieldAssign assign(VexClass src)
+            => assign(FieldKind.VEXVALID, (byte)src);
+
+        [MethodImpl(Inline), Op]
+        public static FieldAssign assign(VexKind src)
+            => assign(FieldKind.VEX_PREFIX, (byte)src);
+
+        [MethodImpl(Inline), Op]
+        public static FieldAssign assign(SegPrefixKind src)
+            => assign(FieldKind.SEG_OVD, (byte)src);
+
+        [MethodImpl(Inline), Op]
+        public static FieldAssign assign(EOSZ src)
+            => assign(FieldKind.EOSZ, (byte)src);
     }
 }
