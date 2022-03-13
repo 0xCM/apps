@@ -93,9 +93,6 @@ namespace Z0
             return dst.Emit();
         }
 
-        // public static string format(OpCodeKind src)
-        //     => src == 0 ? EmptyString : src.ToString();
-
         public static string format(RuleOpModKind src)
             => OpMods[src].Expr.Text;
 
@@ -219,29 +216,6 @@ namespace Z0
         public static string format(ModeKind src)
             => ModeKinds.Format(src);
 
-        public static string format(in RuleTermTable src)
-        {
-            var dst = text.buffer();
-            dst.AppendLine(sig(src));
-            var expressions = src.Expressions.View;
-            var count = expressions.Length;
-            dst.AppendLine(Chars.LBrace);
-            for(var i=0; i<count; i++)
-                dst.IndentLine(4, format(skip(expressions, i)));
-            dst.AppendLine(Chars.RBrace);
-            return dst.Emit();
-        }
-
-        public static string format(in RuleTermExpr src)
-        {
-            var sep = src.Kind == RuleFormKind.EncodeStep ? " -> " : " | ";
-            var dst = text.buffer();
-            render(src.Premise, dst);
-            dst.Append(sep);
-            render(src.Consequent, dst);
-            return dst.Emit();
-        }
-
         public static string format(in MacroSpec src)
         {
             var dst = text.buffer();
@@ -258,29 +232,8 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static string format(in RuleTerm src)
-        {
-            if(src.Operator == RuleOperator.Call)
-                return src.Value;
-            else if(src.Operator != 0)
-                return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), src.Value);
-            else
-                return string.Format("{0}", src.Value);
-        }
-
         public static string format(RuleSig src)
             => string.Format("{0} {1}()", src.ReturnType, src.Name);
-
-        static void render(ReadOnlySpan<RuleTerm> src, ITextBuffer dst)
-        {
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-            {
-                if(i != 0)
-                    dst.Append(" && ");
-                dst.Append(format(skip(src,i)));
-            }
-        }
 
         static Symbols<FieldKind> FieldKinds;
 

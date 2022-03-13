@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using RF = XedRules.RuleFormKind;
-
     partial class XedRules
     {
         [LiteralProvider]

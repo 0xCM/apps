@@ -11,7 +11,6 @@ namespace Z0
 
     using FK = XedRules.FieldKind;
     using RO = XedRules.RuleOperator;
-    using SL = XedRules.SyntaxLiterals;
 
     partial class XedRules
     {
@@ -384,19 +383,8 @@ namespace Z0
                     XedParsers.parse(text.left(input,i), out fk);
                 }
 
-                if(nonempty(name) && fk == 0)
-                {
-                    if(name.Equals(SL.REXW))
-                        fk = FK.REXW;
-                    else if(name.Equals(SL.REXB))
-                        fk = FK.REXB;
-                    else if(name.Equals(SL.REXR))
-                        fk = FK.REXR;
-                    else if(name.Equals(SL.REXX))
-                        fk = FK.REXX;
-                    else if(!FieldKinds.ExprKind(name, out fk))
-                        return (false, AppMsg.ParseFailure.Format(name, spec));
-                }
+                if(nonempty(name) && fk==0)
+                    XedParsers.parse(name, out fk);
 
                 return criterion(premise, fk, op, fv, out dst);
             }

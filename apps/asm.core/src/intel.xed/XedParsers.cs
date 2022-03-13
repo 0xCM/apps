@@ -41,9 +41,6 @@ namespace Z0
         public static bool parse(string src, out RuleMacroKind dst)
             => Instance.Parse(src, out dst);
 
-        public static bool parse(string src, out RuleToken dst)
-            => Instance.Parse(src, out dst);
-
         public static bool parse(string src, out FieldAssign dst)
             => Instance.Parse(src, out dst);
 
@@ -493,55 +490,6 @@ namespace Z0
                 }
                 else
                     result = (false, AppMsg.ParseFailure.Format(nameof(FieldKind), src));
-            }
-            return result;
-        }
-
-        public bool Parse(string src, out RuleToken dst)
-        {
-            var result = false;
-            dst = RuleToken.Empty;
-            if(Parse(src, out BitfieldSeg bfs))
-            {
-                dst = new(bfs);
-                result = true;
-            }
-            else if(Parse(src, out uint8b bin))
-            {
-                dst = new(bin);
-                result = true;
-            }
-            else if(Parse(src, out Hex8 hex))
-            {
-                dst = new(hex);
-                result = true;
-            }
-            else if(Parse(src, out NontermCall nt))
-            {
-                dst = new(nt);
-                result = true;
-            }
-            else if(Parse(src, out RuleMacroKind m))
-            {
-                dst = new(m);
-                result = true;
-            }
-            else if(Parse(src, out ConstraintKind ck))
-            {
-                var expr = XedRender.format(ck);
-                var i = text.index(src,expr);
-                if(i > 0)
-                {
-                    var a = text.left(src,i);
-                    var b = text.right(src,i + expr.Length - 1);
-                    result = Parse(src, out FieldConstraint c);
-                    dst = new(c);
-                }
-            }
-            else if(Parse(src, out FieldAssign assign))
-            {
-                dst = new(assign);
-                result = true;
             }
             return result;
         }

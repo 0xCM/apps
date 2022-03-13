@@ -34,10 +34,6 @@ namespace Z0
                     dst = format(src.AsGroupName());
                 break;
 
-                // case K.Common:
-                //     dst = format(src.AsCommon());
-                // break;
-
                 case K.Modifier:
                     dst = format(src.AsModifier());
                 break;
