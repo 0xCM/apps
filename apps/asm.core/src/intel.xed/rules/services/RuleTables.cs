@@ -385,8 +385,6 @@ namespace Z0
                     i = text.index(input,Chars.LBracket);
                     var j = text.index(input,Chars.RBracket);
                     fv = text.inside(input,i,j);
-                    //op = RO.Seg;
-                    //name = text.left(input,i);
                     XedParsers.parse(text.left(input,i), out fk);
                 }
 

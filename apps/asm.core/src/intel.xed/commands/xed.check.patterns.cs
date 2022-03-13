@@ -18,7 +18,7 @@ namespace Z0
             var result = Outcome.Success;
             var ipatterns = Xed.Rules.CalcInstPatterns();
             var count = ipatterns.Count;
-            var dst = AppDb.XedPath("xed.rules", FileKind.Csv);
+            var dst = AppDb.XedPath("xed.patterns.checks", FileKind.Txt);
             var ocparser = XedOpCodeParser.create();
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
@@ -26,7 +26,6 @@ namespace Z0
             {
                 var ipattern = ipatterns[i];
                 ref readonly var id = ref ipattern.PatternId;
-
                 ref readonly var instid = ref ipattern.InstId;
                 ref readonly var @class = ref ipattern.Class;
                 ref readonly var form = ref ipattern.Form;
@@ -38,10 +37,16 @@ namespace Z0
                 ref readonly var def = ref ipattern.InstDef;
                 ref readonly var spec = ref ipattern.PatternSpec;
                 ref readonly var body = ref ipattern.Body;
+                ref readonly var raw = ref ipattern.RawBody;
                 ref readonly var ops = ref ipattern.Operands;
+                writer.WriteLine(RP.PageBreak80);
+                writer.WriteLine(@class);
+                writer.WriteLine(raw);
+                writer.WriteLine(body.Format());
+                writer.WriteLine();
 
-                var opcode = ocparser.Parse(ipattern);
-                writer.AppendLineFormat("{0,-24} | {1,-24} | {2}", format(@class), format(opcode.OcKind), format(opcode.OpCode), _format(body));
+                // var opcode = ocparser.Describe(ipattern);
+                // writer.AppendLineFormat("{0,-24} | {1,-24} | {2}", format(@class), format(opcode.OcKind), format(opcode.OpCode), _format(body));
 
             }
             EmittedFile(emitting,count);

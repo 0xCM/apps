@@ -273,7 +273,7 @@ namespace Z0
                     var parts = sys.empty<string>();
                     if(Kind == EncodeStep)
                     {
-                        parts = text.split(content, EncStep).Map(x => x.Trim());
+                        parts = text.split(content, EncStep).Map(x => RuleMacros.expand(x.Trim()));
                         if(parts.Length == 2)
                             expressions.Add(RuleTables.expr(Kind, parts[0], parts[1]));
                         else
@@ -284,7 +284,7 @@ namespace Z0
                     }
                     else if(Kind == DecodeStep)
                     {
-                        parts = text.split(content, DecStep).Map(x => x.Trim());
+                        parts = text.split(content, DecStep).Map(x => RuleMacros.expand(x.Trim()));
                         if(parts.Length == 1)
                             expressions.Add(RuleTables.expr(Kind, parts[0]));
                         else if(parts.Length == 2)

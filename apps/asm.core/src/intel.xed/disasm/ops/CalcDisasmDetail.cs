@@ -165,8 +165,8 @@ namespace Z0
             if(rules.IMM0)
                 dst.Imm = asm.imm(code, rules.POS_IMM, rules.IMM0SIGNED, Sizes.native(rules.IMM_WIDTH));
 
-            dst.EASZ = Sizes.native(width((EASZ)rules.EASZ));
-            dst.EOSZ = Sizes.native(width((EOSZ)rules.EOSZ));
+            dst.EASZ = Sizes.native(bitwidth((EASZ)rules.EASZ));
+            dst.EOSZ = Sizes.native(bitwidth((EOSZ)rules.EOSZ));
             return result;
         }
     }

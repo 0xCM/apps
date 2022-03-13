@@ -16,7 +16,7 @@ namespace Z0
             var count = src.Count;
             var dst = alloc<PatternInfo>(count);
             for(var i=0; i<count;i++)
-                seek(dst,i) = parser.Parse(src[i]);
+                seek(dst,i) = parser.Describe(src[i]);
             return dst.Sort();
         }
     }

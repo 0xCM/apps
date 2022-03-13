@@ -15,7 +15,7 @@ namespace Z0
         public void EmitCatalog()
         {
             var defs = CalcInstDefs();
-            var patterns = CalcInstPatterns(defs);
+            var patterns = CalcInstPatterns();
             var actions = new Action[]{
                 () => TableEmit(CalcPatternInfo(patterns)),
                 () => EmitPatternDetails(defs),
@@ -32,9 +32,6 @@ namespace Z0
             iter(actions, a => a(), true);
         }
 
-        void TableEmit(Index<PatternInfo> src)
-            => TableEmit(src.View, PatternInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodes));
-
         void EmitRuleSeq()
         {
             var src = CalcRuleSeq();
@@ -44,7 +41,13 @@ namespace Z0
         }
 
         void EmitFieldDefs()
-            => TableEmit(CalcFieldDefs().View, XedFieldDef.RenderWidths, XedPaths.FieldDefsTarget());
+            => TableEmit(CalcFieldDefs());
+
+        void TableEmit(Index<PatternInfo> src)
+            => TableEmit(src.View, PatternInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodes));
+
+        void TableEmit(Index<XedFieldDef> src)
+            => TableEmit(src.View, XedFieldDef.RenderWidths, XedPaths.FieldDefsTarget());
 
         void EmitPatternDetails(Index<InstDef> src)
             => EmitPatternDetails(src, AppDb.XedPath("xed.rules.detail", FileKind.Txt));
@@ -61,6 +64,19 @@ namespace Z0
         void EmitFieldSpecs()
             => TableEmit(CalcFieldSpecs().View, RuleFieldSpec.RenderWidths, AppDb.XedTable<RuleFieldSpec>());
 
+        // void EmitRuleTables()
+        // {
+        //     var tables = CalcRuleTables();
+        //     var sigs = tables.Keys.ToArray().Sort();
+        //     var path = AppDb.XedPath("xed.rules.tables", FileKind.Txt);
+        //     var emitting = EmittingFile(path);
+        //     using var writer = path.AsciWriter();
+        //     for(var i=0; i<sigs.Length; i++)
+        //         writer.WriteLine(tables[skip(sigs,i)].Format());
+
+        //     EmittedFile(emitting, sigs.Length);
+        // }
+
         void EmitRuleTables()
         {
             var tables = CalcRuleTables();
@@ -70,7 +86,6 @@ namespace Z0
             using var writer = path.AsciWriter();
             for(var i=0; i<sigs.Length; i++)
                 writer.WriteLine(tables[skip(sigs,i)].Format());
-
             EmittedFile(emitting, sigs.Length);
         }
 

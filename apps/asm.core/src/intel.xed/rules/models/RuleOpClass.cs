@@ -17,8 +17,6 @@ namespace Z0
 
             Visibility,
 
-            Common,
-
             PtrWidth,
 
             Nonterminal,

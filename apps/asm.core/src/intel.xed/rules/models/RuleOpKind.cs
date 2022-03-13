@@ -11,26 +11,37 @@ namespace Z0
         {
             None,
 
+            [Symbol("agen")]
             Agen,
 
+            [Symbol("base")]
             Base,
 
+            [Symbol("disp")]
             Disp,
 
+            [Symbol("imm")]
             Imm,
 
+            [Symbol("index")]
             Index,
 
+            [Symbol("m")]
             Mem,
 
+            [Symbol("ptr")]
             Ptr,
 
+            [Symbol("r")]
             Reg,
 
+            [Symbol("relbr")]
             RelBr,
 
+            [Symbol("scale")]
             Scale,
 
+            [Symbol("seg")]
             Seg,
 
             Macro,

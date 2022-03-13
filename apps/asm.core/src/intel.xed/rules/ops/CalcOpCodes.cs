@@ -5,10 +5,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+
     partial class XedRules
     {
-        [MethodImpl(Inline), Op]
-        public static Bitfield64 pack(in StateFlags src)
-            => BitPack.pack64x8x1(src);
+        public Index<XedOpCode> CalcOpCodes()
+            => Data(nameof(CalcOpCodes), () => opcodes(CalcInstPatterns()));
     }
 }

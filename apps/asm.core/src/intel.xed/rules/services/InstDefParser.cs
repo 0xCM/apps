@@ -46,7 +46,7 @@ namespace Z0
                     dst.Append(part);
                 }
 
-                return MacroExpander.expand(dst.Emit());
+                return RuleMacros.expand(dst.Emit());
             }
 
             static TextLine cleanse(TextLine src)
@@ -75,7 +75,6 @@ namespace Z0
                     if(line.StartsWith(Chars.LBrace))
                     {
                         var dst = default(InstDef);
-                        var bodyexpr = EmptyString;
                         var rawbody = EmptyString;
                         var operands = list<InstPatternSpec>();
                         var @class = IClass.INVALID;
@@ -141,14 +140,12 @@ namespace Z0
                                                 }
                                             }
 
-                                            XedParsers.parse(bodyexpr, out InstPatternBody body).Require();
+                                            XedParsers.parse(ExpandBody(rawbody), out InstPatternBody body).Require();
                                             operands.Add(new InstPatternSpec(seq++, 0, @class, rawbody, body, parser.ParseOps(value)));
-                                            bodyexpr=EmptyString;
                                         }
                                         break;
                                         case P.Pattern:
                                             rawbody = value;
-                                            bodyexpr = ExpandBody(rawbody);
                                         break;
                                         case P.Isa:
                                             parse(value, out dst.Isa);

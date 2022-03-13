@@ -63,6 +63,30 @@ namespace Z0
             static HashSet<string> _names()
                 => map(Kinds.View.Where(x => x.Kind != 0),x => x.Expr.Text).ToHashSet();
 
+
+            public static string expand(string src)
+            {
+                var input = text.trim(text.split(text.despace(src), Chars.Space));
+                var count = input.Length;
+                var output = alloc<string>(count);
+                var names = RuleMacros.names();
+                var kinds = RuleMacros.kinds();
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var part = ref skip(input,i);
+                    if(names.Contains(part))
+                    {
+                        if(kinds.Lookup(part, out var sym))
+                            seek(output,i) = MacroLookup[sym.Kind].Format();
+                        else
+                            seek(output,i) = part;
+                    }
+                    else
+                        seek(output,i) = part;
+                }
+                return output.Delimit(Chars.Space).Format();
+            }
+
             [MethodImpl(Inline), Op]
             public static Symbols<RuleMacroKind> kinds()
                 => Kinds;

@@ -59,7 +59,7 @@ namespace Z0
                     result = (false,Msg.ParseFailure.Format(nameof(dst.EType), c1));
                     break;
                 }
-                dst.EWidth = width(dst.Code, dst.EType);
+                dst.EWidth = bitwidth(dst.Code, dst.EType);
 
                 static Outcome ParseWidthValue(string src, out ushort bits)
                 {
@@ -102,7 +102,7 @@ namespace Z0
                     break;
                 }
 
-                dst.Seg = SegType.define(@class(dst.Code), dst.Width64, width(dst.Code, dst.EType));
+                dst.Seg = SegType.define(@class(dst.Code), dst.Width64, bitwidth(dst.Code, dst.EType));
 
                 buffer.Add(dst);
             }

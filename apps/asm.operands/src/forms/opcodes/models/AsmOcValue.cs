@@ -150,6 +150,10 @@ namespace Z0.Asm
             => new AsmOcValue(src);
 
         [MethodImpl(Inline)]
+        public static implicit operator uint(AsmOcValue src)
+            => src.Storage;
+
+        [MethodImpl(Inline)]
         public static implicit operator AsmOcValue(ReadOnlySpan<byte> src)
             => new AsmOcValue(src);
 
@@ -157,6 +161,13 @@ namespace Z0.Asm
         public static implicit operator AsmOcValue(ByteBlock4 src)
             => new AsmOcValue(src);
 
+        [MethodImpl(Inline)]
+        public static bool operator ==(AsmOcValue a, AsmOcValue b)
+            => a.Equals(b);
+
+        [MethodImpl(Inline)]
+        public static bool operator !=(AsmOcValue a, AsmOcValue b)
+            => !a.Equals(b);
         public static AsmOcValue Empty => default;
     }
 }

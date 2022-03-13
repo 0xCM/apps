@@ -38,7 +38,36 @@ namespace Z0
                 Result = PatternInfo.Empty;
             }
 
-            public PatternInfo Parse(in InstPattern src)
+            public XedOpCode Parse(InstPattern src)
+            {
+                Clear();
+                ref readonly var body = ref src.Body;
+                OcValue = ocvalue(body);
+                for(var i=0; i<body.PartCount; i++)
+                    Parse(body[i]);
+                CalcOcIndex();
+                return new XedOpCode(src.PatternId, src.Class, OcIndex != null ? ockind(OcIndex.Value) : OpCodeKind.None, OcValue);
+            }
+
+            void CalcOcIndex()
+            {
+                if(OcIndex == null)
+                {
+                    if(OcValue[0] == 0x0F)
+                    {
+                        if(OcValue[1] == 0x38)
+                            OcIndex = OpCodeIndex.LegacyMap2;
+                        else if(OcValue[1] == 0x3A)
+                            OcIndex = OpCodeIndex.LegacyMap3;
+                        else
+                            OcIndex = OpCodeIndex.LegacyMap1;
+                    }
+                    else
+                        OcIndex = OpCodeIndex.LegacyMap0;
+                }
+            }
+
+            public PatternInfo Describe(in InstPattern src)
             {
                 Clear();
                 ref readonly var body = ref src.Body;
@@ -51,25 +80,7 @@ namespace Z0
                 for(var i=0; i<body.PartCount; i++)
                     Parse(body[i]);
 
-                if(OcIndex == null)
-                {
-                    if(OcValue[0] == 0x0F)
-                    {
-                        if(OcValue[1] == 0x38)
-                        {
-                            OcIndex = OpCodeIndex.LegacyMap2;
-                        }
-                        else if(OcValue[1] == 0x3A)
-                        {
-                            OcIndex = OpCodeIndex.LegacyMap3;
-
-                        }
-                        else
-                            OcIndex = OpCodeIndex.LegacyMap1;
-                    }
-                    else
-                        OcIndex = OpCodeIndex.LegacyMap0;
-                }
+                CalcOcIndex();
 
                 Result.OpCode = OcValue;
                 if(OcIndex != null)

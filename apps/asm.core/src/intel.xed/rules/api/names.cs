@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public static Index<string> names(Index<RuleTermTable> src)
+        public static Index<string> names(Index<RuleTable> src)
             => src.Select(x => x.Name.Format()).Where(nonempty).Distinct().Sort();
     }
 }

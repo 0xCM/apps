@@ -22,7 +22,7 @@ namespace Z0
             public static string easz(FieldValue src)
             {
                 var data = (EASZ)src.Data;
-                var dst = width(data).ToString();
+                var dst = bitwidth(data).ToString();
                 return dst;
             }
 
@@ -30,7 +30,7 @@ namespace Z0
             public static string eosz(FieldValue src)
             {
                 var data = (EOSZ)src.Data;
-                var dst = width(data).ToString();
+                var dst = bitwidth(data).ToString();
                 return dst;
             }
 
@@ -38,7 +38,7 @@ namespace Z0
             public static string mode(FieldValue src)
             {
                 var data = (ModeKind)src.Data;
-                var dst = width(data).ToString();
+                var dst = bitwidth(data).ToString();
                 return dst;
             }
 

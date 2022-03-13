@@ -267,7 +267,7 @@ namespace Z0
 
             void Traverse(in InstDef def, in InstPatternSpec pattern, in RuleOpSpec op, in RuleOpAttrib attrib)
             {
-                switch(attrib.Kind)
+                switch(attrib.Class)
                 {
                     case C.Action:
                         Traverse(def, pattern, op, attrib.AsAction());

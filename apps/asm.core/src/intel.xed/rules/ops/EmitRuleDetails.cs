@@ -6,25 +6,9 @@
 namespace Z0
 {
     using static core;
+
     partial class XedRules
     {
-        static bool attrib(ReadOnlySpan<RuleOpAttrib> src, RuleOpClass kind, out RuleOpAttrib dst)
-        {
-            var result = false;
-            dst = RuleOpAttrib.Empty;
-            for(var i=0; i<src.Length; i++)
-            {
-                ref readonly var a = ref skip(src,i);
-                if(a.Kind == kind)
-                {
-                    dst = a;
-                    result = true;
-                    break;
-                }
-            }
-            return result;
-        }
-
         void EmitPatternDetails(Index<InstDef> defs, FS.FilePath path)
         {
             const string LabelPattern = "{0,-16} | {1}";

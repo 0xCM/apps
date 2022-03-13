@@ -6,12 +6,9 @@ namespace Z0
 {
     using static core;
     using static XedRules;
-    using static XedDisasm;
     using static XedModels;
-    using Asm;
 
     using K = XedRules.FieldKind;
-
 
     partial class XedCmdProvider
     {
@@ -89,9 +86,7 @@ namespace Z0
                 dst.AppendFormat("/{0}", src.OpInfo.Visiblity);
             if(src.OpInfo.LookupKind != 0)
                 dst.AppendFormat("/{0}", src.OpInfo.LookupKind);
-
         }
-
 
         void CheckDisasm2()
         {

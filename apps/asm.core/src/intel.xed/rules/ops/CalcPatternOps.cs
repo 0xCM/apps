@@ -20,9 +20,7 @@ namespace Z0
         {
             ref readonly var patterns = ref def.PatternSpecs;
             for(var j=0; j<patterns.Count; j++)
-            {
                 CalcPatternOps(patterns[j], dst);
-            }
         }
 
         void CalcPatternOps(in InstPatternSpec pattern, ConcurrentBag<PatternOpDetail> dst)
@@ -44,19 +42,19 @@ namespace Z0
                 detail.Expression = op.Expression;
                 detail.Mnemonic = pattern.Class;
 
-                if(attrib(attribs, RuleOpClass.Action, out var action))
+                if(attribs.Search(RuleOpClass.Action, out var action))
                     detail.Action = action;
-                if(attrib(attribs, RuleOpClass.OpWidth, out var width))
+                if(attribs.Search(RuleOpClass.OpWidth, out var width))
                     detail.Width = width;
-                if(attrib(attribs, RuleOpClass.ElementType, out var et))
+                if(attribs.Search(RuleOpClass.ElementType, out var et))
                     detail.EType = et;
-                if(attrib(attribs, RuleOpClass.EncGroup, out var encgroup))
+                if(attribs.Search(RuleOpClass.EncGroup, out var encgroup))
                     detail.EncGroup = encgroup;
-                if(attrib(attribs, RuleOpClass.RegLiteral, out var reglit))
+                if(attribs.Search(RuleOpClass.RegLiteral, out var reglit))
                     detail.RegLit = reglit;
-                if(attrib(attribs, RuleOpClass.Modifier, out var mod))
+                if(attribs.Search(RuleOpClass.Modifier, out var mod))
                     detail.Modifier = mod;
-                if(attrib(attribs, RuleOpClass.Visibility, out var visib))
+                if(attribs.Search(RuleOpClass.Visibility, out var visib))
                     detail.Visibility = visib;
 
                 dst.Add(detail);

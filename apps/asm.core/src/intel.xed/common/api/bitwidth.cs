@@ -15,11 +15,11 @@ namespace Z0
     partial struct XedModels
     {
         [Op]
-        public static ushort width(XedRegId src)
+        public static ushort bitwidth(XedRegId src)
             => (ushort)XedRegMap.Service.Map(src).Size.Width;
 
         [Op]
-        public static ushort width(VexLengthKind src)
+        public static ushort bitwidth(VexLengthKind src)
             => src switch
             {
                 VexLengthKind.VL128 => 128,
@@ -29,7 +29,21 @@ namespace Z0
             };
 
         [Op]
-        public static ushort width(OperandWidthCode src)
+        public static ushort bitwidth(PointerWidthKind src)
+            => src switch
+            {
+                PointerWidthKind.Byte => 8,
+                PointerWidthKind.Word => 16,
+                PointerWidthKind.DWord => 32,
+                PointerWidthKind.QWord => 64,
+                PointerWidthKind.XmmWord => 128,
+                PointerWidthKind.YmmWord => 256,
+                PointerWidthKind.ZmmWord => 512,
+                _ => 0
+            };
+
+        [Op]
+        public static ushort bitwidth(OperandWidthCode src)
         {
             var dst = z16;
             switch(src)
@@ -127,7 +141,7 @@ namespace Z0
         }
 
         [Op]
-        public static ushort width(OperandWidthCode okind, ElementKind ekind)
+        public static ushort bitwidth(OperandWidthCode okind, ElementKind ekind)
         {
             var result = z16;
             switch(okind)
@@ -245,7 +259,7 @@ namespace Z0
         }
 
         [Op]
-        public static uint width(EOSZ src)
+        public static uint bitwidth(EOSZ src)
             => src switch
             {
                 EOSZ8 => 8,
@@ -257,7 +271,7 @@ namespace Z0
 
 
         [Op]
-        public static uint width(EASZ src)
+        public static uint bitwidth(EASZ src)
             => src switch
             {
                 EASZ16 => 16,
@@ -267,7 +281,7 @@ namespace Z0
             };
 
         [Op]
-        public static uint width(ModeKind src)
+        public static uint bitwidth(ModeKind src)
             => src switch
             {
                 Mode16 => 16,
@@ -275,41 +289,5 @@ namespace Z0
                 Mode64 => 64,
                 _ => 0,
             };
-
-        [Op]
-        public static uint widths(ModeKind src)
-            => src switch
-            {
-                Mode16 => 16,
-                Mode32 => 32,
-                Mode64 => 64,
-                Not64 => 16 | 32,
-                _ => 0,
-            };
-
-        [Op]
-        public static uint widths(EASZ src)
-            => src switch
-            {
-                EASZ16 => 16,
-                EASZ32 => 32,
-                EASZ64 => 64,
-                EASZNot16 => 32 | (64 << 8),
-                _ => 0,
-            };
-
-        [Op]
-        public static uint widths(EOSZ src)
-            => src switch
-            {
-                EOSZ8 => 8,
-                EOSZ16 => 16,
-                EOSZ32 => 32,
-                EOSZ64 => 64,
-                EOSZNot16 => 8 | (32 << 8) | (64 << 16),
-                EOSZNot64 => 8 | (16 << 8) | (32 << 16),
-                _ => 0,
-            };
-
     }
 }

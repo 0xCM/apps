@@ -13,7 +13,7 @@ namespace Z0
         public static string format(RuleOpAttrib src)
         {
             var dst = EmptyString;
-            switch(src.Kind)
+            switch(src.Class)
             {
                 case K.Action:
                     dst = format(src.AsAction());
@@ -34,9 +34,9 @@ namespace Z0
                     dst = format(src.AsGroupName());
                 break;
 
-                case K.Common:
-                    dst = format(src.AsCommon());
-                break;
+                // case K.Common:
+                //     dst = format(src.AsCommon());
+                // break;
 
                 case K.Modifier:
                     dst = format(src.AsModifier());
@@ -61,7 +61,6 @@ namespace Z0
                 case K.Macro:
                     dst = src.AsMacro().ToString();
                 break;
-
             }
             return dst;
         }

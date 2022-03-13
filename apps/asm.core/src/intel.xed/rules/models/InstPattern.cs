@@ -27,6 +27,18 @@ namespace Z0
                 get => ref PatternSpec.Body;
             }
 
+            public ref readonly TextBlock RawBody
+            {
+                [MethodImpl(Inline)]
+                get => ref PatternSpec.RawBody;
+            }
+
+            public ref readonly TextBlock BodyExpr
+            {
+                [MethodImpl(Inline)]
+                get => ref PatternSpec.BodyExpr;
+            }
+
             public ref readonly Index<RuleOpSpec> Operands
             {
                 [MethodImpl(Inline)]

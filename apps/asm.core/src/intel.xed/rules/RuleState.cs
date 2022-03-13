@@ -8,7 +8,6 @@ namespace Z0
     using Asm;
 
     using static XedModels;
-    using static core;
 
     using K = XedRules.FieldKind;
 
@@ -18,12 +17,6 @@ namespace Z0
         public struct RuleState
         {
             public const string TableId = "xed.rules.state";
-
-            public ref StateFlags Flags
-            {
-                [MethodImpl(Inline)]
-                get => ref @as<StateFlags>(bytes(this));
-            }
 
             [RuleField(K.ASZ, 1)]
             public bit ASZ;

@@ -9,35 +9,53 @@ namespace Z0
 
     partial class XedRules
     {
+        // public ConstLookup<RuleSig,RuleTable> CalcRuleTables()
+        // {
+        //     void OnError(string src)
+        //         => Write(src, FlairKind.Error);
+
+        //     var collector = new TableCollector(OnError, true);
+        //     collector.Traverse(MacroExpander.expand(CalcEncDecRuleTables()));
+        //     var encdec = collector.Tables();
+
+        //     collector.Traverse(MacroExpander.expand(CalcEncRuleTables()));
+        //     var enc = collector.Tables();
+
+        //     var dst = dict<RuleSig,RuleTable>();
+        //     foreach(var key in encdec.Keys)
+        //         dst.Add(key, encdec[key]);
+
+        //     foreach(var key in enc.Keys)
+        //         dst.TryAdd(key, enc[key]);
+
+        //     return dst;
+        // }
+
         public ConstLookup<RuleSig,RuleTable> CalcRuleTables()
         {
             void OnError(string src)
                 => Write(src, FlairKind.Error);
 
-            var collector = new TableCollector(OnError, true);
-            collector.Traverse(MacroExpander.expand(CalcEncDecRuleTables()));
-            var encdec = collector.Tables();
-
-            collector.Traverse(MacroExpander.expand(CalcEncRuleTables()));
-            var enc = collector.Tables();
-
+            var parser = new RuleTableParser();
             var dst = dict<RuleSig,RuleTable>();
-            foreach(var key in encdec.Keys)
-                dst.Add(key, encdec[key]);
+            var enc = parser.Parse2(XedPaths.DocSource(XedDocKind.EncRuleTable));
+            foreach(var t in enc)
+                dst.Add(t.Sig, t);
 
-            foreach(var key in enc.Keys)
-                dst.TryAdd(key, enc[key]);
+            var encdec = parser.Parse2(XedPaths.DocSource(XedDocKind.EncDecRuleTable));
+            foreach(var t in encdec)
+                dst.TryAdd(t.Sig, t);
 
             return dst;
         }
 
-        public Index<RuleTermTable> CalcEncRuleTables()
-            => Data(nameof(CalcEncRuleTables), () => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.EncRuleTable)));
+        // public Index<RuleTermTable> CalcEncRuleTables()
+        //     => Data(nameof(CalcEncRuleTables), () => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.EncRuleTable)));
 
-        public Index<RuleTermTable> CalcDecRuleTables()
-            => Data(nameof(CalcDecRuleTables), () => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.DecRuleTable)));
+        // public Index<RuleTermTable> CalcDecRuleTables()
+        //     => Data(nameof(CalcDecRuleTables), () => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.DecRuleTable)));
 
-        public Index<RuleTermTable> CalcEncDecRuleTables()
-            => Data(nameof(CalcEncDecRuleTables), () => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.EncDecRuleTable)));
+        // public Index<RuleTermTable> CalcEncDecRuleTables()
+        //     => Data(nameof(CalcEncDecRuleTables), () => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.EncDecRuleTable)));
     }
 }

@@ -36,5 +36,7 @@ namespace Z0
         static EnumFormatter<AttributeKind> AttribKinds = new();
 
         static EnumFormatter<OpCodeIndex> OcKindIndex = new();
+
+        static EnumFormatter<RuleOpKind> RuleOpKinds = new();
     }
 }

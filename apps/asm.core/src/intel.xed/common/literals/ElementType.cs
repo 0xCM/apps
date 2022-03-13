@@ -54,6 +54,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator ElementKind(ElementType src)
                 => src.Kind;
+
+            public static ElementType Empty => default;
         }
     }
 }

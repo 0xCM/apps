@@ -4,8 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
     using static XedRules;
+    using static XedRender;
+    using static core;
+
     using Asm;
 
     partial class XedCmdProvider
@@ -13,15 +15,45 @@ namespace Z0
         [CmdOp("xed/check/opcodes")]
         Outcome CheckOpCodes(CmdArgs args)
         {
-            var src = Xed.Rules.LoadPatternInfo();
-            var count = src.Count;
+            var patterns = Xed.Rules.CalcInstPatterns();
+            var ocx = opcodes(patterns);
+            var lookup = patterns.Map(x => (x.PatternId,x)).ToDictionary();
+            var count = ocx.Count;
+            var buffer = alloc<PatternIdentity>(count);
             for(var i=0; i<count; i++)
             {
-                ref readonly var opcode = ref src[i];
-                Write(string.Format("{0,-24} | {1,-24} | {2}", opcode.Class, opcode.OpCode, opcode.Body));
+                ref readonly var oc = ref ocx[i];
+                var pattern = lookup[oc.PatternId];
+                var id = identify(pattern);
+                ref var dst = ref seek(buffer,i);
+                dst.PatternId = pattern.PatternId;
+                dst.Class = pattern.Class;
+                dst.Name = identify(pattern);
+                dst.OcKind = oc.Kind;
+                dst.OcValue = oc.Value;
+                dst.PatternBody = pattern.BodyExpr;
             }
 
+            buffer.Sort();
+
+            TableEmit(@readonly(buffer), PatternIdentity.RenderWidths, AppDb.XedTable<PatternIdentity>());
+
             return true;
+        }
+
+        static Identifier identify(InstPattern src)
+        {
+            var dst = text.buffer();
+            dst.Append(format(src.Class).ToLower());
+            for(var i=0; i<src.OperandCount; i++)
+            {
+                dst.Append(Chars.Underscore);
+                ref readonly var op = ref src.Operands[i];
+                var w = op.OpWidth;
+                dst.AppendFormat("{0}{1}", format(op.Kind), w == 0 ? "V" : w);
+            }
+
+            return dst.Emit();
         }
 
         [CmdOp("xed/check/modrm")]

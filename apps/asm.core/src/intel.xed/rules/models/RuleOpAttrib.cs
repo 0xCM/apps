@@ -13,20 +13,20 @@ namespace Z0
     {
         public readonly struct RuleOpAttrib : IComparable<RuleOpAttrib>, IEquatable<RuleOpAttrib>
         {
-            public readonly RuleOpClass Kind;
+            public readonly RuleOpClass Class;
 
             readonly uint Data;
 
             [MethodImpl(Inline)]
             internal RuleOpAttrib(RuleOpClass kind, uint data)
             {
-                Kind = kind;
+                Class = kind;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
             public int CompareTo(RuleOpAttrib src)
-                => ((uint)Kind).CompareTo((uint)src.Kind);
+                => ((uint)Class).CompareTo((uint)src.Class);
 
             public string Format()
                 => XedRender.format(this);
@@ -36,7 +36,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public bool Equals(RuleOpAttrib src)
-                => Kind == src.Kind && Data == src.Data;
+                => Class == src.Class && Data == src.Data;
 
             [MethodImpl(Inline)]
             public RuleOpModifier AsModifier()
@@ -129,10 +129,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator RuleOpAttrib(GroupName src)
                 => new RuleOpAttrib(K.EncGroup, (uint)src);
-
-            [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(AttributeKind src)
-                => new RuleOpAttrib(K.Common, (uint)src);
 
             [MethodImpl(Inline)]
             public static implicit operator RuleOpAttrib(RuleOpModKind src)

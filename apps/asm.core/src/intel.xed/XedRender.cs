@@ -93,6 +93,9 @@ namespace Z0
             return dst.Emit();
         }
 
+        // public static string format(OpCodeKind src)
+        //     => src == 0 ? EmptyString : src.ToString();
+
         public static string format(RuleOpModKind src)
             => OpMods[src].Expr.Text;
 
@@ -161,6 +164,9 @@ namespace Z0
 
         public static string format(BCast16Kind src)
             => BCast16.Format(src);
+
+        public static string format(RuleOpKind src)
+            => RuleOpKinds.Format(src);
 
         public static string format(BCast32Kind src)
             => BCast32.Format(src);
