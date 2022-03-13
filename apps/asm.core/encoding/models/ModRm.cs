@@ -15,11 +15,24 @@ namespace Z0.Asm
         public static ModRm init(byte src = 0)
             => new ModRm(src);
 
+        [MethodImpl(Inline)]
+        public static ModRm init(uint2 mod, uint3 reg, uint3 rm)
+            => new ModRm(mod,reg,rm);
+
         byte _Value;
 
         public ModRm(byte src)
         {
             _Value = src;
+        }
+
+        [MethodImpl(Inline)]
+        public ModRm(uint2 mod, uint3 reg, uint3 rm)
+        {
+            _Value = default;
+            Mod(mod);
+            Reg(reg);
+            Rm(rm);
         }
 
         const byte RmMask = 0b11_111_000;
