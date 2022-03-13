@@ -20,59 +20,50 @@ namespace Z0
                 Pll = pll;
             }
 
-            public void Traverse(ReadOnlySpan<RuleTermTable> src)
+            public void Traverse(Index<RuleTable> src)
             {
-                iter(src,t => Traverse(t), Pll);
+                Traversing();
+                for(var i=0; i<src.Count; i++)
+                    Traverse(src[i]);
             }
 
-            public void Traverse(in RuleTermTable src)
+            public void Traverse(in RuleTable src)
             {
+                Traversing(src);
                 Traverse(src, src.Expressions);
             }
 
-            public void Traverse(in RuleTermTable table, ReadOnlySpan<RuleTermExpr> src)
+            void Traverse(in RuleTable table, Index<RuleExpr> src)
             {
-                Traversing(table);
-                var sig = table.Sig;
-                iter(src, e => Traverse(sig, e));
+                for(var i=0; i<src.Count; i++)
+                    Traverse(table,src[i]);
             }
 
-            public void Traverse(RuleSig table, in RuleTermExpr src)
+            void Traverse(in RuleTable table, in RuleExpr src)
             {
-                Traversing(table, src);
-                iter(src.Premise, p => Traverse(table,p));
-                iter(src.Consequent, c => Traverse(table,c));
+                Traversing(src);
+                Traverse(table, src.Premise);
+                Traverse(table, src.Consequent);
             }
 
-            public void Traverse(RuleSig table, in RuleTerm src)
+            void Traverse(in RuleTable table, Index<RuleCriterion> src)
             {
-                var value = src.Format();
-                if(RuleTables.spec(src.IsPremise, value, out RuleCriterion spec))
-                    Traversing(table, spec);
-                else
-                    Errors(AppMsg.ParseFailure.Format(nameof(RuleTerm), value));
+                for(var i=0; i<src.Count; i++)
+                    Traverse(table,src[i]);
             }
 
-            protected virtual void Traversing()
+            void Traverse(in RuleTable table, in RuleCriterion src)
             {
-
+                Traversing(src);
             }
 
-            protected virtual void Traversing(in RuleTermTable src)
-            {
+            protected virtual void Traversing(in RuleTable table) {}
 
-            }
+            protected virtual void Traversing(in RuleExpr table) {}
 
+            protected virtual void Traversing(in RuleCriterion table) {}
 
-            protected virtual void Traversing(in RuleSig table, in RuleCriterion src)
-            {
-
-            }
-
-            protected virtual void Traversing(in RuleSig table, in RuleTermExpr src)
-            {
-
-            }
+            protected virtual void Traversing() {}
         }
     }
 }

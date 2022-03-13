@@ -16,9 +16,7 @@ namespace Z0
 
             public const string TableDeclSyntax = "()::";
 
-            public const string EncodeTableName = "_ENCODE";
-
-            public const string EncodeTableDecl = EncodeTableName + TableDeclSyntax;
+            public const string EncodeTableDecl = "_ENCODE" + "()::";
 
             public const string CallSyntax = "()";
 
@@ -41,7 +39,7 @@ namespace Z0
             public const char Eq = '=';
 
             public static bool IsCall(string src)
-                => src.Contains(CallSyntax);
+                => src.EndsWith(CallSyntax);
 
             public static bool IsSeqDecl(string src)
                 => src.StartsWith(SeqDeclSyntax);

@@ -38,11 +38,11 @@ namespace Z0
 
             var parser = new RuleTableParser();
             var dst = dict<RuleSig,RuleTable>();
-            var enc = parser.Parse2(XedPaths.DocSource(XedDocKind.EncRuleTable));
+            var enc = parser.Parse(XedPaths.DocSource(XedDocKind.EncRuleTable));
             foreach(var t in enc)
                 dst.Add(t.Sig, t);
 
-            var encdec = parser.Parse2(XedPaths.DocSource(XedDocKind.EncDecRuleTable));
+            var encdec = parser.Parse(XedPaths.DocSource(XedDocKind.EncDecRuleTable));
             foreach(var t in encdec)
                 dst.TryAdd(t.Sig, t);
 

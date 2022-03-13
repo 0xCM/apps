@@ -109,7 +109,7 @@ namespace Z0
                     case REXRR:
                     case SAE:
                     {
-                        if(bit.parse(value, out var x))
+                        if(XedParsers.parse(value, out bit x))
                         {
                             dst = criterion(premise, field, op, x);
                             result = true;
@@ -219,7 +219,7 @@ namespace Z0
                     case SRM:
                     case MASK:
                     {
-                        if(DataParser.parse(value, out Hex3 x))
+                        if(XedParsers.parse(value, out Hex3 x))
                         {
                             dst = criterion(premise, field, op, x);
                             result = true;
@@ -281,7 +281,7 @@ namespace Z0
                     case REG8:
                     case REG9:
                     {
-                        if(DataParser.eparse(text.remove(value, "XED_REG_"), out XedRegId x))
+                        if(XedParsers.parse(value, out XedRegId x))
                         {
                             dst = criterion(premise, field, op, x);
                             result = true;
@@ -290,7 +290,7 @@ namespace Z0
                     break;
                     case CHIP:
                     {
-                        if(DataParser.eparse(value, out ChipCode x))
+                        if(XedParsers.parse(value, out ChipCode x))
                         {
                             dst = criterion(premise, field, op, x);
                             result = true;
@@ -300,7 +300,7 @@ namespace Z0
 
                     case ERROR:
                     {
-                        if(DataParser.eparse(value, out ErrorKind x))
+                        if(XedParsers.parse(value, out ErrorKind x))
                         {
                             dst = criterion(premise, field, op, x);
                             result = true;
@@ -310,7 +310,7 @@ namespace Z0
 
                     case ICLASS:
                     {
-                        if(DataParser.eparse(value, out IClass x))
+                        if(XedParsers.parse(value, out IClass x))
                         {
                             dst = criterion(premise, field, op, x);
                             result = true;
@@ -356,14 +356,6 @@ namespace Z0
                         dst = criterion(premise, NameResolvers.Instance.Create(fv));
                     return true;
                 }
-                else if(text.contains(input, "=="))
-                {
-                    op = RO.CmpEq;
-                    opsym = "==";
-                    i= text.index(input, "==");
-                    name = text.left(input,i);
-                    fv = text.right(input, i + opsym.Length - 1);
-                }
                 else if(text.contains(input, "!="))
                 {
                     op = RO.CmpNeq;
@@ -374,11 +366,15 @@ namespace Z0
                 }
                 else if(text.contains(input, "="))
                 {
-                    op = RO.Assign;
                     opsym = "=";
-                    i = text.index(input, "=");
-                    name = text.left(input,i);
-                    fv = text.right(input, i + opsym.Length - 1);
+                    if(premise)
+                        op = RO.CmpEq;
+                    else
+                        op = RO.Assign;
+
+                    i = text.index(input, opsym);
+                    XedParsers.parse(text.left(input, i), out fk);
+                    return criterion(premise, fk, op, text.right(input, i), out dst);
                 }
                 else if(text.contains(input, Chars.LBracket) && text.contains(input, Chars.RBracket))
                 {
@@ -387,7 +383,6 @@ namespace Z0
                     fv = text.inside(input,i,j);
                     XedParsers.parse(text.left(input,i), out fk);
                 }
-
 
                 if(nonempty(name) && fk == 0)
                 {
@@ -422,7 +417,7 @@ namespace Z0
                 return buffer;
             }
 
-            public static RuleExpr expr(RuleFormKind kind, string premise, string consequent = EmptyString)
+            public static RuleExpr expr(string premise, string consequent = EmptyString)
             {
                 var left = sys.empty<RuleCriterion>();
                 var right = sys.empty<RuleCriterion>();

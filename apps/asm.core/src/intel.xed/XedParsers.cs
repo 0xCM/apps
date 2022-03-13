@@ -19,6 +19,19 @@ namespace Z0
 
         }
 
+
+        public static bool parse(string src, out bit dst)
+            => Instance.Parse(src, out dst);
+
+        public static bool parse(string src, out Hex3 dst)
+            => Instance.Parse(src, out dst);
+
+        public static bool parse(string src, out ChipCode dst)
+            => Instance.Parse(src, out dst);
+
+        public static bool parse(string src, out ErrorKind dst)
+            => Instance.Parse(src,out dst);
+
         public static bool parse(string src, out uint5 dst)
             => Instance.Parse(src, out dst);
 
@@ -176,6 +189,9 @@ namespace Z0
         public bool Parse(string src, out ElementKind dst)
             => ElementKinds.Parse(src, out dst);
 
+        public bool Parse(string src, out ErrorKind dst)
+            => ErrorKinds.Parse(text.remove(text.trim(src), "XED_ERROR_"), out dst);
+
         public bool Parse(string src, out OpVisibility dst)
             => OpVisKinds.Parse(src, out dst);
 
@@ -207,8 +223,14 @@ namespace Z0
         public bool Parse(string src, out RuleOpModKind dst)
             => OpModKinds.Parse(src, out dst);
 
+        public bool Parse(string src, out ChipCode dst)
+            => ChipCodes.Parse(src, out dst);
+
         public bool Parse(string src, out FlagActionKind dst)
             => FlagActionKinds.Parse(src, out dst);
+
+        public bool Parse(string src, out bit dst)
+            => bit.parse(src, out dst);
 
         public bool Parse(string src, out RuleOpName dst)
             => RuleOpNames.Parse(src, out dst);
@@ -348,9 +370,13 @@ namespace Z0
             if(IsHexLiteral(src))
                 return DataParser.parse(src, out dst);
 
+
             dst = default;
             return false;
         }
+
+        public bool Parse(string src, out Hex3 dst)
+            => DataParser.parse(src, out dst);
 
         public bool Parse(string src, out FieldConstraint dst)
         {
