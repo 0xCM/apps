@@ -10,9 +10,9 @@ namespace Z0
     partial struct XedModels
     {
         [Record(TableId)]
-        public struct XedOpCode : IComparable<XedOpCode>
+        public struct PatternInfo : IComparable<PatternInfo>
         {
-            public const string TableId = "xed.opcodes";
+            public const string TableId = "xed.patterns";
 
             public const byte FieldCount = 7;
 
@@ -20,31 +20,31 @@ namespace Z0
 
             public uint InstId;
 
-            public OpCodeKind Kind;
+            public OpCodeKind OcKind;
 
-            public sbyte Index;
-
-            public AsmOcValue Value;
+            public sbyte OcIndex;
 
             public IClass Class;
 
-            public TextBlock Pattern;
+            public AsmOcValue OpCode;
 
-            public int CompareTo(XedOpCode src)
+            public TextBlock Body;
+
+            public int CompareTo(PatternInfo src)
             {
-                var result = Index.CompareTo(src.Index);
+                var result = OcIndex.CompareTo(src.OcIndex);
                 if(result == 0)
                 {
                     result = ((ushort)Class).CompareTo((ushort)(src.Class));
                     if(result == 0)
-                        result = Pattern.CompareTo(src.Pattern);
+                        result = Body.CompareTo(src.Body);
                 }
                 return result;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,16,8,12,24,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,16,8,24,24,1};
 
-            public static XedOpCode Empty => default;
+            public static PatternInfo Empty => default;
         }
     }
 }

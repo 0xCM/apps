@@ -15,12 +15,11 @@ namespace Z0
         public void EmitCatalog()
         {
             var defs = CalcInstDefs();
-            EmitPatternInfo(defs);
             var patterns = CalcInstPatterns(defs);
             var actions = new Action[]{
-                () => EmitOpCodes(patterns),
+                () => TableEmit(CalcPatternInfo(patterns)),
                 () => EmitPatternDetails(defs),
-                () => EmitPatternOps(CalcPatternOps(defs)),
+                () => TableEmit(CalcPatternOps(defs)),
                 EmitRuleTables,
                 EmitFieldDefs,
                 EmitRuleSeq,
@@ -33,15 +32,8 @@ namespace Z0
             iter(actions, a => a(), true);
         }
 
-        void EmitPatternInfo(Index<InstDef> defs)
-        {
-            var src = CalcPatternInfo(defs);
-            src.Sort();
-            TableEmit(src.View, RulePatternInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.RulePatterns));
-        }
-
-        void EmitOpCodes(Index<InstPattern> patterns)
-            => TableEmit(CalcOpCodes(patterns).View, XedOpCode.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodes));
+        void TableEmit(Index<PatternInfo> src)
+            => TableEmit(src.View, PatternInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodes));
 
         void EmitRuleSeq()
         {
@@ -57,7 +49,7 @@ namespace Z0
         void EmitPatternDetails(Index<InstDef> src)
             => EmitPatternDetails(src, AppDb.XedPath("xed.rules.detail", FileKind.Txt));
 
-        void EmitPatternOps(Index<PatternOpDetail> src)
+        void TableEmit(Index<PatternOpDetail> src)
             => TableEmit(src.View, PatternOpDetail.RenderWidths, AppDb.XedTable<PatternOpDetail>());
 
         void EmitOpCodeKinds()

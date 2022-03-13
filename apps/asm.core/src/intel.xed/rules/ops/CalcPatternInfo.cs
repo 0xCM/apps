@@ -5,47 +5,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
     using static core;
 
     partial class XedRules
     {
-        Index<RulePatternInfo> CalcPatternInfo(ReadOnlySpan<InstDef> src)
+        Index<PatternInfo> CalcPatternInfo(Index<InstPattern> src)
         {
-            var buffer = hashset<RulePatternInfo>();
-            var instcount = src.Length;
-            for(var i=0; i<instcount; i++)
-            {
-                ref readonly var def = ref skip(src,i);
-                var operands = def.PatternSpecs;
-                var opcount = operands.Length;
-                for(var j=0; j<opcount;j++)
-                {
-                    ref readonly var op = ref operands[j];
-                    var pattern = new RulePatternInfo();
-                    pattern.Class = def.Class;
-                    pattern.InstId = def.Seq;
-                    pattern.Hash = alg.hash.marvin(op.BodyExpr.Text);
-                    pattern.BodyExpr = op.BodyExpr;
-                    buffer.Add(pattern);
-                }
-            }
-
-            var dst = buffer.Array().Sort();
-            var count = dst.Length;
-            var hashes = hashset<Hash32>();
-            for(var i=0u; i<count; i++)
-            {
-                ref var record = ref seek(dst,i);
-                record.PatternId = i;
-                hashes.Add(record.Hash);
-            }
-
-            if(hashes.Count != count)
-                Warn(string.Format("Rule hash imperfect"));
-            else
-                Status(string.Format("Rule hash perfect"));
-
-            return dst;
+            var parser = XedOpCodeParser.create();
+            var count = src.Count;
+            var dst = alloc<PatternInfo>(count);
+            for(var i=0; i<count;i++)
+                seek(dst,i) = parser.Parse(src[i]);
+            return dst.Sort();
         }
-   }
+    }
 }

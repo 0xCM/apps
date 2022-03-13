@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
-    using static Root;
-
     partial struct core
     {
         /// <summary>
@@ -20,6 +14,15 @@ namespace Z0
         [MethodImpl(Inline)]
         public static Dictionary<K,V> dict<K,V>()
             => new Dictionary<K,V>();
+
+        /// <summary>
+        /// Initializes an empty condurrent dictionary
+        /// </summary>
+        /// <typeparam name="K">The key type</typeparam>
+        /// <typeparam name="V">The vale type</typeparam>
+        [MethodImpl(Inline)]
+        public static ConcurrentDictionary<K,V> cdict<K,V>()
+            => new();
 
         /// <summary>
         /// Initializes an empty dictionary with a specified capacity

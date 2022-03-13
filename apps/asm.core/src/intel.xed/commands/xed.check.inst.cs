@@ -18,13 +18,13 @@ namespace Z0
             using var writer = dst.AsciWriter();
             var emitting = EmittingFile(dst);
             var result = Outcome.Success;
-            var patterns = Xed.Rules.LoadPatternInfo();
-            var count = patterns.Count;
+            var opcodes = Xed.Rules.LoadPatternInfo();
+            var count = opcodes.Count;
             var buffer = text.buffer();
             for(var i=0; i<count; i++)
             {
-                ref readonly var pattern = ref patterns[i];
-                ref readonly var source = ref pattern.BodyExpr;
+                ref readonly var opcode = ref opcodes[i];
+                ref readonly var source = ref opcode.Body;
                 writer.AppendLineFormat("Source -> {0}", source);
                 result = parsers.Parse(source, out InstPatternBody body);
                 if(result.Fail)

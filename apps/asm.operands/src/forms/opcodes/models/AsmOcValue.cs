@@ -113,7 +113,9 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => StorageBlocks.trim(Storage).Format();
+            => format(this);
+
+            //=> StorageBlocks.trim(Storage).Format();
 
         public string Format(bool prespec, bool uppercase)
             => StorageBlocks.trim(Storage).Format();
@@ -154,5 +156,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator AsmOcValue(ByteBlock4 src)
             => new AsmOcValue(src);
+
+        public static AsmOcValue Empty => default;
     }
 }

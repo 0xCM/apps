@@ -25,7 +25,7 @@ namespace Z0
 
             sbyte Map;
 
-            XedOpCode Result;
+            PatternInfo Result;
 
             AsmOcValue OcValue;
 
@@ -35,16 +35,16 @@ namespace Z0
                 VKind = null;
                 Map = -1;
                 OcIndex = null;
-                Result = XedOpCode.Empty;
+                Result = PatternInfo.Empty;
             }
 
-            public XedOpCode Parse(in InstPattern src)
+            public PatternInfo Parse(in InstPattern src)
             {
                 Clear();
                 ref readonly var body = ref src.Body;
                 Result.PatternId = src.PatternId;
                 Result.InstId = src.InstId;
-                Result.Pattern = XedRender.format(body);
+                Result.Body = XedRender.format(body);
                 Result.Class = src.Class;
 
                 OcValue = ocvalue(body);
@@ -71,15 +71,15 @@ namespace Z0
                         OcIndex = OpCodeIndex.LegacyMap0;
                 }
 
-                Result.Value = OcValue;
+                Result.OpCode = OcValue;
                 if(OcIndex != null)
                 {
-                    Result.Index = (sbyte)OcIndex.Value;
-                    Result.Kind = ockind(OcIndex.Value);
+                    Result.OcIndex = (sbyte)OcIndex.Value;
+                    Result.OcKind = ockind(OcIndex.Value);
                 }
                 else
                 {
-                    Result.Index = -1;
+                    Result.OcIndex = -1;
                 }
 
                 return Result;

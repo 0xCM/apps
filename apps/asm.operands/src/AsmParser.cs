@@ -48,6 +48,18 @@ namespace Z0.Asm
         }
 
         [Parser]
+        public static Outcome parse(string src, out AsmOcValue dst)
+        {
+            var storage = Cells.alloc(w32);
+            var result = Hex.parse(src, storage.Bytes);
+            dst = AsmOcValue.Empty;
+            if(result)
+                dst = new AsmOcValue(slice(storage.Bytes,0, result.Data));
+            return result;
+        }
+
+
+        [Parser]
         public static Outcome expression(string src, out AsmExpr dst)
         {
             var body = src.Trim();

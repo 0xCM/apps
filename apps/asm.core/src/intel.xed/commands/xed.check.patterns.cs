@@ -41,7 +41,7 @@ namespace Z0
                 ref readonly var ops = ref ipattern.Operands;
 
                 var opcode = ocparser.Parse(ipattern);
-                writer.AppendLineFormat("{0,-24} | {1,-24} | {2}", format(@class), format(opcode.Kind), format(opcode.Value), _format(body));
+                writer.AppendLineFormat("{0,-24} | {1,-24} | {2}", format(@class), format(opcode.OcKind), format(opcode.OpCode), _format(body));
 
             }
             EmittedFile(emitting,count);

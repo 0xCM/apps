@@ -6,16 +6,18 @@
 namespace Z0
 {
     using static core;
+    using static XedModels;
+
+    using Asm;
 
     partial class XedRules
     {
-        public Index<RulePatternInfo> LoadPatternInfo()
+        public Index<PatternInfo> LoadPatternInfo()
         {
-            var path = XedPaths.RulePatterns();
-            const byte FieldCount = RulePatternInfo.FieldCount;
+            const byte FieldCount = PatternInfo.FieldCount;
+            var src = XedPaths.DocTarget(XedDocKind.OpCodes);
             var result = Outcome.Success;
-            var src = path.ReadLines();
-            var buffer = list<RulePatternInfo>();
+            var buffer = list<PatternInfo>();
             bool Next(TextLine src)
             {
                 if(src.LineNumber == 1)
@@ -30,18 +32,20 @@ namespace Z0
                 }
 
                 var reader = cells.Reader();
-                var pattern = new RulePatternInfo();
-                result = DataParser.parse(reader.Next(), out pattern.PatternId);
-                result = DataParser.parse(reader.Next(), out pattern.InstId);
-                result = DataParser.parse(reader.Next(), out pattern.Hash);
-                result = XedParsers.parse(reader.Next(), out pattern.Class);
-                result = DataParser.parse(reader.Next(), out pattern.BodyExpr);
-                buffer.Add(pattern);
+                var dst = new PatternInfo();
+                result = DataParser.parse(reader.Next(), out dst.PatternId);
+                result = DataParser.parse(reader.Next(), out dst.InstId);
+                result = XedParsers.parse(reader.Next(), out dst.OcKind);
+                result = DataParser.parse(reader.Next(), out dst.OcIndex);
+                result = XedParsers.parse(reader.Next(), out dst.Class);
+                AsmParser.parse(reader.Next(), out dst.OpCode);
+                result = DataParser.parse(reader.Next(), out dst.Body);
+                buffer.Add(dst);
                 return result;
             }
 
-            path.ReadLines(Next);
-            var dst = result ? buffer.ToArray() : sys.empty<RulePatternInfo>();
+            src.ReadLines(Next);
+            var dst = result ? buffer.ToArray() : sys.empty<PatternInfo>();
             if(result.Fail)
                 Errors.Throw(result.Message);
 
