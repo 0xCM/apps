@@ -53,7 +53,7 @@ namespace Z0
             {
                 Collected.Clear();
                 var defs = Xed.Rules.CalcInstDefs();
-                iter(defs, def => Traverse(def), false);
+                //iter(defs, def => Traverse(def), false);
             }
 
             void Print(in InstPatternSpec src)
@@ -83,7 +83,7 @@ namespace Z0
                 for(var j=0; j<patterns.Count; j++)
                 {
                     ref readonly var pattern = ref patterns[j];
-                    Collected.Add(new InstPattern(def,pattern));
+                    //Collected.Add(new InstPattern(def, pattern));
                     Print(pattern);
 
                     ref readonly var ops = ref pattern.Operands;

@@ -15,10 +15,13 @@ namespace Z0
 
             public readonly InstPatternSpec PatternSpec;
 
-            public InstPattern(InstDef inst, InstPatternSpec spec)
+            public readonly Index<PatternOpDetail> OpDetails;
+
+            public InstPattern(InstDef inst, InstPatternSpec spec, Index<PatternOpDetail> details)
             {
                 InstDef = inst;
                 PatternSpec = spec;
+                OpDetails = details;
             }
 
             public ref readonly InstPatternBody Body

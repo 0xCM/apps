@@ -23,9 +23,17 @@ namespace Z0
 
         static void CalcInstPatterns(in InstDef def, ConcurrentBag<InstPattern> dst)
         {
-            var patterns = def.PatternSpecs;
-            for(var j=0; j<patterns.Count; j++)
-                dst.Add(new InstPattern(def, patterns[j]));
+            var specs = def.PatternSpecs;
+            var buffer = list<PatternOpDetail>();
+            for(var j=0; j<specs.Count; j++)
+            {
+                ref readonly var spec = ref specs[j];
+                buffer.Clear();
+                ref readonly var ops = ref spec.Operands;
+                for(byte k=0; k<ops.Count; k++)
+                    buffer.Add(detail(spec,k));
+                dst.Add(new InstPattern(def, spec, buffer.ToArray()));
+            }
         }
     }
 }

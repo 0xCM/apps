@@ -12,7 +12,7 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableName)]
         public struct PatternOpDetail : IComparable<PatternOpDetail>
         {
-            public const byte FieldCount = 14;
+            public const byte FieldCount = 16;
 
             public const string TableName = "xed.rules.ops";
 
@@ -32,9 +32,13 @@ namespace Z0
 
             public RuleOpAttrib Action;
 
-            public RuleOpAttrib Width;
+            public RuleOpAttrib WidthCode;
 
-            public RuleOpAttrib EType;
+            public RuleOpAttrib CellType;
+
+            public EmptyZero<ushort> BitWidth;
+
+            public EmptyZero<ushort> CellWidth;
 
             public RuleOpAttrib EncGroup;
 
@@ -56,7 +60,7 @@ namespace Z0
                 return result;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,18,8,8,8,32,8,10,8,16,12,8,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,18,8,8,8,32,8,10,10,10,10,16,12,8,1};
 
             public static PatternOpDetail Empty => default;
         }

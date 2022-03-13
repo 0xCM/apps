@@ -18,8 +18,8 @@ namespace Z0
             var patterns = CalcInstPatterns();
             var actions = new Action[]{
                 () => TableEmit(CalcPatternInfo(patterns)),
-                () => EmitPatternDetails(defs),
-                () => TableEmit(CalcPatternOps(defs)),
+                () => EmitPatternDetails(patterns),
+                () => TableEmit(CalcPatternOps(patterns)),
                 EmitRuleTables,
                 EmitFieldDefs,
                 EmitRuleSeq,
@@ -49,7 +49,10 @@ namespace Z0
         void TableEmit(Index<XedFieldDef> src)
             => TableEmit(src.View, XedFieldDef.RenderWidths, XedPaths.FieldDefsTarget());
 
-        void EmitPatternDetails(Index<InstDef> src)
+        // void EmitPatternDetails(Index<InstDef> src)
+        //     => EmitPatternDetails(src, AppDb.XedPath("xed.rules.detail", FileKind.Txt));
+
+        void EmitPatternDetails(Index<InstPattern> src)
             => EmitPatternDetails(src, AppDb.XedPath("xed.rules.detail", FileKind.Txt));
 
         void TableEmit(Index<PatternOpDetail> src)
@@ -63,19 +66,6 @@ namespace Z0
 
         void EmitFieldSpecs()
             => TableEmit(CalcFieldSpecs().View, RuleFieldSpec.RenderWidths, AppDb.XedTable<RuleFieldSpec>());
-
-        // void EmitRuleTables()
-        // {
-        //     var tables = CalcRuleTables();
-        //     var sigs = tables.Keys.ToArray().Sort();
-        //     var path = AppDb.XedPath("xed.rules.tables", FileKind.Txt);
-        //     var emitting = EmittingFile(path);
-        //     using var writer = path.AsciWriter();
-        //     for(var i=0; i<sigs.Length; i++)
-        //         writer.WriteLine(tables[skip(sigs,i)].Format());
-
-        //     EmittedFile(emitting, sigs.Length);
-        // }
 
         void EmitRuleTables()
         {
