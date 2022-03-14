@@ -16,13 +16,15 @@ namespace Z0
 
             var parser = new RuleTableParser();
             var dst = dict<RuleSig,RuleTable>();
-            var enc = parser.Parse(XedPaths.DocSource(XedDocKind.EncRuleTable));
-            foreach(var t in enc)
-                dst.Add(t.Sig, t);
 
             var encdec = parser.Parse(XedPaths.DocSource(XedDocKind.EncDecRuleTable));
             foreach(var t in encdec)
                 dst.TryAdd(t.Sig, t);
+
+            var enc = parser.Parse(XedPaths.DocSource(XedDocKind.EncRuleTable));
+            foreach(var t in enc)
+                dst.TryAdd(t.Sig, t);
+
 
             var dec = parser.Parse(XedPaths.DocSource(XedDocKind.DecRuleTable));
             foreach(var t in dec)

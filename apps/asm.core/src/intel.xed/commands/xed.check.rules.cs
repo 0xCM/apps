@@ -23,5 +23,6 @@ namespace Z0
             EmittedFile(emitting, sigs.Length);
             return true;
         }
+
     }
 }

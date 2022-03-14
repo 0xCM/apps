@@ -76,6 +76,18 @@ namespace Z0
                 Resolver
             }
 
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Field == 0 && Operator == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => !IsEmpty;
+            }
+
             public bool IsError
             {
                 [MethodImpl(Inline)]

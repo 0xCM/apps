@@ -40,9 +40,20 @@ namespace Z0
         public FS.FolderPath Xed()
             => Root + FS.folder("xed");
 
+        public FS.FolderPath Xed(string scope)
+            => Xed() + FS.folder(scope);
+
         public FS.FilePath XedTable<T>()
             where T : struct
                 => Xed() + Tables.filename<T>();
+
+        public FS.FilePath XedTable<T>(string scope)
+            where T : struct
+                => Xed(scope) + Tables.filename<T>();
+
+        public FS.FilePath XedTable<T>(string scope, string suffix)
+            where T : struct
+                => Xed(scope) + Tables.filename<T>().ChangeExtension(FS.ext(string.Format("{0}.{1}", suffix, FS.Csv)));
 
         public FS.FilePath XedPath(string name, FileKind kind)
             => Xed() + FS.file(name, kind.Ext());

@@ -7,25 +7,36 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct ImmFieldSpec
+        public struct RuleTableCell
         {
             public readonly byte Index;
 
-            public readonly byte Width;
+            public readonly RuleCriterion Criterion;
 
-            public ImmFieldSpec(byte index, byte width)
+            [MethodImpl(Inline)]
+            public RuleTableCell(byte index, RuleCriterion c)
             {
                 Index = index;
-                Width = width;
+                Criterion = c;
+            }
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Criterion.IsEmpty;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Criterion.IsNonEmpty;
             }
 
             public string Format()
-                => XedRender.format(this);
+                => IsEmpty ? EmptyString : Criterion.Format();
 
             public override string ToString()
                 => Format();
-
-            public static ImmFieldSpec Empty => default;
         }
     }
 }
