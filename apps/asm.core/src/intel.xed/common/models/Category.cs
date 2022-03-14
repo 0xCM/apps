@@ -8,7 +8,7 @@ namespace Z0
     partial struct XedModels
     {
         [DataType(XedNames.category)]
-        public struct Category : IEnumCover<CategoryKind>
+        public struct Category
         {
             public CategoryKind Value {get;set;}
 
@@ -23,10 +23,6 @@ namespace Z0
 
             public override string ToString()
                 => Format();
-
-            [MethodImpl(Inline)]
-            public static implicit operator Category(EnumCover<CategoryKind> src)
-                => new Category(src.Value);
 
             [MethodImpl(Inline)]
             public static implicit operator Category(CategoryKind src)

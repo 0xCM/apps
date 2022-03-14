@@ -10,6 +10,7 @@ namespace Z0
     using static XedModels;
 
     using K = XedRules.FieldKind;
+    using X = XedModels;
 
     partial class XedRules
     {
@@ -18,259 +19,286 @@ namespace Z0
         {
             public const string TableId = "xed.rules.state";
 
-            [RuleField(K.ASZ, 1)]
+            /// <summary>
+            /// Specifies whether the 0x67 prefix is applicable
+            /// </summary>
+            [RuleField(K.ASZ, 1, typeof(bit))]
             public bit ASZ;
 
-            [RuleField(K.OSZ, 1)]
+            /// <summary>
+            /// Specifies whether the 0x66 prefix is applicable
+            /// </summary>
+            [RuleField(K.OSZ, 1, typeof(bit))]
             public bit OSZ;
 
-            [RuleField(K.DF32, 1)]
+            [RuleField(K.DF32, 1, typeof(bit))]
             public bit DF32;
 
-            [RuleField(K.DF64, 1)]
+            /// <summary>
+            /// Specifies whether, in 64-bit mode, to default to 64 bit-width
+            /// </summary>
+            [RuleField(K.DF64, 1, typeof(X.DF64))]
             public bit DF64;
 
-            [RuleField(K.NO_SCALE_DISP8, 1)]
+            [RuleField(K.NO_SCALE_DISP8, 1, typeof(bit))]
             public bit NO_SCALE_DISP8;
 
-            [RuleField(K.AMD3DNOW, 1)]
+            [RuleField(K.AMD3DNOW, 1, typeof(bit))]
             public bit AMD3DNOW;
 
-            [RuleField(K.BCRC, 1)]
+            [RuleField(K.BCRC, 1, typeof(X.BCRC))]
             public bit BCRC;
 
-            [RuleField(K.CET, 1)]
+            [RuleField(K.CET, 1, typeof(bit))]
             public bit CET;
 
-            [RuleField(K.CLDEMOTE, 1)]
+            [RuleField(K.CLDEMOTE, 1, typeof(bit))]
             public bit CLDEMOTE;
 
-            [RuleField(K.DUMMY, 1)]
+            [RuleField(K.DUMMY, 1, typeof(bit))]
             public bit DUMMY;
 
-            [RuleField(K.ENCODER_PREFERRED, 1)]
+            [RuleField(K.ENCODER_PREFERRED, 1, typeof(bit))]
             public bit ENCODER_PREFERRED;
 
-            [RuleField(K.ENCODE_FORCE, 1)]
+            [RuleField(K.ENCODE_FORCE, 1, typeof(bit))]
             public bit ENCODE_FORCE;
 
-            [RuleField(K.IMM0, 1)]
+            [RuleField(K.IMM0, 1, typeof(bit))]
             public bit IMM0;
 
-            [RuleField(K.IMM0SIGNED, 1)]
+            [RuleField(K.IMM0SIGNED, 1, typeof(bit))]
             public bit IMM0SIGNED;
 
-            [RuleField(K.IMM1, 1)]
+            [RuleField(K.IMM1, 1, typeof(bit))]
             public bit IMM1;
 
-            [RuleField(K.LZCNT, 1)]
+            [RuleField(K.LZCNT, 1, typeof(bit))]
             public bit LZCNT;
 
-            [RuleField(K.TZCNT, 1)]
+            [RuleField(K.TZCNT, 1, typeof(bit))]
             public bit TZCNT;
 
-            [RuleField(K.MODEP5, 1)]
+            [RuleField(K.MODEP5, 1, typeof(bit))]
             public bit MODEP5;
 
-            [RuleField(K.MODEP55C, 1)]
+            [RuleField(K.MODEP55C, 1, typeof(bit))]
             public bit MODEP55C;
 
-            [RuleField(K.MODE_FIRST_PREFIX, 1)]
+            [RuleField(K.MODE_FIRST_PREFIX, 1, typeof(bit))]
             public bit MODE_FIRST_PREFIX;
 
-            [RuleField(K.MODE_SHORT_UD0, 1)]
+            [RuleField(K.MODE_SHORT_UD0, 1, typeof(bit))]
             public bit MODE_SHORT_UD0;
 
-            [RuleField(K.MPXMODE, 1)]
+            [RuleField(K.MPXMODE, 1, typeof(bit))]
             public bit MPXMODE;
 
-            [RuleField(K.OUT_OF_BYTES, 1)]
+            [RuleField(K.OUT_OF_BYTES, 1, typeof(bit))]
             public bit OUT_OF_BYTES;
 
-            [RuleField(K.P4, 1)]
+            [RuleField(K.P4, 1, typeof(bit))]
             public bit P4;
 
-            [RuleField(K.PTR, 1)]
+            [RuleField(K.PTR, 1, typeof(bit))]
             public bit PTR;
 
-            [RuleField(K.AGEN, 1)]
+            [RuleField(K.AGEN, 1, typeof(bit))]
             public bit AGEN;
 
-            [RuleField(K.MEM0, 1)]
+            [RuleField(K.MEM0, 1, typeof(bit))]
             public bit MEM0;
 
-            [RuleField(K.MEM1, 1)]
+            [RuleField(K.MEM1, 1, typeof(bit))]
             public bit MEM1;
 
-            [RuleField(K.LOCK, 1)]
+            [RuleField(K.LOCK, 1, typeof(bit))]
             public bit LOCK;
 
-            [RuleField(K.PREFIX66, 1)]
+            [RuleField(K.PREFIX66, 1, typeof(bit))]
             public bit PREFIX66;
 
-            [RuleField(K.HAS_MODRM, 1)]
+            [RuleField(K.HAS_MODRM, 1, typeof(bit))]
             public bit HAS_MODRM;
 
-            [RuleField(K.HAS_SIB, 1)]
+            [RuleField(K.HAS_SIB, 1, typeof(bit))]
             public bit HAS_SIB;
 
-            [RuleField(K.NEED_SIB, 1)]
+            [RuleField(K.NEED_SIB, 1, typeof(bit))]
             public bit NEED_SIB;
 
-            [RuleField(K.NEEDREX, 1)]
+            [RuleField(K.NEEDREX, 1, typeof(bit))]
             public bit NEEDREX;
 
-            [RuleField(K.NOREX, 1)]
+            [RuleField(K.NOREX, 1, typeof(bit))]
             public bit NOREX;
 
-            [RuleField(K.REX, 1)]
+            [RuleField(K.REX, 1, typeof(bit))]
             public bit REX;
 
-            [RuleField(K.VEX_C4, 1)]
+            [RuleField(K.VEX_C4, 1, typeof(bit))]
             public bit VEX_C4;
 
-            [RuleField(K.MUST_USE_EVEX, 1)]
+            [RuleField(K.MUST_USE_EVEX, 1, typeof(bit))]
             public bit MUST_USE_EVEX;
 
-            [RuleField(K.ZEROING, 1)]
+            [RuleField(K.ZEROING, 1, typeof(bit))]
             public bit ZEROING;
 
-            [RuleField(K.SAE, 1)]
+            [RuleField(K.SAE, 1, typeof(bit))]
             public bit SAE;
 
-            [RuleField(K.REALMODE, 1)]
+            [RuleField(K.REALMODE, 1, typeof(bit))]
             public bit REALMODE;
 
-            [RuleField(K.UBIT, 1)]
+            [RuleField(K.UBIT, 1, typeof(bit))]
             public bit UBIT;
 
-            [RuleField(K.WBNOINVD, 1)]
+            [RuleField(K.WBNOINVD, 1, typeof(bit))]
             public bit WBNOINVD;
 
-            [RuleField(K.ILD_F2, 1)]
+            [RuleField(K.ILD_F2, 1, typeof(bit))]
             public bit ILD_F2;
 
-            [RuleField(K.ILD_F3, 1)]
+            [RuleField(K.ILD_F3, 1, typeof(bit))]
             public bit ILD_F3;
 
-            [RuleField(K.NEED_MEMDISP, 1)]
+            [RuleField(K.NEED_MEMDISP, 1, typeof(bit))]
             public bit NEED_MEMDISP;
 
-            [RuleField(K.NO_RETURN, 1)]
+            [RuleField(K.NO_RETURN, 1, typeof(bit))]
             public bit NO_RETURN;
 
-            [RuleField(K.USING_DEFAULT_SEGMENT0, 1)]
+            [RuleField(K.USING_DEFAULT_SEGMENT0, 1, typeof(bit))]
             public bit USING_DEFAULT_SEGMENT0;
 
-            [RuleField(K.USING_DEFAULT_SEGMENT1, 1)]
+            [RuleField(K.USING_DEFAULT_SEGMENT1, 1, typeof(bit))]
             public bit USING_DEFAULT_SEGMENT1;
 
-            [RuleField(K.RELBR, 1)]
+            [RuleField(K.RELBR, 1, typeof(bit))]
             public bit RELBR;
 
-            [RuleField(K.PAD0, 14*8)]
-            ByteBlock14 PAD0;
-
-            [RuleField(K.POS_NOMINAL_OPCODE, 4)]
+            [RuleField(K.POS_NOMINAL_OPCODE, 4, typeof(byte))]
             public byte POS_NOMINAL_OPCODE;
 
-            [RuleField(K.POS_MODRM, 4)]
+            [RuleField(K.POS_MODRM, 4, typeof(byte))]
             public byte POS_MODRM;
 
-            [RuleField(K.POS_SIB, 4)]
+            [RuleField(K.POS_SIB, 4, typeof(byte))]
             public byte POS_SIB;
 
-            [RuleField(K.POS_IMM, 4)]
+            [RuleField(K.POS_IMM, 4, typeof(byte))]
             public byte POS_IMM;
 
-            [RuleField(K.POS_IMM1, 4)]
+            [RuleField(K.POS_IMM1, 4, typeof(byte))]
             public byte POS_IMM1;
 
-            [RuleField(K.POS_DISP, 4)]
+            [RuleField(K.POS_DISP, 4, typeof(byte))]
             public byte POS_DISP;
 
-            [RuleField(K.MODE, 2)]
+            /// <summary>
+            /// Defines the <see cref='X.ModeKind'/> value
+            /// </summary>
+            [RuleField(K.MODE, 2, typeof(X.ModeKind))]
             public byte MODE;
 
-            [RuleField(K.SMODE, 2)]
+            /// <summary>
+            /// Defines the <see cref='X.SMode'/> value
+            /// </summary>
+            [RuleField(K.SMODE, 2, typeof(X.SMode))]
             public byte SMODE;
 
-            [RuleField(K.EASZ, 3)]
+            /// <summary>
+            /// Defines the <see cref='X.EASZ'/> value
+            /// </summary>
+            [RuleField(K.EASZ, 3, typeof(X.EASZ))]
             public byte EASZ;
 
-            [RuleField(K.EOSZ, 3)]
+            /// <summary>
+            /// Defines the <see cref='X.EOSZ'/> value
+            /// </summary>
+            [RuleField(K.EOSZ, 3, typeof(X.EOSZ))]
             public byte EOSZ;
 
-            [RuleField(K.NOMINAL_OPCODE, 8)]
+            [RuleField(K.NOMINAL_OPCODE, 8, typeof(Hex8))]
             public Hex8 NOMINAL_OPCODE;
 
-            [RuleField(K.NPREFIXES, 3)]
+            [RuleField(K.NPREFIXES, 3, typeof(byte))]
             public byte NPREFIXES;
 
-            [RuleField(K.NREXES, 3)]
+            [RuleField(K.NREXES, 3, typeof(byte))]
             public byte NREXES;
 
-            [RuleField(K.NSEG_PREFIXES, 3)]
+            [RuleField(K.NSEG_PREFIXES, 3, typeof(byte))]
             public byte NSEG_PREFIXES;
 
-            [RuleField(K.REP, 2)]
+            /// <summary>
+            /// Defines the <see cref='X.RepPrefix'> value
+            /// </summary>
+            [RuleField(K.REP, 2, typeof(X.RepPrefix))]
             public byte REP;
 
-            [RuleField(K.SEG_OVD, 3)]
+            /// <summary>
+            /// Defines the <see cref='X.SegPrefixKind'/> value
+            /// </summary>
+            [RuleField(K.SEG_OVD, 3, typeof(X.SegPrefixKind))]
             public byte SEG_OVD;
 
-            [RuleField(K.HINT, 3)]
+            /// <summary>
+            /// Defines the <see cref='X.HintKind'/> value
+            /// </summary>
+            [RuleField(K.HINT, 3, typeof(X.HintKind))]
             public byte HINT;
 
-            [RuleField(K.MOD, 2)]
+            [RuleField(K.MOD, 2, typeof(uint2))]
             public byte MOD;
 
-            [RuleField(K.REG, 3)]
+            [RuleField(K.REG, 3, typeof(uint3))]
             public byte REG;
 
-            [RuleField(K.RM, 3)]
+            [RuleField(K.RM, 3, typeof(uint3))]
             public byte RM;
 
-            [RuleField(K.MODRM_BYTE, 8)]
+            [RuleField(K.MODRM_BYTE, 8, typeof(Hex8))]
             public Hex8 MODRM_BYTE;
 
-            [RuleField(K.SIBSCALE, 2)]
+            [RuleField(K.SIBSCALE, 2, typeof(uint2))]
             public byte SIBSCALE;
 
-            [RuleField(K.SIBBASE, 3)]
+            [RuleField(K.SIBBASE, 3, typeof(uint3))]
             public byte SIBBASE;
 
-            [RuleField(K.SIBINDEX, 3)]
+            [RuleField(K.SIBINDEX, 3, typeof(uint3))]
             public byte SIBINDEX;
 
             [RuleField(K.REXW, 1)]
             public bit REXW;
 
-            [RuleField(K.REXR, 1)]
+            [RuleField(K.REXR, 1, typeof(bit))]
             public bit REXR;
 
-            [RuleField(K.REXX, 1)]
+            [RuleField(K.REXX, 1, typeof(bit))]
             public bit REXX;
 
-            [RuleField(K.REXB, 1)]
+            [RuleField(K.REXB, 1, typeof(bit))]
             public bit REXB;
 
             /// <summary>
-            /// Specifies a <see cref='VexClass'/> value
+            /// Specifies a <see cref='X.VexClass'/> value
             /// </summary>
-            [RuleField(K.VEXVALID, 3)]
+            [RuleField(K.VEXVALID, 3, typeof(X.VexClass))]
             public byte VEXVALID;
 
             /// <summary>
-            /// Specifies a <see cref='VexKind'/> value
+            /// Specifies a <see cref='X.VexKind'/> value
             /// </summary>
-            [RuleField(K.VEX_PREFIX, 2)]
+            [RuleField(K.VEX_PREFIX, 2, typeof(X.VexKind))]
             public byte VEX_PREFIX;
 
             /// <summary>
-            /// Specifies a <see cref='VexLengthKind'/ value
+            /// Specifies a <see cref='X.VexLengthKind'/ value
             /// </summary>
-            [RuleField(K.VL, 3)]
+            [RuleField(K.VL, 3, typeof(X.VexLengthKind))]
             public byte VL;
 
             [RuleField(K.REXRR, 1)]
@@ -285,28 +313,28 @@ namespace Z0
             [RuleField(K.VEXDEST210, 3)]
             public byte VEXDEST210;
 
-            [RuleField(K.MASK, 3)]
+            [RuleField(K.MASK, 3, typeof(X.MASK))]
             public byte MASK;
 
-            [RuleField(K.ROUNDC, 3)]
+            [RuleField(K.ROUNDC, 3, typeof(X.SaeRc))]
             public byte ROUNDC;
 
-            [RuleField(K.BCAST,5)]
+            [RuleField(K.BCAST,5, typeof(X.BCastKind))]
             public BCastKind BCAST;
 
-            [RuleField(K.BASE0, 9)]
+            [RuleField(K.BASE0, 9, typeof(XedRegId))]
             public XedRegId BASE0;
 
-            [RuleField(K.BASE1, 9)]
+            [RuleField(K.BASE1, 9, typeof(XedRegId))]
             public XedRegId BASE1;
 
-            [RuleField(K.INDEX, 9)]
+            [RuleField(K.INDEX, 9, typeof(XedRegId))]
             public XedRegId INDEX;
 
-            [RuleField(K.SCALE, 4)]
+            [RuleField(K.SCALE, 4, typeof(ScaleFactor))]
             public byte SCALE;
 
-            [RuleField(K.IMM_WIDTH, 3)]
+            [RuleField(K.IMM_WIDTH, 3, typeof(NativeSizeCode))]
             public byte IMM_WIDTH;
 
             [RuleField(K.IMM1_BYTES, 3)]
@@ -321,94 +349,94 @@ namespace Z0
             [RuleField(K.LAST_F2F3, 2)]
             public byte LAST_F2F3;
 
-            [RuleField(K.LLRC, 2)]
+            [RuleField(K.LLRC, 2, typeof(X.LLRC))]
             public byte LLRC;
 
-            [RuleField(K.SRM, 3)]
+            [RuleField(K.SRM, 3, typeof(uint3))]
             public byte SRM;
 
-            [RuleField(K.ESRC, 4)]
+            [RuleField(K.ESRC, 4, typeof(X.ESRC))]
             public uint4 ESRC;
 
             [RuleField(K.MAP, 4)]
             public byte MAP;
 
-            [RuleField(K.BRDISP_WIDTH, 8)]
+            [RuleField(K.BRDISP_WIDTH, 8, typeof(byte))]
             public byte BRDISP_WIDTH;
 
             [RuleField(K.ILD_SEG, 8)]
             public byte ILD_SEG;
 
-            [RuleField(FieldKind.MAX_BYTES, 4)]
+            [RuleField(FieldKind.MAX_BYTES, 4, typeof(byte))]
             public byte MAX_BYTES;
 
-            [RuleField(K.NELEM, 4)]
+            [RuleField(K.NELEM, 4, typeof(byte))]
             public byte NELEM;
 
-            [RuleField(K.ELEMENT_SIZE, 9)]
+            [RuleField(K.ELEMENT_SIZE, 9, typeof(ushort))]
             public ushort ELEMENT_SIZE;
 
-            [RuleField(K.MEM_WIDTH, 16)]
+            [RuleField(K.MEM_WIDTH, 16, typeof(ushort))]
             public ushort MEM_WIDTH;
 
-            [RuleField(K.UIMM0, 64)]
+            [RuleField(K.UIMM0, 64, typeof(imm64))]
             public imm64 UIMM0;
 
-            [RuleField(K.UIMM1, 8)]
+            [RuleField(K.UIMM1, 8, typeof(imm8))]
             public imm8 UIMM1;
 
-            [RuleField(K.ICLASS, 16)]
+            [RuleField(K.ICLASS, 16, typeof(IClass))]
             public IClass ICLASS;
 
-            [RuleField(K.CHIP, 8)]
+            [RuleField(K.CHIP, 8, typeof(ChipCode))]
             public ChipCode CHIP;
 
-            [RuleField(K.OUTREG, 9)]
+            [RuleField(K.OUTREG, 9, typeof(XedRegId))]
             public XedRegId OUTREG;
 
-            [RuleField(K.REG0, 9)]
+            [RuleField(K.REG0, 9, typeof(XedRegId))]
             public XedRegId REG0;
 
-            [RuleField(K.REG1, 9)]
+            [RuleField(K.REG1, 9, typeof(XedRegId))]
             public XedRegId REG1;
 
-            [RuleField(K.REG2, 9)]
+            [RuleField(K.REG2, 9, typeof(XedRegId))]
             public XedRegId REG2;
 
-            [RuleField(K.REG3, 9)]
+            [RuleField(K.REG3, 9, typeof(XedRegId))]
             public XedRegId REG3;
 
-            [RuleField(K.REG4, 9)]
+            [RuleField(K.REG4, 9, typeof(XedRegId))]
             public XedRegId REG4;
 
-            [RuleField(K.REG5, 9)]
+            [RuleField(K.REG5, 9, typeof(XedRegId))]
             public XedRegId REG5;
 
-            [RuleField(K.REG6, 9)]
+            [RuleField(K.REG6, 9, typeof(XedRegId))]
             public XedRegId REG6;
 
-            [RuleField(K.REG7, 9)]
+            [RuleField(K.REG7, 9, typeof(XedRegId))]
             public XedRegId REG7;
 
-            [RuleField(K.REG8, 9)]
+            [RuleField(K.REG8, 9, typeof(XedRegId))]
             public XedRegId REG8;
 
-            [RuleField(K.REG9, 9)]
+            [RuleField(K.REG9, 9, typeof(XedRegId))]
             public XedRegId REG9;
 
-            [RuleField(K.SEG0, 9)]
+            [RuleField(K.SEG0, 9, typeof(XedRegId))]
             public XedRegId SEG0;
 
-            [RuleField(K.SEG1, 9)]
+            [RuleField(K.SEG1, 9, typeof(XedRegId))]
             public XedRegId SEG1;
 
-            [RuleField(K.ERROR, 1)]
+            [RuleField(K.ERROR, 1, typeof(X.ErrorKind))]
             public ErrorKind ERROR;
 
-            [RuleField(K.DISP_WIDTH, 8)]
+            [RuleField(K.DISP_WIDTH, 8, typeof(byte))]
             public byte DISP_WIDTH;
 
-            [RuleField(K.DISP, 64)]
+            [RuleField(K.DISP, 64, typeof(Disp64))]
             public Disp64 DISP;
 
             public Disp RELBRVal;

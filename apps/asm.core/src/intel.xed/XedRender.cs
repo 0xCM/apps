@@ -94,7 +94,7 @@ namespace Z0
         }
 
         public static string format(RuleOpModKind src)
-            => OpMods[src].Expr.Text;
+            => OpModKinds.Format(src);
 
         public static string format(RuleOpName src)
             => OpNames[src].Expr.Text;
@@ -142,7 +142,10 @@ namespace Z0
             => Classes[src].Expr.Text;
 
         public static string format(FieldKind src)
-            => FieldKinds[src].Expr.Text;
+            => FieldKinds.Format(src);
+
+        public static string format(FieldKind src, bool id)
+            => FieldKinds.Format(src,id);
 
         public static string format(ConstraintKind src)
             => ConstraintKinds[src].Expr.Text;
@@ -210,11 +213,14 @@ namespace Z0
         public static string format(EASZ src)
             => EaszKinds[src].Expr.Text;
 
-        public static string format(RoundingKind src)
+        public static string format(SaeRc src)
             => RoundingKinds[src].Expr.Text;
 
         public static string format(ModeKind src)
             => ModeKinds.Format(src);
+
+        public static string format(ModeKind src, bool id)
+            => ModeKinds.Format(src, id);
 
         public static string format(in MacroSpec src)
         {
@@ -235,9 +241,6 @@ namespace Z0
         public static string format(RuleSig src)
             => string.Format("{0} {1}()", src.ReturnType, src.Name);
 
-        static Symbols<FieldKind> FieldKinds;
-
-        //static Symbols<RuleMacroKind> MacroKinds;
 
         static Symbols<ChipCode> ChipCodes;
 
@@ -263,20 +266,16 @@ namespace Z0
 
         static Symbols<GroupName> EncodingGroups;
 
-        static Symbols<RuleOpModKind> OpMods;
-
         static Symbols<IClass> Classes;
 
         static Symbols<EASZ> EaszKinds;
 
         static Symbols<EOSZ> EoszKinds;
 
-        static Symbols<RoundingKind> RoundingKinds;
+        static Symbols<SaeRc> RoundingKinds;
 
         static XedRender()
         {
-            FieldKinds = Symbols.index<FieldKind>();
-            //MacroKinds = Symbols.index<RuleMacroKind>();
             ChipCodes = Symbols.index<ChipCode>();
             XedRegs = Symbols.index<XedRegId>();
             OpWidthKinds = Symbols.index<OperandWidthCode>();
@@ -289,11 +288,10 @@ namespace Z0
             OpVis = Symbols.index<OpVisibility>();
             ElementTypes = Symbols.index<ElementKind>();
             EncodingGroups = Symbols.index<GroupName>();
-            OpMods = Symbols.index<RuleOpModKind>();
             Classes = Symbols.index<IClass>();
             EaszKinds = Symbols.index<EASZ>();
             EoszKinds = Symbols.index<EOSZ>();
-            RoundingKinds = Symbols.index<RoundingKind>();
+            RoundingKinds = Symbols.index<SaeRc>();
        }
 
 

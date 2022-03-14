@@ -4,15 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    public interface ILiteralCover : IValueCover
+    [Flags]
+    public enum EnumFormatMode : byte
     {
+        Default,
 
-    }
+        Name = 1,
 
-    public interface ILiteralCover<T> : ILiteralCover, IValueCover<T>
-    {
+        Identifier = 2,
 
+        Scalar = 4,
+
+        EmptyZero = 8,
     }
 }

@@ -9,10 +9,9 @@ namespace Z0
     using static Root;
     using static XedRules.SyntaxLiterals;
     using static XedRules.RuleFormKind;
-    using static XedRules.FieldKind;
     using static XedModels;
 
-    using FK = XedRules.FieldKind;
+    using K = XedRules.FieldKind;
     using RO = XedRules.RuleOperator;
     using RF = XedRules.RuleFormKind;
 
@@ -82,7 +81,7 @@ namespace Z0
             public static Outcome spec(bool premise, string spec, out RuleCriterion dst)
             {
                 var input = text.trim(text.despace(spec));
-                var fk = FK.INVALID;
+                var fk = K.INVALID;
                 var op = RO.None;
                 var fv = input;
                 var name = EmptyString;
@@ -179,58 +178,58 @@ namespace Z0
 
                 switch(field)
                 {
-                    case AGEN:
-                    case AMD3DNOW:
-                    case ASZ:
-                    case CET:
-                    case CLDEMOTE:
-                    case DF32:
-                    case DF64:
-                    case DUMMY:
-                    case ENCODER_PREFERRED:
-                    case ENCODE_FORCE:
-                    case HAS_MODRM:
-                    case HAS_SIB:
-                    case ILD_F2:
-                    case ILD_F3:
-                    case IMM0:
-                    case IMM0SIGNED:
-                    case IMM1:
-                    case LOCK:
-                    case LZCNT:
-                    case MEM0:
-                    case MEM1:
-                    case MODE_FIRST_PREFIX:
-                    case MODE_SHORT_UD0:
-                    case MODEP5:
-                    case MODEP55C:
-                    case MPXMODE:
-                    case MUST_USE_EVEX:
-                    case NEEDREX:
-                    case NEED_SIB:
-                    case NOREX:
-                    case NO_RETURN:
-                    case NO_SCALE_DISP8:
-                    case REX:
-                    case OSZ:
-                    case OUT_OF_BYTES:
-                    case P4:
-                    case PREFIX66:
-                    case PTR:
-                    case REALMODE:
-                    case RELBR:
-                    case TZCNT:
-                    case UBIT:
-                    case USING_DEFAULT_SEGMENT0:
-                    case USING_DEFAULT_SEGMENT1:
-                    case VEX_C4:
-                    case VEXDEST3:
-                    case VEXDEST4:
-                    case WBNOINVD:
-                    case REXRR:
-                    case SAE:
-                    case BCRC:
-                    case ZEROING:
+                    case K.AGEN:
+                    case K.AMD3DNOW:
+                    case K.ASZ:
+                    case K.CET:
+                    case K.CLDEMOTE:
+                    case K.DF32:
+                    case K.DF64:
+                    case K.DUMMY:
+                    case K.ENCODER_PREFERRED:
+                    case K.ENCODE_FORCE:
+                    case K.HAS_MODRM:
+                    case K.HAS_SIB:
+                    case K.ILD_F2:
+                    case K.ILD_F3:
+                    case K.IMM0:
+                    case K.IMM0SIGNED:
+                    case K.IMM1:
+                    case K.LOCK:
+                    case K.LZCNT:
+                    case K.MEM0:
+                    case K.MEM1:
+                    case K.MODE_FIRST_PREFIX:
+                    case K.MODE_SHORT_UD0:
+                    case K.MODEP5:
+                    case K.MODEP55C:
+                    case K.MPXMODE:
+                    case K.MUST_USE_EVEX:
+                    case K.NEEDREX:
+                    case K.NEED_SIB:
+                    case K.NOREX:
+                    case K.NO_RETURN:
+                    case K.NO_SCALE_DISP8:
+                    case K.REX:
+                    case K.OSZ:
+                    case K.OUT_OF_BYTES:
+                    case K.P4:
+                    case K.PREFIX66:
+                    case K.PTR:
+                    case K.REALMODE:
+                    case K.RELBR:
+                    case K.TZCNT:
+                    case K.UBIT:
+                    case K.USING_DEFAULT_SEGMENT0:
+                    case K.USING_DEFAULT_SEGMENT1:
+                    case K.VEX_C4:
+                    case K.VEXDEST3:
+                    case K.VEXDEST4:
+                    case K.WBNOINVD:
+                    case K.REXRR:
+                    case K.SAE:
+                    case K.BCRC:
+                    case K.ZEROING:
                     {
                         if(XedParsers.parse(value, out bit x))
                         {
@@ -240,7 +239,7 @@ namespace Z0
                     }
                     break;
 
-                    case REXW:
+                    case K.REXW:
                     {
                         if(XedParsers.parse(value, out bit x))
                         {
@@ -254,7 +253,7 @@ namespace Z0
                         }
                     }
                     break;
-                    case REXR:
+                    case K.REXR:
                     {
                         if(XedParsers.parse(value, out bit x))
                         {
@@ -268,7 +267,7 @@ namespace Z0
                         }
                     }
                     break;
-                    case REXX:
+                    case K.REXX:
                     {
                         if(XedParsers.parse(value, out bit x))
                         {
@@ -282,7 +281,7 @@ namespace Z0
                         }
                     }
                     break;
-                    case REXB:
+                    case K.REXB:
                     {
                         if(XedParsers.parse(value, out bit x))
                         {
@@ -297,19 +296,19 @@ namespace Z0
                     }
                     break;
 
-                    case MOD:
-                    case SIBSCALE:
-                    case FK.EASZ:
-                    case FK.EOSZ:
-                    case FIRST_F2F3:
-                    case LAST_F2F3:
-                    case DEFAULT_SEG:
-                    case MODE:
-                    case REP:
-                    case SMODE:
-                    case VEX_PREFIX:
-                    case VL:
-                    case LLRC:
+                    case K.MOD:
+                    case K.SIBSCALE:
+                    case K.EASZ:
+                    case K.EOSZ:
+                    case K.FIRST_F2F3:
+                    case K.LAST_F2F3:
+                    case K.DEFAULT_SEG:
+                    case K.MODE:
+                    case K.REP:
+                    case K.SMODE:
+                    case K.VEX_PREFIX:
+                    case K.VL:
+                    case K.LLRC:
                     {
                         if(XedParsers.parse(value, out byte x))
                         {
@@ -319,11 +318,11 @@ namespace Z0
                     }
                     break;
 
-                    case SIBBASE:
-                    case HINT:
-                    case ROUNDC:
-                    case SEG_OVD:
-                    case VEXVALID:
+                    case K.SIBBASE:
+                    case K.HINT:
+                    case K.ROUNDC:
+                    case K.SEG_OVD:
+                    case K.VEXVALID:
                     {
                         if(XedParsers.parse(value, out byte x))
                         {
@@ -333,9 +332,9 @@ namespace Z0
                     }
                     break;
 
-                    case MAP:
-                    case NELEM:
-                    case SCALE:
+                    case K.MAP:
+                    case K.NELEM:
+                    case K.SCALE:
                     {
                         if(XedParsers.parse(value, out byte x))
                         {
@@ -345,7 +344,7 @@ namespace Z0
                     }
                     break;
 
-                    case BCAST:
+                    case K.BCAST:
                     {
                         if(XedParsers.parse(value, out byte x))
                         {
@@ -355,23 +354,23 @@ namespace Z0
                     }
                     break;
 
-                    case BRDISP_WIDTH:
-                    case DISP_WIDTH:
-                    case ILD_SEG:
-                    case IMM1_BYTES:
-                    case IMM_WIDTH:
-                    case MAX_BYTES:
-                    case MODRM_BYTE:
-                    case NPREFIXES:
-                    case NREXES:
-                    case NSEG_PREFIXES:
-                    case POS_DISP:
-                    case POS_IMM:
-                    case POS_IMM1:
-                    case POS_MODRM:
-                    case POS_NOMINAL_OPCODE:
-                    case POS_SIB:
-                    case NEED_MEMDISP:
+                    case K.BRDISP_WIDTH:
+                    case K.DISP_WIDTH:
+                    case K.ILD_SEG:
+                    case K.IMM1_BYTES:
+                    case K.IMM_WIDTH:
+                    case K.MAX_BYTES:
+                    case K.MODRM_BYTE:
+                    case K.NPREFIXES:
+                    case K.NREXES:
+                    case K.NSEG_PREFIXES:
+                    case K.POS_DISP:
+                    case K.POS_IMM:
+                    case K.POS_IMM1:
+                    case K.POS_MODRM:
+                    case K.POS_NOMINAL_OPCODE:
+                    case K.POS_SIB:
+                    case K.NEED_MEMDISP:
                     {
                         if(XedParsers.parse(value, out byte x))
                         {
@@ -381,8 +380,8 @@ namespace Z0
                     }
                     break;
 
-                    case ELEMENT_SIZE:
-                    case MEM_WIDTH:
+                    case K.ELEMENT_SIZE:
+                    case K.MEM_WIDTH:
                     {
                         if(ushort.TryParse(value, out ushort x))
                         {
@@ -392,12 +391,12 @@ namespace Z0
                     }
                     break;
 
-                    case SIBINDEX:
-                    case REG:
-                    case RM:
-                    case VEXDEST210:
-                    case MASK:
-                    case SRM:
+                    case K.SIBINDEX:
+                    case K.REG:
+                    case K.RM:
+                    case K.VEXDEST210:
+                    case K.MASK:
+                    case K.SRM:
                     {
                         if(XedParsers.parse(value, out byte x))
                         {
@@ -407,7 +406,7 @@ namespace Z0
                     }
                     break;
 
-                    case ESRC:
+                    case K.ESRC:
                     {
                         if(DataParser.parse(value, out Hex4 x))
                         {
@@ -418,7 +417,7 @@ namespace Z0
                     break;
 
 
-                    case NOMINAL_OPCODE:
+                    case K.NOMINAL_OPCODE:
                     {
                         if(DataParser.parse(value, out Hex8 x))
                         {
@@ -428,7 +427,7 @@ namespace Z0
                     }
                     break;
 
-                    case DISP:
+                    case K.DISP:
                     {
                         result = XedParsers.parse(value, out DispFieldSpec disp);
                         if(result)
@@ -436,30 +435,30 @@ namespace Z0
                     }
                     break;
 
-                    case UIMM1:
-                    case UIMM0:
+                    case K.UIMM1:
+                    case K.UIMM0:
                     {
                         result = XedParsers.parse(value, out ImmFieldSpec imm);
                         dst = criterion(premise, field, op, imm);
                     }
                     break;
 
-                    case BASE0:
-                    case BASE1:
-                    case INDEX:
-                    case OUTREG:
-                    case SEG0:
-                    case SEG1:
-                    case REG0:
-                    case REG1:
-                    case REG2:
-                    case REG3:
-                    case REG4:
-                    case REG5:
-                    case REG6:
-                    case REG7:
-                    case REG8:
-                    case REG9:
+                    case K.BASE0:
+                    case K.BASE1:
+                    case K.INDEX:
+                    case K.OUTREG:
+                    case K.SEG0:
+                    case K.SEG1:
+                    case K.REG0:
+                    case K.REG1:
+                    case K.REG2:
+                    case K.REG3:
+                    case K.REG4:
+                    case K.REG5:
+                    case K.REG6:
+                    case K.REG7:
+                    case K.REG8:
+                    case K.REG9:
                     {
                         if(XedParsers.parse(value, out XedRegId x))
                         {
@@ -468,7 +467,7 @@ namespace Z0
                         }
                     }
                     break;
-                    case CHIP:
+                    case K.CHIP:
                     {
                         if(XedParsers.parse(value, out ChipCode x))
                         {
@@ -478,7 +477,7 @@ namespace Z0
                     }
                     break;
 
-                    case ERROR:
+                    case K.ERROR:
                     {
                         if(XedParsers.parse(value, out ErrorKind x))
                         {
@@ -488,7 +487,7 @@ namespace Z0
                     }
                     break;
 
-                    case ICLASS:
+                    case K.ICLASS:
                     {
                         if(XedParsers.parse(value, out IClass x))
                         {

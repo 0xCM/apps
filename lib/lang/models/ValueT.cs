@@ -12,10 +12,7 @@ namespace Z0
         public T Content;
 
         T IValueCover<T>.Value
-        {
-            get => Content;
-            set => Content = value;
-        }
+            => Content;
 
 
         [MethodImpl(Inline)]

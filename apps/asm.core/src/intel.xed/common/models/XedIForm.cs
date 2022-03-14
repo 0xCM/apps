@@ -7,10 +7,9 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [DataType(XedNames.iform)]
-        public struct IForm : IEquatable<IForm>, IComparable<IForm>, IEnumCover<IFormType>
+        public struct IForm : IEquatable<IForm>, IComparable<IForm>
         {
-            public IFormType Value {get;set;}
+            public IFormType Value {get;}
 
             [MethodImpl(Inline)]
             public IForm(IFormType src)

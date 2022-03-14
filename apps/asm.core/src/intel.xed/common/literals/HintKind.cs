@@ -10,15 +10,20 @@ namespace Z0
         [SymSource(xed), DataWidth(3)]
         public enum HintKind : byte
         {
+            [Symbol("", "No hint")]
             None = 0,
 
-            CsUntaken = 1,
+            [Symbol("UNTAKEN_CS", "CS PREFIX OBSERVED (NOT TAKEN)")]
+            UNTAKEN_CS= 1,
 
-            DsTaken = 2,
+            [Symbol("UNTAKEN_CS", "DS PREFIX OBSERVED (TAKEN)")]
+            TAKEN_DS = 2,
 
-            ValidatedUntaken = 3,
+            [Symbol("UNTAKEN_VALIDATED", "NOT TAKEN HINT VALIDATED for a BRANCH")]
+            UNTAKEN_VALIDATED = 3,
 
-            ValidatedTaken = 4
+            [Symbol("TAKEN_VALIDATED", "TAKEN HINT VALIDATED for a BRANCH")]
+            TAKEN_VALIDATED = 4
         }
     }
 }

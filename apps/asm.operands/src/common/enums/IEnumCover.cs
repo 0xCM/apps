@@ -9,13 +9,21 @@ namespace Z0
     public interface IEnumCover<E> : ILiteralCover<E>
         where E : unmanaged, Enum
     {
+        string Expr {get;}
 
+        string Name {get;}
+
+        ulong Scalar {get;}
     }
 
-    public interface IEnumCover<C,E> : IEnumCover<E>
+    public interface IEnumCover<E,T> : IEnumCover<E>
         where E : unmanaged, Enum
-        where C : struct
+        where T : unmanaged
     {
 
+        new T Scalar {get;}
+
+        ulong IEnumCover<E>.Scalar
+            => core.bw64(Scalar);
     }
 }

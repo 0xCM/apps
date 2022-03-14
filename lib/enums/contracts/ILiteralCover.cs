@@ -4,17 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [DataWidth(4)]
-    public enum ScaleFactor : byte
+    public interface ILiteralCover : IValueCover
     {
-        None = 0,
 
-        S1 = 1,
+    }
 
-        S2 = 2,
+    public interface ILiteralCover<T> : ILiteralCover, IValueCover<T>
+    {
 
-        S4 = 4,
-
-        S8 = 8
     }
 }

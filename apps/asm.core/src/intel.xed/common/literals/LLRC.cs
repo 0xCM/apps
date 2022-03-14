@@ -7,19 +7,20 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed_state)]
-        public enum RepPrefix : byte
+        [SymSource(xed), DataWidth(2)]
+        public enum LLRC : byte
         {
-            None = 0,
+            [Symbol("LLRC0", "LLRC=0")]
+            LLRC0=0,
 
-            [Symbol("F2", "f2_prefix:{REPNZ,REPNE}")]
-            REPF2 = 2,
+            [Symbol("LLRC1", "LLRC=1")]
+            LLRC1=1,
 
-            [Symbol("F3", "f3_prefix:{REPZ,REPE}")]
-            REPF3 = 3,
+            [Symbol("LLRC2", "LLRC=2")]
+            LLRC2=2,
 
-            [Symbol("REP!=3")]
-            NOF3 = 4,
+            [Symbol("LLRC3", "LLRC=3")]
+            LLRC3=3
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Z0
 {
     public interface IValueCover : IExpr
     {
-        dynamic Value {get;set;}
+        dynamic Value {get;}
 
         string ITextual.Format()
             => Value?.ToString() ?? string.Empty;
@@ -14,12 +14,9 @@ namespace Z0
 
     public interface IValueCover<T> : IValueCover
     {
-       new T Value {get; set;}
+       new T Value {get;}
 
         dynamic IValueCover.Value
-        {
-            get => Value;
-            set => Value = (T)value;
-        }
+            => Value;
     }
 }

@@ -11,34 +11,38 @@ namespace Z0
 
     partial class XedRender
     {
-        static EnumFormatter<BCast8Kind> BCast8 = new();
+        static EnumRender<BCast8Kind> BCast8 = new();
 
-        static EnumFormatter<BCast16Kind> BCast16 = new();
+        static EnumRender<BCast16Kind> BCast16 = new();
 
-        static EnumFormatter<BCast32Kind> BCast32 = new();
+        static EnumRender<BCast32Kind> BCast32 = new();
 
-        static EnumFormatter<BCast64Kind> BCast64 = new();
+        static EnumRender<BCast64Kind> BCast64 = new();
 
-        static EnumFormatter<ModeKind> ModeKinds = new();
+        static EnumRender<ModeKind> ModeKinds = new();
 
-        static EnumFormatter<VisibilityKind> VisKind = new();
+        static EnumRender<VisibilityKind> VisKind = new();
 
-        static EnumFormatter<VexClass> VexClasses = new();
+        static EnumRender<VexClass> VexClasses = new();
 
-        static EnumFormatter<VexKind> VexKinds = new();
+        static EnumRender<VexKind> VexKinds = new();
 
-        static EnumFormatter<VexMapKind> VexMap = new();
+        static EnumRender<VexMapKind> VexMap = new();
 
-        static EnumFormatter<LegacyMapKind> LegacyMap = new();
+        static EnumRender<LegacyMapKind> LegacyMap = new();
 
-        static EnumFormatter<EvexMapKind> EvexMap = new();
+        static EnumRender<EvexMapKind> EvexMap = new();
 
-        static EnumFormatter<AttributeKind> AttribKinds = new();
+        static EnumRender<AttributeKind> AttribKinds = new();
 
-        static EnumFormatter<OpCodeIndex> OcKindIndex = new();
+        static EnumRender<OpCodeIndex> OcKindIndex = new();
 
-        static EnumFormatter<RuleOpKind> RuleOpKinds = new();
+        static EnumRender<RuleOpKind> RuleOpKinds = new();
 
-        static EnumFormatter<RuleMacroKind> MacroKinds = new();
+        static EnumRender<RuleMacroKind> MacroKinds = new();
+
+        static EnumRender<RuleOpModKind> OpModKinds = new();
+
+        static EnumRender<FieldKind> FieldKinds = new();
     }
 }

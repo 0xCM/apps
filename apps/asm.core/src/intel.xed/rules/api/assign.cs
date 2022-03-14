@@ -32,7 +32,7 @@ namespace Z0
             => assign(FieldKind.MOD, (byte)src);
 
         [MethodImpl(Inline), Op]
-        public static FieldAssign assign(Mode64WidthDefault src)
+        public static FieldAssign assign(DF64 src)
             => assign(FieldKind.DF64, (byte)src);
 
         [MethodImpl(Inline), Op]

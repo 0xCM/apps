@@ -8,25 +8,20 @@ namespace Z0
     partial struct XedModels
     {
         [DataType(XedNames.extension)]
-        public struct Extension : IEnumCover<ExtensionKind>
+        public struct Extension
         {
-            public ExtensionKind Value {get;set;}
+            public ExtensionKind Value {get;}
 
             [MethodImpl(Inline)]
             public Extension(ExtensionKind src)
             {
                 Value = src;
             }
-
             public string Format()
                 => Value != 0 ? Symbols.format(Value) : EmptyString;
 
             public override string ToString()
                 => Format();
-
-            [MethodImpl(Inline)]
-            public static implicit operator Extension(EnumCover<ExtensionKind> src)
-                => new Extension(src.Value);
 
             [MethodImpl(Inline)]
             public static implicit operator Extension(ExtensionKind src)

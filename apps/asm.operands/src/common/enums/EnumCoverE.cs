@@ -4,20 +4,27 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public struct EnumCover<E> : IEnumCover<E>
+    public readonly struct EnumCover<E> : IEnumCover<E>
         where E : unmanaged, Enum
     {
-        public E Value {get;set;}
+        public E Value {get;}
 
         [MethodImpl(Inline)]
         public EnumCover(E value)
         {
             Value = value;
+        }
+
+        public string Expr
+            => EnumRender<E>.Service.Format(Value);
+
+        public string Name
+            => EnumRender<E>.Service.Format(Value,true);
+
+        public ulong Scalar
+        {
+            [MethodImpl(Inline)]
+            get => core.bw64(Value);
         }
 
         public string Format()

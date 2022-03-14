@@ -98,15 +98,15 @@ namespace Z0
             Log.AppendLine(FormatBuffer(0, offset));
         }
 
-        public Index<FormatCheck<W3,uint3>> Check(W3 w)
+        public Index<BitFormatCheck<W3,uint3>> Check(W3 w)
         {
-            var buffer = alloc<FormatCheck<W3,uint3>>(_Data.Length);
+            var buffer = alloc<BitFormatCheck<W3,uint3>>(_Data.Length);
             Check(w, buffer);
             return buffer;
         }
 
         [Op]
-        void Check(W3 w, Index<FormatCheck<W3,uint3>> dst)
+        void Check(W3 w, Index<BitFormatCheck<W3,uint3>> dst)
         {
             var target = dst.Edit;
             var count = _Data.Length;
@@ -119,11 +119,11 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public static FormatCheck<W,T> result<W,T>(W w, uint seq, T input, string formatted)
+        public static BitFormatCheck<W,T> result<W,T>(W w, uint seq, T input, string formatted)
             where T : unmanaged, IBitNumber
             where W : unmanaged, IDataWidth
         {
-            var dst = new FormatCheck<W,T>();
+            var dst = new BitFormatCheck<W,T>();
             dst.Seq = seq;
             dst.Value = input;
             dst.Formatted = formatted;
