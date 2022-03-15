@@ -44,13 +44,39 @@ namespace Z0
         public FS.FilePath RulePatterns()
             => DocTarget(XedDocKind.RulePatterns);
 
+        static FS.FileName EncInstDef = FS.file("all-enc-instructions", FS.Txt);
+
+        static FS.FileName DecInstDef = FS.file("all-dec-instructions", FS.Txt);
+
+        static FS.FileName EncRuleTable = FS.file("all-enc-patterns", FS.Txt);
+
+        static FS.FileName DecRuleTable = FS.file("all-dec-patterns", FS.Txt);
+
+        static FS.FileName EncDecRuleTable = FS.file("all-enc-dec-patterns", FS.Txt);
+
+        public static XedDocKind srckind(FS.FileName src)
+        {
+            if(src == EncInstDef)
+                return XedDocKind.EncInstDef;
+            else if(src == DecInstDef)
+                return XedDocKind.DecInstDef;
+            else if(src == EncRuleTable)
+                return XedDocKind.EncRuleTable;
+            else if(src == DecRuleTable)
+                return XedDocKind.DecRuleTable;
+            else if(src == EncDecRuleTable)
+                return XedDocKind.EncDecRuleTable;
+            else
+                return 0;
+        }
+
         public FS.FilePath DocSource(XedDocKind kind)
             => Sources() + (kind switch{
-                XedDocKind.EncInstDef => FS.file("all-enc-instructions", FS.Txt),
-                XedDocKind.DecInstDef => FS.file("all-dec-instructions", FS.Txt),
-                XedDocKind.EncRuleTable => FS.file("all-enc-patterns", FS.Txt),
-                XedDocKind.DecRuleTable => FS.file("all-dec-patterns", FS.Txt),
-                XedDocKind.EncDecRuleTable => FS.file("all-enc-dec-patterns", FS.Txt),
+                XedDocKind.EncInstDef => EncInstDef,
+                XedDocKind.DecInstDef => DecInstDef,
+                XedDocKind.EncRuleTable => EncRuleTable,
+                XedDocKind.DecRuleTable => DecRuleTable,
+                XedDocKind.EncDecRuleTable => EncDecRuleTable,
                 XedDocKind.Widths => FS.file("all-widths", FS.Txt),
                 XedDocKind.PointerWidths => FS.file("all-pointer-names", FS.Txt),
                 XedDocKind.Fields => FS.file("all-fields", FS.Txt),

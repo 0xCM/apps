@@ -17,6 +17,9 @@ namespace Z0
         public static XedRender create()
             => new XedRender();
 
+        public static string format(in RuleTableCell src)
+            => src.IsEmpty ? EmptyString : format(src.Criterion);
+
         public static string format(AsmOcValue src)
             => AsmOcValue.format(src);
 

@@ -14,7 +14,6 @@ namespace Z0
         {
             var src = typeof(RuleState).InstanceFields().Tagged<RuleFieldAttribute>();
             var dst = alloc<RuleFieldSpec>(src.Length);
-
             var total = z16;
             for(var i=z16; i<src.Length; i++)
             {
@@ -24,12 +23,14 @@ namespace Z0
                 var dw = datawidth(field.FieldType);
                 total = (ushort)(total + (dw/8));
                 record.Pos = i;
-                record.Name = field.Name;
-                record.Type = typename(field.FieldType);
+                record.FieldName = field.Name;
                 record.FieldWidth = tag.Width;
                 record.DataWidth = dw;
                 record.TotalSize = total;
-                record.Kind = tag.Kind;
+                record.FieldKind = tag.Kind;
+                record.DeclaredType = typename(field.FieldType);
+                record.EffectiveType = typename(tag.EffectiveType);
+                record.Description = tag.Description;
             }
             return dst;
         }

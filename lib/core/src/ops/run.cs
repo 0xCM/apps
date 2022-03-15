@@ -4,15 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.Threading;
     using System.Threading.Tasks;
 
-    using static Root;
-
     partial struct core
     {
+        public static void exec(Action[] src, bool pll = true)
+            => iter(src, a => a(), pll);
+
         /// <summary>
         /// Runs a task that executes a specified worker
         /// </summary>

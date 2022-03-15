@@ -19,25 +19,16 @@ namespace Z0
         {
             public const string TableId = "xed.rules.state";
 
-            /// <summary>
-            /// Specifies whether the 0x67 prefix is applicable
-            /// </summary>
-            [RuleField(K.ASZ, 1, typeof(bit))]
+            [RuleField(K.ASZ, 1, typeof(bit), "Specifies whether the 0x67 prefix is applicable")]
             public bit ASZ;
 
-            /// <summary>
-            /// Specifies whether the 0x66 prefix is applicable
-            /// </summary>
-            [RuleField(K.OSZ, 1, typeof(bit))]
+            [RuleField(K.OSZ, 1, typeof(bit), "Specifies whether the 0x66 prefix is applicable")]
             public bit OSZ;
 
             [RuleField(K.DF32, 1, typeof(bit))]
             public bit DF32;
 
-            /// <summary>
-            /// Specifies whether, in 64-bit mode, to default to 64 bit-width
-            /// </summary>
-            [RuleField(K.DF64, 1, typeof(X.DF64))]
+            [RuleField(K.DF64, 1, typeof(X.DF64), "Specifies whether, in 64-bit mode, to default to 64 bit-width")]
             public bit DF64;
 
             [RuleField(K.NO_SCALE_DISP8, 1, typeof(bit))]
@@ -196,28 +187,16 @@ namespace Z0
             [RuleField(K.POS_DISP, 4, typeof(byte))]
             public byte POS_DISP;
 
-            /// <summary>
-            /// Defines the <see cref='X.ModeKind'/> value
-            /// </summary>
-            [RuleField(K.MODE, 2, typeof(X.ModeKind))]
+            [RuleField(K.MODE, 2, typeof(X.ModeKind), "Specifies one of {Mode16,Mode32,Mode64,Not64} if applicable")]
             public byte MODE;
 
-            /// <summary>
-            /// Defines the <see cref='X.SMode'/> value
-            /// </summary>
-            [RuleField(K.SMODE, 2, typeof(X.SMode))]
+            [RuleField(K.SMODE, 2, typeof(X.SMode), "Specifies one of {SMode16,SMode32,SMode64} if applicable")]
             public byte SMODE;
 
-            /// <summary>
-            /// Defines the <see cref='X.EASZ'/> value
-            /// </summary>
-            [RuleField(K.EASZ, 3, typeof(X.EASZ))]
+            [RuleField(K.EASZ, 3, typeof(X.EASZ), "Specifies one of {EASZ16,EASZ32,EASZ64,EASZNot16} if applicable")]
             public byte EASZ;
 
-            /// <summary>
-            /// Defines the <see cref='X.EOSZ'/> value
-            /// </summary>
-            [RuleField(K.EOSZ, 3, typeof(X.EOSZ))]
+            [RuleField(K.EOSZ, 3, typeof(X.EOSZ), "Specifies one of {EOSZ8,EOSZ16,EOSZ32,EOSZ64,EASZNot64} if applicable")]
             public byte EOSZ;
 
             [RuleField(K.NOMINAL_OPCODE, 8, typeof(Hex8))]
@@ -232,16 +211,10 @@ namespace Z0
             [RuleField(K.NSEG_PREFIXES, 3, typeof(byte))]
             public byte NSEG_PREFIXES;
 
-            /// <summary>
-            /// Defines the <see cref='X.RepPrefix'> value
-            /// </summary>
-            [RuleField(K.REP, 2, typeof(X.RepPrefix))]
+            [RuleField(K.REP, 2, typeof(X.RepPrefix), "Defines the value of the REP prefix, if any")]
             public byte REP;
 
-            /// <summary>
-            /// Defines the <see cref='X.SegPrefixKind'/> value
-            /// </summary>
-            [RuleField(K.SEG_OVD, 3, typeof(X.SegPrefixKind))]
+            [RuleField(K.SEG_OVD, 3, typeof(X.SegPrefixKind), "Defines the value of the seg override prefix, if any")]
             public byte SEG_OVD;
 
             /// <summary>
@@ -271,7 +244,7 @@ namespace Z0
             [RuleField(K.SIBINDEX, 3, typeof(uint3))]
             public byte SIBINDEX;
 
-            [RuleField(K.REXW, 1)]
+            [RuleField(K.REXW, 1, typeof(bit))]
             public bit REXW;
 
             [RuleField(K.REXR, 1, typeof(bit))]
@@ -283,34 +256,25 @@ namespace Z0
             [RuleField(K.REXB, 1, typeof(bit))]
             public bit REXB;
 
-            /// <summary>
-            /// Specifies a <see cref='X.VexClass'/> value
-            /// </summary>
-            [RuleField(K.VEXVALID, 3, typeof(X.VexClass))]
+            [RuleField(K.VEXVALID, 3, typeof(X.VexClass), "Specifies one of {VV0,VV1,EVV,XOPV,KVV}, if applicable")]
             public byte VEXVALID;
 
-            /// <summary>
-            /// Specifies a <see cref='X.VexKind'/> value
-            /// </summary>
-            [RuleField(K.VEX_PREFIX, 2, typeof(X.VexKind))]
+            [RuleField(K.VEX_PREFIX, 2, typeof(X.VexKind), "Specifies one of {VNP,V66,VF2,VF3}, if applicable")]
             public byte VEX_PREFIX;
 
-            /// <summary>
-            /// Specifies a <see cref='X.VexLengthKind'/ value
-            /// </summary>
-            [RuleField(K.VL, 3, typeof(X.VexLengthKind))]
+            [RuleField(K.VL, 3, typeof(X.VexLengthKind), "Specifies one of {V128,V256,V512}, if applicable")]
             public byte VL;
 
-            [RuleField(K.REXRR, 1)]
+            [RuleField(K.REXRR, 1, typeof(bit))]
             public bit REXRR;
 
-            [RuleField(K.VEXDEST4, 1)]
+            [RuleField(K.VEXDEST4, 1, typeof(bit))]
             public bit VEXDEST4;
 
-            [RuleField(K.VEXDEST3, 1)]
+            [RuleField(K.VEXDEST3, 1, typeof(bit))]
             public bit VEXDEST3;
 
-            [RuleField(K.VEXDEST210, 3)]
+            [RuleField(K.VEXDEST210, 3, typeof(uint3))]
             public byte VEXDEST210;
 
             [RuleField(K.MASK, 3, typeof(X.MASK))]
@@ -337,16 +301,16 @@ namespace Z0
             [RuleField(K.IMM_WIDTH, 3, typeof(NativeSizeCode))]
             public byte IMM_WIDTH;
 
-            [RuleField(K.IMM1_BYTES, 3)]
+            [RuleField(K.IMM1_BYTES, 3, typeof(byte))]
             public byte IMM1_BYTES;
 
-            [RuleField(K.DEFAULT_SEG, 2)]
+            [RuleField(K.DEFAULT_SEG, 2, typeof(byte))]
             public byte DEFAULT_SEG;
 
-            [RuleField(K.FIRST_F2F3, 2)]
+            [RuleField(K.FIRST_F2F3, 2, typeof(byte))]
             public byte FIRST_F2F3;
 
-            [RuleField(K.LAST_F2F3, 2)]
+            [RuleField(K.LAST_F2F3, 2, typeof(byte))]
             public byte LAST_F2F3;
 
             [RuleField(K.LLRC, 2, typeof(X.LLRC))]
@@ -358,13 +322,13 @@ namespace Z0
             [RuleField(K.ESRC, 4, typeof(X.ESRC))]
             public uint4 ESRC;
 
-            [RuleField(K.MAP, 4)]
+            [RuleField(K.MAP, 4, typeof(byte))]
             public byte MAP;
 
             [RuleField(K.BRDISP_WIDTH, 8, typeof(byte))]
             public byte BRDISP_WIDTH;
 
-            [RuleField(K.ILD_SEG, 8)]
+            [RuleField(K.ILD_SEG, 8, typeof(byte))]
             public byte ILD_SEG;
 
             [RuleField(FieldKind.MAX_BYTES, 4, typeof(byte))]

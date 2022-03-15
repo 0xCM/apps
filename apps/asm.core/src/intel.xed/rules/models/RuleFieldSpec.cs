@@ -10,15 +10,15 @@ namespace Z0
         [Record(TableName)]
         public struct RuleFieldSpec
         {
-            public const string TableName = "xed.rules.fields";
+            public const string TableName = "xed.fields.reflected";
 
-            public const byte FieldCount = 7;
+            public const byte FieldCount = 9;
 
             public ushort Pos;
 
-            public Identifier Name;
+            public Identifier FieldName;
 
-            public FieldKind Kind;
+            public FieldKind FieldKind;
 
             public ushort FieldWidth;
 
@@ -26,9 +26,13 @@ namespace Z0
 
             public ushort TotalSize;
 
-            public Identifier Type;
+            public Identifier DeclaredType;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,24,12,12,12,1};
+            public Identifier EffectiveType;
+
+            public TextBlock Description;
+
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,24,12,12,12,22,22,1};
         }
     }
 }

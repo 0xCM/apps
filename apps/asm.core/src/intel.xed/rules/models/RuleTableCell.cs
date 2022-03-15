@@ -37,6 +37,8 @@ namespace Z0
 
             public override string ToString()
                 => Format();
+
+            public static RuleTableCell Empty => default;
         }
     }
 }

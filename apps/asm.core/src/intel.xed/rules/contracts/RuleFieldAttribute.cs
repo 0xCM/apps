@@ -11,25 +11,29 @@ namespace Z0
     {
         public class RuleFieldAttribute : Attribute
         {
-            public RuleFieldAttribute(FieldKind kind, byte width)
-            {
-                Kind = kind;
-                Width = width;
-                Type = typeof(void);
-            }
-
             public RuleFieldAttribute(FieldKind kind, byte width, Type type)
             {
                 Kind = kind;
                 Width = width;
-                Type = type;
+                EffectiveType = type;
+                Description = EmptyString;
+            }
+
+            public RuleFieldAttribute(FieldKind kind, byte width, Type type, string desc)
+            {
+                Kind = kind;
+                Width = width;
+                EffectiveType = type;
+                Description = desc;
             }
 
             public FieldKind Kind {get;}
 
             public byte Width {get;}
 
-            public Type Type {get;}
+            public Type EffectiveType {get;}
+
+            public string Description {get;}
         }
     }
 }

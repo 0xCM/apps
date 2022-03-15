@@ -16,7 +16,7 @@ namespace Z0
 
             public text31 Name;
 
-            public Identifier Type;
+            public Identifier DeclaredType;
 
             public byte Width;
 
@@ -28,7 +28,6 @@ namespace Z0
             public static XedFieldDef Empty => default;
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{32,32,8,1};
-
         }
     }
 }

@@ -49,7 +49,7 @@ namespace Z0
                 => src >= RuleOpName.IMM0 && src <= RuleOpName.IMM2;
 
             [Op]
-            static bool regix(RuleOpName src, out byte index)
+            static bool RegIndex(RuleOpName src, out byte index)
             {
                 var i = src switch
                 {

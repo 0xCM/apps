@@ -7,18 +7,18 @@ namespace Z0
 {
     partial class XedRules
     {
-        public struct RuleTableRows
+        [DataWidth(3)]
+        public enum RuleTableKind : byte
         {
-            public RuleTableSig TableSig;
+            None,
 
-            public Index<RuleTableRow> Data;
+            Enc = 1,
 
-            [MethodImpl(Inline)]
-            public RuleTableRows(RuleTableSig sig, RuleTableRow[] data)
-            {
-                TableSig = sig;
-                Data = data;
-            }
+            Dec = 2,
+
+            EncDec = 3,
+
+            Joined = 4
         }
     }
 }

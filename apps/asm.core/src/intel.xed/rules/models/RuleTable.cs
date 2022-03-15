@@ -13,6 +13,8 @@ namespace Z0
         {
             public Identifier Name;
 
+            public RuleTableSig TableSig;
+
             public Identifier ReturnType;
 
             public Index<RuleExpr> Expressions;
@@ -32,6 +34,7 @@ namespace Z0
                 {
                     var dst = default(RuleTable);
                     dst.Name = Identifier.Empty;
+                    dst.TableSig = RuleTableSig.Empty;
                     dst.ReturnType = Identifier.Empty;
                     dst.Expressions = sys.empty<RuleExpr>();
                     return dst;

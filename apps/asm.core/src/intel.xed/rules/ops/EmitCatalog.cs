@@ -12,14 +12,20 @@ namespace Z0
 
     partial class XedRules
     {
+        bool PllWf {get;} = true;
+
+        public static void exec(params Action[] src)
+            => iter(src, a => a(), true);
+
+        public static void exec(bool pll, params Action[] src)
+            => iter(src, a => a(), pll);
+
         public void EmitCatalog()
         {
             var defs = CalcInstDefs();
-            var patterns = CalcInstPatterns();
-            var actions = new Action[]{
-                () => TableEmit(CalcPatternInfo(patterns)),
-                () => EmitPatternDetails(patterns),
-                () => TableEmit(CalcPatternOps(patterns)),
+            var patterns = CalcInstPatterns(defs);
+            exec(PllWf,
+                () => EmitPatternData(patterns),
                 EmitRuleTables,
                 EmitFieldDefs,
                 EmitRuleSeq,
@@ -27,10 +33,24 @@ namespace Z0
                 EmitPointerWidths,
                 EmitOpCodeKinds,
                 EmitMacroAssignments,
-                EmitFieldSpecs};
-
-            iter(actions, a => a(), true);
+                EmitReflectedFields);
         }
+
+        void EmitRuleTables()
+            => RuleTables.create(Wf).EmitTables();
+
+        void EmitPatternData(Index<InstPattern> src)
+            => exec(PllWf,
+                () => EmitPatternInfo(src),
+                () => EmitPatternDetails(src),
+                () => EmitPatternOps(src)
+                );
+
+        void EmitPatternInfo(Index<InstPattern> patterns)
+            => TableEmit(CalcPatternInfo(patterns));
+
+        void EmitPatternOps(Index<InstPattern> patterns)
+            => TableEmit(CalcPatternOps(patterns));
 
         void EmitRuleSeq()
         {
@@ -61,21 +81,8 @@ namespace Z0
         void EmitMacroAssignments()
             => TableEmit(CalcMacroAssignments().View, MacroAssignment.RenderWidths, XedPaths.DocTarget(XedDocKind.MacroAssignments));
 
-        void EmitFieldSpecs()
+        void EmitReflectedFields()
             => TableEmit(CalcFieldSpecs().View, RuleFieldSpec.RenderWidths, AppDb.XedTable<RuleFieldSpec>());
-
-        void EmitRuleTables()
-        {
-            var path = XedPaths.DocTarget(XedDocKind.RuleTable);
-            var emitting = EmittingFile(path);
-            using var dst = path.AsciWriter();
-            var src = CalcTables();
-            var sigs = src.Keys.ToArray().Sort();
-            var count = sigs.Length;
-            for(var i=0; i<count; i++)
-                dst.AppendLine(src[skip(sigs,i)].Format());
-            EmittedFile(emitting, sigs.Length);
-        }
 
         void EmitOperandWidths()
             => TableEmit(CalcOperandWidths().View, AppDb.XedTable<OpWidth>());

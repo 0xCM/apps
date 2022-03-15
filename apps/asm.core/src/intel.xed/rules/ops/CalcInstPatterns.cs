@@ -9,19 +9,17 @@ namespace Z0
     partial class XedRules
     {
         public Index<InstPattern> CalcInstPatterns()
-        {
-            Index<InstPattern> Calc()
-            {
-                var defs = CalcInstDefs();
-                var dst = bag<InstPattern>();
-                iter(defs, def => CalcInstPatterns(def, dst), true);
-                return dst.ToArray().Sort();
-            }
+            => CalcInstPatterns(CalcInstDefs());
 
-            return Data(nameof(CalcInstPatterns), Calc);
+        Index<InstPattern> CalcInstPatterns(Index<InstDef> defs)
+        {
+            var dst = bag<InstPattern>();
+            iter(defs, def => calc(def, dst), true);
+            var data = dst.ToArray().Sort();
+            return Data(nameof(CalcInstPatterns), () => data);
         }
 
-        static void CalcInstPatterns(in InstDef def, ConcurrentBag<InstPattern> dst)
+        static void calc(in InstDef def, ConcurrentBag<InstPattern> dst)
         {
             var specs = def.PatternSpecs;
             var buffer = list<PatternOpDetail>();

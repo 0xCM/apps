@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
     using static core;
     using static Root;
     using static XedRules.SyntaxLiterals;
@@ -531,6 +532,8 @@ namespace Z0
 
             TextLine Line;
 
+            XedDocKind DocKind;
+
             public RuleTableParser()
             {
                 Table = RuleTable.Empty;
@@ -538,9 +541,10 @@ namespace Z0
                 Line = TextLine.Empty;
                 Kind = 0;
                 Tables = new();
+                DocKind = 0;
             }
 
-            public Outcome Parse(TextLine src)
+            Outcome Parse(TextLine src)
             {
                 Line = src;
                 var result = Outcome.Success;
@@ -556,10 +560,12 @@ namespace Z0
                 return result;
             }
 
+
             public Index<RuleTable> Parse(FS.FilePath src)
             {
                 try
                 {
+                    DocKind = XedPaths.srckind(src.FileName);
                     Reader = src.Utf8LineReader();
                     Parse();
                     return Tables.ToArray();
@@ -653,6 +659,18 @@ namespace Z0
                 }
 
                 Table.Name = name;
+                switch(DocKind)
+                {
+                    case XedDocKind.EncRuleTable:
+                        Table.TableSig = new (RuleTableKind.Enc,name);
+                    break;
+                    case XedDocKind.EncDecRuleTable:
+                        Table.TableSig = new (RuleTableKind.EncDec,name);
+                    break;
+                    case XedDocKind.DecRuleTable:
+                        Table.TableSig = new (RuleTableKind.Dec,name);
+                    break;
+                }
                 Table.ReturnType = ret;
                 Tables.Add(Table);
                 Table = RuleTable.Empty;
