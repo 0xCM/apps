@@ -21,6 +21,9 @@ namespace Z0
         public static string format(in RuleTableCell src)
             => src.IsEmpty ? EmptyString : format(src.Criterion);
 
+        public static string format(Nonterminal src)
+            => string.Format("{0}()", src.Name);
+
         public static string format(AsmOcValue src)
             => AsmOcValue.format(src);
 
@@ -51,7 +54,7 @@ namespace Z0
                     dst = format((GroupName)src.Spec);
                 break;
                 case ValueSelectorKind.Nonterminal:
-                    dst = format((NonterminalKind)src.Spec);
+                    dst = format((NontermKind)src.Spec);
                 break;
                 case ValueSelectorKind.RegLiteral:
                     dst = format((XedRegId)src.Spec);
@@ -157,7 +160,7 @@ namespace Z0
         public static string format(ConstraintKind src)
             => ConstraintKinds[src].Expr.Text;
 
-        public static string format(NonterminalKind src)
+        public static string format(NontermKind src)
             => Nonterminals[src].Expr.Text;
 
         public static string format(RuleMacroKind src)
@@ -255,7 +258,7 @@ namespace Z0
 
         static Symbols<ConstraintKind> ConstraintKinds;
 
-        static Symbols<NonterminalKind> Nonterminals;
+        static Symbols<NontermKind> Nonterminals;
 
         static Symbols<OperandAction> OpActions;
 
@@ -285,7 +288,7 @@ namespace Z0
             RuleOps = Symbols.index<RuleOperator>();
             DispKinds = Symbols.index<DispExprKind>();
             ConstraintKinds = Symbols.index<ConstraintKind>();
-            Nonterminals = Symbols.index<NonterminalKind>();
+            Nonterminals = Symbols.index<NontermKind>();
             OpActions = Symbols.index<OperandAction>();
             OpNames = Symbols.index<RuleOpName>();
             OpVis = Symbols.index<OpVisibility>();
@@ -311,16 +314,25 @@ namespace Z0
         }
 
         static string format(uint2 src)
-            => src.Format();
+            => "0b" + src.Format();
 
         static string format(uint3 src)
-            => src.Format();
+            => "0b" +  src.Format();
 
         static string format(uint4 src)
-            => src.Format();
+            =>  "0b" + src.Format();
 
         static string format(uint5 src)
-            => src.Format();
+            =>  "0b" + src.Format();
+
+        static string format(uint6 src)
+            =>  "0b" + src.Format();
+
+        static string format(uint7 src)
+            =>  "0b" + src.Format();
+
+        static string format(uint8b src)
+            =>  "0b" + src.Format();
 
         static string format3(uint5 src)
         {
@@ -338,15 +350,6 @@ namespace Z0
             seek(dst,i++) = src[j].ToChar();
             return new asci8(storage);
         }
-
-        static string format(uint6 src)
-            => src.Format();
-
-        static string format(uint7 src)
-            => src.Format();
-
-        static string format(uint8b src)
-            => src.Format();
 
         static string format(sbyte src)
             => src.ToString();
@@ -371,24 +374,6 @@ namespace Z0
 
         static string format(ulong src)
             => src.ToString();
-
-        static string format(Hex2 src)
-            => src.Format(prespec:true, uppercase:true);
-
-        static string format(Hex3 src)
-            => src.Format(prespec:true, uppercase:true);
-
-        static string format(Hex4 src)
-            => src.Format(prespec:true, uppercase:true);
-
-        static string format(Hex5 src)
-            => src.Format(prespec:true, uppercase:true);
-
-        static string format(Hex6 src)
-            => src.Format(prespec:true, uppercase:true);
-
-        static string format(Hex7 src)
-            => src.Format(prespec:true, uppercase:true);
 
         static string format(Hex8 src)
             => src.Format(prespec:true, uppercase:true);
@@ -424,8 +409,5 @@ namespace Z0
                     format(src.Value)
                     );
         }
-
-        public static string format(in NonterminalRule src)
-            => format(src.Table);
     }
 }

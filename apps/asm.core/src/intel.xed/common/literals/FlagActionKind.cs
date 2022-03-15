@@ -10,7 +10,7 @@ namespace Z0
         /// <summary>
         /// xed-flag-action-enum.h
         /// </summary>
-        [SymSource(xed_state)]
+        [SymSource(xed)]
         public enum FlagActionKind
         {
             [Symbol("u", "undefined (treated as a write)")]

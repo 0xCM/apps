@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using PS = XedModels.VexPrefixSpecs;
+    using N = XedNames;
 
     partial struct XedModels
     {
@@ -14,22 +14,13 @@ namespace Z0
         {
             None,
 
-            /// <summary>
-            /// VEXDEST3=0b1 VEXDEST210=0b111
-            /// </summary>
-            [Symbol(PS.NOVSR, "VEXDEST3=0b1 VEXDEST210=0b111")]
+            [Symbol(N.NOVSR, "VEXDEST3=0b1 VEXDEST210=0b111")]
             NOVSR,
 
-            /// <summary>
-            /// VEXDEST3=0b1 VEXDEST210=0b111 VEXDEST4=0b0
-            /// </summary>
-            [Symbol(PS.NOEVSR, "VEXDEST3=0b1 VEXDEST210=0b111 VEXDEST4=0b0")]
+            [Symbol(N.NOEVSR, "VEXDEST3=0b1 VEXDEST210=0b111 VEXDEST4=0b0")]
             NOEVSR,
 
-            /// <summary>
-            /// VEXDEST3=0b1 VEXDEST210=0b111
-            /// </summary>
-            [Symbol(PS.NO_SPARSE_EVSR, "VEXDEST3=0b1 VEXDEST210=0b111")]
+            [Symbol(N.NO_SPARSE_EVSR, "VEXDEST3=0b1 VEXDEST210=0b111")]
             NO_SPARSE_EVSR,
         }
     }

@@ -46,6 +46,5 @@ namespace Z0
         static EnumRender<FieldKind> FieldKinds = new();
 
         static EnumRender<RuleTableKind> RuleTableKinds = new();
-
     }
 }

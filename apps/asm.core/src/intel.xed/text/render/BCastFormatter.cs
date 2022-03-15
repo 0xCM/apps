@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using static XedModels;
     using static XedModels.BCastKind;
-    using static Asm.BroadcastStrings;
+    using static XedNames;
     using static core;
 
     partial class IntelXed
@@ -47,64 +47,64 @@ namespace Z0.Asm
                         case BCast_1TO2_16:
                         case BCast_1TO2_32:
                         case BCast_1TO2_64:
-                            SymbolMap[i] = BCast1to2;
+                            SymbolMap[i] = N1to2;
                             break;
 
                         case BCast_1TO4_8:
                         case BCast_1TO4_16:
                         case BCast_1TO4_32:
                         case BCast_1TO4_64:
-                            SymbolMap[i] = BCast1to4;
+                            SymbolMap[i] = N1to4;
                             break;
 
                         case BCast_1TO8_8:
                         case BCast_1TO8_16:
                         case BCast_1TO8_32:
                         case BCast_1TO8_64:
-                            SymbolMap[i] = BCast1to8;
+                            SymbolMap[i] = N1to8;
                             break;
 
                         case BCast_1TO16_16:
                         case BCast_1TO16_8:
                         case BCast_1TO16_32:
-                            SymbolMap[i] = BCast1to16;
+                            SymbolMap[i] = N1to16;
                             break;
 
                         case BCast_1TO32_8:
                         case BCast_1TO32_16:
-                            SymbolMap[i] = BCast1to32;
+                            SymbolMap[i] = N1to32;
                             break;
 
 
                         case BCast_1TO64_8:
-                            SymbolMap[i] = BCast1to64;
+                            SymbolMap[i] = N1to64;
                             break;
 
                         case BCast_2TO4_64:
                         case BCast_2TO4_32:
-                            SymbolMap[i] = BCast2to4;
+                            SymbolMap[i] = N2to4;
                             break;
 
                         case BCast_2TO8_32:
                         case BCast_2TO8_64:
-                            SymbolMap[i] = BCast2to8;
+                            SymbolMap[i] = N2to8;
                             break;
 
                         case BCast_2TO16_32:
-                            SymbolMap[i] = BCast2to16;
+                            SymbolMap[i] = N2to16;
                             break;
 
                         case BCast_4TO8_32:
                         case BCast_4TO8_64:
-                            SymbolMap[i] = BCast4to8;
+                            SymbolMap[i] = N4to8;
                             break;
 
                         case BCast_4TO16_32:
-                            SymbolMap[i] = BCast4to16;
+                            SymbolMap[i] = N4to16;
                             break;
 
                         case BCast_8TO16_32:
-                            SymbolMap[i] = BCast8to16;
+                            SymbolMap[i] = N8to16;
                             break;
 
                         default:

@@ -62,7 +62,6 @@ namespace Z0
                     }
                 }
                 return result;
-
             }
 
             [MethodImpl(Inline)]

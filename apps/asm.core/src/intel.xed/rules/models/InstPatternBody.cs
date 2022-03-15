@@ -7,17 +7,17 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct InstPatternBody : IIndex<InstDefSeg>
+        public readonly struct InstPatternBody : IIndex<InstDefPart>
         {
-            readonly Index<InstDefSeg> Data;
+            readonly Index<InstDefPart> Data;
 
             [MethodImpl(Inline)]
-            public InstPatternBody(InstDefSeg[] src)
+            public InstPatternBody(InstDefPart[] src)
             {
                 Data = src;
             }
 
-            public InstDefSeg[] Storage
+            public InstDefPart[] Storage
             {
                 [MethodImpl(Inline)]
                 get => Data.Storage;
@@ -29,13 +29,13 @@ namespace Z0
                 get => Data.Count;
             }
 
-            public ref InstDefSeg this[int i]
+            public ref InstDefPart this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
             }
 
-            public ref InstDefSeg this[uint i]
+            public ref InstDefPart this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
@@ -48,11 +48,11 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator InstPatternBody(InstDefSeg[] src)
+            public static implicit operator InstPatternBody(InstDefPart[] src)
                 => new InstPatternBody(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator InstDefSeg[](InstPatternBody src)
+            public static implicit operator InstDefPart[](InstPatternBody src)
                 => src.Data;
         }
     }

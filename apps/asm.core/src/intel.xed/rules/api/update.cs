@@ -677,7 +677,7 @@ namespace Z0
         public static ref RuleState update(in FieldValue src, ref RuleState dst)
         {
             var result = Outcome.Success;
-            switch(src.Kind)
+            switch(src.Field)
             {
                 case K.AMD3DNOW:
                     dst.AMD3DNOW = src;

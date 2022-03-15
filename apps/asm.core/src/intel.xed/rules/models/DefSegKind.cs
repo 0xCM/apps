@@ -13,17 +13,18 @@ namespace Z0
 
             HexLiteral,
 
-            BitLiteral,
-
             Bitfield,
 
-            Constraint,
-
-            FieldAssign,
+            BitLiteral,
 
             Nonterm,
 
             FieldLiteral,
+
+            FieldAssign,
+
+            Constraint,
         }
+
     }
 }

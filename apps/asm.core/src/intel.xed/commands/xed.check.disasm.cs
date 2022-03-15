@@ -12,8 +12,6 @@ namespace Z0
 
     partial class XedCmdProvider
     {
-        FieldRender FieldFormatter => Service(FieldRender.create);
-
         XedDisasmSvc XedDisasmSvc => Service(Wf.XedDisasm);
 
         [CmdOp("xed/check/disasm")]
@@ -109,7 +107,6 @@ namespace Z0
         {
             const string FieldPattern = "{0,-24} | {1}";
             var name = src.Source.DocName;
-            var fieldrender = FieldFormatter;
             var dst = AppDb.Log("xed.props", name, FileKind.Log);
             var emitting = EmittingFile(dst);
             XedDisasm.CalcSummaryDoc(context, src.Source, out var summaries);
@@ -130,7 +127,7 @@ namespace Z0
                 ref readonly var block = ref src[i];
                 ref readonly var summary = ref summaries[i];
                 var fields = XedDisasm.fields(block);
-                var lookup = fields.Map(x => (x.Kind, x)).ToDictionary();
+                var lookup = fields.Map(x => (x.Field, x)).ToDictionary();
                 update(fields, ref state);
 
                 writer.AppendLine((Address32)summary.IP);
@@ -140,12 +137,12 @@ namespace Z0
 
                 if(state.DF32)
                 {
-                    writer.AppendLineFormat(FieldPattern, K.DF32, fieldrender.Format(lookup[K.DF32]));
+                    writer.AppendLineFormat(FieldPattern, K.DF32, XedRender.format(lookup[K.DF32]));
                     formatted.Add(K.DF32);
                 }
                 else if(state.DF64)
                 {
-                    writer.AppendLineFormat(FieldPattern, K.DF64, fieldrender.Format(lookup[K.DF64]));
+                    writer.AppendLineFormat(FieldPattern, K.DF64, XedRender.format(lookup[K.DF64]));
                     formatted.Add(K.DF64);
                 }
 
@@ -173,8 +170,8 @@ namespace Z0
                 for(var j=0; j<fields.Count; j++)
                 {
                     ref readonly var field = ref fields[j];
-                    if(!formatted.Contains(field.Kind))
-                        writer.AppendLineFormat(FieldPattern, field.Kind, fieldrender.Format(field));
+                    if(!formatted.Contains(field.Field))
+                        writer.AppendLineFormat(FieldPattern, field.Field, XedRender.format(field));
                     counter++;
                 }
             }

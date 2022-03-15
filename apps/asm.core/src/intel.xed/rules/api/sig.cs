@@ -14,7 +14,7 @@ namespace Z0
             var @class = RuleClass.None;
             if(XedParsers.parse(name, out EncodingGroup group))
                 @class = RuleClass.EncodingGroup;
-            else if(XedParsers.parse(name, out NonterminalKind nt))
+            else if(XedParsers.parse(name, out NontermKind nt))
                 @class = RuleClass.Nonterminal;
             else
             {

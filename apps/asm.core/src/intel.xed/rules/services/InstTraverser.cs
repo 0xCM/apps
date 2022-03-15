@@ -238,7 +238,7 @@ namespace Z0
                 Traversed(def, pattern, op, attrib);
             }
 
-            void Traverse(in InstDef def, in InstPatternSpec pattern, in RuleOpSpec op, NonterminalKind attrib)
+            void Traverse(in InstDef def, in InstPatternSpec pattern, in RuleOpSpec op, NontermKind attrib)
             {
                 Traversed(def, pattern, op, attrib);
             }
@@ -383,7 +383,7 @@ namespace Z0
 
             }
 
-            protected virtual void Traversed(in InstDef def, in InstPatternSpec pattern, in RuleOpSpec op, NonterminalKind attrib)
+            protected virtual void Traversed(in InstDef def, in InstPatternSpec pattern, in RuleOpSpec op, NontermKind attrib)
             {
 
             }

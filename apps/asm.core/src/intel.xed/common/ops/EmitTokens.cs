@@ -35,7 +35,7 @@ namespace Z0.Asm
             ApiMetadata.EmitTokens<IFormType>(scope, xed);
             ApiMetadata.EmitTokens<IsaKind>(scope, xed);
             ApiMetadata.EmitTokens<LookupKind>(scope, xed);
-            ApiMetadata.EmitTokens<NonterminalKind>(scope, xed);
+            ApiMetadata.EmitTokens<NontermKind>(scope, xed);
             ApiMetadata.EmitTokens<FieldKind>(scope, xed);
             ApiMetadata.EmitTokens<OperandWidthCode>(scope, xed);
             ApiMetadata.EmitTokens<OperandAction>(scope, xed);

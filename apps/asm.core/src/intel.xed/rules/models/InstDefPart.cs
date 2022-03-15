@@ -7,14 +7,16 @@ namespace Z0
 {
     using static core;
 
+    using static XedModels;
+
     partial class XedRules
     {
-        public struct InstDefSeg
+        public struct InstDefPart
         {
             readonly ByteBlock16 Data;
 
             [MethodImpl(Inline)]
-            public InstDefSeg(Hex8 src)
+            public InstDefPart(Hex8 src)
             {
                 var data = ByteBlock16.Empty;
                 data[0] = src;
@@ -23,43 +25,46 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefSeg(BitfieldSeg src)
+            public InstDefPart(BitfieldSeg src)
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
+                data[14] = (byte)src.Field;
                 data[15] = (byte)DefSegKind.Bitfield;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public InstDefSeg(FieldAssign src)
+            public InstDefPart(FieldAssign src)
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
+                data[14] = (byte)src.Field;
                 data[15] = (byte)DefSegKind.FieldAssign;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public InstDefSeg(FieldConstraint src)
+            public InstDefPart(FieldConstraint src)
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
+                data[14] = (byte)src.Field;
                 data[15] = (byte)DefSegKind.Constraint;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public InstDefSeg(NontermCall src)
+            public InstDefPart(Nonterminal src)
             {
                 var data = ByteBlock16.Empty;
-                data[0] = (byte)src.Kind;
+                @as<ushort>(data.First) = (ushort)src;
                 data[15] = (byte)DefSegKind.Nonterm;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public InstDefSeg(uint5 src)
+            public InstDefPart(uint5 src)
             {
                 var data = ByteBlock16.Empty;
                 data[0] = (byte)src;
@@ -69,7 +74,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefSeg(BitNumber src)
+            public InstDefPart(BitNumber src)
             {
                 var data = ByteBlock16.Empty;
                 data[0] = src.Val8;
@@ -79,18 +84,25 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefSeg(FieldValue src)
+            public InstDefPart(FieldValue src)
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
+                data[14] = (byte)src.Field;
                 data[15] = (byte)DefSegKind.FieldLiteral;
                 Data = data;
             }
 
-            public ref readonly DefSegKind Kind
+            public ref readonly DefSegKind PartKind
             {
                 [MethodImpl(Inline)]
                 get => ref @as<DefSegKind>(Data[15]);
+            }
+
+            public ref readonly FieldKind Field
+            {
+                [MethodImpl(Inline)]
+                get => ref @as<FieldKind>(Data[14]);
             }
 
             [MethodImpl(Inline)]
@@ -111,25 +123,25 @@ namespace Z0
                 switch(kind)
                 {
                     case DefSegKind.FieldAssign:
-                        dst = f(@as<InstDefSeg,S>(AsAssign()));
+                        dst = f(@as<InstDefPart,S>(AsAssign()));
                     break;
                     case DefSegKind.Bitfield:
-                        dst = f(@as<InstDefSeg,S>(@as<BitfieldSeg>(Data.First)));
+                        dst = f(@as<InstDefPart,S>(@as<BitfieldSeg>(Data.First)));
                     break;
                     case DefSegKind.Constraint:
-                        dst = f(@as<InstDefSeg,S>(@as<FieldConstraint>(Data.First)));
+                        dst = f(@as<InstDefPart,S>(@as<FieldConstraint>(Data.First)));
                     break;
                     case DefSegKind.HexLiteral:
-                        dst = f(@as<InstDefSeg,S>(AsHexLit()));
+                        dst = f(@as<InstDefPart,S>(AsHexLit()));
                     break;
                     case DefSegKind.BitLiteral:
-                        dst = f(@as<InstDefSeg,S>(@as<uint5>(Data.First)));
+                        dst = f(@as<InstDefPart,S>(@as<uint5>(Data.First)));
                     break;
                     case DefSegKind.Nonterm:
-                        dst = f(@as<InstDefSeg,S>(@as<NontermCall>(Data.First)));
+                        dst = f(@as<InstDefPart,S>(@as<Nonterminal>(Data.First)));
                     break;
                     case DefSegKind.FieldLiteral:
-                        dst = f(@as<InstDefSeg,S>(AsFieldLit()));
+                        dst = f(@as<InstDefPart,S>(AsFieldLit()));
                     break;
                 }
                 return dst;
@@ -142,38 +154,38 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator InstDefSeg(Hex8 src)
-                => new InstDefSeg(src);
+            public static implicit operator InstDefPart(Hex8 src)
+                => new InstDefPart(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator InstDefSeg(uint5 src)
-                => new InstDefSeg(src);
+            public static implicit operator InstDefPart(uint5 src)
+                => new InstDefPart(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator InstDefSeg(BitfieldSeg src)
-                => new InstDefSeg(src);
+            public static implicit operator InstDefPart(BitfieldSeg src)
+                => new InstDefPart(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator InstDefSeg(FieldAssign src)
-                => new InstDefSeg(src);
+            public static implicit operator InstDefPart(FieldAssign src)
+                => new InstDefPart(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator InstDefSeg(FieldConstraint src)
-                => new InstDefSeg(src);
+            public static implicit operator InstDefPart(FieldConstraint src)
+                => new InstDefPart(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator InstDefSeg(NontermCall src)
-                => new InstDefSeg(src);
+            public static implicit operator InstDefPart(Nonterminal src)
+                => new InstDefPart(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator InstDefSeg(BitNumber src)
-                => new InstDefSeg(src);
+            public static implicit operator InstDefPart(BitNumber src)
+                => new InstDefPart(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator InstDefSeg(FieldValue src)
-                => new InstDefSeg(src);
+            public static implicit operator InstDefPart(FieldValue src)
+                => new InstDefPart(src);
 
-            public static InstDefSeg Empty => default;
+            public static InstDefPart Empty => default;
         }
     }
 }

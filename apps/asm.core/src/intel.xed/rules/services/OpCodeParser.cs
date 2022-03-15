@@ -96,7 +96,7 @@ namespace Z0
                 return Result;
             }
 
-            void Parse(in InstDefSeg src)
+            void Parse(in InstDefPart src)
             {
                 if(InstDefs.vexclass(src, out var vc))
                 {

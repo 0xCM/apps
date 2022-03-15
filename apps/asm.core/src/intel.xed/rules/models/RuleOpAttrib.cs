@@ -59,8 +59,8 @@ namespace Z0
                 => (XedRegId)Data;
 
             [MethodImpl(Inline)]
-            public NonterminalKind AsNonTerm()
-                => (NonterminalKind)Data;
+            public NontermKind AsNonTerm()
+                => (NontermKind)Data;
 
             [MethodImpl(Inline)]
             public MemoryScale AsScale()
@@ -103,7 +103,7 @@ namespace Z0
                 => new RuleOpAttrib(K.PtrWidth, (ushort)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(NonterminalKind src)
+            public static implicit operator RuleOpAttrib(NontermKind src)
                 => new RuleOpAttrib(K.Nonterminal, (ushort)src);
 
             [MethodImpl(Inline)]

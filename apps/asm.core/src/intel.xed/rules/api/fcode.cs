@@ -76,8 +76,19 @@ namespace Z0
                     dst = C.B1;
                 break;
 
-                case K.MOD:
                 case K.SIBSCALE:
+                case K.MOD:
+                    dst = C.B2;
+                break;
+
+                case K.REG:
+                case K.RM:
+                case K.SRM:
+                case K.SIBBASE:
+                case K.SIBINDEX:
+                    dst = C.B3;
+                break;
+
                 case K.EASZ:
                 case K.EOSZ:
                 case K.FIRST_F2F3:
@@ -94,8 +105,6 @@ namespace Z0
                 }
                 break;
 
-                case K.REG:
-                case K.SIBBASE:
                 case K.VEXDEST210:
                 case K.HINT:
                 case K.MASK:
@@ -103,16 +112,6 @@ namespace Z0
                 case K.SEG_OVD:
                 case K.VEXVALID:
                     dst = C.U3;
-                break;
-
-                case K.SIBINDEX:
-                case K.RM:
-                //case K.SRM:
-                    dst = C.U8;
-                break;
-
-                case K.SRM:
-                    dst = C.X3;
                 break;
 
                 case K.ESRC:

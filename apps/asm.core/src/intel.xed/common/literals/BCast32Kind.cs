@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource("xed")]
+        [SymSource(xed)]
         public enum BCast32Kind : byte
         {
             [Symbol("{1to16}", "BCAST=1")]

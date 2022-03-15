@@ -28,6 +28,9 @@ namespace Z0
         public static bool parse(string src, out Hex3 dst)
             => Instance.Parse(src, out dst);
 
+        public static bool parse(string src, out Nonterminal dst)
+            => Instance.Parse(src, out dst);
+
         public static bool parse(string src, out ChipCode dst)
             => Instance.Parse(src, out dst);
 
@@ -47,9 +50,6 @@ namespace Z0
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out uint8b dst)
-            => Instance.Parse(src, out dst);
-
-        public static bool parse(string src, out NontermCall dst)
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out FieldConstraint dst)
@@ -124,7 +124,7 @@ namespace Z0
         public static bool parse(string src, out PointerWidthKind dst)
             => Instance.Parse(src, out dst);
 
-        public static bool parse(string src, out NonterminalKind dst)
+        public static bool parse(string src, out NontermKind dst)
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out XedRegId dst)
@@ -169,7 +169,7 @@ namespace Z0
         public bool Parse(string src, out IsaKind dst)
             => IsaKinds.Parse(src, out dst);
 
-        public bool Parse(string src, out NonterminalKind dst)
+        public bool Parse(string src, out NontermKind dst)
             => Nonterminals.Parse(src, out dst);
 
         public bool Parse(string src, out XedRegId dst)
@@ -447,34 +447,24 @@ namespace Z0
             }
         }
 
-        public bool Parse(string src, out NontermCall dst)
+        public bool Parse(string src, out Nonterminal dst)
         {
             var result = false;
-            dst = NontermCall.Empty;
+            dst = Nonterminal.Empty;
+            var input = text.remove(src,"()");
 
-            if(call(src, out var name))
+            result = parse(input, out NontermKind kind);
+            if(result)
+                dst = kind;
+            else
             {
-                result = parse(name, out NonterminalKind kind);
+                result = parse(input, out GroupName group);
                 if(result)
-                    dst = kind;
-            }
-
-            static bool call(string src, out string name)
-            {
-                var result = false;
-                name = EmptyString;
-                if(text.ends(src, "()"))
-                {
-                    var i = text.index(src,Chars.LParen);
-                    name = text.left(src,i);
-                    result = true;
-                }
-                return result;
+                    dst = group;
             }
 
             return result;
         }
-
         public Outcome Parse(string src, out FieldAssign dst)
         {
             var i = text.index(src,Chars.Eq);

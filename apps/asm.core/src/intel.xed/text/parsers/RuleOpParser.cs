@@ -363,7 +363,7 @@ namespace Z0
                     {
                         if(parse(p0, out GroupName group))
                             seek(buffer, i++) = group;
-                        else if(parse(p0, out NonterminalKind nonterm))
+                        else if(parse(p0, out NontermKind nonterm))
                             seek(buffer, i++) = nonterm;
                         else
                             Errors.Throw(string.Format("Unable to parser rgister specification {0}", p0));

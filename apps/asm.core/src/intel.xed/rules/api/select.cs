@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         [Op]
-        public static FieldValue select(FieldKind kind, in RuleState src)
+        public static FieldValue select(in RuleState src, FieldKind kind)
         {
             var result = Outcome.Success;
             var dst = new FieldValue(kind,0);

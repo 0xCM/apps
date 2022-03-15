@@ -13,95 +13,84 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public readonly struct FieldValue
         {
-            public readonly FieldKind Kind;
+            public readonly FieldKind Field;
 
             public readonly ulong Data;
-
-            public readonly FormatCode FormatCode;
 
             [MethodImpl(Inline)]
             public FieldValue(FieldKind kind, ulong value)
             {
-                Kind = kind;
+                Field = kind;
                 Data = value;
-                FormatCode = fcode(kind);
-            }
-
-            [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, ulong value, FormatCode fc)
-            {
-                Kind = kind;
-                Data = value;
-                FormatCode = fc;
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Kind == 0;
+                get => Field == 0;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Kind != 0;
+                get => Field != 0;
             }
 
             [MethodImpl(Inline)]
             public FieldValue WithValue(Disp64 src)
-                => new FieldValue(Kind,src);
+                => new FieldValue(Field,src);
 
             [MethodImpl(Inline)]
             public FieldValue WithValue(bit src)
-                => new FieldValue(Kind, (ulong)src);
+                => new FieldValue(Field, (ulong)src);
 
             [MethodImpl(Inline)]
             public FieldValue WithValue(byte src)
-                => new FieldValue(Kind,src);
+                => new FieldValue(Field,src);
 
             [MethodImpl(Inline)]
             public FieldValue WithValue(ushort src)
-                => new FieldValue(Kind,src);
+                => new FieldValue(Field,src);
 
             [MethodImpl(Inline)]
             public FieldValue WithValue(XedRegId src)
-                => new FieldValue(Kind,(ulong)src);
+                => new FieldValue(Field,(ulong)src);
 
             [MethodImpl(Inline)]
             public FieldValue WithValue(Hex8 src)
-                => new FieldValue(Kind,(ulong)src);
+                => new FieldValue(Field,(ulong)src);
 
             [MethodImpl(Inline)]
             public FieldValue WithValue(imm8 src)
-                => new FieldValue(Kind,(ulong)src);
+                => new FieldValue(Field,(ulong)src);
 
             [MethodImpl(Inline)]
             public FieldValue WithValue(imm64 src)
-                => new FieldValue(Kind,(ulong)src);
+                => new FieldValue(Field,(ulong)src);
 
             [MethodImpl(Inline)]
             public FieldValue WithValue(BCastKind src)
-                => new FieldValue(Kind,(ulong)src);
+                => new FieldValue(Field,(ulong)src);
 
             [MethodImpl(Inline)]
             public FieldValue WithValue(IClass src)
-                => new FieldValue(Kind,(ulong)src);
+                => new FieldValue(Field,(ulong)src);
 
             [MethodImpl(Inline)]
             public FieldValue WithValue(ChipCode src)
-                => new FieldValue(Kind,(ulong)src);
+                => new FieldValue(Field,(ulong)src);
 
             [MethodImpl(Inline)]
             public FieldValue WithValue(EASZ src)
-                => new FieldValue(Kind,(ulong)src);
+                => new FieldValue(Field,(ulong)src);
 
             [MethodImpl(Inline)]
             public FieldValue WithValue(EOSZ src)
-                => new FieldValue(Kind,(ulong)src);
+                => new FieldValue(Field,(ulong)src);
 
             [MethodImpl(Inline)]
             public bool Equals(FieldValue src)
-                => Kind == src.Kind && Data == src.Data;
+                => Field == src.Field && Data == src.Data;
 
             public override bool Equals(object src)
                 => src is FieldValue x && Equals(x);
@@ -113,7 +102,7 @@ namespace Z0
                 => Format();
 
             public override int GetHashCode()
-                => (int)(((uint)Kind << 24) | (Data & 0xFFFFFF));
+                => (int)(((uint)Field << 24) | (Data & 0xFFFFFF));
 
             [MethodImpl(Inline)]
             public static implicit operator XedRegId(FieldValue src)

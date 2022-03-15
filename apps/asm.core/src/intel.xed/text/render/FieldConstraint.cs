@@ -8,12 +8,6 @@ namespace Z0
 
     partial class XedRender
     {
-        public static string format(NontermCall src)
-            => string.Format("{0}()", format(src.Kind));
-
-        public static string format(GroupCall src)
-            => string.Format("{0}()", format(src.Target));
-
         public static string format(FieldConstraint src)
             => string.Format("{0}{1}{2}",
                     format(src.Field),

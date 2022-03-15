@@ -20,10 +20,11 @@ namespace Z0
                 var result = Outcome.Success;
                 var parts = text.trim(text.split(text.despace(src), Chars.Space));
                 var count = parts.Length;
-                dst = alloc<InstDefSeg>(count);
+                dst = alloc<InstDefPart>(count);
                 for(var i=0; i<count; i++)
                 {
-                    result = Parse(skip(parts,i), out dst[i]);
+                    ref var target = ref dst[i];
+                    result = Parse(skip(parts,i), out target);
                     if(result.Fail)
                         break;
                 }
@@ -31,9 +32,9 @@ namespace Z0
                 return result;
             }
 
-            Outcome Parse(string src, out InstDefSeg dst)
+            Outcome Parse(string src, out InstDefPart dst)
             {
-                dst = InstDefSeg.Empty;
+                dst = InstDefPart.Empty;
                 Outcome result = (false, string.Format("Unrecognized segment '{0}'", src));
                 if(IsHexLiteral(src))
                 {
@@ -75,7 +76,7 @@ namespace Z0
                 }
                 else if(IsCall(src))
                 {
-                    result = parse(src, out NontermCall x);
+                    result = parse(src, out Nonterminal x);
                     if(result)
                         dst = x;
                 }

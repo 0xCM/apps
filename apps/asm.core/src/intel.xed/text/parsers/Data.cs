@@ -15,7 +15,7 @@ namespace Z0
 
         readonly EnumParser<PointerWidthKind> PointerWidths = new();
 
-        readonly EnumParser<NonterminalKind> Nonterminals = new();
+        readonly EnumParser<NontermKind> Nonterminals = new();
 
         readonly EnumParser<XedRegId> Regs = new();
 

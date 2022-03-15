@@ -5,35 +5,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using PS = XedModels.VexPrefixSpecs;
+    using N = XedNames;
 
     partial struct XedModels
     {
-        [SymSource(xed_state), DataWidth(2)]
+        [SymSource(xed), DataWidth(2)]
         public enum VexKind : byte
         {
-            /// <summary>
-            /// VEX_PREFIX=0
-            /// </summary>
-            [Symbol(PS.VNP, "VEX_PREFIX=0")]
+            [Symbol(N.VNP, "VEX_PREFIX=0")]
             VNP = 0,
 
-            /// <summary>
-            /// VEX_PREFIX=1
-            /// </summary>
-            [Symbol(PS.V66, "VEX_PREFIX=1")]
+            [Symbol(N.V66, "VEX_PREFIX=1")]
             V66 = 1,
 
-            /// <summary>
-            /// VEX_PREFIX=2
-            /// </summary>
-            [Symbol(PS.VF2, "VEX_PREFIX=2")]
+            [Symbol(N.VF2, "VEX_PREFIX=2")]
             VF2 = 2,
 
-            /// <summary>
-            /// VEX_PREFIX=3
-            /// </summary>
-            [Symbol(PS.VF3, "VEX_PREFIX=3")]
+            [Symbol(N.VF3, "VEX_PREFIX=3")]
             VF3 = 3
         }
     }

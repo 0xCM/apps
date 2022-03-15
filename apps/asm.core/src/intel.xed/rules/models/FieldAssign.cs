@@ -17,7 +17,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public FieldAssign(FieldValue value)
             {
-                Field = value.Kind;
+                Field = value.Field;
                 Value = value;
             }
 

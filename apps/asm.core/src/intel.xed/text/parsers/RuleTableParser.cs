@@ -429,9 +429,15 @@ namespace Z0
 
                     case K.DISP:
                     {
-                        result = XedParsers.parse(value, out DispFieldSpec disp);
+                        result = byte.TryParse(value, out byte x);
                         if(result)
-                            dst = criterion(premise, field, op, disp);
+                            dst = criterion(premise,field,op,x);
+                        else
+                        {
+                            result = XedParsers.parse(value, out DispFieldSpec disp);
+                            if(result)
+                                dst = criterion(premise, field, op, disp);
+                        }
                     }
                     break;
 

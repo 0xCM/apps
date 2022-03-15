@@ -22,7 +22,7 @@ namespace Z0
                 return EmptyString;
 
             var data = bytes(src.Data);
-            var code = fcode(src.Kind);
+            var code = fcode(src.Field);
 
             switch(code)
             {

@@ -5,13 +5,14 @@
 namespace Z0
 {
     using static XedRules;
+    using static XedModels;
 
     partial class XedRender
     {
-        public static string format(in InstDefSeg src)
+        public static string format(in InstDefPart src)
         {
             var dst = EmptyString;
-            var kind = src.Kind;
+            var kind = src.PartKind;
             switch(kind)
             {
                 case DefSegKind.HexLiteral:
@@ -30,7 +31,7 @@ namespace Z0
                     dst = src.Map<FieldAssign,string>(kind, format);
                 break;
                 case DefSegKind.Nonterm:
-                    dst = src.Map<NontermCall,string>(kind, format);
+                    dst = src.Map<Nonterminal,string>(kind, format);
                 break;
                 case DefSegKind.FieldLiteral:
                     dst = src.Map<XedRules.FieldValue,string>(kind, format);

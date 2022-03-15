@@ -20,7 +20,7 @@ namespace Z0
                 for(var i=0; i<src.PartCount; i++)
                 {
                     ref readonly var part = ref src[i];
-                    if(part.Kind == DefSegKind.FieldAssign)
+                    if(part.PartKind == DefSegKind.FieldAssign)
                     {
                         ref readonly var assign = ref part.AsAssign();
                         if(assign.Field == FieldKind.VEXVALID)
@@ -34,11 +34,11 @@ namespace Z0
             }
 
             [MethodImpl(Inline), Op]
-            public static bool vexclass(in InstDefSeg src, out VexClass dst)
+            public static bool vexclass(in InstDefPart src, out VexClass dst)
             {
                 var result = false;
                 dst = default;
-                if(src.Kind == DefSegKind.FieldAssign)
+                if(src.PartKind == DefSegKind.FieldAssign)
                 {
                     ref readonly var assign = ref src.AsAssign();
                     if(assign.Field == FieldKind.VEXVALID)
@@ -52,11 +52,11 @@ namespace Z0
             }
 
             [MethodImpl(Inline), Op]
-            public static bool vexkind(in InstDefSeg src, out VexKind dst)
+            public static bool vexkind(in InstDefPart src, out VexKind dst)
             {
                 var result = false;
                 dst = default;
-                if(src.Kind == DefSegKind.FieldAssign)
+                if(src.PartKind == DefSegKind.FieldAssign)
                 {
                     ref readonly var assign = ref src.AsAssign();
                     if(assign.Field == FieldKind.VEX_PREFIX)
@@ -70,11 +70,11 @@ namespace Z0
             }
 
             [MethodImpl(Inline), Op]
-            public static bool vexmap(in InstDefSeg src, out VexMapKind dst)
+            public static bool vexmap(in InstDefPart src, out VexMapKind dst)
             {
                 var result = false;
                 dst = default;
-                if(src.Kind == DefSegKind.FieldAssign)
+                if(src.PartKind == DefSegKind.FieldAssign)
                 {
                     ref readonly var assign = ref src.AsAssign();
                     if(assign.Field == FieldKind.MAP)
@@ -88,11 +88,11 @@ namespace Z0
             }
 
             [MethodImpl(Inline), Op]
-            public static bool map(in InstDefSeg src, out byte dst)
+            public static bool map(in InstDefPart src, out byte dst)
             {
                 var result = false;
                 dst = default;
-                if(src.Kind == DefSegKind.FieldAssign)
+                if(src.PartKind == DefSegKind.FieldAssign)
                 {
                     ref readonly var assign = ref src.AsAssign();
                     if(assign.Field == FieldKind.MAP)
@@ -106,11 +106,11 @@ namespace Z0
             }
 
             [MethodImpl(Inline), Op]
-            public static bool evexmap(in InstDefSeg src, out EvexMapKind dst)
+            public static bool evexmap(in InstDefPart src, out EvexMapKind dst)
             {
                 var result = false;
                 dst = default;
-                if(src.Kind == DefSegKind.FieldAssign)
+                if(src.PartKind == DefSegKind.FieldAssign)
                 {
                     ref readonly var assign = ref src.AsAssign();
                     if(assign.Field == FieldKind.MAP)

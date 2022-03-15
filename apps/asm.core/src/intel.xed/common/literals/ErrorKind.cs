@@ -16,11 +16,14 @@ namespace Z0
             [Symbol("error")]
             GENERAL_ERROR, /// XED could not decode the given instruction
 
-            INVALID_FOR_CHIP, /// The instruciton is not valid for the specified chip
+            [Symbol("INVALID_FOR_CHIP", "The instruciton is not valid for the specified chip")]
+            INVALID_FOR_CHIP,
 
-            BAD_REGISTER, /// XED could not decode the given instruction because an invalid register encoding was used.
+            [Symbol("BAD_REGISTER", "XED could not decode the given instruction because an invalid register encoding was used")]
+            BAD_REGISTER,
 
-            BAD_LOCK_PREFIX, /// A lock prefix was found where none is allowed.
+            [Symbol("BAD_LOCK_PREFIX", "A lock prefix was found where none is allowed")]
+            BAD_LOCK_PREFIX,
 
             BAD_REP_PREFIX, /// An F2 or F3 prefix was found where none is allowed.
 

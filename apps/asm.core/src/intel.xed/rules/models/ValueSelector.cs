@@ -35,7 +35,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public ValueSelector(NonterminalKind src)
+            public ValueSelector(NontermKind src)
             {
                 Spec = (ushort)src;
                 Kind = ValueSelectorKind.Nonterminal;
@@ -73,7 +73,7 @@ namespace Z0
                 => new ValueSelector(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator ValueSelector(NonterminalKind src)
+            public static implicit operator ValueSelector(NontermKind src)
                 => new ValueSelector(src);
 
             [MethodImpl(Inline)]

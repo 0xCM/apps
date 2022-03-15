@@ -13,17 +13,23 @@ namespace Z0
 
             public readonly RuleClass Class;
 
-            public readonly @string Name;
-
             public readonly Hash32 Hash;
+
+            readonly NameResolver _Name;
 
             [MethodImpl(Inline)]
             public RuleSig(RuleTableKind kind, RuleClass @class, string name)
             {
                 TableKind = kind;
                 Class = @class;
-                Name = name;
                 Hash = (alg.hash.marvin(name) & 0b11111111_11111111_1111111_11111000) | ((uint)kind);
+                _Name = NameResolvers.Instance.Create(name);
+            }
+
+            public readonly string Name
+            {
+                [MethodImpl(Inline)]
+                get => _Name.Format();
             }
 
             public bool IsEmpty
