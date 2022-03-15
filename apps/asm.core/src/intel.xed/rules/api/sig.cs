@@ -5,9 +5,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+
     partial class XedRules
     {
-        public static RuleSig sig(in RuleTable src)
-            => new RuleSig(src.Name, src.ReturnType.IsNonEmpty ? src.ReturnType.Text : "void");
+        public static RuleSig sig(RuleTableKind kind, string name)
+        {
+            var @class = RuleClass.None;
+            if(XedParsers.parse(name, out EncodingGroup group))
+                @class = RuleClass.EncodingGroup;
+            else if(XedParsers.parse(name, out NonterminalKind nt))
+                @class = RuleClass.Nonterminal;
+            else
+            {
+                if(text.contains(name,"_ENCODE") || text.contains(name, "_ENC"))
+                    @class = RuleClass.Encoding;
+            }
+            return new (kind,@class,name);
+        }
     }
 }

@@ -16,7 +16,19 @@ namespace Z0
             => src.Width == 0 ? EmptyString : string.Format("{0}[{1}/{2}]", "DISP", src.Kind, src.Width);
 
         public static string format(RuleCall src)
-            => src.Target.IsEmpty ? EmptyString : string.Format("{0}()", src.Target);
+        {
+            if(src.IsEmpty)
+            {
+                return EmptyString;
+            }
+            else
+            {
+                if(src.Field == 0)
+                    return string.Format("{0}()", src.Target.Format());
+                else
+                    return string.Format("{0}{1}{2}()", format(src.Field), format(src.Operator), src.Target.Format());
+            }
+        }
 
         public static string format(BitfieldSeg src)
             => string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]", XedRender.format(src.Field), src.Pattern);
@@ -24,20 +36,18 @@ namespace Z0
         public static string format(in RuleCriterion src)
         {
             var dst = EmptyString;
-            if(src.IsNontermCall)
-                dst = format(src.AsNontermCall());
-            else if(src.IsGroupCall)
-                dst = format(src.AsGroupCall());
-            else if(src.IsResolvableCall)
-                dst = format(src.AsResolvableCall());
-            else if(src.Operator == RuleOperator.Seg)
-                dst = format(src.AsFieldSeg());
-            else if(src.Operator == RuleOperator.Literal)
-                dst = src.AsLiteral();
-            else if(src.IsError)
-            {
+            if(src.IsError)
                 dst = "error";
-            }
+            else if(src.IsCall)
+                dst = format(src.AsCall());
+            else if(src.IsBitfieldSeg)
+                dst = format(src.AsFieldSeg());
+            else if(src.IsAssignment)
+                dst = format(src.AsAssignment());
+            else if(src.IsComparison)
+                dst = format(src.AsCmp());
+            else if(src.IsLiteral)
+                dst = src.AsLiteral();
             else
             {
                 dst = format(src.Field);

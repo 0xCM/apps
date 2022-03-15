@@ -17,11 +17,22 @@ namespace Z0
 
             public readonly ulong Data;
 
+            public readonly FormatCode FormatCode;
+
             [MethodImpl(Inline)]
             public FieldValue(FieldKind kind, ulong value)
             {
                 Kind = kind;
                 Data = value;
+                FormatCode = fcode(kind);
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, ulong value, FormatCode fc)
+            {
+                Kind = kind;
+                Data = value;
+                FormatCode = fc;
             }
 
             public bool IsEmpty

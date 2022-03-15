@@ -9,7 +9,7 @@ namespace Z0
     using W = W3;
 
     [DataWidth(3)]
-    public readonly struct Hex3 //: IHexNumber<H,W,K>
+    public readonly struct Hex3
     {
         [Parser]
         public static Outcome parse(string src, out H dst)
@@ -27,33 +27,29 @@ namespace Z0
             return outcome;
         }
 
-        public const byte ContentWidth = 3;
-
-        public const byte StorageWidth = 8;
-
         public const K KMin = K.x00;
 
         public const K KMax = K.x03;
 
         public const K KOne = K.x01;
 
-        public static H Zero => KMin;
+        public static H Zero => new H(KMin);
 
-        public static H One => KOne;
+        public static H One => new H(KOne);
 
-        public static H Min => KMin;
+        public static H Min => new H(KMin);
 
         public static H Max => KMax;
 
-        public K Value {get;}
+        public readonly byte Value;
 
         [MethodImpl(Inline)]
         public Hex3(K src)
-            => Value = src & KMax;
+            => Value = (byte)((byte)src & (byte)KMax);
 
         [MethodImpl(Inline)]
         public Hex3(byte src)
-             => Value = (K)src & KMax;
+            => Value = (byte)((byte)src & (byte)KMax);
 
         [MethodImpl(Inline)]
         public bool Equals(H src)
@@ -70,6 +66,7 @@ namespace Z0
              [MethodImpl(Inline)]
              get => Value != 0;
         }
+
         public uint Hash
         {
             [MethodImpl(Inline)]
@@ -92,7 +89,6 @@ namespace Z0
         public string Format()
             => Text;
 
-
         [MethodImpl(Inline)]
         public string Format(bool zpad = false, bool prespec = false, bool uppercase = false)
             => ((byte)Value).FormatHex(zpad ? 2 : 1, prespec:prespec, postspec:false, @case: uppercase ?  LetterCaseKind.Upper : LetterCaseKind.Lower);
@@ -110,7 +106,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator K(H src)
-            => src.Value;
+            => (K)src.Value;
 
         [MethodImpl(Inline)]
         public static implicit operator Hex4(Hex3 src)
@@ -138,7 +134,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator H(byte src)
-            => new H((K)src);
+            => new H(src);
 
         [MethodImpl(Inline)]
         public static explicit operator sbyte(H src)

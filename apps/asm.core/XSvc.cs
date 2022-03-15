@@ -6,14 +6,20 @@ namespace Z0
 {
     using Z0.Asm;
 
+    using static XedRules;
+
     [ApiHost]
     public static class XSvc
     {
-
         [Op]
         public static ApiResPackEmitter ResPackEmitter(this IWfRuntime wf)
             => Z0.ApiResPackEmitter.create(wf);
 
+        [Op]
+        public static RuleTables XedRuleTables(this IWfRuntime wf)
+            => RuleTables.create(wf);
+
+        [Op]
         public static XedCmdProvider XedCommands(this IWfRuntime wf)
             => XedCmdProvider.create(wf);
 

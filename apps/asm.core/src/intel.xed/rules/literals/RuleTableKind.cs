@@ -10,14 +10,19 @@ namespace Z0
         [DataWidth(3)]
         public enum RuleTableKind : byte
         {
+            [Symbol("")]
             None,
 
+            [Symbol("enc")]
             Enc = 1,
 
+            [Symbol("dec")]
             Dec = 2,
 
+            [Symbol("encdec")]
             EncDec = 3,
 
+            [Symbol("joined")]
             Joined = 4
         }
     }

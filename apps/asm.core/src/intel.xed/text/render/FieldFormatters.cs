@@ -18,34 +18,6 @@ namespace Z0
 
         public sealed class FieldFormatters : Dictionary<FieldKind,FieldFormatter>
         {
-            [MethodImpl(Inline), Op]
-            public static string easz(FieldValue src)
-            {
-                var data = (EASZ)src.Data;
-                var dst = bitwidth(data).ToString();
-                return dst;
-            }
-
-            [MethodImpl(Inline), Op]
-            public static string eosz(FieldValue src)
-            {
-                var data = (EOSZ)src.Data;
-                var dst = bitwidth(data).ToString();
-                return dst;
-            }
-
-            [MethodImpl(Inline), Op]
-            public static string mode(FieldValue src)
-            {
-                var data = (ModeKind)src.Data;
-                var dst = bitwidth(data).ToString();
-                return dst;
-            }
-
-            [MethodImpl(Inline), Op]
-            public static string bcast(FieldValue src)
-                => format((BCastKind)src.Data);
-
             public FieldFormatters()
             {
                 [MethodImpl(Inline)]

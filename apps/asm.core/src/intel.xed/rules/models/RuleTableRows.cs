@@ -9,12 +9,12 @@ namespace Z0
     {
         public struct RuleTableRows
         {
-            public RuleTableSig TableSig;
+            public RuleSig TableSig;
 
             public Index<RuleTableRow> Data;
 
             [MethodImpl(Inline)]
-            public RuleTableRows(RuleTableSig sig, RuleTableRow[] data)
+            public RuleTableRows(RuleSig sig, RuleTableRow[] data)
             {
                 TableSig = sig;
                 Data = data;

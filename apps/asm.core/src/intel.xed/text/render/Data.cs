@@ -44,5 +44,8 @@ namespace Z0
         static EnumRender<RuleOpModKind> OpModKinds = new();
 
         static EnumRender<FieldKind> FieldKinds = new();
+
+        static EnumRender<RuleTableKind> RuleTableKinds = new();
+
     }
 }

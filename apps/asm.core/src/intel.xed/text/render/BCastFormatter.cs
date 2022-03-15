@@ -11,7 +11,7 @@ namespace Z0.Asm
 
     partial class IntelXed
     {
-        public readonly struct BCastFormatter : IFormatter<BCastKind>
+        internal readonly struct BCastFormatter : IFormatter<BCastKind>
         {
             [MethodImpl(Inline)]
             public static string format(BCastKind src)

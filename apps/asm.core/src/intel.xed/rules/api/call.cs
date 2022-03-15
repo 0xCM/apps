@@ -5,10 +5,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
-        public static FieldCmp cmp(FieldKind field, RuleOperator op, FieldValue value)
-            => new FieldCmp(field,op,value);
+        public static RuleCall call(FieldKind field, RuleOperator op, string target)
+            => new RuleCall(field, op, NameResolvers.Instance.Create(target));
     }
 }

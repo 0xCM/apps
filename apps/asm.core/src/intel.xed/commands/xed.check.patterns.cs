@@ -93,7 +93,7 @@ namespace Z0
                         }
                     }
                     else
-                        dst.Append(format((LegacyMapKind)part.AsAssign().Value));
+                        dst.Append(format((LegacyMapKind)part.AsAssign().Value.Data));
                 }
                 else
                     dst.Append(format(part));

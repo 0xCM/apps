@@ -5,22 +5,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class XedRules
     {
-        public struct RuleTable
+        public struct RuleTable : IComparable<RuleTable>
         {
-            public Identifier Name;
+            public RuleSig Sig;
 
-            public RuleTableSig TableSig;
-
-            public Identifier ReturnType;
-
-            public Index<RuleExpr> Expressions;
-
-            public RuleSig Sig
-                => sig(this);
+            public Index<RuleExpr> Body;
 
             public string Format()
                 => XedRender.format(this);
@@ -28,15 +19,16 @@ namespace Z0
             public override string ToString()
                 => Format();
 
+            public int CompareTo(RuleTable src)
+                => Sig.CompareTo(src.Sig);
+
             public static RuleTable Empty
             {
                 get
                 {
                     var dst = default(RuleTable);
-                    dst.Name = Identifier.Empty;
-                    dst.TableSig = RuleTableSig.Empty;
-                    dst.ReturnType = Identifier.Empty;
-                    dst.Expressions = sys.empty<RuleExpr>();
+                    dst.Sig = RuleSig.Empty;
+                    dst.Body = sys.empty<RuleExpr>();
                     return dst;
                 }
             }

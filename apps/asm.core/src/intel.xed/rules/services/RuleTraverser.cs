@@ -30,7 +30,7 @@ namespace Z0
             public void Traverse(in RuleTable src)
             {
                 Traversing(src);
-                Traverse(src, src.Expressions);
+                Traverse(src, src.Body);
             }
 
             void Traverse(in RuleTable table, Index<RuleExpr> src)

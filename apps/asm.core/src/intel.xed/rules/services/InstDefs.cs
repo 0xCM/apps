@@ -25,7 +25,7 @@ namespace Z0
                         ref readonly var assign = ref part.AsAssign();
                         if(assign.Field == FieldKind.VEXVALID)
                         {
-                            result = (VexClass)assign.Value;
+                            result = (VexClass)assign.Value.Data;
                             break;
                         }
                     }
@@ -43,7 +43,7 @@ namespace Z0
                     ref readonly var assign = ref src.AsAssign();
                     if(assign.Field == FieldKind.VEXVALID)
                     {
-                        dst = (VexClass)assign.Value;
+                        dst = (VexClass)assign.Value.Data;
                         result = true;
                     }
                 }
@@ -61,7 +61,7 @@ namespace Z0
                     ref readonly var assign = ref src.AsAssign();
                     if(assign.Field == FieldKind.VEX_PREFIX)
                     {
-                        dst = (VexKind)assign.Value;
+                        dst = (VexKind)assign.Value.Data;
                         result = true;
                     }
                 }
@@ -79,7 +79,7 @@ namespace Z0
                     ref readonly var assign = ref src.AsAssign();
                     if(assign.Field == FieldKind.MAP)
                     {
-                        dst = (VexMapKind)assign.Value;
+                        dst = (VexMapKind)assign.Value.Data;
                         result = true;
                     }
                 }
@@ -115,7 +115,7 @@ namespace Z0
                     ref readonly var assign = ref src.AsAssign();
                     if(assign.Field == FieldKind.MAP)
                     {
-                        dst = (EvexMapKind)assign.Value;
+                        dst = (EvexMapKind)assign.Value.Data;
                         result = true;
                     }
                 }

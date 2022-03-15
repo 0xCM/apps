@@ -5,26 +5,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using OCP = XedModels.OcPatternNames;
+    using N = XedNames;
 
     partial struct XedModels
     {
         [SymSource(xed)]
         public enum LegacyMapKind : byte
         {
-            [Symbol(OCP.LegacyMap0Name, EmptyString)]
+            [Symbol(N.LegacyMap0Name)]
             LEGACY_MAP0 = 0,
 
-            [Symbol(OCP.LegacyMap1Name, OCP.LegacyPattern1)]
+            [Symbol(N.LegacyMap1Name)]
             LEGACY_MAP1 = 1,
 
-            [Symbol(OCP.LegacyMap2Name, OCP.LegacyPattern2)]
+            [Symbol(N.LegacyMap2Name)]
             LEGACY_MAP2 = 2,
 
-            [Symbol(OCP.LegacyMap3Name, OCP.LegacyPattern3)]
+            [Symbol(N.LegacyMap3Name)]
             LEGACY_MAP3 = 3,
 
-            [Symbol("3DNow", OCP.Amd3dNowPattern)]
+            [Symbol(N.Amd3dMapName)]
             AMD_3DNOW = 4,
         }
     }

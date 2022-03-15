@@ -102,10 +102,6 @@ namespace Z0
             var context = Projects.Context(project);
             var files = context.Files(FileKind.XedRawDisasm);
             AppDb.Logs("xed.props").Clear();
-
-            FieldFormatter[K.EOSZ] = FieldFormatters.eosz;
-            FieldFormatter[K.EASZ] = FieldFormatters.easz;
-            FieldFormatter[K.MODE] = FieldFormatters.mode;
             iter(files, file => CheckDisasm(context, XedDisasm.blocks(file)),true);
         }
 

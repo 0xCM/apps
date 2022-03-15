@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using OCP = XedModels.OcPatternNames;
+    using N = XedNames;
 
     partial struct XedModels
     {
@@ -14,16 +14,16 @@ namespace Z0
         {
             None = 0,
 
-            [Symbol(OCP.LegacyMapClass)]
+            [Symbol(N.LegacyMapClass)]
             LEGACY = 1,
 
-            [Symbol(OCP.XopMapClass)]
+            [Symbol(N.XopMapClass)]
             XOP = 2,
 
-            [Symbol(OCP.VexMapClass)]
+            [Symbol(N.VexMapClass)]
             VEX = 4,
 
-            [Symbol(OCP.EvexMapClass)]
+            [Symbol(N.EvexMapClass)]
             EVEX = 8,
         }
     }

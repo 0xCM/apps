@@ -19,11 +19,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static char hexchar(UpperCased @case, Hex3 src)
-            => (char)symbol(@case, src.Value);
+            => (char)symbol(@case, (Hex3Kind)src.Value);
 
         [MethodImpl(Inline), Op]
         public static char hexchar(LowerCased @case, Hex3 src)
-            => (char)symbol(@case, src.Value);
+            => (char)symbol(@case, (Hex3Kind)src.Value);
 
         [MethodImpl(Inline), Op]
         public static char hexchar(UpperCased @case, Hex4 src)

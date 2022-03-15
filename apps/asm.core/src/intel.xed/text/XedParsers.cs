@@ -19,6 +19,8 @@ namespace Z0
 
         }
 
+        public static bool parse(string src, out EncodingGroup dst)
+            => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out bit dst)
             => Instance.Parse(src, out dst);
@@ -216,6 +218,20 @@ namespace Z0
 
         public bool Parse(string src, out GroupName dst)
             => GroupNames.Parse(src, out dst);
+
+        public bool Parse(string src, out EncodingGroup dst)
+        {
+            if(Parse(src, out GroupName name))
+            {
+                dst = name;
+                return true;
+            }
+            else
+            {
+                dst = default;
+                return false;
+            }
+        }
 
         public bool Parse(string src, out RuleOpModKind dst)
             => OpModKinds.Parse(src, out dst);

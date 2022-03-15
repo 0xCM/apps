@@ -7,8 +7,6 @@ namespace Z0
 {
     using System.Collections;
 
-    using static core;
-
     public class ConcurrentSet<T> : IEnumerable<T>
     {
         readonly ConcurrentDictionary<T,T> Data;

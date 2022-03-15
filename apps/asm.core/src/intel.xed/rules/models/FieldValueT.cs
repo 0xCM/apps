@@ -15,9 +15,9 @@ namespace Z0
             public readonly T Data;
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind field, T value)
+            public FieldValue(FieldKind kind, T value)
             {
-                Kind = field;
+                Kind = kind;
                 Data = value;
             }
 

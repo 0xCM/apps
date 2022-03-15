@@ -7,7 +7,6 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [DataType(XedNames.reg)]
         public readonly struct Register
         {
             public readonly XedRegId Value;

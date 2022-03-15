@@ -20,12 +20,6 @@ namespace Z0
                 Consequent = consequent;
             }
 
-            public bool IsNonterminal
-            {
-                [MethodImpl(Inline)]
-                get => Consequent.Any(x => x.IsNontermCall);
-            }
-
             public string Format()
                 => XedRender.format(this);
 

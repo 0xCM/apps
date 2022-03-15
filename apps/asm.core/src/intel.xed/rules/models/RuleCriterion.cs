@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
@@ -20,6 +18,8 @@ namespace Z0
 
             public readonly ulong Data;
 
+            readonly DataKind Kind;
+
             [MethodImpl(Inline)]
             internal RuleCriterion(bool premise, FieldKind field, RuleOperator op, ulong data)
             {
@@ -27,33 +27,28 @@ namespace Z0
                 Field = field;
                 Operator = op;
                 Data = data;
+                Kind = 0;
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(bool premise, NontermCall data)
+            internal RuleCriterion(bool premise, RuleCall call)
             {
+                Require.invariant(call.IsNonEmpty);
                 IsPremise = premise;
-                Field = FieldKind.INVALID;
-                Operator = RuleOperator.Call;
-                Data = ((ulong)data.Kind | ((ulong)Kind.Nonterm << 56));
+                Field = call.Field;
+                Operator = call.Operator;
+                Data = (ulong)call.Target;
+                Kind = DataKind.Call;
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(bool premise, GroupName data)
+            internal RuleCriterion(bool premise, BitfieldSeg data)
             {
                 IsPremise = premise;
-                Field = FieldKind.INVALID;
-                Operator = RuleOperator.Call;
-                Data = ((ulong)data | ((ulong)Kind.Group << 56));
-            }
-
-            [MethodImpl(Inline)]
-            internal RuleCriterion(bool premise, RuleOperator op, NameResolver data)
-            {
-                IsPremise = premise;
-                Field = FieldKind.INVALID;
-                Operator = op;
-                Data = ((ulong)data | ((ulong)Kind.Resolver << 56));
+                Field = data.Field;
+                Operator = RuleOperator.Seg;
+                Data = (ulong)data.Pattern;
+                Kind = data.IsLiteral ? DataKind.SegLiteral : DataKind.Seg;
             }
 
             [MethodImpl(Inline)]
@@ -63,17 +58,20 @@ namespace Z0
                 Field = field;
                 Operator = op;
                 Data = (ulong)data;
+                Kind = DataKind.Literal;
             }
 
-            enum Kind : byte
+            enum DataKind : byte
             {
                 None,
 
-                Nonterm,
+                Literal,
 
-                Group,
+                Call,
 
-                Resolver
+                Seg,
+
+                SegLiteral,
             }
 
             public bool IsEmpty
@@ -88,6 +86,18 @@ namespace Z0
                 get => !IsEmpty;
             }
 
+            public bool IsCall
+            {
+                [MethodImpl(Inline)]
+                get => Kind == DataKind.Call;
+            }
+
+            public bool IsBitfieldSeg
+            {
+                [MethodImpl(Inline)]
+                get => Kind == DataKind.Seg || Kind == DataKind.SegLiteral;
+            }
+
             public bool IsError
             {
                 [MethodImpl(Inline)]
@@ -97,7 +107,7 @@ namespace Z0
             public bool IsLiteral
             {
                 [MethodImpl(Inline)]
-                get => Operator == RuleOperator.Literal;
+                get => Kind == DataKind.Literal;
             }
 
             public bool IsAssignment
@@ -112,79 +122,31 @@ namespace Z0
                 get => Operator == RuleOperator.CmpNeq || Operator == RuleOperator.CmpEq;
             }
 
-            public bool IsOutReg
-            {
-                [MethodImpl(Inline)]
-                get => Field == FieldKind.OUTREG;
-            }
-
             public bool IsConsequent
             {
                 [MethodImpl(Inline)]
                 get => !IsPremise;
             }
 
-            public bool IsResolvable
-            {
-                [MethodImpl(Inline)]
-                get => (Kind)(Data >> 56) == Kind.Resolver;
-            }
+            [MethodImpl(Inline)]
+            public RuleCall AsCall()
+                => new RuleCall(Field, Operator, (NameResolver)Data);
 
-            public bool IsResolvableCall
-            {
-                [MethodImpl(Inline)]
-                get => (Kind)(Data >> 56) == Kind.Resolver && Operator == RuleOperator.Call;
-            }
+            [MethodImpl(Inline)]
+            public FieldAssign AsAssignment()
+                => new FieldAssign(value(Field, Data));
 
-            public bool IsNontermCall
-            {
-                [MethodImpl(Inline)]
-                get => Operator == RuleOperator.Call && ((Kind)(Data >> 56) == Kind.Nonterm);
-            }
-
-            public bool IsGroupCall
-            {
-                [MethodImpl(Inline)]
-                get => Operator == RuleOperator.Call && ((Kind)(Data >> 56) == Kind.Group);
-            }
-
-            public bool IsFieldSeg
-            {
-                [MethodImpl(Inline)]
-                get => Operator == RuleOperator.Seg;
-            }
+            [MethodImpl(Inline)]
+            public FieldCmp AsCmp()
+                => cmp(Field, Operator, value(Field,Data));
 
             [MethodImpl(Inline)]
             public FieldValue AsValue()
                 => new FieldValue(Field, Data);
 
             [MethodImpl(Inline)]
-            public NontermCall AsNontermCall()
-                => new NontermCall((NonterminalKind)Data);
-
-            [MethodImpl(Inline)]
-            public GroupCall AsGroupCall()
-                => new GroupCall((GroupName)Data);
-
-            [MethodImpl(Inline)]
-            public NameResolver AsResolver()
-                => new NameResolver((int)Data);
-
-            [MethodImpl(Inline)]
-            public RuleCall AsResolvableCall()
-                => new RuleCall(AsResolver());
-
-            [MethodImpl(Inline)]
-            public DispFieldSpec AsDispField()
-                => core.@as<ulong,DispFieldSpec>(Data);
-
-            [MethodImpl(Inline)]
-            public XedRegId AsXedReg()
-                => (XedRegId)Data;
-
-            [MethodImpl(Inline)]
             public BitfieldSeg AsFieldSeg()
-                => new BitfieldSeg(Field, (asci8)Data, false);
+                => new BitfieldSeg(Field, (asci8)Data, Kind == DataKind.SegLiteral);
 
             [MethodImpl(Inline)]
             public asci8 AsLiteral()

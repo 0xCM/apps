@@ -9,10 +9,15 @@ namespace Z0
     {
         public sealed class RuleTableLookup : ConstLookup<RuleSig,RuleTable>
         {
+            RuleTableLookup()
+                : base(core.dict<RuleSig,RuleTable>())
+            {
+
+            }
+
             public RuleTableLookup(Dictionary<RuleSig,RuleTable> src)
                 : base(src)
             {
-
 
             }
 
@@ -27,6 +32,8 @@ namespace Z0
 
             public static implicit operator RuleTableLookup(Dictionary<RuleSig,RuleTable> src)
                 => new RuleTableLookup(src);
+
+            public static new RuleTableLookup Empty => new();
         }
    }
 }

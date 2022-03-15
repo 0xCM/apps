@@ -12,15 +12,14 @@ namespace Z0
         [CmdOp("xed/check/rules")]
         Outcome CheckRuleSpecs(CmdArgs args)
         {
-            var path = AppDb.Log("xed.rules.tables.dec", FileKind.Txt);
-            // var emitting = EmittingFile(path);
-            // using var dst = path.AsciWriter();
-            // var src = Xed.Rules.CalcDecTables();
-            // var sigs = src.Keys.ToArray().Sort();
-            // var count = sigs.Length;
-            // for(var i=0; i<count; i++)
-            //     dst.AppendLine(src[skip(sigs,i)].Format());
-            // EmittedFile(emitting, sigs.Length);
+            var dst = dict<RuleSig, RuleTable>();
+            var enc = Xed.Rules.Tables.CalcTables(RuleTableKind.Enc);
+            iter(enc.Values, t => dst.Add(t.Sig,t));
+            var dec = Xed.Rules.Tables.CalcTables(RuleTableKind.Dec);
+            iter(dec.Values, t => dst.Add(t.Sig,t));
+            var encdec = Xed.Rules.Tables.CalcTables(RuleTableKind.EncDec);
+            iter(encdec.Values, t => dst.Add(t.Sig,t));
+
             return true;
         }
 

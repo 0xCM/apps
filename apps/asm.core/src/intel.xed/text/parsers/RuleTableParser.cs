@@ -21,36 +21,23 @@ namespace Z0
         public struct RuleTableParser
         {
             [MethodImpl(Inline), Op]
-            static RuleCriterion criterion(bool premise, RuleOperator op, NameResolver resolver)
-                => new RuleCriterion(premise, op, resolver);
+            static RuleCriterion criterion(bool premise, FieldKind fk, RuleOperator op, asci8 value)
+                => new RuleCriterion(premise, fk, op, value);
 
             [MethodImpl(Inline), Op]
-            static RuleCriterion criterion(bool premise, RuleOperator op, asci8 value)
-                => new RuleCriterion(premise, 0, op, value);
-
-            [MethodImpl(Inline), Op]
-            static RuleCriterion criterion(bool premise, NontermCall call)
+            static RuleCriterion criterion(bool premise, RuleCall call)
                 => new RuleCriterion(premise, call);
-
-            [MethodImpl(Inline), Op]
-            static RuleCriterion criterion(bool premise, GroupName group)
-                => new RuleCriterion(premise, group);
 
             [MethodImpl(Inline), Op, Closures(Closure)]
             static RuleCriterion criterion<T>(bool premise, FieldKind field, RuleOperator op, T value)
                 where T : unmanaged
-                    => untype(new RuleCriterion<T>(premise, field, op, value));
+                    => new RuleCriterion(premise, field,  op, core.bw64(value));
 
             [MethodImpl(Inline), Op, Closures(Closure)]
             static RuleCriterion criterion(bool premise, BitfieldSeg seg)
-                => new RuleCriterion(premise, seg.Field, RuleOperator.Seg, seg.Pattern);
+                => new RuleCriterion(premise, seg);
 
-            [MethodImpl(Inline), Op, Closures(Closure)]
-            static RuleCriterion untype<T>(in RuleCriterion<T> src)
-                where T : unmanaged
-                    => new RuleCriterion(src.IsPremise, src.Field, src.Operator, core.u64(src.Value));
-
-            public static RuleExpr expr(string premise, string consequent = EmptyString)
+            static RuleExpr expr(string premise, string consequent = EmptyString)
             {
                 var left = sys.empty<RuleCriterion>();
                 var right = sys.empty<RuleCriterion>();
@@ -63,7 +50,7 @@ namespace Z0
                 return new RuleExpr(left, right);
             }
 
-            public static Index<RuleCriterion> specs(bool premise, string src)
+            static Index<RuleCriterion> specs(bool premise, string src)
             {
                 var parts = text.trim(text.split(src, Chars.Space)).Where(x => nonempty(x) && !Skip.Contains(x));
                 var count = parts.Length;
@@ -79,101 +66,104 @@ namespace Z0
                 return buffer;
             }
 
-            public static Outcome spec(bool premise, string spec, out RuleCriterion dst)
+            static void parse(bool premise, string input, out FieldKind fk, out string fv, out RuleOperator op)
+            {
+                var i = text.index(input, "!=");
+                fv = EmptyString;
+                op = 0;
+                fk = 0;
+                if(i > 0)
+                {
+                    op = RO.CmpNeq;
+                    fv = text.right(input, i + 1);
+                }
+                else
+                {
+                    i = text.index(input, "=");
+                    if(i > 0)
+                    {
+                        if(premise)
+                            op = RO.CmpEq;
+                        else
+                            op = RO.Assign;
+
+                        fv = text.right(input, i);
+                    }
+                }
+
+                XedParsers.parse(text.left(input, i), out fk);
+            }
+
+            static Outcome spec(bool premise, string spec, out RuleCriterion dst)
             {
                 var input = text.trim(text.despace(spec));
                 var fk = K.INVALID;
                 var op = RO.None;
                 var fv = input;
-                var name = EmptyString;
                 var i = -1;
-                var opsym = EmptyString;
                 dst = RuleCriterion.Empty;
                 if(text.contains(input, "()"))
                 {
-                    op = RO.Call;
-                    opsym = "()";
-                    i = text.index(input, '(');
-                    fv = text.left(input,i);
-                    if(XedParsers.parse(fv, out NonterminalKind nt))
-                        dst = criterion(premise, nt);
-                    else if(XedParsers.parse(fv, out GroupName g))
-                        dst = criterion(premise, g);
-                    else
-                        dst = criterion(premise, op, NameResolvers.Instance.Create(fv));
+                    var left = text.remove(input,"()");
+                    parse(premise, left, out fk, out fv, out op);
+                    dst = criterion(premise, call(fk, op, text.ifempty(fv,left)));
                     return true;
                 }
                 else if(text.contains(input, Chars.LBracket) && text.contains(input, Chars.RBracket))
                 {
                     i = text.index(input,Chars.LBracket);
                     var result = XedParsers.parse(text.left(input,i), out fk);
-                    if(!result)
+                    if(fk == 0)
                         return (false, AppMsg.ParseFailure.Format(nameof(FieldKind), input));
 
-                    return criterion(premise, fk, RuleOperator.Seg, input, out dst);
-                }
-                else if(text.contains(input, "!="))
-                {
-                    op = RO.CmpNeq;
-                    opsym = "!=";
-                    i= text.index(input, "!");
-                    XedParsers.parse(text.left(input, i), out fk);
-                    fv = text.right(input, i + opsym.Length - 1);
-                    return criterion(premise, fk, op, fv, out dst);
+                    result = XedParsers.parse(input, out BitfieldSeg seg);
+                    if(result)
+                    {
+                         dst = criterion(premise, seg);
+                         return true;
+                    }
+                    else
+                        return result;
                 }
                 else if(text.contains(input, "="))
                 {
-                    opsym = "=";
-                    if(premise)
-                        op = RO.CmpEq;
-                    else
-                        op = RO.Assign;
-
-                    i = text.index(input, opsym);
-                    var result = XedParsers.parse(text.left(input, i), out fk);
-                    if(!result)
-                        return (false, AppMsg.ParseFailure.Format(nameof(FieldKind), input));
-
-                    return criterion(premise, fk, op, text.right(input, i), out dst);
+                    parse(premise, input, out fk, out fv, out op);
+                    return parse(premise, fk, op, fv, out dst);
                 }
                 else
                 {
-                    var literal = input;
-                    var assigned = RuleMacros.assignments(literal, out var assignments);
+                    var assigned = RuleMacros.assignments(input, out var assignments);
                     if(assigned && assignments.Length != 0 && first(assignments).Field != 0)
                     {
                         ref readonly var a = ref first(assignments);
-                        dst = criterion(premise, a.Field, RuleOperator.Assign, a.Value);
+                        dst = criterion(premise, a.Field, RuleOperator.Assign, a.Value.Data);
                         return true;
                     }
                     else
                     {
-                        if(literal == "otherwise")
+                        var literal = input;
+                        if(input== "otherwise")
                             literal = "_";
-                        else if(literal == "nothing")
+                        else if(input == "nothing")
                             literal = "default";
+                        else if(input == "error")
+                            fk = FieldKind.ERROR;
 
-                        return criterion(premise, FieldKind.INVALID, RuleOperator.Literal, literal, out dst);
+
+                        dst = criterion(premise, fk, RuleOperator.Literal, (asci8)literal);
+                        return true;
                     }
                 }
             }
 
             [Op]
-            public static Outcome criterion(bool premise, FieldKind field, RuleOperator op, string value, out RuleCriterion dst)
+            static Outcome parse(bool premise, FieldKind field, RuleOperator op, string value, out RuleCriterion dst)
             {
                 var result = Outcome.Success;
                 dst = default;
-                if(op == RuleOperator.Seg)
+                if(value == "@")
                 {
-                    if(XedParsers.parse(value, out BitfieldSeg seg))
-                    {
-                        dst = criterion(premise,seg);
-                        return true;
-                    }
-                }
-                else if(op == RuleOperator.Literal)
-                {
-                    dst = criterion(premise, op, (asci8)value);
+                    dst = criterion(premise, field, op, (asci8)value);
                     return true;
                 }
 
@@ -232,9 +222,9 @@ namespace Z0
                     case K.BCRC:
                     case K.ZEROING:
                     {
-                        if(XedParsers.parse(value, out bit x))
+                        if(XedParsers.parse(value, out bit b))
                         {
-                            dst = criterion(premise, field, op, x);
+                            dst = criterion(premise, field, op, b);
                             result = true;
                         }
                     }
@@ -242,9 +232,9 @@ namespace Z0
 
                     case K.REXW:
                     {
-                        if(XedParsers.parse(value, out bit x))
+                        if(XedParsers.parse(value, out bit b))
                         {
-                            dst = criterion(premise, field, op, x);
+                            dst = criterion(premise, field, op, b);
                             result = true;
                         }
                         else if(value.Length == 1 && value[0] == 'w')
@@ -256,9 +246,9 @@ namespace Z0
                     break;
                     case K.REXR:
                     {
-                        if(XedParsers.parse(value, out bit x))
+                        if(XedParsers.parse(value, out bit b))
                         {
-                            dst = criterion(premise, field, op, x);
+                            dst = criterion(premise, field, op, b);
                             result = true;
                         }
                         else if(value.Length == 1 && value[0] == 'r')
@@ -270,9 +260,9 @@ namespace Z0
                     break;
                     case K.REXX:
                     {
-                        if(XedParsers.parse(value, out bit x))
+                        if(XedParsers.parse(value, out bit b))
                         {
-                            dst = criterion(premise, field, op, x);
+                            dst = criterion(premise, field, op, b);
                             result = true;
                         }
                         else if(value.Length == 1 && value[0] == 'x')
@@ -325,9 +315,9 @@ namespace Z0
                     case K.SEG_OVD:
                     case K.VEXVALID:
                     {
-                        if(XedParsers.parse(value, out byte x))
+                        if(XedParsers.parse(value, out byte u8))
                         {
-                            dst = criterion(premise, field, op, x);
+                            dst = criterion(premise, field, op, u8);
                             result = true;
                         }
                     }
@@ -337,9 +327,9 @@ namespace Z0
                     case K.NELEM:
                     case K.SCALE:
                     {
-                        if(XedParsers.parse(value, out byte x))
+                        if(XedParsers.parse(value, out byte u8))
                         {
-                            dst = criterion(premise, field, op, x);
+                            dst = criterion(premise, field, op, u8);
                             result = true;
                         }
                     }
@@ -347,9 +337,9 @@ namespace Z0
 
                     case K.BCAST:
                     {
-                        if(XedParsers.parse(value, out byte x))
+                        if(XedParsers.parse(value, out byte u8))
                         {
-                            dst = criterion(premise, field, op, x);
+                            dst = criterion(premise, field, op, u8);
                             result = true;
                         }
                     }
@@ -373,9 +363,9 @@ namespace Z0
                     case K.POS_SIB:
                     case K.NEED_MEMDISP:
                     {
-                        if(XedParsers.parse(value, out byte x))
+                        if(XedParsers.parse(value, out byte u8))
                         {
-                            dst = criterion(premise, field, op, x);
+                            dst = criterion(premise, field, op, u8);
                             result = true;
                         }
                     }
@@ -384,9 +374,19 @@ namespace Z0
                     case K.ELEMENT_SIZE:
                     case K.MEM_WIDTH:
                     {
-                        if(ushort.TryParse(value, out ushort x))
+                        if(ushort.TryParse(value, out ushort u8))
                         {
-                            dst = criterion(premise, field, op, x);
+                            dst = criterion(premise, field, op, u8);
+                            result = true;
+                        }
+                    }
+                    break;
+
+                    case K.RM:
+                    {
+                        if(XedParsers.parse(value, out byte u8))
+                        {
+                            dst = criterion(premise, field, op, u8);
                             result = true;
                         }
                     }
@@ -394,7 +394,6 @@ namespace Z0
 
                     case K.SIBINDEX:
                     case K.REG:
-                    case K.RM:
                     case K.VEXDEST210:
                     case K.MASK:
                     case K.SRM:
@@ -420,9 +419,9 @@ namespace Z0
 
                     case K.NOMINAL_OPCODE:
                     {
-                        if(DataParser.parse(value, out Hex8 x))
+                        if(DataParser.parse(value, out Hex8 hex))
                         {
-                            dst = criterion(premise, field, op, x);
+                            dst = criterion(premise, field, op, hex);
                             result = true;
                         }
                     }
@@ -461,18 +460,18 @@ namespace Z0
                     case K.REG8:
                     case K.REG9:
                     {
-                        if(XedParsers.parse(value, out XedRegId x))
+                        if(XedParsers.parse(value, out XedRegId reg))
                         {
-                            dst = criterion(premise, field, op, x);
+                            dst = criterion(premise, field, op, reg);
                             result = true;
                         }
                     }
                     break;
                     case K.CHIP:
                     {
-                        if(XedParsers.parse(value, out ChipCode x))
+                        if(XedParsers.parse(value, out ChipCode chip))
                         {
-                            dst = criterion(premise, field, op, x);
+                            dst = criterion(premise, field, op, chip);
                             result = true;
                         }
                     }
@@ -480,9 +479,9 @@ namespace Z0
 
                     case K.ERROR:
                     {
-                        if(XedParsers.parse(value, out ErrorKind x))
+                        if(XedParsers.parse(value, out ErrorKind error))
                         {
-                            dst = criterion(premise, field, op, x);
+                            dst = criterion(premise, field, op, error);
                             result = true;
                         }
                     }
@@ -490,9 +489,9 @@ namespace Z0
 
                     case K.ICLASS:
                     {
-                        if(XedParsers.parse(value, out IClass x))
+                        if(XedParsers.parse(value, out IClass @class))
                         {
-                            dst = criterion(premise, field, op, x);
+                            dst = criterion(premise, field, op, @class);
                             result = true;
                         }
                     }
@@ -501,6 +500,8 @@ namespace Z0
                     default:
                         break;
                 }
+
+
 
                 return result;
             }
@@ -633,7 +634,7 @@ namespace Z0
                         break;
                 }
 
-                Table.Expressions = expressions.ToArray();
+                Table.Body = expressions.ToArray();
             }
 
             void ParseRuleDecl()
@@ -658,20 +659,18 @@ namespace Z0
                     return;
                 }
 
-                Table.Name = name;
                 switch(DocKind)
                 {
                     case XedDocKind.EncRuleTable:
-                        Table.TableSig = new (RuleTableKind.Enc,name);
+                        Table.Sig = sig(RuleTableKind.Enc, name);
                     break;
                     case XedDocKind.EncDecRuleTable:
-                        Table.TableSig = new (RuleTableKind.EncDec,name);
+                        Table.Sig = sig(RuleTableKind.EncDec, name);
                     break;
                     case XedDocKind.DecRuleTable:
-                        Table.TableSig = new (RuleTableKind.Dec,name);
+                        Table.Sig = sig(RuleTableKind.Dec, name);
                     break;
                 }
-                Table.ReturnType = ret;
                 Tables.Add(Table);
                 Table = RuleTable.Empty;
             }

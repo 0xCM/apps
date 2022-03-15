@@ -26,6 +26,12 @@ namespace Z0
 
             switch(code)
             {
+                case FC.A8:
+                {
+                    asci8 x = src.Data;
+                    dst = x.Format();
+                }
+                break;
                 case FC.Text:
                     dst = ((NameResolver)((int)src.Data)).Format();
                     break;
@@ -158,38 +164,38 @@ namespace Z0
 
                 case FC.X2:
                 {
-                    Hex2 x = first(data);
-                    dst = format(x);
+                    var x = first(data);
+                    dst = "0x" + ((byte)(x & 0b11)).ToString("X");
                 }
                 break;
                 case FC.X3:
                 {
-                    Hex3 x = first(data);
-                    dst = format(x);
+                    var x = first(data);
+                    dst = "0x" + ((byte)(x & 0b111)).ToString("X");
                 }
                 break;
                 case FC.X4:
                 {
-                    Hex4 x = first(data);
-                    dst = format(x);
+                    var x = first(data);
+                    dst = "0x" + ((byte)(x & 0b1111)).ToString("X");
                 }
                 break;
                 case FC.X5:
                 {
-                    Hex5 x = first(data);
-                    dst = format(x);
+                    var x = first(data);
+                    dst = "0x" + ((byte)(x & 0b11111)).ToString("X");
                 }
                 break;
                 case FC.X6:
                 {
-                    Hex6 x = first(data);
-                    dst = format(x);
+                    var x = first(data);
+                    dst = "0x" + ((byte)(x & 0b111111)).ToString("X");
                 }
                 break;
                 case FC.X7:
                 {
-                    Hex7 x = first(data);
-                    dst = format(x);
+                    var x = first(data);
+                    dst = "0x" + ((byte)(x & 0b1111111)).ToString("X");
                 }
                 break;
                 case FC.X8:

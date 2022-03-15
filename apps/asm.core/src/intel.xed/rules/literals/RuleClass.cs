@@ -5,11 +5,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class XedRules
     {
-        public static Index<string> names(Index<RuleTable> src)
-            => src.Select(x => x.Name.Format()).Where(nonempty).Distinct().Sort();
+        public enum RuleClass : byte
+        {
+            None,
+
+            Nonterminal,
+
+            EncodingGroup,
+
+            Encoding,
+        }
     }
 }

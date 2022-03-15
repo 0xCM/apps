@@ -7,36 +7,61 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct RuleSig : IEquatable<RuleSig>, IComparable<RuleSig>
+        public readonly struct RuleSig : IComparable<RuleSig>, IEquatable<RuleSig>
         {
-            public readonly Identifier Name;
+            public readonly RuleTableKind TableKind;
 
-            public readonly Identifier ReturnType;
+            public readonly RuleClass Class;
+
+            public readonly @string Name;
+
+            public readonly Hash32 Hash;
 
             [MethodImpl(Inline)]
-            public RuleSig(Identifier name, Identifier ret)
+            public RuleSig(RuleTableKind kind, RuleClass @class, string name)
             {
+                TableKind = kind;
+                Class = @class;
                 Name = name;
-                ReturnType = ret;
+                Hash = (alg.hash.marvin(name) & 0b11111111_11111111_1111111_11111000) | ((uint)kind);
+            }
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => TableKind == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => TableKind != 0;
             }
 
             public override int GetHashCode()
-                => Name.GetHashCode();
+                => Hash;
 
             public bool Equals(RuleSig src)
-                => Name.Equals(src.Name);
+                => TableKind == src.TableKind && Name == src.Name;
 
             public override bool Equals(object src)
                 => src is RuleSig x && Equals(x);
 
+            public int CompareTo(RuleSig src)
+            {
+                var result = ((byte)TableKind).CompareTo((byte)src.TableKind);
+                if(result == 0)
+                    result = Name.CompareTo(src.Name);
+                return result;
+            }
+
             public string Format()
-                => XedRender.format(this);
+                => IsEmpty ? EmptyString : Name;
 
             public override string ToString()
                 => Format();
 
-            public int CompareTo(RuleSig src)
-                => Name.CompareTo(src.Name);
+            public static RuleSig Empty => default;
         }
     }
 }

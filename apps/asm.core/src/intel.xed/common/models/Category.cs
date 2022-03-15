@@ -7,7 +7,6 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [DataType(XedNames.category)]
         public struct Category
         {
             public CategoryKind Value {get;set;}

@@ -107,6 +107,10 @@ namespace Z0
 
                 case K.SIBINDEX:
                 case K.RM:
+                //case K.SRM:
+                    dst = C.U8;
+                break;
+
                 case K.SRM:
                     dst = C.X3;
                 break;

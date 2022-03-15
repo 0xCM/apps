@@ -97,7 +97,6 @@ namespace Z0
         /// </summary>
         F = (byte)Up.F,
 
-
         /// <summary>
         /// Specifies the asci code for the eponymous hex digit
         /// </summary>

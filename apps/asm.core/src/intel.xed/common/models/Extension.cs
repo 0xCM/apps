@@ -7,7 +7,6 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [DataType(XedNames.extension)]
         public struct Extension
         {
             public ExtensionKind Value {get;}

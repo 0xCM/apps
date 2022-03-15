@@ -5,6 +5,7 @@
 namespace Z0.Asm
 {
     using static XedModels;
+    using static XedRules;
 
     [ApiHost]
     public sealed partial class IntelXed : AppService<IntelXed>
@@ -16,6 +17,8 @@ namespace Z0.Asm
         public XedPaths XedPaths => Service(Wf.XedPaths);
 
         public XedRules Rules => Service(Wf.XedRules);
+
+        public RuleTables RuleTables => Rules.Tables;
 
         const char CommentMarker = Chars.Hash;
 

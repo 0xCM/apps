@@ -12,19 +12,13 @@ namespace Z0
         {
             public readonly FieldKind Field;
 
-            readonly FieldValue _Value;
+            public readonly FieldValue Value;
 
             [MethodImpl(Inline)]
             public FieldAssign(FieldValue value)
             {
                 Field = value.Kind;
-                _Value = value;
-            }
-
-            public readonly ulong Value
-            {
-                [MethodImpl(Inline)]
-                get => _Value.Data;
+                Value = value;
             }
 
             public bool IsEmpty

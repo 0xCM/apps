@@ -5,52 +5,52 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using OCP = XedModels.OcPatternNames;
+    using N = XedNames;
 
     partial struct XedModels
     {
         public enum OpCodeIndex : sbyte
         {
-            [Symbol(OCP.LegacyMap0Name)]
+            [Symbol(N.LegacyMap0Name)]
             LegacyMap0 = 0,
 
-            [Symbol(OCP.LegacyMap1Name, "0x0F")]
+            [Symbol(N.LegacyMap1Name, "0x0F")]
             LegacyMap1 = 1,
 
-            [Symbol(OCP.LegacyMap2Name, "0x0F 0x38")]
+            [Symbol(N.LegacyMap2Name, "0x0F 0x38")]
             LegacyMap2 = 2,
 
-            [Symbol(OCP.LegacyMap3Name, "0x0F 0x3A")]
+            [Symbol(N.LegacyMap3Name, "0x0F 0x3A")]
             LegacyMap3 = 3,
 
-            [Symbol(OCP.Amd3dName, "0x0F 0x0F")]
+            [Symbol(N.Amd3dMapName, "0x0F 0x0F")]
             Amd3dNow = 4,
 
-            [Symbol(OCP.Xop8Name)]
+            [Symbol(N.XopMap8Name)]
             Xop8 = 5,
 
-            [Symbol(OCP.Xop9Name)]
+            [Symbol(N.XopMap9Name)]
             Xop9 = 6,
 
-            [Symbol(OCP.XopAName)]
+            [Symbol(N.XopMapAName)]
             XopA = 7,
 
-            [Symbol("Vex0F")]
+            [Symbol(N.VexMap1Name, "0x0F")]
             Vex0F = 8,
 
-            [Symbol("Vex0F38")]
+            [Symbol(N.VexMap2Name, "0x0F 0x38")]
             Vex0F38 = 9,
 
-            [Symbol("Vex0F3A")]
+            [Symbol(N.VexMap3Name, "0x0F 0x3A")]
             Vex0F3A = 10,
 
-            [Symbol("Evex0F")]
+            [Symbol(N.EvexMap1Name, "0x0F")]
             Evex0F = 11,
 
-            [Symbol("Evex0F38")]
+            [Symbol(N.EvexMap2Name, "0x0F 0x38")]
             Evex0F38 = 12,
 
-            [Symbol("Evex0F3A")]
+            [Symbol(N.EvexMap3Name, "0x0F 0x3A")]
             Evex0F3A = 13,
         }
     }

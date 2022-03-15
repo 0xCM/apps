@@ -26,20 +26,27 @@ namespace Z0
         public FS.FolderPath Targets()
             => XedTargets;
 
+        public FS.FolderPath Targets(string scope)
+            => Targets() + FS.folder(scope);
+
+        public FS.FolderPath RuleTables()
+            => Targets("rules.tables");
+
         public FS.FilePath Table<T>()
             where T : struct
                 => Targets() + Tables.filename<T>();
+
         public FS.FilePath IsaFormsPath(ChipCode chip)
-            => XedTargets + FS.folder("isaforms") + FS.file(string.Format("xed.isa.{0}", chip), FS.Csv);
+            => Targets("isaforms") + FS.file(string.Format("xed.isa.{0}", chip), FS.Csv);
 
         public FS.FilePath ChipMapTarget()
-            => XedTargets + FS.file("xed.chipmap", FS.Csv);
+            => Targets() + FS.file("xed.chipmap", FS.Csv);
 
         public FS.FilePath FormCatalogPath()
-            => XedTargets + FS.file(Tables.identify<XedFormImport>().Format(), FS.Csv);
+            => Targets() + FS.file(Tables.identify<XedFormImport>().Format(), FS.Csv);
 
         public FS.FilePath FieldDefsTarget()
-            => XedTargets + Tables.filename<XedFieldDef>();
+            => Targets() + Tables.filename<XedFieldDef>();
 
         public FS.FilePath RulePatterns()
             => DocTarget(XedDocKind.RulePatterns);
@@ -53,6 +60,19 @@ namespace Z0
         static FS.FileName DecRuleTable = FS.file("all-dec-patterns", FS.Txt);
 
         static FS.FileName EncDecRuleTable = FS.file("all-enc-dec-patterns", FS.Txt);
+
+        public FS.FilePath TableSigs()
+            => RuleTables() + FS.file("rules.tables.sigs", FileKind.Csv.Ext());
+
+        public FS.FilePath TableInfo(RuleTableKind kind)
+            => kind switch
+            {
+                RuleTableKind.Enc => RuleTables() + FS.file("rules.tables.info.enc", FS.Txt),
+                RuleTableKind.Dec => RuleTables() + FS.file("rules.tables.info.dec", FS.Txt),
+                RuleTableKind.EncDec => RuleTables() + FS.file("rules.tables.info.encdec", FS.Txt),
+                RuleTableKind.Joined => RuleTables() + FS.file("rules.tables.info.joined", FS.Txt),
+                _ => FS.FilePath.Empty
+            };
 
         public static XedDocKind srckind(FS.FileName src)
         {

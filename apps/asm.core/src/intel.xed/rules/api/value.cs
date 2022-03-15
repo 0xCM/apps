@@ -15,12 +15,8 @@ namespace Z0
                 => new FieldValue<T>(kind, value);
 
         [MethodImpl(Inline)]
-        public static FieldValue value(FieldKind kind, ulong value)
-            => new FieldValue(kind, value);
-
-        [MethodImpl(Inline)]
         public static FieldValue value(FieldKind kind, NameResolver resolver)
-            => new FieldValue(kind, (ulong)resolver);
+            => new FieldValue(kind, (ulong)resolver, FormatCode.Text);
 
         public ConstLookup<FieldKind,object> values<T>(in T src)
             where T : unmanaged

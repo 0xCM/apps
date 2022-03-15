@@ -5,6 +5,7 @@
 namespace Z0
 {
     using Asm;
+
     using static XedModels;
     using static XedRules;
     using static Asm.IntelXed;
@@ -138,6 +139,9 @@ namespace Z0
         public static string format(LegacyMapKind src)
             => LegacyMap.Format(src);
 
+        public static string format(RuleTableKind src)
+            => RuleTableKinds.Format(src);
+
         public static string format(XopMapKind src)
             => src == 0 ? EmptyString : src.ToString();
 
@@ -241,10 +245,6 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static string format(RuleSig src)
-            => string.Format("{0} {1}()", src.ReturnType, src.Name);
-
-
         static Symbols<ChipCode> ChipCodes;
 
         static Symbols<XedRegId> XedRegs;
@@ -295,14 +295,13 @@ namespace Z0
             EaszKinds = Symbols.index<EASZ>();
             EoszKinds = Symbols.index<EOSZ>();
             RoundingKinds = Symbols.index<SaeRc>();
-       }
-
+        }
 
         public static string format(in RuleTable src)
         {
             var dst = text.buffer();
-            dst.AppendLine(sig(src));
-            var expressions = src.Expressions.View;
+            dst.AppendLine(string.Format("{0}()", src.Sig.Name));
+            var expressions = src.Body.View;
             var count = expressions.Length;
             dst.AppendLine(Chars.LBrace);
             for(var i=0; i<count; i++)
@@ -410,7 +409,7 @@ namespace Z0
             else if(src.Field == 0)
                 return src.Value.ToString();
             else
-                return string.Format("{0}={1}",format(src.Field), src.Value);
+                return string.Format("{0}={1}", format(src.Field), format(src.Value));
         }
 
         public static string format(FieldCmp src)
@@ -420,9 +419,9 @@ namespace Z0
 
             return src.IsEmpty ? EmptyString
                 : string.Format("{0}{1}{2}",
-                    format(src.Left.Kind),
+                    format(src.Field),
                     format(src.Operator),
-                    format(src.Right)
+                    format(src.Value)
                     );
         }
 

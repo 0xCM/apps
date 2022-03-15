@@ -10,7 +10,7 @@ namespace Z0
         const string xed = "xed";
 
         [SymSource(xed)]
-        public enum RuleOperator
+        public enum RuleOperator : byte
         {
             [Symbol("")]
             None,
@@ -23,9 +23,6 @@ namespace Z0
 
             [Symbol("!=")]
             CmpNeq,
-
-            [Symbol("()")]
-            Call,
 
             Seg,
 

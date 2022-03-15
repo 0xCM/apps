@@ -5,18 +5,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using N = XedNames;
+
     partial struct XedModels
     {
         [SymSource(xed)]
         public enum EvexMapKind : byte
         {
-            [Symbol("Evex0F", "MAP=1")]
+            [Symbol(N.EvexMap1Name, "MAP=1")]
             EVEX_MAP_0F=1,
 
-            [Symbol("Evex0F38", "MAP=2")]
+            [Symbol(N.EvexMap2Name, "MAP=2")]
             EVEX_MAP_0F38=2,
 
-            [Symbol("Evex0F3A", "MAP=3")]
+            [Symbol(N.EvexMap3Name, "MAP=3")]
             EVEX_MAP_0F3A=3,
         }
     }

@@ -5,20 +5,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using OCP = XedModels.OcPatternNames;
+    using N = XedNames;
 
     partial struct XedModels
     {
         [SymSource(xed)]
         public enum XopMapKind : byte
         {
-            [Symbol("Xop8", OCP.XopPattern8)]
+            [Symbol(N.XopMap8Name)]
             XOP8=8,
 
-            [Symbol("Xop9", OCP.XopPattern9)]
+            [Symbol(N.XopMap9Name)]
             XOP9=9,
 
-            [Symbol("XopA", OCP.XopPatternA)]
+            [Symbol(N.XopMapAName)]
             XOPA=10,
         }
     }

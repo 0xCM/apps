@@ -89,6 +89,8 @@ namespace Z0
             Error,
 
             Text,
+
+            A8,
         }
     }
 }
