@@ -7,20 +7,15 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed), DataWidth(2)]
-        public enum LLRC : byte
+        public enum BrDispWidth : byte
         {
-            [Symbol("LLRC0", "LLRC=0")]
-            LLRC0=0,
+            None = 0,
 
-            [Symbol("LLRC1", "LLRC=1")]
-            LLRC1=1,
+            W8 = 8,
 
-            [Symbol("LLRC2", "LLRC=2")]
-            LLRC2=2,
+            W16 = 16,
 
-            [Symbol("LLRC3", "LLRC=3")]
-            LLRC3=3
+            W32 = 32,
         }
     }
 }

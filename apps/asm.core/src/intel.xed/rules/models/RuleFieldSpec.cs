@@ -14,17 +14,17 @@ namespace Z0
 
             public const byte FieldCount = 9;
 
-            public ushort Pos;
+            public ushort Index;
 
             public Identifier FieldName;
 
             public FieldKind FieldKind;
 
-            public ushort FieldWidth;
+            public EmptyZero<ushort> FieldWidth;
 
-            public ushort DataWidth;
+            public EmptyZero<ushort> DataWidth;
 
-            public ushort TotalSize;
+            public EmptyZero<ushort> TotalSize;
 
             public Identifier DeclaredType;
 

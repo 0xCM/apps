@@ -12,6 +12,8 @@ namespace Z0
         {
             None,
 
+            Bit,
+
             B1,
 
             B2,
@@ -27,6 +29,8 @@ namespace Z0
             B7,
 
             B8,
+
+            U1,
 
             U2,
 
@@ -91,6 +95,22 @@ namespace Z0
             Text,
 
             A8,
+
+            UInt,
+
+            SInt,
+
+            Hex,
+
+            Expr,
+
+            Name,
+
+            BitWidth,
+
+            Bits,
+
+            BitLiteral,
         }
     }
 }

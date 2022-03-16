@@ -47,17 +47,29 @@ namespace Z0
 
         static EnumRender<RuleTableKind> RuleTableKinds = new();
 
+        static EnumRender<EASZ> EaszKinds = new();
+
+        static EnumRender<EOSZ> EoszKinds = new();
+
+        static EnumRender<DispExprKind> DispKinds = new();
+
+        static EnumRender<NontermKind> NontermKinds = new();
+
+        static EnumRender<GroupName> EncodingGroups = new();
+
+        static EnumRender<ROUNDC> RoundingKinds = new();
+
+        static EnumRender<SMode> SModes = new();
+
+        static EnumRender<MASK> MaskCodes = new();
+
         static Symbols<ChipCode> ChipCodes;
 
         static Symbols<XedRegId> XedRegs;
 
         static Symbols<RuleOperator> RuleOps;
 
-        static Symbols<DispExprKind> DispKinds;
-
         static Symbols<ConstraintKind> ConstraintKinds;
-
-        static Symbols<NontermKind> Nonterminals;
 
         static Symbols<OperandAction> OpActions;
 
@@ -69,15 +81,7 @@ namespace Z0
 
         static Symbols<OpVisibility> OpVis;
 
-        static Symbols<GroupName> EncodingGroups;
-
         static Symbols<IClass> Classes;
-
-        static Symbols<EASZ> EaszKinds;
-
-        static Symbols<EOSZ> EoszKinds;
-
-        static Symbols<SaeRc> RoundingKinds;
 
         static XedRender()
         {
@@ -85,18 +89,12 @@ namespace Z0
             XedRegs = Symbols.index<XedRegId>();
             OpWidthKinds = Symbols.index<OperandWidthCode>();
             RuleOps = Symbols.index<RuleOperator>();
-            DispKinds = Symbols.index<DispExprKind>();
             ConstraintKinds = Symbols.index<ConstraintKind>();
-            Nonterminals = Symbols.index<NontermKind>();
             OpActions = Symbols.index<OperandAction>();
             OpNames = Symbols.index<RuleOpName>();
             OpVis = Symbols.index<OpVisibility>();
             ElementTypes = Symbols.index<ElementKind>();
-            EncodingGroups = Symbols.index<GroupName>();
             Classes = Symbols.index<IClass>();
-            EaszKinds = Symbols.index<EASZ>();
-            EoszKinds = Symbols.index<EOSZ>();
-            RoundingKinds = Symbols.index<SaeRc>();
         }
     }
 }

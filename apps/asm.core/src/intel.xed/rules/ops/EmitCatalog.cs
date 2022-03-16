@@ -82,7 +82,7 @@ namespace Z0
             => TableEmit(CalcMacroAssignments().View, MacroAssignment.RenderWidths, XedPaths.DocTarget(XedDocKind.MacroAssignments));
 
         void EmitReflectedFields()
-            => TableEmit(CalcFieldSpecs().View, RuleFieldSpec.RenderWidths, AppDb.XedTable<RuleFieldSpec>());
+            => TableEmit(XedFields.Specs.View, RuleFieldSpec.RenderWidths, AppDb.XedTable<RuleFieldSpec>());
 
         void EmitOperandWidths()
             => TableEmit(CalcOperandWidths().View, AppDb.XedTable<OpWidth>());

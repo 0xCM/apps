@@ -44,10 +44,6 @@ namespace Z0
                 writer.WriteLine(raw);
                 writer.WriteLine(body.Format());
                 writer.WriteLine();
-
-                // var opcode = ocparser.Describe(ipattern);
-                // writer.AppendLineFormat("{0,-24} | {1,-24} | {2}", format(@class), format(opcode.OcKind), format(opcode.OpCode), _format(body));
-
             }
             EmittedFile(emitting,count);
             return result;
@@ -60,13 +56,13 @@ namespace Z0
             return dst.Emit();
         }
 
+
         public static void _render(in InstPatternBody src, ITextBuffer dst)
         {
             for(var i=0; i<src.PartCount; i++)
             {
                 if(i!=0)
                     dst.Append(Chars.Space);
-
 
                 ref readonly var part = ref src[i];
                 if(InstDefs.vexclass(part, out var vc))
@@ -76,11 +72,11 @@ namespace Z0
                 else if(InstDefs.map(part, out var map))
                 {
                     var vex = InstDefs.vex(src);
-                    if(vex != null)
+                    if(vex != null && vex.Value != 0)
                     {
                         switch(vex.Value)
                         {
-                            case VexClass.VV0:
+                            //case VexClass.VV0:
                             case VexClass.VV1:
                                 dst.AppendFormat("{0}", format((VexMapKind)map));
                                 break;

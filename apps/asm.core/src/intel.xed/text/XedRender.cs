@@ -16,6 +16,36 @@ namespace Z0
 
     public partial class XedRender
     {
+        public static string format(DispExpr src)
+            => DispKinds.Format(src);
+
+        public static string format(DispExpr src, bool name)
+            => DispKinds.Format(src, name);
+
+        public static string format(OpCodeIndex src, FormatCode fc = FormatCode.Expr)
+            => format(OcKindIndex,src,fc);
+
+        public static string format(EOSZ src, FormatCode fc = FormatCode.Expr)
+            => fc == FormatCode.BitWidth ? nsize(src) : format(EoszKinds,src,fc);
+
+        public static string format(EASZ src, FormatCode fc = FormatCode.Expr)
+            => fc == FormatCode.BitWidth ? nsize(src) : format(EaszKinds,src,fc);
+
+        public static string format(ModeKind src, FormatCode fc = FormatCode.Expr)
+            => fc == FormatCode.BitWidth ? nsize((byte)src + 1) : format(ModeKinds,src,fc);
+
+        public static string format(SMode src, FormatCode fc = FormatCode.Expr)
+            => fc == FormatCode.BitWidth ? nsize((byte)src + 1) : format(SModes,src,fc);
+
+        public static string format(VexClass src, FormatCode fc = FormatCode.Expr)
+            => format(VexClasses,src,fc);
+
+        public static string format(VexKind src, FormatCode fc = FormatCode.Expr)
+            => format(VexKinds,src,fc);
+
+        public static string format(MASK src, FormatCode fc = FormatCode.Expr)
+            => format(MaskCodes,src,fc);
+
         public static string format(R.FieldValue src)
             => XedFields.format(src);
 
@@ -104,9 +134,6 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static string format(RuleOpModKind src)
-            => OpModKinds.Format(src);
-
         public static string format(RuleOpName src)
             => OpNames[src].Expr.Text;
 
@@ -116,26 +143,8 @@ namespace Z0
         public static string format(BCastKind src)
             => BCastFormatter.format(src);
 
-        public static string format(XedRegId src)
-            => XedRegs[src].Expr.Text;
-
-        public static string format(OperandAction src)
-            => OpActions[src].Expr.Text;
-
-        public static string format(GroupName src)
-            => EncodingGroups[src].Expr.Text;
-
-        public static string format(EncodingGroup src)
-            => string.Format("{0}()", format(src.Name));
-
-        public static string format(ChipCode src)
-            => ChipCodes[src].Expr.Text;
-
-        public static string format(VexClass src)
-            => VexClasses.Format(src);
-
-        public static string format(VexKind src)
-            => VexKinds.Format(src);
+        public static string format(RuleOpModKind src)
+            => OpModKinds.Format(src);
 
         public static string format(VexMapKind src)
             => VexMap.Format(src);
@@ -149,23 +158,17 @@ namespace Z0
         public static string format(RuleTableKind src)
             => RuleTableKinds.Format(src);
 
-        public static string format(XopMapKind src)
-            => src == 0 ? EmptyString : src.ToString();
+        public static string format(GroupName src)
+            => EncodingGroups.Format(src);
 
-        public static string format(IClass src)
-            => Classes[src].Expr.Text;
+        public static string format(EncodingGroup src)
+            => string.Format("{0}()", format(src.Name));
 
         public static string format(FieldKind src)
             => FieldKinds.Format(src);
 
-        public static string format(FieldKind src, bool id)
-            => FieldKinds.Format(src,id);
-
-        public static string format(ConstraintKind src)
-            => ConstraintKinds[src].Expr.Text;
-
-        public static string format(NontermKind src)
-            => Nonterminals[src].Expr.Text;
+        public static string format(FieldKind src, bool name)
+            => FieldKinds.Format(src,name);
 
         public static string format(RuleMacroKind src)
             => MacroKinds.Format(src);
@@ -191,6 +194,30 @@ namespace Z0
         public static string format(VisibilityKind src)
             => VisKind.Format(src);
 
+        public static string format(NontermKind src)
+            => NontermKinds.Format(src);
+
+        public static string format(ROUNDC src)
+            => RoundingKinds.Format(src);
+
+        public static string format(XedRegId src)
+            => XedRegs[src].Expr.Text;
+
+        public static string format(OperandAction src)
+            => OpActions[src].Expr.Text;
+
+        public static string format(ChipCode src)
+            => ChipCodes[src].Expr.Text;
+
+        public static string format(XopMapKind src)
+            => src == 0 ? EmptyString : src.ToString();
+
+        public static string format(IClass src)
+            => Classes[src].Expr.Text;
+
+        public static string format(ConstraintKind src)
+            => ConstraintKinds[src].Expr.Text;
+
         public static string format(OperandWidthCode src)
             => OpWidthKinds[src].Expr.Text;
 
@@ -215,27 +242,6 @@ namespace Z0
         public static string format(OpCodeKind src)
             => format(ocindex(src));
 
-        public static string format(OpCodeIndex src)
-            => OcKindIndex.Format(src);
-
-        public static string format(DispExpr src)
-            => DispKinds[src.Kind].Expr.Text;
-
-        public static string format(EOSZ src)
-            => EoszKinds[src].Expr.Text;
-
-        public static string format(EASZ src)
-            => EaszKinds[src].Expr.Text;
-
-        public static string format(SaeRc src)
-            => RoundingKinds[src].Expr.Text;
-
-        public static string format(ModeKind src)
-            => ModeKinds.Format(src);
-
-        public static string format(ModeKind src, bool id)
-            => ModeKinds.Format(src, id);
-
         public static string format(in MacroSpec src)
         {
             var dst = text.buffer();
@@ -252,7 +258,6 @@ namespace Z0
             return dst.Emit();
         }
 
-
         public static string format(in RuleTable src)
         {
             var dst = text.buffer();
@@ -265,7 +270,6 @@ namespace Z0
             dst.AppendLine(Chars.RBrace);
             return dst.Emit();
         }
-
 
         static string format3(uint5 src)
         {
@@ -309,5 +313,33 @@ namespace Z0
                     format(src.Value)
                     );
         }
+
+        static string format<E>(EnumRender<E> render, E src, FormatCode fc)
+            where E : unmanaged, Enum
+        {
+            var dst = EmptyString;
+            switch(fc)
+            {
+                case FormatCode.SInt:
+                    dst = ((int)bw32(src)).ToString();
+                break;
+                case FormatCode.Hex:
+                    dst = bw32(src).FormatHex();
+                break;
+                case FormatCode.UInt:
+                    dst = bw32(src).ToString();
+                break;
+                case FormatCode.Name:
+                    dst = render.Format(src, true);
+                break;
+                default:
+                    dst = render.Format(src);
+                break;
+            }
+            return dst;
+        }
+
+        static string nsize<T>(T src)
+            => ((NativeSize)((NativeSizeCode)u8(src))).Format();
     }
 }

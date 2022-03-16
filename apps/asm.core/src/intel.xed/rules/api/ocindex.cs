@@ -16,6 +16,50 @@ namespace Z0
 
     partial class XedRules
     {
+        [MethodImpl(Inline), Op]
+        public static VexMapKind? vexmap(VexClass kind, byte code)
+            => kind == VexClass.VV1 ? (VexMapKind)code : null;
+
+        [MethodImpl(Inline), Op]
+        public static EvexMapKind? evexmap(VexClass kind, byte code)
+            => kind == VexClass.EVV ? (EvexMapKind)code : null;
+
+        [MethodImpl(Inline), Op]
+        public static XopMapKind? xopmap(VexClass kind, byte code)
+            => kind == VexClass.XOPV ? (XopMapKind)code : null;
+
+        [MethodImpl(Inline), Op]
+        public static LegacyMapKind? lmap(byte code)
+            => code <= 4? (LegacyMapKind)code : null;
+
+        public static OpCodeIndex? ocindex(byte code)
+        {
+            var kind = lmap(code);
+            if(kind != null)
+                return ocindex(kind.Value);
+            else
+                return null;
+        }
+
+        [Op]
+        public static OpCodeIndex? ocindex(VexClass @class, byte code)
+        {
+            var dst = default(OpCodeIndex?);
+            switch(@class)
+            {
+                case VexClass.VV1:
+                    dst = ocindex((VexMapKind)code);
+                break;
+                case VexClass.EVV:
+                    dst = ocindex((EvexMapKind)code);
+                break;
+                case VexClass.XOPV:
+                    dst = ocindex((XopMapKind)code);
+                break;
+            }
+            return dst;
+        }
+
         [Op]
         public static OpCodeIndex ocindex(OpCodeKind kind)
             => kind switch

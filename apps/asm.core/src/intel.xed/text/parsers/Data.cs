@@ -51,10 +51,20 @@ namespace Z0
 
         readonly EnumParser<VexClass> VexClasses = new();
 
+        readonly EnumParser<VexKind> VexKinds = new();
+
         readonly EnumParser<OpCodeKind> OpCodeKinds = new();
 
         readonly EnumParser<ErrorKind> ErrorKinds = new();
 
         readonly EnumParser<ChipCode> ChipCodes = new();
+
+        readonly EnumParser<EASZ> EaszKinds = new();
+
+        readonly EnumParser<EOSZ> EoszKinds = new();
+
+        readonly EnumParser<ModeKind> ModeKinds = new();
+
+        readonly EnumParser<SMode> SModes = new();
     }
 }

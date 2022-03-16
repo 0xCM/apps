@@ -12,8 +12,8 @@ namespace Z0
         [SymSource(xed), DataWidth(3)]
         public enum VexClass : byte
         {
-            [Symbol(N.VV0, "VEXVALID=0")]
-            VV0 = 0,
+            [Symbol("", "VEXVALID=0")]
+            None = 0,
 
             [Symbol(N.VV1, "VEXVALID=1")]
             VV1 = 1,

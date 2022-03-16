@@ -18,16 +18,19 @@ namespace Z0
 
         public Outcome Parse(string src, out E dst)
         {
+            Outcome result = (false, AppMsg.ParseFailure.Format(typeof(E).Name, src));
+            dst = default;
             if(Syms.Lookup(src, out var sym))
             {
                 dst = sym.Kind;
-                return true;
+                result = true;
             }
             else
             {
-                dst = default;
-                return (false, string.Format("The value '{0}' could not be interpreted as a {1} member", src, typeof(E).Name));
+                if(Enums.parse(src, out dst))
+                    result = true;
             }
+            return result;
         }
     }
 }

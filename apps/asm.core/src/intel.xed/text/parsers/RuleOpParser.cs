@@ -69,17 +69,11 @@ namespace Z0
 
                 var index = -1;
                 if(i > 0 && j > 0)
-                {
                     index = i < j ? i : j;
-                }
                 else if(i>0 && j<0)
-                {
                     index = i;
-                }
                 else if(j>0 && i<0)
-                {
                     index = j;
-                }
 
                 return parse(text.left(input, index), out  dst);
             }

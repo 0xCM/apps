@@ -24,7 +24,8 @@ namespace Z0
                 for(var i=0; i<count; i++)
                 {
                     ref var target = ref dst[i];
-                    result = Parse(skip(parts,i), out target);
+                    ref readonly var part = ref skip(parts,i);
+                    result = Parse(part, out target);
                     if(result.Fail)
                         break;
                 }
@@ -58,6 +59,8 @@ namespace Z0
                     result = parse(src, out BitfieldSeg x);
                     if(result)
                         dst = x;
+                    else
+                        result = (false, AppMsg.ParseFailure.Format(nameof(BitfieldSeg), src));
                 }
                 else if(IsNeq(src))
                 {
@@ -73,12 +76,17 @@ namespace Z0
                     result = parse(src, out FieldAssign x);
                     if(result)
                         dst = x;
+                    else
+                        result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
+
                 }
                 else if(IsCall(src))
                 {
                     result = parse(src, out Nonterminal x);
                     if(result)
                         dst = x;
+                    else
+                        result = (false, AppMsg.ParseFailure.Format(nameof(Nonterminal), src));
                 }
                 return result;
             }

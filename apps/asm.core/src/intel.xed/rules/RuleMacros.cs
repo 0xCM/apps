@@ -301,7 +301,7 @@ namespace Z0
 
             [MethodImpl(Inline), Op]
             static MacroSpec VV0()
-                => assign(M.VV0, K.VEXVALID, VexClass.VV0);
+                => assign(M.VV0, K.VEXVALID, VexClass.None);
 
             [MethodImpl(Inline), Op]
             static MacroSpec VV1()

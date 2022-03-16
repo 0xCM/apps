@@ -24,14 +24,14 @@ namespace Z0
 
 
         [MethodImpl(Inline)]
-        public string Format(E src, bool id)
+        public string Format(E src, bool name)
         {
-            if(id)
+            if(name)
             {
                 if(Syms.MapKind(src, out var a))
-                    return a.Identity;
+                    return a.Name;
                 else if(Syms.MapValue(core.bw64(src), out var b))
-                    return b.Identity;
+                    return b.Name;
                 else
                     return RP.Error;
             }

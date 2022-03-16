@@ -37,6 +37,15 @@ namespace Z0
         public static bool parse(string src, out ErrorKind dst)
             => Instance.Parse(src,out dst);
 
+        public static bool parse(string src, out VexKind dst)
+            => Instance.Parse(src,out dst);
+
+        public static bool parse(string src, out EASZ dst)
+            => Instance.Parse(src,out dst);
+
+        public static bool parse(string src, out EOSZ dst)
+            => Instance.Parse(src,out dst);
+
         public static bool parse(string src, out uint5 dst)
             => Instance.Parse(src, out dst);
 
@@ -65,6 +74,9 @@ namespace Z0
             => Instance.Parse(src, out dst);
 
         public static Outcome parse(string src, out DispFieldSpec dst)
+            => Instance.Parse(src, out dst);
+
+        public static Outcome parse(string src, out ModeKind dst)
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out OpCodeKind dst)
@@ -139,6 +151,9 @@ namespace Z0
         public static bool parse(string src, out GroupName dst)
             => Instance.Parse(src, out dst);
 
+        public static bool parse(string src, out SMode dst)
+            => Instance.Parse(src, out dst);
+
         public bool Num8(string src, out byte dst)
             => NumericParser.num8(src, out dst);
 
@@ -151,11 +166,20 @@ namespace Z0
         public bool Parse(string src, out RuleMacroKind dst)
             => MacroKinds.Parse(src, out dst);
 
+        public bool Parse(string src, out EASZ dst)
+            => EaszKinds.Parse(src, out dst);
+
+        public bool Parse(string src, out EOSZ dst)
+            => EoszKinds.Parse(src, out dst);
+
         public bool Parse(string src, out ExtensionKind dst)
             => ExtensionKinds.Parse(src, out dst);
 
         public bool Parse(string src, out VexClass dst)
             => VexClasses.Parse(src, out dst);
+
+        public bool Parse(string src, out VexKind dst)
+            => VexKinds.Parse(src, out dst);
 
         public bool Parse(string src, out OperandWidthCode dst)
             => OpWidthParser.Parse(src, out dst);
@@ -248,6 +272,9 @@ namespace Z0
         public bool Parse(string src, out RuleOpName dst)
             => RuleOpNames.Parse(src, out dst);
 
+       public bool Parse(string src, out SMode dst)
+            => SModes.Parse(src, out dst);
+
         public bool Parse(string src, out IClass dst)
             => Classes.Parse(src, out dst);
 
@@ -256,6 +283,9 @@ namespace Z0
 
         public bool Parse(string src, out OpCodeKind dst)
             => OpCodeKinds.Parse(src, out dst);
+
+        public bool Parse(string src, out ModeKind dst)
+            => ModeKinds.Parse(src, out dst);
 
         public bool Parse(string src, out Category dst)
         {
@@ -383,7 +413,6 @@ namespace Z0
             if(IsHexLiteral(src))
                 return DataParser.parse(src, out dst);
 
-
             dst = default;
             return false;
         }
@@ -403,7 +432,7 @@ namespace Z0
                 {
                     var a = text.left(src,i);
                     var b = text.right(src,i + expr.Length - 1);
-                    result =Parse(a, out FieldKind fk);
+                    result = Parse(a, out FieldKind fk);
                     Require.invariant(result);
                     if(IsHexLiteral(a))
                     {
@@ -465,34 +494,19 @@ namespace Z0
 
             return result;
         }
+
         public Outcome Parse(string src, out FieldAssign dst)
         {
             var i = text.index(src,Chars.Eq);
             dst = FieldAssign.Empty;
-            var result = Outcome.Failure;
+            Outcome result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
             if(i > 0)
             {
                 var name = text.left(src,i);
                 var val = text.right(src,i);
                 if(Parse(name, out FieldKind fk))
                 {
-                    if(Parse(val, out uint8b b))
-                    {
-                        dst = assign(fk,b);
-                        result = true;
-                    }
-                    else if(Parse(val, out Hex8 h))
-                    {
-                        dst = assign(fk,h);
-                        result = true;
-                    }
-                    else if(ulong.TryParse(val, out var d))
-                    {
-                        dst = assign(fk,d);
-                        result = true;
-                    }
-                    else
-                        result = (false, AppMsg.ParseFailure.Format(fk.ToString(), val));
+                    result = XedFields.parse(fk, val, out var fv);
                 }
                 else
                     result = (false, AppMsg.ParseFailure.Format(nameof(FieldKind), src));

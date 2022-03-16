@@ -69,13 +69,11 @@ namespace Z0
                 case K.USING_DEFAULT_SEGMENT0:
                 case K.USING_DEFAULT_SEGMENT1:
                 case K.VEX_C4:
-                case K.VEXDEST3:
-                case K.VEXDEST4:
                 case K.ZEROING:
                 case K.WBNOINVD:
                 case K.REXRR:
                 case K.SAE:
-                    dst = C.B1;
+                    dst = C.Bit;
                 break;
 
                 case K.SIBSCALE:
@@ -83,36 +81,34 @@ namespace Z0
                     dst = C.B2;
                 break;
 
+                case K.VEXDEST3:
+                case K.VEXDEST4:
+                    dst = C.Bit;
+                break;
+
                 case K.REG:
                 case K.RM:
                 case K.SRM:
                 case K.SIBBASE:
                 case K.SIBINDEX:
+                case K.VEXDEST210:
                     dst = C.B3;
                 break;
 
-                case K.EASZ:
-                case K.EOSZ:
                 case K.FIRST_F2F3:
                 case K.LAST_F2F3:
                 case K.LLRC:
                 case K.DEFAULT_SEG:
-                case K.MODE:
                 case K.REP:
-                case K.SMODE:
-                case K.VEX_PREFIX:
                 case K.VL:
                 {
                     dst = C.U2;
                 }
                 break;
 
-                case K.VEXDEST210:
                 case K.HINT:
-                case K.MASK:
                 case K.ROUNDC:
                 case K.SEG_OVD:
-                case K.VEXVALID:
                     dst = C.U3;
                 break;
 
@@ -136,7 +132,6 @@ namespace Z0
                 case K.IMM1_BYTES:
                 case K.IMM_WIDTH:
                 case K.MAX_BYTES:
-                case K.MODRM_BYTE:
                 case K.NPREFIXES:
                 case K.NREXES:
                 case K.NSEG_PREFIXES:
@@ -159,6 +154,7 @@ namespace Z0
                 }
                 break;
 
+                case K.MODRM_BYTE:
                 case K.NOMINAL_OPCODE:
                 {
                     dst = C.X8;
@@ -166,15 +162,11 @@ namespace Z0
                 break;
 
                 case K.DISP:
-                {
                     dst = C.Disp;
-                }
                 break;
 
                 case K.UIMM0:
-                {
                     dst = C.U64;
-                }
                 break;
 
                 case K.BASE0:
@@ -210,9 +202,23 @@ namespace Z0
                 break;
 
                 case K.ICLASS:
-                {
                     dst = C.InstClass;
-                }
+                break;
+
+                case K.MASK:
+                case K.VEX_PREFIX:
+                case K.VEXVALID:
+                    dst = C.UInt;
+                break;
+
+                case K.SMODE:
+                case K.MODE:
+                    dst = C.UInt;
+                break;
+
+                case K.EASZ:
+                case K.EOSZ:
+                    dst = C.UInt;
                 break;
 
                 default:

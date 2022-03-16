@@ -35,11 +35,4 @@ namespace Z0.Asm
 
         public const byte Scale_Width = Scale_Max - Scale_Min + 1;
     }
-}//-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
-//-----------------------------------------------------------------------------
-namespace Z0.Asm
-{
-
 }

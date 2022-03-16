@@ -113,7 +113,7 @@ namespace Z0
                     {
                         switch(VClass.Value)
                         {
-                            case VexClass.VV0:
+                            case VexClass.None:
                             case VexClass.VV1:
                             {
                                 OcIndex = ocindex((VexMapKind)Map);

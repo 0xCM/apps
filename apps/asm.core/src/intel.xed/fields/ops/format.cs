@@ -13,9 +13,126 @@ namespace Z0
 
     using R = XedRules;
     using C = XedRules.FormatCode;
+    using K = XedRules.FieldKind;
 
     partial class XedFields
     {
+        public static Outcome parse(FieldKind kind, string src, out R.FieldValue dst)
+        {
+            Outcome result = (false,AppMsg.ParseFailure.Format(kind.ToString(), src));
+            dst = R.FieldValue.Empty;
+            switch(kind)
+            {
+                case K.VEXVALID:
+                {
+                    if(XedParsers.parse(src, out VexClass a))
+                        dst = value(kind,a);
+                }
+                break;
+                case K.VEX_PREFIX:
+                {
+                    if(XedParsers.parse(src, out VexKind a))
+                        dst = value(kind,a);
+                }
+                break;
+                case K.EASZ:
+                {
+                    if(XedParsers.parse(src, out EASZ a))
+                        dst = value(kind,a);
+                    else
+                    {
+                        if(XedParsers.parse(src, out byte b))
+                            dst = b switch{
+                                16 => value(kind, 1),
+                                32 => value(kind, 2),
+                                64 => value(kind, 3),
+                                _ => R.FieldValue.Empty
+                            };
+                    }
+                }
+                break;
+                case K.SMODE:
+                {
+                    if(XedParsers.parse(src, out SMode a))
+                        dst = value(kind,a);
+                    else
+                    {
+                        if(XedParsers.parse(src, out byte b))
+                            dst = b switch{
+                                16 => value(kind, 0),
+                                32 => value(kind, 1),
+                                64 => value(kind, 2),
+                                _ => R.FieldValue.Empty
+                            };
+                    }
+                }
+                break;
+                case K.MODE:
+                {
+                    if(XedParsers.parse(src, out ModeKind a))
+                        dst = value(kind,a);
+                    else
+                    {
+                        if(XedParsers.parse(src, out byte b))
+                            dst = b switch{
+                                16 => value(kind, 0),
+                                32 => value(kind, 1),
+                                64 => value(kind, 2),
+                                _ => R.FieldValue.Empty
+                            };
+                    }
+                }
+                break;
+                case K.EOSZ:
+                {
+                    if(XedParsers.parse(src, out EOSZ a))
+                        dst = value(kind,a);
+                    else
+                    {
+                        if(XedParsers.parse(src, out byte b))
+                            dst = b switch
+                            {
+                                8 => value(kind,0),
+                                16 => value(kind,1),
+                                32 => value(kind,2),
+                                64 => value(kind,3),
+                                _=> R.FieldValue.Empty,
+                            };
+                    }
+                }
+                break;
+            }
+
+            if(dst.IsNonEmpty)
+                result = true;
+
+            if(result.Fail)
+            {
+                if(XedParsers.parse(src, out uint8b a))
+                {
+                    dst = value(kind, a);
+                    result = true;
+                }
+                else if(XedParsers.parse(src, out Hex8 b))
+                {
+                    dst = value(kind, b);
+                    result = true;
+                }
+                else if(XedParsers.parse(src, out byte c))
+                {
+                    dst = value(kind, c);
+                    result = true;
+                }
+                else if(ushort.TryParse(src, out var d))
+                {
+                    dst = value(kind, d);
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+
         public static string format(FieldConstraint src)
             => string.Format("{0}{1}{2}",
                     XedRender.format(src.Field),
@@ -53,6 +170,62 @@ namespace Z0
             var data = bytes(src.Data);
             var code = XedFields.fcode(src.Field);
 
+            switch(src.Field)
+            {
+                case K.MASK:
+                {
+                    var x = @as<MASK>(data);
+                    dst = XedRender.format(x,code);
+                    if(code == FormatCode.Expr)
+                        dst = text.embrace(dst);
+                }
+                break;
+                case K.ZEROING:
+                {
+                    dst = "{z}";
+                }
+                break;
+                case K.EASZ:
+                {
+                    var x = @as<EASZ>(data);
+                    dst = XedRender.format(x, code);
+                }
+                break;
+                case K.EOSZ:
+                {
+                    var x = @as<EOSZ>(data);
+                    dst = XedRender.format(x, code);
+                }
+                break;
+                case K.MODE:
+                {
+                    var x = @as<ModeKind>(data);
+                    dst = XedRender.format(x, code);
+                }
+                break;
+                case K.SMODE:
+                {
+                    var x = @as<SMode>(data);
+                    dst = XedRender.format(x, code);
+                }
+                break;
+                case K.VEXVALID:
+                {
+                    var x = @as<VexClass>(data);
+                    dst = XedRender.format(x, code);
+                }
+                break;
+                case K.VEX_PREFIX:
+                {
+                    var x = @as<VexKind>(data);
+                    dst = XedRender.format(x, code);
+                }
+                break;
+            }
+
+            if(nonempty(dst))
+                return dst;
+
             switch(code)
             {
                 case C.A8:
@@ -64,10 +237,16 @@ namespace Z0
                 case C.Text:
                     dst = ((NameResolver)((int)src.Data)).Format();
                     break;
-                case C.B1:
+                case C.Bit:
                 {
                     bit x = first(data);
                     dst = x.Format();
+                }
+                break;
+                case C.B1:
+                {
+                    uint1 x = first(data);
+                    dst = format(x);
                 }
                 break;
                 case C.B2:
@@ -109,6 +288,13 @@ namespace Z0
                 case C.B8:
                 {
                     uint8b x = first(data);
+                    dst = format(x);
+                }
+                break;
+
+                case C.U1:
+                {
+                    byte x = (byte)(first(data) & 0b1);
                     dst = format(x);
                 }
                 break;
@@ -259,6 +445,13 @@ namespace Z0
                 }
                 break;
 
+                case C.MemWidth:
+                {
+                    var x = @as<ushort>(data);
+                    dst = x.ToString();
+                }
+                break;
+
                 case C.Broadcast:
                 {
                     var x = @as<BCastKind>(data);
@@ -289,16 +482,12 @@ namespace Z0
                     dst = XedRender.format(x);
                 }
                 break;
-                case C.MemWidth:
-                {
-                    var x = @as<ushort>(data);
-                    dst = x.ToString();
-                }
-                break;
             }
             return dst;
         }
 
+        static string format(uint1 src)
+            => "0b" + src.Format();
 
         static string format(uint2 src)
             => "0b" + src.Format();
@@ -307,13 +496,13 @@ namespace Z0
             => "0b" +  src.Format();
 
         static string format(uint4 src)
-            =>  "0b" + src.Format();
+            => "0b" + src.Format();
 
         static string format(uint5 src)
-            =>  "0b" + src.Format();
+            => "0b" + src.Format();
 
         static string format(uint6 src)
-            =>  "0b" + src.Format();
+            => "0b" + src.Format();
 
         static string format(uint7 src)
             =>  "0b" + src.Format();
