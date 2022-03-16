@@ -13,6 +13,12 @@ namespace Z0
 
             public Index<RuleExpr> Body;
 
+            public RuleTableKind TableKind
+            {
+                [MethodImpl(Inline)]
+                get => Sig.TableKind;
+            }
+
             public string Format()
                 => XedRender.format(this);
 

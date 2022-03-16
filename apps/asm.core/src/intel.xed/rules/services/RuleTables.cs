@@ -40,31 +40,49 @@ namespace Z0
                     _ => RuleTableLookup.Empty
                 };
 
-            void EmitJoinedTables()
-            {
-                var src = CalcTables(RuleTableKind.Joined);
-                iter(src.Values, t => EmitRuleTable("rules.tables/joined", rows(t)), PllWf);
-            }
-
             void EmitEncTables()
             {
+                var buffer = bag<RuleTableRow>();
+                void Collect(Index<RuleTableRow> src)
+                {
+                    for(var i=0; i<src.Count; i++)
+                        buffer.Add(src[i]);
+                }
+
                 var src = CalcTables(RuleTableKind.Enc);
-                iter(src.Values, t => EmitRuleTable("rules.tables/enc", rows(t)), PllWf);
+                iter(src.Values, t => Collect(Emit("rules.tables/enc", t)), PllWf);
                 EmitDescriptions(RuleTableKind.Enc, src);
+                EmitConsolidated(buffer.Array().Sort());
             }
 
             void EmitDecTables()
             {
+                var buffer = bag<RuleTableRow>();
+                void Collect(Index<RuleTableRow> src)
+                {
+                    for(var i=0; i<src.Count; i++)
+                        buffer.Add(src[i]);
+                }
+
                 var src = CalcTables(RuleTableKind.Dec);
-                iter(src.Values, t => EmitRuleTable("rules.tables/dec", rows(t)), PllWf);
+                iter(src.Values, t => Collect(Emit("rules.tables/dec", t)), PllWf);
                 EmitDescriptions(RuleTableKind.Dec, src);
+                EmitConsolidated(buffer.Array().Sort());
             }
 
             void EmitEncDecTables()
             {
+                var buffer = bag<RuleTableRow>();
+                void Collect(Index<RuleTableRow> src)
+                {
+                    for(var i=0; i<src.Count; i++)
+                        buffer.Add(src[i]);
+                }
+
                 var src = CalcTables(RuleTableKind.EncDec);
-                iter(src.Values, t => EmitRuleTable("rules.tables/encdec", rows(t)), PllWf);
+                iter(src.Values, t => Collect(Emit("rules.tables/encdec", t)), PllWf);
                 EmitDescriptions(RuleTableKind.EncDec, src);
+                EmitConsolidated(buffer.Array().Sort());
             }
 
             void EmitSigs()
@@ -77,37 +95,79 @@ namespace Z0
                 iter(sigs, sig => writer.AppendLineFormat(RenderPattern, sig.TableKind, sig.Class, sig.Name));
             }
 
-            void EmitRuleTable(string scope, in RuleTableRows src)
+            public Index<RuleTableRow> CalcTableRows(RuleTableKind kind)
             {
-                const byte ColCount = RuleTableRow.ColCount;
-                const byte FieldCount = RuleTableRow.FieldCount;
+                var src = CalcTables(kind);
+                var buffer = bag<RuleTableRow>();
+                iter(src.Values, t => iter(rows(t).Data, row => buffer.Add(row), PllWf), PllWf);
+                return buffer.Array().Sort();
+            }
 
-                var data = src.Data;
+            Index<RuleTableRow> Emit(string scope, in RuleTable src)
+            {
+                var data = rows(src).Data;
+                ref readonly var sig = ref src.Sig;
+                Span<byte> widths = stackalloc byte[RuleTableRow.FieldCount];
+                RuleTableRow.RenderWidths(sig, data, widths);
+                var path = AppDb.XedTable<RuleTableRow>(scope, sig.Name);
+                var formatter = Z0.Tables.formatter<RuleTableRow>(widths);
+                using var writer = path.AsciWriter();
+                writer.AppendLine(formatter.FormatHeader());
                 var count = data.Count;
-                Span<byte> widths = stackalloc byte[FieldCount];
-
-                seek(widths, 0) = max((byte)(src.TableSig.Name.Length + 1), (byte)12);
-                seek(widths, 1) = 12;
-
-                byte offset = 2;
-
-                for(var i=offset; i<FieldCount; i++)
-                    seek(widths,i) = 8;
-
                 for(var i=0; i<count; i++)
+                    writer.AppendLine(formatter.Format(data[i]));
+
+                writer.AppendLine();
+
+                var desc = src.Format().Lines(trim:false);
+                for(var i=0; i<desc.Length; i++)
+                    writer.AppendLineFormat("# {0}", skip(desc,i).Content);
+
+                TableSigs.Add(sig);
+                return data;
+            }
+
+            // void EmitRuleTable(string scope, in RuleTableRows src)
+            // {
+            //     Span<byte> widths = stackalloc byte[RuleTableRow.FieldCount];
+            //     RuleTableRow.RenderWidths(src, widths);
+            //     var path = AppDb.XedTable<RuleTableRow>(scope, src.TableSig.Name);
+            //     TableEmit(src.Data.View, widths, path);
+            //     TableSigs.Add(src.TableSig);
+            // }
+
+            void EmitConsolidated(Index<RuleTableRow> src)
+            {
+                var count = src.Count;
+                Span<byte> widths = stackalloc byte[RuleTableRow.FieldCount];
+
+                var kind = src.First.TableKind;
+                var name = src.First.TableName;
+                var sig = XedRules.sig(kind,name);
+                var length = 0u;
+                var offset = 0u;
+                for(var i=0u; i<count; i++)
                 {
-                    ref readonly var row = ref data[i];
-                    for(byte j=0,k=offset; j<ColCount; j++, k++)
+                    ref readonly var row = ref src[i];
+
+                    if(i == count - 1)
+                        RuleTableRow.RenderWidths(sig, slice(src.View,offset,length), widths);
+                    else if(row.TableName != name)
                     {
-                        var cell = row[j];
-                        var width = cell.Format().Length;
-                        if(width > skip(widths,k))
-                            seek(widths,k) = (byte)width;
+                        if(row.TableName != name)
+                        {
+                            RuleTableRow.RenderWidths(sig, slice(src.View,offset,length), widths);
+                            kind = row.TableKind;
+                            name = row.TableName;
+                            sig = XedRules.sig(kind,name);
+                            length = 0;
+                            offset = i;
+                        }
+                        length++;
                     }
                 }
 
-                TableEmit(data.View, widths, AppDb.XedTable<RuleTableRow>(scope, src.TableSig.Name));
-                TableSigs.Add(src.TableSig);
+                TableEmit(src.View, widths, AppDb.XedTable<RuleTableRow>("rules.tables", kind.ToString().ToLower()));
             }
 
             void EmitDescriptions(RuleTableKind kind, RuleTableLookup src)
@@ -179,17 +239,19 @@ namespace Z0
             static RuleTableRows rows(in RuleTable src)
             {
                 var dst = list<RuleTableRow>();
-                for(byte i=0; i<src.Body.Count; i++)
+                for(var i=0u; i<src.Body.Count; i++)
                 {
                     ref readonly var expr = ref src.Body[i];
                     var m=z8;
                     var row = RuleTableRow.Empty;
+                    row.TableKind = src.TableKind;
                     row.TableName = src.Sig.Name;
                     row.RowIndex = i;
+
                     for(var k=0; k<expr.Premise.Count; k++)
                         assign(m++, expr.Premise[k], ref row);
 
-                    m = 6;
+                    m = RuleTableRow.ColCount/2;
 
                     for(var k=0; k<expr.Consequent.Count; k++)
                         assign(m++, expr.Consequent[k], ref row);

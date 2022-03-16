@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.IO;
 
-    using static Root;
     using static core;
 
     partial struct Lines

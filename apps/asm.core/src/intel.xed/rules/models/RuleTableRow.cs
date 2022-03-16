@@ -5,20 +5,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableId)]
-        public struct RuleTableRow
+        public struct RuleTableRow : IComparable<RuleTableRow>
         {
             public const string TableId = "xed.rules.tables";
 
-            public const byte FieldCount = 14;
+            public const byte FieldCount = 17;
 
-            public const byte ColCount = 12;
+            public const byte ColCount = FieldCount - 3;
+
+            public RuleTableKind TableKind;
 
             public string TableName;
 
-            public byte RowIndex;
+            public uint RowIndex;
 
             public RuleTableCell Col0P;
 
@@ -32,6 +36,8 @@ namespace Z0
 
             public RuleTableCell Col5P;
 
+            public RuleTableCell Col6P;
+
             public RuleTableCell Col0C;
 
             public RuleTableCell Col1C;
@@ -43,6 +49,8 @@ namespace Z0
             public RuleTableCell Col4C;
 
             public RuleTableCell Col5C;
+
+            public RuleTableCell Col6C;
 
             public RuleTableCell this[int index]
             {
@@ -56,13 +64,15 @@ namespace Z0
                         3 => Col3P,
                         4 => Col4P,
                         5 => Col5P,
+                        6 => Col6P,
 
-                        6 => Col0C,
-                        7 => Col1C,
-                        8 => Col2C,
-                        9 => Col3C,
-                        10 => Col4C,
-                        11 => Col5C,
+                        7 => Col0C,
+                        8 => Col1C,
+                        9 => Col2C,
+                        10 => Col3C,
+                        11 => Col4C,
+                        12 => Col5C,
+                        13 => Col6C,
                         _ => RuleTableCell.Empty
                     };
                 }
@@ -88,32 +98,81 @@ namespace Z0
                         case 5:
                             Col5P = value;
                         break;
-
                         case 6:
+                            Col6P = value;
+                        break;
+
+                        case 7:
                             Col0C = value;
                         break;
-                        case 7:
+                        case 8:
                             Col1C = value;
                         break;
-                        case 8:
+                        case 9:
                             Col2C = value;
                         break;
-                        case 9:
+                        case 10:
                             Col3C = value;
                         break;
-                        case 10:
+                        case 11:
                             Col4C = value;
                         break;
-                        case 11:
+                        case 12:
                             Col5C = value;
+                        break;
+                        case 13:
+                            Col6C = value;
                         break;
                     };
                 }
             }
 
-            public static RuleTableRow Empty => default;
+            public static void RenderWidths(in RuleTableRows src, Span<byte> dst)
+            {
+                RenderWidths(src.TableSig, src.Data, dst);
+            }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,24,24,24,24,24,24,24,24,24,24,24,24};
+            public static void RenderWidths(RuleSig sig, ReadOnlySpan<RuleTableRow> data, Span<byte> dst)
+            {
+                seek(dst, 0) = 12;
+                if(skip(dst,1) != 0)
+                    seek(dst, 1) = max((byte)(sig.Name.Length + 1), skip(dst,1));
+                else
+                    seek(dst, 1) = max((byte)(sig.Name.Length + 1), (byte)12);
+                seek(dst, 2) = 12;
+                RenderWidths(data, dst);
+            }
+
+            public static void RenderWidths(ReadOnlySpan<RuleTableRow> src, Span<byte> dst)
+            {
+                const byte Offset = 3;
+
+                for(var i=Offset; i<FieldCount; i++)
+                    seek(dst,i) = max((byte)10, skip(dst,i));
+
+                var count = src.Length;
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var row = ref skip(src,i);
+                    for(byte j=0,k=Offset; j<FieldCount; j++, k++)
+                    {
+                        var cell = row[j];
+                        var width = cell.Format().Length;
+                        if(width > skip(dst,k))
+                            seek(dst,k) = (byte)width;
+                    }
+                }
+            }
+
+            public int CompareTo(RuleTableRow src)
+            {
+                var result = TableName.CompareTo(src.TableName);
+                if(result == 0)
+                    result = RowIndex.CompareTo(src.RowIndex);
+                return result;
+            }
+
+            public static RuleTableRow Empty => default;
         }
     }
 }

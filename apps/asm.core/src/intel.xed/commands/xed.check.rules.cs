@@ -12,16 +12,73 @@ namespace Z0
         [CmdOp("xed/check/rules")]
         Outcome CheckRuleSpecs(CmdArgs args)
         {
-            var dst = dict<RuleSig, RuleTable>();
-            var enc = Xed.Rules.Tables.CalcTables(RuleTableKind.Enc);
-            iter(enc.Values, t => dst.Add(t.Sig,t));
-            var dec = Xed.Rules.Tables.CalcTables(RuleTableKind.Dec);
-            iter(dec.Values, t => dst.Add(t.Sig,t));
-            var encdec = Xed.Rules.Tables.CalcTables(RuleTableKind.EncDec);
-            iter(encdec.Values, t => dst.Add(t.Sig,t));
+            var rows = Xed.Rules.Tables.CalcTableRows(RuleTableKind.Enc);
+            var count = rows.Count;
+            Span<byte> widths = stackalloc byte[RuleTableRow.FieldCount];
+
+            var kind = rows.First.TableKind;
+            var name = rows.First.TableName;
+            var sig = XedRules.sig(kind,name);
+            var length = 0u;
+            var offset = 0u;
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var row = ref rows[i];
+
+                if(i == count - 1)
+                    RuleTableRow.RenderWidths(sig, slice(rows.View,offset,length), widths);
+                else if(row.TableName != name)
+                {
+                    if(row.TableName != name)
+                    {
+                        RuleTableRow.RenderWidths(sig, slice(rows.View,offset,length), widths);
+                        kind = row.TableKind;
+                        name = row.TableName;
+                        sig = XedRules.sig(kind,name);
+                        length = 0;
+                        offset = i;
+                    }
+                    length++;
+                }
+            }
+
+            TableEmit(rows.View, widths, AppDb.XedTable<RuleTableRow>("rules.tables", kind.ToString().ToLower()));
 
             return true;
         }
 
+        void EmitConsolidated(Index<RuleTableRow> rows)
+        {
+            var count = rows.Count;
+            Span<byte> widths = stackalloc byte[RuleTableRow.FieldCount];
+
+            var kind = rows.First.TableKind;
+            var name = rows.First.TableName;
+            var sig = XedRules.sig(kind,name);
+            var length = 0u;
+            var offset = 0u;
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var row = ref rows[i];
+
+                if(i == count - 1)
+                    RuleTableRow.RenderWidths(sig, slice(rows.View,offset,length), widths);
+                else if(row.TableName != name)
+                {
+                    if(row.TableName != name)
+                    {
+                        RuleTableRow.RenderWidths(sig, slice(rows.View,offset,length), widths);
+                        kind = row.TableKind;
+                        name = row.TableName;
+                        sig = XedRules.sig(kind,name);
+                        length = 0;
+                        offset = i;
+                    }
+                    length++;
+                }
+            }
+
+            TableEmit(rows.View, widths, AppDb.XedTable<RuleTableRow>("rules.tables", kind.ToString().ToLower()));
+        }
     }
 }

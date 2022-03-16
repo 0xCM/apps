@@ -574,23 +574,18 @@ namespace Z0
                 {
                     DocKind = XedPaths.srckind(src.FileName);
                     Reader = src.Utf8LineReader();
-                    Parse();
+                    while(Reader.Next(out var line))
+                    {
+                        if(line.IsEmpty || line.StartsWith(Chars.Hash))
+                            continue;
+
+                        Parse(line).Require();
+                    }
                     return Tables.ToArray();
                 }
                 finally
                 {
                     Reader.Dispose();
-                }
-            }
-
-            void Parse()
-            {
-                while(Reader.Next(out var line))
-                {
-                    if(line.IsEmpty || line.StartsWith(Chars.Hash))
-                        continue;
-
-                    Parse(line).Require();
                 }
             }
 
@@ -664,6 +659,7 @@ namespace Z0
                     Table = RuleTable.Empty;
                     return;
                 }
+
 
                 switch(DocKind)
                 {
