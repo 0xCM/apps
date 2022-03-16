@@ -39,31 +39,33 @@ namespace Z0
 
             static RuleExpr expr(string premise, string consequent = EmptyString)
             {
-                var left = sys.empty<RuleCriterion>();
-                var right = sys.empty<RuleCriterion>();
+                var buffer = list<RuleCriterion>();
+
                 if(nonempty(premise))
-                    left = specs(true, premise);
+                    specs(true, premise, buffer);
+
+                var left = buffer.ToArray();
+                buffer.Clear();
 
                 if(nonempty(consequent))
-                    right = specs(false, consequent);
+                    specs(false, consequent, buffer);
 
+                var right = buffer.ToArray();
                 return new RuleExpr(left, right);
             }
 
-            static Index<RuleCriterion> specs(bool premise, string src)
+            static void specs(bool premise, string src, List<RuleCriterion> buffer)
             {
                 var parts = text.trim(text.split(src, Chars.Space)).Where(x => nonempty(x) && !Skip.Contains(x));
                 var count = parts.Length;
-                var buffer = alloc<RuleCriterion>(count);
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var part = ref skip(parts, i);
-                    ref var dst = ref seek(buffer,i);
-                    var result = spec(premise, part, out seek(buffer,i));
+                    var criterion = RuleCriterion.Empty;
+                    var result = spec(premise, part, buffer);
                     if(result.Fail)
                         Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCriterion), part));
                 }
-                return buffer;
             }
 
             static void parse(bool premise, string input, out FieldKind fk, out string fv, out RuleOperator op)
@@ -94,19 +96,18 @@ namespace Z0
                 XedParsers.parse(text.left(input, i), out fk);
             }
 
-            static Outcome spec(bool premise, string spec, out RuleCriterion dst)
+            static Outcome spec(bool premise, string spec, List<RuleCriterion> dst)
             {
                 var input = text.trim(text.despace(spec));
                 var fk = K.INVALID;
                 var op = RO.None;
                 var fv = input;
                 var i = -1;
-                dst = RuleCriterion.Empty;
                 if(text.contains(input, "()"))
                 {
                     var left = text.remove(input,"()");
                     parse(premise, left, out fk, out fv, out op);
-                    dst = criterion(premise, call(fk, op, text.ifempty(fv,left)));
+                    dst.Add(criterion(premise, call(fk, op, text.ifempty(fv,left))));
                     return true;
                 }
                 else if(text.contains(input, Chars.LBracket) && text.contains(input, Chars.RBracket))
@@ -119,7 +120,7 @@ namespace Z0
                     result = XedParsers.parse(input, out BitfieldSeg seg);
                     if(result)
                     {
-                         dst = criterion(premise, seg);
+                         dst.Add(criterion(premise, seg));
                          return true;
                     }
                     else
@@ -128,32 +129,48 @@ namespace Z0
                 else if(text.contains(input, "="))
                 {
                     parse(premise, input, out fk, out fv, out op);
-                    return parse(premise, fk, op, fv, out dst);
+                    if(parse(premise, fk, op, fv, out var _p))
+                    {
+                        dst.Add(_p);
+                        return true;
+                    }
+                    else
+                        return false;
                 }
                 else
                 {
                     var assigned = RuleMacros.assignments(input, out var assignments);
-                    if(assigned && assignments.Length != 0 && first(assignments).Field != 0)
+                    if(assignments.Length != 0)
                     {
-                        ref readonly var a = ref first(assignments);
-                        dst = criterion(premise, a.Field, RuleOperator.Assign, a.Value.Data);
+                        for(var m = 0; m<assignments.Length; m++)
+                        {
+                            ref readonly var a = ref skip(assignments,m);
+                            dst.Add(criterion(premise, a.Field, RuleOperator.Assign, a.Value.Data));
+                        }
                         return true;
                     }
                     else
                     {
-                        var literal = input;
-                        if(input== "otherwise")
-                            literal = "_";
-                        else if(input == "nothing")
-                            literal = "default";
-                        else if(input == "error")
-                            fk = FieldKind.ERROR;
-
-
-                        dst = criterion(premise, fk, RuleOperator.Literal, (asci8)literal);
+                        dst.Add(literal(premise,input));
                         return true;
                     }
                 }
+            }
+
+            static RuleCriterion literal(bool premise, string input)
+            {
+                if(XedParsers.IsBinaryLiteral(input))
+                    return criterion(premise, 0, RuleOperator.None, (asci8)input);
+                else if(input == "otherwise")
+                    return criterion(premise, 0, RuleOperator.None, (asci8)"else");
+                else if(input == "nothing")
+                    return criterion(premise, 0, RuleOperator.None, (asci8)"null");
+                else if(input == "error")
+                    return criterion(premise, FieldKind.ERROR, RuleOperator.None, (asci8)"error");
+                else if(input == "@")
+                    return criterion(premise, 0, RuleOperator.None, (asci8)"anything");
+                else
+                    return criterion(premise, 0, RuleOperator.None, input);
             }
 
             [Op]
@@ -161,12 +178,6 @@ namespace Z0
             {
                 var result = Outcome.Success;
                 dst = default;
-                if(value == "@")
-                {
-                    dst = criterion(premise, field, op, (asci8)value);
-                    return true;
-                }
-
                 switch(field)
                 {
                     case K.AGEN:
@@ -535,7 +546,7 @@ namespace Z0
 
             LineReader Reader;
 
-            RuleFormKind Kind;
+            RuleFormKind FormKind;
 
             TextLine Line;
 
@@ -546,7 +557,7 @@ namespace Z0
                 Table = RuleTable.Empty;
                 Reader = default;
                 Line = TextLine.Empty;
-                Kind = 0;
+                FormKind = 0;
                 Tables = new();
                 DocKind = 0;
             }
@@ -555,18 +566,17 @@ namespace Z0
             {
                 Line = src;
                 var result = Outcome.Success;
-                Kind = RuleForm(Line);
-                if(Kind == SeqDecl)
+                FormKind = RuleForm(Line);
+                if(FormKind == SeqDecl)
                     ParseSeqTerms();
 
-                while(Kind == RuleDecl)
+                while(FormKind == RuleDecl)
                 {
                     ParseRuleDecl();
                 }
 
                 return result;
             }
-
 
             public Index<RuleTable> Parse(FS.FilePath src)
             {
@@ -596,8 +606,8 @@ namespace Z0
                     if(Line.IsEmpty || Line.StartsWith(Chars.Hash))
                         continue;
 
-                    Kind = RuleForm(Line);
-                    if(Kind == 0 || Kind == Invocation)
+                    FormKind = RuleForm(Line);
+                    if(FormKind == 0 || FormKind == Invocation)
                         continue;
                     else
                         break;
@@ -612,15 +622,15 @@ namespace Z0
                     if(Line.IsEmpty || Line.StartsWith(Chars.Hash))
                         continue;
 
-                    Kind = RuleForm(Line);
-                    if(Kind == 0)
+                    FormKind = RuleForm(Line);
+                    if(FormKind == 0)
                         continue;
 
-                    if(Kind == RuleFormKind.EncodeStep || Kind == RuleFormKind.DecodeStep)
+                    if(FormKind == RuleFormKind.EncodeStep || FormKind == RuleFormKind.DecodeStep)
                     {
                         var content = normalize(Line.Content);
                         var parts =
-                            IsEncStep(content) ? text.split(content, EncStep)
+                              IsEncStep(content) ? text.split(content, EncStep)
                             : IsDecStep(content) ? text.split(content, DecStep)
                             : sys.empty<string>();
 
@@ -643,14 +653,11 @@ namespace Z0
                 var ruledecl = text.trim(text.left(Line.Content, TableDeclSyntax));
                 var i = text.index(ruledecl, Chars.Space);
                 var name = EmptyString;
-                var ret = EmptyString;
                 if(i > 0)
-                {
                     name = text.right(ruledecl,i);
-                    ret = text.left(ruledecl,i);
-                }
                 else
                     name = ruledecl;
+                Table.Sig = sig(DocKind,name);
 
                 ParseRuleExpr();
 
@@ -660,19 +667,6 @@ namespace Z0
                     return;
                 }
 
-
-                switch(DocKind)
-                {
-                    case XedDocKind.EncRuleTable:
-                        Table.Sig = sig(RuleTableKind.Enc, name);
-                    break;
-                    case XedDocKind.EncDecRuleTable:
-                        Table.Sig = sig(RuleTableKind.EncDec, name);
-                    break;
-                    case XedDocKind.DecRuleTable:
-                        Table.Sig = sig(RuleTableKind.Dec, name);
-                    break;
-                }
                 Tables.Add(Table);
                 Table = RuleTable.Empty;
             }

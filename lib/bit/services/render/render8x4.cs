@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct BitRender
@@ -28,15 +24,16 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> render8x4(byte src)
+        public static ReadOnlySpan<char> render8x4(char sep, byte src)
         {
-            var dst = CharBlock16.Null.Data;
+            var storage = CharBlock16.Null;
+            var dst = storage.Data;
             var i = 0u;
             seek(dst, i++) = bitchar(src, 7);
             seek(dst, i++) = bitchar(src, 6);
             seek(dst, i++) = bitchar(src, 5);
             seek(dst, i++) = bitchar(src, 4);
-            i += separate(i, dst);
+            i += separate(i, sep, dst);
             seek(dst, i++) = bitchar(src, 3);
             seek(dst, i++) = bitchar(src, 2);
             seek(dst, i++) = bitchar(src, 1);
@@ -45,14 +42,18 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static uint render8x4(byte src, ref uint i, Span<char> dst)
+        public static ReadOnlySpan<char> render8x4(byte src)
+            => render8x4(Chars.Space, src);
+
+        [MethodImpl(Inline), Op]
+        public static uint render8x4(char sep, byte src, ref uint i, Span<char> dst)
         {
             var i0=i;
             seek(dst, i++) = bitchar(src, 7);
             seek(dst, i++) = bitchar(src, 6);
             seek(dst, i++) = bitchar(src, 5);
             seek(dst, i++) = bitchar(src, 4);
-            i += separate(i, dst);
+            i += separate(i, sep, dst);
             seek(dst, i++) = bitchar(src, 3);
             seek(dst, i++) = bitchar(src, 2);
             seek(dst, i++) = bitchar(src, 1);
@@ -61,10 +62,18 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static uint render8x4(byte src, Span<char> dst)
+        public static uint render8x4(byte src, ref uint i, Span<char> dst)
+            => render8x4(Chars.Space, src, ref i,dst);
+
+        [MethodImpl(Inline), Op]
+        public static uint render8x4(char sep, byte src, Span<char> dst)
         {
             var i=0u;
             return render8x4(src, ref i, dst);
         }
+
+        [MethodImpl(Inline), Op]
+        public static uint render8x4(byte src, Span<char> dst)
+            => render8x4(Chars.Space, src, dst);
     }
 }

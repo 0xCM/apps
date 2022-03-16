@@ -12,7 +12,7 @@ namespace Z0
         {
             public const string TableId = "xed.rules.schemas";
 
-            public const byte FieldCount = 6;
+            public const byte FieldCount = 8;
 
             public uint Seq;
 
@@ -22,12 +22,15 @@ namespace Z0
 
             public char ColKind;
 
+            public bit Nonterm;
+
             public Identifier TableName;
 
             public FieldKind TableField;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,8,8,36,1};
+            public FS.FileUri TableDef;
 
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,8,8,8,36,24,1};
         }
     }
 }

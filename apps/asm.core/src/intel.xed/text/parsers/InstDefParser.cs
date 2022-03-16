@@ -75,7 +75,12 @@ namespace Z0
                 {
                     result = parse(src, out FieldAssign x);
                     if(result)
-                        dst = x;
+                    {
+                        // if(x.IsEmpty)
+                        //     result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
+                        // else
+                            dst = x;
+                    }
                     else
                         result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
 

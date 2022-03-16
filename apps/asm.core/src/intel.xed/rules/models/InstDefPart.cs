@@ -29,7 +29,6 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
-                data[14] = (byte)src.Field;
                 data[15] = (byte)DefSegKind.Bitfield;
                 Data = data;
             }
@@ -39,7 +38,6 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
-                data[14] = (byte)src.Field;
                 data[15] = (byte)DefSegKind.FieldAssign;
                 Data = data;
             }
@@ -49,7 +47,6 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
-                data[14] = (byte)src.Field;
                 data[15] = (byte)DefSegKind.Constraint;
                 Data = data;
             }
@@ -88,7 +85,6 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
-                data[14] = (byte)src.Field;
                 data[15] = (byte)DefSegKind.FieldLiteral;
                 Data = data;
             }
@@ -97,12 +93,6 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => ref @as<DefSegKind>(Data[15]);
-            }
-
-            public ref readonly FieldKind Field
-            {
-                [MethodImpl(Inline)]
-                get => ref @as<FieldKind>(Data[14]);
             }
 
             [MethodImpl(Inline)]
@@ -120,6 +110,7 @@ namespace Z0
             public T Map<S,T>(DefSegKind kind, Func<S,T> f)
             {
                 var dst = default(T);
+                Require.nonzero(kind);
                 switch(kind)
                 {
                     case DefSegKind.FieldAssign:

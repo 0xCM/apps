@@ -4,24 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines a bit sequence representation compatible with both llvm and SMTLib 'FixedSizeBitVectors' theory
     /// </summary>
     public struct bits<T>
         where T : unmanaged
     {
-        public static IParser<bits<T>> parser()
-            => BitsParser<T>.Service;
-
-        public static Outcome parse(string src, out bits<T> dst)
-            => parser().Parse(src, out dst);
-
         public const string Identifier = "bits<{0}>";
+
+        const char DefaultSep = Chars.Comma;
 
         public T Packed;
 
@@ -37,20 +28,53 @@ namespace Z0
             Packed = src;
         }
 
-        public bit this[uint index]
+        [MethodImpl(Inline)]
+        public bits(T src)
+        {
+            N = core.width<T>();
+            Packed = src;
+        }
+
+        public bit this[uint pos]
         {
             [MethodImpl(Inline)]
-            get => bit.element(this,index);
+            get => bit.test(Packed, pos);
+            [MethodImpl(Inline)]
+            set => Packed = core.@as<ulong,T>(bit.set(core.@as<T,ulong>(Packed),(byte)pos,value));
+        }
+
+        public string Format(RenderFence fence, char sep = (char)0)
+        {
+            var dst = text.buffer();
+            BitRender.render(N, fence, sep, Packed, dst);
+            return dst.Emit();
         }
 
         public string Format()
-            => bit.format(this);
+        {
+            var dst = text.buffer();
+            BitRender.render(N, RenderFence.Embraced, DefaultSep, Packed, dst);
+            return dst.Emit();
+        }
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
+        public S Convert<S>()
+            where S : unmanaged
+                => core.@as<T,S>(Packed);
+
+        [MethodImpl(Inline)]
         public static implicit operator bits<T>((uint n, T value) src)
             => new bits<T>(src.n, src.value);
+
+        [MethodImpl(Inline)]
+        public static implicit operator bits<T>(T src)
+            => new bits<T>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(bits<T> src)
+            => src.Packed;
     }
 }

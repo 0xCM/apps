@@ -179,7 +179,7 @@ namespace Z0
             => a.data == b.data;
 
         static BitFormat FormatConfig24
-            => BitFormat.limited(U.Width,U.Width);
+            => BitFormat.limited(U.Width, U.Width);
 
         [MethodImpl(Inline)]
         public static string format(U src)

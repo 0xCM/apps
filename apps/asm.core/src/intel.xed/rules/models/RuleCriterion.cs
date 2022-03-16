@@ -10,7 +10,9 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct RuleCriterion
         {
-            public readonly bool IsPremise;
+            public readonly bool Premise;
+
+            public readonly bool Nonterm;
 
             public readonly FieldKind Field;
 
@@ -23,47 +25,53 @@ namespace Z0
             [MethodImpl(Inline)]
             internal RuleCriterion(bool premise, FieldKind field, RuleOperator op, ulong data)
             {
-                IsPremise = premise;
+                Premise = premise;
                 Field = field;
                 Operator = op;
                 Data = data;
-                Kind = 0;
+                Kind = DataKind.Field;
+                Nonterm = false;
             }
 
             [MethodImpl(Inline)]
             internal RuleCriterion(bool premise, RuleCall call)
             {
                 Require.invariant(call.IsNonEmpty);
-                IsPremise = premise;
+                Premise = premise;
                 Field = call.Field;
                 Operator = call.Operator;
                 Data = (ulong)call.Target;
                 Kind = DataKind.Call;
+                Nonterm = true;
             }
 
             [MethodImpl(Inline)]
             internal RuleCriterion(bool premise, BitfieldSeg data)
             {
-                IsPremise = premise;
+                Premise = premise;
                 Field = data.Field;
                 Operator = RuleOperator.Seg;
                 Data = (ulong)data.Pattern;
                 Kind = data.IsLiteral ? DataKind.SegLiteral : DataKind.Seg;
+                Nonterm = false;
             }
 
             [MethodImpl(Inline)]
             internal RuleCriterion(bool premise, FieldKind field, RuleOperator op, asci8 data)
             {
-                IsPremise = premise;
+                Premise = premise;
                 Field = field;
                 Operator = op;
                 Data = (ulong)data;
-                Kind = DataKind.Literal;
+                Kind = (data == "null") ? DataKind.Null : DataKind.Literal;
+                Nonterm = false;
             }
 
             enum DataKind : byte
             {
                 None,
+
+                Field,
 
                 Literal,
 
@@ -72,18 +80,26 @@ namespace Z0
                 Seg,
 
                 SegLiteral,
+
+                Null,
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Field == 0 && Operator == 0;
+                get => Kind == 0;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
                 get => !IsEmpty;
+            }
+
+            public bool IsNull
+            {
+                [MethodImpl(Inline)]
+                get => Kind == DataKind.Null;
             }
 
             public bool IsCall
@@ -125,7 +141,7 @@ namespace Z0
             public bool IsConsequent
             {
                 [MethodImpl(Inline)]
-                get => !IsPremise;
+                get => !Premise;
             }
 
             [MethodImpl(Inline)]

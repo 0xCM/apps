@@ -83,7 +83,7 @@ namespace Z0
 
                 case K.VEXDEST3:
                 case K.VEXDEST4:
-                    dst = C.Bit;
+                    dst = C.B1;
                 break;
 
                 case K.REG:

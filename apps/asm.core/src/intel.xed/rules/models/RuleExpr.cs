@@ -20,6 +20,18 @@ namespace Z0
                 Consequent = consequent;
             }
 
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Premise.IsEmpty && Consequent.IsEmpty;
+            }
+
+            public bool IsVacuous
+            {
+                [MethodImpl(Inline)]
+                get => Consequent.IsEmpty;
+            }
+
             public string Format()
                 => XedRender.format(this);
 

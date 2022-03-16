@@ -23,5 +23,23 @@ namespace Z0
             }
             return new (kind,@class,name);
         }
+
+        public static RuleSig sig(XedDocKind kind, string name)
+        {
+            var dst = RuleSig.Empty;
+            switch(kind)
+            {
+                case XedDocKind.EncRuleTable:
+                    dst = sig(RuleTableKind.Enc, name);
+                break;
+                case XedDocKind.EncDecRuleTable:
+                    dst = sig(RuleTableKind.EncDec, name);
+                break;
+                case XedDocKind.DecRuleTable:
+                    dst = sig(RuleTableKind.Dec, name);
+                break;
+            }
+            return dst;
+        }
     }
 }

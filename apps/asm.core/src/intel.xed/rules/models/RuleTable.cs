@@ -19,6 +19,18 @@ namespace Z0
                 get => Sig.TableKind;
             }
 
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Body.Count == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Body.Count != 0;
+            }
+
             public string Format()
                 => XedRender.format(this);
 

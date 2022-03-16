@@ -16,17 +16,14 @@ namespace Z0
 
     public partial class XedRender
     {
-        public static string format(DispExpr src)
-            => DispKinds.Format(src);
-
-        public static string format(DispExpr src, bool name)
-            => DispKinds.Format(src, name);
-
         public static string format(OpCodeIndex src, FormatCode fc = FormatCode.Expr)
-            => format(OcKindIndex,src,fc);
+            => format(OcKindIndex, src, fc);
 
         public static string format(EOSZ src, FormatCode fc = FormatCode.Expr)
             => fc == FormatCode.BitWidth ? nsize(src) : format(EoszKinds,src,fc);
+
+        public static string format(DispExpr src, FormatCode fc = FormatCode.Expr)
+            => fc == FormatCode.BitWidth ? src.DispWidth.ToString() : format(DispKinds,src,fc);
 
         public static string format(EASZ src, FormatCode fc = FormatCode.Expr)
             => fc == FormatCode.BitWidth ? nsize(src) : format(EaszKinds,src,fc);
@@ -75,7 +72,8 @@ namespace Z0
                 if(i!=0)
                     dst.Append(Chars.Space);
 
-                dst.Append(format(src[i]));
+                ref readonly var part = ref src[i];
+                dst.Append(format(part));
             }
         }
 

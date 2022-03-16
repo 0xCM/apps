@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines a bit formatter that always produces a bitstring with a fixed length for a given T-value, zero padded as necessary
     /// </summary>
@@ -20,7 +15,7 @@ namespace Z0
         readonly BitFormatter<T> _Formatter;
 
         [MethodImpl(Inline)]
-        public FixedBitFormatter(uint width)
+        public FixedBitFormatter(byte width)
         {
             Config = BitFormat.limited(width, width);
             _Formatter = new BitFormatter<T>(Config);
@@ -33,10 +28,10 @@ namespace Z0
         }
 
         public string Format(ReadOnlySpan<byte> src)
-            => _Formatter.Format(src);
+            => BitRender.format(src, Config);
 
         [MethodImpl(Inline)]
         public string Format(T src)
-            => _Formatter.Format(src);
+            => BitRender.gformat(src, Config);
     }
 }

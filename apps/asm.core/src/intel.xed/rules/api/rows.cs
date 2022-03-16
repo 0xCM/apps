@@ -12,11 +12,13 @@ namespace Z0
     {
         public static RuleTableRows rows(in RuleTable src)
         {
+            const byte ColCount = RuleTableRow.ColCount;
+
             var dst = list<RuleTableRow>();
             for(var i=0u; i<src.Body.Count; i++)
             {
                 ref readonly var expr = ref src.Body[i];
-                var m=z8;
+                var m = z8;
                 var row = RuleTableRow.Empty;
                 row.TableKind = src.TableKind;
                 row.TableName = src.Sig.Name;
@@ -25,7 +27,7 @@ namespace Z0
                 for(var k=0; k<expr.Premise.Count; k++)
                     assign(m++, expr.Premise[k], ref row);
 
-                m = RuleTableRow.ColCount/2;
+                m = ColCount/2;
 
                 for(var k=0; k<expr.Consequent.Count; k++)
                     assign(m++, expr.Consequent[k], ref row);

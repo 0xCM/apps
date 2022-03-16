@@ -4,14 +4,57 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct BitRender
     {
+        public static void render<T>(uint n, RenderFence fence, char sep, in T src, ITextBuffer dst)
+            where T : unmanaged
+        {
+            if(fence.IsNonEmpty)
+                dst.Append(fence.Left);
+            var data = bytes(src);
+            var count = data.Length;
+            var k=0;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var b = ref skip(data,i);
+                for(byte j=0; j<8 && k<n; j++, k++)
+                {
+                    dst.Append(bit.test(b,j).ToChar());
+                    if(k < n-1 && sep != 0)
+                        dst.Append(sep);
+                }
+            }
+
+            if(fence.IsNonEmpty)
+                dst.Append(fence.Right);
+        }
+
+        public static uint render<T>(uint n, in T src, Span<char> dst)
+            where T : unmanaged
+        {
+            var w=0u;
+            var i=0u;
+            var data = bytes(src);
+            var k=0u;
+            var max = dst.Length;
+            while(i < max && w < n && k < max)
+            {
+                ref readonly var b = ref skip(data, k++);
+                var m = (int)n - (int)w;
+                if(m >= 8)
+                    w += render(b, ref i, 8, dst);
+                else
+                {
+                    w += render(b, ref i, (byte)m, dst);
+                    break;
+                }
+            }
+
+            return w;
+        }
+
         [Op]
         public static uint render(byte src, ref uint i, uint w, Span<char> dst)
         {

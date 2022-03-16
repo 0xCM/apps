@@ -20,7 +20,6 @@ namespace Z0
             ref readonly var op = ref ops[k];
             var detail = PatternOpDetail.Empty;
             var spec = parser.ParseOp(k, op.Name, op.Expression);
-
             var attribs = spec.Attribs.Sort();
             detail.InstId = pattern.InstId;
             detail.PatternId = pattern.PatternId;

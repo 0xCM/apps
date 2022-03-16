@@ -46,15 +46,10 @@ namespace Z0
                 dst = format(src.AsAssignment());
             else if(src.IsComparison)
                 dst = format(src.AsCmp());
-            else if(src.IsLiteral)
+            else if(src.IsNull || src.IsLiteral)
                 dst = src.AsLiteral();
             else
-            {
-                dst = format(src.Field);
-                if(src.Operator != 0)
-                    dst += format(src.Operator);
-                dst += format(src.AsValue());
-            }
+                dst = string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.AsValue()));
             return dst;
         }
     }

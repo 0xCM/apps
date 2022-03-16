@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
-
     partial class XTend
     {
          /// <summary>
@@ -44,7 +38,7 @@ namespace Z0
         public static string FormatBits<T>(this Vector128<T> src, int? maxbits = null,  bool tlz = false, bool specifier = false, int? blockWidth = null,
             char? blocksep = null, int? rowWidth = null)
                 where T : unmanaged
-                    => src.ToBitString(maxbits).Format(BitFormatOptions.define(tlz, specifier, blockWidth, blocksep, rowWidth,null));
+                    => src.ToBitString(maxbits).Format(BitFormat.define(tlz, specifier, blockWidth, blocksep, rowWidth,null));
 
         /// <summary>
         /// Formats vector bits
@@ -54,6 +48,6 @@ namespace Z0
         public static string FormatBits<T>(this Vector256<T> src, int? maxbits = null, bool tlz = false, bool specifier = false, int? blockWidth = null,
             char? blocksep = null, int? rowWidth = null)
                 where T : unmanaged
-                    =>  src.ToBitString(maxbits).Format(BitFormatOptions.define(tlz, specifier, blockWidth, blocksep, rowWidth,null));
+                    =>  src.ToBitString(maxbits).Format(BitFormat.define(tlz, specifier, blockWidth, blocksep, rowWidth,null));
     }
 }

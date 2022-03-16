@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct BitRender
@@ -122,7 +118,7 @@ namespace Z0
         {
             var buffer = CharBlock128.Null.Data;
             var i=0u;
-            var count = render64x8(src, ref i, buffer);
+            var count = render64x8(Chars.Space, src, ref i, buffer);
             return text.format(slice(buffer, 0, count));
         }
 

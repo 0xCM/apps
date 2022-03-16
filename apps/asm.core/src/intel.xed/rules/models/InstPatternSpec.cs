@@ -33,7 +33,7 @@ namespace Z0
                 Class = @class;
                 Body = body;
                 RawBody = rawbody;
-                BodyExpr = body.Delimit(Chars.Space).Format();
+                BodyExpr = rawbody;
                 OpSpecs = ops;
             }
 

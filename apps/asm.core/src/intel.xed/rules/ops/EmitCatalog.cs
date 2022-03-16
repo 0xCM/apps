@@ -5,15 +5,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static XedModels;
     using static core;
 
     partial class XedRules
     {
-        bool PllWf {get;} = true;
-
         public static void exec(params Action[] src)
             => iter(src, a => a(), true);
 
@@ -33,11 +29,12 @@ namespace Z0
                 EmitPointerWidths,
                 EmitOpCodeKinds,
                 EmitMacroAssignments,
-                EmitReflectedFields);
+                EmitReflectedFields
+                );
         }
 
         void EmitRuleTables()
-            => RuleTables.create(Wf).EmitTables();
+            => RuleTables.create(Wf).EmitTables(PllWf);
 
         void EmitPatternData(Index<InstPattern> src)
             => exec(PllWf,

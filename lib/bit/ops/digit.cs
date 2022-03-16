@@ -4,23 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct bit
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static bit element<T>(in bits<T> src, uint index)
-            where  T : unmanaged
-        {
-            var data = bytes(src.Packed);
-            ref readonly var cell = ref skip(data,index/8);
-            return test(cell, (byte)(index % 8));
-        }
-
         [MethodImpl(Inline), Op]
         public static BinaryDigit digit(bit src)
             => src;

@@ -14,7 +14,7 @@ namespace Z0
     [ApiHost]
     public class BitFormatChecks : Checker<BitFormatChecks>
     {
-        BitNumberFormatter Formatter;
+        FixedBitFormatter Formatter;
 
         ITextBuffer Log;
 

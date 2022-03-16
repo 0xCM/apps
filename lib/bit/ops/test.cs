@@ -4,15 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static System.Runtime.CompilerServices.Unsafe;
-    using static Root;
     using static core;
 
     partial struct bit
     {
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static bit test<T>(in T src, uint i)
+            where  T : unmanaged
+                => test(skip(bytes(src),i/8), (byte)(i % 8));
+
         /// <summary>
         /// Tests the state of an index-identified source bit
         /// </summary>
@@ -140,6 +141,5 @@ namespace Z0
             where T : unmanaged
             where I : unmanaged
                 => gtest<T>(src, core.u8(index));
-
     }
 }

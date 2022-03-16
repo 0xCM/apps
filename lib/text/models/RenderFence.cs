@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct RenderFence
     {
         public static RenderFence Embraced => (Chars.LBrace, Chars.RBrace);
@@ -49,19 +45,33 @@ namespace Z0
         public char Right
         {
             [MethodImpl(Inline)]
-            get => Fence.Left;
+            get => Fence.Right;
         }
 
-        public enum FenceKind : byte
+        public bool IsEmpty
         {
-            None,
-
-            Embraced,
-
-            Bracketed,
-
-            Angled
+            [MethodImpl(Inline)]
+            get => Left == 0 || Right == 0;
         }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Left != 0 && Right != 0;
+        }
+
+        public static RenderFence Empty => ((char)0, (char)0);
+
+        // public enum FenceKind : byte
+        // {
+        //     None,
+
+        //     Embraced,
+
+        //     Bracketed,
+
+        //     Angled
+        // }
 
 
         [MethodImpl(Inline)]

@@ -24,7 +24,7 @@ namespace Z0
                 dst.AppendLineFormat(LabelPattern, nameof(def.Category), def.Category);
                 dst.AppendLineFormat(LabelPattern, nameof(def.Extension), def.Extension);
                 dst.AppendLineFormat(LabelPattern, nameof(def.Flags), def.Flags.IsNonEmpty ? def.Flags.Delimit(fence:RenderFence.Embraced) : EmptyString);
-                dst.AppendLineFormat(LabelPattern, nameof(pattern.Body), pattern.BodyExpr);
+                dst.AppendLineFormat(LabelPattern, nameof(pattern.Body), pattern.Body.Delimit(Chars.Space));
                 dst.AppendLineFormat(LabelPattern, "Operands", RP.PageBreak80);
                 ref readonly var ops = ref pattern.OpSpecs;
                 for(byte k=0; k<ops.Count; k++)

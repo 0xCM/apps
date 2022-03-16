@@ -11,22 +11,24 @@ namespace Z0
         {
             public readonly bool Premise;
 
+            public readonly bool Nonterm;
+
             public readonly FieldKind Field;
 
             [MethodImpl(Inline)]
-            public RuleCellSpec(bool premise, FieldKind field)
+            public RuleCellSpec(bool premise, bool nonterm, FieldKind field)
             {
                 Premise = premise;
+                Nonterm = nonterm;
                 Field = field;
             }
-
 
             public override int GetHashCode()
                 => ((ushort)core.u8(Premise)) << 8 | (ushort)Field;
 
             [MethodImpl(Inline)]
             public bool Equals(RuleCellSpec src)
-                => Premise == src.Premise && Field == src.Field;
+                => Premise == src.Premise && Field == src.Field && Nonterm == src.Nonterm;
 
             public override bool Equals(object src)
                 => src is RuleCellSpec x && Equals(x);

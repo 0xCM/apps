@@ -101,13 +101,13 @@ namespace Z0.Asm
             Random.Bytes(source);
             var cells = recover<Cell16>(source);
             var count = cells.Length;
-            var n = width<Cell16>();
+            var n = (uint)width<Cell16>();
             var buffer = span<char>(128);
             for(var i=0; i<count; i++)
             {
                 buffer.Clear();
-                var bits = bit.nbits(n, skip(cells,i));
-                var len = bit.render(bits,buffer);
+                bits<Cell16> bits = (n, skip(cells,i));
+                var len = BitRender.render(n,bits,buffer);
                 slice(buffer,0,len);
                 Write(string.Format("{0} Value{1} = {2};", bits.TypeName, i, text.format(slice(buffer,0,len))));
             }

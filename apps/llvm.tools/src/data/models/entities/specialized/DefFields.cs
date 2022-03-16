@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-
-    using static Root;
-
     public class DefFields : Entity<string,RecordField>
     {
         public readonly DefRelations Def;
@@ -55,7 +51,7 @@ namespace Z0.llvm
         {
             bits<T> parse()
             {
-                if(bits<T>.parse(this[attrib], out var b))
+                if(BitParser.parse(this[attrib], out bits<T> b))
                     return b;
                 else
                     return new bits<T>(0,default(T));
@@ -67,9 +63,6 @@ namespace Z0.llvm
 
         protected ref list<string> Parse(string attrib, string type, out list<string> dst)
         {
-            // list<string> parse()
-            //     => new list<string>(type, text.trim(text.split(text.unfence(this[attrib], RenderFence.Bracketed), Chars.Comma)));
-
             list<string> parse()
             {
                 var result = LlvmTypes.parse(this[attrib], type, out var l);

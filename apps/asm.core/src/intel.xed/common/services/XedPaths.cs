@@ -74,6 +74,15 @@ namespace Z0
                 _ => FS.FilePath.Empty
             };
 
+        public FS.FileName TableFile(RuleSig sig)
+            => FS.file(string.Format("{0}.{1}",RuleTableRow.TableId, sig.Name), FS.Csv);
+
+        public FS.FilePath TableDef(RuleSig sig)
+            => Targets("rules.tables") + FS.folder(sig.TableKind.ToString().ToLower()) + TableFile(sig);
+
+        public FS.FilePath TableDef(RuleTableKind kind)
+            => Targets("rules.tables") + FS.file(string.Format("{0}.{1}",RuleTableRow.TableId, kind.ToString().ToLower()), FS.Csv);
+
         public static XedDocKind srckind(FS.FileName src)
         {
             if(src == EncInstDef)

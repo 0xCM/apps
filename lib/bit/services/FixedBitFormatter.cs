@@ -5,10 +5,44 @@
 namespace Z0
 {
     [ApiComplete]
-    public class BitNumberFormatter
+    public class FixedBitFormatter
     {
-        public static BitNumberFormatter create()
-            => new BitNumberFormatter();
+        [MethodImpl(Inline)]
+        public static string format(uint1 src)
+            => Instance.Format(src);
+
+        [MethodImpl(Inline)]
+        public static string format(uint2 src)
+            => Instance.Format(src);
+
+        [MethodImpl(Inline)]
+        public static string format(uint3 src)
+            => Instance.Format(src);
+
+        [MethodImpl(Inline)]
+        public static string format(uint4 src)
+            => Instance.Format(src);
+
+        [MethodImpl(Inline)]
+        public static string format(uint5 src)
+            => Instance.Format(src);
+
+        [MethodImpl(Inline)]
+        public static string format(uint6 src)
+            => Instance.Format(src);
+
+        [MethodImpl(Inline)]
+        public static string format(uint7 src)
+            => Instance.Format(src);
+
+        [MethodImpl(Inline)]
+        public static string format(uint8b src)
+            => Instance.Format(src);
+
+        public static FixedBitFormatter Service => Instance;
+
+        public static FixedBitFormatter create()
+            => Instance;
 
         readonly FixedBitFormatter<uint1> _f1;
 
@@ -27,7 +61,7 @@ namespace Z0
         readonly FixedBitFormatter<uint8b> _f8;
 
         [MethodImpl(Inline)]
-        public BitNumberFormatter()
+        public FixedBitFormatter()
         {
             _f1 = new(1);
             _f2 = new(2);
@@ -70,5 +104,12 @@ namespace Z0
         [MethodImpl(Inline)]
         public string Format(uint8b src)
             => _f8.Format(src);
+
+        static FixedBitFormatter Instance;
+
+        static FixedBitFormatter()
+        {
+            Instance = new();
+        }
     }
 }

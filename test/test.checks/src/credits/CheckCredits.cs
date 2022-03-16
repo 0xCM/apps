@@ -215,7 +215,7 @@ namespace Z0
             var len = data.Length;
             var lastix = len - 1;
             var dst = new bit[len];
-            bit.parse(data, dst);
+            BitParser.parse(data, dst);
             return dst;
         }
     }

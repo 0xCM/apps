@@ -24,6 +24,8 @@ namespace Z0
 
         XedInstDefParser InstDefParser;
 
+        bool PllWf {get;} = true;
+
         public XedRules()
         {
             PointerWidths = map(PointerWidthKinds.View, s => (PointerWidth)s);

@@ -10,7 +10,7 @@ namespace Z0
     partial struct BitRender
     {
         [MethodImpl(Inline), Op]
-        public static uint render4x4(ReadOnlySpan<byte> src, Span<char> dst)
+        public static uint render4x4(char sep, ReadOnlySpan<byte> src, Span<char> dst)
         {
             var size = src.Length;
             var j=size-1;
@@ -19,26 +19,30 @@ namespace Z0
             {
                 ref readonly var b = ref skip(src,j--);
                 if(i != 0)
-                    k+= separate(k,dst);
+                    k+= separate(k, sep, dst);
                 render4(hi(b), ref k, dst);
-                k+= separate(k,dst);
+                k+= separate(k, sep, dst);
                 render4(lo(b), ref k, dst);
             }
             return k;
         }
-        // {
-        //     var size = src.Length;
-        //     var j = 0u;
-        //     for(var i=size-1; i >= 0; i--)
-        //     {
-        //         ref readonly var input = ref skip(src,i);
-        //         render4(hi(input), ref j, dst);
-        //         j+= separate(j, dst);
-        //         render4(lo(input), ref j, dst);
-        //         if(i != 0)
-        //             j += separate(j, dst);
-        //     }
-        //     return j - 1;
-        // }
+
+        [MethodImpl(Inline), Op]
+        public static uint render4x4(ReadOnlySpan<byte> src, Span<char> dst)
+            => render4x4(Chars.Space, src, dst);
+
+        [MethodImpl(Inline), Op]
+        public static ReadOnlySpan<char> render4x4(char sep, uint n, ReadOnlySpan<byte> data, Span<char> dst)
+        {
+            var count = render4x4(sep, data, dst);
+            var k = n + (n/4) - 1;
+            var m = count - k;
+            return slice(dst,m, k);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ReadOnlySpan<char> render4x4<T>(char sep, uint n, in T src, Span<char> dst)
+            where T : unmanaged
+                => render4x4(sep, n, bytes(src), dst);
     }
 }

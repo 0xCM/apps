@@ -26,7 +26,6 @@ namespace Z0
 
             Seg,
 
-            Literal,
         }
     }
 }

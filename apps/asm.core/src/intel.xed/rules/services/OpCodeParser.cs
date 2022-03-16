@@ -99,13 +99,9 @@ namespace Z0
             void Parse(in InstDefPart src)
             {
                 if(InstDefs.vexclass(src, out var vc))
-                {
                     VClass = vc;
-                }
                 else if(InstDefs.vexkind(src, out var vk))
-                {
                     VKind = vk;
-                }
                 else if(InstDefs.map(src, out var map))
                 {
                     Map = (sbyte)map;

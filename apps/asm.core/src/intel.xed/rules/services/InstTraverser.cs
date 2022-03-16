@@ -66,7 +66,7 @@ namespace Z0
                 Printer(string.Format("{0,-5} {1,-22} | {2}",
                     src.PatternId,
                     string.Format("{0} {1:D2}", XedRender.format(src.Class), PatternSeq++),
-                    src.BodyExpr)
+                    src.Body.Delimit(Chars.Space))
                     );
                 Printer(RP.PageBreak160);
             }

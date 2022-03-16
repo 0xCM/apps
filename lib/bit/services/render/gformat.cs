@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.Text;
 
-    using static Root;
     using static core;
 
     partial struct BitRender
@@ -48,9 +45,6 @@ namespace Z0
         [Op, Closures(Closure)]
         public static string gformat<T>(T src, string name, int? zpad = null)
             where T : unmanaged
-        {
-            var config = BitFormat.limited((uint)Widths.effective(src), zpad);
-            return string.Concat(name, Chars.Colon, formatter<T>(config).Format(src));
-        }
+                => string.Concat(name, Chars.Colon, formatter<T>(BitFormat.limited((uint)Widths.effective(src), zpad)).Format(src));
     }
 }
