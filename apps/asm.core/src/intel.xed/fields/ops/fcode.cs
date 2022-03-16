@@ -5,10 +5,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules;
+
     using C = XedRules.FormatCode;
     using K = XedRules.FieldKind;
 
-    partial class XedRules
+    partial class XedFields
     {
         [Op]
         public static FormatCode fcode(FieldKind src)

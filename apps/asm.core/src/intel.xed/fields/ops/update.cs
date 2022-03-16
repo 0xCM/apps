@@ -7,13 +7,15 @@ namespace Z0
 {
     using Asm;
 
+    using static XedRules;
     using static core;
 
     using K = XedRules.FieldKind;
+    using R = XedRules;
 
-    partial class XedRules
+    partial class XedFields
     {
-        public static ref RuleState update(ReadOnlySpan<FieldValue> src, ref RuleState dst)
+        public static ref RuleState update(ReadOnlySpan<R.FieldValue> src, ref RuleState dst)
         {
             for(var i=0; i<src.Length; i++)
                 update(skip(src,i), ref dst);
@@ -21,7 +23,7 @@ namespace Z0
         }
 
         [Op]
-        public static FieldValue update(string src, FieldKind kind, ref RuleState state)
+        public static R.FieldValue update(string src, FieldKind kind, ref RuleState state)
         {
             static Outcome xedreg(string src, out XedRegId dst)
             {
@@ -52,7 +54,7 @@ namespace Z0
             }
 
             var result = true;
-            var fieldval = FieldValue.Empty;
+            var fieldval = R.FieldValue.Empty;
             switch(kind)
             {
                 case K.AMD3DNOW:
@@ -674,7 +676,7 @@ namespace Z0
             return fieldval;
         }
 
-        public static ref RuleState update(in FieldValue src, ref RuleState dst)
+        public static ref RuleState update(in R.FieldValue src, ref RuleState dst)
         {
             var result = Outcome.Success;
             switch(src.Field)
@@ -1178,5 +1180,6 @@ namespace Z0
 
             return ref dst;
         }
+
     }
 }

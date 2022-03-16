@@ -12,11 +12,15 @@ namespace Z0
     using static core;
 
     using PW = XedModels.PointerWidthKind;
+    using R = XedRules;
 
     public partial class XedRender
     {
-        public static XedRender create()
-            => new XedRender();
+        public static string format(R.FieldValue src)
+            => XedFields.format(src);
+
+        public static string format(FieldConstraint src)
+            => XedFields.format(src);
 
         public static string format(in RuleTableCell src)
             => src.IsEmpty ? EmptyString : format(src.Criterion);
@@ -248,57 +252,6 @@ namespace Z0
             return dst.Emit();
         }
 
-        static Symbols<ChipCode> ChipCodes;
-
-        static Symbols<XedRegId> XedRegs;
-
-        static Symbols<RuleOperator> RuleOps;
-
-        static Symbols<DispExprKind> DispKinds;
-
-        static Symbols<ConstraintKind> ConstraintKinds;
-
-        static Symbols<NontermKind> Nonterminals;
-
-        static Symbols<OperandAction> OpActions;
-
-        static Symbols<OperandWidthCode> OpWidthKinds;
-
-        static Symbols<ElementKind> ElementTypes;
-
-        static Symbols<RuleOpName> OpNames;
-
-        static Symbols<OpVisibility> OpVis;
-
-        static Symbols<GroupName> EncodingGroups;
-
-        static Symbols<IClass> Classes;
-
-        static Symbols<EASZ> EaszKinds;
-
-        static Symbols<EOSZ> EoszKinds;
-
-        static Symbols<SaeRc> RoundingKinds;
-
-        static XedRender()
-        {
-            ChipCodes = Symbols.index<ChipCode>();
-            XedRegs = Symbols.index<XedRegId>();
-            OpWidthKinds = Symbols.index<OperandWidthCode>();
-            RuleOps = Symbols.index<RuleOperator>();
-            DispKinds = Symbols.index<DispExprKind>();
-            ConstraintKinds = Symbols.index<ConstraintKind>();
-            Nonterminals = Symbols.index<NontermKind>();
-            OpActions = Symbols.index<OperandAction>();
-            OpNames = Symbols.index<RuleOpName>();
-            OpVis = Symbols.index<OpVisibility>();
-            ElementTypes = Symbols.index<ElementKind>();
-            EncodingGroups = Symbols.index<GroupName>();
-            Classes = Symbols.index<IClass>();
-            EaszKinds = Symbols.index<EASZ>();
-            EoszKinds = Symbols.index<EOSZ>();
-            RoundingKinds = Symbols.index<SaeRc>();
-        }
 
         public static string format(in RuleTable src)
         {
@@ -313,26 +266,6 @@ namespace Z0
             return dst.Emit();
         }
 
-        static string format(uint2 src)
-            => "0b" + src.Format();
-
-        static string format(uint3 src)
-            => "0b" +  src.Format();
-
-        static string format(uint4 src)
-            =>  "0b" + src.Format();
-
-        static string format(uint5 src)
-            =>  "0b" + src.Format();
-
-        static string format(uint6 src)
-            =>  "0b" + src.Format();
-
-        static string format(uint7 src)
-            =>  "0b" + src.Format();
-
-        static string format(uint8b src)
-            =>  "0b" + src.Format();
 
         static string format3(uint5 src)
         {
@@ -351,40 +284,7 @@ namespace Z0
             return new asci8(storage);
         }
 
-        static string format(sbyte src)
-            => src.ToString();
-
-        static string format(short src)
-            => src.ToString();
-
-        static string format(int src)
-            => src.ToString();
-
-        static string format(long src)
-            => src.ToString();
-
-        static string format(byte src)
-            => src.ToString();
-
-        static string format(ushort src)
-            => src.ToString();
-
-        static string format(uint src)
-            => src.ToString();
-
-        static string format(ulong src)
-            => src.ToString();
-
         static string format(Hex8 src)
-            => src.Format(prespec:true, uppercase:true);
-
-        static string format(Hex16 src)
-            => src.Format(prespec:true, uppercase:true);
-
-        static string format(Hex32 src)
-            => src.Format(prespec:true, uppercase:true);
-
-        static string format(Hex64 src)
             => src.Format(prespec:true, uppercase:true);
 
         public static string format(FieldAssign src)

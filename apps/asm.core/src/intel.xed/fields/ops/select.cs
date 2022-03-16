@@ -5,15 +5,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using K = XedRules.FieldKind;
+    using static XedRules;
 
-    partial class XedRules
+    using K = XedRules.FieldKind;
+    using R = XedRules;
+
+    partial class XedFields
     {
         [Op]
-        public static FieldValue select(in RuleState src, FieldKind kind)
+        public static R.FieldValue select(in RuleState src, FieldKind kind)
         {
             var result = Outcome.Success;
-            var dst = new FieldValue(kind,0);
+            var dst = new R.FieldValue(kind,0);
             switch(kind)
             {
                 case K.AMD3DNOW:

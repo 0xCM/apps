@@ -4,14 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static core;
 
-    public interface IFormatCode : ITextual
+    public interface ISysFormatCode : ITextual
     {
-        FormatCodeKind Kind {get;}
+        SysFormatKind Kind {get;}
 
         object Code {get;}
 
@@ -25,23 +22,23 @@ namespace Z0
             => string.Format(Slot,src);
     }
 
-    public interface IFormatCode<K,C> : IFormatCode
+    public interface ISysFormatCode<K,C> : ISysFormatCode
         where K : unmanaged
     {
         new K Kind {get;}
 
-        FormatCodeKind IFormatCode.Kind
-            => @as<K,FormatCodeKind>(Kind);
+        SysFormatKind ISysFormatCode.Kind
+            => @as<K,SysFormatKind>(Kind);
 
         new C Code {get;}
 
-        object IFormatCode.Code
+        object ISysFormatCode.Code
             => Code;
     }
 
-    public interface IFormatCodeHost<H,K,C> : IFormatCode<K,C>
+    public interface ISysFormatCodeHost<H,K,C> : ISysFormatCode<K,C>
         where K : unmanaged
-        where H : struct, IFormatCodeHost<H,K,C>
+        where H : struct, ISysFormatCodeHost<H,K,C>
     {
 
     }

@@ -128,7 +128,7 @@ namespace Z0
                 ref readonly var summary = ref summaries[i];
                 var fields = XedDisasm.fields(block);
                 var lookup = fields.Map(x => (x.Field, x)).ToDictionary();
-                update(fields, ref state);
+                XedFields.update(fields, ref state);
 
                 writer.AppendLine((Address32)summary.IP);
                 writer.AppendLine(RP.PageBreak80);

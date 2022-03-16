@@ -5,9 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules.RuleOpName;
-
-    using FK = XedRules.FieldKind;
+    using K = XedRules.FieldKind;
+    using N = XedRules.RuleOpName;
 
     partial class XedRules
     {
@@ -17,74 +16,74 @@ namespace Z0
             var name = RuleOpName.None;
             switch(src)
             {
-                case FK.REG0:
-                    name = REG0;
+                case K.REG0:
+                    name = N.REG0;
                 break;
-                case FK.REG1:
-                    name = REG1;
+                case K.REG1:
+                    name = N.REG1;
                 break;
-                case FK.REG2:
-                    name = REG2;
+                case K.REG2:
+                    name = N.REG2;
                 break;
-                case FK.REG3:
-                    name = REG3;
+                case K.REG3:
+                    name = N.REG3;
                 break;
-                case FK.REG4:
-                    name = REG4;
+                case K.REG4:
+                    name = N.REG4;
                 break;
-                case FK.REG5:
-                    name = REG5;
+                case K.REG5:
+                    name = N.REG5;
                 break;
-                case FK.REG6:
-                    name = REG6;
+                case K.REG6:
+                    name = N.REG6;
                 break;
-                case FK.REG7:
-                    name = REG7;
+                case K.REG7:
+                    name = N.REG7;
                 break;
-                case FK.REG8:
-                    name = REG8;
+                case K.REG8:
+                    name = N.REG8;
                 break;
-                case FK.MEM0:
-                    name = MEM0;
+                case K.MEM0:
+                    name = N.MEM0;
                 break;
-                case FK.MEM1:
-                    name = MEM1;
+                case K.MEM1:
+                    name = N.MEM1;
                 break;
-                case FK.IMM0:
-                    name = IMM0;
+                case K.IMM0:
+                    name = N.IMM0;
                 break;
-                case FK.IMM1:
-                    name = IMM1;
+                case K.IMM1:
+                    name = N.IMM1;
                 break;
-                case FK.RELBR:
-                    name = RELBR;
+                case K.RELBR:
+                    name = N.RELBR;
                 break;
-                case FK.BASE0:
-                    name = BASE0;
+                case K.BASE0:
+                    name = N.BASE0;
                 break;
-                case FK.BASE1:
-                    name = BASE1;
+                case K.BASE1:
+                    name = N.BASE1;
                 break;
-                case FK.SEG0:
-                    name = SEG0;
+                case K.SEG0:
+                    name = N.SEG0;
                 break;
-                case FK.SEG1:
-                    name = SEG1;
+                case K.SEG1:
+                    name = N.SEG1;
                 break;
-                case FK.AGEN:
-                    name = AGEN;
+                case K.AGEN:
+                    name = N.AGEN;
                 break;
-                case FK.PTR:
-                    name = PTR;
+                case K.PTR:
+                    name = N.PTR;
                 break;
-                case FK.INDEX:
-                    name = INDEX;
+                case K.INDEX:
+                    name = N.INDEX;
                 break;
-                case FK.SCALE:
-                    name = SCALE;
+                case K.SCALE:
+                    name = N.SCALE;
                 break;
-                case FK.DISP:
-                    name = DISP;
+                case K.DISP:
+                    name = N.DISP;
                 break;
             }
             return name;

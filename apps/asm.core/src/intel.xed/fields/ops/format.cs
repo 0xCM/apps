@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
 namespace Z0
 {
@@ -11,10 +12,38 @@ namespace Z0
     using static core;
 
     using R = XedRules;
-    using FC = XedRules.FormatCode;
+    using C = XedRules.FormatCode;
 
-    partial class XedRender
+    partial class XedFields
     {
+        public static string format(FieldConstraint src)
+            => string.Format("{0}{1}{2}",
+                    XedRender.format(src.Field),
+                    XedRender.format(src.Kind),
+                    literal(src.LiteralKind, src.Value)
+                    );
+
+        static string literal(FieldLiteralKind kind, byte src)
+        {
+            var val = EmptyString;
+            switch(kind)
+            {
+                case FieldLiteralKind.BinaryLiteral:
+                    val = "0b" + ((uint8b)(src)).Format();
+                break;
+                case FieldLiteralKind.DecimalLiteral:
+                    val = src.ToString();
+                break;
+                case FieldLiteralKind.HexLiteral:
+                    val = ((Hex8)(src)).Format(prespec:true, uppercase:true);
+                break;
+                default:
+                    val = RP.Error;
+                break;
+            }
+            return val;
+        }
+
         public static string format(R.FieldValue src)
         {
             var dst = EmptyString;
@@ -22,245 +51,245 @@ namespace Z0
                 return EmptyString;
 
             var data = bytes(src.Data);
-            var code = fcode(src.Field);
+            var code = XedFields.fcode(src.Field);
 
             switch(code)
             {
-                case FC.A8:
+                case C.A8:
                 {
                     asci8 x = src.Data;
                     dst = x.Format();
                 }
                 break;
-                case FC.Text:
+                case C.Text:
                     dst = ((NameResolver)((int)src.Data)).Format();
                     break;
-                case FC.B1:
+                case C.B1:
                 {
                     bit x = first(data);
                     dst = x.Format();
                 }
                 break;
-                case FC.B2:
+                case C.B2:
                 {
                     uint2 x = first(data);
                     dst = format(x);
                 }
                 break;
-                case FC.B3:
+                case C.B3:
                 {
                     uint3 x = first(data);
                     dst = format(x);
                 }
                 break;
-                case FC.B4:
+                case C.B4:
                 {
                     uint4 x = first(data);
                     dst = format(x);
                 }
                 break;
-                case FC.B5:
+                case C.B5:
                 {
                     uint5 x = first(data);
                     dst = format(x);
                 }
                 break;
-                case FC.B6:
+                case C.B6:
                 {
                     uint6 x = first(data);
                     dst = format(x);
                 }
                 break;
-                case FC.B7:
+                case C.B7:
                 {
                     uint7 x = first(data);
                     dst = format(x);
                 }
                 break;
-                case FC.B8:
+                case C.B8:
                 {
                     uint8b x = first(data);
                     dst = format(x);
                 }
                 break;
 
-                case FC.U2:
+                case C.U2:
                 {
                     byte x = (byte)(first(data) & 0b11);
                     dst = format(x);
                 }
                 break;
 
-                case FC.U3:
+                case C.U3:
                 {
                     byte x = (byte)(first(data) & 0b111);
                     dst = format(x);
                 }
                 break;
 
-                case FC.U4:
+                case C.U4:
                 {
                     byte x = (byte)(first(data) & 0b1111);
                     dst = format(x);
                 }
                 break;
 
-                case FC.U5:
+                case C.U5:
                 {
                     byte x = (byte)(first(data) & 0b11111);
                     dst = format(x);
                 }
                 break;
 
-                case FC.U8:
+                case C.U8:
                 {
                     var x = first(data);
                     dst = format(x);
                 }
                 break;
-                case FC.U16:
+                case C.U16:
                 {
                     var x = @as<ushort>(data);
                     dst = format(x);
                 }
                 break;
-                case FC.U32:
+                case C.U32:
                 {
                     var x = @as<uint>(data);
                     dst = format(x);
                 }
                 break;
-                case FC.U64:
+                case C.U64:
                 {
                     var x = @as<ulong>(data);
                     dst = format(x);
                 }
                 break;
 
-                case FC.I8:
+                case C.I8:
                 {
                     var x = @as<sbyte>(data);
                     dst = format(x);
                 }
                 break;
-                case FC.I16:
+                case C.I16:
                 {
                     var x = @as<short>(data);
                     dst = format(x);
                 }
                 break;
-                case FC.I32:
+                case C.I32:
                 {
                     var x = @as<int>(data);
                     dst = format(x);
                 }
                 break;
-                case FC.I64:
+                case C.I64:
                 {
                     var x = @as<long>(data);
                     dst = format(x);
                 }
                 break;
 
-                case FC.X2:
+                case C.X2:
                 {
                     var x = first(data);
                     dst = "0x" + ((byte)(x & 0b11)).ToString("X");
                 }
                 break;
-                case FC.X3:
+                case C.X3:
                 {
                     var x = first(data);
                     dst = "0x" + ((byte)(x & 0b111)).ToString("X");
                 }
                 break;
-                case FC.X4:
+                case C.X4:
                 {
                     var x = first(data);
                     dst = "0x" + ((byte)(x & 0b1111)).ToString("X");
                 }
                 break;
-                case FC.X5:
+                case C.X5:
                 {
                     var x = first(data);
                     dst = "0x" + ((byte)(x & 0b11111)).ToString("X");
                 }
                 break;
-                case FC.X6:
+                case C.X6:
                 {
                     var x = first(data);
                     dst = "0x" + ((byte)(x & 0b111111)).ToString("X");
                 }
                 break;
-                case FC.X7:
+                case C.X7:
                 {
                     var x = first(data);
                     dst = "0x" + ((byte)(x & 0b1111111)).ToString("X");
                 }
                 break;
-                case FC.X8:
+                case C.X8:
                 {
                     Hex8 x = first(data);
                     dst = format(x);
                 }
                 break;
-                case FC.X16:
+                case C.X16:
                 {
                     Hex16 x = @as<ushort>(data);
                     dst = format(x);
                 }
                 break;
-                case FC.X32:
+                case C.X32:
                 {
                     Hex32 x = @as<uint>(data);
                     dst = format(x);
                 }
                 break;
-                case FC.X64:
+                case C.X64:
                 {
                     Hex64 x = @as<ulong>(data);
                     dst = format(x);
                 }
                 break;
 
-                case FC.Disp:
+                case C.Disp:
                 {
                     Disp64 x = @as<long>(data);
                     dst = x.Format();
                 }
                 break;
 
-                case FC.Broadcast:
+                case C.Broadcast:
                 {
                     var x = @as<BCastKind>(data);
-                    dst = format(x);
+                    dst = XedRender.format(x);
                 }
                 break;
-                case FC.Chip:
+                case C.Chip:
                 {
                     var x = @as<ChipCode>(data);
-                    dst = format(x);
+                    dst = XedRender.format(x);
                 }
                 break;
-                case FC.Reg:
+                case C.Reg:
                 {
                     var x = @as<XedRegId>(data);
-                    dst = format(x);
+                    dst = XedRender.format(x);
                 }
                 break;
-                case FC.InstClass:
+                case C.InstClass:
                 {
                     var x = @as<IClass>(data);
-                    dst = format(x);
+                    dst = XedRender.format(x);
                 }
                 break;
-                case FC.VexClass:
+                case C.VexClass:
                 {
                     var x = @as<VexClass>(data);
-                    dst = format(x);
+                    dst = XedRender.format(x);
                 }
                 break;
-                case FC.MemWidth:
+                case C.MemWidth:
                 {
                     var x = @as<ushort>(data);
                     dst = x.ToString();
@@ -269,5 +298,80 @@ namespace Z0
             }
             return dst;
         }
+
+
+        static string format(uint2 src)
+            => "0b" + src.Format();
+
+        static string format(uint3 src)
+            => "0b" +  src.Format();
+
+        static string format(uint4 src)
+            =>  "0b" + src.Format();
+
+        static string format(uint5 src)
+            =>  "0b" + src.Format();
+
+        static string format(uint6 src)
+            =>  "0b" + src.Format();
+
+        static string format(uint7 src)
+            =>  "0b" + src.Format();
+
+        static string format(uint8b src)
+            =>  "0b" + src.Format();
+
+        static string format3(uint5 src)
+        {
+            var storage = 0ul;
+            var dst = recover<AsciSymbol>(bytes(storage));
+            var i=0;
+            var j=(byte)(uint5.Width - 1);
+            seek(dst,i++) = Chars.D0;
+            seek(dst,i++) = Chars.b;
+            seek(dst,i++) = src[j--].ToChar();
+            seek(dst,i++) = src[j--].ToChar();
+            seek(dst,i++) = src[j--].ToChar();
+            seek(dst,i++) = src[j--].ToChar();
+            seek(dst,i++) = Chars.Underscore;
+            seek(dst,i++) = src[j].ToChar();
+            return new asci8(storage);
+        }
+
+        static string format(sbyte src)
+            => src.ToString();
+
+        static string format(short src)
+            => src.ToString();
+
+        static string format(int src)
+            => src.ToString();
+
+        static string format(long src)
+            => src.ToString();
+
+        static string format(byte src)
+            => src.ToString();
+
+        static string format(ushort src)
+            => src.ToString();
+
+        static string format(uint src)
+            => src.ToString();
+
+        static string format(ulong src)
+            => src.ToString();
+
+        static string format(Hex8 src)
+            => src.Format(prespec:true, uppercase:true);
+
+        static string format(Hex16 src)
+            => src.Format(prespec:true, uppercase:true);
+
+        static string format(Hex32 src)
+            => src.Format(prespec:true, uppercase:true);
+
+        static string format(Hex64 src)
+            => src.Format(prespec:true, uppercase:true);
     }
 }

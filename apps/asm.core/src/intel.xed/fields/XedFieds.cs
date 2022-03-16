@@ -6,8 +6,10 @@
 namespace Z0
 {
     using static XedRules.FieldKind;
+    using static XedRules;
 
-    partial class XedRules
+    [ApiHost]
+    public partial class XedFields
     {
         [Op]
         public static bool ispos(FieldKind field)

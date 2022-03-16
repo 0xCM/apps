@@ -12,7 +12,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static FieldAssign assign<T>(FieldKind field, T fv)
             where T : unmanaged
-                => new FieldAssign(value(field, fv));
+                => new FieldAssign(XedFields.value(field, fv));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static MacroSpec assign<T>(RuleMacroKind name, FieldKind field, T value)

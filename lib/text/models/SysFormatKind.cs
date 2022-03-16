@@ -7,7 +7,7 @@ namespace Z0
     using System;
 
     [Flags]
-    public enum FormatCodeKind : uint
+    public enum SysFormatKind : uint
     {
         General = 0,
 

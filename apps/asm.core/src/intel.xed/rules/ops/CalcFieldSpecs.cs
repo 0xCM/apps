@@ -8,6 +8,6 @@ namespace Z0
     partial class XedRules
     {
         public Index<RuleFieldSpec> CalcFieldSpecs()
-            => fields();
+            => XedFields.specs();
     }
 }

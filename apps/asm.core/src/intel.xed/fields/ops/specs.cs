@@ -5,12 +5,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using Asm;
 
-    partial class XedRules
+    using static XedRules;
+    using static core;
+
+    partial class XedFields
     {
-        public static Index<RuleFieldSpec> fields()
+        public static Index<RuleFieldSpec> specs()
         {
             var src = typeof(RuleState).InstanceFields().Tagged<RuleFieldAttribute>();
             var dst = alloc<RuleFieldSpec>(src.Length);
@@ -43,7 +45,6 @@ namespace Z0
             else if(src == typeof(ByteBlock14))
                 dst = string.Format("block<{0}>", 14);
             return dst;
-
         }
 
         static ushort datawidth(Type src)

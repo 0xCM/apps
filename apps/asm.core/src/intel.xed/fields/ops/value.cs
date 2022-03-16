@@ -5,18 +5,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules;
     using static core;
 
-    partial class XedRules
+    using R = XedRules;
+
+    partial class XedFields
     {
         [MethodImpl(Inline)]
-        public static FieldValue<T> value<T>(FieldKind kind, T value)
+        public static R.FieldValue<T> value<T>(FieldKind kind, T value)
             where T : unmanaged
-                => new FieldValue<T>(kind, value);
+                => new R.FieldValue<T>(kind, value);
 
         [MethodImpl(Inline)]
-        public static FieldValue value(FieldKind kind, NameResolver resolver)
-            => new FieldValue(kind, (ulong)resolver);
+        public static R.FieldValue value(FieldKind kind, NameResolver resolver)
+            => new R.FieldValue(kind, (ulong)resolver);
 
         public ConstLookup<FieldKind,object> values<T>(in T src)
             where T : unmanaged

@@ -75,7 +75,7 @@ namespace Z0
             static Outcome update(string src, FieldKind kind, ref DisasmState dstate)
             {
                 ref var rules = ref dstate.RuleState;
-                var fieldval = XedRules.update(src, kind, ref rules);
+                var fieldval = XedFields.update(src, kind, ref rules);
                 var result = fieldval.IsNonEmpty;
                 switch(kind)
                 {

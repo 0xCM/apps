@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
+    using api = SysFormatCodes;
 
-    using static Root;
-
-    using api = FormatCodes;
-
-    public readonly struct FormatCode<K,C> : IFormatCodeHost<FormatCode<K,C>,K,C>
+    public readonly struct SysFormatCode<K,C> : ISysFormatCodeHost<SysFormatCode<K,C>,K,C>
         where K : unmanaged
     {
         public readonly K Kind {get;}
@@ -19,7 +14,7 @@ namespace Z0
         public readonly C Code {get;}
 
         [MethodImpl(Inline)]
-        public FormatCode(K k, C c)
+        public SysFormatCode(K k, C c)
         {
             Kind = k;
             Code = c;
@@ -36,7 +31,7 @@ namespace Z0
             => api.apply(this, src);
 
         [MethodImpl(Inline)]
-        public static implicit operator FormatCode<K,C>((K kind, C code) src)
-            => new FormatCode<K,C>(src.kind, src.code);
+        public static implicit operator SysFormatCode<K,C>((K kind, C code) src)
+            => new SysFormatCode<K,C>(src.kind, src.code);
     }
 }

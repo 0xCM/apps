@@ -134,11 +134,11 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public FieldAssign AsAssignment()
-                => new FieldAssign(value(Field, Data));
+                => new FieldAssign(XedFields.value(Field, Data));
 
             [MethodImpl(Inline)]
             public FieldCmp AsCmp()
-                => cmp(Field, Operator, value(Field,Data));
+                => cmp(Field, Operator, XedFields.value(Field,Data));
 
             [MethodImpl(Inline)]
             public FieldValue AsValue()

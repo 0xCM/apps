@@ -7,33 +7,33 @@ namespace Z0
 {
     partial class XedRules
     {
-        public sealed class RuleTableLookup : ConstLookup<RuleSig,RuleTable>
+        public sealed class RuleTableSet : ConstLookup<RuleSig,RuleTable>
         {
-            RuleTableLookup()
+            RuleTableSet()
                 : base(core.dict<RuleSig,RuleTable>())
             {
 
             }
 
-            public RuleTableLookup(Dictionary<RuleSig,RuleTable> src)
+            public RuleTableSet(Dictionary<RuleSig,RuleTable> src)
                 : base(src)
             {
 
             }
 
-            public RuleTableLookup(RuleTable[] src)
+            public RuleTableSet(RuleTable[] src)
                 : base(src.Select(x => (x.Sig, x)).ToDictionary())
             {
 
             }
 
-            public static implicit operator RuleTableLookup(RuleTable[] src)
-                => new RuleTableLookup(src);
+            public static implicit operator RuleTableSet(RuleTable[] src)
+                => new RuleTableSet(src);
 
-            public static implicit operator RuleTableLookup(Dictionary<RuleSig,RuleTable> src)
-                => new RuleTableLookup(src);
+            public static implicit operator RuleTableSet(Dictionary<RuleSig,RuleTable> src)
+                => new RuleTableSet(src);
 
-            public static new RuleTableLookup Empty => new();
+            public static new RuleTableSet Empty => new();
         }
    }
 }
