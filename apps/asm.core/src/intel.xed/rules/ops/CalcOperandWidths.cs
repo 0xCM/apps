@@ -10,9 +10,6 @@ namespace Z0
 
     partial class XedRules
     {
-        public Index<OpWidth> LoadOperandWidths()
-            => Data(nameof(LoadOperandWidths), CalcOperandWidths);
-
         public Index<OpWidth> CalcOperandWidths()
         {
             var buffer = list<OpWidth>();

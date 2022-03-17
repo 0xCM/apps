@@ -42,7 +42,11 @@ namespace Z0
 
         OpCodeKinds,
 
-        OpCodes,
+        PatternInfo,
+
+        PatternDetail,
+
+        PatternOps,
 
         OpEnc,
 
@@ -50,6 +54,6 @@ namespace Z0
 
         RuleSeq,
 
-        MacroAssignments
+        MacroDefs
     }
 }

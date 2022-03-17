@@ -15,14 +15,18 @@ namespace Z0
             const byte ColCount = RuleTableRow.ColCount;
 
             var dst = list<RuleTableRow>();
+            var q = 0u;
             for(var i=0u; i<src.Body.Count; i++)
             {
                 ref readonly var expr = ref src.Body[i];
+                if(expr.IsEmpty || expr.IsVacuous || expr.IsNull || expr.IsError)
+                    continue;
+
                 var m = z8;
                 var row = RuleTableRow.Empty;
                 row.TableKind = src.TableKind;
                 row.TableName = src.Sig.Name;
-                row.RowIndex = i;
+                row.RowIndex = q++;
 
                 for(var k=0; k<expr.Premise.Count; k++)
                     assign(m++, expr.Premise[k], ref row);

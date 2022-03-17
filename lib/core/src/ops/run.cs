@@ -9,9 +9,6 @@ namespace Z0
 
     partial struct core
     {
-        public static void exec(Action[] src, bool pll = true)
-            => iter(src, a => a(), pll);
-
         /// <summary>
         /// Runs a task that executes a specified worker
         /// </summary>

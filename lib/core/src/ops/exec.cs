@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct core
     {
+        public static void exec(params Action[] src)
+            => iter(src, a => a(), true);
+
+        public static void exec(bool pll, params Action[] src)
+            => iter(src, a => a(), pll);
     }
 }

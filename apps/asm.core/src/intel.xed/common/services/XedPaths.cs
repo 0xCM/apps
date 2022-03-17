@@ -128,14 +128,16 @@ namespace Z0
                  XedDocKind.RulePatterns => FS.file("xed.rules.patterns", FS.Csv),
                  XedDocKind.DecRulePatterns => FS.file("xed.rules.dec.patterns", FS.Csv),
                  XedDocKind.OpCodeKinds => Tables.filename<OcMapKind>(),
-                 XedDocKind.OpCodes => Tables.filename<PatternInfo>(),
+                 XedDocKind.PatternInfo => Tables.filename<PatternInfo>(),
                  XedDocKind.OpEnc =>  FS.file("xed.rules.enc.operands", FS.Csv),
                  XedDocKind.OpDec => FS.file("xed.rules.dec.operands", FS.Csv),
                  XedDocKind.RuleSeq => FS.file("xed.rules.seq", FS.Txt),
                  XedDocKind.EncRuleTableExp => FS.file("xed.rules.enc.tables.exp", FS.Txt),
                  XedDocKind.DecRuleTableExp => FS.file("xed.rules.dec.tables.exp", FS.Txt),
                  XedDocKind.EncDecRuleTableExp => FS.file("xed.rules.encdec.tables.exp", FS.Txt),
-                 XedDocKind.MacroAssignments => FS.file("xed.rules.macros", FS.Csv),
+                 XedDocKind.MacroDefs => FS.file("xed.rules.macros", FS.Csv),
+                 XedDocKind.PatternDetail => FS.file("xed.patterns.detail", FS.Txt),
+                 XedDocKind.PatternOps => Tables.filename<PatternOpDetail>(),
                  _ => FS.FileName.Empty
             });
     }

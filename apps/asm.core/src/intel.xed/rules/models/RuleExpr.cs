@@ -32,6 +32,18 @@ namespace Z0
                 get => Consequent.IsEmpty;
             }
 
+            public bool IsError
+            {
+                [MethodImpl(Inline)]
+                get => Consequent.Count == 1 && Consequent.First.IsError;
+            }
+
+            public bool IsNull
+            {
+                [MethodImpl(Inline)]
+                get => Consequent.Count == 1 && Consequent.First.IsNull;
+            }
+
             public string Format()
                 => XedRender.format(this);
 

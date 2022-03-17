@@ -15,10 +15,16 @@ namespace Z0
             => new RuleSchema(sig,cols);
 
         public static RuleSchema schema(RuleSig sig, ReadOnlySpan<RuleTableRow> src)
-            => schema(sig,specs(src));
+            => schema(sig, specs(src));
 
         public static RuleSchema schema(in RuleTable src)
-            => schema(src.Sig, rows(src).Data);
+        {
+            var data = rows(src).Data;
+            if(data.IsNonEmpty)
+                return schema(src.Sig, data);
+            else
+                return RuleSchema.Empty;
+        }
 
         [Op]
         public static Index<RuleCellSpec> specs(ReadOnlySpan<RuleTableRow> src)

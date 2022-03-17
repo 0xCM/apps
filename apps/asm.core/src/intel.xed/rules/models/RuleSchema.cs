@@ -20,8 +20,22 @@ namespace Z0
                 Cols = cols;
             }
 
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Cols.IsEmpty;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Cols.IsNonEmpty;
+            }
+
             public int CompareTo(RuleSchema src)
                 => Sig.CompareTo(src.Sig);
+
+            public static RuleSchema Empty => new RuleSchema(RuleSig.Empty, sys.empty<RuleCellSpec>());
         }
     }
 }

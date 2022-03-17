@@ -91,12 +91,13 @@ namespace Z0
 
             void EmitSigs()
             {
-                const string RenderPattern = "{0,-12} | {1,-16} | {2}";
+                const string RenderPattern = "{0,-12} | {1,-16} | {2,-32} | {3}";
                 var sigs = TableSigs.Members.Array().Sort();
                 var path = XedPaths.TableSigs();
                 using var writer = path.AsciWriter();
-                writer.AppendLineFormat(RenderPattern, "Kind", "Class", "Name");
-                iter(sigs, sig => writer.AppendLineFormat(RenderPattern, sig.TableKind, sig.Class, sig.Name));
+                writer.AppendLineFormat(RenderPattern, "Kind", "Class", "Name", "TableDef");
+
+                iter(sigs, sig => writer.AppendLineFormat(RenderPattern, sig.TableKind, sig.Class, sig.Name, XedPaths.TableDef(sig).ToUri()));
             }
 
             public Index<RuleTableRow> CalcTableRows(RuleTableKind kind)
@@ -110,30 +111,31 @@ namespace Z0
             Index<RuleTableRow> EmitTableDef(string scope, in RuleTable src)
             {
                 var data = rows(src).Data;
-                var specs = hashset<RuleCellSpec>();
-
-                ref readonly var sig = ref src.Sig;
-                Span<byte> widths = stackalloc byte[RuleTableRow.FieldCount];
-                RuleTableRow.RenderWidths(sig, data, widths);
-                var path = XedPaths.TableDef(sig);
-                var formatter = Z0.Tables.formatter<RuleTableRow>(widths);
-                using var writer = path.AsciWriter();
-                writer.AppendLine(formatter.FormatHeader());
-                var count = data.Count;
-                for(var i=0; i<count; i++)
+                if(data.IsNonEmpty)
                 {
-                    ref readonly var row = ref data[i];
-                    writer.AppendLine(formatter.Format(row));
+                    var specs = hashset<RuleCellSpec>();
+                    ref readonly var sig = ref src.Sig;
+                    Span<byte> widths = stackalloc byte[RuleTableRow.FieldCount];
+                    RuleTableRow.RenderWidths(sig, data, widths);
+                    var path = XedPaths.TableDef(sig);
+                    var formatter = Z0.Tables.formatter<RuleTableRow>(widths);
+                    using var writer = path.AsciWriter();
+                    writer.AppendLine(formatter.FormatHeader());
+                    var count = data.Count;
+                    for(var i=0; i<count; i++)
+                    {
+                        ref readonly var row = ref data[i];
+                        writer.AppendLine(formatter.Format(row));
+                    }
+
+                    writer.AppendLine();
+
+                    var desc = src.Format().Lines(trim:false);
+                    for(var i=0; i<desc.Length; i++)
+                        writer.AppendLineFormat("# {0}", skip(desc,i).Content);
+
+                    TableSigs.Add(sig);
                 }
-
-                writer.AppendLine();
-
-                var desc = src.Format().Lines(trim:false);
-                for(var i=0; i<desc.Length; i++)
-                    writer.AppendLineFormat("# {0}", skip(desc,i).Content);
-
-                TableSigs.Add(sig);
-
                 return data;
             }
 
@@ -179,10 +181,7 @@ namespace Z0
                 var sigs = src.Keys.ToArray().Sort();
                 var count = sigs.Length;
                 for(var i=0; i<count; i++)
-                {
-                    var table = src[skip(sigs,i)];
-                    dst.AppendLine(XedRender.format(table));
-                }
+                    dst.AppendLine(XedRender.format(src[skip(sigs,i)]));
                 EmittedFile(emitting, sigs.Length);
             }
 
@@ -216,7 +215,7 @@ namespace Z0
                 return dst;
             }
 
-            void EmitRuleSchemas()
+            public void EmitRuleSchemas()
             {
                 var schemas = CalcRuleSchemas();
                 var count = 0u;
@@ -258,7 +257,11 @@ namespace Z0
 
             Index<RuleSchema> CalcRuleSchemas(ReadOnlySpan<RuleTable> tables, ConcurrentBag<RuleSchema> dst)
             {
-                iter(tables, t => dst.Add(schema(t)), PllWf);
+                iter(tables, t => {
+                    var s = schema(t);
+                    if(s.IsNonEmpty)
+                        dst.Add(s);
+                    }, PllWf);
                 return dst.Array().Sort();
             }
 

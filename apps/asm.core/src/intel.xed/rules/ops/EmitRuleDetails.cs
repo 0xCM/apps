@@ -7,15 +7,15 @@ namespace Z0
 {
     partial class XedRules
     {
-        void EmitPatternDetails(Index<InstPattern> patterns, FS.FilePath path)
+        void EmitPatternDetails(Index<InstPattern> src, FS.FilePath path)
         {
             const string LabelPattern = "{0,-16} | {1}";
             var seq = 0u;
             var emitting = EmittingFile(path);
             using var dst = path.AsciWriter();
-            for(var j=0; j<patterns.Count; j++)
+            for(var j=0; j<src.Count; j++)
             {
-                ref readonly var pattern = ref patterns[j];
+                ref readonly var pattern = ref src[j];
                 ref readonly var def = ref pattern.InstDef;
                 dst.AppendLineFormat(LabelPattern, "Pattern", seq++);
                 dst.AppendLineFormat(LabelPattern, "Instruction", def.Seq);

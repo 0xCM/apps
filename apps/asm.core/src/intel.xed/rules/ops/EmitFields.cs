@@ -10,24 +10,18 @@ namespace Z0
 
     partial class XedRules
     {
-        public static void exec(bool pll, params Action[] src)
-            => iter(src, a => a(), pll);
-
-        public void EmitCatalog()
+        public void EmitFields()
         {
-            var defs = CalcInstDefs();
-            var patterns = CalcInstPatterns(defs);
             exec(PllWf,
-                () => EmitPatternData(patterns),
-                EmitRuleTables,
                 EmitFieldDefs,
-                EmitRuleSeq,
-                EmitOperandWidths,
-                EmitPointerWidths,
-                EmitOpCodeKinds,
-                EmitMacroDefs,
                 EmitReflectedFields
                 );
         }
+
+        void EmitFieldDefs()
+            => TableEmit(CalcFieldDefs().View, XedFieldDef.RenderWidths, XedPaths.FieldDefsTarget());
+
+        void EmitReflectedFields()
+            => TableEmit(XedFields.Specs.View, RuleFieldSpec.RenderWidths, AppDb.XedTable<RuleFieldSpec>());
     }
 }

@@ -15,7 +15,7 @@ namespace Z0
         public Index<PatternInfo> LoadPatternInfo()
         {
             const byte FieldCount = PatternInfo.FieldCount;
-            var src = XedPaths.DocTarget(XedDocKind.OpCodes);
+            var src = XedPaths.DocTarget(XedDocKind.PatternInfo);
             var result = Outcome.Success;
             var buffer = list<PatternInfo>();
             bool Next(TextLine src)
