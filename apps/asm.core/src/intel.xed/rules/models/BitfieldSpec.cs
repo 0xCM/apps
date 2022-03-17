@@ -5,17 +5,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-    using static core;
-
     partial class XedRules
     {
-        void EmitRuleSeq()
+        public readonly struct BitfieldSpec
         {
-            var src = CalcRuleSeq();
-            var dst = text.buffer();
-            iter(src, x => dst.AppendLine(x.Format()));
-            FileEmit(dst.Emit(), src.Count, XedPaths.DocTarget(XedDocKind.RuleSeq), TextEncodingKind.Asci);
+            public readonly asci16 Pattern;
+
+            [MethodImpl(Inline)]
+            public BitfieldSpec(string src)
+            {
+                Pattern = src;
+            }
+
+            public string Format()
+                => Pattern.Format();
+
+            public override string ToString()
+                => Format();
         }
     }
 }

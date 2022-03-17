@@ -12,7 +12,7 @@ namespace Z0
         [SymSource(xed)]
         public enum RuleOperator : byte
         {
-            [Symbol("")]
+            [Symbol("<undef>")]
             None,
 
             [Symbol("=")]
@@ -23,9 +23,6 @@ namespace Z0
 
             [Symbol("!=")]
             CmpNeq,
-
-            Seg,
-
         }
     }
 }

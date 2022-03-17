@@ -12,6 +12,10 @@ namespace Z0
 
     partial class XedFields
     {
+        [MethodImpl(Inline), Op]
+        public static RuleFieldInfo info(bool premise, FieldKind kind)
+            => new (premise,kind);
+
         [Op]
         public static FormatCode fcode(FieldKind src)
         {

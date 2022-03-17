@@ -27,7 +27,7 @@ namespace Z0
             => src.Contains(Neq);
 
         public static bool IsCall(string src)
-            => src.EndsWith(CallSyntax);
+            => src.Contains(CallSyntax);
 
         public static bool IsTableDecl(string src)
             => src.EndsWith(TableDeclSyntax);
@@ -41,12 +41,15 @@ namespace Z0
         public static bool IsSeqDecl(string src)
             => src.StartsWith(SeqDeclSyntax);
 
-        public static bool IsBitfieldSeg(string src)
+        public static bool IsBfSeg(string src)
         {
-            var i = text.index(src,Chars.LBracket);
-            var j = text.index(src,Chars.RBracket);
-            return i > 0 && j>1;
+            var i = text.index(src, Chars.LBracket);
+            var j = text.index(src, Chars.RBracket);
+            return i > 0 && j > i;
         }
+
+        public static bool IsBfSpec(string src)
+            => text.index(src,Chars.Underscore) > 0;
 
         public static bool parse(string src, out EncodingGroup dst)
             => Instance.Parse(src, out dst);
@@ -100,10 +103,52 @@ namespace Z0
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out BitfieldSeg dst)
-            => Instance.Parse(src, out dst);
+        {
+            var name = EmptyString;
+            var content = EmptyString;
+            dst = default;
+            var i = text.index(src, Chars.LBracket);
+            var j = text.index(src, Chars.RBracket);
+            var result = false;
+            if(i > 0 && j > i)
+            {
+                name = text.left(src,i);
+                content = text.inside(src,i,j);
+                if(parse(name, out FieldKind kind))
+                {
+                    dst = new BitfieldSeg(kind, text.remove(content,"0b"), text.begins(content,"0b"));
+                    result = true;
+                }
+            }
+            return result;
+        }
 
         public static Outcome parse(string src, out DispFieldSpec dst)
-            => Instance.Parse(src, out dst);
+        {
+            var result = Outcome.Success;
+            dst = DispFieldSpec.Empty;
+            var i = text.index(src, Chars.LBracket);
+            var j = text.index(src, Chars.RBracket);
+            var kind = Chars.x;
+            var width = z8;
+            if(i > 0 && j > i)
+            {
+                var inside = text.inside(src,i,j);
+                var quotient = text.split(inside,Chars.FSlash);
+                if(quotient.Length != 2)
+                    return (false,AppMsg.ParseFailure.Format(nameof(DispFieldSpec), src));
+
+                ref readonly var upper = ref skip(quotient,0);
+                ref readonly var lower = ref skip(quotient,1);
+                if(upper.Length == 1)
+                    kind = upper[0];
+                if(!byte.TryParse(lower, out width))
+                    return (false, AppMsg.ParseFailure.Format(nameof(width), lower));
+            }
+
+            dst = new DispFieldSpec(width, kind);
+            return result;
+        }
 
         public static Outcome parse(string src, out ModeKind dst)
             => Instance.Parse(src, out dst);
@@ -330,54 +375,6 @@ namespace Z0
             }
         }
 
-        public bool Parse(string src, out BitfieldSeg dst)
-        {
-            var name = EmptyString;
-            var content = EmptyString;
-            dst = default;
-            var i = text.index(src, Chars.LBracket);
-            var j = text.index(src, Chars.RBracket);
-            var result = false;
-            if(i > 0 && j > i)
-            {
-                name = text.left(src,i);
-                content = text.inside(src,i,j);
-                if(parse(name, out FieldKind kind))
-                {
-                    var literal = text.begins(content,"0b");
-                    dst = new BitfieldSeg(kind, text.remove(content,"0b"), literal);
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-        public Outcome Parse(string src, out DispFieldSpec dst)
-        {
-            var result = Outcome.Success;
-            dst = DispFieldSpec.Empty;
-            var i = text.index(src, Chars.LBracket);
-            var j = text.index(src, Chars.RBracket);
-            var kind = Chars.x;
-            var width = z8;
-            if(i > 0 && j > i)
-            {
-                var inside = text.inside(src,i,j);
-                var quotient = text.split(inside,Chars.FSlash);
-                if(quotient.Length != 2)
-                    return (false,AppMsg.ParseFailure.Format(nameof(DispFieldSpec), src));
-
-                ref readonly var upper = ref skip(quotient,0);
-                ref readonly var lower = ref skip(quotient,1);
-                if(upper.Length == 1)
-                    kind = upper[0];
-                if(!byte.TryParse(lower, out width))
-                    return (false, AppMsg.ParseFailure.Format(nameof(width), lower));
-            }
-
-            dst = new DispFieldSpec(width, kind);
-            return result;
-        }
 
         public Outcome Parse(string src, out ImmFieldSpec dst)
         {

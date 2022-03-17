@@ -31,7 +31,7 @@ namespace Z0
                     result = (false, AppMsg.ParseFailure.Format(nameof(uint5), src));
 
             }
-            else if(IsBitfieldSeg(src))
+            else if(IsBfSeg(src))
             {
                 result = XedParsers.parse(src, out BitfieldSeg x);
                 if(result)
@@ -67,6 +67,10 @@ namespace Z0
                 else
                     result = (false, AppMsg.ParseFailure.Format(nameof(Nonterminal), src));
             }
+            // else if(IsBfSpec(src))
+            // {
+            //     dst = new BitfieldSpec(src);
+            // }
             return result;
         }
 

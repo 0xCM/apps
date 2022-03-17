@@ -14,7 +14,7 @@ namespace Z0
         {
             public const string TableId = "xed.rules.tables";
 
-            public const byte FieldCount = 17;
+            public const byte FieldCount = 19;
 
             public const byte ColCount = FieldCount - 3;
 
@@ -38,6 +38,8 @@ namespace Z0
 
             public RuleTableCell Col6P;
 
+            public RuleTableCell Col7P;
+
             public RuleTableCell Col0C;
 
             public RuleTableCell Col1C;
@@ -52,6 +54,38 @@ namespace Z0
 
             public RuleTableCell Col6C;
 
+            public RuleTableCell Col7C;
+
+            public Span<FieldKind> FieldKinds(char kind)
+            {
+                var storage = 0ul;
+                var dst = recover<FieldKind>(bytes(storage));
+                var count = ColCount/2;
+                var i = kind == 'P' ? z8 : count;
+                var k = z8;
+                for(var j=0; j<count; j++, i++)
+                {
+                    var cell = this[i];
+                    if(cell.IsNonEmpty && cell.Field != 0)
+                        seek(dst,k++) = cell.Field;
+                }
+                return slice(dst,0,k);
+            }
+
+            public void FieldSpecs(char kind, HashSet<RuleCellSpec> dst)
+            {
+                var storage = 0ul;
+                var count = ColCount/2;
+                var i = kind == 'P' ? z8 : count;
+                var k = z8;
+                for(var j=0; j<count; j++, i++)
+                {
+                    var cell = this[i];
+                    if(cell.IsNonEmpty)
+                        dst.Add(cell.Spec);
+                }
+            }
+
             public RuleTableCell this[int index]
             {
                 get
@@ -65,14 +99,16 @@ namespace Z0
                         4 => Col4P,
                         5 => Col5P,
                         6 => Col6P,
+                        7 => Col7P,
 
-                        7 => Col0C,
-                        8 => Col1C,
-                        9 => Col2C,
-                        10 => Col3C,
-                        11 => Col4C,
-                        12 => Col5C,
-                        13 => Col6C,
+                        8 => Col0C,
+                        9 => Col1C,
+                        10 => Col2C,
+                        11 => Col3C,
+                        12 => Col4C,
+                        13 => Col5C,
+                        14 => Col6C,
+                        15 => Col7C,
                         _ => RuleTableCell.Empty
                     };
                 }
@@ -101,27 +137,33 @@ namespace Z0
                         case 6:
                             Col6P = value;
                         break;
-
                         case 7:
+                            Col7P = value;
+                        break;
+
+                        case 8:
                             Col0C = value;
                         break;
-                        case 8:
+                        case 9:
                             Col1C = value;
                         break;
-                        case 9:
+                        case 10:
                             Col2C = value;
                         break;
-                        case 10:
+                        case 11:
                             Col3C = value;
                         break;
-                        case 11:
+                        case 12:
                             Col4C = value;
                         break;
-                        case 12:
+                        case 13:
                             Col5C = value;
                         break;
-                        case 13:
+                        case 14:
                             Col6C = value;
+                        break;
+                        case 15:
+                            Col7C = value;
                         break;
                     };
                 }

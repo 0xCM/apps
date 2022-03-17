@@ -31,18 +31,22 @@ namespace Z0
                     EmitDecTables,
                     EmitEncTables,
                     EmitEncDecTables,
-                    EmitRuleSchemas
+                    EmitRuleSchemas,
+                    EmitRuleSeq
                     );
                 EmitSigs();
             }
 
-            public RuleTableDefs CalcTables(RuleTableKind kind)
+            public RuleTableDefs CalcTableDefs(RuleTableKind kind)
                 => kind switch{
                     RuleTableKind.Enc => CalcEncTableDefs(),
                     RuleTableKind.Dec => CalcDecTableDefs(),
                     RuleTableKind.EncDec => CalcEncDecTableDefs(),
                     _ => RuleTableDefs.Empty
                 };
+
+            public Index<RuleTableRow> CalcTableRows(in RuleTable src)
+                => rows(src).Data;
 
             void EmitEncTables()
             {
@@ -53,7 +57,7 @@ namespace Z0
                         buffer.Add(src[i]);
                 }
 
-                var src = CalcTables(RuleTableKind.Enc);
+                var src = CalcTableDefs(RuleTableKind.Enc);
                 iter(src.Values, t => Collect(EmitTableDef("rules.tables/enc", t)), PllWf);
                 EmitDescriptions(RuleTableKind.Enc, src);
                 EmitConsolidated(buffer.Array().Sort());
@@ -68,7 +72,7 @@ namespace Z0
                         buffer.Add(src[i]);
                 }
 
-                var src = CalcTables(RuleTableKind.Dec);
+                var src = CalcTableDefs(RuleTableKind.Dec);
                 iter(src.Values, t => Collect(EmitTableDef("rules.tables/dec", t)), PllWf);
                 EmitDescriptions(RuleTableKind.Dec, src);
                 EmitConsolidated(buffer.Array().Sort());
@@ -83,26 +87,46 @@ namespace Z0
                         buffer.Add(src[i]);
                 }
 
-                var src = CalcTables(RuleTableKind.EncDec);
+                var src = CalcTableDefs(RuleTableKind.EncDec);
                 iter(src.Values, t => Collect(EmitTableDef("rules.tables/encdec", t)), PllWf);
                 EmitDescriptions(RuleTableKind.EncDec, src);
                 EmitConsolidated(buffer.Array().Sort());
             }
 
-            void EmitSigs()
+            Index<RuleSigRow> CalcSigRows()
             {
-                const string RenderPattern = "{0,-12} | {1,-16} | {2,-32} | {3}";
-                var sigs = TableSigs.Members.Array().Sort();
-                var path = XedPaths.TableSigs();
-                using var writer = path.AsciWriter();
-                writer.AppendLineFormat(RenderPattern, "Kind", "Class", "Name", "TableDef");
+                var src = TableSigs.Members.Array().Sort();
+                var count = src.Length;
+                var dst = alloc<RuleSigRow>(count);
+                for(var i=0u; i<count; i++)
+                {
+                    ref readonly var sig = ref skip(src,i);
+                    ref var row = ref seek(dst,i);
+                    row.Seq = i;
+                    row.TableKind = sig.TableKind;
+                    row.RuleClass = sig.Class;
+                    row.TableName = sig.Name;
+                    row.TableDef = XedPaths.TableDef(sig).ToUri();
+                }
+                return dst;
+            }
+            void EmitSigs()
+                => TableEmit(CalcSigRows().View, RuleSigRow.RenderWidths, XedPaths.TableSigs());
 
-                iter(sigs, sig => writer.AppendLineFormat(RenderPattern, sig.TableKind, sig.Class, sig.Name, XedPaths.TableDef(sig).ToUri()));
+            public Index<RuleSeq> CalcRuleSeq()
+                => new RuleSeqParser().Parse(XedPaths.DocSource(XedDocKind.RuleSeq));
+
+            public void EmitRuleSeq()
+            {
+                var src = CalcRuleSeq();
+                var dst = text.buffer();
+                iter(src, x => dst.AppendLine(x.Format()));
+                FileEmit(dst.Emit(), src.Count, XedPaths.DocTarget(XedDocKind.RuleSeq), TextEncodingKind.Asci);
             }
 
             public Index<RuleTableRow> CalcTableRows(RuleTableKind kind)
             {
-                var src = CalcTables(kind);
+                var src = CalcTableDefs(kind);
                 var buffer = bag<RuleTableRow>();
                 iter(src.Values, t => iter(rows(t).Data, row => buffer.Add(row), PllWf), PllWf);
                 return buffer.Array().Sort();
@@ -110,7 +134,7 @@ namespace Z0
 
             Index<RuleTableRow> EmitTableDef(string scope, in RuleTable src)
             {
-                var data = rows(src).Data;
+                var data = CalcTableRows(src);
                 if(data.IsNonEmpty)
                 {
                     var specs = hashset<RuleCellSpec>();
@@ -248,9 +272,9 @@ namespace Z0
             {
                 var dst = bag<RuleSchema>();
                 exec(PllWf,
-                    () => CalcRuleSchemas(CalcTables(RuleTableKind.Enc).Values, dst),
-                    () => CalcRuleSchemas(CalcTables(RuleTableKind.Dec).Values, dst),
-                    () => CalcRuleSchemas(CalcTables(RuleTableKind.EncDec).Values, dst)
+                    () => CalcRuleSchemas(CalcTableDefs(RuleTableKind.Enc).Values, dst),
+                    () => CalcRuleSchemas(CalcTableDefs(RuleTableKind.Dec).Values, dst),
+                    () => CalcRuleSchemas(CalcTableDefs(RuleTableKind.EncDec).Values, dst)
                     );
                 return dst.Array().Sort();
             }

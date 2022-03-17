@@ -21,7 +21,6 @@ namespace Z0
                 () => EmitPatternData(patterns),
                 EmitRuleTables,
                 EmitFieldDefs,
-                EmitRuleSeq,
                 EmitOperandWidths,
                 EmitPointerWidths,
                 EmitOpCodeKinds,

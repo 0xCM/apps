@@ -63,11 +63,13 @@ namespace Z0
 
         static EnumRender<MASK> MaskCodes = new();
 
+        static EnumRender<CellDataKind> CellDataKinds = new();
+
         static Symbols<ChipCode> ChipCodes;
 
         static Symbols<XedRegId> XedRegs;
 
-        static Symbols<RuleOperator> RuleOps;
+        static EnumRender<RuleOperator> RuleOps = new();
 
         static Symbols<ConstraintKind> ConstraintKinds;
 
@@ -88,7 +90,6 @@ namespace Z0
             ChipCodes = Symbols.index<ChipCode>();
             XedRegs = Symbols.index<XedRegId>();
             OpWidthKinds = Symbols.index<OperandWidthCode>();
-            RuleOps = Symbols.index<RuleOperator>();
             ConstraintKinds = Symbols.index<ConstraintKind>();
             OpActions = Symbols.index<OperandAction>();
             OpNames = Symbols.index<RuleOpName>();

@@ -6,6 +6,7 @@
 namespace Z0
 {
     using Asm;
+
     using static core;
     using static Root;
     using static XedRules.SyntaxLiterals;
@@ -22,8 +23,8 @@ namespace Z0
         public struct RuleTableParser
         {
             [MethodImpl(Inline), Op]
-            static RuleCriterion criterion(bool premise, FieldKind fk, RuleOperator op, asci8 value)
-                => new RuleCriterion(premise, fk, op, value);
+            static RuleCriterion criterion(bool premise, FieldKind fk, asci8 value, CellDataKind dk)
+                => new RuleCriterion(premise, fk, RuleOperator.None,  value, dk);
 
             [MethodImpl(Inline), Op]
             static RuleCriterion criterion(bool premise, RuleCall call)
@@ -38,18 +39,22 @@ namespace Z0
             static RuleCriterion criterion(bool premise, BitfieldSeg seg)
                 => new RuleCriterion(premise, seg);
 
+            [MethodImpl(Inline), Op, Closures(Closure)]
+            static RuleCriterion criterion(bool premise, BitfieldSpec src)
+                => new RuleCriterion(premise, src);
+
             static RuleExpr expr(string premise, string consequent = EmptyString)
             {
                 var buffer = list<RuleCriterion>();
 
                 if(nonempty(premise))
-                    specs(true, premise, buffer);
+                    specs(true, RuleMacros.expand(premise), buffer);
 
                 var left = buffer.ToArray();
                 buffer.Clear();
 
                 if(nonempty(consequent))
-                    specs(false, consequent, buffer);
+                    specs(false, RuleMacros.expand(consequent), buffer);
 
                 var right = buffer.ToArray();
                 return new RuleExpr(left, right);
@@ -97,6 +102,35 @@ namespace Z0
                 XedParsers.parse(text.left(input, i), out fk);
             }
 
+            static bool assignment(bool premise, string input, out FieldKind fk, out string fv)
+            {
+                fk = 0;
+                fv = EmptyString;
+                var result = IsAssign(input);
+                if(result)
+                {
+                    var i = text.index(input, "=");
+                    fv = text.right(input, i);
+                    result = XedParsers.parse(text.left(input, i), out fk);
+                }
+                return result;
+            }
+
+            static bool notequal(bool premise, string input, out FieldKind fk, out string fv)
+            {
+                fk = 0;
+                fv = EmptyString;
+                var result = IsNeq(input);
+                if(result)
+                {
+                    var i = text.index(input, "!=");
+                    fv = text.right(input, i + 1);
+
+                    result = XedParsers.parse(text.left(input, i), out fk);
+                }
+                return result;
+            }
+
             static Outcome spec(bool premise, string spec, List<RuleCriterion> dst)
             {
                 var input = text.trim(text.despace(spec));
@@ -104,74 +138,67 @@ namespace Z0
                 var op = RO.None;
                 var fv = input;
                 var i = -1;
-                if(text.contains(input, "()"))
+                if(IsCall(input))
                 {
-                    var left = text.remove(input,"()");
-                    parse(premise, left, out fk, out fv, out op);
-                    dst.Add(criterion(premise, call(fk, op, text.ifempty(fv,left))));
+                    var name = text.remove(input,"()");
+                    parse(premise, name, out fk, out fv, out op);
+                    dst.Add(criterion(premise, call(fk, op, text.ifempty(fv,name))));
                     return true;
                 }
-                else if(text.contains(input, Chars.LBracket) && text.contains(input, Chars.RBracket))
+                else if(assignment(premise, input, out fk, out fv))
                 {
-                    i = text.index(input,Chars.LBracket);
-                    var result = XedParsers.parse(text.left(input,i), out fk);
-                    if(fk == 0)
-                        return (false, AppMsg.ParseFailure.Format(nameof(FieldKind), input));
-
-                    result = XedParsers.parse(input, out BitfieldSeg seg);
-                    if(result)
-                    {
-                         dst.Add(criterion(premise, seg));
-                         return true;
-                    }
-                    else
-                        return result;
-                }
-                else if(text.contains(input, "="))
-                {
-                    parse(premise, input, out fk, out fv, out op);
-                    if(parse(premise, fk, op, fv, out var _p))
+                    if(parse(premise, fk, RO.Assign, fv, out var _p))
                     {
                         dst.Add(_p);
                         return true;
                     }
-                    else
-                        return false;
+                    return false;
+                }
+                else if(notequal(premise, input, out fk, out fv))
+                {
+                    if(parse(premise, fk, RO.CmpNeq, fv, out var _p))
+                    {
+                        dst.Add(_p);
+                        return true;
+                    }
+                    return false;
+                }
+                else if(IsBfSeg(input))
+                {
+                    var result = XedParsers.parse(input, out BitfieldSeg seg);
+                    if(result)
+                         dst.Add(criterion(premise, seg));
+                    return result;
+                }
+                else if(IsBfSpec(input))
+                {
+                    dst.Add(criterion(premise,new BitfieldSpec(input)));
+                    return true;
                 }
                 else
                 {
-                    var assigned = RuleMacros.assignments(input, out var assignments);
-                    if(assignments.Length != 0)
-                    {
-                        for(var m = 0; m<assignments.Length; m++)
-                        {
-                            ref readonly var a = ref skip(assignments,m);
-                            dst.Add(criterion(premise, a.Field, RuleOperator.Assign, a.Value.Data));
-                        }
-                        return true;
-                    }
-                    else
-                    {
-                        dst.Add(literal(premise,input));
-                        return true;
-                    }
+                    if(input.Length > 8)
+                        Errors.Throw(string.Format("The value '{0}' is too long to be a literal", input));
+
+                    dst.Add(literal(premise,input));
+                    return true;
                 }
             }
 
             static RuleCriterion literal(bool premise, string input)
             {
                 if(XedParsers.IsBinaryLiteral(input))
-                    return criterion(premise, 0, RuleOperator.None, (asci8)input);
+                    return criterion(premise, 0, (asci8)input, CellDataKind.Literal);
                 else if(input == "otherwise")
-                    return criterion(premise, 0, RuleOperator.None, (asci8)"else");
+                    return criterion(premise, 0, (asci8)"else", CellDataKind.Default);
                 else if(input == "nothing")
-                    return criterion(premise, 0, RuleOperator.None, (asci8)"null");
+                    return criterion(premise, 0, (asci8)"null", CellDataKind.Null);
                 else if(input == "error")
-                    return criterion(premise, FieldKind.ERROR, RuleOperator.None, (asci8)"error");
+                    return criterion(premise, FieldKind.ERROR, (asci8)"error", CellDataKind.Error);
                 else if(input == "@")
-                    return criterion(premise, 0, RuleOperator.None, (asci8)"anything");
+                    return criterion(premise, 0, (asci8)"@", CellDataKind.Wildcard);
                 else
-                    return criterion(premise, 0, RuleOperator.None, input);
+                    return criterion(premise, 0, (asci8)input, CellDataKind.Literal);
             }
 
             [Op]

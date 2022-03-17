@@ -33,23 +33,44 @@ namespace Z0
         public static string format(BitfieldSeg src)
             => string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]", XedRender.format(src.Field), src.Pattern);
 
+        public static string format(BitfieldSpec src)
+            => src.Pattern.Format();
+
         public static string format(in RuleCriterion src)
         {
             var dst = EmptyString;
-            if(src.IsError)
-                dst = "error";
-            else if(src.IsCall)
-                dst = format(src.AsCall());
-            else if(src.IsBitfieldSeg)
-                dst = format(src.AsFieldSeg());
-            else if(src.IsAssignment)
-                dst = format(src.AsAssignment());
-            else if(src.IsComparison)
-                dst = format(src.AsCmp());
-            else if(src.IsNull || src.IsLiteral)
-                dst = src.AsLiteral();
-            else
-                dst = string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.AsValue()));
+            switch(src.DataKind)
+            {
+                case CellDataKind.Error:
+                case CellDataKind.Default:
+                case CellDataKind.Wildcard:
+                case CellDataKind.Literal:
+                case CellDataKind.Null:
+                {
+                    if(src.Operator != 0 && src.Field != 0)
+                        dst = string.Format("{0}{1}{2}", format(src.Field), format(src.Operator),src.AsLiteral());
+                    else
+                        dst = src.AsLiteral();
+                }
+                break;
+            }
+
+            if(text.empty(dst))
+            {
+                if(src.IsAssignment)
+                    dst = format(src.AsAssignment());
+                else if(src.IsComparison)
+                    dst = format(src.AsCmp());
+                else if(src.IsCall)
+                    dst = format(src.AsCall());
+                else if(src.IsBfSeg)
+                    dst = format(src.AsBfSeg());
+                else if(src.IsBfSpec)
+                    dst = format(src.AsBfSpec());
+                else
+                    dst = string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.AsValue()));
+            }
+
             return dst;
         }
     }

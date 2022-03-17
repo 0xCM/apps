@@ -11,20 +11,23 @@ namespace Z0
         {
             public readonly bool Premise;
 
+            public readonly CellDataKind DataKind;
+
             public readonly bool Nonterm;
 
             public readonly FieldKind Field;
 
             [MethodImpl(Inline)]
-            public RuleCellSpec(bool premise, bool nonterm, FieldKind field)
+            public RuleCellSpec(bool premise, CellDataKind dk, bool nonterm, FieldKind field)
             {
                 Premise = premise;
                 Nonterm = nonterm;
+                DataKind = dk;
                 Field = field;
             }
 
             public override int GetHashCode()
-                => ((ushort)core.u8(Premise)) << 8 | (ushort)Field;
+                => (int)(((uint)core.u8(Premise)) << 8 | (uint)Field | (uint)DataKind << 16);
 
             [MethodImpl(Inline)]
             public bool Equals(RuleCellSpec src)
@@ -41,6 +44,12 @@ namespace Z0
                     result = ((byte)Field).CompareTo((byte)src.Field);
                 return result;
             }
+
+            public string Format()
+                => string.Format("{0}:{1}:{2}", Premise ? 'P' : 'C', XedRender.format(Field), XedRender.format(DataKind));
+
+            public override string ToString()
+                => Format();
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Z0
             => format(VexClasses,src,fc);
 
         public static string format(VexKind src, FormatCode fc = FormatCode.Expr)
-            => format(VexKinds,src,fc);
+            => format(VexKinds, src, fc);
 
         public static string format(MASK src, FormatCode fc = FormatCode.Expr)
             => format(MaskCodes,src,fc);
@@ -136,7 +136,7 @@ namespace Z0
             => OpNames[src].Expr.Text;
 
         public static string format(RuleOperator src)
-            => RuleOps[src].Expr.Text;
+            => RuleOps.Format(src);
 
         public static string format(BCastKind src)
             => BCastFormatter.format(src);
@@ -152,6 +152,9 @@ namespace Z0
 
         public static string format(LegacyMapKind src)
             => LegacyMap.Format(src);
+
+        public static string format(CellDataKind src)
+            => CellDataKinds.Format(src);
 
         public static string format(RuleTableKind src)
             => RuleTableKinds.Format(src);

@@ -18,9 +18,9 @@ namespace Z0
 
             public readonly RuleOperator Operator;
 
-            public readonly ulong Data;
+            readonly ByteBlock16 Storage;
 
-            readonly DataKind Kind;
+            public readonly CellDataKind DataKind;
 
             [MethodImpl(Inline)]
             internal RuleCriterion(bool premise, FieldKind field, RuleOperator op, ulong data)
@@ -28,8 +28,8 @@ namespace Z0
                 Premise = premise;
                 Field = field;
                 Operator = op;
-                Data = data;
-                Kind = DataKind.Field;
+                Storage = data;
+                DataKind = field == FieldKind.ERROR ? CellDataKind.Error : CellDataKind.FieldValue;
                 Nonterm = false;
             }
 
@@ -40,8 +40,8 @@ namespace Z0
                 Premise = premise;
                 Field = call.Field;
                 Operator = call.Operator;
-                Data = (ulong)call.Target;
-                Kind = DataKind.Call;
+                Storage = (ulong)call.Target;
+                DataKind = CellDataKind.Call;
                 Nonterm = true;
             }
 
@@ -50,44 +50,44 @@ namespace Z0
             {
                 Premise = premise;
                 Field = data.Field;
-                Operator = RuleOperator.Seg;
-                Data = (ulong)data.Pattern;
-                Kind = data.IsLiteral ? DataKind.SegLiteral : DataKind.Seg;
+                Operator = RuleOperator.None;
+                Storage = core.bytes(data);
+                DataKind = CellDataKind.BfSeg;
                 Nonterm = false;
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(bool premise, FieldKind field, RuleOperator op, asci8 data)
+            internal RuleCriterion(bool premise, BitfieldSpec spec)
+            {
+                Premise = premise;
+                Field = FieldKind.INVALID;
+                Operator = RuleOperator.None;
+                Storage = spec.Pattern.View;
+                DataKind = CellDataKind.BfSpec;
+                Nonterm = false;
+            }
+
+            [MethodImpl(Inline)]
+            internal RuleCriterion(bool premise, FieldKind field, RuleOperator op, asci8 data, CellDataKind dk)
             {
                 Premise = premise;
                 Field = field;
                 Operator = op;
-                Data = (ulong)data;
-                Kind = (data == "null") ? DataKind.Null : DataKind.Literal;
+                Storage = (ulong)data;
+                DataKind = dk;
                 Nonterm = false;
             }
 
-            enum DataKind : byte
+            public readonly ulong Data
             {
-                None,
-
-                Field,
-
-                Literal,
-
-                Call,
-
-                Seg,
-
-                SegLiteral,
-
-                Null,
+                [MethodImpl(Inline)]
+                get => Storage.A;
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Kind == 0;
+                get => DataKind == 0;
             }
 
             public bool IsNonEmpty
@@ -99,31 +99,37 @@ namespace Z0
             public bool IsNull
             {
                 [MethodImpl(Inline)]
-                get => Kind == DataKind.Null;
+                get => DataKind == CellDataKind.Null;
             }
 
             public bool IsCall
             {
                 [MethodImpl(Inline)]
-                get => Kind == DataKind.Call;
+                get => DataKind == CellDataKind.Call;
             }
 
-            public bool IsBitfieldSeg
+            public bool IsBfSeg
             {
                 [MethodImpl(Inline)]
-                get => Kind == DataKind.Seg || Kind == DataKind.SegLiteral;
+                get => DataKind == CellDataKind.BfSeg;
+            }
+
+            public bool IsBfSpec
+            {
+                [MethodImpl(Inline)]
+                get => DataKind == CellDataKind.BfSpec;
             }
 
             public bool IsError
             {
                 [MethodImpl(Inline)]
-                get => Field == FieldKind.ERROR;
+                get => DataKind == CellDataKind.Error;
             }
 
             public bool IsLiteral
             {
                 [MethodImpl(Inline)]
-                get => Kind == DataKind.Literal;
+                get => DataKind == CellDataKind.Literal;
             }
 
             public bool IsAssignment
@@ -154,15 +160,19 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public FieldCmp AsCmp()
-                => cmp(Field, Operator, XedFields.value(Field,Data));
+                => cmp(Field, Operator, XedFields.value(Field, Data));
 
             [MethodImpl(Inline)]
             public FieldValue AsValue()
                 => new FieldValue(Field, Data);
 
             [MethodImpl(Inline)]
-            public BitfieldSeg AsFieldSeg()
-                => new BitfieldSeg(Field, (asci8)Data, Kind == DataKind.SegLiteral);
+            public BitfieldSeg AsBfSeg()
+                => core.@as<BitfieldSeg>(Storage.Bytes);
+
+            [MethodImpl(Inline)]
+            public BitfieldSpec AsBfSpec()
+                => new BitfieldSpec(new asci16(Storage.Bytes));
 
             [MethodImpl(Inline)]
             public asci8 AsLiteral()

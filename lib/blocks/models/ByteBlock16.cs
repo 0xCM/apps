@@ -107,6 +107,24 @@ namespace Z0
         public static implicit operator B(Span<byte> src)
             => api.block(W,src);
 
+        [MethodImpl(Inline)]
+        public static implicit operator B(ulong src)
+        {
+            var dst = Empty;
+            dst.A = src;
+            dst.B = 0;
+            return dst;
+        }
+
+        [MethodImpl(Inline)]
+        public static implicit operator B((ulong a, ulong b) src)
+        {
+            var dst = Empty;
+            dst.A = src.a;
+            dst.B = src.b;
+            return dst;
+        }
+
         public static B Empty => default;
     }
 }
