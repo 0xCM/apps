@@ -18,6 +18,29 @@ namespace Z0
 
         public static Index<FieldKind,RuleFieldSpec> Specs => _Specs;
 
+        public static FieldKind kind(string src)
+        {
+            var i = text.index(src,Chars.Eq);
+            var result = FieldKind.INVALID;
+
+            if(i>0)
+            {
+                if(XedParsers.parse(text.left(src,i), out result))
+                    return result;
+            }
+            else
+            {
+                var j = text.index(src,Chars.LBracket);
+                if(j>0)
+                    if(XedParsers.parse(text.left(src,j), out result))
+                        return result;
+            }
+            if(XedParsers.parse(src, out result))
+                return result;
+
+            return result;
+        }
+
         [Op]
         public static bool ispos(FieldKind field)
         {

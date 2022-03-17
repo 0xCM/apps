@@ -12,6 +12,34 @@ namespace Z0
         [CmdOp("xed/check/rules")]
         Outcome CheckRuleSpecs(CmdArgs args)
         {
+            exec(true,
+                () => EmitStatements(RuleTableKind.Enc),
+                () => EmitStatements(RuleTableKind.Dec),
+                () => EmitStatements(RuleTableKind.EncDec)
+            );
+            return true;
+        }
+
+        void EmitStatements(RuleTableKind kind)
+        {
+            var src = RuleTableParser.describe(Xed.XedPaths.RuleSource(kind));
+            var name = kind switch
+            {
+                RuleTableKind.Enc => "xed.rules.enc",
+                RuleTableKind.Dec => "xed.rules.dec",
+                RuleTableKind.EncDec => "xed.rules.encdec",
+                _ => EmptyString
+            };
+            var dst = AppDb.XedPath("rules.tables", name, FileKind.Txt);
+            var emitting = EmittingFile(dst);
+            using var writer = dst.AsciWriter();
+            for(var i=0; i<src.Length; i++)
+                writer.WriteLine(src[i]);
+            EmittedFile(emitting,src.Length);
+        }
+
+        void CheckRules2()
+        {
             var tables = Xed.RuleTables.CalcTableDefs(RuleTableKind.Enc);
             var sigs = tables.Keys;
             var lookup = dict<RuleSig,Index<RuleCellSpec>>();
@@ -30,7 +58,10 @@ namespace Z0
                     row.FieldSpecs('C', cFields);
                 }
 
-                lookup[sig] = pFields.Array().Concat(cFields.Array()).Sort();
+                var fields = list<RuleCellSpec>();
+                fields.AddRange(pFields);
+                fields.AddRange(cFields);
+                lookup[sig] = fields.ToArray().Sort();
             }
 
             var _sigs = lookup.Keys.Array().Sort();
@@ -46,6 +77,7 @@ namespace Z0
                 var k=z8;
                 foreach(var spec in specs)
                 {
+                    Require.nonzero(spec.DataKind);
                     writer.AppendLineFormat(RenderPattern,
                         sig.Name,
                         spec.Premise ? 'P' : 'C',
@@ -57,7 +89,7 @@ namespace Z0
             }
 
 
-            return true;
+
         }
     }
 
@@ -74,23 +106,5 @@ namespace Z0
 
         public static uint AddRange<T>(this HashSet<T> dst, params T[] src)
             => dst.AddRange(@readonly(src));
-
-        public static T[] Concat<T>(this T[] head, ReadOnlySpan<T> tail)
-        {
-            var count = head.Length + tail.Length;
-            var dst = alloc<T>(count);
-            var k=0;
-            for(var i=0; i<head.Length; i++)
-                seek(dst,k++) = skip(head,i);
-            for(var i=0; k<tail.Length; i++)
-                seek(dst,k++) = skip(tail,i);
-            return dst;
-        }
-
-        public static Index<T> Concat<T>(this Index<T> head, params T[] tail)
-            => head.Storage.Concat(@readonly(tail));
-
-
-
     }
 }

@@ -45,7 +45,7 @@ namespace Z0
                     _ => RuleTableDefs.Empty
                 };
 
-            public Index<RuleTableRow> CalcTableRows(in RuleTable src)
+            public Index<RuleTableRow> CalcTableRows(in Rule src)
                 => rows(src).Data;
 
             void EmitEncTables()
@@ -132,7 +132,7 @@ namespace Z0
                 return buffer.Array().Sort();
             }
 
-            Index<RuleTableRow> EmitTableDef(string scope, in RuleTable src)
+            Index<RuleTableRow> EmitTableDef(string scope, in Rule src)
             {
                 var data = CalcTableRows(src);
                 if(data.IsNonEmpty)
@@ -212,7 +212,7 @@ namespace Z0
             RuleTableDefs CalcEncDecTableDefs()
             {
                 var parser = new RuleTableParser();
-                var dst = dict<RuleSig,RuleTable>();
+                var dst = dict<RuleSig,Rule>();
                 var enc = parser.Parse(XedPaths.DocSource(XedDocKind.EncDecRuleTable));
                 foreach(var t in enc)
                     dst.Add(t.Sig, t);
@@ -222,7 +222,7 @@ namespace Z0
             RuleTableDefs CalcEncTableDefs()
             {
                 var parser = new RuleTableParser();
-                var dst = dict<RuleSig,RuleTable>();
+                var dst = dict<RuleSig,Rule>();
                 var enc = parser.Parse(XedPaths.DocSource(XedDocKind.EncRuleTable));
                 foreach(var t in enc)
                     dst.Add(t.Sig, t);
@@ -232,7 +232,7 @@ namespace Z0
             RuleTableDefs CalcDecTableDefs()
             {
                 var parser = new RuleTableParser();
-                var dst = dict<RuleSig,RuleTable>();
+                var dst = dict<RuleSig,Rule>();
                 var enc = parser.Parse(XedPaths.DocSource(XedDocKind.DecRuleTable));
                 foreach(var t in enc)
                     dst.TryAdd(t.Sig, t);
@@ -279,7 +279,7 @@ namespace Z0
                 return dst.Array().Sort();
             }
 
-            Index<RuleSchema> CalcRuleSchemas(ReadOnlySpan<RuleTable> tables, ConcurrentBag<RuleSchema> dst)
+            Index<RuleSchema> CalcRuleSchemas(ReadOnlySpan<Rule> tables, ConcurrentBag<RuleSchema> dst)
             {
                 iter(tables, t => {
                     var s = schema(t);
@@ -289,7 +289,7 @@ namespace Z0
                 return dst.Array().Sort();
             }
 
-            Index<RuleSchema> CalcRuleSchemas(ReadOnlySpan<RuleTable> tables)
+            Index<RuleSchema> CalcRuleSchemas(ReadOnlySpan<Rule> tables)
                 => CalcRuleSchemas(tables,bag<RuleSchema>());
         }
     }

@@ -21,9 +21,6 @@ namespace Z0
 
             [Symbol("encdec")]
             EncDec = 3,
-
-            [Symbol("joined")]
-            Joined = 4
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Z0
 
     public partial class XedRender
     {
-        public static string format(in RuleExpr src)
+        public static string format(in RuleStatement src)
         {
             var sep = " <=> ";
             var dst = text.buffer();

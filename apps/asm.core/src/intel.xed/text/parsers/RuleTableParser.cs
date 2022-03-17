@@ -13,10 +13,12 @@ namespace Z0
     using static XedRules.RuleFormKind;
     using static XedModels;
     using static XedParsers;
+    //using static XedRules.RuleInfo;
 
     using K = XedRules.FieldKind;
     using RO = XedRules.RuleOperator;
     using RF = XedRules.RuleFormKind;
+    using RI = XedRules.RuleInfo;
 
     partial class XedRules
     {
@@ -43,7 +45,7 @@ namespace Z0
             static RuleCriterion criterion(bool premise, BitfieldSpec src)
                 => new RuleCriterion(premise, src);
 
-            static RuleExpr expr(string premise, string consequent = EmptyString)
+            static RuleStatement expr(string premise, string consequent = EmptyString)
             {
                 var buffer = list<RuleCriterion>();
 
@@ -57,7 +59,7 @@ namespace Z0
                     specs(false, RuleMacros.expand(consequent), buffer);
 
                 var right = buffer.ToArray();
-                return new RuleExpr(left, right);
+                return new RuleStatement(left, right);
             }
 
             static void specs(bool premise, string src, List<RuleCriterion> buffer)
@@ -546,8 +548,6 @@ namespace Z0
                         break;
                 }
 
-
-
                 return result;
             }
 
@@ -568,9 +568,9 @@ namespace Z0
                 return 0;
             }
 
-            RuleTable Table;
+            Rule Table;
 
-            List<RuleTable> Tables;
+            List<Rule> Tables;
 
             LineReader Reader;
 
@@ -582,7 +582,7 @@ namespace Z0
 
             public RuleTableParser()
             {
-                Table = RuleTable.Empty;
+                Table = Rule.Empty;
                 Reader = default;
                 Line = TextLine.Empty;
                 FormKind = 0;
@@ -606,7 +606,98 @@ namespace Z0
                 return result;
             }
 
-            public Index<RuleTable> Parse(FS.FilePath src)
+            static RI.RuleStatement statement(string src)
+            {
+                var input = normalize(src);
+                var i = text.index(input,"=>");
+                var dst = RI.RuleStatement.Empty;
+                if(i > 0)
+                {
+                    var pcells = list<RuleCell>();
+                    var premise = map(text.split(text.left(input,i), Chars.Space),RuleMacros.expand);
+                    for(var j=0; j<premise.Length; j++)
+                    {
+                        ref readonly var x = ref skip(premise,j);
+                        pcells.Add(new RuleCell(XedFields.kind(x),x));
+                    }
+
+                    var ccells = list<RuleCell>();
+                    var consequent = map(text.split(text.right(input,i + 1), Chars.Space),RuleMacros.expand);
+                    for(var j=0; j<consequent.Length; j++)
+                    {
+                        ref readonly var x = ref skip(consequent,j);
+                        ccells.Add(new RuleCell(XedFields.kind(x),x));
+                    }
+
+                    if(ccells.Count !=0 && pcells.Count != 0)
+                        dst = new RI.RuleStatement(pcells.ToArray(), ccells.ToArray());
+                }
+
+                return dst;
+
+                static string normalize(string src)
+                {
+                    var dst = EmptyString;
+                    var i = text.index(src, Chars.Hash);
+                    if(i>0)
+                        dst = text.despace(text.trim(text.left(src,i)));
+                    else
+                        dst = text.despace(text.trim(src));
+                    return dst.Replace("->", "=>").Replace("|", "=>").Remove("XED_RESET");
+                }
+            }
+
+            public static Index<RuleInfo> describe(FS.FilePath src)
+            {
+                //var dst = list<string>();
+                using var reader = src.Utf8LineReader();
+                //var buffer = text.buffer();
+                var counter = 0u;
+                var dst = list<RuleInfo>();
+                var tkind = XedPaths.tablekind(src.FileName);
+                var statements =list<RuleInfo.RuleStatement>();
+                var name = EmptyString;
+                while(reader.Next(out var line))
+                {
+                    var content = text.trim(text.despace(line.Content));
+                    if(text.empty(content) || text.begins(content, Chars.Hash))
+                        continue;
+
+                    if(text.ends(content, "::"))
+                    {
+
+                        if(counter != 0)
+                        {
+                            dst.Add(new (sig(tkind, name), statements.ToArray()));
+                            statements.Clear();
+
+                            //infos.Add(new RuleInfo())
+                            // buffer.AppendLine(Chars.RBrace);
+                            // dst.Add(buffer.Emit());
+
+                        }
+
+                        name = text.remove(content,"::");
+                        counter++;
+
+                        //buffer.AppendLine(text.remove(content,"::"));
+                        //buffer.AppendLine(Chars.LBrace);
+                    }
+                    else
+                    {
+                        var s = statement(content);
+                        if(s.IsNonEmpty)
+                            statements.Add(s);
+                        // if(s.IsNonEmpty)
+                        //     buffer.IndentLine(4, s.Format());
+                    }
+                }
+                //buffer.AppendLine(Chars.RBrace);
+                //dst.Add(buffer.Emit());
+                return dst.ToArray();
+            }
+
+            public Index<Rule> Parse(FS.FilePath src)
             {
                 try
                 {
@@ -644,7 +735,7 @@ namespace Z0
 
             void ParseRuleExpr()
             {
-                var expressions = list<RuleExpr>();
+                var expressions = list<RuleStatement>();
                 while(Reader.Next(out Line))
                 {
                     if(Line.IsEmpty || Line.StartsWith(Chars.Hash))
@@ -667,7 +758,7 @@ namespace Z0
                         else if(parts.Length == 1)
                             expressions.Add(expr(parts[0]));
                         else
-                            Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleExpr), content));
+                            Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleStatement), content));
                     }
                     else
                         break;
@@ -691,12 +782,12 @@ namespace Z0
 
                 if(Skip.Contains(name))
                 {
-                    Table = RuleTable.Empty;
+                    Table = Rule.Empty;
                     return;
                 }
 
                 Tables.Add(Table);
-                Table = RuleTable.Empty;
+                Table = Rule.Empty;
             }
 
             static string normalize(string src)

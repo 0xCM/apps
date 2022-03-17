@@ -70,9 +70,19 @@ namespace Z0
                 RuleTableKind.Enc => RuleTables() + FS.file("rules.tables.info.enc", FS.Txt),
                 RuleTableKind.Dec => RuleTables() + FS.file("rules.tables.info.dec", FS.Txt),
                 RuleTableKind.EncDec => RuleTables() + FS.file("rules.tables.info.encdec", FS.Txt),
-                RuleTableKind.Joined => RuleTables() + FS.file("rules.tables.info.joined", FS.Txt),
                 _ => FS.FilePath.Empty
             };
+
+        public static RuleTableKind tablekind(FS.FileName src)
+        {
+            return srckind(src) switch
+            {
+                XedDocKind.EncRuleTable => RuleTableKind.Enc,
+                XedDocKind.DecRuleTable => RuleTableKind.Dec,
+                XedDocKind.EncDecRuleTable => RuleTableKind.EncDec,
+                _ => 0
+            };
+        }
 
         public FS.FileName TableFile(RuleSig sig)
             => FS.file(string.Format("{0}.{1}",RuleTableRow.TableId, sig.Name), FS.Csv);
@@ -82,6 +92,19 @@ namespace Z0
 
         public FS.FilePath TableDef(RuleTableKind kind)
             => Targets("rules.tables") + FS.file(string.Format("{0}.{1}",RuleTableRow.TableId, kind.ToString().ToLower()), FS.Csv);
+
+        public FS.FilePath RuleSource(RuleTableKind kind)
+        {
+            var name = kind switch
+            {
+                RuleTableKind.Enc => EncRuleTable,
+                RuleTableKind.Dec => DecRuleTable,
+                RuleTableKind.EncDec => EncDecRuleTable,
+                _ => FS.FileName.Empty
+            };
+
+            return Sources() + name;
+        }
 
         public static XedDocKind srckind(FS.FileName src)
         {

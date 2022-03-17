@@ -7,14 +7,14 @@ namespace Z0
 {
     partial class XedRules
     {
-        public struct RuleExpr
+        public struct RuleStatement
         {
             public Index<RuleCriterion> Premise;
 
             public Index<RuleCriterion> Consequent;
 
             [MethodImpl(Inline)]
-            public RuleExpr(Index<RuleCriterion> premise, Index<RuleCriterion> consequent)
+            public RuleStatement(Index<RuleCriterion> premise, Index<RuleCriterion> consequent)
             {
                 Premise = premise;
                 Consequent = consequent;
@@ -50,7 +50,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static RuleExpr Empty => new RuleExpr(sys.empty<RuleCriterion>(), sys.empty<RuleCriterion>());
+            public static RuleStatement Empty => new RuleStatement(sys.empty<RuleCriterion>(), sys.empty<RuleCriterion>());
         }
     }
 }

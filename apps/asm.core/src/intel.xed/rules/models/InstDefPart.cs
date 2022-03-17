@@ -71,16 +71,6 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefPart(BitNumber src)
-            {
-                var data = ByteBlock16.Empty;
-                data[0] = src.Val8;
-                data[1] = src.Width;
-                data[15] = (byte)DefSegKind.BitLiteral;
-                Data = data;
-            }
-
-            [MethodImpl(Inline)]
             public InstDefPart(FieldValue src)
             {
                 var data = ByteBlock16.Empty;
@@ -107,36 +97,21 @@ namespace Z0
             public ref readonly Hex8 AsHexLit()
                 => ref @as<Hex8>(Data.First);
 
-            public T Map<S,T>(DefSegKind kind, Func<S,T> f)
-            {
-                var dst = default(T);
-                Require.nonzero(kind);
-                switch(kind)
-                {
-                    case DefSegKind.FieldAssign:
-                        dst = f(@as<InstDefPart,S>(AsAssign()));
-                    break;
-                    case DefSegKind.Bitfield:
-                        dst = f(@as<InstDefPart,S>(@as<BitfieldSeg>(Data.First)));
-                    break;
-                    case DefSegKind.Constraint:
-                        dst = f(@as<InstDefPart,S>(@as<FieldConstraint>(Data.First)));
-                    break;
-                    case DefSegKind.HexLiteral:
-                        dst = f(@as<InstDefPart,S>(AsHexLit()));
-                    break;
-                    case DefSegKind.BitLiteral:
-                        dst = f(@as<InstDefPart,S>(@as<uint5>(Data.First)));
-                    break;
-                    case DefSegKind.Nonterm:
-                        dst = f(@as<InstDefPart,S>(@as<Nonterminal>(Data.First)));
-                    break;
-                    case DefSegKind.FieldLiteral:
-                        dst = f(@as<InstDefPart,S>(AsFieldLit()));
-                    break;
-                }
-                return dst;
-            }
+            [MethodImpl(Inline)]
+            public ref readonly FieldConstraint AsConstraint()
+                => ref @as<FieldConstraint>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly Nonterminal AsNonterminal()
+                => ref @as<Nonterminal>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly BitfieldSeg AsBfSeg()
+                => ref @as<BitfieldSeg>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly uint5 AsB5()
+                => ref @as<uint5>(Data.First);
 
             public string Format()
                 => XedRender.format(this);
@@ -166,10 +141,6 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator InstDefPart(Nonterminal src)
-                => new InstDefPart(src);
-
-            [MethodImpl(Inline)]
-            public static implicit operator InstDefPart(BitNumber src)
                 => new InstDefPart(src);
 
             [MethodImpl(Inline)]

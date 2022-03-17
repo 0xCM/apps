@@ -34,22 +34,35 @@ namespace Z0
 
         public Identifier HostName {get;}
 
-        ConcurrentDictionary<Type,object> ServiceCache {get;}
+        static ConcurrentDictionary<Type,object> ServiceCache {get;}
             = new();
 
-        ConcurrentDictionary<string,object> _Data {get;}
+        static object ServiceLock = new();
+
+        static ConcurrentDictionary<string,object> _Data {get;}
             = new();
+
+        static object DataLock = new();
 
         [MethodImpl(Inline)]
         protected D Data<D>(string key, Func<D> factory)
-            => (D)_Data.GetOrAdd(key, k => factory());
+        {
+            lock(DataLock)
+                return (D)_Data.GetOrAdd(key, k => factory());
+        }
 
         [MethodImpl(Inline)]
         protected void ClearCache()
-            => _Data.Clear();
+        {
+            lock(DataLock)
+                _Data.Clear();
+        }
 
         protected T Service<T>(Func<T> factory)
-            => (T)ServiceCache.GetOrAdd(typeof(T), key => factory());
+        {
+            lock(ServiceLock)
+                return (T)ServiceCache.GetOrAdd(typeof(T), key => factory());
+        }
 
         public IWfRuntime Wf {get; private set;}
 
@@ -129,7 +142,6 @@ namespace Z0
                 iter(src, path => Write(path.ToUri()));
             return Files();
         }
-
 
         protected void RedirectEmissions(string name, FS.FolderPath dst)
             => Wf.RedirectEmissions(Loggers.emission(name, dst));

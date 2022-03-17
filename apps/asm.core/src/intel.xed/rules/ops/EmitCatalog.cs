@@ -10,8 +10,8 @@ namespace Z0
 
     partial class XedRules
     {
-        public static void exec(bool pll, params Action[] src)
-            => iter(src, a => a(), pll);
+        // public static void exec(bool pll, params Action[] src)
+        //     => iter(src, a => a(), pll);
 
         public void EmitCatalog()
         {

@@ -17,7 +17,7 @@ namespace Z0
         public static RuleSchema schema(RuleSig sig, ReadOnlySpan<RuleTableRow> src)
             => schema(sig, specs(src));
 
-        public static RuleSchema schema(in RuleTable src)
+        public static RuleSchema schema(in Rule src)
         {
             var data = rows(src).Data;
             if(data.IsNonEmpty)

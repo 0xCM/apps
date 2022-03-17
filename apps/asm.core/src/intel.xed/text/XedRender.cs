@@ -259,7 +259,7 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static string format(in RuleTable src)
+        public static string format(in Rule src)
         {
             var dst = text.buffer();
             dst.AppendLine(string.Format("{0}()", src.Sig.Name));
@@ -272,7 +272,7 @@ namespace Z0
             return dst.Emit();
         }
 
-        static string format3(uint5 src)
+        static string format5(uint5 src)
         {
             var storage = 0ul;
             var dst = recover<AsciSymbol>(bytes(storage));
