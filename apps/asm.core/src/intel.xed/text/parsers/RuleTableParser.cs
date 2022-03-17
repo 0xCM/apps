@@ -11,6 +11,7 @@ namespace Z0
     using static XedRules.SyntaxLiterals;
     using static XedRules.RuleFormKind;
     using static XedModels;
+    using static XedParsers;
 
     using K = XedRules.FieldKind;
     using RO = XedRules.RuleOperator;

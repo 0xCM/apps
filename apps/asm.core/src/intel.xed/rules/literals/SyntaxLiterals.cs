@@ -10,7 +10,7 @@ namespace Z0
         [LiteralProvider]
         internal readonly struct SyntaxLiterals
         {
-            const string SeqDeclSyntax = "SEQUENCE";
+            public const string SeqDeclSyntax = "SEQUENCE";
 
             public const string TableDeclSyntax = "()::";
 
@@ -20,37 +20,9 @@ namespace Z0
 
             public const string DecStep = "|";
 
-            const string Neq = "!=";
+            public const string Neq = "!=";
 
-            const char Assign = '=';
-
-            public static bool IsCall(string src)
-                => src.EndsWith(CallSyntax);
-
-            public static bool IsSeqDecl(string src)
-                => src.StartsWith(SeqDeclSyntax);
-
-            public static bool IsTableDecl(string src)
-                => src.EndsWith(TableDeclSyntax);
-
-            public static bool IsEncStep(string src)
-                => src.Contains(EncStep);
-
-            public static bool IsDecStep(string src)
-                => src.Contains(DecStep);
-
-            public static bool IsNeq(string src)
-                => src.Contains(Neq);
-
-            public static bool IsAssign(string src)
-                => src.Contains(Assign);
-
-            public static bool IsBitfieldSeg(string src)
-            {
-                var i = text.index(src,Chars.LBracket);
-                var j = text.index(src,Chars.RBracket);
-                return i > 0 && j>1;
-            }
+            public const char Assign = '=';
         }
     }
 }

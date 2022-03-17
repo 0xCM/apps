@@ -6,11 +6,15 @@ namespace Z0
 {
     using static core;
     using static XedRules.SyntaxLiterals;
+    using static XedParsers;
 
     partial class XedRules
     {
         public readonly struct RuleSeqParser
         {
+            public Index<RuleSeq> Parse(FS.FilePath src)
+                => Parse(src.ReadNumberedLines());
+
             public Index<RuleSeq> Parse(ReadOnlySpan<TextLine> src)
             {
                 var count = src.Length;
@@ -97,8 +101,6 @@ namespace Z0
                 return (uint)terms.Count;
             }
 
-            public Index<RuleSeq> Parse(FS.FilePath src)
-                => Parse(src.ReadNumberedLines());
        }
     }
 }

@@ -6,6 +6,7 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
+    using static XedRules.SyntaxLiterals;
     using static core;
 
     public partial class XedParsers
@@ -17,6 +18,34 @@ namespace Z0
         XedParsers()
         {
 
+        }
+
+        public static bool IsAssign(string src)
+            => src.Contains(SyntaxLiterals.Assign) && !IsNeq(src);
+
+        public static bool IsNeq(string src)
+            => src.Contains(Neq);
+
+        public static bool IsCall(string src)
+            => src.EndsWith(CallSyntax);
+
+        public static bool IsTableDecl(string src)
+            => src.EndsWith(TableDeclSyntax);
+
+        public static bool IsEncStep(string src)
+            => src.Contains(EncStep);
+
+        public static bool IsDecStep(string src)
+            => src.Contains(DecStep);
+
+        public static bool IsSeqDecl(string src)
+            => src.StartsWith(SeqDeclSyntax);
+
+        public static bool IsBitfieldSeg(string src)
+        {
+            var i = text.index(src,Chars.LBracket);
+            var j = text.index(src,Chars.RBracket);
+            return i > 0 && j>1;
         }
 
         public static bool parse(string src, out EncodingGroup dst)
@@ -497,25 +526,23 @@ namespace Z0
 
         public Outcome Parse(string src, out FieldAssign dst)
         {
-            var i = text.index(src,Chars.Eq);
+            var input = text.trim(src);
+            var i = text.index(input, Chars.Eq);
             dst = FieldAssign.Empty;
             Outcome result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
             if(i > 0)
             {
-                var name = text.left(src,i);
-                var val = text.right(src,i);
-                if(Parse(name, out FieldKind fk))
-                {
-                    result = XedFields.parse(fk, val, out var fv);
-                }
+                if(Parse(text.left(input,i), out FieldKind kind))
+                    if(XedFields.parse(kind, text.right(input,i), out var fv))
+                    {
+                        dst = new(fv);
+                        result = true;
+                    }
                 else
                     result = (false, AppMsg.ParseFailure.Format(nameof(FieldKind), src));
             }
             return result;
         }
-
-        public Outcome Parse(string src, out InstPatternBody dst)
-            => InstDefParser.Service.Parse(src, out dst);
 
         [MethodImpl(Inline)]
         internal static bool IsHexLiteral(string src)
