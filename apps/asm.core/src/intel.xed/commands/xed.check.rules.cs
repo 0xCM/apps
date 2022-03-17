@@ -26,8 +26,8 @@ namespace Z0
                 for(var j=0; j<count; j++)
                 {
                     ref readonly var row = ref rows[j];
-                    row.FieldSpecs('P',pFields);
-                    row.FieldSpecs('C',cFields);
+                    row.FieldSpecs('P', pFields);
+                    row.FieldSpecs('C', cFields);
                 }
 
                 lookup[sig] = pFields.Array().Concat(cFields.Array()).Sort();
