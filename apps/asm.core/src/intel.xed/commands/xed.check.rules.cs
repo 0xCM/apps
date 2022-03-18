@@ -13,6 +13,7 @@ namespace Z0
         Outcome CheckRuleSpecs(CmdArgs args)
         {
 
+
             return true;
         }
 

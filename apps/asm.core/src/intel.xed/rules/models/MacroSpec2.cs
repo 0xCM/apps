@@ -8,24 +8,17 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct MacroSpec : IComparable<MacroSpec>
+        public struct MacroSpec2 : IComparable<MacroSpec2>
         {
             public readonly RuleMacroKind Name;
 
-            public Index<FieldAssign> Expansions;
+            public Index<MacroExpansion> Expansions;
 
             [MethodImpl(Inline)]
-            public MacroSpec(RuleMacroKind name, params FieldAssign[] expansions)
+            public MacroSpec2(RuleMacroKind name, params MacroExpansion[] expansions)
             {
                 Name = name;
                 Expansions = expansions;
-            }
-
-            [MethodImpl(Inline)]
-            public MacroSpec(RuleMacroKind name, params MacroExpansion[] expansions)
-            {
-                Name = name;
-                Expansions = sys.empty<FieldAssign>();
             }
 
             public bool IsEmpty
@@ -41,16 +34,16 @@ namespace Z0
             }
 
             public string Format()
-                => XedRender.format(this);
+                => EmptyString;
 
             public override string ToString()
                 => Format();
 
             [MethodImpl(Inline)]
-            public int CompareTo(MacroSpec src)
+            public int CompareTo(MacroSpec2 src)
                 => ((uint)Name).CompareTo((uint)src.Name);
 
-            public static MacroSpec Empty => new MacroSpec(RuleMacroKind.nothing, sys.empty<MacroExpansion>());
+            public static MacroSpec2 Empty => new MacroSpec2(RuleMacroKind.nothing, sys.empty<MacroExpansion>());
         }
     }
 }

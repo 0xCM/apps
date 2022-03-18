@@ -37,6 +37,8 @@ namespace Z0
 
             static ConstLookup<RuleMacroKind,MacroSpec> Lookup;
 
+            static EnumParser<RuleMacroKind> MacroKinds = new();
+
             static HashSet<string> Names;
 
             static RuleMacros()
@@ -55,6 +57,62 @@ namespace Z0
                 for(var i=0; i<count; i++)
                     seek(dst,i) = (MacroSpec)skip(src,i).Invoke(null, sys.empty<object>());
                 return dst.Sort();
+            }
+
+            public static string expand2(string src)
+            {
+                var input = text.trim(text.split(text.despace(src), Chars.Space));
+                var count = input.Length;
+                var output = alloc<string>(count);
+                var names = RuleMacros.names();
+                var kinds = RuleMacros.kinds();
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var part = ref skip(input,i);
+                    var j = text.index(part,"!=");
+                    var k = text.index(part,"=");
+                    var kind = RuleMacroKind.None;
+                    var spec = MacroSpec.Empty;
+                    var op = RuleOperator.None;
+                    if(j > 0)
+                    {
+                        op = RuleOperator.CmpNeq;
+                        if(MacroKinds.Parse(text.left(part,j), out kind))
+                            Lookup.Find(kind, out spec);
+                    }
+                    else if(k > 0)
+                    {
+                        op = RuleOperator.Assign;
+                        if(MacroKinds.Parse(text.left(part,k), out kind))
+                            Lookup.Find(kind, out spec);
+                    }
+                    else
+                    {
+                        op = RuleOperator.None;
+                        if(MacroKinds.Parse(part, out kind))
+                            Lookup.Find(kind, out spec);
+                    }
+
+                    if(spec.IsNonEmpty)
+                    {
+                        var buffer = text.buffer();
+                        for(var q=0; q<spec.Expansions.Count; q++)
+                        {
+                            ref readonly var expansion = ref spec.Expansions[q];
+                            if(q != 0)
+                                buffer.Append(Chars.Space);
+
+                            if(op != 0)
+                                buffer.AppendFormat("{0}{1}{2}", XedRender.format(expansion.Field), XedRender.format(op), expansion.Value.Format());
+                            else
+                                buffer.Append(expansion.Value.Format());
+                        }
+                        seek(output,i) = buffer.Emit();
+                    }
+                    else
+                        seek(output,i) = part;
+                }
+                return output.Delimit(Chars.Space).Format();
             }
 
             public static string expand(string src)
@@ -87,6 +145,26 @@ namespace Z0
             [MethodImpl(Inline), Op]
             public static Index<MacroSpec> specs()
                 => Specs;
+
+            [MethodImpl(Inline), Op]
+            public static Index<MacroSpec2> specs2()
+            {
+                var count = Specs.Count;
+                var dst = alloc<MacroSpec2>(count);
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var input = ref Specs[i];
+                    var assignments = input.Expansions;
+                    var expansions = alloc<MacroExpansion>(assignments.Count);
+                    for(var j=0; j<assignments.Count; j++)
+                    {
+                        ref readonly var assign = ref assignments[j];
+                        seek(expansions,j) = new MacroExpansion(assign.Field, RuleOperator.Assign, assign.Value);
+                    }
+                    seek(dst,i) = new MacroSpec2(input.Name, expansions);
+                }
+                return dst;
+            }
 
             [MethodImpl(Inline), Op]
             public static ConstLookup<RuleMacroKind,MacroSpec> lookup()
@@ -125,16 +203,16 @@ namespace Z0
                 => assign(M.not64, K.MODE, Not64);
 
             [MethodImpl(Inline), Op]
-            static MacroSpec mode64()
-                => assign(M.mode64, K.MODE, Mode64);
+            static MacroSpec mode16()
+                => assign(M.mode16, K.MODE, Mode16);
 
             [MethodImpl(Inline), Op]
             static MacroSpec mode32()
                 => assign(M.mode32, K.MODE, Mode32);
 
             [MethodImpl(Inline), Op]
-            static MacroSpec mode16()
-                => assign(M.mode16, K.MODE, Mode16);
+            static MacroSpec mode64()
+                => assign(M.mode64, K.MODE, Mode64);
 
             [MethodImpl(Inline), Op]
             static MacroSpec eanot16()
@@ -199,14 +277,6 @@ namespace Z0
             [MethodImpl(Inline), Op]
             public static MacroSpec rex_reqd()
                 => assign(M.rex_reqd, K.REX, On);
-
-            [MethodImpl(Inline), Op]
-            static MacroSpec nothing()
-                => RuleMacroKind.nothing;
-
-            [MethodImpl(Inline), Op]
-            static MacroSpec otherwise()
-                => M.otherwise;
 
             [MethodImpl(Inline), Op]
             static MacroSpec no_rex()

@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [Record(TableName), StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct MacroAssignment
+        public struct MacroDef
         {
             public const byte FieldCount = 8;
 
@@ -20,15 +20,15 @@ namespace Z0
 
             public byte Fields;
 
-            public FieldAssign A0;
+            public MacroExpansion E0;
 
-            public FieldAssign A1;
+            public MacroExpansion E1;
 
-            public FieldAssign A2;
+            public MacroExpansion E2;
 
-            public FieldAssign A3;
+            public MacroExpansion E3;
 
-            public FieldAssign A4;
+            public MacroExpansion E4;
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,8,26,26,26,26,26};
 

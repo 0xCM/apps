@@ -246,7 +246,7 @@ namespace Z0
         public static string format(in MacroSpec src)
         {
             var dst = text.buffer();
-            var assignments = src.Assignments;
+            var assignments = src.Expansions;
             var count = assignments.Count;
             for(var i=0; i<count; i++)
             {

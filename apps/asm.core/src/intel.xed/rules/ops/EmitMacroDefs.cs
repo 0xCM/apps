@@ -8,6 +8,6 @@ namespace Z0
     partial class XedRules
     {
         void EmitMacroDefs()
-            => TableEmit(CalcMacroDefs().View, MacroAssignment.RenderWidths, XedPaths.DocTarget(XedDocKind.MacroDefs));
+            => TableEmit(CalcMacroAssignments().View, MacroAssignment.RenderWidths, XedPaths.DocTarget(XedDocKind.MacroDefs));
     }
 }

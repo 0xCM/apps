@@ -46,8 +46,6 @@ namespace Z0
                     return format(src.AsNonterminal());
             }
 
-            var dst = EmptyString;
-
             switch(src.DataKind)
             {
                 case CellDataKind.Error:
@@ -57,32 +55,26 @@ namespace Z0
                 case CellDataKind.Null:
                 {
                     if(src.Operator != 0 && src.Field != 0)
-                        dst = string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), src.AsLiteral());
+                        return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), src.AsLiteral());
                     else
-                        dst = src.AsLiteral();
+                        return src.AsLiteral();
                 }
-                break;
             }
 
-            if(text.empty(dst))
-            {
-                if(src.IsAssignment)
-                    dst = format(src.AsAssignment());
-                else if(src.IsComparison)
-                    dst = format(src.AsCmp());
-                else if(src.IsCall)
-                    dst = format(src.AsCall());
-                else if(src.IsBfSeg)
-                    dst = format(src.AsBfSeg());
-                else if(src.IsBfSpec)
-                    dst = format(src.AsBfSpec());
-                else if(src.IsNonterminal)
-                    dst = format(src.AsNonterminal());
-                else
-                    dst = string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.AsValue()));
-            }
-
-            return dst;
+            if(src.IsAssignment)
+                return format(src.AsAssignment());
+            else if(src.IsComparison)
+                return format(src.AsCmp());
+            else if(src.IsCall)
+                return format(src.AsCall());
+            else if(src.IsBfSeg)
+                return format(src.AsBfSeg());
+            else if(src.IsBfSpec)
+                return format(src.AsBfSpec());
+            else if(src.IsNonterminal)
+                return format(src.AsNonterminal());
+            else
+                return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.AsValue()));
         }
     }
 }

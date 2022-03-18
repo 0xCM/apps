@@ -14,7 +14,6 @@ namespace Z0
     using K = XedRules.FieldKind;
     using RO = XedRules.RuleOperator;
     using RF = XedRules.RuleFormKind;
-    using RI = XedRules.RuleTableSpec;
 
     partial class XedRules
     {
@@ -32,16 +31,33 @@ namespace Z0
                 return new (src.Sig, body.ToArray());
             }
 
-            public static RuleStatement reify(RI.StatementSpec src)
+            static Index<RuleCriterion> criteria(bool premise, ReadOnlySpan<RuleCell> src)
             {
-                var left = list<RuleCriterion>();
-                if(src.Premise.IsNonEmpty)
-                    criteria(true, src.Premise.Delimit(Chars.Space).Format(), left);
+                var dst = list<RuleCriterion>();
+                var parts = map(src, p => p.Format()).Where(x => nonempty(x));
+                for(var i=0; i<parts.Length; i++)
+                {
+                    ref readonly var part = ref skip(parts, i);
+                    var result = parse(true, part, out var c);
+                    if(result.Fail)
+                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCriterion), part));
 
-                var right = list<RuleCriterion>();
+                    dst.Add(c);
+                }
+                return dst.ToArray();
+            }
+
+            public static RuleStatement reify(StatementSpec src)
+            {
+                var left = sys.empty<RuleCriterion>();
+                if(src.Premise.IsNonEmpty)
+                    left = criteria(true, src.Premise.View);
+
+                var right = sys.empty<RuleCriterion>();
                 if(src.Consequent.IsNonEmpty)
-                    criteria(false, src.Consequent.Delimit(Chars.Space).Format(), right);
-                return new RuleStatement(left.ToArray(), right.ToArray());
+                    right = criteria(false, src.Consequent.View);
+
+                return new RuleStatement(left, right);
             }
 
             public static Index<RuleTable> reify(ReadOnlySpan<RuleTableSpec> src)
@@ -54,13 +70,11 @@ namespace Z0
 
             public static Index<RuleTableSpec> specs(FS.FilePath src)
             {
-                var tmp = list<RuleTableSpec.StatementSpec>();
-                const string TMP = "VEXED_REX";
                 using var reader = src.Utf8LineReader();
                 var counter = 0u;
                 var dst = list<RuleTableSpec>();
                 var tkind = XedPaths.tablekind(src.FileName);
-                var statements =list<RuleTableSpec.StatementSpec>();
+                var statements =list<StatementSpec>();
                 var name = EmptyString;
                 while(reader.Next(out var line))
                 {
@@ -75,79 +89,83 @@ namespace Z0
                     {
                         if(counter != 0)
                         {
-                            if(name == TMP)
-                                tmp.AddRange(statements.ToArray());
-                            else
+                            if(!Skip.Contains(name))
                                 dst.Add(new (sig(tkind, name), statements.ToArray()));
 
                             statements.Clear();
                         }
 
                         name = text.remove(content,"()::");
-                        var i = text.index(name,Chars.Space);
+                        var i = text.index(name, Chars.Space);
                         if(i > 0)
                             name = text.right(name,i);
                         counter++;
                     }
                     else
                     {
-                        if(spec(content, out RI.StatementSpec s))
+                        if(spec(content, out StatementSpec s))
                             statements.Add(s);
                     }
                 }
 
-                if(tmp.Count != 0)
-                    dst.Add(new (sig(tkind, TMP), tmp.ToArray()));
                 return dst.ToArray().Sort();
             }
 
             public static Index<RuleTable> tables(FS.FilePath src)
                 => reify(specs(src));
 
-            static bool spec(string src, out RI.StatementSpec dst)
+            static Index<RuleCell> cells(string src)
+            {
+                var dst = list<RuleCell>();
+                if(text.contains(src, Chars.Space))
+                {
+                    var expansions = map(text.split(src, Chars.Space), RuleMacros.expand);
+                    for(var j=0; j<expansions.Length; j++)
+                    {
+                        ref readonly var x = ref skip(expansions,j);
+                        dst.Add(new RuleCell(XedFields.kind(x), x));
+                    }
+                }
+                else
+                    dst.Add(new (XedFields.kind(src),src));
+                return dst.ToArray();
+            }
+
+            static bool spec(string src, out StatementSpec dst)
             {
                 var input = normalize(src);
                 var i = text.index(input,"=>");
-                dst = RI.StatementSpec.Empty;
+                dst = StatementSpec.Empty;
                 if(i > 0)
                 {
-                    var pcells = list<RuleCell>();
-                    var premise = map(text.split(text.left(input,i), Chars.Space),RuleMacros.expand);
-                    for(var j=0; j<premise.Length; j++)
-                    {
-                        ref readonly var x = ref skip(premise,j);
-                        pcells.Add(new RuleCell(XedFields.kind(x),x));
-                    }
-
-                    var ccells = list<RuleCell>();
-                    var consequent = map(text.split(text.right(input,i + 1), Chars.Space), RuleMacros.expand);
-                    for(var j=0; j<consequent.Length; j++)
-                    {
-                        ref readonly var x = ref skip(consequent,j);
-                        ccells.Add(new RuleCell(XedFields.kind(x),x));
-                    }
-
+                    var pcells = cells(text.trim(text.left(input,i)));
+                    var ccells = cells(text.trim(text.right(input,i+1)));
                     if(ccells.Count !=0 && pcells.Count != 0)
-                        dst = new RI.StatementSpec(pcells.ToArray(), ccells.ToArray());
+                        dst = new StatementSpec(pcells, ccells);
                 }
 
                 return dst.IsNonEmpty;
+            }
 
-                static string normalize(string src)
-                {
-                    var dst = EmptyString;
-                    var i = text.index(src, Chars.Hash);
-                    if(i>0)
-                        dst = text.despace(text.trim(text.left(src,i)));
-                    else
-                        dst = text.despace(text.trim(src));
+            static string normalize(string src)
+            {
+                var dst = EmptyString;
+                var i = text.index(src, Chars.Hash);
+                if(i>0)
+                    dst = text.despace(text.trim(text.left(src, i)));
+                else
+                    dst = text.despace(text.trim(src));
+                if(dst == "otherwise")
+                    return "else";
+                else if(dst == "nothing")
+                    return "null";
+                else
                     return dst.Replace("->", "=>").Replace("|", "=>").Remove("XED_RESET");
-                }
             }
 
             [MethodImpl(Inline), Op]
             static RuleCriterion criterion(bool premise, FieldKind fk, asci8 value, CellDataKind dk)
-                => new RuleCriterion(premise, fk, RuleOperator.None,  value, dk);
+                => new RuleCriterion(premise, fk, RuleOperator.None, value, dk);
 
             [MethodImpl(Inline), Op]
             static RuleCriterion criterion(bool premise, RuleCall call)
@@ -173,20 +191,6 @@ namespace Z0
             [MethodImpl(Inline), Op]
             static RuleCriterion criterion(bool premise, RuleOperator op, FieldValue src)
                 => new RuleCriterion(premise,src.Field, op, src.Data);
-
-            static void criteria(bool premise, string src, List<RuleCriterion> dst)
-            {
-                var parts = text.trim(text.split(src, Chars.Space)).Where(x => nonempty(x) && !Skip.Contains(x));
-                var count = parts.Length;
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var part = ref skip(parts, i);
-                    var result = parse(premise, part, out var c);
-                    if(result.Fail)
-                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCriterion), part));
-                    dst.Add(c);
-                }
-            }
 
             static void parse(bool premise, string input, out FieldKind fk, out string fv, out RuleOperator op)
             {
@@ -267,7 +271,7 @@ namespace Z0
 
             static Outcome parse(bool premise, string spec, out RuleCriterion dst)
             {
-                var input = text.trim(text.despace(spec));
+                var input = normalize(spec);
                 var fk = K.INVALID;
                 var op = RO.None;
                 var fv = input;
@@ -313,25 +317,21 @@ namespace Z0
                 {
                     if(input.Length > 8)
                         Errors.Throw(string.Format("The value '{0}' is too long to be a literal", input));
-                    dst = literal(premise,input);
+
+                    if(XedParsers.IsBinaryLiteral(input))
+                        dst = criterion(premise, 0, (asci8)input, CellDataKind.Literal);
+                    else if(input == "else")
+                        dst = criterion(premise, 0, input, CellDataKind.Default);
+                    else if(input == "null")
+                        dst = criterion(premise, 0, input, CellDataKind.Null);
+                    else if(input == "error")
+                        dst = criterion(premise, FieldKind.ERROR, input, CellDataKind.Error);
+                    else if(input == "@")
+                        dst = criterion(premise, 0, input, CellDataKind.Wildcard);
+                    else
+                        dst = criterion(premise, 0, (asci8)input, CellDataKind.Literal);
                     return true;
                 }
-            }
-
-            static RuleCriterion literal(bool premise, string input)
-            {
-                if(XedParsers.IsBinaryLiteral(input))
-                    return criterion(premise, 0, (asci8)input, CellDataKind.Literal);
-                else if(input == "otherwise")
-                    return criterion(premise, 0, (asci8)"else", CellDataKind.Default);
-                else if(input == "nothing")
-                    return criterion(premise, 0, (asci8)"null", CellDataKind.Null);
-                else if(input == "error")
-                    return criterion(premise, FieldKind.ERROR, (asci8)"error", CellDataKind.Error);
-                else if(input == "@")
-                    return criterion(premise, 0, (asci8)"@", CellDataKind.Wildcard);
-                else
-                    return criterion(premise, 0, (asci8)input, CellDataKind.Literal);
             }
 
             public static Outcome parse(FieldKind field, string value, out FieldValue dst)
@@ -340,67 +340,6 @@ namespace Z0
                 dst = FieldValue.Empty;
                 switch(field)
                 {
-                    case K.AGEN:
-                    case K.AMD3DNOW:
-                    case K.ASZ:
-                    case K.CET:
-                    case K.CLDEMOTE:
-                    case K.DF32:
-                    case K.DF64:
-                    case K.DUMMY:
-                    case K.ENCODER_PREFERRED:
-                    case K.ENCODE_FORCE:
-                    case K.HAS_MODRM:
-                    case K.HAS_SIB:
-                    case K.ILD_F2:
-                    case K.ILD_F3:
-                    case K.IMM0:
-                    case K.IMM0SIGNED:
-                    case K.IMM1:
-                    case K.LOCK:
-                    case K.LZCNT:
-                    case K.MEM0:
-                    case K.MEM1:
-                    case K.MODE_FIRST_PREFIX:
-                    case K.MODE_SHORT_UD0:
-                    case K.MODEP5:
-                    case K.MODEP55C:
-                    case K.MPXMODE:
-                    case K.MUST_USE_EVEX:
-                    case K.NEEDREX:
-                    case K.NEED_SIB:
-                    case K.NOREX:
-                    case K.NO_RETURN:
-                    case K.NO_SCALE_DISP8:
-                    case K.REX:
-                    case K.OSZ:
-                    case K.OUT_OF_BYTES:
-                    case K.P4:
-                    case K.PREFIX66:
-                    case K.PTR:
-                    case K.REALMODE:
-                    case K.RELBR:
-                    case K.TZCNT:
-                    case K.UBIT:
-                    case K.USING_DEFAULT_SEGMENT0:
-                    case K.USING_DEFAULT_SEGMENT1:
-                    case K.VEX_C4:
-                    case K.VEXDEST3:
-                    case K.VEXDEST4:
-                    case K.WBNOINVD:
-                    case K.REXRR:
-                    case K.SAE:
-                    case K.BCRC:
-                    case K.ZEROING:
-                    {
-                        if(XedParsers.parse(value, out bit b))
-                        {
-                            dst = new (field,b);
-                            result = true;
-                        }
-                    }
-                    break;
-
                     case K.REXW:
                     {
                         if(XedParsers.parse(value, out bit b))
