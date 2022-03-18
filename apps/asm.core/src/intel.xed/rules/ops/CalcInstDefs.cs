@@ -8,6 +8,6 @@ namespace Z0
     partial class XedRules
     {
         public Index<InstDef> CalcInstDefs()
-            => Data(nameof(CalcInstDefs), () => InstDefParser.ParseInstDefs(XedPaths.DocSource(XedDocKind.EncInstDef)));
+            => Data(nameof(CalcInstDefs), () => InstDefParser.parse(XedPaths.DocSource(XedDocKind.EncInstDef)));
     }
 }

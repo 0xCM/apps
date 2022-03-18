@@ -5,12 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-    using static core;
-
     partial class XedRules
     {
         void EmitMacroDefs()
-            => TableEmit(CalcMacroAssignments().View, MacroAssignment.RenderWidths, XedPaths.DocTarget(XedDocKind.MacroDefs));
+            => TableEmit(CalcMacroDefs().View, MacroAssignment.RenderWidths, XedPaths.DocTarget(XedDocKind.MacroDefs));
     }
 }

@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
     using static core;
 
     partial class XedRules
@@ -18,6 +17,9 @@ namespace Z0
 
         void EmitPatternDetails(Index<InstPattern> src)
             => EmitPatternDetails(src, XedPaths.DocTarget(XedDocKind.PatternDetail));
+
+        Index<PatternOpDetail> CalcPatternOps(Index<InstPattern> src)
+            => src.SelectMany(x => x.OpDetails).Sort();
 
         void EmitPatternOps(Index<InstPattern> patterns)
             => TableEmit(CalcPatternOps(patterns).View, PatternOpDetail.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));

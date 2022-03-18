@@ -8,47 +8,13 @@ namespace Z0
     using static core;
     using static Root;
     using static XedModels;
-    using static XedParsers;
 
     using P = XedRules.InstRulePart;
 
     partial class XedRules
     {
-        class XedInstDefParser
+        internal class InstDefParser
         {
-            readonly XedRules Rules;
-
-            ITextBuffer _PatternBuffer;
-
-            public XedInstDefParser(XedRules rules)
-            {
-                Rules = rules;
-                _PatternBuffer = text.buffer();
-            }
-
-            [MethodImpl(Inline)]
-            ITextBuffer ComponentBuffer()
-            {
-                _PatternBuffer.Clear();
-                return _PatternBuffer;
-            }
-
-            string ExpandBody(string src)
-            {
-                var dst = ComponentBuffer();
-                var parts = text.split(text.despace(src), Chars.Space);
-                var count = parts.Length;
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var part = ref skip(parts,i);
-                    if(i != 0)
-                        dst.Append(Chars.Space);
-                    dst.Append(part);
-                }
-
-                return RuleMacros.expand(dst.Emit());
-            }
-
             static TextLine cleanse(TextLine src)
             {
                 var dst = text.despace(src.Content);
@@ -59,7 +25,22 @@ namespace Z0
                 return new TextLine(src.LineNumber, dst);
             }
 
-            public Index<InstDef> ParseInstDefs(FS.FilePath src)
+            static void parse(IClass @class, string body, string ops, ref uint seq, out InstPatternSpec dst)
+            {
+                var buffer = text.buffer();
+                var parts = text.split(text.despace(body), Chars.Space);
+                for(var i=0; i<parts.Length; i++)
+                {
+                    if(i != 0)
+                        buffer.Append(Chars.Space);
+                    buffer.Append(skip(parts,i));
+                }
+                var expanded = RuleMacros.expand(buffer.Emit());
+                XedParsers.parse(expanded, out InstPatternBody pb).Require();
+                dst = new InstPatternSpec(seq++, 0, @class, body, pb, RuleOpParser.create().ParseOps(ops));
+            }
+
+            public static Index<InstDef> parse(FS.FilePath src)
             {
                 var buffer = list<InstDef>();
                 using var reader = src.Utf8LineReader();
@@ -76,7 +57,7 @@ namespace Z0
                     {
                         var dst = default(InstDef);
                         var rawbody = EmptyString;
-                        var operands = list<InstPatternSpec>();
+                        var specs = list<InstPatternSpec>();
                         var @class = IClass.INVALID;
                         while(!line.StartsWith(Chars.RBrace) && reader.Next(out line))
                         {
@@ -93,28 +74,28 @@ namespace Z0
                                 if(empty(value))
                                     continue;
 
-                                if(ClassifyPart(Rules.PartNames, name, out var p))
+                                if(ClassifyPart(PartNames, name, out var p))
                                 {
                                     switch(p)
                                     {
                                         case P.Form:
-                                            parse(value, out dst.Form);
+                                            XedParsers.parse(value, out dst.Form);
                                         break;
                                         case P.Attributes:
-                                            Rules.ParseAttribKinds(value, out dst.Attributes);
+                                            dst.Attributes = attributes(value);
                                         break;
                                         case P.Category:
-                                            parse(value, out dst.Category);
+                                            XedParsers.parse(value, out dst.Category);
                                         break;
                                         case P.Extension:
-                                            parse(value, out dst.Extension);
+                                            XedParsers.parse(value, out dst.Extension);
                                         break;
                                         case P.Flags:
-                                            dst.Flags = XedRules.CalcFlagActions(value);
+                                            dst.Flags = CalcFlagActions(value);
                                         break;
                                         case P.Class:
                                         {
-                                            if(parse(value, out dst.Class))
+                                            if(XedParsers.parse(value, out dst.Class))
                                             {
                                                 @class = dst.Class;
                                             }
@@ -140,15 +121,16 @@ namespace Z0
                                                 }
                                             }
 
-                                            XedParsers.parse(ExpandBody(rawbody), out InstPatternBody body).Require();
-                                            operands.Add(new InstPatternSpec(seq++, 0, @class, rawbody, body, parser.ParseOps(value)));
+                                            parse(@class, rawbody, value, ref seq, out InstPatternSpec spec);
+                                            specs.Add(spec);
+
                                         }
                                         break;
                                         case P.Pattern:
                                             rawbody = value;
                                         break;
                                         case P.Isa:
-                                            parse(value, out dst.Isa);
+                                            XedParsers.parse(value, out dst.Isa);
                                         break;
                                         case P.Comment:
                                             break;
@@ -157,7 +139,7 @@ namespace Z0
                             }
                         }
 
-                        dst.PatternSpecs = operands.Array();
+                        dst.PatternSpecs = specs.Array();
                         buffer.Add(dst);
                     }
                 }

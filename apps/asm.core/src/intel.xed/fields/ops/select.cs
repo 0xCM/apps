@@ -16,7 +16,7 @@ namespace Z0
         public static R.FieldValue select(in RuleState src, FieldKind kind)
         {
             var result = Outcome.Success;
-            var dst = new R.FieldValue(kind,0);
+            var dst = new R.FieldValue(kind,0ul);
             switch(kind)
             {
                 case K.AMD3DNOW:

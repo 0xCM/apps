@@ -37,8 +37,6 @@ namespace Z0
 
             static ConstLookup<RuleMacroKind,MacroSpec> Lookup;
 
-            static ConstLookup<string,Index<FieldAssign>> Assignments;
-
             static HashSet<string> Names;
 
             static RuleMacros()
@@ -47,39 +45,16 @@ namespace Z0
                 Specs = _specs();
                 Lookup = Specs.Storage.Map(x => (x.Name, x)).ToDictionary();
                 Names = map(KindSymbols.View.Where(x => x.Kind != 0),x => x.Expr.Text).ToHashSet();
-                Assignments = assignments();
-
-                static Index<MacroSpec> _specs()
-                {
-                    var src = typeof(RuleMacros).StaticMethods().Where(x => x.ReturnType == typeof(MacroSpec) && x.Parameters().Length == 0);
-                    var count = src.Length;
-                    var dst = alloc<MacroSpec>(count);
-                    for(var i=0; i<count; i++)
-                        seek(dst,i) = (MacroSpec)skip(src,i).Invoke(null, sys.empty<object>());
-                    return dst.Sort();
-                }
-
-                static ConstLookup<string,Index<FieldAssign>> assignments()
-                {
-                    var dst = dict<string,Index<FieldAssign>>();
-                    foreach(var spec in Specs)
-                        dst[XedRender.format(spec.Name)] = spec.Assignments;
-                    return dst;
-                }
             }
 
-            public static bool assignments(string name, out ReadOnlySpan<FieldAssign> dst)
+            static Index<MacroSpec> _specs()
             {
-                if(Assignments.Find(name, out var x))
-                {
-                    dst = x.View;
-                    return true;
-                }
-                else
-                {
-                    dst = default;
-                    return false;
-                }
+                var src = typeof(RuleMacros).StaticMethods().Where(x => x.ReturnType == typeof(MacroSpec) && x.Parameters().Length == 0);
+                var count = src.Length;
+                var dst = alloc<MacroSpec>(count);
+                for(var i=0; i<count; i++)
+                    seek(dst,i) = (MacroSpec)skip(src,i).Invoke(null, sys.empty<object>());
+                return dst.Sort();
             }
 
             public static string expand(string src)

@@ -47,12 +47,11 @@ namespace Z0
 
             public RuleOpSpec ParseOp(byte index, RuleOpName name, string src)
             {
-                var input = text.despace(src);
-                var attribs = input;
+                var attribs = text.despace(src);
                 return ParseOp(index, attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty));
             }
 
-            RuleOpSpec ParseOp(byte index, string src)
+            static RuleOpSpec ParseOp(byte index, string src)
             {
                 var input = text.despace(src);
                 var i = text.index(input, Chars.Colon, Chars.Eq);
@@ -78,7 +77,7 @@ namespace Z0
                 return parse(text.left(input, index), out  dst);
             }
 
-            RuleOpSpec ParseOp(byte index, string expr, RuleOpName name, string[] props)
+            static RuleOpSpec ParseOp(byte index, string expr, RuleOpName name, string[] props)
             {
                 var dst = new RuleOpSpec();
                 dst.Expression = expr;
@@ -94,35 +93,25 @@ namespace Z0
                     case REG7:
                     case REG8:
                     case REG9:
-                    {
                         ParseReg(index, K.Reg, expr, name, props, out dst);
-                    }
                     break;
 
                     case INDEX:
-                    {
                         ParseReg(index, K.Index, expr, name, props, out dst);
-                    }
                     break;
 
                     case BASE0:
                     case BASE1:
-                    {
                         ParseReg(index, K.Base, expr, name, props, out dst);
-                    }
                     break;
 
                     case SEG0:
                     case SEG1:
-                    {
                         ParseReg(index, K.Seg, expr, name, props, out dst);
-                    }
                     break;
 
                     case SCALE:
-                    {
                         ParseScale(index, K.Scale, expr, name, props, out dst);
-                    }
                     break;
 
                     case DISP:
@@ -138,34 +127,24 @@ namespace Z0
                     case IMM0:
                     case IMM1:
                     case IMM2:
-                    {
                         ParseImm(index, K.Imm, expr, name, props, out dst);
-                    }
                     break;
 
                     case MEM0:
                     case MEM1:
-                    {
                         ParseMem(index, K.Mem, expr, name, props, out dst);
-                    }
                     break;
 
                     case AGEN:
-                    {
                         ParseMem(index, K.Agen, expr, name, props, out dst);
-                    }
                     break;
 
                     case PTR:
-                    {
                         ParsePtr(index, K.Ptr, expr, name, props, out dst);
-                    }
                     break;
 
                     case RELBR:
-                    {
                         ParseRelBr(index, K.RelBr, expr, name, props, out dst);
-                    }
                     break;
 
                     default:
@@ -184,7 +163,7 @@ namespace Z0
                 return dst;
             }
 
-            void ParsePtr(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
+            static void ParsePtr(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
             {
                 var count = props.Count;
                 dst.Index = index;
@@ -208,7 +187,7 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            void ParseRelBr(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
+            static void ParseRelBr(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
             {
                 var count = props.Count;
                 dst.Index = index;
@@ -231,7 +210,7 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            void ParseScale(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
+            static void ParseScale(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
             {
                 var count = props.Count;
                 dst.Index = index;
@@ -260,7 +239,7 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            void ParseImm(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
+            static void ParseImm(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
             {
                 var count = props.Count;
                 dst.Index = index;
@@ -291,8 +270,7 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            // MEM0:r:vv:f64:TXT=BCASTSTR
-            void ParseMem(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
+            static void ParseMem(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
             {
                 var count = props.Count;
                 dst.Index = index;
@@ -332,7 +310,7 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            void ParseReg(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
+            static void ParseReg(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
             {
                 var result = Outcome.Success;
                 var counter = 0;

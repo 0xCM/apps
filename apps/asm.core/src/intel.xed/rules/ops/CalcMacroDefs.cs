@@ -9,13 +9,13 @@ namespace Z0
 
     partial class XedRules
     {
-        public Index<MacroAssignment> CalcMacroAssignments()
+        public Index<MacroAssignment> CalcMacroDefs()
         {
-            return Data(nameof(CalcMacroAssignments),Calc);
+            return Data(nameof(CalcMacroDefs),Calc);
 
             Index<MacroAssignment> Calc()
             {
-                var src = macros();
+                var src = RuleMacros.specs();
                 var count = src.Length;
                 var buffer = alloc<MacroAssignment>(count);
                 for(var i=0u; i<count; i++)

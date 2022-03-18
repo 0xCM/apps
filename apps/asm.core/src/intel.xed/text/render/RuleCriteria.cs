@@ -39,7 +39,12 @@ namespace Z0
         public static string format(in RuleCriterion src)
         {
             if(src.IsNonterminal)
-                return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), src.AsNonterminal());
+            {
+                if(src.Field != 0 && src.Operator != 0)
+                    return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), src.AsNonterminal());
+                else
+                    return format(src.AsNonterminal());
+            }
 
             var dst = EmptyString;
 

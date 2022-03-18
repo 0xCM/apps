@@ -10,11 +10,11 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct DispFieldSpec
         {
-            public readonly byte Width;
+            public readonly ushort Width;
 
             public readonly char Kind;
 
-            public DispFieldSpec(byte width, char kind)
+            public DispFieldSpec(ushort width, char kind)
             {
                 Width = width;
                 Kind = kind;

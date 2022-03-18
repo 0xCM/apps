@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static core;
 
     using Asm;
 
@@ -18,11 +19,78 @@ namespace Z0
             public readonly ulong Data;
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, ulong value)
+            public FieldValue(FieldKind kind, bit data)
             {
                 Field = kind;
-                Data = value;
+                Data = (byte)data;
             }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, byte data)
+            {
+                Field = kind;
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, ushort data)
+            {
+                Field = kind;
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, uint data)
+            {
+                Field = kind;
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(BitfieldSeg data)
+            {
+                Field = data.Field;
+                Data = (ulong)data.Pattern;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, ImmFieldSpec data)
+            {
+                Field = kind;
+                Data = @as<ImmFieldSpec,ushort>(data);
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, ulong data)
+            {
+                Field = kind;
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, XedRegId data)
+            {
+                Field = kind;
+                Data = (ulong)data;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, Nonterminal data)
+            {
+                Field = kind;
+                Data = @as<Nonterminal,ushort>(data);
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, DispFieldSpec data)
+            {
+                Field = kind;
+                Data = @as<DispFieldSpec,uint>(data);
+            }
+
+            [MethodImpl(Inline)]
+            public static implicit operator FieldValue(BitfieldSeg src)
+                => new FieldValue(src);
 
             public bool IsEmpty
             {

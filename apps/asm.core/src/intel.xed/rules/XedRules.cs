@@ -14,7 +14,7 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-        Index<InstRulePart,string> PartNames;
+        static Index<InstRulePart,string> PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET,COMMENT};
 
         Index<PointerWidth> PointerWidths;
 
@@ -22,7 +22,6 @@ namespace Z0
 
         Symbols<FieldType> FieldTypes;
 
-        XedInstDefParser InstDefParser;
 
         bool PllExec {get;} = true;
 
@@ -31,8 +30,6 @@ namespace Z0
             PointerWidths = map(PointerWidthKinds.View, s => (PointerWidth)s);
             Visibilities = Symbols.index<VisibilityKind>();
             FieldTypes = Symbols.index<FieldType>();
-            PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET,COMMENT};
-            InstDefParser = new(this);
         }
 
         XedPaths XedPaths => Service(Wf.XedPaths);
@@ -40,12 +37,6 @@ namespace Z0
         AppDb AppDb => Service(Wf.AppDb);
 
         public XedRuleTables RuleTables => Service(Wf.XedRuleTables);
-
-        Outcome ParseAttribKinds(string src, out InstAttribs dst)
-        {
-            dst = attributes(src);
-            return true;
-        }
 
         ConstLookup<string,OpWidth> LoadOpWidthsLookup()
         {
