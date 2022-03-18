@@ -27,7 +27,7 @@ namespace Z0
                     if(line.IsEmpty)
                         continue;
 
-                    var @class = RuleTableParser.RuleForm(line);
+                    var @class = RuleTableParser.form(line.Content);
                     if(@class == RuleFormKind.SeqDecl)
                     {
                         var content = text.despace(line.Content);
@@ -100,7 +100,6 @@ namespace Z0
                 }
                 return (uint)terms.Count;
             }
-
        }
     }
 }

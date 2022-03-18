@@ -5,9 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    partial struct XedModels
     {
-        public void EmitRuleTables()
-            => RuleTables.EmitTables(PllWf);
+        public static bool encgroup(string src)
+            => XedParsers.parse(src, out GroupName _);
     }
 }

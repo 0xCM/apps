@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public void EmitRuleTables()
-            => RuleTables.EmitTables(PllWf);
+        public void EmitRuleSchemas()
+            => RuleTables.EmitRuleSchemas();
     }
 }

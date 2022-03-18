@@ -259,7 +259,7 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static string format(in Rule src)
+        public static string format(in RuleTable src)
         {
             var dst = text.buffer();
             dst.AppendLine(string.Format("{0}()", src.Sig.Name));

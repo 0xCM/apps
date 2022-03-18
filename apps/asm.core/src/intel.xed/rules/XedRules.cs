@@ -39,7 +39,7 @@ namespace Z0
 
         AppDb AppDb => Service(Wf.AppDb);
 
-        public RuleTables Tables => Service(Wf.XedRuleTables);
+        public XedRuleTables RuleTables => Service(Wf.XedRuleTables);
 
         Outcome ParseAttribKinds(string src, out InstAttribs dst)
         {

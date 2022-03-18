@@ -16,8 +16,8 @@ namespace Z0
             => Z0.ApiResPackEmitter.create(wf);
 
         [Op]
-        public static RuleTables XedRuleTables(this IWfRuntime wf)
-            => RuleTables.create(wf);
+        public static XedRuleTables XedRuleTables(this IWfRuntime wf)
+            => Z0.XedRules.XedRuleTables.create(wf);
 
         [Op]
         public static XedCmdProvider XedCommands(this IWfRuntime wf)

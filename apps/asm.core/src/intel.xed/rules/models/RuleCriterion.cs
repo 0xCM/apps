@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
@@ -12,7 +14,7 @@ namespace Z0
         {
             public readonly bool Premise;
 
-            public readonly bool Nonterm;
+            public readonly bool IsNonterminal;
 
             public readonly FieldKind Field;
 
@@ -30,7 +32,18 @@ namespace Z0
                 Operator = op;
                 Storage = data;
                 DataKind = field == FieldKind.ERROR ? CellDataKind.Error : CellDataKind.FieldValue;
-                Nonterm = false;
+                IsNonterminal = false;
+            }
+
+            [MethodImpl(Inline)]
+            internal RuleCriterion(bool premise, FieldKind field, RuleOperator op, Nonterminal data)
+            {
+                Premise = premise;
+                Field = field;
+                Operator = op;
+                Storage = core.bytes(data);
+                DataKind = CellDataKind.FieldValue;
+                IsNonterminal = true;
             }
 
             [MethodImpl(Inline)]
@@ -42,7 +55,7 @@ namespace Z0
                 Operator = call.Operator;
                 Storage = (ulong)call.Target;
                 DataKind = CellDataKind.Call;
-                Nonterm = true;
+                IsNonterminal = true;
             }
 
             [MethodImpl(Inline)]
@@ -53,7 +66,7 @@ namespace Z0
                 Operator = RuleOperator.None;
                 Storage = core.bytes(data);
                 DataKind = CellDataKind.BfSeg;
-                Nonterm = false;
+                IsNonterminal = false;
             }
 
             [MethodImpl(Inline)]
@@ -64,7 +77,7 @@ namespace Z0
                 Operator = RuleOperator.None;
                 Storage = spec.Pattern.View;
                 DataKind = CellDataKind.BfSpec;
-                Nonterm = false;
+                IsNonterminal = false;
             }
 
             [MethodImpl(Inline)]
@@ -75,7 +88,7 @@ namespace Z0
                 Operator = op;
                 Storage = (ulong)data;
                 DataKind = dk;
-                Nonterm = false;
+                IsNonterminal = false;
             }
 
             public readonly ulong Data
@@ -149,6 +162,10 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => !Premise;
             }
+
+            [MethodImpl(Inline)]
+            public ref readonly Nonterminal AsNonterminal()
+                => ref core.@as<Nonterminal>(Storage.Bytes);
 
             [MethodImpl(Inline)]
             public RuleCall AsCall()

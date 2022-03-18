@@ -13,15 +13,15 @@ namespace Z0
             [Symbol("")]
             None,
 
-            AR10,
+            AR10 = 1,
 
-            AR11,
+            AR11 = 2,
 
-            AR12,
+            AR12 = 3,
 
-            AR13,
+            AR13 = 4,
 
-            AR14,
+            AR14 = 5,
 
             AR15,
 

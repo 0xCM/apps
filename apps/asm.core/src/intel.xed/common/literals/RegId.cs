@@ -8,17 +8,17 @@ namespace Z0
     [SymSource("xed"), DataWidth(9)]
     public enum XedRegId : ushort
     {
-        INVALID,
+        INVALID = 0,
 
-        BNDCFGU,
+        BNDCFGU = 2,
 
-        BNDSTATUS,
+        BNDSTATUS = 2,
 
-        BND0,
+        BND0 = 3,
 
-        BND1,
+        BND1 = 4,
 
-        BND2,
+        BND2 = 5,
 
         BND3,
 

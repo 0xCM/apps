@@ -7,12 +7,18 @@ namespace Z0
 {
     partial class XedRules
     {
-        public struct Rule : IComparable<Rule>
+        public struct RuleTable : IComparable<RuleTable>
         {
             public RuleSig Sig;
 
             public Index<RuleStatement> Body;
 
+            [MethodImpl(Inline)]
+            public RuleTable(RuleSig sig, RuleStatement[] body)
+            {
+                Sig = sig;
+                Body = body;
+            }
             public RuleTableKind TableKind
             {
                 [MethodImpl(Inline)]
@@ -37,14 +43,14 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public int CompareTo(Rule src)
+            public int CompareTo(RuleTable src)
                 => Sig.CompareTo(src.Sig);
 
-            public static Rule Empty
+            public static RuleTable Empty
             {
                 get
                 {
-                    var dst = default(Rule);
+                    var dst = default(RuleTable);
                     dst.Sig = RuleSig.Empty;
                     dst.Body = sys.empty<RuleStatement>();
                     return dst;

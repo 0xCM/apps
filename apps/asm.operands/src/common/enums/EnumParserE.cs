@@ -27,8 +27,11 @@ namespace Z0
             }
             else
             {
-                if(Enums.parse(src, out dst))
-                    result = true;
+                if(SQ.digits(base10,src) > 0)
+                {
+                    if(Enums.parse(src, out dst))
+                        result = true;
+                }
             }
             return result;
         }

@@ -5,25 +5,147 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static core;
     using static Root;
     using static XedRules.SyntaxLiterals;
     using static XedRules.RuleFormKind;
     using static XedModels;
     using static XedParsers;
-    //using static XedRules.RuleInfo;
 
     using K = XedRules.FieldKind;
     using RO = XedRules.RuleOperator;
     using RF = XedRules.RuleFormKind;
-    using RI = XedRules.RuleInfo;
+    using RI = XedRules.RuleTableSpec;
 
     partial class XedRules
     {
         public struct RuleTableParser
         {
+            public static RuleTable table(RuleTableSpec src)
+            {
+                var body = list<RuleStatement>();
+                for(var i=0; i<src.Statements.Count; i++)
+                {
+                    ref readonly var stmt = ref src.Statements[i];
+                    if(stmt.IsNonEmpty)
+                        body.Add(reify(stmt));
+                }
+                return new (src.Sig, body.ToArray());
+            }
+
+            public static RuleStatement reify(RI.StatementSpec src)
+            {
+                var left = list<RuleCriterion>();
+                if(src.Premise.IsNonEmpty)
+                    criteria(true, src.Premise.Delimit(Chars.Space).Format(), left);
+
+                var right = list<RuleCriterion>();
+                if(src.Consequent.IsNonEmpty)
+                    criteria(false, src.Consequent.Delimit(Chars.Space).Format(), right);
+                return new RuleStatement(left.ToArray(), right.ToArray());
+            }
+
+            public static Index<RuleTable> reify(ReadOnlySpan<RuleTableSpec> src)
+            {
+                var dst = alloc<RuleTable>(src.Length);
+                for(var i=0; i<src.Length; i++)
+                    seek(dst,i) = table(skip(src,i));
+                return dst;
+            }
+
+            public static Index<RuleTableSpec> specs(FS.FilePath src)
+            {
+                var tmp = list<RuleTableSpec.StatementSpec>();
+                const string TMP = "VEXED_REX";
+                using var reader = src.Utf8LineReader();
+                var counter = 0u;
+                var dst = list<RuleTableSpec>();
+                var tkind = XedPaths.tablekind(src.FileName);
+                var statements =list<RuleTableSpec.StatementSpec>();
+                var name = EmptyString;
+                while(reader.Next(out var line))
+                {
+                    if(form(line.Content) == RuleFormKind.SeqDecl)
+                        SkipSeq(reader);
+
+                    var content = text.trim(text.despace(line.Content));
+                    if(text.empty(content) || text.begins(content, Chars.Hash))
+                        continue;
+
+                    if(text.ends(content, "()::"))
+                    {
+                        if(counter != 0)
+                        {
+                            if(name == TMP)
+                                tmp.AddRange(statements.ToArray());
+                            else
+                                dst.Add(new (sig(tkind, name), statements.ToArray()));
+
+                            statements.Clear();
+                        }
+
+                        name = text.remove(content,"()::");
+                        var i = text.index(name,Chars.Space);
+                        if(i > 0)
+                            name = text.right(name,i);
+                        counter++;
+                    }
+                    else
+                    {
+                        if(spec(content, out RI.StatementSpec s))
+                            statements.Add(s);
+                    }
+                }
+
+                if(tmp.Count != 0)
+                    dst.Add(new (sig(tkind, TMP), tmp.ToArray()));
+                return dst.ToArray().Sort();
+            }
+
+            public static Index<RuleTable> tables(FS.FilePath src)
+                => reify(specs(src));
+
+            static bool spec(string src, out RI.StatementSpec dst)
+            {
+                var input = normalize(src);
+                var i = text.index(input,"=>");
+                dst = RI.StatementSpec.Empty;
+                if(i > 0)
+                {
+                    var pcells = list<RuleCell>();
+                    var premise = map(text.split(text.left(input,i), Chars.Space),RuleMacros.expand);
+                    for(var j=0; j<premise.Length; j++)
+                    {
+                        ref readonly var x = ref skip(premise,j);
+                        pcells.Add(new RuleCell(XedFields.kind(x),x));
+                    }
+
+                    var ccells = list<RuleCell>();
+                    var consequent = map(text.split(text.right(input,i + 1), Chars.Space),RuleMacros.expand);
+                    for(var j=0; j<consequent.Length; j++)
+                    {
+                        ref readonly var x = ref skip(consequent,j);
+                        ccells.Add(new RuleCell(XedFields.kind(x),x));
+                    }
+
+                    if(ccells.Count !=0 && pcells.Count != 0)
+                        dst = new RI.StatementSpec(pcells.ToArray(), ccells.ToArray());
+                }
+
+                return dst.IsNonEmpty;
+
+                static string normalize(string src)
+                {
+                    var dst = EmptyString;
+                    var i = text.index(src, Chars.Hash);
+                    if(i>0)
+                        dst = text.despace(text.trim(text.left(src,i)));
+                    else
+                        dst = text.despace(text.trim(src));
+                    return dst.Replace("->", "=>").Replace("|", "=>").Remove("XED_RESET");
+                }
+            }
+
             [MethodImpl(Inline), Op]
             static RuleCriterion criterion(bool premise, FieldKind fk, asci8 value, CellDataKind dk)
                 => new RuleCriterion(premise, fk, RuleOperator.None,  value, dk);
@@ -35,7 +157,11 @@ namespace Z0
             [MethodImpl(Inline), Op, Closures(Closure)]
             static RuleCriterion criterion<T>(bool premise, FieldKind field, RuleOperator op, T value)
                 where T : unmanaged
-                    => new RuleCriterion(premise, field,  op, core.bw64(value));
+                    => new RuleCriterion(premise, field, op, core.bw64(value));
+
+            [MethodImpl(Inline), Op]
+            static RuleCriterion criterion(bool premise, FieldKind fk, RuleOperator op, Nonterminal nt)
+                => new RuleCriterion(premise, fk, op, nt);
 
             [MethodImpl(Inline), Op, Closures(Closure)]
             static RuleCriterion criterion(bool premise, BitfieldSeg seg)
@@ -45,34 +171,19 @@ namespace Z0
             static RuleCriterion criterion(bool premise, BitfieldSpec src)
                 => new RuleCriterion(premise, src);
 
-            static RuleStatement expr(string premise, string consequent = EmptyString)
-            {
-                var buffer = list<RuleCriterion>();
 
-                if(nonempty(premise))
-                    specs(true, RuleMacros.expand(premise), buffer);
-
-                var left = buffer.ToArray();
-                buffer.Clear();
-
-                if(nonempty(consequent))
-                    specs(false, RuleMacros.expand(consequent), buffer);
-
-                var right = buffer.ToArray();
-                return new RuleStatement(left, right);
-            }
-
-            static void specs(bool premise, string src, List<RuleCriterion> buffer)
+            static void criteria(bool premise, string src, List<RuleCriterion> dst)
             {
                 var parts = text.trim(text.split(src, Chars.Space)).Where(x => nonempty(x) && !Skip.Contains(x));
                 var count = parts.Length;
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var part = ref skip(parts, i);
-                    var criterion = RuleCriterion.Empty;
-                    var result = spec(premise, part, buffer);
+                    var result = parse(premise, part, out var c);
                     if(result.Fail)
                         Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCriterion), part));
+
+                    dst.Add(c);
                 }
             }
 
@@ -118,6 +229,27 @@ namespace Z0
                 return result;
             }
 
+            static bool parse(bool premise, string input, out FieldKind fk, out RuleOperator op, out Nonterminal nt)
+            {
+                fk = 0;
+                nt = Nonterminal.Empty;
+                op = RuleOperator.None;
+                var result = false;
+                var i = text.index(input,"()");
+                if(i >0)
+                {
+                    if(assignment(premise, text.left(input,i), out fk, out var fv))
+                    {
+                        if(XedParsers.parse(fv, out nt))
+                        {
+                            result = true;
+                            op = RuleOperator.Assign;
+                        }
+                    }
+                }
+                return result;
+            }
+
             static bool notequal(bool premise, string input, out FieldKind fk, out string fv)
             {
                 fk = 0;
@@ -127,62 +259,60 @@ namespace Z0
                 {
                     var i = text.index(input, "!=");
                     fv = text.right(input, i + 1);
-
                     result = XedParsers.parse(text.left(input, i), out fk);
                 }
                 return result;
             }
 
-            static Outcome spec(bool premise, string spec, List<RuleCriterion> dst)
+            static Outcome parse(bool premise, string spec, out RuleCriterion dst)
             {
                 var input = text.trim(text.despace(spec));
                 var fk = K.INVALID;
                 var op = RO.None;
                 var fv = input;
                 var i = -1;
-                if(IsCall(input))
+                dst = RuleCriterion.Empty;
+                if(parse(premise, spec, out fk, out op, out Nonterminal nt))
+                {
+                    dst = criterion(premise, fk, op, nt);
+                    return true;
+                }
+                else if(IsCall(input))
                 {
                     var name = text.remove(input,"()");
                     parse(premise, name, out fk, out fv, out op);
-                    dst.Add(criterion(premise, call(fk, op, text.ifempty(fv,name))));
+                    dst = criterion(premise, call(fk, op, text.ifempty(fv,name)));
                     return true;
                 }
                 else if(assignment(premise, input, out fk, out fv))
                 {
-                    if(parse(premise, fk, RO.Assign, fv, out var _p))
-                    {
-                        dst.Add(_p);
+                    if(parse(premise, fk, RO.Assign, fv, out dst))
                         return true;
-                    }
                     return false;
                 }
                 else if(notequal(premise, input, out fk, out fv))
                 {
-                    if(parse(premise, fk, RO.CmpNeq, fv, out var _p))
-                    {
-                        dst.Add(_p);
+                    if(parse(premise, fk, RO.CmpNeq, fv, out dst))
                         return true;
-                    }
                     return false;
                 }
                 else if(IsBfSeg(input))
                 {
                     var result = XedParsers.parse(input, out BitfieldSeg seg);
                     if(result)
-                         dst.Add(criterion(premise, seg));
+                         dst = criterion(premise, seg);
                     return result;
                 }
                 else if(IsBfSpec(input))
                 {
-                    dst.Add(criterion(premise,new BitfieldSpec(input)));
+                    dst = criterion(premise,new BitfieldSpec(input));
                     return true;
                 }
                 else
                 {
                     if(input.Length > 8)
                         Errors.Throw(string.Format("The value '{0}' is too long to be a literal", input));
-
-                    dst.Add(literal(premise,input));
+                    dst = literal(premise,input);
                     return true;
                 }
             }
@@ -512,6 +642,14 @@ namespace Z0
                             dst = criterion(premise, field, op, reg);
                             result = true;
                         }
+                        else
+                        {
+                            if(XedParsers.parse(value, out Nonterminal nt))
+                            {
+                                dst = criterion(premise, field, op, nt);
+                                result = true;
+                            }
+                        }
                     }
                     break;
                     case K.CHIP:
@@ -551,10 +689,10 @@ namespace Z0
                 return result;
             }
 
-            public static RF RuleForm(TextLine src)
+            public static RF form(string src)
             {
-                var i = text.index(src.Content, Chars.Hash);
-                var content = (i> 0 ? text.left(src.Content,i) : src.Content).Trim();
+                var i = text.index(src, Chars.Hash);
+                var content = (i> 0 ? text.left(src,i) : src).Trim();
                 if(IsTableDecl(content))
                     return RF.RuleDecl;
                 if(IsEncStep(content))
@@ -568,9 +706,9 @@ namespace Z0
                 return 0;
             }
 
-            Rule Table;
+            RuleTable Table;
 
-            List<Rule> Tables;
+            List<RuleTable> Tables;
 
             LineReader Reader;
 
@@ -582,7 +720,7 @@ namespace Z0
 
             public RuleTableParser()
             {
-                Table = Rule.Empty;
+                Table = RuleTable.Empty;
                 Reader = default;
                 Line = TextLine.Empty;
                 FormKind = 0;
@@ -594,7 +732,7 @@ namespace Z0
             {
                 Line = src;
                 var result = Outcome.Success;
-                FormKind = RuleForm(Line);
+                FormKind = form(Line.Content);
                 if(FormKind == SeqDecl)
                     ParseSeqTerms();
 
@@ -606,98 +744,7 @@ namespace Z0
                 return result;
             }
 
-            static RI.RuleStatement statement(string src)
-            {
-                var input = normalize(src);
-                var i = text.index(input,"=>");
-                var dst = RI.RuleStatement.Empty;
-                if(i > 0)
-                {
-                    var pcells = list<RuleCell>();
-                    var premise = map(text.split(text.left(input,i), Chars.Space),RuleMacros.expand);
-                    for(var j=0; j<premise.Length; j++)
-                    {
-                        ref readonly var x = ref skip(premise,j);
-                        pcells.Add(new RuleCell(XedFields.kind(x),x));
-                    }
-
-                    var ccells = list<RuleCell>();
-                    var consequent = map(text.split(text.right(input,i + 1), Chars.Space),RuleMacros.expand);
-                    for(var j=0; j<consequent.Length; j++)
-                    {
-                        ref readonly var x = ref skip(consequent,j);
-                        ccells.Add(new RuleCell(XedFields.kind(x),x));
-                    }
-
-                    if(ccells.Count !=0 && pcells.Count != 0)
-                        dst = new RI.RuleStatement(pcells.ToArray(), ccells.ToArray());
-                }
-
-                return dst;
-
-                static string normalize(string src)
-                {
-                    var dst = EmptyString;
-                    var i = text.index(src, Chars.Hash);
-                    if(i>0)
-                        dst = text.despace(text.trim(text.left(src,i)));
-                    else
-                        dst = text.despace(text.trim(src));
-                    return dst.Replace("->", "=>").Replace("|", "=>").Remove("XED_RESET");
-                }
-            }
-
-            public static Index<RuleInfo> describe(FS.FilePath src)
-            {
-                //var dst = list<string>();
-                using var reader = src.Utf8LineReader();
-                //var buffer = text.buffer();
-                var counter = 0u;
-                var dst = list<RuleInfo>();
-                var tkind = XedPaths.tablekind(src.FileName);
-                var statements =list<RuleInfo.RuleStatement>();
-                var name = EmptyString;
-                while(reader.Next(out var line))
-                {
-                    var content = text.trim(text.despace(line.Content));
-                    if(text.empty(content) || text.begins(content, Chars.Hash))
-                        continue;
-
-                    if(text.ends(content, "::"))
-                    {
-
-                        if(counter != 0)
-                        {
-                            dst.Add(new (sig(tkind, name), statements.ToArray()));
-                            statements.Clear();
-
-                            //infos.Add(new RuleInfo())
-                            // buffer.AppendLine(Chars.RBrace);
-                            // dst.Add(buffer.Emit());
-
-                        }
-
-                        name = text.remove(content,"::");
-                        counter++;
-
-                        //buffer.AppendLine(text.remove(content,"::"));
-                        //buffer.AppendLine(Chars.LBrace);
-                    }
-                    else
-                    {
-                        var s = statement(content);
-                        if(s.IsNonEmpty)
-                            statements.Add(s);
-                        // if(s.IsNonEmpty)
-                        //     buffer.IndentLine(4, s.Format());
-                    }
-                }
-                //buffer.AppendLine(Chars.RBrace);
-                //dst.Add(buffer.Emit());
-                return dst.ToArray();
-            }
-
-            public Index<Rule> Parse(FS.FilePath src)
+            public Index<RuleTable> Parse(FS.FilePath src)
             {
                 try
                 {
@@ -718,6 +765,21 @@ namespace Z0
                 }
             }
 
+            static void SkipSeq(LineReader reader)
+            {
+                while(reader.Next(out var line))
+                {
+                    if(line.IsEmpty || line.StartsWith(Chars.Hash))
+                        continue;
+
+                    var kind = form(line.Content);
+                    if(kind == 0 || kind == Invocation)
+                        continue;
+                    else
+                        break;
+                }
+            }
+
             void ParseSeqTerms()
             {
                 while(Reader.Next(out Line))
@@ -725,7 +787,7 @@ namespace Z0
                     if(Line.IsEmpty || Line.StartsWith(Chars.Hash))
                         continue;
 
-                    FormKind = RuleForm(Line);
+                    FormKind = form(Line.Content);
                     if(FormKind == 0 || FormKind == Invocation)
                         continue;
                     else
@@ -733,7 +795,7 @@ namespace Z0
                 }
             }
 
-            void ParseRuleExpr()
+            void ParseStatements()
             {
                 var expressions = list<RuleStatement>();
                 while(Reader.Next(out Line))
@@ -741,7 +803,7 @@ namespace Z0
                     if(Line.IsEmpty || Line.StartsWith(Chars.Hash))
                         continue;
 
-                    FormKind = RuleForm(Line);
+                    FormKind = form(Line.Content);
                     if(FormKind == 0)
                         continue;
 
@@ -754,9 +816,9 @@ namespace Z0
                             : sys.empty<string>();
 
                         if(parts.Length == 2)
-                            expressions.Add(expr(parts[0], parts[1]));
+                            expressions.Add(statement(parts[0], parts[1]));
                         else if(parts.Length == 1)
-                            expressions.Add(expr(parts[0]));
+                            expressions.Add(statement(parts[0], EmptyString));
                         else
                             Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleStatement), content));
                     }
@@ -765,6 +827,23 @@ namespace Z0
                 }
 
                 Table.Body = expressions.ToArray();
+
+                static RuleStatement statement(string premise, string consequent)
+                {
+                    var buffer = list<RuleCriterion>();
+
+                    if(nonempty(premise))
+                        criteria(true, RuleMacros.expand(premise), buffer);
+
+                    var left = buffer.ToArray();
+                    buffer.Clear();
+
+                    if(nonempty(consequent))
+                        criteria(false, RuleMacros.expand(consequent), buffer);
+
+                    var right = buffer.ToArray();
+                    return new RuleStatement(left, right);
+                }
             }
 
             void ParseRuleDecl()
@@ -778,16 +857,16 @@ namespace Z0
                     name = ruledecl;
                 Table.Sig = sig(DocKind,name);
 
-                ParseRuleExpr();
+                ParseStatements();
 
                 if(Skip.Contains(name))
                 {
-                    Table = Rule.Empty;
+                    Table = RuleTable.Empty;
                     return;
                 }
 
                 Tables.Add(Table);
-                Table = Rule.Empty;
+                Table = RuleTable.Empty;
             }
 
             static string normalize(string src)

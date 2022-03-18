@@ -151,8 +151,6 @@ namespace Z0
 
             no_return,
 
-            error,
-
             [Symbol("true")]
             @true,
 

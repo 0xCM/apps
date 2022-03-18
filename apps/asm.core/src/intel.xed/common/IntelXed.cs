@@ -18,7 +18,7 @@ namespace Z0.Asm
 
         public XedRules Rules => Service(Wf.XedRules);
 
-        public RuleTables RuleTables => Rules.Tables;
+        public XedRuleTables RuleTables => Rules.RuleTables;
 
         const char CommentMarker = Chars.Hash;
 

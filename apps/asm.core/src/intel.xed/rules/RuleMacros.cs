@@ -511,9 +511,9 @@ namespace Z0
             static MacroSpec no_return()
                 => assign(M.no_return, K.NO_RETURN, 1);
 
-            [MethodImpl(Inline), Op]
-            static MacroSpec error()
-                => assign(M.error, K.ERROR, ErrorKind.GENERAL_ERROR);
+            // [MethodImpl(Inline), Op]
+            // static MacroSpec error()
+            //     => assign(M.error, K.ERROR, ErrorKind.GENERAL_ERROR);
 
             [MethodImpl(Inline), Op]
             static MacroSpec @true()

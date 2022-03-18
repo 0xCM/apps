@@ -12,30 +12,45 @@ namespace Z0
         [CmdOp("xed/check/rules")]
         Outcome CheckRuleSpecs(CmdArgs args)
         {
-            exec(true,
-                () => EmitStatements(RuleTableKind.Enc),
-                () => EmitStatements(RuleTableKind.Dec),
-                () => EmitStatements(RuleTableKind.EncDec)
-            );
-            return true;
-        }
-
-        void EmitStatements(RuleTableKind kind)
-        {
-            var src = RuleTableParser.describe(Xed.XedPaths.RuleSource(kind));
-            var name = kind switch
+            var src = RuleTableParser.specs(Xed.XedPaths.RuleSource(RuleTableKind.Dec));
+            for(var i=0; i<src.Count; i++)
             {
-                RuleTableKind.Enc => "xed.rules.enc",
-                RuleTableKind.Dec => "xed.rules.dec",
-                RuleTableKind.EncDec => "xed.rules.encdec",
-                _ => EmptyString
-            };
-            var dst = AppDb.XedPath("rules.tables", name, FileKind.Txt);
-            var emitting = EmittingFile(dst);
-            using var writer = dst.AsciWriter();
-            for(var i=0; i<src.Length; i++)
-                writer.WriteLine(src[i]);
-            EmittedFile(emitting,src.Length);
+                ref readonly var desc = ref src[i];
+                if(desc.Sig.Name == "A_GPR_B")
+                {
+                    Write(desc.Format());
+
+                    var buffer = text.buffer();
+                    buffer.AppendLine(string.Format("{0}()", desc.Sig.Name));
+                    buffer.AppendLine(Chars.LBrace);
+                    var sbuffer = text.buffer();
+                    for(var j=0; j<desc.Statements.Count; j++)
+                    {
+                        var statement = RuleTableParser.reify(desc.Statements[j]);
+                        for(var k=0; k<statement.Premise.Count; k++)
+                        {
+                            ref readonly var x = ref statement.Premise[k];
+                            sbuffer.AppendFormat("{0}{1}{2}", XedRender.format(x.Field), XedRender.format(x.Operator), x.Data);
+                        }
+
+                        sbuffer.Append(" => ");
+
+                        for(var k=0; k<statement.Consequent.Count; k++)
+                        {
+                            ref readonly var x = ref statement.Consequent[k];
+                            sbuffer.AppendFormat("{0}{1}{2}", XedRender.format(x.Field), XedRender.format(x.Operator), x.AsNonterminal());
+                        }
+
+                        buffer.IndentLine(4, sbuffer.Emit());
+                    }
+                    buffer.AppendLine(Chars.RBrace);
+                    Write(buffer.Emit());
+
+                    break;
+                }
+            }
+
+            return true;
         }
 
         void CheckRules2()

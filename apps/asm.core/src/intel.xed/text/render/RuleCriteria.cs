@@ -38,7 +38,11 @@ namespace Z0
 
         public static string format(in RuleCriterion src)
         {
+            if(src.IsNonterminal)
+                return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), src.AsNonterminal());
+
             var dst = EmptyString;
+
             switch(src.DataKind)
             {
                 case CellDataKind.Error:
@@ -48,7 +52,7 @@ namespace Z0
                 case CellDataKind.Null:
                 {
                     if(src.Operator != 0 && src.Field != 0)
-                        dst = string.Format("{0}{1}{2}", format(src.Field), format(src.Operator),src.AsLiteral());
+                        dst = string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), src.AsLiteral());
                     else
                         dst = src.AsLiteral();
                 }
@@ -67,6 +71,8 @@ namespace Z0
                     dst = format(src.AsBfSeg());
                 else if(src.IsBfSpec)
                     dst = format(src.AsBfSpec());
+                else if(src.IsNonterminal)
+                    dst = format(src.AsNonterminal());
                 else
                     dst = string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.AsValue()));
             }
