@@ -17,6 +17,9 @@ namespace Z0
 
         WsProjects Projects => Service(Wf.WsProjects);
 
+        XedPaths XedPaths => Service(Wf.XedPaths);
+
+
         AppDb AppDb => Service(Wf.AppDb);
 
         IProjectProvider _ProjectProvider;

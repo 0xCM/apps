@@ -24,7 +24,7 @@ namespace Z0
 
         XedInstDefParser InstDefParser;
 
-        bool PllWf {get;} = true;
+        bool PllExec {get;} = true;
 
         public XedRules()
         {

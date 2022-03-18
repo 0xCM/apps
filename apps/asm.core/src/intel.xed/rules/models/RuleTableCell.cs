@@ -11,11 +11,14 @@ namespace Z0
         {
             public readonly byte Index;
 
+            public readonly RuleTableKind TableKind;
+
             public readonly RuleCriterion Criterion;
 
             [MethodImpl(Inline)]
-            public RuleTableCell(byte index, RuleCriterion c)
+            public RuleTableCell(RuleTableKind tk, byte index, RuleCriterion c)
             {
+                TableKind = tk;
                 Index = index;
                 Criterion = c;
             }
@@ -29,7 +32,7 @@ namespace Z0
             public RuleCellSpec Spec
             {
                 [MethodImpl(Inline)]
-                get => new RuleCellSpec(Criterion.Premise, Criterion.DataKind, Criterion.IsNonterminal, Criterion.Field);
+                get => new RuleCellSpec(Criterion.Premise, TableKind, Criterion.DataKind, Criterion.IsNonterminal, Criterion.Field);
             }
 
             public bool IsEmpty

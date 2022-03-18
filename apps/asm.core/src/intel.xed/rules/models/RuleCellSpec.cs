@@ -11,6 +11,8 @@ namespace Z0
         {
             public readonly bool Premise;
 
+            public readonly RuleTableKind TableKind;
+
             public readonly CellDataKind DataKind;
 
             public readonly bool Nonterm;
@@ -18,8 +20,9 @@ namespace Z0
             public readonly FieldKind Field;
 
             [MethodImpl(Inline)]
-            public RuleCellSpec(bool premise, CellDataKind dk, bool nonterm, FieldKind field)
+            public RuleCellSpec(bool premise, RuleTableKind tk, CellDataKind dk, bool nonterm, FieldKind field)
             {
+                TableKind = tk;
                 Premise = premise;
                 Nonterm = nonterm;
                 DataKind = dk;

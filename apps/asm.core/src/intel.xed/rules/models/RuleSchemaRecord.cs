@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential), Record(TableId)]
-        public struct RuleSchemaRecord
+        public struct RuleSchema
         {
             public const string TableId = "xed.rules.schemas";
 
@@ -18,19 +18,31 @@ namespace Z0
 
             public RuleTableKind TableKind;
 
-            public byte Index;
+            public Identifier TableName;
 
             public char ColKind;
 
-            public bit Nonterm;
+            public byte Index;
 
-            public Identifier TableName;
+            public FieldKind Field;
 
-            public FieldKind TableField;
+            public CellDataKind DataKind;
 
             public FS.FileUri TableDef;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,8,8,8,36,24,1};
+            public int CompareTo(RuleSchema src)
+            {
+                var result = ((byte)TableKind).CompareTo((byte)src.TableKind);
+                if(result == 0)
+                {
+                    result = TableName.CompareTo(src.TableName);
+                    if(result == 0)
+                        result = Index.CompareTo(src.Index);
+                }
+                return result;
+            }
+
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,32,8,8,24,12,1};
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Z0
         public FS.FolderPath Targets(string scope)
             => Targets() + FS.folder(scope);
 
-        public FS.FolderPath RuleTables()
+        public FS.FolderPath RuleTargets()
             => Targets("rules.tables");
 
         public FS.FilePath Table<T>()
@@ -61,18 +61,6 @@ namespace Z0
 
         static FS.FileName EncDecRuleTable = FS.file("all-enc-dec-patterns", FS.Txt);
 
-        public FS.FilePath TableSigs()
-            => RuleTables() + FS.file("rules.tables.sigs", FileKind.Csv.Ext());
-
-        public FS.FilePath TableInfo(RuleTableKind kind)
-            => kind switch
-            {
-                RuleTableKind.Enc => RuleTables() + FS.file("rules.tables.info.enc", FS.Txt),
-                RuleTableKind.Dec => RuleTables() + FS.file("rules.tables.info.dec", FS.Txt),
-                RuleTableKind.EncDec => RuleTables() + FS.file("rules.tables.info.encdec", FS.Txt),
-                _ => FS.FilePath.Empty
-            };
-
         public static RuleTableKind tablekind(FS.FileName src)
         {
             return srckind(src) switch
@@ -88,10 +76,10 @@ namespace Z0
             => FS.file(string.Format("{0}.{1}",RuleTableRow.TableId, sig.Name), FS.Csv);
 
         public FS.FilePath TableDef(RuleSig sig)
-            => Targets("rules.tables") + FS.folder(sig.TableKind.ToString().ToLower()) + TableFile(sig);
+            => RuleTargets() + FS.folder(sig.TableKind.ToString().ToLower()) + TableFile(sig);
 
         public FS.FilePath TableDef(RuleTableKind kind)
-            => Targets("rules.tables") + FS.file(string.Format("{0}.{1}",RuleTableRow.TableId, kind.ToString().ToLower()), FS.Csv);
+            => RuleTargets() + FS.file(string.Format("{0}.{1}",RuleTableRow.TableId, kind.ToString().ToLower()), FS.Csv);
 
         public FS.FilePath RuleSource(RuleTableKind kind)
         {
@@ -140,7 +128,6 @@ namespace Z0
 
         public FS.FilePath DocTarget(XedDocKind kind)
             => Targets() + ( kind switch{
-                 XedDocKind.RuleTable => FS.file("xed.rules.tables", FS.Txt),
                  XedDocKind.EncInstDef => FS.file("xed.rules.enc", FS.Txt),
                  XedDocKind.DecInstDef=> FS.file("xed.rules.dec", FS.Txt),
                  XedDocKind.EncRuleTable => FS.file("xed.rules.enc.tables", FS.Txt),
@@ -152,15 +139,11 @@ namespace Z0
                  XedDocKind.DecRulePatterns => FS.file("xed.rules.dec.patterns", FS.Csv),
                  XedDocKind.OpCodeKinds => Tables.filename<OcMapKind>(),
                  XedDocKind.PatternInfo => Tables.filename<PatternInfo>(),
-                 XedDocKind.OpEnc =>  FS.file("xed.rules.enc.operands", FS.Csv),
-                 XedDocKind.OpDec => FS.file("xed.rules.dec.operands", FS.Csv),
                  XedDocKind.RuleSeq => FS.file("xed.rules.seq", FS.Txt),
-                 XedDocKind.EncRuleTableExp => FS.file("xed.rules.enc.tables.exp", FS.Txt),
-                 XedDocKind.DecRuleTableExp => FS.file("xed.rules.dec.tables.exp", FS.Txt),
-                 XedDocKind.EncDecRuleTableExp => FS.file("xed.rules.encdec.tables.exp", FS.Txt),
                  XedDocKind.MacroDefs => FS.file("xed.rules.macros", FS.Csv),
                  XedDocKind.PatternDetail => FS.file("xed.patterns.detail", FS.Txt),
                  XedDocKind.PatternOps => Tables.filename<PatternOpDetail>(),
+                 XedDocKind.RuleSigs => FS.file("rules.tables.sigs", FileKind.Csv.Ext()),
                  _ => FS.FileName.Empty
             });
     }

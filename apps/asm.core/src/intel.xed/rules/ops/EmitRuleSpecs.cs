@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         public void EmitRuleSpecs()
-            => exec(PllWf,
+            => exec(PllExec,
                 () => EmitRuleSpecs(RuleTableKind.Enc),
                 () => EmitRuleSpecs(RuleTableKind.Dec),
                 () => EmitRuleSpecs(RuleTableKind.EncDec)
@@ -21,9 +21,9 @@ namespace Z0
             var src = RuleTableParser.specs(XedPaths.RuleSource(kind));
             var name = kind switch
             {
-                RuleTableKind.Enc => "xed.rules.enc",
-                RuleTableKind.Dec => "xed.rules.dec",
-                RuleTableKind.EncDec => "xed.rules.encdec",
+                RuleTableKind.Enc => "xed.rules.specs.enc",
+                RuleTableKind.Dec => "xed.rules.specs.dec",
+                RuleTableKind.EncDec => "xed.rules.specs.encdec",
                 _ => EmptyString
             };
             var dst = AppDb.XedPath("rules.tables", name, FileKind.Txt);

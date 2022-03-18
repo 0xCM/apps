@@ -11,14 +11,10 @@ namespace Z0
     partial class XedRules
     {
         void EmitPatternData(Index<InstPattern> src)
-            => exec(PllWf,
-                () => EmitPatternInfo(src),
+            => exec(PllExec,
                 () => EmitPatternDetails(src),
                 () => EmitPatternOps(src)
                 );
-
-        void EmitPatternInfo(Index<InstPattern> src)
-            => TableEmit(CalcPatternInfo(src).View, PatternInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternInfo));
 
         void EmitPatternDetails(Index<InstPattern> src)
             => EmitPatternDetails(src, XedPaths.DocTarget(XedDocKind.PatternDetail));

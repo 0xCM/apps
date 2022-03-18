@@ -12,23 +12,15 @@ namespace Z0
 
         DecInstDef,
 
-        RuleTable,
-
         EncRuleTable,
-
-        EncRuleTableExp,
 
         DecRulePatterns,
 
         DecRuleTable,
 
-        DecRuleTableExp,
-
         RulePatterns,
 
         EncDecRuleTable,
-
-        EncDecRuleTableExp,
 
         Widths,
 
@@ -48,12 +40,10 @@ namespace Z0
 
         PatternOps,
 
-        OpEnc,
-
-        OpDec,
-
         RuleSeq,
 
-        MacroDefs
+        MacroDefs,
+
+        RuleSigs
     }
 }

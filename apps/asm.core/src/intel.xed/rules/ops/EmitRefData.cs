@@ -12,7 +12,7 @@ namespace Z0
     {
         public void EmitRefData()
         {
-            exec(PllWf,
+            exec(PllExec,
                 EmitOpCodeKinds,
                 EmitOperandWidths,
                 EmitPointerWidths

@@ -12,7 +12,7 @@ namespace Z0
     {
         public void EmitFields()
         {
-            exec(PllWf,
+            exec(PllExec,
                 EmitFieldDefs,
                 EmitReflectedFields
                 );

@@ -13,16 +13,14 @@ namespace Z0
         {
             var defs = CalcInstDefs();
             var patterns = CalcInstPatterns(defs);
-            exec(PllWf,
+            exec(PllExec,
                 () => EmitPatternData(patterns),
                 EmitRuleSpecs,
                 EmitRuleTables,
-                EmitFieldDefs,
-                EmitOperandWidths,
-                EmitPointerWidths,
-                EmitOpCodeKinds,
+                EmitRefData,
                 EmitMacroDefs,
-                EmitReflectedFields
+                EmitFields,
+                EmitRuleSchemas
                 );
         }
     }
