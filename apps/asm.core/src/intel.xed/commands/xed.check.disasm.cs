@@ -66,7 +66,6 @@ namespace Z0
                     {
                         dst.AppendFormat(" {0}",selector);
                         dst.AppendFormat("/{0}", XedRender.format(src.Action));
-
                     }
                 break;
                 default:

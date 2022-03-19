@@ -8,6 +8,7 @@ namespace Z0
     using static XedRules;
     using static XedRules.SyntaxLiterals;
     using static core;
+    using R = XedRules;
 
     public partial class XedParsers
     {
@@ -23,53 +24,12 @@ namespace Z0
         public static bool IsAssignment(string src)
             => src.Contains(SyntaxLiterals.Assign) && !IsCmpNeq(src);
 
-        public static bool Assignment(string src, out string left, out string right)
-        {
-            var result = false;
-            if(IsAssignment(src))
-            {
-                var parts = text.split(src,SyntaxLiterals.Assign);
-                Require.equal(parts.Length, 2);
-                left = skip(parts,0);
-                right = skip(parts,1);
-                result = true;
-            }
-            else
-            {
-                left = EmptyString;
-                right = EmptyString;
-            }
-            return result;
-        }
-
-        public static bool CmpNeq(string src, out string left, out string right)
-        {
-            var result = false;
-            if(IsCmpNeq(src))
-            {
-                var parts = text.split(src,SyntaxLiterals.Neq);
-                Require.equal(parts.Length, 2);
-                left = skip(parts,0);
-                right = skip(parts,1);
-                result = true;
-            }
-            else
-            {
-                left = EmptyString;
-                right = EmptyString;
-            }
-            return result;
-
-        }
 
         public static bool IsCmpNeq(string src)
             => src.Contains(Neq);
 
-        public static bool IsCall(string src)
-            => src.Contains(CallSyntax);
-
         public static bool IsNonterminal(string src)
-            => text.trim(src).EndsWith("()");
+            => text.trim(text.remove(src,"::")).EndsWith("()");
 
         public static bool IsBfSeg(string src)
         {
@@ -118,10 +78,15 @@ namespace Z0
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out Nonterminal dst)
-            => Instance.Parse(src, out dst);
+        {
+            var result = false;
+            dst = Nonterminal.Empty;
+            var input = text.remove(src,"()");
+            return parse(input, out NontermKind kind);
+        }
 
         public static bool parse(string src, out ChipCode dst)
-            => Instance.Parse(src, out dst);
+            => ChipCodes.Parse(src, out dst);
 
         public static bool parse(string src, out ErrorKind dst)
             => Instance.Parse(src,out dst);
@@ -145,10 +110,35 @@ namespace Z0
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out FieldAssign dst)
-            => Instance.Parse(src, out dst);
+        {
+            var input = text.trim(src);
+            var i = text.index(input, Chars.Eq);
+            dst = FieldAssign.Empty;
+            Outcome result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
+            if(i > 0)
+            {
+                if(parse(text.left(input,i), out FieldKind kind))
+                    if(XedFields.parse(kind, text.right(input,i), out var fv))
+                    {
+                        dst = new(fv);
+                        result = true;
+                    }
+                else
+                    result = (false, AppMsg.ParseFailure.Format(nameof(FieldKind), src));
+            }
+            return result;
+        }
 
         public static bool parse(string src, out uint8b dst)
-            => Instance.Parse(src, out dst);
+        {
+            if(IsBinaryLiteral(src))
+                return DataParser.parse(src, out dst);
+            else
+            {
+                dst = default;
+                return false;
+            }
+        }
 
         public static bool parse(string src, out FieldConstraint dst)
             => Instance.Parse(src, out dst);
@@ -176,6 +166,44 @@ namespace Z0
                     dst = new BitfieldSeg(kind, text.remove(content,"0b"), text.begins(content,"0b"));
                     result = true;
                 }
+            }
+            return result;
+        }
+
+        public static bool Assignment(string src, out string left, out string right)
+        {
+            var result = false;
+            if(IsAssignment(src))
+            {
+                var parts = text.split(src,SyntaxLiterals.Assign);
+                Require.equal(parts.Length, 2);
+                left = skip(parts,0);
+                right = skip(parts,1);
+                result = true;
+            }
+            else
+            {
+                left = EmptyString;
+                right = EmptyString;
+            }
+            return result;
+        }
+
+        public static bool CmpNeq(string src, out string left, out string right)
+        {
+            var result = false;
+            if(IsCmpNeq(src))
+            {
+                var parts = text.split(src,SyntaxLiterals.Neq);
+                Require.equal(parts.Length, 2);
+                left = skip(parts,0);
+                right = skip(parts,1);
+                result = true;
+            }
+            else
+            {
+                left = EmptyString;
+                right = EmptyString;
             }
             return result;
         }
@@ -213,7 +241,7 @@ namespace Z0
             dst = FieldLiteral.Empty;
             if(input.Length > 8)
                 return false;
-            else if(XedParsers.IsBinaryLiteral(input))
+            else if(IsBinaryLiteral(input))
             {
                 dst = FieldLiteral.Binary(input);
                 return true;
@@ -242,13 +270,45 @@ namespace Z0
             return true;
         }
 
+        public static bool parse(string src, out ImmFieldSpec dst)
+        {
+            var i = text.index(src, Chars.LBracket);
+            var j = text.index(src, Chars.RBracket);
+            var kind = Chars.x;
+            var width = z8;
+            var index = z8;
+            var result = Outcome.Success;
+
+            if(text.contains(src,"UIMM1"))
+                index = 1;
+
+            if(i > 0 && j > i)
+            {
+                var inside = text.inside(src,i,j);
+                var quotient = text.split(inside,Chars.FSlash);
+                if(quotient.Length != 2)
+                    result = (false,AppMsg.ParseFailure.Format(nameof(DispFieldSpec), src));
+
+                else
+                {
+                    ref readonly var upper = ref skip(quotient,0);
+                    ref readonly var lower = ref skip(quotient,1);
+
+                    if(upper.Length == 1)
+                        kind = upper[0];
+                    if(!byte.TryParse(lower, out width))
+                        result = (false,AppMsg.ParseFailure.Format(nameof(width), lower));
+                }
+            }
+
+            dst = new ImmFieldSpec(index, width);
+            return result;
+        }
+
         public static Outcome parse(string src, out ModeKind dst)
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out OpCodeKind dst)
-            => Instance.Parse(src, out dst);
-
-        public static bool parse(string src, out ImmFieldSpec dst)
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out RuleOpModKind dst)
@@ -258,7 +318,7 @@ namespace Z0
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out CategoryKind dst)
-            => Instance.Parse(src, out dst);
+            => CategoryKinds.Parse(src, out dst);
 
         public static bool parse(string src, out VexClass dst)
             => Instance.Parse(src, out dst);
@@ -303,13 +363,81 @@ namespace Z0
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out NontermKind dst)
-            => Instance.Parse(src, out dst);
+            => Nonterminals.Parse(src, out dst);
 
         public static bool parse(string src, out GroupName dst)
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out XedRegId dst)
-            => Instance.Parse(src, out dst);
+        {
+            var input = text.remove(text.trim(src), "XED_REG_");
+            var result = Regs.Parse(input, out dst);
+            if(!result)
+            {
+                result = FpuRegs.Parse(src, out var fpu);
+                if(result)
+                    dst = (XedRegId)fpu;
+            }
+            return result;
+        }
+
+        public static bool reg(FieldKind field, string value, out R.FieldValue dst)
+        {
+            var result = false;
+            dst = R.FieldValue.Empty;
+            if(IsNonterminal(value))
+                dst = new(field, new Nonterminal(value));
+            else if(parse(value, out XedRegId reg))
+            {
+                dst = new (field, reg);
+                result = true;
+            }
+            else if(parse(value, out FieldLiteral fl))
+            {
+                dst = new(field, (ulong)fl.ToAsci());
+                result = true;
+            }
+            return result;
+        }
+
+        public static bool reg(string src, out RuleOpAttrib dst)
+        {
+            dst = RuleOpAttrib.Empty;
+            var result = false;
+            var p0 = src;
+            var j = text.index(p0, Chars.LParen);
+            if(j > 0)
+                p0 = text.left(p0,j);
+
+            result = parse(p0, out XedRegId regid);
+            if(result)
+            {
+                dst = regid;
+                return true;
+            }
+
+            result = parse(p0, out NontermKind nk);
+            if(result)
+            {
+                dst = new Nonterminal(p0);
+                return true;
+            }
+
+            result = parse(p0, out GroupName gn);
+            if(result)
+            {
+                dst = new Nonterminal(p0);
+                return true;
+            }
+
+            result = IsNonterminal(src);
+            if(result)
+            {
+                dst = new Nonterminal(p0);
+                return true;
+            }
+            return result;
+        }
 
         public static bool parse(string src, out ElementKind dst)
             => Instance.Parse(src, out dst);
@@ -359,22 +487,6 @@ namespace Z0
         public bool Parse(string src, out IsaKind dst)
             => IsaKinds.Parse(src, out dst);
 
-        public bool Parse(string src, out NontermKind dst)
-            => Nonterminals.Parse(src, out dst);
-
-        public bool Parse(string src, out XedRegId dst)
-        {
-            var input = text.remove(text.trim(src), "XED_REG_");
-            var result = Regs.Parse(input, out dst);
-            if(!result)
-            {
-                result = FpuRegs.Parse(src, out var fpu);
-                if(result)
-                    dst = (XedRegId)fpu;
-            }
-            return result;
-        }
-
         public bool Parse(string src, out ElementKind dst)
             => ElementKinds.Parse(src, out dst);
 
@@ -412,9 +524,6 @@ namespace Z0
         public bool Parse(string src, out RuleOpModKind dst)
             => OpModKinds.Parse(src, out dst);
 
-        public bool Parse(string src, out ChipCode dst)
-            => ChipCodes.Parse(src, out dst);
-
         public bool Parse(string src, out FlagActionKind dst)
             => FlagActionKinds.Parse(src, out dst);
 
@@ -424,14 +533,11 @@ namespace Z0
         public bool Parse(string src, out RuleOpName dst)
             => RuleOpNames.Parse(src, out dst);
 
-       public bool Parse(string src, out SMode dst)
+        public bool Parse(string src, out SMode dst)
             => SModes.Parse(src, out dst);
 
         public bool Parse(string src, out IClass dst)
             => Classes.Parse(src, out dst);
-
-        public bool Parse(string src, out CategoryKind dst)
-            => CategoryKinds.Parse(src, out dst);
 
         public bool Parse(string src, out OpCodeKind dst)
             => OpCodeKinds.Parse(src, out dst);
@@ -441,7 +547,7 @@ namespace Z0
 
         public bool Parse(string src, out Category dst)
         {
-            if(Parse(src, out CategoryKind kind))
+            if(parse(src, out CategoryKind kind))
             {
                 dst = kind;
                 return true;
@@ -451,43 +557,6 @@ namespace Z0
                 dst = default;
                 return false;
             }
-        }
-
-
-        public Outcome Parse(string src, out ImmFieldSpec dst)
-        {
-            var i = text.index(src, Chars.LBracket);
-            var j = text.index(src, Chars.RBracket);
-            var kind = Chars.x;
-            var width = z8;
-            var index = z8;
-            var result = Outcome.Success;
-
-            if(text.contains(src,"UIMM1"))
-                index = 1;
-
-            if(i > 0 && j > i)
-            {
-                var inside = text.inside(src,i,j);
-                var quotient = text.split(inside,Chars.FSlash);
-                if(quotient.Length != 2)
-                    result = (false,AppMsg.ParseFailure.Format(nameof(DispFieldSpec), src));
-
-                else
-                {
-                    ref readonly var upper = ref skip(quotient,0);
-                    ref readonly var lower = ref skip(quotient,1);
-
-                    if(upper.Length == 1)
-                        kind = upper[0];
-                    if(!byte.TryParse(lower, out width))
-                        result = (false,AppMsg.ParseFailure.Format(nameof(width), lower));
-                }
-
-            }
-
-            dst = new ImmFieldSpec(index, width);
-            return result;
         }
 
         public bool Parse(string src, out ConstraintKind kind)
@@ -524,11 +593,24 @@ namespace Z0
         public bool Parse(string src, out Hex3 dst)
             => DataParser.parse(src, out dst);
 
+        public static bool num8(string src, out byte dst)
+        {
+            var result = false;
+            dst = 0;
+            if(IsHexLiteral(src))
+                result = NumericParser.num8<Hex8>(src, out var value);
+            else if(IsBinaryLiteral(src))
+                result = NumericParser.num8<uint8b>(src, out var value);
+            else
+                result = NumericParser.num8(src, out var value);
+            return result;
+        }
+
         public bool Parse(string src, out FieldConstraint dst)
         {
             dst = FieldConstraint.Empty;
             var result = false;
-            if(Parse(src, out ConstraintKind ck))
+            if(parse(src, out ConstraintKind ck))
             {
                 var expr = XedRender.format(ck);
                 var i = text.index(src,expr);
@@ -550,23 +632,12 @@ namespace Z0
                     }
                     else
                     {
-                        result = NumericParser.num8<uint8b>(b, out var value);
+                        result = NumericParser.num8(b, out var value);
                         dst = new FieldConstraint(fk, ck, value, FieldLiteralKind.DecimalLiteral);
                     }
                 }
             }
             return result;
-        }
-
-        public bool Parse(string src, out uint8b dst)
-        {
-            if(IsBinaryLiteral(src))
-                return DataParser.parse(src, out dst);
-            else
-            {
-                dst = default;
-                return false;
-            }
         }
 
         public bool Parse(string src, out uint5 dst)
@@ -578,35 +649,6 @@ namespace Z0
                 dst = default;
                 return false;
             }
-        }
-
-        public bool Parse(string src, out Nonterminal dst)
-        {
-            var result = false;
-            dst = Nonterminal.Empty;
-            var input = text.remove(src,"()");
-
-            return parse(input, out NontermKind kind);
-        }
-
-        public Outcome Parse(string src, out FieldAssign dst)
-        {
-            var input = text.trim(src);
-            var i = text.index(input, Chars.Eq);
-            dst = FieldAssign.Empty;
-            Outcome result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
-            if(i > 0)
-            {
-                if(Parse(text.left(input,i), out FieldKind kind))
-                    if(XedFields.parse(kind, text.right(input,i), out var fv))
-                    {
-                        dst = new(fv);
-                        result = true;
-                    }
-                else
-                    result = (false, AppMsg.ParseFailure.Format(nameof(FieldKind), src));
-            }
-            return result;
         }
 
         [MethodImpl(Inline)]

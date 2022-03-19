@@ -79,24 +79,6 @@ namespace Z0
             }
         }
 
-        public static string format(ValueSelector src)
-        {
-            var dst = EmptyString;
-            switch(src.Kind)
-            {
-                case ValueSelectorKind.Nonterminal:
-                    dst = format((NontermKind)src.Spec);
-                break;
-                case ValueSelectorKind.RegLiteral:
-                    dst = format((XedRegId)src.Spec);
-                break;
-                case ValueSelectorKind.Literal:
-                    dst = src.Spec.ToString();
-                break;
-            }
-            return dst;
-        }
-
         public static string format(in DisasmOpDetails src)
         {
             var dst = text.buffer();

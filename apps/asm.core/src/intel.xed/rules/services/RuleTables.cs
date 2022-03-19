@@ -10,6 +10,40 @@ namespace Z0
 
     public class XedRuleTables : AppService<XedRuleTables>
     {
+        public static Index<RuleTableRow> rows(in RuleTable src)
+        {
+            const byte ColCount = RuleTableRow.ColCount;
+
+            var dst = list<RuleTableRow>();
+            var q = 0u;
+            for(var i=0u; i<src.Body.Count; i++)
+            {
+                ref readonly var expr = ref src.Body[i];
+                if(expr.IsEmpty || expr.IsVacuous || expr.IsNull || expr.IsError)
+                    continue;
+
+                var m = z8;
+                var row = RuleTableRow.Empty;
+                row.TableKind = src.TableKind;
+                row.TableName = src.Sig.Name;
+                row.RowIndex = q++;
+
+                for(var k=0; k<expr.Premise.Count; k++)
+                {
+                    row[m] = new RuleTableCell(src.TableKind, m, expr.Premise[k]);
+                    m++;
+                }
+
+                m = ColCount/2;
+
+                for(var k=0; k<expr.Consequent.Count; k++, m++)
+                    row[m] = new RuleTableCell(src.TableKind, m, expr.Consequent[k]);
+
+                dst.Add(row);
+            }
+            return dst.ToArray();
+        }
+
         XedPaths XedPaths => Service(Wf.XedPaths);
 
         AppDb AppDb => Service(Wf.AppDb);
@@ -154,6 +188,20 @@ namespace Z0
             return buffer;
         }
 
+        public static void specs(in RuleTableRow src, char kind, HashSet<RuleCellSpec> dst)
+        {
+            var storage = 0ul;
+            var count = RuleTableRow.ColCount/2;
+            var i = kind == 'P' ? z8 : count;
+            var k = z8;
+            for(var j=0; j<count; j++, i++)
+            {
+                var cell = src[i];
+                if(cell.IsNonEmpty)
+                    dst.Add(cell.Spec);
+            }
+        }
+
         void CalcCells(in RuleTable table, Index<RuleTableRow> rows, ConcurrentDictionary<RuleSig,Index<RuleCellSpec>> dst)
         {
             var count = rows.Count;
@@ -162,8 +210,8 @@ namespace Z0
             for(var j=0; j<count; j++)
             {
                 ref readonly var row = ref rows[j];
-                row.FieldSpecs('P',pFields);
-                row.FieldSpecs('C',cFields);
+                specs(row, 'P',pFields);
+                specs(row, 'C',cFields);
             }
 
             var fields = list<RuleCellSpec>();
@@ -179,7 +227,7 @@ namespace Z0
         {
             ref readonly var sig = ref table.Sig;
             Span<byte> widths = stackalloc byte[RuleTableRow.FieldCount];
-            RuleTableRow.RenderWidths(sig, src, widths);
+            RenderWidths(sig, src, widths);
             var path = XedPaths.TableDef(sig);
             var formatter = Tables.formatter<RuleTableRow>(widths);
             using var writer = path.AsciWriter();
@@ -221,12 +269,12 @@ namespace Z0
                     continue;
 
                 if(i == count - 1)
-                    RuleTableRow.RenderWidths(sig, slice(src.View,offset,length), widths);
+                    RenderWidths(sig, slice(src.View,offset,length), widths);
                 else if(row.TableName != name)
                 {
                     if(row.TableName != name)
                     {
-                        RuleTableRow.RenderWidths(sig, slice(src.View,offset,length), widths);
+                        RenderWidths(sig, slice(src.View,offset,length), widths);
                         kind = row.TableKind;
                         name = row.TableName;
                         sig = XedRules.sig(kind,name);
@@ -238,6 +286,39 @@ namespace Z0
             }
 
             TableEmit(src.View, widths, XedPaths.TableDef(kind));
+        }
+
+        static void RenderWidths(RuleSig sig, ReadOnlySpan<RuleTableRow> data, Span<byte> dst)
+        {
+            seek(dst, 0) = 12;
+            if(skip(dst,1) != 0)
+                seek(dst, 1) = max((byte)(sig.Name.Length + 1), skip(dst,1));
+            else
+                seek(dst, 1) = max((byte)(sig.Name.Length + 1), (byte)12);
+            seek(dst, 2) = 12;
+            RenderWidths(data, dst);
+        }
+
+        static void RenderWidths(ReadOnlySpan<RuleTableRow> src, Span<byte> dst)
+        {
+            const byte Offset = 3;
+            const byte FieldCount = RuleTableRow.FieldCount;
+
+            for(var i=Offset; i<FieldCount; i++)
+                seek(dst,i) = max((byte)10, skip(dst,i));
+
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var row = ref skip(src,i);
+                for(byte j=0,k=Offset; j<FieldCount; j++, k++)
+                {
+                    var cell = row[j];
+                    var width = cell.Format().Length;
+                    if(width > skip(dst,k))
+                        seek(dst,k) = (byte)width;
+                }
+            }
         }
    }
 }

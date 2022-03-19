@@ -90,10 +90,10 @@ namespace Z0
                     if(q > 0)
                         content = text.left(content, q);
 
-                    if(IsCall(content))
+                    if(IsNonterminal(content))
                     {
                         var k = text.index(content, CallSyntax);
-                        terms.Add(new RuleSeqTerm(text.left(content,k), IsCall(content)));
+                        terms.Add(new RuleSeqTerm(text.left(content,k), IsNonterminal(content)));
                     }
                     else
                         terms.Add(new RuleSeqTerm(content, false));

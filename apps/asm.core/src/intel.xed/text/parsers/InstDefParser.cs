@@ -59,7 +59,7 @@ namespace Z0
                     result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
 
             }
-            else if(IsCall(src))
+            else if(IsNonterminal(src))
             {
                 result = XedParsers.parse(src, out Nonterminal x);
                 if(result)

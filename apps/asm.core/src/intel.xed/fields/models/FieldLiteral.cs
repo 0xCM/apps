@@ -62,8 +62,11 @@ namespace Z0
             public RuleCriterion ToCriterion(bool premise)
                 => criterion(premise, this);
 
+            public asci8 ToAsci()
+                => (asci8)Data.A;
+
             public string Format()
-                => (asci8)(Data.A);
+                => ToAsci();
 
             public override string ToString()
                 => Format();

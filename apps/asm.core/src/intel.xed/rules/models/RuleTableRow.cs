@@ -56,36 +56,6 @@ namespace Z0
 
             public RuleTableCell Col7C;
 
-            public Span<FieldKind> FieldKinds(char kind)
-            {
-                var storage = 0ul;
-                var dst = recover<FieldKind>(bytes(storage));
-                var count = ColCount/2;
-                var i = kind == 'P' ? z8 : count;
-                var k = z8;
-                for(var j=0; j<count; j++, i++)
-                {
-                    var cell = this[i];
-                    if(cell.IsNonEmpty && cell.Field != 0)
-                        seek(dst,k++) = cell.Field;
-                }
-                return slice(dst,0,k);
-            }
-
-            public void FieldSpecs(char kind, HashSet<RuleCellSpec> dst)
-            {
-                var storage = 0ul;
-                var count = ColCount/2;
-                var i = kind == 'P' ? z8 : count;
-                var k = z8;
-                for(var j=0; j<count; j++, i++)
-                {
-                    var cell = this[i];
-                    if(cell.IsNonEmpty)
-                        dst.Add(cell.Spec);
-                }
-            }
-
             public RuleTableCell this[int index]
             {
                 get
@@ -168,39 +138,6 @@ namespace Z0
                     };
                 }
             }
-
-            public static void RenderWidths(RuleSig sig, ReadOnlySpan<RuleTableRow> data, Span<byte> dst)
-            {
-                seek(dst, 0) = 12;
-                if(skip(dst,1) != 0)
-                    seek(dst, 1) = max((byte)(sig.Name.Length + 1), skip(dst,1));
-                else
-                    seek(dst, 1) = max((byte)(sig.Name.Length + 1), (byte)12);
-                seek(dst, 2) = 12;
-                RenderWidths(data, dst);
-            }
-
-            public static void RenderWidths(ReadOnlySpan<RuleTableRow> src, Span<byte> dst)
-            {
-                const byte Offset = 3;
-
-                for(var i=Offset; i<FieldCount; i++)
-                    seek(dst,i) = max((byte)10, skip(dst,i));
-
-                var count = src.Length;
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var row = ref skip(src,i);
-                    for(byte j=0,k=Offset; j<FieldCount; j++, k++)
-                    {
-                        var cell = row[j];
-                        var width = cell.Format().Length;
-                        if(width > skip(dst,k))
-                            seek(dst,k) = (byte)width;
-                    }
-                }
-            }
-
             public int CompareTo(RuleTableRow src)
             {
                 var result = TableName.CompareTo(src.TableName);

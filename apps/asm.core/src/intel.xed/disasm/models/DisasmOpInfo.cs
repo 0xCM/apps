@@ -24,7 +24,7 @@ namespace Z0
 
             public LookupKind LookupKind;
 
-            public ValueSelector Selector;
+            public asci16 Selector;
         }
     }
 }

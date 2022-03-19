@@ -7,7 +7,6 @@ namespace Z0
 {
     using static core;
     using static Root;
-    using static XedRules.RuleFormKind;
     using static XedModels;
     using static XedParsers;
 
@@ -24,11 +23,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         static RuleCriterion criterion(bool premise, RuleCall call)
             => new RuleCriterion(premise, call);
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        static RuleCriterion criterion<T>(bool premise, FieldKind field, RuleOperator op, T value)
-            where T : unmanaged
-                => new RuleCriterion(premise, field, op, core.bw64(value));
 
         [MethodImpl(Inline), Op]
         static RuleCriterion criterion(bool premise, FieldKind fk, RuleOperator op, Nonterminal nt)
@@ -305,7 +299,7 @@ namespace Z0
                     dst = criterion(premise, fk, op, nt);
                     result = true;
                 }
-                else if(IsCall(input))
+                else if(IsNonterminal(input))
                 {
                     var name = text.remove(input,"()");
                     parse(premise, name, out fk, out fv, out op);
@@ -468,6 +462,22 @@ namespace Z0
                     }
                     break;
 
+                    case K.ELEMENT_SIZE:
+                    case K.MEM_WIDTH:
+                    {
+                        if(ushort.TryParse(value, out ushort b))
+                        {
+                            dst = new (field,b);
+                            result = true;
+                        }
+                    }
+                    break;
+
+                    case K.SIBBASE:
+                    case K.HINT:
+                    case K.ROUNDC:
+                    case K.SEG_OVD:
+                    case K.VEXVALID:
                     case K.MOD:
                     case K.SIBSCALE:
                     case K.EASZ:
@@ -481,51 +491,10 @@ namespace Z0
                     case K.VEX_PREFIX:
                     case K.VL:
                     case K.LLRC:
-                    {
-                        if(XedParsers.parse(value, out byte b))
-                        {
-                            dst = new (field,b);
-                            result = true;
-                        }
-                    }
-                    break;
-
-                    case K.SIBBASE:
-                    case K.HINT:
-                    case K.ROUNDC:
-                    case K.SEG_OVD:
-                    case K.VEXVALID:
-                    {
-                        if(XedParsers.parse(value, out byte b))
-                        {
-                            dst = new (field,b);
-                            result = true;
-                        }
-                    }
-                    break;
-
                     case K.MAP:
                     case K.NELEM:
                     case K.SCALE:
-                    {
-                        if(XedParsers.parse(value, out byte b))
-                        {
-                            dst = new (field,b);
-                            result = true;
-                        }
-                    }
-                    break;
-
                     case K.BCAST:
-                    {
-                        if(XedParsers.parse(value, out byte b))
-                        {
-                            dst = new (field,b);
-                            result = true;
-                        }
-                    }
-                    break;
-
                     case K.BRDISP_WIDTH:
                     case K.DISP_WIDTH:
                     case K.ILD_SEG:
@@ -543,36 +512,7 @@ namespace Z0
                     case K.POS_NOMINAL_OPCODE:
                     case K.POS_SIB:
                     case K.NEED_MEMDISP:
-                    {
-                        if(XedParsers.parse(value, out byte b))
-                        {
-                            dst = new (field,b);
-                            result = true;
-                        }
-                    }
-                    break;
-
-                    case K.ELEMENT_SIZE:
-                    case K.MEM_WIDTH:
-                    {
-                        if(ushort.TryParse(value, out ushort b))
-                        {
-                            dst = new (field,b);
-                            result = true;
-                        }
-                    }
-                    break;
-
                     case K.RM:
-                    {
-                        if(XedParsers.parse(value, out byte b))
-                        {
-                            dst = new (field,b);
-                            result = true;
-                        }
-                    }
-                    break;
-
                     case K.SIBINDEX:
                     case K.REG:
                     case K.VEXDEST210:
@@ -647,19 +587,8 @@ namespace Z0
                     case K.REG8:
                     case K.REG9:
                     {
-                        if(XedParsers.parse(value, out XedRegId reg))
-                        {
-                            dst = new (field, reg);
+                        if(XedParsers.reg(field, value, out dst))
                             result = true;
-                        }
-                        else
-                        {
-                            if(XedParsers.parse(value, out Nonterminal nt))
-                            {
-                                dst = new(field,nt);
-                                result = true;
-                            }
-                        }
                     }
                     break;
                     case K.CHIP:
@@ -681,7 +610,6 @@ namespace Z0
                         }
                     }
                     break;
-
 
                     case K.ICLASS:
                     {
@@ -715,7 +643,7 @@ namespace Z0
                     return RF.EncodeStep;
                 if(IsDecStep(content))
                     return RF.DecodeStep;
-                if(IsCall(content))
+                if(IsNonterminal(content))
                     return RF.Invocation;
                 if(IsSeqDecl(content))
                     return RF.SeqDecl;
@@ -725,21 +653,6 @@ namespace Z0
             public RuleTableParser()
             {
 
-            }
-
-            static void SkipSeq(LineReader reader)
-            {
-                while(reader.Next(out var line))
-                {
-                    if(line.IsEmpty || line.StartsWith(Chars.Hash))
-                        continue;
-
-                    var kind = form(line.Content);
-                    if(kind == 0 || kind == Invocation)
-                        continue;
-                    else
-                        break;
-                }
             }
 
             static HashSet<string> Skip;

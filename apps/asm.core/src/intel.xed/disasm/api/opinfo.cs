@@ -68,7 +68,7 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            result = selector(skip(parts,i++), out dst.Selector);
+            dst.Selector = text.trim(skip(parts,i++));
             return result;
         }
     }

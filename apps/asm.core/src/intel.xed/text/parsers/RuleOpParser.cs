@@ -324,21 +324,10 @@ namespace Z0
                 var i=0;
                 if(count >= 1)
                 {
+
                     var p0 = props[0];
-                    var j = text.index(p0, Chars.LParen);
-                    if(j > 0)
-                        p0 = text.left(p0,j);
-
-                    if(parse(p0, out XedRegId regid))
-                        seek(buffer, i++) = regid;
-                    else if(parse(p0, out NontermKind nk))
-                        seek(buffer, i++) = new Nonterminal(p0);
-                    else if(parse(p0, out GroupName gn))
-                        seek(buffer,i++)= new Nonterminal(p0);
-                    else if(IsNonterminal(props[0]))
-                        seek(buffer,i++)= new Nonterminal(p0);
-
-                    else
+                    result = XedParsers.reg(p0, out seek(buffer,i++));
+                    if(!result)
                         Errors.Throw(string.Format("Unable to parser rgister specification {0}", p0));
                 }
 
