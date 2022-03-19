@@ -7,18 +7,18 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed_state)]
+        [SymSource(xed)]
         public enum RepPrefix : byte
         {
             None = 0,
 
-            [Symbol("F2", "f2_prefix:{REPNZ,REPNE}")]
+            [Symbol("F2", "REP=2:{REPNZ,REPNE}")]
             REPF2 = 2,
 
-            [Symbol("F3", "f3_prefix:{REPZ,REPE}")]
+            [Symbol("F3", "REP=3:{REPZ,REPE}")]
             REPF3 = 3,
 
-            [Symbol("REP!=3")]
+            [Symbol("REP!=3", "REP!=3")]
             NOF3 = 4,
         }
     }

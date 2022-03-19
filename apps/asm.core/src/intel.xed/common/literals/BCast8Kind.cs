@@ -12,16 +12,16 @@ namespace Z0
         [SymSource("xed")]
         public enum BCast8Kind : byte
         {
-            [Symbol(N.N1to16, "BCAST=17")]
-            BCast_1TO16_8 = 17, // 128
+            [Symbol(N.N1to16, "BCAST=17;VL=128")]
+            BCast_1TO16_8 = 17,
 
-            [Symbol(N.N1to32, "BCAST=18")]
-            BCast_1TO32_8 = 18, // 256
+            [Symbol(N.N1to32, "BCAST=18;VL=256")]
+            BCast_1TO32_8 = 18,
 
-            [Symbol(N.N1to64, "BCAST=19")]
-            BCast_1TO64_8 = 19, // 512
+            [Symbol(N.N1to64, "BCAST=19;VL=512")]
+            BCast_1TO64_8 = 19,
 
-            [Symbol(N.N1to2, "BCAST=23")]
+            [Symbol(N.N1to2, "BCAST=23;VL=128")]
             BCast_1TO2_8  = 23,
 
             [Symbol(N.N1to4, "BCAST=24")]

@@ -7,13 +7,14 @@ namespace Z0
     using static XedRules;
     using static XedParsers;
     using static core;
+    using Asm;
 
     partial class XedCmdProvider
     {
         [CmdOp("xed/check/inst")]
         Outcome CheckInstDefs(CmdArgs args)
         {
-            CheckInstDefs();
+            TableEmit(Xed.CalcBcastDefs(), AsmBroadcastDef.RenderWidths, AppDb.XedTable<AsmBroadcastDef>());
             return true;
         }
 

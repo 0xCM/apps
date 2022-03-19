@@ -6,6 +6,7 @@ namespace Z0.Asm
 {
     using static XedModels;
     using static XedRules;
+    using static core;
 
     [ApiHost]
     public sealed partial class IntelXed : AppService<IntelXed>
@@ -15,6 +16,8 @@ namespace Z0.Asm
         ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
 
         public XedPaths XedPaths => Service(Wf.XedPaths);
+
+        AppDb AppDb => Service(Wf.AppDb);
 
         public XedRules Rules => Service(Wf.XedRules);
 
@@ -27,5 +30,12 @@ namespace Z0.Asm
         static MsgPattern<ChipCode> DuplicateChipCode => "Duplicate chip code {0}";
 
         static MsgPattern<string> ChipCodeNotFound => "Code for chip {0} not found";
+
+        static Index<AsmBroadcastDef> _BroadcastDefs;
+
+        static IntelXed()
+        {
+            _BroadcastDefs = bcastdefs();
+        }
    }
 }

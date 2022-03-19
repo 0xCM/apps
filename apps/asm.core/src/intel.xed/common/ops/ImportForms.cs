@@ -34,6 +34,8 @@ namespace Z0.Asm
             rows.Sort();
 
             TableEmit(rows.ViewDeposited(), XedFormImport.RenderWidths, dst);
+
+            EmitIsaForms();
         }
 
         Index<XedFormSource> ParseFormSources()

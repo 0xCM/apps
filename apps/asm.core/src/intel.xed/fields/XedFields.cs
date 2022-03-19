@@ -14,6 +14,15 @@ namespace Z0
     [ApiHost]
     public partial class XedFields
     {
+        public sealed class SymbolicFields : TokenSet<SymbolicFields>
+        {
+            public override string Name
+                => "xed.field.domains";
+
+            public override Type[] Types()
+                => EffectiveFieldTypes.Where(t => t.IsEnum);
+        }
+
         static readonly Index<FieldKind,RuleFieldSpec> _Specs;
 
         public static Index<FieldKind,RuleFieldSpec> Specs => _Specs;
@@ -74,6 +83,8 @@ namespace Z0
             return result;
         }
 
+        static Index<FieldKind,Type> EffectiveFieldTypes;
+
         static Index<FieldKind,RuleFieldSpec> specs()
         {
             var kinds = Symbols.index<FieldKind>().Kinds;
@@ -82,15 +93,18 @@ namespace Z0
             var fields = src.Map(f => (f.Tag<RuleFieldAttribute>().Require().Kind, f)).ToDictionary();
             var dst = alloc<RuleFieldSpec>(count);
             var total = z16;
+            var types = alloc<Type>(count);
 
             for(var i=z16; i<count; i++)
             {
                 ref var record = ref seek(dst,i);
                 ref readonly var kind = ref skip(kinds,i);
+                ref var type = ref seek(types,i);
                 if(fields.TryGetValue(kind, out var field))
                 {
                     var tag = field.Tag<RuleFieldAttribute>().Require();
                     var dw = datawidth(field.FieldType);
+                    type = tag.EffectiveType;
                     total = (ushort)(total + (dw/8));
                     record.Index = (ushort)kind;
                     record.FieldName = field.Name;
@@ -99,16 +113,18 @@ namespace Z0
                     record.TotalSize = total;
                     record.FieldKind = tag.Kind;
                     record.DeclaredType = typename(field.FieldType);
-                    record.EffectiveType = typename(tag.EffectiveType);
+                    record.EffectiveType = typename(type);
                     record.Description = tag.Description;
                 }
                 else
                 {
                     record.FieldName = nameof(FieldKind.INVALID);
                     record.FieldKind = FieldKind.INVALID;
+                    type = typeof(void);
                 }
             }
 
+            EffectiveFieldTypes = types;
             return dst;
         }
 

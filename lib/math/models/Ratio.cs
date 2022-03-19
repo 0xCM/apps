@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines a ratio between two values, a measure that indicates how many times the first number contains the second
     /// </summary>
@@ -36,6 +31,9 @@ namespace Z0
 
         public string Format()
             => $"{A}:{B}";
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator (T A, T B)(Ratio<T> src)

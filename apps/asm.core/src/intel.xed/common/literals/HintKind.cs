@@ -13,16 +13,16 @@ namespace Z0
             [Symbol("", "No hint")]
             None = 0,
 
-            [Symbol("UNTAKEN_CS", "CS PREFIX OBSERVED (NOT TAKEN)")]
+            [Symbol("UNTAKEN_CS", "CS prefix observed but not taken")]
             UNTAKEN_CS= 1,
 
-            [Symbol("UNTAKEN_CS", "DS PREFIX OBSERVED (TAKEN)")]
+            [Symbol("UNTAKEN_CS", "DS observed and taken")]
             TAKEN_DS = 2,
 
-            [Symbol("UNTAKEN_VALIDATED", "NOT TAKEN HINT VALIDATED for a BRANCH")]
+            [Symbol("UNTAKEN_VALIDATED", "Hint validated but not taken")]
             UNTAKEN_VALIDATED = 3,
 
-            [Symbol("TAKEN_VALIDATED", "TAKEN HINT VALIDATED for a BRANCH")]
+            [Symbol("TAKEN_VALIDATED", "Hint validated and taken")]
             TAKEN_VALIDATED = 4
         }
     }

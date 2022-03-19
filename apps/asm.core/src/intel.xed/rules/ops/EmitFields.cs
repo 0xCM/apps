@@ -14,8 +14,15 @@ namespace Z0
         {
             exec(PllExec,
                 EmitFieldDefs,
-                EmitReflectedFields
+                EmitReflectedFields,
+                EmitSymbolicFields
                 );
+        }
+
+        void EmitSymbolicFields()
+        {
+            var src = XedFields.SymbolicFields.create();
+            ApiMetadataService.create(Wf).EmitTokenSet(src, AppDb.XedPath("xed.fields.symbolic", FileKind.Csv));
         }
 
         void EmitFieldDefs()

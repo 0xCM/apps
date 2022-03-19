@@ -6,17 +6,27 @@
 namespace Z0.Asm
 {
     using static XedModels;
+    using static core;
 
     partial class IntelXed
     {
         public void EmitCatalog()
         {
             XedPaths.Targets().Clear(true);
-            EmitChipMap();
-            ImportForms();
-            EmitIsaForms();
-            EmitRegmap();
-            Rules.EmitCatalog();
+
+            exec(true,
+                EmitChipMap,
+                ImportForms,
+                EmitRegmap,
+                EmitBroadcastDefs,
+                () => Rules.EmitCatalog()
+                );
+
+            // EmitChipMap();
+            // ImportForms();
+            // EmitIsaForms();
+            // EmitRegmap();
+            // Rules.EmitCatalog();
         }
 
         void EmitRegmap()
