@@ -4,32 +4,30 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct CoverFormat<E>
+    using System;
+
+    public readonly struct EnumFormat<E>
         where E : unmanaged, Enum
     {
-        public readonly EnumCover<E> Source;
+        readonly E Value;
 
         public readonly EnumFormatMode Mode;
 
         [MethodImpl(Inline)]
-        public CoverFormat(E src, EnumFormatMode mode)
+        public EnumFormat(E src, EnumFormatMode mode = EnumFormatMode.Expr)
         {
-            Source = src;
+            Value = src;
             Mode = mode;
         }
 
         public string Format()
-            => CoverFormat.format(this);
+            => EnumRender<E>.Service.Format(Value,Mode);
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator CoverFormat<E>(E src)
-            => new CoverFormat<E>(src, EnumFormatMode.Default);
-
-        [MethodImpl(Inline)]
-        public static implicit operator CoverFormat<E>((E src, EnumFormatMode mode) x)
-            => new CoverFormat<E>(x.src, x.mode);
+        public static implicit operator EnumFormat<E>(E src)
+            => new EnumFormat<E>(src);
     }
 }

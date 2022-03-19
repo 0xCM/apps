@@ -36,11 +36,8 @@ namespace Z0
 
                 m = ColCount/2;
 
-                for(var k=0; k<expr.Consequent.Count; k++)
-                {
+                for(var k=0; k<expr.Consequent.Count; k++, m++)
                     row[m] = new RuleTableCell(src.TableKind, m, expr.Consequent[k]);
-                    m++;
-                }
 
                 dst.Add(row);
             }

@@ -7,14 +7,18 @@ namespace Z0
     [Flags]
     public enum EnumFormatMode : byte
     {
-        Default,
+        Default = 0,
 
-        Name = 1,
+        Expr = 1,
 
-        Identifier = 2,
+        Name = 2,
 
-        Scalar = 4,
+        Base10 = 4,
 
-        EmptyZero = 8,
+        Base2 = 8,
+
+        Base16 = 16,
+
+        EmptyZero = 32,
     }
 }

@@ -49,14 +49,7 @@ namespace Z0
 
         void EmitRuleSpecs(RuleTableKind kind, Index<RuleTableSpec> src)
         {
-            var name = kind switch
-            {
-                RuleTableKind.Enc => "xed.rules.specs.enc",
-                RuleTableKind.Dec => "xed.rules.specs.dec",
-                RuleTableKind.EncDec => "xed.rules.specs.encdec",
-                _ => EmptyString
-            };
-            var dst = AppDb.XedPath("rules.tables", name, FileKind.Txt);
+            var dst = XedPaths.RuleSpecs(kind);
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             for(var i=0; i<src.Length; i++)
@@ -180,7 +173,7 @@ namespace Z0
         }
 
         void EmitSchemas(Index<RuleSchema> src)
-            => TableEmit(src.View, RuleSchema.RenderWidths, AppDb.XedPath("rules.tables", "xed.rules.schemas", FileKind.Csv));
+            => TableEmit(src.View, RuleSchema.RenderWidths, XedPaths.RuleSchemas());
 
         void EmitTableDef(in RuleTable table, Index<RuleTableRow> src)
         {

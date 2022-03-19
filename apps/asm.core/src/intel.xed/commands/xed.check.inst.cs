@@ -48,24 +48,6 @@ namespace Z0
             }
             table.AppendLine(Chars.RBrace);
             Write(table.Emit());
-
-            //var xDef = RuleTableParser.reify(xSpec);
-            // foreach(var s in xSpec.Statements)
-            // {
-            //     var left = RuleTableParser.premise(s);
-            //     var right = RuleTableParser.consequent(s);
-            //     var x = EmptyString;
-            //     var y = text.join(Chars.Space, right);
-            //     foreach(var r in right)
-            //     {
-            //         if(r.IsCall)
-            //             x += XedRender.format(r.AsCall());
-            //         else
-            //             x += string.Format(" <{0}:{1}:{2}>", r.Field, r.DataKind, r.Data);
-            //     }
-            //     Write(string.Format("    {0} <=> {1}", left.Delimit(Chars.Space), x));
-            // }
-
             return true;
         }
 

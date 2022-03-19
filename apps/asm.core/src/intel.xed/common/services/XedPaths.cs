@@ -81,6 +81,21 @@ namespace Z0
         public FS.FilePath TableDef(RuleTableKind kind)
             => RuleTargets() + FS.file(string.Format("{0}.{1}",RuleTableRow.TableId, kind.ToString().ToLower()), FS.Csv);
 
+        public FS.FilePath RuleSpecs(RuleTableKind kind)
+        {
+            var name = kind switch
+            {
+                RuleTableKind.Enc => "xed.rules.specs.enc",
+                RuleTableKind.Dec => "xed.rules.specs.dec",
+                RuleTableKind.EncDec => "xed.rules.specs.encdec",
+                _ => EmptyString
+            };
+            return RuleTargets() + FS.file(name,FS.Txt);
+        }
+
+        public FS.FilePath RuleSchemas()
+            => RuleTargets() + Tables.filename<RuleSchema>();
+
         public FS.FilePath RuleSource(RuleTableKind kind)
         {
             var name = kind switch

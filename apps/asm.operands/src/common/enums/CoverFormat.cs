@@ -8,35 +8,6 @@ namespace Z0
 
     public readonly struct CoverFormat
     {
-        public static string format<E>(CoverFormat<E> src)
-            where E : unmanaged, Enum
-        {
-            var ez = (src.Mode & M.EmptyZero) != 0;
-            var dst = EmptyString;
-            if(ez && src.Source.Scalar == 0)
-                dst = EmptyString;
-            else
-            {
-                var kind = (M)((byte)src.Mode & 0b111);
-                switch(kind)
-                {
-                    case M.Name:
-                        dst = src.Source.Expr;
-                    break;
-                    case M.Identifier:
-                        dst = src.Source.Name;
-                    break;
-                    case M.Scalar:
-                        dst = src.Source.Scalar.ToString();
-                    break;
-                    default:
-                        dst = src.Source.Expr;
-                    break;
-                }
-            }
-            return dst;
-        }
-
         public static string format<E,T>(CoverFormat<E,T> src)
             where E : unmanaged, Enum
             where T : unmanaged
@@ -50,13 +21,13 @@ namespace Z0
                 var kind = (M)((byte)src.Mode & 0b111);
                 switch(kind)
                 {
-                    case M.Name:
+                    case M.Expr:
                         dst = src.Source.Expr;
                     break;
-                    case M.Identifier:
+                    case M.Name:
                         dst = src.Source.Name;
                     break;
-                    case M.Scalar:
+                    case M.Base10:
                         dst = src.Source.Scalar.ToString();
                     break;
                     default:

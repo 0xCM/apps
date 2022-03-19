@@ -760,11 +760,7 @@ namespace Z0
                         }
                     }
                     break;
-                    default:
-                        result = parse(field, value, out FieldValue z);
-                        if(result)
-                            dst = criterion(premise, op, z);
-                    break;
+
                     case K.MOD:
                     case K.SIBSCALE:
                     case K.EASZ:
@@ -989,6 +985,11 @@ namespace Z0
                     }
                     break;
 
+                    default:
+                        result = parse(field, value, out FieldValue z);
+                        if(result)
+                            dst = criterion(premise, op, z);
+                    break;
                 }
                 // switch(field)
                 // {

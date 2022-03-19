@@ -26,7 +26,7 @@ namespace Z0
 
             public FieldKind Field;
 
-            public CellDataKind DataKind;
+            public EnumFormat<CellDataKind> DataKind;
 
             public FS.FileUri TableDef;
 

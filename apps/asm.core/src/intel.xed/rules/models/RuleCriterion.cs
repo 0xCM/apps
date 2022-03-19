@@ -91,17 +91,6 @@ namespace Z0
                 IsNonterminal = false;
             }
 
-            [MethodImpl(Inline)]
-            internal RuleCriterion(bool premise, FieldKind field, RuleOperator op, asci8 data, CellDataKind dk)
-            {
-                Premise = premise;
-                Field = field;
-                Operator = op;
-                Storage = (ulong)data;
-                DataKind = dk;
-                IsNonterminal = false;
-            }
-
             public readonly ulong Data
             {
                 [MethodImpl(Inline)]
