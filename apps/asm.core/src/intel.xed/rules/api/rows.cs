@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public static RuleTableRows rows(in RuleTable src)
+        public static Index<RuleTableRow> rows(in RuleTable src)
         {
             const byte ColCount = RuleTableRow.ColCount;
 
@@ -29,20 +29,22 @@ namespace Z0
                 row.RowIndex = q++;
 
                 for(var k=0; k<expr.Premise.Count; k++)
-                    assign(m++, src.TableKind, expr.Premise[k], ref row);
+                {
+                    row[m] = new RuleTableCell(src.TableKind, m, expr.Premise[k]);
+                    m++;
+                }
 
                 m = ColCount/2;
 
                 for(var k=0; k<expr.Consequent.Count; k++)
-                    assign(m++, src.TableKind, expr.Consequent[k], ref row);
+                {
+                    row[m] = new RuleTableCell(src.TableKind, m, expr.Consequent[k]);
+                    m++;
+                }
 
                 dst.Add(row);
             }
-            return new RuleTableRows(src.Sig,  dst.ToArray());
+            return dst.ToArray();
         }
-
-        [MethodImpl(Inline), Op]
-        static void assign(byte i, RuleTableKind tk,  in RuleCriterion src, ref RuleTableRow dst)
-            => dst[i] = new RuleTableCell(tk, i,src);
     }
 }

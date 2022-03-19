@@ -169,11 +169,6 @@ namespace Z0
                 }
             }
 
-            public static void RenderWidths(in RuleTableRows src, Span<byte> dst)
-            {
-                RenderWidths(src.TableSig, src.Data, dst);
-            }
-
             public static void RenderWidths(RuleSig sig, ReadOnlySpan<RuleTableRow> data, Span<byte> dst)
             {
                 seek(dst, 0) = 12;

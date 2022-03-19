@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Linq;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     partial struct Seq
     {
@@ -51,11 +46,6 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static IndexedSeq<T> index<T>(params T[] src)
             => new IndexedSeq<T>(src, true);
-
-        // [MethodImpl(Inline), Op, Closures(Closure)]
-        // public static DelimitedIndex<T> index<T>(char delimiter, int pad, T[] src)
-        //     where T : unmanaged
-        //         => new DelimitedIndex<T>(src, text.delimit, delimiter, pad);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static DelimitedIndex<object> index(char delimiter, int pad, params object[] src)

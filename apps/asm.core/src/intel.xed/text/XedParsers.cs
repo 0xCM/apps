@@ -207,6 +207,41 @@ namespace Z0
             return result;
         }
 
+        public static bool parse(string src, out FieldLiteral dst)
+        {
+            var input = text.trim(src);
+            dst = FieldLiteral.Empty;
+            if(input.Length > 8)
+                return false;
+            else if(XedParsers.IsBinaryLiteral(input))
+            {
+                dst = FieldLiteral.Binary(input);
+                return true;
+            }
+
+            switch(input)
+            {
+                case "else":
+                case "default":
+                    dst = FieldLiteral.Default;
+                break;
+                case "null":
+                    dst = FieldLiteral.Null;
+                break;
+                case "error":
+                    dst = FieldLiteral.Error;
+                break;
+                case "@":
+                    dst = FieldLiteral.Wildcard;
+                break;
+                default:
+                    dst = FieldLiteral.Text(input);
+                break;
+            }
+
+            return true;
+        }
+
         public static Outcome parse(string src, out ModeKind dst)
             => Instance.Parse(src, out dst);
 

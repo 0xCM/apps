@@ -11,6 +11,7 @@ namespace Z0
     {
         public static RuleSig sig(RuleTableKind kind, string name)
         {
+            Require.nonempty(name);
             var @class = RuleClass.None;
             if(XedParsers.parse(name, out NontermKind nt))
                 @class = RuleClass.Nonterminal;
@@ -20,24 +21,6 @@ namespace Z0
                     @class = RuleClass.Encoding;
             }
             return new (kind,@class,name);
-        }
-
-        public static RuleSig sig(XedDocKind kind, string name)
-        {
-            var dst = RuleSig.Empty;
-            switch(kind)
-            {
-                case XedDocKind.EncRuleTable:
-                    dst = sig(RuleTableKind.Enc, name);
-                break;
-                case XedDocKind.EncDecRuleTable:
-                    dst = sig(RuleTableKind.EncDec, name);
-                break;
-                case XedDocKind.DecRuleTable:
-                    dst = sig(RuleTableKind.Dec, name);
-                break;
-            }
-            return dst;
         }
     }
 }

@@ -30,6 +30,9 @@ namespace Z0
             public static implicit operator RuleTableDefs(RuleTable[] src)
                 => new RuleTableDefs(src);
 
+            public static implicit operator RuleTableDefs(Index<RuleTable> src)
+                => new RuleTableDefs(src);
+
             public static implicit operator RuleTableDefs(Dictionary<RuleSig,RuleTable> src)
                 => new RuleTableDefs(src);
 

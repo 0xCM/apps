@@ -65,7 +65,7 @@ namespace Z0
 
         static EnumRender<CellDataKind> CellDataKinds = new();
 
-        static Symbols<ChipCode> ChipCodes;
+        static EnumRender<ChipCode> ChipCodes = new();
 
         static Symbols<XedRegId> XedRegs;
 
@@ -77,7 +77,7 @@ namespace Z0
 
         static Symbols<OperandWidthCode> OpWidthKinds;
 
-        static Symbols<ElementKind> ElementTypes;
+        static EnumRender<ElementKind> ElementTypes = new();
 
         static Symbols<RuleOpName> OpNames;
 
@@ -87,14 +87,12 @@ namespace Z0
 
         static XedRender()
         {
-            ChipCodes = Symbols.index<ChipCode>();
             XedRegs = Symbols.index<XedRegId>();
             OpWidthKinds = Symbols.index<OperandWidthCode>();
             ConstraintKinds = Symbols.index<ConstraintKind>();
             OpActions = Symbols.index<OperandAction>();
             OpNames = Symbols.index<RuleOpName>();
             OpVis = Symbols.index<OpVisibility>();
-            ElementTypes = Symbols.index<ElementKind>();
             Classes = Symbols.index<IClass>();
         }
     }

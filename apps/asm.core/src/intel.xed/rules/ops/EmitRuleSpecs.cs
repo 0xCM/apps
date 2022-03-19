@@ -5,36 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class XedRules
     {
-        public void EmitRuleSpecs()
-            => exec(PllExec,
-                () => EmitRuleSpecs(RuleTableKind.Enc),
-                () => EmitRuleSpecs(RuleTableKind.Dec),
-                () => EmitRuleSpecs(RuleTableKind.EncDec)
-            );
-
         public Index<RuleTableSpec> CalcRuleSpecs(RuleTableKind kind)
-            => RuleTableParser.specs(XedPaths.RuleSource(kind));
-
-        void EmitRuleSpecs(RuleTableKind kind)
-        {
-            var src = CalcRuleSpecs(kind);
-            var name = kind switch
-            {
-                RuleTableKind.Enc => "xed.rules.specs.enc",
-                RuleTableKind.Dec => "xed.rules.specs.dec",
-                RuleTableKind.EncDec => "xed.rules.specs.encdec",
-                _ => EmptyString
-            };
-            var dst = AppDb.XedPath("rules.tables", name, FileKind.Txt);
-            var emitting = EmittingFile(dst);
-            using var writer = dst.AsciWriter();
-            for(var i=0; i<src.Length; i++)
-                writer.WriteLine(src[i]);
-            EmittedFile(emitting,src.Length);
-        }
+            => RuleTables.CalcRuleSpecs(kind);
     }
 }

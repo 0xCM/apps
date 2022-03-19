@@ -4,19 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct RP
     {
-        /// <summary>
-        /// Defines the format pattern '{0,pad}'
-        /// </summary>
-        /// <param name="pad">The pad width specifier</param>
         [MethodImpl(Inline), Op]
         public static string pad(int pad)
-            => "{0," + pad.ToString() + "}";
+            => pad == 0 ? "{0}" : "{0," + pad.ToString() + "}";
 
         /// <summary>
         /// Defines the format pattern '{n,pad}'
@@ -25,6 +17,6 @@ namespace Z0
         /// <param name="pad">The pad width specifier</param>
         [MethodImpl(Inline), Op]
         public static string pad(uint n, int pad)
-            => "{" + n.ToString() + "," + pad.ToString() + "}";
+            => "{0" + n.ToString() + "," + pad.ToString() + "}";
     }
 }

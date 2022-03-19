@@ -239,7 +239,7 @@ namespace Z0
             if(fields.Length != FieldCount)
             {
                 dst = default;
-                return (false, Msg.FieldCountMismatch.Format(fields.Length, FieldCount, text.delimit(fields, Delimiter)));
+                return (false, Msg.FieldCountMismatch.Format(fields.Length, FieldCount, text.delimit(@readonly(fields), Delimiter,0)));
             }
 
             var i = 0;

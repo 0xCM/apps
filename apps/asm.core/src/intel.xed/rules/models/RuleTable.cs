@@ -19,6 +19,7 @@ namespace Z0
                 Sig = sig;
                 Body = body;
             }
+
             public RuleTableKind TableKind
             {
                 [MethodImpl(Inline)]
@@ -34,7 +35,7 @@ namespace Z0
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Body.Count != 0;
+                get => Body.Count != 0 && Sig.IsNonEmpty;
             }
 
             public string Format()

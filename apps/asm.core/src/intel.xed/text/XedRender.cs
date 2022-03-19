@@ -52,9 +52,6 @@ namespace Z0
         public static string format(in RuleTableCell src)
             => src.IsEmpty ? EmptyString : format(src.Criterion);
 
-        public static string format(Nonterminal src)
-            => string.Format("{0}()", src.Name);
-
         public static string format(AsmOcValue src)
             => AsmOcValue.format(src);
 
@@ -207,7 +204,7 @@ namespace Z0
             => OpActions[src].Expr.Text;
 
         public static string format(ChipCode src)
-            => ChipCodes[src].Expr.Text;
+            => ChipCodes.Format(src);
 
         public static string format(XopMapKind src)
             => src == 0 ? EmptyString : src.ToString();
@@ -234,13 +231,41 @@ namespace Z0
             };
 
         public static string format(ElementKind src)
-            => ElementTypes[src].Expr.Text;
+            => ElementTypes.Format(src);
 
         public static string format(OpVisibility src)
             => OpVis[src].Expr.Text;
 
         public static string format(OpCodeKind src)
             => format(ocindex(src));
+
+        public static string format(ImmFieldSpec src)
+            => src.Width == 0 ? EmptyString : string.Format("{0}{1}[i/{2}]", "UIMM", src.Index, src.Width);
+
+        public static string format(DispFieldSpec src)
+            => src.Width == 0 ? EmptyString : string.Format("{0}[{1}/{2}]", "DISP", src.Kind, src.Width);
+
+        public static string format(RuleCall src)
+        {
+            if(src.IsEmpty)
+            {
+                return "<no_target>";
+            }
+            else
+            {
+                if(src.Field == 0)
+                    return string.Format("{0}()", src.Target.Format());
+                else
+                    return string.Format("{0}{1}{2}()", format(src.Field), format(src.Operator), src.Target.Format());
+            }
+        }
+
+        public static string format(BitfieldSeg src)
+            => string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]", XedRender.format(src.Field), src.Pattern);
+
+        public static string format(BitfieldSpec src)
+            => src.Pattern.Format();
+
 
         public static string format(in MacroSpec src)
         {

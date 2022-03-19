@@ -8,42 +8,64 @@ namespace Z0
     partial struct XedModels
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly struct Nonterminal : IEquatable<Nonterminal>, IComparable<Nonterminal>
+        public struct Nonterminal : IEquatable<Nonterminal>, IComparable<Nonterminal>
         {
-            readonly GroupName EncodingGroup;
+            static ConcurrentDictionary<string,int> A = new();
 
-            readonly NontermKind NontermKind;
+            static ConcurrentDictionary<int,string> B = new();
 
-            public Nonterminal(NontermKind kind)
+            static int Seq = 1;
+
+            static object locker = new();
+
+            static int token(string src)
             {
-                NontermKind = kind;
-                EncodingGroup = 0;
+                lock(locker)
+                {
+                    if(A.TryGetValue(src, out var i))
+                        return i;
+                    else
+                    {
+                        A[src] = core.inc(ref Seq);
+                        B[Seq] = src;
+                        return Seq;
+                    }
+                }
             }
 
-            public Nonterminal(GroupName name)
+            static string name(int id)
             {
-                NontermKind = 0;
-                EncodingGroup = name;
+                if(B.TryGetValue(id, out var n))
+                    return n;
+                else
+                    return EmptyString;
+            }
+
+            readonly int Id;
+
+            public Nonterminal(string name)
+            {
+                Id = token(name);
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => EncodingGroup == 0 && NontermKind == 0;
+                get => Id == 0;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => !IsEmpty;
+                get => Id != 0;
             }
 
             public string Name
-                => EncodingGroup == 0 ? XedRender.format(NontermKind) : XedRender.format(EncodingGroup);
+                => IsNonEmpty ? name(Id) : EmptyString;
 
             [MethodImpl(Inline)]
             public bool Equals(Nonterminal src)
-                => EncodingGroup == src.EncodingGroup && NontermKind == src.NontermKind;
+                => Id == src.Id;
 
             public override bool Equals(object src)
                 => src is Nonterminal x && Equals(x);
@@ -55,18 +77,16 @@ namespace Z0
                 => Name.CompareTo(src.Name);
 
             public string Format()
-                => Name;
+            {
+                var n = Name;
+                if(text.nonempty(n))
+                    return string.Format("{0}()", Name);
+                else
+                    return EmptyString;
+            }
 
             public override string ToString()
                 => Format();
-
-            [MethodImpl(Inline)]
-            public static implicit operator Nonterminal(NontermKind src)
-                => new Nonterminal(src);
-
-            [MethodImpl(Inline)]
-            public static implicit operator Nonterminal(GroupName src)
-                => new Nonterminal(src);
 
             public static explicit operator uint(Nonterminal src)
                 => core.@as<Nonterminal,uint>(src);

@@ -78,7 +78,7 @@ namespace Z0
             public FieldValue(FieldKind kind, Nonterminal data)
             {
                 Field = kind;
-                Data = @as<Nonterminal,ushort>(data);
+                Data = @as<Nonterminal,uint>(data);
             }
 
             [MethodImpl(Inline)]

@@ -332,9 +332,12 @@ namespace Z0
                     if(parse(p0, out XedRegId regid))
                         seek(buffer, i++) = regid;
                     else if(parse(p0, out NontermKind nk))
-                        seek(buffer, i++) = (Nonterminal)nk;
+                        seek(buffer, i++) = new Nonterminal(p0);
                     else if(parse(p0, out GroupName gn))
-                        seek(buffer,i++) = (Nonterminal)gn;
+                        seek(buffer,i++)= new Nonterminal(p0);
+                    else if(IsNonterminal(props[0]))
+                        seek(buffer,i++)= new Nonterminal(p0);
+
                     else
                         Errors.Throw(string.Format("Unable to parser rgister specification {0}", p0));
                 }

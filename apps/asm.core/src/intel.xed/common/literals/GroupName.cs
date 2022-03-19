@@ -15,11 +15,11 @@ namespace Z0
         {
             INVALID = 0,
 
-            GPR8_R,
+            // GPR8_R,
 
-            GPR8_B,
+            // GPR8_B,
 
-            GPR8_SB,
+            //GPR8_SB,
 
             SEGe,
 
@@ -33,165 +33,165 @@ namespace Z0
 
             GPR64e,
 
-            ArAX,
+            // ArAX,
 
-            ArBX,
+            //ArBX,
 
-            ArCX,
+            //ArCX,
 
-            ArDX,
+            //ArDX,
 
-            ArSI,
+            //ArSI,
 
-            ArDI,
+            //ArDI,
 
-            ArSP,
+            //ArSP,
 
-            ArBP,
+            //ArBP,
 
             SrSP,
 
             SrBP,
 
-            Ar8,
+            // Ar8,
 
-            Ar9,
+            // Ar9,
 
-            Ar10,
+            // Ar10,
 
-            Ar11,
+            // Ar11,
 
-            Ar12,
+            // Ar12,
 
-            Ar13,
+            // Ar13,
 
-            Ar14,
+            // Ar14,
 
-            Ar15,
+            // Ar15,
 
-            rIP,
+            // rIP,
 
-            rIPa,
+            // rIPa,
 
-            OeAX,
+            //OeAX,
 
-            OrAX,
+            //OrAX,
 
-            OrDX,
+            //OrDX,
 
-            OrCX,
+            //OrCX,
 
-            OrBX,
+            //OrBX,
 
-            OrSP,
+            //OrSP,
 
-            OrBP,
+            //OrBP,
 
-            rFLAGS,
+            //rFLAGS,
 
-            MMX_R,
+            // MMX_R,
 
-            MMX_B,
+            // MMX_B,
 
-            GPRv_R,
+            //GPRv_R,
 
-            GPRv_SB,
+            //GPRv_SB,
 
-            GPRz_R,
+            //GPRz_R,
 
-            GPRv_B,
+            //GPRv_B,
 
-            GPRz_B,
+            //GPRz_B,
 
             GPRy_B,
 
             GPRy_R,
 
-            GPR64_R,
+            //GPR64_R,
 
             GPR64_B,
 
             GPR64_SB,
 
-            GPR64_X,
+            // GPR64_X,
 
-            GPR32_R,
+            // GPR32_R,
 
-            GPR32_B,
+            // GPR32_B,
 
-            GPR32_SB,
+            // GPR32_SB,
 
             GPR32_X,
 
-            GPR16_R,
+            //GPR16_R,
 
-            GPR16_B,
+            //GPR16_B,
 
-            GPR16_SB,
+            //GPR16_SB,
 
-            CR_R,
+            // CR_R,
 
-            CR_B,
+            // CR_B,
 
-            DR_R,
+            // DR_R,
 
             X87,
 
             SEG,
 
-            SEG_MOV,
+            //SEG_MOV,
 
-            FINAL_DSEG,
+            //FINAL_DSEG,
 
-            FINAL_DSEG_NOT64,
+            // FINAL_DSEG_NOT64,
 
-            FINAL_DSEG_MODE64,
+            // FINAL_DSEG_MODE64,
 
-            FINAL_DSEG1,
+            // FINAL_DSEG1,
 
-            FINAL_DSEG1_NOT64,
+            //FINAL_DSEG1_NOT64,
 
-            FINAL_DSEG1_MODE64,
+            //FINAL_DSEG1_MODE64,
 
-            FINAL_ESEG,
+            // FINAL_ESEG,
 
-            FINAL_ESEG1,
+            // FINAL_ESEG1,
 
             FINAL_SSEG1,
 
-            FINAL_SSEG0,
+            //FINAL_SSEG0,
 
-            FINAL_SSEG,
+            //FINAL_SSEG,
 
-            FINAL_SSEG_NOT64,
+            //FINAL_SSEG_NOT64,
 
-            FINAL_SSEG_MODE64,
+            //FINAL_SSEG_MODE64,
 
-            XMM_R,
+            // XMM_R,
 
-            XMM_R_32,
+            // XMM_R_32,
 
-            XMM_R_64,
+            // XMM_R_64,
 
-            XMM_B,
+            // XMM_B,
 
-            XMM_B_32,
+            // XMM_B_32,
 
-            XMM_B_64,
+            // XMM_B_64,
 
-            BND_R,
+            // BND_R,
 
-            BND_B,
+            //BND_B,
 
             A_GPR_R,
 
-            A_GPR_B,
+            //A_GPR_B,
 
-            XMM_SE,
+            // XMM_SE,
 
-            XMM_SE64,
+            // XMM_SE64,
 
-            XMM_SE32,
+            // XMM_SE32,
 
             YMM_SE,
 
@@ -199,29 +199,29 @@ namespace Z0
 
             YMM_SE32,
 
-            XMM_N,
+            // XMM_N,
 
-            XMM_N_32,
+            // XMM_N_32,
 
-            XMM_N_64,
+            // XMM_N_64,
 
-            YMM_N,
+            // YMM_N,
 
-            YMM_N_32,
+            // YMM_N_32,
 
-            YMM_N_64,
+            // YMM_N_64,
 
-            YMM_R,
+            // YMM_R,
 
-            YMM_R_32,
+            // YMM_R_32,
 
-            YMM_R_64,
+            // YMM_R_64,
 
-            YMM_B,
+            // YMM_B,
 
-            YMM_B_32,
+            // YMM_B_32,
 
-            YMM_B_64,
+            // YMM_B_64,
 
             VGPRy_R,
 
@@ -229,9 +229,9 @@ namespace Z0
 
             VGPRy_N,
 
-            VGPR32_N,
+            // VGPR32_N,
 
-            VGPR32_B,
+            // VGPR32_B,
 
             VGPR32_R,
 
@@ -247,85 +247,85 @@ namespace Z0
 
             VGPR64_R,
 
-            VGPR32_B_32,
+            //VGPR32_B_32,
 
             VGPR32_B_64,
 
             VGPR64_B,
 
-            MASK1,
+            //MASK1,
 
-            MASKNOT0,
+            //MASKNOT0,
 
-            MASK_R,
+            // MASK_R,
 
-            MASK_B,
+            // MASK_B,
 
-            MASK_N,
+            // MASK_N,
 
-            MASK_N64,
+            // MASK_N64,
 
-            MASK_N32,
+            // MASK_N32,
 
-            XMM_R3,
+            //XMM_R3,
 
-            XMM_R3_32,
+            //XMM_R3_32,
 
-            XMM_R3_64,
+            //XMM_R3_64,
 
-            YMM_R3,
+            // YMM_R3,
 
-            YMM_R3_32,
+            // YMM_R3_32,
 
-            YMM_R3_64,
+            // YMM_R3_64,
 
-            ZMM_R3,
+            // ZMM_R3,
 
-            ZMM_R3_32,
+            //ZMM_R3_32,
 
-            ZMM_R3_64,
+            //ZMM_R3_64,
 
-            XMM_B3,
+            // XMM_B3,
 
-            XMM_B3_32,
+            // XMM_B3_32,
 
-            XMM_B3_64,
+            // XMM_B3_64,
 
-            YMM_B3,
+            // YMM_B3,
 
-            YMM_B3_32,
+            //YMM_B3_32,
 
-            YMM_B3_64,
+            //YMM_B3_64,
 
-            ZMM_B3,
+            //ZMM_B3,
 
-            ZMM_B3_32,
+            //ZMM_B3_32,
 
-            ZMM_B3_64,
+            //ZMM_B3_64,
 
-            XMM_N3,
+            // XMM_N3,
 
-            XMM_N3_32,
+            // XMM_N3_32,
 
-            XMM_N3_64,
+            // XMM_N3_64,
 
-            YMM_N3,
+            // YMM_N3,
 
-            YMM_N3_32,
+            // YMM_N3_32,
 
-            YMM_N3_64,
+            // YMM_N3_64,
 
-            ZMM_N3,
+            // ZMM_N3,
 
-            ZMM_N3_32,
+            // ZMM_N3_32,
 
-            ZMM_N3_64,
+            // ZMM_N3_64,
 
-            TMM_R,
+            // TMM_R,
 
-            TMM_B,
+            // TMM_B,
 
-            TMM_N,
+            // TMM_N,
         }
     }
 }

@@ -18,8 +18,8 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(bool premise, FieldKind fk, asci8 value, CellDataKind dk)
-            => new RuleCriterion(premise, fk, RuleOperator.None, value, dk);
+        public static RuleCriterion criterion(bool premise, FieldLiteral literal)
+            => new RuleCriterion(premise, literal);
 
         [MethodImpl(Inline), Op]
         static RuleCriterion criterion(bool premise, RuleCall call)
@@ -46,11 +46,9 @@ namespace Z0
         static RuleCriterion criterion(bool premise, RuleOperator op, FieldValue src)
             => new RuleCriterion(premise,src.Field, op, src.Data);
 
-
-
         public struct RuleTableParser
         {
-            public static RuleTable table(RuleTableSpec src)
+            public static RuleTable reify(RuleTableSpec src)
             {
                 var body = list<RuleStatement>();
                 for(var i=0; i<src.Statements.Count; i++)
@@ -69,8 +67,8 @@ namespace Z0
                 for(var i=0; i<parts.Length; i++)
                 {
                     ref readonly var part = ref skip(parts, i);
-                    var result = parse(true, part, out var c);
-                    if(result.Fail)
+                    var result = parse(premise, part, out var c);
+                    if(!result)
                         Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCriterion), part));
 
                     dst.Add(c);
@@ -78,15 +76,21 @@ namespace Z0
                 return dst.ToArray();
             }
 
+            public static Index<RuleCriterion> premise(StatementSpec src)
+                => criteria(true, src.Premise.View);
+
+            public static Index<RuleCriterion> consequent(StatementSpec src)
+                => criteria(false, src.Consequent.View);
+
             public static RuleStatement reify(StatementSpec src)
             {
                 var left = sys.empty<RuleCriterion>();
                 if(src.Premise.IsNonEmpty)
-                    left = criteria(true, src.Premise.View);
+                    left = premise(src);
 
                 var right = sys.empty<RuleCriterion>();
                 if(src.Consequent.IsNonEmpty)
-                    right = criteria(false, src.Consequent.View);
+                    right = consequent(src);
 
                 return new RuleStatement(left, right);
             }
@@ -95,7 +99,7 @@ namespace Z0
             {
                 var dst = alloc<RuleTable>(src.Length);
                 for(var i=0; i<src.Length; i++)
-                    seek(dst,i) = table(skip(src,i));
+                    seek(dst,i) = reify(skip(src,i));
                 return dst;
             }
 
@@ -150,9 +154,6 @@ namespace Z0
 
                 return dst.ToArray().Sort();
             }
-
-            public static Index<RuleTable> tables(FS.FilePath src)
-                => reify(specs(src));
 
             static Index<RuleCell> cells(string src)
             {
@@ -275,7 +276,7 @@ namespace Z0
                 return result;
             }
 
-            static bool notequal(bool premise, string input, out FieldKind fk, out string fv)
+            static bool notequal(string input, out FieldKind fk, out string fv)
             {
                 fk = 0;
                 fv = EmptyString;
@@ -289,7 +290,7 @@ namespace Z0
                 return result;
             }
 
-            static Outcome parse(bool premise, string spec, out RuleCriterion dst)
+            static bool parse(bool premise, string spec, out RuleCriterion dst)
             {
                 var input = normalize(spec);
                 var fk = K.INVALID;
@@ -297,50 +298,50 @@ namespace Z0
                 var fv = input;
                 var i = -1;
                 dst = RuleCriterion.Empty;
+                var result = false;
+
                 if(parse(premise, spec, out fk, out op, out Nonterminal nt))
                 {
                     dst = criterion(premise, fk, op, nt);
-                    return true;
+                    result = true;
                 }
                 else if(IsCall(input))
                 {
                     var name = text.remove(input,"()");
                     parse(premise, name, out fk, out fv, out op);
                     dst = criterion(premise, call(fk, op, text.ifempty(fv,name)));
-                    return true;
+                    result = true;
                 }
                 else if(assignment(premise, input, out fk, out fv))
                 {
                     if(parse(premise, fk, RO.Assign, fv, out dst))
-                        return true;
-                    return false;
+                        result = true;
                 }
-                else if(notequal(premise, input, out fk, out fv))
+                else if(notequal(input, out fk, out fv))
                 {
                     if(parse(premise, fk, RO.CmpNeq, fv, out dst))
-                        return true;
-                    return false;
+                        result = true;
                 }
                 else if(IsBfSeg(input))
                 {
-                    var result = XedParsers.parse(input, out BitfieldSeg seg);
-                    if(result)
+                    if(XedParsers.parse(input, out BitfieldSeg seg))
+                    {
                          dst = criterion(premise, seg);
-                    return result;
+                        result = true;
+                    }
                 }
                 else if(IsBfSpec(input))
                 {
                     dst = criterion(premise,new BitfieldSpec(input));
-                    return true;
+                    result = true;
                 }
                 else
                 {
-                    if(input.Length > 8)
-                        Errors.Throw(string.Format("The value '{0}' is too long to be a literal", input));
-
-                    dst = FieldLiteral.infer(input).ToCriterion(premise);
-                    return true;
+                    result = XedParsers.parse(input, out FieldLiteral literal);
+                    if(result)
+                        dst = literal.ToCriterion(premise);
                 }
+                return result;
             }
 
             public static Outcome parse(FieldKind field, string value, out FieldValue dst)

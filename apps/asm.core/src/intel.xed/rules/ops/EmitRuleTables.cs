@@ -8,6 +8,6 @@ namespace Z0
     partial class XedRules
     {
         public void EmitRuleTables()
-            => RuleTables.EmitTables(PllExec);
+            => RuleTables.EmitTables(true);
     }
 }

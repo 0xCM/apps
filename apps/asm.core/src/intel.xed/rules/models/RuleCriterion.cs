@@ -81,6 +81,17 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
+            internal RuleCriterion(bool premise, FieldLiteral literal)
+            {
+                Premise = premise;
+                Field = FieldKind.INVALID;
+                Operator = RuleOperator.None;
+                Storage = core.bytes(literal);
+                DataKind = literal.DataKind;
+                IsNonterminal = false;
+            }
+
+            [MethodImpl(Inline)]
             internal RuleCriterion(bool premise, FieldKind field, RuleOperator op, asci8 data, CellDataKind dk)
             {
                 Premise = premise;
@@ -192,8 +203,8 @@ namespace Z0
                 => new BitfieldSpec(new asci16(Storage.Bytes));
 
             [MethodImpl(Inline)]
-            public asci8 AsLiteral()
-                => (asci8)Data;
+            public FieldLiteral AsLiteral()
+                => core.@as<FieldLiteral>(Storage.Bytes);
 
             public string Format()
                 => XedRender.format(this);

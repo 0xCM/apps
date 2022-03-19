@@ -13,37 +13,37 @@ namespace Z0
             [Symbol("")]
             None,
 
-            AR10 = 1,
+            Ar10 = 1,
 
-            AR11 = 2,
+            Ar11 = 2,
 
-            AR12 = 3,
+            Ar12 = 3,
 
-            AR13 = 4,
+            Ar13 = 4,
 
-            AR14 = 5,
+            Ar14 = 5,
 
-            AR15,
+            Ar15,
 
-            AR8,
+            Ar8,
 
-            AR9,
+            Ar9,
 
-            ARAX,
+            ArAX,
 
-            ARBP,
+            ArBP,
 
-            ARBX,
+            ArBX,
 
-            ARCX,
+            ArCX,
 
-            ARDI,
+            ArDI,
 
-            ARDX,
+            ArDX,
 
-            ARSI,
+            ArSI,
 
-            ARSP,
+            ArSP,
 
             ASZ_NONTERM,
 
@@ -165,19 +165,19 @@ namespace Z0
 
             GPR8_SB,
 
-            GPRV_B,
+            GPRv_B,
 
-            GPRV_R,
+            GPRv_R,
 
-            GPRV_SB,
+            GPRv_SB,
 
             GPRY_B,
 
             GPRY_R,
 
-            GPRZ_B,
+            GPRz_B,
 
-            GPRZ_R,
+            GPRz_R,
 
             IGNORE66,
 
@@ -285,21 +285,21 @@ namespace Z0
 
             NELEM_TUPLE8,
 
-            OEAX,
+            OeAX,
 
             ONE,
 
-            ORAX,
+            OrAX,
 
-            ORBP,
+            OrBP,
 
-            ORBX,
+            OrBX,
 
-            ORCX,
+            OrCX,
 
-            ORDX,
+            OrDX,
 
-            ORSP,
+            OrSP,
 
             OSZ_NONTERM,
 
@@ -313,11 +313,11 @@ namespace Z0
 
             REMOVE_SEGMENT,
 
-            RFLAGS,
+            rFLAGS,
 
-            RIP,
+            rIP,
 
-            RIPA,
+            rIPa,
 
             SAE,
 
@@ -492,6 +492,7 @@ namespace Z0
             YMM_R,
 
             YMM_R3,
+
             YMM_R3_32,
 
             YMM_R3_64,

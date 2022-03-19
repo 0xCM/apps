@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
-    using static Root;
-
     [DataType("delist<{0}>")]
     public readonly struct DelimitedList<T> : ITextual
     {
@@ -19,20 +13,18 @@ namespace Z0
 
         public char Delimiter {get;}
 
-        [MethodImpl(Inline)]
-        public DelimitedList(char delimiter = Chars.Comma, SeqEnclosureKind kind = SeqEnclosureKind.Embraced)
-        {
-            Data = new ();
-            Kind = kind;
-            Delimiter = delimiter;
-        }
+        public int CellPad {get;}
+
+        public Fence<char>? Fence {get;}
 
         [MethodImpl(Inline)]
-        public DelimitedList(T[] src, char delimiter =  Chars.Comma, SeqEnclosureKind kind = SeqEnclosureKind.Embraced )
+        public DelimitedList(T[] src, char delimiter = Chars.Comma, SeqEnclosureKind kind = SeqEnclosureKind.Embraced, int pad = 0)
         {
             Data = new List<T>(src);
+            CellPad = pad;
             Kind = kind;
             Delimiter = delimiter;
+            Fence = kind == SeqEnclosureKind.Embraced ? RenderFence.Embraced : RenderFence.Bracketed;
         }
 
         [MethodImpl(Inline)]
@@ -50,7 +42,13 @@ namespace Z0
         public ReadOnlySpan<T> Items
             => Data.ViewDeposited();
         public string Format()
-            => string.Concat(Seq.left(Kind), text.delimit(Data, Delimiter), Seq.right(Kind));
+        {
+            var content = text.delimit(Data.ViewDeposited(), Delimiter, CellPad);
+            if(Fence != null && text.nonempty(content))
+                return text.enclose(content, Fence.Value);
+            else
+                return content;
+        }
 
         public override string ToString()
             => Format();

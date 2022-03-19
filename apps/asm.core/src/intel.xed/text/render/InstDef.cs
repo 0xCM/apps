@@ -28,7 +28,7 @@ namespace Z0
                     dst = format5(src.AsB5());
                 break;
                 case DefSegKind.Nonterm:
-                    dst = format(src.AsNonterminal());
+                    dst = src.AsNonterminal().Format();
                 break;
                 case DefSegKind.FieldLiteral:
                     dst = format(src.AsFieldLit());

@@ -15,12 +15,10 @@ namespace Z0
             var patterns = CalcInstPatterns(defs);
             exec(PllExec,
                 () => EmitPatternData(patterns),
-                EmitRuleSpecs,
                 EmitRuleTables,
                 EmitRefData,
                 EmitMacroDefs,
-                EmitFields,
-                EmitRuleSchemas
+                EmitFields
                 );
         }
     }

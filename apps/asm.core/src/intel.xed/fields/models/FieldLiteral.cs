@@ -5,36 +5,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     using K = XedRules.FieldLiteralKind;
 
     partial class XedRules
     {
         public readonly struct FieldLiteral
         {
-            public static FieldLiteral infer(string input)
-            {
-                var dst = FieldLiteral.Empty;
-                if(input.Length > 8)
-                        return dst;
-
-                if(XedParsers.IsBinaryLiteral(input))
-                    dst = Binary(input);
-                else if(input == "else" || input == "default")
-                    dst = Default;
-                else if(input == "null")
-                    dst = Null;
-                else if(input == "error")
-                    dst = Error;
-                else if(input == "@")
-                    dst = Wildcard;
-                else
-                    dst = Text(input);
-
-                return dst;
-            }
-
             public static FieldLiteral Wildcard => new FieldLiteral(K.Wildcard,"@");
 
             public static FieldLiteral Null => new FieldLiteral(K.Null, "null");
@@ -46,6 +22,8 @@ namespace Z0
             public static FieldLiteral Error => new FieldLiteral(FieldKind.ERROR, K.Error,"error");
 
             public static FieldLiteral Text(asci8 src) => new FieldLiteral(K.Text, src);
+
+            public static FieldLiteral Unsupported => new FieldLiteral(K.None, "<no>");
 
             readonly ByteBlock16 Data;
 
@@ -80,20 +58,12 @@ namespace Z0
                 get => (CellDataKind)Data[15];
             }
 
-            FieldKind FieldKind
-            {
-                [MethodImpl(Inline)]
-                get => (FieldKind)Data[14];
-            }
-
-
             [MethodImpl(Inline)]
             public RuleCriterion ToCriterion(bool premise)
-                => criterion(premise, FieldKind, (asci8)Data.A, DataKind);
-
+                => criterion(premise, this);
 
             public string Format()
-                => ToCriterion(false).Format();
+                => (asci8)(Data.A);
 
             public override string ToString()
                 => Format();

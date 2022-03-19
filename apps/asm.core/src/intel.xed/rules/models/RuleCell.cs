@@ -43,6 +43,12 @@ namespace Z0
                 get => !IsEmpty;
             }
 
+            public bool IsNonterminal
+            {
+                [MethodImpl(Inline)]
+                get => XedParsers.IsNonterminal(Data);
+            }
+
             public string Format()
                 => text.ifempty(Data,EmptyString);
 
