@@ -15,10 +15,10 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static MacroSpec assign<T>(RuleMacroKind name, FieldKind field, T value)
             where T : unmanaged
-                => new MacroSpec(name, assign(field, value));
+                => macro(name,field,RuleOperator.Assign,value);
 
         [MethodImpl(Inline), Op]
         public static MacroSpec assign(RuleMacroKind name, params FieldAssign[] a0)
-            => new MacroSpec(name, a0);
+            => new MacroSpec(name, a0.Map(x => new MacroExpansion(x.Field, RuleOperator.Assign, x.Value)));
     }
 }

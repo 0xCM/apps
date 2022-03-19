@@ -16,9 +16,12 @@ namespace Z0
                 () => EmitRuleSpecs(RuleTableKind.EncDec)
             );
 
+        public Index<RuleTableSpec> CalcRuleSpecs(RuleTableKind kind)
+            => RuleTableParser.specs(XedPaths.RuleSource(kind));
+
         void EmitRuleSpecs(RuleTableKind kind)
         {
-            var src = RuleTableParser.specs(XedPaths.RuleSource(kind));
+            var src = CalcRuleSpecs(kind);
             var name = kind switch
             {
                 RuleTableKind.Enc => "xed.rules.specs.enc",

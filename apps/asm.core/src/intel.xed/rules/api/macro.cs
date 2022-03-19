@@ -8,12 +8,12 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
-        public static MacroSpec2 macro(RuleMacroKind name, params MacroExpansion[] src)
-            => new MacroSpec2(name,src);
+        public static MacroSpec macro(RuleMacroKind name, params MacroExpansion[] src)
+            => new MacroSpec(name,src);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static MacroSpec2 macro<T>(RuleMacroKind name, FieldKind field, RuleOperator op, T value)
+        public static MacroSpec macro<T>(RuleMacroKind name, FieldKind field, RuleOperator op, T value)
             where T : unmanaged
-                => new MacroSpec2(name, new MacroExpansion(field,op, new FieldValue(field, core.bw64(value))));
+                => new MacroSpec(name, new MacroExpansion(field,op, new FieldValue(field, core.bw64(value))));
     }
 }

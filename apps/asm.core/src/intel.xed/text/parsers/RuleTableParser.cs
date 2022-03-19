@@ -34,7 +34,7 @@ namespace Z0
             static Index<RuleCriterion> criteria(bool premise, ReadOnlySpan<RuleCell> src)
             {
                 var dst = list<RuleCriterion>();
-                var parts = map(src, p => p.Format()).Where(x => nonempty(x));
+                var parts = map(src, p => p.Format());
                 for(var i=0; i<parts.Length; i++)
                 {
                     ref readonly var part = ref skip(parts, i);
@@ -79,11 +79,20 @@ namespace Z0
                 while(reader.Next(out var line))
                 {
                     if(form(line.Content) == RuleFormKind.SeqDecl)
-                        SkipSeq(reader);
+                    {
+                        while(reader.Next(out line))
+                            if(line.IsEmpty)
+                                break;
+                        continue;
+                    }
 
                     var content = text.trim(text.despace(line.Content));
                     if(text.empty(content) || text.begins(content, Chars.Hash))
                         continue;
+
+                    var k = text.index(content,Chars.Hash);
+                    if(k > 0)
+                        content = text.trim(text.left(content,k));
 
                     if(text.ends(content, "()::"))
                     {
@@ -103,7 +112,7 @@ namespace Z0
                     }
                     else
                     {
-                        if(spec(content, out StatementSpec s))
+                        if(parse(content, out StatementSpec s))
                             statements.Add(s);
                     }
                 }
@@ -119,30 +128,39 @@ namespace Z0
                 var dst = list<RuleCell>();
                 if(text.contains(src, Chars.Space))
                 {
-                    var expansions = map(text.split(src, Chars.Space), RuleMacros.expand);
-                    for(var j=0; j<expansions.Length; j++)
+                    var parts = text.split(src, Chars.Space);
+                    var count = parts.Length;
+                    for(var j=0; j<count; j++)
                     {
-                        ref readonly var x = ref skip(expansions,j);
-                        dst.Add(new RuleCell(XedFields.kind(x), x));
+                        ref readonly var part = ref skip(parts,j);
+                        Require.nonempty(part);
+                        var x = RuleMacros.expand(part);
+                        if(empty(x))
+                            Errors.Throw(string.Format("Macro expansion obliterated '{0}'", part));
+                        dst.Add(new (XedFields.kind(x), x));
                     }
                 }
                 else
+                {
                     dst.Add(new (XedFields.kind(src),src));
+                }
                 return dst.ToArray();
             }
 
-            static bool spec(string src, out StatementSpec dst)
+            public static bool parse(string src, out StatementSpec dst)
             {
                 var input = normalize(src);
                 var i = text.index(input,"=>");
                 dst = StatementSpec.Empty;
                 if(i > 0)
                 {
-                    var pcells = cells(text.trim(text.left(input,i)));
-                    var ccells = cells(text.trim(text.right(input,i+1)));
+                    var pcells = cells(text.trim(text.left(input, i)));
+                    var ccells = cells(text.trim(text.right(input, i+1)));
                     if(ccells.Count !=0 && pcells.Count != 0)
                         dst = new StatementSpec(pcells, ccells);
                 }
+                else
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(StatementSpec), src));
 
                 return dst.IsNonEmpty;
             }
@@ -224,7 +242,7 @@ namespace Z0
             {
                 fk = 0;
                 fv = EmptyString;
-                var result = IsAssign(input);
+                var result = IsAssignment(input);
                 if(result)
                 {
                     var i = text.index(input, "=");
@@ -259,7 +277,7 @@ namespace Z0
             {
                 fk = 0;
                 fv = EmptyString;
-                var result = IsNeq(input);
+                var result = IsCmpNeq(input);
                 if(result)
                 {
                     var i = text.index(input, "!=");

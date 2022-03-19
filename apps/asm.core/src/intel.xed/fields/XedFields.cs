@@ -20,20 +20,35 @@ namespace Z0
 
         public static FieldKind kind(string src)
         {
-            var i = text.index(src,Chars.Eq);
+            var i = text.index(src, Chars.Eq);
+            var j = text.index(src, Chars.LBracket);
+            var k = text.index(src, "!=");
             var result = FieldKind.INVALID;
 
-            if(i>0)
+            if(j>0)
             {
-                if(XedParsers.parse(text.left(src,i), out result))
+                var field = text.left(src, j);
+                if(XedParsers.parse(field, out result))
                     return result;
+                else
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), field));
             }
-            else
+            else if(k>0)
             {
-                var j = text.index(src,Chars.LBracket);
-                if(j>0)
-                    if(XedParsers.parse(text.left(src,j), out result))
-                        return result;
+                var field = text.left(src,k);
+                if(XedParsers.parse(field, out result))
+                    return result;
+                else
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), field));
+            }
+            else if(i > 0)
+            {
+                var field = text.left(src,i);
+                if(XedParsers.parse(field, out result))
+                    return result;
+                else
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), field));
+
             }
             if(XedParsers.parse(src, out result))
                 return result;

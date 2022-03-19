@@ -25,6 +25,15 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
+            public InstDefPart(byte src)
+            {
+                var data = ByteBlock16.Empty;
+                data[0] = src;
+                data[15] = (byte)DefSegKind.IntLiteral;
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
             public InstDefPart(BitfieldSeg src)
             {
                 var data = ByteBlock16.Empty;
@@ -98,6 +107,10 @@ namespace Z0
                 => ref @as<Hex8>(Data.First);
 
             [MethodImpl(Inline)]
+            public ref readonly byte AsIntLit()
+                => ref @as<byte>(Data.First);
+
+            [MethodImpl(Inline)]
             public ref readonly FieldConstraint AsConstraint()
                 => ref @as<FieldConstraint>(Data.First);
 
@@ -122,6 +135,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator InstDefPart(Hex8 src)
                 => new InstDefPart(src);
+
 
             [MethodImpl(Inline)]
             public static implicit operator InstDefPart(uint5 src)

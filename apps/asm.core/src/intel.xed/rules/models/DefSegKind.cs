@@ -13,6 +13,9 @@ namespace Z0
 
             HexLiteral,
 
+            IntLiteral,
+
+
             Bitfield,
 
             BitLiteral,

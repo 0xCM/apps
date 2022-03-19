@@ -25,7 +25,7 @@ namespace Z0
                 return new TextLine(src.LineNumber, dst);
             }
 
-            static void parse(IClass @class, string body, string ops, ref uint seq, out InstPatternSpec dst)
+            static void parse(string body, out InstPatternSpec dst)
             {
                 var buffer = text.buffer();
                 var parts = text.split(text.despace(body), Chars.Space);
@@ -37,7 +37,8 @@ namespace Z0
                 }
                 var expanded = RuleMacros.expand(buffer.Emit());
                 XedParsers.parse(expanded, out InstPatternBody pb).Require();
-                dst = new InstPatternSpec(seq++, 0, @class, body, pb, RuleOpParser.create().ParseOps(ops));
+
+                dst = new InstPatternSpec(0, 0, 0, body, pb, sys.empty<RuleOpSpec>());
             }
 
             public static Index<InstDef> parse(FS.FilePath src)
@@ -56,7 +57,7 @@ namespace Z0
                     if(line.StartsWith(Chars.LBrace))
                     {
                         var dst = default(InstDef);
-                        var rawbody = EmptyString;
+                        var body = EmptyString;
                         var specs = list<InstPatternSpec>();
                         var @class = IClass.INVALID;
                         while(!line.StartsWith(Chars.RBrace) && reader.Next(out line))
@@ -121,13 +122,15 @@ namespace Z0
                                                 }
                                             }
 
-                                            parse(@class, rawbody, value, ref seq, out InstPatternSpec spec);
-                                            specs.Add(spec);
-
+                                            parse(body, out InstPatternSpec spec);
+                                            specs.Add(
+                                                spec.WithClass(@class)
+                                                    .WithPatternId(seq++)
+                                                    .WithOps(RuleOpParser.create().ParseOps(value)));;
                                         }
                                         break;
                                         case P.Pattern:
-                                            rawbody = value;
+                                            body = value;
                                         break;
                                         case P.Isa:
                                             XedParsers.parse(value, out dst.Isa);

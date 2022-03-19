@@ -23,8 +23,20 @@ namespace Z0
                 Value = value;
             }
 
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Value.IsEmpty;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Value.IsNonEmpty;
+            }
+
             public string Format()
-                => string.Format("{0}{1}{2}", XedRender.format(Field), XedRender.format(Operator), XedRender.format(Value));
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

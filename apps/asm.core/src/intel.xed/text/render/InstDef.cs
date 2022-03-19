@@ -18,6 +18,9 @@ namespace Z0
                 case DefSegKind.HexLiteral:
                     dst = format(src.AsHexLit());
                 break;
+                case DefSegKind.IntLiteral:
+                    dst = src.AsIntLit().ToString();
+                break;
                 case DefSegKind.Bitfield:
                     dst = format(src.AsBfSeg());
                 break;
@@ -35,9 +38,6 @@ namespace Z0
                 break;
                 case DefSegKind.Constraint:
                     dst = format(src.AsConstraint());
-                break;
-                default:
-                    Errors.Throw(kind.ToString());
                 break;
             }
 

@@ -39,7 +39,7 @@ namespace Z0
                 else
                     result = (false, AppMsg.ParseFailure.Format(nameof(BitfieldSeg), src));
             }
-            else if(IsNeq(src))
+            else if(IsCmpNeq(src))
             {
                 result = XedParsers.parse(src, out FieldConstraint x);
                 if(result)
@@ -48,7 +48,7 @@ namespace Z0
                     result = (false, AppMsg.ParseFailure.Format(nameof(FieldConstraint), src));
 
             }
-            else if(IsAssign(src))
+            else if(IsAssignment(src))
             {
                 result = XedParsers.parse(src, out FieldAssign x);
                 if(result)
@@ -67,10 +67,12 @@ namespace Z0
                 else
                     result = (false, AppMsg.ParseFailure.Format(nameof(Nonterminal), src));
             }
-            // else if(IsBfSpec(src))
-            // {
-            //     dst = new BitfieldSpec(src);
-            // }
+            else if (XedParsers.parse(src, out byte a))
+            {
+                result = true;
+                dst = new(a);
+            }
+
             return result;
         }
 
@@ -86,7 +88,9 @@ namespace Z0
                 ref readonly var part = ref skip(parts,i);
                 result = parse(part, out target);
                 if(result.Fail)
+                {
                     break;
+                }
             }
 
             return result;

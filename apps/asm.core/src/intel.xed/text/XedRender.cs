@@ -58,6 +58,11 @@ namespace Z0
         public static string format(AsmOcValue src)
             => AsmOcValue.format(src);
 
+        public static string format(in MacroExpansion src)
+            => src.IsEmpty
+            ? EmptyString
+            : string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.Value));
+
         public static string format(in InstPatternBody src)
         {
             var dst = text.buffer();
@@ -254,7 +259,7 @@ namespace Z0
                 if(i!=0)
                     dst.Append(Chars.Space);
 
-                dst.Append(format(a));
+                dst.Append(a.Format());
             }
             return dst.Emit();
         }

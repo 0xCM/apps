@@ -32,7 +32,7 @@ namespace Z0
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,8,26,26,26,26,26};
 
-            public static MacroAssignment Empty => default;
+            public static MacroDef Empty => default;
         }
     }
 }

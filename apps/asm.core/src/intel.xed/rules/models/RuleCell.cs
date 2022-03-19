@@ -13,11 +13,14 @@ namespace Z0
 
             public readonly string Data;
 
+            public readonly bool IsLiteral;
+
             [MethodImpl(Inline)]
             public RuleCell(FieldKind field, string data)
             {
                 Field = field;
-                Data = data;
+                Data = text.ifempty(data,EmptyString);
+                IsLiteral = field == 0;
             }
 
             [MethodImpl(Inline)]
@@ -25,10 +28,23 @@ namespace Z0
             {
                 Field = 0;
                 Data = data;
+                IsLiteral = true;
+            }
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => text.empty(Data);
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => !IsEmpty;
             }
 
             public string Format()
-                => Data;
+                => text.ifempty(Data,EmptyString);
 
             public override string ToString()
                 => Format();

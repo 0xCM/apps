@@ -20,14 +20,81 @@ namespace Z0
 
         }
 
-        public static bool IsAssign(string src)
-            => src.Contains(SyntaxLiterals.Assign) && !IsNeq(src);
+        public static bool IsAssignment(string src)
+            => src.Contains(SyntaxLiterals.Assign) && !IsCmpNeq(src);
 
-        public static bool IsNeq(string src)
+        public static bool Assignment(string src, out string left, out string right)
+        {
+            var result = false;
+            if(IsAssignment(src))
+            {
+                var parts = text.split(src,SyntaxLiterals.Assign);
+                Require.equal(parts.Length, 2);
+                left = skip(parts,0);
+                right = skip(parts,1);
+                result = true;
+            }
+            else
+            {
+                left = EmptyString;
+                right = EmptyString;
+            }
+            return result;
+        }
+
+        public static bool CmpNeq(string src, out string left, out string right)
+        {
+            var result = false;
+            if(IsCmpNeq(src))
+            {
+                var parts = text.split(src,SyntaxLiterals.Neq);
+                Require.equal(parts.Length, 2);
+                left = skip(parts,0);
+                right = skip(parts,1);
+                result = true;
+            }
+            else
+            {
+                left = EmptyString;
+                right = EmptyString;
+            }
+            return result;
+
+        }
+
+        public static bool IsCmpNeq(string src)
             => src.Contains(Neq);
 
         public static bool IsCall(string src)
             => src.Contains(CallSyntax);
+
+        public static bool IsBfSeg(string src)
+        {
+            var i = text.index(src, Chars.LBracket);
+            var j = text.index(src, Chars.RBracket);
+            return i > 0 && j > i;
+        }
+
+        public static bool BfSeg(string src, out string name, out string content)
+        {
+            var i = text.index(src, Chars.LBracket);
+            var j = text.index(src, Chars.RBracket);
+            var result = i > 0 && j > i;
+            if(result)
+            {
+                name = text.left(src,i);
+                content = text.inside(src,i,j);
+            }
+            else
+            {
+                name = EmptyString;
+                content = EmptyString;
+            }
+            return result;
+        }
+
+        public static bool IsBfSpec(string src)
+            => text.index(src,Chars.Underscore) > 0;
 
         public static bool IsTableDecl(string src)
             => src.EndsWith(TableDeclSyntax);
@@ -40,16 +107,6 @@ namespace Z0
 
         public static bool IsSeqDecl(string src)
             => src.StartsWith(SeqDeclSyntax);
-
-        public static bool IsBfSeg(string src)
-        {
-            var i = text.index(src, Chars.LBracket);
-            var j = text.index(src, Chars.RBracket);
-            return i > 0 && j > i;
-        }
-
-        public static bool IsBfSpec(string src)
-            => text.index(src,Chars.Underscore) > 0;
 
         public static bool parse(string src, out EncodingGroup dst)
             => Instance.Parse(src, out dst);

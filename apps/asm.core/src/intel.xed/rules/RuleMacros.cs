@@ -59,82 +59,53 @@ namespace Z0
                 return dst.Sort();
             }
 
-            public static string expand2(string src)
+            public static string expand(string src)
             {
-                var input = text.trim(text.split(text.despace(src), Chars.Space));
-                var count = input.Length;
+                var input = text.trim(text.despace(src));
+                var parts = sys.empty<string>();
+                if(!text.contains(input,Chars.Space))
+                    parts = new string[]{input};
+                else
+                    parts = text.trim(text.split(input, Chars.Space));
+
+                var count = parts.Length;
                 var output = alloc<string>(count);
-                var names = RuleMacros.names();
-                var kinds = RuleMacros.kinds();
                 for(var i=0; i<count; i++)
                 {
-                    ref readonly var part = ref skip(input,i);
-                    var j = text.index(part,"!=");
-                    var k = text.index(part,"=");
-                    var kind = RuleMacroKind.None;
+                    ref readonly var part = ref skip(parts,i);
+                    var name = EmptyString;
+                    var literal = part;
+                    var mkind = RuleMacroKind.None;
                     var spec = MacroSpec.Empty;
-                    var op = RuleOperator.None;
-                    if(j > 0)
-                    {
-                        op = RuleOperator.CmpNeq;
-                        if(MacroKinds.Parse(text.left(part,j), out kind))
-                            Lookup.Find(kind, out spec);
-                    }
-                    else if(k > 0)
-                    {
-                        op = RuleOperator.Assign;
-                        if(MacroKinds.Parse(text.left(part,k), out kind))
-                            Lookup.Find(kind, out spec);
-                    }
+
+                    if(XedParsers.IsAssignment(part))
+                        Require.invariant(XedParsers.Assignment(part, out name, out _));
+                    else if(XedParsers.IsCmpNeq(part))
+                        Require.invariant(XedParsers.CmpNeq(part, out name, out _));
+                    else if(XedParsers.IsBfSeg(part))
+                        Require.invariant(XedParsers.BfSeg(part, out name, out _));
+                    if(empty(name))
+                        MacroKinds.Parse(literal, out mkind);
+                    else
+                        MacroKinds.Parse(name, out mkind);
+
+                    if(mkind == 0)
+                        seek(output,i) = part;
                     else
                     {
-                        op = RuleOperator.None;
-                        if(MacroKinds.Parse(part, out kind))
-                            Lookup.Find(kind, out spec);
-                    }
-
-                    if(spec.IsNonEmpty)
-                    {
+                        Require.invariant(Lookup.Find(mkind, out spec));
                         var buffer = text.buffer();
                         for(var q=0; q<spec.Expansions.Count; q++)
                         {
-                            ref readonly var expansion = ref spec.Expansions[q];
+                            ref readonly var x = ref spec.Expansions[q];
                             if(q != 0)
                                 buffer.Append(Chars.Space);
-
-                            if(op != 0)
-                                buffer.AppendFormat("{0}{1}{2}", XedRender.format(expansion.Field), XedRender.format(op), expansion.Value.Format());
-                            else
-                                buffer.Append(expansion.Value.Format());
+                            buffer.Append(x.Format());
                         }
                         seek(output,i) = buffer.Emit();
                     }
-                    else
-                        seek(output,i) = part;
                 }
-                return output.Delimit(Chars.Space).Format();
-            }
 
-            public static string expand(string src)
-            {
-                var input = text.trim(text.split(text.despace(src), Chars.Space));
-                var count = input.Length;
-                var output = alloc<string>(count);
-                var names = RuleMacros.names();
-                var kinds = RuleMacros.kinds();
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var part = ref skip(input,i);
-                    if(names.Contains(part))
-                    {
-                        if(kinds.Lookup(part, out var sym))
-                            seek(output,i) = Lookup[sym.Kind].Format();
-                        else
-                            seek(output,i) = part;
-                    }
-                    else
-                        seek(output,i) = part;
-                }
                 return output.Delimit(Chars.Space).Format();
             }
 
@@ -147,10 +118,10 @@ namespace Z0
                 => Specs;
 
             [MethodImpl(Inline), Op]
-            public static Index<MacroSpec2> specs2()
+            public static Index<MacroSpec> specs2()
             {
                 var count = Specs.Count;
-                var dst = alloc<MacroSpec2>(count);
+                var dst = alloc<MacroSpec>(count);
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var input = ref Specs[i];
@@ -161,7 +132,7 @@ namespace Z0
                         ref readonly var assign = ref assignments[j];
                         seek(expansions,j) = new MacroExpansion(assign.Field, RuleOperator.Assign, assign.Value);
                     }
-                    seek(dst,i) = new MacroSpec2(input.Name, expansions);
+                    seek(dst,i) = new MacroSpec(input.Name, expansions);
                 }
                 return dst;
             }
@@ -557,7 +528,7 @@ namespace Z0
                 => assign(M.no_return, K.NO_RETURN, 1);
 
             // [MethodImpl(Inline), Op]
-            // static MacroSpec error()
+            // static MacroSpec2 error()
             //     => assign(M.error, K.ERROR, ErrorKind.GENERAL_ERROR);
 
             [MethodImpl(Inline), Op]

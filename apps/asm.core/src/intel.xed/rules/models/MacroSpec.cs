@@ -12,20 +12,13 @@ namespace Z0
         {
             public readonly RuleMacroKind Name;
 
-            public Index<FieldAssign> Expansions;
-
-            [MethodImpl(Inline)]
-            public MacroSpec(RuleMacroKind name, params FieldAssign[] expansions)
-            {
-                Name = name;
-                Expansions = expansions;
-            }
+            public Index<MacroExpansion> Expansions;
 
             [MethodImpl(Inline)]
             public MacroSpec(RuleMacroKind name, params MacroExpansion[] expansions)
             {
                 Name = name;
-                Expansions = sys.empty<FieldAssign>();
+                Expansions = expansions;
             }
 
             public bool IsEmpty

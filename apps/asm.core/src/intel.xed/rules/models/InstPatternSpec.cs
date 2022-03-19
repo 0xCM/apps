@@ -38,9 +38,20 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstPatternSpec WithInstId(uint instid)
-                => new InstPatternSpec(PatternId, instid, Class, BodyExpr, Body, OpSpecs);
+            public InstPatternSpec WithOps(RuleOpSpec[] src)
+                => new InstPatternSpec(PatternId, InstId, Class, BodyExpr, Body, src);
 
+            [MethodImpl(Inline)]
+            public InstPatternSpec WithInstId(uint src)
+                => new InstPatternSpec(PatternId, src, Class, BodyExpr, Body, OpSpecs);
+
+            [MethodImpl(Inline)]
+            public InstPatternSpec WithPatternId(uint src)
+                => new InstPatternSpec(src, InstId, Class, BodyExpr, Body, OpSpecs);
+
+            [MethodImpl(Inline)]
+            public InstPatternSpec WithClass(IClass src)
+                => new InstPatternSpec(PatternId, InstId, src, BodyExpr, Body, OpSpecs);
             public int CompareTo(InstPatternSpec src)
             {
                 var result = InstId.CompareTo(src.InstId);
