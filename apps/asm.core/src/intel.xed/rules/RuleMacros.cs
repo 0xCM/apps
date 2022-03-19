@@ -94,19 +94,24 @@ namespace Z0
                     else
                     {
                         Require.invariant(Lookup.Find(mkind, out spec));
-                        var buffer = text.buffer();
-                        for(var q=0; q<spec.Expansions.Count; q++)
-                        {
-                            ref readonly var x = ref spec.Expansions[q];
-                            if(q != 0)
-                                buffer.Append(Chars.Space);
-                            buffer.Append(x.Format());
-                        }
-                        seek(output,i) = buffer.Emit();
+                        seek(output,i) = expand(spec);
                     }
                 }
 
                 return output.Delimit(Chars.Space).Format();
+            }
+
+            static string expand(in MacroSpec spec)
+            {
+                var buffer = text.buffer();
+                for(var q=0; q<spec.Expansions.Count; q++)
+                {
+                    ref readonly var x = ref spec.Expansions[q];
+                    if(q != 0)
+                        buffer.Append(Chars.Space);
+                    buffer.Append(x.Format());
+                }
+                return buffer.Emit();
             }
 
             [MethodImpl(Inline), Op]
@@ -117,25 +122,6 @@ namespace Z0
             public static Index<MacroSpec> specs()
                 => Specs;
 
-            [MethodImpl(Inline), Op]
-            public static Index<MacroSpec> specs2()
-            {
-                var count = Specs.Count;
-                var dst = alloc<MacroSpec>(count);
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var input = ref Specs[i];
-                    var assignments = input.Expansions;
-                    var expansions = alloc<MacroExpansion>(assignments.Count);
-                    for(var j=0; j<assignments.Count; j++)
-                    {
-                        ref readonly var assign = ref assignments[j];
-                        seek(expansions,j) = new MacroExpansion(assign.Field, RuleOperator.Assign, assign.Value);
-                    }
-                    seek(dst,i) = new MacroSpec(input.Name, expansions);
-                }
-                return dst;
-            }
 
             [MethodImpl(Inline), Op]
             public static ConstLookup<RuleMacroKind,MacroSpec> lookup()

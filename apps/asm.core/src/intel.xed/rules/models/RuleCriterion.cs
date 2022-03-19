@@ -14,8 +14,6 @@ namespace Z0
         {
             public readonly bool Premise;
 
-            public readonly bool IsNonterminal;
-
             public readonly FieldKind Field;
 
             public readonly RuleOperator Operator;
@@ -32,7 +30,6 @@ namespace Z0
                 Operator = op;
                 Storage = data;
                 DataKind = field == FieldKind.ERROR ? CellDataKind.Error : CellDataKind.FieldValue;
-                IsNonterminal = false;
             }
 
             [MethodImpl(Inline)]
@@ -41,9 +38,8 @@ namespace Z0
                 Premise = premise;
                 Field = field;
                 Operator = op;
-                Storage = core.bytes(data);
-                DataKind = CellDataKind.FieldValue;
-                IsNonterminal = true;
+                Storage = (uint)data.Id;
+                DataKind = CellDataKind.Nonterminal;
             }
 
             [MethodImpl(Inline)]
@@ -55,7 +51,6 @@ namespace Z0
                 Operator = call.Operator;
                 Storage = (ulong)call.Target;
                 DataKind = CellDataKind.Call;
-                IsNonterminal = true;
             }
 
             [MethodImpl(Inline)]
@@ -66,7 +61,6 @@ namespace Z0
                 Operator = RuleOperator.None;
                 Storage = core.bytes(data);
                 DataKind = CellDataKind.BfSeg;
-                IsNonterminal = false;
             }
 
             [MethodImpl(Inline)]
@@ -77,7 +71,6 @@ namespace Z0
                 Operator = RuleOperator.None;
                 Storage = spec.Pattern.View;
                 DataKind = CellDataKind.BfSpec;
-                IsNonterminal = false;
             }
 
             [MethodImpl(Inline)]
@@ -88,7 +81,6 @@ namespace Z0
                 Operator = RuleOperator.None;
                 Storage = core.bytes(literal);
                 DataKind = literal.DataKind;
-                IsNonterminal = false;
             }
 
             public readonly ulong Data
@@ -107,6 +99,12 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => !IsEmpty;
+            }
+
+            public readonly bool IsNonterminal
+            {
+                [MethodImpl(Inline)]
+                get => DataKind == CellDataKind.Nonterminal;
             }
 
             public bool IsNull
@@ -164,8 +162,8 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public ref readonly Nonterminal AsNonterminal()
-                => ref core.@as<Nonterminal>(Storage.Bytes);
+            public Nonterminal AsNonterminal()
+                => Nonterminal.FromId((uint)Data);
 
             [MethodImpl(Inline)]
             public RuleCall AsCall()

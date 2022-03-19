@@ -15,10 +15,11 @@ namespace Z0
                 return format(src.AsCall());
             else if(src.IsNonterminal)
             {
+                var fmt = src.AsNonterminal().Format();
                 if(src.Field != 0 && src.Operator != 0)
-                    return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), src.AsNonterminal());
+                    return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), fmt);
                 else
-                    return src.AsNonterminal().Format();
+                    return fmt;
             }
             else if(src.IsLiteral)
                 return src.AsLiteral().Format();

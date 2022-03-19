@@ -47,6 +47,10 @@ namespace Z0
 
             [Symbol("bfspec")]
             BfSpec,
+
+            [Symbol("nt")]
+            Nonterminal,
+
         }
     }
 }

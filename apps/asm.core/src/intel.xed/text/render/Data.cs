@@ -83,7 +83,7 @@ namespace Z0
 
         static Symbols<OpVisibility> OpVis;
 
-        static Symbols<IClass> Classes;
+        static EnumRender<IClass> Classes = new();
 
         static XedRender()
         {
@@ -93,7 +93,6 @@ namespace Z0
             OpActions = Symbols.index<OperandAction>();
             OpNames = Symbols.index<RuleOpName>();
             OpVis = Symbols.index<OpVisibility>();
-            Classes = Symbols.index<IClass>();
         }
     }
 }

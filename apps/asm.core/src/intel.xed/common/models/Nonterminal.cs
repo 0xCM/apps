@@ -10,6 +10,12 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct Nonterminal : IEquatable<Nonterminal>, IComparable<Nonterminal>
         {
+            public static Nonterminal FromId(int id)
+                => new Nonterminal(name(id));
+
+            public static Nonterminal FromId(uint id)
+                => new Nonterminal(name((int)id));
+
             static ConcurrentDictionary<string,int> A = new();
 
             static ConcurrentDictionary<int,string> B = new();
@@ -41,7 +47,7 @@ namespace Z0
                     return EmptyString;
             }
 
-            readonly int Id;
+            public readonly int Id;
 
             public Nonterminal(string name)
             {

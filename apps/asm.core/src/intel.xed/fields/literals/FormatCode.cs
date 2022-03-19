@@ -107,10 +107,6 @@ namespace Z0
             Name,
 
             BitWidth,
-
-            Bits,
-
-            BitLiteral,
-        }
+       }
     }
 }

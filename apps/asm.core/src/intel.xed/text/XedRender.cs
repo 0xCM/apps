@@ -192,7 +192,7 @@ namespace Z0
             => src == 0 ? EmptyString : src.ToString();
 
         public static string format(IClass src)
-            => Classes[src].Expr.Text;
+            => Classes.Format(src);
 
         public static string format(ConstraintKind src)
             => ConstraintKinds[src].Expr.Text;
@@ -227,6 +227,41 @@ namespace Z0
         public static string format(DispFieldSpec src)
             => src.Width == 0 ? EmptyString : string.Format("{0}[{1}/{2}]", "DISP", src.Kind, src.Width);
 
+        public static string format(in InstDefPart src)
+        {
+            var dst = EmptyString;
+            var kind = src.PartKind;
+            switch(kind)
+            {
+                case DefSegKind.HexLiteral:
+                    dst = format(src.AsHexLit());
+                break;
+                case DefSegKind.IntLiteral:
+                    dst = src.AsIntLit().ToString();
+                break;
+                case DefSegKind.Bitfield:
+                    dst = format(src.AsBfSeg());
+                break;
+                case DefSegKind.BitLiteral:
+                    dst = format5(src.AsB5());
+                break;
+                case DefSegKind.Nonterm:
+                    dst = src.AsNonterminal().Format();
+                break;
+                case DefSegKind.FieldLiteral:
+                    dst = format(src.AsFieldLit());
+                break;
+                case DefSegKind.FieldAssign:
+                    dst = format(src.AsAssign());
+                break;
+                case DefSegKind.Constraint:
+                    dst = format(src.AsConstraint());
+                break;
+            }
+
+            return dst;
+        }
+
         public static string format(RuleCall src)
         {
             if(src.IsEmpty)
@@ -247,7 +282,6 @@ namespace Z0
 
         public static string format(BitfieldSpec src)
             => src.Pattern.Format();
-
 
         public static string format(in MacroSpec src)
         {

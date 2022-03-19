@@ -256,7 +256,7 @@ namespace Z0
                 op = RuleOperator.None;
                 var result = false;
                 var i = text.index(input,"()");
-                if(i >0)
+                if(i > 0)
                 {
                     if(assignment(premise, text.left(input,i), out fk, out var fv))
                     {
