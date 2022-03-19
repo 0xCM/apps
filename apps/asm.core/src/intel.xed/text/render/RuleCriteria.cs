@@ -51,8 +51,9 @@ namespace Z0
                 case CellDataKind.Error:
                 case CellDataKind.Default:
                 case CellDataKind.Wildcard:
-                case CellDataKind.Literal:
+                case CellDataKind.BinaryLiteral:
                 case CellDataKind.Null:
+                case CellDataKind.Text:
                 {
                     if(src.Operator != 0 && src.Field != 0)
                         return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), src.AsLiteral());

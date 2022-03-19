@@ -9,11 +9,23 @@ namespace Z0
     {
         public enum FieldLiteralKind : byte
         {
-            HexLiteral,
+            None,
 
-            BinaryLiteral,
+            HexLiteral = CellDataKind.HexLiteral,
 
-            DecimalLiteral,
+            BinaryLiteral = CellDataKind.BinaryLiteral,
+
+            DecimalLiteral = CellDataKind.DecimalLiteral,
+
+            Wildcard = CellDataKind.Wildcard,
+
+            Null = CellDataKind.Null,
+
+            Default = CellDataKind.Default,
+
+            Error = CellDataKind.Error,
+
+            Text = CellDataKind.Text,
         }
     }
 }

@@ -64,7 +64,7 @@ namespace Z0
             public InstDefPart(Nonterminal src)
             {
                 var data = ByteBlock16.Empty;
-                @as<ushort>(data.First) = (ushort)src;
+                data = core.bytes(src);
                 data[15] = (byte)DefSegKind.Nonterm;
                 Data = data;
             }
@@ -135,7 +135,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator InstDefPart(Hex8 src)
                 => new InstDefPart(src);
-
 
             [MethodImpl(Inline)]
             public static implicit operator InstDefPart(uint5 src)

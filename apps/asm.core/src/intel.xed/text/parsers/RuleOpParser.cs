@@ -329,17 +329,14 @@ namespace Z0
                     if(j > 0)
                         p0 = text.left(p0,j);
 
-                    if(parse(p0,  out XedRegId regid))
+                    if(parse(p0, out XedRegId regid))
                         seek(buffer, i++) = regid;
+                    else if(parse(p0, out NontermKind nk))
+                        seek(buffer, i++) = (Nonterminal)nk;
+                    else if(parse(p0, out GroupName gn))
+                        seek(buffer,i++) = (Nonterminal)gn;
                     else
-                    {
-                        if(parse(p0, out GroupName group))
-                            seek(buffer, i++) = group;
-                        else if(parse(p0, out NontermKind nonterm))
-                            seek(buffer, i++) = nonterm;
-                        else
-                            Errors.Throw(string.Format("Unable to parser rgister specification {0}", p0));
-                    }
+                        Errors.Throw(string.Format("Unable to parser rgister specification {0}", p0));
                 }
 
                 if(count >= 2)

@@ -79,14 +79,6 @@ namespace Z0
                 => (RuleMacroKind)Data;
 
             [MethodImpl(Inline)]
-            public GroupName AsGroupName()
-                => (GroupName)Data;
-
-            [MethodImpl(Inline)]
-            public EncodingGroup AsEncodingGroup()
-                => (GroupName)Data;
-
-            [MethodImpl(Inline)]
             public AttributeKind AsCommon()
                 => (AttributeKind)Data;
 
@@ -103,8 +95,8 @@ namespace Z0
                 => new RuleOpAttrib(K.PtrWidth, (ushort)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(NontermKind src)
-                => new RuleOpAttrib(K.Nonterminal, (ushort)src);
+            public static implicit operator RuleOpAttrib(Nonterminal src)
+                => new RuleOpAttrib(K.Nonterminal, (uint)src);
 
             [MethodImpl(Inline)]
             public static implicit operator RuleOpAttrib(XedRegId src)
@@ -125,10 +117,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator RuleOpAttrib(RuleMacroKind src)
                 => new RuleOpAttrib(K.Macro, (uint)src);
-
-            [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(GroupName src)
-                => new RuleOpAttrib(K.EncGroup, (uint)src);
 
             [MethodImpl(Inline)]
             public static implicit operator RuleOpAttrib(RuleOpModKind src)

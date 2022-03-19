@@ -30,10 +30,6 @@ namespace Z0
                     dst = format(src.AsElementType());
                 break;
 
-                case K.EncGroup:
-                    dst = format(src.AsGroupName());
-                break;
-
                 case K.Modifier:
                     dst = format(src.AsModifier());
                 break;

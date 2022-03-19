@@ -17,6 +17,37 @@ namespace Z0
 
     partial class XedRules
     {
+        [MethodImpl(Inline), Op]
+        public static RuleCriterion criterion(bool premise, FieldKind fk, asci8 value, CellDataKind dk)
+            => new RuleCriterion(premise, fk, RuleOperator.None, value, dk);
+
+        [MethodImpl(Inline), Op]
+        static RuleCriterion criterion(bool premise, RuleCall call)
+            => new RuleCriterion(premise, call);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        static RuleCriterion criterion<T>(bool premise, FieldKind field, RuleOperator op, T value)
+            where T : unmanaged
+                => new RuleCriterion(premise, field, op, core.bw64(value));
+
+        [MethodImpl(Inline), Op]
+        static RuleCriterion criterion(bool premise, FieldKind fk, RuleOperator op, Nonterminal nt)
+            => new RuleCriterion(premise, fk, op, nt);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        static RuleCriterion criterion(bool premise, BitfieldSeg seg)
+            => new RuleCriterion(premise, seg);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        static RuleCriterion criterion(bool premise, BitfieldSpec src)
+            => new RuleCriterion(premise, src);
+
+        [MethodImpl(Inline), Op]
+        static RuleCriterion criterion(bool premise, RuleOperator op, FieldValue src)
+            => new RuleCriterion(premise,src.Field, op, src.Data);
+
+
+
         public struct RuleTableParser
         {
             public static RuleTable table(RuleTableSpec src)
@@ -181,35 +212,6 @@ namespace Z0
                     return dst.Replace("->", "=>").Replace("|", "=>").Remove("XED_RESET");
             }
 
-            [MethodImpl(Inline), Op]
-            static RuleCriterion criterion(bool premise, FieldKind fk, asci8 value, CellDataKind dk)
-                => new RuleCriterion(premise, fk, RuleOperator.None, value, dk);
-
-            [MethodImpl(Inline), Op]
-            static RuleCriterion criterion(bool premise, RuleCall call)
-                => new RuleCriterion(premise, call);
-
-            [MethodImpl(Inline), Op, Closures(Closure)]
-            static RuleCriterion criterion<T>(bool premise, FieldKind field, RuleOperator op, T value)
-                where T : unmanaged
-                    => new RuleCriterion(premise, field, op, core.bw64(value));
-
-            [MethodImpl(Inline), Op]
-            static RuleCriterion criterion(bool premise, FieldKind fk, RuleOperator op, Nonterminal nt)
-                => new RuleCriterion(premise, fk, op, nt);
-
-            [MethodImpl(Inline), Op, Closures(Closure)]
-            static RuleCriterion criterion(bool premise, BitfieldSeg seg)
-                => new RuleCriterion(premise, seg);
-
-            [MethodImpl(Inline), Op, Closures(Closure)]
-            static RuleCriterion criterion(bool premise, BitfieldSpec src)
-                => new RuleCriterion(premise, src);
-
-            [MethodImpl(Inline), Op]
-            static RuleCriterion criterion(bool premise, RuleOperator op, FieldValue src)
-                => new RuleCriterion(premise,src.Field, op, src.Data);
-
             static void parse(bool premise, string input, out FieldKind fk, out string fv, out RuleOperator op)
             {
                 var i = text.index(input, "!=");
@@ -336,18 +338,7 @@ namespace Z0
                     if(input.Length > 8)
                         Errors.Throw(string.Format("The value '{0}' is too long to be a literal", input));
 
-                    if(XedParsers.IsBinaryLiteral(input))
-                        dst = criterion(premise, 0, (asci8)input, CellDataKind.Literal);
-                    else if(input == "else")
-                        dst = criterion(premise, 0, input, CellDataKind.Default);
-                    else if(input == "null")
-                        dst = criterion(premise, 0, input, CellDataKind.Null);
-                    else if(input == "error")
-                        dst = criterion(premise, FieldKind.ERROR, input, CellDataKind.Error);
-                    else if(input == "@")
-                        dst = criterion(premise, 0, input, CellDataKind.Wildcard);
-                    else
-                        dst = criterion(premise, 0, (asci8)input, CellDataKind.Literal);
+                    dst = FieldLiteral.infer(input).ToCriterion(premise);
                     return true;
                 }
             }
@@ -1000,124 +991,6 @@ namespace Z0
                 }
                 // switch(field)
                 // {
-                //     case K.AGEN:
-                //     case K.AMD3DNOW:
-                //     case K.ASZ:
-                //     case K.CET:
-                //     case K.CLDEMOTE:
-                //     case K.DF32:
-                //     case K.DF64:
-                //     case K.DUMMY:
-                //     case K.ENCODER_PREFERRED:
-                //     case K.ENCODE_FORCE:
-                //     case K.HAS_MODRM:
-                //     case K.HAS_SIB:
-                //     case K.ILD_F2:
-                //     case K.ILD_F3:
-                //     case K.IMM0:
-                //     case K.IMM0SIGNED:
-                //     case K.IMM1:
-                //     case K.LOCK:
-                //     case K.LZCNT:
-                //     case K.MEM0:
-                //     case K.MEM1:
-                //     case K.MODE_FIRST_PREFIX:
-                //     case K.MODE_SHORT_UD0:
-                //     case K.MODEP5:
-                //     case K.MODEP55C:
-                //     case K.MPXMODE:
-                //     case K.MUST_USE_EVEX:
-                //     case K.NEEDREX:
-                //     case K.NEED_SIB:
-                //     case K.NOREX:
-                //     case K.NO_RETURN:
-                //     case K.NO_SCALE_DISP8:
-                //     case K.REX:
-                //     case K.OSZ:
-                //     case K.OUT_OF_BYTES:
-                //     case K.P4:
-                //     case K.PREFIX66:
-                //     case K.PTR:
-                //     case K.REALMODE:
-                //     case K.RELBR:
-                //     case K.TZCNT:
-                //     case K.UBIT:
-                //     case K.USING_DEFAULT_SEGMENT0:
-                //     case K.USING_DEFAULT_SEGMENT1:
-                //     case K.VEX_C4:
-                //     case K.VEXDEST3:
-                //     case K.VEXDEST4:
-                //     case K.WBNOINVD:
-                //     case K.REXRR:
-                //     case K.SAE:
-                //     case K.BCRC:
-                //     case K.ZEROING:
-                //     {
-                //         if(XedParsers.parse(value, out bit b))
-                //         {
-                //             dst = criterion(premise, field, op, b);
-                //             result = true;
-                //         }
-                //     }
-                //     break;
-
-                //     case K.REXW:
-                //     {
-                //         if(XedParsers.parse(value, out bit b))
-                //         {
-                //             dst = criterion(premise, field, op, b);
-                //             result = true;
-                //         }
-                //         else if(value.Length == 1 && value[0] == 'w')
-                //         {
-                //             dst = criterion(premise, new BitfieldSeg(field, value[0], false));
-                //             result = true;
-                //         }
-                //     }
-                //     break;
-                //     case K.REXR:
-                //     {
-                //         if(XedParsers.parse(value, out bit b))
-                //         {
-                //             dst = criterion(premise, field, op, b);
-                //             result = true;
-                //         }
-                //         else if(value.Length == 1 && value[0] == 'r')
-                //         {
-                //             dst = criterion(premise,new BitfieldSeg(field, value[0], false));
-                //             result = true;
-                //         }
-                //     }
-                //     break;
-                //     case K.REXX:
-                //     {
-                //         if(XedParsers.parse(value, out bit b))
-                //         {
-                //             dst = criterion(premise, field, op, b);
-                //             result = true;
-                //         }
-                //         else if(value.Length == 1 && value[0] == 'x')
-                //         {
-                //             dst = criterion(premise,new BitfieldSeg(field, value[0], false));
-                //             result = true;
-                //         }
-                //     }
-                //     break;
-                //     case K.REXB:
-                //     {
-                //         if(XedParsers.parse(value, out bit x))
-                //         {
-                //             dst = criterion(premise, field, op, x);
-                //             result = true;
-                //         }
-                //         else if(value.Length == 1 && value[0] == 'b')
-                //         {
-                //             dst = criterion(premise,new BitfieldSeg(field, value[0], false));
-                //             result = true;
-                //         }
-                //     }
-                //     break;
-
                 //     case K.MOD:
                 //     case K.SIBSCALE:
                 //     case K.EASZ:

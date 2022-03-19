@@ -11,8 +11,6 @@ namespace Z0
         {
             None,
 
-            EncodingGroup,
-
             Nonterminal,
 
             Literal,

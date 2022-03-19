@@ -7,61 +7,55 @@ namespace Z0
 {
     partial struct XedModels
     {
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct Nonterminal : IEquatable<Nonterminal>, IComparable<Nonterminal>
         {
-            const ushort LoMask = 0b01111111_11111111;
+            readonly GroupName EncodingGroup;
 
-            readonly ushort Data;
+            readonly NontermKind NontermKind;
 
             public Nonterminal(NontermKind kind)
             {
-                Data = bit.set((ushort)kind, 15, XedParsers.parse(XedRender.format(kind), out GroupName _));
+                NontermKind = kind;
+                EncodingGroup = 0;
             }
 
-            [MethodImpl(Inline)]
-            public Nonterminal(GroupName kind)
+            public Nonterminal(GroupName name)
             {
-                Data = bit.enable((ushort)kind,15);
+                NontermKind = 0;
+                EncodingGroup = name;
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Data == 0;
+                get => EncodingGroup == 0 && NontermKind == 0;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Data != 0;
-            }
-
-            public bool IsGroup
-            {
-                [MethodImpl(Inline)]
-                get => bit.test(Data,15);
+                get => !IsEmpty;
             }
 
             public string Name
-                => IsGroup
-                ? XedRender.format((GroupName)(Data & LoMask))
-                : XedRender.format((NontermKind)(Data & LoMask));
+                => EncodingGroup == 0 ? XedRender.format(NontermKind) : XedRender.format(EncodingGroup);
 
             [MethodImpl(Inline)]
             public bool Equals(Nonterminal src)
-                => Data == src.Data;
+                => EncodingGroup == src.EncodingGroup && NontermKind == src.NontermKind;
 
             public override bool Equals(object src)
                 => src is Nonterminal x && Equals(x);
 
             public override int GetHashCode()
-                => Data;
+                => (int)(uint)this;
 
             public int CompareTo(Nonterminal src)
                 => Name.CompareTo(src.Name);
 
             public string Format()
-                => XedRender.format(this);
+                => Name;
 
             public override string ToString()
                 => Format();
@@ -74,9 +68,8 @@ namespace Z0
             public static implicit operator Nonterminal(GroupName src)
                 => new Nonterminal(src);
 
-            [MethodImpl(Inline)]
-            public static explicit operator ushort(Nonterminal src)
-                => src.Data;
+            public static explicit operator uint(Nonterminal src)
+                => core.@as<Nonterminal,uint>(src);
 
             public static Nonterminal Empty => default;
         }

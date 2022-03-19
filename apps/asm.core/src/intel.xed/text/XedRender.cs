@@ -87,9 +87,6 @@ namespace Z0
             var dst = EmptyString;
             switch(src.Kind)
             {
-                case ValueSelectorKind.EncodingGroup:
-                    dst = format((GroupName)src.Spec);
-                break;
                 case ValueSelectorKind.Nonterminal:
                     dst = format((NontermKind)src.Spec);
                 break;
@@ -166,9 +163,6 @@ namespace Z0
 
         public static string format(GroupName src)
             => EncodingGroups.Format(src);
-
-        public static string format(EncodingGroup src)
-            => string.Format("{0}()", format(src.Name));
 
         public static string format(FieldKind src)
             => FieldKinds.Format(src);

@@ -27,14 +27,6 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public ValueSelector(GroupName src)
-            {
-                Spec = (ushort)src;
-                Kind = ValueSelectorKind.EncodingGroup;
-                Pad = 0;
-            }
-
-            [MethodImpl(Inline)]
             public ValueSelector(NontermKind src)
             {
                 Spec = (ushort)src;
@@ -67,10 +59,6 @@ namespace Z0
 
              public override string ToString()
                 => Format();
-
-            [MethodImpl(Inline)]
-            public static implicit operator ValueSelector(GroupName src)
-                => new ValueSelector(src);
 
             [MethodImpl(Inline)]
             public static implicit operator ValueSelector(NontermKind src)

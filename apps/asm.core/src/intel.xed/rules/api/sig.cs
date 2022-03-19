@@ -12,9 +12,7 @@ namespace Z0
         public static RuleSig sig(RuleTableKind kind, string name)
         {
             var @class = RuleClass.None;
-            if(XedParsers.parse(name, out EncodingGroup group))
-                @class = RuleClass.EncodingGroup;
-            else if(XedParsers.parse(name, out NontermKind nt))
+            if(XedParsers.parse(name, out NontermKind nt))
                 @class = RuleClass.Nonterminal;
             else
             {

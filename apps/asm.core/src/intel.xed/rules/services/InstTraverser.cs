@@ -224,11 +224,6 @@ namespace Z0
                 Traversed(def, pattern, op, attrib);
             }
 
-            void Traverse(in InstDef def, in InstPatternSpec pattern, in RuleOpSpec op, EncodingGroup attrib)
-            {
-                Traversed(def, pattern, op, attrib);
-            }
-
             void Traverse(in InstDef def, in InstPatternSpec pattern, in RuleOpSpec op, MemoryScale attrib)
             {
                 Traversed(def, pattern, op, attrib);
@@ -273,9 +268,6 @@ namespace Z0
                     break;
                     case C.ElementType:
                         Traverse(def, pattern, op, attrib.AsElementType());
-                    break;
-                    case C.EncGroup:
-                        Traverse(def, pattern, op, attrib.AsEncodingGroup());
                     break;
                     case C.Modifier:
                         Traverse(def, pattern, op, attrib.AsModifier());
@@ -370,11 +362,6 @@ namespace Z0
             }
 
             protected virtual void Traversed(in InstDef def, in InstPatternSpec pattern, in RuleOpSpec op, ElementKind attrib)
-            {
-
-            }
-
-            protected virtual void Traversed(in InstDef def, in InstPatternSpec pattern, in RuleOpSpec op, EncodingGroup attrib)
             {
 
             }

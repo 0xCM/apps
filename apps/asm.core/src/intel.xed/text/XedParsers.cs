@@ -68,6 +68,9 @@ namespace Z0
         public static bool IsCall(string src)
             => src.Contains(CallSyntax);
 
+        public static bool IsNonterminal(string src)
+            => text.trim(src).EndsWith("()");
+
         public static bool IsBfSeg(string src)
         {
             var i = text.index(src, Chars.LBracket);
@@ -107,9 +110,6 @@ namespace Z0
 
         public static bool IsSeqDecl(string src)
             => src.StartsWith(SeqDeclSyntax);
-
-        public static bool parse(string src, out EncodingGroup dst)
-            => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out bit dst)
             => Instance.Parse(src, out dst);
@@ -270,6 +270,9 @@ namespace Z0
         public static bool parse(string src, out NontermKind dst)
             => Instance.Parse(src, out dst);
 
+        public static bool parse(string src, out GroupName dst)
+            => Instance.Parse(src, out dst);
+
         public static bool parse(string src, out XedRegId dst)
             => Instance.Parse(src, out dst);
 
@@ -277,9 +280,6 @@ namespace Z0
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out OpVisibility dst)
-            => Instance.Parse(src, out dst);
-
-        public static bool parse(string src, out GroupName dst)
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out SMode dst)
@@ -373,20 +373,6 @@ namespace Z0
 
         public bool Parse(string src, out GroupName dst)
             => GroupNames.Parse(src, out dst);
-
-        public bool Parse(string src, out EncodingGroup dst)
-        {
-            if(Parse(src, out GroupName name))
-            {
-                dst = name;
-                return true;
-            }
-            else
-            {
-                dst = default;
-                return false;
-            }
-        }
 
         public bool Parse(string src, out RuleOpModKind dst)
             => OpModKinds.Parse(src, out dst);
@@ -565,17 +551,7 @@ namespace Z0
             dst = Nonterminal.Empty;
             var input = text.remove(src,"()");
 
-            result = parse(input, out NontermKind kind);
-            if(result)
-                dst = kind;
-            else
-            {
-                result = parse(input, out GroupName group);
-                if(result)
-                    dst = group;
-            }
-
-            return result;
+            return parse(input, out NontermKind kind);
         }
 
         public Outcome Parse(string src, out FieldAssign dst)

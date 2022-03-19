@@ -12,20 +12,14 @@ namespace Z0
             [Symbol(RP.Empty)]
             None,
 
-            [Symbol("field")]
-            FieldValue,
+            [Symbol("base2")]
+            BinaryLiteral,
 
-            [Symbol("literal")]
-            Literal,
+            [Symbol("base10")]
+            DecimalLiteral,
 
-            [Symbol("call")]
-            Call,
-
-            [Symbol("bfseg")]
-            BfSeg,
-
-            [Symbol("bfspec")]
-            BfSpec,
+            [Symbol("base16")]
+            HexLiteral,
 
             [Symbol("null")]
             Null,
@@ -36,8 +30,23 @@ namespace Z0
             [Symbol("@")]
             Wildcard,
 
-            [Symbol("otherwise")]
+            [Symbol("default")]
             Default,
+
+            [Symbol("text")]
+            Text,
+
+            [Symbol("field")]
+            FieldValue,
+
+            [Symbol("call")]
+            Call = 128,
+
+            [Symbol("bfseg")]
+            BfSeg,
+
+            [Symbol("bfspec")]
+            BfSpec,
         }
     }
 }

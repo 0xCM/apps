@@ -142,7 +142,7 @@ namespace Z0
             public bool IsLiteral
             {
                 [MethodImpl(Inline)]
-                get => DataKind == CellDataKind.Literal;
+                get => DataKind != 0 && (DataKind < CellDataKind.FieldValue);
             }
 
             public bool IsAssignment
