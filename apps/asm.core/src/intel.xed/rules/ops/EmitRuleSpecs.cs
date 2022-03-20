@@ -21,38 +21,38 @@ namespace Z0
         public Index<RuleTableSpec> CalcRuleSpecs(RuleTableKind kind)
             => RuleTables.CalcRuleSpecs(kind);
 
-        public static Outcome classify(RuleCell src, out RuleCellKind dst)
+        public static Outcome split(RuleCell src, out RuleCellKind kind, out string value)
         {
             var result = Outcome.Success;
             var data = src.Data;
-            dst = RuleCellKind.None;
+            value = data;
+            kind = RuleCellKind.None;
             if(XedParsers.IsAssignment(data))
-                dst = RuleCellKind.Assignment;
+                kind = RuleCellKind.Assignment;
             else if(XedParsers.IsCmpNeq(data))
-                dst = RuleCellKind.Constraint;
+                kind = RuleCellKind.Constraint;
             else
-                dst = RuleCellKind.Literal;
+                kind = RuleCellKind.Literal;
 
-            if(dst != RuleCellKind.Literal)
+            if(kind != RuleCellKind.Literal)
             {
                 var left = EmptyString;
-                var right = EmptyString;
                 var field = FieldKind.INVALID;
                 var op = RuleOperator.None;
-                if(XedParsers.Assignment(data, out left, out right))
+                if(XedParsers.Assignment(data, out left, out value))
                 {
                     op = RuleOperator.Assign;
-                    if(dst != RuleCellKind.Assignment)
+                    if(kind != RuleCellKind.Assignment)
                         result = (false, string.Format("Cell assignment mismatch:'{0}' ", data));
                 }
-                else if(XedParsers.CmpNeq(data, out left, out right))
+                else if(XedParsers.CmpNeq(data, out left, out value))
                 {
                     op = RuleOperator.CmpNeq;
-                    if(dst != RuleCellKind.Constraint)
+                    if(kind != RuleCellKind.Constraint)
                         result = (false, string.Format("Cell constraint mismatch:'{0}' ", data));
                 }
 
-                if(text.empty(left) || text.empty(right))
+                if(text.empty(left) || text.empty(value))
                     result = (false, string.Format("Cell classification failed:'{0}' ", data));
 
                 var j = text.index(left,Chars.LBracket);
@@ -61,15 +61,24 @@ namespace Z0
                 if(field != src.Field)
                     result = (false, string.Format("Cell kind mismatch:{0}!={1}", field, src.Field, data));
 
-                if(XedParsers.IsNonterminal(right))
-                    dst |= RuleCellKind.Nonterminal;
+                if(XedParsers.IsNonterminal(value))
+                    kind |= RuleCellKind.Nonterminal;
                 else
-                    dst |= RuleCellKind.Literal;
+                {
+                    if(XedParsers.IsBinaryLiteral(value))
+                        kind |= RuleCellKind.Bits;
+                    else if(XedParsers.IsHexLiteral(value))
+                        kind |= RuleCellKind.Hex;
+                    else if(XedParsers.IsIntLiteral(value))
+                        kind |= RuleCellKind.Int;
+                    else
+                        kind |= RuleCellKind.Name;
+                }
             }
             else
             {
                 if(XedParsers.IsBfSeg(data))
-                    dst = RuleCellKind.BfSeg;
+                    kind = RuleCellKind.BfSeg;
             }
 
             return result;
@@ -81,17 +90,18 @@ namespace Z0
 
             static string describe(RuleSig table, RuleCell cell)
             {
-                var result = XedRules.classify(cell, out var cellKind);
+                var result = XedRules.split(cell, out var kind, out var value);
+
                 return string.Format(RenderPattern,
                     table,
+                    XedRender.format(kind),
                     cell.Field == 0 ? EmptyString : XedRender.format(cell.Field),
-                    XedRender.format(cellKind),
-                    cell,
+                    value,
                     result.Fail ?  $"Error: {result.Message}" : EmptyString
                     );
             }
 
-            var header = string.Format(RenderPattern,"Table", "Field", "Kind", "Value", "Errors");
+            var header = string.Format(RenderPattern,"Table", "Kind", "Field", "Value", "Errors");
             var path = XedPaths.RuleSpecs(kind);
             using var writer = path.Writer();
             writer.WriteLine(header);

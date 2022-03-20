@@ -27,28 +27,28 @@ namespace Z0
                 if(k >= 1)
                 {
                     var e = expansions[j++];
-                    dst.E0 = new MacroExpansion(e.Field, RuleOperator.Assign, e.Value);
+                    dst.E0 = new MacroExpansion(e.Field, e.Operator, e.Value);
                 }
                 if(k >= 2)
                 {
                     var e = expansions[j++];
-                    dst.E1 = new MacroExpansion(e.Field, RuleOperator.Assign, e.Value);
+                    dst.E1 = new MacroExpansion(e.Field, e.Operator, e.Value);
                 }
                 if(k >= 3)
                 {
                     var e = expansions[j++];
-                    dst.E2 = new MacroExpansion(e.Field, RuleOperator.Assign, e.Value);
+                    dst.E2 = new MacroExpansion(e.Field, e.Operator, e.Value);
                 }
                 if(k >= 4)
                 {
                     var e = expansions[j++];
-                    dst.E3 = new MacroExpansion(e.Field, RuleOperator.Assign, e.Value);
+                    dst.E3 = new MacroExpansion(e.Field, e.Operator, e.Value);
 
                 }
                 if(k >= 5)
                 {
                     var e = expansions[j++];
-                    dst.E4 = new MacroExpansion(e.Field, RuleOperator.Assign, e.Value);
+                    dst.E4 = new MacroExpansion(e.Field, e.Operator, e.Value);
                 }
             }
 

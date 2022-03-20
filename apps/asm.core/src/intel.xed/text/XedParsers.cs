@@ -78,10 +78,8 @@ namespace Z0
 
         public static bool parse(string src, out Nonterminal dst)
         {
-            var result = false;
-            dst = Nonterminal.Empty;
-            var input = text.remove(src,"()");
-            return parse(input, out NontermKind kind);
+            dst = new Nonterminal(text.remove(src,"()"));
+            return true;
         }
 
         public static bool parse(string src, out ChipCode dst)
@@ -659,5 +657,9 @@ namespace Z0
         [MethodImpl(Inline)]
         internal static bool IsBinaryLiteral(string src)
             => text.begins(src, "0b");
+
+        [MethodImpl(Inline)]
+        internal static bool IsIntLiteral(string src)
+            => SQ.digits(base10,src) != 0;
     }
 }

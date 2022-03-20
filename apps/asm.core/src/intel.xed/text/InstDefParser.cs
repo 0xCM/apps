@@ -35,8 +35,7 @@ namespace Z0
                         buffer.Append(Chars.Space);
                     buffer.Append(skip(parts,i));
                 }
-                var expanded = RuleMacros.expand(buffer.Emit());
-                XedParsers.parse(expanded, out InstPatternBody pb).Require();
+                XedParsers.parse(RuleMacros.expand(buffer.Emit()), out InstPatternBody pb).Require();
 
                 dst = new InstPatternSpec(0, 0, 0, body, pb, sys.empty<RuleOpSpec>());
             }
@@ -70,8 +69,8 @@ namespace Z0
 
                             if(i > 0)
                             {
-                                var name = text.trim(text.left(line.Content,i));
-                                var value = text.trim(text.right(line.Content,i));
+                                var name = text.trim(text.left(line.Content, i));
+                                var value = text.trim(text.right(line.Content, i));
                                 if(empty(value))
                                     continue;
 

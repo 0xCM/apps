@@ -49,15 +49,6 @@ namespace Z0
         public Index<RuleTableSpec> CalcRuleSpecs(RuleTableKind kind)
             => specs(XedPaths.RuleSource(kind));
 
-        void EmitRuleSpecs(RuleTableKind kind, Index<RuleTableSpec> src)
-        {
-            var dst = XedPaths.RuleSpecs(kind);
-            var emitting = EmittingFile(dst);
-            using var writer = dst.AsciWriter();
-            for(var i=0; i<src.Length; i++)
-                writer.WriteLine(src[i]);
-            EmittedFile(emitting,src.Length);
-        }
 
         public Index<RuleSigRow> CalcSigRows()
         {

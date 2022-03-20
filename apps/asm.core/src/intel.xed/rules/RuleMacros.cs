@@ -61,7 +61,7 @@ namespace Z0
 
             public static string expand(string src)
             {
-                var input = text.trim(text.despace(src));
+                var input = Require.nonempty(text.trim(text.despace(src)));
                 var parts = sys.empty<string>();
                 if(!text.contains(input,Chars.Space))
                     parts = new string[]{input};
@@ -73,8 +73,8 @@ namespace Z0
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var part = ref skip(parts,i);
-                    var name = EmptyString;
                     var literal = part;
+                    var name = literal;
                     var mkind = RuleMacroKind.None;
                     var spec = MacroSpec.Empty;
 
@@ -84,10 +84,14 @@ namespace Z0
                         Require.invariant(XedParsers.CmpNeq(part, out name, out _));
                     else if(XedParsers.IsBfSeg(part))
                         Require.invariant(XedParsers.BfSeg(part, out name, out _));
-                    if(empty(name))
-                        MacroKinds.Parse(literal, out mkind);
-                    else
-                        MacroKinds.Parse(name, out mkind);
+                    else if(XedParsers.IsNonterminal(part))
+                    {
+                        Require.invariant(XedParsers.parse(part, out Nonterminal nt));
+                        seek(output,i) = nt.Format();
+                        continue;
+                    }
+
+                    MacroKinds.Parse(name, out mkind);
 
                     if(mkind == 0)
                         seek(output,i) = part;
@@ -98,7 +102,15 @@ namespace Z0
                     }
                 }
 
-                return output.Delimit(Chars.Space).Format();
+                var buffer = text.buffer();
+                for(var i=0; i<count; i++)
+                {
+                    if(i!=0)
+                        buffer.Append(Chars.Space);
+                    buffer.Append(skip(output,i));
+                }
+
+                return Require.nonempty(buffer.Emit());
             }
 
             static string expand(in MacroSpec spec)
@@ -111,7 +123,7 @@ namespace Z0
                         buffer.Append(Chars.Space);
                     buffer.Append(x.Format());
                 }
-                return buffer.Emit();
+                return Require.nonempty(buffer.Emit());
             }
 
             [MethodImpl(Inline), Op]
@@ -140,6 +152,22 @@ namespace Z0
                 => Names;
 
             [MethodImpl(Inline), Op]
+            static MacroSpec not64()
+                => assign(M.not64, K.MODE, Not64);
+
+            [MethodImpl(Inline), Op]
+            static MacroSpec mode16()
+                => assign(M.mode16, K.MODE, Mode16);
+
+            [MethodImpl(Inline), Op]
+            static MacroSpec mode32()
+                => assign(M.mode32, K.MODE, Mode32);
+
+            [MethodImpl(Inline), Op]
+            static MacroSpec mode64()
+                => assign(M.mode64, K.MODE, Mode64);
+
+            [MethodImpl(Inline), Op]
             static MacroSpec mod0()
                 => assign(M.mod0, K.MOD, 0);
 
@@ -155,21 +183,6 @@ namespace Z0
             static MacroSpec mod3()
                 => assign(M.mod3, K.MOD, 2);
 
-            [MethodImpl(Inline), Op]
-            static MacroSpec not64()
-                => assign(M.not64, K.MODE, Not64);
-
-            [MethodImpl(Inline), Op]
-            static MacroSpec mode16()
-                => assign(M.mode16, K.MODE, Mode16);
-
-            [MethodImpl(Inline), Op]
-            static MacroSpec mode32()
-                => assign(M.mode32, K.MODE, Mode32);
-
-            [MethodImpl(Inline), Op]
-            static MacroSpec mode64()
-                => assign(M.mode64, K.MODE, Mode64);
 
             [MethodImpl(Inline), Op]
             static MacroSpec eanot16()

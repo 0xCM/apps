@@ -68,9 +68,14 @@ namespace Z0
             => AsmOcValue.format(src);
 
         public static string format(in MacroExpansion src)
-            => src.IsEmpty
-            ? EmptyString
-            : string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.Value));
+        {
+            if(src.Value.IsEmpty)
+                return EmptyString;
+            else if(src.Operator == 0)
+                return format(src.Field);
+            else
+                return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.Value));
+        }
 
         public static string format(in InstPatternBody src)
         {
@@ -86,8 +91,7 @@ namespace Z0
                 if(i!=0)
                     dst.Append(Chars.Space);
 
-                ref readonly var part = ref src[i];
-                dst.Append(format(part));
+                dst.Append(format(src[i]));
             }
         }
 
@@ -269,6 +273,9 @@ namespace Z0
                 case DefSegKind.Constraint:
                     dst = format(src.AsConstraint());
                 break;
+                default:
+                    Errors.Throw("Unknown Part");
+                    break;
             }
 
             return dst;
@@ -308,6 +315,41 @@ namespace Z0
 
             }
 
+            if(src.Test(RuleCellKind.Bits))
+            {
+                if(text.empty(dst))
+                    dst = "bits";
+                else
+                    dst += "/bits";
+
+            }
+
+            if(src.Test(RuleCellKind.Hex))
+            {
+                if(text.empty(dst))
+                    dst = "hex";
+                else
+                    dst += "/hex";
+
+            }
+
+            if(src.Test(RuleCellKind.Int))
+            {
+                if(text.empty(dst))
+                    dst = "int";
+                else
+                    dst += "/int";
+            }
+
+            if(src.Test(RuleCellKind.Name))
+            {
+                if(text.empty(dst))
+                    dst = "name";
+                else
+                    dst += "/name";
+            }
+
+
             if(text.empty(dst))
                 dst = RP.Error;
 
@@ -336,11 +378,11 @@ namespace Z0
         public static string format(in MacroSpec src)
         {
             var dst = text.buffer();
-            var assignments = src.Expansions;
-            var count = assignments.Count;
+            var expansions = src.Expansions;
+            var count = expansions.Count;
             for(var i=0; i<count; i++)
             {
-                ref readonly var a = ref assignments[i];
+                ref readonly var a = ref expansions[i];
                 if(i!=0)
                     dst.Append(Chars.Space);
 

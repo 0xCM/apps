@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public enum RuleCellKind : byte
+        public enum RuleCellKind : ushort
         {
             None,
 
@@ -19,7 +19,15 @@ namespace Z0
 
             Constraint = 8,
 
-            BfSeg = 16
+            BfSeg = 16,
+
+            Bits = 32,
+
+            Int = 64,
+
+            Hex = 128,
+
+            Name = 256,
         }
     }
 }

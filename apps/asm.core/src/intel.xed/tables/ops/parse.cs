@@ -44,12 +44,8 @@ namespace Z0
                 var count = parts.Length;
                 for(var j=0; j<count; j++)
                 {
-                    ref readonly var part = ref skip(parts,j);
-                    Require.nonempty(part);
-                    var x = RuleMacros.expand(part);
-                    if(empty(x))
-                        Errors.Throw(string.Format("Macro expansion obliterated '{0}'", part));
-                    dst.Add(new (XedFields.kind(x), x));
+                    var expanded = RuleMacros.expand(skip(parts,j));
+                    dst.Add(new (XedFields.kind(expanded), expanded));
                 }
             }
             else

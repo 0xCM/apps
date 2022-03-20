@@ -33,7 +33,7 @@ namespace Z0
                 Class = @class;
                 Body = body;
                 RawBody = rawbody;
-                BodyExpr = rawbody;
+                BodyExpr = XedRender.format(body);
                 OpSpecs = ops;
             }
 
