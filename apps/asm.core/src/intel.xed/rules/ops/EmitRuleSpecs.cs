@@ -79,23 +79,27 @@ namespace Z0
 
         void EmitRuleSpecs(RuleTableKind kind,Index<RuleTableSpec> specs)
         {
-            const string RenderPattern = "{0,-32} | {1,-22} | {2,-32} | {3,-36} | {4}";
+            const string RenderPattern = "{0,-8} | {1,-32} | {2,-8} | {3,-22} | {4,-8} | {5,-8} | {6,-28} | {7,-28} | {8}";
 
-            static string describe(RuleSig table, RuleCell cell)
+            static string describe(uint row, byte col, RuleSig table, RuleCell cell)
             {
                 var result = XedRules.split(cell, out var kind, out var value);
                 var op = ruleop(kind);
 
                 return string.Format(RenderPattern,
+                    table.TableKind,
                     table,
+                    row,
                     XedRender.format(kind),
+                    cell.Premise ? 'P' : 'C',
+                    col,
                     cell.Field == 0 ? EmptyString : XedRender.format(cell.Field),
                     value,
                     op == 0 ? value : string.Format("{0}{1}{2}", XedRender.format(cell.Field), XedRender.format(op), value)
                     );
             }
 
-            var header = string.Format(RenderPattern,"Table", "Kind", "Field", "Value", "Expression");
+            var header = string.Format(RenderPattern, "Kind", "TableName", "Row",  "ColKind", "Logic", "Col", "Field", "Value", "Expression");
             var path = XedPaths.RuleSpecs(kind);
             using var writer = path.Writer();
             writer.WriteLine(header);
@@ -111,15 +115,16 @@ namespace Z0
                 writer.AppendLine();
 
                 var statements = spec.Statements;
-                for(var j=0; j<statements.Count; j++)
+                for(var j=0u; j<statements.Count; j++)
                 {
                     ref readonly var s = ref statements[j];
 
-                    for(var q=0; q<s.Premise.Count; q++, counter++)
-                        writer.AppendLine(describe(spec.Sig, s.Premise[q]));
+                    byte col = 0;
+                    for(byte q=0; q<s.Premise.Count; q++, counter++)
+                        writer.AppendLine(describe(j, col++, spec.Sig, s.Premise[q]));
 
-                    for(var q=0; q<s.Consequent.Count; q++, counter++)
-                        writer.AppendLine(describe(spec.Sig, s.Consequent[q]));
+                    for(byte q=0; q<s.Consequent.Count; q++, counter++)
+                        writer.AppendLine(describe(j, col++, spec.Sig, s.Consequent[q]));
                 }
             }
 

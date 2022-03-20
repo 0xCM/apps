@@ -96,5 +96,11 @@ namespace Z0
         public const string N4to16 = "{4to16}";
 
         public const string N8to16 = "{8to16}";
+
+        public const string Null = "null";
+
+        public const string Implication = "=>";
+
+        public const string Assign = "=";
     }
 }

@@ -23,7 +23,7 @@ namespace Z0
             public string Format()
             {
                 var dst = text.buffer();
-                dst.AppendLine(string.Format("{0}()",Sig.Name));
+                dst.AppendLine(string.Format("{0}()", Sig.Name));
                 dst.AppendLine(Chars.LBrace);
                 for(var i=0; i<Statements.Count; i++)
                     dst.IndentLine(4, Statements[i]);

@@ -24,10 +24,12 @@ namespace Z0
             dst = StatementSpec.Empty;
             if(i > 0)
             {
-                var pcells = cells(true, text.trim(text.left(input, i)));
-                var ccells = cells(false, text.trim(text.right(input, i+1)));
-                if(ccells.Count !=0 && pcells.Count != 0)
-                    dst = new StatementSpec(pcells, ccells);
+                var left = text.trim(text.left(input, i));
+                var premise = text.nonempty(left) ? cells(true, left) : Index<RuleCell>.Empty;
+                var right = text.trim(text.right(input, i+1));
+                var consequent = text.nonempty(right) ? cells(false, right) : Index<RuleCell>.Empty;
+                if(premise.Count != 0 || consequent.Count != 0)
+                    dst = new StatementSpec(premise,consequent);
             }
             else
                 Errors.Throw(AppMsg.ParseFailure.Format(nameof(StatementSpec), src));
@@ -38,16 +40,17 @@ namespace Z0
         static Index<RuleCell> cells(bool premise, string src)
         {
             var dst = list<RuleCell>();
-            if(text.contains(src, Chars.Space))
+            var input = text.trim(text.despace(src));
+            if(text.contains(input, Chars.Space))
             {
-                var parts = text.split(src, Chars.Space);
+                var parts = text.split(input, Chars.Space);
                 var count = parts.Length;
                 for(var j=0; j<count; j++)
                 {
                     ref readonly var part = ref skip(parts,j);
                     if(RuleMacros.match(part, out var match))
                     {
-                        var expanded = match.Expansion;
+                        var expanded = text.trim(match.Expansion);
                         if(text.contains(expanded, Chars.Space))
                         {
                             var expansions = text.split(expanded, Chars.Space);
@@ -66,10 +69,10 @@ namespace Z0
             }
             else
             {
-                if(RuleMacros.match(src, out var match))
+                if(RuleMacros.match(input, out var match))
                     dst.Add(new (premise, match.Expansion));
                 else
-                    dst.Add(new (premise, src));
+                    dst.Add(new (premise, input));
             }
             return dst.ToArray();
         }

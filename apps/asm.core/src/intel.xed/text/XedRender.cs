@@ -380,36 +380,32 @@ namespace Z0
         }
 
         public static string format(in RuleCell src)
-        {
-            var input = src.Data;
-            var result = input;
-            if(src.Premise)
-            {
-                if(XedParsers.Assignment(input, out var left, out var right))
-                    result = string.Format("{0}{1}{2}",left,"==",right);
-            }
-            return input;
-        }
+            => src.Data;
 
         public static string format(in StatementSpec src)
         {
             var dst = text.buffer();
-            for(var i=0; i<src.Premise.Count;  i++)
+
+            if(src.Premise.Count == 0)
+                dst.Append(XedNames.Null);
+
+            for(var i=0; i<src.Premise.Count; i++)
             {
                 if(i!=0)
                     dst.Append(Chars.Space);
-
-                dst.Append(src.Premise[i].Format());
+                dst.Append(format(src.Premise[i]));
             }
 
-            dst.Append(" => ");
-
-            for(var i=0; i<src.Consequent.Count;  i++)
+            if(src.Consequent.Count != 0)
             {
-                if(i!=0)
-                    dst.Append(Chars.Space);
+                dst.AppendFormat(" {0} ", XedNames.Implication);
 
-                dst.Append(src.Consequent[i].Format());
+                for(var i=0; i<src.Consequent.Count; i++)
+                {
+                    if(i!=0)
+                        dst.Append(Chars.Space);
+                    dst.Append(format(src.Consequent[i]));
+                }
             }
             return dst.Emit();
         }
@@ -454,7 +450,7 @@ namespace Z0
             else if(src.Field == 0)
                 return src.Value.ToString();
             else
-                return string.Format("{0}={1}", format(src.Field), format(src.Value));
+                return string.Format("{0}{1}{2}", format(src.Field), XedNames.Assign, format(src.Value));
         }
 
         public static string format(FieldCmp src)
