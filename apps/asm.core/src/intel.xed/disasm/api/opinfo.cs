@@ -64,7 +64,7 @@ namespace Z0
                 return result;
             dst.Visiblity = (OpVisibility)vis;
 
-            result = DataParser.eparse(skip(parts,i++), out dst.LookupKind);
+            result = DataParser.eparse(skip(parts,i++), out dst.OpType);
             if(result.Fail)
                 return result;
 

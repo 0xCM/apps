@@ -66,7 +66,7 @@ namespace Z0
                 ref readonly var opcode = ref opcodes[i];
                 ref readonly var source = ref opcode.Body;
                 writer.AppendLineFormat("Source -> {0}", source);
-                result = parsers.Parse(source, out InstPatternBody body);
+                result = XedParsers.parse(source, out InstPatternBody body);
                 if(result.Fail)
                     break;
 

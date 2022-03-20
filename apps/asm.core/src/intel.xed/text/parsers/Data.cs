@@ -9,9 +9,9 @@ namespace Z0
 
     partial class XedParsers
     {
-        static readonly EnumParser<OperandWidthCode> OpWidthParser = new();
+        static readonly EnumParser<OpWidthCode> OpWidthParser = new();
 
-        static readonly EnumParser<OperandAction> OpActions = new();
+        static readonly EnumParser<OpAction> OpActions = new();
 
         static readonly EnumParser<PointerWidthKind> PointerWidths = new();
 

@@ -175,12 +175,12 @@ namespace Z0
 
                 if(count >= 1)
                 {
-                    if(parse(props[0], out OperandAction action))
+                    if(parse(props[0], out OpAction action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 2)
                 {
-                    if(parse(props[1], out OperandWidthCode width))
+                    if(parse(props[1], out OpWidthCode width))
                         seek(buffer,i++) = width;
                 }
 
@@ -198,12 +198,12 @@ namespace Z0
                 var i=0;
                 if(count >= 1)
                 {
-                    if(parse(props[0], out OperandAction action))
+                    if(parse(props[0], out OpAction action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 2)
                 {
-                    if(parse(props[1], out OperandWidthCode width))
+                    if(parse(props[1], out OpWidthCode width))
                         seek(buffer,i++) = width;
                 }
 
@@ -227,7 +227,7 @@ namespace Z0
                 }
                 if(count >= 2)
                 {
-                    if(parse(props[1], out OperandAction action))
+                    if(parse(props[1], out OpAction action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 3)
@@ -251,13 +251,13 @@ namespace Z0
                 var i=0;
                 if(count >= 1)
                 {
-                    if(parse(props[0], out OperandAction action))
+                    if(parse(props[0], out OpAction action))
                         seek(buffer,i++) = action;
                 }
 
                 if(count >= 2)
                 {
-                    if(parse(props[1], out OperandWidthCode width))
+                    if(parse(props[1], out OpWidthCode width))
                         seek(buffer,i++) = width;
                 }
 
@@ -282,12 +282,12 @@ namespace Z0
 
                 if(count >= 1)
                 {
-                    if(parse(props[0], out OperandAction action))
+                    if(parse(props[0], out OpAction action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 2)
                 {
-                    if(parse(props[1], out OperandWidthCode width))
+                    if(parse(props[1], out OpWidthCode width))
                         seek(buffer,i++) = width;
                 }
 
@@ -333,13 +333,13 @@ namespace Z0
 
                 if(count >= 2)
                 {
-                    if(parse(props[1], out OperandAction action))
+                    if(parse(props[1], out OpAction action))
                         seek(buffer,i++) = action;
                 }
 
                 if(count >= 3)
                 {
-                    if(parse(props[2], out OperandWidthCode width))
+                    if(parse(props[2], out OpWidthCode width))
                         seek(buffer,i++) = width;
                     else
                     {
@@ -352,7 +352,7 @@ namespace Z0
 
                 if(count >= 4)
                 {
-                    if(parse(props[3], out OperandWidthCode width))
+                    if(parse(props[3], out OpWidthCode width))
                         seek(buffer,i++) = width;
                     else
                     {

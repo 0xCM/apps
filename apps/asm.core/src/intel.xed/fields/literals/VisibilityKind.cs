@@ -1,24 +1,25 @@
 //-----------------------------------------------------------------------------
-// Copyright   : Intel Corporation, 2020
-// License     : Apache
-// Source      : xed-operand-width-enum.h
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
 namespace Z0
 {
     partial struct XedModels
     {
+        [SymSource(xed)]
         public enum OpVisibility : byte
         {
             [Symbol("")]
             None = 0,
 
-            [Symbol("EXPL")]
+            [Symbol("EXPL","Shows up in operand encoding")]
             Explicit,
 
-            [Symbol("IMPL")]
+            [Symbol("IMPL","Part of the opcode, but listed as an operand")]
             Implicit,
 
-            [Symbol("SUPP")]
+            [Symbol("SUPP", "Part of the opcode, but not typically listed as an operand")]
             Suppressed,
         }
 

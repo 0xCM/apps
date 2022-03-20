@@ -22,7 +22,6 @@ namespace Z0
 
         Symbols<FieldType> FieldTypes;
 
-
         bool PllExec {get;} = true;
 
         public XedRules()
@@ -46,7 +45,7 @@ namespace Z0
             {
                 var widths = LoadOperandWidths();
                 var dst = dict<string,OpWidth>();
-                var symbols = Symbols.index<OperandWidthCode>();
+                var symbols = Symbols.index<OpWidthCode>();
                 var count = widths.Length;
                 for(var i=0; i<count; i++)
                     dst[symbols[widths[i].Code].Expr.Format()] = widths[i];
@@ -54,13 +53,13 @@ namespace Z0
             }
         }
 
-        static Symbols<OperandWidthCode> OpWidthKinds;
+        static Symbols<OpWidthCode> OpWidthKinds;
 
         static Symbols<PointerWidthKind> PointerWidthKinds;
 
         static XedRules()
         {
-            OpWidthKinds = Symbols.index<OperandWidthCode>();
+            OpWidthKinds = Symbols.index<OpWidthCode>();
             PointerWidthKinds = Symbols.index<PointerWidthKind>();
        }
 

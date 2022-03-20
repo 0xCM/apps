@@ -214,7 +214,7 @@ namespace Z0
                 Traverse(def, pattern, op, op.Attribs);
             }
 
-            void Traverse(in InstDef def, in InstPatternSpec pattern, in RuleOpSpec op, OperandAction attrib)
+            void Traverse(in InstDef def, in InstPatternSpec pattern, in RuleOpSpec op, OpAction attrib)
             {
                 Traversed(def, pattern, op, attrib);
             }
@@ -239,7 +239,7 @@ namespace Z0
                 Traversed(def, pattern, op, attrib);
             }
 
-            void Traverse(in InstDef def, in InstPatternSpec pattern, in RuleOpSpec op, OperandWidthCode attrib)
+            void Traverse(in InstDef def, in InstPatternSpec pattern, in RuleOpSpec op, OpWidthCode attrib)
             {
                 Traversed(def, pattern, op, attrib);
             }
@@ -356,7 +356,7 @@ namespace Z0
 
             }
 
-            protected virtual void Traversed(in InstDef def, in InstPatternSpec pattern, in RuleOpSpec op, OperandAction attrib)
+            protected virtual void Traversed(in InstDef def, in InstPatternSpec pattern, in RuleOpSpec op, OpAction attrib)
             {
 
             }
@@ -376,7 +376,7 @@ namespace Z0
 
             }
 
-            protected virtual void Traversed(in InstDef def, in InstPatternSpec pattern, in RuleOpSpec op, OperandWidthCode attrib)
+            protected virtual void Traversed(in InstDef def, in InstPatternSpec pattern, in RuleOpSpec op, OpWidthCode attrib)
             {
 
             }

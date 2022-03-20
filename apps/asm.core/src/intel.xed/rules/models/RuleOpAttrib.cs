@@ -43,12 +43,12 @@ namespace Z0
                 => new RuleOpModifier((RuleOpModKind)Data);
 
             [MethodImpl(Inline)]
-            public OperandAction AsAction()
-                => (OperandAction)Data;
+            public OpAction AsAction()
+                => (OpAction)Data;
 
             [MethodImpl(Inline)]
-            public OperandWidthCode AsOpWidth()
-                => (OperandWidthCode)Data;
+            public OpWidthCode AsOpWidth()
+                => (OpWidthCode)Data;
 
             [MethodImpl(Inline)]
             public PointerWidthKind AsPtrWidth()
@@ -83,11 +83,11 @@ namespace Z0
                 => (AttributeKind)Data;
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(OperandAction src)
+            public static implicit operator RuleOpAttrib(OpAction src)
                 => new RuleOpAttrib(K.Action, (ushort)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(OperandWidthCode src)
+            public static implicit operator RuleOpAttrib(OpWidthCode src)
                 => new RuleOpAttrib(K.OpWidth, (ushort)src);
 
             [MethodImpl(Inline)]

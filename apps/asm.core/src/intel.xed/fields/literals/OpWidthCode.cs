@@ -8,7 +8,7 @@ namespace Z0
     partial struct XedModels
     {
         [SymSource(xed)]
-        public enum OperandWidthCode : byte
+        public enum OpWidthCode : byte
         {
             INVALID,
 

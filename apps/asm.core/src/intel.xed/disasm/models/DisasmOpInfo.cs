@@ -16,13 +16,13 @@ namespace Z0
 
             public FieldKind Kind;
 
-            public OperandAction Action;
+            public OpAction Action;
 
             public Visibility Visiblity;
 
-            public OperandWidthCode WidthCode;
+            public OpWidthCode WidthCode;
 
-            public LookupKind LookupKind;
+            public OpType OpType;
 
             public asci16 Selector;
         }

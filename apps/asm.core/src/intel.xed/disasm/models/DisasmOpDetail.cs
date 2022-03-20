@@ -37,13 +37,7 @@ namespace Z0
                 get => OpInfo.Index;
             }
 
-            public FieldKind FieldKind
-            {
-                [MethodImpl(Inline)]
-                get => OpInfo.Kind;
-            }
-
-            public OperandAction Action
+            public OpAction Action
             {
                 [MethodImpl(Inline)]
                 get => OpInfo.Action;

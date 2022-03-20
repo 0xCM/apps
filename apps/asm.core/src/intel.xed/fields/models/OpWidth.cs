@@ -14,7 +14,7 @@ namespace Z0
 
             public const byte FieldCount = 8;
 
-            public OperandWidthCode Code;
+            public OpWidthCode Code;
 
             public text15 Name;
 
@@ -29,6 +29,18 @@ namespace Z0
             public ushort Width64;
 
             public SegType Seg;
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Code == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Code != 0;
+            }
 
             public string Format()
                 => string.Format("{0}:{1}w", XedRender.format(Code), Width64);

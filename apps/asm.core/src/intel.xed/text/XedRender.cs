@@ -190,7 +190,7 @@ namespace Z0
         public static string format(XedRegId src)
             => XedRegs[src].Expr.Text;
 
-        public static string format(OperandAction src)
+        public static string format(OpAction src)
             => OpActions[src].Expr.Text;
 
         public static string format(ChipCode src)
@@ -205,7 +205,7 @@ namespace Z0
         public static string format(ConstraintKind src)
             => ConstraintKinds[src].Expr.Text;
 
-        public static string format(OperandWidthCode src)
+        public static string format(OpWidthCode src)
             => OpWidthKinds[src].Expr.Text;
 
         public static string format(PointerWidthKind src)

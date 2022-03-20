@@ -13,9 +13,9 @@ namespace Z0
     partial class XedFields
     {
         [MethodImpl(Inline)]
-        public static R.FieldValue<T> value<T>(FieldKind kind, T value)
+        public static R.FieldValue value<T>(FieldKind kind, T value)
             where T : unmanaged
-                => new R.FieldValue<T>(kind, value);
+                => new R.FieldValue(kind, core.bw64(value));
 
         [MethodImpl(Inline)]
         public static R.FieldValue value(FieldKind kind, NameResolver resolver)

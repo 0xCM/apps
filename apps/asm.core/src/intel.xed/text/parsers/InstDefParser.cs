@@ -6,7 +6,6 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
-    using static core;
 
     partial class XedParsers
     {
@@ -71,26 +70,6 @@ namespace Z0
             {
                 result = true;
                 dst = new(a);
-            }
-
-            return result;
-        }
-
-        public Outcome Parse(string src, out InstPatternBody dst)
-        {
-            var result = Outcome.Success;
-            var parts = text.trim(text.split(text.despace(src), Chars.Space));
-            var count = parts.Length;
-            dst = alloc<InstDefPart>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref var target = ref dst[i];
-                ref readonly var part = ref skip(parts,i);
-                result = parse(part, out target);
-                if(result.Fail)
-                {
-                    break;
-                }
             }
 
             return result;

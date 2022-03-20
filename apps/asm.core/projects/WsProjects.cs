@@ -52,7 +52,7 @@ namespace Z0
 
         FS.FilePath Table<T>(IProjectWs project, string scope)
             where T : struct
-                => ProjectData(project,scope) + FS.file(string.Format("{0}.{1}", project.Name, TableId.identify<T>()),FS.Csv);
+                => ProjectData(project, scope) + FS.file(string.Format("{0}.{1}", project.Name, TableId.identify<T>()),FS.Csv);
 
         FS.FilePath ScriptFlowPath(IProjectWs project, ScriptId scriptid)
             => ProjectData(project) + Tables.filename<ToolCmdFlow>(scriptid);
@@ -97,8 +97,8 @@ namespace Z0
         public FS.FolderPath XedDisasmDir(IProjectWs project)
             => ProjectData(project, "xed.disasm");
 
-        public FS.FilePath XedDisasmDetailPage(IProjectWs project, string srcid)
-            => XedDisasmDir(project) + FS.file(srcid, FileKind.XedSemanticDisasm.Ext());
+        // public FS.FilePath XedDisasmDetailPage(IProjectWs project, string srcid)
+        //     => XedDisasmDir(project) + FS.file(srcid, FileKind.XedSemanticDisasm.Ext());
 
         public FS.FilePath BuildFlowPath(IProjectWs project)
             => ProjectData(project) + FS.file(string.Format("{0}.build.flows", project.Name), FS.Csv);

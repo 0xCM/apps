@@ -105,7 +105,7 @@ namespace Z0
                 get => ElementType.IsNonEmpty;
             }
 
-            public OperandWidthCode OpWidthKind
+            public OpWidthCode OpWidthKind
             {
                 [MethodImpl(Inline)]
                 get => opwidth(this);
@@ -151,9 +151,9 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            static OperandWidthCode opwidth(in RuleOpSpec op)
+            static OpWidthCode opwidth(in RuleOpSpec op)
             {
-                var dst = OperandWidthCode.INVALID;
+                var dst = OpWidthCode.INVALID;
                 if(op.Attribs.Search(RuleOpClass.OpWidth, out var attrib))
                     dst = attrib.AsOpWidth();
                 return dst;

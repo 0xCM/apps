@@ -8,6 +8,7 @@ namespace Z0
     using static XedRules;
     using static XedRules.SyntaxLiterals;
     using static core;
+
     using R = XedRules;
 
     public partial class XedParsers
@@ -36,29 +37,23 @@ namespace Z0
         public static bool IsNonterminal(string src)
             => text.trim(text.remove(src,"::")).EndsWith("()");
 
+        [MethodImpl(Inline)]
+        public static bool IsHexLiteral(string src)
+            => text.begins(src, HexFormatSpecs.PreSpec);
+
+        [MethodImpl(Inline)]
+        public static bool IsBinaryLiteral(string src)
+            => text.begins(src, "0b");
+
+        [MethodImpl(Inline)]
+        public static bool IsIntLiteral(string src)
+            => SQ.digits(base10,src) != 0;
+
         public static bool IsBfSeg(string src)
         {
             var i = text.index(src, Chars.LBracket);
             var j = text.index(src, Chars.RBracket);
             return i > 0 && j > i;
-        }
-
-        public static bool BfSeg(string src, out string name, out string content)
-        {
-            var i = text.index(src, Chars.LBracket);
-            var j = text.index(src, Chars.RBracket);
-            var result = i > 0 && j > i;
-            if(result)
-            {
-                name = text.left(src,i);
-                content = text.inside(src,i,j);
-            }
-            else
-            {
-                name = EmptyString;
-                content = EmptyString;
-            }
-            return result;
         }
 
         public static bool IsBfSpec(string src)
@@ -76,10 +71,20 @@ namespace Z0
         public static bool IsSeqDecl(string src)
             => src.StartsWith(SeqDeclSyntax);
 
-        public static bool parse(string src, out bit dst)
-            => Instance.Parse(src, out dst);
+        public static bool num8(string src, out byte dst)
+        {
+            var result = false;
+            dst = 0;
+            if(IsHexLiteral(src))
+                result = NumericParser.num8<Hex8>(src, out var value);
+            else if(IsBinaryLiteral(src))
+                result = NumericParser.num8<uint8b>(src, out var value);
+            else
+                result = NumericParser.num8(src, out var value);
+            return result;
+        }
 
-        public static bool parse(string src, out Hex3 dst)
+        public static bool parse(string src, out bit dst)
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out Nonterminal dst)
@@ -95,7 +100,7 @@ namespace Z0
             => Instance.Parse(src,out dst);
 
         public static bool parse(string src, out VexKind dst)
-            => Instance.Parse(src,out dst);
+            => VexKinds.Parse(src, out dst);
 
         public static bool parse(string src, out EASZ dst)
             => Instance.Parse(src,out dst);
@@ -104,33 +109,38 @@ namespace Z0
             => Instance.Parse(src,out dst);
 
         public static bool parse(string src, out uint5 dst)
-            => Instance.Parse(src, out dst);
+        {
+            if(IsBinaryLiteral(src))
+                return DataParser.parse(src, out dst);
+            else
+            {
+                dst = default;
+                return false;
+            }
+        }
 
         public static Outcome parse(string src, out InstPatternBody dst)
-            => Instance.Parse(src, out dst);
+        {
+            var result = Outcome.Success;
+            var parts = text.trim(text.split(text.despace(src), Chars.Space));
+            var count = parts.Length;
+            dst = alloc<InstDefPart>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref var target = ref dst[i];
+                ref readonly var part = ref skip(parts,i);
+                result = parse(part, out target);
+                if(result.Fail)
+                {
+                    break;
+                }
+            }
+
+            return result;
+        }
 
         public static bool parse(string src, out RuleMacroKind dst)
             => Instance.Parse(src, out dst);
-
-        public static bool parse(string src, out FieldAssign dst)
-        {
-            var input = text.trim(src);
-            var i = text.index(input, Chars.Eq);
-            dst = FieldAssign.Empty;
-            Outcome result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
-            if(i > 0)
-            {
-                if(parse(text.left(input,i), out FieldKind kind))
-                    if(XedFields.parse(kind, text.right(input,i), out var fv))
-                    {
-                        dst = new(fv);
-                        result = true;
-                    }
-                else
-                    result = (false, AppMsg.ParseFailure.Format(nameof(FieldKind), src));
-            }
-            return result;
-        }
 
         public static bool parse(string src, out uint8b dst)
         {
@@ -144,7 +154,38 @@ namespace Z0
         }
 
         public static bool parse(string src, out FieldConstraint dst)
-            => Instance.Parse(src, out dst);
+        {
+            dst = FieldConstraint.Empty;
+            var result = false;
+            if(parse(src, out ConstraintKind ck))
+            {
+                var expr = XedRender.format(ck);
+                var i = text.index(src,expr);
+                if(i > 0)
+                {
+                    var a = text.left(src,i);
+                    var b = text.right(src,i + expr.Length - 1);
+                    result = parse(a, out FieldKind fk);
+                    Require.invariant(result);
+                    if(IsHexLiteral(a))
+                    {
+                        result = NumericParser.num8<Hex8>(b, out var value);
+                        dst = new FieldConstraint(fk, ck, value, FieldLiteralKind.HexLiteral);
+                    }
+                    else if(IsBinaryLiteral(a))
+                    {
+                        result = NumericParser.num8<uint8b>(b, out var value);
+                        dst = new FieldConstraint(fk, ck, value, FieldLiteralKind.BinaryLiteral);
+                    }
+                    else
+                    {
+                        result = NumericParser.num8(b, out var value);
+                        dst = new FieldConstraint(fk, ck, value, FieldLiteralKind.DecimalLiteral);
+                    }
+                }
+            }
+            return result;
+        }
 
         public static bool parse(string src, out ConstraintKind dst)
             => Instance.Parse(src, out dst);
@@ -343,13 +384,28 @@ namespace Z0
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out Category dst)
-            => Instance.Parse(src, out dst);
+        {
+            if(parse(src, out CategoryKind kind))
+            {
+                dst = kind;
+                return true;
+            }
+            else
+            {
+                dst = default;
+                return false;
+            }
+        }
 
         public static bool parse(string src, out IClass dst)
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out IForm dst)
-            => Instance.Parse(src, out dst);
+        {
+            var result = Forms.Parse(src, out IFormType type);
+            dst = type;
+            return result;
+        }
 
         public static bool parse(string src, out IsaKind dst)
             => Instance.Parse(src, out dst);
@@ -372,10 +428,10 @@ namespace Z0
         public static bool parse(string src, out FieldKind dst)
             => Instance.Parse(src, out dst);
 
-        public static bool parse(string src, out OperandWidthCode dst)
+        public static bool parse(string src, out OpWidthCode dst)
             => Instance.Parse(src, out dst);
 
-        public static bool parse(string src, out OperandAction dst)
+        public static bool parse(string src, out OpAction dst)
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out PointerWidthKind dst)
@@ -459,7 +515,7 @@ namespace Z0
         }
 
         public static bool parse(string src, out ElementKind dst)
-            => Instance.Parse(src, out dst);
+            => ElementKinds.Parse(src, out dst);
 
         public static bool parse(string src, out OpVisibility dst)
             => Instance.Parse(src, out dst);
@@ -491,13 +547,10 @@ namespace Z0
         public bool Parse(string src, out VexClass dst)
             => VexClasses.Parse(src, out dst);
 
-        public bool Parse(string src, out VexKind dst)
-            => VexKinds.Parse(src, out dst);
-
-        public bool Parse(string src, out OperandWidthCode dst)
+        public bool Parse(string src, out OpWidthCode dst)
             => OpWidthParser.Parse(src, out dst);
 
-        public bool Parse(string src, out OperandAction dst)
+        public bool Parse(string src, out OpAction dst)
             => OpActions.Parse(src, out dst);
 
         public bool Parse(string src, out PointerWidthKind dst)
@@ -505,9 +558,6 @@ namespace Z0
 
         public bool Parse(string src, out IsaKind dst)
             => IsaKinds.Parse(src, out dst);
-
-        public bool Parse(string src, out ElementKind dst)
-            => ElementKinds.Parse(src, out dst);
 
         public bool Parse(string src, out ErrorKind dst)
             => ErrorKinds.Parse(text.remove(text.trim(src), "XED_ERROR_"), out dst);
@@ -564,20 +614,6 @@ namespace Z0
         public bool Parse(string src, out ModeKind dst)
             => ModeKinds.Parse(src, out dst);
 
-        public bool Parse(string src, out Category dst)
-        {
-            if(parse(src, out CategoryKind kind))
-            {
-                dst = kind;
-                return true;
-            }
-            else
-            {
-                dst = default;
-                return false;
-            }
-        }
-
         public bool Parse(string src, out ConstraintKind kind)
         {
             kind = 0;
@@ -592,94 +628,63 @@ namespace Z0
             return kind != 0;
         }
 
-        public bool Parse(string src, out IForm dst)
-        {
-            var result = Forms.Parse(src, out IFormType type);
-            dst = type;
-            return result;
-        }
-
         [MethodImpl(Inline)]
         public bool Parse(string src, out Hex8 dst)
         {
             if(IsHexLiteral(src))
                 return DataParser.parse(src, out dst);
-
             dst = default;
             return false;
         }
 
-        public bool Parse(string src, out Hex3 dst)
-            => DataParser.parse(src, out dst);
-
-        public static bool num8(string src, out byte dst)
+        public static bool parse(string src, out FieldAssign dst)
         {
-            var result = false;
-            dst = 0;
-            if(IsHexLiteral(src))
-                result = NumericParser.num8<Hex8>(src, out var value);
-            else if(IsBinaryLiteral(src))
-                result = NumericParser.num8<uint8b>(src, out var value);
-            else
-                result = NumericParser.num8(src, out var value);
-            return result;
-        }
-
-        public bool Parse(string src, out FieldConstraint dst)
-        {
-            dst = FieldConstraint.Empty;
-            var result = false;
-            if(parse(src, out ConstraintKind ck))
+            var input = text.trim(src);
+            var i = text.index(input, Chars.Eq);
+            dst = FieldAssign.Empty;
+            Outcome result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
+            if(i > 0)
             {
-                var expr = XedRender.format(ck);
-                var i = text.index(src,expr);
-                if(i > 0)
-                {
-                    var a = text.left(src,i);
-                    var b = text.right(src,i + expr.Length - 1);
-                    result = Parse(a, out FieldKind fk);
-                    Require.invariant(result);
-                    if(IsHexLiteral(a))
+                if(parse(text.left(input,i), out FieldKind kind))
+                    if(parse(kind, text.right(input,i), out var fv))
                     {
-                        result = NumericParser.num8<Hex8>(b, out var value);
-                        dst = new FieldConstraint(fk, ck, value, FieldLiteralKind.HexLiteral);
+                        dst = new(fv);
+                        result = true;
                     }
-                    else if(IsBinaryLiteral(a))
-                    {
-                        result = NumericParser.num8<uint8b>(b, out var value);
-                        dst = new FieldConstraint(fk, ck, value, FieldLiteralKind.BinaryLiteral);
-                    }
-                    else
-                    {
-                        result = NumericParser.num8(b, out var value);
-                        dst = new FieldConstraint(fk, ck, value, FieldLiteralKind.DecimalLiteral);
-                    }
-                }
+                else
+                    result = (false, AppMsg.ParseFailure.Format(nameof(FieldKind), src));
             }
             return result;
         }
 
-        public bool Parse(string src, out uint5 dst)
+        public static Outcome parse(FieldKind kind, string src, out R.FieldValue dst)
         {
-            if(IsBinaryLiteral(src))
-                return DataParser.parse(src, out dst);
-            else
+            Outcome result = (false,AppMsg.ParseFailure.Format(kind.ToString(), src));
+            dst = R.FieldValue.Empty;
+            if(XedParsers.parse(src, out uint8b a))
             {
-                dst = default;
-                return false;
+                dst = XedFields.value(kind, a);
+                result = true;
             }
+            else if(XedParsers.parse(src, out Hex8 b))
+            {
+                dst = XedFields.value(kind, b);
+                result = true;
+            }
+            else if(XedParsers.parse(src, out byte c))
+            {
+                dst = XedFields.value(kind, c);
+                result = true;
+            }
+            else if(ushort.TryParse(src, out var d))
+            {
+                dst = XedFields.value(kind, d);
+                result = true;
+            }
+
+            return result;
         }
 
-        [MethodImpl(Inline)]
-        internal static bool IsHexLiteral(string src)
-            => text.begins(src, HexFormatSpecs.PreSpec);
 
-        [MethodImpl(Inline)]
-        internal static bool IsBinaryLiteral(string src)
-            => text.begins(src, "0b");
-
-        [MethodImpl(Inline)]
-        internal static bool IsIntLiteral(string src)
-            => SQ.digits(base10,src) != 0;
     }
 }

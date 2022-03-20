@@ -11,6 +11,7 @@ namespace Z0
         {
             EmitDisasmSummary(CollectDisasmSummaries(context), Projects.XedDisasmSummary(context.Project));
             CollectDisasmDetails(context);
+            EmitDisasmDetail(context);
         }
     }
 }

@@ -73,9 +73,9 @@ namespace Z0
 
         static Symbols<ConstraintKind> ConstraintKinds;
 
-        static Symbols<OperandAction> OpActions;
+        static Symbols<OpAction> OpActions;
 
-        static Symbols<OperandWidthCode> OpWidthKinds;
+        static Symbols<OpWidthCode> OpWidthKinds;
 
         static EnumRender<ElementKind> ElementTypes = new();
 
@@ -88,9 +88,9 @@ namespace Z0
         static XedRender()
         {
             XedRegs = Symbols.index<XedRegId>();
-            OpWidthKinds = Symbols.index<OperandWidthCode>();
+            OpWidthKinds = Symbols.index<OpWidthCode>();
             ConstraintKinds = Symbols.index<ConstraintKind>();
-            OpActions = Symbols.index<OperandAction>();
+            OpActions = Symbols.index<OpAction>();
             OpNames = Symbols.index<RuleOpName>();
             OpVis = Symbols.index<OpVisibility>();
         }

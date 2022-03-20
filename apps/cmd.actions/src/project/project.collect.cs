@@ -155,13 +155,5 @@ namespace Z0
             FileEmit(buffer.Emit(), count, ProjectDb.Logs() + FS.file(project.Name.Format(), FS.Cs));
             return true;
         }
-
-        [CmdOp("xed/collect")]
-        Outcome XedCollect(CmdArgs args)
-        {
-            var context = Projects.Context(Project());
-            XedDisasm.CollectDisasm(context);
-            return true;
-        }
    }
 }

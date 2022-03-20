@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
 namespace Z0
 {
@@ -80,6 +81,14 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator Visibility(VisibilityKind src)
                 => new Visibility(src);
+
+            [MethodImpl(Inline)]
+            public static explicit operator ushort(Visibility src)
+                => src.V0 !=0 ? (ushort)src.V0 : (ushort)src.V1;
+
+            [MethodImpl(Inline)]
+            public static explicit operator byte(Visibility src)
+                => src.V0 !=0 ? (byte)src.V0 : (byte)src.V1;
         }
     }
 }

@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-
     partial class XedCmdProvider
     {
-        [CmdOp("xed/query/opkinds")]
-        Outcome QueryOpKinds(CmdArgs args)
+        XedDisasmSvc XedDisasmSvc => Service(Wf.XedDisasm);
+
+        [CmdOp("xed/disasm/emit")]
+        Outcome CheckDisasm(CmdArgs args)
         {
-            TableEmit(Symbols.syminfo<FieldKind>().View, SymInfo.RenderWidths, XedQueryOut("xed/query/opkinds"));
+            XedDisasmSvc.EmitDisasmDetail(Projects.Context(Project()));
             return true;
         }
     }

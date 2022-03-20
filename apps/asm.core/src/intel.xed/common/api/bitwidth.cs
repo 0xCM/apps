@@ -10,7 +10,7 @@ namespace Z0
     using static XedModels.ModeKind;
 
     using EK = XedModels.ElementKind;
-    using OK = XedModels.OperandWidthCode;
+    using OK = XedModels.OpWidthCode;
 
     partial struct XedModels
     {
@@ -43,7 +43,7 @@ namespace Z0
             };
 
         [Op]
-        public static ushort bitwidth(OperandWidthCode src)
+        public static ushort bitwidth(OpWidthCode src)
         {
             var dst = z16;
             switch(src)
@@ -141,7 +141,7 @@ namespace Z0
         }
 
         [Op]
-        public static ushort bitwidth(OperandWidthCode okind, ElementKind ekind)
+        public static ushort bitwidth(OpWidthCode okind, ElementKind ekind)
         {
             var result = z16;
             switch(okind)

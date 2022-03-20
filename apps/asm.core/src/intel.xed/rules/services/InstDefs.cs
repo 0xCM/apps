@@ -132,7 +132,7 @@ namespace Z0
                 detail.Kind = spec.Kind;
                 detail.Expression = op.Expression;
                 detail.Mnemonic = src.Class;
-                var opwidth = OperandWidthCode.INVALID;
+                var opwidth = OpWidthCode.INVALID;
                 if(attribs.Search(RuleOpClass.Action, out var action))
                     detail.Action = action;
                 if(attribs.Search(RuleOpClass.OpWidth, out var w))
@@ -196,19 +196,6 @@ namespace Z0
                         break;
                     }
                 }
-                // for(var i=0; i<src.PartCount; i++)
-                // {
-                //     ref readonly var part = ref src[i];
-                //     if(part.PartKind == DefSegKind.FieldAssign)
-                //     {
-                //         ref readonly var assign = ref part.AsAssign();
-                //         if(assign.Field == FieldKind.VEXVALID)
-                //         {
-                //             result = (VexClass)assign.Value.Data;
-                //             break;
-                //         }
-                //     }
-                // }
                 return result;
             }
 
