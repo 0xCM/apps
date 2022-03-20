@@ -33,27 +33,7 @@ namespace Z0
             }
 
             public string Format()
-            {
-                var dst = text.buffer();
-                for(var i=0; i<Premise.Count;  i++)
-                {
-                    if(i!=0)
-                        dst.Append(Chars.Space);
-
-                    dst.Append(Premise[i].Format());
-                }
-
-                dst.Append(" => ");
-
-                for(var i=0; i<Consequent.Count;  i++)
-                {
-                    if(i!=0)
-                        dst.Append(Chars.Space);
-
-                    dst.Append(Consequent[i].Format());
-                }
-                return dst.Emit();
-            }
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

@@ -33,6 +33,15 @@ namespace Z0
     using static core;
     public static partial class XTend
     {
+        [MethodImpl(Inline)]
+        public static bool Test<E>(this E src, E flag)
+            where E : unmanaged, Enum
+        {
+            var x = core.bw64(src);
+            var y = core.bw64(flag);
+            return (x & y) != 0;
+        }
+
         public static uint AddRange<T>(this HashSet<T> dst, ReadOnlySpan<T> src)
         {
             var counter = 0u;

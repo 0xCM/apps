@@ -23,9 +23,6 @@ namespace Z0
 
             [Symbol("!=")]
             CmpNeq,
-
-            [Symbol("[{0}]")]
-            FieldSeg,
         }
     }
 }

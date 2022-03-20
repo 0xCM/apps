@@ -27,81 +27,75 @@ namespace Z0
             var data = src.Data;
             value = data;
             kind = RuleCellKind.None;
-            if(XedParsers.IsAssignment(data))
-                kind = RuleCellKind.Assignment;
-            else if(XedParsers.IsCmpNeq(data))
-                kind = RuleCellKind.Constraint;
-            else
-                kind = RuleCellKind.Literal;
-
-            if(kind != RuleCellKind.Literal)
+            var left = EmptyString;
+            if(src.Premise)
             {
-                var left = EmptyString;
-                var field = FieldKind.INVALID;
-                var op = RuleOperator.None;
-                if(XedParsers.Assignment(data, out left, out value))
+                if(XedParsers.IsCmpNeq(data))
                 {
-                    op = RuleOperator.Assign;
-                    if(kind != RuleCellKind.Assignment)
-                        result = (false, string.Format("Cell assignment mismatch:'{0}' ", data));
+                    kind = RuleCellKind.CmpNeq;
+                    XedParsers.CmpNeq(data, out left, out value);
                 }
-                else if(XedParsers.CmpNeq(data, out left, out value))
+                else if (text.contains(data, Chars.Eq))
                 {
-                    op = RuleOperator.CmpNeq;
-                    if(kind != RuleCellKind.Constraint)
-                        result = (false, string.Format("Cell constraint mismatch:'{0}' ", data));
+                    kind = RuleCellKind.CmpEq;
+                    XedParsers.Assignment(data, out left, out value);
                 }
-
-                if(text.empty(left) || text.empty(value))
-                    result = (false, string.Format("Cell classification failed:'{0}' ", data));
-
-                var j = text.index(left,Chars.LBracket);
-
-                XedParsers.parse(j>0 ? text.left(left,j) : left, out field);
-                if(field != src.Field)
-                    result = (false, string.Format("Cell kind mismatch:{0}!={1}", field, src.Field, data));
-
-                if(XedParsers.IsNonterminal(value))
-                    kind |= RuleCellKind.Nonterminal;
                 else
-                {
-                    if(XedParsers.IsBinaryLiteral(value))
-                        kind |= RuleCellKind.Bits;
-                    else if(XedParsers.IsHexLiteral(value))
-                        kind |= RuleCellKind.Hex;
-                    else if(XedParsers.IsIntLiteral(value))
-                        kind |= RuleCellKind.Int;
-                    else
-                        kind |= RuleCellKind.Name;
-                }
+                    kind = RuleCellKind.Literal;
             }
             else
             {
-                if(XedParsers.IsBfSeg(data))
-                    kind = RuleCellKind.BfSeg;
+                if(XedParsers.IsAssignment(data))
+                {
+                    kind = RuleCellKind.Assignment;
+                    XedParsers.Assignment(data, out left, out value);
+                }
+                else if(XedParsers.IsCmpNeq(data))
+                {
+                    kind = RuleCellKind.CmpNeq;
+                    XedParsers.CmpNeq(data, out left, out value);
+                }
+                else
+                    kind = RuleCellKind.Literal;
             }
+
+            if(XedParsers.IsBfSeg(data))
+                kind |= RuleCellKind.BfSeg;
+            if(XedParsers.IsNonterminal(value))
+                kind |= RuleCellKind.Nonterminal;
+
+            if(XedParsers.IsBinaryLiteral(value))
+                kind |= RuleCellKind.Bits;
+            else if(XedParsers.IsHexLiteral(value))
+                kind |= RuleCellKind.Hex;
+            else if(XedParsers.IsIntLiteral(value))
+                kind |= RuleCellKind.Int;
+
+            if(src.Field != 0)
+                kind |= RuleCellKind.FieldValue;
 
             return result;
         }
 
         void EmitRuleSpecs(RuleTableKind kind,Index<RuleTableSpec> specs)
         {
-            const string RenderPattern = "{0,-32} | {1,-22} | {2,-16} | {3,-36} | {4}";
+            const string RenderPattern = "{0,-32} | {1,-22} | {2,-32} | {3,-36} | {4}";
 
             static string describe(RuleSig table, RuleCell cell)
             {
                 var result = XedRules.split(cell, out var kind, out var value);
+                var op = ruleop(kind);
 
                 return string.Format(RenderPattern,
                     table,
                     XedRender.format(kind),
                     cell.Field == 0 ? EmptyString : XedRender.format(cell.Field),
                     value,
-                    result.Fail ?  $"Error: {result.Message}" : EmptyString
+                    op == 0 ? value : string.Format("{0}{1}{2}", XedRender.format(cell.Field), XedRender.format(op), value)
                     );
             }
 
-            var header = string.Format(RenderPattern,"Table", "Kind", "Field", "Value", "Errors");
+            var header = string.Format(RenderPattern,"Table", "Kind", "Field", "Value", "Expression");
             var path = XedPaths.RuleSpecs(kind);
             using var writer = path.Writer();
             writer.WriteLine(header);

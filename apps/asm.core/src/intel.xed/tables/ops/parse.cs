@@ -24,8 +24,8 @@ namespace Z0
             dst = StatementSpec.Empty;
             if(i > 0)
             {
-                var pcells = cells(text.trim(text.left(input, i)));
-                var ccells = cells(text.trim(text.right(input, i+1)));
+                var pcells = cells(true, text.trim(text.left(input, i)));
+                var ccells = cells(false, text.trim(text.right(input, i+1)));
                 if(ccells.Count !=0 && pcells.Count != 0)
                     dst = new StatementSpec(pcells, ccells);
             }
@@ -35,7 +35,7 @@ namespace Z0
             return dst.IsNonEmpty;
         }
 
-        static Index<RuleCell> cells(string src)
+        static Index<RuleCell> cells(bool premise, string src)
         {
             var dst = list<RuleCell>();
             if(text.contains(src, Chars.Space))
@@ -48,31 +48,28 @@ namespace Z0
                     if(RuleMacros.match(part, out var match))
                     {
                         var expanded = match.Expansion;
-                        if(text.contains(expanded,Chars.Space))
+                        if(text.contains(expanded, Chars.Space))
                         {
-                            var expansions = text.split(expanded,Chars.Space);
+                            var expansions = text.split(expanded, Chars.Space);
                             for(var k=0; k<expansions.Length; k++)
                             {
                                 ref readonly var x = ref skip(expansions,k);
-                                dst.Add(new (XedFields.kind(x), x));
+                                dst.Add(new (premise, x));
                             }
                         }
                         else
-                            dst.Add(new (XedFields.kind(expanded), expanded));
+                            dst.Add(new (premise, expanded));
                     }
                     else
-                        dst.Add(new (XedFields.kind(part),part));
+                        dst.Add(new (premise, part));
                 }
             }
             else
             {
-                var kind = XedFields.kind(src);
                 if(RuleMacros.match(src, out var match))
-                {
-                    dst.Add(new (kind, match.Expansion));
-                }
+                    dst.Add(new (premise, match.Expansion));
                 else
-                    dst.Add(new (kind, src));
+                    dst.Add(new (premise, src));
             }
             return dst.ToArray();
         }

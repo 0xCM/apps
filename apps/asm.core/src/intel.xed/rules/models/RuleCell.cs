@@ -7,9 +7,10 @@ namespace Z0
 {
     partial class XedRules
     {
-
         public readonly struct RuleCell
         {
+            public readonly bool Premise;
+
             public readonly FieldKind Field;
 
             public readonly string Data;
@@ -17,11 +18,12 @@ namespace Z0
             public readonly bool IsLiteral;
 
             [MethodImpl(Inline)]
-            public RuleCell(FieldKind field, string data)
+            public RuleCell(bool premise, string data)
             {
-                Field = field;
+                Premise = premise;
+                Field = XedFields.kind(data);
                 Data = text.ifempty(data,EmptyString);
-                IsLiteral = field == 0;
+                IsLiteral = Field == 0;
             }
 
             public bool IsEmpty
@@ -43,7 +45,7 @@ namespace Z0
             }
 
             public string Format()
-                => text.ifempty(Data,EmptyString);
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

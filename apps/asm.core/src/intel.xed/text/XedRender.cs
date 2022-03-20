@@ -16,14 +16,6 @@ namespace Z0
 
     partial class XTend
     {
-        [MethodImpl(Inline)]
-        public static bool Test<E>(this E src, E flag)
-            where E : unmanaged, Enum
-        {
-            var x = core.bw64(src);
-            var y = core.bw64(flag);
-            return (x & y) != 0;
-        }
     }
 
     public partial class XedRender
@@ -287,8 +279,10 @@ namespace Z0
 
             if(src.Test(RuleCellKind.Assignment))
                 dst = "assign";
-            else if(src.Test(RuleCellKind.Constraint))
-                dst = "neq";
+            else if(src.Test(RuleCellKind.CmpNeq))
+                dst = "cmpneq";
+            else if(src.Test(RuleCellKind.CmpEq))
+                dst = "cmpeq";
 
             if(src.Test(RuleCellKind.Nonterminal))
             {
@@ -312,7 +306,6 @@ namespace Z0
                     dst = "bfseg";
                 else
                     dst += "/bfseg";
-
             }
 
             if(src.Test(RuleCellKind.Bits))
@@ -321,7 +314,6 @@ namespace Z0
                     dst = "bits";
                 else
                     dst += "/bits";
-
             }
 
             if(src.Test(RuleCellKind.Hex))
@@ -330,7 +322,6 @@ namespace Z0
                     dst = "hex";
                 else
                     dst += "/hex";
-
             }
 
             if(src.Test(RuleCellKind.Int))
@@ -341,14 +332,13 @@ namespace Z0
                     dst += "/int";
             }
 
-            if(src.Test(RuleCellKind.Name))
+            if(src.Test(RuleCellKind.FieldValue))
             {
                 if(text.empty(dst))
-                    dst = "name";
+                    dst = "field";
                 else
-                    dst += "/name";
+                    dst += "/field";
             }
-
 
             if(text.empty(dst))
                 dst = RP.Error;
@@ -385,6 +375,41 @@ namespace Z0
                     dst.Append(Chars.Space);
 
                 dst.Append(x.Format());
+            }
+            return dst.Emit();
+        }
+
+        public static string format(in RuleCell src)
+        {
+            var input = src.Data;
+            var result = input;
+            if(src.Premise)
+            {
+                if(XedParsers.Assignment(input, out var left, out var right))
+                    result = string.Format("{0}{1}{2}",left,"==",right);
+            }
+            return input;
+        }
+
+        public static string format(in StatementSpec src)
+        {
+            var dst = text.buffer();
+            for(var i=0; i<src.Premise.Count;  i++)
+            {
+                if(i!=0)
+                    dst.Append(Chars.Space);
+
+                dst.Append(src.Premise[i].Format());
+            }
+
+            dst.Append(" => ");
+
+            for(var i=0; i<src.Consequent.Count;  i++)
+            {
+                if(i!=0)
+                    dst.Append(Chars.Space);
+
+                dst.Append(src.Consequent[i].Format());
             }
             return dst.Emit();
         }

@@ -47,17 +47,12 @@ namespace Z0
 
             static ConstLookup<string,MacroMatch> Matches;
 
-            static EnumParser<RuleMacroKind> MacroKinds = new();
-
-            static HashSet<string> Names;
-
             static RuleMacros()
             {
                 KindSymbols = Symbols.index<RuleMacroKind>();
                 Specs = _specs();
                 Matches = matches(Specs);
                 Lookup = Specs.Storage.Map(x => (x.Name, x)).ToDictionary();
-                Names = map(KindSymbols.View.Where(x => x.Kind != 0),x => x.Expr.Text).ToHashSet();
             }
 
             static Index<MacroSpec> _specs()
@@ -74,12 +69,23 @@ namespace Z0
             static MacroMatch match(RuleMacroKind macro, FieldKind field, MacroMatchKind match, string value, string expansion)
                 => new MacroMatch(0, macro, field, match, value, expansion);
 
+            static string expand(in MacroSpec spec)
+            {
+                var buffer = text.buffer();
+                for(var i=0; i<spec.Expansions.Count; i++)
+                {
+                    if(i != 0)
+                        buffer.Append(Chars.Space);
+                    buffer.Append(spec.Expansions[i].Format());
+                }
+                return Require.nonempty(buffer.Emit());
+            }
+
+
             static void matches(MacroSpec spec, Dictionary<string,MacroMatch> dst)
             {
-                ref readonly var name = ref spec.Name;
-                var expansion = expand(spec);
-                var value = XedRender.format(name);
-                dst[value] = match(name, spec.Field, MacroMatchKind.Literal, value, expansion);
+                var value = XedRender.format(spec.Name);
+                dst[value] = match(spec.Name, spec.Field, MacroMatchKind.Literal, value, expand(spec));
             }
 
             static ConstLookup<string,MacroMatch> matches(Index<MacroSpec> src)
@@ -87,7 +93,7 @@ namespace Z0
                 var dst = dict<string,MacroMatch>();
                 var values = list<string>();
                 for(var i=0; i<src.Count; i++)
-                    matches(src[i],dst);
+                    matches(src[i], dst);
                 return dst;
             }
 
@@ -127,18 +133,6 @@ namespace Z0
                 return Require.nonempty(buffer.Emit());
             }
 
-            static string expand(in MacroSpec spec)
-            {
-                var buffer = text.buffer();
-                for(var i=0; i<spec.Expansions.Count; i++)
-                {
-                    if(i != 0)
-                        buffer.Append(Chars.Space);
-                    buffer.Append(spec.Expansions[i].Format());
-                }
-                return Require.nonempty(buffer.Emit());
-            }
-
             public static bool spec(string name, out MacroSpec dst)
             {
                 if(KindSymbols.Lookup(name, out var sym))
@@ -146,10 +140,6 @@ namespace Z0
                 dst = MacroSpec.Empty;
                 return false;
             }
-
-            [MethodImpl(Inline), Op]
-            public static HashSet<string> names()
-                => Names;
 
             [MethodImpl(Inline), Op]
             static MacroSpec not64()
