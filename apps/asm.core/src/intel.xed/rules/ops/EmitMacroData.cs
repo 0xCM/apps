@@ -9,18 +9,11 @@ namespace Z0
 
     partial class XedRules
     {
-        public void EmitCatalog()
+        void EmitMacroData()
         {
-            var defs = CalcInstDefs();
-            var patterns = CalcInstPatterns(defs);
-            exec(PllExec,
-                () => EmitPatternData(patterns),
-                EmitRuleTables,
-                EmitRefData,
-                EmitMacroData,
-                EmitFields,
-                EmitRuleSpecs
-                );
+            var matches = mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i));
+            TableEmit(@readonly(matches), MacroMatch.RenderWidths, XedPaths.RuleTable<MacroMatch>());
+            TableEmit(CalcMacroDefs().View, MacroDef.RenderWidths, XedPaths.RuleTable<MacroDef>());
         }
     }
 }

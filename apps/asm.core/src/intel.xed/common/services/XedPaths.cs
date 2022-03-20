@@ -36,6 +36,14 @@ namespace Z0
             where T : struct
                 => Targets() + Tables.filename<T>();
 
+        public FS.FilePath Table<T>(string scope)
+            where T : struct
+                =>  Targets(scope) + Tables.filename<T>();
+
+        public FS.FilePath RuleTable<T>()
+            where T : struct
+                => RuleTargets() + Tables.filename<T>();
+
         public FS.FilePath IsaFormsPath(ChipCode chip)
             => Targets("isaforms") + FS.file(string.Format("xed.isa.{0}", chip), FS.Csv);
 

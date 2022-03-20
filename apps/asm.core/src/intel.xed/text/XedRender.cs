@@ -378,15 +378,13 @@ namespace Z0
         public static string format(in MacroSpec src)
         {
             var dst = text.buffer();
-            var expansions = src.Expansions;
-            var count = expansions.Count;
-            for(var i=0; i<count; i++)
+            for(var i=0; i<src.Expansions.Count; i++)
             {
-                ref readonly var a = ref expansions[i];
+                ref readonly var x = ref src.Expansions[i];
                 if(i!=0)
                     dst.Append(Chars.Space);
 
-                dst.Append(a.Format());
+                dst.Append(x.Format());
             }
             return dst.Emit();
         }

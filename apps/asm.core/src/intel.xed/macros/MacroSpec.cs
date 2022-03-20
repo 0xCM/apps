@@ -12,12 +12,15 @@ namespace Z0
         {
             public readonly RuleMacroKind Name;
 
+            public readonly FieldKind Field;
+
             public Index<MacroExpansion> Expansions;
 
             [MethodImpl(Inline)]
-            public MacroSpec(RuleMacroKind name, params MacroExpansion[] expansions)
+            public MacroSpec(RuleMacroKind name, FieldKind field, params MacroExpansion[] expansions)
             {
                 Name = name;
+                Field = field;
                 Expansions = expansions;
             }
 
@@ -43,7 +46,7 @@ namespace Z0
             public int CompareTo(MacroSpec src)
                 => ((uint)Name).CompareTo((uint)src.Name);
 
-            public static MacroSpec Empty => new MacroSpec(RuleMacroKind.nothing, sys.empty<MacroExpansion>());
+            public static MacroSpec Empty => new MacroSpec(RuleMacroKind.nothing, 0,sys.empty<MacroExpansion>());
         }
     }
 }

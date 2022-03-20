@@ -44,13 +44,35 @@ namespace Z0
                 var count = parts.Length;
                 for(var j=0; j<count; j++)
                 {
-                    var expanded = RuleMacros.expand(skip(parts,j));
-                    dst.Add(new (XedFields.kind(expanded), expanded));
+                    ref readonly var part = ref skip(parts,j);
+                    if(RuleMacros.match(part, out var match))
+                    {
+                        var expanded = match.Expansion;
+                        if(text.contains(expanded,Chars.Space))
+                        {
+                            var expansions = text.split(expanded,Chars.Space);
+                            for(var k=0; k<expansions.Length; k++)
+                            {
+                                ref readonly var x = ref skip(expansions,k);
+                                dst.Add(new (XedFields.kind(x), x));
+                            }
+                        }
+                        else
+                            dst.Add(new (XedFields.kind(expanded), expanded));
+                    }
+                    else
+                        dst.Add(new (XedFields.kind(part),part));
                 }
             }
             else
             {
-                dst.Add(new (XedFields.kind(src),src));
+                var kind = XedFields.kind(src);
+                if(RuleMacros.match(src, out var match))
+                {
+                    dst.Add(new (kind, match.Expansion));
+                }
+                else
+                    dst.Add(new (kind, src));
             }
             return dst.ToArray();
         }

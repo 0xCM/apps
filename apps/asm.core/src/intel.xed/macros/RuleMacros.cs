@@ -31,11 +31,21 @@ namespace Z0
         [ApiHost("xed.rules.macros")]
         public class RuleMacros
         {
+            [MethodImpl(Inline), Op]
+            public static ConstLookup<string,MacroMatch> matches()
+                => Matches;
+
+            [MethodImpl(Inline), Op]
+            public static Index<MacroSpec> specs()
+                => Specs;
+
             static Symbols<RuleMacroKind> KindSymbols;
 
             static Index<MacroSpec> Specs;
 
             static ConstLookup<RuleMacroKind,MacroSpec> Lookup;
+
+            static ConstLookup<string,MacroMatch> Matches;
 
             static EnumParser<RuleMacroKind> MacroKinds = new();
 
@@ -45,6 +55,7 @@ namespace Z0
             {
                 KindSymbols = Symbols.index<RuleMacroKind>();
                 Specs = _specs();
+                Matches = matches(Specs);
                 Lookup = Specs.Storage.Map(x => (x.Name, x)).ToDictionary();
                 Names = map(KindSymbols.View.Where(x => x.Kind != 0),x => x.Expr.Text).ToHashSet();
             }
@@ -58,6 +69,30 @@ namespace Z0
                     seek(dst,i) = (MacroSpec)skip(src,i).Invoke(null, sys.empty<object>());
                 return dst.Sort();
             }
+
+            [MethodImpl(Inline)]
+            static MacroMatch match(RuleMacroKind macro, FieldKind field, MacroMatchKind match, string value, string expansion)
+                => new MacroMatch(0, macro, field, match, value, expansion);
+
+            static void matches(MacroSpec spec, Dictionary<string,MacroMatch> dst)
+            {
+                ref readonly var name = ref spec.Name;
+                var expansion = expand(spec);
+                var value = XedRender.format(name);
+                dst[value] = match(name, spec.Field, MacroMatchKind.Literal, value, expansion);
+            }
+
+            static ConstLookup<string,MacroMatch> matches(Index<MacroSpec> src)
+            {
+                var dst = dict<string,MacroMatch>();
+                var values = list<string>();
+                for(var i=0; i<src.Count; i++)
+                    matches(src[i],dst);
+                return dst;
+            }
+
+            public static bool match(string src, out MacroMatch dst)
+                => Matches.Find(src, out dst);
 
             public static string expand(string src)
             {
@@ -73,33 +108,12 @@ namespace Z0
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var part = ref skip(parts,i);
-                    var literal = part;
-                    var name = literal;
-                    var mkind = RuleMacroKind.None;
-                    var spec = MacroSpec.Empty;
-
-                    if(XedParsers.IsAssignment(part))
-                        Require.invariant(XedParsers.Assignment(part, out name, out _));
-                    else if(XedParsers.IsCmpNeq(part))
-                        Require.invariant(XedParsers.CmpNeq(part, out name, out _));
-                    else if(XedParsers.IsBfSeg(part))
-                        Require.invariant(XedParsers.BfSeg(part, out name, out _));
-                    else if(XedParsers.IsNonterminal(part))
+                    if(Matches.Find(part, out var match))
                     {
-                        Require.invariant(XedParsers.parse(part, out Nonterminal nt));
-                        seek(output,i) = nt.Format();
-                        continue;
+                        seek(output,i) = match.Expansion;
                     }
-
-                    MacroKinds.Parse(name, out mkind);
-
-                    if(mkind == 0)
-                        seek(output,i) = part;
                     else
-                    {
-                        Require.invariant(Lookup.Find(mkind, out spec));
-                        seek(output,i) = expand(spec);
-                    }
+                        seek(output,i) = part;
                 }
 
                 var buffer = text.buffer();
@@ -116,28 +130,14 @@ namespace Z0
             static string expand(in MacroSpec spec)
             {
                 var buffer = text.buffer();
-                for(var q=0; q<spec.Expansions.Count; q++)
+                for(var i=0; i<spec.Expansions.Count; i++)
                 {
-                    ref readonly var x = ref spec.Expansions[q];
-                    if(q != 0)
+                    if(i != 0)
                         buffer.Append(Chars.Space);
-                    buffer.Append(x.Format());
+                    buffer.Append(spec.Expansions[i].Format());
                 }
                 return Require.nonempty(buffer.Emit());
             }
-
-            [MethodImpl(Inline), Op]
-            public static Symbols<RuleMacroKind> kinds()
-                => KindSymbols;
-
-            [MethodImpl(Inline), Op]
-            public static Index<MacroSpec> specs()
-                => Specs;
-
-
-            [MethodImpl(Inline), Op]
-            public static ConstLookup<RuleMacroKind,MacroSpec> lookup()
-                => Lookup;
 
             public static bool spec(string name, out MacroSpec dst)
             {
@@ -182,7 +182,6 @@ namespace Z0
             [MethodImpl(Inline), Op]
             static MacroSpec mod3()
                 => assign(M.mod3, K.MOD, 2);
-
 
             [MethodImpl(Inline), Op]
             static MacroSpec eanot16()
@@ -525,10 +524,6 @@ namespace Z0
             [MethodImpl(Inline), Op]
             static MacroSpec no_return()
                 => assign(M.no_return, K.NO_RETURN, 1);
-
-            // [MethodImpl(Inline), Op]
-            // static MacroSpec2 error()
-            //     => assign(M.error, K.ERROR, ErrorKind.GENERAL_ERROR);
 
             [MethodImpl(Inline), Op]
             static MacroSpec @true()
