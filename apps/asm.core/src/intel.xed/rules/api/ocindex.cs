@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static XedModels;
     using static XedModels.VexMapKind;
     using static XedModels.EvexMapKind;
@@ -16,6 +18,24 @@ namespace Z0
 
     partial class XedRules
     {
+        [Op]
+        public static OpCodeIndex ocindex(AsmOcValue src)
+        {
+            var dst = default(OpCodeIndex);
+            if(src[0] == 0x0F)
+            {
+                if(src[1] == 0x38)
+                    dst = OpCodeIndex.LegacyMap2;
+                else if(src[1] == 0x3A)
+                    dst = OpCodeIndex.LegacyMap3;
+                else
+                    dst = OpCodeIndex.LegacyMap1;
+            }
+            else
+                dst = OpCodeIndex.LegacyMap0;
+            return dst;
+        }
+
         [MethodImpl(Inline), Op]
         public static VexMapKind? vexmap(VexClass kind, byte code)
             => kind == VexClass.VV1 ? (VexMapKind)code : null;

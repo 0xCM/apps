@@ -10,7 +10,7 @@ namespace Z0
         [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
         public struct PointerWidthInfo
         {
-            public const string TableId = "xed.rules.widths.pointers";
+            public const string TableId = "xed.widths.pointers";
 
             public const byte FieldCount = 4;
 

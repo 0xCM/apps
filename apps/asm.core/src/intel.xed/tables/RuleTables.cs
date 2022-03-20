@@ -44,11 +44,10 @@ namespace Z0
         }
 
         void EmitRuleSigs()
-            => TableEmit(CalcSigRows().View, RuleSigRow.RenderWidths, XedPaths.DocTarget(XedDocKind.RuleSigs));
+            => TableEmit(CalcSigRows().View, RuleSigRow.RenderWidths, XedPaths.RuleTable<RuleSigRow>());
 
         public Index<RuleTableSpec> CalcRuleSpecs(RuleTableKind kind)
             => specs(XedPaths.RuleSource(kind));
-
 
         public Index<RuleSigRow> CalcSigRows()
         {
@@ -61,7 +60,6 @@ namespace Z0
                 ref var row = ref seek(dst,i);
                 row.Seq = i;
                 row.TableKind = sig.TableKind;
-                row.RuleClass = sig.Class;
                 row.TableName = sig.Name;
                 row.TableDef = XedPaths.TableDef(sig).ToUri();
             }
@@ -94,24 +92,23 @@ namespace Z0
             {
                 if(def.IsNonEmpty)
                 {
-                    if(TableSigs.Add(def.Sig))
+                    var _rows = rows(def);
+                    if(_rows.Count !=0)
                     {
-                        var _rows = rows(def);
-                        if(_rows.Count != 0)
+                        if(TableSigs.Add(def.Sig))
                         {
                             CalcCells(def, _rows, cells);
                             EmitTableDef(def, _rows);
                             for(var i=0; i<_rows.Count; i++)
                                 buffer.Add(_rows[i]);
                         }
+                        else
+                            Warn(string.Format("Duplicate table:{0}", def.Sig));
                     }
-                    else
-                        Warn(string.Format("Duplicate table:{0}", def.Sig));
                 }
             }
 
             EmitDefs();
-
             EmitConsolidated(kind, buffer.Array().Sort());
         }
 
@@ -190,7 +187,7 @@ namespace Z0
             Span<byte> widths = stackalloc byte[RuleTableRow.FieldCount];
 
             var name = EmptyString;
-            var sig = RuleSig.Empty;
+            var tsig = RuleSig.Empty;
             var length = 0u;
             var offset = 0u;
             for(var i=0u; i<count; i++)
@@ -198,11 +195,10 @@ namespace Z0
                 ref readonly var row = ref src[i];
                 if(empty(name))
                 {
-                    var _name = row.TableName;
-                    if(nonempty(_name))
+                    if(nonempty(row.TableName))
                     {
                         name = row.TableName;
-                        sig = XedRules.sig(kind,name);
+                        tsig = sig(kind, name);
                     }
                 }
 
@@ -210,15 +206,15 @@ namespace Z0
                     continue;
 
                 if(i == count - 1)
-                    RenderWidths(sig, slice(src.View,offset,length), widths);
+                    RenderWidths(tsig, slice(src.View,offset,length), widths);
                 else if(row.TableName != name)
                 {
                     if(row.TableName != name)
                     {
-                        RenderWidths(sig, slice(src.View,offset,length), widths);
+                        RenderWidths(tsig, slice(src.View,offset,length), widths);
                         kind = row.TableKind;
                         name = row.TableName;
-                        sig = XedRules.sig(kind,name);
+                        tsig = sig(kind,name);
                         length = 0;
                         offset = i;
                     }
@@ -268,6 +264,5 @@ namespace Z0
         {
             Skip = hashset("VEXED_REX", "XED_RESET");
         }
-
    }
 }

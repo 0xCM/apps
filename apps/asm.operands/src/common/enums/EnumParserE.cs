@@ -11,6 +11,7 @@ namespace Z0
     {
         readonly Symbols<E> Syms;
 
+        [MethodImpl(Inline)]
         public EnumParser()
         {
             Syms = Symbols.index<E>();
@@ -33,6 +34,16 @@ namespace Z0
                         result = true;
                 }
             }
+            return result;
+        }
+
+        public Outcome Parse(string src, out EnumFormat<E> dst)
+        {
+            var result = Parse(src, out E e);
+            if(result)
+                dst = e;
+            else
+                dst = default;
             return result;
         }
     }

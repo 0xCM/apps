@@ -393,7 +393,7 @@ namespace Z0
             var result = Regs.Parse(input, out dst);
             if(!result)
             {
-                result = FpuRegs.Parse(src, out var fpu);
+                result = FpuRegs.Parse(src, out FpuRegId fpu);
                 if(result)
                     dst = (XedRegId)fpu;
             }
@@ -529,7 +529,7 @@ namespace Z0
 
         public bool Parse(string src, out ElementType dst)
         {
-            var result = ElementKinds.Parse(src, out var kind);
+            var result = ElementKinds.Parse(src, out ElementKind kind);
             dst = kind;
             return result;
         }
@@ -594,7 +594,7 @@ namespace Z0
 
         public bool Parse(string src, out IForm dst)
         {
-            var result = Forms.Parse(src, out var type);
+            var result = Forms.Parse(src, out IFormType type);
             dst = type;
             return result;
         }

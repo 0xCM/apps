@@ -7,21 +7,24 @@ namespace Z0
 {
     using static core;
 
+    using static XedModels;
+
     partial class XedRules
     {
         void EmitPatternData(Index<InstPattern> src)
             => exec(PllExec,
+                () => EmitPatternInfo(src),
                 () => EmitPatternDetails(src),
                 () => EmitPatternOps(src)
                 );
 
+        void EmitPatternInfo(Index<InstPattern> src)
+            => TableEmit(InstDefs.describe(src).View, InstPatternInfo.RenderWidths, XedPaths.Table<InstPatternInfo>());
+
         void EmitPatternDetails(Index<InstPattern> src)
             => EmitPatternDetails(src, XedPaths.DocTarget(XedDocKind.PatternDetail));
 
-        Index<PatternOpDetail> CalcPatternOps(Index<InstPattern> src)
-            => src.SelectMany(x => x.OpDetails).Sort();
-
-        void EmitPatternOps(Index<InstPattern> patterns)
-            => TableEmit(CalcPatternOps(patterns).View, PatternOpDetail.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));
+        void EmitPatternOps(Index<InstPattern> src)
+            => TableEmit(src.SelectMany(x => x.Ops).Sort().View, InstPatternOps.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));
     }
 }

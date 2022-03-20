@@ -12,12 +12,13 @@ namespace Z0
 
     partial class XedRules
     {
-        public Index<PatternInfo> LoadPatternInfo()
+        public Index<InstPatternInfo> LoadPatternInfo()
         {
-            const byte FieldCount = PatternInfo.FieldCount;
+            const byte FieldCount = InstPatternInfo.FieldCount;
             var src = XedPaths.DocTarget(XedDocKind.PatternInfo);
             var result = Outcome.Success;
-            var buffer = list<PatternInfo>();
+            var buffer = list<InstPatternInfo>();
+            var eparser = EnumParser.create<OpCodeIndex>();
             bool Next(TextLine src)
             {
                 if(src.LineNumber == 1)
@@ -32,11 +33,10 @@ namespace Z0
                 }
 
                 var reader = cells.Reader();
-                var dst = new PatternInfo();
+                var dst = new InstPatternInfo();
                 result = DataParser.parse(reader.Next(), out dst.PatternId);
                 result = DataParser.parse(reader.Next(), out dst.InstId);
-                result = XedParsers.parse(reader.Next(), out dst.OcKind);
-                result = DataParser.parse(reader.Next(), out dst.OcIndex);
+                result = eparser.Parse(reader.Next(), out dst.OcIndex);
                 result = XedParsers.parse(reader.Next(), out dst.Class);
                 AsmParser.parse(reader.Next(), out dst.OpCode);
                 result = DataParser.parse(reader.Next(), out dst.Body);
@@ -45,7 +45,7 @@ namespace Z0
             }
 
             src.ReadLines(Next);
-            var dst = result ? buffer.ToArray() : sys.empty<PatternInfo>();
+            var dst = result ? buffer.ToArray() : sys.empty<InstPatternInfo>();
             if(result.Fail)
                 Errors.Throw(result.Message);
 

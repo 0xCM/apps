@@ -10,21 +10,19 @@ namespace Z0
         [Record(TableId)]
         public struct RuleSigRow
         {
-            public const string TableId = "rules.tables.sigs";
+            public const string TableId = "xed.rules.tables.sigs";
 
-            public const byte FieldCount = 5;
+            public const byte FieldCount = 4;
 
             public uint Seq;
 
             public RuleTableKind TableKind;
 
-            public RuleClass RuleClass;
-
             public Identifier TableName;
 
             public FS.FileUri TableDef;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,16,32,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,32,1};
         }
     }
 }

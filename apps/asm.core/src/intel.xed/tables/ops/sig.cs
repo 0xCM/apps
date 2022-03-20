@@ -5,17 +5,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    using static XedModels;
+    using static XedRules;
+
+    partial class XedRuleTables
     {
-        public enum RuleClass : byte
-        {
-            None,
-
-            Nonterminal,
-
-            EncodingGroup,
-
-            Encoding,
-        }
+        [MethodImpl(Inline), Op]
+        public static RuleSig sig(RuleTableKind kind, string name)
+            => new RuleSig(kind,name);
     }
 }

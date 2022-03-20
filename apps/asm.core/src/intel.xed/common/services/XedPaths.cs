@@ -161,11 +161,11 @@ namespace Z0
                  XedDocKind.RulePatterns => FS.file("xed.rules.patterns", FS.Csv),
                  XedDocKind.DecRulePatterns => FS.file("xed.rules.dec.patterns", FS.Csv),
                  XedDocKind.OpCodeKinds => Tables.filename<OcMapKind>(),
-                 XedDocKind.PatternInfo => Tables.filename<PatternInfo>(),
+                 XedDocKind.PatternInfo => Tables.filename<InstPatternInfo>(),
                  XedDocKind.RuleSeq => FS.file("xed.rules.seq", FS.Txt),
                  XedDocKind.MacroDefs => FS.file("xed.rules.macros", FS.Csv),
-                 XedDocKind.PatternDetail => FS.file("xed.patterns.detail", FS.Txt),
-                 XedDocKind.PatternOps => Tables.filename<PatternOpDetail>(),
+                 XedDocKind.PatternDetail => FS.file("xed.inst.patterns.detail", FS.Txt),
+                 XedDocKind.PatternOps => Tables.filename<InstPatternOps>(),
                  XedDocKind.RuleSigs => FS.file("rules.tables.sigs", FileKind.Csv.Ext()),
                  _ => FS.FileName.Empty
             });

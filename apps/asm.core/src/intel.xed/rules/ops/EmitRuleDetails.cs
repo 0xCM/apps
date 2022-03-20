@@ -7,39 +7,42 @@ namespace Z0
 {
     partial class XedRules
     {
-        void EmitPatternDetails(Index<InstPattern> src, FS.FilePath path)
+        void EmitPatternDetails(Index<InstPattern> src, FS.FilePath dst)
         {
             const string LabelPattern = "{0,-16} | {1}";
             var seq = 0u;
-            var emitting = EmittingFile(path);
-            using var dst = path.AsciWriter();
+            var emitting = EmittingFile(dst);
+            using var writer = dst.AsciWriter();
+            var ocparser = XedOpCodeParser.create();
             for(var j=0; j<src.Count; j++)
             {
                 ref readonly var pattern = ref src[j];
                 ref readonly var def = ref pattern.InstDef;
-                dst.AppendLineFormat(LabelPattern, "Pattern", seq++);
-                dst.AppendLineFormat(LabelPattern, "Instruction", def.Seq);
-                dst.AppendLineFormat(LabelPattern, nameof(def.Class), def.Class);
-                dst.AppendLineFormat(LabelPattern, nameof(def.Form), def.Form);
-                dst.AppendLineFormat(LabelPattern, nameof(def.Category), def.Category);
-                dst.AppendLineFormat(LabelPattern, nameof(def.Extension), def.Extension);
-                dst.AppendLineFormat(LabelPattern, nameof(def.Flags), def.Flags.IsNonEmpty ? def.Flags.Delimit(fence:RenderFence.Embraced) : EmptyString);
-                dst.AppendLineFormat(LabelPattern, nameof(pattern.RawBody), pattern.RawBody);
-                dst.AppendLineFormat(LabelPattern, nameof(pattern.Body), pattern.BodyExpr);
-                dst.AppendLineFormat(LabelPattern, "Operands", RP.PageBreak80);
+                writer.AppendLineFormat(LabelPattern, "Pattern", seq++);
+                writer.AppendLineFormat(LabelPattern, "Instruction", def.Seq);
+                writer.AppendLineFormat(LabelPattern, nameof(def.Class), def.Class);
+                writer.AppendLineFormat(LabelPattern, nameof(def.Form), def.Form);
+                writer.AppendLineFormat(LabelPattern, nameof(def.Category), def.Category);
+                writer.AppendLineFormat(LabelPattern, nameof(def.Extension), def.Extension);
+                writer.AppendLineFormat(LabelPattern, nameof(def.Flags), def.Flags.IsNonEmpty ? def.Flags.Delimit(fence:RenderFence.Embraced) : EmptyString);
+                writer.AppendLineFormat(LabelPattern, nameof(pattern.RawBody), pattern.RawBody);
+                writer.AppendLineFormat(LabelPattern, nameof(pattern.Body), pattern.BodyExpr);
+                var opcode = ocparser.Parse(pattern);
+                writer.AppendLineFormat("{0,-16} | {1}[{2}]", "OpCode", XedRender.format(opcode.Kind), opcode.Value);
+                writer.AppendLineFormat(LabelPattern, "Operands", RP.PageBreak80);
                 ref readonly var ops = ref pattern.OpSpecs;
                 for(byte k=0; k<ops.Count; k++)
                 {
                     ref readonly var op = ref ops[k];
-                    dst.AppendFormat("{0,-16}", op.Name);
-                    dst.AppendFormat(" | {0,-32}", op.Expression);
+                    writer.AppendFormat("{0,-16}", op.Name);
+                    writer.AppendFormat(" | {0,-32}", op.Expression);
                     var attribs = op.Attribs;
                     for(var m=0; m<attribs.Count; m++)
-                        dst.AppendFormat(" | {0,-16}", attribs[m]);
+                        writer.AppendFormat(" | {0,-16}", attribs[m]);
 
-                    dst.AppendLine();
+                    writer.AppendLine();
                 }
-                dst.AppendLine(RP.PageBreak100);
+                writer.AppendLine(RP.PageBreak100);
             }
 
             EmittedFile(emitting,seq);

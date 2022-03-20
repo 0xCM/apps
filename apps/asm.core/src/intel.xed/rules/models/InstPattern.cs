@@ -15,16 +15,13 @@ namespace Z0
 
             public readonly InstPatternSpec PatternSpec;
 
-            public readonly XedOpCode OpCode;
+            public readonly Index<InstPatternOps> Ops;
 
-            public readonly Index<PatternOpDetail> OpDetails;
-
-            public InstPattern(InstDef inst, InstPatternSpec spec, Index<PatternOpDetail> details)
+            public InstPattern(InstDef inst, InstPatternSpec spec, Index<InstPatternOps> details)
             {
                 InstDef = inst;
                 PatternSpec = spec;
-                OpCode = opcode(this);
-                OpDetails = details;
+                Ops = details;
             }
 
             public ref readonly InstPatternBody Body

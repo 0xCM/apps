@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
+    using static core;
 
     public readonly struct EnumFormat<E>
         where E : unmanaged, Enum
@@ -29,5 +29,21 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator EnumFormat<E>(E src)
             => new EnumFormat<E>(src);
+
+        [MethodImpl(Inline)]
+        public static explicit operator byte(EnumFormat<E> src)
+            => bw8(src.Value);
+
+        [MethodImpl(Inline)]
+        public static explicit operator ushort(EnumFormat<E> src)
+            => bw16(src.Value);
+
+        [MethodImpl(Inline)]
+        public static explicit operator uint(EnumFormat<E> src)
+            => bw32(src.Value);
+
+        [MethodImpl(Inline)]
+        public static explicit operator ulong(EnumFormat<E> src)
+            => bw64(src.Value);
     }
 }

@@ -40,15 +40,17 @@ namespace Z0
         Outcome CheckPatterns(CmdArgs args)
         {
             var result = Outcome.Success;
-            var ipatterns = Xed.Rules.CalcInstPatterns();
-            var count = ipatterns.Count;
+            var patterns = Xed.Rules.CalcInstPatterns();
+            var descriptions = InstDefs.describe(patterns);
+            TableEmit(descriptions.View, InstPatternInfo.RenderWidths, XedPaths.Table<InstPatternInfo>());
+            var count = patterns.Count;
             var dst = AppDb.XedPath("xed.patterns.checks", FileKind.Txt);
             var ocparser = XedOpCodeParser.create();
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)
             {
-                var ipattern = ipatterns[i];
+                var ipattern = patterns[i];
                 ref readonly var id = ref ipattern.PatternId;
                 ref readonly var instid = ref ipattern.InstId;
                 ref readonly var @class = ref ipattern.Class;
@@ -71,53 +73,6 @@ namespace Z0
             }
             EmittedFile(emitting,count);
             return result;
-        }
-
-        public static string _format(in InstPatternBody src)
-        {
-            var dst = text.buffer();
-            _render(src, dst);
-            return dst.Emit();
-        }
-
-
-        public static void _render(in InstPatternBody src, ITextBuffer dst)
-        {
-            for(var i=0; i<src.PartCount; i++)
-            {
-                if(i!=0)
-                    dst.Append(Chars.Space);
-
-                ref readonly var part = ref src[i];
-                if(InstDefs.vexclass(part, out var vc))
-                    dst.Append(format(vc));
-                else if(InstDefs.vexkind(part, out var vk))
-                    dst.Append(format(vk));
-                else if(InstDefs.map(part, out var map))
-                {
-                    var vex = InstDefs.vex(src);
-                    if(vex != null && vex.Value != 0)
-                    {
-                        switch(vex.Value)
-                        {
-                            //case VexClass.VV0:
-                            case VexClass.VV1:
-                                dst.AppendFormat("{0}", format((VexMapKind)map));
-                                break;
-                            case VexClass.EVV:
-                                dst.AppendFormat("{0}", format((EvexMapKind)map));
-                                break;
-                            case VexClass.XOPV:
-                                dst.AppendFormat("{0}", format((XopMapKind)map));
-                                break;
-                        }
-                    }
-                    else
-                        dst.Append(format((LegacyMapKind)part.AsAssign().Value.Data));
-                }
-                else
-                    dst.Append(format(part));
-            }
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Z0
         [Record(TableId)]
         public struct OpWidth : IComparable<OpWidth>
         {
-            public const string TableId = "xed.rules.widths";
+            public const string TableId = "xed.widths.ops";
 
             public const byte FieldCount = 8;
 

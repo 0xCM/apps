@@ -25,7 +25,7 @@ namespace Z0
 
             sbyte Map;
 
-            PatternInfo Result;
+            InstPatternInfo Result;
 
             AsmOcValue OcValue;
 
@@ -35,10 +35,21 @@ namespace Z0
                 VKind = null;
                 Map = -1;
                 OcIndex = null;
-                Result = PatternInfo.Empty;
+                Result = InstPatternInfo.Empty;
             }
 
             public XedOpCode Parse(InstPattern src)
+            {
+                Clear();
+                ref readonly var body = ref src.Body;
+                OcValue = ocvalue(body);
+                for(var i=0; i<body.PartCount; i++)
+                    Parse(body[i]);
+                CalcOcIndex();
+                return new XedOpCode(src.PatternId, src.Class, OcIndex != null ? ockind(OcIndex.Value) : OpCodeKind.None, OcValue);
+            }
+
+            public XedOpCode Parse(InstPatternSpec src)
             {
                 Clear();
                 ref readonly var body = ref src.Body;
@@ -67,34 +78,33 @@ namespace Z0
                 }
             }
 
-            public PatternInfo Describe(in InstPattern src)
-            {
-                Clear();
-                ref readonly var body = ref src.Body;
-                Result.PatternId = src.PatternId;
-                Result.InstId = src.InstId;
-                Result.Body = XedRender.format(body);
-                Result.Class = src.Class;
+            // public InstPatternInfo Describe(in InstPattern src)
+            // {
+            //     Clear();
+            //     ref readonly var body = ref src.Body;
+            //     Result.PatternId = src.PatternId;
+            //     Result.InstId = src.InstId;
+            //     Result.Body = XedRender.format(body);
+            //     Result.Class = src.Class;
 
-                OcValue = ocvalue(body);
-                for(var i=0; i<body.PartCount; i++)
-                    Parse(body[i]);
+            //     OcValue = ocvalue(body);
+            //     for(var i=0; i<body.PartCount; i++)
+            //         Parse(body[i]);
 
-                CalcOcIndex();
+            //     CalcOcIndex();
 
-                Result.OpCode = OcValue;
-                if(OcIndex != null)
-                {
-                    Result.OcIndex = (sbyte)OcIndex.Value;
-                    Result.OcKind = ockind(OcIndex.Value);
-                }
-                else
-                {
-                    Result.OcIndex = -1;
-                }
+            //     Result.OpCode = OcValue;
+            //     if(OcIndex != null)
+            //     {
+            //         Result.OcIndex = OcIndex.Value;
+            //     }
+            //     else
+            //     {
+            //         Result.OcIndex = 0;
+            //     }
 
-                return Result;
-            }
+            //     return Result;
+            // }
 
             void Parse(in InstDefPart src)
             {
