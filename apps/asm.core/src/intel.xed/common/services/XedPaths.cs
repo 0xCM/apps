@@ -90,7 +90,7 @@ namespace Z0
                 RuleTableKind.EncDec => "xed.rules.specs.encdec",
                 _ => EmptyString
             };
-            return RuleTargets() + FS.file(name,FS.Txt);
+            return RuleTargets() + FS.file(name,FS.Csv);
         }
 
         public FS.FilePath RuleSchemas()

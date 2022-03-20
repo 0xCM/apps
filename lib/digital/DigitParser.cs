@@ -4,17 +4,55 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using SQ = SymbolicQuery;
 
     [ApiHost]
-    public readonly struct DigitParser
+    public struct DigitParser
     {
+        CharBlock64 Storage;
+
+        [MethodImpl(Inline)]
+        Span<char> DigitBuffer()
+        {
+            Storage = CharBlock64.Null;
+            return Storage.Data;
+        }
+
+        [MethodImpl(Inline), Op]
+        public uint Parse(Base2 @base, string src, Span<char> dst)
+        {
+            var storage = CharBlock64.Null;
+            var buffer = storage.Data;
+            var count = min(SQ.digits(@base, src, buffer),64);
+            for(var i=0; i<count; i++)
+                seek(dst,i) = skip(buffer,i);
+            return count;
+        }
+
+        [MethodImpl(Inline), Op]
+        public uint Parse(Base10 @base, string src, Span<char> dst)
+        {
+            var storage = CharBlock32.Null;
+            var buffer = storage.Data;
+            var count = min(SQ.digits(@base, src, buffer),32);
+            for(var i=0; i<count; i++)
+                seek(dst,i) = skip(buffer,i);
+            return count;
+        }
+
+        [MethodImpl(Inline), Op]
+        public uint Parse(Base16 @base, string src, Span<char> dst)
+        {
+            var storage = CharBlock16.Null;
+            var buffer = storage.Data;
+            var count = min(SQ.digits(@base, src, buffer),16);
+            for(var i=0; i<count; i++)
+                seek(dst,i) = skip(buffer,i);
+            return count;
+        }
+
         [Op]
         public static uint digits(Base10 @base, ReadOnlySpan<char> src, uint offset, Span<DecimalDigitValue> dst)
         {
@@ -27,7 +65,7 @@ namespace Z0
                 if(SQ.space(c) && j==0)
                     continue;
 
-                if(SQ.digit(@base, c))
+                if(Digital.test(@base, c))
                     seek(dst, j++) = (DecimalDigitValue)(AsciCode.d9 - (AsciCode)c);
                 else
                     break;

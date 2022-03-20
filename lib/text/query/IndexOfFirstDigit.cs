@@ -19,7 +19,7 @@ namespace Z0
         {
             var count = src.Length;
             for(var i=0; i<count; i++)
-                if(digit(@base, skip(src, i)))
+                if(Digital.test(@base, skip(src, i)))
                     return i;
             return NotFound;
         }
@@ -29,7 +29,7 @@ namespace Z0
         {
             var count = src.Length;
             for(var i=0; i<count; i++)
-                if(digit(@base, skip(src, i)))
+                if(Digital.test(@base, skip(src, i)))
                     return i;
             return NotFound;
         }
@@ -39,7 +39,7 @@ namespace Z0
         {
             var count = src.Length;
             for(var i=0; i<count; i++)
-                if(digit(@base, skip(src, i)))
+                if(Digital.test(@base, skip(src, i)))
                     return i;
             return NotFound;
         }
@@ -49,7 +49,7 @@ namespace Z0
         {
             var count = src.Length;
             for(var i=0; i<count; i++)
-                if(digit(@base, skip(src, i)))
+                if(Digital.test(@base, skip(src, i)))
                     return i;
             return NotFound;
         }

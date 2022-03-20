@@ -27,7 +27,7 @@ namespace Z0
                     if(line.IsEmpty)
                         continue;
 
-                    var @class = RuleTableParser.form(line.Content);
+                    var @class = XedRuleTables.form(line.Content);
                     if(@class == RuleFormKind.SeqDecl)
                     {
                         var content = text.despace(line.Content);

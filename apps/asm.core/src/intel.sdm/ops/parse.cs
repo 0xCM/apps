@@ -20,7 +20,7 @@ namespace Z0.Asm
 
             var i = placeholder(src);
             var remainder = text.right(src,i);
-            var d = SQ.digitIndex(base10, remainder);
+            var d = Digital.digitIndex(base10, remainder);
             var input = text.slice(remainder, d);
 
             if(parse(input, out page))
@@ -185,7 +185,7 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
             {
                 ref readonly var c = ref skip(src,i);
-                if(SQ.digit(base10,c))
+                if(Digital.test(base10,c))
                     continue;
 
                 if(c == Chars.Dot)

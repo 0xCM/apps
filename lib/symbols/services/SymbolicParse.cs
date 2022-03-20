@@ -4,13 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using SQ = SymbolicQuery;
+    using C = AsciCode;
 
     [ApiHost]
     public readonly struct SymbolicParse
@@ -72,7 +69,7 @@ namespace Z0
         }
 
         [Op]
-        public static int SkipWhitespace(ReadOnlySpan<AsciCode> src)
+        public static int SkipWhitespace(ReadOnlySpan<C> src)
         {
             var count = src.Length;
             var i=0;
@@ -138,7 +135,7 @@ namespace Z0
                 if(SQ.whitespace(c))
                     continue;
 
-                if(SQ.digit(@base, c))
+                if(Digital.test(@base, c))
                 {
                     result = parse(@base, slice(data,i), out dst);
                     break;
@@ -148,7 +145,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static uint convert(ReadOnlySpan<AsciCode> src, Span<char> dst)
+        public static uint convert(ReadOnlySpan<C> src, Span<char> dst)
         {
             var count = (uint)min(src.Length, dst.Length);
             for(var i=0; i<count; i++)
@@ -157,7 +154,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static uint convert(ReadOnlySpan<char> src, Span<AsciCode> dst)
+        public static uint convert(ReadOnlySpan<char> src, Span<C> dst)
         {
             var count = (uint)min(src.Length, dst.Length);
             for(var i=0; i<count; i++)
@@ -166,7 +163,7 @@ namespace Z0
         }
 
         [Op]
-        public static Outcome parse(Base10 @base, ReadOnlySpan<AsciCode> src, out ushort dst)
+        public static Outcome parse(Base10 @base, ReadOnlySpan<C> src, out ushort dst)
         {
             var storage = CharBlock16.Null;
             var buffer = storage.Data;
@@ -175,7 +172,7 @@ namespace Z0
         }
 
         [Op]
-        public static Outcome parse(Base10 @base, ReadOnlySpan<AsciCode> src, ref uint i, out ushort dst)
+        public static Outcome parse(Base10 @base, ReadOnlySpan<C> src, ref uint i, out ushort dst)
         {
             dst = default;
             var result = Outcome.Success;

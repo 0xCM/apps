@@ -19,7 +19,7 @@ namespace Z0
         /// <param name="src">The value to test</param>
         [MethodImpl(Inline), Op]
         public static bit hexdigit(char src)
-            => digit(base16, src);
+            => Digital.test(base16, src);
 
         /// <summary>
         /// Determines whether a <see cref='C'/> represents a character in [0..9 | a..f | A..F]
@@ -27,6 +27,6 @@ namespace Z0
         /// <param name="src"></param>
         [MethodImpl(Inline), Op]
         public static bit hexdigit(C src)
-            => digit(base16, src);
+            => Digital.test(base16, src);
     }
 }

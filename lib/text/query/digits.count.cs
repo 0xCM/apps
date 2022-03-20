@@ -6,6 +6,8 @@ namespace Z0
 {
     using static core;
 
+    using C = AsciCode;
+
     partial struct SymbolicQuery
     {
         /// <summary>
@@ -21,10 +23,54 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var c = ref skip(src,i);
-                if(!digit(@base, c))
+                if(!Digital.test(@base, c))
                     break;
                 counter++;
             }
+            return counter;
+        }
+
+        /// <summary>
+        /// Counts the number of contiguous binary digits begining at a specified offset
+        /// </summary>
+        /// <param name="base">The base selector</param>
+        /// <param name="src">The data source</param>
+        /// <param name="offset">The search offset</param>
+        [MethodImpl(Inline), Op]
+        public static uint digits(Base2 @base, ReadOnlySpan<char> src, uint offset)
+        {
+            var limit = src.Length - offset;
+            var counter = 0u;
+            for(var i=offset; i<limit; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(!Digital.test(@base, c))
+                    break;
+                counter++;
+            }
+
+            return counter;
+        }
+
+        /// <summary>
+        /// Counts the number of contiguous binary digits begining at a specified offset
+        /// </summary>
+        /// <param name="base">The base selector</param>
+        /// <param name="src">The data source</param>
+        /// <param name="offset">The search offset</param>
+        [MethodImpl(Inline), Op]
+        public static uint digits(Base2 @base, ReadOnlySpan<C> src, uint offset)
+        {
+            var limit = src.Length - offset;
+            var counter = 0u;
+            for(var i=offset; i<limit; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(!Digital.test(@base, c))
+                    break;
+                counter++;
+            }
+
             return counter;
         }
 
@@ -41,7 +87,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var c = ref skip(src,i);
-                if(!digit(@base, c))
+                if(!Digital.test(@base, c))
                     break;
                 counter++;
             }
@@ -61,7 +107,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var c = ref skip(src,i);
-                if(!digit(@base, c))
+                if(!Digital.test(@base, c))
                     break;
             }
             return counter;

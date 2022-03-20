@@ -20,7 +20,7 @@ namespace Z0
             var name = "MODRM_MOD_ENCODE";
             var xSpec = specLU[name];
             Write(xSpec.Format());
-            var defs = RuleTableParser.reify(specs);
+            var defs = XedRuleTables.reify(specs);
             var defsLU = dict<string,RuleTable>();
             iter(defs, def => defsLU.TryAdd(def.Sig.Name, def));
             var def = defsLU[name];

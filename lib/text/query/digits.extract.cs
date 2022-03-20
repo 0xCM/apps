@@ -11,86 +11,38 @@ namespace Z0
     partial struct SymbolicQuery
     {
         /// <summary>
-        /// Determines whether an asci span segment defines a sequence of binary digits
+        /// Extracts a contiguous digit sequence from a specified source and writes the elements to a specified target,
+        /// and returns the number of digits extracted
         /// </summary>
         /// <param name="base">The base selector</param>
         /// <param name="src">The data source</param>
-        /// <param name="offset">The source offset</param>
-        /// <param name="count">The sequence length</param>
+        /// <param name="dst">The target</param>
         [MethodImpl(Inline), Op]
-        public static bit digits(Base2 @base, ReadOnlySpan<C> src, uint offset, uint count)
+        public static uint digits(Base2 @base, ReadOnlySpan<char> src, uint offset, Span<char> dst)
         {
-            for(var i=offset; i<count+offset; i++)
-            {
-                ref readonly var c = ref skip(src,i);
-                if(!digit(@base, c))
-                    return false;
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Determines whether a character span segment defines a sequence of binary digits
-        /// </summary>
-        /// <param name="base">The base selector</param>
-        /// <param name="src">The data source</param>
-        /// <param name="offset">The source offset</param>
-        /// <param name="count">The sequence length</param>
-        [MethodImpl(Inline), Op]
-        public static bit digits(Base2 @base, ReadOnlySpan<char> src, uint offset, uint count)
-        {
-            for(var i=offset; i<count+offset; i++)
-            {
-                ref readonly var c = ref skip(src,i);
-                if(!digit(@base, c))
-                    return false;
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Counts the number of contiguous binary digits begining at a specified offset
-        /// </summary>
-        /// <param name="base">The base selector</param>
-        /// <param name="src">The data source</param>
-        /// <param name="offset">The search offset</param>
-        [MethodImpl(Inline), Op]
-        public static uint digits(Base2 @base, ReadOnlySpan<C> src, uint offset)
-        {
-            var limit = src.Length - offset;
+            var max = min(src.Length, dst.Length);
             var counter = 0u;
-            for(var i=offset; i<limit; i++)
+            for(var i=offset; i<max; i++)
             {
                 ref readonly var c = ref skip(src,i);
-                if(!digit(@base, c))
+                if(Digital.test(@base,c))
+                    seek(dst,counter++) = c;
+                else
                     break;
-                counter++;
             }
-
             return counter;
         }
 
         /// <summary>
-        /// Counts the number of contiguous binary digits begining at a specified offset
+        /// Extracts a contiguous digit sequence from a specified source and writes the elements to a specified target,
+        /// and returns the number of digits extracted
         /// </summary>
         /// <param name="base">The base selector</param>
         /// <param name="src">The data source</param>
-        /// <param name="offset">The search offset</param>
+        /// <param name="dst">The target</param>
         [MethodImpl(Inline), Op]
-        public static uint digits(Base2 @base, ReadOnlySpan<char> src, uint offset)
-        {
-            var limit = src.Length - offset;
-            var counter = 0u;
-            for(var i=offset; i<limit; i++)
-            {
-                ref readonly var c = ref skip(src,i);
-                if(!digit(@base, c))
-                    break;
-                counter++;
-            }
-
-            return counter;
-        }
+        public static uint digits(Base2 @base, ReadOnlySpan<char> src, Span<char> dst)
+            => digits(@base, src, 0, dst);
 
         /// <summary>
         /// Extracts a contiguous digit sequence from a specified source and writes the elements to a specified target,
@@ -107,7 +59,7 @@ namespace Z0
             for(var i=0; i<max; i++)
             {
                 ref readonly var c = ref skip(src,i);
-                if(digit(@base,c))
+                if(Digital.test(@base,c))
                     seek(dst,counter++) = c;
                 else
                     break;
@@ -130,7 +82,7 @@ namespace Z0
             for(var i=offset; i<max; i++)
             {
                 ref readonly var c = ref skip(src,i);
-                if(digit(@base,c))
+                if(Digital.test(@base,c))
                     seek(dst,counter++) = c;
                 else
                     break;
@@ -150,16 +102,50 @@ namespace Z0
             => digits(@base, src, 0, dst);
 
         /// <summary>
+        /// Extracts a contiguous digit sequence from a specified source and writes the elements to a specified target,
+        /// and returns the number of digits extracted
+        /// </summary>
+        /// <param name="base">The base selector</param>
+        /// <param name="src">The data source</param>
+        /// <param name="dst">The target</param>
+        [MethodImpl(Inline), Op]
+        public static uint digits(Base16 @base, ReadOnlySpan<char> src, uint offset, Span<char> dst)
+        {
+            var max = min(src.Length, dst.Length);
+            var counter = 0u;
+            for(var i=offset; i<max; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(Digital.test(@base,c))
+                    seek(dst,counter++) = c;
+                else
+                    break;
+            }
+            return counter;
+        }
+
+        /// <summary>
+        /// Extracts a contiguous digit sequence from a specified source and writes the elements to a specified target,
+        /// and returns the number of digits extracted
+        /// </summary>
+        /// <param name="base">The base selector</param>
+        /// <param name="src">The data source</param>
+        /// <param name="dst">The target</param>
+        [MethodImpl(Inline), Op]
+        public static uint digits(Base16 @base, ReadOnlySpan<char> src, Span<char> dst)
+            => digits(@base, src, 0, dst);
+
+        /// <summary>
         /// Extracts a contiguous sequence of digits from a specified source
         /// </summary>
         /// <param name="n">The maximum number of digits to extract</param>
         /// <param name="base">The mathematical base</param>
         /// <param name="src">The data source</param>
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<AsciCode> digits(N16 n, Base10 @base, ReadOnlySpan<C> src)
+        public static ReadOnlySpan<C> digits(N16 n, Base10 @base, ReadOnlySpan<C> src)
         {
             var storage = ByteBlock16.Empty;
-            var dst = recover<AsciCode>(storage.Bytes);
+            var dst = recover<C>(storage.Bytes);
             var count = digits(base10, src, dst);
             return count == 0 ? default : slice(dst,0,count);
         }
@@ -178,43 +164,5 @@ namespace Z0
             var count = digits(base10, src, dst);
             return count == 0 ? default : slice(dst,0,count);
         }
-
-        /// <summary>
-        /// Determines whether an asci span segment defines a sequence of decimal digits
-        /// </summary>
-        /// <param name="base">The base selector</param>
-        /// <param name="src">The data source</param>
-        /// <param name="offset">The source offset</param>
-        /// <param name="count">The sequence length</param>
-        [MethodImpl(Inline), Op]
-        public static bit digits(Base10 @base, ReadOnlySpan<C> src, uint offset, uint count)
-        {
-            for(var i=offset; i<count+offset; i++)
-            {
-                ref readonly var c = ref skip(src,i);
-                if(!digit(@base, c))
-                    return false;
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Determines whether a character span segment defines a sequence of decimal digits
-        /// </summary>
-        /// <param name="base">The base selector</param>
-        /// <param name="src">The data source</param>
-        /// <param name="offset">The source offset</param>
-        /// <param name="count">The sequence length</param>
-        [MethodImpl(Inline), Op]
-        public static bit digits(Base10 @base, ReadOnlySpan<char> src, uint offset, uint count)
-        {
-            for(var i=offset; i<count+offset; i++)
-            {
-                ref readonly var c = ref skip(src,i);
-                if(!digit(@base, c))
-                    return false;
-            }
-            return true;
-        }
-   }
+    }
 }

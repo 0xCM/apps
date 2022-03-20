@@ -24,7 +24,6 @@ namespace Z0
         public static bool IsAssignment(string src)
             => src.Contains(SyntaxLiterals.Assign) && !IsCmpNeq(src);
 
-
         public static bool IsCmpNeq(string src)
             => src.Contains(Neq);
 
@@ -175,10 +174,9 @@ namespace Z0
             var result = false;
             if(IsAssignment(src))
             {
-                var parts = text.split(src,SyntaxLiterals.Assign);
-                Require.equal(parts.Length, 2);
-                left = skip(parts,0);
-                right = skip(parts,1);
+                var i = text.index(src, Chars.Eq);
+                left = text.left(src,i);
+                right = text.right(src,i);
                 result = true;
             }
             else
@@ -194,10 +192,13 @@ namespace Z0
             var result = false;
             if(IsCmpNeq(src))
             {
-                var parts = text.split(src,SyntaxLiterals.Neq);
-                Require.equal(parts.Length, 2);
-                left = skip(parts,0);
-                right = skip(parts,1);
+                var i = text.index(src, Chars.Bang);
+                left = text.left(src,i);
+                right = text.right(src,i+1);
+                // var parts = text.split(src, SyntaxLiterals.Neq);
+                // Require.equal(parts.Length, 2);
+                // left = skip(parts,0);
+                // right = skip(parts,1);
                 result = true;
             }
             else

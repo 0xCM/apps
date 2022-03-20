@@ -8,41 +8,9 @@ namespace Z0
     using static core;
     using static XedRules;
 
-    public class XedRuleTables : AppService<XedRuleTables>
+    public partial class XedRuleTables : AppService<XedRuleTables>
     {
-        public static Index<RuleTableRow> rows(in RuleTable src)
-        {
-            const byte ColCount = RuleTableRow.ColCount;
-
-            var dst = list<RuleTableRow>();
-            var q = 0u;
-            for(var i=0u; i<src.Body.Count; i++)
-            {
-                ref readonly var expr = ref src.Body[i];
-                if(expr.IsEmpty || expr.IsVacuous || expr.IsNull || expr.IsError)
-                    continue;
-
-                var m = z8;
-                var row = RuleTableRow.Empty;
-                row.TableKind = src.TableKind;
-                row.TableName = src.Sig.Name;
-                row.RowIndex = q++;
-
-                for(var k=0; k<expr.Premise.Count; k++)
-                {
-                    row[m] = new RuleTableCell(src.TableKind, m, expr.Premise[k]);
-                    m++;
-                }
-
-                m = ColCount/2;
-
-                for(var k=0; k<expr.Consequent.Count; k++, m++)
-                    row[m] = new RuleTableCell(src.TableKind, m, expr.Consequent[k]);
-
-                dst.Add(row);
-            }
-            return dst.ToArray();
-        }
+        const NumericKind Closure = UnsignedInts;
 
         XedPaths XedPaths => Service(Wf.XedPaths);
 
@@ -79,7 +47,7 @@ namespace Z0
             => TableEmit(CalcSigRows().View, RuleSigRow.RenderWidths, XedPaths.DocTarget(XedDocKind.RuleSigs));
 
         public Index<RuleTableSpec> CalcRuleSpecs(RuleTableKind kind)
-            => RuleTableParser.specs(XedPaths.RuleSource(kind));
+            => specs(XedPaths.RuleSource(kind));
 
         void EmitRuleSpecs(RuleTableKind kind, Index<RuleTableSpec> src)
         {
@@ -123,11 +91,8 @@ namespace Z0
 
         void EmitTables(RuleTableKind kind, ConcurrentDictionary<RuleSig,Index<RuleCellSpec>> cells)
         {
-            var specs = CalcRuleSpecs(kind);
             var buffer = bag<RuleTableRow>();
-            var defs = RuleTableParser.reify(specs);
-
-            EmitRuleSpecs(kind,specs);
+            var defs = reify(CalcRuleSpecs(kind));
 
             void EmitDefs()
             {
@@ -151,7 +116,6 @@ namespace Z0
                     }
                     else
                         Warn(string.Format("Duplicate table:{0}", def.Sig));
-
                 }
             }
 
@@ -186,20 +150,6 @@ namespace Z0
                 }
             }
             return buffer;
-        }
-
-        public static void specs(in RuleTableRow src, char kind, HashSet<RuleCellSpec> dst)
-        {
-            var storage = 0ul;
-            var count = RuleTableRow.ColCount/2;
-            var i = kind == 'P' ? z8 : count;
-            var k = z8;
-            for(var j=0; j<count; j++, i++)
-            {
-                var cell = src[i];
-                if(cell.IsNonEmpty)
-                    dst.Add(cell.Spec);
-            }
         }
 
         void CalcCells(in RuleTable table, Index<RuleTableRow> rows, ConcurrentDictionary<RuleSig,Index<RuleCellSpec>> dst)
@@ -320,5 +270,13 @@ namespace Z0
                 }
             }
         }
+
+        static HashSet<string> Skip;
+
+        static XedRuleTables()
+        {
+            Skip = hashset("VEXED_REX", "XED_RESET");
+        }
+
    }
 }

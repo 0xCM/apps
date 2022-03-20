@@ -18,7 +18,8 @@ namespace Z0
                 EmitRuleTables,
                 EmitRefData,
                 EmitMacroDefs,
-                EmitFields
+                EmitFields,
+                EmitRuleSpecs
                 );
         }
     }

@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
-
-    using SQ = SymbolicQuery;
 
     partial struct Lines
     {
@@ -51,7 +45,7 @@ namespace Z0
             while(j++ <= LastIndex)
             {
                 ref readonly var c = ref skip(src, j);
-                if(SQ.digit(base10, c))
+                if(Digital.test(base10, c))
                     seek(buffer, j) = (char)c;
                 else if(c == Delimiter && j==LastIndex)
                 {

@@ -14,6 +14,18 @@ namespace Z0
     using PW = XedModels.PointerWidthKind;
     using R = XedRules;
 
+    partial class XTend
+    {
+        [MethodImpl(Inline)]
+        public static bool Test<E>(this E src, E flag)
+            where E : unmanaged, Enum
+        {
+            var x = core.bw64(src);
+            var y = core.bw64(flag);
+            return (x & y) != 0;
+        }
+    }
+
     public partial class XedRender
     {
         public static string format(OpCodeIndex src, FormatCode fc = FormatCode.Expr)
@@ -262,12 +274,50 @@ namespace Z0
             return dst;
         }
 
+        public static string format(RuleCellKind src)
+        {
+            var dst = EmptyString;
+
+            if(src.Test(RuleCellKind.Assignment))
+                dst = "assign";
+            else if(src.Test(RuleCellKind.Constraint))
+                dst = "neq";
+
+            if(src.Test(RuleCellKind.Nonterminal))
+            {
+                if(text.empty(dst))
+                    dst = "nt";
+                else
+                    dst += "/nt";
+            }
+
+            if(src.Test(RuleCellKind.Literal))
+            {
+                if(text.empty(dst))
+                    dst = "literal";
+                else
+                    dst += "/literal";
+            }
+
+            if(src.Test(RuleCellKind.BfSeg))
+            {
+                if(text.empty(dst))
+                    dst = "bfseg";
+                else
+                    dst += "/bfseg";
+
+            }
+
+            if(text.empty(dst))
+                dst = RP.Error;
+
+            return dst;
+        }
+
         public static string format(RuleCall src)
         {
             if(src.IsEmpty)
-            {
-                return "<no_target>";
-            }
+                return RP.Error;
             else
             {
                 if(src.Field == 0)

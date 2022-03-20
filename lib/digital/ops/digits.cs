@@ -219,7 +219,7 @@ namespace Z0
                 if(SQ.space(c) && j==0)
                     continue;
 
-                if(SQ.digit(@base, c))
+                if(Digital.test(@base, c))
                     seek(dst, j++) = (DDV)(AsciCode.d9 - (AsciCode)c);
                 else
                     break;

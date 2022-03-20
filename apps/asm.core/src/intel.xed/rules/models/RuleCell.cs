@@ -7,6 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
+
         public readonly struct RuleCell
         {
             public readonly FieldKind Field;
@@ -21,14 +22,6 @@ namespace Z0
                 Field = field;
                 Data = text.ifempty(data,EmptyString);
                 IsLiteral = field == 0;
-            }
-
-            [MethodImpl(Inline)]
-            public RuleCell(string data)
-            {
-                Field = 0;
-                Data = data;
-                IsLiteral = true;
             }
 
             public bool IsEmpty

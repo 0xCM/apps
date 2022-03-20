@@ -166,7 +166,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var c = ref skip(src,i);
-                if(i <16 && SQ.digit(base16,c))
+                if(i <16 && Digital.test(base16,c))
                     continue;
 
                 if(i == 16 && SQ.whitespace(c))

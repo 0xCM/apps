@@ -26,7 +26,7 @@ namespace Z0
                 else
                     return counter;
 
-                if(SQ.digit(base16, c))
+                if(Digital.test(base16, c))
                     counter++;
                 else
                     break;

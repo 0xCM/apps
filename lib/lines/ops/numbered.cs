@@ -21,7 +21,7 @@ namespace Z0
 
             for(var i=0; i<7; i++)
             {
-                if(!SQ.digit(base10, skip(src,i)))
+                if(!Digital.test(base10, skip(src,i)))
                     return false;
             }
             return true;
@@ -38,7 +38,7 @@ namespace Z0
 
             for(var i=0; i<7; i++)
             {
-                if(!SQ.digit(base10, skip(src,i)))
+                if(!Digital.test(base10, skip(src,i)))
                     return false;
             }
             return true;
