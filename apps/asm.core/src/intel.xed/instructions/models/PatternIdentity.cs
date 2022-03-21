@@ -6,7 +6,10 @@ namespace Z0
 {
     using Asm;
 
-    partial struct XedModels
+    using static XedRules;
+    using static XedModels;
+
+    partial class XedPatterns
     {
         [Record(TableId)]
         public struct PatternIdentity : IComparable<PatternIdentity>

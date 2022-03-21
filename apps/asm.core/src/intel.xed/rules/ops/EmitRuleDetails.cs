@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedPatterns;
+
     partial class XedRules
     {
         void EmitPatternDetails(Index<InstPattern> src, FS.FilePath dst)

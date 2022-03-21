@@ -8,6 +8,7 @@ namespace Z0
 
     using static XedModels;
     using static XedRules;
+    using static XedPatterns;
     using static XedModels.BCastKind;
     using static XedNames;
     using static core;

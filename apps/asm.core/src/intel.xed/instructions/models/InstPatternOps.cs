@@ -7,9 +7,10 @@ namespace Z0
 {
     using Asm;
 
+    using static XedRules;
     using static XedModels;
 
-    partial class XedRules
+    partial class XedPatterns
     {
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableName)]
         public struct InstPatternOps : IComparable<InstPatternOps>

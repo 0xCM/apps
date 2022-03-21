@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedPatterns;
+
     partial class XedRules
     {
         public Index<InstPattern> CalcInstPatterns()

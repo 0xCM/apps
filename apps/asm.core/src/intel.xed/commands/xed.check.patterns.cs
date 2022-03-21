@@ -7,8 +7,7 @@ namespace Z0
     using Asm;
 
     using static XedRules;
-    using static XedModels;
-    using static XedRender;
+    using static XedPatterns;
     using static core;
 
     partial class XedCmdProvider

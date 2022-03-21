@@ -5,7 +5,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    using static XedRules;
+    using static XedModels;
+
+    partial class XedPatterns
     {
         [Record(TableId)]
         public struct OcMapKind

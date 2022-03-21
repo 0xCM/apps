@@ -7,7 +7,10 @@ namespace Z0
 {
     using static core;
 
-    partial struct XedModels
+    using static XedRules;
+    using static XedModels;
+
+    partial class XedPatterns
     {
         public class OpCodeKinds
         {

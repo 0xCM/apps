@@ -5,7 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    using static XedRules;
+
+    partial class XedPatterns
     {
         public readonly struct InstPatternBody : IIndex<InstDefPart>
         {

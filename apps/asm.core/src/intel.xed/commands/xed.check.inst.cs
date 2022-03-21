@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static XedRules;
-    using static XedParsers;
+    using static XedPatterns;
     using static core;
     using Asm;
 

@@ -7,7 +7,10 @@ namespace Z0
 {
     using Asm;
 
-    partial struct XedModels
+    using static XedRules;
+    using static XedModels;
+
+    partial class XedPatterns
     {
         public readonly struct XedOpCode : IEquatable<XedOpCode>, IComparable<XedOpCode>
         {
