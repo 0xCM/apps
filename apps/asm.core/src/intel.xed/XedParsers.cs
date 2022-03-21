@@ -15,11 +15,159 @@ namespace Z0
     {
         public static XedParsers Service => Instance;
 
+        static readonly EnumParser<OpWidthCode> OpWidthParser = new();
+
+        static readonly EnumParser<OpAction> OpActions = new();
+
+        static readonly EnumParser<PointerWidthKind> PointerWidths = new();
+
+        static readonly EnumParser<NontermKind> Nonterminals = new();
+
+        static readonly EnumParser<XedRegId> Regs = new();
+
+        static readonly EnumParser<ElementKind> ElementKinds = new();
+
+        static readonly EnumParser<OpVisibility> OpVisKinds = new();
+
+        static readonly EnumParser<GroupName> GroupNames = new();
+
+        static readonly EnumParser<RuleOpModKind> OpModKinds = new();
+
+        static readonly EnumParser<FieldKind> FieldKinds = new();
+
+        static readonly EnumParser<FpuRegId> FpuRegs = new();
+
+        static readonly EnumParser<IClass> Classes = new();
+
+        static readonly EnumParser<IFormType> Forms = new();
+
+        static readonly EnumParser<ExtensionKind> ExtensionKinds = new();
+
+        static readonly EnumParser<FlagActionKind> FlagActionKinds = new();
+
+        static readonly EnumParser<RegFlag> RegFlags = new();
+
+        static readonly EnumParser<IsaKind> IsaKinds = new();
+
+        static readonly EnumParser<CategoryKind> CategoryKinds = new();
+
+        static readonly EnumParser<RuleOpName> RuleOpNames = new();
+
+        static readonly EnumParser<RuleMacroKind> MacroKinds = new();
+
+        static readonly EnumParser<VexClass> VexClasses = new();
+
+        static readonly EnumParser<VexKind> VexKinds = new();
+
+        static readonly EnumParser<OpCodeKind> OpCodeKinds = new();
+
+        static readonly EnumParser<ErrorKind> ErrorKinds = new();
+
+        static readonly EnumParser<ChipCode> ChipCodes = new();
+
+        static readonly EnumParser<EASZ> EaszKinds = new();
+
+        static readonly EnumParser<EOSZ> EoszKinds = new();
+
+        static readonly EnumParser<ModeKind> ModeKinds = new();
+
+        static readonly EnumParser<SMode> SModes = new();
+
         static XedParsers Instance = new();
+
 
         XedParsers()
         {
 
+        }
+
+        public static Index<RuleSeq> ruleseq(FS.FilePath src)
+            => ruleseq(src.ReadNumberedLines());
+
+        static public Index<RuleSeq> ruleseq(ReadOnlySpan<TextLine> src)
+        {
+            var count = src.Length;
+            var buffer = list<RuleSeq>();
+            var terms = list<RuleSeqTerm>();
+            var result = Outcome.Success;
+            for(var j=0u; j<count; j++)
+            {
+                ref readonly var line = ref skip(src,j);
+                if(line.IsEmpty)
+                    continue;
+
+                var @class = XedRuleTables.form(line.Content);
+                if(@class == RuleFormKind.SeqDecl)
+                {
+                    var content = text.despace(line.Content);
+                    var i = text.index(content, Chars.Space);
+                    var name = text.right(content, i);
+                    terms.Clear();
+                    j++;
+
+                    if(parse(src, ref j, terms) != 0)
+                    {
+                        buffer.Add(new RuleSeq(name, terms.ToArray()));
+                        terms.Clear();
+                        content = text.despace(skip(src,j).Content);
+                        if(IsSeqDecl(content))
+                        {
+                            i = text.index(content, Chars.Space);
+                            name = text.right(content, i);
+                            parse(name, src, ref j, buffer);
+                        }
+                    }
+                }
+            }
+            return buffer.ToArray();
+        }
+
+        static void parse(Identifier name, ReadOnlySpan<TextLine> src, ref uint j, List<RuleSeq> dst)
+        {
+            var content = text.despace(skip(src,j).Content);
+            var terms = list<RuleSeqTerm>();
+            if(parse(src, ref j, terms) != 0)
+            {
+                dst.Add(new RuleSeq(name, terms.ToArray()));
+                content = text.despace(skip(src,j).Content);
+                if(IsSeqDecl(content))
+                {
+                    var i = text.index(content, Chars.Space);
+                    name = text.right(content, i);
+                    parse(name, src, ref j, dst);
+                }
+            }
+        }
+
+        static uint parse(ReadOnlySpan<TextLine> src, ref uint j, List<RuleSeqTerm> terms)
+        {
+            var i0 = j;
+            for(;j<src.Length; j++)
+            {
+                ref readonly var line = ref skip(src,j);
+                if(line.IsEmpty)
+                    break;
+
+                if(!text.begins(line.Content, "   "))
+                    break;
+
+                var content = line.Content.Trim();
+                if(text.begins(content, Chars.Hash))
+                    continue;
+
+                var q = text.index(content, Chars.Hash);
+                if(q > 0)
+                    content = text.left(content, q);
+
+                if(IsNonterminal(content))
+                {
+                    var k = text.index(content, CallSyntax);
+                    terms.Add(new RuleSeqTerm(text.left(content,k), IsNonterminal(content)));
+                }
+                else
+                    terms.Add(new RuleSeqTerm(content, false));
+            }
+            return (uint)terms.Count;
         }
 
         public static bool IsAssignment(string src)

@@ -8,18 +8,275 @@ namespace Z0
 
     using static XedModels;
     using static XedRules;
-    using static Asm.IntelXed;
+    using static XedModels.BCastKind;
+    using static XedNames;
     using static core;
 
     using PW = XedModels.PointerWidthKind;
     using R = XedRules;
-
-    partial class XTend
-    {
-    }
+    using OC = XedRules.RuleOpClass;
 
     public partial class XedRender
     {
+        static EnumRender<BCast8Kind> BCast8 = new();
+
+        static EnumRender<BCast16Kind> BCast16 = new();
+
+        static EnumRender<BCast32Kind> BCast32 = new();
+
+        static EnumRender<BCast64Kind> BCast64 = new();
+
+        static EnumRender<ModeKind> ModeKinds = new();
+
+        static EnumRender<VisibilityKind> VisKind = new();
+
+        static EnumRender<VexClass> VexClasses = new();
+
+        static EnumRender<VexKind> VexKinds = new();
+
+        static EnumRender<VexMapKind> VexMap = new();
+
+        static EnumRender<LegacyMapKind> LegacyMap = new();
+
+        static EnumRender<EvexMapKind> EvexMap = new();
+
+        static EnumRender<AttributeKind> AttribKinds = new();
+
+        static EnumRender<OpCodeIndex> OcKindIndex = new();
+
+        static EnumRender<RuleOpKind> RuleOpKinds = new();
+
+        static EnumRender<RuleMacroKind> MacroKinds = new();
+
+        static EnumRender<RuleOpModKind> OpModKinds = new();
+
+        static EnumRender<FieldKind> FieldKinds = new();
+
+        static EnumRender<RuleTableKind> RuleTableKinds = new();
+
+        static EnumRender<EASZ> EaszKinds = new();
+
+        static EnumRender<EOSZ> EoszKinds = new();
+
+        static EnumRender<DispExprKind> DispKinds = new();
+
+        static EnumRender<NontermKind> NontermKinds = new();
+
+        static EnumRender<GroupName> EncodingGroups = new();
+
+        static EnumRender<ROUNDC> RoundingKinds = new();
+
+        static EnumRender<SMode> SModes = new();
+
+        static EnumRender<MASK> MaskCodes = new();
+
+        static EnumRender<CellDataKind> CellDataKinds = new();
+
+        static EnumRender<ChipCode> ChipCodes = new();
+
+        static Symbols<XedRegId> XedRegs = Symbols.index<XedRegId>();
+
+        static EnumRender<RuleOperator> RuleOps = new();
+
+        static EnumRender<ConstraintKind> ConstraintKinds = new();
+
+        static EnumRender<OpAction> OpActions = new();
+
+        static EnumRender<OpWidthCode> OpWidthKinds = new();
+
+        static EnumRender<ElementKind> ElementTypes = new();
+
+        static EnumRender<RuleOpName> OpNames = new();
+
+        static EnumRender<OpVisibility> OpVis = new();
+
+        static EnumRender<IClass> Classes = new();
+
+        static Index<string> BCastSymbols = MapBCastSymbols();
+
+        static Index<string> MapBCastSymbols()
+        {
+            var kinds = Symbols.index<BCastKind>().Kinds;
+            var count = kinds.Length - 1;
+            var symbols = alloc<string>(count);
+            for(int i=0, j=1; i<count; i++, j++)
+            {
+                ref readonly var kind = ref skip(kinds,j);
+                switch(kind)
+                {
+                    case BCast_1TO2_8:
+                    case BCast_1TO2_16:
+                    case BCast_1TO2_32:
+                    case BCast_1TO2_64:
+                        symbols[i] = N1to2;
+                        break;
+
+                    case BCast_1TO4_8:
+                    case BCast_1TO4_16:
+                    case BCast_1TO4_32:
+                    case BCast_1TO4_64:
+                        symbols[i] = N1to4;
+                        break;
+
+                    case BCast_1TO8_8:
+                    case BCast_1TO8_16:
+                    case BCast_1TO8_32:
+                    case BCast_1TO8_64:
+                        symbols[i] = N1to8;
+                        break;
+
+                    case BCast_1TO16_16:
+                    case BCast_1TO16_8:
+                    case BCast_1TO16_32:
+                        symbols[i] = N1to16;
+                        break;
+
+                    case BCast_1TO32_8:
+                    case BCast_1TO32_16:
+                        symbols[i] = N1to32;
+                        break;
+
+                    case BCast_1TO64_8:
+                        symbols[i] = N1to64;
+                        break;
+
+                    case BCast_2TO4_64:
+                    case BCast_2TO4_32:
+                        symbols[i] = N2to4;
+                        break;
+
+                    case BCast_2TO8_32:
+                    case BCast_2TO8_64:
+                        symbols[i] = N2to8;
+                        break;
+
+                    case BCast_2TO16_32:
+                        symbols[i] = N2to16;
+                        break;
+
+                    case BCast_4TO8_32:
+                    case BCast_4TO8_64:
+                        symbols[i] = N4to8;
+                        break;
+
+                    case BCast_4TO16_32:
+                        symbols[i] = N4to16;
+                        break;
+
+                    case BCast_8TO16_32:
+                        symbols[i] = N8to16;
+                        break;
+
+                    default:
+                    break;
+                }
+            }
+
+            return symbols;
+        }
+
+        public static string format(in RuleStatement src)
+        {
+            var sep = " <=> ";
+            var dst = text.buffer();
+            render(src.Premise, dst);
+            var a = dst.Emit();
+
+            render(src.Consequent, dst);
+            var b = dst.Emit();
+
+            return string.Format("{0}{1}{2}", a, sep, b);
+        }
+
+        static void render(ReadOnlySpan<RuleCriterion> src, ITextBuffer dst)
+        {
+            var count = src.Length;
+            var counter = 0u;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+
+                if(counter != 0)
+                    dst.Append(" && ");
+
+                dst.Append(format(c));
+                counter++;
+            }
+        }
+
+        public static string format(in RuleCriterion src)
+        {
+            if(src.IsCall)
+                return format(src.AsCall());
+            else if(src.IsNonterminal)
+            {
+                var fmt = src.AsNonterminal().Format();
+                if(src.Field != 0 && src.Operator != 0)
+                    return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), fmt);
+                else
+                    return fmt;
+            }
+            else if(src.IsLiteral)
+                return src.AsLiteral().Format();
+            else if(src.IsAssignment)
+                return format(src.AsAssignment());
+            else if(src.IsComparison)
+                return format(src.AsCmp());
+            else if(src.IsBfSeg)
+                return format(src.AsBfSeg());
+            else if(src.IsBfSpec)
+                return format(src.AsBfSpec());
+            else
+                return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.AsValue()));
+        }
+
+        public static string format(RuleOpAttrib src)
+        {
+            var dst = EmptyString;
+            switch(src.Class)
+            {
+                case OC.Action:
+                    dst = format(src.AsAction());
+                break;
+                case OC.OpWidth:
+                    dst = format(src.AsOpWidth());
+                break;
+
+                case OC.PtrWidth:
+                    dst = format(src.AsPtrWidth());
+                break;
+
+                case OC.ElementType:
+                    dst = format(src.AsElementType());
+                break;
+
+                case OC.Modifier:
+                    dst = format(src.AsModifier());
+                break;
+
+                case OC.Nonterminal:
+                    dst = format(src.AsNonTerm());
+                break;
+
+                case OC.Visibility:
+                    dst = format(src.AsVisiblity());
+                break;
+
+                case OC.RegLiteral:
+                    dst = format(src.AsRegLiteral());
+                break;
+
+                case OC.Scale:
+                    dst = src.AsScale().Format();
+                break;
+
+                case OC.Macro:
+                    dst = src.AsMacro().ToString();
+                break;
+            }
+            return dst;
+        }
+
         public static string format(OpCodeIndex src, FormatCode fc = FormatCode.Expr)
             => format(OcKindIndex, src, fc);
 
@@ -122,13 +379,19 @@ namespace Z0
         }
 
         public static string format(RuleOpName src)
-            => OpNames[src].Expr.Text;
+            => OpNames.Format(src);
 
         public static string format(RuleOperator src)
             => RuleOps.Format(src);
 
+        [MethodImpl(Inline)]
         public static string format(BCastKind src)
-            => BCastFormatter.format(src);
+        {
+            if(src == 0)
+                return EmptyString;
+            else
+                return BCastSymbols[(byte)src];
+        }
 
         public static string format(RuleOpModKind src)
             => OpModKinds.Format(src);
@@ -191,7 +454,7 @@ namespace Z0
             => XedRegs[src].Expr.Text;
 
         public static string format(OpAction src)
-            => OpActions[src].Expr.Text;
+            => OpActions.Format(src);
 
         public static string format(ChipCode src)
             => ChipCodes.Format(src);
@@ -203,10 +466,10 @@ namespace Z0
             => Classes.Format(src);
 
         public static string format(ConstraintKind src)
-            => ConstraintKinds[src].Expr.Text;
+            => ConstraintKinds.Format(src);
 
         public static string format(OpWidthCode src)
-            => OpWidthKinds[src].Expr.Text;
+            => OpWidthKinds.Format(src);
 
         public static string format(PointerWidthKind src)
             => src switch{
@@ -224,7 +487,7 @@ namespace Z0
             => ElementTypes.Format(src);
 
         public static string format(OpVisibility src)
-            => OpVis[src].Expr.Text;
+            => OpVis.Format(src);
 
         public static string format(OpCodeKind src)
             => format(ocindex(src));

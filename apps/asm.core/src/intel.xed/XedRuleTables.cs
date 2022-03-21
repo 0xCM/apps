@@ -33,7 +33,7 @@ namespace Z0
         }
 
         public Index<RuleSeq> CalcRuleSeq()
-            => new RuleSeqParser().Parse(XedPaths.DocSource(XedDocKind.RuleSeq));
+            => XedParsers.ruleseq(XedPaths.DocSource(XedDocKind.RuleSeq));
 
         void EmitRuleSeq()
         {
