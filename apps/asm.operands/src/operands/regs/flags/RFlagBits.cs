@@ -13,6 +13,8 @@ namespace Z0.Asm
     [Flags, SymSource("asm.regs.flags", Base16)]
     public enum RFlagBits : uint
     {
+        None = 0,
+
         CF = P2ᐞ00,
 
         PF = P2ᐞ02,

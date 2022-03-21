@@ -1,9 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <!-- <ItemGroup>
-    <ProjectReference Include="$(ZLib)"/>
-  </ItemGroup> -->
-
   <ItemGroup>
     <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
   </ItemGroup>

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using D = DecimalDigitFacets;
-    using O = OctalDigitFacets;
     using B = BinaryDigitFacets;
     using C = AsciCode;
 

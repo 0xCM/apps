@@ -9,15 +9,15 @@ namespace Z0
 
     public readonly struct FlagEffect
     {
-        public readonly RFlagIndex Flag;
+        public readonly RFlagBits Flag;
 
-        public readonly FlagEffectKind Effect;
+        public readonly FlagEffectKind Kind;
 
         [MethodImpl(Inline)]
-        public FlagEffect(RFlagIndex f, FlagEffectKind k)
+        public FlagEffect(RFlagBits f, FlagEffectKind k)
         {
             Flag = f;
-            Effect = k;
+            Kind = k;
         }
 
         public bool IsEmpty
@@ -31,15 +31,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Flag != 0;
         }
-
-        public string Format()
-            => EmptyString;
-
-        public override string ToString()
-            => Format();
-
-        [MethodImpl(Inline)]
-        public static implicit operator FlagEffect((RFlagIndex f, FlagEffectKind k) src)
-            => new FlagEffect(src.f, src.k);
     }
 }

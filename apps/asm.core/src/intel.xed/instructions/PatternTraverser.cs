@@ -92,9 +92,15 @@ namespace Z0
             void Print(in OpSpec op)
                 => Printer(string.Format("{0,-28} | {1} {2}",  op.Index,  XedRender.format(op.Name), op.Attribs.Delimit(Chars.Colon)));
 
+            void Print(in XedFlagEffect src)
+                => Printer(src.Format());
+
             public void Traverse(in InstDef def)
             {
                 _Defs.Add(def);
+
+                TraverseEffects(def);
+
                 var patterns = def.PatternSpecs;
                 for(var j=0; j<patterns.Count; j++)
                 {
@@ -158,6 +164,19 @@ namespace Z0
                         TraverseSeg(def, pattern, op);
                     break;
                 }
+            }
+
+            [MethodImpl(Inline)]
+            void TraverseEffects(in InstDef src)
+            {
+                for(var i=0; i<src.FlagEffects.Count; i++)
+                    Traverse(src, src.FlagEffects[i]);
+            }
+
+            void Traverse(in InstDef def, in XedFlagEffect effect)
+            {
+                TraversingEffect(def,effect);
+                Traversed(def, effect);
             }
 
             [MethodImpl(Inline)]
@@ -314,6 +333,11 @@ namespace Z0
                 }
             }
 
+            protected virtual void TraversingEffect(in InstDef def, in XedFlagEffect effect)
+            {
+                Print(effect);
+            }
+
             protected virtual void TraversingReg(in InstDef def, in InstPatternSpec pattern, in OpSpec op)
             {
                 Print(op);
@@ -410,6 +434,11 @@ namespace Z0
             }
 
             protected virtual void Traversed(in InstDef def, in InstPatternSpec pattern, in OpSpec op, OpVisibility attrib)
+            {
+
+            }
+
+            protected virtual void Traversed(in InstDef def, in XedFlagEffect effect)
             {
 
             }

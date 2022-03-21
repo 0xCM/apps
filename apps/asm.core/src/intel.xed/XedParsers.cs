@@ -197,7 +197,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static bool IsIntLiteral(string src)
-            => SQ.digits(base10,src) != 0;
+            => Digital.count(base10,src) != 0;
 
         public static bool IsBfSeg(string src)
         {

@@ -5,29 +5,29 @@
 namespace Z0.Asm
 {
     /// <summary>
-    /// Taken from https://github.com/intelxed/xed
+    /// Adapted from https://github.com/intelxed/xed
     /// </summary>
     public enum FlagEffectKind
     {
         [Symbol("u", "undefined (treated as a write)")]
-        Undefined,
+        u,
 
         [Symbol("tst", "test (read)")]
-        Test,
+        tst,
 
         [Symbol("mod", "modification (write)")]
-        Modify,
+        mod,
 
         [Symbol("0", "value will be zero (write)")]
-        Disable,
+        off,
 
         [Symbol("pop", "value comes from the stack (write)")]
-        Pop,
+        pop,
 
         [Symbol("ah", "value comes from AH (write)")]
-        AH,
+        ah,
 
         [Symbol("1", "value will be 1 (write)")]
-        Enable,
+        on,
     }
 }

@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static core;
-    using static Root;
 
     [ApiHost]
     public readonly partial struct Symbols

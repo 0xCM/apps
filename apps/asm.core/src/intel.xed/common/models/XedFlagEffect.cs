@@ -43,6 +43,13 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator XedFlagEffect((XedRegFlag f, FlagEffectKind k) src)
                 => new XedFlagEffect(src.f, src.k);
+
+            [MethodImpl(Inline)]
+            public static implicit operator FlagEffect(XedFlagEffect src)
+            {
+                convert(src, out FlagEffect dst);
+                return dst;
+            }
         }
     }
 }

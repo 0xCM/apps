@@ -4,32 +4,31 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     partial struct Symbols
     {
-       public static ref SymTypeInfo symtype<T>(out SymTypeInfo dst)
+       public static SymTypeInfo symtype<T>()
             where T : unmanaged, Enum
         {
             var t = typeof(T);
+            var dst = default(SymTypeInfo);
             dst.TypeName = t.Name;
             dst.DataType = (PrimalCode)Enums.ecode(t);
             dst.SymCount = (ushort)t.GetFields().Length;
             dst.TypeNameData = text.utf16(dst.TypeName).ToArray();
             dst.TypeNameSize = (ushort)dst.TypeNameData.Length;
-            return ref dst;
+            return dst;
         }
 
         [Op]
-        public static ref SymTypeInfo symtype(Type src, out SymTypeInfo dst)
+        public static SymTypeInfo symtype(Type src)
         {
+            var dst = default(SymTypeInfo);
             dst.TypeName = src.Name;
             dst.DataType = (PrimalCode)Enums.ecode(src);
             dst.SymCount = (ushort)src.GetFields().Length;
             dst.TypeNameData = text.utf16(dst.TypeName).ToArray();
             dst.TypeNameSize = (ushort)dst.TypeNameData.Length;
-            return ref dst;
+            return dst;
         }
     }
 }

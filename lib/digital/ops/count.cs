@@ -4,13 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using NBK = NumericBaseKind;
+    using C = AsciCode;
 
     partial struct Digital
     {
@@ -95,6 +92,50 @@ namespace Z0
                 else
                     break;
             }
+            return counter;
+        }
+
+        /// <summary>
+        /// Counts the number of contiguous binary digits begining at a specified offset
+        /// </summary>
+        /// <param name="base">The base selector</param>
+        /// <param name="src">The data source</param>
+        /// <param name="offset">The search offset</param>
+        [MethodImpl(Inline), Op]
+        public static uint count(Base2 @base, ReadOnlySpan<char> src, uint offset)
+        {
+            var limit = src.Length - offset;
+            var counter = 0u;
+            for(var i=offset; i<limit; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(!Digital.test(@base, c))
+                    break;
+                counter++;
+            }
+
+            return counter;
+        }
+
+        /// <summary>
+        /// Counts the number of contiguous binary digits begining at a specified offset
+        /// </summary>
+        /// <param name="base">The base selector</param>
+        /// <param name="src">The data source</param>
+        /// <param name="offset">The search offset</param>
+        [MethodImpl(Inline), Op]
+        public static uint count(Base2 @base, ReadOnlySpan<C> src, uint offset)
+        {
+            var limit = src.Length - offset;
+            var counter = 0u;
+            for(var i=offset; i<limit; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(!Digital.test(@base, c))
+                    break;
+                counter++;
+            }
+
             return counter;
         }
     }

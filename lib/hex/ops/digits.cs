@@ -8,29 +8,21 @@ namespace Z0
 
     partial struct Hex
     {
-        [Op, Closures(Closure)]
-        public static Index<HexLowerCode> digits<T>(in T src, LowerCased @case)
-            where T : struct
+
+        [MethodImpl(Inline), Op]
+        public static void digits(ReadOnlySpan<HexLowerSym> src, Span<HexDigitValue> dst)
         {
-            var count = size<T>();
-            var dst = alloc<HexLowerCode>(count*2);
-            digits(src,dst);
-            return dst;
+            var count = src.Length;
+            for(var i=0u; i<count; i++)
+                seek(dst,i) = Hex.digit(skip(src,i));
         }
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static void digits<T>(in T src, Span<HexLowerCode> dst)
-            where T : struct
+        [MethodImpl(Inline), Op]
+        public static void digits(ReadOnlySpan<HexUpperSym> src, Span<HexDigitValue> dst)
         {
-            var count = size<T>();
-            ref readonly var bytes = ref @as<T,byte>(src);
-            var j = count*2 - 1;
+            var count = src.Length;
             for(var i=0u; i<count; i++)
-            {
-                ref readonly var d = ref skip(bytes,i);
-                seek(dst, j--) = code(n4, LowerCase, d);
-                seek(dst, j--) = code(n4, LowerCase, Bytes.srl(d, 4));
-            }
+                seek(dst,i) = Hex.digit(skip(src,i));
         }
 
         [Op]
@@ -46,20 +38,5 @@ namespace Z0
             return j;
         }
 
-        [MethodImpl(Inline), Op]
-        public static void digits(ReadOnlySpan<HexLowerSym> src, Span<HexDigitValue> dst)
-        {
-            var count = src.Length;
-            for(var i=0u; i<count; i++)
-                seek(dst,i) = digit(skip(src,i));
-        }
-
-        [MethodImpl(Inline), Op]
-        public static void digits(ReadOnlySpan<HexUpperSym> src, Span<HexDigitValue> dst)
-        {
-            var count = src.Length;
-            for(var i=0u; i<count; i++)
-                seek(dst,i) = digit(skip(src,i));
-        }
     }
 }

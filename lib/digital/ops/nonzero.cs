@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    partial struct Hex
+    partial struct Digital
     {
         const char Zero = (char)0;
 

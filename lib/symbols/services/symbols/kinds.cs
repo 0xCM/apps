@@ -19,6 +19,10 @@ namespace Z0
             return count;
         }
 
+        public static ReadOnlySpan<K> kinds<K>()
+            where K : unmanaged, Enum
+                => index<K>().Kinds;
+
         [Op, Closures(Closure)]
         public static uint kinds<K>(in Symbols<K> src, Span<SymKindRow> dst)
             where K : unmanaged

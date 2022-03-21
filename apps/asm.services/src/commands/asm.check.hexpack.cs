@@ -28,8 +28,9 @@ namespace Z0
                     return (false, "Not Equal");
             }
 
+
             var buffer = alloc<byte>(count/2);
-            var size = Hex.pack(dst,buffer);
+            var size = Digital.pack(dst,buffer);
             Write(DataSource);
             Write(buffer.FormatHex(HexFormatSpecs.Compact));
 

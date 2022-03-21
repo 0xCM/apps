@@ -21,12 +21,6 @@ namespace Z0.Asm
                 EmitBroadcastDefs,
                 () => Rules.EmitCatalog()
                 );
-
-            // EmitChipMap();
-            // ImportForms();
-            // EmitIsaForms();
-            // EmitRegmap();
-            // Rules.EmitCatalog();
         }
 
         void EmitRegmap()

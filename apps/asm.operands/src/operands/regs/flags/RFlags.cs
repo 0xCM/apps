@@ -6,10 +6,15 @@ namespace Z0.Asm
 {
     using F = RFlagBits;
     using I = RFlagIndex;
+    using static core;
 
     [ApiComplete]
     public struct RFlags : IEquatable<RFlags>
     {
+        [MethodImpl(Inline)]
+        public static RFlagBits bits(RFlagIndex src)
+            => (RFlagBits)Pow2.pow((byte)src);
+
         RFlagBits State;
 
         [MethodImpl(Inline)]
@@ -148,16 +153,21 @@ namespace Z0.Asm
         public bool Equals(RFlags src)
             => State == src.State;
 
-        public string Format()
+        public static Index<string> FlagNames = new string[15]{"CF","PF", "AF", "ZF", "SF", "TF", "IF", "DF", "OF", "RF", "VM", "AC", "VIF", "VIP", "ID"};
+
+        public static string RenderPattern = mapi(FlagNames, (i,n) =>  RP.slot((byte)i, -3)).Concat(" | ");
+
+        public string Format(bool header)
         {
-            const string H = "CF | PF | AF | ZF | SF | TF | IF | DF | OF | RF | VM | AC | VIF | VIP | ID";
-            const string P = "{0} | {1} | {2} | {3} | {4} | {5} | {6} | {7} | {8} | {9} | {10} | {11} | {12} | {13} | {14}";
-            var values = string.Format(P,CF(), PF(), AF(), ZF(), SF(), TF(), IF(), DF(), OF(), RF(), VM(), AC(), VIF(), VIP(), ID());
-            return string.Format("{0}\n{1}", H, values);
+            var values = string.Format(RenderPattern, CF(), PF(), AF(), ZF(), SF(), TF(), IF(), DF(), OF(), RF(), VM(), AC(), VIF(), VIP(), ID());
+            if(header)
+                return string.Format("{0}\n{1}\n", string.Format(RenderPattern,FlagNames), values);
+            else
+                return values;
         }
 
         public override string ToString()
-            => Format();
+            => Format(true);
 
         [MethodImpl(Inline)]
         public static implicit operator RFlags(StatusFlagBits src)

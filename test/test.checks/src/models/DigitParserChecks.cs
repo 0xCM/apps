@@ -4,10 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct SymbolicQuery
+    using static core;
+
+    public class DigitParserChecks: Checker<DigitParserChecks>
     {
-        [MethodImpl(Inline), Op]
-        public static TextMarker marker(string id, string src)
-            => new TextMarker(id, src);
+        public Outcome CheckCases()
+            => DigitParserCases.check();
     }
 }

@@ -4,14 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static Root;
     using static core;
 
     [ApiHost]
     public readonly struct DigitParserCases
     {
+        public static Outcome check()
+        {
+            var cases = create();
+            var results = run(cases).View;
+            var count = results.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var result = ref skip(results,i);
+                if(!result.Passed)
+                    return (false,result.Format());
+            }
+
+            return true;
+        }
+
         [Op]
         public static Index<DigitParserResult> run(ReadOnlySpan<DigitParserCase> cases)
         {

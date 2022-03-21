@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     partial struct Symbols
     {
         public static Index<SymIndex> indices(Type[] src)

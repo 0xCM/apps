@@ -9,6 +9,7 @@ namespace Z0
     using SQ = SymbolicQuery;
     using C = AsciCode;
 
+
     [ApiHost]
     public readonly struct SymbolicParse
     {
@@ -117,11 +118,6 @@ namespace Z0
             return true;
         }
 
-        /// <summary>
-        /// Parsed the leading digit sequence of a given row
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
         public static Outcome digits(Base10 @base, in AsciLine src, ref uint i, out ushort dst)
         {
             var i0 = i;
@@ -144,30 +140,12 @@ namespace Z0
             return result;
         }
 
-        [MethodImpl(Inline), Op]
-        public static uint convert(ReadOnlySpan<C> src, Span<char> dst)
-        {
-            var count = (uint)min(src.Length, dst.Length);
-            for(var i=0; i<count; i++)
-                seek(dst,i) = (char)skip(src,i);
-            return count;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static uint convert(ReadOnlySpan<char> src, Span<C> dst)
-        {
-            var count = (uint)min(src.Length, dst.Length);
-            for(var i=0; i<count; i++)
-                seek(dst,i) = (AsciCode)skip(src,i);
-            return count;
-        }
-
         [Op]
         public static Outcome parse(Base10 @base, ReadOnlySpan<C> src, out ushort dst)
         {
             var storage = CharBlock16.Null;
             var buffer = storage.Data;
-            convert(src, buffer);
+            Asci.convert(src, buffer);
             return ScalarParser.parse(@base, buffer, out dst);
         }
 
