@@ -10,16 +10,16 @@ namespace Z0
         [SymSource(xed_state), DataWidth(2)]
         public enum ModeKind : sbyte
         {
-            [Symbol("mode16", "MODE=0")]
+            [Symbol("16", "MODE=0")]
             Mode16 = 0,
 
-            [Symbol("mode32", "MODE=1")]
+            [Symbol("32", "MODE=1")]
             Mode32 = 1,
 
-            [Symbol("mode64", "MODE=2")]
+            [Symbol("64", "MODE=2")]
             Mode64 = 2,
 
-            [Symbol("not64", "MODE!=2")]
+            [Symbol("16/32", "MODE!=2")]
             Not64 = 3,
         }
     }

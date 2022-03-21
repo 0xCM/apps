@@ -8,10 +8,8 @@ namespace Z0
     using static core;
     using static XedModels;
     using static XedRules;
-    using static XedDisasm;
-
+    using R = XedRules;
     using K = XedRules.FieldKind;
-
 
     partial class XedDisasmSvc
     {
@@ -100,13 +98,18 @@ namespace Z0
                 dst.AppendFormat("/{0}", opinfo.OpType);
         }
 
+        static Dictionary<K,R.FieldValue> update(Index<R.FieldValue> src, ref RuleState state)
+        {
+            XedFields.update(src, ref state);
+            return src.Map(x => (x.Field, x)).ToDictionary();
+        }
+
         void EmitDisasmProps(WsContext context, in DisasmFileBlocks src)
         {
             const string FieldPattern = "{0,-24} | {1}";
 
             var filename = FS.file(string.Format("{0}.props",src.Source.Path.FileName.WithoutExtension.Format()), FS.Txt);
-            var outdir = Projects.XedDisasmDir(context.Project);
-            var dst = outdir + filename;
+            var dst = Projects.XedDisasmDir(context.Project) + filename;
             var emitting = EmittingFile(dst);
             XedDisasm.summarize(context, src.Source, out var summaries);
             Require.equal(summaries.RowCount, src.Count);
@@ -128,9 +131,8 @@ namespace Z0
 
                 state = RuleState.Empty;
                 ref readonly var summary = ref summaries[i];
-                var _fields = XedDisasm.fields(src[i]);
-                var lookup = _fields.Map(x => (x.Field, x)).ToDictionary();
-                XedFields.update(_fields, ref state);
+                var fields = XedDisasm.fields(src[i]);
+                var lookup = update(fields, ref state);
 
                 void Emit(FieldKind kind)
                 {
@@ -143,7 +145,6 @@ namespace Z0
                     writer.AppendLineFormat(FieldPattern, kind, value);
                     formatted.Add(kind);
                 }
-
 
                 writer.AppendLine((Address32)summary.IP);
                 writer.AppendLine(RP.PageBreak80);
@@ -272,9 +273,9 @@ namespace Z0
                 if(lookup.TryGetValue(K.ELEMENT_SIZE, out _))
                     Emit(K.ELEMENT_SIZE);
 
-                for(var j=0; j<_fields.Count; j++)
+                for(var j=0; j<fields.Count; j++)
                 {
-                    ref readonly var field = ref _fields[j];
+                    ref readonly var field = ref fields[j];
                     if(!formatted.Contains(field.Field))
                         writer.AppendLineFormat(FieldPattern, field.Field, XedRender.format(field));
                     counter++;

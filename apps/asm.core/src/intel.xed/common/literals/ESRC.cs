@@ -10,52 +10,52 @@ namespace Z0
         [SymSource(xed), DataWidth(3)]
         public enum ESRC : byte
         {
-            [Symbol("ESRC=0")]
+            [Symbol("xmm0", "ESRC=0")]
             XMM0,
 
-            [Symbol("ESRC=1")]
+            [Symbol("xmm1","ESRC=1")]
             XMM1,
 
-            [Symbol("ESRC=2")]
+            [Symbol("xmm2","ESRC=2")]
             XMM2,
 
-            [Symbol("ESRC=3")]
+            [Symbol("xmm3","ESRC=3")]
             XMM3,
 
-            [Symbol("ESRC=4")]
+            [Symbol("xmm4","ESRC=4")]
             XMM4,
 
-            [Symbol("ESRC=5")]
+            [Symbol("xmm5","ESRC=5")]
             XMM5,
 
-            [Symbol("ESRC=6")]
+            [Symbol("xmm6","ESRC=6")]
             XMM6,
 
-            [Symbol("ESRC=7")]
+            [Symbol("xmm7","ESRC=7")]
             XMM7,
 
-            [Symbol("ESRC=8")]
+            [Symbol("xmm8","ESRC=8")]
             XMM8,
 
-            [Symbol("ESRC=9")]
+            [Symbol("xmm9","ESRC=9")]
             XMM9,
 
-            [Symbol("ESRC=10")]
+            [Symbol("xmm10","ESRC=10")]
             XMM10,
 
-            [Symbol("ESRC=11")]
+            [Symbol("xmm11","ESRC=11")]
             XMM11,
 
-            [Symbol("ESRC=12")]
+            [Symbol("xmm12","ESRC=12")]
             XMM12,
 
-            [Symbol("ESRC=13")]
+            [Symbol("xmm13","ESRC=13")]
             XMM13,
 
-            [Symbol("ESRC=14")]
+            [Symbol("xmm14","ESRC=14")]
             XMM14,
 
-            [Symbol("ESRC=15")]
+            [Symbol("xmm15","ESRC=15")]
             XMM15,
         }
     }

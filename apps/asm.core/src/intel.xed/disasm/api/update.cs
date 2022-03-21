@@ -8,16 +8,22 @@ namespace Z0
     using Asm;
 
     using static core;
+    using static XedRules;
+    using static XedFields;
+    using static XedModels;
 
     using K = XedRules.FieldKind;
     using R = XedRules;
 
-    using static XedRules;
-    using static XedModels;
-    using static XedFields;
-
     partial class XedDisasm
     {
+        public static Index<R.FieldValue> update(in DisasmLineBlock src, ref RuleState state)
+        {
+            var _fields = XedDisasm.fields(src);
+            XedFields.update(_fields, ref state);
+            return _fields;
+        }
+
         static Outcome update(string src, FieldKind kind, ref DisasmState dstate)
         {
             ref var rules = ref dstate.RuleState;

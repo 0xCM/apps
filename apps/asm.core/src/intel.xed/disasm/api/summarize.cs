@@ -8,7 +8,6 @@ namespace Z0
 
     using static core;
     using static XedModels;
-    using static XedRules;
 
     public partial class XedDisasm
     {
@@ -40,6 +39,20 @@ namespace Z0
                 }
             }
             return dst.ViewDeposited();
+        }
+
+        public static Index<AsmDisasmSummary> summarize(WsContext context, DisasmFileBlocks blocks)
+        {
+            var dst = list<AsmDisasmSummary>();
+            summarize(blocks.Source, context.Root(blocks.Source), blocks.Lines, dst).Require();
+            return dst.ToArray();
+        }
+
+        public static Index<AsmDisasmSummary> summarize(WsContext context, in FileRef src)
+        {
+            var dst = list<AsmDisasmSummary>();
+            summarize(src, context.Root(src), XedDisasm.blocks(src).Lines, dst).Require();
+            return dst.ToArray();
         }
 
         public static Outcome summarize(in FileRef src, in FileRef origin, Index<DisasmLineBlock> blocks, List<AsmDisasmSummary> dst)

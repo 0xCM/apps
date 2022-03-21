@@ -17,9 +17,6 @@ namespace Z0
             return dst.ToArray().Sort();
         }
 
-        public Index<DisasmDetail> CalcDisasmDetails(WsContext context, FS.FilePath src)
-            => CalcDisasmDetails(context, context.Ref(src));
-
         Outcome CalcDisasmDetails(WsContext context, in FileRef src, ConcurrentBag<DisasmDetail> dst)
             => CalcDisasmDetails(context, XedDisasm.blocks(src), dst);
 

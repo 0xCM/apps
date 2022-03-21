@@ -5,16 +5,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
-    {
-        [SymSource(xed), DataWidth(1)]
-        public enum DF64 : byte
-        {
-            [Symbol("nrmw", "DF64=0")]
-            NRMW = 0,
+    using Asm;
 
-            [Symbol("64", "DF64=1")]
-            DF64 = 1,
-        }
+    using static XedModels;
+    using static XedPatterns;
+    using static XedRules;
+
+    partial class XedFields
+    {
+        [MethodImpl(Inline), Op]
+        public static VexClass vexclass(in RuleState src)
+            => (VexClass)src.VEX_PREFIX;
     }
 }

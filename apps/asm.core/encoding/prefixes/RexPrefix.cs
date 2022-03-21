@@ -53,6 +53,12 @@ namespace Z0.Asm
         public RexPrefix(byte src)
             => Data = src;
 
+        [MethodImpl(Inline)]
+        public RexPrefix(bit b, bit x, bit r, bit w)
+        {
+            Data = math.or(bit.pack(b,x,r,w), (byte)0x40);
+        }
+
         public bit W
         {
             [MethodImpl(Inline)]

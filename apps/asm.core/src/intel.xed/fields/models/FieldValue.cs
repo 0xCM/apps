@@ -40,13 +40,6 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, uint data)
-            {
-                Field = kind;
-                Data = data;
-            }
-
-            [MethodImpl(Inline)]
             public FieldValue(BitfieldSeg data)
             {
                 Field = data.Field;
@@ -62,6 +55,13 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public FieldValue(FieldKind kind, ulong data)
+            {
+                Field = kind;
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, Disp64 data)
             {
                 Field = kind;
                 Data = data;
@@ -89,8 +89,39 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public static implicit operator FieldValue(BitfieldSeg src)
-                => new FieldValue(src);
+            public FieldValue(FieldKind kind, BCastKind data)
+            {
+                Field = kind;
+                Data = (uint)data;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, IClass data)
+            {
+                Field = kind;
+                Data = (uint)data;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, ChipCode data)
+            {
+                Field = kind;
+                Data = (uint)data;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, EASZ data)
+            {
+                Field = kind;
+                Data = (uint)data;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, EOSZ data)
+            {
+                Field = kind;
+                Data = (uint)data;
+            }
 
             public bool IsEmpty
             {
@@ -103,58 +134,6 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => Field != 0;
             }
-
-            [MethodImpl(Inline)]
-            public FieldValue WithValue(Disp64 src)
-                => new FieldValue(Field,src);
-
-            [MethodImpl(Inline)]
-            public FieldValue WithValue(bit src)
-                => new FieldValue(Field, (ulong)src);
-
-            [MethodImpl(Inline)]
-            public FieldValue WithValue(byte src)
-                => new FieldValue(Field,src);
-
-            [MethodImpl(Inline)]
-            public FieldValue WithValue(ushort src)
-                => new FieldValue(Field,src);
-
-            [MethodImpl(Inline)]
-            public FieldValue WithValue(XedRegId src)
-                => new FieldValue(Field,(ulong)src);
-
-            [MethodImpl(Inline)]
-            public FieldValue WithValue(Hex8 src)
-                => new FieldValue(Field,(ulong)src);
-
-            [MethodImpl(Inline)]
-            public FieldValue WithValue(imm8 src)
-                => new FieldValue(Field,(ulong)src);
-
-            [MethodImpl(Inline)]
-            public FieldValue WithValue(imm64 src)
-                => new FieldValue(Field,(ulong)src);
-
-            [MethodImpl(Inline)]
-            public FieldValue WithValue(BCastKind src)
-                => new FieldValue(Field,(ulong)src);
-
-            [MethodImpl(Inline)]
-            public FieldValue WithValue(IClass src)
-                => new FieldValue(Field,(ulong)src);
-
-            [MethodImpl(Inline)]
-            public FieldValue WithValue(ChipCode src)
-                => new FieldValue(Field,(ulong)src);
-
-            [MethodImpl(Inline)]
-            public FieldValue WithValue(EASZ src)
-                => new FieldValue(Field,(ulong)src);
-
-            [MethodImpl(Inline)]
-            public FieldValue WithValue(EOSZ src)
-                => new FieldValue(Field,(ulong)src);
 
             [MethodImpl(Inline)]
             public bool Equals(FieldValue src)

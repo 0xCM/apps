@@ -20,499 +20,499 @@ namespace Z0
             switch(kind)
             {
                 case K.AMD3DNOW:
-                    dst = dst.WithValue(src.AMD3DNOW);
+                    dst = new (kind, src.AMD3DNOW);
                 break;
 
                 case K.ASZ:
-                    dst = dst.WithValue(src.ASZ);
+                    dst = new (kind, src.ASZ);
                 break;
 
                 case K.BASE0:
-                    dst = dst.WithValue(src.BASE0);
+                    dst = new (kind, src.BASE0);
                 break;
 
                 case K.BASE1:
-                    dst = dst.WithValue(src.BASE1);
+                    dst = new (kind, src.BASE1);
                 break;
 
                 case K.BCAST:
-                    dst = dst.WithValue(src.BCAST);
+                    dst = new (kind, src.BCAST);
                 break;
 
                 case K.BCRC:
-                    dst = dst.WithValue(src.BCRC);
+                    dst = new (kind, src.BCRC);
                 break;
 
                 case K.RELBR:
-                    dst = dst.WithValue(src.RELBR);
+                    dst = new (kind, src.RELBR);
                 break;
 
                 case K.BRDISP_WIDTH:
-                    dst = dst.WithValue(src.BRDISP_WIDTH);
+                    dst = new (kind, src.BRDISP_WIDTH);
                 break;
 
                 case K.CET:
-                    dst = dst.WithValue(src.CET);
+                    dst = new (kind, src.CET);
                 break;
 
                 case K.CHIP:
-                    dst = dst.WithValue(src.CHIP);
+                    dst = new (kind, src.CHIP);
                 break;
 
                 case K.CLDEMOTE:
-                    dst = dst.WithValue(src.CLDEMOTE);
+                    dst = new (kind, src.CLDEMOTE);
                 break;
 
                 case K.DEFAULT_SEG:
-                    dst = dst.WithValue(src.DEFAULT_SEG);
+                    dst = new (kind, src.DEFAULT_SEG);
                 break;
 
                 case K.DF32:
-                    dst = dst.WithValue(src.DF32);
+                    dst = new (kind, src.DF32);
                 break;
 
                 case K.DF64:
-                    dst = dst.WithValue(src.DF64);
+                    dst = new (kind, src.DF64);
                 break;
 
                 case K.DISP:
-                    dst = dst.WithValue(src.DISP);
+                    dst = new (kind, src.DISP);
                 break;
 
                 case K.DISP_WIDTH:
-                    dst = dst.WithValue(src.DISP_WIDTH);
+                    dst = new (kind, src.DISP_WIDTH);
                 break;
 
                 case K.DUMMY:
-                    dst = dst.WithValue(src.DUMMY);
+                    dst = new (kind, src.DUMMY);
                 break;
 
                 case K.EASZ:
-                    dst = dst.WithValue(src.EASZ);
+                    dst = new (kind, src.EASZ);
                 break;
 
                 case K.ELEMENT_SIZE:
-                    dst = dst.WithValue(src.ELEMENT_SIZE);
+                    dst = new (kind, src.ELEMENT_SIZE);
                 break;
 
                 case K.ENCODER_PREFERRED:
-                    dst = dst.WithValue(src.ENCODER_PREFERRED);
+                    dst = new (kind, src.ENCODER_PREFERRED);
                 break;
 
                 case K.ENCODE_FORCE:
-                    dst = dst.WithValue(src.ENCODE_FORCE);
+                    dst = new (kind, src.ENCODE_FORCE);
                 break;
 
                 case K.EOSZ:
-                    dst = dst.WithValue(src.EOSZ);
+                    dst = new (kind, src.EOSZ);
                 break;
 
                 case K.ESRC:
-                    dst = dst.WithValue(src.ESRC);
+                    dst = new (kind, src.ESRC);
                 break;
 
                 case K.FIRST_F2F3:
-                    dst = dst.WithValue(src.FIRST_F2F3);
+                    dst = new (kind, src.FIRST_F2F3);
                 break;
 
                 case K.HAS_MODRM:
-                    dst = dst.WithValue(src.HAS_MODRM);
+                    dst = new (kind, src.HAS_MODRM);
                 break;
 
                 case K.HAS_SIB:
-                    dst = dst.WithValue(src.HAS_SIB);
+                    dst = new (kind, src.HAS_SIB);
                 break;
 
                 case K.HINT:
-                    dst = dst.WithValue(src.HINT);
+                    dst = new (kind, src.HINT);
                 break;
 
                 case K.ICLASS:
-                    dst = dst.WithValue(src.ICLASS);
+                    dst = new (kind, src.ICLASS);
                 break;
 
                 case K.ILD_F2:
-                    dst = dst.WithValue(src.ILD_F2);
+                    dst = new (kind, src.ILD_F2);
                 break;
 
                 case K.ILD_F3:
-                    dst = dst.WithValue(src.ILD_F3);
+                    dst = new (kind, src.ILD_F3);
                 break;
 
                 case K.ILD_SEG:
-                    dst = dst.WithValue(src.ILD_SEG);
+                    dst = new (kind, src.ILD_SEG);
                 break;
 
                 case K.IMM0:
-                    dst = dst.WithValue(src.IMM0);
+                    dst = new (kind, src.IMM0);
                 break;
 
                 case K.IMM0SIGNED:
-                    dst = dst.WithValue(src.IMM0SIGNED);
+                    dst = new (kind, src.IMM0SIGNED);
                 break;
 
                 case K.IMM1:
-                    dst = dst.WithValue(src.IMM1);
+                    dst = new (kind, src.IMM1);
                 break;
 
                 case K.IMM1_BYTES:
-                    dst = dst.WithValue(src.IMM1_BYTES);
+                    dst = new (kind, src.IMM1_BYTES);
                 break;
 
                 case K.IMM_WIDTH:
-                    dst = dst.WithValue(src.IMM_WIDTH);
+                    dst = new (kind, src.IMM_WIDTH);
                 break;
 
                 case K.INDEX:
-                    dst = dst.WithValue(src.INDEX);
+                    dst = new (kind, src.INDEX);
                 break;
 
                 case K.LAST_F2F3:
-                    dst = dst.WithValue(src.LAST_F2F3);
+                    dst = new (kind, src.LAST_F2F3);
                 break;
 
                 case K.LLRC:
-                    dst = dst.WithValue(src.LLRC);
+                    dst = new (kind, src.LLRC);
                 break;
 
                 case K.LOCK:
-                    dst = dst.WithValue(src.LOCK);
+                    dst = new (kind, src.LOCK);
                 break;
 
                 case K.LZCNT:
-                    dst = dst.WithValue(src.LZCNT);
+                    dst = new (kind, src.LZCNT);
                 break;
 
                 case K.MAP:
-                    dst = dst.WithValue(src.MAP);
+                    dst = new (kind, src.MAP);
                 break;
 
                 case K.MASK:
-                    dst = dst.WithValue(src.MASK);
+                    dst = new (kind, src.MASK);
                 break;
 
                 case K.MAX_BYTES:
-                    dst = dst.WithValue(src.MAX_BYTES);
+                    dst = new (kind, src.MAX_BYTES);
                 break;
 
                 case K.MEM_WIDTH:
-                    dst = dst.WithValue(src.MEM_WIDTH);
+                    dst = new (kind, src.MEM_WIDTH);
                 break;
 
                 case K.MOD:
-                    dst = dst.WithValue(src.MOD);
+                    dst = new (kind, src.MOD);
                 break;
 
                 case K.REG:
-                    dst = dst.WithValue(src.REG);
+                    dst = new (kind, src.REG);
                 break;
 
                 case K.MODRM_BYTE:
-                    dst = dst.WithValue(src.MODRM_BYTE);
+                    dst = new (kind, src.MODRM_BYTE);
                 break;
 
                 case K.MODE:
-                    dst = dst.WithValue(src.MODE);
+                    dst = new (kind, src.MODE);
                 break;
 
                 case K.MODEP5:
-                    dst = dst.WithValue(src.MODEP5);
+                    dst = new (kind, src.MODEP5);
                 break;
 
                 case K.MODEP55C:
-                    dst = dst.WithValue(src.MODEP55C);
+                    dst = new (kind, src.MODEP55C);
                 break;
 
                 case K.MODE_FIRST_PREFIX:
-                    dst = dst.WithValue(src.MODE_FIRST_PREFIX);
+                    dst = new (kind, src.MODE_FIRST_PREFIX);
                 break;
 
                 case K.MPXMODE:
-                    dst = dst.WithValue(src.MPXMODE);
+                    dst = new (kind, src.MPXMODE);
                 break;
 
                 case K.MUST_USE_EVEX:
-                    dst = dst.WithValue(src.MUST_USE_EVEX);
+                    dst = new (kind, src.MUST_USE_EVEX);
                 break;
 
                 case K.NEEDREX:
-                    dst = dst.WithValue(src.NEEDREX);
+                    dst = new (kind, src.NEEDREX);
                 break;
 
                 case K.NEED_MEMDISP:
-                    dst = dst.WithValue(src.NEED_MEMDISP);
+                    dst = new (kind, src.NEED_MEMDISP);
                 break;
 
                 case K.NEED_SIB:
-                    dst = dst.WithValue(src.NEED_SIB);
+                    dst = new (kind, src.NEED_SIB);
                 break;
 
                 case K.NELEM:
-                    dst = dst.WithValue(src.NELEM);
+                    dst = new (kind, src.NELEM);
                 break;
 
                 case K.NOMINAL_OPCODE:
-                    dst = dst.WithValue(src.NOMINAL_OPCODE);
+                    dst = new (kind, src.NOMINAL_OPCODE);
                 break;
 
                 case K.NOREX:
-                    dst = dst.WithValue(src.NOREX);
+                    dst = new (kind, src.NOREX);
                 break;
 
                 case K.NO_SCALE_DISP8:
-                    dst = dst.WithValue(src.NO_SCALE_DISP8);
+                    dst = new (kind, src.NO_SCALE_DISP8);
                 break;
 
                 case K.NPREFIXES:
-                    dst = dst.WithValue(src.NPREFIXES);
+                    dst = new (kind, src.NPREFIXES);
                 break;
 
                 case K.NREXES:
-                    dst = dst.WithValue(src.NREXES);
+                    dst = new (kind, src.NREXES);
                 break;
 
                 case K.NSEG_PREFIXES:
-                    dst = dst.WithValue(src.NSEG_PREFIXES);
+                    dst = new (kind, src.NSEG_PREFIXES);
                 break;
 
                 case K.OSZ:
-                    dst = dst.WithValue(src.OSZ);
+                    dst = new (kind, src.OSZ);
                 break;
 
                 case K.OUT_OF_BYTES:
-                    dst = dst.WithValue(src.OUT_OF_BYTES);
+                    dst = new (kind, src.OUT_OF_BYTES);
                 break;
 
                 case K.P4:
-                    dst = dst.WithValue(src.P4);
+                    dst = new (kind, src.P4);
                 break;
 
                 case K.POS_DISP:
-                    dst = dst.WithValue(src.POS_DISP);
+                    dst = new (kind, src.POS_DISP);
                 break;
 
                 case K.POS_IMM:
-                    dst = dst.WithValue(src.POS_IMM);
+                    dst = new (kind, src.POS_IMM);
                 break;
 
                 case K.POS_IMM1:
-                    dst = dst.WithValue(src.POS_IMM1);
+                    dst = new (kind, src.POS_IMM1);
                 break;
 
                 case K.POS_MODRM:
-                    dst = dst.WithValue(src.POS_MODRM);
+                    dst = new (kind, src.POS_MODRM);
                 break;
 
                 case K.POS_NOMINAL_OPCODE:
-                    dst = dst.WithValue(src.POS_NOMINAL_OPCODE);
+                    dst = new (kind, src.POS_NOMINAL_OPCODE);
                 break;
 
                 case K.POS_SIB:
-                    dst = dst.WithValue(src.POS_SIB);
+                    dst = new (kind, src.POS_SIB);
                 break;
 
                 case K.PREFIX66:
-                    dst = dst.WithValue(src.PREFIX66);
+                    dst = new (kind, src.PREFIX66);
                 break;
 
                 case K.PTR:
-                    dst = dst.WithValue(src.PTR);
+                    dst = new (kind, src.PTR);
                 break;
 
                 case K.REALMODE:
-                    dst = dst.WithValue(src.REALMODE);
+                    dst = new (kind, src.REALMODE);
                 break;
 
                 case K.OUTREG:
-                    dst = dst.WithValue(src.OUTREG);
+                    dst = new (kind, src.OUTREG);
                 break;
 
                 case K.REG0:
-                    dst = dst.WithValue(src.REG0);
+                    dst = new (kind, src.REG0);
                 break;
 
                 case K.REG1:
-                    dst = dst.WithValue(src.REG1);
+                    dst = new (kind, src.REG1);
                 break;
 
                 case K.REG2:
-                    dst = dst.WithValue(src.REG2);
+                    dst = new (kind, src.REG2);
                 break;
 
                 case K.REG3:
-                    dst = dst.WithValue(src.REG3);
+                    dst = new (kind, src.REG3);
                 break;
 
                 case K.REG4:
-                    dst = dst.WithValue(src.REG4);
+                    dst = new (kind, src.REG4);
                 break;
 
                 case K.REG5:
-                    dst = dst.WithValue(src.REG5);
+                    dst = new (kind, src.REG5);
                 break;
 
                 case K.REG6:
-                    dst = dst.WithValue(src.REG6);
+                    dst = new (kind, src.REG6);
                 break;
 
                 case K.REG7:
-                    dst = dst.WithValue(src.REG7);
+                    dst = new (kind, src.REG7);
                 break;
 
                 case K.REG8:
-                    dst = dst.WithValue(src.REG8);
+                    dst = new (kind, src.REG8);
                 break;
 
                 case K.REG9:
-                    dst = dst.WithValue(src.REG9);
+                    dst = new (kind, src.REG9);
                 break;
 
                 case K.REP:
-                    dst = dst.WithValue(src.REP);
+                    dst = new (kind, src.REP);
                 break;
 
                 case K.REX:
-                    dst = dst.WithValue(src.REX);
+                    dst = new (kind, src.REX);
                 break;
 
                 case K.REXB:
-                    dst = dst.WithValue(src.REXB);
+                    dst = new (kind, src.REXB);
                 break;
 
                 case K.REXR:
-                    dst = dst.WithValue(src.REXR);
+                    dst = new (kind, src.REXR);
                 break;
 
                 case K.REXRR:
-                    dst = dst.WithValue(src.REXRR);
+                    dst = new (kind, src.REXRR);
                 break;
 
                 case K.REXW:
-                    dst = dst.WithValue(src.REXW);
+                    dst = new (kind, src.REXW);
                 break;
 
                 case K.REXX:
-                    dst = dst.WithValue(src.REXX);
+                    dst = new (kind, src.REXX);
                 break;
 
                 case K.RM:
-                    dst = dst.WithValue(src.RM);
+                    dst = new (kind, src.RM);
                 break;
 
                 case K.ROUNDC:
-                    dst = dst.WithValue(src.ROUNDC);
+                    dst = new (kind, src.ROUNDC);
                 break;
 
                 case K.SAE:
-                    dst = dst.WithValue(src.SAE);
+                    dst = new (kind, src.SAE);
                 break;
 
                 case K.SCALE:
-                    dst = dst.WithValue(src.SCALE);
+                    dst = new (kind, src.SCALE);
                 break;
 
                 case K.SEG0:
-                    dst = dst.WithValue(src.SEG0);
+                    dst = new (kind, src.SEG0);
                 break;
 
                 case K.SEG1:
-                    dst = dst.WithValue(src.SEG1);
+                    dst = new (kind, src.SEG1);
                 break;
 
                 case K.SEG_OVD:
-                    dst = dst.WithValue(src.SEG_OVD);
+                    dst = new (kind, src.SEG_OVD);
                 break;
 
                 case K.SIBBASE:
-                    dst = dst.WithValue(src.SIBBASE);
+                    dst = new (kind, src.SIBBASE);
                 break;
 
                 case K.SIBINDEX:
-                    dst = dst.WithValue(src.SIBINDEX);
+                    dst = new (kind, src.SIBINDEX);
                 break;
 
                 case K.SIBSCALE:
-                    dst = dst.WithValue(src.SIBSCALE);
+                    dst = new (kind, src.SIBSCALE);
                 break;
 
                 case K.SMODE:
-                    dst = dst.WithValue(src.SMODE);
+                    dst = new (kind, src.SMODE);
                     break;
 
                 case K.SRM:
-                    dst = dst.WithValue(src.SRM);
+                    dst = new (kind, src.SRM);
                 break;
 
                 case K.TZCNT:
-                    dst = dst.WithValue(src.TZCNT);
+                    dst = new (kind, src.TZCNT);
                 break;
 
                 case K.UBIT:
-                    dst = dst.WithValue(src.UBIT);
+                    dst = new (kind, src.UBIT);
                 break;
 
                 case K.UIMM0:
-                    dst = dst.WithValue(src.UIMM0);
+                    dst = new (kind, src.UIMM0);
                 break;
 
                 case K.UIMM1:
-                    dst = dst.WithValue(src.UIMM1);
+                    dst = new (kind, src.UIMM1);
                 break;
 
                 case K.USING_DEFAULT_SEGMENT0:
-                    dst = dst.WithValue(src.USING_DEFAULT_SEGMENT0);
+                    dst = new (kind, src.USING_DEFAULT_SEGMENT0);
                 break;
 
                 case K.USING_DEFAULT_SEGMENT1:
-                    dst = dst.WithValue(src.USING_DEFAULT_SEGMENT1);
+                    dst = new (kind, src.USING_DEFAULT_SEGMENT1);
                 break;
 
                 case K.VEXDEST210:
-                    dst = dst.WithValue(src.VEXDEST210);
+                    dst = new (kind, src.VEXDEST210);
                 break;
 
                 case K.VEXDEST3:
-                    dst = dst.WithValue(src.VEXDEST3);
+                    dst = new (kind, src.VEXDEST3);
                 break;
 
                 case K.VEXDEST4:
-                    dst = dst.WithValue(src.VEXDEST4);
+                    dst = new (kind, src.VEXDEST4);
                 break;
 
                 case K.VEXVALID:
-                    dst = dst.WithValue(src.VEXVALID);
+                    dst = new (kind, src.VEXVALID);
                 break;
 
                 case K.VEX_C4:
-                    dst = dst.WithValue(src.VEX_C4);
+                    dst = new (kind, src.VEX_C4);
                 break;
 
                 case K.VEX_PREFIX:
-                    dst = dst.WithValue(src.VEX_PREFIX);
+                    dst = new (kind, src.VEX_PREFIX);
                 break;
 
                 case K.VL:
-                    dst = dst.WithValue(src.VL);
+                    dst = new (kind, src.VL);
                 break;
 
                 case K.WBNOINVD:
-                    dst = dst.WithValue(src.WBNOINVD);
+                    dst = new (kind, src.WBNOINVD);
                 break;
 
                 case K.ZEROING:
-                    dst = dst.WithValue(src.ZEROING);
+                    dst = new (kind, src.ZEROING);
                 break;
 
                 case K.MEM0:
-                    dst = dst.WithValue(src.MEM0);
+                    dst = new (kind, src.MEM0);
                 break;
 
                 case K.MEM1:
-                    dst = dst.WithValue(src.MEM1);
+                    dst = new (kind, src.MEM1);
                 break;
 
                 case K.AGEN:
-                    dst = dst.WithValue(src.AGEN);
+                    dst = new (kind, src.AGEN);
                 break;
             }
 

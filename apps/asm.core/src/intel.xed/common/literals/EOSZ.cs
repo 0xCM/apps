@@ -10,22 +10,22 @@ namespace Z0
         [SymSource(xed), DataWidth(3)]
         public enum EOSZ : sbyte
         {
-            [Symbol("eosz8", "EOSZ=0")]
+            [Symbol("8", "EOSZ=0")]
             EOSZ8 = 0,
 
-            [Symbol("eosz16", "EOSZ=1")]
+            [Symbol("16", "EOSZ=1")]
             EOSZ16 = 1,
 
-            [Symbol("eosz32", "EOSZ=2")]
+            [Symbol("32", "EOSZ=2")]
             EOSZ32 = 2,
 
-            [Symbol("eosz64", "EOSZ=3")]
+            [Symbol("64", "EOSZ=3")]
             EOSZ64 = 3,
 
-            [Symbol("not_eosz16", "EOSZ!=1")]
+            [Symbol("8/32/64", "EOSZ!=1")]
             EOSZNot16 = 5,
 
-            [Symbol("eosznot64", "EOSZ!=3")]
+            [Symbol("8/16/32", "EOSZ!=3")]
             EOSZNot64 = 6
         }
     }

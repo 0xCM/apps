@@ -7,7 +7,10 @@ namespace Z0.Asm
     using static core;
     using static SibFields;
 
-    [ApiComplete, DataType("asm.sib")]
+    /// <summary>
+    /// ss iii bbb
+    /// </summary>
+    [ApiComplete]
     public struct Sib : IAsmByte<Sib>
     {
         [MethodImpl(Inline), Op]
@@ -26,6 +29,12 @@ namespace Z0.Asm
         public Sib(byte src)
         {
             _Value = src;
+        }
+
+        [MethodImpl(Inline)]
+        public Sib(uint3 @base, uint3 index, uint2 scale)
+        {
+            _Value = BitNumbers.join(@base,index,scale);
         }
 
         public uint3 Base
