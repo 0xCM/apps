@@ -13,7 +13,7 @@ namespace Z0
     partial class XedFields
     {
         [MethodImpl(Inline), Op]
-        public static VexClass vexclass(in RuleState src)
-            => (VexClass)src.VEXVALID;
+        public static VexKind vexkind(in RuleState src)
+            => (VexKind)src.VEX_PREFIX;
     }
 }

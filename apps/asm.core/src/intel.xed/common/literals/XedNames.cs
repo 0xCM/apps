@@ -61,12 +61,6 @@ namespace Z0
 
         public const string VF3 = nameof(VF3);
 
-        public const string VL128 = nameof(VL128);
-
-        public const string VL256 = nameof(VL256);
-
-        public const string VL512 = nameof(VL512);
-
         public const string NOVSR = nameof(NOVSR);
 
         public const string NOEVSR = nameof(NOEVSR);

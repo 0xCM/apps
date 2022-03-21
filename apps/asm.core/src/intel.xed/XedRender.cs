@@ -97,6 +97,8 @@ namespace Z0
 
         static EnumRender<IClass> Classes = new();
 
+        static EnumRender<VexLengthKind> VexLengthKinds = new();
+
         static Index<string> BCastSymbols = MapBCastSymbols();
 
         static Index<string> MapBCastSymbols()
@@ -291,9 +293,6 @@ namespace Z0
                 default:
                     Errors.Throw(string.Format("Unhandled class:{0}", src.Class));
                 break;
-                // case OC.Macro:
-                //     dst = src.AsMacro().ToString();
-                // break;
             }
             return dst;
         }
@@ -324,6 +323,9 @@ namespace Z0
 
         public static string format(MASK src, FormatCode fc = FormatCode.Expr)
             => format(MaskCodes,src,fc);
+
+        public static string format(VexLengthKind src)
+            => VexLengthKinds.Format(src);
 
         public static string format(R.FieldValue src)
             => XedFields.format(src);

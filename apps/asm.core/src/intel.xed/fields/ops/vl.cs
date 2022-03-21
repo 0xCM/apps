@@ -12,19 +12,8 @@ namespace Z0
 
     partial class XedFields
     {
-        public XedRegs regs(in RuleState src)
-        {
-            var dst = XedRegs.Empty;
-            var count = z8;
-            if(src.REG0 != 0)
-            {
-
-            }
-            return dst;
-        }
-
         [MethodImpl(Inline), Op]
-        public static XedRegs regs(params XedRegId[] src)
-            => new XedRegs(src);
+        public static VexLengthKind vl(in RuleState src)
+            => (VexLengthKind)src.VL;
     }
 }
