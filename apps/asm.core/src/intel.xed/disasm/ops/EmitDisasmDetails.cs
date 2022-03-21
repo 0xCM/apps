@@ -188,9 +188,9 @@ namespace Z0
                 if(lookup.TryGetValue(K.MAP, out var m))
                 {
                     var number = (byte)m.Data;
-                    var map = ocindex(vclass,number);
+                    var map = XedPatterns.ocindex(vclass,number);
                     if(map == null)
-                        map = ocindex(number);
+                        map = XedPatterns.ocindex(number);
                     if(map != null)
                         EmitValue(K.MAP, XedRender.format(map.Value));
                 }

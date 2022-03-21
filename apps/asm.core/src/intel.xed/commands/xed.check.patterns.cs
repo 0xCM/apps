@@ -41,7 +41,7 @@ namespace Z0
         {
             var result = Outcome.Success;
             var patterns = Xed.Rules.CalcInstPatterns();
-            var descriptions = InstDefs.describe(patterns);
+            var descriptions = XedPatterns.describe(patterns);
             TableEmit(descriptions.View, InstPatternInfo.RenderWidths, XedPaths.Table<InstPatternInfo>());
             var count = patterns.Count;
             var dst = AppDb.XedPath("xed.patterns.checks", FileKind.Txt);

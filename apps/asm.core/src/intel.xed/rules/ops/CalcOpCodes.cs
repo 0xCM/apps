@@ -10,6 +10,6 @@ namespace Z0
     partial class XedRules
     {
         public Index<XedOpCode> CalcOpCodes()
-            => Data(nameof(CalcOpCodes), () => opcodes(CalcInstPatterns()));
+            => Data(nameof(CalcOpCodes), () => XedPatterns.opcodes(CalcInstPatterns()));
     }
 }

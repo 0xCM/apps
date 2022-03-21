@@ -7,8 +7,9 @@ namespace Z0
 {
     using static core;
     using static XedModels;
+    using static XedRules;
 
-    partial class XedRules
+    partial class XedPatterns
     {
         public static XedOpCode opcode(InstPattern src)
             => XedOpCodeParser.create().Parse(src);

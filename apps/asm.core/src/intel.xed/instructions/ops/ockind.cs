@@ -10,7 +10,7 @@ namespace Z0
 
     using I = XedModels.OpCodeIndex;
 
-    partial class XedRules
+    partial class XedPatterns
     {
         [Op]
         public static OpCodeKind ockind(OpCodeIndex src)
@@ -31,5 +31,5 @@ namespace Z0
                 I.Evex0F3A => EVEX_0F3A,
                 _=> OpCodeKind.None
             };
-   }
+    }
 }

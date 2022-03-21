@@ -7,8 +7,9 @@ namespace Z0
 {
     using static core;
     using static XedRules;
+    using static XedModels;
 
-    partial struct XedModels
+    partial class XedPatterns
     {
         public static InstAttribs attributes(string src)
         {

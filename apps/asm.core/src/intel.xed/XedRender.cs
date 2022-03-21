@@ -490,7 +490,7 @@ namespace Z0
             => OpVis.Format(src);
 
         public static string format(OpCodeKind src)
-            => format(ocindex(src));
+            => format(XedPatterns.ocindex(src));
 
         public static string format(ImmFieldSpec src)
             => src.Width == 0 ? EmptyString : string.Format("{0}{1}[i/{2}]", "UIMM", src.Index, src.Width);

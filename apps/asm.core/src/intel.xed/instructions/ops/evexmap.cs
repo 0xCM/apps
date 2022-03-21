@@ -7,22 +7,26 @@ namespace Z0
 {
     using static core;
     using static XedModels;
+    using static XedRules;
 
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static AttributeVector vector(ReadOnlySpan<AttributeKind> src)
+        public static bool evexmap(in InstDefPart src, out EvexMapKind dst)
         {
-            var length = min(src.Length, 8);
-            var data = 0ul;
-            if(length != 0)
+            var result = false;
+            dst = default;
+            if(src.PartKind == DefSegKind.FieldAssign)
             {
-                ref var dst = ref uint8(ref data);
-                ref readonly var a = ref first(src);
-                for(byte i=0; i<length; i++)
-                    seek(dst,i) = (byte)skip(a,i);
+                ref readonly var assign = ref src.AsAssign();
+                if(assign.Field == FieldKind.MAP)
+                {
+                    dst = (EvexMapKind)assign.Value.Data;
+                    result = true;
+                }
             }
-            return new AttributeVector(data);
+
+            return result;
         }
     }
 }

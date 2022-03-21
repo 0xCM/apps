@@ -169,7 +169,7 @@ namespace Z0
                                             XedParsers.parse(value, out dst.Form);
                                         break;
                                         case P.Attributes:
-                                            dst.Attributes = attributes(value);
+                                            dst.Attributes = XedPatterns.attributes(value);
                                         break;
                                         case P.Category:
                                             XedParsers.parse(value, out dst.Category);

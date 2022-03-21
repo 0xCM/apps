@@ -19,7 +19,7 @@ namespace Z0
                 );
 
         void EmitPatternInfo(Index<InstPattern> src)
-            => TableEmit(InstDefs.describe(src).View, InstPatternInfo.RenderWidths, XedPaths.Table<InstPatternInfo>());
+            => TableEmit(XedPatterns.describe(src).View, InstPatternInfo.RenderWidths, XedPaths.Table<InstPatternInfo>());
 
         void EmitPatternDetails(Index<InstPattern> src)
             => EmitPatternDetails(src, XedPaths.DocTarget(XedDocKind.PatternDetail));

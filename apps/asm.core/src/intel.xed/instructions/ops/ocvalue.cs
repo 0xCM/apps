@@ -8,8 +8,9 @@ namespace Z0
     using Asm;
 
     using static core;
+    using static XedRules;
 
-    partial class XedRules
+    partial class XedPatterns
     {
         public static AsmOcValue ocvalue(InstPatternBody src)
         {

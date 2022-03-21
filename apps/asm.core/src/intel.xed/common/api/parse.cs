@@ -45,7 +45,7 @@ namespace Z0
             if(result.Fail)
                 return (false,FormParseFailed.Format(nameof(dst.Extension), src));
 
-            dst.Attributes = attributes(skip(cells,j++));
+            dst.Attributes = XedPatterns.attributes(skip(cells,j++));
 
             return result;
         }
@@ -62,7 +62,7 @@ namespace Z0
             dst.Index = (ushort)ft;
             dst.Form = ft;
             result = DataParser.eparse(src.IsaSet, out dst.IsaKind);
-            dst.Attributes = attributes(src.Attributes);
+            dst.Attributes = XedPatterns.attributes(src.Attributes);
             return true;
         }
     }

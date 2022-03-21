@@ -42,22 +42,22 @@ namespace Z0
             {
                 Clear();
                 ref readonly var body = ref src.Body;
-                OcValue = ocvalue(body);
+                OcValue = XedPatterns.ocvalue(body);
                 for(var i=0; i<body.PartCount; i++)
                     Parse(body[i]);
                 CalcOcIndex();
-                return new XedOpCode(src.PatternId, src.Class, OcIndex != null ? ockind(OcIndex.Value) : OpCodeKind.None, OcValue);
+                return new XedOpCode(src.PatternId, src.Class, OcIndex != null ? XedPatterns.ockind(OcIndex.Value) : OpCodeKind.None, OcValue);
             }
 
             public XedOpCode Parse(InstPatternSpec src)
             {
                 Clear();
                 ref readonly var body = ref src.Body;
-                OcValue = ocvalue(body);
+                OcValue = XedPatterns.ocvalue(body);
                 for(var i=0; i<body.PartCount; i++)
                     Parse(body[i]);
                 CalcOcIndex();
-                return new XedOpCode(src.PatternId, src.Class, OcIndex != null ? ockind(OcIndex.Value) : OpCodeKind.None, OcValue);
+                return new XedOpCode(src.PatternId, src.Class, OcIndex != null ? XedPatterns.ockind(OcIndex.Value) : OpCodeKind.None, OcValue);
             }
 
             void CalcOcIndex()
@@ -78,41 +78,13 @@ namespace Z0
                 }
             }
 
-            // public InstPatternInfo Describe(in InstPattern src)
-            // {
-            //     Clear();
-            //     ref readonly var body = ref src.Body;
-            //     Result.PatternId = src.PatternId;
-            //     Result.InstId = src.InstId;
-            //     Result.Body = XedRender.format(body);
-            //     Result.Class = src.Class;
-
-            //     OcValue = ocvalue(body);
-            //     for(var i=0; i<body.PartCount; i++)
-            //         Parse(body[i]);
-
-            //     CalcOcIndex();
-
-            //     Result.OpCode = OcValue;
-            //     if(OcIndex != null)
-            //     {
-            //         Result.OcIndex = OcIndex.Value;
-            //     }
-            //     else
-            //     {
-            //         Result.OcIndex = 0;
-            //     }
-
-            //     return Result;
-            // }
-
             void Parse(in InstDefPart src)
             {
-                if(InstDefs.vexclass(src, out var vc))
+                if(XedPatterns.vexclass(src, out var vc))
                     VClass = vc;
-                else if(InstDefs.vexkind(src, out var vk))
+                else if(XedPatterns.vexkind(src, out var vk))
                     VKind = vk;
-                else if(InstDefs.map(src, out var map))
+                else if(XedPatterns.map(src, out var map))
                 {
                     Map = (sbyte)map;
                     if(VClass != null)
@@ -122,17 +94,17 @@ namespace Z0
                             case VexClass.None:
                             case VexClass.VV1:
                             {
-                                OcIndex = ocindex((VexMapKind)Map);
+                                OcIndex = XedPatterns.ocindex((VexMapKind)Map);
                             }
                             break;
                             case VexClass.EVV:
                             {
-                                OcIndex = ocindex((EvexMapKind)Map);
+                                OcIndex = XedPatterns.ocindex((EvexMapKind)Map);
                             }
                             break;
                             case VexClass.XOPV:
                             {
-                                OcIndex = ocindex((XopMapKind)Map);
+                                OcIndex = XedPatterns.ocindex((XopMapKind)Map);
                                 break;
                             }
                         }

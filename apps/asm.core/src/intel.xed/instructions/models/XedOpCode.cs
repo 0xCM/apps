@@ -46,7 +46,7 @@ namespace Z0
 
             public int CompareTo(XedOpCode src)
             {
-                var result = ((byte)XedRules.ocindex(Kind)).CompareTo((byte)XedRules.ocindex(src.Kind));
+                var result = ((byte)XedPatterns.ocindex(Kind)).CompareTo((byte)XedPatterns.ocindex(src.Kind));
                 if(result == 0)
                     result = Value.CompareTo(src.Value);
                 return result;

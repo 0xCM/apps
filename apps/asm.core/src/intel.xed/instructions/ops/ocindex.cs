@@ -12,12 +12,59 @@ namespace Z0
     using static XedModels.EvexMapKind;
     using static XedModels.XopMapKind;
     using static XedModels.LegacyMapKind;
+    using static XedRules;
 
     using I = XedModels.OpCodeIndex;
     using K = XedModels.OpCodeKind;
 
-    partial class XedRules
+    partial class XedPatterns
     {
+        public static OpCodeIndex ocindex(in InstDefPart src)
+        {
+            XedPatterns.map(src, out var m);
+            XedPatterns.vexclass(src, out var vc);
+            switch(vc)
+            {
+                case VexClass.VV1:
+                    return ocindex((VexMapKind)m);
+                case VexClass.EVV:
+                    return ocindex((EvexMapKind)m);
+                case VexClass.XOPV:
+                    return ocindex((XopMapKind)m);
+                default:
+                    return (OpCodeIndex)m;
+            }
+        }
+
+        public static OpCodeIndex ocindex(in InstPatternBody src)
+        {
+            var dst = default(OpCodeIndex);
+            var _vex = XedPatterns.vex(src);
+            var _map = z8;
+            for(var i=0; i<src.PartCount; i++)
+            {
+                if(XedPatterns.map(src[i], out _map))
+                {
+                    switch(_vex)
+                    {
+                        case VexClass.VV1:
+                            var vv1 = (VexMapKind)_map;
+                            break;
+                        case VexClass.EVV:
+                            var evv = (EvexMapKind)_map;
+                            break;
+                        case VexClass.XOPV:
+                            var xop = (XopMapKind)_map;
+                            break;
+                        default:
+                            var legacy = (LegacyMapKind)_map;
+                            break;
+                    }
+                }
+            }
+            return dst;
+        }
+
         [Op]
         public static OpCodeIndex ocindex(AsmOcValue src)
         {

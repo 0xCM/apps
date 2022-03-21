@@ -10,6 +10,6 @@ namespace Z0
             => CalcInstPatterns(CalcInstDefs());
 
         Index<InstPattern> CalcInstPatterns(Index<InstDef> defs)
-            => Data(nameof(CalcInstPatterns), () => InstDefs.patterns(defs));
+            => Data(nameof(CalcInstPatterns), () => XedPatterns.patterns(defs));
     }
 }
