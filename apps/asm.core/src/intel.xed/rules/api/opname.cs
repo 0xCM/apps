@@ -6,14 +6,14 @@
 namespace Z0
 {
     using K = XedRules.FieldKind;
-    using N = XedRules.RuleOpName;
+    using N = XedRules.OpName;
 
     partial class XedRules
     {
         [Op]
-        public static RuleOpName opname(FieldKind src)
+        public static OpName opname(FieldKind src)
         {
-            var name = RuleOpName.None;
+            var name = OpName.None;
             switch(src)
             {
                 case K.REG0:

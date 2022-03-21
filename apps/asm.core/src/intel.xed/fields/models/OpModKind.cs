@@ -5,12 +5,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedDisasm
+    partial class XedRules
     {
-        public static void state(ReadOnlySpan<Facet<string>> src, out DisasmState dst)
+        public enum OpModKind : byte
         {
-            var parser = new DisasmFieldParser();
-            parser.ParseState(src, out dst);
+            [Symbol("")]
+            None,
+
+            ZEROSTR,
+
+            ROUNDC,
+
+            SAE,
+
+            BCASTSTR,
         }
     }
 }

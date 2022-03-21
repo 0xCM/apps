@@ -7,25 +7,25 @@ namespace Z0
 {
     using static XedModels;
 
-    using K = XedRules.RuleOpClass;
+    using K = XedRules.OpClass;
 
     partial class XedRules
     {
-        public readonly struct RuleOpAttrib : IComparable<RuleOpAttrib>, IEquatable<RuleOpAttrib>
+        public readonly struct OpAttrib : IComparable<OpAttrib>, IEquatable<OpAttrib>
         {
-            public readonly RuleOpClass Class;
+            public readonly OpClass Class;
 
             readonly uint Data;
 
             [MethodImpl(Inline)]
-            internal RuleOpAttrib(RuleOpClass kind, uint data)
+            internal OpAttrib(OpClass kind, uint data)
             {
                 Class = kind;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public int CompareTo(RuleOpAttrib src)
+            public int CompareTo(OpAttrib src)
                 => ((uint)Class).CompareTo((uint)src.Class);
 
             public string Format()
@@ -35,12 +35,12 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public bool Equals(RuleOpAttrib src)
+            public bool Equals(OpAttrib src)
                 => Class == src.Class && Data == src.Data;
 
             [MethodImpl(Inline)]
-            public RuleOpModifier AsModifier()
-                => new RuleOpModifier((RuleOpModKind)Data);
+            public OpModifier AsModifier()
+                => new OpModifier((OpModKind)Data);
 
             [MethodImpl(Inline)]
             public OpAction AsAction()
@@ -83,50 +83,46 @@ namespace Z0
                 => (AttributeKind)Data;
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(OpAction src)
-                => new RuleOpAttrib(K.Action, (ushort)src);
+            public static implicit operator OpAttrib(OpAction src)
+                => new OpAttrib(K.Action, (ushort)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(OpWidthCode src)
-                => new RuleOpAttrib(K.OpWidth, (ushort)src);
+            public static implicit operator OpAttrib(OpWidthCode src)
+                => new OpAttrib(K.OpWidth, (ushort)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(PointerWidthKind src)
-                => new RuleOpAttrib(K.PtrWidth, (ushort)src);
+            public static implicit operator OpAttrib(PointerWidthKind src)
+                => new OpAttrib(K.PtrWidth, (ushort)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(Nonterminal src)
-                => new RuleOpAttrib(K.Nonterminal, (uint)src);
+            public static implicit operator OpAttrib(Nonterminal src)
+                => new OpAttrib(K.Nonterminal, (uint)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(XedRegId src)
-                => new RuleOpAttrib(K.RegLiteral, (ushort)src);
+            public static implicit operator OpAttrib(XedRegId src)
+                => new OpAttrib(K.RegLiteral, (ushort)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(ScaleFactor src)
-                => new RuleOpAttrib(K.Scale, (ushort)src);
+            public static implicit operator OpAttrib(ScaleFactor src)
+                => new OpAttrib(K.Scale, (ushort)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(ElementKind src)
-                => new RuleOpAttrib(K.ElementType, (uint)src);
+            public static implicit operator OpAttrib(ElementKind src)
+                => new OpAttrib(K.ElementType, (uint)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(OpVisibility src)
-                => new RuleOpAttrib(K.Visibility, (uint)src);
+            public static implicit operator OpAttrib(OpVisibility src)
+                => new OpAttrib(K.Visibility, (uint)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(RuleMacroKind src)
-                => new RuleOpAttrib(K.Macro, (uint)src);
+            public static implicit operator OpAttrib(OpModKind src)
+                => new OpAttrib(K.Modifier, (uint)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(RuleOpModKind src)
-                => new RuleOpAttrib(K.Modifier, (uint)src);
+            public static implicit operator OpAttrib(OpModifier src)
+                => new OpAttrib(K.Modifier, (uint)src.Kind);
 
-            [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib(RuleOpModifier src)
-                => new RuleOpAttrib(K.Modifier, (uint)src.Kind);
-
-            public static RuleOpAttrib Empty => default;
+            public static OpAttrib Empty => default;
         }
     }
 }

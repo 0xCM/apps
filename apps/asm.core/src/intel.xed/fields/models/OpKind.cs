@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public enum RuleOpKind : byte
+        public enum OpKind : byte
         {
             None,
 

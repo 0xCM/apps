@@ -7,18 +7,27 @@ namespace Z0
 {
     partial class XedRules
     {
-        public enum RuleOpModKind : byte
+        public enum OpClass : byte
         {
-            [Symbol("")]
-            None,
+            None = 0,
 
-            ZEROSTR,
+            Action = 1,
 
-            ROUNDC,
+            OpWidth = 2,
 
-            SAE,
+            Visibility = 3,
 
-            BCASTSTR,
+            PtrWidth = 4,
+
+            Nonterminal,
+
+            RegLiteral,
+
+            Scale,
+
+            ElementType,
+
+            Modifier,
         }
     }
 }

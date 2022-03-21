@@ -19,6 +19,7 @@ namespace Z0
 
         XedPaths XedPaths => Service(Wf.XedPaths);
 
+        XedDisasmSvc XedDisasmSvc => Service(Wf.XedDisasm);
 
         AppDb AppDb => Service(Wf.AppDb);
 
@@ -32,6 +33,9 @@ namespace Z0
 
         IProjectWs Project()
             => _ProjectProvider.Project();
+
+        WsContext Context()
+            => Projects.Context(Project());
 
     }
 }

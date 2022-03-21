@@ -7,12 +7,12 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct RuleOpModifier
+        public readonly struct OpModifier
         {
-            public readonly RuleOpModKind Kind;
+            public readonly OpModKind Kind;
 
             [MethodImpl(Inline)]
-            public RuleOpModifier(RuleOpModKind kind)
+            public OpModifier(OpModKind kind)
             {
                 Kind = kind;
             }
@@ -24,12 +24,12 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpModKind(RuleOpModifier src)
+            public static implicit operator OpModKind(OpModifier src)
                 => src.Kind;
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpModifier(RuleOpModKind src)
-                => new RuleOpModifier(src);
+            public static implicit operator OpModifier(OpModKind src)
+                => new OpModifier(src);
         }
     }
 }

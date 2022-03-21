@@ -132,33 +132,33 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            [MethodImpl(Inline)]
-            public static implicit operator InstDefPart(Hex8 src)
-                => new InstDefPart(src);
+            // [MethodImpl(Inline)]
+            // public static implicit operator InstDefPart(Hex8 src)
+            //     => new InstDefPart(src);
 
-            [MethodImpl(Inline)]
-            public static implicit operator InstDefPart(uint5 src)
-                => new InstDefPart(src);
+            // [MethodImpl(Inline)]
+            // public static implicit operator InstDefPart(uint5 src)
+            //     => new InstDefPart(src);
 
-            [MethodImpl(Inline)]
-            public static implicit operator InstDefPart(BitfieldSeg src)
-                => new InstDefPart(src);
+            // [MethodImpl(Inline)]
+            // public static implicit operator InstDefPart(BitfieldSeg src)
+            //     => new InstDefPart(src);
 
-            [MethodImpl(Inline)]
-            public static implicit operator InstDefPart(FieldAssign src)
-                => new InstDefPart(src);
+            // [MethodImpl(Inline)]
+            // public static implicit operator InstDefPart(FieldAssign src)
+            //     => new InstDefPart(src);
 
-            [MethodImpl(Inline)]
-            public static implicit operator InstDefPart(FieldConstraint src)
-                => new InstDefPart(src);
+            // [MethodImpl(Inline)]
+            // public static implicit operator InstDefPart(FieldConstraint src)
+            //     => new InstDefPart(src);
 
-            [MethodImpl(Inline)]
-            public static implicit operator InstDefPart(Nonterminal src)
-                => new InstDefPart(src);
+            // [MethodImpl(Inline)]
+            // public static implicit operator InstDefPart(Nonterminal src)
+            //     => new InstDefPart(src);
 
-            [MethodImpl(Inline)]
-            public static implicit operator InstDefPart(FieldValue src)
-                => new InstDefPart(src);
+            // [MethodImpl(Inline)]
+            // public static implicit operator InstDefPart(FieldValue src)
+            //     => new InstDefPart(src);
 
             public static InstDefPart Empty => default;
         }

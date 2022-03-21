@@ -26,7 +26,7 @@ namespace Z0
             {
                 ref readonly var spec = ref specs[j];
                 buffer.Clear();
-                for(byte k=0; k<spec.OpSpecs.Count; k++)
+                for(byte k=0; k<spec.Ops.Count; k++)
                     buffer.Add(ops(spec,k));
                 dst.Add(new InstPattern(def, spec, buffer.ToArray()));
             }
@@ -34,10 +34,10 @@ namespace Z0
 
         static InstPatternOps ops(in InstPatternSpec src, byte k)
         {
-            ref readonly var ops = ref src.OpSpecs;
+            ref readonly var ops = ref src.Ops;
             ref readonly var op = ref ops[k];
             var detail = InstPatternOps.Empty;
-            var spec = RuleOpParser.parse(k, op.Name, op.Expression);
+            var spec = OpSpecParser.parse(src.PatternId, k, op.Name, op.Expression);
             var attribs = spec.Attribs.Sort();
             detail.InstId = src.InstId;
             detail.PatternId = src.PatternId;
@@ -47,27 +47,27 @@ namespace Z0
             detail.Expression = op.Expression;
             detail.Mnemonic = src.Class;
             var opwidth = OpWidthCode.INVALID;
-            if(attribs.Search(RuleOpClass.Action, out var action))
+            if(attribs.Search(OpClass.Action, out var action))
                 detail.Action = action;
-            if(attribs.Search(RuleOpClass.OpWidth, out var w))
+            if(attribs.Search(OpClass.OpWidth, out var w))
             {
                 detail.WidthCode = w;
                 opwidth = w.AsOpWidth();
                 detail.BitWidth = XedModels.bitwidth(opwidth);
             }
-            if(attribs.Search(RuleOpClass.ElementType, out var et))
+            if(attribs.Search(OpClass.ElementType, out var et))
             {
                 detail.CellType = et;
                 detail.CellWidth = bitwidth(opwidth,et.AsElementType());
             }
-            if(attribs.Search(RuleOpClass.RegLiteral, out var reglit))
+            if(attribs.Search(OpClass.RegLiteral, out var reglit))
             {
                 detail.RegLit = reglit;
                 detail.BitWidth = XedModels.bitwidth(reglit.AsRegLiteral());
             }
-            if(attribs.Search(RuleOpClass.Modifier, out var mod))
+            if(attribs.Search(OpClass.Modifier, out var mod))
                 detail.Modifier = mod;
-            if(attribs.Search(RuleOpClass.Visibility, out var visib))
+            if(attribs.Search(OpClass.Visibility, out var visib))
                 detail.Visibility = visib;
 
             return detail;

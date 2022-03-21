@@ -7,10 +7,11 @@ namespace Z0
 {
     using Asm;
 
-    using static XedModels;
+    using static XedRules;
+    using static XedRules.InstRulePartNames;
 
     public partial class XedPatterns : AppService<XedPatterns>
     {
-
+        static Index<InstRulePart,string> PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET,COMMENT};
     }
 }

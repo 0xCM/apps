@@ -7,32 +7,32 @@ namespace Z0
 {
     partial class XedRules
     {
-        public class RuleOpValues
+        public class OpValues
         {
-            readonly Dictionary<RuleOpName,RuleOpValue> Data;
+            readonly Dictionary<OpName,OpValue> Data;
 
-            public RuleOpValues(Dictionary<RuleOpName,RuleOpValue> src)
+            public OpValues(Dictionary<OpName,OpValue> src)
             {
                 Data = src;
             }
 
-            public bool TryGetValue(RuleOpName key, out RuleOpValue value)
+            public bool TryGetValue(OpName key, out OpValue value)
                 => Data.TryGetValue(key, out value);
 
-            public ICollection<RuleOpName> Keys
+            public ICollection<OpName> Keys
                 => Data.Keys;
 
-            public ICollection<RuleOpValue> Values
+            public ICollection<OpValue> Values
                 => Data.Values;
 
-            public RuleOpValue this[RuleOpName name]
+            public OpValue this[OpName name]
             {
                 get => Data[name];
                 set => Data[name] = value;
             }
 
-            public static implicit operator RuleOpValues(Dictionary<RuleOpName,RuleOpValue> src)
-                => new RuleOpValues(src);
+            public static implicit operator OpValues(Dictionary<OpName,OpValue> src)
+                => new OpValues(src);
         }
     }
 }

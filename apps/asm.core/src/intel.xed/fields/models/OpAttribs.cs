@@ -7,17 +7,17 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct RuleOpAttribs : IIndex<RuleOpAttrib>
+        public readonly struct OpAttribs : IIndex<OpAttrib>
         {
-            readonly Index<RuleOpAttrib> Data;
+            readonly Index<OpAttrib> Data;
 
             [MethodImpl(Inline)]
-            public RuleOpAttribs(RuleOpAttrib[] src)
+            public OpAttribs(OpAttrib[] src)
             {
                 Data = src;
             }
 
-            public RuleOpAttrib[] Storage
+            public OpAttrib[] Storage
             {
                 [MethodImpl(Inline)]
                 get => Data;
@@ -29,28 +29,28 @@ namespace Z0
                 get => Data.Count;
             }
 
-            public ref RuleOpAttrib this[int i]
+            public ref OpAttrib this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
             }
 
-            public ref RuleOpAttrib this[uint i]
+            public ref OpAttrib this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
             }
 
-            public RuleOpAttribs Sort()
+            public OpAttribs Sort()
             {
                 Data.Sort();
                 return this;
             }
 
-            public bool Search(RuleOpClass @class, out RuleOpAttrib dst)
+            public bool Search(OpClass @class, out OpAttrib dst)
             {
                 var result = false;
-                dst = RuleOpAttrib.Empty;
+                dst = OpAttrib.Empty;
                 for(var i=0; i<Count; i++)
                 {
                     ref readonly var a = ref this[i];
@@ -65,15 +65,15 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttribs(RuleOpAttrib[] src)
-                => new RuleOpAttribs(src);
+            public static implicit operator OpAttribs(OpAttrib[] src)
+                => new OpAttribs(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOpAttrib[](RuleOpAttribs src)
+            public static implicit operator OpAttrib[](OpAttribs src)
                 => src.Data;
 
             [MethodImpl(Inline)]
-            public static implicit operator Index<RuleOpAttrib>(RuleOpAttribs src)
+            public static implicit operator Index<OpAttrib>(OpAttribs src)
                 => src.Data;
 
         }

@@ -23,7 +23,7 @@ namespace Z0
 
             public OpWidth OpWidth;
 
-            public RuleOpName OpName;
+            public OpName OpName;
 
             public DisasmOp Def;
 

@@ -5,25 +5,25 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedRules.RuleOpName;
+    using static XedRules.OpName;
     using static core;
 
-    using K = XedRules.RuleOpKind;
+    using K = XedRules.OpKind;
 
     partial class XedRules
     {
-        public readonly struct RuleOpParser
+        public readonly struct OpSpecParser
         {
-            public static RuleOpParser create()
+            public static OpSpecParser create()
                 => new();
 
-            public RuleOpParser()
+            public OpSpecParser()
             {
             }
 
-            public static Index<RuleOpSpec> parse(string src)
+            public static Index<OpSpec> parse(uint pattern, string src)
             {
-                var buffer = list<RuleOpSpec>();
+                var buffer = list<OpSpec>();
                 var input = text.despace(src);
                 var i = text.index(input,Chars.Hash);
                 var index = z8;
@@ -33,7 +33,7 @@ namespace Z0
                 var parts = input.Contains(Chars.Space) ? text.split(input, Chars.Space) : new string[]{input};
                 for(var j=0; j<parts.Length; j++)
                 {
-                    var parsed = parse(index++, skip(parts,j));
+                    var parsed = parse(pattern,index++, skip(parts,j));
                     if(parsed.IsNonEmpty)
                         buffer.Add(parsed);
                     else
@@ -43,25 +43,25 @@ namespace Z0
                 return buffer.ToArray();
             }
 
-            public static void parse(string src, out Index<RuleOpSpec> dst)
-                => dst = parse(src);
+            public static void parse(string src, uint pattern, out Index<OpSpec> dst)
+                => dst = parse(pattern,src);
 
-            public static RuleOpSpec parse(byte index, RuleOpName name, string src)
+            public static OpSpec parse(uint pattern, byte index, OpName name, string src)
             {
                 var attribs = text.despace(src);
-                return parse(index, attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty));
+                return parse(pattern, index, attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty));
             }
 
-            static RuleOpSpec parse(byte index, string src)
+            static OpSpec parse(uint pattern, byte index, string src)
             {
                 var input = text.despace(src);
                 var i = text.index(input, Chars.Colon, Chars.Eq);
                 var attribs = text.right(src,i);
                 opname(src, out var name);
-                return parse(index, attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty));
+                return parse(pattern, index, attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty));
             }
 
-            static bool opname(string src, out RuleOpName dst)
+            static bool opname(string src, out OpName dst)
             {
                 var input = text.despace(src);
                 var i = text.index(input, Chars.Colon);
@@ -78,12 +78,14 @@ namespace Z0
                 return XedParsers.parse(text.left(input, index), out  dst);
             }
 
-            static RuleOpSpec parse(byte index, string expr, RuleOpName name, string[] props)
+            static OpSpec parse(uint pattern, byte index, string expr, OpName name, string[] props)
             {
-                var dst = new RuleOpSpec();
+                var dst = new OpSpec();
                 dst.Expression = expr;
                 switch(name)
                 {
+                    case None:
+                    break;
                     case REG0:
                     case REG1:
                     case REG2:
@@ -94,84 +96,79 @@ namespace Z0
                     case REG7:
                     case REG8:
                     case REG9:
-                        reg(index, K.Reg, expr, name, props, out dst);
+                        reg(pattern, index, K.Reg, expr, name, props, out dst);
                     break;
 
                     case INDEX:
-                        reg(index, K.Index, expr, name, props, out dst);
+                        reg(pattern, index, K.Index, expr, name, props, out dst);
                     break;
 
                     case BASE0:
                     case BASE1:
-                        reg(index, K.Base, expr, name, props, out dst);
+                        reg(pattern, index, K.Base, expr, name, props, out dst);
                     break;
 
                     case SEG0:
                     case SEG1:
-                        reg(index, K.Seg, expr, name, props, out dst);
+                        reg(pattern, index, K.Seg, expr, name, props, out dst);
                     break;
 
                     case SCALE:
-                        scale(index, K.Scale, expr, name, props, out dst);
+                        scale(pattern, index, K.Scale, expr, name, props, out dst);
                     break;
 
                     case DISP:
                     {
                         dst.Index = index;
+                        dst.PatternId = pattern;
                         dst.Kind = K.Disp;
                         dst.Expression = expr;
                         dst.Name = name;
-                        dst.Attribs = sys.empty<RuleOpAttrib>();
+                        dst.Attribs = sys.empty<OpAttrib>();
                     }
                     break;
 
                     case IMM0:
                     case IMM1:
                     case IMM2:
-                        imm(index, K.Imm, expr, name, props, out dst);
+                        imm(pattern, index, K.Imm, expr, name, props, out dst);
                     break;
 
                     case MEM0:
                     case MEM1:
-                        mem(index, K.Mem, expr, name, props, out dst);
+                        mem(pattern, index, K.Mem, expr, name, props, out dst);
                     break;
 
                     case AGEN:
-                        mem(index, K.Agen, expr, name, props, out dst);
+                        mem(pattern, index, K.Agen, expr, name, props, out dst);
                     break;
 
                     case PTR:
-                        ParsePtr(index, K.Ptr, expr, name, props, out dst);
+                        ptr(pattern, index, K.Ptr, expr, name, props, out dst);
                     break;
 
                     case RELBR:
-                        relbr(index, K.RelBr, expr, name, props, out dst);
+                        relbr(pattern, index, K.RelBr, expr, name, props, out dst);
                     break;
 
                     default:
                     {
-                        if(RuleMacros.spec(expr, out var macro))
-                        {
-                            dst.Index = index;
-                            dst.Name = name;
-                            dst.Kind = K.Macro;
-                            dst.Attribs = new RuleOpAttrib[]{macro.Name};
-                            dst.Expression = expr;
-                        }
+                        Errors.Throw(string.Format("Unhandled:{0}", name));
                     }
                     break;
                  }
                 return dst;
             }
 
-            static void ParsePtr(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
+            static void ptr(uint pattern, byte index, K kind, string expr, OpName name, Index<string> props, out OpSpec dst)
             {
                 var count = props.Count;
+                dst.PatternId = pattern;
                 dst.Index = index;
                 dst.Kind = kind;
                 dst.Name = name;
                 dst.Expression = expr;
-                Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[4];
+                Span<OpAttrib> buffer = stackalloc OpAttrib[4];
                 var i=0;
 
                 if(count >= 1)
@@ -188,14 +185,15 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            static void relbr(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
+            static void relbr(uint pattern, byte index, K kind, string expr, OpName name, Index<string> props, out OpSpec dst)
             {
                 var count = props.Count;
+                dst.PatternId = pattern;
                 dst.Index = index;
                 dst.Kind = kind;
                 dst.Name = name;
                 dst.Expression = expr;
-                Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[4];
+                Span<OpAttrib> buffer = stackalloc OpAttrib[4];
                 var i=0;
                 if(count >= 1)
                 {
@@ -211,14 +209,15 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            static void scale(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
+            static void scale(uint pattern, byte index, K kind, string expr, OpName name, Index<string> props, out OpSpec dst)
             {
                 var count = props.Count;
+                dst.PatternId = pattern;
                 dst.Index = index;
                 dst.Kind = kind;
                 dst.Name = name;
                 dst.Expression = expr;
-                Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[4];
+                Span<OpAttrib> buffer = stackalloc OpAttrib[4];
                 var i=0;
 
                 if(count >= 1)
@@ -240,15 +239,16 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            static void imm(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
+            static void imm(uint pattern, byte index, K kind, string expr, OpName name, Index<string> props, out OpSpec dst)
             {
                 var count = props.Count;
+                dst.PatternId = pattern;
                 dst.Index = index;
                 dst.Kind = kind;
                 dst.Name = name;
                 dst.Expression = expr;
 
-                Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[4];
+                Span<OpAttrib> buffer = stackalloc OpAttrib[4];
                 var i=0;
                 if(count >= 1)
                 {
@@ -271,14 +271,15 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            static void mem(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
+            static void mem(uint pattern, byte index, K kind, string expr, OpName name, Index<string> props, out OpSpec dst)
             {
                 var count = props.Count;
+                dst.PatternId = pattern;
                 dst.Index = index;
                 dst.Kind = kind;
                 dst.Name = name;
                 dst.Expression = expr;
-                Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[6];
+                Span<OpAttrib> buffer = stackalloc OpAttrib[6];
                 var i=0;
 
                 if(count >= 1)
@@ -303,7 +304,7 @@ namespace Z0
                     var j = text.index(props[3], Chars.Eq);
                     if(j > 0)
                     {
-                        if(XedParsers.parse(text.right(props[3], j), out RuleOpModKind mod))
+                        if(XedParsers.parse(text.right(props[3], j), out OpModKind mod))
                             seek(buffer,i++) = mod;
                     }
                 }
@@ -311,17 +312,18 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            static void reg(byte index, K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
+            static void reg(uint pattern,byte index, K kind, string expr, OpName name, Index<string> props, out OpSpec dst)
             {
                 var result = Outcome.Success;
                 var counter = 0;
                 var count = props.Count;
+                dst.PatternId = pattern;
                 dst.Kind = kind;
                 dst.Name = name;
                 dst.Expression = expr;
                 dst.Index = index;
 
-                Span<RuleOpAttrib> buffer = stackalloc RuleOpAttrib[8];
+                Span<OpAttrib> buffer = stackalloc OpAttrib[8];
                 var i=0;
                 if(count >= 1)
                 {
@@ -360,7 +362,7 @@ namespace Z0
                         var j = text.index(props[3], Chars.Eq);
                         if(j > 0)
                         {
-                            if(XedParsers.parse(text.right(props[3], j), out RuleOpModKind mod))
+                            if(XedParsers.parse(text.right(props[3], j), out OpModKind mod))
                                 seek(buffer,i++) = mod;
                         }
                     }

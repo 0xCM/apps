@@ -26,12 +26,6 @@ namespace Z0
                     var z = text.split(y,Chars.Space);
 
                     dst = alloc<Facet<string>>(count);
-                    // if(z.Length >= 2)
-                    // {
-                    //     dst[m++] = (nameof(IClass), skip(z,0).Trim());
-                    //     dst[m++] = (nameof(IForm), skip(z,1).Trim());
-                    // }
-
                     for(var m=0; m<count; m++)
                     {
                         ref readonly var prop = ref props[m];
@@ -45,9 +39,6 @@ namespace Z0
                             dst[m] = (prop.Trim(), EmptyString);
                     }
                 }
-
-
-
             }
             return dst;
         }

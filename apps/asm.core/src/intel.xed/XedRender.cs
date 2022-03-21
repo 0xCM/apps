@@ -15,10 +15,14 @@ namespace Z0
 
     using PW = XedModels.PointerWidthKind;
     using R = XedRules;
-    using OC = XedRules.RuleOpClass;
+    using OC = XedRules.OpClass;
 
     public partial class XedRender
     {
+        static EnumRender<FlagEffectKind> FlagEffects = new();
+
+        static EnumRender<XedRegFlag> RegFlags = new();
+
         static EnumRender<BCast8Kind> BCast8 = new();
 
         static EnumRender<BCast16Kind> BCast16 = new();
@@ -45,11 +49,11 @@ namespace Z0
 
         static EnumRender<OpCodeIndex> OcKindIndex = new();
 
-        static EnumRender<RuleOpKind> RuleOpKinds = new();
+        static EnumRender<OpKind> RuleOpKinds = new();
 
         static EnumRender<RuleMacroKind> MacroKinds = new();
 
-        static EnumRender<RuleOpModKind> OpModKinds = new();
+        static EnumRender<OpModKind> OpModKinds = new();
 
         static EnumRender<FieldKind> FieldKinds = new();
 
@@ -87,7 +91,7 @@ namespace Z0
 
         static EnumRender<ElementKind> ElementTypes = new();
 
-        static EnumRender<RuleOpName> OpNames = new();
+        static EnumRender<OpName> OpNames = new();
 
         static EnumRender<OpVisibility> OpVis = new();
 
@@ -205,6 +209,16 @@ namespace Z0
             }
         }
 
+
+        public static string format(FlagEffectKind src)
+            => FlagEffects.Format(src);
+
+        public static string format(XedRegFlag src)
+            => RegFlags.Format(src);
+
+        public static string format(in XedFlagEffect src)
+            => string.Format("{0}-{1}", format(src.Flag), format(src.Effect));
+
         public static string format(in RuleCriterion src)
         {
             if(src.IsCall)
@@ -231,11 +245,14 @@ namespace Z0
                 return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.AsValue()));
         }
 
-        public static string format(RuleOpAttrib src)
+        public static string format(OpAttrib src)
         {
             var dst = EmptyString;
             switch(src.Class)
             {
+                case OC.None:
+                break;
+
                 case OC.Action:
                     dst = format(src.AsAction());
                 break;
@@ -271,9 +288,12 @@ namespace Z0
                     dst = src.AsScale().Format();
                 break;
 
-                case OC.Macro:
-                    dst = src.AsMacro().ToString();
+                default:
+                    Errors.Throw(string.Format("Unhandled class:{0}", src.Class));
                 break;
+                // case OC.Macro:
+                //     dst = src.AsMacro().ToString();
+                // break;
             }
             return dst;
         }
@@ -379,7 +399,7 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static string format(RuleOpName src)
+        public static string format(OpName src)
             => OpNames.Format(src);
 
         public static string format(RuleOperator src)
@@ -394,7 +414,7 @@ namespace Z0
                 return BCastSymbols[(byte)src];
         }
 
-        public static string format(RuleOpModKind src)
+        public static string format(OpModKind src)
             => OpModKinds.Format(src);
 
         public static string format(VexMapKind src)
@@ -433,7 +453,7 @@ namespace Z0
         public static string format(BCast16Kind src)
             => BCast16.Format(src);
 
-        public static string format(RuleOpKind src)
+        public static string format(OpKind src)
             => RuleOpKinds.Format(src);
 
         public static string format(BCast32Kind src)

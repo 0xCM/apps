@@ -42,8 +42,7 @@ namespace Z0
             return true;
         }
 
-
-        static Identifier identify(in RuleOpSpec src)
+        static Identifier identify(in OpSpec src)
         {
             var bw = src.OpWidth;
             var indicator = EmptyString;

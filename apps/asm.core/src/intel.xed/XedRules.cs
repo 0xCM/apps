@@ -7,14 +7,12 @@ namespace Z0
 {
     using static XedModels;
     using static core;
-    using static XedRules.InstRulePartNames;
 
     [ApiHost]
     public partial class XedRules : AppService<XedRules>
     {
         const NumericKind Closure = UnsignedInts;
 
-        static Index<InstRulePart,string> PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET,COMMENT};
 
         Index<PointerWidth> PointerWidths;
 

@@ -12,18 +12,27 @@ namespace Z0
 
     using K = XedRules.FieldKind;
 
+
     partial class XedDisasmSvc
     {
+        bool PllExec {get;} = true;
+
         public void EmitDisasmDetail(WsContext context)
         {
-            var outdir = Projects.XedDisasmDir(context.Project);
-            outdir.Clear();
+            Projects.XedDisasmDir(context.Project).Clear();
 
-            exec(true,
-                () => EmitDisasmOps(context),
-                () => EmitDisasmProps(context)
+            var files = context.Files(FileKind.XedRawDisasm);
+            exec(PllExec,
+                () => EmitDisasmOps(context, files),
+                () => EmitDisasmProps(context, files)
             );
         }
+
+        void EmitDisasmOps(WsContext context, Index<FileRef> src)
+            => iter(src, file => EmitDisasmOps(context,file), PllExec);
+
+        void EmitDisasmProps(WsContext context, Index<FileRef> src)
+            => iter(src, file => EmitDisasmProps(context, XedDisasm.blocks(file)), PllExec);
 
         void EmitDisasmOps(WsContext context, in FileRef file)
         {
@@ -47,7 +56,7 @@ namespace Z0
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var op = ref ops[i];
-                    var spec = OpSpec.from(op);
+                    var spec = DisasmOpSpec.from(op);
                     render(op, buffer);
                     writer.AppendLine(buffer.Emit());
 
@@ -65,9 +74,9 @@ namespace Z0
             ref readonly var opinfo = ref src.OpInfo;
             switch(kind)
             {
-                case RuleOpKind.Reg:
-                case RuleOpKind.Base:
-                case RuleOpKind.Index:
+                case OpKind.Reg:
+                case OpKind.Base:
+                case OpKind.Index:
                     if(opinfo.Selector.IsNonEmpty)
                     {
                         dst.AppendFormat(" {0}", opinfo.Selector);
@@ -91,18 +100,6 @@ namespace Z0
                 dst.AppendFormat("/{0}", opinfo.OpType);
         }
 
-        void EmitDisasmOps(WsContext context)
-        {
-            var files = context.Files(FileKind.XedRawDisasm);
-            iter(files, file => EmitDisasmOps(context,file),true);
-        }
-
-        void EmitDisasmProps(WsContext context)
-        {
-            var files = context.Files(FileKind.XedRawDisasm);
-            iter(files, file => EmitDisasmProps(context, XedDisasm.blocks(file)),true);
-        }
-
         void EmitDisasmProps(WsContext context, in DisasmFileBlocks src)
         {
             const string FieldPattern = "{0,-24} | {1}";
@@ -111,7 +108,7 @@ namespace Z0
             var outdir = Projects.XedDisasmDir(context.Project);
             var dst = outdir + filename;
             var emitting = EmittingFile(dst);
-            XedDisasm.CalcSummaryDoc(context, src.Source, out var summaries);
+            XedDisasm.summarize(context, src.Source, out var summaries);
             Require.equal(summaries.RowCount, src.Count);
             var counter = 0u;
             var state = RuleState.Empty;
@@ -130,9 +127,8 @@ namespace Z0
                 }
 
                 state = RuleState.Empty;
-                ref readonly var block = ref src[i];
                 ref readonly var summary = ref summaries[i];
-                var _fields = DisasmFieldParser.fields(block);
+                var _fields = XedDisasm.fields(src[i]);
                 var lookup = _fields.Map(x => (x.Field, x)).ToDictionary();
                 XedFields.update(_fields, ref state);
 
@@ -147,6 +143,7 @@ namespace Z0
                     writer.AppendLineFormat(FieldPattern, kind, value);
                     formatted.Add(kind);
                 }
+
 
                 writer.AppendLine((Address32)summary.IP);
                 writer.AppendLine(RP.PageBreak80);

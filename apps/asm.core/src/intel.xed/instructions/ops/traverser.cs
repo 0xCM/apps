@@ -5,11 +5,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-    using static XedRules;
-    using static core;
-
-    partial class XedRules
+    partial class XedPatterns
     {
+        public static PatternTraverser traverser(IWfRuntime wf)
+            => new PatternTraverser(wf.IntelXed());
+
+        public static PatternTraverser  traverser(IWfRuntime wf, Action<string> printer)
+            => new PatternTraverser(wf.IntelXed(),printer);
     }
 }

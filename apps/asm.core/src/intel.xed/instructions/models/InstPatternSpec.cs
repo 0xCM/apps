@@ -24,35 +24,31 @@ namespace Z0
 
             public readonly InstPatternBody Body;
 
-            public readonly Index<RuleOpSpec> OpSpecs;
+            public readonly Index<OpSpec> Ops;
 
             [MethodImpl(Inline)]
-            public InstPatternSpec(uint seq, uint instid, IClass @class, string rawbody, InstPatternBody body, RuleOpSpec[] ops)
+            public InstPatternSpec(uint id, uint instid, IClass @class, string rawbody, InstPatternBody body, OpSpec[] ops)
             {
-                PatternId = seq;
+                PatternId = id;
                 InstId = instid;
                 Class = @class;
                 Body = body;
                 RawBody = rawbody;
                 BodyExpr = XedRender.format(body);
-                OpSpecs = ops;
+                Ops = ops;
             }
 
             [MethodImpl(Inline)]
-            public InstPatternSpec WithOps(RuleOpSpec[] src)
+            public InstPatternSpec WithOps(OpSpec[] src)
                 => new InstPatternSpec(PatternId, InstId, Class, BodyExpr, Body, src);
 
             [MethodImpl(Inline)]
             public InstPatternSpec WithInstId(uint src)
-                => new InstPatternSpec(PatternId, src, Class, BodyExpr, Body, OpSpecs);
-
-            [MethodImpl(Inline)]
-            public InstPatternSpec WithPatternId(uint src)
-                => new InstPatternSpec(src, InstId, Class, BodyExpr, Body, OpSpecs);
+                => new InstPatternSpec(PatternId, src, Class, BodyExpr, Body, Ops);
 
             [MethodImpl(Inline)]
             public InstPatternSpec WithClass(IClass src)
-                => new InstPatternSpec(PatternId, InstId, src, BodyExpr, Body, OpSpecs);
+                => new InstPatternSpec(PatternId, InstId, src, BodyExpr, Body, Ops);
             public int CompareTo(InstPatternSpec src)
             {
                 var result = InstId.CompareTo(src.InstId);
@@ -62,7 +58,7 @@ namespace Z0
             }
 
             public string Format()
-                => string.Format("Expression:{0}\nOperands:{1}", BodyExpr, OpSpecs);
+                => string.Format("Expression:{0}\nOperands:{1}", BodyExpr, Ops);
 
             public override string ToString()
                 => Format();

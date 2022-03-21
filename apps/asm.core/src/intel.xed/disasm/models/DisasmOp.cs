@@ -4,19 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using static XedRules;
 
     partial struct XedModels
     {
         public readonly struct DisasmOp
         {
-            public readonly RuleOpName Name;
+            public readonly OpName Name;
 
             public readonly object Value;
 
             [MethodImpl(Inline)]
-            public DisasmOp(RuleOpName name, object value)
+            public DisasmOp(OpName name, object value)
             {
                 Name = name;
                 Value = value;
@@ -28,7 +27,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static DisasmOp Empty => new DisasmOp(RuleOpName.None, z8);
+            public static DisasmOp Empty => new DisasmOp(OpName.None, z8);
         }
     }
 }

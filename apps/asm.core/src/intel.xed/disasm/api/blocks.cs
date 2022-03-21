@@ -9,6 +9,9 @@ namespace Z0
 
     partial class XedDisasm
     {
+        public static DisasmFileBlocks blocks(WsContext context, FS.FilePath src)
+            => blocks(context.Ref(src));
+
         public static DisasmFileBlocks blocks(in FileRef src)
         {
             var dst = list<DisasmLineBlock>();

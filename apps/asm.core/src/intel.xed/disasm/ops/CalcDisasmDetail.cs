@@ -10,6 +10,7 @@ namespace Z0
     using static core;
     using static XedModels;
     using static XedRules;
+    using static XedDisasm;
 
     partial class XedDisasmSvc
     {
@@ -38,7 +39,7 @@ namespace Z0
             dst.Mnemonic = inst.Class;
             dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
 
-            XedDisasm.state(inst.Props.Edit, out var state);
+            XedDisasm.parse(inst.Props.Edit, out DisasmState state);
             ref readonly var rules = ref state.RuleState;
             dst.Offsets = XedRules.positions(rules);
             dst.OpCode = rules.NOMINAL_OPCODE;
@@ -90,7 +91,7 @@ namespace Z0
                     );
             }
 
-            if(ops.TryGetValue(RuleOpName.DISP, out var disp))
+            if(ops.TryGetValue(OpName.DISP, out var disp))
                 dst.Disp = (Disp)disp.Value;
 
             var prefix = ocpos != 0 ? slice(code.Bytes,0,ocpos) : default;

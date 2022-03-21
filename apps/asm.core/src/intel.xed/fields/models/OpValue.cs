@@ -10,49 +10,49 @@ namespace Z0
 
     partial class XedRules
     {
-        public struct RuleOpValue
+        public struct OpValue
         {
-            public RuleOpName Name;
+            public OpName Name;
 
             public object Value;
 
             [MethodImpl(Inline)]
-            public RuleOpValue(RuleOpName name, object value)
+            public OpValue(OpName name, object value)
             {
                 Name = name;
                 Value = value;
             }
 
             [MethodImpl(Inline)]
-            public RuleOpValue(RuleOpName name, byte value)
+            public OpValue(OpName name, byte value)
             {
                 Name = name;
                 Value = value;
             }
 
             [MethodImpl(Inline)]
-            public RuleOpValue(RuleOpName name, Register value)
+            public OpValue(OpName name, Register value)
             {
                 Name = name;
                 Value = value;
             }
 
             [MethodImpl(Inline)]
-            public RuleOpValue(RuleOpName name, text31 value)
+            public OpValue(OpName name, text31 value)
             {
                 Name = name;
                 Value = value;
             }
 
             [MethodImpl(Inline)]
-            public RuleOpValue(RuleOpName name, Imm value)
+            public OpValue(OpName name, Imm value)
             {
                 Name = name;
                 Value = value;
             }
 
             [MethodImpl(Inline)]
-            public RuleOpValue(RuleOpName name, Disp value)
+            public OpValue(OpName name, Disp value)
             {
                 Name = name;
                 Value = value;
@@ -64,7 +64,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static RuleOpValue Empty => new RuleOpValue(RuleOpName.None, uint4.Min);
+            public static OpValue Empty => new OpValue(OpName.None, uint4.Min);
         }
     }
 }

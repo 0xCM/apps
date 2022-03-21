@@ -21,12 +21,12 @@ namespace Z0
                 ref readonly var pattern = ref src[j];
                 ref readonly var def = ref pattern.InstDef;
                 writer.AppendLineFormat(LabelPattern, "Pattern", seq++);
-                writer.AppendLineFormat(LabelPattern, "Instruction", def.Seq);
+                writer.AppendLineFormat(LabelPattern, "Instruction", def.InstId);
                 writer.AppendLineFormat(LabelPattern, nameof(def.Class), def.Class);
                 writer.AppendLineFormat(LabelPattern, nameof(def.Form), def.Form);
                 writer.AppendLineFormat(LabelPattern, nameof(def.Category), def.Category);
                 writer.AppendLineFormat(LabelPattern, nameof(def.Extension), def.Extension);
-                writer.AppendLineFormat(LabelPattern, nameof(def.Flags), def.Flags.IsNonEmpty ? def.Flags.Delimit(fence:RenderFence.Embraced) : EmptyString);
+                writer.AppendLineFormat(LabelPattern, nameof(def.FlagEffects), def.FlagEffects.IsNonEmpty ? def.FlagEffects.Delimit(fence:RenderFence.Embraced) : EmptyString);
                 writer.AppendLineFormat(LabelPattern, nameof(pattern.RawBody), pattern.RawBody);
                 writer.AppendLineFormat(LabelPattern, nameof(pattern.Body), pattern.BodyExpr);
                 var opcode = ocparser.Parse(pattern);

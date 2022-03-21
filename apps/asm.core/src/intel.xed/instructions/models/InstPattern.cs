@@ -43,23 +43,23 @@ namespace Z0
                 get => ref PatternSpec.RawBody;
             }
 
-            public ref readonly Index<RuleOpSpec> OpSpecs
+            public ref readonly Index<OpSpec> OpSpecs
             {
                 [MethodImpl(Inline)]
-                get => ref PatternSpec.OpSpecs;
+                get => ref PatternSpec.Ops;
             }
 
             public byte OperandCount
             {
                 [MethodImpl(Inline)]
-                get => (byte)PatternSpec.OpSpecs.Count;
+                get => (byte)PatternSpec.Ops.Count;
             }
 
             [MethodImpl(Inline)]
-            public ref readonly RuleOpSpec Operand(byte index)
-                => ref PatternSpec.OpSpecs[index];
+            public ref readonly OpSpec Operand(byte index)
+                => ref PatternSpec.Ops[index];
 
-            public ref readonly RuleOpSpec this[byte index]
+            public ref readonly OpSpec this[byte index]
             {
                 [MethodImpl(Inline)]
                 get => ref Operand(index);
@@ -113,10 +113,10 @@ namespace Z0
                 get => ref InstDef.Attributes;
             }
 
-            public ref readonly Index<FlagAction> InstFlags
+            public ref readonly Index<XedFlagEffect> InstFlags
             {
                 [MethodImpl(Inline)]
-                get => ref InstDef.Flags;
+                get => ref InstDef.FlagEffects;
             }
 
             public int CompareTo(InstPattern src)

@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-
     [StructLayout(LayoutKind.Sequential,Pack=1)]
     public struct EncodedBits
     {

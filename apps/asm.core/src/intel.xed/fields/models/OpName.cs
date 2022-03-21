@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [SymSource(xed)]
-        public enum RuleOpName : byte
+        public enum OpName : byte
         {
             None = 0,
 

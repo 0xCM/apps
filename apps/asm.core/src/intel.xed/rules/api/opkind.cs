@@ -5,16 +5,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules.RuleOpName;
+    using static XedRules.OpName;
 
-    using K = XedRules.RuleOpKind;
+    using K = XedRules.OpKind;
 
     partial class XedRules
     {
         [Op]
-        public static RuleOpKind opkind(RuleOpName src)
+        public static OpKind opkind(OpName src)
         {
-            var dst = RuleOpKind.None;
+            var dst = OpKind.None;
             switch(src)
             {
                 case REG0:

@@ -4,24 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using F = StatusFlagBits;
-    using I = StatusFlagIndex;
+    using F = RFlagBits;
+    using I = RFlagIndex;
 
-    /// <summary>
-    /// Defines the state of a <see cref='F'/> join
-    /// </summary>
     [ApiComplete]
-    public struct StatusFlags : IEquatable<StatusFlags>
+    public struct RFlags : IEquatable<RFlags>
     {
-        StatusFlagBits State;
+        RFlagBits State;
 
         [MethodImpl(Inline)]
-        public StatusFlags(RFlagBits state)
-            => State = (StatusFlagBits)state;
-
-        [MethodImpl(Inline)]
-        public StatusFlags(StatusFlagBits state)
+        public RFlags(RFlagBits state)
             => State = state;
+
+        [MethodImpl(Inline)]
+        public RFlags(StatusFlagBits state)
+            => State = (RFlagBits)state;
 
         [MethodImpl(Inline)]
         public bit CF()
@@ -104,6 +101,42 @@ namespace Z0.Asm
             => !A();
 
         [MethodImpl(Inline)]
+        public bit TF()
+            => (State & F.TF) == 0;
+
+        [MethodImpl(Inline)]
+        public bit IF()
+            => (State & F.IF) == 0;
+
+        [MethodImpl(Inline)]
+        public bit DF()
+            => (State & F.DF) == 0;
+
+        [MethodImpl(Inline)]
+        public bit RF()
+            => (State & F.RF) == 0;
+
+        [MethodImpl(Inline)]
+        public bit VM()
+            => (State & F.VM) == 0;
+
+        [MethodImpl(Inline)]
+        public bit AC()
+            => (State & F.AC) == 0;
+
+        [MethodImpl(Inline)]
+        public bit VIF()
+            => (State & F.VIF) == 0;
+
+        [MethodImpl(Inline)]
+        public bit VIP()
+            => (State & F.VIP) == 0;
+
+        [MethodImpl(Inline)]
+        public bit ID()
+            => (State & F.ID) == 0;
+
+        [MethodImpl(Inline)]
         public bit Read(I i)
             => bit.test((uint)State, (byte)i);
 
@@ -111,58 +144,27 @@ namespace Z0.Asm
         public void Write(I index, bit b)
             => State = (F)bit.set((uint)State, (byte)index, b);
 
-        public bool Equals(StatusFlags src)
+        [MethodImpl(Inline)]
+        public bool Equals(RFlags src)
             => State == src.State;
 
         public string Format()
         {
-            const string Header = "OF | SF | ZF | AF | PF | CF";
-            const string Pattern = "{5}  | {4}  | {3}  | {2}  | {1}  | {0}";
-            var values = string.Format(Pattern, CF(), PF(), AF(), ZF(), SF(), OF());
-            return string.Format("{0}\n{1}", Header, values);
+            const string H = "CF | PF | AF | ZF | SF | TF | IF | DF | OF | RF | VM | AC | VIF | VIP | ID";
+            const string P = "{0} | {1} | {2} | {3} | {4} | {5} | {6} | {7} | {8} | {9} | {10} | {11} | {12} | {13} | {14}";
+            var values = string.Format(P,CF(), PF(), AF(), ZF(), SF(), TF(), IF(), DF(), OF(), RF(), VM(), AC(), VIF(), VIP(), ID());
+            return string.Format("{0}\n{1}", H, values);
         }
 
         public override string ToString()
             => Format();
 
-        public override int GetHashCode()
-            => (int)State;
-
-        public override bool Equals(object src)
-            => src is StaticBuffers x && Equals(x);
+        [MethodImpl(Inline)]
+        public static implicit operator RFlags(StatusFlagBits src)
+            => new RFlags(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator StatusFlags(RFlagBits src)
-            => new StatusFlags(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator RFlagBits(StatusFlags src)
-            => (RFlagBits)src.State;
-
-        [MethodImpl(Inline)]
-        public static implicit operator StatusFlags(StatusFlagBits src)
-            => new StatusFlags(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator StatusFlagBits(StatusFlags src)
-            => (StatusFlagBits)src.State;
-
-        [MethodImpl(Inline)]
-        public static explicit operator ushort(StatusFlags src)
-            => (ushort)src.State;
-
-        [MethodImpl(Inline)]
-        public static explicit operator uint(StatusFlags src)
-            => (uint)src.State;
-
-        [MethodImpl(Inline)]
-        public static bool operator ==(StatusFlags a, StatusFlags b)
-            => a.Equals(b);
-
-        [MethodImpl(Inline)]
-        public static bool operator !=(StatusFlags a, StatusFlags b)
-            => !a.Equals(b);
-
-        public static StatusFlags Zero => default;
+        public static implicit operator RFlags(RFlagBits src)
+            => new RFlags(src);
     }
 }

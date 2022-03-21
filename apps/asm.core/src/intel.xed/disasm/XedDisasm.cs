@@ -18,65 +18,6 @@ namespace Z0
 
         const NumericKind Closure = UnsignedInts;
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static DisasmOp<T> operand<T>(RuleOpName name, T value)
-            where T : unmanaged
-                => new DisasmOp<T>(name,value);
-
-        public static Outcome CalcSummaryDoc(WsContext context, in FileRef src, out AsmDisasmSummaryDoc dst)
-        {
-            var buffer = list<AsmDisasmSummary>();
-            var result = CalcSummaries(context, src,buffer);
-            if(result)
-                dst = (src.Path,buffer.ToArray());
-            else
-                dst = (src.Path,sys.empty<AsmDisasmSummary>());
-            return result;
-        }
-
-        public static Outcome CalcSummaries(WsContext context, in FileRef src, List<AsmDisasmSummary> dst)
-        {
-            var blocks = XedDisasm.blocks(src).Lines;
-            var summaries = SummaryLines(blocks);
-            var expr = expressions(blocks);
-            var counter = 0u;
-            var count = summaries.Length;
-            var result = Outcome.Success;
-            if(expr.Length != count)
-                return (false, string.Format("{0} != {1}", expr.Length - 1, count));
-
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var line = ref skip(summaries,i);
-                ref readonly var content = ref line.Content;
-                var record = new AsmDisasmSummary();
-                ref readonly var expression = ref skip(expr,i);
-
-                result = ParseHexCode(line, out record.Encoded);
-                if(result.Fail)
-                    return result;
-
-                record.DocSeq = counter++;
-
-                var origin = context.Root(src);
-                record.OriginId = origin.DocId;
-                record.OriginName = origin.DocName;
-                result = ParseIP(content, out record.IP);
-                if(result.Fail)
-                    return result;
-
-                record.InstructionId = AsmBytes.instid(record.OriginId, record.IP, record.Encoded.Bytes);
-                record.EncodingId = record.InstructionId.EncodingId;
-                record.Asm = expression;
-                record.Source = src.Path;
-                record.Source = record.Source.LineRef(line.LineNumber);
-                record.Size = record.Encoded.Size;
-                dst.Add(record);
-            }
-
-            return true;
-        }
-
         static Outcome ParseIP(string src, out MemoryAddress dst)
         {
             var result = Outcome.Failure;
@@ -90,23 +31,6 @@ namespace Z0
             return result;
         }
 
-        static ReadOnlySpan<TextLine> SummaryLines(ReadOnlySpan<DisasmLineBlock> src)
-        {
-            var dst = list<TextLine>();
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-            {
-                var lines = skip(src,i).Lines;
-                var lcount = lines.Count;
-                for(var j=0; j<lcount; j++)
-                {
-                    ref readonly var line = ref lines[j];
-                    if(j == lcount-1)
-                        dst.Add(line);
-                }
-            }
-            return dst.ViewDeposited();
-        }
 
         static ReadOnlySpan<AsmExpr> expressions(ReadOnlySpan<DisasmLineBlock> src)
         {

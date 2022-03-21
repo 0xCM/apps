@@ -9,6 +9,7 @@ namespace Z0
     using static XedPatterns;
     using static XedRules.SyntaxLiterals;
     using static core;
+    using Asm;
 
     using R = XedRules;
 
@@ -32,7 +33,7 @@ namespace Z0
 
         static readonly EnumParser<GroupName> GroupNames = new();
 
-        static readonly EnumParser<RuleOpModKind> OpModKinds = new();
+        static readonly EnumParser<OpModKind> OpModKinds = new();
 
         static readonly EnumParser<FieldKind> FieldKinds = new();
 
@@ -44,15 +45,15 @@ namespace Z0
 
         static readonly EnumParser<ExtensionKind> ExtensionKinds = new();
 
-        static readonly EnumParser<FlagActionKind> FlagActionKinds = new();
+        static readonly EnumParser<FlagEffectKind> FlagActionKinds = new();
 
-        static readonly EnumParser<RegFlag> RegFlags = new();
+        static readonly EnumParser<XedRegFlag> RegFlags = new();
 
         static readonly EnumParser<IsaKind> IsaKinds = new();
 
         static readonly EnumParser<CategoryKind> CategoryKinds = new();
 
-        static readonly EnumParser<RuleOpName> RuleOpNames = new();
+        static readonly EnumParser<OpName> RuleOpNames = new();
 
         static readonly EnumParser<RuleMacroKind> MacroKinds = new();
 
@@ -503,10 +504,10 @@ namespace Z0
         public static bool parse(string src, out OpCodeKind dst)
             => Instance.Parse(src, out dst);
 
-        public static bool parse(string src, out RuleOpModKind dst)
+        public static bool parse(string src, out OpModKind dst)
             => Instance.Parse(src, out dst);
 
-        public static bool parse(string src, out RuleOpName dst)
+        public static bool parse(string src, out OpName dst)
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out CategoryKind dst)
@@ -548,10 +549,10 @@ namespace Z0
         public static bool parse(string src, out ElementType dst)
             => Instance.Parse(src, out dst);
 
-        public static bool parse(string src, out FlagActionKind dst)
+        public static bool parse(string src, out FlagEffectKind dst)
             => Instance.Parse(src, out dst);
 
-        public static bool parse(string src, out RegFlag dst)
+        public static bool parse(string src, out XedRegFlag dst)
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out byte dst)
@@ -607,9 +608,9 @@ namespace Z0
             return result;
         }
 
-        public static bool reg(string src, out RuleOpAttrib dst)
+        public static bool reg(string src, out OpAttrib dst)
         {
-            dst = RuleOpAttrib.Empty;
+            dst = OpAttrib.Empty;
             var result = false;
             var p0 = src;
             var j = text.index(p0, Chars.LParen);
@@ -716,22 +717,22 @@ namespace Z0
             return result;
         }
 
-        public bool Parse(string src, out RegFlag dst)
+        public bool Parse(string src, out XedRegFlag dst)
             => RegFlags.Parse(src, out dst);
 
         public bool Parse(string src, out GroupName dst)
             => GroupNames.Parse(src, out dst);
 
-        public bool Parse(string src, out RuleOpModKind dst)
+        public bool Parse(string src, out OpModKind dst)
             => OpModKinds.Parse(src, out dst);
 
-        public bool Parse(string src, out FlagActionKind dst)
+        public bool Parse(string src, out FlagEffectKind dst)
             => FlagActionKinds.Parse(src, out dst);
 
         public bool Parse(string src, out bit dst)
             => bit.parse(src, out dst);
 
-        public bool Parse(string src, out RuleOpName dst)
+        public bool Parse(string src, out OpName dst)
             => RuleOpNames.Parse(src, out dst);
 
         public bool Parse(string src, out SMode dst)

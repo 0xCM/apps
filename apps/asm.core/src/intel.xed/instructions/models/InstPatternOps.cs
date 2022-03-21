@@ -27,27 +27,27 @@ namespace Z0
 
             public byte OpIndex;
 
-            public RuleOpName Name;
+            public OpName Name;
 
-            public RuleOpKind Kind;
+            public OpKind Kind;
 
             public @string Expression;
 
-            public RuleOpAttrib Action;
+            public OpAttrib Action;
 
-            public RuleOpAttrib WidthCode;
+            public OpAttrib WidthCode;
 
-            public RuleOpAttrib CellType;
+            public OpAttrib CellType;
 
             public EmptyZero<ushort> BitWidth;
 
             public EmptyZero<ushort> CellWidth;
 
-            public RuleOpAttrib RegLit;
+            public OpAttrib RegLit;
 
-            public RuleOpAttrib Modifier;
+            public OpAttrib Modifier;
 
-            public RuleOpAttrib Visibility;
+            public OpAttrib Visibility;
 
             public int CompareTo(InstPatternOps src)
             {

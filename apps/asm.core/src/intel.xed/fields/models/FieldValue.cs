@@ -12,7 +12,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public readonly struct FieldValue
+        public readonly struct FieldValue : IEquatable<FieldValue>
         {
             public readonly FieldKind Field;
 
@@ -163,14 +163,21 @@ namespace Z0
             public override bool Equals(object src)
                 => src is FieldValue x && Equals(x);
 
+            public uint Hash
+            {
+                [MethodImpl(Inline)]
+                get => (uint)((ulong)Field << 24 | (Data & 0xFFFFFF));
+            }
+
+            public override int GetHashCode()
+                => (int)Hash;
+
             public string Format()
                 => XedRender.format(this);
 
             public override string ToString()
                 => Format();
 
-            public override int GetHashCode()
-                => (int)(((uint)Field << 24) | (Data & 0xFFFFFF));
 
             [MethodImpl(Inline)]
             public static implicit operator XedRegId(FieldValue src)

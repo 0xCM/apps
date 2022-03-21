@@ -5,19 +5,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     partial struct XedModels
     {
-        public readonly struct FlagAction
+        public readonly struct XedFlagEffect
         {
-            public RegFlag Flag {get;}
+            public readonly XedRegFlag Flag;
 
-            public FlagActionKind ActionKind {get;}
+            public readonly FlagEffectKind Effect;
 
             [MethodImpl(Inline)]
-            public FlagAction(RegFlag f, FlagActionKind k)
+            public XedFlagEffect(XedRegFlag f, FlagEffectKind k)
             {
                 Flag = f;
-                ActionKind = k;
+                Effect = k;
             }
 
             public bool IsEmpty
@@ -33,14 +35,14 @@ namespace Z0
             }
 
             public string Format()
-                => string.Format("{0}-{1}", Symbols.expr(Flag), Symbols.expr(ActionKind));
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator FlagAction((RegFlag f, FlagActionKind k) src)
-                => new FlagAction(src.f, src.k);
+            public static implicit operator XedFlagEffect((XedRegFlag f, FlagEffectKind k) src)
+                => new XedFlagEffect(src.f, src.k);
         }
     }
 }

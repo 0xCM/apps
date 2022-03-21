@@ -11,29 +11,29 @@ namespace Z0
     {
         public class DisasmOps
         {
-            readonly Dictionary<RuleOpName,DisasmOp> Data;
+            readonly Dictionary<OpName,DisasmOp> Data;
 
-            public DisasmOps(Dictionary<RuleOpName,DisasmOp> src)
+            public DisasmOps(Dictionary<OpName,DisasmOp> src)
             {
                 Data = src;
             }
 
-            public bool TryGetValue(RuleOpName key, out DisasmOp value)
+            public bool TryGetValue(OpName key, out DisasmOp value)
                 => Data.TryGetValue(key, out value);
 
-            public ICollection<RuleOpName> Keys
+            public ICollection<OpName> Keys
                 => Data.Keys;
 
             public ICollection<DisasmOp> Values
                 => Data.Values;
 
-            public DisasmOp this[RuleOpName name]
+            public DisasmOp this[OpName name]
             {
                 get => Data[name];
                 set => Data[name] = value;
             }
 
-            public static implicit operator DisasmOps(Dictionary<RuleOpName,DisasmOp> src)
+            public static implicit operator DisasmOps(Dictionary<OpName,DisasmOp> src)
                 => new DisasmOps(src);
         }
     }

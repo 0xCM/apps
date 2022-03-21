@@ -8,7 +8,7 @@ namespace Z0
     partial struct XedModels
     {
         [SymSource(xed)]
-        public enum RegFlag : byte
+        public enum XedRegFlag : byte
         {
             INVALID,
 

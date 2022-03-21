@@ -1,117 +1,187 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using static XedRules;
+    using static XedModels;
 
-    using I = XedModels.OpAspectIndex;
-
-    partial struct XedModels
+    partial class XedRules
     {
-        public struct OpSpec
+        public struct OpSpec : IComparable<OpSpec>
         {
-            public static OpSpec from(in DisasmOpDetail src)
+            public uint PatternId;
+
+            public byte Index;
+
+            public OpName Name;
+
+            public OpKind Kind;
+
+            public OpAttribs Attribs;
+
+            public @string Expression;
+
+            public Hex32 OpId
             {
-                var spec = new OpSpec(src.OpName);
-                var kind = OpAspectKind.None;
-                var opkind = XedRules.opkind(src.OpName);
-                ref readonly var opinfo = ref src.OpInfo;
-                ref readonly var width = ref src.OpWidth;
-
-                spec[I.Index] = opinfo.Index;
-                kind |= OpAspectKind.Index;
-
-                if(src.Action != 0)
-                {
-                    spec[I.Action] = src.Action;
-                    kind |= OpAspectKind.Action;
-                }
-
-                if(opinfo.Visiblity.IsNonEmpty)
-                {
-                    spec[I.Visibilty] = opinfo.Visiblity;
-                    kind |= OpAspectKind.Visibilty;
-                }
-
-                if(width.IsNonEmpty)
-                {
-                    spec[I.Width] = width.Code;
-                    kind |= OpAspectKind.Width;
-                }
-
-                if(width.EType.IsNonEmpty)
-                {
-                    spec[I.EType] = width.EType;
-                    kind |= OpAspectKind.EType;
-                }
-
-                if(opinfo.OpType != 0)
-                {
-                    spec[I.Type] = opinfo.OpType;
-                    kind |= OpAspectKind.Type;
-                }
-
-                if(opinfo.Selector.IsNonEmpty)
-                {
-                    if(XedParsers.parse(opinfo.Selector, out XedRegId reg))
-                    {
-                        spec[I.Reg] = reg;
-                        kind |= OpAspectKind.Reg;
-                    }
-                    else if(XedParsers.parse(opinfo.Selector, out NontermKind dst))
-                    {
-                        spec[I.NT] = dst;
-                        kind |= OpAspectKind.NT;
-                    }
-                }
-
-                spec.AspectKind = kind;
-
-                return spec;
+                [MethodImpl(Inline)]
+                get => PatternId << 8 | Index;
             }
 
-            ByteBlock32 Data;
+            public string Format()
+                => text.format("{0}:{1}", Name, Attribs.Delimit(Chars.Colon).Format());
+
+            public override string ToString()
+                => Format();
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Name == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Name != 0;
+            }
+
+            public bool IsReg
+            {
+                [MethodImpl(Inline)]
+                get => Kind == OpKind.Reg || Kind == OpKind.Base || Kind == OpKind.Index || Kind == OpKind.Seg;
+            }
+
+            public bool IsBaseReg
+            {
+                [MethodImpl(Inline)]
+                get => Kind == OpKind.Base;
+            }
+
+            public bool IsIndexReg
+            {
+                [MethodImpl(Inline)]
+                get => Kind == OpKind.Index;
+            }
+
+            public bool IsSegReg
+            {
+                [MethodImpl(Inline)]
+                get => Kind == OpKind.Seg;
+            }
+
+            public bool IsMem
+            {
+                [MethodImpl(Inline)]
+                get => Kind == OpKind.Mem;
+            }
+
+            public bool IsImm
+            {
+                [MethodImpl(Inline)]
+                get => Kind == OpKind.Imm;
+            }
+
+            public bool IsPtr
+            {
+                [MethodImpl(Inline)]
+                get => Kind == OpKind.Ptr;
+            }
+
+            public bool IsDisp
+            {
+                [MethodImpl(Inline)]
+                get => Kind == OpKind.Disp;
+            }
+
+            public bool HasOpWidth
+            {
+                [MethodImpl(Inline)]
+                get => OpWidthKind != 0;
+            }
+
+            public bool HasPtrWidth
+            {
+                [MethodImpl(Inline)]
+                get => PtrWidthKind != 0;
+            }
+
+            public bool HasElementType
+            {
+                [MethodImpl(Inline)]
+                get => ElementType.IsNonEmpty;
+            }
+
+            public OpWidthCode OpWidthKind
+            {
+                [MethodImpl(Inline)]
+                get => opwidth(this);
+            }
+
+            public ushort OpWidth
+            {
+                [MethodImpl(Inline)]
+                get => bitwidth(OpWidthKind);
+            }
+
+            public PointerWidthKind PtrWidthKind
+            {
+                [MethodImpl(Inline)]
+                get => ptrwidth(this);
+            }
+
+            public ushort PtrWidth
+            {
+                [MethodImpl(Inline)]
+                get => bitwidth(PtrWidthKind);
+            }
+
+            public ElementType ElementType
+            {
+                [MethodImpl(Inline)]
+                get => etype(this);
+            }
+
+            public ushort ElementWidth
+            {
+                [MethodImpl(Inline)]
+                get => bitwidth(OpWidthKind, ElementType);
+            }
 
             [MethodImpl(Inline)]
-            public OpSpec(RuleOpName opname)
+            public int CompareTo(OpSpec src)
+                => OpId.CompareTo(src.OpId);
+
+            [MethodImpl(Inline)]
+            static PointerWidthKind ptrwidth(in OpSpec op)
             {
-                var data = ByteBlock32.Empty;
-                data[0] = (byte)opname;
-                Data = data;
+                var dst = PointerWidthKind.INVALID;
+                if(op.Attribs.Search(OpClass.PtrWidth, out var attrib))
+                    dst = attrib.AsPtrWidth();
+                return dst;
             }
 
-            ref OpAspectKind AspectKind
+            [MethodImpl(Inline)]
+            static OpWidthCode opwidth(in OpSpec op)
             {
-                [MethodImpl(Inline)]
-                get => ref @as<OpAspectKind>(Data[1]);
+                var dst = OpWidthCode.INVALID;
+                if(op.Attribs.Search(OpClass.OpWidth, out var attrib))
+                    dst = attrib.AsOpWidth();
+                return dst;
             }
 
-            ref OpAspect this[OpAspectIndex i]
+            [MethodImpl(Inline)]
+            static ElementType etype(in OpSpec op)
             {
-                [MethodImpl(Inline)]
-                get => ref @as<OpAspect>(seek(Data[3],(byte)i));
+                var dst = ElementType.Empty;
+                if(op.Attribs.Search(OpClass.ElementType, out var attrib))
+                    dst = attrib.AsElementType();
+                return dst;
             }
 
-            public RuleOpKind OpKind
-            {
-                [MethodImpl(Inline)]
-                get => opkind(OpName);
-            }
-
-            public ref readonly RuleOpName OpName
-            {
-                [MethodImpl(Inline)]
-                get => ref @as<RuleOpName>(Data.First);
-            }
-
-            public ref readonly OpAspectKind Kinds
-            {
-                [MethodImpl(Inline)]
-                get => ref @as<OpAspectKind>(Data[1]);
-            }
+            public static OpSpec Empty => default;
         }
     }
 }

@@ -5,15 +5,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static core;
-    using static Root;
     using static XedModels;
     using static XedParsers;
-    using static XedPatterns;
+    using static XedRules;
 
     using P = XedRules.InstRulePart;
 
-    partial class XedRules
+    partial class XedPatterns
     {
         internal class InstDefParser
         {
@@ -27,7 +28,7 @@ namespace Z0
                 return new TextLine(src.LineNumber, dst);
             }
 
-            static void parse(string body, out InstPatternSpec dst)
+            static void parse(uint pattern, string body, out InstPatternSpec dst)
             {
                 var buffer = text.buffer();
                 var parts = text.split(text.despace(body), Chars.Space);
@@ -38,8 +39,34 @@ namespace Z0
                     buffer.Append(skip(parts,i));
                 }
                 parse(RuleMacros.expand(buffer.Emit()), out InstPatternBody pb).Require();
+                dst = new InstPatternSpec(pattern, 0, 0, body, pb, sys.empty<OpSpec>());
+            }
 
-                dst = new InstPatternSpec(0, 0, 0, body, pb, sys.empty<RuleOpSpec>());
+            static Index<XedFlagEffect> effects(string src)
+            {
+                var i = text.index(src,Chars.LBracket);
+                var j = text.index(src,Chars.RBracket);
+                var buffer = sys.empty<XedFlagEffect>();
+                if(i >=0 && j>1)
+                {
+                    var specs = text.split(text.despace(text.inside(src,i,j)), Chars.Space);
+                    var count = specs.Length;
+                    buffer = alloc<XedFlagEffect>(count);
+                    for(var k=0; k<count; k++)
+                    {
+                        ref readonly var spec = ref skip(specs,k);
+                        var m = text.index(spec,Chars.Dash);
+                        if(m>0)
+                        {
+                            var name = text.left(spec, m);
+                            var action = text.right(spec,m);
+                            if(XedParsers.parse(name, out XedRegFlag flag) && XedParsers.parse(action, out FlagEffectKind ak))
+                                seek(buffer,k) = new XedFlagEffect(flag, ak);
+                        }
+                    }
+                }
+
+                return buffer;
             }
 
             public static Outcome parse(string src, out InstPatternBody dst)
@@ -70,7 +97,7 @@ namespace Z0
                 {
                     result = XedParsers.parse(src, out Hex8 x);
                     if(result)
-                        dst = x;
+                        dst = part(x);
                     else
                         result = (false, AppMsg.ParseFailure.Format(nameof(Hex8), src));
                 }
@@ -78,7 +105,7 @@ namespace Z0
                 {
                     result = XedParsers.parse(src, out uint5 x);
                     if(result)
-                        dst = x;
+                        dst = part(x);
                     else
                         result = (false, AppMsg.ParseFailure.Format(nameof(uint5), src));
 
@@ -87,7 +114,7 @@ namespace Z0
                 {
                     result = XedParsers.parse(src, out BitfieldSeg x);
                     if(result)
-                        dst = x;
+                        dst = part(x);
                     else
                         result = (false, AppMsg.ParseFailure.Format(nameof(BitfieldSeg), src));
                 }
@@ -95,7 +122,7 @@ namespace Z0
                 {
                     result = XedParsers.parse(src, out FieldConstraint x);
                     if(result)
-                        dst = x;
+                        dst = part(x);
                     else
                         result = (false, AppMsg.ParseFailure.Format(nameof(FieldConstraint), src));
 
@@ -105,7 +132,7 @@ namespace Z0
                     result = XedParsers.parse(src, out FieldAssign x);
                     if(result)
                     {
-                        dst = x;
+                        dst = part(x);
                     }
                     else
                         result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
@@ -115,7 +142,7 @@ namespace Z0
                 {
                     result = XedParsers.parse(src, out Nonterminal x);
                     if(result)
-                        dst = x;
+                        dst = part(x);
                     else
                         result = (false, AppMsg.ParseFailure.Format(nameof(Nonterminal), src));
                 }
@@ -132,7 +159,7 @@ namespace Z0
             {
                 var buffer = list<InstDef>();
                 using var reader = src.Utf8LineReader();
-                var parser = RuleOpParser.create();
+                var parser = OpSpecParser.create();
                 var seq = 0u;
                 while(reader.Next(out var line))
                 {
@@ -179,7 +206,7 @@ namespace Z0
                                             XedParsers.parse(value, out dst.Extension);
                                         break;
                                         case P.Flags:
-                                            dst.Flags = CalcFlagActions(value);
+                                            dst.FlagEffects = effects(value);
                                         break;
                                         case P.Class:
                                         {
@@ -207,11 +234,10 @@ namespace Z0
                                                 }
                                             }
 
-                                            parse(body, out InstPatternSpec spec);
+                                            parse(seq++, body, out InstPatternSpec spec);
                                             specs.Add(
                                                 spec.WithClass(@class)
-                                                .WithPatternId(seq++)
-                                                .WithOps(RuleOpParser.parse(value)));
+                                                .WithOps(OpSpecParser.parse(spec.PatternId, value)));
                                         }
                                         break;
                                         case P.Pattern:
@@ -236,7 +262,7 @@ namespace Z0
                 for(var i=0u; i<defs.Length; i++)
                 {
                     ref var def = ref seek(defs,i);
-                    def.Seq = i;
+                    def.InstId = i;
                     ref var patterns = ref def.PatternSpecs;
                     for(var j=0; j<patterns.Count; j++)
                         patterns[j] = patterns[j].WithInstId(i);
@@ -245,7 +271,7 @@ namespace Z0
                 return defs;
             }
 
-            static bool classify(Index<InstRulePart,string> names, string src, out InstRulePart part)
+            internal static bool classify(Index<InstRulePart,string> names, string src, out InstRulePart part)
             {
                 var count = names.Count;
                 var result = false;

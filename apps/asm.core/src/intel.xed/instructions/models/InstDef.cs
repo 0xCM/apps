@@ -12,7 +12,7 @@ namespace Z0
     {
         public struct InstDef : IComparable<InstDef>
         {
-            public uint Seq;
+            public uint InstId;
 
             public IClass Class;
 
@@ -26,7 +26,7 @@ namespace Z0
 
             public InstAttribs Attributes;
 
-            public Index<FlagAction> Flags;
+            public Index<XedFlagEffect> FlagEffects;
 
             public Index<InstPatternSpec> PatternSpecs;
 
