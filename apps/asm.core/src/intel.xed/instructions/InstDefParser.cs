@@ -9,6 +9,7 @@ namespace Z0
     using static Root;
     using static XedModels;
     using static XedParsers;
+    using static XedPatterns;
 
     using P = XedRules.InstRulePart;
 

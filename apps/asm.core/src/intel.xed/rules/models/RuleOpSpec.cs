@@ -6,8 +6,9 @@
 namespace Z0
 {
     using static XedRules;
+    using static XedModels;
 
-    partial struct XedModels
+    partial class XedRules
     {
         public struct RuleOpSpec
         {
