@@ -14,25 +14,19 @@ namespace Z0
     {
         public readonly struct XedOpCode : IEquatable<XedOpCode>, IComparable<XedOpCode>
         {
-            public readonly uint PatternId;
-
-            public readonly IClass Class;
-
             public readonly OpCodeKind Kind;
 
             public readonly AsmOcValue Value;
 
             [MethodImpl(Inline)]
-            public XedOpCode(uint id, IClass @class, OpCodeKind kind, AsmOcValue value)
+            public XedOpCode(OpCodeKind kind, AsmOcValue value)
             {
-                PatternId = id;
-                Class = @class;
                 Kind = kind;
                 Value = value;
             }
 
             public string Format()
-                => XedRender.format(Value);
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

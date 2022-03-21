@@ -91,10 +91,10 @@ namespace Z0
 
             dst.Append(name);
 
-            for(var i=0; i<src.OperandCount; i++)
+            for(var i=0; i<src.OpCount; i++)
             {
                 dst.Append(Chars.Underscore);
-                ref readonly var op = ref src.OpSpecs[i];
+                ref readonly var op = ref src.Ops[i];
                 dst.Append(identify(op));
             }
 

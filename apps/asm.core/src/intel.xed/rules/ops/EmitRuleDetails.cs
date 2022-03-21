@@ -32,7 +32,7 @@ namespace Z0
                 var opcode = ocparser.Parse(pattern);
                 writer.AppendLineFormat("{0,-16} | {1}[{2}]", "OpCode", XedRender.format(opcode.Kind), opcode.Value);
                 writer.AppendLineFormat(LabelPattern, "Operands", RP.PageBreak80);
-                ref readonly var ops = ref pattern.OpSpecs;
+                ref readonly var ops = ref pattern.Ops;
                 for(byte k=0; k<ops.Count; k++)
                 {
                     ref readonly var op = ref ops[k];

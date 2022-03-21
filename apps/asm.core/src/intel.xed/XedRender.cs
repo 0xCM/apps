@@ -707,6 +707,9 @@ namespace Z0
             return dst.Emit();
         }
 
+        public static string format(in XedOpCode src)
+            => string.Format("{0} {1}", format(src.Kind), format(src.Value));
+
         static string format5(uint5 src)
         {
             var storage = 0ul;

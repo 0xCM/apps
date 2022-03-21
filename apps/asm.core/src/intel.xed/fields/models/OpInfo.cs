@@ -5,17 +5,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedRules;
     using static XedModels;
 
     partial class XedPatterns
     {
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableName)]
-        public struct InstPatternOps : IComparable<InstPatternOps>
+        public struct OpInfo : IComparable<OpInfo>
         {
-            public const byte FieldCount = 15;
+            public const byte FieldCount = 16;
 
             public const string TableName = "xed.inst.patterns.ops";
 
@@ -24,6 +22,8 @@ namespace Z0
             public uint PatternId;
 
             public IClass Mnemonic;
+
+            public XedOpCode OpCode;
 
             public byte OpIndex;
 
@@ -49,7 +49,7 @@ namespace Z0
 
             public OpAttrib Visibility;
 
-            public int CompareTo(InstPatternOps src)
+            public int CompareTo(OpInfo src)
             {
                 var result = InstId.CompareTo(src.InstId);
                 if(result == 0)
@@ -61,9 +61,9 @@ namespace Z0
                 return result;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,18,8,8,8,32,8,10,10,10,10,16,8,12};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,18,24,8,8,8,32,8,10,10,10,10,16,8,12};
 
-            public static InstPatternOps Empty => default;
+            public static OpInfo Empty => default;
         }
     }
 }

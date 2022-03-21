@@ -15,6 +15,7 @@ namespace Z0
             var patterns = CalcInstPatterns(defs);
             exec(PllExec,
                 () => EmitPatternData(patterns),
+                () => EmitFlagEffects(defs),
                 EmitRuleTables,
                 EmitRefData,
                 EmitMacroData,

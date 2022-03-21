@@ -155,19 +155,7 @@ namespace Z0.Asm
 
         public static Index<string> FlagNames = new string[15]{"CF","PF", "AF", "ZF", "SF", "TF", "IF", "DF", "OF", "RF", "VM", "AC", "VIF", "VIP", "ID"};
 
-        public static string RenderPattern = mapi(FlagNames, (i,n) =>  RP.slot((byte)i, -3)).Concat(" | ");
-
-        public string Format(bool header)
-        {
-            var values = string.Format(RenderPattern, CF(), PF(), AF(), ZF(), SF(), TF(), IF(), DF(), OF(), RF(), VM(), AC(), VIF(), VIP(), ID());
-            if(header)
-                return string.Format("{0}\n{1}\n", string.Format(RenderPattern,FlagNames), values);
-            else
-                return values;
-        }
-
-        public override string ToString()
-            => Format(true);
+        public static string RenderPattern = mapi(FlagNames, (i,n) =>  RP.slot((byte)(i), -3)).Concat(" | ");
 
         [MethodImpl(Inline)]
         public static implicit operator RFlags(StatusFlagBits src)

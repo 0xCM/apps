@@ -47,8 +47,19 @@ namespace Z0
                 for(var i=0; i<body.PartCount; i++)
                     Parse(body[i]);
                 CalcOcIndex();
-                return new XedOpCode(src.PatternId, src.Class, OcIndex != null ? XedPatterns.ockind(OcIndex.Value) : OpCodeKind.None, OcValue);
+                return new XedOpCode(OcIndex != null ? XedPatterns.ockind(OcIndex.Value) : OpCodeKind.None, OcValue);
             }
+
+            public XedOpCode Parse(InstPatternBody src)
+            {
+                Clear();
+                OcValue = XedPatterns.ocvalue(src);
+                for(var i=0; i<src.PartCount; i++)
+                    Parse(src[i]);
+                CalcOcIndex();
+                return new XedOpCode(OcIndex != null ? XedPatterns.ockind(OcIndex.Value) : OpCodeKind.None, OcValue);
+            }
+
 
             public XedOpCode Parse(InstPatternSpec src)
             {
@@ -58,7 +69,7 @@ namespace Z0
                 for(var i=0; i<body.PartCount; i++)
                     Parse(body[i]);
                 CalcOcIndex();
-                return new XedOpCode(src.PatternId, src.Class, OcIndex != null ? XedPatterns.ockind(OcIndex.Value) : OpCodeKind.None, OcValue);
+                return new XedOpCode(OcIndex != null ? XedPatterns.ockind(OcIndex.Value) : OpCodeKind.None, OcValue);
             }
 
             void CalcOcIndex()

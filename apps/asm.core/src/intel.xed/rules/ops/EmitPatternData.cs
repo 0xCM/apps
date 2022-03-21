@@ -26,6 +26,6 @@ namespace Z0
             => EmitPatternDetails(src, XedPaths.DocTarget(XedDocKind.PatternDetail));
 
         void EmitPatternOps(Index<InstPattern> src)
-            => TableEmit(src.SelectMany(x => x.Ops).Sort().View, InstPatternOps.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));
+            => TableEmit(src.SelectMany(x => x.OpInfo).Sort().View, OpInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));
     }
 }

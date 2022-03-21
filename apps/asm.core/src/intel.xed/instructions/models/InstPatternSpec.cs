@@ -18,6 +18,8 @@ namespace Z0
 
             public readonly IClass Class;
 
+            public readonly XedOpCode OpCode;
+
             public readonly TextBlock BodyExpr;
 
             public readonly TextBlock RawBody;
@@ -27,11 +29,12 @@ namespace Z0
             public readonly Index<OpSpec> Ops;
 
             [MethodImpl(Inline)]
-            public InstPatternSpec(uint id, uint instid, IClass @class, string rawbody, InstPatternBody body, OpSpec[] ops)
+            public InstPatternSpec(uint id, uint instid, IClass @class, XedOpCode opcode, string rawbody, InstPatternBody body, OpSpec[] ops)
             {
                 PatternId = id;
                 InstId = instid;
                 Class = @class;
+                OpCode = opcode;
                 Body = body;
                 RawBody = rawbody;
                 BodyExpr = XedRender.format(body);
@@ -40,15 +43,15 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public InstPatternSpec WithOps(OpSpec[] src)
-                => new InstPatternSpec(PatternId, InstId, Class, BodyExpr, Body, src);
+                => new InstPatternSpec(PatternId, InstId, Class, OpCode, BodyExpr, Body, src);
 
             [MethodImpl(Inline)]
             public InstPatternSpec WithInstId(uint src)
-                => new InstPatternSpec(PatternId, src, Class, BodyExpr, Body, Ops);
+                => new InstPatternSpec(PatternId, src, Class, OpCode, BodyExpr, Body, Ops);
 
             [MethodImpl(Inline)]
             public InstPatternSpec WithClass(IClass src)
-                => new InstPatternSpec(PatternId, InstId, src, BodyExpr, Body, Ops);
+                => new InstPatternSpec(PatternId, InstId, src, OpCode, BodyExpr, Body, Ops);
             public int CompareTo(InstPatternSpec src)
             {
                 var result = InstId.CompareTo(src.InstId);

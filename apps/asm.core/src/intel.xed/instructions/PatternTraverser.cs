@@ -21,7 +21,7 @@ namespace Z0
 
             ConcurrentBag<InstPatternSpec> _Patterns = new();
 
-            ConcurrentBag<InstDef> _Defs = new();
+            ConcurrentDictionary<uint,InstDef> _Defs = new();
 
             ConcurrentDictionary<uint,OpSpec> _Ops = new();
 
@@ -37,7 +37,7 @@ namespace Z0
                 => _Patterns.ToArray().Sort();
 
             public Index<InstDef> Defs()
-                => _Defs.ToArray().Sort();
+                => _Defs.Values.Array().Sort();
 
             public Index<OpSpec> Ops()
                 => _Ops.Values.Array().Sort();
@@ -97,7 +97,10 @@ namespace Z0
 
             public void Traverse(in InstDef def)
             {
-                _Defs.Add(def);
+                if(!_Defs.TryAdd(def.InstId, def))
+                {
+                    Errors.Throw(string.Format("Duplicate:{0}",def.Class));
+                }
 
                 TraverseEffects(def);
 

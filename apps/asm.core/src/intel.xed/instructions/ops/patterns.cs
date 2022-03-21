@@ -21,22 +21,22 @@ namespace Z0
         static void patterns(in InstDef def, ConcurrentBag<InstPattern> dst)
         {
             var specs = def.PatternSpecs;
-            var buffer = list<InstPatternOps>();
+            var buffer = list<OpInfo>();
             for(var j=0; j<specs.Count; j++)
             {
                 ref readonly var spec = ref specs[j];
                 buffer.Clear();
                 for(byte k=0; k<spec.Ops.Count; k++)
-                    buffer.Add(ops(spec,k));
+                    buffer.Add(opinfo(spec,k));
                 dst.Add(new InstPattern(def, spec, buffer.ToArray()));
             }
         }
 
-        static InstPatternOps ops(in InstPatternSpec src, byte k)
+        static OpInfo opinfo(in InstPatternSpec src, byte k)
         {
             ref readonly var ops = ref src.Ops;
             ref readonly var op = ref ops[k];
-            var detail = InstPatternOps.Empty;
+            var detail = OpInfo.Empty;
             var spec = OpSpecParser.parse(src.PatternId, k, op.Name, op.Expression);
             var attribs = spec.Attribs.Sort();
             detail.InstId = src.InstId;
@@ -46,6 +46,7 @@ namespace Z0
             detail.Kind = spec.Kind;
             detail.Expression = op.Expression;
             detail.Mnemonic = src.Class;
+            detail.OpCode = src.OpCode;
             var opwidth = OpWidthCode.INVALID;
             if(attribs.Search(OpClass.Action, out var action))
                 detail.Action = action;

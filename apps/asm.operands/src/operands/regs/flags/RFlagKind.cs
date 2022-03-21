@@ -7,17 +7,19 @@ namespace Z0.Asm
     [SymSource("asm.regs.flags")]
     public enum RFlagKind : byte
     {
+        None = 0,
+
         [Symbol("cf", "Carry Flag; Enabled if an arithmetic operation generates a carry or a borrow out of the most-significant bit of the result; cleared otherwise. This flag indicates an overflow condition for unsigned-integer arithmetic. It is also used in multiple-precision arithmetic")]
-        CF,
+        CF=1,
 
         [Symbol("pf", "Parity Flag; Enabled if the least-significant byte of the result contains an even number of 1 bits; cleared otherwise")]
-        PF,
+        PF=2,
 
         [Symbol("af", "Auxillary Carry Flag; Enabled if an arithmetic operation generates a carry or a borrow out of bit 3 of the result; cleared otherwise.")]
-        AF,
+        AF=3,
 
         [Symbol("zf", "Zero Flag; Enabled if the result is zero; cleared otherwise")]
-        ZF,
+        ZF=4,
 
         [Symbol("sf", "Sign Flag; Set equal to the most-significant bit of the result, which is the sign bit of a signed integer. (0 indicates a positive value and 1 indicates a negative value.)")]
         SF,

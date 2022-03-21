@@ -63,7 +63,7 @@ namespace Z0
                 ref readonly var spec = ref ipattern.PatternSpec;
                 ref readonly var body = ref ipattern.Body;
                 ref readonly var raw = ref ipattern.RawBody;
-                ref readonly var ops = ref ipattern.OpSpecs;
+                ref readonly var ops = ref ipattern.Ops;
                 writer.WriteLine(RP.PageBreak80);
                 writer.WriteLine(@class);
                 writer.WriteLine(raw);

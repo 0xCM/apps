@@ -7,7 +7,7 @@ namespace Z0
 {
     using Asm;
 
-    public readonly struct FlagEffect
+    public readonly struct FlagEffect : IComparable<FlagEffect>
     {
         public readonly RFlagBits Flag;
 
@@ -30,6 +30,16 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => Flag != 0;
+        }
+
+        [MethodImpl(Inline)]
+        public int CompareTo(FlagEffect src)
+        {
+            var result = ((ulong)Flag).CompareTo(src.Flag);
+            if(result == 0)
+                result = ((byte)Kind).CompareTo(src.Kind);
+
+            return result;
         }
     }
 }

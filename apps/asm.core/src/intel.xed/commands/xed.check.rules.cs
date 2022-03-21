@@ -9,6 +9,7 @@ namespace Z0
     using static core;
     using static XedRules;
     using static XedPatterns;
+    using static XedModels;
 
     partial class XedCmdProvider
     {
@@ -35,42 +36,25 @@ namespace Z0
                 }
             }
 
-            EmitEffects(defs);
             return true;
         }
 
-        void EmitEffects(Index<InstDef> src)
+        static EnumRender<FlagEffectKind> _EffectKinds = new();
+
+        public static string _format(FlagEffectKind kind)
+            => _EffectKinds.Format(kind);
+
+        public static string _format(RFlagBits src)
+            => src != 0 ? src.ToString().ToLower() : EmptyString;
+
+        public static string _format(in XedFlagEffect src)
         {
-            var path = XedPaths.Targets() + FS.file("xed.inst.flags", FS.Csv);
-            var emitting = EmittingFile(path);
-            using var writer = path.AsciWriter();
-            writer.WriteLine(RFlags.RenderPattern, RFlags.FlagNames);
-            var buffer = text.buffer();
-            var counter = 0u;
-            //var flags = Symbols.kinds<RFlagBits>();
-            for(var i=0; i<src.Count; i++)
-            {
-                ref readonly var def = ref src[i];
-                ref readonly var effects = ref def.FlagEffects;
-                var count = effects.Count;
-                if(count != 0)
-                {
-                    RFlagBits bits = RFlagBits.None;
-                    for(var j=0; j<count; j++)
-                    {
-                        FlagEffect effect = effects[j];
-                        bits |= effect.Flag;
-                    }
-
-
-
-                    writer.WriteLine(buffer.Emit());
-
-                    counter++;
-
-                }
-            }
-            EmittedFile(emitting,counter);
+            FlagEffect e = src;
+            if(e.IsNonEmpty)
+                return _format(e.Kind);
+            else
+                return EmptyString;
         }
-    }
+
+   }
 }

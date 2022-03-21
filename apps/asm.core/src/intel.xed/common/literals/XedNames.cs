@@ -7,33 +7,33 @@ namespace Z0
 {
     public readonly struct XedNames
     {
-        public const string LegacyMap0Name = "legacy_map0";
+        public const string LegacyMap0Name = "L0";
 
-        public const string LegacyMap1Name = "legacy_map1";
+        public const string LegacyMap1Name = "L1";
 
-        public const string LegacyMap2Name = "legacy_map2";
+        public const string LegacyMap2Name = "L2";
 
-        public const string LegacyMap3Name = "legacy_map3";
+        public const string LegacyMap3Name = "L3";
 
-        public const string VexMap1Name = "vex_map1";
+        public const string VexMap1Name = "V1";
 
-        public const string VexMap2Name = "vex_map2";
+        public const string VexMap2Name = "V2";
 
-        public const string VexMap3Name = "vex_map3";
+        public const string VexMap3Name = "V3";
 
-        public const string EvexMap1Name = "evex_map1";
+        public const string EvexMap1Name = "E1";
 
-        public const string EvexMap2Name = "evex_map2";
+        public const string EvexMap2Name = "E2";
 
-        public const string EvexMap3Name = "evex_map3";
+        public const string EvexMap3Name = "E3";
 
-        public const string XopMap8Name = "amd_xop8";
+        public const string XopMap8Name = "X8";
 
-        public const string XopMap9Name = "amd_xop9";
+        public const string XopMap9Name = "X9";
 
-        public const string XopMapAName = "amd_xopA";
+        public const string XopMapAName = "XA";
 
-        public const string Amd3dMapName = "amd_3dnow";
+        public const string Amd3dMapName = "3D";
 
         public const string XopMapClass = "XOP";
 

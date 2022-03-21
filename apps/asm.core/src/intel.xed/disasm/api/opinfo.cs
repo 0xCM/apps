@@ -27,6 +27,65 @@ namespace Z0
 
         // IMM0/R/B/EXPLICIT/IMM_CONST/1               | IMM0:0x4
 
+        /*
+        AND
+
+        PATTERN   : 0x20 MOD[mm] MOD!=3 REG[rrr] RM[nnn] MODRM() nolock_prefix
+        OPERANDS  : MEM0:rw:b REG0=GPR8_R():r
+
+        PATTERN   : 0x20 MOD[0b11] MOD=3 REG[rrr] RM[nnn]
+        OPERANDS  : REG0=GPR8_B():rw REG1=GPR8_R():r
+
+        PATTERN   : 0x20 MOD[mm] MOD!=3 REG[rrr] RM[nnn] MODRM() lock_prefix
+        OPERANDS  : MEM0:rw:b REG0=GPR8_R():r
+
+        PATTERN   : 0x21 MOD[0b11] MOD=3 REG[rrr] RM[nnn]
+        OPERANDS  : REG0=GPRv_B():rw REG1=GPRv_R():r
+
+        PATTERN   : 0x21 MOD[mm] MOD!=3 REG[rrr] RM[nnn] MODRM() lock_prefix
+        OPERANDS  : MEM0:rw:v REG0=GPRv_R():r
+
+        PATTERN   : 0x22 MOD[mm] MOD!=3 REG[rrr] RM[nnn] MODRM()
+        OPERANDS  : REG0=GPR8_R():rw MEM0:r:b
+
+        PATTERN   : 0x23 MOD[mm] MOD!=3 REG[rrr] RM[nnn] MODRM()
+        OPERANDS  : REG0=GPRv_R():rw MEM0:r:v
+
+        PATTERN   : 0x24 SIMM8()
+        OPERANDS  : REG0=XED_REG_AL:rw:IMPL IMM0:r:b:i8
+
+        PATTERN   : 0x25 SIMMz()
+        OPERANDS  : REG0=OrAX():rw:IMPL IMM0:r:z
+
+        PATTERN   : 0x80 MOD[mm] MOD!=3 REG[0b100] RM[nnn] MODRM() UIMM8() nolock_prefix
+        OPERANDS  : MEM0:rw:b IMM0:r:b
+
+        PATTERN   : 0x80 MOD[0b11] MOD=3 REG[0b100] RM[nnn] UIMM8()
+        OPERANDS  : REG0=GPR8_B():rw IMM0:r:b
+
+        PATTERN   : 0x80 MOD[mm] MOD!=3 REG[0b100] RM[nnn] MODRM() UIMM8() lock_prefix
+        OPERANDS  : MEM0:rw:b IMM0:r:b
+
+        PATTERN   : 0x82 MOD[mm] MOD!=3 REG[0b100] RM[nnn] not64 MODRM() UIMM8() nolock_prefix
+        OPERANDS  : MEM0:rw:b IMM0:r:b
+
+        PATTERN   : 0x82 MOD[0b11] MOD=3 REG[0b100] RM[nnn] not64 UIMM8()
+        OPERANDS  : REG0=GPR8_B():rw IMM0:r:b
+
+        PATTERN   : 0x82 MOD[mm] MOD!=3 REG[0b100] RM[nnn] not64 MODRM() UIMM8() lock_prefix
+        OPERANDS  : MEM0:rw:b IMM0:r:b
+
+        PATTERN   : 0x83 MOD[mm] MOD!=3 REG[0b100] RM[nnn] MODRM() SIMM8() nolock_prefix
+        OPERANDS  : MEM0:rw:v IMM0:r:b:i8
+
+        PATTERN   : 0x83 MOD[0b11] MOD=3 REG[0b100] RM[nnn] SIMM8()
+        OPERANDS  : REG0=GPRv_B():rw IMM0:r:b:i8
+
+        PATTERN   : 0x83 MOD[mm] MOD!=3 REG[0b100] RM[nnn] MODRM() SIMM8() lock_prefix
+        OPERANDS  : MEM0:rw:v IMM0:r:b:i8
+
+        */
+
         public static Outcome opinfo(string src, out DisasmOpInfo dst)
         {
             dst = default;
