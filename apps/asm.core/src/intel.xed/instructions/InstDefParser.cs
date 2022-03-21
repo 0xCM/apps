@@ -8,6 +8,7 @@ namespace Z0
     using static core;
     using static Root;
     using static XedModels;
+    using static XedParsers;
 
     using P = XedRules.InstRulePart;
 
@@ -35,9 +36,95 @@ namespace Z0
                         buffer.Append(Chars.Space);
                     buffer.Append(skip(parts,i));
                 }
-                XedParsers.parse(RuleMacros.expand(buffer.Emit()), out InstPatternBody pb).Require();
+                parse(RuleMacros.expand(buffer.Emit()), out InstPatternBody pb).Require();
 
                 dst = new InstPatternSpec(0, 0, 0, body, pb, sys.empty<RuleOpSpec>());
+            }
+
+            public static Outcome parse(string src, out InstPatternBody dst)
+            {
+                var result = Outcome.Success;
+                var parts = text.trim(text.split(text.despace(src), Chars.Space));
+                var count = parts.Length;
+                dst = alloc<InstDefPart>(count);
+                for(var i=0; i<count; i++)
+                {
+                    ref var target = ref dst[i];
+                    ref readonly var part = ref skip(parts,i);
+                    result = parse(part, out target);
+                    if(result.Fail)
+                    {
+                        break;
+                    }
+                }
+
+                return result;
+            }
+
+            public static Outcome parse(string src, out InstDefPart dst)
+            {
+                dst = InstDefPart.Empty;
+                Outcome result = (false, string.Format("Unrecognized segment '{0}'", src));
+                if(IsHexLiteral(src))
+                {
+                    result = XedParsers.parse(src, out Hex8 x);
+                    if(result)
+                        dst = x;
+                    else
+                        result = (false, AppMsg.ParseFailure.Format(nameof(Hex8), src));
+                }
+                else if(IsBinaryLiteral(src))
+                {
+                    result = XedParsers.parse(src, out uint5 x);
+                    if(result)
+                        dst = x;
+                    else
+                        result = (false, AppMsg.ParseFailure.Format(nameof(uint5), src));
+
+                }
+                else if(IsBfSeg(src))
+                {
+                    result = XedParsers.parse(src, out BitfieldSeg x);
+                    if(result)
+                        dst = x;
+                    else
+                        result = (false, AppMsg.ParseFailure.Format(nameof(BitfieldSeg), src));
+                }
+                else if(IsCmpNeq(src))
+                {
+                    result = XedParsers.parse(src, out FieldConstraint x);
+                    if(result)
+                        dst = x;
+                    else
+                        result = (false, AppMsg.ParseFailure.Format(nameof(FieldConstraint), src));
+
+                }
+                else if(IsAssignment(src))
+                {
+                    result = XedParsers.parse(src, out FieldAssign x);
+                    if(result)
+                    {
+                        dst = x;
+                    }
+                    else
+                        result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
+
+                }
+                else if(IsNonterminal(src))
+                {
+                    result = XedParsers.parse(src, out Nonterminal x);
+                    if(result)
+                        dst = x;
+                    else
+                        result = (false, AppMsg.ParseFailure.Format(nameof(Nonterminal), src));
+                }
+                else if (XedParsers.parse(src, out byte a))
+                {
+                    result = true;
+                    dst = new(a);
+                }
+
+                return result;
             }
 
             public static Index<InstDef> parse(FS.FilePath src)
@@ -74,9 +161,9 @@ namespace Z0
                                 if(empty(value))
                                     continue;
 
-                                if(ClassifyPart(PartNames, name, out var p))
+                                if(classify(PartNames, name, out var rulePart))
                                 {
-                                    switch(p)
+                                    switch(rulePart)
                                     {
                                         case P.Form:
                                             XedParsers.parse(value, out dst.Form);
@@ -96,9 +183,7 @@ namespace Z0
                                         case P.Class:
                                         {
                                             if(XedParsers.parse(value, out dst.Class))
-                                            {
                                                 @class = dst.Class;
-                                            }
                                         }
                                         break;
                                         case P.Operands:
@@ -124,8 +209,8 @@ namespace Z0
                                             parse(body, out InstPatternSpec spec);
                                             specs.Add(
                                                 spec.WithClass(@class)
-                                                    .WithPatternId(seq++)
-                                                    .WithOps(RuleOpParser.create().ParseOps(value)));;
+                                                .WithPatternId(seq++)
+                                                .WithOps(RuleOpParser.parse(value)));
                                         }
                                         break;
                                         case P.Pattern:
@@ -159,7 +244,7 @@ namespace Z0
                 return defs;
             }
 
-            static bool ClassifyPart(Index<P,string> names, string src, out InstRulePart part)
+            static bool classify(Index<InstRulePart,string> names, string src, out InstRulePart part)
             {
                 var count = names.Count;
                 var result = false;

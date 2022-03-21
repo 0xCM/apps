@@ -6,8 +6,6 @@ namespace Z0
 {
     using Z0.Asm;
 
-    using static XedRules;
-
     [ApiHost]
     public static class XSvc
     {
@@ -18,6 +16,10 @@ namespace Z0
         [Op]
         public static XedRuleTables XedRuleTables(this IWfRuntime wf)
             => Z0.XedRuleTables.create(wf);
+
+        [Op]
+        public static XedPatterns XedPatterns(this IWfRuntime wf)
+            => Z0.XedPatterns.create(wf);
 
         [Op]
         public static XedCmdProvider XedCommands(this IWfRuntime wf)
@@ -84,10 +86,6 @@ namespace Z0
         [Op]
         public static XedTool XedTool(this IWfRuntime wf)
             => Z0.XedTool.create(wf);
-
-        [Op]
-        public static XedTypes XedTypeProvider(this IWfRuntime wf)
-            => Z0.XedTypes.create(wf);
 
         [Op]
         public static XedPaths XedPaths(this IWfRuntime wf)

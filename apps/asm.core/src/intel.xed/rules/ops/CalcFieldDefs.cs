@@ -49,7 +49,7 @@ namespace Z0
                     break;
                 }
 
-                record.DeclaredType = XedTypes.name(ft, record.Width);
+                record.DeclaredType = xedtype(ft, record.Width);
 
                 ref readonly var vsib = ref skip(cells,4);
                 if(!Visibilities.ExprKind(vsib, out record.Visibility))

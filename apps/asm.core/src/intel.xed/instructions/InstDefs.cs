@@ -120,10 +120,9 @@ namespace Z0
             static InstPatternOps ops(in InstPatternSpec src, byte k)
             {
                 ref readonly var ops = ref src.OpSpecs;
-                var parser = RuleOpParser.create();
                 ref readonly var op = ref ops[k];
                 var detail = InstPatternOps.Empty;
-                var spec = parser.ParseOp(k, op.Name, op.Expression);
+                var spec = RuleOpParser.parse(k, op.Name, op.Expression);
                 var attribs = spec.Attribs.Sort();
                 detail.InstId = src.InstId;
                 detail.PatternId = src.PatternId;

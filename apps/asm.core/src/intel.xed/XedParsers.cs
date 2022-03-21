@@ -120,24 +120,7 @@ namespace Z0
         }
 
         public static Outcome parse(string src, out InstPatternBody dst)
-        {
-            var result = Outcome.Success;
-            var parts = text.trim(text.split(text.despace(src), Chars.Space));
-            var count = parts.Length;
-            dst = alloc<InstDefPart>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref var target = ref dst[i];
-                ref readonly var part = ref skip(parts,i);
-                result = parse(part, out target);
-                if(result.Fail)
-                {
-                    break;
-                }
-            }
-
-            return result;
-        }
+            => InstDefParser.parse(src, out dst);
 
         public static bool parse(string src, out RuleMacroKind dst)
             => Instance.Parse(src, out dst);
@@ -684,7 +667,5 @@ namespace Z0
 
             return result;
         }
-
-
     }
 }
