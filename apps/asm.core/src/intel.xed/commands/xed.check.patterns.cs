@@ -44,7 +44,6 @@ namespace Z0
             TableEmit(descriptions.View, InstPatternInfo.RenderWidths, XedPaths.Table<InstPatternInfo>());
             var count = patterns.Count;
             var dst = AppDb.XedPath("xed.patterns.checks", FileKind.Txt);
-            var ocparser = XedOpCodeParser.create();
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)

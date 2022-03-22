@@ -7,11 +7,17 @@ namespace Z0
 {
     using Asm;
 
-    using static XedModels;
     using static XedRules;
 
     partial class XedFields
     {
-
+        [Op]
+        public static Imm imm0(in RuleState state, in AsmHexCode code)
+        {
+            var dst = Imm.Empty;
+            if(state.IMM0)
+                dst = asm.imm(code, state.POS_IMM, state.IMM0SIGNED, Sizes.native(state.IMM_WIDTH));
+            return dst;
+        }
     }
 }

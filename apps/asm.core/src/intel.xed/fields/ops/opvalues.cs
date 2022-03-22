@@ -7,24 +7,25 @@ namespace Z0
 {
     using Asm;
 
+    using static XedModels;
+    using static XedRules;
     using static core;
 
-    using K = XedRules.OpKind;
     using N = XedRules.OpName;
 
-    partial class XedRules
+    partial class XedFields
     {
-        public static OpValues opvalues(in RuleState state, in AsmHexCode code)
+        public static Index<OpValue> opvalues(in RuleState state, in AsmHexCode code)
         {
             var _ops = list<OpValue>();
             if(state.IMM0)
-                _ops.Add(new OpValue(N.IMM0, imm0(state, code)));
+                _ops.Add(new OpValue(N.IMM0, XedFields.imm0(state, code)));
 
             if(state.IMM1)
-                _ops.Add(new OpValue(N.IMM1, imm1(state, code)));
+                _ops.Add(new OpValue(N.IMM1, XedFields.imm1(state, code)));
 
             if(state.DISP_WIDTH != 0)
-                _ops.Add(new OpValue(N.DISP, disp(state, code)));
+                _ops.Add(new OpValue(N.DISP, XedFields.disp(state, code)));
 
             if(state.BASE0 != 0)
                 _ops.Add(new OpValue(N.BASE0, state.BASE0));
@@ -80,7 +81,7 @@ namespace Z0
             if(state.AGENVal.IsNonEmpty)
                 _ops.Add(new OpValue(N.AGEN, state.AGENVal));
 
-            return map(_ops, o => (o.Name, o)).ToDictionary();
+            return _ops.ToArray();
         }
     }
 }

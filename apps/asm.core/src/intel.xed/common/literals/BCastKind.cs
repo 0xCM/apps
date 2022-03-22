@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using N = XedNames;
-
     partial struct XedModels
     {
         [DataWidth(5)]
@@ -42,11 +40,11 @@ namespace Z0
 
             BCast_1TO8_16 = 14, // 128
 
-            BCast_1TO16_16 = 15, // 256
+            BCast_1TO16_16 = BCast16Kind.BCast_1TO16_16,
 
             BCast_1TO32_16 = 16, // 512
 
-            BCast_1TO16_8 = 17, // 128
+            BCast_1TO16_8 = BCast8Kind.BCast_1TO16_8,
 
             BCast_1TO32_8 = 18, // 256
 

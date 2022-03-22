@@ -7,14 +7,12 @@ namespace Z0
 {
     using Asm;
 
+    using static XedModels;
+    using static XedRules;
     using static core;
 
-    partial class XedRules
+    partial class XedFields
     {
-        [MethodImpl(Inline), Op]
-        public static DispExpr disp(DispExprKind kind)
-            => new DispExpr(kind);
-
         [Op]
         public static Disp disp(in RuleState state, in AsmHexCode code)
         {

@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using N = XedNames;
+    using S = XedPatterns.OpCodeSymbols;
 
     partial struct XedModels
     {
@@ -14,46 +14,46 @@ namespace Z0
         {
             None = 0,
 
-            [Symbol(N.LegacyMap0Name)]
+            [Symbol(S.L0)]
             LEGACY_00 = OpCodeClass.LEGACY | (ushort)((byte)LegacyMapKind.LEGACY_MAP0 << 8),
 
-            [Symbol(N.LegacyMap1Name)]
+            [Symbol(S.L1)]
             LEGACY_0F = OpCodeClass.LEGACY | (ushort)((byte)LegacyMapKind.LEGACY_MAP1 << 8),
 
-            [Symbol(N.LegacyMap2Name)]
+            [Symbol(S.L2)]
             LEGACY_0F38 = OpCodeClass.LEGACY | (ushort)((byte)LegacyMapKind.LEGACY_MAP2 << 8),
 
-            [Symbol(N.LegacyMap3Name)]
+            [Symbol(S.L3)]
             LEGACY_0F3A = OpCodeClass.LEGACY | (ushort)((byte)LegacyMapKind.LEGACY_MAP3 << 8),
 
-            [Symbol(N.Amd3dMapName)]
+            [Symbol(S.D3)]
             AMD_3DNOW = OpCodeClass.LEGACY | (ushort)((byte)LegacyMapKind.AMD_3DNOW << 8),
 
-            [Symbol(N.XopMap8Name)]
+            [Symbol(S.X8)]
             XOP8 = OpCodeClass.XOP | (ushort)((byte)XopMapKind.XOP8 << 8),
 
-            [Symbol(N.XopMap9Name)]
+            [Symbol(S.X9)]
             XOP9 = OpCodeClass.XOP | (ushort)((byte)XopMapKind.XOP9 << 8),
 
-            [Symbol(N.XopMapAName)]
+            [Symbol(S.XA)]
             XOPA = OpCodeClass.XOP | (ushort)((byte)XopMapKind.XOPA << 8),
 
-            [Symbol(N.VexMap1Name)]
+            [Symbol(S.V1)]
             VEX_0F = OpCodeClass.VEX | (ushort)((byte)VexMapKind.VEX_MAP_0F << 8),
 
-            [Symbol(N.VexMap2Name)]
+            [Symbol(S.V2)]
             VEX_0F38 = OpCodeClass.VEX | (ushort)((byte)VexMapKind.VEX_MAP_0F38 << 8),
 
-            [Symbol(N.VexMap3Name)]
+            [Symbol(S.V3)]
             VEX_0F3A = OpCodeClass.VEX | (ushort)((byte)VexMapKind.VEX_MAP_0F3A << 8),
 
-            [Symbol(N.EvexMap1Name)]
+            [Symbol(S.E1)]
             EVEX_0F = OpCodeClass.EVEX | (ushort)((byte)EvexMapKind.EVEX_MAP_0F << 8),
 
-            [Symbol(N.EvexMap2Name)]
+            [Symbol(S.E2)]
             EVEX_0F38 = OpCodeClass.EVEX | (ushort)((byte)EvexMapKind.EVEX_MAP_0F38 << 8),
 
-            [Symbol(N.EvexMap3Name)]
+            [Symbol(S.E3)]
             EVEX_0F3A = OpCodeClass.EVEX | (ushort)((byte)EvexMapKind.EVEX_MAP_0F3A << 8),
         }
     }

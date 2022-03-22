@@ -53,40 +53,35 @@ namespace Z0
                 return (false, string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", rules.NOMINAL_OPCODE, rules.MODRM_BYTE));
 
             var ops = CalcDisasmOps(rules, code);
-            var opcount = block.OperandCount;
-            for(var k=0; k<opcount; k++)
+            for(var k=0; k<block.OperandCount; k++)
             {
-                ref var detail = ref dst.Operands[k];
+                ref var operand = ref dst.Operands[k];
                 ref readonly var opsrc = ref skip(block.Operands, k);
-                result = XedDisasm.opinfo(opsrc.Content, out detail.OpInfo);
+                result = XedDisasm.opinfo(opsrc.Content, out operand.OpInfo);
                 if(result.Fail)
                     break;
 
-                var info = detail.OpInfo;
-                var title = string.Format("Op{0}", k);
+                var info = operand.OpInfo;
                 var winfo = OperandWidth(info.WidthCode);
-                detail.OpWidth = winfo;
-                var indicator = winfo.Name;
-                var width = winfo.Width64;
-                var widthdesc = string.Format("{0}:{1}", winfo.Name, winfo.Width64);
+                operand.OpWidth = winfo;
                 var opname = XedRules.opname(info.Kind);
-                detail.OpName = opname;
+                operand.OpName = opname;
                 var optxt = EmptyString;
                 if(ops.TryGetValue(opname, out var opval))
                 {
-                    detail.Def = opval;
+                    operand.Def = opval;
                     optxt = opval.Format();
-                    detail.RuleDescription = optxt;
+                    operand.RuleDescription = optxt;
                 }
 
-                detail.DefDescription = string.Format(DisasmOpDetail.RenderPattern,
-                    title,
+                operand.DefDescription = string.Format(DisasmOpDetail.RenderPattern,
+                    string.Format("Op{0}", k),
                     opname,
                     optxt,
                     info.Action,
                     info.Visiblity,
-                    width,
-                    indicator,
+                    winfo.Width64,
+                    winfo.Name,
                     info.Selector
                     );
             }

@@ -6,7 +6,6 @@
 namespace Z0
 {
     using static core;
-    using static XedModels;
     using static XedRules;
 
     partial class XedPatterns
@@ -20,7 +19,6 @@ namespace Z0
 
         public static Index<InstPatternInfo> describe(Index<InstPattern> src, bool pll = true)
         {
-            var parser = XedOpCodeParser.create();
             var count = src.Count;
             var dst = bag<InstPatternInfo>();
             iter(src, p => dst.Add(describe(p)), pll);
@@ -38,7 +36,7 @@ namespace Z0
         {
             ref readonly var body = ref src.Body;
             var dst = InstPatternInfo.Empty;
-            var opcode = XedOpCodeParser.create().Parse(src);
+            var opcode = XedPatterns.opcode(src.PatternId, body);
             dst.PatternId = src.PatternId;
             dst.InstId = src.InstId;
             dst.OcIndex = ocindex(opcode.Kind);
@@ -52,7 +50,7 @@ namespace Z0
         {
             ref readonly var body = ref src.Body;
             var dst = InstPatternInfo.Empty;
-            var opcode = XedOpCodeParser.create().Parse(src);
+            var opcode = XedPatterns.opcode(src.PatternId, body);
             dst.PatternId = src.PatternId;
             dst.InstId = src.InstId;
             dst.OcIndex = ocindex(opcode.Kind);

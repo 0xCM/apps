@@ -39,7 +39,7 @@ namespace Z0
                     buffer.Append(skip(parts,i));
                 }
                 parse(RuleMacros.expand(buffer.Emit()), out InstPatternBody pb).Require();
-                dst = new InstPatternSpec(pattern, 0, 0, opcode(pb), body, pb, sys.empty<OpSpec>());
+                dst = new InstPatternSpec(pattern, 0, 0, opcode(pattern,pb), body, pb, sys.empty<OpSpec>());
             }
 
             static Index<XedFlagEffect> effects(string src)

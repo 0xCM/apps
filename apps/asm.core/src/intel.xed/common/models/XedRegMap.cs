@@ -12,6 +12,9 @@ namespace Z0
 
     public sealed class XedRegMap
     {
+        public static RegOp map(XedRegId src)
+            => Instance.Map(src);
+
         public static XedRegMap Service => Instance;
 
         static XedRegMap create()
@@ -50,7 +53,7 @@ namespace Z0
         internal XedRegMap(ConstLookup<XedRegId,RegOp> src)
         {
             LookupData = src;
-            EntryData = map(src.Entries,x => entry(x.Key, x.Value));
+            EntryData = core.map(src.Entries,x => entry(x.Key, x.Value));
         }
 
         public RegOp Map(XedRegId id)

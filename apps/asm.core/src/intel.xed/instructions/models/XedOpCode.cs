@@ -7,20 +7,22 @@ namespace Z0
 {
     using Asm;
 
-    using static XedRules;
     using static XedModels;
 
     partial class XedPatterns
     {
         public readonly struct XedOpCode : IEquatable<XedOpCode>, IComparable<XedOpCode>
         {
+            public readonly ushort PatternId;
+
             public readonly OpCodeKind Kind;
 
             public readonly AsmOcValue Value;
 
             [MethodImpl(Inline)]
-            public XedOpCode(OpCodeKind kind, AsmOcValue value)
+            public XedOpCode(uint pattern, OpCodeKind kind, AsmOcValue value)
             {
+                PatternId = (ushort)pattern;
                 Kind = kind;
                 Value = value;
             }
@@ -43,7 +45,9 @@ namespace Z0
 
             public int CompareTo(XedOpCode src)
             {
-                var result = ((byte)XedPatterns.ocindex(Kind)).CompareTo((byte)XedPatterns.ocindex(src.Kind));
+                var a = (byte)XedPatterns.ocindex(Kind);
+                var b = (byte)XedPatterns.ocindex(src.Kind);
+                var result = a.CompareTo(b);
                 if(result == 0)
                     result = Value.CompareTo(src.Value);
                 return result;

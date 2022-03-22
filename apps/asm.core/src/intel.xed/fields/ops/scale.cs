@@ -5,17 +5,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static XedModels;
     using static XedRules;
 
     partial class XedFields
     {
         [MethodImpl(Inline), Op]
-        public static EOSZ eosz(in RuleState src)
-            => (EOSZ)src.EOSZ;
+        public static ScaleFactor scale(in RuleState src)
+            => (ScaleFactor)src.SCALE;
 
         [MethodImpl(Inline), Op]
-        public static void eosz(EOSZ src, ref RuleState dst)
-            => dst.EOSZ = (byte)src;
+        public static void scale(ScaleFactor src, ref RuleState dst)
+            => dst.SCALE = (byte)src;
     }
 }

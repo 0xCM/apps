@@ -11,10 +11,10 @@ namespace Z0.Asm
     partial class IntelXed
     {
         void EmitBroadcastDefs()
-            => TableEmit(CalcBcastDefs(), AsmBroadcastDef.RenderWidths, AppDb.XedTable<AsmBroadcastDef>());
+            => TableEmit(BcastDefs().View, AsmBroadcastDef.RenderWidths, AppDb.XedTable<AsmBroadcastDef>());
 
         [MethodImpl(Inline), Op]
-        public ReadOnlySpan<AsmBroadcastDef> CalcBcastDefs()
+        public static Index<AsmBroadcastDef> BcastDefs()
             => _BroadcastDefs;
 
         static Index<AsmBroadcastDef> bcastdefs()

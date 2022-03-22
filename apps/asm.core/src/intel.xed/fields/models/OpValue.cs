@@ -17,13 +17,6 @@ namespace Z0
             public object Value;
 
             [MethodImpl(Inline)]
-            public OpValue(OpName name, object value)
-            {
-                Name = name;
-                Value = value;
-            }
-
-            [MethodImpl(Inline)]
             public OpValue(OpName name, byte value)
             {
                 Name = name;

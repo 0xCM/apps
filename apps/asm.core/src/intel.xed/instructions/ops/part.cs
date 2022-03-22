@@ -40,6 +40,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static InstDefPart part(uint5 src)
             => new InstDefPart(src);
-
     }
 }

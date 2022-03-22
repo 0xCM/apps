@@ -15,7 +15,6 @@ namespace Z0
             var seq = 0u;
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
-            var ocparser = XedOpCodeParser.create();
             for(var j=0; j<src.Count; j++)
             {
                 ref readonly var pattern = ref src[j];
@@ -29,8 +28,8 @@ namespace Z0
                 writer.AppendLineFormat(LabelPattern, nameof(def.FlagEffects), def.FlagEffects.IsNonEmpty ? def.FlagEffects.Delimit(fence:RenderFence.Embraced) : EmptyString);
                 writer.AppendLineFormat(LabelPattern, nameof(pattern.RawBody), pattern.RawBody);
                 writer.AppendLineFormat(LabelPattern, nameof(pattern.Body), pattern.BodyExpr);
-                var opcode = ocparser.Parse(pattern);
-                writer.AppendLineFormat("{0,-16} | {1}[{2}]", "OpCode", XedRender.format(opcode.Kind), opcode.Value);
+                var opcode = XedPatterns.opcode(pattern.PatternId, pattern.Body);
+                writer.AppendLineFormat("{0,-16} | {1,-20}", "OpCode", opcode);
                 writer.AppendLineFormat(LabelPattern, "Operands", RP.PageBreak80);
                 ref readonly var ops = ref pattern.Ops;
                 for(byte k=0; k<ops.Count; k++)

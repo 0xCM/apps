@@ -11,6 +11,7 @@ namespace Z0
 
     partial struct XedModels
     {
+        [Op]
         public static NativeClass @class(OpWidthCode src)
         {
             var dst = NativeClass.None;

@@ -5,11 +5,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedPatterns;
+    using Asm;
 
-    partial class XedRules
+    using static XedRules;
+
+    partial class XedFields
     {
-        public Index<XedOpCode> CalcOpCodes(Index<InstPattern> src)
-            => Data(nameof(CalcOpCodes), () => src.Map(x => x.PatternSpec.OpCode).Sort());
+        public static RegOp outreg(in RuleState src)
+            => XedRegMap.map(src.OUTREG);
     }
 }

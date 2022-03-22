@@ -5,22 +5,48 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using static XedRules;
+    using static XedModels;
 
     partial class XedPatterns
     {
-        public static XedOpCode opcode(InstPatternBody src)
-            => XedOpCodeParser.create().Parse(src);
-
-        public static XedOpCode opcode(InstPattern src)
-            => opcode(src.Body);
-
-        public static Index<XedOpCode> opcodes(Index<InstPattern> src)
+        public static XedOpCode opcode(uint pattern, InstPatternBody body)
         {
-            var buffer = bag<XedOpCode>();
-            iter(src, p => buffer.Add(opcode(p.Body)), true);
-            return buffer.ToArray().Sort();
+            var vc = VexClass.None;
+            var number = z8;
+            var value = ocvalue(body);
+            var kind = OpCodeKind.None;
+            for(var i=0; i<body.PartCount; i++)
+            {
+                ref readonly var part = ref body[i];
+                if(part.PartKind == DefSegKind.FieldAssign)
+                {
+                    var assign = part.AsAssign();
+                    if(assign.Field == FieldKind.VEXVALID)
+                        vc = (VexClass)assign.Value.Data;
+                    else if(assign.Field == FieldKind.MAP)
+                        number = (byte)assign.Value.Data;
+                }
+            }
+
+            switch(vc)
+            {
+                case VexClass.VV1:
+                    kind = ockind(ocindex((VexMapKind)number));
+                break;
+                case VexClass.XOPV:
+                    kind = ockind(ocindex((XopMapKind)number));
+                break;
+                case VexClass.EVV:
+                case VexClass.KVV:
+                    kind = ockind(ocindex((EvexMapKind)number));
+                break;
+                default:
+                    kind = ockind((OpCodeIndex)lmap(value));
+                break;
+            }
+
+            return new XedOpCode(pattern, kind, value);
         }
     }
 }

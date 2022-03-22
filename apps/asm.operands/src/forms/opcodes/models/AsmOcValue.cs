@@ -115,8 +115,6 @@ namespace Z0.Asm
         public string Format()
             => format(this);
 
-            //=> StorageBlocks.trim(Storage).Format();
-
         public string Format(bool prespec, bool uppercase)
             => StorageBlocks.trim(Storage).Format();
 
@@ -168,6 +166,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static bool operator !=(AsmOcValue a, AsmOcValue b)
             => !a.Equals(b);
+
         public static AsmOcValue Empty => default;
     }
 }

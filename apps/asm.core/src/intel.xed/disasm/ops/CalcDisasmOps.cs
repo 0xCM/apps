@@ -13,10 +13,10 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        static DisasmOps CalcDisasmOps(in RuleState state, in AsmHexCode code)
+        static Dictionary<OpName,DisasmOp> CalcDisasmOps(in RuleState state, in AsmHexCode code)
         {
             var dst = dict<OpName,DisasmOp>();
-            iter(XedRules.opvalues(state, code).Values, o => dst.TryAdd(o.Name, new DisasmOp(o.Name, o.Value)));
+            iter(XedFields.opvalues(state, code), o => dst.TryAdd(o.Name, new DisasmOp(o.Name, o.Value)));
             return dst;
         }
     }
