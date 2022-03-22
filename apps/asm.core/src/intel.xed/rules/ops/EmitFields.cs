@@ -10,15 +10,6 @@ namespace Z0
 
     partial class XedRules
     {
-        public void EmitFields()
-        {
-            exec(PllExec,
-                EmitFieldDefs,
-                EmitReflectedFields,
-                EmitSymbolicFields
-                );
-        }
-
         void EmitSymbolicFields()
         {
             var src = XedFields.SymbolicFields.create();

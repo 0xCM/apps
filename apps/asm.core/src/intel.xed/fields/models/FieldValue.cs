@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedFields;
     using static core;
 
     using Asm;
@@ -157,6 +158,17 @@ namespace Z0
             public override string ToString()
                 => Format();
 
+            [MethodImpl(Inline)]
+            public static implicit operator VexClass(FieldValue src)
+                => (VexClass)src.Data;
+
+            [MethodImpl(Inline)]
+            public static implicit operator VexKind(FieldValue src)
+                => (VexKind)src.Data;
+
+            [MethodImpl(Inline)]
+            public static implicit operator ModeKind(FieldValue src)
+                => (ModeKind)src.Data;
 
             [MethodImpl(Inline)]
             public static implicit operator XedRegId(FieldValue src)
@@ -223,12 +235,20 @@ namespace Z0
                 => (EASZ)src.Data;
 
             [MethodImpl(Inline)]
+            public static implicit operator LockIndicator(FieldValue src)
+                => ((bit)src) ? LockIndicator.On : LockIndicator.Off;
+
+            [MethodImpl(Inline)]
             public static implicit operator imm8(FieldValue src)
                 => (imm8)src.Data;
 
             [MethodImpl(Inline)]
             public static implicit operator EOSZ(FieldValue src)
                 => (EOSZ)src.Data;
+
+            [MethodImpl(Inline)]
+            public static implicit operator EoszKind(FieldValue src)
+                => (EoszKind)XedFields.widths((EOSZ)src);
 
             [MethodImpl(Inline)]
             public static bool operator ==(FieldValue a, FieldValue b)

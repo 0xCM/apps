@@ -14,6 +14,8 @@ namespace Z0
     [ApiHost]
     public partial class XedFields
     {
+        const string xed = nameof(xed);
+
         public sealed class SymbolicFields : TokenSet<SymbolicFields>
         {
             public override string Name

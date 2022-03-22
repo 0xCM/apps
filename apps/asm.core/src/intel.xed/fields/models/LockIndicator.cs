@@ -5,11 +5,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    partial class XedRules
+    partial class XedFields
     {
+        public enum LockIndicator : sbyte
+        {
+            [Symbol("")]
+            None = -1,
 
+            [Symbol("0")]
+            Off = 0,
+
+            [Symbol("0")]
+            On = 1
+        }
     }
-
 }

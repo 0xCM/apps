@@ -40,7 +40,7 @@ namespace Z0
 
         public string Format(E src, EnumFormatMode mode)
         {
-            if((mode & M.EmptyZero) != 0 && core.bw64(src) == 0)
+            if(mode.Test(M.EmptyZero)  && core.bw64(src) == 0)
                 return EmptyString;
 
             var dst = RP.Error;

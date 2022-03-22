@@ -66,7 +66,7 @@ namespace Z0
                 writer.WriteLine(RP.PageBreak80);
                 writer.WriteLine(@class);
                 writer.WriteLine(raw);
-                writer.WriteLine(body.Format());
+                writer.WriteLine(Require.equal(body.Format(), raw.Format()));
                 writer.WriteLine();
             }
             EmittedFile(emitting,count);

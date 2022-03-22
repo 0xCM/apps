@@ -130,49 +130,49 @@ namespace Z0
                 case C.B1:
                 {
                     uint1 x = first(data);
-                    dst = format(x);
+                    dst = XedRender.format(x);
                 }
                 break;
                 case C.B2:
                 {
                     uint2 x = first(data);
-                    dst = format(x);
+                    dst = XedRender.format(x);
                 }
                 break;
                 case C.B3:
                 {
                     uint3 x = first(data);
-                    dst = format(x);
+                    dst = XedRender.format(x);
                 }
                 break;
                 case C.B4:
                 {
                     uint4 x = first(data);
-                    dst = format(x);
+                    dst = XedRender.format(x);
                 }
                 break;
                 case C.B5:
                 {
                     uint5 x = first(data);
-                    dst = format(x);
+                    dst = XedRender.format(x);
                 }
                 break;
                 case C.B6:
                 {
                     uint6 x = first(data);
-                    dst = format(x);
+                    dst = XedRender.format(x);
                 }
                 break;
                 case C.B7:
                 {
                     uint7 x = first(data);
-                    dst = format(x);
+                    dst = XedRender.format(x);
                 }
                 break;
                 case C.B8:
                 {
                     uint8b x = first(data);
-                    dst = format(x);
+                    dst = XedRender.format(x);
                 }
                 break;
 
@@ -300,25 +300,25 @@ namespace Z0
                 case C.X8:
                 {
                     Hex8 x = first(data);
-                    dst = format(x);
+                    dst = XedRender.format(x);
                 }
                 break;
                 case C.X16:
                 {
                     Hex16 x = @as<ushort>(data);
-                    dst = format(x);
+                    dst = XedRender.format(x);
                 }
                 break;
                 case C.X32:
                 {
                     Hex32 x = @as<uint>(data);
-                    dst = format(x);
+                    dst = XedRender.format(x);
                 }
                 break;
                 case C.X64:
                 {
                     Hex64 x = @as<ulong>(data);
-                    dst = format(x);
+                    dst = XedRender.format(x);
                 }
                 break;
 
@@ -370,47 +370,6 @@ namespace Z0
             return dst;
         }
 
-        static string format(uint1 src)
-            => "0b" + src.Format();
-
-        static string format(uint2 src)
-            => "0b" + src.Format();
-
-        static string format(uint3 src)
-            => "0b" +  src.Format();
-
-        static string format(uint4 src)
-            => "0b" + src.Format();
-
-        static string format(uint5 src)
-            => "0b" + src.Format();
-
-        static string format(uint6 src)
-            => "0b" + src.Format();
-
-        static string format(uint7 src)
-            =>  "0b" + src.Format();
-
-        static string format(uint8b src)
-            =>  "0b" + src.Format();
-
-        static string format3(uint5 src)
-        {
-            var storage = 0ul;
-            var dst = recover<AsciSymbol>(bytes(storage));
-            var i=0;
-            var j=(byte)(uint5.Width - 1);
-            seek(dst,i++) = Chars.D0;
-            seek(dst,i++) = Chars.b;
-            seek(dst,i++) = src[j--].ToChar();
-            seek(dst,i++) = src[j--].ToChar();
-            seek(dst,i++) = src[j--].ToChar();
-            seek(dst,i++) = src[j--].ToChar();
-            seek(dst,i++) = Chars.Underscore;
-            seek(dst,i++) = src[j].ToChar();
-            return new asci8(storage);
-        }
-
         static string format(sbyte src)
             => src.ToString();
 
@@ -435,16 +394,5 @@ namespace Z0
         static string format(ulong src)
             => src.ToString();
 
-        static string format(Hex8 src)
-            => src.Format(prespec:true, uppercase:true);
-
-        static string format(Hex16 src)
-            => src.Format(prespec:true, uppercase:true);
-
-        static string format(Hex32 src)
-            => src.Format(prespec:true, uppercase:true);
-
-        static string format(Hex64 src)
-            => src.Format(prespec:true, uppercase:true);
     }
 }

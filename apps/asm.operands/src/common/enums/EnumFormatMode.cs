@@ -20,5 +20,7 @@ namespace Z0
         Base16 = 16,
 
         EmptyZero = 32,
+
+        Custom = 255,
     }
 }

@@ -13,15 +13,26 @@ namespace Z0
 
         public readonly EnumFormatMode Mode;
 
+        readonly Func<E,string> F;
+
         [MethodImpl(Inline)]
         public EnumFormat(E src, EnumFormatMode mode = EnumFormatMode.Expr)
         {
             Value = src;
             Mode = mode;
+            F = null;
+        }
+
+        [MethodImpl(Inline)]
+        public EnumFormat(E src, Func<E,string> f)
+        {
+            Value = src;
+            Mode = EnumFormatMode.Custom;
+            F = f;
         }
 
         public string Format()
-            => EnumRender<E>.Service.Format(Value,Mode);
+            => F!=null ? F(Value) : EnumRender<E>.Service.Format(Value,Mode);
 
         public override string ToString()
             => Format();
@@ -29,6 +40,14 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator EnumFormat<E>(E src)
             => new EnumFormat<E>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator EnumFormat<E>((E value, Func<E,string> f) src)
+            => new EnumFormat<E>(src.value, src.f);
+
+        [MethodImpl(Inline)]
+        public static implicit operator EnumFormat<E>((E src, EnumFormatMode mode) x)
+            => new EnumFormat<E>(x.src,x.mode);
 
         [MethodImpl(Inline)]
         public static explicit operator byte(EnumFormat<E> src)

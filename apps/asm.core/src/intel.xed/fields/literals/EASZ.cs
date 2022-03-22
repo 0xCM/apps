@@ -10,6 +10,7 @@ namespace Z0
         [SymSource(xed), DataWidth(3)]
         public enum EASZ : sbyte
         {
+            [Symbol("")]
             None = 0,
 
             [Symbol("16", "EASZ=1")]

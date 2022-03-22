@@ -9,6 +9,7 @@ namespace Z0
     using static XedModels;
     using static XedRules;
     using static XedPatterns;
+    using static XedFields;
     using static core;
 
     using PW = XedModels.PointerWidthKind;
@@ -77,8 +78,6 @@ namespace Z0
 
         static EnumRender<ChipCode> ChipCodes = new();
 
-        static Symbols<XedRegId> XedRegs = Symbols.index<XedRegId>();
-
         static EnumRender<RuleOperator> RuleOps = new();
 
         static EnumRender<ConstraintKind> ConstraintKinds = new();
@@ -97,90 +96,12 @@ namespace Z0
 
         static EnumRender<VexLengthKind> VexLengthKinds = new();
 
+        static EnumRender<OSZ> OszKinds = new();
+
         static Index<AsmBroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
 
-        //static Index<string> BCastSymbols = MapBCastSymbols();
+        static Symbols<XedRegId> XedRegs = Symbols.index<XedRegId>();
 
-        // static Index<string> MapBCastSymbols()
-        // {
-        //     var kinds = Symbols.index<BCastKind>().Kinds;
-        //     var count = kinds.Length - 1;
-        //     var symbols = alloc<string>(count);
-        //     for(int i=0, j=1; i<count; i++, j++)
-        //     {
-        //         ref readonly var kind = ref skip(kinds,j);
-        //         switch(kind)
-        //         {
-        //             case BCast_1TO2_8:
-        //             case BCast_1TO2_16:
-        //             case BCast_1TO2_32:
-        //             case BCast_1TO2_64:
-        //                 symbols[i] = N1to2;
-        //                 break;
-
-        //             case BCast_1TO4_8:
-        //             case BCast_1TO4_16:
-        //             case BCast_1TO4_32:
-        //             case BCast_1TO4_64:
-        //                 symbols[i] = N1to4;
-        //                 break;
-
-        //             case BCast_1TO8_8:
-        //             case BCast_1TO8_16:
-        //             case BCast_1TO8_32:
-        //             case BCast_1TO8_64:
-        //                 symbols[i] = N1to8;
-        //                 break;
-
-        //             case BCast_1TO16_16:
-        //             case BCast_1TO16_8:
-        //             case BCast_1TO16_32:
-        //                 symbols[i] = N1to16;
-        //                 break;
-
-        //             case BCast_1TO32_8:
-        //             case BCast_1TO32_16:
-        //                 symbols[i] = N1to32;
-        //                 break;
-
-        //             case BCast_1TO64_8:
-        //                 symbols[i] = N1to64;
-        //                 break;
-
-        //             case BCast_2TO4_64:
-        //             case BCast_2TO4_32:
-        //                 symbols[i] = N2to4;
-        //                 break;
-
-        //             case BCast_2TO8_32:
-        //             case BCast_2TO8_64:
-        //                 symbols[i] = N2to8;
-        //                 break;
-
-        //             case BCast_2TO16_32:
-        //                 symbols[i] = N2to16;
-        //                 break;
-
-        //             case BCast_4TO8_32:
-        //             case BCast_4TO8_64:
-        //                 symbols[i] = N4to8;
-        //                 break;
-
-        //             case BCast_4TO16_32:
-        //                 symbols[i] = N4to16;
-        //                 break;
-
-        //             case BCast_8TO16_32:
-        //                 symbols[i] = N8to16;
-        //                 break;
-
-        //             default:
-        //             break;
-        //         }
-        //     }
-
-        //     return symbols;
-        // }
 
         public static string format(in RuleStatement src)
         {
@@ -211,6 +132,8 @@ namespace Z0
             }
         }
 
+        public static string format(EoszKind src)
+            => src.Format();
 
         public static string format(FlagEffectKind src)
             => FlagEffects.Format(src);
@@ -326,6 +249,9 @@ namespace Z0
 
         public static string format(VexLengthKind src)
             => VexLengthKinds.Format(src);
+
+        public static string format(OSZ src)
+            => OszKinds.Format(src);
 
         public static string format(R.FieldValue src)
             => XedFields.format(src);
@@ -716,6 +642,30 @@ namespace Z0
         public static string format(in XedOpCode src)
             => string.Format("{0} {1}", XedPatterns.symbol(src.Kind), format(src.Value));
 
+        public static string format(uint1 src)
+            => "0b" + src.Format();
+
+        public static string format(uint2 src)
+            => "0b" + src.Format();
+
+        public static string format(uint3 src)
+            => "0b" +  src.Format();
+
+        public static string format(uint4 src)
+            => "0b" + src.Format();
+
+        public static string format(uint5 src)
+            => "0b" + src.Format();
+
+        public static string format(uint6 src)
+            => "0b" + src.Format();
+
+        public static string format(uint7 src)
+            =>  "0b" + src.Format();
+
+        public static string format(uint8b src)
+            =>  "0b" + src.Format();
+
         static string format5(uint5 src)
         {
             var storage = 0ul;
@@ -734,6 +684,15 @@ namespace Z0
         }
 
         public static string format(Hex8 src)
+            => src.Format(prespec:true, uppercase:true);
+
+        public static string format(Hex16 src)
+            => src.Format(prespec:true, uppercase:true);
+
+        public static string format(Hex32 src)
+            => src.Format(prespec:true, uppercase:true);
+
+        public static string format(Hex64 src)
             => src.Format(prespec:true, uppercase:true);
 
         public static string format(FieldAssign src)

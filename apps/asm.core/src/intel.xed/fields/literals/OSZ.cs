@@ -5,22 +5,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    partial class XedFields
     {
         [SymSource(xed), DataWidth(2)]
-        public enum ModKind : byte
+        public enum OSZ : byte
         {
-            [Symbol("mod0","MOD=0")]
-            MOD0 = 0,
+            [Symbol("")]
+            None,
 
-            [Symbol("mod1","MOD=1")]
-            MOD1 = 1,
+            [Symbol("1")]
+            True,
 
-            [Symbol("mod2","MOD=2")]
-            MOD2 = 2,
-
-            [Symbol("mod3","MOD=3")]
-            MOD3 = 3
+            [Symbol("0")]
+            False,
         }
     }
 }

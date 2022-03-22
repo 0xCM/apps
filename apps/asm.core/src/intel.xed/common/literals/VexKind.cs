@@ -12,7 +12,7 @@ namespace Z0
         [SymSource(xed), DataWidth(2)]
         public enum VexKind : byte
         {
-            [Symbol(N.VNP, "VEX_PREFIX=0")]
+            [Symbol("", "VEX_PREFIX=0")]
             VNP = 0,
 
             [Symbol(N.V66, "VEX_PREFIX=1")]

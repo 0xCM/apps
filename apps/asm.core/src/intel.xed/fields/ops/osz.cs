@@ -5,11 +5,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedPatterns;
+    using static XedRules;
 
-    partial class XedRules
+    partial class XedFields
     {
-        public Index<InstDef> CalcInstDefs()
-            => Data(nameof(CalcInstDefs), () => InstDefParser.parse(XedPaths.DocSource(XedDocKind.EncInstDef)));
+        [MethodImpl(Inline), Op]
+        public static OSZ osz(bit src)
+            => src ? OSZ.True : OSZ.False;
+
+        [MethodImpl(Inline), Op]
+        public static OSZ osz(in RuleState src)
+            => src.OSZ ? OSZ.True : OSZ.False;
     }
 }

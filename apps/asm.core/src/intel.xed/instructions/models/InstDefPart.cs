@@ -11,7 +11,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public struct InstDefPart
+        public struct InstDefPart : IEquatable<InstDefPart>
         {
             readonly ByteBlock16 Data;
 
@@ -87,6 +87,16 @@ namespace Z0
                 data[15] = (byte)DefSegKind.FieldLiteral;
                 Data = data;
             }
+
+            [MethodImpl(Inline)]
+            public bool Equals(InstDefPart src)
+                => Data.Equals(src.Data);
+
+            public override int GetHashCode()
+                => Data.GetHashCode();
+
+            public override bool Equals(object src)
+                => src is InstDefPart p && Equals(p);
 
             public ref readonly DefSegKind PartKind
             {
