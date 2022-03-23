@@ -20,10 +20,10 @@ namespace Z0
 
         }
 
-        public static implicit operator DisasmSummaryDocs(Dictionary<FileRef, DisasmSummaryDoc> src)
-            => new DisasmSummaryDocs(src);
+        // public static implicit operator DisasmSummaryDocs(Dictionary<FileRef, DisasmSummaryDoc> src)
+        //     => new DisasmSummaryDocs(src);
 
-        public static implicit operator DisasmSummaryDocs(ConcurrentDictionary<FileRef, DisasmSummaryDoc> src)
-            => new DisasmSummaryDocs(src);
+        // public static implicit operator DisasmSummaryDocs(ConcurrentDictionary<FileRef, DisasmSummaryDoc> src)
+        //     => new DisasmSummaryDocs(src);
     }
 }

@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.Threading;
-
-    using static Root;
 
     partial struct core
     {
@@ -27,5 +23,12 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static int inc(ref int src)
             => Interlocked.Increment(ref src);
+
+        [MethodImpl(Inline)]
+        public static ref uint inc(ref uint dst)
+        {
+            inc(ref @as<int>(dst));
+            return ref dst;
+        }
     }
 }

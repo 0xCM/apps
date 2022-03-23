@@ -10,15 +10,15 @@ namespace Z0
 
     public partial class XedDisasm
     {
-        public static DisasmSummaryDoc summarize(WsContext context, in FileRef src)
+        public static DisasmSummaryDoc summarize(WsContext context, in DisasmFile file)
         {
             var buffer = bag<DisasmBlock>();
-            summarize(context, src, buffer).Require();
-            return DisasmSummaryDoc.from(src,context.Root(src), buffer.ToArray());
+            summarize(context, file, buffer).Require();
+            return DisasmSummaryDoc.from(file.Source, context.Root(file.Source), buffer.ToArray());
         }
 
-        public static Outcome summarize(WsContext context, in FileRef src, ConcurrentBag<DisasmBlock> dst)
-            => summarize(src, context.Root(src), XedDisasm.blocks(src).Lines, dst);
+        public static Outcome summarize(WsContext context, in DisasmFile file, ConcurrentBag<DisasmBlock> dst)
+            => summarize(file.Source, context.Root(file.Source), file.Lines, dst);
 
         static Index<TextLine> SummaryLines(ReadOnlySpan<DisasmLineBlock> src)
         {
@@ -36,14 +36,7 @@ namespace Z0
             return dst.ToArray();
         }
 
-        [MethodImpl(Inline)]
-        public static ref uint inc(ref uint dst)
-        {
-            core.inc(ref core.@as<int>(dst));
-            return ref dst;
-        }
-
-        public static Outcome summarize(in FileRef src, in FileRef origin, Index<DisasmLineBlock> blocks, ConcurrentBag<DisasmBlock> dst)
+        static Outcome summarize(in FileRef src, in FileRef origin, Index<DisasmLineBlock> blocks, ConcurrentBag<DisasmBlock> dst)
         {
             var lines = SummaryLines(blocks);
             var expr = expressions(blocks);
@@ -54,7 +47,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var line = ref lines[i];
-                var summary = new AsmDisasmSummary();
+                var summary = new DisasmSummary();
                 result = ParseHexCode(line, out summary.Encoded);
                 if(result.Fail)
                     return result;

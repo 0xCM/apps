@@ -14,20 +14,25 @@ namespace Z0
         {
             Projects.XedDisasmDir(context.Project).Clear();
             var files = context.Files(FileKind.XedRawDisasm);
-            var dst = cdict<FileRef,Index<DisasmDetail>>();
+            var dst = cdict<FileRef,DisasmDetailDoc>();
             iter(files, file => CollectDisasm(context,file,dst),PllExec);
-            EmitDisasmDetails(dst,Projects.Table<DisasmDetail>(context.Project));
+            var summaries = core.map(dst.Values, v => map(v.View, x => x.Block.Summary)).SelectMany(x => x).Sort();
+            for(var i=0u; i<summaries.Length; i++)
+                seek(summaries,i).Seq = i;
+
+            EmitDisasmSummary(summaries, Projects.Table<DisasmSummary>(context.Project));
+            EmitDisasmDetails(dst, Projects.Table<DisasmDetail>(context.Project));
         }
 
-        void CollectDisasm(WsContext context, FileRef file, ConcurrentDictionary<FileRef,Index<DisasmDetail>> dst)
+        void CollectDisasm(WsContext context, FileRef src, ConcurrentDictionary<FileRef,DisasmDetailDoc> dst)
         {
-            var summary = XedDisasm.summarize(context, file);
-            var detail = CalcDisasmDetail(context, file, summary);
-            dst.TryAdd(file,detail);
-            dst.TryAdd(file, detail);
-            EmitDisasmOps(context, file, detail);
-            EmitDisasmProps(context, summary, XedDisasm.blocks(file));
-            EmitDisasmChecks(context, summary);
+            var file = XedDisasm.loadfile(src);
+            var summaries = XedDisasm.summarize(context, file);
+            var details = CalcDisasmDetail(context, file, summaries);
+            dst.TryAdd(src, details);
+            EmitDisasmOps(context, details);
+            EmitDisasmProps(context, details);
+            EmitDisasmChecks(context, details);
         }
 
         const string OpDetailRenderPattern = "{0,-4} | {1,-8} | {2,-24} | {3,-10} | {4,-12} | {5,-12} | {6,-12} | {7,-12}";
@@ -37,7 +42,7 @@ namespace Z0
         static string OpDetailHeader(int index)
             => string.Format(OpDetailRenderPattern, OpColPatterns.Select(x => string.Format(x, index)));
 
-        void EmitDisasmDetails(ConstLookup<FileRef,Index<DisasmDetail>> src, FS.FilePath dst)
+        void EmitDisasmDetails(ConstLookup<FileRef,DisasmDetailDoc> src, FS.FilePath dst)
         {
             var emitting = EmittingFile(dst);
             var formatter = Tables.formatter<DisasmDetail>(DisasmDetail.RenderWidths);
@@ -51,7 +56,8 @@ namespace Z0
                 opheader.Append(OpDetailHeader(k));
             }
 
-            var details = core.map(src.Values, x => x.Storage).SelectMany(x => x).Sort();
+            var details = core.map(src.Values, doc => map(doc.View, r => r.Detail)).SelectMany(x => x).Sort();
+
             for(var i=0u; i<details.Length; i++)
                 seek(details,i).Seq = i;
 

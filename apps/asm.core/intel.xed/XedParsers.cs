@@ -340,7 +340,7 @@ namespace Z0
         }
 
         public static bool parse(string src, out bit dst)
-            => Instance.Parse(src, out dst);
+            => bit.parse(src, out dst);
 
         public static bool parse(string src, out Nonterminal dst)
         {
@@ -361,7 +361,7 @@ namespace Z0
             => Instance.Parse(src,out dst);
 
         public static bool parse(string src, out EOSZ dst)
-            => Instance.Parse(src,out dst);
+            => EoszKinds.Parse(src, out dst);
 
         public static bool parse(string src, out uint5 dst)
         {
@@ -375,7 +375,7 @@ namespace Z0
         }
 
         public static bool parse(string src, out RuleMacroKind dst)
-            => Instance.Parse(src, out dst);
+            => MacroKinds.Parse(src, out dst);
 
         public static bool parse(string src, out uint8b dst)
         {
@@ -695,7 +695,7 @@ namespace Z0
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out FieldKind dst)
-            => Instance.Parse(src, out dst);
+            => FieldKinds.Parse(src, out dst);
 
         public static bool parse(string src, out OpWidthCode dst)
             => OpWidthParser.Parse(src, out dst);
@@ -710,7 +710,7 @@ namespace Z0
             => Nonterminals.Parse(src, out dst);
 
         public static bool parse(string src, out GroupName dst)
-            => Instance.Parse(src, out dst);
+            => GroupNames.Parse(src, out dst);
 
         public static bool parse(string src, out XedRegId dst)
         {
@@ -787,7 +787,7 @@ namespace Z0
             => ElementKinds.Parse(src, out dst);
 
         public static bool parse(string src, out OpVisibility dst)
-            => Instance.Parse(src, out dst);
+            => OpVisKinds.Parse(src, out dst);
 
         public static bool parse(string src, out SMode dst)
             => Instance.Parse(src, out dst);
@@ -798,17 +798,8 @@ namespace Z0
         public bool Parse(string src, out byte dst)
             => Num8(src, out dst);
 
-        public bool Parse(string src, out FieldKind dst)
-            => FieldKinds.Parse(src, out dst);
-
-        public bool Parse(string src, out RuleMacroKind dst)
-            => MacroKinds.Parse(src, out dst);
-
         public bool Parse(string src, out EASZ dst)
             => EaszKinds.Parse(src, out dst);
-
-        public bool Parse(string src, out EOSZ dst)
-            => EoszKinds.Parse(src, out dst);
 
         public static bool parse(string src, out ExtensionKind dst)
             => ExtensionKinds.Parse(src, out dst);
@@ -825,9 +816,6 @@ namespace Z0
         public bool Parse(string src, out ErrorKind dst)
             => ErrorKinds.Parse(text.remove(text.trim(src), "XED_ERROR_"), out dst);
 
-        public bool Parse(string src, out OpVisibility dst)
-            => OpVisKinds.Parse(src, out dst);
-
         public bool Parse(string src, out ElementType dst)
         {
             var result = ElementKinds.Parse(src, out ElementKind kind);
@@ -835,14 +823,8 @@ namespace Z0
             return result;
         }
 
-        public bool Parse(string src, out GroupName dst)
-            => GroupNames.Parse(src, out dst);
-
         public bool Parse(string src, out FlagEffectKind dst)
             => FlagActionKinds.Parse(src, out dst);
-
-        public bool Parse(string src, out bit dst)
-            => bit.parse(src, out dst);
 
         public bool Parse(string src, out OpName dst)
             => RuleOpNames.Parse(src, out dst);

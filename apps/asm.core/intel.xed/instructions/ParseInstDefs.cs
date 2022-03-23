@@ -61,7 +61,7 @@ namespace Z0
 
         static bool split(TextLine line, out string name, out string value)
         {
-            var input = cleanse(line);
+            var input = line;
             var i = text.index(input.Content, Chars.Colon);
             if(i>0)
             {
@@ -80,17 +80,15 @@ namespace Z0
         {
             const string LogPattern = "{0,-8} | {1,-8} | {2,-10} | {3}";
             var buffer = list<InstDef>();
-            var reader = src.ReadNumberedLines().Reader();
+            var reader = src.ReadNumberedLines().Select(cleanse).Where(line => line.IsNonEmpty).Reader();
             var seq = 0u;
             var forms = dict<uint,IForm>();
             var logdst = XedPaths.Targets() + FS.file("xed.inst.patterns.log", FS.Csv);
             using var log = logdst.AsciWriter();
             while(reader.Next(out var line))
             {
-                if(line.IsEmpty || line.StartsWith(Chars.Hash) || line.EndsWith("::"))
+                if(line.StartsWith(Chars.Hash) || line.EndsWith("::"))
                     continue;
-
-                line = cleanse(line);
 
                 if(line.StartsWith(Chars.LBrace))
                 {
@@ -100,9 +98,6 @@ namespace Z0
                     var @class = IClass.INVALID;
                     while(!line.StartsWith(Chars.RBrace) && reader.Next(out line))
                     {
-                        if(line.IsEmpty)
-                            continue;
-
                         if(split(line, out var name, out var value))
                         {
                             if(empty(value))
@@ -144,7 +139,6 @@ namespace Z0
                                             var result = text.left(line.Content, j);
                                             while(reader.Next(out var x))
                                             {
-                                                x = cleanse(x);
                                                 j = text.index(x.Content, Chars.BSlash);
 
                                                 if(j > 0)

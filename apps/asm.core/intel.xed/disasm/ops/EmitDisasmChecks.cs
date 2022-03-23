@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedDisasm;
-    using static XedModels;
     using static XedRules;
 
     partial class XedDisasmSvc
@@ -14,21 +12,21 @@ namespace Z0
        FS.FilePath CheckPath(WsContext context, in FileRef src)
             => Projects.XedDisasmDir(context.Project) + FS.file(string.Format("{0}.checks", src.Path.FileName.WithoutExtension), FS.Txt);
 
-        void EmitDisasmChecks(WsContext context, in DisasmSummaryDoc doc)
+        void EmitDisasmChecks(WsContext context, DisasmDetailDoc doc)
         {
             const string RenderPattern = "{0,-24} | {1}";
-            var summaries = doc.Blocks;
-            var count = summaries.Count;
-            var dstpath = CheckPath(context,doc.Source);
+            ref readonly var file = ref doc.File;
+            var count = doc.RowCount;
+            var dstpath = CheckPath(context,file.Source);
             using var writer = dstpath.AsciWriter();
             var emitting = EmittingFile(dstpath);
             var counter = 0;
             for(var j=0; j<count; j++)
             {
                 var state = RuleState.Empty;
-                ref readonly var sb = ref summaries[j];
-                ref readonly var lines = ref sb.Lines;
-                ref readonly var summary = ref sb.Summary;
+                ref readonly var detail = ref doc[j];
+                ref readonly var summary = ref detail.Block.Summary;
+                ref readonly var lines = ref detail.Block.Lines;
                 writer.AppendLineFormat("{0,-24} | {1,-5} {2}", summary.Encoded, summary.IP, summary.Asm);
                 writer.WriteLine(RP.PageBreak80);
                 var fields = XedDisasm.update(lines, ref state);
@@ -83,6 +81,5 @@ namespace Z0
             }
             EmittedFile(emitting,counter);
         }
-
     }
 }

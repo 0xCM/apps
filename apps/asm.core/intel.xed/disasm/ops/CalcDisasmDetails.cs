@@ -10,15 +10,14 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        public Index<DisasmDetail> CalcDisasmDetail(WsContext context, in FileRef src, DisasmSummaryDoc summary)
+        public DisasmDetailDoc CalcDisasmDetail(WsContext context, in DisasmFile file, DisasmSummaryDoc summary)
         {
-            var dst = core.bag<DisasmDetail>();
-            var blocks = XedDisasm.blocks(src);
-            CalcDisasmDetail(context, summary, blocks, dst).Require();
-            return dst.ToArray().Sort();
+            var dst = bag<DisasmDetailBlock>();
+            CalcDisasmDetail(context, summary, file, dst).Require();
+            return DisasmDetailDoc.from(file, dst.ToArray().Sort());
         }
 
-        Outcome CalcDisasmDetail(WsContext context, DisasmSummaryDoc doc, in DisasmFile src, ConcurrentBag<DisasmDetail> dst)
+        Outcome CalcDisasmDetail(WsContext context, DisasmSummaryDoc doc, in DisasmFile src, ConcurrentBag<DisasmDetailBlock> dst)
         {
             var blocks = doc.Blocks;
             var count = blocks.Count;
@@ -33,7 +32,10 @@ namespace Z0
             }
 
             for(var i=0; i<count; i++)
-                dst.Add(CalcDisasmDetail(blocks[i]));
+            {
+                ref readonly var block = ref blocks[i];
+                dst.Add(new (CalcDisasmDetail(block), block));
+            }
 
             return result;
         }

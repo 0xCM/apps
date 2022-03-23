@@ -63,7 +63,7 @@ namespace Z0
 
             public AsmExpr Asm;
 
-            public IFormType IForm;
+            public IForm IForm;
 
             public @string SourceName;
 

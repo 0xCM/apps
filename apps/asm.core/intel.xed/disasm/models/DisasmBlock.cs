@@ -6,14 +6,14 @@ namespace Z0
 {
     public partial class XedDisasm
     {
-        public struct DisasmBlock : IComparable<DisasmBlock>
+        public readonly struct DisasmBlock : IComparable<DisasmBlock>
         {
-            public DisasmLineBlock Lines;
+            public readonly DisasmLineBlock Lines;
 
-            public AsmDisasmSummary Summary;
+            public readonly DisasmSummary Summary;
 
             [MethodImpl(Inline)]
-            public DisasmBlock(DisasmLineBlock lines, AsmDisasmSummary summary)
+            public DisasmBlock(DisasmLineBlock lines, DisasmSummary summary)
             {
                 Lines = lines;
                 Summary = summary;

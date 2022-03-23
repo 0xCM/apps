@@ -8,7 +8,7 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        void EmitDisasmSummary(DisasmSummaryDocs docs, FS.FilePath dst)
-            => TableEmit(CalcDisasmSummary(docs).View, AsmDisasmSummary.RenderWidths, dst);
+        void EmitDisasmSummary(Index<DisasmSummary> src, FS.FilePath dst)
+            => TableEmit(src.View, DisasmSummary.RenderWidths, dst);
     }
 }

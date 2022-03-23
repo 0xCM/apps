@@ -14,7 +14,7 @@ namespace Z0
         {
             public const string TableId = "xed.inst.patterns";
 
-            public const byte FieldCount = 6;
+            public const byte FieldCount = 7;
 
             public uint PatternId;
 
@@ -25,6 +25,8 @@ namespace Z0
             public XedOpCode OpCode;
 
             public IClass Class;
+
+            public IForm Form;
 
             public TextBlock Body;
 
@@ -40,7 +42,7 @@ namespace Z0
                 return result;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,12,20,24,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,12,20,24,52,1};
 
             public static InstPatternInfo Empty => default;
         }

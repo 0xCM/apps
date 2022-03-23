@@ -8,20 +8,19 @@ namespace Z0
     using static core;
     using static XedModels;
     using static XedRules;
-    using static XedDisasm;
 
     using K = XedRules.FieldKind;
 
     partial class XedDisasmSvc
     {
-        void EmitDisasmProps(WsContext context, in DisasmSummaryDoc doc, in DisasmFile src)
+        void EmitDisasmProps(WsContext context, DisasmDetailDoc doc)
         {
             const string FieldPattern = "{0,-24} | {1}";
-
-            var filename = FS.file(string.Format("{0}.props",src.Source.Path.FileName.WithoutExtension.Format()), FS.Txt);
+            ref readonly var file = ref doc.File;
+            var filename = FS.file(string.Format("{0}.props", file.Source.Path.FileName.WithoutExtension.Format()), FS.Txt);
             var dst = Projects.XedDisasmDir(context.Project) + filename;
             var emitting = EmittingFile(dst);
-            Require.equal(doc.RowCount, src.Count);
+            Require.equal(doc.RowCount, file.Count);
             var counter = 0u;
             var state = RuleState.Empty;
             using var writer = dst.AsciWriter();
@@ -30,7 +29,7 @@ namespace Z0
             formatted.Add(K.LZCNT);
             formatted.Add(K.TZCNT);
 
-            for(var i=0; i<src.Count; i++)
+            for(var i=0; i<file.Count; i++)
             {
                 if(i != 0)
                 {
@@ -39,8 +38,9 @@ namespace Z0
                 }
 
                 state = RuleState.Empty;
-                ref readonly var summary = ref doc[i];
-                var fields = XedDisasm.fields(src[i]);
+                ref readonly var detail = ref doc[i];
+                ref readonly var summary = ref detail.Block.Summary;
+                var fields = XedDisasm.fields(file[i]);
                 var lookup = XedDisasm.update(fields, ref state);
 
                 void Emit(FieldKind kind)

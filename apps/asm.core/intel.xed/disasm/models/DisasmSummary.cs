@@ -9,7 +9,7 @@ namespace Z0
     partial class XedDisasm
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct AsmDisasmSummary : IComparable<AsmDisasmSummary>
+        public struct DisasmSummary : IComparable<DisasmSummary>
         {
             public const string TableId = "xed.disasm.summary";
 
@@ -43,7 +43,7 @@ namespace Z0
                 get => (Seq,DocSeq,OriginId);
             }
 
-            public int CompareTo(AsmDisasmSummary src)
+            public int CompareTo(DisasmSummary src)
             {
                 var result = OriginName.CompareTo(src.OriginName);
                 if(result == 0)
@@ -64,7 +64,7 @@ namespace Z0
                 ColWidths.AsmExpr,
                 1};
 
-            public static AsmDisasmSummary Empty => default;
+            public static DisasmSummary Empty => default;
         }
     }
 }

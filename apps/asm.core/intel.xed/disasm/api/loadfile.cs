@@ -8,7 +8,7 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public static DisasmFile blocks(in FileRef src)
+        public static DisasmFile loadfile(in FileRef src)
         {
             var dst = list<DisasmLineBlock>();
             var lines = src.Path.ReadNumberedLines();

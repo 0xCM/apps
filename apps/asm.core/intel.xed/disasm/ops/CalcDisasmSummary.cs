@@ -10,12 +10,12 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        Index<AsmDisasmSummary> CalcDisasmSummary(DisasmSummaryDocs docs)
+        Index<DisasmSummary> CalcDisasmSummary(DisasmSummaryDocs docs)
         {
             var paths = docs.Keys.ToArray().Sort();
             var recordcount = 0u;
             iter(docs.Values, src => recordcount += src.RowCount);
-            var buffer = alloc<AsmDisasmSummary>(recordcount);
+            var buffer = alloc<DisasmSummary>(recordcount);
             var counter = 0u;
             for(var i=0; i<paths.Length;i++)
             {

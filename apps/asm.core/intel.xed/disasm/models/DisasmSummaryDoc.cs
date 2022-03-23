@@ -6,7 +6,7 @@ namespace Z0
 {
     using static XedDisasm;
 
-    public class DisasmSummaryDoc : TableDoc<AsmDisasmSummary>
+    public class DisasmSummaryDoc : TableDoc<DisasmSummary>
     {
         public static DisasmSummaryDoc from(in FileRef src, in FileRef origin, DisasmBlock[] blocks)
             => new DisasmSummaryDoc(src, origin, blocks);
