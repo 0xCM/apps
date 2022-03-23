@@ -21,10 +21,10 @@ namespace Z0
             {
             }
 
-            public static Index<OpSpec> parse(uint pattern, string src)
+            static Index<OpSpec> parse(uint pattern, string ops)
             {
                 var buffer = list<OpSpec>();
-                var input = text.despace(src);
+                var input = text.despace(ops);
                 var i = text.index(input,Chars.Hash);
                 var index = z8;
                 if(i > 0)
@@ -43,7 +43,7 @@ namespace Z0
                 return buffer.ToArray();
             }
 
-            public static void parse(string src, uint pattern, out Index<OpSpec> dst)
+            public static void parse(uint pattern, string src, out Index<OpSpec> dst)
                 => dst = parse(pattern,src);
 
             public static OpSpec parse(uint pattern, byte index, OpName name, string src)

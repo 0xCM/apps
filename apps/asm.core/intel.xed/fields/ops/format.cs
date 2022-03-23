@@ -18,7 +18,7 @@ namespace Z0
     partial class XedFields
     {
         public static string format(FieldConstraint src)
-            => string.Format("{0}{1}{2}",
+            => src.IsEmpty ? EmptyString : string.Format("{0}{1}{2}",
                     XedRender.format(src.Field),
                     XedRender.format(src.Kind),
                     literal(src.LiteralKind, src.Value)

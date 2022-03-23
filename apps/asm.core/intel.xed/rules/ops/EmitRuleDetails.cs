@@ -28,7 +28,7 @@ namespace Z0
                 writer.AppendLineFormat(LabelPattern, nameof(def.FlagEffects), def.FlagEffects.IsNonEmpty ? def.FlagEffects.Delimit(fence:RenderFence.Embraced) : EmptyString);
                 writer.AppendLineFormat(LabelPattern, nameof(pattern.RawBody), pattern.RawBody);
                 writer.AppendLineFormat(LabelPattern, nameof(pattern.Body), pattern.BodyExpr);
-                var opcode = XedPatterns.opcode(pattern.PatternId, pattern.Body);
+                var opcode = XedPatterns.xedoc(pattern.PatternId, pattern.Body);
                 writer.AppendLineFormat("{0,-16} | {1,-20}", "OpCode", opcode);
                 writer.AppendLineFormat(LabelPattern, "Operands", RP.PageBreak80);
                 ref readonly var ops = ref pattern.Ops;

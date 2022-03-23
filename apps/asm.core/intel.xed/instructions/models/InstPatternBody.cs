@@ -9,35 +9,35 @@ namespace Z0
 
     partial class XedPatterns
     {
-        public readonly struct InstPatternBody : IIndex<InstDefPart>
+        public readonly struct InstPatternBody : IIndex<InstDefField>
         {
-            readonly Index<InstDefPart> Data;
+            readonly Index<InstDefField> Data;
 
             [MethodImpl(Inline)]
-            public InstPatternBody(InstDefPart[] src)
+            public InstPatternBody(InstDefField[] src)
             {
                 Data = src;
             }
 
-            public InstDefPart[] Storage
+            public InstDefField[] Storage
             {
                 [MethodImpl(Inline)]
                 get => Data.Storage;
             }
 
-            public uint PartCount
+            public uint FieldCount
             {
                 [MethodImpl(Inline)]
                 get => Data.Count;
             }
 
-            public ref InstDefPart this[int i]
+            public ref InstDefField this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
             }
 
-            public ref InstDefPart this[uint i]
+            public ref InstDefField this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
@@ -53,11 +53,11 @@ namespace Z0
                 => new InstPatternBody(Data.Replicate());
 
             [MethodImpl(Inline)]
-            public static implicit operator InstPatternBody(InstDefPart[] src)
+            public static implicit operator InstPatternBody(InstDefField[] src)
                 => new InstPatternBody(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator InstDefPart[](InstPatternBody src)
+            public static implicit operator InstDefField[](InstPatternBody src)
                 => src.Data;
         }
     }

@@ -83,6 +83,101 @@ namespace Z0
 
         }
 
+
+
+        public static void parse(string src, out Index<XedFlagEffect> dst)
+        {
+            var i = text.index(src,Chars.LBracket);
+            var j = text.index(src,Chars.RBracket);
+            var buffer = sys.empty<XedFlagEffect>();
+            if(i >=0 && j>1)
+            {
+                var specs = text.split(text.despace(text.inside(src,i,j)), Chars.Space);
+                var count = specs.Length;
+                buffer = alloc<XedFlagEffect>(count);
+                for(var k=0; k<count; k++)
+                {
+                    ref readonly var spec = ref skip(specs,k);
+                    var m = text.index(spec,Chars.Dash);
+                    if(m>0)
+                    {
+                        var name = text.left(spec, m);
+                        var action = text.right(spec,m);
+                        if(parse(name, out XedRegFlag flag) && parse(action, out FlagEffectKind ak))
+                            seek(buffer,k) = new XedFlagEffect(flag, ak);
+                    }
+                }
+            }
+
+            dst = buffer;
+        }
+
+        public static Outcome parse(string src, out InstDefField dst)
+        {
+            dst = InstDefField.Empty;
+            Outcome result = (false, string.Format("Unrecognized segment '{0}'", src));
+            if(IsHexLiteral(src))
+            {
+                result = parse(src, out Hex8 x);
+                if(result)
+                    dst = part(x);
+                else
+                    result = (false, AppMsg.ParseFailure.Format(nameof(Hex8), src));
+            }
+            else if(IsBinaryLiteral(src))
+            {
+                result = parse(src, out uint5 x);
+                if(result)
+                    dst = part(x);
+                else
+                    result = (false, AppMsg.ParseFailure.Format(nameof(uint5), src));
+
+            }
+            else if(IsBfSeg(src))
+            {
+                result = parse(src, out BitfieldSeg x);
+                if(result)
+                    dst = part(x);
+                else
+                    result = (false, AppMsg.ParseFailure.Format(nameof(BitfieldSeg), src));
+            }
+            else if(IsCmpNeq(src))
+            {
+                result = parse(src, out FieldConstraint x);
+                if(result)
+                    dst = part(x);
+                else
+                    result = (false, AppMsg.ParseFailure.Format(nameof(FieldConstraint), src));
+
+            }
+            else if(IsAssignment(src))
+            {
+                result = parse(src, out FieldAssign x);
+                if(result)
+                {
+                    dst = part(x);
+                }
+                else
+                    result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
+
+            }
+            else if(IsNonterminal(src))
+            {
+                result = parse(src, out Nonterminal x);
+                if(result)
+                    dst = part(x);
+                else
+                    result = (false, AppMsg.ParseFailure.Format(nameof(Nonterminal), src));
+            }
+            else if (parse(src, out byte a))
+            {
+                result = true;
+                dst = new(a);
+            }
+
+            return result;
+        }
+
         public static Index<RuleSeq> ruleseq(FS.FilePath src)
             => ruleseq(src.ReadNumberedLines());
 
@@ -269,8 +364,40 @@ namespace Z0
             }
         }
 
+        public static void parse(uint pattern, IClass @class, string body, string ops, out InstPatternSpec dst)
+        {
+            var buffer = text.buffer();
+            var parts = text.split(text.despace(body), Chars.Space);
+            for(var i=0; i<parts.Length; i++)
+            {
+                if(i != 0)
+                    buffer.Append(Chars.Space);
+                buffer.Append(skip(parts,i));
+            }
+            XedParsers.parse(RuleMacros.expand(buffer.Emit()), out InstPatternBody pb).Require();
+            OpSpecParser.parse(pattern,ops, out var _ops);
+            dst = new InstPatternSpec(pattern, 0, @class, xedoc(pattern,pb), body, pb, _ops);
+        }
+
         public static Outcome parse(string src, out InstPatternBody dst)
-            => InstDefParser.parse(src, out dst);
+        {
+            var result = Outcome.Success;
+            var parts = text.trim(text.split(text.despace(src), Chars.Space));
+            var count = parts.Length;
+            dst = alloc<InstDefField>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref var target = ref dst[i];
+                ref readonly var part = ref skip(parts,i);
+                result = XedParsers.parse(part, out target);
+                if(result.Fail)
+                {
+                    break;
+                }
+            }
+
+            return result;
+        }
 
         public static bool parse(string src, out RuleMacroKind dst)
             => Instance.Parse(src, out dst);

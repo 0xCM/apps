@@ -257,7 +257,7 @@ namespace Z0
             => XedFields.format(src);
 
         public static string format(FieldConstraint src)
-            => XedFields.format(src);
+            =>  XedFields.format(src);
 
         public static string format(in RuleTableCell src)
             => src.IsEmpty ? EmptyString : format(src.Criterion);
@@ -284,7 +284,7 @@ namespace Z0
 
         public static void render(in InstPatternBody src, ITextBuffer dst)
         {
-            for(var i=0; i<src.PartCount; i++)
+            for(var i=0; i<src.FieldCount; i++)
             {
                 if(i!=0)
                     dst.Append(Chars.Space);
@@ -451,34 +451,34 @@ namespace Z0
         public static string format(DispFieldSpec src)
             => src.Width == 0 ? EmptyString : string.Format("{0}[{1}/{2}]", "DISP", src.Kind, src.Width);
 
-        public static string format(in InstDefPart src)
+        public static string format(in InstDefField src)
         {
             var dst = EmptyString;
-            var kind = src.PartKind;
+            var kind = src.Class;
             switch(kind)
             {
-                case DefSegKind.HexLiteral:
+                case DefFieldClass.HexLiteral:
                     dst = format(src.AsHexLit());
                 break;
-                case DefSegKind.IntLiteral:
+                case DefFieldClass.IntLiteral:
                     dst = src.AsIntLit().ToString();
                 break;
-                case DefSegKind.Bitfield:
+                case DefFieldClass.Bitfield:
                     dst = format(src.AsBfSeg());
                 break;
-                case DefSegKind.BitLiteral:
-                    dst = format5(src.AsB5());
+                case DefFieldClass.BitLiteral:
+                    dst = format5(src.AsBitLit());
                 break;
-                case DefSegKind.Nonterm:
+                case DefFieldClass.Nonterm:
                     dst = src.AsNonterminal().Format();
                 break;
-                case DefSegKind.FieldLiteral:
+                case DefFieldClass.FieldLiteral:
                     dst = format(src.AsFieldLit());
                 break;
-                case DefSegKind.FieldAssign:
-                    dst = format(src.AsAssign());
+                case DefFieldClass.FieldAssign:
+                    dst = format(src.AsAssignment());
                 break;
-                case DefSegKind.Constraint:
+                case DefFieldClass.Constraint:
                     dst = format(src.AsConstraint());
                 break;
                 default:
@@ -576,7 +576,7 @@ namespace Z0
         }
 
         public static string format(BitfieldSeg src)
-            => string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]", XedRender.format(src.Field), src.Pattern);
+            => src.IsEmpty ? EmptyString : string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]", XedRender.format(src.Field), src.Pattern);
 
         public static string format(BitfieldSpec src)
             => src.Pattern.Format();

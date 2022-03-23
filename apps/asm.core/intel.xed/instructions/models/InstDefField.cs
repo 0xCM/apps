@@ -8,104 +8,105 @@ namespace Z0
     using static core;
 
     using static XedModels;
+    using static XedPatterns;
 
     partial class XedRules
     {
-        public struct InstDefPart : IEquatable<InstDefPart>
+        public struct InstDefField : IEquatable<InstDefField>
         {
             readonly ByteBlock16 Data;
 
             [MethodImpl(Inline)]
-            public InstDefPart(Hex8 src)
+            public InstDefField(Hex8 src)
             {
                 var data = ByteBlock16.Empty;
                 data[0] = src;
-                data[15] = (byte)DefSegKind.HexLiteral;
+                data[15] = (byte)DefFieldClass.HexLiteral;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public InstDefPart(byte src)
+            public InstDefField(byte src)
             {
                 var data = ByteBlock16.Empty;
                 data[0] = src;
-                data[15] = (byte)DefSegKind.IntLiteral;
+                data[15] = (byte)DefFieldClass.IntLiteral;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public InstDefPart(BitfieldSeg src)
+            public InstDefField(BitfieldSeg src)
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
-                data[15] = (byte)DefSegKind.Bitfield;
+                data[15] = (byte)DefFieldClass.Bitfield;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public InstDefPart(FieldAssign src)
+            public InstDefField(FieldAssign src)
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
-                data[15] = (byte)DefSegKind.FieldAssign;
+                data[15] = (byte)DefFieldClass.FieldAssign;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public InstDefPart(FieldConstraint src)
+            public InstDefField(FieldConstraint src)
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
-                data[15] = (byte)DefSegKind.Constraint;
+                data[15] = (byte)DefFieldClass.Constraint;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public InstDefPart(Nonterminal src)
+            public InstDefField(Nonterminal src)
             {
                 var data = ByteBlock16.Empty;
                 data = core.bytes(src);
-                data[15] = (byte)DefSegKind.Nonterm;
+                data[15] = (byte)DefFieldClass.Nonterm;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public InstDefPart(uint5 src)
+            public InstDefField(uint5 src)
             {
                 var data = ByteBlock16.Empty;
                 data[0] = (byte)src;
                 data[1] = uint5.MaxLiteral;
-                data[15] = (byte)DefSegKind.BitLiteral;
+                data[15] = (byte)DefFieldClass.BitLiteral;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public InstDefPart(FieldValue src)
+            public InstDefField(FieldValue src)
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
-                data[15] = (byte)DefSegKind.FieldLiteral;
+                data[15] = (byte)DefFieldClass.FieldLiteral;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public bool Equals(InstDefPart src)
+            public bool Equals(InstDefField src)
                 => Data.Equals(src.Data);
 
             public override int GetHashCode()
                 => Data.GetHashCode();
 
             public override bool Equals(object src)
-                => src is InstDefPart p && Equals(p);
+                => src is InstDefField p && Equals(p);
 
-            public ref readonly DefSegKind PartKind
+            public ref readonly DefFieldClass Class
             {
                 [MethodImpl(Inline)]
-                get => ref @as<DefSegKind>(Data[15]);
+                get => ref @as<DefFieldClass>(Data[15]);
             }
 
             [MethodImpl(Inline)]
-            public ref readonly FieldAssign AsAssign()
+            public ref readonly FieldAssign AsAssignment()
                 => ref @as<FieldAssign>(Data.First);
 
             [MethodImpl(Inline)]
@@ -133,7 +134,7 @@ namespace Z0
                 => ref @as<BitfieldSeg>(Data.First);
 
             [MethodImpl(Inline)]
-            public ref readonly uint5 AsB5()
+            public ref readonly uint5 AsBitLit()
                 => ref @as<uint5>(Data.First);
 
             public string Format()
@@ -142,7 +143,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static InstDefPart Empty => default;
+            public static InstDefField Empty => default;
         }
     }
 }

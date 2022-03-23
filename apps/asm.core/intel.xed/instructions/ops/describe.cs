@@ -36,7 +36,7 @@ namespace Z0
         {
             ref readonly var body = ref src.Body;
             var dst = InstPatternInfo.Empty;
-            var opcode = XedPatterns.opcode(src.PatternId, body);
+            var opcode = XedPatterns.xedoc(src.PatternId, body);
             dst.PatternId = src.PatternId;
             dst.InstId = src.InstId;
             dst.OcIndex = ocindex(opcode.Kind);
@@ -50,7 +50,7 @@ namespace Z0
         {
             ref readonly var body = ref src.Body;
             var dst = InstPatternInfo.Empty;
-            var opcode = XedPatterns.opcode(src.PatternId, body);
+            var opcode = XedPatterns.xedoc(src.PatternId, body);
             dst.PatternId = src.PatternId;
             dst.InstId = src.InstId;
             dst.OcIndex = ocindex(opcode.Kind);

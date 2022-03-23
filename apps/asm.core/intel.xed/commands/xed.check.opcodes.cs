@@ -24,7 +24,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var pattern = ref patterns[i];
-                var oc = XedPatterns.opcode(pattern.PatternId, pattern.Body);
+                var oc = XedPatterns.xedoc(pattern.PatternId, pattern.Body);
                 var id = identify(pattern);
                 ref var dst = ref seek(buffer,i);
                 dst.PatternId = pattern.PatternId;

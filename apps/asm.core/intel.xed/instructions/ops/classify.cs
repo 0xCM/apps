@@ -5,25 +5,27 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     using static XedRules;
 
     partial class XedPatterns
     {
-        [MethodImpl(Inline), Op]
-        public static bool map(in InstDefPart src, out byte dst)
+        internal static bool classify(Index<InstRulePart,string> names, string src, out InstRulePart part)
         {
+            var count = names.Count;
             var result = false;
-            dst = default;
-            if(src.PartKind == DefSegKind.FieldAssign)
+            part = default;
+            for(var i=0; i<count; i++)
             {
-                ref readonly var assign = ref src.AsAssign();
-                if(assign.Field == FieldKind.MAP)
+                var p = (InstRulePart)i;
+                ref readonly var n = ref names[p];
+                if(n == src)
                 {
-                    dst = (byte)assign.Value;
+                    part = p;
                     result = true;
+                    break;
                 }
             }
-
             return result;
         }
     }

@@ -7,14 +7,13 @@ namespace Z0
 {
     using static core;
     using static XedModels;
-    using static XedRules;
 
     partial class XedPatterns
     {
         public static VexClass vex(in InstPatternBody src)
         {
             var result = default(VexClass);
-            if(src.PartCount != 0)
+            if(src.FieldCount != 0)
             {
                 var k = (VexClass)src[0].AsIntLit();
 

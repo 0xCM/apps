@@ -14,31 +14,31 @@ namespace Z0
     partial class XedPatterns
     {
         [MethodImpl(Inline)]
-        public static InstDefPart part(FieldConstraint src)
-            => new InstDefPart(src);
+        public static InstDefField part(FieldConstraint src)
+            => new InstDefField(src);
 
         [MethodImpl(Inline)]
-        public static InstDefPart part(BitfieldSeg src)
-            => new InstDefPart(src);
+        public static InstDefField part(BitfieldSeg src)
+            => new InstDefField(src);
 
         [MethodImpl(Inline)]
-        public static InstDefPart part(FieldAssign src)
-            => new InstDefPart(src);
+        public static InstDefField part(FieldAssign src)
+            => new InstDefField(src);
 
         [MethodImpl(Inline)]
-        public static InstDefPart part(Nonterminal src)
-            => new InstDefPart(src);
+        public static InstDefField part(Nonterminal src)
+            => new InstDefField(src);
 
         [MethodImpl(Inline)]
-        public static InstDefPart part(R.FieldValue src)
-            => new InstDefPart(src);
+        public static InstDefField part(R.FieldValue src)
+            => new InstDefField(src);
 
         [MethodImpl(Inline)]
-        public static InstDefPart part(Hex8 src)
-            => new InstDefPart(src);
+        public static InstDefField part(Hex8 src)
+            => new InstDefField(src);
 
         [MethodImpl(Inline)]
-        public static InstDefPart part(uint5 src)
-            => new InstDefPart(src);
+        public static InstDefField part(uint5 src)
+            => new InstDefField(src);
     }
 }

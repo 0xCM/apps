@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public enum DefSegKind : byte
+        public enum DefFieldClass : byte
         {
             None,
 

@@ -14,14 +14,14 @@ namespace Z0
     {
         public static AsmOcValue ocvalue(InstPatternBody src)
         {
-            var count = src.PartCount;
+            var count = src.FieldCount;
             var storage = ByteBlock4.Empty;
             var dst = storage.Bytes;
             var j=0;
             for(var i=0; i<count; i++)
             {
                 ref readonly var seg = ref src[i];
-                if(seg.PartKind == DefSegKind.HexLiteral)
+                if(seg.Class == DefFieldClass.HexLiteral)
                     seek(dst,j++) = seg.AsHexLit();
             }
             return new AsmOcValue(slice(dst,0,j));

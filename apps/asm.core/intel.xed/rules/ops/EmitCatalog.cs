@@ -25,26 +25,27 @@ namespace Z0
                 );
         }
 
-
         public Index<InstDef> CalcInstDefs()
-            => Data(nameof(CalcInstDefs), () => InstDefParser.parse(XedPaths.DocSource(XedDocKind.EncInstDef)));
+            => Data(nameof(InstDef), () => XedPatterns.instdefs(XedPaths.DocSource(XedDocKind.EncInstDef)));
 
         public Index<InstPattern> CalcInstPatterns()
             => CalcInstPatterns(CalcInstDefs());
 
         Index<InstPattern> CalcInstPatterns(Index<InstDef> defs)
-            => Data(nameof(CalcInstPatterns), () => XedPatterns.patterns(defs));
-
-        public void EmitRuleTables()
-            => RuleTables.EmitTables(true);
+            => Data(nameof(InstPattern), () => XedPatterns.patterns(defs));
 
         void EmitPatternData(Index<InstPattern> src)
             => exec(PllExec,
                 () => EmitPatternInfo(src),
                 () => EmitPatternDetails(src),
                 () => EmitPatternOps(src),
-                () => EmitOpCodes(src)
+                () => EmitOpCodes(src),
+                () => EmitInstFieldDefs(src)
                 );
+
+
+        public void EmitRuleTables()
+            => RuleTables.EmitTables(true);
 
         void EmitMacroData()
         {
@@ -70,6 +71,5 @@ namespace Z0
                 () => EmitSpecs(RuleTableKind.EncDec)
                 );
         }
-
     }
 }

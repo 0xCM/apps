@@ -27,6 +27,18 @@ namespace Z0
                 LiteralKind = vk;
             }
 
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Kind == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Kind != 0;
+            }
+
             public string Format()
                 => XedRender.format(this);
 
