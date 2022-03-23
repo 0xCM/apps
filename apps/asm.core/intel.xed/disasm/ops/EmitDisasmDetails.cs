@@ -8,6 +8,8 @@ namespace Z0
     using static core;
     using static XedModels;
     using static XedRules;
+    using static XedDisasm;
+
     using R = XedRules;
     using K = XedRules.FieldKind;
 
@@ -66,6 +68,8 @@ namespace Z0
 
         static void render(in DisasmOpDetail src, ITextBuffer dst)
         {
+            const string OpSepSlot = "/{0}";
+
             dst.AppendFormat("{0,-6} {1,-4}", src.Index, XedRender.format(src.OpName));
 
             var kind = opkind(src.OpName);
@@ -78,7 +82,7 @@ namespace Z0
                     if(opinfo.Selector.IsNonEmpty)
                     {
                         dst.AppendFormat(" {0}", opinfo.Selector);
-                        dst.AppendFormat("/{0}", XedRender.format(src.Action));
+                        dst.AppendFormat(OpSepSlot, XedRender.format(src.Action));
                     }
                 break;
                 default:
@@ -87,15 +91,13 @@ namespace Z0
             }
 
             ref readonly var width = ref src.OpWidth;
-
-            dst.AppendFormat("/{0}", XedRender.format(width.Code));
-
+            dst.AppendFormat(OpSepSlot, XedRender.format(width.Code));
             if(width.EType.IsNonEmpty && !width.EType.IsInt)
-                dst.AppendFormat("/{0}", src.OpWidth.EType);
+                dst.AppendFormat(OpSepSlot, src.OpWidth.EType);
             if(!opinfo.Visiblity.IsExplicit)
-                dst.AppendFormat("/{0}", opinfo.Visiblity);
+                dst.AppendFormat(OpSepSlot, opinfo.Visiblity);
             if(opinfo.OpType != 0)
-                dst.AppendFormat("/{0}", opinfo.OpType);
+                dst.AppendFormat(OpSepSlot, opinfo.OpType);
         }
 
         static Dictionary<K,R.FieldValue> update(Index<R.FieldValue> src, ref RuleState state)
@@ -295,7 +297,7 @@ namespace Z0
             for(var k=0; k<6; k++)
             {
                 opheader.Append("| ");
-                opheader.Append(DisasmOpDetail.Header(k));
+                opheader.Append(OpDetailHeader(k));
             }
 
             var header = string.Format("{0}{1}", headerBase, opheader.Emit());

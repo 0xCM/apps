@@ -454,7 +454,7 @@ namespace Z0
         public static string format(in InstDefField src)
         {
             var dst = EmptyString;
-            var kind = src.Class;
+            var kind = src.FieldClass;
             switch(kind)
             {
                 case DefFieldClass.HexLiteral:

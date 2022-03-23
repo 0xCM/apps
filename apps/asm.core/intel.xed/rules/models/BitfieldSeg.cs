@@ -10,9 +10,9 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(80)]
         public readonly struct BitfieldSeg
         {
-            public readonly asci8 Pattern;
-
             public readonly FieldKind Field;
+
+            public readonly asci8 Pattern;
 
             public readonly bool IsLiteral;
 

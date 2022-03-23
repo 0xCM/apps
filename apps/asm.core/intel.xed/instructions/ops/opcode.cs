@@ -5,12 +5,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
     using static core;
 
     using static XedRules;
     using static XedModels;
-    using static XedFields;
 
     partial class XedPatterns
     {
@@ -20,17 +18,14 @@ namespace Z0
             (var fields, var layout) = split(src.Body);
             dst.PatternId = src.PatternId;
             dst.OpCode = src.OpCode;
-            dst.Class = src.Class;
-            dst.LOCK = LockIndicator.None;
-
-            var lookup = mapi(fields, (i,p) => ((byte)i, p)).ToDictionary();
-            var remainder = list<InstDefField>();
+            dst.Class = src.InstClass;
+            dst.Pattern = src.BodyExpr;
 
             for(byte j=0; j<fields.FieldCount; j++)
             {
                 ref readonly var part = ref fields[j];
 
-                if(part.Class == DefFieldClass.FieldAssign)
+                if(part.FieldClass == DefFieldClass.FieldAssign)
                 {
                     var a = part.AsAssignment();
                     switch(a.Field)
@@ -38,47 +33,12 @@ namespace Z0
                         case FieldKind.MODE:
                             dst.Mode = (ModeKind)a.Value;
                         break;
-                        case FieldKind.MOD:
-                            dst.MOD = ModKind.specific(a.Value);
-                        break;
-                        case FieldKind.LOCK:
-                            dst.LOCK = (LockIndicator)a.Value;
-                        break;
-                        case FieldKind.OSZ:
-                            dst.OSZ = XedFields.osz(a.Value);
-                        break;
-                        case FieldKind.EOSZ:
-                            dst.EOSZ = (EOSZ)a.Value;
-                        break;
-                        case FieldKind.VEXVALID:
-                            dst.VEXVALID = (VexClass)a.Value;
-                        break;
-                        case FieldKind.VEX_PREFIX:
-                            dst.VEX_PREFIX = (VexKind)a.Value;
-                        break;
                         default:
-                            remainder.Add(part);
-                        break;
-                    }
-                }
-                else if(part.Class == DefFieldClass.Constraint)
-                {
-                    var c = part.AsConstraint();
-                    switch(c.Field)
-                    {
-                        case FieldKind.MOD:
-                            dst.MOD = ModKind.constrain();
-                            lookup.Remove(j);
-                        break;
-                        default:
-                            remainder.Add(part);
                         break;
                     }
                 }
             }
 
-            InstPatternBody b = remainder.ToArray();
-            dst.Fields = b.Format();
             dst.Layout = layout.Format();
         }
 
@@ -91,7 +51,7 @@ namespace Z0
             for(byte i=0; i<count; i++)
             {
                 ref readonly var part = ref src[i];
-                switch(part.Class)
+                switch(part.FieldClass)
                 {
                     case DefFieldClass.Constraint:
                     case DefFieldClass.FieldAssign:
@@ -125,7 +85,7 @@ namespace Z0
             for(var i=0; i<body.FieldCount; i++)
             {
                 ref readonly var part = ref body[i];
-                if(part.Class == DefFieldClass.FieldAssign)
+                if(part.FieldClass == DefFieldClass.FieldAssign)
                 {
                     var assign = part.AsAssignment();
                     if(assign.Field == FieldKind.VEXVALID)

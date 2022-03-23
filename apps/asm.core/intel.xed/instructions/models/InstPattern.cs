@@ -83,7 +83,7 @@ namespace Z0
                 get => ref PatternSpec.PatternId;
             }
 
-            public ref readonly IClass Class
+            public ref readonly IClass InstClass
             {
                 [MethodImpl(Inline)]
                 get => ref InstDef.Class;

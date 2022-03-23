@@ -32,7 +32,7 @@ namespace Z0
             {
                 ref readonly var opcode = ref opcodes[i];
                 var pattern = lookup[opcode.PatternId];
-                writer.AppendLineFormat(RenderPattern, opcode.PatternId, opcode.Format(), pattern.Class, pattern.BodyExpr);
+                writer.AppendLineFormat(RenderPattern, opcode.PatternId, opcode.Format(), pattern.InstClass, pattern.BodyExpr);
             }
 
             EmittedFile(emitting,count);

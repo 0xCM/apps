@@ -15,7 +15,7 @@ namespace Z0
         {
             public const string TableId = "xed.opcodes";
 
-            public const byte FieldCount = 12;
+            public const byte FieldCount = 6;
 
             public uint PatternId;
 
@@ -25,23 +25,11 @@ namespace Z0
 
             public EnumFormat<ModeKind> Mode;
 
-            public EnumFormat<OSZ> OSZ;
-
-            public EnumFormat<LockIndicator> LOCK;
-
-            public EnumFormat<EOSZ> EOSZ;
-
-            public ModKind MOD;
-
-            public EnumFormat<VexClass> VEXVALID;
-
-            public EnumFormat<VexKind> VEX_PREFIX;
-
-            public TextBlock Fields;
-
             public TextBlock Layout;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,20,20,6,6,12,12,12,12,12,48,1};
+            public TextBlock Pattern;
+
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,20,20,12,80,1};
         }
     }
 }

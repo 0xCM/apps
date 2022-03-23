@@ -40,7 +40,7 @@ namespace Z0
             dst.PatternId = src.PatternId;
             dst.InstId = src.InstId;
             dst.OcIndex = ocindex(opcode.Kind);
-            dst.Class = src.Class;
+            dst.Class = src.InstClass;
             dst.OpCode = opcode.Value;
             dst.Body = XedRender.format(body);
             return dst;

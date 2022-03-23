@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1)]
+        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(32)]
         public struct Nonterminal : IEquatable<Nonterminal>, IComparable<Nonterminal>
         {
             public static Nonterminal FromId(int id)

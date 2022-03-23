@@ -5,17 +5,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using static XedModels;
 
     partial class XedRules
     {
         [Record(TableId)]
-        public struct InstDefFieldInfo
+        public struct InstFieldInfo
         {
-            public const string TableId = "xed.inst.def.fields";
+            public const string TableId = "xed.inst.patterns.fields";
 
-            public const byte FieldCount = 12;
+            public const byte FieldCount = 14;
 
             public uint InstId;
 
@@ -23,9 +22,13 @@ namespace Z0
 
             public byte Index;
 
+            public IClass InstClass;
+
             public DefFieldClass FieldClass;
 
-            public BitfieldSeg BitfieldSeg;
+            public EmptyZero<FieldKind> FieldKind;
+
+            public BitfieldSeg Bitfield;
 
             public FieldAssign Assignment;
 
@@ -41,9 +44,9 @@ namespace Z0
 
             public EmptyZero<uint5> BitLiteral;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,8,12,12,12,12,12,12,12,12,12};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,8,18,12,12,12,22,12,12,22,12,12,12};
 
-            public static InstDefFieldInfo Empty => default;
+            public static InstFieldInfo Empty => default;
         }
     }
 }

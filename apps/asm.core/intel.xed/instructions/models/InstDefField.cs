@@ -6,9 +6,7 @@
 namespace Z0
 {
     using static core;
-
     using static XedModels;
-    using static XedPatterns;
 
     partial class XedRules
     {
@@ -39,6 +37,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
+                data[14] = (byte)src.Field;
                 data[15] = (byte)DefFieldClass.Bitfield;
                 Data = data;
             }
@@ -48,6 +47,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
+                data[14] = (byte)src.Field;
                 data[15] = (byte)DefFieldClass.FieldAssign;
                 Data = data;
             }
@@ -57,6 +57,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
+                data[14] = (byte)src.Field;
                 data[15] = (byte)DefFieldClass.Constraint;
                 Data = data;
             }
@@ -85,8 +86,21 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
+                data[14] = (byte)src.Field;
                 data[15] = (byte)DefFieldClass.FieldLiteral;
                 Data = data;
+            }
+
+            public ref readonly DefFieldClass FieldClass
+            {
+                [MethodImpl(Inline)]
+                get => ref @as<DefFieldClass>(Data[15]);
+            }
+
+            public ref readonly FieldKind FieldKind
+            {
+                [MethodImpl(Inline)]
+                get => ref @as<FieldKind>(Data[14]);
             }
 
             [MethodImpl(Inline)]
@@ -98,12 +112,6 @@ namespace Z0
 
             public override bool Equals(object src)
                 => src is InstDefField p && Equals(p);
-
-            public ref readonly DefFieldClass Class
-            {
-                [MethodImpl(Inline)]
-                get => ref @as<DefFieldClass>(Data[15]);
-            }
 
             [MethodImpl(Inline)]
             public ref readonly FieldAssign AsAssignment()

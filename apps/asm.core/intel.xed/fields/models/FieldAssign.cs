@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential)]
+        [StructLayout(LayoutKind.Sequential), DataWidth(88)]
         public readonly struct FieldAssign
         {
             public readonly FieldKind Field;

@@ -10,17 +10,19 @@ namespace Z0
     partial class XedPatterns
     {
         [Op]
-        public static InstDefFieldInfo fieldinfo(InstPattern pattern, InstDefField src, byte index)
+        public static InstFieldInfo fieldinfo(InstPattern pattern, InstDefField src, byte index)
         {
-            var dst = InstDefFieldInfo.Empty;
+            var dst = InstFieldInfo.Empty;
             dst.InstId = pattern.InstId;
             dst.PatternId = pattern.PatternId;
             dst.Index = index;
-            dst.FieldClass = src.Class;
-            switch(src.Class)
+            dst.FieldClass = src.FieldClass;
+            dst.FieldKind = src.FieldKind;
+            dst.InstClass = pattern.InstClass;
+            switch(src.FieldClass)
             {
                 case DefFieldClass.Bitfield:
-                    dst.BitfieldSeg = src.AsBfSeg();
+                    dst.Bitfield = src.AsBfSeg();
                 break;
                 case DefFieldClass.BitLiteral:
                     dst.BitLiteral = src.AsBitLit();

@@ -24,7 +24,7 @@ namespace Z0
 
         void EmitInstFieldDefs(Index<InstPattern> src)
         {
-            var buffer = list<InstDefFieldInfo>();
+            var buffer = list<InstFieldInfo>();
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var pattern = ref src[i];
@@ -35,7 +35,8 @@ namespace Z0
                     buffer.Add(XedPatterns.fieldinfo(pattern,field,j));
                 }
             }
-            TableEmit(buffer.ViewDeposited(), InstDefFieldInfo.RenderWidths, XedPaths.Table<InstDefFieldInfo>());
+
+            TableEmit(buffer.ViewDeposited(), InstFieldInfo.RenderWidths, XedPaths.Table<InstFieldInfo>());
         }
     }
 }

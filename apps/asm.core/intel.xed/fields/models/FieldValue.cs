@@ -12,7 +12,7 @@ namespace Z0
 
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential, Pack=1)]
+        [StructLayout(LayoutKind.Sequential, Pack=1), DataWidth(80)]
         public readonly struct FieldValue : IEquatable<FieldValue>
         {
             public readonly FieldKind Field;
