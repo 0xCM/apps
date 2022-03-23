@@ -12,24 +12,22 @@ namespace Z0
         void EmitPatternDetails(Index<InstPattern> src, FS.FilePath dst)
         {
             const string LabelPattern = "{0,-16} | {1}";
-            var seq = 0u;
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             for(var j=0; j<src.Count; j++)
             {
                 ref readonly var pattern = ref src[j];
                 ref readonly var def = ref pattern.InstDef;
-                writer.AppendLineFormat(LabelPattern, "Pattern", seq++);
-                writer.AppendLineFormat(LabelPattern, "Instruction", def.InstId);
-                writer.AppendLineFormat(LabelPattern, nameof(def.Class), def.Class);
-                writer.AppendLineFormat(LabelPattern, nameof(def.Form), def.Form);
-                writer.AppendLineFormat(LabelPattern, nameof(def.Category), def.Category);
+                writer.AppendLineFormat(LabelPattern, "Pattern", pattern.PatternId);
+                writer.AppendLineFormat(LabelPattern, "Instruction", pattern.InstId);
+                writer.AppendLineFormat(LabelPattern, nameof(pattern.Class), pattern.Class);
+                writer.AppendLineFormat(LabelPattern, nameof(pattern.Form), pattern.Form);
+                writer.AppendLineFormat(LabelPattern, nameof(pattern.Category), pattern.Category);
                 writer.AppendLineFormat(LabelPattern, nameof(def.Extension), def.Extension);
-                writer.AppendLineFormat(LabelPattern, nameof(def.FlagEffects), def.FlagEffects.IsNonEmpty ? def.FlagEffects.Delimit(fence:RenderFence.Embraced) : EmptyString);
+                writer.AppendLineFormat(LabelPattern, nameof(def.FlagEffects), XedRender.format(def.FlagEffects));
                 writer.AppendLineFormat(LabelPattern, nameof(pattern.RawBody), pattern.RawBody);
-                writer.AppendLineFormat(LabelPattern, nameof(pattern.Body), pattern.BodyExpr);
-                var opcode = XedPatterns.xedoc(pattern.PatternId, pattern.Body);
-                writer.AppendLineFormat("{0,-16} | {1,-20}", "OpCode", opcode);
+                writer.AppendLineFormat(LabelPattern, nameof(pattern.BodyExpr), pattern.BodyExpr);
+                writer.AppendLineFormat(LabelPattern, nameof(pattern.OpCode), pattern.OpCode);
                 writer.AppendLineFormat(LabelPattern, "Operands", RP.PageBreak80);
                 ref readonly var ops = ref pattern.OpSpecs;
                 for(byte k=0; k<ops.Count; k++)
@@ -46,7 +44,7 @@ namespace Z0
                 writer.AppendLine(RP.PageBreak100);
             }
 
-            EmittedFile(emitting,seq);
+            EmittedFile(emitting, src.Count);
         }
     }
 }

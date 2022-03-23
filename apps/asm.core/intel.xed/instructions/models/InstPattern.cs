@@ -89,7 +89,7 @@ namespace Z0
                 get => ref PatternSpec.PatternId;
             }
 
-            public ref readonly IClass InstClass
+            public ref readonly IClass Class
             {
                 [MethodImpl(Inline)]
                 get => ref InstDef.Class;
@@ -98,7 +98,7 @@ namespace Z0
             public ref readonly IForm Form
             {
                 [MethodImpl(Inline)]
-                get => ref InstDef.Form;
+                get => ref PatternSpec.Form;
             }
 
             public ref readonly Category Category

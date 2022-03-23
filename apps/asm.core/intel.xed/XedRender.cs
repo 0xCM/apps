@@ -142,6 +142,9 @@ namespace Z0
         public static string format(XedRegFlag src)
             => RegFlags.Format(src);
 
+        public static string format(Index<XedFlagEffect> src)
+            => src.IsNonEmpty ? src.Delimit(fence:RenderFence.Embraced).Format() : EmptyString;
+
         public static string format(in XedFlagEffect src)
             => string.Format("{0}-{1}", format(src.Flag), format(src.Effect));
 

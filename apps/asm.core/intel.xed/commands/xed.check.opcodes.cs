@@ -28,7 +28,7 @@ namespace Z0
                 var id = identify(pattern);
                 ref var dst = ref seek(buffer,i);
                 dst.PatternId = pattern.PatternId;
-                dst.Class = pattern.InstClass;
+                dst.Class = pattern.Class;
                 dst.Name = identify(pattern);
                 dst.OcKind = oc.Kind;
                 dst.OcValue = oc.Value;
@@ -85,9 +85,9 @@ namespace Z0
             var name = EmptyString;
             var locked = attribs.Locked;
             if(locked)
-                name = text.remove(format(src.InstClass), "_LOCK").ToLower();
+                name = text.remove(format(src.Class), "_LOCK").ToLower();
             else
-                name = format(src.InstClass).ToLower();
+                name = format(src.Class).ToLower();
 
             dst.Append(name);
 

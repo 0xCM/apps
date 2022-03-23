@@ -41,7 +41,7 @@ namespace Z0
             dst.InstId = src.InstId;
             dst.Mode = src.Mode;
             dst.OpCode = opcode;
-            dst.Class = src.InstClass;
+            dst.Class = src.Class;
             dst.Body = XedRender.format(body);
             return dst;
         }

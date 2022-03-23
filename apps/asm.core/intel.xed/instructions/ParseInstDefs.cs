@@ -9,14 +9,14 @@ namespace Z0
     using static XedModels;
     using static XedRules;
 
-    using P = XedRules.InstRulePart;
+    using P = XedRules.InstDefPart;
 
     partial class XedPatterns
     {
-        void Parse(uint pattern, IClass @class, string body, string ops, out InstPatternSpec dst)
+        void Parse(uint pattern, IClass @class, IForm form, string rawbody, string ops, out InstPatternSpec dst)
         {
             var buffer = text.buffer();
-            var parts = text.split(text.despace(body), Chars.Space);
+            var parts = text.split(text.despace(rawbody), Chars.Space);
             for(var i=0; i<parts.Length; i++)
             {
                 if(i != 0)
@@ -24,34 +24,67 @@ namespace Z0
                 buffer.Append(skip(parts,i));
             }
 
-            Parse(RuleMacros.expand(buffer.Emit()), out InstPatternBody pb).Require();
+            XedParsers.parse(RuleMacros.expand(buffer.Emit()), out InstPatternBody pb).Require();
             var parser = OpSpecParser.create(OpWidthsLookup, pb);
-            parser.Parse(pattern, ops, out var _ops);
-            dst = new InstPatternSpec(pattern, 0, @class, xedoc(pattern, pb), body, pb, _ops);
+            parser.Parse(pattern, ops, out Index<OpSpec> _ops);
+            dst = new InstPatternSpec(pattern, 0, @class, form, xedoc(pattern, pb), rawbody, pb, XedRender.format(pb), _ops);
         }
 
-        Outcome Parse(string src, out InstPatternBody dst)
+        static bool parse(string src, out InstDefPart part)
         {
-            var result = Outcome.Success;
-            var parts = text.trim(text.split(text.despace(src), Chars.Space));
-            var count = parts.Length;
-            dst = alloc<InstDefField>(count);
-            for(var i=0; i<count; i++)
+            var result = false;
+            part = default;
+            for(var i=0; i<DefPartNames.Count; i++)
             {
-                ref var target = ref dst[i];
-                ref readonly var part = ref skip(parts,i);
-                result = XedParsers.parse(part, out target);
-                if(result.Fail)
+                var p = (InstDefPart)i;
+                if(DefPartNames[p] == src)
+                {
+                    part = p;
+                    result = true;
                     break;
+                }
             }
             return result;
         }
 
+        static TextLine cleanse(TextLine src)
+        {
+            var dst = text.despace(src.Content);
+            var i = text.index(dst, Chars.Hash);
+            if(i==0)
+                return TextLine.Empty;
+
+            if(i > 0)
+                dst = text.left(dst,i);
+            return new TextLine(src.LineNumber, text.trim(dst));
+        }
+
+        static bool split(TextLine line, out string name, out string value)
+        {
+            var input = cleanse(line);
+            var i = text.index(input.Content, Chars.Colon);
+            if(i>0)
+            {
+                name = text.trim(text.left(input.Content, i));
+                value = text.trim(text.right(input.Content, i));
+            }
+            else
+            {
+                name = EmptyString;
+                value = EmptyString;
+            }
+            return i > 0;
+        }
+
         public Index<InstDef> ParseInstDefs(FS.FilePath src)
         {
+            const string LogPattern = "{0,-8} | {1,-8} | {2,-10} | {3}";
             var buffer = list<InstDef>();
-            using var reader = src.Utf8LineReader();
+            var reader = src.ReadNumberedLines().Reader();
             var seq = 0u;
+            var forms = dict<uint,IForm>();
+            var logdst = XedPaths.Targets() + FS.file("xed.inst.patterns.log", FS.Csv);
+            using var log = logdst.AsciWriter();
             while(reader.Next(out var line))
             {
                 if(line.IsEmpty || line.StartsWith(Chars.Hash) || line.EndsWith("::"))
@@ -70,22 +103,20 @@ namespace Z0
                         if(line.IsEmpty)
                             continue;
 
-                        line = cleanse(line);
-                        var i = text.index(line.Content, Chars.Colon);
-
-                        if(i > 0)
+                        if(split(line, out var name, out var value))
                         {
-                            var name = text.trim(text.left(line.Content, i));
-                            var value = text.trim(text.right(line.Content, i));
                             if(empty(value))
                                 continue;
 
-                            if(classify(PartNames, name, out var rulePart))
+                            if(parse(name, out InstDefPart part))
                             {
-                                switch(rulePart)
+                                log.AppendLine(string.Format(LogPattern, line.LineNumber, seq, part, value));
+
+                                switch(part)
                                 {
                                     case P.Form:
-                                        XedParsers.parse(value, out dst.Form);
+                                        if(XedParsers.parse(value, out IForm form))
+                                            forms.TryAdd(seq,form);
                                     break;
                                     case P.Attributes:
                                         dst.Attributes = XedPatterns.attributes(value);
@@ -97,7 +128,7 @@ namespace Z0
                                         XedParsers.parse(value, out dst.Extension);
                                     break;
                                     case P.Flags:
-                                        XedParsers.parse(value, out  dst.FlagEffects);
+                                        XedParsers.parse(value, out dst.FlagEffects);
                                     break;
                                     case P.Class:
                                     {
@@ -115,22 +146,30 @@ namespace Z0
                                             {
                                                 x = cleanse(x);
                                                 j = text.index(x.Content, Chars.BSlash);
+
                                                 if(j > 0)
-                                                    result = string.Format("{0} {1}", result, text.left(x.Content,j).Trim());
+                                                {
+                                                    var y = text.left(x.Content,j).Trim();
+                                                    log.AppendLine(string.Format(LogPattern, x.LineNumber, seq, part, y));
+                                                    result = string.Format("{0} {1}", result, y);
+                                                }
                                                 else
                                                 {
-                                                    value = string.Format("{0} {1}", result, x.Content.Trim());
+                                                    var y = x.Content.Trim();
+                                                    log.AppendLine(string.Format(LogPattern, x.LineNumber, seq, part, y));
+                                                    value = string.Format("{0} {1}", result, y);
                                                     break;
                                                 }
                                             }
                                         }
 
-                                        Parse(seq++, @class, body, value, out var spec);
+                                        Parse(seq, @class, IForm.Empty, body, value, out var spec);
                                         specs.Add(spec);
                                     }
                                     break;
                                     case P.Pattern:
                                         body = value;
+                                        seq++;
                                     break;
                                     case P.Isa:
                                         XedParsers.parse(value, out dst.Isa);
@@ -154,21 +193,15 @@ namespace Z0
                 def.InstId = i;
                 ref var patterns = ref def.PatternSpecs;
                 for(var j=0; j<patterns.Count; j++)
-                    patterns[j] = patterns[j].WithInstId(i);
+                {
+                    ref var pattern = ref patterns[j];
+                    pattern = pattern.WithInstId(i);
+                    if(forms.TryGetValue(pattern.PatternId, out var form))
+                        pattern = pattern.WithForm(form);
+                }
             }
 
             return defs;
-
-
-            static TextLine cleanse(TextLine src)
-            {
-                var dst = text.despace(src.Content);
-                var i = text.index(dst, Chars.Hash);
-                if(i > 0)
-                    dst = text.left(dst,i);
-                dst = text.trim(dst);
-                return new TextLine(src.LineNumber, dst);
-            }
         }
     }
 }

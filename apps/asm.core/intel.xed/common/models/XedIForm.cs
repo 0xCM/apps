@@ -55,6 +55,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator IFormType(IForm src)
                 => src.Value;
+
+            public static IForm Empty => default;
         }
     }
 }

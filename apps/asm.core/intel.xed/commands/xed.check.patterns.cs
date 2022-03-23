@@ -51,7 +51,7 @@ namespace Z0
                 var ipattern = patterns[i];
                 ref readonly var id = ref ipattern.PatternId;
                 ref readonly var instid = ref ipattern.InstId;
-                ref readonly var @class = ref ipattern.InstClass;
+                ref readonly var @class = ref ipattern.Class;
                 ref readonly var form = ref ipattern.Form;
                 ref readonly var ext = ref ipattern.Extension;
                 ref readonly var isa = ref ipattern.Isa;

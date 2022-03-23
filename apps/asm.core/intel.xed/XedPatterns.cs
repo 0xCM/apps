@@ -28,6 +28,6 @@ namespace Z0
             OpWidthsLookup = CalcOpWidthLookup(OpWidths);
         }
 
-        static Index<InstRulePart,string> PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET,COMMENT};
+        static Index<InstDefPart,string> DefPartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET,COMMENT};
     }
 }

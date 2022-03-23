@@ -10,7 +10,7 @@ namespace Z0
         /// <summary>
         /// Classfies aspects that define an instruction rule
         /// </summary>
-        public enum InstRulePart : byte
+        public enum InstDefPart : byte
         {
             Class,
 

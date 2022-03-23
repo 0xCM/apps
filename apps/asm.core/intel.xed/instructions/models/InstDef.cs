@@ -16,8 +16,6 @@ namespace Z0
 
             public IClass Class;
 
-            public IForm Form;
-
             public Category Category;
 
             public Extension Extension;

@@ -15,8 +15,6 @@ namespace Z0
 
     public partial class XedParsers
     {
-        public static XedParsers Service => Instance;
-
         static readonly EnumParser<OpWidthCode> OpWidthParser = new();
 
         static readonly EnumParser<OpAction> OpActions = new();
@@ -77,10 +75,24 @@ namespace Z0
 
         static XedParsers Instance = new();
 
-
         XedParsers()
         {
 
+        }
+
+        public static Outcome parse(string src, out InstPatternBody dst)
+        {
+            var result = Outcome.Success;
+            var parts = text.trim(text.split(text.despace(src), Chars.Space));
+            var count = parts.Length;
+            dst = alloc<InstDefField>(count);
+            for(var i=0; i<count; i++)
+            {
+                result = XedParsers.parse(skip(parts,i), out dst[i]);
+                if(result.Fail)
+                    break;
+            }
+            return result;
         }
 
         public static void parse(string src, out Index<XedFlagEffect> dst)
@@ -411,10 +423,22 @@ namespace Z0
         }
 
         public static bool parse(string src, out ConstraintKind dst)
-            => Instance.Parse(src, out dst);
+        {
+            dst = 0;
+            if(text.contains(src, "!="))
+                dst = ConstraintKind.Neq;
+            else if(text.contains(src, "="))
+                dst = ConstraintKind.Eq;
+            return dst != 0;
+        }
 
         public static bool parse(string src, out Hex8 dst)
-            => Instance.Parse(src, out dst);
+        {
+            if(IsHexLiteral(src))
+                return DataParser.parse(src, out dst);
+            dst = default;
+            return false;
+        }
 
         public static bool parse(string src, out BitfieldSeg dst)
         {
@@ -589,13 +613,13 @@ namespace Z0
         }
 
         public static Outcome parse(string src, out ModeKind dst)
-            => Instance.Parse(src, out dst);
+            => ModeKinds.Parse(src, out dst);
 
         public static bool parse(string src, out OpCodeKind dst)
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out OpModKind dst)
-            => Instance.Parse(src, out dst);
+            => OpModKinds.Parse(src, out dst);
 
         public static bool parse(string src, out OpName dst)
             => Instance.Parse(src, out dst);
@@ -621,20 +645,42 @@ namespace Z0
         }
 
         public static bool parse(string src, out IClass dst)
-            => Instance.Parse(src, out dst);
+            => Classes.Parse(src, out dst);
 
         public static bool parse(string src, out IForm dst)
         {
-            var result = Forms.Parse(src, out IFormType type);
-            dst = type;
-            return result;
+            if(empty(src))
+            {
+                dst = IForm.Empty;
+                return true;
+            }
+
+            if(Forms.Parse(src, out IFormType type))
+            {
+                dst = type;
+                return true;
+            }
+            else
+            {
+                dst = IForm.Empty;
+                return false;
+            }
         }
 
         public static bool parse(string src, out IsaKind dst)
-            => Instance.Parse(src, out dst);
+            => IsaKinds.Parse(src, out dst);
 
         public static bool parse(string src, out Extension dst)
-            => Instance.Parse(src, out dst);
+        {
+            dst = default;
+            var result = false;
+            if(parse(src, out ExtensionKind kind))
+            {
+                dst = kind;
+                result = true;
+            }
+            return result;
+        }
 
         public static bool parse(string src, out ElementType dst)
             => Instance.Parse(src, out dst);
@@ -643,7 +689,7 @@ namespace Z0
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out XedRegFlag dst)
-            => Instance.Parse(src, out dst);
+            => RegFlags.Parse(src, out dst);
 
         public static bool parse(string src, out byte dst)
             => Instance.Parse(src, out dst);
@@ -764,7 +810,7 @@ namespace Z0
         public bool Parse(string src, out EOSZ dst)
             => EoszKinds.Parse(src, out dst);
 
-        public bool Parse(string src, out ExtensionKind dst)
+        public static bool parse(string src, out ExtensionKind dst)
             => ExtensionKinds.Parse(src, out dst);
 
         public bool Parse(string src, out VexClass dst)
@@ -776,26 +822,11 @@ namespace Z0
         public bool Parse(string src, out PointerWidthKind dst)
             => PointerWidths.Parse(src, out dst);
 
-        public bool Parse(string src, out IsaKind dst)
-            => IsaKinds.Parse(src, out dst);
-
         public bool Parse(string src, out ErrorKind dst)
             => ErrorKinds.Parse(text.remove(text.trim(src), "XED_ERROR_"), out dst);
 
         public bool Parse(string src, out OpVisibility dst)
             => OpVisKinds.Parse(src, out dst);
-
-        public bool Parse(string src, out Extension dst)
-        {
-            dst = default;
-            var result = false;
-            if(Parse(src, out ExtensionKind kind))
-            {
-                dst = kind;
-                result = true;
-            }
-            return result;
-        }
 
         public bool Parse(string src, out ElementType dst)
         {
@@ -804,14 +835,8 @@ namespace Z0
             return result;
         }
 
-        public bool Parse(string src, out XedRegFlag dst)
-            => RegFlags.Parse(src, out dst);
-
         public bool Parse(string src, out GroupName dst)
             => GroupNames.Parse(src, out dst);
-
-        public bool Parse(string src, out OpModKind dst)
-            => OpModKinds.Parse(src, out dst);
 
         public bool Parse(string src, out FlagEffectKind dst)
             => FlagActionKinds.Parse(src, out dst);
@@ -825,37 +850,8 @@ namespace Z0
         public bool Parse(string src, out SMode dst)
             => SModes.Parse(src, out dst);
 
-        public bool Parse(string src, out IClass dst)
-            => Classes.Parse(src, out dst);
-
         public bool Parse(string src, out OpCodeKind dst)
             => OpCodeKinds.Parse(src, out dst);
-
-        public bool Parse(string src, out ModeKind dst)
-            => ModeKinds.Parse(src, out dst);
-
-        public bool Parse(string src, out ConstraintKind kind)
-        {
-            kind = 0;
-            if(text.contains(src, "!="))
-            {
-                kind = ConstraintKind.Neq;
-            }
-            else if(text.contains(src, "="))
-            {
-                kind = ConstraintKind.Eq;
-            }
-            return kind != 0;
-        }
-
-        [MethodImpl(Inline)]
-        public bool Parse(string src, out Hex8 dst)
-        {
-            if(IsHexLiteral(src))
-                return DataParser.parse(src, out dst);
-            dst = default;
-            return false;
-        }
 
         public static bool parse(string src, out FieldAssign dst)
         {

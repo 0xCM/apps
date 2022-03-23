@@ -20,6 +20,8 @@ namespace Z0
 
             public readonly IClass Class;
 
+            public readonly IForm Form;
+
             public readonly XedOpCode OpCode;
 
             public readonly TextBlock BodyExpr;
@@ -31,22 +33,27 @@ namespace Z0
             public readonly Index<OpSpec> Ops;
 
             [MethodImpl(Inline)]
-            public InstPatternSpec(uint id, uint instid, IClass @class, XedOpCode opcode, string rawbody, InstPatternBody body, OpSpec[] ops)
+            public InstPatternSpec(uint id, uint instid, IClass @class, IForm form, XedOpCode opcode, string rawbody, InstPatternBody body, string bodyexpr, OpSpec[] ops)
             {
                 PatternId = id;
                 InstId = instid;
                 Mode = mode(body);
                 Class = @class;
+                Form = form;
                 OpCode = opcode;
                 Body = body;
                 RawBody = rawbody;
-                BodyExpr = XedRender.format(body);
+                BodyExpr = bodyexpr;
                 Ops = ops;
             }
 
             [MethodImpl(Inline)]
             public InstPatternSpec WithInstId(uint src)
-                => new InstPatternSpec(PatternId, src, Class, OpCode, BodyExpr, Body, Ops);
+                => new InstPatternSpec(PatternId, src, Class, Form, OpCode, RawBody, Body, BodyExpr, Ops);
+
+            [MethodImpl(Inline)]
+            public InstPatternSpec WithForm(IForm src)
+                => new InstPatternSpec(PatternId, InstId, Class, src, OpCode, RawBody, Body, BodyExpr, Ops);
 
             public int CompareTo(InstPatternSpec src)
             {
