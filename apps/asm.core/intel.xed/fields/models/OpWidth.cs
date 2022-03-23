@@ -7,28 +7,22 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [Record(TableId)]
-        public struct OpWidth : IComparable<OpWidth>
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
+        public readonly struct OpWidth
         {
-            public const string TableId = "xed.widths.ops";
+            public readonly ModeKind Mode;
 
-            public const byte FieldCount = 8;
+            public readonly OpWidthCode Code;
 
-            public OpWidthCode Code;
+            public readonly ushort Bits;
 
-            public text15 Name;
-
-            public ElementType EType;
-
-            public ushort EWidth;
-
-            public ushort Width16;
-
-            public ushort Width32;
-
-            public ushort Width64;
-
-            public SegType Seg;
+            [MethodImpl(Inline)]
+            public OpWidth(ModeKind mode, OpWidthCode code, ushort bits)
+            {
+                Mode = mode;
+                Code = code;
+                Bits = bits;
+            }
 
             public bool IsEmpty
             {
@@ -43,17 +37,16 @@ namespace Z0
             }
 
             public string Format()
-                => string.Format("{0}:{1}w", XedRender.format(Code), Width64);
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();
 
-            public int CompareTo(OpWidth src)
-                => Name.CompareTo(src.Name);
+            [MethodImpl(Inline)]
+            public static explicit operator uint(OpWidth src)
+                => core.u32(src);
 
-            public static OpWidth Empty => default;
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,8,8,8,8,8,8};
+            public static OpWidth Empty => new OpWidth(ModeKind.None, OpWidthCode.INVALID, 0);
         }
     }
 }

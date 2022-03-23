@@ -92,8 +92,8 @@ namespace Z0
 
             ref readonly var width = ref src.OpWidth;
             dst.AppendFormat(OpSepSlot, XedRender.format(width.Code));
-            if(width.EType.IsNonEmpty && !width.EType.IsInt)
-                dst.AppendFormat(OpSepSlot, src.OpWidth.EType);
+            if(width.CellType.IsNonEmpty && !width.CellType.IsInt)
+                dst.AppendFormat(OpSepSlot, src.OpWidth.CellType);
             if(!opinfo.Visiblity.IsExplicit)
                 dst.AppendFormat(OpSepSlot, opinfo.Visiblity);
             if(opinfo.OpType != 0)

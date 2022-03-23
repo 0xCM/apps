@@ -13,7 +13,6 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-
         Index<PointerWidth> PointerWidths;
 
         Symbols<VisibilityKind> Visibilities;
@@ -34,22 +33,6 @@ namespace Z0
         AppDb AppDb => Service(Wf.AppDb);
 
         public XedRuleTables RuleTables => Service(Wf.XedRuleTables);
-
-        ConstLookup<string,OpWidth> LoadOpWidthsLookup()
-        {
-            return Data(nameof(LoadOpWidthsLookup), Load);
-
-            ConstLookup<string,OpWidth> Load()
-            {
-                var widths = LoadOperandWidths();
-                var dst = dict<string,OpWidth>();
-                var symbols = Symbols.index<OpWidthCode>();
-                var count = widths.Length;
-                for(var i=0; i<count; i++)
-                    dst[symbols[widths[i].Code].Expr.Format()] = widths[i];
-                return dst;
-            }
-        }
 
         static Symbols<OpWidthCode> OpWidthKinds;
 

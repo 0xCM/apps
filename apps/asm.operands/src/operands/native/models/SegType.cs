@@ -13,10 +13,8 @@ namespace Z0
         [MethodImpl(Inline)]
         public static SegType define(NativeClass @class, ushort total, ushort cell)
         {
-            if(cell == 0 || total == 0)
-                return Empty;
-            else
-                return new SegType(@class, total,cell);
+
+            return new SegType(@class, total, cell == 0 ? (ushort)1 : cell);
         }
 
         [MethodImpl(Inline)]

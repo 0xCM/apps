@@ -29,7 +29,7 @@ namespace Z0
 
             IClass Class;
 
-            Index<OpWidth> Widths;
+            Index<OpWidthInfo> Widths;
 
             Action<string> Printer;
 
@@ -50,7 +50,7 @@ namespace Z0
                 }
 
                 Xed = xed;
-                Widths = Xed.Rules.LoadOperandWidths();
+                Widths = Xed.Patterns.CalcOpWidths();
                 Printer = print;
             }
 
@@ -311,7 +311,7 @@ namespace Z0
                         Traverse(def, pattern, op, attrib.AsOpWidth());
                     break;
                     case C.Visibility:
-                        Traverse(def, pattern, op, attrib.AsVisiblity());
+                        Traverse(def, pattern, op, attrib.AsOpVis());
                     break;
                     case C.PtrWidth:
                         Traverse(def, pattern, op, attrib.AsPtrWidth());

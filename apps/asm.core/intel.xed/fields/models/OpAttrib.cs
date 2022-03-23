@@ -47,8 +47,8 @@ namespace Z0
                 => (OpAction)Data;
 
             [MethodImpl(Inline)]
-            public OpWidthCode AsOpWidth()
-                => (OpWidthCode)Data;
+            public OpWidth AsOpWidth()
+                => core.@as<uint,OpWidth>(Data);
 
             [MethodImpl(Inline)]
             public PointerWidthKind AsPtrWidth()
@@ -71,24 +71,16 @@ namespace Z0
                 => (ElementKind)Data;
 
             [MethodImpl(Inline)]
-            public OpVisibility AsVisiblity()
+            public OpVisibility AsOpVis()
                 => (OpVisibility)Data;
-
-            [MethodImpl(Inline)]
-            public RuleMacroKind AsMacro()
-                => (RuleMacroKind)Data;
-
-            [MethodImpl(Inline)]
-            public AttributeKind AsCommon()
-                => (AttributeKind)Data;
 
             [MethodImpl(Inline)]
             public static implicit operator OpAttrib(OpAction src)
                 => new OpAttrib(K.Action, (ushort)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator OpAttrib(OpWidthCode src)
-                => new OpAttrib(K.OpWidth, (ushort)src);
+            public static implicit operator OpAttrib(OpWidth src)
+                => new OpAttrib(K.OpWidth, (uint)src);
 
             [MethodImpl(Inline)]
             public static implicit operator OpAttrib(PointerWidthKind src)

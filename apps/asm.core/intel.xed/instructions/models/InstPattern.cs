@@ -16,13 +16,19 @@ namespace Z0
 
             public readonly InstPatternSpec PatternSpec;
 
-            public readonly Index<OpInfo> OpInfo;
+            public readonly Index<PatternOp> Operands;
 
-            public InstPattern(InstDef inst, InstPatternSpec spec, Index<OpInfo> details)
+            public InstPattern(InstDef inst, InstPatternSpec spec, Index<PatternOp> details)
             {
                 InstDef = inst;
                 PatternSpec = spec;
-                OpInfo = details;
+                Operands = details;
+            }
+
+            public ref readonly ModeKind Mode
+            {
+                [MethodImpl(Inline)]
+                get => ref PatternSpec.Mode;
             }
 
             public ref readonly XedOpCode OpCode
@@ -49,7 +55,7 @@ namespace Z0
                 get => ref PatternSpec.RawBody;
             }
 
-            public ref readonly Index<OpSpec> Ops
+            public ref readonly Index<OpSpec> OpSpecs
             {
                 [MethodImpl(Inline)]
                 get => ref PatternSpec.Ops;

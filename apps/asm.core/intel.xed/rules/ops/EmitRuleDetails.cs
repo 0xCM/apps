@@ -31,7 +31,7 @@ namespace Z0
                 var opcode = XedPatterns.xedoc(pattern.PatternId, pattern.Body);
                 writer.AppendLineFormat("{0,-16} | {1,-20}", "OpCode", opcode);
                 writer.AppendLineFormat(LabelPattern, "Operands", RP.PageBreak80);
-                ref readonly var ops = ref pattern.Ops;
+                ref readonly var ops = ref pattern.OpSpecs;
                 for(byte k=0; k<ops.Count; k++)
                 {
                     ref readonly var op = ref ops[k];

@@ -170,6 +170,9 @@ namespace Z0
                 return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.AsValue()));
         }
 
+        public static string format(OpWidth src)
+            => src.IsNonEmpty ? format(src.Code) : EmptyString;
+
         public static string format(OpAttrib src)
         {
             var dst = EmptyString;
@@ -202,7 +205,7 @@ namespace Z0
                 break;
 
                 case OC.Visibility:
-                    dst = format(src.AsVisiblity());
+                    dst = format(src.AsOpVis());
                 break;
 
                 case OC.RegLiteral:

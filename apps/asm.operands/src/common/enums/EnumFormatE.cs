@@ -32,7 +32,16 @@ namespace Z0
         }
 
         public string Format()
-            => F!=null ? F(Value) : EnumRender<E>.Service.Format(Value,Mode);
+        {
+            if(F != null)
+                return F(Value);
+
+            if(Mode.Test(EnumFormatMode.EmptyZero))
+                if(core.bw64(Value) == 0)
+                    return EmptyString;
+
+            return EnumRender<E>.Service.Format(Value,Mode);
+        }
 
         public override string ToString()
             => Format();

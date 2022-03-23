@@ -10,6 +10,8 @@ namespace Z0
 
     partial class XedRules
     {
+        XedPatterns Patterns => Service(Wf.XedPatterns);
+
         public void EmitCatalog()
         {
             var defs = CalcInstDefs();
@@ -26,13 +28,13 @@ namespace Z0
         }
 
         public Index<InstDef> CalcInstDefs()
-            => Data(nameof(InstDef), () => XedPatterns.instdefs(XedPaths.DocSource(XedDocKind.EncInstDef)));
+            => Data(nameof(InstDef), () => Patterns.ParseInstDefs(XedPaths.DocSource(XedDocKind.EncInstDef)));
 
         public Index<InstPattern> CalcInstPatterns()
             => CalcInstPatterns(CalcInstDefs());
 
         Index<InstPattern> CalcInstPatterns(Index<InstDef> defs)
-            => Data(nameof(InstPattern), () => XedPatterns.patterns(defs));
+            => Data(nameof(InstPattern), () => Patterns.CalcPatterns(defs));
 
         void EmitPatternData(Index<InstPattern> src)
             => exec(PllExec,
@@ -42,7 +44,6 @@ namespace Z0
                 () => EmitOpCodes(src),
                 () => EmitInstFieldDefs(src)
                 );
-
 
         public void EmitRuleTables()
             => RuleTables.EmitTables(true);

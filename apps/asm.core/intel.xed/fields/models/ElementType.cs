@@ -20,7 +20,7 @@ namespace Z0
             public string Name
             {
                 [MethodImpl(Inline)]
-                get => XedRender.format(Kind);
+                get => IsEmpty ? EmptyString : XedRender.format(Kind);
             }
 
             public bool IsEmpty

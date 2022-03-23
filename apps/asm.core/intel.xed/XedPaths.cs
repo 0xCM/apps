@@ -166,7 +166,7 @@ namespace Z0
                  XedDocKind.RuleSeq => FS.file("xed.rules.seq", FS.Txt),
                  XedDocKind.MacroDefs => FS.file("xed.rules.macros", FS.Csv),
                  XedDocKind.PatternDetail => FS.file("xed.inst.patterns.detail", FS.Txt),
-                 XedDocKind.PatternOps => Tables.filename<OpInfo>(),
+                 XedDocKind.PatternOps => Tables.filename<PatternOp>(),
                  XedDocKind.RuleSigs => FS.file("rules.tables.sigs", FileKind.Csv.Ext()),
                  _ => FS.FileName.Empty
             });

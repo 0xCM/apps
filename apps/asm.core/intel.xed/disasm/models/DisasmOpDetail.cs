@@ -14,7 +14,7 @@ namespace Z0
         {
             public DisasmOpInfo OpInfo;
 
-            public OpWidth OpWidth;
+            public OpWidthInfo OpWidth;
 
             public OpName OpName;
 

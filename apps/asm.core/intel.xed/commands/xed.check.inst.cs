@@ -51,35 +51,35 @@ namespace Z0
             return true;
         }
 
-        void CheckInstDefs()
-        {
-            var parsers = XedParsers.Service;
-            var dst = AppDb.Log("xed.inst.body", FileKind.Txt);
-            using var writer = dst.AsciWriter();
-            var emitting = EmittingFile(dst);
-            var result = Outcome.Success;
-            var opcodes = Xed.Rules.LoadPatternInfo();
-            var count = opcodes.Count;
-            var buffer = text.buffer();
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var opcode = ref opcodes[i];
-                ref readonly var source = ref opcode.Body;
-                writer.AppendLineFormat("Source -> {0}", source);
-                result = XedParsers.parse(source, out InstPatternBody body);
-                if(result.Fail)
-                    break;
+        // void CheckInstDefs()
+        // {
+        //     var parsers = XedParsers.Service;
+        //     var dst = AppDb.Log("xed.inst.body", FileKind.Txt);
+        //     using var writer = dst.AsciWriter();
+        //     var emitting = EmittingFile(dst);
+        //     var result = Outcome.Success;
+        //     var opcodes = Xed.Rules.LoadPatternInfo();
+        //     var count = opcodes.Count;
+        //     var buffer = text.buffer();
+        //     for(var i=0; i<count; i++)
+        //     {
+        //         ref readonly var opcode = ref opcodes[i];
+        //         ref readonly var source = ref opcode.Body;
+        //         writer.AppendLineFormat("Source -> {0}", source);
+        //         result = XedParsers.parse(source, out InstPatternBody body);
+        //         if(result.Fail)
+        //             break;
 
-                XedRender.render(body,buffer);
-                var target = buffer.Emit();
-                writer.AppendLineFormat("Target <- {0}", target);
-                writer.AppendLine();
+        //         XedRender.render(body,buffer);
+        //         var target = buffer.Emit();
+        //         writer.AppendLineFormat("Target <- {0}", target);
+        //         writer.AppendLine();
 
-                if(source != target)
-                    Warn("'{0}' != '{1}'", source, target);
-            }
+        //         if(source != target)
+        //             Warn("'{0}' != '{1}'", source, target);
+        //     }
 
-            EmittedFile(emitting, count);
-        }
+        //     EmittedFile(emitting, count);
+        // }
     }
 }

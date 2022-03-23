@@ -16,6 +16,8 @@ namespace Z0
 
             public readonly uint InstId;
 
+            public readonly ModeKind Mode;
+
             public readonly IClass Class;
 
             public readonly XedOpCode OpCode;
@@ -33,6 +35,7 @@ namespace Z0
             {
                 PatternId = id;
                 InstId = instid;
+                Mode = mode(body);
                 Class = @class;
                 OpCode = opcode;
                 Body = body;
@@ -42,16 +45,9 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstPatternSpec WithOps(OpSpec[] src)
-                => new InstPatternSpec(PatternId, InstId, Class, OpCode, BodyExpr, Body, src);
-
-            [MethodImpl(Inline)]
             public InstPatternSpec WithInstId(uint src)
                 => new InstPatternSpec(PatternId, src, Class, OpCode, BodyExpr, Body, Ops);
 
-            [MethodImpl(Inline)]
-            public InstPatternSpec WithClass(IClass src)
-                => new InstPatternSpec(PatternId, InstId, src, OpCode, BodyExpr, Body, Ops);
             public int CompareTo(InstPatternSpec src)
             {
                 var result = InstId.CompareTo(src.InstId);

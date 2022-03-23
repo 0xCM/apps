@@ -42,9 +42,9 @@ namespace Z0
                     kind |= OpAspectKind.Width;
                 }
 
-                if(width.EType.IsNonEmpty)
+                if(width.CellType.IsNonEmpty)
                 {
-                    spec[I.EType] = width.EType;
+                    spec[I.EType] = width.CellType;
                     kind |= OpAspectKind.EType;
                 }
 

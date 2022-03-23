@@ -17,6 +17,8 @@ namespace Z0.Asm
 
         public XedPaths XedPaths => Service(Wf.XedPaths);
 
+        public XedPatterns Patterns => Service(Wf.XedPatterns);
+
         AppDb AppDb => Service(Wf.AppDb);
 
         public XedRules Rules => Service(Wf.XedRules);

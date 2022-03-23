@@ -83,8 +83,6 @@ namespace Z0
 
         }
 
-
-
         public static void parse(string src, out Index<XedFlagEffect> dst)
         {
             var i = text.index(src,Chars.LBracket);
@@ -362,41 +360,6 @@ namespace Z0
                 dst = default;
                 return false;
             }
-        }
-
-        public static void parse(uint pattern, IClass @class, string body, string ops, out InstPatternSpec dst)
-        {
-            var buffer = text.buffer();
-            var parts = text.split(text.despace(body), Chars.Space);
-            for(var i=0; i<parts.Length; i++)
-            {
-                if(i != 0)
-                    buffer.Append(Chars.Space);
-                buffer.Append(skip(parts,i));
-            }
-            XedParsers.parse(RuleMacros.expand(buffer.Emit()), out InstPatternBody pb).Require();
-            OpSpecParser.parse(pattern,ops, out var _ops);
-            dst = new InstPatternSpec(pattern, 0, @class, xedoc(pattern,pb), body, pb, _ops);
-        }
-
-        public static Outcome parse(string src, out InstPatternBody dst)
-        {
-            var result = Outcome.Success;
-            var parts = text.trim(text.split(text.despace(src), Chars.Space));
-            var count = parts.Length;
-            dst = alloc<InstDefField>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref var target = ref dst[i];
-                ref readonly var part = ref skip(parts,i);
-                result = XedParsers.parse(part, out target);
-                if(result.Fail)
-                {
-                    break;
-                }
-            }
-
-            return result;
         }
 
         public static bool parse(string src, out RuleMacroKind dst)
@@ -689,7 +652,7 @@ namespace Z0
             => Instance.Parse(src, out dst);
 
         public static bool parse(string src, out OpWidthCode dst)
-            => Instance.Parse(src, out dst);
+            => OpWidthParser.Parse(src, out dst);
 
         public static bool parse(string src, out OpAction dst)
             => Instance.Parse(src, out dst);
@@ -806,9 +769,6 @@ namespace Z0
 
         public bool Parse(string src, out VexClass dst)
             => VexClasses.Parse(src, out dst);
-
-        public bool Parse(string src, out OpWidthCode dst)
-            => OpWidthParser.Parse(src, out dst);
 
         public bool Parse(string src, out OpAction dst)
             => OpActions.Parse(src, out dst);

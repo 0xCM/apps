@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedPatterns;
     using static XedRules.OpName;
     using static core;
 
@@ -14,14 +15,66 @@ namespace Z0
     {
         public readonly struct OpSpecParser
         {
-            public static OpSpecParser create()
-                => new();
+            [MethodImpl(Inline)]
+            public static OpSpecParser create(ConstLookup<OpWidthCode,OpWidthInfo> widths, InstPatternBody src)
+                => new(widths,src);
 
-            public OpSpecParser()
+            readonly InstPatternBody Body;
+
+            readonly ConstLookup<OpWidthCode,OpWidthInfo> OpWidths;
+
+            readonly ModeKind Mode;
+
+            public OpSpecParser(ConstLookup<OpWidthCode,OpWidthInfo> widths, InstPatternBody body)
             {
+                OpWidths = widths;
+                Body = body;
+                Mode = XedPatterns.mode(body);
             }
 
-            static Index<OpSpec> parse(uint pattern, string ops)
+            public PatternOp ParseOperand(in InstPatternSpec src, byte k)
+            {
+                ref readonly var ops = ref src.Ops;
+                ref readonly var op = ref ops[k];
+                var detail = PatternOp.Empty;
+                var spec = parse(src.PatternId, k, op.Name, op.Expression);
+                var attribs = spec.Attribs.Sort();
+                detail.InstId = src.InstId;
+                detail.PatternId = src.PatternId;
+                detail.OpIndex = op.Index;
+                detail.Name = spec.Name;
+                detail.Kind = spec.Kind;
+                detail.Expression = op.Expression;
+                detail.Mnemonic = src.Class;
+                detail.OpCode = src.OpCode;
+                var opwidth = OpWidth.Empty;
+                if(attribs.Search(OpClass.Action, out var action))
+                    detail.Action = action;
+                if(attribs.Search(OpClass.OpWidth, out var w))
+                {
+                    opwidth = w.AsOpWidth();
+                    detail.OpWidth = opwidth;
+                    detail.BitWidth = opwidth.Bits;
+                }
+                if(attribs.Search(OpClass.ElementType, out var et))
+                {
+                    detail.CellType = et.AsElementType();
+                    detail.CellWidth = bitwidth(opwidth.Code, et.AsElementType());
+                }
+                if(attribs.Search(OpClass.RegLiteral, out var reglit))
+                {
+                    detail.RegLit = reglit;
+                    detail.BitWidth = XedModels.bitwidth(reglit.AsRegLiteral());
+                }
+                if(attribs.Search(OpClass.Modifier, out var mod))
+                    detail.Modifier = mod;
+                if(attribs.Search(OpClass.Visibility, out var visib))
+                    detail.Visibility = visib;
+
+                return detail;
+            }
+
+            Index<OpSpec> parse(uint pattern, string ops)
             {
                 var buffer = list<OpSpec>();
                 var input = text.despace(ops);
@@ -43,16 +96,18 @@ namespace Z0
                 return buffer.ToArray();
             }
 
-            public static void parse(uint pattern, string src, out Index<OpSpec> dst)
-                => dst = parse(pattern,src);
+            public void Parse(uint pattern, string ops, out Index<OpSpec> dst)
+            {
+                dst = parse(pattern,ops);
+            }
 
-            public static OpSpec parse(uint pattern, byte index, OpName name, string src)
+            public OpSpec parse(uint pattern, byte index, OpName name, string src)
             {
                 var attribs = text.despace(src);
                 return parse(pattern, index, attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty));
             }
 
-            static OpSpec parse(uint pattern, byte index, string src)
+            OpSpec parse(uint pattern, byte index, string src)
             {
                 var input = text.despace(src);
                 var i = text.index(input, Chars.Colon, Chars.Eq);
@@ -78,7 +133,7 @@ namespace Z0
                 return XedParsers.parse(text.left(input, index), out  dst);
             }
 
-            static OpSpec parse(uint pattern, byte index, string expr, OpName name, string[] props)
+            OpSpec parse(uint pattern, byte index, string expr, OpName name, string[] props)
             {
                 var dst = new OpSpec();
                 dst.Expression = expr;
@@ -160,7 +215,7 @@ namespace Z0
                 return dst;
             }
 
-            static void ptr(uint pattern, byte index, K kind, string expr, OpName name, Index<string> props, out OpSpec dst)
+            void ptr(uint pattern, byte index, K kind, string expr, OpName name, Index<string> props, out OpSpec dst)
             {
                 var count = props.Count;
                 dst.PatternId = pattern;
@@ -179,13 +234,41 @@ namespace Z0
                 if(count >= 2)
                 {
                     if(XedParsers.parse(props[1], out OpWidthCode width))
-                        seek(buffer,i++) = width;
+                        seek(buffer,i++) = CalcOpWidth(width);
                 }
 
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            static void relbr(uint pattern, byte index, K kind, string expr, OpName name, Index<string> props, out OpSpec dst)
+            OpWidth CalcOpWidth(OpWidthCode code)
+            {
+                var dst = OpWidth.Empty;
+                if(code == 0)
+                    return dst;
+                else if(OpWidths.Find(code, out var info))
+                {
+                    switch(Mode)
+                    {
+                        case ModeKind.Mode16:
+                            dst = new OpWidth(Mode, code, info.Width16);
+                        break;
+                        case ModeKind.Not64:
+                        case ModeKind.Mode32:
+                            dst = new OpWidth(Mode, code, info.Width32);
+                        break;
+
+                        default:
+                            dst = new OpWidth(Mode, code, info.Width64);
+                        break;
+
+                    }
+                }
+                else
+                    Errors.Throw(code.ToString());
+                return dst;
+
+            }
+            void relbr(uint pattern, byte index, K kind, string expr, OpName name, Index<string> props, out OpSpec dst)
             {
                 var count = props.Count;
                 dst.PatternId = pattern;
@@ -203,13 +286,13 @@ namespace Z0
                 if(count >= 2)
                 {
                     if(XedParsers.parse(props[1], out OpWidthCode width))
-                        seek(buffer,i++) = width;
+                        seek(buffer,i++) = CalcOpWidth(width);
                 }
 
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            static void scale(uint pattern, byte index, K kind, string expr, OpName name, Index<string> props, out OpSpec dst)
+            void scale(uint pattern, byte index, K kind, string expr, OpName name, Index<string> props, out OpSpec dst)
             {
                 var count = props.Count;
                 dst.PatternId = pattern;
@@ -239,7 +322,7 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            static void imm(uint pattern, byte index, K kind, string expr, OpName name, Index<string> props, out OpSpec dst)
+            void imm(uint pattern, byte index, K kind, string expr, OpName name, Index<string> props, out OpSpec dst)
             {
                 var count = props.Count;
                 dst.PatternId = pattern;
@@ -259,7 +342,7 @@ namespace Z0
                 if(count >= 2)
                 {
                     if(XedParsers.parse(props[1], out OpWidthCode width))
-                        seek(buffer,i++) = width;
+                        seek(buffer,i++) = CalcOpWidth(width);
                 }
 
                 if(count >= 3)
@@ -271,7 +354,7 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            static void mem(uint pattern, byte index, K kind, string expr, OpName name, Index<string> props, out OpSpec dst)
+            void mem(uint pattern, byte index, K kind, string expr, OpName name, Index<string> props, out OpSpec dst)
             {
                 var count = props.Count;
                 dst.PatternId = pattern;
@@ -290,7 +373,7 @@ namespace Z0
                 if(count >= 2)
                 {
                     if(XedParsers.parse(props[1], out OpWidthCode width))
-                        seek(buffer,i++) = width;
+                        seek(buffer,i++) = CalcOpWidth(width);
                 }
 
                 if(count >= 3)
@@ -312,7 +395,7 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            static void reg(uint pattern,byte index, K kind, string expr, OpName name, Index<string> props, out OpSpec dst)
+            void reg(uint pattern,byte index, K kind, string expr, OpName name, Index<string> props, out OpSpec dst)
             {
                 var result = Outcome.Success;
                 var counter = 0;
@@ -343,7 +426,7 @@ namespace Z0
                 if(count >= 3)
                 {
                     if(XedParsers.parse(props[2], out OpWidthCode width))
-                        seek(buffer,i++) = width;
+                        seek(buffer,i++) = CalcOpWidth(width);
                     else
                     {
                         if(XedParsers.parse(props[2], out OpVisibility supp))
@@ -356,7 +439,7 @@ namespace Z0
                 if(count >= 4)
                 {
                     if(XedParsers.parse(props[3], out OpWidthCode width))
-                        seek(buffer,i++) = width;
+                        seek(buffer,i++) = CalcOpWidth(width);
                     else
                     {
                         var j = text.index(props[3], Chars.Eq);

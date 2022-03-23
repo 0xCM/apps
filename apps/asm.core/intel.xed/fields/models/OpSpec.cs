@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
     using static XedModels;
 
     partial class XedRules
@@ -96,12 +95,6 @@ namespace Z0
                 get => Kind == OpKind.Disp;
             }
 
-            public bool HasOpWidth
-            {
-                [MethodImpl(Inline)]
-                get => OpWidthKind != 0;
-            }
-
             public bool HasPtrWidth
             {
                 [MethodImpl(Inline)]
@@ -114,16 +107,10 @@ namespace Z0
                 get => ElementType.IsNonEmpty;
             }
 
-            public OpWidthCode OpWidthKind
+            public OpWidth OpWidth
             {
                 [MethodImpl(Inline)]
                 get => opwidth(this);
-            }
-
-            public ushort OpWidth
-            {
-                [MethodImpl(Inline)]
-                get => bitwidth(OpWidthKind);
             }
 
             public PointerWidthKind PtrWidthKind
@@ -144,11 +131,11 @@ namespace Z0
                 get => etype(this);
             }
 
-            public ushort ElementWidth
-            {
-                [MethodImpl(Inline)]
-                get => bitwidth(OpWidthKind, ElementType);
-            }
+            // public ushort ElementWidth
+            // {
+            //     [MethodImpl(Inline)]
+            //     get => bitwidth(OpWidth.Code, ElementType);
+            // }
 
             [MethodImpl(Inline)]
             public int CompareTo(OpSpec src)
@@ -164,12 +151,14 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            static OpWidthCode opwidth(in OpSpec op)
+            static OpWidth opwidth(in OpSpec op)
             {
-                var dst = OpWidthCode.INVALID;
+                //var dst = OpWidth.E;
                 if(op.Attribs.Search(OpClass.OpWidth, out var attrib))
-                    dst = attrib.AsOpWidth();
-                return dst;
+                    return attrib.AsOpWidth();
+                else
+
+                    return XedModels.OpWidth.Empty;
             }
 
             [MethodImpl(Inline)]

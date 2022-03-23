@@ -45,6 +45,7 @@ namespace Z0
 
             var dst = RP.Error;
             Syms.MapKind(src, out var e);
+
             switch((EnumFormatMode)((byte)mode & 0b111111))
             {
                 case M.Expr:

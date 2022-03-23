@@ -44,7 +44,7 @@ namespace Z0
 
         static Identifier identify(in OpSpec src)
         {
-            var bw = src.OpWidth;
+            var bw = src.OpWidth.Bits;
             var indicator = EmptyString;
             var dst = EmptyString;
             if(src.IsSegReg)
@@ -94,7 +94,7 @@ namespace Z0
             for(var i=0; i<src.OpCount; i++)
             {
                 dst.Append(Chars.Underscore);
-                ref readonly var op = ref src.Ops[i];
+                ref readonly var op = ref src.OpSpecs[i];
                 dst.Append(identify(op));
             }
 

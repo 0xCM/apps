@@ -15,11 +15,13 @@ namespace Z0
 
         XedRules Rules => Service(Wf.XedRules);
 
+        XedPatterns Patterns => Service(Wf.XedPatterns);
+
         XedPaths XedPaths => Service(Wf.XedPaths);
 
         WsProjects Projects => Service(Wf.WsProjects);
 
-        ConstLookup<OpWidthCode,OpWidth> OperandWidths;
+        ConstLookup<OpWidthCode,OpWidthInfo> OperandWidths;
 
         public XedDisasmSvc()
         {
@@ -29,12 +31,12 @@ namespace Z0
 
         protected override void OnInit()
         {
-            var dst = dict<OpWidthCode,OpWidth>();
-            iter(Rules.LoadOperandWidths(), w => dst.TryAdd(w.Code, w));
+            var dst = dict<OpWidthCode,OpWidthInfo>();
+            iter(Patterns.CalcOpWidths(), w => dst.TryAdd(w.Code, w));
             OperandWidths = dst;
         }
 
-        OpWidth OperandWidth(OpWidthCode type)
+        OpWidthInfo OperandWidth(OpWidthCode type)
             => OperandWidths[type];
     }
 }

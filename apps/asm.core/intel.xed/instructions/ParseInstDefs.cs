@@ -13,7 +13,41 @@ namespace Z0
 
     partial class XedPatterns
     {
-        public static Index<InstDef> instdefs(FS.FilePath src)
+        void Parse(uint pattern, IClass @class, string body, string ops, out InstPatternSpec dst)
+        {
+            var buffer = text.buffer();
+            var parts = text.split(text.despace(body), Chars.Space);
+            for(var i=0; i<parts.Length; i++)
+            {
+                if(i != 0)
+                    buffer.Append(Chars.Space);
+                buffer.Append(skip(parts,i));
+            }
+
+            Parse(RuleMacros.expand(buffer.Emit()), out InstPatternBody pb).Require();
+            var parser = OpSpecParser.create(OpWidthsLookup, pb);
+            parser.Parse(pattern, ops, out var _ops);
+            dst = new InstPatternSpec(pattern, 0, @class, xedoc(pattern, pb), body, pb, _ops);
+        }
+
+        Outcome Parse(string src, out InstPatternBody dst)
+        {
+            var result = Outcome.Success;
+            var parts = text.trim(text.split(text.despace(src), Chars.Space));
+            var count = parts.Length;
+            dst = alloc<InstDefField>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref var target = ref dst[i];
+                ref readonly var part = ref skip(parts,i);
+                result = XedParsers.parse(part, out target);
+                if(result.Fail)
+                    break;
+            }
+            return result;
+        }
+
+        public Index<InstDef> ParseInstDefs(FS.FilePath src)
         {
             var buffer = list<InstDef>();
             using var reader = src.Utf8LineReader();
@@ -91,7 +125,7 @@ namespace Z0
                                             }
                                         }
 
-                                        XedParsers.parse(seq++, @class, body, value, out var spec);
+                                        Parse(seq++, @class, body, value, out var spec);
                                         specs.Add(spec);
                                     }
                                     break;

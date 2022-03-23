@@ -11,7 +11,7 @@ namespace Z0
     partial class XedPatterns
     {
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableName)]
-        public struct OpInfo : IComparable<OpInfo>
+        public struct PatternOp : IComparable<PatternOp>
         {
             public const byte FieldCount = 16;
 
@@ -35,9 +35,11 @@ namespace Z0
 
             public OpAttrib Action;
 
-            public OpAttrib WidthCode;
+            public OpWidth OpWidth;
 
-            public OpAttrib CellType;
+            //public OpAttrib CellType;
+
+            public ElementType CellType;
 
             public EmptyZero<ushort> BitWidth;
 
@@ -49,7 +51,7 @@ namespace Z0
 
             public OpAttrib Visibility;
 
-            public int CompareTo(OpInfo src)
+            public int CompareTo(PatternOp src)
             {
                 var result = InstId.CompareTo(src.InstId);
                 if(result == 0)
@@ -63,7 +65,7 @@ namespace Z0
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,18,24,8,8,8,32,8,10,10,10,10,16,8,12};
 
-            public static OpInfo Empty => default;
+            public static PatternOp Empty => default;
         }
     }
 }
