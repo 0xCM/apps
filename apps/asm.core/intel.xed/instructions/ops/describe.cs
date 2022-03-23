@@ -39,9 +39,9 @@ namespace Z0
             var opcode = XedPatterns.xedoc(src.PatternId, body);
             dst.PatternId = src.PatternId;
             dst.InstId = src.InstId;
-            dst.OcIndex = ocindex(opcode.Kind);
+            dst.Mode = src.Mode;
+            dst.OpCode = opcode;
             dst.Class = src.InstClass;
-            dst.OpCode = opcode.Value;
             dst.Body = XedRender.format(body);
             return dst;
         }
@@ -53,9 +53,9 @@ namespace Z0
             var opcode = XedPatterns.xedoc(src.PatternId, body);
             dst.PatternId = src.PatternId;
             dst.InstId = src.InstId;
-            dst.OcIndex = ocindex(opcode.Kind);
+            dst.Mode = src.Mode;
+            dst.OpCode = opcode;
             dst.Class = src.Class;
-            dst.OpCode = opcode.Value;
             dst.Body = XedRender.format(body);
             return dst;
         }

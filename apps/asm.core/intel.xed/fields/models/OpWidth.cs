@@ -46,7 +46,7 @@ namespace Z0
             public static explicit operator uint(OpWidth src)
                 => core.u32(src);
 
-            public static OpWidth Empty => new OpWidth(ModeKind.None, OpWidthCode.INVALID, 0);
+            public static OpWidth Empty => new OpWidth(ModeKind.Default, OpWidthCode.INVALID, 0);
         }
     }
 }

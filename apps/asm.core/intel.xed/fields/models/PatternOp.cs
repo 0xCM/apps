@@ -37,8 +37,6 @@ namespace Z0
 
             public OpWidth OpWidth;
 
-            //public OpAttrib CellType;
-
             public ElementType CellType;
 
             public EmptyZero<ushort> BitWidth;
@@ -49,7 +47,7 @@ namespace Z0
 
             public OpAttrib Modifier;
 
-            public OpAttrib Visibility;
+            public Visibility Visibility;
 
             public int CompareTo(PatternOp src)
             {

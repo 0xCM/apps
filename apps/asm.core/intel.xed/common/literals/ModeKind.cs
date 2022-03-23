@@ -22,8 +22,8 @@ namespace Z0
             [Symbol("16/32", "MODE!=2")]
             Not64 = 3,
 
-            [Symbol("")]
-            None = 4,
+            [Symbol("32/64")]
+            Default = 4,
         }
     }
 }

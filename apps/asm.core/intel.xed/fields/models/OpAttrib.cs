@@ -71,7 +71,7 @@ namespace Z0
                 => (ElementKind)Data;
 
             [MethodImpl(Inline)]
-            public OpVisibility AsOpVis()
+            public Visibility AsVisibility()
                 => (OpVisibility)Data;
 
             [MethodImpl(Inline)]

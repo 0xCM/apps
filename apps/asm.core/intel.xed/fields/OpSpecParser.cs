@@ -36,42 +36,40 @@ namespace Z0
             {
                 ref readonly var ops = ref src.Ops;
                 ref readonly var op = ref ops[k];
-                var detail = PatternOp.Empty;
+                var dst = PatternOp.Empty;
                 var spec = parse(src.PatternId, k, op.Name, op.Expression);
                 var attribs = spec.Attribs.Sort();
-                detail.InstId = src.InstId;
-                detail.PatternId = src.PatternId;
-                detail.OpIndex = op.Index;
-                detail.Name = spec.Name;
-                detail.Kind = spec.Kind;
-                detail.Expression = op.Expression;
-                detail.Mnemonic = src.Class;
-                detail.OpCode = src.OpCode;
-                var opwidth = OpWidth.Empty;
+                dst.InstId = src.InstId;
+                dst.PatternId = src.PatternId;
+                dst.OpIndex = op.Index;
+                dst.Name = spec.Name;
+                dst.Kind = spec.Kind;
+                dst.Expression = op.Expression;
+                dst.Mnemonic = src.Class;
+                dst.OpCode = src.OpCode;
                 if(attribs.Search(OpClass.Action, out var action))
-                    detail.Action = action;
+                    dst.Action = action;
                 if(attribs.Search(OpClass.OpWidth, out var w))
                 {
-                    opwidth = w.AsOpWidth();
-                    detail.OpWidth = opwidth;
-                    detail.BitWidth = opwidth.Bits;
+                    dst.OpWidth = w.AsOpWidth();
+                    dst.BitWidth = dst.OpWidth.Bits;
                 }
                 if(attribs.Search(OpClass.ElementType, out var et))
                 {
-                    detail.CellType = et.AsElementType();
-                    detail.CellWidth = bitwidth(opwidth.Code, et.AsElementType());
+                    dst.CellType = et.AsElementType();
+                    dst.CellWidth = bitwidth(dst.OpWidth.Code, dst.CellType);
                 }
                 if(attribs.Search(OpClass.RegLiteral, out var reglit))
                 {
-                    detail.RegLit = reglit;
-                    detail.BitWidth = XedModels.bitwidth(reglit.AsRegLiteral());
+                    dst.RegLit = reglit;
+                    dst.BitWidth = bitwidth(reglit.AsRegLiteral());
                 }
                 if(attribs.Search(OpClass.Modifier, out var mod))
-                    detail.Modifier = mod;
+                    dst.Modifier = mod;
                 if(attribs.Search(OpClass.Visibility, out var visib))
-                    detail.Visibility = visib;
+                    dst.Visibility = visib.AsVisibility();
 
-                return detail;
+                return dst;
             }
 
             Index<OpSpec> parse(uint pattern, string ops)
@@ -114,23 +112,6 @@ namespace Z0
                 var attribs = text.right(src,i);
                 opname(src, out var name);
                 return parse(pattern, index, attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty));
-            }
-
-            static bool opname(string src, out OpName dst)
-            {
-                var input = text.despace(src);
-                var i = text.index(input, Chars.Colon);
-                var j = text.index(input, Chars.Eq);
-
-                var index = -1;
-                if(i > 0 && j > 0)
-                    index = i < j ? i : j;
-                else if(i>0 && j<0)
-                    index = i;
-                else if(j>0 && i<0)
-                    index = j;
-
-                return XedParsers.parse(text.left(input, index), out  dst);
             }
 
             OpSpec parse(uint pattern, byte index, string expr, OpName name, string[] props)
@@ -207,9 +188,7 @@ namespace Z0
                     break;
 
                     default:
-                    {
                         Errors.Throw(string.Format("Unhandled:{0}", name));
-                    }
                     break;
                  }
                 return dst;
@@ -260,7 +239,6 @@ namespace Z0
                         default:
                             dst = new OpWidth(Mode, code, info.Width64);
                         break;
-
                     }
                 }
                 else
@@ -459,6 +437,22 @@ namespace Z0
 
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
+
+            static bool opname(string src, out OpName dst)
+            {
+                var input = text.despace(src);
+                var i = text.index(input, Chars.Colon);
+                var j = text.index(input, Chars.Eq);
+                var index = -1;
+                if(i > 0 && j > 0)
+                    index = i < j ? i : j;
+                else if(i>0 && j<0)
+                    index = i;
+                else if(j>0 && i<0)
+                    index = j;
+
+                return XedParsers.parse(text.left(input, index), out  dst);
+            }
         }
-   }
+    }
 }

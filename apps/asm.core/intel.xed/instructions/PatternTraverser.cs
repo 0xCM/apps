@@ -295,7 +295,7 @@ namespace Z0
                 Traversed(def, pattern, op, attrib);
             }
 
-            void Traverse(in InstDef def, in InstPatternSpec pattern, in OpSpec op, OpVisibility attrib)
+            void Traverse(in InstDef def, in InstPatternSpec pattern, in OpSpec op, Visibility attrib)
             {
                 Traversed(def, pattern, op, attrib);
             }
@@ -311,7 +311,7 @@ namespace Z0
                         Traverse(def, pattern, op, attrib.AsOpWidth());
                     break;
                     case C.Visibility:
-                        Traverse(def, pattern, op, attrib.AsOpVis());
+                        Traverse(def, pattern, op, attrib.AsVisibility());
                     break;
                     case C.PtrWidth:
                         Traverse(def, pattern, op, attrib.AsPtrWidth());
@@ -436,7 +436,7 @@ namespace Z0
 
             }
 
-            protected virtual void Traversed(in InstDef def, in InstPatternSpec pattern, in OpSpec op, OpVisibility attrib)
+            protected virtual void Traversed(in InstDef def, in InstPatternSpec pattern, in OpSpec op, Visibility attrib)
             {
 
             }

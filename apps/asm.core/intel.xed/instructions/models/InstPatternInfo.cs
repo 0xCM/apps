@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedModels;
 
     partial class XedPatterns
@@ -22,17 +20,17 @@ namespace Z0
 
             public uint InstId;
 
-            public EnumFormat<OpCodeIndex> OcIndex;
+            public EnumFormat<ModeKind> Mode;
+
+            public XedOpCode OpCode;
 
             public IClass Class;
-
-            public AsmOcValue OpCode;
 
             public TextBlock Body;
 
             public int CompareTo(InstPatternInfo src)
             {
-                var result = ((byte)OcIndex).CompareTo((byte)src.OcIndex);
+                var result = OpCode.CompareTo(src.OpCode);
                 if(result == 0)
                 {
                     result = ((ushort)Class).CompareTo((ushort)(src.Class));
@@ -42,7 +40,7 @@ namespace Z0
                 return result;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,16,24,24,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,12,20,24,1};
 
             public static InstPatternInfo Empty => default;
         }

@@ -13,7 +13,7 @@ namespace Z0
     {
         public static ModeKind mode(in InstPatternBody src)
         {
-            var result = ModeKind.None;
+            var result = ModeKind.Default;
             for(var i=0; i<src.FieldCount; i++)
             {
                 ref readonly var f = ref src[i];

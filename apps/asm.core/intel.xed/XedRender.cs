@@ -205,7 +205,7 @@ namespace Z0
                 break;
 
                 case OC.Visibility:
-                    dst = format(src.AsOpVis());
+                    dst = src.AsVisibility().Format();
                 break;
 
                 case OC.RegLiteral:
