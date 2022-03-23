@@ -38,26 +38,30 @@ namespace Z0
             dst.IForm = inst.Form;
             dst.Mnemonic = inst.Class;
             dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
-
-            XedDisasm.parse(inst.Props.Edit, out DisasmState state);
+            result = parse(inst.Props.Edit, out DisasmState state);
             ref readonly var rules = ref state.RuleState;
-            dst.Offsets = XedRules.positions(rules);
+            dst.Offsets = XedFields.positions(rules);
             dst.OpCode = rules.NOMINAL_OPCODE;
             dst.Operands = alloc<DisasmOpDetail>(block.OperandCount);
 
             var ocpos = rules.POS_NOMINAL_OPCODE;
-            var ocsrm = math.and((byte)rules.SRM, rules.NOMINAL_OPCODE);
+            var opcode = rules.NOMINAL_OPCODE;
+            var ocsrm = math.and((byte)rules.SRM, opcode);
             Require.equal(rules.SRM, ocsrm);
 
-            if(rules.NOMINAL_OPCODE != code[ocpos])
-                return (false, string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", rules.NOMINAL_OPCODE, rules.MODRM_BYTE));
+            if(opcode != code[ocpos])
+            {
+                var msg = string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", rules.NOMINAL_OPCODE, rules.MODRM_BYTE);
+                result = (false, msg);
+                return result;
+            }
 
             var ops = CalcDisasmOps(rules, code);
             for(var k=0; k<block.OperandCount; k++)
             {
                 ref var operand = ref dst.Operands[k];
                 ref readonly var opsrc = ref skip(block.Operands, k);
-                result = XedDisasm.opinfo(opsrc.Content, out operand.OpInfo);
+                result = XedDisasm.parse(opsrc.Content, out operand.OpInfo);
                 if(result.Fail)
                     break;
 
@@ -108,35 +112,31 @@ namespace Z0
                 }
             }
 
-            var has_rex = rex(rules, out var _rex);
+            var has_rex = XedFields.rex(rules, out var _rex);
             if(has_rex)
                 dst.Rex = _rex;
 
-            var has_modrm = modrm(rules, out var _modrm);
-            if(has_modrm)
+            if(rules.HAS_MODRM)
             {
-                dst.ModRm = _modrm;
-                if(_modrm != rules.MODRM_BYTE)
+                var modrm = XedFields.modrm(rules);
+                dst.ModRm = XedFields.modrm(rules);
+                if(modrm != code[rules.POS_MODRM])
                 {
-                    result = (false, string.Format("Derived RM value {0} differs from parsed value {1}", _modrm, rules.MODRM_BYTE));
-                    return result;
-                }
-
-                if(_modrm != code[rules.POS_MODRM])
-                {
-                    result = (false, string.Format("Derived RM value {0} differs from encoded value {1}", _modrm, code[rules.POS_MODRM]));
+                    var msg = string.Format("Derived ModRM value {0} differs from encoded value {1}", modrm, code[rules.POS_MODRM]);
+                    result = (false, msg);
                     return result;
                 }
             }
 
-            var has_sib = sib(rules, out var _sib);
-            if(has_sib)
+            if(rules.HAS_SIB)
             {
-                dst.Sib = _sib;
+                var sib = XedFields.sib(rules);
+                dst.Sib = sib;
                 var sibenc = Sib.init(code[rules.POS_SIB]);
-                if(sibenc.Value() != _sib)
+                if(sibenc.Value() != sib)
                 {
-                    result = (false, string.Format("Derived Sib value {0} differs from encoded value {1}", _sib, sibenc));
+                    var msg = string.Format("Derived Sib value {0} differs from encoded value {1}", sib, sibenc);
+                    result = (false, msg);
                     return result;
                 }
             }

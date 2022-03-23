@@ -5,7 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    using static XedModels;
+
+    partial class XedDisasm
     {
         [StructLayout(LayoutKind.Sequential, Pack = 1), Record(TableId)]
         public struct DisasmInstruction

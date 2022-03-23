@@ -6,10 +6,11 @@ namespace Z0
 {
     using static core;
     using static XedRules;
+    using static XedModels;
 
     using I = XedModels.OpAspectIndex;
 
-    partial struct XedModels
+    partial class XedDisasm
     {
         public struct DisasmOpSpec
         {

@@ -9,6 +9,7 @@ namespace Z0
 
     using static core;
     using static llvm.SubtargetKind;
+    using static XedDisasm;
 
     public class WsProjects : AppService<WsProjects>
     {

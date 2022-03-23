@@ -5,7 +5,7 @@
 namespace Z0.Asm
 {
     using static XedRules;
-
+    using static XedDisasm;
 
     public class WsDataCollection
     {

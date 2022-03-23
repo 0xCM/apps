@@ -30,7 +30,7 @@ namespace Z0
             {
                 ref readonly var prop = ref data[i];
                 if(XedParsers.parse(prop.Key, out FieldKind kind))
-                    seek(dst,i) = XedDisasm.update(prop.Value, kind, ref state);
+                    seek(dst,i) = XedFields.update(prop.Value, kind, ref state);
                 else
                     Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), prop.Key));
             }

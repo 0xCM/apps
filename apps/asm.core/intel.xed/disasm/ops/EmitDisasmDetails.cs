@@ -55,9 +55,7 @@ namespace Z0
 
                 for(var i=0; i<count; i++)
                 {
-                    ref readonly var op = ref ops[i];
-                    var spec = DisasmOpSpec.from(op);
-                    render(op, buffer);
+                    render(ops[i], buffer);
                     writer.AppendLine(buffer.Emit());
 
                 }
@@ -71,7 +69,6 @@ namespace Z0
             const string OpSepSlot = "/{0}";
 
             dst.AppendFormat("{0,-6} {1,-4}", src.Index, XedRender.format(src.OpName));
-
             var kind = opkind(src.OpName);
             ref readonly var opinfo = ref src.OpInfo;
             switch(kind)
@@ -113,8 +110,8 @@ namespace Z0
             var filename = FS.file(string.Format("{0}.props",src.Source.Path.FileName.WithoutExtension.Format()), FS.Txt);
             var dst = Projects.XedDisasmDir(context.Project) + filename;
             var emitting = EmittingFile(dst);
-            XedDisasm.summarize(context, src.Source, out var summaries);
-            Require.equal(summaries.RowCount, src.Count);
+            XedDisasm.summarize(context, src.Source, out DisasmSummaryDoc doc);
+            Require.equal(doc.RowCount, src.Count);
             var counter = 0u;
             var state = RuleState.Empty;
             using var writer = dst.AsciWriter();
@@ -132,7 +129,7 @@ namespace Z0
                 }
 
                 state = RuleState.Empty;
-                ref readonly var summary = ref summaries[i];
+                ref readonly var summary = ref doc[i];
                 var fields = XedDisasm.fields(src[i]);
                 var lookup = update(fields, ref state);
 
@@ -172,7 +169,7 @@ namespace Z0
                 if(lookup.TryGetValue(K.SRM, out _))
                     Emit(K.SRM);
 
-                var positions = XedRules.positions(state);
+                var positions = XedFields.positions(state);
                 writer.AppendLineFormat(FieldPattern, "ENCODING_OFFSETS", positions);
                 formatted.Add(K.POS_NOMINAL_OPCODE);
                 formatted.Add(K.POS_MODRM);
@@ -207,7 +204,6 @@ namespace Z0
                     if(lookup.TryGetValue(K.VEX_PREFIX, out _))
                         Emit(K.VEX_PREFIX);
                 }
-
 
                 if(lookup.TryGetValue(K.VEXDEST4, out _))
                     Emit(K.VEXDEST4);

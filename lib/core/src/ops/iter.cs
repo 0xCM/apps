@@ -2,12 +2,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.Linq;
-    using System.Collections.Generic;
-
-    using static Root;
 
     partial struct core
     {
@@ -26,32 +21,35 @@ namespace Z0
                     action(item);
         }
 
+        public static void iter<S,T>(ReadOnlySpan<S> src, Func<S,T> f, ConcurrentBag<T> dst, bool pll = true)
+            => iter(src, item => dst.Add(f(item)), pll);
+
+        public static void iter<S,T>(ReadOnlySpan<S> src, Func<S,T> f, List<T> dst, bool pll = false)
+            => iter(src, item => dst.Add(f(item)), pll);
+
         /// <summary>
         /// Iterates over the supplied items, invoking a receiver for each
         /// </summary>
         /// <param name="src">The source items</param>
         /// <param name="f">The receiver</param>
         /// <typeparam name="T">The item type</typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [Op, Closures(Closure)]
         public static void iter<T>(T[] src, Action<T> action)
             => iter(@readonly(src),  action);
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [Op, Closures(Closure)]
         public static void iter<T>(ReadOnlySpan<T> src, Action<T> action, bool pll = false)
         {
             if(pll)
-            {
                 src.ToArray().AsParallel().ForAll(item => action(item));
-            }
             else
             {
-                var count = src.Length;
-                for(var i=0u; i<count; i++)
+                for(var i=0u; i<src.Length; i++)
                     action(skip(src,i));
             }
         }
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [Op, Closures(Closure)]
         public static void iter<T>(Span<T> src, Action<T> action)
             => iter(src.ReadOnly(), action);
 

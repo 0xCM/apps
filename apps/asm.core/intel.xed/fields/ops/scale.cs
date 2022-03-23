@@ -16,5 +16,20 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static void scale(ScaleFactor src, ref RuleState dst)
             => dst.SCALE = (byte)src;
+
+        [MethodImpl(Inline), Op]
+        public static bool scale(in RuleState src, out ScaleFactor dst)
+        {
+            if(src.SCALE != 0)
+            {
+                dst = (ScaleFactor)src.SCALE;
+                return true;
+            }
+            else
+            {
+                dst = default;
+                return false;
+            }
+        }
     }
 }

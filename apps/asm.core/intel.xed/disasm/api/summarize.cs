@@ -11,21 +11,21 @@ namespace Z0
 
     public partial class XedDisasm
     {
-        public static Outcome summarize(WsContext context, in FileRef src, out AsmDisasmSummaryDoc dst)
+        public static Outcome summarize(WsContext context, in FileRef src, out DisasmSummaryDoc dst)
         {
-            var buffer = list<AsmDisasmSummary>();
-            var result = summarize(context, src,buffer);
+            var buffer = bag<DisasmSummaryBlock>();
+            var result = summarize(context, src, buffer);
             if(result)
-                dst = (src.Path,buffer.ToArray());
+                dst = DisasmSummaryDoc.from(src,context.Root(src), buffer.ToArray().Sort());
             else
-                dst = (src.Path,sys.empty<AsmDisasmSummary>());
+                dst = DisasmSummaryDoc.Empty;
             return result;
         }
 
-        public static Outcome summarize(WsContext context, in FileRef src, List<AsmDisasmSummary> dst)
-            => summarize(src, context.Root(src), XedDisasm.blocks(src).Lines,dst);
+        public static Outcome summarize(WsContext context, in FileRef src, ConcurrentBag<DisasmSummaryBlock> dst)
+            => summarize(src, context.Root(src), XedDisasm.blocks(src).Lines, dst);
 
-        static ReadOnlySpan<TextLine> SummaryLines(ReadOnlySpan<DisasmLineBlock> src)
+        static Index<TextLine> SummaryLines(ReadOnlySpan<DisasmLineBlock> src)
         {
             var dst = list<TextLine>();
             for(var i=0; i<src.Length; i++)
@@ -38,57 +38,53 @@ namespace Z0
                         dst.Add(lines[j]);
                 }
             }
-            return dst.ViewDeposited();
-        }
-
-        public static Index<AsmDisasmSummary> summarize(WsContext context, DisasmFileBlocks blocks)
-        {
-            var dst = list<AsmDisasmSummary>();
-            summarize(blocks.Source, context.Root(blocks.Source), blocks.Lines, dst).Require();
             return dst.ToArray();
         }
 
-        public static Index<AsmDisasmSummary> summarize(WsContext context, in FileRef src)
+        [MethodImpl(Inline)]
+        public static ref uint inc(ref uint dst)
         {
-            var dst = list<AsmDisasmSummary>();
-            summarize(src, context.Root(src), XedDisasm.blocks(src).Lines, dst).Require();
-            return dst.ToArray();
+            core.inc(ref core.@as<int>(dst));
+            return ref dst;
         }
 
-        public static Outcome summarize(in FileRef src, in FileRef origin, Index<DisasmLineBlock> blocks, List<AsmDisasmSummary> dst)
+        public static Index<DisasmSummaryBlock> summarize(WsContext context, DisasmFileBlocks src)
         {
-            var summaries = SummaryLines(blocks);
+            var dst = bag<DisasmSummaryBlock>();
+            summarize(src.Source, context.Root(src.Source), src.Lines, dst).Require();
+            return dst.ToArray().Sort();
+        }
+
+        public static Outcome summarize(in FileRef src, in FileRef origin, Index<DisasmLineBlock> blocks, ConcurrentBag<DisasmSummaryBlock> dst)
+        {
+            var lines = SummaryLines(blocks);
             var expr = expressions(blocks);
-            var counter = 0u;
+            var seq = 0u;
             var result = Outcome.Success;
-            var count = Require.equal(expr.Length,summaries.Length);
+            var count = Require.equal(expr.Length,lines.Length);
 
             for(var i=0; i<count; i++)
             {
-                ref readonly var line = ref skip(summaries,i);
-                ref readonly var content = ref line.Content;
-                ref readonly var expression = ref skip(expr,i);
-
-                var record = new AsmDisasmSummary();
-                result = ParseHexCode(line, out record.Encoded);
+                ref readonly var line = ref lines[i];
+                var summary = new AsmDisasmSummary();
+                result = ParseHexCode(line, out summary.Encoded);
                 if(result.Fail)
                     return result;
 
-                record.DocSeq = counter++;
-
-                record.OriginId = origin.DocId;
-                record.OriginName = origin.DocName;
-                result = ParseIP(content, out record.IP);
+                summary.DocSeq = seq++;
+                summary.OriginId = origin.DocId;
+                summary.OriginName = origin.DocName;
+                result = ParseIP(line.Content, out summary.IP);
                 if(result.Fail)
                     break;
 
-                record.InstructionId = AsmBytes.instid(record.OriginId, record.IP, record.Encoded.Bytes);
-                record.EncodingId = record.InstructionId.EncodingId;
-                record.Asm = expression;
-                record.Source = src.Path;
-                record.Source = record.Source.LineRef(line.LineNumber);
-                record.Size = record.Encoded.Size;
-                dst.Add(record);
+                summary.InstructionId = AsmBytes.instid(summary.OriginId, summary.IP, summary.Encoded.Bytes);
+                summary.EncodingId = summary.InstructionId.EncodingId;
+                summary.Asm = expr[i];
+                summary.Source = src.Path;
+                summary.Source = summary.Source.LineRef(line.LineNumber);
+                summary.Size = summary.Encoded.Size;
+                dst.Add(new (blocks[i],summary));
             }
 
             return result;

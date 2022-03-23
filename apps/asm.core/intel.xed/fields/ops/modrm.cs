@@ -13,6 +13,6 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static ModRm modrm(in RuleState src)
-            => new (src.MODRM_BYTE);
+            => src.HAS_MODRM ? new (src.MODRM_BYTE) : ModRm.Empty;
     }
 }

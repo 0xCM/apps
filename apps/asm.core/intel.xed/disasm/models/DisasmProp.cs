@@ -8,7 +8,7 @@ namespace Z0
 
     using R = XedRules;
 
-    partial struct XedModels
+    partial class XedDisasm
     {
         public readonly struct DisasmProp : IEquatable<DisasmProp>, IComparable<DisasmProp>
         {

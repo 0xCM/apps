@@ -7,6 +7,7 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
+    using static XedDisasm;
 
     partial class XedDisasmSvc
     {
@@ -34,14 +35,22 @@ namespace Z0
                 return result;
             }
 
-            for(var i=0u; i<count; i++)
-            {
+            core.iteri((int)count, i => {
                 result = CalcDisasmDetail(blocks[i], summaries[i], out DisasmDetail detail);
-                if(result.Fail)
-                    break;
-                else
+                if(result)
                     dst.Add(detail);
-            }
+                else
+                    Errors.Throw(result.Message);
+            },true);
+
+            // for(var i=0u; i<count; i++)
+            // {
+            //     result = CalcDisasmDetail(blocks[i], summaries[i], out DisasmDetail detail);
+            //     if(result.Fail)
+            //         break;
+            //     else
+            //         dst.Add(detail);
+            // }
 
             return result;
         }

@@ -6,8 +6,9 @@
 namespace Z0
 {
     using static core;
+    using static XedRules;
 
-    partial class XedRules
+    partial class XedFields
     {
         [Op]
         public static EncodingOffsets positions(in RuleState state)

@@ -19,23 +19,7 @@ namespace Z0
         [CmdOp("xed/check/disasm")]
         Outcome CheckDisasm(CmdArgs args)
         {
-            const string RenderPattern = "{0,-10} | {1,-20} | {2,-16} | {3}";
-            var dst = XedPaths.Targets() + FS.file("xed.opcodes", FS.Csv);
-            using var writer = dst.AsciWriter();
-            var emitting = EmittingFile(dst);
-            var patterns = Xed.Rules.CalcInstPatterns();
-            var opcodes = Xed.Rules.CalcOpCodes(patterns);
-            var lookup = patterns.Map(x => (x.PatternId, x)).ToDictionary();
-            var count = opcodes.Count;
-            writer.AppendLineFormat(RenderPattern, "PatternId", "OpCode", "Class", "Pattern");
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var opcode = ref opcodes[i];
-                var pattern = lookup[opcode.PatternId];
-                writer.AppendLineFormat(RenderPattern, opcode.PatternId, opcode.Format(), pattern.InstClass, pattern.BodyExpr);
-            }
-
-            EmittedFile(emitting,count);
+            CheckDisasm();
             return true;
         }
 
@@ -52,9 +36,8 @@ namespace Z0
         void CheckDisasm(WsContext context, in FileRef src)
         {
             const string RenderPattern = "{0,-24} | {1}";
-            var blocks = XedDisasm.blocks(src);
-            var summaries = XedDisasm.summarize(context, blocks);
-            var count = Require.equal(blocks.Count,summaries.Count);
+            var summaries = XedDisasm.summarize(context, XedDisasm.blocks(src));
+            var count = summaries.Count;
             var dstpath = CheckPath(context,src);
             using var writer = dstpath.AsciWriter();
             var emitting = EmittingFile(dstpath);
@@ -62,11 +45,13 @@ namespace Z0
             for(var j=0; j<count; j++)
             {
                 var state = RuleState.Empty;
-                ref readonly var block = ref blocks[j];
-                ref readonly var summary = ref summaries[j];
+                ref readonly var sb = ref summaries[j];
+                ref readonly var block = ref sb.Block;
+
+                ref readonly var summary = ref sb.Summary;
                 writer.AppendLineFormat("{0,-24} | {1,-5} {2}", summary.Encoded, summary.IP, summary.Asm);
                 writer.WriteLine(RP.PageBreak80);
-                var values = XedDisasm.update(block, ref state);
+                var fields = XedDisasm.update(block, ref state);
 
                 writer.WriteLine(RenderPattern, nameof(state.EASZ), XedRender.format(XedFields.easz(state)));
                 writer.WriteLine(RenderPattern, nameof(state.EOSZ), XedRender.format(XedFields.eosz(state)));
@@ -86,10 +71,7 @@ namespace Z0
 
                 var regs = XedFields.regs(state);
                 for(var k=z8; k<regs.Count; k++)
-                {
-                    var r = XedRegMap.map(regs[k]);
-                    writer.WriteLine(RenderPattern, string.Format("REG{0}",k), r);
-                }
+                    writer.WriteLine(RenderPattern, string.Format("REG{0}",k), XedRegMap.map(regs[k]));
 
                 var vc = XedFields.vexclass(state);
                 if(vc != 0)
@@ -108,9 +90,9 @@ namespace Z0
                     writer.WriteLine(RenderPattern, nameof(state.BCAST), XedRender.format(XedFields.bcast(state)));
 
                 writer.WriteLine(RP.PageBreak40);
-                for(var k=0; k<values.Count; k++, counter++)
+                for(var k=0; k<fields.Count; k++, counter++)
                 {
-                    ref readonly var value = ref values[k];
+                    ref readonly var value = ref fields[k];
                     ref readonly var fk = ref value.Field;
                     if(fk == FieldKind.MAX_BYTES || fk == FieldKind.LZCNT || fk == FieldKind.TZCNT || fk == FieldKind.USING_DEFAULT_SEGMENT0 || fk == FieldKind.SMODE)
                         continue;

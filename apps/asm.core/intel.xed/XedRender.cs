@@ -10,6 +10,7 @@ namespace Z0
     using static XedRules;
     using static XedPatterns;
     using static XedFields;
+    using static XedDisasm;
     using static core;
 
     using PW = XedModels.PointerWidthKind;

@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    partial class XedDisasm
     {
         public struct DisasmOpDetails : IIndex<DisasmOpDetail>
         {

@@ -8,7 +8,6 @@ namespace Z0
 
     using static core;
     using static XedModels;
-    using static XedRules;
 
     public partial class XedDisasm
     {
@@ -31,8 +30,7 @@ namespace Z0
             return result;
         }
 
-
-        static ReadOnlySpan<AsmExpr> expressions(ReadOnlySpan<DisasmLineBlock> src)
+        static Index<AsmExpr> expressions(ReadOnlySpan<DisasmLineBlock> src)
         {
             var dst = list<AsmExpr>();
             foreach(var block in src)
@@ -44,7 +42,7 @@ namespace Z0
                         dst.Add(text.trim(text.right(line.Content, i + YDIS.Length)));
                 }
             }
-            return dst.ViewDeposited();
+            return dst.ToArray();
         }
 
         static Outcome ParseHexCode(TextLine src, out AsmHexCode dst)
@@ -74,7 +72,5 @@ namespace Z0
 
             return result;
         }
-
-        static XedParsers Parsers = XedParsers.Service;
     }
 }

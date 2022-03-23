@@ -7,7 +7,7 @@ namespace Z0
 {
     using static core;
     using static XedRules;
-
+    using static XedDisasm;
     partial class XedDisasmSvc
     {
         public Index<DisasmDetail> CollectDisasmDetails(WsContext context)
@@ -19,7 +19,7 @@ namespace Z0
             var buffer = list<DisasmDetail>();
             var bag = core.bag<DisasmDetail>();
             var xedsvc = this;
-            iter(files, file => CalcDisasmDetails(context, file, bag).Require(), true);
+            iter(files, file => CalcDisasmDetails(context, file, bag).Require(), PllExec);
             var details = bag.ToArray().Sort();
             for(var i=0u; i<details.Length; i++)
                 seek(details,i).Seq = i;

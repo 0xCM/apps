@@ -14,5 +14,26 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static RexPrefix rex(in RuleState src)
             => new RexPrefix(src.REXB, src.REXX, src.REXR, src.REXW);
+
+
+        [MethodImpl(Inline), Op]
+        public static bool rex(in RuleState src, out RexPrefix dst)
+        {
+            if(src.REX)
+            {
+                dst = RexPrefix.init();
+                dst.W = src.REXW;
+                dst.R = src.REXR;
+                dst.X = src.REXX;
+                dst.B= src.REXB;
+                return true;
+            }
+            else
+            {
+                dst = RexPrefix.Empty;
+                return false;
+            }
+        }
+
     }
 }

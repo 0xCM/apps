@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
-    using static Root;
-
     partial struct core
     {
         public static Index<T> mapi<S,T>(ReadOnlySpan<S> rows, Func<int,S,T> f)

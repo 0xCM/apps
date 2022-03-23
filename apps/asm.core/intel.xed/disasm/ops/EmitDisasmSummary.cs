@@ -4,14 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static XedDisasm;
 
     partial class XedDisasmSvc
     {
-        void EmitDisasmSummary(AsmDisasmSummaryDocs docs, FS.FilePath dst)
-        {
-            var summaries = CalcDisasmSummary(docs);
-            TableEmit(summaries.View, AsmDisasmSummary.RenderWidths, dst);
-        }
+        void EmitDisasmSummary(DisasmSummaryDocs docs, FS.FilePath dst)
+            => TableEmit(CalcDisasmSummary(docs).View, AsmDisasmSummary.RenderWidths, dst);
     }
 }

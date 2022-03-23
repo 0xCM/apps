@@ -6,7 +6,7 @@ namespace Z0
 {
     using static XedRules;
 
-    partial struct XedModels
+    partial class XedDisasm
     {
         public readonly struct DisasmOp
         {

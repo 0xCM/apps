@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-
     partial class XTend
     {
         public static Index<T> Partition<T>(this Interval<T> src, T width, int? precision = null)

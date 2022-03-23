@@ -7,9 +7,10 @@ namespace Z0
 {
     using static core;
 
+    using static XedDisasm;
     partial class XedDisasmSvc
     {
-        Index<AsmDisasmSummary> CalcDisasmSummary(AsmDisasmSummaryDocs docs)
+        Index<AsmDisasmSummary> CalcDisasmSummary(DisasmSummaryDocs docs)
         {
             var paths = docs.Keys.ToArray().Sort();
             var recordcount = 0u;

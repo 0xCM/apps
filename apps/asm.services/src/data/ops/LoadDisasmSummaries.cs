@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedDisasm;
+
     partial class ProjectDataServices
     {
         public Index<AsmDisasmSummary> LoadDisasmSummaries(IProjectWs project)

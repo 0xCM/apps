@@ -9,29 +9,27 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        AsmDisasmSummaryDocs CollectDisasmSummaries(WsContext context)
+        DisasmSummaryDocs CollectDisasmSummaries(WsContext context)
         {
             var src = Projects.XedDisasmSources(context.Project);
             var count = src.Count;
-            var dst = dict<FileRef,AsmDisasmSummaryDoc>();
+            var dst = cdict<FileRef,DisasmSummaryDoc>();
             var seq = 0u;
-            for(var i=0; i<count; i++)
-            {
-                var file = context.Ref(src[i]);
-                var result = XedDisasm.summarize(context, file, out var summaries);
-
+            var files = context.Files(FileKind.XedRawDisasm);
+            iter(files, file =>{
+                var result = XedDisasm.summarize(context, file, out DisasmSummaryDoc doc);
                 if(result)
                 {
-                    for(var j=0; j<summaries.RowCount; j++)
-                        summaries[j].Seq = seq++;
-                    dst[file] = summaries;
+                    for(var j=0; j<doc.RowCount; j++)
+                        doc[j].Seq = seq++;
+                    dst.TryAdd(file, doc);
                 }
                 else
                 {
                     Error(result.Message);
-                    return dict<FileRef, AsmDisasmSummaryDoc>();
                 }
-            }
+
+            }, PllExec);
 
             return dst;
         }
