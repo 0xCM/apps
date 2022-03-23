@@ -7,21 +7,24 @@ namespace Z0
 {
     using Asm;
 
-    using static core;
     using static XedRules;
-    using static XedFields;
-    using static XedModels;
 
     using K = XedRules.FieldKind;
     using R = XedRules;
 
     partial class XedDisasm
     {
+        public static Dictionary<FieldKind,R.FieldValue> update(Index<R.FieldValue> src, ref RuleState state)
+        {
+            XedFields.update(src, ref state);
+            return src.Map(x => (x.Field, x)).ToDictionary();
+        }
+
         public static Index<R.FieldValue> update(in DisasmLineBlock src, ref RuleState state)
         {
-            var _fields = XedDisasm.fields(src);
-            XedFields.update(_fields, ref state);
-            return _fields;
+            var fields = XedDisasm.fields(src);
+            XedFields.update(fields, ref state);
+            return fields;
         }
 
         static Outcome update(string src, FieldKind kind, ref DisasmState dstate)

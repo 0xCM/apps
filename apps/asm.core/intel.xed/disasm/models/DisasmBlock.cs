@@ -4,24 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     public partial class XedDisasm
     {
-        public struct DisasmSummaryBlock : IComparable<DisasmSummaryBlock>
+        public struct DisasmBlock : IComparable<DisasmBlock>
         {
-            public DisasmLineBlock Block;
+            public DisasmLineBlock Lines;
 
             public AsmDisasmSummary Summary;
 
             [MethodImpl(Inline)]
-            public DisasmSummaryBlock(DisasmLineBlock block, AsmDisasmSummary summary)
+            public DisasmBlock(DisasmLineBlock lines, AsmDisasmSummary summary)
             {
-                Block = block;
+                Lines = lines;
                 Summary = summary;
             }
 
-            public int CompareTo(DisasmSummaryBlock src)
+            public int CompareTo(DisasmBlock src)
                 => Summary.CompareTo(src.Summary);
         }
     }

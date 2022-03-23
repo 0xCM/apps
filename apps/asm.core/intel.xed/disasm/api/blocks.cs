@@ -5,14 +5,10 @@
 namespace Z0
 {
     using static core;
-    using static XedModels;
 
     partial class XedDisasm
     {
-        public static DisasmFileBlocks blocks(WsContext context, FS.FilePath src)
-            => blocks(context.Ref(src));
-
-        public static DisasmFileBlocks blocks(in FileRef src)
+        public static DisasmFile blocks(in FileRef src)
         {
             var dst = list<DisasmLineBlock>();
             var lines = src.Path.ReadNumberedLines();
@@ -44,7 +40,7 @@ namespace Z0
                     }
                 }
             }
-            return new DisasmFileBlocks(src,dst.ToArray());
+            return new DisasmFile(src,dst.ToArray());
         }
     }
 }

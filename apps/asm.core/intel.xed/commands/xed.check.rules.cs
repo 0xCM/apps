@@ -6,6 +6,7 @@ namespace Z0
 {
     using System.Linq;
     using Asm;
+
     using static core;
     using static XedRules;
     using static XedPatterns;
@@ -38,23 +39,5 @@ namespace Z0
 
             return true;
         }
-
-        static EnumRender<FlagEffectKind> _EffectKinds = new();
-
-        public static string _format(FlagEffectKind kind)
-            => _EffectKinds.Format(kind);
-
-        public static string _format(RFlagBits src)
-            => src != 0 ? src.ToString().ToLower() : EmptyString;
-
-        public static string _format(in XedFlagEffect src)
-        {
-            FlagEffect e = src;
-            if(e.IsNonEmpty)
-                return _format(e.Kind);
-            else
-                return EmptyString;
-        }
-
    }
 }

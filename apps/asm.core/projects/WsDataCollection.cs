@@ -21,7 +21,7 @@ namespace Z0.Asm
 
         public readonly Index<AsmSyntaxRow> SyntaxRows;
 
-        public readonly Index<DisasmDetail> XedRows;
+        public readonly ConstLookup<FileRef,Index<DisasmDetail>> XedRows;
 
         public readonly Index<ObjDumpRow> ObjDumpRows;
 
@@ -30,7 +30,7 @@ namespace Z0.Asm
             FileCatalog files,
             Index<AsmSyntaxRow> syntax,
             Index<AsmInstructionRow> inst,
-            Index<DisasmDetail> xed,
+            ConstLookup<FileRef,Index<DisasmDetail>> xed,
             Index<ObjDumpRow> objdump,
             CoffSymIndex coffsym,
             ObjBlock[] objblocks
@@ -47,21 +47,7 @@ namespace Z0.Asm
             locker = new();
         }
 
-        ConstLookup<InstructionId,DisasmDetail> _DetailLookup;
-
         object locker;
 
-        public ConstLookup<InstructionId,DisasmDetail> DetailLookup
-        {
-            get
-            {
-                lock(locker)
-                {
-                    if(_DetailLookup == null)
-                        _DetailLookup = XedRows.Storage.Map(x => (x.InstructionId, x)).ToConstLookup();
-                }
-                return _DetailLookup;
-            }
-        }
     }
 }

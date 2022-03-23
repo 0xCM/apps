@@ -10,107 +10,17 @@ namespace Z0
     using static XedRules;
     using static XedDisasm;
 
-    using R = XedRules;
     using K = XedRules.FieldKind;
 
     partial class XedDisasmSvc
     {
-        bool PllExec {get;} = true;
-
-        public void EmitDisasmDetail(WsContext context)
-        {
-            Projects.XedDisasmDir(context.Project).Clear();
-
-            var files = context.Files(FileKind.XedRawDisasm);
-            exec(PllExec,
-                () => EmitDisasmOps(context, files),
-                () => EmitDisasmProps(context, files)
-            );
-        }
-
-        void EmitDisasmOps(WsContext context, Index<FileRef> src)
-            => iter(src, file => EmitDisasmOps(context,file), PllExec);
-
-        void EmitDisasmProps(WsContext context, Index<FileRef> src)
-            => iter(src, file => EmitDisasmProps(context, XedDisasm.blocks(file)), PllExec);
-
-        void EmitDisasmOps(WsContext context, in FileRef file)
-        {
-            var outdir = Projects.XedDisasmDir(context.Project);
-            var filename = FS.file(string.Format("{0}.ops",file.Path.FileName.WithoutExtension.Format()), FS.Txt);
-            var dst = outdir + filename;
-            var details = CalcDisasmDetails(context,file);
-            var emitting = EmittingFile(dst);
-            using var writer = dst.AsciWriter();
-            var buffer = text.buffer();
-            var counter = 0u;
-            foreach(var detail in details)
-            {
-                var mnemonic = detail.Mnemonic;
-                var ops = detail.Operands;
-                var count = ops.Count;
-
-                writer.AppendLineFormat("{0,-6} {1}", counter++, mnemonic);
-                writer.AppendLine(RP.PageBreak40);
-
-                for(var i=0; i<count; i++)
-                {
-                    render(ops[i], buffer);
-                    writer.AppendLine(buffer.Emit());
-
-                }
-                writer.WriteLine();
-            }
-            EmittedFile(emitting,counter);
-        }
-
-        static void render(in DisasmOpDetail src, ITextBuffer dst)
-        {
-            const string OpSepSlot = "/{0}";
-
-            dst.AppendFormat("{0,-6} {1,-4}", src.Index, XedRender.format(src.OpName));
-            var kind = opkind(src.OpName);
-            ref readonly var opinfo = ref src.OpInfo;
-            switch(kind)
-            {
-                case OpKind.Reg:
-                case OpKind.Base:
-                case OpKind.Index:
-                    if(opinfo.Selector.IsNonEmpty)
-                    {
-                        dst.AppendFormat(" {0}", opinfo.Selector);
-                        dst.AppendFormat(OpSepSlot, XedRender.format(src.Action));
-                    }
-                break;
-                default:
-                    dst.AppendFormat(" {0}", XedRender.format(src.Action));
-                break;
-            }
-
-            ref readonly var width = ref src.OpWidth;
-            dst.AppendFormat(OpSepSlot, XedRender.format(width.Code));
-            if(width.CellType.IsNonEmpty && !width.CellType.IsInt)
-                dst.AppendFormat(OpSepSlot, src.OpWidth.CellType);
-            if(!opinfo.Visiblity.IsExplicit)
-                dst.AppendFormat(OpSepSlot, opinfo.Visiblity);
-            if(opinfo.OpType != 0)
-                dst.AppendFormat(OpSepSlot, opinfo.OpType);
-        }
-
-        static Dictionary<K,R.FieldValue> update(Index<R.FieldValue> src, ref RuleState state)
-        {
-            XedFields.update(src, ref state);
-            return src.Map(x => (x.Field, x)).ToDictionary();
-        }
-
-        void EmitDisasmProps(WsContext context, in DisasmFileBlocks src)
+        void EmitDisasmProps(WsContext context, in DisasmSummaryDoc doc, in DisasmFile src)
         {
             const string FieldPattern = "{0,-24} | {1}";
 
             var filename = FS.file(string.Format("{0}.props",src.Source.Path.FileName.WithoutExtension.Format()), FS.Txt);
             var dst = Projects.XedDisasmDir(context.Project) + filename;
             var emitting = EmittingFile(dst);
-            XedDisasm.summarize(context, src.Source, out DisasmSummaryDoc doc);
             Require.equal(doc.RowCount, src.Count);
             var counter = 0u;
             var state = RuleState.Empty;
@@ -131,7 +41,7 @@ namespace Z0
                 state = RuleState.Empty;
                 ref readonly var summary = ref doc[i];
                 var fields = XedDisasm.fields(src[i]);
-                var lookup = update(fields, ref state);
+                var lookup = XedDisasm.update(fields, ref state);
 
                 void Emit(FieldKind kind)
                 {
@@ -280,30 +190,6 @@ namespace Z0
                 }
             }
             EmittedFile(emitting,counter);
-        }
-
-        Index<DisasmDetail> EmitDisasmDetails(Index<DisasmDetail> src, FS.FilePath dst)
-        {
-            var emitting = EmittingFile(dst);
-            var formatter = Tables.formatter<DisasmDetail>(DisasmDetail.RenderWidths);
-            var headerBase = formatter.FormatHeader();
-            var j = text.lastindex(headerBase, Chars.Pipe);
-            headerBase = text.left(headerBase,j);
-            var opheader = text.buffer();
-            for(var k=0; k<6; k++)
-            {
-                opheader.Append("| ");
-                opheader.Append(OpDetailHeader(k));
-            }
-
-            var header = string.Format("{0}{1}", headerBase, opheader.Emit());
-            using var writer = dst.AsciWriter();
-            writer.WriteLine(header);
-            for(var i=0; i<src.Length; i++)
-                writer.WriteLine(formatter.Format(src[i]));
-
-            EmittedFile(emitting, src.Length);
-            return src;
         }
     }
 }

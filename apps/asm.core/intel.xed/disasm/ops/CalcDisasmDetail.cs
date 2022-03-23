@@ -14,18 +14,16 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        Outcome CalcDisasmDetail(in DisasmLineBlock block, in AsmDisasmSummary summary, out DisasmDetail dst)
+        DisasmDetail CalcDisasmDetail(in DisasmBlock block)
         {
-            dst = default;
-            var result = CalcInstruction(block, out var inst);
-            if(result.Fail)
-            {
-                dst = default;
-                return result;
-            }
-
+            ref readonly var lines = ref block.Lines;
+            ref readonly var summary = ref block.Summary;
             ref readonly var code = ref summary.Encoded;
+            var result = CalcInstruction(lines, out var inst);
+            if(result.Fail)
+                Errors.Throw(result.Message);
 
+            var dst = DisasmDetail.Empty;
             dst.Seq = summary.Seq;
             dst.DocSeq = summary.DocSeq;
             dst.OriginId = summary.OriginId;
@@ -38,11 +36,11 @@ namespace Z0
             dst.IForm = inst.Form;
             dst.Mnemonic = inst.Class;
             dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
-            result = parse(inst.Props.Edit, out DisasmState state);
+            result = XedDisasm.parse(inst.Props.Edit, out DisasmState state);
             ref readonly var rules = ref state.RuleState;
             dst.Offsets = XedFields.positions(rules);
             dst.OpCode = rules.NOMINAL_OPCODE;
-            dst.Operands = alloc<DisasmOpDetail>(block.OperandCount);
+            dst.Operands = alloc<DisasmOpDetail>(lines.OperandCount);
 
             var ocpos = rules.POS_NOMINAL_OPCODE;
             var opcode = rules.NOMINAL_OPCODE;
@@ -52,18 +50,17 @@ namespace Z0
             if(opcode != code[ocpos])
             {
                 var msg = string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", rules.NOMINAL_OPCODE, rules.MODRM_BYTE);
-                result = (false, msg);
-                return result;
+                Errors.Throw(msg);
             }
 
-            var ops = CalcDisasmOps(rules, code);
-            for(var k=0; k<block.OperandCount; k++)
+            var ops = XedDisasm.ops(rules, code);
+            for(var k=0; k<lines.OperandCount; k++)
             {
                 ref var operand = ref dst.Operands[k];
-                ref readonly var opsrc = ref skip(block.Operands, k);
+                ref readonly var opsrc = ref skip(lines.Operands, k);
                 result = XedDisasm.parse(opsrc.Content, out operand.OpInfo);
                 if(result.Fail)
-                    break;
+                    Errors.Throw(result.Message);
 
                 var info = operand.OpInfo;
                 var winfo = OperandWidth(info.WidthCode);
@@ -123,8 +120,7 @@ namespace Z0
                 if(modrm != code[rules.POS_MODRM])
                 {
                     var msg = string.Format("Derived ModRM value {0} differs from encoded value {1}", modrm, code[rules.POS_MODRM]);
-                    result = (false, msg);
-                    return result;
+                    Errors.Throw(msg);
                 }
             }
 
@@ -136,8 +132,7 @@ namespace Z0
                 if(sibenc.Value() != sib)
                 {
                     var msg = string.Format("Derived Sib value {0} differs from encoded value {1}", sib, sibenc);
-                    result = (false, msg);
-                    return result;
+                    Errors.Throw(msg);
                 }
             }
 
@@ -163,7 +158,7 @@ namespace Z0
 
             dst.EASZ = Sizes.native(bitwidth((EASZ)rules.EASZ));
             dst.EOSZ = Sizes.native(bitwidth((EOSZ)rules.EOSZ));
-            return result;
+            return dst;
         }
     }
 }

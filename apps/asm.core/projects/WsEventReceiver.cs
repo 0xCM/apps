@@ -17,7 +17,7 @@ namespace Z0.Asm
 
         Index<AsmInstructionRow> InstructionRows;
 
-        Index<DisasmDetail> XedRows;
+        ConstLookup<FileRef,Index<DisasmDetail>> DisasmDetails;
 
         Index<ObjDumpRow> ObjDumpRows;
 
@@ -32,8 +32,7 @@ namespace Z0.Asm
         }
 
         public WsDataCollection Emit()
-            => new WsDataCollection(Project, Files, SyntaxRows, InstructionRows, XedRows, ObjDumpRows, CoffSymbols, ObjBlocks);
-
+            => new WsDataCollection(Project, Files, SyntaxRows, InstructionRows, DisasmDetails, ObjDumpRows, CoffSymbols, ObjBlocks);
 
         public virtual void Initialized(WsContext context)
         {
@@ -72,9 +71,9 @@ namespace Z0.Asm
             InstructionRows = src;
         }
 
-        public virtual void Collected(Index<DisasmDetail> src)
+        public virtual void Collected(ConstLookup<FileRef,Index<DisasmDetail>> src)
         {
-            XedRows = src;
+            DisasmDetails = src;
         }
     }
 }

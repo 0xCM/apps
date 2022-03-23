@@ -7,22 +7,17 @@ namespace Z0
     using Asm;
 
     using static core;
-    using static XedModels;
 
     public partial class XedDisasm
     {
-        public static Outcome summarize(WsContext context, in FileRef src, out DisasmSummaryDoc dst)
+        public static DisasmSummaryDoc summarize(WsContext context, in FileRef src)
         {
-            var buffer = bag<DisasmSummaryBlock>();
-            var result = summarize(context, src, buffer);
-            if(result)
-                dst = DisasmSummaryDoc.from(src,context.Root(src), buffer.ToArray().Sort());
-            else
-                dst = DisasmSummaryDoc.Empty;
-            return result;
+            var buffer = bag<DisasmBlock>();
+            summarize(context, src, buffer).Require();
+            return DisasmSummaryDoc.from(src,context.Root(src), buffer.ToArray());
         }
 
-        public static Outcome summarize(WsContext context, in FileRef src, ConcurrentBag<DisasmSummaryBlock> dst)
+        public static Outcome summarize(WsContext context, in FileRef src, ConcurrentBag<DisasmBlock> dst)
             => summarize(src, context.Root(src), XedDisasm.blocks(src).Lines, dst);
 
         static Index<TextLine> SummaryLines(ReadOnlySpan<DisasmLineBlock> src)
@@ -48,14 +43,7 @@ namespace Z0
             return ref dst;
         }
 
-        public static Index<DisasmSummaryBlock> summarize(WsContext context, DisasmFileBlocks src)
-        {
-            var dst = bag<DisasmSummaryBlock>();
-            summarize(src.Source, context.Root(src.Source), src.Lines, dst).Require();
-            return dst.ToArray().Sort();
-        }
-
-        public static Outcome summarize(in FileRef src, in FileRef origin, Index<DisasmLineBlock> blocks, ConcurrentBag<DisasmSummaryBlock> dst)
+        public static Outcome summarize(in FileRef src, in FileRef origin, Index<DisasmLineBlock> blocks, ConcurrentBag<DisasmBlock> dst)
         {
             var lines = SummaryLines(blocks);
             var expr = expressions(blocks);

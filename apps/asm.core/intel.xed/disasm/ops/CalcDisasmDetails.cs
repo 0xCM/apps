@@ -5,52 +5,35 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-    using static XedRules;
+    using static core;
     using static XedDisasm;
 
     partial class XedDisasmSvc
     {
-        public Index<DisasmDetail> CalcDisasmDetails(WsContext context, in FileRef src)
+        public Index<DisasmDetail> CalcDisasmDetail(WsContext context, in FileRef src, DisasmSummaryDoc summary)
         {
             var dst = core.bag<DisasmDetail>();
-            CalcDisasmDetails(context, src, dst).Require();
+            var blocks = XedDisasm.blocks(src);
+            CalcDisasmDetail(context, summary, blocks, dst).Require();
             return dst.ToArray().Sort();
         }
 
-        Outcome CalcDisasmDetails(WsContext context, in FileRef src, ConcurrentBag<DisasmDetail> dst)
-            => CalcDisasmDetails(context, XedDisasm.blocks(src), dst);
-
-        Outcome CalcDisasmDetails(WsContext context, in DisasmFileBlocks src, ConcurrentBag<DisasmDetail> dst)
+        Outcome CalcDisasmDetail(WsContext context, DisasmSummaryDoc doc, in DisasmFile src, ConcurrentBag<DisasmDetail> dst)
         {
-            var blocks = src.Lines;
+            var blocks = doc.Blocks;
             var count = blocks.Count;
-            var result = XedDisasm.summarize(context, src.Source, out var summaries);
+            var result = Outcome.Success;
             if(result.Fail)
                 return result;
 
-            if(summaries.RowCount != count)
+            if(doc.RowCount != count)
             {
-                result = (false, string.Format("{0} != {1}", count, summaries.RowCount));
+                result = (false, string.Format("{0} != {1}", count, doc.RowCount));
                 return result;
             }
 
-            core.iteri((int)count, i => {
-                result = CalcDisasmDetail(blocks[i], summaries[i], out DisasmDetail detail);
-                if(result)
-                    dst.Add(detail);
-                else
-                    Errors.Throw(result.Message);
-            },true);
-
-            // for(var i=0u; i<count; i++)
-            // {
-            //     result = CalcDisasmDetail(blocks[i], summaries[i], out DisasmDetail detail);
-            //     if(result.Fail)
-            //         break;
-            //     else
-            //         dst.Add(detail);
-            // }
+            for(var i=0; i<count; i++)
+                dst.Add(CalcDisasmDetail(blocks[i]));
 
             return result;
         }

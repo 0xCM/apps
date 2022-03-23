@@ -7,14 +7,14 @@ namespace Z0
 {
     partial class XedDisasm
     {
-        public readonly struct DisasmFileBlocks
+        public readonly struct DisasmFile
         {
             public readonly FileRef Source;
 
             public readonly Index<DisasmLineBlock> Lines;
 
             [MethodImpl(Inline)]
-            public DisasmFileBlocks(FileRef src, DisasmLineBlock[] lines)
+            public DisasmFile(FileRef src, DisasmLineBlock[] lines)
             {
                 Source = src;
                 Lines = lines;
@@ -37,7 +37,6 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => ref Lines[i];
             }
-
         }
     }
 }

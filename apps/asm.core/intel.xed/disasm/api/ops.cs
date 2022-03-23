@@ -8,13 +8,11 @@ namespace Z0
     using Asm;
 
     using static core;
-    using static XedModels;
     using static XedRules;
-    using static XedDisasm;
 
-    partial class XedDisasmSvc
+    partial class XedDisasm
     {
-        static Dictionary<OpName,DisasmOp> CalcDisasmOps(in RuleState state, in AsmHexCode code)
+        public static Dictionary<OpName,DisasmOp> ops(in RuleState state, in AsmHexCode code)
         {
             var dst = dict<OpName,DisasmOp>();
             iter(XedFields.opvalues(state, code), o => dst.TryAdd(o.Name, new DisasmOp(o.Name, o.Value)));

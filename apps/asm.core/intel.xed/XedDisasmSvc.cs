@@ -23,6 +23,8 @@ namespace Z0
 
         ConstLookup<OpWidthCode,OpWidthInfo> OperandWidths;
 
+        bool PllExec {get;} = true;
+
         public XedDisasmSvc()
         {
             Forms = Symbols.index<IFormType>();
