@@ -8,6 +8,7 @@ namespace Z0
     [ApiHost]
     public readonly partial struct XedModels
     {
+        const string xed = nameof(xed);
 
     }
 }

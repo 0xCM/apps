@@ -13,64 +13,36 @@ namespace Z0
         Index<XedFieldDef> CalcFieldDefs()
         {
             var src = XedPaths.DocSource(XedDocKind.Fields);
-            var running = Running(string.Format("Parsing {0}", src.ToUri()));
             var dst = list<XedFieldDef>();
             var result = Outcome.Success;
-            using var reader = src.Utf8LineReader();
-            while(reader.Next(out var line))
+            var line = EmptyString;
+            var lines = src.ReadLines().Reader();
+            while(lines.Next(out line))
             {
-                var content = line.Content.Trim();
+                var content = line.Trim();
                 if(text.empty(content) || text.begins(content,Chars.Hash))
                     continue;
 
-                var cells = text.split(text.despace(content),Chars.Space);
-                var count = cells.Length;
-                if(count < 5)
-                {
-                    result = (false, string.Format("Only {0} cells found in {1}", count, content));
-                    break;
-                }
-
+                var cells = text.split(text.despace(content), Chars.Space).Reader();
                 var record = XedFieldDef.Empty;
-                record.Name = skip(cells,0);
+                record.Name = cells.Next();
 
-                ref readonly var type = ref skip(cells,2);
-                if(!FieldTypes.ExprKind(type, out var ft))
-                {
-                    result = (false, AppMsg.ParseFailure.Format(nameof(type), type));
-                    break;
-                }
-
-                ref readonly var width = ref skip(cells,3);
-                result = DataParser.parse(width, out record.Width);
+                cells.Next();
+                result = FieldTypes.ExprKind(cells.Next(), out record.FieldType);
                 if(result.Fail)
-                {
-                    result = (false, AppMsg.ParseFailure.Format(nameof(width), width));
-                    break;
-                }
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(record.FieldType), cells.Prior()));
 
-                record.DeclaredType = xedtype(ft, record.Width);
+                result = DataParser.parse(cells.Next(), out record.Width);
+                if(result.Fail)
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(record.Width), cells.Prior()));
 
-                ref readonly var vsib = ref skip(cells,4);
-                if(!Visibilities.ExprKind(vsib, out record.Visibility))
-                {
-                    result = (false, AppMsg.ParseFailure.Format(nameof(vsib), vsib));
-                    break;
-                }
+                if(!Visibilities.ExprKind(cells.Next(), out record.Visibility))
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(record.Visibility), cells.Prior()));
 
                 dst.Add(record);
             }
 
-            if(result)
-            {
-                Ran(running, string.Format("Parsed {0} records", dst.Count));
-                return dst.ToArray().Sort();
-            }
-            else
-            {
-                Error(result.Message);
-                return sys.empty<XedFieldDef>();
-            }
+            return dst.ToArray().Sort();
         }
     }
 }

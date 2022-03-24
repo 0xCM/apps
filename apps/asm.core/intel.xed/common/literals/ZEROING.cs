@@ -7,8 +7,14 @@ namespace Z0
 {
     partial struct XedModels
     {
-        const string xed = nameof(xed);
+        [SymSource(xed), DataWidth(1)]
+        public enum ZEROING : byte
+        {
+            [Symbol("")]
+            Disabled = 0,
 
-        const string xed_state = nameof(xed_state);
+            [Symbol("{z}")]
+            Enabled = 1,
+        }
     }
 }

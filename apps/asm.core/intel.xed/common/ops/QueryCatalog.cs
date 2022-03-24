@@ -12,7 +12,7 @@ namespace Z0.Asm
 
     partial class IntelXed
     {
-        public ReadOnlySpan<XedQueryResult> QueryCatalog(string monic, bool emit = true)
+        public ReadOnlySpan<QueryResult> QueryCatalog(string monic, bool emit = true)
         {
             const string RenderPattern = "class:{0,-24} form:{1,-32} category:{2,-16} isa:{3,-16} ext:{4,-16} attribs:{5}";
             var src = LoadFormImports();
@@ -22,7 +22,7 @@ namespace Z0.Asm
             var classes = Symbols.index<IClass>();
             var extensions = Symbols.index<ExtensionKind>();
             var count = src.Length;
-            var dst = list<XedQueryResult>();
+            var dst = list<QueryResult>();
             for(var i=0; i<count; i++)
             {
                 ref readonly var form = ref skip(src,i);
@@ -35,7 +35,7 @@ namespace Z0.Asm
 
                 if(form.InstClass.Classifier.StartsWith(monic, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    var result = XedQueryResult.Empty;
+                    var result = QueryResult.Empty;
                     result.SearchPattern = monic;
                     result.InstClass = form.InstClass;
                     result.InstForm = form.InstForm;
@@ -48,7 +48,7 @@ namespace Z0.Asm
             var path = ProjectDb.Subdir("xed/queries") + FS.file(monic, FS.Csv);
             var records = dst.ViewDeposited();
             if(emit)
-                TableEmit(records, XedQueryResult.RenderWidths, path);
+                TableEmit(records, QueryResult.RenderWidths, path);
             return records;
         }
     }

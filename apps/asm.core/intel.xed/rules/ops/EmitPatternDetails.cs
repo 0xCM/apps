@@ -25,7 +25,10 @@ namespace Z0
 
                 writer.AppendLineFormat(LabelPattern, pattern.InstClass.Name, pattern.BodyExpr);
                 writer.AppendLineFormat(LabelPattern, pattern.OpCode, pattern.Mode);
-                writer.AppendLineFormat(LabelPattern, x, pattern.InstForm);
+                writer.AppendLineFormat(LabelPattern, XedRender.format(pattern.Isa), pattern.InstForm);
+
+                if(pattern.Attributes.IsNonEmpty)
+                    writer.AppendLineFormat(LabelPattern, nameof(pattern.Attributes), XedRender.format(pattern.Attributes));
 
                 if(pattern.Effects.IsNonEmpty)
                     writer.AppendLineFormat(LabelPattern, nameof(pattern.Effects), XedRender.format(pattern.Effects));

@@ -95,7 +95,6 @@ namespace Z0
                 get => ref InstDef.InstClass;
             }
 
-
             public string Classifier
             {
                 [MethodImpl(Inline)]
@@ -126,7 +125,7 @@ namespace Z0
                 get => ref InstDef.Extension;
             }
 
-            public ref readonly InstAttribs InstAttribs
+            public ref readonly InstAttribs Attributes
             {
                 [MethodImpl(Inline)]
                 get => ref InstDef.Attributes;

@@ -16,7 +16,7 @@ namespace Z0
 
             public text31 Name;
 
-            public Identifier DeclaredType;
+            public FieldType FieldType;
 
             public byte Width;
 

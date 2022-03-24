@@ -68,7 +68,7 @@ namespace Z0
             }
 
             public string Format()
-                => IsEmpty ? EmptyString : this.Delimit(fence:RenderFence.Embraced).Format();
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

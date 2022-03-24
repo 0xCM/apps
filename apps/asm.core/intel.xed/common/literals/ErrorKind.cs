@@ -13,8 +13,8 @@ namespace Z0
 
             BUFFER_TOO_SHORT, /// There were not enough bytes in the given buffer
 
-            [Symbol("error")]
-            GENERAL_ERROR, /// XED could not decode the given instruction
+            [Symbol("error", "XED could not decode the given instruction")]
+            GENERAL_ERROR,
 
             [Symbol("INVALID_FOR_CHIP", "The instruciton is not valid for the specified chip")]
             INVALID_FOR_CHIP,

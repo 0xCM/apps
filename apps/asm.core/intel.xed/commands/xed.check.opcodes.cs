@@ -81,7 +81,7 @@ namespace Z0
         static Identifier identify(InstPattern src)
         {
             var dst = text.buffer();
-            ref readonly var attribs = ref src.InstAttribs;
+            ref readonly var attribs = ref src.Attributes;
             var name = EmptyString;
             var locked = attribs.Locked;
             if(locked)

@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
 namespace Z0
 {
@@ -352,7 +353,7 @@ namespace Z0
             => ChipCodes.Parse(src, out dst);
 
         public static bool parse(string src, out ErrorKind dst)
-            => Instance.Parse(src,out dst);
+            => ErrorKinds.Parse(text.remove(text.trim(src), "XED_ERROR_"), out dst);
 
         public static bool parse(string src, out VexKind dst)
             => VexKinds.Parse(src, out dst);
@@ -628,7 +629,7 @@ namespace Z0
             => CategoryKinds.Parse(src, out dst);
 
         public static bool parse(string src, out VexClass dst)
-            => Instance.Parse(src, out dst);
+            => VexClasses.Parse(src, out dst);
 
         public static bool parse(string src, out Category dst)
         {
@@ -697,7 +698,11 @@ namespace Z0
         }
 
         public static bool parse(string src, out ElementType dst)
-            => Instance.Parse(src, out dst);
+        {
+            var result = ElementKinds.Parse(src, out ElementKind kind);
+            dst = kind;
+            return result;
+        }
 
         public static bool parse(string src, out FlagEffectKind dst)
             => Instance.Parse(src, out dst);
@@ -718,10 +723,10 @@ namespace Z0
             => OpWidthParser.Parse(src, out dst);
 
         public static bool parse(string src, out OpAction dst)
-            => Instance.Parse(src, out dst);
+            => OpActions.Parse(src, out dst);
 
         public static bool parse(string src, out PointerWidthKind dst)
-            => Instance.Parse(src, out dst);
+            => PointerWidths.Parse(src, out dst);
 
         public static bool parse(string src, out NontermKind dst)
             => Nonterminals.Parse(src, out dst);
@@ -820,25 +825,6 @@ namespace Z0
 
         public static bool parse(string src, out ExtensionKind dst)
             => ExtensionKinds.Parse(src, out dst);
-
-        public bool Parse(string src, out VexClass dst)
-            => VexClasses.Parse(src, out dst);
-
-        public bool Parse(string src, out OpAction dst)
-            => OpActions.Parse(src, out dst);
-
-        public bool Parse(string src, out PointerWidthKind dst)
-            => PointerWidths.Parse(src, out dst);
-
-        public bool Parse(string src, out ErrorKind dst)
-            => ErrorKinds.Parse(text.remove(text.trim(src), "XED_ERROR_"), out dst);
-
-        public bool Parse(string src, out ElementType dst)
-        {
-            var result = ElementKinds.Parse(src, out ElementKind kind);
-            dst = kind;
-            return result;
-        }
 
         public bool Parse(string src, out FlagEffectKind dst)
             => FlagActionKinds.Parse(src, out dst);

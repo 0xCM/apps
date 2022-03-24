@@ -38,7 +38,7 @@ namespace Z0.Asm
                         if(blank(name))
                             continue;
 
-                        if(Enums.parse<ChipCode>(name, out chip))
+                        if(XedParsers.parse(name, out chip))
                         {
                             if(!chips.TryAdd(chip, new ChipIsaKinds(chip)))
                                 Errors.Throw(DuplicateChipCode.Format(chip));

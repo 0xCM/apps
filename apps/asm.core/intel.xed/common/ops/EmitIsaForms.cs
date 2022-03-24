@@ -55,7 +55,7 @@ namespace Z0.Asm
         void EmitIsaForms(XedChipMap map, ChipCode code)
         {
             var kinds = map[code].ToHashSet();
-            var matches = list<XedFormImport>();
+            var matches = list<FormImport>();
             var forms = LoadFormImports();
             var count = forms.Length;
             for(var i=0; i<count; i++)
@@ -65,7 +65,7 @@ namespace Z0.Asm
                     matches.Add(form);
             }
 
-            TableEmit(matches.ViewDeposited(), XedFormImport.RenderWidths, XedPaths.IsaFormsPath(code));
+            TableEmit(matches.ViewDeposited(), FormImport.RenderWidths, XedPaths.IsaFormsPath(code));
         }
     }
 }

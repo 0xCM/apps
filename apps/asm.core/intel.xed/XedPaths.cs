@@ -63,7 +63,7 @@ namespace Z0
             => Targets() + FS.file("xed.chipmap", FS.Csv);
 
         public FS.FilePath FormCatalogPath()
-            => Targets() + FS.file(Tables.identify<XedFormImport>().Format(), FS.Csv);
+            => Targets() + FS.file(Tables.identify<FormImport>().Format(), FS.Csv);
 
         public FS.FilePath FieldDefsTarget()
             => Targets() + Tables.filename<XedFieldDef>();

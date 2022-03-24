@@ -6,19 +6,20 @@
 namespace Z0.Asm
 {
     using static core;
+    using static XedModels;
 
     partial class IntelXed
     {
-        public ReadOnlySpan<XedFormImport> LoadFormImports()
+        public ReadOnlySpan<FormImport> LoadFormImports()
         {
             return Data(nameof(LoadFormImports), Load);
 
-            Index<XedFormImport> Load()
+            Index<FormImport> Load()
             {
                 var src = XedPaths.FormCatalogPath();
                 var counter = 0u;
                 var outcome = Outcome.Success;
-                var dst = list<XedFormImport>();
+                var dst = list<FormImport>();
                 using var reader = src.AsciReader();
                 reader.ReadLine();
                 while(!reader.EndOfStream)
@@ -27,7 +28,7 @@ namespace Z0.Asm
                     if(line.StartsWith(CommentMarker) || line.IsEmpty)
                         continue;
 
-                    outcome = XedModels.parse(line.Content, out XedFormImport row);
+                    outcome = XedModels.parse(line.Content, out FormImport row);
                     if(outcome)
                         dst.Add(row);
                     else

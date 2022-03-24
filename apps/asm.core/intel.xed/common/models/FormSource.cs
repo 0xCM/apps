@@ -11,7 +11,7 @@ namespace Z0
         /// Defines a structure that reflects the content of the xed "idata.txt" file
         /// </summary>
         [Record(TableId), StructLayout(LayoutKind.Sequential)]
-        public struct XedFormSource
+        public struct FormSource
         {
             public const string TableId = "xed.idata";
 

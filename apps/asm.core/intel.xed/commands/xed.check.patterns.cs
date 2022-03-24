@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static XedRules;
+    using static XedModels;
     using static XedPatterns;
     using static core;
 
@@ -52,6 +53,7 @@ namespace Z0
         [CmdOp("xed/check/patterns")]
         Outcome CheckPatterns(CmdArgs args)
         {
+            var forms = Symbols.index<IFormType>().Kinds.Map(x => (x,x)).ToConcurrentDictionary();
             var blocks = cdict<uint,string[]>();
             var patterns = cdict<uint,InstPattern>();
             var traversals = XedPatterns.traversals()
@@ -66,7 +68,8 @@ namespace Z0
                 var dst = alloc<string>(2 + ops.Count);
                 _format(pattern, dst);
                 blocks.TryAdd(pattern.PatternId, dst);
-
+                if(pattern.InstForm.IsNonEmpty)
+                    forms.TryRemove(pattern.InstForm);
             }
 
             var path = AppDb.Api() + FS.file("xed.inst.patterns.opinfo", FS.Csv);
@@ -90,7 +93,7 @@ namespace Z0
                     writer.WriteLine(skip(lines,j));
             }
             EmittedFile(emitting,counter);
-
+            iter(forms.Values, f => Write(f.ToString()));
             return true;
         }
     }

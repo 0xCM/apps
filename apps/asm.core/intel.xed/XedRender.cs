@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
 namespace Z0
 {
@@ -101,6 +102,8 @@ namespace Z0
 
         static EnumRender<OSZ> OszKinds = new();
 
+        static EnumRender<IsaKind> IsaKinds = new();
+
         static Index<AsmBroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
 
         static Symbols<XedRegId> XedRegs = Symbols.index<XedRegId>();
@@ -174,6 +177,9 @@ namespace Z0
             return dst;
         }
 
+        public static string format(IsaKind src)
+            => src == 0 ? EmptyString : IsaKinds.Format(src);
+
         public static string format(ExtensionKind src)
             => ExtensionKinds.Format(src);
 
@@ -183,8 +189,26 @@ namespace Z0
         public static string format(XedRegFlag src)
             => RegFlags.Format(src);
 
-        public static string format(Index<XedFlagEffect> src)
-            => src.IsNonEmpty ? src.Delimit(fence:RenderFence.Embraced).Format() : EmptyString;
+        public static string format(Index<XedFlagEffect> src, bool embrace = true)
+        {
+            if(src.IsEmpty)
+                return EmptyString;
+
+            var dst = text.buffer();
+            if(embrace)
+                dst.Append(Chars.LBrace);
+            for(var i=0; i<src.Count; i++)
+            {
+                if(i != 0)
+                    dst.Append(Chars.Comma);
+
+                dst.Append(format(src[i]));
+            }
+            if(embrace)
+                dst.Append(Chars.RBrace);
+
+            return dst.Emit();
+        }
 
         public static string format(in XedFlagEffect src)
             => string.Format("{0}-{1}", format(src.Flag), format(src.Effect));
@@ -750,6 +774,24 @@ namespace Z0
 
         public static string format(uint8b src)
             =>  "0b" + src.Format();
+
+        public static string format(InstAttribs src, bool embrace = true)
+        {
+            if(src.IsEmpty)
+                return EmptyString;
+            var dst = text.buffer();
+            if(embrace)
+                dst.Append(Chars.LBrace);
+            for(var i=0; i<src.Count; i++)
+            {
+                if(i != 0)
+                    dst.Append(Chars.Comma);
+                dst.Append(format(src[i]));
+            }
+            if(embrace)
+                dst.Append(Chars.RBrace);
+            return dst.Emit();
+        }
 
         static string format5(uint5 src)
         {

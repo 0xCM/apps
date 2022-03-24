@@ -9,10 +9,10 @@ namespace Z0
 
     partial struct XedModels
     {
-        public static Outcome parse(string src, out XedFormImport dst)
+        public static Outcome parse(string src, out FormImport dst)
         {
             const char Delimiter = Chars.Pipe;
-            dst = XedFormImport.Empty;
+            dst = FormImport.Empty;
             var result = Outcome.Success;
             var reader = text.trim(text.split(text.trim(text.despace(src)), Delimiter)).Reader();
             result = XedParsers.parse(reader.Next(), out dst.Index);
@@ -44,7 +44,7 @@ namespace Z0
             return result;
         }
 
-        public static Outcome parse(in XedFormSource src, ushort seq, out XedFormImport dst)
+        public static Outcome parse(in FormSource src, ushort seq, out FormImport dst)
         {
             var result = Outcome.Success;
             result = XedParsers.parse(src.Class, out dst.InstClass);

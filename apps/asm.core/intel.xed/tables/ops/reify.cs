@@ -6,7 +6,6 @@
 namespace Z0
 {
     using static core;
-    using static Root;
     using static XedRules;
     using static XedParsers;
 

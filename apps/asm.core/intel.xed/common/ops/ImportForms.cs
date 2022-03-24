@@ -14,10 +14,10 @@ namespace Z0.Asm
         {
             var src = ParseFormSources().View;
             var dst = XedPaths.FormCatalogPath();
-            var formatter = Tables.formatter<XedFormImport>(XedFormImport.RenderWidths);
+            var formatter = Tables.formatter<FormImport>(FormImport.RenderWidths);
             var count = src.Length;
             var result = Outcome.Success;
-            var rows = list<XedFormImport>();
+            var rows = list<FormImport>();
             for(var i=z16; i<count; i++)
             {
                 result = XedModels.parse(skip(src,i), i, out var import);
@@ -33,21 +33,21 @@ namespace Z0.Asm
 
             rows.Sort();
 
-            TableEmit(rows.ViewDeposited(), XedFormImport.RenderWidths, dst);
+            TableEmit(rows.ViewDeposited(), FormImport.RenderWidths, dst);
 
             EmitIsaForms();
         }
 
-        Index<XedFormSource> ParseFormSources()
+        Index<FormSource> ParseFormSources()
         {
             var src = XedPaths.DocSource(XedDocKind.FormData);
-            var tableid = Tables.identify<XedFormSource>();
+            var tableid = Tables.identify<FormSource>();
             var flow = Running(string.Format("Loading form sources from {0}", src.ToUri()));
             using var reader = src.Utf8Reader();
             var counter = 0u;
-            var header = alloc<string>(XedFormSource.FieldCount);
+            var header = alloc<string>(FormSource.FieldCount);
             var succeeded = true;
-            var records = list<XedFormSource>();
+            var records = list<FormSource>();
             while(!reader.EndOfStream)
             {
                 var line = reader.ReadLine(counter);
@@ -67,7 +67,7 @@ namespace Z0.Asm
                 }
                 else
                 {
-                   var dst = new XedFormSource();
+                   var dst = new FormSource();
                    var outcome = ParseSummary(line, out dst);
                    if(outcome)
                         records.Add(dst);
@@ -88,13 +88,13 @@ namespace Z0.Asm
             return records.ToArray();
         }
 
-        static Outcome ParseSummary(TextLine src, out XedFormSource dst)
+        static Outcome ParseSummary(TextLine src, out FormSource dst)
         {
             dst = default;
             var parts = text.despace(src.Content).Split(FieldDelimiter);
             var count = parts.Length;
-            if(count != XedFormSource.FieldCount)
-                return(false, $"Line splits into {count} parts, not {XedFormSource.FieldCount} as required");
+            if(count != FormSource.FieldCount)
+                return(false, $"Line splits into {count} parts, not {FormSource.FieldCount} as required");
             var i = 0;
             dst.Class = skip(parts,i++);
             dst.Extension = skip(parts,i++);
@@ -109,8 +109,8 @@ namespace Z0.Asm
         {
             var parts = src.Split(FieldDelimiter);
             var count = parts.Length;
-            if(count != XedFormSource.FieldCount)
-                return(false, $"Line splits into {count} parts, not {XedFormSource.FieldCount} as required");
+            if(count != FormSource.FieldCount)
+                return(false, $"Line splits into {count} parts, not {FormSource.FieldCount} as required");
 
             for(var i=0; i<count; i++)
                 seek(dst,i) = skip(parts,i);

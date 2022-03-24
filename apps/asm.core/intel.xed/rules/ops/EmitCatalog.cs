@@ -7,6 +7,7 @@ namespace Z0
 {
     using static core;
     using static XedPatterns;
+    using static XedModels;
 
     partial class XedRules
     {
@@ -21,9 +22,12 @@ namespace Z0
                 () => EmitFlagEffects(defs),
                 EmitRuleTables,
                 EmitRefData,
-                EmitMacroData,
-                EmitFields,
-                EmitRuleSpecs
+                EmitMacroMatches,
+                EmitMacroDefs,
+                EmitReflectedFields,
+                EmitSymbolicFields,
+                EmitRuleSpecs,
+                EmitFieldDefs
                 );
         }
 
@@ -33,8 +37,20 @@ namespace Z0
         public Index<InstPattern> CalcInstPatterns()
             => CalcInstPatterns(CalcInstDefs());
 
+        Index<MacroMatch> CalcMacroMatches()
+            => mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i));
+
         Index<InstPattern> CalcInstPatterns(Index<InstDef> defs)
             => Data(nameof(InstPattern), () => Patterns.CalcPatterns(defs));
+
+        void EmitSymbolicFields()
+            => ApiMetadataService.create(Wf).EmitTokenSet(XedFields.SymbolicFields.create(), AppDb.XedPath("xed.fields.symbolic", FileKind.Csv));
+
+        void EmitFieldDefs()
+            => TableEmit(CalcFieldDefs().View, XedFieldDef.RenderWidths, XedPaths.Table<XedFieldDef>());
+
+        void EmitReflectedFields()
+            => TableEmit(XedFields.Specs.View, RuleFieldSpec.RenderWidths, XedPaths.Table<RuleFieldSpec>());
 
         void EmitPatternData(Index<InstPattern> src)
             => exec(PllExec,
@@ -45,28 +61,18 @@ namespace Z0
                 () => EmitInstFieldDefs(src)
                 );
 
-        public void EmitRuleTables()
+        void EmitRuleTables()
             => RuleTables.EmitTables(true);
 
-        void EmitMacroData()
-        {
-            var matches = mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i));
-            TableEmit(@readonly(matches), MacroMatch.RenderWidths, XedPaths.RuleTable<MacroMatch>());
-            TableEmit(CalcMacroDefs().View, MacroDef.RenderWidths, XedPaths.RuleTable<MacroDef>());
-        }
+        void EmitMacroDefs()
+            => TableEmit(CalcMacroDefs().View, MacroDef.RenderWidths, XedPaths.RuleTable<MacroDef>());
 
-        public void EmitFields()
+        void EmitMacroMatches()
+            => TableEmit(CalcMacroMatches().View, MacroMatch.RenderWidths, XedPaths.RuleTable<MacroMatch>());
+
+        void EmitRuleSpecs()
         {
             exec(PllExec,
-                EmitFieldDefs,
-                EmitReflectedFields,
-                EmitSymbolicFields
-                );
-        }
-
-        public void EmitRuleSpecs()
-        {
-            exec(true,
                 () => EmitSpecs(RuleTableKind.Enc),
                 () => EmitSpecs(RuleTableKind.Dec),
                 () => EmitSpecs(RuleTableKind.EncDec)

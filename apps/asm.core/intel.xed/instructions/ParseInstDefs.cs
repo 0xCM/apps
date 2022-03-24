@@ -188,6 +188,53 @@ namespace Z0
                 ref var def = ref seek(defs,i);
                 ref var specs = ref def.PatternSpecs;
 
+                if(def.Isa == 0)
+                {
+                    switch(def.Extension.Kind)
+                    {
+                        case ExtensionKind.AES:
+                            def.Isa = IsaKind.AES;
+                        break;
+                        case ExtensionKind.AVX:
+                            def.Isa = IsaKind.AVX;
+                        break;
+                        case ExtensionKind.AVX2:
+                            def.Isa = IsaKind.AVX2;
+                        break;
+                        case ExtensionKind.SSE:
+                            def.Isa = IsaKind.SSE;
+                        break;
+                        case ExtensionKind.SSE2:
+                            def.Isa = IsaKind.SSE2;
+                        break;
+                        case ExtensionKind.SSE3:
+                            def.Isa = IsaKind.SSE3;
+                        break;
+                        case ExtensionKind.SSE4:
+                            def.Isa = IsaKind.SSE4;
+                        break;
+                        case ExtensionKind.SSSE3:
+                            def.Isa = IsaKind.SSSE3;
+                        break;
+                        case ExtensionKind.TBM:
+                            def.Isa = IsaKind.TBM;
+                        break;
+                        case ExtensionKind.XSAVE:
+                            def.Isa = IsaKind.XSAVE;
+                        break;
+                        case ExtensionKind.XSAVEC:
+                            def.Isa = IsaKind.XSAVEC;
+                        break;
+                        case ExtensionKind.XSAVEOPT:
+                            def.Isa = IsaKind.XSAVEOPT;
+                        break;
+                        case ExtensionKind.XSAVES:
+                            def.Isa = IsaKind.XSAVES;
+                        break;
+                        default:
+                        break;
+                    }
+                }
                 def.InstId = iid;
                 for(var j=0; j<specs.Count; j++, pid++)
                 {

@@ -8,16 +8,19 @@ namespace Z0
     partial struct XedModels
     {
         [SymSource(xed), DataWidth(2)]
-        public enum SegDefaultKind : byte
+        public enum LLRC : byte
         {
-            [Symbol("default_ds", "DEFAULT_SEG=0")]
-            DefaultDS = 0,
+            [Symbol("LLRC0", "LLRC=0")]
+            LLRC0=0,
 
-            [Symbol("default_ss", "DEFAULT_SEG=1")]
-            DefaultSS = 1,
+            [Symbol("LLRC1", "LLRC=1")]
+            LLRC1=1,
 
-            [Symbol("default_es","DEFAULT_SEG=2")]
-            DefaultES = 2
+            [Symbol("LLRC2", "LLRC=2")]
+            LLRC2=2,
+
+            [Symbol("LLRC3", "LLRC=3")]
+            LLRC3=3
         }
     }
 }
