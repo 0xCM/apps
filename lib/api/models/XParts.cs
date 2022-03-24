@@ -4,27 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Reflection;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using static Root;
 
     partial class XTend
     {
-        public static IEnumerable<T> Sort<T>(this IEnumerable<T> src)
-            where T : IComparable<T>
-                => src.OrderBy(x => x);
-
-        public static T[] Sort<T>(this T[] src)
-            where T : IComparable<T>
-        {
-            System.Array.Sort(src);
-            return src;
-        }
-
         [MethodImpl(Inline), Op]
         public static PartId Id(this Assembly src)
             => PartResolution.id(src);

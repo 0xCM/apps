@@ -18,7 +18,7 @@ namespace Z0
         public static string format<T>(T src)
             where T : IRenderCapable<T>
         {
-            var dst = TextTools.buffer();
+            var dst = text.buffer();
             src.Render(dst);
             return dst.Emit();
         }

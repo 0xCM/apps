@@ -5,19 +5,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
     using static XedRules;
+
+    using R = XedRules;
 
     partial class XedPatterns
     {
-        public static MachineMode mode(in InstPatternBody src)
+        [MethodImpl(Inline), Op]
+        public static bool @lock(in InstPatternBody src, out bit dst)
         {
-            var result = ModeKind.Default;
+            var result = false;
+            dst = R.FieldValue.Empty;
             for(var i=0; i<src.FieldCount; i++)
             {
-                ref readonly var f = ref src[i];
-                if(f.FieldClass == DefFieldClass.FieldAssign && f.FieldKind == FieldKind.MODE)
-                    result = f.AsAssignment().Value;
+                ref readonly var field = ref src[i];
+                if(field.FieldKind == FieldKind.LOCK)
+                {
+                    dst = field.AsAssignment().Value;
+                    result = true;
+                    break;
+                }
             }
             return result;
         }

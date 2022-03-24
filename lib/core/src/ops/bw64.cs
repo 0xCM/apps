@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
 
     using static System.Runtime.CompilerServices.Unsafe;
-    using static Root;
 
     partial struct core
     {
@@ -25,13 +22,13 @@ namespace Z0
             where T : unmanaged
         {
             if(_width<T>() == 8)
-                return uint8(src);
+                return u8(src);
             if(_width<T>() == 16)
-                return uint16(src);
+                return u16(src);
             else if(_width<T>() == 32)
-                return uint32(src);
+                return u32(src);
             else
-                return uint64(src);
+                return u64(src);
         }
 
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
@@ -39,13 +36,13 @@ namespace Z0
             where T : unmanaged
         {
             if(_width<T>() == 8)
-                return int8(src);
+                return i8(src);
             if(_width<T>() == 16)
-                return int16(src);
+                return i16(src);
             else if(_width<T>() == 32)
-                return int32(src);
+                return i32(src);
             else
-                return int64(src);
+                return i64(src);
         }
 
         [MethodImpl(Inline), Op]

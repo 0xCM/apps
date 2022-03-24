@@ -28,19 +28,14 @@ namespace Z0
 
             public InstForm InstForm;
 
-            public TextBlock Body;
+            public InstPatternBody Body;
 
             public int CompareTo(InstPatternInfo src)
-            {
-                var result = OpCode.CompareTo(src.OpCode);
-                if(result == 0)
-                {
-                    result = InstClass.CompareTo(src.InstClass);
-                    if(result == 0)
-                        result = Body.CompareTo(src.Body);
-                }
-                return result;
-            }
+                => Sort().CompareTo(src.Sort());
+
+            [MethodImpl(Inline)]
+            public PatternSort Sort()
+                => new PatternSort(this);
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,12,20,24,52,1};
 

@@ -52,6 +52,10 @@ namespace Z0
         public static string format(ReadOnlySpan<char> src)
             => new string(src);
 
+        [MethodImpl(Inline), Op]
+        public static string format(char[] src)
+            => new string(src);
+
         [Op]
         public static string format(string pattern, ReadOnlySpan<char> a0)
             => string.Format(pattern, format(a0));

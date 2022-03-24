@@ -5,36 +5,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedModels;
     using static XedModels.VexMapKind;
     using static XedModels.EvexMapKind;
     using static XedModels.XopMapKind;
     using static XedModels.LegacyMapKind;
-    using static XedRules;
 
     using I = XedModels.OpCodeIndex;
     using K = XedModels.OpCodeKind;
 
     partial class XedPatterns
     {
-        [MethodImpl(Inline), Op]
-        public static VexMapKind? vexmap(VexClass kind, byte code)
-            => kind == VexClass.VV1 ? (VexMapKind)code : null;
-
-        [MethodImpl(Inline), Op]
-        public static EvexMapKind? evexmap(VexClass kind, byte code)
-            => kind == VexClass.EVV ? (EvexMapKind)code : null;
-
-        [MethodImpl(Inline), Op]
-        public static XopMapKind? xopmap(VexClass kind, byte code)
-            => kind == VexClass.XOPV ? (XopMapKind)code : null;
-
-        [MethodImpl(Inline), Op]
-        public static LegacyMapKind? lmap(byte code)
-            => code <= 4? (LegacyMapKind)code : null;
-
         public static OpCodeIndex? ocindex(byte code)
         {
             var kind = lmap(code);

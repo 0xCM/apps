@@ -2,10 +2,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static Root;
-
     partial struct core
     {
         [Op, Closures(Closure)]

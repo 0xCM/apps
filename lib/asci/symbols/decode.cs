@@ -39,7 +39,7 @@ namespace Z0
         {
             var buffer = alloc<char>(src.Length);
             decode(src,buffer);
-            dst = TextTools.format(buffer);
+            dst = text.format(buffer);
             return ref dst;
         }
     }

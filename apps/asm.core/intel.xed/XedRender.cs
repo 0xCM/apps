@@ -186,12 +186,40 @@ namespace Z0
                 return EmptyString;
         }
 
+        public static string format(in OpAttribs src)
+        {
+            if(src.IsEmpty)
+                return EmptyString;
+
+            var dst = text.buffer();
+            for(var i=0; i<src.Count; i++)
+            {
+                if(i != 0)
+                    dst.Append(Chars.Colon);
+
+                dst.Append(format(src[i]));
+            }
+
+            return dst.Emit();
+        }
+
+        public static string format(in OpSpec src)
+        {
+            var dst = text.buffer();
+            dst.Append(XedRender.format(src.Name));
+            if(src.Attribs.IsNonEmpty)
+                dst.Append(Chars.Colon);
+            dst.Append(format(src.Attribs));
+            return dst.Emit();
+        }
+
         public static string format(OpAttrib src)
         {
             var dst = EmptyString;
             switch(src.Class)
             {
                 case OC.None:
+                    dst = EmptyString;
                 break;
 
                 case OC.Action:

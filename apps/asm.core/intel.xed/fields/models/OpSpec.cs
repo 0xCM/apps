@@ -30,7 +30,7 @@ namespace Z0
             }
 
             public string Format()
-                => text.format("{0}:{1}", Name, Attribs.Delimit(Chars.Colon).Format());
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();
@@ -131,12 +131,6 @@ namespace Z0
                 get => etype(this);
             }
 
-            // public ushort ElementWidth
-            // {
-            //     [MethodImpl(Inline)]
-            //     get => bitwidth(OpWidth.Code, ElementType);
-            // }
-
             [MethodImpl(Inline)]
             public int CompareTo(OpSpec src)
                 => OpId.CompareTo(src.OpId);
@@ -153,7 +147,6 @@ namespace Z0
             [MethodImpl(Inline)]
             static OpWidth opwidth(in OpSpec op)
             {
-                //var dst = OpWidth.E;
                 if(op.Attribs.Search(OpClass.OpWidth, out var attrib))
                     return attrib.AsOpWidth();
                 else

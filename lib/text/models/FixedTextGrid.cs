@@ -56,7 +56,7 @@ namespace Z0
 
         public string Format()
         {
-            var dst = TextTools.buffer();
+            var dst = text.buffer();
             Render(dst);
             return dst.Emit();
         }

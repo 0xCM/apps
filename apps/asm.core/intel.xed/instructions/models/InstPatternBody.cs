@@ -49,9 +49,6 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public InstPatternBody Replicate()
-                => new InstPatternBody(Data.Replicate());
-
             [MethodImpl(Inline)]
             public static implicit operator InstPatternBody(InstDefField[] src)
                 => new InstPatternBody(src);

@@ -24,7 +24,7 @@ namespace Z0
 
             public InstAttribs Attributes;
 
-            public Index<XedFlagEffect> FlagEffects;
+            public Index<XedFlagEffect> Effects;
 
             public Index<InstPatternSpec> PatternSpecs;
 

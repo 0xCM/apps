@@ -24,6 +24,18 @@ namespace Z0
                 Data = data;
             }
 
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Class == 0 && Data == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Class != 0 || Data != 0;
+            }
+
             [MethodImpl(Inline)]
             public int CompareTo(OpAttrib src)
                 => ((uint)Class).CompareTo((uint)src.Class);

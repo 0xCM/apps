@@ -14,7 +14,7 @@ namespace Z0
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1), DataType("block<n:16,t:u8>")]
     [DataWidth(Size*8,Size*8)]
-    public struct ByteBlock16 : IStorageBlock<B>
+    public struct ByteBlock16 : IStorageBlock<B>, IEquatable<B>
     {
         public const ushort Size = 16;
 
@@ -82,6 +82,21 @@ namespace Z0
             where T : unmanaged
                 => api.vector<T>(W, this);
 
+        [MethodImpl(Inline)]
+        public bool Equals(B src)
+            => cpu.vsame(Vector<ulong>(), src.Vector<ulong>());
+
+        public override bool Equals(object src)
+            => src is B b && Equals(b);
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => alg.hash.marvin(Bytes);
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
         public string Format()
             => api.format(this);
 
@@ -124,6 +139,14 @@ namespace Z0
             dst.B = src.b;
             return dst;
         }
+
+        [MethodImpl(Inline)]
+        public static bool operator==(B a, B b)
+            => a.Equals(b);
+
+        [MethodImpl(Inline)]
+        public static bool operator!=(B a, B b)
+            => !a.Equals(b);
 
         public static B Empty => default;
     }

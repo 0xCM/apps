@@ -96,7 +96,7 @@ namespace Z0
             result = DataParser.eparse(src.Extension, out dst.Extension);
             result = DataParser.eparse(src.Category, out dst.Category);
             result = XedParsers.parse(src.Form, out dst.InstForm);
-            dst.Index = (ushort)dst.InstForm.Type;
+            dst.Index = (ushort)dst.InstForm.Kind;
             result = DataParser.eparse(src.IsaSet, out dst.IsaKind);
             dst.Attributes = XedPatterns.attributes(src.Attributes);
             return true;

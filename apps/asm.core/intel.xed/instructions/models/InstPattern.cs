@@ -95,6 +95,13 @@ namespace Z0
                 get => ref InstDef.InstClass;
             }
 
+
+            public string Classifier
+            {
+                [MethodImpl(Inline)]
+                get => InstClass.Classifier;
+            }
+
             public ref readonly InstForm InstForm
             {
                 [MethodImpl(Inline)]
@@ -125,14 +132,24 @@ namespace Z0
                 get => ref InstDef.Attributes;
             }
 
-            public ref readonly Index<XedFlagEffect> InstFlags
+            public ref readonly Index<XedFlagEffect> Effects
             {
                 [MethodImpl(Inline)]
-                get => ref InstDef.FlagEffects;
+                get => ref InstDef.Effects;
+            }
+
+            public bool Locked
+            {
+                [MethodImpl(Inline)]
+                get => InstClass.Locked;
             }
 
             public int CompareTo(InstPattern src)
-                => PatternSpec.CompareTo(src.PatternSpec);
+                => Sort().CompareTo(src.Sort());
+
+            [MethodImpl(Inline)]
+            public PatternSort Sort()
+                => new PatternSort(this);
         }
     }
 }

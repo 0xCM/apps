@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct core
     {
         /// <summary>
@@ -19,6 +14,6 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         public static byte bw8<T>(T src)
             where T : unmanaged
-                => uint8(src);
+                => u8(src);
     }
 }

@@ -7,43 +7,44 @@ namespace Z0
 {
     partial struct XedModels
     {
+        [DataWidth(16)]
         public struct InstForm : IEquatable<InstForm>, IComparable<InstForm>
         {
-            public readonly IFormType Type;
+            public readonly IFormType Kind;
 
             [MethodImpl(Inline)]
             public InstForm(IFormType src)
-                => Type = src;
+                => Kind = src;
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Type != 0;
+                get => Kind != 0;
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Type == 0;
+                get => Kind == 0;
             }
 
             [MethodImpl(Inline)]
             public bool Equals(InstForm src)
-                => ((ushort)Type).Equals((ushort)src.Type);
+                => ((ushort)Kind).Equals((ushort)src.Kind);
 
             [MethodImpl(Inline)]
             public int CompareTo(InstForm src)
-                => ((ushort)Type).CompareTo((ushort)src.Type);
+                => ((ushort)Kind).CompareTo((ushort)src.Kind);
 
 
             public override int GetHashCode()
-                =>(int)Type;
+                =>(int)Kind;
 
             public override bool Equals(object src)
                 => src is InstForm && Equals(src);
 
             public string Format()
-                => Type == 0 ? EmptyString :  Type.ToString();
+                => Kind == 0 ? EmptyString :  Kind.ToString();
 
             public override string ToString()
                 => Format();
@@ -54,7 +55,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator IFormType(InstForm src)
-                => src.Type;
+                => src.Kind;
 
             public static InstForm Empty => default;
         }

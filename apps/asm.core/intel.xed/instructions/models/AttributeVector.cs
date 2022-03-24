@@ -56,12 +56,11 @@ namespace Z0
             }
 
             public string Format()
-                => EmptyString;
-            // {
-            //     var lo = BitRender.format64x8(Data.Lo);
-            //     var hi = BitRender.format64x8(Data.Hi);
-            //     return string.Format("{0} {1}", hi, lo);
-            // }
+            {
+                var lo = BitRender.format64x8(Data.Lo);
+                var hi = BitRender.format64x8(Data.Hi);
+                return string.Format("{0} {1}", hi, lo);
+            }
 
             public override string ToString()
                 => Format();

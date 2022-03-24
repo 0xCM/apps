@@ -4,15 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct core
     {
-        [MethodImpl(Inline), Op]
-        public static void reverse(ReadOnlySpan<byte> src, Span<byte> dst)
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static void reverse<T>(ReadOnlySpan<T> src, Span<T> dst)
         {
             var count = src.Length;
             var j=0;

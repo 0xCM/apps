@@ -275,7 +275,7 @@ namespace Z0.Asm
 
         static async void emit(EventWrittenEventArgs src, StreamWriter dst)
         {
-            var buffer = TextTools.buffer();
+            var buffer = text.buffer();
             render(src,buffer);
             await dst.WriteLineAsync(buffer.Emit());
         }

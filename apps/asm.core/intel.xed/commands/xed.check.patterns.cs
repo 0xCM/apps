@@ -39,7 +39,7 @@ namespace Z0
         Outcome CheckPatterns(CmdArgs args)
         {
             var blocks = cdict<uint,string[]>();
-
+            var patterns = cdict<uint,InstPatternSpec>();
             var traversals = XedPatterns.traversals()
                 .WithPreHandler(PatternTraversal);
 
@@ -49,15 +49,16 @@ namespace Z0
 
             void PatternTraversal(in InstDef def, in InstPatternSpec pattern)
             {
+                Require.invariant(patterns.TryAdd(pattern.PatternId,pattern));
                 ref readonly var ops = ref pattern.Ops;
                 var dst = alloc<string>(2 + ops.Count);
                 var j=0u;
-                seek(dst,j++) = string.Format("{0,-20} | {1,-4} | {2}", pattern.InstClass, pattern.Mode, pattern.BodyExpr);
+                seek(dst,j++) = string.Format("{0,-20} | {1,-4} | {2}", pattern.InstClass.Name, pattern.Mode, pattern.BodyExpr);
                 seek(dst,j++) = string.Format("{0,-20} | {1}", pattern.OpCode, pattern.InstForm);
                 for(var i=0; i<ops.Count; i++)
                 {
                     ref readonly var op = ref ops[i];
-                    seek(dst,j++) = string.Format("{0,-20} | {0} {1}", EmptyString, op.Index, op.Format());
+                    seek(dst,j++) = string.Format("{0,20} | {1}", string.Format("{0} {1}", op.Index, XedRender.format(op.Name)), XedRender.format(op.Attribs));
                 }
                 blocks.TryAdd(pattern.PatternId, dst);
             }
@@ -65,17 +66,35 @@ namespace Z0
             var path = XedPaths.Targets() + FS.file("xed.inst.patterns.opinfo", FS.Csv);
             var emitting = EmittingFile(path);
             using var writer = path.AsciWriter();
-            var keys = blocks.Keys.Array().Sort();
             var counter = 0u;
-            for(var i=0; i<keys.Length; i++)
+
+            var sorted = patterns.Values.Array().Sort(new PatternSort());
+            var opcode = XedOpCode.Empty;
+            for(var i=0; i<sorted.Length; i++)
             {
-                var lines = blocks[skip(keys,i)];
+                ref readonly var pattern = ref skip(sorted,i);
+                if(pattern.OpCode != opcode)
+                {
+                    writer.WriteLine(RP.PageBreak120);
+                    opcode = pattern.OpCode;
+                }
+
+                var lines = blocks[pattern.PatternId];
                 for(var j=0; j<lines.Length; j++, counter++)
                     writer.WriteLine(skip(lines,j));
             }
-
             EmittedFile(emitting,counter);
             return true;
+        }
+    }
+
+    partial class XTend
+    {
+        public static Index<T> Sort<T,C>(this Index<T> src, C comparer)
+            where C : IComparer<T>
+        {
+            System.Array.Sort(src,comparer);
+            return src;
         }
     }
 }

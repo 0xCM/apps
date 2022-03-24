@@ -11,6 +11,7 @@ namespace Z0
 
     partial class XedPatterns
     {
+        [StructLayout(LayoutKind.Sequential,Pack=1),DataWidth(64)]
         public readonly struct XedOpCode : IEquatable<XedOpCode>, IComparable<XedOpCode>
         {
             public readonly ushort PatternId;
@@ -27,6 +28,12 @@ namespace Z0
                 Value = value;
             }
 
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => (((uint)Kind << 24) | (uint)Value);
+            }
+
             public string Format()
                 => XedRender.format(this);
 
@@ -35,7 +42,7 @@ namespace Z0
 
 
             public override int GetHashCode()
-                => (int)(((uint)Kind << 24) | (uint)Value);
+                => Hash;
 
             public bool Equals(XedOpCode src)
                 => Kind == src.Kind && Value == src.Value;
@@ -52,6 +59,16 @@ namespace Z0
                     result = Value.CompareTo(src.Value);
                 return result;
             }
+
+            public static XedOpCode Empty => default;
+
+            [MethodImpl(Inline)]
+            public static bool operator==(XedOpCode a, XedOpCode b)
+                => a.Equals(b);
+
+            [MethodImpl(Inline)]
+            public static bool operator!=(XedOpCode a, XedOpCode b)
+                => !a.Equals(b);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Z0
 
     partial class XedPatterns
     {
+        [DataWidth(16)]
         public readonly struct InstClass
         {
             public readonly IClass Kind;
@@ -19,10 +20,16 @@ namespace Z0
                 Kind = mode;
             }
 
-            public string Name
-                => name(this);
+            public readonly string Classifier
+                => classifier(this);
 
-            public Identifier Identifier
+            public bool Locked
+            {
+                [MethodImpl(Inline)]
+                get => locked(Kind);
+            }
+
+            public Identifier Name
                 => Kind.ToString();
 
             public bool IsEmpty
@@ -44,7 +51,7 @@ namespace Z0
                 => Format();
 
             public int CompareTo(InstClass src)
-                => Name.CompareTo(src.Name);
+                => Classifier.CompareTo(src.Classifier);
 
             [MethodImpl(Inline)]
             public static implicit operator InstClass(IClass src)

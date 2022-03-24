@@ -11,6 +11,10 @@ namespace Z0
 
     partial class XedPatterns
     {
+        [MethodImpl(Inline), Op]
+        public static LegacyMapKind? lmap(byte code)
+            => code <= 4? (LegacyMapKind)code : null;
+
         public static LegacyMapKind lmap(AsmOcValue value)
         {
             var dst = default(LegacyMapKind);

@@ -123,7 +123,7 @@ namespace Z0
                                         XedParsers.parse(value, out dst.Extension);
                                     break;
                                     case P.Flags:
-                                        XedParsers.parse(value, out dst.FlagEffects);
+                                        XedParsers.parse(value, out dst.Effects);
                                     break;
                                     case P.Class:
                                     {
@@ -186,14 +186,14 @@ namespace Z0
             for(var i=0u; i<defs.Length; i++,iid++)
             {
                 ref var def = ref seek(defs,i);
+                ref var specs = ref def.PatternSpecs;
+
                 def.InstId = iid;
-                ref var patterns = ref def.PatternSpecs;
-                for(var j=0; j<patterns.Count; j++, pid++)
+                for(var j=0; j<specs.Count; j++, pid++)
                 {
-                    ref var pattern = ref patterns[j];
+                    ref var pattern = ref specs[j];
                     if(forms.TryGetValue(pattern.PatternId, out var form))
                         pattern = pattern.WithForm(form);
-
                     pattern = pattern.WithIdentity(pid,iid);
                 }
             }

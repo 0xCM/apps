@@ -23,15 +23,15 @@ namespace Z0
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var def = ref src[i];
-                if(def.FlagEffects.Count != 0)
+                if(def.Effects.Count != 0)
                 {
                     if(log.Contains(def.InstClass))
                         continue;
 
                     log.Add(def.InstClass);
-                    for(var j=0; j<def.FlagEffects.Count; j++)
+                    for(var j=0; j<def.Effects.Count; j++)
                     {
-                        var e = def.FlagEffects[j];
+                        var e = def.Effects[j];
                         writer.AppendLineFormat(RenderPattern,
                             XedRender.format(def.InstClass),
                             e.Flag.ToString().ToLower(),

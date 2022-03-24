@@ -130,8 +130,8 @@ namespace Z0
             [MethodImpl(Inline)]
             void TraverseEffects(in InstDef src)
             {
-                for(var i=0; i<src.FlagEffects.Count; i++)
-                    TraverseEffect(src, src.FlagEffects[i]);
+                for(var i=0; i<src.Effects.Count; i++)
+                    TraverseEffect(src, src.Effects[i]);
             }
 
             [MethodImpl(Inline)]

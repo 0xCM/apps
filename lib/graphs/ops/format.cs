@@ -19,7 +19,7 @@ namespace Z0
         public static string format<V>(Graph<V> src, string label = null)
         {
             var count = src.EdgeCount;
-            var buffer = TextTools.buffer();
+            var buffer = text.buffer();
             buffer.AppendLine("digraph " +(label ?? "g") + "   {");
             for(var i=0; i< count; i++)
             {

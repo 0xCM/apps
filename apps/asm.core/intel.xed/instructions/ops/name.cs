@@ -5,9 +5,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+
     partial class XedPatterns
     {
-        public static string name(InstClass src)
+        public static bool locked(IClass src)
+            => text.ends(XedRender.format(src), "_LOCK");
+
+        public static string classifier(InstClass src)
         {
             if(src.IsEmpty)
                 return EmptyString;
