@@ -20,13 +20,13 @@ namespace Z0
 
             public uint InstId;
 
-            public EnumFormat<ModeKind> Mode;
+            public MachineMode Mode;
 
             public XedOpCode OpCode;
 
-            public IClass Class;
+            public InstClass InstClass;
 
-            public IForm Form;
+            public InstForm InstForm;
 
             public TextBlock Body;
 
@@ -35,7 +35,7 @@ namespace Z0
                 var result = OpCode.CompareTo(src.OpCode);
                 if(result == 0)
                 {
-                    result = ((ushort)Class).CompareTo((ushort)(src.Class));
+                    result = InstClass.CompareTo(src.InstClass);
                     if(result == 0)
                         result = Body.CompareTo(src.Body);
                 }

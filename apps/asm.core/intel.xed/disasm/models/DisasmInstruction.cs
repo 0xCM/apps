@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedPatterns;
 
     partial class XedDisasm
     {
@@ -14,9 +15,9 @@ namespace Z0
         {
             public const string TableId = "xed.disasm.instruction";
 
-            public IClass Class;
+            public InstClass InstClass;
 
-            public IFormType Form;
+            public InstForm InstForm;
 
             public Index<Facet<string>> Props;
         }

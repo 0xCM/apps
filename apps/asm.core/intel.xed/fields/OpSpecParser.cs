@@ -23,7 +23,7 @@ namespace Z0
 
             readonly ConstLookup<OpWidthCode,OpWidthInfo> OpWidths;
 
-            readonly ModeKind Mode;
+            readonly MachineMode Mode;
 
             public OpSpecParser(ConstLookup<OpWidthCode,OpWidthInfo> widths, InstPatternBody body)
             {
@@ -32,11 +32,11 @@ namespace Z0
                 Mode = XedPatterns.mode(body);
             }
 
-            public PatternOp ParseOperand(in InstPatternSpec src, byte k)
+            public InstPatternOp ParseOperand(in InstPatternSpec src, byte k)
             {
                 ref readonly var ops = ref src.Ops;
                 ref readonly var op = ref ops[k];
-                var dst = PatternOp.Empty;
+                var dst = InstPatternOp.Empty;
                 var spec = parse(src.PatternId, k, op.Name, op.Expression);
                 var attribs = spec.Attribs.Sort();
                 dst.InstId = src.InstId;
@@ -45,7 +45,7 @@ namespace Z0
                 dst.Name = spec.Name;
                 dst.Kind = spec.Kind;
                 dst.Expression = op.Expression;
-                dst.Mnemonic = src.Class;
+                dst.InstClass = src.InstClass;
                 dst.OpCode = src.OpCode;
                 if(attribs.Search(OpClass.Action, out var action))
                     dst.Action = action;
@@ -226,7 +226,7 @@ namespace Z0
                     return dst;
                 else if(OpWidths.Find(code, out var info))
                 {
-                    switch(Mode)
+                    switch(Mode.Kind)
                     {
                         case ModeKind.Mode16:
                             dst = new OpWidth(Mode, code, info.Width16);

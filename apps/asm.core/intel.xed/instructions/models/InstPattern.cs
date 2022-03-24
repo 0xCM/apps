@@ -16,16 +16,16 @@ namespace Z0
 
             public readonly InstPatternSpec PatternSpec;
 
-            public readonly Index<PatternOp> Operands;
+            public readonly Index<InstPatternOp> Operands;
 
-            public InstPattern(InstDef inst, InstPatternSpec spec, Index<PatternOp> details)
+            public InstPattern(InstDef inst, InstPatternSpec spec, Index<InstPatternOp> details)
             {
                 InstDef = inst;
                 PatternSpec = spec;
                 Operands = details;
             }
 
-            public ref readonly ModeKind Mode
+            public ref readonly MachineMode Mode
             {
                 [MethodImpl(Inline)]
                 get => ref PatternSpec.Mode;
@@ -89,16 +89,16 @@ namespace Z0
                 get => ref PatternSpec.PatternId;
             }
 
-            public ref readonly IClass Class
+            public ref readonly InstClass InstClass
             {
                 [MethodImpl(Inline)]
-                get => ref InstDef.Class;
+                get => ref InstDef.InstClass;
             }
 
-            public ref readonly IForm Form
+            public ref readonly InstForm InstForm
             {
                 [MethodImpl(Inline)]
-                get => ref PatternSpec.Form;
+                get => ref PatternSpec.InstForm;
             }
 
             public ref readonly Category Category

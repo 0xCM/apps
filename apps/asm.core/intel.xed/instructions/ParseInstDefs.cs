@@ -13,7 +13,7 @@ namespace Z0
 
     partial class XedPatterns
     {
-        void Parse(uint pattern, IClass @class, IForm form, string rawbody, string ops, out InstPatternSpec dst)
+        void Parse(uint pattern, InstClass @class, InstForm form, string rawbody, string ops, out InstPatternSpec dst)
         {
             var buffer = text.buffer();
             var parts = text.split(text.despace(rawbody), Chars.Space);
@@ -82,7 +82,7 @@ namespace Z0
             var buffer = list<InstDef>();
             var reader = src.ReadNumberedLines().Select(cleanse).Where(line => line.IsNonEmpty).Reader();
             var seq = 0u;
-            var forms = dict<uint,IForm>();
+            var forms = dict<uint,InstForm>();
             var logdst = XedPaths.Targets() + FS.file("xed.inst.patterns.log", FS.Csv);
             using var log = logdst.AsciWriter();
             while(reader.Next(out var line))
@@ -95,7 +95,7 @@ namespace Z0
                     var dst = default(InstDef);
                     var body = EmptyString;
                     var specs = list<InstPatternSpec>();
-                    var @class = IClass.INVALID;
+                    var @class = InstClass.Empty;
                     while(!line.StartsWith(Chars.RBrace) && reader.Next(out line))
                     {
                         if(split(line, out var name, out var value))
@@ -110,7 +110,7 @@ namespace Z0
                                 switch(part)
                                 {
                                     case P.Form:
-                                        if(XedParsers.parse(value, out IForm form))
+                                        if(XedParsers.parse(value, out InstForm form))
                                             forms.TryAdd(seq,form);
                                     break;
                                     case P.Attributes:
@@ -127,8 +127,8 @@ namespace Z0
                                     break;
                                     case P.Class:
                                     {
-                                        if(XedParsers.parse(value, out dst.Class))
-                                            @class = dst.Class;
+                                        XedParsers.parse(value, out dst.InstClass);
+                                        @class = dst.InstClass;
                                     }
                                     break;
                                     case P.Operands:
@@ -157,7 +157,7 @@ namespace Z0
                                             }
                                         }
 
-                                        Parse(seq, @class, IForm.Empty, body, value, out var spec);
+                                        Parse(seq, @class, InstForm.Empty, body, value, out var spec);
                                         specs.Add(spec);
                                     }
                                     break;
@@ -175,23 +175,26 @@ namespace Z0
                         }
                     }
 
-                    dst.PatternSpecs = specs.Array();
+                    dst.PatternSpecs = specs.Array().Sort();
                     buffer.Add(dst);
                 }
             }
 
             var defs = buffer.ToArray().Sort();
-            for(var i=0u; i<defs.Length; i++)
+            var iid = 0u;
+            var pid = 0u;
+            for(var i=0u; i<defs.Length; i++,iid++)
             {
                 ref var def = ref seek(defs,i);
-                def.InstId = i;
+                def.InstId = iid;
                 ref var patterns = ref def.PatternSpecs;
-                for(var j=0; j<patterns.Count; j++)
+                for(var j=0; j<patterns.Count; j++, pid++)
                 {
                     ref var pattern = ref patterns[j];
-                    pattern = pattern.WithInstId(i);
                     if(forms.TryGetValue(pattern.PatternId, out var form))
                         pattern = pattern.WithForm(form);
+
+                    pattern = pattern.WithIdentity(pid,iid);
                 }
             }
 

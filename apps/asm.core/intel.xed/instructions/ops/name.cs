@@ -5,13 +5,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-    using static XedRules;
-
-    partial class XedFields
+    partial class XedPatterns
     {
-        [MethodImpl(Inline), Op]
-        public static MachineMode mode(in RuleState src)
-            => (ModeKind)src.MODE;
+        public static string name(InstClass src)
+        {
+            if(src.IsEmpty)
+                return EmptyString;
+
+            var dst = XedRender.format(src.Kind);
+            if(text.ends(dst,"_LOCK"))
+                dst = text.remove(dst,"_LOCK");
+
+            return dst;
+        }
     }
 }

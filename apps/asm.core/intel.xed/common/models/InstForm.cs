@@ -7,56 +7,56 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public struct IForm : IEquatable<IForm>, IComparable<IForm>
+        public struct InstForm : IEquatable<InstForm>, IComparable<InstForm>
         {
-            public IFormType Value {get;}
+            public readonly IFormType Type;
 
             [MethodImpl(Inline)]
-            public IForm(IFormType src)
-                => Value = src;
+            public InstForm(IFormType src)
+                => Type = src;
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Value != 0;
+                get => Type != 0;
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Value == 0;
+                get => Type == 0;
             }
 
             [MethodImpl(Inline)]
-            public bool Equals(IForm src)
-                => ((ushort)Value).Equals((ushort)src.Value);
+            public bool Equals(InstForm src)
+                => ((ushort)Type).Equals((ushort)src.Type);
 
             [MethodImpl(Inline)]
-            public int CompareTo(IForm src)
-                => ((ushort)Value).CompareTo((ushort)src.Value);
+            public int CompareTo(InstForm src)
+                => ((ushort)Type).CompareTo((ushort)src.Type);
 
 
             public override int GetHashCode()
-                =>(int)Value;
+                =>(int)Type;
 
             public override bool Equals(object src)
-                => src is IForm && Equals(src);
+                => src is InstForm && Equals(src);
 
             public string Format()
-                => Value == 0 ? EmptyString :  Value.ToString();
+                => Type == 0 ? EmptyString :  Type.ToString();
 
             public override string ToString()
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator IForm(IFormType src)
-                => new IForm(src);
+            public static implicit operator InstForm(IFormType src)
+                => new InstForm(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator IFormType(IForm src)
-                => src.Value;
+            public static implicit operator IFormType(InstForm src)
+                => src.Type;
 
-            public static IForm Empty => default;
+            public static InstForm Empty => default;
         }
     }
 }

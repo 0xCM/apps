@@ -13,11 +13,11 @@ namespace Z0
         {
             var count = src.Count;
             var dst = bag<InstPatternInfo>();
-            iter(src, p => dst.Add(describe(p.PatternSpec)), pll);
+            iter(src, p => dst.Add(describe(p)), pll);
             return dst.Array().Sort();
         }
 
-        public static InstPatternInfo describe(InstPatternSpec src)
+        public static InstPatternInfo describe(in InstPattern src)
         {
             ref readonly var body = ref src.Body;
             var dst = InstPatternInfo.Empty;
@@ -26,8 +26,23 @@ namespace Z0
             dst.InstId = src.InstId;
             dst.Mode = src.Mode;
             dst.OpCode = opcode;
-            dst.Class = src.Class;
-            dst.Form = src.Form;
+            dst.InstClass = src.InstClass;
+            dst.InstForm = src.InstForm;
+            dst.Body = XedRender.format(body);
+            return dst;
+        }
+
+        public static InstPatternInfo describe(in InstPatternSpec src)
+        {
+            ref readonly var body = ref src.Body;
+            var dst = InstPatternInfo.Empty;
+            var opcode = XedPatterns.xedoc(src.PatternId, body);
+            dst.PatternId = src.PatternId;
+            dst.InstId = src.InstId;
+            dst.Mode = src.Mode;
+            dst.OpCode = opcode;
+            dst.InstClass = src.InstClass;
+            dst.InstForm = src.InstForm;
             dst.Body = XedRender.format(body);
             return dst;
         }

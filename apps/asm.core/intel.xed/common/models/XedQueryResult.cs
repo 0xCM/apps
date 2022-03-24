@@ -9,6 +9,7 @@ namespace Z0
 
     using static XedModels;
     using static XedRules;
+    using static XedPatterns;
 
     [Record(TableId)]
     public struct XedQueryResult
@@ -21,9 +22,9 @@ namespace Z0
 
         public string SearchPattern;
 
-        public IClass Class;
+        public InstClass InstClass;
 
-        public IForm Form;
+        public InstForm InstForm;
 
         public IsaKind Isa;
 

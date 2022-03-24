@@ -83,13 +83,7 @@ namespace Z0
                 => Name.CompareTo(src.Name);
 
             public string Format()
-            {
-                var n = Name;
-                if(text.nonempty(n))
-                    return string.Format("{0}()", Name);
-                else
-                    return EmptyString;
-            }
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

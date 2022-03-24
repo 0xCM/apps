@@ -11,7 +11,7 @@ namespace Z0
     partial class XedPatterns
     {
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableName)]
-        public struct PatternOp : IComparable<PatternOp>
+        public struct InstPatternOp : IComparable<InstPatternOp>
         {
             public const byte FieldCount = 16;
 
@@ -21,7 +21,7 @@ namespace Z0
 
             public uint PatternId;
 
-            public IClass Mnemonic;
+            public InstClass InstClass;
 
             public XedOpCode OpCode;
 
@@ -49,7 +49,7 @@ namespace Z0
 
             public Visibility Visibility;
 
-            public int CompareTo(PatternOp src)
+            public int CompareTo(InstPatternOp src)
             {
                 var result = InstId.CompareTo(src.InstId);
                 if(result == 0)
@@ -63,7 +63,7 @@ namespace Z0
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,18,24,8,8,8,32,8,10,10,10,10,16,8,12};
 
-            public static PatternOp Empty => default;
+            public static InstPatternOp Empty => default;
         }
     }
 }

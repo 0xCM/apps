@@ -59,8 +59,8 @@ namespace Z0
                 => (XedRegId)Data;
 
             [MethodImpl(Inline)]
-            public NontermKind AsNonTerm()
-                => (NontermKind)Data;
+            public Nonterminal AsNonTerm()
+                => Nonterminal.FromId(Data);
 
             [MethodImpl(Inline)]
             public MemoryScale AsScale()

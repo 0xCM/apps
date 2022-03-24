@@ -20,7 +20,7 @@ namespace Z0
             {
                 ref readonly var row = ref doc[i];
                 ref readonly var detail = ref row.Detail;
-                var mnemonic = detail.Mnemonic;
+                var mnemonic = detail.InstClass;
                 writer.AppendLineFormat("{0,-6} {1}", counter++, mnemonic);
                 writer.AppendLine(RP.PageBreak40);
                 ref readonly var ops = ref detail.Operands;

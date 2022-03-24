@@ -7,10 +7,13 @@ namespace Z0
 {
     partial class XedPatterns
     {
-        public static PatternTraverser traverser(IWfRuntime wf)
-            => new PatternTraverser(wf.IntelXed());
+        public static InstDefTraverser traverser()
+            => new InstDefTraverser();
 
-        public static PatternTraverser  traverser(IWfRuntime wf, Action<string> printer)
-            => new PatternTraverser(wf.IntelXed(),printer);
+        public static InstDefTraversals traversals()
+            => InstDefTraversals.init();
+
+        public static InstDefTraverser traverser(InstDefTraversals traversals)
+            => new InstDefTraverser(traversals);
     }
 }

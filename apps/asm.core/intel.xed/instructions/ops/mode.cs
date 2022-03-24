@@ -11,7 +11,7 @@ namespace Z0
 
     partial class XedPatterns
     {
-        public static ModeKind mode(in InstPatternBody src)
+        public static MachineMode mode(in InstPatternBody src)
         {
             var result = ModeKind.Default;
             for(var i=0; i<src.FieldCount; i++)

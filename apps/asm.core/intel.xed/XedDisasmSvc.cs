@@ -9,10 +9,6 @@ namespace Z0
 
     public partial class XedDisasmSvc : AppService<XedDisasmSvc>
     {
-        Symbols<IFormType> Forms;
-
-        Symbols<IClass> Classes;
-
         XedRules Rules => Service(Wf.XedRules);
 
         XedPatterns Patterns => Service(Wf.XedPatterns);
@@ -27,8 +23,6 @@ namespace Z0
 
         public XedDisasmSvc()
         {
-            Forms = Symbols.index<IFormType>();
-            Classes = Symbols.index<IClass>();
         }
 
         protected override void OnInit()

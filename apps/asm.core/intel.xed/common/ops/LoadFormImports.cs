@@ -27,12 +27,12 @@ namespace Z0.Asm
                     if(line.StartsWith(CommentMarker) || line.IsEmpty)
                         continue;
 
-                    outcome = XedModels.parse(line, out var row);
+                    outcome = XedModels.parse(line.Content, out XedFormImport row);
                     if(outcome)
                         dst.Add(row);
                     else
                     {
-                        Warn(outcome.Message);
+                        Warn(outcome.Message.Replace("{", "{{").Replace("}","}}"));
                     }
 
                     counter++;

@@ -18,7 +18,7 @@ namespace Z0
             dst.Index = index;
             dst.FieldClass = src.FieldClass;
             dst.FieldKind = src.FieldKind;
-            dst.InstClass = pattern.Class;
+            dst.InstClass = pattern.InstClass;
             dst.OpCode = pattern.OpCode;
             switch(src.FieldClass)
             {

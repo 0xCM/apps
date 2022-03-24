@@ -20,7 +20,7 @@ namespace Z0
 
             public XedOpCode OpCode;
 
-            public IClass Class;
+            public InstClass InstClass;
 
             public EnumFormat<ModeKind> Mode;
 

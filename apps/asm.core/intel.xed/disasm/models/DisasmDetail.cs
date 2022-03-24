@@ -9,6 +9,7 @@ namespace Z0
 
     using static XedModels;
     using static XedRules;
+    using static XedPatterns;
 
     partial class XedDisasm
     {
@@ -33,7 +34,7 @@ namespace Z0
 
             public MemoryAddress IP;
 
-            public IClass Mnemonic;
+            public InstClass InstClass;
 
             public AsmHexCode Encoded;
 
@@ -63,7 +64,7 @@ namespace Z0
 
             public AsmExpr Asm;
 
-            public IForm IForm;
+            public InstForm InstForm;
 
             public @string SourceName;
 

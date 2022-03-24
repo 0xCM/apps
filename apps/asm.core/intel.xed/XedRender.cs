@@ -177,6 +177,15 @@ namespace Z0
         public static string format(OpWidth src)
             => src.IsNonEmpty ? format(src.Code) : EmptyString;
 
+        public static string format(Nonterminal src)
+        {
+            var name = src.Name;
+            if(text.nonempty(name))
+                return string.Format("{0}()", name);
+            else
+                return EmptyString;
+        }
+
         public static string format(OpAttrib src)
         {
             var dst = EmptyString;

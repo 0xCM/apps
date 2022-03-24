@@ -18,7 +18,7 @@ namespace Z0
             (var fields, var layout) = split(src.Body);
             dst.PatternId = src.PatternId;
             dst.OpCode = src.OpCode;
-            dst.Class = src.Class;
+            dst.InstClass = src.InstClass;
             dst.Pattern = src.BodyExpr;
 
             for(byte j=0; j<fields.FieldCount; j++)

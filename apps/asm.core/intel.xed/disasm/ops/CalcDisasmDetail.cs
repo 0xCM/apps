@@ -33,8 +33,8 @@ namespace Z0
             dst.IP = summary.IP;
             dst.Encoded = summary.Encoded;
             dst.Asm = summary.Asm;
-            dst.IForm = inst.Form;
-            dst.Mnemonic = inst.Class;
+            dst.InstForm = inst.InstForm;
+            dst.InstClass = inst.InstClass;
             dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
             result = XedDisasm.parse(inst.Props.Edit, out DisasmState state);
             ref readonly var rules = ref state.RuleState;

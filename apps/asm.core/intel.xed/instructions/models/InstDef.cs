@@ -14,7 +14,7 @@ namespace Z0
         {
             public uint InstId;
 
-            public IClass Class;
+            public InstClass InstClass;
 
             public Category Category;
 
@@ -30,11 +30,11 @@ namespace Z0
 
             public int CompareTo(InstDef src)
             {
-                var result = ((ushort)Class).CompareTo((ushort)src.Class);
+                var result = InstClass.CompareTo(src.InstClass);
                 if(result == 0)
                 {
                     if(PatternSpecs.IsNonEmpty && src.PatternSpecs.IsNonEmpty)
-                        result = PatternSpecs.First.Body[0].Format().CompareTo(src.PatternSpecs.First.Body[0].Format());
+                        result = PatternSpecs.First.OpCode.CompareTo(src.PatternSpecs.First.OpCode);
                 }
                 return result;
             }

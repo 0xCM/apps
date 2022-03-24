@@ -38,38 +38,44 @@ namespace Z0
         [CmdOp("xed/check/patterns")]
         Outcome CheckPatterns(CmdArgs args)
         {
-            var result = Outcome.Success;
-            var patterns = Xed.Rules.CalcInstPatterns();
-            var descriptions = XedPatterns.describe(patterns);
-            TableEmit(descriptions.View, InstPatternInfo.RenderWidths, XedPaths.Table<InstPatternInfo>());
-            var count = patterns.Count;
-            var dst = AppDb.XedPath("xed.patterns.checks", FileKind.Txt);
-            var emitting = EmittingFile(dst);
-            using var writer = dst.AsciWriter();
-            for(var i=0; i<count; i++)
+            var blocks = cdict<uint,string[]>();
+
+            var traversals = XedPatterns.traversals()
+                .WithPreHandler(PatternTraversal);
+
+            var traverser = XedPatterns.traverser(traversals);
+            traverser.TraverseDefs(Xed.Rules.CalcInstDefs());
+
+
+            void PatternTraversal(in InstDef def, in InstPatternSpec pattern)
             {
-                var ipattern = patterns[i];
-                ref readonly var id = ref ipattern.PatternId;
-                ref readonly var instid = ref ipattern.InstId;
-                ref readonly var @class = ref ipattern.Class;
-                ref readonly var form = ref ipattern.Form;
-                ref readonly var ext = ref ipattern.Extension;
-                ref readonly var isa = ref ipattern.Isa;
-                ref readonly var category = ref ipattern.Category;
-                ref readonly var attribs = ref ipattern.InstAttribs;
-                ref readonly var flags = ref ipattern.InstFlags;
-                ref readonly var def = ref ipattern.InstDef;
-                ref readonly var spec = ref ipattern.PatternSpec;
-                ref readonly var body = ref ipattern.Body;
-                ref readonly var raw = ref ipattern.RawBody;
-                writer.WriteLine(RP.PageBreak80);
-                writer.WriteLine(@class);
-                writer.WriteLine(raw);
-                writer.WriteLine(Require.equal(body.Format(), raw.Format()));
-                writer.WriteLine();
+                ref readonly var ops = ref pattern.Ops;
+                var dst = alloc<string>(2 + ops.Count);
+                var j=0u;
+                seek(dst,j++) = string.Format("{0,-20} | {1,-4} | {2}", pattern.InstClass, pattern.Mode, pattern.BodyExpr);
+                seek(dst,j++) = string.Format("{0,-20} | {1}", pattern.OpCode, pattern.InstForm);
+                for(var i=0; i<ops.Count; i++)
+                {
+                    ref readonly var op = ref ops[i];
+                    seek(dst,j++) = string.Format("{0,-20} | {0} {1}", EmptyString, op.Index, op.Format());
+                }
+                blocks.TryAdd(pattern.PatternId, dst);
             }
-            EmittedFile(emitting,count);
-            return result;
+
+            var path = XedPaths.Targets() + FS.file("xed.inst.patterns.opinfo", FS.Csv);
+            var emitting = EmittingFile(path);
+            using var writer = path.AsciWriter();
+            var keys = blocks.Keys.Array().Sort();
+            var counter = 0u;
+            for(var i=0; i<keys.Length; i++)
+            {
+                var lines = blocks[skip(keys,i)];
+                for(var j=0; j<lines.Length; j++, counter++)
+                    writer.WriteLine(skip(lines,j));
+            }
+
+            EmittedFile(emitting,counter);
+            return true;
         }
     }
 }

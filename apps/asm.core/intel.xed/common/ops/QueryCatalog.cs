@@ -26,24 +26,19 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
             {
                 ref readonly var form = ref skip(src,i);
-                ref readonly var @class = ref classes[form.Class];
-                if(@class == null)
-                    continue;
-
-                ref readonly var type = ref types[form.Form];
-                if(type == null)
+                if(form.InstForm.IsNonEmpty)
                     continue;
 
                 ref readonly var isa = ref _isa[form.IsaKind];
                 ref readonly var ext = ref extensions[form.Extension];
                 ref readonly var cat = ref cats[form.Category];
 
-                if(@class.Expr.Format().StartsWith(monic, StringComparison.InvariantCultureIgnoreCase))
+                if(form.InstClass.Name.StartsWith(monic, StringComparison.InvariantCultureIgnoreCase))
                 {
                     var result = XedQueryResult.Empty;
                     result.SearchPattern = monic;
-                    result.Class = @class.Kind;
-                    result.Form = type.Kind;
+                    result.InstClass = form.InstClass;
+                    result.InstForm = form.InstForm;
                     result.Isa = isa.Kind;
                     result.Extension = ext.Kind;
                     result.Attributes = form.Attributes;

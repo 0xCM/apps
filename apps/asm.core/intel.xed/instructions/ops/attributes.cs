@@ -14,6 +14,9 @@ namespace Z0
         public static InstAttribs attributes(string src)
         {
             var input = text.trim(src);
+            if(empty(input))
+                return InstAttribs.Empty;
+
             var sep = ',';
             if(input.Contains(Chars.Colon))
                 sep = ':';

@@ -22,11 +22,9 @@ namespace Z0
                 if(j > 0)
                 {
                     var expr = text.left(content,j);
-                    if(Classes.Lookup(expr, out var @class))
-                        dst.Class = @class;
-                    else
+                    if(!XedParsers.parse(expr, out dst.InstClass))
                     {
-                        result = (false, AppMsg.ParseFailure.Format(nameof(IClass), content));
+                        result = (false, AppMsg.ParseFailure.Format(nameof(dst.InstClass), content));
                         return result;
                     }
 
@@ -34,11 +32,9 @@ namespace Z0
                     if(k > 0)
                     {
                         expr = text.inside(content, j, k);
-                        if(Forms.Lookup(expr, out var form))
-                            dst.Form = form;
-                        else
+                        if(!XedParsers.parse(expr, out dst.InstForm))
                         {
-                            result = (false, AppMsg.ParseFailure.Format(nameof(IFormType), expr));
+                            result = (false, AppMsg.ParseFailure.Format(nameof(dst.InstForm), expr));
                             return result;
                         }
                     }

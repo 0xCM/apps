@@ -9,13 +9,19 @@ namespace Z0
     {
         public readonly struct MachineMode
         {
-            public readonly ModeKind Value;
+            public readonly ModeKind Kind;
 
             [MethodImpl(Inline)]
             public MachineMode(ModeKind mode)
             {
-                Value = mode;
+                Kind = mode;
             }
+
+            public string Format()
+                => XedRender.format(this);
+
+            public override string ToString()
+                => Format();
 
             [MethodImpl(Inline)]
             public static implicit operator MachineMode(ModeKind src)
@@ -23,7 +29,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator ModeKind(MachineMode src)
-                => src.Value;
+                => src.Kind;
         }
     }
 }

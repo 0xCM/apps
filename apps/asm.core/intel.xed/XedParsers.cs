@@ -647,11 +647,25 @@ namespace Z0
         public static bool parse(string src, out IClass dst)
             => Classes.Parse(src, out dst);
 
-        public static bool parse(string src, out IForm dst)
+        public static bool parse(string src, out InstClass dst)
+        {
+            if(parse(src, out IClass @class))
+            {
+                dst = @class;
+                return true;
+            }
+            else
+            {
+                dst = InstClass.Empty;
+                return false;
+            }
+        }
+
+        public static bool parse(string src, out InstForm dst)
         {
             if(empty(src))
             {
-                dst = IForm.Empty;
+                dst = InstForm.Empty;
                 return true;
             }
 
@@ -662,7 +676,7 @@ namespace Z0
             }
             else
             {
-                dst = IForm.Empty;
+                dst = InstForm.Empty;
                 return false;
             }
         }
@@ -692,7 +706,10 @@ namespace Z0
             => RegFlags.Parse(src, out dst);
 
         public static bool parse(string src, out byte dst)
-            => Instance.Parse(src, out dst);
+            => NumericParser.num8(src, out dst);
+
+        public static bool parse(string src, out ushort dst)
+            => ushort.TryParse(src, out dst);
 
         public static bool parse(string src, out FieldKind dst)
             => FieldKinds.Parse(src, out dst);
@@ -859,22 +876,22 @@ namespace Z0
         {
             Outcome result = (false,AppMsg.ParseFailure.Format(kind.ToString(), src));
             dst = R.FieldValue.Empty;
-            if(XedParsers.parse(src, out uint8b a))
+            if(parse(src, out uint8b a))
             {
                 dst = XedFields.value(kind, a);
                 result = true;
             }
-            else if(XedParsers.parse(src, out Hex8 b))
+            else if(parse(src, out Hex8 b))
             {
                 dst = XedFields.value(kind, b);
                 result = true;
             }
-            else if(XedParsers.parse(src, out byte c))
+            else if(parse(src, out byte c))
             {
                 dst = XedFields.value(kind, c);
                 result = true;
             }
-            else if(ushort.TryParse(src, out var d))
+            else if(parse(src, out ushort d))
             {
                 dst = XedFields.value(kind, d);
                 result = true;

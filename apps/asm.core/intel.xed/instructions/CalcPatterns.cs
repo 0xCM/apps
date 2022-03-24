@@ -20,7 +20,7 @@ namespace Z0
         void CalcPatterns(in InstDef def, ConcurrentBag<InstPattern> dst)
         {
             var specs = def.PatternSpecs;
-            var buffer = list<PatternOp>();
+            var buffer = list<InstPatternOp>();
             for(var j=0; j<specs.Count; j++)
             {
                 ref readonly var spec = ref specs[j];

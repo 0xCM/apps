@@ -23,7 +23,7 @@ namespace Z0
 
             public byte Index;
 
-            public IClass InstClass;
+            public InstClass InstClass;
 
             public XedOpCode OpCode;
 

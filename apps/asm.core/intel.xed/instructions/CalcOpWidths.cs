@@ -109,15 +109,9 @@ namespace Z0
                     break;
                 }
 
-
-
                 dst.Seg = SegType.define(@class(dst.Code), dst.Width64, bitwidth(dst.Code, dst.CellType));
+                buffer.TryAdd(dst.Code, dst);
 
-                if(!buffer.TryAdd(dst.Code, dst))
-                {
-                    var present = buffer[dst.Code];
-                    Warn(string.Format("Duplicate: {0} | {1} || {2} | {3}", present.Name, present.Code, dst.Name, dst.Code));
-                }
             }
 
             if(result.Fail)

@@ -7,19 +7,22 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
+    using static XedPatterns;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct XedFormImport : IComparable<XedFormImport>
     {
         public const string TableId = "xed.iform";
 
-        public const byte FieldCount = 7;
+        public const byte FieldCount = 8;
 
         public ushort Index;
 
-        public IFormType Form;
+        public InstForm InstForm;
 
-        public IClass Class;
+        public InstClass InstClass;
+
+        public Identifier ClassId;
 
         public CategoryKind Category;
 
@@ -33,6 +36,8 @@ namespace Z0
             => Index.CompareTo(src.Index);
 
         public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{8,60,32,24,24,16,1};
+            => new byte[FieldCount]{8,60,32,24,24,24,16,1};
+
+        public static XedFormImport Empty => default;
     }
 }

@@ -20,8 +20,8 @@ namespace Z0
                 ref readonly var def = ref pattern.InstDef;
                 writer.AppendLineFormat(LabelPattern, "Pattern", pattern.PatternId);
                 writer.AppendLineFormat(LabelPattern, "Instruction", pattern.InstId);
-                writer.AppendLineFormat(LabelPattern, nameof(pattern.Class), pattern.Class);
-                writer.AppendLineFormat(LabelPattern, nameof(pattern.Form), pattern.Form);
+                writer.AppendLineFormat(LabelPattern, nameof(pattern.InstClass), pattern.InstClass);
+                writer.AppendLineFormat(LabelPattern, nameof(pattern.InstForm), pattern.InstForm);
                 writer.AppendLineFormat(LabelPattern, nameof(pattern.Category), pattern.Category);
                 writer.AppendLineFormat(LabelPattern, nameof(def.Extension), def.Extension);
                 writer.AppendLineFormat(LabelPattern, nameof(def.FlagEffects), XedRender.format(def.FlagEffects));

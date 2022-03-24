@@ -10,14 +10,14 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct OpWidth
         {
-            public readonly ModeKind Mode;
+            public readonly MachineMode Mode;
 
             public readonly OpWidthCode Code;
 
             public readonly ushort Bits;
 
             [MethodImpl(Inline)]
-            public OpWidth(ModeKind mode, OpWidthCode code, ushort bits)
+            public OpWidth(MachineMode mode, OpWidthCode code, ushort bits)
             {
                 Mode = mode;
                 Code = code;

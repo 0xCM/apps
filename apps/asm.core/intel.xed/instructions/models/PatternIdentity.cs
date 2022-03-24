@@ -6,7 +6,6 @@ namespace Z0
 {
     using Asm;
 
-    using static XedRules;
     using static XedModels;
 
     partial class XedPatterns
@@ -22,7 +21,7 @@ namespace Z0
 
             public Identifier Name;
 
-            public IClass Class;
+            public InstClass InstClass;
 
             public OpCodeKind OcKind;
 

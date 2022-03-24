@@ -16,11 +16,11 @@ namespace Z0
 
             public readonly uint InstId;
 
-            public readonly ModeKind Mode;
+            public readonly MachineMode Mode;
 
-            public readonly IClass Class;
+            public readonly InstClass InstClass;
 
-            public readonly IForm Form;
+            public readonly InstForm InstForm;
 
             public readonly XedOpCode OpCode;
 
@@ -33,13 +33,13 @@ namespace Z0
             public readonly Index<OpSpec> Ops;
 
             [MethodImpl(Inline)]
-            public InstPatternSpec(uint id, uint instid, IClass @class, IForm form, XedOpCode opcode, string rawbody, InstPatternBody body, string bodyexpr, OpSpec[] ops)
+            public InstPatternSpec(uint id, uint instid, InstClass @class, InstForm form, XedOpCode opcode, string rawbody, InstPatternBody body, string bodyexpr, OpSpec[] ops)
             {
                 PatternId = id;
                 InstId = instid;
                 Mode = mode(body);
-                Class = @class;
-                Form = form;
+                InstClass = @class;
+                InstForm = form;
                 OpCode = opcode;
                 Body = body;
                 RawBody = rawbody;
@@ -48,12 +48,12 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstPatternSpec WithInstId(uint src)
-                => new InstPatternSpec(PatternId, src, Class, Form, OpCode, RawBody, Body, BodyExpr, Ops);
+            public InstPatternSpec WithForm(InstForm src)
+                => new InstPatternSpec(PatternId, InstId, InstClass, src, OpCode, RawBody, Body, BodyExpr, Ops);
 
             [MethodImpl(Inline)]
-            public InstPatternSpec WithForm(IForm src)
-                => new InstPatternSpec(PatternId, InstId, Class, src, OpCode, RawBody, Body, BodyExpr, Ops);
+            public InstPatternSpec WithIdentity(uint pattern, uint inst)
+                => new InstPatternSpec(pattern, inst, InstClass, InstForm, OpCode, RawBody, Body, BodyExpr, Ops);
 
             public int CompareTo(InstPatternSpec src)
             {
@@ -62,12 +62,6 @@ namespace Z0
                     result = BodyExpr.CompareTo(src.BodyExpr);
                 return result;
             }
-
-            public string Format()
-                => string.Format("Expression:{0}\nOperands:{1}", BodyExpr, Ops);
-
-            public override string ToString()
-                => Format();
         }
     }
 }
