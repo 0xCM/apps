@@ -9,23 +9,34 @@ namespace Z0
     using static XedRules;
     using static XedPatterns;
 
-    public class XedPaths : AppService<XedPaths>
+    public class XedPaths : GlobalService<XedPaths, XedPaths.SvcState>
     {
-        FS.FolderPath XedSources;
-
-        FS.FolderPath XedTargets;
-
-        protected override void OnInit()
+        public readonly struct SvcState
         {
-            XedSources = ProjectDb.Sources("intel/xed.primary");
-            XedTargets = ProjectDb.Subdir("xed");
+            public readonly FS.FolderPath XedSources;
+
+            public readonly FS.FolderPath XedTargets;
+
+            public SvcState(FS.FolderPath src, FS.FolderPath dst)
+            {
+                XedSources = src;
+                XedTargets = dst;
+            }
+        }
+
+        protected override XedPaths Init(out SvcState state)
+        {
+            var ws = DevWs.create(Wf.Env.DevWs);
+            var db = ws.ProjectDb();
+            state = new (db.Sources("intel/xed.primary"), db.Subdir("xed"));
+            return this;
         }
 
         public FS.FolderPath Sources()
-            => XedSources;
+            => State.XedSources;
 
         public FS.FolderPath Targets()
-            => XedTargets;
+            => State.XedTargets;
 
         public FS.FolderPath Targets(string scope)
             => Targets() + FS.folder(scope);

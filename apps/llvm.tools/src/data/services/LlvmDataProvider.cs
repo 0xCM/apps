@@ -4,16 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Collections.Concurrent;
-    using System.Runtime.CompilerServices;
-
-    using static core;
-    using static Root;
-
-    public sealed partial class LlvmDataProvider : GlobalService<LlvmDataProvider,LlvmDataProvider.DataProviderState>
+    public sealed partial class LlvmDataProvider : GlobalService<LlvmDataProvider,LlvmDataProvider.SvcState>
     {
-        public struct DataProviderState
+        public struct SvcState
         {
             public LlvmPaths LlvmPaths;
 
@@ -56,7 +49,7 @@ namespace Z0.llvm
             get => State.Toolset;
         }
 
-        protected override LlvmDataProvider Init(out DataProviderState state)
+        protected override LlvmDataProvider Init(out SvcState state)
         {
             state.LlvmPaths = Wf.LlvmPaths();
             state.DataSets = new();
