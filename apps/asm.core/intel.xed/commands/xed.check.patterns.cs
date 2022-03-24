@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedRules;
     using static XedPatterns;
     using static core;
@@ -35,40 +33,48 @@ namespace Z0
             return true;
         }
 
+        static byte _format(InstPattern pattern, Span<string> dst)
+        {
+            ref readonly var ops = ref pattern.OpSpecs;
+
+            var j=z8;
+            seek(dst,j++) = string.Format("{0,-20} | {1,-4} | {2}", pattern.InstClass.Name, pattern.Mode, pattern.BodyExpr);
+            seek(dst,j++) = string.Format("{0,-20} | {1}", pattern.OpCode, pattern.InstForm);
+
+            for(var i=0; i<ops.Count; i++)
+            {
+                ref readonly var op = ref ops[i];
+                seek(dst,j++) = string.Format("{0,20} | {1}", string.Format("{0} {1}", op.Index, XedRender.format(op.Name)), XedRender.format(op.Attribs));
+            }
+            return j;
+        }
+
         [CmdOp("xed/check/patterns")]
         Outcome CheckPatterns(CmdArgs args)
         {
             var blocks = cdict<uint,string[]>();
-            var patterns = cdict<uint,InstPatternSpec>();
+            var patterns = cdict<uint,InstPattern>();
             var traversals = XedPatterns.traversals()
                 .WithPreHandler(PatternTraversal);
 
-            var traverser = XedPatterns.traverser(traversals);
-            traverser.TraverseDefs(Xed.Rules.CalcInstDefs());
+            XedPatterns.traverser(traversals).TraversePatterns(Xed.Rules.CalcInstPatterns());
 
-
-            void PatternTraversal(in InstDef def, in InstPatternSpec pattern)
+            void PatternTraversal(InstPattern pattern)
             {
                 Require.invariant(patterns.TryAdd(pattern.PatternId,pattern));
-                ref readonly var ops = ref pattern.Ops;
+                ref readonly var ops = ref pattern.OpSpecs;
                 var dst = alloc<string>(2 + ops.Count);
-                var j=0u;
-                seek(dst,j++) = string.Format("{0,-20} | {1,-4} | {2}", pattern.InstClass.Name, pattern.Mode, pattern.BodyExpr);
-                seek(dst,j++) = string.Format("{0,-20} | {1}", pattern.OpCode, pattern.InstForm);
-                for(var i=0; i<ops.Count; i++)
-                {
-                    ref readonly var op = ref ops[i];
-                    seek(dst,j++) = string.Format("{0,20} | {1}", string.Format("{0} {1}", op.Index, XedRender.format(op.Name)), XedRender.format(op.Attribs));
-                }
+                _format(pattern, dst);
                 blocks.TryAdd(pattern.PatternId, dst);
+
             }
 
-            var path = XedPaths.Targets() + FS.file("xed.inst.patterns.opinfo", FS.Csv);
+            var path = AppDb.Api() + FS.file("xed.inst.patterns.opinfo", FS.Csv);
             var emitting = EmittingFile(path);
             using var writer = path.AsciWriter();
             var counter = 0u;
 
-            var sorted = patterns.Values.Array().Sort(new PatternSort());
+            var sorted = patterns.Values.Array().Sort();
             var opcode = XedOpCode.Empty;
             for(var i=0; i<sorted.Length; i++)
             {
@@ -84,6 +90,7 @@ namespace Z0
                     writer.WriteLine(skip(lines,j));
             }
             EmittedFile(emitting,counter);
+
             return true;
         }
     }

@@ -9,15 +9,16 @@ namespace Z0
     {
         public struct Extension
         {
-            public ExtensionKind Value {get;}
+            public readonly ExtensionKind Kind;
 
             [MethodImpl(Inline)]
             public Extension(ExtensionKind src)
             {
-                Value = src;
+                Kind = src;
             }
+
             public string Format()
-                => Value != 0 ? Symbols.format(Value) : EmptyString;
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();
@@ -28,7 +29,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator ExtensionKind(Extension src)
-                => src.Value;
+                => src.Kind;
         }
     }
 }

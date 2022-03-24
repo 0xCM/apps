@@ -108,6 +108,12 @@ namespace Z0
                 get => ref PatternSpec.InstForm;
             }
 
+            public ref readonly IsaKind Isa
+            {
+                [MethodImpl(Inline)]
+                get => ref InstDef.Isa;
+            }
+
             public ref readonly Category Category
             {
                 [MethodImpl(Inline)]
@@ -118,12 +124,6 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => ref InstDef.Extension;
-            }
-
-            public ref readonly IsaKind Isa
-            {
-                [MethodImpl(Inline)]
-                get => ref InstDef.Isa;
             }
 
             public ref readonly InstAttribs InstAttribs

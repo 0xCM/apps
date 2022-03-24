@@ -31,6 +31,26 @@ namespace Z0
             => new ConcurrentDictionary<K, V>(src.Select(x => new KeyValuePair<K,V>(x.key, x.value)));
 
         /// <summary>
+        /// Constructs a mutable dictionary from a sequence of key-value pairs
+        /// </summary>
+        /// <param name="key">The key</param>
+        /// <param name="value">The indexed value</param>
+        /// <typeparam name="K">The key type</typeparam>
+        /// <typeparam name="V">The value type</typeparam>
+        public static ConcurrentDictionary<K,V> ToConcurrentDictionary<K,V>(this ReadOnlySpan<(K key, V value)> src)
+            => new ConcurrentDictionary<K, V>(core.map(src,x => new KeyValuePair<K,V>(x.key, x.value)));
+
+        /// <summary>
+        /// Constructs a mutable dictionary from a sequence of key-value pairs
+        /// </summary>
+        /// <param name="key">The key</param>
+        /// <param name="value">The indexed value</param>
+        /// <typeparam name="K">The key type</typeparam>
+        /// <typeparam name="V">The value type</typeparam>
+        public static ConcurrentDictionary<K,V> ToConcurrentDictionary<K,V>(this Span<(K key, V value)> src)
+            => new ConcurrentDictionary<K, V>(core.map(src,x => new KeyValuePair<K,V>(x.key, x.value)));
+
+        /// <summary>
         /// Creates a concurrent dictionary from the input sequence
         /// </summary>
         /// <typeparam name="K">The key type</typeparam>

@@ -27,8 +27,6 @@ namespace Z0
             if(result.Fail)
                 return (false, AppMsg.ParseFailure.Format(nameof(dst.InstClass), reader.Prior()));
 
-            dst.ClassId = reader.Next();
-
             result = DataParser.eparse(reader.Next(), out dst.Category);
             if(result.Fail)
                 return (false, AppMsg.ParseFailure.Format(nameof(dst.Category), reader.Prior()));
@@ -46,53 +44,10 @@ namespace Z0
             return result;
         }
 
-
-        // public static Outcome parse(TextLine src, out XedFormImport dst)
-        // {
-        //     const char Delimiter = Chars.Pipe;
-
-        //     dst = default;
-        //     var result = Tables.cells(src, Delimiter, XedFormImport.FieldCount, out var cells);
-        //     if(result.Fail)
-        //         return result;
-        //     var j=0;
-
-        //     result = DataParser.parse(skip(cells,j++), out dst.Index);
-        //     if(result.Fail)
-        //         return (false,FormParseFailed.Format(nameof(dst.Index), src));
-
-        //     result = XedParsers.parse(skip(cells,j++), out dst.InstForm);
-        //     if(result.Fail)
-        //         return (false, FormParseFailed.Format(nameof(dst.InstForm), src));
-
-        //     result = XedParsers.parse(skip(cells,j++), out dst.InstClass);
-        //     if(result.Fail)
-        //         return (false,FormParseFailed.Format(nameof(dst.InstClass), src));
-
-        //     result = DataParser.eparse(skip(cells,j++), out dst.Category);
-        //     if(result.Fail)
-        //         return (false,FormParseFailed.Format(nameof(dst.Category), src));
-
-        //     result = DataParser.eparse(skip(cells,j++), out dst.IsaKind);
-        //     if(result.Fail)
-        //         return (false,FormParseFailed.Format(nameof(dst.IsaKind), src));
-
-        //     result = DataParser.eparse(skip(cells,j++), out dst.Extension);
-        //     if(result.Fail)
-        //         return (false,FormParseFailed.Format(nameof(dst.Extension), src));
-
-        //     dst.Attributes = XedPatterns.attributes(skip(cells,j++));
-
-        //     return result;
-        // }
-
-        //static MsgPattern<string,TextLine> FormParseFailed => "The attempt to parse the {0} field from '{1}' failed";
-
         public static Outcome parse(in XedFormSource src, ushort seq, out XedFormImport dst)
         {
             var result = Outcome.Success;
             result = XedParsers.parse(src.Class, out dst.InstClass);
-            dst.ClassId = src.Class;
             result = DataParser.eparse(src.Extension, out dst.Extension);
             result = DataParser.eparse(src.Category, out dst.Category);
             result = XedParsers.parse(src.Form, out dst.InstForm);

@@ -7,13 +7,13 @@ namespace Z0
 {
     partial class XedPatterns
     {
-        public static InstDefTraverser traverser()
-            => new InstDefTraverser();
+        public static InstTraverser traverser()
+            => new InstTraverser();
 
-        public static InstDefTraversals traversals()
-            => InstDefTraversals.init();
+        public static InstTraversals traversals()
+            => InstTraversals.init();
 
-        public static InstDefTraverser traverser(InstDefTraversals traversals)
-            => new InstDefTraverser(traversals);
+        public static InstTraverser traverser(InstTraversals traversals)
+            => new InstTraverser(traversals);
     }
 }

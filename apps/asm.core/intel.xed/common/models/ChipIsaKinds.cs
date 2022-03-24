@@ -9,9 +9,9 @@ namespace Z0
     {
         public readonly struct ChipIsaKinds
         {
-            public ChipCode Chip {get;}
+            public readonly ChipCode Chip;
 
-            public IsaKinds Kinds {get;}
+            public readonly IsaKinds Kinds;
 
             public ChipIsaKinds(ChipCode chip, IsaKinds kinds)
             {
@@ -38,6 +38,7 @@ namespace Z0
 
             public uint Count
             {
+                [MethodImpl(Inline)]
                 get => (uint)Kinds.Count;
             }
         }

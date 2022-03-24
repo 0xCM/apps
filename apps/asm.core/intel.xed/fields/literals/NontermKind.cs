@@ -171,9 +171,11 @@ namespace Z0
 
             GPRv_SB,
 
-            GPRY_B,
+            //GPRY_B,
+            GPRy_B,
 
-            GPRY_R,
+            GPRy_R,
+            //GPRY_R,
 
             GPRz_B,
 

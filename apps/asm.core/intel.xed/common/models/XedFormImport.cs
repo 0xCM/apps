@@ -14,15 +14,13 @@ namespace Z0
     {
         public const string TableId = "xed.iform";
 
-        public const byte FieldCount = 8;
+        public const byte FieldCount = 7;
 
         public ushort Index;
 
         public InstForm InstForm;
 
         public InstClass InstClass;
-
-        public Identifier ClassId;
 
         public CategoryKind Category;
 
@@ -36,7 +34,7 @@ namespace Z0
             => Index.CompareTo(src.Index);
 
         public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{8,60,32,24,24,24,16,1};
+            => new byte[FieldCount]{8,60,20,16,16,16,1};
 
         public static XedFormImport Empty => default;
     }

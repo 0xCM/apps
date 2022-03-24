@@ -30,7 +30,6 @@ namespace Z0
                 if(pattern.Effects.IsNonEmpty)
                     writer.AppendLineFormat(LabelPattern, nameof(pattern.Effects), XedRender.format(pattern.Effects));
 
-
                 ref readonly var ops = ref pattern.OpSpecs;
                 if(ops.Count != 0)
                 {

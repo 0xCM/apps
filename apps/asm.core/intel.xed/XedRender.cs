@@ -63,6 +63,8 @@ namespace Z0
 
         static EnumRender<EOSZ> EoszKinds = new();
 
+        static EnumRender<ExtensionKind> ExtensionKinds = new();
+
         static EnumRender<DispExprKind> DispKinds = new();
 
         static EnumRender<NontermKind> NontermKinds = new();
@@ -133,8 +135,47 @@ namespace Z0
             }
         }
 
+        public static string format(Extension src)
+            => src.Kind != 0 ? format(src.Kind) : EmptyString;
+
         public static string format(EoszKind src)
-            => src.Format();
+        {
+            var dst = EmptyString;
+            if(src != 0)
+            {
+                if(src.Test(EoszKind.W8))
+                    dst = "8";
+
+                if(src.Test(EoszKind.W16))
+                {
+                    if(text.empty(dst))
+                        dst = "16";
+                    else
+                        dst += "16";
+                }
+
+                if(src.Test(EoszKind.W32))
+                {
+                    if(text.empty(dst))
+                        dst = "32";
+                    else
+                        dst += "32";
+                }
+
+                if(src.Test(EoszKind.W64))
+                {
+                    if(text.empty(dst))
+                        dst = "64";
+                    else
+                        dst += "64";
+
+                }
+            }
+            return dst;
+        }
+
+        public static string format(ExtensionKind src)
+            => ExtensionKinds.Format(src);
 
         public static string format(FlagEffectKind src)
             => FlagEffects.Format(src);

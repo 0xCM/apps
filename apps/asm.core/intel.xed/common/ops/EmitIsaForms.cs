@@ -9,42 +9,51 @@ namespace Z0.Asm
 
     using static core;
     using static XedModels;
+    using static XedModels.ChipCode;
 
     partial class IntelXed
     {
         public Outcome EmitIsaForms(string chip)
         {
             var codes = Symbols.index<ChipCode>();
+            var map = CalcChipMap();
             if(!codes.Lookup(chip, out var code))
                 return (false, string.Format("Chip '{0}' not found", chip));
-            EmitIsaForms(code);
+            EmitIsaForms(map,code);
             return true;
         }
 
         public void EmitIsaForms()
         {
-            EmitIsaForms(ChipCode.I186);
-            EmitIsaForms(ChipCode.I286);
-            EmitIsaForms(ChipCode.I386);
-            EmitIsaForms(ChipCode.I486);
-            EmitIsaForms(ChipCode.PENTIUM);
-            EmitIsaForms(ChipCode.PENTIUM2);
-            EmitIsaForms(ChipCode.PENTIUM3);
-            EmitIsaForms(ChipCode.PENTIUM4);
-            EmitIsaForms(ChipCode.P4PRESCOTT);
-            EmitIsaForms(ChipCode.BROADWELL);
-            EmitIsaForms(ChipCode.SKYLAKE);
-            EmitIsaForms(ChipCode.SKYLAKE_SERVER);
-            EmitIsaForms(ChipCode.CASCADE_LAKE);
-            EmitIsaForms(ChipCode.SAPPHIRE_RAPIDS);
+            var map = CalcChipMap();
+            var codes = new ChipCode[]{
+                I86,
+                I186,
+                I286,
+                I386,
+                I486,
+                PENTIUM,
+                PENTIUM2,
+                PENTIUM3,
+                PENTIUM4,
+                PENRYN,
+                NEHALEM,
+                P4PRESCOTT,
+                IVYBRIDGE,
+                BROADWELL,
+                SKYLAKE,
+                SKYLAKE_SERVER,
+                TIGER_LAKE,
+                CASCADE_LAKE,
+                KNL,
+                SAPPHIRE_RAPIDS
+                };
+
+            iter(codes, code => EmitIsaForms(map,code), PllExec);
         }
 
-        void EmitIsaForms(ChipCode code)
+        void EmitIsaForms(XedChipMap map, ChipCode code)
         {
-            var result = CalcChipMap(out var map);
-            if(result.Fail)
-                Errors.Throw(result.Message);
-
             var kinds = map[code].ToHashSet();
             var matches = list<XedFormImport>();
             var forms = LoadFormImports();

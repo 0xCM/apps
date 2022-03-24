@@ -5,13 +5,13 @@
 namespace Z0.Asm
 {
     using static XedModels;
-    using static XedRules;
-    using static core;
 
     [ApiHost]
     public sealed partial class IntelXed : AppService<IntelXed>
     {
         bool Verbose {get;} = false;
+
+        bool PllExec {get;} = true;
 
         ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
 

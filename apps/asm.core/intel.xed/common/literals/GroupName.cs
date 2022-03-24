@@ -103,9 +103,10 @@ namespace Z0
 
             //GPRz_B,
 
-            GPRy_B,
 
-            GPRy_R,
+            //GPRy_B,
+
+            //GPRy_R,
 
             //GPR64_R,
 
@@ -157,7 +158,7 @@ namespace Z0
 
             // FINAL_ESEG1,
 
-            FINAL_SSEG1,
+            // FINAL_SSEG1,
 
             //FINAL_SSEG0,
 
@@ -183,7 +184,7 @@ namespace Z0
 
             //BND_B,
 
-            A_GPR_R,
+            //A_GPR_R,
 
             //A_GPR_B,
 
@@ -193,11 +194,11 @@ namespace Z0
 
             // XMM_SE32,
 
-            YMM_SE,
+            // YMM_SE,
 
-            YMM_SE64,
+            // YMM_SE64,
 
-            YMM_SE32,
+            // YMM_SE32,
 
             // XMM_N,
 

@@ -7,12 +7,12 @@ namespace Z0
 {
     using static XedModels;
 
-    [StructLayout(LayoutKind.Sequential), DataType("xed.chipisa")]
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct XedChipIsa
     {
-        public ChipCode Chip {get;}
+        public readonly ChipCode Chip;
 
-        public IsaKind Isa {get;}
+        public readonly IsaKind Isa;
 
         [MethodImpl(Inline)]
         public XedChipIsa(ChipCode chip, IsaKind isa)

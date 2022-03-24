@@ -23,43 +23,4 @@ namespace Z0.Asm
         [Symbol("64")]
         W64 = 8
     }
-
-    public static partial class XTend
-    {
-        public static string Format(this EoszKind src)
-        {
-            var dst = EmptyString;
-            if(src != 0)
-            {
-                if(src.Test(EoszKind.W8))
-                    dst = "8";
-
-                if(src.Test(EoszKind.W16))
-                {
-                    if(text.empty(dst))
-                        dst = "16";
-                    else
-                        dst += "16";
-                }
-
-                if(src.Test(EoszKind.W32))
-                {
-                    if(text.empty(dst))
-                        dst = "32";
-                    else
-                        dst += "32";
-                }
-
-                if(src.Test(EoszKind.W64))
-                {
-                    if(text.empty(dst))
-                        dst = "64";
-                    else
-                        dst += "64";
-
-                }
-            }
-            return dst;
-        }
-    }
 }
