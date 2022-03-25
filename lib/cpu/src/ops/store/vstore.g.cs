@@ -72,9 +72,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static void vstore<T>(Vector128<T> src, Span<T> dst)
             where T : unmanaged
-        {
-            vstore(src, ref first(dst));
-        }
+                => vstore(src, ref first(dst));
 
         /// <summary>
         /// Stores vector content to the front of a span
@@ -85,9 +83,18 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static void vstore<T>(Vector256<T> src, Span<T> dst)
             where T : unmanaged
-        {
-            vstore(src, ref first(dst));
-        }
+                => vstore(src, ref first(dst));
+
+        /// <summary>
+        /// Stores vector content to the front of a span
+        /// </summary>
+        /// <param name="src">The source vector</param>
+        /// <param name="dst">The target block</param>
+        /// <typeparam name="T">The vector cell type</typeparam>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static void vstore<T>(Vector512<T> src, Span<T> dst)
+            where T : unmanaged
+                => vstore(src, ref first(dst));
 
         /// <summary>
         /// Stores vector content to a span

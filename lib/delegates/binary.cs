@@ -57,11 +57,11 @@ namespace Z0
 
         [MethodImpl(NotInline), Op]
         public static BinaryOp8 binary(BinaryOp<sbyte> f)
-            => (a, b) => f((sbyte)a.Content, (sbyte)b.Content);
+            => (a, b) => f((sbyte)a, (sbyte)b);
 
         [MethodImpl(NotInline), Op]
         public static BinaryOp8 binary(BinaryOp<byte> f)
-            => (a, b) => f(a.Content, b.Content);
+            => (a, b) => f(a, b);
 
         [MethodImpl(NotInline), Op]
         public static BinaryOp16 binary(BinaryOp<short> f)
@@ -73,19 +73,19 @@ namespace Z0
 
         [MethodImpl(NotInline), Op]
         public static BinaryOp32 binary(BinaryOp<int> f)
-            => (a, b) => f((int)a.Content, (int)b.Content);
+            => (a, b) => f((int)a, (int)b);
 
         [MethodImpl(NotInline), Op]
         public static BinaryOp32 binary(BinaryOp<uint> f)
-            => (a, b)  => f(a.Content, b.Content);
+            => (a, b)  => f(a, b);
 
         [MethodImpl(NotInline), Op]
         public static BinaryOp64 binary(BinaryOp<long> f)
-            => (a, b)  => f((long)a.Content, (long)b.Content);
+            => (a, b)  => f((long)a, (long)b);
 
         [MethodImpl(NotInline), Op]
         public static BinaryOp64 binary(BinaryOp<ulong> f)
-            => (a, b)  => f(a.Content, b.Content);
+            => (a, b)  => f(a, b);
 
         /// <summary>
         /// Conforms a vectorized <cref='delegate'/> to a <see cref='BinaryOp128'/> <cref='delegate'/>

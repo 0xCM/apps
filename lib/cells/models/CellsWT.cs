@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines an indexed sequence of <typeparamref name='W'/> width <typeparamref name='T'/> cells
     /// </summary>

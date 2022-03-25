@@ -6,21 +6,20 @@ namespace Z0
 {
     using static core;
 
-    [DataType("cell<w:32>", Width, Width)]
-    [DataWidth(Width,Width)]
-    public readonly struct Cell32 : IDataCell<Cell32,W32,uint>
+    [DataWidth(Width)]
+    public struct Cell32 : IDataCell<Cell32,W32,uint>
     {
         public const uint Width = 32;
 
-        public uint Content {get;}
+        readonly uint Data;
 
         [MethodImpl(Inline)]
         public Cell32(uint x0)
-            => Content = x0;
+            => Data = x0;
 
         [MethodImpl(Inline)]
         public Cell32(int x0)
-            => Content = (uint)x0;
+            => Data = (uint)x0;
 
         public CellKind Kind
             => CellKind.Cell32;
@@ -31,16 +30,16 @@ namespace Z0
             get => bytes(this);
         }
 
-        public Cell16 Lo
+        public ref Cell16 Lo
         {
             [MethodImpl(Inline)]
-            get => (ushort)Content;
+            get => ref @as<Cell16>(Bytes);
         }
 
-        public Cell16 Hi
+        public ref Cell16 Hi
         {
             [MethodImpl(Inline)]
-            get => (ushort)(Content >> 16);
+            get => ref seek(@as<Cell16>(Bytes),1);
         }
 
         public Cell32 Zero
@@ -50,26 +49,26 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public T As<T>()
-            where T : struct
-              => Numeric.force<T>(Content);
+        public ref T As<T>()
+            where T : unmanaged
+              => ref @as<T>(Bytes);
 
         [MethodImpl(Inline)]
         public bool Equals(Cell32 src)
-            => Content == src.Content;
+            => Data == src.Data;
 
         [MethodImpl(Inline)]
         public bool Equals(uint src)
-            => Content == src;
+            => Data == src;
 
         public string Format()
-            => Content.FormatHex();
+            => Data.FormatHex();
 
         public override string ToString()
             => Format();
 
         public override int GetHashCode()
-            => Content.GetHashCode();
+            => Data.GetHashCode();
 
         public override bool Equals(object src)
             => src is Cell32 x && Equals(x);
@@ -80,11 +79,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator uint(Cell32 src)
-            => src.Content;
+            => src.Data;
 
         [MethodImpl(Inline)]
         public static explicit operator Cell32(Cell64 x)
-            => new Cell32((uint)x.Content);
+            => new Cell32((uint)x);
 
         [MethodImpl(Inline)]
         public static implicit operator Cell32(int x0)
@@ -92,31 +91,31 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static explicit operator sbyte(Cell32 x)
-            => (sbyte)x.Content;
+            => (sbyte)x.Data;
 
         [MethodImpl(Inline)]
         public static explicit operator byte(Cell32 x)
-            => (byte)x.Content;
+            => (byte)x.Data;
 
         [MethodImpl(Inline)]
         public static explicit operator short(Cell32 x)
-            => (short)x.Content;
+            => (short)x.Data;
 
         [MethodImpl(Inline)]
         public static explicit operator ushort(Cell32 x)
-            => (ushort)x.Content;
+            => (ushort)x.Data;
 
         [MethodImpl(Inline)]
         public static explicit operator int(Cell32 x)
-            => (int)x.Content;
+            => (int)x.Data;
 
         [MethodImpl(Inline)]
         public static explicit operator long(Cell32 x)
-            => x.Content;
+            => x.Data;
 
         [MethodImpl(Inline)]
         public static explicit operator ulong(Cell32 x)
-            => (ulong)x.Content;
+            => (ulong)x.Data;
 
         [MethodImpl(Inline)]
         public static implicit operator Cell32((ushort lo, ushort hi) src)

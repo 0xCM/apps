@@ -6,9 +6,8 @@ namespace Z0
 {
     using static core;
 
-    [DataType("cell<w:8>", Width, Width)]
-    [DataWidth(Width,Width)]
-    public readonly struct Cell8 : IDataCell<Cell8,W8,byte>
+    [DataWidth(Width)]
+    public struct Cell8 : IDataCell<Cell8,W8,byte>
     {
         public const uint Width = 8;
 
@@ -44,9 +43,9 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public T As<T>()
-            where T : struct
-              => Numeric.force<T>(Data);
+        public ref T As<T>()
+            where T : unmanaged
+              => ref @as<T>(Bytes);
 
         [MethodImpl(Inline)]
         public bool Equals(Cell8 src)
@@ -98,11 +97,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static explicit operator Cell8(Cell32 x)
-            => new Cell8((byte)x.Content);
+            => new Cell8((byte)x);
 
         [MethodImpl(Inline)]
         public static explicit operator Cell8(Cell64 x)
-            => new Cell8((byte)x.Content);
+            => new Cell8((byte)x);
 
         [MethodImpl(Inline)]
         public static explicit operator Cell8(int x)

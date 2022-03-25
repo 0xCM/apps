@@ -4,22 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class Delegates
     {
         /// <summary>
-        /// Creates a ternary operator from a method
+        /// Creates an emitter from a method
         /// </summary>
         /// <param name="src">The source method</param>
-        /// <typeparam name="T">The operand type</typeparam>
+        /// <param name="host">The host instance if not static</param>
+        /// <typeparam name="T">The emission type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static TernaryOp<T> ternary<T>(MethodInfo src, object host = null)
+        public static Emitter<T> source<T>(MethodInfo src, object host = null)
             where T : unmanaged
-                => create<TernaryOp<T>>(src, host);
+                => create<Emitter<T>>(src, host);
     }
 }

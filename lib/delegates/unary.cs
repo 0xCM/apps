@@ -4,13 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
-
     partial struct CellDelegates
     {
         /// <summary>
@@ -67,27 +60,27 @@ namespace Z0
 
         [MethodImpl(NotInline), Op]
         public static UnaryOp16 unary(UnaryOp<short> f)
-            => a => f((short)a.Content);
+            => a => f((short)a);
 
         [MethodImpl(NotInline), Op]
         public static UnaryOp16 unary(UnaryOp<ushort> f)
-            => a => f((ushort)a.Content);
+            => a => f((ushort)a);
 
         [MethodImpl(NotInline), Op]
         public static UnaryOp32 unary(UnaryOp<int> f)
-            => a => f((int)a.Content);
+            => a => f((int)a);
 
         [MethodImpl(NotInline), Op]
         public static UnaryOp32 unary(UnaryOp<uint> f)
-            => a => f((uint)a.Content);
+            => a => f((uint)a);
 
         [MethodImpl(NotInline), Op]
         public static UnaryOp64 unary(UnaryOp<long> f)
-            => a => f((long)a.Content);
+            => a => f((long)a);
 
         [MethodImpl(NotInline), Op]
         public static UnaryOp64 unary(UnaryOp<ulong> f)
-            => a => f(a.Content);
+            => a => f(a);
 
         /// <summary>
         /// Creates a fixed 128-bit unary operator from caller-supplied delegate

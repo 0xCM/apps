@@ -48,7 +48,7 @@ namespace Z0
                 {
                     var a = lhs[i];
                     var b = rhs[i];
-                    var x = Cells.cell32(f(a.Content, b.Content));
+                    var x = Cells.cell32(f(a, b));
                     var y = g(a,b);
                     Claim.eq(x,y);
                 }

@@ -4,35 +4,27 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
     partial class Cells
     {
-
-
         [MethodImpl(Inline), Op]
-        public static Cell16 join(byte lo, byte hi)
-            => (lo, hi);
+        public static Cell16 join(byte a0, byte a1)
+            => (a0, a1);
 
         [MethodImpl(Inline), Op]
         public static Cell32 join(byte a0, byte a1, byte a2, byte a3)
             => (join(a0,a1), join(a2,a3));
 
         [MethodImpl(Inline), Op]
-        public static Cell32 join(ushort lo, ushort hi)
-            => (lo, hi);
+        public static Cell32 join(ushort a0, ushort a1)
+            => (a0, a1);
 
         [MethodImpl(Inline), Op]
         public static Cell64 join(ushort a0, ushort a1, ushort a2, ushort a3)
             => (join(a0,a1), join(a2,a3));
 
         [MethodImpl(Inline), Op]
-        public static Cell64 join(uint lo, uint hi)
-            => (lo, hi);
+        public static Cell64 join(uint a0, uint a1)
+            => (a0, a1);
 
         [MethodImpl(Inline), Op]
         public static Cell128 join(uint a0, uint a1, uint a2, uint a3)

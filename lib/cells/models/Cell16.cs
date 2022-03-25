@@ -6,9 +6,8 @@ namespace Z0
 {
     using static core;
 
-    [DataType("cell<w:16>", Width, Width)]
-    [DataWidth(Width,Width)]
-    public readonly struct Cell16 : IDataCell<Cell16,W16,ushort>
+    [DataWidth(Width)]
+    public struct Cell16 : IDataCell<Cell16,W16,ushort>
     {
         public const uint Width = 16;
 
@@ -37,16 +36,16 @@ namespace Z0
             get => bytes(this);
         }
 
-        public Cell8 Lo
+        public ref Cell8 Lo
         {
             [MethodImpl(Inline)]
-            get => (byte)Data;
+            get => ref @as<Cell8>(Bytes);
         }
 
-        public Cell8 Hi
+        public ref Cell8 Hi
         {
             [MethodImpl(Inline)]
-            get => (byte)(Data >> 8);
+            get => ref seek(@as<Cell8>(Bytes),1);
         }
 
         public Cell16 Zero
@@ -56,9 +55,9 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public T As<T>()
-            where T : struct
-                => Numeric.force<T>(Data);
+        public ref T As<T>()
+            where T : unmanaged
+              => ref @as<T>(Bytes);
 
         [MethodImpl(Inline)]
         public bool Equals(Cell16 src)
@@ -106,15 +105,15 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator Cell64(Cell16 x)
-            => new Cell64(x.Content);
+            => new Cell64(x);
 
         [MethodImpl(Inline)]
         public static explicit operator Cell16(Cell32 x)
-            => new Cell16((ushort)x.Content);
+            => new Cell16((ushort)x);
 
         [MethodImpl(Inline)]
         public static explicit operator Cell16(Cell64 x)
-            => new Cell16((ushort)x.Content);
+            => new Cell16((ushort)x);
 
         [MethodImpl(Inline)]
         public static implicit operator Cell16(byte x)

@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    [DataType("cell<w:256,t:{0}>")]
+    [DataWidth(Width)]
     public struct Cell256<T> : IDataCell<Cell256<T>,W256,ByteBlock32>
         where T : unmanaged
     {
@@ -38,6 +38,10 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Data.Bytes;
         }
+
+        [MethodImpl(Inline)]
+        public Vector256<T> ToVector()
+            => Data.Vector<T>();
 
         public ref T First
         {
@@ -128,10 +132,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => ToVector().AsDouble();
         }
-
-        [MethodImpl(Inline)]
-        public Vector256<T> ToVector()
-            => Data.Vector<T>();
 
         [MethodImpl(Inline)]
         public bool Equals(Cell256<T> src)

@@ -6,13 +6,13 @@ namespace Z0
 {
     using static core;
 
-    [DataType("cell<w:64>")]
-    public readonly struct Cell64<T> : IDataCell<Cell64<T>,W64,T>
+    [DataWidth(Width)]
+    public struct Cell64<T> : IDataCell<Cell64<T>,W64,T>
         where T : unmanaged
     {
         public const uint Width = 64;
 
-        readonly T Data {get;}
+        T Data;
 
         public ulong Content
         {
@@ -97,8 +97,8 @@ namespace Z0
             => x.Content;
 
         [MethodImpl(Inline)]
-        public static implicit operator Cell64<T>(Cell32 x0)
-            => new Cell64<T>(x0.Content);
+        public static implicit operator Cell64<T>(Cell32 src)
+            => new Cell64<T>(src);
 
         [MethodImpl(Inline)]
         public static explicit operator sbyte(Cell64<T> x)

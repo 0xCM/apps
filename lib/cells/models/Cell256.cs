@@ -7,25 +7,24 @@ namespace Z0
     using static System.Runtime.Intrinsics.X86.Avx2;
     using static core;
 
-    [DataType("cell<w:256>", Width, Width)]
-    [DataWidth(Width,Width)]
-    public readonly struct Cell256 : IDataCell<Cell256,W256,Vector256<ulong>>
+    [DataWidth(Width)]
+    public struct Cell256 : IDataCell<Cell256,W256,Vector256<ulong>>
     {
         public const uint Width = 256;
 
-        public Vector256<ulong> Content {get;}
+        readonly Vector256<ulong> Data;
 
         [MethodImpl(Inline)]
         public Cell256(Vector256<ulong> src)
-            => Content = src;
+            => Data = src;
 
         [MethodImpl(Inline)]
         public Cell256(ByteBlock32 src)
-            => Content = src.Vector<ulong>();
+            => Data = src.Vector<ulong>();
 
         [MethodImpl(Inline)]
         public Cell256(ulong src)
-            => Content = Vector256.CreateScalarUnsafe(src);
+            => Data = Vector256.CreateScalarUnsafe(src);
 
         public CellKind Kind
             => CellKind.Cell256;
@@ -39,13 +38,13 @@ namespace Z0
         public Cell128 Lo
         {
             [MethodImpl(Inline)]
-            get => Vector256.GetLower(Content);
+            get => Vector256.GetLower(Data);
         }
 
         public Cell128 Hi
         {
             [MethodImpl(Inline)]
-            get => Vector256.GetUpper(Content);
+            get => Vector256.GetUpper(Data);
         }
 
         public bool IsEmpty
@@ -73,61 +72,61 @@ namespace Z0
         public Vector256<byte> V8u
         {
             [MethodImpl(Inline)]
-            get => Content.AsByte();
+            get => Data.AsByte();
         }
 
         public Vector256<sbyte> V8i
         {
             [MethodImpl(Inline)]
-            get => Content.AsSByte();
+            get => Data.AsSByte();
         }
 
         public Vector256<ushort> V16u
         {
             [MethodImpl(Inline)]
-            get => Content.AsUInt16();
+            get => Data.AsUInt16();
         }
 
         public Vector256<short> V16i
         {
             [MethodImpl(Inline)]
-            get => Content.AsInt16();
+            get => Data.AsInt16();
         }
 
         public Vector256<uint> V32u
         {
             [MethodImpl(Inline)]
-            get => Content.AsUInt32();
+            get => Data.AsUInt32();
         }
 
         public Vector256<int> V32i
         {
             [MethodImpl(Inline)]
-            get => Content.AsInt32();
+            get => Data.AsInt32();
         }
 
         public Vector256<float> V32f
         {
             [MethodImpl(Inline)]
-            get => Content.AsSingle();
+            get => Data.AsSingle();
         }
 
         public Vector256<ulong> V64u
         {
             [MethodImpl(Inline)]
-            get => Content.AsUInt64();
+            get => Data.AsUInt64();
         }
 
         public Vector256<long> V64i
         {
             [MethodImpl(Inline)]
-            get => Content.AsInt64();
+            get => Data.AsInt64();
         }
 
         public Vector256<double> V64f
         {
             [MethodImpl(Inline)]
-            get => Content.AsDouble();
+            get => Data.AsDouble();
         }
 
         [MethodImpl(Inline)]
@@ -187,25 +186,25 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public bool Equals(Cell256 src)
-            => Content.Equals(src.Content);
+            => Data.Equals(src.Data);
 
         [MethodImpl(Inline)]
         public bool Equals(Vector256<ulong> src)
-            => Content.Equals(src);
+            => Data.Equals(src);
 
         [MethodImpl(Inline)]
         public Vector256<T> ToVector<T>()
             where T : unmanaged
-                => Content.As<ulong,T>();
+                => Data.As<ulong,T>();
 
        public string Format()
-            => Content.ToString();
+            => Data.ToString();
 
         public override string ToString()
             => Format();
 
         public override int GetHashCode()
-            => Content.GetHashCode();
+            => Data.GetHashCode();
 
         public override bool Equals(object src)
             => src is Cell256 x && Equals(x);

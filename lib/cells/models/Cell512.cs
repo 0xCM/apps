@@ -8,25 +8,24 @@ namespace Z0
 
     using F = Cell512;
 
-    [DataType("cell<w:512>", Width, Width)]
-    [DataWidth(Width,Width)]
-    public readonly struct Cell512 : IDataCell<Cell512,W512,Vector512<ulong>>
-    {
-        public const uint Size = 64;
+    using api = Cells;
 
+    [DataWidth(Width)]
+    public struct Cell512 : IDataCell<Cell512,W512,Vector512<ulong>>
+    {
         public const uint Width = 512;
 
-        readonly Cell256 X0;
+        Cell256 X0;
 
-        readonly Cell256 X1;
+        Cell256 X1;
 
         public CellKind Kind
             => CellKind.Cell512;
 
-        public Vector512<ulong> Content
+        public Vector512<ulong> v512
         {
             [MethodImpl(Inline)]
-            get => (X0, X1);
+            get => gcpu.vload(w512, @as<ulong>(Bytes));
         }
 
         public Span<byte> Bytes
@@ -96,6 +95,20 @@ namespace Z0
         public ref Cell64 Cell64(byte i)
             => ref @as<Cell64>(Bytes);
 
+        [MethodImpl(Inline)]
+        public Vector512<T> ToVector<T>()
+            where T : unmanaged
+                => gcpu.vload(w512, @as<F,T>(this));
+
+        [MethodImpl(Inline)]
+        public Vector256<T> LoVector<T>()
+            where T : unmanaged
+                => ToVector<T>().Lo;
+
+        [MethodImpl(Inline)]
+        public Vector256<T> HiVector<T>()
+            where T : unmanaged
+                => ToVector<T>().Hi;
         public string Format()
             => sys.array(X0, X1).FormatList();
 
@@ -105,7 +118,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public bool Equals(Vector512<ulong> src)
-            => Content.Equals(src);
+            => v512.Equals(src);
 
         public override int GetHashCode()
             => HashCode.Combine(X0,X1);
@@ -121,20 +134,6 @@ namespace Z0
             where T : struct
                 => @as<F,T>(this);
 
-        [MethodImpl(Inline)]
-        public Vector512<T> ToVector<T>()
-            where T : unmanaged
-                => Unsafe.As<Cell512,Vector512<T>>(ref Unsafe.AsRef(this));
-
-        [MethodImpl(Inline)]
-        public Vector256<T> LoVector<T>()
-            where T : unmanaged
-                => @as<Cell256,Vector256<T>>(Lo);
-
-        [MethodImpl(Inline)]
-        public Vector256<T> HiVector<T>()
-            where T : unmanaged
-                => @as<Cell256,Vector256<T>>(Hi);
 
         [MethodImpl(Inline)]
         public static implicit operator Cell512((Cell256 x0, Cell256 x1) x)
@@ -155,6 +154,14 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Cell512(in Vector512<ulong> x)
             => init(x);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Vector512<byte>(in Cell512 src)
+            => src.ToVector<byte>();
+
+        [MethodImpl(Inline)]
+        public static implicit operator Vector512<sbyte>(in Cell512 src)
+            => src.ToVector<sbyte>();
 
         public static Cell512 Empty => default;
     }

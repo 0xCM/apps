@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial class Cells
@@ -53,24 +49,24 @@ namespace Z0
             => core.first(recover<Cell64>(slice(dst, offset))) = src;
 
         /// <summary>
-        /// Deposits cell content to specified target beginning at a byte-relative offset
+        /// Deposits cell content to specified target
         /// </summary>
         /// <param name="src">The source</param>
         /// <param name="dst">The target</param>
-        /// <param name="offset">The target offset</param>
         [MethodImpl(Inline), Op]
-        public static void store(in Cell128 src, Span<byte> dst, uint offset = 0)
-            => core.first(recover<Cell128>(slice(dst, offset))) = src;
+        public static void store(in Cell128 src, Span<byte> dst)
+            => gcpu.vstore(src, dst);
+
 
         /// <summary>
-        /// Deposits cell content to specified target beginning at a byte-relative offset
+        /// Deposits cell content to specified target
         /// </summary>
         /// <param name="src">The source</param>
         /// <param name="dst">The target</param>
         /// <param name="offset">The target offset</param>
         [MethodImpl(Inline), Op]
         public static void store(in Cell256 src, Span<byte> dst, uint offset = 0)
-            => core.first(recover<Cell256>(slice(dst, offset))) = src;
+            => gcpu.vstore(src, dst);
 
         /// <summary>
         /// Deposits cell content to specified target beginning at a byte-relative offset
@@ -80,6 +76,6 @@ namespace Z0
         /// <param name="offset">The target offset</param>
         [MethodImpl(Inline), Op]
         public static void store(in Cell512 src, Span<byte> dst, uint offset = 0)
-            => core.first(recover<Cell512>(slice(dst, offset))) = src;
+            => gcpu.vstore(src, dst);
     }
 }

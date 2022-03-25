@@ -6,13 +6,11 @@ namespace Z0
 {
     using static core;
 
-    [DataType("cell128<w:128,t:{0}>")]
+    [DataWidth(Width)]
     public struct Cell128<T> : IDataCell<Cell128<T>,W128,ByteBlock16>
         where T : unmanaged
     {
         public const uint Width = 128;
-
-        public const ushort Size = 16;
 
         [MethodImpl(Inline)]
         public static Cell128<T> init(Vector128<T> src)
@@ -26,9 +24,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public Cell128(ByteBlock16 data)
-        {
-            Data = data;
-        }
+            => Data = data;
 
         public CellKind Kind
             => CellKind.Cell128;

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public struct Cell<A,B> : IDataCell<Cell<A,B>>
         where A : struct, IDataCell
         where B : struct, IDataCell
