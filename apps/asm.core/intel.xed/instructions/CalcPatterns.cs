@@ -10,26 +10,20 @@ namespace Z0
 
     partial class XedPatterns
     {
-        public Index<InstPattern> CalcPatterns(Index<InstDef> defs, bool pll = true)
+        public Index<InstPattern> CalcPatterns(Index<InstDef> defs)
         {
-            var dst = bag<InstPattern>();
-            iter(defs, def => CalcPatterns(def, dst), pll);
-            return dst.ToArray().Sort();
-        }
-
-        void CalcPatterns(in InstDef def, ConcurrentBag<InstPattern> dst)
-        {
-            var specs = def.PatternSpecs;
-            var buffer = list<InstPatternOp>();
-            for(var j=0; j<specs.Count; j++)
+            var count = 0u;
+            iter(defs, def => count += def.PatternSpecs.Count);
+            var dst = alloc<InstPattern>(count);
+            var k=0u;
+            for(var i=0; i<defs.Count; i++)
             {
-                ref readonly var spec = ref specs[j];
-                var parser = OpSpecParser.create(OpWidthsLookup, spec.Body);
-                buffer.Clear();
-                for(byte k=0; k<spec.Ops.Count; k++)
-                    buffer.Add(parser.ParseOperand(spec,k));
-                dst.Add(new InstPattern(def, spec, buffer.ToArray()));
+                ref readonly var def = ref defs[i];
+                ref readonly var specs = ref def.PatternSpecs;
+                for(var j=0; j<specs.Count; j++, k++)
+                    seek(dst,k) =  new InstPattern(def, specs[j]);
             }
+            return dst.Sort();
         }
     }
 }

@@ -13,20 +13,7 @@ namespace Z0
     {
         XedPaths XedPaths => Service(Wf.XedPaths);
 
-        ConstLookup<OpWidthCode,OpWidthInfo> OpWidthsLookup;
-
-        Index<OpWidthInfo> OpWidths;
-
-        protected override void Initialized()
-        {
-            InitializeWidths();
-        }
-
-        void InitializeWidths()
-        {
-            OpWidths = LoadOpWidths();
-            OpWidthsLookup = CalcOpWidthLookup(OpWidths);
-        }
+        XedTables XedTables => Service(Wf.XedTables).Data;
 
         static Index<InstDefPart,string> DefPartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET,COMMENT};
     }

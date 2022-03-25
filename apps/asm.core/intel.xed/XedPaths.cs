@@ -9,8 +9,10 @@ namespace Z0
     using static XedRules;
     using static XedPatterns;
 
-    public class XedPaths : GlobalService<XedPaths, XedPaths.SvcState>
+    public class XedPaths //: GlobalService<XedPaths, XedPaths.SvcState>
     {
+        public static XedPaths Service => Instance;
+
         public readonly struct SvcState
         {
             public readonly FS.FolderPath XedSources;
@@ -24,13 +26,15 @@ namespace Z0
             }
         }
 
-        protected override XedPaths Init(out SvcState state)
-        {
-            var ws = DevWs.create(Wf.Env.DevWs);
-            var db = ws.ProjectDb();
-            state = new (db.Sources("intel/xed.primary"), db.Subdir("xed"));
-            return this;
-        }
+        readonly SvcState State;
+
+        // protected override XedPaths Init(out SvcState state)
+        // {
+        //     var ws = DevWs.create(Wf.Env.DevWs);
+        //     var db = ws.ProjectDb();
+        //     state = new (db.Sources("intel/xed.primary"), db.Subdir("xed"));
+        //     return this;
+        // }
 
         public FS.FolderPath Sources()
             => State.XedSources;
@@ -181,5 +185,15 @@ namespace Z0
                  XedDocKind.RuleSigs => FS.file("rules.tables.sigs", FileKind.Csv.Ext()),
                  _ => FS.FileName.Empty
             });
+
+
+        XedPaths()
+        {
+            var data = AppData.get();
+            var db = data.ProjectDb;
+            State = new (db.Sources("intel/xed.primary"), db.Subdir("xed"));
+        }
+
+        static XedPaths Instance = new();
     }
 }

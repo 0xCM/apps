@@ -4,17 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static XedRules;
     using static XedPatterns;
     using static core;
-    using Asm;
 
     partial class XedCmdProvider
     {
         [CmdOp("xed/check/inst")]
         Outcome CheckInstDefs(CmdArgs args)
         {
-            var specs = Xed.Rules.CalcRuleSpecs(RuleTableKind.Enc);
+            var specs = Xed.Rules.RuleTables.CalcRuleSpecs(RuleTableKind.Enc);
             var specLU = dict<string,RuleTableSpec>();
             iter(specs, spec => specLU.TryAdd(spec.Sig.Name, spec));
             var name = "MODRM_MOD_ENCODE";

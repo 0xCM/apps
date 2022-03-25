@@ -11,8 +11,6 @@ namespace Z0
 
     partial class XedRules
     {
-        XedPatterns Patterns => Service(Wf.XedPatterns);
-
         public void EmitCatalog()
         {
             var defs = CalcInstDefs();

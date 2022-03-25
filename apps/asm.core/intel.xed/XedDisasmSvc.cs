@@ -12,13 +12,15 @@ namespace Z0
     {
         XedRules Rules => Service(Wf.XedRules);
 
-        XedPatterns Patterns => Service(Wf.XedPatterns);
+        //XedPatterns Patterns => Service(Wf.XedPatterns);
 
-        XedPaths XedPaths => Service(Wf.XedPaths);
+        //XedPaths XedPaths => Service(Wf.XedPaths);
 
         WsProjects Projects => Service(Wf.WsProjects);
 
-        ConstLookup<OpWidthCode,OpWidthInfo> OperandWidths;
+        XedTables XedTables => Service(Wf.XedTables).Data;
+
+        //ConstLookup<OpWidthCode,OpWidthInfo> OperandWidths;
 
         bool PllExec {get;} = true;
 
@@ -28,12 +30,12 @@ namespace Z0
 
         protected override void OnInit()
         {
-            var dst = dict<OpWidthCode,OpWidthInfo>();
-            iter(Patterns.CalcOpWidths(), w => dst.TryAdd(w.Code, w));
-            OperandWidths = dst;
+            // var dst = dict<OpWidthCode,OpWidthInfo>();
+            // iter(Patterns.CalcOpWidths(), w => dst.TryAdd(w.Code, w));
+            // OperandWidths = dst;
         }
 
-        OpWidthInfo OperandWidth(OpWidthCode type)
-            => OperandWidths[type];
+        // OpWidthInfo OperandWidth(OpWidthCode type)
+        //     => OperandWidths[type];
     }
 }

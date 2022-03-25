@@ -23,9 +23,8 @@ namespace Z0
         void EmitOpCodeKinds()
             => TableEmit(CalcOpCodeKinds().Records, OcMapKind.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodeKinds));
 
-
         void EmitOpWidths()
-            => TableEmit(Patterns.CalcOpWidths().View, OpWidthInfo.RenderWidths, XedPaths.Table<OpWidthInfo>());
+            => TableEmit(XedTables.Widths.View, OpWidthInfo.RenderWidths, XedPaths.Table<OpWidthInfo>());
 
         void EmitPointerWidths()
             => TableEmit(CalcPointerWidths().View, PointerWidthInfo.RenderWidths,  XedPaths.DocTarget(XedDocKind.PointerWidths));

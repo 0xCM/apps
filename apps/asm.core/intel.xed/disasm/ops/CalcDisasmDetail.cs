@@ -63,7 +63,7 @@ namespace Z0
                     Errors.Throw(result.Message);
 
                 var info = operand.OpInfo;
-                var winfo = OperandWidth(info.WidthCode);
+                var winfo = XedTables.Width(info.WidthCode);
                 operand.OpWidth = winfo;
                 var opname = XedRules.opname(info.Kind);
                 operand.OpName = opname;

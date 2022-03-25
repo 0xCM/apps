@@ -14,18 +14,20 @@ namespace Z0
 
         bool PllExec = true;
 
-        ConcurrentSet<RuleSig> TableSigs {get;} = new();
+        public Index<RuleSeq> CalcRuleSeq()
+            => XedParsers.ruleseq(XedPaths.DocSource(XedDocKind.RuleSeq));
+
+        public Index<RuleTableSpec> CalcRuleSpecs(RuleTableKind kind)
+            => CalcTableSpecs(XedPaths.RuleSource(kind));
 
         public void EmitTables(bool pll)
         {
             PllExec = pll;
             XedPaths.RuleTargets().Clear();
-            TableSigs.Clear();
             exec(PllExec,
                 EmitTables,
                 EmitRuleSeq
                 );
-            //EmitRuleSigs(TableSigs);
         }
 
         void EmitTables()
@@ -37,8 +39,7 @@ namespace Z0
                 () => EmitTables(RuleTableKind.EncDec, cells)
                 );
 
-            var sigs = cells.Keys.Array();
-            EmitRuleSigs(sigs.Sort());
+            EmitRuleSigs(cells.Keys.Array().Sort());
             EmitSchemas(CalcSchemas(cells));
         }
 
@@ -50,12 +51,6 @@ namespace Z0
             FileEmit(dst.Emit(), src.Count, XedPaths.DocTarget(XedDocKind.RuleSeq), TextEncodingKind.Asci);
         }
 
-        public Index<RuleSeq> CalcRuleSeq()
-            => XedParsers.ruleseq(XedPaths.DocSource(XedDocKind.RuleSeq));
-
-        public Index<RuleTableSpec> CalcRuleSpecs(RuleTableKind kind)
-            => CalcTableSpecs(XedPaths.RuleSource(kind));
-
         void EmitRuleSigs(ReadOnlySpan<RuleSig> src)
             => TableEmit(CalcSigRows(src).View, RuleSigRow.RenderWidths, XedPaths.RuleTable<RuleSigRow>());
 
@@ -64,36 +59,28 @@ namespace Z0
             var buffer = bag<RuleTableRow>();
             var defs = XedRules.reify(CalcRuleSpecs(kind));
 
-            void EmitDefs()
-            {
-                iter(defs, EmitDef, PllExec);
-            }
-
             void EmitDef(RuleTable def)
             {
                 if(def.IsNonEmpty)
                 {
-                    var _rows = XedRules.rows(def);
-                    if(_rows.Count !=0)
+                    var rows = XedRules.rows(def);
+                    if(rows.Count !=0)
                     {
-                        if(TableSigs.Add(def.Sig))
-                        {
-                            CalcCells(def, _rows, cells);
-                            EmitTableDef(def, _rows);
-                            for(var i=0; i<_rows.Count; i++)
-                                buffer.Add(_rows[i]);
-                        }
+                        CalcCells(def, rows, cells);
+                        EmitTableDef(def, rows);
+                        for(var i=0; i<rows.Count; i++)
+                            buffer.Add(rows[i]);
                     }
                 }
             }
 
-            EmitDefs();
+            iter(defs, EmitDef, PllExec);
+
             EmitConsolidated(kind, buffer.Array().Sort());
         }
 
-        Index<RuleSigRow> CalcSigRows(ReadOnlySpan<RuleSig> input)
+        Index<RuleSigRow> CalcSigRows(ReadOnlySpan<RuleSig> src)
         {
-            var src = input;
             var count = src.Length;
             var dst = alloc<RuleSigRow>(count);
             for(var i=0u; i<count; i++)

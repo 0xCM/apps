@@ -83,13 +83,16 @@ namespace Z0
         public static XedDisasmSvc XedDisasm(this IWfRuntime wf)
             => Z0.XedDisasmSvc.create(wf);
 
+        public static XedTableService XedTables(this IWfRuntime wf)
+            => Z0.XedTableService.create(wf);
+
         [Op]
         public static XedTool XedTool(this IWfRuntime wf)
             => Z0.XedTool.create(wf);
 
         [Op]
         public static XedPaths XedPaths(this IWfRuntime wf)
-            => Z0.XedPaths.create(wf);
+            => Z0.XedPaths.Service;
 
         [Op]
         public static IntelSdmPaths SdmPaths(this IWfRuntime wf)

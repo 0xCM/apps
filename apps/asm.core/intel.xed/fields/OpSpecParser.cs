@@ -32,45 +32,45 @@ namespace Z0
                 Mode = XedPatterns.mode(body);
             }
 
-            public InstPatternOp ParseOperand(in InstPatternSpec src, byte k)
-            {
-                ref readonly var ops = ref src.Ops;
-                ref readonly var op = ref ops[k];
-                var dst = InstPatternOp.Empty;
-                var spec = parse(src.PatternId, k, op.Name, op.Expression);
-                var attribs = spec.Attribs.Sort();
-                dst.InstId = src.InstId;
-                dst.PatternId = src.PatternId;
-                dst.OpIndex = op.Index;
-                dst.Name = spec.Name;
-                dst.Kind = spec.Kind;
-                dst.Expression = op.Expression;
-                dst.InstClass = src.InstClass;
-                dst.OpCode = src.OpCode;
-                if(attribs.Search(OpClass.Action, out var action))
-                    dst.Action = action;
-                if(attribs.Search(OpClass.OpWidth, out var w))
-                {
-                    dst.OpWidth = w.AsOpWidth();
-                    dst.BitWidth = dst.OpWidth.Bits;
-                }
-                if(attribs.Search(OpClass.ElementType, out var et))
-                {
-                    dst.CellType = et.AsElementType();
-                    dst.CellWidth = bitwidth(dst.OpWidth.Code, dst.CellType);
-                }
-                if(attribs.Search(OpClass.RegLiteral, out var reglit))
-                {
-                    dst.RegLit = reglit;
-                    dst.BitWidth = bitwidth(reglit.AsRegLiteral());
-                }
-                if(attribs.Search(OpClass.Modifier, out var mod))
-                    dst.Modifier = mod;
-                if(attribs.Search(OpClass.Visibility, out var visib))
-                    dst.Visibility = visib.AsVisibility();
+            // public InstPatternOp ParseOperand(in InstPatternSpec src, byte k)
+            // {
+            //     ref readonly var ops = ref src.Ops;
+            //     ref readonly var op = ref ops[k];
+            //     var dst = InstPatternOp.Empty;
+            //     var spec = parse(src.PatternId, k, op.Name, op.Expression);
+            //     var attribs = spec.Attribs.Sort();
+            //     dst.InstId = src.InstId;
+            //     dst.PatternId = src.PatternId;
+            //     dst.OpIndex = op.Index;
+            //     dst.Name = spec.Name;
+            //     dst.Kind = spec.Kind;
+            //     dst.Expression = op.Expression;
+            //     dst.InstClass = src.InstClass;
+            //     dst.OpCode = src.OpCode;
+            //     if(attribs.Search(OpClass.Action, out var action))
+            //         dst.Action = action;
+            //     if(attribs.Search(OpClass.OpWidth, out var w))
+            //     {
+            //         dst.OpWidth = w.AsOpWidth();
+            //         dst.BitWidth = dst.OpWidth.Bits;
+            //     }
+            //     if(attribs.Search(OpClass.ElementType, out var et))
+            //     {
+            //         dst.CellType = et.AsElementType();
+            //         dst.CellWidth = bitwidth(dst.OpWidth.Code, dst.CellType);
+            //     }
+            //     if(attribs.Search(OpClass.RegLiteral, out var reglit))
+            //     {
+            //         dst.RegLit = reglit;
+            //         dst.BitWidth = bitwidth(reglit.AsRegLiteral());
+            //     }
+            //     if(attribs.Search(OpClass.Modifier, out var mod))
+            //         dst.Modifier = mod;
+            //     if(attribs.Search(OpClass.Visibility, out var visib))
+            //         dst.Visibility = visib.AsVisibility();
 
-                return dst;
-            }
+            //     return dst;
+            // }
 
             Index<OpSpec> parse(uint pattern, string ops)
             {

@@ -4,119 +4,54 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
 
     partial struct cpu
     {
-        /// <summary>
-        /// Returns a reference to an index-identified cell
-        /// </summary>
-        /// <param name="src">The source vector</param>
-        /// <param name="index">The cell index</param>
-        /// <typeparam name="T">The vector cell type</typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [MethodImpl(Inline)]
         public static T vcell<T>(Vector128<T> src, byte index)
             where T : unmanaged
-                => src.GetElement(index);
+                => gcpu.vcell(src,index);
 
-        /// <summary>
-        /// Specifies the value of an index-identified cell
-        /// </summary>
-        /// <param name="src">The source vector</param>
-        /// <param name="index">The cell index</param>
-        /// <typeparam name="T">The vector cell type</typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [MethodImpl(Inline)]
         public static Vector128<T> vcell<T>(Vector128<T> src, byte index, T value)
             where T : unmanaged
-                => src.WithElement(index, value);
+                => gcpu.vcell(src,index,value);
 
-        /// <summary>
-        /// Specifies the value of an index-identified cell
-        /// </summary>
-        /// <param name="src">The source vector</param>
-        /// <param name="index">The cell index</param>
-        /// <typeparam name="T">The vector cell type</typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [MethodImpl(Inline)]
         public static Vector256<T> vcell<T>(Vector256<T> src, byte index, T value)
             where T : unmanaged
-                => src.WithElement(index, value);
+                => gcpu.vcell(src,index,value);
 
-        /// <summary>
-        /// Returns a reference to an index-identified cell
-        /// </summary>
-        /// <param name="src">The source vector</param>
-        /// <param name="index">The cell index</param>
-        /// <typeparam name="T">The vector cell type</typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [MethodImpl(Inline)]
         public static T vcell<T>(Vector256<T> src, byte index)
             where T : unmanaged
-                => src.GetElement(index);
+                => gcpu.vcell(src,index);
 
-        /// <summary>
-        /// Returns a naturally-identified cell
-        /// </summary>
-        /// <param name="src">The source vector</param>
-        /// <param name="index">The cell selector</param>
-        /// <typeparam name="T">The vector cell type</typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [MethodImpl(Inline)]
         public static T vcell<T>(Vector256<T> src, N0 index)
             where T : unmanaged
-                => src.GetElement(0);
+                => gcpu.vcell(src,index);
 
-        /// <summary>
-        /// Returns a naturally-identified cell
-        /// </summary>
-        /// <param name="src">The source vector</param>
-        /// <param name="index">The cell selector</param>
-        /// <typeparam name="T">The vector cell type</typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [MethodImpl(Inline)]
         public static T vcell<T>(Vector256<T> src, N1 index)
             where T : unmanaged
-                => src.GetElement(1);
+                => gcpu.vcell(src,index);
 
-        /// <summary>
-        /// Returns a naturally-identified cell
-        /// </summary>
-        /// <param name="src">The source vector</param>
-        /// <param name="index">The cell selector</param>
-        /// <typeparam name="T">The vector cell type</typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [MethodImpl(Inline)]
         public static T vcell<T>(Vector256<T> src, N2 index)
             where T : unmanaged
-                => src.GetElement(2);
+                => gcpu.vcell(src,index);
 
-        /// <summary>
-        /// Returns a naturally-identified cell
-        /// </summary>
-        /// <param name="src">The source vector</param>
-        /// <param name="index">The cell selector</param>
-        /// <typeparam name="T">The vector cell type</typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [MethodImpl(Inline)]
         public static T vcell<T>(Vector256<T> src, N3 index)
             where T : unmanaged
-                => src.GetElement(3);
+                => gcpu.vcell(src,index);
 
-        /// <summary>
-        /// Returns a naturally-identified cell
-        /// </summary>
-        /// <param name="src">The source vector</param>
-        /// <param name="index">The cell selector</param>
-        /// <typeparam name="T">The vector cell type</typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [MethodImpl(Inline)]
         public static T vcell<T>(Vector256<T> src, N4 index)
             where T : unmanaged
-                => src.GetElement(4);
+                => gcpu.vcell(src,index);
 
-        /// <summary>
-        /// Extracts a T-indexed component from a vector obtained by converting the S-vector to a T-vector
-        /// </summary>
-        /// <param name="src">The source vector</param>
-        /// <param name="index">The index of the component to extract</param>
-        /// <typeparam name="T">The primal component type</typeparam>
         [MethodImpl(Inline)]
         public static T vcell<S,T>(Vector128<S> src, byte index)
             where S : unmanaged

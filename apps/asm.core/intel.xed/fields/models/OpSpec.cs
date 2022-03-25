@@ -23,6 +23,16 @@ namespace Z0
 
             public @string Expression;
 
+            public OpSpec()
+            {
+                PatternId = 0u;
+                Index =z8;
+                Name = 0;
+                Kind = 0;
+                Attribs = OpAttribs.Empty;
+                Expression = EmptyString;
+            }
+
             public Hex32 OpId
             {
                 [MethodImpl(Inline)]
@@ -163,7 +173,7 @@ namespace Z0
                 return dst;
             }
 
-            public static OpSpec Empty => default;
+            public static OpSpec Empty => new();
         }
     }
 }

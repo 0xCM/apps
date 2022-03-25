@@ -32,15 +32,16 @@ namespace Z0
 
         AppDb AppDb => Service(Wf.AppDb);
 
-        public XedRuleTables RuleTables => Service(Wf.XedRuleTables);
+        XedTables XedTables => Service(Wf.XedTables).Data;
 
-        static Symbols<OpWidthCode> OpWidthKinds;
+        public XedPatterns Patterns => Service(Wf.XedPatterns);
+
+        public XedRuleTables RuleTables => Service(Wf.XedRuleTables);
 
         static Symbols<PointerWidthKind> PointerWidthKinds;
 
         static XedRules()
         {
-            OpWidthKinds = Symbols.index<OpWidthCode>();
             PointerWidthKinds = Symbols.index<PointerWidthKind>();
        }
 

@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
     using static cpu;
 
     using api = BitVectors;
@@ -33,14 +27,15 @@ namespace Z0
         public BitVector128(Vector128<T> data)
             => Data = data;
 
-        /// <summary>
-        /// The scalar representation of the vector
-        /// </summary>
         public Vector128<T> State
         {
             [MethodImpl(Inline)]
             get => Data;
         }
+
+        [MethodImpl(Inline)]
+        public T Cell(byte index)
+            => api.cell(this,index);
 
         /// <summary>
         /// The bitvector's natural width
@@ -88,6 +83,10 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
+        public bit Test(byte index)
+            => api.testbit(this,index);
+
+        [MethodImpl(Inline)]
         public BitVector128<T> Enable(byte index)
         {
             Data = api.enable(this,index);
@@ -97,7 +96,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public BitVector128<T> Disable(byte index)
         {
-            Data = api.disable(this,index);
+            Data = api.disable(this, index);
             return this;
         }
 

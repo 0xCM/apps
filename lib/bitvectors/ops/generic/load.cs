@@ -4,13 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class BitVectors
     {
+        [MethodImpl(Inline), Op]
+        public static BitVector128<ulong> load(W128 w, ulong a, ulong b)
+            => cpu.vparts(w,a,b);
+
+        [MethodImpl(Inline), Op]
+        public static BitVector128<uint> load(W128 w, uint a0, uint a1, uint a2, uint a3)
+            => cpu.vparts(w,a0,a1,a2,a3);
+
+        [MethodImpl(Inline), Op]
+        public static BitVector128<T> load<T>(W128 w, ReadOnlySpan<T> src)
+            where T : unmanaged
+                => gcpu.vload(w,src);
+
         /// <summary>
         /// Creates a generic bitvector
         /// </summary>

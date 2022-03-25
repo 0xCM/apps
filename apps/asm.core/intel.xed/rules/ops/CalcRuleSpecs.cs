@@ -5,13 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class XedRules
     {
-        public Index<RuleTableSpec> CalcRuleSpecs(RuleTableKind kind)
-            => RuleTables.CalcRuleSpecs(kind);
-
         public static Outcome split(RuleCell src, out RuleCellKind kind, out string value)
         {
             var result = Outcome.Success;

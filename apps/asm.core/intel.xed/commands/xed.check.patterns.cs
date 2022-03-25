@@ -53,6 +53,14 @@ namespace Z0
         [CmdOp("xed/check/patterns")]
         Outcome CheckPatterns(CmdArgs args)
         {
+            var patterns = Xed.Rules.CalcInstPatterns();
+            var records = XedRules.CalcOpRecords(patterns);
+            TableEmit(records.View, InstPatternOp.RenderWidths, XedPaths.Targets() + FS.file("xed.inst.pattern.ops.2.csv"));
+            return true;
+        }
+
+        void CheckPatterns(N0 n)
+        {
             var forms = Symbols.index<IFormType>().Kinds.Map(x => (x,x)).ToConcurrentDictionary();
             var blocks = cdict<uint,string[]>();
             var patterns = cdict<uint,InstPattern>();
@@ -94,7 +102,7 @@ namespace Z0
             }
             EmittedFile(emitting,counter);
             iter(forms.Values, f => Write(f.ToString()));
-            return true;
+
         }
     }
 

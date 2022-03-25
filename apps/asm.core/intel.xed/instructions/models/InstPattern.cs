@@ -16,13 +16,10 @@ namespace Z0
 
             public readonly InstPatternSpec PatternSpec;
 
-            public readonly Index<InstPatternOp> Operands;
-
-            public InstPattern(InstDef inst, InstPatternSpec spec, Index<InstPatternOp> details)
+            public InstPattern(InstDef inst, InstPatternSpec spec)
             {
                 InstDef = inst;
                 PatternSpec = spec;
-                Operands = details;
             }
 
             public ref readonly MachineMode Mode

@@ -28,6 +28,7 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => Data.IsNonEmpty;
             }
+
             public OpAttrib[] Storage
             {
                 [MethodImpl(Inline)]
@@ -86,6 +87,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator Index<OpAttrib>(OpAttribs src)
                 => src.Data;
+
+            public static OpAttribs Empty => sys.empty<OpAttrib>();
         }
     }
 }

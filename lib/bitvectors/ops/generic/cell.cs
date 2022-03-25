@@ -6,9 +6,9 @@ namespace Z0
 {
     partial class BitVectors
     {
-        [MethodImpl(Inline), CImpl, Closures(Closure)]
-        public static ScalarBits<T> cimpl<T>(ScalarBits<T> x, ScalarBits<T> y)
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static T cell<T>(BitVector128<T> src, byte index)
             where T : unmanaged
-                => gbits.cimpl(x.State, y.State);
+                => gcpu.vcell(src.State,index);
     }
 }

@@ -19,20 +19,20 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public VLut32(Vector256<byte> src)
-            => Mask = src;
+        public VLut32(Vector256<byte> mask)
+            => Mask = mask;
 
         [MethodImpl(Inline)]
-        public VLut32(in SpanBlock256<byte> src)
-            => Mask = gcpu.vload(src);
+        public VLut32(in SpanBlock256<byte> mask)
+            => Mask = gcpu.vload(mask);
 
         [MethodImpl(Inline)]
-        public VLut32(ReadOnlySpan<byte> src)
-            => Mask = gcpu.vload(w256,src);
+        public VLut32(ReadOnlySpan<byte> mask)
+            => Mask = gcpu.vload(w256,mask);
 
         [MethodImpl(Inline)]
         public Vector256<byte> Select(Vector256<byte> items)
-            => VLut.select(this,items);
+            => VLut.select(this, items);
 
         [MethodImpl(Inline)]
         public static implicit operator Vector256<byte>(in VLut32 src)

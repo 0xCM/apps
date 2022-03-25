@@ -793,6 +793,20 @@ namespace Z0
             return dst.Emit();
         }
 
+        public static string format(in FieldSet src)
+        {
+            var dst = text.buffer();
+            Span<FieldKind> kinds = stackalloc FieldKind[FieldSet.Capacity];
+            var count = src.Members(kinds);
+            for(var i=0; i<count; i++)
+            {
+                if(i != 0)
+                    dst.Append(Chars.Comma);
+                dst.Append(format(skip(kinds,i)));
+            }
+            return dst.Emit();
+        }
+
         static string format5(uint5 src)
         {
             var storage = 0ul;
