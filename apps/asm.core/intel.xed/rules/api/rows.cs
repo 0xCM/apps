@@ -6,9 +6,8 @@
 namespace Z0
 {
     using static core;
-    using static XedRules;
 
-    partial class XedRuleTables
+    partial class XedRules
     {
         public static Index<RuleTableRow> rows(in RuleTable src)
         {

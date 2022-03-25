@@ -5,10 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-    using static XedRules;
-
-    partial class XedRuleTables
+    partial class XedRules
     {
         [MethodImpl(Inline), Op]
         public static RuleSig sig(RuleTableKind kind, string name)

@@ -4,9 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+    using System.Runtime.CompilerServices;
+
+    using static Root;
     using static gcpu;
 
-    partial struct vbits
+    partial struct vmask
     {
         /// <summary>
         /// Clears a sequence of bits from each component
@@ -16,12 +20,9 @@ namespace Z0
         /// <param name="count">The number of bits to disable</param>
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(Integers)]
-        public static Vector128<T> vbitclear<T>(Vector128<T> src, byte start, byte count)
+        public static Vector128<T> vdisable<T>(Vector128<T> src, byte start, byte count)
             where T : unmanaged
-        {
-            var cellmask = vmask.eraser<T>(start, count);
-            return vand(vbroadcast(w128, cellmask), src);
-        }
+                => vand(vbroadcast(w128, vmask.eraser<T>(start, count)), src);
 
         /// <summary>
         /// Clears a sequence of bits from each component
@@ -31,11 +32,8 @@ namespace Z0
         /// <param name="count">The number of bits to disable</param>
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline),Op, Closures(Integers)]
-        public static Vector256<T> vbitclear<T>(Vector256<T> src, byte start, byte count)
+        public static Vector256<T> vdisable<T>(Vector256<T> src, byte start, byte count)
             where T : unmanaged
-        {
-            var cellmask = vmask.eraser<T>(start,count);
-            return vand(vbroadcast(w256, cellmask),src);
-        }
+                => vand(vbroadcast(w256, vmask.eraser<T>(start,count)), src);
     }
 }

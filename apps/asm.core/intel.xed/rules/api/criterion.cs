@@ -5,13 +5,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
+    using static core;
     using static XedModels;
-    using static XedRules;
 
-    using R = XedRules;
-
-    partial class XedRuleTables
+    partial class XedRules
     {
         [MethodImpl(Inline), Op]
         public static RuleCriterion criterion(bool premise, FieldLiteral literal)
@@ -34,7 +31,7 @@ namespace Z0
             => new RuleCriterion(premise, src);
 
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(bool premise, RuleOperator op, R.FieldValue src)
+        public static RuleCriterion criterion(bool premise, RuleOperator op, FieldValue src)
             => new RuleCriterion(premise,src.Field, op, src.Data);
     }
 }

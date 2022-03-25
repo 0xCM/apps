@@ -12,21 +12,17 @@ namespace Z0
         public void lut16_rep_check()
         {
             var w = w128;
-            var src = gcpu.vinc<byte>(w);
-            var lut = VLut.init(src);
-            var content = gcpu.vinc<byte>(w, 64);
-            var selected =  VLut.select(lut,content);
-            Claim.veq(content, selected);
+            var lut = VLut.init(gcpu.vinc<byte>(w));
+            var found = gcpu.vinc<byte>(w, 64);
+            VClaim.veq(found, VLut.select(lut,found));
         }
 
         public void lut32_rep_check()
         {
             var w = w256;
-            var src = gcpu.vinc<byte>(w);
-            var lut = VLut.init(src);
-            var content = gcpu.vinc<byte>(w, 64);
-            var selected =  VLut.select(lut,content);
-            Claim.veq(content, selected);
+            var lut = VLut.init(gcpu.vinc<byte>(w));
+            var found = gcpu.vinc<byte>(w, 64);
+            VClaim.veq(found, VLut.select(lut,found));
         }
     }
 }

@@ -33,15 +33,5 @@ namespace Z0
         public static Vector256<T> vshuf16x8<T>(Vector256<T> src, Vector256<byte> spec)
             where T : unmanaged
                 => generic<T>(cpu.vshuf16x8(v8u(src), spec));
-
-        /// <summary>
-        /// Shuffles unsigned 8-bit source segments to/from arbitrary locations according to the shuffle spec
-        /// </summary>
-        /// <param name="src">The content vector</param>
-        /// <param name="spec">The shuffle spec</param>
-        [MethodImpl(Inline), Op, Closures(Integers)]
-        public static Vector256<T> vshuf32x8<T>(Vector256<T> src, Vector256<byte> spec)
-            where T : unmanaged
-                => generic<T>(cpu.vshuf32x8(v8u(src), spec));
     }
 }

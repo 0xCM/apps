@@ -5,200 +5,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static Root;
-    using static XedModels;
     using static XedRules;
-    using static XedParsers;
+    using static XedModels;
 
     using K = XedRules.FieldKind;
-    using RO = XedRules.RuleOperator;
     using R = XedRules;
 
-    partial class XedRuleTables
+    partial class XedFields
     {
-        public static bool parse(string src, out StatementSpec dst)
+        public static bool parse(FieldKind field, string value, out R.FieldValue dst)
         {
-            var input = normalize(src);
-            var i = text.index(input,"=>");
-            dst = StatementSpec.Empty;
-            if(i > 0)
-            {
-                var left = text.trim(text.left(input, i));
-                var premise = text.nonempty(left) ? cells(true, left) : Index<RuleCell>.Empty;
-                var right = text.trim(text.right(input, i+1));
-                var consequent = text.nonempty(right) ? cells(false, right) : Index<RuleCell>.Empty;
-                if(premise.Count != 0 || consequent.Count != 0)
-                    dst = new StatementSpec(premise,consequent);
-            }
-            else
-                Errors.Throw(AppMsg.ParseFailure.Format(nameof(StatementSpec), src));
-
-            return dst.IsNonEmpty;
-        }
-
-        static Index<RuleCell> cells(bool premise, string src)
-        {
-            var dst = list<RuleCell>();
-            var input = text.trim(text.despace(src));
-            if(text.contains(input, Chars.Space))
-            {
-                var parts = text.split(input, Chars.Space);
-                var count = parts.Length;
-                for(var j=0; j<count; j++)
-                {
-                    ref readonly var part = ref skip(parts,j);
-                    if(RuleMacros.match(part, out var match))
-                    {
-                        var expanded = text.trim(match.Expansion);
-                        if(text.contains(expanded, Chars.Space))
-                        {
-                            var expansions = text.split(expanded, Chars.Space);
-                            for(var k=0; k<expansions.Length; k++)
-                            {
-                                ref readonly var x = ref skip(expansions,k);
-                                dst.Add(new (premise, x));
-                            }
-                        }
-                        else
-                            dst.Add(new (premise, expanded));
-                    }
-                    else
-                        dst.Add(new (premise, part));
-                }
-            }
-            else
-            {
-                if(RuleMacros.match(input, out var match))
-                    dst.Add(new (premise, match.Expansion));
-                else
-                    dst.Add(new (premise, input));
-            }
-            return dst.ToArray();
-        }
-
-        static bool parse(bool premise, string input, out FieldKind fk, out RuleOperator op, out Nonterminal nt)
-        {
-            fk = 0;
-            nt = Nonterminal.Empty;
-            op = RuleOperator.None;
-            var result = false;
-            var i = text.index(input,"()");
-            if(i > 0)
-            {
-                if(assignment(premise, text.left(input,i), out fk, out var fv))
-                {
-                    if(XedParsers.parse(fv, out nt))
-                    {
-                        result = true;
-                        op = RuleOperator.Assign;
-                    }
-                }
-            }
-            return result;
-        }
-
-        static string normalize(string src)
-        {
-            var dst = EmptyString;
-            var i = text.index(src, Chars.Hash);
-            if(i>0)
-                dst = text.despace(text.trim(text.left(src, i)));
-            else
-                dst = text.despace(text.trim(src));
-            if(dst == "otherwise")
-                return "else";
-            else if(dst == "nothing")
-                return "null";
-            else
-                return dst.Replace("->", "=>").Replace("|", "=>").Remove("XED_RESET");
-        }
-
-        static bool parse(bool premise, string spec, out RuleCriterion dst)
-        {
-            var input = normalize(spec);
-            var fk = K.INVALID;
-            var op = RO.None;
-            var fv = input;
-            var i = -1;
-            dst = RuleCriterion.Empty;
-            var result = false;
-
-            if(parse(premise, spec, out fk, out op, out Nonterminal nt))
-            {
-                dst = criterion(premise, fk, op, nt);
-                result = true;
-            }
-            else if(IsNonterminal(input))
-            {
-                var name = text.remove(input,"()");
-                parse(premise, name, out fk, out fv, out op);
-                dst = criterion(premise, call(fk, op, text.ifempty(fv,name)));
-                result = true;
-            }
-            else if(assignment(premise, input, out fk, out fv))
-            {
-                if(parse(premise, fk, RO.Assign, fv, out dst))
-                    result = true;
-            }
-            else if(notequal(input, out fk, out fv))
-            {
-                if(parse(premise, fk, RO.CmpNeq, fv, out dst))
-                    result = true;
-            }
-            else if(IsBfSeg(input))
-            {
-                if(XedParsers.parse(input, out BitfieldSeg seg))
-                {
-                        dst = criterion(premise, seg);
-                    result = true;
-                }
-            }
-            else if(IsBfSpec(input))
-            {
-                dst = criterion(premise,new BitfieldSpec(input));
-                result = true;
-            }
-            else
-            {
-                result = XedParsers.parse(input, out FieldLiteral literal);
-                if(result)
-                    dst = literal.ToCriterion(premise);
-            }
-            return result;
-        }
-
-        static void parse(bool premise, string input, out FieldKind fk, out string fv, out RuleOperator op)
-        {
-            var i = text.index(input, "!=");
-            fv = EmptyString;
-            op = 0;
-            fk = 0;
-            if(i > 0)
-            {
-                op = RO.CmpNeq;
-                fv = text.right(input, i + 1);
-            }
-            else
-            {
-                i = text.index(input, "=");
-                if(i > 0)
-                {
-                    if(premise)
-                        op = RO.CmpEq;
-                    else
-                        op = RO.Assign;
-
-                    fv = text.right(input, i);
-                }
-            }
-
-            XedParsers.parse(text.left(input, i), out fk);
-        }
-
-        static Outcome parse(FieldKind field, string value, out R.FieldValue dst)
-        {
-            var result = Outcome.Success;
+            var result = true;
             dst = R.FieldValue.Empty;
             switch(field)
             {
@@ -480,14 +297,6 @@ namespace Z0
                 break;
             }
 
-            return result;
-        }
-
-        [Op]
-        static Outcome parse(bool premise, FieldKind field, RuleOperator op, string value, out RuleCriterion dst)
-        {
-            var result = parse(field, value, out R.FieldValue z);
-            dst = criterion(premise, op, z);
             return result;
         }
     }

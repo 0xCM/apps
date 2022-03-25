@@ -60,7 +60,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public RuleCriterion ToCriterion(bool premise)
-                => XedRuleTables.criterion(premise, this);
+                => XedRules.criterion(premise, this);
 
             public asci8 ToAsci()
                 => (asci8)Data.A;

@@ -1,11 +1,10 @@
+//-----------------------------------------------------------------------------
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Examples
 {
-    using static cpu;
-
-    partial struct vbits
+    public readonly partial struct vExamples
     {
 
     }

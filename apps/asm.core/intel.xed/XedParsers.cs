@@ -204,8 +204,8 @@ namespace Z0
                 if(line.IsEmpty)
                     continue;
 
-                var @class = XedRuleTables.form(line.Content);
-                if(@class == RuleFormKind.SeqDecl)
+                var form = XedRules.RuleForm(line.Content);
+                if(form == RuleFormKind.SeqDecl)
                 {
                     var content = text.despace(line.Content);
                     var i = text.index(content, Chars.Space);
