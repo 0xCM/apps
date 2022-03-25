@@ -19,16 +19,10 @@ namespace Z0
             {
                 ref readonly var pattern = ref src[j];
 
-                var c = pattern.Category.Format();
-                var e = pattern.Extension.Format();
-                var x = e == c ? e : string.Format("{0}/{1}", c, e);
-
                 writer.AppendLineFormat(LabelPattern, pattern.InstClass.Name, pattern.BodyExpr);
                 writer.AppendLineFormat(LabelPattern, pattern.OpCode, pattern.Mode);
-                writer.AppendLineFormat(LabelPattern, XedRender.format(pattern.Isa), pattern.InstForm);
-
-                if(pattern.Attributes.IsNonEmpty)
-                    writer.AppendLineFormat(LabelPattern, nameof(pattern.Attributes), XedRender.format(pattern.Attributes));
+                writer.AppendLineFormat(LabelPattern, pattern.Isa == 0 ? "<missing>" : XedRender.format(pattern.Isa), pattern.InstForm);
+                writer.AppendLineFormat(LabelPattern, pattern.Category, XedRender.format(pattern.Attributes));
 
                 if(pattern.Effects.IsNonEmpty)
                     writer.AppendLineFormat(LabelPattern, nameof(pattern.Effects), XedRender.format(pattern.Effects));

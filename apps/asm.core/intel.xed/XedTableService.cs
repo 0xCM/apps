@@ -8,7 +8,7 @@ namespace Z0
     {
         protected override XedTableService Init(out XedTables state)
         {
-            state = new ();
+            state = XedTables.Data;
             return this;
         }
 

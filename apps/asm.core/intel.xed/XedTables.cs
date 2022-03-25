@@ -6,19 +6,19 @@ namespace Z0
 {
     using static core;
     using static XedFields;
-    using static XedRules;
     using static XedModels;
-    using static XedRules.InstRulePartNames;
 
     public class XedTables
     {
+        public static XedTables Data => Instance;
+
         public readonly FieldLookup FieldLookup;
 
         public readonly Index<OpWidthInfo> Widths;
 
         public readonly ConstLookup<OpWidthCode,OpWidthInfo> WidthLookup;
 
-        public XedTables()
+        XedTables()
         {
             FieldLookup = lookup();
             Widths = LoadOpWidths();
@@ -27,8 +27,35 @@ namespace Z0
 
         XedPaths XedPaths => XedPaths.Service;
 
-        public OpWidthInfo Width(OpWidthCode code)
+        public OpWidthInfo WidthInfo(OpWidthCode code)
             => WidthLookup[code];
+
+        public OpWidth Width(OpWidthCode code, MachineMode mode)
+        {
+            var dst = OpWidth.Empty;
+            if(code == 0)
+                return dst;
+            else if(WidthLookup.Find(code, out var info))
+            {
+                switch(mode.Kind)
+                {
+                    case ModeKind.Mode16:
+                        dst = new OpWidth(mode, code, info.Width16);
+                    break;
+                    case ModeKind.Not64:
+                    case ModeKind.Mode32:
+                        dst = new OpWidth(mode, code, info.Width32);
+                    break;
+
+                    default:
+                        dst = new OpWidth(mode, code, info.Width64);
+                    break;
+                }
+            }
+            else
+                Errors.Throw(code.ToString());
+            return dst;
+        }
 
         ConstLookup<OpWidthCode,OpWidthInfo> CalcOpWidthLookup(Index<OpWidthInfo> src)
             => src.Select(x => (x.Code,x)).ToDictionary();
@@ -136,5 +163,7 @@ namespace Z0
 
             return buffer.Values.Array().Sort();
         }
+
+        static XedTables Instance = new();
     }
 }

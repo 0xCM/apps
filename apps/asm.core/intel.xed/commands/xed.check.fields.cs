@@ -19,7 +19,7 @@ namespace Z0
 
         void CheckFields(N0 n)
         {
-            var tables = new XedTables();
+            var tables = XedTables.Data;
             var lu = tables.FieldLookup;
             var matched = lu.Match(lu.LU(3), array(FieldKind.VEXDEST210, FieldKind.VEXDEST3, FieldKind.VEXDEST4));
             for(byte i=0; i<32; i++)

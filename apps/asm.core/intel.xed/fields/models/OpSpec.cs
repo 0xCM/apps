@@ -39,6 +39,12 @@ namespace Z0
                 get => PatternId << 8 | Index;
             }
 
+            [MethodImpl(Inline)]
+            public OpSpec WithPattern(uint pattern)
+            {
+                PatternId = pattern;
+                return this;
+            }
             public string Format()
                 => XedRender.format(this);
 

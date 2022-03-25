@@ -13,7 +13,7 @@ namespace Z0
 
     partial class XedPatterns
     {
-        void Parse(uint pattern, InstClass @class, InstForm form, string rawbody, string ops, out InstPatternSpec dst)
+        void Parse(uint pattern, InstClass @class, InstForm form, string rawbody, string opexpr, out InstPatternSpec dst)
         {
             var buffer = text.buffer();
             var parts = text.split(text.despace(rawbody), Chars.Space);
@@ -25,9 +25,8 @@ namespace Z0
             }
 
             XedParsers.parse(RuleMacros.expand(buffer.Emit()), out InstPatternBody pb).Require();
-            var parser = OpSpecParser.create(XedTables.WidthLookup, pb);
-            parser.Parse(pattern, ops, out Index<OpSpec> _ops);
-            dst = new InstPatternSpec(pattern, 0, @class, form, xedoc(pattern, pb), rawbody, pb, XedRender.format(pb), _ops);
+            OpSpecParser.create(XedPatterns.mode(pb)).Parse(pattern, opexpr, out Index<OpSpec> ops);
+            dst = new InstPatternSpec(pattern, 0, @class, form, xedoc(pattern, pb), rawbody, pb, XedRender.format(pb), ops);
         }
 
         static bool parse(string src, out InstDefPart part)
@@ -192,6 +191,9 @@ namespace Z0
                 {
                     switch(def.Extension.Kind)
                     {
+                        case ExtensionKind.X87:
+                            def.Isa = IsaKind.X87;
+                        break;
                         case ExtensionKind.AES:
                             def.Isa = IsaKind.AES;
                         break;
@@ -200,6 +202,18 @@ namespace Z0
                         break;
                         case ExtensionKind.AVX2:
                             def.Isa = IsaKind.AVX2;
+                        break;
+                        case ExtensionKind.BMI1:
+                            def.Isa = IsaKind.BMI1;
+                        break;
+                        case ExtensionKind.BMI2:
+                            def.Isa = IsaKind.BMI2;
+                        break;
+                        case ExtensionKind.LONGMODE:
+                            def.Isa = IsaKind.LONGMODE;
+                        break;
+                        case ExtensionKind.CLZERO:
+                            def.Isa = IsaKind.CLZERO;
                         break;
                         case ExtensionKind.SSE:
                             def.Isa = IsaKind.SSE;
@@ -212,6 +226,12 @@ namespace Z0
                         break;
                         case ExtensionKind.SSE4:
                             def.Isa = IsaKind.SSE4;
+                        break;
+                        case ExtensionKind.VTX:
+                            def.Isa = IsaKind.VTX;
+                        break;
+                        case ExtensionKind.SSE4A:
+                            def.Isa = IsaKind.SSE4A;
                         break;
                         case ExtensionKind.SSSE3:
                             def.Isa = IsaKind.SSSE3;
