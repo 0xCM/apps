@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
-
     partial struct vpack
     {
         /// <summary>
@@ -18,6 +12,6 @@ namespace Z0
         /// <param name="src">The source bits</param>
         [MethodImpl(Inline), Op]
         public static Vector256<byte> vinflate256x8u(uint src, byte index)
-            => vbits.vmap32x1(src,index, out Vector256<byte> dst);
+            => vunpack1x32(src,index);
     }
 }

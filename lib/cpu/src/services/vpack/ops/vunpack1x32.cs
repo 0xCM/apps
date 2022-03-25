@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
     using static BitMaskLiterals;
     using static cpu;
 
@@ -24,6 +19,19 @@ namespace Z0
             var a = vbroadcast(w256, src);
             var b = vbroadcast(w256, Msb32x8x7);
             return v8u(vand(a,b));
+        }
+
+        /// <summary>
+        /// Distributes each source bit to to a specified bit of each byte in a 256-bit target vector
+        /// </summary>
+        /// <param name="src">The source bits</param>
+        [MethodImpl(Inline), Op]
+        public static Vector256<byte> vunpack1x32(uint src, byte index)
+        {
+            var m = Lsb64x8x1 << index;
+            var lo = v8u(vparts(BitMasks.maskpart(src, 0, m), BitMasks.maskpart(src, 8, m)));
+            var hi = v8u(vparts(BitMasks.maskpart(src, 16, m), BitMasks.maskpart(src, 24, m)));
+            return cpu.vconcat(lo,hi);
         }
     }
 }
