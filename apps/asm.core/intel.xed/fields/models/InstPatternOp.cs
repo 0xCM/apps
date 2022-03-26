@@ -13,7 +13,7 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableName)]
         public struct InstPatternOp : IComparable<InstPatternOp>
         {
-            public const byte FieldCount = 16;
+            public const byte FieldCount = 19;
 
             public const string TableName = "xed.inst.patterns.ops";
 
@@ -23,15 +23,17 @@ namespace Z0
 
             public InstClass InstClass;
 
+            public MachineMode Mode;
+
             public XedOpCode OpCode;
 
-            public byte OpIndex;
+            public byte Index;
 
             public OpName Name;
 
             public OpKind Kind;
 
-            public @string Expression;
+            public EmptyZero<bit> NonTerm;
 
             public OpAttrib Action;
 
@@ -49,6 +51,10 @@ namespace Z0
 
             public Visibility Visibility;
 
+            public @string Expression;
+
+            public Nonterminal NonTerminal;
+
             public int CompareTo(InstPatternOp src)
             {
                 var result = InstId.CompareTo(src.InstId);
@@ -56,12 +62,12 @@ namespace Z0
                 {
                     result = PatternId.CompareTo(src.PatternId);
                     if(result == 0)
-                        result = OpIndex.CompareTo(src.OpIndex);
+                        result = Index.CompareTo(src.Index);
                 }
                 return result;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,18,24,8,8,8,32,8,10,10,10,10,16,8,12};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,18,6,24,6,8,8,8,8,10,10,10,10,16,8,12,32,1,};
 
             public static InstPatternOp Empty => default;
         }

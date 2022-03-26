@@ -5,12 +5,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static XedModels;
     using static XedRules;
     using static XedPatterns;
     using static XedRules.SyntaxLiterals;
     using static core;
-    using Asm;
 
     using R = XedRules;
 
@@ -19,6 +20,8 @@ namespace Z0
         static readonly EnumParser<OpWidthCode> OpWidthParser = new();
 
         static readonly EnumParser<OpAction> OpActions = new();
+
+        static readonly EnumParser<OpType> OpTypes = new();
 
         static readonly EnumParser<PointerWidthKind> PointerWidths = new();
 
@@ -30,7 +33,7 @@ namespace Z0
 
         static readonly EnumParser<OpVisibility> OpVisKinds = new();
 
-        static readonly EnumParser<GroupName> GroupNames = new();
+        static readonly EnumParser<VisibilityKind> VisKinds = new();
 
         static readonly EnumParser<OpModKind> OpModKinds = new();
 
@@ -74,12 +77,17 @@ namespace Z0
 
         static readonly EnumParser<SMode> SModes = new();
 
+        static Index<AsmBroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
+
         static XedParsers Instance = new();
 
         XedParsers()
         {
 
         }
+
+        public static bool parse(string src, out OpType dst)
+            => OpTypes.Parse(src, out dst);
 
         public static Outcome parse(string src, out InstPatternBody dst)
         {
@@ -352,6 +360,9 @@ namespace Z0
         public static bool parse(string src, out ChipCode dst)
             => ChipCodes.Parse(src, out dst);
 
+        public static bool parse(string src, out Disp64 dst)
+            => Disp64.parse(src, out dst);
+
         public static bool parse(string src, out ErrorKind dst)
             => ErrorKinds.Parse(text.remove(text.trim(src), "XED_ERROR_"), out dst);
 
@@ -359,7 +370,7 @@ namespace Z0
             => VexKinds.Parse(src, out dst);
 
         public static bool parse(string src, out EASZ dst)
-            => Instance.Parse(src,out dst);
+            => EaszKinds.Parse(src, out dst);
 
         public static bool parse(string src, out EOSZ dst)
             => EoszKinds.Parse(src, out dst);
@@ -378,6 +389,28 @@ namespace Z0
         public static bool parse(string src, out RuleMacroKind dst)
             => MacroKinds.Parse(src, out dst);
 
+        public static bool parse(string src, out VisibilityKind dst)
+            => VisKinds.Parse(src, out dst);
+
+        public static bool parse(string src, out Visibility dst)
+        {
+            if(parse(src, out OpVisibility ov))
+            {
+                dst = ov;
+                return true;
+            }
+            else if(parse(src, out VisibilityKind vk))
+            {
+                dst = vk;
+                return true;
+            }
+            else
+            {
+                dst = default;
+                return false;
+            }
+
+        }
         public static bool parse(string src, out uint8b dst)
         {
             if(IsBinaryLiteral(src))
@@ -717,7 +750,15 @@ namespace Z0
             => ushort.TryParse(src, out dst);
 
         public static bool parse(string src, out FieldKind dst)
-            => FieldKinds.Parse(src, out dst);
+        {
+            if(empty(src))
+            {
+                dst = 0;
+                return true;
+            }
+            else
+                return FieldKinds.Parse(src, out dst);
+        }
 
         public static bool parse(string src, out OpWidthCode dst)
             => OpWidthParser.Parse(src, out dst);
@@ -730,9 +771,6 @@ namespace Z0
 
         public static bool parse(string src, out NontermKind dst)
             => Nonterminals.Parse(src, out dst);
-
-        public static bool parse(string src, out GroupName dst)
-            => GroupNames.Parse(src, out dst);
 
         public static bool parse(string src, out XedRegId dst)
         {
@@ -782,20 +820,6 @@ namespace Z0
                 return true;
             }
 
-            result = parse(p0, out NontermKind nk);
-            if(result)
-            {
-                dst = new Nonterminal(p0);
-                return true;
-            }
-
-            result = parse(p0, out GroupName gn);
-            if(result)
-            {
-                dst = new Nonterminal(p0);
-                return true;
-            }
-
             result = IsNonterminal(src);
             if(result)
             {
@@ -813,15 +837,6 @@ namespace Z0
 
         public static bool parse(string src, out SMode dst)
             => Instance.Parse(src, out dst);
-
-        public bool Num8(string src, out byte dst)
-            => NumericParser.num8(src, out dst);
-
-        public bool Parse(string src, out byte dst)
-            => Num8(src, out dst);
-
-        public bool Parse(string src, out EASZ dst)
-            => EaszKinds.Parse(src, out dst);
 
         public static bool parse(string src, out ExtensionKind dst)
             => ExtensionKinds.Parse(src, out dst);
@@ -862,7 +877,15 @@ namespace Z0
         {
             Outcome result = (false,AppMsg.ParseFailure.Format(kind.ToString(), src));
             dst = R.FieldValue.Empty;
-            if(parse(src, out uint8b a))
+            if(kind == FieldKind.BCAST)
+            {
+                if(parse(src, out BCastKind bc))
+                {
+                    dst = XedFields.value(kind,bc);
+                    result = true;
+                }
+            }
+            else if(parse(src, out uint8b a))
             {
                 dst = XedFields.value(kind, a);
                 result = true;
@@ -884,6 +907,17 @@ namespace Z0
             }
 
             return result;
+        }
+
+        public static bool parse(string src, out BCastKind dst)
+        {
+            if(byte.TryParse(src, out var b))
+            {
+                dst = (BCastKind)b;
+                return true;
+            }
+            dst = default;
+            return false;
         }
     }
 }

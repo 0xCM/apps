@@ -10,6 +10,7 @@ namespace Z0
     using static core;
     using static XedRules;
     using static XedModels;
+    using K = XedRules.FieldKind;
 
     partial class XedDisasm
     {
@@ -40,7 +41,7 @@ namespace Z0
                 return (false, string.Format("Unexpected number of operand aspects in {0}", aspects));
 
             var i=0;
-            result = DataParser.eparse(skip(parts,i++), out dst.Kind);
+            result = XedParsers.parse(skip(parts,i++), out dst.Kind);
             if(result.Fail)
                 return (false, AppMsg.ParseFailure.Format(nameof(dst.Kind), skip(parts,i-1)));
 
@@ -52,10 +53,9 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            result = DataParser.eparse(skip(parts,i++), out VisibilityKind vis);
+            result = XedParsers.parse(skip(parts,i++), out dst.Visiblity);
             if(result.Fail)
                 return result;
-            dst.Visiblity = (OpVisibility)vis;
 
             result = DataParser.eparse(skip(parts,i++), out dst.OpType);
             if(result.Fail)
@@ -154,9 +154,10 @@ namespace Z0
             {
                 Clear();
                 var count = src.Length;
-                var dispwidth = 0u;
+                var dispwidth = (byte)32;
                 var relbranch = Disp.Empty;
                 var dst = DisasmState.Empty;
+                var result = Outcome.Success;
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var facet = ref skip(src,i);
@@ -164,11 +165,48 @@ namespace Z0
                     if(XedParsers.parse(facet.Key, out kind))
                     {
                         var value = text.trim(facet.Value);
-                        var result = XedDisasm.update(value, kind, ref State);
+
+                        switch(kind)
+                        {
+                            case K.RELBR:
+                                result = Disp.parse(value, Sizes.native(dispwidth), out dst.RELBRVal);
+                                if(result)
+                                    _ParsedFields.Add(kind);
+                            break;
+
+                            case K.BRDISP_WIDTH:
+                                result = DataParser.parse(value, out dispwidth);
+                                if(result)
+                                    _ParsedFields.Add(kind);
+                            break;
+
+                            case K.AGEN:
+                                result = DataParser.parse(value, out dst.AGENVal);
+                                if(result)
+                                    _ParsedFields.Add(kind);
+                            break;
+
+                            case K.MEM0:
+                                result = DataParser.parse(value, out dst.MEM0Val);
+                                if(result)
+                                    _ParsedFields.Add(kind);
+                            break;
+
+                            case K.MEM1:
+                                result = DataParser.parse(value, out dst.MEM1Val);
+                                if(result)
+                                    _ParsedFields.Add(kind);
+                            break;
+
+                            default:
+                                result = XedDisasm.update(value, kind, ref State);
+                                if(result)
+                                    _ParsedFields.Add(kind);
+                            break;
+                        }
+
                         if(result.Fail)
-                            _Failures[kind] = value;
-                        else
-                            _ParsedFields.Add(kind);
+                            _Failures.Add(kind,value);
                     }
                     else
                         _UnknownFields.Add(facet);

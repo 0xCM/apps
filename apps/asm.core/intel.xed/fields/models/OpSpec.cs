@@ -45,6 +45,7 @@ namespace Z0
                 PatternId = pattern;
                 return this;
             }
+
             public string Format()
                 => XedRender.format(this);
 
@@ -109,6 +110,12 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => Kind == OpKind.Disp;
+            }
+
+            public bool IsNonTerminal
+            {
+                [MethodImpl(Inline)]
+                get => XedFields.nonterm(Attribs, out _);
             }
 
             public bool HasPtrWidth

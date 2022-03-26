@@ -26,14 +26,6 @@ namespace Z0
                 dst = sym.Kind;
                 result = true;
             }
-            else
-            {
-                if(Digital.count(base10,src) > 0)
-                {
-                    if(Enums.parse(src, out dst))
-                        result = true;
-                }
-            }
             return result;
         }
 

@@ -13,17 +13,17 @@ namespace Z0
 
     partial class XedRules
     {
-        public readonly struct OpSpecParser
+        public readonly struct OperandParser
         {
             [MethodImpl(Inline)]
-            public static OpSpecParser create(MachineMode mode)
+            public static OperandParser create(MachineMode mode)
                 => new(mode);
 
             readonly MachineMode Mode;
 
             readonly XedTables Tables;
 
-            public OpSpecParser(MachineMode mode)
+            public OperandParser(MachineMode mode)
             {
                 Mode = mode;
                 Tables = XedTables.Data;

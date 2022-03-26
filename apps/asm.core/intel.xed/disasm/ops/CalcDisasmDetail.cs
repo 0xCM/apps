@@ -37,6 +37,8 @@ namespace Z0
             dst.InstClass = inst.InstClass;
             dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
             result = XedDisasm.parse(inst.Props.Edit, out DisasmState state);
+            var ops = XedDisasm.ops(state, code);
+
             ref readonly var rules = ref state.RuleState;
             dst.Offsets = XedFields.positions(rules);
             dst.OpCode = rules.NOMINAL_OPCODE;
@@ -53,12 +55,10 @@ namespace Z0
                 Errors.Throw(msg);
             }
 
-            var ops = XedDisasm.ops(rules, code);
             for(var k=0; k<lines.OperandCount; k++)
             {
                 ref var operand = ref dst.Operands[k];
-                ref readonly var opsrc = ref skip(lines.Operands, k);
-                result = XedDisasm.parse(opsrc.Content, out operand.OpInfo);
+                result = XedDisasm.parse(skip(lines.Operands, k).Content, out operand.OpInfo);
                 if(result.Fail)
                     Errors.Throw(result.Message);
 

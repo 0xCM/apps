@@ -36,6 +36,24 @@ namespace Z0
                 get => Class != 0 || Data != 0;
             }
 
+            public bool IsNonTerminal
+            {
+                [MethodImpl(Inline)]
+                get => Class == OpClass.Nonterminal;
+            }
+
+            public bool IsRegLiteral
+            {
+                [MethodImpl(Inline)]
+                get => Class == OpClass.RegLiteral;
+            }
+
+            public bool IsModifier
+            {
+                [MethodImpl(Inline)]
+                get => Class == OpClass.Modifier;
+            }
+
             [MethodImpl(Inline)]
             public int CompareTo(OpAttrib src)
                 => ((uint)Class).CompareTo((uint)src.Class);

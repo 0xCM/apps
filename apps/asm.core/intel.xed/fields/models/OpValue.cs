@@ -14,45 +14,45 @@ namespace Z0
         {
             public OpName Name;
 
-            public object Value;
+            public object Data;
 
             [MethodImpl(Inline)]
             public OpValue(OpName name, byte value)
             {
                 Name = name;
-                Value = value;
+                Data = value;
             }
 
             [MethodImpl(Inline)]
             public OpValue(OpName name, Register value)
             {
                 Name = name;
-                Value = value;
+                Data = value;
             }
 
             [MethodImpl(Inline)]
             public OpValue(OpName name, text31 value)
             {
                 Name = name;
-                Value = value;
+                Data = value;
             }
 
             [MethodImpl(Inline)]
             public OpValue(OpName name, Imm value)
             {
                 Name = name;
-                Value = value;
+                Data = value;
             }
 
             [MethodImpl(Inline)]
             public OpValue(OpName name, Disp value)
             {
                 Name = name;
-                Value = value;
+                Data = value;
             }
 
             public string Format()
-                => Value?.ToString() ?? EmptyString;
+                => Data?.ToString() ?? EmptyString;
 
             public override string ToString()
                 => Format();

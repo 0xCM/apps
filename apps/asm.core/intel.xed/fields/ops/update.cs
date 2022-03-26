@@ -22,7 +22,7 @@ namespace Z0
             return ref dst;
         }
 
-        public static ref RuleState update(in R.FieldValue src, ref RuleState dst)
+        static ref RuleState update(in R.FieldValue src, ref RuleState dst)
         {
             var result = Outcome.Success;
             switch(src.Field)
@@ -530,34 +530,6 @@ namespace Z0
         [Op]
         public static R.FieldValue update(string src, FieldKind kind, ref RuleState state)
         {
-            static Outcome xedreg(string src, out XedRegId dst)
-            {
-                var result = XedParsers.parse(src, out XedRegId reg);
-                if(result)
-                    dst = reg;
-                else
-                {
-                    if(src == "MM0")
-                    {
-                        dst = XedRegId.MMX0;
-                        result = true;
-                    }
-                    else if(src == "MM1")
-                    {
-                        dst = XedRegId.MMX1;
-                        result = true;
-                    }
-                    else if(src == "MM2")
-                    {
-                        dst = XedRegId.MMX2;
-                        result = true;
-                    }
-
-                    dst = default;
-                }
-                return result;
-            }
-
             var result = true;
             var fieldval = R.FieldValue.Empty;
             switch(kind)
@@ -573,17 +545,17 @@ namespace Z0
                 break;
 
                 case K.BASE0:
-                    result = xedreg(src, out state.BASE0);
+                    result = XedParsers.parse(src, out state.BASE0);
                     fieldval = value(kind, state.BASE0);
                 break;
 
                 case K.BASE1:
-                    result = xedreg(src, out state.BASE1);
+                    result = XedParsers.parse(src, out state.BASE1);
                     fieldval = value(kind, state.BASE1);
                 break;
 
                 case K.BCAST:
-                    result = DataParser.eparse(src, out state.BCAST);
+                    result = XedParsers.parse(src, out state.BCAST);
                     fieldval = value(kind, state.BCAST);
                 break;
 
@@ -598,7 +570,7 @@ namespace Z0
                 break;
 
                 case K.BRDISP_WIDTH:
-                    result = DataParser.parse(src, out state.BRDISP_WIDTH);
+                    result = XedParsers.parse(src, out state.BRDISP_WIDTH);
                     fieldval = value(kind, state.BRDISP_WIDTH);
                 break;
 
@@ -608,7 +580,7 @@ namespace Z0
                 break;
 
                 case K.CHIP:
-                    result = DataParser.eparse(src, out state.CHIP);
+                    result = XedParsers.parse(src, out state.CHIP);
                     fieldval = value(kind, state.CHIP);
                 break;
 
@@ -743,7 +715,7 @@ namespace Z0
                 break;
 
                 case K.INDEX:
-                    result = xedreg(src, out state.INDEX);
+                    result = XedParsers.parse(src, out state.INDEX);
                     fieldval = value(kind, state.INDEX);
                 break;
 
@@ -953,57 +925,57 @@ namespace Z0
                 break;
 
                 case K.OUTREG:
-                    result = xedreg(src, out state.OUTREG);
+                    result = XedParsers.parse(src, out state.OUTREG);
                     fieldval = value(kind, state.OUTREG);
                 break;
 
                 case K.REG0:
-                    result = xedreg(src, out state.REG0);
+                    result = XedParsers.parse(src, out state.REG0);
                     fieldval = value(kind, state.REG0);
                 break;
 
                 case K.REG1:
-                    result = xedreg(src, out state.REG1);
+                    result = XedParsers.parse(src, out state.REG1);
                     fieldval = value(kind, state.REG1);
                 break;
 
                 case K.REG2:
-                    result = xedreg(src, out state.REG2);
+                    result = XedParsers.parse(src, out state.REG2);
                     fieldval = value(kind, state.REG2);
                 break;
 
                 case K.REG3:
-                    result = xedreg(src, out state.REG3);
+                    result = XedParsers.parse(src, out state.REG3);
                     fieldval = value(kind, state.REG3);
                 break;
 
                 case K.REG4:
-                    result = xedreg(src, out state.REG4);
+                    result = XedParsers.parse(src, out state.REG4);
                     fieldval = value(kind, state.REG4);
                 break;
 
                 case K.REG5:
-                    result = xedreg(src, out state.REG5);
+                    result = XedParsers.parse(src, out state.REG5);
                     fieldval = value(kind, state.REG5);
                 break;
 
                 case K.REG6:
-                    result = xedreg(src, out state.REG6);
+                    result = XedParsers.parse(src, out state.REG6);
                     fieldval = value(kind, state.REG6);
                 break;
 
                 case K.REG7:
-                    result = xedreg(src, out state.REG7);
+                    result = XedParsers.parse(src, out state.REG7);
                     fieldval = value(kind, state.REG7);
                 break;
 
                 case K.REG8:
-                    result = xedreg(src, out state.REG8);
+                    result = XedParsers.parse(src, out state.REG8);
                     fieldval = value(kind, state.REG8);
                 break;
 
                 case K.REG9:
-                    result = xedreg(src, out state.REG9);
+                    result = XedParsers.parse(src, out state.REG9);
                     fieldval = value(kind, state.REG9);
                 break;
 
@@ -1063,12 +1035,12 @@ namespace Z0
                 break;
 
                 case K.SEG0:
-                    result = xedreg(src, out state.SEG0);
+                    result = XedParsers.parse(src, out state.SEG0);
                     fieldval = value(kind, state.SEG0);
                 break;
 
                 case K.SEG1:
-                    result = xedreg(src, out state.SEG1);
+                    result = XedParsers.parse(src, out state.SEG1);
                     fieldval = value(kind, state.SEG1);
                 break;
 
@@ -1180,7 +1152,5 @@ namespace Z0
 
             return fieldval;
         }
-
-
     }
 }

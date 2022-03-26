@@ -70,8 +70,6 @@ namespace Z0
 
         static EnumRender<NontermKind> NontermKinds = new();
 
-        static EnumRender<GroupName> EncodingGroups = new();
-
         static EnumRender<ROUNDC> RoundingKinds = new();
 
         static EnumRender<SMode> SModes = new();
@@ -107,7 +105,6 @@ namespace Z0
         static Index<AsmBroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
 
         static Symbols<XedRegId> XedRegs = Symbols.index<XedRegId>();
-
 
         public static string format(in RuleStatement src)
         {
@@ -472,9 +469,6 @@ namespace Z0
 
         public static string format(RuleTableKind src)
             => RuleTableKinds.Format(src);
-
-        public static string format(GroupName src)
-            => EncodingGroups.Format(src);
 
         public static string format(FieldKind src)
             => FieldKinds.Format(src);

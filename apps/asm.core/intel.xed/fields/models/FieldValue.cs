@@ -110,20 +110,6 @@ namespace Z0
                 Data = (uint)data;
             }
 
-            [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, EASZ data)
-            {
-                Field = kind;
-                Data = (uint)data;
-            }
-
-            [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, EOSZ data)
-            {
-                Field = kind;
-                Data = (uint)data;
-            }
-
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
