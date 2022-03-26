@@ -29,14 +29,14 @@ namespace Z0
                 Tables = XedTables.Data;
             }
 
-            public void Parse(uint pattern, string ops, out Index<OpSpec> dst)
+            public void Parse(uint pattern, string ops, out Index<PatternOp> dst)
             {
                 dst = Parse(pattern,ops);
             }
 
-            Index<OpSpec> Parse(uint pattern, string ops)
+            Index<PatternOp> Parse(uint pattern, string ops)
             {
-                var buffer = list<OpSpec>();
+                var buffer = list<PatternOp>();
                 var input = text.despace(ops);
                 var i = text.index(input,Chars.Hash);
                 if(i > 0)
@@ -46,7 +46,7 @@ namespace Z0
                 var parts = input.Contains(Chars.Space) ? text.split(input, Chars.Space) : new string[]{input};
                 for(var j=0; j<parts.Length; j++)
                 {
-                    var spec = OpSpec.Empty;
+                    var spec = PatternOp.Empty;
                     Parse(index, skip(parts,j), ref spec);
                     if(spec.IsNonEmpty)
                     {
@@ -61,7 +61,7 @@ namespace Z0
                 return buffer.ToArray();
             }
 
-            void Parse(byte index, string src, ref OpSpec dst)
+            void Parse(byte index, string src, ref PatternOp dst)
             {
                 var input = text.despace(src);
                 var i = text.index(input, Chars.Colon, Chars.Eq);
@@ -87,7 +87,7 @@ namespace Z0
                 return XedParsers.parse(text.left(input, index), out  dst);
             }
 
-            void Parse(string expr, string[] props, ref OpSpec dst)
+            void Parse(string expr, string[] props, ref PatternOp dst)
             {
                 switch(dst.Name)
                 {
@@ -171,7 +171,7 @@ namespace Z0
                  }
             }
 
-            void ParsePtr(string expr, Index<string> props, ref OpSpec dst)
+            void ParsePtr(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
                 dst.Expression = expr;
@@ -192,7 +192,7 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            void ParseRelBr(string expr, Index<string> props, ref OpSpec dst)
+            void ParseRelBr(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
                 dst.Expression = expr;
@@ -212,7 +212,7 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            void ParseScale(string expr, Index<string> props, ref OpSpec dst)
+            void ParseScale(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
                 dst.Expression = expr;
@@ -238,7 +238,7 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            void ParseImm(string expr, Index<string> props, ref OpSpec dst)
+            void ParseImm(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
                 dst.Expression = expr;
@@ -266,7 +266,7 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            void ParseMem(string expr, Index<string> props, ref OpSpec dst)
+            void ParseMem(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
                 dst.Expression = expr;
@@ -303,7 +303,7 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            void ParseReg(string expr, Index<string> props, ref OpSpec dst)
+            void ParseReg(string expr, Index<string> props, ref PatternOp dst)
             {
                 var result = Outcome.Success;
                 var counter = 0;

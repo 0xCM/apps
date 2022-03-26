@@ -15,7 +15,6 @@ namespace Z0
         public static RexPrefix rex(in RuleState src)
             => new RexPrefix(src.REXB, src.REXX, src.REXR, src.REXW);
 
-
         [MethodImpl(Inline), Op]
         public static bool rex(in RuleState src, out RexPrefix dst)
         {
@@ -34,6 +33,5 @@ namespace Z0
                 return false;
             }
         }
-
     }
 }

@@ -17,9 +17,9 @@ namespace Z0
 
             public delegate void PatternTraversal(InstPattern pattern);
 
-            public delegate void OpTraversal(InstPattern pattern, in OpSpec op);
+            public delegate void OpTraversal(InstPattern pattern, in PatternOp op);
 
-            public delegate void OpAttribTraversal(InstPattern pattern, in OpSpec op, in OpAttrib attrib);
+            public delegate void OpAttribTraversal(InstPattern pattern, in PatternOp op, in OpAttrib attrib);
 
             PatternTraversal PrePattern;
 
@@ -54,19 +54,19 @@ namespace Z0
                 => PostPattern(pattern);
 
             [MethodImpl(Inline)]
-            internal void Traversing(InstPattern pattern, in OpSpec op)
+            internal void Traversing(InstPattern pattern, in PatternOp op)
                 => PreOp(pattern, op);
 
             [MethodImpl(Inline)]
-            internal void Traversed(InstPattern pattern, in OpSpec op)
+            internal void Traversed(InstPattern pattern, in PatternOp op)
                 => PostOp(pattern, op);
 
             [MethodImpl(Inline)]
-            internal void Traversing(InstPattern pattern, in OpSpec op, in OpAttrib attrib)
+            internal void Traversing(InstPattern pattern, in PatternOp op, in OpAttrib attrib)
                 => PreOpAttrib(pattern, op, attrib);
 
             [MethodImpl(Inline)]
-            internal void Traversed(InstPattern pattern, in OpSpec op, in OpAttrib attrib)
+            internal void Traversed(InstPattern pattern, in PatternOp op, in OpAttrib attrib)
                 => PostOpAttrib(pattern, op, attrib);
 
             [MethodImpl(Inline)]
@@ -115,10 +115,10 @@ namespace Z0
             static void OnPatternTraversal(InstPattern pattern) {}
 
             [MethodImpl(Inline)]
-            static void OnOpTraversal(InstPattern pattern, in OpSpec op) {}
+            static void OnOpTraversal(InstPattern pattern, in PatternOp op) {}
 
             [MethodImpl(Inline)]
-            static void OnOpAttribTraversal(InstPattern pattern, in OpSpec op, in OpAttrib attrib) {}
+            static void OnOpAttribTraversal(InstPattern pattern, in PatternOp op, in OpAttrib attrib) {}
         }
     }
 }

@@ -10,6 +10,6 @@ namespace Z0
     partial class XedRules
     {
         public Index<XedOpCode> CalcOpCodes(Index<InstPattern> src)
-            => Data(nameof(CalcOpCodes), () => src.Map(x => x.PatternSpec.OpCode).Sort());
+            => Data(nameof(CalcOpCodes), () => src.Map(x => x.Spec.OpCode).Sort());
     }
 }

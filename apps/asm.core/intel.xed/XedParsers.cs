@@ -131,6 +131,12 @@ namespace Z0
             dst = buffer;
         }
 
+        public static bool parse(string src, out imm8 dst)
+            => imm8.parse(src, out dst);
+
+        public static bool parse(string src, out imm64 dst)
+            => imm64.parse(src, out dst);
+
         public static Outcome parse(string src, out InstDefField dst)
         {
             dst = InstDefField.Empty;

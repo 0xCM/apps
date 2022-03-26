@@ -11,16 +11,16 @@ namespace Z0
 
     partial class XedRules
     {
-        public static Index<InstPatternOp> CalcOpRecords(Index<InstPattern> src)
+        public static Index<PatternOpInfo> CalcOpRecords(Index<InstPattern> src)
         {
             var count = 0u;
-            iter(src, pattern => count += pattern.OpSpecs.Count);
-            var dst = alloc<InstPatternOp>(count);
+            iter(src, pattern => count += pattern.Ops.Count);
+            var dst = alloc<PatternOpInfo>(count);
             var k = 0u;
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var pattern = ref src[i];
-                ref readonly var specs = ref pattern.OpSpecs;
+                ref readonly var specs = ref pattern.Ops;
                 for(var j=0; j<specs.Count; j++, k++)
                 {
                     ref var op = ref seek(dst,k);
@@ -35,7 +35,7 @@ namespace Z0
             return dst.Sort();
         }
 
-        static void CalcOpProps(in OpSpec src, ref InstPatternOp dst)
+        static void CalcOpProps(in PatternOp src, ref PatternOpInfo dst)
         {
             ref readonly var attribs = ref src.Attribs;
             dst.Index = src.Index;

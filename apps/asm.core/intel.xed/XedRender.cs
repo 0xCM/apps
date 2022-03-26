@@ -265,7 +265,7 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static string format(in OpSpec src)
+        public static string format(in PatternOp src)
         {
             var dst = text.buffer();
             dst.Append(XedRender.format(src.Name));

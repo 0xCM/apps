@@ -36,7 +36,7 @@ namespace Z0
 
         static byte _format(InstPattern pattern, Span<string> dst)
         {
-            ref readonly var ops = ref pattern.OpSpecs;
+            ref readonly var ops = ref pattern.Ops;
 
             var j=z8;
             seek(dst,j++) = string.Format("{0,-20} | {1,-4} | {2}", pattern.InstClass.Name, pattern.Mode, pattern.BodyExpr);
@@ -55,7 +55,7 @@ namespace Z0
         {
             var patterns = Xed.Rules.CalcInstPatterns();
             var records = XedRules.CalcOpRecords(patterns);
-            TableEmit(records.View, InstPatternOp.RenderWidths, XedPaths.Targets() + FS.file("xed.inst.pattern.ops.2.csv"));
+            TableEmit(records.View, PatternOpInfo.RenderWidths, XedPaths.Targets() + FS.file("xed.inst.pattern.ops.2.csv"));
             return true;
         }
 
@@ -72,7 +72,7 @@ namespace Z0
             void PatternTraversal(InstPattern pattern)
             {
                 Require.invariant(patterns.TryAdd(pattern.PatternId,pattern));
-                ref readonly var ops = ref pattern.OpSpecs;
+                ref readonly var ops = ref pattern.Ops;
                 var dst = alloc<string>(2 + ops.Count);
                 _format(pattern, dst);
                 blocks.TryAdd(pattern.PatternId, dst);

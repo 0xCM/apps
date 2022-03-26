@@ -42,7 +42,7 @@ namespace Z0
             return true;
         }
 
-        static Identifier identify(in OpSpec src)
+        static Identifier identify(in PatternOp src)
         {
             var bw = src.OpWidth.Bits;
             var indicator = EmptyString;
@@ -94,7 +94,7 @@ namespace Z0
             for(var i=0; i<src.OpCount; i++)
             {
                 dst.Append(Chars.Underscore);
-                ref readonly var op = ref src.OpSpecs[i];
+                ref readonly var op = ref src.Ops[i];
                 dst.Append(identify(op));
             }
 

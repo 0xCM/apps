@@ -30,10 +30,10 @@ namespace Z0
 
             public readonly InstPatternBody Body;
 
-            public readonly Index<OpSpec> Ops;
+            public readonly PatternOps Ops;
 
             [MethodImpl(Inline)]
-            public InstPatternSpec(uint id, uint instid, InstClass @class, InstForm form, XedOpCode opcode, string rawbody, InstPatternBody body, string bodyexpr, OpSpec[] ops)
+            public InstPatternSpec(uint id, uint instid, InstClass @class, InstForm form, XedOpCode opcode, string rawbody, InstPatternBody body, string bodyexpr, PatternOp[] ops)
             {
                 PatternId = id;
                 InstId = instid;

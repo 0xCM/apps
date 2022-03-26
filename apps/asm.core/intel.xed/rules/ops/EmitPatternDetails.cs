@@ -27,7 +27,7 @@ namespace Z0
                 if(pattern.Effects.IsNonEmpty)
                     writer.AppendLineFormat(LabelPattern, nameof(pattern.Effects), XedRender.format(pattern.Effects));
 
-                ref readonly var ops = ref pattern.OpSpecs;
+                ref readonly var ops = ref pattern.Ops;
                 if(ops.Count != 0)
                 {
                     writer.AppendLineFormat(LabelPattern, RP.PageBreak20, EmptyString);

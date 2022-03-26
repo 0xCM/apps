@@ -72,13 +72,13 @@ namespace Z0
             {
                 if(XedParsers.parse(input, out BitfieldSeg seg))
                 {
-                        dst = criterion(premise, seg);
+                    dst = criterion(premise, seg);
                     result = true;
                 }
             }
             else if(IsBfSpec(input))
             {
-                dst = criterion(premise,new BitfieldSpec(input));
+                dst = criterion(premise, new BitfieldSpec(input));
                 result = true;
             }
             else
@@ -127,7 +127,7 @@ namespace Z0
                 return dst.Replace("->", "=>").Replace("|", "=>").Remove("XED_RESET");
         }
 
-        static void parse(bool premise, string input, out FieldKind fk, out string fv, out RuleOperator op)
+        static bool parse(bool premise, string input, out FieldKind fk, out string fv, out RuleOperator op)
         {
             var i = text.index(input, "!=");
             fv = EmptyString;
@@ -152,11 +152,11 @@ namespace Z0
                 }
             }
 
-            XedParsers.parse(text.left(input, i), out fk);
+            return XedParsers.parse(text.left(input, i), out fk);
         }
 
         [Op]
-        static Outcome parse(bool premise, FieldKind field, RuleOperator op, string value, out RuleCriterion dst)
+        static bool parse(bool premise, FieldKind field, RuleOperator op, string value, out RuleCriterion dst)
         {
             var result = XedFields.parse(field, value, out R.FieldValue z);
             dst = criterion(premise, op, z);

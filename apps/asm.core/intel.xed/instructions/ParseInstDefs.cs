@@ -25,7 +25,7 @@ namespace Z0
             }
 
             XedParsers.parse(RuleMacros.expand(buffer.Emit()), out InstPatternBody pb).Require();
-            OperandParser.create(XedPatterns.mode(pb)).Parse(pattern, opexpr, out Index<OpSpec> ops);
+            OperandParser.create(XedPatterns.mode(pb)).Parse(pattern, opexpr, out Index<PatternOp> ops);
             dst = new InstPatternSpec(pattern, 0, @class, form, xedoc(pattern, pb), rawbody, pb, XedRender.format(pb), ops);
         }
 

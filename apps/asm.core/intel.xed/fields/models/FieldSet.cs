@@ -22,7 +22,11 @@ namespace Z0
                 Data = default;
                 var count = src.Length;
                 for(byte i=0; i<count; i++)
-                    Data = Data.Enable((byte)skip(src,i));
+                {
+                    ref readonly var kind = ref skip(src,i);
+                    if(kind != 0)
+                        Data = Data.Enable((byte)kind);
+                }
             }
 
             [MethodImpl(Inline)]
@@ -32,7 +36,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public FieldSet Include(FieldKind src)
             {
-                Data = Data.Enable((byte)src);
+                if(src != 0)
+                    Data = Data.Enable((byte)src);
                 return this;
             }
 
@@ -47,6 +52,7 @@ namespace Z0
             public FieldSet Include(params FieldKind[] src)
             {
                 for(var i=0; i<src.Length; i++)
+
                     Data = Data.Enable((byte)skip(src,i));
                 return this;
             }

@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public struct OpSpec : IComparable<OpSpec>
+        public struct PatternOp : IComparable<PatternOp>
         {
             public uint PatternId;
 
@@ -23,7 +23,7 @@ namespace Z0
 
             public @string Expression;
 
-            public OpSpec()
+            public PatternOp()
             {
                 PatternId = 0u;
                 Index =z8;
@@ -37,13 +37,6 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => PatternId << 8 | Index;
-            }
-
-            [MethodImpl(Inline)]
-            public OpSpec WithPattern(uint pattern)
-            {
-                PatternId = pattern;
-                return this;
             }
 
             public string Format()
@@ -155,11 +148,11 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public int CompareTo(OpSpec src)
+            public int CompareTo(PatternOp src)
                 => OpId.CompareTo(src.OpId);
 
             [MethodImpl(Inline)]
-            static PointerWidthKind ptrwidth(in OpSpec op)
+            static PointerWidthKind ptrwidth(in PatternOp op)
             {
                 var dst = PointerWidthKind.INVALID;
                 if(op.Attribs.Search(OpClass.PtrWidth, out var attrib))
@@ -168,7 +161,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            static OpWidth opwidth(in OpSpec op)
+            static OpWidth opwidth(in PatternOp op)
             {
                 if(op.Attribs.Search(OpClass.OpWidth, out var attrib))
                     return attrib.AsOpWidth();
@@ -178,7 +171,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            static ElementType etype(in OpSpec op)
+            static ElementType etype(in PatternOp op)
             {
                 var dst = ElementType.Empty;
                 if(op.Attribs.Search(OpClass.ElementType, out var attrib))
@@ -186,7 +179,7 @@ namespace Z0
                 return dst;
             }
 
-            public static OpSpec Empty => new();
+            public static PatternOp Empty => new();
         }
     }
 }
