@@ -61,12 +61,6 @@ namespace Z0
         public FS.FilePath FormCatalogPath()
             => Targets() + FS.file(Tables.identify<FormImport>().Format(), FS.Csv);
 
-        public FS.FilePath FieldDefsTarget()
-            => Targets() + Tables.filename<XedFieldDef>();
-
-        public FS.FilePath RulePatterns()
-            => DocTarget(XedDocKind.RulePatterns);
-
         static FS.FileName EncInstDef = FS.file("all-enc-instructions", FS.Txt);
 
         static FS.FileName DecInstDef = FS.file("all-dec-instructions", FS.Txt);

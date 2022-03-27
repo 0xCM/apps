@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static core;
+    using System.Linq;
 
     partial class XedRules
     {
@@ -18,6 +19,8 @@ namespace Z0
                 public readonly ConcurrentDictionary<RuleTableKind,Index<RuleTable>> Defs = new();
 
                 public readonly ConcurrentDictionary<RuleSig,Index<RuleTableRow>> Rows = new();
+
+                public readonly ConcurrentDictionary<RuleTableKind,Index<RuleTableSpec>> Specs = new();
 
                 public Index<RuleSchema> Schema = sys.empty<RuleSchema>();
 
@@ -38,11 +41,25 @@ namespace Z0
                 get => ref Data.Defs;
             }
 
-            public ref readonly ConcurrentDictionary<RuleSig,Index<RuleTableRow>> Rows
+            public ref readonly ConcurrentDictionary<RuleTableKind,Index<RuleTableSpec>> Specs
             {
-                [MethodImpl(Inline)]
-                get => ref Data.Rows;
+                get => ref Data.Specs;
             }
+
+            Index<RuleTableRow> _AllRows;
+
+            ConstLookup<RuleTableKind,Index<RuleTableRow>> _RowsByKind;
+
+            ConcurrentDictionary<RuleSig,Index<RuleTableRow>> _RowsBySig;
+
+            public Index<RuleTableRow> Rows(RuleTableKind kind)
+                => _RowsByKind[kind];
+
+            public Index<RuleTableRow> Rows(RuleSig sig)
+                => _RowsBySig[sig];
+
+            public Index<RuleTableRow> Rows()
+                =>_AllRows;
 
             public ref readonly Index<RuleSchema> Schema
             {
@@ -84,6 +101,9 @@ namespace Z0
                 });
 
                 SchemaLookup = dst.Keys.Map(name => (name,dst[name].ToIndex())).ToDictionary();
+                _RowsBySig = src.Rows;
+                _AllRows = src.Rows.Values.SelectMany(x => x).ToIndex().Sort();
+                _RowsByKind = _AllRows.GroupBy(x => x.TableKind).Map(x => (x.Key,x.ToIndex())).ToConstLookup();
                 return this;
             }
 

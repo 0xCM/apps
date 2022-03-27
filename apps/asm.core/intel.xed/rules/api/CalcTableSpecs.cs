@@ -9,6 +9,9 @@ namespace Z0
 
     partial class XedRules
     {
+        public static Index<RuleTableSpec> CalcTableSpecs(RuleTableKind kind)
+            => XedRules.CalcTableSpecs(XedPaths.Service.RuleSource(kind));
+
         public static Index<RuleTableSpec> CalcTableSpecs(FS.FilePath src)
         {
             var skip = hashset("VEXED_REX", "XED_RESET");

@@ -12,5 +12,13 @@ namespace Z0
             Xed.Rules.EmitCatalog();
             return true;
         }
+
+        [CmdOp("xed/emit/ruletables")]
+        Outcome EmitRuleTables(CmdArgs args)
+        {
+            Xed.Rules.EmitRuleTables();
+            return true;
+        }
+
     }
 }

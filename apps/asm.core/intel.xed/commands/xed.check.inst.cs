@@ -15,7 +15,7 @@ namespace Z0
         [CmdOp("xed/check/inst")]
         Outcome CheckInstDefs(CmdArgs args)
         {
-            var specs = XedRules.CalcRuleSpecs(RuleTableKind.Dec);
+            var specs = XedRules.CalcTableSpecs(RuleTableKind.Dec);
 
             var specLU = dict<string,RuleTableSpec>();
             iter(specs, spec => specLU.TryAdd(spec.Sig.Name, spec));

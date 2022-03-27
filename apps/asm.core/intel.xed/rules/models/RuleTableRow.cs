@@ -140,9 +140,13 @@ namespace Z0
             }
             public int CompareTo(RuleTableRow src)
             {
-                var result = TableName.CompareTo(src.TableName);
+                var result = ((byte)TableKind).CompareTo((byte)src.TableKind);
                 if(result == 0)
-                    result = RowIndex.CompareTo(src.RowIndex);
+                {
+                    result = TableName.CompareTo(src.TableName);
+                    if(result == 0)
+                        result = RowIndex.CompareTo(src.RowIndex);
+                }
                 return result;
             }
 

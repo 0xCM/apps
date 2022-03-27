@@ -30,15 +30,9 @@ namespace Z0
                 EmitMacroDefs,
                 EmitReflectedFields,
                 EmitSymbolicFields,
-                EmitFieldDefs,
-                () => EmitRuleSpecs(RuleTableKind.Enc),
-                () => EmitRuleSpecs(RuleTableKind.Dec),
-                () => EmitRuleSpecs(RuleTableKind.EncDec)
+                EmitFieldDefs
                 );
         }
-
-        void EmitRuleSpecs(RuleTableKind kind)
-            => EmitRuleSpecs(kind, XedRules.CalcRuleSpecs(kind));
 
         public Index<InstDef> CalcInstDefs()
             => Data(nameof(InstDef), () => Patterns.ParseInstDefs(XedPaths.DocSource(XedDocKind.EncInstDef)));
