@@ -21,7 +21,7 @@ namespace Z0
                 case LEGACY_0F:
                 case LEGACY_0F38:
                 case LEGACY_0F3A:
-                    result = C.Legacy;
+                    result = C.Base;
                     break;
                 case VEX_0F:
                 case VEX_0F38:

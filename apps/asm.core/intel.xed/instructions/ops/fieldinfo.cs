@@ -29,7 +29,7 @@ namespace Z0
                     dst.BitLiteral = src.AsBitLit();
                 break;
                 case DefFieldClass.Constraint:
-                    dst.Constraint = src.AsConstraint();
+                    dst.Constraint = src.ToConstraint();
                 break;
                 case DefFieldClass.FieldAssign:
                     dst.Assignment = src.AsAssignment();
@@ -44,7 +44,7 @@ namespace Z0
                     dst.IntLiteral = src.AsIntLit();
                 break;
                 case DefFieldClass.Nonterm:
-                    dst.Nonterminal = src.AsNonterminal();
+                    dst.Nonterminal = src.ToNonterminal();
                 break;
             }
 

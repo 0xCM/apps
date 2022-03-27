@@ -5,11 +5,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules;
     partial struct XedModels
     {
         [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(32)]
         public struct Nonterminal : IEquatable<Nonterminal>, IComparable<Nonterminal>
         {
+            [MethodImpl(Inline)]
+            public static ref readonly Nonterminal from(in InstDefField src)
+                => ref core.@as<Nonterminal>(src[0]);
+
             public static Nonterminal FromId(int id)
                 => new Nonterminal(name(id));
 

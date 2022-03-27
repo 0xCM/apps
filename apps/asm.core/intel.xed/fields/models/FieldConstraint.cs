@@ -10,16 +10,20 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential, Pack=1), DataWidth(32)]
         public readonly struct FieldConstraint
         {
+            [MethodImpl(Inline)]
+            public static FieldConstraint from(in InstDefField src)
+                => new FieldConstraint((FieldKind)src[0], src[1], (ConstraintKind)src[2], (FieldLiteralKind)src[3]);
+
             public readonly FieldKind Field;
 
-            public readonly ConstraintKind Kind;
-
             public readonly byte Value;
+
+            public readonly ConstraintKind Kind;
 
             public readonly FieldLiteralKind LiteralKind;
 
             [MethodImpl(Inline)]
-            public FieldConstraint(FieldKind field, ConstraintKind op, byte value, FieldLiteralKind vk)
+            public FieldConstraint(FieldKind field, byte value, ConstraintKind op, FieldLiteralKind vk)
             {
                 Field = field;
                 Kind = op;
@@ -45,7 +49,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static FieldConstraint Empty => new FieldConstraint(0,0,0,0);
+            public static FieldConstraint Empty => new FieldConstraint(FieldKind.INVALID,0,ConstraintKind.None,FieldLiteralKind.None);
         }
     }
 }

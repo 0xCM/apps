@@ -44,6 +44,18 @@ namespace Z0
                 get => Data.Count;
             }
 
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Data.IsEmpty;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Data.IsNonEmpty;
+            }
+
             public ref InstDefField this[int i]
             {
                 [MethodImpl(Inline)]

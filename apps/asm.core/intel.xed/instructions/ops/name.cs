@@ -23,5 +23,16 @@ namespace Z0
 
             return dst;
         }
+
+        public static string name(OpCodeClass src)
+            => src switch {
+                OpCodeClass.Amd3D => "Amd3D",
+                OpCodeClass.Evex => "Evex",
+                OpCodeClass.Vex => "Vex",
+                OpCodeClass.Xop => "Xop",
+                OpCodeClass.Base => "Base",
+
+                _ => EmptyString,
+            };
     }
 }

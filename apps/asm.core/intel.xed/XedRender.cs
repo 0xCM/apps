@@ -497,18 +497,18 @@ namespace Z0
         public static string format(in InstPatternBody src)
         {
             var dst = text.buffer();
-            render(src, dst);
+            render(src.Storage, dst);
             return dst.Emit();
         }
 
-        public static void render(in InstPatternBody src, ITextBuffer dst)
+        public static void render(ReadOnlySpan<InstDefField> src, ITextBuffer dst)
         {
-            for(var i=0; i<src.FieldCount; i++)
+            for(var i=0; i<src.Length; i++)
             {
                 if(i!=0)
                     dst.Append(Chars.Space);
 
-                dst.Append(format(src[i]));
+                dst.Append(format(skip(src,i)));
             }
         }
 
@@ -595,8 +595,8 @@ namespace Z0
         public static string format(in InstDefField src)
         {
             var dst = EmptyString;
-            var kind = src.FieldClass;
-            switch(kind)
+            var @class = src.FieldClass;
+            switch(@class)
             {
                 case DefFieldClass.HexLiteral:
                     dst = format(src.AsHexLit());
@@ -611,7 +611,7 @@ namespace Z0
                     dst = format5(src.AsBitLit());
                 break;
                 case DefFieldClass.Nonterm:
-                    dst = src.AsNonterminal().Format();
+                    dst = src.ToNonterminal().Format();
                 break;
                 case DefFieldClass.FieldLiteral:
                     dst = format(src.AsFieldLit());
@@ -620,10 +620,10 @@ namespace Z0
                     dst = format(src.AsAssignment());
                 break;
                 case DefFieldClass.Constraint:
-                    dst = format(src.AsConstraint());
+                    dst = format(src.ToConstraint());
                 break;
                 default:
-                    Errors.Throw("Unknown Part");
+                    Errors.Throw(string.Format("Unknown Part:{0} | {1}", @class, bytes(src).FormatHex()));
                     break;
             }
 

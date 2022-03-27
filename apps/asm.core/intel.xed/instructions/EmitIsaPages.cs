@@ -8,6 +8,10 @@ namespace Z0
     using System.Linq;
 
     using static core;
+    using static XedRules;
+    using static XedModels;
+
+    using K = XedRules.FieldKind;
 
     partial class XedPatterns
     {
@@ -40,7 +44,7 @@ namespace Z0
                     }
 
                     classifier = pattern.Classifier;
-                    outpath =  XedPaths.InstIsaPath(pattern);
+                    outpath = XedPaths.InstIsaPath(pattern);
 
                     buffer.AppendLineFormat("{0,-18} {1,-12} {2,-12}", pattern.Classifier, pattern.Isa.Name, pattern.Category);
                     buffer.AppendLine(RP.PageBreak80);
@@ -49,6 +53,7 @@ namespace Z0
                     buffer.AppendLine(RP.PageBreak80);
 
                 buffer.AppendLineFormat("{0} {1}", XedRender.semantic(pattern.OpCode), pattern.InstForm);
+                buffer.AppendLine(FormatIsaBody(pattern));
                 var ops = sys.empty<PatternOpInfo>();
                 if(opsLU.TryGetValue(pattern.PatternId, out ops))
                 {
@@ -60,5 +65,86 @@ namespace Z0
                     buffer.Emit(outpath);
             }
         }
+
+        static string format(in InstDefField src)
+        {
+            var dst = EmptyString;
+            switch(src.FieldKind)
+            {
+                case K.VL:
+                {
+                    dst = "v" + XedRender.format(src.AsAssignment().Value.ToVexLength());
+                }
+                break;
+                default:
+                    dst = src.Format();
+                break;
+            }
+
+
+            return dst;
+        }
+
+        static string FormatIsaBody(InstPattern src)
+        {
+            ref readonly var body = ref src.Body;
+            if(body.IsEmpty)
+                return EmptyString;
+
+            var k=0u;
+            var j=0u;
+            Span<InstDefField> buffer = stackalloc InstDefField[(int)body.FieldCount];
+            Span<InstDefField> constraints = stackalloc InstDefField[3];
+            for(var i=0;i<body.FieldCount; i++)
+            {
+                ref readonly var field = ref body[i];
+                    switch(field.FieldKind)
+                    {
+                        case K.MOD:
+                            if(field.FieldClass == DefFieldClass.Constraint)
+                                seek(constraints,j++) = field;
+                            else if(field.FieldClass == DefFieldClass.Bitfield)
+                                seek(buffer,k++) = field;
+                            else
+                                seek(buffer,k++) = field;
+                        break;
+                        case K.MAP:
+                        case K.VEX_PREFIX:
+                        case K.VEXVALID:
+                        case K.VL:
+                        break;
+                        default:
+                            seek(buffer,k++) = field;
+                        break;
+                    }
+            }
+
+            var dst = text.buffer();
+            var cx = EmptyString;
+            for(var i=0; i<k; i++)
+            {
+                if(i!=0)
+                    dst.Append(Chars.Space);
+
+                dst.Append(format(skip(buffer,i)));
+            }
+
+            if(j != 0)
+            {
+                dst.Append(" where ");
+
+                for(var i=0; i<j; i++)
+                {
+                    if(i!=0)
+                        dst.Append(" && ");
+
+                    dst.Append(format(skip(constraints,i)));
+                }
+            }
+
+
+            return dst.Emit();
+        }
+
     }
 }

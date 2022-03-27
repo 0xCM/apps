@@ -91,6 +91,18 @@ namespace Z0
                 Data = data;
             }
 
+            internal ref readonly byte this[int i]
+            {
+                [MethodImpl(Inline)]
+                get => ref Data[i];
+            }
+
+            internal ref readonly byte this[uint i]
+            {
+                [MethodImpl(Inline)]
+                get => ref Data[i];
+            }
+
             public ref readonly DefFieldClass FieldClass
             {
                 [MethodImpl(Inline)]
@@ -130,12 +142,12 @@ namespace Z0
                 => ref @as<byte>(Data.First);
 
             [MethodImpl(Inline)]
-            public ref readonly FieldConstraint AsConstraint()
-                => ref @as<FieldConstraint>(Data.First);
+            public FieldConstraint ToConstraint()
+                => FieldConstraint.from(this);
 
             [MethodImpl(Inline)]
-            public ref readonly Nonterminal AsNonterminal()
-                => ref @as<Nonterminal>(Data.First);
+            public Nonterminal ToNonterminal()
+                => Nonterminal.from(this);
 
             [MethodImpl(Inline)]
             public ref readonly BitfieldSeg AsBfSeg()

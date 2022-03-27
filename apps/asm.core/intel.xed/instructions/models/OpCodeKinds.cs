@@ -45,7 +45,7 @@ namespace Z0
                     ref readonly var sym = ref legacy[i];
                     ref var dst = ref seek(buffer, counter);
                     dst.Index = counter++;
-                    dst.Class = OpCodeClass.Legacy;
+                    dst.Class = OpCodeClass.Base;
                     dst.Name = sym.Expr.Format();
                     dst.Number = (byte)sym.Kind;
                     dst.Identity = (OpCodeKind)((ushort)dst.Class | ((ushort)sym.Kind << 8));

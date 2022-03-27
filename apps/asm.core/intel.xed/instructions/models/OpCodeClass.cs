@@ -15,8 +15,8 @@ namespace Z0
             [Symbol("")]
             None = 0,
 
-            [Symbol(N.LegacyMapClass)]
-            Legacy = 1,
+            [Symbol(N.BaseMapClass)]
+            Base = 1,
 
             [Symbol(N.XopMapClass)]
             Xop = 2,

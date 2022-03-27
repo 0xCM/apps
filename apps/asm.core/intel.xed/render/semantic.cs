@@ -35,7 +35,7 @@ namespace Z0
             var kind = EmptyString;
             switch(@class)
             {
-                case OpCodeClass.Legacy:
+                case OpCodeClass.Base:
                     switch(src)
                     {
                         case OpCodeKind.LEGACY_00:
@@ -103,7 +103,6 @@ namespace Z0
 
         public static string semantic(XedOpCode src)
             => string.Format("{0}[{1}:{2}]", src.Class, semantic(src.Kind), src.Value);
-
 
         public static string semantic(in PatternOpInfo src)
         {

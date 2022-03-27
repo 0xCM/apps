@@ -6,6 +6,7 @@ namespace Z0
 {
     using static XedModels;
     using static XedFields;
+    using static XedPatterns;
     using static core;
 
     using Asm;
@@ -145,28 +146,108 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
+            public VexClass ToVexClass()
+                => (VexClass)Data;
+
+            [MethodImpl(Inline)]
+            public VexLengthKind ToVexLength()
+                => (VexLengthKind)Data;
+
+            [MethodImpl(Inline)]
+            public VexKind ToVexKind()
+                => (VexKind)Data;
+
+            [MethodImpl(Inline)]
+            public MachineMode ToMode()
+                => (ModeKind)Data;
+
+            [MethodImpl(Inline)]
+            public XedRegId ToReg()
+                => (XedRegId)Data;
+
+            [MethodImpl(Inline)]
+            public InstClass ToInstClass()
+                => (IClass)Data;
+
+            [MethodImpl(Inline)]
+            public ChipCode ToChip()
+                => (ChipCode)Data;
+
+            [MethodImpl(Inline)]
+            public BCastKind ToBCast()
+                => (BCastKind)Data;
+
+            [MethodImpl(Inline)]
+            public EOSZ ToEOSZ()
+                => (EOSZ)Data;
+
+            [MethodImpl(Inline)]
+            public EASZ ToEASZ()
+                => (EASZ)Data;
+
+            [MethodImpl(Inline)]
+            public bit ToBit()
+                => (bit)Data;
+
+            [MethodImpl(Inline)]
+            public imm8 ToImm8()
+                => (imm8)Data;
+
+            [MethodImpl(Inline)]
+            public Hex8 ToHex8()
+                => (Hex8)Data;
+
+            [MethodImpl(Inline)]
+            public static implicit operator EASZ(FieldValue src)
+                => src.ToEASZ();
+
+            [MethodImpl(Inline)]
+            public static implicit operator EOSZ(FieldValue src)
+                => src.ToEOSZ();
+
+            [MethodImpl(Inline)]
             public static implicit operator VexClass(FieldValue src)
-                => (VexClass)src.Data;
+                => src.ToVexClass();
+
+            [MethodImpl(Inline)]
+            public static implicit operator VexLengthKind(FieldValue src)
+                => src.ToVexLength();
 
             [MethodImpl(Inline)]
             public static implicit operator VexKind(FieldValue src)
-                => (VexKind)src.Data;
+                => src.ToVexKind();
 
             [MethodImpl(Inline)]
             public static implicit operator ModeKind(FieldValue src)
-                => (ModeKind)src.Data;
+                => src.ToMode();
 
             [MethodImpl(Inline)]
             public static implicit operator XedRegId(FieldValue src)
-                => (XedRegId)src.Data;
+                => src.ToReg();
 
             [MethodImpl(Inline)]
             public static implicit operator IClass(FieldValue src)
-                => (IClass)src.Data;
+                => src.ToInstClass();
 
             [MethodImpl(Inline)]
             public static implicit operator ChipCode(FieldValue src)
-                => (ChipCode)src.Data;
+                => src.ToChip();
+
+            [MethodImpl(Inline)]
+            public static implicit operator BCastKind(FieldValue src)
+                => src.ToBCast();
+
+            [MethodImpl(Inline)]
+            public static implicit operator bit(FieldValue src)
+                => src.ToBit();
+
+            [MethodImpl(Inline)]
+            public static implicit operator imm8(FieldValue src)
+                => src.ToImm8();
+
+            [MethodImpl(Inline)]
+            public static implicit operator Hex8(FieldValue src)
+                => src.ToHex8();
 
             [MethodImpl(Inline)]
             public static implicit operator byte(FieldValue src)
@@ -197,10 +278,6 @@ namespace Z0
                 => (imm64)src.Data;
 
             [MethodImpl(Inline)]
-            public static implicit operator Hex8(FieldValue src)
-                => (Hex8)src.Data;
-
-            [MethodImpl(Inline)]
             public static implicit operator ushort(FieldValue src)
                 => (ushort)src.Data;
 
@@ -209,28 +286,8 @@ namespace Z0
                 => (long)src.Data;
 
             [MethodImpl(Inline)]
-            public static implicit operator BCastKind(FieldValue src)
-                => (BCastKind)src.Data;
-
-            [MethodImpl(Inline)]
-            public static implicit operator bit(FieldValue src)
-                => (bit)src.Data;
-
-            [MethodImpl(Inline)]
-            public static implicit operator EASZ(FieldValue src)
-                => (EASZ)src.Data;
-
-            [MethodImpl(Inline)]
             public static implicit operator LockIndicator(FieldValue src)
                 => ((bit)src) ? LockIndicator.On : LockIndicator.Off;
-
-            [MethodImpl(Inline)]
-            public static implicit operator imm8(FieldValue src)
-                => (imm8)src.Data;
-
-            [MethodImpl(Inline)]
-            public static implicit operator EOSZ(FieldValue src)
-                => (EOSZ)src.Data;
 
             [MethodImpl(Inline)]
             public static implicit operator EoszKind(FieldValue src)

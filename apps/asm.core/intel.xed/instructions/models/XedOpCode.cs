@@ -30,6 +30,7 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => XedPatterns.@class(Kind);
             }
+
             public Hash32 Hash
             {
                 [MethodImpl(Inline)]

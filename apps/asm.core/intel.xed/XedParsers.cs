@@ -166,7 +166,7 @@ namespace Z0
                 else
                     result = (false, AppMsg.ParseFailure.Format(nameof(BitfieldSeg), src));
             }
-            else if(IsCmpNeq(src))
+            else if(IsConstraint(src))
             {
                 result = parse(src, out FieldConstraint x);
                 if(result)
@@ -175,17 +175,17 @@ namespace Z0
                     result = (false, AppMsg.ParseFailure.Format(nameof(FieldConstraint), src));
 
             }
-            else if(IsAssignment(src))
-            {
-                result = parse(src, out FieldAssign x);
-                if(result)
-                {
-                    dst = part(x);
-                }
-                else
-                    result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
+            // else if(IsAssignment(src))
+            // {
+            //     result = parse(src, out FieldAssign x);
+            //     if(result)
+            //     {
+            //         dst = part(x);
+            //     }
+            //     else
+            //         result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
 
-            }
+            // }
             else if(IsNonterminal(src))
             {
                 result = parse(src, out Nonterminal x);
@@ -303,6 +303,9 @@ namespace Z0
 
         public static bool IsCmpNeq(string src)
             => src.Contains(Neq);
+
+        public static bool IsConstraint(string src)
+            => src.Contains(Neq) || src.Contains("=");
 
         public static bool IsNonterminal(string src)
             => text.trim(text.remove(src,"::")).EndsWith("()");
@@ -445,17 +448,17 @@ namespace Z0
                     if(IsHexLiteral(a))
                     {
                         result = NumericParser.num8<Hex8>(b, out var value);
-                        dst = new FieldConstraint(fk, ck, value, FieldLiteralKind.HexLiteral);
+                        dst = new FieldConstraint(fk, value, ck, FieldLiteralKind.HexLiteral);
                     }
                     else if(IsBinaryLiteral(a))
                     {
                         result = NumericParser.num8<uint8b>(b, out var value);
-                        dst = new FieldConstraint(fk, ck, value, FieldLiteralKind.BinaryLiteral);
+                        dst = new FieldConstraint(fk, value, ck, FieldLiteralKind.BinaryLiteral);
                     }
                     else
                     {
                         result = NumericParser.num8(b, out var value);
-                        dst = new FieldConstraint(fk, ck, value, FieldLiteralKind.DecimalLiteral);
+                        dst = new FieldConstraint(fk, value, ck, FieldLiteralKind.DecimalLiteral);
                     }
                 }
             }

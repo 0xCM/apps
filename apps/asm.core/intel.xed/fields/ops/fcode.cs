@@ -77,7 +77,6 @@ namespace Z0
                 break;
 
                 case K.SIBSCALE:
-                case K.MOD:
                     dst = C.B2;
                 break;
 
@@ -126,6 +125,7 @@ namespace Z0
                     dst = C.U5;
                 break;
 
+                case K.MOD:
                 case K.BRDISP_WIDTH:
                 case K.DISP_WIDTH:
                 case K.ILD_SEG:

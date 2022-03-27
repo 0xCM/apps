@@ -47,7 +47,9 @@ namespace Z0
 
         public const string XOPV = nameof(XOPV);
 
-        public const string LegacyMapClass = "LEGACY";
+        public const string BASE = nameof(BASE);
+
+        public const string BaseMapClass = BASE;
 
         public const string VexMapClass = VV1;
 
