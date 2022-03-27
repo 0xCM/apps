@@ -11,6 +11,19 @@ namespace Z0
     {
         public readonly struct InstPatternBody : IIndex<InstDefField>
         {
+            public static string normalize(string rawbody)
+            {
+                var buffer = text.buffer();
+                var parts = text.split(text.despace(rawbody), Chars.Space);
+                for(var i=0; i<parts.Length; i++)
+                {
+                    if(i != 0)
+                        buffer.Append(Chars.Space);
+                    buffer.Append(core.skip(parts,i));
+                }
+                return buffer.Emit();
+            }
+
             readonly Index<InstDefField> Data;
 
             [MethodImpl(Inline)]

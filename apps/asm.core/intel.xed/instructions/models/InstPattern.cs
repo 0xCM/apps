@@ -12,13 +12,10 @@ namespace Z0
     {
         public class InstPattern : IComparable<InstPattern>
         {
-            public readonly InstDef InstDef;
-
             public readonly InstPatternSpec Spec;
 
-            public InstPattern(InstDef inst, InstPatternSpec spec)
+            public InstPattern(InstPatternSpec spec)
             {
-                InstDef = inst;
                 Spec = spec;
             }
 
@@ -89,7 +86,7 @@ namespace Z0
             public ref readonly InstClass InstClass
             {
                 [MethodImpl(Inline)]
-                get => ref InstDef.InstClass;
+                get => ref Spec.InstClass;
             }
 
             public string Classifier
@@ -107,31 +104,31 @@ namespace Z0
             public ref readonly InstIsa Isa
             {
                 [MethodImpl(Inline)]
-                get => ref InstDef.Isa;
+                get => ref Spec.Isa;
             }
 
             public ref readonly Category Category
             {
                 [MethodImpl(Inline)]
-                get => ref InstDef.Category;
+                get => ref Spec.Category;
             }
 
             public ref readonly Extension Extension
             {
                 [MethodImpl(Inline)]
-                get => ref InstDef.Extension;
+                get => ref Spec.Extension;
             }
 
             public ref readonly InstAttribs Attributes
             {
                 [MethodImpl(Inline)]
-                get => ref InstDef.Attributes;
+                get => ref Spec.Attributes;
             }
 
             public ref readonly Index<XedFlagEffect> Effects
             {
                 [MethodImpl(Inline)]
-                get => ref InstDef.Effects;
+                get => ref Spec.Effects;
             }
 
             public bool Locked

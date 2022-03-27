@@ -12,7 +12,7 @@ namespace Z0
 
     partial class XedPatterns
     {
-        public static XedOpCode xedoc(uint pattern, InstPatternBody body)
+        public static XedOpCode xedoc(InstPatternBody body)
         {
             var vc = VexClass.None;
             var number = z8;
@@ -48,7 +48,7 @@ namespace Z0
                 break;
             }
 
-            return new XedOpCode(pattern, kind, value);
+            return new XedOpCode(kind, value);
         }
     }
 }

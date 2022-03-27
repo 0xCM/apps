@@ -12,19 +12,7 @@ namespace Z0
     {
         public struct InstDef : IComparable<InstDef>
         {
-            public uint InstId;
-
             public InstClass InstClass;
-
-            public Category Category;
-
-            public Extension Extension;
-
-            public InstIsa Isa;
-
-            public InstAttribs Attributes;
-
-            public Index<XedFlagEffect> Effects;
 
             public Index<InstPatternSpec> PatternSpecs;
 

@@ -14,16 +14,13 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1),DataWidth(64)]
         public readonly struct XedOpCode : IEquatable<XedOpCode>, IComparable<XedOpCode>
         {
-            public readonly ushort PatternId;
-
             public readonly OpCodeKind Kind;
 
             public readonly AsmOcValue Value;
 
             [MethodImpl(Inline)]
-            public XedOpCode(uint pattern, OpCodeKind kind, AsmOcValue value)
+            public XedOpCode(OpCodeKind kind, AsmOcValue value)
             {
-                PatternId = (ushort)pattern;
                 Kind = kind;
                 Value = value;
             }

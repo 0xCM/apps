@@ -21,7 +21,7 @@ namespace Z0
                 ref readonly var def = ref defs[i];
                 ref readonly var specs = ref def.PatternSpecs;
                 for(var j=0; j<specs.Count; j++, k++)
-                    seek(dst,k) =  new InstPattern(def, specs[j]);
+                    seek(dst,k) =  new InstPattern(specs[j]);
             }
             return dst.Sort();
         }

@@ -34,6 +34,11 @@ namespace Z0
                 dst = Parse(pattern,ops);
             }
 
+            public void Parse(uint pattern, string ops, out PatternOps dst)
+            {
+                dst = Parse(pattern,ops);
+            }
+
             Index<PatternOp> Parse(uint pattern, string ops)
             {
                 var buffer = list<PatternOp>();

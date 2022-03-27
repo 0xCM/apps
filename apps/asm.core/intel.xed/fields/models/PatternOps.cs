@@ -82,6 +82,10 @@ namespace Z0
                 => new PatternOps(src);
 
             [MethodImpl(Inline)]
+            public static implicit operator PatternOps(Index<PatternOp> src)
+                => new PatternOps(src);
+
+            [MethodImpl(Inline)]
             public static implicit operator PatternOp[](PatternOps src)
                 => src.Data;
 

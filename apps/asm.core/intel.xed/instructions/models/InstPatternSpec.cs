@@ -10,51 +10,133 @@ namespace Z0
 
     partial class XedPatterns
     {
-        public readonly struct InstPatternSpec : IComparable<InstPatternSpec>
+        public struct InstPatternSpec : IComparable<InstPatternSpec>
         {
-            public readonly uint PatternId;
+            public uint PatternId;
 
-            public readonly uint InstId;
+            public uint InstId;
 
-            public readonly MachineMode Mode;
+            public MachineMode Mode;
 
-            public readonly InstClass InstClass;
+            public InstIsa Isa;
 
-            public readonly InstForm InstForm;
+            public Category Category;
 
-            public readonly XedOpCode OpCode;
+            public Extension Extension;
 
-            public readonly TextBlock BodyExpr;
+            public InstClass InstClass;
 
-            public readonly TextBlock RawBody;
+            public InstForm InstForm;
 
-            public readonly InstPatternBody Body;
+            public InstAttribs Attributes;
 
-            public readonly PatternOps Ops;
+            public Index<XedFlagEffect> Effects;
 
-            [MethodImpl(Inline)]
-            public InstPatternSpec(uint id, uint instid, InstClass @class, InstForm form, XedOpCode opcode, string rawbody, InstPatternBody body, string bodyexpr, PatternOp[] ops)
+            public XedOpCode OpCode;
+
+            public TextBlock BodyExpr;
+
+            public TextBlock RawBody;
+
+            public InstPatternBody Body;
+
+            public PatternOps Ops;
+
+            public static void FixIsa(ref InstPatternSpec src)
             {
-                PatternId = id;
-                InstId = instid;
-                Mode = mode(body);
-                InstClass = @class;
-                InstForm = form;
-                OpCode = opcode;
-                Body = body;
-                RawBody = rawbody;
-                BodyExpr = bodyexpr;
-                Ops = ops;
+                if(src.Isa.IsEmpty)
+                {
+                    switch(src.Extension.Kind)
+                    {
+                        case ExtensionKind._3DNOW:
+                            src.Isa = IsaKind._3DNOW;
+                        break;
+                        case ExtensionKind.INVPCID:
+                            src.Isa = IsaKind.INVPCID;
+                        break;
+                        case ExtensionKind.PCLMULQDQ:
+                            src.Isa = IsaKind.PCLMULQDQ;
+                        break;
+                        case ExtensionKind.FMA4:
+                            src.Isa = IsaKind.FMA4;
+                        break;
+                        case ExtensionKind.F16C:
+                            src.Isa = IsaKind.F16C;
+                        break;
+                        case ExtensionKind.X87:
+                            src.Isa = IsaKind.X87;
+                        break;
+                        case ExtensionKind.AES:
+                            src.Isa = IsaKind.AES;
+                        break;
+                        case ExtensionKind.AVX:
+                            src.Isa = IsaKind.AVX;
+                        break;
+                        case ExtensionKind.AVX2:
+                            src.Isa = IsaKind.AVX2;
+                        break;
+                        case ExtensionKind.BMI1:
+                            src.Isa = IsaKind.BMI1;
+                        break;
+                        case ExtensionKind.BMI2:
+                            src.Isa = IsaKind.BMI2;
+                        break;
+                        case ExtensionKind.LONGMODE:
+                            src.Isa = IsaKind.LONGMODE;
+                        break;
+                        case ExtensionKind.CLZERO:
+                            src.Isa = IsaKind.CLZERO;
+                        break;
+                        case ExtensionKind.FMA:
+                            src.Isa = IsaKind.FMA;
+                        break;
+                        case ExtensionKind.LZCNT:
+                            src.Isa = IsaKind.LZCNT;
+                            break;
+                        case ExtensionKind.SSE:
+                            src.Isa = IsaKind.SSE;
+                        break;
+                        case ExtensionKind.SSE2:
+                            src.Isa = IsaKind.SSE2;
+                        break;
+                        case ExtensionKind.SSE3:
+                            src.Isa = IsaKind.SSE3;
+                        break;
+                        case ExtensionKind.SSE4:
+                            src.Isa = IsaKind.SSE4;
+                        break;
+                        case ExtensionKind.VTX:
+                            src.Isa = IsaKind.VTX;
+                        break;
+                        case ExtensionKind.SSE4A:
+                            src.Isa = IsaKind.SSE4A;
+                        break;
+                        case ExtensionKind.SSSE3:
+                            src.Isa = IsaKind.SSSE3;
+                        break;
+                        case ExtensionKind.TBM:
+                            src.Isa = IsaKind.TBM;
+                        break;
+                        case ExtensionKind.XSAVE:
+                            src.Isa = IsaKind.XSAVE;
+                        break;
+                        case ExtensionKind.XSAVEC:
+                            src.Isa = IsaKind.XSAVEC;
+                        break;
+                        case ExtensionKind.XSAVEOPT:
+                            src.Isa = IsaKind.XSAVEOPT;
+                        break;
+                        case ExtensionKind.XSAVES:
+                            src.Isa = IsaKind.XSAVES;
+                        break;
+                        default:
+                        {
+
+                        }
+                        break;
+                    }
+                }
             }
-
-            [MethodImpl(Inline)]
-            public InstPatternSpec WithForm(InstForm src)
-                => new InstPatternSpec(PatternId, InstId, InstClass, src, OpCode, RawBody, Body, BodyExpr, Ops);
-
-            [MethodImpl(Inline)]
-            public InstPatternSpec WithIdentity(uint pattern, uint inst)
-                => new InstPatternSpec(pattern, inst, InstClass, InstForm, OpCode, RawBody, Body, BodyExpr, Ops);
-
             public int CompareTo(InstPatternSpec src)
             {
                 var result = InstId.CompareTo(src.InstId);
@@ -79,6 +161,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public PatternSort Sort()
                 => new PatternSort(this);
+
+            public static InstPatternSpec Empty => default;
         }
     }
 }

@@ -30,6 +30,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator ExtensionKind(Extension src)
                 => src.Kind;
+
+            public static Extension Empty => default;
         }
     }
 }

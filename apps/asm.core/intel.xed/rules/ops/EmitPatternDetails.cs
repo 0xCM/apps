@@ -20,8 +20,9 @@ namespace Z0
                 ref readonly var pattern = ref src[j];
 
                 writer.AppendLineFormat(LabelPattern, pattern.InstClass.Name, pattern.BodyExpr);
+                writer.AppendLineFormat(LabelPattern, nameof(pattern.RawBody), pattern.RawBody);
                 writer.AppendLineFormat(LabelPattern, pattern.OpCode, pattern.Mode);
-                writer.AppendLineFormat(LabelPattern, pattern.Isa.IsEmpty ? "<missing>" : XedRender.format(pattern.Isa), pattern.InstForm);
+                writer.AppendLineFormat(LabelPattern, XedRender.format(pattern.Isa), pattern.InstForm);
                 writer.AppendLineFormat(LabelPattern, pattern.Category, XedRender.format(pattern.Attributes));
 
                 if(pattern.Effects.IsNonEmpty)

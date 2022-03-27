@@ -30,6 +30,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator CategoryKind(Category src)
                 => src.Kind;
+
+            public static Category Empty => default;
         }
     }
 }

@@ -13,22 +13,6 @@ namespace Z0
 
     partial class XedPatterns
     {
-        void Parse(uint pattern, InstClass @class, InstForm form, string rawbody, string opexpr, out InstPatternSpec dst)
-        {
-            var buffer = text.buffer();
-            var parts = text.split(text.despace(rawbody), Chars.Space);
-            for(var i=0; i<parts.Length; i++)
-            {
-                if(i != 0)
-                    buffer.Append(Chars.Space);
-                buffer.Append(skip(parts,i));
-            }
-
-            XedParsers.parse(RuleMacros.expand(buffer.Emit()), out InstPatternBody pb).Require();
-            OperandParser.create(XedPatterns.mode(pb)).Parse(pattern, opexpr, out Index<PatternOp> ops);
-            dst = new InstPatternSpec(pattern, 0, @class, form, xedoc(pattern, pb), rawbody, pb, XedRender.format(pb), ops);
-        }
-
         static bool parse(string src, out InstDefPart part)
         {
             var result = false;
@@ -49,6 +33,18 @@ namespace Z0
         static TextLine cleanse(TextLine src)
         {
             var dst = text.despace(src.Content);
+            var i = text.index(dst, Chars.Hash);
+            if(i==0)
+                return TextLine.Empty;
+
+            if(i > 0)
+                dst = text.left(dst,i);
+            return new TextLine(src.LineNumber, text.trim(dst));
+        }
+
+        static TextLine cleanse2(TextLine src)
+        {
+            var dst = text.trim(src.Content);
             var i = text.index(dst, Chars.Hash);
             if(i==0)
                 return TextLine.Empty;
@@ -79,10 +75,16 @@ namespace Z0
         {
             const string LogPattern = "{0,-8} | {1,-8} | {2,-10} | {3}";
             var buffer = list<InstDef>();
-            var reader = src.ReadNumberedLines().Select(cleanse).Where(line => line.IsNonEmpty).Reader();
+            var reader = src.ReadNumberedLines().Select(cleanse2).Where(line => line.IsNonEmpty).Reader();
             var seq = 0u;
             var forms = dict<uint,InstForm>();
             var logdst = XedPaths.Targets() + FS.file("xed.inst.patterns.log", FS.Csv);
+            var @class = InstClass.Empty;
+            var category = Category.Empty;
+            var isa = InstIsa.Empty;
+            var ext = Extension.Empty;
+            var attribs = InstAttribs.Empty;
+            var effects = Index<XedFlagEffect>.Empty;
             using var log = logdst.AsciWriter();
             while(reader.Next(out var line))
             {
@@ -92,9 +94,8 @@ namespace Z0
                 if(line.StartsWith(Chars.LBrace))
                 {
                     var dst = default(InstDef);
-                    var body = EmptyString;
+                    var rawbody = EmptyString;
                     var specs = list<InstPatternSpec>();
-                    var @class = InstClass.Empty;
                     while(!line.StartsWith(Chars.RBrace) && reader.Next(out line))
                     {
                         if(split(line, out var name, out var value))
@@ -113,22 +114,40 @@ namespace Z0
                                             forms.TryAdd(seq,form);
                                     break;
                                     case P.Attributes:
-                                        dst.Attributes = XedPatterns.attributes(value);
+                                        attribs = XedPatterns.attributes(text.despace(value));
                                     break;
                                     case P.Category:
-                                        XedParsers.parse(value, out dst.Category);
+                                        if(XedParsers.parse(text.despace(value), out Category _category))
+                                            category = _category;
                                     break;
                                     case P.Extension:
-                                        XedParsers.parse(value, out dst.Extension);
+                                        if(XedParsers.parse(text.despace(value), out Extension _ext))
+                                            ext = _ext;
                                     break;
                                     case P.Flags:
-                                        XedParsers.parse(value, out dst.Effects);
+                                        XedParsers.parse(text.despace(value), out effects);
                                     break;
                                     case P.Class:
                                     {
-                                        XedParsers.parse(value, out dst.InstClass);
-                                        @class = dst.InstClass;
+                                        if(XedParsers.parse(text.despace(value), out InstClass _class))
+                                        {
+                                            if(_class != @class)
+                                            {
+                                                category = Category.Empty;
+                                                isa = InstIsa.Empty;
+                                                ext = Extension.Empty;
+                                                attribs = InstAttribs.Empty;
+                                                effects = Index<XedFlagEffect>.Empty;
+                                                form = InstForm.Empty;
+                                            }
+                                            @class = _class;
+                                            dst.InstClass = _class;
+                                        }
                                     }
+                                    break;
+                                    case P.Isa:
+                                        if(XedParsers.parse(text.despace(value), out InstIsa _isa))
+                                            isa = _isa;
                                     break;
                                     case P.Operands:
                                     {
@@ -156,16 +175,28 @@ namespace Z0
                                             }
                                         }
 
-                                        Parse(seq, @class, InstForm.Empty, body, value, out var spec);
+                                        var opexpr = value;
+                                        var spec = InstPatternSpec.Empty;
+                                        spec.Attributes = attribs;
+                                        spec.Effects = effects;
+                                        spec.Category = category;
+                                        spec.Extension = ext;
+                                        spec.Isa = isa;
+                                        spec.InstClass = @class;
+                                        InstPatternSpec.FixIsa(ref spec);
+                                        spec.PatternId = seq;
+                                        spec.RawBody = rawbody;
+                                        XedParsers.parse(RuleMacros.expand(InstPatternBody.normalize(rawbody)), out spec.Body).Require();
+                                        spec.Mode = mode(spec.Body);
+                                        OperandParser.create(spec.Mode).Parse(spec.PatternId, opexpr, out spec.Ops);
+                                        spec.OpCode = xedoc(spec.Body);
+                                        spec.BodyExpr = spec.Body.Format();
                                         specs.Add(spec);
                                     }
                                     break;
                                     case P.Pattern:
-                                        body = value;
+                                        rawbody = value;
                                         seq++;
-                                    break;
-                                    case P.Isa:
-                                        XedParsers.parse(value, out dst.Isa);
                                     break;
                                     case P.Comment:
                                         break;
@@ -186,107 +217,106 @@ namespace Z0
             {
                 ref var def = ref seek(defs,i);
                 ref var specs = ref def.PatternSpecs;
-
-                if(def.Isa.IsEmpty)
-                {
-                    switch(def.Extension.Kind)
-                    {
-                        case ExtensionKind._3DNOW:
-                            def.Isa = IsaKind._3DNOW;
-                            break;
-                        case ExtensionKind.INVPCID:
-                            def.Isa = IsaKind.INVPCID;
-                            break;
-                        case ExtensionKind.PCLMULQDQ:
-                            def.Isa = IsaKind.PCLMULQDQ;
-                            break;
-                        case ExtensionKind.FMA4:
-                            def.Isa = IsaKind.FMA4;
-                        break;
-                        case ExtensionKind.F16C:
-                            def.Isa = IsaKind.F16C;
-                        break;
-                        case ExtensionKind.X87:
-                            def.Isa = IsaKind.X87;
-                        break;
-                        case ExtensionKind.AES:
-                            def.Isa = IsaKind.AES;
-                        break;
-                        case ExtensionKind.AVX:
-                            def.Isa = IsaKind.AVX;
-                        break;
-                        case ExtensionKind.AVX2:
-                            def.Isa = IsaKind.AVX2;
-                        break;
-                        case ExtensionKind.BMI1:
-                            def.Isa = IsaKind.BMI1;
-                        break;
-                        case ExtensionKind.BMI2:
-                            def.Isa = IsaKind.BMI2;
-                        break;
-                        case ExtensionKind.LONGMODE:
-                            def.Isa = IsaKind.LONGMODE;
-                        break;
-                        case ExtensionKind.CLZERO:
-                            def.Isa = IsaKind.CLZERO;
-                        break;
-                        case ExtensionKind.FMA:
-                            def.Isa = IsaKind.FMA;
-                        break;
-                        case ExtensionKind.LZCNT:
-                            def.Isa = IsaKind.LZCNT;
-                            break;
-                        case ExtensionKind.SSE:
-                            def.Isa = IsaKind.SSE;
-                        break;
-                        case ExtensionKind.SSE2:
-                            def.Isa = IsaKind.SSE2;
-                        break;
-                        case ExtensionKind.SSE3:
-                            def.Isa = IsaKind.SSE3;
-                        break;
-                        case ExtensionKind.SSE4:
-                            def.Isa = IsaKind.SSE4;
-                        break;
-                        case ExtensionKind.VTX:
-                            def.Isa = IsaKind.VTX;
-                        break;
-                        case ExtensionKind.SSE4A:
-                            def.Isa = IsaKind.SSE4A;
-                        break;
-                        case ExtensionKind.SSSE3:
-                            def.Isa = IsaKind.SSSE3;
-                        break;
-                        case ExtensionKind.TBM:
-                            def.Isa = IsaKind.TBM;
-                        break;
-                        case ExtensionKind.XSAVE:
-                            def.Isa = IsaKind.XSAVE;
-                        break;
-                        case ExtensionKind.XSAVEC:
-                            def.Isa = IsaKind.XSAVEC;
-                        break;
-                        case ExtensionKind.XSAVEOPT:
-                            def.Isa = IsaKind.XSAVEOPT;
-                        break;
-                        case ExtensionKind.XSAVES:
-                            def.Isa = IsaKind.XSAVES;
-                        break;
-                        default:
-                        {
-
-                        }
-                        break;
-                    }
-                }
-                def.InstId = iid;
                 for(var j=0; j<specs.Count; j++, pid++)
                 {
                     ref var pattern = ref specs[j];
-                    if(forms.TryGetValue(pattern.PatternId, out var form))
-                        pattern = pattern.WithForm(form);
-                    pattern = pattern.WithIdentity(pid,iid);
+                    forms.TryGetValue(pattern.PatternId, out pattern.InstForm);
+                    pattern.InstId = iid;
+                    pattern.PatternId = pid;
                 }
+
+                // if(def.Isa.IsEmpty)
+                // {
+                //     switch(def.Extension.Kind)
+                //     {
+                //         case ExtensionKind._3DNOW:
+                //             def.Isa = IsaKind._3DNOW;
+                //             break;
+                //         case ExtensionKind.INVPCID:
+                //             def.Isa = IsaKind.INVPCID;
+                //             break;
+                //         case ExtensionKind.PCLMULQDQ:
+                //             def.Isa = IsaKind.PCLMULQDQ;
+                //             break;
+                //         case ExtensionKind.FMA4:
+                //             def.Isa = IsaKind.FMA4;
+                //         break;
+                //         case ExtensionKind.F16C:
+                //             def.Isa = IsaKind.F16C;
+                //         break;
+                //         case ExtensionKind.X87:
+                //             def.Isa = IsaKind.X87;
+                //         break;
+                //         case ExtensionKind.AES:
+                //             def.Isa = IsaKind.AES;
+                //         break;
+                //         case ExtensionKind.AVX:
+                //             def.Isa = IsaKind.AVX;
+                //         break;
+                //         case ExtensionKind.AVX2:
+                //             def.Isa = IsaKind.AVX2;
+                //         break;
+                //         case ExtensionKind.BMI1:
+                //             def.Isa = IsaKind.BMI1;
+                //         break;
+                //         case ExtensionKind.BMI2:
+                //             def.Isa = IsaKind.BMI2;
+                //         break;
+                //         case ExtensionKind.LONGMODE:
+                //             def.Isa = IsaKind.LONGMODE;
+                //         break;
+                //         case ExtensionKind.CLZERO:
+                //             def.Isa = IsaKind.CLZERO;
+                //         break;
+                //         case ExtensionKind.FMA:
+                //             def.Isa = IsaKind.FMA;
+                //         break;
+                //         case ExtensionKind.LZCNT:
+                //             def.Isa = IsaKind.LZCNT;
+                //             break;
+                //         case ExtensionKind.SSE:
+                //             def.Isa = IsaKind.SSE;
+                //         break;
+                //         case ExtensionKind.SSE2:
+                //             def.Isa = IsaKind.SSE2;
+                //         break;
+                //         case ExtensionKind.SSE3:
+                //             def.Isa = IsaKind.SSE3;
+                //         break;
+                //         case ExtensionKind.SSE4:
+                //             def.Isa = IsaKind.SSE4;
+                //         break;
+                //         case ExtensionKind.VTX:
+                //             def.Isa = IsaKind.VTX;
+                //         break;
+                //         case ExtensionKind.SSE4A:
+                //             def.Isa = IsaKind.SSE4A;
+                //         break;
+                //         case ExtensionKind.SSSE3:
+                //             def.Isa = IsaKind.SSSE3;
+                //         break;
+                //         case ExtensionKind.TBM:
+                //             def.Isa = IsaKind.TBM;
+                //         break;
+                //         case ExtensionKind.XSAVE:
+                //             def.Isa = IsaKind.XSAVE;
+                //         break;
+                //         case ExtensionKind.XSAVEC:
+                //             def.Isa = IsaKind.XSAVEC;
+                //         break;
+                //         case ExtensionKind.XSAVEOPT:
+                //             def.Isa = IsaKind.XSAVEOPT;
+                //         break;
+                //         case ExtensionKind.XSAVES:
+                //             def.Isa = IsaKind.XSAVES;
+                //         break;
+                //         default:
+                //         {
+
+                //         }
+                //         break;
+                //     }
+                // }
             }
 
             return defs;

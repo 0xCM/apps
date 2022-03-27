@@ -19,29 +19,27 @@ namespace Z0
             using var writer = path.AsciWriter();
             writer.AppendLineFormat(RenderPattern, "Instruction",  "F", "E");
             var counter = 0u;
-            var log = hashset<IClass>();
+
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var def = ref src[i];
-                if(def.Effects.Count != 0)
+                ref readonly var specs = ref def.PatternSpecs;
+                for(var j=0; j<specs.Count; j++)
                 {
-                    if(log.Contains(def.InstClass))
-                        continue;
-
-                    log.Add(def.InstClass);
-                    for(var j=0; j<def.Effects.Count; j++)
+                    ref readonly var spec = ref specs[j];
+                    ref readonly var effects = ref spec.Effects;
+                    for(var k=0; k<effects.Count; k++)
                     {
-                        var e = def.Effects[j];
+                        var e = effects[k];
                         writer.AppendLineFormat(RenderPattern,
-                            XedRender.format(def.InstClass),
+                            XedRender.format(spec.InstClass),
                             e.Flag.ToString().ToLower(),
                             XedRender.format(e.Effect)
                             );
+                        counter++;
                     }
-
-                    counter++;
-
                 }
+
             }
             EmittedFile(emitting,counter);
         }

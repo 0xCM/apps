@@ -21,7 +21,7 @@ namespace Z0
         {
             ref readonly var body = ref src.Body;
             var dst = InstPatternInfo.Empty;
-            var opcode = XedPatterns.xedoc(src.PatternId, body);
+            var opcode = XedPatterns.xedoc(body);
             dst.PatternId = src.PatternId;
             dst.InstId = src.InstId;
             dst.Mode = src.Mode;
