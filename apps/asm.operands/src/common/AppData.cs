@@ -6,6 +6,7 @@ namespace Z0
 {
     public class AppData
     {
+        [MethodImpl(Inline)]
         public static AppData get()
             => Instance;
 
@@ -19,12 +20,24 @@ namespace Z0
                 Instance._EnvData = env.Data;
                 Instance._DevWs = ws;
                 Instance._Db = ws.ProjectDb();
+                Instance._PllExec = true;
             }
         }
 
         public DevWs DevWs => _DevWs;
 
         public IProjectDb ProjectDb => _Db;
+
+        [MethodImpl(Inline)]
+        public bool PllExec() => _PllExec;
+
+        [MethodImpl(Inline)]
+        public void PllExec(bool pll)
+        {
+            _PllExec = pll;
+        }
+
+        bool _PllExec;
 
         AppData()
         {

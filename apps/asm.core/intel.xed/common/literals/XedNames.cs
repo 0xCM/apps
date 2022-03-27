@@ -53,6 +53,8 @@ namespace Z0
 
         public const string EvexMapClass = EVV;
 
+        public const string Amd3dMapClass = Amd3dMapName;
+
         public const string VNP = nameof(VNP);
 
         public const string V66 = nameof(V66);

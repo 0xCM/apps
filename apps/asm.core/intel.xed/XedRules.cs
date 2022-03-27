@@ -19,7 +19,17 @@ namespace Z0
 
         Symbols<FieldType> FieldTypes;
 
-        bool PllExec {get;} = true;
+        static AppData AppData
+        {
+            [MethodImpl(Inline)]
+            get => AppData.get();
+        }
+
+        bool PllExec
+        {
+            [MethodImpl(Inline)]
+            get => AppData.PllExec();
+        }
 
         public XedRules()
         {

@@ -35,7 +35,7 @@ namespace Z0
 
             public EmptyZero<bit> NonTerm;
 
-            public OpAttrib Action;
+            public OpAction Action;
 
             public OpWidth OpWidth;
 
@@ -45,9 +45,9 @@ namespace Z0
 
             public EmptyZero<ushort> CellWidth;
 
-            public OpAttrib RegLit;
+            public EmptyZero<XedRegId> RegLit;
 
-            public OpAttrib Modifier;
+            public OpModifier Modifier;
 
             public Visibility Visibility;
 

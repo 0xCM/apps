@@ -56,8 +56,21 @@ namespace Z0
                 () => EmitPatternDetails(src),
                 () => EmitPatternOps(src),
                 () => EmitOpCodes(src),
-                () => EmitInstFieldDefs(src)
+                () => EmitInstFieldDefs(src),
+                () => EmitIsaPages(src)
                 );
+
+        void EmitPatternInfo(Index<InstPattern> src)
+            => TableEmit(XedPatterns.describe(src).View, InstPatternInfo.RenderWidths, XedPaths.Table<InstPatternInfo>());
+
+        void EmitPatternDetails(Index<InstPattern> src)
+            => EmitPatternDetails(src, XedPaths.DocTarget(XedDocKind.PatternDetail));
+
+        void EmitPatternOps(Index<InstPattern> src)
+            => TableEmit(CalcOpRecords(src).View, PatternOpInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));
+
+        void EmitIsaPages(Index<InstPattern> src)
+                => Patterns.EmitIsaPages(src);
 
         void EmitRuleTables()
             => RuleTables.EmitTables(true);

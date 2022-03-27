@@ -20,7 +20,7 @@ namespace Z0
 
             public Extension Extension;
 
-            public IsaKind Isa;
+            public InstIsa Isa;
 
             public InstAttribs Attributes;
 

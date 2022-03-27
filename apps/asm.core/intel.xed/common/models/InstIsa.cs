@@ -10,27 +10,18 @@ namespace Z0
     partial class XedPatterns
     {
         [DataWidth(16)]
-        public readonly struct InstClass
+        public readonly struct InstIsa
         {
-            public readonly IClass Kind;
+            public readonly IsaKind Kind;
 
             [MethodImpl(Inline)]
-            public InstClass(IClass mode)
+            public InstIsa(IsaKind mode)
             {
                 Kind = mode;
             }
 
-            public readonly string Classifier
-                => classifier(this);
-
-            public bool Locked
-            {
-                [MethodImpl(Inline)]
-                get => locked(Kind);
-            }
-
             public Identifier Name
-                => Kind.ToString();
+                => XedRender.format(Kind);
 
             public bool IsEmpty
             {
@@ -50,36 +41,36 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public int CompareTo(InstClass src)
-                => Classifier.CompareTo(src.Classifier);
+            public int CompareTo(InstIsa src)
+                => Name.CompareTo(src.Name);
 
             [MethodImpl(Inline)]
-            public bool Equals(InstClass src)
+            public bool Equals(InstIsa src)
                 => Kind == src.Kind;
 
             public override int GetHashCode()
                 => (int)Kind;
 
             public override bool Equals(object o)
-                => o is InstClass c && Equals(c);
+                => o is InstIsa c && Equals(c);
 
             [MethodImpl(Inline)]
-            public static implicit operator InstClass(IClass src)
-                => new InstClass(src);
+            public static implicit operator InstIsa(IsaKind src)
+                => new InstIsa(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator IClass(InstClass src)
+            public static implicit operator IsaKind(InstIsa src)
                 => src.Kind;
 
             [MethodImpl(Inline)]
-            public static bool operator ==(InstClass a, InstClass b)
+            public static bool operator ==(InstIsa a, InstIsa b)
                 => a.Equals(b);
 
             [MethodImpl(Inline)]
-            public static bool operator !=(InstClass a, InstClass b)
+            public static bool operator !=(InstIsa a, InstIsa b)
                 => !a.Equals(b);
 
-            public static InstClass Empty => default;
+            public static InstIsa Empty => default;
         }
     }
 }

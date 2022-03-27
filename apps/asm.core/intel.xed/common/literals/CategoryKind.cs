@@ -34,6 +34,7 @@ namespace Z0
             AVX512_4VNNIW,
 
             AVX512_BITALG,
+
             AVX512_VBMI,
 
             AVX512_VP2INTERSECT,
@@ -183,13 +184,21 @@ namespace Z0
             SYSRET,
 
             SYSTEM,
+
             TBM,
+
             TSX_LDTRK,
+
             UINTR,
+
             UNCOND_BR,
+
             VAES,
+
             VBMI2,
+
             VEX,
+
             VFMA,
 
             VIA_PADLOCK,

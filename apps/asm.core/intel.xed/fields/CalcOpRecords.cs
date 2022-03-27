@@ -43,7 +43,10 @@ namespace Z0
             dst.Kind = src.Kind;
             dst.Expression = src.Expression;
             dst.NonTerm = (bit)XedFields.nonterm(attribs, out dst.NonTerminal);
-            attribs.Search(OpClass.Action, out dst.Action);
+            if(attribs.Search(OpClass.Action, out var a))
+            {
+                dst.Action = a.AsAction();
+            }
             if(attribs.Search(OpClass.OpWidth, out var w))
             {
                 dst.OpWidth = w.AsOpWidth();
@@ -56,10 +59,13 @@ namespace Z0
             }
             if(attribs.Search(OpClass.RegLiteral, out var reglit))
             {
-                dst.RegLit = reglit;
-                dst.BitWidth = bitwidth(reglit.AsRegLiteral());
+                dst.RegLit = reglit.AsRegLiteral();
+                dst.BitWidth = bitwidth(dst.RegLit);
             }
-            attribs.Search(OpClass.Modifier, out dst.Modifier);
+            if(attribs.Search(OpClass.Modifier, out var mod))
+            {
+                dst.Modifier = mod.AsModifier();
+            }
 
             if(attribs.Search(OpClass.Visibility, out var visib))
                 dst.Visibility = visib.AsVisibility();

@@ -187,10 +187,25 @@ namespace Z0
                 ref var def = ref seek(defs,i);
                 ref var specs = ref def.PatternSpecs;
 
-                if(def.Isa == 0)
+                if(def.Isa.IsEmpty)
                 {
                     switch(def.Extension.Kind)
                     {
+                        case ExtensionKind._3DNOW:
+                            def.Isa = IsaKind._3DNOW;
+                            break;
+                        case ExtensionKind.INVPCID:
+                            def.Isa = IsaKind.INVPCID;
+                            break;
+                        case ExtensionKind.PCLMULQDQ:
+                            def.Isa = IsaKind.PCLMULQDQ;
+                            break;
+                        case ExtensionKind.FMA4:
+                            def.Isa = IsaKind.FMA4;
+                        break;
+                        case ExtensionKind.F16C:
+                            def.Isa = IsaKind.F16C;
+                        break;
                         case ExtensionKind.X87:
                             def.Isa = IsaKind.X87;
                         break;
@@ -215,6 +230,12 @@ namespace Z0
                         case ExtensionKind.CLZERO:
                             def.Isa = IsaKind.CLZERO;
                         break;
+                        case ExtensionKind.FMA:
+                            def.Isa = IsaKind.FMA;
+                        break;
+                        case ExtensionKind.LZCNT:
+                            def.Isa = IsaKind.LZCNT;
+                            break;
                         case ExtensionKind.SSE:
                             def.Isa = IsaKind.SSE;
                         break;
@@ -252,6 +273,9 @@ namespace Z0
                             def.Isa = IsaKind.XSAVES;
                         break;
                         default:
+                        {
+
+                        }
                         break;
                     }
                 }

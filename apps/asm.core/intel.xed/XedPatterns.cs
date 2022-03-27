@@ -15,6 +15,19 @@ namespace Z0
 
         XedTables XedTables => Service(Wf.XedTables).Data;
 
+        static AppData AppData
+        {
+            [MethodImpl(Inline)]
+            get => AppData.get();
+        }
+
+        bool PllExec
+        {
+            [MethodImpl(Inline)]
+            get => AppData.PllExec();
+        }
+
+
         static Index<InstDefPart,string> DefPartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET,COMMENT};
     }
 }

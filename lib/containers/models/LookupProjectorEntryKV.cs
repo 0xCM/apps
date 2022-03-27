@@ -4,21 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly struct LookupProjectorEntry<K,V>
+    public readonly struct LookupProjectorEntry<K,V,T>
     {
         public readonly K Key;
 
         public readonly V Value;
 
-        internal readonly ISFxProjector Projector;
+        internal readonly IProjector<V,T> Projector;
 
         [MethodImpl(Inline)]
-        public LookupProjectorEntry(K key, V value, ISFxProjector projector)
+        public LookupProjectorEntry(K key, V value, IProjector<V,T> projector)
         {
             Key = key;
             Value = value;
@@ -26,11 +21,11 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public T Project<T>()
+        public T Project()
             => Projector.Invoke(Value);
 
         [MethodImpl(Inline)]
-        public static implicit operator LookupProjectorEntry<K,V>((K key, V value, ISFxProjector projector) src)
-            => new LookupProjectorEntry<K,V>(src.key, src.value, src.projector);
+        public static implicit operator LookupProjectorEntry<K,V,T>((K key, V value, IProjector<V,T> projector) src)
+            => new LookupProjectorEntry<K,V,T>(src.key, src.value, src.projector);
     }
 }

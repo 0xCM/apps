@@ -12,30 +12,20 @@ namespace Z0
     {
         XedRules Rules => Service(Wf.XedRules);
 
-        //XedPatterns Patterns => Service(Wf.XedPatterns);
-
-        //XedPaths XedPaths => Service(Wf.XedPaths);
-
         WsProjects Projects => Service(Wf.WsProjects);
 
         XedTables XedTables => Service(Wf.XedTables).Data;
 
-        //ConstLookup<OpWidthCode,OpWidthInfo> OperandWidths;
-
-        bool PllExec {get;} = true;
-
-        public XedDisasmSvc()
+        static AppData AppData
         {
+            [MethodImpl(Inline)]
+            get => AppData.get();
         }
 
-        protected override void OnInit()
+        bool PllExec
         {
-            // var dst = dict<OpWidthCode,OpWidthInfo>();
-            // iter(Patterns.CalcOpWidths(), w => dst.TryAdd(w.Code, w));
-            // OperandWidths = dst;
+            [MethodImpl(Inline)]
+            get => AppData.PllExec();
         }
-
-        // OpWidthInfo OperandWidth(OpWidthCode type)
-        //     => OperandWidths[type];
     }
 }

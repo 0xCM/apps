@@ -79,6 +79,5 @@ namespace Z0
             /// </summary>
             public const string D3 = "3D";
         }
-
     }
 }

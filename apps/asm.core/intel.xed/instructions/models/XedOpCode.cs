@@ -28,6 +28,11 @@ namespace Z0
                 Value = value;
             }
 
+            public OpCodeClass Class
+            {
+                [MethodImpl(Inline)]
+                get => XedPatterns.@class(Kind);
+            }
             public Hash32 Hash
             {
                 [MethodImpl(Inline)]

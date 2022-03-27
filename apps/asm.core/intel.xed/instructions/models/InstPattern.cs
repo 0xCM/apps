@@ -104,7 +104,7 @@ namespace Z0
                 get => ref Spec.InstForm;
             }
 
-            public ref readonly IsaKind Isa
+            public ref readonly InstIsa Isa
             {
                 [MethodImpl(Inline)]
                 get => ref InstDef.Isa;

@@ -4,39 +4,45 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Concurrent;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public class LookupProjector<K,V>
+    public class LookupProjector<K,V,T>
     {
-        readonly ConcurrentDictionary<K,LookupProjectorEntry<K,V>> Storage;
+        readonly ConcurrentDictionary<K,V> Values;
 
-        object locker;
+        readonly IProjector<V,T> Projector;
 
-        ConstLookupProjector<K,V> _Const;
-
-        public LookupProjector()
+        public LookupProjector(IDictionary<K,V> src, IProjector<V,T> projector)
         {
-            Storage = new();
-            locker = new();
-            _Const = ConstLookupProjector<K,V>.Empty;
+            Values = new ConcurrentDictionary<K,V>(src);
+            Projector = projector;
         }
 
-        public ConstLookupProjector<K,V> Seal()
+        public LookupProjector(ConcurrentDictionary<K,V> src, IProjector<V,T> projector)
         {
-            lock(locker)
-            {
-                if(_Const.IsEmpty)
-                    _Const = new(Storage.Values.Array());
-            }
-            return _Const;
+            Values = src;
+            Projector = projector;
         }
 
         [MethodImpl(Inline)]
-        public bool Include(K key, V value, ISFxProjector projector)
-            =>  _Const.IsNonEmpty ? false : Storage.TryAdd(key, new LookupProjectorEntry<K,V>(key,value, projector));
+        public bool Find(K key, out V value)
+            => Values.TryGetValue(key, out value);
+
+        [MethodImpl(Inline)]
+        public bool Map(K key, out T output)
+        {
+            if(Find(key, out V value))
+            {
+                output = Projector.Invoke(value);
+                return true;
+            }
+            else
+            {
+                output = default;
+                return false;
+            }
+        }
+
+        [MethodImpl(Inline)]
+        public T Map(K key)
+            => Projector.Invoke(Values[key]);
     }
 }

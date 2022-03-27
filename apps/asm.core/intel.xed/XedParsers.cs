@@ -724,6 +724,17 @@ namespace Z0
         public static bool parse(string src, out IsaKind dst)
             => IsaKinds.Parse(src, out dst);
 
+        public static bool parse(string src, out InstIsa dst)
+        {
+            if(parse(src, out IsaKind isa))
+            {
+                dst = isa;
+                return true;
+            }
+            dst = InstIsa.Empty;
+            return false;
+        }
+
         public static bool parse(string src, out Extension dst)
         {
             dst = default;

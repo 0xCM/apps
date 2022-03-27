@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Linq;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     /// <summary>
     /// Defines a LINQ-monadic cover for a deferred finite or infinite parametric sequence

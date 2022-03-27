@@ -12,19 +12,23 @@ namespace Z0
         [SymSource(xed)]
         public enum OpCodeClass : byte
         {
+            [Symbol("")]
             None = 0,
 
             [Symbol(N.LegacyMapClass)]
-            LEGACY = 1,
+            Legacy = 1,
 
             [Symbol(N.XopMapClass)]
-            XOP = 2,
+            Xop = 2,
 
             [Symbol(N.VexMapClass)]
-            VEX = 4,
+            Vex = 4,
 
             [Symbol(N.EvexMapClass)]
-            EVEX = 8,
+            Evex = 8,
+
+            [Symbol(N.Amd3dMapClass)]
+            Amd3D = 16,
         }
     }
 }

@@ -9,16 +9,16 @@ namespace Z0
     {
         public struct Category
         {
-            public CategoryKind Value {get;set;}
+            public readonly CategoryKind Kind;
 
             [MethodImpl(Inline)]
             public Category(CategoryKind src)
             {
-                Value = src;
+                Kind = src;
             }
 
             public string Format()
-                => Value != 0 ? Symbols.format(Value) : EmptyString;
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();
@@ -29,7 +29,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator CategoryKind(Category src)
-                => src.Value;
+                => src.Kind;
         }
     }
 }

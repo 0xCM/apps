@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
-
     using static core;
-    using static Root;
 
     public class PllMap<K,V>
     {

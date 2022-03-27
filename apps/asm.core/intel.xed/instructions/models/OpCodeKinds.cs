@@ -45,7 +45,7 @@ namespace Z0
                     ref readonly var sym = ref legacy[i];
                     ref var dst = ref seek(buffer, counter);
                     dst.Index = counter++;
-                    dst.Class = OpCodeClass.LEGACY;
+                    dst.Class = OpCodeClass.Legacy;
                     dst.Name = sym.Expr.Format();
                     dst.Number = (byte)sym.Kind;
                     dst.Identity = (OpCodeKind)((ushort)dst.Class | ((ushort)sym.Kind << 8));
@@ -58,7 +58,7 @@ namespace Z0
                     ref readonly var sym = ref xop[i];
                     ref var dst = ref seek(buffer,counter);
                     dst.Index = counter++;
-                    dst.Class = OpCodeClass.XOP;
+                    dst.Class = OpCodeClass.Xop;
                     dst.Name = sym.Expr.Format();
                     dst.Number = (byte)sym.Kind;
                     dst.Identity = (OpCodeKind)((ushort)dst.Class | ((ushort)sym.Kind << 8));
@@ -71,7 +71,7 @@ namespace Z0
                     ref readonly var sym = ref vex[i];
                     ref var dst = ref seek(buffer,counter);
                     dst.Index = counter++;
-                    dst.Class = OpCodeClass.VEX;
+                    dst.Class = OpCodeClass.Vex;
                     dst.Name = sym.Expr.Format();
                     dst.Number = (byte)sym.Kind;
                     dst.Identity = (OpCodeKind)((ushort)dst.Class | ((ushort)sym.Kind << 8));
@@ -84,7 +84,7 @@ namespace Z0
                     ref readonly var sym = ref evex[i];
                     ref var dst = ref seek(buffer,counter);
                     dst.Index = counter++;
-                    dst.Class = OpCodeClass.EVEX;
+                    dst.Class = OpCodeClass.Evex;
                     dst.Name = sym.Expr.Format();
                     dst.Number = (byte)sym.Kind;
                     dst.Identity = (OpCodeKind)((ushort)dst.Class | ((ushort)sym.Kind << 8));

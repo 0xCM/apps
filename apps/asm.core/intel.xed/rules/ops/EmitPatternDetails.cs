@@ -21,7 +21,7 @@ namespace Z0
 
                 writer.AppendLineFormat(LabelPattern, pattern.InstClass.Name, pattern.BodyExpr);
                 writer.AppendLineFormat(LabelPattern, pattern.OpCode, pattern.Mode);
-                writer.AppendLineFormat(LabelPattern, pattern.Isa == 0 ? "<missing>" : XedRender.format(pattern.Isa), pattern.InstForm);
+                writer.AppendLineFormat(LabelPattern, pattern.Isa.IsEmpty ? "<missing>" : XedRender.format(pattern.Isa), pattern.InstForm);
                 writer.AppendLineFormat(LabelPattern, pattern.Category, XedRender.format(pattern.Attributes));
 
                 if(pattern.Effects.IsNonEmpty)
