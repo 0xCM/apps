@@ -52,113 +52,16 @@ namespace Z0
             return j;
         }
 
-        void EmitDescriptions(Index<InstPattern> patterns, FS.FolderPath outdir)
-        {
-            var outpath = FS.FilePath.Empty;
-            var classifier = EmptyString;
-            var buffer = text.buffer();
-            var opsLU = XedRules.CalcOpRecords(patterns).GroupBy(x => x.PatternId).Map(x => (x.Key,x.ToArray())).ToConcurrentDictionary();
-
-            for(var i=0; i<patterns.Count; i++)
-            {
-                ref readonly var pattern = ref patterns[i];
-
-                if(pattern.Classifier != classifier)
-                {
-                    if(i!=0)
-                    {
-                        using var writer = outpath.AsciWriter();
-
-                        writer.Write(buffer.Emit());
-                        var c = inc(ref IsaOutCount);
-                        if(c % 100 == 0)
-                            Status(string.Format("Emitted {0} instructions", c));
-                    }
-                    classifier = pattern.Classifier;
-                    outpath = outdir + FS.file(pattern.Classifier, FS.Txt);
-                    RenderIsaTitle(pattern,buffer);
-                }
-                else
-                {
-                    buffer.AppendLine(RP.PageBreak80);
-                }
-
-                RenderIsaInfo(pattern,buffer);
-                var ops = sys.empty<PatternOpInfo>();
-                if(opsLU.TryGetValue(pattern.PatternId, out ops))
-                {
-                    for(var j=0; j<ops.Length; j++)
-                        RenderIsaOp(skip(ops,j), buffer);
-                }
-
-                if(i==patterns.Count - 1)
-                {
-                    using var writer = outpath.AsciWriter();
-                    writer.Write(buffer.Emit());
-                }
-            }
-        }
 
         [CmdOp("xed/check/patterns")]
         Outcome CheckPatterns(CmdArgs args)
         {
-
+            var src = Xed.Rules.CalcInstPatterns();
+            Xed.Patterns.EmitIsaPages(src);
 
             return true;
         }
 
-        static uint IsaOutCount;
-
-        static FS.FolderName instfolder(InstIsa isa)
-            => isa.IsNonEmpty ? FS.folder(isa.Format()) : FS.folder("other");
-
-        void EmitIsaPages()
-        {
-            var patterns = Xed.Rules.CalcInstPatterns();
-            var patternLU = patterns.GroupBy(x => x.Isa.Kind).Map(x => (x.Key, x.ToArray())).ToConcurrentDictionary();
-            var outdir = AppDb.Logs() + FS.folder("xed.inst");
-            outdir.Delete();
-            iter(patternLU.Keys, isa => EmitDescriptions(patternLU[isa], outdir + instfolder(isa)),true);
-        }
-
-        void RenderIsaOp(in PatternOpInfo src, ITextBuffer dst)
-        {
-            var type = EmptyString;
-            var width = EmptyString;
-            if(src.CellType.IsNonEmpty)
-                type = src.CellType.Format();
-            if(empty(type) && src.NonTerminal.IsNonEmpty)
-                type = src.NonTerminal.Format();
-
-            if(src.RegLit.IsNonEmpty)
-                type = src.RegLit.Format();
-            if(src.BitWidth.IsNonEmpty)
-                width = string.Format("w{0}", src.BitWidth);
-            if(empty(width))
-                width = src.OpWidth.Format();
-
-            var desc = EmptyString;
-            if(empty(type))
-                desc = width;
-            else
-                desc = nonempty(width) ? string.Format("{0}/{1}", width, type) : type;
-
-            dst.AppendLineFormat("{0} {1,-8} {2,-8} {3,-8} {4}", src.Index, src.Name, src.Kind, XedRender.semantic(src.Action), desc);
-        }
-
-        void RenderIsaTitle(InstPattern src, ITextBuffer dst)
-        {
-            var classifier = src.Classifier;
-            ref readonly var cateogory = ref src.Category;
-            ref readonly var isa = ref src.Isa;
-            dst.AppendLineFormat("{0,-18} {1,-12} {2,-12}", classifier, src.Isa.Name, src.Category);
-            dst.AppendLine(RP.PageBreak80);
-        }
-
-        void RenderIsaInfo(InstPattern src, ITextBuffer dst)
-        {
-            dst.AppendLineFormat("{0} {1}", XedRender.semantic(src.OpCode), src.InstForm);
-        }
 
         void CheckPatterns(N0 n)
         {

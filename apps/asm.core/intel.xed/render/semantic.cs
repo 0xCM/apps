@@ -103,5 +103,31 @@ namespace Z0
 
         public static string semantic(XedOpCode src)
             => string.Format("{0}[{1}:{2}]", src.Class, semantic(src.Kind), src.Value);
+
+
+        public static string semantic(in PatternOpInfo src)
+        {
+            var type = EmptyString;
+            var width = EmptyString;
+            if(src.CellType.IsNonEmpty)
+                type = src.CellType.Format();
+            if(empty(type) && src.NonTerminal.IsNonEmpty)
+                type = src.NonTerminal.Format();
+
+            if(src.RegLit.IsNonEmpty)
+                type = src.RegLit.Format();
+            if(src.BitWidth.IsNonEmpty)
+                width = string.Format("w{0}", src.BitWidth);
+            if(empty(width))
+                width = src.OpWidth.Format();
+
+            var desc = EmptyString;
+            if(empty(type))
+                desc = width;
+            else
+                desc = nonempty(width) ? string.Format("{0}/{1}", width, type) : type;
+
+            return string.Format("{0} {1,-8} {2,-8} {3,-8} {4}", src.Index, src.Name, src.Kind, XedRender.semantic(src.Action), desc);
+        }
     }
 }

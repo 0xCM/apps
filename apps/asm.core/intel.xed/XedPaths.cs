@@ -28,14 +28,6 @@ namespace Z0
 
         readonly SvcState State;
 
-        // protected override XedPaths Init(out SvcState state)
-        // {
-        //     var ws = DevWs.create(Wf.Env.DevWs);
-        //     var db = ws.ProjectDb();
-        //     state = new (db.Sources("intel/xed.primary"), db.Subdir("xed"));
-        //     return this;
-        // }
-
         public FS.FolderPath Sources()
             => State.XedSources;
 
@@ -119,6 +111,63 @@ namespace Z0
 
         public FS.FilePath RuleSchemas()
             => RuleTargets() + Tables.filename<RuleSchema>();
+
+        public FS.FolderPath InstIsaRoot()
+            => Targets("instructions");
+        public FS.FilePath InstIsaPath(InstPattern src)
+            => InstIsaRoot() + instfolder(src.Isa) + FS.file(src.Classifier, FS.Txt);
+
+        static FS.FolderName instfolder(InstIsa isa)
+        {
+            var name = isa.Format();
+            var dst =  isa.IsEmpty ? FS.folder("OTHER") : FS.folder(name);
+            switch(isa.Kind)
+            {
+                case IsaKind.AVX_GFNI:
+                case IsaKind.AVX_VNNI:
+                    dst = FS.folder(string.Format("AVX512/{0}", name));
+                break;
+                case IsaKind.ADOX_ADCX:
+                case IsaKind.AMX_BF16:
+                case IsaKind.AMX_INT8:
+                case IsaKind.AMX_TILE:
+                case IsaKind.AMD:
+                case IsaKind.CLDEMOTE:
+                case IsaKind.CLZERO:
+                case IsaKind.CLWB:
+                case IsaKind.CLFSH:
+                case IsaKind.CLFLUSHOPT:
+                case IsaKind.F16C:
+                case IsaKind.FXSAVE:
+                case IsaKind.FXSAVE64:
+                case IsaKind.HRESET:
+                case IsaKind.INVPCID:
+                case IsaKind.LAHF:
+                case IsaKind.LZCNT:
+                case IsaKind.MONITOR:
+                case IsaKind.MONITORX:
+                case IsaKind.PCLMULQDQ:
+                case IsaKind.PKU:
+                case IsaKind.POPCNT:
+                case IsaKind.PTWRITE:
+                case IsaKind.PREFETCH_NOP:
+                case IsaKind.PREFETCHWT1:
+                case IsaKind.RDPMC:
+                case IsaKind.RDRAND:
+                case IsaKind.RDSEED:
+                case IsaKind.SGX:
+                case IsaKind.SGX_ENCLV:
+                case IsaKind.VMFUNC:
+                    dst = FS.folder(string.Format("OTHER/{0}", name));
+                break;
+                default:
+                if(text.begins(name,"AVX512"))
+                    dst = FS.folder(string.Format("AVX512/{0}", name));
+                break;
+            }
+
+            return dst;
+        }
 
         public FS.FilePath RuleSource(RuleTableKind kind)
         {

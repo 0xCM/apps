@@ -87,6 +87,13 @@ namespace Z0
         public static void IndentLineFormat(this StreamWriter dst, uint margin, string pattern, params object[] args)
             => dst.IndentLine(margin, string.Format(pattern, args));
 
+
+        public static void Emit(this ITextBuffer src, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+        {
+            using var writer = dst.Writer(encoding);
+            writer.Write(src.Emit());
+        }
+
     }
 
     partial struct Msg
