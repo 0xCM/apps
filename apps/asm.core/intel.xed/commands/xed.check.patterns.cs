@@ -7,9 +7,7 @@ namespace Z0
     using static XedRules;
     using static XedModels;
     using static XedPatterns;
-    using System.IO;
     using static core;
-    using System.Linq;
 
     partial class XedCmdProvider
     {
@@ -22,6 +20,7 @@ namespace Z0
         public static bits<T> load<T>(byte n, T src)
             where T : unmanaged
                 => (n,src);
+
 
         [CmdOp("xed/check/bits")]
         Outcome CheckBits(CmdArgs args)
@@ -51,17 +50,6 @@ namespace Z0
             }
             return j;
         }
-
-
-        [CmdOp("xed/check/patterns")]
-        Outcome CheckPatterns(CmdArgs args)
-        {
-            var src = Xed.Rules.CalcInstPatterns();
-            Xed.Patterns.EmitIsaPages(src);
-
-            return true;
-        }
-
 
         void CheckPatterns(N0 n)
         {

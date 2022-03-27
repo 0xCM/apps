@@ -10,7 +10,6 @@ global using System.Runtime.Intrinsics;
 global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
 global using System.Threading.Tasks;
-
 global using static Z0.Root;
 global using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 global using SQ = Z0.SymbolicQuery;
@@ -26,6 +25,7 @@ namespace Z0.Parts
 namespace Z0
 {
     using System.IO;
+    using System.Linq;
 
     using static core;
 
@@ -93,6 +93,14 @@ namespace Z0
             using var writer = dst.Writer(encoding);
             writer.Write(src.Emit());
         }
+
+        [MethodImpl(Inline)]
+        public static Index<T> ToIndex<T>(this T[] src)
+            => src;
+
+        [MethodImpl(Inline)]
+        public static Index<T> ToIndex<T>(this IEnumerable<T> src)
+            => src.Array();
 
     }
 

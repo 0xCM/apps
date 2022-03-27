@@ -5,13 +5,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    using static XedModels;
+    using static XedPatterns;
 
     partial class XedRules
     {
-        void EmitFlagEffects(Index<InstDef> src)
+        void EmitFlagEffects(Index<InstPattern> src)
         {
             const string RenderPattern = "{0,-16} | {1,-4} | {2, -4}";
             var path = XedPaths.Targets() + FS.file("xed.inst.flags", FS.Csv);
@@ -20,27 +18,22 @@ namespace Z0
             writer.AppendLineFormat(RenderPattern, "Instruction",  "F", "E");
             var counter = 0u;
 
-            for(var i=0; i<src.Count; i++)
+            for(var j=0; j<src.Count; j++)
             {
-                ref readonly var def = ref src[i];
-                ref readonly var specs = ref def.PatternSpecs;
-                for(var j=0; j<specs.Count; j++)
+                ref readonly var pattern = ref src[j];
+                ref readonly var effects = ref pattern.Effects;
+                for(var k=0; k<effects.Count; k++)
                 {
-                    ref readonly var spec = ref specs[j];
-                    ref readonly var effects = ref spec.Effects;
-                    for(var k=0; k<effects.Count; k++)
-                    {
-                        var e = effects[k];
-                        writer.AppendLineFormat(RenderPattern,
-                            XedRender.format(spec.InstClass),
-                            e.Flag.ToString().ToLower(),
-                            XedRender.format(e.Effect)
-                            );
-                        counter++;
-                    }
+                    var e = effects[k];
+                    writer.AppendLineFormat(RenderPattern,
+                        XedRender.format(pattern.InstClass),
+                        e.Flag.ToString().ToLower(),
+                        XedRender.format(e.Effect)
+                        );
+                    counter++;
                 }
-
             }
+
             EmittedFile(emitting,counter);
         }
     }

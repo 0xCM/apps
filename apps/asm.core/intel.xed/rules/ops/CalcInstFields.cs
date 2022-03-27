@@ -5,11 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-    using static XedRules;
-    using static core;
-
     partial class XedRules
     {
+        public Index<InstFieldInfo> CalcInstFields()
+            => Data(nameof(CalcInstFields), () => Patterns.CalcInstFields(CalcInstPatterns()));
     }
 }

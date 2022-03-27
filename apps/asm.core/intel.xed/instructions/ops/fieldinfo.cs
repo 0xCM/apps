@@ -23,13 +23,13 @@ namespace Z0
             switch(src.FieldClass)
             {
                 case DefFieldClass.Bitfield:
-                    dst.Bitfield = src.AsBfSeg();
+                    dst.Bitfield = src.AsBitfield();
                 break;
                 case DefFieldClass.BitLiteral:
                     dst.BitLiteral = src.AsBitLit();
                 break;
                 case DefFieldClass.Constraint:
-                    dst.Constraint = src.ToConstraint();
+                    dst.Constraint = src.AsConstraint();
                 break;
                 case DefFieldClass.FieldAssign:
                     dst.Assignment = src.AsAssignment();
@@ -44,7 +44,7 @@ namespace Z0
                     dst.IntLiteral = src.AsIntLit();
                 break;
                 case DefFieldClass.Nonterm:
-                    dst.Nonterminal = src.ToNonterminal();
+                    dst.Nonterminal = src.AsNonterminal();
                 break;
             }
 

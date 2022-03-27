@@ -37,6 +37,12 @@ namespace Z0
                 get => ref Spec.Body;
             }
 
+            public ref readonly Index<InstDefField> Fields
+            {
+                [MethodImpl(Inline)]
+                get => ref Body.Data;
+            }
+
             public ref readonly TextBlock BodyExpr
             {
                 [MethodImpl(Inline)]

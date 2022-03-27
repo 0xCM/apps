@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential), Record(TableId)]
-        public struct RuleSchema
+        public struct RuleSchema : IComparable<RuleSchema>
         {
             public const string TableId = "xed.rules.schemas";
 

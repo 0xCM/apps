@@ -109,6 +109,39 @@ namespace Z0
                 get => ref @as<DefFieldClass>(Data[15]);
             }
 
+            public bool IsConstraint
+            {
+                [MethodImpl(Inline)]
+                get => FieldClass == DefFieldClass.Constraint;
+            }
+
+            public bool IsLiteral
+            {
+                [MethodImpl(Inline)]
+                get => FieldClass == DefFieldClass.BitLiteral
+                || FieldClass == DefFieldClass.HexLiteral
+                || FieldClass == DefFieldClass.IntLiteral
+                || FieldClass == DefFieldClass.IntLiteral;
+            }
+
+            public bool IsBitfield
+            {
+                [MethodImpl(Inline)]
+                get => FieldClass == DefFieldClass.BitLiteral;
+            }
+
+            public bool IsNonTerminal
+            {
+                [MethodImpl(Inline)]
+                get => FieldClass == DefFieldClass.Nonterm;
+            }
+
+            public bool HasKind
+            {
+                [MethodImpl(Inline)]
+                get => FieldKind != 0;
+            }
+
             public ref readonly FieldKind FieldKind
             {
                 [MethodImpl(Inline)]
@@ -142,15 +175,15 @@ namespace Z0
                 => ref @as<byte>(Data.First);
 
             [MethodImpl(Inline)]
-            public FieldConstraint ToConstraint()
-                => FieldConstraint.from(this);
+            public ref readonly FieldConstraint AsConstraint()
+                => ref @as<FieldConstraint>(Data.First);
 
             [MethodImpl(Inline)]
-            public Nonterminal ToNonterminal()
-                => Nonterminal.from(this);
+            public ref readonly Nonterminal AsNonterminal()
+                => ref @as<Nonterminal>(Data.First);
 
             [MethodImpl(Inline)]
-            public ref readonly BitfieldSeg AsBfSeg()
+            public ref readonly BitfieldSeg AsBitfield()
                 => ref @as<BitfieldSeg>(Data.First);
 
             [MethodImpl(Inline)]

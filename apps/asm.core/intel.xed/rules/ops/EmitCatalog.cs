@@ -13,21 +13,33 @@ namespace Z0
     {
         public void EmitCatalog()
         {
-            var defs = CalcInstDefs();
-            var patterns = CalcInstPatterns(defs);
+            var patterns = CalcInstPatterns(CalcInstDefs());
             exec(PllExec,
-                () => EmitPatternData(patterns),
-                () => EmitFlagEffects(defs),
-                EmitRuleTables,
-                EmitRefData,
+                () => EmitPatternInfo(patterns),
+                () => EmitPatternDetails(patterns),
+                () => EmitPatternOps(patterns),
+                () => EmitOpCodes(patterns),
+                () => EmitInstFields(patterns),
+                () => EmitIsaPages(patterns),
+                () => EmitFlagEffects(patterns),
+                () => RuleTables.EmitTables(),
+                EmitOpCodeKinds,
+                EmitOpWidths,
+                EmitPointerWidths,
                 EmitMacroMatches,
                 EmitMacroDefs,
                 EmitReflectedFields,
                 EmitSymbolicFields,
-                EmitRuleSpecs,
-                EmitFieldDefs
+                EmitFieldDefs,
+                () => EmitRuleSpecs(RuleTableKind.Enc),
+                () => EmitRuleSpecs(RuleTableKind.Dec),
+                () => EmitRuleSpecs(RuleTableKind.EncDec)
+
                 );
         }
+
+        void EmitRuleSpecs(RuleTableKind kind)
+            => EmitRuleSpecs(kind, RuleTables.CalcRuleSpecs(kind));
 
         public Index<InstDef> CalcInstDefs()
             => Data(nameof(InstDef), () => Patterns.ParseInstDefs(XedPaths.DocSource(XedDocKind.EncInstDef)));
@@ -50,15 +62,11 @@ namespace Z0
         void EmitReflectedFields()
             => TableEmit(XedFields.Specs.View, RuleFieldSpec.RenderWidths, XedPaths.Table<RuleFieldSpec>());
 
-        void EmitPatternData(Index<InstPattern> src)
-            => exec(PllExec,
-                () => EmitPatternInfo(src),
-                () => EmitPatternDetails(src),
-                () => EmitPatternOps(src),
-                () => EmitOpCodes(src),
-                () => EmitInstFieldDefs(src),
-                () => EmitIsaPages(src)
-                );
+        void EmitOpCodes(Index<InstPattern> src)
+            => TableEmit(CalcOpCodeDetails(src).View, PatternOpCode.RenderWidths, XedPaths.Table<PatternOpCode>());
+
+        void EmitInstFields(Index<InstPattern> src)
+            => TableEmit(Patterns.CalcInstFields(src).View, InstFieldInfo.RenderWidths, XedPaths.Table<InstFieldInfo>());
 
         void EmitPatternInfo(Index<InstPattern> src)
             => TableEmit(XedPatterns.describe(src).View, InstPatternInfo.RenderWidths, XedPaths.Table<InstPatternInfo>());
@@ -70,10 +78,7 @@ namespace Z0
             => TableEmit(CalcOpRecords(src).View, PatternOpInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));
 
         void EmitIsaPages(Index<InstPattern> src)
-                => Patterns.EmitIsaPages(src);
-
-        void EmitRuleTables()
-            => RuleTables.EmitTables(true);
+            => Patterns.EmitIsaPages(src);
 
         void EmitMacroDefs()
             => TableEmit(CalcMacroDefs().View, MacroDef.RenderWidths, XedPaths.RuleTable<MacroDef>());
@@ -81,13 +86,13 @@ namespace Z0
         void EmitMacroMatches()
             => TableEmit(CalcMacroMatches().View, MacroMatch.RenderWidths, XedPaths.RuleTable<MacroMatch>());
 
-        void EmitRuleSpecs()
-        {
-            exec(PllExec,
-                () => EmitSpecs(RuleTableKind.Enc),
-                () => EmitSpecs(RuleTableKind.Dec),
-                () => EmitSpecs(RuleTableKind.EncDec)
-                );
-        }
+        void EmitOpCodeKinds()
+            => TableEmit(CalcOpCodeKinds().Records, OcMapKind.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodeKinds));
+
+        void EmitOpWidths()
+            => TableEmit(XedTables.Widths.View, OpWidthInfo.RenderWidths, XedPaths.Table<OpWidthInfo>());
+
+        void EmitPointerWidths()
+            => TableEmit(CalcPointerWidths().View, PointerWidthInfo.RenderWidths,  XedPaths.DocTarget(XedDocKind.PointerWidths));
     }
 }

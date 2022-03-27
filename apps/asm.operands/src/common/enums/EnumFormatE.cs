@@ -59,6 +59,10 @@ namespace Z0
             => new EnumFormat<E>(x.src,x.mode);
 
         [MethodImpl(Inline)]
+        public static implicit operator E(EnumFormat<E> src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
         public static explicit operator byte(EnumFormat<E> src)
             => bw8(src.Value);
 

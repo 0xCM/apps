@@ -38,6 +38,13 @@ namespace Z0
                 get => Body.Count != 0 && Sig.IsNonEmpty;
             }
 
+
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => Sig.Hash;
+            }
+
             public string Format()
                 => XedRender.format(this);
 
@@ -46,6 +53,9 @@ namespace Z0
 
             public int CompareTo(RuleTable src)
                 => Sig.CompareTo(src.Sig);
+
+            public override int GetHashCode()
+                => Hash;
 
             public static RuleTable Empty
             {

@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class XedRules
     {
         void EmitRuleSpecs(RuleTableKind kind,Index<RuleTableSpec> specs)
@@ -62,8 +60,5 @@ namespace Z0
 
             EmittedFile(emitting,counter);
         }
-
-        void EmitSpecs(RuleTableKind kind)
-            => EmitRuleSpecs(kind, RuleTables.CalcRuleSpecs(kind));
     }
 }

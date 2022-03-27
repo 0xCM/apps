@@ -605,13 +605,13 @@ namespace Z0
                     dst = src.AsIntLit().ToString();
                 break;
                 case DefFieldClass.Bitfield:
-                    dst = format(src.AsBfSeg());
+                    dst = format(src.AsBitfield());
                 break;
                 case DefFieldClass.BitLiteral:
                     dst = format5(src.AsBitLit());
                 break;
                 case DefFieldClass.Nonterm:
-                    dst = src.ToNonterminal().Format();
+                    dst = src.AsNonterminal().Format();
                 break;
                 case DefFieldClass.FieldLiteral:
                     dst = format(src.AsFieldLit());
@@ -620,7 +620,7 @@ namespace Z0
                     dst = format(src.AsAssignment());
                 break;
                 case DefFieldClass.Constraint:
-                    dst = format(src.ToConstraint());
+                    dst = format(src.AsConstraint());
                 break;
                 default:
                     Errors.Throw(string.Format("Unknown Part:{0} | {1}", @class, bytes(src).FormatHex()));
@@ -855,6 +855,30 @@ namespace Z0
                     );
         }
 
+        public static string format(DefFieldClass src)
+        {
+            var result = EmptyString;
+            switch(src)
+            {
+                case DefFieldClass.BitLiteral:
+                case DefFieldClass.IntLiteral:
+                case DefFieldClass.HexLiteral:
+                case DefFieldClass.FieldLiteral:
+                    result = "Literal";
+                    break;
+                case DefFieldClass.Constraint:
+                    result = "Constraint";
+                    break;
+                case DefFieldClass.Bitfield:
+                    result = "Bitfield";
+                    break;
+                case DefFieldClass.Nonterm:
+                    result = "Nonterm";
+                    break;
+            }
+            return result;
+
+        }
         public static string format(in DisasmOpDetail src)
         {
             const string OpSepSlot = "/{0}";

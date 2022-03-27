@@ -24,7 +24,7 @@ namespace Z0
                 return buffer.Emit();
             }
 
-            readonly Index<InstDefField> Data;
+            public readonly Index<InstDefField> Data;
 
             [MethodImpl(Inline)]
             public InstPatternBody(InstDefField[] src)

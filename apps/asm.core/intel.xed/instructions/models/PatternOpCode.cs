@@ -10,7 +10,7 @@ namespace Z0
     partial class XedPatterns
     {
         [Record(TableId)]
-        public struct PatternOpCode
+        public struct PatternOpCode : IComparable<PatternOpCode>
         {
             public const string TableId = "xed.opcodes";
 
@@ -27,6 +27,23 @@ namespace Z0
             public TextBlock Layout;
 
             public TextBlock Pattern;
+
+            public int CompareTo(PatternOpCode src)
+            {
+                var result = OpCode.CompareTo(src.OpCode);
+                if(result==0)
+                {
+                    result = cmp(Mode,src.Mode);
+                    if(result == 0)
+                    {
+                        result = Layout.CompareTo(src.Layout);
+                        if(result == 0)
+                            result = Pattern.CompareTo(src.Pattern);
+                    }
+
+                }
+                return result;
+            }
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,20,20,12,80,1};
         }

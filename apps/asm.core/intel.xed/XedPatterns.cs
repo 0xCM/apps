@@ -13,7 +13,7 @@ namespace Z0
     {
         XedPaths XedPaths => Service(Wf.XedPaths);
 
-        XedTables XedTables => Service(Wf.XedTables).Data;
+        XedRuleTables RuleTables => Service(Wf.XedRuleTables);
 
         static AppData AppData
         {
