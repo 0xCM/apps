@@ -15,7 +15,7 @@ namespace Z0
         Outcome CheckRules(CmdArgs args)
         {
             var patterns = Xed.Rules.CalcInstPatterns();
-            var rules = Xed.RuleTables.CalcTableSet();
+            var rules = XedRules.CalcTableSet(true);
 
             for(var i=0; i<patterns.Count; i++)
             {

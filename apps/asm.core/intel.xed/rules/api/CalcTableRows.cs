@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public static Index<RuleTableRow> rows(in RuleTable src)
+        static Index<RuleTableRow> CalcTableRows(in RuleTable src)
         {
             const byte ColCount = RuleTableRow.ColCount;
 

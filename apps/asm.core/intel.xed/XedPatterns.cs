@@ -13,8 +13,6 @@ namespace Z0
     {
         XedPaths XedPaths => Service(Wf.XedPaths);
 
-        XedRuleTables RuleTables => Service(Wf.XedRuleTables);
-
         static AppData AppData
         {
             [MethodImpl(Inline)]
@@ -26,7 +24,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => AppData.PllExec();
         }
-
 
         static Index<InstDefPart,string> DefPartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET,COMMENT};
     }

@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        void EmitRuleSpecs(RuleTableKind kind,Index<RuleTableSpec> specs)
+        void EmitRuleSpecs(RuleTableKind kind, Index<RuleTableSpec> specs)
         {
             const string RenderPattern = "{0,-8} | {1,-32} | {2,-8} | {3,-22} | {4,-8} | {5,-8} | {6,-28} | {7,-28} | {8}";
 

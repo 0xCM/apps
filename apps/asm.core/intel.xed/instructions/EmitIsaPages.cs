@@ -9,7 +9,6 @@ namespace Z0
 
     using static core;
     using static XedRules;
-    using static XedRuleTables;
 
     using K = XedRules.FieldKind;
 
@@ -36,7 +35,7 @@ namespace Z0
         public void EmitIsaPages(Index<InstPattern> src)
         {
             XedPaths.InstIsaRoot().Delete();
-            var tables = RuleTables.CalcTableSet();
+            var tables = XedRules.CalcTableSet(PllExec);
             iter(src.GroupBy(x => x.Isa.Kind), g => EmitIsaGroup(tables, g.Array()), PllExec);
         }
 

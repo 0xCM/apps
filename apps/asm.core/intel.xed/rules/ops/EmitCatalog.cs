@@ -22,7 +22,7 @@ namespace Z0
                 () => EmitInstFields(patterns),
                 () => EmitIsaPages(patterns),
                 () => EmitFlagEffects(patterns),
-                () => RuleTables.EmitTables(),
+                () => EmitRuleTables(),
                 EmitOpCodeKinds,
                 EmitOpWidths,
                 EmitPointerWidths,
@@ -34,12 +34,11 @@ namespace Z0
                 () => EmitRuleSpecs(RuleTableKind.Enc),
                 () => EmitRuleSpecs(RuleTableKind.Dec),
                 () => EmitRuleSpecs(RuleTableKind.EncDec)
-
                 );
         }
 
         void EmitRuleSpecs(RuleTableKind kind)
-            => EmitRuleSpecs(kind, RuleTables.CalcRuleSpecs(kind));
+            => EmitRuleSpecs(kind, XedRules.CalcRuleSpecs(kind));
 
         public Index<InstDef> CalcInstDefs()
             => Data(nameof(InstDef), () => Patterns.ParseInstDefs(XedPaths.DocSource(XedDocKind.EncInstDef)));

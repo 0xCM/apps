@@ -34,8 +34,6 @@ namespace Z0.Asm
 
         public XedRules Rules => Service(Wf.XedRules);
 
-        public XedRuleTables RuleTables => Rules.RuleTables;
-
         const char CommentMarker = Chars.Hash;
 
         const char FieldDelimiter = Chars.Space;

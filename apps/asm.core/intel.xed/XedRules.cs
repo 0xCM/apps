@@ -46,7 +46,6 @@ namespace Z0
 
         public XedPatterns Patterns => Service(Wf.XedPatterns);
 
-        public XedRuleTables RuleTables => Service(Wf.XedRuleTables);
 
         static Symbols<PointerWidthKind> PointerWidthKinds;
 
