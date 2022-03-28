@@ -10,5 +10,9 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static FieldCmp cmp(FieldKind field, RuleOperator op, FieldValue value)
             => new FieldCmp(field,op,value);
+
+        [MethodImpl(Inline), Op]
+        public static int cmp(RuleTableKind a, RuleTableKind b)
+            => ((byte)a).CompareTo((byte)b);
     }
 }

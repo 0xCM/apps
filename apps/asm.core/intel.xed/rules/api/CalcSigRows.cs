@@ -22,7 +22,7 @@ namespace Z0
                 row.TableName = sig.Name;
                 row.TableDef = XedPaths.Service.TableDef(sig).ToUri();
             }
-            return dst;
+            return dst.Sort();
         }
    }
 }

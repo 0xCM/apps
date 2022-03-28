@@ -10,6 +10,7 @@ namespace Z0
     using static XedModels;
     using static XedRules;
     using static XedPatterns;
+    using static XedFields;
     using static XedRules.SyntaxLiterals;
     using static core;
 
@@ -72,6 +73,10 @@ namespace Z0
         static readonly EnumParser<EASZ> EaszKinds = new();
 
         static readonly EnumParser<EOSZ> EoszKinds = new();
+
+        static readonly EnumParser<ASZ> AszKinds = new();
+
+        static readonly EnumParser<OSZ> OszKinds = new();
 
         static readonly EnumParser<ModeKind> ModeKinds = new();
 
@@ -175,17 +180,6 @@ namespace Z0
                     result = (false, AppMsg.ParseFailure.Format(nameof(FieldConstraint), src));
 
             }
-            // else if(IsAssignment(src))
-            // {
-            //     result = parse(src, out FieldAssign x);
-            //     if(result)
-            //     {
-            //         dst = part(x);
-            //     }
-            //     else
-            //         result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
-
-            // }
             else if(IsNonterminal(src))
             {
                 result = parse(src, out Nonterminal x);
@@ -384,6 +378,12 @@ namespace Z0
         public static bool parse(string src, out EOSZ dst)
             => EoszKinds.Parse(src, out dst);
 
+        public static bool parse(string src, out ASZ dst)
+            => AszKinds.Parse(src, out dst);
+
+        public static bool parse(string src, out OSZ dst)
+            => OszKinds.Parse(src, out dst);
+
         public static bool parse(string src, out uint5 dst)
         {
             if(IsBinaryLiteral(src))
@@ -418,8 +418,8 @@ namespace Z0
                 dst = default;
                 return false;
             }
-
         }
+
         public static bool parse(string src, out uint8b dst)
         {
             if(IsBinaryLiteral(src))
@@ -655,7 +655,7 @@ namespace Z0
             return result;
         }
 
-        public static Outcome parse(string src, out ModeKind dst)
+        public static bool parse(string src, out ModeKind dst)
             => ModeKinds.Parse(src, out dst);
 
         public static bool parse(string src, out OpCodeKind dst)
@@ -665,7 +665,7 @@ namespace Z0
             => OpModKinds.Parse(src, out dst);
 
         public static bool parse(string src, out OpName dst)
-            => Instance.Parse(src, out dst);
+            => RuleOpNames.Parse(src, out dst);
 
         public static bool parse(string src, out CategoryKind dst)
             => CategoryKinds.Parse(src, out dst);
@@ -758,7 +758,7 @@ namespace Z0
         }
 
         public static bool parse(string src, out FlagEffectKind dst)
-            => Instance.Parse(src, out dst);
+            => FlagActionKinds.Parse(src, out dst);
 
         public static bool parse(string src, out XedRegFlag dst)
             => RegFlags.Parse(src, out dst);

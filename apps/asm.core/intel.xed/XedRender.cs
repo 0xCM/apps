@@ -100,6 +100,8 @@ namespace Z0
 
         static EnumRender<OSZ> OszKinds = new();
 
+        static EnumRender<ASZ> AszKinds = new();
+
         static EnumRender<CategoryKind> CategoryKinds = new();
 
         static EnumRender<IsaKind> IsaKinds = new();
@@ -191,6 +193,9 @@ namespace Z0
 
         public static string format(VexLengthKind src)
             => VexLengthKinds.Format(src);
+
+        public static string format(ASZ src)
+            => AszKinds.Format(src);
 
         public static string format(OSZ src)
             => OszKinds.Format(src);

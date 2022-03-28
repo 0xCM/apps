@@ -15,7 +15,7 @@ namespace Z0
             var tables = CalcTableSet(PllExec);
             exec(PllExec,
                 () => EmitTableDefs(tables),
-                () => EmitRuleSigs(tables.SigInfo),
+                () => EmitRuleSigs(tables.Sigs),
                 () => EmitSchemas(tables.Schema),
                 () => EmitRuleSeq(),
                 () => EmitTableFiles(tables),

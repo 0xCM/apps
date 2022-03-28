@@ -32,7 +32,6 @@ namespace Z0
                 Seq = seq;
                 Macro = macro;
                 Field = field;
-                //Kind = match;
                 MatchValue = value;
                 Expansion = expansion;
                 Hash = (uint)field | ((uint)macro << 8) | ((uint)match << 16);

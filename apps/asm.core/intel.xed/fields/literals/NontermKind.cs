@@ -171,11 +171,9 @@ namespace Z0
 
             GPRv_SB,
 
-            //GPRY_B,
             GPRy_B,
 
             GPRy_R,
-            //GPRY_R,
 
             GPRz_B,
 
@@ -401,11 +399,11 @@ namespace Z0
 
             VGPR64_R,
 
-            VGPRY_B,
+            VGPRy_B,
 
-            VGPRY_N,
+            VGPRy_N,
 
-            VGPRY_R,
+            VGPRy_R,
 
             VMODRM_XMM,
 

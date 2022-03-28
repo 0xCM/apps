@@ -62,9 +62,7 @@ namespace Z0
                         case DefFieldClass.Nonterm:
                         {
                             var nt = field.AsNonterminal();
-                            var path = FS.FileUri.Empty;
-                            tables.FindSigInfo(nt.Name, out var sig);
-                            path = sig.TableDef;
+                            var path = tables.FindTablePath(nt.Name);
                             dst.AppendLine(string.Format(Pattern, j, "Nonterm",  string.Format("{0}::{1}", nt.Format(), path)));
                         }
                         break;

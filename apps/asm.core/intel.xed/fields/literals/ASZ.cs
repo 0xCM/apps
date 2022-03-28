@@ -5,16 +5,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-
     partial class XedFields
     {
-        [MethodImpl(Inline), Op]
-        public static OSZ osz(bit src)
-            => src ? OSZ.True : OSZ.False;
+        [SymSource(xed)]
+        public enum ASZ : byte
+        {
+            [Symbol("")]
+            None = 0,
 
-        [MethodImpl(Inline), Op]
-        public static OSZ osz(in RuleState src)
-            => src.OSZ ? OSZ.True : OSZ.False;
+            [Symbol("a16")]
+            a16 = NativeSizeCode.W16,
+
+            [Symbol("a32")]
+            a32 = NativeSizeCode.W32,
+
+            [Symbol("a64")]
+            a64 = NativeSizeCode.W64,
+        }
     }
 }

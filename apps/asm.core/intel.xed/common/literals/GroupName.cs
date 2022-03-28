@@ -224,11 +224,11 @@ namespace Z0
 
             // YMM_B_64,
 
-            VGPRy_R,
+            // VGPRy_R,
 
-            VGPRy_B,
+            // VGPRy_B,
 
-            VGPRy_N,
+            // VGPRy_N,
 
             // VGPR32_N,
 

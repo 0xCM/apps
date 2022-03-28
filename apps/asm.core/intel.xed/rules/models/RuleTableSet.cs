@@ -67,7 +67,7 @@ namespace Z0
                 get => ref Data.Schema;
             }
 
-            public ref readonly Index<RuleSigRow> SigInfo
+            public ref readonly Index<RuleSigRow> Sigs
             {
                 [MethodImpl(Inline)]
                 get => ref Data.Sigs;
@@ -115,13 +115,6 @@ namespace Z0
                         return schema.First.TableDef;
                 }
                 return FS.FileUri.Empty;
-            }
-
-            public bool FindSigInfo(string name, out RuleSigRow dst)
-            {
-                dst = default;
-
-                return false;
             }
         }
     }

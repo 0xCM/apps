@@ -23,7 +23,7 @@ namespace Z0
                 );
 
             exec(pll,
-                () => buffers.Sigs = XedRules.CalcSigRows(buffers.Cells.Keys.Array().Sort()),
+                () => buffers.Sigs = XedRules.CalcSigRows(buffers.Cells.Keys.Array()),
                 () => buffers.Schema = XedRules.CalcSchemas(buffers.Cells)
                 );
 

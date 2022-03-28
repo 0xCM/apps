@@ -7,17 +7,20 @@ namespace Z0
 {
     partial class XedFields
     {
-        [SymSource(xed), DataWidth(2)]
+        [SymSource(xed)]
         public enum OSZ : byte
         {
             [Symbol("")]
-            None,
+            None = 0,
 
-            [Symbol("1")]
-            True,
+            [Symbol("o16")]
+            o16 = NativeSizeCode.W16,
 
-            [Symbol("0")]
-            False,
+            [Symbol("o32")]
+            o32 = NativeSizeCode.W32,
+
+            [Symbol("o64")]
+            o64 = NativeSizeCode.W64,
         }
     }
 }

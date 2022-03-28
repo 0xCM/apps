@@ -24,7 +24,7 @@ namespace Z0
                 ref readonly var effects = ref pattern.Effects;
                 for(var k=0; k<effects.Count; k++)
                 {
-                    var e = effects[k];
+                    ref readonly var e = ref effects[k];
                     writer.AppendLineFormat(RenderPattern,
                         XedRender.format(pattern.InstClass),
                         e.Flag.ToString().ToLower(),
