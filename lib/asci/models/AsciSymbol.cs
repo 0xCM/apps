@@ -15,7 +15,7 @@ namespace Z0
     [ApiHost]
     public readonly struct AsciSymbol : IAsciSeq<C,N>
     {
-        public AsciCode Code {get;}
+        public readonly AsciCode Code;
 
         /// <summary>
         /// Returns a string of length 1 that corresponds to the specified asci code
@@ -34,18 +34,6 @@ namespace Z0
             [MethodImpl(Inline), Op]
             get => @string(Code);
         }
-
-        // public ReadOnlySpan<byte> Encoded
-        // {
-        //     [MethodImpl(Inline), Op]
-        //     get => bytes(this);
-        // }
-
-        // public ReadOnlySpan<char> Decoded
-        // {
-        //     [MethodImpl(Inline), Op]
-        //     get => text.decode(this);
-        // }
 
         public bool IsEmpty
         {

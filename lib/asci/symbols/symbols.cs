@@ -4,14 +4,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct AsciSymbols
     {
+        [MethodImpl(Inline), Op]
+        public static void symbols(in char src, int count, ref AsciSymbol dst)
+        {
+            for(var i=0u; i<count; i++)
+                seek(dst,i) = (AsciSymbol)skip(src,i);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static void symbols(ReadOnlySpan<char> src, Span<AsciSymbol> dst)
+        {
+            var count = min(src.Length, dst.Length);
+            symbols(first(src), count, ref first(dst));
+        }
+
         /// <summary>
         /// Returns the asci symbols corresponding to the asci codes [offset, ..., offset + count] where offset <= (2^7-1) - count
         /// </summary>

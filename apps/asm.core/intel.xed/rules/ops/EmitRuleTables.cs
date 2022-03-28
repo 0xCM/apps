@@ -14,17 +14,14 @@ namespace Z0
         {
             exec(PllExec,
                 () => EmitTableDefs(tables),
-                () => EmitRuleSigs(tables.SigRows),
-                () => EmitSchemas(tables.Schema),
+                () => EmitTableSigs(tables.Sigs),
+                () => EmitTableSchemas(tables.Schema),
                 () => EmitRuleSeq(),
                 () => EmitTableSpecs(tables),
                 () => EmitTableFiles(tables),
                 () => EmitIsaPages(tables, patterns)
             );
         }
-
-        void EmitTableDefs(RuleTableSet tables)
-            => EmitTableDefs(tables.Rows(), XedPaths.RuleTable<RuleTableRow>());
 
         void EmitRuleSeq()
         {
@@ -33,11 +30,5 @@ namespace Z0
             iter(src, x => dst.AppendLine(x.Format()));
             FileEmit(dst.Emit(), src.Count, XedPaths.Service.DocTarget(XedDocKind.RuleSeq), TextEncodingKind.Asci);
         }
-
-        void EmitRuleSigs(Index<RuleSigRow> src)
-            => TableEmit(src.View, RuleSigRow.RenderWidths, XedPaths.Service.RuleTable<RuleSigRow>());
-
-        void EmitSchemas(Index<RuleSchema> src)
-            => TableEmit(src.View, RuleSchema.RenderWidths, XedPaths.Service.RuleSchemas());
     }
 }

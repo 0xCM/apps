@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct Asci
@@ -47,7 +43,7 @@ namespace Z0
         /// <param name="count">The number of characters to encode</param>
         /// <param name="dst">The receiver</param>
         [MethodImpl(Inline), Op]
-        public static ref readonly asci2 encode(in char src, Hex1Kind count, out asci2 dst)
+        public static ref readonly asci2 encode(in char src, byte count, out asci2 dst)
         {
             dst = asci2.Null;
             ref var codes = ref Unsafe.As<asci2,AsciCode>(ref dst);
@@ -62,7 +58,7 @@ namespace Z0
         /// <param name="count">The number of characters to encode</param>
         /// <param name="dst">The receiver</param>
         [MethodImpl(Inline), Op]
-        public static ref readonly asci4 encode(in char src, Hex2Kind count, out asci4 dst)
+        public static ref readonly asci4 encode(in char src, byte count, out asci4 dst)
         {
             dst = asci4.Null;
             ref var storage = ref Unsafe.As<asci4,AsciCode>(ref dst);
@@ -77,7 +73,7 @@ namespace Z0
         /// <param name="count">The number of characters to encode</param>
         /// <param name="dst">The receiver</param>
         [MethodImpl(Inline), Op]
-        public static ref readonly asci8 encode(in char src, Hex3Kind count, out asci8 dst)
+        public static ref readonly asci8 encode(in char src, byte count, out asci8 dst)
         {
             dst = asci8.Null;
             ref var storage = ref @as<asci8,AsciCode>(dst);
@@ -92,7 +88,7 @@ namespace Z0
         /// <param name="count">The number of characters to encode</param>
         /// <param name="dst">The receiver</param>
         [MethodImpl(Inline), Op]
-        public static ref readonly asci16 encode(in char src, Hex4Kind count, out asci16 dst)
+        public static ref readonly asci16 encode(in char src, byte count, out asci16 dst)
         {
             dst = asci16.Null;
             ref var storage = ref @as<asci16,AsciCode>(dst);
@@ -107,7 +103,7 @@ namespace Z0
         /// <param name="count">The number of characters to encode</param>
         /// <param name="dst">The receiver</param>
         [MethodImpl(Inline), Op]
-        public static ref readonly asci32 encode(in char src, Hex5Kind count, out asci32 dst)
+        public static ref readonly asci32 encode(in char src, byte count, out asci32 dst)
         {
             dst = asci32.Null;
             ref var storage = ref @as<asci32,AsciCode>(dst);
@@ -122,7 +118,7 @@ namespace Z0
         /// <param name="count">The number of characters to encode</param>
         /// <param name="dst">The receiver</param>
         [MethodImpl(Inline), Op]
-        public static ref readonly asci64 encode(in char src, Hex6Kind count, out asci64 dst)
+        public static ref readonly asci64 encode(in char src, byte count, out asci64 dst)
         {
             dst = asci64.Null;
             ref var storage = ref @as<asci64,AsciCode>(dst);
@@ -207,6 +203,29 @@ namespace Z0
             AsciSymbols.codes(src, span<asci64,AsciCode>(ref dst));
             return ref dst;
         }
+
+        [MethodImpl(Inline), Op]
+        public static uint encode(ReadOnlySpan<char> src, uint offset, Span<byte> dst)
+        {
+            var count = 0u;
+            var j=offset;
+            for(var i=0; i<src.Length && j<dst.Length; i++,j++)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(c !=0)
+                {
+                    seek(dst,j) = (byte)c;
+                    count++;
+                }
+                else
+                    break;
+            }
+            return count;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static uint encode(ReadOnlySpan<char> src, Span<byte> dst)
+            => encode(src,0u,dst);
 
         /// <summary>
         /// Populates a 2-code asci block from the leading cells of a character span

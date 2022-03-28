@@ -27,10 +27,21 @@ namespace Z0
         [CmdOp("xed/check/rules")]
         Outcome CheckRules(CmdArgs args)
         {
+            var rules = Xed.Rules.CalcTableSet();
+            var tables = rules.Sigs.Map(x => XedRules.tablename(x.Sig)).Sort();
+            iter(tables, t => Write(t.Identifier));
+
+            //iter(rules.SigRows, row => Write(string.Format("{0,-6} | {1,-46} | {2}", row.TableKind, row.TableName, row.TableDef)));
+            return true;
+        }
+
+
+        Outcome ValidateRules()
+        {
             var patterns = Xed.Rules.CalcInstPatterns();
             var rules = Xed.Rules.CalcTableSet();
 
-            ref readonly var rows = ref rules.SigRows;
+            ref readonly var rows = ref rules.Sigs;
             var count = rows.Count;
             var enc = dict<string,RuleSigRow>();
             var dec = dict<string,RuleSigRow>();
@@ -180,10 +191,7 @@ namespace Z0
                     break;
                 }
             }
-
-
-            //iter(rules.SigRows, row => Write(string.Format("{0,-6} | {1,-46} | {2}", row.TableKind, row.TableName, row.TableDef)));
-            return true;
+            return result;
         }
 
         bool Match(Index<string> a, Index<string> b)

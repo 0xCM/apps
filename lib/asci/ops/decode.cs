@@ -35,20 +35,33 @@ namespace Z0
             => slice(recover<char>(core.bytes(cpu.vlo(vpack.vinflate256x16u(cpu.vbytes(w128, src.Storage))))), 0, src.Length);
 
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> decode(in ByteBlock8 src)
-            => recover<char>(core.bytes(cpu.vlo(vpack.vinflate256x16u(cpu.vbytes(w128, u64(src))))));
+        public static void decode(N8 n, ReadOnlySpan<byte> src, Span<char> dst)
+            => cpu.vstore(vpack.vinflate256x16u(cpu.v8u(cpu.vscalar(w128, @as<ulong>(core.first(src))))), ref @as<ushort>(core.first(dst)));
 
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> decode(in ByteBlock16 src)
-            => recover<char>(core.bytes(cpu.vlo(vpack.vinflate256x16u(cpu.vbytes(w128, u64(src))))));
+        public static void decode(N16 n, ReadOnlySpan<byte> src, Span<char> dst)
+            => cpu.vstore(vpack.vinflate256x16u(cpu.vload(w128,src)), ref @as<ushort>(core.first(dst)));
 
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> decode(in ByteBlock32 src)
+        public static void decode(N32 n, ReadOnlySpan<byte> src, Span<char> dst)
         {
-            var v = cpu.vload(w256, src.Bytes);
-            var lo = vpack.vinflatelo256x16u(v);
-            var hi = vpack.vinflatehi256x16u(v);
-            return recover<char>(core.bytes(new V256x2(lo,hi)));
+            ref var target = ref @as<ushort>(first(dst));
+            var v = cpu.vload(w256, src);
+            cpu.vstore(vpack.vinflatelo256x16u(v), ref target);
+            cpu.vstore(vpack.vinflatehi256x16u(v), ref seek(target,16));
+        }
+
+        [MethodImpl(Inline), Op]
+        public static void decode(N48 n, ReadOnlySpan<byte> src, Span<char> dst)
+        {
+            ref var target = ref @as<ushort>(first(dst));
+            var v = cpu.vload(w256, src);
+            var offset = z8;
+            cpu.vstore(vpack.vinflatelo256x16u(v), ref target);
+            offset+=16;
+            cpu.vstore(vpack.vinflatehi256x16u(v), ref seek(target,offset));
+            offset+=16;
+            decode(n16, core.slice(src,offset), core.slice(dst,offset));
         }
 
         [MethodImpl(Inline), Op]
