@@ -30,6 +30,12 @@ namespace Z0
                 return result;
             }
 
+            public RuleSig Sig
+            {
+                [MethodImpl(Inline)]
+                get => new RuleSig(TableKind, TableName);
+            }
+
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,32,1};
         }
     }

@@ -13,8 +13,8 @@ namespace Z0
         {
             exec(PllExec,
                 () => EmitTableSpecs(RuleTableKind.Enc, tables.Specs[RuleTableKind.Enc]),
-                () => EmitTableSpecs(RuleTableKind.Dec, tables.Specs[RuleTableKind.Dec]),
-                () => EmitTableSpecs(RuleTableKind.EncDec, tables.Specs[RuleTableKind.EncDec])
+                () => EmitTableSpecs(RuleTableKind.Dec, tables.Specs[RuleTableKind.Dec])
+                //() => EmitTableSpecs(RuleTableKind.EncDec, tables.Specs[RuleTableKind.EncDec])
                 );
         }
 
@@ -38,43 +38,6 @@ namespace Z0
                 value,
                 op == 0 ? value : string.Format("{0}{1}{2}", XedRender.format(cell.Field), XedRender.format(op), value)
                 );
-        }
-
-        public void EmitTableFiles(RuleTableSet tables)
-        {
-            exec(PllExec,
-                () => EmitTableFiles2(RuleTableKind.Enc, tables),
-                () => EmitTableFiles2(RuleTableKind.Dec, tables),
-                () => EmitTableFiles2(RuleTableKind.EncDec, tables)
-            );
-        }
-
-        void EmitTableFiles2(RuleTableKind kind, RuleTableSet tables)
-        {
-            iter(tables.Specs[kind], spec => EmitTableFile(spec, XedPaths.Service.TableDef(spec.Sig)), PllExec);
-        }
-
-        static uint EmitTableFile(in RuleTableSpec spec, FS.FilePath dst)
-        {
-            var counter = 0u;
-            using var writer = dst.Writer();
-            writer.AppendLine(SpecHeader);
-            var statements = spec.Statements;
-            for(var j=0u; j<statements.Count; j++)
-            {
-                ref readonly var statement = ref statements[j];
-                byte col = 0;
-                for(byte q=0; q<statement.Premise.Count; q++, counter++)
-                    writer.AppendLine(FormatSpecRow(j, col++, spec.Sig, statement.Premise[q]));
-
-                for(byte q=0; q<statement.Consequent.Count; q++, counter++)
-                    writer.AppendLine(FormatSpecRow(j, col++, spec.Sig, statement.Consequent[q]));
-            }
-
-            writer.AppendLine();
-            foreach(var line in spec.Format().Lines(trim:false))
-                writer.AppendLineFormat("# {0}", line.Content);
-            return counter;
         }
 
         void EmitTableSpecs(RuleTableKind kind, Index<RuleTableSpec> specs)

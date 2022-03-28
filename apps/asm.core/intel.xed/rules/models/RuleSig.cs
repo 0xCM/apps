@@ -41,6 +41,25 @@ namespace Z0
                 get => TableKind != 0;
             }
 
+            public bool IsEncRule
+            {
+                [MethodImpl(Inline)]
+                get => TableKind == RuleTableKind.Enc;
+            }
+
+            public bool IsDecRule
+            {
+                [MethodImpl(Inline)]
+                get => TableKind == RuleTableKind.Dec;
+            }
+
+            public bool IsEncDecRule
+            {
+                [MethodImpl(Inline)]
+                get => TableKind == RuleTableKind.EncDec;
+            }
+
+
             public override int GetHashCode()
                 => Hash;
 

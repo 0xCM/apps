@@ -15,7 +15,7 @@ namespace Z0
             var tables = CalcTableSet(PllExec);
             exec(PllExec,
                 () => EmitTableDefs(tables),
-                () => EmitRuleSigs(tables.Sigs),
+                () => EmitRuleSigs(tables.SigRows),
                 () => EmitSchemas(tables.Schema),
                 () => EmitRuleSeq(),
                 () => EmitTableFiles(tables),
@@ -27,8 +27,8 @@ namespace Z0
         {
             exec(PllExec,
                 () => EmitTableDefs(RuleTableKind.Enc, tables),
-                () => EmitTableDefs(RuleTableKind.Dec, tables),
-                () => EmitTableDefs(RuleTableKind.EncDec, tables)
+                () => EmitTableDefs(RuleTableKind.Dec, tables)
+                //() => EmitTableDefs(RuleTableKind.EncDec, tables)
                 );
 
             EmitTableDefs(tables.Rows(), XedPaths.RuleTable<RuleTableRow>());

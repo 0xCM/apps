@@ -67,7 +67,7 @@ namespace Z0
                 get => ref Data.Schema;
             }
 
-            public ref readonly Index<RuleSigRow> Sigs
+            public ref readonly Index<RuleSigRow> SigRows
             {
                 [MethodImpl(Inline)]
                 get => ref Data.Sigs;

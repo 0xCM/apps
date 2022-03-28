@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         void EmitTableDefs(RuleTableKind kind, RuleTableSet tables)
-            => EmitTableDefs(tables.Rows(kind), XedPaths.Service.TableDef(kind));
+            => EmitTableDefs(tables.Rows(kind), XedPaths.Service.TableDefSummary(kind));
 
         void EmitTableDefs(Index<RuleTableRow> src, FS.FilePath dst)
         {
