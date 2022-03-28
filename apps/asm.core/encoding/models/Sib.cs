@@ -117,6 +117,10 @@ namespace Z0.Asm
         public static implicit operator byte(Sib src)
             => src.Value();
 
+       [MethodImpl(Inline)]
+        public static explicit operator Sib(byte src)
+            => new Sib(src);
+
         public static bool operator ==(Sib a, Sib b)
             => a.Equals(b);
 

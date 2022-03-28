@@ -6,8 +6,6 @@
 namespace Z0
 {
     using static core;
-
-    using static XedRules;
     using static XedModels;
 
     partial class XedPatterns
@@ -31,7 +29,7 @@ namespace Z0
             {
                 var counter = z8;
                 var count = 0u;
-                var legacy = Symbols.index<LegacyMapKind>();
+                var legacy = Symbols.index<BaseMapKind>();
                 var xop = Symbols.index<XopMapKind>();
                 var vex = Symbols.index<VexMapKind>();
                 var evex = Symbols.index<EvexMapKind>();

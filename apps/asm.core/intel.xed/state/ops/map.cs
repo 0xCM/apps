@@ -11,13 +11,13 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static BCastKind bcast(in RuleState src)
-            => src.BCAST;
+        public static byte map(in RuleState src)
+            => src.MAP;
 
         [MethodImpl(Inline), Op]
-        public static ref RuleState set(BCastKind src, ref RuleState dst)
+        public static ref RuleState map(byte src, ref RuleState dst)
         {
-            dst.BCAST = src;
+            dst.MAP = src;
             return ref dst;
         }
     }

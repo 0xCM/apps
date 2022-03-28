@@ -15,7 +15,10 @@ namespace Z0
             => (EASZ)src.EASZ;
 
         [MethodImpl(Inline), Op]
-        public static void easz(EASZ src, ref RuleState dst)
-            => dst.EASZ = (byte)src;
+        public static ref RuleState set(EASZ src, ref RuleState dst)
+        {
+            dst.EASZ = (byte)src;
+            return ref dst;
+        }
     }
 }

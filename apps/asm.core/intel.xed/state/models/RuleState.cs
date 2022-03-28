@@ -37,7 +37,7 @@ namespace Z0
             [RuleField(K.AMD3DNOW, 1, typeof(bit))]
             public bit AMD3DNOW;
 
-            [RuleField(K.BCRC, 1, typeof(X.BCRC))]
+            [RuleField(K.BCRC, 1, typeof(bit))]
             public bit BCRC;
 
             [RuleField(K.CET, 1, typeof(bit))]

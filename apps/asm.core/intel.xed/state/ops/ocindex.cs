@@ -16,7 +16,6 @@ namespace Z0
             var dst = OpCodeIndex.Amd3dNow;
             var map = state.MAP;
             var vc = vexclass(state);
-
             switch(vc)
             {
                 case VexClass.VV1:
@@ -34,6 +33,14 @@ namespace Z0
             }
 
             return dst;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ref RuleState set(OpCodeIndex src, ref RuleState dst)
+        {
+            XedPatterns.mapcode(src, out dst.MAP);
+            set(XedPatterns.vexclass(src), ref dst);
+            return ref dst;
         }
     }
 }

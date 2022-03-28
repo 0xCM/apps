@@ -12,16 +12,16 @@ namespace Z0
         [SymSource(xed)]
         public enum OpCodeIndex : sbyte
         {
-            [Symbol(S.L0)]
+            [Symbol(S.B0)]
             LegacyMap0 = 0,
 
-            [Symbol(S.L1, "0x0F")]
+            [Symbol(S.B1, "0x0F")]
             LegacyMap1 = 1,
 
-            [Symbol(S.L2, "0x0F 0x38")]
+            [Symbol(S.B2, "0x0F 0x38")]
             LegacyMap2 = 2,
 
-            [Symbol(S.L3, "0x0F 0x3A")]
+            [Symbol(S.B3, "0x0F 0x3A")]
             LegacyMap3 = 3,
 
             [Symbol(S.D3, "0x0F 0x0F")]

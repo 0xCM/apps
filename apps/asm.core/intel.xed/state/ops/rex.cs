@@ -33,5 +33,20 @@ namespace Z0
                 return false;
             }
         }
+
+        [MethodImpl(Inline), Op]
+        public static ref RuleState set(RexPrefix src, ref RuleState dst)
+        {
+            dst.REX = bit.On;
+            dst.REXW = src.W;
+            dst.REXR = src.R;
+            dst.REXX = src.X;
+            dst.REXB = src.B;
+            return ref dst;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ref RuleState rex(byte src, ref RuleState dst)
+            => ref set((RexPrefix)src, ref dst);
     }
 }

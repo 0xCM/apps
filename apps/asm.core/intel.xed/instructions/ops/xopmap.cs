@@ -6,19 +6,11 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedRules;
 
-    partial class XedState
+    partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static BCastKind bcast(in RuleState src)
-            => src.BCAST;
-
-        [MethodImpl(Inline), Op]
-        public static ref RuleState set(BCastKind src, ref RuleState dst)
-        {
-            dst.BCAST = src;
-            return ref dst;
-        }
+        public static XopMapKind? xopmap(VexClass kind, byte code)
+            => kind == VexClass.XOPV ? (XopMapKind)code : null;
     }
 }

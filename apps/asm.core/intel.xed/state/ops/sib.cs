@@ -32,5 +32,19 @@ namespace Z0
                 return false;
             }
         }
+
+        [MethodImpl(Inline), Op]
+        public static ref RuleState set(Sib src, ref RuleState dst)
+        {
+            dst.HAS_SIB = bit.On;
+            dst.SIBBASE = src.Base;
+            dst.SIBINDEX = src.Index;
+            dst.SIBSCALE = src.Scale;
+            return ref dst;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ref RuleState sib(byte src, ref RuleState dst)
+            => ref set((Sib)src, ref dst);
     }
 }

@@ -47,9 +47,9 @@ namespace Z0
             where T : struct
                 => Targets() + Tables.filename<T>();
 
-        public FS.FilePath Table<T>(string scope)
+        public FS.FilePath Table<T>(string suffix)
             where T : struct
-                =>  Targets(scope) + Tables.filename<T>();
+                => Targets() + Tables.filename<T>().ChangeExtension(FS.ext(string.Format("{0}.{1}", suffix, FS.Csv)));
 
         public FS.FilePath RuleTable<T>()
             where T : struct

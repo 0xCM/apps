@@ -13,5 +13,11 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static MachineMode mode(in RuleState src)
             => (ModeKind)src.MODE;
+
+        public static ref RuleState set(MachineMode src, ref RuleState dst)
+        {
+            dst.MODE = (byte)src;
+            return ref dst;
+        }
     }
 }

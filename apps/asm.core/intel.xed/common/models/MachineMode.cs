@@ -30,6 +30,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator ModeKind(MachineMode src)
                 => src.Kind;
+
+            [MethodImpl(Inline)]
+            public static explicit operator byte(MachineMode src)
+                => (byte)src.Kind;
         }
     }
 }

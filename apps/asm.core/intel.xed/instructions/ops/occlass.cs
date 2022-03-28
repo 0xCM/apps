@@ -12,25 +12,29 @@ namespace Z0
     partial class XedPatterns
     {
         [Op]
-        public static OpCodeClass @class(OpCodeKind src)
+        public static OpCodeClass occlass(OpCodeIndex src)
+            => occlass(ockind(src));
+
+        [Op]
+        public static OpCodeClass occlass(OpCodeKind src)
         {
             var result = C.None;
             switch(src)
             {
-                case LEGACY_00:
-                case LEGACY_0F:
-                case LEGACY_0F38:
-                case LEGACY_0F3A:
+                case Base00:
+                case Base0F:
+                case Base0F38:
+                case Base0F3A:
                     result = C.Base;
                     break;
-                case VEX_0F:
-                case VEX_0F38:
-                case VEX_0F3A:
+                case Vex0F:
+                case Vex0F38:
+                case Vex0F3A:
                     result = C.Vex;
                     break;
-                case EVEX_0F:
-                case EVEX_0F38:
-                case EVEX_0F3A:
+                case Evex0F:
+                case Evex0F38:
+                case Evex0F3A:
                     result = C.Evex;
                     break;
                 case AMD_3DNOW:

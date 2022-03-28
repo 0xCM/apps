@@ -12,5 +12,12 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static Hex8 ocbyte(in RuleState src)
             => src.NOMINAL_OPCODE;
+
+        [MethodImpl(Inline), Op]
+        public ref RuleState opcode(Hex8 src, ref RuleState dst)
+        {
+            dst.NOMINAL_OPCODE = src;
+            return ref dst;
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace Z0.Asm
     using static AsmPrefixCodes;
 
     /// <summary>
-    /// REX = [ 0100 | REX.W:4 | R:3 | X:2 | B:1 ]
+    /// REX = [0100 | W:4 | R:3 | X:2 | B:1]
     /// </summary>
     [ApiComplete]
     public struct RexPrefix : IAsmPrefix<RexPrefix>, IAsmByte<RexPrefix>

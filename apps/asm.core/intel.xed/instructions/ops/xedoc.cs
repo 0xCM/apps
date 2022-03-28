@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     using static XedRules;
     using static XedModels;
 
@@ -44,7 +42,7 @@ namespace Z0
                     kind = ockind(ocindex((EvexMapKind)number));
                 break;
                 default:
-                    kind = ockind((OpCodeIndex)lmap(value));
+                    kind = ockind((OpCodeIndex)basemap(value));
                 break;
             }
 

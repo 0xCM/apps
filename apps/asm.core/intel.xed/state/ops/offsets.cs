@@ -5,25 +5,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static core;
     using static XedRules;
+
     partial class XedState
     {
         [Op]
-        public static EncodingOffsets positions(in RuleState state)
+        public static EncodingOffsets offsets(in RuleState src)
         {
             var offsets = EncodingOffsets.Empty;
-            offsets.OpCode = (sbyte)(state.POS_NOMINAL_OPCODE);
-            if(state.HAS_MODRM)
-                offsets.ModRm = (sbyte)state.POS_MODRM;
-            if(state.POS_SIB != 0)
-                offsets.Sib = (sbyte)state.POS_SIB;
-            if(state.POS_DISP != 0)
-                offsets.Disp = (sbyte)state.POS_DISP;
-            if(state.IMM0)
-                offsets.Imm0 = (sbyte)state.POS_IMM;
-            if(state.IMM1)
-                offsets.Imm1 = (sbyte)state.POS_IMM1;
+            offsets.OpCode = (sbyte)(src.POS_NOMINAL_OPCODE);
+            if(src.HAS_MODRM)
+                offsets.ModRm = (sbyte)src.POS_MODRM;
+            if(src.POS_SIB != 0)
+                offsets.Sib = (sbyte)src.POS_SIB;
+            if(src.POS_DISP != 0)
+                offsets.Disp = (sbyte)src.POS_DISP;
+            if(src.IMM0)
+                offsets.Imm0 = (sbyte)src.POS_IMM;
+            if(src.IMM1)
+                offsets.Imm1 = (sbyte)src.POS_IMM1;
             return offsets;
         }
 

@@ -12,23 +12,24 @@ namespace Z0
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static LegacyMapKind? lmap(byte code)
-            => code <= 4? (LegacyMapKind)code : null;
+        public static BaseMapKind? basemap(byte code)
+            => code <= 4? (BaseMapKind)code : null;
 
-        public static LegacyMapKind lmap(AsmOcValue value)
+        [MethodImpl(Inline), Op]
+        public static BaseMapKind basemap(AsmOcValue value)
         {
-            var dst = default(LegacyMapKind);
+            var dst = default(BaseMapKind);
             if(value[0] == 0x0F)
             {
                 if(value[1] == 0x38)
-                    dst = LegacyMapKind.LEGACY_MAP2;
+                    dst = BaseMapKind.BaseMap2;
                 else if(value[1] == 0x3A)
-                    dst = LegacyMapKind.LEGACY_MAP3;
+                    dst = BaseMapKind.BaseMap3;
                 else
-                    dst = LegacyMapKind.LEGACY_MAP1;
+                    dst = BaseMapKind.BaseMap1;
             }
             else
-                dst = LegacyMapKind.LEGACY_MAP0;
+                dst = BaseMapKind.BaseMap0;
             return dst;
         }
     }

@@ -79,7 +79,7 @@ namespace Z0
                 if(lookup.TryGetValue(K.SRM, out _))
                     Emit(K.SRM);
 
-                var positions = XedState.positions(state);
+                var positions = XedState.offsets(state);
                 writer.AppendLineFormat(FieldPattern, "ENCODING_OFFSETS", positions);
                 formatted.Add(K.POS_NOMINAL_OPCODE);
                 formatted.Add(K.POS_MODRM);

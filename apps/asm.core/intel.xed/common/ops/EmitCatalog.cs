@@ -16,13 +16,16 @@ namespace Z0.Asm
             exec(PllExec,
                 EmitChipMap,
                 ImportForms,
-                EmitRegmap,
+                EmitRegmaps,
                 EmitBroadcastDefs,
                 () => Rules.EmitCatalog()
                 );
         }
 
-        void EmitRegmap()
-            => TableEmit(XedRegMap.Service.Entries, RegMapEntry.RenderWidths, XedPaths.Table<RegMapEntry>());
+        void EmitRegmaps()
+        {
+            TableEmit(XedRegMap.Service.REntries, RegMapEntry.RenderWidths, XedPaths.Table<RegMapEntry>("rmap"));
+            TableEmit(XedRegMap.Service.XEntries, RegMapEntry.RenderWidths, XedPaths.Table<RegMapEntry>("xmap"));
+        }
     }
 }

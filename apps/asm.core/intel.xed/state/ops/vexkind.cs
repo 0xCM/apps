@@ -15,5 +15,12 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static VexKind vexkind(in RuleState src)
             => (VexKind)src.VEX_PREFIX;
+
+        [MethodImpl(Inline), Op]
+        public static ref RuleState set(VexKind src, ref RuleState dst)
+        {
+            dst.VEX_PREFIX = (byte)src;
+            return ref dst;
+        }
     }
 }

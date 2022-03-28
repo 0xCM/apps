@@ -45,6 +45,12 @@ namespace Z0.Asm
             get => ref seek(Bytes,index);
         }
 
+        public ref byte this[sbyte index]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(Bytes, index < 0 ? 0 : (byte)index);
+        }
+
         [MethodImpl(Inline)]
         public byte ToUInt8()
             => (byte)Data.Lo;

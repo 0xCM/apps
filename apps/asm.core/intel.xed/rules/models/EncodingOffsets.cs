@@ -22,6 +22,48 @@ namespace Z0
 
             public sbyte Disp;
 
+            public bool HasOpCode
+            {
+                [MethodImpl(Inline)]
+                get => OpCode >= 0;
+            }
+
+            public bool HasModRm
+            {
+                [MethodImpl(Inline)]
+                get => ModRm >= 0;
+            }
+
+            public bool HasSib
+            {
+                [MethodImpl(Inline)]
+                get => Sib >= 0;
+            }
+
+            public bool HasImm0
+            {
+                [MethodImpl(Inline)]
+                get => Imm0 >= 0;
+            }
+
+            public bool HasImm1
+            {
+                [MethodImpl(Inline)]
+                get => Imm1 >= 0;
+            }
+
+            public bool HasDisp
+            {
+                [MethodImpl(Inline)]
+                get => Disp >= 0;
+            }
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => OpCode < 0 && ModRm < 0 && Sib < 0 && Imm0 < 0 && Imm1 < 0 && Disp < 0;
+            }
+
             public string Format()
                 => XedRender.format(this);
 

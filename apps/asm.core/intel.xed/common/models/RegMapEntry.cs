@@ -13,7 +13,7 @@ namespace Z0
 
             public const string TableName = "xed.regs.map";
 
-            public ushort RegId;
+            public ushort XedRegId;
 
             public Asm.RegClass RegClass;
 

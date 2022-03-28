@@ -146,20 +146,24 @@ namespace Z0
             => (int)Hash;
 
         [MethodImpl(Inline)]
-        public static implicit operator uint8b(U src)
-            => src.data;
+        public static implicit operator uint4(U src)
+            => new uint4(src.data);
 
         [MethodImpl(Inline)]
         public static implicit operator uint5(U src)
             => new uint5(src.data);
 
         [MethodImpl(Inline)]
-        public static implicit operator uint4(U src)
-            => new uint4(src.data);
-
-        [MethodImpl(Inline)]
         public static implicit operator uint6(U src)
             => new uint6(src.data);
+
+        [MethodImpl(Inline)]
+        public static implicit operator uint7(U src)
+            => new uint7(src.data);
+
+        [MethodImpl(Inline)]
+        public static implicit operator uint8b(U src)
+            => src.data;
 
         [MethodImpl(Inline)]
         public static implicit operator U(uint8b src)

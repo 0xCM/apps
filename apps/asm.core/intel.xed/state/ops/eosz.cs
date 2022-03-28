@@ -15,7 +15,10 @@ namespace Z0
             => (EOSZ)src.EOSZ;
 
         [MethodImpl(Inline), Op]
-        public static void eosz(EOSZ src, ref RuleState dst)
-            => dst.EOSZ = (byte)src;
+        public static ref RuleState set(EOSZ src, ref RuleState dst)
+        {
+            dst.EOSZ = (byte)src;
+            return ref dst;
+        }
     }
 }

@@ -31,23 +31,23 @@ namespace Z0
 
         public static string semantic(OpCodeKind src)
         {
-            var @class = XedPatterns.@class(src);
+            var @class = XedPatterns.occlass(src);
             var kind = EmptyString;
             switch(@class)
             {
                 case OpCodeClass.Base:
                     switch(src)
                     {
-                        case OpCodeKind.LEGACY_00:
+                        case OpCodeKind.Base00:
                             kind = "00";
                         break;
-                        case OpCodeKind.LEGACY_0F:
+                        case OpCodeKind.Base0F:
                             kind = "0F";
                         break;
-                        case OpCodeKind.LEGACY_0F38:
+                        case OpCodeKind.Base0F38:
                             kind = "0F38";
                         break;
-                        case OpCodeKind.LEGACY_0F3A:
+                        case OpCodeKind.Base0F3A:
                             kind = "0F3A";
                         break;
                     }
@@ -55,13 +55,13 @@ namespace Z0
                 case OpCodeClass.Vex:
                     switch(src)
                     {
-                        case OpCodeKind.VEX_0F:
+                        case OpCodeKind.Vex0F:
                             kind = "0F";
                         break;
-                        case OpCodeKind.VEX_0F38:
+                        case OpCodeKind.Vex0F38:
                             kind = "0F38";
                         break;
-                        case OpCodeKind.VEX_0F3A:
+                        case OpCodeKind.Vex0F3A:
                             kind = "0F3A";
                         break;
                     }
@@ -69,13 +69,13 @@ namespace Z0
                 case OpCodeClass.Evex:
                     switch(src)
                     {
-                        case OpCodeKind.EVEX_0F:
+                        case OpCodeKind.Evex0F:
                             kind = "0F";
                         break;
-                        case OpCodeKind.EVEX_0F38:
+                        case OpCodeKind.Evex0F38:
                             kind = "0F38";
                         break;
-                        case OpCodeKind.EVEX_0F3A:
+                        case OpCodeKind.Evex0F3A:
                             kind = "0F3A";
                         break;
                     }

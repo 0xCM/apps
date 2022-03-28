@@ -9,7 +9,7 @@ namespace Z0
     using static XedModels.VexMapKind;
     using static XedModels.EvexMapKind;
     using static XedModels.XopMapKind;
-    using static XedModels.LegacyMapKind;
+    using static XedModels.BaseMapKind;
 
     using I = XedModels.OpCodeIndex;
     using K = XedModels.OpCodeKind;
@@ -18,7 +18,7 @@ namespace Z0
     {
         public static OpCodeIndex? ocindex(byte code)
         {
-            var kind = lmap(code);
+            var kind = basemap(code);
             if(kind != null)
                 return ocindex(kind.Value);
             else
@@ -26,19 +26,19 @@ namespace Z0
         }
 
         [Op]
-        public static OpCodeIndex? ocindex(VexClass @class, byte code)
+        public static OpCodeIndex? ocindex(VexClass @class, byte map)
         {
             var dst = default(OpCodeIndex?);
             switch(@class)
             {
                 case VexClass.VV1:
-                    dst = ocindex((VexMapKind)code);
+                    dst = ocindex((VexMapKind)map);
                 break;
                 case VexClass.EVV:
-                    dst = ocindex((EvexMapKind)code);
+                    dst = ocindex((EvexMapKind)map);
                 break;
                 case VexClass.XOPV:
-                    dst = ocindex((XopMapKind)code);
+                    dst = ocindex((XopMapKind)map);
                 break;
             }
             return dst;
@@ -48,20 +48,20 @@ namespace Z0
         public static OpCodeIndex ocindex(OpCodeKind kind)
             => kind switch
             {
-                K.LEGACY_00 => I.LegacyMap0,
-                K.LEGACY_0F => I.LegacyMap1,
-                K.LEGACY_0F38 => I.LegacyMap2,
-                K.LEGACY_0F3A => I.LegacyMap3,
+                K.Base00 => I.LegacyMap0,
+                K.Base0F => I.LegacyMap1,
+                K.Base0F38 => I.LegacyMap2,
+                K.Base0F3A => I.LegacyMap3,
                 K.AMD_3DNOW => I.Amd3dNow,
                 K.XOP8 => I.Xop8,
                 K.XOP9 => I.Xop9,
                 K.XOPA => I.XopA,
-                K.VEX_0F => I.Vex0F,
-                K.VEX_0F38 => I.Vex0F38,
-                K.VEX_0F3A => I.Vex0F3A,
-                K.EVEX_0F => I.Evex0F,
-                K.EVEX_0F38 => I.Evex0F38,
-                K.EVEX_0F3A => I.Evex0F3A,
+                K.Vex0F => I.Vex0F,
+                K.Vex0F38 => I.Vex0F38,
+                K.Vex0F3A => I.Vex0F3A,
+                K.Evex0F => I.Evex0F,
+                K.Evex0F38 => I.Evex0F38,
+                K.Evex0F3A => I.Evex0F3A,
                 _ => 0
             };
 
@@ -96,14 +96,14 @@ namespace Z0
             };
 
         [Op]
-        public static OpCodeIndex ocindex(LegacyMapKind kind)
+        public static OpCodeIndex ocindex(BaseMapKind kind)
             => kind switch
             {
-                LEGACY_MAP0 => I.LegacyMap0,
-                LEGACY_MAP1 => I.LegacyMap1,
-                LEGACY_MAP2 => I.LegacyMap2,
-                LEGACY_MAP3 => I.LegacyMap3,
-                AMD_3DNOW => I.Amd3dNow,
+                BaseMap0 => I.LegacyMap0,
+                BaseMap1 => I.LegacyMap1,
+                BaseMap2 => I.LegacyMap2,
+                BaseMap3 => I.LegacyMap3,
+                Amd3dNow => I.Amd3dNow,
                 _ => 0
             };
     }

@@ -16,20 +16,20 @@ namespace Z0
         public static string symbol(OpCodeKind src)
             => src switch
             {
-                LEGACY_00 => S.L0,
-                LEGACY_0F => S.L1,
-                LEGACY_0F38 => S.L2,
-                LEGACY_0F3A => S.L3,
+                Base00 => S.B0,
+                Base0F => S.B1,
+                Base0F38 => S.B2,
+                Base0F3A => S.B3,
                 AMD_3DNOW => S.D3,
                 XOP8 => S.X8,
                 XOP9 => S.X9,
                 XOPA => S.XA,
-                VEX_0F => S.V1,
-                VEX_0F38 => S.V2,
-                VEX_0F3A => S.V3,
-                EVEX_0F => S.E1,
-                EVEX_0F38 => S.E2,
-                EVEX_0F3A => S.E3,
+                Vex0F => S.V1,
+                Vex0F38 => S.V2,
+                Vex0F3A => S.V3,
+                Evex0F => S.E1,
+                Evex0F38 => S.E2,
+                Evex0F3A => S.E3,
 
                 _ => EmptyString
             };

@@ -12,52 +12,52 @@ namespace Z0
             /// <summary>
             /// Legacy map 0
             /// </summary>
-            public const string L0 = "L0";
+            public const string B0 = nameof(B0);
 
             /// <summary>
             /// Legacy map 1
             /// </summary>
-            public const string L1 = "L1";
+            public const string B1 = nameof(B1);
 
             /// <summary>
             /// Legacy map 2
             /// </summary>
-            public const string L2 = "L2";
+            public const string B2 = nameof(B2);
 
             /// <summary>
             /// Legacy map 3
             /// </summary>
-            public const string L3 = "L3";
+            public const string B3 = nameof(B3);
 
             /// <summary>
             /// Vex map 1
             /// </summary>
-            public const string V1 = "V1";
+            public const string V1 = nameof(V1);
 
             /// <summary>
             /// Vex map 2
             /// </summary>
-            public const string V2 = "V2";
+            public const string V2 = nameof(V2);
 
             /// <summary>
             /// Vex map 3
             /// </summary>
-            public const string V3 = "V3";
+            public const string V3 = nameof(V3);
 
             /// <summary>
             /// Evex map 1
             /// </summary>
-            public const string E1 = "E1";
+            public const string E1 = nameof(E1);
 
             /// <summary>
             /// Evex map 1
             /// </summary>
-            public const string E2 = "E2";
+            public const string E2 = nameof(E2);
 
             /// <summary>
             /// Evex map 1
             /// </summary>
-            public const string E3 = "E3";
+            public const string E3 = nameof(E3);
 
             /// <summary>
             /// Xop map 8

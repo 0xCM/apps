@@ -5,16 +5,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
-    {
-        [SymSource(xed), DataWidth(1)]
-        public enum BCRC : byte
-        {
-            [Symbol("BCRC0", "BCRC=0")]
-            BCRC0 = 0,
+    using static XedModels;
 
-            [Symbol("BCRC1", "BCRC=1")]
-            BCRC1 = 1
-        }
+    partial class XedPatterns
+    {
+        [MethodImpl(Inline), Op]
+        public static EvexMapKind? evexmap(VexClass kind, byte code)
+            => kind == VexClass.EVV ? (EvexMapKind)code : null;
     }
 }

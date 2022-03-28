@@ -15,20 +15,20 @@ namespace Z0
         [Op]
         public static OpCodeKind ockind(OpCodeIndex src)
             => src switch {
-                I.LegacyMap0 => LEGACY_00,
-                I.LegacyMap1 => LEGACY_0F,
-                I.LegacyMap2 => LEGACY_0F38,
-                I.LegacyMap3 => LEGACY_0F3A,
+                I.LegacyMap0 => Base00,
+                I.LegacyMap1 => Base0F,
+                I.LegacyMap2 => Base0F38,
+                I.LegacyMap3 => Base0F3A,
                 I.Amd3dNow => AMD_3DNOW,
                 I.Xop8 => XOP8,
                 I.Xop9 => XOP9,
                 I.XopA => XOPA,
-                I.Vex0F => VEX_0F,
-                I.Vex0F38 => VEX_0F38,
-                I.Vex0F3A => VEX_0F3A,
-                I.Evex0F => EVEX_0F,
-                I.Evex0F38 => EVEX_0F38,
-                I.Evex0F3A => EVEX_0F3A,
+                I.Vex0F => Vex0F,
+                I.Vex0F38 => Vex0F38,
+                I.Vex0F3A => Vex0F3A,
+                I.Evex0F => Evex0F,
+                I.Evex0F38 => Evex0F38,
+                I.Evex0F3A => Evex0F3A,
                 _=> OpCodeKind.None
             };
     }

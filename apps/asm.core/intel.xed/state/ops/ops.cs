@@ -16,8 +16,7 @@ namespace Z0
         public static Dictionary<OpName,DisasmOp> ops(in DisasmState state, in AsmHexCode code)
         {
             var dst = dict<OpName,DisasmOp>();
-
-            var values = XedState.opvalues(state.RuleState, code);
+            var values = opvalues(state.RuleState, code);
             var count = values.Count;
             for(var i=0; i<count; i++)
             {

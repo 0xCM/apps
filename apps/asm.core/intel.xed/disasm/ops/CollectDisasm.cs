@@ -24,9 +24,6 @@ namespace Z0
             EmitDisasmDetails(dst, Projects.Table<DisasmDetail>(context.Project));
         }
 
-        // void EmitDisasmSummary(Index<DisasmSummary> src, FS.FilePath dst)
-        //     => TableEmit(src.View, DisasmSummary.RenderWidths, dst);
-
         void CollectDisasm(WsContext context, FileRef src, ConcurrentDictionary<FileRef,DisasmDetailDoc> dst)
         {
             var file = XedDisasm.loadfile(src);

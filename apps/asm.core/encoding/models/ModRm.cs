@@ -123,6 +123,14 @@ namespace Z0.Asm
         public static implicit operator byte(ModRm src)
             => src.Value();
 
+       [MethodImpl(Inline)]
+        public static explicit operator ModRm(byte src)
+            => new ModRm(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Hex8(ModRm src)
+            => src.Value();
+
         public static bool operator ==(ModRm a, ModRm b)
             => a.Equals(b);
 

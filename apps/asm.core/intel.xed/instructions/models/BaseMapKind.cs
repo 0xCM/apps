@@ -5,22 +5,27 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using S = XedPatterns.OpCodeSymbols;
+
     partial struct XedModels
     {
-        [SymSource(xed), DataWidth(2)]
-        public enum LLRC : byte
+        [SymSource(xed)]
+        public enum BaseMapKind : byte
         {
-            [Symbol("LLRC0", "LLRC=0")]
-            LLRC0=0,
+            [Symbol(S.B0)]
+            BaseMap0 = 0,
 
-            [Symbol("LLRC1", "LLRC=1")]
-            LLRC1=1,
+            [Symbol(S.B1)]
+            BaseMap1 = 1,
 
-            [Symbol("LLRC2", "LLRC=2")]
-            LLRC2=2,
+            [Symbol(S.B2)]
+            BaseMap2 = 2,
 
-            [Symbol("LLRC3", "LLRC=3")]
-            LLRC3=3
+            [Symbol(S.B3)]
+            BaseMap3 = 3,
+
+            [Symbol(S.D3)]
+            Amd3dNow = 4,
         }
     }
 }

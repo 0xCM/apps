@@ -42,7 +42,7 @@ namespace Z0
 
         static EnumRender<VexMapKind> VexMap = new();
 
-        static EnumRender<LegacyMapKind> LegacyMap = new();
+        static EnumRender<BaseMapKind> LegacyMap = new();
 
         static EnumRender<EvexMapKind> EvexMap = new();
 
@@ -215,7 +215,7 @@ namespace Z0
         public static string format(EvexMapKind src)
             => EvexMap.Format(src);
 
-        public static string format(LegacyMapKind src)
+        public static string format(BaseMapKind src)
             => LegacyMap.Format(src);
 
         public static string format(CellDataKind src)
@@ -534,6 +534,9 @@ namespace Z0
 
         public static string format(in EncodingOffsets src)
         {
+            if(src.IsEmpty)
+                return EmptyString;
+
             var dst = text.buffer();
             dst.Append(Chars.LBrace);
             dst.AppendFormat("{0}={1}", "opcode", src.OpCode);
@@ -918,7 +921,6 @@ namespace Z0
 
             return dst.Emit();
         }
-
 
         static string format<E>(EnumRender<E> render, E src, FormatCode fc)
             where E : unmanaged, Enum

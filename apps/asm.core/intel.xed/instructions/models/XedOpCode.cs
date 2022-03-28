@@ -28,7 +28,7 @@ namespace Z0
             public OpCodeClass Class
             {
                 [MethodImpl(Inline)]
-                get => XedPatterns.@class(Kind);
+                get => XedPatterns.occlass(Kind);
             }
 
             public Hash32 Hash

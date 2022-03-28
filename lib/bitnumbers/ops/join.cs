@@ -143,13 +143,54 @@ namespace Z0
             => movzx(a, w8) | (movxz(b, w8) << 2);
 
         /// <summary>
-        /// Produces a <see cref='uint8b'/> value of the form [bbbb baaa]
+        /// Produces a <see cref='T.uint4'/> value of the form [baaa]
         /// </summary>
-        /// <param name="a">The lo bits</param>
-        /// <param name="b">The hi bits</param>
+        /// <param name="a">Specifies bits [2:0]</param>
+        /// <param name="b">Specifies bit 3</param>
         [MethodImpl(Inline), Op]
-        public static uint8b join(uint3 a, uint5 b)
-            => movzx(a, w8) | ((uint8b)b << 3);
+        public static uint4 join(uint3 a, bit b)
+            => (uint4)a | (uint4)b << 3;
+
+        /// <summary>
+        /// Produces a <see cref='T.uint5'/> value of the form [c baaa]
+        /// </summary>
+        /// <param name="a">Specifies bits [2:0]</param>
+        /// <param name="b">Specifies bit 3</param>
+        /// <param name="c">Specifies bit 4</param>
+        [MethodImpl(Inline), Op]
+        public static uint5 join(uint3 a, bit b, bit c)
+            => (uint5)a | (uint5)b << 3 | (uint5)c << 4;
+
+        /// <summary>
+        /// Produces a <see cref='T.uint6'/> value of the form [dc baaa]
+        /// </summary>
+        /// <param name="a">Specifies bits [2:0]</param>
+        /// <param name="b">Specifies bit 3</param>
+        /// <param name="c">Specifies bit 4</param>
+        /// <param name="d">Specifies bit 5</param>
+        [MethodImpl(Inline), Op]
+        public static uint6 join(uint3 a, bit b, bit c, bit d)
+            => (uint6)a | (uint6)b << 3 | (uint6)c << 4 | (uint6)d << 5;
+
+        /// <summary>
+        /// Produces a <see cref='T.uint6'/> value of the form [dd dcba]
+        /// </summary>
+        /// <param name="b">Specifies bit 0</param>
+        /// <param name="b">Specifies bit 1</param>
+        /// <param name="c">Specifies bit 2</param>
+        /// <param name="d">Specifies bits [5:3]</param>
+        [MethodImpl(Inline), Op]
+        public static uint6 join(bit a, bit b, bit c, uint3 d)
+            => (uint6)a | (uint6)b << 1 | (uint6)c << 2 | (uint6)d << 3;
+
+        /// <summary>
+        /// Produces a <see cref='T.uint5'/> value of the form [b baaa]
+        /// </summary>
+        /// <param name="a">Specifies bits [2:0]</param>
+        /// <param name="b">Specifies bit 3</param>
+        [MethodImpl(Inline), Op]
+        public static uint5 join(uint3 a, uint2 b)
+            => (uint5)a | (uint5)b << 3;
 
         /// <summary>
         /// (a,b,c,d) -> [cc bbb aaa]
@@ -160,6 +201,24 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static uint8b join(uint3 a, uint3 b, uint2 c)
             => movzx(a, w8) | (movzx(b, w8) << 3) | (movzx(c, w8) << 6);
+
+        /// <summary>
+        /// Produces a <see cref='T.uint7'/> value of the form [bbb baaa]
+        /// </summary>
+        /// <param name="a">Specifies bits [2:0]</param>
+        /// <param name="a">Specifies bits [7:3]</param>
+        [MethodImpl(Inline), Op]
+        public static uint7 join(uint3 a, uint4 b)
+            => (uint7)a | (uint7)b << 3;
+
+        /// <summary>
+        /// Produces a <see cref='uint8b'/> value of the form [bbbb baaa]
+        /// </summary>
+        /// <param name="a">Specifies bits [2:0]</param>
+        /// <param name="a">Specifies bits [7:3]</param>
+        [MethodImpl(Inline), Op]
+        public static uint8b join(uint3 a, uint5 b)
+            => movzx(a, w8) | ((uint8b)b << 3);
 
         /// <summary>
         /// Produces a <see cref='uint8b'/> value by contcatenating the operand-suppled bits

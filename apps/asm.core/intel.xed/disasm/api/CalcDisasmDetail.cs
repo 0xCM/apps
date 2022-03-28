@@ -65,22 +65,22 @@ namespace Z0
             dst.InstForm = inst.InstForm;
             dst.InstClass = inst.InstClass;
             dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
-            result = XedDisasm.parse(inst.Props.Edit, out DisasmState state);
-            var ops = XedState.ops(state, code);
+            result = XedDisasm.parse(inst.Props.Edit, out DisasmState dstate);
+            var ops = XedState.ops(dstate, code);
 
-            ref readonly var rules = ref state.RuleState;
-            dst.Offsets = XedState.positions(rules);
-            dst.OpCode = rules.NOMINAL_OPCODE;
+            ref readonly var state = ref dstate.RuleState;
+            dst.Offsets = XedState.offsets(state);
+            dst.OpCode = state.NOMINAL_OPCODE;
             dst.Operands = alloc<DisasmOpDetail>(lines.OperandCount);
 
-            var ocpos = rules.POS_NOMINAL_OPCODE;
-            var opcode = rules.NOMINAL_OPCODE;
-            var ocsrm = math.and((byte)rules.SRM, opcode);
-            Require.equal(rules.SRM, ocsrm);
+            var ocpos = state.POS_NOMINAL_OPCODE;
+            var opcode = state.NOMINAL_OPCODE;
+            var ocsrm = math.and((byte)state.SRM, opcode);
+            Require.equal(state.SRM, ocsrm);
 
             if(opcode != code[ocpos])
             {
-                var msg = string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", rules.NOMINAL_OPCODE, rules.MODRM_BYTE);
+                var msg = string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", state.NOMINAL_OPCODE, state.MODRM_BYTE);
                 Errors.Throw(msg);
             }
 
@@ -138,26 +138,26 @@ namespace Z0
                 }
             }
 
-            var has_rex = XedState.rex(rules, out var _rex);
+            var has_rex = XedState.rex(state, out var _rex);
             if(has_rex)
                 dst.Rex = _rex;
 
-            if(rules.HAS_MODRM)
+            if(state.HAS_MODRM)
             {
-                var modrm = XedState.modrm(rules);
+                var modrm = XedState.modrm(state);
                 dst.ModRm = modrm;
-                if(modrm != code[rules.POS_MODRM])
+                if(modrm != code[state.POS_MODRM])
                 {
-                    var msg = string.Format("Derived ModRM value {0} differs from encoded value {1}", modrm, code[rules.POS_MODRM]);
+                    var msg = string.Format("Derived ModRM value {0} differs from encoded value {1}", modrm, code[state.POS_MODRM]);
                     Errors.Throw(msg);
                 }
             }
 
-            if(rules.HAS_SIB)
+            if(state.HAS_SIB)
             {
-                var sib = XedState.sib(rules);
+                var sib = XedState.sib(state);
                 dst.Sib = sib;
-                var sibenc = Sib.init(code[rules.POS_SIB]);
+                var sibenc = Sib.init(code[state.POS_SIB]);
                 if(sibenc.Value() != sib)
                 {
                     var msg = string.Format("Derived Sib value {0} differs from encoded value {1}", sib, sibenc);
@@ -165,12 +165,12 @@ namespace Z0
                 }
             }
 
-            if(rules.VEXVALID == (byte)VexClass.VV1)
+            if(state.VEXVALID == (byte)VexClass.VV1)
             {
                 var vexcode = VexPrefix.code(prefix);
                 var vexsize = VexPrefix.size(vexcode.Value);
                 var vexbytes = slice(prefix, vexcode.Offset, vexsize);
-                var vexdest = (uint5)((uint3)rules.VEXDEST210 | (byte)rules.VEXDEST3 << 3 | (byte)rules.VEXDEST4 << 4);
+                var vexdest = (uint5)((uint3)state.VEXDEST210 | (byte)state.VEXDEST3 << 3 | (byte)state.VEXDEST4 << 4);
                 Require.equal(vexbytes.Length, vexsize);
 
                 if(vexcode.Value == AsmPrefixCodes.VexPrefixCode.C4)
@@ -179,14 +179,14 @@ namespace Z0
                     dst.Vex = VexPrefix.define(AsmPrefixCodes.VexPrefixKind.xC5,skip(vexbytes, 1));
 
             }
-            else if(rules.VEXVALID == (byte)VexClass.EVV)
+            else if(state.VEXVALID == (byte)VexClass.EVV)
                 dst.Evex = AsmPrefix.evex(slice(prefix,legacyskip));
 
-            if(rules.IMM0)
-                dst.Imm = asm.imm(code, rules.POS_IMM, rules.IMM0SIGNED, Sizes.native(rules.IMM_WIDTH));
+            if(state.IMM0)
+                dst.Imm = asm.imm(code, state.POS_IMM, state.IMM0SIGNED, Sizes.native(state.IMM_WIDTH));
 
-            dst.EASZ = Sizes.native(bitwidth((EASZ)rules.EASZ));
-            dst.EOSZ = Sizes.native(bitwidth((EOSZ)rules.EOSZ));
+            dst.EASZ = Sizes.native(bitwidth((EASZ)state.EASZ));
+            dst.EOSZ = Sizes.native(bitwidth((EOSZ)state.EOSZ));
             return dst;
         }
     }
