@@ -71,9 +71,9 @@ namespace Z0
 
             public int CompareTo(RuleSig src)
             {
-                var result = ((byte)TableKind).CompareTo((byte)src.TableKind);
+                var result = Name.CompareTo(src.Name);
                 if(result == 0)
-                    result = Name.CompareTo(src.Name);
+                    result = XedRules.cmp(TableKind, src.TableKind);
                 return result;
             }
 

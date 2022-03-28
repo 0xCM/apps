@@ -9,13 +9,10 @@ namespace Z0
 
     partial class XedRules
     {
-        void EmitTableDefs(RuleTableKind kind, RuleTableSet tables)
-            => EmitTableDefs(tables.Rows(kind), XedPaths.Service.TableDefSummary(kind));
-
         void EmitTableDefs(Index<RuleTableRow> src, FS.FilePath dst)
         {
             var count = src.Count;
-            Span<byte> widths = stackalloc byte[RuleTableRow.FieldCount];
+            Span<byte> widths = stackalloc byte[RuleTableRow.ColCount];
             var name = EmptyString;
             var tsig = RuleSig.Empty;
             var length = 0u;
@@ -28,7 +25,7 @@ namespace Z0
                     if(nonempty(row.TableName))
                     {
                         name = row.TableName;
-                        tsig = XedRules.sig(row.TableKind, name);
+                        tsig = XedRules.sig(row.Kind, name);
                     }
                 }
 
@@ -43,7 +40,7 @@ namespace Z0
                     {
                         CalcRenderWidths(tsig, slice(src.View,offset,length), widths);
                         name = row.TableName;
-                        tsig = XedRules.sig(row.TableKind,name);
+                        tsig = XedRules.sig(row.Kind,name);
                         length = 0;
                         offset = i;
                     }
@@ -56,19 +53,25 @@ namespace Z0
 
         static void CalcRenderWidths(RuleSig sig, ReadOnlySpan<RuleTableRow> data, Span<byte> dst)
         {
-            seek(dst, 0) = 12;
-            if(skip(dst,1) != 0)
-                seek(dst, 1) = max((byte)(sig.Name.Length + 1), skip(dst,1));
+            const byte SeqIndex = 0;
+            const byte NameIndex = 1;
+            const byte KindIndex = 2;
+            const byte RowIndex = 3;
+
+            seek(dst, SeqIndex) = 8;
+            seek(dst, KindIndex) = 8;
+            if(skip(dst,NameIndex) != 0)
+                seek(dst, NameIndex) = max((byte)(sig.Name.Length + 1), skip(dst,NameIndex));
             else
-                seek(dst, 1) = max((byte)(sig.Name.Length + 1), (byte)12);
-            seek(dst, 2) = 12;
+                seek(dst, NameIndex) = max((byte)(sig.Name.Length + 1), (byte)12);
+            seek(dst, RowIndex) = 8;
             CalcRenderWidths(data, dst);
         }
 
         static void CalcRenderWidths(ReadOnlySpan<RuleTableRow> src, Span<byte> dst)
         {
-            const byte Offset = 3;
-            const byte FieldCount = RuleTableRow.FieldCount;
+            const byte Offset = RuleTableRow.LeadCount;
+            const byte FieldCount = RuleTableRow.ColCount;
 
             for(var i=Offset; i<FieldCount; i++)
                 seek(dst,i) = max((byte)10, skip(dst,i));

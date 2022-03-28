@@ -17,12 +17,14 @@ namespace Z0
             {
                 ref readonly var sig = ref skip(src,i);
                 ref var row = ref seek(dst,i);
-                row.Seq = i;
                 row.TableKind = sig.TableKind;
                 row.TableName = sig.Name;
                 row.TableDef = XedPaths.Service.TableDef(sig).ToUri();
             }
-            return dst.Sort();
+            var rows = dst.Sort();
+            for(var i=0u; i<count; i++)
+                seek(rows,i).Seq = i;
+            return rows;
         }
    }
 }

@@ -32,7 +32,7 @@ namespace Z0
         static void CalcCells(in RuleTableRow src, char kind, HashSet<RuleCellSpec> dst)
         {
             var storage = 0ul;
-            var count = RuleTableRow.ColCount/2;
+            var count = RuleTableRow.CellCount/2;
             var i = kind == 'P' ? z8 : count;
             var k = z8;
             for(var j=0; j<count; j++, i++)

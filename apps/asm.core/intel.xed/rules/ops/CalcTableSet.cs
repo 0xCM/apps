@@ -16,10 +16,8 @@ namespace Z0
             exec(pll,
                 () => CalcDefCells(RuleTableKind.Enc),
                 () => CalcDefCells(RuleTableKind.Dec),
-                //() => CalcDefCells(RuleTableKind.EncDec),
-                () => buffers.Specs.TryAdd(RuleTableKind.Enc,CalcTableSpecs(RuleTableKind.Enc)),
-                () =>  buffers.Specs.TryAdd(RuleTableKind.Dec,CalcTableSpecs(RuleTableKind.Dec))
-                //() =>  buffers.Specs.TryAdd(RuleTableKind.EncDec,CalcTableSpecs(RuleTableKind.EncDec))
+                () => buffers.Specs.TryAdd(RuleTableKind.Enc, CalcTableSpecs(RuleTableKind.Enc)),
+                () => buffers.Specs.TryAdd(RuleTableKind.Dec, CalcTableSpecs(RuleTableKind.Dec))
                 );
 
             exec(pll,

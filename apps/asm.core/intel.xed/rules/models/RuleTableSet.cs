@@ -102,8 +102,12 @@ namespace Z0
 
                 SchemaLookup = dst.Keys.Map(name => (name,dst[name].ToIndex())).ToDictionary();
                 _RowsBySig = src.Rows;
-                _AllRows = src.Rows.Values.SelectMany(x => x).ToIndex().Sort();
-                _RowsByKind = _AllRows.GroupBy(x => x.TableKind).Map(x => (x.Key,x.ToIndex())).ToConstLookup();
+                var all = src.Rows.Values.SelectMany(x => x).ToIndex().Sort();
+                for(var i=0u; i<all.Count; i++)
+                    all[i].Seq = i;
+                _AllRows = all;
+
+                _RowsByKind = _AllRows.GroupBy(x => x.Kind).Map(x => (x.Key,x.ToIndex())).ToConstLookup();
                 return this;
             }
 

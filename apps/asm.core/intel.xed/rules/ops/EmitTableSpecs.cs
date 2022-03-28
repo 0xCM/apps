@@ -14,7 +14,6 @@ namespace Z0
             exec(PllExec,
                 () => EmitTableSpecs(RuleTableKind.Enc, tables.Specs[RuleTableKind.Enc]),
                 () => EmitTableSpecs(RuleTableKind.Dec, tables.Specs[RuleTableKind.Dec])
-                //() => EmitTableSpecs(RuleTableKind.EncDec, tables.Specs[RuleTableKind.EncDec])
                 );
         }
 

@@ -11,8 +11,6 @@ namespace Z0
     {
         static Index<RuleTableRow> CalcTableRows(in RuleTable src)
         {
-            const byte ColCount = RuleTableRow.ColCount;
-
             var dst = list<RuleTableRow>();
             var q = 0u;
             for(var i=0u; i<src.Body.Count; i++)
@@ -23,9 +21,9 @@ namespace Z0
 
                 var m = z8;
                 var row = RuleTableRow.Empty;
-                row.TableKind = src.TableKind;
+                row.Kind = src.TableKind;
                 row.TableName = src.Sig.Name;
-                row.RowIndex = q++;
+                row.Row = q++;
 
                 for(var k=0; k<expr.Premise.Count; k++)
                 {
@@ -33,7 +31,7 @@ namespace Z0
                     m++;
                 }
 
-                m = ColCount/2;
+                m = RuleTableRow.CellCount/2;
 
                 for(var k=0; k<expr.Consequent.Count; k++, m++)
                     row[m] = new RuleTableCell(src.TableKind, m, expr.Consequent[k]);

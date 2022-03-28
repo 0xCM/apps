@@ -14,7 +14,6 @@ namespace Z0
             exec(PllExec,
                 () => EmitTableFiles(RuleTableKind.Enc, tables),
                 () => EmitTableFiles(RuleTableKind.Dec, tables)
-                //() => EmitTableFiles(RuleTableKind.EncDec, tables)
             );
         }
 

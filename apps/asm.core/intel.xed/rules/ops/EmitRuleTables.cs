@@ -24,15 +24,7 @@ namespace Z0
         }
 
         void EmitTableDefs(RuleTableSet tables)
-        {
-            exec(PllExec,
-                () => EmitTableDefs(RuleTableKind.Enc, tables),
-                () => EmitTableDefs(RuleTableKind.Dec, tables)
-                //() => EmitTableDefs(RuleTableKind.EncDec, tables)
-                );
-
-            EmitTableDefs(tables.Rows(), XedPaths.RuleTable<RuleTableRow>());
-        }
+            => EmitTableDefs(tables.Rows(), XedPaths.RuleTable<RuleTableRow>());
 
         void EmitRuleSeq()
         {

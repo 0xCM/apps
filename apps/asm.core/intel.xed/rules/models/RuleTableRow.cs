@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableId)]
@@ -14,15 +12,19 @@ namespace Z0
         {
             public const string TableId = "xed.rules.tables";
 
-            public const byte FieldCount = 19;
+            public const byte LeadCount = 4;
 
-            public const byte ColCount = FieldCount - 3;
+            public const byte CellCount = 16;
 
-            public RuleTableKind TableKind;
+            public const byte ColCount = LeadCount + CellCount;
+
+            public uint Seq;
 
             public string TableName;
 
-            public uint RowIndex;
+            public RuleTableKind Kind;
+
+            public uint Row;
 
             public RuleTableCell Col0P;
 
@@ -140,12 +142,12 @@ namespace Z0
             }
             public int CompareTo(RuleTableRow src)
             {
-                var result = ((byte)TableKind).CompareTo((byte)src.TableKind);
+                var result = TableName.CompareTo(src.TableName);
                 if(result == 0)
                 {
-                    result = TableName.CompareTo(src.TableName);
+                    result = XedRules.cmp(Kind,src.Kind);
                     if(result == 0)
-                        result = RowIndex.CompareTo(src.RowIndex);
+                        result = Row.CompareTo(src.Row);
                 }
                 return result;
             }
