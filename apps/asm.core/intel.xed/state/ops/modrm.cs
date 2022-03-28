@@ -5,17 +5,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static XedRules;
 
-    using R = XedRules;
-
-    partial class XedDisasm
+    partial class XedState
     {
-        public static Index<R.FieldValue> update(in DisasmLineBlock src, ref RuleState state)
-        {
-            var fields = XedDisasm.fields(src);
-            XedState.update(fields, ref state);
-            return fields;
-        }
+        [MethodImpl(Inline), Op]
+        public static ModRm modrm(in RuleState src)
+            => src.HAS_MODRM ? new (src.MODRM_BYTE) : ModRm.Empty;
     }
 }

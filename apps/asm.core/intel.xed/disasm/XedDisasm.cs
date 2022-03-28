@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    public partial class XedDisasm
+    public partial class XedDisasm : AppService<XedDisasm>
     {
         const string XDIS = "XDIS ";
 

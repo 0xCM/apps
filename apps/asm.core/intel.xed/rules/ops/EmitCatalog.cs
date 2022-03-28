@@ -73,7 +73,6 @@ namespace Z0
         void EmitPatternOps(Index<InstPattern> src)
             => TableEmit(CalcOpRecords(src).View, PatternOpInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));
 
-
         void EmitMacroDefs()
             => TableEmit(CalcMacroDefs().View, MacroDef.RenderWidths, XedPaths.RuleTable<MacroDef>());
 
@@ -84,7 +83,7 @@ namespace Z0
             => TableEmit(CalcOpCodeKinds().Records, OcMapKind.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodeKinds));
 
         void EmitOpWidths()
-            => TableEmit(XedTables.Widths.View, OpWidthInfo.RenderWidths, XedPaths.Table<OpWidthInfo>());
+            => TableEmit(XedTables.WidthRecords.View, OpWidthInfo.RenderWidths, XedPaths.Table<OpWidthInfo>());
 
         void EmitPointerWidths()
             => TableEmit(CalcPointerWidths().View, PointerWidthInfo.RenderWidths,  XedPaths.DocTarget(XedDocKind.PointerWidths));

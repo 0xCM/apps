@@ -5,17 +5,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
+    using static XedModels;
+    using static core;
 
-    using R = XedRules;
-
-    partial class XedDisasm
+    public partial class XedState : AppService<XedState>
     {
-        public static Index<R.FieldValue> update(in DisasmLineBlock src, ref RuleState state)
-        {
-            var fields = XedDisasm.fields(src);
-            XedState.update(fields, ref state);
-            return fields;
-        }
+
     }
 }

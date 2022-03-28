@@ -41,7 +41,7 @@ namespace Z0
                 ref readonly var detail = ref doc[i];
                 ref readonly var summary = ref detail.Block.Summary;
                 var fields = XedDisasm.fields(file[i]);
-                var lookup = XedDisasm.update(fields, ref state);
+                var lookup = XedState.update(fields, ref state);
 
                 void Emit(FieldKind kind)
                 {
@@ -79,7 +79,7 @@ namespace Z0
                 if(lookup.TryGetValue(K.SRM, out _))
                     Emit(K.SRM);
 
-                var positions = XedFields.positions(state);
+                var positions = XedState.positions(state);
                 writer.AppendLineFormat(FieldPattern, "ENCODING_OFFSETS", positions);
                 formatted.Add(K.POS_NOMINAL_OPCODE);
                 formatted.Add(K.POS_MODRM);

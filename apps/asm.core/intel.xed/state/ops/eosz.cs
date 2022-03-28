@@ -5,17 +5,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
     using static XedRules;
 
-    using R = XedRules;
-
-    partial class XedDisasm
+    partial class XedState
     {
-        public static Index<R.FieldValue> update(in DisasmLineBlock src, ref RuleState state)
-        {
-            var fields = XedDisasm.fields(src);
-            XedState.update(fields, ref state);
-            return fields;
-        }
+        [MethodImpl(Inline), Op]
+        public static EOSZ eosz(in RuleState src)
+            => (EOSZ)src.EOSZ;
+
+        [MethodImpl(Inline), Op]
+        public static void eosz(EOSZ src, ref RuleState dst)
+            => dst.EOSZ = (byte)src;
     }
 }

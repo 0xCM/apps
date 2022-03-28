@@ -5,16 +5,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static XedModels;
 
     public partial class XedDisasmSvc : AppService<XedDisasmSvc>
     {
-        XedRules Rules => Service(Wf.XedRules);
-
         WsProjects Projects => Service(Wf.WsProjects);
-
-        XedTables XedTables => Service(Wf.XedTables).Data;
 
         static AppData AppData
         {

@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-       FS.FilePath CheckPath(WsContext context, in FileRef src)
+        FS.FilePath CheckPath(WsContext context, in FileRef src)
             => Projects.XedDisasmDir(context.Project) + FS.file(string.Format("{0}.checks", src.Path.FileName.WithoutExtension), FS.Txt);
 
         void EmitDisasmChecks(WsContext context, DisasmDetailDoc doc)
@@ -31,41 +31,41 @@ namespace Z0
                 writer.WriteLine(RP.PageBreak80);
                 var fields = XedDisasm.update(lines, ref state);
 
-                writer.WriteLine(RenderPattern, nameof(state.EASZ), XedRender.format(XedFields.easz(state)));
-                writer.WriteLine(RenderPattern, nameof(state.EOSZ), XedRender.format(XedFields.eosz(state)));
-                writer.WriteLine(RenderPattern, nameof(state.MODE), XedRender.format(XedFields.mode(state)));
-                writer.WriteLine(RenderPattern, "OCMAP", XedRender.format(XedFields.ocindex(state)));
-                writer.WriteLine(RenderPattern, "OCBYTE", XedRender.format(XedFields.ocbyte(state)));
+                writer.WriteLine(RenderPattern, nameof(state.EASZ), XedRender.format(XedState.easz(state)));
+                writer.WriteLine(RenderPattern, nameof(state.EOSZ), XedRender.format(XedState.eosz(state)));
+                writer.WriteLine(RenderPattern, nameof(state.MODE), XedRender.format(XedState.mode(state)));
+                writer.WriteLine(RenderPattern, "OCMAP", XedRender.format(XedState.ocindex(state)));
+                writer.WriteLine(RenderPattern, "OCBYTE", XedRender.format(XedState.ocbyte(state)));
 
                 if(state.HAS_MODRM)
-                    writer.WriteLine(RenderPattern, "MODRM", XedFields.modrm(state));
+                    writer.WriteLine(RenderPattern, "MODRM", XedState.modrm(state));
                 if(state.REX)
-                    writer.WriteLine(RenderPattern, "REX", XedFields.rex(state));
+                    writer.WriteLine(RenderPattern, "REX", XedState.rex(state));
                 if(state.HAS_SIB)
-                    writer.WriteLine(RenderPattern, "SIB", XedFields.sib(state));
+                    writer.WriteLine(RenderPattern, "SIB", XedState.sib(state));
 
                 if(state.OUTREG != 0)
-                    writer.WriteLine(RenderPattern, nameof(state.OUTREG), XedFields.outreg(state));
+                    writer.WriteLine(RenderPattern, nameof(state.OUTREG), XedState.outreg(state));
 
-                var regs = XedFields.regs(state);
+                var regs = XedState.regs(state);
                 for(var k=z8; k<regs.Count; k++)
                     writer.WriteLine(RenderPattern, string.Format("REG{0}",k), XedRegMap.map(regs[k]));
 
-                var vc = XedFields.vexclass(state);
+                var vc = XedState.vexclass(state);
                 if(vc != 0)
                 {
-                    var vk = XedFields.vexkind(state);
+                    var vk = XedState.vexkind(state);
                     writer.WriteLine(RenderPattern, "VEXCLASS", XedRender.format(vc));
                     writer.WriteLine(RenderPattern, "VEXKIND", XedRender.format(vk));
                     if(state.ELEMENT_SIZE != 0)
                     {
-                        var vl = XedFields.vl(state);
+                        var vl = XedState.vl(state);
                         writer.WriteLine(RenderPattern, "SZ", string.Format("{0}x{1}", XedRender.format(vl), state.ELEMENT_SIZE));
                     }
                 }
 
                 if(state.BCAST != 0)
-                    writer.WriteLine(RenderPattern, nameof(state.BCAST), XedRender.format(XedFields.bcast(state)));
+                    writer.WriteLine(RenderPattern, nameof(state.BCAST), XedRender.format(XedState.bcast(state)));
 
                 writer.WriteLine(RP.PageBreak40);
                 for(var k=0; k<fields.Count; k++, counter++)

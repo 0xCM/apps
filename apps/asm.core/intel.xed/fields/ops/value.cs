@@ -20,16 +20,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static R.FieldValue value(FieldKind kind, NameResolver resolver)
             => new R.FieldValue(kind, (ulong)resolver);
-
-        public ConstLookup<FieldKind,object> values<T>(in T src)
-            where T : unmanaged
-        {
-            var dst = dict<FieldKind,object>();
-            var kinds = new ReflectedFields();
-            var fields = kinds.RightValues;
-            foreach(var f in fields)
-                dst.Add(kinds[f], f.GetValue(src));
-            return dst;
-        }
     }
 }

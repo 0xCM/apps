@@ -20,9 +20,12 @@ namespace Z0
             for(var i=0u; i<summaries.Length; i++)
                 seek(summaries,i).Seq = i;
 
-            EmitDisasmSummary(summaries, Projects.Table<DisasmSummary>(context.Project));
+            TableEmit(@readonly(summaries), DisasmSummary.RenderWidths, Projects.Table<DisasmSummary>(context.Project));
             EmitDisasmDetails(dst, Projects.Table<DisasmDetail>(context.Project));
         }
+
+        // void EmitDisasmSummary(Index<DisasmSummary> src, FS.FilePath dst)
+        //     => TableEmit(src.View, DisasmSummary.RenderWidths, dst);
 
         void CollectDisasm(WsContext context, FileRef src, ConcurrentDictionary<FileRef,DisasmDetailDoc> dst)
         {
@@ -35,13 +38,6 @@ namespace Z0
             EmitDisasmChecks(context, details);
         }
 
-        const string OpDetailRenderPattern = "{0,-4} | {1,-8} | {2,-24} | {3,-10} | {4,-12} | {5,-12} | {6,-12} | {7,-12}";
-
-        static string[] OpColPatterns = new string[]{"Op{0}", "Op{0}Name", "Op{0}Val", "Op{0}Action", "Op{0}Vis", "Op{0}Width", "Op{0}WKind", "Op{0}Selector"};
-
-        static string OpDetailHeader(int index)
-            => string.Format(OpDetailRenderPattern, OpColPatterns.Select(x => string.Format(x, index)));
-
         void EmitDisasmDetails(ConstLookup<FileRef,DisasmDetailDoc> src, FS.FilePath dst)
         {
             var emitting = EmittingFile(dst);
@@ -53,7 +49,7 @@ namespace Z0
             for(var k=0; k<6; k++)
             {
                 opheader.Append("| ");
-                opheader.Append(OpDetailHeader(k));
+                opheader.Append(XedDisasmRender.OpDetailHeader(k));
             }
 
             var details = core.map(src.Values, doc => map(doc.View, r => r.Detail)).SelectMany(x => x).Sort();

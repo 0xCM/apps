@@ -5,17 +5,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static XedRules;
 
-    using R = XedRules;
-
-    partial class XedDisasm
+    partial class XedState
     {
-        public static Index<R.FieldValue> update(in DisasmLineBlock src, ref RuleState state)
+        [Op]
+        public static Imm imm0(in RuleState state, in AsmHexCode code)
         {
-            var fields = XedDisasm.fields(src);
-            XedState.update(fields, ref state);
-            return fields;
+            var dst = Imm.Empty;
+            if(state.IMM0)
+                dst = asm.imm(code, state.POS_IMM, state.IMM0SIGNED, Sizes.native(state.IMM_WIDTH));
+            return dst;
         }
     }
 }

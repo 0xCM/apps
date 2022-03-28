@@ -79,8 +79,8 @@ namespace Z0
         public static XedDisasmSvc XedDisasm(this IWfRuntime wf)
             => Z0.XedDisasmSvc.create(wf);
 
-        public static XedTableService XedTables(this IWfRuntime wf)
-            => Z0.XedTableService.create(wf);
+        public static XedTables XedTables(this IWfRuntime wf)
+            => Z0.XedTables.create(wf);
 
         [Op]
         public static XedTool XedTool(this IWfRuntime wf)

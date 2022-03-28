@@ -9,6 +9,7 @@ namespace Z0
     using static XedFields.FieldLookup;
     using static core;
 
+
     partial class XedFields
     {
         public static FieldLookup lookup()

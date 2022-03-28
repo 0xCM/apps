@@ -42,7 +42,7 @@ namespace Z0
 
         AppDb AppDb => Service(Wf.AppDb);
 
-        XedTables XedTables => Service(Wf.XedTables).Data;
+        XedLookups XedTables => Service(Wf.XedTables).Data;
 
         public XedPatterns Patterns => Service(Wf.XedPatterns);
 

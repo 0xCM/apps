@@ -5,17 +5,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
     using static XedRules;
 
     partial class XedPatterns
     {
-        public readonly struct InstAttribs : IIndex<AttributeKind>
+        public readonly struct PatternOps
         {
-            readonly Index<AttributeKind> Data;
+            readonly Index<PatternOp> Data;
 
             [MethodImpl(Inline)]
-            public InstAttribs(AttributeKind[] src)
+            public PatternOps(PatternOp[] src)
             {
                 Data = src;
             }
@@ -32,7 +31,7 @@ namespace Z0
                 get => Data.IsNonEmpty;
             }
 
-            public AttributeKind[] Storage
+            public PatternOp[] Storage
             {
                 [MethodImpl(Inline)]
                 get => Data;
@@ -44,49 +43,57 @@ namespace Z0
                 get => Data.Count;
             }
 
-            public ref AttributeKind this[int i]
+            public ref PatternOp this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
             }
 
-            public ref AttributeKind this[uint i]
+            public ref PatternOp this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
             }
 
-            public InstAttribs Sort()
+            public PatternOps Sort()
             {
                 Data.Sort();
                 return this;
             }
 
-            public bool Locked
+            [MethodImpl(Inline)]
+            public bool NonTerminal(out PatternOp dst)
             {
-                [MethodImpl(Inline)]
-                get => Data.Any(x => x == AttributeKind.LOCKED);
+                for(var i=0; i<Count; i++)
+                {
+                    ref readonly var op = ref this[i];
+                    if(op.IsNonTerminal)
+                    {
+                        dst = op;
+                        return true;
+                    }
+                }
+                dst = PatternOp.Empty;
+                return false;
             }
 
-            public string Format()
-                => XedRender.format(this);
-
-            public override string ToString()
-                => Format();
+            [MethodImpl(Inline)]
+            public static implicit operator PatternOps(PatternOp[] src)
+                => new PatternOps(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator InstAttribs(AttributeKind[] src)
-                => new InstAttribs(src);
+            public static implicit operator PatternOps(Index<PatternOp> src)
+                => new PatternOps(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator AttributeKind[](InstAttribs src)
+            public static implicit operator PatternOp[](PatternOps src)
                 => src.Data;
 
             [MethodImpl(Inline)]
-            public static implicit operator Index<AttributeKind>(InstAttribs src)
+            public static implicit operator Index<PatternOp>(PatternOps src)
                 => src.Data;
 
-            public static InstAttribs Empty => sys.empty<AttributeKind>();
+            public static PatternOps Empty => sys.empty<PatternOp>();
         }
     }
 }

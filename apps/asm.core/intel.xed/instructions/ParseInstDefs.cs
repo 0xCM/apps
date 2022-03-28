@@ -9,7 +9,7 @@ namespace Z0
     using static XedModels;
     using static XedRules;
 
-    using P = XedRules.InstDefPart;
+    using P = XedPatterns.InstDefPart;
 
     partial class XedPatterns
     {
@@ -31,18 +31,6 @@ namespace Z0
         }
 
         static TextLine cleanse(TextLine src)
-        {
-            var dst = text.despace(src.Content);
-            var i = text.index(dst, Chars.Hash);
-            if(i==0)
-                return TextLine.Empty;
-
-            if(i > 0)
-                dst = text.left(dst,i);
-            return new TextLine(src.LineNumber, text.trim(dst));
-        }
-
-        static TextLine cleanse2(TextLine src)
         {
             var dst = text.trim(src.Content);
             var i = text.index(dst, Chars.Hash);
@@ -75,7 +63,7 @@ namespace Z0
         {
             const string LogPattern = "{0,-8} | {1,-8} | {2,-10} | {3}";
             var buffer = list<InstDef>();
-            var reader = src.ReadNumberedLines().Select(cleanse2).Where(line => line.IsNonEmpty).Reader();
+            var reader = src.ReadNumberedLines().Select(cleanse).Where(line => line.IsNonEmpty).Reader();
             var seq = 0u;
             var forms = dict<uint,InstForm>();
             var logdst = XedPaths.Targets() + FS.file("xed.inst.patterns.log", FS.Csv);
@@ -188,7 +176,7 @@ namespace Z0
                                         spec.RawBody = rawbody;
                                         XedParsers.parse(RuleMacros.expand(InstPatternBody.normalize(rawbody)), out spec.Body).Require();
                                         spec.Mode = mode(spec.Body);
-                                        OperandParser.create(spec.Mode).Parse(spec.PatternId, opexpr, out spec.Ops);
+                                        PatternOpParser.create(spec.Mode).Parse(spec.PatternId, opexpr, out spec.Ops);
                                         spec.OpCode = xedoc(spec.Body);
                                         spec.BodyExpr = spec.Body.Format();
                                         specs.Add(spec);

@@ -5,17 +5,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
+    using static XedModels;
     using static XedRules;
 
-    using R = XedRules;
-
-    partial class XedDisasm
+    partial class XedState
     {
-        public static Index<R.FieldValue> update(in DisasmLineBlock src, ref RuleState state)
-        {
-            var fields = XedDisasm.fields(src);
-            XedState.update(fields, ref state);
-            return fields;
-        }
+        [MethodImpl(Inline), Op]
+        public static VexKind vexkind(in RuleState src)
+            => (VexKind)src.VEX_PREFIX;
     }
 }
