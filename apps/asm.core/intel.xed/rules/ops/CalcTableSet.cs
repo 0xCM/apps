@@ -9,29 +9,30 @@ namespace Z0
 
     partial class XedRules
     {
-        public static RuleTableSet CalcTableSet(bool pll)
+        public RuleTableSet CalcTableSet()
         {
             var tables = new RuleTableSet();
             var buffers = tables.CreateBuffers();
-            exec(pll,
+            exec(PllExec,
                 () => CalcDefCells(RuleTableKind.Enc),
                 () => CalcDefCells(RuleTableKind.Dec),
                 () => buffers.Specs.TryAdd(RuleTableKind.Enc, CalcTableSpecs(RuleTableKind.Enc)),
                 () => buffers.Specs.TryAdd(RuleTableKind.Dec, CalcTableSpecs(RuleTableKind.Dec))
                 );
 
-            exec(pll,
+            exec(PllExec,
                 () => buffers.Sigs = XedRules.CalcSigRows(buffers.Cells.Keys.Array()),
                 () => buffers.Schema = XedRules.CalcSchemas(buffers.Cells)
                 );
 
-            return tables.Seal(buffers);
+            var result = tables.Seal(buffers);
+            return result;
 
             void CalcDefCells(RuleTableKind kind)
             {
                 var defs = XedRules.CalcTableDefs(kind);
                 buffers.Defs.TryAdd(kind, defs);
-                iter(defs, def => buffers.Rows.TryAdd(def.Sig, XedRules.CalcCells(def, buffers.Cells)), pll);
+                iter(defs, def => buffers.Rows.TryAdd(def.Sig, XedRules.CalcCells(def, buffers.Cells)), PllExec);
             }
         }
     }

@@ -12,9 +12,8 @@ namespace Z0.Asm
     {
         public void EmitCatalog()
         {
-            XedPaths.Targets().Clear(true);
-
-            exec(true,
+            XedPaths.Targets().Delete();
+            exec(PllExec,
                 EmitChipMap,
                 ImportForms,
                 EmitRegmap,

@@ -32,11 +32,10 @@ namespace Z0
 
         static uint IsaOutCount;
 
-        public void EmitIsaPages(Index<InstPattern> src)
+        public void EmitIsaPages(RuleTableSet tables, Index<InstPattern> patterns)
         {
             XedPaths.InstIsaRoot().Delete();
-            var tables = XedRules.CalcTableSet(PllExec);
-            iter(src.GroupBy(x => x.Isa.Kind), g => EmitIsaGroup(tables, g.Array()), PllExec);
+            iter(patterns.GroupBy(x => x.Isa.Kind), g => EmitIsaGroup(tables, g.Array()), PllExec);
         }
 
         static string FieldTitle = "Fields".PadRight(10).PadRight(80,Chars.Dash);

@@ -120,6 +120,8 @@ namespace Z0
                 }
                 return FS.FileUri.Empty;
             }
+
+            public static RuleTableSet Empty => new();
         }
     }
 }

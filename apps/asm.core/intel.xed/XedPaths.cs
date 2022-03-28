@@ -40,6 +40,9 @@ namespace Z0
         public FS.FolderPath RuleTargets()
             => Targets("rules.tables");
 
+        public FS.FolderPath RuleTableDefs()
+            => RuleTargets() + FS.folder("defs");
+
         public FS.FilePath Table<T>()
             where T : struct
                 => Targets() + Tables.filename<T>();

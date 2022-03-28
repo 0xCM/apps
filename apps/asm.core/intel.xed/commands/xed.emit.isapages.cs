@@ -9,7 +9,7 @@ namespace Z0
         [CmdOp("xed/emit/isapages")]
         Outcome EmitIsaPages(CmdArgs args)
         {
-            Xed.Patterns.EmitIsaPages(Xed.Rules.CalcInstPatterns());
+            Xed.Patterns.EmitIsaPages(Xed.Rules.CalcTableSet(), Xed.Rules.CalcInstPatterns());
             return true;
         }
     }

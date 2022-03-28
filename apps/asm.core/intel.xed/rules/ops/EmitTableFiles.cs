@@ -25,6 +25,9 @@ namespace Z0
         static uint EmitTableFile(in RuleTableSpec spec, FS.FilePath dst)
         {
             var counter = 0u;
+            if(dst.Exists)
+                dst = dst.ChangeExtension(FS.ext(string.Format("2.{0}", dst.Ext)));
+
             using var writer = dst.Writer();
             writer.AppendLine(SpecHeader);
             var statements = spec.Statements;

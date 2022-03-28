@@ -6,20 +6,20 @@
 namespace Z0
 {
     using static core;
+    using static XedPatterns;
 
     partial class XedRules
     {
-        public void EmitRuleTables()
+        public void EmitRuleTables(RuleTableSet tables, Index<InstPattern> patterns)
         {
-            XedPaths.Service.RuleTargets().Delete();
-            var tables = CalcTableSet(PllExec);
             exec(PllExec,
                 () => EmitTableDefs(tables),
                 () => EmitRuleSigs(tables.SigRows),
                 () => EmitSchemas(tables.Schema),
                 () => EmitRuleSeq(),
+                () => EmitTableSpecs(tables),
                 () => EmitTableFiles(tables),
-                () => EmitTableSpecs(tables)
+                () => EmitIsaPages(tables, patterns)
             );
         }
 

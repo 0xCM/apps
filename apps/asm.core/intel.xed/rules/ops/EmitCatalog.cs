@@ -20,9 +20,7 @@ namespace Z0
                 () => EmitPatternOps(patterns),
                 () => EmitOpCodes(patterns),
                 () => EmitInstFields(patterns),
-                () => EmitIsaPages(patterns),
                 () => EmitFlagEffects(patterns),
-                () => EmitRuleTables(),
                 EmitOpCodeKinds,
                 EmitOpWidths,
                 EmitPointerWidths,
@@ -32,7 +30,12 @@ namespace Z0
                 EmitSymbolicFields,
                 EmitFieldDefs
                 );
+
+            EmitRuleTables(CalcTableSet(), patterns);
         }
+
+        void EmitIsaPages(RuleTableSet tables, Index<InstPattern> src)
+            => Patterns.EmitIsaPages(tables, src);
 
         public Index<InstDef> CalcInstDefs()
             => Data(nameof(InstDef), () => Patterns.ParseInstDefs(XedPaths.DocSource(XedDocKind.EncInstDef)));
@@ -70,8 +73,6 @@ namespace Z0
         void EmitPatternOps(Index<InstPattern> src)
             => TableEmit(CalcOpRecords(src).View, PatternOpInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));
 
-        void EmitIsaPages(Index<InstPattern> src)
-            => Patterns.EmitIsaPages(src);
 
         void EmitMacroDefs()
             => TableEmit(CalcMacroDefs().View, MacroDef.RenderWidths, XedPaths.RuleTable<MacroDef>());

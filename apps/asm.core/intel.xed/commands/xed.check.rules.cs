@@ -28,7 +28,7 @@ namespace Z0
         Outcome CheckRules(CmdArgs args)
         {
             var patterns = Xed.Rules.CalcInstPatterns();
-            var rules = XedRules.CalcTableSet(true);
+            var rules = Xed.Rules.CalcTableSet();
 
             ref readonly var rows = ref rules.SigRows;
             var count = rows.Count;
