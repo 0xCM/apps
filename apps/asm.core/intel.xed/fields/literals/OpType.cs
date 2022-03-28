@@ -10,20 +10,28 @@ namespace Z0
         [SymSource(xed)]
         public enum OpType : byte
         {
+            [Symbol("")]
             INVALID,
 
+            [Symbol("error")]
             ERROR,
 
+            [Symbol("imm")]
             IMM,
 
+            [Symbol("kimm")]
             IMM_CONST,
 
+            [Symbol("lu1")]
             NT_LOOKUP_FN,
 
+            [Symbol("lu2")]
             NT_LOOKUP_FN2,
 
+            [Symbol("lu4")]
             NT_LOOKUP_FN4,
 
+            [Symbol("reg")]
             REG,
         }
     }

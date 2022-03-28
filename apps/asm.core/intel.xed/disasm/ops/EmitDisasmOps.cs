@@ -23,7 +23,7 @@ namespace Z0
                 var mnemonic = detail.InstClass;
                 writer.AppendLineFormat("{0,-6} {1}", counter++, mnemonic);
                 writer.AppendLine(RP.PageBreak40);
-                ref readonly var ops = ref detail.Operands;
+                ref readonly var ops = ref detail.Ops;
                 for(var j=0; j<ops.Count; j++)
                     writer.AppendLine(XedRender.format(ops[j]));
 

@@ -274,7 +274,7 @@ namespace Z0
             [RuleField(K.VEXDEST210, 3, typeof(uint3))]
             public byte VEXDEST210;
 
-            [RuleField(K.MASK, 3, typeof(X.MASK))]
+            [RuleField(K.MASK, 3, typeof(MASK))]
             public byte MASK;
 
             [RuleField(K.ROUNDC, 3, typeof(X.ROUNDC))]
@@ -310,14 +310,14 @@ namespace Z0
             [RuleField(K.LAST_F2F3, 2, typeof(byte))]
             public byte LAST_F2F3;
 
-            [RuleField(K.LLRC, 2, typeof(X.LLRC))]
+            [RuleField(K.LLRC, 2, typeof(LLRC))]
             public byte LLRC;
 
             [RuleField(K.SRM, 3, typeof(uint3))]
             public byte SRM;
 
-            [RuleField(K.ESRC, 4, typeof(X.ESRC))]
-            public uint4 ESRC;
+            [RuleField(K.ESRC, 4, typeof(ESRC))]
+            public byte ESRC;
 
             [RuleField(K.MAP, 4, typeof(byte))]
             public byte MAP;

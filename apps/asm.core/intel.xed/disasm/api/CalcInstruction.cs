@@ -11,7 +11,7 @@ namespace Z0
         {
             var result = Outcome.Success;
             dst = default(DisasmInstruction);
-            ref readonly var content = ref src.Instruction.Content;
+            ref readonly var content = ref src.Props.Content;
             if(text.nonempty(content))
             {
                 var j = text.index(content, Chars.Space);

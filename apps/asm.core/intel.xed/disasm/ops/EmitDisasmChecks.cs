@@ -35,7 +35,7 @@ namespace Z0
                     K.IMM0, K.IMM0SIGNED, K.IMM_WIDTH,
                     K.IMM1, K.IMM1_BYTES,
                     K.MASK, K.BCAST,
-                    K.ROUNDC, K.SAE, K.ZEROING, K.LLRC, K.BCRC,
+                    K.ROUNDC, K.SAE, K.ZEROING, K.LLRC, K.BCRC, K.ESRC,
                     K.POS_IMM, K.POS_IMM1, K.POS_DISP, K.POS_SIB, K.POS_NOMINAL_OPCODE, K.POS_MODRM,
                     K.MAX_BYTES, K.LZCNT, K.TZCNT, K.USING_DEFAULT_SEGMENT0, K.SMODE, K.P4
                     );
@@ -48,12 +48,15 @@ namespace Z0
             for(var j=0; j<count; j++)
             {
                 var state = RuleState.Empty;
-                ref readonly var detail = ref doc[j];
-                ref readonly var summary = ref detail.Block.Summary;
-                ref readonly var lines = ref detail.Block.Lines;
+                ref readonly var detail = ref doc[j].Detail;
+                ref readonly var ops = ref detail.Ops;
+                ref readonly var block = ref doc[j].Block;
+                ref readonly var summary = ref block.Summary;
+                ref readonly var lines = ref block.Lines;
                 ref readonly var asmhex = ref summary.Encoded;
                 ref readonly var asmtxt = ref summary.Asm;
                 ref readonly var ip = ref summary.IP;
+
                 var fields = XedDisasm.update(lines, ref state);
                 var ocindex = XedState.ocindex(state);
                 var ockind = XedPatterns.ockind(ocindex);
@@ -62,6 +65,12 @@ namespace Z0
                 var ochex = XedRender.format(ocbyte);
                 var ocbits = BitRender.format8x4(ocbyte);
 
+                writer.WriteLine(RP.PageBreak240);
+                writer.AppendLine(lines.Format());
+                writer.WriteLine(RP.PageBreak80);
+
+                writer.AppendLineFormat(RenderPattern, "InstClass", detail.InstClass);
+                writer.AppendLineFormat(RenderPattern, "InstForm", detail.InstForm);
                 writer.AppendLineFormat("{0,-24} | {1,-5} {2}", asmhex, ip, asmtxt);
                 writer.AppendLineFormat(RenderPattern, "OcMap", ockind);
                 writer.AppendLine(encoding.Format());
@@ -84,7 +93,7 @@ namespace Z0
                     writer.AppendLineFormat(RenderPattern, "SzDefault", "32");
                 }
 
-                writer.AppendLineFormat(RenderPattern, "PrefixCount", state.NPREFIXES);
+                writer.AppendLineFormat(RenderPattern, "PrefixSize", detail.PSZ);
                 writer.AppendLineFormat(RenderPattern, "Easz", XedRender.format(XedState.easz(state)));
                 writer.AppendLineFormat(RenderPattern, "Eosz", XedRender.format(XedState.eosz(state)));
                 writer.AppendLineFormat(RenderPattern, "Mode", XedRender.format(XedState.mode(state)));
@@ -121,14 +130,20 @@ namespace Z0
                 if(state.IMM0)
                 {
                     writer.AppendLineFormat(RenderPattern, "ImmWidth", state.IMM_WIDTH);
-                    writer.AppendLineFormat(RenderPattern, "Imm", encoding.Imm0);
-                }
-                if(state.IMM1)
-                {
-                    writer.AppendLineFormat(RenderPattern, "Imm1", encoding.Imm1);
+                    writer.AppendLineFormat(RenderPattern, "Imm", encoding.Imm);
                 }
 
+                if(state.IMM1)
+                    writer.AppendLineFormat(RenderPattern, "Imm1", encoding.Imm1);
+                if(state.SAE)
+                    writer.AppendLineFormat(RenderPattern, "Sae", state.SAE);
+                if(state.ESRC != 0)
+                    writer.AppendLineFormat(RenderPattern, "Esrc", XedRender.format((Hex8)state.ESRC));
+
                 var rc = (ROUNDC)state.ROUNDC;
+                if(rc == 0 && state.LLRC != 0)
+                    writer.AppendLineFormat(RenderPattern, "Llrc", XedRender.format((Hex8)state.LLRC));
+
                 if(rc != 0)
                 {
                     var llrc = (LLRC)state.LLRC;
@@ -159,13 +174,17 @@ namespace Z0
                 var vc = XedState.vexclass(state);
                 if(vc != 0)
                 {
+                    var vk = XedState.vexkind(state);
                     var vex5 = BitNumbers.join((uint3)state.VEXDEST210, state.VEXDEST4, state.VEXDEST3);
                     var vexBits = string.Format("[{0} {1} {2}]", state.VEXDEST4, state.VEXDEST3, (uint3)state.VEXDEST210);
                     var vexHex = XedRender.format((Hex8)(byte)vex5);
-                    writer.AppendLineFormat(RenderPattern, "VexDest", string.Format("{0} {1}", vexHex, vexBits));
-                    var vk = XedState.vexkind(state);
                     writer.AppendLineFormat(RenderPattern, "VexClass", XedRender.format(vc));
                     writer.AppendLineFormat(RenderPattern, "VexKind", vk == 0 ? "VNP" : XedRender.format(vk));
+                    if(vc == VexClass.VV1)
+                        writer.AppendLineFormat(RenderPattern, "VexPrefix", detail.Vex);
+                    else if(vc == VexClass.EVV)
+                        writer.AppendLineFormat(RenderPattern, "EvexPrefix", detail.Evex);
+                    writer.AppendLineFormat(RenderPattern, "VexDest", string.Format("{0} {1}", vexHex, vexBits));
                 }
 
                 if(state.ELEMENT_SIZE != 0)
@@ -179,37 +198,8 @@ namespace Z0
                     writer.AppendLineFormat(RenderPattern, "ElementCount", state.NELEM);
                 }
 
-                if(state.MASK != 0)
-                {
-                    var mask = EmptyString;
-                    if(state.MASK == 1)
-                        mask += "{k1}";
-                    if(state.ZEROING)
-                        mask += "{z}";
-                    if(rc != 0)
-                        mask += XedRender.format(rc);
-
-                    writer.AppendLineFormat(RenderPattern, "Mask", mask);
-                }
-
                 if(state.BCAST != 0)
                     writer.AppendLineFormat(RenderPattern, "Broadcast", XedState.bcast(state));
-
-                if(state.OUTREG != 0)
-                    writer.AppendLineFormat(RenderPattern, "OutReg", XedState.outreg(state));
-
-                var regs = XedState.regs(state);
-                for(var k=z8; k<regs.Count; k++)
-                {
-                    ref readonly var reg = ref regs[k];
-                    var regname = EmptyString;
-                    if(XedRegMap.map(reg, out var r))
-                        regname = r.Format();
-                    else
-                        regname = XedRender.format(reg);
-
-                    writer.AppendLineFormat(RenderPattern, string.Format("REG{0}",k), regname);
-                }
 
                 for(var k=0; k<fields.Count; k++, counter++)
                 {
@@ -217,6 +207,42 @@ namespace Z0
                     ref readonly var fk = ref value.Field;
                     if(!emitted.Contains(fk))
                         writer.AppendLineFormat(RenderPattern, XedRender.format(fk), XedRender.format(value));
+                }
+
+                if(state.OUTREG != 0)
+                    writer.AppendLineFormat(RenderPattern, "OutReg", XedState.outreg(state));
+
+
+                writer.WriteLine(RenderPattern,  "Operands", ops.Count);
+                writer.WriteLine(RP.PageBreak80);
+                for(var i=0; i<ops.Count; i++)
+                {
+                    ref readonly var op =ref ops[i];
+                    var tabledef = FS.FileUri.Empty;
+                    if(XedParsers.parse(op.OpInfo.Selector.Format(), out NontermKind nk))
+                    {
+                        var path = XedPaths.Service.TableDef(RuleTableKind.Enc, nk);
+                        if(path.Exists)
+                            tabledef = path;
+                        else
+                        {
+                            path = XedPaths.Service.TableDef(RuleTableKind.Dec, nk);
+                            if(path.Exists)
+                                tabledef = path;
+                        }
+                    }
+
+                    writer.AppendLine(string.Format("{0} | {1,-6} | {2,-4} | {3,-4} | {4,-4} | {5,-4} | {6}",
+                        i,
+                        XedRender.format(op.OpName),
+                        XedRender.format(op.OpInfo.Action),
+                        XedRender.format(op.OpInfo.WidthCode),
+                        op.OpInfo.Visiblity.Code(),
+                        XedRender.format(op.OpInfo.OpType),
+                        nk != 0
+                        ? string.Format("{0} => {1}", string.Format("{0}()",XedRender.format(nk)), tabledef)
+                        : op.OpInfo.Selector
+                    ));
                 }
 
                 writer.WriteLine();

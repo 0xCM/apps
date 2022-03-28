@@ -5,47 +5,69 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+
     partial class XedDisasm
     {
-        public struct DisasmOpDetails : IIndex<DisasmOpDetail>
+        public readonly struct DisasmOpDetails : IIndex<DisasmOpDetail>
         {
-            public Index<DisasmOpDetail> Details;
+            readonly Index<DisasmOpDetail> Data;
 
             [MethodImpl(Inline)]
             public DisasmOpDetails(DisasmOpDetail[] src)
             {
-                Details = src;
+                Data = src;
             }
 
             public DisasmOpDetail[] Storage
             {
                 [MethodImpl(Inline)]
-                get => Details.Storage;
+                get => Data.Storage;
             }
 
             public uint Count
             {
                 [MethodImpl(Inline)]
-                get => Details.Count;
+                get => Data.Count;
             }
 
             public int Length
             {
                 [MethodImpl(Inline)]
-                get => Details.Length;
+                get => Data.Length;
             }
 
             public ref DisasmOpDetail this[int i]
             {
                 [MethodImpl(Inline)]
-                get => ref Details[i];
+                get => ref Data[i];
             }
 
             public ref DisasmOpDetail this[uint i]
             {
                 [MethodImpl(Inline)]
-                get => ref Details[i];
+                get => ref Data[i];
             }
+
+            public bool Search(OpWidthCode match, byte offset, out DisasmOpDetail dst)
+            {
+                var result = false;
+                dst = default;
+                for(var i=offset; i<Count; i++)
+                {
+                    ref readonly var op = ref Data[i];
+                    if(op.OpWidth.Code == match)
+                    {
+                        dst = op;
+                        result = true;
+                        break;
+                    }
+                }
+                return result;
+            }
+
+            public bool Search(OpWidthCode match, out DisasmOpDetail dst)
+                => Search(match,0,out dst);
 
             public string Format()
                 => XedRender.format(this);

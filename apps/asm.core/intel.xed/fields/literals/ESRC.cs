@@ -10,53 +10,53 @@ namespace Z0
         [SymSource(xed), DataWidth(3)]
         public enum ESRC : byte
         {
-            [Symbol("xmm0", "ESRC=0")]
-            XMM0,
+            [Symbol("ESRC0", "ESRC=0")]
+            ESRC0,
 
-            [Symbol("xmm1","ESRC=1")]
-            XMM1,
+            [Symbol("ESRC1","ESRC=1")]
+            ESRC1,
 
-            [Symbol("xmm2","ESRC=2")]
-            XMM2,
+            [Symbol("ESRC2","ESRC=2")]
+            ESRC2,
 
-            [Symbol("xmm3","ESRC=3")]
-            XMM3,
+            [Symbol("ESRC3","ESRC=3")]
+            ESRC3,
 
-            [Symbol("xmm4","ESRC=4")]
-            XMM4,
+            [Symbol("ESRC4","ESRC=4")]
+            ESRC4,
 
-            [Symbol("xmm5","ESRC=5")]
-            XMM5,
+            [Symbol("ESRC5","ESRC=5")]
+            ESRC5,
 
-            [Symbol("xmm6","ESRC=6")]
-            XMM6,
+            [Symbol("ESRC6","ESRC=6")]
+            ESRC6,
 
-            [Symbol("xmm7","ESRC=7")]
-            XMM7,
+            [Symbol("ESRC7","ESRC=7")]
+            ESRC7,
 
-            [Symbol("xmm8","ESRC=8")]
-            XMM8,
+            [Symbol("ESRC8","ESRC=8")]
+            ESRC8,
 
-            [Symbol("xmm9","ESRC=9")]
-            XMM9,
+            [Symbol("ESRC9","ESRC=9")]
+            ESRC9,
 
-            [Symbol("xmm10","ESRC=10")]
-            XMM10,
+            [Symbol("ESRC10","ESRC=10")]
+            ESRC10,
 
-            [Symbol("xmm11","ESRC=11")]
-            XMM11,
+            [Symbol("ESRC11","ESRC=11")]
+            ESRC11,
 
-            [Symbol("xmm12","ESRC=12")]
-            XMM12,
+            [Symbol("ESRC12","ESRC=12")]
+            ESRC12,
 
-            [Symbol("xmm13","ESRC=13")]
-            XMM13,
+            [Symbol("ESRC13","ESRC=13")]
+            ESRC13,
 
-            [Symbol("xmm14","ESRC=14")]
-            XMM14,
+            [Symbol("ESRC14","ESRC=14")]
+            ESRC14,
 
-            [Symbol("xmm15","ESRC=15")]
-            XMM15,
+            [Symbol("ESRC15","ESRC=15")]
+            ESRC15,
         }
     }
 }

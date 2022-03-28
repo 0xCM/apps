@@ -15,12 +15,12 @@ namespace Z0
     {
         public static DisasmDetailDoc CalcDisasmDetail(WsContext context, in DisasmFile file, DisasmSummaryDoc summary)
         {
-            var dst = bag<DisasmDetailBlock>();
+            var dst = bag<DetailBlock>();
             CalcDisasmDetail(context, summary, file, dst).Require();
             return DisasmDetailDoc.from(file, dst.ToArray().Sort());
         }
 
-        static Outcome CalcDisasmDetail(WsContext context, DisasmSummaryDoc doc, in DisasmFile src, ConcurrentBag<DisasmDetailBlock> dst)
+        static Outcome CalcDisasmDetail(WsContext context, DisasmSummaryDoc doc, in DisasmFile src, ConcurrentBag<DetailBlock> dst)
         {
             var blocks = doc.Blocks;
             var count = blocks.Count;
@@ -71,7 +71,7 @@ namespace Z0
             ref readonly var state = ref dstate.RuleState;
             dst.Offsets = XedState.offsets(state);
             dst.OpCode = state.NOMINAL_OPCODE;
-            dst.Operands = alloc<DisasmOpDetail>(lines.OperandCount);
+            dst.Ops = alloc<DisasmOpDetail>(lines.OpCount);
 
             var ocpos = state.POS_NOMINAL_OPCODE;
             var opcode = state.NOMINAL_OPCODE;
@@ -84,10 +84,10 @@ namespace Z0
                 Errors.Throw(msg);
             }
 
-            for(var k=0; k<lines.OperandCount; k++)
+            for(var k=0; k<lines.OpCount; k++)
             {
-                ref var operand = ref dst.Operands[k];
-                result = XedDisasm.parse(skip(lines.Operands, k).Content, out operand.OpInfo);
+                ref var operand = ref dst.Ops[k];
+                result = XedDisasm.parse(skip(lines.Ops, k).Content, out operand.OpInfo);
                 if(result.Fail)
                     Errors.Throw(result.Message);
 

@@ -57,19 +57,6 @@ namespace Z0
             return ref dst;
         }
 
-        public static Dictionary<FieldKind,R.FieldValue> update(Index<R.FieldValue> src, ref RuleState state)
-        {
-            update(src.View, ref state);
-            return src.Map(x => (x.Field, x)).ToDictionary();
-        }
-
-        public static ref RuleState update(ReadOnlySpan<R.FieldValue> src, ref RuleState dst)
-        {
-            for(var i=0; i<src.Length; i++)
-                update(skip(src,i), ref dst);
-            return ref dst;
-        }
-
         public static bool update(string src, FieldKind kind, ref DisasmState dstate)
             => update(src, kind, ref dstate.RuleState).IsNonEmpty;
 
@@ -701,6 +688,20 @@ namespace Z0
             }
 
             return fieldval;
+        }
+
+
+        public static Dictionary<FieldKind,R.FieldValue> update(Index<R.FieldValue> src, ref RuleState state)
+        {
+            update(src.View, ref state);
+            return src.Map(x => (x.Field, x)).ToDictionary();
+        }
+
+        public static ref RuleState update(ReadOnlySpan<R.FieldValue> src, ref RuleState dst)
+        {
+            for(var i=0; i<src.Length; i++)
+                update(skip(src,i), ref dst);
+            return ref dst;
         }
 
         static ref RuleState update(in R.FieldValue src, ref RuleState dst)

@@ -106,6 +106,8 @@ namespace Z0
 
         static EnumRender<IsaKind> IsaKinds = new();
 
+        static EnumRender<OpType> OpTypes = new();
+
         static Index<AsmBroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
 
         static EnumRender<XedRegId> XedRegs = new();
@@ -254,6 +256,16 @@ namespace Z0
         public static string format(VisibilityKind src)
             => VisKind.Format(src);
 
+        public static string format(Visibility src)
+        {
+            if(src.V0 != 0)
+                return format(src.V0);
+            else if(src.V1 != 0)
+                return format(src.V1);
+            else
+                return EmptyString;
+        }
+
         public static string format(NontermKind src)
             => NontermKinds.Format(src);
 
@@ -299,6 +311,9 @@ namespace Z0
 
             return string.Format("{0}{1}{2}", a, sep, b);
         }
+
+        public static string format(OpType src)
+            => OpTypes.Format(src);
 
         static void render(ReadOnlySpan<RuleCriterion> src, ITextBuffer dst)
         {

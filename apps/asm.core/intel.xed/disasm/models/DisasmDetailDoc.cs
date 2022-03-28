@@ -6,12 +6,12 @@ namespace Z0
 {
     using static XedDisasm;
 
-    public class DisasmDetailDoc : TableDoc<DisasmDetailBlock>
+    public class DisasmDetailDoc : TableDoc<DetailBlock>
     {
-        public static DisasmDetailDoc from(DisasmFile file, DisasmDetailBlock[] data)
+        public static DisasmDetailDoc from(DisasmFile file, DetailBlock[] data)
             => new(file,data);
 
-        public DisasmDetailDoc(DisasmFile file, DisasmDetailBlock[] data)
+        public DisasmDetailDoc(DisasmFile file, DetailBlock[] data)
             : base(file.Source.Path, data)
         {
             File = file;

@@ -70,7 +70,7 @@ namespace Z0
 
             public EncodingOffsets Offsets;
 
-            public DisasmOpDetails Operands;
+            public DisasmOpDetails Ops;
 
             public AsmRowKey Key
             {

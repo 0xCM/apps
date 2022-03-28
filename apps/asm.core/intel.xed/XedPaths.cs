@@ -85,12 +85,11 @@ namespace Z0
             };
         }
 
-        // public FS.FileName TableFile(RuleSig sig)
-        //     => FS.file(string.Format("{0}.{1}",RuleTableRow.TableId, sig.Name), FS.Csv);
+        public FS.FileName TableFile(RuleTableKind kind, NontermKind nt)
+            => FS.file(string.Format("{0}.{1}", XedRender.format(nt), XedRender.format(kind)), FS.Csv);
 
-
-        // public FS.FilePath TableDef(RuleSig sig)
-        //     => RuleTargets() + FS.folder(sig.TableKind.ToString().ToLower()) + TableFile(sig);
+        public FS.FilePath TableDef(RuleTableKind kind, NontermKind nt)
+            => RuleTargets() + FS.folder("defs") + TableFile(kind,nt);
 
         public FS.FileName TableFile(RuleSig sig)
             => FS.file(string.Format("{0}.{1}",sig.Name,sig.TableKind.ToString().ToLower()), FS.Csv);

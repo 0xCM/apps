@@ -7,20 +7,20 @@ namespace Z0
 {
     partial class XedDisasm
     {
-        public readonly struct DisasmDetailBlock : IComparable<DisasmDetailBlock>
+        public readonly struct DetailBlock : IComparable<DetailBlock>
         {
             public readonly DisasmDetail Detail;
 
             public readonly DisasmBlock Block;
 
             [MethodImpl(Inline)]
-            public DisasmDetailBlock(DisasmDetail detail, DisasmBlock block)
+            public DetailBlock(DisasmDetail detail, DisasmBlock block)
             {
                 Detail = detail;
                 Block = block;
             }
 
-            public int CompareTo(DisasmDetailBlock src)
+            public int CompareTo(DetailBlock src)
                 => Detail.CompareTo(src.Detail);
         }
     }

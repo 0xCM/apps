@@ -12,7 +12,7 @@ namespace Z0
         public static Index<Facet<string>> props(in DisasmLineBlock src)
         {
             var dst = Index<Facet<string>>.Empty;
-            var content = text.despace(src.Instruction.Content);
+            var content = text.despace(src.Props.Content);
             var j = text.index(content, Chars.Space);
             if(j > 0)
             {

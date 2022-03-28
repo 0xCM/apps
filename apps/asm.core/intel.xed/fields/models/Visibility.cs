@@ -9,9 +9,9 @@ namespace Z0
     {
         public readonly struct Visibility
         {
-            readonly OpVisibility V0;
+            internal readonly OpVisibility V0;
 
-            readonly VisibilityKind V1;
+            internal readonly VisibilityKind V1;
 
             [MethodImpl(Inline)]
             public Visibility(OpVisibility src)
@@ -57,19 +57,20 @@ namespace Z0
                 get => V0 != 0 || V1 != 0;
             }
 
-            public string Format()
+            public string Code()
             {
-                if(V0 != 0)
-                {
-                    return XedRender.format(V0);
-                }
-                else if(V1 != 0)
-                {
-                    return XedRender.format(V1);
-                }
+                if(IsExplicit)
+                    return "XP";
+                else if(IsImplicit)
+                    return "IP";
+                else if(IsSuppresed)
+                    return "SP";
                 else
                     return EmptyString;
             }
+
+            public string Format()
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

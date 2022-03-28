@@ -23,7 +23,7 @@ namespace Z0
             if(state.DISP_WIDTH > 0)
                 dst.Disp = XedState.disp(state, code);
             if(state.IMM0)
-                dst.Imm0 = XedState.imm0(state, code);
+                dst.Imm = XedState.imm0(state, code);
             if(state.IMM1)
                 dst.Imm1 = XedState.imm1(state, code);
             if(state.HAS_SIB)
