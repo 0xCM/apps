@@ -11,18 +11,18 @@ namespace Z0
 
     partial class XedRules
     {
-        public static Index<PatternOpInfo> CalcOpRecords(RuleTableSet tables, Index<InstPattern> src)
+        public static Index<PatternOpRow> CalcOpRecords(RuleTableSet tables, Index<InstPattern> src)
         {
-            var buffer = list<PatternOpInfo>();
+            var buffer = list<PatternOpRow>();
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var pattern = ref src[i];
                 ref readonly var ops = ref pattern.Ops;
                 for(var j=0; j<ops.Count; j++)
                 {
-                    var dst = PatternOpInfo.Empty;
+                    var dst = PatternOpRow.Empty;
                     ref readonly var op = ref ops[j];
-
+                    var info = describe(op);
                     dst.InstId = pattern.InstId;
                     dst.PatternId = pattern.PatternId;
                     dst.InstClass = pattern.InstClass;
@@ -31,9 +31,17 @@ namespace Z0
                     dst.Index = op.Index;
                     dst.Name = op.Name;
                     dst.Kind = op.Kind;
-                    dst.Expression = op.Expression;
-                    dst.NonTerm = (bit)XedFields.nonterm(op.Attribs, out dst.NonTerminal);
-                    CalcOpProps(op, ref dst);
+                    dst.NonTerm = info.IsNonTerminal;
+                    dst.Action = info.Action;
+                    dst.OpWidth = info.OpWidth;
+                    dst.CellType = info.CellType;
+                    dst.BitWidth = info.BitWidth;
+                    dst.CellWidth = info.CellWidth;
+                    dst.RegLit = info.RegLit;
+                    dst.Modifier = info.Modifier;
+                    dst.Visibility = info.Visibility;
+                    dst.NonTerminal = info.NonTerminal;
+                    dst.SourceExpr = op.SourceExpr;
                     buffer.Add(dst);
                 }
             }
@@ -41,9 +49,14 @@ namespace Z0
             return buffer.ToArray().Sort();
         }
 
-        static void CalcOpProps(in PatternOp op, ref PatternOpInfo dst)
+        public static PatternOpInfo describe(in PatternOp src)
         {
-            ref readonly var attribs = ref op.Attribs;
+            var dst = PatternOpInfo.Empty;
+            dst.Index = src.Index;
+            dst.Kind = src.Kind;
+            dst.Name = src.Name;
+            ref readonly var attribs = ref src.Attribs;
+            XedFields.nonterm(attribs, out dst.NonTerminal);
             if(attribs.Search(OpClass.Action, out var a))
                 dst.Action = a.AsAction();
             if(attribs.Search(OpClass.OpWidth, out var w))
@@ -66,6 +79,8 @@ namespace Z0
 
             if(attribs.Search(OpClass.Visibility, out var visib))
                 dst.Visibility = visib.AsVisibility();
+
+            return dst;
         }
     }
 }

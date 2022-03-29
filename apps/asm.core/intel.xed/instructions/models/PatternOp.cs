@@ -21,7 +21,7 @@ namespace Z0
 
             public OpAttribs Attribs;
 
-            public @string Expression;
+            public @string SourceExpr;
 
             public PatternOp()
             {
@@ -30,7 +30,7 @@ namespace Z0
                 Name = 0;
                 Kind = 0;
                 Attribs = OpAttribs.Empty;
-                Expression = EmptyString;
+                SourceExpr = EmptyString;
             }
 
             public Hex32 OpId

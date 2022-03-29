@@ -160,7 +160,7 @@ namespace Z0
                 _ => EmptyString,
             };
 
-        static string semantic(in PatternOpInfo src)
+        static string semantic(in PatternOpRow src)
         {
             var type = EmptyString;
             var width = EmptyString;

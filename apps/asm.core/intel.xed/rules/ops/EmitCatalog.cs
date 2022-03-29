@@ -70,7 +70,7 @@ namespace Z0
             => EmitPatternDetails(src, XedPaths.DocTarget(XedDocKind.PatternDetail));
 
         void EmitPatternOps(RuleTableSet tables, Index<InstPattern> src)
-            => TableEmit(CalcOpRecords(tables, src).View, PatternOpInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));
+            => TableEmit(CalcOpRecords(tables, src).View, PatternOpRow.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));
 
         void EmitMacroDefs()
             => TableEmit(CalcMacroDefs().View, MacroDef.RenderWidths, XedPaths.RuleTable<MacroDef>());

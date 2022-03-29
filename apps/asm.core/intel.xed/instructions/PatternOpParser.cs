@@ -72,9 +72,9 @@ namespace Z0
                 var input = text.despace(src);
                 var i = text.index(input, Chars.Colon, Chars.Eq);
                 var attribs = text.right(src,i);
-                dst.Expression = attribs;
+                dst.SourceExpr = attribs;
                 opname(src, out dst.Name);
-                Parse(dst.Expression, text.split(dst.Expression, Chars.Colon).Where(text.nonempty), ref dst);
+                Parse(dst.SourceExpr, text.split(dst.SourceExpr, Chars.Colon).Where(text.nonempty), ref dst);
             }
 
             static bool opname(string src, out OpName dst)
@@ -138,7 +138,7 @@ namespace Z0
                     case DISP:
                     {
                         dst.Kind = K.Disp;
-                        dst.Expression = expr;
+                        dst.SourceExpr = expr;
                         dst.Attribs = sys.empty<OpAttrib>();
                     }
                     break;
@@ -180,7 +180,7 @@ namespace Z0
             void ParsePtr(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
-                dst.Expression = expr;
+                dst.SourceExpr = expr;
                 Span<OpAttrib> buffer = stackalloc OpAttrib[4];
                 var i=0;
 
@@ -201,7 +201,7 @@ namespace Z0
             void ParseRelBr(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
-                dst.Expression = expr;
+                dst.SourceExpr = expr;
                 Span<OpAttrib> buffer = stackalloc OpAttrib[4];
                 var i=0;
                 if(count >= 1)
@@ -221,7 +221,7 @@ namespace Z0
             void ParseScale(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
-                dst.Expression = expr;
+                dst.SourceExpr = expr;
                 Span<OpAttrib> buffer = stackalloc OpAttrib[4];
                 var i=0;
 
@@ -247,7 +247,7 @@ namespace Z0
             void ParseImm(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
-                dst.Expression = expr;
+                dst.SourceExpr = expr;
 
                 Span<OpAttrib> buffer = stackalloc OpAttrib[4];
                 var i=0;
@@ -275,7 +275,7 @@ namespace Z0
             void ParseMem(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
-                dst.Expression = expr;
+                dst.SourceExpr = expr;
                 Span<OpAttrib> buffer = stackalloc OpAttrib[6];
                 var i=0;
 
@@ -314,7 +314,7 @@ namespace Z0
                 var result = Outcome.Success;
                 var counter = 0;
                 var count = props.Count;
-                dst.Expression = expr;
+                dst.SourceExpr = expr;
 
                 Span<OpAttrib> buffer = stackalloc OpAttrib[8];
                 var i=0;

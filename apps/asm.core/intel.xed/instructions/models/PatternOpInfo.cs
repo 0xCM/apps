@@ -8,32 +8,17 @@ namespace Z0
     using static XedRules;
     using static XedModels;
 
+
     partial class XedPatterns
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableName)]
-        public struct PatternOpInfo : IComparable<PatternOpInfo>
+        [StructLayout(LayoutKind.Sequential, Pack=1)]
+        public struct PatternOpInfo
         {
-            public const byte FieldCount = 19;
-
-            public const string TableName = "xed.inst.patterns.ops";
-
-            public uint InstId;
-
-            public uint PatternId;
-
-            public InstClass InstClass;
-
-            public MachineMode Mode;
-
-            public XedOpCode OpCode;
-
             public byte Index;
 
             public OpName Name;
 
             public OpKind Kind;
-
-            public EmptyZero<bit> NonTerm;
 
             public OpAction Action;
 
@@ -41,33 +26,23 @@ namespace Z0
 
             public ElementType CellType;
 
-            public EmptyZero<ushort> BitWidth;
+            public ushort BitWidth;
 
-            public EmptyZero<ushort> CellWidth;
+            public ushort CellWidth;
 
-            public EmptyZero<XedRegId> RegLit;
+            public XedRegId RegLit;
 
             public OpModifier Modifier;
 
             public Visibility Visibility;
 
-            public @string Expression;
-
             public Nonterminal NonTerminal;
 
-            public int CompareTo(PatternOpInfo src)
+            public bit IsNonTerminal
             {
-                var result = InstId.CompareTo(src.InstId);
-                if(result == 0)
-                {
-                    result = PatternId.CompareTo(src.PatternId);
-                    if(result == 0)
-                        result = Index.CompareTo(src.Index);
-                }
-                return result;
+                [MethodImpl(Inline)]
+                get => NonTerminal.IsNonEmpty;
             }
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,18,6,28,6,8,8,8,8,10,10,10,10,16,8,12,32,1,};
 
             public static PatternOpInfo Empty => default;
         }

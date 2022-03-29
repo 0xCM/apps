@@ -42,7 +42,7 @@ namespace Z0
                     for(byte k=0; k<ops.Count; k++)
                     {
                         ref readonly var op = ref ops[k];
-                        writer.AppendFormat("{0} {1,-18} | {2,-32}", op.Index, op.Name, op.Expression);
+                        writer.AppendFormat("{0} {1,-18} | {2,-32}", op.Index, op.Name, op.SourceExpr);
                         var attribs = op.Attribs;
                         for(var m=0; m<attribs.Count; m++)
                             writer.AppendFormat(" | {0,-10}", attribs[m]);
