@@ -16,7 +16,7 @@ namespace Z0
             for(var i=0u; i<src.Body.Count; i++)
             {
                 ref readonly var expr = ref src.Body[i];
-                if(expr.IsEmpty || expr.IsVacuous || expr.IsNull || expr.IsError)
+                if(expr.IsEmpty || expr.IsVacuous)
                     continue;
 
                 var m = z8;

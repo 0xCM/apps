@@ -9,38 +9,14 @@ namespace Z0
     {
         public enum CellDataKind : byte
         {
-            [Symbol(RP.Empty)]
+            [Symbol("")]
             None,
 
-            [Symbol("base2")]
-            BinaryLiteral,
-
-            [Symbol("base10")]
-            DecimalLiteral,
-
-            [Symbol("base16")]
-            HexLiteral,
-
-            [Symbol("null")]
-            Null,
-
-            [Symbol("error")]
-            Error,
-
-            [Symbol("@")]
-            Wildcard,
-
-            [Symbol("default")]
-            Default,
-
-            [Symbol("text")]
-            Text,
-
-            [Symbol("field")]
-            FieldValue,
+            [Symbol("literal")]
+            Literal,
 
             [Symbol("call")]
-            Call = 128,
+            Call,
 
             [Symbol("bfseg")]
             BfSeg,
@@ -51,6 +27,8 @@ namespace Z0
             [Symbol("nt")]
             Nonterminal,
 
+            [Symbol("fx")]
+            FieldExpr,
         }
     }
 }

@@ -8,37 +8,35 @@ namespace Z0
     using static core;
     using static XedRules;
     using static XedModels;
-
-    using R = XedRules;
+    using static XedFields;
 
     partial class XedPatterns
     {
-        [MethodImpl(Inline)]
-        public static InstDefField part(FieldConstraint src)
-            => new InstDefField(src);
+        [MethodImpl(Inline), Op]
+        public static InstDefPart part(FieldConstraint src)
+            => new(src);
 
-        [MethodImpl(Inline)]
-        public static InstDefField part(BitfieldSeg src)
-            => new InstDefField(src);
+        [MethodImpl(Inline), Op]
+        public static InstDefPart part(BitfieldSeg src)
+            => new(src);
 
-        [MethodImpl(Inline)]
-        public static InstDefField part(FieldAssign src)
-            => new InstDefField(src);
+        [MethodImpl(Inline), Op]
+        public static InstDefPart part(FieldAssign src)
+            => new(src);
 
-        [MethodImpl(Inline)]
-        public static InstDefField part(Nonterminal src)
-            => new InstDefField(src);
+        [MethodImpl(Inline), Op]
+        public static InstDefPart part(Nonterminal src)
+            => new(src);
 
-        [MethodImpl(Inline)]
-        public static InstDefField part(R.FieldValue src)
-            => new InstDefField(src);
+        [MethodImpl(Inline), Op]
+        public static InstDefPart part(FieldExpr src)
+            => new(src);
 
-        [MethodImpl(Inline)]
-        public static InstDefField part(Hex8 src)
-            => new InstDefField(src);
+        [MethodImpl(Inline), Op]
+        public static InstDefPart part(Hex8 src)
+            => new(src);
 
-        [MethodImpl(Inline)]
-        public static InstDefField part(uint5 src)
-            => new InstDefField(src);
+        public static InstDefPart part(uint5 src)
+            => new(src);
     }
 }

@@ -99,7 +99,7 @@ namespace Z0
             var result = Outcome.Success;
             var parts = text.trim(text.split(text.despace(src), Chars.Space));
             var count = parts.Length;
-            dst = alloc<InstDefField>(count);
+            dst = alloc<InstDefPart>(count);
             for(var i=0; i<count; i++)
             {
                 result = XedParsers.parse(skip(parts,i), out dst[i]);
@@ -203,9 +203,9 @@ namespace Z0
             return result;
         }
 
-        public static Outcome parse(string src, out InstDefField dst)
+        public static Outcome parse(string src, out InstDefPart dst)
         {
-            dst = InstDefField.Empty;
+            dst = InstDefPart.Empty;
             Outcome result = (false, string.Format("Unrecognized segment '{0}'", src));
             if(IsHexLiteral(src))
             {
@@ -232,23 +232,22 @@ namespace Z0
                 else
                     result = (false, AppMsg.ParseFailure.Format(nameof(BitfieldSeg), src));
             }
-            else if(IsConstraint(src))
+            else if (text.contains(src,Chars.Bang))
             {
                 result = parse(src, out FieldConstraint x);
                 if(result)
                     dst = part(x);
                 else
                     result = (false, AppMsg.ParseFailure.Format(nameof(FieldConstraint), src));
-
             }
-            // else if(IsAssignment(src))
-            // {
-            //     result = parse(src, out FieldAssign x);
-            //     if(result)
-            //         dst = part(x);
-            //     else
-            //         result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
-            // }
+            else if(IsAssignment(src))
+            {
+                result = parse(src, out FieldAssign x);
+                if(result)
+                    dst = part(x);
+                else
+                    result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
+            }
             else if(IsNonterminal(src))
             {
                 result = parse(src, out Nonterminal x);
@@ -942,62 +941,6 @@ namespace Z0
 
         public bool Parse(string src, out OpCodeKind dst)
             => OpCodeKinds.Parse(src, out dst);
-
-        // public static bool parse(string src, out FieldAssign dst)
-        // {
-        //     var input = text.trim(src);
-        //     var i = text.index(input, Chars.Eq);
-        //     dst = FieldAssign.Empty;
-        //     Outcome result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
-        //     if(i > 0)
-        //     {
-        //         if(parse(text.left(input,i), out FieldKind kind))
-        //             if(parse(kind, text.right(input,i), out var fv))
-        //             {
-        //                 dst = new(fv);
-        //                 result = true;
-        //             }
-        //         else
-        //             result = (false, AppMsg.ParseFailure.Format(nameof(FieldKind), src));
-        //     }
-        //     return result;
-        // }
-
-        // public static Outcome parse(FieldKind kind, string src, out R.FieldValue dst)
-        // {
-        //     Outcome result = (false,AppMsg.ParseFailure.Format(kind.ToString(), src));
-        //     dst = R.FieldValue.Empty;
-        //     if(kind == FieldKind.BCAST)
-        //     {
-        //         if(parse(src, out BCastKind bc))
-        //         {
-        //             dst = XedFields.value(kind,bc);
-        //             result = true;
-        //         }
-        //     }
-        //     else if(parse(src, out uint8b a))
-        //     {
-        //         dst = XedFields.value(kind, a);
-        //         result = true;
-        //     }
-        //     else if(parse(src, out Hex8 b))
-        //     {
-        //         dst = XedFields.value(kind, b);
-        //         result = true;
-        //     }
-        //     else if(parse(src, out byte c))
-        //     {
-        //         dst = XedFields.value(kind, c);
-        //         result = true;
-        //     }
-        //     else if(parse(src, out ushort d))
-        //     {
-        //         dst = XedFields.value(kind, d);
-        //         result = true;
-        //     }
-
-        //     return result;
-        // }
 
         public static bool parse(string src, out BCastKind dst)
         {

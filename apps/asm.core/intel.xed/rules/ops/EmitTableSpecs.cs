@@ -27,7 +27,7 @@ namespace Z0
         }
 
         void EmitTableFiles(RuleTableSet tables, RuleTableKind kind)
-            => iter(tables.Specs[kind], spec => EmitTableFile(spec, XedPaths.Service.TableDef(spec.Sig)), PllExec);
+            => iter(tables.Specs[kind], spec => EmitTableFile(spec, XedPaths.Service.TableDef(spec.Sig)), false);
 
         static uint EmitTableFile(in RuleTableSpec spec, FS.FilePath dst)
         {

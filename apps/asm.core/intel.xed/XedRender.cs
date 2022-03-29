@@ -82,8 +82,6 @@ namespace Z0
 
         static EnumRender<RuleOperator> RuleOps = new();
 
-        static EnumRender<ConstraintKind> ConstraintKinds = new();
-
         static EnumRender<OpAction> OpActions = new();
 
         static EnumRender<OpWidthCode> OpWidthKinds = new();
@@ -206,7 +204,12 @@ namespace Z0
             => XedFields.format(src);
 
         public static string format(in FieldConstraint src)
-            => src.IsEmpty ? EmptyString : string.Format("{0}{1}{2}", XedRender.format(src.Field), XedRender.format(src.Operator), XedRender.format(src.Value));
+            => format(src.Expression());
+
+        public static string format(in FieldExpr src)
+            => src.IsEmpty
+                ? EmptyString : src.Field == 0 ? format(src.Value)
+                : string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.Value));
 
         public static string format(in RuleTableCell src)
             => src.IsEmpty ? EmptyString : format(src.Criterion);
@@ -228,7 +231,6 @@ namespace Z0
 
         public static string format(FieldKind src)
             => FieldKinds.Format(src);
-
 
         public static string format(FieldKind src, bool name)
             => FieldKinds.Format(src,name);
@@ -293,9 +295,6 @@ namespace Z0
 
         public static string format(VexMapKind src)
             => VexMap.Format(src);
-
-        public static string format(ConstraintKind src)
-            => ConstraintKinds.Format(src);
 
         public static string format(OpWidthCode src)
             => OpWidthKinds.Format(src);
@@ -396,20 +395,10 @@ namespace Z0
         {
             if(src.IsCall)
                 return format(src.AsCall());
-            else if(src.IsNonterminal)
-            {
-                var fmt = src.AsNonterminal().Format();
-                if(src.Field != 0 && src.Operator != 0)
-                    return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), fmt);
-                else
-                    return fmt;
-            }
+            if(src.IsFieldExpr)
+                return format(src.AsFieldExpr());
             else if(src.IsLiteral)
                 return src.AsLiteral().Format();
-            else if(src.IsAssignment)
-                return format(src.AsAssignment());
-            else if(src.IsComparison)
-                return format(src.AsCmp());
             else if(src.IsBfSeg)
                 return format(src.AsBfSeg());
             else if(src.IsBfSpec)
@@ -522,7 +511,7 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static void render(ReadOnlySpan<InstDefField> src, ITextBuffer dst)
+        public static void render(ReadOnlySpan<InstDefPart> src, ITextBuffer dst)
         {
             for(var i=0; i<src.Length; i++)
             {
@@ -616,7 +605,7 @@ namespace Z0
         public static string format(DispFieldSpec src)
             => src.Width == 0 ? EmptyString : string.Format("{0}[{1}/{2}]", "DISP", src.Kind, src.Width);
 
-        public static string format(in InstDefField src)
+        public static string format(in InstDefPart src)
         {
             var dst = EmptyString;
             var @class = src.FieldClass;
@@ -857,27 +846,30 @@ namespace Z0
         }
 
         public static string format(FieldAssign src)
-        {
-            if(src.IsEmpty)
-                return EmptyString;
-            else if(src.Field == 0)
-                return src.Value.ToString();
-            else
-                return string.Format("{0}{1}{2}", format(src.Field), XedNames.Assign, format(src.Value));
-        }
+            => format(src.Expression());
+        // {
+        //     if(src.IsEmpty)
+        //         return EmptyString;
+        //     else if(src.Field == 0)
+        //         return src.Value.ToString();
+        //     else
+        //         return string.Format("{0}{1}{2}", format(src.Field), XedNames.Assign, format(src.Value));
+        // }
 
         public static string format(FieldCmp src)
-        {
-            if(src.IsEmpty)
-                return EmptyString;
+            => format(src.Expression());
 
-            return src.IsEmpty ? EmptyString
-                : string.Format("{0}{1}{2}",
-                    format(src.Field),
-                    format(src.Operator),
-                    format(src.Value)
-                    );
-        }
+        // {
+        //     if(src.IsEmpty)
+        //         return EmptyString;
+
+        //     return src.IsEmpty ? EmptyString
+        //         : string.Format("{0}{1}{2}",
+        //             format(src.Field),
+        //             format(src.Operator),
+        //             format(src.Value)
+        //             );
+        // }
 
         public static string format(DefFieldClass src)
         {

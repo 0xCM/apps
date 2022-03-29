@@ -11,21 +11,29 @@ namespace Z0
         {
             None,
 
-            HexLiteral = CellDataKind.HexLiteral,
+            [Symbol("base16")]
+            HexLiteral,
 
-            BinaryLiteral = CellDataKind.BinaryLiteral,
+            [Symbol("base2")]
+            BinaryLiteral,
 
-            DecimalLiteral = CellDataKind.DecimalLiteral,
+            [Symbol("base10")]
+            DecimalLiteral,
 
-            Wildcard = CellDataKind.Wildcard,
+            [Symbol("@")]
+            Wildcard,
 
-            Null = CellDataKind.Null,
+            [Symbol("null")]
+            Null,
 
-            Default = CellDataKind.Default,
+            [Symbol("default")]
+            Default,
 
-            Error = CellDataKind.Error,
+            [Symbol("error")]
+            Error,
 
-            Text = CellDataKind.Text,
+            [Symbol("text")]
+            Text,
         }
     }
 }

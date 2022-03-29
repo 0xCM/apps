@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedFields;
+
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential), DataWidth(88)]
@@ -32,6 +34,10 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => Field != 0;
             }
+
+            [MethodImpl(Inline)]
+            public FieldExpr Expression()
+                => expr(Field, RuleOperator.Assign, Value);
 
             public string Format()
                 => XedRender.format(this);

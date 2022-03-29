@@ -10,7 +10,7 @@ namespace Z0
     partial class XedPatterns
     {
         [Op]
-        public static InstFieldInfo fieldinfo(InstPattern pattern, InstDefField src, byte index)
+        public static InstFieldInfo fieldinfo(InstPattern pattern, InstDefPart src, byte index)
         {
             var dst = InstFieldInfo.Empty;
             dst.InstId = pattern.InstId;

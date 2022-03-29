@@ -37,7 +37,7 @@ namespace Z0
                 get => ref Spec.Body;
             }
 
-            public ref readonly Index<InstDefField> Fields
+            public ref readonly Index<InstDefPart> Fields
             {
                 [MethodImpl(Inline)]
                 get => ref Body.Data;

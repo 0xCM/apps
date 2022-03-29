@@ -9,20 +9,20 @@ namespace Z0
     using static XedModels;
     using static XedRules;
 
-    using P = XedPatterns.InstDefPart;
+    using P = XedPatterns.InstPartKind;
 
     partial class XedPatterns
     {
-        static bool parse(string src, out InstDefPart part)
+        static bool parse(string src, out InstPartKind kind)
         {
             var result = false;
-            part = default;
-            for(var i=0; i<DefPartNames.Count; i++)
+            kind = default;
+            for(var i=0; i<PartKindNames.Count; i++)
             {
-                var p = (InstDefPart)i;
-                if(DefPartNames[p] == src)
+                var p = (InstPartKind)i;
+                if(PartKindNames[p] == src)
                 {
-                    part = p;
+                    kind = p;
                     result = true;
                     break;
                 }
@@ -91,7 +91,7 @@ namespace Z0
                             if(empty(value))
                                 continue;
 
-                            if(parse(name, out InstDefPart part))
+                            if(parse(name, out InstPartKind part))
                             {
                                 log.AppendLine(string.Format(LogPattern, line.LineNumber, seq, part, value));
 
@@ -212,99 +212,6 @@ namespace Z0
                     pattern.InstId = iid;
                     pattern.PatternId = pid;
                 }
-
-                // if(def.Isa.IsEmpty)
-                // {
-                //     switch(def.Extension.Kind)
-                //     {
-                //         case ExtensionKind._3DNOW:
-                //             def.Isa = IsaKind._3DNOW;
-                //             break;
-                //         case ExtensionKind.INVPCID:
-                //             def.Isa = IsaKind.INVPCID;
-                //             break;
-                //         case ExtensionKind.PCLMULQDQ:
-                //             def.Isa = IsaKind.PCLMULQDQ;
-                //             break;
-                //         case ExtensionKind.FMA4:
-                //             def.Isa = IsaKind.FMA4;
-                //         break;
-                //         case ExtensionKind.F16C:
-                //             def.Isa = IsaKind.F16C;
-                //         break;
-                //         case ExtensionKind.X87:
-                //             def.Isa = IsaKind.X87;
-                //         break;
-                //         case ExtensionKind.AES:
-                //             def.Isa = IsaKind.AES;
-                //         break;
-                //         case ExtensionKind.AVX:
-                //             def.Isa = IsaKind.AVX;
-                //         break;
-                //         case ExtensionKind.AVX2:
-                //             def.Isa = IsaKind.AVX2;
-                //         break;
-                //         case ExtensionKind.BMI1:
-                //             def.Isa = IsaKind.BMI1;
-                //         break;
-                //         case ExtensionKind.BMI2:
-                //             def.Isa = IsaKind.BMI2;
-                //         break;
-                //         case ExtensionKind.LONGMODE:
-                //             def.Isa = IsaKind.LONGMODE;
-                //         break;
-                //         case ExtensionKind.CLZERO:
-                //             def.Isa = IsaKind.CLZERO;
-                //         break;
-                //         case ExtensionKind.FMA:
-                //             def.Isa = IsaKind.FMA;
-                //         break;
-                //         case ExtensionKind.LZCNT:
-                //             def.Isa = IsaKind.LZCNT;
-                //             break;
-                //         case ExtensionKind.SSE:
-                //             def.Isa = IsaKind.SSE;
-                //         break;
-                //         case ExtensionKind.SSE2:
-                //             def.Isa = IsaKind.SSE2;
-                //         break;
-                //         case ExtensionKind.SSE3:
-                //             def.Isa = IsaKind.SSE3;
-                //         break;
-                //         case ExtensionKind.SSE4:
-                //             def.Isa = IsaKind.SSE4;
-                //         break;
-                //         case ExtensionKind.VTX:
-                //             def.Isa = IsaKind.VTX;
-                //         break;
-                //         case ExtensionKind.SSE4A:
-                //             def.Isa = IsaKind.SSE4A;
-                //         break;
-                //         case ExtensionKind.SSSE3:
-                //             def.Isa = IsaKind.SSSE3;
-                //         break;
-                //         case ExtensionKind.TBM:
-                //             def.Isa = IsaKind.TBM;
-                //         break;
-                //         case ExtensionKind.XSAVE:
-                //             def.Isa = IsaKind.XSAVE;
-                //         break;
-                //         case ExtensionKind.XSAVEC:
-                //             def.Isa = IsaKind.XSAVEC;
-                //         break;
-                //         case ExtensionKind.XSAVEOPT:
-                //             def.Isa = IsaKind.XSAVEOPT;
-                //         break;
-                //         case ExtensionKind.XSAVES:
-                //             def.Isa = IsaKind.XSAVES;
-                //         break;
-                //         default:
-                //         {
-
-                //         }
-                //         break;
-                //     }
-                // }
             }
 
             return defs;

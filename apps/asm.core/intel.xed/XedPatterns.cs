@@ -25,6 +25,6 @@ namespace Z0
             get => AppData.PllExec();
         }
 
-        static Index<InstDefPart,string> DefPartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET,COMMENT};
+        static Index<InstPartKind,string> PartKindNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET,COMMENT};
     }
 }

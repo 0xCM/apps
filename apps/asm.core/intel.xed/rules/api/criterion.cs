@@ -20,11 +20,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static RuleCriterion criterion(bool premise, in FieldConstraint src)
-            => new RuleCriterion(premise, src.Field, src.Operator, src.Value);
+            => new RuleCriterion(premise, src.Expression());
 
         [MethodImpl(Inline), Op]
         public static RuleCriterion criterion(bool premise, FieldKind fk, RuleOperator op, Nonterminal nt)
-            => new RuleCriterion(premise, fk, op, nt);
+            => new RuleCriterion(premise, XedFields.expr(fk, op, new (fk,nt)), CellDataKind.Nonterminal);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static RuleCriterion criterion(bool premise, BitfieldSeg seg)
@@ -36,6 +36,6 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static RuleCriterion criterion(bool premise, RuleOperator op, FieldValue src)
-            => new RuleCriterion(premise,src.Field, op, src.Data);
+            => new RuleCriterion(premise, XedFields.expr(src.Field, op, src));
     }
 }

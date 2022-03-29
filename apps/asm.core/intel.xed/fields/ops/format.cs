@@ -22,6 +22,8 @@ namespace Z0
             var dst = EmptyString;
             if(src.IsEmpty)
                 return EmptyString;
+            if(src.IsNonTerminal)
+                return src.ToNonterminal().Format();
 
             var data = bytes(src.Data);
             var code = XedFields.fcode(src.Field);
@@ -36,11 +38,6 @@ namespace Z0
                         dst = text.embrace(dst);
                 }
                 break;
-                // case K.ZEROING:
-                // {
-                //     dst = "{z}";
-                // }
-                // break;
                 case K.EASZ:
                 {
                     var x = @as<EASZ>(data);
@@ -365,6 +362,5 @@ namespace Z0
 
         static string format(ulong src)
             => src.ToString();
-
     }
 }

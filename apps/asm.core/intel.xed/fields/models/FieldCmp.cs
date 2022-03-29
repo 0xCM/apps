@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedFields;
+
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential)]
@@ -42,6 +44,10 @@ namespace Z0
 
             public override string ToString()
                 => Format();
+
+            [MethodImpl(Inline)]
+            public FieldExpr Expression()
+                => expr(Field,Operator,Value);
 
             public static FieldCmp Empty => new FieldCmp(0,0,FieldValue.Empty);
         }

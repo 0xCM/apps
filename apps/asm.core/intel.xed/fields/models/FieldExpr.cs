@@ -5,25 +5,30 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedFields;
+    using static XedRules;
 
-    partial class XedRules
+    using R = XedRules;
+
+    partial class XedFields
     {
-        [StructLayout(LayoutKind.Sequential, Pack=1), DataWidth(32)]
-        public readonly struct FieldConstraint
+        [StructLayout(LayoutKind.Sequential, Pack=1)]
+        public readonly struct FieldExpr
         {
-            public readonly FieldKind Field;
+            public readonly R.FieldValue Value;
 
             public readonly RuleOperator Operator;
 
-            public readonly FieldValue Value;
-
             [MethodImpl(Inline)]
-            public FieldConstraint(FieldKind field, RuleOperator op, FieldValue value)
+            public FieldExpr(FieldKind field, RuleOperator op, R.FieldValue value)
             {
-                Field = field;
                 Operator = op;
                 Value = value;
+            }
+
+            public readonly FieldKind Field
+            {
+                [MethodImpl(Inline)]
+                get => Value.Field;
             }
 
             public bool IsEmpty
@@ -38,9 +43,11 @@ namespace Z0
                 get => Value.IsNonEmpty;
             }
 
-            [MethodImpl(Inline)]
-            public FieldExpr Expression()
-                => expr(Field,Operator,Value);
+            public bool IsNonTerminal
+            {
+                [MethodImpl(Inline)]
+                get => Value.IsNonTerminal;
+            }
 
             public string Format()
                 => XedRender.format(this);
@@ -48,7 +55,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static FieldConstraint Empty => new FieldConstraint(FieldKind.INVALID,0,FieldValue.Empty);
+            public static FieldExpr Empty => new FieldExpr(FieldKind.INVALID,0,R.FieldValue.Empty);
         }
     }
 }

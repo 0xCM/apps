@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedFields;
 
     partial class XedRules
     {
@@ -23,26 +24,6 @@ namespace Z0
             public readonly CellDataKind DataKind;
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(bool premise, FieldKind field, RuleOperator op, ulong data)
-            {
-                Premise = premise;
-                Field = field;
-                Operator = op;
-                Storage = data;
-                DataKind = field == FieldKind.ERROR ? CellDataKind.Error : CellDataKind.FieldValue;
-            }
-
-            [MethodImpl(Inline)]
-            internal RuleCriterion(bool premise, FieldKind field, RuleOperator op, Nonterminal data)
-            {
-                Premise = premise;
-                Field = field;
-                Operator = op;
-                Storage = (uint)data.Id;
-                DataKind = CellDataKind.Nonterminal;
-            }
-
-            [MethodImpl(Inline)]
             internal RuleCriterion(bool premise, RuleCall call)
             {
                 Require.invariant(call.IsNonEmpty);
@@ -51,6 +32,16 @@ namespace Z0
                 Operator = call.Operator;
                 Storage = (ulong)call.Target;
                 DataKind = CellDataKind.Call;
+            }
+
+            [MethodImpl(Inline)]
+            internal RuleCriterion(bool premise, FieldExpr data, CellDataKind kind = CellDataKind.FieldExpr)
+            {
+                Premise = premise;
+                Field = data.Field;
+                Operator = data.Operator;
+                Storage = core.bytes(data);
+                DataKind = kind;
             }
 
             [MethodImpl(Inline)]
@@ -80,7 +71,7 @@ namespace Z0
                 Field = FieldKind.INVALID;
                 Operator = RuleOperator.None;
                 Storage = core.bytes(literal);
-                DataKind = literal.DataKind;
+                DataKind = CellDataKind.Literal;
             }
 
             public readonly ulong Data
@@ -101,18 +92,6 @@ namespace Z0
                 get => !IsEmpty;
             }
 
-            public readonly bool IsNonterminal
-            {
-                [MethodImpl(Inline)]
-                get => DataKind == CellDataKind.Nonterminal;
-            }
-
-            public bool IsNull
-            {
-                [MethodImpl(Inline)]
-                get => DataKind == CellDataKind.Null;
-            }
-
             public bool IsCall
             {
                 [MethodImpl(Inline)]
@@ -131,51 +110,25 @@ namespace Z0
                 get => DataKind == CellDataKind.BfSpec;
             }
 
-            public bool IsError
-            {
-                [MethodImpl(Inline)]
-                get => DataKind == CellDataKind.Error;
-            }
-
             public bool IsLiteral
             {
                 [MethodImpl(Inline)]
-                get => DataKind != 0 && (DataKind < CellDataKind.FieldValue);
+                get => DataKind == CellDataKind.Literal;
             }
 
-            public bool IsAssignment
+            public bool IsFieldExpr
             {
                 [MethodImpl(Inline)]
-                get => Operator == RuleOperator.Assign;
-            }
-
-            public bool IsComparison
-            {
-                [MethodImpl(Inline)]
-                get => Operator == RuleOperator.CmpNeq || Operator == RuleOperator.CmpEq;
-            }
-
-            public bool IsConsequent
-            {
-                [MethodImpl(Inline)]
-                get => !Premise;
+                get => DataKind == CellDataKind.FieldExpr || DataKind == CellDataKind.Nonterminal;
             }
 
             [MethodImpl(Inline)]
-            public Nonterminal AsNonterminal()
-                => Nonterminal.FromId((uint)Data);
+            public FieldExpr AsFieldExpr()
+                => core.@as<FieldExpr>(Storage.Bytes);
 
             [MethodImpl(Inline)]
             public RuleCall AsCall()
                 => new RuleCall(Field, Operator, (NameResolver)Data);
-
-            [MethodImpl(Inline)]
-            public FieldAssign AsAssignment()
-                => new FieldAssign(XedFields.value(Field, Data));
-
-            [MethodImpl(Inline)]
-            public FieldCmp AsCmp()
-                => cmp(Field, Operator, XedFields.value(Field, Data));
 
             [MethodImpl(Inline)]
             public FieldValue AsValue()

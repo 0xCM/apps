@@ -26,6 +26,8 @@ namespace Z0
             FieldAssign,
 
             Constraint,
+
+            FieldExpr,
         }
     }
 }

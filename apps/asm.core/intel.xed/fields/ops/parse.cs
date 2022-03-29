@@ -17,6 +17,12 @@ namespace Z0
         {
             var result = true;
             dst = R.FieldValue.Empty;
+            if(XedParsers.IsNonterminal(value))
+            {
+                dst = new (field,new Nonterminal(value));
+                return true;
+            }
+
             switch(field)
             {
                 case K.AGEN:

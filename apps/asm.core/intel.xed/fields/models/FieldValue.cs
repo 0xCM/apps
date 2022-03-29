@@ -20,11 +20,14 @@ namespace Z0
 
             public readonly ulong Data;
 
+            public readonly bit IsNonTerminal;
+
             [MethodImpl(Inline)]
             public FieldValue(FieldKind kind, bit data)
             {
                 Field = kind;
                 Data = (byte)data;
+                IsNonTerminal = 0;
             }
 
             [MethodImpl(Inline)]
@@ -32,6 +35,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = data;
+                IsNonTerminal = 0;
             }
 
             [MethodImpl(Inline)]
@@ -39,6 +43,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = data;
+                IsNonTerminal = 0;
             }
 
             [MethodImpl(Inline)]
@@ -46,6 +51,7 @@ namespace Z0
             {
                 Field = data.Field;
                 Data = (ulong)data.Pattern;
+                IsNonTerminal = 0;
             }
 
             [MethodImpl(Inline)]
@@ -53,6 +59,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = @as<ImmFieldSpec,ushort>(data);
+                IsNonTerminal = 0;
             }
 
             [MethodImpl(Inline)]
@@ -60,6 +67,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = data;
+                IsNonTerminal = 0;
             }
 
             [MethodImpl(Inline)]
@@ -67,6 +75,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = data;
+                IsNonTerminal = 0;
             }
 
             [MethodImpl(Inline)]
@@ -74,6 +83,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = (ulong)data;
+                IsNonTerminal = 0;
             }
 
             [MethodImpl(Inline)]
@@ -81,6 +91,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = @as<Nonterminal,uint>(data);
+                IsNonTerminal = 1;
             }
 
             [MethodImpl(Inline)]
@@ -88,6 +99,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = @as<DispFieldSpec,uint>(data);
+                IsNonTerminal = 0;
             }
 
             [MethodImpl(Inline)]
@@ -95,6 +107,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = (uint)data;
+                IsNonTerminal = 0;
             }
 
             [MethodImpl(Inline)]
@@ -102,6 +115,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = (uint)data;
+                IsNonTerminal = 0;
             }
 
             [MethodImpl(Inline)]
@@ -109,6 +123,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = (uint)data;
+                IsNonTerminal = 0;
             }
 
             public bool IsEmpty
@@ -194,8 +209,21 @@ namespace Z0
                 => (imm8)Data;
 
             [MethodImpl(Inline)]
+            public imm64 ToImm64()
+                => (imm64)Data;
+
+            [MethodImpl(Inline)]
             public Hex8 ToHex8()
                 => (Hex8)Data;
+
+            [MethodImpl(Inline)]
+            public Nonterminal ToNonterminal()
+                => Nonterminal.FromId((uint)Data);
+
+            [MethodImpl(Inline)]
+            public Disp64 ToDisp()
+                => (Disp64)Data;
+
 
             [MethodImpl(Inline)]
             public static implicit operator EASZ(FieldValue src)
@@ -238,6 +266,10 @@ namespace Z0
                 => src.ToBCast();
 
             [MethodImpl(Inline)]
+            public static implicit operator Nonterminal(FieldValue src)
+                => src.ToNonterminal();
+
+            [MethodImpl(Inline)]
             public static implicit operator bit(FieldValue src)
                 => src.ToBit();
 
@@ -271,11 +303,11 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator Disp64(FieldValue src)
-                => (Disp64)src.Data;
+                => src.ToDisp();
 
             [MethodImpl(Inline)]
             public static implicit operator imm64(FieldValue src)
-                => (imm64)src.Data;
+                => src.ToImm64();
 
             [MethodImpl(Inline)]
             public static implicit operator ushort(FieldValue src)

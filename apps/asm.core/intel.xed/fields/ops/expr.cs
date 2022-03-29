@@ -5,10 +5,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    using static XedRules;
+
+    using R = XedRules;
+
+    partial class XedFields
     {
         [MethodImpl(Inline), Op]
-        public static int cmp(RuleTableKind a, RuleTableKind b)
-            => ((byte)a).CompareTo((byte)b);
+        public static FieldExpr expr(FieldKind field, RuleOperator op, R.FieldValue value)
+            => new (field,op,value);
     }
 }

@@ -59,6 +59,9 @@ namespace Z0
                         case DefFieldClass.Constraint:
                             dst.AppendLine(string.Format(Pattern, j, fk, field.AsConstraint()));
                         break;
+                        case DefFieldClass.FieldAssign:
+                            dst.AppendLine(string.Format(Pattern, j, fk, field.AsAssignment()));
+                        break;
                         case DefFieldClass.Nonterm:
                         {
                             var nt = field.AsNonterminal();
@@ -70,7 +73,7 @@ namespace Z0
                             dst.AppendLine(string.Format(Pattern, j, fk, field.AsBitfield()));
                         break;
                         default:
-                            dst.AppendLine(RP.Error);
+                            Errors.Throw(string.Format("Unhandled case: {0}", field.FieldClass));
                         break;
                     }
                 }
@@ -187,8 +190,8 @@ namespace Z0
 
             var k=0u;
             var j=0u;
-            Span<InstDefField> buffer = stackalloc InstDefField[(int)body.FieldCount];
-            Span<InstDefField> constraints = stackalloc InstDefField[(int)body.FieldCount];
+            Span<InstDefPart> buffer = stackalloc InstDefPart[(int)body.FieldCount];
+            Span<InstDefPart> constraints = stackalloc InstDefPart[(int)body.FieldCount];
             for(var i=0;i<body.FieldCount; i++)
             {
                 ref readonly var field = ref body[i];
