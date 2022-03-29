@@ -36,6 +36,30 @@ namespace Z0
             return dst.IsNonEmpty;
         }
 
+        static bool constraint(string input, out RuleCriterion dst)
+        {
+            dst = RuleCriterion.Empty;
+            var constraint = FieldConstraint.Empty;
+            var result = XedParsers.parse(input, out constraint);
+            if(result)
+                dst = criterion(true, constraint);
+            return result;
+        }
+
+        static bool assign(bool premise, string input, out FieldKind fk, out string fv)
+        {
+            fk = 0;
+            fv = EmptyString;
+            var result = XedParsers.IsAssignment(input);
+            if(result)
+            {
+                var i = text.index(input, "=");
+                fv = text.right(input, i);
+                result = XedParsers.parse(text.left(input, i), out fk);
+            }
+            return result;
+        }
+
         static bool parse(bool premise, string spec, out RuleCriterion dst)
         {
             var input = normalize(spec);
@@ -58,16 +82,6 @@ namespace Z0
                 dst = criterion(premise, call(fk, op, text.ifempty(fv,name)));
                 result = true;
             }
-            else if(assign(premise, input, out fk, out fv))
-            {
-                if(parse(premise, fk, RO.Assign, fv, out dst))
-                    result = true;
-            }
-            else if(constraint(input, out fk, out fv))
-            {
-                if(parse(premise, fk, RO.CmpNeq, fv, out dst))
-                    result = true;
-            }
             else if(IsBfSeg(input))
             {
                 if(XedParsers.parse(input, out BitfieldSeg seg))
@@ -80,6 +94,15 @@ namespace Z0
             {
                 dst = criterion(premise, new BitfieldSpec(input));
                 result = true;
+            }
+            else if(premise && IsConstraint(input))
+            {
+                result = constraint(input, out dst);
+            }
+            else if(IsAssignment(input))
+            {
+                if(assign(premise, input, out fk, out fv))
+                    result = parse(premise, fk, RO.Assign, fv, out dst);
             }
             else
             {

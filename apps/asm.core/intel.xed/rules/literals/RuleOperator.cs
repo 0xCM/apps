@@ -12,17 +12,30 @@ namespace Z0
         [SymSource(xed)]
         public enum RuleOperator : byte
         {
-            [Symbol("<undef>")]
+            [Symbol("")]
             None,
 
             [Symbol("=")]
             Assign,
 
-            [Symbol("==")]
-            CmpEq,
-
             [Symbol("!=")]
             CmpNeq,
+
+            [Symbol("==")]
+            CmpEq,
+        }
+
+        [SymSource(xed), DataWidth(2)]
+        public enum ConstraintKind : byte
+        {
+            [Symbol("")]
+            None,
+
+            [Symbol("=")]
+            Eq = RuleOperator.Assign,
+
+            [Symbol("!=")]
+            Neq = RuleOperator.CmpNeq,
         }
     }
 }

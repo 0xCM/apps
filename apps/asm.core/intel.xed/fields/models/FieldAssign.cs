@@ -39,6 +39,10 @@ namespace Z0
             public override string ToString()
                 => Format();
 
+            [MethodImpl(Inline)]
+            public static implicit operator FieldAssign(FieldValue src)
+                => new FieldAssign(src);
+
             public static FieldAssign Empty => new FieldAssign(FieldValue.Empty);
         }
     }

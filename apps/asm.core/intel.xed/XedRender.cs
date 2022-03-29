@@ -205,8 +205,8 @@ namespace Z0
         public static string format(R.FieldValue src)
             => XedFields.format(src);
 
-        public static string format(FieldConstraint src)
-            =>  XedFields.format(src);
+        public static string format(in FieldConstraint src)
+            => src.IsEmpty ? EmptyString : string.Format("{0}{1}{2}", XedRender.format(src.Field), XedRender.format(src.Operator), XedRender.format(src.Value));
 
         public static string format(in RuleTableCell src)
             => src.IsEmpty ? EmptyString : format(src.Criterion);
@@ -228,6 +228,7 @@ namespace Z0
 
         public static string format(FieldKind src)
             => FieldKinds.Format(src);
+
 
         public static string format(FieldKind src, bool name)
             => FieldKinds.Format(src,name);

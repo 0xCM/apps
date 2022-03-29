@@ -19,6 +19,10 @@ namespace Z0
             => new RuleCriterion(premise, call);
 
         [MethodImpl(Inline), Op]
+        public static RuleCriterion criterion(bool premise, in FieldConstraint src)
+            => new RuleCriterion(premise, src.Field, src.Operator, src.Value);
+
+        [MethodImpl(Inline), Op]
         public static RuleCriterion criterion(bool premise, FieldKind fk, RuleOperator op, Nonterminal nt)
             => new RuleCriterion(premise, fk, op, nt);
 

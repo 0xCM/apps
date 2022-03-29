@@ -17,34 +17,6 @@ namespace Z0
 
     partial class XedFields
     {
-        public static string format(FieldConstraint src)
-            => src.IsEmpty ? EmptyString : string.Format("{0}{1}{2}",
-                    XedRender.format(src.Field),
-                    XedRender.format(src.Kind),
-                    literal(src.LiteralKind, src.Value)
-                    );
-
-        static string literal(FieldLiteralKind kind, byte src)
-        {
-            var val = EmptyString;
-            switch(kind)
-            {
-                case FieldLiteralKind.BinaryLiteral:
-                    val = "0b" + ((uint8b)(src)).Format();
-                break;
-                case FieldLiteralKind.DecimalLiteral:
-                    val = src.ToString();
-                break;
-                case FieldLiteralKind.HexLiteral:
-                    val = ((Hex8)(src)).Format(prespec:true, uppercase:true);
-                break;
-                default:
-                    val = RP.Error;
-                break;
-            }
-            return val;
-        }
-
         public static string format(R.FieldValue src)
         {
             var dst = EmptyString;
@@ -64,11 +36,11 @@ namespace Z0
                         dst = text.embrace(dst);
                 }
                 break;
-                case K.ZEROING:
-                {
-                    dst = "{z}";
-                }
-                break;
+                // case K.ZEROING:
+                // {
+                //     dst = "{z}";
+                // }
+                // break;
                 case K.EASZ:
                 {
                     var x = @as<EASZ>(data);

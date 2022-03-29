@@ -16,9 +16,9 @@ namespace Z0
 
             public uint Seq;
 
-            public RuleTableKind TableKind;
-
             public Identifier TableName;
+
+            public RuleTableKind TableKind;
 
             public FS.FileUri TableDef;
 
@@ -42,7 +42,7 @@ namespace Z0
                 get => RuleSigKey.from(this);
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,32,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,32,12,1};
         }
     }
 }

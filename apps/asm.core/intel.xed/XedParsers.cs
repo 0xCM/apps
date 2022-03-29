@@ -142,6 +142,67 @@ namespace Z0
         public static bool parse(string src, out imm64 dst)
             => imm64.parse(src, out dst);
 
+        public static bool parse(string src, out FieldAssign dst)
+        {
+            dst = FieldAssign.Empty;
+            var result = false;
+            if(XedParsers.IsAssignment(src))
+            {
+                var j = text.index(src, "=");
+                var fv = R.FieldValue.Empty;
+                var fk = FieldKind.INVALID;
+                result = XedParsers.parse(text.left(src,j), out fk);
+                if(result)
+                {
+                    result = XedFields.parse(fk, text.right(src, j), out fv);
+                    if(result)
+                        dst = fv;
+                }
+
+                if(!result)
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(Assign),src));
+            }
+            return result;
+        }
+
+        public static bool parse(string src, out FieldConstraint dst)
+        {
+            dst = FieldConstraint.Empty;
+            var result = false;
+            if(XedParsers.IsConstraint(src))
+            {
+                var i = text.index(src, "!=");
+                var j = text.index(src, "=");
+                var fvExpr = EmptyString;
+                var fv = R.FieldValue.Empty;
+                var fk = FieldKind.INVALID;
+                var op = RuleOperator.None;
+                if(i > 0)
+                {
+                    fvExpr = text.right(src, i + 1);
+                    op = RuleOperator.CmpNeq;
+                    result = XedParsers.parse(text.left(src,i), out fk);
+                }
+                else if (j>0)
+                {
+                    fvExpr = text.right(src, j);
+                    op = RuleOperator.Assign;
+                    result = XedParsers.parse(text.left(src,j), out fk);
+                }
+
+                if(result)
+                {
+                    result = XedFields.parse(fk, fvExpr, out fv);
+                    if(result)
+                        dst = new FieldConstraint(fk, op, fv);
+                }
+                else
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldConstraint), src));
+            }
+
+            return result;
+        }
+
         public static Outcome parse(string src, out InstDefField dst)
         {
             dst = InstDefField.Empty;
@@ -180,6 +241,14 @@ namespace Z0
                     result = (false, AppMsg.ParseFailure.Format(nameof(FieldConstraint), src));
 
             }
+            // else if(IsAssignment(src))
+            // {
+            //     result = parse(src, out FieldAssign x);
+            //     if(result)
+            //         dst = part(x);
+            //     else
+            //         result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
+            // }
             else if(IsNonterminal(src))
             {
                 result = parse(src, out Nonterminal x);
@@ -431,49 +500,50 @@ namespace Z0
             }
         }
 
-        public static bool parse(string src, out FieldConstraint dst)
-        {
-            dst = FieldConstraint.Empty;
-            var result = false;
-            if(parse(src, out ConstraintKind ck))
-            {
-                var expr = XedRender.format(ck);
-                var i = text.index(src,expr);
-                if(i > 0)
-                {
-                    var a = text.left(src,i);
-                    var b = text.right(src,i + expr.Length - 1);
-                    result = parse(a, out FieldKind fk);
-                    Require.invariant(result);
-                    if(IsHexLiteral(a))
-                    {
-                        result = NumericParser.num8<Hex8>(b, out var value);
-                        dst = new FieldConstraint(fk, value, ck, FieldLiteralKind.HexLiteral);
-                    }
-                    else if(IsBinaryLiteral(a))
-                    {
-                        result = NumericParser.num8<uint8b>(b, out var value);
-                        dst = new FieldConstraint(fk, value, ck, FieldLiteralKind.BinaryLiteral);
-                    }
-                    else
-                    {
-                        result = NumericParser.num8(b, out var value);
-                        dst = new FieldConstraint(fk, value, ck, FieldLiteralKind.DecimalLiteral);
-                    }
-                }
-            }
-            return result;
-        }
+        // public static bool parse(string src, out FieldConstraint dst)
+        // {
+        //     dst = FieldConstraint.Empty;
+        //     var result = false;
+        //     if(parse(src, out ConstraintKind ck))
+        //     {
+        //         var op = (RuleOperator)ck;
+        //         var expr = XedRender.format(ck);
+        //         var i = text.index(src, expr);
+        //         if(i > 0)
+        //         {
+        //             var a = text.left(src,i);
+        //             var b = text.right(src,i + expr.Length - 1);
+        //             result = parse(a, out FieldKind fk);
+        //             Require.invariant(result);
+        //             if(IsHexLiteral(a))
+        //             {
+        //                 result = NumericParser.num8<Hex8>(b, out var value);
+        //                 dst = new FieldConstraint(fk, op, new R.FieldValue(fk, value));
+        //             }
+        //             else if(IsBinaryLiteral(a))
+        //             {
+        //                 result = NumericParser.num8<uint8b>(b, out var value);
+        //                 dst = new FieldConstraint(fk, op, new R.FieldValue(fk, value));
+        //             }
+        //             else
+        //             {
+        //                 result = NumericParser.num8(b, out var value);
+        //                 dst = new FieldConstraint(fk,  op, new R.FieldValue(fk, value));
+        //             }
+        //         }
+        //     }
+        //     return result;
+        // }
 
-        public static bool parse(string src, out ConstraintKind dst)
-        {
-            dst = 0;
-            if(text.contains(src, "!="))
-                dst = ConstraintKind.Neq;
-            else if(text.contains(src, "="))
-                dst = ConstraintKind.Eq;
-            return dst != 0;
-        }
+        // public static bool parse(string src, out ConstraintKind dst)
+        // {
+        //     dst = 0;
+        //     if(text.contains(src, "!="))
+        //         dst = ConstraintKind.Neq;
+        //     else if(text.contains(src, "="))
+        //         dst = ConstraintKind.Eq;
+        //     return dst != 0;
+        // }
 
         public static bool parse(string src, out Hex8 dst)
         {
@@ -873,61 +943,61 @@ namespace Z0
         public bool Parse(string src, out OpCodeKind dst)
             => OpCodeKinds.Parse(src, out dst);
 
-        public static bool parse(string src, out FieldAssign dst)
-        {
-            var input = text.trim(src);
-            var i = text.index(input, Chars.Eq);
-            dst = FieldAssign.Empty;
-            Outcome result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
-            if(i > 0)
-            {
-                if(parse(text.left(input,i), out FieldKind kind))
-                    if(parse(kind, text.right(input,i), out var fv))
-                    {
-                        dst = new(fv);
-                        result = true;
-                    }
-                else
-                    result = (false, AppMsg.ParseFailure.Format(nameof(FieldKind), src));
-            }
-            return result;
-        }
+        // public static bool parse(string src, out FieldAssign dst)
+        // {
+        //     var input = text.trim(src);
+        //     var i = text.index(input, Chars.Eq);
+        //     dst = FieldAssign.Empty;
+        //     Outcome result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
+        //     if(i > 0)
+        //     {
+        //         if(parse(text.left(input,i), out FieldKind kind))
+        //             if(parse(kind, text.right(input,i), out var fv))
+        //             {
+        //                 dst = new(fv);
+        //                 result = true;
+        //             }
+        //         else
+        //             result = (false, AppMsg.ParseFailure.Format(nameof(FieldKind), src));
+        //     }
+        //     return result;
+        // }
 
-        public static Outcome parse(FieldKind kind, string src, out R.FieldValue dst)
-        {
-            Outcome result = (false,AppMsg.ParseFailure.Format(kind.ToString(), src));
-            dst = R.FieldValue.Empty;
-            if(kind == FieldKind.BCAST)
-            {
-                if(parse(src, out BCastKind bc))
-                {
-                    dst = XedFields.value(kind,bc);
-                    result = true;
-                }
-            }
-            else if(parse(src, out uint8b a))
-            {
-                dst = XedFields.value(kind, a);
-                result = true;
-            }
-            else if(parse(src, out Hex8 b))
-            {
-                dst = XedFields.value(kind, b);
-                result = true;
-            }
-            else if(parse(src, out byte c))
-            {
-                dst = XedFields.value(kind, c);
-                result = true;
-            }
-            else if(parse(src, out ushort d))
-            {
-                dst = XedFields.value(kind, d);
-                result = true;
-            }
+        // public static Outcome parse(FieldKind kind, string src, out R.FieldValue dst)
+        // {
+        //     Outcome result = (false,AppMsg.ParseFailure.Format(kind.ToString(), src));
+        //     dst = R.FieldValue.Empty;
+        //     if(kind == FieldKind.BCAST)
+        //     {
+        //         if(parse(src, out BCastKind bc))
+        //         {
+        //             dst = XedFields.value(kind,bc);
+        //             result = true;
+        //         }
+        //     }
+        //     else if(parse(src, out uint8b a))
+        //     {
+        //         dst = XedFields.value(kind, a);
+        //         result = true;
+        //     }
+        //     else if(parse(src, out Hex8 b))
+        //     {
+        //         dst = XedFields.value(kind, b);
+        //         result = true;
+        //     }
+        //     else if(parse(src, out byte c))
+        //     {
+        //         dst = XedFields.value(kind, c);
+        //         result = true;
+        //     }
+        //     else if(parse(src, out ushort d))
+        //     {
+        //         dst = XedFields.value(kind, d);
+        //         result = true;
+        //     }
 
-            return result;
-        }
+        //     return result;
+        // }
 
         public static bool parse(string src, out BCastKind dst)
         {

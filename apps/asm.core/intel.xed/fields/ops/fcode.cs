@@ -73,6 +73,8 @@ namespace Z0
                 case K.WBNOINVD:
                 case K.REXRR:
                 case K.SAE:
+                case K.VEXDEST3:
+                case K.VEXDEST4:
                     dst = C.Bit;
                 break;
 
@@ -80,19 +82,19 @@ namespace Z0
                     dst = C.B2;
                 break;
 
-                case K.VEXDEST3:
-                case K.VEXDEST4:
-                    dst = C.B1;
-                break;
+                // case K.VEXDEST3:
+                // case K.VEXDEST4:
+                //     dst = C.B1;
+                // break;
 
-                case K.REG:
-                case K.RM:
-                case K.SRM:
-                case K.SIBBASE:
-                case K.SIBINDEX:
-                case K.VEXDEST210:
-                    dst = C.B3;
-                break;
+                // case K.REG:
+                // case K.RM:
+                // case K.SRM:
+                // case K.SIBBASE:
+                // case K.SIBINDEX:
+                // case K.VEXDEST210:
+                //     dst = C.B3;
+                // break;
 
                 case K.FIRST_F2F3:
                 case K.LAST_F2F3:
@@ -142,6 +144,12 @@ namespace Z0
                 case K.POS_NOMINAL_OPCODE:
                 case K.POS_SIB:
                 case K.UIMM1:
+                case K.REG:
+                case K.RM:
+                case K.SRM:
+                case K.SIBBASE:
+                case K.SIBINDEX:
+                case K.VEXDEST210:
                 {
                     dst = C.U8;
                 }
