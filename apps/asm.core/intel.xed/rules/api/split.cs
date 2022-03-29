@@ -49,14 +49,12 @@ namespace Z0
                 kind |= RuleCellKind.BfSeg;
             if(XedParsers.IsNonterminal(value))
                 kind |= RuleCellKind.Nonterminal;
-
             if(XedParsers.IsBinaryLiteral(value))
                 kind |= RuleCellKind.Bits;
             else if(XedParsers.IsHexLiteral(value))
                 kind |= RuleCellKind.Hex;
             else if(XedParsers.IsIntLiteral(value))
                 kind |= RuleCellKind.Int;
-
             if(src.Field != 0)
                 kind |= RuleCellKind.FieldValue;
 
