@@ -8,6 +8,8 @@ namespace Z0
     using static XedModels;
     using static XedPatterns;
 
+    using static XedFields;
+
     partial class XedRules
     {
         [Record(TableId)]
@@ -15,7 +17,7 @@ namespace Z0
         {
             public const string TableId = "xed.inst.patterns.fields";
 
-            public const byte FieldCount = 15;
+            public const byte FieldCount = 13;
 
             public uint InstId;
 
@@ -31,13 +33,9 @@ namespace Z0
 
             public EmptyZero<FieldKind> FieldKind;
 
+            public FieldExpr FieldExpr;
+
             public BitfieldSeg Bitfield;
-
-            public FieldAssign Assignment;
-
-            public FieldValue FieldLiteral;
-
-            public FieldConstraint Constraint;
 
             public Nonterminal Nonterminal;
 
@@ -47,7 +45,7 @@ namespace Z0
 
             public EmptyZero<uint5> BitLiteral;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,8,18,28,12,12,12,22,12,12,22,12,12,12};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,8,18,28,12,22,12,12,22,12,12,12};
 
             public static InstFieldInfo Empty => default;
         }

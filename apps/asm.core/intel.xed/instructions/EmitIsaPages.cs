@@ -39,13 +39,13 @@ namespace Z0
             iter(patterns.GroupBy(x => x.Isa.Kind), g => EmitIsaGroup(tables, g.Array()), PllExec);
         }
 
-        static string FieldTitle = "Fields".PadRight(10).PadRight(80,Chars.Dash);
+        static string FieldTitle = "Fields".PadRight(18).PadRight(120,Chars.Dash);
 
-        static string OpsTitle = "Operands".PadRight(10).PadRight(80,Chars.Dash);
+        static string OpsTitle = "Operands".PadRight(18).PadRight(120,Chars.Dash);
 
         void RenderFields(RuleTableSet tables, InstPattern src, ITextBuffer dst)
         {
-            const string Pattern = "{0,-2} {1,-16} {2}";
+            const string Pattern = "{0,-2} {1,-14} {2}";
             for(var j=0; j<src.Fields.Count; j++)
             {
                 ref readonly var field = ref src.Fields[j];
@@ -56,12 +56,9 @@ namespace Z0
                 {
                     switch(field.FieldClass)
                     {
-                        case DefFieldClass.Constraint:
-                            dst.AppendLine(string.Format(Pattern, j, fk, field.AsConstraint()));
-                        break;
-                        case DefFieldClass.FieldAssign:
-                            dst.AppendLine(string.Format(Pattern, j, fk, field.AsAssignment()));
-                        break;
+                        case DefFieldClass.FieldExpr:
+                            dst.AppendLine(string.Format(Pattern, j, fk, field.AsFieldExpr()));
+                            break;
                         case DefFieldClass.Nonterm:
                         {
                             var nt = field.AsNonterminal();
@@ -80,12 +77,26 @@ namespace Z0
             }
         }
 
+        static bool IsRegOp(OpKind src)
+        {
+            var result = false;
+            switch(src)
+            {
+                case OpKind.Reg:
+                case OpKind.Seg:
+                case OpKind.Base:
+                case OpKind.Index:
+                    result = true;
+                break;
+            }
+            return result;
+        }
+
         void EmitIsaGroup(RuleTableSet tables, Index<InstPattern> src)
         {
             var outpath = FS.FilePath.Empty;
             var classifier = EmptyString;
             var buffer = text.buffer();
-            var opsLU = XedRules.CalcOpRecords(tables,src).GroupBy(x => x.PatternId).Map(x => (x.Key, x.ToIndex())).ToConcurrentDictionary();
             var count = src.Count;
             for(var i=0; i<count; i++)
             {
@@ -106,81 +117,51 @@ namespace Z0
                     if(outpath.Exists)
                         Warn(string.Format("Overwriting {0}", outpath.ToUri()));
 
-                    buffer.AppendLineFormat("{0,-18} {1,-12} {2,-12}", pattern.Classifier, pattern.Isa.Name, pattern.Category);
-                    buffer.AppendLine(RP.PageBreak80);
                 }
-                else
-                    buffer.AppendLine(RP.PageBreak80);
 
-                buffer.AppendLine();
-                buffer.AppendLineFormat("{0,-10}{1}", "Pattern", FormatIsaBody(pattern));
-                if(pattern.InstForm.IsNonEmpty)
-                    buffer.AppendLineFormat("{0,-10}{1}", "Form", pattern.InstForm);
-                buffer.AppendLineFormat("{0,-10}{1}", "OpCode", pattern.OpCode);
+                if(i!=0)
+                    buffer.AppendLine(RP.PageBreak120);
+
+                buffer.AppendLineFormat("{0,-18} {1,-12} {2,-12} {3}", pattern.Classifier, pattern.Isa.Name, pattern.Category, pattern.InstForm);
+                buffer.AppendLineFormat("{0,-18} {1}", "Pattern", FormatIsaBody(pattern));
+                buffer.AppendLineFormat("{0,-18} {1}", "OpCode", pattern.OpCode);
 
                 buffer.AppendLine(FieldTitle);
                 RenderFields(tables, pattern, buffer);
 
-                buffer.AppendLine();
                 buffer.AppendLine(OpsTitle);
 
-                if(opsLU.TryGetValue(pattern.PatternId, out var ops))
+                ref readonly var ops = ref pattern.Ops;
+                for(var j=0; j<pattern.Ops.Count; j++)
                 {
-                    for(var j=0; j<ops.Length; j++)
-                    {
-                        ref readonly var op = ref ops[j];
-                        if(op.NonTerminal.IsNonEmpty)
-                        {
-                            var ntpath = tables.FindTablePath(op.NonTerminal.Name);
-                            if(ntpath.IsNonEmpty)
-                                buffer.AppendLine(string.Format("{0}::{1}", op.NonTerminal.Name, ntpath));
-                            else
-                                buffer.AppendLine(op.NonTerminal.Name);
-                        }
-                        else
-                            buffer.AppendLine(semantic(op));
-                    }
+                    var op = ops[j].Describe();
+
+                    var width = XedLookups.Data.WidthInfo(op.OpWidth.Code);
+                    var wi = width.IsEmpty
+                        ? op.OpWidth.Bits.ToString()
+                        : string.Format("{0,-8} w{1,-8} {2,-2}",
+                            XedRender.format(op.OpWidth.Code),
+                            width.Seg.Format(),
+                            width.Seg.CellCount
+                        );
+
+                    var ntpath = op.IsNonTerminal ? tables.FindTablePath(op.NonTerminal.Name) : FS.FileUri.Empty;
+                    buffer.AppendLine(string.Format("{0,-2} {1,-5} {2,-5} {3,-3} {4,-3} {5}",
+                        op.Index,
+                        XedRender.format(op.Name),
+                        wi,
+                        op.Visibility.Code(),
+                        XedRender.format(op.Action),
+                        IsRegOp(op.Kind) ? (op.RegLit != 0 ? XedRender.format(op.RegLit) : string.Format("{0}()::{1}", op.NonTerminal.Name, ntpath)) : EmptyString
+                        ));
                 }
+
+                buffer.AppendLine();
 
                 if(i==count - 1)
                     buffer.Emit(outpath);
             }
         }
-
-       static string semantic(OpAction src)
-            => src switch
-            {
-                OpAction.R => "in",
-                OpAction.W => "out",
-                OpAction.RW => "io",
-                OpAction.CR => "?in",
-                OpAction.CW => "?out",
-                OpAction.CRW => "crw",
-                OpAction.RCW => "rcw",
-                _ => EmptyString,
-            };
-
-        static string semantic(in PatternOpRow src)
-        {
-            var type = EmptyString;
-            var width = EmptyString;
-            if(src.CellType.IsNonEmpty)
-                type = src.CellType.Format();
-            if(src.RegLit.IsNonEmpty)
-                type = src.RegLit.Format();
-            if(src.BitWidth.IsNonEmpty)
-                width = string.Format("w{0}", src.BitWidth);
-            if(empty(width))
-                width = src.OpWidth.Format();
-            var desc = EmptyString;
-            if(empty(type))
-                desc = width;
-            else
-                desc = nonempty(width) ? string.Format("{0}/{1}", width, type) : type;
-
-            return string.Format("{0} {1,-8} {2,-8} {3,-8} {4}", src.Index, src.Name, src.Kind, semantic(src.Action), desc);
-        }
-
 
         static string FormatIsaBody(InstPattern src)
         {
@@ -191,36 +172,14 @@ namespace Z0
             var k=0u;
             var j=0u;
             Span<InstDefPart> buffer = stackalloc InstDefPart[(int)body.FieldCount];
-            Span<InstDefPart> constraints = stackalloc InstDefPart[(int)body.FieldCount];
+            Span<InstDefPart> expressions = stackalloc InstDefPart[(int)body.FieldCount];
             for(var i=0;i<body.FieldCount; i++)
             {
                 ref readonly var field = ref body[i];
-                switch(field.FieldKind)
-                {
-                    case K.MOD:
-                        if(field.IsConstraint)
-                            seek(constraints,j++) = field;
-                        else if(field.IsBitfield)
-                            seek(buffer,k++) = field;
-                        else
-                            seek(buffer,k++) = field;
-                    break;
-                    case K.EASZ:
-                    case K.EOSZ:
-                    case K.REP:
-                    case K.LOCK:
-                        if(field.IsConstraint)
-                            seek(constraints,j++) = field;
-                    break;
-                    case K.MAP:
-                    case K.VEX_PREFIX:
-                    case K.VEXVALID:
-                    case K.VL:
-                    break;
-                    default:
-                        seek(buffer, k++) = field;
-                    break;
-                }
+                if(field.IsFieldExpr)
+                    seek(expressions,j++) = field;
+                else
+                    seek(buffer,k++) = field;
             }
 
             var dst = text.buffer();
@@ -242,7 +201,7 @@ namespace Z0
                     if(i!=0)
                         dst.Append(" && ");
 
-                    dst.Append(skip(constraints,i).Format());
+                    dst.Append(skip(expressions,i).Format());
                 }
             }
 

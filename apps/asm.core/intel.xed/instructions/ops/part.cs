@@ -14,7 +14,7 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static InstDefPart part(FieldConstraint src)
-            => new(src);
+            => new(src.Expression());
 
         [MethodImpl(Inline), Op]
         public static InstDefPart part(BitfieldSeg src)
@@ -22,7 +22,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static InstDefPart part(FieldAssign src)
-            => new(src);
+            => new(src.Expression());
 
         [MethodImpl(Inline), Op]
         public static InstDefPart part(Nonterminal src)

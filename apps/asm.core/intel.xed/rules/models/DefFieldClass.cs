@@ -11,21 +11,15 @@ namespace Z0
         {
             None,
 
+            BitLiteral,
+
             HexLiteral,
 
             IntLiteral,
 
             Bitfield,
 
-            BitLiteral,
-
             Nonterm,
-
-            FieldLiteral,
-
-            FieldAssign,
-
-            Constraint,
 
             FieldExpr,
         }

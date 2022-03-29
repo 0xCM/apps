@@ -28,14 +28,10 @@ namespace Z0
                 case DefFieldClass.BitLiteral:
                     dst.BitLiteral = src.AsBitLit();
                 break;
-                case DefFieldClass.Constraint:
-                    dst.Constraint = src.AsConstraint();
-                break;
-                case DefFieldClass.FieldAssign:
-                    dst.Assignment = src.AsAssignment();
-                break;
-                case DefFieldClass.FieldLiteral:
-                    dst.FieldLiteral = src.AsFieldLit();
+                case DefFieldClass.FieldExpr:
+                    dst.FieldExpr = src.AsFieldExpr();
+                    if(dst.FieldExpr.IsNonTerminal)
+                        dst.Nonterminal = dst.FieldExpr.Value;
                 break;
                 case DefFieldClass.HexLiteral:
                     dst.HexLiteral = src.AsHexLit();

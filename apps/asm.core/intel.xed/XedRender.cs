@@ -626,14 +626,8 @@ namespace Z0
                 case DefFieldClass.Nonterm:
                     dst = src.AsNonterminal().Format();
                 break;
-                case DefFieldClass.FieldLiteral:
-                    dst = format(src.AsFieldLit());
-                break;
-                case DefFieldClass.FieldAssign:
-                    dst = format(src.AsAssignment());
-                break;
-                case DefFieldClass.Constraint:
-                    dst = format(src.AsConstraint());
+                case DefFieldClass.FieldExpr:
+                    dst = format(src.AsFieldExpr());
                 break;
                 default:
                     Errors.Throw(string.Format("Unknown Part:{0} | {1}", @class, bytes(src).FormatHex()));
@@ -847,54 +841,10 @@ namespace Z0
 
         public static string format(FieldAssign src)
             => format(src.Expression());
-        // {
-        //     if(src.IsEmpty)
-        //         return EmptyString;
-        //     else if(src.Field == 0)
-        //         return src.Value.ToString();
-        //     else
-        //         return string.Format("{0}{1}{2}", format(src.Field), XedNames.Assign, format(src.Value));
-        // }
 
         public static string format(FieldCmp src)
             => format(src.Expression());
 
-        // {
-        //     if(src.IsEmpty)
-        //         return EmptyString;
-
-        //     return src.IsEmpty ? EmptyString
-        //         : string.Format("{0}{1}{2}",
-        //             format(src.Field),
-        //             format(src.Operator),
-        //             format(src.Value)
-        //             );
-        // }
-
-        public static string format(DefFieldClass src)
-        {
-            var result = EmptyString;
-            switch(src)
-            {
-                case DefFieldClass.BitLiteral:
-                case DefFieldClass.IntLiteral:
-                case DefFieldClass.HexLiteral:
-                case DefFieldClass.FieldLiteral:
-                    result = "Literal";
-                    break;
-                case DefFieldClass.Constraint:
-                    result = "Constraint";
-                    break;
-                case DefFieldClass.Bitfield:
-                    result = "Bitfield";
-                    break;
-                case DefFieldClass.Nonterm:
-                    result = "Nonterm";
-                    break;
-            }
-            return result;
-
-        }
         public static string format(in DisasmOpDetail src)
         {
             const string OpSepSlot = "/{0}";

@@ -10,7 +10,6 @@ namespace Z0
 
     partial class XedPatterns
     {
-
         public static XedOpCode xedoc(InstPatternBody body)
         {
             var vc = VexClass.None;
@@ -20,17 +19,10 @@ namespace Z0
             for(var i=0; i<body.FieldCount; i++)
             {
                 ref readonly var part = ref body[i];
-                if(part.IsConstraint && part.FieldKind == FieldKind.VEXVALID)
-                {
-                    var constraint = part.AsConstraint();
-                    vc = (VexClass)constraint.Value;
-                }
-
-                if(part.IsConstraint && part.FieldKind == FieldKind.MAP)
-                {
-                    var constraint = part.AsConstraint();
-                    number = constraint.Value;
-                }
+                if(part.IsFieldExpr && part.FieldKind == FieldKind.VEXVALID)
+                    vc = (VexClass)part.AsFieldExpr().Value;
+                if(part.IsFieldExpr && part.FieldKind == FieldKind.MAP)
+                    number = part.AsFieldExpr().Value;
             }
 
             switch(vc)

@@ -21,7 +21,7 @@ namespace Z0
                 ref readonly var field = ref src[i];
                 if(field.FieldKind == FieldKind.LOCK)
                 {
-                    dst = field.AsAssignment().Value;
+                    dst = field.AsFieldExpr().Value;
                     result = true;
                     break;
                 }

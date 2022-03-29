@@ -22,15 +22,16 @@ namespace Z0
                 {
                     var dst = PatternOpRow.Empty;
                     ref readonly var op = ref ops[j];
-                    var info = describe(op);
+                    var info = op.Describe();
                     dst.InstId = pattern.InstId;
                     dst.PatternId = pattern.PatternId;
                     dst.InstClass = pattern.InstClass;
                     dst.Mode = pattern.Mode;
                     dst.OpCode = pattern.OpCode;
-                    dst.Index = op.Index;
-                    dst.Name = op.Name;
-                    dst.Kind = op.Kind;
+
+                    dst.Index = info.Index;
+                    dst.Name = info.Name;
+                    dst.Kind = info.Kind;
                     dst.NonTerm = info.IsNonTerminal;
                     dst.Action = info.Action;
                     dst.OpWidth = info.OpWidth;
@@ -41,7 +42,9 @@ namespace Z0
                     dst.Modifier = info.Modifier;
                     dst.Visibility = info.Visibility;
                     dst.NonTerminal = info.NonTerminal;
+
                     dst.SourceExpr = op.SourceExpr;
+
                     buffer.Add(dst);
                 }
             }

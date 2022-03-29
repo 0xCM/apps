@@ -23,8 +23,7 @@ namespace Z0
                 ref readonly var part = ref src[i];
                 switch(part.FieldClass)
                 {
-                    case DefFieldClass.Constraint:
-                    case DefFieldClass.FieldAssign:
+                    case DefFieldClass.FieldExpr:
                         criteria[i] = part;
                         parts.Remove(i);
                     break;

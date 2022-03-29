@@ -25,18 +25,11 @@ namespace Z0
             for(byte j=0; j<fields.FieldCount; j++)
             {
                 ref readonly var part = ref fields[j];
-
-                if(part.FieldClass == DefFieldClass.FieldAssign)
+                if(part.IsFieldExpr)
                 {
-                    var a = part.AsAssignment();
-                    switch(a.Field)
-                    {
-                        case FieldKind.MODE:
-                            dst.Mode = (ModeKind)a.Value;
-                        break;
-                        default:
-                        break;
-                    }
+                    var expr = part.AsFieldExpr();
+                    if(expr.Field == FieldKind.MODE)
+                        dst.Mode = (ModeKind)expr.Value;
                 }
             }
 

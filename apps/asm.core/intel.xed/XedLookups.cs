@@ -28,7 +28,7 @@ namespace Z0
         XedPaths XedPaths => XedPaths.Service;
 
         public OpWidthInfo WidthInfo(OpWidthCode code)
-            => WidthLookup[code];
+            => code == 0 ? OpWidthInfo.Empty : WidthLookup[code];
 
         public OpWidth Width(OpWidthCode code, MachineMode mode)
         {

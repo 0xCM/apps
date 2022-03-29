@@ -35,10 +35,34 @@ namespace Z0
                 get => Kind != 0;
             }
 
-            public bool IsInt
+            public bool IsFloat
+            {
+                [MethodImpl(Inline)]
+                get=> Kind == ElementKind.BF16 || Kind == ElementKind.F16 || Kind == ElementKind.F32 || Kind == ElementKind.F64 || Kind == ElementKind.F80;
+            }
+
+            public bool IsSignedInt
             {
                 [MethodImpl(Inline)]
                 get => Kind == ElementKind.INT;
+            }
+
+            public bool IsUnsignedInt
+            {
+                [MethodImpl(Inline)]
+                get => Kind == ElementKind.UINT;
+            }
+
+            public bool IsInt
+            {
+                [MethodImpl(Inline)]
+                get => IsSignedInt || IsUnsignedInt;
+            }
+
+            public char Indicator
+            {
+                [MethodImpl(Inline)]
+                get => (char)(IsFloat ? NumericIndicator.Float : IsSignedInt ? NumericIndicator.Signed : IsUnsignedInt ? NumericIndicator.Unsigned : NumericIndicator.None);
             }
 
             public string Format()

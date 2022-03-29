@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedPatterns;
 
     partial class XedRules
     {
@@ -38,6 +39,10 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => PatternId << 8 | Index;
             }
+
+            [MethodImpl(Inline)]
+            public PatternOpInfo Describe()
+                => describe(this);
 
             public string Format()
                 => XedRender.format(this);

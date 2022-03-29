@@ -16,20 +16,30 @@ namespace Z0
             readonly ByteBlock16 Data;
 
             [MethodImpl(Inline)]
-            public InstDefPart(Hex8 src)
-            {
-                var data = ByteBlock16.Empty;
-                data[0] = src;
-                data[15] = (byte)DefFieldClass.HexLiteral;
-                Data = data;
-            }
-
-            [MethodImpl(Inline)]
             public InstDefPart(byte src)
             {
                 var data = ByteBlock16.Empty;
                 data[0] = src;
                 data[15] = (byte)DefFieldClass.IntLiteral;
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
+            public InstDefPart(uint5 src)
+            {
+                var data = ByteBlock16.Empty;
+                data[0] = (byte)src;
+                data[1] = uint5.MaxLiteral;
+                data[15] = (byte)DefFieldClass.BitLiteral;
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
+            public InstDefPart(Hex8 src)
+            {
+                var data = ByteBlock16.Empty;
+                data[0] = src;
+                data[15] = (byte)DefFieldClass.HexLiteral;
                 Data = data;
             }
 
@@ -44,16 +54,6 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefPart(FieldAssign src)
-            {
-                var data = ByteBlock16.Empty;
-                data = bytes(src);
-                data[14] = (byte)src.Field;
-                data[15] = (byte)DefFieldClass.FieldAssign;
-                Data = data;
-            }
-
-            [MethodImpl(Inline)]
             public InstDefPart(FieldExpr src)
             {
                 var data = ByteBlock16.Empty;
@@ -64,31 +64,11 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefPart(FieldConstraint src)
-            {
-                var data = ByteBlock16.Empty;
-                data = bytes(src);
-                data[14] = (byte)src.Field;
-                data[15] = (byte)DefFieldClass.Constraint;
-                Data = data;
-            }
-
-            [MethodImpl(Inline)]
             public InstDefPart(Nonterminal src)
             {
                 var data = ByteBlock16.Empty;
                 data = core.bytes(src);
                 data[15] = (byte)DefFieldClass.Nonterm;
-                Data = data;
-            }
-
-            [MethodImpl(Inline)]
-            public InstDefPart(uint5 src)
-            {
-                var data = ByteBlock16.Empty;
-                data[0] = (byte)src;
-                data[1] = uint5.MaxLiteral;
-                data[15] = (byte)DefFieldClass.BitLiteral;
                 Data = data;
             }
 
@@ -110,10 +90,10 @@ namespace Z0
                 get => ref @as<DefFieldClass>(Data[15]);
             }
 
-            public bool IsConstraint
+            public bool IsFieldExpr
             {
                 [MethodImpl(Inline)]
-                get => FieldClass == DefFieldClass.Constraint;
+                get => FieldClass == DefFieldClass.FieldExpr;
             }
 
             public bool IsLiteral
@@ -121,26 +101,7 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => FieldClass == DefFieldClass.BitLiteral
                 || FieldClass == DefFieldClass.HexLiteral
-                || FieldClass == DefFieldClass.IntLiteral
                 || FieldClass == DefFieldClass.IntLiteral;
-            }
-
-            public bool IsBitfield
-            {
-                [MethodImpl(Inline)]
-                get => FieldClass == DefFieldClass.BitLiteral;
-            }
-
-            public bool IsNonTerminal
-            {
-                [MethodImpl(Inline)]
-                get => FieldClass == DefFieldClass.Nonterm;
-            }
-
-            public bool HasKind
-            {
-                [MethodImpl(Inline)]
-                get => FieldKind != 0;
             }
 
             public ref readonly FieldKind FieldKind
@@ -160,24 +121,12 @@ namespace Z0
                 => src is InstDefPart p && Equals(p);
 
             [MethodImpl(Inline)]
-            public ref readonly FieldAssign AsAssignment()
-                => ref @as<FieldAssign>(Data.First);
-
-            [MethodImpl(Inline)]
-            public ref readonly FieldValue AsFieldLit()
-                => ref @as<FieldValue>(Data.First);
-
-            [MethodImpl(Inline)]
             public ref readonly Hex8 AsHexLit()
                 => ref @as<Hex8>(Data.First);
 
             [MethodImpl(Inline)]
             public ref readonly byte AsIntLit()
                 => ref @as<byte>(Data.First);
-
-            [MethodImpl(Inline)]
-            public ref readonly FieldConstraint AsConstraint()
-                => ref @as<FieldConstraint>(Data.First);
 
             [MethodImpl(Inline)]
             public ref readonly Nonterminal AsNonterminal()
