@@ -21,88 +21,13 @@ namespace Z0
             {
                 OpAction.R => "in",
                 OpAction.W => "out",
-                OpAction.RW => "i/o",
+                OpAction.RW => "io",
                 OpAction.CR => "?in",
                 OpAction.CW => "?out",
-                OpAction.CRW => "?i/?o",
-                OpAction.RCW => "?i/o",
+                OpAction.CRW => "crw",
+                OpAction.RCW => "rcw",
                 _ => EmptyString,
             };
-
-        public static string semantic(OpCodeKind src)
-        {
-            var @class = XedPatterns.occlass(src);
-            var kind = EmptyString;
-            switch(@class)
-            {
-                case OpCodeClass.Base:
-                    switch(src)
-                    {
-                        case OpCodeKind.Base00:
-                            kind = "00";
-                        break;
-                        case OpCodeKind.Base0F:
-                            kind = "0F";
-                        break;
-                        case OpCodeKind.Base0F38:
-                            kind = "0F38";
-                        break;
-                        case OpCodeKind.Base0F3A:
-                            kind = "0F3A";
-                        break;
-                    }
-                break;
-                case OpCodeClass.Vex:
-                    switch(src)
-                    {
-                        case OpCodeKind.Vex0F:
-                            kind = "0F";
-                        break;
-                        case OpCodeKind.Vex0F38:
-                            kind = "0F38";
-                        break;
-                        case OpCodeKind.Vex0F3A:
-                            kind = "0F3A";
-                        break;
-                    }
-                break;
-                case OpCodeClass.Evex:
-                    switch(src)
-                    {
-                        case OpCodeKind.Evex0F:
-                            kind = "0F";
-                        break;
-                        case OpCodeKind.Evex0F38:
-                            kind = "0F38";
-                        break;
-                        case OpCodeKind.Evex0F3A:
-                            kind = "0F3A";
-                        break;
-                    }
-                break;
-                case OpCodeClass.Xop:
-                    switch(src)
-                    {
-                        case OpCodeKind.XOP8:
-                            kind = "08";
-                        break;
-                        case OpCodeKind.XOP9:
-                            kind = "09";
-                        break;
-                        case OpCodeKind.XOPA:
-                            kind = "0A";
-                        break;
-                    }
-                break;
-                case OpCodeClass.Amd3D:
-                    kind = "3D";
-                break;
-            }
-            return kind;
-        }
-
-        public static string semantic(XedOpCode src)
-            => string.Format("{0}[{1}:{2}]", src.Class, semantic(src.Kind), src.Value);
 
         public static string semantic(in PatternOpInfo src)
         {

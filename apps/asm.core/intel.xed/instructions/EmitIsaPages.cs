@@ -25,7 +25,7 @@ namespace Z0
                 ref readonly var pattern = ref src[i];
                 ref readonly var body = ref pattern.Body;
                 for(byte j=0; j<body.FieldCount; j++,k++)
-                    seek(dst,k) = XedPatterns.fieldinfo(pattern, body[j], j);
+                    seek(dst,k) = fieldinfo(pattern, body[j], j);
             }
             return dst;
         }
@@ -115,7 +115,7 @@ namespace Z0
                 buffer.AppendLineFormat("{0,-10}{1}", "OpCode", pattern.OpCode);
 
                 buffer.AppendLine(FieldTitle);
-                RenderFields(tables,pattern,buffer);
+                RenderFields(tables, pattern, buffer);
 
                 buffer.AppendLine();
                 buffer.AppendLine(OpsTitle);

@@ -377,15 +377,15 @@ namespace Z0
 
             [MethodImpl(Inline), Op]
             static MacroSpec XMAP8()
-                => assign(M.XMAP8, K.MAP, X.XOP8);
+                => assign(M.XMAP8, K.MAP, X.Xop8);
 
             [MethodImpl(Inline), Op]
             static MacroSpec XMAP9()
-                => assign(M.XMAP9, K.MAP, X.XOP9);
+                => assign(M.XMAP9, K.MAP, X.Xop9);
 
             [MethodImpl(Inline), Op]
             static MacroSpec XMAPA()
-                => assign(M.XMAPA, K.MAP, X.XOPA);
+                => assign(M.XMAPA, K.MAP, X.XopA);
 
             [MethodImpl(Inline), Op]
             static MacroSpec no67_prefix()

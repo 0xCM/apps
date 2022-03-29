@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static XedModels;
+    using Asm;
 
     partial class XedPatterns
     {
@@ -14,11 +15,13 @@ namespace Z0
         {
             public const string TableId = "xed.opcodes";
 
-            public const byte FieldCount = 6;
+            public const byte FieldCount = 7;
 
             public uint PatternId;
 
-            public XedOpCode OpCode;
+            public OpCodeKind OcKind;
+
+            public AsmOcValue OcValue;
 
             public InstClass InstClass;
 
@@ -27,6 +30,12 @@ namespace Z0
             public TextBlock Layout;
 
             public TextBlock Pattern;
+
+            public XedOpCode OpCode
+            {
+                [MethodImpl(Inline)]
+                get => new XedOpCode(OcKind,OcValue);
+            }
 
             public int CompareTo(PatternOpCode src)
             {
@@ -45,7 +54,7 @@ namespace Z0
                 return result;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,20,20,12,80,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,12,20,20,12,80,1};
         }
     }
 }

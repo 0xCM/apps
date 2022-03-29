@@ -27,16 +27,16 @@ namespace Z0
             Base0F3A = OpCodeClass.Base | (ushort)((byte)BaseMapKind.BaseMap3 << 8),
 
             [Symbol(S.D3)]
-            AMD_3DNOW = OpCodeClass.Base | (ushort)((byte)BaseMapKind.Amd3dNow << 8),
+            Amd3DNow = OpCodeClass.Base | (ushort)((byte)BaseMapKind.Amd3dNow << 8),
 
             [Symbol(S.X8)]
-            XOP8 = OpCodeClass.Xop | (ushort)((byte)XopMapKind.XOP8 << 8),
+            Xop8 = OpCodeClass.Xop | (ushort)((byte)XopMapKind.Xop8 << 8),
 
             [Symbol(S.X9)]
-            XOP9 = OpCodeClass.Xop | (ushort)((byte)XopMapKind.XOP9 << 8),
+            Xop9 = OpCodeClass.Xop | (ushort)((byte)XopMapKind.Xop9 << 8),
 
             [Symbol(S.XA)]
-            XOPA = OpCodeClass.Xop | (ushort)((byte)XopMapKind.XOPA << 8),
+            XopA = OpCodeClass.Xop | (ushort)((byte)XopMapKind.XopA << 8),
 
             [Symbol(S.V1)]
             Vex0F = OpCodeClass.Vex | (ushort)((byte)VexMapKind.VEX_MAP_0F << 8),

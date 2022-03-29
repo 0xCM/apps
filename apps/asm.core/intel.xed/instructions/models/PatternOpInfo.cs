@@ -67,7 +67,7 @@ namespace Z0
                 return result;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,18,6,24,6,8,8,8,8,10,10,10,10,16,8,12,32,1,};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,18,6,28,6,8,8,8,8,10,10,10,10,16,8,12,32,1,};
 
             public static PatternOpInfo Empty => default;
         }

@@ -16,15 +16,6 @@ namespace Z0
 
     partial class XedPatterns
     {
-        public static OpCodeIndex? ocindex(byte code)
-        {
-            var kind = basemap(code);
-            if(kind != null)
-                return ocindex(kind.Value);
-            else
-                return null;
-        }
-
         [Op]
         public static OpCodeIndex? ocindex(VexClass @class, byte map)
         {
@@ -40,6 +31,9 @@ namespace Z0
                 case VexClass.XOPV:
                     dst = ocindex((XopMapKind)map);
                 break;
+                default:
+                    dst = ocindex((BaseMapKind)map);
+                break;
             }
             return dst;
         }
@@ -52,10 +46,10 @@ namespace Z0
                 K.Base0F => I.LegacyMap1,
                 K.Base0F38 => I.LegacyMap2,
                 K.Base0F3A => I.LegacyMap3,
-                K.AMD_3DNOW => I.Amd3dNow,
-                K.XOP8 => I.Xop8,
-                K.XOP9 => I.Xop9,
-                K.XOPA => I.XopA,
+                K.Amd3DNow => I.Amd3dNow,
+                K.Xop8 => I.Xop8,
+                K.Xop9 => I.Xop9,
+                K.XopA => I.XopA,
                 K.Vex0F => I.Vex0F,
                 K.Vex0F38 => I.Vex0F38,
                 K.Vex0F3A => I.Vex0F3A,
@@ -89,9 +83,9 @@ namespace Z0
         public static OpCodeIndex ocindex(XopMapKind kind)
             => kind switch
             {
-                XOP8 => I.Xop8,
-                XOP9 => I.Xop9,
-                XOPA => I.XopA,
+                Xop8 => I.Xop8,
+                Xop9 => I.Xop9,
+                XopA => I.XopA,
                 _ => 0
             };
 

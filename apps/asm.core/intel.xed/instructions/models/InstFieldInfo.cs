@@ -47,7 +47,7 @@ namespace Z0
 
             public EmptyZero<uint5> BitLiteral;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,8,18,20,12,12,12,22,12,12,22,12,12,12};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,8,18,28,12,12,12,22,12,12,22,12,12,12};
 
             public static InstFieldInfo Empty => default;
         }

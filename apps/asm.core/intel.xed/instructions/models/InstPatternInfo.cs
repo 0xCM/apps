@@ -5,16 +5,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
     using static XedModels;
 
     partial class XedPatterns
     {
-        [Record(TableId)]
+        [Record(TableId),StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct InstPatternInfo : IComparable<InstPatternInfo>
         {
             public const string TableId = "xed.inst.patterns";
 
-            public const byte FieldCount = 7;
+            public const byte FieldCount = 8;
 
             public uint PatternId;
 
@@ -22,7 +23,15 @@ namespace Z0
 
             public MachineMode Mode;
 
-            public XedOpCode OpCode;
+            public OpCodeKind OcKind;
+
+            public AsmOcValue OcValue;
+
+            public XedOpCode OpCode
+            {
+                [MethodImpl(Inline)]
+                get => new XedOpCode(OcKind,OcValue);
+            }
 
             public InstClass InstClass;
 
@@ -37,7 +46,7 @@ namespace Z0
             public PatternSort Sort()
                 => new PatternSort(this);
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,12,20,24,52,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,12,12,20,24,52,1};
 
             public static InstPatternInfo Empty => default;
         }

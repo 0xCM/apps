@@ -13,6 +13,15 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
+        public static OpCodeIndex? ocindex(byte code)
+        {
+            var kind = XedPatterns.basemap(code);
+            if(kind != null)
+                return XedPatterns.ocindex(kind.Value);
+            else
+                return null;
+        }
+
         void EmitDisasmProps(WsContext context, DisasmDetailDoc doc)
         {
             const string FieldPattern = "{0,-24} | {1}";
@@ -97,7 +106,7 @@ namespace Z0
                     var number = (byte)m.Data;
                     var map = XedPatterns.ocindex(vclass,number);
                     if(map == null)
-                        map = XedPatterns.ocindex(number);
+                        map = ocindex(number);
                     if(map != null)
                         EmitValue(K.MAP, XedRender.format(map.Value));
                 }

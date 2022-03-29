@@ -53,13 +53,13 @@ namespace Z0
                 break;
 
                 case I.Xop8:
-                    dst = (byte)XopMapKind.XOP8;
+                    dst = (byte)XopMapKind.Xop8;
                 break;
                 case I.Xop9:
-                    dst = (byte)XopMapKind.XOP9;
+                    dst = (byte)XopMapKind.Xop9;
                 break;
                 case I.XopA:
-                    dst = (byte)XopMapKind.XOPA;
+                    dst = (byte)XopMapKind.XopA;
                 break;
                 default:
                     result = false;

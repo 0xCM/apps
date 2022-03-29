@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static XedPatterns;
+    using Asm;
 
     partial class XedRules
     {
@@ -21,7 +22,13 @@ namespace Z0
 
                 writer.AppendLineFormat(LabelPattern, pattern.InstClass.Name, pattern.BodyExpr);
                 writer.AppendLineFormat(LabelPattern, nameof(pattern.RawBody), pattern.RawBody);
-                writer.AppendLineFormat(LabelPattern, pattern.OpCode, pattern.Mode);
+                writer.AppendLineFormat(LabelPattern, nameof(pattern.Mode), XedRender.format(pattern.Mode));
+                writer.AppendLineFormat(LabelPattern, nameof(pattern.OpCode),
+                    string.Format("{0}[{1}]:{2}",
+                        pattern.OpCode.Class,
+                        digits(pattern.OpCode.Kind),
+                        AsmOcValue.format(pattern.OpCode.Value))
+                        );
                 writer.AppendLineFormat(LabelPattern, XedRender.format(pattern.Isa), pattern.InstForm);
                 writer.AppendLineFormat(LabelPattern, pattern.Category, XedRender.format(pattern.Attributes));
 

@@ -36,6 +36,12 @@ namespace Z0
                 get => new RuleSig(TableKind, TableName);
             }
 
+            public RuleSigKey Key
+            {
+                [MethodImpl(Inline)]
+                get => RuleSigKey.from(this);
+            }
+
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,32,1};
         }
     }

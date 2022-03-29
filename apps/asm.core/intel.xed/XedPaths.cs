@@ -89,7 +89,7 @@ namespace Z0
             => FS.file(string.Format("{0}.{1}", XedRender.format(nt), XedRender.format(kind)), FS.Csv);
 
         public FS.FilePath TableDef(RuleTableKind kind, NontermKind nt)
-            => RuleTargets() + FS.folder("defs") + TableFile(kind,nt);
+            => RuleTargets() + FS.folder("defs") + TableFile(kind, nt);
 
         public FS.FileName TableFile(RuleSig sig)
             => FS.file(string.Format("{0}.{1}",sig.Name,sig.TableKind.ToString().ToLower()), FS.Csv);
@@ -117,6 +117,7 @@ namespace Z0
 
         public FS.FolderPath InstIsaRoot()
             => Targets("instructions");
+
         public FS.FilePath InstIsaPath(InstPattern src)
             => InstIsaRoot() + instfolder(src.Isa) + FS.file(src.Classifier, FS.Txt);
 

@@ -17,7 +17,8 @@ namespace Z0
             dst = default;
             (var fields, var layout) = split(src.Body);
             dst.PatternId = src.PatternId;
-            dst.OpCode = src.OpCode;
+            dst.OcKind = src.OpCode.Kind;
+            dst.OcValue = src.OpCode.Value;
             dst.InstClass = src.InstClass;
             dst.Pattern = src.BodyExpr;
 

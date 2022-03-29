@@ -45,11 +45,11 @@ namespace Z0
             public PatternSort(InstPatternInfo src)
             {
                 var data = ByteBlock16.Empty;
-                @as<ulong>(seek(data.Bytes,OpCodeOffset)) = @as<XedOpCode,ulong>(src.OpCode);
-                @as<ushort>(seek(data.Bytes,InstClassOffset)) = @as<InstClass,ushort>(src.InstClass);
-                @as<ushort>(seek(data.Bytes,InstFormOffset)) = @as<InstForm,ushort>(src.InstForm);
-                @as<bit>(seek(data.Bytes,LockableOffset)) = @lock(src.Body, out bit locked);
-                @as<bit>(seek(data.Bytes,LockValueOffset)) = locked;
+                @as<ulong>(seek(data.Bytes, OpCodeOffset)) = @as<XedOpCode,ulong>(src.OpCode);
+                @as<ushort>(seek(data.Bytes, InstClassOffset)) = @as<InstClass,ushort>(src.InstClass);
+                @as<ushort>(seek(data.Bytes, InstFormOffset)) = @as<InstForm,ushort>(src.InstForm);
+                @as<bit>(seek(data.Bytes, LockableOffset)) = @lock(src.Body, out bit locked);
+                @as<bit>(seek(data.Bytes, LockValueOffset)) = locked;
                 @as<ushort>(seek(data.Bytes, DiscrimOffset)) = (ushort)alg.hash.marvin(src.Body.Format());
                 Data = data;
             }

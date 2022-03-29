@@ -8,6 +8,8 @@ namespace Z0
     using static core;
     using System.Linq;
 
+    using static XedModels;
+
     partial class XedRules
     {
         public class RuleTableSet
@@ -29,13 +31,13 @@ namespace Z0
                 public static Buffers Empty => new();
             }
 
-            public ref readonly ConcurrentDictionary<RuleSig,Index<RuleCellSpec>> Cells
+            ref readonly ConcurrentDictionary<RuleSig,Index<RuleCellSpec>> Cells
             {
                 [MethodImpl(Inline)]
                 get => ref Data.Cells;
             }
 
-            public ref readonly ConcurrentDictionary<RuleTableKind,Index<RuleTable>> Defs
+            ref readonly ConcurrentDictionary<RuleTableKind,Index<RuleTable>> Defs
             {
                 [MethodImpl(Inline)]
                 get => ref Data.Defs;
@@ -48,18 +50,12 @@ namespace Z0
 
             Index<RuleTableRow> _AllRows;
 
-            ConstLookup<RuleTableKind,Index<RuleTableRow>> _RowsByKind;
+            Dictionary<string,RuleSigRow> EncSigs = new();
 
-            ConcurrentDictionary<RuleSig,Index<RuleTableRow>> _RowsBySig;
-
-            public Index<RuleTableRow> Rows(RuleTableKind kind)
-                => _RowsByKind[kind];
-
-            public Index<RuleTableRow> Rows(RuleSig sig)
-                => _RowsBySig[sig];
+            Dictionary<string,RuleSigRow> DecSigs = new();
 
             public Index<RuleTableRow> Rows()
-                =>_AllRows;
+                => _AllRows;
 
             public ref readonly Index<RuleSchema> Schema
             {
@@ -72,8 +68,6 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => ref Data.Sigs;
             }
-
-            ConstLookup<string,Index<RuleSchema>> SchemaLookup;
 
             Buffers Data = Buffers.Empty;
 
@@ -100,25 +94,41 @@ namespace Z0
                     }
                 });
 
-                SchemaLookup = dst.Keys.Map(name => (name,dst[name].ToIndex())).ToDictionary();
-                _RowsBySig = src.Rows;
+                foreach(var sig in Sigs)
+                {
+                    if(sig.TableKind == RuleTableKind.Enc)
+                        EncSigs.TryAdd(sig.TableName, sig);
+                    else if(sig.TableKind == RuleTableKind.Dec)
+                        DecSigs.TryAdd(sig.TableName, sig);
+                }
+
                 var all = src.Rows.Values.SelectMany(x => x).ToIndex().Sort();
                 for(var i=0u; i<all.Count; i++)
-                    all[i].Seq = i;
+                {
+                    ref var row = ref all[i];
+                    row.Seq = i;
+                }
                 _AllRows = all;
 
-                _RowsByKind = _AllRows.GroupBy(x => x.Kind).Map(x => (x.Key,x.ToIndex())).ToConstLookup();
                 return this;
+            }
+
+            public FS.FileUri FindTablePath(RuleTableKind kind, string name)
+            {
+                var sig = default(RuleSigRow);
+                if(kind == RuleTableKind.Dec)
+                    DecSigs.TryGetValue(name, out sig);
+                else if(kind == RuleTableKind.Enc)
+                    EncSigs.TryGetValue(name, out sig);
+                return sig.TableDef;
             }
 
             public FS.FileUri FindTablePath(string name)
             {
-                if(SchemaLookup.Find(name, out var schema))
-                {
-                    if(schema.IsNonEmpty)
-                        return schema.First.TableDef;
-                }
-                return FS.FileUri.Empty;
+               var path = FindTablePath(RuleTableKind.Dec,name);
+               if(path.IsEmpty)
+                   path = FindTablePath(RuleTableKind.Enc,name);
+                return path;
             }
 
             public static RuleTableSet Empty => new();

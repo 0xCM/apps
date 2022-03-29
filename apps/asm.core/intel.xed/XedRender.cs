@@ -804,7 +804,7 @@ namespace Z0
         }
 
         public static string format(in XedOpCode src)
-            => string.Format("{0} {1}", XedPatterns.symbol(src.Kind), format(src.Value));
+            => string.Format("{0}[{1}]:{2}", src.Class, XedPatterns.digits(src.Kind), AsmOcValue.format(src.Value));
 
         public static string format(InstAttribs src, bool embrace = true)
         {

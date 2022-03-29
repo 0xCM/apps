@@ -25,7 +25,8 @@ namespace Z0
             dst.PatternId = src.PatternId;
             dst.InstId = src.InstId;
             dst.Mode = src.Mode;
-            dst.OpCode = opcode;
+            dst.OcKind = src.OpCode.Kind;
+            dst.OcValue = src.OpCode.Value;
             dst.InstClass = src.InstClass;
             dst.InstForm = src.InstForm;
             dst.Body = body;

@@ -13,13 +13,13 @@ namespace Z0
         public enum XopMapKind : byte
         {
             [Symbol(N.XopMap8Name)]
-            XOP8=8,
+            Xop8=8,
 
             [Symbol(N.XopMap9Name)]
-            XOP9=9,
+            Xop9=9,
 
             [Symbol(N.XopMapAName)]
-            XOPA=10,
+            XopA=10,
         }
     }
 }
