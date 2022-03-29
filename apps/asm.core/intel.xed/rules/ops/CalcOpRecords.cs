@@ -11,37 +11,39 @@ namespace Z0
 
     partial class XedRules
     {
-        public static Index<PatternOpInfo> CalcOpRecords(Index<InstPattern> src)
+        public static Index<PatternOpInfo> CalcOpRecords(RuleTableSet tables, Index<InstPattern> src)
         {
-            var dst = list<PatternOpInfo>();
+            var buffer = list<PatternOpInfo>();
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var pattern = ref src[i];
                 ref readonly var ops = ref pattern.Ops;
                 for(var j=0; j<ops.Count; j++)
                 {
-                    var op = PatternOpInfo.Empty;
-                    CalcOpProps(ops[j], ref op);
-                    op.InstId = pattern.InstId;
-                    op.PatternId = pattern.PatternId;
-                    op.InstClass = pattern.InstClass;
-                    op.Mode = pattern.Mode;
-                    op.OpCode = pattern.OpCode;
-                    dst.Add(op);
+                    var dst = PatternOpInfo.Empty;
+                    ref readonly var op = ref ops[j];
+
+                    dst.InstId = pattern.InstId;
+                    dst.PatternId = pattern.PatternId;
+                    dst.InstClass = pattern.InstClass;
+                    dst.Mode = pattern.Mode;
+                    dst.OpCode = pattern.OpCode;
+                    dst.Index = op.Index;
+                    dst.Name = op.Name;
+                    dst.Kind = op.Kind;
+                    dst.Expression = op.Expression;
+                    dst.NonTerm = (bit)XedFields.nonterm(op.Attribs, out dst.NonTerminal);
+                    CalcOpProps(op, ref dst);
+                    buffer.Add(dst);
                 }
             }
 
-            return dst.ToArray().Sort();
+            return buffer.ToArray().Sort();
         }
 
-        static void CalcOpProps(in PatternOp src, ref PatternOpInfo dst)
+        static void CalcOpProps(in PatternOp op, ref PatternOpInfo dst)
         {
-            ref readonly var attribs = ref src.Attribs;
-            dst.Index = src.Index;
-            dst.Name = src.Name;
-            dst.Kind = src.Kind;
-            dst.Expression = src.Expression;
-            dst.NonTerm = (bit)XedFields.nonterm(attribs, out dst.NonTerminal);
+            ref readonly var attribs = ref op.Attribs;
             if(attribs.Search(OpClass.Action, out var a))
                 dst.Action = a.AsAction();
             if(attribs.Search(OpClass.OpWidth, out var w))

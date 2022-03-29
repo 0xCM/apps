@@ -9,6 +9,7 @@ namespace Z0
 
     using static core;
     using static XedRules;
+    using static XedModels;
 
     using K = XedRules.FieldKind;
 
@@ -81,7 +82,7 @@ namespace Z0
             var outpath = FS.FilePath.Empty;
             var classifier = EmptyString;
             var buffer = text.buffer();
-            var opsLU = XedRules.CalcOpRecords(src).GroupBy(x => x.PatternId).Map(x => (x.Key, x.ToIndex())).ToConcurrentDictionary();
+            var opsLU = XedRules.CalcOpRecords(tables,src).GroupBy(x => x.PatternId).Map(x => (x.Key, x.ToIndex())).ToConcurrentDictionary();
             var count = src.Count;
             for(var i=0; i<count; i++)
             {
@@ -123,13 +124,60 @@ namespace Z0
                 if(opsLU.TryGetValue(pattern.PatternId, out var ops))
                 {
                     for(var j=0; j<ops.Length; j++)
-                        buffer.AppendLine(XedRender.semantic(ops[j]));
+                    {
+                        ref readonly var op = ref ops[j];
+                        if(op.NonTerminal.IsNonEmpty)
+                        {
+                            var ntpath = tables.FindTablePath(op.NonTerminal.Name);
+                            if(ntpath.IsNonEmpty)
+                                buffer.AppendLine(string.Format("{0}::{1}", op.NonTerminal.Name, ntpath));
+                            else
+                                buffer.AppendLine(op.NonTerminal.Name);
+                        }
+                        else
+                            buffer.AppendLine(semantic(op));
+                    }
                 }
 
                 if(i==count - 1)
                     buffer.Emit(outpath);
             }
         }
+
+       static string semantic(OpAction src)
+            => src switch
+            {
+                OpAction.R => "in",
+                OpAction.W => "out",
+                OpAction.RW => "io",
+                OpAction.CR => "?in",
+                OpAction.CW => "?out",
+                OpAction.CRW => "crw",
+                OpAction.RCW => "rcw",
+                _ => EmptyString,
+            };
+
+        static string semantic(in PatternOpInfo src)
+        {
+            var type = EmptyString;
+            var width = EmptyString;
+            if(src.CellType.IsNonEmpty)
+                type = src.CellType.Format();
+            if(src.RegLit.IsNonEmpty)
+                type = src.RegLit.Format();
+            if(src.BitWidth.IsNonEmpty)
+                width = string.Format("w{0}", src.BitWidth);
+            if(empty(width))
+                width = src.OpWidth.Format();
+            var desc = EmptyString;
+            if(empty(type))
+                desc = width;
+            else
+                desc = nonempty(width) ? string.Format("{0}/{1}", width, type) : type;
+
+            return string.Format("{0} {1,-8} {2,-8} {3,-8} {4}", src.Index, src.Name, src.Kind, semantic(src.Action), desc);
+        }
+
 
         static string FormatIsaBody(InstPattern src)
         {

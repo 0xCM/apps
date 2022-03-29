@@ -17,7 +17,6 @@ namespace Z0
             exec(PllExec,
                 () => EmitPatternInfo(patterns),
                 () => EmitPatternDetails(patterns),
-                () => EmitPatternOps(patterns),
                 () => EmitOpCodes(patterns),
                 () => EmitInstFields(patterns),
                 () => EmitFlagEffects(patterns),
@@ -70,8 +69,8 @@ namespace Z0
         void EmitPatternDetails(Index<InstPattern> src)
             => EmitPatternDetails(src, XedPaths.DocTarget(XedDocKind.PatternDetail));
 
-        void EmitPatternOps(Index<InstPattern> src)
-            => TableEmit(CalcOpRecords(src).View, PatternOpInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));
+        void EmitPatternOps(RuleTableSet tables, Index<InstPattern> src)
+            => TableEmit(CalcOpRecords(tables, src).View, PatternOpInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));
 
         void EmitMacroDefs()
             => TableEmit(CalcMacroDefs().View, MacroDef.RenderWidths, XedPaths.RuleTable<MacroDef>());
