@@ -8,7 +8,6 @@ namespace Z0
     using static core;
 
     using static XedRules;
-    using static XedModels;
 
     partial class XedPatterns
     {
@@ -16,7 +15,6 @@ namespace Z0
         {
             var criteria = dict<byte,InstDefPart>();
             var parts = mapi(src, (i,p) => ((byte)i, p)).ToDictionary();
-
             var count = src.FieldCount;
             for(byte i=0; i<count; i++)
             {

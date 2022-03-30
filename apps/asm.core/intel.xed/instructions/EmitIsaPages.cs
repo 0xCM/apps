@@ -9,28 +9,9 @@ namespace Z0
 
     using static core;
     using static XedRules;
-    using static XedModels;
-
-    using K = XedRules.FieldKind;
 
     partial class XedPatterns
     {
-        public Index<InstFieldInfo> CalcInstFields(Index<InstPattern> src)
-        {
-            var count = 0u;
-            iter(src, p => count += p.Body.FieldCount);
-            var dst = alloc<InstFieldInfo>(count);
-            var k=0u;
-            for(var i=0; i<src.Count; i++)
-            {
-                ref readonly var pattern = ref src[i];
-                ref readonly var body = ref pattern.Body;
-                for(byte j=0; j<body.FieldCount; j++,k++)
-                    seek(dst,k) = fieldinfo(pattern, body[j], j);
-            }
-            return dst;
-        }
-
         static uint IsaOutCount;
 
         public void EmitIsaPages(RuleTableSet tables, Index<InstPattern> patterns)

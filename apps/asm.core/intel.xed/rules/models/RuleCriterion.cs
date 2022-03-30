@@ -24,17 +24,6 @@ namespace Z0
             public readonly CellDataKind DataKind;
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(bool premise, RuleCall call)
-            {
-                Require.invariant(call.IsNonEmpty);
-                Premise = premise;
-                Field = call.Field;
-                Operator = call.Operator;
-                Storage = (ulong)call.Target;
-                DataKind = CellDataKind.Call;
-            }
-
-            [MethodImpl(Inline)]
             internal RuleCriterion(bool premise, FieldExpr data, CellDataKind kind = CellDataKind.FieldExpr)
             {
                 Premise = premise;
@@ -92,12 +81,6 @@ namespace Z0
                 get => !IsEmpty;
             }
 
-            public bool IsCall
-            {
-                [MethodImpl(Inline)]
-                get => DataKind == CellDataKind.Call;
-            }
-
             public bool IsBfSeg
             {
                 [MethodImpl(Inline)]
@@ -122,13 +105,15 @@ namespace Z0
                 get => DataKind == CellDataKind.FieldExpr || DataKind == CellDataKind.Nonterminal;
             }
 
+            public bool IsNonTerminal
+            {
+                [MethodImpl(Inline)]
+                get => DataKind == CellDataKind.Nonterminal;
+            }
+
             [MethodImpl(Inline)]
             public FieldExpr AsFieldExpr()
                 => core.@as<FieldExpr>(Storage.Bytes);
-
-            [MethodImpl(Inline)]
-            public RuleCall AsCall()
-                => new RuleCall(Field, Operator, (NameResolver)Data);
 
             [MethodImpl(Inline)]
             public FieldValue AsValue()

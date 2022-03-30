@@ -10,6 +10,9 @@ namespace Z0
 
     partial class XedPatterns
     {
+        public static Index<XedOpCode> xedoc(Index<InstPattern> src)
+            => src.Map(x => x.Spec.OpCode).Sort();
+
         public static XedOpCode xedoc(InstPatternBody body)
         {
             var vc = VexClass.None;

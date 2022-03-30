@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public readonly struct MachineMode
+        public readonly struct MachineMode : IComparable<MachineMode>, IEquatable<MachineMode>
         {
             public readonly ModeKind Kind;
 
@@ -16,6 +16,20 @@ namespace Z0
             {
                 Kind = mode;
             }
+
+            [MethodImpl(Inline)]
+            public int CompareTo(MachineMode src)
+                => XedPatterns.cmp(Kind,src.Kind);
+
+            [MethodImpl(Inline)]
+            public bool Equals(MachineMode src)
+                => Kind == src.Kind;
+
+            public override int GetHashCode()
+                => (byte)Kind;
+
+            public override bool Equals(object src)
+                => src is MachineMode x && Equals(x);
 
             public string Format()
                 => XedRender.format(this);
@@ -34,6 +48,14 @@ namespace Z0
             [MethodImpl(Inline)]
             public static explicit operator byte(MachineMode src)
                 => (byte)src.Kind;
+
+            [MethodImpl(Inline)]
+            public static bool operator==(MachineMode a, MachineMode b)
+                => a.Equals(b);
+
+            [MethodImpl(Inline)]
+            public static bool operator!=(MachineMode a, MachineMode b)
+                => !a.Equals(b);
         }
     }
 }

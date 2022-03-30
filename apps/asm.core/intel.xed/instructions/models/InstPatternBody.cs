@@ -79,6 +79,10 @@ namespace Z0
                 => new InstPatternBody(src);
 
             [MethodImpl(Inline)]
+            public static implicit operator InstPatternBody(Index<InstDefPart> src)
+                => new InstPatternBody(src);
+
+            [MethodImpl(Inline)]
             public static implicit operator InstDefPart[](InstPatternBody src)
                 => src.Data;
         }

@@ -165,11 +165,54 @@ namespace Z0
             return result;
         }
 
-        public static bool parse(string src, out FieldConstraint dst)
+        public static bool parse(string src, out StatementSpec dst)
         {
-            dst = FieldConstraint.Empty;
+            var input = normalize(src);
+            var i = text.index(input,"=>");
+            dst = StatementSpec.Empty;
+            if(i > 0)
+            {
+                var left = text.trim(text.left(input, i));
+                var premise = text.nonempty(left) ? cells(true, left) : Index<RuleCell>.Empty;
+                var right = text.trim(text.right(input, i+1));
+                var consequent = text.nonempty(right) ? cells(false, right) : Index<RuleCell>.Empty;
+                if(premise.Count != 0 || consequent.Count != 0)
+                    dst = new StatementSpec(premise,consequent);
+            }
+            else
+                Errors.Throw(AppMsg.ParseFailure.Format(nameof(StatementSpec), src));
+
+            return dst.IsNonEmpty;
+        }
+
+        public static bool IsFieldExpr(string src)
+        {
+            var result = text.contains(src,"!=") || text.contains(src,"=");
+            if(result)
+            {
+                var i = text.index(src, "!=");
+                var j = text.index(src, "=");
+                if(i>0)
+                {
+                    var right = text.right(src,i+1);
+                    result = text.nonempty(right);
+                }
+                else if(j>0)
+                {
+                    var right = text.right(src,j);
+                    result = text.nonempty(right);
+                }
+                else
+                    result = false;
+            }
+            return result;
+        }
+
+        public static bool parse(string src, out FieldExpr dst)
+        {
+            dst = FieldExpr.Empty;
             var result = false;
-            if(XedParsers.IsConstraint(src))
+            if(IsFieldExpr(src))
             {
                 var i = text.index(src, "!=");
                 var j = text.index(src, "=");
@@ -194,10 +237,10 @@ namespace Z0
                 {
                     result = XedFields.parse(fk, fvExpr, out fv);
                     if(result)
-                        dst = new FieldConstraint(fk, op, fv);
+                        dst = new FieldExpr(fk, op, fv);
                 }
                 else
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldConstraint), src));
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldExpr), src));
             }
 
             return result;
@@ -232,21 +275,13 @@ namespace Z0
                 else
                     result = (false, AppMsg.ParseFailure.Format(nameof(BitfieldSeg), src));
             }
-            else if (text.contains(src,Chars.Bang))
+            else if (IsFieldExpr(src))
             {
-                result = parse(src, out FieldConstraint x);
+                result = parse(src, out FieldExpr x);
                 if(result)
                     dst = part(x);
                 else
-                    result = (false, AppMsg.ParseFailure.Format(nameof(FieldConstraint), src));
-            }
-            else if(IsAssignment(src))
-            {
-                result = parse(src, out FieldAssign x);
-                if(result)
-                    dst = part(x);
-                else
-                    result = (false, AppMsg.ParseFailure.Format(nameof(FieldAssign), src));
+                    result = (false, AppMsg.ParseFailure.Format(nameof(FieldExpr), src));
             }
             else if(IsNonterminal(src))
             {

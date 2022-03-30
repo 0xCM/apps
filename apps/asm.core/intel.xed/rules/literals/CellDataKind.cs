@@ -15,9 +15,6 @@ namespace Z0
             [Symbol("literal")]
             Literal,
 
-            [Symbol("call")]
-            Call,
-
             [Symbol("bfseg")]
             BfSeg,
 

@@ -5,29 +5,34 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static XedModels;
     using static XedPatterns;
-
     using static XedFields;
 
     partial class XedRules
     {
         [Record(TableId)]
-        public struct InstFieldInfo
+        public struct InstFieldRow
         {
             public const string TableId = "xed.inst.patterns.fields";
 
-            public const byte FieldCount = 13;
-
-            public uint InstId;
+            public const byte FieldCount = 15;
 
             public uint PatternId;
 
-            public byte Index;
+            public uint InstId;
+
+            public MachineMode Mode;
+
+            public OpCodeKind OcKind;
+
+            public AsmOcValue OcValue;
 
             public InstClass InstClass;
 
-            public XedOpCode OpCode;
+            public byte Index;
 
             public DefFieldClass FieldClass;
 
@@ -45,9 +50,9 @@ namespace Z0
 
             public EmptyZero<uint5> BitLiteral;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,8,18,28,12,22,12,12,22,12,12,12};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,8,8,18,18,8,16,16,22,12,22,12,12,12,};
 
-            public static InstFieldInfo Empty => default;
+            public static InstFieldRow Empty => default;
         }
     }
 }

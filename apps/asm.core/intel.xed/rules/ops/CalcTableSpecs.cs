@@ -57,7 +57,7 @@ namespace Z0
                 }
                 else
                 {
-                    if(XedRules.parse(content, out StatementSpec s))
+                    if(XedParsers.parse(content, out StatementSpec s))
                         statements.Add(s);
                 }
             }

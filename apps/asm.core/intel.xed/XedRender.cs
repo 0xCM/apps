@@ -203,8 +203,6 @@ namespace Z0
         public static string format(R.FieldValue src)
             => XedFields.format(src);
 
-        public static string format(in FieldConstraint src)
-            => format(src.Expression());
 
         public static string format(in FieldExpr src)
             => src.IsEmpty
@@ -393,8 +391,6 @@ namespace Z0
 
         public static string format(in RuleCriterion src)
         {
-            if(src.IsCall)
-                return format(src.AsCall());
             if(src.IsFieldExpr)
                 return format(src.AsFieldExpr());
             else if(src.IsLiteral)
@@ -710,19 +706,6 @@ namespace Z0
             return dst;
         }
 
-        public static string format(RuleCall src)
-        {
-            if(src.IsEmpty)
-                return RP.Error;
-            else
-            {
-                if(src.Field == 0)
-                    return string.Format("{0}()", src.Target.Format());
-                else
-                    return string.Format("{0}{1}{2}()", format(src.Field), format(src.Operator), src.Target.Format());
-            }
-        }
-
         public static string format(BitfieldSeg src)
             => src.IsEmpty ? EmptyString : string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]", XedRender.format(src.Field), src.Pattern);
 
@@ -840,9 +823,6 @@ namespace Z0
         }
 
         public static string format(FieldAssign src)
-            => format(src.Expression());
-
-        public static string format(FieldCmp src)
             => format(src.Expression());
 
         public static string format(in DisasmOpDetail src)

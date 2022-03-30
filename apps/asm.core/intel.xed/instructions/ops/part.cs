@@ -13,16 +13,8 @@ namespace Z0
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static InstDefPart part(FieldConstraint src)
-            => new(src.Expression());
-
-        [MethodImpl(Inline), Op]
         public static InstDefPart part(BitfieldSeg src)
             => new(src);
-
-        [MethodImpl(Inline), Op]
-        public static InstDefPart part(FieldAssign src)
-            => new(src.Expression());
 
         [MethodImpl(Inline), Op]
         public static InstDefPart part(Nonterminal src)

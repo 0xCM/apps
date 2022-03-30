@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedPatterns
     {
-        public Index<InstPattern> CalcPatterns(Index<InstDef> defs)
+        public static Index<InstPattern> patterns(Index<InstDef> defs)
         {
             var count = 0u;
             iter(defs, def => count += def.PatternSpecs.Count);

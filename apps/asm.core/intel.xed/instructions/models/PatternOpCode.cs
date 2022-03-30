@@ -5,8 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
     using Asm;
+
+    using static XedModels;
 
     partial class XedPatterns
     {
@@ -15,17 +16,19 @@ namespace Z0
         {
             public const string TableId = "xed.opcodes";
 
-            public const byte FieldCount = 7;
+            public const byte FieldCount = 8;
 
             public uint PatternId;
+
+            public uint InstId;
+
+            public MachineMode Mode;
 
             public OpCodeKind OcKind;
 
             public AsmOcValue OcValue;
 
             public InstClass InstClass;
-
-            public EnumFormat<ModeKind> Mode;
 
             public TextBlock Layout;
 
@@ -42,7 +45,7 @@ namespace Z0
                 var result = OpCode.CompareTo(src.OpCode);
                 if(result==0)
                 {
-                    result = cmp(Mode,src.Mode);
+                    result = Mode.CompareTo(src.Mode);
                     if(result == 0)
                     {
                         result = Layout.CompareTo(src.Layout);
@@ -54,7 +57,7 @@ namespace Z0
                 return result;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,12,20,20,12,80,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,12,8,20,20,12,80,1};
         }
     }
 }

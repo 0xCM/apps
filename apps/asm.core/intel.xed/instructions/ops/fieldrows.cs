@@ -5,21 +5,40 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     using static XedRules;
 
     partial class XedPatterns
     {
-        [Op]
-        public static InstFieldInfo fieldinfo(InstPattern pattern, InstDefPart src, byte index)
+        public static Index<InstFieldRow> fieldrows(Index<InstPattern> src)
         {
-            var dst = InstFieldInfo.Empty;
-            dst.InstId = pattern.InstId;
+            var count = 0u;
+            iter(src, p => count += p.Body.FieldCount);
+            var dst = alloc<InstFieldRow>(count);
+            var k=0u;
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var pattern = ref src[i];
+                ref readonly var body = ref pattern.Body;
+                for(byte j=0; j<body.FieldCount; j++,k++)
+                    seek(dst,k) = fieldrow(pattern, body[j], j);
+            }
+            return dst;
+        }
+
+        [Op]
+        public static InstFieldRow fieldrow(InstPattern pattern, in InstDefPart src, byte index)
+        {
+            var dst = InstFieldRow.Empty;
             dst.PatternId = pattern.PatternId;
+            dst.InstId = pattern.InstId;
+            dst.Mode = pattern.Mode;
             dst.Index = index;
             dst.FieldClass = src.FieldClass;
             dst.FieldKind = src.FieldKind;
             dst.InstClass = pattern.InstClass;
-            dst.OpCode = pattern.OpCode;
+            dst.OcKind = pattern.OpCode.Kind;
+            dst.OcValue = pattern.OpCode.Value;
             switch(src.FieldClass)
             {
                 case DefFieldClass.Bitfield:

@@ -46,7 +46,7 @@ namespace Z0
             => mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i));
 
         Index<InstPattern> CalcInstPatterns(Index<InstDef> defs)
-            => Data(nameof(InstPattern), () => Patterns.CalcPatterns(defs));
+            => Data(nameof(InstPattern), () => XedPatterns.patterns(defs));
 
         void EmitSymbolicFields()
             => ApiMetadataService.create(Wf).EmitTokenSet(XedFields.SymbolicFields.create(), AppDb.XedPath("xed.fields.symbolic", FileKind.Csv));
@@ -58,10 +58,10 @@ namespace Z0
             => TableEmit(XedFields.Specs.View, RuleFieldSpec.RenderWidths, XedPaths.Table<RuleFieldSpec>());
 
         void EmitOpCodes(Index<InstPattern> src)
-            => TableEmit(CalcOpCodeDetails(src).View, PatternOpCode.RenderWidths, XedPaths.Table<PatternOpCode>());
+            => TableEmit(XedPatterns.poc(src).View, PatternOpCode.RenderWidths, XedPaths.Table<PatternOpCode>());
 
         void EmitInstFields(Index<InstPattern> src)
-            => TableEmit(Patterns.CalcInstFields(src).View, InstFieldInfo.RenderWidths, XedPaths.Table<InstFieldInfo>());
+            => TableEmit(XedPatterns.fieldrows(src).View, InstFieldRow.RenderWidths, XedPaths.Table<InstFieldRow>());
 
         void EmitPatternInfo(Index<InstPattern> src)
             => TableEmit(XedPatterns.describe(src).View, InstPatternInfo.RenderWidths, XedPaths.Table<InstPatternInfo>());

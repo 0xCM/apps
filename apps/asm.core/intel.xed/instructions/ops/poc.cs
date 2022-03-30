@@ -7,33 +7,30 @@ namespace Z0
 {
     using static core;
 
-    using static XedRules;
-    using static XedModels;
-
     partial class XedPatterns
     {
         public static void poc(InstPattern src, out PatternOpCode dst)
         {
             dst = default;
-            (var fields, var layout) = split(src.Body);
+            (var fields, var _ly) = split(src.Body);
             dst.PatternId = src.PatternId;
+            dst.InstId = src.InstId;
             dst.OcKind = src.OpCode.Kind;
             dst.OcValue = src.OpCode.Value;
             dst.InstClass = src.InstClass;
             dst.Pattern = src.BodyExpr;
+            dst.Mode = mode(src.Body);
+            InstPatternBody _layout = layout(src);
+            dst.Layout = _layout.Format();
+        }
 
-            for(byte j=0; j<fields.FieldCount; j++)
-            {
-                ref readonly var part = ref fields[j];
-                if(part.IsFieldExpr)
-                {
-                    var expr = part.AsFieldExpr();
-                    if(expr.Field == FieldKind.MODE)
-                        dst.Mode = (ModeKind)expr.Value;
-                }
-            }
-
-            dst.Layout = layout.Format();
+        public static Index<PatternOpCode> poc(Index<InstPattern> src)
+        {
+            var count = src.Count;
+            var buffer = alloc<PatternOpCode>(count);
+            for(var i=0; i<count; i++)
+                XedPatterns.poc(src[i], out seek(buffer,i));
+            return buffer.Sort();
         }
     }
 }

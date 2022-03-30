@@ -7,20 +7,17 @@ namespace Z0
 {
     using static core;
     using static XedModels;
+    using static XedFields;
 
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
+        public static RuleCriterion criterion(bool premise, in FieldExpr src)
+            => new RuleCriterion(premise, src);
+
+        [MethodImpl(Inline), Op]
         public static RuleCriterion criterion(bool premise, FieldLiteral literal)
             => new RuleCriterion(premise, literal);
-
-        [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(bool premise, RuleCall call)
-            => new RuleCriterion(premise, call);
-
-        [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(bool premise, in FieldConstraint src)
-            => new RuleCriterion(premise, src.Expression());
 
         [MethodImpl(Inline), Op]
         public static RuleCriterion criterion(bool premise, FieldKind fk, RuleOperator op, Nonterminal nt)
@@ -33,9 +30,5 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static RuleCriterion criterion(bool premise, BitfieldSpec src)
             => new RuleCriterion(premise, src);
-
-        [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(bool premise, RuleOperator op, FieldValue src)
-            => new RuleCriterion(premise, XedFields.expr(src.Field, op, src));
     }
 }
