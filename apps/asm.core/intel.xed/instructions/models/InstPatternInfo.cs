@@ -6,6 +6,7 @@
 namespace Z0
 {
     using Asm;
+
     using static XedModels;
 
     partial class XedPatterns
@@ -30,7 +31,7 @@ namespace Z0
             public XedOpCode OpCode
             {
                 [MethodImpl(Inline)]
-                get => new XedOpCode(OcKind,OcValue);
+                get => new (Mode, OcKind, OcValue);
             }
 
             public InstClass InstClass;

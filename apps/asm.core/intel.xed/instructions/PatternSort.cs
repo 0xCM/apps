@@ -73,31 +73,31 @@ namespace Z0
                 get => ref @as<XedOpCode>(seek(Data.Bytes,OpCodeOffset));
             }
 
-            readonly ref readonly bit Lockable
+            public readonly ref readonly bit Lockable
             {
                 [MethodImpl(Inline)]
                 get => ref @as<bit>(seek(Data.Bytes,LockableOffset));
             }
 
-            readonly bit LockValue
+            public readonly bit LockValue
             {
                 [MethodImpl(Inline)]
                 get => @as<bit>(seek(Data.Bytes,LockValueOffset));
             }
 
-            ref readonly InstClass InstClass
+            public ref readonly InstClass InstClass
             {
                 [MethodImpl(Inline)]
                 get => ref @as<InstClass>(seek(Data.Bytes,InstClassOffset));
             }
 
-            ref readonly InstForm InstForm
+            public ref readonly InstForm InstForm
             {
                 [MethodImpl(Inline)]
                 get => ref @as<InstForm>(seek(Data.Bytes,InstFormOffset));
             }
 
-            ref readonly ushort Discriminator
+            public ref readonly ushort Discriminator
             {
                 [MethodImpl(Inline)]
                 get => ref @as<ushort>(seek(Data.Bytes,DiscrimOffset));
@@ -149,6 +149,12 @@ namespace Z0
 
             public override int GetHashCode()
                 => Hash;
+
+            public string Format()
+                => Hash.Format();
+
+            public override string ToString()
+                => Format();
 
             [MethodImpl(Inline)]
             public bool Equals(PatternSort src)

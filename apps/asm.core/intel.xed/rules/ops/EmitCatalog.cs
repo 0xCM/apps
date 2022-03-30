@@ -14,9 +14,9 @@ namespace Z0
         public void EmitCatalog()
         {
             var patterns = CalcInstPatterns(CalcInstDefs());
+            var tables = RuleTableSet.Empty;
             exec(PllExec,
                 () => EmitPatternInfo(patterns),
-                () => EmitPatternDetails(patterns),
                 () => EmitOpCodes(patterns),
                 () => EmitInstFields(patterns),
                 () => EmitFlagEffects(patterns),
@@ -27,10 +27,14 @@ namespace Z0
                 EmitMacroDefs,
                 EmitReflectedFields,
                 EmitSymbolicFields,
-                EmitFieldDefs
+                EmitFieldDefs,
+                () => tables = CalcTableSet()
                 );
 
-            EmitRuleTables(CalcTableSet(), patterns);
+            exec(PllExec,
+                () => EmitRuleTables(tables, patterns),
+                () => EmitPatternDetails(tables, patterns)
+                );
         }
 
         void EmitIsaPages(RuleTableSet tables, Index<InstPattern> src)
@@ -66,8 +70,8 @@ namespace Z0
         void EmitPatternInfo(Index<InstPattern> src)
             => TableEmit(XedPatterns.describe(src).View, InstPatternInfo.RenderWidths, XedPaths.Table<InstPatternInfo>());
 
-        void EmitPatternDetails(Index<InstPattern> src)
-            => EmitPatternDetails(src, XedPaths.DocTarget(XedDocKind.PatternDetail));
+        void EmitPatternDetails(RuleTableSet tables, Index<InstPattern> src)
+            => EmitPatternDetails(tables, src, XedPaths.DocTarget(XedDocKind.PatternDetail));
 
         void EmitPatternOps(RuleTableSet tables, Index<InstPattern> src)
             => TableEmit(CalcOpRecords(tables, src).View, PatternOpRow.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));

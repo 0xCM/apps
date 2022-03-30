@@ -13,7 +13,7 @@ namespace Z0
         public static Index<XedOpCode> xedoc(Index<InstPattern> src)
             => src.Map(x => x.Spec.OpCode).Sort();
 
-        public static XedOpCode xedoc(InstPatternBody body)
+        public static XedOpCode xedoc(in InstPatternBody body)
         {
             var vc = VexClass.None;
             var number = z8;
@@ -45,7 +45,7 @@ namespace Z0
                 break;
             }
 
-            return new XedOpCode(kind, value);
+            return new XedOpCode(mode(body), kind, value);
         }
     }
 }

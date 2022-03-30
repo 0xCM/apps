@@ -16,7 +16,9 @@ namespace Z0
         {
             public const string TableId = "xed.opcodes";
 
-            public const byte FieldCount = 8;
+            public const byte FieldCount = 9;
+
+            public uint Seq;
 
             public uint PatternId;
 
@@ -37,7 +39,7 @@ namespace Z0
             public XedOpCode OpCode
             {
                 [MethodImpl(Inline)]
-                get => new XedOpCode(OcKind,OcValue);
+                get => new XedOpCode(Mode, OcKind, OcValue);
             }
 
             public int CompareTo(PatternOpCode src)
@@ -57,7 +59,7 @@ namespace Z0
                 return result;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,12,8,20,20,12,80,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,10,12,8,10,20,18,80,1};
         }
     }
 }

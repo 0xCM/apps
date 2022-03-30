@@ -14,41 +14,57 @@ namespace Z0
     {
         static uint IsaOutCount;
 
-        public void EmitIsaPages(RuleTableSet tables, Index<InstPattern> patterns)
+        public static string FormatIsaHeader(InstPattern pattern)
+            => string.Format("{0,-18} {1,-12} {2,-12} {3}", pattern.Classifier, pattern.Isa.Name, pattern.Category, pattern.InstForm);
+
+        public static byte RenderOps(RuleTableSet tables, InstPattern pattern, Span<string> dst)
         {
-            XedPaths.InstIsaRoot().Delete();
-            iter(patterns.GroupBy(x => x.Isa.Kind), g => EmitIsaGroup(tables, g.Array()), PllExec);
+            ref readonly var ops = ref pattern.Ops;
+            var count = (byte)ops.Count;
+            for(var j=0; j<count; j++)
+            {
+                var op = ops[j].Describe();
+                var width = XedLookups.Data.WidthInfo(op.OpWidth.Code);
+                var ntpath = op.IsNonTerminal ? tables.FindTablePath(op.NonTerminal.Name) : FS.FileUri.Empty;
+                seek(dst,j) = (string.Format("{0,-2} {1,-5} {2,-5} {3,-3} {4,-3} {5}",
+                    op.Index,
+                    XedRender.format(op.Name),
+                    width.IsEmpty ? op.OpWidth.Bits.ToString() : string.Format("{0,-8} w{1,-8} {2,-2}", XedRender.format(op.OpWidth.Code), width.Seg.Format(), width.Seg.CellCount),
+                    op.Visibility.Code(),
+                    XedRender.format(op.Action),
+                    IsRegOp(op.Kind) ? (op.RegLit != 0 ? XedRender.format(op.RegLit) : string.Format("{0}()::{1}", op.NonTerminal.Name, ntpath)) : EmptyString
+                    ));
+            }
+
+            return count;
         }
 
-        static string FieldTitle = "Fields".PadRight(18).PadRight(120,Chars.Dash);
-
-        static string OpsTitle = "Operands".PadRight(18).PadRight(120,Chars.Dash);
-
-        void RenderFields(RuleTableSet tables, InstPattern src, ITextBuffer dst)
+        public static byte RenderFields(RuleTableSet tables, InstPattern src, Span<string> dst)
         {
             const string Pattern = "{0,-2} {1,-14} {2}";
-            for(var j=0; j<src.Fields.Count; j++)
+            var count = (byte)src.Fields.Count;
+            for(var j=0; j<count; j++)
             {
                 ref readonly var field = ref src.Fields[j];
                 var fk = XedRender.format(field.FieldKind);
                 if(field.IsLiteral)
-                    dst.AppendLine(string.Format(Pattern, j, "Literal", field.Format()));
+                    seek(dst,j) = string.Format(Pattern, j, "Literal", field.Format());
                 else
                 {
                     switch(field.FieldClass)
                     {
                         case DefFieldClass.FieldExpr:
-                            dst.AppendLine(string.Format(Pattern, j, fk, field.AsFieldExpr()));
+                            seek(dst,j) = string.Format(Pattern, j, fk, field.AsFieldExpr());
                             break;
                         case DefFieldClass.Nonterm:
                         {
                             var nt = field.AsNonterminal();
                             var path = tables.FindTablePath(nt.Name);
-                            dst.AppendLine(string.Format(Pattern, j, "Nonterm",  string.Format("{0}::{1}", nt.Format(), path)));
+                            seek(dst,j) = string.Format(Pattern, j, "Nonterm",  string.Format("{0}::{1}", nt.Format(), path));
                         }
                         break;
                         case DefFieldClass.Bitfield:
-                            dst.AppendLine(string.Format(Pattern, j, fk, field.AsBitfield()));
+                            seek(dst,j) = string.Format(Pattern, j, fk, field.AsBitfield());
                         break;
                         default:
                             Errors.Throw(string.Format("Unhandled case: {0}", field.FieldClass));
@@ -56,95 +72,10 @@ namespace Z0
                     }
                 }
             }
+            return count;
         }
 
-        static bool IsRegOp(OpKind src)
-        {
-            var result = false;
-            switch(src)
-            {
-                case OpKind.Reg:
-                case OpKind.Seg:
-                case OpKind.Base:
-                case OpKind.Index:
-                    result = true;
-                break;
-            }
-            return result;
-        }
-
-        void EmitIsaGroup(RuleTableSet tables, Index<InstPattern> src)
-        {
-            var outpath = FS.FilePath.Empty;
-            var classifier = EmptyString;
-            var buffer = text.buffer();
-            var count = src.Count;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var pattern = ref src[i];
-
-                if(pattern.Classifier != classifier)
-                {
-                    if(i!=0)
-                    {
-                        buffer.Emit(outpath);
-                        inc(ref IsaOutCount);
-                        if(IsaOutCount % 300 == 0)
-                            Status(string.Format("Emitted {0} instructions", IsaOutCount));
-                    }
-
-                    classifier = pattern.Classifier;
-                    outpath = XedPaths.InstIsaPath(pattern);
-                    if(outpath.Exists)
-                        Warn(string.Format("Overwriting {0}", outpath.ToUri()));
-
-                }
-
-                if(i!=0)
-                    buffer.AppendLine(RP.PageBreak120);
-
-                buffer.AppendLineFormat("{0,-18} {1,-12} {2,-12} {3}", pattern.Classifier, pattern.Isa.Name, pattern.Category, pattern.InstForm);
-                buffer.AppendLineFormat("{0,-18} {1}", "Pattern", FormatIsaBody(pattern));
-                buffer.AppendLineFormat("{0,-18} {1}", "OpCode", pattern.OpCode);
-
-                buffer.AppendLine(FieldTitle);
-                RenderFields(tables, pattern, buffer);
-
-                buffer.AppendLine(OpsTitle);
-
-                ref readonly var ops = ref pattern.Ops;
-                for(var j=0; j<pattern.Ops.Count; j++)
-                {
-                    var op = ops[j].Describe();
-
-                    var width = XedLookups.Data.WidthInfo(op.OpWidth.Code);
-                    var wi = width.IsEmpty
-                        ? op.OpWidth.Bits.ToString()
-                        : string.Format("{0,-8} w{1,-8} {2,-2}",
-                            XedRender.format(op.OpWidth.Code),
-                            width.Seg.Format(),
-                            width.Seg.CellCount
-                        );
-
-                    var ntpath = op.IsNonTerminal ? tables.FindTablePath(op.NonTerminal.Name) : FS.FileUri.Empty;
-                    buffer.AppendLine(string.Format("{0,-2} {1,-5} {2,-5} {3,-3} {4,-3} {5}",
-                        op.Index,
-                        XedRender.format(op.Name),
-                        wi,
-                        op.Visibility.Code(),
-                        XedRender.format(op.Action),
-                        IsRegOp(op.Kind) ? (op.RegLit != 0 ? XedRender.format(op.RegLit) : string.Format("{0}()::{1}", op.NonTerminal.Name, ntpath)) : EmptyString
-                        ));
-                }
-
-                buffer.AppendLine();
-
-                if(i==count - 1)
-                    buffer.Emit(outpath);
-            }
-        }
-
-        static string FormatIsaBody(InstPattern src)
+        public static string FormatIsaBody(InstPattern src)
         {
             ref readonly var body = ref src.Body;
             if(body.IsEmpty)
@@ -186,7 +117,84 @@ namespace Z0
                 }
             }
 
-            return dst.Emit();
+            return string.Format("{0,-18} {1}", "Pattern", dst.Emit());
+        }
+
+        public void EmitIsaPages(RuleTableSet tables, Index<InstPattern> patterns)
+        {
+            XedPaths.InstIsaRoot().Delete();
+            iter(patterns.GroupBy(x => x.Isa.Kind), g => EmitIsaGroup(tables, g.Array()), PllExec);
+        }
+
+        public static string FieldTitle = "Fields".PadRight(18).PadRight(120,Chars.Dash);
+
+        public static string OpsTitle = "Operands".PadRight(18).PadRight(120,Chars.Dash);
+
+        static bool IsRegOp(OpKind src)
+        {
+            var result = false;
+            switch(src)
+            {
+                case OpKind.Reg:
+                case OpKind.Seg:
+                case OpKind.Base:
+                case OpKind.Index:
+                    result = true;
+                break;
+            }
+            return result;
+        }
+
+        void EmitIsaGroup(RuleTableSet tables, Index<InstPattern> src)
+        {
+            var outpath = FS.FilePath.Empty;
+            var classifier = EmptyString;
+            var dst = text.buffer();
+            var count = src.Count;
+            Span<string> rbuffer = alloc<string>(42);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var pattern = ref src[i];
+
+                if(pattern.Classifier != classifier)
+                {
+                    if(i!=0)
+                    {
+                        dst.Emit(outpath);
+                        inc(ref IsaOutCount);
+                        if(IsaOutCount % 300 == 0)
+                            Status(string.Format("Emitted {0} instructions", IsaOutCount));
+                    }
+
+                    classifier = pattern.Classifier;
+                    outpath = XedPaths.InstIsaPath(pattern);
+                    if(outpath.Exists)
+                        Warn(string.Format("Overwriting {0}", outpath.ToUri()));
+
+                }
+
+                if(i!=0)
+                    dst.AppendLine(RP.PageBreak120);
+
+                dst.AppendLine(FormatIsaHeader(pattern));
+                dst.AppendLine(FormatIsaBody(pattern));
+                dst.AppendLineFormat("{0,-18} {1}", "OpCode", pattern.OpCode);
+
+                dst.AppendLine(XedPatterns.FieldTitle);
+                var fcount = XedPatterns.RenderFields(tables, pattern, rbuffer);
+                for(var j=0; j<fcount;j++)
+                    dst.AppendLine(skip(rbuffer,j));
+
+                dst.AppendLine(XedPatterns.OpsTitle);
+                var opscount = XedPatterns.RenderOps(tables, pattern, rbuffer);
+                for(var j=0; j<opscount;j++)
+                    dst.AppendLine(skip(rbuffer,j));
+
+                dst.AppendLine();
+
+                if(i==count - 1)
+                    dst.Emit(outpath);
+            }
         }
     }
 }

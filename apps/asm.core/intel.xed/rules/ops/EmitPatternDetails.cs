@@ -5,51 +5,45 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedPatterns;
     using Asm;
+
+    using static XedPatterns;
+    using static core;
 
     partial class XedRules
     {
-        void EmitPatternDetails(Index<InstPattern> src, FS.FilePath dst)
+        void EmitPatternDetails(RuleTableSet tables, Index<InstPattern> src, FS.FilePath dst)
         {
             src.Sort();
-            const string LabelPattern = "{0,-20} | {1}";
+            const string LabelPattern = "{0,-18} {1}";
             var emitting = EmittingFile(dst);
+            Span<string> rbuffer = alloc<string>(42);
+
             using var writer = dst.AsciWriter();
             for(var j=0; j<src.Count; j++)
             {
                 ref readonly var pattern = ref src[j];
 
-                writer.AppendLineFormat(LabelPattern, pattern.InstClass.Name, pattern.BodyExpr);
-                writer.AppendLineFormat(LabelPattern, nameof(pattern.RawBody), pattern.RawBody);
+                writer.AppendLine(FormatIsaHeader(pattern));
+                writer.AppendLine(FormatIsaBody(pattern));
                 writer.AppendLineFormat(LabelPattern, nameof(pattern.Mode), XedRender.format(pattern.Mode));
-                writer.AppendLineFormat(LabelPattern, nameof(pattern.OpCode),
-                    string.Format("{0}[{1}]:{2}",
-                        pattern.OpCode.Class,
-                        digits(pattern.OpCode.Kind),
-                        AsmOcValue.format(pattern.OpCode.Value))
-                        );
-                writer.AppendLineFormat(LabelPattern, XedRender.format(pattern.Isa), pattern.InstForm);
-                writer.AppendLineFormat(LabelPattern, pattern.Category, XedRender.format(pattern.Attributes));
+                writer.AppendLineFormat(LabelPattern, nameof(pattern.OpCode), string.Format("{0,-8} {1}", pattern.OpCode.Kind, AsmOcValue.format(pattern.OpCode.Value)));
+
+                if(pattern.Attributes.IsNonEmpty)
+                    writer.AppendLineFormat(LabelPattern, nameof(pattern.Attributes), XedRender.format(pattern.Attributes));
 
                 if(pattern.Effects.IsNonEmpty)
                     writer.AppendLineFormat(LabelPattern, nameof(pattern.Effects), XedRender.format(pattern.Effects));
 
-                ref readonly var ops = ref pattern.Ops;
-                if(ops.Count != 0)
-                {
-                    writer.AppendLineFormat(LabelPattern, RP.PageBreak20, EmptyString);
-                    for(byte k=0; k<ops.Count; k++)
-                    {
-                        ref readonly var op = ref ops[k];
-                        writer.AppendFormat("{0} {1,-18} | {2,-32}", op.Index, op.Name, op.SourceExpr);
-                        var attribs = op.Attribs;
-                        for(var m=0; m<attribs.Count; m++)
-                            writer.AppendFormat(" | {0,-10}", attribs[m]);
+                writer.AppendLine(XedPatterns.FieldTitle);
+                var fcount = XedPatterns.RenderFields(tables, pattern, rbuffer);
+                for(var k=0; k<fcount;k++)
+                    writer.AppendLine(skip(rbuffer,k));
 
-                        writer.AppendLine();
-                    }
-                }
+                writer.AppendLine(XedPatterns.OpsTitle);
+                var opscount = XedPatterns.RenderOps(tables,pattern,rbuffer);
+                for(var k=0; k<opscount;k++)
+                    writer.AppendLine(skip(rbuffer,k));
 
                 writer.AppendLine(RP.PageBreak120);
             }

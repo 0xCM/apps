@@ -9,6 +9,20 @@ namespace Z0
 
     partial class XedPatterns
     {
+        public static Index<PatternOpCode> poc(Index<InstPattern> src)
+        {
+            var count = src.Count;
+            var buffer = alloc<PatternOpCode>(count);
+            for(var i=0; i<count; i++)
+                XedPatterns.poc(src[i], out seek(buffer,i));
+
+            buffer.Sort();
+            for(var i=0u; i<count; i++)
+                seek(buffer,i).Seq = i;
+
+            return buffer;
+        }
+
         public static void poc(InstPattern src, out PatternOpCode dst)
         {
             dst = default;
@@ -22,15 +36,6 @@ namespace Z0
             dst.Mode = mode(src.Body);
             InstPatternBody _layout = layout(src);
             dst.Layout = _layout.Format();
-        }
-
-        public static Index<PatternOpCode> poc(Index<InstPattern> src)
-        {
-            var count = src.Count;
-            var buffer = alloc<PatternOpCode>(count);
-            for(var i=0; i<count; i++)
-                XedPatterns.poc(src[i], out seek(buffer,i));
-            return buffer.Sort();
         }
     }
 }

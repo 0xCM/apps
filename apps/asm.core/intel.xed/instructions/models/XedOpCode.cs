@@ -14,15 +14,33 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1),DataWidth(64)]
         public readonly struct XedOpCode : IEquatable<XedOpCode>, IComparable<XedOpCode>
         {
+            public static ref ulong convert(XedOpCode src, out ulong dst)
+            {
+                dst = core.@as<XedOpCode,ulong>(src);
+                return ref dst;
+            }
+
+            public static ref XedOpCode convert(ulong src, out XedOpCode dst)
+            {
+                dst = core.@as<ulong,XedOpCode>(src);
+                return ref dst;
+            }
+
+            public readonly MachineMode Mode;
+
             public readonly OpCodeKind Kind;
 
             public readonly AsmOcValue Value;
 
+            readonly byte Pad;
+
             [MethodImpl(Inline)]
-            public XedOpCode(OpCodeKind kind, AsmOcValue value)
+            public XedOpCode(MachineMode mode, OpCodeKind kind, AsmOcValue value)
             {
+                Mode = mode;
                 Kind = kind;
                 Value = value;
+                Pad = 0;
             }
 
             public OpCodeClass Class
@@ -34,8 +52,11 @@ namespace Z0
             public Hash32 Hash
             {
                 [MethodImpl(Inline)]
-                get => (((uint)Kind << 24) | (uint)Value);
+                get => ((uint)Mode << 29) | (((uint)Class << 24) | (uint)Value);
             }
+
+            public string Digits
+                => XedPatterns.digits(Kind);
 
             public string Format()
                 => XedRender.format(this);
@@ -55,15 +76,11 @@ namespace Z0
 
             public int CompareTo(XedOpCode src)
             {
-                var a = (byte)XedPatterns.ocindex(Kind);
-                var b = (byte)XedPatterns.ocindex(src.Kind);
-                var result = a.CompareTo(b);
-                if(result == 0)
-                    result = Value.CompareTo(src.Value);
+                var result = Value.CompareTo(src.Value);
+                if(result==0)
+                    result = cmp(Kind, src.Kind);
                 return result;
             }
-
-            public static XedOpCode Empty => default;
 
             [MethodImpl(Inline)]
             public static bool operator==(XedOpCode a, XedOpCode b)
@@ -72,6 +89,17 @@ namespace Z0
             [MethodImpl(Inline)]
             public static bool operator!=(XedOpCode a, XedOpCode b)
                 => !a.Equals(b);
+
+            [MethodImpl(Inline)]
+            public static explicit operator ulong(XedOpCode src)
+                => convert(src, out _);
+
+            [MethodImpl(Inline)]
+            public static explicit operator XedOpCode(ulong src)
+                => convert(src, out _);
+
+            public static XedOpCode Empty => default;
+
         }
     }
 }

@@ -12,32 +12,92 @@ namespace Z0
 
     using Asm;
 
+    [Record(TableId)]
+    public struct OpCodeCounts : IComparable<OpCodeCounts>
+    {
+        public const byte FieldCount = 8;
+
+        public const string TableId = "xed.opcodes.counts";
+
+        public uint Seq;
+
+        public uint PatternId;
+
+        public InstClass InstClass;
+
+        public OpCodeKind OcKind;
+
+        public AsmOcValue OcValue;
+
+        public MachineMode Mode;
+
+        public InstPatternBody PatternBody;
+
+        public PatternSort Sort;
+
+        public XedOpCode OpCode
+        {
+            [MethodImpl(Inline)]
+            get => new XedOpCode(Mode, OcKind,OcValue);
+        }
+
+        public int CompareTo(OpCodeCounts src)
+        {
+            var result = InstClass.Classifier.CompareTo(src.InstClass.Classifier);
+            if(result == 0)
+            {
+                result = OcValue.CompareTo(src.OcValue);
+                if(result == 0)
+                {
+                    result = OcKind.CompareTo(src.OcKind);
+                    if(result==0)
+                    {
+                        result = ((byte)Sort.Lockable).CompareTo((byte)src.Sort.Lockable);
+                        if(result==0 && Sort.Lockable)
+                        {
+                            result = ((byte)Sort.LockValue).CompareTo((byte)src.Sort.LockValue);
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,18,12,20,8,160,1};
+
+    }
     partial class XedCmdProvider
     {
         [CmdOp("xed/check/opcodes")]
         Outcome CheckOpCodes(CmdArgs args)
         {
             var patterns = Xed.Rules.CalcInstPatterns();
-            var lookup = patterns.Map(x => (x.PatternId,x)).ToDictionary();
-            var count = patterns.Count;
-            var buffer = alloc<PatternIdentity>(count);
-            for(var i=0; i<count; i++)
+            var patternLUa = patterns.Map(x => (x.PatternId, x)).ToDictionary();
+            var patternLUb = patterns.Map(x => (x.PatternId, x.OcInst)).ToDictionary();
+            var opcodes = XedPatterns.xedoc(patterns);
+            var counter = 0u;
+            var countLU = dict<OcInstClass,byte>();
+            var buffer = alloc<OpCodeCounts>(patterns.Count);
+            for(var i=0u; i<patterns.Count; i++)
             {
-                ref readonly var pattern = ref patterns[i];
-                var oc = XedPatterns.xedoc(pattern.Body);
-                var id = identify(pattern);
-                ref var dst = ref seek(buffer,i);
-                dst.PatternId = pattern.PatternId;
-                dst.InstClass = pattern.InstClass;
-                dst.Name = identify(pattern);
-                dst.OcKind = oc.Kind;
-                dst.OcValue = oc.Value;
-                dst.PatternBody = pattern.BodyExpr;
+                ref var dst = ref buffer[i];
+                ref var src = ref patterns[i];
+                ref readonly var ocinst = ref src.OcInst;
+                dst.PatternId = src.PatternId;
+                dst.Mode = src.Mode;
+                dst.InstClass = ocinst.InstClass;
+                dst.OcKind = ocinst.OpCode.Kind;
+                dst.OcValue = ocinst.OcValue;
+                dst.PatternBody = src.Body;
+                dst.Sort = src.Sort();
             }
 
             buffer.Sort();
+            for(var i=0u; i<patterns.Count; i++)
+                seek(buffer,i).Seq = i;
 
-            TableEmit(@readonly(buffer), PatternIdentity.RenderWidths, AppDb.XedTable<PatternIdentity>());
+            TableEmit(@readonly(buffer), OpCodeCounts.RenderWidths, XedPaths.Table<OpCodeCounts>());
 
             return true;
         }
