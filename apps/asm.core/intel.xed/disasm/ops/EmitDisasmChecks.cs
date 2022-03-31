@@ -219,14 +219,14 @@ namespace Z0
                 {
                     ref readonly var op =ref ops[i];
                     var tabledef = FS.FileUri.Empty;
-                    if(XedParsers.parse(op.OpInfo.Selector.Format(), out NontermKind nk))
+                    if(XedParsers.parse(op.OpInfo.Selector.Format(), out Nonterminal nonterm))
                     {
-                        var path = XedPaths.Service.TableDef(RuleTableKind.Enc, nk);
+                        var path = XedPaths.Service.TableDef(RuleTableKind.Enc, nonterm);
                         if(path.Exists)
                             tabledef = path;
                         else
                         {
-                            path = XedPaths.Service.TableDef(RuleTableKind.Dec, nk);
+                            path = XedPaths.Service.TableDef(RuleTableKind.Dec, nonterm);
                             if(path.Exists)
                                 tabledef = path;
                         }
@@ -239,9 +239,7 @@ namespace Z0
                         XedRender.format(op.OpInfo.WidthCode),
                         op.OpInfo.Visiblity.Code(),
                         XedRender.format(op.OpInfo.OpType),
-                        nk != 0
-                        ? string.Format("{0} => {1}", string.Format("{0}()",XedRender.format(nk)), tabledef)
-                        : op.OpInfo.Selector
+                        nonterm.IsNonEmpty ? string.Format("{0} => {1}", string.Format("{0}()", XedRender.format(nonterm)), tabledef) : op.OpInfo.Selector
                     ));
                 }
 

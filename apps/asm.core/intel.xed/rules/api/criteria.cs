@@ -17,10 +17,10 @@ namespace Z0
             {
                 ref readonly var part = ref skip(parts, i);
                 var result = parse(premise, part, out var c);
-                if(!result)
+                if(result)
+                    dst.Add(c);
+                else
                     Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCriterion), part));
-
-                dst.Add(c);
             }
             return dst.ToArray();
         }

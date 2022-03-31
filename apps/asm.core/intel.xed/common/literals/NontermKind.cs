@@ -524,6 +524,68 @@ namespace Z0
             ZMM_R3_32,
 
             ZMM_R3_64,
-        }
+
+            GPR32e_m32,
+
+            MODRM64alt32,
+
+            GPR32e_m64,
+
+            GPR32e,
+
+            SEGe,
+
+            GPR16e,
+
+            GPR64e,
+
+            SrSP,
+
+            SrBP,
+
+            MODRM_MOD_EA16_DISP0,
+
+            MODRM_MOD_EA16_DISP8,
+
+            MODRM_MOD_EA16_DISP16,
+
+            MODRM_MOD_EA32_DISP0,
+
+            MODRM_MOD_EA32_DISP8,
+
+            MODRM_MOD_EA32_DISP32,
+
+            MODRM_MOD_EA64_DISP0,
+
+            MODRM_MOD_EA64_DISP8,
+
+            MODRM_MOD_EA64_DISP32,
+
+            ERROR,
+
+            MODRM_RM_ENCODE_EA16_SIB0,
+
+            MODRM_RM_ENCODE_EA32_SIB0,
+
+            MODRM_RM_ENCODE_EA64_SIB0,
+
+            MODRM_RM_ENCODE_EANOT16_SIB1,
+
+            DISP_WIDTH_16,
+
+            DISP_WIDTH_0_8_16,
+
+            DISP_WIDTH_32,
+
+            DISP_WIDTH_0_8_32,
+
+            REMOVE_SEGMENT_AGEN1,
+
+            SIBBASE_ENCODE_SIB1,
+
+            SIBINDEX_ENCODE_SIB1,
+
+            DISP_WIDTH_8_32,
+       }
     }
 }

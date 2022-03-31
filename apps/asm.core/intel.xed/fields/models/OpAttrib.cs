@@ -69,39 +69,39 @@ namespace Z0
                 => Class == src.Class && Data == src.Data;
 
             [MethodImpl(Inline)]
-            public OpModifier AsModifier()
+            public OpModifier ToModifier()
                 => new OpModifier((OpModKind)Data);
 
             [MethodImpl(Inline)]
-            public OpAction AsAction()
+            public OpAction ToAction()
                 => (OpAction)Data;
 
             [MethodImpl(Inline)]
-            public OpWidth AsOpWidth()
+            public OpWidth ToOpWidth()
                 => core.@as<uint,OpWidth>(Data);
 
             [MethodImpl(Inline)]
-            public PointerWidthKind AsPtrWidth()
+            public PointerWidthKind ToPtrWidth()
                 => (PointerWidthKind)Data;
 
             [MethodImpl(Inline)]
-            public XedRegId AsRegLiteral()
+            public XedRegId ToRegLiteral()
                 => (XedRegId)Data;
 
             [MethodImpl(Inline)]
-            public Nonterminal AsNonTerm()
-                => Nonterminal.FromId(Data);
+            public Nonterminal ToNonTerm()
+                => (NontermKind)Data;
 
             [MethodImpl(Inline)]
-            public MemoryScale AsScale()
+            public MemoryScale ToScale()
                 => (ScaleFactor)Data;
 
             [MethodImpl(Inline)]
-            public ElementKind AsElementType()
+            public ElementKind ToElementType()
                 => (ElementKind)Data;
 
             [MethodImpl(Inline)]
-            public Visibility AsVisibility()
+            public Visibility ToVisibility()
                 => (OpVisibility)Data;
 
             [MethodImpl(Inline)]

@@ -16,7 +16,7 @@ namespace Z0
         {
             var result = search(src.Attribs, OpClass.Nonterminal, out var attrib);
             if(result)
-                dst = attrib.AsNonTerm();
+                dst = attrib.ToNonTerm();
             else
                 dst = Nonterminal.Empty;
             return result;

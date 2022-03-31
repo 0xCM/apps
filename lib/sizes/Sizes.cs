@@ -19,10 +19,12 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static NativeSize native(BitWidth src)
         {
-            if(src == 80)
+            if(src == 8)
+                return NativeSizeCode.W8;
+            else if(src == 80)
                 return NativeSizeCode.W80;
-            var i = Pow2.log(src >> 3);
-            return (NativeSizeCode)i;
+            else
+                return (NativeSizeCode)Pow2.log(src >> 3);
         }
 
         /// <summary>

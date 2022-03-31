@@ -323,7 +323,7 @@ namespace Z0
             var emitting = EmittingFile(dst);
             using var writer = dst.Writer(encoding);
             writer.WriteLine(src);
-            EmittedFile(emitting,count);
+            EmittedFile(emitting, count);
         }
 
         protected Outcome<uint> EmitLines(ReadOnlySpan<TextLine> src, FS.FilePath dst, TextEncodingKind encoding)

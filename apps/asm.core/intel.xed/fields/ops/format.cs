@@ -23,7 +23,7 @@ namespace Z0
             if(src.IsEmpty)
                 return EmptyString;
             if(src.IsNonTerminal)
-                return src.ToNonterminal().Format();
+                return XedRender.format(src.ToNonterminal());
 
             var data = bytes(src.Data);
             var code = XedFields.fcode(src.Field);

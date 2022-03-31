@@ -30,7 +30,7 @@ namespace Z0
                 if(ops.NonTerminal(out var op))
                 {
                     op.Attribs.Search(OpClass.Nonterminal, out var nt);
-                    dst.AppendFormat(" -> {0} -> {1}", fields, nt.AsNonTerm());
+                    dst.AppendFormat(" -> {0} -> {1}", fields, nt.ToNonTerm());
                 }
                 else
                     dst.AppendFormat(" -> {0}", fields.Format());

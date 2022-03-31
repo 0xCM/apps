@@ -32,18 +32,6 @@ namespace Z0
                 get => text.empty(Data);
             }
 
-            public bool IsNonEmpty
-            {
-                [MethodImpl(Inline)]
-                get => !IsEmpty;
-            }
-
-            public bool IsNonterminal
-            {
-                [MethodImpl(Inline)]
-                get => XedParsers.IsNonterminal(Data);
-            }
-
             public string Format()
                 => XedRender.format(this);
 

@@ -201,31 +201,31 @@ namespace Z0
                 switch(attrib.Class)
                 {
                     case C.Action:
-                        TraverseOpAction(pattern, op, attrib.AsAction());
+                        TraverseOpAction(pattern, op, attrib.ToAction());
                     break;
                     case C.OpWidth:
-                        TraverseOpWidthAttrib(pattern, op, attrib.AsOpWidth());
+                        TraverseOpWidthAttrib(pattern, op, attrib.ToOpWidth());
                     break;
                     case C.Visibility:
-                        TraverseOpVisibility(pattern, op, attrib.AsVisibility());
+                        TraverseOpVisibility(pattern, op, attrib.ToVisibility());
                     break;
                     case C.PtrWidth:
-                        TraverseOpPtrWidth(pattern, op, attrib.AsPtrWidth());
+                        TraverseOpPtrWidth(pattern, op, attrib.ToPtrWidth());
                     break;
                     case C.Nonterminal:
-                        TraverseOpNonterminal(pattern, op, attrib.AsNonTerm());
+                        TraverseOpNonterminal(pattern, op, attrib.ToNonTerm());
                     break;
                     case C.RegLiteral:
-                        TraverseOpReg(pattern, op, attrib.AsRegLiteral());
+                        TraverseOpReg(pattern, op, attrib.ToRegLiteral());
                     break;
                     case C.Scale:
-                        TraverseOpScale(pattern, op, attrib.AsScale());
+                        TraverseOpScale(pattern, op, attrib.ToScale());
                     break;
                     case C.Modifier:
-                        TraverseOpModifier(pattern, op, attrib.AsModifier());
+                        TraverseOpModifier(pattern, op, attrib.ToModifier());
                     break;
                     case C.ElementType:
-                        TraverseOpElementType(pattern, op, attrib.AsElementType());
+                        TraverseOpElementType(pattern, op, attrib.ToElementType());
                     break;
                     default:
                         Errors.Throw(string.Format("Unhandled atribute class:{0}", attrib.Class));

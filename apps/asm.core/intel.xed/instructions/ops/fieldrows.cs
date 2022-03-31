@@ -7,7 +7,6 @@ namespace Z0
 {
     using static core;
     using static XedRules;
-    using static XedModels;
 
     partial class XedPatterns
     {
@@ -51,7 +50,7 @@ namespace Z0
                 case DefFieldClass.FieldExpr:
                     dst.FieldExpr = src.AsFieldExpr();
                     if(dst.FieldExpr.IsNonTerminal)
-                        dst.Nonterminal = dst.FieldExpr.Value;
+                        dst.Nonterminal = dst.FieldExpr.Value.ToNonterminal();
                 break;
                 case DefFieldClass.HexLiteral:
                     dst.HexLiteral = src.AsHexLit();

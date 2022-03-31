@@ -232,13 +232,12 @@ namespace Z0
             => wrap6((byte)(lhs.data ^ rhs.data));
 
         [MethodImpl(Inline), Op]
-        public static U srl(U lhs, byte rhs)
-            => uint6(lhs.data >> rhs);
+        public static U srl(U lhs, byte count)
+            => uint6(lhs.data >> count);
 
         [MethodImpl(Inline), Op]
-        public static U sll(U lhs, byte rhs)
-            => uint6(lhs.data << rhs);
-
+        public static U sll(U lhs, byte count)
+            => uint6(lhs.data << count);
 
         [MethodImpl(Inline)]
         public static bool eq(U x, U y)
@@ -268,7 +267,7 @@ namespace Z0
         public static Span<bit> bits(uint6 src)
         {
             var storage = 0ul;
-            var dst = slice(@recover<byte,bit>(@bytes(storage)),0, U.BitCount);
+            var dst = slice(@recover<byte,bit>(@bytes(storage)),0, U.Width);
             if(bit.test(src,0))
                 seek(dst,0) = bit.On;
             if(bit.test(src,1))

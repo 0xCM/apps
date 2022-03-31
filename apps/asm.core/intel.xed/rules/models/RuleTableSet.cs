@@ -9,6 +9,8 @@ namespace Z0
 
     using static core;
 
+    using static XedModels;
+
     partial class XedRules
     {
         public class RuleTableSet
@@ -112,7 +114,7 @@ namespace Z0
                 return this;
             }
 
-            public FS.FileUri FindTablePath(RuleTableKind kind, string name)
+            FS.FileUri FindTablePath(RuleTableKind kind, string name)
             {
                 var sig = default(RuleSigRow);
                 if(kind == RuleTableKind.Dec)
@@ -122,11 +124,11 @@ namespace Z0
                 return sig.TableDef;
             }
 
-            public FS.FileUri FindTablePath(string name)
+            public FS.FileUri FindTablePath(Nonterminal nt)
             {
-               var path = FindTablePath(RuleTableKind.Dec,name);
+               var path = FindTablePath(RuleTableKind.Dec, nt.Name);
                if(path.IsEmpty)
-                   path = FindTablePath(RuleTableKind.Enc,name);
+                   path = FindTablePath(RuleTableKind.Enc, nt.Name);
                 return path;
             }
 

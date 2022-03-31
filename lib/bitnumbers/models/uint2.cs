@@ -70,8 +70,6 @@ namespace Z0
         internal uint2(BitState src)
             => data = (byte)src;
 
-
-
         /// <summary>
         /// Queries an index-identified bit
         /// </summary>

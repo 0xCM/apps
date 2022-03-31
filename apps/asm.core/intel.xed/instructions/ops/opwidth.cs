@@ -15,7 +15,7 @@ namespace Z0
         {
             var result = search(src.Attribs, OpClass.OpWidth, out var attrib);
             if(result)
-                dst= attrib.AsOpWidth();
+                dst= attrib.ToOpWidth();
             else
                 dst = OpWidth.Empty;
             return result;

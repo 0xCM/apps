@@ -283,7 +283,7 @@ namespace Z0
                 else
                     result = (false, AppMsg.ParseFailure.Format(nameof(FieldExpr), src));
             }
-            else if(IsNonterminal(src))
+            else if(IsNontermCall(src))
             {
                 result = parse(src, out Nonterminal x);
                 if(result)
@@ -378,10 +378,10 @@ namespace Z0
                 if(q > 0)
                     content = text.left(content, q);
 
-                if(IsNonterminal(content))
+                if(IsNontermCall(content))
                 {
                     var k = text.index(content, CallSyntax);
-                    terms.Add(new RuleSeqTerm(text.left(content,k), IsNonterminal(content)));
+                    terms.Add(new RuleSeqTerm(text.left(content,k), IsNontermCall(content)));
                 }
                 else
                     terms.Add(new RuleSeqTerm(content, false));
@@ -404,8 +404,11 @@ namespace Z0
         public static bool IsConstraint(string src)
             => src.Contains(Neq) || src.Contains("=");
 
-        public static bool IsNonterminal(string src)
+        public static bool IsNontermCall(string src)
             => text.trim(text.remove(src,"::")).EndsWith("()");
+
+        public static bool IsNontermLiteral(string src)
+            => Nonterminals.Parse(src, out NontermKind _);
 
         [MethodImpl(Inline)]
         public static bool IsHexLiteral(string src)
@@ -456,16 +459,6 @@ namespace Z0
 
         public static bool parse(string src, out bit dst)
             => bit.parse(src, out dst);
-
-        public static bool parse(string src, out Nonterminal dst)
-        {
-            var result = parse(src, out NontermKind nk);
-            if(result)
-                dst = new Nonterminal(nk.ToString());
-            else
-                dst = Nonterminal.Empty;
-            return result;
-        }
 
         public static bool parse(string src, out ChipCode dst)
             => ChipCodes.Parse(src, out dst);
@@ -907,25 +900,17 @@ namespace Z0
         public static bool parse(string src, out PointerWidthKind dst)
             => PointerWidths.Parse(src, out dst);
 
-        public static bool parse(string src, out NontermKind dst)
+        public static bool parse(string src, out Nonterminal dst)
         {
-            var input = text.trim(src);
+            dst = Nonterminal.Empty;
+            var result = false;
             var i = text.index(src,Chars.LParen);
-            if(i >  0)
-                input = text.left(input,i);
-
-            var result = Nonterminals.Parse(input, out dst);
-            if(!result)
-                Errors.Throw(AppMsg.ParseFailure.Format(nameof(Nonterminal), src));
+            var input = text.trim(i > 0 ? text.left(src,i) : src);
+            result = Nonterminals.Parse(input, out NontermKind ntk);
+            if(result)
+                dst = ntk;
             return result;
         }
-
-        // {
-        //     var result = Nonterminals.Parse(src, out dst);
-        //     if(result.Fail)
-        //         Errors.Throw(AppMsg.ParseFailure.Format(nameof(NontermKind), src));
-        //     return result;
-        // }
 
         public static bool parse(string src, out XedRegId dst)
         {
@@ -954,8 +939,11 @@ namespace Z0
         {
             var result = false;
             dst = R.FieldValue.Empty;
-            if(IsNonterminal(value))
-                dst = new(field, new Nonterminal(value));
+            if(IsNontermCall(value))
+            {
+                result = parse(value, out Nonterminal nt);
+                dst = new(field, nt);
+            }
             else if(parse(value, out XedRegId reg))
             {
                 dst = new (field, reg);
@@ -985,11 +973,14 @@ namespace Z0
                 return true;
             }
 
-            result = IsNonterminal(src);
+            result = IsNontermCall(src);
             if(result)
             {
-                dst = new Nonterminal(p0);
-                return true;
+                if(parse(p0, out Nonterminal nonterm))
+                {
+                    dst = nonterm;
+                    return true;
+                }
             }
             return result;
         }

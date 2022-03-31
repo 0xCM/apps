@@ -194,7 +194,7 @@ namespace Z0
         public static Span<bit> bits(uint8b src)
         {
             var storage = 0ul;
-            var dst = slice(@recover<byte,bit>(@bytes(storage)),0, U.BitCount);
+            var dst = slice(@recover<byte,bit>(@bytes(storage)),0, U.Width);
             if(bit.test(src,0))
                 seek(dst,0) = bit.On;
             if(bit.test(src,1))

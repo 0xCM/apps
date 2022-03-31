@@ -40,6 +40,9 @@ namespace Z0
         public static RenderPattern<FS.FileUri> EmittedFile
             => "Emitted {0}";
 
+        public static RenderPattern<Count,FS.FileUri> EmittedFileLines
+            => "Emitted <{0}> lines to {1}";
+
         public static MsgPattern<string,string> ParseFailure
             => "Could not parse {0} from {1}";
 

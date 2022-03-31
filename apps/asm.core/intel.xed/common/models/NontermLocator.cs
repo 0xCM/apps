@@ -12,17 +12,17 @@ namespace Z0
         public readonly struct NontermLocator
         {
             public static FS.FileName filename(NontermLocator locator)
-                => FS.file(string.Format("{0}.{1}", XedRender.format(locator.NontermKind), XedRender.format(locator.TableKind)), FS.Csv);
+                => FS.file(string.Format("{0}.{1}", XedRender.format(locator.Nonterm), XedRender.format(locator.TableKind)), FS.Csv);
 
             public readonly RuleTableKind TableKind;
 
-            public readonly NontermKind NontermKind;
+            public readonly Nonterminal Nonterm;
 
             [MethodImpl(Inline)]
-            public NontermLocator(RuleTableKind tk, NontermKind ntk)
+            public NontermLocator(RuleTableKind tk, Nonterminal ntk)
             {
                 TableKind = tk;
-                NontermKind = ntk;
+                Nonterm = ntk;
             }
 
             public FS.FileName FileName

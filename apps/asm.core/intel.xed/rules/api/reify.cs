@@ -61,7 +61,7 @@ namespace Z0
                 return RF.EncodeStep;
             if(IsDecStep(content))
                 return RF.DecodeStep;
-            if(IsNonterminal(content))
+            if(IsNontermCall(content))
                 return RF.Invocation;
             if(IsSeqDecl(content))
                 return RF.SeqDecl;

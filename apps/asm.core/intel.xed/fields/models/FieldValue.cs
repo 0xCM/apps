@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedFields;
     using static XedPatterns;
     using static core;
 
@@ -90,7 +89,7 @@ namespace Z0
             public FieldValue(FieldKind kind, Nonterminal data)
             {
                 Field = kind;
-                Data = @as<Nonterminal,uint>(data);
+                Data = (uint)data;
                 IsNonTerminal = 1;
             }
 
@@ -218,12 +217,11 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public Nonterminal ToNonterminal()
-                => Nonterminal.FromId((uint)Data);
+                => (NontermKind)Data;
 
             [MethodImpl(Inline)]
             public Disp64 ToDisp()
                 => (Disp64)Data;
-
 
             [MethodImpl(Inline)]
             public static implicit operator EASZ(FieldValue src)

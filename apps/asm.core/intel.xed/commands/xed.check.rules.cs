@@ -46,13 +46,9 @@ namespace Z0
                     ref readonly var op = ref ops[j];
                     if(op.Nonterminal(out var nt))
                     {
-                        var ntkind = nt.Kind;
-                        Require.invariant(ntkind != 0);
-                        GprWidths.widths(ntkind, out var widths);
-                        if(widths.IsNonEmpty)
-                        {
-                            Write(string.Format("{0,-18} | {1}={2,-24} | {3}", pattern.InstClass, op.Name, nt, widths), FlairKind.StatusData);
-                        }
+                        Require.invariant(nt.IsNonEmpty);
+                        GprWidths.widths(nt, out var widths);
+                        Write(string.Format("{0,-18} | {1}={2,-24} | {3}", pattern.InstClass, op.Name, nt, widths), FlairKind.StatusData);
                     }
 
                 }

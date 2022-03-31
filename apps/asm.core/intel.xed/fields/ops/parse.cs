@@ -17,9 +17,9 @@ namespace Z0
         {
             var result = true;
             dst = R.FieldValue.Empty;
-            if(XedParsers.IsNonterminal(value))
+            if(XedParsers.IsNontermCall(value) && XedParsers.parse(value, out Nonterminal k))
             {
-                dst = new (field,new Nonterminal(value));
+                dst = new (field, k);
                 return true;
             }
 

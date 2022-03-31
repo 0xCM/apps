@@ -120,7 +120,7 @@ namespace Z0
         /// <param name="c">Source bits 4-5</param>
         [MethodImpl(Inline), Op]
         public static uint6 join(uint2 a, uint2 b, uint2 c)
-            => movzx(a,w6) | (movzx(b,w6) << 2) | (movzx(b,w6) << 4);
+            => movzx(a,w6) | (movzx(b,w6) << 2) | (movzx(c,w6) << 4);
 
         /// <summary>
         /// Produces a <see cref='T.uint8b'/> value of the form [ddcc bbaa]
@@ -149,7 +149,7 @@ namespace Z0
         /// <param name="b">Specifies bit 3</param>
         [MethodImpl(Inline), Op]
         public static uint4 join(uint3 a, bit b)
-            => (uint4)a | (uint4)b << 3;
+            => movzx(a,w4) | (movzx(b,w4) << 3);
 
         /// <summary>
         /// Produces a <see cref='T.uint5'/> value of the form [c baaa]
@@ -159,7 +159,7 @@ namespace Z0
         /// <param name="c">Specifies bit 4</param>
         [MethodImpl(Inline), Op]
         public static uint5 join(uint3 a, bit b, bit c)
-            => (uint5)a | (uint5)b << 3 | (uint5)c << 4;
+            => movzx(a,w5) | (movzx(b,w5) << 3) | (movzx(c,w5) << 4);
 
         /// <summary>
         /// Produces a <see cref='T.uint6'/> value of the form [dc baaa]
@@ -170,7 +170,7 @@ namespace Z0
         /// <param name="d">Specifies bit 5</param>
         [MethodImpl(Inline), Op]
         public static uint6 join(uint3 a, bit b, bit c, bit d)
-            => (uint6)a | (uint6)b << 3 | (uint6)c << 4 | (uint6)d << 5;
+            => movzx(a,w6) | movzx(b,w6) << 3 | movzx(c,w6) << 4 | movzx(d,w6) << 5;
 
         /// <summary>
         /// Produces a <see cref='T.uint6'/> value of the form [dd dcba]
@@ -181,7 +181,7 @@ namespace Z0
         /// <param name="d">Specifies bits [5:3]</param>
         [MethodImpl(Inline), Op]
         public static uint6 join(bit a, bit b, bit c, uint3 d)
-            => (uint6)a | (uint6)b << 1 | (uint6)c << 2 | (uint6)d << 3;
+            => movzx(a,w6) | movzx(b,w6)<< 1 | movzx(c,w6) << 2 | movzx(c,w6) << 3;
 
         /// <summary>
         /// Produces a <see cref='T.uint5'/> value of the form [b baaa]

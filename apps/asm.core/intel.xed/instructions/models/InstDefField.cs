@@ -67,7 +67,7 @@ namespace Z0
             public InstDefField(Nonterminal src)
             {
                 var data = ByteBlock16.Empty;
-                data = core.bytes(src);
+                data = (uint)src;
                 data[15] = (byte)DefFieldClass.Nonterm;
                 Data = data;
             }

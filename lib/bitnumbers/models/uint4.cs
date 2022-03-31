@@ -18,8 +18,6 @@ namespace Z0
     [DataType("u<w:4>", Width, 8)]
     public readonly struct uint4 : IBitNumber<U,W,K,T>
     {
-        public const byte BitCount = 4;
-
         internal readonly T data;
 
         [MethodImpl(Inline)]

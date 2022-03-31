@@ -2,11 +2,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [Event(Kind)]
     public readonly struct EmittedFileEvent : ITerminalEvent<EmittedFileEvent>
     {
@@ -18,15 +13,15 @@ namespace Z0
 
         public FS.FilePath Path {get;}
 
-        public Count SegmentCount {get;}
+        public Count LineCount {get;}
 
         public FlairKind Flair => FlairKind.Ran;
 
         [MethodImpl(Inline)]
-        public EmittedFileEvent(WfStepId step, FS.FilePath path, Count segments)
+        public EmittedFileEvent(WfStepId step, FS.FilePath path, Count count)
         {
             EventId = EventId.define(EventName, step);
-            SegmentCount = segments;
+            LineCount = count;
             Path = path;
         }
 
@@ -34,13 +29,13 @@ namespace Z0
         public EmittedFileEvent(WfStepId step, FS.FilePath path)
         {
             EventId = EventId.define(EventName, step);
-            SegmentCount = 0;
+            LineCount = 0;
             Path = path;
         }
 
         public string Format()
-            => SegmentCount != 0
-            ? text.format(EventId, SegmentCount, AppMsg.EmittedFile.Capture(Path))
+            => LineCount != 0
+            ? text.format(EventId, AppMsg.EmittedFileLines.Capture(LineCount,Path))
             : text.format(EventId, AppMsg.EmittedFile.Capture(Path));
     }
 }

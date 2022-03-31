@@ -16,7 +16,7 @@ namespace Z0
         {
             var result = search(src.Attribs, OpClass.RegLiteral, out var attrib);
             if(result)
-                dst = attrib.AsRegLiteral();
+                dst = attrib.ToRegLiteral();
             else
                 dst = Register.Empty;
             return result;

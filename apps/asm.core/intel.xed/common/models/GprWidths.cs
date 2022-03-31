@@ -27,10 +27,11 @@ namespace Z0
             public static ref readonly GprWidths widths(GprWidthIndex index)
                 => ref core.skip(All,(byte)index);
 
-            public static bool widths(NontermKind src, out GprWidths dst)
+            public static bool widths(Nonterminal src, out GprWidths dst)
             {
-                dst = GprWidths.Empty;
-                switch(src)
+                dst = default;
+                var result = true;
+                switch(src.Kind)
                 {
                     case GPR16_B:
                         dst = widths(I.GPR16_B);
@@ -101,8 +102,11 @@ namespace Z0
                     case VGPRy_N:
                         dst = widths(I.VGPRy_N);
                     break;
+                    default:
+                        result = false;
+                    break;
                 }
-                return dst.IsNonEmpty;
+                return result;
             }
 
             readonly uint6 Data;
@@ -117,49 +121,26 @@ namespace Z0
             [MethodImpl(Inline)]
             public GprWidths(NativeSize o16, NativeSize o32, NativeSize o64)
             {
-                Data = BitNumbers.join((uint2)(byte)o16,(uint2)(byte)o32,(uint2)(byte)o64);
-            }
-
-            public Triple<NativeSize> Defined
-            {
-                [MethodImpl(Inline)]
-                get => (this[w16],this[w32],this[w64]);
-            }
-
-            public NativeSize this[NativeSize w]
-            {
-                [MethodImpl(Inline)]
-                get => w == NativeSizeCode.W16 ? this[w16] : w == NativeSizeCode.W32 ? this[w32] : w == NativeSizeCode.W64 ? this[w64] : NativeSizeCode.W8;
+                Data = BitNumbers.join((uint2)(byte)o16.Code,(uint2)(byte)o32.Code,(uint2)(byte)o64.Code);
+                //Data = math.or((byte)o16.Code, math.sll((byte)o32.Code,2), math.sll((byte)o64.Code, 4));
             }
 
             public NativeSize this[W16 w]
             {
                 [MethodImpl(Inline)]
-                get => (NativeSizeCode)(byte)(Data & uint2.Max);
+                get => (NativeSizeCode)((byte)(Data & uint2.Max));
             }
 
             public NativeSize this[W32 w]
             {
                 [MethodImpl(Inline)]
-                get => (NativeSizeCode)(byte)((Data >> 2) & uint2.Max);
+                get => (NativeSizeCode)((byte)((Data >> 2) & uint2.Max));
             }
 
             public NativeSize this[W64 w]
             {
                 [MethodImpl(Inline)]
-                get => (NativeSizeCode)(byte)((Data >> 4) & uint2.Max);
-            }
-
-            public bool IsEmpty
-            {
-                [MethodImpl(Inline)]
-                get => Data == 0;
-            }
-
-            public bool IsNonEmpty
-            {
-                [MethodImpl(Inline)]
-                get => Data != 0;
+                get => (NativeSizeCode)((byte)((Data >> 4) & uint2.Max));
             }
 
             public string Format()
@@ -171,8 +152,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator byte(GprWidths src)
                 => (byte)src.Data;
-
-            public static GprWidths Empty => default;
 
             const byte GprWidthCount = 23;
 

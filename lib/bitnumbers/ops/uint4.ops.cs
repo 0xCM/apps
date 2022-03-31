@@ -11,10 +11,6 @@ namespace Z0
 
     partial struct BitNumbers
     {
-        // [MethodImpl(Inline), Op]
-        // public static U join(bit a0, bit a1, bit a2, bit a3)
-        //     => (U)a0 | (U)a1 << 1 | (U)a2 << 2;
-
         [MethodImpl(Inline), Op]
         public static bit test(U src, byte pos)
             => bit.test(src, pos);
@@ -307,7 +303,7 @@ namespace Z0
         public static Span<bit> bits(U src)
         {
             var storage = 0ul;
-            var dst = slice(@recover<byte,bit>(@bytes(storage)),0, U.BitCount);
+            var dst = slice(@recover<byte,bit>(@bytes(storage)),0, U.Width);
             if(bit.test(src,0))
                 seek(dst,0) = bit.On;
             if(bit.test(src,1))

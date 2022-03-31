@@ -108,41 +108,61 @@ namespace Z0
                     AppendLine(Buffer[k]);
 
                 AppendLine(InstSep);
-
             }
 
             public InstIsaFormat FormatGroup(InstIsa isa, Index<InstPattern> src)
             {
+                Counter=0u;
+                Dst.Clear();
+
                 for(var i=0; i<src.Count; i++)
                     Render(src[i]);
-                return new (isa, src, Emit());
+                return new (isa, src, Emit(), Counter);
             }
 
             public string FormatInstHeader(InstPattern src)
                 => string.Format("{0,-18}{1,-18}{2}", src.InstClass, src.Isa, src.InstForm);
 
+            static string FormatSeg(OpWidthInfo src)
+            {
+                if(src.Seg.CellCount <= 1)
+                    return EmptyString;
+                else
+                    return string.Format("{0}(n{1})", src.Seg.Format(), src.Seg.CellCount);
+            }
+
             public string FormatWidth(InstPattern pattern, in PatternOp src)
             {
-                const string RenderPattern = "{0,-6} {1,-12} {2,-8} {3,-2}";
-                if(XedPatterns.reglit(src, out Register reg))
-                    return string.Format(RenderPattern, "reg", XedPatterns.bitwidth(reg).ToString(), EmptyString, EmptyString);;
-
-                var dst = EmptyString;
-                src.OpWidth(out var w);
-                var wi = w.Code != 0 ? Lookups.WidthInfo(w.Code) : OpWidthInfo.Empty;
+                const string RenderPattern = "{0,-6} {1,-12} {2,-12}";
+                var indicator = EmptyString;
                 var bw = EmptyString;
-                bw = bitwidth(wi,pattern.Mode).ToString();
-                if(wi.IsNonEmpty)
-                    dst = string.Format(RenderPattern, XedRender.format(wi.Code), bw, wi.Seg.Format(), wi.Seg.CellCount);
+                var dst = EmptyString;
+                if(XedPatterns.reglit(src, out Register reg))
+                {
+                    indicator = "reg";
+                    bw = XedPatterns.bitwidth(reg).ToString();
+                }
+
+                src.OpWidth(out var w);
+
+                var wi = w.Code != 0 ? Lookups.WidthInfo(w.Code) : OpWidthInfo.Empty;
+                if(empty(indicator))
+                    indicator = XedRender.format(wi.Code);
+
+                var seg = FormatSeg(wi);
+                if(empty(bw))
+                    bw = bitwidth(wi, pattern.Mode).ToString();
 
                 if(src.Nonterminal(out var nt))
                 {
+                    indicator = "ntv";
                     if(GprWidths.widths(nt, out var gpr))
-                        dst = string.Format(RenderPattern, wi.Code == 0 ? "ntv" : XedRender.format(wi.Code), gpr, wi.Seg.Format(), wi.Seg.CellCount);
+                        dst = string.Format(RenderPattern, indicator, gpr, seg);
+                    else
+                        dst = string.Format(RenderPattern, indicator, EmptyString, seg);
                 }
-
-                if(empty(dst))
-                    dst = string.Format(RenderPattern, EmptyString, EmptyString, EmptyString, EmptyString);
+                else
+                    dst = string.Format(RenderPattern, indicator, bw, seg);
 
                 return dst;
             }
@@ -167,8 +187,8 @@ namespace Z0
                             case DefFieldClass.Nonterm:
                             {
                                 var nt = field.AsNonterminal();
-                                var path = Tables.FindTablePath(nt.Name);
-                                seek(dst,j) = string.Format(Pattern, j, "Nonterm",  string.Format("{0}::{1}", nt.Format(), path));
+                                var path = Tables.FindTablePath(nt);
+                                seek(dst,j) = string.Format(Pattern, j, "Nonterm",  string.Format("{0}::{1}", XedRender.format(nt), path));
                             }
                             break;
                             case DefFieldClass.Bitfield:
@@ -230,6 +250,7 @@ namespace Z0
 
             byte RenderOps(InstPattern pattern, Span<string> dst)
             {
+                const string RenderPattern = "{0,-2} {1,-14} {2,-4} {3,-4} {4} {5,-88} [{6}]";
                 ref readonly var ops = ref pattern.Ops;
                 var count = (byte)ops.Count;
                 for(var j=0; j<count; j++)
@@ -237,30 +258,44 @@ namespace Z0
                     ref readonly var op = ref ops[j];
                     op.Action(out var action);
                     op.Visibility(out var opvis);
-                    seek(dst,j) = (string.Format("{0,-2} {1,-14} {2,-4} {3,-4} {4} {5,-88} [{6}]",
-                        op.Index,
-                        XedRender.format(op.Name),
-                        XedRender.format(action),
-                        opvis.Code(),
-                        FormatWidth(pattern,op),
-                        op.IsReg ? FormatRegOp(op) : EmptyString,
-                        op.SourceExpr
-                        ));
+                    if(op.IsNonTerminal)
+                        seek(dst,j) = (string.Format(RenderPattern,
+                            op.Index,
+                            XedRender.format(op.Name),
+                            XedRender.format(action),
+                            opvis.Code(),
+                            FormatWidth(pattern,op),
+                            FormatNonterm(op),
+                            op.SourceExpr
+                            ));
+                    else
+                        seek(dst,j) = (string.Format(RenderPattern,
+                            op.Index,
+                            XedRender.format(op.Name),
+                            XedRender.format(action),
+                            opvis.Code(),
+                            FormatWidth(pattern,op),
+                            op.IsReg ? FormatRegLit(op) : EmptyString,
+                            op.SourceExpr
+                            ));
                 }
 
                 return count;
             }
 
-            string FormatRegOp(in PatternOp src)
+            string FormatRegLit(in PatternOp src)
             {
                 var dst = EmptyString;
                 if(src.RegLiteral(out var reg))
                     dst = reg.Format();
-                else
-                {
-                    if(src.Nonterminal(out var nt))
-                        dst = string.Format("{0}()::{1}", nt.Name, Tables.FindTablePath(nt.Name));
-                }
+                return dst;
+            }
+
+            string FormatNonterm(in PatternOp src)
+            {
+                var dst = EmptyString;
+                if(src.Nonterminal(out var nt))
+                    dst = string.Format("{0}::{1}", nt, Tables.FindTablePath(nt));
                 return dst;
             }
 

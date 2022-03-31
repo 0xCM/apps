@@ -47,7 +47,7 @@ namespace Z0
 
             if(XedParsers.IsBfSeg(data))
                 kind |= RuleCellKind.BfSeg;
-            if(XedParsers.IsNonterminal(value))
+            if(XedParsers.IsNontermCall(value))
                 kind |= RuleCellKind.Nonterminal;
             if(XedParsers.IsBinaryLiteral(value))
                 kind |= RuleCellKind.Bits;

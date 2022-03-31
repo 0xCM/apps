@@ -15,12 +15,15 @@ namespace Z0
 
             public readonly TextBlock Content;
 
+            public readonly uint LineCount;
+
             [MethodImpl(Inline)]
-            public InstIsaFormat(InstIsa isa, InstPattern[] patterns, string content)
+            public InstIsaFormat(InstIsa isa, InstPattern[] patterns, string content, uint lines)
             {
                 Isa = isa;
                 Patterns = patterns;
                 Content = content;
+                LineCount = lines;
             }
 
             public int CompareTo(InstIsaFormat src)

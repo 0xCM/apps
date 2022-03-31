@@ -61,6 +61,7 @@ namespace Z0
 
             ref readonly var attribs = ref src.Attribs;
             XedPatterns.nonterm(src, out dst.NonTerminal);
+
             XedPatterns.visibility(src, out dst.Visibility);
             XedPatterns.action(src, out dst.Action);
             XedPatterns.modifier(src, out dst.Modifier);
@@ -70,11 +71,6 @@ namespace Z0
 
             if(GprWidths.widths(dst.NonTerminal, out var gpr))
                 dst.OpWidth = new OpWidth(dst.OpWidth.Code, gpr);
-            else
-            {
-                if(dst.NonTerminal.Kind == NontermKind.GPR8_R || dst.NonTerminal.Kind == NontermKind.GPR8_B || dst.NonTerminal.Kind == NontermKind.GPR8_SB)
-                    dst.OpWidth = new OpWidth(0,GprWidths.define(8,8,8));
-            }
 
             if(src.RegLiteral(out dst.RegLit))
                 dst.BitWidth = XedPatterns.bitwidth(dst.RegLit);

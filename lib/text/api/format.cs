@@ -110,9 +110,9 @@ namespace Z0
                             );
 
         public static string format<A,B>(A a, B b)
-            where A : ITextual
-            where B : ITextual
-                => string.Format(PSx2, a.Format(),  b.Format());
+            // where A : ITextual
+            // where B : ITextual
+                => string.Format(PSx2, a, b);
 
         public static string format<A,B,C>(A a, B b, C c)
             where A : ITextual

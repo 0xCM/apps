@@ -21,17 +21,21 @@ namespace Z0
 
             //GPR8_SB,
 
-            SEGe,
+            //GPR32e,
 
-            GPR16e,
+            //GPR32e_m32,
 
-            GPR32e,
+            //GPR32e_m64,
 
-            GPR32e_m32,
+            // SEGe,
 
-            GPR32e_m64,
+            // GPR16e,
 
-            GPR64e,
+            // GPR64e,
+
+            // SrSP,
+
+            // SrBP,
 
             // ArAX,
 
@@ -49,9 +53,6 @@ namespace Z0
 
             //ArBP,
 
-            SrSP,
-
-            SrBP,
 
             // Ar8,
 
@@ -110,9 +111,6 @@ namespace Z0
 
             //GPR64_R,
 
-            GPR64_B,
-
-            GPR64_SB,
 
             // GPR64_X,
 
@@ -120,9 +118,8 @@ namespace Z0
 
             // GPR32_B,
 
-            // GPR32_SB,
 
-            GPR32_X,
+            // GPR32_SB,
 
             //GPR16_R,
 
@@ -135,10 +132,6 @@ namespace Z0
             // CR_B,
 
             // DR_R,
-
-            X87,
-
-            SEG,
 
             //SEG_MOV,
 
@@ -234,6 +227,16 @@ namespace Z0
 
             // VGPR32_B,
 
+            GPR64_B,
+
+            GPR64_SB,
+
+            GPR32_X,
+
+            X87,
+
+            SEG,
+
             VGPR32_R,
 
             VGPR32_N_32,
@@ -248,11 +251,12 @@ namespace Z0
 
             VGPR64_R,
 
-            //VGPR32_B_32,
-
             VGPR32_B_64,
 
             VGPR64_B,
+
+            //VGPR32_B_32,
+
 
             //MASK1,
 

@@ -16,7 +16,7 @@ namespace Z0
         {
             var result = search(src.Attribs, OpClass.ElementType, out var attrib);
             if(result)
-                dst = attrib.AsElementType();
+                dst = attrib.ToElementType();
             else
                 dst = ElementType.Empty;
 

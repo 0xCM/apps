@@ -162,7 +162,7 @@ namespace Z0
             => src == 0 ? EmptyString : CategoryKinds.Format(src);
 
         public static string format(OpWidth src)
-            => src.DefinesGprWidth ? src.Gpr.Format() : src.Code != 0 ? format(src.Code) : EmptyString;
+            => src.Code != 0 ?  format(src.Code) : (src.Bits != 0 ? src.Bits.ToString() : src.Gpr.Format());
 
         public static string format(OpCodeIndex src, FormatCode fc = FormatCode.Expr)
             => format(OcKindIndex, src, fc);
@@ -266,9 +266,6 @@ namespace Z0
             else
                 return EmptyString;
         }
-
-        public static string format(NontermKind src)
-            => NontermKinds.Format(src);
 
         public static string format(ROUNDC src)
             => RoundingKinds.Format(src);
@@ -403,11 +400,13 @@ namespace Z0
                 return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.AsValue()));
         }
 
+        public static string name(Nonterminal src)
+            => NontermKinds.Format(src.Kind);
+
         public static string format(Nonterminal src)
         {
-            var name = src.Name;
-            if(text.nonempty(name))
-                return string.Format("{0}()", name);
+            if(src.IsNonEmpty)
+                return string.Format("{0}()", name(src));
             else
                 return EmptyString;
         }
@@ -449,38 +448,38 @@ namespace Z0
                 break;
 
                 case OC.Action:
-                    dst = format(src.AsAction());
+                    dst = format(src.ToAction());
                 break;
                 case OC.OpWidth:
-                    dst = format(src.AsOpWidth());
+                    dst = src.ToOpWidth().Format();
                 break;
 
                 case OC.PtrWidth:
-                    dst = format(src.AsPtrWidth());
+                    dst = format(src.ToPtrWidth());
                 break;
 
                 case OC.ElementType:
-                    dst = format(src.AsElementType());
+                    dst = format(src.ToElementType());
                 break;
 
                 case OC.Modifier:
-                    dst = format(src.AsModifier());
+                    dst = format(src.ToModifier());
                 break;
 
                 case OC.Nonterminal:
-                    dst = format(src.AsNonTerm());
+                    dst = format(src.ToNonTerm());
                 break;
 
                 case OC.Visibility:
-                    dst = src.AsVisibility().Format();
+                    dst = src.ToVisibility().Format();
                 break;
 
                 case OC.RegLiteral:
-                    dst = format(src.AsRegLiteral());
+                    dst = format(src.ToRegLiteral());
                 break;
 
                 case OC.Scale:
-                    dst = src.AsScale().Format();
+                    dst = src.ToScale().Format();
                 break;
 
                 default:
@@ -620,7 +619,7 @@ namespace Z0
                     dst = format5(src.AsBitLit());
                 break;
                 case DefFieldClass.Nonterm:
-                    dst = src.AsNonterminal().Format();
+                    dst = format(src.AsNonterminal());
                 break;
                 case DefFieldClass.FieldExpr:
                     dst = format(src.AsFieldExpr());

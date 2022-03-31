@@ -35,7 +35,7 @@ namespace Z0
         {
             var dst = XedPaths.InstIsaPath(src.Isa);
             Require.invariant(!dst.Exists);
-            FileEmit(src.Content, 1, dst, TextEncodingKind.Asci);
+            FileEmit(src.Content, src.LineCount, dst, TextEncodingKind.Asci);
         }
     }
 }

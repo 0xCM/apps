@@ -15,7 +15,7 @@ namespace Z0
         public static bool visibility(in PatternOp src, out Visibility dst)
         {
             if(search(src.Attribs, OpClass.Visibility, out var attrib))
-                dst = attrib.AsVisibility();
+                dst = attrib.ToVisibility();
             else
                 dst = OpVisibility.Explicit;
             return true;

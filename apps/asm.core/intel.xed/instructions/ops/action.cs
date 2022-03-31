@@ -16,7 +16,7 @@ namespace Z0
         {
             var result = search(src.Attribs, OpClass.Action, out var attrib);
             if(result)
-                dst = attrib.AsAction();
+                dst = attrib.ToAction();
             else
                 dst = default;
 

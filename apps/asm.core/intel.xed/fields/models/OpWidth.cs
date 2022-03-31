@@ -19,7 +19,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public OpWidth(OpWidthCode code, ushort bits)
             {
-                Gpr = GprWidths.Empty;
+                Gpr = default;
                 Code = code;
                 Bits = bits;
             }
@@ -29,29 +29,19 @@ namespace Z0
             {
                 Gpr = gpr;
                 Code = code;
-                Bits = 0;
+                Bits = 0xFFFF;
             }
 
-            public bool DefinesGprWidth
+            [MethodImpl(Inline)]
+            public OpWidth(ushort bits)
             {
-                [MethodImpl(Inline)]
-                get => Gpr.IsNonEmpty;
-            }
-
-            public bool IsEmpty
-            {
-                [MethodImpl(Inline)]
-                get => Code == 0 && Gpr.IsEmpty;
-            }
-
-            public bool IsNonEmpty
-            {
-                [MethodImpl(Inline)]
-                get => Code != 0 || Gpr.IsNonEmpty;
+                Gpr = default;
+                Code = 0;
+                Bits = bits;
             }
 
             public string Format()
-                => XedRender.format(this);
+                => Code != 0 ?  XedRender.format(Code) : EmptyString;
 
             public override string ToString()
                 => Format();
@@ -60,7 +50,7 @@ namespace Z0
             public static explicit operator uint(OpWidth src)
                 => core.u32(src);
 
-            public static OpWidth Empty => new OpWidth(OpWidthCode.INVALID, 0);
+            public static OpWidth Empty => new OpWidth(0xFFFF);
         }
     }
 }

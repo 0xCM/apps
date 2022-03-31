@@ -15,7 +15,7 @@ namespace Z0
         public static bool modifier(in PatternOp src, out OpModifier dst)
         {
             if(search(src.Attribs, OpClass.Visibility, out var attrib))
-                dst = attrib.AsModifier();
+                dst = attrib.ToModifier();
             else
                 dst = default;
             return true;
