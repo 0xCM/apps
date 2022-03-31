@@ -10,7 +10,7 @@ namespace Z0
     partial class XedPatterns
     {
         [DataWidth(16)]
-        public readonly struct InstIsa
+        public readonly struct InstIsa : IComparable<InstIsa>, IEquatable<InstIsa>
         {
             public readonly IsaKind Kind;
 

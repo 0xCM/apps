@@ -33,12 +33,10 @@ namespace Z0
 
             exec(PllExec,
                 () => EmitRuleTables(tables, patterns),
-                () => EmitPatternDetails(tables, patterns)
+                () => EmitPatternDetails(tables, patterns),
+                () => EmitIsaPages(tables,patterns)
                 );
         }
-
-        void EmitIsaPages(RuleTableSet tables, Index<InstPattern> src)
-            => Patterns.EmitIsaPages(tables, src);
 
         public Index<InstDef> CalcInstDefs()
             => Data(nameof(InstDef), () => Patterns.ParseInstDefs(XedPaths.DocSource(XedDocKind.EncInstDef)));

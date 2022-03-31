@@ -162,7 +162,7 @@ namespace Z0
             => src == 0 ? EmptyString : CategoryKinds.Format(src);
 
         public static string format(OpWidth src)
-            => src.IsEmpty ? EmptyString : format(src.Code);
+            => src.IsEmpty ? EmptyString : src.DefinesGprWidth ? src.Gpr.Format() : format(src.Code);
 
         public static string format(OpCodeIndex src, FormatCode fc = FormatCode.Expr)
             => format(OcKindIndex, src, fc);
@@ -365,7 +365,7 @@ namespace Z0
             return dst;
         }
 
-        public static string format(Index<XedFlagEffect> src, bool embrace = true)
+        public static string format(Index<XedFlagEffect> src, bool embrace = true, char sep = Chars.Comma)
         {
             if(src.IsEmpty)
                 return EmptyString;
@@ -376,7 +376,7 @@ namespace Z0
             for(var i=0; i<src.Count; i++)
             {
                 if(i != 0)
-                    dst.Append(Chars.Comma);
+                    dst.Append(sep);
 
                 dst.Append(format(src[i]));
             }
@@ -773,7 +773,7 @@ namespace Z0
         public static string format(in XedOpCode src)
             => string.Format("{0}[{1}]:{2}", src.Class, XedPatterns.digits(src.Kind), AsmOcValue.format(src.Value));
 
-        public static string format(InstAttribs src, bool embrace = true)
+        public static string format(InstAttribs src, bool embrace = true, char sep = Chars.Comma)
         {
             if(src.IsEmpty)
                 return EmptyString;
@@ -783,7 +783,7 @@ namespace Z0
             for(var i=0; i<src.Count; i++)
             {
                 if(i != 0)
-                    dst.Append(Chars.Comma);
+                    dst.Append(sep);
                 dst.Append(format(src[i]));
             }
             if(embrace)

@@ -77,6 +77,7 @@ namespace Z0
                     return k;
                 }
             }
+
             public string Name
                 => IsNonEmpty ? name(Id) : EmptyString;
 

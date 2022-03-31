@@ -459,8 +459,12 @@ namespace Z0
 
         public static bool parse(string src, out Nonterminal dst)
         {
-            dst = new Nonterminal(text.remove(src,"()"));
-            return true;
+            var result = parse(src, out NontermKind nk);
+            if(result)
+                dst = new Nonterminal(nk.ToString());
+            else
+                dst = Nonterminal.Empty;
+            return result;
         }
 
         public static bool parse(string src, out ChipCode dst)
@@ -904,7 +908,24 @@ namespace Z0
             => PointerWidths.Parse(src, out dst);
 
         public static bool parse(string src, out NontermKind dst)
-            => Nonterminals.Parse(src, out dst);
+        {
+            var input = text.trim(src);
+            var i = text.index(src,Chars.LParen);
+            if(i >  0)
+                input = text.left(input,i);
+
+            var result = Nonterminals.Parse(input, out dst);
+            if(!result)
+                Errors.Throw(AppMsg.ParseFailure.Format(nameof(Nonterminal), src));
+            return result;
+        }
+
+        // {
+        //     var result = Nonterminals.Parse(src, out dst);
+        //     if(result.Fail)
+        //         Errors.Throw(AppMsg.ParseFailure.Format(nameof(NontermKind), src));
+        //     return result;
+        // }
 
         public static bool parse(string src, out XedRegId dst)
         {

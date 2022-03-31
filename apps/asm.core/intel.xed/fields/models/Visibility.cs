@@ -60,11 +60,11 @@ namespace Z0
             public string Code()
             {
                 if(IsExplicit)
-                    return "XP";
+                    return "e";
                 else if(IsImplicit)
-                    return "IP";
+                    return "i";
                 else if(IsSuppresed)
-                    return "SP";
+                    return "h";
                 else
                     return EmptyString;
             }

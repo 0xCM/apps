@@ -185,8 +185,8 @@ namespace Z0
             if(state.IMM0)
                 dst.Imm = asm.imm(code, state.POS_IMM, state.IMM0SIGNED, Sizes.native(state.IMM_WIDTH));
 
-            dst.EASZ = Sizes.native(bitwidth((EASZ)state.EASZ));
-            dst.EOSZ = Sizes.native(bitwidth((EOSZ)state.EOSZ));
+            dst.EASZ = Sizes.native(XedPatterns.bitwidth((EASZ)state.EASZ));
+            dst.EOSZ = Sizes.native(XedPatterns.bitwidth((EOSZ)state.EOSZ));
             return dst;
         }
     }

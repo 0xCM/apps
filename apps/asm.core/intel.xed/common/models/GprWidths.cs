@@ -25,10 +25,6 @@ namespace Z0
                 => (GprWidthKind)Symbols.index<NontermKind>()[nt].Kind;
 
             [MethodImpl(Inline)]
-            public static ref readonly GprWidthKind kind(GprWidthIndex index)
-                => ref core.skip(WidthKinds,(byte)index);
-
-            [MethodImpl(Inline)]
             public static ref readonly GprWidths widths(GprWidthIndex index)
                 => ref core.skip(All,(byte)index);
 
@@ -43,7 +39,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static GprWidths define(byte o16, byte o32, byte o64)
-                => new GprWidths(o16,o32,o64);
+                => new GprWidths(o16, o32, o64);
 
             public static GprWidthIndex index(GprWidthKind kind)
             {
@@ -63,7 +59,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public GprWidths(byte o16, byte o32, byte o64)
-                : this(Sizes.native(o16),Sizes.native(o32),Sizes.native(o64))
+                : this(Sizes.native(o16), Sizes.native(o32), Sizes.native(o64))
             {
 
             }
@@ -117,10 +113,7 @@ namespace Z0
             }
 
             public string Format()
-            {
-                const string Pattern = "[{0}, {1}, {2}]";
-                return string.Format(Pattern, this[w16].Width, this[w32].Width, this[w64].Width);
-            }
+                => string.Format("{0}/{1}/{2}", this[w16].Width, this[w32].Width, this[w64].Width);
 
             public override string ToString()
                 => Format();
@@ -133,54 +126,42 @@ namespace Z0
 
             const byte GprWidthCount = 23;
 
-            static ReadOnlySpan<GprWidthKind> WidthKinds
-                => new GprWidthKind[GprWidthCount]{
-                GK.GPRv_SB, GK.GPRv_R, GK.GPRv_B,
-                GK.GPRz_R, GK.GPRz_B,
-                GK.GPRy_R, GK.GPRy_B,
-                GK.GPR8_R, GK.GPR8_B, GK.GPR8_SB,
-                GK.GPR16_R, GK.GPR16_B,
-                GK.GPR32_B, GK.GPR32_R,
-                GK.GPR64_B, GK.GPR64_R,
-                GK.VGPR32_B, GK.VGPR32_R, GK.VGPR32_N,
-                GK.VGPRy_N,
-                GK.VGPR64_B, GK.VGPR64_R, GK.VGPR64_N,
-                };
-
             /// <summary>
             /// See apps\asm.core\intel.xed\res\gpr.widths.csv
             /// </summary>
             static ReadOnlySpan<byte> WidthBytes => new byte[GprWidthCount]{
-                define(16,32,64), // GPRv_SB
-                define(16,32,64), // GPRv_R,
-                define(16,32,64), // GPRv_B,
-
-                define(16,32,32), // GPRz_R,
-                define(16,32,32), // GPRz_B,
-
-                define(32,32,64), // GPRy_R,
-                define(32,32,64), // GPRy_B,
-
-                define(8,8,8),    // GPR8_R,
-                define(8,8,8),    // GPR8_B,
-                define(8,8,8),    // GPR8_SB,
-
-                define(16,16,16), // GPR16_R,
                 define(16,16,16), // GPR16_B,
+                define(16,16,16), // GPR16_R,
 
                 define(32,32,32), // GPR32_B,
                 define(32,32,32), // GPR32_R,
 
                 define(64,64,64), // GPR64_B,
                 define(64,64,64), // GPR64_R,
+
+                define(8,8,8),    // GPR8_B,
+                define(8,8,8),    // GPR8_R,
+                define(8,8,8),    // GPR8_SB,
+
+                define(16,32,64), // GPRv_B,
+                define(16,32,64), // GPRv_R,
+                define(16,32,64), // GPRv_SB
+
+                define(32,32,64), // GPRy_B,
+                define(32,32,64), // GPRy_R,
+
+                define(16,32,32), // GPRz_B,
+                define(16,32,32), // GPRz_R,
+
                 define(32,32,32), // VGPR32_B,
-                define(32,32,32), // VGPR32_R,
                 define(32,32,32), // VGPR32_N,
-                define(32,32,64), // VGPRy_N,
+                define(32,32,32), // VGPR32_R,
 
                 define(64,64,64), // VGPR64_B,
-                define(64,64,64), // VGPR64_R,
                 define(64,64,64), // VGPR64_N,
+                define(64,64,64), // VGPR64_R,
+
+                define(32,32,64), // VGPRy_N,
                 };
             }
         }

@@ -115,6 +115,9 @@ namespace Z0
         public FS.FilePath InstIsaPath(InstPattern src)
             => InstIsaRoot() + instfolder(src.Isa) + FS.file(src.Classifier, FS.Txt);
 
+        public FS.FilePath InstIsaPath(InstIsa isa)
+            => InstIsaRoot() + FS.file(text.ifempty(isa.Format(), "UNKNOWN"), FS.Txt);
+
         static FS.FolderName instfolder(InstIsa isa)
         {
             var name = isa.Format();

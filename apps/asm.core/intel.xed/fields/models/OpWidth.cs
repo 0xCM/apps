@@ -10,18 +10,32 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct OpWidth
         {
-            public readonly MachineMode Mode;
+            public readonly GprWidths Gpr;
 
             public readonly OpWidthCode Code;
 
             public readonly ushort Bits;
 
             [MethodImpl(Inline)]
-            public OpWidth(MachineMode mode, OpWidthCode code, ushort bits)
+            public OpWidth(OpWidthCode code, ushort bits)
             {
-                Mode = mode;
+                Gpr = GprWidths.Empty;
                 Code = code;
                 Bits = bits;
+            }
+
+            [MethodImpl(Inline)]
+            public OpWidth(GprWidths gpr)
+            {
+                Gpr = gpr;
+                Code = OpWidthCode.PSEUDO;
+                Bits = 0;
+            }
+
+            public bool DefinesGprWidth
+            {
+                [MethodImpl(Inline)]
+                get => Gpr.IsNonEmpty;
             }
 
             public bool IsEmpty
@@ -46,7 +60,11 @@ namespace Z0
             public static explicit operator uint(OpWidth src)
                 => core.u32(src);
 
-            public static OpWidth Empty => new OpWidth(ModeKind.Default, OpWidthCode.INVALID, 0);
+            [MethodImpl(Inline)]
+            public static implicit operator OpWidth(GprWidths src)
+                => new OpWidth(src);
+
+            public static OpWidth Empty => new OpWidth(OpWidthCode.INVALID, 0);
         }
     }
 }

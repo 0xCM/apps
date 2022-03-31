@@ -28,7 +28,12 @@ namespace Z0
         [CmdOp("xed/check/rules")]
         Outcome CheckRules(CmdArgs args)
         {
+            CheckGprWidths();
+            return true;
+        }
 
+        void CheckNonTerms()
+        {
             var patterns = Xed.Rules.CalcInstPatterns();
             var count = patterns.Count;
             for(var i=0; i<count; i++)
@@ -52,22 +57,13 @@ namespace Z0
 
                 }
             }
-
-            return true;
         }
-
 
         void CheckGprWidths()
         {
-            var widths = GprWidths.All;
-            var count = widths.Length;
-            for(var i=0; i<count; i++)
-            {
-                var index = (GprWidthIndex)i;
-                ref readonly var width = ref skip(widths,i);
-                Write(string.Format("{0,-8} {1}", index,width));
-            }
-
+            var ntk = NontermKind.GPR8_R;
+            var widths = GprWidths.widths(ntk);
+            Write(widths.Format());
         }
         Outcome ValidateRules()
         {

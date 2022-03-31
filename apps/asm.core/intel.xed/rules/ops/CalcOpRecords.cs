@@ -60,28 +60,16 @@ namespace Z0
             dst.Name = src.Name;
             ref readonly var attribs = ref src.Attribs;
             XedPatterns.nonterm(src, out dst.NonTerminal);
-
-            if(attribs.Search(OpClass.Action, out var a))
-                dst.Action = a.AsAction();
-
-            if(src.OpWidth(out dst.OpWidth))
+            XedPatterns.visibility(src, out dst.Visibility);
+            XedPatterns.action(src, out dst.Action);
+            XedPatterns.modifier(src, out dst.Modifier);
+            if(src.RegLiteral(out dst.RegLit))
+                dst.BitWidth = XedPatterns.bitwidth(dst.RegLit);
+            else if(src.OpWidth(out dst.OpWidth))
                 dst.BitWidth = dst.OpWidth.Bits;
 
-            if(attribs.Search(OpClass.ElementType, out var et))
-            {
-                dst.CellType = et.AsElementType();
-                dst.CellWidth = bitwidth(dst.OpWidth.Code, dst.CellType);
-            }
-            if(src.RegLiteral(out dst.RegLit))
-            {
-                dst.BitWidth = bitwidth(dst.RegLit);
-            }
-
-            if(attribs.Search(OpClass.Modifier, out var mod))
-                dst.Modifier = mod.AsModifier();
-
-            if(attribs.Search(OpClass.Visibility, out var visib))
-                dst.Visibility = visib.AsVisibility();
+            if(XedPatterns.etype(src, out dst.CellType))
+                dst.CellWidth = XedPatterns.bitwidth(dst.OpWidth.Code, dst.CellType);
 
             return dst;
         }

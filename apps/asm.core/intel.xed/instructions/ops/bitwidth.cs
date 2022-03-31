@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
     using static XedModels.EASZ;
     using static XedModels.EOSZ;
     using static XedModels.ModeKind;
@@ -12,7 +13,7 @@ namespace Z0
     using EK = XedModels.ElementKind;
     using OK = XedModels.OpWidthCode;
 
-    partial struct XedModels
+    partial class XedPatterns
     {
         [Op]
         public static ushort bitwidth(XedRegId src)
@@ -191,5 +192,6 @@ namespace Z0
                 Mode64 => 64,
                 _ => 0,
             };
+
     }
 }

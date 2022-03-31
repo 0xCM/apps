@@ -18,7 +18,21 @@ namespace Z0
             if(result)
                 dst= attrib.AsOpWidth();
             else
-                dst = XedModels.OpWidth.Empty;
+            {
+                if(nonterm(op, out var nt))
+                {
+                    var gpr = GprWidths.widths(nt.Kind);
+                    result = gpr.IsNonEmpty;
+                    if(result)
+                        dst = gpr;
+                    else
+                        dst = OpWidth.Empty;
+                }
+                else
+                {
+                    dst = OpWidth.Empty;
+                }
+            }
             return result;
         }
     }

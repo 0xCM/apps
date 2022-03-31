@@ -20,8 +20,7 @@ namespace Z0
                 () => EmitTableSchemas(tables.Schema),
                 () => EmitRuleSeq(),
                 () => EmitTableSpecs(tables),
-                () => EmitTableFiles(tables),
-                () => EmitIsaPages(tables, patterns)
+                () => EmitTableFiles(tables)
             );
         }
 

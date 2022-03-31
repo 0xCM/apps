@@ -113,7 +113,7 @@ namespace Z0
             public bool HasElementType
             {
                 [MethodImpl(Inline)]
-                get => ElementType.IsNonEmpty;
+                get => ElementType(out _);
             }
 
             public bool IsNonTerminal
@@ -144,11 +144,17 @@ namespace Z0
             public bool PtrWidth(out PointerWidthKind dst)
                 => XedPatterns.ptrwidth(this, out dst);
 
-            public ElementType ElementType
-            {
-                [MethodImpl(Inline)]
-                get => etype(this);
-            }
+            [MethodImpl(Inline)]
+            public bool ElementType(out ElementType dst)
+                => XedPatterns.etype(this, out dst);
+
+            [MethodImpl(Inline)]
+            public bool Visibility(out Visibility dst)
+                => XedPatterns.visibility(this, out dst);
+
+            [MethodImpl(Inline)]
+            public bool Action(out OpAction dst)
+                => XedPatterns.action(this, out dst);
 
             public string Format()
                 => XedRender.format(this);
@@ -159,15 +165,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public int CompareTo(PatternOp src)
                 => OpId.CompareTo(src.OpId);
-
-            [MethodImpl(Inline)]
-            static ElementType etype(in PatternOp op)
-            {
-                var dst = ElementType.Empty;
-                if(op.Attribs.Search(OpClass.ElementType, out var attrib))
-                    dst = attrib.AsElementType();
-                return dst;
-            }
 
             public static PatternOp Empty => new();
         }

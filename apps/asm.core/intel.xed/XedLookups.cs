@@ -40,15 +40,15 @@ namespace Z0
                 switch(mode.Kind)
                 {
                     case ModeKind.Mode16:
-                        dst = new OpWidth(mode, code, info.Width16);
+                        dst = new OpWidth(code, info.Width16);
                     break;
                     case ModeKind.Not64:
                     case ModeKind.Mode32:
-                        dst = new OpWidth(mode, code, info.Width32);
+                        dst = new OpWidth(code, info.Width32);
                     break;
 
                     default:
-                        dst = new OpWidth(mode, code, info.Width64);
+                        dst = new OpWidth(code, info.Width64);
                     break;
                 }
             }
@@ -125,7 +125,7 @@ namespace Z0
                     break;
                 }
 
-                dst.CellWidth = bitwidth(dst.Code, dst.CellType);
+                dst.CellWidth = XedPatterns.bitwidth(dst.Code, dst.CellType);
 
                 result = ParseWidthValue(wdefault, out dst.Width16);
                 if(result.Fail)
@@ -153,7 +153,7 @@ namespace Z0
                     break;
                 }
 
-                dst.Seg = SegType.define(@class(dst.Code), dst.Width64, bitwidth(dst.Code, dst.CellType));
+                dst.Seg = SegType.define(@class(dst.Code), dst.Width64, XedPatterns.bitwidth(dst.Code, dst.CellType));
                 buffer.TryAdd(dst.Code, dst);
 
             }
