@@ -5,14 +5,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules.OpName;
+    using static XedRules.OpNameKind;
 
     using K = XedRules.OpKind;
 
     partial class XedRules
     {
         [Op]
-        public static OpKind opkind(OpName src)
+        public static OpKind opkind(OpNameKind src)
         {
             var dst = OpKind.None;
             switch(src)

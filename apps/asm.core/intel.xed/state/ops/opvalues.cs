@@ -10,7 +10,7 @@ namespace Z0
     using static XedRules;
     using static core;
 
-    using N = XedRules.OpName;
+    using N = XedRules.OpNameKind;
 
     partial class XedState
     {

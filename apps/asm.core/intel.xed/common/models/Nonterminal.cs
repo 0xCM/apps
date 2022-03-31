@@ -63,6 +63,20 @@ namespace Z0
                 get => Id != 0;
             }
 
+            public bool HasKind
+            {
+                [MethodImpl(Inline)]
+                get => Kind != 0;
+            }
+
+            public NontermKind Kind
+            {
+                get
+                {
+                    XedParsers.parse(Name, out NontermKind k);
+                    return k;
+                }
+            }
             public string Name
                 => IsNonEmpty ? name(Id) : EmptyString;
 

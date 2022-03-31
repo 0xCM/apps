@@ -11,10 +11,13 @@ namespace Z0
         {
             None = 0,
 
+            [Symbol("w8")]
             W8 = 8,
 
+            [Symbol("w16")]
             W16 = 16,
 
+            [Symbol("w32")]
             W32 = 32,
         }
     }

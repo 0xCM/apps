@@ -28,7 +28,7 @@ namespace Z0
             {
                 PatternId = 0u;
                 Index =z8;
-                Name = 0;
+                Name = OpName.Empty;
                 Kind = 0;
                 Attribs = OpAttribs.Empty;
                 SourceExpr = EmptyString;
@@ -44,22 +44,16 @@ namespace Z0
             public PatternOpInfo Describe()
                 => describe(this);
 
-            public string Format()
-                => XedRender.format(this);
-
-            public override string ToString()
-                => Format();
-
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Name == 0;
+                get => Name.IsEmpty;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Name != 0;
+                get => Name.IsNonEmpty;
             }
 
             public bool IsReg
@@ -110,16 +104,10 @@ namespace Z0
                 get => Kind == OpKind.Disp;
             }
 
-            public bool IsNonTerminal
-            {
-                [MethodImpl(Inline)]
-                get => XedFields.nonterm(Attribs, out _);
-            }
-
             public bool HasPtrWidth
             {
                 [MethodImpl(Inline)]
-                get => PtrWidthKind != 0;
+                get => PtrWidth(out _);
             }
 
             public bool HasElementType
@@ -128,23 +116,33 @@ namespace Z0
                 get => ElementType.IsNonEmpty;
             }
 
-            public OpWidth OpWidth
+            public bool IsNonTerminal
             {
                 [MethodImpl(Inline)]
-                get => opwidth(this);
+                get => XedPatterns.nonterm(this, out _);
             }
 
-            public PointerWidthKind PtrWidthKind
+            public bool HasOpWidth
             {
                 [MethodImpl(Inline)]
-                get => ptrwidth(this);
+                get => OpWidth(out _);
             }
 
-            public ushort PtrWidth
-            {
-                [MethodImpl(Inline)]
-                get => bitwidth(PtrWidthKind);
-            }
+            [MethodImpl(Inline)]
+            public bool Nonterminal(out Nonterminal dst)
+                => XedPatterns.nonterm(this, out dst);
+
+            [MethodImpl(Inline)]
+            public bool RegLiteral(out Register dst)
+                => XedPatterns.reglit(this, out dst);
+
+            [MethodImpl(Inline)]
+            public bool OpWidth(out OpWidth dst)
+                => XedPatterns.opwidth(this, out dst);
+
+            [MethodImpl(Inline)]
+            public bool PtrWidth(out PointerWidthKind dst)
+                => XedPatterns.ptrwidth(this, out dst);
 
             public ElementType ElementType
             {
@@ -152,28 +150,15 @@ namespace Z0
                 get => etype(this);
             }
 
+            public string Format()
+                => XedRender.format(this);
+
+            public override string ToString()
+                => Format();
+
             [MethodImpl(Inline)]
             public int CompareTo(PatternOp src)
                 => OpId.CompareTo(src.OpId);
-
-            [MethodImpl(Inline)]
-            static PointerWidthKind ptrwidth(in PatternOp op)
-            {
-                var dst = PointerWidthKind.INVALID;
-                if(op.Attribs.Search(OpClass.PtrWidth, out var attrib))
-                    dst = attrib.AsPtrWidth();
-                return dst;
-            }
-
-            [MethodImpl(Inline)]
-            static OpWidth opwidth(in PatternOp op)
-            {
-                if(op.Attribs.Search(OpClass.OpWidth, out var attrib))
-                    return attrib.AsOpWidth();
-                else
-
-                    return XedModels.OpWidth.Empty;
-            }
 
             [MethodImpl(Inline)]
             static ElementType etype(in PatternOp op)

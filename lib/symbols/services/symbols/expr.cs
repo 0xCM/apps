@@ -12,8 +12,8 @@ namespace Z0
             where E : unmanaged, Enum
         {
             var ix = index<E>();
-            if(ix.Includes(src))
-                return index<E>()[src].Expr;
+            if(ix.FindByKind(src, out var sym))
+                return sym.Expr;
             else
                 return src.ToString();
         }

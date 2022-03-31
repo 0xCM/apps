@@ -11,9 +11,9 @@ namespace Z0
 
     partial class XedPatterns
     {
-        public static Index<InstDefPart> layout(InstPattern src)
+        public static Index<InstDefField> layout(InstPattern src)
         {
-            var buffer = list<InstDefPart>();
+            var buffer = list<InstDefField>();
             ref readonly var body = ref src.Body;
             var count = body.FieldCount;
             for(var i=0; i<count; i++)

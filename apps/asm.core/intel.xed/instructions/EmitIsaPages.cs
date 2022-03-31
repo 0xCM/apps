@@ -9,6 +9,7 @@ namespace Z0
 
     using static core;
     using static XedRules;
+    using static XedModels;
 
     partial class XedPatterns
     {
@@ -16,6 +17,43 @@ namespace Z0
 
         public static string FormatIsaHeader(InstPattern pattern)
             => string.Format("{0,-18} {1,-12} {2,-12} {3}", pattern.Classifier, pattern.Isa.Name, pattern.Category, pattern.InstForm);
+
+
+        public static ushort bitwidth(OpWidthInfo src, MachineMode mode)
+        {
+            if(mode.Kind == ModeKind.Mode16)
+                return src.Width16;
+            else if(mode.Kind == ModeKind.Mode32 || mode.Kind == ModeKind.Not64)
+                return src.Width32;
+            else if(mode.Kind == ModeKind.Mode64)
+                return src.Width64;
+            else
+                return src.Width64;
+        }
+
+        static string FormatWidth(InstPattern pattern, in PatternOp src)
+        {
+            var dst = EmptyString;
+            src.OpWidth(out var w);
+            var wi = w.Code != 0 ? XedLookups.Data.WidthInfo(w.Code) : OpWidthInfo.Empty;
+            var bw = EmptyString;
+            bw = bitwidth(wi,pattern.Mode).ToString();
+            if(wi.IsNonEmpty)
+                dst = string.Format("{0,-6} {1,-12} {2,-8} {3,-2}", XedRender.format(wi.Code), bw, wi.Seg.Format(), wi.Seg.CellCount);
+
+            if(src.Nonterminal(out var nt))
+            {
+                if(GprWidths.widths(nt.Kind, out var gprw))
+                {
+                    if(wi.IsNonEmpty)
+                        dst = string.Format("{0,-6} {1,-12} {2,-8} {3,-2}", XedRender.format(wi.Code), gprw, wi.Seg.Format(), wi.Seg.CellCount);
+                    else
+                        dst = string.Format("{0,-6} {1,-12}", "ntv", gprw.Format());
+                }
+            }
+
+            return dst;
+        }
 
         public static byte RenderOps(RuleTableSet tables, InstPattern pattern, Span<string> dst)
         {
@@ -26,13 +64,13 @@ namespace Z0
                 var op = ops[j].Describe();
                 var width = XedLookups.Data.WidthInfo(op.OpWidth.Code);
                 var ntpath = op.IsNonTerminal ? tables.FindTablePath(op.NonTerminal.Name) : FS.FileUri.Empty;
-                seek(dst,j) = (string.Format("{0,-2} {1,-5} {2,-5} {3,-3} {4,-3} {5}",
+                seek(dst,j) = (string.Format("{0,-2} {1,-14} {2,-5} {3,-3} {4,-3} {5}",
                     op.Index,
                     XedRender.format(op.Name),
-                    width.IsEmpty ? op.OpWidth.Bits.ToString() : string.Format("{0,-8} w{1,-8} {2,-2}", XedRender.format(op.OpWidth.Code), width.Seg.Format(), width.Seg.CellCount),
+                    FormatWidth(pattern,ops[j]),
                     op.Visibility.Code(),
                     XedRender.format(op.Action),
-                    IsRegOp(op.Kind) ? (op.RegLit != 0 ? XedRender.format(op.RegLit) : string.Format("{0}()::{1}", op.NonTerminal.Name, ntpath)) : EmptyString
+                    IsRegOp(op.Kind) ? (op.RegLit.IsNonEmpty ? XedRender.format(op.RegLit) : string.Format("{0}()::{1}", op.NonTerminal.Name, ntpath)) : EmptyString
                     ));
             }
 
@@ -83,8 +121,8 @@ namespace Z0
 
             var k=0u;
             var j=0u;
-            Span<InstDefPart> buffer = stackalloc InstDefPart[(int)body.FieldCount];
-            Span<InstDefPart> expressions = stackalloc InstDefPart[(int)body.FieldCount];
+            Span<InstDefField> buffer = stackalloc InstDefField[(int)body.FieldCount];
+            Span<InstDefField> expressions = stackalloc InstDefField[(int)body.FieldCount];
             for(var i=0;i<body.FieldCount; i++)
             {
                 ref readonly var field = ref body[i];

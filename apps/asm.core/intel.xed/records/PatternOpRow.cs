@@ -45,7 +45,7 @@ namespace Z0
 
             public EmptyZero<ushort> CellWidth;
 
-            public EmptyZero<XedRegId> RegLit;
+            public Register RegLit;
 
             public OpModifier Modifier;
 

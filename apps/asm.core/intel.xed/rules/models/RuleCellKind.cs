@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules.RuleOperator;
-
     partial class XedRules
     {
         public enum RuleCellKind : ushort
@@ -32,18 +30,6 @@ namespace Z0
             Hex = 256,
 
             FieldValue = 512,
-        }
-
-        public static RuleOperator ruleop(RuleCellKind src)
-        {
-            if(src.Test(RuleCellKind.Assignment))
-                return Assign;
-            else if(src.Test(RuleCellKind.CmpEq))
-                return CmpEq;
-            else if(src.Test(RuleCellKind.CmpNeq))
-                return CmpNeq;
-            else
-                return 0;
         }
     }
 }

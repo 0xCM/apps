@@ -30,7 +30,7 @@ namespace Z0
             }
 
             public string Format()
-                => IsEmpty ? EmptyString : Value.ToString();
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();
@@ -42,6 +42,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator XedRegId(Register src)
                 => src.Value;
+
+            public static Register Empty => default;
         }
     }
 }

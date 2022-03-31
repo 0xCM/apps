@@ -104,7 +104,8 @@ namespace Z0
 
         static Identifier identify(in PatternOp src)
         {
-            var bw = src.OpWidth.Bits;
+            src.OpWidth(out var w);
+            var bw = w.Bits;
             var indicator = EmptyString;
             var dst = EmptyString;
             if(src.IsSegReg)

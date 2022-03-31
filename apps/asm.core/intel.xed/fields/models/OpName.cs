@@ -5,62 +5,47 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    using static XedRules;
+
+    partial struct XedModels
     {
-        [SymSource(xed)]
-        public enum OpName : byte
+        public readonly struct OpName
         {
-            None = 0,
+            public readonly OpNameKind Kind;
 
-            REG0,
+            [MethodImpl(Inline)]
+            public OpName(OpNameKind src)
+            {
+                Kind = src;
+            }
 
-            REG1,
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Kind == 0;
+            }
 
-            REG2,
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Kind != 0;
+            }
 
-            REG3,
+            public string Format()
+                => XedRender.format(this);
 
-            REG4,
+            public override string ToString()
+                => Format();
 
-            REG5,
+            [MethodImpl(Inline)]
+            public static implicit operator OpName(OpNameKind src)
+                => new OpName(src);
 
-            REG6,
+            [MethodImpl(Inline)]
+            public static implicit operator OpNameKind(OpName src)
+                => src.Kind;
 
-            REG7,
-
-            REG8,
-
-            REG9,
-
-            MEM0,
-
-            MEM1,
-
-            IMM0,
-
-            IMM1,
-
-            IMM2,
-
-            RELBR,
-
-            BASE0,
-
-            BASE1,
-
-            SEG0,
-
-            SEG1,
-
-            AGEN,
-
-            PTR,
-
-            INDEX,
-
-            SCALE,
-
-            DISP,
+            public static OpName Empty => default;
         }
     }
 }

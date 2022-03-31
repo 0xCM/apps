@@ -88,7 +88,7 @@ namespace Z0
 
         static EnumRender<ElementKind> ElementTypes = new();
 
-        static EnumRender<OpName> OpNames = new();
+        static EnumRender<OpNameKind> OpNames = new();
 
         static EnumRender<OpVisibility> OpVis = new();
 
@@ -106,7 +106,7 @@ namespace Z0
 
         static EnumRender<OpType> OpTypes = new();
 
-        static Index<AsmBroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
+        static Index<BroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
 
         static EnumRender<XedRegId> XedRegs = new();
 
@@ -274,7 +274,7 @@ namespace Z0
             => RoundingKinds.Format(src);
 
         public static string format(XedRegId src)
-            => XedRegs.Format(src);
+            => src == 0 ? EmptyString : XedRegs.Format(src);
 
         public static string format(OpAction src)
             => OpActions.Format(src);
@@ -295,7 +295,7 @@ namespace Z0
             => VexMap.Format(src);
 
         public static string format(OpWidthCode src)
-            => OpWidthKinds.Format(src);
+            => src == 0 ? EmptyString : OpWidthKinds.Format(src);
 
         public static string format(in RuleStatement src)
         {
@@ -507,7 +507,7 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static void render(ReadOnlySpan<InstDefPart> src, ITextBuffer dst)
+        public static void render(ReadOnlySpan<InstDefField> src, ITextBuffer dst)
         {
             for(var i=0; i<src.Length; i++)
             {
@@ -555,8 +555,8 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static string format(OpName src)
-            => OpNames.Format(src);
+        public static string format(OpNameKind src)
+            => src == 0 ? EmptyString : OpNames.Format(src);
 
         public static string format(RuleOperator src)
             => RuleOps.Format(src);
@@ -601,7 +601,7 @@ namespace Z0
         public static string format(DispFieldSpec src)
             => src.Width == 0 ? EmptyString : string.Format("{0}[{1}/{2}]", "DISP", src.Kind, src.Width);
 
-        public static string format(in InstDefPart src)
+        public static string format(in InstDefField src)
         {
             var dst = EmptyString;
             var @class = src.FieldClass;

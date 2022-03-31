@@ -12,40 +12,40 @@ namespace Z0
     {
         public struct OpValue
         {
-            public OpName Name;
+            public OpNameKind Name;
 
             public object Data;
 
             [MethodImpl(Inline)]
-            public OpValue(OpName name, byte value)
+            public OpValue(OpNameKind name, byte value)
             {
                 Name = name;
                 Data = value;
             }
 
             [MethodImpl(Inline)]
-            public OpValue(OpName name, Register value)
+            public OpValue(OpNameKind name, Register value)
             {
                 Name = name;
                 Data = value;
             }
 
             [MethodImpl(Inline)]
-            public OpValue(OpName name, text31 value)
+            public OpValue(OpNameKind name, text31 value)
             {
                 Name = name;
                 Data = value;
             }
 
             [MethodImpl(Inline)]
-            public OpValue(OpName name, Imm value)
+            public OpValue(OpNameKind name, Imm value)
             {
                 Name = name;
                 Data = value;
             }
 
             [MethodImpl(Inline)]
-            public OpValue(OpName name, Disp value)
+            public OpValue(OpNameKind name, Disp value)
             {
                 Name = name;
                 Data = value;
@@ -57,7 +57,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static OpValue Empty => new OpValue(OpName.None, uint4.Min);
+            public static OpValue Empty => new OpValue(OpNameKind.None, uint4.Min);
         }
     }
 }

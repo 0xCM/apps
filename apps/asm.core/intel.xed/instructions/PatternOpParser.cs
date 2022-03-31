@@ -7,7 +7,7 @@ namespace Z0
     using static XedModels;
     using static XedPatterns;
     using static XedRules;
-    using static XedRules.OpName;
+    using static XedRules.OpNameKind;
     using static core;
 
     using K = XedRules.OpKind;
@@ -95,7 +95,7 @@ namespace Z0
 
             void Parse(string expr, string[] props, ref PatternOp dst)
             {
-                switch(dst.Name)
+                switch(dst.Name.Kind)
                 {
                     case None:
                     break;

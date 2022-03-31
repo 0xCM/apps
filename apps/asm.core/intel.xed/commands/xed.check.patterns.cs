@@ -46,7 +46,7 @@ namespace Z0
             for(var i=0; i<ops.Count; i++)
             {
                 ref readonly var op = ref ops[i];
-                seek(dst,j++) = string.Format("{0,20} | {1}", string.Format("{0} {1}", op.Index, XedRender.format(op.Name)), XedRender.format(op.Attribs));
+                seek(dst,j++) = string.Format("{0,20} | {1}", string.Format("{0} {1}", op.Index, op.Name), XedRender.format(op.Attribs));
             }
             return j;
         }

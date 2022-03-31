@@ -13,7 +13,7 @@ namespace Z0
     {
         static Pair<InstPatternBody> split(in InstPatternBody src)
         {
-            var criteria = dict<byte,InstDefPart>();
+            var criteria = dict<byte,InstDefField>();
             var parts = mapi(src, (i,p) => ((byte)i, p)).ToDictionary();
             var count = src.FieldCount;
             for(byte i=0; i<count; i++)
@@ -30,12 +30,12 @@ namespace Z0
                 }
             }
 
-            var right = alloc<InstDefPart>(parts.Count);
+            var right = alloc<InstDefField>(parts.Count);
             var keys = parts.Keys.Array().Sort();
             for(var i=0; i<keys.Length; i++)
                 seek(right,i) = parts[skip(keys,i)];
 
-            var left = alloc<InstDefPart>(criteria.Count);
+            var left = alloc<InstDefField>(criteria.Count);
             keys = criteria.Keys.Array().Sort();
             for(var i=0; i<keys.Length; i++)
                 seek(left,i) = criteria[skip(keys,i)];

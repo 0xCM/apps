@@ -13,22 +13,22 @@ namespace Z0
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static InstDefPart part(BitfieldSeg src)
+        public static InstDefField part(BitfieldSeg src)
             => new(src);
 
         [MethodImpl(Inline), Op]
-        public static InstDefPart part(Nonterminal src)
+        public static InstDefField part(Nonterminal src)
             => new(src);
 
         [MethodImpl(Inline), Op]
-        public static InstDefPart part(FieldExpr src)
+        public static InstDefField part(FieldExpr src)
             => new(src);
 
         [MethodImpl(Inline), Op]
-        public static InstDefPart part(Hex8 src)
+        public static InstDefField part(Hex8 src)
             => new(src);
 
-        public static InstDefPart part(uint5 src)
+        public static InstDefField part(uint5 src)
             => new(src);
     }
 }

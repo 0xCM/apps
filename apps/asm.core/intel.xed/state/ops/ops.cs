@@ -13,9 +13,9 @@ namespace Z0
 
     partial class XedState
     {
-        public static Dictionary<OpName,DisasmOp> ops(in DisasmState state, in AsmHexCode code)
+        public static Dictionary<OpNameKind,DisasmOp> ops(in DisasmState state, in AsmHexCode code)
         {
-            var dst = dict<OpName,DisasmOp>();
+            var dst = dict<OpNameKind,DisasmOp>();
             var values = opvalues(state.RuleState, code);
             var count = values.Count;
             for(var i=0; i<count; i++)
@@ -25,13 +25,13 @@ namespace Z0
             }
 
             if(state.RELBRVal.IsNonZero)
-                dst[OpName.RELBR] = new DisasmOp(OpName.RELBR, state.RELBRVal);
+                dst[OpNameKind.RELBR] = new DisasmOp(OpNameKind.RELBR, state.RELBRVal);
             if(state.MEM0Val.IsNonEmpty)
-                dst[OpName.MEM0] = new DisasmOp(OpName.MEM0, state.MEM0Val);
+                dst[OpNameKind.MEM0] = new DisasmOp(OpNameKind.MEM0, state.MEM0Val);
             if(state.MEM1Val.IsNonEmpty)
-                dst[OpName.MEM1] = new DisasmOp(OpName.MEM1, state.MEM1Val);
+                dst[OpNameKind.MEM1] = new DisasmOp(OpNameKind.MEM1, state.MEM1Val);
             if(state.AGENVal.IsNonEmpty)
-                dst[OpName.AGEN] = new DisasmOp(OpName.AGEN, state.AGENVal);
+                dst[OpNameKind.AGEN] = new DisasmOp(OpNameKind.AGEN, state.AGENVal);
             return dst;
         }
     }

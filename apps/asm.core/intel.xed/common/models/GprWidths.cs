@@ -5,189 +5,59 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels.GprWidths;
-/*
-# xed/pysrc/enc2gen.py
-# list indexed by OSZ (o16,o32,o64)
-# gpr_nt_widths_dict['GPRv_SB'] = [16,32,64]
-# gpr_nt_widths_dict['GPRv_R'] = [16,32,64]
-# gpr_nt_widths_dict['GPRv_B'] = [16,32,64]
-# gpr_nt_widths_dict['GPRz_R'] = [16,32,32]
-# gpr_nt_widths_dict['GPRz_B'] = [16,32,32]
-# gpr_nt_widths_dict['GPRy_R'] = [32,32,64]
-# gpr_nt_widths_dict['GPRy_B'] = [32,32,64]
-
-# gpr_nt_widths_dict['GPR8_R'] = [8,8,8]
-# gpr_nt_widths_dict['GPR8_B'] = [8,8,8]
-# gpr_nt_widths_dict['GPR8_SB'] = [8,8,8]
-# gpr_nt_widths_dict['GPR16_R'] = [16,16,16]
-# gpr_nt_widths_dict['GPR16_B'] = [16,16,16]
-# gpr_nt_widths_dict['GPR32_B'] = [32,32,32]
-# gpr_nt_widths_dict['GPR32_R'] = [32,32,32]
-# gpr_nt_widths_dict['GPR64_B'] = [64,64,64]
-# gpr_nt_widths_dict['GPR64_R'] = [64,64,64]
-# gpr_nt_widths_dict['VGPR32_B'] = [32,32,32]
-# gpr_nt_widths_dict['VGPR32_R'] = [32,32,32]
-# gpr_nt_widths_dict['VGPR32_N'] = [32,32,32]
-# gpr_nt_widths_dict['VGPRy_N'] = [32,32,64]
-
-# gpr_nt_widths_dict['VGPR64_B'] = [64,64,64]
-# gpr_nt_widths_dict['VGPR64_R'] = [64,64,64]
-# gpr_nt_widths_dict['VGPR64_N'] = [64,64,64]
-
-*/
-    using K = XedModels.NontermKind;
+    using GK = XedModels.GprWidthKind;
 
     partial struct XedModels
     {
-        static ReadOnlySpan<GprWidths> GprWidthData
-        {
-            [MethodImpl(Inline)]
-            get => core.recover<GprWidths>(GprWidthBytes);
-        }
-
-        static ReadOnlySpan<byte> GprWidthBytes => new byte[]{
-            define(16,32,64), // GPRv_SB
-
-            define(16,32,64), // GPRv_R,
-            define(16,32,64), // GPRv_B,
-
-            define(16,32,32), // GPRz_R,
-            define(16,32,32), // GPRz_B,
-
-            define(32,32,64), // GPRy_R,
-            define(32,32,64), // GPRy_B,
-
-            define(8,8,8),    // GPR8_R,
-            define(8,8,8),    // GPR8_B,
-
-            define(8,8,8),    // GPR8_SB,
-
-            define(16,16,16), // GPR16_R,
-            define(16,16,16), // GPR16_B,
-
-            define(32,32,32), // GPR32_B,
-            define(32,32,32), // GPR32_R,
-
-            define(64,64,64), // GPR64_B,
-            define(64,64,64), // GPR64_R,
-            define(32,32,32), // VGPR32_B,
-            define(32,32,32), // VGPR32_R,
-            define(32,32,32), // VGPR32_N,
-            define(32,32,64), // VGPRy_N,
-
-            define(64,64,64), // VGPR64_B,
-            define(64,64,64), // VGPR64_R,
-            define(64,64,64), // VGPR64_N,
-            };
-
-        public enum GprWidthKind : ushort
-        {
-            GPRv_SB = K.GPRv_SB,
-
-            GPRv_R = K.GPRv_R,
-
-            GPRv_B = K.GPRv_B,
-
-            GPRz_R = K.GPRz_R,
-
-            GPRz_B = K.GPRz_B,
-
-            GPRy_R = K.GPRy_R,
-
-            GPRy_B = K.GPRy_B,
-
-            GPR8_R = K.GPR8_R,
-
-            GPR8_B = K.GPR8_B,
-
-            GPR8_SB = K.GPR8_SB,
-
-            GPR16_R = K.GPR16_R,
-
-            GPR16_B = K.GPR16_B,
-
-            GPR32_B = K.GPR32_B,
-
-            GPR32_R = K.GPR32_R,
-
-            GPR64_B = K.GPR64_B,
-
-            GPR64_R = K.GPR64_R,
-
-            VGPR32_B = K.VGPR32_B,
-
-            VGPR32_R = K.VGPR32_R,
-
-            VGPR32_N = K.VGPR32_N,
-
-            VGPRy_N = K.VGPRy_N,
-
-            VGPR64_B = K.VGPR64_B,
-
-            VGPR64_R = K.VGPR64_R,
-
-            VGPR64_N = K.VGPR64_N,
-        }
-
-        public enum GprWidthIndex : byte
-        {
-            GPRv_SB,
-
-            GPRv_R,
-
-            GPRv_B,
-
-            GPRz_R,
-
-            GPRz_B,
-
-            GPRy_R,
-
-            GPRy_B,
-
-            GPR8_R,
-
-            GPR8_B,
-
-            GPR8_SB,
-
-            GPR16_R,
-
-            GPR16_B,
-
-            GPR32_B,
-
-            GPR32_R,
-
-            GPR64_B,
-
-            GPR64_R,
-
-            VGPR32_B,
-
-            VGPR32_R,
-
-            VGPR32_N,
-
-            VGPRy_N,
-
-            VGPR64_B,
-
-            VGPR64_R,
-
-            VGPR64_N,
-        }
-
         public readonly struct GprWidths
         {
+            public static ReadOnlySpan<GprWidths> All
+            {
+                [MethodImpl(Inline)]
+                get => core.recover<GprWidths>(WidthBytes);
+            }
+
+            public static bool IsDefined(NontermKind src)
+                => Symbols.index<GprWidthKind>().FindByValue((ushort)src, out var sym);
+
             [MethodImpl(Inline)]
-            public static ref readonly GprWidths lookup(GprWidthIndex index)
-                => ref core.skip(GprWidthData,(byte)index);
+            public static GprWidthKind kind(NontermKind nt)
+                => (GprWidthKind)Symbols.index<NontermKind>()[nt].Kind;
+
+            [MethodImpl(Inline)]
+            public static ref readonly GprWidthKind kind(GprWidthIndex index)
+                => ref core.skip(WidthKinds,(byte)index);
+
+            [MethodImpl(Inline)]
+            public static ref readonly GprWidths widths(GprWidthIndex index)
+                => ref core.skip(All,(byte)index);
+
+            public static GprWidths widths(NontermKind src)
+                => IsDefined(src) ? widths(index(kind(src))) : GprWidths.Empty;
+
+            public static bool widths(NontermKind src, out GprWidths dst)
+            {
+                dst = widths(src);
+                return dst.IsNonEmpty;
+            }
 
             [MethodImpl(Inline)]
             public static GprWidths define(byte o16, byte o32, byte o64)
                 => new GprWidths(o16,o32,o64);
+
+            public static GprWidthIndex index(GprWidthKind kind)
+            {
+                var a = Symbols.index<GprWidthKind>();
+                var b = Symbols.index<GprWidthIndex>();
+                if(a.FindByKind(kind, out var sym))
+                    return b.FindByPos(sym.Key);
+                else
+                    Errors.Throw(AppMsg.NotFound.Format(kind));
+                return default;
+            }
+
+            public static GprWidthIndex index(NontermKind src)
+                => index(kind(src));
 
             readonly uint6 Data;
 
@@ -202,6 +72,12 @@ namespace Z0
             public GprWidths(NativeSize o16, NativeSize o32, NativeSize o64)
             {
                 Data = BitNumbers.join((uint2)(byte)o16,(uint2)(byte)o32,(uint2)(byte)o64);
+            }
+
+            public Triple<NativeSize> Defined
+            {
+                [MethodImpl(Inline)]
+                get => (this[w16],this[w32],this[w64]);
             }
 
             public NativeSize this[NativeSize w]
@@ -228,9 +104,84 @@ namespace Z0
                 get => (NativeSizeCode)(byte)((Data >> 4) & uint2.Max);
             }
 
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Data == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Data != 0;
+            }
+
+            public string Format()
+            {
+                const string Pattern = "[{0}, {1}, {2}]";
+                return string.Format(Pattern, this[w16].Width, this[w32].Width, this[w64].Width);
+            }
+
+            public override string ToString()
+                => Format();
+
             [MethodImpl(Inline)]
             public static implicit operator byte(GprWidths src)
                 => (byte)src.Data;
+
+            public static GprWidths Empty => default;
+
+            const byte GprWidthCount = 23;
+
+            static ReadOnlySpan<GprWidthKind> WidthKinds
+                => new GprWidthKind[GprWidthCount]{
+                GK.GPRv_SB, GK.GPRv_R, GK.GPRv_B,
+                GK.GPRz_R, GK.GPRz_B,
+                GK.GPRy_R, GK.GPRy_B,
+                GK.GPR8_R, GK.GPR8_B, GK.GPR8_SB,
+                GK.GPR16_R, GK.GPR16_B,
+                GK.GPR32_B, GK.GPR32_R,
+                GK.GPR64_B, GK.GPR64_R,
+                GK.VGPR32_B, GK.VGPR32_R, GK.VGPR32_N,
+                GK.VGPRy_N,
+                GK.VGPR64_B, GK.VGPR64_R, GK.VGPR64_N,
+                };
+
+            /// <summary>
+            /// See apps\asm.core\intel.xed\res\gpr.widths.csv
+            /// </summary>
+            static ReadOnlySpan<byte> WidthBytes => new byte[GprWidthCount]{
+                define(16,32,64), // GPRv_SB
+                define(16,32,64), // GPRv_R,
+                define(16,32,64), // GPRv_B,
+
+                define(16,32,32), // GPRz_R,
+                define(16,32,32), // GPRz_B,
+
+                define(32,32,64), // GPRy_R,
+                define(32,32,64), // GPRy_B,
+
+                define(8,8,8),    // GPR8_R,
+                define(8,8,8),    // GPR8_B,
+                define(8,8,8),    // GPR8_SB,
+
+                define(16,16,16), // GPR16_R,
+                define(16,16,16), // GPR16_B,
+
+                define(32,32,32), // GPR32_B,
+                define(32,32,32), // GPR32_R,
+
+                define(64,64,64), // GPR64_B,
+                define(64,64,64), // GPR64_R,
+                define(32,32,32), // VGPR32_B,
+                define(32,32,32), // VGPR32_R,
+                define(32,32,32), // VGPR32_N,
+                define(32,32,64), // VGPRy_N,
+
+                define(64,64,64), // VGPR64_B,
+                define(64,64,64), // VGPR64_R,
+                define(64,64,64), // VGPR64_N,
+                };
+            }
         }
-    }
 }

@@ -116,7 +116,7 @@ namespace Z0
                     );
             }
 
-            if(ops.TryGetValue(OpName.DISP, out var disp))
+            if(ops.TryGetValue(OpNameKind.DISP, out var disp))
                 dst.Disp = (Disp)disp.Value;
 
             var prefix = ocpos != 0 ? slice(code.Bytes,0,ocpos) : default;

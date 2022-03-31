@@ -56,7 +56,7 @@ namespace Z0
 
         static readonly EnumParser<CategoryKind> CategoryKinds = new();
 
-        static readonly EnumParser<OpName> RuleOpNames = new();
+        static readonly EnumParser<OpNameKind> RuleOpNames = new();
 
         static readonly EnumParser<RuleMacroKind> MacroKinds = new();
 
@@ -82,7 +82,7 @@ namespace Z0
 
         static readonly EnumParser<SMode> SModes = new();
 
-        static Index<AsmBroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
+        static Index<BroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
 
         static XedParsers Instance = new();
 
@@ -99,7 +99,7 @@ namespace Z0
             var result = Outcome.Success;
             var parts = text.trim(text.split(text.despace(src), Chars.Space));
             var count = parts.Length;
-            dst = alloc<InstDefPart>(count);
+            dst = alloc<InstDefField>(count);
             for(var i=0; i<count; i++)
             {
                 result = XedParsers.parse(skip(parts,i), out dst[i]);
@@ -246,9 +246,9 @@ namespace Z0
             return result;
         }
 
-        public static Outcome parse(string src, out InstDefPart dst)
+        public static Outcome parse(string src, out InstDefField dst)
         {
-            dst = InstDefPart.Empty;
+            dst = InstDefField.Empty;
             Outcome result = (false, string.Format("Unrecognized segment '{0}'", src));
             if(IsHexLiteral(src))
             {
@@ -768,8 +768,18 @@ namespace Z0
         public static bool parse(string src, out OpModKind dst)
             => OpModKinds.Parse(src, out dst);
 
-        public static bool parse(string src, out OpName dst)
+        public static bool parse(string src, out OpNameKind dst)
             => RuleOpNames.Parse(src, out dst);
+
+        public static bool parse(string src, out OpName dst)
+        {
+            var result = parse(src, out OpNameKind kind);
+            if(result)
+                dst = kind;
+            else
+                dst = OpName.Empty;
+            return result;
+        }
 
         public static bool parse(string src, out CategoryKind dst)
             => CategoryKinds.Parse(src, out dst);
@@ -909,6 +919,16 @@ namespace Z0
             return result;
         }
 
+        public static bool parse(string src, out Register dst)
+        {
+            var result = parse(src, out XedRegId reg);
+            if(result)
+                dst = reg;
+            else
+                dst = Register.Empty;
+            return result;
+        }
+
         public static bool reg(FieldKind field, string value, out R.FieldValue dst)
         {
             var result = false;
@@ -960,19 +980,10 @@ namespace Z0
             => OpVisKinds.Parse(src, out dst);
 
         public static bool parse(string src, out SMode dst)
-            => Instance.Parse(src, out dst);
+            => SModes.Parse(src, out dst);
 
         public static bool parse(string src, out ExtensionKind dst)
             => ExtensionKinds.Parse(src, out dst);
-
-        public bool Parse(string src, out FlagEffectKind dst)
-            => FlagActionKinds.Parse(src, out dst);
-
-        public bool Parse(string src, out OpName dst)
-            => RuleOpNames.Parse(src, out dst);
-
-        public bool Parse(string src, out SMode dst)
-            => SModes.Parse(src, out dst);
 
         public bool Parse(string src, out OpCodeKind dst)
             => OpCodeKinds.Parse(src, out dst);

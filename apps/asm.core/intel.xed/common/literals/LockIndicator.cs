@@ -5,8 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedFields
+    partial struct XedModels
     {
+        [SymSource(xed)]
         public enum LockIndicator : sbyte
         {
             [Symbol("")]

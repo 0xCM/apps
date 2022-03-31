@@ -110,11 +110,17 @@ namespace Z0
             RDRAND,
             RDSEED,
             RDTSCP,
+
             RDWRFSGS,
+
             RTM,
+
             SERIALIZE,
+
             SGX,
+
             SGX_ENCLV,
+
             SHA,
 
             SMAP,

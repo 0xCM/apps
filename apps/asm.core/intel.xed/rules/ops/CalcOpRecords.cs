@@ -59,24 +59,24 @@ namespace Z0
             dst.Kind = src.Kind;
             dst.Name = src.Name;
             ref readonly var attribs = ref src.Attribs;
-            XedFields.nonterm(attribs, out dst.NonTerminal);
+            XedPatterns.nonterm(src, out dst.NonTerminal);
+
             if(attribs.Search(OpClass.Action, out var a))
                 dst.Action = a.AsAction();
-            if(attribs.Search(OpClass.OpWidth, out var w))
-            {
-                dst.OpWidth = w.AsOpWidth();
+
+            if(src.OpWidth(out dst.OpWidth))
                 dst.BitWidth = dst.OpWidth.Bits;
-            }
+
             if(attribs.Search(OpClass.ElementType, out var et))
             {
                 dst.CellType = et.AsElementType();
                 dst.CellWidth = bitwidth(dst.OpWidth.Code, dst.CellType);
             }
-            if(attribs.Search(OpClass.RegLiteral, out var reglit))
+            if(src.RegLiteral(out dst.RegLit))
             {
-                dst.RegLit = reglit.AsRegLiteral();
                 dst.BitWidth = bitwidth(dst.RegLit);
             }
+
             if(attribs.Search(OpClass.Modifier, out var mod))
                 dst.Modifier = mod.AsModifier();
 

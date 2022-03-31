@@ -16,7 +16,7 @@ namespace Z0
         {
             public byte Index;
 
-            public OpName Name;
+            public OpNameKind Name;
 
             public OpKind Kind;
 
@@ -30,7 +30,7 @@ namespace Z0
 
             public ushort CellWidth;
 
-            public XedRegId RegLit;
+            public Register RegLit;
 
             public OpModifier Modifier;
 

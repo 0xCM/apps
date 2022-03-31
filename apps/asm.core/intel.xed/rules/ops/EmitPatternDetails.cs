@@ -12,6 +12,7 @@ namespace Z0
 
     partial class XedRules
     {
+
         void EmitPatternDetails(RuleTableSet tables, Index<InstPattern> src, FS.FilePath dst)
         {
             src.Sort();
@@ -41,7 +42,7 @@ namespace Z0
                     writer.AppendLine(skip(rbuffer,k));
 
                 writer.AppendLine(XedPatterns.OpsTitle);
-                var opscount = XedPatterns.RenderOps(tables,pattern,rbuffer);
+                var opscount = XedPatterns.RenderOps(tables, pattern, rbuffer);
                 for(var k=0; k<opscount;k++)
                     writer.AppendLine(skip(rbuffer,k));
 

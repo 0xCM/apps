@@ -11,12 +11,12 @@ namespace Z0
 
     partial class XedRules
     {
-        public struct InstDefPart : IEquatable<InstDefPart>
+        public struct InstDefField : IEquatable<InstDefField>
         {
             readonly ByteBlock16 Data;
 
             [MethodImpl(Inline)]
-            public InstDefPart(byte src)
+            public InstDefField(byte src)
             {
                 var data = ByteBlock16.Empty;
                 data[0] = src;
@@ -25,7 +25,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefPart(uint5 src)
+            public InstDefField(uint5 src)
             {
                 var data = ByteBlock16.Empty;
                 data[0] = (byte)src;
@@ -35,7 +35,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefPart(Hex8 src)
+            public InstDefField(Hex8 src)
             {
                 var data = ByteBlock16.Empty;
                 data[0] = src;
@@ -44,7 +44,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefPart(BitfieldSeg src)
+            public InstDefField(BitfieldSeg src)
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
@@ -54,7 +54,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefPart(FieldExpr src)
+            public InstDefField(FieldExpr src)
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
@@ -64,7 +64,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefPart(Nonterminal src)
+            public InstDefField(Nonterminal src)
             {
                 var data = ByteBlock16.Empty;
                 data = core.bytes(src);
@@ -90,6 +90,24 @@ namespace Z0
                 get => ref @as<DefFieldClass>(Data[15]);
             }
 
+            public ref readonly FieldKind FieldKind
+            {
+                [MethodImpl(Inline)]
+                get => ref @as<FieldKind>(Data[14]);
+            }
+
+            public bool IsBitfield
+            {
+                [MethodImpl(Inline)]
+                get => FieldClass == DefFieldClass.Bitfield;
+            }
+
+            public bool IsNonTerminal
+            {
+                [MethodImpl(Inline)]
+                get => FieldClass == DefFieldClass.Nonterm;
+            }
+
             public bool IsFieldExpr
             {
                 [MethodImpl(Inline)]
@@ -99,26 +117,21 @@ namespace Z0
             public bool IsLiteral
             {
                 [MethodImpl(Inline)]
-                get => FieldClass == DefFieldClass.BitLiteral
+                get =>
+                   FieldClass == DefFieldClass.BitLiteral
                 || FieldClass == DefFieldClass.HexLiteral
                 || FieldClass == DefFieldClass.IntLiteral;
             }
 
-            public ref readonly FieldKind FieldKind
-            {
-                [MethodImpl(Inline)]
-                get => ref @as<FieldKind>(Data[14]);
-            }
-
             [MethodImpl(Inline)]
-            public bool Equals(InstDefPart src)
+            public bool Equals(InstDefField src)
                 => Data.Equals(src.Data);
 
             public override int GetHashCode()
                 => Data.GetHashCode();
 
             public override bool Equals(object src)
-                => src is InstDefPart p && Equals(p);
+                => src is InstDefField p && Equals(p);
 
             [MethodImpl(Inline)]
             public ref readonly Hex8 AsHexLit()
@@ -150,7 +163,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static InstDefPart Empty => default;
+            public static InstDefField Empty => default;
         }
     }
 }

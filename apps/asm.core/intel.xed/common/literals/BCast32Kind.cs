@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using N = XedNames;
+
     partial struct XedModels
     {
         [SymSource(xed)]

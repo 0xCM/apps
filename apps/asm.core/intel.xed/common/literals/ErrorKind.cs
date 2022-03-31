@@ -7,6 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
+        [SymSource(xed)]
         public enum ErrorKind : byte
         {
             NONE, /// There was no error
@@ -25,11 +26,14 @@ namespace Z0
             [Symbol("BAD_LOCK_PREFIX", "A lock prefix was found where none is allowed")]
             BAD_LOCK_PREFIX,
 
-            BAD_REP_PREFIX, /// An F2 or F3 prefix was found where none is allowed.
+            [Symbol("BAD_REP_PREFIX", "An F2 or F3 prefix was found where none is allowed")]
+            BAD_REP_PREFIX,
 
-            BAD_LEGACY_PREFIX, /// A 66, F2 or F3 prefix was found where none is allowed.
+            [Symbol("BAD_LEGACY_PREFIX", "A 66, F2 or F3 prefix was found where none is allowed")]
+            BAD_LEGACY_PREFIX,
 
-            BAD_REX_PREFIX, /// A REX prefix was found where none is allowed.
+            [Symbol("BAD_REX_PREFIX", "A REX prefix was found where none is allowed")]
+            BAD_REX_PREFIX,
 
             BAD_EVEX_UBIT, /// An illegal value for the EVEX.U bit was present in the instruction.
 

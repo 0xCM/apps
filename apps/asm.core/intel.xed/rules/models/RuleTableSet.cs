@@ -5,10 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using System.Linq;
 
-    using static XedModels;
+    using static core;
 
     partial class XedRules
     {

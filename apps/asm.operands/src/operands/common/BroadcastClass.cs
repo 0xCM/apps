@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public enum AsmBroadcastClass : byte
+    public enum BroadcastClass : byte
     {
         None = 0,
 

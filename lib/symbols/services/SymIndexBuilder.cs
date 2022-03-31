@@ -22,10 +22,7 @@ namespace Z0
             var buffer = alloc<Sym<E>>(count);
             ref var dst = ref first(buffer);
             for(var i=0u; i<count; i++)
-            {
-                ref readonly var lit = ref skip(src,i);
-                seek(dst,i) = new Sym<E>(i, lit);
-            }
+                seek(dst,i) = new Sym<E>(i, skip(src,i));
             return new Symbols<E>(buffer, luString<E>(buffer), luValue<E>(buffer));
         }
 

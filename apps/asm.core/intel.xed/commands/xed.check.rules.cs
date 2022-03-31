@@ -24,18 +24,51 @@ namespace Z0
                 throw;
             }
         }
+
         [CmdOp("xed/check/rules")]
         Outcome CheckRules(CmdArgs args)
         {
-            var rules = Xed.Rules.CalcTableSet();
-            var tables = rules.Sigs.Map(x => XedRules.tablename(x.Sig)).Sort();
-            iter(tables, t => Write(t.Identifier));
 
-            //iter(rules.SigRows, row => Write(string.Format("{0,-6} | {1,-46} | {2}", row.TableKind, row.TableName, row.TableDef)));
+            var patterns = Xed.Rules.CalcInstPatterns();
+            var count = patterns.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var pattern = ref patterns[i];
+                ref readonly var fields = ref pattern.Fields;
+                ref readonly var ops = ref pattern.Ops;
+                for(var j=0; j<ops.Count; j++)
+                {
+                    ref readonly var op = ref ops[j];
+                    if(op.Nonterminal(out var nt))
+                    {
+                        var ntkind = nt.Kind;
+                        Require.invariant(ntkind != 0);
+                        var widths = GprWidths.widths(ntkind);
+                        if(widths.IsNonEmpty)
+                        {
+                            Write(string.Format("{0,-18} | {1}={2,-24} | {3}", pattern.InstClass, op.Name, nt, widths), FlairKind.StatusData);
+                        }
+                    }
+
+                }
+            }
+
             return true;
         }
 
 
+        void CheckGprWidths()
+        {
+            var widths = GprWidths.All;
+            var count = widths.Length;
+            for(var i=0; i<count; i++)
+            {
+                var index = (GprWidthIndex)i;
+                ref readonly var width = ref skip(widths,i);
+                Write(string.Format("{0,-8} {1}", index,width));
+            }
+
+        }
         Outcome ValidateRules()
         {
             var patterns = Xed.Rules.CalcInstPatterns();

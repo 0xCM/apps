@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static XedRules;
+    using static XedModels;
 
     partial class XedDisasm
     {
@@ -15,7 +16,7 @@ namespace Z0
             public readonly object Value;
 
             [MethodImpl(Inline)]
-            public DisasmOp(OpName name, object value)
+            public DisasmOp(OpNameKind name, object value)
             {
                 Name = name;
                 Value = value;
@@ -27,7 +28,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static DisasmOp Empty => new DisasmOp(OpName.None, z8);
+            public static DisasmOp Empty => new DisasmOp(OpNameKind.None, z8);
         }
     }
 }

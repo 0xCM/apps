@@ -7,6 +7,7 @@ namespace Z0
 {
     using static core;
     using static XedRules;
+    using static XedModels;
 
     partial class XedPatterns
     {
@@ -27,7 +28,7 @@ namespace Z0
         }
 
         [Op]
-        public static InstFieldRow fieldrow(InstPattern pattern, in InstDefPart src, byte index)
+        public static InstFieldRow fieldrow(InstPattern pattern, in InstDefField src, byte index)
         {
             var dst = InstFieldRow.Empty;
             dst.PatternId = pattern.PatternId;

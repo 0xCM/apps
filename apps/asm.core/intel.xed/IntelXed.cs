@@ -42,7 +42,7 @@ namespace Z0.Asm
 
         static MsgPattern<string> ChipCodeNotFound => "Code for chip {0} not found";
 
-        static Index<AsmBroadcastDef> _BroadcastDefs;
+        static Index<BroadcastDef> _BroadcastDefs;
 
         static IntelXed()
         {

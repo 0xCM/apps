@@ -21,6 +21,8 @@ namespace Z0
 
         readonly Dictionary<K,Sym<K>> KindMap;
 
+        readonly Dictionary<string,Sym<K>> NameMap;
+
         Symbols()
         {
 
@@ -35,6 +37,7 @@ namespace Z0
             SymKinds = src.Select(x => x.Kind);
             SymVals = valMap.Keys.Array();
             KindMap = CreateKindMap(src);
+            NameMap = CreateNameMap(src);
         }
 
         static Dictionary<K, Sym<K>> CreateKindMap(Index<Sym<K>> src)
@@ -46,7 +49,22 @@ namespace Z0
             return dst;
         }
 
+        static Dictionary<string, Sym<K>> CreateNameMap(Index<Sym<K>> src)
+        {
+            var dst = dict<string,Sym<K>>();
+            var count = src.Count;
+            for(var i=0; i<count; i++)
+                dst.TryAdd(src[i].Name, src[i]);
+            return dst;
+        }
+
         public ref readonly Sym<K> this[uint index]
+        {
+            [MethodImpl(Inline)]
+            get => ref index < Data.Length ? ref Data[index] : ref Data[0];
+        }
+
+        public ref readonly Sym<K> this[int index]
         {
             [MethodImpl(Inline)]
             get => ref index < Data.Length ? ref Data[index] : ref Data[0];
@@ -58,9 +76,33 @@ namespace Z0
             get => ref bw32(kind) < Data.Length ? ref Data[bw32(kind)] : ref Data[0];
         }
 
+        // [MethodImpl(Inline)]
+        // public bool Includes(K index)
+        //     => bw32(index) < Data.Count;
+
         [MethodImpl(Inline)]
-        public bool Includes(K index)
-            => bw32(index) < Data.Count;
+        public bool FindByExpr(SymExpr src, out Sym<K> dst)
+            => ExprMap.TryGetValue(src.Text, out dst);
+
+        [MethodImpl(Inline)]
+        public bool FindByValue(SymVal src, out Sym<K> dst)
+            => ValMap.TryGetValue(src, out dst);
+
+        [MethodImpl(Inline)]
+        public bool FindByKind(K src, out Sym<K> dst)
+            => KindMap.TryGetValue(src, out dst);
+
+        [MethodImpl(Inline)]
+        public bool FindByName(string src, out Sym<K> dst)
+            => NameMap.TryGetValue(src, out dst);
+
+        [MethodImpl(Inline)]
+        public ref readonly Sym<K> FindByPos(uint pos)
+            => ref this[pos];
+
+        [MethodImpl(Inline)]
+        public ref readonly Sym<K> FindByPos(int pos)
+            => ref this[pos];
 
         public bool Lookup(SymExpr src, out Sym<K> dst)
             => ExprMap.TryGetValue(src.Text, out dst);
