@@ -451,7 +451,7 @@ namespace Z0
                     dst = format(src.ToAction());
                 break;
                 case OC.OpWidth:
-                    dst = src.ToOpWidth().Format();
+                    dst = format(src.ToOpWidth());
                 break;
 
                 case OC.PtrWidth:
@@ -585,8 +585,8 @@ namespace Z0
                 _ => EmptyString
             };
 
-        public static string format(ElementKind src)
-            => ElementTypes.Format(src);
+        public static string format(ElementType src)
+            => src.IsEmpty ? EmptyString : ElementTypes.Format(src.Kind);
 
         public static string format(OpVisibility src)
             => OpVis.Format(src);
@@ -849,7 +849,7 @@ namespace Z0
 
             ref readonly var width = ref src.OpWidth;
             dst.AppendFormat(OpSepSlot, XedRender.format(width.Code));
-            if(width.CellType.IsNonEmpty && !width.CellType.IsInt)
+            if(width.CellType.IsNumber)
                 dst.AppendFormat(OpSepSlot, src.OpWidth.CellType);
             if(!opinfo.Visiblity.IsExplicit)
                 dst.AppendFormat(OpSepSlot, opinfo.Visiblity);

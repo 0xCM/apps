@@ -5,16 +5,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using static XedRules;
-    using static XedModels;
 
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
         public static bool modifier(in PatternOp src, out OpModifier dst)
         {
-            if(search(src.Attribs, OpClass.Visibility, out var attrib))
+            if(search(src.Attribs, OpClass.Modifier, out var attrib))
                 dst = attrib.ToModifier();
             else
                 dst = default;

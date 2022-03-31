@@ -25,14 +25,6 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public OpWidth(OpWidthCode code, GprWidths gpr)
-            {
-                Gpr = gpr;
-                Code = code;
-                Bits = 0xFFFF;
-            }
-
-            [MethodImpl(Inline)]
             public OpWidth(ushort bits)
             {
                 Gpr = default;

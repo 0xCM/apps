@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static XedRules;
     using static XedModels;
 
@@ -13,7 +15,7 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableName)]
         public struct PatternOpRow : IComparable<PatternOpRow>
         {
-            public const byte FieldCount = 19;
+            public const byte FieldCount = 21;
 
             public const string TableName = "xed.inst.patterns.ops";
 
@@ -25,7 +27,9 @@ namespace Z0
 
             public MachineMode Mode;
 
-            public XedOpCode OpCode;
+            public OpCodeKind OcKind;
+
+            public AsmOcValue OcValue;
 
             public byte Index;
 
@@ -33,17 +37,19 @@ namespace Z0
 
             public OpKind Kind;
 
-            public EmptyZero<bit> NonTerm;
+            public EnumFormat<OpAction> Action;
 
-            public OpAction Action;
-
-            public OpWidth OpWidth;
-
-            public ElementType CellType;
+            public EnumFormat<OpWidthCode> WidthCode;
 
             public EmptyZero<ushort> BitWidth;
 
-            public EmptyZero<ushort> CellWidth;
+            public ElementType EType;
+
+            public EmptyZero<ushort> EWidth;
+
+            public EmptyZero<byte> ECount;
+
+            public SegType SegType;
 
             public Register RegLit;
 
@@ -67,7 +73,7 @@ namespace Z0
                 return result;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,18,6,28,6,8,8,8,8,10,10,10,10,16,8,12,16,1,};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,18,6,10,16,6,8,8,8,10,10,10,6,6,12,12,8,12,16,1,};
 
             public static PatternOpRow Empty => default;
         }

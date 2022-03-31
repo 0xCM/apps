@@ -6,15 +6,13 @@
 namespace Z0
 {
     using static core;
-
     using static XedRules;
 
     partial class XedPatterns
     {
-        public static Index<InstDefField> layout(InstPattern src)
+        public static InstPatternBody layout(in InstPatternBody body)
         {
             var buffer = list<InstDefField>();
-            ref readonly var body = ref src.Body;
             var count = body.FieldCount;
             for(var i=0; i<count; i++)
             {

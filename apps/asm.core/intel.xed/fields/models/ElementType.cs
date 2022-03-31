@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+
     partial struct XedModels
     {
         public readonly struct ElementType
@@ -15,12 +16,6 @@ namespace Z0
             public ElementType(ElementKind kind)
             {
                 Kind = kind;
-            }
-
-            public string Name
-            {
-                [MethodImpl(Inline)]
-                get => IsEmpty ? EmptyString : XedRender.format(Kind);
             }
 
             public bool IsEmpty
@@ -35,22 +30,27 @@ namespace Z0
                 get => Kind != 0;
             }
 
+            public bool IsNumber
+            {
+                get => Indicator != 0;
+            }
+
             public bool IsFloat
             {
                 [MethodImpl(Inline)]
-                get=> Kind == ElementKind.BF16 || Kind == ElementKind.F16 || Kind == ElementKind.F32 || Kind == ElementKind.F64 || Kind == ElementKind.F80;
+                get => Indicator == NumericIndicator.Float;
             }
 
             public bool IsSignedInt
             {
                 [MethodImpl(Inline)]
-                get => Kind == ElementKind.INT;
+                get => Indicator == NumericIndicator.Signed;
             }
 
             public bool IsUnsignedInt
             {
                 [MethodImpl(Inline)]
-                get => Kind == ElementKind.UINT;
+                get => Indicator == NumericIndicator.Unsigned;
             }
 
             public bool IsInt
@@ -59,14 +59,11 @@ namespace Z0
                 get => IsSignedInt || IsUnsignedInt;
             }
 
-            public char Indicator
-            {
-                [MethodImpl(Inline)]
-                get => (char)(IsFloat ? NumericIndicator.Float : IsSignedInt ? NumericIndicator.Signed : IsUnsignedInt ? NumericIndicator.Unsigned : NumericIndicator.None);
-            }
+            public NumericIndicator Indicator
+                => indicator(Kind);
 
             public string Format()
-                => Name;
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();
@@ -78,6 +75,14 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator ElementKind(ElementType src)
                 => src.Kind;
+
+            [MethodImpl(Inline)]
+            public static explicit operator byte(ElementType src)
+                => (byte)src.Kind;
+
+            [MethodImpl(Inline)]
+            public static explicit operator ElementType(byte src)
+                => new ElementType((ElementKind)src);
 
             public static ElementType Empty => default;
         }

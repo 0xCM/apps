@@ -25,8 +25,7 @@ namespace Z0
 
         public static void poc(InstPattern src, out PatternOpCode dst)
         {
-            dst = default;
-            (var fields, var _ly) = split(src.Body);
+            dst.Seq = 0;
             dst.PatternId = src.PatternId;
             dst.InstId = src.InstId;
             dst.OcKind = src.OpCode.Kind;
@@ -34,8 +33,7 @@ namespace Z0
             dst.InstClass = src.InstClass;
             dst.Pattern = src.BodyExpr;
             dst.Mode = mode(src.Body);
-            InstPatternBody _layout = layout(src);
-            dst.Layout = _layout.Format();
+            dst.Layout = src.Layout.Format();
         }
     }
 }

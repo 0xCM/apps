@@ -102,68 +102,6 @@ namespace Z0
             return true;
         }
 
-        static Identifier identify(in PatternOp src)
-        {
-            src.OpWidth(out var w);
-            var bw = w.Bits;
-            var indicator = EmptyString;
-            var dst = EmptyString;
-            if(src.IsSegReg)
-            {
-                indicator = "sr";
-            }
-            else if(src.IsReg)
-            {
-                indicator = bw != 0 ? "r" : "reg";
-            }
-            else if(src.IsMem)
-            {
-                indicator = bw != 0 ? "m" : "mem";
-            }
-            else if(src.IsPtr)
-            {
-                indicator = "ptr";
-            }
-            else
-            {
-                indicator = format(src.Kind);
-            }
-
-            if(bw != 0)
-            {
-                dst = string.Format("{0}{1}", indicator, bw);
-            }
-            else
-                dst = indicator;
-
-            return dst;
-        }
-
-        static Identifier identify(InstPattern src)
-        {
-            var dst = text.buffer();
-            ref readonly var attribs = ref src.Attributes;
-            var name = EmptyString;
-            var locked = attribs.Locked;
-            if(locked)
-                name = text.remove(format(src.InstClass), "_LOCK").ToLower();
-            else
-                name = format(src.InstClass).ToLower();
-
-            dst.Append(name);
-
-            for(var i=0; i<src.OpCount; i++)
-            {
-                dst.Append(Chars.Underscore);
-                ref readonly var op = ref src.Ops[i];
-                dst.Append(identify(op));
-            }
-
-            if(locked)
-                dst.Append("_locked");
-
-            return dst.Emit();
-        }
 
         [CmdOp("xed/check/modrm")]
         Outcome CheckModRm(CmdArgs args)

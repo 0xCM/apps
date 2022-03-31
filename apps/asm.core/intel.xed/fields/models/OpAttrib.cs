@@ -77,8 +77,8 @@ namespace Z0
                 => (OpAction)Data;
 
             [MethodImpl(Inline)]
-            public OpWidth ToOpWidth()
-                => core.@as<uint,OpWidth>(Data);
+            public OpWidthCode ToOpWidth()
+                => (OpWidthCode)Data;
 
             [MethodImpl(Inline)]
             public PointerWidthKind ToPtrWidth()
@@ -97,8 +97,8 @@ namespace Z0
                 => (ScaleFactor)Data;
 
             [MethodImpl(Inline)]
-            public ElementKind ToElementType()
-                => (ElementKind)Data;
+            public ElementType ToElementType()
+                => (ElementType)Data;
 
             [MethodImpl(Inline)]
             public Visibility ToVisibility()
@@ -109,7 +109,7 @@ namespace Z0
                 => new OpAttrib(K.Action, (ushort)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator OpAttrib(OpWidth src)
+            public static implicit operator OpAttrib(OpWidthCode src)
                 => new OpAttrib(K.OpWidth, (uint)src);
 
             [MethodImpl(Inline)]
@@ -129,8 +129,8 @@ namespace Z0
                 => new OpAttrib(K.Scale, (ushort)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator OpAttrib(ElementKind src)
-                => new OpAttrib(K.ElementType, (uint)src);
+            public static implicit operator OpAttrib(ElementType src)
+                => new OpAttrib(K.ElementType, (uint)src.Kind);
 
             [MethodImpl(Inline)]
             public static implicit operator OpAttrib(OpVisibility src)

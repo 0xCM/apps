@@ -11,13 +11,13 @@ namespace Z0
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static bool opwidth(in PatternOp src, out OpWidth dst)
+        public static bool opwidth(in PatternOp src, out OpWidthCode dst)
         {
             var result = search(src.Attribs, OpClass.OpWidth, out var attrib);
             if(result)
                 dst= attrib.ToOpWidth();
             else
-                dst = OpWidth.Empty;
+                dst = OpWidthCode.INVALID;;
             return result;
         }
     }

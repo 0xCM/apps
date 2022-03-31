@@ -22,7 +22,9 @@ namespace Z0
 
             public OpAction Action;
 
-            public OpWidth OpWidth;
+            public OpWidthCode WidthCode;
+
+            public GprWidths GprWidths;
 
             public ElementType CellType;
 

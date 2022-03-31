@@ -60,14 +60,10 @@ namespace Z0
         public static string format(SegType src)
         {
             var dst = EmptyString;
-            if(src.IsNonEmpty)
-            {
-                var c = Symbols.expr(src.Class);
-                if(src.DataWidth == src.CellWidth)
-                    dst = string.Format("{0}{1}", src.DataWidth, c);
-                else
-                    dst = string.Format("{0}x{1}{2}", src.DataWidth, src.CellWidth, c);
-            }
+            if(src.CellCount <= 1)
+                dst = EmptyString;
+            else
+                dst = string.Format("{0}x{1}{2}", src.DataWidth, src.CellWidth, src.Class.ToString().ToLower());
             return dst;
         }
 

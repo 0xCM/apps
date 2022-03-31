@@ -27,21 +27,25 @@ namespace Z0
                     dst.PatternId = pattern.PatternId;
                     dst.InstClass = pattern.InstClass;
                     dst.Mode = pattern.Mode;
-                    dst.OpCode = pattern.OpCode;
-
+                    dst.OcKind = pattern.OpCode.Kind;
+                    dst.OcValue = pattern.OpCode.Value;
                     dst.Index = info.Index;
                     dst.Name = info.Name;
                     dst.Kind = info.Kind;
-                    dst.NonTerm = info.IsNonTerminal;
                     dst.Action = info.Action;
-                    dst.OpWidth = info.OpWidth;
-                    dst.CellType = info.CellType;
-                    dst.BitWidth = info.BitWidth;
-                    dst.CellWidth = info.CellWidth;
+                    dst.WidthCode = info.WidthCode;
+                    dst.EType = info.CellType;
+                    dst.EWidth = info.CellWidth;
                     dst.RegLit = info.RegLit;
                     dst.Modifier = info.Modifier;
                     dst.Visibility = info.Visibility;
                     dst.NonTerminal = info.NonTerminal;
+                    if(info.WidthCode !=0)
+                    {
+                        dst.BitWidth = XedLookups.Data.Width(info.WidthCode, pattern.Mode).Bits;
+                        dst.SegType = XedLookups.Data.WidthInfo(info.WidthCode).Seg;
+                        dst.ECount = dst.SegType.CellCount;
+                    }
 
                     dst.SourceExpr = op.SourceExpr;
 
@@ -61,22 +65,19 @@ namespace Z0
 
             ref readonly var attribs = ref src.Attribs;
             XedPatterns.nonterm(src, out dst.NonTerminal);
-
             XedPatterns.visibility(src, out dst.Visibility);
             XedPatterns.action(src, out dst.Action);
             XedPatterns.modifier(src, out dst.Modifier);
-
-            if(XedPatterns.opwidth(src, out dst.OpWidth))
-                dst.BitWidth = dst.OpWidth.Bits;
+            XedPatterns.opwidth(src, out dst.WidthCode);
 
             if(GprWidths.widths(dst.NonTerminal, out var gpr))
-                dst.OpWidth = new OpWidth(dst.OpWidth.Code, gpr);
+                dst.GprWidths = gpr;
 
             if(src.RegLiteral(out dst.RegLit))
                 dst.BitWidth = XedPatterns.bitwidth(dst.RegLit);
 
             if(XedPatterns.etype(src, out dst.CellType))
-                dst.CellWidth = XedPatterns.bitwidth(dst.OpWidth.Code, dst.CellType);
+                dst.CellWidth = XedPatterns.bitwidth(dst.WidthCode, dst.CellType);
 
             return dst;
         }

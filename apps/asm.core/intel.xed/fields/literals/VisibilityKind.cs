@@ -21,6 +21,9 @@ namespace Z0
 
             [Symbol("SUPP", "Part of the opcode, but not typically listed as an operand")]
             Suppressed,
+
+            [Symbol("ECOND", "Explicit conditional")]
+            Conditional,
         }
 
         [SymSource(xed)]
@@ -37,6 +40,9 @@ namespace Z0
 
             [Symbol("SUPPRESSED", "Part of the opcode, but not typically listed as an operand")]
             SUPPRESSED,
+
+            [Symbol("ECOND", "Explicit conditional")]
+            ECOND,
         }
     }
 }

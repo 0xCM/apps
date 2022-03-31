@@ -30,11 +30,6 @@ namespace Z0
                 Tables = XedLookups.Data;
             }
 
-            public void Parse(uint pattern, string ops, out Index<PatternOp> dst)
-            {
-                dst = Parse(pattern,ops);
-            }
-
             public void Parse(uint pattern, string ops, out PatternOps dst)
             {
                 dst = Parse(pattern,ops);
@@ -181,18 +176,20 @@ namespace Z0
             {
                 var count = props.Count;
                 dst.SourceExpr = expr;
+                var action = OpAction.None;
+                var width = OpWidthCode.INVALID;
                 Span<OpAttrib> buffer = stackalloc OpAttrib[4];
                 var i=0;
 
                 if(count >= 1)
                 {
-                    if(XedParsers.parse(props[0], out OpAction action))
+                    if(XedParsers.parse(props[0], out action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 2)
                 {
-                    if(XedParsers.parse(props[1], out OpWidthCode width))
-                        seek(buffer,i++) = Tables.Width(width,Mode);
+                    if(XedParsers.parse(props[1], out width))
+                        seek(buffer,i++) = width;
                 }
 
                 dst.Attribs = slice(buffer,0,i).ToArray();
@@ -202,17 +199,19 @@ namespace Z0
             {
                 var count = props.Count;
                 dst.SourceExpr = expr;
+                var action = OpAction.None;
+                var width = OpWidthCode.INVALID;
                 Span<OpAttrib> buffer = stackalloc OpAttrib[4];
                 var i=0;
                 if(count >= 1)
                 {
-                    if(XedParsers.parse(props[0], out OpAction action))
+                    if(XedParsers.parse(props[0], out action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 2)
                 {
-                    if(XedParsers.parse(props[1], out OpWidthCode width))
-                        seek(buffer,i++) = Tables.Width(width,Mode);
+                    if(XedParsers.parse(props[1], out width))
+                        seek(buffer,i++) = width;
                 }
 
                 dst.Attribs = slice(buffer,0,i).ToArray();
@@ -222,6 +221,7 @@ namespace Z0
             {
                 var count = props.Count;
                 dst.SourceExpr = expr;
+                var action = OpAction.None;
                 Span<OpAttrib> buffer = stackalloc OpAttrib[4];
                 var i=0;
 
@@ -232,7 +232,7 @@ namespace Z0
                 }
                 if(count >= 2)
                 {
-                    if(XedParsers.parse(props[1], out OpAction action))
+                    if(XedParsers.parse(props[1], out action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 3)
@@ -249,23 +249,26 @@ namespace Z0
                 var count = props.Count;
                 dst.SourceExpr = expr;
 
+                var type = ElementType.Empty;
+                var action = OpAction.None;
+                var width = OpWidthCode.INVALID;
                 Span<OpAttrib> buffer = stackalloc OpAttrib[4];
                 var i=0;
                 if(count >= 1)
                 {
-                    if(XedParsers.parse(props[0], out OpAction action))
+                    if(XedParsers.parse(props[0], out action))
                         seek(buffer,i++) = action;
                 }
 
                 if(count >= 2)
                 {
-                    if(XedParsers.parse(props[1], out OpWidthCode width))
-                        seek(buffer,i++) = Tables.Width(width,Mode);
+                    if(XedParsers.parse(props[1], out width))
+                        seek(buffer,i++) = width;
                 }
 
                 if(count >= 3)
                 {
-                    if(XedParsers.parse(props[2], out ElementKind type))
+                    if(XedParsers.parse(props[2], out type))
                         seek(buffer,i++) = type;
                 }
 
@@ -278,32 +281,37 @@ namespace Z0
                 dst.SourceExpr = expr;
                 Span<OpAttrib> buffer = stackalloc OpAttrib[6];
                 var i=0;
+                var k=0;
+                var width = OpWidthCode.INVALID;
+                var action = OpAction.None;
+                var vis = OpVisibility.None;
+                var type = ElementType.Empty;
 
                 if(count >= 1)
                 {
-                    if(XedParsers.parse(props[0], out OpAction action))
+                    ref readonly var p = ref props[k++];
+                    if(XedParsers.parse(p, out action))
                         seek(buffer,i++) = action;
                 }
                 if(count >= 2)
                 {
-                    if(XedParsers.parse(props[1], out OpWidthCode width))
-                        seek(buffer,i++) = Tables.Width(width,Mode);
+                    ref readonly var p = ref props[k++];
+                    if(XedParsers.parse(p, out vis))
+                        seek(buffer,i++) = vis;
+                    else if(XedParsers.parse(p, out width))
+                        seek(buffer,i++) = width;
                 }
 
                 if(count >= 3)
                 {
-                    if(XedParsers.parse(props[2], out ElementKind type))
-                        seek(buffer,i++) = type;
-                }
-
-                if(count >= 4)
-                {
-                    var j = text.index(props[3], Chars.Eq);
-                    if(j > 0)
+                    ref readonly var p = ref props[k++];
+                    if(width != 0)
                     {
-                        if(XedParsers.parse(text.right(props[3], j), out OpModKind mod))
-                            seek(buffer,i++) = mod;
+                        if(XedParsers.parse(p, out type))
+                             seek(buffer,i++) = type;
                     }
+                    else if(XedParsers.parse(p, out width))
+                         seek(buffer,i++) = width;
                 }
 
                 dst.Attribs = slice(buffer,0,i).ToArray();
@@ -315,47 +323,55 @@ namespace Z0
                 var counter = 0;
                 var count = props.Count;
                 dst.SourceExpr = expr;
+                var width = OpWidthCode.INVALID;
+                var type = ElementType.Empty;
+                var vis = OpVisibility.None;
+                var action = OpAction.None;
 
                 Span<OpAttrib> buffer = stackalloc OpAttrib[8];
                 var i=0;
+                var k=0;
                 if(count >= 1)
                 {
-
-                    var p0 = props[0];
-                    result = XedParsers.reg(p0, out seek(buffer,i++));
+                    ref readonly var p = ref props[k++];
+                    result = XedParsers.reg(p, out seek(buffer,i++));
                     if(!result)
-                        Errors.Throw(string.Format("Unable to parser rgister specification {0}", p0));
+                        Errors.Throw(string.Format("Unable to parser rgister specification {0}", p));
                 }
 
                 if(count >= 2)
                 {
-                    if(XedParsers.parse(props[1], out OpAction action))
+                    ref readonly var p = ref props[k++];
+                    if(XedParsers.parse(p, out action))
                         seek(buffer,i++) = action;
+                    else if(XedParsers.parse(p, out width))
+                        seek(buffer,i++) = width;
                 }
 
                 if(count >= 3)
                 {
-                    if(XedParsers.parse(props[2], out OpWidthCode width))
-                        seek(buffer,i++) = Tables.Width(width,Mode);
-                    else
-                    {
-                        if(XedParsers.parse(props[2], out OpVisibility supp))
-                        {
-                            seek(buffer,i++) = supp;
-                        }
-                    }
+                    ref readonly var p = ref props[k++];
+                    if(width==0 && XedParsers.parse(p, out width))
+                        seek(buffer,i++) = width;
+                    else if (XedParsers.parse(p, out vis))
+                        seek(buffer,i++) = vis;
                 }
 
                 if(count >= 4)
                 {
-                    if(XedParsers.parse(props[3], out OpWidthCode width))
-                        seek(buffer,i++) = Tables.Width(width,Mode);
+                    ref readonly var p = ref props[k++];
+                    if(width == 0 && XedParsers.parse(p, out width))
+                        seek(buffer,i++) = type;
+                    else if(XedParsers.parse(p, out type))
+                        seek(buffer,i++) = type;
+                    else if(XedParsers.parse(p, out vis))
+                        seek(buffer,i++) = vis;
                     else
                     {
-                        var j = text.index(props[3], Chars.Eq);
+                        var j = text.index(p, Chars.Eq);
                         if(j > 0)
                         {
-                            if(XedParsers.parse(text.right(props[3], j), out OpModKind mod))
+                            if(XedParsers.parse(text.right(p, j), out OpModKind mod))
                                 seek(buffer,i++) = mod;
                         }
                     }
@@ -363,7 +379,8 @@ namespace Z0
 
                 if(count >= 5)
                 {
-                    if(XedParsers.parse(props[4], out ElementKind type))
+                    ref readonly var p = ref props[k++];
+                    if(XedParsers.parse(p, out type))
                         seek(buffer,i++) = type;
                 }
 

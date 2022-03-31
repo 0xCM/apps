@@ -892,7 +892,15 @@ namespace Z0
         }
 
         public static bool parse(string src, out OpWidthCode dst)
-            => OpWidthParser.Parse(src, out dst);
+        {
+            if(src == nameof(OpWidthCode.INVALID))
+            {
+                dst = 0;
+                return true;
+            }
+            else
+                return OpWidthParser.Parse(src, out dst);
+        }
 
         public static bool parse(string src, out OpAction dst)
             => OpActions.Parse(src, out dst);

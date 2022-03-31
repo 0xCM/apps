@@ -88,6 +88,7 @@ namespace Z0
                 AppendLine(FormatInstHeader(pattern));
                 AppendLineFormat(LabelPattern, nameof(pattern.Category), pattern.Category);
                 AppendLine(FormatBody(pattern));
+                AppendLineFormat(LabelPattern, "Layout", pattern.Layout);
                 AppendLineFormat(LabelPattern, nameof(pattern.Mode), XedRender.format(pattern.Mode));
                 AppendLineFormat(LabelPattern, nameof(pattern.OpCode), string.Format("{0,-8} {1}", pattern.OpCode.Kind, AsmOcValue.format(pattern.OpCode.Value)));
 
@@ -128,43 +129,43 @@ namespace Z0
                 if(src.Seg.CellCount <= 1)
                     return EmptyString;
                 else
-                    return string.Format("{0}(n{1})", src.Seg.Format(), src.Seg.CellCount);
+                    return string.Format("{0}[n{1}]", src.Seg.Format(), src.Seg.CellCount);
             }
 
             public string FormatWidth(InstPattern pattern, in PatternOp src)
             {
-                const string RenderPattern = "{0,-6} {1,-12} {2,-12}";
-                var indicator = EmptyString;
+                const string RenderPattern = "{0,-6} {1,-3} {2,-4} {3,-12}";
                 var bw = EmptyString;
-                var dst = EmptyString;
+                src.ElementType(out var et);
+                src.OpWidth(out var w);
+                var wcode = XedRender.format(w);
                 if(XedPatterns.reglit(src, out Register reg))
                 {
-                    indicator = "reg";
                     bw = XedPatterns.bitwidth(reg).ToString();
+                    wcode = text.ifempty(wcode,"reg");
                 }
 
-                src.OpWidth(out var w);
+                var wi = w != 0 ? Lookups.WidthInfo(w) : OpWidthInfo.Empty;
+                var seg = EmptyString;
+                if(wi.Seg.CellCount > 1)
+                {
+                    var indicator = EmptyString;
+                    if(et.Indicator != 0)
+                        indicator = ((char)et.Indicator).ToString();
+                    seg = string.Format("{0}x{1}{2}[n{1}]", wi.Seg.DataWidth,  wi.Seg.CellWidth, indicator, wi.Seg.CellCount);
+                }
 
-                var wi = w.Code != 0 ? Lookups.WidthInfo(w.Code) : OpWidthInfo.Empty;
-                if(empty(indicator))
-                    indicator = XedRender.format(wi.Code);
-
-                var seg = FormatSeg(wi);
                 if(empty(bw))
                     bw = bitwidth(wi, pattern.Mode).ToString();
 
                 if(src.Nonterminal(out var nt))
                 {
-                    indicator = "ntv";
+                    wcode = text.ifempty(wcode,"ntv");
                     if(GprWidths.widths(nt, out var gpr))
-                        dst = string.Format(RenderPattern, indicator, gpr, seg);
-                    else
-                        dst = string.Format(RenderPattern, indicator, EmptyString, seg);
+                        bw = gpr.Format();
                 }
-                else
-                    dst = string.Format(RenderPattern, indicator, bw, seg);
 
-                return dst;
+                return string.Format(RenderPattern, wcode, et, bw, seg);
             }
 
             byte RenderFields(InstPattern src, Span<string> dst)

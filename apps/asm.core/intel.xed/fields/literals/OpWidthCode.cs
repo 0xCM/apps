@@ -10,6 +10,7 @@ namespace Z0
         [SymSource(xed)]
         public enum OpWidthCode : byte
         {
+            [Symbol("")]
             INVALID,
 
             [Symbol("asz", "Varies with effective address width and may be one of 2, 4, 8")]

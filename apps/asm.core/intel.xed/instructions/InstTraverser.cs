@@ -277,7 +277,7 @@ namespace Z0
                 TraversedOpVisibility(pattern, op, attrib);
             }
 
-            void TraverseOpWidthAttrib(InstPattern pattern, in PatternOp op, OpWidth attrib)
+            void TraverseOpWidthAttrib(InstPattern pattern, in PatternOp op, OpWidthCode attrib)
             {
                 TraversedOpWidth(pattern, op, attrib);
             }
@@ -362,7 +362,7 @@ namespace Z0
 
             protected virtual void TraversedOpVisibility(InstPattern pattern, in PatternOp op, Visibility attrib) { }
 
-            protected virtual void TraversedOpWidth(InstPattern pattern, in PatternOp op, OpWidth attrib) { }
+            protected virtual void TraversedOpWidth(InstPattern pattern, in PatternOp op, OpWidthCode attrib) { }
         }
     }
 }

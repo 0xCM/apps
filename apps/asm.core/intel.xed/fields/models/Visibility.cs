@@ -33,6 +33,12 @@ namespace Z0
                 get => V0 == OpVisibility.Explicit || V1 == VisibilityKind.EXPLICIT;
             }
 
+            public bool IsConditional
+            {
+                [MethodImpl(Inline)]
+                get  => V0 == OpVisibility.Conditional || V1 == VisibilityKind.ECOND;
+            }
+
             public bool IsSuppresed
             {
                 [MethodImpl(Inline)]
@@ -65,6 +71,8 @@ namespace Z0
                     return "i";
                 else if(IsSuppresed)
                     return "h";
+                else if(IsConditional)
+                    return "c";
                 else
                     return EmptyString;
             }

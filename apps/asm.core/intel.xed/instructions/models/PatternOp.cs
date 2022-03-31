@@ -6,7 +6,6 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedPatterns;
 
     partial class XedRules
     {
@@ -39,10 +38,6 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => PatternId << 8 | Index;
             }
-
-            [MethodImpl(Inline)]
-            public PatternOpInfo Describe()
-                => describe(this);
 
             public bool IsEmpty
             {
@@ -137,7 +132,7 @@ namespace Z0
                 => XedPatterns.reglit(this, out dst);
 
             [MethodImpl(Inline)]
-            public bool OpWidth(out OpWidth dst)
+            public bool OpWidth(out OpWidthCode dst)
                 => XedPatterns.opwidth(this, out dst);
 
             [MethodImpl(Inline)]

@@ -16,10 +16,13 @@ namespace Z0
 
             public readonly OcInstClass OcInst;
 
+            public readonly InstPatternBody Layout;
+
             public InstPattern(InstPatternSpec spec)
             {
                 Spec = spec;
                 OcInst = new(spec.PatternId, spec.OpCode, spec.InstClass);
+                Layout = layout(spec.Body);
             }
 
             public ref readonly MachineMode Mode

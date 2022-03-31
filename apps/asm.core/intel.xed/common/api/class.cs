@@ -17,11 +17,24 @@ namespace Z0
             var dst = NativeClass.None;
             switch(src)
             {
+                case W.P:
+                case W.P2:
+                case W.MPREFETCH:
+                case W.VAR:
+                case W.PMMSZ16:
+                case W.PMMSZ32:
+                case W.VV:
+                case W.ZV:
+                    dst = 0;
+                    break;
                 case W.MSKW:
                 case W.ZMSKW:
                 case W.I1:
                     dst = B;
                     break;
+
+                case W.BND32:
+                case W.BND64:
                 case W.WRD:
                 case W.B:
                 case W.U8:
@@ -44,6 +57,11 @@ namespace Z0
                 case W.ZU32:
                 case W.ZU64:
 
+                case W.ZUD:
+                case W.ZUW:
+                case W.ZUQ:
+                case W.ZU128:
+
                 case W.MEM16:
                 case W.MEM28:
                 case W.MEM14:
@@ -51,12 +69,20 @@ namespace Z0
                 case W.MEM108:
                 case W.M512:
                 case W.M384:
+
+                case W.TMEMCOL:
+                case W.TMEMROW:
+                case W.TV:
+                case W.PTR:
                     dst = U;
                     break;
 
                 case W.A16:
                 case W.A32:
                 case W.ASZ:
+                case W.SSZ:
+
+                case W.PI:
 
                 case W.I2:
                 case W.I3:
@@ -69,7 +95,6 @@ namespace Z0
                 case W.I16:
                 case W.I32:
                 case W.I64:
-
 
                 case W.W:
                 case W.D:
@@ -127,6 +152,10 @@ namespace Z0
 
                 case W.SI:
                 case W.SD:
+
+                case W.YPS:
+                case W.YPD:
+                case W.ZBF16:
 
                 case W.PS:
                 case W.PD:
