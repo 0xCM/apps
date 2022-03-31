@@ -5,34 +5,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using static XedRules;
     using static XedModels;
 
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static bool opwidth(in PatternOp op, out OpWidth dst)
+        public static bool opwidth(in PatternOp src, out OpWidth dst)
         {
-            var result = op.Attribs.Search(OpClass.OpWidth, out var attrib);
+            var result = search(src.Attribs, OpClass.OpWidth, out var attrib);
             if(result)
                 dst= attrib.AsOpWidth();
             else
-            {
-                if(nonterm(op, out var nt))
-                {
-                    var gpr = GprWidths.widths(nt.Kind);
-                    result = gpr.IsNonEmpty;
-                    if(result)
-                        dst = gpr;
-                    else
-                        dst = OpWidth.Empty;
-                }
-                else
-                {
-                    dst = OpWidth.Empty;
-                }
-            }
+                dst = OpWidth.Empty;
             return result;
         }
     }

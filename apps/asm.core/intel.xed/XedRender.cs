@@ -162,7 +162,7 @@ namespace Z0
             => src == 0 ? EmptyString : CategoryKinds.Format(src);
 
         public static string format(OpWidth src)
-            => src.IsEmpty ? EmptyString : src.DefinesGprWidth ? src.Gpr.Format() : format(src.Code);
+            => src.DefinesGprWidth ? src.Gpr.Format() : src.Code != 0 ? format(src.Code) : EmptyString;
 
         public static string format(OpCodeIndex src, FormatCode fc = FormatCode.Expr)
             => format(OcKindIndex, src, fc);
@@ -771,7 +771,7 @@ namespace Z0
         }
 
         public static string format(in XedOpCode src)
-            => string.Format("{0}[{1}]:{2}", src.Class, XedPatterns.digits(src.Kind), AsmOcValue.format(src.Value));
+            => string.Format("{0}:{1}", src.Kind, AsmOcValue.format(src.Value));
 
         public static string format(InstAttribs src, bool embrace = true, char sep = Chars.Comma)
         {

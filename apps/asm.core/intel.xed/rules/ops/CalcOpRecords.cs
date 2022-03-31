@@ -22,7 +22,7 @@ namespace Z0
                 {
                     var dst = PatternOpRow.Empty;
                     ref readonly var op = ref ops[j];
-                    var info = op.Describe();
+                    var info = describe(op);
                     dst.InstId = pattern.InstId;
                     dst.PatternId = pattern.PatternId;
                     dst.InstClass = pattern.InstClass;
@@ -58,15 +58,26 @@ namespace Z0
             dst.Index = src.Index;
             dst.Kind = src.Kind;
             dst.Name = src.Name;
+
             ref readonly var attribs = ref src.Attribs;
             XedPatterns.nonterm(src, out dst.NonTerminal);
             XedPatterns.visibility(src, out dst.Visibility);
             XedPatterns.action(src, out dst.Action);
             XedPatterns.modifier(src, out dst.Modifier);
+
+            if(XedPatterns.opwidth(src, out dst.OpWidth))
+                dst.BitWidth = dst.OpWidth.Bits;
+
+            if(GprWidths.widths(dst.NonTerminal, out var gpr))
+                dst.OpWidth = new OpWidth(dst.OpWidth.Code, gpr);
+            else
+            {
+                if(dst.NonTerminal.Kind == NontermKind.GPR8_R || dst.NonTerminal.Kind == NontermKind.GPR8_B || dst.NonTerminal.Kind == NontermKind.GPR8_SB)
+                    dst.OpWidth = new OpWidth(0,GprWidths.define(8,8,8));
+            }
+
             if(src.RegLiteral(out dst.RegLit))
                 dst.BitWidth = XedPatterns.bitwidth(dst.RegLit);
-            else if(src.OpWidth(out dst.OpWidth))
-                dst.BitWidth = dst.OpWidth.Bits;
 
             if(XedPatterns.etype(src, out dst.CellType))
                 dst.CellWidth = XedPatterns.bitwidth(dst.OpWidth.Code, dst.CellType);

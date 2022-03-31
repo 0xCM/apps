@@ -135,8 +135,11 @@ namespace Z0
                 if(wi.IsNonEmpty)
                     dst = string.Format(RenderPattern, XedRender.format(wi.Code), bw, wi.Seg.Format(), wi.Seg.CellCount);
 
-                if(w.DefinesGprWidth)
-                    dst = string.Format(RenderPattern, "ntv", w, EmptyString, EmptyString);
+                if(src.Nonterminal(out var nt))
+                {
+                    if(GprWidths.widths(nt, out var gpr))
+                        dst = string.Format(RenderPattern, wi.Code == 0 ? "ntv" : XedRender.format(wi.Code), gpr, wi.Seg.Format(), wi.Seg.CellCount);
+                }
 
                 if(empty(dst))
                     dst = string.Format(RenderPattern, EmptyString, EmptyString, EmptyString, EmptyString);

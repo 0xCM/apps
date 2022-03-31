@@ -48,7 +48,7 @@ namespace Z0
                     {
                         var ntkind = nt.Kind;
                         Require.invariant(ntkind != 0);
-                        var widths = GprWidths.widths(ntkind);
+                        GprWidths.widths(ntkind, out var widths);
                         if(widths.IsNonEmpty)
                         {
                             Write(string.Format("{0,-18} | {1}={2,-24} | {3}", pattern.InstClass, op.Name, nt, widths), FlairKind.StatusData);
@@ -62,7 +62,7 @@ namespace Z0
         void CheckGprWidths()
         {
             var ntk = NontermKind.GPR8_R;
-            var widths = GprWidths.widths(ntk);
+            var result = GprWidths.widths(ntk, out var widths);
             Write(widths.Format());
         }
         Outcome ValidateRules()

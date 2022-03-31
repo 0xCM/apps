@@ -5,7 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using GK = XedModels.GprWidthKind;
+    using I = XedModels.GprWidthIndex;
+
+    using static XedModels.NontermKind;
 
     partial struct XedModels
     {
@@ -17,43 +19,91 @@ namespace Z0
                 get => core.recover<GprWidths>(WidthBytes);
             }
 
-            public static bool IsDefined(NontermKind src)
-                => Symbols.index<GprWidthKind>().FindByValue((ushort)src, out var sym);
-
             [MethodImpl(Inline)]
-            public static GprWidthKind kind(NontermKind nt)
-                => (GprWidthKind)Symbols.index<NontermKind>()[nt].Kind;
+            public static GprWidths define(byte o16, byte o32, byte o64)
+                => new GprWidths(o16, o32, o64);
 
             [MethodImpl(Inline)]
             public static ref readonly GprWidths widths(GprWidthIndex index)
                 => ref core.skip(All,(byte)index);
 
-            public static GprWidths widths(NontermKind src)
-                => IsDefined(src) ? widths(index(kind(src))) : GprWidths.Empty;
-
             public static bool widths(NontermKind src, out GprWidths dst)
             {
-                dst = widths(src);
+                dst = GprWidths.Empty;
+                switch(src)
+                {
+                    case GPR16_B:
+                        dst = widths(I.GPR16_B);
+                        break;
+                    case GPR16_R:
+                        dst = widths(I.GPR16_R);
+                        break;
+                    case GPR32_B:
+                        dst = widths(I.GPR32_B);
+                        break;
+                    case GPR32_R:
+                        dst = widths(I.GPR32_R);
+                        break;
+                    case GPR64_B:
+                        dst = widths(I.GPR64_B);
+                        break;
+                    case GPR64_R:
+                        dst = widths(I.GPR64_R);
+                        break;
+                    case GPR8_B:
+                        dst = widths(I.GPR8_B);
+                        break;
+                    case GPR8_R:
+                        dst = widths(I.GPR8_R);
+                        break;
+                    case GPR8_SB:
+                        dst = widths(I.GPR8_SB);
+                        break;
+                    case GPRv_B:
+                        dst = widths(I.GPRv_B);
+                        break;
+                    case GPRv_R:
+                        dst = widths(I.GPRv_R);
+                        break;
+                    case GPRv_SB:
+                        dst = widths(I.GPRv_SB);
+                        break;
+                    case GPRy_B:
+                        dst = widths(I.GPRy_B);
+                        break;
+                    case GPRy_R:
+                        dst = widths(I.GPRy_R);
+                        break;
+                    case GPRz_B:
+                        dst = widths(I.GPRz_B);
+                        break;
+                    case GPRz_R:
+                        dst = widths(I.GPRz_R);
+                        break;
+                    case VGPR32_B:
+                        dst = widths(I.VGPR32_B);
+                        break;
+                    case VGPR32_N:
+                        dst = widths(I.VGPR32_N);
+                        break;
+                    case VGPR32_R:
+                        dst = widths(I.VGPR32_R);
+                        break;
+                    case VGPR64_B:
+                        dst = widths(I.VGPR64_B);
+                        break;
+                    case VGPR64_N:
+                        dst = widths(I.VGPR64_N);
+                        break;
+                    case VGPR64_R:
+                        dst = widths(I.VGPR64_R);
+                        break;
+                    case VGPRy_N:
+                        dst = widths(I.VGPRy_N);
+                    break;
+                }
                 return dst.IsNonEmpty;
             }
-
-            [MethodImpl(Inline)]
-            public static GprWidths define(byte o16, byte o32, byte o64)
-                => new GprWidths(o16, o32, o64);
-
-            public static GprWidthIndex index(GprWidthKind kind)
-            {
-                var a = Symbols.index<GprWidthKind>();
-                var b = Symbols.index<GprWidthIndex>();
-                if(a.FindByKind(kind, out var sym))
-                    return b.FindByPos(sym.Key);
-                else
-                    Errors.Throw(AppMsg.NotFound.Format(kind));
-                return default;
-            }
-
-            public static GprWidthIndex index(NontermKind src)
-                => index(kind(src));
 
             readonly uint6 Data;
 

@@ -11,31 +11,6 @@ namespace Z0
 
     partial class XedPatterns
     {
-        // public static bool nonterm(OpAttrib src, out Nonterminal dst)
-        // {
-        //     if(src.IsNonTerminal)
-        //     {
-        //         dst = src.AsNonTerm();
-        //         return true;
-        //     }
-        //     else
-        //     {
-        //         dst = Nonterminal.Empty;
-        //         return false;
-        //     }
-        // }
-
-        // public static bool nonterm(OpAttribs src, out Nonterminal dst)
-        // {
-        //     for(var i=0; i<src.Count; i++)
-        //     {
-        //         if(nonterm(src[i], out dst))
-        //             return true;
-        //     }
-        //     dst = Nonterminal.Empty;
-        //     return false;
-        // }
-
         [MethodImpl(Inline), Op]
         public static bool nonterm(in PatternOp src, out Nonterminal dst)
         {

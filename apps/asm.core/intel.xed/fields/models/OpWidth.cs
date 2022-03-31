@@ -25,10 +25,10 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public OpWidth(GprWidths gpr)
+            public OpWidth(OpWidthCode code, GprWidths gpr)
             {
                 Gpr = gpr;
-                Code = OpWidthCode.PSEUDO;
+                Code = code;
                 Bits = 0;
             }
 
@@ -41,13 +41,13 @@ namespace Z0
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Code == 0;
+                get => Code == 0 && Gpr.IsEmpty;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Code != 0;
+                get => Code != 0 || Gpr.IsNonEmpty;
             }
 
             public string Format()
@@ -59,10 +59,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static explicit operator uint(OpWidth src)
                 => core.u32(src);
-
-            [MethodImpl(Inline)]
-            public static implicit operator OpWidth(GprWidths src)
-                => new OpWidth(src);
 
             public static OpWidth Empty => new OpWidth(OpWidthCode.INVALID, 0);
         }

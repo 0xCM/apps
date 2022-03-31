@@ -48,7 +48,7 @@ namespace Z0
 
             public Nonterminal(string name)
             {
-                Id = token(name);
+                Id = token(text.trim(name));
             }
 
             public bool IsEmpty
@@ -102,6 +102,14 @@ namespace Z0
 
             public static explicit operator uint(Nonterminal src)
                 => core.@as<Nonterminal,uint>(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator NontermKind(Nonterminal src)
+                => src.Kind;
+
+            [MethodImpl(Inline)]
+            public static implicit operator Nonterminal(NontermKind src)
+                => new Nonterminal(src.ToString());
 
             public static Nonterminal Empty => default;
         }
