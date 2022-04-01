@@ -10,7 +10,7 @@ namespace Z0
     using static XedRules;
     using static core;
 
-    using N = XedRules.OpNameKind;
+    using N = XedModels.OpNameKind;
 
     partial class XedState
     {
@@ -33,7 +33,7 @@ namespace Z0
                 _ops.Add(new OpValue(N.BASE1, state.BASE1));
 
             if(state.SCALE != 0)
-                _ops.Add(new OpValue(N.SCALE, state.SCALE));
+                _ops.Add(new OpValue(N.SCALE, (MemoryScale)state.SCALE));
 
             if(state.INDEX != 0)
                 _ops.Add(new OpValue(N.INDEX, state.INDEX));

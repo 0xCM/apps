@@ -6,10 +6,10 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
-    using static XedRules.OpNameKind;
+    using static XedModels.OpNameKind;
     using static core;
 
-    using K = XedRules.OpKind;
+    using K = XedModels.OpKind;
 
     partial class XedPatterns
     {

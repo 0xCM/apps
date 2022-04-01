@@ -5,62 +5,62 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    partial struct XedModels
     {
         [SymSource(xed)]
         public enum OpNameKind : byte
         {
             None = 0,
 
-            REG0,
+            REG0 = 1,
 
-            REG1,
+            REG1 = 2,
 
-            REG2,
+            REG2 = 3,
 
-            REG3,
+            REG3 = 4,
 
-            REG4,
+            REG4 = 5,
 
-            REG5,
+            REG5 = 6,
 
-            REG6,
+            REG6 = 7,
 
-            REG7,
+            REG7 = 8,
 
-            REG8,
+            REG8 = 9,
 
-            REG9,
+            REG9 = 10,
 
-            MEM0,
+            MEM0 = 11,
 
-            MEM1,
+            MEM1 = 12,
 
-            IMM0,
+            IMM0 = 13,
 
-            IMM1,
+            IMM1 = 14,
 
-            IMM2,
+            IMM2 = 15,
 
-            RELBR,
+            RELBR = 16,
 
-            BASE0,
+            BASE0 = 17,
 
-            BASE1,
+            BASE1 = 18,
 
-            SEG0,
+            SEG0 = 19,
 
-            SEG1,
+            SEG1 = 20,
 
-            AGEN,
+            AGEN = 21,
 
-            PTR,
+            PTR = 22,
 
-            INDEX,
+            INDEX = 23,
 
-            SCALE,
+            SCALE = 24,
 
-            DISP,
+            DISP = 25,
         }
     }
 }

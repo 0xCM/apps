@@ -5,11 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-
     partial struct XedModels
     {
-        public readonly struct OpName
+        public readonly struct OpName : IComparable<OpName>
         {
             public readonly OpNameKind Kind;
 
@@ -30,6 +28,10 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => Kind != 0;
             }
+
+            [MethodImpl(Inline)]
+            public int CompareTo(OpName src)
+                => cmp(Kind,src.Kind);
 
             public string Format()
                 => XedRender.format(this);

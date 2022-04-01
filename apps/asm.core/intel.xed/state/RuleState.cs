@@ -292,7 +292,7 @@ namespace Z0
             [RuleField(K.INDEX, 9, typeof(XedRegId), "Specifies an index register, if applicable")]
             public XedRegId INDEX;
 
-            [RuleField(K.SCALE, 4, typeof(ScaleFactor), "Specifies the scaling factor applied to an index register, if applicable")]
+            [RuleField(K.SCALE, 4, typeof(MemoryScale), "Specifies the scaling factor applied to an index register, if applicable")]
             public byte SCALE;
 
             [RuleField(K.IMM_WIDTH, 3, typeof(NativeSizeCode), "Specifies the native size code of the IMM field, if applicable")]

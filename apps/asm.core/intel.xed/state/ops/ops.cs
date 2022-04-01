@@ -8,7 +8,7 @@ namespace Z0
     using Asm;
 
     using static core;
-    using static XedRules;
+    using static XedModels;
     using static XedDisasm;
 
     partial class XedState
@@ -21,7 +21,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var value = ref values[i];
-                dst.TryAdd(value.Name, new DisasmOp(value.Name, value.Data));
+                dst.TryAdd(value.Name, new DisasmOp(value));
             }
 
             if(state.RELBRVal.IsNonZero)

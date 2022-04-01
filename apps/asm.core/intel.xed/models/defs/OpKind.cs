@@ -5,46 +5,44 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    partial struct XedModels
     {
         public enum OpKind : byte
         {
-            None,
+            None = 0,
 
             [Symbol("agen")]
-            Agen,
+            Agen = 1,
 
             [Symbol("base")]
-            Base,
+            Base = 2,
 
             [Symbol("disp")]
-            Disp,
+            Disp = 3,
 
             [Symbol("imm")]
-            Imm,
+            Imm = 4,
 
             [Symbol("index")]
-            Index,
+            Index = 5,
 
             [Symbol("m")]
-            Mem,
+            Mem = 6,
 
             [Symbol("ptr")]
-            Ptr,
+            Ptr = 7,
 
             [Symbol("r")]
-            Reg,
+            Reg = 8,
 
             [Symbol("relbr")]
-            RelBr,
+            RelBr = 9,
 
             [Symbol("scale")]
-            Scale,
+            Scale = 10,
 
             [Symbol("seg")]
-            Seg,
-
-            Macro,
+            Seg = 11,
         }
     }
 }

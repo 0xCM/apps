@@ -6,7 +6,7 @@
 namespace Z0
 {
     using K = XedRules.FieldKind;
-    using N = XedRules.OpNameKind;
+    using N = XedModels.OpNameKind;
     using static XedModels;
 
     partial class XedRules
