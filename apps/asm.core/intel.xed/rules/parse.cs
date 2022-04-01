@@ -28,28 +28,31 @@ namespace Z0
             }
             else if(IsBfSeg(input))
             {
-                if(XedParsers.parse(input, out BitfieldSeg seg))
+                if(XedParsers.parse(input, out BitfieldSeg x))
                 {
-                    dst = criterion(premise, seg);
+                    dst = criterion(premise, x);
                     result = true;
                 }
             }
             else if(IsBfSpec(input))
             {
-                dst = criterion(premise, new BitfieldSpec(input));
-                result = true;
+                if(XedParsers.parse(input, out BitfieldSpec x))
+                {
+                    dst = criterion(premise, x);
+                    result = true;
+                }
             }
             else if(IsFieldExpr(input))
             {
-                result = XedParsers.parse(input, out FieldExpr expr);
+                result = XedParsers.parse(input, out FieldExpr x);
                 if(result)
-                    dst = criterion(premise, expr);
+                    dst = criterion(premise, x);
             }
             else
             {
-                result = XedParsers.parse(input, out FieldLiteral literal);
+                result = XedParsers.parse(input, out FieldLiteral x);
                 if(result)
-                    dst = literal.ToCriterion(premise);
+                    dst = x.ToCriterion(premise);
             }
             return result;
         }

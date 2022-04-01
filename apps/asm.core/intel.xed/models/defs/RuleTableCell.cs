@@ -32,7 +32,7 @@ namespace Z0
             public RuleCellSpec Spec
             {
                 [MethodImpl(Inline)]
-                get => new RuleCellSpec(Criterion.Premise, TableKind, Criterion.DataKind, Criterion.IsNonTerminal, Criterion.Field);
+                get => new RuleCellSpec(Criterion.Premise, TableKind, Criterion.DataKind, Criterion.Field);
             }
 
             public bool IsEmpty

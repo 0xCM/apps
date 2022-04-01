@@ -137,7 +137,7 @@ namespace Z0
                 const string RenderPattern = "{0,-6} {1,-3} {2,-10} {3,-12}";
                 var bw = EmptyString;
                 src.ElementType(out var et);
-                src.OpWidth(out var w);
+                src.WidthCode(out var w);
                 var wcode = XedRender.format(w);
                 if(XedPatterns.reglit(src, out Register reg))
                 {

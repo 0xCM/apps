@@ -84,6 +84,10 @@ namespace Z0
 
         static Index<BroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
 
+        static Symbols<BfSpecKind> BfSpecs = Symbols.index<BfSpecKind>();
+
+        static Symbols<BfSegKind> BfSegs = Symbols.index<BfSegKind>();
+
         static XedParsers Instance = new();
 
         XedParsers()
@@ -430,7 +434,7 @@ namespace Z0
         }
 
         public static bool IsBfSpec(string src)
-            => text.index(src,Chars.Underscore) > 0;
+            => BfSpecs.FindByExpr(src, out var sym);
 
         public static bool IsTableDecl(string src)
             => src.EndsWith(TableDeclSyntax);
@@ -531,57 +535,26 @@ namespace Z0
             }
         }
 
-        // public static bool parse(string src, out FieldConstraint dst)
-        // {
-        //     dst = FieldConstraint.Empty;
-        //     var result = false;
-        //     if(parse(src, out ConstraintKind ck))
-        //     {
-        //         var op = (RuleOperator)ck;
-        //         var expr = XedRender.format(ck);
-        //         var i = text.index(src, expr);
-        //         if(i > 0)
-        //         {
-        //             var a = text.left(src,i);
-        //             var b = text.right(src,i + expr.Length - 1);
-        //             result = parse(a, out FieldKind fk);
-        //             Require.invariant(result);
-        //             if(IsHexLiteral(a))
-        //             {
-        //                 result = NumericParser.num8<Hex8>(b, out var value);
-        //                 dst = new FieldConstraint(fk, op, new R.FieldValue(fk, value));
-        //             }
-        //             else if(IsBinaryLiteral(a))
-        //             {
-        //                 result = NumericParser.num8<uint8b>(b, out var value);
-        //                 dst = new FieldConstraint(fk, op, new R.FieldValue(fk, value));
-        //             }
-        //             else
-        //             {
-        //                 result = NumericParser.num8(b, out var value);
-        //                 dst = new FieldConstraint(fk,  op, new R.FieldValue(fk, value));
-        //             }
-        //         }
-        //     }
-        //     return result;
-        // }
-
-        // public static bool parse(string src, out ConstraintKind dst)
-        // {
-        //     dst = 0;
-        //     if(text.contains(src, "!="))
-        //         dst = ConstraintKind.Neq;
-        //     else if(text.contains(src, "="))
-        //         dst = ConstraintKind.Eq;
-        //     return dst != 0;
-        // }
-
         public static bool parse(string src, out Hex8 dst)
         {
             if(IsHexLiteral(src))
                 return DataParser.parse(src, out dst);
             dst = default;
             return false;
+        }
+
+        public static bool parse(string src, out BitfieldSpec dst)
+        {
+            if(BfSpecs.FindByExpr(src, out var sym))
+            {
+                dst = new(sym.Kind, src);
+                return true;
+            }
+            else
+            {
+                dst = BitfieldSpec.Empty;
+                return false;
+            }
         }
 
         public static bool parse(string src, out BitfieldSeg dst)
@@ -690,18 +663,19 @@ namespace Z0
         {
             var input = text.trim(src);
             dst = FieldLiteral.Empty;
-            if(input.Length > 8)
-                return false;
-            else if(IsBinaryLiteral(input))
+
+            if(IsBinaryLiteral(input))
             {
                 dst = FieldLiteral.Binary(input);
                 return true;
             }
 
+            var result = true;
             switch(input)
             {
                 case "else":
                 case "default":
+                case "otherwise":
                     dst = FieldLiteral.Default;
                 break;
                 case "null":
@@ -714,11 +688,14 @@ namespace Z0
                     dst = FieldLiteral.Wildcard;
                 break;
                 default:
-                    dst = FieldLiteral.Text(input);
+                    if(src.Length <= 8)
+                        dst = FieldLiteral.Text(input);
+                    else
+                        result = false;
                 break;
             }
 
-            return true;
+            return result;
         }
 
         public static bool parse(string src, out ImmFieldSpec dst)

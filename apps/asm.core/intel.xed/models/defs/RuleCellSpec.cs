@@ -15,16 +15,13 @@ namespace Z0
 
             public readonly CellDataKind DataKind;
 
-            public readonly bool Nonterm;
-
             public readonly FieldKind Field;
 
             [MethodImpl(Inline)]
-            public RuleCellSpec(bool premise, RuleTableKind tk, CellDataKind dk, bool nonterm, FieldKind field)
+            public RuleCellSpec(bool premise, RuleTableKind tk, CellDataKind dk, FieldKind field)
             {
                 TableKind = tk;
                 Premise = premise;
-                Nonterm = nonterm;
                 DataKind = dk;
                 Field = field;
             }
@@ -34,7 +31,10 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public bool Equals(RuleCellSpec src)
-                => Premise == src.Premise && Field == src.Field && Nonterm == src.Nonterm;
+                => Premise == src.Premise
+                && Field == src.Field
+                && TableKind == src.TableKind
+                && DataKind == src.DataKind;
 
             public override bool Equals(object src)
                 => src is RuleCellSpec x && Equals(x);

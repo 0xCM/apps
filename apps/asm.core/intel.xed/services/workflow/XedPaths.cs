@@ -100,7 +100,6 @@ namespace Z0
             {
                 RuleTableKind.Enc => "xed.rules.specs.enc",
                 RuleTableKind.Dec => "xed.rules.specs.dec",
-                RuleTableKind.EncDec => "xed.rules.specs.encdec",
                 _ => EmptyString
             };
             return RuleTargets() + FS.file(name,FS.Csv);

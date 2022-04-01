@@ -40,6 +40,16 @@ namespace Z0.Asm
                 16,254};
 
         public int CompareTo(SdmOpCodeDetail src)
-            => SigText.String.CompareTo(src.SigText.String, NoCase);
+        {
+            var result = Mnemonic.CompareTo(src.Mnemonic);
+            if(result == 0)
+            {
+                result = OpCodeValue.CompareTo(src.OpCodeValue);
+                if(result == 0)
+                    result = SigText.String.CompareTo(src.SigText.String, NoCase);
+            }
+
+            return result;
+        }
     }
 }

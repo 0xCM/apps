@@ -14,7 +14,6 @@ namespace Z0
     using static XedDisasm;
     using static core;
 
-    using PW = XedModels.PointerWidthKind;
     using R = XedRules;
     using OC = XedRules.OpClass;
 
@@ -105,6 +104,10 @@ namespace Z0
         static EnumRender<IsaKind> IsaKinds = new();
 
         static EnumRender<OpType> OpTypes = new();
+
+        static EnumRender<BfSegKind> BfSegKinds = new();
+
+        static EnumRender<BfSpecKind> BfSpecKinds = new();
 
         static Index<BroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
 
@@ -200,9 +203,14 @@ namespace Z0
         public static string format(OSZ src)
             => OszKinds.Format(src);
 
+        public static string format(BfSegKind src)
+            => BfSegKinds.Format(src);
+
+        public static string format(BfSpecKind src)
+            => BfSpecKinds.Format(src);
+
         public static string format(R.FieldValue src)
             => XedFields.format(src);
-
 
         public static string format(in FieldExpr src)
             => src.IsEmpty
@@ -388,16 +396,32 @@ namespace Z0
 
         public static string format(in RuleCriterion src)
         {
-            if(src.IsFieldExpr)
-                return format(src.AsFieldExpr());
-            else if(src.IsLiteral)
-                return src.AsLiteral().Format();
-            else if(src.IsBfSeg)
-                return format(src.AsBfSeg());
-            else if(src.IsBfSpec)
-                return format(src.AsBfSpec());
-            else
-                return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.AsValue()));
+            var result = EmptyString;
+            switch(src.DataKind)
+            {
+                case CellDataKind.BfSegExpr:
+                case CellDataKind.NontermExpr:
+                case CellDataKind.FieldExpr:
+                    result = src.ToFieldExpr().Format();
+                break;
+                case CellDataKind.BfSeg:
+                    result = src.ToBfSeg().Format();
+                break;
+                case CellDataKind.BfSpec:
+                    result = src.ToBfSpec().Format();
+                break;
+                case CellDataKind.FieldLiteral:
+                    result = src.ToFieldLiteral().Format();
+                break;
+                case CellDataKind.Nonterminal:
+                    result = src.ToNonTerminal().Format();
+                break;
+                default:
+                    Errors.Throw($"{src.Field} | {src.Operator} | {src.DataKind}");
+                break;
+
+            }
+            return result;
         }
 
         public static string name(Nonterminal src)
@@ -634,76 +658,11 @@ namespace Z0
             return dst;
         }
 
+
         public static string format(RuleCellKind src)
         {
             var dst = EmptyString;
-
-            if(src.Test(RuleCellKind.Assignment))
-                dst = "assign";
-            else if(src.Test(RuleCellKind.CmpNeq))
-                dst = "cmpneq";
-            else if(src.Test(RuleCellKind.CmpEq))
-                dst = "cmpeq";
-
-            if(src.Test(RuleCellKind.Nonterminal))
-            {
-                if(text.empty(dst))
-                    dst = "nt";
-                else
-                    dst += "/nt";
-            }
-
-            if(src.Test(RuleCellKind.Literal))
-            {
-                if(text.empty(dst))
-                    dst = "literal";
-                else
-                    dst += "/literal";
-            }
-
-            if(src.Test(RuleCellKind.BfSeg))
-            {
-                if(text.empty(dst))
-                    dst = "bfseg";
-                else
-                    dst += "/bfseg";
-            }
-
-            if(src.Test(RuleCellKind.Bits))
-            {
-                if(text.empty(dst))
-                    dst = "bits";
-                else
-                    dst += "/bits";
-            }
-
-            if(src.Test(RuleCellKind.Hex))
-            {
-                if(text.empty(dst))
-                    dst = "hex";
-                else
-                    dst += "/hex";
-            }
-
-            if(src.Test(RuleCellKind.Int))
-            {
-                if(text.empty(dst))
-                    dst = "int";
-                else
-                    dst += "/int";
-            }
-
-            if(src.Test(RuleCellKind.FieldValue))
-            {
-                if(text.empty(dst))
-                    dst = "field";
-                else
-                    dst += "/field";
-            }
-
-            if(text.empty(dst))
-                dst = RP.Error;
-
+            dst = format(XedRules.datakind(src));
             return dst;
         }
 

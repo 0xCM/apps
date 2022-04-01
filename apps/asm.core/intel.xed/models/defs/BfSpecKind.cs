@@ -5,33 +5,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    partial struct XedModels
     {
-        public enum RuleCellKind : ushort
+        [SymSource(xed)]
+        public enum BfSpecKind : byte
         {
+            [Symbol("")]
             None,
 
-            FieldLiteral =1,
+            [Symbol("ssss_dddd")]
+            UImmEsrc,
 
-            Nonterminal = 2,
+            [Symbol("ss_iii_bbb")]
+            Sib,
 
-            Assignment = 4,
-
-            CmpEq = 8,
-
-            CmpNeq = 16,
-
-            BfSeg = 32,
-
-            BfSpec = 64,
-
-            Bits = 128,
-
-            Int = 256,
-
-            Hex = 512,
-
-            FieldValue = 1024,
+            Unknown
         }
     }
 }

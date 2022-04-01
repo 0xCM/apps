@@ -24,13 +24,33 @@ namespace Z0
             public readonly CellDataKind DataKind;
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(bool premise, FieldExpr data, CellDataKind kind = CellDataKind.FieldExpr)
+            internal RuleCriterion(bool premise, FieldKind fk, RuleOperator op, Nonterminal nt)
+            {
+                Premise = premise;
+                Field = fk;
+                Operator = op;
+                Storage = core.bytes(XedFields.expr(fk, op, new (fk,nt)));
+                DataKind = CellDataKind.NontermExpr;
+            }
+
+            [MethodImpl(Inline)]
+            internal RuleCriterion(bool premise, FieldExpr data)
             {
                 Premise = premise;
                 Field = data.Field;
                 Operator = data.Operator;
                 Storage = core.bytes(data);
-                DataKind = kind;
+                DataKind = CellDataKind.FieldExpr;
+            }
+
+            [MethodImpl(Inline)]
+            internal RuleCriterion(bool premise, Nonterminal nt)
+            {
+                Premise = premise;
+                Field = FieldKind.INVALID;
+                Operator = RuleOperator.None;
+                Storage = (uint)nt;
+                DataKind = CellDataKind.Nonterminal;
             }
 
             [MethodImpl(Inline)]
@@ -49,7 +69,7 @@ namespace Z0
                 Premise = premise;
                 Field = FieldKind.INVALID;
                 Operator = RuleOperator.None;
-                Storage = spec.Pattern.View;
+                Storage = core.bytes(spec);
                 DataKind = CellDataKind.BfSpec;
             }
 
@@ -60,7 +80,7 @@ namespace Z0
                 Field = FieldKind.INVALID;
                 Operator = RuleOperator.None;
                 Storage = core.bytes(literal);
-                DataKind = CellDataKind.Literal;
+                DataKind = CellDataKind.FieldLiteral;
             }
 
             public readonly ulong Data
@@ -81,30 +101,6 @@ namespace Z0
                 get => !IsEmpty;
             }
 
-            public bool IsBfSeg
-            {
-                [MethodImpl(Inline)]
-                get => DataKind == CellDataKind.BfSeg;
-            }
-
-            public bool IsBfSpec
-            {
-                [MethodImpl(Inline)]
-                get => DataKind == CellDataKind.BfSpec;
-            }
-
-            public bool IsLiteral
-            {
-                [MethodImpl(Inline)]
-                get => DataKind == CellDataKind.Literal;
-            }
-
-            public bool IsFieldExpr
-            {
-                [MethodImpl(Inline)]
-                get => DataKind == CellDataKind.FieldExpr || DataKind == CellDataKind.Nonterminal;
-            }
-
             public bool IsNonTerminal
             {
                 [MethodImpl(Inline)]
@@ -112,24 +108,28 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public FieldExpr AsFieldExpr()
+            public FieldExpr ToFieldExpr()
                 => core.@as<FieldExpr>(Storage.Bytes);
 
             [MethodImpl(Inline)]
-            public FieldValue AsValue()
+            public FieldValue ToFieldValue()
                 => new FieldValue(Field, Data);
 
             [MethodImpl(Inline)]
-            public BitfieldSeg AsBfSeg()
+            public BitfieldSeg ToBfSeg()
                 => core.@as<BitfieldSeg>(Storage.Bytes);
 
             [MethodImpl(Inline)]
-            public BitfieldSpec AsBfSpec()
-                => new BitfieldSpec(new asci16(Storage.Bytes));
+            public BitfieldSpec ToBfSpec()
+                => new BitfieldSpec(Storage.Bytes);
 
             [MethodImpl(Inline)]
-            public FieldLiteral AsLiteral()
+            public FieldLiteral ToFieldLiteral()
                 => core.@as<FieldLiteral>(Storage.Bytes);
+
+            [MethodImpl(Inline)]
+            public Nonterminal ToNonTerminal()
+                => core.@as<Nonterminal>(Storage.Bytes);
 
             public string Format()
                 => XedRender.format(this);

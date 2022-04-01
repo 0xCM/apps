@@ -7,9 +7,8 @@ namespace Z0
 {
     using System.Linq;
 
-    using static core;
-
     using static XedModels;
+    using static core;
 
     partial class XedRules
     {
@@ -30,18 +29,6 @@ namespace Z0
                 public Index<RuleSigRow> Sigs = sys.empty<RuleSigRow>();
 
                 public static Buffers Empty => new();
-            }
-
-            ref readonly ConcurrentDictionary<RuleSig,Index<RuleCellSpec>> Cells
-            {
-                [MethodImpl(Inline)]
-                get => ref Data.Cells;
-            }
-
-            ref readonly ConcurrentDictionary<RuleTableKind,Index<RuleTable>> Defs
-            {
-                [MethodImpl(Inline)]
-                get => ref Data.Defs;
             }
 
             public ref readonly ConcurrentDictionary<RuleTableKind,Index<RuleTableSpec>> Specs

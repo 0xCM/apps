@@ -586,6 +586,14 @@ namespace Z0
             SIBINDEX_ENCODE_SIB1,
 
             DISP_WIDTH_8_32,
+
+            XOP_ENC,
+
+            EVEX_ENC,
+
+            REX_PREFIX_ENC,
+
+            NEWVEX_ENC,
        }
     }
 }

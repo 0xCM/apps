@@ -33,12 +33,6 @@ namespace Z0
                 SourceExpr = EmptyString;
             }
 
-            public Hex32 OpId
-            {
-                [MethodImpl(Inline)]
-                get => PatternId << 8 | Index;
-            }
-
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
@@ -99,12 +93,6 @@ namespace Z0
                 get => Kind == OpKind.Disp;
             }
 
-            public bool HasElementType
-            {
-                [MethodImpl(Inline)]
-                get => ElementType(out _);
-            }
-
             public bool IsNonTerminal
             {
                 [MethodImpl(Inline)]
@@ -120,12 +108,8 @@ namespace Z0
                 => XedPatterns.reglit(this, out dst);
 
             [MethodImpl(Inline)]
-            public bool OpWidth(out OpWidthCode dst)
+            public bool WidthCode(out OpWidthCode dst)
                 => XedPatterns.opwidth(this, out dst);
-
-            [MethodImpl(Inline)]
-            public bool PtrWidth(out PointerWidth dst)
-                => XedPatterns.ptrwidth(this, out dst);
 
             [MethodImpl(Inline)]
             public bool ElementType(out ElementType dst)

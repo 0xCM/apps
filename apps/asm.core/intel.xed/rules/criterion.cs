@@ -21,7 +21,12 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static RuleCriterion criterion(bool premise, FieldKind fk, RuleOperator op, Nonterminal nt)
-            => new RuleCriterion(premise, XedFields.expr(fk, op, new (fk,nt)), CellDataKind.Nonterminal);
+        {
+            if(op==0)
+                return new RuleCriterion(premise,nt);
+            else
+                return new RuleCriterion(premise, fk, op, nt);
+        }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static RuleCriterion criterion(bool premise, BitfieldSeg seg)

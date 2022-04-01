@@ -57,6 +57,7 @@ namespace Z0
             }
 
             public Index<OpName> Names => Data.Select(x => x.Name);
+
             public int CompareTo(PatternOps src)
                 => PatternId.CompareTo(src.PatternId);
 

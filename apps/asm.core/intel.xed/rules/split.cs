@@ -26,8 +26,6 @@ namespace Z0
                     kind = RuleCellKind.CmpEq;
                     XedParsers.Assignment(data, out left, out value);
                 }
-                else
-                    kind = RuleCellKind.Literal;
             }
             else
             {
@@ -41,12 +39,14 @@ namespace Z0
                     kind = RuleCellKind.CmpNeq;
                     XedParsers.CmpNeq(data, out left, out value);
                 }
-                else
-                    kind = RuleCellKind.Literal;
             }
 
+            if(XedParsers.parse(data, out FieldLiteral lit))
+                kind |= RuleCellKind.FieldLiteral;
             if(XedParsers.IsBfSeg(data))
                 kind |= RuleCellKind.BfSeg;
+            else if(XedParsers.IsBfSpec(data))
+                kind |= RuleCellKind.BfSpec;
             if(XedParsers.IsNontermCall(value))
                 kind |= RuleCellKind.Nonterminal;
             if(XedParsers.IsBinaryLiteral(value))
@@ -55,9 +55,6 @@ namespace Z0
                 kind |= RuleCellKind.Hex;
             else if(XedParsers.IsIntLiteral(value))
                 kind |= RuleCellKind.Int;
-            if(src.Field != 0)
-                kind |= RuleCellKind.FieldValue;
-
             return result;
         }
     }

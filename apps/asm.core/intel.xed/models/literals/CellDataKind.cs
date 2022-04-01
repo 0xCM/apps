@@ -12,8 +12,8 @@ namespace Z0
             [Symbol("")]
             None,
 
-            [Symbol("literal")]
-            Literal,
+            [Symbol("number")]
+            NumericLiteral,
 
             [Symbol("bfseg")]
             BfSeg,
@@ -26,6 +26,18 @@ namespace Z0
 
             [Symbol("fx")]
             FieldExpr,
+
+            [Symbol("literal")]
+            FieldLiteral,
+
+            [Symbol("nt(x)")]
+            NontermExpr,
+
+            [Symbol("?")]
+            Unknown,
+
+            [Symbol("bfseg(x)")]
+            BfSegExpr
         }
     }
 }

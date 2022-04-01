@@ -20,7 +20,9 @@ namespace Z0
                 if(result)
                     dst.Add(c);
                 else
+                {
                     Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCriterion), part));
+                }
             }
             return dst.ToArray();
         }

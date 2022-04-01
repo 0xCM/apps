@@ -90,8 +90,10 @@ namespace Z0
             {
                 cells.Clear();
                 ref readonly var pattern = ref src[i];
+                ref readonly var ops = ref pattern.Ops;
                 ref readonly var names = ref pattern.OpNames;
                 ref readonly var poc = ref pattern.OpCode;
+
 
                 if(@class != pattern.Classifier)
                 {

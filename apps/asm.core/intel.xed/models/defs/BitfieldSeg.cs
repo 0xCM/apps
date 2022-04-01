@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(80)]
@@ -22,6 +24,14 @@ namespace Z0
                 Field = field;
                 Pattern = pattern;
                 IsLiteral = literal;
+            }
+
+            [MethodImpl(Inline)]
+            public BitfieldSeg(FieldKind field, BfSegKind kind)
+            {
+                Field = field;
+                Pattern = XedRender.format(kind);
+                IsLiteral = false;
             }
 
             public bool IsEmpty

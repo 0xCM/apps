@@ -23,8 +23,6 @@ namespace Z0
 
             public static FieldLiteral Text(asci8 src) => new FieldLiteral(K.Text, src);
 
-            public static FieldLiteral Unsupported => new FieldLiteral(K.None, "<no>");
-
             readonly ByteBlock16 Data;
 
             [MethodImpl(Inline)]
@@ -44,18 +42,6 @@ namespace Z0
                 data = (ulong)src;
                 data[15] = (byte)kind;
                 Data = data;
-            }
-
-            public FieldLiteralKind LiteralKind
-            {
-                [MethodImpl(Inline)]
-                get => (FieldLiteralKind)Data[15];
-            }
-
-            public CellDataKind DataKind
-            {
-                [MethodImpl(Inline)]
-                get => (CellDataKind)Data[15];
             }
 
             [MethodImpl(Inline)]
