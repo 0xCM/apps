@@ -134,7 +134,7 @@ namespace Z0
 
             public string FormatWidth(InstPattern pattern, in PatternOp src)
             {
-                const string RenderPattern = "{0,-6} {1,-3} {2,-4} {3,-12}";
+                const string RenderPattern = "{0,-6} {1,-3} {2,-10} {3,-12}";
                 var bw = EmptyString;
                 src.ElementType(out var et);
                 src.OpWidth(out var w);
@@ -160,8 +160,8 @@ namespace Z0
 
                 if(src.Nonterminal(out var nt))
                 {
-                    wcode = text.ifempty(wcode,"ntv");
-                    if(GprWidths.widths(nt, out var gpr))
+                    wcode = text.ifempty(wcode, "ntv");
+                    if(GprWidth.widths(nt, out var gpr))
                         bw = gpr.Format();
                 }
 

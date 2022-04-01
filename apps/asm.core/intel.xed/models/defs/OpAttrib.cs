@@ -81,7 +81,7 @@ namespace Z0
                 => (OpWidthCode)Data;
 
             [MethodImpl(Inline)]
-            public PointerWidthKind ToPtrWidth()
+            public PointerWidth ToPtrWidth()
                 => (PointerWidthKind)Data;
 
             [MethodImpl(Inline)]
@@ -113,8 +113,8 @@ namespace Z0
                 => new OpAttrib(K.OpWidth, (uint)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator OpAttrib(PointerWidthKind src)
-                => new OpAttrib(K.PtrWidth, (ushort)src);
+            public static implicit operator OpAttrib(PointerWidth src)
+                => new OpAttrib(K.PtrWidth, (ushort)src.Kind);
 
             [MethodImpl(Inline)]
             public static implicit operator OpAttrib(Nonterminal src)

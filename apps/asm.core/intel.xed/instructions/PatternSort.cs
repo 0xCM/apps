@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedPatterns
     {
-        public readonly struct PatternSort : IComparable<PatternSort>, IComparer<InstPatternInfo>, IComparer<InstPatternSpec>
+        public readonly struct PatternSort : IComparable<PatternSort>, IComparer<InstPatternRecord>, IComparer<InstPatternSpec>
         {
             public static PatternSort comparer() => default;
 
@@ -42,7 +42,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public PatternSort(InstPatternInfo src)
+            public PatternSort(InstPatternRecord src)
             {
                 var data = ByteBlock16.Empty;
                 @as<ulong>(seek(data.Bytes, OpCodeOffset)) = @as<XedOpCode,ulong>(src.OpCode);
@@ -115,29 +115,19 @@ namespace Z0
                         {
                             if(src.Lockable)
                                 result = -1;
-                            else if(!src.Lockable)
-                            {
-                                if(InstForm.IsNonEmpty)
-                                    result = InstForm.CompareTo(src.InstForm);
-                            }
                         }
                         else
                         {
                             if(Lockable && !src.Lockable)
                                 result = 1;
                             else if(Lockable && src.Lockable)
-                            {
-                                result = InstForm.CompareTo(src.InstForm);
-                                if(result == 0)
-                                    result = ((byte)LockValue).CompareTo((byte)src.LockValue);
-                            }
-                            else
-                                result = InstForm.CompareTo(src.InstForm);
+                                result = ((byte)LockValue).CompareTo((byte)src.LockValue);
                         }
                     }
+
+                    if(result == 0 && InstForm.IsNonEmpty && src.InstForm.IsNonEmpty)
+                        result = InstForm.CompareTo(src.InstForm);
                 }
-                if(result==0)
-                    result = Discriminator.CompareTo(src.Discriminator);
                 return result;
             }
 
@@ -164,7 +154,7 @@ namespace Z0
                 => src is PatternSort x && Equals(x);
 
             [MethodImpl(Inline)]
-            public int Compare(InstPatternInfo x, InstPatternInfo y)
+            public int Compare(InstPatternRecord x, InstPatternRecord y)
                 => x.Sort().CompareTo(y.Sort());
 
             [MethodImpl(Inline)]

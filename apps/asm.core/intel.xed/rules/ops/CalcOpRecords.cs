@@ -70,8 +70,8 @@ namespace Z0
             XedPatterns.modifier(src, out dst.Modifier);
             XedPatterns.opwidth(src, out dst.WidthCode);
 
-            if(GprWidths.widths(dst.NonTerminal, out var gpr))
-                dst.GprWidths = gpr;
+            if(GprWidth.widths(dst.NonTerminal, out var gpr))
+                dst.GprWidth = gpr;
 
             if(src.RegLiteral(out dst.RegLit))
                 dst.BitWidth = XedPatterns.bitwidth(dst.RegLit);

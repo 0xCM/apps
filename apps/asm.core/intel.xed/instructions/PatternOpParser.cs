@@ -237,7 +237,7 @@ namespace Z0
                 }
                 if(count >= 3)
                 {
-                    if(XedParsers.parse(props[2], out PointerWidthKind pwidth))
+                    if(XedParsers.parse(props[2], out PointerWidth pwidth))
                         seek(buffer,i++) = pwidth;
                 }
 

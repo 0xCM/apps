@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     partial struct XedModels
     {
         public readonly struct ElementType

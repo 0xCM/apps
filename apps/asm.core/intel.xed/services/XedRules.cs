@@ -33,7 +33,7 @@ namespace Z0
 
         public XedRules()
         {
-            PointerWidths = map(PointerWidthKinds.View, s => (PointerWidth)s);
+            PointerWidths = map(PointerWidthKinds.View, s => (PointerWidth)s.Kind);
             Visibilities = Symbols.index<VisibilityKind>();
             FieldTypes = Symbols.index<FieldType>();
         }

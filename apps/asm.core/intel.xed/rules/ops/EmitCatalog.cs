@@ -66,7 +66,7 @@ namespace Z0
             => TableEmit(XedPatterns.fieldrows(src).View, InstFieldRow.RenderWidths, XedPaths.Table<InstFieldRow>());
 
         void EmitPatternInfo(Index<InstPattern> src)
-            => TableEmit(XedPatterns.describe(src).View, InstPatternInfo.RenderWidths, XedPaths.Table<InstPatternInfo>());
+            => TableEmit(XedPatterns.describe(src).View, InstPatternRecord.RenderWidths, XedPaths.Table<InstPatternRecord>());
 
         void EmitPatternDetails(RuleTableSet tables, Index<InstPattern> src)
             => EmitPatternDetails(tables, src, XedPaths.DocTarget(XedDocKind.PatternDetail));

@@ -10,7 +10,7 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct OpWidth
         {
-            public readonly GprWidths Gpr;
+            public readonly GprWidth Gpr;
 
             public readonly OpWidthCode Code;
 

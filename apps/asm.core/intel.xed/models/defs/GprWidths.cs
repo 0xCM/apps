@@ -11,23 +11,23 @@ namespace Z0
 
     partial struct XedModels
     {
-        public readonly struct GprWidths
+        public readonly struct GprWidth
         {
-            public static ReadOnlySpan<GprWidths> All
+            public static ReadOnlySpan<GprWidth> All
             {
                 [MethodImpl(Inline)]
-                get => core.recover<GprWidths>(WidthBytes);
+                get => core.recover<GprWidth>(Data);
             }
 
             [MethodImpl(Inline)]
-            public static GprWidths define(byte o16, byte o32, byte o64)
-                => new GprWidths(o16, o32, o64);
+            public static GprWidth define(byte o16, byte o32, byte o64)
+                => new GprWidth(o16, o32, o64);
 
             [MethodImpl(Inline)]
-            public static ref readonly GprWidths widths(GprWidthIndex index)
+            public static ref readonly GprWidth widths(GprWidthIndex index)
                 => ref core.skip(All,(byte)index);
 
-            public static bool widths(Nonterminal src, out GprWidths dst)
+            public static bool widths(Nonterminal src, out GprWidth dst)
             {
                 dst = default;
                 var result = true;
@@ -102,6 +102,22 @@ namespace Z0
                     case VGPRy_N:
                         dst = widths(I.VGPRy_N);
                     break;
+                    case OeAX:
+                        dst = widths(I.OeAX);
+                    break;
+                    case OrAX:
+                        dst = widths(I.OrAX);
+                    break;
+                    case OrBP:
+                        dst = widths(I.OrBP);
+                    break;
+                    case OrDX:
+                        dst = widths(I.OrDX);
+                    break;
+                    case OrSP:
+                        dst = widths(I.OrSP);
+                    break;
+
                     default:
                         result = false;
                     break;
@@ -109,56 +125,84 @@ namespace Z0
                 return result;
             }
 
-            readonly uint6 Data;
+            readonly uint6 Value;
 
             [MethodImpl(Inline)]
-            public GprWidths(byte o16, byte o32, byte o64)
+            GprWidth(uint6 value)
+            {
+                Value = value;
+            }
+
+            [MethodImpl(Inline)]
+            public GprWidth(byte o16, byte o32, byte o64)
                 : this(Sizes.native(o16), Sizes.native(o32), Sizes.native(o64))
             {
 
             }
 
             [MethodImpl(Inline)]
-            public GprWidths(NativeSize o16, NativeSize o32, NativeSize o64)
+            public GprWidth(NativeSize o16, NativeSize o32, NativeSize o64)
             {
-                Data = BitNumbers.join((uint2)(byte)o16.Code,(uint2)(byte)o32.Code,(uint2)(byte)o64.Code);
-                //Data = math.or((byte)o16.Code, math.sll((byte)o32.Code,2), math.sll((byte)o64.Code, 4));
+                Value = BitNumbers.join((uint2)(byte)o16.Code,(uint2)(byte)o32.Code,(uint2)(byte)o64.Code);
+            }
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Value == uint6.Max;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Value != uint6.Max;
             }
 
             public NativeSize this[W16 w]
             {
                 [MethodImpl(Inline)]
-                get => (NativeSizeCode)((byte)(Data & uint2.Max));
+                get => (NativeSizeCode)((byte)(Value & uint2.Max));
             }
 
             public NativeSize this[W32 w]
             {
                 [MethodImpl(Inline)]
-                get => (NativeSizeCode)((byte)((Data >> 2) & uint2.Max));
+                get => (NativeSizeCode)((byte)((Value >> 2) & uint2.Max));
             }
 
             public NativeSize this[W64 w]
             {
                 [MethodImpl(Inline)]
-                get => (NativeSizeCode)((byte)((Data >> 4) & uint2.Max));
+                get => (NativeSizeCode)((byte)((Value >> 4) & uint2.Max));
+            }
+
+            public bool Invariant
+            {
+                [MethodImpl(Inline)]
+                get => this[w16].Width == this[w32].Width && this[w32].Width == this[w64].Width;
+            }
+
+            public byte Count
+            {
+                [MethodImpl(Inline)]
+                get => (byte)(IsEmpty ? 0 : Invariant ? 1 : 3);
             }
 
             public string Format()
-                => string.Format("{0}/{1}/{2}", this[w16].Width, this[w32].Width, this[w64].Width);
+                => Invariant ? this[w32].Width.ToString() : string.Format("{0}/{1}/{2}", this[w16].Width, this[w32].Width, this[w64].Width);
 
             public override string ToString()
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator byte(GprWidths src)
-                => (byte)src.Data;
+            public static implicit operator byte(GprWidth src)
+                => (byte)src.Value;
 
-            const byte GprWidthCount = 23;
+            public static GprWidth Empty => new GprWidth(uint6.Max);
 
-            /// <summary>
-            /// See apps\asm.core\intel.xed\res\gpr.widths.csv
-            /// </summary>
-            static ReadOnlySpan<byte> WidthBytes => new byte[GprWidthCount]{
+            const byte EntryCount = 28;
+
+            static ReadOnlySpan<byte> Data => new byte[EntryCount]{
                 define(16,16,16), // GPR16_B,
                 define(16,16,16), // GPR16_R,
 
@@ -191,6 +235,12 @@ namespace Z0
                 define(64,64,64), // VGPR64_R,
 
                 define(32,32,64), // VGPRy_N,
+
+                define(16,32,64), // OeAX,
+                define(16,32,64), // OrAX,
+                define(16,32,64), // OrBP,
+                define(16,32,64), // OrDX,
+                define(16,32,64), // OrSP,
                 };
             }
         }

@@ -905,8 +905,19 @@ namespace Z0
         public static bool parse(string src, out OpAction dst)
             => OpActions.Parse(src, out dst);
 
-        public static bool parse(string src, out PointerWidthKind dst)
-            => PointerWidths.Parse(src, out dst);
+        public static bool parse(string src, out PointerWidth dst)
+        {
+            if(PointerWidths.Parse(src, out PointerWidthKind pw))
+            {
+                dst = pw;
+                return true;
+            }
+            else
+            {
+                dst = PointerWidth.Empty;
+                return false;
+            }
+        }
 
         public static bool parse(string src, out Nonterminal dst)
         {

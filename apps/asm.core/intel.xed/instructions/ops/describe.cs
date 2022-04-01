@@ -9,18 +9,18 @@ namespace Z0
 
     partial class XedPatterns
     {
-        public static Index<InstPatternInfo> describe(Index<InstPattern> src, bool pll = true)
+        public static Index<InstPatternRecord> describe(Index<InstPattern> src, bool pll = true)
         {
             var count = src.Count;
-            var dst = bag<InstPatternInfo>();
+            var dst = bag<InstPatternRecord>();
             iter(src, p => dst.Add(describe(p)), pll);
             return dst.Array().Sort(PatternSort.comparer());
         }
 
-        public static InstPatternInfo describe(in InstPattern src)
+        public static InstPatternRecord describe(in InstPattern src)
         {
             ref readonly var body = ref src.Body;
-            var dst = InstPatternInfo.Empty;
+            var dst = InstPatternRecord.Empty;
             var opcode = XedPatterns.xedoc(body);
             dst.PatternId = src.PatternId;
             dst.InstId = src.InstId;

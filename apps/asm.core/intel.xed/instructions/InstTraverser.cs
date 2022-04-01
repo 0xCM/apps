@@ -262,7 +262,7 @@ namespace Z0
                 TraversedOpNonterminal(pattern, op, attrib);
             }
 
-            void TraverseOpPtrWidth(InstPattern pattern, in PatternOp op, PointerWidthKind attrib)
+            void TraverseOpPtrWidth(InstPattern pattern, in PatternOp op, PointerWidth attrib)
             {
                 TraversedOpPtrWidth(pattern, op, attrib);
             }
@@ -356,7 +356,7 @@ namespace Z0
 
             protected virtual void TraversedOpNonterminal(InstPattern pattern, in PatternOp op, Nonterminal attrib) { }
 
-            protected virtual void TraversedOpPtrWidth(InstPattern pattern, in PatternOp op, PointerWidthKind attrib) { }
+            protected virtual void TraversedOpPtrWidth(InstPattern pattern, in PatternOp op, PointerWidth attrib) { }
 
             protected virtual void TraversedOpReg(InstPattern pattern, in PatternOp op, XedRegId attrib) { }
 

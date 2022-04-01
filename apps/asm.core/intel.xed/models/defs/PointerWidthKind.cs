@@ -5,15 +5,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     partial struct XedModels
     {
-        [SymSource(xed), Flags]
+        [SymSource(xed)]
         public enum PointerWidthKind
         {
             [Symbol("")]
-            INVALID,
+            None,
 
             [Symbol("b")]
             Byte = 1,

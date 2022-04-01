@@ -573,17 +573,19 @@ namespace Z0
                 return RP.Error;
         }
 
-        public static string format(PointerWidthKind src)
-            => src switch{
-                PW.Byte => "b",
-                PW.Word => "w",
-                PW.DWord => "l",
-                PW.QWord => "q",
-                PW.XmmWord => "x",
-                PW.YmmWord => "y",
-                PW.ZmmWord => "z",
-                _ => EmptyString
-            };
+        public static string format(PointerWidth src)
+            => src.Keyword.Format();
+
+            // => src switch{
+            //     PW.Byte => "b",
+            //     PW.Word => "w",
+            //     PW.DWord => "l",
+            //     PW.QWord => "q",
+            //     PW.XmmWord => "x",
+            //     PW.YmmWord => "y",
+            //     PW.ZmmWord => "z",
+            //     _ => EmptyString
+            // };
 
         public static string format(ElementType src)
             => src.IsEmpty ? EmptyString : ElementTypes.Format(src.Kind);

@@ -29,19 +29,9 @@ namespace Z0
                 _ => 0
             };
 
-        [Op]
+        [MethodImpl(Inline)]
         public static ushort bitwidth(PointerWidthKind src)
-            => src switch
-            {
-                PointerWidthKind.Byte => 8,
-                PointerWidthKind.Word => 16,
-                PointerWidthKind.DWord => 32,
-                PointerWidthKind.QWord => 64,
-                PointerWidthKind.XmmWord => 128,
-                PointerWidthKind.YmmWord => 256,
-                PointerWidthKind.ZmmWord => 512,
-                _ => 0
-            };
+            => src == 0 ? z16 : (ushort)((ushort)src * 8);
 
         [Op]
         public static ushort bitwidth(OpWidthCode okind, ElementKind ekind)

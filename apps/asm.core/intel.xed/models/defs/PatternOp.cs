@@ -99,12 +99,6 @@ namespace Z0
                 get => Kind == OpKind.Disp;
             }
 
-            public bool HasPtrWidth
-            {
-                [MethodImpl(Inline)]
-                get => PtrWidth(out _);
-            }
-
             public bool HasElementType
             {
                 [MethodImpl(Inline)]
@@ -115,12 +109,6 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => XedPatterns.nonterm(this, out _);
-            }
-
-            public bool HasOpWidth
-            {
-                [MethodImpl(Inline)]
-                get => OpWidth(out _);
             }
 
             [MethodImpl(Inline)]
@@ -136,7 +124,7 @@ namespace Z0
                 => XedPatterns.opwidth(this, out dst);
 
             [MethodImpl(Inline)]
-            public bool PtrWidth(out PointerWidthKind dst)
+            public bool PtrWidth(out PointerWidth dst)
                 => XedPatterns.ptrwidth(this, out dst);
 
             [MethodImpl(Inline)]

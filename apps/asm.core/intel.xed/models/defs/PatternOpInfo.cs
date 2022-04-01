@@ -24,7 +24,7 @@ namespace Z0
 
             public OpWidthCode WidthCode;
 
-            public GprWidths GprWidths;
+            public GprWidth GprWidth;
 
             public ElementType CellType;
 

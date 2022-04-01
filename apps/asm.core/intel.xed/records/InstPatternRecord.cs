@@ -12,7 +12,7 @@ namespace Z0
     partial class XedPatterns
     {
         [Record(TableId),StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct InstPatternInfo : IComparable<InstPatternInfo>
+        public struct InstPatternRecord : IComparable<InstPatternRecord>
         {
             public const string TableId = "xed.inst.patterns";
 
@@ -40,7 +40,7 @@ namespace Z0
 
             public InstPatternBody Body;
 
-            public int CompareTo(InstPatternInfo src)
+            public int CompareTo(InstPatternRecord src)
                 => Sort().CompareTo(src.Sort());
 
             [MethodImpl(Inline)]
@@ -49,7 +49,7 @@ namespace Z0
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,12,12,20,24,52,1};
 
-            public static InstPatternInfo Empty => default;
+            public static InstPatternRecord Empty => default;
         }
     }
 }

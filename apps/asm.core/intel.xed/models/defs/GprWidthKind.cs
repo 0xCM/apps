@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using K = XedModels.NontermKind;
-
     partial struct XedModels
     {
         public enum GprWidthIndex : byte
@@ -43,6 +41,13 @@ namespace Z0
             VGPR64_R,
 
             VGPRy_N,
+
+            OeAX,
+            OrAX,
+            OrBP,
+            OrDX,
+            OrSP,
        }
+
     }
 }

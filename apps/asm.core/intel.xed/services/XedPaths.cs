@@ -227,7 +227,7 @@ namespace Z0
                  XedDocKind.RulePatterns => FS.file("xed.rules.patterns", FS.Csv),
                  XedDocKind.DecRulePatterns => FS.file("xed.rules.dec.patterns", FS.Csv),
                  XedDocKind.OpCodeKinds => Tables.filename<OcMapKind>(),
-                 XedDocKind.PatternInfo => Tables.filename<InstPatternInfo>(),
+                 XedDocKind.PatternInfo => Tables.filename<InstPatternRecord>(),
                  XedDocKind.RuleSeq => FS.file("xed.rules.seq", FS.Txt),
                  XedDocKind.MacroDefs => FS.file("xed.rules.macros", FS.Csv),
                  XedDocKind.PatternDetail => FS.file("xed.inst.patterns.detail", FS.Txt),
