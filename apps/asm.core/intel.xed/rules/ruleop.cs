@@ -11,12 +11,10 @@ namespace Z0
     {
         public static RuleOperator ruleop(RuleCellKind src)
         {
-            if(src.Test(RuleCellKind.Assignment))
-                return Assign;
-            else if(src.Test(RuleCellKind.CmpEq))
-                return CmpEq;
-            else if(src.Test(RuleCellKind.CmpNeq))
-                return CmpNeq;
+            if(src.Test(RuleCellKind.Eq))
+                return Eq;
+            else if(src.Test(RuleCellKind.Neq))
+                return Neq;
             else
                 return 0;
         }

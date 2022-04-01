@@ -16,13 +16,10 @@ namespace Z0
             None,
 
             [Symbol("=")]
-            Assign,
+            Eq,
 
             [Symbol("!=")]
-            CmpNeq,
-
-            [Symbol("==")]
-            CmpEq,
+            Neq,
         }
     }
 }

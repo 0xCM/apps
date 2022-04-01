@@ -40,7 +40,7 @@ namespace Z0
 
             public FieldExpr FieldExpr;
 
-            public BitfieldSeg Bitfield;
+            public BfSeg Bitfield;
 
             public Nonterminal Nonterminal;
 

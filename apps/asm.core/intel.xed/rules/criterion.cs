@@ -12,28 +12,28 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(bool premise, in FieldExpr src)
-            => new RuleCriterion(premise, src);
+        public static RuleCriterion criterion(in FieldExpr src)
+            => new RuleCriterion(src);
 
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(bool premise, FieldLiteral literal)
-            => new RuleCriterion(premise, literal);
+        public static RuleCriterion criterion(FieldLiteral literal)
+            => new RuleCriterion(literal);
 
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(bool premise, FieldKind fk, RuleOperator op, Nonterminal nt)
+        public static RuleCriterion criterion(FieldKind fk, RuleOperator op, Nonterminal nt)
         {
             if(op==0)
-                return new RuleCriterion(premise,nt);
+                return new RuleCriterion(nt);
             else
-                return new RuleCriterion(premise, fk, op, nt);
+                return new RuleCriterion(fk, op, nt);
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static RuleCriterion criterion(bool premise, BitfieldSeg seg)
-            => new RuleCriterion(premise, seg);
+        public static RuleCriterion criterion(BfSeg seg)
+            => new RuleCriterion(seg);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static RuleCriterion criterion(bool premise, BitfieldSpec src)
-            => new RuleCriterion(premise, src);
+        public static RuleCriterion criterion(BfSpec src)
+            => new RuleCriterion(src);
     }
 }

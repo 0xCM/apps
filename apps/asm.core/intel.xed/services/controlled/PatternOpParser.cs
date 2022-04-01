@@ -227,17 +227,12 @@ namespace Z0
                 if(count >= 1)
                 {
                     if(byte.TryParse(props[0], out var value))
-                        seek(buffer,i++) = (ScaleFactor)value;
+                        seek(buffer,i++) = (MemoryScale)value;
                 }
                 if(count >= 2)
                 {
                     if(XedParsers.parse(props[1], out action))
                         seek(buffer,i++) = action;
-                }
-                if(count >= 3)
-                {
-                    if(XedParsers.parse(props[2], out PointerWidth pwidth))
-                        seek(buffer,i++) = pwidth;
                 }
 
                 dst.Attribs = slice(buffer,0,i).ToArray();

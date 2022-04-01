@@ -9,7 +9,7 @@ namespace Z0
     {
         public static CellDataKind datakind(RuleCellKind src)
         {
-            var isexpr = src.Test(RuleCellKind.Assignment) || src.Test(RuleCellKind.CmpNeq) || src.Test(RuleCellKind.CmpEq);
+            var isexpr = src.Test(RuleCellKind.Neq) || src.Test(RuleCellKind.Eq);
             var nt = src.Test(RuleCellKind.Nonterminal);
             var bfseg = src.Test(RuleCellKind.BfSeg);
             var number = src.Test(RuleCellKind.Bits) || src.Test(RuleCellKind.Hex)  || src.Test(RuleCellKind.Int);

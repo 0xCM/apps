@@ -25,7 +25,7 @@ namespace Z0
                     ref readonly var cell = ref cells[j];
                     ref var dst = ref seek(buffer,k);
                     dst.Seq = k;
-                    dst.ColKind = cell.Premise ? 'P' : 'C';
+                    dst.Logic = cell.Premise ? 'P' : 'C';
                     dst.DataKind = cell.DataKind;
                     dst.Field = cell.Field;
                     dst.Index = j;

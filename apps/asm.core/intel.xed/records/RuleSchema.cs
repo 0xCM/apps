@@ -20,7 +20,7 @@ namespace Z0
 
             public Identifier TableName;
 
-            public char ColKind;
+            public char Logic;
 
             public byte Index;
 

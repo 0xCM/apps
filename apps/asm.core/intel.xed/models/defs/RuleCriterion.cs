@@ -13,8 +13,6 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct RuleCriterion
         {
-            public readonly bool Premise;
-
             public readonly FieldKind Field;
 
             public readonly RuleOperator Operator;
@@ -24,9 +22,8 @@ namespace Z0
             public readonly CellDataKind DataKind;
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(bool premise, FieldKind fk, RuleOperator op, Nonterminal nt)
+            internal RuleCriterion(FieldKind fk, RuleOperator op, Nonterminal nt)
             {
-                Premise = premise;
                 Field = fk;
                 Operator = op;
                 Storage = core.bytes(XedFields.expr(fk, op, new (fk,nt)));
@@ -34,9 +31,8 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(bool premise, FieldExpr data)
+            internal RuleCriterion(FieldExpr data)
             {
-                Premise = premise;
                 Field = data.Field;
                 Operator = data.Operator;
                 Storage = core.bytes(data);
@@ -44,9 +40,8 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(bool premise, Nonterminal nt)
+            internal RuleCriterion(Nonterminal nt)
             {
-                Premise = premise;
                 Field = FieldKind.INVALID;
                 Operator = RuleOperator.None;
                 Storage = (uint)nt;
@@ -54,9 +49,8 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(bool premise, BitfieldSeg data)
+            internal RuleCriterion(BfSeg data)
             {
-                Premise = premise;
                 Field = data.Field;
                 Operator = RuleOperator.None;
                 Storage = core.bytes(data);
@@ -64,9 +58,8 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(bool premise, BitfieldSpec spec)
+            internal RuleCriterion(BfSpec spec)
             {
-                Premise = premise;
                 Field = FieldKind.INVALID;
                 Operator = RuleOperator.None;
                 Storage = core.bytes(spec);
@@ -74,9 +67,8 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(bool premise, FieldLiteral literal)
+            internal RuleCriterion(FieldLiteral literal)
             {
-                Premise = premise;
                 Field = FieldKind.INVALID;
                 Operator = RuleOperator.None;
                 Storage = core.bytes(literal);
@@ -116,12 +108,12 @@ namespace Z0
                 => new FieldValue(Field, Data);
 
             [MethodImpl(Inline)]
-            public BitfieldSeg ToBfSeg()
-                => core.@as<BitfieldSeg>(Storage.Bytes);
+            public BfSeg ToBfSeg()
+                => core.@as<BfSeg>(Storage.Bytes);
 
             [MethodImpl(Inline)]
-            public BitfieldSpec ToBfSpec()
-                => new BitfieldSpec(Storage.Bytes);
+            public BfSpec ToBfSpec()
+                => new BfSpec(Storage.Bytes);
 
             [MethodImpl(Inline)]
             public FieldLiteral ToFieldLiteral()

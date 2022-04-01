@@ -95,7 +95,7 @@ namespace Z0
                     }
                     else if(value.Length == 1 && value[0] == 'w')
                     {
-                        dst = new (new BitfieldSeg(field, BfSegKind.RexW));
+                        dst = new (new BfSeg(field, BfSegKind.REXW));
                         result = true;
                     }
                 }
@@ -109,7 +109,7 @@ namespace Z0
                     }
                     else if(value.Length == 1 && value[0] == 'r')
                     {
-                        dst = new (new BitfieldSeg(field, BfSegKind.RexR));
+                        dst = new (new BfSeg(field, BfSegKind.REXR));
                         result = true;
                     }
                 }
@@ -123,7 +123,7 @@ namespace Z0
                     }
                     else if(value.Length == 1 && value[0] == 'x')
                     {
-                        dst = new (new BitfieldSeg(field, BfSegKind.RexX));
+                        dst = new (new BfSeg(field, BfSegKind.REXX));
                         result = true;
                     }
                 }
@@ -137,7 +137,7 @@ namespace Z0
                     }
                     else if(value.Length == 1 && value[0] == 'b')
                     {
-                        dst = new (new BitfieldSeg(field, BfSegKind.RexB));
+                        dst = new (new BfSeg(field, BfSegKind.REXB));
                         result = true;
                     }
                 }

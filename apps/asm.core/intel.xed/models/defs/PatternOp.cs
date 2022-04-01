@@ -23,6 +23,8 @@ namespace Z0
 
             public @string SourceExpr;
 
+            public OpWidthSpec Width;
+
             public PatternOp()
             {
                 PatternId = 0u;
@@ -31,6 +33,7 @@ namespace Z0
                 Kind = 0;
                 Attribs = OpAttribs.Empty;
                 SourceExpr = EmptyString;
+                Width = OpWidthSpec.Empty;
             }
 
             public bool IsEmpty
@@ -51,48 +54,6 @@ namespace Z0
                 get => Kind == OpKind.Reg || Kind == OpKind.Base || Kind == OpKind.Index || Kind == OpKind.Seg;
             }
 
-            public bool IsBaseReg
-            {
-                [MethodImpl(Inline)]
-                get => Kind == OpKind.Base;
-            }
-
-            public bool IsIndexReg
-            {
-                [MethodImpl(Inline)]
-                get => Kind == OpKind.Index;
-            }
-
-            public bool IsSegReg
-            {
-                [MethodImpl(Inline)]
-                get => Kind == OpKind.Seg;
-            }
-
-            public bool IsMem
-            {
-                [MethodImpl(Inline)]
-                get => Kind == OpKind.Mem;
-            }
-
-            public bool IsImm
-            {
-                [MethodImpl(Inline)]
-                get => Kind == OpKind.Imm;
-            }
-
-            public bool IsPtr
-            {
-                [MethodImpl(Inline)]
-                get => Kind == OpKind.Ptr;
-            }
-
-            public bool IsDisp
-            {
-                [MethodImpl(Inline)]
-                get => Kind == OpKind.Disp;
-            }
-
             public bool IsNonTerminal
             {
                 [MethodImpl(Inline)]
@@ -109,7 +70,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public bool WidthCode(out OpWidthCode dst)
-                => XedPatterns.opwidth(this, out dst);
+                => XedPatterns.widthcode(this, out dst);
 
             [MethodImpl(Inline)]
             public bool ElementType(out ElementType dst)
@@ -122,6 +83,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public bool Action(out OpAction dst)
                 => XedPatterns.action(this, out dst);
+
+            [MethodImpl(Inline)]
+            public bool Scale(out MemoryScale dst)
+                => XedPatterns.scale(this, out dst);
 
             public string Format()
                 => XedRender.format(this);

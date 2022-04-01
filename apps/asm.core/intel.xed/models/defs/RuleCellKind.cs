@@ -15,11 +15,9 @@ namespace Z0
 
             Nonterminal = 2,
 
-            Assignment = 4,
+            Eq = 8,
 
-            CmpEq = 8,
-
-            CmpNeq = 16,
+            Neq = 16,
 
             BfSeg = 32,
 
@@ -30,8 +28,6 @@ namespace Z0
             Int = 256,
 
             Hex = 512,
-
-            FieldValue = 1024,
         }
     }
 }

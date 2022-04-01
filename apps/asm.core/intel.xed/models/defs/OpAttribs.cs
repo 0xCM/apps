@@ -62,22 +62,6 @@ namespace Z0
             public bool Search(OpClass @class, out OpAttrib dst)
                 => XedPatterns.search(this, @class, out dst);
 
-            // {
-            //     var result = false;
-            //     dst = OpAttrib.Empty;
-            //     for(var i=0; i<Count; i++)
-            //     {
-            //         ref readonly var a = ref this[i];
-            //         if(a.Class == @class)
-            //         {
-            //             dst = a;
-            //             result = true;
-            //             break;
-            //         }
-            //     }
-            //     return result;
-            // }
-
             [MethodImpl(Inline)]
             public static implicit operator OpAttribs(OpAttrib[] src)
                 => new OpAttribs(src);

@@ -6,9 +6,6 @@
 namespace Z0
 {
     using static core;
-    using static XedParsers;
-
-    using RF = XedRules.RuleFormKind;
 
     partial class XedRules
     {
@@ -45,27 +42,28 @@ namespace Z0
             return dst;
         }
 
+        static Index<RuleCriterion> criteria(ReadOnlySpan<RuleCell> src)
+        {
+            var dst = list<RuleCriterion>();
+            var parts = map(src, p => p.Format());
+            for(var i=0; i<parts.Length; i++)
+            {
+                ref readonly var part = ref skip(parts, i);
+                var result = XedParsers.parse(part, out RuleCriterion c);
+                if(result)
+                    dst.Add(c);
+                else
+                {
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCriterion), part));
+                }
+            }
+            return dst.ToArray();
+        }
+
         static Index<RuleCriterion> premise(StatementSpec src)
-            => criteria(true, src.Premise.View);
+            => criteria(src.Premise.View);
 
         static Index<RuleCriterion> consequent(StatementSpec src)
-            => criteria(false, src.Consequent.View);
-
-        public static RF RuleForm(string src)
-        {
-            var i = text.index(src, Chars.Hash);
-            var content = (i> 0 ? text.left(src,i) : src).Trim();
-            if(IsTableDecl(content))
-                return RF.RuleDecl;
-            if(IsEncStep(content))
-                return RF.EncodeStep;
-            if(IsDecStep(content))
-                return RF.DecodeStep;
-            if(IsNontermCall(content))
-                return RF.Invocation;
-            if(IsSeqDecl(content))
-                return RF.SeqDecl;
-            return 0;
-        }
+            => criteria(src.Consequent.View);
     }
 }

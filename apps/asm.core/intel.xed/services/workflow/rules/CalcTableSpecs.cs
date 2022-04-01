@@ -14,7 +14,6 @@ namespace Z0
 
         public static Index<RuleTableSpec> CalcTableSpecs(FS.FilePath src)
         {
-            //var skip = hashset("VEXED_REX", "XED_RESET");
             var skip = hashset("XED_RESET");
             using var reader = src.Utf8LineReader();
             var counter = 0u;
@@ -24,7 +23,7 @@ namespace Z0
             var name = EmptyString;
             while(reader.Next(out var line))
             {
-                if(XedRules.RuleForm(line.Content) == RuleFormKind.SeqDecl)
+                if(XedParsers.RuleForm(line.Content) == RuleFormKind.SeqDecl)
                 {
                     while(reader.Next(out line))
                         if(line.IsEmpty)

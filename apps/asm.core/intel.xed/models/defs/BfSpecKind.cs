@@ -14,11 +14,18 @@ namespace Z0
             None,
 
             [Symbol("ssss_dddd")]
-            UImmEsrc,
+            ssss_dddd,
 
             [Symbol("ss_iii_bbb")]
-            Sib,
+            ss_iii_bbb,
 
+            [Symbol("z_nn_b")]
+            z_nn_b,
+
+            [Symbol("aaa")]
+            aaa,
+
+            [Symbol("_?_")]
             Unknown
         }
     }

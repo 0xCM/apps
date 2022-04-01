@@ -36,24 +36,6 @@ namespace Z0
                 get => Class != 0 || Data != 0;
             }
 
-            public bool IsNonTerminal
-            {
-                [MethodImpl(Inline)]
-                get => Class == OpClass.Nonterminal;
-            }
-
-            public bool IsRegLiteral
-            {
-                [MethodImpl(Inline)]
-                get => Class == OpClass.RegLiteral;
-            }
-
-            public bool IsModifier
-            {
-                [MethodImpl(Inline)]
-                get => Class == OpClass.Modifier;
-            }
-
             [MethodImpl(Inline)]
             public int CompareTo(OpAttrib src)
                 => ((uint)Class).CompareTo((uint)src.Class);
@@ -77,12 +59,8 @@ namespace Z0
                 => (OpAction)Data;
 
             [MethodImpl(Inline)]
-            public OpWidthCode ToOpWidth()
+            public OpWidthCode ToWidthCode()
                 => (OpWidthCode)Data;
-
-            [MethodImpl(Inline)]
-            public PointerWidth ToPtrWidth()
-                => (PointerWidthKind)Data;
 
             [MethodImpl(Inline)]
             public XedRegId ToRegLiteral()
@@ -94,7 +72,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public MemoryScale ToScale()
-                => (ScaleFactor)Data;
+                => (MemoryScale)(ScaleFactor)Data;
 
             [MethodImpl(Inline)]
             public ElementType ToElementType()
@@ -110,11 +88,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator OpAttrib(OpWidthCode src)
-                => new OpAttrib(K.OpWidth, (uint)src);
-
-            [MethodImpl(Inline)]
-            public static implicit operator OpAttrib(PointerWidth src)
-                => new OpAttrib(K.PtrWidth, (ushort)src.Kind);
+                => new OpAttrib(K.Width, (uint)src);
 
             [MethodImpl(Inline)]
             public static implicit operator OpAttrib(Nonterminal src)
@@ -123,10 +97,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator OpAttrib(XedRegId src)
                 => new OpAttrib(K.RegLiteral, (ushort)src);
-
-            [MethodImpl(Inline)]
-            public static implicit operator OpAttrib(ScaleFactor src)
-                => new OpAttrib(K.Scale, (ushort)src);
 
             [MethodImpl(Inline)]
             public static implicit operator OpAttrib(ElementType src)
@@ -143,6 +113,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator OpAttrib(OpModifier src)
                 => new OpAttrib(K.Modifier, (uint)src.Kind);
+
+            [MethodImpl(Inline)]
+            public static implicit operator OpAttrib(MemoryScale src)
+                => new OpAttrib(K.Scale, (uint)src.Factor);
 
             public static OpAttrib Empty => default;
         }

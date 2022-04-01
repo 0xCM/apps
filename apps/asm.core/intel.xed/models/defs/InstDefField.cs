@@ -44,7 +44,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefField(BitfieldSeg src)
+            public InstDefField(BfSeg src)
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
@@ -150,8 +150,8 @@ namespace Z0
                 => ref @as<FieldExpr>(Data.First);
 
             [MethodImpl(Inline)]
-            public ref readonly BitfieldSeg AsBitfield()
-                => ref @as<BitfieldSeg>(Data.First);
+            public ref readonly BfSeg AsBitfield()
+                => ref @as<BfSeg>(Data.First);
 
             [MethodImpl(Inline)]
             public ref readonly uint5 AsBitLit()

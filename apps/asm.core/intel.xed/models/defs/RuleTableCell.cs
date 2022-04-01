@@ -23,18 +23,6 @@ namespace Z0
                 Criterion = c;
             }
 
-            public FieldKind Field
-            {
-                [MethodImpl(Inline)]
-                get => Criterion.Field;
-            }
-
-            public RuleCellSpec Spec
-            {
-                [MethodImpl(Inline)]
-                get => new RuleCellSpec(Criterion.Premise, TableKind, Criterion.DataKind, Criterion.Field);
-            }
-
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]

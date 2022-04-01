@@ -15,6 +15,7 @@ namespace Z0
     using static core;
 
     using R = XedRules;
+    using RF = XedRules.RuleFormKind;
 
     public partial class XedParsers
     {
@@ -146,29 +147,6 @@ namespace Z0
         public static bool parse(string src, out imm64 dst)
             => imm64.parse(src, out dst);
 
-        public static bool parse(string src, out FieldAssign dst)
-        {
-            dst = FieldAssign.Empty;
-            var result = false;
-            if(XedParsers.IsAssignment(src))
-            {
-                var j = text.index(src, "=");
-                var fv = R.FieldValue.Empty;
-                var fk = FieldKind.INVALID;
-                result = XedParsers.parse(text.left(src,j), out fk);
-                if(result)
-                {
-                    result = XedFields.parse(fk, text.right(src, j), out fv);
-                    if(result)
-                        dst = fv;
-                }
-
-                if(!result)
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(Assign),src));
-            }
-            return result;
-        }
-
         public static bool parse(string src, out StatementSpec dst)
         {
             var input = normalize(src);
@@ -227,14 +205,14 @@ namespace Z0
                 if(i > 0)
                 {
                     fvExpr = text.right(src, i + 1);
-                    op = RuleOperator.CmpNeq;
-                    result = XedParsers.parse(text.left(src,i), out fk);
+                    op = RuleOperator.Neq;
+                    result = parse(text.left(src,i), out fk);
                 }
                 else if (j>0)
                 {
                     fvExpr = text.right(src, j);
-                    op = RuleOperator.Assign;
-                    result = XedParsers.parse(text.left(src,j), out fk);
+                    op = RuleOperator.Eq;
+                    result = parse(text.left(src,j), out fk);
                 }
 
                 if(result)
@@ -273,11 +251,11 @@ namespace Z0
             }
             else if(IsBfSeg(src))
             {
-                result = parse(src, out BitfieldSeg x);
+                result = parse(src, out BfSeg x);
                 if(result)
                     dst = part(x);
                 else
-                    result = (false, AppMsg.ParseFailure.Format(nameof(BitfieldSeg), src));
+                    result = (false, AppMsg.ParseFailure.Format(nameof(BfSeg), src));
             }
             else if (IsFieldExpr(src))
             {
@@ -319,7 +297,7 @@ namespace Z0
                 if(line.IsEmpty)
                     continue;
 
-                var form = XedRules.RuleForm(line.Content);
+                var form = RuleForm(line.Content);
                 if(form == RuleFormKind.SeqDecl)
                 {
                     var content = text.despace(line.Content);
@@ -362,6 +340,25 @@ namespace Z0
             }
         }
 
+        public static bool parse(string src, out RuleOperator dst)
+        {
+            if(text.contains(src, "!="))
+            {
+                dst = RuleOperator.Neq;
+                return true;
+            }
+            else if(text.contains(src,"="))
+            {
+                dst = RuleOperator.Eq;
+                return true;
+            }
+            else
+            {
+                dst = 0;
+                return false;
+            }
+        }
+
         static uint parse(ReadOnlySpan<TextLine> src, ref uint j, List<RuleSeqTerm> terms)
         {
             var i0 = j;
@@ -393,20 +390,11 @@ namespace Z0
             return (uint)terms.Count;
         }
 
-        public static bool IsAssignment(string src)
-            => src.Contains(SyntaxLiterals.Assign) && !IsCmp(src);
+        public static bool IsEq(string src)
+            => !src.Contains("!=") && src.Contains("=");
 
-        public static bool IsCmp(string src)
-            => IsCmpEq(src) || IsCmpNeq(src);
-
-        public static bool IsCmpEq(string src)
-            => src.Contains("==");
-
-        public static bool IsCmpNeq(string src)
-            => src.Contains(Neq);
-
-        public static bool IsConstraint(string src)
-            => src.Contains(Neq) || src.Contains("=");
+        public static bool IsNeq(string src)
+            => src.Contains("!=");
 
         public static bool IsNontermCall(string src)
             => text.trim(text.remove(src,"::")).EndsWith("()");
@@ -543,7 +531,7 @@ namespace Z0
             return false;
         }
 
-        public static bool parse(string src, out BitfieldSpec dst)
+        public static bool parse(string src, out BfSpec dst)
         {
             if(BfSpecs.FindByExpr(src, out var sym))
             {
@@ -552,12 +540,12 @@ namespace Z0
             }
             else
             {
-                dst = BitfieldSpec.Empty;
+                dst = BfSpec.Empty;
                 return false;
             }
         }
 
-        public static bool parse(string src, out BitfieldSeg dst)
+        public static bool parse(string src, out BfSeg dst)
         {
             var name = EmptyString;
             var content = EmptyString;
@@ -571,17 +559,17 @@ namespace Z0
                 content = text.inside(src,i,j);
                 if(parse(name, out FieldKind kind))
                 {
-                    dst = new BitfieldSeg(kind, text.remove(content,"0b"), text.begins(content,"0b"));
+                    dst = new BfSeg(kind, text.remove(content,"0b"), text.begins(content,"0b"));
                     result = true;
                 }
             }
             return result;
         }
 
-        public static bool Assignment(string src, out string left, out string right)
+        public static bool Eq(string src, out string left, out string right)
         {
             var result = false;
-            if(IsAssignment(src))
+            if(IsEq(src))
             {
                 var i = text.index(src, Chars.Eq);
                 left = text.left(src,i);
@@ -596,30 +584,12 @@ namespace Z0
             return result;
         }
 
-        public static bool CmpNeq(string src, out string left, out string right)
+        public static bool Neq(string src, out string left, out string right)
         {
             var result = false;
-            if(IsCmpNeq(src))
+            if(IsNeq(src))
             {
                 var i = text.index(src, Chars.Bang);
-                left = text.left(src,i);
-                right = text.right(src,i+1);
-                result = true;
-            }
-            else
-            {
-                left = EmptyString;
-                right = EmptyString;
-            }
-            return result;
-        }
-
-        public static bool CmpEq(string src, out string left, out string right)
-        {
-            var result = false;
-            if(IsCmpEq(src))
-            {
-                var i = text.index(src, Chars.Eq);
                 left = text.left(src,i);
                 right = text.right(src,i+1);
                 result = true;
@@ -661,16 +631,9 @@ namespace Z0
 
         public static bool parse(string src, out FieldLiteral dst)
         {
+            var result = true;
             var input = text.trim(src);
             dst = FieldLiteral.Empty;
-
-            if(IsBinaryLiteral(input))
-            {
-                dst = FieldLiteral.Binary(input);
-                return true;
-            }
-
-            var result = true;
             switch(input)
             {
                 case "else":
@@ -981,6 +944,23 @@ namespace Z0
             return result;
         }
 
+        public static RF RuleForm(string src)
+        {
+            var i = text.index(src, Chars.Hash);
+            var content = (i> 0 ? text.left(src,i) : src).Trim();
+            if(IsTableDecl(content))
+                return RF.RuleDecl;
+            if(IsEncStep(content))
+                return RF.EncodeStep;
+            if(IsDecStep(content))
+                return RF.DecodeStep;
+            if(IsNontermCall(content))
+                return RF.Invocation;
+            if(IsSeqDecl(content))
+                return RF.SeqDecl;
+            return 0;
+        }
+
         public static bool parse(string src, out ElementKind dst)
             => ElementKinds.Parse(src, out dst);
 
@@ -1006,5 +986,96 @@ namespace Z0
             dst = default;
             return false;
         }
+
+        public static bool parse(string spec, out RuleCriterion dst)
+        {
+            var input = normalize(spec);
+            var fk = FieldKind.INVALID;
+            var op = RuleOperator.None;
+            var fv = input;
+            var i = -1;
+            dst = RuleCriterion.Empty;
+            var result = false;
+
+            if(IsNontermCall(spec))
+            {
+                result = nonterm(spec, out dst);
+            }
+            else if(IsBfSeg(input))
+            {
+                if(XedParsers.parse(input, out BfSeg x))
+                {
+                    dst = XedRules.criterion(x);
+                    result = true;
+                }
+            }
+            else if(IsBfSpec(input))
+            {
+                if(XedParsers.parse(input, out BfSpec x))
+                {
+                    dst = XedRules.criterion(x);
+                    result = true;
+                }
+            }
+            else if(IsFieldExpr(input))
+            {
+                result = XedParsers.parse(input, out FieldExpr x);
+                if(result)
+                    dst = XedRules.criterion(x);
+            }
+            else
+            {
+                result = XedParsers.parse(input, out FieldLiteral x);
+                if(result)
+                    dst = x.ToCriterion();
+            }
+            return result;
+        }
+
+        static bool nonterm(string src, out RuleCriterion dst)
+        {
+            dst = RuleCriterion.Empty;
+            var fk = FieldKind.INVALID;
+            var nt = Nonterminal.Empty;
+            XedParsers.parse(src, out RuleOperator op);
+            var fv = EmptyString;
+            var name = EmptyString;
+            var result = false;
+            var i = text.index(src,"()");
+            if(XedParsers.IsNontermCall(src) && op != 0)
+            {
+                var input = text.left(src,i);
+                var j = text.index(input, Chars.Eq);
+                var k = text.index(input, Chars.Bang);
+                if(j > 0)
+                {
+                    name = text.left(input, j);
+                    fv = text.right(input, j);
+                }
+                else if(k > 0)
+                {
+                    name = text.left(input, k);
+                    fv = text.right(input, k+1);
+                }
+
+                result = XedParsers.parse(name, out fk);
+                Require.invariant(result);
+
+                result = XedParsers.parse(fv, out nt);
+                if(!result)
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(Nonterminal), fv));
+
+                dst = XedRules.criterion(fk, op, nt);
+            }
+            else
+            {
+                name = text.left(src,i);
+                result = XedParsers.parse(name, out nt);
+                dst = XedRules.criterion(fk, op, nt);
+            }
+
+            return result;
+        }
+
     }
 }

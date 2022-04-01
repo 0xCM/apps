@@ -46,7 +46,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(BitfieldSeg data)
+            public FieldValue(BfSeg data)
             {
                 Field = data.Field;
                 Data = (ulong)data.Pattern;

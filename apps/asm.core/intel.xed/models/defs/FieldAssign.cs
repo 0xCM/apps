@@ -37,7 +37,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public FieldExpr Expression()
-                => expr(Field, RuleOperator.Assign, Value);
+                => expr(Field, RuleOperator.Eq, Value);
 
             public string Format()
                 => XedRender.format(this);

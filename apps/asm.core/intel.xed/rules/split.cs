@@ -14,31 +14,15 @@ namespace Z0
             value = data;
             kind = RuleCellKind.None;
             var left = EmptyString;
-            if(src.Premise)
+            if(XedParsers.IsEq(data))
             {
-                if(XedParsers.IsCmpNeq(data))
-                {
-                    kind = RuleCellKind.CmpNeq;
-                    XedParsers.CmpNeq(data, out left, out value);
-                }
-                else if (text.contains(data, Chars.Eq))
-                {
-                    kind = RuleCellKind.CmpEq;
-                    XedParsers.Assignment(data, out left, out value);
-                }
+                kind = RuleCellKind.Eq;
+                XedParsers.Eq(data, out left, out value);
             }
-            else
+            else if(XedParsers.IsNeq(data))
             {
-                if(XedParsers.IsAssignment(data))
-                {
-                    kind = RuleCellKind.Assignment;
-                    XedParsers.Assignment(data, out left, out value);
-                }
-                else if(XedParsers.IsCmpNeq(data))
-                {
-                    kind = RuleCellKind.CmpNeq;
-                    XedParsers.CmpNeq(data, out left, out value);
-                }
+                kind = RuleCellKind.Neq;
+                XedParsers.Neq(data, out left, out value);
             }
 
             if(XedParsers.parse(data, out FieldLiteral lit))

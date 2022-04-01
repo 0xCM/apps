@@ -6,55 +6,53 @@
 namespace Z0
 {
     using static XedModels;
-    using static core;
 
     partial class XedRules
     {
-        public readonly struct BitfieldSpec
+        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(80)]
+        public readonly struct BfSeg
         {
-            public readonly BfSpecKind Kind;
+            public readonly FieldKind Field;
 
-            public readonly asci16 Pattern;
+            public readonly asci8 Pattern;
+
+            public readonly bool IsLiteral;
 
             [MethodImpl(Inline)]
-            public BitfieldSpec(ReadOnlySpan<byte> src)
+            public BfSeg(FieldKind field, asci8 pattern, bool literal)
             {
-                if(src.Length != 0)
-                    Kind = (BfSpecKind)skip(src,0);
-                else
-                    Kind = 0;
-                if(src.Length > 1)
-                    Pattern = new(slice(src,1));
-                else
-                    Pattern = asci16.Null;
+                Field = field;
+                Pattern = pattern;
+                IsLiteral = literal;
             }
 
             [MethodImpl(Inline)]
-            public BitfieldSpec(BfSpecKind kind, string src)
+            public BfSeg(FieldKind field, BfSegKind kind)
             {
-                Kind = kind;
-                Pattern = src;
+                Field = field;
+                Pattern = XedRender.format(kind);
+                IsLiteral = false;
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Kind == 0;
+                get => Field == 0;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Kind != 0;
+                get => Field != 0;
             }
 
             public string Format()
-                => IsNonEmpty ? Pattern.Format() : EmptyString;
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();
 
-            public static BitfieldSpec Empty => new BitfieldSpec(0,EmptyString);
+            public static BfSeg Empty => default;
         }
     }
 }

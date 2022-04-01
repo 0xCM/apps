@@ -6,49 +6,43 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public enum OpAspectKind : ushort
+        public enum OpAttribKind : byte
         {
             None = 0,
 
             /// <summary>
-            /// Indicates an operand index value
-            /// </summary>
-            Index = 1,
-
-            /// <summary>
-            /// Indicates a <see cref='XedRegId'/> value
-            /// </summary>
-            Reg = 2,
-
-            /// <summary>
             /// Indicates a <see cref='OpAction'/> value
             /// </summary>
-            Action = 4,
-
-            /// <summary>
-            /// Indicates a <see cref='OpVisibility'/> value
-            /// </summary>
-            Visibilty = 8,
-
-            /// <summary>
-            /// Indicates a <see cref='OpType'/> value
-            /// </summary>
-            Type = 16,
+            Action = 1,
 
             /// <summary>
             /// Indicates a <see cref='OpWidthCode'/> value
             /// </summary>
-            Width = 32,
+            Width = 2,
+
+            /// <summary>
+            /// Indicates a <see cref='OpVisibility'/> value
+            /// </summary>
+            Visibilty = 4,
+
+            /// <summary>
+            /// Indicates a <see cref='Nonterminal'/> value
+            /// </summary>
+            NT = 8,
+
+            /// <summary>
+            /// Indicates a <see cref='XedRegId'/> value
+            /// </summary>
+            RegLiteral = 16,
+
+            Scale = 32,
 
             /// <summary>
             /// Indicates a <see cref='ElementKind'/> value
             /// </summary>
-            EType = 64,
+            ElementType = 64,
 
-            /// <summary>
-            /// Indicates a <see cref='NontermKind'/> value
-            /// </summary>
-            NT = 128,
+            Modifier = 128,
         }
     }
 }

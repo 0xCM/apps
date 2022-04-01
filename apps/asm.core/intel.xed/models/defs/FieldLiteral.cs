@@ -45,8 +45,8 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public RuleCriterion ToCriterion(bool premise)
-                => XedRules.criterion(premise, this);
+            public RuleCriterion ToCriterion()
+                => XedRules.criterion(this);
 
             public asci8 ToAsci()
                 => (asci8)Data.A;

@@ -446,7 +446,7 @@ namespace Z0
                 if(i != 0)
                     dst.Append(Chars.Colon);
 
-                dst.Append(format(src[i]));
+                dst.Append(src[i].Format());
             }
 
             return dst.Emit();
@@ -474,24 +474,24 @@ namespace Z0
                 case OC.Action:
                     dst = format(src.ToAction());
                 break;
-                case OC.OpWidth:
-                    dst = format(src.ToOpWidth());
-                break;
-
-                case OC.PtrWidth:
-                    dst = format(src.ToPtrWidth());
+                case OC.Width:
+                    dst = format(src.ToWidthCode());
                 break;
 
                 case OC.ElementType:
-                    dst = format(src.ToElementType());
+                    dst = src.ToElementType().Format();
                 break;
 
                 case OC.Modifier:
-                    dst = format(src.ToModifier());
+                    dst = src.ToModifier().Format();
+                break;
+
+                case OC.Scale:
+                    dst = src.ToScale().Format();
                 break;
 
                 case OC.Nonterminal:
-                    dst = format(src.ToNonTerm());
+                    dst = src.ToNonTerm().Format();
                 break;
 
                 case OC.Visibility:
@@ -500,10 +500,6 @@ namespace Z0
 
                 case OC.RegLiteral:
                     dst = format(src.ToRegLiteral());
-                break;
-
-                case OC.Scale:
-                    dst = src.ToScale().Format();
                 break;
 
                 default:
@@ -600,17 +596,6 @@ namespace Z0
         public static string format(PointerWidth src)
             => src.Keyword.Format();
 
-            // => src switch{
-            //     PW.Byte => "b",
-            //     PW.Word => "w",
-            //     PW.DWord => "l",
-            //     PW.QWord => "q",
-            //     PW.XmmWord => "x",
-            //     PW.YmmWord => "y",
-            //     PW.ZmmWord => "z",
-            //     _ => EmptyString
-            // };
-
         public static string format(ElementType src)
             => src.IsEmpty ? EmptyString : ElementTypes.Format(src.Kind);
 
@@ -666,10 +651,10 @@ namespace Z0
             return dst;
         }
 
-        public static string format(BitfieldSeg src)
+        public static string format(BfSeg src)
             => src.IsEmpty ? EmptyString : string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]", XedRender.format(src.Field), src.Pattern);
 
-        public static string format(BitfieldSpec src)
+        public static string format(BfSpec src)
             => src.Pattern.Format();
 
         public static string format(in MacroSpec src)

@@ -68,7 +68,7 @@ namespace Z0
             XedPatterns.visibility(src, out dst.Visibility);
             XedPatterns.action(src, out dst.Action);
             XedPatterns.modifier(src, out dst.Modifier);
-            XedPatterns.opwidth(src, out dst.WidthCode);
+            XedPatterns.widthcode(src, out dst.WidthCode);
 
             if(GprWidth.widths(dst.NonTerminal, out var gpr))
                 dst.GprWidth = gpr;

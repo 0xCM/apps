@@ -94,7 +94,6 @@ namespace Z0
                 ref readonly var names = ref pattern.OpNames;
                 ref readonly var poc = ref pattern.OpCode;
 
-
                 if(@class != pattern.Classifier)
                 {
                     ocix0 = z8;

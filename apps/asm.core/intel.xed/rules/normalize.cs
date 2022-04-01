@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     partial class XedRules
     {
         public static string normalize(string src)

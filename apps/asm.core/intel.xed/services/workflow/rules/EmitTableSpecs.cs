@@ -42,7 +42,7 @@ namespace Z0
             return counter;
         }
 
-        const string SpecRender = "{0,-8} | {1,-32} | {2,-8} | {3,-22} | {4,-8} | {5,-8} | {6,-28} | {7,-28} | {8}";
+        const string SpecRender = "{0,-8} | {1,-32} | {2,-8} | {3,-8} | {4,-8} | {5,-8} | {6,-28} | {7,-28} | {8}";
 
         static string SpecHeader = string.Format(SpecRender, "Kind", "TableName", "Row",  "ColKind", "Logic", "Col", "Field", "Value", "Expression");
 
@@ -63,7 +63,7 @@ namespace Z0
                 );
         }
 
-        static uint RenderStatements(in RuleTableSpec spec, ITextBuffer dst)
+        static uint RenderRows(in RuleTableSpec spec, ITextBuffer dst)
         {
             var counter = 0u;
             var statements = spec.Statements;
@@ -94,7 +94,7 @@ namespace Z0
         static uint RenderSpec(in RuleTableSpec spec, ITextBuffer dst)
         {
             var counter=0u;
-            counter += RenderStatements(spec, dst);
+            counter += RenderRows(spec, dst);
             dst.AppendLine();
             counter += RenderDescription(spec, dst);
             return counter;

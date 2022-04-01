@@ -203,23 +203,17 @@ namespace Z0
                     case C.Action:
                         TraverseOpAction(pattern, op, attrib.ToAction());
                     break;
-                    case C.OpWidth:
-                        TraverseOpWidthAttrib(pattern, op, attrib.ToOpWidth());
+                    case C.Width:
+                        TraverseOpWidthAttrib(pattern, op, attrib.ToWidthCode());
                     break;
                     case C.Visibility:
                         TraverseOpVisibility(pattern, op, attrib.ToVisibility());
-                    break;
-                    case C.PtrWidth:
-                        TraverseOpPtrWidth(pattern, op, attrib.ToPtrWidth());
                     break;
                     case C.Nonterminal:
                         TraverseOpNonterminal(pattern, op, attrib.ToNonTerm());
                     break;
                     case C.RegLiteral:
                         TraverseOpReg(pattern, op, attrib.ToRegLiteral());
-                    break;
-                    case C.Scale:
-                        TraverseOpScale(pattern, op, attrib.ToScale());
                     break;
                     case C.Modifier:
                         TraverseOpModifier(pattern, op, attrib.ToModifier());

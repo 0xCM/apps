@@ -11,16 +11,16 @@ namespace Z0
         public enum BfSegKind : byte
         {
             [Symbol("w", "REXW[w]")]
-            RexW = AsciCode.w,
+            REXW,
 
             [Symbol("r", "REXR[r]")]
-            RexR = AsciCode.r,
+            REXR,
 
             [Symbol("x", "REXX[x]")]
-            RexX = AsciCode.x,
+            REXX,
 
             [Symbol("b", "REXB[b]")]
-            RexB = AsciCode.b,
+            REXB,
 
             [Symbol("dddd", "UIMM0[dddd]")]
             UIMM0,
@@ -29,13 +29,25 @@ namespace Z0
             ESRC,
 
             [Symbol("ss", "SIBSCALE[ss]")]
-            SibScale,
+            SIBSCALE,
 
             [Symbol("bbb","SIBBASE[bbb]")]
-            SibBase,
+            SIBBASE,
 
             [Symbol("iii", "SIBINDEX[iii]")]
-            SibIndex
+            SIBINDEX,
+
+            [Symbol("z", "ZEROING[z]")]
+            ZEROING,
+
+            [Symbol("nn", "LLRC[nn]")]
+            LLRC,
+
+            [Symbol("b", "BCRC[b]")]
+            BCRC,
+
+            [Symbol("aaa", "MASK[aaa]")]
+            MASK,
         }
     }
 }

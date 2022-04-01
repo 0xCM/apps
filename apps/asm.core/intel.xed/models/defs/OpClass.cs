@@ -9,25 +9,23 @@ namespace Z0
     {
         public enum OpClass : byte
         {
-            None = 0,
+            None,
 
             Action = 1,
 
-            OpWidth = 2,
+            Width = 2,
 
-            Visibility = 3,
+            Visibility = 4,
 
-            PtrWidth = 4,
+            Nonterminal = 8,
 
-            Nonterminal,
+            RegLiteral = 16,
 
-            RegLiteral,
+            Scale = 32,
 
-            Scale,
+            ElementType = 64,
 
-            ElementType,
-
-            Modifier,
+            Modifier = 128,
         }
     }
 }

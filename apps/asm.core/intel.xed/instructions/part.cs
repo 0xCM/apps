@@ -13,7 +13,7 @@ namespace Z0
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static InstDefField part(BitfieldSeg src)
+        public static InstDefField part(BfSeg src)
             => new(src);
 
         [MethodImpl(Inline), Op]
