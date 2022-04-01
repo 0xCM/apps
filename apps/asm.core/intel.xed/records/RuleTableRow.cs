@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableId)]
@@ -57,6 +58,49 @@ namespace Z0
             public RuleTableCell Col6C;
 
             public RuleTableCell Col7C;
+
+            public Index<RuleTableCell> NonTerminal(bool premise)
+            {
+                Span<RuleTableCell> buffer = stackalloc RuleTableCell[(byte)(RuleTableRow.CellCount/2)];
+                var count = NonTerminal(premise,buffer);
+                return slice(buffer,0,count).ToArray();
+            }
+
+            public byte NonTerminal(bool premise, Span<RuleTableCell> dst)
+            {
+                var j = z8;
+                var k = premise ? (byte)0 : (byte)(RuleTableRow.CellCount/2);
+                ref var c = ref Col0C;
+                c = this[k++];
+                if(c.IsNonTerminal)
+                    seek(dst,j++) = c;
+
+                c = this[k++];
+                if(c.IsNonTerminal)
+                    seek(dst,j++) = c;
+
+                c = this[k++];
+                if(c.IsNonTerminal)
+                    seek(dst,j++) = c;
+
+                c = this[k++];
+                if(c.IsNonTerminal)
+                    seek(dst,j++) = c;
+
+                c = this[k++];
+                if(c.IsNonTerminal)
+                    seek(dst,j++) = c;
+
+                c = this[k++];
+                if(c.IsNonTerminal)
+                    seek(dst,j++) = c;
+
+                c = this[k++];
+                if(c.IsNonTerminal)
+                    seek(dst,j++) = c;
+
+                return j;
+            }
 
             public RuleTableCell this[int index]
             {

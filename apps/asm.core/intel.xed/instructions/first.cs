@@ -7,19 +7,24 @@ namespace Z0
 {
     using static core;
     using static XedRules;
-    using static XedModels;
 
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static bool etype(in PatternOp src, out ElementType dst)
+        public static bool first(in OpAttribs src, OpClass @class, out OpAttrib dst)
         {
-            var result = XedPatterns.first(src.Attribs, OpClass.ElementType, out var attrib);
-            if(result)
-                dst = attrib.ToElementType();
-            else
-                dst = ElementType.Empty;
-
+            var result = false;
+            dst = OpAttrib.Empty;
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var a = ref src[i];
+                if(a.Class == @class)
+                {
+                    dst = a;
+                    result = true;
+                    break;
+                }
+            }
             return result;
         }
     }

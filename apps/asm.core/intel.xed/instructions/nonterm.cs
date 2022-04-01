@@ -14,7 +14,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bool nonterm(in PatternOp src, out Nonterminal dst)
         {
-            var result = search(src.Attribs, OpClass.Nonterminal, out var attrib);
+            var result = XedPatterns.first(src.Attribs, OpClass.Nonterminal, out var attrib);
             if(result)
                 dst = attrib.ToNonTerm();
             else

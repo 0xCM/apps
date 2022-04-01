@@ -14,7 +14,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bool scale(in PatternOp src, out MemoryScale dst)
         {
-            var result = search(src.Attribs, OpClass.Scale, out var attrib);
+            var result = XedPatterns.first(src.Attribs, OpClass.Scale, out var attrib);
             if(result)
                 dst = attrib.ToScale();
             else

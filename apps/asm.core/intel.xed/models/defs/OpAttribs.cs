@@ -60,7 +60,7 @@ namespace Z0
             }
 
             public bool Search(OpClass @class, out OpAttrib dst)
-                => XedPatterns.search(this, @class, out dst);
+                => XedPatterns.first(this, @class, out dst);
 
             [MethodImpl(Inline)]
             public static implicit operator OpAttribs(OpAttrib[] src)

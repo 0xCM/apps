@@ -7,23 +7,35 @@ namespace Z0
 {
     using static core;
     using static XedRules;
+    using static XedModels;
 
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static bool search(in OpAttribs src, OpClass @class, out OpAttrib dst)
+        public static bool exists(in OpAttribs src, OpClass @class)
         {
             var result = false;
-            dst = OpAttrib.Empty;
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var a = ref src[i];
                 if(a.Class == @class)
                 {
-                    dst = a;
                     result = true;
                     break;
                 }
+            }
+            return result;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static bool exists(ReadOnlySpan<PatternOp> src, OpClass @class)
+        {
+            var result = false;
+            for(var i=0; i<src.Length; i++)
+            {
+                result = exists(skip(src,i).Attribs, @class);
+                if(result)
+                    break;
             }
             return result;
         }

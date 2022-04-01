@@ -127,11 +127,11 @@ namespace Z0
                 {
                     result = OpCode.CompareTo(src.OpCode);
 
+                    if(result == 0 && InstForm.IsNonEmpty && src.InstForm.IsNonEmpty)
+                        result = InstForm.CompareTo(src.InstForm);
+
                     if(result == 0 && Mod.IsNonEmpty && src.Mod.IsNonEmpty)
                         result = Mod.CompareTo(src.Mod);
-
-                    if(result == 0)
-                        result = InstForm.CompareTo(src.InstForm);
 
                     if(result == 0)
                         result = LockSort.CompareTo(src.LockSort);

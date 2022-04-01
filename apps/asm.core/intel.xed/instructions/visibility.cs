@@ -14,7 +14,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bool visibility(in PatternOp src, out Visibility dst)
         {
-            if(search(src.Attribs, OpClass.Visibility, out var attrib))
+            if(XedPatterns.first(src.Attribs, OpClass.Visibility, out var attrib))
                 dst = attrib.ToVisibility();
             else
                 dst = OpVisibility.Explicit;

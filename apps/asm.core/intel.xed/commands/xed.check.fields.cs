@@ -6,6 +6,7 @@ namespace Z0
 {
     using static core;
     using static XedRules;
+    using static XedModels;
 
     partial class XedCmdProvider
     {
@@ -13,6 +14,12 @@ namespace Z0
         Outcome CheckFields(CmdArgs args)
         {
             var patterns = Xed.Rules.CalcInstPatterns();
+            var tables = Xed.Rules.CalcTableSet();
+            var path = XedPaths.Targets() + FS.file("xed.fields.sets", FS.Txt);
+            var emitting = EmittingFile(path);
+            var nonterms = alloc<OpAttrib>(12);
+            var ntops = alloc<PatternOp>(12);
+            using var writer = path.AsciWriter();
             for(var i=0; i<patterns.Count; i++)
             {
                 ref readonly var pattern = ref patterns[i];
@@ -20,23 +27,43 @@ namespace Z0
                 ref readonly var ops = ref pattern.Ops;
                 var fields = XedFields.set();
                 for(var j=0; j<body.FieldCount; j++)
-                {
                     fields = fields.Include(body[j].FieldKind);
-                }
 
                 var dst = text.buffer();
-                dst.AppendFormat("{0,-20} {1,-16}", pattern.OpCode, pattern.InstClass);
+                var ocmap = string.Format("{0}{1}",XedModels.indicator(pattern.OpCode.Class),text.bracket(pattern.OpCode.Digits.PadLeft(4,'0')));
+                dst.AppendFormat("{0,-12} {1,-16} | {2}", ocmap, pattern.OpCode.Value, pattern.Classifier);
+                dst.AppendFormat("({0})", fields.Format());
 
-                if(ops.NonTerminal(out var op))
+                var ntcount = XedPatterns.where(ops, OpClass.Nonterminal, ntops);
+                if(ntcount > 0)
                 {
-                    op.Attribs.Search(OpClass.Nonterminal, out var nt);
-                    dst.AppendFormat(" -> {0} -> {1}", fields, nt.ToNonTerm());
+                    dst.Append(" -> ");
+                    dst.Append('<');
                 }
-                else
-                    dst.AppendFormat(" -> {0}", fields.Format());
 
-                Write(dst.Emit());
+                for(var k=0; k<ntcount; k++)
+                {
+                    ref readonly var ntop = ref skip(ntops,k);
+
+                    if(k >0)
+                        dst.Append(Chars.Comma);
+
+                    var ntacount = XedPatterns.where(ntop.Attribs, OpClass.Nonterminal, nonterms);
+                    for(var j=0; j<ntacount; j++)
+                    {
+                        var nt = skip(nonterms,j).ToNonTerm();
+                        var ntname = nt.Name;
+                        dst.Append(nt.Format());
+                    }
+                }
+
+                if(ntcount >0)
+                    dst.Append('>');
+
+                writer.AppendLine(dst.Emit());
             }
+
+            EmittedFile(emitting,patterns.Count);
             return true;
         }
 

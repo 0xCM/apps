@@ -30,5 +30,15 @@ namespace Z0
             [Symbol(N.Amd3dMapClass)]
             Amd3D = 16,
         }
+
+        public static char indicator(OpCodeClass src)
+            => src switch {
+                OpCodeClass.Base => 'B',
+                OpCodeClass.Xop => 'X',
+                OpCodeClass.Vex => 'V',
+                OpCodeClass.Evex => 'E',
+                OpCodeClass.Amd3D => 'A',
+                _ => (char)0
+            };
     }
 }

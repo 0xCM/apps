@@ -13,7 +13,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bool widthcode(in PatternOp src, out OpWidthCode dst)
         {
-            var result = search(src.Attribs, OpClass.Width, out var attrib);
+            var result = XedPatterns.first(src.Attribs, OpClass.Width, out var attrib);
             if(result)
                 dst= attrib.ToWidthCode();
             else

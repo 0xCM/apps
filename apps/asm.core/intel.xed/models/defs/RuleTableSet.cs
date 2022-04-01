@@ -38,6 +38,10 @@ namespace Z0
 
             Index<RuleTableRow> _AllRows;
 
+            ConcurrentDictionary<NontermKind, Index<RuleTableRow>> EncRows = new();
+
+            ConcurrentDictionary<NontermKind, Index<RuleTableRow>> DecRows = new();
+
             Dictionary<string,RuleSigRow> EncSigs = new();
 
             Dictionary<string,RuleSigRow> DecSigs = new();
@@ -99,6 +103,22 @@ namespace Z0
                 _AllRows = all;
 
                 return this;
+            }
+
+            void CreateRowLookups(Index<RuleTableRow> src)
+            {
+                var ntEnc = cdict<uint,Index<RuleTableCell>>();
+                var ntDec = cdict<uint,Index<RuleTableCell>>();
+                iter(src, row => {
+                    var nonterms = row.NonTerminal(true);
+                    if(nonterms.IsNonEmpty)
+                    {
+                        if(row.Kind == RuleTableKind.Enc)
+                            ntEnc.TryAdd(row.Seq, nonterms);
+                        else
+                            ntDec.TryAdd(row.Seq, nonterms);
+                    }
+                }, true);
             }
 
             FS.FileUri FindTablePath(RuleTableKind kind, string name)
