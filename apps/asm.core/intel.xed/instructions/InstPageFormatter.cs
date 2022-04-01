@@ -152,7 +152,7 @@ namespace Z0
                     var indicator = EmptyString;
                     if(et.Indicator != 0)
                         indicator = ((char)et.Indicator).ToString();
-                    seg = string.Format("{0}x{1}{2}[n{1}]", wi.Seg.DataWidth,  wi.Seg.CellWidth, indicator, wi.Seg.CellCount);
+                    seg = string.Format("{0}x{1}{2}[n{3}]", wi.Seg.DataWidth,  wi.Seg.CellWidth, indicator, wi.Seg.CellCount);
                 }
 
                 if(empty(bw))

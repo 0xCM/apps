@@ -19,37 +19,37 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         [Op]
-        public static Dictionary<string,FieldValue> values(object src)
+        public static Dictionary<string,ClrFieldValue> values(object src)
         {
             var type = src.GetType();
             var fields = type.DeclaredInstanceFields();
-            var dst = dict<string,FieldValue>();
+            var dst = dict<string,ClrFieldValue>();
             foreach(var f in fields)
                 dst[f.Name] = (f,f.GetValue(src));
             return dst;
         }
 
         [Op]
-        public static Dictionary<string,FieldValue> values(object src, FieldInfo[] fields)
+        public static Dictionary<string,ClrFieldValue> values(object src, FieldInfo[] fields)
         {
-            var dst = dict<string,FieldValue>();
+            var dst = dict<string,ClrFieldValue>();
             foreach(var f in fields)
                 dst[f.Name] = (f,f.GetValue(src));
             return dst;
         }
 
         [Op, Closures(Closure)]
-        public static ReadOnlySpan<FieldValue> values<T>(in T src)
+        public static ReadOnlySpan<ClrFieldValue> values<T>(in T src)
             where T : struct
         {
             var fields = span(typeof(T).DeclaredFields());
-            var dst = alloc<FieldValue>(fields.Length);
+            var dst = alloc<ClrFieldValue>(fields.Length);
             values(src, fields, dst);
             return dst;
         }
 
         [Op, Closures(Closure)]
-        public static void values<T>(in T src, Span<FieldValue> dst)
+        public static void values<T>(in T src, Span<ClrFieldValue> dst)
             where T : struct
         {
             var fields = span(typeof(T).DeclaredFields());
@@ -74,7 +74,7 @@ namespace Z0
         }
 
         [Op, Closures(Closure)]
-        public static void values<T>(in T src, ReadOnlySpan<ClrFieldAdapter> fields, Span<FieldValue> dst)
+        public static void values<T>(in T src, ReadOnlySpan<ClrFieldAdapter> fields, Span<ClrFieldValue> dst)
             where T : struct
         {
             ref var target = ref first(dst);
@@ -83,12 +83,12 @@ namespace Z0
             for(var i=0u; i<count; i++)
             {
                 ref readonly var f = ref skip(fields,i);
-                seek(target,i) = new FieldValue(f, f.GetValueDirect(tRef));
+                seek(target,i) = new ClrFieldValue(f, f.GetValueDirect(tRef));
             }
         }
 
         [Op, Closures(Closure)]
-        public static void values<T>(in T src, ReadOnlySpan<FieldInfo> fields, Span<FieldValue> dst)
+        public static void values<T>(in T src, ReadOnlySpan<FieldInfo> fields, Span<ClrFieldValue> dst)
             where T : struct
         {
             ref var target = ref first(dst);
@@ -97,7 +97,7 @@ namespace Z0
             for(var i=0u; i<count; i++)
             {
                 ref readonly var f = ref skip(fields,i);
-                seek(target,i) = new FieldValue(f, f.GetValueDirect(tRef));
+                seek(target,i) = new ClrFieldValue(f, f.GetValueDirect(tRef));
             }
         }
 

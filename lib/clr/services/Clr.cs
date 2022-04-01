@@ -21,7 +21,7 @@ namespace Z0
 
 
         [Op, Closures(Closure)]
-        public static void values<T>(in T src, ReadOnlySpan<ClrFieldAdapter> fields, Span<FieldValue> dst)
+        public static void values<T>(in T src, ReadOnlySpan<ClrFieldAdapter> fields, Span<ClrFieldValue> dst)
             where T : struct
         {
             ref var target = ref first(dst);
@@ -30,7 +30,7 @@ namespace Z0
             for(var i=0u; i<count; i++)
             {
                 ref readonly var f = ref skip(fields,i);
-                seek(target,i) = new FieldValue(f, f.GetValueDirect(tRef));
+                seek(target,i) = new ClrFieldValue(f, f.GetValueDirect(tRef));
             }
         }
     }

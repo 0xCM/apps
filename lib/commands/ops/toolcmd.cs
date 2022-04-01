@@ -19,7 +19,7 @@ namespace Z0
             var t = typeof(T);
             var fields = Clr.fields(t);
             var count = fields.Length;
-            var reflected = alloc<FieldValue>(count);
+            var reflected = alloc<ClrFieldValue>(count);
             ClrFields.values(spec, fields, reflected);
             var buffer = alloc<ToolCmdArg>(count);
             var target = span(buffer);

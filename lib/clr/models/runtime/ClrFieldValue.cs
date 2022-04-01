@@ -4,27 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
-
-    public readonly struct FieldValue : IFieldValue<object,object>
+    public readonly struct ClrFieldValue : IFieldValue<object,object>
     {
         public FieldInfo Field {get;}
 
         public object Value {get;}
 
         [MethodImpl(Inline)]
-        public FieldValue(FieldInfo field, object value)
+        public ClrFieldValue(FieldInfo field, object value)
         {
             Field = field;
             Value = value;
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator FieldValue((FieldInfo f, object val) src)
-            => new FieldValue(src.f,src.val);
+        public static implicit operator ClrFieldValue((FieldInfo f, object val) src)
+            => new ClrFieldValue(src.f,src.val);
     }
 }
