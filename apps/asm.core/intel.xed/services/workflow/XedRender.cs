@@ -218,7 +218,7 @@ namespace Z0
                 : string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.Value));
 
         public static string format(in RuleTableCell src)
-            => src.IsEmpty ? EmptyString : format(src.Criterion);
+            => src.IsEmpty ? EmptyString : src.Criterion.Format();
 
         public static string format(AsmOcValue src)
             => AsmOcValue.format(src);
@@ -236,7 +236,7 @@ namespace Z0
             => RuleTableKinds.Format(src);
 
         public static string format(FieldKind src)
-            => FieldKinds.Format(src);
+            => src == 0 ? EmptyString : FieldKinds.Format(src);
 
         public static string format(FieldKind src, bool name)
             => FieldKinds.Format(src,name);
@@ -329,7 +329,7 @@ namespace Z0
                 if(counter != 0)
                     dst.Append(" && ");
 
-                dst.Append(format(c));
+                dst.Append(c.Format());
                 counter++;
             }
         }
@@ -393,36 +393,6 @@ namespace Z0
 
         public static string format(in XedFlagEffect src)
             => string.Format("{0}-{1}", format(src.Flag), format(src.Effect));
-
-        public static string format(in RuleCriterion src)
-        {
-            var result = EmptyString;
-            switch(src.DataKind)
-            {
-                case CellDataKind.BfSegExpr:
-                case CellDataKind.NontermExpr:
-                case CellDataKind.FieldExpr:
-                    result = src.ToFieldExpr().Format();
-                break;
-                case CellDataKind.BfSeg:
-                    result = src.ToBfSeg().Format();
-                break;
-                case CellDataKind.BfSpec:
-                    result = src.ToBfSpec().Format();
-                break;
-                case CellDataKind.FieldLiteral:
-                    result = src.ToFieldLiteral().Format();
-                break;
-                case CellDataKind.Nonterminal:
-                    result = src.ToNonTerminal().Format();
-                break;
-                default:
-                    Errors.Throw($"{src.Field} | {src.Operator} | {src.DataKind}");
-                break;
-
-            }
-            return result;
-        }
 
         public static string name(Nonterminal src)
             => NontermKinds.Format(src.Kind);
@@ -642,7 +612,6 @@ namespace Z0
 
             return dst;
         }
-
 
         public static string format(RuleCellKind src)
         {

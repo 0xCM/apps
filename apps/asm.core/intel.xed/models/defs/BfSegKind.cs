@@ -48,6 +48,12 @@ namespace Z0
 
             [Symbol("aaa", "MASK[aaa]")]
             MASK,
+
+            [Symbol("u", "VEXDEST3[u]")]
+            VEXDEST3,
+
+            [Symbol("ddd", "VEXDEST210[ddd]")]
+            VEXDEST210,
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Z0
 
             public static FieldLiteral Default => new FieldLiteral(K.Default, "default");
 
-            public static FieldLiteral Binary(asci8 src) => new FieldLiteral(K.BinaryLiteral,src);
+            public static FieldLiteral Branch => new FieldLiteral(K.Default, "branch");
 
             public static FieldLiteral Error => new FieldLiteral(FieldKind.ERROR, K.Error,"error");
 
@@ -48,14 +48,33 @@ namespace Z0
             public RuleCriterion ToCriterion()
                 => XedRules.criterion(this);
 
+            [MethodImpl(Inline)]
             public asci8 ToAsci()
                 => (asci8)Data.A;
+
+            [MethodImpl(Inline)]
+            public bool Equals(FieldLiteral src)
+                => Data.Equals(src.Data);
+
+            public override int GetHashCode()
+                => Data.GetHashCode();
+
+            public override bool Equals(object src)
+                => src is FieldLiteral x && Equals(x);
 
             public string Format()
                 => ToAsci();
 
             public override string ToString()
                 => Format();
+
+            [MethodImpl(Inline)]
+            public static bool operator ==(FieldLiteral a, FieldLiteral b)
+                => a.Equals(b);
+
+            [MethodImpl(Inline)]
+            public static bool operator !=(FieldLiteral a, FieldLiteral b)
+                => !a.Equals(b);
 
             public static FieldLiteral Empty => default;
         }

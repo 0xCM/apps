@@ -42,14 +42,13 @@ namespace Z0
             return counter;
         }
 
-        const string SpecRender = "{0,-8} | {1,-32} | {2,-8} | {3,-8} | {4,-8} | {5,-8} | {6,-28} | {7,-28} | {8}";
+        const string SpecRender = "{0,-8} | {1,-32} | {2,-8} | {3,-8} | {4,-8} | {5,-8} | {6,-28} | {7}";
 
-        static string SpecHeader = string.Format(SpecRender, "Kind", "TableName", "Row",  "ColKind", "Logic", "Col", "Field", "Value", "Expression");
+        static string SpecHeader = string.Format(SpecRender, "Kind", "TableName", "Row",  "ColKind", "Logic", "Col", "Expr", "SourceExpr");
 
         static string FormatSpecRow(uint row, byte col, RuleSig table, RuleCell cell)
         {
             var result = XedRules.split(cell, out RuleCellKind cellkind, out var value);
-            var op = ruleop(cellkind);
             return string.Format(SpecRender,
                 table.TableKind,
                 table,
@@ -57,9 +56,8 @@ namespace Z0
                 XedRender.format(cellkind),
                 cell.Premise ? 'P' : 'C',
                 col,
-                cell.Field == 0 ? EmptyString : XedRender.format(cell.Field),
-                value,
-                op == 0 ? value : string.Format("{0}{1}{2}", XedRender.format(cell.Field), XedRender.format(op), value)
+                cellkind == RuleCellKind.BfSeg ? string.Format("{0}[{1}]", XedRender.format(cell.Field), value) : cell.Operator != 0 ? string.Format("{0}{1}{2}", XedRender.format(cell.Field), XedRender.format(cell.Operator), value) : value,
+                cell.Data
                 );
         }
 

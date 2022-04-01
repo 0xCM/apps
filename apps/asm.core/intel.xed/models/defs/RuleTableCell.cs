@@ -36,7 +36,7 @@ namespace Z0
             }
 
             public string Format()
-                => IsEmpty ? EmptyString : Criterion.Format();
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

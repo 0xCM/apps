@@ -36,7 +36,7 @@ namespace Z0
                 Field = data.Field;
                 Operator = data.Operator;
                 Storage = core.bytes(data);
-                DataKind = CellDataKind.FieldExpr;
+                DataKind = data.IsEq ? CellDataKind.FieldEq : data.IsNeq ? CellDataKind.FieldNeq : CellDataKind.None;
             }
 
             [MethodImpl(Inline)]
@@ -104,10 +104,6 @@ namespace Z0
                 => core.@as<FieldExpr>(Storage.Bytes);
 
             [MethodImpl(Inline)]
-            public FieldValue ToFieldValue()
-                => new FieldValue(Field, Data);
-
-            [MethodImpl(Inline)]
             public BfSeg ToBfSeg()
                 => core.@as<BfSeg>(Storage.Bytes);
 
@@ -124,7 +120,7 @@ namespace Z0
                 => core.@as<Nonterminal>(Storage.Bytes);
 
             public string Format()
-                => XedRender.format(this);
+                => format(this);
 
             public override string ToString()
                 => Format();

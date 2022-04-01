@@ -26,6 +26,18 @@ namespace Z0
                 IsLiteral = Field == 0;
             }
 
+            public bool IsExpr
+                => XedParsers.IsFieldExpr(Data);
+
+            public RuleOperator Operator
+            {
+                get
+                {
+                    XedParsers.parse(Data, out RuleOperator dst);
+                    return dst;
+                }
+            }
+
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]

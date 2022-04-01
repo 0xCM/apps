@@ -629,38 +629,6 @@ namespace Z0
             return result;
         }
 
-        public static bool parse(string src, out FieldLiteral dst)
-        {
-            var result = true;
-            var input = text.trim(src);
-            dst = FieldLiteral.Empty;
-            switch(input)
-            {
-                case "else":
-                case "default":
-                case "otherwise":
-                    dst = FieldLiteral.Default;
-                break;
-                case "null":
-                    dst = FieldLiteral.Null;
-                break;
-                case "error":
-                    dst = FieldLiteral.Error;
-                break;
-                case "@":
-                    dst = FieldLiteral.Wildcard;
-                break;
-                default:
-                    if(src.Length <= 8)
-                        dst = FieldLiteral.Text(input);
-                    else
-                        result = false;
-                break;
-            }
-
-            return result;
-        }
-
         public static bool parse(string src, out ImmFieldSpec dst)
         {
             var i = text.index(src, Chars.LBracket);
@@ -908,7 +876,7 @@ namespace Z0
                 dst = new (field, reg);
                 result = true;
             }
-            else if(parse(value, out FieldLiteral fl))
+            else if(XedRules.parse(value, out FieldLiteral fl))
             {
                 dst = new(field, (ulong)fl.ToAsci());
                 result = true;
@@ -1025,7 +993,7 @@ namespace Z0
             }
             else
             {
-                result = XedParsers.parse(input, out FieldLiteral x);
+                result = XedRules.parse(input, out FieldLiteral x);
                 if(result)
                     dst = x.ToCriterion();
             }
@@ -1076,6 +1044,5 @@ namespace Z0
 
             return result;
         }
-
     }
 }

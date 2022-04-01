@@ -25,6 +25,18 @@ namespace Z0
                 Value = value;
             }
 
+            public bool IsEq
+            {
+                [MethodImpl(Inline)]
+                get => Operator == RuleOperator.Eq;
+            }
+
+            public bool IsNeq
+            {
+                [MethodImpl(Inline)]
+                get => Operator == RuleOperator.Neq;
+            }
+
             public readonly FieldKind Field
             {
                 [MethodImpl(Inline)]
