@@ -6,18 +6,21 @@
 namespace Z0
 {
     using static XedRules;
-    using static XedModels;
 
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static bool modifier(in PatternOp src, out OpModifier dst)
+        public static bit lockable(in InstPatternBody src)
         {
-            if(search(src.Attribs, OpClass.Modifier, out var attrib))
-                dst = attrib.ToModifier();
-            else
-                dst = default;
-            return true;
+            var result = bit.Off;
+            for(var i=0; i<src.FieldCount; i++)
+            {
+                ref readonly var field = ref src[i];
+                result = field.FieldKind == FieldKind.LOCK;
+                if(result)
+                    break;
+            }
+            return result;
         }
     }
 }

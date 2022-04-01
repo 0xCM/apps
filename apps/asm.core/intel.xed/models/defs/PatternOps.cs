@@ -5,9 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-
-    partial class XedPatterns
+    partial struct XedModels
     {
         public readonly struct PatternOps : IComparable<PatternOps>
         {
@@ -58,6 +56,7 @@ namespace Z0
                 get => ref Data[i];
             }
 
+            public Index<OpName> Names => Data.Select(x => x.Name);
             public int CompareTo(PatternOps src)
                 => PatternId.CompareTo(src.PatternId);
 

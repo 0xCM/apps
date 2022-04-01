@@ -9,12 +9,11 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        public Index<SdmOpCodeDetail> ImportOpCodes()
-            => ImportOpCodes(SdmPaths.Sources("sdm.instructions").Files(FS.Csv).ToReadOnlySpan());
+        public Index<SdmOpCodeDetail> CalcOcDetails()
+            => CalcOcDetails(SdmPaths.Sources("sdm.instructions").Files(FS.Csv).ToReadOnlySpan());
 
-        Index<SdmOpCodeDetail> ImportOpCodes(ReadOnlySpan<FS.FilePath> src)
+        Index<SdmOpCodeDetail> CalcOcDetails(ReadOnlySpan<FS.FilePath> src)
         {
-            var running = Running(string.Format("Importing opcodes from {0} source files", src.Length));
             var result = Outcome.Success;
             var count = src.Length;
             var kinds = Symbols.index<SdmTableKind>();
@@ -40,25 +39,7 @@ namespace Z0.Asm
                 }
             }
 
-            var details = SdmOps.deduplicate(slice(buffer,0,counter).ToArray().Sort());
-            var dtcount = details.Count;
-            for(var i=0; i<dtcount; i++)
-            {
-                ref readonly var detail = ref details[i];
-                var m64 = detail.Mode64.Format().Trim();
-                var m32 = detail.Mode32.Format().Trim();
-                if(!(m64 == "Valid" || m64 == "Invalid"))
-                    Warn(string.Format("Invalid 64-bit mode specifier for {0}", detail.Sig.Format().Trim()));
-                if(!(m32 == "Valid" || m32 == "Invalid"))
-                    Warn(string.Format("Invalid 32-bit mode specifier for {0}", detail.Sig.Format().Trim()));
-            }
-
-            var dst = SdmPaths.ImportTable<SdmOpCodeDetail>();
-            using var writer = dst.UnicodeWriter();
-            TableEmit(details.View, SdmOpCodeDetail.RenderWidths, writer, dst);
-
-            Ran(running);
-            return details;
+            return SdmOps.deduplicate(slice(buffer,0,counter).ToArray().Sort());
         }
 
         string NormalizeSig(string src)
@@ -77,40 +58,6 @@ namespace Z0.Asm
                 return src;
         }
 
-        string CalcOperands(ReadOnlySpan<char> sig)
-        {
-            var sigRules = SigNormalRules;
-
-            ReadOnlySpan<string> _operands(string src)
-                => text.trim(text.split(src, Chars.Comma)).Select(CalcOperand);
-
-            var i = SQ.index(sig, Chars.Space);
-            if(i > 0)
-                return text.join(", ", _operands(text.format(SQ.right(sig,i))));
-            else
-                return EmptyString;
-
-            string CalcOperand(string op)
-            {
-                var n = text.index(op, Chars.FSlash);
-                var dst = op;
-                if(text.fenced(dst,RenderFence.Angled))
-                    dst = text.unfence(dst,RenderFence.Angled);
-
-                if(n > 0)
-                {
-                    var m = text.index(dst, Chars.Space);
-                    if(m > n)
-                    {
-                        var components = text.join(Chars.FSlash, text.trim(text.split(text.left(dst,m), Chars.FSlash)));
-                        dst = string.Format("{0} {1}", components, text.right(dst,m));
-                    }
-                    else
-                        dst = text.join(Chars.FSlash, text.trim(text.split(dst, Chars.FSlash)));
-                }
-                return sigRules.Apply(dst);
-            }
-        }
 
         [Op]
         uint Convert(Table src, Span<SdmOpCodeDetail> dst)
@@ -146,7 +93,7 @@ namespace Z0.Asm
                     {
                         case "Opcode":
                         var oc = FixupOpCode(content);
-                        target.OpCode = oc;
+                        target.OpCodeText = oc;
                         if(empty(oc))
                             valid = false;
                         break;
@@ -160,7 +107,7 @@ namespace Z0.Asm
                             }
 
                             var sig = FixupSig(content);
-                            target.Sig = NormalizeSig(sig);
+                            target.SigText = NormalizeSig(sig);
                             target.Mnemonic = monic;
                             valid = true;
                         break;
@@ -209,7 +156,7 @@ namespace Z0.Asm
 
                         case "CPUID":
                         case "CPUID Feature Flag":
-                            target.CpuId = content;
+                            target.CpuIdExpr = content;
                             valid = true;
                         break;
 
@@ -236,7 +183,11 @@ namespace Z0.Asm
                 }
 
                 if(valid)
+                {
+                    AsmOpCodes.parse(target.OpCodeText, out var oc).Require();
+                    target.OpCodeValue = oc.OcValue();
                     seek(dst, counter++) = target;
+                }
             }
             return counter;
 

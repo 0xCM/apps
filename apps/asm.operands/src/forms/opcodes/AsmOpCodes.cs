@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static AsmOcTokens;
     [ApiHost]
     public partial class AsmOpCodes : AppService<AsmOpCodes>
     {

@@ -12,7 +12,7 @@ namespace Z0.Asm
         [CmdOp(".inst-info")]
         Outcome ShowInstInfo(CmdArgs args)
         {
-            var records = Sdm.LoadImportedOpcodes();
+            var records = Sdm.LoadOcDetails();
             var selected = args.Length > 0 ? arg(args,0).Value.Format() : EmptyString;
             var count = records.Count;
             for(var i=0; i<count; i++)
@@ -20,13 +20,13 @@ namespace Z0.Asm
                 ref readonly var r = ref records[i];
                 if(empty(selected))
                 {
-                    Write(string.Format("# ({0}) = {1} - {2}", r.Sig, r.OpCode, r.Description));
+                    Write(string.Format("# ({0}) = {1} - {2}", r.SigText, r.OpCodeText, r.Description));
                 }
                 else
                 {
-                    var sig = r.Sig.Format();
+                    var sig = r.SigText.Format();
                     if(text.contains(sig,selected,false))
-                        Write(string.Format("# ({0}) = {1} - {2}", r.Sig, r.OpCode, r.Description));
+                        Write(string.Format("# ({0}) = {1} - {2}", r.SigText, r.OpCodeText, r.Description));
                 }
             }
 

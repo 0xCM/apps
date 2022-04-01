@@ -18,11 +18,26 @@ namespace Z0
 
             public readonly InstPatternBody Layout;
 
+            public readonly Index<OpName> OpNames;
+
             public InstPattern(InstPatternSpec spec)
             {
                 Spec = spec;
                 OcInst = new(spec.PatternId, spec.OpCode, spec.InstClass);
                 Layout = layout(spec.Body);
+                OpNames = spec.Ops.Names;
+            }
+
+            public bit Lockable
+            {
+                [MethodImpl(Inline)]
+                get => lockable(Body);
+            }
+
+            public bit Locked
+            {
+                [MethodImpl(Inline)]
+                get => locked(Body);
             }
 
             public ref readonly MachineMode Mode
@@ -141,12 +156,6 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => ref Spec.Effects;
-            }
-
-            public bool Locked
-            {
-                [MethodImpl(Inline)]
-                get => InstClass.Locked;
             }
 
             public int CompareTo(InstPattern src)

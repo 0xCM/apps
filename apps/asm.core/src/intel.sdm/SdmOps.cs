@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
-    using static core;
-
     [ApiHost]
     public readonly partial struct SdmOps
     {

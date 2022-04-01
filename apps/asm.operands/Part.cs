@@ -25,7 +25,6 @@ namespace Z0.Parts
 namespace Z0
 {
     using System.IO;
-    using System.Linq;
 
     using static core;
 
@@ -39,6 +38,18 @@ namespace Z0
             var y = core.bw64(flag);
             return (x & y) != 0;
         }
+
+        [MethodImpl(Inline)]
+        public static Index<T> Filter<T>(this ReadOnlySpan<T> src, Func<T, bool> f)
+            => ArrayUtil.where(src, f);
+
+        [MethodImpl(Inline)]
+        public static Index<T> Filter<T>(this T[] src, Func<T, bool> f)
+            => ArrayUtil.where(src, f);
+
+        [MethodImpl(Inline)]
+        public static Index<T> Filter<T>(this Span<T> src, Func<T, bool> f)
+            => ArrayUtil.where(src, f);
 
         public static uint AddRange<T>(this HashSet<T> dst, ReadOnlySpan<T> src)
         {

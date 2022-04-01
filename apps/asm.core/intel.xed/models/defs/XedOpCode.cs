@@ -55,6 +55,18 @@ namespace Z0
                 get => ((uint)Mode << 29) | (((uint)Class << 24) | (uint)Value);
             }
 
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Kind == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Kind != 0;
+            }
+
             public string Digits
                 => XedPatterns.digits(Kind);
 

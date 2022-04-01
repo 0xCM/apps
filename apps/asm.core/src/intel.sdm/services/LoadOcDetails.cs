@@ -8,9 +8,9 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        public Index<SdmOpCodeDetail> LoadImportedOpcodes()
+        public Index<SdmOpCodeDetail> LoadOcDetails()
         {
-            return Data(nameof(LoadImportedOpcodes), Load);
+            return Data(nameof(LoadOcDetails), Load);
 
             Index<SdmOpCodeDetail> Load()
             {

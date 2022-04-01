@@ -22,7 +22,7 @@ namespace Z0.Asm
         public AsmOpCode(ReadOnlySpan<AsmOcToken> tokens)
         {
             Data = first(recover<AsmOcToken,Cell512>(tokens));
-            var _tokens = Tokens();
+            var _tokens = Buffer();
             var counter = z8;
             for(var i=0; i<TokenCapacity; i++)
             {
@@ -36,13 +36,42 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        Span<AsmOcToken> Tokens()
+        Span<AsmOcToken> Buffer()
             => recover<AsmOcToken>(Data.Bytes);
 
         ref ushort Settings
         {
             [MethodImpl(Inline)]
             get => ref seek(recover<ushort>(Data.Bytes), TokenCapacity-1);
+        }
+
+        public ReadOnlySpan<AsmOcToken> Tokens()
+            => Buffer();
+
+        public Index<AsmOcToken> Tokens(AsmOcTokenKind kind)
+            => Tokens().Filter(t => t.Kind == kind);
+
+        public AsmOcValue OcValue()
+        {
+            var hex = Tokens(AsmOcTokenKind.Hex8);
+            var count = hex.Count;
+            var dst = AsmOcValue.Empty;
+            switch(count)
+            {
+                case 1:
+                    dst = new AsmOcValue((byte)hex[0]);
+                break;
+                case 2:
+                    dst = new AsmOcValue((byte)hex[0], (byte)hex[1]);
+                break;
+                case 3:
+                    dst = new AsmOcValue((byte)hex[0], (byte)hex[1], (byte)hex[2]);
+                break;
+                case 4:
+                    dst = new AsmOcValue((byte)hex[0], (byte)hex[1], (byte)hex[2], (byte)hex[3]);
+                break;
+            }
+            return dst;
         }
 
         public ref byte TokenCount
@@ -54,13 +83,13 @@ namespace Z0.Asm
         public ref AsmOcToken this[uint i]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Tokens(), i);
+            get => ref seek(Buffer(), i);
         }
 
         public ref AsmOcToken this[int i]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Tokens(), i);
+            get => ref seek(Buffer(), i);
         }
 
         public bool IsEmpty
@@ -80,11 +109,7 @@ namespace Z0.Asm
             var count = TokenCount;
             var flags = AsmOcFlags.None;
             for(var i=0; i<count; i++)
-            {
-                ref readonly var token = ref this[i];
-                flags |= (AsmOcFlags)Pow2.pow((byte)token.Kind);
-            }
-
+                flags |= (AsmOcFlags)Pow2.pow((byte)this[i].Kind);
             return flags;
         }
 

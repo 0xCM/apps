@@ -7,9 +7,9 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Size=2, Pack =1)]
     public readonly struct AsmOcToken : IAsmOpCodeToken, IComparable<AsmOcToken>, IEquatable<AsmOcToken>
     {
-        public byte Value {get;}
+        public readonly byte Value;
 
-        public AsmOcTokenKind Kind {get;}
+        public readonly AsmOcTokenKind Kind;
 
         [MethodImpl(Inline)]
         public AsmOcToken(AsmOcTokenKind kind, byte value)
@@ -75,6 +75,16 @@ namespace Z0.Asm
         public static bool operator !=(AsmOcToken a, AsmOcToken b)
             => !a.Equals(b);
 
+        [MethodImpl(Inline)]
+        public static explicit operator byte(AsmOcToken src)
+            => src.Value;
+
         public static AsmOcToken Empty => default;
+
+        AsmOcTokenKind IAsmOpCodeToken.Kind
+            => Kind;
+
+        byte IAsmOpCodeToken.Value
+            => Value;
     }
 }

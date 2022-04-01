@@ -4,20 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId), Blittable]
+    [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]
     public struct SdmOpCodeDetail : IRecord<SdmOpCodeDetail>, IComparable<SdmOpCodeDetail>
     {
         public const string TableId = "sdm.opcodes.details";
 
-        public const byte FieldCount = 10;
+        public const byte FieldCount = 11;
 
         public uint OpCodeKey;
 
         public AsmMnemonic Mnemonic;
 
-        public CharBlock36 OpCode;
+        public CharBlock36 OpCodeText;
 
-        public CharBlock64 Sig;
+        public AsmOcValue OpCodeValue;
+
+        public CharBlock64 SigText;
 
         public CharBlock8 EncXRef;
 
@@ -27,17 +29,17 @@ namespace Z0.Asm
 
         public CharBlock8 Mode64x32;
 
-        public CharBlock16 CpuId;
+        public CharBlock16 CpuIdExpr;
 
         public CharBlock254 Description;
 
         public static ReadOnlySpan<byte> RenderWidths
             => new byte[FieldCount]{
-                12,16,36,64,
+                12,16,36,20,64,
                 10,10,10,10,
                 16,254};
 
         public int CompareTo(SdmOpCodeDetail src)
-            => Sig.String.CompareTo(src.Sig.String, NoCase);
+            => SigText.String.CompareTo(src.SigText.String, NoCase);
     }
 }

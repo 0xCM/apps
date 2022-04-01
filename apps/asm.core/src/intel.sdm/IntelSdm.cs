@@ -11,8 +11,6 @@ namespace Z0.Asm
     {
         CharMapper CharMapper => Service(Wf.CharMapper);
 
-        ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
-
         IntelSdmPaths SdmPaths;
 
         protected override void OnInit()
@@ -77,7 +75,9 @@ namespace Z0.Asm
                     return result;
 
                 EmitTokens();
-                EmitSigOps(EmitForms(ImportOpCodes()));
+                var details = CalcOcDetails();
+                EmitOcDetails(details);
+                EmitSigOps(EmitForms(details));
 
             }
             catch(Exception e)

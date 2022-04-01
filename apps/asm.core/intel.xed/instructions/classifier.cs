@@ -5,13 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     partial class XedPatterns
     {
-        public static bool locked(IClass src)
-            => text.ends(XedRender.format(src), "_LOCK");
-
         public static string classifier(InstClass src)
         {
             if(src.IsEmpty)
@@ -23,16 +18,5 @@ namespace Z0
 
             return dst;
         }
-
-        public static string name(OpCodeClass src)
-            => src switch {
-                OpCodeClass.Amd3D => "Amd3D",
-                OpCodeClass.Evex => "Evex",
-                OpCodeClass.Vex => "Vex",
-                OpCodeClass.Xop => "Xop",
-                OpCodeClass.Base => "Base",
-
-                _ => EmptyString,
-            };
     }
 }

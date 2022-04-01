@@ -13,7 +13,7 @@ namespace Z0.Asm
             return Data(nameof(LoadSigs), Load);
 
             Index<AsmSigExpr> Load()
-                => ExtractSigs(LoadImportedOpcodes());
+                => ExtractSigs(LoadOcDetails());
         }
 
         Index<AsmSigExpr> ExtractSigs(ReadOnlySpan<SdmOpCodeDetail> src)

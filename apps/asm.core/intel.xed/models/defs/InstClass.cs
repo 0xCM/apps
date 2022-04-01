@@ -23,12 +23,6 @@ namespace Z0
             public readonly string Classifier
                 => classifier(this);
 
-            public bool Locked
-            {
-                [MethodImpl(Inline)]
-                get => locked(Kind);
-            }
-
             public Identifier Name
                 => Kind.ToString();
 

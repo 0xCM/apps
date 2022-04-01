@@ -22,11 +22,11 @@ namespace Z0.Asm
 
         public static AsmForm form(in SdmOpCodeDetail src)
         {
-            var result = AsmSigs.parse(src.Sig, out var sig);
+            var result = AsmSigs.parse(src.SigText, out var sig);
             if(result.Fail)
                 Errors.Throw(result.Message);
 
-            result = AsmOpCodes.parse(src.OpCode, out var opcode);
+            result = AsmOpCodes.parse(src.OpCodeText, out var opcode);
             if(result.Fail)
                 Errors.Throw(result.Message);
 

@@ -39,6 +39,24 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
+        public AsmOcValue(byte b0, byte b1)
+        {
+            Storage = Bytes.join(w32,b0,b1);
+        }
+
+        [MethodImpl(Inline)]
+        public AsmOcValue(byte b0, byte b1, byte b2)
+        {
+            Storage = Bytes.join(w32,b0,b1,b2);
+        }
+
+        [MethodImpl(Inline)]
+        public AsmOcValue(byte b0, byte b1, byte b2, byte b3)
+        {
+            Storage = Bytes.join(w32,b0,b1,b2,b3);
+        }
+
+        [MethodImpl(Inline)]
         public AsmOcValue(ReadOnlySpan<byte> src)
         {
             switch(src.Length)

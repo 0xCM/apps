@@ -5,9 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
+    using static XedRules;
 
-    partial class XedRules
+    partial struct XedModels
     {
         public struct PatternOp : IComparable<PatternOp>
         {

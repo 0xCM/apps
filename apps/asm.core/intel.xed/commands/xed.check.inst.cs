@@ -10,47 +10,122 @@ namespace Z0
     using static XedPatterns;
     using static core;
 
+    partial class XTend
+    {
+        public static Index<T> Append<T>(this Span<T> head, ReadOnlySpan<T> tail)
+        {
+            var count = head.Length + tail.Length;
+            var dst = alloc<T>(count);
+            var j=0;
+            for(var i=0; i<head.Length; i++, j++)
+                seek(dst,j) = skip(head,i);
+            for(var i=0; i<tail.Length; i++, j++)
+                seek(dst,j) = skip(tail,i);
+            return dst;
+        }
+
+        public static Index<T> Append<T>(this Index<T> head, ReadOnlySpan<T> tail)
+            => head.Edit.Append(tail);
+
+        public static Index<T> Append<T>(this T[] head, ReadOnlySpan<T> tail)
+            => @span(head).Append(tail);
+
+    }
+
     partial class XedCmdProvider
     {
+        static Index<string> slots(byte i0, byte count, short pad)
+        {
+            var dst = alloc<string>(count);
+            var j=i0;
+            for(byte i=0; i<count; i++,j++)
+                seek(dst,i) = RP.slot(j,pad);
+            return dst;
+        }
+
+        static Index<string> slots(byte i0, short[] pad)
+        {
+            var count = pad.Length;
+            var j=i0;
+            var dst = alloc<string>(count);
+            for(byte i=0; i<count; i++, j++)
+                seek(dst,i) = RP.slot(j,skip(pad,i));
+            return dst;
+        }
+
+        const byte MaxOpCount = 12;
+
+        const byte LeadColCount = 10;
+
+        const sbyte OpColPad = -8;
+
+        static string[] LeadCols = new string[LeadColCount]{"Id", "InstClass", "OcIx[0]", "OxIx[1]", "OcClass", "OcMap", "OcValue", "Lockable", "Locked", "Mode"};
+
+        static short[] LeadPad = new short[LeadColCount]{-8,-18,-8,-8,-8,-8,-16,-8,-8,-8};
+
+        static string[] OpCols = new string[MaxOpCount]{"Op0", "Op1", "Op2", "Op3", "Op4", "Op5", "Op6", "Op7", "Op8", "Op9", "Op10", "Op11"};
+
+        static string[] VectorCols = LeadCols.Append(OpCols);
+
+        static Index<string> VectorSlots()
+            => slots(0, LeadPad).Append(slots(LeadColCount, MaxOpCount, OpColPad));
+
         [CmdOp("xed/check/inst")]
         Outcome CheckInstDefs(CmdArgs args)
         {
-            var specs = XedRules.CalcTableSpecs(RuleTableKind.Dec);
+            var slots = VectorSlots();
+            var render = slots.Join(" | ");
+            var cols = VectorCols;
+            Index<object> cells = alloc<object>(cols.Length);
 
-            var specLU = dict<string,RuleTableSpec>();
-            iter(specs, spec => specLU.TryAdd(spec.Sig.Name, spec));
+            var src = Xed.Rules.CalcInstPatterns();
+            var dst = XedPaths.Targets() + FS.file("xed.inst.patterns.vectors", FS.Csv);
+            var @class = EmptyString;
+            var rows = text.buffer();
+            var opcode = XedOpCode.Empty;
+            var ocix0 = z8;
+            var ocix1 = z8;
+            rows.AppendLineFormat(render, cols);
+            for(var i=0; i<src.Count; i++, ocix0++, ocix1++)
+            {
+                cells.Clear();
+                ref readonly var pattern = ref src[i];
+                ref readonly var names = ref pattern.OpNames;
+                ref readonly var poc = ref pattern.OpCode;
 
-            var name = "MODRM";
-            var xSpec = specLU[name];
-            Write(xSpec.Format());
-            // var defs = XedRules.reify(specs);
-            // var defsLU = dict<string,RuleTable>();
-            // iter(defs, def => defsLU.TryAdd(def.Sig.Name, def));
-            // var def = defsLU[name];
+                if(@class != pattern.Classifier)
+                {
+                    ocix0 = z8;
+                    @class = pattern.Classifier;
+                }
 
-            // var table = text.buffer();
-            // var buffer = text.buffer();
-            // table.AppendLine(def.Sig.Format());
-            // table.AppendLine(Chars.LBrace);
-            // foreach(var statement in def.Body)
-            // {
+                if(opcode != poc)
+                {
+                    ocix1 = z8;
+                    opcode = poc;
+                }
 
-            //     foreach(var c in statement.Premise)
-            //     {
-            //         buffer.Append(XedRender.format(c));
-            //         buffer.Append(Chars.Space);
-            //     }
+                var k=0;
+                cells[k++] = pattern.PatternId;
+                cells[k++] = pattern.Classifier;
+                cells[k++] = ocix0;
+                cells[k++] = ocix1;
+                cells[k++] = poc.Class;
+                cells[k++] = poc.Digits;
+                cells[k++] = poc.Value;
+                cells[k++] = pattern.Lockable;
+                cells[k++] = pattern.Locked;
+                cells[k++] = pattern.Mode;
 
-            //     foreach(var c in statement.Consequent)
-            //     {
-            //         if(c.IsCall)
-            //             buffer.Append(XedRender.format(c.AsCall()));
-            //         buffer.Append(Chars.Space);
-            //     }
-            //     table.IndentLine(4, buffer.Emit().TrimEnd());
-            // }
-            // table.AppendLine(Chars.RBrace);
-            // Write(table.Emit());
+                var ncount = min(names.Count, MaxOpCount);
+                for(var j=0; j<ncount; j++)
+                    cells[k++] = names[j];
+                for(var j=ncount; j<MaxOpCount; j++)
+                    cells[k++] = EmptyString;
+
+                rows.AppendLine(string.Format(render, cells.Storage));
+            }
+            FileEmit(rows.Emit(), src.Count, dst, TextEncodingKind.Asci);
             return true;
         }
     }

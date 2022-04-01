@@ -12,7 +12,7 @@ namespace Z0.Asm
             => map(CalcFormDescriptors().Values, v => v.Form);
 
         public AsmFormDescriptors CalcFormDescriptors()
-            => CalcFormsDescriptors(LoadImportedOpcodes());
+            => CalcFormsDescriptors(LoadOcDetails());
 
         AsmFormDescriptors CalcFormsDescriptors(Index<SdmOpCodeDetail> src)
         {
@@ -28,11 +28,11 @@ namespace Z0.Asm
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var detail = ref src[i];
-                    result = AsmSigs.parse(detail.Sig, out var sig);
+                    result = AsmSigs.parse(detail.SigText, out var sig);
                     if(result.Fail)
                         break;
 
-                    result = AsmOpCodes.parse(detail.OpCode, out var opcode);
+                    result = AsmOpCodes.parse(detail.OpCodeText, out var opcode);
                     if(result.Fail)
                         break;
 

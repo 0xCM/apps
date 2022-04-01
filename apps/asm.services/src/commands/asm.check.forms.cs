@@ -6,21 +6,18 @@ namespace Z0
 {
     using Asm;
 
-    using static core;
-
     partial class AsmCmdProvider
     {
         [CmdOp("check/asm/sigs")]
         Outcome CheckAsmSigs(CmdArgs args)
         {
-            var details = Sdm.LoadImportedOpcodes();
+            var details = Sdm.LoadOcDetails();
             var count = details.Count;
             var buffer = text.buffer();
             for(var i=0; i<count; i++)
             {
                 ref readonly var detail = ref details[i];
-                AsmSigs.parse(detail.Sig, out var sig);
-
+                AsmSigs.parse(detail.SigText, out var sig);
                 buffer.Append(sig.Mnemonic.Format());
                 if(sig.OpCount != 0)
                 {

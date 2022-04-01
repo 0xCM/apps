@@ -38,7 +38,7 @@ namespace Z0
                 );
         }
 
-        public Index<InstDef> CalcInstDefs()
+        Index<InstDef> CalcInstDefs()
             => Data(nameof(InstDef), () => Patterns.ParseInstDefs(XedPaths.DocSource(XedDocKind.EncInstDef)));
 
         public Index<InstPattern> CalcInstPatterns()
