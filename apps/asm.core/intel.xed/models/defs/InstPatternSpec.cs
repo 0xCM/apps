@@ -136,6 +136,7 @@ namespace Z0
                     }
                 }
             }
+
             public int CompareTo(InstPatternSpec src)
             {
                 var result = InstId.CompareTo(src.InstId);

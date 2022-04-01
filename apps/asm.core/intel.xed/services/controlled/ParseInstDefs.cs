@@ -211,6 +211,7 @@ namespace Z0
                     forms.TryGetValue(pattern.PatternId, out pattern.InstForm);
                     pattern.InstId = iid;
                     pattern.PatternId = pid;
+                    pattern.Ops = new (pid,pattern.Ops);
                 }
             }
 

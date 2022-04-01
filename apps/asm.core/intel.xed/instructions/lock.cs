@@ -7,15 +7,13 @@ namespace Z0
 {
     using static XedRules;
 
-    using R = XedRules;
-
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
         public static bool @lock(in InstPatternBody src, out bit dst)
         {
             var result = false;
-            dst = R.FieldValue.Empty;
+            dst = FieldValue.Empty;
             for(var i=0; i<src.FieldCount; i++)
             {
                 ref readonly var field = ref src[i];

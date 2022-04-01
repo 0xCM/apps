@@ -26,7 +26,7 @@ namespace Z0
             public PatternOp()
             {
                 PatternId = 0u;
-                Index =z8;
+                Index = z8;
                 Name = OpName.Empty;
                 Kind = 0;
                 Attribs = OpAttribs.Empty;
@@ -147,7 +147,12 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public int CompareTo(PatternOp src)
-                => OpId.CompareTo(src.OpId);
+            {
+                var result = PatternId.CompareTo(src.PatternId);
+                if(result == 0)
+                    result = Index.CompareTo(src.Index);
+                return result;
+            }
 
             public static PatternOp Empty => new();
         }

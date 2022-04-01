@@ -19,7 +19,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public int CompareTo(MachineMode src)
-                => XedPatterns.cmp(Kind,src.Kind);
+                => XedPatterns.cmp(Kind, src.Kind);
 
             [MethodImpl(Inline)]
             public bool Equals(MachineMode src)

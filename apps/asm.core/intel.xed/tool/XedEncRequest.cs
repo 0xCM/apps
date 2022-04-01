@@ -16,8 +16,6 @@ namespace Z0
 
         public const string Req00 = "POP/64 RSI";
 
-
-
         public const string Req01 = "MOV/64 R9 RDX";
 
         public const string Req02 = "AND/64 RSP SIMM:f0";

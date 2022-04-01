@@ -5,9 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedFields
+    partial struct XedModels
     {
-        public readonly struct ModKind
+        public readonly struct ModKind : IComparable<ModKind>, IEquatable<ModKind>
         {
             [MethodImpl(Inline)]
             public static ModKind specific(uint2 src)
@@ -24,12 +24,25 @@ namespace Z0
             [MethodImpl(Inline)]
             public static ModKind none()
                 => default;
+
             readonly ModIndicator Indicator;
 
             [MethodImpl(Inline)]
             public ModKind(ModIndicator indicator)
             {
                 Indicator = indicator;
+            }
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Indicator == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Indicator != 0;
             }
 
             public string Format()
@@ -57,8 +70,19 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
+            public int CompareTo(ModKind src)
+                => ((byte)Indicator).CompareTo((byte)src.Indicator);
+
+
+            [MethodImpl(Inline)]
+            public bool Equals(ModKind src)
+                => Indicator == src.Indicator;
+
+            [MethodImpl(Inline)]
             public static implicit operator ModKind(ModIndicator src)
                 => new ModKind(src);
+
+            public static ModKind Empty => default;
         }
     }
 }

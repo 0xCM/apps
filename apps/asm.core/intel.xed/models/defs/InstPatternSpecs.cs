@@ -6,20 +6,22 @@
 namespace Z0
 {
     using static XedRules;
+    using static XedPatterns;
+    using static core;
 
-    partial class XedPatterns
+    partial struct XedModels
     {
-        public readonly struct PatternOps : IComparable<PatternOps>
+        public readonly struct PatternSpecs
         {
             public readonly uint PatternId;
 
-            readonly Index<PatternOp> Data;
+            readonly Index<InstPatternSpec> Data;
 
             [MethodImpl(Inline)]
-            public PatternOps(uint pattern, PatternOp[] src)
+            public PatternSpecs(uint pattern, InstPatternSpec[] src)
             {
-                Data = src;
                 PatternId = pattern;
+                Data = src;
             }
 
             public bool IsEmpty
@@ -34,7 +36,7 @@ namespace Z0
                 get => Data.IsNonEmpty;
             }
 
-            public PatternOp[] Storage
+            public InstPatternSpec[] Storage
             {
                 [MethodImpl(Inline)]
                 get => Data;
@@ -46,46 +48,42 @@ namespace Z0
                 get => Data.Count;
             }
 
-            public ref PatternOp this[int i]
+            public ref InstPatternSpec this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
             }
 
-            public ref PatternOp this[uint i]
+            public ref InstPatternSpec this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
             }
 
-            public int CompareTo(PatternOps src)
-                => PatternId.CompareTo(src.PatternId);
+            // public int CompareTo(PatternSpecs src)
+            // {
+            //     var result = PatternId.CompareTo(PatternId);
+            //     if(result == 0)
+            //     {
+            //         var count = min(Count,src.Count);
+            //         for(var i=0; i<count; i++)
+            //         {
+
+            //         }
+            //     }
+            //     return result;
+            // }
+
 
             [MethodImpl(Inline)]
-            public bool NonTerminal(out PatternOp dst)
-            {
-                for(var i=0; i<Count; i++)
-                {
-                    ref readonly var op = ref this[i];
-                    if(op.IsNonTerminal)
-                    {
-                        dst = op;
-                        return true;
-                    }
-                }
-                dst = PatternOp.Empty;
-                return false;
-            }
-
-            [MethodImpl(Inline)]
-            public static implicit operator PatternOp[](PatternOps src)
+            public static implicit operator InstPatternSpec[](PatternSpecs src)
                 => src.Data;
 
             [MethodImpl(Inline)]
-            public static implicit operator Index<PatternOp>(PatternOps src)
+            public static implicit operator Index<InstPatternSpec>(PatternSpecs src)
                 => src.Data;
 
-            public static PatternOps Empty => new(0u,sys.empty<PatternOp>());
+            public static PatternSpecs Empty => new(0u,sys.empty<InstPatternSpec>());
         }
     }
 }

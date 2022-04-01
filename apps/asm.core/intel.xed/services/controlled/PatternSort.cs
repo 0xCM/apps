@@ -24,7 +24,9 @@ namespace Z0
 
             const byte LockValueOffset = 13;
 
-            const byte DiscrimOffset = 14;
+            const byte ModeOffset = 14;
+
+            const byte ModOffset = 15;
 
             readonly ByteBlock16 Data;
 
@@ -37,7 +39,8 @@ namespace Z0
                 @as<ushort>(seek(data.Bytes,InstFormOffset)) = @as<InstForm,ushort>(src.InstForm);
                 @as<bit>(seek(data.Bytes,LockableOffset)) = @lock(src.Body, out bit locked);
                 @as<bit>(seek(data.Bytes,LockValueOffset)) = locked;
-                @as<ushort>(seek(data.Bytes, DiscrimOffset)) = (ushort)alg.hash.marvin(src.BodyExpr.Text);
+                @as<MachineMode>(seek(data.Bytes, ModeOffset)) = src.Mode;
+                mod(src.Body, out @as<ModKind>(seek(data.Bytes, ModeOffset)));
                 Data = data;
             }
 
@@ -50,7 +53,8 @@ namespace Z0
                 @as<ushort>(seek(data.Bytes, InstFormOffset)) = @as<InstForm,ushort>(src.InstForm);
                 @as<bit>(seek(data.Bytes, LockableOffset)) = @lock(src.Body, out bit locked);
                 @as<bit>(seek(data.Bytes, LockValueOffset)) = locked;
-                @as<ushort>(seek(data.Bytes, DiscrimOffset)) = (ushort)alg.hash.marvin(src.Body.Format());
+                @as<MachineMode>(seek(data.Bytes, ModeOffset)) = src.Mode;
+                mod(src.Body, out @as<ModKind>(seek(data.Bytes, ModeOffset)));
                 Data = data;
             }
 
@@ -63,7 +67,8 @@ namespace Z0
                 @as<ushort>(seek(data.Bytes,10)) = @as<InstForm,ushort>(src.InstForm);
                 @as<bit>(seek(data.Bytes,LockableOffset)) = @lock(src.Body, out bit locked);
                 @as<bit>(seek(data.Bytes,LockValueOffset)) = locked;
-                @as<ushort>(seek(data.Bytes, DiscrimOffset)) = (ushort)alg.hash.marvin(src.BodyExpr.Text);
+                @as<MachineMode>(seek(data.Bytes, ModeOffset)) = src.Mode;
+                mod(src.Body, out @as<ModKind>(seek(data.Bytes, ModeOffset)));
                 Data = data;
             }
 
@@ -97,10 +102,22 @@ namespace Z0
                 get => ref @as<InstForm>(seek(Data.Bytes,InstFormOffset));
             }
 
-            public ref readonly ushort Discriminator
+            public ref readonly MachineMode Mode
             {
                 [MethodImpl(Inline)]
-                get => ref @as<ushort>(seek(Data.Bytes,DiscrimOffset));
+                get => ref @as<MachineMode>(seek(Data.Bytes,ModeOffset));
+            }
+
+            public ref readonly ModKind Mod
+            {
+                [MethodImpl(Inline)]
+                get => ref @as<ModKind>(seek(Data.Bytes, ModOffset));
+            }
+
+            LockSort LockSort
+            {
+                [MethodImpl(Inline)]
+                get => new (Lockable,LockValue);
             }
 
             public int CompareTo(PatternSort src)
@@ -109,24 +126,18 @@ namespace Z0
                 if(result == 0)
                 {
                     result = OpCode.CompareTo(src.OpCode);
-                    if(result == 0)
-                    {
-                        if(!Lockable)
-                        {
-                            if(src.Lockable)
-                                result = -1;
-                        }
-                        else
-                        {
-                            if(Lockable && !src.Lockable)
-                                result = 1;
-                            else if(Lockable && src.Lockable)
-                                result = ((byte)LockValue).CompareTo((byte)src.LockValue);
-                        }
-                    }
 
-                    if(result == 0 && InstForm.IsNonEmpty && src.InstForm.IsNonEmpty)
+                    if(result == 0 && Mod.IsNonEmpty && src.Mod.IsNonEmpty)
+                        result = Mod.CompareTo(src.Mod);
+
+                    if(result == 0)
                         result = InstForm.CompareTo(src.InstForm);
+
+                    if(result == 0)
+                        result = LockSort.CompareTo(src.LockSort);
+
+                    if(result == 0)
+                        result = Mode.CompareTo(src.Mode);
                 }
                 return result;
             }

@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedPatterns;
     using static XedRules;
     using static XedRules.OpNameKind;
     using static core;
@@ -32,10 +31,10 @@ namespace Z0
 
             public void Parse(uint pattern, string ops, out PatternOps dst)
             {
-                dst = Parse(pattern,ops);
+                dst = Parse(pattern, ops);
             }
 
-            Index<PatternOp> Parse(uint pattern, string ops)
+            PatternOps Parse(uint pattern, string ops)
             {
                 var buffer = list<PatternOp>();
                 var input = text.despace(ops);
@@ -59,7 +58,7 @@ namespace Z0
                         break;
                 }
 
-                return buffer.ToArray();
+                return new(pattern,buffer.ToArray());
             }
 
             void Parse(byte index, string src, ref PatternOp dst)
