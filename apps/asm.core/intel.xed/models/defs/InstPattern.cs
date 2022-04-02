@@ -16,7 +16,19 @@ namespace Z0
 
             public readonly OcInstClass OcInst;
 
-            public readonly InstPatternBody Layout;
+            public ref readonly InstPatternBody Layout
+            {
+                [MethodImpl(Inline)]
+                get => ref BodyParts.Left;
+            }
+
+            public ref readonly InstPatternBody Constraints
+            {
+                [MethodImpl(Inline)]
+                get => ref BodyParts.Right;
+            }
+
+            readonly Pair<InstPatternBody> BodyParts;
 
             public readonly Index<OpName> OpNames;
 
@@ -24,8 +36,9 @@ namespace Z0
             {
                 Spec = spec;
                 OcInst = new(spec.PatternId, spec.OpCode, spec.InstClass);
-                Layout = layout(spec.Body);
+                //Layout = layout(spec.Body);
                 OpNames = spec.Ops.Names;
+                BodyParts = split(spec.Body);
             }
 
             public bit Lockable

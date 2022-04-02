@@ -44,6 +44,9 @@ namespace Z0
 
         XedLookups XedTables => Service(Wf.XedTables).Data;
 
+        XedDocs Docs => Service(Wf.XedDocs);
+
+
         public XedPatterns Patterns => Service(Wf.XedPatterns);
 
 

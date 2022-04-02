@@ -10,14 +10,14 @@ namespace Z0
 
     partial class XedPatterns
     {
-        public static InstPatternBody layout(in InstPatternBody src)
+        public static InstPatternBody constraints(in InstPatternBody src)
         {
             var buffer = list<InstDefField>();
             var count = src.FieldCount;
             for(var i=0; i<count; i++)
             {
                 ref readonly var part = ref src[i];
-                if(!part.IsFieldExpr)
+                if(part.IsFieldExpr)
                     buffer.Add(part);
             }
             return buffer.ToArray();

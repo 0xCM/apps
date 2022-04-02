@@ -17,6 +17,9 @@ namespace Z0
                 Kind = src;
             }
 
+            public OpIndicator Indicator
+                => XedRules.indicator(Kind);
+
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]

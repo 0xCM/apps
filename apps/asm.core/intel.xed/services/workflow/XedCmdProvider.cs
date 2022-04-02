@@ -15,6 +15,8 @@ namespace Z0
 
         XedDisasmSvc Disasm => Service(Wf.XedDisasm);
 
+        XedDocs XedDocs => Service(Wf.XedDocs);
+
         WsProjects Projects => Service(Wf.WsProjects);
 
         XedPaths XedPaths => Service(Wf.XedPaths);

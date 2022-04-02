@@ -11,36 +11,20 @@ namespace Z0
 
     partial class XedPatterns
     {
-        static Pair<InstPatternBody> split(in InstPatternBody src)
+        public static Pair<InstPatternBody> split(in InstPatternBody src)
         {
-            var criteria = dict<byte,InstDefField>();
-            var parts = mapi(src, (i,p) => ((byte)i, p)).ToDictionary();
+            var left = list<InstDefField>();
+            var right = list<InstDefField>();
             var count = src.FieldCount;
-            for(byte i=0; i<count; i++)
+            for(var i=0; i<count; i++)
             {
                 ref readonly var part = ref src[i];
-                switch(part.FieldClass)
-                {
-                    case DefFieldClass.FieldExpr:
-                        criteria[i] = part;
-                        parts.Remove(i);
-                    break;
-                    default:
-                        break;
-                }
+                if(part.IsFieldExpr)
+                    right.Add(part);
+                else
+                    left.Add(part);
             }
-
-            var right = alloc<InstDefField>(parts.Count);
-            var keys = parts.Keys.Array().Sort();
-            for(var i=0; i<keys.Length; i++)
-                seek(right,i) = parts[skip(keys,i)];
-
-            var left = alloc<InstDefField>(criteria.Count);
-            keys = criteria.Keys.Array().Sort();
-            for(var i=0; i<keys.Length; i++)
-                seek(left,i) = criteria[skip(keys,i)];
-
-            return (left,right);
+            return (left.ToArray(),right.ToArray());
         }
     }
 }
