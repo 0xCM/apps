@@ -21,7 +21,7 @@ namespace Z0
             public InstDocPart(InstPattern src)
             {
                 Inst = src;
-                OcMap = string.Format("{0}{1}", XedModels.indicator(src.OpCode.Class), text.bracket(src.OpCode.Digits.PadLeft(4,'0')));
+                OcMap = string.Format("{0}:{1}", XedModels.indicator(src.OpCode.Class), src.OpCode.Digits.PadLeft(4,'0'));
                 var fields = XedFields.set();
                 for(var j=0; j<src.Body.FieldCount; j++)
                     fields = fields.Include(src.Body[j].FieldKind);
@@ -74,6 +74,12 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => ref Inst.Constraints;
+            }
+
+            public ref readonly MachineMode Mode
+            {
+                [MethodImpl(Inline)]
+                get => ref Inst.Mode;
             }
         }
     }

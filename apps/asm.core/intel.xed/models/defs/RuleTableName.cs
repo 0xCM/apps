@@ -11,13 +11,25 @@ namespace Z0
     {
         public readonly struct RuleTableName : IComparable<RuleTableName>, IEquatable<RuleTableName>
         {
-            [MethodImpl(Inline)]
-            internal RuleTableName(ByteBlock48 src)
+            public RuleTableName(RuleTableKind kind, string name)
             {
-                Data = src;
+                var data = ByteBlock48.Empty;
+                var full = name + "." + kind.ToString().ToUpper();
+                data[46] = (byte)kind;
+                data[47] = (byte)Asci.encode(full, 0u, data.Bytes);
+                Data = data;
             }
 
             readonly ByteBlock48 Data;
+
+            public string ShortName
+            {
+                get
+                {
+                    var full = Format();
+                    return text.slice(full,0, full.Length - 4);
+                }
+            }
 
             Span<byte> CharBytes
             {
@@ -37,8 +49,17 @@ namespace Z0
                 get => (RuleTableKind)Data[46];
             }
 
-            public string Identifier
-                => identifier(this);
+            public readonly bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => TableKind == 0;
+            }
+
+            public readonly bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => TableKind != 0;
+            }
 
             public string Format()
             {
@@ -83,6 +104,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public static bool operator !=(RuleTableName a, RuleTableName b)
                 => !a.Equals(b);
+
+            public static RuleTableName Empty => default;
         }
     }
 }

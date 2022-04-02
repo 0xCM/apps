@@ -15,7 +15,7 @@ namespace Z0
     using static core;
 
     using R = XedRules;
-    using OC = XedRules.OpClass;
+    using OC = XedRules.OpAttribClass;
 
     public partial class XedRender
     {
@@ -674,7 +674,7 @@ namespace Z0
         public static string format(in RuleTable src)
         {
             var dst = text.buffer();
-            dst.AppendLine(string.Format("{0}()", src.Sig.Name));
+            dst.AppendLine(string.Format("{0}()", src.Name.ShortName));
             var expressions = src.Body.View;
             var count = expressions.Length;
             dst.AppendLine(Chars.LBrace);

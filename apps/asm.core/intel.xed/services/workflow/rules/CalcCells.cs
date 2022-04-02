@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public static Index<RuleTableRow> CalcCells(in RuleTable def, ConcurrentDictionary<RuleSig,Index<RuleCellSpec>> dst)
+        public static Index<RuleTableRow> CalcCells(in RuleTable def, ConcurrentDictionary<RuleTableName,Index<RuleCellSpec>> dst)
         {
             var rows = CalcTableRows(def);
             var count = rows.Count;
@@ -25,7 +25,7 @@ namespace Z0
             var fields = list<RuleCellSpec>();
             fields.AddRange(pFields);
             fields.AddRange(cFields);
-            dst[def.Sig] = fields.ToArray().Sort();
+            dst[def.Name] = fields.ToArray().Sort();
             return rows;
         }
 

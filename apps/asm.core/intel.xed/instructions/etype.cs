@@ -14,7 +14,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bool etype(in PatternOp src, out ElementType dst)
         {
-            var result = XedPatterns.first(src.Attribs, OpClass.ElementType, out var attrib);
+            var result = XedPatterns.first(src.Attribs, OpAttribClass.ElementType, out var attrib);
             if(result)
                 dst = attrib.ToElementType();
             else

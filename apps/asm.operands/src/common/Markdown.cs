@@ -4,15 +4,36 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     [ApiHost]
     public readonly partial struct Markdown
     {
+        [MethodImpl(Inline), Op]
+        public static SectionHeader header(byte depth, string name)
+            => new (depth,name);
+
+        [MethodImpl(Inline), Op]
+        public static SectionLink link(string label, string dst)
+            => new SectionLink(label, dst);
+
+        [MethodImpl(Inline), Op]
+        public static SectionLink link(string dst)
+            => new SectionLink(dst, dst);
+
+        public static Index<RelativeLink> links(FS.FolderPath @base, FS.Files files)
+        {
+            var relative = files.Map(f => f.Relative(@base));
+            var count = relative.Length;
+            var dst = alloc<RelativeLink>(count);
+            for(var i=0; i<count; i++)
+                seek(dst,i) = Markdown.link(skip(relative,i));
+            return dst;
+        }
+
+        public static Index<AbsoluteLink> links(FS.Files files)
+            => files.Map(f => link(f.FileName.WithoutExtension.Format(),f));
+
         [MethodImpl(Inline), Op]
         public static RelativeLink link(string label, FS.RelativeFilePath src)
             => new RelativeLink(label, src.Format());
@@ -42,11 +63,11 @@ namespace Z0
             return new List(buffer,style);
         }
 
-        public readonly struct RelativeLink : ITextual
+        public readonly struct RelativeLink
         {
-            public string Label {get;}
+            public readonly string Label;
 
-            public string Target {get;}
+            public readonly string Target;
 
             [MethodImpl(Inline)]
             public RelativeLink(string label, string target)
@@ -62,11 +83,51 @@ namespace Z0
                 => Format();
         }
 
-        public readonly struct AbsoluteLink : ITextual
+        public readonly struct SectionLink
         {
-            public string Label {get;}
+            public readonly string Label;
 
-            public string Target {get;}
+            public readonly string Target;
+
+            [MethodImpl(Inline)]
+            public SectionLink(string label, string dst)
+            {
+                Label = label;
+                Target = dst;
+            }
+
+            public string Format()
+                => string.Format("[{0}](#{1})", Label, Target);
+
+            public override string ToString()
+                => Format();
+        }
+
+        public readonly struct SectionHeader
+        {
+            public readonly byte Depth;
+
+            public readonly string Name;
+
+            [MethodImpl(Inline)]
+            public SectionHeader(byte depth, string name)
+            {
+                Depth = depth;
+                Name = name;
+            }
+
+            public string Format()
+                => string.Format("{0} {1}", new string(Chars.Hash,Depth), Name);
+
+            public override string ToString()
+                => Format();
+        }
+
+        public readonly struct AbsoluteLink
+        {
+            public readonly string Label;
+
+            public readonly string Target;
 
             [MethodImpl(Inline)]
             public AbsoluteLink(string label, string target)
@@ -82,13 +143,13 @@ namespace Z0
                 => Format();
         }
 
-        public readonly struct ListItem : ITextual
+        public readonly struct ListItem
         {
-            public byte Level {get;}
+            public readonly byte Level;
 
-            public string Content {get;}
+            public readonly string Content;
 
-            public ListStyle Style {get;}
+            public readonly ListStyle Style;
 
             public ListItem(byte level, string content, ListStyle style)
             {
@@ -109,16 +170,15 @@ namespace Z0
                 => Format();
         }
 
-        public readonly struct List : ITextual
+        public readonly struct List
         {
-
             [MethodImpl(Inline), Op]
             public static ListItem item(byte level, string content, ListStyle style)
                 => new ListItem(level, content, style);
 
-            public Index<ListItem> Items {get;}
+            public readonly Index<ListItem> Items;
 
-            public ListStyle Style {get;}
+            public readonly ListStyle Style;
 
             public List(Index<ListItem> items, ListStyle style)
             {

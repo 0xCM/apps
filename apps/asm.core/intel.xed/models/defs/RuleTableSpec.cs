@@ -9,11 +9,11 @@ namespace Z0
     {
         public readonly struct RuleTableSpec : IComparable<RuleTableSpec>
         {
-            public readonly RuleSig Sig;
+            public readonly RuleTableName Sig;
 
             public readonly Index<StatementSpec> Statements;
 
-            public RuleTableSpec(RuleSig sig, StatementSpec[] statements)
+            public RuleTableSpec(RuleTableName sig, StatementSpec[] statements)
             {
                 Require.invariant(sig.IsNonEmpty);
                 Sig = sig;
@@ -23,7 +23,7 @@ namespace Z0
             public string Format()
             {
                 var dst = text.buffer();
-                dst.AppendLine(string.Format("{0}()", Sig.Name));
+                dst.AppendLine(string.Format("{0}()", Sig.ShortName));
                 dst.AppendLine(Chars.LBrace);
                 for(var i=0; i<Statements.Count; i++)
                     dst.IndentLine(4, Statements[i]);

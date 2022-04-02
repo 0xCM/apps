@@ -17,18 +17,54 @@ namespace Z0
     {
         public class InstPageFormatter
         {
-            public static InstPageFormatter create(RuleTableSet tables)
+            public static InstPageFormatter create(RuleTables tables)
                 => new InstPageFormatter(tables);
 
-            public static Index<InstIsaFormat> FormatGroups(RuleTableSet tables, Index<InstPattern> src)
+            public static Index<InstIsaFormat> FormatGroups(RuleTables tables, Index<InstPattern> src)
             {
                 var buffer = bag<InstIsaFormat>();
                 iter(src.GroupBy(x => x.Isa.Kind), g => buffer.Add(FormatGroup(tables, g.Key, g.Array())), AppData.PllExec());
                 return buffer.Array().Sort();
             }
 
-            static InstIsaFormat FormatGroup(RuleTableSet tables, InstIsa isa, Index<InstPattern> src)
+            static InstIsaFormat FormatGroup(RuleTables tables, InstIsa isa, Index<InstPattern> src)
                 => create(tables).FormatGroup(isa,src);
+
+            public static string opwidth(MachineMode mode, in PatternOp src)
+            {
+                const string RenderPattern = "{0,-6} {1,-3} {2,-10} {3,-12}";
+                var bw = EmptyString;
+                src.ElementType(out var et);
+                src.WidthCode(out var w);
+                var wcode = XedRender.format(w);
+                if(XedPatterns.reglit(src, out Register reg))
+                {
+                    bw = XedPatterns.bitwidth(reg).ToString();
+                    wcode = text.ifempty(wcode,"reg");
+                }
+
+                var wi = w != 0 ? Lookups.WidthInfo(w) : OpWidthInfo.Empty;
+                var seg = EmptyString;
+                if(wi.Seg.CellCount > 1)
+                {
+                    var indicator = EmptyString;
+                    if(et.Indicator != 0)
+                        indicator = ((char)et.Indicator).ToString();
+                    seg = string.Format("{0}x{1}{2}x{3}n", wi.Seg.DataWidth,  wi.Seg.CellWidth, indicator, wi.Seg.CellCount);
+                }
+
+                if(empty(bw))
+                    bw = bitwidth(wi, mode).ToString();
+
+                if(src.Nonterminal(out var nt))
+                {
+                    wcode = text.ifempty(wcode, "ntv");
+                    if(GprWidth.widths(nt, out var gpr))
+                        bw = gpr.Format();
+                }
+
+                return string.Format(RenderPattern, wcode, et, bw, seg);
+            }
 
             const byte SectionWidth = 140;
 
@@ -42,22 +78,21 @@ namespace Z0
 
             const string LabelPattern = "{0,-18}{1}";
 
-            readonly RuleTableSet Tables;
+            readonly RuleTables Tables;
 
             readonly ITextBuffer Dst;
 
-            readonly XedLookups Lookups;
+            static readonly XedLookups Lookups = XedLookups.Data;
 
             readonly Index<string> Buffer;
 
             uint Counter;
 
             [MethodImpl(Inline)]
-            public InstPageFormatter(RuleTableSet tables)
+            public InstPageFormatter(RuleTables tables)
             {
                 Tables = tables;
                 Dst = text.buffer();
-                Lookups = XedLookups.Data;
                 Buffer = alloc<string>(42);
                 Counter = 0;
             }
@@ -132,41 +167,7 @@ namespace Z0
                     return string.Format("{0}[n{1}]", src.Seg.Format(), src.Seg.CellCount);
             }
 
-            public string FormatWidth(InstPattern pattern, in PatternOp src)
-            {
-                const string RenderPattern = "{0,-6} {1,-3} {2,-10} {3,-12}";
-                var bw = EmptyString;
-                src.ElementType(out var et);
-                src.WidthCode(out var w);
-                var wcode = XedRender.format(w);
-                if(XedPatterns.reglit(src, out Register reg))
-                {
-                    bw = XedPatterns.bitwidth(reg).ToString();
-                    wcode = text.ifempty(wcode,"reg");
-                }
 
-                var wi = w != 0 ? Lookups.WidthInfo(w) : OpWidthInfo.Empty;
-                var seg = EmptyString;
-                if(wi.Seg.CellCount > 1)
-                {
-                    var indicator = EmptyString;
-                    if(et.Indicator != 0)
-                        indicator = ((char)et.Indicator).ToString();
-                    seg = string.Format("{0}x{1}{2}[n{3}]", wi.Seg.DataWidth,  wi.Seg.CellWidth, indicator, wi.Seg.CellCount);
-                }
-
-                if(empty(bw))
-                    bw = bitwidth(wi, pattern.Mode).ToString();
-
-                if(src.Nonterminal(out var nt))
-                {
-                    wcode = text.ifempty(wcode, "ntv");
-                    if(GprWidth.widths(nt, out var gpr))
-                        bw = gpr.Format();
-                }
-
-                return string.Format(RenderPattern, wcode, et, bw, seg);
-            }
 
             byte RenderFields(InstPattern src, Span<string> dst)
             {
@@ -265,7 +266,7 @@ namespace Z0
                             XedRender.format(op.Name),
                             XedRender.format(action),
                             opvis.Code(),
-                            FormatWidth(pattern,op),
+                            opwidth(pattern.Mode,op),
                             FormatNonterm(op),
                             op.SourceExpr
                             ));
@@ -275,7 +276,7 @@ namespace Z0
                             XedRender.format(op.Name),
                             XedRender.format(action),
                             opvis.Code(),
-                            FormatWidth(pattern,op),
+                            opwidth(pattern.Mode,op),
                             op.IsReg ? FormatRegLit(op) : EmptyString,
                             op.SourceExpr
                             ));

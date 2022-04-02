@@ -59,6 +59,9 @@ namespace Z0
 
             public RuleTableCell Col7C;
 
+            public RuleTableName FullTableName
+                => new(Kind,TableName);
+
             public Index<RuleTableCell> NonTerminal(bool premise)
             {
                 Span<RuleTableCell> buffer = stackalloc RuleTableCell[(byte)(RuleTableRow.CellCount/2)];

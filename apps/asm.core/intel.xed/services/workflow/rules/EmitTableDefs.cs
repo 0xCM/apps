@@ -51,7 +51,7 @@ namespace Z0
             TableEmit(src.View, widths, dst);
         }
 
-        void EmitTableDefs(RuleTableSet tables)
+        void EmitTableDefs(RuleTables tables)
             => EmitTableDefs(tables.Rows(), XedPaths.RuleTable<RuleTableRow>());
 
         static void CalcRenderWidths(RuleSig sig, ReadOnlySpan<RuleTableRow> data, Span<byte> dst)

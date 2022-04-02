@@ -12,7 +12,7 @@ namespace Z0
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static bool exists(in OpAttribs src, OpClass @class)
+        public static bool exists(in OpAttribs src, OpAttribClass @class)
         {
             var result = false;
             for(var i=0; i<src.Count; i++)
@@ -28,7 +28,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static bool exists(ReadOnlySpan<PatternOp> src, OpClass @class)
+        public static bool exists(ReadOnlySpan<PatternOp> src, OpAttribClass @class)
         {
             var result = false;
             for(var i=0; i<src.Length; i++)

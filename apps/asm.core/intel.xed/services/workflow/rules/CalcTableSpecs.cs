@@ -44,7 +44,7 @@ namespace Z0
                     if(counter != 0)
                     {
                         if(!skip.Contains(name))
-                            dst.Add(new (XedRules.sig(tkind, name), statements.ToArray()));
+                            dst.Add(new (new (tkind, name), statements.ToArray()));
 
                         statements.Clear();
                     }

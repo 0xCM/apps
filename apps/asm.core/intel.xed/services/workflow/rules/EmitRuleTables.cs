@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public void EmitRuleTables(RuleTableSet tables, Index<InstPattern> patterns)
+        public void EmitRuleTables(RuleTables tables, Index<InstPattern> patterns)
         {
             EmitPatternOps(tables, patterns);
 

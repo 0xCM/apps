@@ -13,7 +13,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bool modifier(in PatternOp src, out OpModifier dst)
         {
-            if(XedPatterns.first(src.Attribs, OpClass.Modifier, out var attrib))
+            if(XedPatterns.first(src.Attribs, OpAttribClass.Modifier, out var attrib))
                 dst = attrib.ToModifier();
             else
                 dst = default;

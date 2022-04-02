@@ -9,6 +9,18 @@ namespace Z0
     {
         public readonly struct Visibility
         {
+            public static Visibility Hidden
+                => new (OpVisibility.Suppressed);
+
+            public static Visibility Implicit
+                => new (OpVisibility.Implicit);
+
+            public static Visibility Explicit
+                => new (OpVisibility.Explicit);
+
+            public static Visibility Conditional
+                => new (OpVisibility.Conditional);
+
             internal readonly OpVisibility V0;
 
             internal readonly VisibilityKind V1;

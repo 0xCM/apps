@@ -11,7 +11,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public static Index<PatternOpRow> CalcOpRecords(RuleTableSet tables, Index<InstPattern> src)
+        public static Index<PatternOpRow> CalcOpRecords(RuleTables tables, Index<InstPattern> src)
         {
             var buffer = list<PatternOpRow>();
             for(var i=0; i<src.Count; i++)

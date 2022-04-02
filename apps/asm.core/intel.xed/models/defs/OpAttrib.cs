@@ -7,18 +7,18 @@ namespace Z0
 {
     using static XedModels;
 
-    using K = XedRules.OpClass;
+    using K = XedRules.OpAttribClass;
 
     partial class XedRules
     {
         public readonly struct OpAttrib : IComparable<OpAttrib>, IEquatable<OpAttrib>
         {
-            public readonly OpClass Class;
+            public readonly OpAttribClass Class;
 
             readonly uint Data;
 
             [MethodImpl(Inline)]
-            internal OpAttrib(OpClass kind, uint data)
+            internal OpAttrib(OpAttribClass kind, uint data)
             {
                 Class = kind;
                 Data = data;

@@ -74,6 +74,9 @@ namespace Z0
         [Symbol(exe, "A portable executable file")]
         Exe,
 
+        [Symbol(h, "A C/C++ header file")]
+        H,
+
         [Symbol(hex, "Text-formatted hex data")]
         Hex,
 
@@ -89,14 +92,32 @@ namespace Z0
         [Symbol(lib, "A static library module")]
         Lib,
 
+        [Symbol(list, "A simple eol-delimited text file")]
+        List,
+
         [Symbol(llasm, "An asm file produced by llc")]
         LlAsm,
+
+        [Symbol(llbc, "An llvm bitcode file produced by compilation of an *.ll file")]
+        LlBc,
 
         [Symbol(ll, "An llvm-ir text file")]
         Llir,
 
         [Symbol(log,"Text-formatted log data")]
         Log,
+
+        [Symbol(mcasm, "An asm file produced by the llvm-mc tool")]
+        McAsm,
+
+        [Symbol(md, "A Mardown document")]
+        Md,
+
+        [Symbol(mlir)]
+        Mlir,
+
+        [Symbol(mir)]
+        Mir,
 
         [Symbol(o, "A coff object file")]
         O,
@@ -110,32 +131,32 @@ namespace Z0
         [Symbol(objasm, "An assembly file derived from an object file")]
         ObjAsm,
 
-        [Symbol(pcsv,"Text-formatted x86-encoded/executable data")]
-        PCsv,
-
-        [Symbol(h, "A C/C++ header file")]
-        H,
-
-        [Symbol(mcasm, "An asm file produced by the llvm-mc tool")]
-        McAsm,
-
         [Symbol(objyaml)]
         ObjYaml,
 
-        [Symbol(sym,"A symbol table as emitted by llvm-nm")]
-        Sym,
+        [Symbol(pdb, "A program database file")]
+        Pdb,
+
+        [Symbol(pcsv,"Text-formatted x86-encoded/executable data")]
+        PCsv,
+
+        [Symbol(s, "A file with an ugly asm syntax, also known as ATT syntax")]
+        S,
+
+        [Symbol(sh, "A bash shell script")]
+        Sh,
 
         [Symbol(sql, "A sql script")]
         Sql,
 
+        [Symbol(sym,"A symbol table as emitted by llvm-nm")]
+        Sym,
+
+        [Symbol(td, "An llvm table definition file")]
+        Td,
+
         [Symbol(txt,"Text data")]
         Txt,
-
-        [Symbol(mlir)]
-        Mlir,
-
-        [Symbol(mir)]
-        Mir,
 
         [Symbol(xcsv,"Unprocessed x86-encoded data")]
         XCsv,
@@ -161,19 +182,7 @@ namespace Z0
         [Symbol(xeddisasm_detail, "Xed disassembly details in columnar format")]
         XedDisasmDetail,
 
-        [Symbol("ll.bc", "An llvm bitcode file produced by compilation of an *.ll file")]
-        LlBc,
-
-        [Symbol("s", "A file with an ugly asm syntax, also known as ATT syntax")]
-        S,
-
-        [Symbol(pdb, "A program database file")]
-        Pdb,
-
-        [Symbol(td, "An llvm table definition file")]
-        Td,
-
-        [Symbol(list, "A simple eol-delimited text file")]
-        List,
+        [Symbol(zip, "A zip archive file")]
+        Zip,
     }
 }

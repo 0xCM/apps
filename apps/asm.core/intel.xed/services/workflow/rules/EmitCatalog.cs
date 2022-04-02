@@ -14,7 +14,7 @@ namespace Z0
         public void EmitCatalog()
         {
             var patterns = CalcInstPatterns(CalcInstDefs());
-            var tables = RuleTableSet.Empty;
+            var tables = RuleTables.Empty;
             exec(PllExec,
                 () => EmitPatternInfo(patterns),
                 () => EmitOpCodes(patterns),
@@ -69,10 +69,10 @@ namespace Z0
         void EmitPatternInfo(Index<InstPattern> src)
             => TableEmit(XedPatterns.describe(src).View, InstPatternRecord.RenderWidths, XedPaths.Table<InstPatternRecord>());
 
-        void EmitPatternDetails(RuleTableSet tables, Index<InstPattern> src)
+        void EmitPatternDetails(RuleTables tables, Index<InstPattern> src)
             => EmitPatternDetails(tables, src, XedPaths.DocTarget(XedDocKind.PatternDetail));
 
-        void EmitPatternOps(RuleTableSet tables, Index<InstPattern> src)
+        void EmitPatternOps(RuleTables tables, Index<InstPattern> src)
             => TableEmit(CalcOpRecords(tables, src).View, PatternOpRow.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));
 
         void EmitMacroDefs()

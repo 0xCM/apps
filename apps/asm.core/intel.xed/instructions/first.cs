@@ -11,7 +11,7 @@ namespace Z0
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static bool first(in OpAttribs src, OpClass @class, out OpAttrib dst)
+        public static bool first(in OpAttribs src, OpAttribClass @class, out OpAttrib dst)
         {
             var result = false;
             dst = OpAttrib.Empty;

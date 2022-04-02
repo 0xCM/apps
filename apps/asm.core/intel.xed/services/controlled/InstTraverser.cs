@@ -11,7 +11,7 @@ namespace Z0
     using static XedModels;
     using static XedRules;
 
-    using C = XedRules.OpClass;
+    using C = XedRules.OpAttribClass;
 
     partial class XedPatterns
     {

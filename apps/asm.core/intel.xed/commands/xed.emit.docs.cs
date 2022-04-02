@@ -15,10 +15,7 @@ namespace Z0
         [CmdOp("xed/emit/docs")]
         Outcome EmitDocs(CmdArgs args)
         {
-            var tables = Xed.Rules.CalcTableSet();
-            var patterns = Xed.Rules.CalcInstPatterns();
-            XedDocs.EmitDocs(tables,patterns);
-
+            XedDocs.EmitDocs(Xed.Rules.CalcTableSet(),Xed.Rules.CalcInstPatterns());
             return true;
         }
 

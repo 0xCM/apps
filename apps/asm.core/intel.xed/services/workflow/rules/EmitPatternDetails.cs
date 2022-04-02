@@ -12,7 +12,7 @@ namespace Z0
 
     partial class XedRules
     {
-        void EmitPatternDetails(RuleTableSet tables, Index<InstPattern> src, FS.FilePath dst)
+        void EmitPatternDetails(RuleTables tables, Index<InstPattern> src, FS.FilePath dst)
         {
             src.Sort();
             var formatter = InstPageFormatter.create(tables);
@@ -24,7 +24,7 @@ namespace Z0
             EmittedFile(emitting, src.Count);
         }
 
-        void EmitIsaPages(RuleTableSet tables, Index<InstPattern> src)
+        void EmitIsaPages(RuleTables tables, Index<InstPattern> src)
         {
             XedPaths.InstIsaRoot().Delete();
             var groups = InstPageFormatter.FormatGroups(tables, src);

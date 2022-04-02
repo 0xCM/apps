@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        void EmitTableSpecs(RuleTableSet tables)
+        void EmitTableSpecs(RuleTables tables)
         {
             exec(PllExec,
                 () => EmitTableSpecs(tables, RuleTableKind.Enc),
@@ -17,7 +17,7 @@ namespace Z0
                 );
         }
 
-        public void EmitTableFiles(RuleTableSet tables)
+        public void EmitTableFiles(RuleTables tables)
         {
             exec(PllExec,
                 () => EmitTableFiles(tables,RuleTableKind.Enc),
@@ -25,7 +25,7 @@ namespace Z0
             );
         }
 
-        void EmitTableFiles(RuleTableSet tables, RuleTableKind kind)
+        void EmitTableFiles(RuleTables tables, RuleTableKind kind)
             => iter(tables.Specs[kind], spec => EmitTableFile(spec, XedPaths.Service.TableDef(spec.Sig)), false);
 
         static uint EmitTableFile(in RuleTableSpec spec, FS.FilePath dst)
@@ -46,12 +46,12 @@ namespace Z0
 
         static string SpecHeader = string.Format(SpecRender, "Kind", "TableName", "Row",  "ColKind", "Logic", "Col", "Expr", "SourceExpr");
 
-        static string FormatSpecRow(uint row, byte col, RuleSig table, RuleCell cell)
+        static string FormatSpecRow(uint row, byte col, RuleTableName table, RuleCell cell)
         {
             var result = XedRules.split(cell, out RuleCellKind cellkind, out var value);
             return string.Format(SpecRender,
                 table.TableKind,
-                table,
+                table.ShortName,
                 row,
                 XedRender.format(cellkind),
                 cell.Premise ? 'P' : 'C',
@@ -98,7 +98,7 @@ namespace Z0
             return counter;
         }
 
-        void EmitTableSpecs(RuleTableSet tables, RuleTableKind kind)
+        void EmitTableSpecs(RuleTables tables, RuleTableKind kind)
         {
             var specs = tables.Specs[kind];
             var path = XedPaths.RuleSpecs(kind);

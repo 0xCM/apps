@@ -9,9 +9,9 @@ namespace Z0
 
     partial class XedRules
     {
-        public RuleTableSet CalcTableSet()
+        public RuleTables CalcTableSet()
         {
-            var tables = new RuleTableSet();
+            var tables = new RuleTables();
             var buffers = tables.CreateBuffers();
             exec(PllExec,
                 () => CalcDefCells(RuleTableKind.Enc),
@@ -25,14 +25,14 @@ namespace Z0
                 () => buffers.Schema = XedRules.CalcSchemas(buffers.Cells)
                 );
 
-            var result = tables.Seal(buffers);
+            var result = tables.Seal(buffers,PllExec);
             return result;
 
             void CalcDefCells(RuleTableKind kind)
             {
                 var defs = XedRules.CalcTableDefs(kind);
                 buffers.Defs.TryAdd(kind, defs);
-                iter(defs, def => buffers.Rows.TryAdd(def.Sig, XedRules.CalcCells(def, buffers.Cells)), PllExec);
+                iter(defs, def => buffers.Rows.TryAdd(def.Name, XedRules.CalcCells(def, buffers.Cells)), PllExec);
             }
         }
     }

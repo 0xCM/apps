@@ -180,15 +180,9 @@ namespace Z0.Asm
         void CalcRelativePaths()
         {
             var @base = Db.DbRoot();
-            var files = Db.AsmCapturePaths().View;
-            var relative = files.Map(f => f.Relative(@base));
-            var count = relative.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var path = ref skip(relative,i);
-                var link = Markdown.link(path);
-                Wf.Row(link);
-            }
+            var files = Db.AsmCapturePaths();
+            var links = Markdown.links(@base,files);
+            iter(links, r=> Write(r.Format()));
         }
 
         void ParseDump2()

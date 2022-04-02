@@ -265,6 +265,11 @@ namespace Z0
         public const string llasm = ll + sep + asm;
 
         /// <summary>
+        /// Defines the 'll.bc' literal
+        /// </summary>
+        public const string llbc = ll + sep + bc;
+
+        /// <summary>
         /// Defines the 'md' literal
         /// </summary>
         public const string md = nameof(md);

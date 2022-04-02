@@ -22,7 +22,7 @@ namespace Z0
                 var m = z8;
                 var row = RuleTableRow.Empty;
                 row.Kind = src.TableKind;
-                row.TableName = src.Sig.Name;
+                row.TableName = src.Name.ShortName;
                 row.Row = q++;
 
                 for(var k=0; k<expr.Premise.Count; k++)
