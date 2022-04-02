@@ -61,12 +61,13 @@ namespace Z0
             var result = GprWidth.widths(ntk, out var widths);
             Write(widths.Format());
         }
+
         Outcome ValidateRules()
         {
             var patterns = Xed.Rules.CalcInstPatterns();
             var rules = Xed.Rules.CalcTableSet();
 
-            ref readonly var rows = ref rules.Sigs;
+            ref readonly var rows = ref rules.SigInfo;
             var count = rows.Count;
             var enc = dict<string,RuleSigRow>();
             var dec = dict<string,RuleSigRow>();
@@ -78,19 +79,14 @@ namespace Z0
                     return (false, FS.missing(row.TableDef.Path));
 
                 var sig = row.Sig;
-                if(sig.IsEncRule)
+                if(sig.IsEncTable)
                 {
-                    if(!enc.TryAdd(sig.Name,row))
+                    if(!enc.TryAdd(sig.ShortName,row))
                         return (false, "Duplicate");
                 }
-                else if(sig.IsDecRule)
+                else if(sig.IsDecTable)
                 {
-                    if(!dec.TryAdd(sig.Name,row))
-                        return (false, "Duplicate");
-                }
-                else if(sig.IsEncDecRule)
-                {
-                    if(!encdec.TryAdd(sig.Name,row))
+                    if(!dec.TryAdd(sig.ShortName,row))
                         return (false, "Duplicate");
                 }
                 else

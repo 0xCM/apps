@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public static Index<RuleSchema> CalcSchemas(ConcurrentDictionary<RuleTableName,Index<RuleCellSpec>> src)
+        public static Index<RuleSchema> CalcSchemas(ConcurrentDictionary<RuleSig,Index<RuleCellSpec>> src)
         {
             var sigs = src.Keys.Array().Sort();
             var count = src.Values.Map(x => x.Count).Sum();
@@ -17,9 +17,9 @@ namespace Z0
             var k=0u;
             for(var i=0u; i<sigs.Length; i++)
             {
-                ref readonly var name = ref skip(sigs,i);
-                var td = XedPaths.Service.TableDef(name).ToUri();
-                var cells = src[name];
+                ref readonly var sig = ref skip(sigs,i);
+                var td = XedPaths.Service.TableDef(sig).ToUri();
+                var cells = src[sig];
                 for(byte j=0; j<cells.Count; j++, k++)
                 {
                     ref readonly var cell = ref cells[j];
@@ -31,7 +31,7 @@ namespace Z0
                     dst.Index = j;
                     dst.TableDef = td;
                     dst.TableKind = cell.TableKind;
-                    dst.TableName = name.ShortName;
+                    dst.TableName = sig.ShortName;
                 }
             }
             return buffer;

@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public static Index<RuleTableRow> CalcCells(in RuleTable def, ConcurrentDictionary<RuleTableName,Index<RuleCellSpec>> dst)
+        public static Index<RuleTableRow> CalcCells(in RuleTable def, ConcurrentDictionary<RuleSig,Index<RuleCellSpec>> dst)
         {
             var rows = CalcTableRows(def);
             var count = rows.Count;

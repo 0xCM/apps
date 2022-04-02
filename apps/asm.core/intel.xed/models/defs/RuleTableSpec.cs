@@ -9,11 +9,11 @@ namespace Z0
     {
         public readonly struct RuleTableSpec : IComparable<RuleTableSpec>
         {
-            public readonly RuleTableName Sig;
+            public readonly RuleSig Sig;
 
             public readonly Index<StatementSpec> Statements;
 
-            public RuleTableSpec(RuleTableName sig, StatementSpec[] statements)
+            public RuleTableSpec(in RuleSig sig, StatementSpec[] statements)
             {
                 Require.invariant(sig.IsNonEmpty);
                 Sig = sig;

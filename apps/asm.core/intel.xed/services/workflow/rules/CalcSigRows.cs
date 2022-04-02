@@ -9,17 +9,17 @@ namespace Z0
 
     partial class XedRules
     {
-        public static Index<RuleSigRow> CalcSigRows(ReadOnlySpan<RuleTableName> src)
+        public static Index<RuleSigRow> CalcSigRows(ReadOnlySpan<RuleSig> src)
         {
             var count = src.Length;
             var dst = alloc<RuleSigRow>(count);
             for(var i=0u; i<count; i++)
             {
-                ref readonly var name = ref skip(src,i);
+                ref readonly var sig = ref skip(src,i);
                 ref var row = ref seek(dst,i);
-                row.TableKind = name.TableKind;
-                row.TableName = name.ShortName;
-                row.TableDef = XedPaths.Service.TableDef(name).ToUri();
+                row.TableKind = sig.TableKind;
+                row.TableName = sig.ShortName;
+                row.TableDef = XedPaths.Service.TableDef(sig).ToUri();
             }
             var rows = dst.Sort();
             for(var i=0u; i<count; i++)

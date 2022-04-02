@@ -14,7 +14,7 @@ namespace Z0
             var count = src.Count;
             Span<byte> widths = stackalloc byte[RuleTableRow.ColCount];
             var name = EmptyString;
-            var tsig = RuleSig.Empty;
+            var sig = RuleSig.Empty;
             var length = 0u;
             var offset = 0u;
             for(var i=0u; i<count; i++)
@@ -25,7 +25,7 @@ namespace Z0
                     if(nonempty(row.TableName))
                     {
                         name = row.TableName;
-                        tsig = XedRules.sig(row.Kind, name);
+                        sig = XedRules.sig(row.Kind, name);
                     }
                 }
 
@@ -33,14 +33,14 @@ namespace Z0
                     continue;
 
                 if(i == count - 1)
-                    CalcRenderWidths(tsig, slice(src.View,offset,length), widths);
+                    CalcRenderWidths(sig, slice(src.View,offset,length), widths);
                 else if(row.TableName != name)
                 {
                     if(row.TableName != name)
                     {
-                        CalcRenderWidths(tsig, slice(src.View,offset,length), widths);
+                        CalcRenderWidths(sig, slice(src.View,offset,length), widths);
                         name = row.TableName;
-                        tsig = XedRules.sig(row.Kind,name);
+                        sig = XedRules.sig(row.Kind, name);
                         length = 0;
                         offset = i;
                     }
@@ -54,7 +54,7 @@ namespace Z0
         void EmitTableDefs(RuleTables tables)
             => EmitTableDefs(tables.Rows(), XedPaths.RuleTable<RuleTableRow>());
 
-        static void CalcRenderWidths(RuleSig sig, ReadOnlySpan<RuleTableRow> data, Span<byte> dst)
+        static void CalcRenderWidths(in RuleSig sig, ReadOnlySpan<RuleTableRow> data, Span<byte> dst)
         {
             const byte SeqIndex = 0;
             const byte NameIndex = 1;
@@ -64,9 +64,9 @@ namespace Z0
             seek(dst, SeqIndex) = 8;
             seek(dst, KindIndex) = 8;
             if(skip(dst,NameIndex) != 0)
-                seek(dst, NameIndex) = max((byte)(sig.Name.Length + 1), skip(dst,NameIndex));
+                seek(dst, NameIndex) = max((byte)(sig.ShortName.Length + 1), skip(dst,NameIndex));
             else
-                seek(dst, NameIndex) = max((byte)(sig.Name.Length + 1), (byte)12);
+                seek(dst, NameIndex) = max((byte)(sig.ShortName.Length + 1), (byte)12);
             seek(dst, RowIndex) = 8;
             CalcRenderWidths(data, dst);
         }

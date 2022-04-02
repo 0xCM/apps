@@ -9,12 +9,12 @@ namespace Z0
     {
         public struct RuleTable : IComparable<RuleTable>
         {
-            public RuleTableName Name;
+            public RuleSig Name;
 
             public Index<RuleStatement> Body;
 
             [MethodImpl(Inline)]
-            public RuleTable(RuleTableName name, RuleStatement[] body)
+            public RuleTable(in RuleSig name, RuleStatement[] body)
             {
                 Name = name;
                 Body = body;
@@ -61,7 +61,7 @@ namespace Z0
                 get
                 {
                     var dst = default(RuleTable);
-                    dst.Name = RuleTableName.Empty;
+                    dst.Name = RuleSig.Empty;
                     dst.Body = sys.empty<RuleStatement>();
                     return dst;
                 }

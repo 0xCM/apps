@@ -59,7 +59,7 @@ namespace Z0
 
             public RuleTableCell Col7C;
 
-            public RuleTableName FullTableName
+            public RuleSig Sig
                 => new(Kind,TableName);
 
             public Index<RuleTableCell> NonTerminal(bool premise)

@@ -9,6 +9,6 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static RuleSig sig(RuleTableKind kind, string name)
-            => new RuleSig(kind,name);
+            => new (kind,name);
     }
 }

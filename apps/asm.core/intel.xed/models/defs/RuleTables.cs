@@ -16,11 +16,11 @@ namespace Z0
         {
             internal class Buffers
             {
-                public readonly ConcurrentDictionary<RuleTableName,Index<RuleCellSpec>> Cells = new();
+                public readonly ConcurrentDictionary<RuleSig,Index<RuleCellSpec>> Cells = new();
 
                 public readonly ConcurrentDictionary<RuleTableKind,Index<RuleTable>> Defs = new();
 
-                public readonly ConcurrentDictionary<RuleTableName,Index<RuleTableRow>> Rows = new();
+                public readonly ConcurrentDictionary<RuleSig,Index<RuleTableRow>> Rows = new();
 
                 public readonly ConcurrentDictionary<RuleTableKind,Index<RuleTableSpec>> Specs = new();
 
@@ -42,7 +42,7 @@ namespace Z0
 
             Dictionary<string,RuleSigRow> DecSigs = new();
 
-            SortedLookup<RuleTableName,Index<RuleTableRow>> RowLookup;
+            SortedLookup<RuleSig,Index<RuleTableRow>> RowLookup;
 
             SortedLookup<string,Index<RuleTableRow>> EncTableLookup;
 
@@ -51,15 +51,15 @@ namespace Z0
             public Index<RuleTableRow> Rows()
                 => TableRows;
 
-            public Index<RuleTableRow> Table(RuleTableName name)
+            public Index<RuleTableRow> Table(in RuleSig sig)
             {
-                if(RowLookup.Find(name, out var rows))
+                if(RowLookup.Find(sig, out var rows))
                     return rows;
                 else
                     return sys.empty<RuleTableRow>();
             }
 
-            public ReadOnlySpan<RuleTableName> TableNames
+            public ReadOnlySpan<RuleSig> TableNames
             {
                 [MethodImpl(Inline)]
                 get => RowLookup.Keys;
@@ -99,7 +99,7 @@ namespace Z0
                 get => ref Data.Schema;
             }
 
-            public ref readonly Index<RuleSigRow> Sigs
+            public ref readonly Index<RuleSigRow> SigInfo
             {
                 [MethodImpl(Inline)]
                 get => ref Data.Sigs;
@@ -117,7 +117,7 @@ namespace Z0
 
             void SealSigs()
             {
-                foreach(var sig in Sigs)
+                foreach(var sig in SigInfo)
                 {
                     if(sig.TableKind == RuleTableKind.Enc)
                         EncSigs.TryAdd(sig.TableName, sig);
@@ -174,7 +174,7 @@ namespace Z0
                 return sig.TableDef;
             }
 
-            public FS.FileUri FindTablePath(RuleTableName name)
+            public FS.FileUri FindTablePath(in RuleSig name)
                 => XedPaths.Service.TableDef(name).ToUri();
 
             public FS.FileUri FindTablePath(Nonterminal nt)
@@ -186,12 +186,11 @@ namespace Z0
                 return path;
             }
 
-            static SortedLookup<RuleTableName,Index<RuleTableRow>> lookup(Index<RuleTableRow> src)
-                => src.GroupBy(x => x.FullTableName).Select(x => (x.Key, x.ToIndex())).ToDictionary();
+            static SortedLookup<RuleSig,Index<RuleTableRow>> lookup(Index<RuleTableRow> src)
+                => src.GroupBy(x => x.Sig).Select(x => (x.Key, x.ToIndex())).ToDictionary();
 
-            static Dictionary<string,Index<RuleTableRow>> tables(RuleTableKind kind, Index<RuleTableRow> rows)
+            static SortedLookup<string,Index<RuleTableRow>> tables(RuleTableKind kind, Index<RuleTableRow> rows)
                 => rows.Where(row => row.Kind == kind).GroupBy(x => x.TableName).Select(x=> (x.Key,x.ToIndex())).ToDictionary();
-
 
             public static RuleTables Empty => new();
         }

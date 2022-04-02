@@ -16,7 +16,7 @@ namespace Z0
 
             exec(PllExec,
                 () => EmitTableDefs(tables),
-                () => EmitTableSigs(tables.Sigs),
+                () => EmitTableSigs(tables.SigInfo),
                 () => EmitTableSchemas(tables.Schema),
                 () => EmitRuleSeq(),
                 () => EmitTableSpecs(tables),

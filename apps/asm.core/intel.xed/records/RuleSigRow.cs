@@ -33,13 +33,7 @@ namespace Z0
             public RuleSig Sig
             {
                 [MethodImpl(Inline)]
-                get => new RuleSig(TableKind, TableName);
-            }
-
-            public RuleSigKey Key
-            {
-                [MethodImpl(Inline)]
-                get => RuleSigKey.from(this);
+                get => new (TableKind, TableName);
             }
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,32,12,1};

@@ -35,11 +35,11 @@ namespace Z0
             static SectionHeader ClassHeader(in InstDocPart part)
                 => new(3, part.Classifier);
 
-            static SectionHeader TableHeader(in RuleTableName name)
-                => new(3, name.Format());
+            static SectionHeader TableHeader(in RuleSig sig)
+                => new(3, sig.Format());
 
-            static SectionLink Link(in RuleTableName name)
-                => Markdown.link(name.Format(), name.Format());
+            static SectionLink Link(in RuleSig sig)
+                => Markdown.link(sig.Format(), sig.Format());
 
             static void RenderSigHeader(in InstDocPart part, ITextBuffer dst)
             {
@@ -103,10 +103,10 @@ namespace Z0
 
                     if(op.Nonterminal(out var nt))
                     {
-                        var name = new RuleTableName(RuleTableKind.Enc,nt.Name);
-                        var table = Rules.Table(name);
+                        var sig = new RuleSig(RuleTableKind.Enc,nt.Name);
+                        var table = Rules.Table(sig);
                         if(table.IsNonEmpty)
-                            dst.Append(Link(name).Format());
+                            dst.Append(Link(sig).Format());
                         else
                             dst.Append(nt.Format());
                     }
@@ -116,9 +116,9 @@ namespace Z0
                 dst.AppendLine();
             }
 
-            void RenderTable(RuleTableName name, Index<RuleTableRow> rows, ITextBuffer dst)
+            void RenderTable(in RuleSig sig, Index<RuleTableRow> rows, ITextBuffer dst)
             {
-                dst.AppendLine(TableHeader(name));
+                dst.AppendLine(TableHeader(sig));
                 dst.AppendLine();
             }
 

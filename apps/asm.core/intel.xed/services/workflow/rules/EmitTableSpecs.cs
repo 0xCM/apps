@@ -46,12 +46,12 @@ namespace Z0
 
         static string SpecHeader = string.Format(SpecRender, "Kind", "TableName", "Row",  "ColKind", "Logic", "Col", "Expr", "SourceExpr");
 
-        static string FormatSpecRow(uint row, byte col, RuleTableName table, RuleCell cell)
+        static string FormatSpecRow(uint row, byte col, RuleSig sig, RuleCell cell)
         {
             var result = XedRules.split(cell, out RuleCellKind cellkind, out var value);
             return string.Format(SpecRender,
-                table.TableKind,
-                table.ShortName,
+                sig.TableKind,
+                sig.ShortName,
                 row,
                 XedRender.format(cellkind),
                 cell.Premise ? 'P' : 'C',
