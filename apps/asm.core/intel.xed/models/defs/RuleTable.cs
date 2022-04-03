@@ -9,21 +9,25 @@ namespace Z0
     {
         public struct RuleTable : IComparable<RuleTable>
         {
-            public RuleSig Name;
+            public RuleSig Sig;
 
             public Index<RuleStatement> Body;
 
             [MethodImpl(Inline)]
             public RuleTable(in RuleSig name, RuleStatement[] body)
             {
-                Name = name;
+                Sig = name;
                 Body = body;
             }
+
+            [MethodImpl(Inline)]
+            public RuleTable WithBody(RuleStatement[] src)
+                => new RuleTable(Sig,src);
 
             public RuleTableKind TableKind
             {
                 [MethodImpl(Inline)]
-                get => Name.TableKind;
+                get => Sig.TableKind;
             }
 
             public bool IsEmpty
@@ -35,13 +39,13 @@ namespace Z0
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Body.Count != 0 && Name.IsNonEmpty;
+                get => Body.Count != 0 && Sig.IsNonEmpty;
             }
 
             public Hash32 Hash
             {
                 [MethodImpl(Inline)]
-                get => Name.Hash;
+                get => Sig.Hash;
             }
 
             public string Format()
@@ -51,7 +55,7 @@ namespace Z0
                 => Format();
 
             public int CompareTo(RuleTable src)
-                => Name.CompareTo(src.Name);
+                => Sig.CompareTo(src.Sig);
 
             public override int GetHashCode()
                 => Hash;
@@ -61,7 +65,7 @@ namespace Z0
                 get
                 {
                     var dst = default(RuleTable);
-                    dst.Name = RuleSig.Empty;
+                    dst.Sig = RuleSig.Empty;
                     dst.Body = sys.empty<RuleStatement>();
                     return dst;
                 }

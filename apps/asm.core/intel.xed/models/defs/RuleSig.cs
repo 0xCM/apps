@@ -103,7 +103,7 @@ namespace Z0
 
             public int CompareTo(RuleSig src)
             {
-                var result = Format().CompareTo(src.Format());
+                var result = ShortName.CompareTo(src.ShortName);
                 if(result == 0)
                     result = XedRules.cmp(TableKind, src.TableKind);
                 return result;

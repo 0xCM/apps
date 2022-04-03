@@ -11,15 +11,18 @@ namespace Z0
         {
             public readonly byte Index;
 
+            public readonly bool IsPremise;
+
             public readonly RuleTableKind TableKind;
 
             public readonly RuleCriterion Criterion;
 
             [MethodImpl(Inline)]
-            public RuleTableCell(RuleTableKind tk, byte index, RuleCriterion c)
+            public RuleTableCell(bool premise, byte index,  RuleTableKind kind, RuleCriterion c)
             {
-                TableKind = tk;
                 Index = index;
+                IsPremise = premise;
+                TableKind = kind;
                 Criterion = c;
             }
 

@@ -20,8 +20,6 @@ namespace Z0
 
                 public readonly ConcurrentDictionary<RuleTableKind,Index<RuleTable>> Defs = new();
 
-                public readonly ConcurrentDictionary<RuleSig,Index<RuleTableRow>> Rows = new();
-
                 public readonly ConcurrentDictionary<RuleTableKind,Index<RuleTableSpec>> Specs = new();
 
                 public Index<RuleSchema> Schema = sys.empty<RuleSchema>();
@@ -36,62 +34,26 @@ namespace Z0
                 get => ref Data.Specs;
             }
 
-            Index<RuleTableRow> TableRows;
+            SortedLookup<RuleSig,RuleTable> TableDefs;
 
-            Dictionary<string,RuleSigRow> EncSigs = new();
+            Dictionary<RuleSig,FS.FilePath> TablePaths;
 
-            Dictionary<string,RuleSigRow> DecSigs = new();
+            [MethodImpl(Inline)]
+            public ReadOnlySpan<RuleTable> Tables()
+                => TableDefs.Values;
 
-            SortedLookup<RuleSig,Index<RuleTableRow>> RowLookup;
-
-            SortedLookup<string,Index<RuleTableRow>> EncTableLookup;
-
-            SortedLookup<string,Index<RuleTableRow>> DecTableLookup;
-
-            public Index<RuleTableRow> Rows()
-                => TableRows;
-
-            public Index<RuleTableRow> Table(in RuleSig sig)
+            [MethodImpl(Inline)]
+            public RuleTable Table(in RuleSig sig)
             {
-                if(RowLookup.Find(sig, out var rows))
-                    return rows;
+                if(TableDefs.Find(sig, out var def))
+                    return def;
                 else
-                    return sys.empty<RuleTableRow>();
+                    return RuleTable.Empty;
             }
 
-            public ReadOnlySpan<RuleSig> TableNames
-            {
-                [MethodImpl(Inline)]
-                get => RowLookup.Keys;
-            }
-
-            public Index<RuleTableRow> EncTable(string name)
-            {
-                if(EncTableLookup.Find(name, out var rows))
-                    return rows;
-                else
-                    return sys.empty<RuleTableRow>();
-            }
-
-            public Index<RuleTableRow> DecTable(string name)
-            {
-                if(DecTableLookup.Find(name, out var rows))
-                    return rows;
-                else
-                    return sys.empty<RuleTableRow>();
-            }
-
-            public ReadOnlySpan<Index<RuleTableRow>> EncTables
-            {
-                [MethodImpl(Inline)]
-                get => EncTableLookup.Values;
-            }
-
-            public ReadOnlySpan<Index<RuleTableRow>> DecTables
-            {
-                [MethodImpl(Inline)]
-                get => DecTableLookup.Values;
-            }
+            [MethodImpl(Inline)]
+            public ReadOnlySpan<RuleSig> Sigs()
+                => TableDefs.Keys;
 
             public ref readonly Index<RuleSchema> Schema
             {
@@ -105,6 +67,15 @@ namespace Z0
                 get => ref Data.Sigs;
             }
 
+            public FS.FileUri FindTablePath(Nonterminal nt)
+            {
+                var name = nt.Name;
+                var path = FS.FilePath.Empty;
+                if(!TablePaths.TryGetValue(new (RuleTableKind.Dec,name), out path))
+                    TablePaths.TryGetValue(new (RuleTableKind.Enc,name), out path);
+                return path;
+            }
+
             Buffers Data = Buffers.Empty;
 
             public RuleTables()
@@ -115,82 +86,39 @@ namespace Z0
             internal Buffers CreateBuffers()
                 => new();
 
-            void SealSigs()
+            void SealPaths()
             {
-                foreach(var sig in SigInfo)
+                var paths = dict<RuleSig,FS.FilePath>();
+                foreach(var spec in Data.Specs[RuleTableKind.Enc])
+                    paths.TryAdd(spec.Sig, XedPaths.Service.TableDef(spec.Sig));
+                foreach(var spec in Data.Specs[RuleTableKind.Dec])
+                    paths.TryAdd(spec.Sig, XedPaths.Service.TableDef(spec.Sig));
+
+                TablePaths = paths;
+            }
+
+            void SealTableDefs()
+            {
+                var tables = Data.Defs.Values.SelectMany(x => x).Array();
+                var count = tables.Length;
+                var buffer = dict<RuleSig,RuleTable>(count);
+                for(var i=0; i<count; i++)
                 {
-                    if(sig.TableKind == RuleTableKind.Enc)
-                        EncSigs.TryAdd(sig.TableName, sig);
-                    else if(sig.TableKind == RuleTableKind.Dec)
-                        DecSigs.TryAdd(sig.TableName, sig);
-                }
-            }
-
-            void SealSchema()
-            {
-                var dst = cdict<string,ConcurrentBag<RuleSchema>>();
-                iter(Schema, schema => {
-                if(dst.TryGetValue(schema.TableName, out var bag))
-                    bag.Add(schema);
+                    ref readonly var table = ref tables[i];
+                    if(buffer.TryGetValue(table.Sig, out var t))
+                        buffer[table.Sig] = t.WithBody(table.Body);
                     else
-                    {
-                        bag = new();
-                        bag.Add(schema);
-                        dst.TryAdd(schema.TableName,bag);
-                    }
-                });
-            }
-
-            void SealRows()
-            {
-                var all = Data.Rows.Values.SelectMany(x => x).ToIndex().Sort();
-                for(var i=0u; i<all.Count; i++)
-                    all[i].Seq = i;
-                TableRows = all;
-            }
-
-            void SealLookups()
-            {
-                RowLookup = lookup(TableRows);
-                EncTableLookup = tables(RuleTableKind.Enc, TableRows);
-                DecTableLookup = tables(RuleTableKind.Dec, TableRows);
+                        buffer.Add(table.Sig, table);
+                }
+                TableDefs = buffer;
             }
 
             internal RuleTables Seal(Buffers src, bool pll)
             {
                 Data = src;
-                exec(pll, SealSchema, SealSigs, SealRows);
-                SealLookups();
+                exec(pll, SealTableDefs,SealPaths);
                 return this;
             }
-
-            FS.FileUri FindTablePath(RuleTableKind kind, string name)
-            {
-                var sig = default(RuleSigRow);
-                if(kind == RuleTableKind.Dec)
-                    DecSigs.TryGetValue(name, out sig);
-                else if(kind == RuleTableKind.Enc)
-                    EncSigs.TryGetValue(name, out sig);
-                return sig.TableDef;
-            }
-
-            public FS.FileUri FindTablePath(in RuleSig name)
-                => XedPaths.Service.TableDef(name).ToUri();
-
-            public FS.FileUri FindTablePath(Nonterminal nt)
-            {
-                var name = nt.Name;
-                var path = FindTablePath(RuleTableKind.Dec, name);
-                if(path.IsEmpty)
-                   path = FindTablePath(RuleTableKind.Enc, name);
-                return path;
-            }
-
-            static SortedLookup<RuleSig,Index<RuleTableRow>> lookup(Index<RuleTableRow> src)
-                => src.GroupBy(x => x.Sig).Select(x => (x.Key, x.ToIndex())).ToDictionary();
-
-            static SortedLookup<string,Index<RuleTableRow>> tables(RuleTableKind kind, Index<RuleTableRow> rows)
-                => rows.Where(row => row.Kind == kind).GroupBy(x => x.TableName).Select(x=> (x.Key,x.ToIndex())).ToDictionary();
 
             public static RuleTables Empty => new();
         }

@@ -32,12 +32,18 @@ namespace Z0
 
             public int CompareTo(RuleSchema src)
             {
-                var result = ((byte)TableKind).CompareTo((byte)src.TableKind);
-                if(result == 0)
+                var result = 0;
+                if(TableKind == src.TableKind)
                 {
                     result = TableName.CompareTo(src.TableName);
-                    if(result == 0)
+                    if(result==0)
                         result = Index.CompareTo(src.Index);
+                }
+                else
+                {
+                    result = TableName.CompareTo(src.TableName);
+                    if(result==0)
+                        result = XedRules.cmp(TableKind, src.TableKind);
                 }
                 return result;
             }

@@ -77,7 +77,6 @@ namespace Z0
 
                 dst.AppendFormat("{0} {1}", Classifier, part.Fields.Format());
 
-
                 if(part.Layout.IsNonEmpty)
                     dst.AppendFormat(" -> {0}", part.Layout);
                 if(part.Constraints.IsNonEmpty)
@@ -108,7 +107,14 @@ namespace Z0
                         if(table.IsNonEmpty)
                             dst.Append(Link(sig).Format());
                         else
-                            dst.Append(nt.Format());
+                        {
+                            sig = new RuleSig(RuleTableKind.Dec,nt.Name);
+                            table = Rules.Table(sig);
+                            if(table.IsNonEmpty)
+                                dst.Append(Link(sig).Format());
+                            else
+                                dst.Append(nt.Format());
+                        }
                     }
 
                     dst.AppendLine();
@@ -116,7 +122,7 @@ namespace Z0
                 dst.AppendLine();
             }
 
-            void RenderTable(in RuleSig sig, Index<RuleTableRow> rows, ITextBuffer dst)
+            void RenderTable(in RuleSig sig, RuleTable table, ITextBuffer dst)
             {
                 dst.AppendLine(TableHeader(sig));
                 dst.AppendLine();
@@ -137,11 +143,11 @@ namespace Z0
                 dst.AppendLine(header(2,"Rules"));
                 dst.AppendLine();
 
-                var names = Rules.TableNames;
-                for(var i=0; i<names.Length; i++)
+                var sigs = Rules.Sigs();
+                for(var i=0; i<sigs.Length; i++)
                 {
-                    ref readonly var name =ref names[i];
-                    RenderTable(name, Rules.Table(name),dst);
+                    ref readonly var sig =ref sigs[i];
+                    RenderTable(sig, Rules.Table(sig), dst);
                 }
 
                 return dst.Emit();

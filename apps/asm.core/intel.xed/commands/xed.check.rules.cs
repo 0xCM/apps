@@ -25,10 +25,11 @@ namespace Z0
             }
         }
 
+
         [CmdOp("xed/check/rules")]
         Outcome CheckRules(CmdArgs args)
         {
-            CheckGprWidths();
+            var rules = Xed.Rules.CalcRules();
             return true;
         }
 
@@ -65,7 +66,7 @@ namespace Z0
         Outcome ValidateRules()
         {
             var patterns = Xed.Rules.CalcInstPatterns();
-            var rules = Xed.Rules.CalcTableSet();
+            var rules = Xed.Rules.CalcRules();
 
             ref readonly var rows = ref rules.SigInfo;
             var count = rows.Count;

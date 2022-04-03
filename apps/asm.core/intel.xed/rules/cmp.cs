@@ -9,6 +9,6 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static int cmp(RuleTableKind a, RuleTableKind b)
-            => ((byte)a).CompareTo((byte)b);
+            => ((byte)b).CompareTo((byte)a);
     }
 }

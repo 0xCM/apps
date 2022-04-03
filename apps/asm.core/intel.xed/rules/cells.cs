@@ -9,6 +9,32 @@ namespace Z0
 
     partial class XedRules
     {
+        public static Index<RuleTableCells> cells(in RuleTable src)
+        {
+            var buffer = alloc<RuleTableCells>(src.Body.Count);
+            ref readonly var statements = ref src.Body;
+            for(var j=0; j<statements.Count; j++)
+            {
+                var m = z8;
+                ref var dst = ref seek(buffer,j);
+                ref readonly var left = ref statements[j].Premise;
+                for(var k=0; k<left.Count; k++)
+                {
+                    dst[m] = new RuleTableCell(true, m, src.TableKind, left[k]);
+                    m++;
+                }
+                ref readonly var right = ref statements[j].Consequent;
+                for(var k=0; k<right.Count; k++)
+                {
+                    dst[m] = new RuleTableCell(false, m, src.TableKind, right[k]);
+                    m++;
+                }
+                dst.Count = m;
+            }
+
+            return buffer;
+        }
+
         public static Index<RuleCell> cells(bool premise, string src)
         {
             var dst = list<RuleCell>();

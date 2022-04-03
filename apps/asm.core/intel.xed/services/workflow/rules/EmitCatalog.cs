@@ -28,7 +28,7 @@ namespace Z0
                 EmitReflectedFields,
                 EmitSymbolicFields,
                 EmitFieldDefs,
-                () => tables = CalcTableSet()
+                () => tables = CalcRules()
                 );
 
             exec(PllExec,

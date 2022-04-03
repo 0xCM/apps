@@ -674,7 +674,7 @@ namespace Z0
         public static string format(in RuleTable src)
         {
             var dst = text.buffer();
-            dst.AppendLine(string.Format("{0}()", src.Name.ShortName));
+            dst.AppendLine(string.Format("{0}()", src.Sig.ShortName));
             var expressions = src.Body.View;
             var count = expressions.Length;
             dst.AppendLine(Chars.LBrace);

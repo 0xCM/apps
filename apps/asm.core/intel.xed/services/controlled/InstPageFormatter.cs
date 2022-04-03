@@ -159,16 +159,6 @@ namespace Z0
             public string FormatInstHeader(InstPattern src)
                 => string.Format("{0,-18}{1,-18}{2}", src.InstClass, src.Isa, src.InstForm);
 
-            static string FormatSeg(OpWidthInfo src)
-            {
-                if(src.Seg.CellCount <= 1)
-                    return EmptyString;
-                else
-                    return string.Format("{0}[n{1}]", src.Seg.Format(), src.Seg.CellCount);
-            }
-
-
-
             byte RenderFields(InstPattern src, Span<string> dst)
             {
                 const string Pattern = "{0,-2} {1,-14} {2}";

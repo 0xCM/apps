@@ -9,31 +9,23 @@ namespace Z0
 
     partial class XedRules
     {
-        public RuleTables CalcTableSet()
+        public RuleTables CalcRules()
         {
             var tables = new RuleTables();
             var buffers = tables.CreateBuffers();
             exec(PllExec,
-                () => CalcDefCells(RuleTableKind.Enc),
-                () => CalcDefCells(RuleTableKind.Dec),
+                () => buffers.Defs.TryAdd(RuleTableKind.Enc, CalcTableDefs(RuleTableKind.Enc)),
+                () => buffers.Defs.TryAdd(RuleTableKind.Dec, CalcTableDefs(RuleTableKind.Dec)),
                 () => buffers.Specs.TryAdd(RuleTableKind.Enc, CalcTableSpecs(RuleTableKind.Enc)),
                 () => buffers.Specs.TryAdd(RuleTableKind.Dec, CalcTableSpecs(RuleTableKind.Dec))
                 );
 
             exec(PllExec,
-                () => buffers.Sigs = XedRules.CalcSigRows(buffers.Cells.Keys.Array()),
-                () => buffers.Schema = XedRules.CalcSchemas(buffers.Cells)
+                () => buffers.Sigs = CalcSigRows(buffers.Defs),
+                () => buffers.Schema = CalcSchemas(buffers.Defs)
                 );
 
-            var result = tables.Seal(buffers,PllExec);
-            return result;
-
-            void CalcDefCells(RuleTableKind kind)
-            {
-                var defs = XedRules.CalcTableDefs(kind);
-                buffers.Defs.TryAdd(kind, defs);
-                iter(defs, def => buffers.Rows.TryAdd(def.Name, XedRules.CalcCells(def, buffers.Cells)), PllExec);
-            }
+            return tables.Seal(buffers,PllExec);
         }
     }
 }
