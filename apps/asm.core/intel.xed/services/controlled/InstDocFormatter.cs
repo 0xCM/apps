@@ -128,10 +128,17 @@ namespace Z0
                 dst.AppendLine();
 
                 var g = XedRules.grid(table);
-                for(var i=0; i<g.Count; i++)
-                    dst.AppendLine(g[i].Join(Chars.Space));
-
-                dst.AppendLine();
+                for(var j=0; j<g.Count; j++)
+                {
+                    ref readonly var cells = ref g[j];
+                    for(var k=0; k<cells.Count; k++)
+                    {
+                        if(k!=0)
+                            dst.Append(Chars.Space);
+                        dst.Append(cells[k].Format());
+                    }
+                    dst.AppendLine();
+                }
             }
 
             public string Format()
@@ -153,6 +160,7 @@ namespace Z0
                 {
                     ref readonly var sig =ref sigs[i];
                     RenderTable(sig, Rules.Table(sig), dst);
+                    dst.AppendLine();
                 }
 
                 return dst.Emit();

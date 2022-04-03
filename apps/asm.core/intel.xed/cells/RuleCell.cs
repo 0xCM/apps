@@ -42,6 +42,9 @@ namespace Z0
             public bool IsExpr
                 => XedParsers.IsFieldExpr(Data);
 
+            public bool IsNonTerminal
+                => XedParsers.IsNontermCall(Data);
+
             public RuleOperator Operator
             {
                 get

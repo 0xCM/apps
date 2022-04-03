@@ -12,6 +12,19 @@ namespace Z0
     {
         public readonly struct RuleCellRender
         {
+            public static string format(in RuleTableCells cells)
+            {
+                var dst = text.buffer();
+                for(var k=0; k<cells.Count; k++)
+                {
+                    var cell = cells[k];
+                    if(k!=0)
+                        dst.Append(Chars.Space);
+                    dst.Append(cell.Format());
+                }
+                return dst.Emit();
+            }
+
             public static uint render(in RuleTableSpec spec, ITextBuffer dst)
             {
                 var counter=0u;
@@ -50,9 +63,11 @@ namespace Z0
                     break;
                     case DK.BfSeg:
                         result = src.ToBfSeg().Format();
+                        Require.invariant(text.nonempty(result));
                     break;
                     case DK.BfSpec:
                         result = src.ToBfSpec().Format();
+                        Require.invariant(text.nonempty(result));
                     break;
                     case DK.Branch:
                     case DK.Null:
@@ -228,7 +243,6 @@ namespace Z0
                 }
                 return counter;
             }
-
 
             const string SpecRender = "{0,-8} | {1,-32} | {2,-8} | {3,-8} | {4,-8} | {5,-8} | {6,-28} | {7}";
 

@@ -6,11 +6,20 @@
 namespace Z0
 {
     using static core;
-    using static XedRules;
+    using static XedPatterns;
 
-    partial class XedPatterns
+    partial class XedRules
     {
-        public static Index<InstPattern> patterns(Index<InstDef> defs)
+        public Index<InstPattern> CalcInstPatterns()
+            => CalcInstPatterns(CalcInstDefs());
+
+        Index<InstDef> CalcInstDefs()
+            => Data(nameof(InstDef), () => Patterns.ParseInstDefs(XedPaths.DocSource(XedDocKind.EncInstDef)));
+
+        Index<InstPattern> CalcInstPatterns(Index<InstDef> defs)
+            => Data(nameof(InstPattern), () => patterns(defs));
+
+        static Index<InstPattern> patterns(Index<InstDef> defs)
         {
             var count = 0u;
             iter(defs, def => count += def.PatternSpecs.Count);

@@ -37,9 +37,25 @@ namespace Z0
 
             Dictionary<RuleSig,FS.FilePath> TablePaths;
 
+            Dictionary<RuleSig,Index<RuleTableSpec>> TableSpecLookup = new();
+
+            Index<RuleTableSpec> _TableSpecs;
+
             Dictionary<RuleSig,Index<TableDefRow>> DefRowLookup = new();
 
             Index<TableDefRow> TableDefRows;
+
+            public Index<RuleTableSpec> TableSpecs(in RuleSig sig)
+            {
+                if(TableSpecLookup.TryGetValue(sig, out var specs))
+                    return specs;
+                else
+                    return sys.empty<RuleTableSpec>();
+            }
+
+            [MethodImpl(Inline)]
+            public Index<RuleTableSpec> TableSpecs()
+                => _TableSpecs;
 
             public Index<TableDefRow> DefRows(in RuleSig sig)
             {
@@ -84,9 +100,9 @@ namespace Z0
                 get => ref Data.Sigs;
             }
 
-            public FS.FileUri FindTablePath(Nonterminal nt)
+            public FS.FileUri FindTablePath(Nonterminal src)
             {
-                var name = nt.Name;
+                var name = src.Name;
                 var path = FS.FilePath.Empty;
                 if(!TablePaths.TryGetValue(new (RuleTableKind.Dec,name), out path))
                     TablePaths.TryGetValue(new (RuleTableKind.Enc,name), out path);
@@ -103,12 +119,28 @@ namespace Z0
             internal RuleTables Seal(Buffers src, bool pll)
             {
                 Data = src;
-                exec(pll, SealTableDefs,SealPaths);
+                exec(pll, SealTableDefs, SealPaths, SealSpecs);
                 return this;
             }
 
             internal Buffers CreateBuffers()
                 => new();
+
+            void SealSpecs()
+            {
+                var count=0u;
+                foreach(var spec in Data.Specs.Values)
+                    count+= spec.Count;
+
+                var specs = alloc<RuleTableSpec>(count);
+                var i=0u;
+                foreach(var x in Data.Specs.Values)
+                foreach(var spec in x)
+                    seek(specs,i++) = spec;
+
+                _TableSpecs = specs.Sort();
+                TableSpecLookup =  _TableSpecs.GroupBy(x => x.Sig).Select(x => (x.Key, x.Index().Sort())).ToDictionary();
+            }
 
             void SealPaths()
             {
@@ -161,7 +193,8 @@ namespace Z0
                     row.TableId = id;
                     row.Index = j;
                     row.Cells = g[j];
-                    row.Sig = table.Sig;
+                    row.Kind = table.TableKind;
+                    row.Name = table.Sig.ShortName;
                     seek(dst,j) = row;
                 }
                 return dst;

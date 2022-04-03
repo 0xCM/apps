@@ -39,17 +39,34 @@ namespace Z0
                 );
         }
 
-        Index<InstDef> CalcInstDefs()
-            => Data(nameof(InstDef), () => Patterns.ParseInstDefs(XedPaths.DocSource(XedDocKind.EncInstDef)));
+        void EmitPatternDetails(RuleTables tables, Index<InstPattern> src, FS.FilePath dst)
+        {
+            src.Sort();
+            var formatter = InstPageFormatter.create(tables);
+            var emitting = EmittingFile(dst);
+            using var writer = dst.AsciWriter();
+            for(var j=0; j<src.Count; j++)
+                writer.Write(formatter.Format(src[j]));
 
-        public Index<InstPattern> CalcInstPatterns()
-            => CalcInstPatterns(CalcInstDefs());
+            EmittedFile(emitting, src.Count);
+        }
+
+        void EmitIsaPages(RuleTables tables, Index<InstPattern> src)
+        {
+            XedPaths.InstIsaRoot().Delete();
+            var groups = InstPageFormatter.FormatGroups(tables, src);
+            iter(groups, EmitIsaGroup, PllExec);
+        }
+
+        void EmitIsaGroup(InstIsaFormat src)
+        {
+            var dst = XedPaths.InstIsaPath(src.Isa);
+            Require.invariant(!dst.Exists);
+            FileEmit(src.Content, src.LineCount, dst, TextEncodingKind.Asci);
+        }
 
         Index<MacroMatch> CalcMacroMatches()
             => mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i));
-
-        Index<InstPattern> CalcInstPatterns(Index<InstDef> defs)
-            => Data(nameof(InstPattern), () => XedPatterns.patterns(defs));
 
         void EmitSymbolicFields()
             => ApiMetadataService.create(Wf).EmitTokenSet(XedFields.SymbolicFields.create(), AppDb.XedPath("xed.fields.symbolic", FileKind.Csv));

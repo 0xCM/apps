@@ -25,11 +25,12 @@ namespace Z0
             }
         }
 
-
         [CmdOp("xed/check/rules")]
         Outcome CheckRules(CmdArgs args)
         {
             var rules = Xed.Rules.CalcRules();
+            var defs = rules.DefRows();
+            TableEmit(defs.View, TableDefRow.RenderWidths, XedPaths.Table<TableDefRow>("test"));
             return true;
         }
 

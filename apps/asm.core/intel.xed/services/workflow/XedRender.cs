@@ -217,9 +217,6 @@ namespace Z0
                 ? EmptyString : src.Field == 0 ? format(src.Value)
                 : string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.Value));
 
-        public static string format(in RuleTableCell src)
-            => src.IsEmpty ? EmptyString : src.Criterion.Format();
-
         public static string format(AsmOcValue src)
             => AsmOcValue.format(src);
 
@@ -304,15 +301,19 @@ namespace Z0
 
         public static string format(in RuleStatement src)
         {
-            var sep = " <=> ";
+            var sep = " => ";
             var dst = text.buffer();
             render(src.Premise, dst);
             var a = dst.Emit();
 
-            render(src.Consequent, dst);
-            var b = dst.Emit();
-
-            return string.Format("{0}{1}{2}", a, sep, b);
+            if(src.Consequent.Count != 0)
+            {
+                render(src.Consequent, dst);
+                var b = dst.Emit();
+                return string.Format("{0}{1}{2}", a, sep, b);
+            }
+            else
+                return a;
         }
 
         public static string format(OpType src)
@@ -627,9 +628,6 @@ namespace Z0
         public static string format(BfSeg src)
             => src.IsEmpty ? EmptyString : string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]", XedRender.format(src.Field), src.Pattern);
 
-        public static string format(BfSpec src)
-            => src.Pattern.Format();
-
         public static string format(in MacroSpec src)
         {
             var dst = text.buffer();
@@ -679,11 +677,11 @@ namespace Z0
         {
             var dst = text.buffer();
             dst.AppendLine(string.Format("{0}()", src.Sig.ShortName));
-            var expressions = src.Body.View;
-            var count = expressions.Length;
+            var statements = src.Body.View;
+            var count = statements.Length;
             dst.AppendLine(Chars.LBrace);
             for(var i=0; i<count; i++)
-                dst.IndentLine(4, format(skip(expressions, i)));
+                dst.IndentLine(4, format(skip(statements, i)));
             dst.AppendLine(Chars.RBrace);
             return dst.Emit();
         }

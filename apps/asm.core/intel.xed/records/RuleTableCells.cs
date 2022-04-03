@@ -46,6 +46,11 @@ namespace Z0
 
             public RuleTableCell Cell15;
 
+            public string Format()
+                => RuleCellRender.format(this);
+
+            public override string ToString()
+                => Format();
             public static RuleTableCells Empty => default;
 
             public RuleTableCell this[int index]

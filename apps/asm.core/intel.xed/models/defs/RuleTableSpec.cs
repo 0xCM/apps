@@ -13,6 +13,7 @@ namespace Z0
 
             public readonly Index<StatementSpec> Statements;
 
+            [MethodImpl(Inline)]
             public RuleTableSpec(in RuleSig sig, StatementSpec[] statements)
             {
                 Require.invariant(sig.IsNonEmpty);

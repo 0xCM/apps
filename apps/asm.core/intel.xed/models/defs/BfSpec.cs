@@ -6,7 +6,6 @@
 namespace Z0
 {
     using static XedModels;
-    using static core;
 
     partial class XedRules
     {
@@ -14,26 +13,10 @@ namespace Z0
         {
             public readonly BfSpecKind Kind;
 
-            public readonly asci16 Pattern;
-
             [MethodImpl(Inline)]
-            public BfSpec(ReadOnlySpan<byte> src)
-            {
-                if(src.Length != 0)
-                    Kind = (BfSpecKind)skip(src,0);
-                else
-                    Kind = 0;
-                if(src.Length > 1)
-                    Pattern = new(slice(src,1));
-                else
-                    Pattern = asci16.Null;
-            }
-
-            [MethodImpl(Inline)]
-            public BfSpec(BfSpecKind kind, string src)
+            public BfSpec(BfSpecKind kind)
             {
                 Kind = kind;
-                Pattern = src;
             }
 
             public bool IsEmpty
@@ -49,12 +32,12 @@ namespace Z0
             }
 
             public string Format()
-                => IsNonEmpty ? Pattern.Format() : EmptyString;
+                => IsNonEmpty ? XedRender.format(Kind) : EmptyString;
 
             public override string ToString()
                 => Format();
 
-            public static BfSpec Empty => new BfSpec(0,EmptyString);
+            public static BfSpec Empty => new BfSpec(0);
         }
     }
 }

@@ -62,7 +62,7 @@ namespace Z0
             {
                 Field = FieldKind.INVALID;
                 Operator = OperatorKind.None;
-                Storage = core.bytes(spec);
+                Storage = (byte)spec.Kind;
                 DataKind = CellDataKind.BfSpec;
             }
 
@@ -118,7 +118,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public BfSpec ToBfSpec()
-                => new BfSpec(Storage.Bytes);
+                => new BfSpec((BfSpecKind)Storage[0]);
 
             [MethodImpl(Inline)]
             public FieldLiteral ToFieldLiteral()

@@ -10,7 +10,7 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct RuleTableCell
         {
-            public readonly byte Index;
+            public byte Index;
 
             public readonly bool IsPremise;
 
@@ -19,12 +19,21 @@ namespace Z0
             public readonly RuleCriterion Criterion;
 
             [MethodImpl(Inline)]
-            public RuleTableCell(bool premise, byte index,  RuleTableKind kind, RuleCriterion c)
+            public RuleTableCell(bool premise, byte index, RuleTableKind kind, RuleCriterion c)
             {
                 Index = index;
                 IsPremise = premise;
                 TableKind = kind;
                 Criterion = c;
+            }
+
+            [MethodImpl(Inline)]
+            public RuleTableCell(bool premise, byte index, RuleTableKind kind, RuleOperator op)
+            {
+                Index = index;
+                IsPremise = premise;
+                TableKind = kind;
+                Criterion = criterion(op);
             }
 
             public bool IsEmpty
@@ -46,7 +55,7 @@ namespace Z0
             }
 
             public string Format()
-                => XedRender.format(this);
+                => IsEmpty ? EmptyString : Criterion.Format();
 
             public override string ToString()
                 => Format();

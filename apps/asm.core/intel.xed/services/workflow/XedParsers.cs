@@ -535,7 +535,7 @@ namespace Z0
         {
             if(BfSpecs.FindByExpr(src, out var sym))
             {
-                dst = new(sym.Kind, src);
+                dst = new(sym.Kind);
                 return true;
             }
             else
