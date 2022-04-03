@@ -7,19 +7,63 @@ namespace Z0
 {
     partial class XedRules
     {
-        const string xed = "xed";
-
-        [SymSource(xed)]
-        public enum RuleOperator : byte
+        public readonly struct RuleOperator
         {
-            [Symbol("<undefined>")]
-            None,
+            public readonly OperatorKind Kind;
 
-            [Symbol("=")]
-            Eq,
+            [MethodImpl(Inline)]
+            public RuleOperator(OperatorKind kind)
+            {
+                Kind = kind;
+            }
 
-            [Symbol("!=")]
-            Neq,
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Kind == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Kind != 0;
+            }
+
+            public override int GetHashCode()
+                => (byte)Kind;
+
+            public string Format()
+                => XedRender.format(Kind);
+
+            public override string ToString()
+                => Format();
+
+            [MethodImpl(Inline)]
+            public bool Equals(RuleOperator src)
+                => Kind== src.Kind;
+
+            public override bool Equals(object src)
+                => src is RuleOperator x && Equals(x);
+
+            [MethodImpl(Inline)]
+            public static implicit operator RuleOperator(OperatorKind kind)
+                =>new RuleOperator(kind);
+
+            [MethodImpl(Inline)]
+            public static implicit operator OperatorKind(RuleOperator src)
+                => src.Kind;
+
+            [MethodImpl(Inline)]
+            public static explicit operator byte(RuleOperator src)
+                => (byte)src.Kind;
+
+            [MethodImpl(Inline)]
+            public static bool operator==(RuleOperator a, RuleOperator b)
+                => a.Equals(b);
+
+            [MethodImpl(Inline)]
+            public static bool operator!=(RuleOperator a, RuleOperator b)
+                => !a.Equals(b);
         }
     }
 }

@@ -145,7 +145,6 @@ namespace Z0
                 for(var i=0; i<doc.Parts.Count; i++)
                     Render(doc[i],dst);
 
-
                 dst.AppendLine(header(2,"Rules"));
                 dst.AppendLine();
 

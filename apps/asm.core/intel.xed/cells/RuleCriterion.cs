@@ -43,7 +43,7 @@ namespace Z0
             internal RuleCriterion(Nonterminal nt)
             {
                 Field = FieldKind.INVALID;
-                Operator = RuleOperator.None;
+                Operator = OperatorKind.None;
                 Storage = (uint)nt;
                 DataKind = CellDataKind.Nonterminal;
             }
@@ -52,7 +52,7 @@ namespace Z0
             internal RuleCriterion(BfSeg data)
             {
                 Field = data.Field;
-                Operator = RuleOperator.None;
+                Operator = OperatorKind.None;
                 Storage = core.bytes(data);
                 DataKind = CellDataKind.BfSeg;
             }
@@ -61,7 +61,7 @@ namespace Z0
             internal RuleCriterion(BfSpec spec)
             {
                 Field = FieldKind.INVALID;
-                Operator = RuleOperator.None;
+                Operator = OperatorKind.None;
                 Storage = core.bytes(spec);
                 DataKind = CellDataKind.BfSpec;
             }
@@ -70,9 +70,18 @@ namespace Z0
             internal RuleCriterion(FieldLiteral literal)
             {
                 Field = FieldKind.INVALID;
-                Operator = RuleOperator.None;
+                Operator = OperatorKind.None;
                 Storage = core.bytes(literal);
                 DataKind = CellDataKind.FieldLiteral;
+            }
+
+            [MethodImpl(Inline)]
+            internal RuleCriterion(RuleOperator op)
+            {
+                Field = FieldKind.INVALID;
+                Operator = op;
+                Storage = (byte)op;
+                DataKind = CellDataKind.Operator;
             }
 
             public readonly ulong Data
@@ -119,8 +128,12 @@ namespace Z0
             public Nonterminal ToNonTerminal()
                 => core.@as<Nonterminal>(Storage.Bytes);
 
+            [MethodImpl(Inline)]
+            public RuleOperator ToOperator()
+                => Operator;
+
             public string Format()
-                => format(this);
+                => RuleCellRender.format(this);
 
             public override string ToString()
                 => Format();

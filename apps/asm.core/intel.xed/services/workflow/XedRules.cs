@@ -11,6 +11,8 @@ namespace Z0
     [ApiHost]
     public partial class XedRules : AppService<XedRules>
     {
+        const string xed = "xed";
+
         const NumericKind Closure = UnsignedInts;
 
         Index<PointerWidth> PointerWidths;

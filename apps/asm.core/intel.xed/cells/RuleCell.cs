@@ -9,21 +9,34 @@ namespace Z0
     {
         public readonly struct RuleCell
         {
-            public readonly bool Premise;
+            public readonly bool IsPremise;
+
+            public readonly bool IsLiteral;
+
+            public readonly bool IsOperator;
 
             public readonly FieldKind Field;
 
             public readonly string Data;
 
-            public readonly bool IsLiteral;
-
             [MethodImpl(Inline)]
             public RuleCell(bool premise, string data)
             {
-                Premise = premise;
+                IsPremise = premise;
                 Field = XedFields.kind(data);
                 Data = text.ifempty(data,EmptyString);
                 IsLiteral = Field == 0;
+                IsOperator = false;
+            }
+
+            [MethodImpl(Inline)]
+            public RuleCell(bool premise, RuleOperator data)
+            {
+                IsPremise = premise;
+                Field = FieldKind.INVALID;
+                Data = data.Format();
+                IsLiteral = false;
+                IsOperator = true;
             }
 
             public bool IsExpr
@@ -33,7 +46,7 @@ namespace Z0
             {
                 get
                 {
-                    XedParsers.parse(Data, out RuleOperator dst);
+                    XedParsers.parse(Data, out OperatorKind dst);
                     return dst;
                 }
             }

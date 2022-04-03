@@ -7,35 +7,23 @@ namespace Z0
 {
     partial class XedRules
     {
-        public enum RuleCellKind : ushort
+        [SymSource(xed)]
+        public enum OperatorKind : byte
         {
+            [Symbol("")]
             None,
 
-            FieldLiteral = 1,
+            [Symbol("=")]
+            Eq,
 
-            Nonterminal = 2,
+            [Symbol("!=")]
+            Neq,
 
-            Error = 4,
+            [Symbol("&&")]
+            And,
 
-            Eq = 8,
-
-            Neq = 16,
-
-            BfSeg = 32,
-
-            BfSpec = 64,
-
-            Bits = 128,
-
-            Int = 256,
-
-            Hex = 512,
-
-            Branch = 1024,
-
-            Null = 2048,
-
-            Operator = 4096,
+            [Symbol("=>")]
+            Impl,
         }
-   }
+    }
 }

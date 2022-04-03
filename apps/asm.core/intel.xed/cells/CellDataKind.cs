@@ -51,6 +51,9 @@ namespace Z0
 
             [Symbol("?")]
             Unknown,
+
+            [Symbol("op")]
+            Operator,
         }
    }
 }

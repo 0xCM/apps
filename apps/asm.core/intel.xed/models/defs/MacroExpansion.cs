@@ -11,12 +11,12 @@ namespace Z0
         {
             public readonly FieldKind Field;
 
-            public readonly RuleOperator Operator;
+            public readonly OperatorKind Operator;
 
             public readonly FieldValue Value;
 
             [MethodImpl(Inline)]
-            public MacroExpansion(FieldKind field, RuleOperator op, FieldValue value)
+            public MacroExpansion(FieldKind field, OperatorKind op, FieldValue value)
             {
                 Field = field;
                 Operator = op;

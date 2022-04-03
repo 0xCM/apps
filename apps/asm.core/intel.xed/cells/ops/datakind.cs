@@ -33,6 +33,8 @@ namespace Z0
                 return DK.Nonterminal;
             else if(src.Test(CK.BfSpec))
                 return DK.BfSpec;
+            else if(src.Test(CK.Operator))
+                return DK.Operator;
 
             switch(src)
             {

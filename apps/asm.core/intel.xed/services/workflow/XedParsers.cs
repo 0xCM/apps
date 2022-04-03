@@ -201,17 +201,17 @@ namespace Z0
                 var fvExpr = EmptyString;
                 var fv = R.FieldValue.Empty;
                 var fk = FieldKind.INVALID;
-                var op = RuleOperator.None;
+                var op = OperatorKind.None;
                 if(i > 0)
                 {
                     fvExpr = text.right(src, i + 1);
-                    op = RuleOperator.Neq;
+                    op = OperatorKind.Neq;
                     result = parse(text.left(src,i), out fk);
                 }
                 else if (j>0)
                 {
                     fvExpr = text.right(src, j);
-                    op = RuleOperator.Eq;
+                    op = OperatorKind.Eq;
                     result = parse(text.left(src,j), out fk);
                 }
 
@@ -340,16 +340,16 @@ namespace Z0
             }
         }
 
-        public static bool parse(string src, out RuleOperator dst)
+        public static bool parse(string src, out OperatorKind dst)
         {
             if(text.contains(src, "!="))
             {
-                dst = RuleOperator.Neq;
+                dst = OperatorKind.Neq;
                 return true;
             }
             else if(text.contains(src,"="))
             {
-                dst = RuleOperator.Eq;
+                dst = OperatorKind.Eq;
                 return true;
             }
             else
@@ -840,7 +840,7 @@ namespace Z0
                 dst = new (field, reg);
                 result = true;
             }
-            else if(XedRules.parse(value, out FieldLiteral fl))
+            else if(FieldLiteral.parse(value, out FieldLiteral fl))
             {
                 dst = new(field, (ulong)fl.ToAsci());
                 result = true;
@@ -923,7 +923,7 @@ namespace Z0
         {
             var input = normalize(spec);
             var fk = FieldKind.INVALID;
-            var op = RuleOperator.None;
+            var op = OperatorKind.None;
             var fv = input;
             var i = -1;
             dst = RuleCriterion.Empty;
@@ -957,7 +957,7 @@ namespace Z0
             }
             else
             {
-                result = XedRules.parse(input, out FieldLiteral x);
+                result = FieldLiteral.parse(input, out FieldLiteral x);
                 if(result)
                     dst = x.ToCriterion();
             }
@@ -969,7 +969,7 @@ namespace Z0
             dst = RuleCriterion.Empty;
             var fk = FieldKind.INVALID;
             var nt = Nonterminal.Empty;
-            XedParsers.parse(src, out RuleOperator op);
+            XedParsers.parse(src, out OperatorKind op);
             var fv = EmptyString;
             var name = EmptyString;
             var result = false;

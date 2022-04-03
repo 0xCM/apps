@@ -22,18 +22,22 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static RuleCriterion criterion(FieldKind fk, RuleOperator op, Nonterminal nt)
         {
-            if(op==0)
+            if(op.IsEmpty)
                 return new RuleCriterion(nt);
             else
                 return new RuleCriterion(fk, op, nt);
         }
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [MethodImpl(Inline), Op]
         public static RuleCriterion criterion(BfSeg seg)
             => new RuleCriterion(seg);
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [MethodImpl(Inline), Op]
         public static RuleCriterion criterion(BfSpec src)
             => new RuleCriterion(src);
+
+        [MethodImpl(Inline), Op]
+        public static RuleCriterion criterion(RuleOperator op)
+            => new RuleCriterion(op);
     }
 }

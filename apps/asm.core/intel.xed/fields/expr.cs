@@ -12,7 +12,7 @@ namespace Z0
     partial class XedFields
     {
         [MethodImpl(Inline), Op]
-        public static FieldExpr expr(FieldKind field, RuleOperator op, R.FieldValue value)
+        public static FieldExpr expr(FieldKind field, OperatorKind op, R.FieldValue value)
             => new (field,op,value);
     }
 }

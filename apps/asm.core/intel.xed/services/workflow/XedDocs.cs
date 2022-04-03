@@ -20,7 +20,7 @@ namespace Z0
 
         public void EmitDocs(RuleTables tables, Index<InstPattern> patterns)
         {
-            var doc = CalcInstDoc(tables,patterns);
+            var doc = CalcInstDoc(tables, patterns);
             FileEmit(doc.Format(), doc.Parts.Count, XedPaths.Targets() + FS.file("xed.instructions", FS.Md), TextEncodingKind.Asci);
         }
     }

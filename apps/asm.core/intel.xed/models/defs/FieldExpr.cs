@@ -16,10 +16,10 @@ namespace Z0
         {
             public readonly R.FieldValue Value;
 
-            public readonly RuleOperator Operator;
+            public readonly OperatorKind Operator;
 
             [MethodImpl(Inline)]
-            public FieldExpr(FieldKind field, RuleOperator op, R.FieldValue value)
+            public FieldExpr(FieldKind field, OperatorKind op, R.FieldValue value)
             {
                 Operator = op;
                 Value = value;
@@ -28,13 +28,13 @@ namespace Z0
             public bool IsEq
             {
                 [MethodImpl(Inline)]
-                get => Operator == RuleOperator.Eq;
+                get => Operator == OperatorKind.Eq;
             }
 
             public bool IsNeq
             {
                 [MethodImpl(Inline)]
-                get => Operator == RuleOperator.Neq;
+                get => Operator == OperatorKind.Neq;
             }
 
             public readonly FieldKind Field

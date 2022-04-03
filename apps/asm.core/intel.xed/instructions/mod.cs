@@ -25,13 +25,13 @@ namespace Z0
                 if(field.FieldKind == FieldKind.MOD && field.IsFieldExpr)
                 {
                     var expr = field.AsFieldExpr();
-                    if(expr.Operator == RuleOperator.Neq)
+                    if(expr.Operator == OperatorKind.Neq)
                     {
                         dst = ModIndicator.NE3;
                         result = true;
                         break;
                     }
-                    else if(expr.Operator == RuleOperator.Eq)
+                    else if(expr.Operator == OperatorKind.Eq)
                     {
                         dst = ModIndicator.MOD3;
                         result = true;

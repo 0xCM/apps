@@ -79,7 +79,7 @@ namespace Z0
 
         static EnumRender<ChipCode> ChipCodes = new();
 
-        static EnumRender<RuleOperator> RuleOps = new();
+        static EnumRender<OperatorKind> RuleOps = new();
 
         static EnumRender<OpAction> OpActions = new();
 
@@ -547,7 +547,7 @@ namespace Z0
         public static string format(OpNameKind src)
             => src == 0 ? EmptyString : OpNames.Format(src);
 
-        public static string format(RuleOperator src)
+        public static string format(OperatorKind src)
             => RuleOps.Format(src);
 
         [MethodImpl(Inline)]
