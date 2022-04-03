@@ -11,6 +11,24 @@ namespace Z0
     {
         public readonly struct FieldLiteral
         {
+            public static bool test(string src)
+            {
+                var result = false;
+                switch(src)
+                {
+                    case "default":
+                    case "else":
+                    case "otherwise":
+                    case "nothing":
+                    case "null":
+                    case "error":
+                    case "@":
+                        result = true;
+                    break;
+                }
+                return result;
+            }
+
             public static FieldLiteral Wildcard => new FieldLiteral(K.Wildcard,"@");
 
             public static FieldLiteral Null => new FieldLiteral(K.Null, "null");

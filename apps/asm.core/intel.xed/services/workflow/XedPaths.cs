@@ -91,6 +91,9 @@ namespace Z0
         public FS.FilePath TableDef(in RuleSig sig)
             => RuleTargets() + FS.folder("defs") + FS.file(sig.Format(), FS.Csv);
 
+        public FS.FilePath TableDefs()
+            => RuleTargets() + FS.file("xed.rules.tables", FS.Csv);
+
         public FS.FilePath RuleSpecs(RuleTableKind kind)
         {
             var name = kind switch

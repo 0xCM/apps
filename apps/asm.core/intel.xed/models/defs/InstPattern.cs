@@ -7,6 +7,7 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
+    using static XedFields;
 
     partial class XedPatterns
     {
@@ -32,13 +33,15 @@ namespace Z0
 
             public readonly Index<OpName> OpNames;
 
+            public readonly FieldSet FieldDeps;
+
             public InstPattern(InstPatternSpec spec)
             {
                 Spec = spec;
                 OcInst = new(spec.PatternId, spec.OpCode, spec.InstClass);
-                //Layout = layout(spec.Body);
                 OpNames = spec.Ops.Names;
                 BodyParts = split(spec.Body);
+                FieldDeps = XedFields.deps(spec.Body);
             }
 
             public bit Lockable

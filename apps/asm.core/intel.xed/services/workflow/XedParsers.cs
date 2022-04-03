@@ -566,42 +566,6 @@ namespace Z0
             return result;
         }
 
-        public static bool Eq(string src, out string left, out string right)
-        {
-            var result = false;
-            if(IsEq(src))
-            {
-                var i = text.index(src, Chars.Eq);
-                left = text.left(src,i);
-                right = text.right(src,i);
-                result = true;
-            }
-            else
-            {
-                left = EmptyString;
-                right = EmptyString;
-            }
-            return result;
-        }
-
-        public static bool Neq(string src, out string left, out string right)
-        {
-            var result = false;
-            if(IsNeq(src))
-            {
-                var i = text.index(src, Chars.Bang);
-                left = text.left(src,i);
-                right = text.right(src,i+1);
-                result = true;
-            }
-            else
-            {
-                left = EmptyString;
-                right = EmptyString;
-            }
-            return result;
-        }
-
         public static Outcome parse(string src, out DispFieldSpec dst)
         {
             var result = Outcome.Success;

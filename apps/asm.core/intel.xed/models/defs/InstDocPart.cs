@@ -16,16 +16,16 @@ namespace Z0
 
             public readonly string OcMap;
 
-            public readonly FieldSet Fields;
-
             public InstDocPart(InstPattern src)
             {
                 Inst = src;
                 OcMap = string.Format("{0}:{1}", XedModels.indicator(src.OpCode.Class), src.OpCode.Digits.PadLeft(4,'0'));
-                var fields = XedFields.set();
-                for(var j=0; j<src.Body.FieldCount; j++)
-                    fields = fields.Include(src.Body[j].FieldKind);
-                Fields = fields;
+            }
+
+            public ref readonly FieldSet FieldDeps
+            {
+                [MethodImpl(Inline)]
+                get => ref Inst.FieldDeps;
             }
 
             public ref readonly Index<OpName> OpNames

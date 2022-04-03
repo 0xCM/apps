@@ -21,15 +21,7 @@ namespace Z0
             }
 
             public string Format()
-            {
-                var dst = text.buffer();
-                dst.AppendLine(string.Format("{0}()", Sig.ShortName));
-                dst.AppendLine(Chars.LBrace);
-                for(var i=0; i<Statements.Count; i++)
-                    dst.IndentLine(4, Statements[i]);
-                dst.AppendLine(Chars.RBrace);
-                return dst.Emit();
-            }
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

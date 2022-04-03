@@ -5,18 +5,35 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules.RuleOperator;
-
     partial class XedRules
     {
-        public static RuleOperator ruleop(RuleCellKind src)
+        public enum RuleCellKind : ushort
         {
-            if(src.Test(RuleCellKind.Eq))
-                return Eq;
-            else if(src.Test(RuleCellKind.Neq))
-                return Neq;
-            else
-                return 0;
+            None,
+
+            FieldLiteral = 1,
+
+            Nonterminal = 2,
+
+            Error = 4,
+
+            Eq = 8,
+
+            Neq = 16,
+
+            BfSeg = 32,
+
+            BfSpec = 64,
+
+            Bits = 128,
+
+            Int = 256,
+
+            Hex = 512,
+
+            Branch = 1024,
+
+            Null = 2048,
         }
-    }
+   }
 }

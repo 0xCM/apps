@@ -75,10 +75,10 @@ namespace Z0
                 RenderSigHeader(part,dst);
                 dst.AppendLine();
 
-                dst.AppendFormat("{0} {1}", Classifier, part.Fields.Format());
+                dst.AppendFormat("{0} |", Classifier);
 
                 if(part.Layout.IsNonEmpty)
-                    dst.AppendFormat(" -> {0}", part.Layout);
+                    dst.AppendFormat(" {0}", part.Layout);
                 if(part.Constraints.IsNonEmpty)
                     dst.AppendFormat(" <{0}>", part.Constraints);
                 dst.AppendLine();
@@ -122,9 +122,15 @@ namespace Z0
                 dst.AppendLine();
             }
 
-            void RenderTable(in RuleSig sig, RuleTable table, ITextBuffer dst)
+            void RenderTable(in RuleSig sig, in RuleTable table, ITextBuffer dst)
             {
                 dst.AppendLine(TableHeader(sig));
+                dst.AppendLine();
+
+                var g = XedRules.grid(table);
+                for(var i=0; i<g.Count; i++)
+                    dst.AppendLine(g[i].Join(Chars.Space));
+
                 dst.AppendLine();
             }
 

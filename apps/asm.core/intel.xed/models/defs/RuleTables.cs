@@ -16,8 +16,6 @@ namespace Z0
         {
             internal class Buffers
             {
-                public readonly ConcurrentDictionary<RuleSig,Index<RuleCellSpec>> Cells = new();
-
                 public readonly ConcurrentDictionary<RuleTableKind,Index<RuleTable>> Defs = new();
 
                 public readonly ConcurrentDictionary<RuleTableKind,Index<RuleTableSpec>> Specs = new();
@@ -31,12 +29,31 @@ namespace Z0
 
             public ref readonly ConcurrentDictionary<RuleTableKind,Index<RuleTableSpec>> Specs
             {
+                [MethodImpl(Inline)]
                 get => ref Data.Specs;
             }
 
             SortedLookup<RuleSig,RuleTable> TableDefs;
 
             Dictionary<RuleSig,FS.FilePath> TablePaths;
+
+            Dictionary<RuleSig,Index<TableDefRow>> DefRowLookup = new();
+
+            Index<TableDefRow> TableDefRows;
+
+            public Index<TableDefRow> DefRows(in RuleSig sig)
+            {
+                if(DefRowLookup.TryGetValue(sig, out var rows))
+                {
+                    return rows;
+                }
+                else
+                    return sys.empty<TableDefRow>();
+            }
+
+            [MethodImpl(Inline)]
+            public ref readonly Index<TableDefRow> DefRows()
+                => ref TableDefRows;
 
             [MethodImpl(Inline)]
             public ReadOnlySpan<RuleTable> Tables()
@@ -83,6 +100,13 @@ namespace Z0
 
             }
 
+            internal RuleTables Seal(Buffers src, bool pll)
+            {
+                Data = src;
+                exec(pll, SealTableDefs,SealPaths);
+                return this;
+            }
+
             internal Buffers CreateBuffers()
                 => new();
 
@@ -110,14 +134,37 @@ namespace Z0
                     else
                         buffer.Add(table.Sig, table);
                 }
+
                 TableDefs = buffer;
+
+                var sigs = TableDefs.Keys;
+                var seq = 0u;
+                var drows = list<TableDefRow>();
+                for(var i=0u; i<sigs.Length; i++)
+                {
+                    ref readonly var sig = ref skip(sigs,i);
+                    var _rows = rows(TableDefs[sig], i, ref seq);;
+                    DefRowLookup[sig] = _rows;
+                    drows.AddRange(_rows);
+                }
+                TableDefRows = drows.ToArray();
             }
 
-            internal RuleTables Seal(Buffers src, bool pll)
+            static Index<TableDefRow> rows(in RuleTable table, uint id, ref uint seq)
             {
-                Data = src;
-                exec(pll, SealTableDefs,SealPaths);
-                return this;
+                var g = grid(table);
+                var dst = alloc<TableDefRow>(g.Length);
+                for(var j=0u; j<g.Length; j++)
+                {
+                    var row = TableDefRow.Empty;
+                    row.Seq = seq++;
+                    row.TableId = id;
+                    row.Index = j;
+                    row.Cells = g[j];
+                    row.Sig = table.Sig;
+                    seek(dst,j) = row;
+                }
+                return dst;
             }
 
             public static RuleTables Empty => new();

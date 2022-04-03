@@ -563,6 +563,17 @@ namespace Z0
                 return RP.Error;
         }
 
+        public static string format(in RuleTableSpec src)
+        {
+            var dst = text.buffer();
+            dst.AppendLine(string.Format("{0}()", src.Sig.ShortName));
+            dst.AppendLine(Chars.LBrace);
+            for(var i=0; i<src.Statements.Count; i++)
+                dst.IndentLine(4, src.Statements[i]);
+            dst.AppendLine(Chars.RBrace);
+            return dst.Emit();
+        }
+
         public static string format(PointerWidth src)
             => src.Keyword.Format();
 
@@ -610,13 +621,6 @@ namespace Z0
                     break;
             }
 
-            return dst;
-        }
-
-        public static string format(RuleCellKind src)
-        {
-            var dst = EmptyString;
-            dst = format(XedRules.datakind(src));
             return dst;
         }
 
