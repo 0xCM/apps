@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class BitVectors
     {
         /// <summary>
@@ -32,5 +27,20 @@ namespace Z0
         public static bit testc<T>(BitVector128<T> src)
             where T : unmanaged
                 => gcpu.vtestc(src.State);
+
+        [MethodImpl(Inline),TestC]
+        public static bit testc<T>(BitVector128<T> src, BitVector128<T> mask)
+            where T : unmanaged
+                => gcpu.vtestc(src.State, mask.State);
+
+        [MethodImpl(Inline),TestC]
+        public static bit testc<T>(BitVector256<T> src)
+            where T : unmanaged
+                => gcpu.vtestc(src.State);
+
+        [MethodImpl(Inline),TestC]
+        public static bit testc<T>(BitVector256<T> src, BitVector256<T> mask)
+            where T : unmanaged
+                => gcpu.vtestc(src.State, mask.State);
     }
 }

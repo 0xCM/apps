@@ -10,6 +10,6 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static FieldAssign assign<T>(FieldKind field, T fv)
             where T : unmanaged
-                => new FieldAssign(XedFields.value(field, fv));
+                => new (new FieldValue(field, core.bw64(fv)));
     }
 }

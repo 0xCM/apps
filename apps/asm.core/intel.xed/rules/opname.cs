@@ -5,9 +5,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+
     using K = XedRules.FieldKind;
     using N = XedModels.OpNameKind;
-    using static XedModels;
 
     partial class XedRules
     {

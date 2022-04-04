@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct cpu
     {
         /// <summary>
@@ -90,5 +85,4 @@ namespace Z0
         public static Vector512<double> vparts(W512 w,double x0, double  x1, double  x2, double  x3, double x4, double  x5, double  x6, double  x7)
             => Vector512.create(x0,x1,x2,x3,x4,x5,x6,x7);
     }
-
 }

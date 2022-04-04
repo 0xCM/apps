@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     partial class BitVectors
     {
@@ -17,8 +13,13 @@ namespace Z0
             where N : unmanaged, ITypeNat
                 => gmath.eq(x.State, y.State);
 
-        [MethodImpl(Inline)]
+        [MethodImpl(Inline), Op, Closures(Closure)]
         public static bit equals<T>(in BitVector128<T> x, in BitVector128<T> y)
+            where T : unmanaged
+                => gcpu.vsame(x.State, y.State);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static bit equals<T>(in BitVector256<T> x, in BitVector256<T> y)
             where T : unmanaged
                 => gcpu.vsame(x.State, y.State);
     }

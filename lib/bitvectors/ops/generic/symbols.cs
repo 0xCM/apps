@@ -25,7 +25,7 @@ namespace Z0
             where T : unmanaged
         {
             var index = Enums.dictionary<E,T>();
-            var bitcount = maxbits ?? BitWidth.measure<T>();
+            var bitcount = maxbits ?? core.width<T>();
             var count = CellCalcs.mincells((ulong)segwidth, (ulong)bitcount);
             Span<char> symbols = new char[count];
             for(int i=0, bitpos = 0; i<count; i++, bitpos += segwidth)

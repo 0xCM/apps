@@ -14,8 +14,13 @@ namespace Z0
         public static BitVector128<uint> load(W128 w, uint a0, uint a1, uint a2, uint a3)
             => cpu.vparts(w,a0,a1,a2,a3);
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline), Op, Closures(Closure)]
         public static BitVector128<T> load<T>(W128 w, ReadOnlySpan<T> src)
+            where T : unmanaged
+                => gcpu.vload(w,src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static BitVector256<T> load<T>(W256 w, ReadOnlySpan<T> src)
             where T : unmanaged
                 => gcpu.vload(w,src);
 

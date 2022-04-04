@@ -13,21 +13,21 @@ namespace Z0
     /// </summary>
     /// <typeparam name="T">The cell type</typeparam>
     /// <typeparam name="N">The bit-width type</typeparam>
-    [StructLayout(LayoutKind.Sequential, Size = 16)]
-    public struct BitVector128<T> //: IBitVector<BitVector128<T>, Vector128<T>>
+    [StructLayout(LayoutKind.Sequential, Size = 32)]
+    public struct BitVector256<T>
         where T : unmanaged
     {
-        Vector128<T> Data;
+        Vector256<T> Data;
 
         /// <summary>
         /// Initializes a bitvector with the lo N bits of a scalar source
         /// </summary>
         /// <param name="data">The scalar source value</param>
         [MethodImpl(Inline)]
-        public BitVector128(Vector128<T> data)
+        public BitVector256(Vector256<T> data)
             => Data = data;
 
-        public Vector128<T> State
+        public Vector256<T> State
         {
             [MethodImpl(Inline)]
             get => Data;
@@ -37,32 +37,76 @@ namespace Z0
         public T Cell(byte index)
             => api.cell(this,index);
 
-        /// <summary>
-        /// The bitvector's natural width
-        /// </summary>
-        public int Width
-        {
-            [MethodImpl(Inline)]
-            get => 128;
-        }
+        [MethodImpl(Inline)]
+        public readonly bool Equals(BitVector256<T> src)
+            => api.equals(this,src);
+
+        public readonly override bool Equals(object obj)
+            => obj is BitVector256<T> x && Equals(x);
+
+        public readonly override int GetHashCode()
+            => Data.GetHashCode();
+
+
+        [MethodImpl(Inline)]
+        public ulong Seg64(N0 n)
+            => api.seg64(this,n);
+
+        [MethodImpl(Inline)]
+        public ulong Seg64(N1 n)
+            => api.seg64(this,n);
+
+        [MethodImpl(Inline)]
+        public ulong Seg64(N2 n)
+            => api.seg64(this,n);
+
+        [MethodImpl(Inline)]
+        public ulong Seg64(N3 n)
+            => api.seg64(this,n);
+
+        [MethodImpl(Inline)]
+        public byte Seg8(byte pos)
+            => api.seg8(this,pos);
+
+        [MethodImpl(Inline)]
+        public ushort Seg16(byte pos)
+            => api.seg16(this,pos);
+
+        [MethodImpl(Inline)]
+        public uint Seg32(byte pos)
+            => api.seg32(this,pos);
+
+        [MethodImpl(Inline)]
+        public ulong Seg64(byte pos)
+            => api.seg64(this,pos);
 
         /// <summary>
         /// The bitvector's lower 64 bits
         /// </summary>
-        public BitVector64 Lo
+        public BitVector128<T> Lo
         {
             [MethodImpl(Inline)]
-            get => vcell(v64u(Data),0);
+            get => gcpu.vlo(Data);
         }
 
         /// <summary>
         /// The bitvector's upper 64 bits
         /// </summary>
-        public BitVector64 Hi
+        public BitVector128<T> Hi
         {
             [MethodImpl(Inline)]
-            get => vcell(v64u(Data),1);
+            get => gcpu.vhi(Data);
         }
+
+        /// <summary>
+        /// The bitvector's invariant width
+        /// </summary>
+        public int Width
+        {
+            [MethodImpl(Inline)]
+            get => 256;
+        }
+
 
         /// <summary>
         /// Specifies whether all bits are disabled
@@ -82,26 +126,27 @@ namespace Z0
             get => !api.equals(this, Zero);
         }
 
+
         [MethodImpl(Inline)]
         public bit Test(byte index)
             => api.testbit(this,index);
 
         [MethodImpl(Inline)]
-        public BitVector128<T> Enable(byte index)
+        public BitVector256<T> Enable(byte index)
         {
             Data = api.enable(this,index);
             return this;
         }
 
         [MethodImpl(Inline)]
-        public BitVector128<T> Disable(byte index)
+        public BitVector256<T> Disable(byte index)
         {
             Data = api.disable(this, index);
             return this;
         }
 
         [MethodImpl(Inline)]
-        public BitVector128<T> Set(byte index, bit state)
+        public BitVector256<T> Set(byte index, bit state)
         {
             Data = api.setbit(this,index,state);
             return this;
@@ -112,26 +157,16 @@ namespace Z0
             => api.testc(this);
 
         [MethodImpl(Inline)]
-        public bit TestC(BitVector128<T> mask)
+        public bit TestC(BitVector256<T> mask)
             => api.testc(this, mask);
 
         [MethodImpl(Inline)]
-        public BitVector128<T> RotL(byte count)
+        public BitVector256<T> RotL(byte count)
             =>  api.rotl(this, count);
 
         [MethodImpl(Inline)]
-        public BitVector128<T> RotR(byte count)
+        public BitVector256<T> RotR(byte count)
             =>  api.rotr(this, count);
-
-        [MethodImpl(Inline)]
-        public readonly bool Equals(BitVector128<T> y)
-            => api.equals(this,y);
-
-        public readonly override bool Equals(object obj)
-            => obj is BitVector128<T> x && Equals(x);
-
-        public readonly override int GetHashCode()
-            => Data.GetHashCode();
 
         public override string ToString()
             => Format();
@@ -140,16 +175,16 @@ namespace Z0
             => api.bitstring(this);
 
         [MethodImpl(Inline)]
-        public BitVector128<U> As<U>()
+        public BitVector256<U> As<U>()
             where U : unmanaged
                 => Data.As<T,U>();
 
         [MethodImpl(Inline)]
-        public static implicit operator BitVector128<T>(Vector128<T> src)
-            => new BitVector128<T>(src);
+        public static implicit operator BitVector256<T>(Vector256<T> src)
+            => new BitVector256<T>(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator Vector128<T>(BitVector128<T> src)
+        public static implicit operator Vector256<T>(BitVector256<T> src)
             => src.Data;
 
         /// <summary>
@@ -158,7 +193,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static BitVector128<T> operator &(in BitVector128<T> x, in BitVector128<T> y)
+        public static BitVector256<T> operator &(in BitVector256<T> x, in BitVector256<T> y)
             => api.and(x,y);
 
         /// <summary>
@@ -167,7 +202,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static BitVector128<T> operator |(in BitVector128<T> x, in BitVector128<T> y)
+        public static BitVector256<T> operator |(in BitVector256<T> x, in BitVector256<T> y)
             => api.or(x,y);
 
         /// <summary>
@@ -176,24 +211,15 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static BitVector128<T> operator ^(in BitVector128<T> x, in BitVector128<T> y)
+        public static BitVector256<T> operator ^(in BitVector256<T> x, in BitVector256<T> y)
             => api.xor(x,y);
-
-        /// <summary>
-        /// Computes the scalar product of the operands
-        /// </summary>
-        /// <param name="x">The left operand</param>
-        /// <param name="y">The right operand</param>
-        [MethodImpl(Inline)]
-        public static bit operator *(in BitVector128<T> x, in BitVector128<T> y)
-            => api.dot(x,y);
 
         /// <summary>
         /// Computes the bitwise complement of the operand
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector128<T> operator ~(in BitVector128<T> src)
+        public static BitVector256<T> operator ~(in BitVector256<T> src)
             => api.not(src);
 
         /// <summary>
@@ -201,7 +227,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector128<T> operator -(in BitVector128<T> src)
+        public static BitVector256<T> operator -(in BitVector256<T> src)
             => api.negate(src);
 
         /// <summary>
@@ -209,7 +235,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector128<T> operator <<(in BitVector128<T> x, int count)
+        public static BitVector256<T> operator <<(in BitVector256<T> x, int count)
             => api.sll(x,(byte)count);
 
         /// <summary>
@@ -217,24 +243,17 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector128<T> operator >>(in BitVector128<T> x, int count)
+        public static BitVector256<T> operator >>(in BitVector256<T> x, int count)
             => api.srl(x,(byte)count);
 
         /// <summary>
-        /// Returns true if the source vector is nonzero, false otherwise
+        /// Computes the scalar product of the operands
         /// </summary>
-        /// <param name="src">The source vector</param>
+        /// <param name="x">The left operand</param>
+        /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
-        public static bool operator true(in BitVector128<T> src)
-            => src.NonEmpty;
-
-        /// <summary>
-        /// Returns false if the source vector is the zero vector, false otherwise
-        /// </summary>
-        /// <param name="src">The source vector</param>
-        [MethodImpl(Inline)]
-        public static bool operator false(in BitVector128<T> src)
-            => src.Empty;
+        public static bit operator *(in BitVector256<T> x, in BitVector256<T> y)
+            => api.dot(x,y);
 
         /// <summary>
         /// Determines whether operand content is identical
@@ -242,7 +261,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static bit operator ==(in BitVector128<T> x, in BitVector128<T> y)
+        public static bit operator ==(in BitVector256<T> x, in BitVector256<T> y)
             => api.equals(x,y);
 
         /// <summary>
@@ -251,15 +270,31 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static bit operator !=(in BitVector128<T> x, in BitVector128<T> y)
+        public static bit operator !=(in BitVector256<T> x, in BitVector256<T> y)
             => !api.equals(x,y);
 
-        public static Vector128<T> Ones
+        /// <summary>
+        /// Returns true if the source vector is nonzero, false otherwise
+        /// </summary>
+        /// <param name="src">The source vector</param>
+        [MethodImpl(Inline)]
+        public static bool operator true(in BitVector256<T> src)
+            => src.NonEmpty;
+
+        /// <summary>
+        /// Returns false if the source vector is the zero vector, false otherwise
+        /// </summary>
+        /// <param name="src">The source vector</param>
+        [MethodImpl(Inline)]
+        public static bool operator false(in BitVector256<T> src)
+            => src.Empty;
+
+        public static BitVector256<T> Zero => default;
+
+        public static Vector256<T> Ones
         {
             [MethodImpl(Inline)]
-            get => gcpu.vones<T>(w128);
+            get => gcpu.vones<T>(w256);
         }
-
-        public static BitVector128<T> Zero => default;
     }
 }

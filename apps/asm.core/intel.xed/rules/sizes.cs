@@ -6,19 +6,41 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedModels.EOSZ;
 
     partial class XedRules
     {
-        public static uint sizes(EOSZ src)
-            => src switch
+        [Op]
+        public static byte widths(EOSZ src)
+        {
+            var dst = z8;
+            switch(src)
             {
-                EOSZ.EOSZ8 => 0,
-                EOSZ.EOSZ16 => 1,
-                EOSZ.EOSZ32 => 2,
-                EOSZ.EOSZ64 => 3,
-                EOSZ.EOSZNot16 => 0 | (2 << 8) | (3 << 16),
-                EOSZ.EOSZNot64 => 0 | (1 << 8) | (2 << 16),
-                _ => 0,
-            };
+                case EOSZ8:
+                    dst |= 8;
+                break;
+                case EOSZ16:
+                    dst |= 16;
+                break;
+                case EOSZ32:
+                    dst |= 32;
+                break;
+                case EOSZ64:
+                    dst |= 64;
+                break;
+                case EOSZNot16:
+                    dst |= 8;
+                    dst |= 32;
+                    dst |= 64;
+                break;
+                case EOSZNot64:
+                    dst |= 8;
+                    dst |= 16;
+                    dst |= 32;
+                break;
+            }
+
+            return z8;
+        }
     }
 }

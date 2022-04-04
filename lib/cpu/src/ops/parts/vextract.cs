@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
     using static System.Runtime.Intrinsics.X86.Sse2;
     using static System.Runtime.Intrinsics.X86.Sse41;
     using static System.Runtime.Intrinsics.X86.Avx2;
@@ -86,6 +82,11 @@ namespace Z0
         /// <typeparam name="N"></typeparam>
         [MethodImpl(Inline)]
         public static byte vextract<N>(Vector128<byte> src, N n = default)
+            where N : unmanaged, ITypeNat
+                => vextract(n0, src, n);
+
+        [MethodImpl(Inline)]
+        public static ushort vextract<N>(Vector128<ushort> src, N n = default)
             where N : unmanaged, ITypeNat
                 => vextract(n0, src, n);
 
@@ -197,6 +198,38 @@ namespace Z0
                 return Extract(src, 14);
             else if(typeof(N) == typeof(N15))
                 return Extract(src, 15);
+            else
+                throw no<N>();
+        }
+
+        [MethodImpl(Inline)]
+        static ushort vextract<N>(N0 first, Vector128<ushort> src, N n = default)
+            where N : unmanaged, ITypeNat
+        {
+            if(typeof(N) == typeof(N0))
+                return Extract(src, 0);
+            else if(typeof(N) == typeof(N1))
+                return Extract(src, 1);
+            else if(typeof(N) == typeof(N2))
+                return Extract(src, 2);
+            else if(typeof(N) == typeof(N3))
+                return Extract(src, 3);
+            else if(typeof(N) == typeof(N4))
+                return Extract(src, 4);
+            else
+                return vextract(n5, src, n);
+        }
+
+        [MethodImpl(Inline)]
+        static ushort vextract<N>(N5 first, Vector128<ushort> src, N n = default)
+            where N : unmanaged, ITypeNat
+        {
+            if(typeof(N) == typeof(N5))
+                return Extract(src, 5);
+            else if(typeof(N) == typeof(N6))
+                return Extract(src, 6);
+            else if(typeof(N) == typeof(N7))
+                return Extract(src, 7);
             else
                 throw no<N>();
         }

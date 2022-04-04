@@ -7,12 +7,15 @@ namespace Z0
 {
     using static XedRules;
 
-    using R = XedRules;
-
-    partial class XedFields
+    partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static FieldExpr expr(FieldKind field, OperatorKind op, R.FieldValue value)
-            => new (field,op,value);
+        public static FieldSet fields(in InstPatternBody src)
+        {
+            var dst = FieldSet.create();
+            for(var j=0; j<src.FieldCount; j++)
+                dst = dst.Include(src[j].FieldKind);
+            return dst;
+        }
     }
 }

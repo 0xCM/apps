@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial class BitVectors
@@ -44,5 +40,13 @@ namespace Z0
             else
                 return generic<T>(cpu.vparts(w128, src.Lo, bits.disable(src.Hi,(byte)(index-64))));
         }
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static BitVector256<T> disable<T>(BitVector256<T> src, byte pos)
+            where T : unmanaged
+                => pos < 127
+                ? gcpu.vinsert(disable(src.Lo,pos), src.State,LaneIndex.L0)
+                : gcpu.vinsert(disable(src.Hi,pos), src.State,LaneIndex.L1);
+
     }
 }

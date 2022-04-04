@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
+    using static core;
 
     partial class BitVectors
     {
@@ -27,5 +24,15 @@ namespace Z0
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => BitSpans32.from(x.State, Typed.nat32i<N>());
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static BitSpan bitspan<T>(BitVector256<T> src, Span<bit> buffer)
+            where T : unmanaged
+        {
+            var storage = ByteBlock32.Empty;
+            var dst = recover<T>(storage.Bytes);
+            gcpu.vstore(src.State, dst);
+            return BitSpans.create(@readonly(dst), buffer);
+        }
     }
 }

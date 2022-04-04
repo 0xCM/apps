@@ -17,7 +17,7 @@ namespace Z0
 
     partial class XedFields
     {
-        public static string format(R.FieldValue src)
+        public static string format(FieldValue src)
         {
             var dst = EmptyString;
             if(src.IsEmpty)

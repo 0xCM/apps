@@ -12,7 +12,6 @@ namespace Z0
     {
         public class FieldLookup
         {
-
             public static FieldLookup create()
             {
                 var src = Symbols.index<FieldKind>().Kinds;

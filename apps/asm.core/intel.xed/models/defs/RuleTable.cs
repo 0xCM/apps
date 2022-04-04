@@ -24,6 +24,56 @@ namespace Z0
             public RuleTable WithBody(RuleStatement[] src)
                 => new RuleTable(Sig,src);
 
+            [MethodImpl(Inline)]
+            public FieldSet Fields()
+                => fields(this);
+
+            [MethodImpl(Inline)]
+            public FieldSet Fields(bool premise)
+                => fields(premise, this);
+
+            [MethodImpl(Inline)]
+            public void Fields(ref FieldSet dst)
+                => fields(this, ref dst);
+
+            [MethodImpl(Inline)]
+            public void Fields(bool premise, ref FieldSet dst)
+                => fields(premise, this, ref dst);
+
+            [MethodImpl(Inline)]
+            public Nonterminals Nonterminals()
+                => nonterms(this);
+
+            [MethodImpl(Inline)]
+            public Nonterminals Nonterminals(bool premise)
+                => nonterms(premise, this);
+
+            [MethodImpl(Inline)]
+            public void Nonterminals(ref Nonterminals dst)
+                => nonterms(this, ref dst);
+
+            [MethodImpl(Inline)]
+            public void Nonterminals(bool premise, ref Nonterminals dst)
+                => nonterms(premise, this, ref dst);
+
+            public uint EntryCount
+            {
+                [MethodImpl(Inline)]
+                get => Body.Count;
+            }
+
+            public ref RuleStatement this[int i]
+            {
+                [MethodImpl(Inline)]
+                get => ref Body[i];
+            }
+
+            public ref RuleStatement this[uint i]
+            {
+                [MethodImpl(Inline)]
+                get => ref Body[i];
+            }
+
             public RuleTableKind TableKind
             {
                 [MethodImpl(Inline)]

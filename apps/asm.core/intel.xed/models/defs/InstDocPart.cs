@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static XedPatterns;
-    using static XedFields;
+    using static XedRules;
     using static XedModels;
 
     partial class XedDocs

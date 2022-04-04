@@ -26,7 +26,7 @@ namespace Z0
             {
                 Field = fk;
                 Operator = op;
-                Storage = core.bytes(XedFields.expr(fk, op, new (fk,nt)));
+                Storage = core.bytes(expr(fk, op, new (fk,nt)));
                 DataKind = CellDataKind.NontermExpr;
             }
 

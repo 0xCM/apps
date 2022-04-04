@@ -36,6 +36,17 @@ namespace Z0
                 => BitStrings.load(x.State, x.Width);
 
         /// <summary>
+        /// Converts the vector to a bitstring representation
+        /// </summary>
+        /// <param name="x">The source vector</param>
+        /// <typeparam name="N">The bitvector width</typeparam>
+        /// <typeparam name="T">The storage cell type</typeparam>
+        [MethodImpl(Inline)]
+        public static BitString bitstring<T>(in BitVector256<T> x)
+            where T : unmanaged
+                => BitStrings.load(x.State, x.Width);
+
+        /// <summary>
         /// Extracts the represented data as a bitstring
         /// </summary>
         [MethodImpl(Inline), Op]

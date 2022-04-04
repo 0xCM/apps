@@ -707,7 +707,25 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static string format(in FieldSet src)
+        public static string format(in Nonterminals src, char sep = Chars.Comma)
+        {
+            var dst = text.buffer();
+            var counter = 0u;
+            for(var i=0; i<Nonterminals.MaxCount; i++)
+            {
+                var kind = (NontermKind)i;
+                if(src.Contains(kind))
+                {
+                    if(counter != 0)
+                        dst.Append(sep);
+                    dst.Append(XedRender.format(kind));
+                    counter++;
+                }
+            }
+            return dst.Emit();
+        }
+
+        public static string format(in FieldSet src, char sep = Chars.Comma)
         {
             var dst = text.buffer();
             Span<FieldKind> kinds = stackalloc FieldKind[FieldSet.Capacity];
@@ -715,8 +733,8 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 if(i != 0)
-                    dst.Append(Chars.Comma);
-                dst.Append(format(skip(kinds,i)));
+                    dst.Append(sep);
+                dst.Append(XedRender.format(skip(kinds,i)));
             }
             return dst.Emit();
         }

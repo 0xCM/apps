@@ -5,13 +5,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
     using static core;
 
-    partial class XedFields
+    partial class XedRules
     {
         public struct FieldSet
         {
+            [MethodImpl(Inline), Op]
+            public static FieldSet create(params FieldKind[] src)
+                => new FieldSet(src);
+
             public const byte Capacity = 128;
 
             BitVector128<ulong> Data;
@@ -52,7 +55,6 @@ namespace Z0
             public FieldSet Include(params FieldKind[] src)
             {
                 for(var i=0; i<src.Length; i++)
-
                     Data = Data.Enable((byte)skip(src,i));
                 return this;
             }
@@ -70,14 +72,42 @@ namespace Z0
                 return counter;
             }
 
+            [MethodImpl(Inline)]
+            public byte Count()
+            {
+                var counter = z8;
+                var count = Capacity;
+                for(byte i=0; i<count; i++)
+                {
+                    if(Data.Test(i))
+                        counter++;
+                }
+                return counter;
+            }
+
             public Hash32 Hash
             {
                 [MethodImpl(Inline)]
                 get => Data.GetHashCode();
             }
 
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Count() == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Count() != 0;
+            }
+
             public string Format()
                 => XedRender.format(this);
+
+            public string Format(char sep)
+                => XedRender.format(this, sep);
 
             public override string ToString()
                 => Format();

@@ -49,7 +49,7 @@ namespace Z0
             for(var i=0; i<parts.Length; i++)
             {
                 ref readonly var part = ref skip(parts, i);
-                var result = XedParsers.parse(part, out RuleCriterion c);
+                var result = RuleParser.parse(part, out RuleCriterion c);
                 if(result)
                     dst.Add(c);
                 else

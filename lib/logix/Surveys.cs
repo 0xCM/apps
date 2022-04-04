@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -172,7 +168,7 @@ namespace Z0
         [Op, Closures(Closure)]
         public static string format<T>(in QuestionChoice<T> src)
             where T : unmanaged
-                => RP.parenthetical(src.Title);
+                => text.parenthetical(src.Title);
 
         [Op, Closures(Closure)]
         public static string title<T>(T id, string label)

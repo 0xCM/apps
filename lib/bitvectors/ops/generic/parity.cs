@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static gmath;
 
     partial class BitVectors
@@ -40,8 +36,16 @@ namespace Z0
         /// <summary>
         /// Computes the parity of the source vector
         /// </summary>
-        [MethodImpl(Inline)]
+        [MethodImpl(Inline), Op, Closures(Closure)]
         public static bit parity<T>(in BitVector128<T> src)
+            where T : unmanaged
+                => math.odd(pop(src));
+
+        /// <summary>
+        /// Computes the parity of the source vector
+        /// </summary>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static bit parity<T>(in BitVector256<T> src)
             where T : unmanaged
                 => math.odd(pop(src));
     }

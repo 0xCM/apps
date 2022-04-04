@@ -33,7 +33,9 @@ namespace Z0
                 get => ref Data.Specs;
             }
 
-            SortedLookup<RuleSig,RuleTable> TableDefs;
+            Index<RuleTable> TableDefIndex;
+
+            SortedLookup<RuleSig,RuleTable> TableDefLookup;
 
             Dictionary<RuleSig,FS.FilePath> TablePaths;
 
@@ -72,13 +74,13 @@ namespace Z0
                 => ref TableDefRows;
 
             [MethodImpl(Inline)]
-            public ReadOnlySpan<RuleTable> Tables()
-                => TableDefs.Values;
+            public ref readonly Index<RuleTable> Tables()
+                => ref TableDefIndex;
 
             [MethodImpl(Inline)]
             public RuleTable Table(in RuleSig sig)
             {
-                if(TableDefs.Find(sig, out var def))
+                if(TableDefLookup.Find(sig, out var def))
                     return def;
                 else
                     return RuleTable.Empty;
@@ -86,7 +88,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public ReadOnlySpan<RuleSig> Sigs()
-                => TableDefs.Keys;
+                => TableDefLookup.Keys;
 
             public ref readonly Index<RuleSchema> Schema
             {
@@ -167,15 +169,16 @@ namespace Z0
                         buffer.Add(table.Sig, table);
                 }
 
-                TableDefs = buffer;
+                TableDefLookup = buffer;
+                TableDefIndex = buffer.Values.Array().Sort();
 
-                var sigs = TableDefs.Keys;
+                var sigs = TableDefLookup.Keys;
                 var seq = 0u;
                 var drows = list<TableDefRow>();
                 for(var i=0u; i<sigs.Length; i++)
                 {
                     ref readonly var sig = ref skip(sigs,i);
-                    var _rows = rows(TableDefs[sig], i, ref seq);;
+                    var _rows = rows(TableDefLookup[sig], i, ref seq);;
                     DefRowLookup[sig] = _rows;
                     drows.AddRange(_rows);
                 }

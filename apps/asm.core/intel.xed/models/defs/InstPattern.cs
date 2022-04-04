@@ -7,7 +7,6 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
-    using static XedFields;
 
     partial class XedPatterns
     {
@@ -16,18 +15,6 @@ namespace Z0
             public readonly InstPatternSpec Spec;
 
             public readonly OcInstClass OcInst;
-
-            public ref readonly InstPatternBody Layout
-            {
-                [MethodImpl(Inline)]
-                get => ref BodyParts.Left;
-            }
-
-            public ref readonly InstPatternBody Constraints
-            {
-                [MethodImpl(Inline)]
-                get => ref BodyParts.Right;
-            }
 
             readonly Pair<InstPatternBody> BodyParts;
 
@@ -41,7 +28,19 @@ namespace Z0
                 OcInst = new(spec.PatternId, spec.OpCode, spec.InstClass);
                 OpNames = spec.Ops.Names;
                 BodyParts = split(spec.Body);
-                FieldDeps = XedFields.deps(spec.Body);
+                FieldDeps = fields(spec.Body);
+            }
+
+            public ref readonly InstPatternBody Layout
+            {
+                [MethodImpl(Inline)]
+                get => ref BodyParts.Left;
+            }
+
+            public ref readonly InstPatternBody Constraints
+            {
+                [MethodImpl(Inline)]
+                get => ref BodyParts.Right;
             }
 
             public bit Lockable
@@ -97,6 +96,14 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => ref Spec.Ops;
             }
+
+            [MethodImpl(Inline)]
+            public Nonterminals NontermOps()
+                => Spec.Ops.Nonterms();
+
+            [MethodImpl(Inline)]
+            public uint NontermOps(ref Nonterminals dst)
+                => Spec.Ops.Nonterms(ref dst);
 
             public byte OpCount
             {

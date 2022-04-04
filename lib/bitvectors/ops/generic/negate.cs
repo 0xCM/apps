@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class BitVectors
     {
         /// <summary>
@@ -39,6 +34,16 @@ namespace Z0
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
         public static BitVector128<T> negate<T>(in BitVector128<T> x)
+            where T : unmanaged
+                => gcpu.vnegate(x.State);
+
+        /// <summary>
+        /// Computes the two's complement bitvector z := ~x + 1 for a bitvector x
+        /// </summary>
+        /// <param name="x">The source vector</param>
+        /// <typeparam name="T">The primal type</typeparam>
+        [MethodImpl(Inline)]
+        public static BitVector256<T> negate<T>(in BitVector256<T> x)
             where T : unmanaged
                 => gcpu.vnegate(x.State);
     }

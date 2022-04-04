@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules;
+
     partial struct XedModels
     {
         public readonly struct PatternOps : IComparable<PatternOps>
@@ -56,26 +58,40 @@ namespace Z0
                 get => ref Data[i];
             }
 
-            public Index<OpName> Names => Data.Select(x => x.Name);
-
-            public int CompareTo(PatternOps src)
-                => PatternId.CompareTo(src.PatternId);
+            public Index<OpName> Names
+                => Data.Select(x => x.Name);
 
             [MethodImpl(Inline)]
-            public bool NonTerminal(out PatternOp dst)
+            public Nonterminals Nonterms()
             {
+                var dst = Nonterminals.create();
                 for(var i=0; i<Count; i++)
                 {
                     ref readonly var op = ref this[i];
-                    if(op.IsNonTerminal)
+                    if(op.Nonterminal(out var nt))
+                        dst.Include(nt);
+                }
+                return dst;
+            }
+
+            [MethodImpl(Inline)]
+            public uint Nonterms(ref Nonterminals dst)
+            {
+                var counter = 0u;
+                for(var i=0; i<Count; i++)
+                {
+                    ref readonly var op = ref this[i];
+                    if(op.Nonterminal(out var nt))
                     {
-                        dst = op;
-                        return true;
+                        dst.Include(nt);
+                        counter++;
                     }
                 }
-                dst = PatternOp.Empty;
-                return false;
+                return counter;
             }
+
+            public int CompareTo(PatternOps src)
+                => PatternId.CompareTo(src.PatternId);
 
             [MethodImpl(Inline)]
             public static implicit operator PatternOp[](PatternOps src)

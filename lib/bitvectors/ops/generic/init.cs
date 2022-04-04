@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
-
     partial class BitVectors
     {
         /// <summary>
@@ -41,8 +35,14 @@ namespace Z0
                 => new BitVector128<T>(src);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static BitVector128<T> init<T>(W128 w, T bcast = default)
+        public static BitVector128<T> init<T>(W128 w, T src = default)
             where T : unmanaged
-                => init(gcpu.vbroadcast(w,bcast));
+                => init(gcpu.vbroadcast(w,src));
+
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static BitVector256<T> init<T>(W256 w, T src)
+            where T : unmanaged
+                => gcpu.vbroadcast(w,src);
     }
 }

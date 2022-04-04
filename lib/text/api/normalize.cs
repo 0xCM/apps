@@ -8,6 +8,7 @@ namespace Z0
 
     partial class text
     {
+
         [Op]
         public static string normalize(string src, params Pair<string>[] repl)
         {

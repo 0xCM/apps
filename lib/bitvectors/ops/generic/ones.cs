@@ -5,11 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class BitVectors
     {
         /// <summary>
@@ -20,5 +15,15 @@ namespace Z0
         public static ScalarBits<T> ones<T>()
             where T : unmanaged
                 => core.ones<T>();
+
+        [MethodImpl(Inline), Nor, Closures(Closure)]
+        public static BitVector128<T> ones<T>(W128 w)
+            where T : unmanaged
+                => gcpu.vones<T>(w);
+
+        [MethodImpl(Inline), Nor, Closures(Closure)]
+        public static BitVector256<T> ones<T>(W256 w)
+            where T : unmanaged
+                => gcpu.vones<T>(w);
     }
 }

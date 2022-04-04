@@ -321,7 +321,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator EoszKind(FieldValue src)
-                => (EoszKind)XedFields.widths((EOSZ)src);
+                => (EoszKind)XedRules.widths((EOSZ)src);
 
             [MethodImpl(Inline)]
             public static bool operator ==(FieldValue a, FieldValue b)
