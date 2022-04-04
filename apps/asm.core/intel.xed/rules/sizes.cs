@@ -5,9 +5,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    using static XedModels;
+
+    partial class XedRules
     {
-        public static uint modes(EOSZ src)
+        public static uint sizes(EOSZ src)
             => src switch
             {
                 EOSZ.EOSZ8 => 0,

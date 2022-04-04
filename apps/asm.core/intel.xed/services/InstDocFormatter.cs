@@ -21,12 +21,16 @@ namespace Z0
 
             XedOpCode OpCode;
 
+            XedPaths XedPaths;
+
+
             public InstDocFormatter(RuleTables rules, InstDoc doc)
             {
                 Classifier = EmptyString;
                 OpCode = XedOpCode.Empty;
                 Rules = rules;
                 Doc = doc;
+                XedPaths = XedPaths.Service;
             }
 
             static SectionHeader FormHeader(in InstDocPart part)
@@ -38,8 +42,8 @@ namespace Z0
             static SectionHeader TableHeader(in RuleSig sig)
                 => new(3, sig.Format());
 
-            static SectionLink Link(in RuleSig sig)
-                => Markdown.link(sig.Format(), sig.Format());
+            SectionLink Link(in RuleSig sig)
+                => Markdown.link(sig.ShortName + "()", sig.Format());
 
             static void RenderSigHeader(in InstDocPart part, ITextBuffer dst)
             {
@@ -126,10 +130,13 @@ namespace Z0
             {
                 dst.AppendLine(TableHeader(sig));
                 dst.AppendLine();
+                dst.AppendLineFormat("{0}(){{", sig.ShortName);
 
                 var g = XedRules.grid(table);
+
                 for(var j=0; j<g.Count; j++)
                 {
+                    dst.Append("    ");
                     ref readonly var cells = ref g[j];
                     for(var k=0; k<cells.Count; k++)
                     {
@@ -139,6 +146,7 @@ namespace Z0
                     }
                     dst.AppendLine();
                 }
+                dst.AppendLine("}");
             }
 
             public string Format()

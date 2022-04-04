@@ -46,7 +46,7 @@ namespace Z0.Asm
 
         static IntelXed()
         {
-            _BroadcastDefs = bcastdefs();
+            _BroadcastDefs = XedModels.bcastdefs();
         }
    }
 }

@@ -5,9 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static XedModels;
-    using static core;
-
     partial class IntelXed
     {
         void EmitBroadcastDefs()
@@ -16,15 +13,5 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static Index<BroadcastDef> BcastDefs()
             => _BroadcastDefs;
-
-        static Index<BroadcastDef> bcastdefs()
-        {
-            var kinds = Symbols.index<BCastKind>().Kinds;
-            var count = kinds.Length;
-            var defs = alloc<BroadcastDef>(count);
-            for(var j=0; j<kinds.Length; j++)
-                seek(defs,j) = def(skip(kinds,j));
-            return defs;
-        }
     }
 }

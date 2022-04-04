@@ -7,6 +7,7 @@ namespace Z0
     using static core;
     using static XedFields;
     using static XedModels;
+    using static XedRules;
 
     public class XedLookups
     {

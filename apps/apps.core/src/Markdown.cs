@@ -44,11 +44,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static AbsoluteLink link(string label, FS.FilePath dst)
-            => new AbsoluteLink(label, dst.ToUri().Format());
+            => new AbsoluteLink(label, dst, false);
 
         [MethodImpl(Inline), Op]
-        public static AbsoluteLink link(FS.FilePath dst)
-            => new AbsoluteLink(dst.FileName.WithoutExtension.Format(), dst.ToUri().Format());
+        public static AbsoluteLink link(FS.FilePath dst, bool bare = true)
+            => new AbsoluteLink(dst.FileName.WithoutExtension.Format(), dst, bare);
 
         public static ListItem item<T>(byte level, T src, ListStyle style)
             where T : ITextual
@@ -127,17 +127,20 @@ namespace Z0
         {
             public readonly string Label;
 
-            public readonly string Target;
+            public readonly FS.FileUri Target;
+
+            public readonly bool Bare;
 
             [MethodImpl(Inline)]
-            public AbsoluteLink(string label, string target)
+            public AbsoluteLink(string label, FS.FileUri target, bool bare)
             {
                 Label = label;
                 Target = target;
+                Bare = bare;
             }
 
             public string Format()
-                => string.Format("[{0}]({1})", Label, Target);
+                => Bare ? string.Format("<{0}>", Target) : string.Format("[{0}]({1})", Label, Target);
 
             public override string ToString()
                 => Format();

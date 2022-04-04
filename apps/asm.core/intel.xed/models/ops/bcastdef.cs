@@ -9,11 +9,22 @@ namespace Z0
 
     using static XedModels.BCastKind;
     using static Asm.BroadcastClass;
+    using static core;
 
     partial struct XedModels
     {
+        public static Index<BroadcastDef> bcastdefs()
+        {
+            var kinds = Symbols.index<BCastKind>().Kinds;
+            var count = kinds.Length;
+            var defs = alloc<BroadcastDef>(count);
+            for(var j=0; j<kinds.Length; j++)
+                seek(defs,j) = bcastdef(skip(kinds,j));
+            return defs;
+        }
+
         [Op]
-        public static BroadcastDef def(BCastKind kind)
+        public static BroadcastDef bcastdef(BCastKind kind)
         {
             var dst = BroadcastDef.Empty;
             var id = (uint5)(byte)kind;

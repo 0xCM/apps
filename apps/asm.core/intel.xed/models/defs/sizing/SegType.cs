@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public readonly struct SegType
     {
         readonly uint Data;
@@ -75,5 +73,4 @@ namespace Z0
 
         public static SegType Empty => default;
     }
-
 }

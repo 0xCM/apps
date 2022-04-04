@@ -9,7 +9,9 @@ namespace Z0
     using static XedModels.EOSZ;
     using static XedModels.ModeKind;
 
-    partial struct XedModels
+    using static XedModels;
+
+    partial class XedRules
     {
         [Op]
         public static uint bitwidths(ModeKind src)

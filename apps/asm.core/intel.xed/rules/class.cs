@@ -9,7 +9,9 @@ namespace Z0
 
     using W = XedModels.OpWidthCode;
 
-    partial struct XedModels
+    using static XedModels;
+
+    partial class XedRules
     {
         [Op]
         public static NativeClass @class(OpWidthCode src)
