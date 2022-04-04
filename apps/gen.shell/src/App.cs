@@ -5,33 +5,32 @@
 namespace Z0
 {
     using System;
+    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
-    sealed class GenX : AppService<GenX>
+    [Free]
+    sealed class AppCmdShell : WfApp<AppCmdShell>
     {
-        public void Generate(string[] args)
+        IAppCmdService CmdService;
+
+        protected override void Initialized()
         {
-            // var flow = Wf.Running("Generating");
-            // var bitfields = Wf.BitfieldGenerator();
-            // var specs = bitfields.LoadSpecs();
-
-            //  Wf.Ran(flow);
+            CmdService = GenCmdProvider.create(Wf);
         }
-    }
 
-    class App
-    {
+
+        protected override void Disposing()
+        {
+            CmdService?.Dispose();
+        }
+
+        protected override void Run()
+            => CmdService.Run();
 
         public static void Main(params string[] args)
         {
-            try
-            {
-                using var wf = WfAppLoader.load(args);
-                GenX.create(wf).Generate(args);
-            }
-            catch(Exception e)
-            {
-                term.error(e);
-            }
+            using var wf = WfAppLoader.load();
+            using var shell = create(wf);
+            shell.Run();
         }
     }
 }

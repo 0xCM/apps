@@ -4,9 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiHost]
-    public readonly partial struct DataStores
+    public partial class GenCmdProvider : AppCmdService<GenCmdProvider,CmdShellState>
     {
-        const NumericKind Closure = UnsignedInts;
+        AppDb AppDb => Service(Wf.AppDb);
+
+        CgSvc CodeGen => Service(Wf.CodeGen);
     }
 }

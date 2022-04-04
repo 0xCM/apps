@@ -27,7 +27,7 @@ namespace Z0
                         seek(dst,j++) = nt;
                 }
             }
-            return init<Nonterminal>(j,storage);
+            return new(j,storage);
         }
 
         [MethodImpl(Inline), Op]

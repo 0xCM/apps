@@ -26,6 +26,8 @@ namespace Z0
             return result;
         }
 
+        IntelSdm Sdm => Service(Wf.IntelSdm);
+
         [CmdOp("gen/matcher")]
         Outcome Matcher(CmdArgs args)
         {

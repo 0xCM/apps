@@ -8,6 +8,7 @@ namespace Z0
     using static XedModels;
     using static XedPatterns;
     using static core;
+    using Asm;
 
     partial class XedCmdProvider
     {
@@ -25,17 +26,28 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("gen/stores")]
-        Outcome GenStores(CmdArgs args)
+
+        [CmdOp("gen/bits/patterns")]
+        Outcome GenBitfield(CmdArgs args)
         {
-            var assets = Parts.AsmOperands.Assets;
-            var template = assets.DataStoreTemplate().Utf8();
-            var path = AppDb.CgStagePath("DataStores", FileKind.Cs);
-            var content = text.replace(template, "`{0}`", "589");
-            FileEmit(content, 1,path);
+            var modrm = BitfieldPatterns.infer(ModRm.BitPattern);
+            Write(modrm.Descriptor);
 
+            var rex = BitfieldPatterns.infer(RexPrefix.BitPattern);
+            Write(rex.Descriptor);
+
+            var vexC4 = BitfieldPatterns.infer(VexPrefixC4.BitPattern);
+            Write(vexC4.Descriptor);
+
+            var vexC5 = BitfieldPatterns.infer(VexPrefixC5.BitPattern);
+            Write(vexC5.Descriptor);
+
+            var sib = BitfieldPatterns.infer(Sib.BitPattern);
+            Write(sib.Descriptor);
+
+            byte data = 0b10_110_011;
+            Write(BitfieldPatterns.bitstring(sib, data));
             return true;
-
         }
 
     }

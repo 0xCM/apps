@@ -19,11 +19,6 @@ namespace Z0
             where T : unmanaged
                 => new S16<T>(count, default);
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static S16<T> init<T>(int count, ByteBlock16 data)
-            where T : unmanaged
-                => new S16<T>(count, data);
-
         [StructLayout(LayoutKind.Sequential, Size=ByteBlock16.Size + 4, Pack=1)]
         public struct S16<T>
             where T : unmanaged
