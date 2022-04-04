@@ -133,7 +133,7 @@ namespace Z0
                 => Operator;
 
             public string Format()
-                => RuleCellRender.format(this);
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

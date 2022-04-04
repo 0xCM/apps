@@ -8,52 +8,53 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct RuleTableCells
+        public struct RuleGridRow
         {
             public const byte MaxCount = 16;
 
             public byte Count;
 
-            public RuleTableCell Cell0;
+            public RuleGridCell Cell0;
 
-            public RuleTableCell Cell1;
+            public RuleGridCell Cell1;
 
-            public RuleTableCell Cell2;
+            public RuleGridCell Cell2;
 
-            public RuleTableCell Cell3;
+            public RuleGridCell Cell3;
 
-            public RuleTableCell Cell4;
+            public RuleGridCell Cell4;
 
-            public RuleTableCell Cell5;
+            public RuleGridCell Cell5;
 
-            public RuleTableCell Cell6;
+            public RuleGridCell Cell6;
 
-            public RuleTableCell Cell7;
+            public RuleGridCell Cell7;
 
-            public RuleTableCell Cell8;
+            public RuleGridCell Cell8;
 
-            public RuleTableCell Cell9;
+            public RuleGridCell Cell9;
 
-            public RuleTableCell Cell10;
+            public RuleGridCell Cell10;
 
-            public RuleTableCell Cell11;
+            public RuleGridCell Cell11;
 
-            public RuleTableCell Cell12;
+            public RuleGridCell Cell12;
 
-            public RuleTableCell Cell13;
+            public RuleGridCell Cell13;
 
-            public RuleTableCell Cell14;
+            public RuleGridCell Cell14;
 
-            public RuleTableCell Cell15;
+            public RuleGridCell Cell15;
 
             public string Format()
-                => RuleCellRender.format(this);
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();
-            public static RuleTableCells Empty => default;
 
-            public RuleTableCell this[int index]
+            public static RuleGridRow Empty => default;
+
+            public RuleGridCell this[int index]
             {
                 get
                 {
@@ -76,7 +77,7 @@ namespace Z0
                         13 => Cell13,
                         14 => Cell14,
                         15 => Cell15,
-                        _ => RuleTableCell.Empty
+                        _ => RuleGridCell.Empty
                     };
                 }
                 set

@@ -12,23 +12,6 @@ namespace Z0
 
     partial class XTend
     {
-        public static Index<T> Append<T>(this Span<T> head, ReadOnlySpan<T> tail)
-        {
-            var count = head.Length + tail.Length;
-            var dst = alloc<T>(count);
-            var j=0;
-            for(var i=0; i<head.Length; i++, j++)
-                seek(dst,j) = skip(head,i);
-            for(var i=0; i<tail.Length; i++, j++)
-                seek(dst,j) = skip(tail,i);
-            return dst;
-        }
-
-        public static Index<T> Append<T>(this Index<T> head, ReadOnlySpan<T> tail)
-            => head.Edit.Append(tail);
-
-        public static Index<T> Append<T>(this T[] head, ReadOnlySpan<T> tail)
-            => @span(head).Append(tail);
 
     }
 
@@ -112,7 +95,7 @@ namespace Z0
                 cells[k++] = ocix0;
                 cells[k++] = ocix1;
                 cells[k++] = poc.Class;
-                cells[k++] = poc.Digits;
+                cells[k++] = poc.Selector;
                 cells[k++] = poc.Value;
                 cells[k++] = pattern.Lockable;
                 cells[k++] = pattern.Locked;

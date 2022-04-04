@@ -14,12 +14,12 @@ namespace Z0
         {
             readonly InstPattern Inst;
 
-            public readonly string OcMap;
+            public readonly OpCodeMap OcMap;
 
             public InstDocPart(InstPattern src)
             {
                 Inst = src;
-                OcMap = string.Format("{0}:{1}", XedModels.indicator(src.OpCode.Class), src.OpCode.Digits.PadLeft(4,'0'));
+                OcMap = XedPatterns.ocmap(src.OpCode.Kind);
             }
 
             public ref readonly FieldSet FieldDeps

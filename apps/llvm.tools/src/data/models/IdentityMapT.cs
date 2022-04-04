@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System.Collections.Generic;
-
     public sealed class IdentityMap<T>
     {
         readonly Dictionary<Identifier,T> Data;

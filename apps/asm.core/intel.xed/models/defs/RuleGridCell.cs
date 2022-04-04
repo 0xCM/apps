@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct RuleTableCell
+        public struct RuleGridCell
         {
             public byte Index;
 
@@ -19,7 +19,7 @@ namespace Z0
             public readonly RuleCriterion Criterion;
 
             [MethodImpl(Inline)]
-            public RuleTableCell(bool premise, byte index, RuleTableKind kind, RuleCriterion c)
+            public RuleGridCell(bool premise, byte index, RuleTableKind kind, RuleCriterion c)
             {
                 Index = index;
                 IsPremise = premise;
@@ -28,7 +28,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public RuleTableCell(bool premise, byte index, RuleTableKind kind, RuleOperator op)
+            public RuleGridCell(bool premise, byte index, RuleTableKind kind, RuleOperator op)
             {
                 Index = index;
                 IsPremise = premise;
@@ -60,7 +60,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static RuleTableCell Empty => default;
+            public static RuleGridCell Empty => default;
         }
     }
 }

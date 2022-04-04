@@ -2,15 +2,9 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    using System;
-
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly struct LlvmArrow<T> : QuikGraph.IEdge<T>, IArrow<T>, IEquatable<LlvmArrow<T>>, IComparable<LlvmArrow<T>>
+    public readonly struct Dependency<T> : QuikGraph.IEdge<T>, IArrow<T>, IEquatable<Dependency<T>>, IComparable<Dependency<T>>
         where T : IEquatable<T>, IComparable<T>
     {
         public T Source {get;}
@@ -18,20 +12,20 @@ namespace Z0.llvm
         public T Target {get;}
 
         [MethodImpl(Inline)]
-        public LlvmArrow(T src, T dst)
+        public Dependency(T src, T dst)
         {
             Source = src;
             Target = dst;
         }
 
-        public bool Equals(LlvmArrow<T> src)
+        public bool Equals(Dependency<T> src)
             => Source.Equals(src.Source) && Target.Equals(src.Target);
 
         public override int GetHashCode()
             => (int)alg.hash.combine(Source.GetHashCode(),Target.GetHashCode());
 
         public override bool Equals(object src)
-            => src is LlvmArrow<T> a && Equals(a);
+            => src is Dependency<T> a && Equals(a);
 
         public string Format()
             => string.Format("{0} -> {1}", Source, Target);
@@ -40,7 +34,7 @@ namespace Z0.llvm
             => Format();
 
         [MethodImpl(Inline)]
-        public int CompareTo(LlvmArrow<T> src)
+        public int CompareTo(Dependency<T> src)
         {
             var a = Source.CompareTo(src.Source);
             if(a != 0)
@@ -49,7 +43,7 @@ namespace Z0.llvm
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator LlvmArrow<T>((T src, T dst) def)
-            => new LlvmArrow<T>(def.src, def.dst);
+        public static implicit operator Dependency<T>((T src, T dst) def)
+            => new Dependency<T>(def.src, def.dst);
     }
 }

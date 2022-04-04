@@ -2,9 +2,9 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    public readonly struct LlvmArrow<K,T> : QuikGraph.IEdge<T>, IArrow<T>, IEquatable<LlvmArrow<K,T>>, IComparable<LlvmArrow<K,T>>
+    public readonly struct Dependency<K,T> : QuikGraph.IEdge<T>, IArrow<T>, IEquatable<Dependency<K,T>>, IComparable<Dependency<K,T>>
         where T : IEquatable<T>, IComparable<T>
         where K : unmanaged
     {
@@ -15,7 +15,7 @@ namespace Z0.llvm
         public T Target {get;}
 
         [MethodImpl(Inline)]
-        public LlvmArrow(K kind, T src, T dst)
+        public Dependency(K kind, T src, T dst)
         {
             Kind = kind;
             Source = src;
@@ -28,14 +28,14 @@ namespace Z0.llvm
             get => core.bw64(Kind);
         }
 
-        public bool Equals(LlvmArrow<K,T> src)
+        public bool Equals(Dependency<K,T> src)
             => Source.Equals(src.Source) && Target.Equals(src.Target);
 
         public override int GetHashCode()
             => (int)alg.hash.combine(Source.GetHashCode(), Target.GetHashCode(), KindValue.GetHashCode());
 
         public override bool Equals(object src)
-            => src is LlvmArrow<K,T> a && Equals(a);
+            => src is Dependency<K,T> a && Equals(a);
 
         public string Format()
             => string.Format("{0} -> {1}", Source, Target);
@@ -44,7 +44,7 @@ namespace Z0.llvm
             => Format();
 
         [MethodImpl(Inline)]
-        public int CompareTo(LlvmArrow<K,T> src)
+        public int CompareTo(Dependency<K,T> src)
         {
             var k = KindValue.CompareTo(src.Kind);
             if(k == 0)
@@ -60,7 +60,7 @@ namespace Z0.llvm
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator LlvmArrow<K,T>((K kind, T src, T dst) def)
-            => new LlvmArrow<K,T>(def.kind, def.src, def.dst);
+        public static implicit operator Dependency<K,T>((K kind, T src, T dst) def)
+            => new Dependency<K,T>(def.kind, def.src, def.dst);
     }
 }

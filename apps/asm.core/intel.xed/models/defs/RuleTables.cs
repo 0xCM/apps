@@ -39,39 +39,11 @@ namespace Z0
 
             Dictionary<RuleSig,FS.FilePath> TablePaths;
 
-            Dictionary<RuleSig,Index<RuleTableSpec>> TableSpecLookup = new();
-
-            Index<RuleTableSpec> _TableSpecs;
-
-            Dictionary<RuleSig,Index<TableDefRow>> DefRowLookup = new();
-
-            Index<TableDefRow> TableDefRows;
-
-            public Index<RuleTableSpec> TableSpecs(in RuleSig sig)
-            {
-                if(TableSpecLookup.TryGetValue(sig, out var specs))
-                    return specs;
-                else
-                    return sys.empty<RuleTableSpec>();
-            }
-
-            [MethodImpl(Inline)]
-            public Index<RuleTableSpec> TableSpecs()
-                => _TableSpecs;
-
-            public Index<TableDefRow> DefRows(in RuleSig sig)
-            {
-                if(DefRowLookup.TryGetValue(sig, out var rows))
-                {
-                    return rows;
-                }
-                else
-                    return sys.empty<TableDefRow>();
-            }
+            Index<TableDefRow> DefRowIndex;
 
             [MethodImpl(Inline)]
             public ref readonly Index<TableDefRow> DefRows()
-                => ref TableDefRows;
+                => ref DefRowIndex;
 
             [MethodImpl(Inline)]
             public ref readonly Index<RuleTable> Tables()
@@ -121,28 +93,12 @@ namespace Z0
             internal RuleTables Seal(Buffers src, bool pll)
             {
                 Data = src;
-                exec(pll, SealTableDefs, SealPaths, SealSpecs);
+                exec(pll, SealTableDefs, SealPaths);
                 return this;
             }
 
             internal Buffers CreateBuffers()
                 => new();
-
-            void SealSpecs()
-            {
-                var count=0u;
-                foreach(var spec in Data.Specs.Values)
-                    count+= spec.Count;
-
-                var specs = alloc<RuleTableSpec>(count);
-                var i=0u;
-                foreach(var x in Data.Specs.Values)
-                foreach(var spec in x)
-                    seek(specs,i++) = spec;
-
-                _TableSpecs = specs.Sort();
-                TableSpecLookup =  _TableSpecs.GroupBy(x => x.Sig).Select(x => (x.Key, x.Index().Sort())).ToDictionary();
-            }
 
             void SealPaths()
             {
@@ -151,7 +107,6 @@ namespace Z0
                     paths.TryAdd(spec.Sig, XedPaths.Service.TableDef(spec.Sig));
                 foreach(var spec in Data.Specs[RuleTableKind.Dec])
                     paths.TryAdd(spec.Sig, XedPaths.Service.TableDef(spec.Sig));
-
                 TablePaths = paths;
             }
 
@@ -159,48 +114,76 @@ namespace Z0
             {
                 var tables = Data.Defs.Values.SelectMany(x => x).Array();
                 var count = tables.Length;
-                var buffer = dict<RuleSig,RuleTable>(count);
+                var defs = dict<RuleSig,RuleTable>(count);
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var table = ref tables[i];
-                    if(buffer.TryGetValue(table.Sig, out var t))
-                        buffer[table.Sig] = t.WithBody(table.Body);
+                    if(defs.TryGetValue(table.Sig, out var t))
+                        defs[table.Sig] = t.WithBody(table.Body);
                     else
-                        buffer.Add(table.Sig, table);
+                        defs.Add(table.Sig, table);
                 }
 
-                TableDefLookup = buffer;
-                TableDefIndex = buffer.Values.Array().Sort();
-
-                var sigs = TableDefLookup.Keys;
-                var seq = 0u;
-                var drows = list<TableDefRow>();
-                for(var i=0u; i<sigs.Length; i++)
-                {
-                    ref readonly var sig = ref skip(sigs,i);
-                    var _rows = rows(TableDefLookup[sig], i, ref seq);;
-                    DefRowLookup[sig] = _rows;
-                    drows.AddRange(_rows);
-                }
-                TableDefRows = drows.ToArray();
+                TableDefLookup = defs;
+                TableDefIndex = defs.Values.Array().Sort();
+                DefRowIndex = CalcDefRows(TableDefIndex);
             }
 
-            static Index<TableDefRow> rows(in RuleTable table, uint id, ref uint seq)
+            static Index<TableDefRow> CalcDefRows(Index<RuleTable> src)
             {
-                var g = grid(table);
-                var dst = alloc<TableDefRow>(g.Length);
-                for(var j=0u; j<g.Length; j++)
+                var count = src.Storage.Map(x => x.EntryCount).Sum();
+                var dst = alloc<TableDefRow>(count);
+                var k = 0u;
+
+                for(var i=0u; i<src.Count; i++)
                 {
-                    var row = TableDefRow.Empty;
-                    row.Seq = seq++;
-                    row.TableId = id;
-                    row.Index = j;
-                    row.Cells = g[j];
-                    row.Kind = table.TableKind;
-                    row.Name = table.Sig.ShortName;
-                    seek(dst,j) = row;
+                    ref readonly var table = ref src[i];
+                    var cells = grid(table);
+                    for(var j=0u; j<cells.Length; j++,k++)
+                    {
+                        ref var row = ref seek(dst,k);
+                        row.Seq = k;
+                        row.TableId = i;
+                        row.Index = j;
+                        row.Statement = cells[j];
+                        row.Kind = table.TableKind;
+                        row.Name = table.Sig.ShortName;
+                    }
                 }
                 return dst;
+            }
+
+            static Index<RuleGridRow> grid(in RuleTable table)
+            {
+                var rows = XedRules.cells(table);
+                var cols = rows.Storage.Select(x => x.Count).Max();
+                var grid = alloc<RuleGridRow>(rows.Count);
+                for(var j=0; j<rows.Count; j++)
+                {
+                    var premise = true;
+                    var dst = RuleGridRow.Empty;
+                    var i = z8;
+                    for(var k=0; k<rows[j].Count; k++)
+                    {
+                        var cell = rows[j][k];
+                        if(!cell.IsPremise)
+                        {
+                            if(premise)
+                            {
+                                premise  = false;
+                                dst[i] = new(premise, i, table.TableKind, OperatorKind.Impl);
+                                i++;
+                            }
+                        }
+
+                        cell.Index = i;
+                        dst[i] = cell;
+                        i++;
+                        dst.Count = i;
+                    }
+                    seek(grid,j) = dst;
+                }
+                return grid;
             }
 
             public static RuleTables Empty => new();

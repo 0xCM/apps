@@ -23,7 +23,6 @@ namespace Z0
 
             XedPaths XedPaths;
 
-
             public InstDocFormatter(RuleTables rules, InstDoc doc)
             {
                 Classifier = EmptyString;
@@ -126,27 +125,15 @@ namespace Z0
                 dst.AppendLine();
             }
 
-            void RenderTable(in RuleSig sig, in RuleTable table, ITextBuffer dst)
+            void RenderTable(in RuleTable table, ITextBuffer dst)
             {
-                dst.AppendLine(TableHeader(sig));
+                dst.AppendLine(TableHeader(table.Sig));
                 dst.AppendLine();
-                dst.AppendLineFormat("{0}(){{", sig.ShortName);
-
-                var g = XedRules.grid(table);
-
-                for(var j=0; j<g.Count; j++)
-                {
-                    dst.Append("    ");
-                    ref readonly var cells = ref g[j];
-                    for(var k=0; k<cells.Count; k++)
-                    {
-                        if(k!=0)
-                            dst.Append(Chars.Space);
-                        dst.Append(cells[k].Format());
-                    }
-                    dst.AppendLine();
-                }
+                dst.AppendLineFormat("{0}(){{", table.Sig.ShortName);
+                for(var i=0; i<table.EntryCount; i++)
+                    dst.IndentLine(4,table[i].Format());
                 dst.AppendLine("}");
+                dst.AppendLine();
             }
 
             public string Format()
@@ -165,12 +152,7 @@ namespace Z0
 
                 var sigs = Rules.Sigs();
                 for(var i=0; i<sigs.Length; i++)
-                {
-                    ref readonly var sig =ref sigs[i];
-                    RenderTable(sig, Rules.Table(sig), dst);
-                    dst.AppendLine();
-                }
-
+                    RenderTable(Rules.Table(sigs[i]), dst);
                 return dst.Emit();
             }
         }

@@ -5,7 +5,6 @@
 namespace Z0.llvm
 {
     using Asm;
-    using static core;
 
     [ApiHost]
     public readonly partial struct AsmSyntaxModel

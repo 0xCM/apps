@@ -128,8 +128,8 @@ namespace Z0
             }
 
             FileEmit(dst.Emit(),tables.Count, XedPaths.RuleTargets() + FS.file("xed.rules.fields", FS.Txt), TextEncodingKind.Asci);
-
         }
+
         void CheckFields0()
         {
             var p = FieldPotential.create();

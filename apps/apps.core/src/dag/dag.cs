@@ -2,17 +2,29 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    public class dag<T> : IDag<T>
-        where T : IExpr
+    public class dag : IDag<IExpr>
     {
-        public T Left {get;}
+        public static string format(IDag src, DagFormatStyle style)
+        {
+            var pattern = style == DagFormatStyle.Graph ? "{0} -> {1}" : "{0}, {1}";
+            if(src.Left.IsNonEmpty && src.Right.IsNonEmpty)
+                return string.Format(pattern, src.Left.Format(), src.Right.Format());
+            else if(src.Left.IsEmpty && src.Right.IsEmpty)
+                return EmptyString;
+            else if(src.Left.IsNonEmpty)
+                return src.Left.Format();
+            else
+                return src.Right.Format();
+        }
 
-        public T Right {get;}
+        public IExpr Left {get;}
+
+        public IExpr Right {get;}
 
         [MethodImpl(Inline)]
-        public dag(T left, T right)
+        public dag(IExpr left, IExpr right)
         {
             Left = left;
             Right = right;
@@ -34,17 +46,9 @@ namespace Z0.llvm
             => Format(DagFormatStyle.List);
 
         public string Format(DagFormatStyle style)
-            => dag.format(this, style);
+            => format(this, style);
 
         public override string ToString()
             => Format();
-
-        [MethodImpl(Inline)]
-        public static implicit operator dag<T>((T left, T right) src)
-            => new dag<T>(src.left, src.right);
-
-        [MethodImpl(Inline)]
-        public static implicit operator dag<T>(dag<T,T> src)
-            => new dag<T>(src.Left, src.Right);
     }
 }

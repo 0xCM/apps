@@ -7,11 +7,13 @@ namespace Z0
 {
     using static core;
 
+    using CK = XedRules.RuleCellKind;
+
     partial class XedRules
     {
-        public static Index<RuleTableCells> cells(in RuleTable src)
+        public static Index<RuleGridRow> cells(in RuleTable src)
         {
-            var buffer = alloc<RuleTableCells>(src.Body.Count);
+            var buffer = alloc<RuleGridRow>(src.Body.Count);
             ref readonly var statements = ref src.Body;
             for(var j=0; j<statements.Count; j++)
             {
@@ -20,13 +22,13 @@ namespace Z0
                 ref readonly var left = ref statements[j].Premise;
                 for(var k=0; k<left.Count; k++)
                 {
-                    dst[m] = new RuleTableCell(true, m, src.TableKind, left[k]);
+                    dst[m] = new RuleGridCell(true, m, src.TableKind, left[k]);
                     m++;
                 }
                 ref readonly var right = ref statements[j].Consequent;
                 for(var k=0; k<right.Count; k++)
                 {
-                    dst[m] = new RuleTableCell(false, m, src.TableKind, right[k]);
+                    dst[m] = new RuleGridCell(false, m, src.TableKind, right[k]);
                     m++;
                 }
                 dst.Count = m;
@@ -35,10 +37,74 @@ namespace Z0
             return buffer;
         }
 
+        [Op]
+        static RuleCellKind cellkind(string data)
+        {
+            var kind = CK.None;
+            var left = EmptyString;
+            if(XedParsers.IsFieldExpr(data))
+            {
+                XedParsers.parse(data, out OperatorKind op);
+                if(op == OperatorKind.Eq)
+                    kind = CK.Eq;
+                else if(op == OperatorKind.Neq)
+                    kind = CK.Neq;
+                else
+                    Errors.Throw($"{data} is not an expression");
+
+                return kind;
+            }
+
+            if(XedParsers.IsBinaryLiteral(data))
+                kind = CK.Bits;
+            else if(XedParsers.IsHexLiteral(data))
+                kind = CK.Hex;
+            else if(XedParsers.IsIntLiteral(data))
+                kind = CK.Int;
+
+            if(kind != 0)
+                return kind;
+
+            if(XedParsers.IsBfSeg(data))
+            {
+                if(XedParsers.parse(data, out BfSeg _))
+                {
+                    kind = CK.BfSeg;
+                    return kind;
+                }
+            }
+
+            if(FieldLiteral.test(data))
+            {
+                if(FieldLiteral.parse(data, out FieldLiteral literal))
+                {
+                    if(literal == FieldLiteral.Branch)
+                        kind = CK.Branch;
+                    else if(literal == FieldLiteral.Null)
+                        kind = CK.Null;
+                    else if(literal == FieldLiteral.Error)
+                        kind = CK.Error;
+                    else
+                        kind = CK.FieldLiteral;
+
+                    return kind;
+                }
+            }
+
+            if(XedParsers.IsBfSpec(data))
+                kind = CK.BfSpec;
+            else if(XedParsers.IsNontermCall(data))
+                kind = CK.Nonterminal;
+            if(kind == 0)
+                kind = CK.FieldLiteral;
+
+            return kind;
+        }
+
         public static Index<RuleCell> cells(bool premise, string src)
         {
-            var dst = list<RuleCell>();
             var input = text.trim(text.despace(src));
+            var cells = list<string>();
             if(text.contains(input, Chars.Space))
             {
                 var parts = text.split(input, Chars.Space);
@@ -55,24 +121,25 @@ namespace Z0
                             for(var k=0; k<expansions.Length; k++)
                             {
                                 ref readonly var x = ref skip(expansions,k);
-                                dst.Add(new (premise, x));
+                                cells.Add(x);
                             }
                         }
                         else
-                            dst.Add(new (premise, expanded));
+                            cells.Add(expanded);
                     }
                     else
-                        dst.Add(new (premise, part));
+                        cells.Add(part);
                 }
             }
             else
             {
                 if(RuleMacros.match(input, out var match))
-                    dst.Add(new (premise, match.Expansion));
+                    cells.Add(match.Expansion);
                 else
-                    dst.Add(new (premise, input));
+                    cells.Add(input);
             }
-            return dst.ToArray();
+
+            return cells.Map(x => new RuleCell(premise, cellkind(x),x));
         }
     }
 }

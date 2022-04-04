@@ -69,7 +69,7 @@ namespace Z0
             }
 
             public string Format()
-                => string.Format("{0}[{1}:{2}]={3}", OpCode.Class, XedPatterns.digits(OpCode.Kind), OpCode.Value, InstClass);
+                => string.Format("{0}[{1}:{2}]={3}", OpCode.Class, XedPatterns.selector(OpCode.Kind), OpCode.Value, InstClass);
 
             public override string ToString()
                 => Format();

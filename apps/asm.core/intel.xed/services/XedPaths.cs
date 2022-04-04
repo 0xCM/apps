@@ -86,7 +86,7 @@ namespace Z0
         }
 
         public FS.FilePath TableDef(RuleTableKind kind, Nonterminal nt)
-            => RuleTargets() + FS.folder("defs") + NontermLocator.filename(new (kind, nt));
+            => RuleTargets() + FS.folder("defs") + FS.file(string.Format("{0}.{1}", nt.Name, kind), FS.Csv);
 
         public FS.FilePath TableDef(in RuleSig sig)
             => RuleTargets() + FS.folder("defs") + FS.file(sig.Format(), FS.Csv);

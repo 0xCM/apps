@@ -11,14 +11,7 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static MachineMode mode(in RuleState src)
-            => (ModeKind)src.MODE;
-
-        [MethodImpl(Inline), Op]
-        public static ref RuleState set(MachineMode src, ref RuleState dst)
-        {
-            dst.MODE = (byte)src;
-            return ref dst;
-        }
+        public static RepPrefix rep(in RuleState src)
+            => (RepPrefix)src.REP;
     }
 }

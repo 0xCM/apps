@@ -182,7 +182,7 @@ namespace Z0
 
                 if(result)
                 {
-                    result = XedFields.parse(fk, fvExpr, out fv);
+                    result = FieldParser.parse(fk, fvExpr, out fv);
                     if(result)
                         dst = new FieldExpr(fk, op, fv);
                 }
@@ -266,6 +266,20 @@ namespace Z0
             else
             {
                 dst = 0;
+                return false;
+            }
+        }
+
+        public static bool parse(string src, out RuleOperator dst)
+        {
+            if(parse(src, out OperatorKind k))
+            {
+                dst = k;
+                return true;
+            }
+            else
+            {
+                dst = default;
                 return false;
             }
         }

@@ -7,6 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct RuleCell
         {
             public readonly bool IsPremise;
@@ -17,42 +18,26 @@ namespace Z0
 
             public readonly FieldKind Field;
 
+            public readonly RuleCellKind Kind;
+
+            public readonly RuleOperator Operator;
+
             public readonly string Data;
 
             [MethodImpl(Inline)]
-            public RuleCell(bool premise, string data)
+            public RuleCell(bool premise, RuleCellKind kind, string data)
             {
                 IsPremise = premise;
                 Field = XedFields.kind(data);
                 Data = text.ifempty(data,EmptyString);
                 IsLiteral = Field == 0;
                 IsOperator = false;
-            }
-
-            [MethodImpl(Inline)]
-            public RuleCell(bool premise, RuleOperator data)
-            {
-                IsPremise = premise;
-                Field = FieldKind.INVALID;
-                Data = data.Format();
-                IsLiteral = false;
-                IsOperator = true;
+                Kind = kind;
+                XedParsers.parse(Data, out Operator);
             }
 
             public bool IsExpr
                 => XedParsers.IsFieldExpr(Data);
-
-            public bool IsNonTerminal
-                => XedParsers.IsNontermCall(Data);
-
-            public RuleOperator Operator
-            {
-                get
-                {
-                    XedParsers.parse(Data, out OperatorKind dst);
-                    return dst;
-                }
-            }
 
             public bool IsEmpty
             {
@@ -61,7 +46,7 @@ namespace Z0
             }
 
             public string Format()
-                => XedRender.format(this);
+                => Data;
 
             public override string ToString()
                 => Format();

@@ -29,8 +29,8 @@ namespace Z0
         Outcome CheckRules(CmdArgs args)
         {
             var rules = Xed.Rules.CalcRules();
-            var defs = rules.DefRows();
-            TableEmit(defs.View, TableDefRow.RenderWidths, XedPaths.Table<TableDefRow>("test"));
+            // var defs = rules.DefRows();
+            // TableEmit(defs.View, TableDefRow.RenderWidths, XedPaths.Table<TableDefRow>("test"));
             return true;
         }
 

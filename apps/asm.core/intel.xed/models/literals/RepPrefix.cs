@@ -10,6 +10,7 @@ namespace Z0
         [SymSource(xed)]
         public enum RepPrefix : byte
         {
+            [Symbol("")]
             None = 0,
 
             [Symbol("F2", "REP=2:{REPNZ,REPNE}")]

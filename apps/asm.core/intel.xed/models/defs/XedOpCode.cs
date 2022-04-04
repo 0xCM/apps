@@ -67,8 +67,8 @@ namespace Z0
                 get => Kind != 0;
             }
 
-            public string Digits
-                => XedPatterns.digits(Kind);
+            public asci4 Selector
+                => XedPatterns.selector(Kind);
 
             public string Format()
                 => XedRender.format(this);
@@ -111,7 +111,6 @@ namespace Z0
                 => convert(src, out _);
 
             public static XedOpCode Empty => default;
-
         }
     }
 }

@@ -16,10 +16,11 @@ namespace Z0
 
     using R = XedRules;
     using OC = XedRules.OpAttribClass;
+    using DK = XedRules.CellDataKind;
 
     public partial class XedRender
     {
-        static EnumRender<FlagEffectKind> FlagEffects = new();
+        static EnumRender<Asm.FlagEffectKind> FlagEffects = new();
 
         static EnumRender<XedRegFlag> RegFlags = new();
 
@@ -87,6 +88,8 @@ namespace Z0
 
         static EnumRender<ElementKind> ElementTypes = new();
 
+        static EnumRender<XedModels.RepPrefix> RepPrexixKinds = new();
+
         static EnumRender<OpNameKind> OpNames = new();
 
         static EnumRender<OpVisibility> OpVis = new();
@@ -105,11 +108,13 @@ namespace Z0
 
         static EnumRender<OpType> OpTypes = new();
 
+        static EnumRender<HintKind> HintKinds = new();
+
         static EnumRender<BfSegKind> BfSegKinds = new();
 
         static EnumRender<BfSpecKind> BfSpecKinds = new();
 
-        static Index<BroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
+        static Index<Asm.BroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
 
         static EnumRender<XedRegId> XedRegs = new();
 
@@ -186,13 +191,19 @@ namespace Z0
             => fc == FormatCode.BitWidth ? nsize((byte)src + 1) : format(SModes,src,fc);
 
         public static string format(VexClass src, FormatCode fc = FormatCode.Expr)
-            => format(VexClasses,src,fc);
+            => format(VexClasses, src, fc);
+
+        public static string format(HintKind src, FormatCode fc = FormatCode.Expr)
+            => format(HintKinds, src, fc);
 
         public static string format(VexKind src, FormatCode fc = FormatCode.Expr)
             => format(VexKinds, src, fc);
 
         public static string format(MASK src, FormatCode fc = FormatCode.Expr)
-            => format(MaskCodes,src,fc);
+            => format(MaskCodes, src, fc);
+
+        public static string format(XedModels.RepPrefix src, FormatCode fc = FormatCode.Expr)
+            => format(RepPrexixKinds, src, fc);
 
         public static string format(VexLengthKind src)
             => VexLengthKinds.Format(src);
@@ -642,8 +653,64 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static string format(in RuleCell src)
-            => src.Data;
+        public static string format(in RuleGridRow src)
+        {
+            var dst = text.buffer();
+            for(var k=0; k<src.Count; k++)
+            {
+                var cell = src[k];
+                if(k!=0)
+                    dst.Append(Chars.Space);
+                dst.Append(cell.Format());
+            }
+            return dst.Emit();
+        }
+
+        public static string format(RuleCellKind src)
+        {
+            var dst = EmptyString;
+            dst = format(XedRules.datakind(src));
+            return dst;
+        }
+
+        public static string format(in RuleCriterion src)
+        {
+            var result = EmptyString;
+            switch(src.DataKind)
+            {
+                case DK.BfSegExpr:
+                case DK.NontermExpr:
+                case DK.FieldEq:
+                case DK.FieldNeq:
+                    result = src.ToFieldExpr().Format();
+                break;
+                case DK.BfSeg:
+                    result = src.ToBfSeg().Format();
+                    Require.invariant(text.nonempty(result));
+                break;
+                case DK.BfSpec:
+                    result = src.ToBfSpec().Format();
+                    Require.invariant(text.nonempty(result));
+                break;
+                case DK.Branch:
+                case DK.Null:
+                case DK.FieldLiteral:
+                case DK.Error:
+                    result = src.ToFieldLiteral().Format();
+                break;
+                case DK.Nonterminal:
+                    result = src.ToNonTerminal().Format();
+                break;
+                case DK.Operator:
+                    result = src.ToOperator().Format();
+                    break;
+                default:
+                    Errors.Throw($"{src.Field} | {src.Operator} | {src.DataKind}");
+                break;
+
+            }
+            return result;
+        }
 
         public static string format(in StatementSpec src)
         {
@@ -656,7 +723,7 @@ namespace Z0
             {
                 if(i!=0)
                     dst.Append(Chars.Space);
-                dst.Append(format(src.Premise[i]));
+                dst.Append(src.Premise[i].Data);
             }
 
             if(src.Consequent.Count != 0)
@@ -667,7 +734,7 @@ namespace Z0
                 {
                     if(i!=0)
                         dst.Append(Chars.Space);
-                    dst.Append(format(src.Consequent[i]));
+                    dst.Append(src.Consequent[i].Data);
                 }
             }
             return dst.Emit();

@@ -27,15 +27,15 @@ namespace Z0.llvm
             return dst.Array().Sort();
         }
 
-        public Index<LlvmArrow<string>> SelectDefRelationArrows()
+        public Index<Dependency<string>> SelectDefRelationArrows()
         {
-            return (Index<LlvmArrow<string>>)DataSets.GetOrAdd(nameof(SelectDefRelationArrows), key => Load());
+            return (Index<Dependency<string>>)DataSets.GetOrAdd(nameof(SelectDefRelationArrows), key => Load());
 
-            Index<LlvmArrow<string>> Load()
+            Index<Dependency<string>> Load()
             {
                 var relations = SelectDefRelations();
                 var count = relations.Count;
-                var dst = hashset<LlvmArrow<string>>();
+                var dst = hashset<Dependency<string>>();
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var relation = ref relations[i];
