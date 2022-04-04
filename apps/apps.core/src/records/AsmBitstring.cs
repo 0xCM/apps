@@ -15,7 +15,7 @@ namespace Z0.Asm
         readonly TextBlock Data {get;}
 
         [MethodImpl(Inline)]
-        internal AsmBitstring(string src)
+        public AsmBitstring(string src)
         {
             Data = src;
         }
@@ -38,9 +38,9 @@ namespace Z0.Asm
         public override string ToString()
             => Format();
 
-        [MethodImpl(Inline)]
-        public static implicit operator AsmBitstring(AsmHexCode src)
-            => asm.bitstring(src);
+        // [MethodImpl(Inline)]
+        // public static implicit operator AsmBitstring(AsmHexCode src)
+        //     => asm.bitstring(src);
 
         public static AsmBitstring Empty
         {

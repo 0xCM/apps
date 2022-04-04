@@ -28,8 +28,8 @@ public enum PartId : byte
     [Symbol("generated")]
     Generated = 6,
 
-    [Symbol("records")]
-    Records = 7,
+    [Symbol("apps.core")]
+    AppCore = 7,
 
     [Symbol("api")]
     Api = 9,

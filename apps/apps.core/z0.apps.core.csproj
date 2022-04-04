@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
-    <ProjectReference Include="$(AppCore)" />
   </ItemGroup>
 
 

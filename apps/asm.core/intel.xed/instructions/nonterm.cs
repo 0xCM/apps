@@ -8,34 +8,13 @@ namespace Z0
     using static core;
     using static XedRules;
     using static XedModels;
-
-    public ref struct GStore16<T>
-        where T : unmanaged
-    {
-        public static uint Capacity => size<T>()/ByteBlock16.Size;
-
-        public readonly byte Count;
-
-        ByteBlock16 Data;
-
-        public GStore16(int count, ByteBlock16 src)
-        {
-            Count = (byte)count;
-            Data = src;
-        }
-
-        public ref T this[int i]
-        {
-            [MethodImpl(Inline)]
-            get => ref @as<T>(seek(Data[0],i*size<T>()));
-        }
-    }
+    using static DataStores;
 
     partial class XedPatterns
     {
-        public static GStore16<Nonterminal> nonterms(Index<RuleCell> src)
+        public static S16<Nonterminal> nonterms(Index<RuleCell> src)
         {
-            var Capacity = GStore16<Nonterminal>.Capacity;
+            var Capacity = capacity<Nonterminal>(n16);
             var storage = ByteBlock16.Empty;
             ref var dst = ref @as<Nonterminal>(storage.First);
             var j=0;
@@ -48,7 +27,7 @@ namespace Z0
                         seek(dst,j++) = nt;
                 }
             }
-            return new (j,storage);
+            return init<Nonterminal>(j,storage);
         }
 
         [MethodImpl(Inline), Op]

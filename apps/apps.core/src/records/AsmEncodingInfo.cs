@@ -23,7 +23,7 @@ namespace Z0.Asm
 
         public byte Size;
 
-        public AsmExpr Asm;
+        public TextBlock Asm;
 
         public AsmRowKey Key
         {

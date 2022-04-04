@@ -9,6 +9,13 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
+        public static BinaryCode Compact(this HexDataRow[] src)
+            => CoffObjects.compact(src);
+
+
+        public static BinaryCode Compact(this Index<HexDataRow> src)
+            => src.Storage.Compact();
+
         [Op]
         public static ApiResPackEmitter ResPackEmitter(this IWfRuntime wf)
             => Z0.ApiResPackEmitter.create(wf);

@@ -268,7 +268,7 @@ namespace Z0.Asm
 
         [Op]
         public static AsmBitstring bitstring(in AsmHexCode src)
-            => src;
+            => asm.bitstring(src);
 
         [MethodImpl(Inline), Op]
         public static byte encode(RexPrefix a0, Hex8 a1, imm64 a2, Span<byte> buffer)

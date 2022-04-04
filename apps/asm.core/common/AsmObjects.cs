@@ -34,7 +34,7 @@ namespace Z0
                     encoding.IP = row.IP;
                     encoding.Encoded = row.Encoded.Bytes;
                     encoding.Size = row.Size;
-                    encoding.Asm = row.Asm;
+                    encoding.Asm = row.Asm.Content;
                     seek(codebuffer,k) = dispenser.AsmCode(encoding);
                 }
                 seek(blockbuffer,i) = new AsmCodeBlock(dispenser.Symbol(blockaddress,blockname), codebuffer);

@@ -61,10 +61,5 @@ namespace Z0
         public static ByteSize TotalSize(this Index<HexDataRow> src)
             => src.Storage.TotalSize();
 
-        public static BinaryCode Compact(this HexDataRow[] src)
-            => CoffObjects.compact(src);
-
-        public static BinaryCode Compact(this Index<HexDataRow> src)
-            => src.Storage.Compact();
     }
 }

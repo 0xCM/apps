@@ -20,7 +20,7 @@ namespace Z0
 
         XedLookups()
         {
-            Fields = lookup();
+            Fields = FieldLookup.create();
             WidthRecords = LoadOpWidths();
             WidthLookup = CalcOpWidthLookup(WidthRecords);
         }

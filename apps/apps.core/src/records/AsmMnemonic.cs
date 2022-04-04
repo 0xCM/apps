@@ -110,9 +110,9 @@ namespace Z0.Asm
         public static bool operator !=(AsmMnemonic a, AsmMnemonic b)
             => !a.Equals(b);
 
-        [MethodImpl(Inline)]
-        public static implicit operator AsmCell(AsmMnemonic src)
-            => new AsmCell(AsmPartKind.Mnemonic, src.Format());
+        // [MethodImpl(Inline)]
+        // public static implicit operator AsmCell(AsmMnemonic src)
+        //     => new AsmCell(AsmPartKind.Mnemonic, src.Format());
 
         public static AsmMnemonic Empty
         {

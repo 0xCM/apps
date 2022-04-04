@@ -34,6 +34,7 @@ namespace Z0
             return true;
         }
 
+
         void CheckNonTerms()
         {
             var patterns = Xed.Rules.CalcInstPatterns();

@@ -187,7 +187,7 @@ namespace Z0
             [RuleField(K.POS_DISP, 4, typeof(byte), "Specifies the 0-based index of the encoded DISP field, if applicable")]
             public byte POS_DISP;
 
-            [RuleField(K.MODE, 2, typeof(X.ModeKind), "Specifies one of {Mode16,Mode32,Mode64,Not64} if applicable")]
+            [RuleField(K.MODE, 2, typeof(X.MachineMode), "Specifies one of {Mode16,Mode32,Mode64,Not64} if applicable")]
             public byte MODE;
 
             [RuleField(K.SMODE, 2, typeof(X.SMode), "Specifies one of {SMode16,SMode32,SMode64} if applicable")]

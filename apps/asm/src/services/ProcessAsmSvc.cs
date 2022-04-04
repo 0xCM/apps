@@ -61,7 +61,7 @@ namespace Z0.Asm
                     AsmSigInfo.parse(instruction.OpCode.InstructionString, out statement.Sig);
                     statement.Encoded = asm.asmhex(slice(bytes, blockOffset, size));
                     statement.OpCode = opcode;
-                    statement.Bitstring = statement.Encoded;
+                    statement.Bitstring = asm.bitstring(statement.Encoded);
                     seek(buffer,counter) = statement;
 
                     blockOffset += size;
@@ -125,7 +125,7 @@ namespace Z0.Asm
                     AsmSigInfo.parse(instruction.OpCode.InstructionString, out statement.Sig);
                     statement.Encoded = asm.asmhex(slice(bytes, blockOffset, size));
                     statement.OpCode = opcode;
-                    statement.Bitstring = statement.Encoded;
+                    statement.Bitstring = asm.bitstring(statement.Encoded);
                     dst.Add(statement);
 
                     blockOffset += size;

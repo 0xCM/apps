@@ -93,7 +93,7 @@ namespace Z0.Asm
             dst.OpCode = new AsmOpCodeString(skip(parts, i++));
 
             var bitstring = skip(parts,i++);
-            dst.Bitstring = dst.Encoded;
+            dst.Bitstring = asm.bitstring(dst.Encoded);
 
             outcome += DataParser.parse(skip(parts,i++), out dst.OpUri);
             if(outcome.Fail)
@@ -194,7 +194,7 @@ namespace Z0.Asm
                 return result;
 
             dst.OpCode = new AsmOpCodeString(skip(cells, i++));
-            dst.Bitstring = dst.Encoded;
+            dst.Bitstring = asm.bitstring(dst.Encoded);
 
             result = DataParser.parse(skip(cells, i++), out dst.OpUri);
             if(result.Fail)

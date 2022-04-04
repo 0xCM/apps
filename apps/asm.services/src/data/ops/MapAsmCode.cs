@@ -104,7 +104,7 @@ namespace Z0
                         encoding.Encoded = row.Encoded.Bytes;
                         encoding.InstructionId = row.InstructionId;
                         encoding.Size = row.Size;
-                        encoding.Asm = row.Asm;
+                        encoding.Asm = row.Asm.Content;
                         seek(codebuffer,k) = dispenser.AsmCode(encoding);
                     }
 

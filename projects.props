@@ -1,6 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
+
+    <AppCore>$(AppsRoot)apps.core/z0.apps.core.csproj</AppCore>
     <Asm>$(AppsRoot)asm/z0.asm.csproj</Asm>
     <AsmCore>$(AppsRoot)asm.core/z0.asm.core.csproj</AsmCore>
     <AsmOperands>$(AppsRoot)asm.operands/z0.asm.operands.csproj</AsmOperands>

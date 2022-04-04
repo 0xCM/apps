@@ -25,21 +25,5 @@ namespace Z0
             [Symbol("{rz-sae}","ROUNDC=4 => LLRC=3 & BCRC=1: Round toward zero, suppress all exception")]
             RzSae = 4,
         }
-
-        [SymSource(xed), DataWidth(2)]
-        public enum LLRC : byte
-        {
-            [Symbol("LLRC0", "LLRC=0")]
-            LLRC0=0,
-
-            [Symbol("LLRC1", "LLRC=1")]
-            LLRC1=1,
-
-            [Symbol("LLRC2", "LLRC=2")]
-            LLRC2=2,
-
-            [Symbol("LLRC3", "LLRC=3")]
-            LLRC3=3
-        }
     }
 }
