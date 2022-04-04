@@ -24,7 +24,7 @@ namespace Z0
             [MethodImpl(Inline)]
             static S2<bit> b01()
             {
-                var dst = alloc<bit>(n2,2);
+                var dst = alloc2<bit>(2);
                 dst[0] = bit.On;
                 dst[1] = bit.Off;
                 return dst;

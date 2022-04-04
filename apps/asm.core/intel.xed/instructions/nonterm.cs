@@ -14,9 +14,8 @@ namespace Z0
     {
         public static S16<Nonterminal> nonterms(Index<RuleCell> src)
         {
-            var Capacity = capacity<Nonterminal>(n16);
-            var storage = ByteBlock16.Empty;
-            ref var dst = ref @as<Nonterminal>(storage.First);
+            var Capacity = count16<Nonterminal>();
+            var dst = alloc16<Nonterminal>((int)src.Count);
             var j=0;
             for(var i=0; i<src.Count && j<Capacity; i++)
             {
@@ -24,10 +23,10 @@ namespace Z0
                 if(XedParsers.IsNontermCall(data))
                 {
                     if(XedParsers.parse(data, out Nonterminal nt))
-                        seek(dst,j++) = nt;
+                        dst[j++] = nt;
                 }
             }
-            return new(j,storage);
+            return dst;
         }
 
         [MethodImpl(Inline), Op]
