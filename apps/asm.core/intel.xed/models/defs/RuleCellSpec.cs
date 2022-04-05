@@ -27,6 +27,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public RuleCellSpec(bool premise, RuleCellKind kind, string data)
             {
+                Require.invariant(data.Length < 48);
                 IsPremise = premise;
                 Field = XedFields.kind(data);
                 Data = text.ifempty(data,EmptyString);

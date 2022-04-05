@@ -69,47 +69,50 @@ namespace Z0
                 }
             }
 
+            static uint CalcDefRows(in RuleTableSpec spec, ref uint n, Span<TableDefRow> dst)
+            {
+                var i0 = n;
+                for(var j=0u; j<spec.StatementCount; j++, n++)
+                {
+                    ref var row = ref seek(dst,n);
+                    row.TableId = spec.TableId;
+                    row.Kind = spec.Sig.TableKind;
+                    row.Name = spec.Sig.ShortName;
+                    row.Seq = n;
+                    ref readonly var s = ref spec[j];
+                    row.Index = j;
+                    ref readonly var antecedant = ref s.Premise;
+                    ref readonly var consequent = ref s.Consequent;
+                    var k=z8;
+                    var statement = RuleGridCells.Empty;
+                    for(var m=0; m<antecedant.Count; m++,k++)
+                        statement[k] = new (true, k, spec.Sig.TableKind, criterion(antecedant[m]));
+
+                    if(consequent.Count != 0)
+                    {
+                        statement[k] = new (true,k, spec.Sig.TableKind, OperatorKind.Impl);
+                        k++;
+                    }
+
+                    for(var m=0; m<consequent.Count; m++,k++)
+                        statement[k] = new (false, k, spec.Sig.TableKind, criterion(consequent[m]));
+                    statement.Count = k;
+
+                    row.Statement = statement;
+                }
+
+                return n - i0;
+            }
+
             public static Index<TableDefRow> CalcDefRows(Index<RuleTableSpec> src)
             {
                 var count = src.Storage.Map(x => x.StatementCount).Sum();
                 var dst = alloc<TableDefRow>(count);
                 var n=0u;
                 for(var i=0u; i<src.Count; i++)
-                {
-                    ref readonly var spec = ref src[i];
-                    for(var j=0u; j<spec.StatementCount; j++,n++)
-                    {
-                        ref var row = ref seek(dst,n);
-                        row.TableId = spec.TableId;
-                        row.Kind = spec.Sig.TableKind;
-                        row.Name = spec.Sig.ShortName;
-                        row.Seq = n;
-                        ref readonly var s = ref spec[j];
-                        row.Index = j;
-                        ref readonly var antecedant = ref s.Premise;
-                        ref readonly var consequent = ref s.Consequent;
-                        var k=z8;
-                        var statement = RuleGridCells.Empty;
-                        for(var m=0; m<antecedant.Count; m++,k++)
-                            statement[k] = new (true, k, spec.Sig.TableKind, criterion(antecedant[m]));
-
-                        if(consequent.Count != 0)
-                        {
-                            statement[k] = new (true,k, spec.Sig.TableKind, OperatorKind.Impl);
-                            k++;
-                        }
-
-                        for(var m=0; m<consequent.Count; m++,k++)
-                            statement[k] = new (false, k, spec.Sig.TableKind, criterion(consequent[m]));
-                        statement.Count = k;
-
-                        row.Statement = statement;
-                    }
-                }
-
+                    CalcDefRows(src[i], ref n, dst);
                 return dst;
             }
-
 
             public static Index<RuleTableSpec> CalcTableSpecs(RuleTableKind kind)
                 => CalcTableSpecs(XedPaths.Service.RuleSource(kind));

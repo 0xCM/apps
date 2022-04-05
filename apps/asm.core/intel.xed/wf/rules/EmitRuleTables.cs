@@ -43,44 +43,66 @@ namespace Z0
 
         void EmitTableSpecs(RuleTables tables)
         {
+            var formatter = Tables.formatter<TableDefRow>(TableDefRow.RenderWidths);
             exec(PllExec,
-                () => EmitTableSpecs(tables, RuleTableKind.Enc),
-                () => EmitTableSpecs(tables, RuleTableKind.Dec)
+                () => emit(RuleTableKind.Enc),
+                () => emit(RuleTableKind.Dec)
                 );
+
+            void emit(RuleTableKind kind)
+            {
+                var specs = tables.TableSpecs(kind);
+                var dst = XedPaths.RuleSpecs(kind);
+                using var writer = dst.AsciWriter();
+                writer.AppendLine(formatter.FormatHeader());
+                for(var i=0; i<specs.Count; i++)
+                {
+                    ref readonly var spec = ref specs[i];
+                    ref readonly var sig = ref spec.Sig;
+                    var rows = tables.DefRows(sig);
+                    if(rows.IsNonEmpty)
+                    {
+                        writer.AppendLine();
+
+                        for(var j=0; j<rows.Count; j++)
+                        {
+                            ref readonly var row = ref rows[j];
+                            writer.AppendLine(formatter.Format(row));
+                        }
+
+                        writer.AppendLine();
+                        writer.AppendLine();
+                        foreach(var line in spec.Format().Lines(trim:false))
+                            writer.AppendLineFormat("# {0}", line.Content);
+                    }
+                }
+            }
         }
 
         public void EmitTableFiles(RuleTables tables)
         {
-            exec(PllExec,
-                () => EmitTableFiles(tables,RuleTableKind.Enc),
-                () => EmitTableFiles(tables, RuleTableKind.Dec)
-            );
-        }
+            var formatter = Tables.formatter<TableDefRow>(TableDefRow.RenderWidths);
+            ref readonly var specs = ref tables.TableSpecs();
+            iter(specs,spec => emit(spec), PllExec);
+            void emit(in RuleTableSpec spec)
+            {
+                ref readonly var sig = ref spec.Sig;
+                var dst = XedPaths.Service.TableDef(sig);
+                Require.invariant(!dst.Exists);
+                var rows = tables.DefRows(sig);
+                if(rows.IsNonEmpty)
+                {
+                    using var writer = dst.AsciWriter();
+                    writer.AppendLine(formatter.FormatHeader());
+                    for(var i=0; i<rows.Count; i++)
+                        writer.AppendLine(formatter.Format(rows[i]));
 
-        void EmitTableFiles(RuleTables tables, RuleTableKind kind)
-            => iter(tables.TableSpecs(kind), spec => EmitTableFile(spec, XedPaths.Service.TableDef(spec.Sig)), false);
-
-        void EmitTableSpecs(RuleTables tables, RuleTableKind kind)
-        {
-            var buffer = text.buffer();
-            ref readonly var specs = ref tables.TableSpecs(kind);
-            var path = XedPaths.RuleSpecs(kind);
-            buffer.AppendLine(RuleCellRender.SpecHeader);
-            RuleCellRender.render(specs, buffer);
-            FileEmit(buffer.Emit(), specs.Count, XedPaths.RuleSpecs(kind), TextEncodingKind.Asci);
-        }
-
-        static void EmitTableFile(in RuleTableSpec spec, FS.FilePath dst)
-        {
-            var buffer = text.buffer();
-            if(dst.Exists)
-                dst = dst.ChangeExtension(FS.ext(string.Format("2.{0}", dst.Ext)));
-
-            buffer.AppendLine(RuleCellRender.SpecHeader);
-            RuleCellRender.render(spec, buffer);
-
-            using var writer = dst.AsciWriter();
-            writer.Append(buffer.Emit());
+                    writer.AppendLine();
+                    writer.AppendLine();
+                    foreach(var line in spec.Format().Lines(trim:false))
+                        writer.AppendLineFormat("# {0}", line.Content);
+                }
+            }
         }
     }
 }

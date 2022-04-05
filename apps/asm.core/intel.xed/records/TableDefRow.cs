@@ -29,6 +29,12 @@ namespace Z0
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,8,32,1};
 
             public static TableDefRow Empty => default;
+
+            public RuleSig Sig
+            {
+                [MethodImpl(Inline)]
+                get => new RuleSig(Kind, Name);
+            }
        }
     }
 }

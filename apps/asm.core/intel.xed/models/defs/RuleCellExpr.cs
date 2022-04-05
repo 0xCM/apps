@@ -16,8 +16,9 @@ namespace Z0
             public readonly asci64 Value;
 
             [MethodImpl(Inline)]
-            public RuleCellExpr(FieldKind field, RuleOperator op, asci64 value)
+            public RuleCellExpr(FieldKind field, RuleOperator op, string value)
             {
+                Require.invariant(value.Length <= 48);
                 Field = field;
                 Operator = op;
                 Value = value;

@@ -261,7 +261,7 @@ namespace Z0
             => src.Contains("!=");
 
         public static bool IsNontermCall(string src)
-            => text.trim(text.remove(src,"::")).EndsWith("()");
+            => text.trim(text.remove(src,Chars.Colon)).EndsWith("()");
 
         public static bool IsNontermLiteral(string src)
             => Nonterminals.Parse(src, out NontermKind _);
@@ -658,10 +658,8 @@ namespace Z0
         public static bool parse(string src, out Nonterminal dst)
         {
             dst = Nonterminal.Empty;
-            var result = false;
-            var i = text.index(src,Chars.LParen);
-            var input = text.trim(i > 0 ? text.left(src,i) : src);
-            result = Nonterminals.Parse(input, out NontermKind ntk);
+            var input = text.trim(src.Remove(":").Remove("()"));
+            var result = Nonterminals.Parse(input, out NontermKind ntk);
             if(result)
                 dst = ntk;
             return result;

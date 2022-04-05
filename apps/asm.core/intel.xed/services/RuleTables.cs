@@ -35,6 +35,8 @@ namespace Z0
 
             Index<TableDefRow> DefRowIndex;
 
+            SortedLookup<RuleSig,Index<TableDefRow>> DefRowLookup;
+
             Index<RuleTableSpec> _EncTableSpecs;
 
             Index<RuleTableSpec> _DecTableSpecs;
@@ -78,6 +80,13 @@ namespace Z0
             public ref readonly Index<TableDefRow> DefRows()
                 => ref DefRowIndex;
 
+            public Index<TableDefRow> DefRows(in RuleSig sig)
+            {
+                var dst = Index<TableDefRow>.Empty;
+                DefRowLookup.Find(sig, out dst);
+                return dst;
+            }
+
             [MethodImpl(Inline)]
             public ref readonly Index<RuleTable> Tables()
                 => ref TableDefIndex;
@@ -85,10 +94,9 @@ namespace Z0
             [MethodImpl(Inline)]
             public RuleTable Table(in RuleSig sig)
             {
-                if(TableDefLookup.Find(sig, out var def))
-                    return def;
-                else
-                    return RuleTable.Empty;
+                var dst = RuleTable.Empty;
+                TableDefLookup.Find(sig, out dst);
+                return dst;
             }
 
             [MethodImpl(Inline)]
@@ -159,7 +167,7 @@ namespace Z0
             void SealTableDefs()
             {
                 DefRowIndex = RuleTableCalcs.CalcDefRows(TableSpecs());
-
+                DefRowLookup = DefRowIndex.GroupBy(x => x.Sig).Select(x => (x.Key,x.Index())).ToDictionary();
                 var tables = Data.Defs.Values.SelectMany(x => x).Array();
                 var count = tables.Length;
                 var defs = dict<RuleSig,RuleTable>(count);
@@ -174,67 +182,9 @@ namespace Z0
 
                 TableDefLookup = defs;
                 TableDefIndex = defs.Values.Array().Sort();
-                //DefRowIndex = CalcDefRows(TableDefIndex);
             }
 
-            // static Index<TableDefRow> CalcDefRows(Index<RuleTable> src)
-            // {
-            //     var count = src.Storage.Map(x => x.EntryCount).Sum();
-            //     var dst = alloc<TableDefRow>(count);
-            //     var k = 0u;
-
-            //     for(var i=0u; i<src.Count; i++)
-            //     {
-            //         ref readonly var table = ref src[i];
-            //         var cells = grid(table);
-            //         for(var j=0u; j<cells.Length; j++,k++)
-            //         {
-            //             ref var row = ref seek(dst,k);
-            //             row.Seq = k;
-            //             row.TableId = i;
-            //             row.Index = j;
-            //             row.Statement = cells[j];
-            //             row.Kind = table.TableKind;
-            //             row.Name = table.Sig.ShortName;
-            //         }
-            //     }
-            //     return dst;
-            // }
-
-            // static Index<RuleGridCells> grid(in RuleTable table)
-            // {
-            //     var rows = XedRules.cells(table);
-            //     var cols = rows.Storage.Select(x => x.Count).Max();
-            //     var grid = alloc<RuleGridCells>(rows.Count);
-            //     for(var j=0; j<rows.Count; j++)
-            //     {
-            //         var premise = true;
-            //         var dst = RuleGridCells.Empty;
-            //         var i = z8;
-            //         for(var k=0; k<rows[j].Count; k++)
-            //         {
-            //             var cell = rows[j][k];
-            //             if(!cell.IsPremise)
-            //             {
-            //                 if(premise)
-            //                 {
-            //                     premise  = false;
-            //                     dst[i] = new(premise, i, table.TableKind, OperatorKind.Impl);
-            //                     i++;
-            //                 }
-            //             }
-
-            //             cell.Index = i;
-            //             dst[i] = cell;
-            //             i++;
-            //             dst.Count = i;
-            //         }
-            //         seek(grid,j) = dst;
-            //     }
-            //     return grid;
-            // }
-
-            public static RuleTables Empty => new();
+           public static RuleTables Empty => new();
         }
     }
 }
