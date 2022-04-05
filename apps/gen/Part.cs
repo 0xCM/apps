@@ -20,28 +20,6 @@ namespace Z0.Parts
     public sealed class Gen : Part<Gen>
     {
 
-        public static AssetData.DataSources Assets
-        {
-            [MethodImpl(Inline)]
-            get => AssetData.Assets;
-        }
-
-        public readonly struct AssetData
-        {
-            public static DataSources Assets = new ();
-
-            public static IAssets AssetSet
-                => Assets;
-
-            public sealed class DataSources : Assets<DataSources>
-            {
-                public Asset DataStoreTemplate() => Asset("DataStore.template");
-
-                public Asset DataStoresTemplate() => Asset("DataStores.template");
-
-            }
-        }
-
 
     }
 }

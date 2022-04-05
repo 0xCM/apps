@@ -13,10 +13,12 @@ namespace Z0
         [CmdOp("gen/stores")]
         Outcome GenStores(CmdArgs args)
         {
-            var assets = Parts.Gen.Assets;
+            var assets = Parts.GenApp.Assets;
             var stores = assets.DataStoresTemplate().Utf8();
             var store = assets.DataStoreTemplate().Utf8();
-            var path = AppDb.CgStagePath("DataStores", FileKind.Cs);
+            //var path = AppDb.CgStagePath("DataStores", FileKind.Cs);
+            var path = FS.FilePath.Empty;
+
             var buffer = text.buffer();
             buffer.AppendLine(stores);
 

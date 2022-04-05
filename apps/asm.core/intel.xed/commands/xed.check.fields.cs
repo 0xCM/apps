@@ -142,7 +142,6 @@ namespace Z0
             }
         }
 
-
         [CmdOp("gen/bits/patterns")]
         Outcome GenBitfield(CmdArgs args)
         {
@@ -165,6 +164,5 @@ namespace Z0
             Write(BitfieldPatterns.bitstring(sib, data));
             return true;
         }
-
     }
 }

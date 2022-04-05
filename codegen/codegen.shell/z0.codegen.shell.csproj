@@ -6,8 +6,12 @@
     <AssemblyName>zgen</AssemblyName>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!-- <ItemGroup>
     <ProjectReference Include="$(Gen)" />
+  </ItemGroup> -->
+
+  <ItemGroup>
+    <EmbeddedResource Include="assets/**/*.*" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>
