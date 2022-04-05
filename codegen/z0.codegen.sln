@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.codegen.intel", "codegen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.codegen.common", "codegen.common\z0.codegen.common.csproj", "{5067C38A-F491-4568-8E2E-A3262394909E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.codegen.shell", "codegen.shell\z0.codegen.shell.csproj", "{454A85D2-61C6-4E97-9BA2-65C03E01DE9E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{5067C38A-F491-4568-8E2E-A3262394909E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5067C38A-F491-4568-8E2E-A3262394909E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5067C38A-F491-4568-8E2E-A3262394909E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{454A85D2-61C6-4E97-9BA2-65C03E01DE9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{454A85D2-61C6-4E97-9BA2-65C03E01DE9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{454A85D2-61C6-4E97-9BA2-65C03E01DE9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{454A85D2-61C6-4E97-9BA2-65C03E01DE9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

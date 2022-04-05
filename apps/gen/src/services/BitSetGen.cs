@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+
     public abstract class BitSetGen : CodeGenerator
     {
         protected string TypeDigits(byte m, byte n)
