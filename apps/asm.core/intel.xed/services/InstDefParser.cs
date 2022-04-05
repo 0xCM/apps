@@ -131,7 +131,7 @@ namespace Z0
                                             InstPatternSpec.FixIsa(ref spec);
                                             spec.PatternId = seq;
                                             spec.RawBody = rawbody;
-                                            RuleParser.parse(RuleMacros.expand(InstPatternBody.normalize(rawbody)), out spec.Body).Require();
+                                            RuleParser.parse(RuleMacros.expand(InstPatternBody.normalize(rawbody)), out spec.Body);
                                             spec.Mode = mode(spec.Body);
                                             PatternOpParser.create(spec.Mode).Parse(spec.PatternId, opexpr, out spec.Ops);
                                             spec.OpCode = xedoc(spec.Body);

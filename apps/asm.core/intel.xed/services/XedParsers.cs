@@ -132,67 +132,6 @@ namespace Z0
         public static bool parse(string src, out imm64 dst)
             => imm64.parse(src, out dst);
 
-        public static bool IsFieldExpr(string src)
-        {
-            var result = text.contains(src,"!=") || text.contains(src,"=");
-            if(result)
-            {
-                var i = text.index(src, "!=");
-                var j = text.index(src, "=");
-                if(i>0)
-                {
-                    var right = text.right(src,i+1);
-                    result = text.nonempty(right);
-                }
-                else if(j>0)
-                {
-                    var right = text.right(src,j);
-                    result = text.nonempty(right);
-                }
-                else
-                    result = false;
-            }
-            return result;
-        }
-
-        public static bool parse(string src, out FieldExpr dst)
-        {
-            dst = FieldExpr.Empty;
-            var result = false;
-            if(IsFieldExpr(src))
-            {
-                var i = text.index(src, "!=");
-                var j = text.index(src, "=");
-                var fvExpr = EmptyString;
-                var fv = R.FieldValue.Empty;
-                var fk = FieldKind.INVALID;
-                var op = OperatorKind.None;
-                if(i > 0)
-                {
-                    fvExpr = text.right(src, i + 1);
-                    op = OperatorKind.Neq;
-                    result = parse(text.left(src,i), out fk);
-                }
-                else if (j>0)
-                {
-                    fvExpr = text.right(src, j);
-                    op = OperatorKind.Eq;
-                    result = parse(text.left(src,j), out fk);
-                }
-
-                if(result)
-                {
-                    result = FieldParser.parse(fk, fvExpr, out fv);
-                    if(result)
-                        dst = new FieldExpr(fk, op, fv);
-                }
-                else
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldExpr), src));
-            }
-
-            return result;
-        }
-
         public static Index<RuleSeq> ruleseq(FS.FilePath src)
             => ruleseq(src.ReadNumberedLines());
 

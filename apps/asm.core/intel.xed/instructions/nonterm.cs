@@ -12,7 +12,7 @@ namespace Z0
 
     partial class XedPatterns
     {
-        public static S16<Nonterminal> nonterms(Index<RuleCell> src)
+        public static S16<Nonterminal> nonterms(Index<RuleCellSpec> src)
         {
             var Capacity = count16<Nonterminal>();
             var dst = alloc16<Nonterminal>((int)src.Count);

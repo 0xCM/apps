@@ -9,12 +9,12 @@ namespace Z0
     {
         public readonly struct StatementSpec
         {
-            public readonly Index<RuleCell> Premise;
+            public readonly Index<RuleCellSpec> Premise;
 
-            public readonly Index<RuleCell> Consequent;
+            public readonly Index<RuleCellSpec> Consequent;
 
             [MethodImpl(Inline)]
-            public StatementSpec(RuleCell[] p, RuleCell[] c)
+            public StatementSpec(RuleCellSpec[] p, RuleCellSpec[] c)
             {
                 Premise = p;
                 Consequent = c;
@@ -38,7 +38,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static StatementSpec Empty => new StatementSpec(sys.empty<RuleCell>(), sys.empty<RuleCell>());
+            public static StatementSpec Empty => new StatementSpec(sys.empty<RuleCellSpec>(), sys.empty<RuleCellSpec>());
         }
     }
 }

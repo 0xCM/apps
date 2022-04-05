@@ -28,7 +28,15 @@ namespace Z0
         }
 
         public string Format()
-            => api.format(this);
+        {
+            var k = Key ?? EmptyString;
+            var v = (Value ?? EmptyString).ToString();
+
+            if(text.nonempty(v))
+                return RP.facet(k, v);
+            else
+                return k;
+        }
 
         public override string ToString()
             => Format();

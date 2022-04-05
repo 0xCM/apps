@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly struct RuleCell
+        public readonly struct RuleCellSpec
         {
             public readonly bool IsPremise;
 
@@ -25,7 +25,7 @@ namespace Z0
             public readonly string Data;
 
             [MethodImpl(Inline)]
-            public RuleCell(bool premise, RuleCellKind kind, string data)
+            public RuleCellSpec(bool premise, RuleCellKind kind, string data)
             {
                 IsPremise = premise;
                 Field = XedFields.kind(data);
@@ -37,7 +37,10 @@ namespace Z0
             }
 
             public bool IsExpr
-                => XedParsers.IsFieldExpr(Data);
+                => RuleParser.IsFieldExpr(Data);
+
+            public RuleCellExpr Expr()
+                => RuleParser.expr(Data);
 
             public bool IsEmpty
             {

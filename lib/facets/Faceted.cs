@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     public readonly struct Faceted
@@ -73,28 +69,8 @@ namespace Z0
 
         internal static string format<K,V>(Facet<K,V> src)
         {
-            var k = text.format("{0}", src.Key);
-            var v = text.format("{0}", src.Value);
-            if(nonempty(v))
-                return RP.facet(k, v);
-            else
-                return k;
-        }
-
-        internal static string format<T>(Facet<T> src)
-        {
-            var k = text.format("{0}", src.Key);
-            var v = text.format("{0}", src.Value);
-            if(nonempty(v))
-                return RP.facet(k, v);
-            else
-                return k;
-        }
-
-        internal static string format(Facet src)
-        {
-            var k = text.format("{0}", src.Key);
-            var v = text.format("{0}", src.Value);
+            var k = string.Format("{0}", src.Key);
+            var v = string.Format("{0}", src.Value);
             if(nonempty(v))
                 return RP.facet(k, v);
             else

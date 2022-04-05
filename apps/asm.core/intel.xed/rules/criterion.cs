@@ -11,6 +11,14 @@ namespace Z0
 
     partial class XedRules
     {
+        public static RuleCriterion criterion(in RuleCellSpec src)
+        {
+            var dst = RuleCriterion.Empty;
+            if(!RuleParser.parse(src.Data, out dst))
+                Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCriterion), src.Data));
+            return dst;
+        }
+
         [MethodImpl(Inline), Op]
         public static RuleCriterion criterion(in FieldExpr src)
             => new RuleCriterion(src);

@@ -53,6 +53,10 @@ namespace Z0
             => new string(src);
 
         [MethodImpl(Inline), Op]
+        public static string format(ReadOnlySpan<char> src, bool trim)
+            => new string(trim ? src.Trim() : src);
+
+        [MethodImpl(Inline), Op]
         public static string format(char[] src)
             => new string(src);
 

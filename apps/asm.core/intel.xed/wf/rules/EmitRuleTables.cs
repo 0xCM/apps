@@ -35,7 +35,7 @@ namespace Z0
 
         void EmitRuleSeq()
         {
-            var src = XedRules.CalcRuleSeq();
+            var src = RuleTableCalcs.CalcRuleSeq();
             var dst = text.buffer();
             iter(src, x => dst.AppendLine(x.Format()));
             FileEmit(dst.Emit(), src.Count, XedPaths.Service.DocTarget(XedDocKind.RuleSeq), TextEncodingKind.Asci);
@@ -58,12 +58,12 @@ namespace Z0
         }
 
         void EmitTableFiles(RuleTables tables, RuleTableKind kind)
-            => iter(tables.Specs[kind], spec => EmitTableFile(spec, XedPaths.Service.TableDef(spec.Sig)), false);
+            => iter(tables.TableSpecs(kind), spec => EmitTableFile(spec, XedPaths.Service.TableDef(spec.Sig)), false);
 
         void EmitTableSpecs(RuleTables tables, RuleTableKind kind)
         {
             var buffer = text.buffer();
-            var specs = tables.Specs[kind];
+            ref readonly var specs = ref tables.TableSpecs(kind);
             var path = XedPaths.RuleSpecs(kind);
             buffer.AppendLine(RuleCellRender.SpecHeader);
             RuleCellRender.render(specs, buffer);

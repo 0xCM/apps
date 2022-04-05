@@ -64,6 +64,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public static bool operator!=(RuleOperator a, RuleOperator b)
                 => !a.Equals(b);
+
+            public static RuleOperator Empty => default;
         }
     }
 }

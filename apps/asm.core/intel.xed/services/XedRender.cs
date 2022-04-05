@@ -653,7 +653,7 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static string format(in RuleGridRow src)
+        public static string format(in RuleGridCells src)
         {
             var dst = text.buffer();
             for(var k=0; k<src.Count; k++)

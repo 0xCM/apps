@@ -33,7 +33,14 @@ namespace Z0
         }
 
         public string Format()
-            => api.format(this);
+        {
+            var k = text.format("{0}", Key);
+            var v = text.format("{0}", Value);
+            if(text.nonempty(v))
+                return RP.facet(k, v);
+            else
+                return k;
+        }
 
         public override string ToString()
             => Format();

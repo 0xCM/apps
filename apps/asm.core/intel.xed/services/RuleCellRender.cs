@@ -25,68 +25,32 @@ namespace Z0
                 RenderContent(spec, dst);
             }
 
-            static Outcome split(RuleCell src, out string value)
+            static Outcome split(RuleCellSpec cell, out string left, out string right)
             {
-                var data = src.Data;
-                value = data;
-                var left = EmptyString;
-                if(src.IsExpr)
+                var src = cell.Data;
+                right = src;
+                left = EmptyString;
+                if(cell.IsExpr)
                 {
-                    if(src.Operator == OperatorKind.Eq)
-                        eq(data, out left, out value);
-                    else if(src.Operator == OperatorKind.Neq)
-                        neq(data, out left, out value);
+                    if(cell.Operator == OperatorKind.Eq)
+                        RuleParser.eq(src, out left, out right);
+                    else if(cell.Operator == OperatorKind.Neq)
+                        RuleParser.neq(src, out left, out right);
                     else
-                        Errors.Throw($"{data} is not an expression");
+                        Errors.Throw($"{src} is not an expression");
 
                     return true;
                 }
 
-                if(XedParsers.IsBfSeg(data) && XedParsers.parse(data, out BfSeg bfs))
-                    value = bfs.Pattern;
+                if(XedParsers.IsBfSeg(src) && XedParsers.parse(src, out BfSeg bfs))
+                    right = bfs.Pattern;
 
                 return true;
             }
 
-            static bool eq(string src, out string left, out string right)
+            static string FormatRow(uint row, byte col, RuleSig sig, RuleCellSpec cell)
             {
-                var result = false;
-                if(XedParsers.IsEq(src))
-                {
-                    var i = text.index(src, Chars.Eq);
-                    left = text.left(src,i);
-                    right = text.right(src,i);
-                    result = true;
-                }
-                else
-                {
-                    left = EmptyString;
-                    right = EmptyString;
-                }
-                return result;
-            }
-
-            static bool neq(string src, out string left, out string right)
-            {
-                var result = false;
-                if(XedParsers.IsNeq(src))
-                {
-                    var i = text.index(src, Chars.Bang);
-                    left = text.left(src,i);
-                    right = text.right(src,i+1);
-                    result = true;
-                }
-                else
-                {
-                    left = EmptyString;
-                    right = EmptyString;
-                }
-                return result;
-            }
-
-            static string FormatRow(uint row, byte col, RuleSig sig, RuleCell cell)
-            {
-                var result = split(cell, out var value);
+                var result = split(cell, out var left, out var right);
                 return string.Format(SpecRender,
                     sig.TableKind,
                     sig.ShortName,
@@ -95,10 +59,10 @@ namespace Z0
                     cell.IsPremise ? 'P' : 'C',
                     col,
                     cell.Kind == RuleCellKind.BfSeg
-                        ? string.Format("{0}[{1}]", XedRender.format(cell.Field), value)
+                        ? string.Format("{0}[{1}]", XedRender.format(cell.Field), right)
                         : cell.Operator.IsNonEmpty
-                        ? string.Format("{0}{1}{2}", XedRender.format(cell.Field), XedRender.format(cell.Operator), value)
-                        : value,
+                        ? string.Format("{0}{1}{2}", XedRender.format(cell.Field), XedRender.format(cell.Operator), right)
+                        : right,
                     cell.Data
                     );
             }

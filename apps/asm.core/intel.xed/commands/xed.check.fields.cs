@@ -16,8 +16,66 @@ namespace Z0
         [CmdOp("xed/check/fields")]
         Outcome CheckFields(CmdArgs args)
         {
-            EmitRuleFieldDeps();
+            var rules = Xed.Rules.CalcRules();
+            var rows = RuleTableCalcs.CalcDefRows(rules.TableSpecs());
+
+            TableEmit(rows.View, TableDefRow.RenderWidths, XedPaths.RuleTable<TableDefRow>());
+
             return true;
+        }
+
+        void CheckRuleExpr()
+        {
+            var rules = Xed.Rules.CalcRules();
+            var lookup = CalcRuleExpr(rules);
+            var keys = lookup.Keys;
+            var dst = text.buffer();
+            dst.AppendLineFormat("{0,-18} | {1}", "Key", "Expression");
+            for(var i=0; i<keys.Length; i++)
+            {
+                ref readonly var key = ref skip(keys,i);
+                var expr = lookup[key];
+                dst.AppendLineFormat("{0,-18} | {1}", key, expr);
+            }
+
+            FileEmit(dst.Emit(),keys.Length, XedPaths.RuleTargets() + FS.file("xed.rules.expressions", FS.Csv), TextEncodingKind.Asci);
+        }
+
+        public RuleExprLookup CalcRuleExpr(RuleTables rules)
+        {
+            var dst = dict<RuleExprKey,RuleCellExpr>();
+            CalcRuleExpr(rules.EncTableSpecs(), dst);
+            CalcRuleExpr(rules.DecTableSpecs(), dst);
+            return dst;
+        }
+
+        public void CalcRuleExpr(Index<RuleTableSpec> src, Dictionary<RuleExprKey,RuleCellExpr> dst)
+        {
+            for(var i=0; i<src.Count; i++)
+                CalcRuleExpr(src[i], dst);
+        }
+
+        void CalcRuleExpr(in RuleTableSpec src, Dictionary<RuleExprKey,RuleCellExpr> dst)
+        {
+            for(var i=z16; i<src.StatementCount; i++)
+                CalcRuleExpr(i, src, dst);
+        }
+
+        void CalcRuleExpr(ushort entry, in RuleTableSpec table, Dictionary<RuleExprKey,RuleCellExpr> dst)
+        {
+            CalcRuleExpr(entry, table, 'P', table[entry].Premise, dst);
+            CalcRuleExpr(entry, table, 'C', table[entry].Consequent, dst);
+        }
+
+        void CalcRuleExpr(ushort seq, in RuleTableSpec table, char logic, Index<RuleCellSpec> src, Dictionary<RuleExprKey,RuleCellExpr> dst)
+        {
+            for(var i=z8; i<src.Count; i++)
+            {
+                var key = new RuleExprKey(table.Sig.TableKind, table.TableId, seq, logic, i);
+                var expr = src[i].Expr();
+                if(!dst.TryAdd(key, expr))
+                    Error(string.Format("Duplicate:({0},'{1}')", key, expr));
+            }
         }
 
         void EmitSomt()
@@ -109,7 +167,6 @@ namespace Z0
             }
         }
 
-
         void EmitRuleFieldDeps()
         {
             var rules = Xed.Rules.CalcRules();
@@ -120,14 +177,9 @@ namespace Z0
             for(var i=0; i<tables.Count; i++)
             {
                 ref readonly var table = ref tables[i];
-                // var fP = table.Fields(true);
-                // var fC = table.Fields(false);
-
                 var source = table.Deps(true);
                 var target = table.Deps(false);
 
-                // var source = fP.IsNonEmpty ? text.embrace(fP.Format()) : "{}";
-                // var target = fC.IsNonEmpty ? text.embrace(fC.Format()) : "{}";
                 dst.AppendLineFormat("{0}:{1}{2} -> {3}", table.TableKind, table.Sig.ShortName, source, target);
             }
 

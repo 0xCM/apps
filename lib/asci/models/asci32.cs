@@ -133,7 +133,7 @@ namespace Z0
         public TextBlock Text
         {
             [MethodImpl(Inline)]
-            get => text.format(Decoded);
+            get => text.format(Decoded,true);
         }
 
         [MethodImpl(Inline)]
@@ -152,7 +152,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => Text.Trim();
+            => Text;
 
         public override string ToString()
             => Format();

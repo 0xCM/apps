@@ -24,7 +24,7 @@ namespace Z0
 
             public asci32 Name;
 
-            public RuleGridRow Statement;
+            public RuleGridCells Statement;
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,8,32,1};
 

@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct RuleGridRow
+        public struct RuleGridCells
         {
             public const byte MaxCount = 16;
 
@@ -52,7 +52,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static RuleGridRow Empty => default;
+            public static RuleGridCells Empty => default;
 
             public RuleGridCell this[int index]
             {
