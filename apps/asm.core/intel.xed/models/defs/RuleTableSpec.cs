@@ -21,6 +21,9 @@ namespace Z0
                 Statements = statements;
             }
 
+            public RuleTableSpec Merge(in RuleTableSpec src)
+                => new RuleTableSpec(Require.equal(Sig,src.Sig), Statements.Append(src.Statements));
+
             public string Format()
                 => XedRender.format(this);
 

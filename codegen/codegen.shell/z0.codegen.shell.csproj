@@ -6,10 +6,6 @@
     <AssemblyName>zgen</AssemblyName>
   </PropertyGroup>
 
-  <!-- <ItemGroup>
-    <ProjectReference Include="$(Gen)" />
-  </ItemGroup> -->
-
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
   </ItemGroup>

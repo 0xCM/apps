@@ -25,8 +25,8 @@ namespace Z0
                 => fields(premise,this);
 
             [MethodImpl(Inline)]
-            public Nonterminals Nonterminals(bool premise)
-                => nonterms(premise,this);
+            public FunctionSet Nonterminals(bool premise)
+                => functions(premise,this);
 
             public bool IsEmpty
             {

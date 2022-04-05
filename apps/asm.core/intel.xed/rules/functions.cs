@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
-        public static ref Nonterminals nonterms(bool premise, in RuleStatement src, ref Nonterminals dst)
+        public static ref FunctionSet functions(bool premise, in RuleStatement src, ref FunctionSet dst)
         {
             var criteria = premise ? ref src.Premise : ref src.Consequent;
             for(var i=0; i<criteria.Count; i++)
@@ -21,7 +21,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static ref Nonterminals nonterms(Index<RuleCriterion> src, ref Nonterminals dst)
+        public static ref FunctionSet functions(Index<RuleCriterion> src, ref FunctionSet dst)
         {
             for(var i=0; i<src.Count; i++)
             {
@@ -34,55 +34,55 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static ref Nonterminals nonterms(in RuleTable src, ref Nonterminals dst)
+        public static ref FunctionSet functions(in RuleTable src, ref FunctionSet dst)
         {
             for(var i=0; i<src.EntryCount; i++)
             {
-                nonterms(true, src[i], ref dst);
-                nonterms(false, src[i], ref dst);
+                functions(true, src[i], ref dst);
+                functions(false, src[i], ref dst);
             }
             return ref dst;
         }
 
         [MethodImpl(Inline), Op]
-        public static ref Nonterminals nonterms(bool premise, in RuleTable src, ref Nonterminals dst)
+        public static ref FunctionSet functions(bool premise, in RuleTable src, ref FunctionSet dst)
         {
             for(var i=0; i<src.EntryCount; i++)
-                nonterms(premise, src[i], ref dst);
+                functions(premise, src[i], ref dst);
             return ref dst;
         }
 
         [MethodImpl(Inline), Op]
-        public static Nonterminals nonterms(in RuleTable src)
+        public static FunctionSet nonterms(in RuleTable src)
         {
-            var dst = Nonterminals.create();
-            nonterms(src, ref dst);
+            var dst = FunctionSet.create();
+            functions(src, ref dst);
             return dst;
         }
 
         [MethodImpl(Inline), Op]
-        public static Nonterminals nonterms(bool premise, in RuleTable src)
+        public static FunctionSet functions(bool premise, in RuleTable src)
         {
-            var dst = Nonterminals.create();
+            var dst = FunctionSet.create();
             for(var i=0; i<src.EntryCount; i++)
-                nonterms(premise, src[i], ref dst);
+                functions(premise, src[i], ref dst);
             return dst;
         }
 
         [MethodImpl(Inline), Op]
-        public static Nonterminals nonterms(bool premise, in RuleStatement src)
+        public static FunctionSet functions(bool premise, in RuleStatement src)
         {
-            var dst = Nonterminals.create();
-            nonterms(premise, src, ref dst);
+            var dst = FunctionSet.create();
+            functions(premise, src, ref dst);
             return dst;
         }
 
 
         [MethodImpl(Inline), Op]
-        public static Nonterminals nonterms(Index<RuleCriterion> src)
+        public static FunctionSet functions(Index<RuleCriterion> src)
         {
-            var dst = Nonterminals.create();
-            return nonterms(src, ref dst);
+            var dst = FunctionSet.create();
+            return functions(src, ref dst);
         }
     }
 }

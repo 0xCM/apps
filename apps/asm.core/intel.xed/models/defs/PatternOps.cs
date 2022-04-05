@@ -62,9 +62,9 @@ namespace Z0
                 => Data.Select(x => x.Name);
 
             [MethodImpl(Inline)]
-            public Nonterminals Nonterms()
+            public FunctionSet Nonterms()
             {
-                var dst = Nonterminals.create();
+                var dst = FunctionSet.create();
                 for(var i=0; i<Count; i++)
                 {
                     ref readonly var op = ref this[i];
@@ -75,7 +75,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public uint Nonterms(ref Nonterminals dst)
+            public uint Nonterms(ref FunctionSet dst)
             {
                 var counter = 0u;
                 for(var i=0; i<Count; i++)

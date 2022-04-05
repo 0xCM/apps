@@ -16,7 +16,7 @@ namespace Z0
         [CmdOp("xed/check/fields")]
         Outcome CheckFields(CmdArgs args)
         {
-            EmitOpNonTerminals();
+            EmitRuleFieldDeps();
             return true;
         }
 
@@ -28,18 +28,18 @@ namespace Z0
             var dst = text.buffer();
             dst.AppendLine("digraph {");
             ref readonly var tables = ref rules.Tables();
-            Span<NontermKind> buffer = stackalloc NontermKind[(int)Nonterminals.MaxCount];
+            Span<NontermKind> buffer = stackalloc NontermKind[(int)FunctionSet.MaxCount];
 
             for(var i=0; i<tables.Count; i++)
             {
                 ref readonly var table = ref tables[i];
-                var deps = table.Nonterminals(true);
+                var deps = table.Functions(true);
                 var count = 0u;
                 count = deps.Members(buffer);
                 for(var j=0; j<count; j++)
                     dst.AppendLineFormat(RenderPattern, text.enquote(string.Format("{0}:{1}:{2}", table.TableKind, "A", table.Sig.ShortName)), text.enquote(XedRender.format(skip(buffer,j))));
 
-                deps = table.Nonterminals(false);
+                deps = table.Functions(false);
                 count = deps.Members(buffer);
                 for(var j=0; j<count; j++)
                     dst.AppendLineFormat(RenderPattern, text.enquote(string.Format("{0}:{1}:{2}", table.TableKind, "C", table.Sig.ShortName)), text.enquote(XedRender.format(skip(buffer,j))));
@@ -53,7 +53,7 @@ namespace Z0
         void EmitOpNonTerminals()
         {
             var patterns = Xed.Rules.CalcInstPatterns();
-            var nonterms = Nonterminals.Empty;
+            var nonterms = FunctionSet.Empty;
             var buffer = list<Nonterminal>();
             var output = text.buffer();
             var counter = 0u;
@@ -82,8 +82,8 @@ namespace Z0
             //var dst = Nonterminals.create();
             var src = Symbols.index<NontermKind>();
             var kinds = src.Kinds;
-            var dst = Nonterminals.init(kinds);
-            var buffer = alloc<NontermKind>(Nonterminals.MaxCount);
+            var dst = FunctionSet.init(kinds);
+            var buffer = alloc<NontermKind>(FunctionSet.MaxCount);
             var count = dst.Members(buffer);
             for(var i=0; i<kinds.Length; i++)
             {
@@ -94,7 +94,7 @@ namespace Z0
 
             var smaller = slice(kinds,100,150);
             dst = smaller;
-            for(var i=0; i<Nonterminals.MaxCount; i++)
+            for(var i=0; i<FunctionSet.MaxCount; i++)
             {
                 var min = skip(smaller,0);
                 var max = skip(smaller,smaller.Length - 1);
@@ -109,21 +109,25 @@ namespace Z0
             }
         }
 
+
         void EmitRuleFieldDeps()
         {
             var rules = Xed.Rules.CalcRules();
             var dst = text.buffer();
             ref readonly var tables = ref rules.Tables();
             var count =z8;
-            Span<FieldKind> kinds = stackalloc FieldKind[FieldSet.Capacity];
 
             for(var i=0; i<tables.Count; i++)
             {
                 ref readonly var table = ref tables[i];
-                var fP = table.Fields(true);
-                var fC = table.Fields(false);
-                var source = fP.IsNonEmpty ? text.embrace(fP.Format()) : "{}";
-                var target = fC.IsNonEmpty ? text.embrace(fC.Format()) : "{}";
+                // var fP = table.Fields(true);
+                // var fC = table.Fields(false);
+
+                var source = table.Deps(true);
+                var target = table.Deps(false);
+
+                // var source = fP.IsNonEmpty ? text.embrace(fP.Format()) : "{}";
+                // var target = fC.IsNonEmpty ? text.embrace(fC.Format()) : "{}";
                 dst.AppendLineFormat("{0}:{1}{2} -> {3}", table.TableKind, table.Sig.ShortName, source, target);
             }
 

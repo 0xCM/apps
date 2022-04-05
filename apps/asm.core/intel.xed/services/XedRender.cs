@@ -774,11 +774,11 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static string format(in Nonterminals src, char sep = Chars.Comma)
+        public static string format(in FunctionSet src, char sep = Chars.Comma)
         {
             var dst = text.buffer();
             var counter = 0u;
-            for(var i=0; i<Nonterminals.MaxCount; i++)
+            for(var i=0; i<FunctionSet.MaxCount; i++)
             {
                 var kind = (NontermKind)i;
                 if(src.Contains(kind))

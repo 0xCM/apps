@@ -98,11 +98,11 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public Nonterminals NontermOps()
+            public FunctionSet NontermOps()
                 => Spec.Ops.Nonterms();
 
             [MethodImpl(Inline)]
-            public uint NontermOps(ref Nonterminals dst)
+            public uint NontermOps(ref FunctionSet dst)
                 => Spec.Ops.Nonterms(ref dst);
 
             public byte OpCount

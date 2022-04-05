@@ -41,20 +41,28 @@ namespace Z0
                 => fields(premise, this, ref dst);
 
             [MethodImpl(Inline)]
-            public Nonterminals Nonterminals()
+            public FunctionSet Functions()
                 => nonterms(this);
 
             [MethodImpl(Inline)]
-            public Nonterminals Nonterminals(bool premise)
-                => nonterms(premise, this);
+            public FunctionSet Functions(bool premise)
+                => functions(premise, this);
 
             [MethodImpl(Inline)]
-            public void Nonterminals(ref Nonterminals dst)
-                => nonterms(this, ref dst);
+            public void Functions(ref FunctionSet dst)
+                => functions(this, ref dst);
 
             [MethodImpl(Inline)]
-            public void Nonterminals(bool premise, ref Nonterminals dst)
-                => nonterms(premise, this, ref dst);
+            public void Functions(bool premise, ref FunctionSet dst)
+                => functions(premise, this, ref dst);
+
+            [MethodImpl(Inline)]
+            public RuleTableDeps Deps(bool premise)
+                => new (Fields(premise),Functions(premise));
+
+            [MethodImpl(Inline)]
+            public RuleTableDeps Deps()
+                => new (Fields(),Functions());
 
             public uint EntryCount
             {

@@ -11,14 +11,14 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct Nonterminals
+        public struct FunctionSet
         {
             [MethodImpl(Inline), Op]
-            public static Nonterminals init(params NontermKind[] src)
+            public static FunctionSet init(params NontermKind[] src)
                 => init(@readonly(src));
 
             [MethodImpl(Inline), Op]
-            public static Nonterminals init(ReadOnlySpan<NontermKind> src)
+            public static FunctionSet init(ReadOnlySpan<NontermKind> src)
             {
                 var dst = create();
                 for(var i=0; i<src.Length; i++)
@@ -27,7 +27,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline), Op]
-            public static Nonterminals create()
+            public static FunctionSet create()
                 => default;
 
             const ushort SegWidth = 128;
@@ -66,7 +66,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public Nonterminals Include(NontermKind src)
+            public FunctionSet Include(NontermKind src)
             {
                 var pos = ToPos(src);
                 if(src != 0)
@@ -82,7 +82,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public Nonterminals Clear()
+            public FunctionSet Clear()
             {
                 Seg0 = default;
                 Seg1 = default;
@@ -91,7 +91,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public Nonterminals Clear(NontermKind src)
+            public FunctionSet Clear(NontermKind src)
             {
                 var pos = ToPos(src);
                 if(src != 0)
@@ -108,7 +108,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public Nonterminals Include(params NontermKind[] src)
+            public FunctionSet Include(params NontermKind[] src)
             {
                 for(var i=0; i<src.Length; i++)
                     Include(skip(src,i));
@@ -183,37 +183,37 @@ namespace Z0
                 => Hash;
 
             [MethodImpl(Inline)]
-            public bool Equals(Nonterminals src)
+            public bool Equals(FunctionSet src)
                 => Seg0 == src.Seg0 && Seg1 == src.Seg1 && Seg2 == src.Seg2;
 
             public override bool Equals(object src)
-                => src is Nonterminals x && Equals(x);
+                => src is FunctionSet x && Equals(x);
 
             [MethodImpl(Inline)]
-            public static bool operator==(Nonterminals a, Nonterminals b)
+            public static bool operator==(FunctionSet a, FunctionSet b)
                 => a.Equals(b);
 
             [MethodImpl(Inline)]
-            public static bool operator!=(Nonterminals a, Nonterminals b)
+            public static bool operator!=(FunctionSet a, FunctionSet b)
                 => !a.Equals(b);
 
             [MethodImpl(Inline)]
-            public static implicit operator Nonterminals(ReadOnlySpan<NontermKind> src)
+            public static implicit operator FunctionSet(ReadOnlySpan<NontermKind> src)
                 => init(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator Nonterminals(Span<NontermKind> src)
+            public static implicit operator FunctionSet(Span<NontermKind> src)
                 => init(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator Nonterminals(NontermKind[] src)
+            public static implicit operator FunctionSet(NontermKind[] src)
                 => init(@readonly(src));
 
             [MethodImpl(Inline)]
-            public static implicit operator Nonterminals(Index<NontermKind> src)
+            public static implicit operator FunctionSet(Index<NontermKind> src)
                 => init(src.View);
 
-            public static Nonterminals Empty => default;
+            public static FunctionSet Empty => default;
 
             [MethodImpl(Inline)]
             static NontermKind ToKind(int pos)
@@ -258,8 +258,6 @@ namespace Z0
                 var i = (ushort)src;
                 return i >= Seg2Pos && i < MaxCount;
             }
-
-
         }
     }
 }
