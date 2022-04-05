@@ -49,8 +49,8 @@ public enum PartId : byte
     [Symbol("asm.prototypes")]
     AsmPrototypes = 15,
 
-    [Symbol("processors")]
-    Processors = 16,
+    [Symbol("codegen.common")]
+    CgCommon = 16,
 
     [Symbol("polyrand")]
     Polyrand = 17,
@@ -67,8 +67,8 @@ public enum PartId : byte
     [Symbol("lang")]
     Lang = 22,
 
-    [Symbol("hash")]
-    Hash = 23,
+    [Symbol("codegen.intel")]
+    CgIntel = 23,
 
     [Symbol("blocks")]
     Blocks = 24,

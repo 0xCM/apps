@@ -33,6 +33,7 @@
     <CodeGenLlvm>$(CodeGenRoot)codegen.llvm/z0.codegen.llvm.csproj</CodeGenLlvm>
     <CodeGenResPack>$(CodeGenRoot)codegen.respack/z0.codegen.respack.csproj</CodeGenResPack>
     <CodeGenIntel>$(CodeGenRoot)codegen.intel/z0.codegen.intel.csproj</CodeGenIntel>
+    <CgCommon>$(CodeGenRoot)codegen.common/z0.codegen.common.csproj</CgCommon>
 
   </PropertyGroup>
 
