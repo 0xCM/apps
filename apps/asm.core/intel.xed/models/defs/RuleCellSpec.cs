@@ -18,14 +18,12 @@ namespace Z0
 
             public readonly FieldKind Field;
 
-            public readonly RuleCellKind Kind;
-
             public readonly RuleOperator Operator;
 
             public readonly string Data;
 
             [MethodImpl(Inline)]
-            public RuleCellSpec(bool premise, RuleCellKind kind, string data)
+            public RuleCellSpec(bool premise, string data)
             {
                 Require.invariant(data.Length < 48);
                 IsPremise = premise;
@@ -33,12 +31,8 @@ namespace Z0
                 Data = text.ifempty(data,EmptyString);
                 IsLiteral = Field == 0;
                 IsOperator = false;
-                Kind = kind;
                 XedParsers.parse(Data, out Operator);
             }
-
-            public bool IsExpr
-                => RuleParser.IsFieldExpr(Data);
 
             public RuleCellExpr Expr()
                 => RuleParser.expr(Data);

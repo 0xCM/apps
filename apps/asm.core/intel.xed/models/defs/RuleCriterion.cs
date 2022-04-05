@@ -19,7 +19,7 @@ namespace Z0
 
             readonly ByteBlock16 Storage;
 
-            public readonly CellDataKind DataKind;
+            public readonly RuleCellKind Kind;
 
             [MethodImpl(Inline)]
             internal RuleCriterion(FieldKind fk, RuleOperator op, Nonterminal nt)
@@ -27,7 +27,7 @@ namespace Z0
                 Field = fk;
                 Operator = op;
                 Storage = core.bytes(expr(fk, op, new (fk,nt)));
-                DataKind = CellDataKind.NontermExpr;
+                Kind = RuleCellKind.NontermExpr;
             }
 
             [MethodImpl(Inline)]
@@ -36,7 +36,7 @@ namespace Z0
                 Field = data.Field;
                 Operator = data.Operator;
                 Storage = core.bytes(data);
-                DataKind = data.IsEq ? CellDataKind.FieldEq : data.IsNeq ? CellDataKind.FieldNeq : CellDataKind.None;
+                Kind = data.IsEq ? RuleCellKind.FieldEq : data.IsNeq ? RuleCellKind.FieldNeq : RuleCellKind.None;
             }
 
             [MethodImpl(Inline)]
@@ -45,7 +45,7 @@ namespace Z0
                 Field = FieldKind.INVALID;
                 Operator = OperatorKind.None;
                 Storage = (uint)nt;
-                DataKind = CellDataKind.Nonterminal;
+                Kind = RuleCellKind.Nonterminal;
             }
 
             [MethodImpl(Inline)]
@@ -54,7 +54,7 @@ namespace Z0
                 Field = data.Field;
                 Operator = OperatorKind.None;
                 Storage = core.bytes(data);
-                DataKind = CellDataKind.BfSeg;
+                Kind = RuleCellKind.BfSeg;
             }
 
             [MethodImpl(Inline)]
@@ -63,7 +63,7 @@ namespace Z0
                 Field = FieldKind.INVALID;
                 Operator = OperatorKind.None;
                 Storage = (byte)spec.Kind;
-                DataKind = CellDataKind.BfSpec;
+                Kind = RuleCellKind.BfSpec;
             }
 
             [MethodImpl(Inline)]
@@ -72,7 +72,7 @@ namespace Z0
                 Field = FieldKind.INVALID;
                 Operator = OperatorKind.None;
                 Storage = core.bytes(literal);
-                DataKind = CellDataKind.FieldLiteral;
+                Kind = RuleCellKind.FieldLiteral;
             }
 
             [MethodImpl(Inline)]
@@ -81,7 +81,7 @@ namespace Z0
                 Field = FieldKind.INVALID;
                 Operator = op;
                 Storage = (byte)op;
-                DataKind = CellDataKind.Operator;
+                Kind = RuleCellKind.Operator;
             }
 
             public readonly ulong Data
@@ -93,7 +93,7 @@ namespace Z0
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => DataKind == 0;
+                get => Kind == 0;
             }
 
             public bool IsNonEmpty
@@ -105,7 +105,7 @@ namespace Z0
             public bool IsNonTerminal
             {
                 [MethodImpl(Inline)]
-                get => DataKind == CellDataKind.Nonterminal;
+                get => Kind == RuleCellKind.Nonterminal;
             }
 
             [MethodImpl(Inline)]

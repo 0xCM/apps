@@ -11,8 +11,6 @@ namespace Z0
     using static XedModels;
     using static XedPatterns;
 
-    using CK = XedRules.RuleCellKind;
-
     partial class XedRules
     {
         public readonly struct RuleParser
@@ -215,70 +213,6 @@ namespace Z0
                 return result;
             }
 
-            [Op]
-            static RuleCellKind cellkind(string data)
-            {
-                var kind = CK.None;
-                var left = EmptyString;
-                if(RuleParser.IsFieldExpr(data))
-                {
-                    XedParsers.parse(data, out OperatorKind op);
-                    if(op == OperatorKind.Eq)
-                        kind = CK.Eq;
-                    else if(op == OperatorKind.Neq)
-                        kind = CK.Neq;
-                    else
-                        Errors.Throw($"{data} is not an expression");
-
-                    return kind;
-                }
-
-                if(XedParsers.IsBinaryLiteral(data))
-                    kind = CK.Bits;
-                else if(XedParsers.IsHexLiteral(data))
-                    kind = CK.Hex;
-                else if(XedParsers.IsIntLiteral(data))
-                    kind = CK.Int;
-
-                if(kind != 0)
-                    return kind;
-
-                if(XedParsers.IsBfSeg(data))
-                {
-                    if(XedParsers.parse(data, out BfSeg _))
-                    {
-                        kind = CK.BfSeg;
-                        return kind;
-                    }
-                }
-
-                if(FieldLiteral.test(data))
-                {
-                    if(FieldLiteral.parse(data, out FieldLiteral literal))
-                    {
-                        if(literal == FieldLiteral.Branch)
-                            kind = CK.Branch;
-                        else if(literal == FieldLiteral.Null)
-                            kind = CK.Null;
-                        else if(literal == FieldLiteral.Error)
-                            kind = CK.Error;
-                        else
-                            kind = CK.FieldLiteral;
-
-                        return kind;
-                    }
-                }
-
-                if(XedParsers.IsBfSpec(data))
-                    kind = CK.BfSpec;
-                else if(XedParsers.IsNontermCall(data))
-                    kind = CK.Nonterminal;
-                if(kind == 0)
-                    kind = CK.FieldLiteral;
-
-                return kind;
-            }
-
             static Outcome parse(string src, out InstDefField dst)
             {
                 dst = InstDefField.Empty;
@@ -416,7 +350,7 @@ namespace Z0
                         cells.Add(input);
                 }
 
-                return cells.Map(x => new RuleCellSpec(premise, cellkind(x),x));
+                return cells.Map(x => new RuleCellSpec(premise,x));
             }
 
             static string normalize(string src)

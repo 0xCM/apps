@@ -62,7 +62,7 @@ namespace Z0
                         dst.Logic = cell.IsPremise ? 'P' : 'C';
                         dst.Index = cell.Index;
                         dst.Field = cell.Criterion.Field;
-                        dst.DataKind = cell.Criterion.DataKind;
+                        dst.CellKind = cell.Criterion.Kind;
                         dst.TableDef = path;
                         buffer.Add(dst);
                     }

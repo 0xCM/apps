@@ -16,7 +16,7 @@ namespace Z0
 
     using R = XedRules;
     using OC = XedRules.OpAttribClass;
-    using DK = XedRules.CellDataKind;
+    using DK = XedRules.RuleCellKind;
 
     public partial class XedRender
     {
@@ -76,7 +76,7 @@ namespace Z0
 
         static EnumRender<MASK> MaskCodes = new();
 
-        static EnumRender<CellDataKind> CellDataKinds = new();
+        static EnumRender<RuleCellKind> CellDataKinds = new();
 
         static EnumRender<ChipCode> ChipCodes = new();
 
@@ -237,7 +237,7 @@ namespace Z0
         public static string format(BaseMapKind src)
             => LegacyMap.Format(src);
 
-        public static string format(CellDataKind src)
+        public static string format(RuleCellKind src)
             => CellDataKinds.Format(src);
 
         public static string format(RuleTableKind src)
@@ -666,17 +666,10 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static string format(RuleCellKind src)
-        {
-            var dst = EmptyString;
-            dst = format(XedRules.datakind(src));
-            return dst;
-        }
-
         public static string format(in RuleCriterion src)
         {
             var result = EmptyString;
-            switch(src.DataKind)
+            switch(src.Kind)
             {
                 case DK.BfSegExpr:
                 case DK.NontermExpr:
@@ -705,7 +698,7 @@ namespace Z0
                     result = src.ToOperator().Format();
                     break;
                 default:
-                    Errors.Throw($"{src.Field} | {src.Operator} | {src.DataKind}");
+                    Errors.Throw($"{src.Field} | {src.Operator} | {src.Kind}");
                 break;
 
             }
