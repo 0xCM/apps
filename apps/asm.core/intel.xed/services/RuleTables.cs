@@ -27,22 +27,6 @@ namespace Z0
                 public static Buffers Empty => new();
             }
 
-            Index<RuleTable> TableDefIndex;
-
-            SortedLookup<RuleSig,RuleTable> TableDefLookup;
-
-            Dictionary<RuleSig,FS.FilePath> TablePaths;
-
-            Index<TableDefRow> DefRowIndex;
-
-            SortedLookup<RuleSig,Index<TableDefRow>> DefRowLookup;
-
-            Index<RuleTableSpec> _EncTableSpecs;
-
-            Index<RuleTableSpec> _DecTableSpecs;
-
-            Index<RuleTableSpec> _TableSpecs;
-
             public ref readonly Index<RuleSchema> Schema
             {
                 [MethodImpl(Inline)]
@@ -55,30 +39,31 @@ namespace Z0
                 get => ref Data.Sigs;
             }
 
+            Index<RuleTableSpec> _EncTableSpecs;
+
             [MethodImpl(Inline)]
             public ref readonly Index<RuleTableSpec> EncTableSpecs()
                 => ref _EncTableSpecs;
+
+            Index<RuleTableSpec> _DecTableSpecs;
 
             [MethodImpl(Inline)]
             public ref readonly Index<RuleTableSpec> DecTableSpecs()
                 => ref _DecTableSpecs;
 
-            [MethodImpl(Inline)]
-            public ref readonly Index<RuleTableSpec> TableSpecs(RuleTableKind kind)
-            {
-                if(kind == RuleTableKind.Enc)
-                    return ref EncTableSpecs();
-                else
-                    return ref DecTableSpecs();
-            }
+            Index<RuleTableSpec> _TableSpecs;
 
             [MethodImpl(Inline)]
             public ref readonly Index<RuleTableSpec> TableSpecs()
                 => ref _TableSpecs;
 
+            Index<TableDefRow> DefRowIndex;
+
             [MethodImpl(Inline)]
             public ref readonly Index<TableDefRow> DefRows()
                 => ref DefRowIndex;
+
+            SortedLookup<RuleSig,Index<TableDefRow>> DefRowLookup;
 
             public Index<TableDefRow> DefRows(in RuleSig sig)
             {
@@ -87,9 +72,13 @@ namespace Z0
                 return dst;
             }
 
+            Index<RuleTable> TableDefIndex;
+
             [MethodImpl(Inline)]
             public ref readonly Index<RuleTable> Tables()
                 => ref TableDefIndex;
+
+            SortedLookup<RuleSig,RuleTable> TableDefLookup;
 
             [MethodImpl(Inline)]
             public RuleTable Table(in RuleSig sig)
@@ -102,6 +91,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public ReadOnlySpan<RuleSig> Sigs()
                 => TableDefLookup.Keys;
+
+            Dictionary<RuleSig,FS.FilePath> TablePaths;
 
             public FS.FileUri FindTablePath(Nonterminal src)
             {

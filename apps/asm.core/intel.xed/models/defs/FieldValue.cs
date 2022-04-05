@@ -54,23 +54,15 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, ImmFieldSpec data)
+            public FieldValue(FieldKind kind, ImmField data)
             {
                 Field = kind;
-                Data = @as<ImmFieldSpec,ushort>(data);
+                Data =(ushort)data;
                 IsNonTerminal = 0;
             }
 
             [MethodImpl(Inline)]
             public FieldValue(FieldKind kind, ulong data)
-            {
-                Field = kind;
-                Data = data;
-                IsNonTerminal = 0;
-            }
-
-            [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, Disp64 data)
             {
                 Field = kind;
                 Data = data;
@@ -94,10 +86,10 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, DispFieldSpec data)
+            public FieldValue(FieldKind kind, DispField data)
             {
                 Field = kind;
-                Data = @as<DispFieldSpec,uint>(data);
+                Data = (byte)data;
                 IsNonTerminal = 0;
             }
 
@@ -204,12 +196,8 @@ namespace Z0
                 => (bit)Data;
 
             [MethodImpl(Inline)]
-            public imm8 ToImm8()
-                => (imm8)Data;
-
-            [MethodImpl(Inline)]
-            public imm64 ToImm64()
-                => (imm64)Data;
+            public ImmField ToImm()
+                => (ImmField)Data;
 
             [MethodImpl(Inline)]
             public Hex8 ToHex8()
@@ -220,8 +208,8 @@ namespace Z0
                 => (NontermKind)Data;
 
             [MethodImpl(Inline)]
-            public Disp64 ToDisp()
-                => (Disp64)Data;
+            public DispField ToDisp()
+                => (DispField)Data;
 
             [MethodImpl(Inline)]
             public static implicit operator EASZ(FieldValue src)
@@ -272,10 +260,6 @@ namespace Z0
                 => src.ToBit();
 
             [MethodImpl(Inline)]
-            public static implicit operator imm8(FieldValue src)
-                => src.ToImm8();
-
-            [MethodImpl(Inline)]
             public static implicit operator Hex8(FieldValue src)
                 => src.ToHex8();
 
@@ -300,12 +284,12 @@ namespace Z0
                 => (Hex4)src.Data;
 
             [MethodImpl(Inline)]
-            public static implicit operator Disp64(FieldValue src)
+            public static implicit operator DispField(FieldValue src)
                 => src.ToDisp();
 
             [MethodImpl(Inline)]
-            public static implicit operator imm64(FieldValue src)
-                => src.ToImm64();
+            public static implicit operator ImmField(FieldValue src)
+                => src.ToImm();
 
             [MethodImpl(Inline)]
             public static implicit operator ushort(FieldValue src)

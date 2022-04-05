@@ -16,7 +16,7 @@ namespace Z0
         [CmdOp("xed/emit/ruletables")]
         Outcome EmitRuleTables(CmdArgs args)
         {
-            Xed.Rules.EmitRuleTables(Xed.Rules.CalcRules(), Xed.Rules.CalcInstPatterns());
+            Xed.Rules.EmitRules(Xed.Rules.CalcRules(), Xed.Rules.CalcInstPatterns());
             return true;
         }
 

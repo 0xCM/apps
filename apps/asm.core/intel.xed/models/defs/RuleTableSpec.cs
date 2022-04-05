@@ -82,6 +82,9 @@ namespace Z0
             public RuleTableSpec WithId(uint id)
                 => new RuleTableSpec(id, Sig, Statements);
 
+            public ReadOnlySpan<TextLine> Lines()
+                => Format().Lines(trim:false);
+
             public string Format()
                 => XedRender.format(this);
 

@@ -7,10 +7,11 @@ namespace Z0
 {
     using static core;
     using static XedPatterns;
+    using System.IO;
 
     partial class XedRules
     {
-        public void EmitRuleTables(RuleTables tables, Index<InstPattern> patterns)
+        public void EmitRules(RuleTables tables, Index<InstPattern> patterns)
         {
             EmitPatternOps(tables, patterns);
 
@@ -41,66 +42,57 @@ namespace Z0
             FileEmit(dst.Emit(), src.Count, XedPaths.Service.DocTarget(XedDocKind.RuleSeq), TextEncodingKind.Asci);
         }
 
-        void EmitTableSpecs(RuleTables tables)
+        void EmitTableSpecs(RuleTables rules)
         {
             var formatter = Tables.formatter<TableDefRow>(TableDefRow.RenderWidths);
-            exec(PllExec,
-                () => emit(RuleTableKind.Enc),
-                () => emit(RuleTableKind.Dec)
-                );
-
-            void emit(RuleTableKind kind)
+            ref readonly var specs = ref rules.TableSpecs();
+            var dst = XedPaths.RuleSpecs();
+            using var writer = dst.AsciWriter();
+            writer.AppendLine(formatter.FormatHeader());
+            for(var i=0; i<specs.Count; i++)
             {
-                var specs = tables.TableSpecs(kind);
-                var dst = XedPaths.RuleSpecs(kind);
-                using var writer = dst.AsciWriter();
-                writer.AppendLine(formatter.FormatHeader());
-                for(var i=0; i<specs.Count; i++)
+                ref readonly var spec = ref specs[i];
+                var rows = rules.DefRows(spec.Sig);
+                if(rows.IsNonEmpty)
                 {
-                    ref readonly var spec = ref specs[i];
-                    ref readonly var sig = ref spec.Sig;
-                    var rows = tables.DefRows(sig);
-                    if(rows.IsNonEmpty)
-                    {
-                        writer.AppendLine();
-
-                        for(var j=0; j<rows.Count; j++)
-                        {
-                            ref readonly var row = ref rows[j];
-                            writer.AppendLine(formatter.Format(row));
-                        }
-
-                        writer.AppendLine();
-                        writer.AppendLine();
-                        foreach(var line in spec.Format().Lines(trim:false))
-                            writer.AppendLineFormat("# {0}", line.Content);
-                    }
+                    writer.AppendLine();
+                    Emit(rules, spec, formatter, writer);
+                    writer.AppendLine();
                 }
             }
         }
 
-        public void EmitTableFiles(RuleTables tables)
+        static void Emit(RuleTables rules, in RuleTableSpec spec, IRecordFormatter<TableDefRow> formatter, StreamWriter writer)
+        {
+            var rows = rules.DefRows(spec.Sig);
+            if(rows.IsNonEmpty)
+            {
+                for(var k=0; k<rows.Count; k++)
+                    writer.AppendLine(formatter.Format(rows[k]));
+
+                writer.AppendLine();
+                writer.AppendLine();
+                foreach(var line in spec.Lines())
+                    writer.AppendLineFormat("# {0}", line.Content);
+            }
+        }
+
+        public void EmitTableFiles(RuleTables rules)
         {
             var formatter = Tables.formatter<TableDefRow>(TableDefRow.RenderWidths);
-            ref readonly var specs = ref tables.TableSpecs();
-            iter(specs,spec => emit(spec), PllExec);
+            ref readonly var specs = ref rules.TableSpecs();
+            iter(specs, spec => emit(spec), PllExec);
+
             void emit(in RuleTableSpec spec)
             {
-                ref readonly var sig = ref spec.Sig;
-                var dst = XedPaths.Service.TableDef(sig);
+                var dst = XedPaths.Service.TableDef(spec.Sig);
                 Require.invariant(!dst.Exists);
-                var rows = tables.DefRows(sig);
+                var rows = rules.DefRows(spec.Sig);
                 if(rows.IsNonEmpty)
                 {
                     using var writer = dst.AsciWriter();
                     writer.AppendLine(formatter.FormatHeader());
-                    for(var i=0; i<rows.Count; i++)
-                        writer.AppendLine(formatter.Format(rows[i]));
-
-                    writer.AppendLine();
-                    writer.AppendLine();
-                    foreach(var line in spec.Format().Lines(trim:false))
-                        writer.AppendLineFormat("# {0}", line.Content);
+                    Emit(rules, spec, formatter, writer);
                 }
             }
         }

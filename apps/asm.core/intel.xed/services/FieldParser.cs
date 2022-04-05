@@ -237,18 +237,23 @@ namespace Z0
                             dst = new (field, b);
                         else
                         {
-                            result = XedParsers.parse(value, out DispFieldSpec disp);
+                            result = XedParsers.parse(value, out DispField disp);
                             if(result)
                                 dst = new (field,disp);
                         }
                     }
                     break;
 
-                    case K.UIMM1:
                     case K.UIMM0:
                     {
-                        result = XedParsers.parse(value, out ImmFieldSpec imm);
-                        dst = new (field,imm);
+                        result = XedParsers.parse(value, out ImmField imm0);
+                        dst = new (field,imm0.WithIndex(0));
+                    }
+                    break;
+                    case K.UIMM1:
+                    {
+                        result = XedParsers.parse(value, out ImmField imm1);
+                        dst = new (field,imm1.WithIndex(1));
                     }
                     break;
 

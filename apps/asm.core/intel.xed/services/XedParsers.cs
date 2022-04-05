@@ -430,34 +430,31 @@ namespace Z0
             return result;
         }
 
-        public static Outcome parse(string src, out DispFieldSpec dst)
+        public static Outcome parse(string src, out DispField dst)
         {
             var result = Outcome.Success;
-            dst = DispFieldSpec.Empty;
+            dst = DispField.Empty;
             var i = text.index(src, Chars.LBracket);
             var j = text.index(src, Chars.RBracket);
-            var kind = Chars.x;
             var width = z8;
             if(i > 0 && j > i)
             {
                 var inside = text.inside(src,i,j);
                 var quotient = text.split(inside,Chars.FSlash);
                 if(quotient.Length != 2)
-                    return (false,AppMsg.ParseFailure.Format(nameof(DispFieldSpec), src));
+                    return (false,AppMsg.ParseFailure.Format(nameof(DispField), src));
 
                 ref readonly var upper = ref skip(quotient,0);
                 ref readonly var lower = ref skip(quotient,1);
-                if(upper.Length == 1)
-                    kind = upper[0];
                 if(!byte.TryParse(lower, out width))
                     return (false, AppMsg.ParseFailure.Format(nameof(width), lower));
             }
 
-            dst = new DispFieldSpec(width, kind);
+            dst = new DispField((DispKind)(width/8));
             return result;
         }
 
-        public static bool parse(string src, out ImmFieldSpec dst)
+        public static bool parse(string src, out ImmField dst)
         {
             var i = text.index(src, Chars.LBracket);
             var j = text.index(src, Chars.RBracket);
@@ -474,7 +471,7 @@ namespace Z0
                 var inside = text.inside(src,i,j);
                 var quotient = text.split(inside,Chars.FSlash);
                 if(quotient.Length != 2)
-                    result = (false,AppMsg.ParseFailure.Format(nameof(DispFieldSpec), src));
+                    result = (false,AppMsg.ParseFailure.Format(nameof(ImmField), src));
 
                 else
                 {
@@ -488,7 +485,7 @@ namespace Z0
                 }
             }
 
-            dst = new ImmFieldSpec(index, width);
+            dst = new ImmField(index, ((ImmFieldKind)(width/8)));
             return result;
         }
 
@@ -702,7 +699,7 @@ namespace Z0
                 dst = new (field, reg);
                 result = true;
             }
-            else if(FieldLiteral.parse(value, out FieldLiteral fl))
+            else if(RuleKeyword.parse(value, out RuleKeyword fl))
             {
                 dst = new(field, (ulong)fl.ToAsci());
                 result = true;

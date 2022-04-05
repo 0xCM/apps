@@ -10,6 +10,15 @@ namespace Z0
 
     partial class XedRules
     {
+        public readonly struct RuleCellType
+        {
+            public readonly FieldKind Field;
+
+            public readonly RuleOperator Operator;
+
+
+
+        }
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct RuleCriterion
         {
@@ -67,12 +76,12 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(FieldLiteral literal)
+            internal RuleCriterion(RuleKeyword keword)
             {
                 Field = FieldKind.INVALID;
                 Operator = OperatorKind.None;
-                Storage = core.bytes(literal);
-                Kind = RuleCellKind.FieldLiteral;
+                Storage = core.bytes(keword);
+                Kind = RuleCellKind.Keyword;
             }
 
             [MethodImpl(Inline)]
@@ -121,8 +130,8 @@ namespace Z0
                 => new BfSpec((BfSpecKind)Storage[0]);
 
             [MethodImpl(Inline)]
-            public FieldLiteral ToFieldLiteral()
-                => core.@as<FieldLiteral>(Storage.Bytes);
+            public RuleKeyword ToKeyword()
+                => core.@as<RuleKeyword>(Storage.Bytes);
 
             [MethodImpl(Inline)]
             public Nonterminal ToNonTerminal()

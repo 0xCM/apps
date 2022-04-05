@@ -32,7 +32,7 @@ namespace Z0
                 );
 
             exec(PllExec,
-                () => EmitRuleTables(tables, patterns),
+                () => EmitRules(tables, patterns),
                 () => EmitPatternDetails(tables, patterns),
                 () => EmitIsaPages(tables,patterns),
                 () => Docs.EmitDocs(tables,patterns)

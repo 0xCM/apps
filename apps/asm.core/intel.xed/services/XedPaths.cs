@@ -105,6 +105,9 @@ namespace Z0
             return RuleTargets() + FS.file(name,FS.Csv);
         }
 
+        public FS.FilePath RuleSpecs()
+            => RuleTargets() + FS.file("xed.rules.specs", FS.Csv);
+
         public FS.FilePath RuleSchemas()
             => RuleTargets() + Tables.filename<RuleSchema>();
 

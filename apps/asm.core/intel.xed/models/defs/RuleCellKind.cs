@@ -31,9 +31,6 @@ namespace Z0
             [Symbol("bfseg")]
             BfSeg,
 
-            [Symbol("number")]
-            Number,
-
             [Symbol("bfspec")]
             BfSpec,
 
@@ -46,11 +43,8 @@ namespace Z0
             [Symbol("error")]
             Error,
 
-            [Symbol("literal")]
-            FieldLiteral,
-
-            [Symbol("?")]
-            Unknown,
+            [Symbol("keyword")]
+            Keyword,
 
             [Symbol("op")]
             Operator,

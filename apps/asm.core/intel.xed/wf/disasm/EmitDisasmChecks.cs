@@ -71,7 +71,7 @@ namespace Z0
                 writer.WriteLine(RP.PageBreak80);
 
                 writer.AppendLineFormat(RenderPattern, nameof(IClass), detail.InstClass);
-                writer.AppendLineFormat(RenderPattern, nameof(IFormType), detail.InstForm);
+                writer.AppendLineFormat(RenderPattern, "IFORM", detail.InstForm);
                 writer.AppendLineFormat("{0,-24} | {1,-5} {2}", asmhex, ip, asmtxt);
                 writer.AppendLineFormat(RenderPattern, "OcMap", ockind);
                 writer.AppendLine(encoding.Format());

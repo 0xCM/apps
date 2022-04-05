@@ -24,7 +24,7 @@ namespace Z0
             => new RuleCriterion(src);
 
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(FieldLiteral literal)
+        public static RuleCriterion criterion(RuleKeyword literal)
             => new RuleCriterion(literal);
 
         [MethodImpl(Inline), Op]

@@ -7,20 +7,32 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct DispExpr
+        public readonly struct DispField
         {
-            public readonly DispExprKind Kind;
+            public readonly DispKind Kind;
 
             [MethodImpl(Inline)]
-            public DispExpr(DispExprKind kind)
+            public DispField(DispKind kind)
             {
                 Kind = kind;
             }
 
-            public byte DispWidth
+            public byte Width
             {
                 [MethodImpl(Inline)]
-                get => (byte)Sizes.width((NativeSizeCode)Kind);
+                get => (byte)((byte)Kind * 8);
+            }
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Kind == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Kind != 0;
             }
 
             public string Format()
@@ -30,12 +42,22 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator DispExpr(DispExprKind src)
-                => new DispExpr(src);
+            public static implicit operator DispField(DispKind src)
+                => new DispField(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator DispExprKind(DispExpr src)
+            public static implicit operator DispKind(DispField src)
                 => src.Kind;
+
+            [MethodImpl(Inline)]
+            public static explicit operator byte(DispField src)
+                => (byte)src.Kind;
+
+            [MethodImpl(Inline)]
+            public static explicit operator DispField(byte src)
+                => new DispField((DispKind)src);
+
+            public static DispField Empty => default;
         }
     }
 }

@@ -7,18 +7,10 @@ namespace Z0
 {
     partial class XedRules
     {
-        public enum FieldLiteralKind : byte
+        public enum RuleKeyWordKind : byte
         {
+            [Symbol("")]
             None,
-
-            [Symbol("base16")]
-            HexLiteral,
-
-            [Symbol("base2")]
-            BinaryLiteral,
-
-            [Symbol("base10")]
-            DecimalLiteral,
 
             [Symbol("@")]
             Wildcard,

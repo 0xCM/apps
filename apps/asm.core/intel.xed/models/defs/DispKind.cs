@@ -8,19 +8,22 @@ namespace Z0
     partial class XedRules
     {
         [SymSource(xed)]
-        public enum DispExprKind : byte
+        public enum DispKind : byte
         {
+            [Symbol("")]
+            None,
+
             [Symbol("d/8")]
-            D8 = NativeSizeCode.W8,
+            d8 = 1,
 
             [Symbol("d/16")]
-            D16 = NativeSizeCode.W16,
+            d16 = 2,
 
             [Symbol("d/32")]
-            D32 = NativeSizeCode.W32,
+            d32 = 4,
 
             [Symbol("d/64")]
-            D64 = NativeSizeCode.W64
+            d64 = 8,
         }
     }
 }

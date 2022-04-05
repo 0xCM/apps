@@ -66,7 +66,7 @@ namespace Z0
 
         static EnumRender<ExtensionKind> ExtensionKinds = new();
 
-        static EnumRender<DispExprKind> DispKinds = new();
+        static EnumRender<DispKind> DispKinds = new();
 
         static EnumRender<NontermKind> NontermKinds = new();
 
@@ -113,6 +113,8 @@ namespace Z0
         static EnumRender<BfSegKind> BfSegKinds = new();
 
         static EnumRender<BfSpecKind> BfSpecKinds = new();
+
+        static EnumRender<ImmFieldKind> ImmKinds = new();
 
         static Index<Asm.BroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
 
@@ -178,8 +180,11 @@ namespace Z0
         public static string format(EOSZ src, FormatCode fc = FormatCode.Expr)
             => fc == FormatCode.BitWidth ? nsize(src) : format(EoszKinds,src,fc);
 
-        public static string format(DispExpr src, FormatCode fc = FormatCode.Expr)
-            => fc == FormatCode.BitWidth ? src.DispWidth.ToString() : format(DispKinds,src,fc);
+        public static string format(ImmFieldKind src, FormatCode fc = FormatCode.Expr)
+            => fc == FormatCode.BitWidth ? (((byte)src)*8).ToString() : format(ImmKinds,src,fc);
+
+        public static string format(DispField src, FormatCode fc = FormatCode.Expr)
+            => fc == FormatCode.BitWidth ? src.Width.ToString() : format(DispKinds,src,fc);
 
         public static string format(EASZ src, FormatCode fc = FormatCode.Expr)
             => fc == FormatCode.BitWidth ? nsize(src) : format(EaszKinds,src,fc);
@@ -598,11 +603,11 @@ namespace Z0
         public static string format(OpCodeKind src)
             => format(XedPatterns.ocindex(src));
 
-        public static string format(ImmFieldSpec src)
-            => src.Width == 0 ? EmptyString : string.Format("{0}{1}[i/{2}]", "UIMM", src.Index, src.Width);
+        public static string format(ImmField src)
+            => src.IsEmpty ? EmptyString : string.Format("{0}[{1}]", "UIMM", src.Index, format(src.Kind));
 
-        public static string format(DispFieldSpec src)
-            => src.Width == 0 ? EmptyString : string.Format("{0}[{1}/{2}]", "DISP", src.Kind, src.Width);
+        public static string format(DispField src)
+            => src.IsEmpty ? EmptyString : string.Format("{0}[{1}]", "DISP", format(src.Kind));
 
         public static string format(in InstDefField src)
         {
@@ -687,9 +692,9 @@ namespace Z0
                 break;
                 case DK.Branch:
                 case DK.Null:
-                case DK.FieldLiteral:
+                case DK.Keyword:
                 case DK.Error:
-                    result = src.ToFieldLiteral().Format();
+                    result = src.ToKeyword().Format();
                 break;
                 case DK.Nonterminal:
                     result = src.ToNonTerminal().Format();

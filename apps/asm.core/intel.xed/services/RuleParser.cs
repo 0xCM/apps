@@ -167,7 +167,7 @@ namespace Z0
                 }
                 else
                 {
-                    result = FieldLiteral.parse(input, out FieldLiteral lit);
+                    result = RuleKeyword.parse(input, out RuleKeyword lit);
                     if(result)
                         dst = lit.ToCriterion();
                 }
