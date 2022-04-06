@@ -54,7 +54,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefField(FieldExpr src)
+            public InstDefField(CellExpr src)
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
@@ -146,8 +146,8 @@ namespace Z0
                 => ref @as<Nonterminal>(Data.First);
 
             [MethodImpl(Inline)]
-            public ref readonly FieldExpr AsFieldExpr()
-                => ref @as<FieldExpr>(Data.First);
+            public ref readonly CellExpr AsFieldExpr()
+                => ref @as<CellExpr>(Data.First);
 
             [MethodImpl(Inline)]
             public ref readonly BfSeg AsBitfield()

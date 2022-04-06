@@ -6,7 +6,7 @@
 namespace Z0
 {
     using KW = XedRules.RuleKeyWordKind;
-    using CK = XedRules.RuleCellKind;
+    using CK = XedRules.CellRole;
 
     partial class XedRules
     {
@@ -71,7 +71,7 @@ namespace Z0
             readonly ByteBlock16 Data;
 
             [MethodImpl(Inline)]
-            RuleKeyword(RuleKeyWordKind kind, RuleCellKind ck, asci8 src)
+            RuleKeyword(RuleKeyWordKind kind, CellRole ck, asci8 src)
             {
                 var data = ByteBlock16.Empty;
                 data = (ulong)src;
@@ -80,10 +80,10 @@ namespace Z0
                 Data = data;
             }
 
-            public ref readonly RuleCellKind CellKind
+            public ref readonly CellRole CellRole
             {
                 [MethodImpl(Inline)]
-                get => ref core.@as<RuleCellKind>(Data[14]);
+                get => ref core.@as<CellRole>(Data[14]);
             }
 
             public ref readonly RuleKeyWordKind KeywordKind

@@ -5,30 +5,36 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using CK = XedRules.RuleCellKind;
+    using CK = XedRules.CellRole;
 
     partial class XedRules
     {
-        public readonly struct RuleExpr : IEquatable<RuleExpr>
+        public readonly struct CellDef : IEquatable<CellDef>
         {
             public readonly FieldKind Field;
 
             public readonly RuleOperator Operator;
 
-            public readonly RuleCellType CellType;
+            public readonly CellType CellType;
 
-            public readonly FieldValue Value;
+            public readonly CellValue Value;
 
             public readonly asci64 Source;
 
             [MethodImpl(Inline)]
-            public RuleExpr(FieldKind field, RuleOperator op, RuleCellType type, FieldValue value, string src)
+            public CellDef(FieldKind field, RuleOperator op, CellType type, CellValue value, string src)
             {
                 CellType = type;
                 Field = field;
                 Operator = op;
                 Value = value;
                 Source = src;
+            }
+
+            public CellRole Role
+            {
+                [MethodImpl(Inline)]
+                get => CellType.Role;
             }
 
             public bool IsEmpty
@@ -44,21 +50,21 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public bool Equals(RuleExpr src)
+            public bool Equals(CellDef src)
                 => Field == src.Field && Operator == src.Operator && Value == src.Value;
 
             public override int GetHashCode()
                 => (int)alg.hash.marvin(Format());
 
             public override bool Equals(object src)
-                => src is RuleExpr x && Equals(x);
+                => src is CellDef x && Equals(x);
 
             public string Format()
             {
                 var dst = string.Format("{0}{1}{2}", XedRender.format(Field), Operator.Format(), Value);
-                switch(CellType.Kind)
+                switch(CellType.Role)
                 {
-                    case CK.BfSeg:
+                    case CK.Seg:
                     case CK.DispSeg:
                     case CK.ImmSeg:
                         dst = string.Format("{0}[{1}]", XedRender.format(Field), Value);
@@ -73,7 +79,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static RuleExpr Empty => default;
+            public static CellDef Empty => default;
         }
     }
 }

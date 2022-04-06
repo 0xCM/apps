@@ -60,10 +60,10 @@ namespace Z0
             => update(src, kind, ref dstate.RuleState).IsNonEmpty;
 
         [Op]
-        public static R.FieldValue update(string src, FieldKind kind, ref RuleState state)
+        public static R.CellValue update(string src, FieldKind kind, ref RuleState state)
         {
             var result = true;
-            var fieldval = R.FieldValue.Empty;
+            var fieldval = R.CellValue.Empty;
             switch(kind)
             {
 
@@ -691,20 +691,20 @@ namespace Z0
             return fieldval;
         }
 
-        public static Dictionary<FieldKind,R.FieldValue> update(Index<R.FieldValue> src, ref RuleState state)
+        public static Dictionary<FieldKind,R.CellValue> update(Index<R.CellValue> src, ref RuleState state)
         {
             update(src.View, ref state);
             return src.Map(x => (x.Field, x)).ToDictionary();
         }
 
-        public static ref RuleState update(ReadOnlySpan<R.FieldValue> src, ref RuleState dst)
+        public static ref RuleState update(ReadOnlySpan<R.CellValue> src, ref RuleState dst)
         {
             for(var i=0; i<src.Length; i++)
                 update(skip(src,i), ref dst);
             return ref dst;
         }
 
-        static ref RuleState update(in R.FieldValue src, ref RuleState dst)
+        static ref RuleState update(in R.CellValue src, ref RuleState dst)
         {
             var result = Outcome.Success;
             switch(src.Field)

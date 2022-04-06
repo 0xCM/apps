@@ -24,7 +24,7 @@ namespace Z0
             where F : ScalarFieldView<F,T>,new()
             where T : unmanaged
         {
-            public abstract T ScalarValue(R.FieldValue src);
+            public abstract T ScalarValue(R.CellValue src);
         }
 
         public class EnumFieldView<E,T> : FieldView<EnumFieldView<E,T>>
@@ -34,14 +34,14 @@ namespace Z0
             readonly Symbols<E> Sym = Symbols.index<E>();
 
             [MethodImpl(Inline)]
-            public ref readonly E TypedValue(in R.FieldValue src)
+            public ref readonly E TypedValue(in R.CellValue src)
                 => ref @as<ulong,E>(src.Data);
 
             [MethodImpl(Inline)]
-            public ref readonly T NumericValue(in R.FieldValue src)
+            public ref readonly T NumericValue(in R.CellValue src)
                 => ref @as<ulong,T>(src.Data);
 
-            public string Name(in R.FieldValue src)
+            public string Name(in R.CellValue src)
             {
                 var dst = EmptyString;
                 if(Sym.MapKind(TypedValue(src), out var sym))
@@ -49,7 +49,7 @@ namespace Z0
                 return dst;
             }
 
-            public string Expr(in R.FieldValue src)
+            public string Expr(in R.CellValue src)
             {
                 var dst = EmptyString;
                 if(Sym.MapKind(TypedValue(src), out var sym))
@@ -111,55 +111,55 @@ namespace Z0
 
             public sealed class BitView : ScalarFieldView<BitView,bit>
             {
-                public override bit ScalarValue(R.FieldValue src)
+                public override bit ScalarValue(R.CellValue src)
                     => (bit)src;
             }
 
             public sealed class U2View : ScalarFieldView<U2View,uint2>
             {
-                public override uint2 ScalarValue(R.FieldValue src)
+                public override uint2 ScalarValue(R.CellValue src)
                     => (uint2)src;
             }
 
             public sealed class U3View : ScalarFieldView<U3View,uint3>
             {
-                public override uint3 ScalarValue(R.FieldValue src)
+                public override uint3 ScalarValue(R.CellValue src)
                     => (uint3)src;
             }
 
             public sealed class U4View : ScalarFieldView<U4View,uint4>
             {
-                public override uint4 ScalarValue(R.FieldValue src)
+                public override uint4 ScalarValue(R.CellValue src)
                     => (uint4)src;
             }
 
             public sealed class U8View : ScalarFieldView<U8View,byte>
             {
-                public override byte ScalarValue(R.FieldValue src)
+                public override byte ScalarValue(R.CellValue src)
                     => (byte)src;
             }
 
             public sealed class U16View : ScalarFieldView<U16View,ushort>
             {
-                public override ushort ScalarValue(R.FieldValue src)
+                public override ushort ScalarValue(R.CellValue src)
                     => (ushort)src;
             }
 
             public sealed class U64View : ScalarFieldView<U64View,ulong>
             {
-                public override ulong ScalarValue(R.FieldValue src)
+                public override ulong ScalarValue(R.CellValue src)
                     => (ulong)src;
             }
 
             public sealed class Hex4View : ScalarFieldView<Hex4View,Hex4>
             {
-                public override Hex4 ScalarValue(R.FieldValue src)
+                public override Hex4 ScalarValue(R.CellValue src)
                     => (Hex4)src;
             }
 
             public sealed class Hex8View : ScalarFieldView<Hex8View,Hex8>
             {
-                public override Hex8 ScalarValue(R.FieldValue src)
+                public override Hex8 ScalarValue(R.CellValue src)
                     => (Hex8)src;
             }
         }

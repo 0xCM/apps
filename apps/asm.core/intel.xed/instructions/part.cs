@@ -8,7 +8,6 @@ namespace Z0
     using static core;
     using static XedRules;
     using static XedModels;
-    using static XedFields;
 
     partial class XedPatterns
     {
@@ -21,7 +20,7 @@ namespace Z0
             => new(src);
 
         [MethodImpl(Inline), Op]
-        public static InstDefField part(FieldExpr src)
+        public static InstDefField part(CellExpr src)
             => new(src);
 
         [MethodImpl(Inline), Op]

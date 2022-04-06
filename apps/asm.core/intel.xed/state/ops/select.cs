@@ -8,15 +8,14 @@ namespace Z0
     using static XedRules;
 
     using K = XedRules.FieldKind;
-    using R = XedRules;
 
     partial class XedState
     {
         [Op]
-        public static FieldValue select(in RuleState src, FieldKind kind)
+        public static CellValue select(in RuleState src, FieldKind kind)
         {
             var result = Outcome.Success;
-            var dst = new R.FieldValue(kind,0ul);
+            var dst = new CellValue(kind,0ul);
             switch(kind)
             {
                 case K.AMD3DNOW:

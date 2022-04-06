@@ -7,15 +7,15 @@ namespace Z0
 {
     partial class XedRules
     {
-        public class RuleExprLookup : SortedLookup<RuleExprKey,RuleExpr>
+        public class RuleExprLookup : SortedLookup<RuleExprKey,CellDef>
         {
-            public RuleExprLookup(Dictionary<RuleExprKey,RuleExpr> src)
+            public RuleExprLookup(Dictionary<RuleExprKey,CellDef> src)
                 : base(src)
             {
 
             }
 
-            public static implicit operator RuleExprLookup(Dictionary<RuleExprKey,RuleExpr> src)
+            public static implicit operator RuleExprLookup(Dictionary<RuleExprKey,CellDef> src)
                 => new RuleExprLookup(src);
         }
     }

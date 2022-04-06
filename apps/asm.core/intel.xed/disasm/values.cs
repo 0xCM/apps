@@ -8,15 +8,13 @@ namespace Z0
     using static core;
     using static XedRules;
 
-    using R = XedRules;
-
     partial class XedDisasm
     {
-        public static Index<R.FieldValue> fields(in DisasmLineBlock src)
+        public static Index<CellValue> values(in DisasmLineBlock src)
         {
             var data = props(src);
             var count = data.Count;
-            var dst = alloc<R.FieldValue>(count);
+            var dst = alloc<CellValue>(count);
             var state = RuleState.Empty;
             for(var i=0; i<count; i++)
             {

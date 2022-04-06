@@ -14,10 +14,10 @@ namespace Z0
 
             public readonly asci32 Name;
 
-            public readonly RuleCellType Type;
+            public readonly CellType Type;
 
             [MethodImpl(Inline)]
-            public RuleColumn(byte index, asci32 name, RuleCellType type)
+            public RuleColumn(byte index, asci32 name, CellType type)
             {
                 Index = index;
                 Name = name;

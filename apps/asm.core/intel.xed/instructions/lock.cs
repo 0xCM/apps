@@ -13,7 +13,7 @@ namespace Z0
         public static bool @lock(in InstPatternBody src, out bit dst)
         {
             var result = false;
-            dst = FieldValue.Empty;
+            dst = CellValue.Empty;
             for(var i=0; i<src.FieldCount; i++)
             {
                 ref readonly var field = ref src[i];

@@ -12,186 +12,234 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential, Pack=1), DataWidth(80)]
-        public readonly struct FieldValue : IEquatable<FieldValue>
+        public readonly struct CellValue : IEquatable<CellValue>
         {
             public readonly FieldKind Field;
 
             public readonly ulong Data;
 
-            public readonly RuleCellKind DataKind;
+            public readonly CellRole Role;
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, bit data)
+            public CellValue(FieldKind field, bit data)
             {
-                Field = kind;
+                Field = field;
                 Data = (byte)data;
-                DataKind = 0;
+                Role = 0;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, uint8b data)
+            public CellValue(FieldKind field, bit data, CellRole role)
+            {
+                Field = field;
+                Data = (byte)data;
+                Role = role;
+            }
+
+            [MethodImpl(Inline)]
+            public CellValue(FieldKind kind, uint8b data, CellRole role)
             {
                 Field = kind;
                 Data = data;
-                DataKind = RuleCellKind.BinaryLiteral;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, Hex8 data)
+            public CellValue(FieldKind kind, Hex8 data)
             {
                 Field = kind;
                 Data = data;
-                DataKind = RuleCellKind.HexLiteral;
+                Role = CellRole.HexLiteral;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, Hex4 data)
+            public CellValue(FieldKind kind, Hex8 data, CellRole role)
             {
                 Field = kind;
                 Data = data;
-                DataKind = RuleCellKind.HexLiteral;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, byte data)
+            public CellValue(FieldKind kind, Hex4 data)
             {
                 Field = kind;
                 Data = data;
-                DataKind = 0;
+                Role = CellRole.HexLiteral;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, byte data, RuleCellKind ck)
+            public CellValue(FieldKind kind, Hex4 data, CellRole role)
             {
                 Field = kind;
                 Data = data;
-                DataKind = ck;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, ushort data)
+            public CellValue(FieldKind kind, byte data)
             {
                 Field = kind;
                 Data = data;
-                DataKind = 0;
+                Role = 0;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(RuleOperator src)
+            public CellValue(FieldKind field, byte data, CellRole role)
+            {
+                Field = field;
+                Data = data;
+                Role = role;
+            }
+
+            [MethodImpl(Inline)]
+            public CellValue(FieldKind kind, ushort data)
+            {
+                Field = kind;
+                Data = data;
+                Role = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public CellValue(FieldKind kind, ushort data, CellRole role)
+            {
+                Field = kind;
+                Data = data;
+                Role = role;
+            }
+
+            [MethodImpl(Inline)]
+            public CellValue(RuleOperator src, CellRole role)
             {
                 Field = 0;
                 Data = (uint)src;
-                DataKind = RuleCellKind.Operator;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(BfSeg data)
+            public CellValue(BfSeg data, CellRole role = default)
             {
                 Field = data.Field;
                 Data = (ulong)data.Pattern;
-                DataKind = RuleCellKind.BfSeg;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(BfSpec data)
+            public CellValue(BfSpec data, CellRole role = default)
             {
                 Field = 0;
                 Data = (byte)data;
-                DataKind = RuleCellKind.BfSpec;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, ImmSeg data)
+            public CellValue(FieldKind kind, ImmSeg data, CellRole role = default)
             {
                 Field = kind;
                 Data = (ushort)data;
-                DataKind = RuleCellKind.ImmSeg;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(ImmSpec src)
+            public CellValue(ImmSpec src, CellRole role = default)
             {
                 Field = 0;
                 Data = (byte)src;
-                DataKind = RuleCellKind.ImmSpec;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(DispSpec src)
+            public CellValue(DispSpec src, CellRole role = default)
             {
                 Field = 0;
                 Data = (byte)src;
-                DataKind = RuleCellKind.DispSpec;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, ulong data)
+            public CellValue(FieldKind kind, ulong data, CellRole role = default)
             {
                 Field = kind;
                 Data = data;
-                DataKind = 0;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, XedRegId data)
+            public CellValue(FieldKind kind, XedRegId data, CellRole role = default)
             {
                 Field = kind;
                 Data = (ulong)data;
-                DataKind = 0;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, Nonterminal data)
+            public CellValue(FieldKind kind, Nonterminal data, CellRole role = default)
             {
                 Field = kind;
                 Data = (ushort)data;
-                DataKind = RuleCellKind.NontermCall;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, DispSeg data)
+            public CellValue(FieldKind kind, DispSeg data, CellRole role = default)
             {
                 Field = kind;
                 Data = (byte)data;
-                DataKind = RuleCellKind.DispSeg;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, BCastKind data)
+            public CellValue(FieldKind kind, BCastKind data)
             {
                 Field = kind;
                 Data = (uint)data;
-                DataKind = 0;
+                Role = 0;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, IClass data)
+            public CellValue(FieldKind kind, BCastKind data, CellRole role)
             {
                 Field = kind;
                 Data = (uint)data;
-                DataKind = 0;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, ChipCode data)
+            public CellValue(FieldKind kind, IClass data)
             {
                 Field = kind;
                 Data = (uint)data;
-                DataKind = 0;
+                Role = 0;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(RuleKeyword kw)
+            public CellValue(FieldKind kind, IClass data, CellRole role)
+            {
+                Field = kind;
+                Data = (uint)data;
+                Role = role;
+            }
+
+            [MethodImpl(Inline)]
+            public CellValue(FieldKind kind, ChipCode data)
+            {
+                Field = kind;
+                Data = (uint)data;
+                Role = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public CellValue(RuleKeyword kw, CellRole role = 0)
             {
                 Field = 0;
                 Data = (byte)kw.KeywordKind;
-                DataKind = kw.CellKind;
+                Role = role;
             }
 
             public readonly bit IsNonTerminal
             {
                 [MethodImpl(Inline)]
-                get => DataKind == RuleCellKind.NontermCall;
+                get => Role == CellRole.NontermCall;
             }
 
             public bool IsEmpty
@@ -207,11 +255,11 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public bool Equals(FieldValue src)
+            public bool Equals(CellValue src)
                 => Field == src.Field && Data == src.Data;
 
             public override bool Equals(object src)
-                => src is FieldValue x && Equals(x);
+                => src is CellValue x && Equals(x);
 
             public uint Hash
             {
@@ -309,110 +357,110 @@ namespace Z0
                 => (DispSpec)Data;
 
             [MethodImpl(Inline)]
-            public static implicit operator EASZ(FieldValue src)
+            public static implicit operator EASZ(CellValue src)
                 => src.ToEASZ();
 
             [MethodImpl(Inline)]
-            public static implicit operator EOSZ(FieldValue src)
+            public static implicit operator EOSZ(CellValue src)
                 => src.ToEOSZ();
 
             [MethodImpl(Inline)]
-            public static implicit operator VexClass(FieldValue src)
+            public static implicit operator VexClass(CellValue src)
                 => src.ToVexClass();
 
             [MethodImpl(Inline)]
-            public static implicit operator VexLengthKind(FieldValue src)
+            public static implicit operator VexLengthKind(CellValue src)
                 => src.ToVexLength();
 
             [MethodImpl(Inline)]
-            public static implicit operator VexKind(FieldValue src)
+            public static implicit operator VexKind(CellValue src)
                 => src.ToVexKind();
 
             [MethodImpl(Inline)]
-            public static implicit operator ModeKind(FieldValue src)
+            public static implicit operator ModeKind(CellValue src)
                 => src.ToMode();
 
             [MethodImpl(Inline)]
-            public static implicit operator XedRegId(FieldValue src)
+            public static implicit operator XedRegId(CellValue src)
                 => src.ToReg();
 
             [MethodImpl(Inline)]
-            public static implicit operator IClass(FieldValue src)
+            public static implicit operator IClass(CellValue src)
                 => src.ToInstClass();
 
             [MethodImpl(Inline)]
-            public static implicit operator ChipCode(FieldValue src)
+            public static implicit operator ChipCode(CellValue src)
                 => src.ToChip();
 
             [MethodImpl(Inline)]
-            public static implicit operator BCastKind(FieldValue src)
+            public static implicit operator BCastKind(CellValue src)
                 => src.ToBCast();
 
             [MethodImpl(Inline)]
-            public static implicit operator Nonterminal(FieldValue src)
+            public static implicit operator Nonterminal(CellValue src)
                 => src.ToNonterminal();
 
             [MethodImpl(Inline)]
-            public static implicit operator bit(FieldValue src)
+            public static implicit operator bit(CellValue src)
                 => src.ToBit();
 
             [MethodImpl(Inline)]
-            public static implicit operator Hex8(FieldValue src)
+            public static implicit operator Hex8(CellValue src)
                 => src.ToHexLiteral();
 
             [MethodImpl(Inline)]
-            public static implicit operator byte(FieldValue src)
+            public static implicit operator byte(CellValue src)
                 => (byte)src.Data;
 
             [MethodImpl(Inline)]
-            public static implicit operator uint2(FieldValue src)
+            public static implicit operator uint2(CellValue src)
                 => (uint2)src.Data;
 
             [MethodImpl(Inline)]
-            public static implicit operator uint3(FieldValue src)
+            public static implicit operator uint3(CellValue src)
                 => (uint3)src.Data;
 
             [MethodImpl(Inline)]
-            public static implicit operator uint4(FieldValue src)
+            public static implicit operator uint4(CellValue src)
                 => (uint4)src.Data;
 
             [MethodImpl(Inline)]
-            public static implicit operator Hex4(FieldValue src)
+            public static implicit operator Hex4(CellValue src)
                 => (Hex4)src.Data;
 
             [MethodImpl(Inline)]
-            public static implicit operator DispSeg(FieldValue src)
+            public static implicit operator DispSeg(CellValue src)
                 => src.ToDispSeg();
 
             [MethodImpl(Inline)]
-            public static implicit operator ImmSeg(FieldValue src)
+            public static implicit operator ImmSeg(CellValue src)
                 => src.ToImmSeg();
 
             [MethodImpl(Inline)]
-            public static implicit operator ushort(FieldValue src)
+            public static implicit operator ushort(CellValue src)
                 => (ushort)src.Data;
 
             [MethodImpl(Inline)]
-            public static implicit operator long(FieldValue src)
+            public static implicit operator long(CellValue src)
                 => (long)src.Data;
 
             [MethodImpl(Inline)]
-            public static implicit operator LockIndicator(FieldValue src)
+            public static implicit operator LockIndicator(CellValue src)
                 => ((bit)src) ? LockIndicator.On : LockIndicator.Off;
 
             [MethodImpl(Inline)]
-            public static implicit operator EoszKind(FieldValue src)
+            public static implicit operator EoszKind(CellValue src)
                 => (EoszKind)XedRules.widths((EOSZ)src);
 
             [MethodImpl(Inline)]
-            public static bool operator ==(FieldValue a, FieldValue b)
+            public static bool operator ==(CellValue a, CellValue b)
                 => a.Equals(b);
 
             [MethodImpl(Inline)]
-            public static bool operator !=(FieldValue a, FieldValue b)
+            public static bool operator !=(CellValue a, CellValue b)
                 => !a.Equals(b);
 
-            public static FieldValue Empty => default;
+            public static CellValue Empty => default;
         }
     }
 }

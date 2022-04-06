@@ -15,7 +15,7 @@ namespace Z0
     using static core;
 
     using OC = XedRules.OpAttribClass;
-    using CK = XedRules.RuleCellKind;
+    using CK = XedRules.CellRole;
 
     public partial class XedRender
     {
@@ -75,7 +75,7 @@ namespace Z0
 
         static EnumRender<MASK> MaskCodes = new();
 
-        static EnumRender<RuleCellKind> CellDataKinds = new();
+        static EnumRender<CellRole> CellDataKinds = new();
 
         static EnumRender<ChipCode> ChipCodes = new();
 
@@ -224,13 +224,13 @@ namespace Z0
         public static string format(BfSpecKind src)
             => BfSpecKinds.Format(src);
 
-        public static string format(FieldValue src)
-            => XedFields.format(src);
+        public static string format(CellValue src)
+            => CellRender.format(src);
 
         public static string format(RuleKeyword src)
             => src.ToAsci().Format();
 
-        public static string format(in FieldExpr src)
+        public static string format(in CellExpr src)
             => src.IsEmpty
                 ? RP.Error
                 : src.Field == 0
@@ -246,7 +246,7 @@ namespace Z0
         public static string format(BaseMapKind src)
             => LegacyMap.Format(src);
 
-        public static string format(RuleCellKind src)
+        public static string format(CellRole src)
             => CellDataKinds.Format(src);
 
         public static string format(RuleTableKind src)
@@ -690,7 +690,7 @@ namespace Z0
                 return EmptyString;
 
             var result = EmptyString;
-            switch(src.Kind)
+            switch(src.Role)
             {
                 case CK.Branch:
                 case CK.Null:
@@ -711,7 +711,7 @@ namespace Z0
                 case CK.Operator:
                     result = src.ToOperator().Format();
                 break;
-                case CK.BfSeg:
+                case CK.Seg:
                     result = src.ToBfSeg().Format();
                     Require.invariant(text.nonempty(result));
                 break;
@@ -751,7 +751,7 @@ namespace Z0
                     result = src.ToFieldExpr().Format();
                 break;
                 default:
-                    Errors.Throw($"{src.Field} | {src.Operator} | {src.Kind}");
+                    Errors.Throw($"{src.Field} | {src.Operator} | {src.Role}");
                 break;
 
             }

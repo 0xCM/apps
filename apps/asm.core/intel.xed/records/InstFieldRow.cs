@@ -38,7 +38,7 @@ namespace Z0
 
             public EmptyZero<FieldKind> FieldKind;
 
-            public FieldExpr FieldExpr;
+            public CellExpr FieldExpr;
 
             public BfSeg Bitfield;
 

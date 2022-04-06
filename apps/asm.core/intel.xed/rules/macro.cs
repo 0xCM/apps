@@ -10,12 +10,12 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static MacroSpec macro<T>(RuleMacroKind name, FieldKind field, T value)
             where T : unmanaged
-                => new MacroSpec(name, field, new MacroExpansion(field, 0, new FieldValue(field, core.bw64(value))));
+                => new MacroSpec(name, field, new MacroExpansion(field, 0, new CellValue(field, core.bw64(value))));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static MacroSpec macro<T>(RuleMacroKind name, FieldKind field, OperatorKind op, T value)
             where T : unmanaged
-                => new MacroSpec(name, field, new MacroExpansion(field, op, new FieldValue(field, core.bw64(value))));
+                => new MacroSpec(name, field, new MacroExpansion(field, op, new CellValue(field, core.bw64(value))));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static MacroSpec assign<T>(RuleMacroKind name, FieldKind field, T value)

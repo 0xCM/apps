@@ -13,12 +13,12 @@ namespace Z0
 
     partial class XedRules
     {
-        public readonly struct FieldParser
+        public readonly struct CellValueParser
         {
-            public static bool parse(FieldKind field, string value, out FieldValue dst)
+            public static bool parse(FieldKind field, string value, out CellValue dst)
             {
                 var result = true;
-                dst = R.FieldValue.Empty;
+                dst = R.CellValue.Empty;
                 if(XedParsers.IsNontermCall(value) && XedParsers.parse(value, out Nonterminal k))
                 {
                     dst = new (field, k);

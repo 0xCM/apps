@@ -7,17 +7,16 @@ namespace Z0
 {
     partial class XedRules
     {
-
         public struct MacroExpansion
         {
             public readonly FieldKind Field;
 
             public readonly OperatorKind Operator;
 
-            public readonly FieldValue Value;
+            public readonly CellValue Value;
 
             [MethodImpl(Inline)]
-            public MacroExpansion(FieldKind field, OperatorKind op, FieldValue value)
+            public MacroExpansion(FieldKind field, OperatorKind op, CellValue value)
             {
                 Field = field;
                 Operator = op;

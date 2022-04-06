@@ -18,114 +18,114 @@ namespace Z0
 
             readonly ByteBlock16 Storage;
 
-            public readonly RuleCellKind Kind;
+            public readonly CellRole Role;
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(uint8b src)
+            internal RuleCriterion(uint8b src, CellRole role)
             {
                 Field = 0;
                 Operator = RuleOperator.Empty;
                 Storage = (uint)src;
-                Kind = RuleCellKind.BinaryLiteral;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(Hex8 src)
+            internal RuleCriterion(Hex8 src, CellRole role)
             {
                 Field = 0;
                 Operator = RuleOperator.Empty;
                 Storage = (uint)src;
-                Kind = RuleCellKind.HexLiteral;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(NontermExpr src)
+            internal RuleCriterion(NontermExpr src, CellRole role)
             {
                 Field = src.Field;
                 Operator = src.Op;
                 Storage = (uint)src;
-                Kind = RuleCellKind.NontermExpr;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(DispSeg src)
+            internal RuleCriterion(DispSeg src, CellRole role)
             {
                 Field = src.Field;
                 Operator = RuleOperator.Empty;
                 Storage = (uint)src;
-                Kind = RuleCellKind.DispSeg;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(DispSpec src)
+            internal RuleCriterion(DispSpec src, CellRole role)
             {
                 Field = 0;
                 Operator = RuleOperator.Empty;
                 Storage = (uint)src;
-                Kind = RuleCellKind.DispSpec;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(ImmSeg src)
+            internal RuleCriterion(ImmSeg src, CellRole role)
             {
                 Field = src.Field;
                 Operator = RuleOperator.Empty;
                 Storage = (uint)src;
-                Kind = RuleCellKind.ImmSeg;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(ImmSpec src)
+            internal RuleCriterion(ImmSpec src, CellRole role)
             {
                 Field = 0;
                 Operator = RuleOperator.Empty;
                 Storage = (uint)src;
-                Kind = RuleCellKind.ImmSeg;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(FieldExpr data)
+            internal RuleCriterion(CellExpr data)
             {
                 Field = data.Field;
                 Operator = data.Operator;
                 Storage = core.bytes(data);
-                Kind = data.IsEq ? RuleCellKind.EqExpr : data.IsNeq ? RuleCellKind.NeqExpr : RuleCellKind.None;
+                Role = data.Role;
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(Nonterminal nt)
+            internal RuleCriterion(Nonterminal nt, CellRole role)
             {
                 Field = FieldKind.INVALID;
                 Operator = OperatorKind.None;
                 Storage = (uint)nt;
-                Kind = RuleCellKind.NontermCall;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(BfSeg data)
+            internal RuleCriterion(BfSeg data, CellRole role)
             {
                 Field = data.Field;
                 Operator = OperatorKind.None;
                 Storage = core.bytes(data);
-                Kind = RuleCellKind.BfSeg;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(BfSpec spec)
+            internal RuleCriterion(BfSpec spec, CellRole role)
             {
                 Field = FieldKind.INVALID;
                 Operator = OperatorKind.None;
                 Storage = (byte)spec.Kind;
-                Kind = RuleCellKind.BfSpec;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(RuleKeyword keyword)
+            internal RuleCriterion(RuleKeyword keyword, CellRole role)
             {
                 Field = FieldKind.INVALID;
                 Operator = OperatorKind.None;
                 Storage = core.bytes(keyword);
-                Kind = keyword.CellKind;
+                Role = role;
             }
 
             [MethodImpl(Inline)]
@@ -134,13 +134,13 @@ namespace Z0
                 Field = FieldKind.INVALID;
                 Operator = op;
                 Storage = (byte)op;
-                Kind = RuleCellKind.Operator;
+                Role = CellRole.Operator;
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Kind == 0;
+                get => Role == 0;
             }
 
             public bool IsNonEmpty
@@ -152,18 +152,18 @@ namespace Z0
             public bool IsNonTermCall
             {
                 [MethodImpl(Inline)]
-                get => Kind == RuleCellKind.NontermCall;
+                get => Role == CellRole.NontermCall;
             }
 
             public bool IsNonTermExpr
             {
                 [MethodImpl(Inline)]
-                get => Kind == RuleCellKind.NontermExpr;
+                get => Role == CellRole.NontermExpr;
             }
 
             [MethodImpl(Inline)]
-            public FieldExpr ToFieldExpr()
-                => core.@as<FieldExpr>(Storage.Bytes);
+            public CellExpr ToFieldExpr()
+                => core.@as<CellExpr>(Storage.Bytes);
 
             [MethodImpl(Inline)]
             public BfSeg ToBfSeg()

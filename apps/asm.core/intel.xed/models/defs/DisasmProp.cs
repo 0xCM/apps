@@ -6,25 +6,23 @@ namespace Z0
 {
     using static XedRules;
 
-    using R = XedRules;
-
     partial class XedDisasm
     {
         public readonly struct DisasmProp : IEquatable<DisasmProp>, IComparable<DisasmProp>
         {
-            readonly R.FieldValue Data;
+            readonly CellValue Data;
 
-            readonly Func<R.FieldValue,string> Render;
+            readonly Func<CellValue,string> Render;
 
             [MethodImpl(Inline)]
-            public DisasmProp(R.FieldValue data, Func<R.FieldValue,string> render)
+            public DisasmProp(CellValue data, Func<CellValue,string> render)
             {
                 Data = data;
                 Render = render;
             }
 
             [MethodImpl(Inline)]
-            public DisasmProp(R.FieldValue data)
+            public DisasmProp(CellValue data)
             {
                 Data = data;
                 Render = XedRender.format;
@@ -68,7 +66,7 @@ namespace Z0
                 => (int)Data.Hash;
 
             [MethodImpl(Inline)]
-            public static implicit operator DisasmProp(R.FieldValue src)
+            public static implicit operator DisasmProp(CellValue src)
                 => new DisasmProp(src);
         }
     }

@@ -7,13 +7,11 @@ namespace Z0
 {
     using static XedRules;
 
-    using R = XedRules;
-
     partial class XedDisasm
     {
-        public static Index<R.FieldValue> update(in DisasmLineBlock src, ref RuleState state)
+        public static Index<CellValue> update(in DisasmLineBlock src, ref RuleState state)
         {
-            var fields = XedDisasm.fields(src);
+            var fields = XedDisasm.values(src);
             XedState.update(fields, ref state);
             return fields;
         }

@@ -8,17 +8,23 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public readonly struct FieldExpr
+        public readonly struct CellExpr
         {
-            public readonly FieldValue Value;
+            public readonly CellValue Value;
 
             public readonly OperatorKind Operator;
 
             [MethodImpl(Inline)]
-            public FieldExpr(FieldKind field, OperatorKind op, FieldValue value)
+            public CellExpr(OperatorKind op, CellValue value)
             {
                 Operator = op;
                 Value = value;
+            }
+
+            public CellRole Role
+            {
+                [MethodImpl(Inline)]
+                get => Value.Role;
             }
 
             public bool IsEq
@@ -63,7 +69,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static FieldExpr Empty => new FieldExpr(FieldKind.INVALID,0, FieldValue.Empty);
+            public static CellExpr Empty => new CellExpr(0, CellValue.Empty);
         }
     }
 }

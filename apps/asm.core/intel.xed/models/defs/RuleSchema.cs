@@ -10,7 +10,7 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential)]
         public struct RuleSchema : IComparable<RuleSchema>
         {
-            public static RuleColumn col(byte index, string name, RuleCellType type)
+            public static RuleColumn col(byte index, string name, CellType type)
                 => new (index,name,type);
 
             public uint Seq;
@@ -22,7 +22,6 @@ namespace Z0
                 var result = 0;
                 return result;
             }
-
         }
     }
 }

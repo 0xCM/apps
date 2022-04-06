@@ -10,12 +10,12 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline)]
-        public static FieldValue value<T>(FieldKind kind, T value)
+        public static CellValue value<T>(FieldKind kind, T value)
             where T : unmanaged
-                => new FieldValue(kind, core.bw64(value));
+                => new CellValue(kind, core.bw64(value));
 
         [MethodImpl(Inline)]
-        public static FieldValue value(FieldKind kind, NameResolver resolver)
-            => new FieldValue(kind, (ulong)resolver);
+        public static CellValue value(FieldKind kind, NameResolver resolver)
+            => new CellValue(kind, (ulong)resolver);
     }
 }

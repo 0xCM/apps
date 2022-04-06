@@ -49,7 +49,7 @@ namespace Z0
                 state = RuleState.Empty;
                 ref readonly var detail = ref doc[i];
                 ref readonly var summary = ref detail.Block.Summary;
-                var fields = XedDisasm.fields(file[i]);
+                var fields = XedDisasm.values(file[i]);
                 var lookup = XedState.update(fields, ref state);
 
                 void Emit(FieldKind kind)

@@ -14,10 +14,10 @@ namespace Z0
         {
             public readonly FieldKind Field;
 
-            public readonly FieldValue Value;
+            public readonly CellValue Value;
 
             [MethodImpl(Inline)]
-            public FieldAssign(FieldValue value)
+            public FieldAssign(CellValue value)
             {
                 Field = value.Field;
                 Value = value;
@@ -36,8 +36,8 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public FieldExpr Expression()
-                => expr(Field, OperatorKind.Eq, Value);
+            public CellExpr Expression()
+                => expr(OperatorKind.Eq, Value);
 
             public string Format()
                 => XedRender.format(this);
@@ -46,10 +46,10 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator FieldAssign(FieldValue src)
+            public static implicit operator FieldAssign(CellValue src)
                 => new FieldAssign(src);
 
-            public static FieldAssign Empty => new FieldAssign(FieldValue.Empty);
+            public static FieldAssign Empty => new FieldAssign(CellValue.Empty);
         }
     }
 }

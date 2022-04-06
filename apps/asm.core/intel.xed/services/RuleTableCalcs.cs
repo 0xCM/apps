@@ -51,14 +51,14 @@ namespace Z0
             public static Index<RuleTableSpec> CalcTableSpecs(RuleTableKind kind)
                 => CalcTableSpecs(XedPaths.Service.RuleSource(kind));
 
-            public static Index<RuleCriterion> criteria(ReadOnlySpan<RuleCellSpec> src)
+            public static Index<RuleCriterion> criteria(ReadOnlySpan<CellSpec> src)
             {
                 var dst = list<RuleCriterion>();
                 var parts = map(src, p => p.Data);
                 for(var i=0; i<parts.Length; i++)
                 {
                     ref readonly var part = ref skip(parts, i);
-                    var result = RuleParser.parse(part, out RuleCriterion c);
+                    var result = CellParser.parse(part, out RuleCriterion c);
                     if(result)
                         dst.Add(c);
                     else
@@ -69,31 +69,31 @@ namespace Z0
 
             public static RuleExprLookup CalcExprLookup(RuleTables rules)
             {
-                var dst = dict<RuleExprKey,RuleExpr>();
+                var dst = dict<RuleExprKey,CellDef>();
                 CalcExprLookup(rules.EncTableSpecs(), dst);
                 CalcExprLookup(rules.DecTableSpecs(), dst);
                 return dst;
             }
 
-            public static void CalcExprLookup(Index<RuleTableSpec> src, Dictionary<RuleExprKey,RuleExpr> dst)
+            public static void CalcExprLookup(Index<RuleTableSpec> src, Dictionary<RuleExprKey,CellDef> dst)
             {
                 for(var i=0; i<src.Count; i++)
                     CalcExprLookup(src[i], dst);
             }
 
-            static void CalcExprLookup(in RuleTableSpec src, Dictionary<RuleExprKey,RuleExpr> dst)
+            static void CalcExprLookup(in RuleTableSpec src, Dictionary<RuleExprKey,CellDef> dst)
             {
                 for(var i=z16; i<src.StatementCount; i++)
                     CalcExprLookup(i, src, dst);
             }
 
-            static void CalcExprLookup(ushort row, in RuleTableSpec table, Dictionary<RuleExprKey,RuleExpr> dst)
+            static void CalcExprLookup(ushort row, in RuleTableSpec table, Dictionary<RuleExprKey,CellDef> dst)
             {
                 CalcExprLookup(row, table, 'P', table[row].Premise, dst);
                 CalcExprLookup(row, table, 'C', table[row].Consequent, dst);
             }
 
-            static void CalcExprLookup(ushort row, in RuleTableSpec table, char logic, Index<RuleCellSpec> src, Dictionary<RuleExprKey,RuleExpr> dst)
+            static void CalcExprLookup(ushort row, in RuleTableSpec table, char logic, Index<CellSpec> src, Dictionary<RuleExprKey,CellDef> dst)
             {
                 for(var i=z8; i<src.Count; i++)
                 {
@@ -149,7 +149,7 @@ namespace Z0
                     }
                     else
                     {
-                        if(RuleParser.parse(content, out StatementSpec s))
+                        if(CellParser.parse(content, out StatementSpec s))
                             statements.Add(s);
                     }
                 }

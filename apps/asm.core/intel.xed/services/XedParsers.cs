@@ -601,10 +601,10 @@ namespace Z0
             return result;
         }
 
-        public static bool reg(FieldKind field, string value, out FieldValue dst)
+        public static bool reg(FieldKind field, string value, out CellValue dst)
         {
             var result = false;
-            dst = R.FieldValue.Empty;
+            dst = R.CellValue.Empty;
             if(IsNontermCall(value))
             {
                 result = parse(value, out Nonterminal nt);

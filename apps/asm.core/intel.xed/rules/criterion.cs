@@ -8,72 +8,72 @@ namespace Z0
     using static core;
     using static XedModels;
 
-    using CK = XedRules.RuleCellKind;
+    using R = XedRules.CellRole;
 
     partial class XedRules
     {
-        public static FieldValue value(in RuleCriterion src)
+        public static CellValue value(in RuleCriterion src)
         {
             var fmt = EmptyString;
-            var value = FieldValue.Empty;
-            switch(src.Kind)
+            var value = CellValue.Empty;
+            switch(src.Role)
             {
-                case CK.None:
+                case R.None:
                     break;
-                case CK.Branch:
-                case CK.Null:
-                case CK.Error:
-                case CK.Wildcard:
-                case CK.Default:
-                    value = new (src.ToKeyword());
+                case R.Branch:
+                case R.Null:
+                case R.Error:
+                case R.Wildcard:
+                case R.Default:
+                    value = new (src.ToKeyword(), src.Role);
                 break;
-                case CK.BinaryLiteral:
-                    value = new(src.Field, src.ToBinaryLiteral());
+                case R.BinaryLiteral:
+                    value = new(src.Field, src.ToBinaryLiteral(), src.Role);
                 break;
-                case CK.IntLiteral:
-                    value = new(src.Field, src.ToIntLiteral(), src.Kind);
+                case R.IntLiteral:
+                    value = new(src.Field, src.ToIntLiteral(), src.Role);
                 break;
-                case CK.HexLiteral:
-                    value = new(src.Field, src.ToHexLiteral());
+                case R.HexLiteral:
+                    value = new(src.Field, src.ToHexLiteral(), src.Role);
                 break;
-                case CK.Operator:
-                    value = new(src.ToOperator());
+                case R.Operator:
+                    value = new(src.ToOperator(), src.Role);
                 break;
-                case CK.BfSeg:
-                    value = new (src.ToBfSeg());
+                case R.Seg:
+                    value = new (src.ToBfSeg(), src.Role);
                 break;
-                case CK.BfSpec:
-                    value = new (src.ToBfSpec());
+                case R.BfSpec:
+                    value = new (src.ToBfSpec(), src.Role);
                 break;
-                case CK.DispSpec:
-                    value = new(src.ToDispSpec());
+                case R.DispSpec:
+                    value = new(src.ToDispSpec(), src.Role);
                 break;
-                case CK.DispSeg:
-                    value = new(src.Field,src.ToDispSeg());
+                case R.DispSeg:
+                    value = new(src.Field,src.ToDispSeg(), src.Role);
                 break;
-                case CK.ImmSpec:
-                    value = new(src.ToImmSpec());
+                case R.ImmSpec:
+                    value = new(src.ToImmSpec(), src.Role);
                 break;
-                case CK.ImmSeg:
-                    value = new(src.Field,src.ToImmSeg());
+                case R.ImmSeg:
+                    value = new(src.Field,src.ToImmSeg(), src.Role);
                 break;
-                case CK.NontermCall:
-                    value = new(src.Field, src.ToNontermCall());
+                case R.NontermCall:
+                    value = new(src.Field, src.ToNontermCall(), src.Role);
                 break;
-                case CK.BfSegExpr:
-                    value = new(src.ToBfSeg());
+                case R.BfSegExpr:
+                    value = new(src.ToBfSeg(), src.Role);
                 break;
-                case CK.NontermExpr:
-                    value = new(src.Field, src.ToNontermCall());
+                case R.NontermExpr:
+                    value = new(src.Field, src.ToNontermCall(), src.Role);
                 break;
-                case CK.EqExpr:
+                case R.EqExpr:
                     value = src.ToFieldExpr().Value;
                 break;
-                case CK.NeqExpr:
+                case R.NeqExpr:
                     value = src.ToFieldExpr().Value;
                 break;
                 default:
-                    Errors.Throw(string.Format("Missing case: {0}", src.Kind));
+                    Errors.Throw(string.Format("Missing case: {0}", src.Role));
                 break;
 
             }
@@ -81,66 +81,66 @@ namespace Z0
         }
 
         [Op]
-        public static RuleCriterion criterion(in RuleCellSpec src)
+        public static RuleCriterion criterion(in CellSpec src)
         {
             var dst = RuleCriterion.Empty;
-            if(!RuleParser.parse(src.Data, out dst))
+            if(!CellParser.parse(src.Data, out dst))
                 Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCriterion), src.Data));
             return dst;
         }
 
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(in FieldExpr src)
+        public static RuleCriterion criterion(in CellExpr src)
             => new RuleCriterion(src);
 
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(uint8b src)
-            => new RuleCriterion(src);
+        public static RuleCriterion criterion(uint8b src, CellRole role = CellRole.BinaryLiteral)
+            => new RuleCriterion(src, role);
 
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(Hex8 src)
-            => new RuleCriterion(src);
+        public static RuleCriterion criterion(Hex8 src, CellRole role = CellRole.HexLiteral)
+            => new RuleCriterion(src, role);
 
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(DispSeg src)
-            => new RuleCriterion(src);
+        public static RuleCriterion criterion(DispSeg src, CellRole role = CellRole.Seg)
+            => new RuleCriterion(src, role);
 
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(ImmSeg src)
-            => new RuleCriterion(src);
+        public static RuleCriterion criterion(ImmSeg src, CellRole role = CellRole.Seg)
+            => new RuleCriterion(src, role);
 
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(DispSpec src)
-            => new RuleCriterion(src);
+        public static RuleCriterion criterion(DispSpec src, CellRole role)
+            => new RuleCriterion(src, role);
 
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(ImmSpec src)
-            => new RuleCriterion(src);
+        public static RuleCriterion criterion(ImmSpec src, CellRole role)
+            => new RuleCriterion(src, role);
 
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(RuleKeyword kw)
-            => new RuleCriterion(kw);
+        public static RuleCriterion criterion(RuleKeyword kw, CellRole role = CellRole.Keyword)
+            => new RuleCriterion(kw, role);
 
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(Nonterminal nt)
-            => new RuleCriterion(nt);
+        public static RuleCriterion criterion(Nonterminal nt, CellRole role = CellRole.NontermCall)
+            => new RuleCriterion(nt, role);
 
         [MethodImpl(Inline), Op]
         public static RuleCriterion criterion(FieldKind fk, RuleOperator op, Nonterminal nt)
         {
             if(op.IsEmpty)
-                return new RuleCriterion(nt);
+                return new RuleCriterion(nt, CellRole.NontermCall);
             else
-                return new RuleCriterion(new NontermExpr(fk, op, nt));
+                return new RuleCriterion(new NontermExpr(fk, op, nt), CellRole.NontermExpr);
         }
 
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(BfSeg seg)
-            => new RuleCriterion(seg);
+        public static RuleCriterion criterion(BfSeg seg, CellRole role = CellRole.Seg)
+            => new RuleCriterion(seg, role);
 
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(BfSpec src)
-            => new RuleCriterion(src);
+        public static RuleCriterion criterion(BfSpec src, CellRole role = CellRole.SegSpec)
+            => new RuleCriterion(src, role);
 
         [MethodImpl(Inline), Op]
         public static RuleCriterion criterion(RuleOperator op)

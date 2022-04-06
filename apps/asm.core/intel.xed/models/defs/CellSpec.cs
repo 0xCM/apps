@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly struct RuleCellSpec
+        public readonly struct CellSpec
         {
             public readonly bool IsPremise;
 
@@ -23,7 +23,7 @@ namespace Z0
             public readonly string Data;
 
             [MethodImpl(Inline)]
-            public RuleCellSpec(bool premise, string data)
+            public CellSpec(bool premise, string data)
             {
                 Require.invariant(data.Length < 48);
                 IsPremise = premise;
@@ -31,17 +31,17 @@ namespace Z0
                 Data = text.ifempty(data,EmptyString);
                 IsLiteral = Field == 0;
                 IsOperator = false;
-                RuleParser.parse(Data, out Operator);
+                CellParser.parse(Data, out Operator);
             }
 
-            public RuleExpr Expr()
-                => RuleParser.expr(Data);
+            public CellDef Expr()
+                => CellParser.expr(Data);
 
-            public RuleCellKind CellKind()
-                => RuleParser.cellkind(Data);
+            public CellRole Role()
+                => CellParser.role(Data);
 
-            public RuleCellType CellType()
-                => RuleParser.celltype(this);
+            public CellType CellType()
+                => CellParser.celltype(this);
 
             public bool IsEmpty
             {

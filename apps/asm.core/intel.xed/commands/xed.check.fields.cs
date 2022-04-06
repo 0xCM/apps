@@ -64,7 +64,7 @@ namespace Z0
                     key.TableId.FormatHex(),
                     key.TableKind,
                     specs[key.TableId].ShortName,
-                    expr.CellType.Kind,
+                    expr.CellType.Role,
                     expr.CellType,
                     key.RowIndex,
                     XedRender.format(expr.Field),

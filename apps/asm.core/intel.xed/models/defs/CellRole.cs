@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [SymSource(xed)]
-        public enum RuleCellKind : byte
+        public enum CellRole : byte
         {
             [Symbol("")]
             None,
@@ -22,6 +22,8 @@ namespace Z0
             [Symbol("0x")]
             HexLiteral,
 
+            NumericLiteral,
+
             [Symbol("op")]
             Operator,
 
@@ -29,7 +31,7 @@ namespace Z0
             NontermCall,
 
             [Symbol("bfseg")]
-            BfSeg,
+            Seg,
 
             [Symbol("disp[]")]
             DispSeg,
@@ -39,6 +41,16 @@ namespace Z0
 
             [Symbol("bfspec")]
             BfSpec,
+
+            SegSpec,
+
+            [Symbol("disp")]
+            DispSpec,
+
+            [Symbol("imm")]
+            ImmSpec,
+
+            Keyword,
 
             [Symbol("branch")]
             Branch,
@@ -67,11 +79,6 @@ namespace Z0
             [Symbol("bfseg(x)")]
             BfSegExpr,
 
-            [Symbol("imm")]
-            DispSpec,
-
-            [Symbol("disp")]
-            ImmSpec,
         }
    }
 }
