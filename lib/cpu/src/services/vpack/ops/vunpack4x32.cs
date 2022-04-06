@@ -4,27 +4,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
     using static System.Runtime.Intrinsics.X86.Sse41;
-    using static Root;
+    using static System.Runtime.Intrinsics.X86.Avx;
+    using static System.Runtime.Intrinsics.X86.Sse2;
     using static core;
+    using static cpu;
 
     partial struct vpack
     {
         /// <summary>
-        /// PMOVZXBW xmm, m64
-        /// 8x8u -> 8x16u
-        /// Projects 8 8-bit unsigned integers onto 8 signed 16-bit integers
+        /// PMOVSXWD xmm, m64
+        /// 4x16u -> 4x32u
+        /// Projects 4 16-bit unsigned integers onto 4 32-bit unsigned integers
         /// </summary>
         /// <param name="src">The input component source</param>
         /// <param name="n">The source component count</param>
         /// <param name="w">The target component width</param>
-        /// <param name="i">Signals a sign extension</param>
         [MethodImpl(Inline), Op]
-        public static unsafe Vector128<short> vunpack8x8i(in byte src)
-            => ConvertToVector128Int16(gptr(src));
+        public static unsafe Vector128<uint> vunpack4x32(in ushort src)
+            => v32u(ConvertToVector128Int32(gptr(in src)));
     }
 }

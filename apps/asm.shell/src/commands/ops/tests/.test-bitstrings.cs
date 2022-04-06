@@ -32,7 +32,7 @@ namespace Z0.Asm
             bits = text.format(chars);
             Write(bits);
 
-            var v = vpack.vunpack256x8u(0xF0F0F0F0);
+            var v = vpack.vunpack32x8(0xF0F0F0F0);
             Write(v.FormatBlockedBits(8));
 
             return true;

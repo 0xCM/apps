@@ -9,6 +9,16 @@ namespace Z0
     {
         public readonly struct RuleOperator
         {
+            public static RuleOperator None => OperatorKind.None;
+
+            public static RuleOperator Eq => OperatorKind.Eq;
+
+            public static RuleOperator Neq => OperatorKind.Neq;
+
+            public static RuleOperator Impl => OperatorKind.Impl;
+
+            public static RuleOperator And => OperatorKind.And;
+
             public readonly OperatorKind Kind;
 
             [MethodImpl(Inline)]
@@ -64,8 +74,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static bool operator!=(RuleOperator a, RuleOperator b)
                 => !a.Equals(b);
-
-            public static RuleOperator Empty => default;
         }
     }
 }

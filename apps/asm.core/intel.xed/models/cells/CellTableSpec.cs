@@ -7,30 +7,30 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct RuleTableSpec : IComparable<RuleTableSpec>
+        public readonly struct CellTableSpec : IComparable<CellTableSpec>
         {
             public readonly uint TableId;
 
             public readonly RuleSig Sig;
 
-            public readonly Index<StatementSpec> Statements;
+            public readonly Index<CellRowSpec> Rows;
 
             [MethodImpl(Inline)]
-            public RuleTableSpec(in RuleSig sig, StatementSpec[] statements)
+            public CellTableSpec(in RuleSig sig, CellRowSpec[] rows)
             {
                 TableId = 0u;
                 Require.invariant(sig.IsNonEmpty);
                 Sig = sig;
-                Statements = statements;
+                Rows = rows;
             }
 
             [MethodImpl(Inline)]
-            public RuleTableSpec(uint id, in RuleSig sig, StatementSpec[] statements)
+            public CellTableSpec(uint id, in RuleSig sig, CellRowSpec[] rows)
             {
                 TableId = id;
                 Require.invariant(sig.IsNonEmpty);
                 Sig = sig;
-                Statements = statements;
+                Rows = rows;
             }
 
             public RuleTableKind TableKind
@@ -57,30 +57,30 @@ namespace Z0
                 get => Sig.IsDecTable;
             }
 
-            public uint StatementCount
+            public uint RowCount
             {
                 [MethodImpl(Inline)]
-                get => Statements.Count;
+                get => Rows.Count;
             }
 
-            public ref StatementSpec this[int i]
+            public ref CellRowSpec this[int i]
             {
                 [MethodImpl(Inline)]
-                get => ref Statements[i];
+                get => ref Rows[i];
             }
 
-            public ref StatementSpec this[uint i]
+            public ref CellRowSpec this[uint i]
             {
                 [MethodImpl(Inline)]
-                get => ref Statements[i];
+                get => ref Rows[i];
             }
 
-            public RuleTableSpec Merge(in RuleTableSpec src)
-                => new RuleTableSpec(Require.equal(Sig,src.Sig), Statements.Append(src.Statements));
+            public CellTableSpec Merge(in CellTableSpec src)
+                => new CellTableSpec(Require.equal(Sig,src.Sig), Rows.Append(src.Rows));
 
             [MethodImpl(Inline)]
-            public RuleTableSpec WithId(uint id)
-                => new RuleTableSpec(id, Sig, Statements);
+            public CellTableSpec WithId(uint id)
+                => new CellTableSpec(id, Sig, Rows);
 
             public ReadOnlySpan<TextLine> Lines()
                 => Format().Lines(trim:false);
@@ -91,7 +91,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public int CompareTo(RuleTableSpec src)
+            public int CompareTo(CellTableSpec src)
                 => Sig.CompareTo(src.Sig);
         }
     }

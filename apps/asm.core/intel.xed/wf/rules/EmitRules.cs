@@ -5,9 +5,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.IO;
+
     using static core;
     using static XedPatterns;
-    using System.IO;
 
     partial class XedRules
     {
@@ -58,7 +59,7 @@ namespace Z0
             }
         }
 
-        static void Emit(RuleTables rules, in RuleTableSpec spec, IRecordFormatter<TableDefRow> formatter, StreamWriter writer)
+        static void Emit(RuleTables rules, in CellTableSpec spec, IRecordFormatter<TableDefRow> formatter, StreamWriter writer)
         {
             var rows = rules.DefRows(spec.Sig);
             if(rows.IsNonEmpty)
@@ -79,7 +80,7 @@ namespace Z0
             ref readonly var specs = ref rules.TableSpecs();
             iter(specs, spec => emit(spec), PllExec);
 
-            void emit(in RuleTableSpec spec)
+            void emit(in CellTableSpec spec)
             {
                 var dst = XedPaths.Service.TableDef(spec.Sig);
                 Require.invariant(!dst.Exists);

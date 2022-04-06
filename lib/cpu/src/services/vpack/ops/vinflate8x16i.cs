@@ -4,14 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static System.Runtime.Intrinsics.X86.Avx;
-    using static System.Runtime.Intrinsics.X86.Avx2;
-    using static Root;
-
     partial struct vpack
     {
         /// <summary>
@@ -23,6 +15,6 @@ namespace Z0
         /// <param name="t">A target component type representative</param>
         [MethodImpl(Inline), Op(inflate)]
         public static Vector256<int> vinflate8x16i(Vector128<short> src, out Vector256<int> dst)
-            => dst = ConvertToVector256Int32(src);
+            => dst = vunpack8x32(src);
     }
 }

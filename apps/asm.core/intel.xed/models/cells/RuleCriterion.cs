@@ -24,7 +24,7 @@ namespace Z0
             internal RuleCriterion(uint8b src, CellRole role)
             {
                 Field = 0;
-                Operator = RuleOperator.Empty;
+                Operator = RuleOperator.None;
                 Storage = (uint)src;
                 Role = role;
             }
@@ -33,7 +33,7 @@ namespace Z0
             internal RuleCriterion(Hex8 src, CellRole role)
             {
                 Field = 0;
-                Operator = RuleOperator.Empty;
+                Operator = RuleOperator.None;
                 Storage = (uint)src;
                 Role = role;
             }
@@ -51,7 +51,7 @@ namespace Z0
             internal RuleCriterion(DispSeg src, CellRole role)
             {
                 Field = src.Field;
-                Operator = RuleOperator.Empty;
+                Operator = RuleOperator.None;
                 Storage = (uint)src;
                 Role = role;
             }
@@ -60,7 +60,7 @@ namespace Z0
             internal RuleCriterion(DispSpec src, CellRole role)
             {
                 Field = 0;
-                Operator = RuleOperator.Empty;
+                Operator = RuleOperator.None;
                 Storage = (uint)src;
                 Role = role;
             }
@@ -69,7 +69,7 @@ namespace Z0
             internal RuleCriterion(ImmSeg src, CellRole role)
             {
                 Field = src.Field;
-                Operator = RuleOperator.Empty;
+                Operator = RuleOperator.None;
                 Storage = (uint)src;
                 Role = role;
             }
@@ -78,7 +78,7 @@ namespace Z0
             internal RuleCriterion(ImmSpec src, CellRole role)
             {
                 Field = 0;
-                Operator = RuleOperator.Empty;
+                Operator = RuleOperator.None;
                 Storage = (uint)src;
                 Role = role;
             }
@@ -96,7 +96,7 @@ namespace Z0
             internal RuleCriterion(Nonterminal nt, CellRole role)
             {
                 Field = FieldKind.INVALID;
-                Operator = OperatorKind.None;
+                Operator = RuleOperator.None;
                 Storage = (uint)nt;
                 Role = role;
             }
@@ -105,7 +105,7 @@ namespace Z0
             internal RuleCriterion(BfSeg data, CellRole role)
             {
                 Field = data.Field;
-                Operator = OperatorKind.None;
+                Operator = RuleOperator.None;
                 Storage = core.bytes(data);
                 Role = role;
             }
@@ -114,7 +114,7 @@ namespace Z0
             internal RuleCriterion(BfSpec spec, CellRole role)
             {
                 Field = FieldKind.INVALID;
-                Operator = OperatorKind.None;
+                Operator = RuleOperator.None;
                 Storage = (byte)spec.Kind;
                 Role = role;
             }
@@ -123,7 +123,7 @@ namespace Z0
             internal RuleCriterion(RuleKeyword keyword, CellRole role)
             {
                 Field = FieldKind.INVALID;
-                Operator = OperatorKind.None;
+                Operator = RuleOperator.None;
                 Storage = core.bytes(keyword);
                 Role = role;
             }

@@ -67,76 +67,6 @@ namespace Z0
             public static bool IsExpr(string src)
                 => IsEq(src) || IsNeq(src);
 
-            public static CellType celltype(in CellSpec src)
-            {
-                var dst = CellType.Empty;
-                var data = src.Data;
-                dst.Field = src.Field;
-                dst.Role = src.Role();
-                parse(src.Data, out dst.Operator);
-                var spec = XedLookups.Service.FieldSpec(src.Field);
-                dst.DataType = spec.DeclaredType.Text;
-                dst.EffectiveType = spec.EffectiveType.Text;
-                return dst;
-            }
-
-            public static CellRole role(string data)
-            {
-                var input = normalize(data);
-                var dst = CellRole.None;
-                if(XedParsers.IsIntLiteral(data))
-                    dst = CellRole.IntLiteral;
-                else if(XedParsers.IsHexLiteral(data))
-                    dst = CellRole.HexLiteral;
-                else if(XedParsers.IsBinaryLiteral(data))
-                    dst = CellRole.BinaryLiteral;
-                else if(IsImpl(input))
-                    dst = CellRole.Operator;
-                else if(IsExpr(input))
-                {
-                    if(CellParser.IsEq(input))
-                        dst = CellRole.EqExpr;
-                    else if(CellParser.IsNeq(input))
-                        dst = CellRole.NeqExpr;
-                    else if(IsNontermCall(input))
-                        dst = CellRole.NontermExpr;
-                    else if(CellParser.IsBfSeg(input))
-                        dst = CellRole.BfSegExpr;
-                }
-                else if(IsImmSeg(input))
-                    dst = CellRole.ImmSeg;
-                else if(IsDispSeg(input))
-                    dst = CellRole.DispSeg;
-                else if(IsBfSeg(input))
-                    dst = CellRole.Seg;
-                else if(IsBfSpec(input))
-                    dst = CellRole.BfSpec;
-                else if(XedParsers.IsNontermCall(input))
-                    dst = CellRole.NontermCall;
-                else if(RuleKeyword.parse(input, out var keyword))
-                    dst = keyword.CellRole;
-                return dst;
-            }
-
-            static CellType celltype(FieldKind field, string data)
-            {
-                var dst =  CellType.Empty;
-                dst.Field = field;
-                dst.Role = role(data);
-                parse(data, out dst.Operator);
-                var spec = XedLookups.Service.FieldSpec(field);
-                dst.DataType = spec.DeclaredType.Text;
-                dst.EffectiveType = spec.EffectiveType.Text;
-                return dst;
-            }
-
-            public static CellDef expr(string src)
-            {
-                var dst = CellDef.Empty;
-                if(parse(src, out RuleCriterion c))
-                    dst = new CellDef(c.Field, c.Operator, celltype(c.Field, src), XedRules.value(c), src);
-                return dst;
-            }
 
             public static void parse(string src, out InstPatternBody dst)
             {
@@ -193,11 +123,11 @@ namespace Z0
                 }
             }
 
-            public static bool parse(string src, out StatementSpec dst)
+            public static bool parse(string src, out CellRowSpec dst)
             {
                 var input = normalize(src);
                 var i = text.index(input,"=>");
-                dst = StatementSpec.Empty;
+                dst = CellRowSpec.Empty;
                 if(i > 0)
                 {
                     var left = text.trim(text.left(input, i));
@@ -205,10 +135,10 @@ namespace Z0
                     var right = text.trim(text.right(input, i+1));
                     var consequent = text.nonempty(right) ? cells(false, right) : Index<CellSpec>.Empty;
                     if(premise.Count != 0 || consequent.Count != 0)
-                        dst = new StatementSpec(premise,consequent);
+                        dst = new CellRowSpec(premise,consequent);
                 }
                 else
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(StatementSpec), src));
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(CellRowSpec), src));
 
                 return dst.IsNonEmpty;
             }
@@ -540,7 +470,7 @@ namespace Z0
                 return cells.Map(x => new CellSpec(premise,x));
             }
 
-            static string normalize(string src)
+            public static string normalize(string src)
             {
                 var dst = EmptyString;
                 var i = text.index(src, Chars.Hash);

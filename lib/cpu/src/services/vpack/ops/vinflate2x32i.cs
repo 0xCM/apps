@@ -4,14 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static System.Runtime.Intrinsics.X86.Sse41;
-    using static Root;
-    using static core;
-
     partial struct vpack
     {
         /// <summary>
@@ -24,6 +16,6 @@ namespace Z0
         /// <param name="w">The target component width</param>
         [MethodImpl(Inline), Op(inflate)]
         public static unsafe Vector128<long> vinflate2x32i(in int src, out Vector128<long> dst)
-            => dst = ConvertToVector128Int64(gptr(src));
+            => dst = vunpack2x64(src);
     }
 }

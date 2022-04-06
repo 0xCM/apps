@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
     using static cpu;
 
     partial struct vpack
@@ -28,6 +23,6 @@ namespace Z0
         /// <param name="b">The second source vector</param>
         [MethodImpl(Inline), Op]
         public static Vector128<short> vpack128x16i(Vector128<int> a, Vector128<int> b)
-            => vpack.vpackss(a,b);
+            => vpackss(a,b);
     }
 }

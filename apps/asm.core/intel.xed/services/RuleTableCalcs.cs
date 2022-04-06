@@ -38,9 +38,9 @@ namespace Z0
             public static Index<RuleTable> CalcTableDefs(RuleTableKind kind)
                 => reify(CalcTableSpecs(XedPaths.Service.RuleSource(kind)));
 
-            public static Index<TableDefRow> CalcDefRows(Index<RuleTableSpec> src)
+            public static Index<TableDefRow> CalcDefRows(Index<CellTableSpec> src)
             {
-                var count = src.Storage.Map(x => x.StatementCount).Sum();
+                var count = src.Storage.Map(x => x.RowCount).Sum();
                 var dst = alloc<TableDefRow>(count);
                 var n=0u;
                 for(var i=0u; i<src.Count; i++)
@@ -48,7 +48,7 @@ namespace Z0
                 return dst;
             }
 
-            public static Index<RuleTableSpec> CalcTableSpecs(RuleTableKind kind)
+            public static Index<CellTableSpec> CalcTableSpecs(RuleTableKind kind)
                 => CalcTableSpecs(XedPaths.Service.RuleSource(kind));
 
             public static Index<RuleCriterion> criteria(ReadOnlySpan<CellSpec> src)
@@ -67,51 +67,14 @@ namespace Z0
                 return dst.ToArray();
             }
 
-            public static RuleExprLookup CalcExprLookup(RuleTables rules)
-            {
-                var dst = dict<RuleExprKey,CellDef>();
-                CalcExprLookup(rules.EncTableSpecs(), dst);
-                CalcExprLookup(rules.DecTableSpecs(), dst);
-                return dst;
-            }
-
-            public static void CalcExprLookup(Index<RuleTableSpec> src, Dictionary<RuleExprKey,CellDef> dst)
-            {
-                for(var i=0; i<src.Count; i++)
-                    CalcExprLookup(src[i], dst);
-            }
-
-            static void CalcExprLookup(in RuleTableSpec src, Dictionary<RuleExprKey,CellDef> dst)
-            {
-                for(var i=z16; i<src.StatementCount; i++)
-                    CalcExprLookup(i, src, dst);
-            }
-
-            static void CalcExprLookup(ushort row, in RuleTableSpec table, Dictionary<RuleExprKey,CellDef> dst)
-            {
-                CalcExprLookup(row, table, 'P', table[row].Premise, dst);
-                CalcExprLookup(row, table, 'C', table[row].Consequent, dst);
-            }
-
-            static void CalcExprLookup(ushort row, in RuleTableSpec table, char logic, Index<CellSpec> src, Dictionary<RuleExprKey,CellDef> dst)
-            {
-                for(var i=z8; i<src.Count; i++)
-                {
-                    var key = new RuleExprKey(table.Sig.TableKind, table.TableId, row, logic, i);
-                    var expr = src[i].Expr();
-                    if(!dst.TryAdd(key, expr))
-                        Errors.Throw(string.Format("Duplicate:({0},'{1}')", key, expr));
-                }
-            }
-
-            public static Index<RuleTableSpec> CalcTableSpecs(FS.FilePath src)
+            public static Index<CellTableSpec> CalcTableSpecs(FS.FilePath src)
             {
                 var skip = hashset("XED_RESET");
                 using var reader = src.Utf8LineReader();
                 var counter = 0u;
-                var dst = list<RuleTableSpec>();
+                var dst = list<CellTableSpec>();
                 var tkind = XedPaths.tablekind(src.FileName);
-                var statements =list<StatementSpec>();
+                var statements =list<CellRowSpec>();
                 var name = EmptyString;
                 while(reader.Next(out var line))
                 {
@@ -149,7 +112,7 @@ namespace Z0
                     }
                     else
                     {
-                        if(CellParser.parse(content, out StatementSpec s))
+                        if(CellParser.parse(content, out CellRowSpec s))
                             statements.Add(s);
                     }
                 }
@@ -157,10 +120,10 @@ namespace Z0
                 return merge(dst.ToArray());
             }
 
-            static uint CalcDefRows(in RuleTableSpec spec, ref uint n, Span<TableDefRow> dst)
+            static uint CalcDefRows(in CellTableSpec spec, ref uint n, Span<TableDefRow> dst)
             {
                 var i0 = n;
-                for(var j=0u; j<spec.StatementCount; j++, n++)
+                for(var j=0u; j<spec.RowCount; j++, n++)
                 {
                     ref var row = ref seek(dst,n);
                     var k=z8;
@@ -172,7 +135,7 @@ namespace Z0
 
                     var statement = RuleGridCells.Empty;
 
-                    ref readonly var antecedant = ref spec[j].Premise;
+                    ref readonly var antecedant = ref spec[j].Antecedant;
                     for(var m=0; m<antecedant.Count; m++,k++)
                         statement[k] = new (true, k, spec.Sig.TableKind, criterion(antecedant[m]));
 
@@ -193,9 +156,9 @@ namespace Z0
                 return n - i0;
             }
 
-            static Index<RuleTableSpec> merge(Index<RuleTableSpec> src)
+            static Index<CellTableSpec> merge(Index<CellTableSpec> src)
             {
-                var dst = dict<RuleSig,RuleTableSpec>(src.Count);
+                var dst = dict<RuleSig,CellTableSpec>(src.Count);
                 for(var i=0u; i<src.Count; i++)
                 {
                     ref readonly var table = ref src[i];
@@ -219,7 +182,7 @@ namespace Z0
                 return specs;
             }
 
-            static Index<RuleTable> reify(ReadOnlySpan<RuleTableSpec> src)
+            static Index<RuleTable> reify(ReadOnlySpan<CellTableSpec> src)
             {
                 var dst = alloc<RuleTable>(src.Length);
                 for(var i=0; i<src.Length; i++)
@@ -227,23 +190,23 @@ namespace Z0
                 return dst;
             }
 
-            static RuleTable reify(RuleTableSpec src)
+            static RuleTable reify(CellTableSpec src)
             {
                 var body = list<RuleStatement>();
-                for(var i=0; i<src.Statements.Count; i++)
+                for(var i=0; i<src.Rows.Count; i++)
                 {
-                    ref readonly var stmt = ref src.Statements[i];
+                    ref readonly var stmt = ref src.Rows[i];
                     if(stmt.IsNonEmpty)
                         body.Add(reify(stmt));
                 }
                 return new (src.Sig, body.ToArray());
             }
 
-            static RuleStatement reify(StatementSpec src)
+            static RuleStatement reify(CellRowSpec src)
             {
                 var left = sys.empty<RuleCriterion>();
-                if(src.Premise.IsNonEmpty)
-                    left = criteria(src.Premise.View);
+                if(src.Antecedant.IsNonEmpty)
+                    left = criteria(src.Antecedant.View);
 
                 var right = sys.empty<RuleCriterion>();
                 if(src.Consequent.IsNonEmpty)

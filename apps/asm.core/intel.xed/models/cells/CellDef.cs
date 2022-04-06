@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using CK = XedRules.CellRole;
-
     partial class XedRules
     {
         public readonly struct CellDef : IEquatable<CellDef>
@@ -15,7 +13,7 @@ namespace Z0
 
             public readonly RuleOperator Operator;
 
-            public readonly CellType CellType;
+            public readonly CellType Type;
 
             public readonly CellValue Value;
 
@@ -24,29 +22,39 @@ namespace Z0
             [MethodImpl(Inline)]
             public CellDef(FieldKind field, RuleOperator op, CellType type, CellValue value, string src)
             {
-                CellType = type;
+                Type = type;
                 Field = field;
                 Operator = op;
                 Value = value;
                 Source = src;
             }
 
-            public CellRole Role
+            [MethodImpl(Inline)]
+            public CellDef(RuleOperator op)
+            {
+                Type = CellType.@operator(op);
+                Field = Type.Field;
+                Operator = op;
+                Value = CellValue.Empty;
+                Source = asci64.Null;
+            }
+
+            public CellClass Class
             {
                 [MethodImpl(Inline)]
-                get => CellType.Role;
+                get => Type.Class;
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Field == 0 && Operator.IsEmpty && (Value.IsEmpty || Value.IsEmpty);
+                get => Type.IsEmpty;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Field != 0 || Operator.IsNonEmpty || (Value.IsNonEmpty && !Value.IsEmpty);
+                get => Type.IsNonEmpty;
             }
 
             [MethodImpl(Inline)]
@@ -61,18 +69,23 @@ namespace Z0
 
             public string Format()
             {
-                var dst = string.Format("{0}{1}{2}", XedRender.format(Field), Operator.Format(), Value);
-                switch(CellType.Role)
+                var dst = EmptyString;
+                if(Class.IsExpr)
                 {
-                    case CK.Seg:
-                    case CK.DispSeg:
-                    case CK.ImmSeg:
-                        dst = string.Format("{0}[{1}]", XedRender.format(Field), Value);
-                    break;
-                    case CK.NontermCall:
-                        dst = Value.Format();
-                    break;
+                    dst = string.Format("{0}{1}{2}", XedRender.format(Field), Operator.Format(), Value);
                 }
+                else
+                {
+                    if(Class.IsSeg)
+                        dst = string.Format("{0}[{1}]", XedRender.format(Field), Value);
+                    else if(Class.IsNonterm || Class.IsValue)
+                        dst = Value.Format();
+                    else if(Class.IsOperator)
+                        dst = Operator.Format();
+                    else
+                        Errors.Throw(string.Format("Unhandled case:{0}", Class));
+                }
+
                 return dst;
             }
 

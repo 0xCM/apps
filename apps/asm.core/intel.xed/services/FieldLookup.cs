@@ -8,7 +8,7 @@ namespace Z0
     using static XedRules;
     using static core;
 
-    partial class XedFields
+    partial class XedRules
     {
         public class FieldLookup
         {

@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedFields;
-
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential), DataWidth(88)]

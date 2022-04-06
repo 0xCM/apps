@@ -221,11 +221,11 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, ChipCode data)
+            public CellValue(FieldKind kind, ChipCode data, CellRole role = default)
             {
                 Field = kind;
                 Data = (uint)data;
-                Role = 0;
+                Role = role;
             }
 
             [MethodImpl(Inline)]

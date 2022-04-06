@@ -34,15 +34,6 @@ namespace Z0
                 CellParser.parse(Data, out Operator);
             }
 
-            public CellDef Expr()
-                => CellParser.expr(Data);
-
-            public CellRole Role()
-                => CellParser.role(Data);
-
-            public CellType CellType()
-                => CellParser.celltype(this);
-
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]

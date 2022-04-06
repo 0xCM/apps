@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
     using static cpu;
 
     partial struct vpack
@@ -32,7 +27,7 @@ namespace Z0
         /// <param name="t">A target component type representative</param>
         [MethodImpl(Inline), Op]
         public static Vector128<ushort> vpack128x16u(Vector128<uint> x, Vector128<uint> y)
-            => vpack.vpackus(x,y);
+            => vpackus(x,y);
 
         /// <summary>
         ///__m128i _mm_packus_epi32 (__m128i a, __m128i b)PACKUSDW xmm, xmm/m128
@@ -44,6 +39,6 @@ namespace Z0
         /// <param name="w">Specifies a zero-extended target</param>
         [MethodImpl(Inline), VZip]
         public static Vector128<ushort> vpack128x16u(Vector128<int> x, Vector128<int> y)
-            => vpack.vpackus(x,y);
+            => vpackus(x,y);
     }
 }

@@ -4,15 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
     using static System.Runtime.Intrinsics.X86.Avx;
     using static System.Runtime.Intrinsics.X86.Avx2;
-    using static Root;
     using static core;
-    using static cpu;
 
     partial struct vpack
     {
@@ -24,7 +18,7 @@ namespace Z0
         /// <param name="t">A target cell type representative</param>
         [MethodImpl(Inline), Op]
         public static Vector512<int> vinflate512x32i(Vector128<sbyte> src)
-            => (vpack.vlo256x32i(src), vpack.vhi256x32i(src));
+            => (vlo256x32i(src), vhi256x32i(src));
 
         /// <summary>
         /// 16x16i -> 16x32i
@@ -34,7 +28,7 @@ namespace Z0
         /// <param name="t">A target type representative</param>
         [MethodImpl(Inline), Op]
         public static Vector512<int> vinflate512x32i(Vector256<short> src)
-            => (vpack.vlo256x32i(src), vpack.vhi256x32i(src));
+            => (vlo256x32i(src), vhi256x32i(src));
 
         /// <summary>
         /// VPMOVSXWD ymm, m128

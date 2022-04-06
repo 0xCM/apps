@@ -17,66 +17,10 @@ namespace Z0
         Outcome CheckFields(CmdArgs args)
         {
 
-            EmitRuleExpr();
 
             return true;
         }
 
-        void EmitRuleExpr()
-        {
-            var rules = Xed.Rules.CalcRules();
-            var lookup = RuleTableCalcs.CalcExprLookup(rules);
-            var specs = rules.TableSpecs().Select(x => (x.TableId, x)).ToDictionary();
-
-            const string Sep = " | ";
-            var cols = new Pairings<string,byte>(new Paired<string,byte>[]{
-                ("Key", 18),
-                ("TableId", 12),
-                ("TableKind", 12),
-                ("TableName", 32),
-                ("CellKind", 16),
-                ("CellType",24),
-                ("Row", 8),
-                ("Field", 22),
-                ("Op", 8),
-                ("Value", 48),
-                ("Expr",48),
-                ("Source",1)
-                });
-            var count = cols.Count;
-            var widths = alloc<byte>(count);
-            iteri(count, i=> seek(widths,i) = cols[i].Right);
-            var slots = mapi(widths, (i,w) => RP.slot((byte)i, (short)-w));
-            var names = alloc<string>(count);
-            iteri(count, i => names[i] = cols[i].Left);
-            var RenderPattern = slots.Intersperse(" | ").Concat();
-            var header = string.Format(RenderPattern, names);
-
-            var keys = lookup.Keys;
-            var dst = text.buffer();
-            dst.AppendLine(header);
-            for(var i=0; i<keys.Length; i++)
-            {
-                ref readonly var key = ref skip(keys,i);
-                var expr = lookup[key];
-                dst.AppendLineFormat(RenderPattern,
-                    key,
-                    key.TableId.FormatHex(),
-                    key.TableKind,
-                    specs[key.TableId].ShortName,
-                    expr.CellType.Role,
-                    expr.CellType,
-                    key.RowIndex,
-                    XedRender.format(expr.Field),
-                    expr.Operator,
-                    expr.Value,
-                    expr.Format(),
-                    expr.Source
-                    );
-            }
-
-            FileEmit(dst.Emit(),keys.Length, XedPaths.RuleTargets() + FS.file("xed.rules.expressions", FS.Csv), TextEncodingKind.Asci);
-        }
 
         void EmitSomt()
         {

@@ -25,54 +25,6 @@ namespace Z0
             }
         }
 
-        [CmdOp("xed/check/rules")]
-        Outcome CheckRules(CmdArgs args)
-        {
-            var rules = Xed.Rules.CalcRules();
-            // var defs = rules.DefRows();
-            // TableEmit(defs.View, TableDefRow.RenderWidths, XedPaths.Table<TableDefRow>("test"));
-            return true;
-        }
-
-        public static RuleExprLookup CalcExprLookup(RuleTables rules)
-        {
-            var dst = dict<RuleExprKey,CellDef>();
-            CalcExprLookup(rules.EncTableSpecs(), dst);
-            CalcExprLookup(rules.DecTableSpecs(), dst);
-            return dst;
-        }
-
-        public static void CalcExprLookup(Index<RuleTableSpec> src, Dictionary<RuleExprKey,CellDef> dst)
-        {
-            for(var i=0; i<src.Count; i++)
-                CalcExprLookup(src[i], dst);
-        }
-
-        static void CalcExprLookup(in RuleTableSpec src, Dictionary<RuleExprKey,CellDef> dst)
-        {
-            for(var i=z16; i<src.StatementCount; i++)
-                CalcExprLookup(i, src, dst);
-        }
-
-        static void CalcExprLookup(ushort row, in RuleTableSpec table, Dictionary<RuleExprKey,CellDef> dst)
-        {
-            CalcExprLookup(row, table, 'P', table[row].Premise, dst);
-            CalcExprLookup(row, table, 'C', table[row].Consequent, dst);
-        }
-
-        static void CalcExprLookup(ushort row, in RuleTableSpec table, char logic, Index<XedRules.CellSpec> src, Dictionary<RuleExprKey,CellDef> dst)
-        {
-            for(var i=z8; i<src.Count; i++)
-            {
-                var key = new RuleExprKey(table.Sig.TableKind, table.TableId, row, logic, i);
-                var expr = src[i].Expr();
-                if(!dst.TryAdd(key, expr))
-                    Errors.Throw(string.Format("Duplicate:({0},'{1}')", key, expr));
-            }
-        }
-
-
-
         void CheckNonTerms()
         {
             var patterns = Xed.Rules.CalcInstPatterns();

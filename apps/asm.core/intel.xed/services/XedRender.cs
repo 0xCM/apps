@@ -587,13 +587,13 @@ namespace Z0
                 return RP.Error;
         }
 
-        public static string format(in RuleTableSpec src)
+        public static string format(in CellTableSpec src)
         {
             var dst = text.buffer();
             dst.AppendLine(string.Format("{0}()", src.Sig.ShortName));
             dst.AppendLine(Chars.LBrace);
-            for(var i=0; i<src.Statements.Count; i++)
-                dst.IndentLine(4, src.Statements[i]);
+            for(var i=0; i<src.Rows.Count; i++)
+                dst.IndentLine(4, src.Rows[i]);
             dst.AppendLine(Chars.RBrace);
             return dst.Emit();
         }
@@ -758,18 +758,18 @@ namespace Z0
             return result;
         }
 
-        public static string format(in StatementSpec src)
+        public static string format(in CellRowSpec src)
         {
             var dst = text.buffer();
 
-            if(src.Premise.Count == 0)
+            if(src.Antecedant.Count == 0)
                 dst.Append(XedNames.Null);
 
-            for(var i=0; i<src.Premise.Count; i++)
+            for(var i=0; i<src.Antecedant.Count; i++)
             {
                 if(i!=0)
                     dst.Append(Chars.Space);
-                dst.Append(src.Premise[i].Data);
+                dst.Append(src.Antecedant[i].Data);
             }
 
             if(src.Consequent.Count != 0)

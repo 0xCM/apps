@@ -79,6 +79,7 @@ namespace Z0
             [Symbol("bfseg(x)")]
             BfSegExpr,
 
+            FieldValue,
         }
    }
 }

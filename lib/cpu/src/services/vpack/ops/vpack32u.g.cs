@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
     using static gcpu;
 
     partial struct vpack
@@ -23,5 +18,4 @@ namespace Z0
             where T : unmanaged
                 => vmask32u(src, index);
     }
-
 }

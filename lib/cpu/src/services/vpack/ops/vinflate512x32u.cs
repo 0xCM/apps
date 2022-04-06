@@ -4,13 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
     using static System.Runtime.Intrinsics.X86.Avx;
     using static System.Runtime.Intrinsics.X86.Avx2;
-    using static Root;
     using static core;
     using static cpu;
 
@@ -24,7 +19,7 @@ namespace Z0
         /// <param name="t">A target type representative</param>
         [MethodImpl(Inline), Op]
         public static Vector512<uint> vinflate512x32u(Vector256<ushort> src)
-            => (vpack.vlo256x32u(src), vpack.vhi256x16u(src));
+            => (vlo256x32u(src), vhi256x16u(src));
 
         /// <summary>
         /// 16x8u -> 16x32u
@@ -34,7 +29,7 @@ namespace Z0
         /// <param name="t">A target component type representative</param>
         [MethodImpl(Inline), Op]
         public static Vector512<uint> vinflate512x32u(Vector128<byte> src)
-            => (vpack.vlo256x32u(src), vpack.vhi256x32u(src));
+            => (vlo256x32u(src), vhi256x32u(src));
 
         /// <summary>
         /// VPMOVZXWD ymm, m128

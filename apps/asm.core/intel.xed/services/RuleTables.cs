@@ -18,7 +18,7 @@ namespace Z0
             {
                 public readonly ConcurrentDictionary<RuleTableKind,Index<RuleTable>> Defs = new();
 
-                public readonly ConcurrentDictionary<RuleTableKind,Index<RuleTableSpec>> Specs = new();
+                public readonly ConcurrentDictionary<RuleTableKind,Index<CellTableSpec>> Specs = new();
 
                 public Index<RuleSigRow> Sigs = sys.empty<RuleSigRow>();
 
@@ -31,22 +31,22 @@ namespace Z0
                 get => ref Data.Sigs;
             }
 
-            Index<RuleTableSpec> _EncTableSpecs;
+            Index<CellTableSpec> _EncTableSpecs;
 
             [MethodImpl(Inline)]
-            public ref readonly Index<RuleTableSpec> EncTableSpecs()
+            public ref readonly Index<CellTableSpec> EncTableSpecs()
                 => ref _EncTableSpecs;
 
-            Index<RuleTableSpec> _DecTableSpecs;
+            Index<CellTableSpec> _DecTableSpecs;
 
             [MethodImpl(Inline)]
-            public ref readonly Index<RuleTableSpec> DecTableSpecs()
+            public ref readonly Index<CellTableSpec> DecTableSpecs()
                 => ref _DecTableSpecs;
 
-            Index<RuleTableSpec> _TableSpecs;
+            Index<CellTableSpec> _TableSpecs;
 
             [MethodImpl(Inline)]
-            public ref readonly Index<RuleTableSpec> TableSpecs()
+            public ref readonly Index<CellTableSpec> TableSpecs()
                 => ref _TableSpecs;
 
             Index<TableDefRow> DefRowIndex;

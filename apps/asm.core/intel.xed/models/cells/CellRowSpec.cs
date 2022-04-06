@@ -7,23 +7,23 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct StatementSpec
+        public readonly struct CellRowSpec
         {
-            public readonly Index<CellSpec> Premise;
+            public readonly Index<CellSpec> Antecedant;
 
             public readonly Index<CellSpec> Consequent;
 
             [MethodImpl(Inline)]
-            public StatementSpec(CellSpec[] p, CellSpec[] c)
+            public CellRowSpec(CellSpec[] p, CellSpec[] c)
             {
-                Premise = p;
+                Antecedant = p;
                 Consequent = c;
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Premise.Count == 0 && Consequent.Count == 0;
+                get => Antecedant.Count == 0 && Consequent.Count == 0;
             }
 
             public bool IsNonEmpty
@@ -38,7 +38,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static StatementSpec Empty => new StatementSpec(sys.empty<CellSpec>(), sys.empty<CellSpec>());
+            public static CellRowSpec Empty => new CellRowSpec(sys.empty<CellSpec>(), sys.empty<CellSpec>());
         }
     }
 }

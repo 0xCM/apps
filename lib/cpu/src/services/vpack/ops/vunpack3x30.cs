@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
     using static BitMaskLiterals;
     using static cpu;
 
@@ -20,7 +15,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         /// <param name="dst">A target span of sufficient length</param>
         [MethodImpl(Inline), Op]
-        public static Vector256<ushort> vunpack3x30(uint src)
+        public static Vector256<byte> vunpack3x30(uint src)
         {
             var a = src & uint.MaxValue >> 2;
             var lo = (ushort)(Lsb16x16x15 & a);
@@ -30,7 +25,7 @@ namespace Z0
             var q = vbroadcast(w256, (uint)(lo | hi << 16));
             var r = v16u(vsrlv(vand(q,m), shifts));
             var s = vsplit30x8x3Assemble(r);
-            return s;
+            return v8u(s);
         }
 
         // The goal is to partition the first 30 bits of a 32-bit source into 30 bytes, each with an effective width of 3

@@ -4,14 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static System.Runtime.Intrinsics.X86.Avx;
-    using static System.Runtime.Intrinsics.X86.Avx2;
     using static System.Runtime.Intrinsics.X86.Sse41;
-    using static Root;
     using static core;
     using static cpu;
 
@@ -25,7 +18,7 @@ namespace Z0
         /// <param name="src">The source reference</param>
         [MethodImpl(Inline), Op(inflate)]
         public static unsafe void vinflate8x8u(in byte src, out Vector256<uint> dst)
-            => dst = v32u(ConvertToVector256Int32(gptr(src)));
+            => dst = vunpack8x32(src);
 
         /// <summary>
         /// PMOVZXBW xmm, m64
