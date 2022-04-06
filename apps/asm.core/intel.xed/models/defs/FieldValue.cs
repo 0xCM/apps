@@ -6,7 +6,6 @@ namespace Z0
 {
     using static XedModels;
     using static XedPatterns;
-    using static core;
 
     using Asm;
 
@@ -19,14 +18,38 @@ namespace Z0
 
             public readonly ulong Data;
 
-            public readonly bit IsNonTerminal;
+            public readonly RuleCellKind DataKind;
 
             [MethodImpl(Inline)]
             public FieldValue(FieldKind kind, bit data)
             {
                 Field = kind;
                 Data = (byte)data;
-                IsNonTerminal = 0;
+                DataKind = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, uint8b data)
+            {
+                Field = kind;
+                Data = data;
+                DataKind = RuleCellKind.BinaryLiteral;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, Hex8 data)
+            {
+                Field = kind;
+                Data = data;
+                DataKind = RuleCellKind.HexLiteral;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, Hex4 data)
+            {
+                Field = kind;
+                Data = data;
+                DataKind = RuleCellKind.HexLiteral;
             }
 
             [MethodImpl(Inline)]
@@ -34,7 +57,15 @@ namespace Z0
             {
                 Field = kind;
                 Data = data;
-                IsNonTerminal = 0;
+                DataKind = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, byte data, RuleCellKind ck)
+            {
+                Field = kind;
+                Data = data;
+                DataKind = ck;
             }
 
             [MethodImpl(Inline)]
@@ -42,7 +73,15 @@ namespace Z0
             {
                 Field = kind;
                 Data = data;
-                IsNonTerminal = 0;
+                DataKind = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(RuleOperator src)
+            {
+                Field = 0;
+                Data = (uint)src;
+                DataKind = RuleCellKind.Operator;
             }
 
             [MethodImpl(Inline)]
@@ -50,15 +89,39 @@ namespace Z0
             {
                 Field = data.Field;
                 Data = (ulong)data.Pattern;
-                IsNonTerminal = 0;
+                DataKind = RuleCellKind.BfSeg;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, ImmField data)
+            public FieldValue(BfSpec data)
+            {
+                Field = 0;
+                Data = (byte)data;
+                DataKind = RuleCellKind.BfSpec;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(FieldKind kind, ImmSeg data)
             {
                 Field = kind;
-                Data =(ushort)data;
-                IsNonTerminal = 0;
+                Data = (ushort)data;
+                DataKind = RuleCellKind.ImmSeg;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(ImmSpec src)
+            {
+                Field = 0;
+                Data = (byte)src;
+                DataKind = RuleCellKind.ImmSpec;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(DispSpec src)
+            {
+                Field = 0;
+                Data = (byte)src;
+                DataKind = RuleCellKind.DispSpec;
             }
 
             [MethodImpl(Inline)]
@@ -66,7 +129,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = data;
-                IsNonTerminal = 0;
+                DataKind = 0;
             }
 
             [MethodImpl(Inline)]
@@ -74,23 +137,23 @@ namespace Z0
             {
                 Field = kind;
                 Data = (ulong)data;
-                IsNonTerminal = 0;
+                DataKind = 0;
             }
 
             [MethodImpl(Inline)]
             public FieldValue(FieldKind kind, Nonterminal data)
             {
                 Field = kind;
-                Data = (uint)data;
-                IsNonTerminal = 1;
+                Data = (ushort)data;
+                DataKind = RuleCellKind.NontermCall;
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(FieldKind kind, DispField data)
+            public FieldValue(FieldKind kind, DispSeg data)
             {
                 Field = kind;
                 Data = (byte)data;
-                IsNonTerminal = 0;
+                DataKind = RuleCellKind.DispSeg;
             }
 
             [MethodImpl(Inline)]
@@ -98,7 +161,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = (uint)data;
-                IsNonTerminal = 0;
+                DataKind = 0;
             }
 
             [MethodImpl(Inline)]
@@ -106,7 +169,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = (uint)data;
-                IsNonTerminal = 0;
+                DataKind = 0;
             }
 
             [MethodImpl(Inline)]
@@ -114,7 +177,21 @@ namespace Z0
             {
                 Field = kind;
                 Data = (uint)data;
-                IsNonTerminal = 0;
+                DataKind = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldValue(RuleKeyword kw)
+            {
+                Field = 0;
+                Data = (byte)kw.KeywordKind;
+                DataKind = kw.CellKind;
+            }
+
+            public readonly bit IsNonTerminal
+            {
+                [MethodImpl(Inline)]
+                get => DataKind == RuleCellKind.NontermCall;
             }
 
             public bool IsEmpty
@@ -168,6 +245,10 @@ namespace Z0
                 => (ModeKind)Data;
 
             [MethodImpl(Inline)]
+            public RuleKeyword ToKeyword()
+                => RuleKeyword.from((RuleKeyWordKind)Data);
+
+            [MethodImpl(Inline)]
             public XedRegId ToReg()
                 => (XedRegId)Data;
 
@@ -196,20 +277,36 @@ namespace Z0
                 => (bit)Data;
 
             [MethodImpl(Inline)]
-            public ImmField ToImm()
-                => (ImmField)Data;
+            public ImmSeg ToImmSeg()
+                => (ImmSeg)Data;
 
             [MethodImpl(Inline)]
-            public Hex8 ToHex8()
+            public ImmSpec ToImmSpec()
+                => (ImmSpec)Data;
+
+            [MethodImpl(Inline)]
+            public byte ToIntLiteral()
+                => (byte)Data;
+
+            [MethodImpl(Inline)]
+            public Hex8 ToHexLiteral()
                 => (Hex8)Data;
+
+            [MethodImpl(Inline)]
+            public uint8b ToBinaryLiteral()
+                => (uint8b)Data;
 
             [MethodImpl(Inline)]
             public Nonterminal ToNonterminal()
                 => (NontermKind)Data;
 
             [MethodImpl(Inline)]
-            public DispField ToDisp()
-                => (DispField)Data;
+            public DispSeg ToDispSeg()
+                => (DispSeg)Data;
+
+            [MethodImpl(Inline)]
+            public DispSpec ToDispSpec()
+                => (DispSpec)Data;
 
             [MethodImpl(Inline)]
             public static implicit operator EASZ(FieldValue src)
@@ -261,7 +358,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator Hex8(FieldValue src)
-                => src.ToHex8();
+                => src.ToHexLiteral();
 
             [MethodImpl(Inline)]
             public static implicit operator byte(FieldValue src)
@@ -284,12 +381,12 @@ namespace Z0
                 => (Hex4)src.Data;
 
             [MethodImpl(Inline)]
-            public static implicit operator DispField(FieldValue src)
-                => src.ToDisp();
+            public static implicit operator DispSeg(FieldValue src)
+                => src.ToDispSeg();
 
             [MethodImpl(Inline)]
-            public static implicit operator ImmField(FieldValue src)
-                => src.ToImm();
+            public static implicit operator ImmSeg(FieldValue src)
+                => src.ToImmSeg();
 
             [MethodImpl(Inline)]
             public static implicit operator ushort(FieldValue src)

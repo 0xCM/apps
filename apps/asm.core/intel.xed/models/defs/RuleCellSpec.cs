@@ -31,11 +31,17 @@ namespace Z0
                 Data = text.ifempty(data,EmptyString);
                 IsLiteral = Field == 0;
                 IsOperator = false;
-                XedParsers.parse(Data, out Operator);
+                RuleParser.parse(Data, out Operator);
             }
 
-            public RuleCellExpr Expr()
+            public RuleExpr Expr()
                 => RuleParser.expr(Data);
+
+            public RuleCellKind CellKind()
+                => RuleParser.cellkind(Data);
+
+            public RuleCellType CellType()
+                => RuleParser.celltype(this);
 
             public bool IsEmpty
             {

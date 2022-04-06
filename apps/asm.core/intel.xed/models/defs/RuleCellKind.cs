@@ -13,23 +13,29 @@ namespace Z0
             [Symbol("")]
             None,
 
-            [Symbol("neq(x)")]
-            FieldNeq,
+            [Symbol("0b")]
+            BinaryLiteral,
 
-            [Symbol("eq(x)")]
-            FieldEq,
+            [Symbol("d")]
+            IntLiteral,
+
+            [Symbol("0x")]
+            HexLiteral,
+
+            [Symbol("op")]
+            Operator,
 
             [Symbol("nt")]
-            Nonterminal,
-
-            [Symbol("nt(x)")]
-            NontermExpr,
-
-            [Symbol("bfseg(x)")]
-            BfSegExpr,
+            NontermCall,
 
             [Symbol("bfseg")]
             BfSeg,
+
+            [Symbol("disp[]")]
+            DispSeg,
+
+            [Symbol("imm[]")]
+            ImmSeg,
 
             [Symbol("bfspec")]
             BfSpec,
@@ -43,11 +49,29 @@ namespace Z0
             [Symbol("error")]
             Error,
 
-            [Symbol("keyword")]
-            Keyword,
+            [Symbol("@")]
+            Wildcard,
 
-            [Symbol("op")]
-            Operator,
+            [Symbol("default")]
+            Default,
+
+            [Symbol("neq(x)")]
+            NeqExpr,
+
+            [Symbol("eq(x)")]
+            EqExpr,
+
+            [Symbol("nt(x)")]
+            NontermExpr,
+
+            [Symbol("bfseg(x)")]
+            BfSegExpr,
+
+            [Symbol("imm")]
+            DispSpec,
+
+            [Symbol("disp")]
+            ImmSpec,
         }
    }
 }

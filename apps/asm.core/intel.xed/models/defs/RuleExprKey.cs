@@ -13,17 +13,17 @@ namespace Z0
         {
             readonly ushort TableInfo;
 
-            public readonly ushort EntrySeq;
+            public readonly ushort RowIndex;
 
             readonly byte _Logic;
 
             public readonly byte ExprSeq;
 
             [MethodImpl(Inline)]
-            public RuleExprKey(RuleTableKind kind, uint table, ushort entry, char logic, byte expr)
+            public RuleExprKey(RuleTableKind kind, uint table, ushort row, char logic, byte expr)
             {
                 TableInfo = math.or((ushort)table, KindBit(kind));
-                EntrySeq = entry;
+                RowIndex = row;
                 _Logic = (byte)logic;
                 ExprSeq = expr;
             }
@@ -61,7 +61,7 @@ namespace Z0
             public Hash32 Hash
             {
                 [MethodImpl(Inline)]
-                get => Bitfields.join((ushort)TableInfo, Bitfields.join((byte)EntrySeq, math.or((byte)ExprSeq, LogicBit)));
+                get => Bitfields.join((ushort)TableInfo, Bitfields.join((byte)RowIndex, math.or((byte)ExprSeq, LogicBit)));
             }
 
             [MethodImpl(Inline)]
@@ -85,7 +85,7 @@ namespace Z0
                 var result = TableInfo.CompareTo(src.TableInfo);
                 if(result == 0)
                 {
-                    result = EntrySeq.CompareTo(src.EntrySeq);
+                    result = RowIndex.CompareTo(src.RowIndex);
                     if(result == 0)
                     {
                         result = LogicBit.CompareTo(src.LogicBit);

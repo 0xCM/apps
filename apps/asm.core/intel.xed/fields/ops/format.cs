@@ -11,9 +11,9 @@ namespace Z0
     using static XedRules;
     using static core;
 
-    using R = XedRules;
     using C = XedRules.FormatCode;
     using K = XedRules.FieldKind;
+    using CK = XedRules.RuleCellKind;
 
     partial class XedFields
     {
@@ -22,8 +22,43 @@ namespace Z0
             var dst = EmptyString;
             if(src.IsEmpty)
                 return EmptyString;
-            if(src.IsNonTerminal)
+            else if(src.IsNonTerminal)
                 return XedRender.format(src.ToNonterminal());
+            else if(src.DataKind != 0)
+            {
+                switch(src.DataKind)
+                {
+                    case CK.BinaryLiteral:
+                        dst = XedRender.format(src.ToBinaryLiteral());
+                        Require.nonempty(dst);
+                    break;
+                    case CK.HexLiteral:
+                        dst = XedRender.format(src.ToHexLiteral());
+                        Require.nonempty(dst);
+                    break;
+                    case CK.IntLiteral:
+                        dst = XedRender.format(src.ToIntLiteral());
+                        Require.nonempty(dst);
+                    break;
+                    case CK.Error:
+                    case CK.Default:
+                    case CK.Branch:
+                    case CK.Null:
+                    case CK.Wildcard:
+                        dst = XedRender.format(src.ToKeyword());
+                        Require.nonempty(dst);
+                    break;
+                    case CK.DispSpec:
+                        dst = XedRender.format(src.ToDispSpec());
+                    break;
+                    case CK.ImmSpec:
+                        dst = XedRender.format(src.ToImmSpec());
+                    break;
+                }
+
+                if(nonempty(dst))
+                    return dst;
+            }
 
             var data = bytes(src.Data);
             var code = XedFields.fcode(src.Field);

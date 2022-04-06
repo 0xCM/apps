@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [SymSource(xed)]
-        public enum ImmFieldKind : byte
+        public enum ImmSpec : byte
         {
             [Symbol("")]
             None,

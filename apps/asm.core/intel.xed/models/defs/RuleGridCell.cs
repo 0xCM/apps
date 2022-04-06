@@ -48,12 +48,6 @@ namespace Z0
                 get => Criterion.IsNonEmpty;
             }
 
-            public bool IsNonTerminal
-            {
-                [MethodImpl(Inline)]
-                get => Criterion.IsNonTerminal;
-            }
-
             public string Format()
                 => IsEmpty ? EmptyString : Criterion.Format();
 

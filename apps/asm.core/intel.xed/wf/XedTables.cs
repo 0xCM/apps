@@ -8,7 +8,7 @@ namespace Z0
     {
         protected override XedTables Init(out XedLookups state)
         {
-            state = XedLookups.Data;
+            state = XedLookups.Service;
             return this;
         }
 

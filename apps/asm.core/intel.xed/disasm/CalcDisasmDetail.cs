@@ -92,7 +92,7 @@ namespace Z0
                     Errors.Throw(result.Message);
 
                 var info = operand.OpInfo;
-                var winfo = XedLookups.Data.WidthInfo(info.WidthCode);
+                var winfo = XedLookups.Service.WidthInfo(info.WidthCode);
                 operand.OpWidth = winfo;
                 var opname = XedRules.opname(info.Kind);
                 operand.OpName = opname;

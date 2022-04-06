@@ -16,66 +16,66 @@ namespace Z0
         [CmdOp("xed/check/fields")]
         Outcome CheckFields(CmdArgs args)
         {
-            var rules = Xed.Rules.CalcRules();
-            var rows = RuleTableCalcs.CalcDefRows(rules.TableSpecs());
 
-            TableEmit(rows.View, TableDefRow.RenderWidths, XedPaths.RuleTable<TableDefRow>());
+            EmitRuleExpr();
 
             return true;
         }
 
-        void CheckRuleExpr()
+        void EmitRuleExpr()
         {
             var rules = Xed.Rules.CalcRules();
-            var lookup = CalcRuleExpr(rules);
+            var lookup = RuleTableCalcs.CalcExprLookup(rules);
+            var specs = rules.TableSpecs().Select(x => (x.TableId, x)).ToDictionary();
+
+            const string Sep = " | ";
+            var cols = new Pairings<string,byte>(new Paired<string,byte>[]{
+                ("Key", 18),
+                ("TableId", 12),
+                ("TableKind", 12),
+                ("TableName", 32),
+                ("CellKind", 16),
+                ("CellType",24),
+                ("Row", 8),
+                ("Field", 22),
+                ("Op", 8),
+                ("Value", 48),
+                ("Expr",48),
+                ("Source",1)
+                });
+            var count = cols.Count;
+            var widths = alloc<byte>(count);
+            iteri(count, i=> seek(widths,i) = cols[i].Right);
+            var slots = mapi(widths, (i,w) => RP.slot((byte)i, (short)-w));
+            var names = alloc<string>(count);
+            iteri(count, i => names[i] = cols[i].Left);
+            var RenderPattern = slots.Intersperse(" | ").Concat();
+            var header = string.Format(RenderPattern, names);
+
             var keys = lookup.Keys;
             var dst = text.buffer();
-            dst.AppendLineFormat("{0,-18} | {1}", "Key", "Expression");
+            dst.AppendLine(header);
             for(var i=0; i<keys.Length; i++)
             {
                 ref readonly var key = ref skip(keys,i);
                 var expr = lookup[key];
-                dst.AppendLineFormat("{0,-18} | {1}", key, expr);
+                dst.AppendLineFormat(RenderPattern,
+                    key,
+                    key.TableId.FormatHex(),
+                    key.TableKind,
+                    specs[key.TableId].ShortName,
+                    expr.CellType.Kind,
+                    expr.CellType,
+                    key.RowIndex,
+                    XedRender.format(expr.Field),
+                    expr.Operator,
+                    expr.Value,
+                    expr.Format(),
+                    expr.Source
+                    );
             }
 
             FileEmit(dst.Emit(),keys.Length, XedPaths.RuleTargets() + FS.file("xed.rules.expressions", FS.Csv), TextEncodingKind.Asci);
-        }
-
-        public RuleExprLookup CalcRuleExpr(RuleTables rules)
-        {
-            var dst = dict<RuleExprKey,RuleCellExpr>();
-            CalcRuleExpr(rules.EncTableSpecs(), dst);
-            CalcRuleExpr(rules.DecTableSpecs(), dst);
-            return dst;
-        }
-
-        public void CalcRuleExpr(Index<RuleTableSpec> src, Dictionary<RuleExprKey,RuleCellExpr> dst)
-        {
-            for(var i=0; i<src.Count; i++)
-                CalcRuleExpr(src[i], dst);
-        }
-
-        void CalcRuleExpr(in RuleTableSpec src, Dictionary<RuleExprKey,RuleCellExpr> dst)
-        {
-            for(var i=z16; i<src.StatementCount; i++)
-                CalcRuleExpr(i, src, dst);
-        }
-
-        void CalcRuleExpr(ushort entry, in RuleTableSpec table, Dictionary<RuleExprKey,RuleCellExpr> dst)
-        {
-            CalcRuleExpr(entry, table, 'P', table[entry].Premise, dst);
-            CalcRuleExpr(entry, table, 'C', table[entry].Consequent, dst);
-        }
-
-        void CalcRuleExpr(ushort seq, in RuleTableSpec table, char logic, Index<RuleCellSpec> src, Dictionary<RuleExprKey,RuleCellExpr> dst)
-        {
-            for(var i=z8; i<src.Count; i++)
-            {
-                var key = new RuleExprKey(table.Sig.TableKind, table.TableId, seq, logic, i);
-                var expr = src[i].Expr();
-                if(!dst.TryAdd(key, expr))
-                    Error(string.Format("Duplicate:({0},'{1}')", key, expr));
-            }
         }
 
         void EmitSomt()

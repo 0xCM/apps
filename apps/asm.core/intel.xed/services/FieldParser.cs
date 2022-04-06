@@ -15,7 +15,7 @@ namespace Z0
     {
         public readonly struct FieldParser
         {
-            public static bool parse(FieldKind field, string value, out R.FieldValue dst)
+            public static bool parse(FieldKind field, string value, out FieldValue dst)
             {
                 var result = true;
                 dst = R.FieldValue.Empty;
@@ -24,6 +24,7 @@ namespace Z0
                     dst = new (field, k);
                     return true;
                 }
+
 
                 switch(field)
                 {
@@ -237,7 +238,7 @@ namespace Z0
                             dst = new (field, b);
                         else
                         {
-                            result = XedParsers.parse(value, out DispField disp);
+                            result = XedParsers.parse(value, out DispSeg disp);
                             if(result)
                                 dst = new (field,disp);
                         }
@@ -246,14 +247,26 @@ namespace Z0
 
                     case K.UIMM0:
                     {
-                        result = XedParsers.parse(value, out ImmField imm0);
-                        dst = new (field,imm0.WithIndex(0));
+                        result = byte.TryParse(value, out var b);
+                        if(result)
+                            dst = new (field,b);
+                        else
+                        {
+                            result = XedParsers.parse(value, out ImmSeg imm);
+                            dst = new (field,imm.WithIndex(0));
+                        }
                     }
                     break;
                     case K.UIMM1:
                     {
-                        result = XedParsers.parse(value, out ImmField imm1);
-                        dst = new (field,imm1.WithIndex(1));
+                        result = byte.TryParse(value, out var b);
+                        if(result)
+                            dst = new (field,b);
+                        else
+                        {
+                            result = XedParsers.parse(value, out ImmSeg imm);
+                            dst = new (field,imm.WithIndex(1));
+                        }
                     }
                     break;
 

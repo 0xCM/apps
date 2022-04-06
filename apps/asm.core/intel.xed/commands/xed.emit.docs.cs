@@ -33,7 +33,7 @@ namespace Z0
 
         void CheckFields(N0 n)
         {
-            var tables = XedLookups.Data;
+            var tables = XedLookups.Service;
             var lu = tables.Fields;
             var matched = lu.Match(lu.LU(3), array(FieldKind.VEXDEST210, FieldKind.VEXDEST3, FieldKind.VEXDEST4));
             for(byte i=0; i<32; i++)

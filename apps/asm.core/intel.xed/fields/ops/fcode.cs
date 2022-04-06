@@ -82,20 +82,6 @@ namespace Z0
                     dst = C.B2;
                 break;
 
-                // case K.VEXDEST3:
-                // case K.VEXDEST4:
-                //     dst = C.B1;
-                // break;
-
-                // case K.REG:
-                // case K.RM:
-                // case K.SRM:
-                // case K.SIBBASE:
-                // case K.SIBINDEX:
-                // case K.VEXDEST210:
-                //     dst = C.B3;
-                // break;
-
                 case K.FIRST_F2F3:
                 case K.LAST_F2F3:
                 case K.LLRC:

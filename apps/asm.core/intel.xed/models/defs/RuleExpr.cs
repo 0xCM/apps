@@ -5,67 +5,67 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using CK = XedRules.RuleCellKind;
+
     partial class XedRules
     {
-        public readonly struct RuleCellExpr : IEquatable<RuleCellExpr>
+        public readonly struct RuleExpr : IEquatable<RuleExpr>
         {
             public readonly FieldKind Field;
 
             public readonly RuleOperator Operator;
 
-            public readonly asci64 Value;
+            public readonly RuleCellType CellType;
+
+            public readonly FieldValue Value;
+
+            public readonly asci64 Source;
 
             [MethodImpl(Inline)]
-            public RuleCellExpr(FieldKind field, RuleOperator op, string value)
+            public RuleExpr(FieldKind field, RuleOperator op, RuleCellType type, FieldValue value, string src)
             {
-                Require.invariant(value.Length <= 48);
+                CellType = type;
                 Field = field;
                 Operator = op;
                 Value = value;
+                Source = src;
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Field == 0 && Operator.IsEmpty && (Value.IsEmpty || Value.IsBlank);
+                get => Field == 0 && Operator.IsEmpty && (Value.IsEmpty || Value.IsEmpty);
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Field != 0 || Operator.IsNonEmpty || (Value.IsNonEmpty && !Value.IsBlank);
+                get => Field != 0 || Operator.IsNonEmpty || (Value.IsNonEmpty && !Value.IsEmpty);
             }
 
             [MethodImpl(Inline)]
-            public bool Equals(RuleCellExpr src)
+            public bool Equals(RuleExpr src)
                 => Field == src.Field && Operator == src.Operator && Value == src.Value;
 
             public override int GetHashCode()
                 => (int)alg.hash.marvin(Format());
 
             public override bool Equals(object src)
-                => src is RuleCellExpr x && Equals(x);
+                => src is RuleExpr x && Equals(x);
 
             public string Format()
             {
-                var dst = EmptyString;
-                if(Field != 0)
-                    dst = XedRender.format(Field);
-
-                if(Operator.IsNonEmpty)
-                    dst += Operator.Format();
-
-                var value = Value.Format();
-                if(text.nonempty(value))
+                var dst = string.Format("{0}{1}{2}", XedRender.format(Field), Operator.Format(), Value);
+                switch(CellType.Kind)
                 {
-                    if(Operator.IsNonEmpty)
-                        dst += value;
-                    else
-                    {
-                        if(Field != 0)
-                            dst += " ";
-                        dst += value;
-                    }
+                    case CK.BfSeg:
+                    case CK.DispSeg:
+                    case CK.ImmSeg:
+                        dst = string.Format("{0}[{1}]", XedRender.format(Field), Value);
+                    break;
+                    case CK.NontermCall:
+                        dst = Value.Format();
+                    break;
                 }
                 return dst;
             }
@@ -73,7 +73,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static RuleCellExpr Empty => default;
+            public static RuleExpr Empty => default;
         }
     }
 }

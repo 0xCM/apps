@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [SymSource(xed)]
-        public enum DispKind : byte
+        public enum DispSpec : byte
         {
             [Symbol("")]
             None,

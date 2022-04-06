@@ -6,19 +6,9 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedFields;
 
     partial class XedRules
     {
-        public readonly struct RuleCellType
-        {
-            public readonly FieldKind Field;
-
-            public readonly RuleOperator Operator;
-
-
-
-        }
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct RuleCriterion
         {
@@ -31,12 +21,66 @@ namespace Z0
             public readonly RuleCellKind Kind;
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(FieldKind fk, RuleOperator op, Nonterminal nt)
+            internal RuleCriterion(uint8b src)
             {
-                Field = fk;
-                Operator = op;
-                Storage = core.bytes(expr(fk, op, new (fk,nt)));
+                Field = 0;
+                Operator = RuleOperator.Empty;
+                Storage = (uint)src;
+                Kind = RuleCellKind.BinaryLiteral;
+            }
+
+            [MethodImpl(Inline)]
+            internal RuleCriterion(Hex8 src)
+            {
+                Field = 0;
+                Operator = RuleOperator.Empty;
+                Storage = (uint)src;
+                Kind = RuleCellKind.HexLiteral;
+            }
+
+            [MethodImpl(Inline)]
+            internal RuleCriterion(NontermExpr src)
+            {
+                Field = src.Field;
+                Operator = src.Op;
+                Storage = (uint)src;
                 Kind = RuleCellKind.NontermExpr;
+            }
+
+            [MethodImpl(Inline)]
+            internal RuleCriterion(DispSeg src)
+            {
+                Field = src.Field;
+                Operator = RuleOperator.Empty;
+                Storage = (uint)src;
+                Kind = RuleCellKind.DispSeg;
+            }
+
+            [MethodImpl(Inline)]
+            internal RuleCriterion(DispSpec src)
+            {
+                Field = 0;
+                Operator = RuleOperator.Empty;
+                Storage = (uint)src;
+                Kind = RuleCellKind.DispSpec;
+            }
+
+            [MethodImpl(Inline)]
+            internal RuleCriterion(ImmSeg src)
+            {
+                Field = src.Field;
+                Operator = RuleOperator.Empty;
+                Storage = (uint)src;
+                Kind = RuleCellKind.ImmSeg;
+            }
+
+            [MethodImpl(Inline)]
+            internal RuleCriterion(ImmSpec src)
+            {
+                Field = 0;
+                Operator = RuleOperator.Empty;
+                Storage = (uint)src;
+                Kind = RuleCellKind.ImmSeg;
             }
 
             [MethodImpl(Inline)]
@@ -45,7 +89,7 @@ namespace Z0
                 Field = data.Field;
                 Operator = data.Operator;
                 Storage = core.bytes(data);
-                Kind = data.IsEq ? RuleCellKind.FieldEq : data.IsNeq ? RuleCellKind.FieldNeq : RuleCellKind.None;
+                Kind = data.IsEq ? RuleCellKind.EqExpr : data.IsNeq ? RuleCellKind.NeqExpr : RuleCellKind.None;
             }
 
             [MethodImpl(Inline)]
@@ -54,7 +98,7 @@ namespace Z0
                 Field = FieldKind.INVALID;
                 Operator = OperatorKind.None;
                 Storage = (uint)nt;
-                Kind = RuleCellKind.Nonterminal;
+                Kind = RuleCellKind.NontermCall;
             }
 
             [MethodImpl(Inline)]
@@ -76,12 +120,12 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            internal RuleCriterion(RuleKeyword keword)
+            internal RuleCriterion(RuleKeyword keyword)
             {
                 Field = FieldKind.INVALID;
                 Operator = OperatorKind.None;
-                Storage = core.bytes(keword);
-                Kind = RuleCellKind.Keyword;
+                Storage = core.bytes(keyword);
+                Kind = keyword.CellKind;
             }
 
             [MethodImpl(Inline)]
@@ -91,12 +135,6 @@ namespace Z0
                 Operator = op;
                 Storage = (byte)op;
                 Kind = RuleCellKind.Operator;
-            }
-
-            public readonly ulong Data
-            {
-                [MethodImpl(Inline)]
-                get => Storage.A;
             }
 
             public bool IsEmpty
@@ -111,10 +149,16 @@ namespace Z0
                 get => !IsEmpty;
             }
 
-            public bool IsNonTerminal
+            public bool IsNonTermCall
             {
                 [MethodImpl(Inline)]
-                get => Kind == RuleCellKind.Nonterminal;
+                get => Kind == RuleCellKind.NontermCall;
+            }
+
+            public bool IsNonTermExpr
+            {
+                [MethodImpl(Inline)]
+                get => Kind == RuleCellKind.NontermExpr;
             }
 
             [MethodImpl(Inline)]
@@ -127,19 +171,51 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public BfSpec ToBfSpec()
-                => new BfSpec((BfSpecKind)Storage[0]);
+                => (BfSpec)Storage[0];
+
+            [MethodImpl(Inline)]
+            public ImmSeg ToImmSeg()
+                => (ImmSeg)core.@as<ushort>(Storage[0]);
+
+            [MethodImpl(Inline)]
+            public ImmSpec ToImmSpec()
+                => (ImmSpec)Storage[0];
+
+            [MethodImpl(Inline)]
+            public DispSpec ToDispSpec()
+                => (DispSpec)Storage[0];
+
+            [MethodImpl(Inline)]
+            public DispSeg ToDispSeg()
+                => (DispSeg)Storage[0];
 
             [MethodImpl(Inline)]
             public RuleKeyword ToKeyword()
                 => core.@as<RuleKeyword>(Storage.Bytes);
 
             [MethodImpl(Inline)]
-            public Nonterminal ToNonTerminal()
+            public Nonterminal ToNontermCall()
                 => core.@as<Nonterminal>(Storage.Bytes);
+
+            [MethodImpl(Inline)]
+            public NontermExpr ToNontermExpr()
+                => (NontermExpr)(core.@as<uint>(Storage.Bytes));
 
             [MethodImpl(Inline)]
             public RuleOperator ToOperator()
                 => Operator;
+
+            [MethodImpl(Inline)]
+            public byte ToIntLiteral()
+                => Storage[0];
+
+            [MethodImpl(Inline)]
+            public uint8b ToBinaryLiteral()
+                => Storage[0];
+
+            [MethodImpl(Inline)]
+            public Hex8 ToHexLiteral()
+                => Storage[0];
 
             public string Format()
                 => XedRender.format(this);

@@ -26,7 +26,7 @@ namespace Z0
             public PatternOpParser(MachineMode mode)
             {
                 Mode = mode;
-                Tables = XedLookups.Data;
+                Tables = XedLookups.Service;
             }
 
             public void Parse(uint pattern, string ops, out PatternOps dst)

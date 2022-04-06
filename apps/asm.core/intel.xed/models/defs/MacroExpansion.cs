@@ -7,6 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
+
         public struct MacroExpansion
         {
             public readonly FieldKind Field;

@@ -445,11 +445,17 @@ namespace Z0
 
             [MethodImpl(Inline), Op]
             static MacroSpec no_refining_prefix()
-                => assign(M.no_refining_prefix, assign(K.REP, P.None), assign(K.EOSZ, EOSZ16));
+                => assign(M.no_refining_prefix,
+                    assign(K.REP, P.None),
+                    assign(K.EOSZ, EOSZ16)
+                    );
 
             [MethodImpl(Inline), Op]
             static MacroSpec osz_refining_prefix()
-                => assign(M.osz_refining_prefix, assign(K.REP, P.None), assign(K.EOSZ, EOSZ8));
+                => assign(M.osz_refining_prefix,
+                    assign(K.REP, P.None),
+                    assign(K.EOSZ, EOSZ8)
+                    );
 
             [MethodImpl(Inline), Op]
             static MacroSpec f2_refining_prefix()

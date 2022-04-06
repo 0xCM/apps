@@ -13,7 +13,7 @@ namespace Z0
     partial class XedState
     {
         [Op]
-        public static R.FieldValue select(in RuleState src, FieldKind kind)
+        public static FieldValue select(in RuleState src, FieldKind kind)
         {
             var result = Outcome.Success;
             var dst = new R.FieldValue(kind,0ul);

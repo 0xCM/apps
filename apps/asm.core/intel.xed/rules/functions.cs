@@ -14,8 +14,10 @@ namespace Z0
             for(var i=0; i<criteria.Count; i++)
             {
                 ref readonly var c = ref criteria[i];
-                if(c.IsNonTerminal)
-                    dst.Include(c.ToNonTerminal());
+                if(c.IsNonTermCall)
+                    dst.Include(c.ToNontermCall());
+                else if(c.IsNonTermExpr)
+                    dst.Include(c.ToNontermExpr().Nonterm);
             }
             return ref dst;
         }
@@ -26,8 +28,10 @@ namespace Z0
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var c = ref src[i];
-                if(c.IsNonTerminal)
-                    dst.Include(c.ToNonTerminal());
+                if(c.IsNonTermCall)
+                    dst.Include(c.ToNontermCall());
+                else if(c.IsNonTermExpr)
+                    dst.Include(c.ToNontermExpr().Nonterm);
             }
 
             return ref dst;

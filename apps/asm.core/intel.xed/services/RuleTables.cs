@@ -20,17 +20,9 @@ namespace Z0
 
                 public readonly ConcurrentDictionary<RuleTableKind,Index<RuleTableSpec>> Specs = new();
 
-                public Index<RuleSchema> Schema = sys.empty<RuleSchema>();
-
                 public Index<RuleSigRow> Sigs = sys.empty<RuleSigRow>();
 
                 public static Buffers Empty => new();
-            }
-
-            public ref readonly Index<RuleSchema> Schema
-            {
-                [MethodImpl(Inline)]
-                get => ref Data.Schema;
             }
 
             public ref readonly Index<RuleSigRow> SigInfo

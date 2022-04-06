@@ -11,7 +11,7 @@ namespace Z0
 
     public class XedLookups
     {
-        public static XedLookups Data => Instance;
+        public static XedLookups Service => Instance;
 
         public readonly FieldLookup Fields;
 
@@ -19,14 +19,21 @@ namespace Z0
 
         public readonly ConstLookup<OpWidthCode,OpWidthInfo> WidthLookup;
 
+        readonly Index<FieldKind,RuleFieldSpec> FieldSpecs;
+
         XedLookups()
         {
             Fields = FieldLookup.create();
             WidthRecords = LoadOpWidths();
             WidthLookup = CalcOpWidthLookup(WidthRecords);
+            FieldSpecs = XedFields.Specs;
         }
 
         XedPaths XedPaths => XedPaths.Service;
+
+        [MethodImpl(Inline)]
+        public ref readonly RuleFieldSpec FieldSpec(FieldKind kind)
+            => ref FieldSpecs[kind];
 
         public OpWidthInfo WidthInfo(OpWidthCode code)
             => code == 0 ? OpWidthInfo.Empty : WidthLookup[code];

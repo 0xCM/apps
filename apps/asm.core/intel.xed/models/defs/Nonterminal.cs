@@ -8,7 +8,7 @@ namespace Z0
     partial struct XedModels
     {
         [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(32)]
-        public struct Nonterminal : IEquatable<Nonterminal>, IComparable<Nonterminal>
+        public readonly struct Nonterminal : IEquatable<Nonterminal>, IComparable<Nonterminal>
         {
             public readonly NontermKind Kind;
 
@@ -46,13 +46,13 @@ namespace Z0
                 => Format().CompareTo(src.Format());
 
             public string Format()
-                => XedRender.format(this);
+                => IsEmpty ? EmptyString : string.Format("{0}()", XedRender.format(Kind));
 
             public override string ToString()
                 => Format();
 
-            public static explicit operator uint(Nonterminal src)
-                => (uint)src.Kind;
+            public static explicit operator ushort(Nonterminal src)
+                => (ushort)src.Kind;
 
             [MethodImpl(Inline)]
             public static implicit operator NontermKind(Nonterminal src)

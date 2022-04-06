@@ -82,7 +82,7 @@ namespace Z0
 
             readonly ITextBuffer Dst;
 
-            static readonly XedLookups Lookups = XedLookups.Data;
+            static readonly XedLookups Lookups = XedLookups.Service;
 
             readonly Index<string> Buffer;
 

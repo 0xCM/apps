@@ -18,15 +18,11 @@ namespace Z0
             exec(PllExec,
                 () => EmitTableDefs(tables),
                 () => EmitTableSigs(tables.SigInfo),
-                () => EmitTableSchemas(tables.Schema),
                 () => EmitRuleSeq(),
                 () => EmitTableSpecs(tables),
                 () => EmitTableFiles(tables)
             );
         }
-
-       void EmitTableSchemas(Index<RuleSchema> src)
-            => TableEmit(src.View, RuleSchema.RenderWidths, XedPaths.Service.RuleSchemas());
 
         void EmitTableDefs(RuleTables rules)
             => TableEmit(rules.DefRows().View, TableDefRow.RenderWidths, TextEncodingKind.Asci, XedPaths.RuleTable<TableDefRow>());

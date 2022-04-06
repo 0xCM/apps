@@ -7,32 +7,38 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct DispField
+        public readonly struct DispSeg
         {
-            public readonly DispKind Kind;
+            public readonly DispSpec Spec;
 
             [MethodImpl(Inline)]
-            public DispField(DispKind kind)
+            public DispSeg(DispSpec kind)
             {
-                Kind = kind;
+                Spec = kind;
+            }
+
+            public FieldKind Field
+            {
+                [MethodImpl(Inline)]
+                get => FieldKind.DISP;
             }
 
             public byte Width
             {
                 [MethodImpl(Inline)]
-                get => (byte)((byte)Kind * 8);
+                get => (byte)((byte)Spec * 8);
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Kind == 0;
+                get => Spec == 0;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Kind != 0;
+                get => Spec != 0;
             }
 
             public string Format()
@@ -42,22 +48,14 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator DispField(DispKind src)
-                => new DispField(src);
+            public static explicit operator byte(DispSeg src)
+                => (byte)src.Spec;
 
             [MethodImpl(Inline)]
-            public static implicit operator DispKind(DispField src)
-                => src.Kind;
+            public static explicit operator DispSeg(byte src)
+                => new DispSeg((DispSpec)src);
 
-            [MethodImpl(Inline)]
-            public static explicit operator byte(DispField src)
-                => (byte)src.Kind;
-
-            [MethodImpl(Inline)]
-            public static explicit operator DispField(byte src)
-                => new DispField((DispKind)src);
-
-            public static DispField Empty => default;
+            public static DispSeg Empty => default;
         }
     }
 }

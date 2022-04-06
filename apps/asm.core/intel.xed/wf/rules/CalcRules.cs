@@ -22,8 +22,7 @@ namespace Z0
                 );
 
             exec(PllExec,
-                () => buffers.Sigs = CalcSigRows(buffers.Defs),
-                () => buffers.Schema = CalcRuleSchemas(buffers.Defs)
+                () => buffers.Sigs = CalcSigRows(buffers.Defs)
                 );
 
             return tables.Seal(buffers, PllExec);

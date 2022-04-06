@@ -42,8 +42,8 @@ namespace Z0
                     dst.NonTerminal = info.NonTerminal;
                     if(info.WidthCode !=0)
                     {
-                        dst.BitWidth = XedLookups.Data.Width(info.WidthCode, pattern.Mode).Bits;
-                        dst.SegType = XedLookups.Data.WidthInfo(info.WidthCode).Seg;
+                        dst.BitWidth = XedLookups.Service.Width(info.WidthCode, pattern.Mode).Bits;
+                        dst.SegType = XedLookups.Service.WidthInfo(info.WidthCode).Seg;
                         dst.ECount = dst.SegType.CellCount;
                     }
 

@@ -9,6 +9,11 @@ namespace Z0
 
     partial class XedRules
     {
+
+        // RuleTableSpec 1 -- * StatementSpec 1 -- * RuleCellSpec
+        // RuleCellSpec -> RuleCriterion
+        // RuleCellSpec -> RuleCellExpr
+
         public readonly struct RuleTableCalcs
         {
             public static Index<RuleSigRow> CalcSigRows(ConcurrentDictionary<RuleTableKind,Index<RuleTable>> src)
@@ -33,77 +38,6 @@ namespace Z0
             public static Index<RuleTable> CalcTableDefs(RuleTableKind kind)
                 => reify(CalcTableSpecs(XedPaths.Service.RuleSource(kind)));
 
-            public static Index<RuleSchema> CalcRuleSchemas(ConcurrentDictionary<RuleTableKind,Index<RuleTable>> src)
-            {
-                var dst = bag<RuleSchema>();
-                iter(src[RuleTableKind.Enc], table => CalcRuleSchema(table,dst), AppData.PllExec());
-                iter(src[RuleTableKind.Dec], table => CalcRuleSchema(table,dst), AppData.PllExec());
-
-                var schema = dst.Array().Sort();
-                for(var i=0u; i<schema.Length; i++)
-                    seek(schema,i).Seq = i;
-                return schema;
-            }
-
-            static void CalcRuleSchema(in RuleTable src, ConcurrentBag<RuleSchema> buffer)
-            {
-                ref readonly var sig = ref src.Sig;
-                var path = XedPaths.Service.TableDef(sig);
-                var cellix = XedRules.cells(src);
-                for(var i=0; i<cellix.Count; i++)
-                {
-                    ref readonly var cells = ref cellix[i];
-                    for(var j=0; j<cells.Count; j++)
-                    {
-                        var cell = cells[j];
-                        var dst = new RuleSchema();
-                        dst.TableKind = src.TableKind;
-                        dst.TableName = src.Sig.ShortName;
-                        dst.Logic = cell.IsPremise ? 'P' : 'C';
-                        dst.Index = cell.Index;
-                        dst.Field = cell.Criterion.Field;
-                        dst.CellKind = cell.Criterion.Kind;
-                        dst.TableDef = path;
-                        buffer.Add(dst);
-                    }
-                }
-            }
-
-            static uint CalcDefRows(in RuleTableSpec spec, ref uint n, Span<TableDefRow> dst)
-            {
-                var i0 = n;
-                for(var j=0u; j<spec.StatementCount; j++, n++)
-                {
-                    ref var row = ref seek(dst,n);
-                    row.TableId = spec.TableId;
-                    row.Kind = spec.Sig.TableKind;
-                    row.Name = spec.Sig.ShortName;
-                    row.Seq = n;
-                    ref readonly var s = ref spec[j];
-                    row.Index = j;
-                    ref readonly var antecedant = ref s.Premise;
-                    ref readonly var consequent = ref s.Consequent;
-                    var k=z8;
-                    var statement = RuleGridCells.Empty;
-                    for(var m=0; m<antecedant.Count; m++,k++)
-                        statement[k] = new (true, k, spec.Sig.TableKind, criterion(antecedant[m]));
-
-                    if(consequent.Count != 0)
-                    {
-                        statement[k] = new (true,k, spec.Sig.TableKind, OperatorKind.Impl);
-                        k++;
-                    }
-
-                    for(var m=0; m<consequent.Count; m++,k++)
-                        statement[k] = new (false, k, spec.Sig.TableKind, criterion(consequent[m]));
-                    statement.Count = k;
-
-                    row.Statement = statement;
-                }
-
-                return n - i0;
-            }
-
             public static Index<TableDefRow> CalcDefRows(Index<RuleTableSpec> src)
             {
                 var count = src.Storage.Map(x => x.StatementCount).Sum();
@@ -117,30 +51,57 @@ namespace Z0
             public static Index<RuleTableSpec> CalcTableSpecs(RuleTableKind kind)
                 => CalcTableSpecs(XedPaths.Service.RuleSource(kind));
 
-            static Index<RuleTableSpec> merge(Index<RuleTableSpec> src)
+            public static Index<RuleCriterion> criteria(ReadOnlySpan<RuleCellSpec> src)
             {
-                var dst = dict<RuleSig,RuleTableSpec>(src.Count);
-                for(var i=0u; i<src.Count; i++)
+                var dst = list<RuleCriterion>();
+                var parts = map(src, p => p.Data);
+                for(var i=0; i<parts.Length; i++)
                 {
-                    ref readonly var table = ref src[i];
-                    ref readonly var sig = ref table.Sig;
-                    if(sig.IsEmpty)
-                        continue;
-
-                    if(dst.TryGetValue(sig, out var t))
-                        dst[sig] = t.Merge(table);
+                    ref readonly var part = ref skip(parts, i);
+                    var result = RuleParser.parse(part, out RuleCriterion c);
+                    if(result)
+                        dst.Add(c);
                     else
-                    {
-                        if(!dst.TryAdd(sig,table))
-                            Errors.Throw(string.Format("Duplicate sig {0}", sig));
-                    }
-
+                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCriterion), part));
                 }
+                return dst.ToArray();
+            }
 
-                var specs = dst.Values.Array().Sort();
-                for(var i=0u; i<specs.Length; i++)
-                    seek(specs,i)= seek(specs,i).WithId(i);
-                return specs;
+            public static RuleExprLookup CalcExprLookup(RuleTables rules)
+            {
+                var dst = dict<RuleExprKey,RuleExpr>();
+                CalcExprLookup(rules.EncTableSpecs(), dst);
+                CalcExprLookup(rules.DecTableSpecs(), dst);
+                return dst;
+            }
+
+            public static void CalcExprLookup(Index<RuleTableSpec> src, Dictionary<RuleExprKey,RuleExpr> dst)
+            {
+                for(var i=0; i<src.Count; i++)
+                    CalcExprLookup(src[i], dst);
+            }
+
+            static void CalcExprLookup(in RuleTableSpec src, Dictionary<RuleExprKey,RuleExpr> dst)
+            {
+                for(var i=z16; i<src.StatementCount; i++)
+                    CalcExprLookup(i, src, dst);
+            }
+
+            static void CalcExprLookup(ushort row, in RuleTableSpec table, Dictionary<RuleExprKey,RuleExpr> dst)
+            {
+                CalcExprLookup(row, table, 'P', table[row].Premise, dst);
+                CalcExprLookup(row, table, 'C', table[row].Consequent, dst);
+            }
+
+            static void CalcExprLookup(ushort row, in RuleTableSpec table, char logic, Index<RuleCellSpec> src, Dictionary<RuleExprKey,RuleExpr> dst)
+            {
+                for(var i=z8; i<src.Count; i++)
+                {
+                    var key = new RuleExprKey(table.Sig.TableKind, table.TableId, row, logic, i);
+                    var expr = src[i].Expr();
+                    if(!dst.TryAdd(key, expr))
+                        Errors.Throw(string.Format("Duplicate:({0},'{1}')", key, expr));
+                }
             }
 
             public static Index<RuleTableSpec> CalcTableSpecs(FS.FilePath src)
@@ -196,6 +157,68 @@ namespace Z0
                 return merge(dst.ToArray());
             }
 
+            static uint CalcDefRows(in RuleTableSpec spec, ref uint n, Span<TableDefRow> dst)
+            {
+                var i0 = n;
+                for(var j=0u; j<spec.StatementCount; j++, n++)
+                {
+                    ref var row = ref seek(dst,n);
+                    var k=z8;
+                    row.TableId = spec.TableId;
+                    row.Kind = spec.Sig.TableKind;
+                    row.Name = spec.Sig.ShortName;
+                    row.Seq = n;
+                    row.Index = j;
+
+                    var statement = RuleGridCells.Empty;
+
+                    ref readonly var antecedant = ref spec[j].Premise;
+                    for(var m=0; m<antecedant.Count; m++,k++)
+                        statement[k] = new (true, k, spec.Sig.TableKind, criterion(antecedant[m]));
+
+                    ref readonly var consequent = ref spec[j].Consequent;
+                    if(consequent.Count != 0)
+                    {
+                        statement[k] = new (true,k, spec.Sig.TableKind, OperatorKind.Impl);
+                        k++;
+                    }
+
+                    for(var m=0; m<consequent.Count; m++,k++)
+                        statement[k] = new (false, k, spec.Sig.TableKind, criterion(consequent[m]));
+
+                    statement.Count = k;
+                    row.Statement = statement;
+                }
+
+                return n - i0;
+            }
+
+            static Index<RuleTableSpec> merge(Index<RuleTableSpec> src)
+            {
+                var dst = dict<RuleSig,RuleTableSpec>(src.Count);
+                for(var i=0u; i<src.Count; i++)
+                {
+                    ref readonly var table = ref src[i];
+                    ref readonly var sig = ref table.Sig;
+                    if(sig.IsEmpty)
+                        continue;
+
+                    if(dst.TryGetValue(sig, out var t))
+                        dst[sig] = t.Merge(table);
+                    else
+                    {
+                        if(!dst.TryAdd(sig,table))
+                            Errors.Throw(string.Format("Duplicate sig {0}", sig));
+                    }
+
+                }
+
+                var specs = dst.Values.Array().Sort();
+                for(var i=0u; i<specs.Length; i++)
+                    seek(specs,i)= seek(specs,i).WithId(i);
+                return specs;
+            }
+
             static Index<RuleTable> reify(ReadOnlySpan<RuleTableSpec> src)
             {
                 var dst = alloc<RuleTable>(src.Length);
@@ -229,21 +252,6 @@ namespace Z0
                 return new RuleStatement(left, right);
             }
 
-            static Index<RuleCriterion> criteria(ReadOnlySpan<RuleCellSpec> src)
-            {
-                var dst = list<RuleCriterion>();
-                var parts = map(src, p => p.Data);
-                for(var i=0; i<parts.Length; i++)
-                {
-                    ref readonly var part = ref skip(parts, i);
-                    var result = RuleParser.parse(part, out RuleCriterion c);
-                    if(result)
-                        dst.Add(c);
-                    else
-                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCriterion), part));
-                }
-                return dst.ToArray();
-            }
         }
    }
 }

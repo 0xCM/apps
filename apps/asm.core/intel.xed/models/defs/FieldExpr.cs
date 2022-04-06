@@ -5,21 +5,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-
-    using R = XedRules;
-
-    partial class XedFields
+    partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public readonly struct FieldExpr
         {
-            public readonly R.FieldValue Value;
+            public readonly FieldValue Value;
 
             public readonly OperatorKind Operator;
 
             [MethodImpl(Inline)]
-            public FieldExpr(FieldKind field, OperatorKind op, R.FieldValue value)
+            public FieldExpr(FieldKind field, OperatorKind op, FieldValue value)
             {
                 Operator = op;
                 Value = value;
@@ -67,7 +63,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static FieldExpr Empty => new FieldExpr(FieldKind.INVALID,0,R.FieldValue.Empty);
+            public static FieldExpr Empty => new FieldExpr(FieldKind.INVALID,0, FieldValue.Empty);
         }
     }
 }

@@ -31,11 +31,22 @@ namespace Z0
                 get => Kind != 0;
             }
 
+            public asci16 Pattern
+                => XedRender.format(Kind);
+
             public string Format()
-                => IsNonEmpty ? XedRender.format(Kind) : EmptyString;
+                => Pattern;
 
             public override string ToString()
                 => Format();
+
+            [MethodImpl(Inline)]
+            public static explicit operator byte(BfSpec src)
+                => (byte)src.Kind;
+
+            [MethodImpl(Inline)]
+            public static explicit operator BfSpec(byte src)
+                => new BfSpec((BfSpecKind)src);
 
             public static BfSpec Empty => new BfSpec(0);
         }

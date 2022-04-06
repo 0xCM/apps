@@ -114,8 +114,8 @@ namespace Z0
                     record.DataWidth = dw;
                     record.TotalSize = total;
                     record.FieldKind = tag.Kind;
-                    record.DeclaredType = typename(field.FieldType);
-                    record.EffectiveType = typename(type);
+                    record.DeclaredType = field.FieldType.DisplayName();
+                    record.EffectiveType = type.DisplayName();
                     record.Description = tag.Description;
                 }
                 else

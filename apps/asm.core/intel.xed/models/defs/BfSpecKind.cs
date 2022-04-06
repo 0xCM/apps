@@ -16,6 +16,15 @@ namespace Z0
             [Symbol("w")]
             w,
 
+            [Symbol("r")]
+            r,
+
+            [Symbol("x")]
+            x,
+
+            [Symbol("b")]
+            b,
+
             [Symbol("ssss_dddd")]
             ssss_dddd,
 
@@ -30,6 +39,9 @@ namespace Z0
 
             [Symbol("u_ddd")]
             u_ddd,
+
+            [Symbol("1_ddd")]
+            _1_ddd,
 
             [Symbol("_?_")]
             Unknown

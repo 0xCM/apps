@@ -7,39 +7,45 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct ImmField
+        public readonly struct ImmSeg
         {
-            public readonly ImmFieldKind Kind;
+            public readonly ImmSpec Spec;
 
             public readonly byte Index;
 
             [MethodImpl(Inline)]
-            public ImmField(byte index, ImmFieldKind kind)
+            public ImmSeg(byte index, ImmSpec kind)
             {
-                Kind = kind;
+                Spec = kind;
                 Index = index;
             }
 
+            public FieldKind Field
+            {
+                [MethodImpl(Inline)]
+                get => Index == 0 ? FieldKind.UIMM0 : FieldKind.UIMM1;
+            }
+
             [MethodImpl(Inline)]
-            public ImmField WithIndex(byte index)
-                => new ImmField(index,Kind);
+            public ImmSeg WithIndex(byte index)
+                => new ImmSeg(index,Spec);
 
             public byte Width
             {
                 [MethodImpl(Inline)]
-                get => (byte)((byte)Kind * 8);
+                get => (byte)((byte)Spec * 8);
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Kind == 0;
+                get => Spec == 0;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Kind != 0;
+                get => Spec != 0;
             }
 
             public string Format()
@@ -49,14 +55,14 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static explicit operator ushort(ImmField src)
+            public static explicit operator ushort(ImmSeg src)
                 => core.u16(src);
 
             [MethodImpl(Inline)]
-            public static explicit operator ImmField(ushort src)
-                => core.@as<ushort,ImmField>(src);
+            public static explicit operator ImmSeg(ushort src)
+                => core.@as<ushort,ImmSeg>(src);
 
-            public static ImmField Empty => default;
+            public static ImmSeg Empty => default;
         }
     }
 }

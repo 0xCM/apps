@@ -14,9 +14,8 @@ namespace Z0
     using static XedDisasm;
     using static core;
 
-    using R = XedRules;
     using OC = XedRules.OpAttribClass;
-    using DK = XedRules.RuleCellKind;
+    using CK = XedRules.RuleCellKind;
 
     public partial class XedRender
     {
@@ -66,7 +65,7 @@ namespace Z0
 
         static EnumRender<ExtensionKind> ExtensionKinds = new();
 
-        static EnumRender<DispKind> DispKinds = new();
+        static EnumRender<DispSpec> DispSpecs = new();
 
         static EnumRender<NontermKind> NontermKinds = new();
 
@@ -114,7 +113,7 @@ namespace Z0
 
         static EnumRender<BfSpecKind> BfSpecKinds = new();
 
-        static EnumRender<ImmFieldKind> ImmKinds = new();
+        static EnumRender<ImmSpec> ImmSpecs = new();
 
         static Index<Asm.BroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
 
@@ -151,10 +150,13 @@ namespace Z0
             => "0b" + src.Format();
 
         public static string format(uint7 src)
-            =>  "0b" + src.Format();
+            => "0b" + src.Format();
 
         public static string format(uint8b src)
-            =>  "0b" + src.Format();
+            => "0b" + src.Format();
+
+        public static string format(byte src)
+            => src.ToString();
 
         public static string format(FlagEffectKind src)
             => FlagEffects.Format(src);
@@ -180,11 +182,8 @@ namespace Z0
         public static string format(EOSZ src, FormatCode fc = FormatCode.Expr)
             => fc == FormatCode.BitWidth ? nsize(src) : format(EoszKinds,src,fc);
 
-        public static string format(ImmFieldKind src, FormatCode fc = FormatCode.Expr)
-            => fc == FormatCode.BitWidth ? (((byte)src)*8).ToString() : format(ImmKinds,src,fc);
-
-        public static string format(DispField src, FormatCode fc = FormatCode.Expr)
-            => fc == FormatCode.BitWidth ? src.Width.ToString() : format(DispKinds,src,fc);
+        public static string format(ImmSpec src, FormatCode fc = FormatCode.Expr)
+            => fc == FormatCode.BitWidth ? (((byte)src)*8).ToString() : format(ImmSpecs,src,fc);
 
         public static string format(EASZ src, FormatCode fc = FormatCode.Expr)
             => fc == FormatCode.BitWidth ? nsize(src) : format(EaszKinds,src,fc);
@@ -225,12 +224,17 @@ namespace Z0
         public static string format(BfSpecKind src)
             => BfSpecKinds.Format(src);
 
-        public static string format(R.FieldValue src)
+        public static string format(FieldValue src)
             => XedFields.format(src);
+
+        public static string format(RuleKeyword src)
+            => src.ToAsci().Format();
 
         public static string format(in FieldExpr src)
             => src.IsEmpty
-                ? EmptyString : src.Field == 0 ? format(src.Value)
+                ? RP.Error
+                : src.Field == 0
+                ? format(src.Value)
                 : string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.Value));
 
         public static string format(AsmOcValue src)
@@ -292,7 +296,7 @@ namespace Z0
             => RoundingKinds.Format(src);
 
         public static string format(XedRegId src)
-            => src == 0 ? EmptyString : XedRegs.Format(src);
+            => XedRegs.Format(src);
 
         public static string format(OpAction src)
             => OpActions.Format(src);
@@ -413,6 +417,9 @@ namespace Z0
 
         public static string name(Nonterminal src)
             => NontermKinds.Format(src.Kind);
+
+        public static string format(NontermKind src)
+            => NontermKinds.Format(src);
 
         public static string format(Nonterminal src)
         {
@@ -603,11 +610,17 @@ namespace Z0
         public static string format(OpCodeKind src)
             => format(XedPatterns.ocindex(src));
 
-        public static string format(ImmField src)
-            => src.IsEmpty ? EmptyString : string.Format("{0}[{1}]", "UIMM", src.Index, format(src.Kind));
+        public static string format(ImmSeg src)
+            => src.IsEmpty ? EmptyString : string.Format("{0}[{1}]", "UIMM", src.Index, format(src.Spec));
 
-        public static string format(DispField src)
-            => src.IsEmpty ? EmptyString : string.Format("{0}[{1}]", "DISP", format(src.Kind));
+        public static string format(ImmSpec src)
+            => ImmSpecs.Format(src);
+
+        public static string format(DispSpec src)
+            => DispSpecs.Format(src);
+
+        public static string format(DispSeg src)
+            => src.IsEmpty ? EmptyString : string.Format("{0}[{1}]", "DISP", format(src.Spec));
 
         public static string format(in InstDefField src)
         {
@@ -673,35 +686,70 @@ namespace Z0
 
         public static string format(in RuleCriterion src)
         {
+            if(src.IsEmpty)
+                return EmptyString;
+
             var result = EmptyString;
             switch(src.Kind)
             {
-                case DK.BfSegExpr:
-                case DK.NontermExpr:
-                case DK.FieldEq:
-                case DK.FieldNeq:
-                    result = src.ToFieldExpr().Format();
+                case CK.Branch:
+                case CK.Null:
+                case CK.Error:
+                case CK.Wildcard:
+                case CK.Default:
+                    result = src.ToKeyword().Format();
                 break;
-                case DK.BfSeg:
+                case CK.BinaryLiteral:
+                    result = XedRender.format(src.ToBinaryLiteral());
+                break;
+                case CK.IntLiteral:
+                    result = src.ToIntLiteral().ToString();
+                break;
+                case CK.HexLiteral:
+                    result = XedRender.format(src.ToHexLiteral());
+                break;
+                case CK.Operator:
+                    result = src.ToOperator().Format();
+                break;
+                case CK.BfSeg:
                     result = src.ToBfSeg().Format();
                     Require.invariant(text.nonempty(result));
                 break;
-                case DK.BfSpec:
+                case CK.BfSpec:
                     result = src.ToBfSpec().Format();
                     Require.invariant(text.nonempty(result));
                 break;
-                case DK.Branch:
-                case DK.Null:
-                case DK.Keyword:
-                case DK.Error:
-                    result = src.ToKeyword().Format();
+                case CK.DispSpec:
+                    result = format(src.ToDispSpec());
+                    Require.invariant(text.nonempty(result));
                 break;
-                case DK.Nonterminal:
-                    result = src.ToNonTerminal().Format();
+                case CK.ImmSpec:
+                    result = format(src.ToImmSpec());
+                    Require.invariant(text.nonempty(result));
                 break;
-                case DK.Operator:
-                    result = src.ToOperator().Format();
-                    break;
+                case CK.ImmSeg:
+                    result = src.ToImmSeg().Format();
+                break;
+                case CK.DispSeg:
+                    result = src.ToDispSeg().Format();
+                break;
+                case CK.NontermCall:
+                    result = src.ToNontermCall().Format();
+                break;
+
+                case CK.BfSegExpr:
+                    result = src.ToBfSeg().Format();
+                    Require.invariant(text.nonempty(result));
+                break;
+                case CK.NontermExpr:
+                    result = src.ToNontermExpr().Format();
+                break;
+                case CK.EqExpr:
+                    result = src.ToFieldExpr().Format();
+                break;
+                case CK.NeqExpr:
+                    result = src.ToFieldExpr().Format();
+                break;
                 default:
                     Errors.Throw($"{src.Field} | {src.Operator} | {src.Kind}");
                 break;

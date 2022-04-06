@@ -83,11 +83,11 @@ namespace Z0
 
         static readonly EnumParser<SMode> SModes = new();
 
-        static Index<BroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
+        static readonly EnumParser<DispSpec> DispKinds = new();
 
-        static Symbols<BfSpecKind> BfSpecs = Symbols.index<BfSpecKind>();
+        static readonly EnumParser<ImmSpec> ImmKinds = new();
 
-        static Symbols<BfSegKind> BfSegs = Symbols.index<BfSegKind>();
+        static readonly EnumParser<BfSpecKind> BfSpecKinds = new();
 
         static XedParsers Instance = new();
 
@@ -98,6 +98,12 @@ namespace Z0
 
         public static bool parse(string src, out OpType dst)
             => OpTypes.Parse(src, out dst);
+
+        public static bool parse(string src, out DispSpec dst)
+            => DispKinds.Parse(src,out dst);
+
+        public static bool parse(string src, out ImmSpec dst)
+            => ImmKinds.Parse(src,out dst);
 
         public static void parse(string src, out Index<XedFlagEffect> dst)
         {
@@ -190,39 +196,6 @@ namespace Z0
             }
         }
 
-        public static bool parse(string src, out OperatorKind dst)
-        {
-            if(text.contains(src, "!="))
-            {
-                dst = OperatorKind.Neq;
-                return true;
-            }
-            else if(text.contains(src,"="))
-            {
-                dst = OperatorKind.Eq;
-                return true;
-            }
-            else
-            {
-                dst = 0;
-                return false;
-            }
-        }
-
-        public static bool parse(string src, out RuleOperator dst)
-        {
-            if(parse(src, out OperatorKind k))
-            {
-                dst = k;
-                return true;
-            }
-            else
-            {
-                dst = default;
-                return false;
-            }
-        }
-
         static uint parse(ReadOnlySpan<TextLine> src, ref uint j, List<RuleSeqTerm> terms)
         {
             var i0 = j;
@@ -254,39 +227,23 @@ namespace Z0
             return (uint)terms.Count;
         }
 
-        public static bool IsEq(string src)
-            => !src.Contains("!=") && src.Contains("=");
-
-        public static bool IsNeq(string src)
-            => src.Contains("!=");
-
         public static bool IsNontermCall(string src)
             => text.trim(text.remove(src,Chars.Colon)).EndsWith("()");
 
         public static bool IsNontermLiteral(string src)
             => Nonterminals.Parse(src, out NontermKind _);
 
-        [MethodImpl(Inline)]
         public static bool IsHexLiteral(string src)
             => text.begins(src, HexFormatSpecs.PreSpec);
 
-        [MethodImpl(Inline)]
         public static bool IsBinaryLiteral(string src)
             => text.begins(src, "0b");
 
-        [MethodImpl(Inline)]
         public static bool IsIntLiteral(string src)
-            => Digital.count(base10,src) != 0;
+            => byte.TryParse(src, out _);
 
-        public static bool IsBfSeg(string src)
-        {
-            var i = text.index(src, Chars.LBracket);
-            var j = text.index(src, Chars.RBracket);
-            return i > 0 && j > i;
-        }
-
-        public static bool IsBfSpec(string src)
-            => BfSpecs.FindByExpr(src, out var sym);
+        public static bool IsNumber(string src)
+            => IsHexLiteral(src) || IsBinaryLiteral(src) || IsIntLiteral(src);
 
         public static bool IsTableDecl(string src)
             => src.EndsWith(TableDeclSyntax);
@@ -300,7 +257,7 @@ namespace Z0
         public static bool IsSeqDecl(string src)
             => src.StartsWith(SeqDeclSyntax);
 
-        public static bool num8(string src, out byte dst)
+        public static bool number(string src, out byte dst)
         {
             var result = false;
             dst = 0;
@@ -395,11 +352,14 @@ namespace Z0
             return false;
         }
 
+        public static bool parse(string src, out BfSpecKind dst)
+            => BfSpecKinds.Parse(src, out dst);
+
         public static bool parse(string src, out BfSpec dst)
         {
-            if(BfSpecs.FindByExpr(src, out var sym))
+            if(XedParsers.parse(src, out BfSpecKind kind))
             {
-                dst = new(sym.Kind);
+                dst = new(kind);
                 return true;
             }
             else
@@ -409,83 +369,39 @@ namespace Z0
             }
         }
 
-        public static bool parse(string src, out BfSeg dst)
+        public static bool parse(string src, out DispSeg dst)
         {
-            var name = EmptyString;
-            var content = EmptyString;
-            dst = default;
+            var result = false;
+            dst = DispSeg.Empty;
             var i = text.index(src, Chars.LBracket);
             var j = text.index(src, Chars.RBracket);
-            var result = false;
             if(i > 0 && j > i)
             {
-                name = text.left(src,i);
-                content = text.inside(src,i,j);
-                if(parse(name, out FieldKind kind))
+                var inside = text.inside(src,i,j);
+                if(parse(inside, out DispSpec spec))
                 {
-                    dst = new BfSeg(kind, text.remove(content,"0b"), text.begins(content,"0b"));
+                    dst = new (spec);
                     result = true;
                 }
             }
             return result;
         }
 
-        public static Outcome parse(string src, out DispField dst)
+        public static bool parse(string src, out ImmSeg dst)
         {
-            var result = Outcome.Success;
-            dst = DispField.Empty;
+            var result = false;
+            dst = ImmSeg.Empty;
             var i = text.index(src, Chars.LBracket);
             var j = text.index(src, Chars.RBracket);
-            var width = z8;
             if(i > 0 && j > i)
             {
-                var inside = text.inside(src,i,j);
-                var quotient = text.split(inside,Chars.FSlash);
-                if(quotient.Length != 2)
-                    return (false,AppMsg.ParseFailure.Format(nameof(DispField), src));
-
-                ref readonly var upper = ref skip(quotient,0);
-                ref readonly var lower = ref skip(quotient,1);
-                if(!byte.TryParse(lower, out width))
-                    return (false, AppMsg.ParseFailure.Format(nameof(width), lower));
-            }
-
-            dst = new DispField((DispKind)(width/8));
-            return result;
-        }
-
-        public static bool parse(string src, out ImmField dst)
-        {
-            var i = text.index(src, Chars.LBracket);
-            var j = text.index(src, Chars.RBracket);
-            var kind = Chars.x;
-            var width = z8;
-            var index = z8;
-            var result = Outcome.Success;
-
-            if(text.contains(src,"UIMM1"))
-                index = 1;
-
-            if(i > 0 && j > i)
-            {
-                var inside = text.inside(src,i,j);
-                var quotient = text.split(inside,Chars.FSlash);
-                if(quotient.Length != 2)
-                    result = (false,AppMsg.ParseFailure.Format(nameof(ImmField), src));
-
-                else
+                if(parse(text.inside(src,i,j), out ImmSpec spec))
                 {
-                    ref readonly var upper = ref skip(quotient,0);
-                    ref readonly var lower = ref skip(quotient,1);
-
-                    if(upper.Length == 1)
-                        kind = upper[0];
-                    if(!byte.TryParse(lower, out width))
-                        result = (false,AppMsg.ParseFailure.Format(nameof(width), lower));
+                    dst = new ImmSeg(text.contains(src,"UIMM1") ? (byte)1 : z8, spec);
+                    result = true;
                 }
             }
 
-            dst = new ImmField(index, ((ImmFieldKind)(width/8)));
             return result;
         }
 
@@ -685,7 +601,7 @@ namespace Z0
             return result;
         }
 
-        public static bool reg(FieldKind field, string value, out R.FieldValue dst)
+        public static bool reg(FieldKind field, string value, out FieldValue dst)
         {
             var result = false;
             dst = R.FieldValue.Empty;

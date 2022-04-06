@@ -21,11 +21,11 @@ namespace Z0
             [Symbol("default")]
             Default,
 
+            [Symbol("branch")]
+            Branch,
+
             [Symbol("error")]
             Error,
-
-            [Symbol("text")]
-            Text,
         }
     }
 }

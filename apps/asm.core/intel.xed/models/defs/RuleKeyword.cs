@@ -5,12 +5,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using K = XedRules.RuleKeyWordKind;
+    using KW = XedRules.RuleKeyWordKind;
+    using CK = XedRules.RuleCellKind;
 
     partial class XedRules
     {
         public readonly struct RuleKeyword
         {
+            public static RuleKeyword from(RuleKeyWordKind kind)
+                => kind switch
+                {
+                    KW.Branch => Branch,
+                    KW.Default => Default,
+                    KW.Error => Error,
+                    KW.Null => Null,
+                    KW.Wildcard => Wildcard,
+                    _ => RuleKeyword.Empty
+                };
+
             public static bool parse(string src, out RuleKeyword dst)
             {
                 var result = true;
@@ -21,12 +33,10 @@ namespace Z0
                     case "default":
                         dst = RuleKeyword.Default;
                         break;
-                    case "else":
                     case "otherwise":
                         dst = RuleKeyword.Branch;
                     break;
                     case "nothing":
-                    case "null":
                         dst = RuleKeyword.Null;
                     break;
                     case "error":
@@ -46,27 +56,40 @@ namespace Z0
                 return result;
             }
 
-            public static RuleKeyword Wildcard => new RuleKeyword(K.Wildcard,"@");
+            public static RuleKeyword Wildcard => new RuleKeyword(KW.Wildcard, CK.Wildcard, "@");
 
-            public static RuleKeyword Null => new RuleKeyword(K.Null, "null");
+            public static RuleKeyword Null => new RuleKeyword(KW.Null, CK.Null, "null");
 
-            public static RuleKeyword Default => new RuleKeyword(K.Default, "default");
+            public static RuleKeyword Default => new RuleKeyword(KW.Default, CK.Default, "default");
 
-            public static RuleKeyword Branch => new RuleKeyword(K.Default, "branch");
+            public static RuleKeyword Branch => new RuleKeyword(KW.Branch, CK.Branch, "branch");
 
-            public static RuleKeyword Error => new RuleKeyword(K.Error,"error");
+            public static RuleKeyword Error => new RuleKeyword(KW.Error, CK.Error, "error");
 
-            public static RuleKeyword Text(asci8 src) => new RuleKeyword(K.Text, src);
+            public static RuleKeyword Text(asci8 src) => new RuleKeyword(KW.None, CK.None, src);
 
             readonly ByteBlock16 Data;
 
             [MethodImpl(Inline)]
-            RuleKeyword(RuleKeyWordKind kind, asci8 src)
+            RuleKeyword(RuleKeyWordKind kind, RuleCellKind ck, asci8 src)
             {
                 var data = ByteBlock16.Empty;
                 data = (ulong)src;
+                data[14] = (byte)ck;
                 data[15] = (byte)kind;
                 Data = data;
+            }
+
+            public ref readonly RuleCellKind CellKind
+            {
+                [MethodImpl(Inline)]
+                get => ref core.@as<RuleCellKind>(Data[14]);
+            }
+
+            public ref readonly RuleKeyWordKind KeywordKind
+            {
+                [MethodImpl(Inline)]
+                get => ref core.@as<RuleKeyWordKind>(Data[15]);
             }
 
             [MethodImpl(Inline)]
@@ -88,7 +111,7 @@ namespace Z0
                 => src is RuleKeyword x && Equals(x);
 
             public string Format()
-                => ToAsci();
+                => ToAsci().Format();
 
             public override string ToString()
                 => Format();
@@ -100,6 +123,14 @@ namespace Z0
             [MethodImpl(Inline)]
             public static bool operator !=(RuleKeyword a, RuleKeyword b)
                 => !a.Equals(b);
+
+            [MethodImpl(Inline)]
+            public static explicit operator byte(RuleKeyword src)
+                => (byte)src.KeywordKind;
+
+            [MethodImpl(Inline)]
+            public static explicit operator asci8(RuleKeyword src)
+                => src.ToAsci();
 
             public static RuleKeyword Empty => default;
         }
