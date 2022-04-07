@@ -7,7 +7,8 @@ namespace Z0
     using static XedModels;
     using static XedPatterns;
 
-    using K = XedRules.FieldPack.DataKind;
+    using K = XedRules.FieldDataType;
+
 
     partial class XedRules
     {
@@ -17,7 +18,7 @@ namespace Z0
             public static FieldPack unpack(uint src)
             {
                 var value = (ushort)src;
-                var kind = (DataKind)(src >> 24);
+                var kind = (FieldDataType)(src >> 24);
                 var field = (FieldKind)((src >> 16) & 0xFF);
                 var dst = default(FieldPack);
                 dst.Field = field;
@@ -32,7 +33,7 @@ namespace Z0
                     case K.Chip:
                         dst.Chip = (ChipCode)value;
                     break;
-                    case K.Class:
+                    case K.InstClass:
                         dst.Class = (InstClass)value;
                     break;
                     case K.Reg:
@@ -61,28 +62,12 @@ namespace Z0
 
             public InstClass Class;
 
-            internal enum DataKind : byte
-            {
-                Bit,
 
-                Byte,
-
-                Word,
-
-                Reg,
-
-                BCast,
-
-                Chip,
-
-                Class
-            }
-
-            DataKind Kind()
+            FieldDataType Kind()
             {
                 var dst = K.Bit;
                 if(Class.IsNonEmpty)
-                    dst = K.Class;
+                    dst = K.InstClass;
                 else if(Chip != 0)
                     dst = K.Chip;
                 else if(BCast != 0)
@@ -111,7 +96,7 @@ namespace Z0
                     case K.Chip:
                         dst = (byte)Chip;
                     break;
-                    case K.Class:
+                    case K.InstClass:
                         dst = (ushort)Class;
                     break;
                     case K.Reg:
@@ -141,7 +126,7 @@ namespace Z0
                     case K.Chip:
                         dst = XedRender.format(Chip);
                     break;
-                    case K.Class:
+                    case K.InstClass:
                         dst = XedRender.format(Class);
                     break;
                     case K.Reg:
@@ -156,7 +141,6 @@ namespace Z0
 
             public override string ToString()
                 => Format();
-
         }
     }
 }
