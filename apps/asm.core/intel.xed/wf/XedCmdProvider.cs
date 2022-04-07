@@ -6,7 +6,7 @@ namespace Z0
 {
     using Asm;
 
-    public partial class XedCmdProvider : AppCmdProvider<XedCmdProvider>, IProjectConsumer<XedCmdProvider>
+    public partial class XedCmdProvider : AppCmdService<XedCmdProvider,CmdShellState>, IProjectConsumer<XedCmdProvider>
     {
         FS.FilePath XedQueryOut(string id)
             => ProjectDb.Subdir("xed/queries") + FS.file(text.replace(id, Chars.FSlash,Chars.Dot), FS.Csv);

@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\apps.core"
+		},
+		{
+			"path": "..\\asm.core"
+		},
+		{
+			"path": "..\\asm.operands"
+		}
+	],
+	"settings": {}
+}

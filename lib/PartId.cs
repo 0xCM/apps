@@ -31,8 +31,8 @@ public enum PartId : byte
     [Symbol("apps.core")]
     AppCore = 7,
 
-    [Symbol("api")]
-    Api = 9,
+    [Symbol("xed.shell")]
+    XedShell = 9,
 
     [Symbol("cmd.shell")]
     CmdShell = 10,
@@ -64,8 +64,8 @@ public enum PartId : byte
     [Symbol("machines.x86")]
     X86Machine = 21,
 
-    [Symbol("lang")]
-    Lang = 22,
+    [Symbol("xed.lib")]
+    XedLib = 22,
 
     [Symbol("codegen.intel")]
     CgIntel = 23,

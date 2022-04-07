@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.asm.services", "asm.serv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.apps.core", "apps.core\z0.apps.core.csproj", "{94965ACA-5B17-43F4-BD87-280702AD776D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.xed.shell", "xed.shell\z0.xed.shell.csproj", "{17D80787-E3BE-4989-A9F2-5F032F2D4692}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -266,5 +268,17 @@ Global
 		{94965ACA-5B17-43F4-BD87-280702AD776D}.Release|x64.Build.0 = Release|Any CPU
 		{94965ACA-5B17-43F4-BD87-280702AD776D}.Release|x86.ActiveCfg = Release|Any CPU
 		{94965ACA-5B17-43F4-BD87-280702AD776D}.Release|x86.Build.0 = Release|Any CPU
+		{17D80787-E3BE-4989-A9F2-5F032F2D4692}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17D80787-E3BE-4989-A9F2-5F032F2D4692}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17D80787-E3BE-4989-A9F2-5F032F2D4692}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{17D80787-E3BE-4989-A9F2-5F032F2D4692}.Debug|x64.Build.0 = Debug|Any CPU
+		{17D80787-E3BE-4989-A9F2-5F032F2D4692}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{17D80787-E3BE-4989-A9F2-5F032F2D4692}.Debug|x86.Build.0 = Debug|Any CPU
+		{17D80787-E3BE-4989-A9F2-5F032F2D4692}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17D80787-E3BE-4989-A9F2-5F032F2D4692}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17D80787-E3BE-4989-A9F2-5F032F2D4692}.Release|x64.ActiveCfg = Release|Any CPU
+		{17D80787-E3BE-4989-A9F2-5F032F2D4692}.Release|x64.Build.0 = Release|Any CPU
+		{17D80787-E3BE-4989-A9F2-5F032F2D4692}.Release|x86.ActiveCfg = Release|Any CPU
+		{17D80787-E3BE-4989-A9F2-5F032F2D4692}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
