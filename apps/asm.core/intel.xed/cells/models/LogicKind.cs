@@ -11,11 +11,11 @@ namespace Z0
         {
             None = 0,
 
-            Antecedant = 1,
+            Antecedant = (byte)Chars.A,
 
-            Operator = 2,
+            Operator = (byte)Chars.f,
 
-            Consequent = 3,
+            Consequent = (byte)Chars.C,
         }
     }
 }

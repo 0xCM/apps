@@ -17,6 +17,12 @@ namespace Z0
                 Kind = src;
             }
 
+            [MethodImpl(Inline)]
+            public LogicClass(char src)
+            {
+                Kind = (LogicKind)src;
+            }
+
             public bool IsAntecedant
             {
                 [MethodImpl(Inline)]
@@ -38,7 +44,7 @@ namespace Z0
             public char Indicator
             {
                 [MethodImpl(Inline)]
-                get => IsAntecedant ? 'A' : IsConsequent ? 'C' : 'f';
+                get => (char)Kind;
             }
 
             public string Format()
@@ -63,6 +69,13 @@ namespace Z0
             public static explicit operator byte(LogicClass src)
                 => (byte)src.Kind;
 
+            [MethodImpl(Inline)]
+            public static implicit operator LogicClass(char src)
+                => new LogicClass(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator char(LogicClass src)
+                => src.Indicator;
         }
     }
 }

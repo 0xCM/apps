@@ -42,19 +42,15 @@ namespace Z0
 
             Operator = P2ᐞ16,
 
-            FieldValue = P2ᐞ17 | Value,
-
             Expr = P2ᐞ08,
-
-            NontermExpr = P2ᐞ10 | Expr | Nonterm,
 
             NeqExpr = P2ᐞ19 | Expr,
 
             EqExpr =  P2ᐞ20 | Expr,
 
-            FieldExpr = P2ᐞ11 | Expr,
-
             SegExpr = P2ᐞ13 | Seg | Expr,
+
+            NontermExpr = P2ᐞ10 | Nonterm | EqExpr,
         }
    }
 }

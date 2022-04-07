@@ -4,13 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-    using static XedPatterns;
-
-    using Asm;
-
     partial class XedRules
     {
+        public static string format(in CellValueExpr src)
+        {
+            if(src.Type.Class.IsOperator)
+                return src.Operator.Format();
+            return src.Data.ToString();
+        }
+
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public readonly struct CellValueExpr
         {
@@ -57,6 +59,30 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => Type.Field;
             }
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Type.IsEmpty;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Type.IsNonEmpty;
+            }
+
+            public bool Equals(CellValueExpr src)
+                => Data == src.Data && Type.Equals(src.Type);
+
+            [MethodImpl(Inline)]
+            public string Format()
+                => format(this);
+
+            public override string ToString()
+                => Format();
+
+            public static CellValueExpr Empty => default;
         }
     }
 }

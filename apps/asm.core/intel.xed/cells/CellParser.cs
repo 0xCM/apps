@@ -54,12 +54,31 @@ namespace Z0
             public static bool IsImmSpec(string src)
                 => XedParsers.parse(src, out ImmSpec _);
 
+            public static bool IsSeg(string src)
+            {
+                var i = text.index(src, Chars.LBracket);
+                var j = text.index(src, Chars.RBracket);
+                return i> 0 && j > i;
+            }
+
+            public static bool SegData(string src, out string dst)
+            {
+                var i = text.index(src, Chars.LBracket);
+                var j = text.index(src, Chars.RBracket);
+                var result = i>0 && j>i;
+                if(result)
+                    dst = text.inside(src,i,j);
+                else
+                    dst = EmptyString;
+                return result;
+            }
+
             public static bool IsImmSeg(string src)
             {
                 var result = false;
                 var i = text.index(src, Chars.LBracket);
                 var j = text.index(src, Chars.RBracket);
-                if(i >0 && j>0)
+                if(i >0 && j>i)
                     result = IsImmSpec(text.inside(src,i,j));
                 return result;
             }

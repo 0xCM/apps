@@ -9,19 +9,22 @@ namespace Z0
     {
         public readonly struct CellDef : IEquatable<CellDef>
         {
+            public readonly CellKey Key;
+
             public readonly FieldKind Field;
 
             public readonly RuleOperator Operator;
 
             public readonly CellType Type;
 
-            public readonly CellValue Value;
+            public readonly CellValueExpr Value;
 
             public readonly asci64 Source;
 
             [MethodImpl(Inline)]
-            public CellDef(FieldKind field, RuleOperator op, CellType type, CellValue value, string src)
+            public CellDef(CellKey key, FieldKind field, RuleOperator op, CellType type, CellValueExpr value, string src)
             {
+                Key = key;
                 Type = type;
                 Field = field;
                 Operator = op;
@@ -30,19 +33,14 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellDef(RuleOperator op)
+            public CellDef(CellKey key, RuleOperator op)
             {
+                Key = key;
                 Type = CellType.@operator(op);
                 Field = Type.Field;
                 Operator = op;
-                Value = CellValue.Empty;
+                Value = CellValueExpr.Empty;
                 Source = asci64.Null;
-            }
-
-            public CellClass Class
-            {
-                [MethodImpl(Inline)]
-                get => Type.Class;
             }
 
             public bool IsEmpty
@@ -59,7 +57,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public bool Equals(CellDef src)
-                => Field == src.Field && Operator == src.Operator && Value == src.Value;
+                => Field == src.Field && Operator == src.Operator && Value.Equals(src.Value);
 
             public override int GetHashCode()
                 => (int)alg.hash.marvin(Format());
@@ -70,22 +68,16 @@ namespace Z0
             public string Format()
             {
                 var dst = EmptyString;
-                if(Class.IsExpr)
-                {
+                if(Type.IsOperator)
+                    dst = Type.Operator.Format();
+                else if(Type.IsExpr)
                     dst = string.Format("{0}{1}{2}", XedRender.format(Field), Operator.Format(), Value);
-                }
+                else if(Type.IsSeg)
+                    dst = string.Format("{0}[{1}]", XedRender.format(Field), Value);
+                else if(Type.IsNonterm || Type.IsValue)
+                    dst = Value.Format();
                 else
-                {
-                    if(Class.IsSeg)
-                        dst = string.Format("{0}[{1}]", XedRender.format(Field), Value);
-                    else if(Class.IsNonterm || Class.IsValue)
-                        dst = Value.Format();
-                    else if(Class.IsOperator)
-                        dst = Operator.Format();
-                    else
-                        Errors.Throw(string.Format("Unhandled case:{0}", Class));
-                }
-
+                    Errors.Throw(string.Format("Unhandled case:{0}", Type.Class));
                 return dst;
             }
 

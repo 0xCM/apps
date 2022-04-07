@@ -110,6 +110,15 @@ namespace Z0
                 return dst;
             }
 
+            public override int GetHashCode()
+                => (int)Kind;
+
+            public bool Equals(CellClass src)
+                => Kind == src.Kind;
+
+            public override bool Equals(object src)
+                => src is CellClass x && Equals(x);
+
             public override string ToString()
                 => Format();
 
@@ -120,6 +129,15 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator RuleCellKind(CellClass src)
                 => src.Kind;
+
+            [MethodImpl(Inline)]
+            public static bool operator ==(CellClass a, CellClass b)
+                => a.Equals(b);
+
+            [MethodImpl(Inline)]
+            public static bool operator !=(CellClass a, CellClass b)
+                => !a.Equals(b);
+            public static CellClass Empty => default;
         }
    }
 }
