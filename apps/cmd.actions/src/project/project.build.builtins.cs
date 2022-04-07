@@ -6,8 +6,8 @@ namespace Z0
 {
     partial class ProjectCmdProvider
     {
-        [CmdOp("project/build/asm")]
-        Outcome BuildMc(CmdArgs args)
-            => Projects.BuildAsm(Project());
-   }
+        [CmdOp("project/build/builtins")]
+        Outcome BuildBuiltIns(CmdArgs args)
+            => Projects.BuildScoped(Project(), "build-builtins", "builtins");
+    }
 }

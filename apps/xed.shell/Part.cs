@@ -19,6 +19,10 @@ namespace Z0.Parts
 {
     public sealed class XedShell : Part<XedShell>
     {
-
+        [ModuleInitializer]
+        internal static void Init()
+        {
+            AppData.init();
+        }
     }
 }

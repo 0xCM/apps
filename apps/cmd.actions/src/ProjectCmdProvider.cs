@@ -7,8 +7,6 @@ namespace Z0
     using Asm;
     using llvm;
 
-    using static core;
-
     public partial class ProjectCmdProvider : AppCmdProvider<ProjectCmdProvider>, IProjectProvider
     {
         AppDb AppDb => Service(Wf.AppDb);
@@ -57,16 +55,6 @@ namespace Z0
             LoadProjectSources();
             ProjectSelected(project);
             return Project();
-        }
-
-        [CmdOp("project/sources")]
-        protected Outcome ProjectSrcFiles(CmdArgs args)
-        {
-            if(args.Length == 0)
-                Files(Project().SrcFiles());
-            else
-                Files(Project().SrcFiles(arg(args,0)));
-            return true;
         }
 
         Outcome LoadProjectSources()
@@ -127,5 +115,7 @@ namespace Z0
             _Project = Ws.Project(id);
             return Project();
         }
+
+        AsmRegSets Regs => Service(AsmRegSets.create);
     }
 }

@@ -6,11 +6,13 @@ namespace Z0
 {
     partial class ProjectCmdProvider
     {
-        [CmdOp("runtime/memory")]
-        Outcome MapMemory(CmdArgs args)
+        [CmdOp("project/sources")]
+        protected Outcome ProjectSrcFiles(CmdArgs args)
         {
-            var dst = ProjectDb.LogTable<ProcessMemoryRegion>();
-            TableEmit(ImageMemory.regions().View, dst);
+            if(args.Length == 0)
+                Files(Project().SrcFiles());
+            else
+                Files(Project().SrcFiles(arg(args,0)));
             return true;
         }
     }

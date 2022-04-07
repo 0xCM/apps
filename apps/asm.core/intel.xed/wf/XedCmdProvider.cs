@@ -25,6 +25,10 @@ namespace Z0
 
         AppDb AppDb => Service(Wf.AppDb);
 
+        AppCmdRunner _AppCmdRunner;
+
+        IProjectWs _Project;
+
         IProjectProvider _ProjectProvider;
 
         public XedCmdProvider With(IProjectProvider provider)
@@ -39,5 +43,28 @@ namespace Z0
         WsContext Context()
             => Projects.Context(Project());
 
+        [MethodImpl(Inline)]
+        public IProjectWs Project(ProjectId id)
+        {
+            _Project = Ws.Project(id);
+            return Project();
+        }
+
+        void RunCmd(string name, CmdArgs args)
+            => Dispatcher.Dispatch(name, args);
+
+        void LoadProject(string name)
+            => RunCmd("project", new CmdArg[]{new CmdArg(EmptyString, name)});
+
+        protected override void Initialized()
+        {
+            _AppCmdRunner = AppCmdRunner.create(Wf);
+            _ProjectProvider = _AppCmdRunner;
+            LoadProject("canonical");
+        }
+
+        [CmdOp("project")]
+        Outcome LoadProject(CmdArgs args)
+            => _AppCmdRunner.LoadProject(args);
     }
 }

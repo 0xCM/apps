@@ -68,7 +68,8 @@ namespace Z0
             var args = new CmdArg[]{new CmdArg(EmptyString, "canonical")};
             RunCmd("project", args);
         }
-        public void RunJobs(string match)
+
+        public void _runJobs(string match)
         {
             var paths = ProjectDb.JobSpecs();
             var count = paths.Length;
@@ -79,7 +80,7 @@ namespace Z0
                 if(path.FileName.Format().StartsWith(match))
                 {
                     var dispatching = Running(string.Format("Dispatching job {0} defined by {1}", counter, path.ToUri()));
-                    DispatchJobs(path);
+                    _dispatchJobs(path);
                     Ran(dispatching, string.Format("Dispatched job {0}", counter));
                     counter++;
                 }
@@ -89,13 +90,14 @@ namespace Z0
             {
                 Warn(string.Format("No jobs identified by '{0}'", match));
             }
+
         }
+
+        public void RunJobs(string match)
+            => _runJobs(match);
 
         static ProjectCmdProvider inject(ICmdRunner src, ProjectCmdProvider dst)
             => dst.With(src);
-
-        // static AsmCmdProvider inject(IProjectProvider src, AsmCmdProvider dst)
-        //     => dst.With(src);
 
         [MethodImpl(Inline)]
         public static T inject<T>(IProjectProvider src, T dst)
@@ -143,49 +145,19 @@ namespace Z0
         {
             var result = Outcome.Success;
             RunJobs(arg(args,0));
-            // var paths = ProjectDb.JobSpecs();
-            // var count = paths.Length;
-            // if(args.Count == 0)
-            // {
-            //     if(count == 0)
-            //         Warn("No jobs defined");
-
-            //     for(var i=0; i<count; i++)
-            //         DispatchJobs(paths[i]);
-            // }
-            // else
-            // {
-            //     var counter = 0u;
-            //     var match = arg(args,0).Value.Format();
-            //     for(var i=0; i<count; i++)
-            //     {
-            //         ref readonly var path = ref paths[i];
-            //         if(path.FileName.Format().StartsWith(match))
-            //         {
-            //             var dispatching = Running(string.Format("Dispatching job {0} defined by {1}", counter, path.ToUri()));
-            //             DispatchJobs(path);
-            //             Ran(dispatching, string.Format("Dispatched job {0}", counter));
-            //             counter++;
-            //         }
-            //     }
-
-            //     if(counter == 0)
-            //     {
-            //         Warn(string.Format("No jobs identified by '{0}'", match));
-            //     }
-
-            // }
-
             return result;
         }
 
-        void DispatchJobs(FS.FilePath src)
+        public void _dispatchJobs( FS.FilePath src)
         {
             var lines = src.ReadNumberedLines(true);
             var count = lines.Count;
             for(var i=0; i<count; i++)
                 Dispatch(Cmd.cmdspec(lines[i].Content));
         }
+
+        void DispatchJobs(FS.FilePath src)
+            => _dispatchJobs(src);
 
         [CmdOp(".commands")]
         Outcome EmitShellCommands(CmdArgs args)
