@@ -22,7 +22,7 @@ namespace Z0
             public readonly asci64 Source;
 
             [MethodImpl(Inline)]
-            public CellDef(CellKey key, FieldKind field, RuleOperator op, CellType type, CellValueExpr value, string src)
+            public CellDef(CellKey key, FieldKind field, RuleOperator op, in CellType type, in CellValueExpr value, string src)
             {
                 Key = key;
                 Type = type;
@@ -43,18 +43,6 @@ namespace Z0
                 Source = asci64.Null;
             }
 
-            public bool IsEmpty
-            {
-                [MethodImpl(Inline)]
-                get => Type.IsEmpty;
-            }
-
-            public bool IsNonEmpty
-            {
-                [MethodImpl(Inline)]
-                get => Type.IsNonEmpty;
-            }
-
             [MethodImpl(Inline)]
             public bool Equals(CellDef src)
                 => Field == src.Field && Operator == src.Operator && Value.Equals(src.Value);
@@ -70,10 +58,16 @@ namespace Z0
                 var dst = EmptyString;
                 if(Type.IsOperator)
                     dst = Type.Operator.Format();
+                else if(Type.IsKeyword)
+                    dst = Value.Format();
                 else if(Type.IsExpr)
                     dst = string.Format("{0}{1}{2}", XedRender.format(Field), Operator.Format(), Value);
-                else if(Type.IsSeg)
+                else if(Type.IsSegVar)
+                    dst = string.Format("{0}[{1}]", XedRender.format(Field), SegSpecs.bitfield(Field));
+                else if(Type.IsSegLiteral)
                     dst = string.Format("{0}[{1}]", XedRender.format(Field), Value);
+                else if(Type.IsSegSpec)
+                    dst = Value.Format();
                 else if(Type.IsNonterm || Type.IsValue)
                     dst = Value.Format();
                 else

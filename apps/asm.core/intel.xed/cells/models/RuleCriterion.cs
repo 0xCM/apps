@@ -129,6 +129,15 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
+            internal RuleCriterion(asci16 src)
+            {
+                Field = FieldKind.INVALID;
+                Operator = RuleOperator.None;
+                Storage = core.@bytes(src);
+                Role = CellRole.AsciLiteral;
+            }
+
+            [MethodImpl(Inline)]
             internal RuleCriterion(RuleOperator op)
             {
                 Field = FieldKind.INVALID;
@@ -164,6 +173,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public CellExpr ToFieldExpr()
                 => core.@as<CellExpr>(Storage.Bytes);
+
+            [MethodImpl(Inline)]
+            public asci16 ToAsciLiteral()
+                => core.@as<asci16>(Storage.Bytes);
 
             [MethodImpl(Inline)]
             public BfSeg ToBfSeg()

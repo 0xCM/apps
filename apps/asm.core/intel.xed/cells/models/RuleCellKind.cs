@@ -14,43 +14,47 @@ namespace Z0
         {
             None = 0,
 
-            Value = P2ᐞ18,
+            Value = P2ᐞ00,
 
-            Literal = P2ᐞ00 | Value,
+            Literal = P2ᐞ01 | Value,
 
-            BinaryLiteral = P2ᐞ01 | Literal,
+            BinaryLiteral = P2ᐞ02 | Literal,
 
-            IntLiteral = P2ᐞ02 | Literal,
+            IntLiteral = P2ᐞ03 | Literal,
 
-            HexLiteral = P2ᐞ03 | Literal,
+            HexLiteral = P2ᐞ04 | Literal,
 
-            Char = P2ᐞ04 | Literal,
+            Char = P2ᐞ05 | Literal,
 
-            String = P2ᐞ05 | Literal,
+            String = P2ᐞ06 | Literal,
 
-            Number = P2ᐞ06 | BinaryLiteral | IntLiteral | HexLiteral,
+            Number = P2ᐞ07 | BinaryLiteral | IntLiteral | HexLiteral,
 
-            Text = P2ᐞ07 | Char | String,
+            Text = P2ᐞ08 | Char | String,
 
-            Keyword = P2ᐞ15 | Text,
+            Keyword = P2ᐞ09,
 
-            SegSpec = P2ᐞ14 | Text,
+            SegSpec = P2ᐞ10,
 
-            Nonterm = P2ᐞ09,
+            Nonterm = P2ᐞ11,
 
             Seg = P2ᐞ12,
 
-            Operator = P2ᐞ16,
+            Operator = P2ᐞ13,
 
-            Expr = P2ᐞ08,
+            Expr = P2ᐞ14,
 
-            NeqExpr = P2ᐞ19 | Expr,
+            NeqExpr = P2ᐞ15 | Expr,
 
-            EqExpr =  P2ᐞ20 | Expr,
+            EqExpr =  P2ᐞ16 | Expr,
 
-            SegExpr = P2ᐞ13 | Seg | Expr,
+            SegExpr = P2ᐞ17 | Seg | Expr,
 
-            NontermExpr = P2ᐞ10 | Nonterm | EqExpr,
+            NontermExpr = P2ᐞ18 | Nonterm | EqExpr,
+
+            SegLiteral = P2ᐞ19 | Seg | BinaryLiteral,
+
+            SegVar = P2ᐞ20 | Seg
         }
    }
 }

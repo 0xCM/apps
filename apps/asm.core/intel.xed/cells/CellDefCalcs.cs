@@ -4,90 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    using static XedRules;
-    using static XedModels;
-    using static XedPatterns;
     using static core;
+    using static XedModels;
 
     using CK = XedRules.RuleCellKind;
 
-    partial class XedCmdProvider
-    {
-        [CmdOp("xed/emit/defs")]
-        Outcome EmitDefs(CmdArgs args)
-        {
-            var rules = Xed.Rules.CalcRules();
-            var defs = CellDefCalcs.defs(rules);
-            var specs = rules.TableSpecs().Select(x => (x.Sig, x)).ToDictionary();
-
-            var lookup = defs.SelectMany(x => x.Rows).SelectMany(x => x.Cells).Select(x => (x.Key, x)).ToDictionary();
-            EmitCellDefs(lookup);
-            // for(var i=0; i<defs.Count; i++)
-            // {
-            //     ref readonly var def = ref defs[i];
-            //     ref readonly var sig = ref def.Sig;
-            //     for(var j=0; j<def.RowCount; j++)
-            //     {
-            //         ref readonly var row = ref def[j];
-            //         for(var k=0; k< row.CellCount; k++)
-            //         {
-            //             ref readonly var cell = ref row[k];
-            //             ref readonly var key = ref cell.Key;
-            //             if(key.IsEmpty)
-            //             {
-            //                 //var table = specs[sig];
-            //                 Write(sig.Format(), FlairKind.Error);
-            //             }
-            //         }
-            //     }
-            // }
-            return true;
-        }
-
-        void EmitCellDefs(RuleExprLookup defs)
-        {
-            var rules = Xed.Rules.CalcRules();
-            var specs = rules.TableSpecs().Select(x => (x.TableId, x)).ToDictionary();
-
-            const string Sep = " | ";
-            var cols = new Pairings<string,byte>(new Paired<string,byte>[]{
-                ("CellType",32), ("Field", 22), ("Op", 8), ("Value", 48),
-                ("Def",48), ("Key", 18), ("TableId", 12), ("TableKind", 12),
-                ("TableName", 32), ("Row", 8),  ("Source",1)
-                });
-
-            var count = cols.Count;
-            var widths = alloc<byte>(count);
-            iteri(count, i=> seek(widths,i) = cols[i].Right);
-            var slots = mapi(widths, (i,w) => RP.slot((byte)i, (short)-w));
-            var names = alloc<string>(count);
-            iteri(count, i => names[i] = cols[i].Left);
-            var RenderPattern = slots.Intersperse(" | ").Concat();
-            var header = string.Format(RenderPattern, names);
-
-            var keys = defs.Keys;
-            var dst = text.buffer();
-            dst.AppendLine(header);
-            for(var i=0; i<keys.Length; i++)
-            {
-                ref readonly var key = ref skip(keys,i);
-                var expr = defs[key];
-                dst.AppendLineFormat(RenderPattern,
-                    expr.Type, XedRender.format(expr.Field), expr.Operator, expr.Value,expr.Format(),
-                    key, key.TableId.FormatHex(), key.TableKind, specs[key.TableId].ShortName,
-                    key.RowIndex, expr.Source
-                    );
-            }
-
-            FileEmit(dst.Emit(), keys.Length, XedPaths.RuleTargets() + FS.file("xed.rules.expressions", FS.Csv), TextEncodingKind.Asci);
-        }
-    }
-
     partial class XedRules
     {
-        public readonly struct CellDefCalcs
+        public readonly partial struct CellDefCalcs
         {
             public static Index<CellTableDef> defs(RuleTables rules)
             {
@@ -119,7 +43,7 @@ namespace Z0
                         count++;
 
                     var cells = alloc<CellDef>(count);
-                    var k=z8;
+                    var k = z8;
                     var counter = z8;
 
                     counter += celldefs(src, spec.Antecedant, LogicKind.Antecedant, i, ref k, cells);
@@ -133,10 +57,10 @@ namespace Z0
 
                     counter += celldefs(src, spec.Consequent, LogicKind.Consequent, i, ref k, cells);
 
-                    seek(rows,i) = new (table, i, cells);
+                    seek(rows,i) = new CellRowDef(table, i, cells);
                 }
 
-                return new(table, sig, rows);
+                return new CellTableDef(table, sig, rows);
             }
 
             public static byte celldefs(in CellTableSpec table, Index<CellSpec> src, LogicClass logic, ushort row, ref byte k, Span<CellDef> dst)
@@ -147,69 +71,185 @@ namespace Z0
                 return (byte)(k - i0);
             }
 
-            public static CellDef celldef(CellKey key, in CellSpec src)
+            public static CellDef celldef(in CellKey key, in CellSpec src)
             {
                 Require.invariant(key.IsNonEmpty);
                 var type = celltype(src);
-                return new CellDef(key, src.Field, src.Operator, type, value(type,src), src.Data);
+                return new CellDef(key, src.Field, src.Operator, type, value(src), src.Data);
             }
 
-            public static CellValueExpr value(in CellType type, in CellSpec spec)
+            static CellValueExpr value(in CellSpec src, in CellType type, FieldKind fk, string data)
             {
-                if(type.Class.IsExpr)
+                var dst = CellValueExpr.Empty;
+                var result = false;
+                if(fk != 0)
                 {
-                    switch(type.Class.Kind)
-                    {
-                        case CK.NontermExpr:
-                        break;
-                        case CK.NeqExpr:
-                        break;
-                        case CK.EqExpr:
-                        break;
-                        case CK.SegExpr:
-                        break;
-                    }
+                    result = parse(data, fk, out FieldPack fp);
+                    dst = new(type, fp);
                 }
                 else
                 {
                     switch(type.Class.Kind)
                     {
                         case CK.IntLiteral:
+                        {
+                            result = XedParsers.parse(data, out byte x);
+                            dst = new(type,x);
+                        }
                         break;
                         case CK.BinaryLiteral:
+                        {
+                            result = XedParsers.parse(data, out uint8b x);
+                            dst = new(type,x);
+                        }
                         break;
                         case CK.HexLiteral:
+                        {
+                            result = XedParsers.parse(data, out Hex8 x);
+                            dst = new(type,x);
+                        }
                         break;
                         case CK.Char:
+                        {
+                            Require.equal(data.Length,1);
+                            dst = new(data[0]);
+                            result = true;
+                        }
                         break;
                         case CK.String:
+                        {
+                            dst = new (type,data);
+                            result = true;
+                        }
                         break;
                         case CK.Keyword:
+                        {
+                            result = RuleKeyword.parse(data, out RuleKeyword x);
+                            dst = new(x);
+                        }
                         break;
                         case CK.Seg:
+                        {
+                            result = CellParser.SegData(data, out var x);
+                            if(XedParsers.IsBinaryLiteral(x))
+                            {
+                                result = XedParsers.parse(x, out uint8b literal);
+                                dst = new (type,literal);
+                            }
+                            else
+                            {
+                                result = SegSpecs.parse(src.Field, x, out SegSpec ss);
+                                if(result)
+                                    dst = new(type,ss);
+                                else
+                                {
+                                    dst = new(type, x);
+                                    result = true;
+                                }
+                            }
+                        }
                         break;
                         case CK.SegSpec:
+                        {
+                            dst = new (type,data);
+                            result = true;
+                        }
                         break;
                         case CK.Operator:
+                        {
+                            result = CellParser.parse(data, out RuleOperator x);
+                            dst = new (x);
+                        }
                         break;
                         case CK.Nonterm:
+                        {
+                            result = XedParsers.parse(data, out Nonterminal x);
+                            dst = new (type,x);
+                        }
                         break;
                     }
                 }
 
-                return CellValueExpr.Empty;
+                if(dst.IsEmpty)
+                {
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(CellValueExpr), data));
+                }
+                return dst;
+            }
+
+            static CellValueExpr ValueFromExpr(in CellSpec src)
+            {
+                var type = celltype(src);
+                if(!type.IsExpr)
+                    Errors.Throw(string.Format("'{0}' is not an expression", src.Data));
+
+                var dst = CellValueExpr.Empty;
+                var data = src.Data;
+                var fk = FieldKind.INVALID;
+                var fv = EmptyString;
+                if(!CellParser.parse(data, out RuleOperator op))
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleOperator), data));
+
+                switch(op.Kind)
+                {
+                    case OperatorKind.Eq:
+                    {
+                        var i = text.index(data,Chars.Eq);
+                        var j = text.index(data,Chars.LBracket);
+                        var k = text.index(data, Chars.RBracket);
+                        var left = j>0 ? text.left(data,j) : text.left(data,i);
+                        var right = k>0 ? text.right(data,k) : text.right(data,i);
+                        XedParsers.parse(left, out fk);
+                        if(fk == 0)
+                            Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), left));
+                        fv = right;
+                        dst = value(src, type, fk, fv);
+                    }
+                    break;
+                    case OperatorKind.Neq:
+                    {
+                        var i = text.index(data,Chars.Bang);
+                        var j = text.index(data,Chars.LBracket);
+                        var k = text.index(data, Chars.RBracket);
+                        var left =  j>0 ? text.left(data,j) : text.left(data,i);
+                        var right = k>0 ? text.right(data,k+1) : text.right(data,i+1);
+                        XedParsers.parse(left, out fk);
+                        if(fk == 0)
+                            Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), left));
+                        fv = right;
+                        dst = value(src, type, fk, fv);
+                    }
+                    break;
+                    default:
+                        Errors.Throw(string.Format("Unhandled case: {0}", op.Kind));
+                    break;
+
+                }
+                return dst;
+            }
+
+            public static CellValueExpr value(in CellSpec src)
+            {
+                var type = celltype(src);
+                var dst = CellValueExpr.Empty;
+                var data = src.Data;
+                var fk = FieldKind.INVALID;
+                var fv = EmptyString;
+                if(type.Class.IsExpr)
+                    dst = ValueFromExpr(src);
+                else
+                    dst = value(src, type, src.Field, data);
+                return dst;
             }
 
             public static CellType celltype(in CellSpec src)
             {
-                var dst = CellType.Empty;
                 var field = XedLookups.Service.FieldSpec(src.Field);
-                dst.Field = field.FieldKind;
-                dst.DataType = field.DeclaredType.Text;
-                dst.EffectiveType = field.EffectiveType.Text;
-                dst.Class = @class(src.Data);
-                CellParser.parse(src.Data, out dst.Operator);
-                return dst;
+                CellParser.parse(src.Data, out RuleOperator op);
+                return new (field.FieldKind, @class(src.Data), op,
+                    field.DeclaredType.Text, (byte)field.DataWidth,
+                    field.EffectiveType.Text, (byte)field.EffectiveWidth
+                    );
             }
 
             public static CellClass @class(string data)
@@ -255,7 +295,13 @@ namespace Z0
                     else if(CellParser.IsImpl(input))
                         dst = CK.Operator;
                     else if(CellParser.IsSeg(input))
-                        dst = CK.Seg;
+                    {
+                        CellParser.SegData(input, out var sd);
+                        if(XedParsers.IsBinaryLiteral(sd))
+                            dst = CK.SegLiteral;
+                        else
+                            dst = CK.SegVar;
+                    }
                     else if(RuleKeyword.parse(input, out var keyword))
                         dst = CK.Keyword;
                     else

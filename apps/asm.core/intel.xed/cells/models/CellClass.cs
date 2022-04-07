@@ -97,6 +97,18 @@ namespace Z0
                 get => Kind.Test(K.Seg);
             }
 
+            public bool IsSegVar
+            {
+                [MethodImpl(Inline)]
+                get => Kind.Test(K.SegVar);
+            }
+
+            public bool IsSegLiteral
+            {
+                [MethodImpl(Inline)]
+                get => Kind.Test(K.SegLiteral);
+            }
+
             public bool IsExpr
             {
                 [MethodImpl(Inline)]
@@ -137,6 +149,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public static bool operator !=(CellClass a, CellClass b)
                 => !a.Equals(b);
+
             public static CellClass Empty => default;
         }
    }

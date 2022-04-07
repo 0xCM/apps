@@ -80,6 +80,8 @@ namespace Z0
             BfSegExpr,
 
             FieldValue,
+
+            AsciLiteral,
         }
    }
 }

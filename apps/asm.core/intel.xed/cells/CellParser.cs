@@ -35,9 +35,6 @@ namespace Z0
                     return false;
             }
 
-            public static bool IsBfSpec(string src)
-                => XedParsers.parse(src, out BfSpecKind _);
-
             public static bool IsDispSpec(string src)
                 => XedParsers.parse(src, out DispSpec _);
 
@@ -85,7 +82,6 @@ namespace Z0
 
             public static bool IsExpr(string src)
                 => IsEq(src) || IsNeq(src);
-
 
             public static void parse(string src, out InstPatternBody dst)
             {
@@ -242,6 +238,11 @@ namespace Z0
                         dst = criterion(x);
                         result = true;
                     }
+                }
+                else if(input.Length <= 16)
+                {
+                    dst = criterion(input);
+                    result = true;
                 }
                 return result;
             }
@@ -402,51 +403,6 @@ namespace Z0
 
                 return result;
             }
-
-            // static bool nonterm(string src, out RuleCriterion dst)
-            // {
-            //     dst = RuleCriterion.Empty;
-            //     var fk = FieldKind.INVALID;
-            //     var nt = Nonterminal.Empty;
-            //     parse(src, out OperatorKind op);
-            //     var fv = EmptyString;
-            //     var name = EmptyString;
-            //     var result = false;
-            //     var i = text.index(src,"()");
-            //     if(XedParsers.IsNontermCall(src) && op != 0)
-            //     {
-            //         var input = text.left(src,i);
-            //         var j = text.index(input, Chars.Eq);
-            //         var k = text.index(input, Chars.Bang);
-            //         if(j > 0)
-            //         {
-            //             name = text.left(input, j);
-            //             fv = text.right(input, j);
-            //         }
-            //         else if(k > 0)
-            //         {
-            //             name = text.left(input, k);
-            //             fv = text.right(input, k+1);
-            //         }
-
-            //         result = XedParsers.parse(name, out fk);
-            //         Require.invariant(result);
-
-            //         result = XedParsers.parse(fv, out nt);
-            //         if(!result)
-            //             Errors.Throw(AppMsg.ParseFailure.Format(nameof(Nonterminal), fv));
-
-            //         dst = criterion(fk, op, nt);
-            //     }
-            //     else
-            //     {
-            //         name = text.left(src,i);
-            //         result = XedParsers.parse(name, out nt);
-            //         dst = criterion(fk, op, nt);
-            //     }
-
-            //     return result;
-            // }
 
             static Index<CellSpec> cells(bool premise, string src)
             {

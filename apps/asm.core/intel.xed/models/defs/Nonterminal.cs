@@ -55,6 +55,10 @@ namespace Z0
                 => (ushort)src.Kind;
 
             [MethodImpl(Inline)]
+            public static explicit operator Nonterminal(ushort src)
+                => new Nonterminal((NontermKind)src);
+
+            [MethodImpl(Inline)]
             public static implicit operator NontermKind(Nonterminal src)
                 => src.Kind;
 

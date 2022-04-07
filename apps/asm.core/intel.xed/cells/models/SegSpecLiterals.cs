@@ -27,7 +27,7 @@ namespace Z0
 
             public const string a = nameof(a);
 
-            public const string aaa = a + a +a;
+            public const string aaa = a + a + a;
 
             public const string b = nameof(b);
 
@@ -58,6 +58,7 @@ namespace Z0
             public const string x = nameof(x);
 
             public const string z = nameof(z);
+
             public const string d8 = d + over + n8;
 
             public const string d16 = d + over + n16;
@@ -65,6 +66,14 @@ namespace Z0
             public const string d32 = d + over + n32;
 
             public const string d64 = d + over + n64;
+
+            public const string a8 = a + over + n8;
+
+            public const string a16 = a + over + n16;
+
+            public const string a32 = a + over + n32;
+
+            public const string a64 = a + over + n64;
 
             public const string iii = i + i + i;
 
@@ -83,6 +92,7 @@ namespace Z0
             public const string ssss_dddd = ssss + sep + dddd;
 
             public const string ss_iii_bbb = ss + iii + bbb;
+
             public const string u_dddd = u + ddd;
 
             public const string z_nn_b = z + nn + b;

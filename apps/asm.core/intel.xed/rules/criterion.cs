@@ -8,8 +8,6 @@ namespace Z0
     using static core;
     using static XedModels;
 
-    using R = XedRules.CellRole;
-
     partial class XedRules
     {
         [Op]
@@ -23,6 +21,10 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static RuleCriterion criterion(in CellExpr src)
+            => new RuleCriterion(src);
+
+        [MethodImpl(Inline), Op]
+        public static RuleCriterion criterion(asci16 src)
             => new RuleCriterion(src);
 
         [MethodImpl(Inline), Op]
@@ -42,14 +44,6 @@ namespace Z0
             => new RuleCriterion(src, role);
 
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(DispSpec src, CellRole role)
-            => new RuleCriterion(src, role);
-
-        [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(ImmSpec src, CellRole role)
-            => new RuleCriterion(src, role);
-
-        [MethodImpl(Inline), Op]
         public static RuleCriterion criterion(RuleKeyword kw, CellRole role = CellRole.Keyword)
             => new RuleCriterion(kw, role);
 
@@ -58,21 +52,8 @@ namespace Z0
             => new RuleCriterion(nt, role);
 
         [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(FieldKind fk, RuleOperator op, Nonterminal nt)
-        {
-            if(op.IsEmpty)
-                return new RuleCriterion(nt, CellRole.NontermCall);
-            else
-                return new RuleCriterion(new NontermExpr(fk, op, nt), CellRole.NontermExpr);
-        }
-
-        [MethodImpl(Inline), Op]
         public static RuleCriterion criterion(BfSeg seg, CellRole role = CellRole.Seg)
             => new RuleCriterion(seg, role);
-
-        [MethodImpl(Inline), Op]
-        public static RuleCriterion criterion(BfSpec src, CellRole role = CellRole.SegSpec)
-            => new RuleCriterion(src, role);
 
         [MethodImpl(Inline), Op]
         public static RuleCriterion criterion(RuleOperator op)

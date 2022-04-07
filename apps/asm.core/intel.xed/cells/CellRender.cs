@@ -12,12 +12,125 @@ namespace Z0
 
     using C = XedRules.FormatCode;
     using K = XedRules.FieldKind;
-    using CK = XedRules.CellRole;
+    using CR = XedRules.CellRole;
+    using CK = XedRules.RuleCellKind;
 
     partial class XedRules
     {
         public readonly struct CellRender
         {
+            public static string format(in CellValueExpr src)
+            {
+                var dst = EmptyString;
+                var @class = src.Type.Class;
+                if(@class.IsExpr)
+                {
+                    if(@class.IsNonterm)
+                        dst = src.ToNonterm().Format();
+                    else
+                        dst = src.Pack().Format();
+                    //dst = string.Format("{0}{1}{2}", XedRender.format(src.Field), src.Operator, src.Pack().Format());
+                }
+                else
+                {
+                    switch(@class.Kind)
+                    {
+                        case CK.HexLiteral:
+                            dst = XedRender.format(src.ToHex8());
+                        break;
+                        case CK.BinaryLiteral:
+                        {
+                            switch(src.Type.EffectiveWidth)
+                            {
+                                case 1:
+                                    dst = XedRender.format((uint1)src.ToByte());
+                                break;
+                                case 2:
+                                    dst = XedRender.format((uint2)src.ToByte());
+                                break;
+                                case 3:
+                                    dst = XedRender.format((uint3)src.ToByte());
+                                break;
+                                case 4:
+                                    dst = XedRender.format((uint4)src.ToByte());
+                                break;
+                                case 5:
+                                    dst = XedRender.format((uint5)src.ToByte());
+                                break;
+                                case 6:
+                                    dst = XedRender.format((uint6)src.ToByte());
+                                break;
+                                case 7:
+                                    dst = XedRender.format((uint7)src.ToByte());
+                                break;
+                                case 8:
+                                    dst = XedRender.format((uint8b)src.ToByte());
+                                break;
+                            }
+                        }
+                        break;
+                        case CK.IntLiteral:
+                            dst = src.ToByte().ToString();
+                        break;
+                        case CK.Char:
+                            dst = src.ToChar().ToString();
+                        break;
+                        case CK.String:
+                            dst = src.ToAsci().Format();
+                        break;
+                        case CK.Keyword:
+                            dst = src.ToKeyword().Format();
+                        break;
+                    }
+                }
+
+                return dst;
+            }
+
+            public static string format(in CellType src)
+            {
+                var dst = EmptyString;
+                if(src.IsSegVar)
+                    return string.Format("Seg:{0}[{1}]", XedRender.format(src.Field), SegSpecs.bitfield(src.Field));
+                else if(src.IsSegLiteral)
+                    return string.Format("Seg:{0}[0b]", XedRender.format(src.Field));
+                else if(src.IsSeg)
+                    return string.Format("Seg:{0}[?]", XedRender.format(src.Field));
+
+                switch(src.Class.Kind)
+                {
+                    case CK.Keyword:
+                    case CK.HexLiteral:
+                    case CK.BinaryLiteral:
+                    case CK.IntLiteral:
+                    case CK.SegSpec:
+                        dst = src.Class.Kind.ToString();
+                    break;
+                    case CK.Char:
+                        dst = src.Class.Kind.ToString();
+                    break;
+                    case CK.Operator:
+                        dst = string.Format("Op({0})", src.Operator);
+                    break;
+                    case CK.Nonterm:
+                        dst = "NT";
+                    break;
+                    case CK.NontermExpr:
+                        dst = string.Format("Nt(x):{0}", src.EffectiveType);
+                    break;
+                    case CK.EqExpr:
+                        dst = string.Format("Eq(x):{0}", src.EffectiveType);
+                    break;
+                    case CK.NeqExpr:
+                        dst = string.Format("Neq(x):{0}", src.EffectiveType);
+                    break;
+                    default:
+                        dst = src.EffectiveType.Format();
+                        break;
+                }
+                return dst;
+            }
+
             public static string format(CellValue src)
             {
                 var dst = EmptyString;
@@ -29,30 +142,30 @@ namespace Z0
                 {
                     switch(src.Role)
                     {
-                        case CK.BinaryLiteral:
+                        case CR.BinaryLiteral:
                             dst = XedRender.format(src.ToBinaryLiteral());
                             Require.nonempty(dst);
                         break;
-                        case CK.HexLiteral:
+                        case CR.HexLiteral:
                             dst = XedRender.format(src.ToHexLiteral());
                             Require.nonempty(dst);
                         break;
-                        case CK.IntLiteral:
+                        case CR.IntLiteral:
                             dst = XedRender.format(src.ToIntLiteral());
                             Require.nonempty(dst);
                         break;
-                        case CK.Error:
-                        case CK.Default:
-                        case CK.Branch:
-                        case CK.Null:
-                        case CK.Wildcard:
+                        case CR.Error:
+                        case CR.Default:
+                        case CR.Branch:
+                        case CR.Null:
+                        case CR.Wildcard:
                             dst = XedRender.format(src.ToKeyword());
                             Require.nonempty(dst);
                         break;
-                        case CK.DispSpec:
+                        case CR.DispSpec:
                             dst = XedRender.format(src.ToDispSpec());
                         break;
-                        case CK.ImmSpec:
+                        case CR.ImmSpec:
                             dst = XedRender.format(src.ToImmSpec());
                         break;
                     }

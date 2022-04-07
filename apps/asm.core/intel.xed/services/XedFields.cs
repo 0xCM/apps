@@ -110,7 +110,7 @@ namespace Z0
                     total = (ushort)(total + (dw/8));
                     record.Index = (ushort)kind;
                     record.FieldName = field.Name;
-                    record.FieldWidth = tag.Width;
+                    record.EffectiveWidth = tag.Width;
                     record.DataWidth = dw;
                     record.TotalSize = total;
                     record.FieldKind = tag.Kind;

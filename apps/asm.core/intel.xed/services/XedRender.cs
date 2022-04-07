@@ -119,6 +119,9 @@ namespace Z0
 
         static EnumRender<XedRegId> XedRegs = new();
 
+        public static string format(Hex4 src)
+            => src.Format(prespec:true, uppercase:true);
+
         public static string format(Hex8 src)
             => src.Format(prespec:true, uppercase:true);
 
@@ -749,6 +752,9 @@ namespace Z0
                 break;
                 case CK.NeqExpr:
                     result = src.ToFieldExpr().Format();
+                break;
+                case CK.AsciLiteral:
+                    result = src.ToAsciLiteral().Format();
                 break;
                 default:
                     Errors.Throw($"{src.Field} | {src.Operator} | {src.Role}");

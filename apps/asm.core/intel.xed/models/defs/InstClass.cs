@@ -73,7 +73,15 @@ namespace Z0
             public static bool operator !=(InstClass a, InstClass b)
                 => !a.Equals(b);
 
-            public static InstClass Empty => default;
+            [MethodImpl(Inline)]
+            public static explicit operator ushort(InstClass src)
+                => (ushort)src.Kind;
+
+            [MethodImpl(Inline)]
+            public static explicit operator InstClass(ushort src)
+                =>new InstClass((IClass)src);
+
+           public static InstClass Empty => default;
         }
     }
 }

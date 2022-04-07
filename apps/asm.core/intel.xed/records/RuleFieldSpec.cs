@@ -20,11 +20,11 @@ namespace Z0
 
             public FieldKind FieldKind;
 
-            public EmptyZero<ushort> FieldWidth;
+            public ushort EffectiveWidth;
 
-            public EmptyZero<ushort> DataWidth;
+            public ushort DataWidth;
 
-            public EmptyZero<ushort> TotalSize;
+            public ushort TotalSize;
 
             public Identifier DeclaredType;
 

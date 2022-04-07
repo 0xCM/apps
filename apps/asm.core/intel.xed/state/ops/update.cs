@@ -37,11 +37,6 @@ namespace Z0
                 dst.SIBINDEX = sib.Index;
                 dst.SIBSCALE = sib.Scale;
             }
-            // if(src.HasDisp)
-            // {
-            //     dst.POS_DISP = (byte)src.Disp;
-            //     dst.DISP = @as<Disp64>(code[src.Disp]);
-            // }
             if(src.HasImm0)
             {
                 dst.POS_IMM = (byte)src.Imm0;
@@ -60,28 +55,12 @@ namespace Z0
             => update(src, kind, ref dstate.RuleState).IsNonEmpty;
 
         [Op]
-        public static R.CellValue update(string src, FieldKind kind, ref RuleState state)
+        public static CellValue update(string src, FieldKind kind, ref RuleState state)
         {
             var result = true;
             var fieldval = R.CellValue.Empty;
             switch(kind)
             {
-
-                // case K.UIMM0:
-                //     result = imm64.parse(src, out state.UIMM0);
-                //     fieldval = value(kind, state.UIMM0);
-                // break;
-
-                // case K.UIMM1:
-                //     result = imm8.parse(src, out state.UIMM1);
-                //     fieldval = value(kind, state.UIMM1);
-                // break;
-
-                // case K.DISP:
-                //     result = Disp64.parse(src, out state.DISP);
-                //     fieldval = value(kind, state.DISP);
-                // break;
-
                 case K.AMD3DNOW:
                     state.AMD3DNOW = bit.On;
                     fieldval = value(kind, bit.On);
@@ -691,20 +670,20 @@ namespace Z0
             return fieldval;
         }
 
-        public static Dictionary<FieldKind,R.CellValue> update(Index<R.CellValue> src, ref RuleState state)
+        public static Dictionary<FieldKind,CellValue> update(Index<CellValue> src, ref RuleState state)
         {
             update(src.View, ref state);
             return src.Map(x => (x.Field, x)).ToDictionary();
         }
 
-        public static ref RuleState update(ReadOnlySpan<R.CellValue> src, ref RuleState dst)
+        public static ref RuleState update(ReadOnlySpan<CellValue> src, ref RuleState dst)
         {
             for(var i=0; i<src.Length; i++)
                 update(skip(src,i), ref dst);
             return ref dst;
         }
 
-        static ref RuleState update(in R.CellValue src, ref RuleState dst)
+        static ref RuleState update(in CellValue src, ref RuleState dst)
         {
             var result = Outcome.Success;
             switch(src.Field)

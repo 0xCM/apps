@@ -43,7 +43,15 @@ namespace Z0
             public static implicit operator XedRegId(Register src)
                 => src.Value;
 
-            public static Register Empty => default;
+            [MethodImpl(Inline)]
+            public static explicit operator ushort(Register src)
+                => (ushort)src.Value;
+
+            [MethodImpl(Inline)]
+            public static explicit operator Register(ushort src)
+                => new Register((XedRegId)src);
+
+           public static Register Empty => default;
         }
     }
 }

@@ -25,31 +25,30 @@ namespace Z0
 
             public static bool parse(string src, out RuleKeyword dst)
             {
-                var result = true;
+                var result = false;
                 var input = text.trim(src);
                 dst = RuleKeyword.Empty;
                 switch(input)
                 {
                     case "default":
                         dst = RuleKeyword.Default;
+                        result = true;
                         break;
                     case "otherwise":
                         dst = RuleKeyword.Branch;
+                        result = true;
                     break;
                     case "nothing":
                         dst = RuleKeyword.Null;
+                        result = true;
                     break;
                     case "error":
                         dst = RuleKeyword.Error;
+                        result = true;
                     break;
                     case "@":
                         dst = RuleKeyword.Wildcard;
-                    break;
-                    default:
-                        if(src.Length <= 8)
-                            dst = RuleKeyword.Text(input);
-                        else
-                            result = false;
+                        result = true;
                     break;
                 }
 
@@ -65,8 +64,6 @@ namespace Z0
             public static RuleKeyword Branch => new RuleKeyword(KW.Branch, CK.Branch, "branch");
 
             public static RuleKeyword Error => new RuleKeyword(KW.Error, CK.Error, "error");
-
-            public static RuleKeyword Text(asci8 src) => new RuleKeyword(KW.None, CK.None, src);
 
             readonly ByteBlock16 Data;
 
