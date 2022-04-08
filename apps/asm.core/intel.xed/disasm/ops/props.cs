@@ -6,13 +6,15 @@
 namespace Z0
 {
     using static core;
+    using static XedRules;
+    using static XedModels;
 
     partial class XedDisasm
     {
         public static Index<Facet<string>> props(in DisasmLineBlock src)
         {
             var dst = Index<Facet<string>>.Empty;
-            var content = text.despace(src.Props.Content);
+            var content = text.trim(text.despace(src.Props.Content));
             var j = text.index(content, Chars.Space);
             if(j > 0)
             {

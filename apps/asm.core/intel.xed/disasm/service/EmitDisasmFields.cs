@@ -9,6 +9,7 @@ namespace Z0
     using static XedModels;
     using static XedRules;
     using static XedDisasm;
+    using static XedPatterns;
 
     using K = XedRules.FieldKind;
 
@@ -39,106 +40,40 @@ namespace Z0
                 ref readonly var asmtxt = ref summary.Asm;
                 ref readonly var ip = ref summary.IP;
 
+                var result = DisasmParse.parse(lines.XDis.Content, out XDis xdis);
+                if(result.Fail)
+                {
+                    Error(result.Message);
+                    break;
+                }
+
                 var state = RuleState.Empty;
                 try
                 {
-                    var f = fields(file, i);
+                    var props = kvp(lines);
+
+                    var f = fields(lines, props);
                     XedState.update(f, ref state);
+                    var members = ByteBlock128.Empty;
+                    var kinds = recover<FieldKind>(members.Bytes);
+                    var count = f.Members().Members(kinds);
+
                     ref var field = ref f[K.INVALID];
 
                     var ocindex = XedState.ocindex(state);
                     buffer.AppendLine(RP.PageBreak240);
                     buffer.AppendLine(lines.Format());
                     buffer.AppendLine(RP.PageBreak80);
+                    buffer.AppendLineFormat(RenderPattern, nameof(xdis.Asm), xdis.Asm);
+                    buffer.AppendLineFormat(RenderPattern, nameof(xdis.Category), xdis.Category);
+                    buffer.AppendLineFormat(RenderPattern, nameof(xdis.Extension), xdis.Extension);
+                    buffer.AppendLineFormat(RenderPattern, nameof(xdis.Encoded), xdis.Encoded);
 
+                    buffer.AppendLine(RP.PageBreak80);
+                    for(var k=0; k<count; k++)
                     {
-                        field = ref f[K.ICLASS];
-                        var value = XedState.iclass(state);
-                        buffer.AppendLineFormat(RenderPattern, field.Kind, value);
-                    }
-
-                    //buffer.AppendLineFormat(RenderPattern, nameof(IClass), detail.InstClass);
-                    buffer.AppendLineFormat(RenderPattern, "IFORM", detail.InstForm);
-                    buffer.AppendLineFormat(RenderPattern, "OcMap", XedPatterns.ockind(ocindex));
-                    //var encoding  = XedState.encoding(state, summary.Encoded);
-
-                    buffer.AppendLineFormat(RenderPattern, nameof(summary.Encoded), summary.Encoded);
-                    buffer.AppendLineFormat(RenderPattern, nameof(summary.IP), summary.IP);
-                    buffer.AppendLineFormat(RenderPattern, nameof(summary.Asm), summary.Asm);
-                    buffer.AppendLineFormat(RP.PageBreak80);
-
-                    {
-                        field = ref f[K.NOMINAL_OPCODE];
-                        var value = XedState.ocbyte(state);
-                        buffer.AppendLineFormat(RenderPattern, string.Format("{0}:{1}", field.Kind,"hex"), XedRender.format(value));
-                        buffer.AppendLineFormat(RenderPattern, string.Format("{0}:{1}", field.Kind,"bits"), BitRender.format8x4(value));
-                    }
-
-                    {
-                        field = ref f[K.EASZ];
-                        var value = XedState.easz(state);
-                        buffer.AppendLineFormat(RenderPattern, field.Kind, value);
-                    }
-
-                    {
-                        field = ref f[K.EOSZ];
-                        ref readonly var value = ref XedState.eosz(state);
-                        buffer.AppendLineFormat(RenderPattern, field.Kind, value);
-                    }
-
-                    {
-                        field = ref f[K.MODE];
-                        ref readonly var value = ref XedState.mode(state);
-                        buffer.AppendLineFormat(RenderPattern, field.Kind, value);
-                    }
-
-                    if(state.OSZ)
-                    {
-                        field = ref f[K.OSZ];
-                        ref readonly var value = ref state.OSZ;
-                        buffer.AppendLineFormat(RenderPattern, field.Kind, value);
-                    }
-
-                    if(state.ASZ)
-                    {
-                        field = ref f[K.ASZ];
-                        ref readonly var value = ref state.ASZ;
-                        buffer.AppendLineFormat(RenderPattern, field.Kind, value);
-                    }
-
-                    if(state.DF64)
-                    {
-                        field = ref f[K.DF64];
-                        ref readonly var value = ref state.DF64;
-                        buffer.AppendLineFormat(RenderPattern, field.Kind, value);
-                    }
-
-                    if(state.DF32)
-                    {
-                        field = ref f[K.DF32];
-                        ref readonly var value = ref state.DF32;
-                        buffer.AppendLineFormat(RenderPattern, field.Kind, value);
-                    }
-
-                    if(state.NSEG_PREFIXES != 0)
-                    {
-                        field = ref f[K.NSEG_PREFIXES];
-                        ref readonly var value = ref state.NSEG_PREFIXES;
-                        buffer.AppendLineFormat(RenderPattern, field.Kind, value);
-                    }
-
-                    if(state.HINT != 0)
-                    {
-                        field = ref f[K.HINT];
-                        ref readonly var value = ref XedState.hint(state);
-                        buffer.AppendLineFormat(RenderPattern, field.Kind, value);
-                    }
-
-                    if(state.REP != 0)
-                    {
-                        field = ref f[K.REP];
-                        ref readonly var value = ref XedState.rep(state);
-                        buffer.AppendLineFormat(RenderPattern, field.Kind, value);
+                        ref readonly var kind = ref skip(kinds,k);
+                        buffer.AppendLineFormat(RenderPattern, kind, f[kind].Format());
                     }
 
                     DisasmRender.RenderOps(ops,buffer);
@@ -146,6 +81,7 @@ namespace Z0
                 }
                 catch(Exception e)
                 {
+                    Write(e.ToString());
                     Write(e.Message,FlairKind.Error);
                     break;
                 }

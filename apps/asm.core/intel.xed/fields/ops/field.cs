@@ -36,9 +36,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static Field field(FieldKind kind, InstClass value)
             => Field.init(kind,value);
-
-        [MethodImpl(Inline), Op]
-        public static Field field(uint storage)
-            => Field.init(storage);
     }
 }

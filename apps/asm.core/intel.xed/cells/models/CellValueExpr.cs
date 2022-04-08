@@ -31,7 +31,7 @@ namespace Z0
             public CellValueExpr(CellType type, FieldPack data)
             {
                 Type = type;
-                Data = (ushort)data.Pack();
+                Data = data.Value();
                 DataType = data.DataType();
             }
 

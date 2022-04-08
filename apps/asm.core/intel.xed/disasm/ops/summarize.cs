@@ -48,7 +48,7 @@ namespace Z0
             {
                 ref readonly var line = ref lines[i];
                 var summary = new DisasmSummary();
-                result = DisasmParse.parse(line, out summary.Encoded);
+                result = DisasmParse.parse(line.Content, out summary.Encoded);
                 if(result.Fail)
                     return result;
 

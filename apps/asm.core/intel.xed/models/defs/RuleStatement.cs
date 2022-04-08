@@ -20,14 +20,6 @@ namespace Z0
                 Consequent = consequent;
             }
 
-            [MethodImpl(Inline)]
-            public FieldSet Fields(bool premise)
-                => fields(premise,this);
-
-            [MethodImpl(Inline)]
-            public FunctionSet Nonterminals(bool premise)
-                => functions(premise,this);
-
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]

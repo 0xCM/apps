@@ -19,7 +19,7 @@ namespace Z0
             dst.Offsets = XedState.offsets(state);
             dst.OpCode = code[state.POS_NOMINAL_OPCODE];
 
-            Demand.Equality(nameof(state.NOMINAL_OPCODE), dst.OpCode,state.NOMINAL_OPCODE);
+            Demand.eq(nameof(state.NOMINAL_OPCODE), (byte)dst.OpCode, state.NOMINAL_OPCODE);
 
             if(state.DISP_WIDTH > 0)
                 dst.Disp = XedState.disp(state, code);

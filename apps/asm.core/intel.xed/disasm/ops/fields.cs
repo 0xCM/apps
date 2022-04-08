@@ -7,38 +7,72 @@ namespace Z0
 {
     using static core;
     using static XedRules;
+    using static XedModels;
 
     partial class XedDisasm
     {
-        public static Fields fields(in DisasmFile src, uint block)
-            => fields(src[block]);
-
-        public static Fields fields(in DisasmLineBlock src)
+        public class DisasmProps : Dictionary<string,string>
         {
-            var lookups = XedLookups.Service;
-            var data = props(src);
-            var count = data.Count;
-            var dst = XedRules.fields();
-            for(var i=0; i<count; i++)
+            public DisasmProps(Index<Facet<string>> src)
+                : base(src.Select(x => (x.Key,x.Value)).ToDictionary())
             {
-                ref readonly var prop = ref data[i];
-                if(XedParsers.parse(prop.Key, out FieldKind kind))
+
+            }
+
+            public static implicit operator DisasmProps(Index<Facet<string>> src)
+                => new DisasmProps(src);
+        }
+
+        public static Index<Facet<string>> kvp(in DisasmLineBlock src)
+        {
+            var content = text.trim(text.despace(src.Props.Content));
+            var i = text.index(content,Chars.Space);
+            var @class = text.left(content,i);
+            var right = text.right(content,i);
+            var j = text.index(right, Chars.Space);
+            var form = text.left(right,i);
+            var props = text.trim(text.split(text.right(right,j), Chars.Comma));
+            var count = props.Length;
+            var dst = alloc<Facet<string>>(count + 2);
+            var k=0u;
+            seek(dst,k++) = (nameof(FieldKind.ICLASS), @class);
+            seek(dst,k++) = (nameof(InstForm), form);
+            for(var m=0; m<count; m++,k++)
+            {
+                var prop = skip(props,m);
+                if(text.contains(prop,Chars.Colon))
                 {
-                    ref readonly var spec = ref lookups.FieldSpec(kind);
-                    if(spec.DeclaredType == nameof(bit))
-                    {
-                        dst[kind] = paired(kind,bit.On);
-                    }
-                    else
-                    {
-                        if(CellDefCalcs.parse(prop.Value, kind, out var pack))
-                            dst[kind] = pack.Pack();
-                        else
-                            Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldPack), prop.Value));
-                    }
+                    var kv = text.split(prop,Chars.Colon);
+                    Demand.eq(kv.Length,2);
+                    seek(dst,k) = ((skip(kv,0), skip(kv,1)));
                 }
                 else
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), prop.Key));
+                    seek(dst,k) = ((prop, "1"));
+            }
+
+            return dst;
+        }
+
+        public static Fields fields(in DisasmLineBlock src, Index<Facet<string>> props)
+        {
+            var count = props.Count;
+            var dst = XedFields.fields();
+            for(var i=0; i<count; i++)
+            {
+                var name = props[i].Key;
+                var value = props[i].Value;
+                if(name == nameof(InstForm))
+                    continue;
+
+                if(XedParsers.parse(name, out FieldKind kind))
+                {
+                    if(CellDefCalcs.parse(value, kind, out var pack))
+                        dst.Update(pack);
+                    else
+                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldPack), value));
+                }
+                else
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind),name));
             }
 
             return dst;

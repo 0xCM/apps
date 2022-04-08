@@ -130,16 +130,6 @@ namespace Z0
             return dst;
         }
 
-        static string typename(Type src)
-        {
-            var dst = src.DisplayName();
-            if(src.IsEnum)
-                dst = string.Format("enum<{0}>", src.Name);
-            else if(src == typeof(ByteBlock14))
-                dst = string.Format("block<{0}>", 14);
-            return dst;
-        }
-
         static ushort datawidth(Type src)
         {
             var result = z16;

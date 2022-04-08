@@ -6,6 +6,7 @@ namespace Z0
 {
     using static XedModels;
     using static XedPatterns;
+    using static core;
 
     using DT = XedRules.FieldDataType;
 
@@ -14,81 +15,73 @@ namespace Z0
         public struct Field
         {
             [MethodImpl(Inline)]
-            public static Field init(uint storage)
-            {
-                var dst = Empty;
-                dst.Storage = storage;
-                return dst;
-            }
-
-            [MethodImpl(Inline)]
             public static Field init(FieldKind kind, bit value)
             {
-                var dst = Field.Empty;
-                dst.Bit = value;
-                dst.Kind = kind;
-                dst.Type = FieldDataType.Bit;
-                return dst;
+                var dst = ByteBlock4.Empty;
+                dst.First = value;
+                dst[KindIndex] = (byte)kind;
+                dst[TypeIndex]= (byte)FieldDataType.Bit;
+                return new Field(dst);
             }
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, byte value)
             {
-                var dst = Field.Empty;
-                dst.Byte = value;
-                dst.Kind = kind;
-                dst.Type = FieldDataType.Byte;
-                return dst;
+                var dst = ByteBlock4.Empty;
+                dst.First = value;
+                dst[KindIndex] = (byte)kind;
+                dst[TypeIndex]= (byte)FieldDataType.Byte;
+                return new Field(dst);
             }
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, ushort value)
             {
-                var dst = Field.Empty;
-                dst.Word = value;
-                dst.Kind = kind;
-                dst.Type = FieldDataType.Word;
-                return dst;
+                var dst = ByteBlock4.Empty;
+                @as<ushort>(dst.First) = value;
+                dst[KindIndex] = (byte)kind;
+                dst[TypeIndex]= (byte)FieldDataType.Word;
+                return new Field(dst);
             }
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, Register value)
             {
-                var dst = Field.Empty;
-                dst.Reg = value;
-                dst.Kind = kind;
-                dst.Type = FieldDataType.Reg;
-                return dst;
+                var dst = ByteBlock4.Empty;
+                @as<Register>(dst.First) = value;
+                dst[KindIndex] = (byte)kind;
+                dst[TypeIndex]= (byte)FieldDataType.Reg;
+                return new Field(dst);
             }
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, ChipCode value)
             {
-                var dst = Field.Empty;
-                dst.Chip = value;
-                dst.Kind = kind;
-                dst.Type = FieldDataType.Chip;
-                return dst;
+                var dst = ByteBlock4.Empty;
+                @as<ChipCode>(dst.First) = value;
+                dst[KindIndex] = (byte)kind;
+                dst[TypeIndex]= (byte)FieldDataType.Chip;
+                return new Field(dst);
             }
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, BCastKind value)
             {
-                var dst = Field.Empty;
-                dst.BCast = value;
-                dst.Kind = kind;
-                dst.Type = FieldDataType.BCast;
-                return dst;
+                var dst = ByteBlock4.Empty;
+                @as<BCastKind>(dst.First) = value;
+                dst[KindIndex] = (byte)kind;
+                dst[TypeIndex]= (byte)FieldDataType.BCast;
+                return new Field(dst);
             }
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, InstClass value)
             {
-                var dst = Field.Empty;
-                dst.Inst = value;
-                dst.Kind = kind;
-                dst.Type = FieldDataType.InstClass;
-                return dst;
+                var dst = ByteBlock4.Empty;
+                @as<InstClass>(dst.First) = value;
+                dst[KindIndex] = (byte)kind;
+                dst[TypeIndex]= (byte)FieldDataType.InstClass;
+                return new Field(dst);
             }
 
             ByteBlock4 Storage;
@@ -99,12 +92,18 @@ namespace Z0
 
             const byte TypeIndex = 3;
 
+            [MethodImpl(Inline)]
+            Field(ByteBlock4 data)
+            {
+                Storage = data;
+            }
+
             public ushort Content
             {
                 [MethodImpl(Inline)]
-                get => core.u16(Storage[ContentIndex]);
+                get => @as<ushort>(Storage[ContentIndex]);
                 [MethodImpl(Inline)]
-                set => core.u16(Storage[ContentIndex]) = value;
+                set => @as<ushort>(Storage[ContentIndex]) = value;
             }
 
             public FieldKind Kind
@@ -256,14 +255,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator ushort(Field src)
                 => src.Word;
-
-            [MethodImpl(Inline)]
-            public static implicit operator uint(Field src)
-                => src.Storage;
-
-            [MethodImpl(Inline)]
-            public static implicit operator Field(uint src)
-                => init(src);
 
             [MethodImpl(Inline)]
             public static implicit operator Field((FieldKind kind, Register data) src)

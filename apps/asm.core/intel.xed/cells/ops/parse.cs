@@ -123,7 +123,7 @@ namespace Z0
                     break;
 
                     case K.ICLASS:
-                        result = DataParser.eparse(src, out dst.Class);
+                        result = XedParsers.parse(src, out dst.Class);
                     break;
 
                     case K.ILD_F2:
@@ -195,11 +195,17 @@ namespace Z0
                     break;
 
                     case K.MEM0:
-                        result = XedParsers.parse(src, out dst.Bit);
+                    {
+                        dst.Bit = bit.On;
+                        //result = XedParsers.parse(src, out dst.Bit);
+                    }
                     break;
 
                     case K.MEM1:
-                        result = XedParsers.parse(src, out dst.Bit);
+                    {
+                        dst.Bit = bit.On;
+                        //result = XedParsers.parse(src, out dst.Bit);
+                    }
                     break;
 
                     case K.MOD:
@@ -243,7 +249,7 @@ namespace Z0
                     break;
 
                     case K.NEED_MEMDISP:
-                        result = XedParsers.parse(src, out dst.Bit);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.NEED_SIB:
@@ -255,7 +261,7 @@ namespace Z0
                     break;
 
                     case K.NOMINAL_OPCODE:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.NOREX:
@@ -267,15 +273,15 @@ namespace Z0
                     break;
 
                     case K.NPREFIXES:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.NREXES:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.NSEG_PREFIXES:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.OSZ:
@@ -291,27 +297,27 @@ namespace Z0
                     break;
 
                     case K.POS_DISP:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.POS_IMM:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.POS_IMM1:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.POS_MODRM:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.POS_NOMINAL_OPCODE:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.POS_SIB:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.PREFIX66:
@@ -399,11 +405,11 @@ namespace Z0
                     break;
 
                     case K.RM:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.ROUNDC:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.SAE:
@@ -411,7 +417,7 @@ namespace Z0
                     break;
 
                     case K.SCALE:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.SEG0:
@@ -423,27 +429,27 @@ namespace Z0
                     break;
 
                     case K.SEG_OVD:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.SIBBASE:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.SIBINDEX:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.SIBSCALE:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.SMODE:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                         break;
 
                     case K.SRM:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.TZCNT:
@@ -463,7 +469,7 @@ namespace Z0
                     break;
 
                     case K.VEXDEST210:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.VEXDEST3:
@@ -475,7 +481,7 @@ namespace Z0
                     break;
 
                     case K.VEXVALID:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.VEX_C4:
@@ -483,11 +489,11 @@ namespace Z0
                     break;
 
                     case K.VEX_PREFIX:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.VL:
-                        result = DataParser.parse(src, out dst.Byte);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.WBNOINVD:

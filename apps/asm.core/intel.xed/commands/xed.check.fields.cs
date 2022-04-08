@@ -16,14 +16,13 @@ namespace Z0
         [CmdOp("xed/check/fields")]
         Outcome CheckFields(CmdArgs args)
         {
-            var data = XedRules.fields();
-            ref readonly var reg1 = ref data.Field(FieldKind.REG1, XedRegId.AX);
-            ref readonly var reg4 = ref data.Field(FieldKind.REG4, XedRegId.BX);
-            ref readonly var reg8 = ref data.Field(FieldKind.REG8, XedRegId.DX);
-            var members = data.Members(true);
-            var storage = ByteBlock128.Empty;
-            var kinds = recover<FieldKind>(storage.Bytes);
-            var count = members.Members(kinds);
+            var data = XedFields.fields();
+            ref readonly var reg1 = ref data.Update(FieldKind.REG1, XedRegId.AX);
+            ref readonly var reg4 = ref data.Update(FieldKind.REG4, XedRegId.BX);
+            ref readonly var reg8 = ref data.Update(FieldKind.REG8, XedRegId.DX);
+            var members = ByteBlock128.Empty;
+            var kinds = recover<FieldKind>(members.Bytes);
+            var count = data.Members().Members(kinds);
             for(var i=0; i<count; i++)
             {
                 ref readonly var kind = ref skip(kinds,i);

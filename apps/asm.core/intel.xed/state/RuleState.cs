@@ -154,8 +154,8 @@ namespace Z0
             [RuleField(K.ILD_F3, 1, typeof(bit))]
             public bit ILD_F3;
 
-            [RuleField(K.NEED_MEMDISP, 1, typeof(bit))]
-            public bit NEED_MEMDISP;
+            [RuleField(K.NEED_MEMDISP, 8, typeof(byte))]
+            public byte NEED_MEMDISP;
 
             [RuleField(K.NO_RETURN, 1, typeof(bit))]
             public bit NO_RETURN;
@@ -199,8 +199,8 @@ namespace Z0
             [RuleField(K.EOSZ, 3, typeof(X.EOSZ), "Specifies one of {EOSZ8,EOSZ16,EOSZ32,EOSZ64,EASZNot64} if applicable")]
             public byte EOSZ;
 
-            [RuleField(K.NOMINAL_OPCODE, 8, typeof(Hex8), "Specifies the nominal opcode value")]
-            public Hex8 NOMINAL_OPCODE;
+            [RuleField(K.NOMINAL_OPCODE, 8, typeof(byte), "Specifies the nominal opcode value")]
+            public byte NOMINAL_OPCODE;
 
             [RuleField(K.NPREFIXES, 3, typeof(byte))]
             public byte NPREFIXES;

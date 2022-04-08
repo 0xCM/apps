@@ -6,12 +6,11 @@
 namespace Z0
 {
     using static XedRules;
-    using static core;
 
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static ref readonly Hex8 ocbyte(in RuleState src)
+        public static ref readonly byte ocbyte(in RuleState src)
             => ref src.NOMINAL_OPCODE;
     }
 }

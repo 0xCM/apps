@@ -16,6 +16,45 @@ namespace Z0
 
             const string YDIS = "YDIS:";
 
+            public static Outcome parse(string src, out XDis dst)
+            {
+                var result = Outcome.Success;
+                dst = default;
+                if(!text.contains(src,XDIS))
+                    return (false, $"'{XDIS}' marker not found");
+
+                var i = text.index(src,Chars.Colon);
+                var left = text.left(src,i);
+                var right = text.trim(text.despace(text.right(src,i)));
+                var parts = right.Split(Chars.Space);
+                Demand.gt(parts.Length,3);
+                result = XedParsers.parse(skip(parts,0), out dst.Category);
+                if(!result)
+                    result = (false,AppMsg.ParseFailure.Format(nameof(dst.Category), skip(parts,0)));
+
+                if(result)
+                    result = XedParsers.parse(skip(parts,1), out dst.Extension);
+                if(!result)
+                    result = (false,AppMsg.ParseFailure.Format(nameof(dst.Extension), skip(parts,1)));
+
+                ref readonly var enc = ref skip(parts,2);
+                var j = text.index(right, enc);
+                if(j>0)
+                    dst.Asm = text.trim(text.right(right, j + enc.Length));
+
+                if(result)
+                    result = parse(src, out dst.IP);
+                if(!result)
+                    result = (false,AppMsg.ParseFailure.Format(nameof(dst.IP), src));
+
+                if(result)
+                    result = parse(src, out dst.Encoded);
+                if(!result)
+                    result = (false,AppMsg.ParseFailure.Format(nameof(dst.Encoded), src));
+
+                return result;
+            }
+
             public static Outcome parse(string src, out MemoryAddress dst)
             {
                 var result = Outcome.Failure;
@@ -29,7 +68,7 @@ namespace Z0
                 return result;
             }
 
-            public static Outcome parse(TextLine src, out AsmHexCode dst)
+            public static Outcome parse(string src, out AsmHexCode dst)
             {
                 var result = Outcome.Failure;
                 dst = AsmHexCode.Empty;
@@ -37,11 +76,10 @@ namespace Z0
 
                 if(src.StartsWith(XDIS))
                 {
-                    ref readonly var content = ref src.Content;
-                    var k = text.index(content, Chars.Colon);
+                    var k = text.index(src, Chars.Colon);
                     if(k > 0)
                     {
-                        var parts = text.words(text.right(content,k));
+                        var parts = text.words(text.right(src,k));
                         if(parts.Length >=3)
                         {
                             var count = HexParser.parse(parts[2], buffer);

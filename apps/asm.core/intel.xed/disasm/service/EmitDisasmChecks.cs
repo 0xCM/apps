@@ -60,11 +60,12 @@ namespace Z0
                 ref readonly var ip = ref summary.IP;
 
                 var cells = XedDisasm.update(lines, ref state);
+
                 var ocindex = XedState.ocindex(state);
                 var ockind = XedPatterns.ockind(ocindex);
                 var encoding  = XedState.encoding(state, asmhex);
                 var ocbyte = XedState.ocbyte(state);
-                var ochex = XedRender.format(ocbyte);
+                var ochex = XedRender.format((Hex8)ocbyte);
                 var ocbits = BitRender.format8x4(ocbyte);
 
                 writer.WriteLine(RP.PageBreak240);
@@ -149,7 +150,7 @@ namespace Z0
                 if(state.MEM1)
                     writer.AppendLineFormat(RenderPattern, nameof(state.MEM1), state.MEM1);
 
-                if(state.NEED_MEMDISP)
+                if(state.NEED_MEMDISP !=0)
                     writer.AppendLineFormat(RenderPattern, nameof(state.NEED_MEMDISP), state.NEED_MEMDISP);
 
                 if(state.UBIT)

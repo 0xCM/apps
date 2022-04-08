@@ -20,14 +20,18 @@ namespace Z0
         {
             var storage = ByteBlock128.Empty;
             var kinds = recover<FieldKind>(storage.Bytes);
-            var members = src.Members(true);
+            var members = src.Members();
             var count = members.Members(kinds);
             for(var i=0; i<count; i++)
-                update(src[skip(kinds,i)], ref dst);
+            {
+                ref readonly var kind = ref skip(kinds,i);
+                update(src[kind], ref dst);
+            }
+
             return ref dst;
         }
 
-        static ref RuleState update(Field src, ref RuleState dst)
+        static ref RuleState update(in Field src, ref RuleState dst)
         {
             switch(src.Kind)
             {
@@ -858,8 +862,8 @@ namespace Z0
                 break;
 
                 case K.NEED_MEMDISP:
-                    state.NEED_MEMDISP = bit.On;
-                    fieldval = value(kind, bit.On);
+                    result = XedParsers.parse(src, out state.NEED_MEMDISP);
+                    fieldval = value(kind, state.NEED_MEMDISP);
                 break;
 
                 case K.NEED_SIB:
@@ -868,13 +872,12 @@ namespace Z0
                 break;
 
                 case K.NELEM:
-                    result = DataParser.parse(src, out state.NELEM);
+                    result = XedParsers.parse(src, out state.NELEM);
                     fieldval = value(kind, state.NELEM);
                 break;
 
                 case K.NOMINAL_OPCODE:
-                    result = DataParser.parse(src, out byte opcode);
-                    state.NOMINAL_OPCODE = opcode;
+                    result = XedParsers.parse(src, out state.NOMINAL_OPCODE);
                     fieldval = value(kind, state.NOMINAL_OPCODE);
                 break;
 

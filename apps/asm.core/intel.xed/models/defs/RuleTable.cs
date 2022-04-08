@@ -26,19 +26,11 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public FieldSet Fields()
-                => fields(this);
+                => XedFields.members(this);
 
             [MethodImpl(Inline)]
             public FieldSet Fields(bool premise)
-                => fields(premise, this);
-
-            [MethodImpl(Inline)]
-            public void Fields(ref FieldSet dst)
-                => fields(this, ref dst);
-
-            [MethodImpl(Inline)]
-            public void Fields(bool premise, ref FieldSet dst)
-                => fields(premise, this, ref dst);
+                => XedFields.members(premise, this);
 
             [MethodImpl(Inline)]
             public FunctionSet Functions()

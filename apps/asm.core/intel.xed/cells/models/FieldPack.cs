@@ -9,42 +9,41 @@ namespace Z0
 
     using K = XedRules.FieldDataType;
 
-
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct FieldPack
         {
-            public static FieldPack unpack(uint src)
-            {
-                var value = (ushort)src;
-                var kind = (FieldDataType)(src >> 24);
-                var field = (FieldKind)((src >> 16) & 0xFF);
-                var dst = default(FieldPack);
-                dst.Field = field;
-                switch(kind)
-                {
-                    case K.Bit:
-                        dst.Bit = (bit)value;
-                    break;
-                    case K.Byte:
-                        dst.Byte = (byte)value;
-                    break;
-                    case K.Chip:
-                        dst.Chip = (ChipCode)value;
-                    break;
-                    case K.InstClass:
-                        dst.Class = (InstClass)value;
-                    break;
-                    case K.Reg:
-                        dst.Reg = (Register)value;
-                    break;
-                    case K.Word:
-                        dst.Word = (ushort)value;
-                    break;
-                }
-                return dst;
-            }
+            // public static FieldPack unpack(uint src)
+            // {
+            //     var value = (ushort)src;
+            //     var kind = (FieldDataType)(src >> 24);
+            //     var field = (FieldKind)((src >> 16) & 0xFF);
+            //     var dst = default(FieldPack);
+            //     dst.Field = field;
+            //     switch(kind)
+            //     {
+            //         case K.Bit:
+            //             dst.Bit = (bit)value;
+            //         break;
+            //         case K.Byte:
+            //             dst.Byte = (byte)value;
+            //         break;
+            //         case K.Chip:
+            //             dst.Chip = (ChipCode)value;
+            //         break;
+            //         case K.InstClass:
+            //             dst.Class = (InstClass)value;
+            //         break;
+            //         case K.Reg:
+            //             dst.Reg = (Register)value;
+            //         break;
+            //         case K.Word:
+            //             dst.Word = (ushort)value;
+            //         break;
+            //     }
+            //     return dst;
+            // }
 
             public FieldKind Field;
 
@@ -80,7 +79,7 @@ namespace Z0
                 return dst;
             }
 
-            ushort PackData()
+            public ushort Value()
             {
                 var dst = z16;
                 var kind = DataType();
@@ -107,9 +106,6 @@ namespace Z0
                 }
                 return dst;
             }
-
-            public uint Pack()
-                => Bitfields.join(PackData(), Bitfields.join((byte)Field, (byte)DataType()));
 
             public string Format()
             {
