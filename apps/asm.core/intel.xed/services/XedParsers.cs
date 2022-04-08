@@ -608,16 +608,16 @@ namespace Z0
             if(IsNontermCall(value))
             {
                 result = parse(value, out Nonterminal nt);
-                dst = new(field, nt);
+                dst = new(field, nt, field != 0 ? CellRole.NontermExpr : CellRole.NontermCall);
             }
             else if(parse(value, out XedRegId reg))
             {
-                dst = new (field, reg);
+                dst = new (field, reg, CellRole.FieldValue);
                 result = true;
             }
-            else if(RuleKeyword.parse(value, out RuleKeyword fl))
+            else if(RuleKeyword.parse(value, out RuleKeyword keyword))
             {
-                dst = new(field, (ulong)fl.ToAsci());
+                dst = new(keyword);
                 result = true;
             }
             return result;

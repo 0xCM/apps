@@ -9,7 +9,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public class CellValueExpr
+        public readonly struct CellValueExpr
         {
             public readonly CellType Type;
 

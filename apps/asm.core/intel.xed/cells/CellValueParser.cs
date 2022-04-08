@@ -21,7 +21,7 @@ namespace Z0
                 dst = R.CellValue.Empty;
                 if(XedParsers.IsNontermCall(value) && XedParsers.parse(value, out Nonterminal k))
                 {
-                    dst = new (field, k);
+                    dst = new (field, k, field != 0? CellRole.FieldValue: CellRole.NontermCall);
                     return true;
                 }
 
@@ -83,7 +83,7 @@ namespace Z0
                     {
                         if(XedParsers.parse(value, out bit b))
                         {
-                            dst = new(field, b);
+                            dst = new(field, b, CellRole.FieldValue);
                             result = true;
                         }
                     }
@@ -93,12 +93,12 @@ namespace Z0
                     {
                         if(XedParsers.parse(value, out bit b))
                         {
-                            dst = new (field,b);
+                            dst = new (field, b, CellRole.FieldValue);
                             result = true;
                         }
                         else if(value.Length == 1 && value[0] == 'w')
                         {
-                            dst = new (new BfSeg(field, BfSegKind.REXW));
+                            dst = new (new BfSeg(field, BfSegKind.REXW), CellRole.FieldValue);
                             result = true;
                         }
                     }
@@ -107,12 +107,12 @@ namespace Z0
                     {
                         if(XedParsers.parse(value, out bit b))
                         {
-                            dst = new (field,b);
+                            dst = new (field,b, CellRole.FieldValue);
                             result = true;
                         }
                         else if(value.Length == 1 && value[0] == 'r')
                         {
-                            dst = new (new BfSeg(field, BfSegKind.REXR));
+                            dst = new (new BfSeg(field, BfSegKind.REXR), CellRole.FieldValue);
                             result = true;
                         }
                     }
@@ -121,12 +121,12 @@ namespace Z0
                     {
                         if(XedParsers.parse(value, out bit b))
                         {
-                            dst = new (field,b);
+                            dst = new (field,b, CellRole.FieldValue);
                             result = true;
                         }
                         else if(value.Length == 1 && value[0] == 'x')
                         {
-                            dst = new (new BfSeg(field, BfSegKind.REXX));
+                            dst = new (new BfSeg(field, BfSegKind.REXX), CellRole.FieldValue);
                             result = true;
                         }
                     }
@@ -135,12 +135,12 @@ namespace Z0
                     {
                         if(XedParsers.parse(value, out bit b))
                         {
-                            dst = new (field,b);
+                            dst = new (field, b, CellRole.FieldValue);
                             result = true;
                         }
                         else if(value.Length == 1 && value[0] == 'b')
                         {
-                            dst = new (new BfSeg(field, BfSegKind.REXB));
+                            dst = new (new BfSeg(field, BfSegKind.REXB), CellRole.FieldValue);
                             result = true;
                         }
                     }
@@ -214,7 +214,7 @@ namespace Z0
                     {
                         if(DataParser.parse(value, out Hex4 x))
                         {
-                            dst = new (field,x);
+                            dst = new (field,x, CellRole.FieldValue);
                             result = true;
                         }
                     }
@@ -225,7 +225,7 @@ namespace Z0
                     {
                         if(DataParser.parse(value, out Hex8 x))
                         {
-                            dst = new (field,x);
+                            dst = new (field, x, CellRole.FieldValue);
                             result = true;
                         }
                     }
@@ -240,7 +240,7 @@ namespace Z0
                         {
                             result = XedParsers.parse(value, out DispSeg disp);
                             if(result)
-                                dst = new (field,disp);
+                                dst = new (field, disp, CellRole.FieldValue);
                         }
                     }
                     break;
@@ -253,7 +253,7 @@ namespace Z0
                         else
                         {
                             result = XedParsers.parse(value, out ImmSeg imm);
-                            dst = new (field,imm.WithIndex(0));
+                            dst = new (field,imm.WithIndex(0), CellRole.FieldValue);
                         }
                     }
                     break;
@@ -265,7 +265,7 @@ namespace Z0
                         else
                         {
                             result = XedParsers.parse(value, out ImmSeg imm);
-                            dst = new (field,imm.WithIndex(1));
+                            dst = new (field,imm.WithIndex(1), CellRole.FieldValue);
                         }
                     }
                     break;

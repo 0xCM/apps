@@ -24,17 +24,17 @@ namespace Z0
 
             public asci32 Name;
 
-            public RuleGridCells Statement;
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,8,32,1};
-
-            public static TableDefRow Empty => default;
+            public TextBlock Statement;
 
             public RuleSig Sig
             {
                 [MethodImpl(Inline)]
                 get => new RuleSig(Kind, Name);
             }
+
+            public static TableDefRow Empty => default;
+
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,8,32,1};
        }
     }
 }

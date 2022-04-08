@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
-
     using static core;
     using static XedPatterns;
 
@@ -42,55 +40,66 @@ namespace Z0
         void EmitTableSpecs(RuleTables rules)
         {
             var formatter = Tables.formatter<TableDefRow>(TableDefRow.RenderWidths);
-            ref readonly var specs = ref rules.TableSpecs();
+            ref readonly var tables = ref rules.TableSpecs();
             var dst = XedPaths.RuleSpecs();
             using var writer = dst.AsciWriter();
             writer.AppendLine(formatter.FormatHeader());
-            for(var i=0; i<specs.Count; i++)
+            var k=0u;
+            for(var i=0; i<tables.Count; i++)
             {
-                ref readonly var spec = ref specs[i];
-                var rows = rules.DefRows(spec.Sig);
-                if(rows.IsNonEmpty)
+                ref readonly var table = ref tables[i];
+                if(table.IsNonEmpty)
                 {
                     writer.AppendLine();
-                    Emit(rules, spec, formatter, writer);
+                    for(var j=0u; j<table.RowCount; j++, k++)
+                    {
+                        ref readonly var spec = ref table[j];
+                        var row = TableDefRow.Empty;
+                        row.Seq = k;
+                        row.TableId = table.TableId;
+                        row.Index = j;
+                        row.Kind = table.TableKind;
+                        row.Name = table.ShortName;
+                        row.Statement = spec.Format();
+                        writer.AppendLine(formatter.Format(row));
+                    }
+                    writer.AppendLine();
+                    writer.AppendLine();
+                    lines(table,writer);
                     writer.AppendLine();
                 }
-            }
-        }
-
-        static void Emit(RuleTables rules, in CellTableSpec spec, IRecordFormatter<TableDefRow> formatter, StreamWriter writer)
-        {
-            var rows = rules.DefRows(spec.Sig);
-            if(rows.IsNonEmpty)
-            {
-                for(var k=0; k<rows.Count; k++)
-                    writer.AppendLine(formatter.Format(rows[k]));
-
-                writer.AppendLine();
-                writer.AppendLine();
-                foreach(var line in spec.Lines())
-                    writer.AppendLineFormat("# {0}", line.Content);
             }
         }
 
         public void EmitTableFiles(RuleTables rules)
         {
             var formatter = Tables.formatter<TableDefRow>(TableDefRow.RenderWidths);
-            ref readonly var specs = ref rules.TableSpecs();
-            iter(specs, spec => emit(spec), PllExec);
+            ref readonly var tables = ref rules.TableSpecs();
+            iter(tables, emit, PllExec);
 
-            void emit(in CellTableSpec spec)
+            void emit(CellTableSpec table)
             {
-                var dst = XedPaths.Service.TableDef(spec.Sig);
-                Require.invariant(!dst.Exists);
-                var rows = rules.DefRows(spec.Sig);
-                if(rows.IsNonEmpty)
+                if(table.IsEmpty)
+                    return;
+
+                var dst = XedPaths.Service.TableDef(table.Sig);
+                using var writer = dst.AsciWriter();
+                writer.WriteLine(formatter.FormatHeader());
+                for(var j=0u; j<table.RowCount; j++)
                 {
-                    using var writer = dst.AsciWriter();
-                    writer.AppendLine(formatter.FormatHeader());
-                    Emit(rules, spec, formatter, writer);
+                    var row = TableDefRow.Empty;
+                    row.Seq = j;
+                    row.TableId = table.TableId;
+                    row.Index = j;
+                    row.Kind = table.TableKind;
+                    row.Name = table.ShortName;
+                    row.Statement = table[j].Format();
+                    writer.AppendLine(formatter.Format(row));
                 }
+                writer.AppendLine();
+                writer.AppendLine();
+                lines(table,writer);
+                writer.AppendLine();
             }
         }
     }

@@ -12,10 +12,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static CellValue value<T>(FieldKind kind, T value)
             where T : unmanaged
-                => new CellValue(kind, core.bw64(value));
-
-        [MethodImpl(Inline)]
-        public static CellValue value(FieldKind kind, NameResolver resolver)
-            => new CellValue(kind, (ulong)resolver);
+                => new CellValue(kind, core.bw64(value), CellRole.FieldValue);
     }
 }

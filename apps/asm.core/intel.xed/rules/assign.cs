@@ -10,6 +10,6 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static FieldAssign assign<T>(FieldKind field, T fv)
             where T : unmanaged
-                => new (new CellValue(field, core.bw64(fv)));
+                => new (new CellValue(field, core.bw64(fv), CellRole.FieldValue));
     }
 }

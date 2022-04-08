@@ -20,7 +20,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref FieldSet fields(bool premise, in RuleTable src, ref FieldSet dst)
         {
-            for(var i=0; i<src.EntryCount; i++)
+            for(var i=0; i<src.RowCount; i++)
                 fields(premise, src[i], ref dst);
             return ref dst;
         }
@@ -28,7 +28,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref FieldSet fields(in RuleTable src, ref FieldSet dst)
         {
-            for(var i=0; i<src.EntryCount; i++)
+            for(var i=0; i<src.RowCount; i++)
             {
                 fields(true, src[i], ref dst);
                 fields(false, src[i], ref dst);
@@ -63,7 +63,7 @@ namespace Z0
         public static FieldSet fields(bool premise, in RuleTable src)
         {
             var dst = FieldSet.create();
-            for(var i=0; i<src.EntryCount; i++)
+            for(var i=0; i<src.RowCount; i++)
                 fields(premise, src[i], ref dst);
             return dst;
         }

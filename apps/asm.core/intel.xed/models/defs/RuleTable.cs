@@ -64,7 +64,7 @@ namespace Z0
             public RuleTableDeps Deps()
                 => new (Fields(),Functions());
 
-            public uint EntryCount
+            public uint RowCount
             {
                 [MethodImpl(Inline)]
                 get => Body.Count;

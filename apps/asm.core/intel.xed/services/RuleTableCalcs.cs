@@ -127,30 +127,12 @@ namespace Z0
                 {
                     ref var row = ref seek(dst,n);
                     var k=z8;
+                    row.Seq = n;
                     row.TableId = spec.TableId;
+                    row.Index = j;
                     row.Kind = spec.Sig.TableKind;
                     row.Name = spec.Sig.ShortName;
-                    row.Seq = n;
-                    row.Index = j;
-
-                    var statement = RuleGridCells.Empty;
-
-                    ref readonly var antecedant = ref spec[j].Antecedant;
-                    for(var m=0; m<antecedant.Count; m++,k++)
-                        statement[k] = new (true, k, spec.Sig.TableKind, criterion(antecedant[m]));
-
-                    ref readonly var consequent = ref spec[j].Consequent;
-                    if(consequent.Count != 0)
-                    {
-                        statement[k] = new (true,k, spec.Sig.TableKind, OperatorKind.Impl);
-                        k++;
-                    }
-
-                    for(var m=0; m<consequent.Count; m++,k++)
-                        statement[k] = new (false, k, spec.Sig.TableKind, criterion(consequent[m]));
-
-                    statement.Count = k;
-                    row.Statement = statement;
+                    row.Statement = spec[j].Format();
                 }
 
                 return n - i0;
@@ -214,7 +196,6 @@ namespace Z0
 
                 return new RuleStatement(left, right);
             }
-
         }
    }
 }

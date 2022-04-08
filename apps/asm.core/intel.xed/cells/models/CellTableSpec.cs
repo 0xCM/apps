@@ -33,6 +33,17 @@ namespace Z0
                 Rows = rows;
             }
 
+            [MethodImpl(Inline)]
+            CellTableSpec(uint id)
+            {
+                TableId = id;
+                Sig = RuleSig.Empty;
+                Rows = sys.empty<CellRowSpec>();
+            }
+
+            public static CellTableSpec Empty => new CellTableSpec(0);
+
+
             public RuleTableKind TableKind
             {
                 [MethodImpl(Inline)]
@@ -73,6 +84,18 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => ref Rows[i];
+            }
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Sig.IsEmpty;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Sig.IsNonEmpty;
             }
 
             public CellTableSpec Merge(in CellTableSpec src)

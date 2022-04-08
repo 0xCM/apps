@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public class CellTableDef
+        public readonly struct CellTableDef
         {
             public readonly ushort TableId;
 

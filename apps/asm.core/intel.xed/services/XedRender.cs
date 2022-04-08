@@ -716,19 +716,15 @@ namespace Z0
                 break;
                 case CK.Seg:
                     result = src.ToBfSeg().Format();
-                    Require.invariant(text.nonempty(result));
                 break;
                 case CK.BfSpec:
                     result = src.ToBfSpec().Format();
-                    Require.invariant(text.nonempty(result));
                 break;
                 case CK.DispSpec:
                     result = format(src.ToDispSpec());
-                    Require.invariant(text.nonempty(result));
                 break;
                 case CK.ImmSpec:
                     result = format(src.ToImmSpec());
-                    Require.invariant(text.nonempty(result));
                 break;
                 case CK.ImmSeg:
                     result = src.ToImmSeg().Format();
@@ -742,7 +738,6 @@ namespace Z0
 
                 case CK.BfSegExpr:
                     result = src.ToBfSeg().Format();
-                    Require.invariant(text.nonempty(result));
                 break;
                 case CK.NontermExpr:
                     result = src.ToNontermExpr().Format();
@@ -756,7 +751,14 @@ namespace Z0
                 case CK.AsciLiteral:
                     result = src.ToAsciLiteral().Format();
                 break;
+                case CK.Keyword:
+                    result = src.ToKeyword().Format();
+                break;
+                case CK.FieldValue:
+                    result = src.ToFieldExpr().Format();
+                    break;
                 default:
+
                     Errors.Throw($"{src.Field} | {src.Operator} | {src.Role}");
                 break;
 

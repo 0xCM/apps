@@ -40,7 +40,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref FunctionSet functions(in RuleTable src, ref FunctionSet dst)
         {
-            for(var i=0; i<src.EntryCount; i++)
+            for(var i=0; i<src.RowCount; i++)
             {
                 functions(true, src[i], ref dst);
                 functions(false, src[i], ref dst);
@@ -51,7 +51,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref FunctionSet functions(bool premise, in RuleTable src, ref FunctionSet dst)
         {
-            for(var i=0; i<src.EntryCount; i++)
+            for(var i=0; i<src.RowCount; i++)
                 functions(premise, src[i], ref dst);
             return ref dst;
         }
@@ -68,7 +68,7 @@ namespace Z0
         public static FunctionSet functions(bool premise, in RuleTable src)
         {
             var dst = FunctionSet.create();
-            for(var i=0; i<src.EntryCount; i++)
+            for(var i=0; i<src.RowCount; i++)
                 functions(premise, src[i], ref dst);
             return dst;
         }

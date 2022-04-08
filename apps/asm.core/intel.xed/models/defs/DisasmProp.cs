@@ -15,13 +15,6 @@ namespace Z0
             readonly Func<CellValue,string> Render;
 
             [MethodImpl(Inline)]
-            public DisasmProp(CellValue data, Func<CellValue,string> render)
-            {
-                Data = data;
-                Render = render;
-            }
-
-            [MethodImpl(Inline)]
             public DisasmProp(CellValue data)
             {
                 Data = data;

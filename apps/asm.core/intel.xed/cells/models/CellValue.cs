@@ -21,35 +21,11 @@ namespace Z0
             public readonly CellRole Role;
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind field, bit data)
-            {
-                Field = field;
-                Data = (byte)data;
-                Role = 0;
-            }
-
-            [MethodImpl(Inline)]
             public CellValue(FieldKind field, bit data, CellRole role)
             {
                 Field = field;
                 Data = (byte)data;
                 Role = role;
-            }
-
-            [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, uint8b data, CellRole role)
-            {
-                Field = kind;
-                Data = data;
-                Role = role;
-            }
-
-            [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, Hex8 data)
-            {
-                Field = kind;
-                Data = data;
-                Role = CellRole.HexLiteral;
             }
 
             [MethodImpl(Inline)]
@@ -61,19 +37,11 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, Hex4 data)
-            {
-                Field = kind;
-                Data = data;
-                Role = CellRole.HexLiteral;
-            }
-
-            [MethodImpl(Inline)]
             public CellValue(FieldKind kind, Hex4 data, CellRole role)
             {
                 Field = kind;
                 Data = data;
-                Role = role;
+                Role = CellRole.HexLiteral;
             }
 
             [MethodImpl(Inline)]
@@ -109,15 +77,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellValue(RuleOperator src, CellRole role)
-            {
-                Field = 0;
-                Data = (uint)src;
-                Role = role;
-            }
-
-            [MethodImpl(Inline)]
-            public CellValue(BfSeg data, CellRole role = default)
+            public CellValue(BfSeg data, CellRole role)
             {
                 Field = data.Field;
                 Data = (ulong)data.Pattern;
@@ -125,15 +85,15 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellValue(BfSpec data, CellRole role = default)
+            public CellValue(BfSpec data)
             {
                 Field = 0;
                 Data = (byte)data;
-                Role = role;
+                Role = CellRole.BfSpec;
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, ImmSeg data, CellRole role = default)
+            public CellValue(FieldKind kind, ImmSeg data, CellRole role)
             {
                 Field = kind;
                 Data = (ushort)data;
@@ -141,23 +101,31 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellValue(ImmSpec src, CellRole role = default)
+            public CellValue(ImmSpec src)
             {
                 Field = 0;
                 Data = (byte)src;
-                Role = role;
+                Role = CellRole.ImmSpec;
             }
 
             [MethodImpl(Inline)]
-            public CellValue(DispSpec src, CellRole role = default)
+            public CellValue(DispSpec src)
             {
                 Field = 0;
                 Data = (byte)src;
-                Role = role;
+                Role = CellRole.DispSpec;
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, ulong data, CellRole role = default)
+            public CellValue(RuleKeyword src)
+            {
+                Field = 0;
+                Data = (byte)src;
+                Role = CellRole.Keyword;
+            }
+
+            [MethodImpl(Inline)]
+            public CellValue(FieldKind kind, ulong data, CellRole role)
             {
                 Field = kind;
                 Data = data;
@@ -165,15 +133,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, XedRegId data, CellRole role = default)
-            {
-                Field = kind;
-                Data = (ulong)data;
-                Role = role;
-            }
-
-            [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, Nonterminal data, CellRole role = default)
+            public CellValue(FieldKind kind, MachineMode data, CellRole role)
             {
                 Field = kind;
                 Data = (ushort)data;
@@ -181,7 +141,23 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, DispSeg data, CellRole role = default)
+            public CellValue(FieldKind kind, XedRegId data, CellRole role)
+            {
+                Field = kind;
+                Data = (ushort)data;
+                Role = role;
+            }
+
+            [MethodImpl(Inline)]
+            public CellValue(FieldKind kind, Nonterminal data, CellRole role)
+            {
+                Field = kind;
+                Data = (ushort)data;
+                Role = role;
+            }
+
+            [MethodImpl(Inline)]
+            public CellValue(FieldKind kind, DispSeg data, CellRole role)
             {
                 Field = kind;
                 Data = (byte)data;
@@ -189,50 +165,26 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, BCastKind data)
-            {
-                Field = kind;
-                Data = (uint)data;
-                Role = 0;
-            }
-
-            [MethodImpl(Inline)]
             public CellValue(FieldKind kind, BCastKind data, CellRole role)
             {
                 Field = kind;
-                Data = (uint)data;
+                Data = (byte)data;
                 Role = role;
-            }
-
-            [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, IClass data)
-            {
-                Field = kind;
-                Data = (uint)data;
-                Role = 0;
             }
 
             [MethodImpl(Inline)]
             public CellValue(FieldKind kind, IClass data, CellRole role)
             {
                 Field = kind;
-                Data = (uint)data;
+                Data = (ushort)data;
                 Role = role;
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, ChipCode data, CellRole role = default)
+            public CellValue(FieldKind kind, ChipCode data, CellRole role)
             {
                 Field = kind;
                 Data = (uint)data;
-                Role = role;
-            }
-
-            [MethodImpl(Inline)]
-            public CellValue(RuleKeyword kw, CellRole role = 0)
-            {
-                Field = 0;
-                Data = (byte)kw.KeywordKind;
                 Role = role;
             }
 

@@ -49,20 +49,21 @@ namespace Z0
             public ref readonly Index<CellTableSpec> TableSpecs()
                 => ref _TableSpecs;
 
+            SortedLookup<RuleSig,CellTableSpec> _TableSpecLookup;
+
+            public CellTableSpec TableSpec(in RuleSig sig)
+            {
+                if(_TableSpecLookup.Find(sig,out var spec))
+                    return spec;
+                else
+                    return CellTableSpec.Empty;
+            }
+
             Index<TableDefRow> DefRowIndex;
 
             [MethodImpl(Inline)]
             public ref readonly Index<TableDefRow> DefRows()
                 => ref DefRowIndex;
-
-            SortedLookup<RuleSig,Index<TableDefRow>> DefRowLookup;
-
-            public Index<TableDefRow> DefRows(in RuleSig sig)
-            {
-                var dst = Index<TableDefRow>.Empty;
-                DefRowLookup.Find(sig, out dst);
-                return dst;
-            }
 
             Index<RuleTable> TableDefIndex;
 
@@ -145,12 +146,12 @@ namespace Z0
                 _EncTableSpecs = enc;
                 _DecTableSpecs = dec;
                 _TableSpecs = specs;
+                _TableSpecLookup = specs.Map(x => (x.Sig,x)).ToDictionary();
             }
 
             void SealTableDefs()
             {
                 DefRowIndex = RuleTableCalcs.CalcDefRows(TableSpecs());
-                DefRowLookup = DefRowIndex.GroupBy(x => x.Sig).Select(x => (x.Key,x.Index())).ToDictionary();
                 var tables = Data.Defs.Values.SelectMany(x => x).Array();
                 var count = tables.Length;
                 var defs = dict<RuleSig,RuleTable>(count);

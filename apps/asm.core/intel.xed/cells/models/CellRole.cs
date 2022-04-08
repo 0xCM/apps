@@ -22,15 +22,13 @@ namespace Z0
             [Symbol("0x")]
             HexLiteral,
 
-            NumericLiteral,
-
             [Symbol("op")]
             Operator,
 
             [Symbol("nt")]
             NontermCall,
 
-            [Symbol("bfseg")]
+            [Symbol("seg")]
             Seg,
 
             [Symbol("disp[]")]
@@ -41,8 +39,6 @@ namespace Z0
 
             [Symbol("bfspec")]
             BfSpec,
-
-            SegSpec,
 
             [Symbol("disp")]
             DispSpec,

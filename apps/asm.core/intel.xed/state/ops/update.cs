@@ -282,11 +282,13 @@ namespace Z0
                 break;
 
                 case K.MEM0:
-                    fieldval = value(kind, resolver(src));
+                    state.MEM0 = bit.On;
+                    fieldval = value(kind, bit.On);
                 break;
 
                 case K.MEM1:
-                    fieldval = value(kind, resolver(src));
+                    state.MEM1 = bit.On;
+                    fieldval = value(kind, bit.On);
                 break;
 
                 case K.MOD:

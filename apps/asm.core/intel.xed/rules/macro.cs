@@ -5,22 +5,32 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
     partial class XedRules
     {
-        [MethodImpl(Inline), Op]
-        public static MacroSpec macro<T>(RuleMacroKind name, FieldKind field, T value)
-            where T : unmanaged
-                => new MacroSpec(name, field, new MacroExpansion(field, 0, new CellValue(field, core.bw64(value))));
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static MacroSpec macro<T>(RuleMacroKind name, FieldKind field, OperatorKind op, T value)
-            where T : unmanaged
-                => new MacroSpec(name, field, new MacroExpansion(field, op, new CellValue(field, core.bw64(value))));
+        // [MethodImpl(Inline), Op, Closures(Closure)]
+        // public static MacroSpec macro<T>(RuleMacroKind name, FieldKind field, OperatorKind op, T value)
+        //     where T : unmanaged
+        //         => new MacroSpec(name, field, new MacroExpansion(field, op, new CellValue(field, core.bw64(value), CellRole.FieldValue)));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static MacroSpec assign<T>(RuleMacroKind name, FieldKind field, T value)
             where T : unmanaged
-                => macro(name, field, OperatorKind.Eq, value);
+                => new MacroSpec(name, field, new MacroExpansion(field, OperatorKind.Eq, new CellValue(field, core.bw64(value), CellRole.FieldValue)));
+
+                //=> macro(name, field, OperatorKind.Eq, value);
+
+        [MethodImpl(Inline), Op]
+        public static MacroSpec assign(RuleMacroKind name, FieldKind field, ModeKind value)
+            => new MacroSpec(name, field, new MacroExpansion(field, OperatorKind.Eq, new CellValue(field, value, CellRole.FieldValue)));
+
+        [MethodImpl(Inline), Op]
+        static MacroExpansion expansion(FieldKind field, ushort value)
+            => new MacroExpansion(field, OperatorKind.Eq, new CellValue(field, value, CellRole.FieldValue));
+
+        [MethodImpl(Inline), Op]
+        public static MacroSpec assign(RuleMacroKind name, FieldKind field, EASZ value)
+            => new MacroSpec(name, field, expansion(field, (ushort)value));
 
         [MethodImpl(Inline), Op]
         public static MacroSpec assign(RuleMacroKind name, params FieldAssign[] a0)
