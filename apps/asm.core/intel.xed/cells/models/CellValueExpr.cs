@@ -6,12 +6,16 @@ namespace Z0
 {
     using static XedModels;
 
+    using static XedPatterns;
+
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public readonly struct CellValueExpr
         {
             public readonly CellType Type;
+
+            public readonly FieldDataType DataType;
 
             readonly ByteBlock16 Data;
 
@@ -20,13 +24,15 @@ namespace Z0
             {
                 Type = type;
                 Data = data;
+                DataType = 0;
             }
 
             [MethodImpl(Inline)]
             public CellValueExpr(CellType type, FieldPack data)
             {
                 Type = type;
-                Data = data.Pack();
+                Data = (ushort)data.Pack();
+                DataType = data.DataType();
             }
 
             [MethodImpl(Inline)]
@@ -35,6 +41,7 @@ namespace Z0
                 Type = CellType.@operator(op);
                 Require.invariant(Type.IsNonEmpty);
                 Data = (byte)op;
+                DataType = FieldDataType.Operator;
             }
 
             [MethodImpl(Inline)]
@@ -43,6 +50,7 @@ namespace Z0
                 Type = CellType.keyword();
                 Require.invariant(Type.IsNonEmpty);
                 Data = (byte)kw;
+                DataType = FieldDataType.Keyword;
             }
 
             [MethodImpl(Inline)]
@@ -51,6 +59,7 @@ namespace Z0
                 Type = type;
                 Require.invariant(Type.IsNonEmpty);
                 Data = (byte)src;
+                DataType = FieldDataType.Bit;
             }
 
             [MethodImpl(Inline)]
@@ -59,6 +68,7 @@ namespace Z0
                 Type = type;
                 Require.invariant(Type.IsNonEmpty);
                 Data = src;
+                DataType = FieldDataType.Byte;
             }
 
             [MethodImpl(Inline)]
@@ -67,6 +77,7 @@ namespace Z0
                 Type = type;
                 Require.invariant(Type.IsNonEmpty);
                 Data = (ushort)src;
+                DataType = FieldDataType.Nonterminal;
             }
 
             [MethodImpl(Inline)]
@@ -76,6 +87,7 @@ namespace Z0
                 Require.invariant(Type.IsNonEmpty);
                 Asci.encode(src, out asci16 dst);
                 Data = dst.Storage;
+                DataType = FieldDataType.Text;
             }
 
             [MethodImpl(Inline)]
@@ -84,6 +96,7 @@ namespace Z0
                 Type = CellType.@char();
                 Require.invariant(Type.IsNonEmpty);
                 Data = (byte)src;
+                DataType = FieldDataType.Char;
             }
 
             [MethodImpl(Inline)]
@@ -91,11 +104,12 @@ namespace Z0
             {
                 Type = type;
                 Require.invariant(Type.IsNonEmpty);
-                Data = src.Pattern.Storage;
+                var data = ByteBlock16.Empty;
+                data[0] = (byte)src.Kind;
+                data[1] = src.KindRefined;
+                Data = data;
+                DataType = FieldDataType.SegSpec;
             }
-
-            public FieldPack Pack()
-                => FieldPack.unpack(core.u32(Data[0]));
 
             [MethodImpl(Inline)]
             public asci16 ToAsci()
@@ -125,15 +139,50 @@ namespace Z0
             public Nonterminal ToNonterm()
                 => (Nonterminal)core.u16(Data[0]);
 
+            public SegSpec ToSegSpec()
+            {
+                var dst = SegSpec.Empty;
+                switch((SegSpecKind)Data[0])
+                {
+                    case SegSpecKind.Bitfield:
+                        dst = SegSpecs.bitfield(Field);
+                    break;
+                    case SegSpecKind.Disp:
+                        dst = SegSpecs.disp((DispSpec)Data[1]);
+                    break;
+                    case SegSpecKind.AddressDisp:
+                        dst = SegSpecs.addressdisp((AddressDispSpec)Data[1]);
+                    break;
+                    case SegSpecKind.Imm:
+                        dst = SegSpecs.imm((ImmSpec)Data[1]);
+                    break;
+                }
+                return dst;
+            }
+
             [MethodImpl(Inline)]
             public byte ToByte()
                 => Data[0];
 
-            public RuleOperator Operator
-            {
-                [MethodImpl(Inline)]
-                get => Type.Operator;
-            }
+            [MethodImpl(Inline)]
+            public BCastKind ToBCast()
+                => (BCastKind)ToByte();
+
+            [MethodImpl(Inline)]
+            public ChipCode ToChip()
+                => (ChipCode)ToWord();
+
+            [MethodImpl(Inline)]
+            public InstClass ToInstClass()
+                => (InstClass)ToWord();
+
+            [MethodImpl(Inline)]
+            public ushort ToWord()
+                => core.@as<ushort>(Data[0]);
+
+            [MethodImpl(Inline)]
+            public Register ToReg()
+                => (Register)ToWord();
 
             public FieldKind Field
             {

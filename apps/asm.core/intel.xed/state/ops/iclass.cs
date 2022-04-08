@@ -6,11 +6,14 @@
 namespace Z0
 {
     using static XedRules;
+    using static XedModels;
+    using static XedPatterns;
+    using static core;
 
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static bit x66(in RuleState src)
-            => src.OSZ;
+        public static ref readonly InstClass iclass(in RuleState src)
+            => ref @as<IClass,InstClass>(src.ICLASS);
     }
 }

@@ -8,28 +8,19 @@ namespace Z0
     using static core;
     using static XedModels;
     using static XedRules;
+    using static XedDisasm;
 
     using K = XedRules.FieldKind;
 
     partial class XedDisasmSvc
     {
-        public static OpCodeIndex? ocindex(byte code)
-        {
-            var kind = XedPatterns.basemap(code);
-            if(kind != null)
-                return XedPatterns.ocindex(kind.Value);
-            else
-                return null;
-        }
-
         void EmitDisasmProps(WsContext context, DisasmDetailDoc doc)
         {
             const string FieldPattern = "{0,-24} | {1}";
             ref readonly var file = ref doc.File;
-            var filename = FS.file(string.Format("{0}.props", file.Source.Path.FileName.WithoutExtension.Format()), FS.Txt);
-            var dst = Projects.XedDisasmDir(context.Project) + filename;
+            var dst = DisasmPropsPath(context, doc.File.Source);
             var emitting = EmittingFile(dst);
-            Require.equal(doc.RowCount, file.Count);
+            Require.equal(doc.RowCount, file.LineCount);
             var counter = 0u;
             var state = RuleState.Empty;
             using var writer = dst.AsciWriter();
@@ -38,7 +29,7 @@ namespace Z0
             formatted.Add(K.LZCNT);
             formatted.Add(K.TZCNT);
 
-            for(var i=0; i<file.Count; i++)
+            for(var i=0; i<file.LineCount; i++)
             {
                 if(i != 0)
                 {
@@ -49,8 +40,9 @@ namespace Z0
                 state = RuleState.Empty;
                 ref readonly var detail = ref doc[i];
                 ref readonly var summary = ref detail.Block.Summary;
-                var fields = XedDisasm.values(file[i]);
-                var lookup = XedState.update(fields, ref state);
+
+                var cells = XedDisasm.values(file[i]);
+                var lookup = XedState.update(cells, ref state);
 
                 void Emit(FieldKind kind)
                 {
@@ -190,9 +182,9 @@ namespace Z0
                 if(lookup.TryGetValue(K.ELEMENT_SIZE, out _))
                     Emit(K.ELEMENT_SIZE);
 
-                for(var j=0; j<fields.Count; j++)
+                for(var j=0; j<cells.Count; j++)
                 {
-                    ref readonly var field = ref fields[j];
+                    ref readonly var field = ref cells[j];
                     if(!formatted.Contains(field.Field))
                         writer.AppendLineFormat(FieldPattern, field.Field, XedRender.format(field));
                     counter++;

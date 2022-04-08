@@ -144,7 +144,6 @@ namespace Z0
                 dst = field(src);
                 return ref dst;
             }
-
         }
     }
 }

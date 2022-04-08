@@ -222,6 +222,14 @@ namespace Z0
                 => src.Reg;
 
             [MethodImpl(Inline)]
+            public static implicit operator XedRegId(Field src)
+                => src.Reg;
+
+            [MethodImpl(Inline)]
+            public static implicit operator IClass(Field src)
+                => src.Inst;
+
+            [MethodImpl(Inline)]
             public static implicit operator InstClass(Field src)
                 => src.Inst;
 
@@ -239,6 +247,10 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator byte(Field src)
+                => src.Byte;
+
+            [MethodImpl(Inline)]
+            public static implicit operator Hex8(Field src)
                 => src.Byte;
 
             [MethodImpl(Inline)]
@@ -270,12 +282,12 @@ namespace Z0
                 => init(src.kind, src.data);
 
             [MethodImpl(Inline)]
-            public static implicit operator Field((FieldKind kind, bit data) src)
-                => init(src.kind, src.data);
+            public static implicit operator Field(Paired<FieldKind,bit> src)
+                => init(src.Left, src.Right);
 
             [MethodImpl(Inline)]
-            public static implicit operator Field((FieldKind kind, byte data) src)
-                => init(src.kind, src.data);
+            public static implicit operator Field(Paired<FieldKind,byte> src)
+                => init(src.Left, src.Right);
 
             [MethodImpl(Inline)]
             public static implicit operator Field((FieldKind kind, ushort data) src)

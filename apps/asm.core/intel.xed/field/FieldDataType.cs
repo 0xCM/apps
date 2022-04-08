@@ -22,7 +22,19 @@ namespace Z0
 
             Chip,
 
-            InstClass
+            InstClass,
+
+            Operator,
+
+            Keyword,
+
+            Nonterminal,
+
+            Text,
+
+            Char,
+
+            SegSpec,
         }
     }
 }

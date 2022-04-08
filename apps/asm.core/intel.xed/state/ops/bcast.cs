@@ -11,14 +11,7 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static BCastKind bcast(in RuleState src)
-            => src.BCAST;
-
-        [MethodImpl(Inline), Op]
-        public static ref RuleState set(BCastKind src, ref RuleState dst)
-        {
-            dst.BCAST = src;
-            return ref dst;
-        }
+        public static ref readonly BCastKind bcast(in RuleState src)
+            => ref src.BCAST;
     }
 }

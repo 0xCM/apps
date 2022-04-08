@@ -14,6 +14,7 @@ namespace Z0
     using K = XedRules.FieldKind;
     using CR = XedRules.CellRole;
     using CK = XedRules.RuleCellKind;
+    using DT = XedRules.FieldDataType;
 
     partial class XedRules
     {
@@ -23,21 +24,10 @@ namespace Z0
             {
                 var dst = EmptyString;
                 var @class = src.Type.Class;
-                if(@class.IsExpr)
-                {
-                    if(@class.IsNonterm)
-                        dst = src.ToNonterm().Format();
-                    else
-                        dst = src.Pack().Format();
-                    //dst = string.Format("{0}{1}{2}", XedRender.format(src.Field), src.Operator, src.Pack().Format());
-                }
-                else
+                if(src.Type.IsNumber)
                 {
                     switch(@class.Kind)
                     {
-                        case CK.HexLiteral:
-                            dst = XedRender.format(src.ToHex8());
-                        break;
                         case CK.BinaryLiteral:
                         {
                             switch(src.Type.EffectiveWidth)
@@ -68,18 +58,104 @@ namespace Z0
                                 break;
                             }
                         }
+
                         break;
+
+                        case CK.HexLiteral:
+                            switch(src.Type.EffectiveWidth)
+                            {
+                                case 4:
+                                    dst = XedRender.format((Hex4)src.ToByte());
+                                break;
+                                default:
+                                    dst = XedRender.format((Hex8)src.ToByte());
+                                break;
+                            }
+                        break;
+
                         case CK.IntLiteral:
+                            dst = XedRender.format(src.ToByte());
+                        break;
+                    }
+                }
+                else
+                {
+                    switch(src.DataType)
+                    {
+                        case DT.Bit:
+                            dst = src.ToBit().Format();
+                        break;
+
+                        case DT.Byte:
                             dst = src.ToByte().ToString();
                         break;
-                        case CK.Char:
-                            dst = src.ToChar().ToString();
+
+                        case DT.Word:
+                            dst = src.ToWord().ToString();
                         break;
-                        case CK.String:
+
+                        case DT.Reg:
+                            dst = src.ToReg().Format();
+                        break;
+
+                        case DT.BCast:
+                            dst = XedRender.format(src.ToBCast());
+                        break;
+
+                        case DT.Chip:
+                            dst = XedRender.format(src.ToChip());
+                        break;
+
+                        case DT.InstClass:
+                            dst = src.ToInstClass().Format();
+                        break;
+
+                        case DT.Operator:
+                            dst = src.ToOperator().Format();
+                        break;
+
+                        case DT.Keyword:
+                            dst = src.ToKeyword().Format();
+                        break;
+
+                        case DT.Nonterminal:
+                            dst = src.ToNonterm().Format();
+                        break;
+
+                        case DT.Text:
                             dst = src.ToAsci().Format();
                         break;
-                        case CK.Keyword:
-                            dst = src.ToKeyword().Format();
+
+                        case DT.Char:
+                            dst = src.ToChar().ToString();
+                        break;
+
+                        case DT.SegSpec:
+                            dst = src.ToSegSpec().Format();
+                        break;
+
+                        default:
+                            Errors.Throw(string.Format("UnhandledCase: {0}", src.DataType));
+                        break;
+                    }
+                }
+
+                if(src.Field != 0)
+                {
+                    var field = XedRender.format(src.Field);
+                    switch(@class.Kind)
+                    {
+                        case CK.EqExpr:
+                            dst = string.Format("{0}={1}", field, dst);
+                        break;
+                        case CK.NeqExpr:
+                            dst = string.Format("{0}!={1}", field, dst);
+                        break;
+                        case CK.NontermExpr:
+                            dst = string.Format("{0}={1}", field, dst);
+                        break;
+                        default:
+                            Errors.Throw(string.Format("UnhandledCase: {0}", @class.Kind));
                         break;
                     }
                 }

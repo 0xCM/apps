@@ -31,11 +31,11 @@ namespace Z0
                             switch(c)
                             {
                                 case Chars.a:
-                                    dst = asz(width);
+                                    dst = addressdisp(width);
                                     result = true;
                                 break;
                                 case Chars.d:
-                                    dst = brdisp(width);
+                                    dst = disp(width);
                                     result = true;
                                 break;
                                 case Chars.i:
@@ -83,68 +83,77 @@ namespace Z0
                 return result;
             }
 
-            public static SegSpec imm(byte width)
+            public static SegSpec imm(ImmSpec spec)
             {
                 var dst = SegSpec.Empty;
-                switch(width)
+                switch(spec)
                 {
-                    case 8:
+                    case ImmSpec.i8:
                         dst = Imm8;
                     break;
-                    case 16:
+                    case ImmSpec.i16:
                         dst = Imm16;
                     break;
-                    case 32:
+                    case ImmSpec.i32:
                         dst = Imm32;
                     break;
-                    case 64:
+                    case ImmSpec.i64:
                         dst = Imm64;
                     break;
                 }
                 return dst;
             }
 
-            public static SegSpec brdisp(byte width)
+            public static SegSpec imm(byte width)
+                => imm((ImmSpec)width);
+
+            public static SegSpec disp(DispSpec spec)
             {
                 var dst = SegSpec.Empty;
-                switch(width)
+                switch(spec)
                 {
-                    case 8:
-                        dst = BranchDisp8;
+                    case DispSpec.d8:
+                        dst = Disp8;
                     break;
-                    case 16:
-                        dst = BranchDisp16;
+                    case DispSpec.d16:
+                        dst = Disp16;
                     break;
-                    case 32:
-                        dst = BranchDisp32;
+                    case DispSpec.d32:
+                        dst = Disp32;
                     break;
-                    case 64:
-                        dst = BranchDisp64;
+                    case DispSpec.d64:
+                        dst = Disp64;
                     break;
                 }
                 return dst;
             }
 
-            public static SegSpec asz(byte width)
+            public static SegSpec disp(byte width)
+                => disp((DispSpec)width);
+
+            public static SegSpec addressdisp(AddressDispSpec spec)
             {
                 var dst = SegSpec.Empty;
-                switch(width)
+                switch(spec)
                 {
-                    case 8:
+                    case AddressDispSpec.a8:
                         dst = AddressDisp8;
                     break;
-                    case 16:
+                    case AddressDispSpec.a16:
                         dst = AddressDisp16;
                     break;
-                    case 32:
+                    case AddressDispSpec.a32:
                         dst = AddressDisp32;
                     break;
-                    case 64:
+                    case AddressDispSpec.a64:
                         dst = AddressDisp64;
                     break;
                 }
                 return dst;
             }
+
+            public static SegSpec addressdisp(byte width)
+                => addressdisp((AddressDispSpec)width);
 
             public static SegSpec bitfield(FieldKind src)
             {
@@ -212,21 +221,21 @@ namespace Z0
 
             public static SegSpec Mask => new SegSpec(SegSpecKind.Bitfield, aaa);
 
-            public static SegSpec BranchDisp8 => new SegSpec(DispSpec.d8, d8);
+            public static SegSpec Disp8 => new SegSpec(DispSpec.d8, d8);
 
-            public static SegSpec BranchDisp16 => new SegSpec(DispSpec.d16, d16);
+            public static SegSpec Disp16 => new SegSpec(DispSpec.d16, d16);
 
-            public static SegSpec BranchDisp32 => new SegSpec(DispSpec.d32, d32);
+            public static SegSpec Disp32 => new SegSpec(DispSpec.d32, d32);
 
-            public static SegSpec BranchDisp64 => new SegSpec(DispSpec.d64, d64);
+            public static SegSpec Disp64 => new SegSpec(DispSpec.d64, d64);
 
-            public static SegSpec AddressDisp8 => new SegSpec(SegSpecKind.Disp, a8);
+            public static SegSpec AddressDisp8 => new SegSpec(AddressDispSpec.a8, a8);
 
-            public static SegSpec AddressDisp16 => new SegSpec(SegSpecKind.Disp, a16);
+            public static SegSpec AddressDisp16 => new SegSpec(AddressDispSpec.a16, a16);
 
-            public static SegSpec AddressDisp32 => new SegSpec(SegSpecKind.Disp, a32);
+            public static SegSpec AddressDisp32 => new SegSpec(AddressDispSpec.a32, a32);
 
-            public static SegSpec AddressDisp64 => new SegSpec(SegSpecKind.Disp, a64);
+            public static SegSpec AddressDisp64 => new SegSpec(AddressDispSpec.a64, a64);
 
             public static SegSpec Imm8 => new SegSpec(ImmSpec.i8, i8);
 

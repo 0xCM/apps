@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     using K = XedRules.FieldKind;
 
     partial class XedRules
@@ -500,6 +498,9 @@ namespace Z0
                         result = XedParsers.parse(src, out dst.Bit);
                     break;
                 }
+
+                if(!result)
+                    Errors.Throw(AppMsg.ParseFailure.Format(kind.ToString(), src));
 
                 return result;
             }

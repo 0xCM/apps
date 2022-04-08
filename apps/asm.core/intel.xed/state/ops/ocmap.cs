@@ -5,15 +5,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    using static XedRules;
     using static XedModels;
+    using static XedRules;
+    using static core;
 
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static RegOp kreg(in RuleState src)
-            => asm.reg(NativeSizeCode.W64, RegClassCode.MASK, src.MASK);
+        public static ref readonly byte ocmap(in RuleState src)
+            => ref src.MAP;
     }
 }

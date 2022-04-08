@@ -6,33 +6,12 @@
 namespace Z0
 {
     using static XedRules;
+    using static core;
 
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static ScaleFactor scale(in RuleState src)
-            => (ScaleFactor)src.SCALE;
-
-        [MethodImpl(Inline), Op]
-        public static bool scale(in RuleState src, out ScaleFactor dst)
-        {
-            if(src.SCALE != 0)
-            {
-                dst = (ScaleFactor)src.SCALE;
-                return true;
-            }
-            else
-            {
-                dst = default;
-                return false;
-            }
-        }
-
-        [MethodImpl(Inline), Op]
-        public static ref RuleState set(ScaleFactor src, ref RuleState dst)
-        {
-            dst.SCALE = (byte)src;
-            return ref dst;
-        }
+        public static ref readonly MemoryScale scale(in RuleState src)
+            => ref @as<MemoryScale>(src.SCALE);
     }
 }

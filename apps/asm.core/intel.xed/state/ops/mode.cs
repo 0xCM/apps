@@ -7,18 +7,12 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
+    using static core;
 
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static MachineMode mode(in RuleState src)
-            => (ModeKind)src.MODE;
-
-        [MethodImpl(Inline), Op]
-        public static ref RuleState set(MachineMode src, ref RuleState dst)
-        {
-            dst.MODE = (byte)src;
-            return ref dst;
-        }
+        public static ref readonly MachineMode mode(in RuleState src)
+            => ref @as<MachineMode>(src.MODE);
     }
 }

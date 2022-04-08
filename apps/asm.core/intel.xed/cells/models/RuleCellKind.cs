@@ -48,8 +48,6 @@ namespace Z0
 
             EqExpr =  P2ᐞ16 | Expr,
 
-            SegExpr = P2ᐞ17 | Seg | Expr,
-
             NontermExpr = P2ᐞ18 | Nonterm | EqExpr,
 
             SegLiteral = P2ᐞ19 | Seg | BinaryLiteral,

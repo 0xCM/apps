@@ -39,7 +39,7 @@ namespace Z0
         static Outcome summarize(in FileRef src, in FileRef origin, Index<DisasmLineBlock> blocks, ConcurrentBag<DisasmBlock> dst)
         {
             var lines = SummaryLines(blocks);
-            var expr = expressions(blocks);
+            var expr = DisasmParse.expressions(blocks);
             var seq = 0u;
             var result = Outcome.Success;
             var count = Require.equal(expr.Length,lines.Length);
@@ -48,14 +48,14 @@ namespace Z0
             {
                 ref readonly var line = ref lines[i];
                 var summary = new DisasmSummary();
-                result = ParseHexCode(line, out summary.Encoded);
+                result = DisasmParse.parse(line, out summary.Encoded);
                 if(result.Fail)
                     return result;
 
                 summary.DocSeq = seq++;
                 summary.OriginId = origin.DocId;
                 summary.OriginName = origin.DocName;
-                result = ParseIP(line.Content, out summary.IP);
+                result = DisasmParse.parse(line.Content, out summary.IP);
                 if(result.Fail)
                     break;
 

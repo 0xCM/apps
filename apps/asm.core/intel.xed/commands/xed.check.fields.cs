@@ -16,7 +16,6 @@ namespace Z0
         [CmdOp("xed/check/fields")]
         Outcome CheckFields(CmdArgs args)
         {
-
             var data = XedRules.fields();
             ref readonly var reg1 = ref data.Field(FieldKind.REG1, XedRegId.AX);
             ref readonly var reg4 = ref data.Field(FieldKind.REG4, XedRegId.BX);

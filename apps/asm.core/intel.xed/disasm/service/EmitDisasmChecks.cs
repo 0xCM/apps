@@ -8,14 +8,12 @@ namespace Z0
     using static core;
     using static XedRules;
     using static XedModels;
+    using static XedDisasm;
 
     using K = XedRules.FieldKind;
 
     partial class XedDisasmSvc
     {
-        FS.FilePath CheckPath(WsContext context, in FileRef src)
-            => Projects.XedDisasmDir(context.Project) + FS.file(string.Format("{0}.checks", src.Path.FileName.WithoutExtension), FS.Txt);
-
         void EmitDisasmChecks(WsContext context, DisasmDetailDoc doc)
         {
             const string RenderPattern = "{0,-24} | {1}";
@@ -41,14 +39,17 @@ namespace Z0
                     K.MAX_BYTES, K.LZCNT, K.TZCNT, K.USING_DEFAULT_SEGMENT0, K.SMODE, K.P4
                     );
 
+            var buffer = text.buffer();
             var count = doc.RowCount;
-            var dstpath = CheckPath(context,file.Source);
+            var dstpath = DisasmChecksPath(context,file.Source);
             using var writer = dstpath.AsciWriter();
             var emitting = EmittingFile(dstpath);
             var counter = 0;
             for(var j=0; j<count; j++)
             {
                 var state = RuleState.Empty;
+                buffer.Clear();
+
                 ref readonly var detail = ref doc[j].Detail;
                 ref readonly var ops = ref detail.Ops;
                 ref readonly var block = ref doc[j].Block;
@@ -58,7 +59,7 @@ namespace Z0
                 ref readonly var asmtxt = ref summary.Asm;
                 ref readonly var ip = ref summary.IP;
 
-                var fields = XedDisasm.update(lines, ref state);
+                var cells = XedDisasm.update(lines, ref state);
                 var ocindex = XedState.ocindex(state);
                 var ockind = XedPatterns.ockind(ocindex);
                 var encoding  = XedState.encoding(state, asmhex);
@@ -219,8 +220,7 @@ namespace Z0
 
                 if(state.ELEMENT_SIZE != 0)
                 {
-                    var vl = XedState.vl(state);
-                    writer.AppendLineFormat(RenderPattern, "VexSize", string.Format("{0}x{1}", XedRender.format(vl), state.ELEMENT_SIZE));
+                    writer.AppendLineFormat(RenderPattern, "VexSize", string.Format("{0}x{1}", XedRender.format(XedState.vl(state)), state.ELEMENT_SIZE));
                 }
 
                 if(state.NELEM != 0)
@@ -229,50 +229,23 @@ namespace Z0
                 if(state.BCAST != 0)
                     writer.AppendLineFormat(RenderPattern, nameof(state.BCAST), XedState.bcast(state));
 
-                for(var k=0; k<fields.Count; k++, counter++)
+                for(var k=0; k<cells.Count; k++, counter++)
                 {
-                    ref readonly var value = ref fields[k];
+                    ref readonly var value = ref cells[k];
                     ref readonly var fk = ref value.Field;
                     if(!emitted.Contains(fk))
                         writer.AppendLineFormat(RenderPattern, "**" + XedRender.format(fk), XedRender.format(value));
                 }
 
                 if(state.OUTREG != 0)
-                    writer.AppendLineFormat(RenderPattern, nameof(state.OUTREG), XedState.outreg(state));
-
-
-                writer.WriteLine(RenderPattern,  "Operands", ops.Count);
-                writer.WriteLine(RP.PageBreak80);
-                for(var i=0; i<ops.Count; i++)
                 {
-                    ref readonly var op =ref ops[i];
-                    var tabledef = FS.FileUri.Empty;
-                    if(XedParsers.parse(op.OpInfo.Selector.Format(), out Nonterminal nonterm))
-                    {
-                        var path = XedPaths.Service.TableDef(RuleTableKind.Enc, nonterm);
-                        if(path.Exists)
-                            tabledef = path;
-                        else
-                        {
-                            path = XedPaths.Service.TableDef(RuleTableKind.Dec, nonterm);
-                            if(path.Exists)
-                                tabledef = path;
-                        }
-                    }
-
-                    writer.AppendLine(string.Format("{0} | {1,-6} | {2,-4} | {3,-4} | {4,-4} | {5,-4} | {6}",
-                        i,
-                        XedRender.format(op.OpName),
-                        XedRender.format(op.OpInfo.Action),
-                        XedRender.format(op.OpInfo.WidthCode),
-                        op.OpInfo.Visiblity.Code(),
-                        XedRender.format(op.OpInfo.OpType),
-                        nonterm.IsNonEmpty ? string.Format("{0} => {1}", nonterm, tabledef) : op.OpInfo.Selector
-                    ));
+                    writer.AppendLineFormat(RenderPattern, nameof(state.OUTREG), XedRegMap.map(state.OUTREG));
                 }
 
-                writer.WriteLine();
+                DisasmRender.RenderOps(ops,buffer);
+                writer.WriteLine(buffer.Emit());
             }
+
             EmittedFile(emitting,counter);
         }
     }

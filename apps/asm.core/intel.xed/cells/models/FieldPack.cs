@@ -62,8 +62,7 @@ namespace Z0
 
             public InstClass Class;
 
-
-            FieldDataType Kind()
+            public FieldDataType DataType()
             {
                 var dst = K.Bit;
                 if(Class.IsNonEmpty)
@@ -84,7 +83,7 @@ namespace Z0
             ushort PackData()
             {
                 var dst = z16;
-                var kind = Kind();
+                var kind = DataType();
                 switch(kind)
                 {
                     case K.Bit:
@@ -110,12 +109,12 @@ namespace Z0
             }
 
             public uint Pack()
-                => Bitfields.join(PackData(), Bitfields.join((byte)Field, (byte)Kind()));
+                => Bitfields.join(PackData(), Bitfields.join((byte)Field, (byte)DataType()));
 
             public string Format()
             {
                 var dst = EmptyString;
-                switch(Kind())
+                switch(DataType())
                 {
                     case K.Bit:
                         dst = Bit.ToString();

@@ -5,28 +5,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedRules;
+    using static XedModels;
+    using static core;
 
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static RegOp outreg(in RuleState src)
-            => XedRegMap.map(src.OUTREG);
-
-        [MethodImpl(Inline), Op]
-        public static ref RuleState outreg(XedRegId src, ref RuleState dst)
-        {
-            dst.OUTREG = src;
-            return ref dst;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static ref RuleState outreg(RegKind src, ref RuleState dst)
-        {
-            dst.OUTREG = XedRegMap.map(src);
-            return ref dst;
-        }
+        public static ref readonly Register outreg(in RuleState src)
+            => ref @as<XedRegId,Register>(src.OUTREG);
     }
 }

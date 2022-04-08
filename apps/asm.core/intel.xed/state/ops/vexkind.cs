@@ -5,22 +5,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedModels;
     using static XedRules;
+    using static core;
 
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static VexKind vexkind(in RuleState src)
-            => (VexKind)src.VEX_PREFIX;
-
-        [MethodImpl(Inline), Op]
-        public static ref RuleState set(VexKind src, ref RuleState dst)
-        {
-            dst.VEX_PREFIX = (byte)src;
-            return ref dst;
-        }
+        public static ref readonly VexKind vexkind(in RuleState src)
+            => ref @as<VexKind>(src.VEX_PREFIX);
     }
 }

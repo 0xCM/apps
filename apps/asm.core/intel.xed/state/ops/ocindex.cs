@@ -7,6 +7,7 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
+    using static core;
 
     partial class XedState
     {
@@ -14,8 +15,8 @@ namespace Z0
         public static OpCodeIndex ocindex(in RuleState state)
         {
             var dst = OpCodeIndex.Amd3dNow;
-            var map = state.MAP;
-            var vc = vexclass(state);
+            ref readonly var map = ref state.MAP;
+            ref readonly var vc = ref vexclass(state);
             switch(vc)
             {
                 case VexClass.VV1:
@@ -39,7 +40,7 @@ namespace Z0
         public static ref RuleState set(OpCodeIndex src, ref RuleState dst)
         {
             XedPatterns.mapcode(src, out dst.MAP);
-            set(XedPatterns.vexclass(src), ref dst);
+            dst.VEXVALID = (byte)XedPatterns.vexclass(src);
             return ref dst;
         }
     }

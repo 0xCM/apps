@@ -16,6 +16,8 @@ namespace Z0
             Imm,
 
             Disp,
+
+            AddressDisp
         }
     }
 }

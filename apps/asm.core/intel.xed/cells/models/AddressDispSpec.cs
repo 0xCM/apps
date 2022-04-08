@@ -5,20 +5,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-    using static XedRules;
-
-    partial class XedState
+    partial class XedRules
     {
-        [MethodImpl(Inline), Op]
-        public static byte map(in RuleState src)
-            => src.MAP;
-
-        [MethodImpl(Inline), Op]
-        public static ref RuleState map(byte src, ref RuleState dst)
+        [SymSource(xed)]
+        public enum AddressDispSpec
         {
-            dst.MAP = src;
-            return ref dst;
+            [Symbol("")]
+            None,
+
+            [Symbol("a/8")]
+            a8 = 1,
+
+            [Symbol("a/16")]
+            a16 = 2,
+
+            [Symbol("a/32")]
+            a32 = 4,
+
+            [Symbol("a/64")]
+            a64 = 8,
         }
     }
 }

@@ -60,7 +60,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public byte Members(Span<FieldKind> dst)
+            public uint Members(Span<FieldKind> dst)
             {
                 var counter = z8;
                 var count = min(dst.Length,Capacity);
@@ -73,7 +73,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public byte Count()
+            public uint Count()
             {
                 var counter = z8;
                 var count = Capacity;

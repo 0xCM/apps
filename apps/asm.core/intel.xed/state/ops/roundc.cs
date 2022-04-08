@@ -7,11 +7,12 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
+    using static core;
 
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static ROUNDC rounc(in RuleState src)
-            => (ROUNDC)src.ROUNDC;
+        public static ref readonly ROUNDC rounc(in RuleState src)
+            => ref @as<ROUNDC>(src.ROUNDC);
     }
 }

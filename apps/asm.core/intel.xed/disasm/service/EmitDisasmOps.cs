@@ -9,9 +9,7 @@ namespace Z0
     {
         void EmitDisasmOps(WsContext context, DisasmDetailDoc doc)
         {
-            var outdir = Projects.XedDisasmDir(context.Project);
-            var filename = FS.file(string.Format("{0}.ops", doc.File.Source.Path.FileName.WithoutExtension.Format()), FS.Txt);
-            var dst = outdir + filename;
+            var dst = DisasmOpsPath(context,doc.File.Source);
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             var counter = 0u;

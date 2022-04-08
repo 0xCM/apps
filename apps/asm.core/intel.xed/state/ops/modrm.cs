@@ -8,23 +8,20 @@ namespace Z0
     using Asm;
 
     using static XedRules;
+    using static core;
 
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static ModRm modrm(in RuleState src)
-            => src.HAS_MODRM ? new (src.MODRM_BYTE) : ModRm.Empty;
-
-        [MethodImpl(Inline), Op]
-        public static ref RuleState set(ModRm src, ref RuleState dst)
-        {
-            dst.MODRM_BYTE = src;
-            dst.HAS_MODRM = bit.On;
-            return ref dst;
-        }
+        public static ref readonly ModRm modrm(in RuleState src)
+            => ref @as<Hex8,ModRm>(src.MODRM_BYTE);
 
         [MethodImpl(Inline), Op]
         public static ref RuleState modrm(byte src, ref RuleState dst)
-            => ref set((ModRm)src, ref dst);
+        {
+            if(src!=0)
+                dst.HAS_MODRM = bit.On;
+            return ref dst;
+        }
     }
 }

@@ -104,7 +104,7 @@ namespace Z0
                     operand.RuleDescription = optxt;
                 }
 
-                operand.DefDescription = string.Format(XedDisasmRender.OpDetailPattern,
+                operand.DefDescription = string.Format(DisasmRender.OpDetailPattern,
                     string.Format("Op{0}", k),
                     opname,
                     optxt,

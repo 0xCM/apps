@@ -20,7 +20,7 @@ namespace Z0
                 Lines = lines;
             }
 
-            public uint Count
+            public uint LineCount
             {
                 [MethodImpl(Inline)]
                 get => Lines.Count;

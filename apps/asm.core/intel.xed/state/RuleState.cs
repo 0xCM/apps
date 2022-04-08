@@ -340,11 +340,11 @@ namespace Z0
             [RuleField(K.MEM_WIDTH, 16, typeof(ushort))]
             public ushort MEM_WIDTH;
 
-            [RuleField(K.UIMM0, 16, typeof(ImmSeg))]
-            public ImmSeg UIMM0;
+            [RuleField(K.UIMM0, 16, typeof(bit))]
+            public bit UIMM0;
 
-            [RuleField(K.UIMM1, 16, typeof(ImmSeg))]
-            public ImmSeg UIMM1;
+            [RuleField(K.UIMM1, 16, typeof(bit))]
+            public bit UIMM1;
 
             [RuleField(K.ICLASS, 16, typeof(IClass))]
             public IClass ICLASS;
@@ -397,8 +397,8 @@ namespace Z0
             [RuleField(K.DISP_WIDTH, 8, typeof(byte))]
             public byte DISP_WIDTH;
 
-            [RuleField(K.DISP, 4, typeof(DispSeg))]
-            public DispSeg DISP;
+            [RuleField(K.DISP, 1, typeof(bit))]
+            public bit DISP;
 
             public static RuleState Empty => default;
         }

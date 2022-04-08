@@ -9,7 +9,7 @@ namespace Z0
     {
         public readonly struct SegSpec
         {
-            readonly byte KindData;
+            public readonly byte KindRefined;
 
             public readonly SegSpecKind Kind;
 
@@ -20,7 +20,7 @@ namespace Z0
             {
                 Kind = kind;
                 Asci.encode(pattern, out Pattern);
-                KindData = 0;
+                KindRefined = 0;
             }
 
             [MethodImpl(Inline)]
@@ -28,7 +28,7 @@ namespace Z0
             {
                 Kind = SegSpecKind.Imm;
                 Asci.encode(pattern, out Pattern);
-                KindData = (byte)kind;
+                KindRefined = (byte)kind;
             }
 
             [MethodImpl(Inline)]
@@ -36,7 +36,15 @@ namespace Z0
             {
                 Kind = SegSpecKind.Disp;
                 Asci.encode(pattern, out Pattern);
-                KindData = (byte)kind;
+                KindRefined = (byte)kind;
+            }
+
+            [MethodImpl(Inline)]
+            public SegSpec(AddressDispSpec kind, ReadOnlySpan<char> pattern)
+            {
+                Kind = SegSpecKind.AddressDisp;
+                Asci.encode(pattern, out Pattern);
+                KindRefined = (byte)kind;
             }
 
             [MethodImpl(Inline)]
@@ -45,7 +53,7 @@ namespace Z0
                 Kind = kind;
                 var dst = asci16.Null;
                 Pattern = new asci16(c0);
-                KindData = 0;
+                KindRefined = 0;
             }
 
             [MethodImpl(Inline)]
@@ -54,7 +62,7 @@ namespace Z0
                 Kind = kind;
                 var dst = asci16.Null;
                 Pattern = new asci16(c0, c1);
-                KindData = 0;
+                KindRefined = 0;
             }
 
             [MethodImpl(Inline)]
@@ -63,7 +71,7 @@ namespace Z0
                 Kind = kind;
                 var dst = asci16.Null;
                 Pattern = new asci16(c0, c1, c2);
-                KindData = 0;
+                KindRefined = 0;
             }
 
             [MethodImpl(Inline)]
@@ -72,9 +80,50 @@ namespace Z0
                 Kind = kind;
                 var dst = asci16.Null;
                 Pattern = new asci16(c0, c1, c2, c3);
-                KindData = 0;
+                KindRefined = 0;
             }
 
+            public ImmSpec ImmSpec
+            {
+                [MethodImpl(Inline)]
+                get => (ImmSpec)KindRefined;
+            }
+
+            public DispSpec Disp
+            {
+                [MethodImpl(Inline)]
+                get => (DispSpec)KindRefined;
+            }
+
+            public AddressDispSpec AddressDisp
+            {
+                [MethodImpl(Inline)]
+                get => (AddressDispSpec)KindRefined;
+            }
+
+            public bool IsImm
+            {
+                [MethodImpl(Inline)]
+                get => Kind == SegSpecKind.Imm;
+            }
+
+            public bool IsDisp
+            {
+                [MethodImpl(Inline)]
+                get => Kind == SegSpecKind.Disp;
+            }
+
+            public bool IsAddressDisp
+            {
+                [MethodImpl(Inline)]
+                get => Kind == SegSpecKind.AddressDisp;
+            }
+
+            public bool IsBitfieldSpec
+            {
+                [MethodImpl(Inline)]
+                get => Kind == SegSpecKind.Bitfield;
+            }
 
             public bool IsEmpty
             {

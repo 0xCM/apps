@@ -8,7 +8,6 @@ namespace Z0
     using Asm;
 
     using static XedRules;
-    using static core;
 
     partial class XedState
     {
@@ -19,7 +18,9 @@ namespace Z0
             dst.Code = code;
             dst.Offsets = XedState.offsets(state);
             dst.OpCode = code[state.POS_NOMINAL_OPCODE];
-            Require.equal(dst.OpCode, state.NOMINAL_OPCODE);
+
+            Demand.Equality(nameof(state.NOMINAL_OPCODE), dst.OpCode,state.NOMINAL_OPCODE);
+
             if(state.DISP_WIDTH > 0)
                 dst.Disp = XedState.disp(state, code);
             if(state.IMM0)

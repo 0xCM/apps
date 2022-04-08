@@ -7,11 +7,12 @@ namespace Z0
 {
     using static XedRules;
     using static XedModels;
+    using static core;
 
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static MASK mask(in RuleState src)
-            => (MASK)src.MASK;
+        public static ref readonly MASK mask(in RuleState src)
+            => ref @as<MASK>(src.MASK);
     }
 }

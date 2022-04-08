@@ -7,11 +7,12 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
+    using static core;
 
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static RepPrefix rep(in RuleState src)
-            => (RepPrefix)src.REP;
+        public static ref readonly RepPrefix rep(in RuleState src)
+            => ref @as<RepPrefix>(src.REP);
     }
 }

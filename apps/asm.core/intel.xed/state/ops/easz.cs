@@ -7,18 +7,12 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
+    using static core;
 
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static EASZ easz(in RuleState src)
-            => (EASZ)src.EASZ;
-
-        [MethodImpl(Inline), Op]
-        public static ref RuleState set(EASZ src, ref RuleState dst)
-        {
-            dst.EASZ = (byte)src;
-            return ref dst;
-        }
+        public static ref readonly EASZ easz(in RuleState src)
+            => ref @as<EASZ>(src.EASZ);
     }
 }
