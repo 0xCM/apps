@@ -18,21 +18,21 @@ namespace Z0
         void EmitDisasmFields(WsContext context, ConstLookup<DisasmDetailDoc,Index<DisasmDetail>> src)
         {
             var docs = src.Keys;
-            core.iter(docs, doc => EmitDisasmFields(context,doc, src[doc]), PllExec);
+            core.iter(docs, doc => EmitDisasmFields(context,doc), PllExec);
         }
 
-        void EmitDisasmFields(WsContext context, DisasmDetailDoc doc, Index<DisasmDetail> details)
+        void EmitDisasmFields(WsContext context, DisasmDetailDoc doc)
         {
-            const string RenderPattern = "{0,-24} | {1}";
+            const string RenderPattern = DisasmRender.Columns;
             ref readonly var file = ref doc.File;
             var buffer = text.buffer();
-
+            var render = XedFields.render();
+            var exclude = hashset<FieldKind>(K.TZCNT,K.LZCNT);
             for(var i=0u; i<file.LineCount; i++)
             {
                 ref readonly var detail = ref doc[i].Detail;
                 ref readonly var ops = ref detail.Ops;
                 ref readonly var form = ref detail.InstForm;
-                ref readonly var @class = ref detail.InstClass;
                 ref readonly var block = ref doc[i].Block;
                 ref readonly var lines = ref block.Lines;
                 ref readonly var summary = ref block.Summary;
@@ -57,23 +57,40 @@ namespace Z0
                     var members = ByteBlock128.Empty;
                     var kinds = recover<FieldKind>(members.Bytes);
                     var count = f.Members().Members(kinds);
-
+                    var encoding  = XedState.encoding(state, asmhex);
                     ref var field = ref f[K.INVALID];
 
                     var ocindex = XedState.ocindex(state);
                     buffer.AppendLine(RP.PageBreak240);
                     buffer.AppendLine(lines.Format());
-                    buffer.AppendLine(RP.PageBreak80);
+                    buffer.AppendLine(RP.PageBreak100);
                     buffer.AppendLineFormat(RenderPattern, nameof(xdis.Asm), xdis.Asm);
+                    buffer.AppendLineFormat(RenderPattern, "Instruction", ((InstClass)f[K.ICLASS]).Format());
+                    buffer.AppendLineFormat(RenderPattern, "Form", form);
                     buffer.AppendLineFormat(RenderPattern, nameof(xdis.Category), xdis.Category);
                     buffer.AppendLineFormat(RenderPattern, nameof(xdis.Extension), xdis.Extension);
-                    buffer.AppendLineFormat(RenderPattern, nameof(xdis.Encoded), xdis.Encoded);
+                    buffer.AppendLineFormat(RenderPattern, nameof(encoding.Offsets), encoding.Offsets.Format());
+                    buffer.AppendLineFormat(RenderPattern, nameof(encoding.OpCode), XedRender.format(encoding.OpCode));
+                    if(encoding.ModRm.IsNonZero)
+                        buffer.AppendLineFormat(RenderPattern, nameof(encoding.ModRm), encoding.ModRm);
+                    if(encoding.Sib.IsNonZero)
+                        buffer.AppendLineFormat(RenderPattern, nameof(encoding.Sib), encoding.Sib);
+                    if(encoding.Imm.IsNonZero)
+                        buffer.AppendLineFormat(RenderPattern, nameof(encoding.Imm), encoding.Imm);
+                    if(encoding.Imm1.IsNonZero)
+                        buffer.AppendLineFormat(RenderPattern, nameof(encoding.Imm), encoding.Imm1);
+                    if(encoding.Disp.IsNonZero)
+                        buffer.AppendLineFormat(RenderPattern, nameof(encoding.Disp), encoding.Disp);
 
-                    buffer.AppendLine(RP.PageBreak80);
+                    buffer.AppendLine(RP.PageBreak100);
                     for(var k=0; k<count; k++)
                     {
                         ref readonly var kind = ref skip(kinds,k);
-                        buffer.AppendLineFormat(RenderPattern, kind, f[kind].Format());
+                        if(exclude.Contains(kind))
+                            continue;
+
+                        ref readonly var value = ref f[kind];
+                        buffer.AppendLineFormat(RenderPattern, kind, render[kind](value));
                     }
 
                     DisasmRender.RenderOps(ops,buffer);
@@ -83,7 +100,6 @@ namespace Z0
                 {
                     Write(e.ToString());
                     Write(e.Message,FlairKind.Error);
-                    break;
                 }
             }
 

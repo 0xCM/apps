@@ -50,6 +50,10 @@ namespace Z0
                 => (byte)src.Kind;
 
             [MethodImpl(Inline)]
+            public static explicit operator MachineMode(byte src)
+                => new MachineMode((ModeKind)src);
+
+            [MethodImpl(Inline)]
             public static bool operator==(MachineMode a, MachineMode b)
                 => a.Equals(b);
 

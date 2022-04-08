@@ -13,6 +13,8 @@ namespace Z0
     {
         internal class DisasmRender
         {
+            public const string Columns = "{0,-24} | {1}";
+
             public const string OpDetailPattern = "{0,-4} | {1,-8} | {2,-24} | {3,-10} | {4,-12} | {5,-12} | {6,-12} | {7,-12}";
 
             public static string[] OpColPatterns = new string[]{"Op{0}", "Op{0}Name", "Op{0}Val", "Op{0}Action", "Op{0}Vis", "Op{0}Width", "Op{0}WKind", "Op{0}Selector"};
@@ -22,8 +24,8 @@ namespace Z0
 
             public static void RenderOps(in DisasmOpDetails ops, ITextBuffer dst)
             {
-                const string RenderPattern = "{0,-24} | {1}";
-                dst.AppendLineFormat(RenderPattern,  "Operands", ops.Count);
+                const string RenderPattern = DisasmRender.Columns;
+                dst.AppendLineFormat(RenderPattern, "Operands", EmptyString);
                 dst.AppendLine(RP.PageBreak80);
 
                 for(var i=0; i<ops.Count; i++)

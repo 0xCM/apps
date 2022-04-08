@@ -10,9 +10,10 @@ namespace Z0
         [SymSource(xed)]
         public enum ErrorKind : byte
         {
-            NONE, /// There was no error
+            NONE,
 
-            BUFFER_TOO_SHORT, /// There were not enough bytes in the given buffer
+            [Symbol("BUFFER_TOO_SHORT", "There were not enough bytes in the given buffer")]
+            BUFFER_TOO_SHORT,
 
             [Symbol("error", "XED could not decode the given instruction")]
             GENERAL_ERROR,
@@ -35,15 +36,20 @@ namespace Z0
             [Symbol("BAD_REX_PREFIX", "A REX prefix was found where none is allowed")]
             BAD_REX_PREFIX,
 
-            BAD_EVEX_UBIT, /// An illegal value for the EVEX.U bit was present in the instruction.
+            [Symbol("BAD_EVEX_UBIT", "An illegal value for the EVEX.U bit was present in the instruction")]
+            BAD_EVEX_UBIT,
 
-            BAD_MAP, /// An illegal value for the MAP field was detected in the instruction.
+            [Symbol("BAD_MAP", "An illegal value for the MAP field was detected in the instruction")]
+            BAD_MAP,
 
-            BAD_EVEX_V_PRIME, /// EVEX.V'=0 was detected in a non-64b mode instruction.
+            [Symbol("BAD_EVEX_V_PRIME","EVEX.V'=0 was detected in a non-64b mode instruction.")]
+            BAD_EVEX_V_PRIME,
 
-            BAD_EVEX_Z_NO_MASKING, /// EVEX.Z!=0 when EVEX.aaa==0
+            [Symbol("BAD_EVEX_Z_NO_MASKING","EVEX.Z!=0 when EVEX.aaa==0")]
+            BAD_EVEX_Z_NO_MASKING,
 
-            NO_OUTPUT_POINTER, /// The output pointer for xed_agen was zero
+            [Symbol("NO_OUTPUT_POINTER","The output pointer for xed_agen was zero")]
+            NO_OUTPUT_POINTER,
 
             NO_AGEN_CALL_BACK_REGISTERED, /// One or both of the callbacks for xed_agen were missing.
 
@@ -57,7 +63,8 @@ namespace Z0
 
             INVALID_MODE, /// The instruction was not valid for the specified mode
 
-            BAD_EVEX_LL, /// EVEX.LL must not ==3 unless using embedded rounding
+            [Symbol("BAD_EVEX_LL","EVEX.LL must not ==3 unless using embedded rounding")]
+            BAD_EVEX_LL,
 
             BAD_REG_MATCH, // Source registers must not match the destination register for this instruction.
         }

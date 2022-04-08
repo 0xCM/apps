@@ -13,6 +13,10 @@ namespace Z0
 
     partial class XedRules
     {
+        [MethodImpl(Inline)]
+        public static ushort bitwidth(VexLengthKind src)
+            => (ushort)(src == VexLengthKind.VL128 ? 128 : src == VexLengthKind.VL256 ? 256 : 512);
+
         [Op]
         public static uint bitwidths(ModeKind src)
             => src switch

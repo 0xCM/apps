@@ -20,7 +20,7 @@ namespace Z0
             void load(FileRef fref)
             {
                 var file = XedDisasm.loadfile(fref);
-                dst.TryAdd(fref,CalcDisasmDetail(context, file, XedDisasm.summarize(context, file)));
+                dst.TryAdd(fref, CalcDisasmDetail(context, file, XedDisasm.summarize(context, file)));
             }
         }
 

@@ -214,6 +214,12 @@ namespace Z0
             get => (sbyte)Value;
         }
 
+        public bool IsNonZero
+        {
+            [MethodImpl(Inline)]
+            get => Value !=0;
+        }
+
         public bool Equals(Imm src)
             => eq(this,src);
 

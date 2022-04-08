@@ -101,6 +101,12 @@ namespace Z0.Asm
             get => _Value == 0;
         }
 
+        public bool IsNonZero
+        {
+            [MethodImpl(Inline)]
+            get => _Value != 0;
+        }
+
         public string ToBitString()
             => string.Format("{0} {1} {2}", Mod(), Reg(), Rm());
 

@@ -182,14 +182,14 @@ namespace Z0
         public static string format(OpCodeIndex src, FormatCode fc = FormatCode.Expr)
             => format(OcKindIndex, src, fc);
 
+        public static string format(EASZ src, FormatCode fc = FormatCode.Expr)
+            => fc == FormatCode.BitWidth ? nsize(src) : format(EaszKinds,src,fc);
+
         public static string format(EOSZ src, FormatCode fc = FormatCode.Expr)
             => fc == FormatCode.BitWidth ? nsize(src) : format(EoszKinds,src,fc);
 
         public static string format(ImmSpec src, FormatCode fc = FormatCode.Expr)
             => fc == FormatCode.BitWidth ? (((byte)src)*8).ToString() : format(ImmSpecs,src,fc);
-
-        public static string format(EASZ src, FormatCode fc = FormatCode.Expr)
-            => fc == FormatCode.BitWidth ? nsize(src) : format(EaszKinds,src,fc);
 
         public static string format(ModeKind src, FormatCode fc = FormatCode.Expr)
             => fc == FormatCode.BitWidth ? nsize((byte)src + 1) : format(ModeKinds,src,fc);
@@ -212,8 +212,8 @@ namespace Z0
         public static string format(XedModels.RepPrefix src, FormatCode fc = FormatCode.Expr)
             => format(RepPrexixKinds, src, fc);
 
-        public static string format(VexLengthKind src)
-            => VexLengthKinds.Format(src);
+        public static string format(VexLengthKind src, FormatCode fc = FormatCode.Expr)
+            => fc == FormatCode.BitWidth ? XedRules.bitwidth(src).ToString() : format(VexLengthKinds,src,fc);
 
         public static string format(ASZ src)
             => AszKinds.Format(src);

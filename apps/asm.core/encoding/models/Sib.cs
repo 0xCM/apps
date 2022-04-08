@@ -76,6 +76,12 @@ namespace Z0.Asm
             get => !IsEmpty;
         }
 
+        public bool IsNonZero
+        {
+            [MethodImpl(Inline)]
+            get => _Value != 0;
+        }
+
         [MethodImpl(Inline)]
         public byte Value()
             => _Value;
