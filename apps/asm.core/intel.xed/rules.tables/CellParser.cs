@@ -18,56 +18,322 @@ namespace Z0
     {
         public readonly struct CellParser
         {
-            static bool ParseValue(CellType type, string data, out CellValueExpr dst)
+            public static bool parse(FieldKind field, string value, out CellValue dst)
             {
-                var result = false;
-                dst = CellValueExpr.Empty;
-
-                switch(type.Class.Kind)
+                var result = true;
+                dst = R.CellValue.Empty;
+                if(XedParsers.IsNontermCall(value) && XedParsers.parse(value, out Nonterminal k))
                 {
-                    case CK.Keyword:
-                    {
-                        result = RuleKeyword.parse(data, out RuleKeyword x);
-                        dst = new(x);
-                    }
-                    break;
-                    case CK.BinaryLiteral:
-                    {
-                        result = XedParsers.parse(data, out uint8b x);
-                        dst = new(type,x);
-                    }
-                    break;
-                    case CK.HexLiteral:
-                    {
-                        result = XedParsers.parse(data, out Hex8 x);
-                        dst = new(type,x);
-                    }
-                    break;
-                    default:
-                    {
-                        var field = Field.Empty;
-                        if(XedParsers.IsHexLiteral(data))
-                        {
-                            if(XedParsers.parse(data, out Hex8 x8))
-                                field = Field.init(type.Field, x8);
-                            else if(XedParsers.parse(data, out Hex16 x16))
-                                field = Field.init(type.Field, x16);
-                        }
-                        else if(XedParsers.IsBinaryLiteral(data))
-                        {
-                            if(XedParsers.parse(data, out uint8b b))
-                                field = Field.init(type.Field, b);
-                        }
-                        else if(XedParsers.IsIntLiteral(data))
-                        {
-                            if(XedParsers.parse(data, out byte n8))
-                                field = Field.init(type.Field, n8);
-                            else if(XedParsers.parse(data, out ushort n16))
-                                field = Field.init(type.Field, n16);
-                        }
+                    dst = new (field, k, field != 0? CellRole.FieldValue: CellRole.NontermCall);
+                    return true;
+                }
 
-                        result = field.IsNonEmpty;
-                        dst = new(type, field);
+                switch(field)
+                {
+                    case K.AGEN:
+                    case K.AMD3DNOW:
+                    case K.ASZ:
+                    case K.CET:
+                    case K.CLDEMOTE:
+                    case K.DF32:
+                    case K.DF64:
+                    case K.DUMMY:
+                    case K.ENCODER_PREFERRED:
+                    case K.ENCODE_FORCE:
+                    case K.HAS_MODRM:
+                    case K.HAS_SIB:
+                    case K.ILD_F2:
+                    case K.ILD_F3:
+                    case K.IMM0:
+                    case K.IMM0SIGNED:
+                    case K.IMM1:
+                    case K.LOCK:
+                    case K.LZCNT:
+                    case K.MEM0:
+                    case K.MEM1:
+                    case K.MODE_FIRST_PREFIX:
+                    case K.MODE_SHORT_UD0:
+                    case K.MODEP5:
+                    case K.MODEP55C:
+                    case K.MPXMODE:
+                    case K.MUST_USE_EVEX:
+                    case K.NEEDREX:
+                    case K.NEED_SIB:
+                    case K.NOREX:
+                    case K.NO_RETURN:
+                    case K.NO_SCALE_DISP8:
+                    case K.REX:
+                    case K.OSZ:
+                    case K.OUT_OF_BYTES:
+                    case K.P4:
+                    case K.PREFIX66:
+                    case K.PTR:
+                    case K.REALMODE:
+                    case K.RELBR:
+                    case K.TZCNT:
+                    case K.UBIT:
+                    case K.USING_DEFAULT_SEGMENT0:
+                    case K.USING_DEFAULT_SEGMENT1:
+                    case K.VEX_C4:
+                    case K.VEXDEST3:
+                    case K.VEXDEST4:
+                    case K.WBNOINVD:
+                    case K.REXRR:
+                    case K.SAE:
+                    case K.BCRC:
+                    case K.ZEROING:
+                    {
+                        if(XedParsers.parse(value, out bit b))
+                        {
+                            dst = new(field, b);
+                            result = true;
+                        }
+                    }
+                    break;
+
+                    case K.REXW:
+                    {
+                        if(XedParsers.parse(value, out bit b))
+                        {
+                            dst = new (field, b);
+                            result = true;
+                        }
+                        else if(value.Length == 1 && value[0] == 'w')
+                        {
+                            dst = new (new BfSeg(field, BfSegKind.REXW));
+                            //dst = new (seg(field, 'w'));
+                            result = true;
+                        }
+                    }
+                    break;
+                    case K.REXR:
+                    {
+                        if(XedParsers.parse(value, out bit b))
+                        {
+                            dst = new (field,b);
+                            result = true;
+                        }
+                        else if(value.Length == 1 && value[0] == 'r')
+                        {
+                            dst = new (new BfSeg(field, BfSegKind.REXR));
+                            //dst = new (seg(field, 'r'),CellRole.FieldValue);
+                            result = true;
+                        }
+                    }
+                    break;
+                    case K.REXX:
+                    {
+                        if(XedParsers.parse(value, out bit b))
+                        {
+                            dst = new (field,b);
+                            result = true;
+                        }
+                        else if(value.Length == 1 && value[0] == 'x')
+                        {
+                            dst = new (new BfSeg(field, BfSegKind.REXX));
+                            //dst = new (seg(field, 'x'));
+                            result = true;
+                        }
+                    }
+                    break;
+                    case K.REXB:
+                    {
+                        if(XedParsers.parse(value, out bit b))
+                        {
+                            dst = new (field, b);
+                            result = true;
+                        }
+                        else if(value.Length == 1 && value[0] == 'b')
+                        {
+                            dst = new (new BfSeg(field, BfSegKind.REXB));
+                            //dst = new (seg(field, 'b'));
+                            result = true;
+                        }
+                    }
+                    break;
+
+                    case K.ELEMENT_SIZE:
+                    case K.MEM_WIDTH:
+                    {
+                        if(ushort.TryParse(value, out ushort b))
+                        {
+                            dst = new (field,b);
+                            result = true;
+                        }
+                    }
+                    break;
+
+                    case K.SIBBASE:
+                    case K.HINT:
+                    case K.ROUNDC:
+                    case K.SEG_OVD:
+                    case K.VEXVALID:
+                    case K.MOD:
+                    case K.SIBSCALE:
+                    case K.EASZ:
+                    case K.EOSZ:
+                    case K.FIRST_F2F3:
+                    case K.LAST_F2F3:
+                    case K.DEFAULT_SEG:
+                    case K.MODE:
+                    case K.REP:
+                    case K.SMODE:
+                    case K.VEX_PREFIX:
+                    case K.VL:
+                    case K.LLRC:
+                    case K.MAP:
+                    case K.NELEM:
+                    case K.SCALE:
+                    case K.BRDISP_WIDTH:
+                    case K.DISP_WIDTH:
+                    case K.ILD_SEG:
+                    case K.IMM1_BYTES:
+                    case K.IMM_WIDTH:
+                    case K.MAX_BYTES:
+                    case K.MODRM_BYTE:
+                    case K.NPREFIXES:
+                    case K.NREXES:
+                    case K.NSEG_PREFIXES:
+                    case K.POS_DISP:
+                    case K.POS_IMM:
+                    case K.POS_IMM1:
+                    case K.POS_MODRM:
+                    case K.POS_NOMINAL_OPCODE:
+                    case K.POS_SIB:
+                    case K.NEED_MEMDISP:
+                    case K.RM:
+                    case K.SIBINDEX:
+                    case K.REG:
+                    case K.VEXDEST210:
+                    case K.MASK:
+                    case K.SRM:
+                    {
+                        if(XedParsers.parse(value, out byte b))
+                        {
+                            dst = new (field,b);
+                            result = true;
+                        }
+                    }
+                    break;
+
+                    case K.ESRC:
+                    {
+                        if(DataParser.parse(value, out Hex4 x))
+                        {
+                            dst = new (field,x);
+                            result = true;
+                        }
+                    }
+                    break;
+
+
+                    case K.NOMINAL_OPCODE:
+                    {
+                        if(DataParser.parse(value, out Hex8 x))
+                        {
+                            dst = new (field, x);
+                            result = true;
+                        }
+                    }
+                    break;
+
+                    case K.DISP:
+                    {
+                        result = byte.TryParse(value, out byte b);
+                        if(result)
+                            dst = new (field, b);
+                        else
+                        {
+                            result = XedParsers.parse(value, out DispSeg disp);
+                            if(result)
+                                dst = new (field, disp);
+                        }
+                    }
+                    break;
+
+                    case K.UIMM0:
+                    {
+                        result = byte.TryParse(value, out var b);
+                        if(result)
+                            dst = new (field,b);
+                        else
+                        {
+                            result = XedParsers.parse(value, out ImmSeg imm);
+                            dst = new (field,imm.WithIndex(0));
+                        }
+                    }
+                    break;
+                    case K.UIMM1:
+                    {
+                        result = byte.TryParse(value, out var b);
+                        if(result)
+                            dst = new (field,b);
+                        else
+                        {
+                            result = XedParsers.parse(value, out ImmSeg imm);
+                            dst = new (field,imm.WithIndex(1));
+                        }
+                    }
+                    break;
+
+                    case K.BASE0:
+                    case K.BASE1:
+                    case K.INDEX:
+                    case K.OUTREG:
+                    case K.SEG0:
+                    case K.SEG1:
+                    case K.REG0:
+                    case K.REG1:
+                    case K.REG2:
+                    case K.REG3:
+                    case K.REG4:
+                    case K.REG5:
+                    case K.REG6:
+                    case K.REG7:
+                    case K.REG8:
+                    case K.REG9:
+                    {
+                        if(XedParsers.reg(field, value, out dst))
+                            result = true;
+                    }
+                    break;
+                    case K.CHIP:
+                    {
+                        if(XedParsers.parse(value, out ChipCode x))
+                        {
+                            dst = new (field, (ushort)x);
+                            result = true;
+                        }
+                    }
+                    break;
+
+                    case K.ERROR:
+                    {
+                        if(XedParsers.parse(value, out ErrorKind x))
+                        {
+                            dst = new (field, (ushort)x);
+                            result = true;
+                        }
+                    }
+                    break;
+
+                    case K.ICLASS:
+                    {
+                        if(XedParsers.parse(value, out IClass x))
+                        {
+                            dst = new (field, (ushort)x);
+                            result = true;
+                        }
+                    }
+                    break;
+
+                    case K.BCAST:
+                    {
+                        if(XedParsers.parse(value, out BCastKind kind))
+                        {
+                            dst = new (field, (byte)kind);
+                            result = true;
+                        }
                     }
                     break;
                 }
@@ -144,81 +410,6 @@ namespace Z0
                 var j = text.index(src, Chars.RBracket);
                 if(i >0 && j>i)
                     result = IsImmSpec(text.inside(src,i,j));
-                return result;
-            }
-
-            public static bool parse(in CellSpec src, out CellValueExpr dst)
-            {
-                var type = TableCalcs.celltype(src);
-                var data = src.Data;
-                var result = false;
-                dst = CellValueExpr.Empty;
-                if(src.IsImplication)
-                {
-                    dst = new CellValueExpr(RuleOperator.Impl);
-                    return true;
-                }
-
-                Demand.eq(src.IsNontermExpr,IsNontermExpr(data));
-                if(src.IsNontermExpr)
-                {
-                    var i = text.index(data, Chars.Eq);
-                    var val = text.right(data, i);
-                    result = XedParsers.parse(val, out Nonterminal x);
-                    dst = new (type, new NontermExpr(src.Field, src.Operator, x));
-                }
-                if(dst.IsNonEmpty)
-                    return result;
-
-                switch(type.Class.Kind)
-                {
-                    case CK.NontermExpr:
-                    {
-                        var i = text.index(data, Chars.Eq);
-                        var val = text.right(data, i);
-                        result = XedParsers.parse(val, out Nonterminal x);
-                        dst = new (type, new NontermExpr(src.Field, src.Operator, x));
-                    }
-                    break;
-                    case CK.Operator:
-                    {
-                        result = parse(data, out RuleOperator x);
-                        dst = new(x);
-                    }
-                    break;
-                    case CK.Seg:
-                    {
-                        result = parse(data, out Seg x);
-                        dst = new(type, x);
-                    }
-                    break;
-                    case CK.Nonterm:
-                    {
-                        result = XedParsers.parse(data, out Nonterminal x);
-                        dst = new (type,x);
-                    }
-                    break;
-                    case CK.EqExpr:
-                    {
-                        var i = text.index(data, Chars.Eq);
-                        var val = text.right(data, i);
-                        result = ParseValue(type, val, out dst);
-                    }
-                    break;
-                    case CK.NeqExpr:
-                    {
-                        var i = text.index(data, Chars.Bang);
-                        var val = text.right(data, i+1);
-                        result = ParseValue(type, val, out dst);
-                    }
-                    break;
-                    default:
-                    {
-                        result = ParseValue(type, data, out dst);
-                    }
-                    break;
-                }
-
                 return result;
             }
 
@@ -594,7 +785,7 @@ namespace Z0
                 return cells.Map(x => new CellSpec(x));
             }
 
-            public static string normalize(string src)
+            static string normalize(string src)
             {
                 var dst = EmptyString;
                 var i = text.index(src, Chars.Hash);
@@ -604,329 +795,6 @@ namespace Z0
                     dst = text.despace(text.trim(src));
 
                 return dst.Replace("->", "=>").Replace("|", "=>").Remove("XED_RESET");
-            }
-
-            public static bool parse(FieldKind field, string value, out CellValue dst)
-            {
-                var result = true;
-                dst = R.CellValue.Empty;
-                if(XedParsers.IsNontermCall(value) && XedParsers.parse(value, out Nonterminal k))
-                {
-                    dst = new (field, k, field != 0? CellRole.FieldValue: CellRole.NontermCall);
-                    return true;
-                }
-
-                switch(field)
-                {
-                    case K.AGEN:
-                    case K.AMD3DNOW:
-                    case K.ASZ:
-                    case K.CET:
-                    case K.CLDEMOTE:
-                    case K.DF32:
-                    case K.DF64:
-                    case K.DUMMY:
-                    case K.ENCODER_PREFERRED:
-                    case K.ENCODE_FORCE:
-                    case K.HAS_MODRM:
-                    case K.HAS_SIB:
-                    case K.ILD_F2:
-                    case K.ILD_F3:
-                    case K.IMM0:
-                    case K.IMM0SIGNED:
-                    case K.IMM1:
-                    case K.LOCK:
-                    case K.LZCNT:
-                    case K.MEM0:
-                    case K.MEM1:
-                    case K.MODE_FIRST_PREFIX:
-                    case K.MODE_SHORT_UD0:
-                    case K.MODEP5:
-                    case K.MODEP55C:
-                    case K.MPXMODE:
-                    case K.MUST_USE_EVEX:
-                    case K.NEEDREX:
-                    case K.NEED_SIB:
-                    case K.NOREX:
-                    case K.NO_RETURN:
-                    case K.NO_SCALE_DISP8:
-                    case K.REX:
-                    case K.OSZ:
-                    case K.OUT_OF_BYTES:
-                    case K.P4:
-                    case K.PREFIX66:
-                    case K.PTR:
-                    case K.REALMODE:
-                    case K.RELBR:
-                    case K.TZCNT:
-                    case K.UBIT:
-                    case K.USING_DEFAULT_SEGMENT0:
-                    case K.USING_DEFAULT_SEGMENT1:
-                    case K.VEX_C4:
-                    case K.VEXDEST3:
-                    case K.VEXDEST4:
-                    case K.WBNOINVD:
-                    case K.REXRR:
-                    case K.SAE:
-                    case K.BCRC:
-                    case K.ZEROING:
-                    {
-                        if(XedParsers.parse(value, out bit b))
-                        {
-                            dst = new(field, b, CellRole.FieldValue);
-                            result = true;
-                        }
-                    }
-                    break;
-
-                    case K.REXW:
-                    {
-                        if(XedParsers.parse(value, out bit b))
-                        {
-                            dst = new (field, b, CellRole.FieldValue);
-                            result = true;
-                        }
-                        else if(value.Length == 1 && value[0] == 'w')
-                        {
-                            dst = new (new BfSeg(field, BfSegKind.REXW), CellRole.FieldValue);
-                            //dst = new (seg(field, 'w'), CellRole.FieldValue);
-                            result = true;
-                        }
-                    }
-                    break;
-                    case K.REXR:
-                    {
-                        if(XedParsers.parse(value, out bit b))
-                        {
-                            dst = new (field,b, CellRole.FieldValue);
-                            result = true;
-                        }
-                        else if(value.Length == 1 && value[0] == 'r')
-                        {
-                            dst = new (new BfSeg(field, BfSegKind.REXR), CellRole.FieldValue);
-                            //dst = new (seg(field, 'r'),CellRole.FieldValue);
-                            result = true;
-                        }
-                    }
-                    break;
-                    case K.REXX:
-                    {
-                        if(XedParsers.parse(value, out bit b))
-                        {
-                            dst = new (field,b, CellRole.FieldValue);
-                            result = true;
-                        }
-                        else if(value.Length == 1 && value[0] == 'x')
-                        {
-                            dst = new (new BfSeg(field, BfSegKind.REXX), CellRole.FieldValue);
-                            //dst = new (seg(field, 'x'), CellRole.FieldValue);
-                            result = true;
-                        }
-                    }
-                    break;
-                    case K.REXB:
-                    {
-                        if(XedParsers.parse(value, out bit b))
-                        {
-                            dst = new (field, b, CellRole.FieldValue);
-                            result = true;
-                        }
-                        else if(value.Length == 1 && value[0] == 'b')
-                        {
-                            dst = new (new BfSeg(field, BfSegKind.REXB), CellRole.FieldValue);
-                            //dst = new (seg(field, 'b'), CellRole.FieldValue);
-                            result = true;
-                        }
-                    }
-                    break;
-
-                    case K.ELEMENT_SIZE:
-                    case K.MEM_WIDTH:
-                    {
-                        if(ushort.TryParse(value, out ushort b))
-                        {
-                            dst = new (field,b);
-                            result = true;
-                        }
-                    }
-                    break;
-
-                    case K.SIBBASE:
-                    case K.HINT:
-                    case K.ROUNDC:
-                    case K.SEG_OVD:
-                    case K.VEXVALID:
-                    case K.MOD:
-                    case K.SIBSCALE:
-                    case K.EASZ:
-                    case K.EOSZ:
-                    case K.FIRST_F2F3:
-                    case K.LAST_F2F3:
-                    case K.DEFAULT_SEG:
-                    case K.MODE:
-                    case K.REP:
-                    case K.SMODE:
-                    case K.VEX_PREFIX:
-                    case K.VL:
-                    case K.LLRC:
-                    case K.MAP:
-                    case K.NELEM:
-                    case K.SCALE:
-                    case K.BRDISP_WIDTH:
-                    case K.DISP_WIDTH:
-                    case K.ILD_SEG:
-                    case K.IMM1_BYTES:
-                    case K.IMM_WIDTH:
-                    case K.MAX_BYTES:
-                    case K.MODRM_BYTE:
-                    case K.NPREFIXES:
-                    case K.NREXES:
-                    case K.NSEG_PREFIXES:
-                    case K.POS_DISP:
-                    case K.POS_IMM:
-                    case K.POS_IMM1:
-                    case K.POS_MODRM:
-                    case K.POS_NOMINAL_OPCODE:
-                    case K.POS_SIB:
-                    case K.NEED_MEMDISP:
-                    case K.RM:
-                    case K.SIBINDEX:
-                    case K.REG:
-                    case K.VEXDEST210:
-                    case K.MASK:
-                    case K.SRM:
-                    {
-                        if(XedParsers.parse(value, out byte b))
-                        {
-                            dst = new (field,b);
-                            result = true;
-                        }
-                    }
-                    break;
-
-                    case K.ESRC:
-                    {
-                        if(DataParser.parse(value, out Hex4 x))
-                        {
-                            dst = new (field,x, CellRole.FieldValue);
-                            result = true;
-                        }
-                    }
-                    break;
-
-
-                    case K.NOMINAL_OPCODE:
-                    {
-                        if(DataParser.parse(value, out Hex8 x))
-                        {
-                            dst = new (field, x, CellRole.FieldValue);
-                            result = true;
-                        }
-                    }
-                    break;
-
-                    case K.DISP:
-                    {
-                        result = byte.TryParse(value, out byte b);
-                        if(result)
-                            dst = new (field, b);
-                        else
-                        {
-                            result = XedParsers.parse(value, out DispSeg disp);
-                            if(result)
-                                dst = new (field, disp, CellRole.FieldValue);
-                        }
-                    }
-                    break;
-
-                    case K.UIMM0:
-                    {
-                        result = byte.TryParse(value, out var b);
-                        if(result)
-                            dst = new (field,b);
-                        else
-                        {
-                            result = XedParsers.parse(value, out ImmSeg imm);
-                            dst = new (field,imm.WithIndex(0), CellRole.FieldValue);
-                        }
-                    }
-                    break;
-                    case K.UIMM1:
-                    {
-                        result = byte.TryParse(value, out var b);
-                        if(result)
-                            dst = new (field,b);
-                        else
-                        {
-                            result = XedParsers.parse(value, out ImmSeg imm);
-                            dst = new (field,imm.WithIndex(1), CellRole.FieldValue);
-                        }
-                    }
-                    break;
-
-                    case K.BASE0:
-                    case K.BASE1:
-                    case K.INDEX:
-                    case K.OUTREG:
-                    case K.SEG0:
-                    case K.SEG1:
-                    case K.REG0:
-                    case K.REG1:
-                    case K.REG2:
-                    case K.REG3:
-                    case K.REG4:
-                    case K.REG5:
-                    case K.REG6:
-                    case K.REG7:
-                    case K.REG8:
-                    case K.REG9:
-                    {
-                        if(XedParsers.reg(field, value, out dst))
-                            result = true;
-                    }
-                    break;
-                    case K.CHIP:
-                    {
-                        if(XedParsers.parse(value, out ChipCode x))
-                        {
-                            dst = new (field, (ushort)x);
-                            result = true;
-                        }
-                    }
-                    break;
-
-                    case K.ERROR:
-                    {
-                        if(XedParsers.parse(value, out ErrorKind x))
-                        {
-                            dst = new (field, (ushort)x);
-                            result = true;
-                        }
-                    }
-                    break;
-
-                    case K.ICLASS:
-                    {
-                        if(XedParsers.parse(value, out IClass x))
-                        {
-                            dst = new (field, (ushort)x);
-                            result = true;
-                        }
-                    }
-                    break;
-
-                    case K.BCAST:
-                    {
-                        if(XedParsers.parse(value, out BCastKind kind))
-                        {
-                            dst = new (field, (byte)kind);
-                            result = true;
-                        }
-                    }
-                    break;
-                }
-
-                return result;
             }
         }
     }

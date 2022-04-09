@@ -69,14 +69,8 @@ namespace Z0
                 var cell = lookup[key];
                 var type = TableCalcs.celltype(cell);
 
-                var value = CellValueExpr.Empty;
-                var result = CellParser.parse(cell, out value);
-                // if(!result)
-                // {
-                //     Error(AppMsg.ParseFailure.Format(nameof(CellValueExpr), cell.Data));
-                //     break;
-                // }
-                dst.AppendLineFormat(RenderPattern, key.TableKind, idLookup[key.TableId].TableName, key.RowIndex, value, type, cell.Data);
+                // var value = CellValueExpr.Empty;
+                // dst.AppendLineFormat(RenderPattern, key.TableKind, idLookup[key.TableId].TableName, key.RowIndex, value, type, cell.Data);
             }
 
             FileEmit(dst.Emit(), keys.Length, XedPaths.RuleTargets() + FS.file("xed.rules.expressions", FS.Csv), TextEncodingKind.Asci);

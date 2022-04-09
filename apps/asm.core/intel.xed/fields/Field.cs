@@ -15,6 +15,30 @@ namespace Z0
     {
         public struct Field
         {
+            public static Field numeric(FieldKind kind, string data)
+            {
+                var field = Field.Empty;
+                if(XedParsers.IsHexLiteral(data))
+                {
+                    if(XedParsers.parse(data, out Hex8 x8))
+                        field = Field.init(kind, x8);
+                    else if(XedParsers.parse(data, out Hex16 x16))
+                        field = Field.init(kind, x16);
+                }
+                else if(XedParsers.IsBinaryLiteral(data))
+                {
+                    if(XedParsers.parse(data, out uint8b b))
+                        field = Field.init(kind, b);
+                }
+                else if(XedParsers.IsIntLiteral(data))
+                {
+                    if(XedParsers.parse(data, out byte n8))
+                        field = Field.init(kind, n8);
+                    else if(XedParsers.parse(data, out ushort n16))
+                        field = Field.init(kind, n16);
+                }
+                return field;
+            }
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, bit value)
             {

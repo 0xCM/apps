@@ -620,7 +620,7 @@ namespace Z0
             }
             else if(parse(value, out XedRegId reg))
             {
-                dst = new (field, reg, CellRole.FieldValue);
+                dst = new (field, reg);
                 result = true;
             }
             else if(RuleKeyword.parse(value, out RuleKeyword keyword))
