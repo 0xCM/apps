@@ -41,8 +41,8 @@ namespace Z0
             dst.OcValue = pattern.OpCode.Value;
             switch(src.FieldClass)
             {
-                case DefFieldClass.Bitfield:
-                    dst.Bitfield = src.AsBitfield();
+                case DefFieldClass.Seg:
+                    dst.Bitfield = src.AsSeg();
                 break;
                 case DefFieldClass.BitLiteral:
                     dst.BitLiteral = src.AsBitLit();

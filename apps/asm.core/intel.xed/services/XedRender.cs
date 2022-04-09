@@ -603,8 +603,8 @@ namespace Z0
                 case DefFieldClass.IntLiteral:
                     dst = src.AsIntLit().ToString();
                 break;
-                case DefFieldClass.Bitfield:
-                    dst = format(src.AsBitfield());
+                case DefFieldClass.Seg:
+                    dst = src.AsSeg().Format();
                 break;
                 case DefFieldClass.BitLiteral:
                     dst = format5(src.AsBitLit());

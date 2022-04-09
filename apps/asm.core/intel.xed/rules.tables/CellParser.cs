@@ -718,7 +718,10 @@ namespace Z0
                 {
                     result = parse(src, out BfSeg x);
                     if(result)
-                        dst = part(x);
+                    {
+                        //dst = part(x);
+                        dst = part(new Seg(x.Field, x.Pattern));
+                    }
                     else
                         result = (false, AppMsg.ParseFailure.Format(nameof(BfSeg), src));
                 }

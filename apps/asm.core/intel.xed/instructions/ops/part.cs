@@ -11,9 +11,9 @@ namespace Z0
 
     partial class XedPatterns
     {
-        [MethodImpl(Inline), Op]
-        public static InstField part(BfSeg src)
-            => new(src);
+        // [MethodImpl(Inline), Op]
+        // public static InstField part(BfSeg src)
+        //     => new(src);
 
         [MethodImpl(Inline), Op]
         public static InstField part(Seg src)

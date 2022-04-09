@@ -17,6 +17,14 @@ namespace Z0
             public readonly asci8 Value;
 
             [MethodImpl(Inline)]
+            internal Seg(FieldKind field, asci8 value)
+            {
+                Field = field;
+                //Width = width;
+                Value = value;
+            }
+
+            [MethodImpl(Inline)]
             internal Seg(FieldKind field, byte width, asci8 value)
             {
                 Field = field;

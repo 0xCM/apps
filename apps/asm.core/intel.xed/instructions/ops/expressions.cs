@@ -5,25 +5,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    using static core;
+    using static XedRules;
+
+    partial class XedPatterns
     {
-        public enum DefFieldClass : byte
-        {
-            None,
-
-            BitLiteral,
-
-            HexLiteral,
-
-            IntLiteral,
-
-            //Bitfield,
-
-            Seg,
-
-            Nonterm,
-
-            FieldExpr,
-        }
+       public static Index<InstField> expressions(in InstPatternBody src)
+            => src.Data.Where(x => x.IsFieldExpr);
     }
 }

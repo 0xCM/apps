@@ -6,7 +6,6 @@
 namespace Z0
 {
     using static core;
-
     using static XedRules;
 
     partial class XedPatterns
@@ -26,5 +25,6 @@ namespace Z0
             }
             return (left.ToArray(),right.ToArray());
         }
+
     }
 }

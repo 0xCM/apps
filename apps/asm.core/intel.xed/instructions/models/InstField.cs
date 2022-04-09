@@ -42,15 +42,15 @@ namespace Z0
                 Data = data;
             }
 
-            [MethodImpl(Inline)]
-            public InstField(BfSeg src)
-            {
-                var data = ByteBlock16.Empty;
-                data = bytes(src);
-                data[14] = (byte)src.Field;
-                data[15] = (byte)DefFieldClass.Bitfield;
-                Data = data;
-            }
+            // [MethodImpl(Inline)]
+            // public InstField(BfSeg src)
+            // {
+            //     var data = ByteBlock16.Empty;
+            //     data = bytes(src);
+            //     data[14] = (byte)src.Field;
+            //     data[15] = (byte)DefFieldClass.Bitfield;
+            //     Data = data;
+            // }
 
             [MethodImpl(Inline)]
             public InstField(Seg src)
@@ -103,12 +103,6 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => ref @as<FieldKind>(Data[14]);
-            }
-
-            public bool IsBitfield
-            {
-                [MethodImpl(Inline)]
-                get => FieldClass == DefFieldClass.Bitfield;
             }
 
             public bool IsNonTerminal

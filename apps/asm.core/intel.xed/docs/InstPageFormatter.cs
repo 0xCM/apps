@@ -183,8 +183,8 @@ namespace Z0
                                 seek(dst,j) = string.Format(Pattern, j, "Nonterm",  string.Format("{0}::{1}", XedRender.format(nt), path));
                             }
                             break;
-                            case DefFieldClass.Bitfield:
-                                seek(dst,j) = string.Format(Pattern, j, fk, field.AsBitfield());
+                            case DefFieldClass.Seg:
+                                seek(dst,j) = string.Format(Pattern, j, fk, field.AsSeg());
                             break;
                             default:
                                 Errors.Throw(string.Format("Unhandled case: {0}", field.FieldClass));

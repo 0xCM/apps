@@ -19,7 +19,7 @@ namespace Z0
                 ref readonly var field = ref fields[i];
                 switch(field.FieldClass)
                 {
-                    case C.Bitfield:
+                    case C.Seg:
                     case C.HexLiteral:
                     case C.Nonterm:
                     default:
