@@ -74,8 +74,6 @@ namespace Z0
 
         static EnumRender<MASK> MaskCodes = new();
 
-        static EnumRender<CellRole> CellDataKinds = new();
-
         static EnumRender<ChipCode> ChipCodes = new();
 
         static EnumRender<OperatorKind> RuleOps = new();
@@ -248,8 +246,6 @@ namespace Z0
         public static string format(BaseMapKind src)
             => LegacyMap.Format(src);
 
-        public static string format(CellRole src)
-            => CellDataKinds.Format(src);
 
         public static string format(RuleTableKind src)
             => RuleTableKinds.Format(src);

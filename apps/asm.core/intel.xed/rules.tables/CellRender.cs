@@ -12,7 +12,6 @@ namespace Z0
 
     using C = XedRules.FormatCode;
     using K = XedRules.FieldKind;
-    using CR = XedRules.CellRole;
     using CK = XedRules.RuleCellKind;
 
     partial class XedRules
@@ -65,44 +64,12 @@ namespace Z0
                     return EmptyString;
                 else if(src.IsNonTerminal)
                     return XedRender.format(src.ToNonterminal());
-                else if(src.Role != 0)
-                {
-                    switch(src.Role)
-                    {
-                        case CR.BinaryLiteral:
-                            dst = XedRender.format(src.ToBinaryLiteral());
-                            Require.nonempty(dst);
-                        break;
-                        case CR.HexLiteral:
-                            dst = XedRender.format(src.ToHexLiteral());
-                            Require.nonempty(dst);
-                        break;
-                        case CR.IntLiteral:
-                            dst = XedRender.format(src.ToIntLiteral());
-                            Require.nonempty(dst);
-                        break;
-                        case CR.Seg:
-                            dst = src.ToSeg().Format();
-                            break;
-                        case CR.Error:
-                        case CR.Default:
-                        case CR.Branch:
-                        case CR.Null:
-                        case CR.Wildcard:
-                            dst = XedRender.format(src.ToKeyword());
-                            Require.nonempty(dst);
-                        break;
-                        case CR.DispSpec:
-                            dst = XedRender.format(src.ToDispSpec());
-                        break;
-                        case CR.ImmSpec:
-                            dst = XedRender.format(src.ToImmSpec());
-                        break;
-                    }
-
-                    if(nonempty(dst))
-                        return dst;
-                }
+                else if(src.CellKind == RuleCellKind.String)
+                    return src.ToAsci().Format();
+                else if(src.CellKind == RuleCellKind.Keyword)
+                    return src.ToKeyword().Format();
+                else if(src.CellKind == RuleCellKind.Seg)
+                    return src.ToSeg().Format();
 
                 var data = bytes(src.Data);
                 var code = CellRender.fcode(src.Field);

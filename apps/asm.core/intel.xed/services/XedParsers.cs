@@ -616,7 +616,7 @@ namespace Z0
             if(IsNontermCall(value))
             {
                 result = parse(value, out Nonterminal nt);
-                dst = new(field, nt, field != 0 ? CellRole.NontermExpr : CellRole.NontermCall);
+                dst = new(field, nt);
             }
             else if(parse(value, out XedRegId reg))
             {

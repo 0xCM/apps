@@ -6,7 +6,6 @@
 namespace Z0
 {
     using KW = XedRules.RuleKeyWordKind;
-    using CK = XedRules.CellRole;
 
     partial class XedRules
     {
@@ -55,32 +54,25 @@ namespace Z0
                 return result;
             }
 
-            public static RuleKeyword Wildcard => new RuleKeyword(KW.Wildcard, CK.Wildcard, "@");
+            public static RuleKeyword Wildcard => new RuleKeyword(KW.Wildcard, "@");
 
-            public static RuleKeyword Null => new RuleKeyword(KW.Null, CK.Null, "null");
+            public static RuleKeyword Null => new RuleKeyword(KW.Null, "null");
 
-            public static RuleKeyword Default => new RuleKeyword(KW.Default, CK.Default, "default");
+            public static RuleKeyword Default => new RuleKeyword(KW.Default, "default");
 
-            public static RuleKeyword Branch => new RuleKeyword(KW.Branch, CK.Branch, "branch");
+            public static RuleKeyword Branch => new RuleKeyword(KW.Branch, "branch");
 
-            public static RuleKeyword Error => new RuleKeyword(KW.Error, CK.Error, "error");
+            public static RuleKeyword Error => new RuleKeyword(KW.Error, "error");
 
             readonly ByteBlock16 Data;
 
             [MethodImpl(Inline)]
-            RuleKeyword(RuleKeyWordKind kind, CellRole ck, asci8 src)
+            RuleKeyword(RuleKeyWordKind kind, asci8 src)
             {
                 var data = ByteBlock16.Empty;
                 data = (ulong)src;
-                data[14] = (byte)ck;
                 data[15] = (byte)kind;
                 Data = data;
-            }
-
-            public ref readonly CellRole CellRole
-            {
-                [MethodImpl(Inline)]
-                get => ref core.@as<CellRole>(Data[14]);
             }
 
             public ref readonly RuleKeyWordKind KeywordKind

@@ -60,18 +60,6 @@ namespace Z0
                 get => Class.IsEmpty;
             }
 
-            public bool IsNumber
-            {
-                [MethodImpl(Inline)]
-                get => Class.IsNumber;
-            }
-
-            public bool IsOperator
-            {
-                [MethodImpl(Inline)]
-                get => Class.IsOperator;
-            }
-
             [MethodImpl(Inline)]
             public bool Equals(CellType src)
                 => Field == src.Field

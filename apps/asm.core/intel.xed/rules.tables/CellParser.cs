@@ -24,7 +24,7 @@ namespace Z0
                 dst = R.CellValue.Empty;
                 if(XedParsers.IsNontermCall(value) && XedParsers.parse(value, out Nonterminal k))
                 {
-                    dst = new (field, k, field != 0? CellRole.FieldValue: CellRole.NontermCall);
+                    dst = new (field, k);
                     return true;
                 }
 
@@ -267,7 +267,7 @@ namespace Z0
                         else
                         {
                             result = XedParsers.parse(value, out ImmSeg imm);
-                            dst = new (field,imm.WithIndex(1));
+                            dst = new (field, imm.WithIndex(1));
                         }
                     }
                     break;
@@ -346,18 +346,6 @@ namespace Z0
             public static bool IsImpl(string src)
                 => src.Contains("=>");
 
-            public static bool IsBfSeg(string src)
-            {
-                if(!IsDispSeg(src) && !IsImmSeg(src))
-                {
-                    var i = text.index(src, Chars.LBracket);
-                    var j = text.index(src, Chars.RBracket);
-                    return i > 0 && j > i;
-                }
-                else
-                    return false;
-            }
-
             public static bool IsExpr(string src)
                 => IsEq(src) || IsNeq(src);
 
@@ -366,16 +354,6 @@ namespace Z0
 
             public static bool IsDispSpec(string src)
                 => XedParsers.parse(src, out DispSpec _);
-
-            public static bool IsDispSeg(string src)
-            {
-                var result = false;
-                var i = text.index(src, Chars.LBracket);
-                var j = text.index(src, Chars.RBracket);
-                if(i >0 && j>0)
-                    result = IsDispSpec(text.inside(src,i,j));
-                return result;
-            }
 
             public static bool IsImmSpec(string src)
                 => XedParsers.parse(src, out ImmSpec _);
@@ -396,16 +374,6 @@ namespace Z0
                     dst = text.inside(src,i,j);
                 else
                     dst = EmptyString;
-                return result;
-            }
-
-            public static bool IsImmSeg(string src)
-            {
-                var result = false;
-                var i = text.index(src, Chars.LBracket);
-                var j = text.index(src, Chars.RBracket);
-                if(i >0 && j>i)
-                    result = IsImmSpec(text.inside(src,i,j));
                 return result;
             }
 
@@ -530,7 +498,7 @@ namespace Z0
                     else if(RuleKeyword.parse(input, out var keyword))
                         dst = CK.Keyword;
                     else
-                        dst = CK.Text;
+                        dst = CK.String;
                 }
 
                 Require.invariant(dst.IsNonEmpty);

@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using K = XedRules.RuleCellKind;
-
     partial class XedRules
     {
         public readonly struct CellClass
@@ -29,18 +27,6 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => Kind != 0;
-            }
-
-            public bool IsNumber
-            {
-                [MethodImpl(Inline)]
-                get => Kind.Test(K.Number);
-            }
-
-            public bool IsOperator
-            {
-                [MethodImpl(Inline)]
-                get => Kind.Test(K.Operator);
             }
 
             public string Format()

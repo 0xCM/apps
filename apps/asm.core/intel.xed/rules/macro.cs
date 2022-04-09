@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static XedModels;
+
     partial class XedRules
     {
         [MethodImpl(Inline), Op, Closures(Closure)]

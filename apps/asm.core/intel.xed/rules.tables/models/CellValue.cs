@@ -18,14 +18,14 @@ namespace Z0
 
             public readonly ulong Data;
 
-            public readonly CellRole Role;
+            public readonly RuleCellKind CellKind;
 
             [MethodImpl(Inline)]
             public CellValue(FieldKind field, bit data)
             {
                 Field = field;
                 Data = (byte)data;
-                Role = CellRole.FieldValue;
+                CellKind = 0;
             }
 
             [MethodImpl(Inline)]
@@ -33,7 +33,8 @@ namespace Z0
             {
                 Field = kind;
                 Data = data;
-                Role = CellRole.FieldValue;
+                //Role = CellRole.FieldValue;
+                CellKind = 0;
             }
 
             [MethodImpl(Inline)]
@@ -41,7 +42,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = data;
-                Role = CellRole.HexLiteral;
+                CellKind = 0;
             }
 
             [MethodImpl(Inline)]
@@ -49,7 +50,7 @@ namespace Z0
             {
                 Field = field;
                 Data = data;
-                Role = CellRole.FieldValue;
+                CellKind = 0;
             }
 
             [MethodImpl(Inline)]
@@ -57,23 +58,15 @@ namespace Z0
             {
                 Field = kind;
                 Data = data;
-                Role = CellRole.FieldValue;
+                CellKind = 0;
             }
-
-            // [MethodImpl(Inline)]
-            // public CellValue(BfSeg data)
-            // {
-            //     Field = data.Field;
-            //     Data = (ulong)data.Pattern;
-            //     Role = CellRole.FieldValue;
-            // }
 
             [MethodImpl(Inline)]
             public CellValue(Seg data)
             {
                 Field = data.Field;
                 Data = (ulong)data.Value;
-                Role = CellRole.FieldValue;
+                CellKind = RuleCellKind.Seg;
             }
 
             [MethodImpl(Inline)]
@@ -81,7 +74,7 @@ namespace Z0
             {
                 Field = 0;
                 Data = (byte)data;
-                Role = CellRole.BfSpec;
+                CellKind = 0;
             }
 
             [MethodImpl(Inline)]
@@ -89,23 +82,23 @@ namespace Z0
             {
                 Field = kind;
                 Data = (ushort)data;
-                Role = CellRole.FieldValue;
+                CellKind = 0;
             }
 
             [MethodImpl(Inline)]
             public CellValue(ImmSpec src)
             {
                 Field = 0;
-                Data = (byte)src;
-                Role = CellRole.ImmSpec;
+                Data = (ulong)(asci8)XedRender.format(src);
+                CellKind = RuleCellKind.String;
             }
 
             [MethodImpl(Inline)]
             public CellValue(DispSpec src)
             {
                 Field = 0;
-                Data = (byte)src;
-                Role = CellRole.DispSpec;
+                Data = (ulong)(asci8)XedRender.format(src);
+                CellKind = RuleCellKind.String;
             }
 
             [MethodImpl(Inline)]
@@ -113,15 +106,15 @@ namespace Z0
             {
                 Field = 0;
                 Data = (byte)src;
-                Role = CellRole.Keyword;
+                CellKind = RuleCellKind.Keyword;
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, ulong data, CellRole role = CellRole.FieldValue)
+            public CellValue(FieldKind kind, ulong data)
             {
                 Field = kind;
                 Data = data;
-                Role = CellRole.FieldValue;
+                CellKind = 0;
             }
 
             [MethodImpl(Inline)]
@@ -129,7 +122,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = (ushort)data;
-                Role = CellRole.FieldValue;
+                CellKind = 0;
             }
 
             [MethodImpl(Inline)]
@@ -137,15 +130,15 @@ namespace Z0
             {
                 Field = kind;
                 Data = (ushort)data;
-                Role = CellRole.FieldValue;
+                CellKind = 0;
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, Nonterminal data, CellRole role = CellRole.FieldValue)
+            public CellValue(FieldKind kind, Nonterminal data)
             {
                 Field = kind;
                 Data = (ushort)data;
-                Role = role;
+                CellKind =  kind != 0 ? RuleCellKind.NontermExpr : RuleCellKind.Nonterm;
             }
 
             [MethodImpl(Inline)]
@@ -153,7 +146,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = (byte)data;
-                Role = CellRole.FieldValue;
+                CellKind = 0;
             }
 
             [MethodImpl(Inline)]
@@ -161,7 +154,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = (byte)data;
-                Role = CellRole.FieldValue;
+                CellKind = 0;
             }
 
             [MethodImpl(Inline)]
@@ -169,7 +162,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = (ushort)data;
-                Role = CellRole.FieldValue;
+                CellKind = 0;
             }
 
             [MethodImpl(Inline)]
@@ -177,13 +170,13 @@ namespace Z0
             {
                 Field = kind;
                 Data = (uint)data;
-                Role = CellRole.FieldValue;
+                CellKind = 0;
             }
 
             public readonly bit IsNonTerminal
             {
                 [MethodImpl(Inline)]
-                get => Role == CellRole.NontermCall;
+                get => CellKind == RuleCellKind.Nonterm;
             }
 
             public bool IsEmpty
@@ -245,6 +238,10 @@ namespace Z0
                 => (XedRegId)Data;
 
             [MethodImpl(Inline)]
+            public asci8 ToAsci()
+                => (asci8)Data;
+
+            [MethodImpl(Inline)]
             public InstClass ToInstClass()
                 => (IClass)Data;
 
@@ -269,10 +266,6 @@ namespace Z0
                 => (bit)Data;
 
             [MethodImpl(Inline)]
-            public ImmSpec ToImmSpec()
-                => (ImmSpec)Data;
-
-            [MethodImpl(Inline)]
             public byte ToIntLiteral()
                 => (byte)Data;
 
@@ -287,10 +280,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public Nonterminal ToNonterminal()
                 => (NontermKind)Data;
-
-            [MethodImpl(Inline)]
-            public DispSpec ToDispSpec()
-                => (DispSpec)Data;
 
             [MethodImpl(Inline)]
             public Seg ToSeg()

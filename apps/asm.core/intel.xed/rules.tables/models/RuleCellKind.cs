@@ -5,51 +5,39 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Pow2x32;
-
     partial class XedRules
     {
-        [Flags]
-        public enum RuleCellKind : uint
+        public enum RuleCellKind : byte
         {
             None = 0,
 
-            Value = P2ᐞ00,
+            BinaryLiteral,
 
-            Literal = P2ᐞ01 | Value,
+            IntLiteral,
 
-            BinaryLiteral = P2ᐞ02 | Literal,
+            HexLiteral,
 
-            IntLiteral = P2ᐞ03 | Literal,
+            Char,
 
-            HexLiteral = P2ᐞ04 | Literal,
+            String,
 
-            Char = P2ᐞ05 | Literal,
+            Keyword,
 
-            String = P2ᐞ06 | Literal,
+            Nonterm,
 
-            Number = P2ᐞ07 | BinaryLiteral | IntLiteral | HexLiteral,
+            Seg,
 
-            Text = P2ᐞ08 | String | Char,
-            Keyword = P2ᐞ09,
+            Operator,
 
-            Nonterm = P2ᐞ11,
+            NeqExpr,
 
-            Seg = P2ᐞ12,
+            EqExpr,
 
-            Operator = P2ᐞ13,
+            NontermExpr,
 
-            Expr = P2ᐞ14,
+            SegLiteral,
 
-            NeqExpr = P2ᐞ15 | Expr,
-
-            EqExpr =  P2ᐞ16 | Expr,
-
-            NontermExpr = P2ᐞ18 | Nonterm | EqExpr,
-
-            SegLiteral = P2ᐞ19 | Seg | BinaryLiteral,
-
-            SegVar = P2ᐞ20 | Seg
+            SegVar,
         }
    }
 }
