@@ -22,6 +22,8 @@ namespace Z0
             public ExtensionKind Extension;
 
             public asci64 Asm;
+
+            public static XDis Empty => default;
         }
     }
 }

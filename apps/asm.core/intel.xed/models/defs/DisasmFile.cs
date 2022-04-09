@@ -37,6 +37,8 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => ref Lines[i];
             }
+
+            public static DisasmFile Empty => new DisasmFile(FileRef.Empty, sys.empty<DisasmLineBlock>());
         }
     }
 }

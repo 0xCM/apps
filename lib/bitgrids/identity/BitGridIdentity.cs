@@ -3,9 +3,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     readonly struct BitGridIdentityProvider : ITypeIdentityProvider
     {
         public TypeIdentity Identify(Type src)

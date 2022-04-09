@@ -15,6 +15,12 @@ namespace Z0
         [CmdOp("xed/check/fields")]
         Outcome CheckFields(CmdArgs args)
         {
+            CheckFieldSets();
+            return true;
+        }
+
+        void CheckLayouts()
+        {
             var patterns = Xed.Rules.CalcInstPatterns();
             for(var i=0; i<patterns.Count; i++)
             {
@@ -24,9 +30,8 @@ namespace Z0
                 var oc = pattern.OpCode;
                 Write(string.Format("{0,-8} | {1,-18} | {2,-8} | {3,-18} | {4}", pattern.PatternId, @class, oc.Kind, oc.Value, layout));
             }
-            return true;
-        }
 
+        }
         void CheckSegs()
         {
             var regVal = seg(n3, FieldKind.REG,0b010);
@@ -46,15 +51,15 @@ namespace Z0
 
             var rmVal= seg(n3,FieldKind.RM,0b011);
             Write(rmVal.Format());
-
         }
 
-        void ChecFieldSets()
+        void CheckFieldSets()
         {
             var data = XedFields.fields();
-            ref readonly var reg1 = ref data.Update(FieldKind.REG1, XedRegId.AX);
-            ref readonly var reg4 = ref data.Update(FieldKind.REG4, XedRegId.BX);
-            ref readonly var reg8 = ref data.Update(FieldKind.REG8, XedRegId.DX);
+            data.Update(FieldKind.REG1, XedRegId.AX);
+            data.Update(FieldKind.REG4, XedRegId.BX);
+            data.Update(FieldKind.REG8, XedRegId.DX);
+
             var members = ByteBlock128.Empty;
             var kinds = recover<FieldKind>(members.Bytes);
             var count = data.Members().Members(kinds);
@@ -62,7 +67,7 @@ namespace Z0
             {
                 ref readonly var kind = ref skip(kinds,i);
                 ref readonly var field = ref data[kind];
-                Write(field.Format());
+                Write(string.Format("{0}:{1}", kind, field.Format()));
             }
         }
 

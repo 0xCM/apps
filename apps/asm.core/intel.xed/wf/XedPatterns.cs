@@ -24,7 +24,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => AppData.PllExec();
         }
-
-        static Index<InstPartKind,string> PartKindNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET,COMMENT};
     }
 }

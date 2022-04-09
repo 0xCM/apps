@@ -11,18 +11,6 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public class DisasmProps : Dictionary<string,string>
-        {
-            public DisasmProps(Index<Facet<string>> src)
-                : base(src.Select(x => (x.Key,x.Value)).ToDictionary())
-            {
-
-            }
-
-            public static implicit operator DisasmProps(Index<Facet<string>> src)
-                => new DisasmProps(src);
-        }
-
         public static Index<Facet<string>> kvp(in DisasmLineBlock src)
         {
             var content = text.trim(text.despace(src.Props.Content));
@@ -54,9 +42,14 @@ namespace Z0
         }
 
         public static Fields fields(in DisasmLineBlock src, Index<Facet<string>> props)
+            => fields(src, props, XedFields.fields());
+
+        public static Fields fields(in DisasmLineBlock src, Index<Facet<string>> props, Fields dst, bool clear = true)
         {
+            if(clear)
+                dst.Clear();
+
             var count = props.Count;
-            var dst = XedFields.fields();
             for(var i=0; i<count; i++)
             {
                 var name = props[i].Key;
@@ -74,7 +67,6 @@ namespace Z0
                 else
                     Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind),name));
             }
-
             return dst;
         }
     }

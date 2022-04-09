@@ -23,11 +23,7 @@ namespace Z0
             var members = src.Members();
             var count = members.Members(kinds);
             for(var i=0; i<count; i++)
-            {
-                ref readonly var kind = ref skip(kinds,i);
-                update(src[kind], ref dst);
-            }
-
+                update(src[skip(kinds,i)], ref dst);
             return ref dst;
         }
 

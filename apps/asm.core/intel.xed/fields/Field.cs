@@ -13,7 +13,8 @@ namespace Z0
 
     partial class XedRules
     {
-        public struct Field
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
+        public readonly struct Field
         {
             public static Field numeric(FieldKind kind, string data)
             {
@@ -39,155 +40,171 @@ namespace Z0
                 }
                 return field;
             }
+
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, bit value)
-            {
-                var dst = ByteBlock4.Empty;
-                dst.First = value;
-                dst[KindIndex] = (byte)kind;
-                dst[TypeIndex]= (byte)FieldDataType.Bit;
-                return new Field(dst);
-            }
+                => new Field((ushort)value, kind, FieldDataType.Bit);
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, byte value)
             {
-                var dst = ByteBlock4.Empty;
-                dst.First = value;
-                dst[KindIndex] = (byte)kind;
-                dst[TypeIndex]= (byte)FieldDataType.Byte;
-                return new Field(dst);
+                return new Field((ushort)value, kind, FieldDataType.Byte);
             }
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, ushort value)
             {
-                var dst = ByteBlock4.Empty;
-                @as<ushort>(dst.First) = value;
-                dst[KindIndex] = (byte)kind;
-                dst[TypeIndex]= (byte)FieldDataType.Word;
-                return new Field(dst);
+                return new Field((ushort)value, kind, FieldDataType.Word);
             }
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, Register value)
             {
-                var dst = ByteBlock4.Empty;
-                @as<Register>(dst.First) = value;
-                dst[KindIndex] = (byte)kind;
-                dst[TypeIndex]= (byte)FieldDataType.Reg;
-                return new Field(dst);
+                return new Field((ushort)value, kind, FieldDataType.Reg);
             }
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, ChipCode value)
             {
-                var dst = ByteBlock4.Empty;
-                @as<ChipCode>(dst.First) = value;
-                dst[KindIndex] = (byte)kind;
-                dst[TypeIndex]= (byte)FieldDataType.Chip;
-                return new Field(dst);
+                return new Field((ushort)value, kind, FieldDataType.Chip);
             }
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, BCastKind value)
             {
-                var dst = ByteBlock4.Empty;
-                @as<BCastKind>(dst.First) = value;
-                dst[KindIndex] = (byte)kind;
-                dst[TypeIndex]= (byte)FieldDataType.BCast;
-                return new Field(dst);
+                return new Field((ushort)value, kind, FieldDataType.BCast);
             }
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, InstClass value)
-            {
-                var dst = ByteBlock4.Empty;
-                @as<InstClass>(dst.First) = value;
-                dst[KindIndex] = (byte)kind;
-                dst[TypeIndex]= (byte)FieldDataType.InstClass;
-                return new Field(dst);
-            }
+                => new Field((ushort)value, kind, FieldDataType.InstClass);
 
-            ByteBlock4 Storage;
 
-            const byte ContentIndex = 0;
+            public readonly ushort Content;
 
-            const byte KindIndex = 2;
+            public readonly FieldKind Kind;
 
-            const byte TypeIndex = 3;
+            public readonly FieldDataType Type;
+
+            // const byte ContentIndex = 0;
+
+            // const byte KindIndex = 2;
+
+            // const byte TypeIndex = 3;
 
             [MethodImpl(Inline)]
-            Field(ByteBlock4 data)
+            Field(ushort content, FieldKind kind, FieldDataType type)
             {
-                Storage = data;
+                Content = content;
+                Kind = kind;
+                Type = type;
             }
 
-            public ref ushort Content
-            {
-                [MethodImpl(Inline)]
-                get => ref @as<ushort>(Storage[ContentIndex]);
-            }
+            // [MethodImpl(Inline)]
+            // Field(ByteBlock4 data)
+            // {
+            //     Content = default;
+            //     Storage = data;
+            // }
 
-            public ref FieldKind Kind
-            {
-                [MethodImpl(Inline)]
-                get => ref @as<FieldKind>(Storage[TypeIndex]);
-            }
+            // public ref ushort Content
+            // {
+            //     [MethodImpl(Inline)]
+            //     get => ref @as<ushort>(Storage.First);
+            // }
 
-            public ref FieldDataType Type
-            {
-                [MethodImpl(Inline)]
-                get => ref @as<FieldDataType>(Storage[TypeIndex]);
-            }
+            // public ref FieldKind Kind
+            // {
+            //     [MethodImpl(Inline)]
+            //     get => ref @as<FieldKind>(Storage[TypeIndex]);
+            // }
 
-            ref bit Bit
-            {
-                [MethodImpl(Inline)]
-                get => ref @as<bit>(Content);
-            }
+            // public ref FieldDataType Type
+            // {
+            //     [MethodImpl(Inline)]
+            //     get => ref @as<FieldDataType>(Storage[TypeIndex]);
+            // }
 
-            ref byte Byte
-            {
-                [MethodImpl(Inline)]
-                get => ref @as<byte>(Content);
-            }
+            [MethodImpl(Inline)]
+            bit Bit()
+                => (bit)Content;
 
-            ref ushort Word
-            {
-                [MethodImpl(Inline)]
-                get => ref Content;
-            }
 
-            ref Register Reg
-            {
-                [MethodImpl(Inline)]
-                get => ref @as<Register>(Content);
-            }
+            [MethodImpl(Inline)]
+            byte Byte()
+                => (byte)Content;
 
-            ref ChipCode Chip
-            {
-                [MethodImpl(Inline)]
-                get => ref @as<ChipCode>(Content);
-            }
+            [MethodImpl(Inline)]
+            ushort Word()
+                => Content;
 
-            ref InstClass Inst
-            {
-                [MethodImpl(Inline)]
-                get => ref @as<InstClass>(Content);
-            }
+            [MethodImpl(Inline)]
+            Register Reg()
+                => (Register)Content;
 
-            ref BCastKind BCast
-            {
-                [MethodImpl(Inline)]
-                get => ref @as<BCastKind>(Content);
-            }
+            [MethodImpl(Inline)]
+            ChipCode Chip()
+                => (ChipCode)Content;
 
-            ref RuleOperator Operator
-            {
-                [MethodImpl(Inline)]
-                get => ref @as<RuleOperator>(Content);
-            }
+            [MethodImpl(Inline)]
+            InstClass Inst()
+                => (InstClass)Content;
+
+            [MethodImpl(Inline)]
+            BCastKind BCast()
+                => (BCastKind)Content;
+
+            [MethodImpl(Inline)]
+            RuleOperator Operator()
+                => (OperatorKind)Content;
+
+            // ref bit Bit
+            // {
+            //     [MethodImpl(Inline)]
+            //     get => ref @as<bit>(Content);
+            // }
+
+            // ref byte Byte
+            // {
+            //     [MethodImpl(Inline)]
+            //     get => ref @as<byte>(Content);
+            // }
+
+            // ref ushort Word
+            // {
+            //     [MethodImpl(Inline)]
+            //     get => ref Content;
+            // }
+
+            // ref Register Reg
+            // {
+            //     [MethodImpl(Inline)]
+            //     get => ref @as<Register>(Content);
+            // }
+
+            // ref ChipCode Chip
+            // {
+            //     [MethodImpl(Inline)]
+            //     get => ref @as<ChipCode>(Content);
+            // }
+
+            // ref InstClass Inst
+            // {
+            //     [MethodImpl(Inline)]
+            //     get => ref @as<InstClass>(Content);
+            // }
+
+            // ref BCastKind BCast
+            // {
+            //     [MethodImpl(Inline)]
+            //     get => ref @as<BCastKind>(Content);
+            // }
+
+            // ref RuleOperator Operator
+            // {
+            //     [MethodImpl(Inline)]
+            //     get => ref @as<RuleOperator>(Content);
+            // }
 
             public bool IsEmpty
             {
@@ -207,28 +224,28 @@ namespace Z0
                 switch(Type)
                 {
                     case DT.Bit:
-                        dst = Bit.ToString();
+                        dst = Bit().ToString();
                     break;
                     case DT.Byte:
-                        dst = Byte.ToString();
+                        dst = Byte().ToString();
                     break;
                     case DT.Word:
-                        dst = Word.ToString();
+                        dst = Word().ToString();
                     break;
                     case DT.Reg:
-                        dst = XedRender.format(Reg);
+                        dst = XedRender.format(Reg());
                     break;
                     case DT.BCast:
-                        dst = XedRender.format(BCast);
+                        dst = XedRender.format(BCast());
                     break;
                     case DT.Chip:
-                        dst = XedRender.format(Chip);
+                        dst = XedRender.format(Chip());
                     break;
                     case DT.InstClass:
-                        dst = XedRender.format(Inst);
+                        dst = XedRender.format(Inst());
                     break;
                     case DT.Operator:
-                        dst = XedRender.format(Operator);
+                        dst = XedRender.format(Operator());
                     break;
                 }
                 return dst;
@@ -239,43 +256,43 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator Register(Field src)
-                => src.Reg;
+                => src.Reg();
 
             [MethodImpl(Inline)]
             public static implicit operator XedRegId(Field src)
-                => src.Reg;
+                => src.Reg();
 
             [MethodImpl(Inline)]
             public static implicit operator IClass(Field src)
-                => src.Inst;
+                => src.Inst();
 
             [MethodImpl(Inline)]
             public static implicit operator InstClass(Field src)
-                => src.Inst;
+                => src.Inst();
 
             [MethodImpl(Inline)]
             public static implicit operator BCastKind(Field src)
-                => src.BCast;
+                => src.BCast();
 
             [MethodImpl(Inline)]
             public static implicit operator ChipCode(Field src)
-                => src.Chip;
+                => src.Chip();
 
             [MethodImpl(Inline)]
             public static implicit operator bit(Field src)
-                => src.Bit;
+                => src.Bit();
 
             [MethodImpl(Inline)]
             public static implicit operator byte(Field src)
-                => src.Byte;
+                => src.Byte();
 
             [MethodImpl(Inline)]
             public static implicit operator Hex8(Field src)
-                => src.Byte;
+                => src.Byte();
 
             [MethodImpl(Inline)]
             public static implicit operator ushort(Field src)
-                => src.Word;
+                => src.Word();
 
             [MethodImpl(Inline)]
             public static implicit operator Field((FieldKind kind, Register data) src)

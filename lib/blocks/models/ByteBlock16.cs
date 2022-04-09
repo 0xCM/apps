@@ -13,10 +13,12 @@ namespace Z0
     /// Defines 16 bytes of storage
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1), DataType("block<n:16,t:u8>")]
-    [DataWidth(Size*8,Size*8)]
+    [DataWidth(Width)]
     public struct ByteBlock16 : IStorageBlock<B>, IEquatable<B>
     {
         public const ushort Size = 16;
+
+        public const uint Width = Size*8;
 
         public static N16 N => default;
 
@@ -88,6 +90,7 @@ namespace Z0
 
         public override bool Equals(object src)
             => src is B b && Equals(b);
+
         public Hash32 Hash
         {
             [MethodImpl(Inline)]

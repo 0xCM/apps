@@ -10,11 +10,12 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
-        public static Field field(FieldKind kind, ushort value)
-            => Field.init(kind,value);
+        public static Field field<T>(FieldKind kind, T value)
+            where T : unmanaged
+                => Field.init(kind, core.bw16(value));
 
         [MethodImpl(Inline), Op]
         public static Field field(FieldKind kind, Register value)
-            => Field.init(kind,value);
+            => Field.init(kind, value);
     }
 }

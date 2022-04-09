@@ -64,7 +64,7 @@ namespace Z0
             {
                 var counter = z8;
                 var count = min(dst.Length,Capacity);
-                for(byte i=0; i<count; i++)
+                for(byte i=1; i<count; i++)
                 {
                     if(Data.Test(i))
                         seek(dst,counter++) = (FieldKind)i;
@@ -77,7 +77,7 @@ namespace Z0
             {
                 var counter = z8;
                 var count = Capacity;
-                for(byte i=0; i<count; i++)
+                for(byte i=1; i<count; i++)
                 {
                     if(Data.Test(i))
                         counter++;

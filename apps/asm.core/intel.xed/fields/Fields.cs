@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static core;
-
     using static XedModels;
 
     partial class XedRules
@@ -29,6 +28,13 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
+            public Fields Clear()
+            {
+                Data.Clear();
+                return this;
+            }
+
+            [MethodImpl(Inline)]
             public FieldSet Members()
             {
                 var members = FieldSet.create();
@@ -40,6 +46,9 @@ namespace Z0
                 }
                 return members;
             }
+
+            public uint Members(Span<FieldKind> dst)
+                => Members().Members(dst);
 
             public ref Field this[uint index]
             {
@@ -61,18 +70,17 @@ namespace Z0
                 return ref this[src.Field];
             }
 
+            [MethodImpl(Inline)]
+            public ref Field Update(FieldKind kind, Register value)
+            {
+                this[kind] = field(kind, value);
+                return ref this[kind];
+            }
+
             public ref Field this[FieldKind kind]
             {
                 [MethodImpl(Inline)]
                 get => ref seek(Data,(byte)kind);
-            }
-
-            [MethodImpl(Inline)]
-            public ref Field Update(FieldKind kind, Register src)
-            {
-                ref var dst = ref this[(uint)kind];
-                dst = field(kind, src);
-                return ref dst;
             }
         }
     }

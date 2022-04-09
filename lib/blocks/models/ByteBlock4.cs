@@ -10,10 +10,12 @@ namespace Z0
     using api = StorageBlocks;
 
     [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1), DataType("block<n:4,t:u8>")]
-    [DataWidth(Size*8,Size*8)]
-    public struct ByteBlock4 : IStorageBlock<B>
+    [DataWidth(Width)]
+    public struct ByteBlock4 : IStorageBlock<B>, IEquatable<B>
     {
         public const ushort Size = 4;
+
+        public const uint Width = Size*8;
 
         public static N4 N => default;
 
@@ -82,6 +84,21 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
+        public bool Equals(B src)
+            => @as<B,uint>(this) == @as<B,uint>(src);
+
+        public override bool Equals(object src)
+            => src is B b && Equals(b);
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => @as<B,uint>(this);
+        }
+
+        public override int GetHashCode()
+            => Hash;
+
+        [MethodImpl(Inline)]
         public static implicit operator B(uint src)
             => @as<uint,B>(src);
 
@@ -96,6 +113,14 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator B(Span<byte> src)
             => api.block<B>(src);
+
+        [MethodImpl(Inline)]
+        public static bool operator==(B a, B b)
+            => a.Equals(b);
+
+        [MethodImpl(Inline)]
+        public static bool operator!=(B a, B b)
+            => !a.Equals(b);
 
         public static B Empty => default;
     }

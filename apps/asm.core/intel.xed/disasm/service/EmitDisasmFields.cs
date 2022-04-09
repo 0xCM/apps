@@ -9,9 +9,6 @@ namespace Z0
     using static XedModels;
     using static XedRules;
     using static XedDisasm;
-    using static XedPatterns;
-
-    using K = XedRules.FieldKind;
 
     partial class XedDisasmSvc
     {
@@ -21,89 +18,20 @@ namespace Z0
             core.iter(docs, doc => EmitDisasmFields(context,doc), PllExec);
         }
 
+        public static Span<FieldKind> members(in Fields fields, out Span<FieldKind> dst)
+        {
+            var storage = ByteBlock128.Empty;
+            var kinds = recover<FieldKind>(storage.Bytes);
+            var members = fields.Members();
+            var count = members.Members(kinds);
+            dst = slice(kinds,0,count);
+            return dst;
+        }
+
         void EmitDisasmFields(WsContext context, DisasmDetailDoc doc)
         {
-            const string RenderPattern = DisasmRender.Columns;
-            ref readonly var file = ref doc.File;
-            var buffer = text.buffer();
-            var render = XedFields.render();
-            var exclude = hashset<FieldKind>(K.TZCNT,K.LZCNT);
-            for(var i=0u; i<file.LineCount; i++)
-            {
-                ref readonly var detail = ref doc[i].Detail;
-                ref readonly var ops = ref detail.Ops;
-                ref readonly var form = ref detail.InstForm;
-                ref readonly var block = ref doc[i].Block;
-                ref readonly var lines = ref block.Lines;
-                ref readonly var summary = ref block.Summary;
-                ref readonly var asmhex = ref summary.Encoded;
-                ref readonly var asmtxt = ref summary.Asm;
-                ref readonly var ip = ref summary.IP;
-
-                var result = DisasmParse.parse(lines.XDis.Content, out XDis xdis);
-                if(result.Fail)
-                {
-                    Error(result.Message);
-                    break;
-                }
-
-                var state = RuleState.Empty;
-                try
-                {
-                    var props = kvp(lines);
-
-                    var f = fields(lines, props);
-                    XedState.update(f, ref state);
-                    var members = ByteBlock128.Empty;
-                    var kinds = recover<FieldKind>(members.Bytes);
-                    var count = f.Members().Members(kinds);
-                    var encoding  = XedState.encoding(state, asmhex);
-                    ref var field = ref f[K.INVALID];
-
-                    var ocindex = XedState.ocindex(state);
-                    buffer.AppendLine(RP.PageBreak240);
-                    buffer.AppendLine(lines.Format());
-                    buffer.AppendLine(RP.PageBreak100);
-                    buffer.AppendLineFormat(RenderPattern, nameof(xdis.Asm), xdis.Asm);
-                    buffer.AppendLineFormat(RenderPattern, "Instruction", ((InstClass)f[K.ICLASS]).Format());
-                    buffer.AppendLineFormat(RenderPattern, "Form", form);
-                    buffer.AppendLineFormat(RenderPattern, nameof(xdis.Category), xdis.Category);
-                    buffer.AppendLineFormat(RenderPattern, nameof(xdis.Extension), xdis.Extension);
-                    buffer.AppendLineFormat(RenderPattern, nameof(encoding.Offsets), encoding.Offsets.Format());
-                    buffer.AppendLineFormat(RenderPattern, nameof(encoding.OpCode), XedRender.format(encoding.OpCode));
-                    if(encoding.ModRm.IsNonZero)
-                        buffer.AppendLineFormat(RenderPattern, nameof(encoding.ModRm), encoding.ModRm);
-                    if(encoding.Sib.IsNonZero)
-                        buffer.AppendLineFormat(RenderPattern, nameof(encoding.Sib), encoding.Sib);
-                    if(encoding.Imm.IsNonZero)
-                        buffer.AppendLineFormat(RenderPattern, nameof(encoding.Imm), encoding.Imm);
-                    if(encoding.Imm1.IsNonZero)
-                        buffer.AppendLineFormat(RenderPattern, nameof(encoding.Imm), encoding.Imm1);
-                    if(encoding.Disp.IsNonZero)
-                        buffer.AppendLineFormat(RenderPattern, nameof(encoding.Disp), encoding.Disp);
-
-                    buffer.AppendLine(RP.PageBreak100);
-                    for(var k=0; k<count; k++)
-                    {
-                        ref readonly var kind = ref skip(kinds,k);
-                        if(exclude.Contains(kind))
-                            continue;
-
-                        ref readonly var value = ref f[kind];
-                        buffer.AppendLineFormat(RenderPattern, kind, render[kind](value));
-                    }
-
-                    DisasmRender.RenderOps(ops,buffer);
-                    buffer.AppendLine();
-                }
-                catch(Exception e)
-                {
-                    Write(e.ToString());
-                    Write(e.Message,FlairKind.Error);
-                }
-            }
-
-            FileEmit(buffer.Emit(), file.LineCount, DisasmFieldsPath(context,file.Source), TextEncodingKind.Asci);
+            using var emitter = new FieldEmitter(file => DisasmFieldsPath(context,file), (data,count,path) => FileEmit(data,count,path, TextEncodingKind.Asci));
+            emitter.Emit(doc);
         }
     }
 }
