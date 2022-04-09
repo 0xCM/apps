@@ -10,6 +10,7 @@ namespace Z0
     using static XedDisasm;
     using static XedPatterns;
     using static XedFields;
+    using static XedModels;
 
     using K = XedRules.FieldKind;
 
@@ -31,27 +32,31 @@ namespace Z0
 
             readonly FieldRender Render;
 
-            public FieldEmitter(Func<FileRef,FS.FilePath> target, Action<string,Count,FS.FilePath> channel, ByteBlock128 members = default, PageBlock2 fields = default)
+            EncodingExtract Encoding;
+
+            public FieldEmitter(Func<FileRef,FS.FilePath> target, Action<string,Count,FS.FilePath> channel)
             {
                 Target = target;
                 Channel = channel;
-                Members = recover<FieldKind>(members.Bytes);
-                Fields = new Fields(fields);
+                Members = alloc<FieldKind>(128);
+                Fields = XedFields.fields();
                 Exclusions = hashset<FieldKind>(K.TZCNT,K.LZCNT);
                 State = RuleState.Empty;
                 XDis = XDis.Empty;
                 Buffer = text.buffer();
                 Render = XedFields.render();
-                Doc = DisasmDetailDoc.Empty;
+                MemberCount = 0;
+                Props = DisasmProps.Empty;
+                Encoding = EncodingExtract.Empty;
             }
 
             RuleState State;
 
             XDis XDis;
 
-            //EncodingExtract Encoding;
+            DisasmProps Props;
 
-            DisasmDetailDoc Doc;
+            uint MemberCount;
 
             const string RenderPattern = DisasmRender.Columns;
 
@@ -64,63 +69,74 @@ namespace Z0
             {
                 State = RuleState.Empty;
                 XDis = XDis.Empty;
+                Props = DisasmProps.Empty;
+                MemberCount = 0;
+                Encoding = EncodingExtract.Empty;
                 Fields.Clear();
+            }
+
+            void Load(in DetailBlock src)
+            {
+                ref readonly var detail = ref src.Detail;
+                ref readonly var ops = ref detail.Ops;
+                ref readonly var form = ref detail.InstForm;
+                ref readonly var block = ref src.Block;
+                ref readonly var lines = ref block.Lines;
+                ref readonly var summary = ref block.Summary;
+                ref readonly var asmhex = ref summary.Encoded;
+                ref readonly var asmtxt = ref summary.Asm;
+                ref readonly var ip = ref summary.IP;
+
+                DisasmParse.parse(lines.XDis.Content, out XDis).Require();
+                Props = kvp(lines);
+                XedDisasm.fields(lines, Props, Fields, false);
+                MemberCount = Fields.Members(Members);
+                var kinds = slice(Members, 0, MemberCount);
+                XedState.update(Fields, ref State);
+                Encoding = XedState.encoding(State, asmhex);
+            }
+
+            void AppendHeader(in DisasmLineBlock lines, InstForm form)
+            {
+                Buffer.AppendLine(RP.PageBreak240);
+                Buffer.AppendLine(lines.Format());
+                Buffer.AppendLine(RP.PageBreak100);
+                Buffer.AppendLineFormat(RenderPattern, nameof(XDis.Asm), XDis.Asm);
+                Buffer.AppendLineFormat(RenderPattern, "Instruction", ((InstClass)Fields[K.ICLASS]).Format());
+                Buffer.AppendLineFormat(RenderPattern, "Form", form);
+                Buffer.AppendLineFormat(RenderPattern, nameof(XDis.Category), XDis.Category);
+                Buffer.AppendLineFormat(RenderPattern, nameof(XDis.Extension), XDis.Extension);
+                Buffer.AppendLineFormat(RenderPattern, nameof(Encoding.Offsets), Encoding.Offsets.Format());
+                Buffer.AppendLineFormat(RenderPattern, nameof(Encoding.OpCode), XedRender.format(Encoding.OpCode));
+                if(Encoding.ModRm.IsNonZero)
+                    Buffer.AppendLineFormat(RenderPattern, nameof(Encoding.ModRm), Encoding.ModRm);
+                if(Encoding.Sib.IsNonZero)
+                    Buffer.AppendLineFormat(RenderPattern, nameof(Encoding.Sib), Encoding.Sib);
+                if(Encoding.Imm.IsNonZero)
+                    Buffer.AppendLineFormat(RenderPattern, nameof(Encoding.Imm), Encoding.Imm);
+                if(Encoding.Imm1.IsNonZero)
+                    Buffer.AppendLineFormat(RenderPattern, nameof(Encoding.Imm), Encoding.Imm1);
+                if(Encoding.Disp.IsNonZero)
+                    Buffer.AppendLineFormat(RenderPattern, nameof(Encoding.Disp), Encoding.Disp);
+
+                Buffer.AppendLine(RP.PageBreak100);
             }
 
             public void Emit(DisasmDetailDoc doc)
             {
-                Doc = doc;
-
-                ref readonly var file = ref Doc.File;
+                ref readonly var file = ref doc.File;
                 for(var i=0u; i<file.LineCount; i++)
                 {
                     Clear();
 
-                    ref readonly var detail = ref Doc[i].Detail;
-                    ref readonly var ops = ref detail.Ops;
-                    ref readonly var form = ref detail.InstForm;
-                    ref readonly var block = ref Doc[i].Block;
-                    ref readonly var lines = ref block.Lines;
-                    ref readonly var summary = ref block.Summary;
-                    ref readonly var asmhex = ref summary.Encoded;
-                    ref readonly var asmtxt = ref summary.Asm;
-                    ref readonly var ip = ref summary.IP;
+                    ref readonly var ops = ref doc[i].Detail.Ops;
+                    ref readonly var form = ref doc[i].Detail.InstForm;
+                    ref readonly var lines = ref doc[i].Block.Lines;
+                    Load(doc[i]);
 
-                    DisasmParse.parse(lines.XDis.Content, out XDis).Require();
-
-                    XedDisasm.fields(lines, kvp(lines), Fields, false);
-                    var count = Fields.Members(Members);
-                    var kinds = slice(Members, 0, count);
-                    XedState.update(Fields, ref State);
-                    var encoding = XedState.encoding(State, asmhex);
-
-                    //AppendHeader(i);
-                    //ref var field = ref Fields[K.INVALID];
-
-                    //var ocindex = XedState.ocindex(State);
-                    Buffer.AppendLine(RP.PageBreak240);
-                    Buffer.AppendLine(lines.Format());
-                    Buffer.AppendLine(RP.PageBreak100);
-                    Buffer.AppendLineFormat(RenderPattern, nameof(XDis.Asm), XDis.Asm);
-                    Buffer.AppendLineFormat(RenderPattern, "Instruction", ((InstClass)Fields[K.ICLASS]).Format());
-                    Buffer.AppendLineFormat(RenderPattern, "Form", form);
-                    Buffer.AppendLineFormat(RenderPattern, nameof(XDis.Category), XDis.Category);
-                    Buffer.AppendLineFormat(RenderPattern, nameof(XDis.Extension), XDis.Extension);
-                    Buffer.AppendLineFormat(RenderPattern, nameof(encoding.Offsets), encoding.Offsets.Format());
-                    Buffer.AppendLineFormat(RenderPattern, nameof(encoding.OpCode), XedRender.format(encoding.OpCode));
-                    if(encoding.ModRm.IsNonZero)
-                        Buffer.AppendLineFormat(RenderPattern, nameof(encoding.ModRm), encoding.ModRm);
-                    if(encoding.Sib.IsNonZero)
-                        Buffer.AppendLineFormat(RenderPattern, nameof(encoding.Sib), encoding.Sib);
-                    if(encoding.Imm.IsNonZero)
-                        Buffer.AppendLineFormat(RenderPattern, nameof(encoding.Imm), encoding.Imm);
-                    if(encoding.Imm1.IsNonZero)
-                        Buffer.AppendLineFormat(RenderPattern, nameof(encoding.Imm), encoding.Imm1);
-                    if(encoding.Disp.IsNonZero)
-                        Buffer.AppendLineFormat(RenderPattern, nameof(encoding.Disp), encoding.Disp);
-
-                    Buffer.AppendLine(RP.PageBreak100);
-                    for(var k=0; k<count; k++)
+                    AppendHeader(lines, form);
+                    var kinds = slice(Members, 0, MemberCount);
+                    for(var k=0; k<MemberCount; k++)
                     {
                         ref readonly var kind = ref skip(kinds,k);
                         if(Exclusions.Contains(kind))

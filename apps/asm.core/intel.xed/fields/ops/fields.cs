@@ -11,6 +11,6 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static Fields fields()
-            => new Fields(default(PageBlock2));
+            => new Fields(core.alloc<Field>(Fields.MaxCount));
     }
 }

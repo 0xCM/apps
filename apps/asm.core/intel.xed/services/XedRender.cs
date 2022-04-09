@@ -786,6 +786,23 @@ namespace Z0
             return dst.Emit();
         }
 
+        public static string format(in EncodingExtract src)
+        {
+            const string RP0 = "{0,-8} | {1,-5} | {2,-5} | {3,-12} | {4,-12}";
+            const string RP1 = "{0,-8} | {1,-5} | {2,-5} | {3,-12} | {4,-12} | {5,-5}";
+            var pattern = src.Offsets.HasImm1 ? RP1 : RP0;
+            var header = string.Format(pattern, nameof(src.OpCode), nameof(src.ModRm), nameof(src.Sib), nameof(src.Imm), nameof(src.Disp), nameof(src.Imm1));
+            var content = string.Format(pattern,
+                XedRender.format(src.OpCode),
+                src.Offsets.HasModRm ? src.ModRm.Format() : EmptyString,
+                src.Offsets.HasSib ? src.Sib.Format() : EmptyString,
+                src.Offsets.HasImm0 ? src.Imm.Format() : EmptyString,
+                src.Offsets.HasDisp ? src.Disp.Format() : EmptyString,
+                src.Offsets.HasImm1 ? src.Imm1.Format() : EmptyString
+                );
+            return string.Format("{0}{1}{2}",header, RP.Eol, content);
+        }
+
         static string format<E>(EnumRender<E> render, E src, FormatCode fc)
             where E : unmanaged, Enum
         {

@@ -16,6 +16,62 @@ namespace Z0
 
             const string YDIS = "YDIS:";
 
+            public static void parse(DisasmProps src, out DisasmState dst)
+            {
+                var parser = new FieldParser();
+                dst = parser.Parse(src);
+            }
+
+            public static void parse(ReadOnlySpan<Facet<string>> src, out DisasmState dst)
+            {
+                var parser = new FieldParser();
+                dst = parser.Parse(src);
+            }
+
+            public static Outcome parse(string src, out DisasmOpInfo dst)
+            {
+                dst = default;
+                if(text.length(src) < 3)
+                    return (false,RP.Empty);
+
+                var result = Outcome.Success;
+                var data = span(src);
+
+                var idx = text.trim(text.left(src,2));
+                result = DataParser.parse(idx, out dst.Index);
+                if(result.Fail)
+                    return (false,AppMsg.ParseFailure.Format(nameof(dst.Index), idx));
+
+                var aspects = text.trim(text.right(src,2));
+                var parts = text.split(aspects, Chars.FSlash);
+                if(parts.Length != 6)
+                    return (false, string.Format("Unexpected number of operand aspects in {0}", aspects));
+
+                var i=0;
+                result = XedParsers.parse(skip(parts,i++), out dst.Kind);
+                if(result.Fail)
+                    return (false, AppMsg.ParseFailure.Format(nameof(dst.Kind), skip(parts,i-1)));
+
+                result = DataParser.eparse(skip(parts,i++), out dst.Action);
+                if(result.Fail)
+                    return result;
+
+                result = DataParser.eparse(skip(parts,i++), out dst.WidthCode);
+                if(result.Fail)
+                    return result;
+
+                result = XedParsers.parse(skip(parts,i++), out dst.Visiblity);
+                if(result.Fail)
+                    return result;
+
+                result = DataParser.eparse(skip(parts,i++), out dst.OpType);
+                if(result.Fail)
+                    return result;
+
+                dst.Selector = text.trim(skip(parts,i++));
+                return result;
+            }
+
             public static Outcome parse(string src, out XDis dst)
             {
                 var result = Outcome.Success;

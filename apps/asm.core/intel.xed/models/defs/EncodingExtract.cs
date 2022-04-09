@@ -9,6 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct EncodingExtract
         {
             public AsmHexCode Code;
@@ -44,22 +45,7 @@ namespace Z0
             }
 
             public string Format()
-            {
-                const string RP0 = "{0,-8} | {1,-5} | {2,-5} | {3,-12} | {4,-12}";
-                const string RP1 = "{0,-8} | {1,-5} | {2,-5} | {3,-12} | {4,-12} | {5,-5}";
-
-                var pattern = Offsets.HasImm1 ? RP1 : RP0;
-                var header = string.Format(pattern, nameof(OpCode), nameof(ModRm), nameof(Sib), nameof(Imm), nameof(Disp), nameof(Imm1));
-                var content = string.Format(pattern,
-                    XedRender.format(OpCode),
-                    Offsets.HasModRm ? ModRm.Format() : EmptyString,
-                    Offsets.HasSib ? Sib.Format() : EmptyString,
-                    Offsets.HasImm0 ? Imm.Format() : EmptyString,
-                    Offsets.HasDisp ? Disp.Format() : EmptyString,
-                    Offsets.HasImm1 ? Imm1.Format() : EmptyString
-                    );
-                return string.Format("{0}{1}{2}",header, RP.Eol, content);
-            }
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

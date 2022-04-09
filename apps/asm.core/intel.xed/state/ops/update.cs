@@ -22,8 +22,17 @@ namespace Z0
             var kinds = recover<FieldKind>(storage.Bytes);
             var members = src.Members();
             var count = members.Members(kinds);
+            update(src, kinds, ref dst);
+            // for(var i=0; i<count; i++)
+            //     update(src[skip(kinds,i)], ref dst);
+            return ref dst;
+        }
+
+        public static ref RuleState update(in Fields src, ReadOnlySpan<FieldKind> fields, ref RuleState dst)
+        {
+            var count = fields.Length;
             for(var i=0; i<count; i++)
-                update(src[skip(kinds,i)], ref dst);
+                update(src[skip(fields,i)], ref dst);
             return ref dst;
         }
 

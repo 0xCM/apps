@@ -29,7 +29,8 @@ namespace Z0
             Projects.XedDisasmDir(context.Project).Clear();
             var files = context.Files(FileKind.XedRawDisasm);
             var dst = cdict<FileRef,DisasmDetailDoc>();
-            iter(files, file => CollectDisasm(context,file,dst),PllExec);
+            iter(files, file => CollectDisasm(context, file, dst), PllExec);
+
             var summaries = map(dst.Values, v => map(v.View, x => x.Block.Summary)).SelectMany(x => x).Sort();
             for(var i=0u; i<summaries.Length; i++)
                 seek(summaries,i).Seq = i;
@@ -39,7 +40,7 @@ namespace Z0
             EmitDisasmFields(context, CalcDocDetails(dst));
         }
 
-        void CollectDisasm(WsContext context, FileRef fref, ConcurrentDictionary<FileRef,DisasmDetailDoc> dst)
+        void CollectDisasm(WsContext context, in FileRef fref, ConcurrentDictionary<FileRef,DisasmDetailDoc> dst)
         {
             var file = XedDisasm.loadfile(fref);
             var summaries = XedDisasm.summarize(context, file);
@@ -52,7 +53,7 @@ namespace Z0
             );
         }
 
-        void EmitDisasmDetails(ConstLookup<FileRef,DisasmDetailDoc> src, FS.FilePath dst)
+        Index<DisasmDetail> EmitDisasmDetails(ConstLookup<FileRef,DisasmDetailDoc> src, FS.FilePath dst)
         {
             var emitting = EmittingFile(dst);
             var formatter = Tables.formatter<DisasmDetail>(DisasmDetail.RenderWidths);
@@ -66,14 +67,15 @@ namespace Z0
                 opheader.Append(DisasmRender.OpDetailHeader(k));
             }
 
-            var details = records(src);
+            var records = details(src);
             var header = string.Format("{0}{1}", headerBase, opheader.Emit());
             using var writer = dst.AsciWriter();
             writer.WriteLine(header);
-            for(var i=0; i<details.Count; i++)
-                writer.WriteLine(formatter.Format(details[i]));
+            for(var i=0; i<records.Count; i++)
+                writer.WriteLine(formatter.Format(records[i]));
 
-            EmittedFile(emitting, details.Count);
+            EmittedFile(emitting, records.Count);
+            return records;
         }
     }
 }

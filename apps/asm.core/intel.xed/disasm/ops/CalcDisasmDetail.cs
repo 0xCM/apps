@@ -64,7 +64,7 @@ namespace Z0
             dst.InstForm = inst.InstForm;
             dst.InstClass = inst.InstClass;
             dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
-            result = XedDisasm.parse(inst.Props.Edit, out DisasmState dstate);
+            DisasmParse.parse(inst.Props.Edit, out DisasmState dstate);
             var ops = XedState.ops(dstate, code);
 
             ref readonly var state = ref dstate.RuleState;
@@ -86,7 +86,7 @@ namespace Z0
             for(var k=0; k<lines.OpCount; k++)
             {
                 ref var operand = ref dst.Ops[k];
-                result = XedDisasm.parse(skip(lines.Ops, k).Content, out operand.OpInfo);
+                result = DisasmParse.parse(skip(lines.Ops, k).Content, out operand.OpInfo);
                 if(result.Fail)
                     Errors.Throw(result.Message);
 

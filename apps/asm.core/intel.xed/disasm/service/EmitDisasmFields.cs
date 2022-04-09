@@ -5,9 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static XedModels;
-    using static XedRules;
     using static XedDisasm;
 
     partial class XedDisasmSvc
@@ -16,16 +13,6 @@ namespace Z0
         {
             var docs = src.Keys;
             core.iter(docs, doc => EmitDisasmFields(context,doc), PllExec);
-        }
-
-        public static Span<FieldKind> members(in Fields fields, out Span<FieldKind> dst)
-        {
-            var storage = ByteBlock128.Empty;
-            var kinds = recover<FieldKind>(storage.Bytes);
-            var members = fields.Members();
-            var count = members.Members(kinds);
-            dst = slice(kinds,0,count);
-            return dst;
         }
 
         void EmitDisasmFields(WsContext context, DisasmDetailDoc doc)

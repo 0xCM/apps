@@ -5,10 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-    using static XedModels;
-    using static XedRules.InstRulePartNames;
-
     public partial class XedPatterns : AppService<XedPatterns>
     {
         XedPaths XedPaths => Service(Wf.XedPaths);

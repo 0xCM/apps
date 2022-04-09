@@ -17,6 +17,8 @@ namespace Z0
 
             public static implicit operator DisasmProps(Index<Facet<string>> src)
                 => new DisasmProps(src);
+
+            public static DisasmProps Empty => new DisasmProps(sys.empty<Facet<string>>());
         }
     }
 }

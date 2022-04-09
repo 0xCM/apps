@@ -13,12 +13,12 @@ namespace Z0
         {
             Span<Field> Data;
 
-            const uint MaxCount = 128;
+            public const uint MaxCount = 128;
 
             [MethodImpl(Inline)]
-            public Fields(PageBlock2 src)
+            public Fields(Span<Field> src)
             {
-                Data = recover<Field>(src.Bytes);
+                Data = src;
             }
 
             public uint Count
