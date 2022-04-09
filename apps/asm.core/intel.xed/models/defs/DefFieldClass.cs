@@ -17,8 +17,6 @@ namespace Z0
 
             IntLiteral,
 
-            //Bitfield,
-
             Seg,
 
             Nonterm,

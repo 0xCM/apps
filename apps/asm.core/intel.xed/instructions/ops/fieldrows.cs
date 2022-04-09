@@ -42,7 +42,7 @@ namespace Z0
             switch(src.FieldClass)
             {
                 case DefFieldClass.Seg:
-                    dst.Bitfield = src.AsSeg();
+                    dst.Seg = src.AsSeg();
                 break;
                 case DefFieldClass.BitLiteral:
                     dst.BitLiteral = src.AsBitLit();

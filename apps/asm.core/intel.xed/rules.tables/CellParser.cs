@@ -100,8 +100,7 @@ namespace Z0
                         }
                         else if(value.Length == 1 && value[0] == 'w')
                         {
-                            dst = new (new BfSeg(field, BfSegKind.REXW));
-                            //dst = new (seg(field, 'w'));
+                            dst = new (seg(field, 'w'));
                             result = true;
                         }
                     }
@@ -115,8 +114,7 @@ namespace Z0
                         }
                         else if(value.Length == 1 && value[0] == 'r')
                         {
-                            dst = new (new BfSeg(field, BfSegKind.REXR));
-                            //dst = new (seg(field, 'r'),CellRole.FieldValue);
+                            dst = new (seg(field, 'r'));
                             result = true;
                         }
                     }
@@ -130,8 +128,7 @@ namespace Z0
                         }
                         else if(value.Length == 1 && value[0] == 'x')
                         {
-                            dst = new (new BfSeg(field, BfSegKind.REXX));
-                            //dst = new (seg(field, 'x'));
+                            dst = new (seg(field, 'x'));
                             result = true;
                         }
                     }
@@ -145,8 +142,7 @@ namespace Z0
                         }
                         else if(value.Length == 1 && value[0] == 'b')
                         {
-                            dst = new (new BfSeg(field, BfSegKind.REXB));
-                            //dst = new (seg(field, 'b'));
+                            dst = new (seg(field, 'b'));
                             result = true;
                         }
                     }
@@ -714,12 +710,11 @@ namespace Z0
                         result = (false, AppMsg.ParseFailure.Format(nameof(uint5), src));
 
                 }
-                else if(IsBfSeg(src))
+                else if(IsSeg(src))
                 {
                     result = parse(src, out BfSeg x);
                     if(result)
                     {
-                        //dst = part(x);
                         dst = part(new Seg(x.Field, x.Pattern));
                     }
                     else

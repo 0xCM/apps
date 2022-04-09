@@ -60,13 +60,13 @@ namespace Z0
                 Role = CellRole.FieldValue;
             }
 
-            [MethodImpl(Inline)]
-            public CellValue(BfSeg data)
-            {
-                Field = data.Field;
-                Data = (ulong)data.Pattern;
-                Role = CellRole.FieldValue;
-            }
+            // [MethodImpl(Inline)]
+            // public CellValue(BfSeg data)
+            // {
+            //     Field = data.Field;
+            //     Data = (ulong)data.Pattern;
+            //     Role = CellRole.FieldValue;
+            // }
 
             [MethodImpl(Inline)]
             public CellValue(Seg data)
@@ -269,10 +269,6 @@ namespace Z0
                 => (bit)Data;
 
             [MethodImpl(Inline)]
-            public ImmSeg ToImmSeg()
-                => (ImmSeg)Data;
-
-            [MethodImpl(Inline)]
             public ImmSpec ToImmSpec()
                 => (ImmSpec)Data;
 
@@ -291,10 +287,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public Nonterminal ToNonterminal()
                 => (NontermKind)Data;
-
-            [MethodImpl(Inline)]
-            public DispSeg ToDispSeg()
-                => (DispSeg)Data;
 
             [MethodImpl(Inline)]
             public DispSpec ToDispSpec()

@@ -9,7 +9,6 @@ namespace Z0
 
     using static XedModels;
     using static XedPatterns;
-    using static XedFields;
 
     partial class XedRules
     {
@@ -40,7 +39,7 @@ namespace Z0
 
             public CellExpr FieldExpr;
 
-            public Seg Bitfield;
+            public Seg Seg;
 
             public Nonterminal Nonterminal;
 
