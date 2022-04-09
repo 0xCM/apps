@@ -21,12 +21,6 @@ namespace Z0
                 Value = value;
             }
 
-            public CellRole Role
-            {
-                [MethodImpl(Inline)]
-                get => Value.Role;
-            }
-
             public bool IsEq
             {
                 [MethodImpl(Inline)]

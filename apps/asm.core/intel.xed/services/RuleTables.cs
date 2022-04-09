@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Linq;
-
     using static XedModels;
     using static core;
 
@@ -16,8 +14,6 @@ namespace Z0
         {
             internal class Buffers
             {
-                //public readonly ConcurrentDictionary<RuleTableKind,Index<RuleTable>> Defs = new();
-
                 public readonly ConcurrentDictionary<RuleTableKind,Index<TableSpec>> Specs = new();
 
                 public static Buffers Empty => new();
@@ -161,18 +157,6 @@ namespace Z0
                 }
 
                 DefRowIndex = TableCalcs.rows(specs);
-
-                // var tables = Data.Defs.Values.SelectMany(x => x).Array();
-                // var count = tables.Length;
-                // var defs = dict<RuleSig,RuleTable>(count);
-                // for(var i=0; i<count; i++)
-                // {
-                //     ref readonly var table = ref tables[i];
-                //     if(defs.TryGetValue(table.Sig, out var t))
-                //         defs[table.Sig] = t.WithBody(table.Body);
-                //     else
-                //         defs.Add(table.Sig, table);
-                // }
             }
 
            public static RuleTables Empty => new();

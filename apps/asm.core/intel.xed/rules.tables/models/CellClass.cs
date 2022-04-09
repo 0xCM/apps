@@ -37,82 +37,10 @@ namespace Z0
                 get => Kind.Test(K.Number);
             }
 
-            public bool IsKeyword
-            {
-                [MethodImpl(Inline)]
-                get => Kind.Test(K.Keyword);
-            }
-
-            public bool IsNonterm
-            {
-                [MethodImpl(Inline)]
-                get => Kind.Test(K.Nonterm);
-            }
-
             public bool IsOperator
             {
                 [MethodImpl(Inline)]
                 get => Kind.Test(K.Operator);
-            }
-
-            public bool IsLiteral
-            {
-                [MethodImpl(Inline)]
-                get => Kind.Test(K.Literal);
-            }
-
-            public bool IsValue
-            {
-                [MethodImpl(Inline)]
-                get => Kind.Test(K.Value);
-            }
-
-            public bool IsChar
-            {
-                [MethodImpl(Inline)]
-                get => Kind.Test(K.Char);
-            }
-
-            public bool IsString
-            {
-                [MethodImpl(Inline)]
-                get => Kind.Test(K.String);
-            }
-
-            public bool IsText
-            {
-                [MethodImpl(Inline)]
-                get => Kind.Test(K.Text);
-            }
-
-            public bool IsSegSpec
-            {
-                [MethodImpl(Inline)]
-                get => Kind.Test(K.SegSpec);
-            }
-
-            public bool IsSeg
-            {
-                [MethodImpl(Inline)]
-                get => Kind.Test(K.Seg);
-            }
-
-            public bool IsSegVar
-            {
-                [MethodImpl(Inline)]
-                get => Kind.Test(K.SegVar);
-            }
-
-            public bool IsSegLiteral
-            {
-                [MethodImpl(Inline)]
-                get => Kind.Test(K.SegLiteral);
-            }
-
-            public bool IsExpr
-            {
-                [MethodImpl(Inline)]
-                get => Kind.Test(K.Expr);
             }
 
             public string Format()

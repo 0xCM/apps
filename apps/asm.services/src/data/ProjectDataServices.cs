@@ -37,7 +37,7 @@ namespace Z0
             Coff.Collect(context);
             CollectAsmSyntax(context);
             CollectMcInstructions(context);
-            XedDisasm.CollectDisasm(context);
+            XedDisasm.Collect(context);
             return receiver.Emit();
         }
    }

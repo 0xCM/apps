@@ -24,6 +24,15 @@ namespace Z0
             {
                 var dst = EmptyString;
                 var @class = src.Type.Class;
+                switch(src.CellKind)
+                {
+                    case CK.NontermExpr:
+                        dst = src.AsNontermExpr().Format();
+                    break;
+                }
+                if(text.nonempty(dst))
+                    return dst;
+
                 if(src.Type.IsNumber)
                 {
                     switch(@class.Kind)
@@ -83,7 +92,7 @@ namespace Z0
                     switch(src.DataType)
                     {
                         case DT.Bit:
-                            dst = src.ToBit().Format();
+                            dst = src.AsBit().Format();
                         break;
 
                         case DT.Byte:
@@ -91,47 +100,55 @@ namespace Z0
                         break;
 
                         case DT.Word:
-                            dst = src.ToWord().ToString();
+                            dst = src.AsWord().ToString();
                         break;
 
                         case DT.Reg:
-                            dst = src.ToReg().Format();
+                            dst = src.AsReg().Format();
                         break;
 
                         case DT.BCast:
-                            dst = XedRender.format(src.ToBCast());
+                            dst = XedRender.format(src.AsBCast());
                         break;
 
                         case DT.Chip:
-                            dst = XedRender.format(src.ToChip());
+                            dst = XedRender.format(src.AsChip());
                         break;
 
                         case DT.InstClass:
-                            dst = src.ToInstClass().Format();
+                            dst = src.AsInstClass().Format();
                         break;
 
                         case DT.Operator:
-                            dst = src.ToOperator().Format();
+                            dst = src.AsOperator().Format();
                         break;
 
                         case DT.Keyword:
-                            dst = src.ToKeyword().Format();
+                            dst = src.AsKeyword().Format();
                         break;
 
                         case DT.Nonterminal:
-                            dst = src.ToNonterm().Format();
+                            dst = src.AsNonterm().Format();
                         break;
 
                         case DT.Text:
-                            dst = src.ToAsci().Format();
+                            dst = src.AsAsci().Format();
                         break;
 
                         case DT.Char:
-                            dst = src.ToChar().ToString();
+                            dst = src.AsChar().ToString();
                         break;
 
+                        case DT.Seg:
+                            dst = src.AsSeg().Format();
+                            break;
+
                         case DT.SegSpec:
-                            dst = src.ToSegSpec().Format();
+                            dst = src.AsSegSpec().Format();
+                        break;
+
+                        case DT.None:
+                            dst = XedRender.format(src.FieldKind);
                         break;
 
                         default:
@@ -140,24 +157,10 @@ namespace Z0
                     }
                 }
 
-                if(src.Field != 0)
+                if(src.FieldKind != 0)
                 {
-                    var field = XedRender.format(src.Field);
-                    switch(@class.Kind)
-                    {
-                        case CK.EqExpr:
-                            dst = string.Format("{0}={1}", field, dst);
-                        break;
-                        case CK.NeqExpr:
-                            dst = string.Format("{0}!={1}", field, dst);
-                        break;
-                        case CK.NontermExpr:
-                            dst = string.Format("{0}={1}", field, dst);
-                        break;
-                        default:
-                            Errors.Throw(string.Format("UnhandledCase: {0}", @class.Kind));
-                        break;
-                    }
+                    var field = XedRender.format(src.FieldKind);
+                    dst = string.Format("{0}={1}", field, dst);
                 }
 
                 return dst;
@@ -166,20 +169,15 @@ namespace Z0
             public static string format(in CellType src)
             {
                 var dst = EmptyString;
-                if(src.IsSegVar)
-                    return string.Format("Seg:{0}[{1}]", XedRender.format(src.Field), SegSpecs.bitfield(src.Field));
-                else if(src.IsSegLiteral)
-                    return string.Format("Seg:{0}[0b]", XedRender.format(src.Field));
-                else if(src.IsSeg)
-                    return string.Format("Seg:{0}[?]", XedRender.format(src.Field));
-
                 switch(src.Class.Kind)
                 {
+                    case CK.Seg:
+                    case CK.SegVar:
+                    case CK.SegLiteral:
                     case CK.Keyword:
                     case CK.HexLiteral:
                     case CK.BinaryLiteral:
                     case CK.IntLiteral:
-                    case CK.SegSpec:
                         dst = src.Class.Kind.ToString();
                     break;
                     case CK.Char:
@@ -800,8 +798,6 @@ namespace Z0
 
                 return dst;
             }
-
         }
     }
-
 }

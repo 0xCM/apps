@@ -13,23 +13,43 @@ namespace Z0
         Outcome EmitDefs(CmdArgs args)
         {
             var rules = Xed.Rules.CalcRules();
-            var defs = TableCalcs.defs(rules);
-            var specs = rules.TableSpecs().Select(x => (x.Sig, x)).ToDictionary();
-            var lookup = defs.SelectMany(x => x.Rows).SelectMany(x => x.Cells).Select(x => (x.Key, x)).ToDictionary();
-            EmitCellDefs(lookup);
+            EmitCellDefs(rules);
             return true;
         }
 
-        void EmitCellDefs(RuleExprLookup defs)
+        static SortedLookup<CellKey,XedRules.CellSpec> Lookup(Index<TableSpec> specs)
         {
-            var rules = Xed.Rules.CalcRules();
-            var specs = rules.TableSpecs().Select(x => (x.TableId, x)).ToDictionary();
+            var dst = dict<CellKey,XedRules.CellSpec>();
+            for(var i=0; i<specs.Count; i++)
+            {
+                ref readonly var spec = ref specs[i];
+                for(ushort j=0; j<spec.RowCount; j++)
+                {
+                    ref readonly var row = ref spec[j];
+                    ref readonly var a = ref row.Antecedant;
+                    ref readonly var c = ref row.Consequent;
+                    var m=z8;
+                    for(var k=0; k<a.Count; k++,m++)
+                        dst.Add(new CellKey(spec.TableKind, spec.TableId, j, LogicKind.Antecedant, m), a[k]);
 
+                    dst.Add(new CellKey(spec.TableKind, spec.TableId, j, LogicKind.Antecedant, m++), new XedRules.CellSpec(OperatorKind.Impl));
+
+                    for(var k=0; k<c.Count; k++,m++)
+                        dst.Add(new CellKey(spec.TableKind, spec.TableId, j, LogicKind.Consequent, m), c[k]);
+                }
+            }
+            return dst;
+        }
+
+        void EmitCellDefs(RuleTables rules)
+        {
+            var specs = rules.TableSpecs();
+            var lookup = Lookup(specs);
+            var idLookup = specs.Select(x => (x.TableId, x)).ToDictionary();
             const string Sep = " | ";
             var cols = new Pairings<string,byte>(new Paired<string,byte>[]{
-                ("Field", 22), ("Type",22), ("Width",8), ("Op", 8),
-                ("Value", 32), ("Source",32), ("Def",48), ("Key", 18),
-                ("TableId", 12), ("TableKind", 12), ("TableName", 32), ("Row", 8),
+                ("Kind", 16), ("TableName", 32), ("Row", 8),
+                ("Expr", 32), ("Type",22), ("Source",32),
                 });
 
             var count = cols.Count;
@@ -40,22 +60,26 @@ namespace Z0
             iteri(count, i => names[i] = cols[i].Left);
             var RenderPattern = slots.Intersperse(" | ").Concat();
             var header = string.Format(RenderPattern, names);
-            var keys = defs.Keys;
+            var keys = lookup.Keys;
             var dst = text.buffer();
             dst.AppendLine(header);
             for(var i=0; i<keys.Length; i++)
             {
-                var def = defs[skip(keys,i)];
+                ref readonly var key =ref skip(keys,i);
+                var cell = lookup[key];
+                var type = TableCalcs.celltype(cell);
 
-                dst.AppendLineFormat(RenderPattern,
-                    XedRender.format(def.Field), def.Type, def.Type.EffectiveWidth, def.Operator,
-                    def.Value, def.Source, def.Format(), def.Key,
-                    def.Key.TableId.FormatHex(), def.Key.TableKind, specs[def.Key.TableId].TableName, def.Key.RowIndex
-                    );
+                var value = CellValueExpr.Empty;
+                var result = CellParser.parse(cell, out value);
+                // if(!result)
+                // {
+                //     Error(AppMsg.ParseFailure.Format(nameof(CellValueExpr), cell.Data));
+                //     break;
+                // }
+                dst.AppendLineFormat(RenderPattern, key.TableKind, idLookup[key.TableId].TableName, key.RowIndex, value, type, cell.Data);
             }
 
             FileEmit(dst.Emit(), keys.Length, XedPaths.RuleTargets() + FS.file("xed.rules.expressions", FS.Csv), TextEncodingKind.Asci);
         }
     }
-
 }

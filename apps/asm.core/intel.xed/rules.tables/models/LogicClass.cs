@@ -35,11 +35,6 @@ namespace Z0
                 get => Kind == LogicKind.Consequent;
             }
 
-            public bool IsOperator
-            {
-                [MethodImpl(Inline)]
-                get => Kind == LogicKind.Operator;
-            }
 
             public char Indicator
             {

@@ -99,80 +99,70 @@ namespace Z0
                 Storage = data;
             }
 
-            public ushort Content
+            public ref ushort Content
             {
                 [MethodImpl(Inline)]
-                get => @as<ushort>(Storage[ContentIndex]);
-                [MethodImpl(Inline)]
-                set => @as<ushort>(Storage[ContentIndex]) = value;
+                get => ref @as<ushort>(Storage[ContentIndex]);
             }
 
-            public FieldKind Kind
+            public ref FieldKind Kind
             {
-                get => (FieldKind)Storage[KindIndex];
-                set => Storage[KindIndex] = (byte)value;
+                [MethodImpl(Inline)]
+                get => ref @as<FieldKind>(Storage[TypeIndex]);
             }
 
-            public FieldDataType Type
+            public ref FieldDataType Type
             {
-                get => (FieldDataType)Storage[TypeIndex];
-                set => Storage[TypeIndex] = (byte)value;
+                [MethodImpl(Inline)]
+                get => ref @as<FieldDataType>(Storage[TypeIndex]);
             }
 
-            bit Bit
+            ref bit Bit
             {
                 [MethodImpl(Inline)]
-                get => (bit)Content;
-                [MethodImpl(Inline)]
-                set => Content = (ushort)value;
+                get => ref @as<bit>(Content);
             }
 
-            byte Byte
+            ref byte Byte
             {
                 [MethodImpl(Inline)]
-                get => (byte)Content;
-                [MethodImpl(Inline)]
-                set => Content = value;
+                get => ref @as<byte>(Content);
             }
 
-            ushort Word
+            ref ushort Word
             {
                 [MethodImpl(Inline)]
-                get => Content;
-                [MethodImpl(Inline)]
-                set => Content = value;
+                get => ref Content;
             }
 
-            Register Reg
+            ref Register Reg
             {
                 [MethodImpl(Inline)]
-                get => (Register)Content;
-                [MethodImpl(Inline)]
-                set => Content = (ushort)value;
+                get => ref @as<Register>(Content);
             }
 
-            ChipCode Chip
+            ref ChipCode Chip
             {
                 [MethodImpl(Inline)]
-                get => (ChipCode)Content;
-                [MethodImpl(Inline)]
-                set => Content = (ushort)value;
+                get => ref @as<ChipCode>(Content);
             }
 
-            InstClass Inst
+            ref InstClass Inst
             {
                 [MethodImpl(Inline)]
-                get => (InstClass)Content;
-                [MethodImpl(Inline)]
-                set => Content = (ushort)value;
+                get => ref @as<InstClass>(Content);
             }
 
-            BCastKind BCast
+            ref BCastKind BCast
             {
                 [MethodImpl(Inline)]
-                get => (BCastKind)Content;
+                get => ref @as<BCastKind>(Content);
+            }
+
+            ref RuleOperator Operator
+            {
                 [MethodImpl(Inline)]
-                set => Content = (ushort)value;
+                get => ref @as<RuleOperator>(Content);
             }
 
             public bool IsEmpty
@@ -198,17 +188,23 @@ namespace Z0
                     case DT.Byte:
                         dst = Byte.ToString();
                     break;
+                    case DT.Word:
+                        dst = Word.ToString();
+                    break;
+                    case DT.Reg:
+                        dst = XedRender.format(Reg);
+                    break;
+                    case DT.BCast:
+                        dst = XedRender.format(BCast);
+                    break;
                     case DT.Chip:
                         dst = XedRender.format(Chip);
                     break;
                     case DT.InstClass:
                         dst = XedRender.format(Inst);
                     break;
-                    case DT.Reg:
-                        dst = XedRender.format(Reg);
-                    break;
-                    case DT.Word:
-                        dst = Word.ToString();
+                    case DT.Operator:
+                        dst = XedRender.format(Operator);
                     break;
                 }
                 return dst;

@@ -36,6 +36,8 @@ namespace Z0
             Char,
 
             SegSpec,
+
+            Seg,
         }
     }
 }

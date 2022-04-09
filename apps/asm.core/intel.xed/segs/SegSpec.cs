@@ -9,96 +9,137 @@ namespace Z0
     {
         public readonly struct SegSpec
         {
-            public readonly byte KindRefined;
+            readonly ByteBlock16 Data;
 
-            public readonly SegSpecKind Kind;
+            const byte NullIndex = 13;
 
-            public readonly asci16 Pattern;
+            const byte KindIndex = 14;
+
+            const byte RefinedIndex = 15;
 
             [MethodImpl(Inline)]
             public SegSpec(SegSpecKind kind, ReadOnlySpan<char> pattern)
             {
-                Kind = kind;
-                Asci.encode(pattern, out Pattern);
-                KindRefined = 0;
+                var data = ByteBlock16.Empty;
+                Asci.encode(pattern, out asci16 a16);
+                data = a16.Storage;
+                data[NullIndex] = 0;
+                data[KindIndex] = (byte)kind;
+                data[RefinedIndex] = 0;
+                Data = data;
             }
 
             [MethodImpl(Inline)]
             public SegSpec(ImmSpec kind, ReadOnlySpan<char> pattern)
             {
-                Kind = SegSpecKind.Imm;
-                Asci.encode(pattern, out Pattern);
-                KindRefined = (byte)kind;
+                var data = ByteBlock16.Empty;
+                Asci.encode(pattern, out asci16 a16);
+                data[NullIndex] = 0;
+                data[KindIndex] = (byte)SegSpecKind.Imm;
+                data[RefinedIndex] = (byte)kind;
+                Data = data;
             }
 
             [MethodImpl(Inline)]
             public SegSpec(DispSpec kind, ReadOnlySpan<char> pattern)
             {
-                Kind = SegSpecKind.Disp;
-                Asci.encode(pattern, out Pattern);
-                KindRefined = (byte)kind;
+                var data = ByteBlock16.Empty;
+                Asci.encode(pattern, out asci16 a16);
+                data = a16.Storage;
+                data[NullIndex] = 0;
+                data[KindIndex] = (byte)SegSpecKind.Disp;
+                data[RefinedIndex] = (byte)kind;
+                Data = data;
             }
 
             [MethodImpl(Inline)]
             public SegSpec(AddressDispSpec kind, ReadOnlySpan<char> pattern)
             {
-                Kind = SegSpecKind.AddressDisp;
-                Asci.encode(pattern, out Pattern);
-                KindRefined = (byte)kind;
+                var data = ByteBlock16.Empty;
+                Asci.encode(pattern, out asci16 a16);
+                Data = a16.Storage;
+                data[NullIndex] = 0;
+                data[KindIndex] = (byte)SegSpecKind.AddressDisp;
+                data[RefinedIndex] = (byte)kind;
+                Data = data;
             }
 
             [MethodImpl(Inline)]
             public SegSpec(SegSpecKind kind, char c0)
             {
-                Kind = kind;
-                var dst = asci16.Null;
-                Pattern = new asci16(c0);
-                KindRefined = 0;
+                var data = ByteBlock16.Empty;
+                var a16 = new asci16(c0);
+                data = a16.Storage;
+                data[NullIndex] = 0;
+                data[KindIndex] = (byte)kind;
+                data[RefinedIndex] = 0;
+                Data = data;
             }
 
             [MethodImpl(Inline)]
             public SegSpec(SegSpecKind kind, char c0, char c1)
             {
-                Kind = kind;
-                var dst = asci16.Null;
-                Pattern = new asci16(c0, c1);
-                KindRefined = 0;
+                var data = ByteBlock16.Empty;
+                var a16 = new asci16(c0, c1);
+                data = a16.Storage;
+                data[NullIndex] = 0;
+                data[KindIndex] = (byte)kind;
+                data[RefinedIndex] = 0;
+                Data = data;
             }
 
             [MethodImpl(Inline)]
             public SegSpec(SegSpecKind kind, char c0, char c1, char c2)
             {
-                Kind = kind;
-                var dst = asci16.Null;
-                Pattern = new asci16(c0, c1, c2);
-                KindRefined = 0;
+                var data = ByteBlock16.Empty;
+                var a16 = new asci16(c0, c1, c2);
+                data = a16.Storage;
+                data[NullIndex] = 0;
+                data[KindIndex] = (byte)kind;
+                data[RefinedIndex] = 0;
+                Data = data;
             }
 
             [MethodImpl(Inline)]
             public SegSpec(SegSpecKind kind, char c0, char c1, char c2, char c3)
             {
-                Kind = kind;
-                var dst = asci16.Null;
-                Pattern = new asci16(c0, c1, c2, c3);
-                KindRefined = 0;
+                var data = ByteBlock16.Empty;
+                var a16 = new asci16(c0, c1, c2, c3);
+                data = a16.Storage;
+                data[NullIndex] = 0;
+                data[KindIndex] = (byte)kind;
+                data[RefinedIndex] = 0;
+                Data = data;
+            }
+
+            public readonly SegSpecKind Kind
+            {
+                [MethodImpl(Inline)]
+                get => (SegSpecKind)Data[KindIndex];
+            }
+
+            public byte KindRefined
+            {
+                [MethodImpl(Inline)]
+                get => Data[RefinedIndex];
             }
 
             public ImmSpec ImmSpec
             {
                 [MethodImpl(Inline)]
-                get => (ImmSpec)KindRefined;
+                get => (ImmSpec)Data[RefinedIndex];
             }
 
             public DispSpec Disp
             {
                 [MethodImpl(Inline)]
-                get => (DispSpec)KindRefined;
+                get => (DispSpec)Data[RefinedIndex];
             }
 
             public AddressDispSpec AddressDisp
             {
                 [MethodImpl(Inline)]
-                get => (AddressDispSpec)KindRefined;
+                get => (AddressDispSpec)Data[RefinedIndex];
             }
 
             public bool IsImm
@@ -138,7 +179,7 @@ namespace Z0
             }
 
             public string Format()
-                => Pattern.Format();
+                => Data.Format();
 
             public override string ToString()
                 => Format();

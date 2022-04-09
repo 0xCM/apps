@@ -30,11 +30,8 @@ namespace Z0
 
             Number = P2ᐞ07 | BinaryLiteral | IntLiteral | HexLiteral,
 
-            Text = P2ᐞ08 | Char | String,
-
+            Text = P2ᐞ08 | String | Char,
             Keyword = P2ᐞ09,
-
-            SegSpec = P2ᐞ10,
 
             Nonterm = P2ᐞ11,
 

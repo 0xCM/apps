@@ -12,6 +12,5 @@ namespace Z0
             public static Index<RuleSeq> ruleseq()
                 => XedParsers.ruleseq(XedPaths.Service.DocSource(XedDocKind.RuleSeq));
         }
-
     }
 }

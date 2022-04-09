@@ -4,16 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    using static XedRules;
     using static XedPatterns;
     using static core;
-
-    partial class XTend
-    {
-
-    }
 
     partial class XedCmdProvider
     {

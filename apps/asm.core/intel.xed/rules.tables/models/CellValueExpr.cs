@@ -5,8 +5,9 @@
 namespace Z0
 {
     using static XedModels;
-
     using static XedPatterns;
+
+    using static core;
 
     partial class XedRules
     {
@@ -28,45 +29,39 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellValueExpr(CellType type, FieldPack data)
+            public CellValueExpr(CellType type, Field field)
             {
+                var data = ByteBlock16.Empty;
+                @as<ushort>(data.First) = field.Content;
+                Data = data;
                 Type = type;
-                Data = data.Value();
-                DataType = data.DataType();
+                DataType = field.Type;
             }
 
             [MethodImpl(Inline)]
             public CellValueExpr(RuleOperator op)
             {
+                var data = ByteBlock16.Empty;
+                @as<RuleOperator>(data.First) = op;
+                Data = data;
                 Type = CellType.@operator(op);
-                Require.invariant(Type.IsNonEmpty);
-                Data = (byte)op;
                 DataType = FieldDataType.Operator;
             }
 
             [MethodImpl(Inline)]
-            public CellValueExpr(RuleKeyword kw)
+            public CellValueExpr(RuleKeyword src)
             {
+                var data = ByteBlock16.Empty;
+                @as<RuleKeyword>(data.First) = src;
+                Data = data;
                 Type = CellType.keyword();
-                Require.invariant(Type.IsNonEmpty);
-                Data = (byte)kw;
                 DataType = FieldDataType.Keyword;
-            }
-
-            [MethodImpl(Inline)]
-            public CellValueExpr(in CellType type, bit src)
-            {
-                Type = type;
-                Require.invariant(Type.IsNonEmpty);
-                Data = (byte)src;
-                DataType = FieldDataType.Bit;
             }
 
             [MethodImpl(Inline)]
             public CellValueExpr(in CellType type, byte src)
             {
                 Type = type;
-                Require.invariant(Type.IsNonEmpty);
                 Data = src;
                 DataType = FieldDataType.Byte;
             }
@@ -74,117 +69,128 @@ namespace Z0
             [MethodImpl(Inline)]
             public CellValueExpr(in CellType type, Nonterminal src)
             {
+                var data = ByteBlock16.Empty;
+                @as<Nonterminal>(data.First) = src;
+                Data = data;
                 Type = type;
-                Require.invariant(Type.IsNonEmpty);
-                Data = (ushort)src;
                 DataType = FieldDataType.Nonterminal;
             }
 
             [MethodImpl(Inline)]
-            public CellValueExpr(in CellType type, string src)
+            public CellValueExpr(in CellType type, NontermExpr src)
             {
+                var data = ByteBlock16.Empty;
+                @as<NontermExpr>(data.First) = src;
+                Data = data;
                 Type = type;
-                Require.invariant(Type.IsNonEmpty);
-                Asci.encode(src, out asci16 dst);
-                Data = dst.Storage;
-                DataType = FieldDataType.Text;
+                DataType = FieldDataType.Nonterminal;
             }
 
             [MethodImpl(Inline)]
-            public CellValueExpr(char src)
+            public CellValueExpr(in CellType type, Seg src)
             {
-                Type = CellType.@char();
-                Require.invariant(Type.IsNonEmpty);
-                Data = (byte)src;
-                DataType = FieldDataType.Char;
+                var data = ByteBlock16.Empty;
+                @as<Seg>(data.First) = src;
+                Data = data;
+                Type = type;
+                DataType = FieldDataType.Seg;
+            }
+
+            [MethodImpl(Inline)]
+            public CellValueExpr(in CellType type, asci16 src)
+            {
+                var data = ByteBlock16.Empty;
+                @as<asci16>(data.First) = src;
+                Data = data;
+                Type = type;
+                DataType = FieldDataType.Text;
             }
 
             [MethodImpl(Inline)]
             public CellValueExpr(in CellType type, SegSpec src)
             {
                 Type = type;
-                Require.invariant(Type.IsNonEmpty);
                 var data = ByteBlock16.Empty;
-                data[0] = (byte)src.Kind;
-                data[1] = src.KindRefined;
+                @as<SegSpec>(data.First) = src;
                 Data = data;
                 DataType = FieldDataType.SegSpec;
             }
 
-            [MethodImpl(Inline)]
-            public asci16 ToAsci()
-                => new(Data.Bytes);
-
-            [MethodImpl(Inline)]
-            public char ToChar()
-                => (char)Data[0];
-
-            [MethodImpl(Inline)]
-            public bit ToBit()
-                => (bit)Data[0];
-
-            [MethodImpl(Inline)]
-            public Hex8 ToHex8()
-                => Data[0];
-
-            [MethodImpl(Inline)]
-            public RuleKeyword ToKeyword()
-                => RuleKeyword.from((RuleKeyWordKind)Data[0]);
-
-            [MethodImpl(Inline)]
-            public RuleOperator ToOperator()
-                => (OperatorKind)Data[0];
-
-            [MethodImpl(Inline)]
-            public Nonterminal ToNonterm()
-                => (Nonterminal)core.u16(Data[0]);
-
-            public SegSpec ToSegSpec()
+            public RuleCellKind CellKind
             {
-                var dst = SegSpec.Empty;
-                switch((SegSpecKind)Data[0])
-                {
-                    case SegSpecKind.Bitfield:
-                        dst = SegSpecs.bitfield(Field);
-                    break;
-                    case SegSpecKind.Disp:
-                        dst = SegSpecs.disp((DispSpec)Data[1]);
-                    break;
-                    case SegSpecKind.AddressDisp:
-                        dst = SegSpecs.addressdisp((AddressDispSpec)Data[1]);
-                    break;
-                    case SegSpecKind.Imm:
-                        dst = SegSpecs.imm((ImmSpec)Data[1]);
-                    break;
-                }
-                return dst;
+                [MethodImpl(Inline)]
+                get => Type.Class.Kind;
             }
+
+            [MethodImpl(Inline)]
+            public ref readonly asci16 AsAsci()
+                => ref @as<asci16>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly Seg AsSeg()
+                => ref @as<Seg>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly Field AsField()
+                => ref @as<Field>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly char AsChar()
+                => ref @as<char>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly bit AsBit()
+                => ref @as<bit>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly Hex8 AsHex8()
+                => ref @as<Hex8>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly RuleKeyword AsKeyword()
+                => ref @as<RuleKeyword>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly RuleOperator AsOperator()
+                => ref @as<RuleOperator>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly Nonterminal AsNonterm()
+                => ref @as<Nonterminal>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly NontermExpr AsNontermExpr()
+                => ref @as<NontermExpr>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly SegSpec AsSegSpec()
+                => ref @as<SegSpec>(Data.First);
 
             [MethodImpl(Inline)]
             public byte ToByte()
                 => Data[0];
 
             [MethodImpl(Inline)]
-            public BCastKind ToBCast()
-                => (BCastKind)ToByte();
+            public ref readonly BCastKind AsBCast()
+                => ref @as<BCastKind>(Data.First);
 
             [MethodImpl(Inline)]
-            public ChipCode ToChip()
-                => (ChipCode)ToWord();
+            public ref readonly ChipCode AsChip()
+                => ref @as<ChipCode>(Data.First);
 
             [MethodImpl(Inline)]
-            public InstClass ToInstClass()
-                => (InstClass)ToWord();
+            public ref readonly InstClass AsInstClass()
+                => ref @as<InstClass>(Data.First);
 
             [MethodImpl(Inline)]
-            public ushort ToWord()
-                => core.@as<ushort>(Data[0]);
+            public ref readonly ushort AsWord()
+                => ref @as<ushort>(Data.First);
 
             [MethodImpl(Inline)]
-            public Register ToReg()
-                => (Register)ToWord();
+            public ref readonly Register AsReg()
+                => ref @as<Register>(Data.First);
 
-            public FieldKind Field
+            public FieldKind FieldKind
             {
                 [MethodImpl(Inline)]
                 get => Type.Field;
@@ -218,23 +224,23 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static explicit operator Nonterminal(CellValueExpr src)
-                => src.ToNonterm();
+                => src.AsNonterm();
 
             [MethodImpl(Inline)]
             public static explicit operator asci16(CellValueExpr src)
-                => src.ToAsci();
+                => src.AsAsci();
 
             [MethodImpl(Inline)]
             public static explicit operator char(CellValueExpr src)
-                => src.ToChar();
+                => src.AsChar();
 
             [MethodImpl(Inline)]
             public static explicit operator RuleOperator(CellValueExpr src)
-                => src.ToOperator();
+                => src.AsOperator();
 
             [MethodImpl(Inline)]
             public static explicit operator bit(CellValueExpr src)
-                => src.ToBit();
+                => src.AsBit();
 
             public static CellValueExpr Empty => new CellValueExpr(CellType.Empty, ByteBlock16.Empty);
         }

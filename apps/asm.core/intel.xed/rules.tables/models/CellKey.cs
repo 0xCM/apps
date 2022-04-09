@@ -79,6 +79,7 @@ namespace Z0
                         result = Logic.CompareTo(src.Logic);
                         if(result == 0)
                             result = CellIndex.CompareTo(src.CellIndex);
+
                     }
                 }
                 return result;

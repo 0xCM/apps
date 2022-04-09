@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial struct XedModels
     {
         public static Outcome parse(string src, out FormImport dst)

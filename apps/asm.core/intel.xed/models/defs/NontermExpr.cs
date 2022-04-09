@@ -26,10 +26,15 @@ namespace Z0
                 Nonterm = nt;
             }
 
+            public bool IsEmpty
+            {
+                get => Field == 0 && Op.IsEmpty && Nonterm.IsEmpty;
+            }
+
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Field != 0 && Op.IsNonEmpty && Nonterm.IsNonEmpty;
+                get => !IsEmpty;
             }
 
             public string Name

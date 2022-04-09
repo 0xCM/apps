@@ -352,6 +352,14 @@ namespace Z0
             return false;
         }
 
+        public static bool parse(string src, out Hex16 dst)
+        {
+            if(IsHexLiteral(src))
+                return DataParser.parse(src, out dst);
+            dst = default;
+            return false;
+        }
+
         public static bool parse(string src, out BfSpecKind dst)
             => BfSpecKinds.Parse(src, out dst);
 

@@ -48,12 +48,6 @@ namespace Z0
                 EffectiveWidth = weff;
             }
 
-            public bool IsBit
-            {
-                [MethodImpl(Inline)]
-                get => EffectiveType == nameof(bit);
-            }
-
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
@@ -72,82 +66,10 @@ namespace Z0
                 get => Class.IsNumber;
             }
 
-            public bool IsKeyword
-            {
-                [MethodImpl(Inline)]
-                get => Class.IsKeyword;
-            }
-
-            public bool IsNonterm
-            {
-                [MethodImpl(Inline)]
-                get => Class.IsNonterm;
-            }
-
             public bool IsOperator
             {
                 [MethodImpl(Inline)]
                 get => Class.IsOperator;
-            }
-
-            public bool IsLiteral
-            {
-                [MethodImpl(Inline)]
-                get => Class.IsLiteral;
-            }
-
-            public bool IsValue
-            {
-                [MethodImpl(Inline)]
-                get => Class.IsValue;
-            }
-
-            public bool IsChar
-            {
-                [MethodImpl(Inline)]
-                get => Class.IsChar;
-            }
-
-            public bool IsString
-            {
-                [MethodImpl(Inline)]
-                get => Class.IsString;
-            }
-
-            public bool IsText
-            {
-                [MethodImpl(Inline)]
-                get => Class.IsText;
-            }
-
-            public bool IsSegSpec
-            {
-                [MethodImpl(Inline)]
-                get => Class.IsSegSpec;
-            }
-
-            public bool IsSeg
-            {
-                [MethodImpl(Inline)]
-                get => Class.IsSeg;
-            }
-
-            public bool IsSegLiteral
-            {
-                [MethodImpl(Inline)]
-                get => Class.IsSegLiteral;
-            }
-
-            public bool IsSegVar
-            {
-                [MethodImpl(Inline)]
-                get => Class.IsSegVar;
-            }
-
-            public bool IsExpr
-            {
-                [MethodImpl(Inline)]
-                get => Class.IsExpr;
             }
 
             [MethodImpl(Inline)]
