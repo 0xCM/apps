@@ -92,7 +92,7 @@ namespace Z0
                 XedDisasm.fields(lines, Props, Fields, false);
                 MemberCount = Fields.Members(Members);
                 var kinds = slice(Members, 0, MemberCount);
-                XedState.update(Fields, ref State);
+                XedState.update(Fields, kinds, ref State);
                 Encoding = XedState.encoding(State, asmhex);
             }
 
@@ -102,8 +102,8 @@ namespace Z0
                 Buffer.AppendLine(lines.Format());
                 Buffer.AppendLine(RP.PageBreak100);
                 Buffer.AppendLineFormat(RenderPattern, nameof(XDis.Asm), XDis.Asm);
-                Buffer.AppendLineFormat(RenderPattern, "Instruction", ((InstClass)Fields[K.ICLASS]).Format());
-                Buffer.AppendLineFormat(RenderPattern, "Form", form);
+                Buffer.AppendLineFormat(RenderPattern, nameof(Props.Instruction), Props.Instruction);
+                Buffer.AppendLineFormat(RenderPattern, nameof(Props.Form), Props.Form);
                 Buffer.AppendLineFormat(RenderPattern, nameof(XDis.Category), XDis.Category);
                 Buffer.AppendLineFormat(RenderPattern, nameof(XDis.Extension), XDis.Extension);
                 Buffer.AppendLineFormat(RenderPattern, nameof(Encoding.Offsets), Encoding.Offsets.Format());

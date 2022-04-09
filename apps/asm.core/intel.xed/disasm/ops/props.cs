@@ -8,6 +8,7 @@ namespace Z0
     using static core;
     using static XedRules;
     using static XedModels;
+    using static XedPatterns;
 
     partial class XedDisasm
     {
@@ -38,7 +39,21 @@ namespace Z0
                     seek(dst,k) = ((prop, "1"));
             }
 
-            return dst.Index();
+            parse(src, out var _class, out var _form);
+
+            return DisasmProps.load(_class, _form, dst);
+
+
+        }
+
+        static void parse(in DisasmLineBlock src, out InstClass @class, out InstForm form)
+        {
+            var content = text.trim(text.split(text.despace(src.Props.Content), Chars.Space));
+            XedParsers.parse(skip(content,0), out @class);
+            if(!XedParsers.parse(skip(content,1), out form))
+            {
+                Errors.Throw(AppMsg.ParseFailure.Format(nameof(InstForm), skip(content,1)));
+            }
         }
 
         public static Index<Facet<string>> props(in DisasmLineBlock src)

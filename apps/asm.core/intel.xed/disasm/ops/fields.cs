@@ -11,10 +11,6 @@ namespace Z0
 
     partial class XedDisasm
     {
-
-        public static Fields fields(in DisasmLineBlock src, Index<Facet<string>> props)
-            => fields(src, props, XedFields.fields());
-
         public static Fields fields(in DisasmLineBlock src, DisasmProps props, Fields dst, bool clear = true)
         {
             if(clear)

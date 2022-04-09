@@ -23,8 +23,6 @@ namespace Z0
             var members = src.Members();
             var count = members.Members(kinds);
             update(src, kinds, ref dst);
-            // for(var i=0; i<count; i++)
-            //     update(src[skip(kinds,i)], ref dst);
             return ref dst;
         }
 
