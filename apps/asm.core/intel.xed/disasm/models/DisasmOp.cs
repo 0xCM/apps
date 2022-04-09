@@ -11,6 +11,53 @@ namespace Z0
 
     partial class XedDisasm
     {
+        public readonly struct DisasmOp2
+        {
+            public readonly OpName Name;
+
+            readonly ByteBlock32 Data;
+
+            [MethodImpl(Inline)]
+            internal DisasmOp2(OpName name, Disp disp)
+            {
+                Name = name;
+                var data = ByteBlock32.Empty;
+                core.@as<Disp>(data.First) = disp;
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
+            internal DisasmOp2(OpName name, text31 mem)
+            {
+                Name = name;
+                var data = ByteBlock32.Empty;
+                core.@as<text31>(data.First) = mem;
+                Data = data;
+            }
+
+            public string Format()
+            {
+                var dst = EmptyString;
+                switch(Name.Kind)
+                {
+                    case OpNameKind.DISP:
+                        dst = core.@as<Disp>(Data.First).Format();
+                    break;
+                    default:
+                        dst = core.@as<text31>(Data.First).Format();
+                    break;
+                }
+                return dst;
+            }
+
+            public override string ToString()
+                => Format();
+
+            [MethodImpl(Inline)]
+            public static explicit operator Disp(DisasmOp2 src)
+                => src.Name.Kind == OpNameKind.DISP ? core.@as<Disp>(src.Data.First) : Disp.Empty;
+        }
+
         public readonly struct DisasmOp
         {
             public readonly OpName Name;

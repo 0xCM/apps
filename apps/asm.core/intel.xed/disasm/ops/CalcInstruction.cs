@@ -18,9 +18,9 @@ namespace Z0
                 if(j > 0)
                 {
                     var expr = text.left(content,j);
-                    if(!XedParsers.parse(expr, out dst.InstClass))
+                    if(!XedParsers.parse(expr, out dst.Class))
                     {
-                        result = (false, AppMsg.ParseFailure.Format(nameof(dst.InstClass), content));
+                        result = (false, AppMsg.ParseFailure.Format(nameof(dst.Class), content));
                         return result;
                     }
 
@@ -28,14 +28,14 @@ namespace Z0
                     if(k > 0)
                     {
                         expr = text.inside(content, j, k);
-                        if(!XedParsers.parse(expr, out dst.InstForm))
+                        if(!XedParsers.parse(expr, out dst.Form))
                         {
-                            result = (false, AppMsg.ParseFailure.Format(nameof(dst.InstForm), expr));
+                            result = (false, AppMsg.ParseFailure.Format(nameof(dst.Form), expr));
                             return result;
                         }
                     }
 
-                    dst.Props = XedDisasm.props(src);
+                    DisasmParse.parse(src, out dst.Props);
                 }
             }
             return result;

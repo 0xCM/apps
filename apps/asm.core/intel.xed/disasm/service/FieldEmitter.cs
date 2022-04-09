@@ -88,7 +88,7 @@ namespace Z0
                 ref readonly var ip = ref summary.IP;
 
                 DisasmParse.parse(lines.XDis.Content, out XDis).Require();
-                Props = kvp(lines);
+                DisasmParse.parse(lines, out Props);
                 XedDisasm.fields(lines, Props, Fields, false);
                 MemberCount = Fields.Members(Members);
                 var kinds = slice(Members, 0, MemberCount);

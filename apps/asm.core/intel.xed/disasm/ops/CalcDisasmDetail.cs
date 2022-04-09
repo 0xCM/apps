@@ -61,10 +61,10 @@ namespace Z0
             dst.IP = summary.IP;
             dst.Encoded = summary.Encoded;
             dst.Asm = summary.Asm;
-            dst.InstForm = inst.InstForm;
-            dst.InstClass = inst.InstClass;
+            dst.InstForm = inst.Form;
+            dst.InstClass = inst.Class;
             dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
-            DisasmParse.parse(inst.Props.Edit, out DisasmState dstate);
+            DisasmParse.parse(inst.Props, out DisasmState dstate);
             var ops = XedState.ops(dstate, code);
 
             ref readonly var state = ref dstate.RuleState;
@@ -78,10 +78,7 @@ namespace Z0
             Require.equal(state.SRM, ocsrm);
 
             if(opcode != code[ocpos])
-            {
-                var msg = string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", state.NOMINAL_OPCODE, state.MODRM_BYTE);
-                Errors.Throw(msg);
-            }
+                Errors.Throw(string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", state.NOMINAL_OPCODE, state.MODRM_BYTE));
 
             for(var k=0; k<lines.OpCount; k++)
             {

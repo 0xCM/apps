@@ -10,16 +10,22 @@ namespace Z0
 
     partial class XedDisasm
     {
-        [StructLayout(LayoutKind.Sequential, Pack = 1), Record(TableId)]
         public struct DisasmInstruction
         {
-            public const string TableId = "xed.disasm.instruction";
+            public InstClass Class;
 
-            public InstClass InstClass;
+            public InstForm Form;
 
-            public InstForm InstForm;
+            public DisasmProps Props;
 
-            public Index<Facet<string>> Props;
+            public DisasmInstruction(InstClass @class, InstForm form, DisasmProps props)
+            {
+                Class = @class;
+                Form = form;
+                Props = props;
+            }
+
+            public static DisasmInstruction Empty => new DisasmInstruction(InstClass.Empty, InstForm.Empty, DisasmProps.Empty);
         }
     }
 }

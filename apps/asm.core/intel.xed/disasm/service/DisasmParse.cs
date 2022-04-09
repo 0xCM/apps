@@ -7,6 +7,9 @@ namespace Z0
     using Asm;
 
     using static core;
+    using static XedRules;
+    using static XedModels;
+    using static XedPatterns;
 
     public partial class XedDisasm
     {
@@ -16,13 +19,49 @@ namespace Z0
 
             const string YDIS = "YDIS:";
 
-            public static void parse(DisasmProps src, out DisasmState dst)
+            public static void parse(in DisasmLineBlock src, out DisasmProps _dst)
             {
-                var parser = new FieldParser();
-                dst = parser.Parse(src);
+                var content = text.trim(text.despace(src.Props.Content));
+                var i = text.index(content,Chars.Space);
+                var @class = text.left(content,i);
+                var right = text.right(content,i);
+                var j = text.index(right, Chars.Space);
+                var form = text.left(right,i);
+                var props = text.trim(text.split(text.right(right,j), Chars.Comma));
+                var count = props.Length;
+                var dst = alloc<Facet<string>>(count + 2);
+                var k=0u;
+                seek(dst,k++) = (nameof(FieldKind.ICLASS), @class);
+                seek(dst,k++) = (nameof(InstForm), form);
+                for(var m=0; m<count; m++,k++)
+                {
+                    var prop = skip(props,m);
+                    if(text.contains(prop,Chars.Colon))
+                    {
+                        var kv = text.split(prop,Chars.Colon);
+                        Demand.eq(kv.Length,2);
+                        seek(dst,k) = ((skip(kv,0), skip(kv,1)));
+                    }
+                    else
+                        seek(dst,k) = ((prop, "1"));
+                }
+
+                parse(src, out var _class, out var _form);
+
+                _dst = DisasmProps.load(_class, _form, dst);
             }
 
-            public static void parse(ReadOnlySpan<Facet<string>> src, out DisasmState dst)
+            static void parse(in DisasmLineBlock src, out InstClass @class, out InstForm form)
+            {
+                var content = text.trim(text.split(text.despace(src.Props.Content), Chars.Space));
+                XedParsers.parse(skip(content,0), out @class);
+                if(!XedParsers.parse(skip(content,1), out form))
+                {
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(InstForm), skip(content,1)));
+                }
+            }
+
+            public static void parse(DisasmProps src, out DisasmState dst)
             {
                 var parser = new FieldParser();
                 dst = parser.Parse(src);

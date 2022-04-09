@@ -13,7 +13,7 @@ namespace Z0
     {
         public static Index<CellValue> values(in DisasmLineBlock src)
         {
-            var props = kvp(src);
+            DisasmParse.parse(src, out DisasmProps props);
             var state = RuleState.Empty;
             var names = props.Keys.Array();
             var count = names.Length;

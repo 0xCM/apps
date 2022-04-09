@@ -68,10 +68,8 @@ namespace Z0
 
             public bool Search(OpWidthCode match, out DisasmOpDetail dst)
                 => Search(match,0,out dst);
-
             public string Format()
                 => XedRender.format(this);
-
 
             public override string ToString()
                 => Format();
