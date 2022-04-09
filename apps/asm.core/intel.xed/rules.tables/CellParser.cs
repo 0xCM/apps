@@ -394,9 +394,9 @@ namespace Z0
                     Errors.Throw(AppMsg.ParseFailure.Format(nameof(InstPatternBody), src));
             }
 
-            public static bool parse(string src, out Seg dst)
+            public static Outcome parse(string src, out Seg dst)
             {
-                var result = false;
+                var result = Outcome.Success;
                 dst = Seg.Empty;
                 var i = text.index(src, Chars.LBracket);
                 var j = text.index(src, Chars.RBracket);
@@ -409,31 +409,31 @@ namespace Z0
 
                     result = CellParser.SegData(src, out var sd);
                     if(!result)
-                        return false;
+                        return result;
 
                     var literal = XedParsers.IsBinaryLiteral(sd);
                     if(!literal && sd.Length < 8)
-                        dst = seg(field,sd);
+                        dst = seg(field, sd);
                     else
                     {
-                        result = XedParsers.parse(src, out uint8b value);
+                        result = XedParsers.parse(sd, out uint8b value);
                         if(!result)
-                            return false;
+                            return result;
 
                         var len = sd.Length - 2;
                         switch(len)
                         {
                             case 1:
-                                dst = seg(n1,field,(bit)value);
+                                dst = seg(n1, field, (bit)value);
                             break;
                             case 2:
-                                dst = seg(n2,field,value);
+                                dst = seg(n2, field, value);
                             break;
                             case 3:
-                                dst = seg(n3,field,value);
+                                dst = seg(n3, field, value);
                             break;
                             case 4:
-                                dst = seg(n4,field,value);
+                                dst = seg(n4, field, value);
                             break;
                             default:
                                 result = false;

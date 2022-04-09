@@ -11,28 +11,26 @@ namespace Z0
 
     partial class XedRules
     {
+        public enum OpDataKind : byte
+        {
+            None,
+
+            Scale,
+
+            Reg,
+
+            Imm,
+
+            Disp,
+        }
+
         public struct OpValue
         {
-            enum OpDataKind : byte
-            {
-                None,
-
-                Scale,
-
-                Reg,
-
-                Imm,
-
-                Disp,
-            }
-
             public ref readonly OpNameKind Name
             {
                 [MethodImpl(Inline)]
                 get => ref @as<OpNameKind>(_Data[0]);
             }
-
-            //public object Data;
 
             readonly ByteBlock16 _Data;
 
@@ -43,8 +41,6 @@ namespace Z0
                 data[0] = (byte)name;
                 data[1] = (byte)OpDataKind.Scale;
                 data[2] = (byte)value;
-                //Name = name;
-                //Data = value;
                 _Data = data;
             }
 
@@ -55,8 +51,6 @@ namespace Z0
                 data[0] = (byte)name;
                 data[1] = (byte)OpDataKind.Reg;
                 @as<Register>(data[2]) = value;
-                //Name = name;
-                //Data = value;
                 _Data = data;
             }
 
@@ -67,8 +61,6 @@ namespace Z0
                 data[0] = (byte)name;
                 data[1] = (byte)OpDataKind.Imm;
                 @as<Imm>(data[2]) = value;
-                //Name = name;
-                //Data = value;
                 _Data = data;
             }
 
@@ -79,12 +71,10 @@ namespace Z0
                 data[0] = (byte)name;
                 data[1] = (byte)OpDataKind.Disp;
                 @as<Disp>(data[2]) = value;
-                //Name = name;
-                //Data = value;
                 _Data = data;
             }
 
-            ref readonly Disp Disp
+            internal ref readonly Disp Disp
             {
                 [MethodImpl(Inline)]
                 get => ref @as<Disp>(_Data[2]);
@@ -108,7 +98,7 @@ namespace Z0
                 get => ref @as<Imm>(_Data[2]);
             }
 
-            ref readonly OpDataKind DataKind
+            public ref readonly OpDataKind DataKind
             {
                 [MethodImpl(Inline)]
                 get => ref @as<OpDataKind>(_Data[1]);

@@ -48,7 +48,6 @@ namespace Z0
             dst.TryAdd(fref, details);
             exec(PllExec,
                 () => EmitDisasmOps(context, details),
-                //() => EmitDisasmProps(context, details),
                 () => EmitDisasmChecks(context, details)
             );
         }

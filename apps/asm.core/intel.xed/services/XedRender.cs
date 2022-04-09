@@ -593,22 +593,22 @@ namespace Z0
             var @class = src.FieldClass;
             switch(@class)
             {
-                case DefFieldClass.HexLiteral:
+                case InstFieldClass.HexLiteral:
                     dst = format(src.AsHexLit());
                 break;
-                case DefFieldClass.IntLiteral:
+                case InstFieldClass.IntLiteral:
                     dst = src.AsIntLit().ToString();
                 break;
-                case DefFieldClass.Seg:
+                case InstFieldClass.Seg:
                     dst = src.AsSeg().Format();
                 break;
-                case DefFieldClass.BitLiteral:
+                case InstFieldClass.BitLiteral:
                     dst = format5(src.AsBitLit());
                 break;
-                case DefFieldClass.Nonterm:
+                case InstFieldClass.Nonterm:
                     dst = format(src.AsNonterminal());
                 break;
-                case DefFieldClass.FieldExpr:
+                case InstFieldClass.FieldExpr:
                     dst = format(src.AsFieldExpr());
                 break;
                 default:

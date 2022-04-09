@@ -19,7 +19,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data[0] = src;
-                data[15] = (byte)DefFieldClass.IntLiteral;
+                data[15] = (byte)InstFieldClass.IntLiteral;
                 Data = data;
             }
 
@@ -29,7 +29,7 @@ namespace Z0
                 var data = ByteBlock16.Empty;
                 data[0] = (byte)src;
                 data[1] = uint5.MaxLiteral;
-                data[15] = (byte)DefFieldClass.BitLiteral;
+                data[15] = (byte)InstFieldClass.BitLiteral;
                 Data = data;
             }
 
@@ -38,7 +38,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data[0] = src;
-                data[15] = (byte)DefFieldClass.HexLiteral;
+                data[15] = (byte)InstFieldClass.HexLiteral;
                 Data = data;
             }
 
@@ -48,7 +48,7 @@ namespace Z0
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
                 data[14] = (byte)src.Field;
-                data[15] = (byte)DefFieldClass.Seg;
+                data[15] = (byte)InstFieldClass.Seg;
                 Data = data;
             }
 
@@ -58,7 +58,7 @@ namespace Z0
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
                 data[14] = (byte)src.Field;
-                data[15] = (byte)DefFieldClass.FieldExpr;
+                data[15] = (byte)InstFieldClass.FieldExpr;
                 Data = data;
             }
 
@@ -67,14 +67,14 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data = (uint)src;
-                data[15] = (byte)DefFieldClass.Nonterm;
+                data[15] = (byte)InstFieldClass.Nonterm;
                 Data = data;
             }
 
-            public ref readonly DefFieldClass FieldClass
+            public ref readonly InstFieldClass FieldClass
             {
                 [MethodImpl(Inline)]
-                get => ref @as<DefFieldClass>(Data[15]);
+                get => ref @as<InstFieldClass>(Data[15]);
             }
 
             public ref readonly FieldKind FieldKind
@@ -86,22 +86,22 @@ namespace Z0
             public bool IsNonTerminal
             {
                 [MethodImpl(Inline)]
-                get => FieldClass == DefFieldClass.Nonterm;
+                get => FieldClass == InstFieldClass.Nonterm;
             }
 
             public bool IsFieldExpr
             {
                 [MethodImpl(Inline)]
-                get => FieldClass == DefFieldClass.FieldExpr;
+                get => FieldClass == InstFieldClass.FieldExpr;
             }
 
             public bool IsLiteral
             {
                 [MethodImpl(Inline)]
                 get =>
-                   FieldClass == DefFieldClass.BitLiteral
-                || FieldClass == DefFieldClass.HexLiteral
-                || FieldClass == DefFieldClass.IntLiteral;
+                   FieldClass == InstFieldClass.BitLiteral
+                || FieldClass == InstFieldClass.HexLiteral
+                || FieldClass == InstFieldClass.IntLiteral;
             }
 
             [MethodImpl(Inline)]

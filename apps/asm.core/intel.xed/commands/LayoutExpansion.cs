@@ -7,7 +7,7 @@ namespace Z0
     using static XedPatterns;
     using static core;
 
-    using C = XedRules.DefFieldClass;
+    using C = XedRules.InstFieldClass;
 
     partial class XedRules
     {

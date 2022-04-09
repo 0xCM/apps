@@ -41,24 +41,24 @@ namespace Z0
             dst.OcValue = pattern.OpCode.Value;
             switch(src.FieldClass)
             {
-                case DefFieldClass.Seg:
+                case InstFieldClass.Seg:
                     dst.Seg = src.AsSeg();
                 break;
-                case DefFieldClass.BitLiteral:
+                case InstFieldClass.BitLiteral:
                     dst.BitLiteral = src.AsBitLit();
                 break;
-                case DefFieldClass.FieldExpr:
+                case InstFieldClass.FieldExpr:
                     dst.FieldExpr = src.AsFieldExpr();
                     if(dst.FieldExpr.IsNonTerminal)
                         dst.Nonterminal = dst.FieldExpr.Value.ToNonterminal();
                 break;
-                case DefFieldClass.HexLiteral:
+                case InstFieldClass.HexLiteral:
                     dst.HexLiteral = src.AsHexLit();
                 break;
-                case DefFieldClass.IntLiteral:
+                case InstFieldClass.IntLiteral:
                     dst.IntLiteral = src.AsIntLit();
                 break;
-                case DefFieldClass.Nonterm:
+                case InstFieldClass.Nonterm:
                     dst.Nonterminal = src.AsNonterminal();
                 break;
             }

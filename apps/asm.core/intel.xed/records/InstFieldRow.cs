@@ -33,7 +33,7 @@ namespace Z0
 
             public byte Index;
 
-            public DefFieldClass FieldClass;
+            public InstFieldClass FieldClass;
 
             public EmptyZero<FieldKind> FieldKind;
 

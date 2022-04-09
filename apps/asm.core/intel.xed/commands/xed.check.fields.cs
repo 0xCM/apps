@@ -15,23 +15,50 @@ namespace Z0
         [CmdOp("xed/check/fields")]
         Outcome CheckFields(CmdArgs args)
         {
-            CheckFieldSets();
+            CheckLayouts();
             return true;
         }
 
         void CheckLayouts()
         {
             var patterns = Xed.Rules.CalcInstPatterns();
+            var dst = text.buffer();
             for(var i=0; i<patterns.Count; i++)
             {
                 ref readonly var pattern = ref patterns[i];
                 var layout = XedPatterns.layout(pattern.Body);
                 var @class = pattern.Classifier;
                 var oc = pattern.OpCode;
-                Write(string.Format("{0,-8} | {1,-18} | {2,-8} | {3,-18} | {4}", pattern.PatternId, @class, oc.Kind, oc.Value, layout));
-            }
 
+                for(var j=0; j<layout.FieldCount; j++)
+                {
+                    if(j !=0)
+                        dst.Append(Chars.Space);
+
+                    ref readonly var field = ref layout[j];
+                    if(field.FieldClass == InstFieldClass.Seg)
+                    {
+                        if(CellParser.parse(field.Format(), out Seg seg))
+                        {
+                            dst.Append(seg.Format());
+                        }
+                        else
+                        {
+                            Error(field.Format());
+                            return;
+                        }
+                    }
+                    else
+                    {
+
+                        dst.Append(field.Format());
+                    }
+                }
+
+                Write(string.Format("{0,-8} | {1,-18} | {2,-8} | {3,-18} | {4}", pattern.PatternId, @class, oc.Kind, oc.Value, dst.Emit()));
+            }
         }
+
         void CheckSegs()
         {
             var regVal = seg(n3, FieldKind.REG,0b010);

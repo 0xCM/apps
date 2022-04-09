@@ -173,17 +173,17 @@ namespace Z0
                     {
                         switch(field.FieldClass)
                         {
-                            case DefFieldClass.FieldExpr:
+                            case InstFieldClass.FieldExpr:
                                 seek(dst,j) = string.Format(Pattern, j, fk, field.AsFieldExpr());
                                 break;
-                            case DefFieldClass.Nonterm:
+                            case InstFieldClass.Nonterm:
                             {
                                 var nt = field.AsNonterminal();
                                 var path = Tables.FindTablePath(nt);
                                 seek(dst,j) = string.Format(Pattern, j, "Nonterm",  string.Format("{0}::{1}", XedRender.format(nt), path));
                             }
                             break;
-                            case DefFieldClass.Seg:
+                            case InstFieldClass.Seg:
                                 seek(dst,j) = string.Format(Pattern, j, fk, field.AsSeg());
                             break;
                             default:
