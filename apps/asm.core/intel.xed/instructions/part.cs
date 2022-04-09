@@ -16,6 +16,10 @@ namespace Z0
             => new(src);
 
         [MethodImpl(Inline), Op]
+        public static InstDefField part(Seg src)
+            => new(src);
+
+        [MethodImpl(Inline), Op]
         public static InstDefField part(Nonterminal src)
             => new(src);
 

@@ -8,6 +8,7 @@ namespace Z0
     using W = W16;
     using A = asci2;
     using S = System.UInt16;
+    using api = Asci;
 
     /// <summary>
     /// Defines an asci code sequence of length 2
@@ -23,6 +24,14 @@ namespace Z0
         [MethodImpl(Inline)]
         public asci2(string src)
             => Storage = Asci.encode(n, src).Storage;
+
+        [MethodImpl(Inline)]
+        public asci2(char c0)
+            => Storage = (byte)c0;
+
+        [MethodImpl(Inline)]
+        public asci2(char c0, char c1)
+            => Storage = api.pack(c0, c1);
 
         public bool IsBlank
         {

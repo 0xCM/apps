@@ -18,22 +18,22 @@ namespace Z0
             => new asci2(AsciSymbols.pack((AsciCode)a, (AsciCode)b));
 
         /// <summary>
-        /// Encodes a 3-character asci sequence
+        /// Encodes a 3-character asci sequence as a <see cref='asci4'/> value
         /// </summary>
         /// <param name="a">The first asci character</param>
         /// <param name="b">The second asci character</param>
         /// <param name="c">The third asci character</param>
         [MethodImpl(Inline), Op]
-        public static asci4 encode(char a, char b, char c)
+        public static asci4 encode(N4 n, char a, char b, char c)
             => new asci4(AsciSymbols.pack((AsciCode)a, (AsciCode)b, (AsciCode)c, out var _ ));
 
         /// <summary>
-        /// Encodes a 4-character asci sequence
+        /// Encodes a 4-character asci sequence as a <see cref='asci4'/> value
         /// </summary>
         /// <param name="a">The first asci character</param>
         /// <param name="b">The second asci character</param>
         [MethodImpl(Inline), Op]
-        public static asci4 encode(char a, char b, char c, char d)
+        public static asci4 encode(N4 n, char a, char b, char c, char d)
             => new asci4(AsciSymbols.pack((AsciCode)a, (AsciCode)b, (AsciCode)c, (AsciCode)d, out var _ ));
 
         /// <summary>

@@ -8,13 +8,48 @@ namespace Z0
 
     using static XedRules;
     using static XedModels;
-    using static XedPatterns;
     using static core;
 
     partial class XedCmdProvider
     {
         [CmdOp("xed/check/fields")]
         Outcome CheckFields(CmdArgs args)
+        {
+            var patterns = Xed.Rules.CalcInstPatterns();
+            for(var i=0; i<patterns.Count; i++)
+            {
+                ref readonly var pattern = ref patterns[i];
+                var layout = XedPatterns.layout(pattern.Body);
+                var @class = pattern.Classifier;
+                var oc = pattern.OpCode;
+                Write(string.Format("{0,-8} | {1,-18} | {2,-8} | {3,-18} | {4}", pattern.PatternId, @class, oc.Kind, oc.Value, layout));
+            }
+            return true;
+        }
+
+        void CheckSegs()
+        {
+            var regVal = seg(n3, FieldKind.REG,0b010);
+            Write(regVal.Format());
+
+            var regVar = seg(FieldKind.REG,'r', 'r', 'r');
+            Write(regVar.Format());
+
+            var modVal = seg(n2,FieldKind.MOD,0b11);
+            Write(modVal.Format());
+
+            var modVar = seg(FieldKind.MOD, 'm', 'm');
+            Write(modVar.Format());
+
+            var rmVar = seg(FieldKind.RM,'n','n','n');
+            Write(rmVar.Format());
+
+            var rmVal= seg(n3,FieldKind.RM,0b011);
+            Write(rmVal.Format());
+
+        }
+
+        void ChecFieldSets()
         {
             var data = XedFields.fields();
             ref readonly var reg1 = ref data.Update(FieldKind.REG1, XedRegId.AX);
@@ -29,42 +64,8 @@ namespace Z0
                 ref readonly var field = ref data[kind];
                 Write(field.Format());
             }
-
-
-            return true;
         }
 
-
-        void EmitSomt()
-        {
-            const string RenderPattern = "{0} -> {1}";
-            var cols = new string[]{"Kind", "Criterion", "Table", "Nonterminals"};
-            var rules = Xed.Rules.CalcRules();
-            var dst = text.buffer();
-            dst.AppendLine("digraph {");
-            ref readonly var tables = ref rules.Tables();
-            Span<NontermKind> buffer = stackalloc NontermKind[(int)FunctionSet.MaxCount];
-
-            for(var i=0; i<tables.Count; i++)
-            {
-                ref readonly var table = ref tables[i];
-                var deps = table.Functions(true);
-                var count = 0u;
-                count = deps.Members(buffer);
-                for(var j=0; j<count; j++)
-                    dst.AppendLineFormat(RenderPattern, text.enquote(string.Format("{0}:{1}:{2}", table.TableKind, "A", table.Sig.ShortName)), text.enquote(XedRender.format(skip(buffer,j))));
-
-                deps = table.Functions(false);
-                count = deps.Members(buffer);
-                for(var j=0; j<count; j++)
-                    dst.AppendLineFormat(RenderPattern, text.enquote(string.Format("{0}:{1}:{2}", table.TableKind, "C", table.Sig.ShortName)), text.enquote(XedRender.format(skip(buffer,j))));
-            }
-
-            dst.AppendLine("}");
-
-            FileEmit(dst.Emit(),tables.Count, XedPaths.RuleTargets() + FS.file("xed.rules.nonterms", FS.Dot), TextEncodingKind.Asci);
-
-        }
         void EmitOpNonTerminals()
         {
             var patterns = Xed.Rules.CalcInstPatterns();
@@ -122,25 +123,6 @@ namespace Z0
                         Require.invariant(!dst.Contains(kind));
                 }
             }
-        }
-
-        void EmitRuleFieldDeps()
-        {
-            var rules = Xed.Rules.CalcRules();
-            var dst = text.buffer();
-            ref readonly var tables = ref rules.Tables();
-            var count =z8;
-
-            for(var i=0; i<tables.Count; i++)
-            {
-                ref readonly var table = ref tables[i];
-                var source = table.Deps(true);
-                var target = table.Deps(false);
-
-                dst.AppendLineFormat("{0}:{1}{2} -> {3}", table.TableKind, table.Sig.ShortName, source, target);
-            }
-
-            FileEmit(dst.Emit(),tables.Count, XedPaths.RuleTargets() + FS.file("xed.rules.fields", FS.Txt), TextEncodingKind.Asci);
         }
 
         void CheckFields0()

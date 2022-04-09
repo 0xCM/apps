@@ -106,14 +106,15 @@ namespace Z0
                     if(op.Nonterminal(out var nt))
                     {
                         var sig = new RuleSig(RuleTableKind.Enc,nt.Name);
-                        var table = Rules.Table(sig);
-                        if(table.IsNonEmpty)
+                        if(Rules.IsTableDefind(sig))
+                        {
                             dst.Append(Link(sig).Format());
+
+                        }
                         else
                         {
                             sig = new RuleSig(RuleTableKind.Dec,nt.Name);
-                            table = Rules.Table(sig);
-                            if(table.IsNonEmpty)
+                            if(Rules.IsTableDefind(sig))
                                 dst.Append(Link(sig).Format());
                             else
                                 dst.Append(nt.Format());
@@ -125,18 +126,7 @@ namespace Z0
                 dst.AppendLine();
             }
 
-            void RenderTable(in RuleTable src, ITextBuffer dst)
-            {
-                dst.AppendLine(TableHeader(src.Sig));
-                dst.AppendLine();
-                dst.AppendLineFormat("{0}(){{", src.Sig.ShortName);
-                for(var i=0; i<src.RowCount; i++)
-                    dst.IndentLine(4,src[i].Format());
-                dst.AppendLine("}");
-                dst.AppendLine();
-            }
-
-            void RenderTable(in CellTableSpec src, ITextBuffer dst)
+            void RenderTable(in TableSpec src, ITextBuffer dst)
             {
                 dst.AppendLine(TableHeader(src.Sig));
                 dst.AppendLine();
@@ -163,7 +153,7 @@ namespace Z0
 
                 var sigs = Rules.Sigs();
                 for(var i=0; i<sigs.Length; i++)
-                    RenderTable(Rules.TableSpec(core.skip(sigs,i)), dst);
+                    RenderTable(Rules.TableSpec(sigs[i]), dst);
                 return dst.Emit();
             }
         }

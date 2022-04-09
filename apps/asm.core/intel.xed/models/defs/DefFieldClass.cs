@@ -19,6 +19,8 @@ namespace Z0
 
             Bitfield,
 
+            Seg,
+
             Nonterm,
 
             FieldExpr,

@@ -109,7 +109,7 @@ namespace Z0
             => RuleTargets() + FS.file("xed.rules.specs", FS.Csv);
 
         public FS.FilePath RuleSchemas()
-            => RuleTargets() + Tables.filename<RuleSchema>();
+            => RuleTargets() + Tables.filename<TableSchema>();
 
         public FS.FolderPath InstIsaRoot()
             => Targets("instructions");

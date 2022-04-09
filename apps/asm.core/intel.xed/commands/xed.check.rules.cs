@@ -60,7 +60,7 @@ namespace Z0
             var patterns = Xed.Rules.CalcInstPatterns();
             var rules = Xed.Rules.CalcRules();
 
-            ref readonly var rows = ref rules.SigInfo;
+            ref readonly var rows = ref rules.SigRows;
             var count = rows.Count;
             var enc = dict<string,RuleSigRow>();
             var dec = dict<string,RuleSigRow>();

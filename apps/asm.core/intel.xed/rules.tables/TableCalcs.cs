@@ -1,0 +1,19 @@
+//-----------------------------------------------------------------------------
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
+//-----------------------------------------------------------------------------
+namespace Z0
+{
+
+    partial class XedRules
+    {
+        // RuleTableSpec 1 -- * StatementSpec 1 -- * RuleCellSpec
+        // RuleCellSpec -> RuleCriterion
+        // RuleCellSpec -> RuleCellExpr
+
+        public readonly partial struct TableCalcs
+        {
+       }
+   }
+}

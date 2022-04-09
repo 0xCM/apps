@@ -7,6 +7,7 @@ namespace Z0
     using N = N4;
     using A = asci4;
     using S = System.UInt32;
+    using api = Asci;
 
     /// <summary>
     /// Defines an asci code sequence of length 4
@@ -20,6 +21,22 @@ namespace Z0
         [MethodImpl(Inline)]
         public asci4(S src)
             => Storage = src;
+
+        [MethodImpl(Inline)]
+        public asci4(char c0)
+            => Storage = (byte)c0;
+
+        [MethodImpl(Inline)]
+        public asci4(char c0, char c1)
+            => Storage = api.pack(c0, c1);
+
+        [MethodImpl(Inline)]
+        public asci4(char c0, char c1, char c2)
+            => Storage = api.pack(c0,c1,c2);
+
+        [MethodImpl(Inline)]
+        public asci4(char c0, char c1, char c2, char c3)
+            => Storage = api.pack(c0,c1,c2,c3);
 
         [MethodImpl(Inline)]
         public asci4(string src)

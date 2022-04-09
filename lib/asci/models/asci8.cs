@@ -8,6 +8,7 @@ namespace Z0
     using A = asci8;
     using W = W64;
     using S = System.UInt64;
+    using api = Asci;
 
     /// <summary>
     /// Defines a 64-bit asci code sequence of length 8
@@ -19,6 +20,38 @@ namespace Z0
         [MethodImpl(Inline)]
         public asci8(S src)
             => Storage = src;
+
+        [MethodImpl(Inline)]
+        public asci8(char c0)
+            => Storage = (ulong)c0;
+
+        [MethodImpl(Inline)]
+        public asci8(char c0, char c1)
+            => Storage = api.pack(c0, c1);
+
+        [MethodImpl(Inline)]
+        public asci8(char c0, char c1, char c2)
+            => Storage = api.pack(c0,c1,c2);
+
+        [MethodImpl(Inline)]
+        public asci8(char c0, char c1, char c2, char c3)
+            => Storage = api.pack(c0,c1,c2,c3);
+
+        [MethodImpl(Inline)]
+        public asci8(char c0, char c1, char c2, char c3, char c4)
+            => Storage = api.pack(c0,c1,c2,c3,c4);
+
+        [MethodImpl(Inline)]
+        public asci8(char c0, char c1, char c2, char c3, char c4, char c5)
+            => Storage = api.pack(c0,c1,c2,c3,c4,c5);
+
+        [MethodImpl(Inline)]
+        public asci8(char c0, char c1, char c2, char c3, char c4, char c5, char c6)
+            => Storage = api.pack(c0,c1,c2,c3,c4,c5,c6);
+
+        [MethodImpl(Inline)]
+        public asci8(char c0, char c1, char c2, char c3, char c4, char c5, char c6, char c7)
+            => Storage = api.pack(c0,c1,c2,c3,c4,c5,c6,c7);
 
         [MethodImpl(Inline)]
         public asci8(string src)

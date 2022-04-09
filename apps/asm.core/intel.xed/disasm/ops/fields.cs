@@ -66,7 +66,7 @@ namespace Z0
 
                 if(XedParsers.parse(name, out FieldKind kind))
                 {
-                    if(CellDefCalcs.parse(value, kind, out var pack))
+                    if(TableCalcs.parse(value, kind, out var pack))
                         dst.Update(pack);
                     else
                         Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldPack), value));

@@ -6,7 +6,7 @@
 namespace Z0
 {
     using static core;
-    using static XedRules.RuleTableCalcs;
+    using static XedRules.TableCalcs;
 
     partial class XedRules
     {
@@ -15,14 +15,8 @@ namespace Z0
             var tables = new RuleTables();
             var buffers = tables.CreateBuffers();
             exec(PllExec,
-                () => buffers.Defs.TryAdd(RuleTableKind.Enc, CalcTableDefs(RuleTableKind.Enc)),
-                () => buffers.Defs.TryAdd(RuleTableKind.Dec, CalcTableDefs(RuleTableKind.Dec)),
-                () => buffers.Specs.TryAdd(RuleTableKind.Enc, CalcTableSpecs(RuleTableKind.Enc)),
-                () => buffers.Specs.TryAdd(RuleTableKind.Dec, CalcTableSpecs(RuleTableKind.Dec))
-                );
-
-            exec(PllExec,
-                () => buffers.Sigs = CalcSigRows(buffers.Defs)
+                () => buffers.Specs.TryAdd(RuleTableKind.Enc, specs(RuleTableKind.Enc)),
+                () => buffers.Specs.TryAdd(RuleTableKind.Dec, specs(RuleTableKind.Dec))
                 );
 
             return tables.Seal(buffers, PllExec);

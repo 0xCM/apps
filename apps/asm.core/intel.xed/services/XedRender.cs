@@ -235,7 +235,7 @@ namespace Z0
 
         public static string format(in CellExpr src)
             => src.IsEmpty
-                ? RP.Error
+                ? EmptyString
                 : src.Field == 0
                 ? format(src.Value)
                 : string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.Value));
@@ -322,41 +322,8 @@ namespace Z0
         public static string format(OpWidthCode src)
             => src == 0 ? EmptyString : OpWidthKinds.Format(src);
 
-        public static string format(in RuleStatement src)
-        {
-            var sep = " => ";
-            var dst = text.buffer();
-            render(src.Premise, dst);
-            var a = dst.Emit();
-
-            if(src.Consequent.Count != 0)
-            {
-                render(src.Consequent, dst);
-                var b = dst.Emit();
-                return string.Format("{0}{1}{2}", a, sep, b);
-            }
-            else
-                return a;
-        }
-
         public static string format(OpType src)
             => OpTypes.Format(src);
-
-        static void render(ReadOnlySpan<RuleCriterion> src, ITextBuffer dst)
-        {
-            var count = src.Length;
-            var counter = 0u;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var c = ref skip(src,i);
-
-                if(counter != 0)
-                    dst.Append(" && ");
-
-                dst.Append(c.Format());
-                counter++;
-            }
-        }
 
         public static string format(EoszKind src)
         {
@@ -590,7 +557,7 @@ namespace Z0
                 return RP.Error;
         }
 
-        public static string format(in CellTableSpec src)
+        public static string format(in TableSpec src)
         {
             var dst = text.buffer();
             dst.AppendLine(string.Format("{0}()", src.Sig.ShortName));
@@ -674,99 +641,21 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static string format(in RuleGridCells src)
-        {
-            var dst = text.buffer();
-            for(var k=0; k<src.Count; k++)
-            {
-                var cell = src[k];
-                if(k!=0)
-                    dst.Append(Chars.Space);
-                dst.Append(cell.Format());
-            }
-            return dst.Emit();
-        }
+        // public static string format(in RuleGridCells src)
+        // {
+        //     var dst = text.buffer();
+        //     for(var k=0; k<src.Count; k++)
+        //     {
+        //         var cell = src[k];
+        //         if(k!=0)
+        //             dst.Append(Chars.Space);
+        //         dst.Append(cell.Format());
+        //     }
+        //     return dst.Emit();
+        // }
 
-        public static string format(in RuleCriterion src)
-        {
-            if(src.IsEmpty)
-                return EmptyString;
 
-            var result = EmptyString;
-            switch(src.Role)
-            {
-                case CK.Branch:
-                case CK.Null:
-                case CK.Error:
-                case CK.Wildcard:
-                case CK.Default:
-                    result = src.ToKeyword().Format();
-                break;
-                case CK.BinaryLiteral:
-                    result = XedRender.format(src.ToBinaryLiteral());
-                break;
-                case CK.IntLiteral:
-                    result = src.ToIntLiteral().ToString();
-                break;
-                case CK.HexLiteral:
-                    result = XedRender.format(src.ToHexLiteral());
-                break;
-                case CK.Operator:
-                    result = src.ToOperator().Format();
-                break;
-                case CK.Seg:
-                    result = src.ToBfSeg().Format();
-                break;
-                case CK.BfSpec:
-                    result = src.ToBfSpec().Format();
-                break;
-                case CK.DispSpec:
-                    result = format(src.ToDispSpec());
-                break;
-                case CK.ImmSpec:
-                    result = format(src.ToImmSpec());
-                break;
-                case CK.ImmSeg:
-                    result = src.ToImmSeg().Format();
-                break;
-                case CK.DispSeg:
-                    result = src.ToDispSeg().Format();
-                break;
-                case CK.NontermCall:
-                    result = src.ToNontermCall().Format();
-                break;
-
-                case CK.BfSegExpr:
-                    result = src.ToBfSeg().Format();
-                break;
-                case CK.NontermExpr:
-                    result = src.ToNontermExpr().Format();
-                break;
-                case CK.EqExpr:
-                    result = src.ToFieldExpr().Format();
-                break;
-                case CK.NeqExpr:
-                    result = src.ToFieldExpr().Format();
-                break;
-                case CK.AsciLiteral:
-                    result = src.ToAsciLiteral().Format();
-                break;
-                case CK.Keyword:
-                    result = src.ToKeyword().Format();
-                break;
-                case CK.FieldValue:
-                    result = src.ToFieldExpr().Format();
-                    break;
-                default:
-
-                    Errors.Throw($"{src.Field} | {src.Operator} | {src.Role}");
-                break;
-
-            }
-            return result;
-        }
-
-        public static string format(in CellRowSpec src)
+        public static string format(in RowSpec src)
         {
             var dst = text.buffer();
 
@@ -791,19 +680,6 @@ namespace Z0
                     dst.Append(src.Consequent[i].Data);
                 }
             }
-            return dst.Emit();
-        }
-
-        public static string format(in RuleTable src)
-        {
-            var dst = text.buffer();
-            dst.AppendLine(string.Format("{0}()", src.Sig.ShortName));
-            var statements = src.Body.View;
-            var count = statements.Length;
-            dst.AppendLine(Chars.LBrace);
-            for(var i=0; i<count; i++)
-                dst.IndentLine(4, format(skip(statements, i)));
-            dst.AppendLine(Chars.RBrace);
             return dst.Emit();
         }
 

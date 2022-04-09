@@ -90,10 +90,6 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public RuleCriterion ToCriterion()
-                => XedRules.criterion(this);
-
-            [MethodImpl(Inline)]
             public asci8 ToAsci()
                 => (asci8)Data.A;
 

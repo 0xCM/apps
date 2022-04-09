@@ -25,5 +25,29 @@ namespace Z0
             var i = 0u;
             return render4(src, ref i, dst);
         }
+
+        [MethodImpl(Inline), Op]
+        public static ref asci4 render4(byte src, out asci4 dst)
+        {
+            dst = new asci4(
+                bitchar(src, 3),
+                bitchar(src, 2),
+                bitchar(src, 1),
+                bitchar(src, 0)
+            )   ;
+            return ref dst;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ref asci8 render4(byte src, out asci8 dst)
+        {
+            dst = new asci8(
+                bitchar(src, 3),
+                bitchar(src, 2),
+                bitchar(src, 1),
+                bitchar(src, 0)
+            )   ;
+            return ref dst;
+        }
     }
 }

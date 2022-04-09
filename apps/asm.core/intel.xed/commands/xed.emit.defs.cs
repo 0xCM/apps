@@ -13,7 +13,7 @@ namespace Z0
         Outcome EmitDefs(CmdArgs args)
         {
             var rules = Xed.Rules.CalcRules();
-            var defs = CellDefCalcs.defs(rules);
+            var defs = TableCalcs.defs(rules);
             var specs = rules.TableSpecs().Select(x => (x.Sig, x)).ToDictionary();
             var lookup = defs.SelectMany(x => x.Rows).SelectMany(x => x.Cells).Select(x => (x.Key, x)).ToDictionary();
             EmitCellDefs(lookup);
@@ -50,7 +50,7 @@ namespace Z0
                 dst.AppendLineFormat(RenderPattern,
                     XedRender.format(def.Field), def.Type, def.Type.EffectiveWidth, def.Operator,
                     def.Value, def.Source, def.Format(), def.Key,
-                    def.Key.TableId.FormatHex(), def.Key.TableKind, specs[def.Key.TableId].ShortName, def.Key.RowIndex
+                    def.Key.TableId.FormatHex(), def.Key.TableKind, specs[def.Key.TableId].TableName, def.Key.RowIndex
                     );
             }
 

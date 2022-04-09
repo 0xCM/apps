@@ -16,47 +16,58 @@ namespace Z0
         {
             internal class Buffers
             {
-                public readonly ConcurrentDictionary<RuleTableKind,Index<RuleTable>> Defs = new();
+                //public readonly ConcurrentDictionary<RuleTableKind,Index<RuleTable>> Defs = new();
 
-                public readonly ConcurrentDictionary<RuleTableKind,Index<CellTableSpec>> Specs = new();
-
-                public Index<RuleSigRow> Sigs = sys.empty<RuleSigRow>();
+                public readonly ConcurrentDictionary<RuleTableKind,Index<TableSpec>> Specs = new();
 
                 public static Buffers Empty => new();
             }
 
-            public ref readonly Index<RuleSigRow> SigInfo
+            Index<RuleSigRow> _SigRows;
+
+            public ref readonly Index<RuleSigRow> SigRows
             {
                 [MethodImpl(Inline)]
-                get => ref Data.Sigs;
+                get => ref _SigRows;
             }
 
-            Index<CellTableSpec> _EncTableSpecs;
+            Index<RuleSig> SigIndex;
 
             [MethodImpl(Inline)]
-            public ref readonly Index<CellTableSpec> EncTableSpecs()
+            public ref readonly Index<RuleSig> Sigs()
+                => ref SigIndex;
+
+            HashSet<RuleSig> SigSet;
+
+            public bool IsTableDefind(in RuleSig src)
+                => SigSet.Contains(src);
+
+            Index<TableSpec> _EncTableSpecs;
+
+            [MethodImpl(Inline)]
+            public ref readonly Index<TableSpec> EncTableSpecs()
                 => ref _EncTableSpecs;
 
-            Index<CellTableSpec> _DecTableSpecs;
+            Index<TableSpec> _DecTableSpecs;
 
             [MethodImpl(Inline)]
-            public ref readonly Index<CellTableSpec> DecTableSpecs()
+            public ref readonly Index<TableSpec> DecTableSpecs()
                 => ref _DecTableSpecs;
 
-            Index<CellTableSpec> _TableSpecs;
+            Index<TableSpec> _TableSpecs;
 
             [MethodImpl(Inline)]
-            public ref readonly Index<CellTableSpec> TableSpecs()
+            public ref readonly Index<TableSpec> TableSpecs()
                 => ref _TableSpecs;
 
-            SortedLookup<RuleSig,CellTableSpec> _TableSpecLookup;
+            SortedLookup<RuleSig,TableSpec> _TableSpecLookup;
 
-            public CellTableSpec TableSpec(in RuleSig sig)
+            public TableSpec TableSpec(in RuleSig sig)
             {
                 if(_TableSpecLookup.Find(sig,out var spec))
                     return spec;
                 else
-                    return CellTableSpec.Empty;
+                    return XedRules.TableSpec.Empty;
             }
 
             Index<TableDefRow> DefRowIndex;
@@ -64,26 +75,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public ref readonly Index<TableDefRow> DefRows()
                 => ref DefRowIndex;
-
-            Index<RuleTable> TableDefIndex;
-
-            [MethodImpl(Inline)]
-            public ref readonly Index<RuleTable> Tables()
-                => ref TableDefIndex;
-
-            SortedLookup<RuleSig,RuleTable> TableDefLookup;
-
-            [MethodImpl(Inline)]
-            public RuleTable Table(in RuleSig sig)
-            {
-                var dst = RuleTable.Empty;
-                TableDefLookup.Find(sig, out dst);
-                return dst;
-            }
-
-            [MethodImpl(Inline)]
-            public ReadOnlySpan<RuleSig> Sigs()
-                => TableDefLookup.Keys;
 
             Dictionary<RuleSig,FS.FilePath> TablePaths;
 
@@ -151,21 +142,37 @@ namespace Z0
 
             void SealTableDefs()
             {
-                DefRowIndex = RuleTableCalcs.CalcDefRows(TableSpecs());
-                var tables = Data.Defs.Values.SelectMany(x => x).Array();
-                var count = tables.Length;
-                var defs = dict<RuleSig,RuleTable>(count);
-                for(var i=0; i<count; i++)
+                var specs = TableSpecs();
+                SigIndex = alloc<RuleSig>(specs.Count);
+                _SigRows = alloc<RuleSigRow>(specs.Count);
+                SigSet = new();
+                for(var i=0u; i<specs.Count; i++)
                 {
-                    ref readonly var table = ref tables[i];
-                    if(defs.TryGetValue(table.Sig, out var t))
-                        defs[table.Sig] = t.WithBody(table.Body);
-                    else
-                        defs.Add(table.Sig, table);
+                    ref readonly var spec = ref specs[i];
+                    ref readonly var sig = ref spec.Sig;
+                    SigIndex[i] = sig;
+                    SigSet.Add(sig);
+
+                    ref var row = ref _SigRows[i];
+                    row.Seq = i;
+                    row.TableKind = spec.TableKind;
+                    row.TableName = spec.TableName;
+                    row.TableDef = XedPaths.Service.TableDef(sig);
                 }
 
-                TableDefLookup = defs;
-                TableDefIndex = defs.Values.Array().Sort();
+                DefRowIndex = TableCalcs.rows(specs);
+
+                // var tables = Data.Defs.Values.SelectMany(x => x).Array();
+                // var count = tables.Length;
+                // var defs = dict<RuleSig,RuleTable>(count);
+                // for(var i=0; i<count; i++)
+                // {
+                //     ref readonly var table = ref tables[i];
+                //     if(defs.TryGetValue(table.Sig, out var t))
+                //         defs[table.Sig] = t.WithBody(table.Body);
+                //     else
+                //         defs.Add(table.Sig, table);
+                // }
             }
 
            public static RuleTables Empty => new();

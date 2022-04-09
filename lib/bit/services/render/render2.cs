@@ -16,5 +16,35 @@ namespace Z0
             seek(dst, i++) = bitchar(src, 0);
             return i - i0;
         }
+
+        [MethodImpl(Inline), Op]
+        public static ref asci2 render2(byte src, out asci2 dst)
+        {
+            dst = new asci2(
+                bitchar(src, 1),
+                bitchar(src, 0)
+            );
+            return ref dst;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ref asci4 render2(byte src, out asci4 dst)
+        {
+            dst = new asci4(
+                bitchar(src, 1),
+                bitchar(src, 0)
+            );
+            return ref dst;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ref asci8 render2(byte src, out asci8 dst)
+        {
+            dst = new asci8(
+                bitchar(src, 1),
+                bitchar(src, 0)
+            );
+            return ref dst;
+        }
     }
 }

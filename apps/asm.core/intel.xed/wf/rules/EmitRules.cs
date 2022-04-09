@@ -16,7 +16,7 @@ namespace Z0
 
             exec(PllExec,
                 () => EmitTableDefs(tables),
-                () => EmitTableSigs(tables.SigInfo),
+                () => EmitTableSigs(tables.SigRows),
                 () => EmitRuleSeq(),
                 () => EmitTableSpecs(tables),
                 () => EmitTableFiles(tables)
@@ -26,12 +26,12 @@ namespace Z0
         void EmitTableDefs(RuleTables rules)
             => TableEmit(rules.DefRows().View, TableDefRow.RenderWidths, TextEncodingKind.Asci, XedPaths.RuleTable<TableDefRow>());
 
-       void EmitTableSigs(Index<RuleSigRow> src)
+        void EmitTableSigs(Index<RuleSigRow> src)
             => TableEmit(src.View, RuleSigRow.RenderWidths, XedPaths.Service.RuleTable<RuleSigRow>());
 
         void EmitRuleSeq()
         {
-            var src = RuleTableCalcs.CalcRuleSeq();
+            var src = TableCalcs.ruleseq();
             var dst = text.buffer();
             iter(src, x => dst.AppendLine(x.Format()));
             FileEmit(dst.Emit(), src.Count, XedPaths.Service.DocTarget(XedDocKind.RuleSeq), TextEncodingKind.Asci);
@@ -59,7 +59,7 @@ namespace Z0
                         row.TableId = table.TableId;
                         row.Index = j;
                         row.Kind = table.TableKind;
-                        row.Name = table.ShortName;
+                        row.Name = table.TableName;
                         row.Statement = spec.Format();
                         writer.AppendLine(formatter.Format(row));
                     }
@@ -77,7 +77,7 @@ namespace Z0
             ref readonly var tables = ref rules.TableSpecs();
             iter(tables, emit, PllExec);
 
-            void emit(CellTableSpec table)
+            void emit(TableSpec table)
             {
                 if(table.IsEmpty)
                     return;
@@ -92,7 +92,7 @@ namespace Z0
                     row.TableId = table.TableId;
                     row.Index = j;
                     row.Kind = table.TableKind;
-                    row.Name = table.ShortName;
+                    row.Name = table.TableName;
                     row.Statement = table[j].Format();
                     writer.AppendLine(formatter.Format(row));
                 }
