@@ -27,7 +27,7 @@ namespace Z0
         }
 
         [Op]
-        public static InstFieldRow fieldrow(InstPattern pattern, in InstDefField src, byte index)
+        public static InstFieldRow fieldrow(InstPattern pattern, in InstField src, byte index)
         {
             var dst = InstFieldRow.Empty;
             dst.PatternId = pattern.PatternId;

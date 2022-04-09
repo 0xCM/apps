@@ -203,8 +203,8 @@ namespace Z0
 
                 var k=0u;
                 var j=0u;
-                Span<InstDefField> buffer = stackalloc InstDefField[(int)body.FieldCount];
-                Span<InstDefField> expressions = stackalloc InstDefField[(int)body.FieldCount];
+                Span<InstField> buffer = stackalloc InstField[(int)body.FieldCount];
+                Span<InstField> expressions = stackalloc InstField[(int)body.FieldCount];
                 for(var i=0;i<body.FieldCount; i++)
                 {
                     ref readonly var field = ref body[i];

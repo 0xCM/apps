@@ -12,26 +12,26 @@ namespace Z0
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static InstDefField part(BfSeg src)
+        public static InstField part(BfSeg src)
             => new(src);
 
         [MethodImpl(Inline), Op]
-        public static InstDefField part(Seg src)
+        public static InstField part(Seg src)
             => new(src);
 
         [MethodImpl(Inline), Op]
-        public static InstDefField part(Nonterminal src)
+        public static InstField part(Nonterminal src)
             => new(src);
 
         [MethodImpl(Inline), Op]
-        public static InstDefField part(CellExpr src)
+        public static InstField part(CellExpr src)
             => new(src);
 
         [MethodImpl(Inline), Op]
-        public static InstDefField part(Hex8 src)
+        public static InstField part(Hex8 src)
             => new(src);
 
-        public static InstDefField part(uint5 src)
+        public static InstField part(uint5 src)
             => new(src);
     }
 }

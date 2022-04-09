@@ -418,7 +418,7 @@ namespace Z0
                 var result = Outcome.Success;
                 var parts = text.trim(text.split(text.despace(src), Chars.Space));
                 var count = parts.Length;
-                dst = alloc<InstDefField>(count);
+                dst = alloc<InstField>(count);
                 for(var i=0; i<count; i++)
                 {
                     result = parse(skip(parts,i), out dst[i]);
@@ -693,9 +693,9 @@ namespace Z0
                 return result;
             }
 
-            static Outcome parse(string src, out InstDefField dst)
+            static Outcome parse(string src, out InstField dst)
             {
-                dst = InstDefField.Empty;
+                dst = InstField.Empty;
                 Outcome result = (false, string.Format("Unrecognized segment '{0}'", src));
                 if(IsHexLiteral(src))
                 {

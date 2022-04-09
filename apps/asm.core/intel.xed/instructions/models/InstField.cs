@@ -10,12 +10,12 @@ namespace Z0
 
     partial class XedRules
     {
-        public struct InstDefField : IEquatable<InstDefField>
+        public struct InstField : IEquatable<InstField>
         {
             readonly ByteBlock16 Data;
 
             [MethodImpl(Inline)]
-            public InstDefField(byte src)
+            public InstField(byte src)
             {
                 var data = ByteBlock16.Empty;
                 data[0] = src;
@@ -24,7 +24,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefField(uint5 src)
+            public InstField(uint5 src)
             {
                 var data = ByteBlock16.Empty;
                 data[0] = (byte)src;
@@ -34,7 +34,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefField(Hex8 src)
+            public InstField(Hex8 src)
             {
                 var data = ByteBlock16.Empty;
                 data[0] = src;
@@ -43,7 +43,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefField(BfSeg src)
+            public InstField(BfSeg src)
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
@@ -53,7 +53,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefField(Seg src)
+            public InstField(Seg src)
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
@@ -63,7 +63,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefField(CellExpr src)
+            public InstField(CellExpr src)
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
@@ -73,7 +73,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstDefField(Nonterminal src)
+            public InstField(Nonterminal src)
             {
                 var data = ByteBlock16.Empty;
                 data = (uint)src;
@@ -133,14 +133,14 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public bool Equals(InstDefField src)
+            public bool Equals(InstField src)
                 => Data.Equals(src.Data);
 
             public override int GetHashCode()
                 => Data.GetHashCode();
 
             public override bool Equals(object src)
-                => src is InstDefField p && Equals(p);
+                => src is InstField p && Equals(p);
 
             [MethodImpl(Inline)]
             public ref readonly Hex8 AsHexLit()
@@ -176,7 +176,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static InstDefField Empty => default;
+            public static InstField Empty => default;
         }
     }
 }

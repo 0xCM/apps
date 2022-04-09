@@ -11,7 +11,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public static Index<CellExpansion> expansions(Index<InstDefField> fields)
+        public static Index<CellExpansion> expansions(Index<InstField> fields)
         {
             var dst = alloc<CellExpansion>(fields.Count);
             for(var i=0; i<fields.Count; i++)
@@ -20,8 +20,6 @@ namespace Z0
                 switch(field.FieldClass)
                 {
                     case C.Bitfield:
-                        //seek(dst,i)= field.AsBitfield();
-                        break;
                     case C.HexLiteral:
                     case C.Nonterm:
                     default:

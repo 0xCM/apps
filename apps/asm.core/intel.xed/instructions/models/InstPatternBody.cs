@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedPatterns
     {
-        public readonly struct InstPatternBody : IIndex<InstDefField>
+        public readonly struct InstPatternBody : IIndex<InstField>
         {
             public static string normalize(string rawbody)
             {
@@ -24,15 +24,15 @@ namespace Z0
                 return buffer.Emit();
             }
 
-            public readonly Index<InstDefField> Data;
+            public readonly Index<InstField> Data;
 
             [MethodImpl(Inline)]
-            public InstPatternBody(InstDefField[] src)
+            public InstPatternBody(InstField[] src)
             {
                 Data = src;
             }
 
-            public InstDefField[] Storage
+            public InstField[] Storage
             {
                 [MethodImpl(Inline)]
                 get => Data.Storage;
@@ -56,13 +56,13 @@ namespace Z0
                 get => Data.IsNonEmpty;
             }
 
-            public ref InstDefField this[int i]
+            public ref InstField this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
             }
 
-            public ref InstDefField this[uint i]
+            public ref InstField this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
@@ -75,15 +75,15 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator InstPatternBody(InstDefField[] src)
+            public static implicit operator InstPatternBody(InstField[] src)
                 => new InstPatternBody(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator InstPatternBody(Index<InstDefField> src)
+            public static implicit operator InstPatternBody(Index<InstField> src)
                 => new InstPatternBody(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator InstDefField[](InstPatternBody src)
+            public static implicit operator InstField[](InstPatternBody src)
                 => src.Data;
         }
     }

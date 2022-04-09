@@ -15,7 +15,6 @@ namespace Z0
     using static core;
 
     using OC = XedRules.OpAttribClass;
-    using CK = XedRules.CellRole;
 
     public partial class XedRender
     {
@@ -490,7 +489,7 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static void render(ReadOnlySpan<InstDefField> src, ITextBuffer dst)
+        public static void render(ReadOnlySpan<InstField> src, ITextBuffer dst)
         {
             for(var i=0; i<src.Length; i++)
             {
@@ -592,7 +591,7 @@ namespace Z0
         public static string format(DispSeg src)
             => src.IsEmpty ? EmptyString : string.Format("{0}[{1}]", "DISP", format(src.Spec));
 
-        public static string format(in InstDefField src)
+        public static string format(in InstField src)
         {
             var dst = EmptyString;
             var @class = src.FieldClass;

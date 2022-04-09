@@ -6,25 +6,21 @@
 namespace Z0
 {
     using static core;
-
     using static XedRules;
 
     partial class XedPatterns
     {
-        public static Pair<InstPatternBody> split(in InstPatternBody src)
+        public static InstPatternBody layout(in InstPatternBody src)
         {
-            var left = list<InstDefField>();
-            var right = list<InstDefField>();
+            var buffer = list<InstField>();
             var count = src.FieldCount;
             for(var i=0; i<count; i++)
             {
                 ref readonly var part = ref src[i];
-                if(part.IsFieldExpr)
-                    right.Add(part);
-                else
-                    left.Add(part);
+                if(!part.IsFieldExpr)
+                    buffer.Add(part);
             }
-            return (left.ToArray(),right.ToArray());
+            return buffer.ToArray();
         }
     }
 }
