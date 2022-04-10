@@ -5,9 +5,6 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedPatterns;
-
-    using Asm;
 
     partial class XedRules
     {
@@ -25,23 +22,6 @@ namespace Z0
             {
                 Field = field;
                 Data = (byte)data;
-                CellKind = 0;
-            }
-
-            [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, Hex8 data)
-            {
-                Field = kind;
-                Data = data;
-                //Role = CellRole.FieldValue;
-                CellKind = 0;
-            }
-
-            [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, Hex4 data)
-            {
-                Field = kind;
-                Data = data;
                 CellKind = 0;
             }
 
@@ -70,14 +50,6 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellValue(BfSpec data)
-            {
-                Field = 0;
-                Data = (byte)data;
-                CellKind = 0;
-            }
-
-            [MethodImpl(Inline)]
             public CellValue(FieldKind kind, ImmSeg data)
             {
                 Field = kind;
@@ -86,18 +58,11 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellValue(ImmSpec src)
+            public CellValue(SegSpec spec)
             {
                 Field = 0;
-                Data = (ulong)(asci8)XedRender.format(src);
-                CellKind = RuleCellKind.String;
-            }
-
-            [MethodImpl(Inline)]
-            public CellValue(DispSpec src)
-            {
-                Field = 0;
-                Data = (ulong)(asci8)XedRender.format(src);
+                Data = 0;
+                core.@as<SegSpecType>(Data) = spec.Type;
                 CellKind = RuleCellKind.String;
             }
 
@@ -250,6 +215,10 @@ namespace Z0
                 => (ChipCode)Data;
 
             [MethodImpl(Inline)]
+            public RepPrefix ToRepPrefix()
+                => (RepPrefix)Data;
+
+            [MethodImpl(Inline)]
             public BCastKind ToBCast()
                 => (BCastKind)Data;
 
@@ -284,6 +253,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public Seg ToSeg()
                 => new Seg(Field, 0, (asci8)Data);
+
+            [MethodImpl(Inline)]
+            public SegSpec ToSegSpec()
+                => SegSpecs.find(core.@as<ulong,SegSpecType>(Data));
 
             [MethodImpl(Inline)]
             public static implicit operator EASZ(CellValue src)
@@ -326,8 +299,16 @@ namespace Z0
                 => src.ToBCast();
 
             [MethodImpl(Inline)]
+            public static implicit operator RepPrefix(CellValue src)
+                => src.ToRepPrefix();
+
+            [MethodImpl(Inline)]
             public static implicit operator Nonterminal(CellValue src)
                 => src.ToNonterminal();
+
+            [MethodImpl(Inline)]
+            public static implicit operator SegSpec(CellValue src)
+                => src.ToSegSpec();
 
             [MethodImpl(Inline)]
             public static implicit operator bit(CellValue src)
@@ -370,8 +351,8 @@ namespace Z0
                 => ((bit)src) ? LockIndicator.On : LockIndicator.Off;
 
             [MethodImpl(Inline)]
-            public static implicit operator EoszKind(CellValue src)
-                => (EoszKind)XedRules.widths((EOSZ)src);
+            public static implicit operator Asm.EoszKind(CellValue src)
+                => (Asm.EoszKind)XedRules.widths((EOSZ)src);
 
             [MethodImpl(Inline)]
             public static bool operator ==(CellValue a, CellValue b)

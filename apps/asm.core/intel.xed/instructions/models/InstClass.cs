@@ -20,6 +20,12 @@ namespace Z0
                 Kind = mode;
             }
 
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => (uint)Kind;
+            }
+
             public readonly InstClass Classifier
                 => XedPatterns.normalize(this);
 
@@ -52,7 +58,7 @@ namespace Z0
                 => Kind == src.Kind;
 
             public override int GetHashCode()
-                => (int)Kind;
+                => Hash;
 
             public override bool Equals(object o)
                 => o is InstClass c && Equals(c);

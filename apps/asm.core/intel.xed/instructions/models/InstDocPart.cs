@@ -22,12 +22,6 @@ namespace Z0
                 OcMap = XedPatterns.ocmap(src.OpCode.Kind);
             }
 
-            public ref readonly FieldSet FieldDeps
-            {
-                [MethodImpl(Inline)]
-                get => ref Inst.FieldDeps;
-            }
-
             public ref readonly Index<OpName> OpNames
             {
                 [MethodImpl(Inline)]

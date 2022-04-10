@@ -17,5 +17,19 @@ namespace Z0
                 dst = dst.Include(src[j].FieldKind);
             return dst;
         }
+
+        [MethodImpl(Inline), Op]
+        public static FieldSet fields(in InstPatternBody src, InstFieldClass @class)
+        {
+            var dst = FieldSet.create();
+            for(var j=0; j<src.FieldCount; j++)
+            {
+                ref readonly var field = ref src[j];
+                if(field.DataClass.Test(@class))
+                    dst = dst.Include(src[j].FieldKind);
+            }
+            return dst;
+        }
+
     }
 }

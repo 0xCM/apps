@@ -87,8 +87,6 @@ namespace Z0
 
         static readonly EnumParser<ImmSpec> ImmKinds = new();
 
-        static readonly EnumParser<BfSpecKind> BfSpecKinds = new();
-
         static XedParsers Instance = new();
 
         XedParsers()
@@ -358,23 +356,6 @@ namespace Z0
                 return DataParser.parse(src, out dst);
             dst = default;
             return false;
-        }
-
-        public static bool parse(string src, out BfSpecKind dst)
-            => BfSpecKinds.Parse(src, out dst);
-
-        public static bool parse(string src, out BfSpec dst)
-        {
-            if(XedParsers.parse(src, out BfSpecKind kind))
-            {
-                dst = new(kind);
-                return true;
-            }
-            else
-            {
-                dst = BfSpec.Empty;
-                return false;
-            }
         }
 
         public static bool parse(string src, out DispSeg dst)

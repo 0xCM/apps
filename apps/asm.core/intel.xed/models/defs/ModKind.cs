@@ -9,22 +9,6 @@ namespace Z0
     {
         public readonly struct ModKind : IComparable<ModKind>, IEquatable<ModKind>
         {
-            [MethodImpl(Inline)]
-            public static ModKind specific(uint2 src)
-                => new ModKind((ModIndicator)(byte)src + 1);
-
-            [MethodImpl(Inline)]
-            public static ModKind any()
-                => new ModKind(ModIndicator.ANY);
-
-            [MethodImpl(Inline)]
-            public static ModKind constrain()
-                => new ModKind(ModIndicator.NE3);
-
-            [MethodImpl(Inline)]
-            public static ModKind none()
-                => default;
-
             readonly ModIndicator Indicator;
 
             [MethodImpl(Inline)]

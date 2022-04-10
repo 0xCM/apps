@@ -89,8 +89,8 @@ namespace Z0
                 cells[k++] = poc.Class;
                 cells[k++] = poc.Selector;
                 cells[k++] = poc.Value;
-                cells[k++] = pattern.Lockable;
-                cells[k++] = pattern.Locked;
+                cells[k++] = pattern.LockState.Lockable;
+                cells[k++] = pattern.LockState.Locked;
                 cells[k++] = pattern.Mode;
 
                 var ncount = min(names.Count, MaxOpCount);

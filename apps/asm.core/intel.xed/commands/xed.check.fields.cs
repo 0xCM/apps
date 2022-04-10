@@ -18,6 +18,7 @@ namespace Z0
         {
             var dst = text.buffer();
             var patterns = Xed.Rules.CalcInstPatterns();
+
             var lookup = CalcLayoutSegs(patterns);
             var counter = 0u;
 
@@ -61,39 +62,39 @@ namespace Z0
                 for(var j=0; j<layout.Length; j++)
                 {
                     ref readonly var part = ref skip(layout,j);
-                    switch(part.FieldClass)
+                    switch(part.DataKind)
                     {
-                        case InstFieldClass.BitLiteral:
+                        case InstFieldKind.BitLiteral:
                         {
                             ref readonly var value = ref part.AsBitLit();
                         }
                         break;
-                        case InstFieldClass.HexLiteral:
+                        case InstFieldKind.HexLiteral:
                         {
                             ref readonly var value = ref part.AsHexLit();
 
                         }
                         break;
-                        case InstFieldClass.IntLiteral:
+                        case InstFieldKind.IntLiteral:
                         {
                             ref readonly var value = ref part.AsIntLit();
 
                         }
                         break;
-                        case InstFieldClass.Seg:
+                        case InstFieldKind.Seg:
                         {
                             ref readonly var value = ref part.AsSeg();
                             segs.Add(value);
                         }
                         break;
-                        case InstFieldClass.Nonterm:
+                        case InstFieldKind.Nonterm:
                         {
                             ref readonly var value = ref part.AsNonterminal();
                         }
 
                         break;
                         default:
-                            Errors.Throw(AppMsg.UnhandledCase.Format(part.FieldClass));
+                            Errors.Throw(AppMsg.UnhandledCase.Format(part.DataKind));
                         break;
                     }
                 }
@@ -120,7 +121,7 @@ namespace Z0
                         dst.Append(Chars.Space);
 
                     ref readonly var field = ref skip(layout,j);
-                    if(field.FieldClass == InstFieldClass.Seg)
+                    if(field.DataKind == InstFieldKind.Seg)
                     {
                         if(CellParser.parse(field.Format(), out Seg seg))
                         {

@@ -8,7 +8,7 @@ namespace Z0
     using static XedFields;
     using static core;
 
-    using C = XedRules.InstFieldClass;
+    using C = XedRules.InstFieldKind;
 
     partial class XedRules
     {
@@ -18,7 +18,7 @@ namespace Z0
             for(var i=0; i<fields.Count; i++)
             {
                 ref readonly var field = ref fields[i];
-                switch(field.FieldClass)
+                switch(field.DataKind)
                 {
                     case C.Seg:
                     case C.HexLiteral:

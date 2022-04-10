@@ -11,171 +11,87 @@ namespace Z0
         {
             readonly ByteBlock16 Data;
 
-            const byte NullIndex = 13;
+            const byte NullIndex = 14;
 
-            const byte KindIndex = 14;
-
-            const byte RefinedIndex = 15;
+            const byte IdIndex = 15;
 
             [MethodImpl(Inline)]
-            public SegSpec(SegSpecKind kind, ReadOnlySpan<char> pattern)
+            public SegSpec(SegSpecType type, ReadOnlySpan<char> pattern)
             {
                 var data = ByteBlock16.Empty;
                 Asci.encode(pattern, out asci16 a16);
                 data = a16.Storage;
                 data[NullIndex] = 0;
-                data[KindIndex] = (byte)kind;
-                data[RefinedIndex] = 0;
+                data[IdIndex] = type.Id;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public SegSpec(ImmSpec kind, ReadOnlySpan<char> pattern)
-            {
-                var data = ByteBlock16.Empty;
-                Asci.encode(pattern, out asci16 a16);
-                data[NullIndex] = 0;
-                data[KindIndex] = (byte)SegSpecKind.Imm;
-                data[RefinedIndex] = (byte)kind;
-                Data = data;
-            }
-
-            [MethodImpl(Inline)]
-            public SegSpec(DispSpec kind, ReadOnlySpan<char> pattern)
-            {
-                var data = ByteBlock16.Empty;
-                Asci.encode(pattern, out asci16 a16);
-                data = a16.Storage;
-                data[NullIndex] = 0;
-                data[KindIndex] = (byte)SegSpecKind.Disp;
-                data[RefinedIndex] = (byte)kind;
-                Data = data;
-            }
-
-            [MethodImpl(Inline)]
-            public SegSpec(AddressDispSpec kind, ReadOnlySpan<char> pattern)
-            {
-                var data = ByteBlock16.Empty;
-                Asci.encode(pattern, out asci16 a16);
-                Data = a16.Storage;
-                data[NullIndex] = 0;
-                data[KindIndex] = (byte)SegSpecKind.AddressDisp;
-                data[RefinedIndex] = (byte)kind;
-                Data = data;
-            }
-
-            [MethodImpl(Inline)]
-            public SegSpec(SegSpecKind kind, char c0)
+            public SegSpec(SegSpecType type, char c0)
             {
                 var data = ByteBlock16.Empty;
                 var a16 = new asci16(c0);
                 data = a16.Storage;
                 data[NullIndex] = 0;
-                data[KindIndex] = (byte)kind;
-                data[RefinedIndex] = 0;
+                data[IdIndex] = (byte)type.Id;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public SegSpec(SegSpecKind kind, char c0, char c1)
+            public SegSpec(SegSpecType type, char c0, char c1)
             {
                 var data = ByteBlock16.Empty;
                 var a16 = new asci16(c0, c1);
                 data = a16.Storage;
                 data[NullIndex] = 0;
-                data[KindIndex] = (byte)kind;
-                data[RefinedIndex] = 0;
+                data[IdIndex] = (byte)type.Id;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public SegSpec(SegSpecKind kind, char c0, char c1, char c2)
+            public SegSpec(SegSpecType type, char c0, char c1, char c2)
             {
                 var data = ByteBlock16.Empty;
                 var a16 = new asci16(c0, c1, c2);
                 data = a16.Storage;
                 data[NullIndex] = 0;
-                data[KindIndex] = (byte)kind;
-                data[RefinedIndex] = 0;
+                data[IdIndex] = (byte)type.Id;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public SegSpec(SegSpecKind kind, char c0, char c1, char c2, char c3)
+            public SegSpec(SegSpecType type, char c0, char c1, char c2, char c3)
             {
                 var data = ByteBlock16.Empty;
                 var a16 = new asci16(c0, c1, c2, c3);
                 data = a16.Storage;
                 data[NullIndex] = 0;
-                data[KindIndex] = (byte)kind;
-                data[RefinedIndex] = 0;
+                data[IdIndex] = (byte)type.Id;
                 Data = data;
             }
 
-            public readonly SegSpecKind Kind
+            public readonly byte Id
             {
                 [MethodImpl(Inline)]
-                get => (SegSpecKind)Data[KindIndex];
+                get => Data[IdIndex];
             }
 
-            public byte KindRefined
+            public SegSpecType Type
             {
                 [MethodImpl(Inline)]
-                get => Data[RefinedIndex];
-            }
-
-            public ImmSpec ImmSpec
-            {
-                [MethodImpl(Inline)]
-                get => (ImmSpec)Data[RefinedIndex];
-            }
-
-            public DispSpec Disp
-            {
-                [MethodImpl(Inline)]
-                get => (DispSpec)Data[RefinedIndex];
-            }
-
-            public AddressDispSpec AddressDisp
-            {
-                [MethodImpl(Inline)]
-                get => (AddressDispSpec)Data[RefinedIndex];
-            }
-
-            public bool IsImm
-            {
-                [MethodImpl(Inline)]
-                get => Kind == SegSpecKind.Imm;
-            }
-
-            public bool IsDisp
-            {
-                [MethodImpl(Inline)]
-                get => Kind == SegSpecKind.Disp;
-            }
-
-            public bool IsAddressDisp
-            {
-                [MethodImpl(Inline)]
-                get => Kind == SegSpecKind.AddressDisp;
-            }
-
-            public bool IsBitfieldSpec
-            {
-                [MethodImpl(Inline)]
-                get => Kind == SegSpecKind.Bitfield;
+                get => new (Id);
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Kind == 0;
+                get => Id == 0;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Kind != 0;
+                get => Id != 0;
             }
 
             public string Format()

@@ -7,17 +7,20 @@ namespace Z0
 {
     partial class XedRules
     {
-        public enum SegSpecKind
+        public class InstGroup
         {
-            None,
+            public readonly InstClass Class;
 
-            Bitfield,
+            public readonly Index<InstGroupMember> Members;
 
-            Imm,
+            public InstGroup(InstClass @class, Index<InstGroupMember> src)
+            {
+                Class = @class;
+                Members = src;
+            }
 
-            Disp,
-
-            AddressDisp
+            public override int GetHashCode()
+                => Class.Hash;
         }
     }
 }

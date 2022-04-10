@@ -9,43 +9,17 @@ namespace Z0
     {
         public readonly struct SegSpecLiterals
         {
-            const string sep = "_";
-
             const string over = "/";
-
-            public const string n0 = "0";
-
-            public const string n1 = "1";
-
-            public const string n8 = "8";
-
-            public const string n16 = "16";
-
-            public const string n32 = "32";
-
-            public const string n64 = "64";
 
             public const string a = nameof(a);
 
-            public const string aaa = a + a + a;
-
             public const string b = nameof(b);
 
-            public const string bbb = b + b + b;
-
             public const string d = nameof(d);
-
-            public const string dd = d + d;
-
-            public const string ddd = dd + d;
-
-            public const string dddd = dd + dd;
 
             public const string i = nameof(i);
 
             public const string n = nameof(n);
-
-            public const string nn = n + n;
 
             public const string r = nameof(r);
 
@@ -59,13 +33,13 @@ namespace Z0
 
             public const string z = nameof(z);
 
-            public const string d8 = d + over + n8;
+            public const string n8 = "8";
 
-            public const string d16 = d + over + n16;
+            public const string n16 = "16";
 
-            public const string d32 = d + over + n32;
+            public const string n32 = "32";
 
-            public const string d64 = d + over + n64;
+            public const string n64 = "64";
 
             public const string a8 = a + over + n8;
 
@@ -75,7 +49,13 @@ namespace Z0
 
             public const string a64 = a + over + n64;
 
-            public const string iii = i + i + i;
+            public const string d8 = d + over + n8;
+
+            public const string d16 = d + over + n16;
+
+            public const string d32 = d + over + n32;
+
+            public const string d64 = d + over + n64;
 
             public const string i8 = i + over + n8;
 
@@ -85,17 +65,40 @@ namespace Z0
 
             public const string i64 = i + over + n64;
 
+            public const string aaa = a + a + a;
+
+            public const string bbb = b + b + b;
+
+            public const string dd = d + d;
+
+            public const string ddd = dd + d;
+
+            public const string iii = i + i + i;
+
+            public const string nn = n + n;
+
             public const string ss = s + s;
 
-            public const string ssss = ss + ss;
+            public const byte BfSpecCount = 19;
 
-            public const string ssss_dddd = ssss + sep + dddd;
+            const byte OtherSpecCount = 16;
 
-            public const string ss_iii_bbb = ss + iii + bbb;
+            public const byte SpecCount = BfSpecCount + OtherSpecCount;
 
-            public const string u_dddd = u + ddd;
+            public static Index<Paired<byte,string>> Index(){
+                var k =z8;
+                return new Paired<byte,string>[SpecCount]{
+                (k++,EmptyString),
+                (k++, a), (k++,b), (k++,d), (k++,i), (k++,n), (k++,r), (k++,s), (k++,u),
+                (k++, w), (k++,x), (k++,z), (k++,aaa), (k++,bbb), (k++,dd), (k++,ddd), (k++,iii),
+                (k++, nn), (k++,ss),
 
-            public const string z_nn_b = z + nn + b;
+                (k++, n8), (k++,n16), (k++,n32), (k++,n64),
+                (k++, d8), (k++,d16), (k++,d32), (k++,d64),
+                (k++, a8), (k++,a16), (k++,a32), (k++,a64),
+                (k++, i8), (k++,i16), (k++,i32), (k++,i64),
+                };
+            }
         }
     }
 }

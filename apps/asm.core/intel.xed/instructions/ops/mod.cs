@@ -11,14 +11,22 @@ namespace Z0
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static bool mod(InstPattern src, out ModKind dst)
-            => mod(src.Body, out dst);
+        public static ModKind mod(InstPattern src)
+            => mod(src.Body);
+
+        [MethodImpl(Inline)]
+        public static ModKind mod(uint2 src)
+            => new ModKind((ModIndicator)(byte)src + 1);
+
+        [MethodImpl(Inline)]
+        public static ModKind modNeq3()
+            =>new ModKind(ModIndicator.NE3);
 
         [MethodImpl(Inline), Op]
-        public static bool mod(in InstPatternBody src, out ModKind dst)
+        public static ModKind mod(in InstPatternBody src)
         {
             var result = false;
-            dst = ModKind.Empty;
+            var dst = ModKind.Empty;
             for(var i=0; i<src.FieldCount; i++)
             {
                 ref readonly var field = ref src[i];
@@ -39,7 +47,7 @@ namespace Z0
                     }
                 }
             }
-            return result;
+            return dst;
         }
     }
 }

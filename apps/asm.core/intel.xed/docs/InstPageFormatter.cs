@@ -172,23 +172,23 @@ namespace Z0
                         seek(dst,j) = string.Format(Pattern, j, "Literal", field.Format());
                     else
                     {
-                        switch(field.FieldClass)
+                        switch(field.DataKind)
                         {
-                            case InstFieldClass.FieldExpr:
+                            case InstFieldKind.Expr:
                                 seek(dst,j) = string.Format(Pattern, j, fk, field.AsFieldExpr());
                                 break;
-                            case InstFieldClass.Nonterm:
+                            case InstFieldKind.Nonterm:
                             {
                                 var nt = field.AsNonterminal();
                                 var path = Tables.FindTablePath(nt);
                                 seek(dst,j) = string.Format(Pattern, j, "Nonterm",  string.Format("{0}::{1}", XedRender.format(nt), path));
                             }
                             break;
-                            case InstFieldClass.Seg:
+                            case InstFieldKind.Seg:
                                 seek(dst,j) = string.Format(Pattern, j, fk, field.AsSeg());
                             break;
                             default:
-                                Errors.Throw(string.Format("Unhandled case: {0}", field.FieldClass));
+                                Errors.Throw(string.Format("Unhandled case: {0}", field.DataKind));
                             break;
                         }
                     }

@@ -16,7 +16,7 @@ namespace Z0
             for(var i=0; i<src.FieldCount; i++)
             {
                 ref readonly var f = ref src[i];
-                if(f.FieldClass == InstFieldClass.FieldExpr && f.FieldKind == FieldKind.MODE)
+                if(f.DataKind == InstFieldKind.Expr && f.FieldKind == FieldKind.MODE)
                     result = f.AsFieldExpr().Value;
             }
             return result;

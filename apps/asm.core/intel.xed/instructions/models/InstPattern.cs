@@ -8,6 +8,7 @@ namespace Z0
     using static XedModels;
     using static XedFields;
     using static XedPatterns;
+    using static core;
 
     partial class XedRules
     {
@@ -28,12 +29,15 @@ namespace Z0
 
             public readonly FieldSet FieldDeps;
 
+            public readonly InstLock LockState;
+
             public InstPattern(in InstPatternSpec spec, in OcInstClass oc, FieldSet deps)
             {
                 Spec = spec;
                 OcInst = oc;
                 OpNames = spec.Ops.Names;
                 FieldDeps = deps;
+                LockState  = new (lockable(spec.Body),locked(spec.Body));
             }
 
             public ref readonly InstPatternBody Body
@@ -58,18 +62,6 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => Fields.Expr;
-            }
-
-            public bit Lockable
-            {
-                [MethodImpl(Inline)]
-                get => lockable(Body);
-            }
-
-            public bit Locked
-            {
-                [MethodImpl(Inline)]
-                get => locked(Body);
             }
 
             public ref readonly MachineMode Mode

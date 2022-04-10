@@ -216,7 +216,7 @@ namespace Z0
                     {
                         if(DataParser.parse(value, out Hex4 x))
                         {
-                            dst = new (field,x);
+                            dst = new (field,(byte)x);
                             result = true;
                         }
                     }
@@ -587,24 +587,9 @@ namespace Z0
             static bool spec(string src, out CellExpr dst)
             {
                 var result = false;
-                if(XedParsers.parse(src, out ImmSpec imm))
-                {
-                    dst = new CellExpr(OperatorKind.None, new (imm));
-                    result = true;
-                }
-                else if(XedParsers.parse(src, out DispSpec disp))
-                {
-                    dst = new CellExpr(OperatorKind.None, new (disp));
-                    result = true;
-
-                }
-                else if(XedParsers.parse(src, out BfSpec bf))
-                {
-                    dst = new CellExpr(OperatorKind.None, new (bf));
-                    result = true;
-                }
-                else
-                    dst = CellExpr.Empty;
+                var spec = SegSpecs.find(src);
+                dst = new CellExpr(OperatorKind.None, new CellValue(spec));
+                result = spec.IsNonEmpty;
                 return result;
             }
 

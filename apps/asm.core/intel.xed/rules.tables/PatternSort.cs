@@ -40,7 +40,7 @@ namespace Z0
                 @as<bit>(seek(data.Bytes,LockableOffset)) = @lock(src.Body, out bit locked);
                 @as<bit>(seek(data.Bytes,LockValueOffset)) = locked;
                 @as<MachineMode>(seek(data.Bytes, ModeOffset)) = src.Mode;
-                mod(src.Body, out @as<ModKind>(seek(data.Bytes, ModeOffset)));
+                @as<ModKind>(seek(data.Bytes, ModOffset)) = mod(src.Body);
                 Data = data;
             }
 
@@ -54,7 +54,7 @@ namespace Z0
                 @as<bit>(seek(data.Bytes, LockableOffset)) = @lock(src.Body, out bit locked);
                 @as<bit>(seek(data.Bytes, LockValueOffset)) = locked;
                 @as<MachineMode>(seek(data.Bytes, ModeOffset)) = src.Mode;
-                mod(src.Body, out @as<ModKind>(seek(data.Bytes, ModeOffset)));
+                @as<ModKind>(seek(data.Bytes, ModOffset)) = mod(src.Body);
                 Data = data;
             }
 
@@ -68,7 +68,7 @@ namespace Z0
                 @as<bit>(seek(data.Bytes,LockableOffset)) = @lock(src.Body, out bit locked);
                 @as<bit>(seek(data.Bytes,LockValueOffset)) = locked;
                 @as<MachineMode>(seek(data.Bytes, ModeOffset)) = src.Mode;
-                mod(src.Body, out @as<ModKind>(seek(data.Bytes, ModeOffset)));
+                @as<ModKind>(seek(data.Bytes, ModOffset)) = mod(src.Body);
                 Data = data;
             }
 

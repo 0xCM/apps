@@ -108,9 +108,9 @@ namespace Z0
 
         static EnumRender<BfSegKind> BfSegKinds = new();
 
-        static EnumRender<BfSpecKind> BfSpecKinds = new();
-
         static EnumRender<ImmSpec> ImmSpecs = new();
+
+        static EnumRender<InstFieldClass> InstFieldClasses = new();
 
         static Index<Asm.BroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
 
@@ -212,6 +212,9 @@ namespace Z0
         public static string format(VexLengthKind src, FormatCode fc = FormatCode.Expr)
             => fc == FormatCode.BitWidth ? XedRules.bitwidth(src).ToString() : format(VexLengthKinds,src,fc);
 
+        public static string format(InstFieldClass src)
+            => InstFieldClasses.Format(src);
+
         public static string format(ASZ src)
             => AszKinds.Format(src);
 
@@ -220,9 +223,6 @@ namespace Z0
 
         public static string format(BfSegKind src)
             => BfSegKinds.Format(src);
-
-        public static string format(BfSpecKind src)
-            => BfSpecKinds.Format(src);
 
         public static string format(CellValue src)
             => CellRender.format(src);
@@ -590,25 +590,25 @@ namespace Z0
         public static string format(in InstField src)
         {
             var dst = EmptyString;
-            var @class = src.FieldClass;
+            var @class = src.DataKind;
             switch(@class)
             {
-                case InstFieldClass.HexLiteral:
+                case InstFieldKind.HexLiteral:
                     dst = format(src.AsHexLit());
                 break;
-                case InstFieldClass.IntLiteral:
+                case InstFieldKind.IntLiteral:
                     dst = src.AsIntLit().ToString();
                 break;
-                case InstFieldClass.Seg:
+                case InstFieldKind.Seg:
                     dst = src.AsSeg().Format();
                 break;
-                case InstFieldClass.BitLiteral:
+                case InstFieldKind.BitLiteral:
                     dst = format5(src.AsBitLit());
                 break;
-                case InstFieldClass.Nonterm:
+                case InstFieldKind.Nonterm:
                     dst = format(src.AsNonterminal());
                 break;
-                case InstFieldClass.FieldExpr:
+                case InstFieldKind.Expr:
                     dst = format(src.AsFieldExpr());
                 break;
                 default:
@@ -635,19 +635,6 @@ namespace Z0
             }
             return dst.Emit();
         }
-
-        // public static string format(in RuleGridCells src)
-        // {
-        //     var dst = text.buffer();
-        //     for(var k=0; k<src.Count; k++)
-        //     {
-        //         var cell = src[k];
-        //         if(k!=0)
-        //             dst.Append(Chars.Space);
-        //         dst.Append(cell.Format());
-        //     }
-        //     return dst.Emit();
-        // }
 
 
         public static string format(in RowSpec src)

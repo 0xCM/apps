@@ -21,15 +21,37 @@ namespace Z0
 
         readonly Index<FieldKind,RuleFieldSpec> FieldSpecs;
 
+        readonly Index<Paired<byte,string>> SegSpecIndex;
+
+        readonly ConstLookup<string,byte> SegSpecLookup;
+
         XedLookups()
         {
             Fields = FieldLookup.create();
             WidthRecords = LoadOpWidths();
             WidthLookup = CalcOpWidthLookup(WidthRecords);
             FieldSpecs = XedFields.Specs;
+            SegSpecIndex = SegSpecLiterals.Index();
+            SegSpecLookup = SegSpecIndex.Map(x => (x.Right,x.Left)).ToDictionary();
         }
 
         XedPaths XedPaths => XedPaths.Service;
+
+        public byte SegSpecId(string src)
+        {
+            var dst = z8;
+            SegSpecLookup.Find(src, out dst);
+            return dst;
+        }
+
+        [MethodImpl(Inline)]
+        public string SegSpecPattern(byte src)
+        {
+            var dst = EmptyString;
+            if(src < SegSpecIndex.Count)
+                dst = SegSpecIndex[src].Right;
+            return dst;
+        }
 
         [MethodImpl(Inline)]
         public ref readonly RuleFieldSpec FieldSpec(FieldKind kind)

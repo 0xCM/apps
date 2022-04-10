@@ -16,9 +16,9 @@ namespace Z0
 
             const byte PosIndex = 13;
 
-            const byte KindIndex = 14;
+            const byte FieldInex = 14;
 
-            const byte ClassIndex = 15;
+            const byte DatKindIndex = 15;
 
             [MethodImpl(Inline)]
             public InstField(byte src)
@@ -29,7 +29,7 @@ namespace Z0
                 var data = ByteBlock16.Empty;
                 data.First = src;
                 data[PosIndex] = index;
-                data[ClassIndex] = (byte)InstFieldClass.IntLiteral;
+                data[DatKindIndex] = (byte)InstFieldKind.IntLiteral;
                 Data = data;
 
             }
@@ -44,7 +44,7 @@ namespace Z0
                 var data = ByteBlock16.Empty;
                 data.First = src;
                 data[PosIndex] = index;
-                data[ClassIndex] = (byte)InstFieldClass.BitLiteral;
+                data[DatKindIndex] = (byte)InstFieldKind.BitLiteral;
                 Data = data;
             }
 
@@ -58,7 +58,7 @@ namespace Z0
                 var data = ByteBlock16.Empty;
                 data[0] = src;
                 data[PosIndex] = index;
-                data[ClassIndex] = (byte)InstFieldClass.HexLiteral;
+                data[DatKindIndex] = (byte)InstFieldKind.HexLiteral;
                 Data = data;
             }
 
@@ -72,8 +72,8 @@ namespace Z0
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
                 data[PosIndex] = index;
-                data[KindIndex] = (byte)src.Field;
-                data[ClassIndex] = (byte)InstFieldClass.Seg;
+                data[FieldInex] = (byte)src.Field;
+                data[DatKindIndex] = (byte)InstFieldKind.Seg;
                 Data = data;
             }
 
@@ -87,8 +87,8 @@ namespace Z0
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
                 data[PosIndex] = index;
-                data[KindIndex] = (byte)src.Field;
-                data[ClassIndex] = (byte)InstFieldClass.FieldExpr;
+                data[FieldInex] = (byte)src.Field;
+                data[DatKindIndex] = (byte)InstFieldKind.Expr;
                 Data = data;
             }
 
@@ -102,7 +102,7 @@ namespace Z0
                 var data = ByteBlock16.Empty;
                 data = (uint)src;
                 data[PosIndex] = index;
-                data[ClassIndex] = (byte)InstFieldClass.Nonterm;
+                data[DatKindIndex] = (byte)InstFieldKind.Nonterm;
                 Data = data;
             }
 
@@ -112,37 +112,42 @@ namespace Z0
                 Data = data;
             }
 
-            public ref readonly InstFieldClass FieldClass
+            public ref readonly InstFieldKind DataKind
             {
                 [MethodImpl(Inline)]
-                get => ref @as<InstFieldClass>(Data[ClassIndex]);
+                get => ref @as<InstFieldKind>(Data[DatKindIndex]);
             }
 
             public ref readonly FieldKind FieldKind
             {
                 [MethodImpl(Inline)]
-                get => ref @as<FieldKind>(Data[KindIndex]);
+                get => ref @as<FieldKind>(Data[FieldInex]);
+            }
+
+            public InstFieldClass DataClass
+            {
+                get => XedPatterns.@class(DataKind);
             }
 
             public bool IsNonTerminal
             {
                 [MethodImpl(Inline)]
-                get => FieldClass == InstFieldClass.Nonterm;
+                get => DataKind == InstFieldKind.Nonterm;
             }
 
             public bool IsFieldExpr
             {
                 [MethodImpl(Inline)]
-                get => FieldClass == InstFieldClass.FieldExpr;
+                get => DataKind == InstFieldKind.Expr;
             }
 
             public bool IsLiteral
             {
                 [MethodImpl(Inline)]
                 get =>
-                   FieldClass == InstFieldClass.BitLiteral
-                || FieldClass == InstFieldClass.HexLiteral
-                || FieldClass == InstFieldClass.IntLiteral;
+                   DataKind == InstFieldKind.BitLiteral
+                || DataKind == InstFieldKind.HexLiteral
+                || DataKind == InstFieldKind.IntLiteral;
             }
 
             public ref readonly byte Index

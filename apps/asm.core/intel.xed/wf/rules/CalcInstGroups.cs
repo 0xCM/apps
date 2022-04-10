@@ -7,21 +7,10 @@ namespace Z0
 {
     partial class XedRules
     {
-        public enum InstFieldClass : byte
-        {
-            None,
+        public SortedLookup<InstClass,InstGroup> CalcInstGroups()
+            => CalcInstGroups(CalcInstPatterns());
 
-            BitLiteral,
-
-            HexLiteral,
-
-            IntLiteral,
-
-            Seg,
-
-            Nonterm,
-
-            FieldExpr,
-        }
+        public SortedLookup<InstClass,InstGroup> CalcInstGroups(Index<InstPattern> src)
+            => Data(nameof(CalcInstGroups),() => XedPatterns.groups(src));
     }
 }

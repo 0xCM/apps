@@ -11,21 +11,19 @@ namespace Z0
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static bool @lock(in InstPatternBody src, out bit dst)
+        public static RepPrefix @rep(in InstPatternBody src)
         {
-            var result = false;
-            dst = CellValue.Empty;
+            var dst = RepPrefix.None;
             for(var i=0; i<src.FieldCount; i++)
             {
                 ref readonly var field = ref src[i];
-                if(field.FieldKind == FieldKind.LOCK)
+                if(field.FieldKind == FieldKind.REP)
                 {
                     dst = field.AsFieldExpr().Value;
-                    result = true;
                     break;
                 }
             }
-            return result;
+            return dst;
         }
     }
 }

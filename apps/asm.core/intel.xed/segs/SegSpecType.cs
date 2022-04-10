@@ -5,50 +5,37 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     partial class XedRules
     {
-        public readonly struct BfSpec
+        public readonly struct SegSpecType
         {
-            public readonly BfSpecKind Kind;
+            public readonly byte Id;
 
             [MethodImpl(Inline)]
-            public BfSpec(BfSpecKind kind)
+            public SegSpecType(byte id)
             {
-                Kind = kind;
+                Id = id;
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Kind == 0;
+                get => Id == 0;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Kind != 0;
+                get => Id != 0;
             }
 
-            public asci16 Pattern
-                => XedRender.format(Kind);
-
             public string Format()
-                => Pattern;
+                => SegSpecs.find(this).Format();
 
             public override string ToString()
                 => Format();
 
-            [MethodImpl(Inline)]
-            public static explicit operator byte(BfSpec src)
-                => (byte)src.Kind;
-
-            [MethodImpl(Inline)]
-            public static explicit operator BfSpec(byte src)
-                => new BfSpec((BfSpecKind)src);
-
-            public static BfSpec Empty => new BfSpec(0);
+            public static SegSpecType Empty => default;
         }
     }
 }

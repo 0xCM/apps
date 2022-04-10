@@ -34,31 +34,31 @@ namespace Z0
             dst.InstId = pattern.InstId;
             dst.Mode = pattern.Mode;
             dst.Index = index;
-            dst.FieldClass = src.FieldClass;
+            dst.FieldClass = src.DataKind;
             dst.FieldKind = src.FieldKind;
             dst.InstClass = pattern.InstClass;
             dst.OcKind = pattern.OpCode.Kind;
             dst.OcValue = pattern.OpCode.Value;
-            switch(src.FieldClass)
+            switch(src.DataKind)
             {
-                case InstFieldClass.Seg:
+                case InstFieldKind.Seg:
                     dst.Seg = src.AsSeg();
                 break;
-                case InstFieldClass.BitLiteral:
+                case InstFieldKind.BitLiteral:
                     dst.BitLiteral = src.AsBitLit();
                 break;
-                case InstFieldClass.FieldExpr:
+                case InstFieldKind.Expr:
                     dst.FieldExpr = src.AsFieldExpr();
                     if(dst.FieldExpr.IsNonTerminal)
                         dst.Nonterminal = dst.FieldExpr.Value.ToNonterminal();
                 break;
-                case InstFieldClass.HexLiteral:
+                case InstFieldKind.HexLiteral:
                     dst.HexLiteral = src.AsHexLit();
                 break;
-                case InstFieldClass.IntLiteral:
+                case InstFieldKind.IntLiteral:
                     dst.IntLiteral = src.AsIntLit();
                 break;
-                case InstFieldClass.Nonterm:
+                case InstFieldKind.Nonterm:
                     dst.Nonterminal = src.AsNonterminal();
                 break;
             }
