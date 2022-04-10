@@ -7,8 +7,9 @@ namespace Z0
 {
     using static XedModels;
     using static XedPatterns;
+    using static XedRules;
 
-    partial class XedRules
+    partial class XedFields
     {
         [MethodImpl(Inline), Op]
         public static ref ChipCode value(Field src, out ChipCode dst)

@@ -6,8 +6,9 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedRules;
 
-    partial class XedRules
+    partial class XedFields
     {
         [MethodImpl(Inline), Op]
         public static Field field<T>(FieldKind kind, T value)

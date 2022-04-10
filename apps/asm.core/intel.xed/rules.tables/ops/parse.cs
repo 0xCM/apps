@@ -5,6 +5,7 @@
 namespace Z0
 {
     using K = XedRules.FieldKind;
+    using static XedFields;
 
     partial class XedRules
     {

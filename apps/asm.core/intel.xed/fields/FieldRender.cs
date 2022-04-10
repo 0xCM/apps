@@ -6,10 +6,10 @@
 namespace Z0
 {
     using Asm;
+
     using static XedRules;
     using static XedPatterns;
     using static XedModels;
-
     using static core;
 
     using K = XedRules.FieldKind;

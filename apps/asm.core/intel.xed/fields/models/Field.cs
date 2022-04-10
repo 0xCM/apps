@@ -7,11 +7,12 @@ namespace Z0
 {
     using static XedModels;
     using static XedPatterns;
+    using static XedRules;
     using static core;
 
     using DT = XedRules.FieldDataType;
 
-    partial class XedRules
+    partial class XedFields
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct Field
@@ -86,12 +87,6 @@ namespace Z0
 
             public readonly FieldDataType Type;
 
-            // const byte ContentIndex = 0;
-
-            // const byte KindIndex = 2;
-
-            // const byte TypeIndex = 3;
-
             [MethodImpl(Inline)]
             Field(ushort content, FieldKind kind, FieldDataType type)
             {
@@ -99,31 +94,6 @@ namespace Z0
                 Kind = kind;
                 Type = type;
             }
-
-            // [MethodImpl(Inline)]
-            // Field(ByteBlock4 data)
-            // {
-            //     Content = default;
-            //     Storage = data;
-            // }
-
-            // public ref ushort Content
-            // {
-            //     [MethodImpl(Inline)]
-            //     get => ref @as<ushort>(Storage.First);
-            // }
-
-            // public ref FieldKind Kind
-            // {
-            //     [MethodImpl(Inline)]
-            //     get => ref @as<FieldKind>(Storage[TypeIndex]);
-            // }
-
-            // public ref FieldDataType Type
-            // {
-            //     [MethodImpl(Inline)]
-            //     get => ref @as<FieldDataType>(Storage[TypeIndex]);
-            // }
 
             [MethodImpl(Inline)]
             bit Bit()
@@ -158,53 +128,6 @@ namespace Z0
             RuleOperator Operator()
                 => (OperatorKind)Content;
 
-            // ref bit Bit
-            // {
-            //     [MethodImpl(Inline)]
-            //     get => ref @as<bit>(Content);
-            // }
-
-            // ref byte Byte
-            // {
-            //     [MethodImpl(Inline)]
-            //     get => ref @as<byte>(Content);
-            // }
-
-            // ref ushort Word
-            // {
-            //     [MethodImpl(Inline)]
-            //     get => ref Content;
-            // }
-
-            // ref Register Reg
-            // {
-            //     [MethodImpl(Inline)]
-            //     get => ref @as<Register>(Content);
-            // }
-
-            // ref ChipCode Chip
-            // {
-            //     [MethodImpl(Inline)]
-            //     get => ref @as<ChipCode>(Content);
-            // }
-
-            // ref InstClass Inst
-            // {
-            //     [MethodImpl(Inline)]
-            //     get => ref @as<InstClass>(Content);
-            // }
-
-            // ref BCastKind BCast
-            // {
-            //     [MethodImpl(Inline)]
-            //     get => ref @as<BCastKind>(Content);
-            // }
-
-            // ref RuleOperator Operator
-            // {
-            //     [MethodImpl(Inline)]
-            //     get => ref @as<RuleOperator>(Content);
-            // }
 
             public bool IsEmpty
             {

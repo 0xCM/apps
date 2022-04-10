@@ -6,10 +6,11 @@ namespace Z0
 {
     using static XedModels;
     using static XedPatterns;
+    using static XedRules;
 
     using K = XedRules.FieldDataType;
 
-    partial class XedRules
+    partial class XedFields
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct FieldPack

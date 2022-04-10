@@ -9,6 +9,7 @@ namespace Z0
 
     using static XedRules;
     using static XedDisasm;
+    using static XedFields;
     using static core;
 
     using K = XedRules.FieldKind;
