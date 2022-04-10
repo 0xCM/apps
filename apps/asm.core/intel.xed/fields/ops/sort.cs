@@ -26,7 +26,7 @@ namespace Z0
             }
 
             var lIx = z8;
-            var eIx = (byte)lCount;
+            var eIx = lCount;
             for(var i=z8; i<count; i++)
             {
                 ref var field = ref data[i];
@@ -36,7 +36,7 @@ namespace Z0
                     field = field.WithIndex(lIx++);
             }
 
-            return new InstFields(data.Sort(), count);
+            return new InstFields(data.Sort(), lCount);
         }
     }
 }

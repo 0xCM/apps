@@ -73,7 +73,7 @@ namespace Z0
             public ReadOnlySpan<InstField> Expr
             {
                 [MethodImpl(Inline)]
-                get =>Inst.Expr;
+                get => Inst.Expr;
             }
 
             public ref readonly MachineMode Mode

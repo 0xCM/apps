@@ -122,8 +122,9 @@ namespace Z0
             {
                 AppendLine(FormatInstHeader(pattern));
                 AppendLineFormat(LabelPattern, nameof(pattern.Category), pattern.Category);
-                AppendLine(FormatBody(pattern));
                 AppendLineFormat(LabelPattern, "Layout", pattern.Layout.Delimit(Chars.Space).Format());
+                AppendLineFormat(LabelPattern, "Fields", pattern.Expr.Delimit(Chars.Space).Format());
+
                 AppendLineFormat(LabelPattern, nameof(pattern.Mode), XedRender.format(pattern.Mode));
                 AppendLineFormat(LabelPattern, nameof(pattern.OpCode), string.Format("{0,-8} {1}", pattern.OpCode.Kind, AsmOcValue.format(pattern.OpCode.Value)));
 
@@ -195,50 +196,6 @@ namespace Z0
                 return count;
             }
 
-            string FormatBody(InstPattern src)
-            {
-                ref readonly var body = ref src.Body;
-                if(body.IsEmpty)
-                    return EmptyString;
-
-                var k=0u;
-                var j=0u;
-                Span<InstField> buffer = stackalloc InstField[(int)body.FieldCount];
-                Span<InstField> expressions = stackalloc InstField[(int)body.FieldCount];
-                for(var i=0;i<body.FieldCount; i++)
-                {
-                    ref readonly var field = ref body[i];
-                    if(field.IsFieldExpr)
-                        seek(expressions,j++) = field;
-                    else
-                        seek(buffer,k++) = field;
-                }
-
-                var dst = text.buffer();
-                var cx = EmptyString;
-                for(var i=0; i<k; i++)
-                {
-                    if(i!=0)
-                        dst.Append(Chars.Space);
-
-                    dst.Append(skip(buffer,i).Format());
-                }
-
-                if(j != 0)
-                {
-                    dst.Append(" where ");
-
-                    for(var i=0; i<j; i++)
-                    {
-                        if(i!=0)
-                            dst.Append(" && ");
-
-                        dst.Append(skip(expressions,i).Format());
-                    }
-                }
-
-                return string.Format("{0,-18}{1}", "Pattern", dst.Emit());
-            }
 
             byte RenderOps(InstPattern pattern, Span<string> dst)
             {
