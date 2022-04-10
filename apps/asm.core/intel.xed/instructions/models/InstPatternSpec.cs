@@ -6,8 +6,9 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedPatterns;
 
-    partial class XedPatterns
+    partial class XedRules
     {
         public struct InstPatternSpec : IComparable<InstPatternSpec>
         {

@@ -7,7 +7,7 @@ namespace Z0
 {
     using static XedModels;
 
-    partial class XedPatterns
+    partial class XedRules
     {
         [DataWidth(16)]
         public readonly struct InstClass
@@ -21,7 +21,7 @@ namespace Z0
             }
 
             public readonly string Classifier
-                => classifier(this);
+                => XedPatterns.classifier(this);
 
             public Identifier Name
                 => Kind.ToString();

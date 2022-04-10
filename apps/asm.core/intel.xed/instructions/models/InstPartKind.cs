@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedPatterns
+    partial class XedRules
     {
         /// <summary>
         /// Classfies aspects that define an instruction rule

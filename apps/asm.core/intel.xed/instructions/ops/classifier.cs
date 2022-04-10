@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules;
+
     partial class XedPatterns
     {
         public static string classifier(InstClass src)

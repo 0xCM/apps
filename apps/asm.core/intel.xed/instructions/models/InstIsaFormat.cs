@@ -5,7 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedPatterns
+    using static XedPatterns;
+
+    partial class XedRules
     {
         public readonly struct InstIsaFormat : IComparable<InstIsaFormat>
         {

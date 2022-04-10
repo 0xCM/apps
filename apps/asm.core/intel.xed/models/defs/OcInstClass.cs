@@ -8,7 +8,7 @@ namespace Z0
 
     using static XedModels;
 
-    partial class XedPatterns
+    partial class XedRules
     {
         public readonly struct OcInstClass : IComparable<OcInstClass>, IEquatable<OcInstClass>
         {

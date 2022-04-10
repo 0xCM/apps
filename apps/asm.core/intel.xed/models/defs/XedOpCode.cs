@@ -8,8 +8,9 @@ namespace Z0
     using Asm;
 
     using static XedModels;
+    using static XedPatterns;
 
-    partial class XedPatterns
+    partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1),DataWidth(64)]
         public readonly struct XedOpCode : IEquatable<XedOpCode>, IComparable<XedOpCode>
@@ -90,7 +91,7 @@ namespace Z0
             {
                 var result = Value.CompareTo(src.Value);
                 if(result==0)
-                    result = cmp(Kind, src.Kind);
+                    result = XedPatterns.cmp(Kind, src.Kind);
                 return result;
             }
 

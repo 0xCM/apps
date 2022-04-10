@@ -8,7 +8,7 @@ namespace Z0
     using static core;
     using static XedModels;
 
-    partial class XedPatterns
+    partial class XedRules
     {
         public class OpCodeKinds
         {

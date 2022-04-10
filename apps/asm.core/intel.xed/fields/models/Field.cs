@@ -48,21 +48,15 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, byte value)
-            {
-                return new Field((ushort)value, kind, FieldDataType.Byte);
-            }
+                => new Field((ushort)value, kind, FieldDataType.Byte);
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, ushort value)
-            {
-                return new Field((ushort)value, kind, FieldDataType.Word);
-            }
+                => new Field((ushort)value, kind, FieldDataType.Word);
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, Register value)
-            {
-                return new Field((ushort)value, kind, FieldDataType.Reg);
-            }
+                => new Field((ushort)value, kind, FieldDataType.Reg);
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, ChipCode value)
@@ -75,7 +69,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, InstClass value)
                 => new Field((ushort)value, kind, FieldDataType.InstClass);
-
 
             public readonly ushort Content;
 

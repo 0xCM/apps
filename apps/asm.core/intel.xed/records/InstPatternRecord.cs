@@ -8,8 +8,9 @@ namespace Z0
     using Asm;
 
     using static XedModels;
+    using static XedPatterns;
 
-    partial class XedPatterns
+    partial class XedRules
     {
         [Record(TableId),StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct InstPatternRecord : IComparable<InstPatternRecord>

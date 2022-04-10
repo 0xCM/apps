@@ -8,7 +8,6 @@ namespace Z0
     using System;
 
     using static XedRules;
-    using static XedPatterns;
 
     partial struct XedModels
     {

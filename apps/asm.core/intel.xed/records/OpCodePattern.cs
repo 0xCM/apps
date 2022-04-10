@@ -8,7 +8,7 @@ namespace Z0
     using static XedRules;
     using static XedModels;
 
-    partial class XedPatterns
+    partial class XedRules
     {
         [Record(TableId)]
         public struct OcMapKind

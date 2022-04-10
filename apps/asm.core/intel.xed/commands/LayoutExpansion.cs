@@ -31,9 +31,6 @@ namespace Z0
             return dst;
         }
 
-        public static LayoutExpansion expansion(InstPattern src)
-            => new LayoutExpansion(src.InstClass, src.OpCode, layout(src.Body).Data.Map(expansions));
-
         public struct LayoutExpansion
         {
             public readonly InstClass Class;

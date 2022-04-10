@@ -19,6 +19,12 @@ namespace Z0
             return true;
         }
 
+
+        void EmitLayoutCells()
+        {
+
+        }
+
         void CheckLayouts()
         {
             var patterns = Xed.Rules.CalcInstPatterns();
@@ -26,16 +32,16 @@ namespace Z0
             for(var i=0; i<patterns.Count; i++)
             {
                 ref readonly var pattern = ref patterns[i];
-                var layout = XedPatterns.layout(pattern.Body);
+                var layout = pattern.Layout;
                 var @class = pattern.Classifier;
                 var oc = pattern.OpCode;
 
-                for(var j=0; j<layout.FieldCount; j++)
+                for(var j=0; j<layout.Length; j++)
                 {
                     if(j !=0)
                         dst.Append(Chars.Space);
 
-                    ref readonly var field = ref layout[j];
+                    ref readonly var field = ref skip(layout,j);
                     if(field.FieldClass == InstFieldClass.Seg)
                     {
                         if(CellParser.parse(field.Format(), out Seg seg))

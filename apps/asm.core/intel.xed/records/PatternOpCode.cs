@@ -9,7 +9,7 @@ namespace Z0
 
     using static XedModels;
 
-    partial class XedPatterns
+    partial class XedRules
     {
         [Record(TableId)]
         public struct PatternOpCode : IComparable<PatternOpCode>

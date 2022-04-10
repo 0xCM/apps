@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedPatterns;
+    using static XedRules;
     using static core;
 
     partial class XedCmdProvider

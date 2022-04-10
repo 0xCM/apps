@@ -10,7 +10,7 @@ namespace Z0
     using static XedPatterns;
     using static XedRules.InstRulePartNames;
 
-    using P = XedPatterns.InstPartKind;
+    using P = XedRules.InstPartKind;
 
     partial class XedRules
     {

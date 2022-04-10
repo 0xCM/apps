@@ -8,6 +8,7 @@ namespace Z0
     using Asm;
 
     using static XedModels;
+    using static XedRules;
 
     partial class XedPatterns
     {

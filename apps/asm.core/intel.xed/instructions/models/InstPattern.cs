@@ -6,10 +6,10 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedRules;
     using static XedFields;
+    using static XedPatterns;
 
-    partial class XedPatterns
+    partial class XedRules
     {
         public class InstPattern : IComparable<InstPattern>
         {

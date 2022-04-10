@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedPatterns
+    partial class XedRules
     {
         public readonly struct LockSort : IComparable<LockSort>
         {
@@ -15,7 +15,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public LockSort(InstPattern src)
             {
-                Lockable = @lock(src.Body, out LockValue);
+                Lockable = XedPatterns.@lock(src.Body, out LockValue);
             }
 
             [MethodImpl(Inline)]

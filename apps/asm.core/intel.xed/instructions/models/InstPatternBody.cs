@@ -5,10 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
     using static XedFields;
 
-    partial class XedPatterns
+    partial class XedRules
     {
         public readonly struct InstPatternBody : IIndex<InstField>
         {
@@ -30,7 +29,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public InstPatternBody(InstField[] src)
             {
-                //Data = new InstFields(src,0);
                 Data = new InstFields(src,0);
             }
 

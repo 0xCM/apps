@@ -6,9 +6,8 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedRules;
 
-    partial class XedPatterns
+    partial class XedRules
     {
         public readonly struct InstAttribs : IIndex<AttributeKind>
         {

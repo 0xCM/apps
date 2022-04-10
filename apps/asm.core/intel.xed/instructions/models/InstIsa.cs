@@ -7,7 +7,7 @@ namespace Z0
 {
     using static XedModels;
 
-    partial class XedPatterns
+    partial class XedRules
     {
         [DataWidth(16)]
         public readonly struct InstIsa : IComparable<InstIsa>, IEquatable<InstIsa>

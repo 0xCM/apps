@@ -8,7 +8,7 @@ namespace Z0
     using static XedModels;
     using static core;
 
-    partial class XedPatterns
+    partial class XedRules
     {
         public readonly struct PatternSort : IComparable<PatternSort>, IComparer<InstPatternRecord>, IComparer<InstPatternSpec>
         {
