@@ -7,6 +7,7 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
+    using static XedFields;
 
     partial class XedPatterns
     {
@@ -73,7 +74,7 @@ namespace Z0
                 get => ref Spec.Body;
             }
 
-            public ref readonly Index<InstField> Fields
+            public ref readonly InstFields Fields
             {
                 [MethodImpl(Inline)]
                 get => ref Body.Data;

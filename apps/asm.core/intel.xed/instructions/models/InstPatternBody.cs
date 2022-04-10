@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static XedRules;
+    using static XedFields;
 
     partial class XedPatterns
     {
@@ -24,12 +25,12 @@ namespace Z0
                 return buffer.Emit();
             }
 
-            public readonly Index<InstField> Data;
+            public readonly InstFields Data;
 
             [MethodImpl(Inline)]
             public InstPatternBody(InstField[] src)
             {
-                Data = src;
+                Data = new InstFields(src,0);
             }
 
             public InstField[] Storage
@@ -81,10 +82,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator InstPatternBody(Index<InstField> src)
                 => new InstPatternBody(src);
-
-            [MethodImpl(Inline)]
-            public static implicit operator InstField[](InstPatternBody src)
-                => src.Data;
         }
     }
 }

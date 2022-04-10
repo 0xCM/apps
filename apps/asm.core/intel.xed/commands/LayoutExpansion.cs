@@ -5,13 +5,14 @@
 namespace Z0
 {
     using static XedPatterns;
+    using static XedFields;
     using static core;
 
     using C = XedRules.InstFieldClass;
 
     partial class XedRules
     {
-        public static Index<CellExpansion> expansions(Index<InstField> fields)
+        public static Index<CellExpansion> expansions(InstFields fields)
         {
             var dst = alloc<CellExpansion>(fields.Count);
             for(var i=0; i<fields.Count; i++)

@@ -14,73 +14,114 @@ namespace Z0
         {
             readonly ByteBlock16 Data;
 
+            const byte PosIndex = 13;
+
+            const byte KindIndex = 14;
+
+            const byte ClassIndex = 15;
+
             [MethodImpl(Inline)]
             public InstField(byte src)
+                : this(0,src) {}
+
+            public InstField(byte index, byte src)
             {
                 var data = ByteBlock16.Empty;
-                data[0] = src;
-                data[15] = (byte)InstFieldClass.IntLiteral;
+                data.First = src;
+                data[PosIndex] = index;
+                data[ClassIndex] = (byte)InstFieldClass.IntLiteral;
                 Data = data;
+
             }
 
             [MethodImpl(Inline)]
             public InstField(uint5 src)
+                : this(0,src) {}
+
+            [MethodImpl(Inline)]
+            public InstField(byte index, uint5 src)
             {
                 var data = ByteBlock16.Empty;
-                data[0] = (byte)src;
-                data[1] = uint5.MaxLiteral;
-                data[15] = (byte)InstFieldClass.BitLiteral;
+                data.First = src;
+                data[PosIndex] = index;
+                data[ClassIndex] = (byte)InstFieldClass.BitLiteral;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
             public InstField(Hex8 src)
+                : this(0,src) {}
+
+            [MethodImpl(Inline)]
+            public InstField(byte index, Hex8 src)
             {
                 var data = ByteBlock16.Empty;
                 data[0] = src;
-                data[15] = (byte)InstFieldClass.HexLiteral;
+                data[PosIndex] = index;
+                data[ClassIndex] = (byte)InstFieldClass.HexLiteral;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
             public InstField(Seg src)
+                : this(0,src) {}
+
+            [MethodImpl(Inline)]
+            public InstField(byte index, Seg src)
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
-                data[14] = (byte)src.Field;
-                data[15] = (byte)InstFieldClass.Seg;
+                data[PosIndex] = index;
+                data[KindIndex] = (byte)src.Field;
+                data[ClassIndex] = (byte)InstFieldClass.Seg;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
             public InstField(CellExpr src)
+                : this(0,src) {}
+
+            [MethodImpl(Inline)]
+            public InstField(byte index, CellExpr src)
             {
                 var data = ByteBlock16.Empty;
                 data = bytes(src);
-                data[14] = (byte)src.Field;
-                data[15] = (byte)InstFieldClass.FieldExpr;
+                data[PosIndex] = index;
+                data[KindIndex] = (byte)src.Field;
+                data[ClassIndex] = (byte)InstFieldClass.FieldExpr;
                 Data = data;
             }
 
             [MethodImpl(Inline)]
             public InstField(Nonterminal src)
+                : this(0,src) {}
+
+            [MethodImpl(Inline)]
+            public InstField(byte index, Nonterminal src)
             {
                 var data = ByteBlock16.Empty;
                 data = (uint)src;
-                data[15] = (byte)InstFieldClass.Nonterm;
+                data[PosIndex] = index;
+                data[ClassIndex] = (byte)InstFieldClass.Nonterm;
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
+            InstField(ByteBlock16 data)
+            {
                 Data = data;
             }
 
             public ref readonly InstFieldClass FieldClass
             {
                 [MethodImpl(Inline)]
-                get => ref @as<InstFieldClass>(Data[15]);
+                get => ref @as<InstFieldClass>(Data[ClassIndex]);
             }
 
             public ref readonly FieldKind FieldKind
             {
                 [MethodImpl(Inline)]
-                get => ref @as<FieldKind>(Data[14]);
+                get => ref @as<FieldKind>(Data[KindIndex]);
             }
 
             public bool IsNonTerminal
@@ -103,6 +144,25 @@ namespace Z0
                 || FieldClass == InstFieldClass.HexLiteral
                 || FieldClass == InstFieldClass.IntLiteral;
             }
+
+            public ref readonly byte Index
+            {
+                [MethodImpl(Inline)]
+                get => ref Data[PosIndex];
+            }
+
+            [MethodImpl(Inline)]
+            public InstField WithIndex(byte index)
+            {
+                var dst = InstField.Empty;
+                var data = Data;
+                data[PosIndex] = index;
+                return new InstField(data);
+            }
+
+            [MethodImpl(Inline)]
+            public int CompareTo(InstField src)
+                => Index.CompareTo(src.Index);
 
             [MethodImpl(Inline)]
             public bool Equals(InstField src)

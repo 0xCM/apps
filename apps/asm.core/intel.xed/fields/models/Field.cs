@@ -66,15 +66,11 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, ChipCode value)
-            {
-                return new Field((ushort)value, kind, FieldDataType.Chip);
-            }
+                => new Field((ushort)value, kind, FieldDataType.Chip);
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, BCastKind value)
-            {
-                return new Field((ushort)value, kind, FieldDataType.BCast);
-            }
+                => new Field((ushort)value, kind, FieldDataType.BCast);
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, InstClass value)
