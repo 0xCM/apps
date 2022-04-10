@@ -13,35 +13,51 @@ namespace Z0
     {
         public class InstPattern : IComparable<InstPattern>
         {
+            public static InstPattern define(ref InstPatternSpec spec)
+            {
+                spec.Body = new (sort(spec.Body.Data));
+                var oc = new OcInstClass(spec.PatternId, spec.OpCode, spec.InstClass);
+                return new InstPattern(spec, oc, fields(spec.Body));
+            }
+
             public readonly InstPatternSpec Spec;
 
             public readonly OcInstClass OcInst;
-
-            readonly Pair<InstPatternBody> BodyParts;
 
             public readonly Index<OpName> OpNames;
 
             public readonly FieldSet FieldDeps;
 
-            public InstPattern(InstPatternSpec spec)
+            public InstPattern(in InstPatternSpec spec, in OcInstClass oc, FieldSet deps)
             {
                 Spec = spec;
-                OcInst = new(spec.PatternId, spec.OpCode, spec.InstClass);
+                OcInst = oc;
                 OpNames = spec.Ops.Names;
-                BodyParts = split(spec.Body);
-                FieldDeps = fields(spec.Body);
+                FieldDeps = deps;
             }
 
-            public ref readonly InstPatternBody Layout
+            public ref readonly InstPatternBody Body
             {
                 [MethodImpl(Inline)]
-                get => ref BodyParts.Left;
+                get => ref Spec.Body;
             }
 
-            public ref readonly InstPatternBody Constraints
+            public ref readonly InstFields Fields
             {
                 [MethodImpl(Inline)]
-                get => ref BodyParts.Right;
+                get => ref Body.Data;
+            }
+
+            public ReadOnlySpan<InstField> Layout
+            {
+                [MethodImpl(Inline)]
+                get => Fields.Layout;
+            }
+
+            public ReadOnlySpan<InstField> Expr
+            {
+                [MethodImpl(Inline)]
+                get => Fields.Expr;
             }
 
             public bit Lockable
@@ -66,18 +82,6 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => ref Spec.OpCode;
-            }
-
-            public ref readonly InstPatternBody Body
-            {
-                [MethodImpl(Inline)]
-                get => ref Spec.Body;
-            }
-
-            public ref readonly InstFields Fields
-            {
-                [MethodImpl(Inline)]
-                get => ref Body.Data;
             }
 
             public ref readonly TextBlock BodyExpr

@@ -30,7 +30,14 @@ namespace Z0
             [MethodImpl(Inline)]
             public InstPatternBody(InstField[] src)
             {
+                //Data = new InstFields(src,0);
                 Data = new InstFields(src,0);
+            }
+
+            [MethodImpl(Inline)]
+            public InstPatternBody(InstFields fields)
+            {
+                Data = fields;
             }
 
             public InstField[] Storage
@@ -43,6 +50,18 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => Data.Count;
+            }
+
+            public byte ExprCount
+            {
+                [MethodImpl(Inline)]
+                get => Data.ExprCount;
+            }
+
+            public byte LayoutCount
+            {
+                [MethodImpl(Inline)]
+                get => Data.LayoutCount;
             }
 
             public bool IsEmpty

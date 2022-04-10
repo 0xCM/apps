@@ -33,7 +33,7 @@ namespace Z0
             dst.InstClass = src.InstClass;
             dst.Pattern = src.BodyExpr;
             dst.Mode = mode(src.Body);
-            dst.Layout = src.Layout.Format();
+            dst.Layout = src.Layout.Delimit(Chars.Space).Format();
         }
     }
 }

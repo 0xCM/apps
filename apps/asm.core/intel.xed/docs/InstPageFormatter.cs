@@ -123,7 +123,7 @@ namespace Z0
                 AppendLine(FormatInstHeader(pattern));
                 AppendLineFormat(LabelPattern, nameof(pattern.Category), pattern.Category);
                 AppendLine(FormatBody(pattern));
-                AppendLineFormat(LabelPattern, "Layout", pattern.Layout);
+                AppendLineFormat(LabelPattern, "Layout", pattern.Layout.Delimit(Chars.Space).Format());
                 AppendLineFormat(LabelPattern, nameof(pattern.Mode), XedRender.format(pattern.Mode));
                 AppendLineFormat(LabelPattern, nameof(pattern.OpCode), string.Format("{0,-8} {1}", pattern.OpCode.Kind, AsmOcValue.format(pattern.OpCode.Value)));
 

@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public struct InstField : IEquatable<InstField>
+        public struct InstField : IEquatable<InstField>, IComparable<InstField>
         {
             readonly ByteBlock16 Data;
 

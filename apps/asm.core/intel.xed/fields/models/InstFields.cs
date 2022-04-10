@@ -5,41 +5,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using static XedRules;
 
     partial class XedFields
     {
-        [MethodImpl(Inline), Op]
-        public static InstFields sort(InstFields src)
-        {
-            var data = src.Data;
-            var count = (byte)data.Count;
-            var eCount = z8;
-            var lCount = z8;
-            for(var i=z8; i<count; i++)
-            {
-                ref var field = ref data[i];
-                if(field.IsFieldExpr)
-                    eCount++;
-                else
-                    lCount++;
-            }
-
-            var eIx = (byte)(lCount-1);
-            var lIx = z8;
-            for(var i=z8; i<count; i++)
-            {
-                ref var field = ref data[i];
-                if(field.IsFieldExpr)
-                    field = field.WithIndex(eIx++);
-                else
-                    field = field.WithIndex(lIx++);
-            }
-
-            return new InstFields(data.Sort(), count);
-        }
-
         public readonly struct InstFields : IIndex<InstField>
         {
             public readonly Index<InstField> Data;
@@ -51,6 +20,18 @@ namespace Z0
             {
                 Data = src;
                 LayoutCount = lCount;
+            }
+
+            public ReadOnlySpan<InstField> Layout
+            {
+                [MethodImpl(Inline)]
+                get => core.slice(Data.View, 0, LayoutCount);
+            }
+
+            public ReadOnlySpan<InstField> Expr
+            {
+                [MethodImpl(Inline)]
+                get => core.slice(Data.View, LayoutCount);
             }
 
             public InstField[] Storage
@@ -94,28 +75,6 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => (byte)(Count - LayoutCount);
             }
-
-            public InstFields Sort()
-                => XedFields.sort(this);
-        }
-    }
-
-    partial class XedPatterns
-    {
-        public static Pair<InstPatternBody> split(in InstPatternBody src)
-        {
-            var left = list<InstField>();
-            var right = list<InstField>();
-            var count = src.FieldCount;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var part = ref src[i];
-                if(part.IsFieldExpr)
-                    right.Add(part);
-                else
-                    left.Add(part);
-            }
-            return (left.ToArray(),right.ToArray());
         }
     }
 }

@@ -19,20 +19,6 @@ namespace Z0
         Index<InstPattern> CalcInstPatterns(Index<InstDef> defs)
             => Data(nameof(InstPattern), () => patterns(defs));
 
-        static Index<InstPattern> patterns(Index<InstDef> defs)
-        {
-            var count = 0u;
-            iter(defs, def => count += def.PatternSpecs.Count);
-            var dst = alloc<InstPattern>(count);
-            var k=0u;
-            for(var i=0; i<defs.Count; i++)
-            {
-                ref readonly var def = ref defs[i];
-                ref readonly var specs = ref def.PatternSpecs;
-                for(var j=0; j<specs.Count; j++, k++)
-                    seek(dst,k) =  new InstPattern(specs[j]);
-            }
-            return dst.Sort();
-        }
+
     }
 }
