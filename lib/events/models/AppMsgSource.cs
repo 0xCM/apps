@@ -4,15 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.IO;
 
     using static Root;
-
-    using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
-    using File = System.Runtime.CompilerServices.CallerFilePathAttribute;
-    using Line = System.Runtime.CompilerServices.CallerLineNumberAttribute;
 
     /// <summary>
     /// Specifies application message origination details
@@ -21,7 +15,7 @@ namespace Z0
     public readonly struct AppMsgSource : ITextual
     {
         [MethodImpl(Inline), Op]
-        public static AppMsgSource capture([Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static AppMsgSource capture([CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => new AppMsgSource(caller, file, line);
 
         [MethodImpl(Inline), Op]

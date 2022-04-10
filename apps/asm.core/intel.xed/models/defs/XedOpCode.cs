@@ -68,8 +68,14 @@ namespace Z0
                 get => Kind != 0;
             }
 
+            public asci2 Symbol
+                => XedPatterns.symbol(Kind);
+
             public asci4 Selector
                 => XedPatterns.selector(Kind);
+
+            public asci8 MapSpec
+                => string.Format("{0}:{1}", Symbol, Selector);
 
             public string Format()
                 => XedRender.format(this);

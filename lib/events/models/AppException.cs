@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static Root;
-
     public class AppException : Exception, ITextual
     {
         public new IAppMsg Message {get;}

@@ -90,6 +90,31 @@ namespace Z0
 
             }
 
+            public SortedLookup<CellKey,CellSpec> CalcCellLookup()
+            {
+                var specs = TableSpecs();
+                var dst = dict<CellKey,CellSpec>();
+                for(var i=0; i<specs.Count; i++)
+                {
+                    ref readonly var spec = ref specs[i];
+                    for(ushort j=0; j<spec.RowCount; j++)
+                    {
+                        ref readonly var row = ref spec[j];
+                        ref readonly var a = ref row.Antecedant;
+                        ref readonly var c = ref row.Consequent;
+                        var m=z8;
+                        for(var k=0; k<a.Count; k++,m++)
+                            dst.Add(new CellKey(spec.TableKind, spec.TableId, j, LogicKind.Antecedant, m), a[k]);
+
+                        dst.Add(new CellKey(spec.TableKind, spec.TableId, j, LogicKind.Antecedant, m++), new XedRules.CellSpec(OperatorKind.Impl));
+
+                        for(var k=0; k<c.Count; k++,m++)
+                            dst.Add(new CellKey(spec.TableKind, spec.TableId, j, LogicKind.Consequent, m), c[k]);
+                    }
+                }
+                return dst;
+            }
+
             internal RuleTables Seal(Buffers src, bool pll)
             {
                 Data = src;

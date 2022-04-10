@@ -33,7 +33,7 @@ namespace Z0.Asm
                 ref readonly var ext = ref extensions[form.Extension];
                 ref readonly var cat = ref cats[form.Category];
 
-                if(form.InstClass.Classifier.StartsWith(monic, StringComparison.InvariantCultureIgnoreCase))
+                if(form.InstClass.Classifier.Format().StartsWith(monic, StringComparison.InvariantCultureIgnoreCase))
                 {
                     var result = QueryResult.Empty;
                     result.SearchPattern = monic;

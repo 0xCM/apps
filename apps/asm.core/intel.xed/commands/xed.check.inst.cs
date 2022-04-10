@@ -55,7 +55,7 @@ namespace Z0
 
             var src = Xed.Rules.CalcInstPatterns();
             var dst = XedPaths.Targets() + FS.file("xed.inst.patterns.vectors", FS.Csv);
-            var @class = EmptyString;
+            var @class = InstClass.Empty;
             var rows = text.buffer();
             var opcode = XedOpCode.Empty;
             var ocix0 = z8;

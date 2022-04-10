@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         [DataWidth(16)]
-        public readonly struct InstClass
+        public readonly struct InstClass : IComparable<InstClass>, IEquatable<InstClass>
         {
             public readonly IClass Kind;
 
@@ -20,8 +20,8 @@ namespace Z0
                 Kind = mode;
             }
 
-            public readonly string Classifier
-                => XedPatterns.classifier(this);
+            public readonly InstClass Classifier
+                => XedPatterns.normalize(this);
 
             public Identifier Name
                 => Kind.ToString();
@@ -45,7 +45,7 @@ namespace Z0
                 => Format();
 
             public int CompareTo(InstClass src)
-                => Classifier.CompareTo(src.Classifier);
+                => Classifier.Format().CompareTo(src.Classifier.Format());
 
             [MethodImpl(Inline)]
             public bool Equals(InstClass src)

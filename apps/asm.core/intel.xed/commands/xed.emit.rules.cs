@@ -7,18 +7,10 @@ namespace Z0
     partial class XedCmdProvider
     {
         [CmdOp("xed/emit/rules")]
-        Outcome EmitXedRules(CmdArgs args)
-        {
-            Xed.Rules.EmitCatalog();
-            return true;
-        }
-
-        [CmdOp("xed/emit/ruletables")]
         Outcome EmitRuleTables(CmdArgs args)
         {
             Xed.Rules.EmitRules(Xed.Rules.CalcRules(), Xed.Rules.CalcInstPatterns());
             return true;
         }
-
     }
 }

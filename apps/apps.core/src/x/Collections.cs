@@ -20,9 +20,13 @@ namespace Z0
         public static Index<T> Filter<T>(this Span<T> src, Func<T, bool> f)
             => ArrayUtil.where(src, f);
 
-       [MethodImpl(Inline)]
+        [MethodImpl(Inline)]
         public static Index<T> ToIndex<T>(this T[] src)
             => src;
+
+        [MethodImpl(Inline)]
+        public static Index<T> ToIndex<T>(this List<T> src)
+            => src.ToArray();
 
         [MethodImpl(Inline)]
         public static Index<T> ToIndex<T>(this IEnumerable<T> src)

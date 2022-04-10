@@ -9,15 +9,16 @@ namespace Z0
 
     partial class XedPatterns
     {
-        public static string classifier(InstClass src)
+        public static InstClass normalize(InstClass src)
         {
             if(src.IsEmpty)
-                return EmptyString;
+                return InstClass.Empty;
 
-            var dst = XedRender.format(src.Kind);
-            if(text.ends(dst,"_LOCK"))
-                dst = text.remove(dst,"_LOCK");
+            var name = XedRender.format(src.Kind);
+            if(text.ends(name,"_LOCK"))
+                name = text.remove(name,"_LOCK");
 
+            XedParsers.parse(name, out InstClass dst);
             return dst;
         }
     }

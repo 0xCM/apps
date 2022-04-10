@@ -17,7 +17,7 @@ namespace Z0
 
             readonly RuleTables Rules;
 
-            string Classifier;
+            InstClass Classifier;
 
             XedOpCode OpCode;
 
@@ -25,7 +25,7 @@ namespace Z0
 
             public InstDocFormatter(RuleTables rules, InstDoc doc)
             {
-                Classifier = EmptyString;
+                Classifier = InstClass.Empty;
                 OpCode = XedOpCode.Empty;
                 Rules = rules;
                 Doc = doc;
@@ -36,7 +36,7 @@ namespace Z0
                 => new(4, string.Format("{0} {1}", string.Format("{0} {1}", part.OcMap, part.OpCode.Value), part.InstForm));
 
             static SectionHeader ClassHeader(in InstDocPart part)
-                => new(3, part.Classifier);
+                => new(3, part.Classifier.Format());
 
             static SectionHeader TableHeader(in RuleSig sig)
                 => new(3, sig.Format());
@@ -46,7 +46,7 @@ namespace Z0
 
             static void RenderSigHeader(in InstDocPart part, ITextBuffer dst)
             {
-                var title = new SectionHeader(5, part.Classifier.ToLower());
+                var title = new SectionHeader(5, part.Classifier.Format().ToLower());
                 dst.Append(title.Format());
 
                 for(var k=0; k<part.OpNames.Count; k++)

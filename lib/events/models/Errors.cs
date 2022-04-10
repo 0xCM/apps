@@ -4,25 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
-
-    using File = System.Runtime.CompilerServices.CallerFilePathAttribute;
-    using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
-    using Line = System.Runtime.CompilerServices.CallerLineNumberAttribute;
-
     [ApiHost]
     public readonly struct Errors
     {
         [Op, Closures(UnsignedInts)]
-        public static T ThrowOrigin<T>([Caller] string caller = null, [File] string file = null, [Line]int? line = null)
+        public static T ThrowOrigin<T>([CallerName] string caller = null, [CallerFile] string file = null, [CallerLine]int? line = null)
             => throw originate(caller, file, line);
 
         [Op]
-        static AppException originate([Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        static AppException originate([CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => new AppException(AppMsg.error("Mystery Error", caller, file, line));
 
         [Op]
@@ -58,19 +48,19 @@ namespace Z0
             => throw new Exception(f());
 
         [Op]
-        public static AppException Originate(string msg, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static AppException Originate(string msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => AppException.define(msg, caller, file, line);
 
         [Op]
-        public static void ThrowWithOrigin(string msg, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void ThrowWithOrigin(string msg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => Throw(Originate(msg, caller,file,line));
 
         [Op]
-        public static void ThrowArgNull(object arg, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void ThrowArgNull(object arg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => Throw(ArgNull(arg,caller,file,line));
 
         [Op]
-        public static void ThrowBadSize(int expect, int actual, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void ThrowBadSize(int expect, int actual, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => Throw(new Exception($"The size {actual} is not aligned with {expect}:{ErrorMsg.FormatCallsite(caller,file,line)}"));
 
         [Op]
@@ -79,7 +69,7 @@ namespace Z0
 
 
         [Op]
-        static ArgumentNullException ArgNull(object arg, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        static ArgumentNullException ArgNull(object arg, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => new ArgumentNullException((arg?.ToString() ?? string.Empty) + ErrorMsg.FormatCallsite(caller, file,line));
     }
 }

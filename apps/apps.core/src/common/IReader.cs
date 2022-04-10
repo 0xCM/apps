@@ -15,7 +15,6 @@ namespace Z0
         bool Advance();
     }
 
-
     public interface ICachedReader<T> : IReader<T>
     {
         ref readonly T ViewNext();

@@ -93,6 +93,7 @@ namespace Z0
                 return false;
             }
         }
+
         [MethodImpl(Inline)]
         public static implicit operator ArrayReader<T>(T[] src)
             => new ArrayReader<T>(src);

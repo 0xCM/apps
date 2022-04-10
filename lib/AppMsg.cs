@@ -4,17 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
-    using File = System.Runtime.CompilerServices.CallerFilePathAttribute;
-    using Line = System.Runtime.CompilerServices.CallerLineNumberAttribute;
-
     /// <summary>
     /// Defines a message that encapsulates application diagnostic/status/error message content
     /// </summary>
     [ApiHost]
     public class AppMsg : IAppMsg
     {
-        public AppMsgData Data {get;}
+        public readonly AppMsgData Data;
 
         public static MsgPattern<Count,Count> FieldCountMismatch
             => "The target requires {0} fields but {1} were found in the source";
@@ -40,6 +36,10 @@ namespace Z0
         public static RenderPattern<FS.FileUri> EmittedFile
             => "Emitted {0}";
 
+        public static RenderPattern<object> UnhandledCase
+            => "Unhandled Case: {0}";
+
+
         public static RenderPattern<Count,FS.FileUri> EmittedFileLines
             => "Emitted <{0}> lines to {1}";
 
@@ -62,11 +62,11 @@ namespace Z0
             => new StatusMsg<T>(data);
 
         [MethodImpl(Inline), Op]
-        public static AppMsg called(object content, LogLevel kind, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static AppMsg called(object content, LogLevel kind, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => new AppMsg(content, kind, (FlairKind)kind, caller, file, line);
 
         [MethodImpl(Inline), Op]
-        public static AppMsg error(object content, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static AppMsg error(object content, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => define($"{content} {caller} {line} {file}", LogLevel.Error);
 
         [MethodImpl(Inline), Op]

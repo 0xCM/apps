@@ -8,6 +8,7 @@ namespace Z0
 
     using static XedRules;
     using static XedModels;
+    using static Datasets;
     using static core;
 
     partial class XedCmdProvider
@@ -15,14 +16,91 @@ namespace Z0
         [CmdOp("xed/check/fields")]
         Outcome CheckFields(CmdArgs args)
         {
-            CheckLayouts();
+            var dst = text.buffer();
+            var patterns = Xed.Rules.CalcInstPatterns();
+            var lookup = CalcLayoutSegs(patterns);
+            var counter = 0u;
+
+            var cols = new TableColumns(
+                ("PatternId", 10),
+                ("Instruction", 72),
+                ("OpMap", 8),
+                ("OcValue", 16),
+                ("Segs", 1)
+                );
+
+            var buffer = cols.Buffer();
+            buffer.EmitHeader(dst);
+            var @class = EmptyString;
+            for(var i=z16; i<lookup.EntryCount; i++)
+            {
+                ref readonly var pattern = ref patterns[i];
+                var segs = lookup[(ushort)pattern.PatternId];
+                var label = pattern.InstForm.IsNonEmpty ? string.Format("{0} {1}", pattern.InstClass, pattern.InstForm) : pattern.InstClass.Format();
+                buffer.Write(pattern.PatternId);
+                buffer.Write(label);
+                buffer.Write(pattern.OpCode.MapSpec);
+                buffer.Write(pattern.OpCode.Value);
+                buffer.Write(segs.Delimit(Chars.Space));
+                buffer.EmitLine(dst);
+                counter += segs.Count;
+            }
+
+            FileEmit(dst.Emit(), counter, XedPaths.Targets() + FS.file("xed.inst.patterns.segs", FS.Csv), TextEncodingKind.Asci);
             return true;
         }
 
-
-        void EmitLayoutCells()
+        SortedLookup<ushort,Index<Seg>> CalcLayoutSegs(Index<InstPattern> patterns)
         {
+            var dst = dict<ushort,Index<Seg>>();
+            for(var i=0; i<patterns.Count; i++)
+            {
+                ref readonly var pattern = ref patterns[i];
+                var layout = pattern.Layout;
+                var segs = list<Seg>();
+                for(var j=0; j<layout.Length; j++)
+                {
+                    ref readonly var part = ref skip(layout,j);
+                    switch(part.FieldClass)
+                    {
+                        case InstFieldClass.BitLiteral:
+                        {
+                            ref readonly var value = ref part.AsBitLit();
+                        }
+                        break;
+                        case InstFieldClass.HexLiteral:
+                        {
+                            ref readonly var value = ref part.AsHexLit();
 
+                        }
+                        break;
+                        case InstFieldClass.IntLiteral:
+                        {
+                            ref readonly var value = ref part.AsIntLit();
+
+                        }
+                        break;
+                        case InstFieldClass.Seg:
+                        {
+                            ref readonly var value = ref part.AsSeg();
+                            segs.Add(value);
+                        }
+                        break;
+                        case InstFieldClass.Nonterm:
+                        {
+                            ref readonly var value = ref part.AsNonterminal();
+                        }
+
+                        break;
+                        default:
+                            Errors.Throw(AppMsg.UnhandledCase.Format(part.FieldClass));
+                        break;
+                    }
+                }
+
+                dst.TryAdd((ushort)pattern.PatternId, segs.ToIndex());
+            }
+            return dst;
         }
 
         void CheckLayouts()

@@ -5,9 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static XedPatterns;
-
     partial class XedRules
     {
         public Index<InstPattern> CalcInstPatterns()
@@ -18,6 +15,5 @@ namespace Z0
 
         Index<InstPattern> CalcInstPatterns(Index<InstDef> defs)
             => Data(nameof(InstPattern), () => patterns(defs));
-
     }
 }

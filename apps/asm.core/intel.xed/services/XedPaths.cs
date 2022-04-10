@@ -115,7 +115,7 @@ namespace Z0
             => Targets("instructions");
 
         public FS.FilePath InstIsaPath(InstPattern src)
-            => InstIsaRoot() + instfolder(src.Isa) + FS.file(src.Classifier, FS.Txt);
+            => InstIsaRoot() + instfolder(src.Isa) + FS.file(src.Classifier.Format(), FS.Txt);
 
         public FS.FilePath InstIsaPath(InstIsa isa)
             => InstIsaRoot() + FS.file(text.ifempty(isa.Format(), "UNKNOWN"), FS.Txt);

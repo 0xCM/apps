@@ -144,7 +144,7 @@ namespace Z0
                 get => ref Spec.InstClass;
             }
 
-            public string Classifier
+            public InstClass Classifier
             {
                 [MethodImpl(Inline)]
                 get => InstClass.Classifier;
