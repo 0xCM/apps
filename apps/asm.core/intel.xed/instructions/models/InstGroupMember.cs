@@ -40,6 +40,12 @@ namespace Z0
                 get => Seq.Mod;
             }
 
+            public RexBit RexW
+            {
+                [MethodImpl(Inline)]
+                get => Seq.RexW;
+            }
+
             public ushort PatternId
             {
                 [MethodImpl(Inline)]

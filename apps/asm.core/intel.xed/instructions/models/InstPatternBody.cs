@@ -24,66 +24,66 @@ namespace Z0
                 return buffer.Emit();
             }
 
-            public readonly InstFields Data;
+            public readonly InstFields Fields;
 
             [MethodImpl(Inline)]
             public InstPatternBody(InstField[] src)
             {
-                Data = new InstFields(src,0);
+                Fields = new InstFields(src,0);
             }
 
             [MethodImpl(Inline)]
             public InstPatternBody(InstFields fields)
             {
-                Data = fields;
+                Fields = fields;
             }
 
             public InstField[] Storage
             {
                 [MethodImpl(Inline)]
-                get => Data.Storage;
+                get => Fields.Storage;
             }
 
             public uint FieldCount
             {
                 [MethodImpl(Inline)]
-                get => Data.Count;
+                get => Fields.Count;
             }
 
             public byte ExprCount
             {
                 [MethodImpl(Inline)]
-                get => Data.ExprCount;
+                get => Fields.ExprCount;
             }
 
             public byte LayoutCount
             {
                 [MethodImpl(Inline)]
-                get => Data.LayoutCount;
+                get => Fields.LayoutCount;
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Data.IsEmpty;
+                get => Fields.IsEmpty;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Data.IsNonEmpty;
+                get => Fields.IsNonEmpty;
             }
 
             public ref InstField this[int i]
             {
                 [MethodImpl(Inline)]
-                get => ref Data[i];
+                get => ref Fields[i];
             }
 
             public ref InstField this[uint i]
             {
                 [MethodImpl(Inline)]
-                get => ref Data[i];
+                get => ref Fields[i];
             }
 
             public string Format()

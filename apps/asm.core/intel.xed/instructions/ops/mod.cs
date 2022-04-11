@@ -7,12 +7,13 @@ namespace Z0
 {
     using static XedRules;
     using static XedModels;
+    using static XedFields;
 
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
         public static ModKind mod(InstPattern src)
-            => mod(src.Body);
+            => mod(src.Fields);
 
         [MethodImpl(Inline)]
         public static ModKind mod(uint2 src)
@@ -23,11 +24,11 @@ namespace Z0
             =>new ModKind(ModIndicator.NE3);
 
         [MethodImpl(Inline), Op]
-        public static ModKind mod(in InstPatternBody src)
+        public static ModKind mod(in InstFields src)
         {
             var result = false;
             var dst = ModKind.Empty;
-            for(var i=0; i<src.FieldCount; i++)
+            for(var i=0; i<src.Count; i++)
             {
                 ref readonly var field = ref src[i];
                 if(field.FieldKind == FieldKind.MOD && field.IsFieldExpr)

@@ -12,16 +12,19 @@ namespace Z0
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static MachineMode mode(in InstFields src)
+        public static RexBit rexb(in InstFields src)
         {
-            var result = ModeKind.Default;
+            var dst = RexBit.Empty;
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var f = ref src[i];
-                if(f.DataKind == InstFieldKind.Expr && f.FieldKind == FieldKind.MODE)
-                    result = f.AsFieldExpr().Value;
+                if(f.DataKind == InstFieldKind.Expr && f.FieldKind == FieldKind.REXB)
+                {
+                    dst = new (RexIndicator.B, f.AsFieldExpr().Value);
+                    break;
+                }
             }
-            return result;
+            return dst;
         }
     }
 }

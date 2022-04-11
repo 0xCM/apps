@@ -18,7 +18,7 @@ namespace Z0
 
             const byte InstClassOffset = 8;
 
-            const byte InstFormOffset = 10;
+            const byte RexWOffset = 10;
 
             const byte LockableOffset = 12;
 
@@ -33,42 +33,59 @@ namespace Z0
             [MethodImpl(Inline)]
             public PatternSort(InstPattern src)
             {
+                ref readonly var fields = ref src.Fields;
                 var data = ByteBlock16.Empty;
                 @as<ulong>(seek(data.Bytes,OpCodeOffset)) = @as<XedOpCode,ulong>(src.OpCode);
                 @as<ushort>(seek(data.Bytes,InstClassOffset)) = @as<InstClass,ushort>(src.InstClass);
-                @as<ushort>(seek(data.Bytes,InstFormOffset)) = @as<InstForm,ushort>(src.InstForm);
                 @as<bit>(seek(data.Bytes,LockableOffset)) = @lock(src.Body, out bit locked);
                 @as<bit>(seek(data.Bytes,LockValueOffset)) = locked;
                 @as<MachineMode>(seek(data.Bytes, ModeOffset)) = src.Mode;
-                @as<ModKind>(seek(data.Bytes, ModOffset)) = mod(src.Body);
+                @as<ModKind>(seek(data.Bytes, ModOffset)) = mod(fields);
+                @as<RexBit>(seek(data.Bytes, RexWOffset)) = XedPatterns.rexw(fields);
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public PatternSort(InstPatternRecord src)
+            public PatternSort(in InstPatternRecord src)
             {
                 var data = ByteBlock16.Empty;
+                ref readonly var fields = ref src.Body.Fields;
                 @as<ulong>(seek(data.Bytes, OpCodeOffset)) = @as<XedOpCode,ulong>(src.OpCode);
                 @as<ushort>(seek(data.Bytes, InstClassOffset)) = @as<InstClass,ushort>(src.InstClass);
-                @as<ushort>(seek(data.Bytes, InstFormOffset)) = @as<InstForm,ushort>(src.InstForm);
                 @as<bit>(seek(data.Bytes, LockableOffset)) = @lock(src.Body, out bit locked);
                 @as<bit>(seek(data.Bytes, LockValueOffset)) = locked;
                 @as<MachineMode>(seek(data.Bytes, ModeOffset)) = src.Mode;
-                @as<ModKind>(seek(data.Bytes, ModOffset)) = mod(src.Body);
+                @as<ModKind>(seek(data.Bytes, ModOffset)) = mod(fields);
+                @as<RexBit>(seek(data.Bytes, RexWOffset)) = XedPatterns.rexw(fields);
                 Data = data;
             }
 
             [MethodImpl(Inline)]
-            public PatternSort(InstPatternSpec src)
+            public PatternSort(in InstPatternSpec src)
             {
                 var data = ByteBlock16.Empty;
+                ref readonly var fields = ref src.Body.Fields;
                 @as<ulong>(data.Bytes) = @as<XedOpCode,ulong>(src.OpCode);
-                @as<ushort>(seek(data.Bytes,8)) = @as<InstClass,ushort>(src.InstClass);
-                @as<ushort>(seek(data.Bytes,10)) = @as<InstForm,ushort>(src.InstForm);
+                @as<ushort>(seek(data.Bytes, InstClassOffset)) = @as<InstClass,ushort>(src.InstClass);
                 @as<bit>(seek(data.Bytes,LockableOffset)) = @lock(src.Body, out bit locked);
                 @as<bit>(seek(data.Bytes,LockValueOffset)) = locked;
                 @as<MachineMode>(seek(data.Bytes, ModeOffset)) = src.Mode;
-                @as<ModKind>(seek(data.Bytes, ModOffset)) = mod(src.Body);
+                @as<ModKind>(seek(data.Bytes, ModOffset)) = mod(fields);
+                @as<RexBit>(seek(data.Bytes, RexWOffset)) = XedPatterns.rexw(fields);
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
+            public PatternSort(in InstGroupSeq src)
+            {
+                var data = ByteBlock16.Empty;
+                @as<ulong>(data.Bytes) = @as<XedOpCode,ulong>(src.OpCode);
+                @as<ushort>(seek(data.Bytes, InstClassOffset)) = @as<InstClass,ushort>(src.Class);
+                @as<bit>(seek(data.Bytes,LockableOffset)) = src.Lock.Lockable;
+                @as<bit>(seek(data.Bytes,LockValueOffset)) = src.Lock.Locked;
+                @as<MachineMode>(seek(data.Bytes, ModeOffset)) = src.Mode;
+                @as<ModKind>(seek(data.Bytes, ModOffset)) = src.Mod;
+                @as<RexBit>(seek(data.Bytes, RexWOffset)) = src.RexW;
                 Data = data;
             }
 
@@ -96,12 +113,6 @@ namespace Z0
                 get => ref @as<InstClass>(seek(Data.Bytes,InstClassOffset));
             }
 
-            public ref readonly InstForm InstForm
-            {
-                [MethodImpl(Inline)]
-                get => ref @as<InstForm>(seek(Data.Bytes,InstFormOffset));
-            }
-
             public ref readonly MachineMode Mode
             {
                 [MethodImpl(Inline)]
@@ -112,6 +123,12 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => ref @as<ModKind>(seek(Data.Bytes, ModOffset));
+            }
+
+            public ref readonly RexBit RexW
+            {
+                [MethodImpl(Inline)]
+                get => ref @as<RexBit>(seek(Data.Bytes, RexWOffset));
             }
 
             LockSort LockSort
@@ -127,17 +144,18 @@ namespace Z0
                 {
                     result = OpCode.CompareTo(src.OpCode);
 
-                    if(result == 0 && InstForm.IsNonEmpty && src.InstForm.IsNonEmpty)
-                        result = InstForm.CompareTo(src.InstForm);
-
-                    if(result == 0 && Mod.IsNonEmpty && src.Mod.IsNonEmpty)
-                        result = Mod.CompareTo(src.Mod);
+                    if(result == 0)
+                        result = Mode.CompareTo(src.Mode);
 
                     if(result == 0)
                         result = LockSort.CompareTo(src.LockSort);
 
-                    if(result == 0)
-                        result = Mode.CompareTo(src.Mode);
+                    if(result == 0 && Mod.IsNonEmpty && src.Mod.IsNonEmpty)
+                        result = Mod.CompareTo(src.Mod);
+
+                    if(result == 0 && RexW.IsNonEmpty && src.RexW.IsNonEmpty)
+                        result = RexW.CompareTo(src.RexW);
+
                 }
                 return result;
             }

@@ -7,17 +7,16 @@ namespace Z0
 {
     using static core;
     using static XedModels;
-    using static XedRules;
+    using static XedFields;
 
     partial class XedPatterns
     {
-        public static VexClass vex(in InstPatternBody src)
+        public static VexClass vex(in InstFields src)
         {
-            var result = default(VexClass);
-            if(src.FieldCount != 0)
+            var result = VexClass.None;
+            if(src.Count != 0)
             {
-                var k = (VexClass)src[0].AsIntLit();
-
+                var k = (VexClass)src.First.AsIntLit();
                 switch(k)
                 {
                     case VexClass.VV1:
@@ -25,9 +24,6 @@ namespace Z0
                     case VexClass.XOPV:
                     case VexClass.KVV:
                         result = k;
-                    break;
-                    default:
-                        result = VexClass.None;
                     break;
                 }
             }

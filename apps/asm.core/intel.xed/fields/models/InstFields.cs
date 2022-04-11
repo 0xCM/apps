@@ -52,6 +52,12 @@ namespace Z0
                 get => Data.IsNonEmpty;
             }
 
+            public ref InstField First
+            {
+                [MethodImpl(Inline)]
+                get => ref Data.First;
+            }
+
             public ref InstField this[int i]
             {
                 [MethodImpl(Inline)]

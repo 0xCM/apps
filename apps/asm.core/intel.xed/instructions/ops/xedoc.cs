@@ -7,21 +7,22 @@ namespace Z0
 {
     using static XedRules;
     using static XedModels;
+    using static XedFields;
 
     partial class XedPatterns
     {
         public static Index<XedOpCode> xedoc(Index<InstPattern> src)
             => src.Map(x => x.Spec.OpCode).Sort();
 
-        public static XedOpCode xedoc(in InstPatternBody body)
+        public static XedOpCode xedoc(in InstFields src)
         {
             var vc = VexClass.None;
             var number = z8;
-            var value = ocvalue(body);
+            var value = ocvalue(src);
             var kind = OpCodeKind.None;
-            for(var i=0; i<body.FieldCount; i++)
+            for(var i=0; i<src.Count; i++)
             {
-                ref readonly var part = ref body[i];
+                ref readonly var part = ref src[i];
                 if(part.IsFieldExpr && part.FieldKind == FieldKind.VEXVALID)
                     vc = (VexClass)part.AsFieldExpr().Value;
                 if(part.IsFieldExpr && part.FieldKind == FieldKind.MAP)
@@ -45,7 +46,7 @@ namespace Z0
                 break;
             }
 
-            return new XedOpCode(mode(body), kind, value);
+            return new XedOpCode(mode(src), kind, value);
         }
     }
 }

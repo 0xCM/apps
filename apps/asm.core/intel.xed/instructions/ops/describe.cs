@@ -22,7 +22,7 @@ namespace Z0
         {
             ref readonly var body = ref src.Body;
             var dst = InstPatternRecord.Empty;
-            var opcode = XedPatterns.xedoc(body);
+            var opcode = XedPatterns.xedoc(body.Fields);
             dst.PatternId = src.PatternId;
             dst.InstId = src.InstId;
             dst.Mode = src.Mode;

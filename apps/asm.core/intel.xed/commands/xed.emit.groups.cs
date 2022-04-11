@@ -14,13 +14,13 @@ namespace Z0
         [CmdOp("xed/emit/groups")]
         Outcome EmitInstGroups(CmdArgs args)
         {
-            const string RenderPattern = "{0,-12} | {1,-18} | {2,-8} | {3,-6} | {4,-26} | {5,-6} | {6}";
+            const string RenderPattern = "{0,-12} | {1,-18} | {2,-8} | {3,-8} | {4,-6} | {5,-6} | {6,-6} | {7,-26} | {8}";
             var counter = 0u;
             var groups = Xed.Rules.CalcInstGroups();
             var classes = groups.Keys;
             var dst = text.buffer();
             var k=0u;
-            dst.AppendLineFormat(RenderPattern, "PatternId", "Instruction", "Mod", "Index", "OpCode", "Lock", "Form");
+            dst.AppendLineFormat(RenderPattern, "PatternId", "Instruction", "Mod", "Lock", "Mode", "RexW", "Index", "OpCode", "Form");
             for(var i=0; i<classes.Length; i++)
             {
                 ref readonly var @class = ref skip(classes,i);
@@ -41,9 +41,11 @@ namespace Z0
                         member.PatternId,
                         member.Class,
                         member.Mod,
+                        member.Lock,
+                        member.Mode,
+                        member.RexW,
                         member.Index,
                         $"{member.OpCode.Symbol}[{member.OpCode.Selector}]:{member.OpCode.Value}",
-                        member.Lock,
                         $"{member.InstForm}"
                         );
                     counter++;

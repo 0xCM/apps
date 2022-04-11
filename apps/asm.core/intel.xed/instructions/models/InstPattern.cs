@@ -16,7 +16,7 @@ namespace Z0
         {
             public static InstPattern define(ref InstPatternSpec spec)
             {
-                spec.Body = new (sort(spec.Body.Data));
+                spec.Body = new (sort(spec.Body.Fields));
                 var oc = new OcInstClass(spec.PatternId, spec.OpCode, spec.InstClass);
                 return new InstPattern(spec, oc, fields(spec.Body));
             }
@@ -49,7 +49,7 @@ namespace Z0
             public ref readonly InstFields Fields
             {
                 [MethodImpl(Inline)]
-                get => ref Body.Data;
+                get => ref Body.Fields;
             }
 
             public ReadOnlySpan<InstField> Layout

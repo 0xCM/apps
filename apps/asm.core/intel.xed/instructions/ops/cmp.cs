@@ -48,7 +48,6 @@ namespace Z0
                     XopA => 13,
                     _ => 0,
                 };
-
         }
     }
 }

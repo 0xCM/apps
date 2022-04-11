@@ -12,10 +12,17 @@ namespace Z0
 
             readonly bit LockValue;
 
+            // [MethodImpl(Inline)]
+            // public LockSort(InstPattern src)
+            // {
+            //     Lockable = XedPatterns.@lock(src.Body, out LockValue);
+            // }
+
             [MethodImpl(Inline)]
-            public LockSort(InstPattern src)
+            public LockSort(InstLock @lock)
             {
-                Lockable = XedPatterns.@lock(src.Body, out LockValue);
+                Lockable = @lock.Lockable;
+                LockValue = @lock.Locked;
             }
 
             [MethodImpl(Inline)]

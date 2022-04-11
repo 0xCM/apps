@@ -7,14 +7,15 @@ namespace Z0
 {
     using static XedRules;
     using static XedModels;
+    using static XedFields;
 
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static RepPrefix @rep(in InstPatternBody src)
+        public static RepPrefix @rep(in InstFields src)
         {
             var dst = RepPrefix.None;
-            for(var i=0; i<src.FieldCount; i++)
+            for(var i=0; i<src.Count; i++)
             {
                 ref readonly var field = ref src[i];
                 if(field.FieldKind == FieldKind.REP)

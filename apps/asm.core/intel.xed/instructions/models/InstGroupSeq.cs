@@ -9,39 +9,30 @@ namespace Z0
 
     partial class XedRules
     {
+        [StructLayout(LayoutKind.Sequential,Pack =1)]
         public record struct InstGroupSeq : IComparable<InstGroupSeq>
         {
             public byte Index;
 
             public ushort PatternId;
 
-            public MachineMode Mode;
-
             public InstClass Class;
-
-            public ModKind Mod;
-
-            public InstLock Lock;
 
             public XedOpCode OpCode;
 
+            public MachineMode Mode;
+
+            public InstLock Lock;
+
+            public ModKind Mod;
+
+            public RexBit RexW;
+
+            PatternSort Sort()
+                => new PatternSort(this);
+
             public int CompareTo(InstGroupSeq src)
-            {
-                var result = Class.CompareTo(src.Class);
-                if(result == 0)
-                {
-                    result = OpCode.CompareTo(src.OpCode);
-
-                    if(result==0)
-                    {
-                        result = Mod.CompareTo(src.Mod);
-                        if(result==0)
-                            result = Lock.CompareTo(src.Lock);
-                    }
-
-                }
-                return result;
-            }
+                => Sort().CompareTo(src.Sort());
         }
     }
 }

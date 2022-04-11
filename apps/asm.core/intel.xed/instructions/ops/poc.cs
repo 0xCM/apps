@@ -33,7 +33,7 @@ namespace Z0
             dst.OcValue = src.OpCode.Value;
             dst.InstClass = src.InstClass;
             dst.Pattern = src.BodyExpr;
-            dst.Mode = mode(src.Body);
+            dst.Mode = mode(src.Fields);
             dst.Layout = src.Layout.Delimit(Chars.Space).Format();
         }
     }

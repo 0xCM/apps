@@ -62,6 +62,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var pattern = ref src[i];
+                ref readonly var fields = ref pattern.Fields;
 
                 if(i==0)
                     opcode = pattern.OpCode;
@@ -78,7 +79,8 @@ namespace Z0
                     Lock = pattern.LockState,
                     OpCode = opcode,
                     Mode = pattern.Mode,
-                    Mod = mod(pattern)
+                    Mod = mod(pattern),
+                    RexW = rexw(fields)
                     };
 
                 seek(dst,i) = new (seq,pattern);

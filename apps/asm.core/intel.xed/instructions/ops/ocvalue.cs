@@ -9,12 +9,13 @@ namespace Z0
 
     using static core;
     using static XedRules;
+    using static XedFields;
 
     partial class XedPatterns
     {
-        public static AsmOcValue ocvalue(InstPatternBody src)
+        public static AsmOcValue ocvalue(in InstFields src)
         {
-            var count = src.FieldCount;
+            var count = src.Count;
             var storage = ByteBlock4.Empty;
             var dst = storage.Bytes;
             var j=0;

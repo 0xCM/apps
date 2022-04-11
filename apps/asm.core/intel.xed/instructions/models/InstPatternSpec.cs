@@ -6,10 +6,11 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedPatterns;
+    using static XedFields;
 
     partial class XedRules
     {
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct InstPatternSpec : IComparable<InstPatternSpec>
         {
             public uint PatternId;
@@ -139,25 +140,7 @@ namespace Z0
             }
 
             public int CompareTo(InstPatternSpec src)
-            {
-                var result = InstId.CompareTo(src.InstId);
-                if(result == 0)
-                {
-                    result = InstClass.CompareTo(src.InstClass);
-                    if(result == 0)
-                    {
-                        result = OpCode.CompareTo(src.OpCode);
-                        if(result == 0)
-                        {
-                            if(InstForm.IsNonEmpty)
-                                result = InstForm.CompareTo(src.InstForm);
-                            if(result == 0)
-                                result = BodyExpr.CompareTo(src.BodyExpr);
-                        }
-                    }
-                }
-                return result;
-            }
+                => Sort().CompareTo(src.Sort());
 
             [MethodImpl(Inline)]
             public PatternSort Sort()
