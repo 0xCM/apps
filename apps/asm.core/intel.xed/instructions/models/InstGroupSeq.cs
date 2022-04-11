@@ -33,6 +33,8 @@ namespace Z0
 
             public int CompareTo(InstGroupSeq src)
                 => Sort().CompareTo(src.Sort());
+
+            public static InstGroupSeq Empty => default;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Z0
     partial class XedFields
     {
         [MethodImpl(Inline), Op]
-        public static InstFields sort(InstFields src)
+        public static InstFields sort(in InstFields src)
         {
             var data = src.Data;
             var count = (byte)data.Count;

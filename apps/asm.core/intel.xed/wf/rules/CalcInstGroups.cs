@@ -12,5 +12,8 @@ namespace Z0
 
         public SortedLookup<InstClass,InstGroup> CalcInstGroups(Index<InstPattern> src)
             => Data(nameof(CalcInstGroups),() => XedPatterns.groups(src));
+
+        public Index<InstGroup> CalcInstGroups2(Index<InstPattern> src)
+            => Data(nameof(CalcInstGroups2),() => XedPatterns.groups(src).Values.ToArray().Sort());
     }
 }

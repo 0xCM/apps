@@ -20,6 +20,7 @@ namespace Z0
                 () => EmitOpCodes(patterns),
                 () => EmitInstFields(patterns),
                 () => EmitFlagEffects(patterns),
+                () => EmitInstGroups(patterns),
                 EmitOpCodeKinds,
                 EmitOpWidths,
                 EmitPointerWidths,
@@ -35,6 +36,7 @@ namespace Z0
                 () => EmitRules(tables, patterns),
                 () => EmitPatternDetails(tables, patterns),
                 () => EmitIsaPages(tables,patterns),
+                () => EmitLayouts(patterns),
                 () => Docs.EmitDocs(tables,patterns)
                 );
         }

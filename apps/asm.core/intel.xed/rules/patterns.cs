@@ -6,7 +6,6 @@
 namespace Z0
 {
     using static core;
-    using static XedPatterns;
 
     partial class XedRules
     {
@@ -21,9 +20,16 @@ namespace Z0
                 ref readonly var def = ref defs[i];
                 var specs = def.PatternSpecs;
                 for(var j=0; j<specs.Count; j++, k++)
-                    seek(dst,k) = InstPattern.define(ref specs[j]);
+                    seek(dst,k) = pattern(ref specs[j]);
             }
             return dst.Sort();
+        }
+
+        public static InstPattern pattern(ref InstPatternSpec spec)
+        {
+            var fields = XedFields.sort(spec.Body.Fields);
+            spec.Body = new (fields);
+            return new InstPattern(spec, new OcInstClass(spec.PatternId, spec.OpCode, spec.InstClass), XedFields.usage(fields));
         }
     }
 }

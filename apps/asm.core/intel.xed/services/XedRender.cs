@@ -708,6 +708,15 @@ namespace Z0
             return dst.Emit();
         }
 
+        public static string format(in Seg src)
+        {
+            const string VarPattern = "{0}[{1}]";
+            const string ValPattern = "{0}[0b{1}]";
+            return src.IsEmpty
+                ? EmptyString
+                : string.Format(src.HasValue ? ValPattern : VarPattern, XedRender.format(src.Field), src.Value);
+        }
+
         public static string format(in FieldSet src, char sep = Chars.Comma)
         {
             var dst = text.buffer();

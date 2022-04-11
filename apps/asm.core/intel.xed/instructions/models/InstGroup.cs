@@ -7,20 +7,54 @@ namespace Z0
 {
     partial class XedRules
     {
-        public class InstGroup
+        public class InstGroup : IComparable<InstGroup>
         {
             public readonly InstClass Class;
 
             public readonly Index<InstGroupMember> Members;
 
+            [MethodImpl(Inline)]
             public InstGroup(InstClass @class, Index<InstGroupMember> src)
             {
                 Class = @class;
                 Members = src;
             }
 
+            public uint MemberCount
+            {
+                [MethodImpl(Inline)]
+                get => Members.Count;
+            }
+
+            public ref InstGroupMember this[uint i]
+            {
+                [MethodImpl(Inline)]
+                get => ref Members[i];
+            }
+
+            public ref InstGroupMember this[int i]
+            {
+                [MethodImpl(Inline)]
+                get => ref Members[i];
+            }
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Class.IsEmpty;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Class.IsNonEmpty;
+            }
+
             public override int GetHashCode()
                 => Class.Hash;
+
+            public int CompareTo(InstGroup src)
+                => Class.CompareTo(src.Class);
         }
     }
 }

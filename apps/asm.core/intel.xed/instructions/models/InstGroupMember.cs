@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public readonly struct InstGroupMember : IComparable<InstGroupMember>
+        public class InstGroupMember : IComparable<InstGroupMember>
         {
             public readonly InstGroupSeq Seq;
 
@@ -28,56 +28,64 @@ namespace Z0
                 get => ref Pattern.InstForm;
             }
 
-            public byte Index
+            public ref readonly InstFields Fields
             {
                 [MethodImpl(Inline)]
-                get => Seq.Index;
+                get => ref Pattern.Fields;
             }
 
-            public ModKind Mod
+            public ref readonly byte Index
             {
                 [MethodImpl(Inline)]
-                get => Seq.Mod;
+                get => ref Seq.Index;
             }
 
-            public RexBit RexW
+            public ref readonly ModKind Mod
             {
                 [MethodImpl(Inline)]
-                get => Seq.RexW;
+                get => ref Seq.Mod;
             }
 
-            public ushort PatternId
+            public ref readonly RexBit RexW
             {
                 [MethodImpl(Inline)]
-                get => Seq.PatternId;
+                get => ref Seq.RexW;
             }
 
-            public InstLock Lock
+            public ref readonly ushort PatternId
             {
                 [MethodImpl(Inline)]
-                get => Seq.Lock;
+                get => ref Seq.PatternId;
             }
 
-            public MachineMode Mode
+            public ref readonly InstLock Lock
             {
                 [MethodImpl(Inline)]
-                get => Seq.Mode;
+                get => ref Seq.Lock;
             }
 
-            public InstClass Class
+            public ref readonly MachineMode Mode
             {
                 [MethodImpl(Inline)]
-                get => Seq.Class;
+                get => ref Seq.Mode;
             }
 
-            public XedOpCode OpCode
+            public ref readonly InstClass Class
             {
                 [MethodImpl(Inline)]
-                get => Seq.OpCode;
+                get => ref Seq.Class;
+            }
+
+            public ref readonly XedOpCode OpCode
+            {
+                [MethodImpl(Inline)]
+                get => ref Seq.OpCode;
             }
 
             public int CompareTo(InstGroupMember src)
                 => Seq.CompareTo(src.Seq);
+
+            public static InstGroupMember Empty => new (InstGroupSeq.Empty, InstPattern.Empty);
         }
     }
 }

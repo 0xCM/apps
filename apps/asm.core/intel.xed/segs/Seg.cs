@@ -53,11 +53,7 @@ namespace Z0
             }
 
             public string Format()
-            {
-                const string VarPattern = "{0}[{1}]";
-                const string ValPattern = "{0}[0b{1}]";
-                return IsEmpty ? EmptyString : string.Format(HasValue ? ValPattern : VarPattern, XedRender.format(Field), Value);
-            }
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

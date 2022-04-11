@@ -6,21 +6,11 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedFields;
-    using static XedPatterns;
-    using static core;
 
     partial class XedRules
     {
         public class InstPattern : IComparable<InstPattern>
         {
-            public static InstPattern define(ref InstPatternSpec spec)
-            {
-                spec.Body = new (sort(spec.Body.Fields));
-                var oc = new OcInstClass(spec.PatternId, spec.OpCode, spec.InstClass);
-                return new InstPattern(spec, oc, fields(spec.Body));
-            }
-
             public readonly InstPatternSpec Spec;
 
             public readonly OcInstClass OcInst;
@@ -39,6 +29,8 @@ namespace Z0
                 FieldDeps = deps;
                 LockState = XedFields.@lock(spec.Body.Fields);
             }
+
+            public static InstPattern Empty => new InstPattern(InstPatternSpec.Empty, OcInstClass.Empty, FieldSet.create());
 
             public ref readonly InstPatternBody Body
             {

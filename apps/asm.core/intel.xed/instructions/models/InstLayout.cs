@@ -4,46 +4,37 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedPatterns;
-    using static XedFields;
-    using static core;
-
-    using C = XedRules.InstFieldKind;
-
     partial class XedRules
     {
-        public static Index<CellExpansion> expansions(InstFields fields)
+        public readonly struct InstLayout : IComparable<InstLayout>
         {
-            var dst = alloc<CellExpansion>(fields.Count);
-            for(var i=0; i<fields.Count; i++)
-            {
-                ref readonly var field = ref fields[i];
-                switch(field.DataKind)
-                {
-                    case C.Seg:
-                    case C.HexLiteral:
-                    case C.Nonterm:
-                    default:
-                    break;
-                }
-            }
+            public readonly InstGroupMember GroupMember;
 
-            return dst;
-        }
-
-        public struct LayoutExpansion
-        {
             public readonly InstClass Class;
 
             public readonly XedOpCode OpCode;
 
-            public readonly Index<CellExpansion> Cells;
+            public readonly Index<LayoutField> Cells;
 
-            public LayoutExpansion(InstClass @class, XedOpCode oc, CellExpansion[] fields)
+            [MethodImpl(Inline)]
+            public InstLayout(InstClass @class, InstGroupMember member, in XedOpCode oc, LayoutField[] fields)
             {
+                GroupMember = member;
                 Class = @class;
                 OpCode = oc;
                 Cells = fields;
+            }
+
+            public ref readonly ushort PatternId
+            {
+                [MethodImpl(Inline)]
+                get => ref GroupMember.PatternId;
+            }
+
+            public ref readonly byte Index
+            {
+                [MethodImpl(Inline)]
+                get => ref GroupMember.Index;
             }
 
             public uint CellCount
@@ -52,21 +43,21 @@ namespace Z0
                 get => Cells.Count;
             }
 
-            public ref CellExpansion this[int i]
+            public ref LayoutField this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Cells[i];
             }
 
-            public ref CellExpansion this[uint i]
+            public ref LayoutField this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Cells[i];
             }
 
-            public LayoutExpansion Replicate()
+            public InstLayout Replicate()
             {
-                var dst = new LayoutExpansion(Class, OpCode, core.alloc<CellExpansion>(CellCount));
+                var dst = new InstLayout(Class, GroupMember, OpCode, core.alloc<LayoutField>(CellCount));
                 for(var i=0; i<CellCount; i++)
                     dst[i] = this[i];
                 return dst;
@@ -88,8 +79,10 @@ namespace Z0
             public override string ToString()
                 => Format();
 
+            public int CompareTo(InstLayout src)
+                => GroupMember.CompareTo(src.GroupMember);
 
-            public static LayoutExpansion Empty => default;
+            public static InstLayout Empty => new (InstClass.Empty, InstGroupMember.Empty, XedOpCode.Empty, sys.empty<LayoutField>());
         }
     }
 }

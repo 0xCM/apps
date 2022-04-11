@@ -8,7 +8,6 @@ namespace Z0
     using Asm;
 
     using static XedModels;
-    using static XedPatterns;
 
     partial class XedRules
     {
@@ -78,7 +77,7 @@ namespace Z0
                 => string.Format("{0}:{1}", Symbol, Selector);
 
             public string Format()
-                => XedRender.format(this);
+                => $"{Symbol}[{Selector}]:{Value}";
 
             public override string ToString()
                 => Format();

@@ -6,21 +6,20 @@
 namespace Z0
 {
     using static XedRules;
-    using static XedFields;
 
-    partial class XedPatterns
+    partial class XedFields
     {
         [MethodImpl(Inline), Op]
-        public static FieldSet fields(in InstPatternBody src)
+        public static FieldSet usage(in InstFields src)
         {
             var dst = FieldSet.create();
-            for(var j=0; j<src.FieldCount; j++)
+            for(var j=0; j<src.Count; j++)
                 dst = dst.Include(src[j].FieldKind);
             return dst;
         }
 
         [MethodImpl(Inline), Op]
-        public static FieldSet fields(in InstFields src, InstFieldClass @class)
+        public static FieldSet usage(in InstFields src, InstFieldClass @class)
         {
             var dst = FieldSet.create();
             for(var j=0; j<src.Count; j++)

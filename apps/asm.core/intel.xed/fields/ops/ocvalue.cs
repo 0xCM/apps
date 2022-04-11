@@ -9,9 +9,8 @@ namespace Z0
 
     using static core;
     using static XedRules;
-    using static XedFields;
 
-    partial class XedPatterns
+    partial class XedFields
     {
         public static AsmOcValue ocvalue(in InstFields src)
         {

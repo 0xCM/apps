@@ -5,16 +5,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
+    using static core;
     using static XedRules;
     using static XedModels;
-    using static XedFields;
+    using static XedPatterns;
 
-    partial class XedPatterns
+    partial class XedFields
     {
-        public static Index<XedOpCode> xedoc(Index<InstPattern> src)
-            => src.Map(x => x.Spec.OpCode).Sort();
-
-        public static XedOpCode xedoc(in InstFields src)
+        public static XedOpCode opcode(in InstFields src)
         {
             var vc = VexClass.None;
             var number = z8;
@@ -48,5 +48,7 @@ namespace Z0
 
             return new XedOpCode(XedFields.mode(src), kind, value);
         }
+
     }
+
 }

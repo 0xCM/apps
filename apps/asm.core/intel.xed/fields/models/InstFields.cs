@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-
     partial class XedRules
     {
         public readonly struct InstFields : IIndex<InstField>
@@ -25,13 +23,13 @@ namespace Z0
             public ReadOnlySpan<InstField> Layout
             {
                 [MethodImpl(Inline)]
-                get => core.slice(Data.View, 0, LayoutCount);
+                get => IsEmpty ? default : core.slice(Data.View, 0, LayoutCount);
             }
 
             public ReadOnlySpan<InstField> Expr
             {
                 [MethodImpl(Inline)]
-                get => core.slice(Data.View, LayoutCount);
+                get => IsEmpty ?  default :core.slice(Data.View, LayoutCount);
             }
 
             public InstField[] Storage
@@ -49,7 +47,7 @@ namespace Z0
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Data.IsNonEmpty;
+                get =>  Data.IsNonEmpty;
             }
 
             public ref InstField First

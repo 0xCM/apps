@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-    using static XedRender;
-    using static core;
-    using static XedPatterns;
-
     using Asm;
+
+    using static XedRules;
+    using static XedModels;
+    using static core;
+
     partial class XedCmdProvider
     {
         [CmdOp("xed/check/opcodes")]
@@ -18,7 +18,7 @@ namespace Z0
             var patterns = Xed.Rules.CalcInstPatterns();
             var patternLUa = patterns.Map(x => (x.PatternId, x)).ToDictionary();
             var patternLUb = patterns.Map(x => (x.PatternId, x.OcInst)).ToDictionary();
-            var opcodes = XedPatterns.xedoc(patterns);
+            var opcodes = XedPatterns.opcodes(patterns);
             var counter = 0u;
             var countLU = dict<OcInstClass,byte>();
             var buffer = alloc<OpCodeCounts>(patterns.Count);
