@@ -7,13 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public SortedLookup<InstClass,InstGroup> CalcInstGroups()
-            => CalcInstGroups(CalcInstPatterns());
-
-        public SortedLookup<InstClass,InstGroup> CalcInstGroups(Index<InstPattern> src)
-            => Data(nameof(CalcInstGroups),() => XedPatterns.groups(src));
-
-        public Index<InstGroup> CalcInstGroups2(Index<InstPattern> src)
-            => Data(nameof(CalcInstGroups2),() => XedPatterns.groups(src).Values.ToArray().Sort());
+        public Index<InstGroup> CalcInstGroups(Index<InstPattern> src)
+            => Data(nameof(CalcInstGroups),() => XedPatterns.groups(src).Values.ToArray().Sort());
     }
 }

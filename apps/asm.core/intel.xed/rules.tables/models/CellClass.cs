@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using CK = XedRules.RuleCellKind;
+
     partial class XedRules
     {
         public readonly struct CellClass
@@ -27,6 +29,66 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => Kind != 0;
+            }
+
+            public bool IsSeg
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.Seg;
+            }
+
+            public bool IsSegVar
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.SegVar;
+            }
+
+            public bool IsKeyword
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.Keyword;
+            }
+
+            public bool IsNumber
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.HexLiteral || Kind == CK.IntLiteral || Kind == CK.BinaryLiteral;
+            }
+
+            public bool IsString
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.String;
+            }
+
+            public bool IsSegLiteral
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.SegLiteral;
+            }
+
+            public bool IsOperator
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.Operator;
+            }
+
+            public bool IsNonterm
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.Nonterm;
+            }
+
+            public bool IsNontermExpr
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.NontermExpr;
+            }
+
+            public bool IsExpr
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.NontermExpr || Kind == CK.EqExpr || Kind == CK.NeqExpr;
             }
 
             public string Format()

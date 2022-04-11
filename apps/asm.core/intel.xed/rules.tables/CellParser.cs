@@ -412,8 +412,19 @@ namespace Z0
                         return result;
 
                     var literal = XedParsers.IsBinaryLiteral(sd);
-                    if(!literal && sd.Length < 8)
-                        dst = seg(field, sd);
+                    if(!literal)
+                    {
+                        var spec= SegSpecs.find(sd);
+                        if(spec.IsNonEmpty)
+                        {
+
+                        }
+                        else
+                        {
+                            if(sd.Length <= 8)
+                                dst = seg(field, sd);
+                        }
+                    }
                     else
                     {
                         result = XedParsers.parse(sd, out uint8b value);

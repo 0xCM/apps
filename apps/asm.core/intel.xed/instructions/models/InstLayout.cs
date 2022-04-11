@@ -14,7 +14,7 @@ namespace Z0
 
             public readonly XedOpCode OpCode;
 
-            public readonly Index<LayoutField> Cells;
+            public readonly Index<LayoutField> Fields;
 
             [MethodImpl(Inline)]
             public InstLayout(InstClass @class, InstGroupMember member, in XedOpCode oc, LayoutField[] fields)
@@ -22,7 +22,7 @@ namespace Z0
                 GroupMember = member;
                 Class = @class;
                 OpCode = oc;
-                Cells = fields;
+                Fields = fields;
             }
 
             public ref readonly ushort PatternId
@@ -40,19 +40,19 @@ namespace Z0
             public uint CellCount
             {
                 [MethodImpl(Inline)]
-                get => Cells.Count;
+                get => Fields.Count;
             }
 
             public ref LayoutField this[int i]
             {
                 [MethodImpl(Inline)]
-                get => ref Cells[i];
+                get => ref Fields[i];
             }
 
             public ref LayoutField this[uint i]
             {
                 [MethodImpl(Inline)]
-                get => ref Cells[i];
+                get => ref Fields[i];
             }
 
             public InstLayout Replicate()
@@ -66,12 +66,12 @@ namespace Z0
             public string Format()
             {
                 var dst = text.buffer();
-                for(var i=0; i<Cells.Count; i++)
+                for(var i=0; i<Fields.Count; i++)
                 {
                     if(i!=0)
                         dst.Append(Chars.Space);
 
-                    dst.Append(Cells[i].Format());
+                    dst.Append(Fields[i].Format());
                 }
                 return dst.Emit();
             }

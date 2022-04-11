@@ -10,6 +10,7 @@ namespace Z0
     using W = W256;
     using A = asci32;
     using S = System.Runtime.Intrinsics.Vector256<byte>;
+    using api = Asci;
 
     /// <summary>
     /// Defines an asci code sequence of length 32
@@ -26,9 +27,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public asci32(string src)
-        {
-            Storage = Asci.encode(n,src).Storage;
-        }
+            => Storage = api.encode(n,src).Storage;
 
         [MethodImpl(Inline)]
         public asci32(ReadOnlySpan<byte> src)
@@ -67,7 +66,7 @@ namespace Z0
         public int Length
         {
             [MethodImpl(Inline)]
-            get => Asci.length(this);
+            get => api.length(this);
         }
 
         public int Capacity
@@ -79,13 +78,13 @@ namespace Z0
         public ReadOnlySpan<byte> View
         {
             [MethodImpl(Inline)]
-            get => Asci.bytes(this);
+            get => api.bytes(this);
         }
 
         public ReadOnlySpan<char> Decoded
         {
             [MethodImpl(Inline)]
-            get => Asci.decode(this);
+            get => api.decode(this);
         }
 
         public AsciCode this[int index]
@@ -137,6 +136,10 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
+        public void CopyTo(Span<byte> dst)
+            => api.copy(this,dst);
+
+        [MethodImpl(Inline)]
         public int CompareTo(A src)
             => Text.CompareTo(src.Text);
 
@@ -162,7 +165,7 @@ namespace Z0
         public static A Spaced
         {
             [MethodImpl(Inline)]
-            get => Asci.init(n);
+            get => api.init(n);
         }
 
         public static A Null

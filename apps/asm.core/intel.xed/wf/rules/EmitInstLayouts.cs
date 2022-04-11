@@ -5,18 +5,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using static Datasets;
 
     partial class XedRules
     {
-        void EmitLayouts(Index<InstPattern> patterns)
-            => EmitLayouts(CalcInstGroups2(patterns));
-
-        public void EmitLayouts(Index<InstGroup> groups)
+        public void EmitInstLayouts(Index<InstLayout> src)
         {
             var dst = text.buffer();
-            var layouts = XedPatterns.layouts(groups);
             var cols = new TableColumns(
                 ("PatternId", 10),
                 ("Class", 18),
@@ -27,9 +22,9 @@ namespace Z0
 
             var buffer = cols.Buffer();
             buffer.EmitHeader(dst);
-            for(var i=0; i<layouts.Count; i++)
+            for(var i=0; i<src.Count; i++)
             {
-                var layout = layouts[i];
+                var layout = src[i];
                 buffer.Write(layout.PatternId);
                 buffer.Write(layout.Class);
                 buffer.Write(layout.Index);
@@ -38,7 +33,10 @@ namespace Z0
                 buffer.EmitLine(dst);
             }
 
-            FileEmit(dst.Emit(), layouts.Count, XedPaths.Targets() + FS.file("xed.inst.layouts", FS.Csv), TextEncodingKind.Asci);
+            FileEmit(dst.Emit(), src.Count, XedPaths.Targets() + FS.file("xed.inst.layouts", FS.Csv), TextEncodingKind.Asci);
         }
-    }
+
+        void EmitInstLayouts(Index<InstPattern> src)
+            => EmitInstLayouts(CalcInstLayouts(CalcInstGroups(src)));
+   }
 }

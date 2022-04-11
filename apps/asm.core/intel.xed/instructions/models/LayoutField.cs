@@ -90,6 +90,12 @@ namespace Z0
                 get => !IsNonEmpty;
             }
 
+            public bool IsSeg
+            {
+                [MethodImpl(Inline)]
+                get => Class == C.Seg;
+            }
+
             public ref readonly C Class
             {
                 [MethodImpl(Inline)]

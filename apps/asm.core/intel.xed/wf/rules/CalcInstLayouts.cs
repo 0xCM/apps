@@ -7,7 +7,10 @@ namespace Z0
 {
     partial class XedRules
     {
-        public Index<InstLayout> CalcLayouts(Index<InstGroup> groups)
-            => Data(nameof(CalcLayouts), () => XedPatterns.layouts(groups));
+        public Index<InstLayout> CalcInstLayouts(Index<InstGroup> groups)
+            => Data(nameof(CalcInstLayouts), () => XedPatterns.layouts(groups));
+
+        public Index<InstLayout> CalcInstLayouts()
+            => CalcInstLayouts(CalcInstGroups(CalcInstPatterns()));
     }
 }

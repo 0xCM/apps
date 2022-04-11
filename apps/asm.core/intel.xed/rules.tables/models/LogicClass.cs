@@ -35,7 +35,6 @@ namespace Z0
                 get => Kind == LogicKind.Consequent;
             }
 
-
             public char Indicator
             {
                 [MethodImpl(Inline)]

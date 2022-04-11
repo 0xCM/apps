@@ -12,12 +12,5 @@ namespace Z0
             XedDisasmSvc.Collect(Projects.Context(Project()));
             return true;
         }
-
-        [CmdOp("xed/disasm/fields")]
-        Outcome XedDisasmFields(CmdArgs args)
-        {
-            XedDisasmSvc.CollectFields(Projects.Context(Project()));
-            return true;
-        }
     }
 }

@@ -105,8 +105,6 @@ namespace Z0
 
         static EnumRender<HintKind> HintKinds = new();
 
-        static EnumRender<BfSegKind> BfSegKinds = new();
-
         static EnumRender<ImmSpec> ImmSpecs = new();
 
         static EnumRender<InstFieldClass> InstFieldClasses = new();
@@ -224,9 +222,6 @@ namespace Z0
 
         public static string format(ModIndicator src)
             => ModIndicators.Format(src);
-
-        public static string format(BfSegKind src)
-            => BfSegKinds.Format(src);
 
         public static string format(CellValue src)
             => CellRender.format(src);
@@ -714,7 +709,7 @@ namespace Z0
             const string ValPattern = "{0}[0b{1}]";
             return src.IsEmpty
                 ? EmptyString
-                : string.Format(src.HasValue ? ValPattern : VarPattern, XedRender.format(src.Field), src.Value);
+                : string.Format(src.IsLiteral ? ValPattern : VarPattern, XedRender.format(src.Field), src.Value);
         }
 
         public static string format(in FieldSet src, char sep = Chars.Comma)

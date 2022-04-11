@@ -4,16 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-    using static Datasets;
-    using static core;
-
     partial class XedCmdProvider
     {
-        [CmdOp("xed/emit/defs")]
-        Outcome EmitDefs(CmdArgs args)
+        [CmdOp("xed/collect/fields")]
+        Outcome XedDisasmFields(CmdArgs args)
         {
-            var rules = Xed.Rules.CalcRules();
+            XedDisasmSvc.CollectFields(Projects.Context(Project()));
             return true;
         }
     }

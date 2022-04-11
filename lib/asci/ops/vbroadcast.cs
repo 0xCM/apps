@@ -4,14 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
-
     partial struct Asci
     {
+        /// <summary>
+        /// Populates the 16 components of an 128x8u vector with a specified character code
+        /// </summary>
+        /// <param name="w">The vector target width</param>
+        /// <param name="src">The code to broadcast</param>
+        [MethodImpl(Inline), Op]
+        public Vector128<byte> vbroadcast(W128 w, char src)
+            => cpu.vbroadcast(w,(byte)src);
+
+        /// <summary>
+        /// Populates the 32 components of an 256x8u vector with a specified character code
+        /// </summary>
+        /// <param name="w">The vector target width</param>
+        /// <param name="src">The code to broadcast</param>
+        [MethodImpl(Inline), Op]
+        public Vector256<byte> vbroadcast(W256 w, char src)
+            => cpu.vbroadcast(w,(byte)src);
+
         /// <summary>
         /// Populates the 16 components of an 128x8u vector with a specified character code
         /// </summary>

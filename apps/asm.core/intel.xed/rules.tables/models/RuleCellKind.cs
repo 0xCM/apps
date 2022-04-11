@@ -29,15 +29,15 @@ namespace Z0
 
             Operator,
 
+            SegLiteral,
+
+            SegVar,
+
             NeqExpr,
 
             EqExpr,
 
             NontermExpr,
-
-            SegLiteral,
-
-            SegVar,
         }
    }
 }

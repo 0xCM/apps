@@ -11,7 +11,7 @@ namespace Z0
         {
             const string RenderPattern = "{0,-12} | {1,-18} | {2,-8} | {3,-8} | {4,-6} | {5,-6} | {6,-6} | {7,-26} | {8}";
             var counter = 0u;
-            var groups = CalcInstGroups2(src);
+            var groups = CalcInstGroups(src);
             var dst = text.buffer();
             var k=0u;
             dst.AppendLineFormat(RenderPattern, "PatternId", "Instruction", "Mod", "Lock", "Mode", "RexW", "Index", "OpCode", "Form");

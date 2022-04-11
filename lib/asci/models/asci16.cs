@@ -10,6 +10,7 @@ namespace Z0
     using W = W128;
     using A = asci16;
     using S = System.Runtime.Intrinsics.Vector128<byte>;
+    using api = Asci;
 
     /// <summary>
     /// Defines an asci code sequence of length 16
@@ -26,7 +27,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public asci16(string src)
-            => Storage = Asci.encode(n,src).Storage;
+            => Storage = api.encode(n,src).Storage;
 
         [MethodImpl(Inline)]
         public asci16(ReadOnlySpan<byte> src)
@@ -81,7 +82,7 @@ namespace Z0
         public int Length
         {
             [MethodImpl(Inline)]
-            get => Asci.length(this);
+            get => api.length(this);
         }
 
         public int Capacity
@@ -93,7 +94,7 @@ namespace Z0
         public ReadOnlySpan<byte> View
         {
             [MethodImpl(Inline)]
-            get => Asci.bytes(this);
+            get => api.bytes(this);
         }
 
         public AsciCode this[int index]
@@ -105,25 +106,25 @@ namespace Z0
         public asci2 this[byte index, N2 size]
         {
             [MethodImpl(Inline)]
-            get =>  Storage.As<byte,ushort>().GetElement(index/2);
+            get => Storage.As<byte,ushort>().GetElement(index/2);
         }
 
         public asci4 this[byte index, N4 size]
         {
             [MethodImpl(Inline)]
-            get =>  Storage.As<byte,uint>().GetElement(index/4);
+            get => Storage.As<byte,uint>().GetElement(index/4);
         }
 
         public asci8 this[byte index, N8 size]
         {
             [MethodImpl(Inline)]
-            get =>  Storage.As<byte,ulong>().GetElement(index/8);
+            get => Storage.As<byte,ulong>().GetElement(index/8);
         }
 
         public ReadOnlySpan<char> Decoded
         {
             [MethodImpl(Inline)]
-            get => Asci.decode(this);
+            get => api.decode(this);
         }
 
         public TextBlock Text
@@ -138,11 +139,8 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public void CopyTo(Span<byte> dst)
-            => Asci.copy(this,dst);
+            => api.copy(this,dst);
 
-        [MethodImpl(Inline)]
-        public void CopyTo(ref byte dst)
-            => Asci.copy(this, ref dst);
 
          public override int GetHashCode()
             => Storage.GetHashCode();
@@ -160,7 +158,7 @@ namespace Z0
         public static A Spaced
         {
             [MethodImpl(Inline)]
-            get => Asci.init(n);
+            get => api.init(n);
         }
 
         public static A Null

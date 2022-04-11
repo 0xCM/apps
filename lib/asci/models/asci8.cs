@@ -111,13 +111,13 @@ namespace Z0
         public ReadOnlySpan<byte> View
         {
             [MethodImpl(Inline)]
-            get => Asci.bytes(this);
+            get => api.bytes(this);
         }
 
         public ReadOnlySpan<char> Decoded
         {
             [MethodImpl(Inline)]
-            get => Asci.decode(this);
+            get => api.decode(this);
         }
 
         public TextBlock Text
@@ -125,6 +125,10 @@ namespace Z0
             [MethodImpl(Inline)]
             get => text.format(Decoded);
         }
+
+        [MethodImpl(Inline)]
+        public void Store(Span<char> dst)
+            => api.store(this,dst);
 
         [MethodImpl(Inline)]
         public int CompareTo(A src)

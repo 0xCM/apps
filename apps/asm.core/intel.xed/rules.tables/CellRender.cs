@@ -30,9 +30,8 @@ namespace Z0
                     case CK.HexLiteral:
                     case CK.BinaryLiteral:
                     case CK.IntLiteral:
-                        dst = src.Class.Kind.ToString();
-                    break;
                     case CK.Char:
+                    case CK.String:
                         dst = src.Class.Kind.ToString();
                     break;
                     case CK.Operator:

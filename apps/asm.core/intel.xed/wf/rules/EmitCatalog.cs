@@ -36,7 +36,7 @@ namespace Z0
                 () => EmitRules(tables, patterns),
                 () => EmitPatternDetails(tables, patterns),
                 () => EmitIsaPages(tables,patterns),
-                () => EmitLayouts(patterns),
+                () => EmitInstLayouts(patterns),
                 () => Docs.EmitDocs(tables,patterns)
                 );
         }

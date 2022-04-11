@@ -26,14 +26,6 @@ namespace Z0
                 IsLiteral = literal;
             }
 
-            [MethodImpl(Inline)]
-            public BfSeg(FieldKind field, BfSegKind kind)
-            {
-                Field = field;
-                Pattern = XedRender.format(kind);
-                IsLiteral = false;
-            }
-
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]

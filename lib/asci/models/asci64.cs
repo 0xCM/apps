@@ -10,9 +10,12 @@ namespace Z0
     using W = W512;
     using A = asci64;
     using S = Vector512<byte>;
+    using api = Asci;
 
     public readonly struct asci64 : IAsciSeq<A,N>
     {
+        public const int Size = 64;
+
         internal readonly S Storage;
 
         [MethodImpl(Inline)]
@@ -21,7 +24,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public asci64(string src)
-            => Storage = Asci.encode(n,src).Storage;
+            => Storage = api.encode(n,src).Storage;
 
         [MethodImpl(Inline)]
         public asci64(ReadOnlySpan<byte> src)
@@ -54,7 +57,7 @@ namespace Z0
         public int Length
         {
             [MethodImpl(Inline)]
-            get => Asci.length(this);
+            get => api.length(this);
         }
 
         public int Capacity
@@ -66,7 +69,7 @@ namespace Z0
         public ReadOnlySpan<byte> View
         {
             [MethodImpl(Inline)]
-            get => Asci.bytes(this);
+            get => api.bytes(this);
         }
 
         public A Zero
@@ -90,7 +93,7 @@ namespace Z0
         public ReadOnlySpan<char> Decoded
         {
             [MethodImpl(Inline)]
-            get => Asci.decode(this);
+            get => api.decode(this);
         }
 
         public TextBlock Text
@@ -98,6 +101,10 @@ namespace Z0
             [MethodImpl(Inline)]
             get => text.format(Decoded,true);
         }
+
+        [MethodImpl(Inline)]
+        public void CopyTo(Span<byte> dst)
+            => api.copy(this,dst);
 
         [MethodImpl(Inline)]
         public int CompareTo(A src)
@@ -120,19 +127,14 @@ namespace Z0
         public override bool Equals(object src)
             => src is A j && Equals(j);
 
-        public const int Size = 64;
 
         public static A Spaced
         {
             [MethodImpl(Inline)]
-            get => Asci.init(n);
+            get => api.init(n);
         }
 
-        public static A Null
-        {
-            [MethodImpl(Inline)]
-            get => new A(default(S));
-        }
+        public static A Null => default;
 
         [MethodImpl(Inline)]
         public static implicit operator A(string src)

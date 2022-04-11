@@ -16,8 +16,143 @@ namespace Z0
         [CmdOp("xed/emit/layouts")]
         Outcome EmitLayouts(CmdArgs args)
         {
-            Xed.Rules.EmitLayouts(Xed.Rules.CalcInstGroups2(Xed.Rules.CalcInstPatterns()));
+            var patterns = Xed.Rules.CalcInstPatterns();
+            var groups = Xed.Rules.CalcInstGroups(patterns);
+            var layouts = Xed.Rules.CalcInstLayouts(groups);
+            Xed.Rules.EmitInstLayouts(layouts);
             return true;
+        }
+
+        [CmdOp("xed/check/layouts")]
+        Outcome CheckLayouts(CmdArgs args)
+        {
+            var inst = CalcInstSegs();
+            iter(inst, x => Write(x));
+            var rules = CalcRuleSegs();
+            return true;
+        }
+
+        [CmdOp("xed/emit/cells")]
+        Outcome EmitRuleCells(CmdArgs args)
+        {
+            var cols = new TableColumns(
+                ("TableId", 10),
+                ("TableKind", 10),
+                ("TableName", 32),
+                ("RowIndex", 10),
+                ("CellIndex", 10),
+                ("Type", 24),
+                ("Field", 22),
+                ("Op", 4),
+                ("Value", 16)
+                );
+
+            var dst = text.buffer();
+            var buffer = cols.Buffer();
+            buffer.EmitHeader(dst);
+            var rules = Xed.Rules.CalcRules();
+            var tables = rules.TableSpecs().Select(x => (x.TableId, x)).ToDictionary();
+            var cells = rules.CalcCellLookup();
+            var keys = cells.Keys;
+            var tid = z16;
+            var segvars = hashset<Seg>();
+            //var segspecs =
+            for(var i=0; i<keys.Length; i++)
+            {
+                ref readonly var key = ref skip(keys,i);
+                if(i != 0)
+                {
+                    if(key.TableId != tid)
+                    {
+                        tid = key.TableId;
+                        segvars.Clear();
+                    }
+                }
+
+
+                var logic = key.Logic;
+                var cell = cells[key];
+                var type = cell.Type;
+                if(type.Class.IsSegVar)
+                {
+                    if(CellParser.parse(cell.Data, out Seg seg))
+                        segvars.Add(seg);
+                    else
+                    {
+                        Error(cell.Data);
+                        break;
+                    }
+                }
+                if(type.Class.IsString)
+                {
+                    if(segvars.Count != 0 && logic.IsConsequent)
+                    {
+
+                    }
+                }
+                var table = tables[tid];
+                buffer.Write(tid);
+                buffer.Write(table.TableKind);
+                buffer.Write(table.TableName);
+                buffer.Write(key.RowIndex);
+                buffer.Write(key.CellIndex);
+                buffer.Write(type);
+                buffer.Write(XedRender.format(cell.Field));
+                buffer.Write(cell.Operator);
+                buffer.Write(cell);
+                buffer.EmitLine(dst);
+            }
+
+            FileEmit(dst.Emit(), keys.Length, XedPaths.RuleTargets() + FS.file("xed.rules.cells", FS.Csv), TextEncodingKind.Asci);
+
+
+            return true;
+        }
+        Index<Seg> CalcRuleSegs()
+        {
+            var segs = hashset<Seg>();
+            var rules = Xed.Rules.CalcRules();
+            var tables = rules.TableSpecs().Select(x => (x.TableId, x)).ToDictionary();
+            var cells = rules.CalcCellLookup();
+            var keys = cells.Keys;
+            for(var i=0; i<keys.Length; i++)
+            {
+                ref readonly var key = ref skip(keys,i);
+                var cell = cells[key];
+                var table = tables[key.TableId];
+            }
+            return segs.Array().Sort();
+        }
+        Index<Seg> CalcInstSegs()
+        {
+            var layouts = Xed.Rules.CalcInstLayouts();
+            var literals = hashset<Seg>();
+            var symbolics = hashset<Seg>();
+            var combined = hashset<Seg>();
+
+            for(var i=0; i<layouts.Count; i++)
+            {
+                ref readonly var layout = ref layouts[i];
+                ref readonly var fields = ref layout.Fields;
+                for(var j=0; j<fields.Count; j++)
+                {
+                    ref readonly var field = ref fields[j];
+                    if(field.IsSeg)
+                    {
+                        ref readonly var seg = ref field.AsSeg();
+                        combined.Add(seg);
+                        if(seg.IsLiteral)
+                            literals.Add(seg);
+                        else
+                            symbolics.Add(seg);
+                    }
+                }
+            }
+
+            var symbolic = symbolics.Array().Sort();
+            var literal = literals.Array().Sort();
+            var result = combined.Array().Sort();
+            return result;
         }
         void CheckSegs()
         {
@@ -58,33 +193,6 @@ namespace Z0
             }
         }
 
-        void EmitOpNonTerminals()
-        {
-            var patterns = Xed.Rules.CalcInstPatterns();
-            var nonterms = FunctionSet.Empty;
-            var buffer = list<Nonterminal>();
-            var output = text.buffer();
-            var counter = 0u;
-            for(var i=0; i<patterns.Count; i++)
-            {
-                buffer.Clear();
-                nonterms = nonterms.Clear();
-                ref readonly var pattern = ref patterns[i];
-                var count = pattern.NontermOps(ref nonterms);
-                if(count != 0)
-                {
-                    nonterms.Members(k => buffer.Add(k));
-                    for(var j=0; j<buffer.Count; j++)
-                    {
-                        output.AppendLineFormat("{0,-18} | {1,-28} | {2}", pattern.Classifier, pattern.OpCode, buffer[j]);
-                        counter++;
-                    }
-                }
-            }
-
-            FileEmit(output.Emit(), counter, XedPaths.Targets() + FS.file("xed.nonterms.ops", FS.Csv), TextEncodingKind.Asci);
-
-        }
         void CheckNonTerms2()
         {
             //var dst = Nonterminals.create();
@@ -114,18 +222,6 @@ namespace Z0
                     else
                         Require.invariant(!dst.Contains(kind));
                 }
-            }
-        }
-
-        void CheckFields0()
-        {
-            var p = FieldPotential.create();
-            ref readonly var regs = ref p.Regs;
-            for(var i=0; i<regs.Count; i++)
-            {
-                ref readonly var reg = ref regs[i];
-                Write(reg.ToString());
-
             }
         }
 

@@ -11,6 +11,8 @@ namespace Z0
         {
             const string over = "/";
 
+            const string sep = "_";
+
             public const string a = nameof(a);
 
             public const string b = nameof(b);
@@ -79,11 +81,17 @@ namespace Z0
 
             public const string ss = s + s;
 
-            public const byte BfSpecCount = 19;
+            public const string ssss = ss + ss;
+
+            public const string uuuu = u + u + u + u;
+
+            public const string ssss_uuuu = ssss + sep + uuuu;
+
+            const byte BfSpecCount = 22;
 
             const byte OtherSpecCount = 16;
 
-            public const byte SpecCount = BfSpecCount + OtherSpecCount;
+            const byte SpecCount = BfSpecCount + OtherSpecCount;
 
             public static Index<Paired<byte,string>> Index(){
                 var k =z8;
@@ -91,7 +99,7 @@ namespace Z0
                 (k++,EmptyString),
                 (k++, a), (k++,b), (k++,d), (k++,i), (k++,n), (k++,r), (k++,s), (k++,u),
                 (k++, w), (k++,x), (k++,z), (k++,aaa), (k++,bbb), (k++,dd), (k++,ddd), (k++,iii),
-                (k++, nn), (k++,ss),
+                (k++, nn), (k++,ss), (k++, ssss),(k++, uuuu),(k++,ssss_uuuu),
 
                 (k++, n8), (k++,n16), (k++,n32), (k++,n64),
                 (k++, d8), (k++,d16), (k++,d32), (k++,d64),

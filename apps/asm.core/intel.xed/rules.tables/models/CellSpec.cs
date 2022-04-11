@@ -31,18 +31,14 @@ namespace Z0
             public CellSpec(string data)
             {
                 Type = celltype(data);
-                //Field = XedFields.kind(data);
                 Data = text.ifempty(data, EmptyString);
-                //CellParser.parse(data, out Operator);
             }
 
             [MethodImpl(Inline)]
             public CellSpec(RuleOperator op)
             {
                 Type = CellType.@operator(op);
-                //Field = 0;
                 Data = EmptyString;
-                //Operator = op;
             }
 
             public readonly FieldKind Field
