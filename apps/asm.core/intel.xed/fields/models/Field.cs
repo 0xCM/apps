@@ -6,13 +6,11 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedPatterns;
-    using static XedRules;
     using static core;
 
     using DT = XedRules.FieldDataType;
 
-    partial class XedFields
+    partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct Field

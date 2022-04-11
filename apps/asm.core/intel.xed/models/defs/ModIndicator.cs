@@ -13,22 +13,22 @@ namespace Z0
             [Symbol("")]
             None = 0,
 
-            [Symbol("MOD[mm]","mm")]
+            [Symbol("mm")]
             ANY,
 
-            [Symbol("MOD=0","0b00")]
+            [Symbol("0b00")]
             MOD0,
 
-            [Symbol("MOD=1","0b01")]
+            [Symbol("0b01")]
             MOD1,
 
-            [Symbol("MOD=2","0b10")]
+            [Symbol("0b10")]
             MOD2,
 
-            [Symbol("MOD!=3","0b00,0b01,0b10")]
+            [Symbol("!3")]
             NE3,
 
-            [Symbol("MOD=3","0b11")]
+            [Symbol("0b11")]
             MOD3,
         }
     }

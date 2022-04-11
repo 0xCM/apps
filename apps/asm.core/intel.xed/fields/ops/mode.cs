@@ -9,7 +9,7 @@ namespace Z0
     using static XedRules;
     using static XedFields;
 
-    partial class XedPatterns
+    partial class XedFields
     {
         [MethodImpl(Inline), Op]
         public static MachineMode mode(in InstFields src)

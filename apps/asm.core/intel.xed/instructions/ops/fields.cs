@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static XedRules;
+    using static XedFields;
 
     partial class XedPatterns
     {
@@ -19,10 +20,10 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static FieldSet fields(in InstPatternBody src, InstFieldClass @class)
+        public static FieldSet fields(in InstFields src, InstFieldClass @class)
         {
             var dst = FieldSet.create();
-            for(var j=0; j<src.FieldCount; j++)
+            for(var j=0; j<src.Count; j++)
             {
                 ref readonly var field = ref src[j];
                 if(field.DataClass.Test(@class))
@@ -30,6 +31,5 @@ namespace Z0
             }
             return dst;
         }
-
     }
 }

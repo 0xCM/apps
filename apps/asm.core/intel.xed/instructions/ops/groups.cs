@@ -79,7 +79,7 @@ namespace Z0
                     Lock = pattern.LockState,
                     OpCode = opcode,
                     Mode = pattern.Mode,
-                    Mod = mod(pattern),
+                    Mod = XedFields.mod(fields),
                     RexW = rexw(fields)
                     };
 

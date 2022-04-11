@@ -5,27 +5,29 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
+    using static core;
     using static XedModels;
+    using static XedRules;
 
-    partial class XedPatterns
+    partial class XedFields
     {
-        [MethodImpl(Inline), Op]
-        public static bool @lock(in InstPatternBody src, out bit dst)
+        public static VexClass vex(in InstFields src)
         {
-            var result = false;
-            dst = CellValue.Empty;
-            for(var i=0; i<src.FieldCount; i++)
+            var result = VexClass.None;
+            if(src.Count != 0)
             {
-                ref readonly var field = ref src[i];
-                if(field.FieldKind == FieldKind.LOCK)
+                var k = (VexClass)src.First.AsIntLit();
+                switch(k)
                 {
-                    dst = field.AsFieldExpr().Value;
-                    result = true;
+                    case VexClass.VV1:
+                    case VexClass.EVV:
+                    case VexClass.XOPV:
+                    case VexClass.KVV:
+                        result = k;
                     break;
                 }
             }
             return result;
         }
-    }
+   }
 }

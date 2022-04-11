@@ -30,25 +30,7 @@ namespace Z0
             }
 
             public string Format()
-            {
-                var dst = EmptyString;
-                switch(Indicator)
-                {
-                    case ModIndicator.MOD0:
-                    case ModIndicator.MOD1:
-                    case ModIndicator.MOD2:
-                    case ModIndicator.MOD3:
-                        dst = ((byte)Indicator).ToString();
-                    break;
-                    case ModIndicator.NE3:
-                        dst = "!3";
-                    break;
-                    case ModIndicator.ANY:
-                        dst = "mm";
-                    break;
-                }
-                return dst;
-            }
+                => XedRender.format(Indicator);
 
             public override string ToString()
                 => Format();
@@ -56,7 +38,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public int CompareTo(ModKind src)
                 => ((byte)Indicator).CompareTo((byte)src.Indicator);
-
 
             [MethodImpl(Inline)]
             public bool Equals(ModKind src)

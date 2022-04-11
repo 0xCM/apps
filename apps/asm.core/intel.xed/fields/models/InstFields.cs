@@ -7,7 +7,7 @@ namespace Z0
 {
     using static XedRules;
 
-    partial class XedFields
+    partial class XedRules
     {
         public readonly struct InstFields : IIndex<InstField>
         {

@@ -12,23 +12,6 @@ namespace Z0
 
     partial class XedPatterns
     {
-        public static S16<Nonterminal> nonterms(Index<XedRules.CellSpec> src)
-        {
-            var Capacity = count16<Nonterminal>();
-            var dst = alloc16<Nonterminal>((int)src.Count);
-            var j=0;
-            for(var i=0; i<src.Count && j<Capacity; i++)
-            {
-                ref readonly var data = ref src[i].Data;
-                if(XedParsers.IsNontermCall(data))
-                {
-                    if(XedParsers.parse(data, out Nonterminal nt))
-                        dst[j++] = nt;
-                }
-            }
-            return dst;
-        }
-
         [MethodImpl(Inline), Op]
         public static bool nonterm(in PatternOp src, out Nonterminal dst)
         {

@@ -9,7 +9,6 @@ namespace Z0
 
     using static XedModels;
     using static XedRules;
-    using static XedPatterns;
     using static XedFields;
     using static XedRules.SyntaxLiterals;
     using static core;

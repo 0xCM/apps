@@ -46,7 +46,7 @@ namespace Z0
                 break;
             }
 
-            return new XedOpCode(mode(src), kind, value);
+            return new XedOpCode(XedFields.mode(src), kind, value);
         }
     }
 }

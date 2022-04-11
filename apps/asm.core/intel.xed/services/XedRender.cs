@@ -9,7 +9,6 @@ namespace Z0
 
     using static XedModels;
     using static XedRules;
-    using static XedPatterns;
     using static XedFields;
     using static XedDisasm;
     using static core;
@@ -113,6 +112,8 @@ namespace Z0
         static EnumRender<InstFieldClass> InstFieldClasses = new();
 
         static Index<Asm.BroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
+
+        static readonly EnumRender<ModIndicator> ModIndicators = new();
 
         static EnumRender<XedRegId> XedRegs = new();
 
@@ -220,6 +221,9 @@ namespace Z0
 
         public static string format(OSZ src)
             => OszKinds.Format(src);
+
+        public static string format(ModIndicator src)
+            => ModIndicators.Format(src);
 
         public static string format(BfSegKind src)
             => BfSegKinds.Format(src);

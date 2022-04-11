@@ -6,7 +6,6 @@ namespace Z0
 {
     using Asm;
 
-    using static XedPatterns;
     using static XedRules;
 
     public partial class XedDocs : AppService<XedDocs>

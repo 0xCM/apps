@@ -12,27 +12,49 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct CellSpec
         {
-            public readonly FieldKind Field;
+            public static CellType celltype(string data)
+            {
+                Require.invariant(data.Length < 48);
+                var field = XedLookups.Service.FieldSpec(XedFields.kind(data));
+                CellParser.parse(data, out RuleOperator op);
+                return new (field.FieldKind, CellParser.@class(data), op,
+                    field.DeclaredType.Text, (byte)field.DataWidth,
+                    field.EffectiveType.Text, (byte)field.EffectiveWidth
+                    );
+            }
 
-            public readonly RuleOperator Operator;
+            public readonly CellType Type;
 
             public readonly string Data;
 
             [MethodImpl(Inline)]
             public CellSpec(string data)
             {
-                Require.invariant(data.Length < 48);
-                Field = XedFields.kind(data);
+                Type = celltype(data);
+                //Field = XedFields.kind(data);
                 Data = text.ifempty(data, EmptyString);
-                CellParser.parse(data, out Operator);
+                //CellParser.parse(data, out Operator);
             }
 
             [MethodImpl(Inline)]
             public CellSpec(RuleOperator op)
             {
-                Field = 0;
+                Type = CellType.@operator(op);
+                //Field = 0;
                 Data = EmptyString;
-                Operator = op;
+                //Operator = op;
+            }
+
+            public readonly FieldKind Field
+            {
+                [MethodImpl(Inline)]
+                get => Type.Field;
+            }
+
+            public readonly RuleOperator Operator
+            {
+                [MethodImpl(Inline)]
+                get => Type.Operator;
             }
 
             public bool IsEmpty

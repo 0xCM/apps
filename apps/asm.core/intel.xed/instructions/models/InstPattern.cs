@@ -37,7 +37,7 @@ namespace Z0
                 OcInst = oc;
                 OpNames = spec.Ops.Names;
                 FieldDeps = deps;
-                LockState  = new (lockable(spec.Body),locked(spec.Body));
+                LockState = XedFields.@lock(spec.Body.Fields);
             }
 
             public ref readonly InstPatternBody Body

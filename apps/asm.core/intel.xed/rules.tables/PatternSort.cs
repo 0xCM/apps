@@ -37,10 +37,10 @@ namespace Z0
                 var data = ByteBlock16.Empty;
                 @as<ulong>(seek(data.Bytes,OpCodeOffset)) = @as<XedOpCode,ulong>(src.OpCode);
                 @as<ushort>(seek(data.Bytes,InstClassOffset)) = @as<InstClass,ushort>(src.InstClass);
-                @as<bit>(seek(data.Bytes,LockableOffset)) = @lock(src.Body, out bit locked);
-                @as<bit>(seek(data.Bytes,LockValueOffset)) = locked;
+                @as<bit>(seek(data.Bytes,LockableOffset)) = src.LockState.Lockable;
+                @as<bit>(seek(data.Bytes,LockValueOffset)) = src.LockState.Locked;
                 @as<MachineMode>(seek(data.Bytes, ModeOffset)) = src.Mode;
-                @as<ModKind>(seek(data.Bytes, ModOffset)) = mod(fields);
+                @as<ModKind>(seek(data.Bytes, ModOffset)) = XedFields.mod(fields);
                 @as<RexBit>(seek(data.Bytes, RexWOffset)) = XedPatterns.rexw(fields);
                 Data = data;
             }
@@ -50,12 +50,13 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 ref readonly var fields = ref src.Body.Fields;
+                var @lock = XedFields.@lock(fields);
                 @as<ulong>(seek(data.Bytes, OpCodeOffset)) = @as<XedOpCode,ulong>(src.OpCode);
                 @as<ushort>(seek(data.Bytes, InstClassOffset)) = @as<InstClass,ushort>(src.InstClass);
-                @as<bit>(seek(data.Bytes, LockableOffset)) = @lock(src.Body, out bit locked);
-                @as<bit>(seek(data.Bytes, LockValueOffset)) = locked;
+                @as<bit>(seek(data.Bytes, LockableOffset)) = @lock.Lockable;
+                @as<bit>(seek(data.Bytes, LockValueOffset)) = @lock.Locked;
                 @as<MachineMode>(seek(data.Bytes, ModeOffset)) = src.Mode;
-                @as<ModKind>(seek(data.Bytes, ModOffset)) = mod(fields);
+                @as<ModKind>(seek(data.Bytes, ModOffset)) = XedFields.mod(fields);
                 @as<RexBit>(seek(data.Bytes, RexWOffset)) = XedPatterns.rexw(fields);
                 Data = data;
             }
@@ -65,12 +66,13 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 ref readonly var fields = ref src.Body.Fields;
+                var @lock = XedFields.@lock(fields);
                 @as<ulong>(data.Bytes) = @as<XedOpCode,ulong>(src.OpCode);
                 @as<ushort>(seek(data.Bytes, InstClassOffset)) = @as<InstClass,ushort>(src.InstClass);
-                @as<bit>(seek(data.Bytes,LockableOffset)) = @lock(src.Body, out bit locked);
-                @as<bit>(seek(data.Bytes,LockValueOffset)) = locked;
+                @as<bit>(seek(data.Bytes, LockableOffset)) = @lock.Lockable;
+                @as<bit>(seek(data.Bytes, LockValueOffset)) = @lock.Locked;
                 @as<MachineMode>(seek(data.Bytes, ModeOffset)) = src.Mode;
-                @as<ModKind>(seek(data.Bytes, ModOffset)) = mod(fields);
+                @as<ModKind>(seek(data.Bytes, ModOffset)) = XedFields.mod(fields);
                 @as<RexBit>(seek(data.Bytes, RexWOffset)) = XedPatterns.rexw(fields);
                 Data = data;
             }

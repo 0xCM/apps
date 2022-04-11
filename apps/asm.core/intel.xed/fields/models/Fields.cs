@@ -6,9 +6,9 @@ namespace Z0
 {
     using static core;
     using static XedModels;
-    using static XedRules;
+    using static XedFields;
 
-    partial class XedFields
+    partial class XedRules
     {
         public ref struct Fields
         {

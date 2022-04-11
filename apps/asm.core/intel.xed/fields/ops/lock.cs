@@ -5,16 +5,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
+    using static XedRules;
 
-    partial class XedPatterns
+    partial class XedFields
     {
         [MethodImpl(Inline), Op]
-        public static ModKind mod(uint2 src)
-            => new ModKind((ModIndicator)(byte)src + 1);
-
-        [MethodImpl(Inline), Op]
-        public static ModKind modNeq3()
-            =>new ModKind(ModIndicator.NE3);
+        public static InstLock @lock(in InstFields src)
+            => new (XedFields.lockable(src), XedFields.locked(src));
     }
 }

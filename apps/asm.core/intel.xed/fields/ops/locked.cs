@@ -5,20 +5,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
     using static XedRules;
 
-    partial class XedPatterns
+    partial class XedFields
     {
         [MethodImpl(Inline), Op]
-        public static bit lockable(in InstPatternBody src)
+        public static bit @locked(in InstFields src)
         {
             var result = bit.Off;
-            for(var i=0; i<src.FieldCount; i++)
+            for(var i=0; i<src.Count; i++)
             {
                 ref readonly var field = ref src[i];
-                result = field.FieldKind == FieldKind.LOCK;
-                if(result)
+                if(field.FieldKind == FieldKind.LOCK)
+                {
+                    result = field.AsFieldExpr().Value;
                     break;
+                }
             }
             return result;
         }
