@@ -21,9 +21,6 @@ namespace Z0
 
         readonly Index<FieldKind,RuleFieldSpec> FieldSpecs;
 
-        readonly Index<Paired<byte,string>> SegSpecIndex;
-
-        readonly ConstLookup<string,byte> SegSpecLookup;
 
         XedLookups()
         {
@@ -31,27 +28,9 @@ namespace Z0
             WidthRecords = LoadOpWidths();
             WidthLookup = CalcOpWidthLookup(WidthRecords);
             FieldSpecs = XedFields.Specs;
-            SegSpecIndex = SegSpecLiterals.Index();
-            SegSpecLookup = SegSpecIndex.Map(x => (x.Right,x.Left)).ToDictionary();
         }
 
         XedPaths XedPaths => XedPaths.Service;
-
-        public byte SegSpecId(string src)
-        {
-            var dst = z8;
-            SegSpecLookup.Find(src, out dst);
-            return dst;
-        }
-
-        [MethodImpl(Inline)]
-        public string SegSpecPattern(byte src)
-        {
-            var dst = EmptyString;
-            if(src < SegSpecIndex.Count)
-                dst = SegSpecIndex[src].Right;
-            return dst;
-        }
 
         [MethodImpl(Inline)]
         public ref readonly RuleFieldSpec FieldSpec(FieldKind kind)
@@ -183,7 +162,7 @@ namespace Z0
                     break;
                 }
 
-                dst.Seg = SegType.define(@class(dst.Code), dst.Width64, XedPatterns.bitwidth(dst.Code, dst.CellType));
+                dst.Seg = BitSegInfo.define(@class(dst.Code), dst.Width64, XedPatterns.bitwidth(dst.Code, dst.CellType));
                 buffer.TryAdd(dst.Code, dst);
 
             }

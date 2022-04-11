@@ -31,16 +31,10 @@ namespace Z0
                 get => Kind != 0;
             }
 
-            public bool IsSeg
+            public bool IsSegField
             {
                 [MethodImpl(Inline)]
-                get => Kind == CK.Seg;
-            }
-
-            public bool IsSegVar
-            {
-                [MethodImpl(Inline)]
-                get => Kind == CK.SegVar;
+                get => Kind == CK.SegField;
             }
 
             public bool IsKeyword
@@ -59,12 +53,6 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => Kind == CK.String;
-            }
-
-            public bool IsSegLiteral
-            {
-                [MethodImpl(Inline)]
-                get => Kind == CK.SegLiteral;
             }
 
             public bool IsOperator

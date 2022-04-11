@@ -17,7 +17,7 @@ namespace Z0
                 Require.invariant(data.Length < 48);
                 var field = XedLookups.Service.FieldSpec(XedFields.kind(data));
                 CellParser.parse(data, out RuleOperator op);
-                return new (field.FieldKind, CellParser.@class(data), op,
+                return new (field.FieldKind, CellParser.@class(field.FieldKind,data), op,
                     field.DeclaredType.Text, (byte)field.DataWidth,
                     field.EffectiveType.Text, (byte)field.EffectiveWidth
                     );

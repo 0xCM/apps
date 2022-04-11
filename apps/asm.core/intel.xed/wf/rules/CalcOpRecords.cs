@@ -43,8 +43,8 @@ namespace Z0
                     if(info.WidthCode !=0)
                     {
                         dst.BitWidth = XedLookups.Service.Width(info.WidthCode, pattern.Mode).Bits;
-                        dst.SegType = XedLookups.Service.WidthInfo(info.WidthCode).Seg;
-                        dst.ECount = dst.SegType.CellCount;
+                        dst.SegInfo = XedLookups.Service.WidthInfo(info.WidthCode).Seg;
+                        dst.ECount = dst.SegInfo.CellCount;
                     }
 
                     dst.SourceExpr = op.SourceExpr;

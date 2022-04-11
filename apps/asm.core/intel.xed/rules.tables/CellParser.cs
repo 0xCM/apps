@@ -101,6 +101,7 @@ namespace Z0
                         else if(value.Length == 1 && value[0] == 'w')
                         {
                             dst = new (seg(field, 'w'));
+
                             result = true;
                         }
                     }
@@ -233,32 +234,22 @@ namespace Z0
                     }
                     break;
 
-                    case K.DISP:
-                    {
-                        result = byte.TryParse(value, out byte b);
-                        if(result)
-                            dst = new (field, b);
-                        else
-                        {
-                            result = XedParsers.parse(value, out DispSeg disp);
-                            if(result)
-                                dst = new (field, disp);
-                        }
-                    }
-                    break;
+                    // case K.DISP:
+                    // {
+                    //     result = byte.TryParse(value, out byte b);
+                    //     if(result)
+                    //         dst = new (field, b);
+                    //     else
+                    //     {
+                    //         result = XedParsers.parse(value, out DispSeg disp);
+                    //         if(result)
+                    //             dst = new (field, disp);
+                    //     }
+                    // }
+                    // break;
 
+                    case K.DISP:
                     case K.UIMM0:
-                    {
-                        result = byte.TryParse(value, out var b);
-                        if(result)
-                            dst = new (field,b);
-                        else
-                        {
-                            result = XedParsers.parse(value, out ImmSeg imm);
-                            dst = new (field,imm.WithIndex(0));
-                        }
-                    }
-                    break;
                     case K.UIMM1:
                     {
                         result = byte.TryParse(value, out var b);
@@ -266,11 +257,32 @@ namespace Z0
                             dst = new (field,b);
                         else
                         {
-                            result = XedParsers.parse(value, out ImmSeg imm);
-                            dst = new (field, imm.WithIndex(1));
+                            if(IsSeg(value))
+                            {
+                                if(SegData(value, out var sd))
+                                {
+                                    var type = SegTypes.type(sd);
+                                    if(type.IsNonEmpty)
+                                        dst = new (field,type);
+                                    else
+                                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(CellValue), value));
+                                }
+                            }
                         }
                     }
                     break;
+                    // case K.UIMM1:
+                    // {
+                    //     result = byte.TryParse(value, out var b);
+                    //     if(result)
+                    //         dst = new (field,b);
+                    //     else
+                    //     {
+                    //         result = XedParsers.parse(value, out ImmSeg imm);
+                    //         dst = new (field, imm.WithIndex(1));
+                    //     }
+                    // }
+                    // break;
 
                     case K.BASE0:
                     case K.BASE1:
@@ -394,10 +406,10 @@ namespace Z0
                     Errors.Throw(AppMsg.ParseFailure.Format(nameof(InstPatternBody), src));
             }
 
-            public static Outcome parse(string src, out Seg dst)
+            public static Outcome parse(string src, out SegField dst)
             {
                 var result = Outcome.Success;
-                dst = Seg.Empty;
+                dst = SegField.Empty;
                 var i = text.index(src, Chars.LBracket);
                 var j = text.index(src, Chars.RBracket);
                 result = i>0 && j>i;
@@ -414,20 +426,20 @@ namespace Z0
                     var literal = XedParsers.IsBinaryLiteral(sd);
                     if(!literal)
                     {
-                        var spec= SegSpecs.find(sd);
-                        if(spec.IsNonEmpty)
+                        var vt = SegTypes.type(sd);
+                        if(vt.IsNonEmpty)
                         {
-
+                            dst = seg(field, vt);
+                            return true;
                         }
                         else
                         {
-                            if(sd.Length <= 8)
-                                dst = seg(field, sd);
+                            return false;
                         }
                     }
                     else
                     {
-                        result = XedParsers.parse(sd, out uint8b value);
+                        result = XedParsers.parse(sd, out uint5 value);
                         if(!result)
                             return result;
 
@@ -435,16 +447,16 @@ namespace Z0
                         switch(len)
                         {
                             case 1:
-                                dst = seg(n1, field, (bit)value);
+                                dst = seg(field, (uint1)value);
                             break;
                             case 2:
-                                dst = seg(n2, field, value);
+                                dst = seg(field, (uint2)value);
                             break;
                             case 3:
-                                dst = seg(n3, field, value);
+                                dst = seg(field, (uint3)(byte)value);
                             break;
                             case 4:
-                                dst = seg(n4, field, value);
+                                dst = seg(field, (uint4)(byte)value);
                             break;
                             default:
                                 result = false;
@@ -456,7 +468,7 @@ namespace Z0
                 return result;
             }
 
-            public static CellClass @class(string data)
+            public static CellClass @class(FieldKind field, string data)
             {
                 var result = false;
                 var input = normalize(data);
@@ -500,11 +512,10 @@ namespace Z0
                         dst = CK.Operator;
                     else if(IsSeg(input))
                     {
-                        SegData(input, out var sd);
-                        if(XedParsers.IsBinaryLiteral(sd))
-                            dst = CK.SegLiteral;
+                        if(field != 0)
+                            dst = CK.SegField;
                         else
-                            dst = CK.SegVar;
+                            Errors.Throw(AppMsg.ParseFailure.Format(nameof(CellClass), input));
                     }
                     else if(RuleKeyword.parse(input, out var keyword))
                         dst = CK.Keyword;
@@ -595,12 +606,21 @@ namespace Z0
                 return result;
             }
 
-            static bool spec(string src, out CellExpr dst)
+            // static bool spec(string src, out CellExpr dst)
+            // {
+            //     var result = false;
+            //     var spec = SegVars.find(src);
+            //     dst = new CellExpr(OperatorKind.None, new CellValue(spec));
+            //     result = spec.IsNonEmpty;
+            //     return result;
+            // }
+
+            static bool spec(FieldKind field, string src, out CellExpr dst)
             {
                 var result = false;
-                var spec = SegSpecs.find(src);
-                dst = new CellExpr(OperatorKind.None, new CellValue(spec));
-                result = spec.IsNonEmpty;
+                var type = SegTypes.type(src);
+                dst = new CellExpr(OperatorKind.None, new CellValue(field,type));
+                result = type.IsNonEmpty;
                 return result;
             }
 
@@ -639,7 +659,7 @@ namespace Z0
                 XedParsers.parse(left, out fk);
                 Require.nonzero(fk);
 
-                var result = spec(right, out dst);
+                var result = spec(fk, right, out dst);
 
                 if(!result)
                 {
@@ -676,13 +696,9 @@ namespace Z0
                 }
                 else if(IsSeg(src))
                 {
-                    result = parse(src, out BfSeg x);
+                    result = parse(src, out SegField x);
                     if(result)
-                    {
-                        dst = part(new Seg(x.Field, x.Pattern));
-                    }
-                    else
-                        result = (false, AppMsg.ParseFailure.Format(nameof(BfSeg), src));
+                        dst = part(x);
                 }
                 else if (IsExpr(src))
                 {

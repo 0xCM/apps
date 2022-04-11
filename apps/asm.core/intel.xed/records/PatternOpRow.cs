@@ -49,7 +49,7 @@ namespace Z0
 
             public EmptyZero<byte> ECount;
 
-            public SegType SegType;
+            public BitSegInfo SegInfo;
 
             public Register RegLit;
 

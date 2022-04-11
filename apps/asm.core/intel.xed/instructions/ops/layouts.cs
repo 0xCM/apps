@@ -54,7 +54,7 @@ namespace Z0
                         cell = new (i, field.AsNonterminal());
                     break;
                     case K.Seg:
-                        cell = new (i, field.AsSeg());
+                        cell = new (i, field.AsSegField());
                     break;
                     default:
                         Errors.Throw(AppMsg.UnhandledCase.Format(field.DataKind));

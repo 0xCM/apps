@@ -42,7 +42,7 @@ namespace Z0
             switch(src.DataKind)
             {
                 case InstFieldKind.Seg:
-                    dst.Seg = src.AsSeg();
+                    dst.Seg = src.AsSegField();
                 break;
                 case InstFieldKind.BitLiteral:
                     dst.BitLiteral = src.AsBitLit();

@@ -31,12 +31,7 @@ namespace Z0
                 data[PosIndex] = index;
                 data[DatKindIndex] = (byte)InstFieldKind.IntLiteral;
                 Data = data;
-
             }
-
-            [MethodImpl(Inline)]
-            public InstField(uint5 src)
-                : this(0,src) {}
 
             [MethodImpl(Inline)]
             public InstField(byte index, uint5 src)
@@ -49,10 +44,6 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstField(Hex8 src)
-                : this(0,src) {}
-
-            [MethodImpl(Inline)]
             public InstField(byte index, Hex8 src)
             {
                 var data = ByteBlock16.Empty;
@@ -63,23 +54,15 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstField(Seg src)
-                : this(0,src) {}
-
-            [MethodImpl(Inline)]
-            public InstField(byte index, Seg src)
+            public InstField(byte index, SegField src)
             {
                 var data = ByteBlock16.Empty;
-                data = bytes(src);
+                core.@as<SegField>(data.First) = src;
                 data[PosIndex] = index;
                 data[FieldInex] = (byte)src.Field;
                 data[DatKindIndex] = (byte)InstFieldKind.Seg;
                 Data = data;
             }
-
-            [MethodImpl(Inline)]
-            public InstField(CellExpr src)
-                : this(0,src) {}
 
             [MethodImpl(Inline)]
             public InstField(byte index, CellExpr src)
@@ -91,10 +74,6 @@ namespace Z0
                 data[DatKindIndex] = (byte)InstFieldKind.Expr;
                 Data = data;
             }
-
-            [MethodImpl(Inline)]
-            public InstField(Nonterminal src)
-                : this(0,src) {}
 
             [MethodImpl(Inline)]
             public InstField(byte index, Nonterminal src)
@@ -196,8 +175,8 @@ namespace Z0
                 => ref @as<CellExpr>(Data.First);
 
             [MethodImpl(Inline)]
-            public ref readonly Seg AsSeg()
-                => ref @as<Seg>(Data.First);
+            public ref readonly SegField AsSegField()
+                => ref @as<SegField>(Data.First);
 
             [MethodImpl(Inline)]
             public ref readonly uint5 AsBitLit()

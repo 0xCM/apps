@@ -55,7 +55,7 @@ namespace Z0
             var cells = rules.CalcCellLookup();
             var keys = cells.Keys;
             var tid = z16;
-            var segvars = hashset<Seg>();
+            var segvars = hashset<SegField>();
             //var segspecs =
             for(var i=0; i<keys.Length; i++)
             {
@@ -69,13 +69,12 @@ namespace Z0
                     }
                 }
 
-
                 var logic = key.Logic;
                 var cell = cells[key];
                 var type = cell.Type;
-                if(type.Class.IsSegVar)
+                if(type.Class.IsSegField)
                 {
-                    if(CellParser.parse(cell.Data, out Seg seg))
+                    if(CellParser.parse(cell.Data, out SegField seg))
                         segvars.Add(seg);
                     else
                     {
@@ -108,9 +107,9 @@ namespace Z0
 
             return true;
         }
-        Index<Seg> CalcRuleSegs()
+        Index<SegField> CalcRuleSegs()
         {
-            var segs = hashset<Seg>();
+            var segs = hashset<SegField>();
             var rules = Xed.Rules.CalcRules();
             var tables = rules.TableSpecs().Select(x => (x.TableId, x)).ToDictionary();
             var cells = rules.CalcCellLookup();
@@ -123,12 +122,12 @@ namespace Z0
             }
             return segs.Array().Sort();
         }
-        Index<Seg> CalcInstSegs()
+        Index<SegField> CalcInstSegs()
         {
             var layouts = Xed.Rules.CalcInstLayouts();
-            var literals = hashset<Seg>();
-            var symbolics = hashset<Seg>();
-            var combined = hashset<Seg>();
+            var literals = hashset<SegField>();
+            var symbolics = hashset<SegField>();
+            var combined = hashset<SegField>();
 
             for(var i=0; i<layouts.Count; i++)
             {
@@ -156,13 +155,13 @@ namespace Z0
         }
         void CheckSegs()
         {
-            var regVal = seg(n3, FieldKind.REG,0b010);
+            var regVal = seg(FieldKind.REG,(uint3)0b010);
             Write(regVal.Format());
 
             var regVar = seg(FieldKind.REG,'r', 'r', 'r');
             Write(regVar.Format());
 
-            var modVal = seg(n2,FieldKind.MOD,0b11);
+            var modVal = seg(FieldKind.MOD,(uint2)0b11);
             Write(modVal.Format());
 
             var modVar = seg(FieldKind.MOD, 'm', 'm');
@@ -171,7 +170,7 @@ namespace Z0
             var rmVar = seg(FieldKind.RM,'n','n','n');
             Write(rmVar.Format());
 
-            var rmVal= seg(n3,FieldKind.RM,0b011);
+            var rmVal= seg(FieldKind.RM,(uint3)0b011);
             Write(rmVal.Format());
         }
 

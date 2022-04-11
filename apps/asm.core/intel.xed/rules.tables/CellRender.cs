@@ -23,9 +23,9 @@ namespace Z0
                 var dst = EmptyString;
                 switch(src.Class.Kind)
                 {
-                    case CK.Seg:
-                    case CK.SegVar:
-                    case CK.SegLiteral:
+                    case CK.SegField:
+                        dst = string.Format("Seg:{0}", XedRender.format(src.Field));
+                    break;
                     case CK.Keyword:
                     case CK.HexLiteral:
                     case CK.BinaryLiteral:
@@ -67,12 +67,11 @@ namespace Z0
                     return src.ToAsci().Format();
                 else if(src.CellKind == RuleCellKind.Keyword)
                     return src.ToKeyword().Format();
-                else if(src.CellKind == RuleCellKind.Seg)
-                    return src.ToSeg().Format();
+                else if(src.CellKind == RuleCellKind.SegField)
+                    return src.ToSegField().Format();
 
                 var data = bytes(src.Data);
                 var code = CellRender.fcode(src.Field);
-
                 switch(src.Field)
                 {
                     case K.MASK:

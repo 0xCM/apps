@@ -185,7 +185,7 @@ namespace Z0
                             }
                             break;
                             case InstFieldKind.Seg:
-                                seek(dst,j) = string.Format(Pattern, j, fk, field.AsSeg());
+                                seek(dst,j) = string.Format(Pattern, j, fk, field.AsSegField());
                             break;
                             default:
                                 Errors.Throw(string.Format("Unhandled case: {0}", field.DataKind));

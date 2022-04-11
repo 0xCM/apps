@@ -25,11 +25,11 @@ namespace Z0
             readonly ByteBlock16 Data;
 
             [MethodImpl(Inline)]
-            public LayoutField(byte index, Seg src)
+            public LayoutField(byte index, SegField src)
             {
                 var data = ByteBlock16.Empty;
                 data[IndexPos] = index;
-                @as<Seg>(data.First) = src;
+                @as<SegField>(data.First) = src;
                 data[NonEmptyPos] = (bit)src.IsNonEmpty;
                 data[ClassPos] = (byte)C.Seg;
                 data[KindPos] = (byte)K.Seg;
@@ -109,8 +109,8 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public ref readonly Seg AsSeg()
-                => ref @as<Seg>(Data.First);
+            public ref readonly SegField AsSeg()
+                => ref @as<SegField>(Data.First);
 
             [MethodImpl(Inline)]
             public ref readonly uint5 AsBitLit()
@@ -139,7 +139,7 @@ namespace Z0
                         dst = XedRender.format(AsNonterm());
                     break;
                     case K.Seg:
-                        dst = XedRender.format(AsSeg());
+                        dst = AsSeg().Format();
                     break;
                 }
                 return dst;

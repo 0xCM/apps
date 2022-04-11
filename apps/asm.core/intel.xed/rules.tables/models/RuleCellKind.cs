@@ -25,13 +25,9 @@ namespace Z0
 
             Nonterm,
 
-            Seg,
-
             Operator,
 
-            SegLiteral,
-
-            SegVar,
+            SegField,
 
             NeqExpr,
 

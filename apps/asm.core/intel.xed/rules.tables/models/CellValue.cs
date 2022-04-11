@@ -42,28 +42,19 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellValue(Seg data)
+            public CellValue(SegField src)
             {
-                Field = data.Field;
-                Data = (ulong)data.Value;
-                CellKind = RuleCellKind.Seg;
+                Field = src.Field;
+                Data = (ulong)src;
+                CellKind = RuleCellKind.SegField;
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, ImmSeg data)
+            public CellValue(FieldKind field, SegFieldType type)
             {
-                Field = kind;
-                Data = (ushort)data;
-                CellKind = 0;
-            }
-
-            [MethodImpl(Inline)]
-            public CellValue(SegSpec spec)
-            {
-                Field = 0;
-                Data = 0;
-                core.@as<SegSpecType>(Data) = spec.Type;
-                CellKind = RuleCellKind.String;
+                Field = field;
+                Data = (ulong)new SegField(field, type);
+                CellKind = RuleCellKind.SegField;
             }
 
             [MethodImpl(Inline)]
@@ -104,14 +95,6 @@ namespace Z0
                 Field = kind;
                 Data = (ushort)data;
                 CellKind =  kind != 0 ? RuleCellKind.NontermExpr : RuleCellKind.Nonterm;
-            }
-
-            [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, DispSeg data)
-            {
-                Field = kind;
-                Data = (byte)data;
-                CellKind = 0;
             }
 
             [MethodImpl(Inline)]
@@ -251,12 +234,8 @@ namespace Z0
                 => (NontermKind)Data;
 
             [MethodImpl(Inline)]
-            public Seg ToSeg()
-                => new Seg(Field, 0, (asci8)Data);
-
-            [MethodImpl(Inline)]
-            public SegSpec ToSegSpec()
-                => SegSpecs.find(core.@as<ulong,SegSpecType>(Data));
+            public SegField ToSegField()
+                => (SegField)Data;
 
             [MethodImpl(Inline)]
             public static implicit operator EASZ(CellValue src)
@@ -306,9 +285,9 @@ namespace Z0
             public static implicit operator Nonterminal(CellValue src)
                 => src.ToNonterminal();
 
-            [MethodImpl(Inline)]
-            public static implicit operator SegSpec(CellValue src)
-                => src.ToSegSpec();
+            // [MethodImpl(Inline)]
+            // public static implicit operator SegVar(CellValue src)
+            //     => src.ToSegVar();
 
             [MethodImpl(Inline)]
             public static implicit operator bit(CellValue src)

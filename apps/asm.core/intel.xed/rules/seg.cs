@@ -8,47 +8,35 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
-        public static Seg seg(FieldKind field, asci8 value)
-            => new Seg(field, (byte)value.Length, value);
+        public static SegField seg(FieldKind field, SegFieldType vt)
+            => new SegField(field, vt);
 
         [MethodImpl(Inline), Op]
-        public static Seg seg(FieldKind field, char c0)
-            => new Seg(field, 1, new (c0));
+        public static SegField seg(FieldKind field, char c0)
+            => new SegField(field, c0);
 
         [MethodImpl(Inline), Op]
-        public static Seg seg(FieldKind field, char c0, char c1)
-            => new Seg(field, 2, new (c0,c1));
+        public static SegField seg(FieldKind field, char c0, char c1)
+            => new SegField(field, c0, c1);
 
         [MethodImpl(Inline), Op]
-        public static Seg seg(FieldKind field, char c0, char c1, char c2)
-            => new Seg(field, 3, new (c0,c1,c2));
+        public static SegField seg(FieldKind field, char c0, char c1, char c2)
+            => new SegField(field, c0,c1,c2);
 
         [MethodImpl(Inline), Op]
-        public static Seg seg(N1 n, FieldKind field, bit b0)
-            => new Seg(field, n, new (b0.ToChar()));
+        public static SegField seg(FieldKind field, uint1 value)
+            => new SegField(field, 1, value);
 
         [MethodImpl(Inline), Op]
-        public static Seg seg(N2 n, FieldKind field, byte value)
-            => new Seg(field, n, BitRender.render2(value, out asci8 _));
+        public static SegField seg(FieldKind field, uint2 value)
+            => new SegField(field, 2, value);
 
         [MethodImpl(Inline), Op]
-        public static Seg seg(N2 n, FieldKind field, bit b0, bit b1)
-            => new Seg(field, n, new (b0.ToChar(),b1.ToChar()));
+        public static SegField seg(FieldKind field, uint3 value)
+            => new SegField(field, 3, value);
 
         [MethodImpl(Inline), Op]
-        public static Seg seg(N3 n, FieldKind field, byte value)
-            => new Seg(field, n, BitRender.render3(value, out asci8 _));
-
-        [MethodImpl(Inline), Op]
-        public static Seg seg(N3 n, FieldKind field, bit b0, bit b1, bit b2)
-            => new Seg(field, n, new (b0.ToChar(), b1.ToChar(), b2.ToChar()));
-
-        [MethodImpl(Inline), Op]
-        public static Seg seg(N4 n, FieldKind field, byte value)
-            => new Seg(field, n, BitRender.render4(value, out asci8 _));
-
-        [MethodImpl(Inline), Op]
-        public static Seg seg(N4 n, FieldKind field, bit b0, bit b1, bit b2, bit b3)
-            => new Seg(field, 4, new (b0.ToChar(),b1.ToChar(), b2.ToChar(), b3.ToChar()));
+        public static SegField seg(FieldKind field, uint4 value)
+            => new SegField(field, 4, value);
     }
 }
