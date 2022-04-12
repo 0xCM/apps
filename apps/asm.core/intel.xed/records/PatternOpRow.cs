@@ -60,23 +60,19 @@ namespace Z0
 
             public int CompareTo(PatternOpRow src)
             {
-                var result = PatternId.CompareTo(src.PatternId);
+                var result = InstClass.CompareTo(src.InstClass);
                 if(result == 0)
-                    result = Index.CompareTo(src.Index);
+                {
+                    result = PatternId.CompareTo(src.PatternId);
+                    if(result == 0)
+                        result = Index.CompareTo(src.Index);
+                }
                 return result;
-                // var result = InstId.CompareTo(src.InstId);
-                // if(result == 0)
-                // {
-                //     result = PatternId.CompareTo(src.PatternId);
-                //     if(result == 0)
-                //         result = Index.CompareTo(src.Index);
-                // }
-                // return result;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,6,6,28,6,8,8,8,10,10,10,10,6,6,12,12,8,12,16,1,};
-
             public static PatternOpRow Empty => default;
+
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,6,6,28,6,8,8,8,10,10,10,10,6,6,12,12,8,12,16,1,};
         }
     }
 }

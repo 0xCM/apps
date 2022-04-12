@@ -38,13 +38,9 @@ namespace Z0
                 () => EmitPatternDetails(tables, patterns),
                 () => EmitIsaPages(tables,patterns),
                 () => EmitInstLayouts(patterns),
-                () => EmitOcCounts(patterns),
                 () => Docs.EmitDocs(tables,patterns)
                 );
         }
-
-        void EmitOcCounts(Index<InstPattern> src)
-            => TableEmit(XedOpCodes.counts(src).View, OpCodeCounts.RenderWidths,  XedPaths.Table<OpCodeCounts>());
 
         void EmitPatternDetails(RuleTables tables, Index<InstPattern> src, FS.FilePath dst)
         {

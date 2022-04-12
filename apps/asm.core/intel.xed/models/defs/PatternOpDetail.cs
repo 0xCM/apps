@@ -56,9 +56,14 @@ namespace Z0
 
             public int CompareTo(PatternOpDetail src)
             {
-                var result = PatternId.CompareTo(src.PatternId);
+                var result = InstClass.CompareTo(src.InstClass);
+
+                if(result == 0)
+                    result = PatternId.CompareTo(src.PatternId);
+
                 if(result == 0)
                     result = Index.CompareTo(src.Index);
+
                 return result;
             }
 
