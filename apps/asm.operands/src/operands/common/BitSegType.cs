@@ -4,16 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct BitSegInfo
+    public readonly struct BitSegType
     {
         readonly uint Data;
 
         [MethodImpl(Inline)]
-        public static BitSegInfo define(NativeClass @class, ushort total, ushort cell)
-            => new BitSegInfo(@class, total, cell == 0 ? (ushort)1 : cell);
+        public static BitSegType define(NativeClass @class, ushort total, ushort cell)
+            => new BitSegType(@class, total, cell == 0 ? (ushort)1 : cell);
 
         [MethodImpl(Inline)]
-        internal BitSegInfo(NativeClass @class, ushort total, ushort cell)
+        internal BitSegType(NativeClass @class, ushort total, ushort cell)
         {
             var count = ((uint)total)/((uint)cell);
             Data = (uint)((uint)@class | ((uint)total << 3) | (count << 24));
@@ -55,7 +55,7 @@ namespace Z0
             get => IsEmpty ? 0 :  (NativeClass)(Data & 0b111);
         }
 
-        public static string format(BitSegInfo src)
+        public static string format(BitSegType src)
         {
             var dst = EmptyString;
             if(src.CellCount <= 1)
@@ -71,6 +71,6 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public static BitSegInfo Empty => default;
+        public static BitSegType Empty => default;
     }
 }

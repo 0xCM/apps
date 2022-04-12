@@ -18,7 +18,7 @@ namespace Z0
             var patterns = Xed.Rules.CalcInstPatterns();
             var patternLUa = patterns.Map(x => (x.PatternId, x)).ToDictionary();
             var patternLUb = patterns.Map(x => (x.PatternId, x.OcInst)).ToDictionary();
-            var opcodes = XedPatterns.opcodes(patterns);
+            var opcodes = XedOpCodes.opcodes(patterns);
             var counter = 0u;
             var countLU = dict<OcInstClass,byte>();
             var buffer = alloc<OpCodeCounts>(patterns.Count);

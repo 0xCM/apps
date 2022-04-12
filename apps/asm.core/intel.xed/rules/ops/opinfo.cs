@@ -11,28 +11,42 @@ namespace Z0
 
     partial class XedRules
     {
-        public static PatternOpInfo opinfo(in PatternOp src)
+        public static PatternOpInfo opinfo(MachineMode mode, in PatternOp src)
         {
+            var lookups = XedLookups.Service;
+
             var dst = PatternOpInfo.Empty;
             dst.Index = src.Index;
             dst.Kind = src.Kind;
             dst.Name = src.Name;
-
+            var wc = OpWidthCode.INVALID;
             ref readonly var attribs = ref src.Attribs;
             XedPatterns.nonterm(src, out dst.NonTerminal);
             XedPatterns.visibility(src, out dst.Visibility);
             XedPatterns.action(src, out dst.Action);
             XedPatterns.modifier(src, out dst.Modifier);
-            XedPatterns.widthcode(src, out dst.WidthCode);
+            if(XedPatterns.widthcode(src, out wc))
+            {
+                dst.WidthCode = wc;
+                var w = lookups.Width(wc, mode);
+                dst.BitWidth = w.Bits;
+                var wi = lookups.WidthInfo(wc);
+                dst.SegType = wi.Seg;
+                dst.CellType = wi.CellType;
+                dst.CellWidth = wi.CellWidth;
+            }
 
-            if(GprWidth.widths(dst.NonTerminal, out var gpr))
+            var gpr = GprWidth.Empty;
+            if(GprWidth.widths(dst.NonTerminal, out gpr))
                 dst.GprWidth = gpr;
+            else
+                dst.GprWidth = GprWidth.Empty;
 
             if(src.RegLiteral(out dst.RegLit))
                 dst.BitWidth = XedPatterns.bitwidth(dst.RegLit);
 
-            if(XedPatterns.etype(src, out dst.CellType))
-                dst.CellWidth = XedPatterns.bitwidth(dst.WidthCode, dst.CellType);
+            if(dst.BitWidth == 0 && gpr.IsNonEmpty && gpr.IsInvariant)
+                dst.BitWidth = (ushort)gpr.InvariantWidth.Width;
 
             return dst;
         }

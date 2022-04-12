@@ -23,7 +23,7 @@ namespace Z0
                 if(gpr.IsEmpty)
                     return new OpWidthSpec(0,gpr,ElementType.Empty,0,0,0);
 
-                if(gpr.Invariant)
+                if(gpr.IsInvariant)
                     return new OpWidthSpec(0,gpr,ElementType.Empty,(ushort)gpr[w16].Width,(ushort)gpr[w16].Width,1);
 
                 var w0 = (ushort)gpr[w16].Width;
@@ -69,7 +69,7 @@ namespace Z0
             public bool Invariant
             {
                 [MethodImpl(Inline)]
-                get => Gpr.Invariant;
+                get => Gpr.IsInvariant;
             }
 
             public ushort W0

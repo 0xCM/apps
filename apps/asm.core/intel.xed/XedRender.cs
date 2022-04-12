@@ -173,7 +173,7 @@ namespace Z0
             => src == 0 ? EmptyString : CategoryKinds.Format(src);
 
         public static string format(OpWidth src)
-            => src.Code != 0 ?  format(src.Code) : (src.Bits != 0 ? src.Bits.ToString() : src.Gpr.Format());
+            => src.Code != 0 ?  format(src.Code) : (src.Bits != 0 ? src.Bits.ToString() : EmptyString);
 
         public static string format(OpCodeIndex src, FormatCode fc = FormatCode.Expr)
             => format(OcKindIndex, src, fc);
@@ -209,7 +209,7 @@ namespace Z0
             => format(RepPrexixKinds, src, fc);
 
         public static string format(VexLengthKind src, FormatCode fc = FormatCode.Expr)
-            => fc == FormatCode.BitWidth ? XedRules.bitwidth(src).ToString() : format(VexLengthKinds,src,fc);
+            => fc == FormatCode.BitWidth ? XedPatterns.bitwidth(src).ToString() : format(VexLengthKinds,src,fc);
 
         public static string format(InstFieldClass src)
             => InstFieldClasses.Format(src);
@@ -572,7 +572,7 @@ namespace Z0
             => OpVis.Format(src);
 
         public static string format(OpCodeKind src)
-            => format(XedPatterns.ocindex(src));
+            => format(XedOpCodes.ocindex(src));
 
         public static string format(ImmSeg src)
             => src.IsEmpty ? EmptyString : string.Format("{0}[{1}]", "UIMM", src.Index, format(src.Spec));

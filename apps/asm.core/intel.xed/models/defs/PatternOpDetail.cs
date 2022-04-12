@@ -34,15 +34,17 @@ namespace Z0
 
             public OpWidthCode WidthCode;
 
+            public GprWidth GrpWidth;
+
             public ushort BitWidth;
 
-            public ElementType EType;
+            public ElementType ElementType;
 
-            public ushort EWidth;
+            public ushort ElementWidth;
 
-            public byte ECount;
+            public byte ElementCount;
 
-            public BitSegInfo SegInfo;
+            public BitSegType SegInfo;
 
             public Register RegLit;
 

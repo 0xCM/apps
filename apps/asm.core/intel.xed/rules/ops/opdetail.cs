@@ -23,7 +23,8 @@ namespace Z0
         {
             var lookups = XedLookups.Service;
             ref readonly var fields = ref pattern.Fields;
-            var info = opinfo(op);
+            var info = opinfo(pattern.Mode,op);
+            var wcode = info.WidthCode;
             var dst = PatternOpDetail.Empty;
             dst.InstId = pattern.InstId;
             dst.PatternId = op.PatternId;
@@ -35,19 +36,29 @@ namespace Z0
             dst.Name = info.Name;
             dst.Kind = info.Kind;
             dst.Action = info.Action;
-            dst.WidthCode = info.WidthCode;
-            dst.EType = info.CellType;
-            dst.EWidth = info.CellWidth;
+            dst.WidthCode = wcode;
+            dst.GrpWidth = info.GprWidth;
+            dst.ElementType = info.CellType;
+            dst.ElementWidth = info.CellWidth;
             dst.RegLit = info.RegLit;
             dst.Modifier = info.Modifier;
             dst.Visibility = info.Visibility;
             dst.NonTerminal = info.NonTerminal;
-            if(info.WidthCode !=0)
+            dst.BitWidth = info.BitWidth;
+            if(wcode !=0)
             {
-                dst.BitWidth = lookups.Width(info.WidthCode, pattern.Mode).Bits;
-                dst.SegInfo = lookups.WidthInfo(info.WidthCode).Seg;
-                dst.ECount = dst.SegInfo.CellCount;
+                var w = lookups.Width(wcode, pattern.Mode);
+                var wi = lookups.WidthInfo(wcode);
+                dst.SegInfo = wi.Seg;
+                dst.ElementCount = dst.SegInfo.CellCount;
             }
+            if(info.RegLit.IsNonEmpty && dst.BitWidth == 0)
+            {
+                var regop = XedRegMap.map(info.RegLit);
+                if(regop.IsNonEmpty)
+                    dst.BitWidth = (ushort)regop.Size.Width;
+            }
+
             var expr = op.SourceExpr.Value;
             Demand.lteq(op.SourceExpr.Format().Length,32);
             dst.SourceExpr = op.SourceExpr.Value;

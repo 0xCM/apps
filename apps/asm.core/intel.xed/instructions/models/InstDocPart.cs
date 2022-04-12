@@ -19,7 +19,7 @@ namespace Z0
             public InstDocPart(InstPattern src)
             {
                 Inst = src;
-                OcMap = XedPatterns.ocmap(src.OpCode.Kind);
+                OcMap = XedOpCodes.ocmap(src.OpCode.Kind);
             }
 
             public ref readonly Index<OpName> OpNames

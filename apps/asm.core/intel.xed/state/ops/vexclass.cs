@@ -7,12 +7,11 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
-    using static core;
 
     partial class XedState
     {
         [MethodImpl(Inline), Op]
         public static ref readonly VexClass vexclass(in RuleState src)
-            => ref @as<VexClass>(src.VEXVALID);
+            => ref XedOpCodes.vexclass(src);
     }
 }

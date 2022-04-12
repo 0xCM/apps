@@ -15,7 +15,7 @@ namespace Z0
         {
             public byte Index;
 
-            public OpNameKind Name;
+            public OpName Name;
 
             public OpKind Kind;
 
@@ -26,6 +26,8 @@ namespace Z0
             public GprWidth GprWidth;
 
             public ElementType CellType;
+
+            public BitSegType SegType;
 
             public ushort BitWidth;
 

@@ -50,6 +50,14 @@ namespace Z0
             public static implicit operator OpNameKind(OpName src)
                 => src.Kind;
 
+            [MethodImpl(Inline)]
+            public static explicit operator byte(OpName src)
+                => (byte)src.Kind;
+
+            [MethodImpl(Inline)]
+            public static explicit operator OpName(byte src)
+                => new OpName((OpNameKind)src);
+
             public static OpName Empty => default;
         }
     }

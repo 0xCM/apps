@@ -29,7 +29,7 @@ namespace Z0
 
             public static bool widths(Nonterminal src, out GprWidth dst)
             {
-                dst = default;
+                dst = GprWidth.Empty;;
                 var result = true;
                 switch(src.Kind)
                 {
@@ -56,22 +56,22 @@ namespace Z0
                         break;
                     case GPR8_R:
                         dst = widths(I.GPR8_R);
-                        break;
+                    break;
                     case GPR8_SB:
                         dst = widths(I.GPR8_SB);
-                        break;
+                    break;
                     case GPRv_B:
                         dst = widths(I.GPRv_B);
-                        break;
+                    break;
                     case GPRv_R:
                         dst = widths(I.GPRv_R);
-                        break;
+                    break;
                     case GPRv_SB:
                         dst = widths(I.GPRv_SB);
-                        break;
+                    break;
                     case GPRy_B:
                         dst = widths(I.GPRy_B);
-                        break;
+                    break;
                     case GPRy_R:
                         dst = widths(I.GPRy_R);
                         break;
@@ -95,10 +95,10 @@ namespace Z0
                         break;
                     case VGPR64_N:
                         dst = widths(I.VGPR64_N);
-                        break;
+                    break;
                     case VGPR64_R:
                         dst = widths(I.VGPR64_R);
-                        break;
+                    break;
                     case VGPRy_N:
                         dst = widths(I.VGPRy_N);
                     break;
@@ -176,20 +176,32 @@ namespace Z0
                 get => (NativeSizeCode)((byte)((Value >> 4) & uint2.Max));
             }
 
-            public bool Invariant
+            public bool IsInvariant
             {
                 [MethodImpl(Inline)]
                 get => this[w16].Width == this[w32].Width && this[w32].Width == this[w64].Width;
             }
 
+            public NativeSize InvariantWidth
+            {
+                [MethodImpl(Inline)]
+                get => this[w16];
+            }
+
             public byte Count
             {
                 [MethodImpl(Inline)]
-                get => (byte)(IsEmpty ? 0 : Invariant ? 1 : 3);
+                get => (byte)(IsEmpty ? 0 : IsInvariant ? 1 : 3);
             }
 
             public string Format()
-                => Invariant ? this[w32].Width.ToString() : string.Format("{0}/{1}/{2}", this[w16].Width, this[w32].Width, this[w64].Width);
+                => IsEmpty ? EmptyString:
+                   IsInvariant  ? this[w32].Width.ToString()
+                    : string.Format("{0}/{1}/{2}",
+                        this[w16].Width,
+                        this[w32].Width,
+                        this[w64].Width
+                    );
 
             public override string ToString()
                 => Format();

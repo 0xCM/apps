@@ -134,7 +134,7 @@ namespace Z0
                                             CellParser.parse(RuleMacros.expand(InstPatternBody.normalize(rawbody)), out spec.Body);
                                             spec.Mode = XedFields.mode(spec.Body.Fields);
                                             PatternOpParser.create(spec.Mode).Parse(spec.PatternId, opexpr, out spec.Ops);
-                                            spec.OpCode = XedFields.opcode(spec.Body.Fields);
+                                            spec.OpCode = XedOpCodes.opcode(spec.Body.Fields);
                                             spec.BodyExpr = spec.Body.Format();
                                             specs.Add(spec);
                                         }

@@ -61,8 +61,8 @@ namespace Z0
 
                 var cells = XedDisasm.update(lines, ref state);
 
-                var ocindex = XedState.ocindex(state);
-                var ockind = XedPatterns.ockind(ocindex);
+                var ocindex = XedOpCodes.ocindex(state);
+                var ockind = XedOpCodes.ockind(ocindex);
                 var encoding  = XedState.encoding(state, asmhex);
                 var ocbyte = XedState.ocbyte(state);
                 var ochex = XedRender.format((Hex8)ocbyte);
@@ -203,10 +203,10 @@ namespace Z0
                     }
                 }
 
-                var vc = XedState.vexclass(state);
+                var vc = XedOpCodes.vexclass(state);
                 if(vc != 0)
                 {
-                    var vk = XedState.vexkind(state);
+                    var vk = XedOpCodes.vexkind(state);
                     var vex5 = BitNumbers.join((uint3)state.VEXDEST210, state.VEXDEST4, state.VEXDEST3);
                     var vexBits = string.Format("[{0} {1} {2}]", state.VEXDEST4, state.VEXDEST3, (uint3)state.VEXDEST210);
                     var vexHex = XedRender.format((Hex8)(byte)vex5);

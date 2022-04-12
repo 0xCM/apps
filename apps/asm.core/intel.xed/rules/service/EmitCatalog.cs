@@ -81,7 +81,7 @@ namespace Z0
             => TableEmit(XedFields.Specs.View, RuleFieldSpec.RenderWidths, XedPaths.Table<RuleFieldSpec>());
 
         void EmitOpCodes(Index<InstPattern> src)
-            => TableEmit(XedPatterns.poc(src).View, PatternOpCode.RenderWidths, XedPaths.Table<PatternOpCode>());
+            => TableEmit(XedOpCodes.poc(src).View, PatternOpCode.RenderWidths, XedPaths.Table<PatternOpCode>());
 
         void EmitInstFields(Index<InstPattern> src)
             => TableEmit(XedPatterns.fieldrows(src).View, InstFieldRow.RenderWidths, XedPaths.Table<InstFieldRow>());

@@ -29,15 +29,16 @@ namespace Z0
                 dst.Kind = src.Kind;
                 dst.Action = src.Action;
                 dst.WidthCode = src.WidthCode;
-                dst.EType = src.EType;
-                dst.EWidth = src.EWidth;
+                dst.EType = src.ElementType;
+                dst.EWidth = src.ElementWidth;
                 dst.RegLit = src.RegLit;
                 dst.Modifier = src.Modifier;
                 dst.Visibility = src.Visibility;
                 dst.NonTerminal = src.NonTerminal;
                 dst.BitWidth = src.BitWidth;
+                dst.GprWidth = src.GrpWidth;
                 dst.SegInfo = src.SegInfo;
-                dst.ECount = src.ECount;
+                dst.ECount = src.ElementCount;
                 dst.SourceExpr = src.SourceExpr;
             }
             return rows;

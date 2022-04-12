@@ -46,7 +46,7 @@ namespace Z0
             public OpCodeClass Class
             {
                 [MethodImpl(Inline)]
-                get => XedPatterns.occlass(Kind);
+                get => XedOpCodes.occlass(Kind);
             }
 
             public Hash32 Hash
@@ -68,10 +68,10 @@ namespace Z0
             }
 
             public asci2 Symbol
-                => XedPatterns.symbol(Kind);
+                => XedOpCodes.symbol(Kind);
 
             public asci4 Selector
-                => XedPatterns.selector(Kind);
+                => XedOpCodes.selector(Kind);
 
             public asci8 MapSpec
                 => string.Format("{0}:{1}", Symbol, Selector);

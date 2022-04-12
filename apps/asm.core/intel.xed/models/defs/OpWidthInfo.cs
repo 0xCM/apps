@@ -22,7 +22,7 @@ namespace Z0
 
             public ushort CellWidth;
 
-            public BitSegInfo Seg;
+            public BitSegType Seg;
 
             public ushort Width64;
 
