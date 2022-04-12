@@ -507,7 +507,7 @@ namespace Z0
                     else if(XedParsers.IsHexLiteral(data))
                         dst = CK.HexLiteral;
                     else if(XedParsers.IsBinaryLiteral(data))
-                        dst = CK.BinaryLiteral;
+                        dst = CK.BitLiteral;
                     else if(IsImpl(input))
                         dst = CK.Operator;
                     else if(IsSeg(input))
@@ -605,15 +605,6 @@ namespace Z0
                 }
                 return result;
             }
-
-            // static bool spec(string src, out CellExpr dst)
-            // {
-            //     var result = false;
-            //     var spec = SegVars.find(src);
-            //     dst = new CellExpr(OperatorKind.None, new CellValue(spec));
-            //     result = spec.IsNonEmpty;
-            //     return result;
-            // }
 
             static bool spec(FieldKind field, string src, out CellExpr dst)
             {

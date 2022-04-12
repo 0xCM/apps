@@ -18,6 +18,7 @@ namespace Z0
     {
         public readonly struct CellRender
         {
+
             public static string format(in CellType src)
             {
                 var dst = EmptyString;
@@ -28,9 +29,8 @@ namespace Z0
                     break;
                     case CK.Keyword:
                     case CK.HexLiteral:
-                    case CK.BinaryLiteral:
+                    case CK.BitLiteral:
                     case CK.IntLiteral:
-                    case CK.Char:
                     case CK.String:
                         dst = src.Class.Kind.ToString();
                     break;

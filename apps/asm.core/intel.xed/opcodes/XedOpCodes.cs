@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using static XedRules;
 
     public partial class XedOpCodes : AppService<XedOpCodes>

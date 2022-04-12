@@ -17,18 +17,5 @@ namespace Z0
                 dst = dst.Include(src[j].FieldKind);
             return dst;
         }
-
-        [MethodImpl(Inline), Op]
-        public static FieldSet usage(in InstFields src, InstFieldClass @class)
-        {
-            var dst = FieldSet.create();
-            for(var j=0; j<src.Count; j++)
-            {
-                ref readonly var field = ref src[j];
-                if(field.DataClass.Test(@class))
-                    dst = dst.Include(src[j].FieldKind);
-            }
-            return dst;
-        }
     }
 }

@@ -66,11 +66,11 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, ulong data)
+            public CellValue(FieldKind kind, ulong data, RuleCellKind ck = 0)
             {
                 Field = kind;
                 Data = data;
-                CellKind = 0;
+                CellKind = ck;
             }
 
             [MethodImpl(Inline)]
@@ -284,10 +284,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator Nonterminal(CellValue src)
                 => src.ToNonterminal();
-
-            // [MethodImpl(Inline)]
-            // public static implicit operator SegVar(CellValue src)
-            //     => src.ToSegVar();
 
             [MethodImpl(Inline)]
             public static implicit operator bit(CellValue src)

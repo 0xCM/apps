@@ -19,7 +19,7 @@ namespace Z0
                 ref readonly var f = ref src[i];
                 if(f.DataKind == InstFieldKind.Expr && f.FieldKind == FieldKind.CHIP)
                 {
-                    dst = f.AsFieldExpr().Value;
+                    dst = f.ToFieldExpr().Value;
                     break;
                 }
             }

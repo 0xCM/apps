@@ -46,7 +46,7 @@ namespace Z0
             public bool IsBinLit
             {
                 [MethodImpl(Inline)]
-                get => Kind == CK.BinaryLiteral;
+                get => Kind == CK.BitLiteral;
             }
 
             public bool IsHexLit
@@ -98,11 +98,7 @@ namespace Z0
             }
 
             public string Format()
-            {
-                var dst = Kind.ToString();
-
-                return dst;
-            }
+                => Kind.ToString();
 
             public override int GetHashCode()
                 => (int)Kind;

@@ -34,7 +34,7 @@ namespace Z0
             dst.Mode = pattern.Mode;
             dst.Lock = XedFields.@lock(pattern.Fields);
             dst.Index = index;
-            dst.FieldClass = src.DataKind;
+            dst.FieldClass = src.FieldClass;
             dst.FieldKind = src.FieldKind;
             dst.InstClass = pattern.InstClass.Classifier;
             dst.OpCode = pattern.OpCode;
@@ -47,7 +47,7 @@ namespace Z0
                     dst.BitLiteral = src.AsBitLit();
                 break;
                 case InstFieldKind.Expr:
-                    dst.FieldExpr = src.AsFieldExpr();
+                    dst.FieldExpr = src.ToFieldExpr();
                     if(dst.FieldExpr.IsNonTerminal)
                         dst.Nonterminal = dst.FieldExpr.Value.ToNonterminal();
                 break;

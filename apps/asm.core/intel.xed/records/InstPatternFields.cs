@@ -28,7 +28,7 @@ namespace Z0
 
             public byte Index;
 
-            public InstFieldKind FieldClass;
+            public CellClass FieldClass;
 
             public EmptyZero<FieldKind> FieldKind;
 
@@ -44,7 +44,7 @@ namespace Z0
 
             public EmptyZero<uint5> BitLiteral;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,8,8,26,8,8,12,16,16,22,22,12,12,};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,26,8,8,12,12,26,16,16,22,22,12,12,};
 
             public static InstPatternFields Empty => default;
         }

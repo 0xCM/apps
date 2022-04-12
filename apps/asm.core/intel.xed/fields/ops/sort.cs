@@ -32,9 +32,9 @@ namespace Z0
             {
                 ref var field = ref data[i];
                 if(field.IsFieldExpr)
-                    field = field.WithIndex(eIx++);
+                    field = field.WithPosition(eIx++);
                 else
-                    field = field.WithIndex(lIx++);
+                    field = field.WithPosition(lIx++);
             }
 
             return new InstFields(data.Sort(), lCount);

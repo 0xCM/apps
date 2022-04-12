@@ -20,7 +20,7 @@ namespace Z0
                 ref readonly var field = ref src[i];
                 if(field.FieldKind == FieldKind.MOD && field.IsFieldExpr)
                 {
-                    var expr = field.AsFieldExpr();
+                    var expr = field.ToFieldExpr();
                     if(expr.Operator == OperatorKind.Neq)
                     {
                         dst = ModIndicator.NE3;

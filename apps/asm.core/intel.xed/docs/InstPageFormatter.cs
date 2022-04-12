@@ -175,7 +175,7 @@ namespace Z0
                         switch(field.DataKind)
                         {
                             case InstFieldKind.Expr:
-                                seek(dst,j) = string.Format(Pattern, j, fk, field.AsFieldExpr());
+                                seek(dst,j) = string.Format(Pattern, j, fk, field.ToFieldExpr());
                                 break;
                             case InstFieldKind.Nonterm:
                             {

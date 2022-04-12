@@ -19,7 +19,7 @@ namespace Z0
                 ref readonly var field = ref src[i];
                 if(field.FieldKind == FieldKind.REP)
                 {
-                    dst = field.AsFieldExpr().Value;
+                    dst = field.ToFieldExpr().Value;
                     break;
                 }
             }

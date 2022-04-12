@@ -20,9 +20,9 @@ namespace Z0
             {
                 ref readonly var part = ref src[i];
                 if(part.IsFieldExpr && part.FieldKind == FieldKind.VEXVALID)
-                    vc = (VexClass)part.AsFieldExpr().Value;
+                    vc = (VexClass)part.ToFieldExpr().Value;
                 if(part.IsFieldExpr && part.FieldKind == FieldKind.MAP)
-                    number = part.AsFieldExpr().Value;
+                    number = part.ToFieldExpr().Value;
             }
 
             switch(vc)

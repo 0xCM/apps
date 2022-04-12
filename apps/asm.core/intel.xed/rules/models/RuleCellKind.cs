@@ -11,13 +11,11 @@ namespace Z0
         {
             None = 0,
 
-            BinaryLiteral,
+            BitLiteral,
 
             IntLiteral,
 
             HexLiteral,
-
-            Char,
 
             String,
 

@@ -135,7 +135,6 @@ namespace Z0
                                             spec.Mode = XedFields.mode(spec.Body.Fields);
                                             PatternOpParser.create(spec.Mode).Parse(spec.PatternId, opexpr, out spec.Ops);
                                             spec.OpCode = XedOpCodes.opcode(spec.Body.Fields);
-                                            spec.BodyExpr = spec.Body.Format();
                                             specs.Add(spec);
                                         }
                                         break;
@@ -174,11 +173,8 @@ namespace Z0
                 for(var i=0u; i<_specs.Length; i++)
                 {
                     ref var spec = ref _specs[i];
-                    //forms.TryGetValue(spec.PatternId, out spec.InstForm);
-                    //spec.PatternId = i;
                     spec.Ops = new (spec.PatternId, spec.Ops);
                 }
-
 
                 return defs;
             }

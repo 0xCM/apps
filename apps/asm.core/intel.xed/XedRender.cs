@@ -589,26 +589,26 @@ namespace Z0
         public static string format(in InstField src)
         {
             var dst = EmptyString;
-            var @class = src.DataKind;
+            var @class = src.FieldClass.Kind;
+            if(src.IsFieldExpr)
+                return src.ToFieldExpr().Format();
+
             switch(@class)
             {
-                case InstFieldKind.HexLiteral:
+                case RuleCellKind.HexLiteral:
                     dst = format(src.AsHexLit());
                 break;
-                case InstFieldKind.IntLiteral:
+                case RuleCellKind.IntLiteral:
                     dst = src.AsIntLit().ToString();
                 break;
-                case InstFieldKind.Seg:
+                case RuleCellKind.SegField:
                     dst = src.AsSegField().Format();
                 break;
-                case InstFieldKind.BitLiteral:
+                case RuleCellKind.BitLiteral:
                     dst = format5(src.AsBitLit());
                 break;
-                case InstFieldKind.Nonterm:
+                case RuleCellKind.Nonterm:
                     dst = format(src.AsNonterminal());
-                break;
-                case InstFieldKind.Expr:
-                    dst = format(src.AsFieldExpr());
                 break;
                 default:
                     Errors.Throw(string.Format("Unknown Part:{0} | {1}", @class, bytes(src).FormatHex()));

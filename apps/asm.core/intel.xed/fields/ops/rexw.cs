@@ -19,7 +19,7 @@ namespace Z0
                 ref readonly var f = ref src[i];
                 if(f.DataKind == InstFieldKind.Expr && f.FieldKind == FieldKind.REXW)
                 {
-                    dst = new (RexIndicator.W,f.AsFieldExpr().Value);
+                    dst = new (RexIndicator.W,f.ToFieldExpr().Value);
                     break;
                 }
             }

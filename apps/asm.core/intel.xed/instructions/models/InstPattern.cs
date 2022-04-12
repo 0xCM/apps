@@ -66,10 +66,10 @@ namespace Z0
                 get => ref Spec.OpCode;
             }
 
-            public ref readonly TextBlock BodyExpr
+            public TextBlock BodyExpr
             {
                 [MethodImpl(Inline)]
-                get => ref Spec.BodyExpr;
+                get => Spec.Body.Format();
             }
 
             public ref readonly TextBlock RawBody
