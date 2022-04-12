@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using static XedSeq.SeqEffect;
     using static XedSeq.SeqKind;
     using static XedSeq.SeqStepKind;
