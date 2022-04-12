@@ -7,9 +7,8 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
-    using static XedFields;
 
-    partial class XedPatterns
+    partial class XedFields
     {
         [MethodImpl(Inline), Op]
         public static RexBit rexr(in InstFields src)

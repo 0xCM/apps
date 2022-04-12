@@ -7,20 +7,19 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
-    using static XedFields;
 
-    partial class XedPatterns
+    partial class XedFields
     {
         [MethodImpl(Inline), Op]
-        public static RexBit rexb(in InstFields src)
+        public static RexBit rexw(in InstFields src)
         {
             var dst = RexBit.Empty;
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var f = ref src[i];
-                if(f.DataKind == InstFieldKind.Expr && f.FieldKind == FieldKind.REXB)
+                if(f.DataKind == InstFieldKind.Expr && f.FieldKind == FieldKind.REXW)
                 {
-                    dst = new (RexIndicator.B, f.AsFieldExpr().Value);
+                    dst = new (RexIndicator.W,f.AsFieldExpr().Value);
                     break;
                 }
             }

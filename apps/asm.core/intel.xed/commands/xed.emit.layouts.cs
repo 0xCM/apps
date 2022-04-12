@@ -28,25 +28,10 @@ namespace Z0
         {
             var inst = CalcInstSegs();
             iter(inst, x => Write(x));
-            var rules = CalcRuleSegs();
+            //var rules = CalcRuleSegs();
             return true;
         }
 
-        Index<SegField> CalcRuleSegs()
-        {
-            var segs = hashset<SegField>();
-            var rules = Xed.Rules.CalcRules();
-            var tables = rules.TableSpecs().Select(x => (x.TableId, x)).ToDictionary();
-            var cells = rules.CalcCellLookup();
-            var keys = cells.Keys;
-            for(var i=0; i<keys.Length; i++)
-            {
-                ref readonly var key = ref skip(keys,i);
-                var cell = cells[key];
-                var table = tables[key.TableId];
-            }
-            return segs.Array().Sort();
-        }
 
         Index<SegField> CalcInstSegs()
         {

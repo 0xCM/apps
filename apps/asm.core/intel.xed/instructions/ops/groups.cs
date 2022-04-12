@@ -80,7 +80,7 @@ namespace Z0
                     OpCode = opcode,
                     Mode = pattern.Mode,
                     Mod = XedFields.mod(fields),
-                    RexW = rexw(fields)
+                    RexW = XedFields.rexw(fields)
                     };
 
                 seek(dst,i) = new (seq,pattern);

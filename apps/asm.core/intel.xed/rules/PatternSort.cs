@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedPatterns;
     using static XedModels;
     using static core;
 
@@ -41,7 +40,7 @@ namespace Z0
                 @as<bit>(seek(data.Bytes,LockValueOffset)) = src.LockState.Locked;
                 @as<MachineMode>(seek(data.Bytes, ModeOffset)) = src.Mode;
                 @as<ModKind>(seek(data.Bytes, ModOffset)) = XedFields.mod(fields);
-                @as<RexBit>(seek(data.Bytes, RexWOffset)) = XedPatterns.rexw(fields);
+                @as<RexBit>(seek(data.Bytes, RexWOffset)) = XedFields.rexw(fields);
                 Data = data;
             }
 
@@ -57,7 +56,7 @@ namespace Z0
                 @as<bit>(seek(data.Bytes, LockValueOffset)) = @lock.Locked;
                 @as<MachineMode>(seek(data.Bytes, ModeOffset)) = src.Mode;
                 @as<ModKind>(seek(data.Bytes, ModOffset)) = XedFields.mod(fields);
-                @as<RexBit>(seek(data.Bytes, RexWOffset)) = XedPatterns.rexw(fields);
+                @as<RexBit>(seek(data.Bytes, RexWOffset)) = XedFields.rexw(fields);
                 Data = data;
             }
 
@@ -73,7 +72,7 @@ namespace Z0
                 @as<bit>(seek(data.Bytes, LockValueOffset)) = @lock.Locked;
                 @as<MachineMode>(seek(data.Bytes, ModeOffset)) = src.Mode;
                 @as<ModKind>(seek(data.Bytes, ModOffset)) = XedFields.mod(fields);
-                @as<RexBit>(seek(data.Bytes, RexWOffset)) = XedPatterns.rexw(fields);
+                @as<RexBit>(seek(data.Bytes, RexWOffset)) = XedFields.rexw(fields);
                 Data = data;
             }
 

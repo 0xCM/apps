@@ -83,6 +83,12 @@ namespace Z0
                 return path;
             }
 
+            SortedLookup<ushort,Index<CellRows>> CellRowLookup;
+
+            [MethodImpl(Inline)]
+            public ref readonly SortedLookup<ushort,Index<CellRows>> RowLookup()
+                => ref CellRowLookup;
+
             Buffers Data = Buffers.Empty;
 
             public RuleTables()
@@ -90,81 +96,15 @@ namespace Z0
 
             }
 
-            public SortedLookup<ushort,Index<CellRows>> CalcRowLookup()
-            {
-                var src = TableSpecs();
-                var dst = dict<ushort,Index<CellRows>>();
-                for(var i=0; i<src.Count; i++)
-                {
-                    ref readonly var table = ref src[i];
-                    var tid = (ushort)table.TableId;
-                    var tk = table.TableKind;
-                    var rows = alloc<CellRows>(table.RowCount);
-                    for(ushort j=0; j<table.RowCount; j++)
-                    {
-                        ref readonly var row = ref table[j];
-                        ref readonly var a = ref row.Antecedant;
-                        ref readonly var c = ref row.Consequent;
-                        var count = a.Count + 1 + c.Count;
-                        var keys = alloc<CellKey>(count);
-                        var cells = alloc<CellSpec>(count);
-                        var m=z8;
-                        for(var k=0; k<a.Count; k++,m++)
-                        {
-                            seek(keys, m) = new CellKey(tk, tid, j, LogicKind.Antecedant, m);
-                            seek(cells, m) = a[k];
-                        }
-
-                        {
-                            seek(keys, m) = new CellKey(tk, tid, j, LogicKind.Antecedant, m);
-                            seek(cells, m) = new XedRules.CellSpec(OperatorKind.Impl);
-                            m++;
-                        }
-
-                        for(var k=0; k<c.Count; k++,m++)
-                        {
-                            seek(keys, m) = new CellKey(tk, tid, j, LogicKind.Consequent, m);
-                            seek(cells, m) = c[k];
-                        }
-                        seek(rows,j) = new CellRows(tk, tid, j, keys, cells);
-
-                    }
-                    dst.Add(tid, rows);
-                }
-
-                return dst;
-            }
-
-            public SortedLookup<CellKey,CellSpec> CalcCellLookup()
-            {
-                var specs = TableSpecs();
-                var dst = dict<CellKey,CellSpec>();
-                for(var i=0; i<specs.Count; i++)
-                {
-                    ref readonly var spec = ref specs[i];
-                    for(ushort j=0; j<spec.RowCount; j++)
-                    {
-                        ref readonly var row = ref spec[j];
-                        ref readonly var a = ref row.Antecedant;
-                        ref readonly var c = ref row.Consequent;
-                        var m=z8;
-                        for(var k=0; k<a.Count; k++,m++)
-                            dst.Add(new CellKey(spec.TableKind, spec.TableId, j, LogicKind.Antecedant, m), a[k]);
-
-                        dst.Add(new CellKey(spec.TableKind, spec.TableId, j, LogicKind.Antecedant, m++), new XedRules.CellSpec(OperatorKind.Impl));
-
-                        for(var k=0; k<c.Count; k++,m++)
-                            dst.Add(new CellKey(spec.TableKind, spec.TableId, j, LogicKind.Consequent, m), c[k]);
-                    }
-                }
-                return dst;
-            }
-
             internal RuleTables Seal(Buffers src, bool pll)
             {
                 Data = src;
-                SealTableSpecs();
-                exec(pll, SealTableDefs, SealPaths);
+                var specs = SealTableSpecs();
+                exec(pll,
+                    SealTableDefs,
+                    SealPaths,
+                    () => CellRowLookup = CalcRowLookup(specs)
+                    );
                 return this;
             }
 
@@ -181,7 +121,7 @@ namespace Z0
                 TablePaths = paths;
             }
 
-            void SealTableSpecs()
+            Index<TableSpec> SealTableSpecs()
             {
                 var enc = Data.Specs[RuleTableKind.Enc];
                 var dec = Data.Specs[RuleTableKind.Dec];
@@ -204,6 +144,7 @@ namespace Z0
                 _DecTableSpecs = dec;
                 _TableSpecs = specs;
                 _TableSpecLookup = specs.Map(x => (x.Sig,x)).ToDictionary();
+                return specs;
             }
 
             void SealTableDefs()

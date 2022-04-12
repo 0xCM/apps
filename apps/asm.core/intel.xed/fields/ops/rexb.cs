@@ -5,22 +5,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
     using static XedModels;
-    using static XedFields;
+    using static XedRules;
 
-    partial class XedPatterns
+    partial class XedFields
     {
         [MethodImpl(Inline), Op]
-        public static RepPrefix @rep(in InstFields src)
+        public static RexBit rexb(in InstFields src)
         {
-            var dst = RepPrefix.None;
+            var dst = RexBit.Empty;
             for(var i=0; i<src.Count; i++)
             {
-                ref readonly var field = ref src[i];
-                if(field.FieldKind == FieldKind.REP)
+                ref readonly var f = ref src[i];
+                if(f.DataKind == InstFieldKind.Expr && f.FieldKind == FieldKind.REXB)
                 {
-                    dst = field.AsFieldExpr().Value;
+                    dst = new (RexIndicator.B, f.AsFieldExpr().Value);
                     break;
                 }
             }

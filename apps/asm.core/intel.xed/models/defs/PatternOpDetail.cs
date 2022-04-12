@@ -5,19 +5,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
+    using static XedPatterns;
     using static XedModels;
 
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableName)]
-        public record struct PatternOpRow : IComparable<PatternOpRow>
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
+        public record struct PatternOpDetail : IComparable<PatternOpDetail>
         {
-            public const byte FieldCount = 21;
-
-            public const string TableName = "xed.inst.patterns.ops";
-
             public uint InstId;
 
             public uint PatternId;
@@ -36,21 +31,21 @@ namespace Z0
 
             public OpKind Kind;
 
-            public EnumFormat<OpAction> Action;
+            public OpAction Action;
 
-            public EnumFormat<OpWidthCode> WidthCode;
+            public OpWidthCode WidthCode;
 
-            public EmptyZero<ushort> BitWidth;
+            public ushort BitWidth;
 
             public ElementType EType;
 
-            public EmptyZero<ushort> EWidth;
+            public ushort EWidth;
 
-            public EmptyZero<byte> ECount;
+            public byte ECount;
 
             public BitSegInfo SegInfo;
 
-            public EmptyZero<Register> RegLit;
+            public Register RegLit;
 
             public OpModifier Modifier;
 
@@ -60,7 +55,7 @@ namespace Z0
 
             public asci32 SourceExpr;
 
-            public int CompareTo(PatternOpRow src)
+            public int CompareTo(PatternOpDetail src)
             {
                 var result = InstId.CompareTo(src.InstId);
                 if(result == 0)
@@ -72,9 +67,7 @@ namespace Z0
                 return result;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,18,6,6,28,6,8,8,8,10,10,10,6,6,12,12,8,12,16,1,};
-
-            public static PatternOpRow Empty => default;
+            public static PatternOpDetail Empty => default;
         }
     }
 }
