@@ -565,11 +565,11 @@ namespace Z0
                 }
             }
 
-            public static bool parse(string src, out RowSpec dst)
+            public static bool parse(string src, out RowCriteria dst)
             {
                 var input = normalize(src);
                 var i = text.index(input,"=>");
-                dst = RowSpec.Empty;
+                dst = RowCriteria.Empty;
                 if(i > 0)
                 {
                     var left = text.trim(text.left(input, i));
@@ -577,10 +577,10 @@ namespace Z0
                     var right = text.trim(text.right(input, i+1));
                     var consequent = text.nonempty(right) ? cells(right) : Index<CellSpec>.Empty;
                     if(premise.Count != 0 || consequent.Count != 0)
-                        dst = new RowSpec(premise, consequent);
+                        dst = new RowCriteria(premise, consequent);
                 }
                 else
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(RowSpec), src));
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(RowCriteria), src));
 
                 return dst.IsNonEmpty;
             }

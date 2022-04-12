@@ -10,9 +10,9 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableName)]
-        public record struct PatternOpRow : IComparable<PatternOpRow>
+        public record struct PatternOpRow
         {
-            public const byte FieldCount = 21;
+            public const byte FieldCount = 22;
 
             public const string TableName = "xed.inst.patterns.ops";
 
@@ -25,6 +25,8 @@ namespace Z0
             public InstLock Lock;
 
             public XedOpCode OpCode;
+
+            public byte OpCount;
 
             public byte Index;
 
@@ -58,21 +60,9 @@ namespace Z0
 
             public asci32 SourceExpr;
 
-            public int CompareTo(PatternOpRow src)
-            {
-                var result = InstClass.CompareTo(src.InstClass);
-                if(result == 0)
-                {
-                    result = PatternId.CompareTo(src.PatternId);
-                    if(result == 0)
-                        result = Index.CompareTo(src.Index);
-                }
-                return result;
-            }
-
             public static PatternOpRow Empty => default;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,6,6,28,6,8,8,8,10,10,10,10,6,6,12,12,8,12,16,1,};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,6,6,28,10,10,8,8,8,10,10,10,10,6,6,12,12,8,12,16,1,};
         }
     }
 }

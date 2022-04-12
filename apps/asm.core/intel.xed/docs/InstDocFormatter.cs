@@ -126,7 +126,7 @@ namespace Z0
                 dst.AppendLine();
             }
 
-            void RenderTable(in TableSpec src, ITextBuffer dst)
+            void RenderTable(in TableCriteria src, ITextBuffer dst)
             {
                 dst.AppendLine(TableHeader(src.Sig));
                 dst.AppendLine();

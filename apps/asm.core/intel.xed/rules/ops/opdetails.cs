@@ -17,8 +17,9 @@ namespace Z0
             {
                 ref readonly var pattern = ref src[i];
                 ref readonly var ops = ref pattern.Ops;
-                for(var j=0; j<ops.Count; j++)
-                    buffer.Add(opdetail(pattern, ops[j]));
+                var count = (byte)ops.Count;
+                for(var j=0; j<count; j++)
+                    buffer.Add(opdetail(pattern, count, ops[j]));
             }
 
             return buffer.ToArray().Sort(new PatternOrder());

@@ -14,16 +14,12 @@ namespace Z0
             EmitPatternOps(tables, patterns);
 
             exec(PllExec,
-                () => EmitTableDefs(tables),
                 () => EmitTableSigs(tables.SigRows),
                 () => EmitRuleSeq(),
                 () => EmitTableSpecs(tables),
                 () => EmitTableFiles(tables)
             );
         }
-
-        void EmitTableDefs(RuleTables rules)
-            => TableEmit(rules.DefRows().View, TableDefRow.RenderWidths, TextEncodingKind.Asci, XedPaths.RuleTable<TableDefRow>());
 
         void EmitTableSigs(Index<RuleSigRow> src)
             => TableEmit(src.View, RuleSigRow.RenderWidths, XedPaths.Service.RuleTable<RuleSigRow>());

@@ -15,8 +15,8 @@ namespace Z0
             var tables = new RuleTables();
             var buffers = tables.CreateBuffers();
             exec(PllExec,
-                () => buffers.Specs.TryAdd(RuleTableKind.Enc, specs(RuleTableKind.Enc)),
-                () => buffers.Specs.TryAdd(RuleTableKind.Dec, specs(RuleTableKind.Dec))
+                () => buffers.Specs.TryAdd(RuleTableKind.Enc, criteria(RuleTableKind.Enc)),
+                () => buffers.Specs.TryAdd(RuleTableKind.Dec, criteria(RuleTableKind.Dec))
                 );
 
             return tables.Seal(buffers, PllExec);

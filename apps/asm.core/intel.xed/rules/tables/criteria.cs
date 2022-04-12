@@ -11,17 +11,17 @@ namespace Z0
     {
         partial struct TableCalcs
         {
-            public static Index<TableSpec> specs(RuleTableKind kind)
-                => specs(XedPaths.Service.RuleSource(kind));
+            public static Index<TableCriteria> criteria(RuleTableKind kind)
+                => criteria(XedPaths.Service.RuleSource(kind));
 
-            public static Index<TableSpec> specs(FS.FilePath src)
+            public static Index<TableCriteria> criteria(FS.FilePath src)
             {
                 var skip = hashset("XED_RESET");
                 using var reader = src.Utf8LineReader();
                 var counter = 0u;
-                var dst = list<TableSpec>();
+                var dst = list<TableCriteria>();
                 var tkind = XedPaths.tablekind(src.FileName);
-                var statements =list<RowSpec>();
+                var statements =list<RowCriteria>();
                 var name = EmptyString;
                 while(reader.Next(out var line))
                 {
@@ -59,7 +59,7 @@ namespace Z0
                     }
                     else
                     {
-                        if(CellParser.parse(content, out RowSpec s))
+                        if(CellParser.parse(content, out RowCriteria s))
                             statements.Add(s);
                     }
                 }

@@ -13,13 +13,14 @@ namespace Z0
         public static Index<PatternOpDetail> opdetails(InstPattern src)
         {
             ref readonly var ops = ref src.Ops;
-            var dst = alloc<PatternOpDetail>(ops.Count);
-            for(var j=0; j<ops.Count; j++)
-                seek(dst,j) = opdetail(src, ops[j]);
+            var count = (byte)ops.Count;
+            var dst = alloc<PatternOpDetail>(count);
+            for(var j=0; j<count; j++)
+                seek(dst,j) = opdetail(src, count, ops[j]);
             return dst;
         }
 
-        public static PatternOpDetail opdetail(InstPattern pattern, in PatternOp op)
+        public static PatternOpDetail opdetail(InstPattern pattern, byte opcount, in PatternOp op)
         {
             var lookups = XedLookups.Service;
             ref readonly var fields = ref pattern.Fields;
@@ -34,6 +35,7 @@ namespace Z0
             dst.Mod = XedFields.mod(fields);
             dst.RexW = XedFields.rexw(fields);
 
+            dst.OpCount = opcount;
             dst.Index = info.Index;
             dst.Name = info.Name;
             dst.Kind = info.Kind;

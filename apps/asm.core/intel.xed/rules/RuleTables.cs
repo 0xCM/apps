@@ -5,8 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
     using static core;
+    using static XedModels;
 
     partial class XedRules
     {
@@ -14,7 +14,7 @@ namespace Z0
         {
             internal class Buffers
             {
-                public readonly ConcurrentDictionary<RuleTableKind,Index<TableSpec>> Specs = new();
+                public readonly ConcurrentDictionary<RuleTableKind,Index<TableCriteria>> Specs = new();
 
                 public static Buffers Empty => new();
             }
@@ -38,39 +38,31 @@ namespace Z0
             public bool IsTableDefind(in RuleSig src)
                 => SigSet.Contains(src);
 
-            Index<TableSpec> _EncTableSpecs;
+            Index<TableCriteria> _EncTableSpecs;
+
+            Index<TableCriteria> _DecTableSpecs;
+
+            Index<TableCriteria> _TableSpecs;
 
             [MethodImpl(Inline)]
-            public ref readonly Index<TableSpec> EncTableSpecs()
-                => ref _EncTableSpecs;
-
-            Index<TableSpec> _DecTableSpecs;
-
-            [MethodImpl(Inline)]
-            public ref readonly Index<TableSpec> DecTableSpecs()
-                => ref _DecTableSpecs;
-
-            Index<TableSpec> _TableSpecs;
-
-            [MethodImpl(Inline)]
-            public ref readonly Index<TableSpec> TableSpecs()
+            public ref readonly Index<TableCriteria> TableSpecs()
                 => ref _TableSpecs;
 
-            SortedLookup<RuleSig,TableSpec> _TableSpecLookup;
+            SortedLookup<RuleSig,TableCriteria> _TableSpecLookup;
 
-            public TableSpec TableSpec(in RuleSig sig)
+            public TableCriteria TableSpec(in RuleSig sig)
             {
                 if(_TableSpecLookup.Find(sig,out var spec))
                     return spec;
                 else
-                    return XedRules.TableSpec.Empty;
+                    return XedRules.TableCriteria.Empty;
             }
 
-            Index<TableDefRow> DefRowIndex;
+            //Index<TableDefRow> DefRowIndex;
 
-            [MethodImpl(Inline)]
-            public ref readonly Index<TableDefRow> DefRows()
-                => ref DefRowIndex;
+            // [MethodImpl(Inline)]
+            // public ref readonly Index<TableDefRow> DefRows()
+            //     => ref DefRowIndex;
 
             Dictionary<RuleSig,FS.FilePath> TablePaths;
 
@@ -83,11 +75,11 @@ namespace Z0
                 return path;
             }
 
-            SortedLookup<ushort,Index<CellRows>> CellRowLookup;
+            SortedLookup<ushort,Index<RowSpec>> RowSpecLookup;
 
             [MethodImpl(Inline)]
-            public ref readonly SortedLookup<ushort,Index<CellRows>> RowLookup()
-                => ref CellRowLookup;
+            public ref readonly SortedLookup<ushort,Index<RowSpec>> RowSpecs()
+                => ref RowSpecLookup;
 
             Buffers Data = Buffers.Empty;
 
@@ -103,7 +95,7 @@ namespace Z0
                 exec(pll,
                     SealTableDefs,
                     SealPaths,
-                    () => CellRowLookup = CalcRowLookup(specs)
+                    () => RowSpecLookup = CalcRowSpecs(specs)
                     );
                 return this;
             }
@@ -114,14 +106,14 @@ namespace Z0
             void SealPaths()
             {
                 var paths = dict<RuleSig,FS.FilePath>();
-                foreach(var spec in EncTableSpecs())
+                foreach(var spec in _EncTableSpecs)
                     paths.TryAdd(spec.Sig, XedPaths.Service.TableDef(spec.Sig));
-                foreach(var spec in DecTableSpecs())
+                foreach(var spec in _DecTableSpecs)
                     paths.TryAdd(spec.Sig, XedPaths.Service.TableDef(spec.Sig));
                 TablePaths = paths;
             }
 
-            Index<TableSpec> SealTableSpecs()
+            Index<TableCriteria> SealTableSpecs()
             {
                 var enc = Data.Specs[RuleTableKind.Enc];
                 var dec = Data.Specs[RuleTableKind.Dec];
@@ -166,8 +158,6 @@ namespace Z0
                     row.TableName = spec.TableName;
                     row.TableDef = XedPaths.Service.TableDef(sig);
                 }
-
-                DefRowIndex = TableCalcs.rows(specs);
             }
 
            public static RuleTables Empty => new();

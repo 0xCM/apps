@@ -551,7 +551,7 @@ namespace Z0
                 return RP.Error;
         }
 
-        public static string format(in TableSpec src)
+        public static string format(in TableCriteria src)
         {
             var dst = text.buffer();
             dst.AppendLine(string.Format("{0}()", src.Sig.ShortName));
@@ -636,7 +636,7 @@ namespace Z0
         }
 
 
-        public static string format(in RowSpec src)
+        public static string format(in RowCriteria src)
         {
             var dst = text.buffer();
 

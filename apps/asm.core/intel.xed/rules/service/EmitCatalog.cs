@@ -34,7 +34,7 @@ namespace Z0
 
             exec(PllExec,
                 () => EmitRules(tables, patterns),
-                () => EmitRuleCells(tables),
+                () => EmitCellSpecs(tables),
                 () => EmitPatternDetails(tables, patterns),
                 () => EmitIsaPages(tables,patterns),
                 () => EmitInstLayouts(patterns),

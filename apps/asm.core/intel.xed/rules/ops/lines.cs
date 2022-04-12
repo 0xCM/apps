@@ -9,13 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public static void lines(in TableSpec src, ITextBuffer dst)
-        {
-            foreach(var line in src.Lines())
-                dst.AppendLineFormat("# {0}", line.Content);
-        }
-
-        public static void lines(in TableSpec src, StreamWriter dst)
+        public static void lines(in TableCriteria src, StreamWriter dst)
         {
             foreach(var line in src.Lines())
                 dst.AppendLineFormat("# {0}", line.Content);

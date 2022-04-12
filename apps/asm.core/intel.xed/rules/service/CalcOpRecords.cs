@@ -23,6 +23,8 @@ namespace Z0
                 dst.Lock = src.Lock;
                 dst.Mode = src.Mode;
                 dst.OpCode = src.OpCode;
+
+                dst.OpCount = src.OpCount;
                 dst.Index = src.Index;
                 dst.Name = src.Name;
                 dst.Kind = src.Kind;

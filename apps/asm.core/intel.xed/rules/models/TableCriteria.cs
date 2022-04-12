@@ -7,16 +7,16 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct TableSpec : IComparable<TableSpec>
+        public readonly struct TableCriteria : IComparable<TableCriteria>
         {
             public readonly uint TableId;
 
             public readonly RuleSig Sig;
 
-            public readonly Index<RowSpec> Rows;
+            public readonly Index<RowCriteria> Rows;
 
             [MethodImpl(Inline)]
-            public TableSpec(in RuleSig sig, RowSpec[] rows)
+            public TableCriteria(in RuleSig sig, RowCriteria[] rows)
             {
                 TableId = 0u;
                 Require.invariant(sig.IsNonEmpty);
@@ -25,7 +25,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public TableSpec(uint id, in RuleSig sig, RowSpec[] rows)
+            public TableCriteria(uint id, in RuleSig sig, RowCriteria[] rows)
             {
                 TableId = id;
                 Require.invariant(sig.IsNonEmpty);
@@ -34,11 +34,11 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            TableSpec(uint id)
+            TableCriteria(uint id)
             {
                 TableId = id;
                 Sig = RuleSig.Empty;
-                Rows = sys.empty<RowSpec>();
+                Rows = sys.empty<RowCriteria>();
             }
 
             public RuleTableKind TableKind
@@ -71,13 +71,13 @@ namespace Z0
                 get => Rows.Count;
             }
 
-            public ref RowSpec this[int i]
+            public ref RowCriteria this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Rows[i];
             }
 
-            public ref RowSpec this[uint i]
+            public ref RowCriteria this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Rows[i];
@@ -95,12 +95,12 @@ namespace Z0
                 get => Sig.IsNonEmpty;
             }
 
-            public TableSpec Merge(in TableSpec src)
-                => new TableSpec(Require.equal(Sig,src.Sig), Rows.Append(src.Rows));
+            public TableCriteria Merge(in TableCriteria src)
+                => new TableCriteria(Require.equal(Sig,src.Sig), Rows.Append(src.Rows));
 
             [MethodImpl(Inline)]
-            public TableSpec WithId(uint id)
-                => new TableSpec(id, Sig, Rows);
+            public TableCriteria WithId(uint id)
+                => new TableCriteria(id, Sig, Rows);
 
             public ReadOnlySpan<TextLine> Lines()
                 => Format().Lines(trim:false);
@@ -111,10 +111,10 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public int CompareTo(TableSpec src)
+            public int CompareTo(TableCriteria src)
                 => Sig.CompareTo(src.Sig);
 
-            public static TableSpec Empty => new TableSpec(0);
+            public static TableCriteria Empty => new TableCriteria(0);
         }
     }
 }

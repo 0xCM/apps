@@ -26,6 +26,8 @@ namespace Z0
 
             public RexBit RexW;
 
+            public byte OpCount;
+
             public byte Index;
 
             public OpName Name;

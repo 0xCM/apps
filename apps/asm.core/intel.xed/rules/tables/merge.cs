@@ -11,9 +11,9 @@ namespace Z0
     {
         partial struct TableCalcs
         {
-            static Index<TableSpec> merge(Index<TableSpec> src)
+            static Index<TableCriteria> merge(Index<TableCriteria> src)
             {
-                var dst = dict<RuleSig,TableSpec>(src.Count);
+                var dst = dict<RuleSig,TableCriteria>(src.Count);
                 for(var i=0u; i<src.Count; i++)
                 {
                     ref readonly var table = ref src[i];

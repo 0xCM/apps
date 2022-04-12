@@ -9,36 +9,37 @@ namespace Z0
     {
         public readonly struct RowSpec
         {
-            public readonly Index<CellSpec> Antecedant;
+            public readonly ushort TableId;
 
-            public readonly Index<CellSpec> Consequent;
+            public readonly RuleTableKind TableKind;
+
+            public readonly ushort RowIndex;
+
+            public readonly Index<CellKey> Keys;
+
+            public readonly Index<CellSpec> Cells;
+
+            public readonly ushort ColCount;
 
             [MethodImpl(Inline)]
-            public RowSpec(CellSpec[] p, CellSpec[] c)
+            public RowSpec(RuleTableKind kind, ushort tid, ushort rix, CellKey[] keys, CellSpec[] cells)
             {
-                Antecedant = p;
-                Consequent = c;
+                TableKind = kind;
+                TableId = tid;
+                RowIndex = rix;
+                Keys = keys;
+                Cells = cells;
+                ColCount = (ushort)Require.equal(keys.Length, cells.Length);
             }
 
-            public bool IsEmpty
-            {
-                [MethodImpl(Inline)]
-                get => Antecedant.Count == 0 && Consequent.Count == 0;
-            }
+            [MethodImpl(Inline)]
+            public ref readonly CellSpec Cell(ushort i)
+                => ref Cells[i];
 
-            public bool IsNonEmpty
-            {
-                [MethodImpl(Inline)]
-                get => !IsEmpty;
-            }
 
-            public string Format()
-                => XedRender.format(this);
-
-            public override string ToString()
-                => Format();
-
-            public static RowSpec Empty => new RowSpec(sys.empty<CellSpec>(), sys.empty<CellSpec>());
+            [MethodImpl(Inline)]
+            public ref readonly CellKey Key(ushort i)
+                => ref Keys[i];
         }
     }
 }

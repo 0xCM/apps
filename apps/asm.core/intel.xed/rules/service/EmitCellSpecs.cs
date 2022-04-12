@@ -9,14 +9,14 @@ namespace Z0
 
     partial class XedRules
     {
-        public void EmitRuleCells(RuleTables rules)
+        public void EmitCellSpecs(RuleTables rules)
         {
             var dst = text.buffer();
-            var count = RenderCellRows(rules,dst);
+            var count = RenderCellSpecs(rules,dst);
             FileEmit(dst.Emit(), count, XedPaths.RuleTargets() + FS.file("xed.rules.cells", FS.Csv), TextEncodingKind.Asci);
         }
 
-        static uint RenderCellRows(RuleTables rules, ITextBuffer dst)
+        static uint RenderCellSpecs(RuleTables rules, ITextBuffer dst)
         {
             var cols = new TableColumns(
                 ("TableId", 10),
@@ -35,7 +35,7 @@ namespace Z0
             var buffer = cols.Buffer();
             buffer.EmitHeader(dst);
 
-            var trows = rules.RowLookup();
+            var trows = rules.RowSpecs();
             var tkeys = trows.Keys;
             var counter = 0u;
             for(var i=0; i<tkeys.Length; i++)
