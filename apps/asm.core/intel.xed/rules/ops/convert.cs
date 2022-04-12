@@ -5,11 +5,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using I = Asm.RFlagIndex;
-
     using Asm;
 
-    partial struct XedModels
+    using static XedModels;
+
+    using I = Asm.RFlagIndex;
+
+    partial class XedRules
     {
         [Op]
         public static bool convert(XedFlagEffect src, out FlagEffect dst)

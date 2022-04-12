@@ -11,16 +11,19 @@ namespace Z0
     partial class XedFields
     {
         [MethodImpl(Inline), Op]
-        public static MachineMode mode(in InstFields src)
+        public static ChipCode chip(in InstFields src)
         {
-            var result = ModeKind.Default;
+            var dst = ChipCode.INVALID;
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var f = ref src[i];
-                if(f.DataKind == InstFieldKind.Expr && f.FieldKind == FieldKind.MODE)
-                    result = f.AsFieldExpr().Value;
+                if(f.DataKind == InstFieldKind.Expr && f.FieldKind == FieldKind.CHIP)
+                {
+                    dst = f.AsFieldExpr().Value;
+                    break;
+                }
             }
-            return result;
+            return dst;
         }
     }
 }

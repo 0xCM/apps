@@ -34,7 +34,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public int CompareTo(OpName src)
-                => cmp(Kind,src.Kind);
+                => XedRules.cmp(Kind,src.Kind);
 
             public string Format()
                 => XedRender.format(this);

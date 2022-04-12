@@ -11,13 +11,6 @@ namespace Z0
     partial class XedFields
     {
         [MethodImpl(Inline), Op]
-        public static ref ChipCode value(Field src, out ChipCode dst)
-        {
-            dst = src;
-            return ref dst;
-        }
-
-        [MethodImpl(Inline), Op]
         public static ref InstClass value(Field src, out InstClass dst)
         {
             dst = src;

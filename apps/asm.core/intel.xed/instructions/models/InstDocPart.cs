@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedPatterns;
     using static XedRules;
     using static XedModels;
 
@@ -19,7 +18,7 @@ namespace Z0
             public InstDocPart(InstPattern src)
             {
                 Inst = src;
-                OcMap = XedOpCodes.ocmap(src.OpCode.Kind);
+                OcMap = XedOpCodes.map(src.OpCode.Kind);
             }
 
             public ref readonly Index<OpName> OpNames

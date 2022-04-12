@@ -20,6 +20,6 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static OpCodeIndex ocindex(in RuleState state)
-            => XedOpCodes.ocindex(state);
+            => XedOpCodes.index(state);
     }
 }

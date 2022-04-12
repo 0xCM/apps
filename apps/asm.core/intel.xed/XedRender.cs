@@ -572,7 +572,7 @@ namespace Z0
             => OpVis.Format(src);
 
         public static string format(OpCodeKind src)
-            => format(XedOpCodes.ocindex(src));
+            => format(XedOpCodes.index(src));
 
         public static string format(ImmSeg src)
             => src.IsEmpty ? EmptyString : string.Format("{0}[{1}]", "UIMM", src.Index, format(src.Spec));

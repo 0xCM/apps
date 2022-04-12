@@ -33,7 +33,6 @@ namespace Z0
                 OpDetails = XedRules.opdetails(this);
             }
 
-
             public ref readonly InstPatternBody Body
             {
                 [MethodImpl(Inline)]

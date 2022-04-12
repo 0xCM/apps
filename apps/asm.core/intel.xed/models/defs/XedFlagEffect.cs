@@ -47,7 +47,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator FlagEffect(XedFlagEffect src)
             {
-                convert(src, out FlagEffect dst);
+                XedRules.convert(src, out FlagEffect dst);
                 return dst;
             }
         }

@@ -11,6 +11,7 @@ namespace Z0
 
     partial class XedRules
     {
+
         [Record(TableId)]
         public struct PatternOpCode : IComparable<PatternOpCode>
         {
@@ -34,7 +35,7 @@ namespace Z0
 
             public TextBlock Layout;
 
-            public TextBlock Pattern;
+            public TextBlock Expr;
 
             public XedOpCode OpCode
             {
@@ -52,14 +53,14 @@ namespace Z0
                     {
                         result = Layout.CompareTo(src.Layout);
                         if(result == 0)
-                            result = Pattern.CompareTo(src.Pattern);
+                            result = Expr.CompareTo(src.Expr);
                     }
 
                 }
                 return result;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,10,12,8,10,20,18,80,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,10,12,8,10,20,18,112,1};
         }
     }
 }
