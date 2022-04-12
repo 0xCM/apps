@@ -21,7 +21,7 @@ namespace Z0
                     buffer.Add(opdetail(pattern, ops[j]));
             }
 
-            return buffer.ToArray().Sort();
+            return buffer.ToArray().Sort(new PatternOrder());
         }
     }
 }

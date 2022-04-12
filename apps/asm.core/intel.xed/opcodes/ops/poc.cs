@@ -21,7 +21,7 @@ namespace Z0
                 poc(src[i], out seek(buffer,i));
             }
 
-            buffer.Sort(new PocOrder(true));
+            buffer.Sort(new PatternOrder(true));
 
             var oc = XedOpCode.Empty;
             var @class = InstClass.Empty;
@@ -45,7 +45,7 @@ namespace Z0
                 dst.Index = oci++;
             }
 
-            buffer.Sort(new PocOrder(false));
+            buffer.Sort(new PatternOrder(false));
             for(var i=0u; i<count; i++)
                 seek(buffer,i).Seq = i;
 

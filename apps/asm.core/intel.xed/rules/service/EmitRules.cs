@@ -74,10 +74,9 @@ namespace Z0
         {
             var formatter = Tables.formatter<TableDefRow>(TableDefRow.RenderWidths);
             ref readonly var tables = ref rules.TableSpecs();
-            iter(tables, emit, PllExec);
-
-            void emit(TableSpec table)
+            for(var i=0; i<tables.Count; i++)
             {
+                ref readonly var table = ref tables[i];
                 if(table.IsEmpty)
                     return;
 

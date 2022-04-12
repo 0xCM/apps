@@ -28,9 +28,12 @@ namespace Z0
             var dst = PatternOpDetail.Empty;
             dst.PatternId = op.PatternId;
             dst.InstClass = pattern.InstClass.Classifier;
-            dst.Lock = XedFields.@lock(fields);
-            dst.Mode = pattern.Mode;
             dst.OpCode = pattern.OpCode;
+            dst.Mode = pattern.Mode;
+            dst.Lock = XedFields.@lock(fields);
+            dst.Mod = XedFields.mod(fields);
+            dst.RexW = XedFields.rexw(fields);
+
             dst.Index = info.Index;
             dst.Name = info.Name;
             dst.Kind = info.Kind;
