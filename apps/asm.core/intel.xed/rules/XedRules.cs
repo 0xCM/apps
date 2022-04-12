@@ -48,10 +48,6 @@ namespace Z0
 
         XedDocs Docs => Service(Wf.XedDocs);
 
-
-        public XedPatterns Patterns => Service(Wf.XedPatterns);
-
-
         static Symbols<PointerWidthKind> PointerWidthKinds;
 
         static XedRules()

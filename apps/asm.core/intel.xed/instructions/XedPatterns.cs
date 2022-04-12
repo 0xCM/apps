@@ -7,8 +7,6 @@ namespace Z0
 {
     public partial class XedPatterns : AppService<XedPatterns>
     {
-        XedPaths XedPaths => Service(Wf.XedPaths);
-
         static AppData AppData
         {
             [MethodImpl(Inline)]

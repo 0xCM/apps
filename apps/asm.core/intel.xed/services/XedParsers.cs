@@ -305,6 +305,17 @@ namespace Z0
             }
         }
 
+        public static bool parse(string src, out uint4 dst)
+        {
+            if(IsBinaryLiteral(src))
+                return DataParser.parse(src, out dst);
+            else
+            {
+                dst = default;
+                return false;
+            }
+        }
+
         public static bool parse(string src, out RuleMacroKind dst)
             => MacroKinds.Parse(src, out dst);
 

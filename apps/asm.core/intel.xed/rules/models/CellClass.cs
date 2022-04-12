@@ -43,10 +43,28 @@ namespace Z0
                 get => Kind == CK.Keyword;
             }
 
-            public bool IsNumber
+            public bool IsBinLit
             {
                 [MethodImpl(Inline)]
-                get => Kind == CK.HexLiteral || Kind == CK.IntLiteral || Kind == CK.BinaryLiteral;
+                get => Kind == CK.BinaryLiteral;
+            }
+
+            public bool IsHexLit
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.HexLiteral;
+            }
+
+            public bool IsIntLit
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.IntLiteral;
+            }
+
+            public bool IsNumericLit
+            {
+                [MethodImpl(Inline)]
+                get => IsBinLit || IsHexLit || IsIntLit;
             }
 
             public bool IsString

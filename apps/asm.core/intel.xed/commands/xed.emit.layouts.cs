@@ -32,81 +32,6 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("xed/emit/cells")]
-        Outcome EmitRuleCells(CmdArgs args)
-        {
-            var cols = new TableColumns(
-                ("TableId", 10),
-                ("TableKind", 10),
-                ("TableName", 32),
-                ("RowIndex", 10),
-                ("CellIndex", 10),
-                ("Type", 24),
-                ("Field", 22),
-                ("Op", 4),
-                ("Value", 16)
-                );
-
-            var dst = text.buffer();
-            var buffer = cols.Buffer();
-            buffer.EmitHeader(dst);
-            var rules = Xed.Rules.CalcRules();
-            var tables = rules.TableSpecs().Select(x => (x.TableId, x)).ToDictionary();
-            var cells = rules.CalcCellLookup();
-            var keys = cells.Keys;
-            var tid = z16;
-            var segvars = hashset<SegField>();
-            //var segspecs =
-            for(var i=0; i<keys.Length; i++)
-            {
-                ref readonly var key = ref skip(keys,i);
-                if(i != 0)
-                {
-                    if(key.TableId != tid)
-                    {
-                        tid = key.TableId;
-                        segvars.Clear();
-                    }
-                }
-
-                var logic = key.Logic;
-                var cell = cells[key];
-                var type = cell.Type;
-                if(type.Class.IsSegField)
-                {
-                    if(CellParser.parse(cell.Data, out SegField seg))
-                        segvars.Add(seg);
-                    else
-                    {
-                        Error(cell.Data);
-                        break;
-                    }
-                }
-                if(type.Class.IsString)
-                {
-                    if(segvars.Count != 0 && logic.IsConsequent)
-                    {
-
-                    }
-                }
-                var table = tables[tid];
-                buffer.Write(tid);
-                buffer.Write(table.TableKind);
-                buffer.Write(table.TableName);
-                buffer.Write(key.RowIndex);
-                buffer.Write(key.CellIndex);
-                buffer.Write(type);
-                buffer.Write(XedRender.format(cell.Field));
-                buffer.Write(cell.Operator);
-                buffer.Write(cell);
-                buffer.EmitLine(dst);
-            }
-
-            FileEmit(dst.Emit(), keys.Length, XedPaths.RuleTargets() + FS.file("xed.rules.cells", FS.Csv), TextEncodingKind.Asci);
-
-
-            return true;
-        }
         Index<SegField> CalcRuleSegs()
         {
             var segs = hashset<SegField>();
@@ -122,6 +47,7 @@ namespace Z0
             }
             return segs.Array().Sort();
         }
+
         Index<SegField> CalcInstSegs()
         {
             var layouts = Xed.Rules.CalcInstLayouts();

@@ -577,7 +577,7 @@ namespace Z0
                     var right = text.trim(text.right(input, i+1));
                     var consequent = text.nonempty(right) ? cells(right) : Index<CellSpec>.Empty;
                     if(premise.Count != 0 || consequent.Count != 0)
-                        dst = new RowSpec(premise,consequent);
+                        dst = new RowSpec(premise, consequent);
                 }
                 else
                     Errors.Throw(AppMsg.ParseFailure.Format(nameof(RowSpec), src));
