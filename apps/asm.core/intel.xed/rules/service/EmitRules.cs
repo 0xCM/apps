@@ -11,7 +11,7 @@ namespace Z0
     {
         public void EmitRules(RuleTables tables, Index<InstPattern> patterns)
         {
-            EmitPatternOps(tables, patterns);
+            EmitOperandRows(tables, patterns);
 
             exec(PllExec,
                 () => EmitTableSigs(tables.SigRows),

@@ -7,7 +7,6 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
-    using static XedPatterns;
 
     public class XedPaths //: GlobalService<XedPaths, XedPaths.SvcState>
     {
@@ -233,7 +232,7 @@ namespace Z0
                  XedDocKind.RuleSeq => FS.file("xed.rules.seq", FS.Txt),
                  XedDocKind.MacroDefs => FS.file("xed.rules.macros", FS.Csv),
                  XedDocKind.PatternDetail => FS.file("xed.inst.patterns.detail", FS.Txt),
-                 XedDocKind.PatternOps => Tables.filename<PatternOpRow>(),
+                 XedDocKind.PatternOps => Tables.filename<InstOperandRow>(),
                  XedDocKind.RuleSigs => FS.file("rules.tables.sigs", FileKind.Csv.Ext()),
                  _ => FS.FileName.Empty
             });

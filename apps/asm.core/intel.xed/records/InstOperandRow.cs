@@ -10,11 +10,11 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableName)]
-        public record struct PatternOpRow
+        public record struct InstOperandRow
         {
             public const byte FieldCount = 22;
 
-            public const string TableName = "xed.inst.patterns.ops";
+            public const string TableName = "xed.inst.operands";
 
             public uint PatternId;
 
@@ -60,7 +60,7 @@ namespace Z0
 
             public asci32 SourceExpr;
 
-            public static PatternOpRow Empty => default;
+            public static InstOperandRow Empty => default;
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,6,6,28,10,10,8,8,8,10,10,10,10,6,6,12,12,8,12,16,1,};
         }

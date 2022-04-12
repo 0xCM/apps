@@ -116,7 +116,6 @@ namespace Z0
                 _ => 0
             };
 
-
         [Op]
         public static OpCodeIndex? index(VexClass @class, byte map)
         {

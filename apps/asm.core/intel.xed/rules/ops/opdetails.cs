@@ -9,9 +9,9 @@ namespace Z0
 
     partial class XedRules
     {
-        public static Index<PatternOpDetail> opdetails(RuleTables tables, Index<InstPattern> src)
+        public static Index<InstOpDetail> opdetails(RuleTables tables, Index<InstPattern> src)
         {
-            var buffer = list<PatternOpDetail>();
+            var buffer = list<InstOpDetail>();
             var lookups = XedLookups.Service;
             for(var i=0; i<src.Count; i++)
             {

@@ -9,11 +9,11 @@ namespace Z0
 
     partial class XedRules
     {
-        public static Index<PatternOpRow> CalcOpRecords(RuleTables tables, Index<InstPattern> patterns)
+        public static Index<InstOperandRow> CalcOperandRows(RuleTables tables, Index<InstPattern> patterns)
         {
             var details = opdetails(tables, patterns);
             var count = details.Count;
-            var rows = alloc<PatternOpRow>(count);
+            var rows = alloc<InstOperandRow>(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var src = ref details[i];

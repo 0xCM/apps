@@ -10,23 +10,23 @@ namespace Z0
 
     partial class XedRules
     {
-        public static Index<PatternOpDetail> opdetails(InstPattern src)
+        public static Index<InstOpDetail> opdetails(InstPattern src)
         {
             ref readonly var ops = ref src.Ops;
             var count = (byte)ops.Count;
-            var dst = alloc<PatternOpDetail>(count);
+            var dst = alloc<InstOpDetail>(count);
             for(var j=0; j<count; j++)
                 seek(dst,j) = opdetail(src, count, ops[j]);
             return dst;
         }
 
-        public static PatternOpDetail opdetail(InstPattern pattern, byte opcount, in PatternOp op)
+        public static InstOpDetail opdetail(InstPattern pattern, byte opcount, in PatternOp op)
         {
             var lookups = XedLookups.Service;
             ref readonly var fields = ref pattern.Fields;
             var info = opinfo(pattern.Mode,op);
             var wcode = info.WidthCode;
-            var dst = PatternOpDetail.Empty;
+            var dst = InstOpDetail.Empty;
             dst.PatternId = op.PatternId;
             dst.InstClass = pattern.InstClass.Classifier;
             dst.OpCode = pattern.OpCode;

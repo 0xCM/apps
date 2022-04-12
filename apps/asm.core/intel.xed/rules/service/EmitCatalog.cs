@@ -92,8 +92,8 @@ namespace Z0
         void EmitPatternDetails(RuleTables tables, Index<InstPattern> src)
             => EmitPatternDetails(tables, src, XedPaths.DocTarget(XedDocKind.PatternDetail));
 
-        void EmitPatternOps(RuleTables tables, Index<InstPattern> src)
-            => TableEmit(CalcOpRecords(tables, src).View, PatternOpRow.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));
+        void EmitOperandRows(RuleTables tables, Index<InstPattern> src)
+            => TableEmit(CalcOperandRows(tables, src).View, InstOperandRow.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));
 
         void EmitMacroDefs()
             => TableEmit(CalcMacroDefs().View, MacroDef.RenderWidths, XedPaths.RuleTable<MacroDef>());

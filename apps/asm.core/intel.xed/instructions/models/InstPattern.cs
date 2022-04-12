@@ -21,7 +21,7 @@ namespace Z0
 
             public readonly InstLock Lock;
 
-            public readonly Index<PatternOpDetail> OpDetails;
+            public readonly Index<InstOpDetail> OpDetails;
 
             public readonly InstFields Layout;
 

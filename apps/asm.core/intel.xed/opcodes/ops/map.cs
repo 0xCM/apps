@@ -7,18 +7,9 @@ namespace Z0
 {
     using Asm;
 
-    using static core;
     using static XedModels;
-    using static XedRules;
-    using static XedModels.OpCodeKind;
-    using static XedModels.VexMapKind;
-    using static XedModels.EvexMapKind;
-    using static XedModels.BaseMapKind;
 
     using I = XedModels.OpCodeIndex;
-    using S = XedPatterns.OpCodeSymbols;
-    using K = XedModels.OpCodeKind;
-    using X = XedModels.XopMapKind;
 
     partial class XedOpCodes
     {

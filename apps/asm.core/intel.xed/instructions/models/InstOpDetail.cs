@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public record struct PatternOpDetail
+        public record struct InstOpDetail
         {
             public uint PatternId;
 
@@ -60,20 +60,7 @@ namespace Z0
 
             public asci32 SourceExpr;
 
-            // public int CompareTo(PatternOpDetail src)
-            // {
-            //     var result = InstClass.CompareTo(src.InstClass);
-
-            //     if(result == 0)
-            //         result = PatternId.CompareTo(src.PatternId);
-
-            //     if(result == 0)
-            //         result = Index.CompareTo(src.Index);
-
-            //     return result;
-            // }
-
-            public static PatternOpDetail Empty => default;
+            public static InstOpDetail Empty => default;
         }
     }
 }
