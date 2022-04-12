@@ -25,6 +25,12 @@ namespace Z0
         public static void ngt<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => Errors.Throw($"{a} !> {b}: [{caller}] {FS.path(file).ToUri()}:{line}");
 
+        public static void gt<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            => Errors.Throw($"{a} > {b}: [{caller}] {FS.path(file).ToUri()}:{line}");
+
+        public static void gt<T>(string name, T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            => Errors.Throw($"{name}({a} > {b}): [{caller}] {FS.path(file).ToUri()}:{line}");
+
     }
 
     public readonly struct Demand
@@ -57,6 +63,22 @@ namespace Z0
             var result = a.CompareTo(b);
             if(result >= 0)
                 Fail.nlt(name,a,b,caller,file,line);
+        }
+
+        public static void lteq<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            where T : IComparable<T>
+        {
+            var result = a.CompareTo(b);
+            if(result > 0)
+                Fail.gt(a,b,caller,file,line);
+        }
+
+        public static void lteq<T>(string name, T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+            where T : IComparable<T>
+        {
+            var result = a.CompareTo(b);
+            if(result > 0)
+                Fail.gt(name,a,b,caller,file,line);
         }
 
         public static void gt<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)

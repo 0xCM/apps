@@ -21,6 +21,8 @@ namespace Z0
 
             public readonly InstLock LockState;
 
+            public readonly Index<PatternOpDetail> OpDetails;
+
             public InstPattern(in InstPatternSpec spec, in OcInstClass oc, FieldSet deps)
             {
                 Spec = spec;
@@ -28,9 +30,9 @@ namespace Z0
                 OpNames = spec.Ops.Names;
                 FieldDeps = deps;
                 LockState = XedFields.@lock(spec.Body.Fields);
+                OpDetails = XedRules.opdetails(this);
             }
 
-            public static InstPattern Empty => new InstPattern(InstPatternSpec.Empty, OcInstClass.Empty, FieldSet.create());
 
             public ref readonly InstPatternBody Body
             {
@@ -176,6 +178,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public PatternSort Sort()
                 => new PatternSort(this);
+
+            public static InstPattern Empty => new InstPattern(InstPatternSpec.Empty, OcInstClass.Empty, FieldSet.create());
         }
     }
 }
