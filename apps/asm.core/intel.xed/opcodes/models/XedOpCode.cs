@@ -101,10 +101,6 @@ namespace Z0
                 if(result == 0)
                     result = Value.CompareTo(src.Value);
                 return result;
-                // var result = Value.CompareTo(src.Value);
-                // if(result==0)
-                //     result = XedPatterns.cmp(Kind, src.Kind);
-                // return result;
             }
 
             [MethodImpl(Inline)]

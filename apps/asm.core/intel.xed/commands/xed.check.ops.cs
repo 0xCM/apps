@@ -22,6 +22,27 @@ namespace Z0
                 => (n,src);
 
 
+        [CmdOp("xed/check/ops")]
+        Outcome CheckOps(CmdArgs args)
+        {
+            var patterns = Xed.Rules.CalcInstPatterns();
+            var rules = Xed.Rules.CalcRules();
+            //var ops = XedRules.opdetails(rules,patterns);
+            for(var i=0; i<patterns.Count; i++)
+            {
+                ref readonly var pattern = ref patterns[i];
+                ref readonly var ops = ref pattern.OpDetails;
+                ref readonly var opcode = ref pattern.OpCode;
+
+
+                // var v = XedRules.vector(pattern);
+                // Write(string.Format("{0,-18} | {1}", pattern.Classifier, v));
+            }
+
+            return true;
+        }
+
+
         [CmdOp("xed/check/bits")]
         Outcome CheckBits(CmdArgs args)
         {

@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.IO;
+
     using static core;
 
     public partial class Datasets
@@ -39,6 +41,11 @@ namespace Z0
                 dst.AppendLine(Cols.Header);
             }
 
+            public void EmitHeader(StreamWriter dst)
+            {
+                dst.AppendLine(Cols.Header);
+            }
+
             public string Emit()
                 => Format();
 
@@ -47,10 +54,21 @@ namespace Z0
                 dst.Append(Emit());
             }
 
+            public void Emit(StreamWriter dst)
+            {
+                dst.Append(Emit());
+            }
+
             public void EmitLine(ITextBuffer dst)
             {
                 dst.AppendLine(Emit());
             }
+
+            public void EmitLine(StreamWriter dst)
+            {
+                dst.AppendLine(Emit());
+            }
+
 
             public string Format()
             {

@@ -11,83 +11,90 @@ namespace Z0
     {
         public static OpVector vector(InstPattern src)
         {
-            var dst = OpVector.Empty;
             ref readonly var ops = ref src.OpDetails;
             var count = (byte)ops.Count;
-            if(count <= OpVector.MaxLength)
+            var dst = OpVector.init(count);
+            for(var i=z8; i<count; i++)
             {
-                dst.N = count;
-                for(var i=z8; i<count; i++)
-                {
-                    ref readonly var op = ref ops[i];
-                    dst[i] = OpVector.cell(op.Index, op.Name, op.Kind);
-                }
+                ref readonly var op = ref ops[i];
+                dst[i] = OpVector.cell(op.Index, op.Name, op.Kind, op.BitWidth);
             }
             return dst;
         }
 
-        public struct OpVector
+        public readonly struct OpVector
         {
+            public static OpVector init(byte n)
+                => new OpVector(n);
+
             [MethodImpl(Inline)]
-            public static Component cell(uint3 pos, OpName name, OpKind kind)
-                => new(pos,name,kind);
+            public static Component cell(uint3 pos, OpName name, OpKind kind, ushort width)
+                => new(pos,name,kind, width);
 
-            public const byte MaxLength = uint3.MaxLiteral;
+            public readonly byte N;
 
-            ByteBlock64 Data;
+            public OpVector(byte n)
+            {
+                N = n;
+                Data = alloc<Component>(n);
+            }
+
+            readonly Index<Component> Data;
 
             public ref Component this[byte i]
             {
                 [MethodImpl(Inline)]
-                get => ref @as<Component>(Data[i]);
+                get => ref Data[i];
             }
 
-            public ref byte N
+            public string Format()
             {
-                [MethodImpl(Inline)]
-                get => ref Data[63];
+                var dst = text.buffer();
+                if(N > 0)
+                {
+                    dst.Append(Chars.Lt);
+                    for(var i=z8; i<N; i++)
+                    {
+                        if(i !=0)
+                            dst.Append(Chars.Comma);
+
+                        ref readonly var c = ref this[i];
+                        dst.Append(c.Indicator.Format());
+                        if(c.BitWidth != 0)
+                        {
+                            dst.AppendFormat(":w{0}", c.BitWidth);
+                        }
+
+                    }
+                    dst.Append(Chars.Gt);
+
+                }
+
+                return dst.Emit();
             }
+
+            public override string ToString()
+                => Format();
 
             public static OpVector Empty => default;
 
             public readonly struct Component
             {
-                const byte PosIndex = 0;
+                public readonly uint3 Pos;
 
-                const byte NameIndex = 1;
+                public readonly OpName Name;
 
-                const byte KindIndex = 2;
+                public readonly OpKind Kind;
 
-                const byte TypeIndex = 3;
-
-                readonly ByteBlock8 Data;
+                public readonly ushort BitWidth;
 
                 [MethodImpl(Inline)]
-                public Component(uint3 pos, OpName name, OpKind @class)
+                public Component(uint3 pos, OpName name, OpKind kind, ushort width)
                 {
-                    var data = ByteBlock8.Empty;
-                    data[NameIndex] = (byte)name;
-                    data[PosIndex] = pos;
-                    data[KindIndex] = (byte)@class;
-                    Data = data;
-                }
-
-                public ref readonly uint3 Pos
-                {
-                    [MethodImpl(Inline)]
-                    get => ref @as<uint3>(Data[PosIndex]);
-                }
-
-                public ref readonly OpName Name
-                {
-                    [MethodImpl(Inline)]
-                    get => ref @as<OpName>(Data[NameIndex]);
-                }
-
-                public ref readonly OpKind Kind
-                {
-                    [MethodImpl(Inline)]
-                    get => ref @as<OpKind>(Data[KindIndex]);
+                    Kind = kind;
+                    Name = name;
+                    Pos = pos;
+                    BitWidth = width;
                 }
 
                 public OpIndicator Indicator
