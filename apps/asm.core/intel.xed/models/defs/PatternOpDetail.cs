@@ -12,8 +12,6 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public record struct PatternOpDetail : IComparable<PatternOpDetail>
         {
-            public uint InstId;
-
             public uint PatternId;
 
             public InstClass InstClass;
@@ -58,13 +56,9 @@ namespace Z0
 
             public int CompareTo(PatternOpDetail src)
             {
-                var result = InstId.CompareTo(src.InstId);
+                var result = PatternId.CompareTo(src.PatternId);
                 if(result == 0)
-                {
-                    result = PatternId.CompareTo(src.PatternId);
-                    if(result == 0)
-                        result = Index.CompareTo(src.Index);
-                }
+                    result = Index.CompareTo(src.Index);
                 return result;
             }
 

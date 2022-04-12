@@ -26,7 +26,6 @@ namespace Z0
             var info = opinfo(pattern.Mode,op);
             var wcode = info.WidthCode;
             var dst = PatternOpDetail.Empty;
-            dst.InstId = pattern.InstId;
             dst.PatternId = op.PatternId;
             dst.InstClass = pattern.InstClass.Classifier;
             dst.Lock = XedFields.@lock(fields);

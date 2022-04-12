@@ -18,7 +18,6 @@ namespace Z0
             {
                 ref readonly var src = ref details[i];
                 ref var dst = ref rows[i];
-                dst.InstId = src.InstId;
                 dst.PatternId = src.PatternId;
                 dst.InstClass = src.InstClass.Classifier;
                 dst.Lock = src.Lock;

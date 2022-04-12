@@ -10,11 +10,11 @@ namespace Z0
 
     partial class XedPatterns
     {
-        public static Index<InstFieldRow> fieldrows(Index<InstPattern> src)
+        public static Index<InstPatternFields> fieldrows(Index<InstPattern> src)
         {
             var count = 0u;
             iter(src, p => count += p.Body.FieldCount);
-            var dst = alloc<InstFieldRow>(count);
+            var dst = alloc<InstPatternFields>(count);
             var k=0u;
             for(var i=0; i<src.Count; i++)
             {
@@ -27,18 +27,17 @@ namespace Z0
         }
 
         [Op]
-        public static InstFieldRow fieldrow(InstPattern pattern, in InstField src, byte index)
+        public static InstPatternFields fieldrow(InstPattern pattern, in InstField src, byte index)
         {
-            var dst = InstFieldRow.Empty;
+            var dst = InstPatternFields.Empty;
             dst.PatternId = pattern.PatternId;
-            dst.InstId = pattern.InstId;
             dst.Mode = pattern.Mode;
+            dst.Lock = XedFields.@lock(pattern.Fields);
             dst.Index = index;
             dst.FieldClass = src.DataKind;
             dst.FieldKind = src.FieldKind;
-            dst.InstClass = pattern.InstClass;
-            dst.OcKind = pattern.OpCode.Kind;
-            dst.OcValue = pattern.OpCode.Value;
+            dst.InstClass = pattern.InstClass.Classifier;
+            dst.OpCode = pattern.OpCode;
             switch(src.DataKind)
             {
                 case InstFieldKind.Seg:

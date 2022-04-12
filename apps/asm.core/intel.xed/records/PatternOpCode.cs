@@ -5,62 +5,77 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedModels;
 
     partial class XedRules
     {
-
         [Record(TableId)]
-        public struct PatternOpCode : IComparable<PatternOpCode>
+        public struct PatternOpCode
         {
             public const string TableId = "xed.opcodes";
 
-            public const byte FieldCount = 9;
+            public const byte FieldCount = 11;
 
             public uint Seq;
 
-            public uint PatternId;
-
-            public uint InstId;
-
-            public MachineMode Mode;
-
-            public OpCodeKind OcKind;
-
-            public AsmOcValue OcValue;
+            public ushort PatternId;
 
             public InstClass InstClass;
 
-            public TextBlock Layout;
+            public byte Index;
 
-            public TextBlock Expr;
+            public XedOpCode OpCode;
 
-            public XedOpCode OpCode
-            {
-                [MethodImpl(Inline)]
-                get => new XedOpCode(Mode, OcKind, OcValue);
-            }
+            public MachineMode Mode;
 
-            public int CompareTo(PatternOpCode src)
-            {
-                var result = OpCode.CompareTo(src.OpCode);
-                if(result==0)
-                {
-                    result = Mode.CompareTo(src.Mode);
-                    if(result == 0)
-                    {
-                        result = Layout.CompareTo(src.Layout);
-                        if(result == 0)
-                            result = Expr.CompareTo(src.Expr);
-                    }
+            public InstLock Lock;
 
-                }
-                return result;
-            }
+            public ModKind Mod;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,10,12,8,10,20,18,112,1};
+            public RexBit RexW;
+
+            public InstFields Layout;
+
+            public InstFields Expr;
+
+            // [MethodImpl(Inline)]
+            // public InstGroupSeq GroupSeq()
+            // {
+            //     var seq = InstGroupSeq.Empty;
+            //     return seq with{
+            //         PatternId = PatternId,
+            //         OpCode = OpCode,
+            //         Mode = Mode,
+            //         InstClass = InstClass,
+            //         Lock = Lock,
+            //         Mod = Mod,
+            //         RexW = RexW,
+            //     };
+            // }
+
+            // public int CompareTo(PatternOpCode src)
+            // {
+            //     var result = OpCode.CompareTo(src.OpCode);
+
+            //     if(result == 0)
+            //         result = InstClass.CompareTo(src.InstClass);
+
+            //     if(result == 0)
+            //         result = Mode.CompareTo(src.Mode);
+
+            //     if(result == 0)
+            //         result = Lock.CompareTo(src.Lock);
+
+            //     if(result == 0 && Mod.IsNonEmpty && src.Mod.IsNonEmpty)
+            //         result = Mod.CompareTo(src.Mod);
+
+            //     if(result == 0 && RexW.IsNonEmpty && src.RexW.IsNonEmpty)
+            //         result = RexW.CompareTo(src.RexW);
+
+            //     return result;
+            // }
+
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,10,18,8,26,6,6,6,6,112,1};
         }
     }
 }

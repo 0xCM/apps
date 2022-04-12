@@ -57,16 +57,16 @@ namespace Z0
                 get => ref Inst.PatternId;
             }
 
-            public ReadOnlySpan<InstField> Layout
+            public ref readonly InstFields Layout
             {
                 [MethodImpl(Inline)]
-                get => Inst.Layout;
+                get => ref Inst.Layout;
             }
 
-            public ReadOnlySpan<InstField> Expr
+            public ref readonly InstFields Expr
             {
                 [MethodImpl(Inline)]
-                get => Inst.Expr;
+                get => ref Inst.Expr;
             }
 
             public ref readonly MachineMode Mode

@@ -5,10 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedModels;
-    using static XedPatterns;
 
     partial class XedRules
     {
@@ -17,25 +14,17 @@ namespace Z0
         {
             public const string TableId = "xed.inst.patterns";
 
-            public const byte FieldCount = 8;
+            public const byte FieldCount = 7;
 
             public uint PatternId;
 
-            public uint InstId;
+            public InstClass InstClass;
+
+            public XedOpCode OpCode;
 
             public MachineMode Mode;
 
-            public OpCodeKind OcKind;
-
-            public AsmOcValue OcValue;
-
-            public XedOpCode OpCode
-            {
-                [MethodImpl(Inline)]
-                get => new (Mode, OcKind, OcValue);
-            }
-
-            public InstClass InstClass;
+            public InstLock Lock;
 
             public InstForm InstForm;
 
@@ -48,7 +37,7 @@ namespace Z0
             public PatternSort Sort()
                 => new PatternSort(this);
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,12,12,20,24,52,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,26,8,8,52,1};
 
             public static InstPatternRecord Empty => default;
         }

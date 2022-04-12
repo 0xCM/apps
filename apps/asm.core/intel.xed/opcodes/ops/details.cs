@@ -5,9 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
     using static core;
-    using static XedModels;
     using static XedRules;
 
     partial class XedOpCodes
@@ -21,12 +19,12 @@ namespace Z0
                 ref readonly var src = ref patterns[i];
                 ref var dst = ref seek(buffer,i);
                 dst.PatternId = (ushort)src.PatternId;
-                dst.Expr = new InstFields(src.Expr.ToArray(), 0);
-                dst.Layout = new InstFields(src.Layout.ToArray(), (byte)src.Layout.Length);
+                dst.Expr = src.Expr;
+                dst.Layout = src.Layout;
                 dst.InstClass = src.InstClass;
                 dst.Mode = src.Mode;
                 dst.OpCode = src.OpCode;
-                dst.Lock = src.LockState;
+                dst.Lock = src.Lock;
                 dst.Mod = XedFields.mod(src.Fields);
                 dst.RexW = XedFields.rexw(src.Fields);
             }

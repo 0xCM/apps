@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedModels;
 
     partial class XedRules
@@ -14,11 +12,9 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableName)]
         public record struct PatternOpRow : IComparable<PatternOpRow>
         {
-            public const byte FieldCount = 22;
+            public const byte FieldCount = 21;
 
             public const string TableName = "xed.inst.patterns.ops";
-
-            public uint InstId;
 
             public uint PatternId;
 
@@ -64,17 +60,21 @@ namespace Z0
 
             public int CompareTo(PatternOpRow src)
             {
-                var result = InstId.CompareTo(src.InstId);
+                var result = PatternId.CompareTo(src.PatternId);
                 if(result == 0)
-                {
-                    result = PatternId.CompareTo(src.PatternId);
-                    if(result == 0)
-                        result = Index.CompareTo(src.Index);
-                }
+                    result = Index.CompareTo(src.Index);
                 return result;
+                // var result = InstId.CompareTo(src.InstId);
+                // if(result == 0)
+                // {
+                //     result = PatternId.CompareTo(src.PatternId);
+                //     if(result == 0)
+                //         result = Index.CompareTo(src.Index);
+                // }
+                // return result;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,18,6,6,28,6,8,8,8,10,10,10,10,6,6,12,12,8,12,16,1,};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,6,6,28,6,8,8,8,10,10,10,10,6,6,12,12,8,12,16,1,};
 
             public static PatternOpRow Empty => default;
         }

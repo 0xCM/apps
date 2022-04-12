@@ -80,10 +80,10 @@ namespace Z0
 
                 dst.AppendFormat("{0} |", Classifier);
 
-                if(part.Layout.Length != 0)
-                    dst.AppendFormat(" {0}", part.Layout.Delimit(Chars.Space).Format());
-                if(part.Expr.Length !=0 )
-                    dst.AppendFormat(" <{0}>", part.Expr.Delimit(Chars.Space).Format());
+                if(part.Layout.IsNonEmpty)
+                    dst.AppendFormat(" {0}", part.Layout);
+                if(part.Expr.IsNonEmpty)
+                    dst.AppendFormat(" <{0}>", part.Expr);
                 dst.AppendLine();
 
                 ref readonly var ops = ref part.Ops;

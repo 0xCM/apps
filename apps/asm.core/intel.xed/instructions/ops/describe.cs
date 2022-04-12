@@ -23,11 +23,10 @@ namespace Z0
             ref readonly var body = ref src.Body;
             var dst = InstPatternRecord.Empty;
             dst.PatternId = src.PatternId;
-            dst.InstId = src.InstId;
+            dst.OpCode = src.OpCode;
             dst.Mode = src.Mode;
-            dst.OcKind = src.OpCode.Kind;
-            dst.OcValue = src.OpCode.Value;
-            dst.InstClass = src.InstClass;
+            dst.Lock = src.Lock;
+            dst.InstClass = src.InstClass.Classifier;
             dst.InstForm = src.InstForm;
             dst.Body = body;
             return dst;

@@ -19,18 +19,27 @@ namespace Z0
 
             public readonly FieldSet FieldDeps;
 
-            public readonly InstLock LockState;
+            public readonly InstLock Lock;
 
             public readonly Index<PatternOpDetail> OpDetails;
 
+            public readonly InstFields Layout;
+
+            public readonly InstFields Expr;
+
             public InstPattern(in InstPatternSpec spec, in OcInstClass oc, FieldSet deps)
             {
+                ref readonly var fields = ref spec.Body.Fields;
+                var layout = fields.Layout;
+                var expr = fields.Expr;
                 Spec = spec;
                 OcInst = oc;
                 OpNames = spec.Ops.Names;
                 FieldDeps = deps;
-                LockState = XedFields.@lock(spec.Body.Fields);
+                Lock = XedFields.@lock(fields);
                 OpDetails = XedRules.opdetails(this);
+                Layout = new InstFields(layout.ToArray(), (byte)layout.Length);
+                Expr  = new InstFields(expr.ToArray(), 0);
             }
 
             public ref readonly InstPatternBody Body
@@ -43,18 +52,6 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => ref Body.Fields;
-            }
-
-            public ReadOnlySpan<InstField> Layout
-            {
-                [MethodImpl(Inline)]
-                get => Fields.Layout;
-            }
-
-            public ReadOnlySpan<InstField> Expr
-            {
-                [MethodImpl(Inline)]
-                get => Fields.Expr;
             }
 
             public ref readonly MachineMode Mode
@@ -95,12 +92,6 @@ namespace Z0
             public uint NontermOps(ref FunctionSet dst)
                 => Spec.Ops.Nonterms(ref dst);
 
-            public byte OpCount
-            {
-                [MethodImpl(Inline)]
-                get => (byte)Spec.Ops.Count;
-            }
-
             [MethodImpl(Inline)]
             public ref readonly PatternOp Op(byte index)
                 => ref Spec.Ops[index];
@@ -109,12 +100,6 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => ref Op(index);
-            }
-
-            public ref readonly uint InstId
-            {
-                [MethodImpl(Inline)]
-                get => ref Spec.InstId;
             }
 
             public ref readonly uint PatternId

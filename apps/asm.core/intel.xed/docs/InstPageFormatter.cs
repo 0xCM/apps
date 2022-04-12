@@ -122,8 +122,8 @@ namespace Z0
             {
                 AppendLine(FormatInstHeader(pattern));
                 AppendLineFormat(LabelPattern, nameof(pattern.Category), pattern.Category);
-                AppendLineFormat(LabelPattern, "Layout", pattern.Layout.Delimit(Chars.Space).Format());
-                AppendLineFormat(LabelPattern, "Fields", pattern.Expr.Delimit(Chars.Space).Format());
+                AppendLineFormat(LabelPattern, "Layout", pattern.Layout.Format());
+                AppendLineFormat(LabelPattern, "Expressions", pattern.Expr.Format());
 
                 AppendLineFormat(LabelPattern, nameof(pattern.Mode), XedRender.format(pattern.Mode));
                 AppendLineFormat(LabelPattern, nameof(pattern.OpCode), string.Format("{0,-8} {1}", pattern.OpCode.Kind, AsmOcValue.format(pattern.OpCode.Value)));

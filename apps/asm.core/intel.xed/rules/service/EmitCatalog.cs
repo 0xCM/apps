@@ -38,9 +38,13 @@ namespace Z0
                 () => EmitPatternDetails(tables, patterns),
                 () => EmitIsaPages(tables,patterns),
                 () => EmitInstLayouts(patterns),
+                () => EmitOcCounts(patterns),
                 () => Docs.EmitDocs(tables,patterns)
                 );
         }
+
+        void EmitOcCounts(Index<InstPattern> src)
+            => TableEmit(XedOpCodes.counts(src).View, OpCodeCounts.RenderWidths,  XedPaths.Table<OpCodeCounts>());
 
         void EmitPatternDetails(RuleTables tables, Index<InstPattern> src, FS.FilePath dst)
         {
@@ -84,7 +88,7 @@ namespace Z0
             => TableEmit(XedOpCodes.poc(src).View, PatternOpCode.RenderWidths, XedPaths.Table<PatternOpCode>());
 
         void EmitInstFields(Index<InstPattern> src)
-            => TableEmit(XedPatterns.fieldrows(src).View, InstFieldRow.RenderWidths, XedPaths.Table<InstFieldRow>());
+            => TableEmit(XedPatterns.fieldrows(src).View, InstPatternFields.RenderWidths, XedPaths.Table<InstPatternFields>());
 
         void EmitPatternInfo(Index<InstPattern> src)
             => TableEmit(XedPatterns.describe(src).View, InstPatternRecord.RenderWidths, XedPaths.Table<InstPatternRecord>());

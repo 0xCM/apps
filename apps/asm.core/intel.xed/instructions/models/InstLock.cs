@@ -42,7 +42,7 @@ namespace Z0
             }
 
             public int CompareTo(InstLock src)
-                => Data.CompareTo(src.Data);
+                => new LockSort(this).CompareTo(new LockSort(src));
 
             public static InstLock Empty => default;
 

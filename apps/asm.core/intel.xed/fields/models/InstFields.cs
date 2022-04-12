@@ -79,6 +79,12 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => (byte)(Count - LayoutCount);
             }
+
+            public string Format()
+                => this.Delimit(Chars.Space).Format();
+
+            public override string ToString()
+                => Format();
         }
     }
 }

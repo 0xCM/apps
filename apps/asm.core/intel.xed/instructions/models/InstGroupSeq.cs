@@ -16,7 +16,7 @@ namespace Z0
 
             public ushort PatternId;
 
-            public InstClass Class;
+            public InstClass InstClass;
 
             public XedOpCode OpCode;
 

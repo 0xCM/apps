@@ -57,7 +57,7 @@ namespace Z0
             var opcode = XedOpCode.Empty;
             var count = src.Count;
             var k=z8;
-            var seq = new InstGroupSeq{Class = @class};
+            var seq = new InstGroupSeq{InstClass = @class};
             var dst = alloc<InstGroupMember>(count);
             for(var i=0; i<count; i++)
             {
@@ -76,7 +76,7 @@ namespace Z0
                 seq = seq with {
                     Index=k++,
                     PatternId = (ushort)pattern.PatternId,
-                    Lock = pattern.LockState,
+                    Lock = pattern.Lock,
                     OpCode = opcode,
                     Mode = pattern.Mode,
                     Mod = XedFields.mod(fields),

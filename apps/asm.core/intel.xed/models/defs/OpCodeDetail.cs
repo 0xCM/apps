@@ -37,7 +37,7 @@ namespace Z0
                     PatternId = PatternId,
                     OpCode = OpCode,
                     Mode = Mode,
-                    Class = InstClass,
+                    InstClass = InstClass,
                     Lock = Lock,
                     Mod = Mod,
                     RexW = RexW,

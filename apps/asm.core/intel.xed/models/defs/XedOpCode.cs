@@ -97,10 +97,14 @@ namespace Z0
 
             public int CompareTo(XedOpCode src)
             {
-                var result = Value.CompareTo(src.Value);
-                if(result==0)
-                    result = XedPatterns.cmp(Kind, src.Kind);
+                var result = XedOpCodes.cmp(Kind, src.Kind);
+                if(result == 0)
+                    result = Value.CompareTo(src.Value);
                 return result;
+                // var result = Value.CompareTo(src.Value);
+                // if(result==0)
+                //     result = XedPatterns.cmp(Kind, src.Kind);
+                // return result;
             }
 
             [MethodImpl(Inline)]

@@ -56,7 +56,7 @@ namespace Z0
                                     {
                                         case P.Form:
                                             if(XedParsers.parse(value, out InstForm form))
-                                                forms.TryAdd(seq,form);
+                                                forms.TryAdd(seq, form);
                                         break;
                                         case P.Attributes:
                                             attribs = XedPatterns.attributes(text.despace(value));
@@ -122,14 +122,14 @@ namespace Z0
 
                                             var opexpr = value;
                                             var spec = InstPatternSpec.Empty;
+                                            spec.PatternId = seq;
+                                            spec.InstClass = @class;
                                             spec.Attributes = attribs;
                                             spec.Effects = effects;
                                             spec.Category = category;
                                             spec.Extension = ext;
                                             spec.Isa = isa;
-                                            spec.InstClass = @class;
                                             InstPatternSpec.FixIsa(ref spec);
-                                            spec.PatternId = seq;
                                             spec.RawBody = rawbody;
                                             CellParser.parse(RuleMacros.expand(InstPatternBody.normalize(rawbody)), out spec.Body);
                                             spec.Mode = XedFields.mode(spec.Body.Fields);
@@ -156,25 +156,32 @@ namespace Z0
                 }
 
                 var defs = buffer.ToArray().Sort();
-                var iid = 0u;
                 var pid = 0u;
-                for(var i=0u; i<defs.Length; i++,iid++)
+                for(var i=0u; i<defs.Length; i++)
                 {
                     ref var def = ref seek(defs,i);
                     ref var specs = ref def.PatternSpecs;
                     for(var j=0; j<specs.Count; j++, pid++)
                     {
-                        ref var pattern = ref specs[j];
-                        forms.TryGetValue(pattern.PatternId, out pattern.InstForm);
-                        pattern.InstId = iid;
-                        pattern.PatternId = pid;
-                        pattern.Ops = new (pid,pattern.Ops);
+                        ref var spec = ref specs[j];
+                        forms.TryGetValue(spec.PatternId, out spec.InstForm);
+                        spec.PatternId = pid;
+                        spec.Ops = new (pid, spec.Ops);
                     }
                 }
 
+                var _specs = defs.Select(x => x.PatternSpecs).SelectMany(x => x).Sort();
+                for(var i=0u; i<_specs.Length; i++)
+                {
+                    ref var spec = ref _specs[i];
+                    //forms.TryGetValue(spec.PatternId, out spec.InstForm);
+                    //spec.PatternId = i;
+                    spec.Ops = new (spec.PatternId, spec.Ops);
+                }
+
+
                 return defs;
             }
-
 
             static Index<InstPartKind,string> PartKindNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET,COMMENT};
 

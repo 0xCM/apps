@@ -116,7 +116,7 @@ namespace Z0
                 => src is SegField s && Equals(s);
 
             public string Format()
-                => string.Format("{0}[{1}]", XedRender.format(Field), Type.Format());
+                => IsEmpty ? EmptyString : string.Format("{0}[{1}]", XedRender.format(Field), Type.Format());
 
             public override string ToString()
                 => Format();

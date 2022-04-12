@@ -14,8 +14,6 @@ namespace Z0
         {
             public uint PatternId;
 
-            public uint InstId;
-
             public MachineMode Mode;
 
             public InstIsa Isa;

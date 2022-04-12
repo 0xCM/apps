@@ -73,7 +73,7 @@ namespace Z0
             public ref readonly InstClass Class
             {
                 [MethodImpl(Inline)]
-                get => ref Seq.Class;
+                get => ref Seq.InstClass;
             }
 
             public ref readonly XedOpCode OpCode
