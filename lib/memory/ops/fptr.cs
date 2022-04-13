@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static System.Runtime.InteropServices.Marshal;
-    using static Root;
 
     unsafe partial struct memory
     {

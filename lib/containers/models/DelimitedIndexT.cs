@@ -7,21 +7,39 @@ namespace Z0
     [DataType("dindex<t:{0}>")]
     public readonly struct DelimitedIndex<T> : IIndex<T>, ITextual
     {
-        public Index<T> Data {get;}
+        public readonly Index<T> Data;
 
-        public char Delimiter {get;}
+        public readonly string Delimiter;
 
-        public int CellPad {get;}
+        public readonly int CellPad;
 
-        public Fence<char>? Fence {get;}
+        public readonly Fence<char>? Fence;
 
         [MethodImpl(Inline)]
-        public DelimitedIndex(T[] src, char delimiter = ListDelimiter, int pad = 0, Fence<char>? fence = null)
+        public DelimitedIndex(T[] src, char delimiter, int pad, Fence<char>? fence)
+        {
+            Data = src;
+            Delimiter = delimiter.ToString();
+            CellPad = pad;
+            Fence = fence;
+        }
+
+        [MethodImpl(Inline)]
+        public DelimitedIndex(T[] src, string delimiter, int pad, Fence<char>? fence)
         {
             Data = src;
             Delimiter = delimiter;
             CellPad = pad;
             Fence = fence;
+        }
+
+        [MethodImpl(Inline)]
+        public DelimitedIndex(T[] src)
+        {
+            Data = src;
+            Delimiter = ListDelimiter.ToString();
+            CellPad = 0;
+            Fence = null;
         }
 
         public T[] Storage

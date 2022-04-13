@@ -12,7 +12,7 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableName)]
         public record struct InstOperandRow
         {
-            public const byte FieldCount = 22;
+            public const byte FieldCount = 24;
 
             public const string TableName = "xed.inst.operands";
 
@@ -20,11 +20,15 @@ namespace Z0
 
             public InstClass InstClass;
 
+            public XedOpCode OpCode;
+
             public MachineMode Mode;
 
             public InstLock Lock;
 
-            public XedOpCode OpCode;
+            public ModKind Mod;
+
+            public RexBit RexW;
 
             public byte OpCount;
 
@@ -62,7 +66,7 @@ namespace Z0
 
             public static InstOperandRow Empty => default;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,6,6,28,10,10,8,8,8,10,10,10,10,6,6,12,12,8,12,16,1,};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,28,6,6,6,6,10,10,8,8,8,10,10,10,10,6,6,12,12,8,12,16,1,};
         }
     }
 }

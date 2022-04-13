@@ -20,9 +20,11 @@ namespace Z0
                 ref var dst = ref rows[i];
                 dst.PatternId = src.PatternId;
                 dst.InstClass = src.InstClass.Classifier;
-                dst.Lock = src.Lock;
-                dst.Mode = src.Mode;
                 dst.OpCode = src.OpCode;
+                dst.Mode = src.Mode;
+                dst.Lock = src.Lock;
+                dst.Mod = src.Mod;
+                dst.RexW = src.RexW;
 
                 dst.OpCount = src.OpCount;
                 dst.Index = src.Index;

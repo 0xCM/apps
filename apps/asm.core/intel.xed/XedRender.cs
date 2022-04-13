@@ -43,7 +43,7 @@ namespace Z0
 
         static EnumRender<EvexMapKind> EvexMap = new();
 
-        static EnumRender<AttributeKind> AttribKinds = new();
+        static EnumRender<InstAttribKind> AttribKinds = new();
 
         static EnumRender<OpCodeIndex> OcKindIndex = new();
 
@@ -258,7 +258,7 @@ namespace Z0
         public static string format(RuleMacroKind src)
             => MacroKinds.Format(src);
 
-        public static string format(AttributeKind src)
+        public static string format(InstAttribKind src)
             => AttribKinds.Format(src);
 
         public static string format(BCast8Kind src)

@@ -40,7 +40,7 @@ namespace Z0
                 return default;
 
             var counter = 0u;
-            var dst = span<AttributeKind>(count);
+            var dst = span<InstAttribKind>(count);
             for(var i=0; i<count; i++)
             {
                 ref var target = ref seek(dst,i);
@@ -51,7 +51,7 @@ namespace Z0
                         counter++;
                 }
                 else
-                    return sys.empty<AttributeKind>();
+                    return sys.empty<InstAttribKind>();
             }
 
             return slice(dst,0,counter).ToArray();

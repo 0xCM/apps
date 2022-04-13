@@ -4,20 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static FormatDelegates;
 
     [DataType("despan<{0}>")]
     public readonly ref struct DelimitedSpan<T>
     {
-        public ReadOnlySpan<T> Data {get;}
+        public readonly ReadOnlySpan<T> Data;
 
-        public char Delimiter {get;}
+        public readonly char Delimiter;
 
-        public int CellPad {get;}
+        public readonly int CellPad;
 
         readonly FormatCells<T> Render;
 

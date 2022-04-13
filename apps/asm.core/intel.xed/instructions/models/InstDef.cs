@@ -11,6 +11,8 @@ namespace Z0
         {
             public InstClass InstClass;
 
+            public InstAttribs Attributes;
+
             public Index<InstPatternSpec> PatternSpecs;
 
             public int CompareTo(InstDef src)

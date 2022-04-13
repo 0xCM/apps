@@ -68,11 +68,11 @@ namespace Z0
                 if(result == 0)
                     result = x.Lock.CompareTo(y.Lock);
 
-                if(result == 0 && x.Mod.IsNonEmpty && y.Mod.IsNonEmpty)
-                    result = x.Mod.CompareTo(y.Mod);
-
                 if(result == 0 && x.RexW.IsNonEmpty && y.RexW.IsNonEmpty)
                     result = x.RexW.CompareTo(y.RexW);
+
+                if(result == 0 && x.Mod.IsNonEmpty && y.Mod.IsNonEmpty)
+                    result = x.Mod.CompareTo(y.Mod);
 
                 return result;
             }

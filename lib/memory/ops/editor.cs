@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
     using static core;
 
-    using System;
-    using System.Runtime.CompilerServices;
-
-    partial struct Seq
+    unsafe partial struct memory
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe SeqEditor<T> editor<T>(T* pSrc, long count)

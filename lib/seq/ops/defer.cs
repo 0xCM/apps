@@ -4,13 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Linq;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct Seq
     {
         [MethodImpl(Inline), Op, Closures(Closure)]

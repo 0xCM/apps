@@ -3,15 +3,11 @@
 // Author : Chris Moore
 // License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    partial class IntelXed
+    partial class XedRules
     {
-        const string xed = "xed";
-
-        void EmitTokenSummaries()
-        {
-            ApiMetadata.EmitApiTokens(xed, xed);
-        }
+        public Index<InstDef> CalcInstDefs()
+            => Data(nameof(InstDef), () => InstDefParser.parse(XedPaths.DocSource(XedDocKind.EncInstDef)));
     }
 }

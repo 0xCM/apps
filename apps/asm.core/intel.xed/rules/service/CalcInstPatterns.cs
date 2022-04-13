@@ -10,9 +10,6 @@ namespace Z0
         public Index<InstPattern> CalcInstPatterns()
             => CalcInstPatterns(CalcInstDefs());
 
-        Index<InstDef> CalcInstDefs()
-            => Data(nameof(InstDef), () => InstDefParser.parse(XedPaths.DocSource(XedDocKind.EncInstDef)));
-
         Index<InstPattern> CalcInstPatterns(Index<InstDef> defs)
             => Data(nameof(InstPattern), () => patterns(defs));
     }

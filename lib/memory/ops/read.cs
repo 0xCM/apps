@@ -4,12 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
+    using static core;
 
-    using static Root;
-
-    partial struct Seq
+    unsafe partial struct memory
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public unsafe static void read<T>(Span<T> src, Action<T> dst)
@@ -17,7 +14,7 @@ namespace Z0
         {
             fixed(T* pSrc = src)
             {
-                var it = Seq.reader(pSrc, src.Length);
+                var it = reader(pSrc, src.Length);
                 while(it.Next(out T current))
                     dst(current);
             }

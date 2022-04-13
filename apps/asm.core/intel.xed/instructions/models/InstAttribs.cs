@@ -9,12 +9,12 @@ namespace Z0
 
     partial class XedRules
     {
-        public readonly struct InstAttribs : IIndex<AttributeKind>
+        public readonly struct InstAttribs : IIndex<InstAttribKind>
         {
-            readonly Index<AttributeKind> Data;
+            readonly Index<InstAttribKind> Data;
 
             [MethodImpl(Inline)]
-            public InstAttribs(AttributeKind[] src)
+            public InstAttribs(InstAttribKind[] src)
             {
                 Data = src;
             }
@@ -31,7 +31,7 @@ namespace Z0
                 get => Data.IsNonEmpty;
             }
 
-            public AttributeKind[] Storage
+            public InstAttribKind[] Storage
             {
                 [MethodImpl(Inline)]
                 get => Data;
@@ -43,13 +43,13 @@ namespace Z0
                 get => Data.Count;
             }
 
-            public ref AttributeKind this[int i]
+            public ref InstAttribKind this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
             }
 
-            public ref AttributeKind this[uint i]
+            public ref InstAttribKind this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
@@ -64,7 +64,7 @@ namespace Z0
             public bool Locked
             {
                 [MethodImpl(Inline)]
-                get => Data.Any(x => x == AttributeKind.LOCKED);
+                get => Data.Any(x => x == InstAttribKind.LOCKED);
             }
 
             public string Format()
@@ -74,18 +74,18 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator InstAttribs(AttributeKind[] src)
+            public static implicit operator InstAttribs(InstAttribKind[] src)
                 => new InstAttribs(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator AttributeKind[](InstAttribs src)
+            public static implicit operator InstAttribKind[](InstAttribs src)
                 => src.Data;
 
             [MethodImpl(Inline)]
-            public static implicit operator Index<AttributeKind>(InstAttribs src)
+            public static implicit operator Index<InstAttribKind>(InstAttribs src)
                 => src.Data;
 
-            public static InstAttribs Empty => sys.empty<AttributeKind>();
+            public static InstAttribs Empty => sys.empty<InstAttribKind>();
         }
     }
 }

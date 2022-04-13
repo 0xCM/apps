@@ -36,19 +36,19 @@ namespace Z0
         [CmdOp("xed/check/ops")]
         Outcome CheckOps(CmdArgs args)
         {
-            var patterns = Xed.Rules.CalcInstPatterns();
+            var src = Xed.Rules.CalcInstPatterns();
             var rules = Xed.Rules.CalcRules();
-            //var ops = XedRules.opdetails(rules,patterns);
-            for(var i=0; i<patterns.Count; i++)
+            var dst = text.buffer();
+            for(var i=0; i<src.Count; i++)
             {
-                ref readonly var pattern = ref patterns[i];
-                ref readonly var ops = ref pattern.OpDetails;
-                ref readonly var opcode = ref pattern.OpCode;
-
-
-                // var v = XedRules.vector(pattern);
-                // Write(string.Format("{0,-18} | {1}", pattern.Classifier, v));
+                ref readonly var pattern = ref src[i];
+                ref readonly var attribs = ref pattern.Attributes;
+                var set = Bitsets.init(n128, attribs.Storage);
+                if(set.IsNonEmpty)
+                    dst.AppendLineFormat("{0,-10} | {1,-18} | {2,-26} | {3}", pattern.PatternId, pattern.InstClass, pattern.OpCode, set.Format(" | ", -32));
             }
+
+            FileEmit(dst.Emit(), 1, AppDb.Log("xed.attributes", FileKind.Csv));
 
             return true;
         }

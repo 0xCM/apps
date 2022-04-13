@@ -47,8 +47,8 @@ namespace Z0
         public static IndexedSeq<T> index<T>(params T[] src)
             => new IndexedSeq<T>(src, true);
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static DelimitedIndex<object> index(char delimiter, int pad, params object[] src)
-            => new DelimitedIndex<object>(src, delimiter, pad);
+        // [MethodImpl(Inline), Op, Closures(Closure)]
+        // public static DelimitedIndex<object> index(char delimiter, int pad, params object[] src)
+        //     => new DelimitedIndex<object>(src, delimiter, pad);
     }
 }

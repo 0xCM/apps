@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     public struct Sequential<T>
@@ -34,7 +30,7 @@ namespace Z0
         }
 
         public Sequential<T> Next()
-            => Seq.next(this);
+            => memory.next(this);
 
         public void IncLo()
         {
