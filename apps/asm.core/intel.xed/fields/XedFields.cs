@@ -25,9 +25,9 @@ namespace Z0
                 => EffectiveFieldTypes.Where(t => t.IsEnum);
         }
 
-        static readonly Index<FieldKind,RuleFieldSpec> _Specs;
+        static readonly Index<FieldKind,ReflectedField> _Specs;
 
-        public static Index<FieldKind,RuleFieldSpec> Specs => _Specs;
+        public static Index<FieldKind,ReflectedField> Specs => _Specs;
 
         public static FieldKind kind(string src)
         {
@@ -87,21 +87,23 @@ namespace Z0
 
         static Index<FieldKind,Type> EffectiveFieldTypes;
 
-        static Index<FieldKind,RuleFieldSpec> specs()
+        static Index<FieldKind,ReflectedField> specs()
         {
             var kinds = Symbols.index<FieldKind>().Kinds;
             var count = kinds.Length;
             var src = typeof(RuleState).InstanceFields().Tagged<RuleFieldAttribute>();
             var fields = src.Map(f => (f.Tag<RuleFieldAttribute>().Require().Kind, f)).ToDictionary();
-            var dst = alloc<RuleFieldSpec>(count);
+            var dst = alloc<ReflectedField>(count - 1);
             var total = z16;
-            var types = alloc<Type>(count);
+            var types = alloc<Type>(count - 1);
 
-            for(var i=z16; i<count; i++)
+            var k=0u;
+            for(var i=1; i<count; i++,k++)
             {
-                ref var record = ref seek(dst,i);
                 ref readonly var kind = ref skip(kinds,i);
-                ref var type = ref seek(types,i);
+
+                ref var record = ref seek(dst,k);
+                ref var type = ref seek(types,k);
                 if(fields.TryGetValue(kind, out var field))
                 {
                     var tag = field.Tag<RuleFieldAttribute>().Require();
@@ -109,20 +111,17 @@ namespace Z0
                     type = tag.EffectiveType;
                     total = (ushort)(total + (dw/8));
                     record.Index = (ushort)kind;
-                    record.FieldName = field.Name;
                     record.EffectiveWidth = tag.Width;
-                    record.DataWidth = dw;
+                    record.FieldWidth = dw;
                     record.TotalSize = total;
-                    record.FieldKind = tag.Kind;
-                    record.DeclaredType = field.FieldType.DisplayName();
-                    record.EffectiveType = type.DisplayName();
+                    record.Field = tag.Kind;
+                    record.FieldType = new(kind,field.FieldType.DisplayName());
+                    record.EffectiveType = new(kind,type.DisplayName());
                     record.Description = tag.Description;
                 }
                 else
                 {
-                    record.FieldName = nameof(FieldKind.INVALID);
-                    record.FieldKind = FieldKind.INVALID;
-                    type = typeof(void);
+                    Errors.Throw($"{kind} is invalid");
                 }
             }
 

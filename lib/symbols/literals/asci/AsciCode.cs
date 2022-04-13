@@ -6,7 +6,7 @@ namespace Z0
 {
     using AC = AsciCharSym;
 
-    [CodeProvider(typeof(AC))]
+    [CodeProvider(typeof(AC)),DataWidth(8)]
     public enum AsciCode : byte
     {
         /// <summary>

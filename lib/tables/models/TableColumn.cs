@@ -4,18 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct TableColumn
     {
-        public string Name {get;}
+        public readonly string Name;
 
-        public string Type {get;}
+        public readonly string Type;
 
-        public ushort ColWidth {get;}
+        public readonly ushort ColWidth;
 
         [MethodImpl(Inline)]
         public TableColumn(string name, string type, ushort width)

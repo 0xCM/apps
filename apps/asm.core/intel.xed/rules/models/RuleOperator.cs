@@ -7,6 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
+        [DataWidth(4,8)]
         public readonly struct RuleOperator
         {
             public static RuleOperator None => OperatorKind.None;

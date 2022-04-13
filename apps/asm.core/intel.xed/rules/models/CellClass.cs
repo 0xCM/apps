@@ -9,6 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
+        [DataWidth(4,8)]
         public readonly struct CellClass
         {
             public readonly RuleCellKind Kind;

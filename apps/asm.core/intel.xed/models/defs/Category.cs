@@ -7,7 +7,8 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public struct Category
+        [DataWidth(8)]
+        public readonly record struct Category
         {
             public readonly CategoryKind Kind;
 

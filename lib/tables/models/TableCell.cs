@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct TableCell : ITextual
     {
-        public object Content {get;}
+        public readonly object Content;
 
         [MethodImpl(Inline)]
         public TableCell(object content)

@@ -4,13 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    using static XedRules;
-    using static XedModels;
-    using static Datasets;
-    using static core;
-
     partial class XedCmdProvider
     {
         [CmdOp("xed/emit/cells")]

@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using static core;
 
-    [ApiHost]
+    [ApiHost,DataWidth(128)]
     public struct AsmHexCode : IEquatable<AsmHexCode>, IComparable<AsmHexCode>
     {
         public const byte SizeIndex = 15;

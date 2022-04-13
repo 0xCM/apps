@@ -4,18 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct TableDef
     {
-        public TableId TableId {get;}
+        public readonly TableId TableId;
 
-        public Identifier TypeName {get;}
+        public readonly Identifier TypeName;
 
-        public TableFieldDef[] Fields {get;}
+        public readonly Index<TableFieldDef> Fields;
 
         [MethodImpl(Inline)]
         public TableDef(TableId id, Identifier name, TableFieldDef[] fields)
@@ -23,6 +18,12 @@ namespace Z0
             TableId = id;
             TypeName = name;
             Fields = fields;
+        }
+
+        public uint FieldCount
+        {
+            [MethodImpl(Inline)]
+            get => Fields.Count;
         }
 
         public static TableDef Empty

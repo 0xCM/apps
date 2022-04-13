@@ -75,10 +75,10 @@ namespace Z0
             => ApiMetadataService.create(Wf).EmitTokenSet(XedFields.SymbolicFields.create(), AppDb.XedPath("xed.fields.symbolic", FileKind.Csv));
 
         void EmitFieldDefs()
-            => TableEmit(CalcFieldDefs().View, XedFieldDef.RenderWidths, XedPaths.Table<XedFieldDef>());
+            => TableEmit(ImportFieldDefs().View, XedFieldDef.RenderWidths, XedPaths.Table<XedFieldDef>());
 
         void EmitReflectedFields()
-            => TableEmit(XedFields.Specs.View, RuleFieldSpec.RenderWidths, XedPaths.Table<RuleFieldSpec>());
+            => TableEmit(XedFields.Specs.View, ReflectedField.RenderWidths, XedPaths.Table<ReflectedField>());
 
         void EmitOpCodes(Index<InstPattern> src)
             => TableEmit(XedOpCodes.poc(src).View, PatternOpCode.RenderWidths, XedPaths.Table<PatternOpCode>());

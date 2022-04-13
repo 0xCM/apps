@@ -10,7 +10,7 @@ namespace Z0.Asm
     /// <summary>
     /// ss iii bbb
     /// </summary>
-    [ApiComplete]
+    [ApiComplete, DataWidth(8)]
     public struct Sib : IAsmByte<Sib>
     {
         [MethodImpl(Inline), Op]

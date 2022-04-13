@@ -6,11 +6,12 @@
 namespace Z0
 {
     using static core;
+
     using static XedModels;
 
     partial class XedRules
     {
-        Index<XedFieldDef> CalcFieldDefs()
+        Index<XedFieldDef> ImportFieldDefs()
         {
             var src = XedPaths.DocSource(XedDocKind.Fields);
             var dst = list<XedFieldDef>();
@@ -28,9 +29,11 @@ namespace Z0
                 record.Name = cells.Next();
 
                 cells.Next();
-                result = FieldTypes.ExprKind(cells.Next(), out record.FieldType);
+                result = FieldTypes.ExprKind(cells.Next(), out XedFieldType ft);
                 if(result.Fail)
                     Errors.Throw(AppMsg.ParseFailure.Format(nameof(record.FieldType), cells.Prior()));
+                else
+                    record.FieldType = ft;
 
                 result = DataParser.parse(cells.Next(), out record.Width);
                 if(result.Fail)

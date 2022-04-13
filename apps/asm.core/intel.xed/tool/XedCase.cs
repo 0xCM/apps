@@ -10,7 +10,7 @@ namespace Z0
     {
         public const string TableId = "xed.case";
 
-        public Identifier CaseId;
+        public string CaseId;
 
         public FS.FilePath InputPath;
 

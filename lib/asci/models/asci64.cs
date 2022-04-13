@@ -12,6 +12,7 @@ namespace Z0
     using S = Vector512<byte>;
     using api = Asci;
 
+    [DataWidth(512)]
     public readonly struct asci64 : IAsciSeq<A,N>
     {
         public const int Size = 64;

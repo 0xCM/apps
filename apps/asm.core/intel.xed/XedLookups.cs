@@ -18,7 +18,7 @@ namespace Z0
 
         public readonly ConstLookup<OpWidthCode,OpWidthInfo> WidthLookup;
 
-        readonly Index<FieldKind,RuleFieldSpec> FieldSpecs;
+        readonly Index<FieldKind,ReflectedField> FieldSpecs;
 
         XedLookups()
         {
@@ -31,7 +31,7 @@ namespace Z0
         XedPaths XedPaths => XedPaths.Service;
 
         [MethodImpl(Inline)]
-        public ref readonly RuleFieldSpec FieldSpec(FieldKind kind)
+        public ref readonly ReflectedField FieldSpec(FieldKind kind)
             => ref FieldSpecs[kind];
 
         public OpWidthInfo WidthInfo(OpWidthCode code)

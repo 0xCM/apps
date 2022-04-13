@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Lifts an asci code to a structural type
     /// </summary>
-    [ApiHost]
+    [ApiHost ,DataWidth(8)]
     public readonly struct AsciSymbol : IAsciSeq<C,N>
     {
         public readonly AsciCode Code;

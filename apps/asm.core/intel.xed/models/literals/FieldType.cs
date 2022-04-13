@@ -5,49 +5,53 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    partial class XedRules
     {
-        [SymSource(xed)]
-        public enum FieldType : byte
+        [DataWidth(128)]
+        public readonly record struct FieldType
         {
-            [Symbol("xed_bits_t")]
-            Bits,
+            const byte ZeroIndex = 14;
 
-            [Symbol("xed_reg_enum_t")]
-            Reg,
+            const byte FieldIndex = 15;
 
-            [Symbol("xed_iclass_enum_t")]
-            IClass,
+            readonly ByteBlock16 Storage;
 
-            [Symbol("xed_chip_enum_t")]
-            Chip,
+            public FieldType(FieldKind kind, string name)
+            {
+                var data = ByteBlock16.Empty;
+                asci16 type = name;
+                data = type.Storage;
+                data[ZeroIndex] = 0;
+                data[FieldIndex] = (byte)kind;
+                Storage = data;
+            }
 
-            [Symbol("xed_uint8_t")]
-            U8,
+            public asci16 Type
+            {
+                [MethodImpl(Inline)]
+                get
+                {
+                    var data = Storage;
+                    data[FieldIndex] = 0;
+                    return new (data.Bytes);
+                }
+            }
 
-            [Symbol("xed_int8_t")]
-            I8,
+            public readonly FieldKind Field
+            {
+                [MethodImpl(Inline)]
+                get => (FieldKind)Storage[15];
+            }
 
-            [Symbol("xed_uint16_t")]
-            U16,
+            public string Format()
+                => Type;
 
-            [Symbol("xed_int16_t")]
-            I16,
+            public override string ToString()
+                => Format();
 
-            [Symbol("xed_uint32_t")]
-            U32,
-
-            [Symbol("xed_int32_t")]
-            I32,
-
-            [Symbol("xed_uint64_t")]
-            U64,
-
-            [Symbol("xed_int64_t")]
-            I64,
-
-            [Symbol("xed_error_enum_t")]
-            Error,
+            [MethodImpl(Inline)]
+            public static implicit operator asci16(FieldType src)
+                => src.Type;
         }
     }
 }

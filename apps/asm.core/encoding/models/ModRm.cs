@@ -7,7 +7,7 @@ namespace Z0.Asm
     /// <summary>
     /// ModRM[mod[7:6] | reg[5:3] | r/m[2:0]]
     /// </summary>
-    [ApiComplete, DataType("asm.modrm")]
+    [ApiComplete, DataWidth(8)]
     public struct ModRm : IAsmByte<ModRm>
     {
         public const string BitPattern = ModRmFields.BitPattern;

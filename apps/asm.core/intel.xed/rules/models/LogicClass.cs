@@ -7,6 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
+        [DataWidth(8)]
         public readonly struct LogicClass : IComparable<LogicClass>
         {
             public readonly LogicKind Kind;

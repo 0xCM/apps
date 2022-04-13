@@ -8,31 +8,29 @@ namespace Z0
     partial class XedRules
     {
         [Record(TableName)]
-        public struct RuleFieldSpec
+        public struct ReflectedField
         {
             public const string TableName = "xed.fields.reflected";
 
-            public const byte FieldCount = 9;
+            public const byte FieldCount = 8;
 
             public ushort Index;
 
-            public Identifier FieldName;
+            public FieldKind Field;
 
-            public FieldKind FieldKind;
+            public FieldType FieldType;
+
+            public FieldType EffectiveType;
+
+            public ushort FieldWidth;
 
             public ushort EffectiveWidth;
 
-            public ushort DataWidth;
-
             public ushort TotalSize;
-
-            public Identifier DeclaredType;
-
-            public Identifier EffectiveType;
 
             public TextBlock Description;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,24,12,12,12,22,22,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,16,16,16,16,12,1};
         }
     }
 }

@@ -4,18 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct TableFieldDef
     {
-        public ushort FieldIndex {get;}
+        public readonly ushort FieldIndex;
 
-        public Identifier FieldName {get;}
+        public readonly Identifier FieldName;
 
-        public Identifier DataType {get;}
+        public readonly Identifier DataType;
 
         [MethodImpl(Inline)]
         public TableFieldDef(ushort index, string name, Identifier type)

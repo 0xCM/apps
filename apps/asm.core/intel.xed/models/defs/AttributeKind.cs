@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed)]
+        [SymSource(xed), DataWidth(8)]
         public enum AttributeKind : byte
         {
             INVALID,

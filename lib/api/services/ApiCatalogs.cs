@@ -24,10 +24,7 @@ namespace Z0
             var counter = 0u;
             var count = src.Length;
             for(var i=0; i<count; i++)
-            {
-                ref readonly var table = ref skip(src,i);
-                counter += (uint)table.Fields.Length;
-            }
+                counter += skip(src,i).FieldCount;
             return counter;
         }
 
@@ -41,10 +38,10 @@ namespace Z0
             for(var i=0; i<kTables; i++)
             {
                 ref readonly var table = ref skip(tables,i);
-                var fields = table.Fields;
-                for(var j=0; j<fields.Length; j++)
+                ref readonly var fields = ref table.Fields;
+                for(var j=0; j<fields.Count; j++)
                 {
-                    ref readonly var field = ref skip(fields,j);
+                    ref readonly var field = ref fields[j];
                     ref var record = ref seek(buffer,k);
                     record.Seq = k;
                     record.TableId = table.TableId;

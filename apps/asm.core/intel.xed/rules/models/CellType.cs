@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly struct CellType
+        public readonly struct CellType : IEquatable<CellType>
         {
             [MethodImpl(Inline)]
             public static CellType @operator(RuleOperator op)

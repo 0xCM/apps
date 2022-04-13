@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static core;
-    using static Root;
-
     public class RecordGen : AppService<RecordGen>
     {
         public void Emit(uint margin, TableDef spec, ITextBuffer dst)
@@ -19,12 +14,11 @@ namespace Z0
             margin += 4;
             dst.IndentLineFormat(margin,"public const string TableId = \"{0}\";", spec.TableId);
 
-            var fields = spec.Fields;
-            var count = fields.Length;
-            for(var i=0; i<count; i++)
+            ref readonly var fields = ref spec.Fields;
+            for(var i=0; i<fields.Count; i++)
             {
                 dst.AppendLine();
-                ref readonly var field = ref skip(fields,i);
+                ref readonly var field = ref fields[i];
                 dst.IndentLineFormat(margin,"public {0} {1};", field.DataType, field.FieldName);
             }
 

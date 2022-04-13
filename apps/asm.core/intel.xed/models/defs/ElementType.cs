@@ -9,6 +9,7 @@ namespace Z0
 
     partial struct XedModels
     {
+        [DataWidth(8)]
         public readonly struct ElementType
         {
             public readonly ElementKind Kind;

@@ -15,6 +15,7 @@ namespace Z0
     /// <summary>
     /// Defines an asci code sequence of length 16
     /// </summary>
+    [DataWidth(128)]
     public readonly struct asci16 : IAsciSeq<A,N>
     {
         public const int Size = 16;

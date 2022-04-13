@@ -5,7 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    using static XedModels;
+
+    partial class XedRules
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
         public struct XedFieldDef : IComparable<XedFieldDef>
@@ -16,7 +18,7 @@ namespace Z0
 
             public text31 Name;
 
-            public FieldType FieldType;
+            public EnumFormat<XedFieldType> FieldType;
 
             public byte Width;
 

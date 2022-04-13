@@ -9,7 +9,6 @@ namespace Z0
 
     using static XedModels;
     using static XedRules;
-    using static XedPatterns;
 
     partial class XedDisasm
     {

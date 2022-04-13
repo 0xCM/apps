@@ -13,6 +13,7 @@ namespace Z0
     /// <summary>
     /// Defines an asci code sequence of length 2
     /// </summary>
+    [DataWidth(16)]
     public readonly struct asci2 : IAsciSeq<A,N>
     {
         internal readonly S Storage;

@@ -7,6 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
+        [DataWidth(8)]
         public enum LogicKind : byte
         {
             None = 0,

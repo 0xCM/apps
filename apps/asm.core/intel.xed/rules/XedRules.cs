@@ -19,7 +19,7 @@ namespace Z0
 
         Symbols<VisibilityKind> Visibilities;
 
-        Symbols<FieldType> FieldTypes;
+        Symbols<XedFieldType> FieldTypes;
 
         static AppData AppData
         {
@@ -37,7 +37,7 @@ namespace Z0
         {
             PointerWidths = map(PointerWidthKinds.View, s => (PointerWidth)s.Kind);
             Visibilities = Symbols.index<VisibilityKind>();
-            FieldTypes = Symbols.index<FieldType>();
+            FieldTypes = Symbols.index<XedFieldType>();
         }
 
         XedPaths XedPaths => Service(Wf.XedPaths);

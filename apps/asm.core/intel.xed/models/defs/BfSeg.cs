@@ -5,11 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(80)]
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct BfSeg
         {
             public readonly FieldKind Field;

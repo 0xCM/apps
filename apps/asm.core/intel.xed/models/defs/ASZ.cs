@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedFields
     {
-        [SymSource(xed)]
+        [SymSource(xed), DataWidth(2,8)]
         public enum ASZ : byte
         {
             [Symbol("")]

@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed), DataWidth(3)]
+        [SymSource(xed), DataWidth(3,8)]
         public enum EASZ : sbyte
         {
             [Symbol("")]

@@ -9,7 +9,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        [SymSource(xed)]
+        [SymSource(xed), DataWidth(3,8)]
         public enum BaseMapKind : byte
         {
             [Symbol(S.B0)]

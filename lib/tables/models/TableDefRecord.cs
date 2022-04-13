@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     [Record(RecordId)]
     public struct TableDefRecord
     {

@@ -9,7 +9,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        [Record(TableId), StructLayout(LayoutKind.Sequential)]
+        [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct FormImport : IComparable<FormImport>
         {
             public const string TableId = "xed.iform";
