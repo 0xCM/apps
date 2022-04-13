@@ -43,8 +43,20 @@ namespace Z0
                 get => (FieldKind)Storage[15];
             }
 
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Storage.IsEmpty;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Storage.IsEmpty;
+            }
+
             public string Format()
-                => Type;
+                => IsEmpty ? EmptyString : Type.Format();
 
             public override string ToString()
                 => Format();

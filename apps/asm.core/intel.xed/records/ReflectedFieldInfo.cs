@@ -22,9 +22,9 @@ namespace Z0
 
             public FieldType EffectiveType;
 
-            public ushort FieldWidth;
+            public byte FieldWidth;
 
-            public ushort EffectiveWidth;
+            public byte EffectiveWidth;
 
             public ushort TotalSize;
 

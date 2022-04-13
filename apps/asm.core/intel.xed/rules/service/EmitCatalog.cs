@@ -72,13 +72,13 @@ namespace Z0
             => mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i));
 
         void EmitSymbolicFields()
-            => ApiMetadataService.create(Wf).EmitTokenSet(XedFields.SymbolicFields.create(), AppDb.XedPath("xed.fields.symbolic", FileKind.Csv));
+            => ApiMetadataService.create(Wf).EmitTokenSet(XedFields.EffectiveFields.create(), AppDb.XedPath("xed.fields.symbolic", FileKind.Csv));
 
         void EmitFieldDefs()
             => TableEmit(ImportFieldDefs().View, XedFieldDef.RenderWidths, XedPaths.Table<XedFieldDef>());
 
         void EmitReflectedFields()
-            => TableEmit(XedFields.Specs.View, ReflectedField.RenderWidths, XedPaths.Table<ReflectedField>());
+            => TableEmit(XedFields.Reflected.View, ReflectedField.RenderWidths, XedPaths.Table<ReflectedField>());
 
         void EmitOpCodes(Index<InstPattern> src)
             => TableEmit(XedOpCodes.poc(src).View, PatternOpCode.RenderWidths, XedPaths.Table<PatternOpCode>());

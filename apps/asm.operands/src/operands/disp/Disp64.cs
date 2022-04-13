@@ -39,7 +39,7 @@ namespace Z0.Asm
             return result;
         }
 
-        public long Value {get;}
+        public readonly long Value;
 
         [MethodImpl(Inline)]
         public Disp64(long value)
@@ -83,6 +83,12 @@ namespace Z0.Asm
 
         public override string ToString()
             => Format();
+
+        long IDisplacement<long>.Value
+             => Value;
+
+        long IDisplacement.Value
+            => Value;
 
         [MethodImpl(Inline)]
         public static implicit operator ulong(Disp64 src)
