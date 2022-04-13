@@ -19,10 +19,13 @@ namespace Z0
             return true;
         }
 
-        public static Outcome parse(string src, out uint2 dst)
+        public static bool parse(string src, out uint1 dst)
             => BitNumbers.parse(src, out dst);
 
-        public static Outcome parse(string src, out uint3 dst)
+        public static bool parse(string src, out uint2 dst)
+            => BitNumbers.parse(src, out dst);
+
+        public static bool parse(string src, out uint3 dst)
             => BitNumbers.parse(src, out dst);
 
         public static Outcome parse(string src, out uint4 dst)

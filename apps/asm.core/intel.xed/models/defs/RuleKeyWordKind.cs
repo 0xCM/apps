@@ -21,8 +21,8 @@ namespace Z0
             [Symbol("default")]
             Default,
 
-            [Symbol("branch")]
-            Branch,
+            [Symbol("else")]
+            Else,
 
             [Symbol("error")]
             Error,

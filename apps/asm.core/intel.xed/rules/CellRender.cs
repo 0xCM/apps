@@ -93,6 +93,10 @@ namespace Z0
                 for(var k = z16; k<count; k++)
                 {
                     ref readonly var cell = ref src.Cell(k);
+
+                    if(k == count - 1 && cell.IsOperator)
+                        break;
+
                     if(k != 0)
                         dst.Append(Chars.Space);
 

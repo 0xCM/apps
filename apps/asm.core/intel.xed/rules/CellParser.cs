@@ -234,20 +234,6 @@ namespace Z0
                     }
                     break;
 
-                    // case K.DISP:
-                    // {
-                    //     result = byte.TryParse(value, out byte b);
-                    //     if(result)
-                    //         dst = new (field, b);
-                    //     else
-                    //     {
-                    //         result = XedParsers.parse(value, out DispSeg disp);
-                    //         if(result)
-                    //             dst = new (field, disp);
-                    //     }
-                    // }
-                    // break;
-
                     case K.DISP:
                     case K.UIMM0:
                     case K.UIMM1:
@@ -271,18 +257,6 @@ namespace Z0
                         }
                     }
                     break;
-                    // case K.UIMM1:
-                    // {
-                    //     result = byte.TryParse(value, out var b);
-                    //     if(result)
-                    //         dst = new (field,b);
-                    //     else
-                    //     {
-                    //         result = XedParsers.parse(value, out ImmSeg imm);
-                    //         dst = new (field, imm.WithIndex(1));
-                    //     }
-                    // }
-                    // break;
 
                     case K.BASE0:
                     case K.BASE1:
@@ -517,7 +491,7 @@ namespace Z0
                         else
                             Errors.Throw(AppMsg.ParseFailure.Format(nameof(CellClass), input));
                     }
-                    else if(RuleKeyword.parse(input, out var keyword))
+                    else if(XedParsers.parse(input, out RuleKeyword keyword))
                         dst = CK.Keyword;
                     else
                         dst = CK.String;
@@ -583,27 +557,6 @@ namespace Z0
                     Errors.Throw(AppMsg.ParseFailure.Format(nameof(RowCriteria), src));
 
                 return dst.IsNonEmpty;
-            }
-
-            public static bool parse(string src, out BfSeg dst)
-            {
-                var name = EmptyString;
-                var content = EmptyString;
-                dst = default;
-                var i = text.index(src, Chars.LBracket);
-                var j = text.index(src, Chars.RBracket);
-                var result = false;
-                if(i > 0 && j > i)
-                {
-                    name = text.left(src,i);
-                    content = text.inside(src,i,j);
-                    if(XedParsers.parse(name, out FieldKind kind))
-                    {
-                        dst = new BfSeg(kind, text.remove(content,"0b"), text.begins(content,"0b"));
-                        result = true;
-                    }
-                }
-                return result;
             }
 
             static bool spec(FieldKind field, string src, out CellExpr dst)

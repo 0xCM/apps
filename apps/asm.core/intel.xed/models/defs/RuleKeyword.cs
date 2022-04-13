@@ -14,7 +14,7 @@ namespace Z0
             public static RuleKeyword from(RuleKeyWordKind kind)
                 => kind switch
                 {
-                    KW.Branch => Branch,
+                    KW.Else => Else,
                     KW.Default => Default,
                     KW.Error => Error,
                     KW.Null => Null,
@@ -22,45 +22,13 @@ namespace Z0
                     _ => RuleKeyword.Empty
                 };
 
-            public static bool parse(string src, out RuleKeyword dst)
-            {
-                var result = false;
-                var input = text.trim(src);
-                dst = RuleKeyword.Empty;
-                switch(input)
-                {
-                    case "default":
-                        dst = RuleKeyword.Default;
-                        result = true;
-                        break;
-                    case "otherwise":
-                        dst = RuleKeyword.Branch;
-                        result = true;
-                    break;
-                    case "nothing":
-                        dst = RuleKeyword.Null;
-                        result = true;
-                    break;
-                    case "error":
-                        dst = RuleKeyword.Error;
-                        result = true;
-                    break;
-                    case "@":
-                        dst = RuleKeyword.Wildcard;
-                        result = true;
-                    break;
-                }
-
-                return result;
-            }
-
             public static RuleKeyword Wildcard => new RuleKeyword(KW.Wildcard, "@");
 
             public static RuleKeyword Null => new RuleKeyword(KW.Null, "null");
 
             public static RuleKeyword Default => new RuleKeyword(KW.Default, "default");
 
-            public static RuleKeyword Branch => new RuleKeyword(KW.Branch, "branch");
+            public static RuleKeyword Else => new RuleKeyword(KW.Else, "else");
 
             public static RuleKeyword Error => new RuleKeyword(KW.Error, "error");
 

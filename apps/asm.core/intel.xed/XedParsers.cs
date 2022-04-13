@@ -294,7 +294,29 @@ namespace Z0
         public static bool parse(string src, out OSZ dst)
             => OszKinds.Parse(src, out dst);
 
-        public static bool parse(string src, out uint5 dst)
+        public static bool parse(string src, out uint1 dst)
+        {
+            if(IsBinaryLiteral(src))
+                return DataParser.parse(src, out dst);
+            else
+            {
+                dst = default;
+                return false;
+            }
+        }
+
+        public static bool parse(string src, out uint2 dst)
+        {
+            if(IsBinaryLiteral(src))
+                return DataParser.parse(src, out dst);
+            else
+            {
+                dst = default;
+                return false;
+            }
+        }
+
+        public static bool parse(string src, out uint3 dst)
         {
             if(IsBinaryLiteral(src))
                 return DataParser.parse(src, out dst);
@@ -306,6 +328,19 @@ namespace Z0
         }
 
         public static bool parse(string src, out uint4 dst)
+        {
+            if(IsBinaryLiteral(src))
+            {
+                return DataParser.parse(src, out dst);
+            }
+            else
+            {
+                dst = default;
+                return false;
+            }
+        }
+
+        public static bool parse(string src, out uint5 dst)
         {
             if(IsBinaryLiteral(src))
                 return DataParser.parse(src, out dst);
@@ -614,7 +649,7 @@ namespace Z0
                 dst = new (field, reg);
                 result = true;
             }
-            else if(RuleKeyword.parse(value, out RuleKeyword keyword))
+            else if(parse(value, out RuleKeyword keyword))
             {
                 dst = new(keyword);
                 result = true;

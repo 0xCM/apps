@@ -48,15 +48,15 @@ namespace Z0
             public ref readonly Index<TableCriteria> Criteria()
                 => ref _Criteria;
 
-            SortedLookup<RuleSig,TableCriteria> _CriteriaLookup;
+            //SortedLookup<RuleSig,TableCriteria> _CriteriaLookup;
 
-            public TableCriteria Criteria(in RuleSig sig)
-            {
-                if(_CriteriaLookup.Find(sig,out var spec))
-                    return spec;
-                else
-                    return XedRules.TableCriteria.Empty;
-            }
+            // public TableCriteria Criteria(in RuleSig sig)
+            // {
+            //     if(_CriteriaLookup.Find(sig,out var spec))
+            //         return spec;
+            //     else
+            //         return XedRules.TableCriteria.Empty;
+            // }
 
             Dictionary<RuleSig,FS.FilePath> TablePaths;
 
@@ -136,7 +136,7 @@ namespace Z0
                 _EncCriteria = enc;
                 _DecCriteria = dec;
                 _Criteria = specs;
-                _CriteriaLookup = specs.Map(x => (x.Sig,x)).ToDictionary();
+                //_CriteriaLookup = specs.Map(x => (x.Sig,x)).ToDictionary();
                 return specs;
             }
 
