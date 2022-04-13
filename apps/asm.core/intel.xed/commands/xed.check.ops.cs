@@ -63,11 +63,12 @@ namespace Z0
                     for(byte j=0; j<machine.OpCount; j++)
                     {
                         ref readonly var op = ref machine.Op(j);
+                        Write(op.Format());
                         if(op.IsNonterm)
                         {
                             ref readonly var nonterm = ref op.NonTerm;
-                            var table = machine.ResolveNontermOp(j);
-
+                            var table = machine.NontermOpTable(j);
+                            Write(table.Format());
                         }
                     }
                 }

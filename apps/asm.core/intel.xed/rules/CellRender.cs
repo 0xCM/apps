@@ -8,6 +8,7 @@ namespace Z0
 
     using static XedModels;
     using static XedPatterns;
+    using static Datasets;
     using static core;
 
     using C = XedRules.FormatCode;
@@ -18,6 +19,86 @@ namespace Z0
     {
         public readonly struct CellRender
         {
+            public static void cells(Index<RowSpec> table, TableColumns cols, ColumnBuffer buffer, ITextBuffer dst)
+            {
+                if(table.IsEmpty)
+                    return;
+
+                ref readonly var sig = ref table.First.Sig;
+                for(var j=0; j<table.Count; j++)
+                {
+                    ref readonly var row = ref table[j];
+                    ref readonly var tk = ref row.TableKind;
+                    ref readonly var rix = ref row.RowIndex;
+                    ref readonly var count = ref row.ColCount;
+                    for(var k = z16; k<count; k++)
+                    {
+                        ref readonly var cell = ref row.Cell(k);
+                        ref readonly var key = ref row.Key(k);
+                        ref readonly var cix = ref key.CellIndex;
+                        ref readonly var type = ref cell.Type;
+
+                        buffer.Write(row.TableId);
+                        buffer.Write(tk);
+                        buffer.Write(sig.ShortName);
+                        buffer.Write(rix);
+                        buffer.Write(cix);
+                        buffer.Write(type);
+                        buffer.Write(XedRender.format(cell.Field));
+                        buffer.Write(cell.Operator);
+                        buffer.Write(cell);
+                        buffer.EmitLine(dst);
+                    }
+                }
+            }
+
+            public static void cells(TableSpecs tables, TableColumns cols, ITextBuffer dst)
+            {
+                var buffer = cols.Buffer();
+                buffer.EmitHeader(dst);
+                var sigs = tables.Keys;
+                var counter = 0u;
+                for(var i=0; i<sigs.Length; i++)
+                    cells(tables[skip(sigs,i)], cols, buffer, dst);
+            }
+
+            public static void cells(RuleTables rules, ITextBuffer dst)
+            {
+                var cols = TableSpecs.Columns;
+                var tables = rules.Specs();
+                cells(tables, cols, dst);
+            }
+
+            public static string expressions(in TableSpec src)
+            {
+                var dst = text.buffer();
+                for(var j=0; j<src.RowCount; j++)
+                {
+                    expression(src[j],dst);
+                    dst.AppendLine();
+                }
+                return dst.Emit();
+            }
+
+            public static string expression(in RowSpec src)
+            {
+                var dst = text.buffer();
+                expression(src,dst);
+                return dst.Emit();
+            }
+
+            public static void expression(in RowSpec src, ITextBuffer dst)
+            {
+                var count = src.ColCount;
+                for(var k = z16; k<count; k++)
+                {
+                    ref readonly var cell = ref src.Cell(k);
+                    if(k != 0)
+                        dst.Append(Chars.Space);
+
+                    dst.Append(cell.Format());
+                }
+            }
 
             public static string format(in CellType src)
             {

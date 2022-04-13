@@ -16,7 +16,7 @@ namespace Z0
             exec(PllExec,
                 () => EmitTableSigs(tables.SigRows),
                 () => EmitRuleSeq(),
-                () => EmitTableSpecs(tables),
+                () => EmitCriteria(tables),
                 () => EmitTableFiles(tables)
             );
         }
@@ -32,10 +32,10 @@ namespace Z0
             FileEmit(dst.Emit(), src.Count, XedPaths.Service.DocTarget(XedDocKind.RuleSeq), TextEncodingKind.Asci);
         }
 
-        void EmitTableSpecs(RuleTables rules)
+        void EmitCriteria(RuleTables rules)
         {
             var formatter = Tables.formatter<TableDefRow>(TableDefRow.RenderWidths);
-            ref readonly var tables = ref rules.TableSpecs();
+            ref readonly var tables = ref rules.Criteria();
             var dst = XedPaths.RuleSpecs();
             using var writer = dst.AsciWriter();
             writer.AppendLine(formatter.FormatHeader());
@@ -69,7 +69,7 @@ namespace Z0
         public void EmitTableFiles(RuleTables rules)
         {
             var formatter = Tables.formatter<TableDefRow>(TableDefRow.RenderWidths);
-            ref readonly var tables = ref rules.TableSpecs();
+            ref readonly var tables = ref rules.Criteria();
             for(var i=0; i<tables.Count; i++)
             {
                 ref readonly var table = ref tables[i];

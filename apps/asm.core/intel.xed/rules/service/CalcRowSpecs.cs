@@ -9,9 +9,9 @@ namespace Z0
 
     partial class XedRules
     {
-        static Dictionary<RuleSig,Index<RowSpec>> CalcRowSpecs(Index<TableCriteria> src)
+        static Dictionary<RuleSig,TableSpec> CalcRowSpecs(Index<TableCriteria> src)
         {
-            var dst = dict<RuleSig,Index<RowSpec>>();
+            var dst = dict<RuleSig,TableSpec>();
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var table = ref src[i];

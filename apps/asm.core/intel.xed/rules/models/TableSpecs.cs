@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public class RowSpecs : SortedLookup<RuleSig,Index<RowSpec>>
+        public class TableSpecs : SortedLookup<RuleSig,TableSpec>
         {
             public static TableColumns Columns = new TableColumns(
                 ("TableId", 10),
@@ -23,15 +23,15 @@ namespace Z0
                 ("Value", 16)
                 );
 
-            public RowSpecs(Dictionary<RuleSig,Index<RowSpec>> src)
+            public TableSpecs(Dictionary<RuleSig,TableSpec> src)
                 : base(src)
             {
 
 
             }
 
-            public static implicit operator RowSpecs(Dictionary<RuleSig,Index<RowSpec>> src)
-                => new RowSpecs(src);
+            public static implicit operator TableSpecs(Dictionary<RuleSig,TableSpec> src)
+                => new TableSpecs(src);
         }
     }
 }

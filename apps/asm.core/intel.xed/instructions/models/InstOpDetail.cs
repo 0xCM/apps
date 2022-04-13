@@ -26,6 +26,8 @@ namespace Z0
 
             public RexBit RexW;
 
+            public OpAttribs Attribs;
+
             public byte OpCount;
 
             public byte Index;
@@ -67,6 +69,12 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => NonTerm.IsNonEmpty;
             }
+
+            public string Format()
+                => XedRender.format(this);
+
+            public override string ToString()
+                => Format();
 
             public static InstOpDetail Empty => default;
         }

@@ -57,6 +57,12 @@ namespace Z0
                 get => Type.Operator;
             }
 
+            public bool IsOperator
+            {
+                [MethodImpl(Inline)]
+                get => Field == 0 && Operator.IsNonEmpty;
+            }
+
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]

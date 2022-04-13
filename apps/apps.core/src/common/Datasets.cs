@@ -69,7 +69,6 @@ namespace Z0
                 dst.AppendLine(Emit());
             }
 
-
             public string Format()
             {
                 var content = Cols.Format(Data.Storage);

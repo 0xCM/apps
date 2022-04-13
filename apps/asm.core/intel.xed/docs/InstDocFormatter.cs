@@ -126,7 +126,7 @@ namespace Z0
                 dst.AppendLine();
             }
 
-            void RenderTable(in TableCriteria src, ITextBuffer dst)
+            void Render(in TableSpec src, ITextBuffer dst)
             {
                 dst.AppendLine(TableHeader(src.Sig));
                 dst.AppendLine();
@@ -153,7 +153,9 @@ namespace Z0
 
                 var sigs = Rules.Sigs();
                 for(var i=0; i<sigs.Length; i++)
-                    RenderTable(Rules.TableSpec(sigs[i]), dst);
+                {
+                    Render(Rules.Spec(sigs[i]), dst);
+                }
                 return dst.Emit();
             }
         }

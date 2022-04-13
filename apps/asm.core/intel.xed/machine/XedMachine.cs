@@ -51,10 +51,10 @@ namespace Z0
         ConstLookup<ushort,InstGroupMember> GroupMembers;
 
         [MethodImpl(Inline)]
-        Index<RowSpec> RuleTable(in RuleSig sig)
+        TableSpec RuleTable(in RuleSig sig)
         {
-            var dst = Index<RowSpec>.Empty;
-            ref readonly var specs = ref RuleTables.RowSpecs();
+            var dst = TableSpec.Empty;
+            ref readonly var specs = ref RuleTables.Specs();
             specs.Find(sig,out dst);
             return dst;
         }
@@ -70,9 +70,9 @@ namespace Z0
             GroupMembers = members.Select(x => (x.PatternId,x)).ToDictionary();
         }
 
-        public Index<RowSpec> ResolveNontermOp(byte index)
+        public TableSpec NontermOpTable(byte index)
         {
-            var dst = Index<RowSpec>.Empty;
+            var dst = TableSpec.Empty;
             ref readonly var op = ref Inst().Op(index);
             if(op.Nonterminal(out var nonterm))
             {

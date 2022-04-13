@@ -42,6 +42,12 @@ namespace Z0
             [MethodImpl(Inline)]
             public ref readonly CellKey Key(ushort i)
                 => ref Keys[i];
+
+            public string Format()
+                => CellRender.expression(this);
+
+            public override string ToString()
+                => Format();
         }
     }
 }

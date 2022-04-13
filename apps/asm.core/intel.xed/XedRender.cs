@@ -410,6 +410,16 @@ namespace Z0
             return dst.Emit();
         }
 
+        public static string format(in InstOpDetail src)
+        {
+            var dst = text.buffer();
+            dst.Append(XedRender.format(src.Name));
+            if(src.Attribs.IsNonEmpty)
+                dst.Append(Chars.Colon);
+            dst.Append(format(src.Attribs));
+            return dst.Emit();
+        }
+
         public static string format(in PatternOp src)
         {
             var dst = text.buffer();
