@@ -11,6 +11,11 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential, Pack=1), DataWidth(80)]
         public readonly struct CellValue : IEquatable<CellValue>
         {
+            [MethodImpl(Inline)]
+            public static CellValue value<T>(FieldKind kind, T value)
+                where T : unmanaged
+                    => new CellValue(kind, core.bw64(value));
+
             public readonly FieldKind Field;
 
             public readonly ulong Data;

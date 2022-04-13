@@ -13,5 +13,13 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref readonly BCastKind bcast(in RuleState src)
             => ref src.BCAST;
+
+
+        partial struct Edit
+        {
+            [MethodImpl(Inline), Op]
+            public static ref BCastKind bcast(ref RuleState src)
+                => ref src.BCAST;
+        }
     }
 }

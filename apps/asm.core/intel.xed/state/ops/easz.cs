@@ -14,5 +14,12 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref readonly EASZ easz(in RuleState src)
             => ref @as<EASZ>(src.EASZ);
+
+        partial struct Edit
+        {
+            [MethodImpl(Inline), Op]
+            public static ref EASZ easz(ref RuleState src)
+                => ref @as<EASZ>(src.EASZ);
+        }
     }
 }

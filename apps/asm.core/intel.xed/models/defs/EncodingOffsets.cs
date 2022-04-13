@@ -5,11 +5,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct EncodingOffsets
         {
+            [MethodImpl(Inline), Op]
+            public static void pack(EncodingOffsets src, Span<byte> dst)
+            {
+                var offsets = @readonly(bytes(src));
+                Bitfields.pack4x4(
+                    skip(offsets,0),
+                    skip(offsets,1),
+                    skip(offsets,2),
+                    skip(offsets,3),
+                    ref seek16(dst,0)
+                    );
+
+                Bitfields.pack4x2(skip(offsets,4), skip(offsets,5), ref seek(dst,4));
+            }
+
             public sbyte OpCode;
 
             public sbyte ModRm;

@@ -19,6 +19,13 @@ namespace Z0
                 Kind = kind;
                 Effect = effect;
             }
+
+            public string Format()
+                => $"{Kind}_{Effect}";
+
+            public override string ToString()
+                => Format();
+
         }
     }
 }

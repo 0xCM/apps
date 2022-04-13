@@ -9,14 +9,13 @@ namespace Z0
 
     using static core;
     using static XedModels;
-    using static XedDisasm;
 
-    partial class XedState
+    partial class XedDisasm
     {
         public static Dictionary<OpNameKind,DisasmOp> ops(in DisasmState state, in AsmHexCode code)
         {
             var dst = dict<OpNameKind,DisasmOp>();
-            var values = opvalues(state.RuleState, code);
+            var values = XedState.Code.ops(state.RuleState, code);
             var count = values.Count;
             for(var i=0; i<count; i++)
             {

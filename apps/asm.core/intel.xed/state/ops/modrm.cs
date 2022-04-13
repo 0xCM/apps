@@ -16,12 +16,11 @@ namespace Z0
         public static ref readonly ModRm modrm(in RuleState src)
             => ref @as<Hex8,ModRm>(src.MODRM_BYTE);
 
-        [MethodImpl(Inline), Op]
-        public static ref RuleState modrm(byte src, ref RuleState dst)
+        partial struct Edit
         {
-            if(src!=0)
-                dst.HAS_MODRM = bit.On;
-            return ref dst;
+            [MethodImpl(Inline), Op]
+            public static ref ModRm modrm(ref RuleState dst)
+                => ref @as<Hex8,ModRm>(dst.MODRM_BYTE);
         }
     }
 }

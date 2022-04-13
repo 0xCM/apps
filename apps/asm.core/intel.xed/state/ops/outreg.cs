@@ -14,5 +14,12 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref readonly Register outreg(in RuleState src)
             => ref @as<XedRegId,Register>(src.OUTREG);
+
+        partial struct Edit
+        {
+            [MethodImpl(Inline), Op]
+            public static ref Register outreg(in RuleState src)
+                => ref @as<XedRegId,Register>(src.OUTREG);
+        }
     }
 }

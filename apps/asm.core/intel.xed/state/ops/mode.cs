@@ -14,5 +14,12 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref readonly MachineMode mode(in RuleState src)
             => ref @as<MachineMode>(src.MODE);
+
+        partial struct Edit
+        {
+            [MethodImpl(Inline), Op]
+            public static ref MachineMode mode(ref RuleState src)
+                => ref @as<MachineMode>(src.MODE);
+        }
     }
 }

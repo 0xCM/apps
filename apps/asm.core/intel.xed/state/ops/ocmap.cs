@@ -5,14 +5,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
     using static XedRules;
-    using static core;
 
     partial class XedState
     {
         [MethodImpl(Inline), Op]
         public static ref readonly byte ocmap(in RuleState src)
             => ref src.MAP;
+
+        partial struct Edit
+        {
+            [MethodImpl(Inline), Op]
+            public static ref byte ocmap(ref RuleState src)
+                => ref src.MAP;
+        }
     }
 }

@@ -63,7 +63,7 @@ namespace Z0
 
                 var ocindex = XedOpCodes.index(state);
                 var ockind = XedOpCodes.kind(ocindex);
-                var encoding  = XedState.encoding(state, asmhex);
+                var encoding  = XedState.Code.encoding(state, asmhex);
                 var ocbyte = XedState.ocbyte(state);
                 var ochex = XedRender.format((Hex8)ocbyte);
                 var ocbits = BitRender.format8x4(ocbyte);

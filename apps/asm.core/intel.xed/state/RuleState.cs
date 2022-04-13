@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedModels;
 
     using K = XedRules.FieldKind;
@@ -235,11 +233,11 @@ namespace Z0
             [RuleField(K.SIBSCALE, 2, typeof(uint2))]
             public byte SIBSCALE;
 
-            [RuleField(K.SIBBASE, 3, typeof(uint3))]
-            public byte SIBBASE;
-
             [RuleField(K.SIBINDEX, 3, typeof(uint3))]
             public byte SIBINDEX;
+
+            [RuleField(K.SIBBASE, 3, typeof(uint3))]
+            public byte SIBBASE;
 
             [RuleField(K.REXW, 1, typeof(bit), "Specifies the 'W' bit of the REX prefix, if applicable")]
             public bit REXW;

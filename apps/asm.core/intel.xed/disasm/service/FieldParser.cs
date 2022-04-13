@@ -104,7 +104,7 @@ namespace Z0
                     break;
 
                     default:
-                        result = XedState.update(value, kind, ref State);
+                        result = update(value, kind, ref State);
                         if(result)
                             _ParsedFields.Add(kind);
                     break;
@@ -162,7 +162,7 @@ namespace Z0
                             break;
 
                             default:
-                                result = XedState.update(value, kind, ref State);
+                                result = update(value, kind, ref State);
                                 if(result)
                                     _ParsedFields.Add(kind);
                             break;

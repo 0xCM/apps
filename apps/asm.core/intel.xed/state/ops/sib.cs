@@ -8,7 +8,6 @@ namespace Z0
     using Asm;
 
     using static XedRules;
-    using static core;
 
     partial class XedState
     {
@@ -16,36 +15,16 @@ namespace Z0
         public static Sib sib(in RuleState src)
             => new Sib(src.SIBBASE, src.SIBINDEX, src.SIBSCALE);
 
-        [MethodImpl(Inline), Op]
-        public static bool sib(in RuleState src, out Sib dst)
+        partial struct Edit
         {
-            if(src.HAS_SIB)
+            public static ref readonly Sib sib(in Sib src, ref RuleState dst)
             {
-                dst = Sib.init();
-                dst.Base = src.SIBBASE;
-                dst.Index = src.SIBINDEX;
-                dst.Scale = src.SIBSCALE;
-                return true;
-            }
-            else
-            {
-                dst = Sib.Empty;
-                return false;
+                dst.HAS_SIB = bit.On;
+                dst.SIBSCALE = src.Scale;
+                dst.SIBINDEX = src.Index;
+                dst.SIBBASE = src.Base;
+                return ref src;
             }
         }
-
-        [MethodImpl(Inline), Op]
-        public static ref RuleState set(Sib src, ref RuleState dst)
-        {
-            dst.HAS_SIB = bit.On;
-            dst.SIBBASE = src.Base;
-            dst.SIBINDEX = src.Index;
-            dst.SIBSCALE = src.Scale;
-            return ref dst;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static ref RuleState sib(byte src, ref RuleState dst)
-            => ref set((Sib)src, ref dst);
     }
 }

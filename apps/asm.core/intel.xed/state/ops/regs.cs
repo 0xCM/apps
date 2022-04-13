@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedModels;
     using static XedRules;
     using static core;
@@ -43,48 +41,42 @@ namespace Z0
             return @as<XedRegs>(storage.Bytes);
         }
 
-        [Op]
-        public static ref RuleState set(in XedRegs src, ref RuleState dst)
+        partial struct Edit
         {
-            for(byte i=0; i<src.Count; i++)
+            public static ref Register reg(byte n, ref RuleState dst)
             {
-                ref readonly var reg = ref src[i];
-                switch(i)
+                switch(n)
                 {
-                    case 0:
-                        dst.REG0 = reg;
-                    break;
+                    default:
+                        return ref @as<XedRegId,Register>(dst.REG0);
                     case 1:
-                        dst.REG1 = reg;
-                    break;
+                        return ref @as<XedRegId,Register>(dst.REG0);
                     case 2:
-                        dst.REG2 = reg;
-                    break;
+                        return ref @as<XedRegId,Register>(dst.REG0);
                     case 3:
-                        dst.REG3 = reg;
-                    break;
+                        return ref @as<XedRegId,Register>(dst.REG0);
                     case 4:
-                        dst.REG4 = reg;
-                    break;
+                        return ref @as<XedRegId,Register>(dst.REG0);
                     case 5:
-                        dst.REG5 = reg;
-                    break;
+                        return ref @as<XedRegId,Register>(dst.REG0);
                     case 6:
-                        dst.REG6 = reg;
-                    break;
+                        return ref @as<XedRegId,Register>(dst.REG0);
                     case 7:
-                        dst.REG7 = reg;
-                    break;
+                        return ref @as<XedRegId,Register>(dst.REG0);
                     case 8:
-                        dst.REG8 = reg;
-                    break;
+                        return ref @as<XedRegId,Register>(dst.REG0);
                     case 9:
-                        dst.REG9 = reg;
-                    break;
+                        return ref @as<XedRegId,Register>(dst.REG9);
                 }
             }
 
-            return ref dst;
+            [Op]
+            public static ref readonly XedRegs regs(in XedRegs src, ref RuleState dst)
+            {
+                for(byte i=0; i<src.Count; i++)
+                    reg(i, ref dst) = @as<XedRegId,Register>(src[i]);
+                return ref src;
+            }
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Z0
                     continue;
 
                 if(XedParsers.parse(name, out FieldKind kind))
-                    seek(dst,k++) = XedState.update(props[name], kind, ref state);
+                    seek(dst,k++) = XedState.Edit.field(props[name], kind, ref state);
                 else
                     Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), name));
             }

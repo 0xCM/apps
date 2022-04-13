@@ -31,7 +31,6 @@ namespace Z0
 
             DISP_NT,
 
-
             FIXUP_EOSZ_ENC,
 
             FIXUP_EASZ_ENC,
@@ -45,7 +44,6 @@ namespace Z0
             PREFIX_ENC,
 
             REX_PREFIX_ENC,
-
         }
     }
 }

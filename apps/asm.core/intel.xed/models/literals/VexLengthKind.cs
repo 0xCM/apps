@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public enum VexLengthKind
+        public enum VexLengthKind : byte
         {
             [Symbol("128", "Specifies a vector length of 128")]
             VL128 = 0,

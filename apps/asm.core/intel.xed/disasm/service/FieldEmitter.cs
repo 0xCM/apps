@@ -91,8 +91,8 @@ namespace Z0
                 XedDisasm.fields(lines, Props, Fields, false);
                 MemberCount = Fields.Members(Members);
                 var kinds = slice(Members, 0, MemberCount);
-                XedState.update(Fields, kinds, ref State);
-                Encoding = XedState.encoding(State, asmhex);
+                XedState.Edit.fields(Fields, kinds, ref State);
+                Encoding = XedState.Code.encoding(State, asmhex);
             }
 
             void AppendHeader(in DisasmLineBlock lines, InstForm form)

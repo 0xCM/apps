@@ -14,5 +14,12 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref readonly ROUNDC rounc(in RuleState src)
             => ref @as<ROUNDC>(src.ROUNDC);
+
+        partial struct Edit
+        {
+            [MethodImpl(Inline), Op]
+            public static ref ROUNDC rounc(in RuleState src)
+                => ref @as<ROUNDC>(src.ROUNDC);
+        }
     }
 }

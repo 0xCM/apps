@@ -12,7 +12,7 @@ namespace Z0
     partial class XedState
     {
         [Op]
-        public static CellValue select(in RuleState src, FieldKind kind)
+        public static CellValue cell(in RuleState src, FieldKind kind)
         {
             var result = Outcome.Success;
             var dst = new CellValue(kind, 0ul);

@@ -21,6 +21,17 @@ namespace Z0
             where T : unmanaged
                 => (n,src);
 
+        [CmdOp("xed/check/seq")]
+        Outcome ChecSeq(CmdArgs args)
+        {
+            var defs = XedSeq.Defs();
+            for(var i=0; i<defs.Count; i++)
+            {
+                ref readonly var def = ref defs[i];
+                Write(def.Format());
+            }
+            return true;
+        }
 
         [CmdOp("xed/check/ops")]
         Outcome CheckOps(CmdArgs args)

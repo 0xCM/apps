@@ -12,5 +12,12 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref readonly byte ocbyte(in RuleState src)
             => ref src.NOMINAL_OPCODE;
+
+        partial struct Edit
+        {
+            [MethodImpl(Inline), Op]
+            public static ref byte ocbyte(ref RuleState src)
+                => ref src.NOMINAL_OPCODE;
+        }
     }
 }

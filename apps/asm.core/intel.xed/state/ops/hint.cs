@@ -14,5 +14,12 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref readonly HintKind hint(in RuleState src)
             => ref @as<HintKind>(src.HINT);
+
+        partial struct Edit
+        {
+            [MethodImpl(Inline), Op]
+            public static ref HintKind hint(ref RuleState src)
+                => ref @as<HintKind>(src.HINT);
+        }
     }
 }

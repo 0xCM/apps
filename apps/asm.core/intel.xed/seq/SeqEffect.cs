@@ -11,9 +11,9 @@ namespace Z0
         {
             None,
 
-            Bind,
+            BIND,
 
-            Emit
+            EMIT
         }
     }
 }

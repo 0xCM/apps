@@ -65,10 +65,9 @@ namespace Z0
             dst.InstClass = inst.Class;
             dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
             DisasmParse.parse(inst.Props, out DisasmState dstate);
-            var ops = XedState.ops(dstate, code);
-
+            var ops = XedDisasm.ops(dstate, code);
             ref readonly var state = ref dstate.RuleState;
-            dst.Offsets = XedState.offsets(state);
+            dst.Offsets = XedState.Code.offsets(state);
             dst.OpCode = state.NOMINAL_OPCODE;
             dst.Ops = alloc<DisasmOpDetail>(lines.OpCount);
 
@@ -134,9 +133,8 @@ namespace Z0
                 }
             }
 
-            var has_rex = XedState.rex(state, out var _rex);
-            if(has_rex)
-                dst.Rex = _rex;
+            if(state.REX)
+                dst.Rex = XedState.rex(state);
 
             if(state.HAS_MODRM)
             {

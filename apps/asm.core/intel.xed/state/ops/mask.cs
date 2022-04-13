@@ -14,5 +14,12 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref readonly MASK mask(in RuleState src)
             => ref @as<MASK>(src.MASK);
+
+        partial struct Edit
+        {
+            [MethodImpl(Inline), Op]
+            public static ref MASK mask(ref RuleState src)
+                => ref @as<MASK>(src.MASK);
+        }
     }
 }

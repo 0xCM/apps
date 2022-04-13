@@ -12,8 +12,11 @@ namespace Z0
         public static Index<CellValue> update(in DisasmLineBlock src, ref RuleState state)
         {
             var fields = XedDisasm.values(src);
-            XedState.update(fields, ref state);
+            XedState.Edit.update(fields, ref state);
             return fields;
         }
+
+        public static bool update(string src, FieldKind kind, ref DisasmState dstate)
+            => XedState.Edit.field(src, kind, ref dstate.RuleState).IsNonEmpty;
     }
 }

@@ -23,100 +23,100 @@ namespace Z0
         public static SeqDef def(SeqType type, params SeqStep[] steps)
             => new SeqDef(type, steps);
 
-        public static SeqDef[] Defs()
+        public static Index<SeqDef> Defs()
             => new SeqDef[]{
-                def(type(MODRM,Bind),
+                def(type(MODRM,BIND),
                     new SeqStep[]{
-                        step(SIB_REQUIRED_ENCODE,0,Bind),
-                        step(SIBSCALE_ENCODE,1,Bind),
-                        step(SIBINDEX_ENCODE,2,Bind),
-                        step(SIBBASE_ENCODE,3,Bind),
-                        step(MODRM_RM_ENCODE,4,Bind),
-                        step(MODRM_MOD_ENCODE,5,Bind),
-                        step(SEGMENT_DEFAULT_ENCODE,6,Bind),
-                        step(SEGMENT_ENCODE,7,Bind),
-                        step(SIB_NT,8,Bind),
-                        step(DISP_NT,9,Bind)
+                        step(SIB_REQUIRED_ENCODE,0,BIND),
+                        step(SIBSCALE_ENCODE,1,BIND),
+                        step(SIBINDEX_ENCODE,2,BIND),
+                        step(SIBBASE_ENCODE,3,BIND),
+                        step(MODRM_RM_ENCODE,4,BIND),
+                        step(MODRM_MOD_ENCODE,5,BIND),
+                        step(SEGMENT_DEFAULT_ENCODE,6,BIND),
+                        step(SEGMENT_ENCODE,7,BIND),
+                        step(SIB_NT,8,BIND),
+                        step(DISP_NT,9,BIND)
                         }
                     ),
 
-                def(type(MODRM,Emit),new SeqStep[]{
-                    step(SIB_NT,0,Emit),
-                    step(DISP_NT,1,Emit)
+                def(type(MODRM,EMIT),new SeqStep[]{
+                    step(SIB_NT,0,EMIT),
+                    step(DISP_NT,1,EMIT)
 
                 }),
 
-                def(type(ISA,Bind),new SeqStep[]{
+                def(type(ISA,BIND),new SeqStep[]{
 
                 }),
-                def(type(ISA,Emit),new SeqStep[]{
-
-                }),
-
-                def(type(XOP,Bind),new SeqStep[]{
-
-                }),
-                def(type(XOP,Emit),new SeqStep[]{
+                def(type(ISA,EMIT),new SeqStep[]{
 
                 }),
 
-                def(type(NEWVEX,Bind),new SeqStep[]{
+                def(type(XOP,BIND),new SeqStep[]{
 
                 }),
-                def(type(NEWVEX,Emit),new SeqStep[]{
-
-                }),
-
-                def(type(VMODRM_XMM,Bind),new SeqStep[]{
-
-                }),
-                def(type(VMODRM_XMM,Emit),new SeqStep[]{
+                def(type(XOP,EMIT),new SeqStep[]{
 
                 }),
 
-
-                def(type(VMODRM_YMM,Bind),new SeqStep[]{
+                def(type(NEWVEX,BIND),new SeqStep[]{
 
                 }),
-                def(type(VMODRM_YMM,Emit),new SeqStep[]{
+                def(type(NEWVEX,EMIT),new SeqStep[]{
+
+                }),
+
+                def(type(VMODRM_XMM,BIND),new SeqStep[]{
+
+                }),
+                def(type(VMODRM_XMM,EMIT),new SeqStep[]{
 
                 }),
 
 
-                def(type(EVEX,Bind),new SeqStep[]{
+                def(type(VMODRM_YMM, BIND),new SeqStep[]{
 
                 }),
-                def(type(EVEX,Emit),new SeqStep[]{
-
-                }),
-
-                def(type(NEWVEX3,Bind),new SeqStep[]{
-
-                }),
-                def(type(NEWVEX3,Emit),new SeqStep[]{
-
-                }),
-
-                def(type(UISA_VMODRM_XMM,Bind),new SeqStep[]{
-
-                }),
-                def(type(UISA_VMODRM_XMM,Emit),new SeqStep[]{
+                def(type(VMODRM_YMM, EMIT),new SeqStep[]{
 
                 }),
 
 
-                def(type(UISA_VMODRM_YMM,Bind),new SeqStep[]{
+                def(type(EVEX, BIND),new SeqStep[]{
 
                 }),
-                def(type(UISA_VMODRM_YMM,Emit),new SeqStep[]{
+                def(type(EVEX, EMIT),new SeqStep[]{
+
+                }),
+
+                def(type(NEWVEX3,BIND),new SeqStep[]{
+
+                }),
+                def(type(NEWVEX3, EMIT),new SeqStep[]{
+
+                }),
+
+                def(type(UISA_VMODRM_XMM,BIND),new SeqStep[]{
+
+                }),
+                def(type(UISA_VMODRM_XMM,EMIT),new SeqStep[]{
 
                 }),
 
 
-                def(type(UISA_VMODRM_ZMM,Bind),new SeqStep[]{
+                def(type(UISA_VMODRM_YMM,BIND),new SeqStep[]{
 
                 }),
-                def(type(UISA_VMODRM_ZMM,Emit),new SeqStep[]{
+                def(type(UISA_VMODRM_YMM,EMIT),new SeqStep[]{
+
+                }),
+
+
+                def(type(UISA_VMODRM_ZMM,BIND),new SeqStep[]{
+
+                }),
+                def(type(UISA_VMODRM_ZMM,EMIT),new SeqStep[]{
 
                 }),
         };
@@ -177,8 +177,8 @@ namespace Z0
 
         /*
         SEQUENCE ISA_ENCODE
-            ISA_BINDINGS
-            ISA_EMIT
+            ISA_BINDINGS    | ISA_BINDINGS()
+            ISA_EMIT        | ISA_EMIT
         */
         public static bit xed_encode_nonterminal_ISA_ENCODE(ulong* pEncReq)
         {
@@ -192,13 +192,13 @@ namespace Z0
 
         /*
         SEQUENCE ISA_BINDINGS
-            FIXUP_EOSZ_ENC_BIND()
-            FIXUP_EASZ_ENC_BIND()
-            ASZ_NONTERM_BIND()
-            INSTRUCTIONS_BIND()
-            OSZ_NONTERM_ENC_BIND()
-            PREFIX_ENC_BIND()
-            REX_PREFIX_ENC_BIND()
+            FIXUP_EOSZ_ENC_BIND()   | FIXUP_EOSZ_ENC
+            FIXUP_EASZ_ENC_BIND()   | FIXUP_EASZ_ENC
+            ASZ_NONTERM_BIND()      | ASZ_NONTERM
+            INSTRUCTIONS_BIND()     | *select encoding function*
+            OSZ_NONTERM_ENC_BIND()  | OSZ_NONTERM_ENC
+            PREFIX_ENC_BIND()       | PREFIX_ENC
+            REX_PREFIX_ENC_BIND()   | REX_PREFIX_ENC
 
         */
         public static bit xed_encode_nonterminal_ISA_BINDINGS(ulong* pEncReq)

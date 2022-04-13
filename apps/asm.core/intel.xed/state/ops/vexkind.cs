@@ -7,11 +7,19 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
+    using static core;
 
     partial class XedState
     {
         [MethodImpl(Inline), Op]
         public static ref readonly VexKind vexkind(in RuleState src)
             => ref XedOpCodes.vexkind(src);
+
+        partial struct Edit
+        {
+            [MethodImpl(Inline), Op]
+            public static ref VexKind vexkind(ref RuleState src)
+                => ref @as<VexKind>(src.VEX_PREFIX);
+        }
     }
 }

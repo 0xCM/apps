@@ -14,5 +14,12 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref readonly RepPrefix rep(in RuleState src)
             => ref @as<RepPrefix>(src.REP);
+
+        partial struct Edit
+        {
+            [MethodImpl(Inline), Op]
+            public static ref RepPrefix rep(ref RuleState src)
+                => ref @as<RepPrefix>(src.REP);
+        }
     }
 }

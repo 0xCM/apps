@@ -11,13 +11,16 @@ namespace Z0
 
     partial class XedState
     {
-        [Op]
-        public static Imm imm0(in RuleState state, in AsmHexCode code)
+        partial struct Code
         {
-            var dst = Imm.Empty;
-            if(state.IMM0)
-                dst = asm.imm(code, state.POS_IMM, state.IMM0SIGNED, Sizes.native(state.IMM_WIDTH));
-            return dst;
+            [Op]
+            public static Imm imm0(in RuleState state, in AsmHexCode code)
+            {
+                var dst = Imm.Empty;
+                if(state.IMM0)
+                    dst = asm.imm(code, state.POS_IMM, state.IMM0SIGNED, Sizes.native(state.IMM_WIDTH));
+                return dst;
+            }
         }
     }
 }
