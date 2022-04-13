@@ -12,7 +12,7 @@ namespace Z0
         [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
         public struct XedFieldDef : IComparable<XedFieldDef>
         {
-            public const string TableId = "xed.fields";
+            public const string TableId = "xed.fields.imported";
 
             public const byte FieldCount = 4;
 

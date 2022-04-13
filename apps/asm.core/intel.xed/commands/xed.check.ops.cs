@@ -6,7 +6,7 @@ namespace Z0
 {
     using static XedRules;
     using static XedModels;
-    using static XedPatterns;
+    using static Datasets;
     using static core;
 
     partial class XedCmdProvider
@@ -53,6 +53,11 @@ namespace Z0
             return true;
         }
 
+        [CmdOp("xed/check/fields")]
+        Outcome CheckFields(CmdArgs args)
+        {
+            return true;
+        }
 
         [CmdOp("xed/check/bits")]
         Outcome CheckBits(CmdArgs args)

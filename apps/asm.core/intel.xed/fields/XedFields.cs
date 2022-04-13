@@ -25,7 +25,11 @@ namespace Z0
 
         static Index<FieldKind,FieldSpec> _Specs;
 
-        public static Index<FieldKind,FieldSpec> Specs => _Specs;
+        public static ref readonly Index<FieldKind,FieldSpec> Specs
+        {
+            [MethodImpl(Inline)]
+            get => ref _Specs;
+        }
 
         public static Index<FieldKind,ReflectedField> Reflected => _Reflected;
 
