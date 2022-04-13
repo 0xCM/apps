@@ -11,6 +11,10 @@ namespace Z0
     {
         public readonly struct InstAttribs : IIndex<InstAttribKind>
         {
+            [MethodImpl(Inline)]
+            public Bitset128<InstAttribKind> Bitset()
+                => Bitsets.init(n128, Storage);
+
             readonly Index<InstAttribKind> Data;
 
             [MethodImpl(Inline)]

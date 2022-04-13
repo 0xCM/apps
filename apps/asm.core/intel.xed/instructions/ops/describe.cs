@@ -26,6 +26,7 @@ namespace Z0
             dst.OpCode = src.OpCode;
             dst.Mode = src.Mode;
             dst.Lock = src.Lock;
+            dst.Scalable = src.Scalable;
             dst.InstClass = src.InstClass.Classifier;
             dst.InstForm = src.InstForm;
             dst.Body = body;

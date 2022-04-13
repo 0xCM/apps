@@ -33,26 +33,6 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("xed/check/ops")]
-        Outcome CheckOps(CmdArgs args)
-        {
-            var src = Xed.Rules.CalcInstPatterns();
-            var rules = Xed.Rules.CalcRules();
-            var dst = text.buffer();
-            for(var i=0; i<src.Count; i++)
-            {
-                ref readonly var pattern = ref src[i];
-                ref readonly var attribs = ref pattern.Attributes;
-                var set = Bitsets.init(n128, attribs.Storage);
-                if(set.IsNonEmpty)
-                    dst.AppendLineFormat("{0,-10} | {1,-18} | {2,-26} | {3}", pattern.PatternId, pattern.InstClass, pattern.OpCode, set.Format(" | ", -32));
-            }
-
-            FileEmit(dst.Emit(), 1, AppDb.Log("xed.attributes", FileKind.Csv));
-
-            return true;
-        }
-
         [CmdOp("xed/check/fields")]
         Outcome CheckFields(CmdArgs args)
         {

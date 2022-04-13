@@ -27,6 +27,8 @@ namespace Z0
 
             public readonly InstFields Expr;
 
+            public readonly bit Scalable;
+
             public InstPattern(in InstPatternSpec spec, in OcInstClass oc, FieldSet deps)
             {
                 ref readonly var fields = ref spec.Body.Fields;
@@ -38,6 +40,7 @@ namespace Z0
                 FieldDeps = deps;
                 Lock = XedFields.@lock(fields);
                 OpDetails = XedRules.opdetails(this);
+                Scalable = OpDetails.Any(x => x.Scalable);
                 Layout = new InstFields(layout.ToArray(), (byte)layout.Length);
                 Expr  = new InstFields(expr.ToArray(), 0);
             }

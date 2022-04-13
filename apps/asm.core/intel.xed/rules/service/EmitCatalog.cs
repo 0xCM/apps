@@ -21,6 +21,7 @@ namespace Z0
                 () => EmitInstFields(patterns),
                 () => EmitFlagEffects(patterns),
                 () => EmitInstGroups(patterns),
+                () => EmitInstAttribs(patterns),
                 EmitFieldSpecs,
                 EmitOpCodeKinds,
                 EmitOpWidths,

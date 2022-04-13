@@ -42,6 +42,7 @@ namespace Z0
             dst.Action = info.Action;
             dst.WidthCode = wcode;
             dst.GrpWidth = info.GprWidth;
+            dst.Scalable = info.GprWidth.IsScalable;
             dst.ElementType = info.CellType;
             dst.ElementWidth = info.CellWidth;
             dst.RegLit = info.RegLit;

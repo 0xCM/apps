@@ -14,7 +14,7 @@ namespace Z0
         {
             public const string TableId = "xed.inst.patterns";
 
-            public const byte FieldCount = 7;
+            public const byte FieldCount = 8;
 
             public uint PatternId;
 
@@ -25,6 +25,8 @@ namespace Z0
             public MachineMode Mode;
 
             public InstLock Lock;
+
+            public EmptyZero<bit> Scalable;
 
             public InstForm InstForm;
 
@@ -37,7 +39,7 @@ namespace Z0
             public PatternSort Sort()
                 => new PatternSort(this);
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,26,8,8,52,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,26,8,8,8,52,1};
 
             public static InstPatternRecord Empty => default;
         }

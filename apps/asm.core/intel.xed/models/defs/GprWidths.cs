@@ -182,6 +182,12 @@ namespace Z0
                 get => this[w16].Width == this[w32].Width && this[w32].Width == this[w64].Width;
             }
 
+            public bool IsScalable
+            {
+                [MethodImpl(Inline)]
+                get => IsNonEmpty && !IsInvariant;
+            }
+
             public NativeSize InvariantWidth
             {
                 [MethodImpl(Inline)]

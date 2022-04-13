@@ -40,6 +40,8 @@ namespace Z0
 
             public GprWidth GrpWidth;
 
+            public bit Scalable;
+
             public ushort BitWidth;
 
             public ElementType ElementType;
