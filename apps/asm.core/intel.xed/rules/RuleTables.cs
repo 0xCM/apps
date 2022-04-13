@@ -58,12 +58,6 @@ namespace Z0
                     return XedRules.TableCriteria.Empty;
             }
 
-            //Index<TableDefRow> DefRowIndex;
-
-            // [MethodImpl(Inline)]
-            // public ref readonly Index<TableDefRow> DefRows()
-            //     => ref DefRowIndex;
-
             Dictionary<RuleSig,FS.FilePath> TablePaths;
 
             public FS.FileUri FindTablePath(Nonterminal src)
@@ -75,11 +69,11 @@ namespace Z0
                 return path;
             }
 
-            SortedLookup<ushort,Index<RowSpec>> RowSpecLookup;
+            RowSpecs _RowSpecs;
 
             [MethodImpl(Inline)]
-            public ref readonly SortedLookup<ushort,Index<RowSpec>> RowSpecs()
-                => ref RowSpecLookup;
+            public ref readonly RowSpecs RowSpecs()
+                => ref _RowSpecs;
 
             Buffers Data = Buffers.Empty;
 
@@ -95,7 +89,7 @@ namespace Z0
                 exec(pll,
                     SealTableDefs,
                     SealPaths,
-                    () => RowSpecLookup = CalcRowSpecs(specs)
+                    () => _RowSpecs = CalcRowSpecs(specs)
                     );
                 return this;
             }

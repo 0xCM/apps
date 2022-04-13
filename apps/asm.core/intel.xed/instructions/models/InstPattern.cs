@@ -88,14 +88,6 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public FunctionSet NontermOps()
-                => Spec.Ops.Nonterms();
-
-            [MethodImpl(Inline)]
-            public uint NontermOps(ref FunctionSet dst)
-                => Spec.Ops.Nonterms(ref dst);
-
-            [MethodImpl(Inline)]
             public ref readonly PatternOp Op(byte index)
                 => ref Spec.Ops[index];
 

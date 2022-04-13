@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
+    using static core;
 
     partial struct XedModels
     {
@@ -61,33 +61,18 @@ namespace Z0
             public Index<OpName> Names
                 => Data.Select(x => x.Name);
 
-            [MethodImpl(Inline)]
-            public FunctionSet Nonterms()
+            public byte Nonterminals(out Span<Nonterminal> dst)
             {
-                var dst = FunctionSet.create();
+                var storage = ByteBlock32.Empty;
+                dst = core.recover<Nonterminal>(storage.Bytes);
+                var j=z8;
                 for(var i=0; i<Count; i++)
                 {
                     ref readonly var op = ref this[i];
                     if(op.Nonterminal(out var nt))
-                        dst.Include(nt);
+                        seek(dst,j++) = nt;
                 }
-                return dst;
-            }
-
-            [MethodImpl(Inline)]
-            public uint Nonterms(ref FunctionSet dst)
-            {
-                var counter = 0u;
-                for(var i=0; i<Count; i++)
-                {
-                    ref readonly var op = ref this[i];
-                    if(op.Nonterminal(out var nt))
-                    {
-                        dst.Include(nt);
-                        counter++;
-                    }
-                }
-                return counter;
+                return j;
             }
 
             public int CompareTo(PatternOps src)

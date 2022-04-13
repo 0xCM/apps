@@ -9,7 +9,7 @@ namespace Z0
     {
         public readonly struct ModKind : IComparable<ModKind>, IEquatable<ModKind>
         {
-            readonly ModIndicator Indicator;
+            public readonly ModIndicator Indicator;
 
             [MethodImpl(Inline)]
             public ModKind(ModIndicator indicator)

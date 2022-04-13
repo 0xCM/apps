@@ -127,6 +127,8 @@ namespace Z0
 
                 AppendLineFormat(LabelPattern, nameof(pattern.Mode), XedRender.format(pattern.Mode));
                 AppendLineFormat(LabelPattern, nameof(pattern.OpCode), string.Format("{0,-8} {1}", pattern.OpCode.Kind, AsmOcValue.format(pattern.OpCode.Value)));
+                if(pattern.InstForm.IsNonEmpty)
+                    AppendLineFormat(LabelPattern, nameof(pattern.InstForm), pattern.InstForm);
 
                 if(pattern.Attributes.IsNonEmpty)
                     AppendLineFormat(LabelPattern, nameof(pattern.Attributes), XedRender.format(pattern.Attributes, false, Chars.Space));

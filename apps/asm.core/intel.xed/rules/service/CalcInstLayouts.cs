@@ -10,7 +10,10 @@ namespace Z0
         public Index<InstLayout> CalcInstLayouts(Index<InstGroup> groups)
             => Data(nameof(CalcInstLayouts), () => XedPatterns.layouts(groups));
 
+        public Index<InstLayout> CalcInstLayouts(Index<InstPattern> patterns)
+            => CalcInstLayouts(CalcInstGroups(patterns));
+
         public Index<InstLayout> CalcInstLayouts()
-            => CalcInstLayouts(CalcInstGroups(CalcInstPatterns()));
+            => CalcInstLayouts(CalcInstPatterns());
     }
 }

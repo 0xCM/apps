@@ -48,7 +48,7 @@ namespace Z0
             dst.RegLit = info.RegLit;
             dst.Modifier = info.Modifier;
             dst.Visibility = info.Visibility;
-            dst.NonTerminal = info.NonTerminal;
+            dst.NonTerm = info.NonTerminal;
             dst.BitWidth = info.BitWidth;
             if(wcode !=0)
             {

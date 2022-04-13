@@ -46,28 +46,10 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ref T pack<T>(ReadOnlySpan<bit> src, uint offset, ref T dst)
+        public static ref T pack<T>(ReadOnlySpan<bit> src, ref T dst)
             where T : unmanaged
         {
-            var bitcount = min(src.Length, width<T>());
-            var bytecount = bitcount/8;
-            var bitmod = bitcount%8;
-            ref var b = ref @as<T,byte>(dst);
-            var bitpos = z8;
-            for(var i=0; i<bytecount; i++)
-            {
-                b = ref seek(b,i);
-                for(var j=0; j<7; j++, bitpos++)
-                    b |= math.sll((byte)skip(src,bitpos),bitpos);
-            }
-
-            if(bitmod != 0)
-            {
-                b = ref seek(b,bytecount);
-                for(var j=0; j<bitmod; j++,bitpos++)
-                    b |= math.sll((byte)skip(src,bitpos),bitpos);
-            }
-
+            pack(recover<bit,byte>(src),0u, out dst);
             return ref dst;
         }
 
@@ -84,7 +66,7 @@ namespace Z0
             if(src.Length == 0)
                 return dst;
 
-            return pack(src, 0, ref dst);
+            return pack(src, ref dst);
         }
 
         /// <summary>

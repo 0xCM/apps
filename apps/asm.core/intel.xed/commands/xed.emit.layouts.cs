@@ -17,8 +17,7 @@ namespace Z0
         Outcome EmitLayouts(CmdArgs args)
         {
             var patterns = Xed.Rules.CalcInstPatterns();
-            var groups = Xed.Rules.CalcInstGroups(patterns);
-            var layouts = Xed.Rules.CalcInstLayouts(groups);
+            var layouts = Xed.Rules.CalcInstLayouts(patterns);
             Xed.Rules.EmitInstLayouts(layouts);
             return true;
         }

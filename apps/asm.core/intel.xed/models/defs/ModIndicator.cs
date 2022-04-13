@@ -25,7 +25,7 @@ namespace Z0
             [Symbol("0b10")]
             MOD2,
 
-            [Symbol("!3")]
+            [Symbol("0b**")]
             NE3,
 
             [Symbol("0b11")]

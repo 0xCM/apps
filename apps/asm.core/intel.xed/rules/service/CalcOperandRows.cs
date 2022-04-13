@@ -37,7 +37,7 @@ namespace Z0
                 dst.RegLit = src.RegLit;
                 dst.Modifier = src.Modifier;
                 dst.Visibility = src.Visibility;
-                dst.NonTerminal = src.NonTerminal;
+                dst.NonTerminal = src.NonTerm;
                 dst.BitWidth = src.BitWidth;
                 dst.GprWidth = src.GrpWidth;
                 dst.SegInfo = src.SegInfo;

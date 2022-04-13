@@ -12,66 +12,92 @@ namespace Z0
         public void EmitCellSpecs(RuleTables rules)
         {
             var dst = text.buffer();
-            var count = RenderCellSpecs(rules,dst);
-            FileEmit(dst.Emit(), count, XedPaths.RuleTargets() + FS.file("xed.rules.cells", FS.Csv), TextEncodingKind.Asci);
+            RenderCellSpecs(rules,dst);
+            FileEmit(dst.Emit(), 1, XedPaths.RuleTargets() + FS.file("xed.rules.cells", FS.Csv), TextEncodingKind.Asci);
         }
 
-        static uint RenderCellSpecs(RuleTables rules, ITextBuffer dst)
+        public static string format(Index<RowSpec> table, TableColumns cols)
         {
-            var cols = new TableColumns(
-                ("TableId", 10),
-                ("TableKind", 10),
-                ("TableName", 32),
-                ("RowIndex", 10),
-                ("CellIndex", 10),
-                ("Type", 24),
-                ("Field", 22),
-                ("Op", 4),
-                ("Value", 16)
-                );
+            var dst = text.buffer();
+            render(table,cols,dst);
+            return dst.Emit();
+        }
 
-            var tables = rules.TableSpecs().Select(x => (x.TableId, x)).ToDictionary();
+        public static string format(Index<RowSpec> table)
+        {
+            var dst = text.buffer();
+            render(table,dst);
+            return dst.Emit();
+        }
 
-            var buffer = cols.Buffer();
-            buffer.EmitHeader(dst);
+        public static void render(Index<RowSpec> table, ITextBuffer dst)
+        {
+            if(table.IsEmpty)
+                return;
+            var cols = RowSpecs.Columns;
+            render(table,cols, cols.Buffer(),dst);
+        }
 
-            var trows = rules.RowSpecs();
-            var tkeys = trows.Keys;
-            var counter = 0u;
-            for(var i=0; i<tkeys.Length; i++)
+        public static void render(Index<RowSpec> table, TableColumns cols, ITextBuffer dst)
+        {
+            if(table.IsEmpty)
+                return;
+
+            render(table,cols,cols.Buffer(),dst);
+        }
+
+        public static void render(Index<RowSpec> table, TableColumns cols, ColumnBuffer buffer, ITextBuffer dst)
+        {
+            if(table.IsEmpty)
+                return;
+
+            ref readonly var sig = ref table.First.Sig;
+            for(var j=0; j<table.Count; j++)
             {
-                var tid = skip(tkeys,i);
-                var table = tables[tid];
-                var tname = table.TableName;
-                var trow = trows[tid];
-                for(var j=0; j<trow.Count; j++)
+                ref readonly var row = ref table[j];
+                ref readonly var tk = ref row.TableKind;
+                ref readonly var rix = ref row.RowIndex;
+                ref readonly var count = ref row.ColCount;
+                for(var k = z16; k<count; k++)
                 {
-                    ref readonly var row = ref trow[j];
-                    ref readonly var tk = ref row.TableKind;
-                    ref readonly var rix = ref row.RowIndex;
-                    ref readonly var count = ref row.ColCount;
-                    for(var k = z16; k<count; k++)
-                    {
-                        ref readonly var cell = ref row.Cell(k);
-                        ref readonly var key = ref row.Key(k);
-                        ref readonly var cix = ref key.CellIndex;
-                        ref readonly var type = ref cell.Type;
+                    ref readonly var cell = ref row.Cell(k);
+                    ref readonly var key = ref row.Key(k);
+                    ref readonly var cix = ref key.CellIndex;
+                    ref readonly var type = ref cell.Type;
 
-                        buffer.Write(tid);
-                        buffer.Write(tk);
-                        buffer.Write(tname);
-                        buffer.Write(rix);
-                        buffer.Write(cix);
-                        buffer.Write(type);
-                        buffer.Write(XedRender.format(cell.Field));
-                        buffer.Write(cell.Operator);
-                        buffer.Write(cell);
-                        buffer.EmitLine(dst);
-                        counter++;
-                    }
+                    buffer.Write(row.TableId);
+                    buffer.Write(tk);
+                    buffer.Write(sig.ShortName);
+                    buffer.Write(rix);
+                    buffer.Write(cix);
+                    buffer.Write(type);
+                    buffer.Write(XedRender.format(cell.Field));
+                    buffer.Write(cell.Operator);
+                    buffer.Write(cell);
+                    buffer.EmitLine(dst);
                 }
             }
-            return counter;
+        }
+
+        public static void render(RowSpecs tables, TableColumns cols, ITextBuffer dst)
+        {
+            var buffer = cols.Buffer();
+            buffer.EmitHeader(dst);
+            var sigs = tables.Keys;
+            var counter = 0u;
+            for(var i=0; i<sigs.Length; i++)
+            {
+                ref readonly var sig = ref skip(sigs,i);
+                var table = tables[sig];
+                render(table, cols, buffer, dst);
+            }
+        }
+
+        static void RenderCellSpecs(RuleTables rules, ITextBuffer dst)
+        {
+            var cols = RowSpecs.Columns;
+            var tables = rules.RowSpecs();
+            render(tables, cols, dst);
         }
     }
 }

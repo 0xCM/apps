@@ -12,6 +12,9 @@ namespace Z0
         public static BinaryCode Compact(this HexDataRow[] src)
             => CoffObjects.compact(src);
 
+        [MethodImpl(Inline)]
+        public static XedMachine XedMachine(this IWfRuntime wf)
+            => new (wf);
 
         public static BinaryCode Compact(this Index<HexDataRow> src)
             => src.Storage.Compact();

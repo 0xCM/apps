@@ -41,6 +41,12 @@ namespace Z0
                 get => Data == 0;
             }
 
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Data != 0;
+            }
+
             public int CompareTo(InstLock src)
                 => new LockSort(this).CompareTo(new LockSort(src));
 

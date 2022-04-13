@@ -25,54 +25,30 @@ namespace Z0
             return count;
         }
 
-        public static int parse(string src, byte n, out byte dst)
-        {
-            var storage = 0ul;
-            var width = min(n, (byte)8);
-            dst = 0;
-            var buffer = recover<bit>(core.slice(core.bytes(storage), 0, width));
-            var count = parse(src, buffer);
-            if(count >= 0)
-                dst = BitPack.scalar<byte>(buffer);
-            return count;
-        }
+        // public static int parse(string src, byte n, out uint dst)
+        // {
+        //     var storage = 0ul;
+        //     var width = min(n, (byte)32);
+        //     dst = 0;
 
-        public static int parse(string src, byte n, out ushort dst)
-        {
-            var storage = 0ul;
-            var width = min(n, (byte)16);
-            dst = 0;
-            var buffer = recover<bit>(core.slice(core.bytes(storage), 0, width));
-            var count = parse(src, buffer);
-            if(count >= 0)
-                dst = BitPack.scalar<ushort>(buffer);
-            return count;
-        }
+        //     var buffer = recover<bit>(core.slice(core.bytes(storage), 0, width));
+        //     var count = parse(src, buffer);
+        //     if(count >= 0)
+        //         dst = BitPack.scalar<uint>(buffer);
+        //     return count;
+        // }
 
-        public static int parse(string src, byte n, out uint dst)
-        {
-            var storage = 0ul;
-            var width = min(n, (byte)32);
-            dst = 0;
-
-            var buffer = recover<bit>(core.slice(core.bytes(storage), 0, width));
-            var count = parse(src, buffer);
-            if(count >= 0)
-                dst = BitPack.scalar<uint>(buffer);
-            return count;
-        }
-
-        public static int parse(string src, byte n, out ulong dst)
-        {
-            var storage = 0ul;
-            var width = min(n, (byte)64);
-            dst = 0;
-            var buffer = recover<bit>(core.slice(core.bytes(storage), 0, width));
-            var count = parse(src, buffer);
-            if(count >= 0)
-                dst = BitPack.scalar<ulong>(buffer);
-            return count;
-        }
+        // public static int parse(string src, byte n, out ulong dst)
+        // {
+        //     var storage = 0ul;
+        //     var width = min(n, (byte)64);
+        //     dst = 0;
+        //     var buffer = recover<bit>(core.slice(core.bytes(storage), 0, width));
+        //     var count = bits.parse(src, buffer);
+        //     if(count >= 0)
+        //         dst = BitPack.scalar<ulong>(buffer);
+        //     return count;
+        // }
 
         public static int parse(string src, Span<bit> dst)
         {
@@ -81,7 +57,7 @@ namespace Z0
                 return -1;
 
             var result = true;
-            var count = input.Length;
+            var count = min(input.Length, dst.Length);
             var counter = 0;
             for(var i=0; i<count; i++)
             {

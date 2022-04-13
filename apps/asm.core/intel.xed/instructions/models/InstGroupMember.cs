@@ -13,6 +13,8 @@ namespace Z0
         {
             public readonly InstGroupSeq Seq;
 
+            public readonly Hex16 Indicator;
+
             public readonly InstPattern Pattern;
 
             [MethodImpl(Inline)]
@@ -20,7 +22,9 @@ namespace Z0
             {
                 Pattern = pattern;
                 Seq = seq;
+                Indicator = indicator(seq);
             }
+
 
             public ref readonly InstForm InstForm
             {

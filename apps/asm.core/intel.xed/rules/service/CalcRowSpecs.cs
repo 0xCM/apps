@@ -9,9 +9,9 @@ namespace Z0
 
     partial class XedRules
     {
-        public static SortedLookup<ushort,Index<RowSpec>> CalcRowSpecs(Index<TableCriteria> src)
+        static Dictionary<RuleSig,Index<RowSpec>> CalcRowSpecs(Index<TableCriteria> src)
         {
-            var dst = dict<ushort,Index<RowSpec>>();
+            var dst = dict<RuleSig,Index<RowSpec>>();
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var table = ref src[i];
@@ -44,10 +44,10 @@ namespace Z0
                         seek(keys, m) = new CellKey(tk, tid, j, LogicKind.Consequent, m);
                         seek(cells, m) = c[k];
                     }
-                    seek(rows,j) = new RowSpec(tk, tid, j, keys, cells);
+                    seek(rows,j) = new RowSpec(table.Sig, tid, j, keys, cells);
 
                 }
-                dst.Add(tid, rows);
+                dst.Add(table.Sig, rows);
             }
 
             return dst;

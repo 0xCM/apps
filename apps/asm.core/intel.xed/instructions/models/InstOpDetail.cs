@@ -58,9 +58,15 @@ namespace Z0
 
             public Visibility Visibility;
 
-            public Nonterminal NonTerminal;
+            public Nonterminal NonTerm;
 
             public asci32 SourceExpr;
+
+            public bool IsNonterm
+            {
+                [MethodImpl(Inline)]
+                get => NonTerm.IsNonEmpty;
+            }
 
             public static InstOpDetail Empty => default;
         }

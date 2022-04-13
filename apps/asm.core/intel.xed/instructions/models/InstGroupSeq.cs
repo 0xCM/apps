@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     using static XedModels;
 
     partial class XedRules
@@ -28,11 +29,20 @@ namespace Z0
 
             public RexBit RexW;
 
+            public InstGroupKey Key
+            {
+                [MethodImpl(Inline)]
+                get => new (PatternId,Index);
+            }
+
             PatternSort Sort()
                 => new PatternSort(this);
 
             public int CompareTo(InstGroupSeq src)
                 => Sort().CompareTo(src.Sort());
+
+            public override int GetHashCode()
+                => Key.Hash;
 
             public static InstGroupSeq Empty => default;
         }

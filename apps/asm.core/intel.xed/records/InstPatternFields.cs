@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         [Record(TableId)]
-        public struct InstPatternFields
+        public struct InstFieldRow
         {
             public const string TableId = "xed.inst.patterns.fields";
 
@@ -46,7 +46,7 @@ namespace Z0
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,26,8,8,12,12,26,16,16,22,22,12,12,};
 
-            public static InstPatternFields Empty => default;
+            public static InstFieldRow Empty => default;
         }
     }
 }
