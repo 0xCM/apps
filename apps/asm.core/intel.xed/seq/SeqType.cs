@@ -9,12 +9,19 @@ namespace Z0
    {
         public struct SeqType
         {
-            public readonly SeqKind Kind;
+            public readonly Nonterminal Kind;
 
             public readonly SeqEffect Effect;
 
             [MethodImpl(Inline)]
-            public SeqType(SeqKind kind, SeqEffect effect)
+            public SeqType(Nonterminal kind)
+            {
+                Kind = kind;
+                Effect = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public SeqType(Nonterminal kind, SeqEffect effect)
             {
                 Kind = kind;
                 Effect = effect;
@@ -25,6 +32,8 @@ namespace Z0
 
             public override string ToString()
                 => Format();
+
+            public static SeqType Empty => default;
         }
     }
 }

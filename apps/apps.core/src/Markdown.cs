@@ -47,6 +47,10 @@ namespace Z0
             => new AbsoluteLink(label, dst, false);
 
         [MethodImpl(Inline), Op]
+        public static AbsoluteLink link(string label, FS.FileUri dst)
+            => new AbsoluteLink(label, dst, false);
+
+        [MethodImpl(Inline), Op]
         public static AbsoluteLink link(FS.FilePath dst, bool bare = true)
             => new AbsoluteLink(dst.FileName.WithoutExtension.Format(), dst, bare);
 

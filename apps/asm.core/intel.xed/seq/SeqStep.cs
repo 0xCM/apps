@@ -9,37 +9,23 @@ namespace Z0
     {
         public readonly struct SeqStep
         {
-            readonly ushort Data;
+            public readonly Nonterminal Data;
 
             public readonly SeqEffect Effect;
 
             [MethodImpl(Inline)]
-            public SeqStep(NontermKind kind, SeqEffect effect)
+            public SeqStep(NontermKind nt, SeqEffect effect)
             {
-                Data = (ushort)kind;
+                Data = nt;
                 Effect = effect;
             }
-
-            [MethodImpl(Inline)]
-            public SeqStep(SeqKind kind, SeqEffect effect)
-            {
-                Data = (ushort)kind;
-                Effect = effect;
-            }
-
-            [MethodImpl(Inline)]
-            public static implicit operator SeqStep((SeqKind kind, SeqEffect effect) src)
-                => new SeqStep(src.kind,src.effect);
 
             [MethodImpl(Inline)]
             public static implicit operator SeqStep((NontermKind kind, SeqEffect effect) src)
                 => new SeqStep(src.kind,src.effect);
 
             public string Format()
-                => string.Format("{0}_{1}",
-                    Data < (ushort)SeqKind.ISA
-                    ? (Nonterminal)Data
-                    : (SeqKind)Data , Effect);
+                => string.Format("{0}_{1}", (Nonterminal)Data, Effect);
 
             public override string ToString()
                 => Format();

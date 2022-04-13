@@ -6,7 +6,6 @@
 namespace Z0
 {
     using static XedModels;
-    using static core;
 
     partial class XedRules
     {
@@ -124,49 +123,6 @@ namespace Z0
                 return dst;
             }
 
-            public static Outcome bits(string src, out byte n, out byte dst)
-            {
-                var result = Outcome.Success;
-                dst = 0;
-                n = 0;
-                var number = z32;
-                if(XedParsers.IsBinaryLiteral(src))
-                {
-                    var input = text.trim(text.remove(text.replace(src,"0b",EmptyString), Chars.Underscore));
-                    n = (byte)input.Length;
-                    if(n > 6)
-                    {
-                        result = (false, "Unsupported bit length");
-                        term.error(result.Message);
-                    }
-                    else
-                    {
-                        var data = span(input);
-                        var storage = ByteBlock8.Empty;
-                        var buffer = recover<bit>(storage.Bytes);
-
-                        var k=n-1;
-                        for(var i=0; i<n; i++,k--)
-                        {
-                            ref readonly var c = ref skip(data,i);
-                            if(c == '0')
-                                buffer[k] = bit.Off;
-                            else if(c == '1')
-                                buffer[k] = bit.On;
-                            else
-                            {
-                                result = (false, $"Unsupported character '{c}'");
-                                term.error(result.Message);
-                                break;
-                            }
-                        }
-
-                        if(result)
-                            dst = BitPack.scalar<byte>(buffer);
-                    }
-                }
-                return result;
-            }
             public string Format()
             {
                 var dst = EmptyString;
@@ -176,71 +132,10 @@ namespace Z0
                     dst = XedRender.format(Operator);
                 else if(Class.IsBinLit)
                 {
-                    var result = bits(Data, out byte n, out byte b);
-                    switch(n)
-                    {
-                        case 1:
-                        {
-                            uint1 value = b;
-                            dst = XedRender.format(value);
-                            break;
-                        }
-                        case 2:
-                        {
-                            uint2 value = b;
-                            dst = XedRender.format(value);
-                            break;
-                        }
-                        case 3:
-                        {
-                            uint3 value = b;
-                            dst = XedRender.format(value);
-                            break;
-                        }
-                        case 4:
-                        {
-                            uint4 value = b;
-                            dst = XedRender.format(value);
-                            break;
-                        }
-                        case 5:
-                        {
-                            uint5 value = b;
-                            dst = XedRender.format(value);
-                            break;
-                        }
-                        case 6:
-                        {
-                            uint6 value = b;
-                            dst = XedRender.format(value);
-                            break;
-                        }
-                    }
-                    // var input = text.trim(text.remove(text.remove(Data,Chars.Underscore), "0b"));
-                    // var result = false;
-                    // switch(input.Length)
-                    // {
-                    //     case 1:
-                    //         result = bit.parse(input, out bit b1);
-                    //         dst = XedRender.format((uint1)b1);
-                    //     break;
-                    //     case 2:
-                    //         result = XedParsers.parse(input, out uint2 u2);
-                    //         dst = XedRender.format(u2);
-                    //     break;
-                    //     case 3:
-                    //         result = XedParsers.parse(input, out uint3 u3);
-                    //         dst = XedRender.format(u3);
-                    //     break;
-                    //     case 4:
-                    //         result = XedParsers.parse(input, out uint4 u4);
-                    //         dst = XedRender.format(u4);
-                    //     break;
-                    //     case 5:
-                    //         result = XedParsers.parse(input, out uint5 u5);
-                    //         dst = XedRender.format(u5);
-                    //     break;
-                    // }
+                    var result = CellBits.parse(Data, out var b);
+                    if(result.Fail)
+                        Errors.Throw(result.Message);
+                    dst = b.Format();
                 }
                 else if(Class.IsHexLit)
                 {

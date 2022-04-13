@@ -11,6 +11,9 @@ namespace Z0
 
     partial class XedDocs
     {
+        static SectionHeader TableHeader(in RuleSig sig)
+            => new(3, sig.Format());
+
         public class InstDocFormatter
         {
             readonly InstDoc Doc;
@@ -38,11 +41,8 @@ namespace Z0
             static SectionHeader ClassHeader(in InstDocPart part)
                 => new(3, part.Classifier.Format());
 
-            static SectionHeader TableHeader(in RuleSig sig)
-                => new(3, sig.Format());
-
-            SectionLink Link(in RuleSig sig)
-                => Markdown.link(sig.ShortName + "()", sig.Format());
+            AbsoluteLink Link(in RuleSig sig)
+                => Markdown.link(sig.ShortName + "()", Rules.FindTablePath(sig));
 
             static void RenderSigHeader(in InstDocPart part, ITextBuffer dst)
             {
@@ -148,14 +148,12 @@ namespace Z0
                 for(var i=0; i<doc.Parts.Count; i++)
                     Render(doc[i],dst);
 
-                dst.AppendLine(header(2,"Rules"));
-                dst.AppendLine();
+                // dst.AppendLine(header(2,"Rules"));
+                // dst.AppendLine();
 
-                var sigs = Rules.Sigs();
-                for(var i=0; i<sigs.Length; i++)
-                {
-                    Render(Rules.Spec(sigs[i]), dst);
-                }
+                // var sigs = Rules.Sigs();
+                // for(var i=0; i<sigs.Length; i++)
+                //     Render(Rules.Spec(sigs[i]), dst);
                 return dst.Emit();
             }
         }

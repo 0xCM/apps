@@ -654,7 +654,6 @@ namespace Z0
             EVEX_LL_ENC_BIND,
 
             AVX512_EVEX_BYTE3_ENC_BIND,
-
        }
     }
 }

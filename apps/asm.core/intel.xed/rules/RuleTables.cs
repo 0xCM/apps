@@ -48,16 +48,6 @@ namespace Z0
             public ref readonly Index<TableCriteria> Criteria()
                 => ref _Criteria;
 
-            //SortedLookup<RuleSig,TableCriteria> _CriteriaLookup;
-
-            // public TableCriteria Criteria(in RuleSig sig)
-            // {
-            //     if(_CriteriaLookup.Find(sig,out var spec))
-            //         return spec;
-            //     else
-            //         return XedRules.TableCriteria.Empty;
-            // }
-
             Dictionary<RuleSig,FS.FilePath> TablePaths;
 
             public FS.FileUri FindTablePath(Nonterminal src)
@@ -67,6 +57,17 @@ namespace Z0
                 if(!TablePaths.TryGetValue(new (RuleTableKind.Dec,name), out path))
                     TablePaths.TryGetValue(new (RuleTableKind.Enc,name), out path);
                 return path;
+            }
+
+
+            public FS.FileUri FindTablePath(RuleSig sig)
+            {
+                if(TablePaths.TryGetValue(sig, out var path))
+                {
+                    return path;
+                }
+                else
+                    return FS.FilePath.Empty;
             }
 
             TableSpecs _Specs;

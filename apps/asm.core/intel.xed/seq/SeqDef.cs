@@ -9,23 +9,42 @@ namespace Z0
     {
         public readonly struct SeqDef
         {
+            public readonly SeqType Type;
+
             public readonly Index<SeqStep> Steps;
 
-            public readonly SeqType Type;
+            [MethodImpl(Inline)]
+            public SeqDef(SeqStep[] steps)
+            {
+                Steps = steps;
+                Type = SeqType.Empty;
+            }
+
+            [MethodImpl(Inline)]
+            public SeqDef(Nonterminal name, SeqStep[] steps)
+            {
+                Steps = steps;
+                Type = new(name);
+            }
 
             [MethodImpl(Inline)]
             public SeqDef(SeqType type, SeqStep[] steps)
             {
-                Type = type;
                 Steps = steps;
+                Type = type;
             }
 
             [MethodImpl(Inline)]
-            public SeqDef(SeqKind kind, SeqStep[] steps)
-            {
-                Type = new (kind,0);
-                Steps = steps;
-            }
+            public SeqDef WithType(SeqType type)
+                => new SeqDef(type, Steps);
+
+            [MethodImpl(Inline)]
+            public SeqDef WithType(Nonterminal name)
+                => new SeqDef(name, Steps);
+
+            [MethodImpl(Inline)]
+            public SeqDef WithType(Nonterminal name, SeqEffect effect)
+                => new SeqDef(new SeqType(name,effect), Steps);
 
             public string Format()
             {
@@ -46,12 +65,11 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator SeqDef(SeqStep[] src)
-                => new SeqDef(0,src);
+                => new SeqDef(src);
 
             [MethodImpl(Inline)]
             public static implicit operator SeqDef(Index<SeqStep> src)
-                => new SeqDef(0,src);
-
+                => new SeqDef(src);
         }
     }
 }

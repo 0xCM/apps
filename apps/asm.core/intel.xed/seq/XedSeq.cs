@@ -6,26 +6,23 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedModels.SeqKind;
+    using static XedModels.SeqEffect;
 
     using NT = XedModels.NontermKind;
+
     public unsafe partial class XedSeq
     {
-        [MethodImpl(Inline), Op]
-        public static SeqStep bind(SeqKind kind)
-            => new SeqStep(kind,SeqEffect.BIND);
-
         [MethodImpl(Inline), Op]
         public static SeqStep bind(NontermKind kind)
             => new SeqStep(kind,SeqEffect.BIND);
 
         [MethodImpl(Inline), Op]
-        public static SeqStep emit(SeqKind kind)
+        public static SeqStep emit(NontermKind kind)
             => new SeqStep(kind,SeqEffect.EMIT);
 
         [MethodImpl(Inline), Op]
-        public static SeqStep emit(NontermKind kind)
-            => new SeqStep(kind,SeqEffect.EMIT);
+        public static SeqDef def(SeqStep[] steps)
+            => new SeqDef(steps);
 
         /*
         SEQUENCE ISA_BINDINGS
@@ -38,15 +35,15 @@ namespace Z0
             REX_PREFIX_ENC_BIND()   | REX_PREFIX_ENC
 
         */
-        static SeqDef ISA_BINDINGS => new SeqStep[]{
+        static SeqDef ISA_BINDINGS => def(new SeqStep[]{
                 bind(NT.FIXUP_EOSZ_ENC),
                 bind(NT.FIXUP_EASZ_ENC),
                 bind(NT.ASZ_NONTERM),
-                bind(INSTRUCTIONS),
+                bind(NT.INSTRUCTIONS),
                 bind(NT.OSZ_NONTERM_ENC),
                 bind(NT.PREFIX_ENC),
                 bind(NT.VEXED_REX),
-        };
+        }).WithType(NT.ISA, BIND);
 
         /*
         SEQUENCE ISA_EMIT
@@ -54,11 +51,11 @@ namespace Z0
             REX_PREFIX_ENC_EMIT() | VEXED_REX_EMIT()
             INSTRUCTIONS_EMIT()
         */
-        static SeqDef ISA_EMIT => new SeqStep[]{
+        static SeqDef ISA_EMIT => def(new SeqStep[]{
             emit(NT.PREFIX_ENC),
             emit(NT.VEXED_REX),
-            emit(INSTRUCTIONS)
-        };
+            emit(NT.INSTRUCTIONS)
+        }).WithType(NT.ISA, EMIT);
 
         /*
         SEQUENCE ISA_ENCODE
@@ -81,7 +78,7 @@ namespace Z0
             SIB_NT_BIND()
             DISP_NT_BIND()
         */
-        static SeqDef MODRM_BIND => new SeqStep[]{
+        static SeqDef MODRM_BIND => def(new SeqStep[]{
             bind(NT.SIB_REQUIRED_ENCODE),
             bind(NT.SIBSCALE_ENCODE),
             bind(NT.SIBINDEX_ENCODE),
@@ -92,65 +89,17 @@ namespace Z0
             bind(NT.SEGMENT_ENCODE),
             bind(NT.SIB_NT),
             bind(NT.DISP_NT)
-        };
+        }).WithType(NT.MODRM,BIND);
 
         /*
         SEQUENCE MODRM_EMIT
             SIB_NT_EMIT()
             DISP_NT_EMIT()
         */
-        static SeqDef MODRM_EMIT => new SeqStep[]{
+        static SeqDef MODRM_EMIT => def(new SeqStep[]{
             emit(NT.SIB_NT),
             emit(NT.DISP_NT),
-        };
-
-        /*
-        SEQUENCE NEWVEX3_ENC_BIND
-            VEX_TYPE_ENC_BIND
-            VEX_REXR_ENC_BIND
-            VEX_REXXB_ENC_BIND
-            VEX_MAP_ENC_BIND
-            VEX_REG_ENC_BIND
-            VEX_ESCVL_ENC_BIND
-
-        */
-        static SeqDef NEWVEX3_ENC_BIND => new SeqStep[]{
-            bind(NT.VEX_TYPE_ENC),
-            bind(NT.VEX_REXR_ENC),
-            bind(NT.VEX_REXXB_ENC),
-            bind(NT.VEX_MAP_ENC),
-            bind(NT.VEX_REG_ENC),
-            bind(NT.VEX_ESCVL_ENC),
-        };
-
-        public static Index<SeqDef> Defs()
-            => new SeqDef[]{
-                ISA_ENCODE,
-                MODRM_BIND,
-                MODRM_EMIT,
-        };
-
-        /*
-        SEQUENCE XOP_ENC_BIND
-            XOP_TYPE_ENC_BIND
-            VEX_REXR_ENC_BIND
-            XOP_REXXB_ENC_BIND
-            XOP_MAP_ENC_BIND
-            VEX_REG_ENC_BIND
-            VEX_ESCVL_ENC_BIND
-
-        */
-
-        /*
-        SEQUENCE XOP_ENC_EMIT
-            XOP_TYPE_ENC_EMIT
-            VEX_REXR_ENC_EMIT
-            XOP_REXXB_ENC_EMIT
-            XOP_MAP_ENC_EMIT
-            VEX_REG_ENC_EMIT
-            VEX_ESCVL_ENC_EMIT
-
-        */
+        }).WithType(NT.MODRM, EMIT);
 
         /*
         SEQUENCE NEWVEX_ENC_BIND
@@ -162,6 +111,15 @@ namespace Z0
             VEX_ESCVL_ENC_BIND
         */
 
+        static SeqDef NEWVEX_ENC_BIND => def(new SeqStep[]{
+            bind(NT.VEX_TYPE_ENC),
+            bind(NT.VEX_REXR_ENC),
+            bind(NT.VEX_REXXB_ENC),
+            bind(NT.VEX_MAP_ENC),
+            bind(NT.VEX_REG_ENC),
+            bind(NT.VEX_ESCVL_ENC),
+        }).WithType(NT.NEWVEX_ENC, BIND);
+
         /*
         SEQUENCE NEWVEX_ENC_EMIT
             VEX_TYPE_ENC_EMIT
@@ -171,6 +129,74 @@ namespace Z0
             VEX_REG_ENC_EMIT
             VEX_ESCVL_ENC_EMIT
         */
+        static SeqDef NEWVEX_ENC_EMIT => def(new SeqStep[]{
+            bind(NT.VEX_TYPE_ENC),
+            bind(NT.VEX_REXR_ENC),
+            bind(NT.VEX_REXXB_ENC),
+            bind(NT.VEX_MAP_ENC),
+            bind(NT.VEX_REG_ENC),
+            bind(NT.VEX_ESCVL_ENC),
+        }).WithType(NT.NEWVEX_ENC, EMIT);
+
+        public static Index<SeqDef> Defs()
+            => new SeqDef[]{
+                ISA_ENCODE,
+                MODRM_BIND,
+                MODRM_EMIT,
+                NEWVEX_ENC_EMIT,
+                NEWVEX_ENC_BIND,
+        };
+
+        // xed_uint_t xed_encode_nonterminal_VEXED_REX_EMIT(xed_encoder_request_t* xes)
+        // {
+        // /* VEXED_REX()::
+        // 	VEXVALID=3  ->	nt NT[XOP_ENC]
+        // 	VEXVALID=0  ->	nt NT[REX_PREFIX_ENC]
+        // 	VEXVALID=1  ->	nt NT[NEWVEX_ENC]
+        // 	VEXVALID=2  ->	nt NT[EVEX_ENC]
+        //  */
+        // xed_uint_t okay=1;
+        // unsigned int iform = xed_encoder_request_iforms(xes)->x_VEXED_REX;
+        // /* 4 */ if (iform==4) {
+        //     xed_encode_nonterminal_XOP_ENC_EMIT(xes);
+        //     if (xed3_operand_get_error(xes) != XED_ERROR_NONE) okay=0;
+        //     return okay;
+        // }
+        // /* 1 */ if (iform==1) {
+        //     xed_encode_nonterminal_REX_PREFIX_ENC_EMIT(xes);
+        //     if (xed3_operand_get_error(xes) != XED_ERROR_NONE) okay=0;
+        //     return okay;
+        // }
+        // /* 2 */ if (iform==2) {
+        //     xed_encode_nonterminal_NEWVEX_ENC_EMIT(xes);
+        //     if (xed3_operand_get_error(xes) != XED_ERROR_NONE) okay=0;
+        //     return okay;
+        // }
+        // /* 3 */ if (iform==3) {
+        //     xed_encode_nonterminal_EVEX_ENC_EMIT(xes);
+        //     if (xed3_operand_get_error(xes) != XED_ERROR_NONE) okay=0;
+        //     return okay;
+        // }
+        // if (1) { /*otherwise*/
+        //     if (xed3_operand_get_error(xes) != XED_ERROR_NONE) okay=0;
+        //     return okay;
+        // }
+        // return 0; /*pacify the compiler*/
+        // (void) okay;
+        // (void) xes;
+        // (void) iform;
+        /*
+
+        SEQUENCE NEWVEX3_ENC_BIND unused?
+            VEX_TYPE_ENC_BIND
+            VEX_REXR_ENC_BIND
+            VEX_REXXB_ENC_BIND
+            VEX_MAP_ENC_BIND
+            VEX_REG_ENC_BIND
+            VEX_ESCVL_ENC_BIND
+
+        */
+
 
         /*
         SEQUENCE VMODRM_XMM_BIND
@@ -297,6 +323,28 @@ namespace Z0
         SEQUENCE UISA_VMODRM_XMM_EMIT
             VSIB_ENC_EMIT()
             DISP_NT_EMIT()
+        */
+
+        /*
+        SEQUENCE XOP_ENC_BIND
+            XOP_TYPE_ENC_BIND
+            VEX_REXR_ENC_BIND
+            XOP_REXXB_ENC_BIND
+            XOP_MAP_ENC_BIND
+            VEX_REG_ENC_BIND
+            VEX_ESCVL_ENC_BIND
+
+        */
+
+        /*
+        SEQUENCE XOP_ENC_EMIT
+            XOP_TYPE_ENC_EMIT
+            VEX_REXR_ENC_EMIT
+            XOP_REXXB_ENC_EMIT
+            XOP_MAP_ENC_EMIT
+            VEX_REG_ENC_EMIT
+            VEX_ESCVL_ENC_EMIT
+
         */
     }
 }

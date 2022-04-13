@@ -14,13 +14,18 @@ namespace Z0
 
         XedPaths XedPaths => Service(Wf.XedPaths);
 
+        public RuleDoc CalcRuleDoc(RuleTables tables)
+            => new RuleDoc(tables);
+
         public InstDoc CalcInstDoc(RuleTables tables, Index<InstPattern> src)
             => new InstDoc(tables, src.Map(x => new InstDocPart(x)));
 
         public void EmitDocs(RuleTables tables, Index<InstPattern> patterns)
         {
-            var doc = CalcInstDoc(tables, patterns);
-            FileEmit(doc.Format(), doc.Parts.Count, XedPaths.Targets() + FS.file("xed.instructions", FS.Md), TextEncodingKind.Asci);
+            var inst = CalcInstDoc(tables, patterns);
+            FileEmit(inst.Format(), inst.Parts.Count, XedPaths.Targets() + FS.file("xed.instructions", FS.Md), TextEncodingKind.Asci);
+            var rules = CalcRuleDoc(tables);
+            FileEmit(rules.Format(), inst.Parts.Count, XedPaths.Targets() + FS.file("xed.rules", FS.Md), TextEncodingKind.Asci);
         }
     }
 }
