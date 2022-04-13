@@ -5,7 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    using static XedModels;
+
+    partial class XedParsers
     {
         public static Outcome parse(string src, out FormImport dst)
         {
@@ -13,15 +15,15 @@ namespace Z0
             dst = FormImport.Empty;
             var result = Outcome.Success;
             var reader = text.trim(text.split(text.trim(text.despace(src)), Delimiter)).Reader();
-            result = XedParsers.parse(reader.Next(), out dst.Index);
+            result = parse(reader.Next(), out dst.Index);
             if(result.Fail)
                 return (false, AppMsg.ParseFailure.Format(nameof(dst.Index), reader.Prior()));
 
-            result = XedParsers.parse(reader.Next(), out dst.InstForm);
+            result = parse(reader.Next(), out dst.InstForm);
             if(result.Fail)
                 return (false, AppMsg.ParseFailure.Format(nameof(dst.InstForm), reader.Prior()));
 
-            result = XedParsers.parse(reader.Next(), out dst.InstClass);
+            result = parse(reader.Next(), out dst.InstClass);
             if(result.Fail)
                 return (false, AppMsg.ParseFailure.Format(nameof(dst.InstClass), reader.Prior()));
 
@@ -45,10 +47,10 @@ namespace Z0
         public static Outcome parse(in FormSource src, ushort seq, out FormImport dst)
         {
             var result = Outcome.Success;
-            result = XedParsers.parse(src.Class, out dst.InstClass);
+            result = parse(src.Class, out dst.InstClass);
             result = DataParser.eparse(src.Extension, out dst.Extension);
             result = DataParser.eparse(src.Category, out dst.Category);
-            result = XedParsers.parse(src.Form, out dst.InstForm);
+            result = parse(src.Form, out dst.InstForm);
             dst.Index = (ushort)dst.InstForm.Kind;
             result = DataParser.eparse(src.IsaSet, out dst.IsaKind);
             dst.Attributes = XedPatterns.attributes(src.Attributes);

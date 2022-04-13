@@ -19,10 +19,6 @@ namespace Z0
             public const string EncStep = "->";
 
             public const string DecStep = "|";
-
-            public const string Neq = "!=";
-
-            public const char Assign = '=';
         }
     }
 }

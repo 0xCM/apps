@@ -5,121 +5,68 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedSeq.SeqEffect;
-    using static XedSeq.SeqKind;
-    using static XedSeq.SeqStepKind;
+    using static XedModels;
+    using static XedModels.SeqKind;
 
+    using NT = XedModels.NontermKind;
     public unsafe partial class XedSeq
     {
         [MethodImpl(Inline), Op]
-        public static SeqType type(SeqKind kind, SeqEffect effect)
-            => new(kind,effect);
+        public static SeqStep bind(SeqKind kind)
+            => new SeqStep(kind,SeqEffect.BIND);
 
         [MethodImpl(Inline), Op]
-        public static SeqStep step(SeqStepKind kind, byte index, SeqEffect effect)
-            => new(kind,index,effect);
+        public static SeqStep bind(NontermKind kind)
+            => new SeqStep(kind,SeqEffect.BIND);
 
         [MethodImpl(Inline), Op]
-        public static SeqDef def(SeqType type, params SeqStep[] steps)
-            => new SeqDef(type, steps);
+        public static SeqStep emit(SeqKind kind)
+            => new SeqStep(kind,SeqEffect.EMIT);
 
-        public static Index<SeqDef> Defs()
-            => new SeqDef[]{
-                def(type(MODRM,BIND),
-                    new SeqStep[]{
-                        step(SIB_REQUIRED_ENCODE,0,BIND),
-                        step(SIBSCALE_ENCODE,1,BIND),
-                        step(SIBINDEX_ENCODE,2,BIND),
-                        step(SIBBASE_ENCODE,3,BIND),
-                        step(MODRM_RM_ENCODE,4,BIND),
-                        step(MODRM_MOD_ENCODE,5,BIND),
-                        step(SEGMENT_DEFAULT_ENCODE,6,BIND),
-                        step(SEGMENT_ENCODE,7,BIND),
-                        step(SIB_NT,8,BIND),
-                        step(DISP_NT,9,BIND)
-                        }
-                    ),
+        [MethodImpl(Inline), Op]
+        public static SeqStep emit(NontermKind kind)
+            => new SeqStep(kind,SeqEffect.EMIT);
 
-                def(type(MODRM,EMIT),new SeqStep[]{
-                    step(SIB_NT,0,EMIT),
-                    step(DISP_NT,1,EMIT)
+        /*
+        SEQUENCE ISA_BINDINGS
+            FIXUP_EOSZ_ENC_BIND()   | FIXUP_EOSZ_ENC
+            FIXUP_EASZ_ENC_BIND()   | FIXUP_EASZ_ENC
+            ASZ_NONTERM_BIND()      | ASZ_NONTERM
+            INSTRUCTIONS_BIND()     | *select encoding function*
+            OSZ_NONTERM_ENC_BIND()  | OSZ_NONTERM_ENC
+            PREFIX_ENC_BIND()       | PREFIX_ENC
+            REX_PREFIX_ENC_BIND()   | REX_PREFIX_ENC
 
-                }),
-
-                def(type(ISA,BIND),new SeqStep[]{
-
-                }),
-                def(type(ISA,EMIT),new SeqStep[]{
-
-                }),
-
-                def(type(XOP,BIND),new SeqStep[]{
-
-                }),
-                def(type(XOP,EMIT),new SeqStep[]{
-
-                }),
-
-                def(type(NEWVEX,BIND),new SeqStep[]{
-
-                }),
-                def(type(NEWVEX,EMIT),new SeqStep[]{
-
-                }),
-
-                def(type(VMODRM_XMM,BIND),new SeqStep[]{
-
-                }),
-                def(type(VMODRM_XMM,EMIT),new SeqStep[]{
-
-                }),
-
-
-                def(type(VMODRM_YMM, BIND),new SeqStep[]{
-
-                }),
-                def(type(VMODRM_YMM, EMIT),new SeqStep[]{
-
-                }),
-
-
-                def(type(EVEX, BIND),new SeqStep[]{
-
-                }),
-                def(type(EVEX, EMIT),new SeqStep[]{
-
-                }),
-
-                def(type(NEWVEX3,BIND),new SeqStep[]{
-
-                }),
-                def(type(NEWVEX3, EMIT),new SeqStep[]{
-
-                }),
-
-                def(type(UISA_VMODRM_XMM,BIND),new SeqStep[]{
-
-                }),
-                def(type(UISA_VMODRM_XMM,EMIT),new SeqStep[]{
-
-                }),
-
-
-                def(type(UISA_VMODRM_YMM,BIND),new SeqStep[]{
-
-                }),
-                def(type(UISA_VMODRM_YMM,EMIT),new SeqStep[]{
-
-                }),
-
-
-                def(type(UISA_VMODRM_ZMM,BIND),new SeqStep[]{
-
-                }),
-                def(type(UISA_VMODRM_ZMM,EMIT),new SeqStep[]{
-
-                }),
+        */
+        static SeqDef ISA_BINDINGS => new SeqStep[]{
+                bind(NT.FIXUP_EOSZ_ENC),
+                bind(NT.FIXUP_EASZ_ENC),
+                bind(NT.ASZ_NONTERM),
+                bind(INSTRUCTIONS),
+                bind(NT.OSZ_NONTERM_ENC),
+                bind(NT.PREFIX_ENC),
+                bind(NT.VEXED_REX),
         };
+
+        /*
+        SEQUENCE ISA_EMIT
+            PREFIX_ENC_EMIT()
+            REX_PREFIX_ENC_EMIT() | VEXED_REX_EMIT()
+            INSTRUCTIONS_EMIT()
+        */
+        static SeqDef ISA_EMIT => new SeqStep[]{
+            emit(NT.PREFIX_ENC),
+            emit(NT.VEXED_REX),
+            emit(INSTRUCTIONS)
+        };
+
+        /*
+        SEQUENCE ISA_ENCODE
+            ISA_BINDINGS    | ISA_BINDINGS()
+            ISA_EMIT        | ISA_EMIT
+        */
+        static SeqDef ISA_ENCODE
+            => ISA_BINDINGS.Steps.Append(ISA_EMIT.Steps);
 
         /*
         SEQUENCE MODRM_BIND
@@ -134,110 +81,54 @@ namespace Z0
             SIB_NT_BIND()
             DISP_NT_BIND()
         */
-        public static bit xed_encode_nonterminal_MODRM_BIND(ulong* pEncReq)
-        {
-            bit okay = 0;
-            // okay = xed_encode_nonterminal_SIB_REQUIRED_ENCODE_BIND(pEncReq);    => SIB_REQUIRED_ENCODE()
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_SIBSCALE_ENCODE_BIND(pEncReq); => SIBSCALE_ENCODE()
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_SIBINDEX_ENCODE_BIND(pEncReq); => SIBINDEX_ENCODE()
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_SIBBASE_ENCODE_BIND(pEncReq); => SIBBASE_ENCODE()
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_MODRM_RM_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_MODRM_MOD_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_SEGMENT_DEFAULT_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_SEGMENT_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_SIB_NT_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_DISP_NT_BIND(pEncReq);
-            // if (!okay) return 0;
-            return okay;
-        }
+        static SeqDef MODRM_BIND => new SeqStep[]{
+            bind(NT.SIB_REQUIRED_ENCODE),
+            bind(NT.SIBSCALE_ENCODE),
+            bind(NT.SIBINDEX_ENCODE),
+            bind(NT.SIBBASE_ENCODE),
+            bind(NT.MODRM_RM_ENCODE),
+            bind(NT.MODRM_MOD_ENCODE),
+            bind(NT.SEGMENT_DEFAULT_ENCODE),
+            bind(NT.SEGMENT_ENCODE),
+            bind(NT.SIB_NT),
+            bind(NT.DISP_NT)
+        };
 
         /*
         SEQUENCE MODRM_EMIT
             SIB_NT_EMIT()
             DISP_NT_EMIT()
         */
-        public static bit xed_encode_nonterminal_MODRM_EMIT(ulong* pEncReq)
-        {
-            // bit okay = 0;
-            // okay = xed_encode_nonterminal_SIB_NT_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_DISP_NT_EMIT(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
+        static SeqDef MODRM_EMIT => new SeqStep[]{
+            emit(NT.SIB_NT),
+            emit(NT.DISP_NT),
+        };
 
         /*
-        SEQUENCE ISA_ENCODE
-            ISA_BINDINGS    | ISA_BINDINGS()
-            ISA_EMIT        | ISA_EMIT
-        */
-        public static bit xed_encode_nonterminal_ISA_ENCODE(ulong* pEncReq)
-        {
-            bit okay = 0;
-            okay = xed_encode_nonterminal_ISA_BINDINGS(pEncReq);
-            if (!okay) return 0;
-            okay = xed_encode_nonterminal_ISA_EMIT(pEncReq);
-            if (!okay) return 0;
-            return 1;
-        }
-
-        /*
-        SEQUENCE ISA_BINDINGS
-            FIXUP_EOSZ_ENC_BIND()   | FIXUP_EOSZ_ENC
-            FIXUP_EASZ_ENC_BIND()   | FIXUP_EASZ_ENC
-            ASZ_NONTERM_BIND()      | ASZ_NONTERM
-            INSTRUCTIONS_BIND()     | *select encoding function*
-            OSZ_NONTERM_ENC_BIND()  | OSZ_NONTERM_ENC
-            PREFIX_ENC_BIND()       | PREFIX_ENC
-            REX_PREFIX_ENC_BIND()   | REX_PREFIX_ENC
+        SEQUENCE NEWVEX3_ENC_BIND
+            VEX_TYPE_ENC_BIND
+            VEX_REXR_ENC_BIND
+            VEX_REXXB_ENC_BIND
+            VEX_MAP_ENC_BIND
+            VEX_REG_ENC_BIND
+            VEX_ESCVL_ENC_BIND
 
         */
-        public static bit xed_encode_nonterminal_ISA_BINDINGS(ulong* pEncReq)
-        {
-            bit okay = 0;
-            // okay = xed_encode_nonterminal_FIXUP_EOSZ_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_FIXUP_EASZ_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_ASZ_NONTERM_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_INSTRUCTIONS_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_OSZ_NONTERM_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_PREFIX_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEXED_REX_BIND(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
+        static SeqDef NEWVEX3_ENC_BIND => new SeqStep[]{
+            bind(NT.VEX_TYPE_ENC),
+            bind(NT.VEX_REXR_ENC),
+            bind(NT.VEX_REXXB_ENC),
+            bind(NT.VEX_MAP_ENC),
+            bind(NT.VEX_REG_ENC),
+            bind(NT.VEX_ESCVL_ENC),
+        };
 
-        /*
-        SEQUENCE ISA_EMIT
-            PREFIX_ENC_EMIT()
-            REX_PREFIX_ENC_EMIT()
-            INSTRUCTIONS_EMIT()
-        */
-        public static bit xed_encode_nonterminal_ISA_EMIT(ulong* pEncReq)
-        {
-            // bit okay = 0;
-            // okay = xed_encode_nonterminal_PREFIX_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEXED_REX_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_INSTRUCTIONS_EMIT(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
+        public static Index<SeqDef> Defs()
+            => new SeqDef[]{
+                ISA_ENCODE,
+                MODRM_BIND,
+                MODRM_EMIT,
+        };
 
         /*
         SEQUENCE XOP_ENC_BIND
@@ -249,23 +140,6 @@ namespace Z0
             VEX_ESCVL_ENC_BIND
 
         */
-        public static bit xed_encode_nonterminal_XOP_ENC_BIND(ulong* pEncReq)
-        {
-            // bit okay = 0;
-            // okay = xed_encode_nonterminal_XOP_TYPE_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_REXR_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_XOP_REXXB_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_XOP_MAP_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_REG_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_ESCVL_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
 
         /*
         SEQUENCE XOP_ENC_EMIT
@@ -277,23 +151,6 @@ namespace Z0
             VEX_ESCVL_ENC_EMIT
 
         */
-        public static bit xed_encode_nonterminal_XOP_ENC_EMIT(ulong* pEncReq)
-        {
-            // bit okay = 0;
-            // okay = xed_encode_nonterminal_XOP_TYPE_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_REXR_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_XOP_REXXB_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_XOP_MAP_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_REG_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_ESCVL_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
 
         /*
         SEQUENCE NEWVEX_ENC_BIND
@@ -304,23 +161,6 @@ namespace Z0
             VEX_REG_ENC_BIND
             VEX_ESCVL_ENC_BIND
         */
-        public static bit xed_encode_nonterminal_NEWVEX_ENC_BIND(ulong* pEncReq)
-        {
-            // bit okay = 0;
-            // okay = xed_encode_nonterminal_VEX_TYPE_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_REXR_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_REXXB_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_MAP_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_REG_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_ESCVL_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
 
         /*
         SEQUENCE NEWVEX_ENC_EMIT
@@ -331,23 +171,6 @@ namespace Z0
             VEX_REG_ENC_EMIT
             VEX_ESCVL_ENC_EMIT
         */
-        public static bit xed_encode_nonterminal_NEWVEX_ENC_EMIT(ulong* pEncReq)
-        {
-            // bit okay = 0;
-            // okay = xed_encode_nonterminal_VEX_TYPE_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_REXR_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_REXXB_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_MAP_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_REG_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_ESCVL_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
 
         /*
         SEQUENCE VMODRM_XMM_BIND
@@ -360,27 +183,6 @@ namespace Z0
             SEGMENT_ENCODE_BIND()
             DISP_NT_BIND()
         */
-        public static bit xed_encode_nonterminal_VMODRM_XMM_BIND(ulong* pEncReq)
-        {
-            // bit okay = 0;
-            // okay = xed_encode_nonterminal_VMODRM_MOD_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VSIB_ENC_BASE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VSIB_ENC_INDEX_XMM_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VSIB_ENC_SCALE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VSIB_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_SEGMENT_DEFAULT_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_SEGMENT_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_DISP_NT_BIND(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
 
         /*
         SEQUENCE VMODRM_YMM_BIND
@@ -393,57 +195,18 @@ namespace Z0
             SEGMENT_ENCODE_BIND()
             DISP_NT_BIND()
         */
-        public static bit xed_encode_nonterminal_VMODRM_YMM_BIND(ulong* pEncReq)
-        {
-            // bit okay;
-            // okay = xed_encode_nonterminal_VMODRM_MOD_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VSIB_ENC_BASE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VSIB_ENC_INDEX_YMM_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VSIB_ENC_SCALE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VSIB_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_SEGMENT_DEFAULT_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_SEGMENT_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_DISP_NT_BIND(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
 
         /*
         SEQUENCE VMODRM_XMM_EMIT
             VSIB_ENC_EMIT()
             DISP_NT_EMIT()
         */
-        public static bit xed_encode_nonterminal_VMODRM_XMM_EMIT(ulong* pEncReq)
-        {
-            // bit okay = 0;
-            // okay = xed_encode_nonterminal_VSIB_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_DISP_NT_EMIT(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
 
         /*
         SEQUENCE VMODRM_YMM_EMIT
             VSIB_ENC_EMIT()
             DISP_NT_EMIT()
         */
-        public static bit xed_encode_nonterminal_VMODRM_YMM_EMIT(ulong* pEncReq)
-        {
-            // bit okay;
-            // okay = xed_encode_nonterminal_VSIB_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_DISP_NT_EMIT(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
 
         /*
         SEQUENCE EVEX_ENC_BIND
@@ -457,29 +220,6 @@ namespace Z0
             EVEX_LL_ENC_BIND
             AVX512_EVEX_BYTE3_ENC_BIND
         */
-        public static bit xed_encode_nonterminal_EVEX_ENC_BIND(ulong* pEncReq)
-        {
-            // bit okay;
-            // okay = xed_encode_nonterminal_EVEX_62_REXR_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_EVEX_REXX_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_EVEX_REXB_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_EVEX_REXRR_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_EVEX_MAP_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_EVEX_REXW_VVVV_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_EVEX_UPP_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_EVEX_LL_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_AVX512_EVEX_BYTE3_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
 
         /*
         SEQUENCE EVEX_ENC_EMIT
@@ -493,72 +233,6 @@ namespace Z0
             EVEX_LL_ENC_EMIT
             AVX512_EVEX_BYTE3_ENC_EMIT
         */
-        public static bit xed_encode_nonterminal_EVEX_ENC_EMIT(ulong* pEncReq)
-        {
-            // bit okay = 0;
-            // okay = xed_encode_nonterminal_EVEX_62_REXR_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_EVEX_REXX_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_EVEX_REXB_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_EVEX_REXRR_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_EVEX_MAP_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_EVEX_REXW_VVVV_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_EVEX_UPP_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_EVEX_LL_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_AVX512_EVEX_BYTE3_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
-
-        /*
-        SEQUENCE NEWVEX3_ENC_BIND
-            VEX_TYPE_ENC_BIND
-            VEX_REXR_ENC_BIND
-            VEX_REXXB_ENC_BIND
-            VEX_MAP_ENC_BIND
-            VEX_REG_ENC_BIND
-            VEX_ESCVL_ENC_BIND
-
-            enum SeqKind
-            {
-                Bind=1,
-                Emit=2,
-            }
-            struct NEWVEX3_ENC
-            {
-                VEX_TYPE_ENC;
-                VEX_REXR_ENC;
-                VEX_REXXB_ENC;
-                VEX_MAP_ENC;
-                VEX_REG_ENC;
-                VEX_ESCVL_ENC;
-
-            }
-        */
-        public static bit xed_encode_nonterminal_NEWVEX3_ENC_BIND(ulong* pEncReq)
-        {
-            // bit okay;
-            // okay = xed_encode_nonterminal_VEX_TYPE_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_REXR_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_REXXB_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_MAP_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_REG_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_ESCVL_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
 
         /*
         SEQUENCE NEWVEX3_ENC_EMIT
@@ -569,23 +243,6 @@ namespace Z0
             VEX_REG_ENC_EMIT
             VEX_ESCVL_ENC_EMIT
         */
-        public static bit xed_encode_nonterminal_NEWVEX3_ENC_EMIT(ulong* pEncReq)
-        {
-            // bit okay = 0;
-            // okay = xed_encode_nonterminal_VEX_TYPE_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_REXR_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_REXXB_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_MAP_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_REG_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VEX_ESCVL_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
 
         /*
         SEQUENCE UISA_VMODRM_ZMM_BIND
@@ -599,49 +256,18 @@ namespace Z0
             DISP_NT_BIND()
         */
 
-        public static bit xed_encode_nonterminal_UISA_VMODRM_ZMM_BIND(ulong* pEncReq)
-        {
-            // bit okay;
-            // okay = xed_encode_nonterminal_VMODRM_MOD_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VSIB_ENC_BASE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_UISA_ENC_INDEX_ZMM_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VSIB_ENC_SCALE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VSIB_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_SEGMENT_DEFAULT_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_SEGMENT_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_DISP_NT_BIND(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
+        /*
+        SEQUENCE UISA_VMODRM_YMM_BIND
+            VMODRM_MOD_ENCODE_BIND()  # FROM HSW
+            VSIB_ENC_BASE_BIND()      # FROM HSW
+            UISA_ENC_INDEX_YMM_BIND()
+            VSIB_ENC_SCALE_BIND()   # FROM HSW
+            VSIB_ENC_BIND()         # FROM HSW
+            SEGMENT_DEFAULT_ENCODE_BIND() # FROM BASE ISA
+            SEGMENT_ENCODE_BIND()         # FROM BASE ISA
+            DISP_NT_BIND()          # FROM BASE ISA
 
-        public static bit xed_encode_nonterminal_UISA_VMODRM_YMM_BIND(ulong* pEncReq)
-        {
-            // bit okay = 0;
-            // okay = xed_encode_nonterminal_VMODRM_MOD_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VSIB_ENC_BASE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_UISA_ENC_INDEX_YMM_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VSIB_ENC_SCALE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VSIB_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_SEGMENT_DEFAULT_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_SEGMENT_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_DISP_NT_BIND(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
+        */
 
         /*
         SEQUENCE UISA_VMODRM_XMM_BIND
@@ -654,171 +280,23 @@ namespace Z0
             SEGMENT_ENCODE_BIND()
             DISP_NT_BIND()
         */
-        public static bit xed_encode_nonterminal_UISA_VMODRM_XMM_BIND(ulong* pEncReq)
-        {
-            // bit okay;
-            // okay = xed_encode_nonterminal_VMODRM_MOD_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VSIB_ENC_BASE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_UISA_ENC_INDEX_XMM_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VSIB_ENC_SCALE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_VSIB_ENC_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_SEGMENT_DEFAULT_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_SEGMENT_ENCODE_BIND(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_DISP_NT_BIND(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
 
         /*
             SEQUENCE UISA_VMODRM_ZMM_EMIT
                 VSIB_ENC_EMIT()
                 DISP_NT_EMIT()
         */
-        public static bit xed_encode_nonterminal_UISA_VMODRM_ZMM_EMIT(ulong* pEncReq)
-        {
-            // bit okay;
-            // okay = xed_encode_nonterminal_VSIB_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_DISP_NT_EMIT(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
 
         /*
         SEQUENCE VMODRM_YMM_EMIT
             VSIB_ENC_EMIT()
             DISP_NT_EMIT()
         */
-        public static bit xed_encode_nonterminal_UISA_VMODRM_YMM_EMIT(ulong* pEncReq)
-        {
-            // bit okay;
-            // okay = xed_encode_nonterminal_VSIB_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_DISP_NT_EMIT(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
 
         /*
         SEQUENCE UISA_VMODRM_XMM_EMIT
             VSIB_ENC_EMIT()
             DISP_NT_EMIT()
         */
-        public static bit xed_encode_nonterminal_UISA_VMODRM_XMM_EMIT(ulong* pEncReq)
-        {
-            // bit okay;
-            // okay = xed_encode_nonterminal_VSIB_ENC_EMIT(pEncReq);
-            // if (!okay) return 0;
-            // okay = xed_encode_nonterminal_DISP_NT_EMIT(pEncReq);
-            // if (!okay) return 0;
-            return 1;
-        }
-
-        public static uint xed_encode_nonterminal_SEGMENT_DEFAULT_ENCODE_BIND(ulong* pEncReq)
-        {
-            ulong key = 0;
-            ulong hidx = 0;
-            // key = xed_enc_lu_BASE0_EASZ(pEncReq);
-            return 0;
-        }
-
-        public static uint xed_encode_nonterminal_SEGMENT_ENCODE_BIND(ulong* pEncReq)
-        {
-            ulong key = 0;
-            ulong hidx = 0;
-            // key = xed_enc_lu_DEFAULT_SEG_SEG0(pEncReq);
-            return 0;
-        }
-
-        public static uint xed_encode_nonterminal_SIBBASE_ENCODE_BIND(ulong* pEncReq)
-        {
-            ulong key = 0;
-            ulong hidx = 0;
-            ulong res = 1;
-            // key = xed_enc_lu_NEED_SIB(pEncReq);
-            return 0;
-        }
-
-        public static uint xed_encode_nonterminal_SIBBASE_ENCODE_SIB1_BIND(ulong* pEncReq)
-        {
-            ulong key = 0;
-            ulong hidx = 0;
-            ulong res = 1;
-            // key = xed_enc_lu_BASE0_EASZ(pEncReq);
-            return 0;
-        }
-
-        public static uint xed_encode_nonterminal_SIBINDEX_ENCODE_BIND(ulong* pEncReq)
-        {
-            ulong key = 0;
-            ulong hidx = 0;
-            ulong res = 1;
-            // key = xed_enc_lu_NEED_SIB(pEncReq);
-            return 1;
-        }
-
-        public static uint xed_encode_nonterminal_SIBINDEX_ENCODE_SIB1_BIND(ulong* pEncReq)
-        {
-            ulong key = 0;
-            ulong hidx = 0;
-            // key = xed_enc_lu_EASZ_INDEX(pEncReq);
-            return 1;
-        }
-
-        public static uint xed_encode_nonterminal_SIBSCALE_ENCODE_BIND(ulong* pEncReq)
-        {
-            ulong key = 0;
-            ulong hidx = 0;
-            // key = xed_enc_lu_NEED_SIB_SCALE(pEncReq);
-            return 1;
-        }
-
-        public static uint xed_encode_nonterminal_MODRM_MOD_ENCODE_BIND(ulong* pEncReq)
-        {
-            ulong key = 0;
-            ulong hidx = 0;
-            ulong res = 1;
-            //key = xed_enc_lu_DISP_WIDTH_EASZ(pEncReq);
-            return 1;
-        }
-
-        public static uint xed_encode_nonterminal_MODRM_MOD_EA16_DISP0_BIND(ulong* pEncReq)
-        {
-            ulong key = 0;
-            ulong hidx = 0;
-            //key = xed_enc_lu_BASE0_INDEX(pEncReq);
-            return 1;
-        }
-
-        public static uint xed_encode_nonterminal_MODRM_MOD_EA16_DISP8_BIND(ulong* pEncReq)
-        {
-            ulong key = 0;
-            ulong hidx = 0;
-            //key = xed_enc_lu_BASE0_INDEX(pEncReq);
-            return 1;
-        }
-
-        public static uint xed_encode_nonterminal_MODRM_MOD_EA16_DISP16_BIND(ulong* pEncReq)
-        {
-            ulong key = 0;
-            ulong hidx = 0;
-            //key = xed_enc_lu_BASE0_INDEX(pEncReq);
-            return 1;
-        }
-
-        public static uint xed_encode_nonterminal_MODRM_MOD_EA32_DISP0_BIND(ulong* pEncReq)
-        {
-            ulong key = 0;
-            ulong hidx = 0;
-            //key = xed_enc_lu_BASE0_MODE(pEncReq);
-            return 1;
-        }
     }
 }

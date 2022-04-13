@@ -5,33 +5,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedSeq
+    partial struct XedModels
     {
-        public enum SeqKind : byte
+        public enum SeqKind : ushort
         {
             None,
 
-            MODRM,
+            ISA = 512,
 
-            ISA,
-
-            XOP,
-
-            NEWVEX,
-
-            VMODRM_XMM,
-
-            VMODRM_YMM,
-
-            EVEX,
-
-            NEWVEX3,
-
-            UISA_VMODRM_XMM,
-
-            UISA_VMODRM_YMM,
-
-            UISA_VMODRM_ZMM,
+            INSTRUCTIONS,
         }
     }
 }

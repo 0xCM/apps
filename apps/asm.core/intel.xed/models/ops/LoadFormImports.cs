@@ -28,7 +28,7 @@ namespace Z0.Asm
                     if(line.StartsWith(CommentMarker) || line.IsEmpty)
                         continue;
 
-                    outcome = XedModels.parse(line.Content, out FormImport row);
+                    outcome = XedParsers.parse(line.Content, out FormImport row);
                     if(outcome)
                         dst.Add(row);
                     else

@@ -5,18 +5,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedSeq
+    partial struct XedModels
     {
         public readonly struct SeqDef
         {
-            public readonly SeqType Type;
-
             public readonly Index<SeqStep> Steps;
+
+            public readonly SeqType Type;
 
             [MethodImpl(Inline)]
             public SeqDef(SeqType type, SeqStep[] steps)
             {
                 Type = type;
+                Steps = steps;
+            }
+
+            [MethodImpl(Inline)]
+            public SeqDef(SeqKind kind, SeqStep[] steps)
+            {
+                Type = new (kind,0);
                 Steps = steps;
             }
 
@@ -27,7 +34,7 @@ namespace Z0
                 for(var i=0; i<Steps.Count; i++)
                 {
                     ref readonly var step = ref Steps[i];
-                    dst.IndentLineFormat(4,"{0}_{1}()", step.Kind, step.Effect);
+                    dst.IndentLine(4,step.Format());
                 }
                 dst.AppendLine("}");
 
@@ -36,6 +43,15 @@ namespace Z0
 
             public override string ToString()
                 => Format();
+
+            [MethodImpl(Inline)]
+            public static implicit operator SeqDef(SeqStep[] src)
+                => new SeqDef(0,src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator SeqDef(Index<SeqStep> src)
+                => new SeqDef(0,src);
+
         }
     }
 }

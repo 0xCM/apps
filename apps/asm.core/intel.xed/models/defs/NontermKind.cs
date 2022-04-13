@@ -594,6 +594,67 @@ namespace Z0
             REX_PREFIX_ENC,
 
             NEWVEX_ENC,
+
+            FIXUP_EOSZ_ENC,
+
+            FIXUP_EASZ_ENC,
+
+            PREFIX_ENC,
+
+            VEXED_REX,
+
+            OSZ_NONTERM_ENC,
+
+            SIB_REQUIRED_ENCODE,
+
+            SIBSCALE_ENCODE,
+
+            SIBINDEX_ENCODE,
+
+            SIBBASE_ENCODE,
+
+            MODRM_RM_ENCODE,
+
+            MODRM_MOD_ENCODE,
+
+            SEGMENT_DEFAULT_ENCODE,
+
+            SEGMENT_ENCODE,
+
+            SIB_NT,
+
+            DISP_NT,
+
+            VEX_TYPE_ENC,
+
+            VEX_REXR_ENC,
+
+            VEX_REXXB_ENC,
+
+            VEX_MAP_ENC,
+
+            VEX_REG_ENC,
+
+            VEX_ESCVL_ENC,
+
+            EVEX_62_REXR_ENC_BIND,
+
+            EVEX_REXX_ENC_BIND,
+
+            EVEX_REXB_ENC_BIND,
+
+            EVEX_REXRR_ENC_BIND,
+
+            EVEX_MAP_ENC_BIND,
+
+            EVEX_REXW_VVVV_ENC_BIND,
+
+            EVEX_UPP_ENC_BIND,
+
+            EVEX_LL_ENC_BIND,
+
+            AVX512_EVEX_BYTE3_ENC_BIND,
+
        }
     }
 }

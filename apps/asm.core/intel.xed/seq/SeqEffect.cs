@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedSeq
+    partial struct XedModels
     {
         public enum SeqEffect : byte
         {

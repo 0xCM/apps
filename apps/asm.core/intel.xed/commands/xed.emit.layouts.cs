@@ -8,26 +8,15 @@ namespace Z0
 
     using static XedRules;
     using static XedModels;
-    using static Datasets;
     using static core;
 
     partial class XedCmdProvider
     {
-        [CmdOp("xed/emit/layouts")]
-        Outcome EmitLayouts(CmdArgs args)
-        {
-            var patterns = Xed.Rules.CalcInstPatterns();
-            var layouts = Xed.Rules.CalcInstLayouts(patterns);
-            Xed.Rules.EmitInstLayouts(layouts);
-            return true;
-        }
-
         [CmdOp("xed/check/layouts")]
         Outcome CheckLayouts(CmdArgs args)
         {
             var inst = CalcInstSegs();
             iter(inst, x => Write(x));
-            //var rules = CalcRuleSegs();
             return true;
         }
 

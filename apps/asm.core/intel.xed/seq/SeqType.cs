@@ -5,8 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedSeq
-    {
+   partial struct XedModels
+   {
         public struct SeqType
         {
             public readonly SeqKind Kind;
@@ -25,7 +25,6 @@ namespace Z0
 
             public override string ToString()
                 => Format();
-
         }
     }
 }
