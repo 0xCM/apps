@@ -25,7 +25,7 @@ namespace Z0
                     ref readonly var c = ref row.Consequent;
                     var count = a.Count + 1 + c.Count;
                     var keys = alloc<CellKey>(count);
-                    var cells = alloc<CellSpec>(count);
+                    var cells = alloc<CellInfo>(count);
                     var m=z8;
                     for(var k=0; k<a.Count; k++,m++)
                     {
@@ -35,7 +35,7 @@ namespace Z0
 
                     {
                         seek(keys, m) = new CellKey(tk, tid, j, LogicKind.Antecedant, m);
-                        seek(cells, m) = new XedRules.CellSpec(OperatorKind.Impl);
+                        seek(cells, m) = new XedRules.CellInfo(OperatorKind.Impl);
                         m++;
                     }
 

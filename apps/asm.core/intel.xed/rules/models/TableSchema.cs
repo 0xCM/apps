@@ -8,19 +8,17 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential)]
-        public struct TableSchema : IComparable<TableSchema>
+        public record struct TableSchema
         {
-            public static TableColumn col(byte index, string name, CellType type)
-                => new (index,name,type);
+            public readonly RuleSig Table;
 
-            public uint Seq;
+            public readonly TableColumn[] Columns;
 
-            public readonly Index<TableColumn> Columns;
-
-            public int CompareTo(TableSchema src)
+            [MethodImpl(Inline)]
+            public TableSchema(RuleSig table, TableColumn[] cols)
             {
-                var result = 0;
-                return result;
+                Table = table;
+                Columns = cols;
             }
         }
     }

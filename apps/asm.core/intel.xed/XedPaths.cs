@@ -107,9 +107,6 @@ namespace Z0
         public FS.FilePath RuleSpecs()
             => RuleTargets() + FS.file("xed.rules.specs", FS.Csv);
 
-        public FS.FilePath RuleSchemas()
-            => RuleTargets() + Tables.filename<TableSchema>();
-
         public FS.FolderPath InstIsaRoot()
             => Targets("instructions");
 

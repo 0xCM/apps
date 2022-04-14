@@ -17,6 +17,10 @@ namespace Z0
             => ((byte)b).CompareTo((byte)a);
 
         [MethodImpl(Inline), Op]
+        public static int cmp(OperatorKind a, OperatorKind b)
+            => ((byte)b).CompareTo((byte)a);
+
+        [MethodImpl(Inline), Op]
         public static int cmp(FieldKind a, FieldKind b)
             => ((byte)a).CompareTo((byte)b);
 

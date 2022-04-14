@@ -63,8 +63,6 @@ namespace Z0
 
         static EnumRender<ExtensionKind> ExtensionKinds = new();
 
-        static EnumRender<DispSpec> DispSpecs = new();
-
         static EnumRender<NontermKind> NontermKinds = new();
 
         static EnumRender<ROUNDC> RoundingKinds = new();
@@ -104,8 +102,6 @@ namespace Z0
         static EnumRender<OpType> OpTypes = new();
 
         static EnumRender<HintKind> HintKinds = new();
-
-        static EnumRender<ImmSpec> ImmSpecs = new();
 
         static EnumRender<InstFieldClass> InstFieldClasses = new();
 
@@ -183,9 +179,6 @@ namespace Z0
 
         public static string format(EOSZ src, FormatCode fc = FormatCode.Expr)
             => fc == FormatCode.BitWidth ? nsize(src) : format(EoszKinds,src,fc);
-
-        public static string format(ImmSpec src, FormatCode fc = FormatCode.Expr)
-            => fc == FormatCode.BitWidth ? (((byte)src)*8).ToString() : format(ImmSpecs,src,fc);
 
         public static string format(ModeKind src, FormatCode fc = FormatCode.Expr)
             => fc == FormatCode.BitWidth ? nsize((byte)src + 1) : format(ModeKinds,src,fc);
@@ -583,18 +576,6 @@ namespace Z0
 
         public static string format(OpCodeKind src)
             => format(XedOpCodes.index(src));
-
-        public static string format(ImmSeg src)
-            => src.IsEmpty ? EmptyString : string.Format("{0}[{1}]", "UIMM", src.Index, format(src.Spec));
-
-        public static string format(ImmSpec src)
-            => ImmSpecs.Format(src);
-
-        public static string format(DispSpec src)
-            => DispSpecs.Format(src);
-
-        public static string format(DispSeg src)
-            => src.IsEmpty ? EmptyString : string.Format("{0}[{1}]", "DISP", format(src.Spec));
 
         public static string format(in InstField src)
         {

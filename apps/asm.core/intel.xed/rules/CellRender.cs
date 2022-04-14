@@ -104,39 +104,49 @@ namespace Z0
                 }
             }
 
-            public static string format(in CellType src)
+            public static string format(CellTypeKind src)
             {
-                var dst = EmptyString;
+                var dst = "<untyped>";
                 switch(src.Class.Kind)
                 {
-                    case CK.SegField:
-                        dst = string.Format("Seg:{0}", XedRender.format(src.Field));
-                    break;
-                    case CK.Keyword:
-                    case CK.HexLiteral:
                     case CK.BitLiteral:
                     case CK.IntLiteral:
+                    case CK.HexLiteral:
                     case CK.String:
-                        dst = src.Class.Kind.ToString();
+                    case CK.Keyword:
+                    case CK.Nonterm:
+                        dst = "NT";
                     break;
                     case CK.Operator:
                         dst = string.Format("Op({0})", src.Operator);
                     break;
-                    case CK.Nonterm:
-                        dst = "NT";
-                    break;
-                    case CK.NontermExpr:
-                        dst = string.Format("Nt(x):{0}", src.EffectiveType);
-                    break;
-                    case CK.EqExpr:
-                        dst = string.Format("Eq(x):{0}", src.EffectiveType);
+                    case CK.SegField:
+                        dst = "Seg";
                     break;
                     case CK.NeqExpr:
-                        dst = string.Format("Neq(x):{0}", src.EffectiveType);
+                        dst = "Neq(x)";
                     break;
-                    default:
-                        dst = src.EffectiveType.Format();
-                        break;
+                    case CK.EqExpr:
+                        dst = "Eq(x)";
+                    break;
+                    case CK.NontermExpr:
+                        dst = "Nt(x)";
+                    break;
+                }
+                return dst;
+            }
+
+            public static string format(in CellType src)
+            {
+                var dst = format(src.Kind);
+                switch(src.Class.Kind)
+                {
+                    case CK.SegField:
+                    case CK.NeqExpr:
+                    case CK.EqExpr:
+                    case CK.NontermExpr:
+                        dst = string.Format("{0}:{1}", dst, src.EffectiveType);
+                    break;
                 }
                 return dst;
             }

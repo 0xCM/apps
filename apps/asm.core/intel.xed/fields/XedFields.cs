@@ -37,7 +37,7 @@ namespace Z0
 
         static XedFields()
         {
-            init();
+            TypeInit();
         }
     }
 }

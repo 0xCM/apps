@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public static S16<Nonterminal> nonterms(Index<CellSpec> src)
+        public static S16<Nonterminal> nonterms(Index<CellInfo> src)
         {
             var Capacity = count16<Nonterminal>();
             var dst = alloc16<Nonterminal>((int)src.Count);

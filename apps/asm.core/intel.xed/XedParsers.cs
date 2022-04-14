@@ -82,10 +82,6 @@ namespace Z0
 
         static readonly EnumParser<SMode> SModes = new();
 
-        static readonly EnumParser<DispSpec> DispKinds = new();
-
-        static readonly EnumParser<ImmSpec> ImmKinds = new();
-
         static XedParsers Instance = new();
 
         XedParsers()
@@ -95,12 +91,6 @@ namespace Z0
 
         public static bool parse(string src, out OpType dst)
             => OpTypes.Parse(src, out dst);
-
-        public static bool parse(string src, out DispSpec dst)
-            => DispKinds.Parse(src,out dst);
-
-        public static bool parse(string src, out ImmSpec dst)
-            => ImmKinds.Parse(src,out dst);
 
         public static void parse(string src, out Index<XedFlagEffect> dst)
         {
@@ -401,42 +391,6 @@ namespace Z0
                 return DataParser.parse(src, out dst);
             dst = default;
             return false;
-        }
-
-        public static bool parse(string src, out DispSeg dst)
-        {
-            var result = false;
-            dst = DispSeg.Empty;
-            var i = text.index(src, Chars.LBracket);
-            var j = text.index(src, Chars.RBracket);
-            if(i > 0 && j > i)
-            {
-                var inside = text.inside(src,i,j);
-                if(parse(inside, out DispSpec spec))
-                {
-                    dst = new (spec);
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-        public static bool parse(string src, out ImmSeg dst)
-        {
-            var result = false;
-            dst = ImmSeg.Empty;
-            var i = text.index(src, Chars.LBracket);
-            var j = text.index(src, Chars.RBracket);
-            if(i > 0 && j > i)
-            {
-                if(parse(text.inside(src,i,j), out ImmSpec spec))
-                {
-                    dst = new ImmSeg(text.contains(src,"UIMM1") ? (byte)1 : z8, spec);
-                    result = true;
-                }
-            }
-
-            return result;
         }
 
         public static bool parse(string src, out ModeKind dst)

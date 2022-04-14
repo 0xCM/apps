@@ -8,21 +8,38 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly struct TableColumn
+        public readonly record struct TableColumn
         {
             public readonly byte Index;
-
-            public readonly asci32 Name;
 
             public readonly CellType Type;
 
             [MethodImpl(Inline)]
-            public TableColumn(byte index, asci32 name, CellType type)
+            public TableColumn(byte index, CellType type)
             {
                 Index = index;
-                Name = name;
                 Type = type;
             }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Type.IsNonEmpty;
+            }
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Type.IsEmpty;
+            }
+
+            public string Format()
+                => Type.Format();
+
+            public override string ToString()
+                => Format();
+
+            public static TableColumn Empty => default;
         }
     }
 }

@@ -10,36 +10,21 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly struct CellSpec
+        public readonly struct CellInfo
         {
-            public static CellType celltype(string data)
-            {
-                Require.invariant(data.Length < 48);
-                var field = XedLookups.Service.FieldSpec(XedFields.kind(data));
-                CellParser.parse(data, out RuleOperator op);
-                return new (field.Field,
-                    CellParser.@class(field.Field,data),
-                    op,
-                    field.FieldType,
-                    (byte)field.FieldWidth,
-                    field.EffectiveType,
-                    (byte)field.EffectiveWidth
-                    );
-            }
-
             public readonly CellType Type;
 
             public readonly string Data;
 
             [MethodImpl(Inline)]
-            public CellSpec(string data)
+            public CellInfo(in CellType type, string data)
             {
-                Type = celltype(data);
+                Type = type;
                 Data = text.ifempty(data, EmptyString);
             }
 
             [MethodImpl(Inline)]
-            public CellSpec(RuleOperator op)
+            public CellInfo(RuleOperator op)
             {
                 Type = CellType.@operator(op);
                 Data = EmptyString;
@@ -73,6 +58,12 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => text.empty(Data) && Operator.IsEmpty && Field == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => !IsEmpty;
             }
 
             public bool IsFieldExpr
@@ -132,7 +123,7 @@ namespace Z0
                     dst = XedRender.format(Operator);
                 else if(Class.IsBinLit)
                 {
-                    var result = CellBits.parse(Data, out var b);
+                    var result = LiteralBits.parse(Data, out var b);
                     if(result.Fail)
                         Errors.Throw(result.Message);
                     dst = b.Format();

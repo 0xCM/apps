@@ -33,6 +33,48 @@ namespace Z0
             return true;
         }
 
+        [CmdOp("xed/emit/types")]
+        Outcome EmitCellTypes(CmdArgs args)
+        {
+            var rules = Xed.Rules.CalcRules();
+            var distinct = hashset<CellTypeKind>();
+            ref readonly var src = ref rules.Criteria();
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var table = ref src[i];
+                for(var j=0; j<table.RowCount; j++)
+                {
+                    ref readonly var row = ref table[j];
+                    // ref readonly var left = ref row.Antecedant;
+                    // ref readonly var right = ref row.Consequent;
+
+                    // for(var k=0; k<left.Count; k++)
+                    // {
+                    //     ref readonly var t = ref left[k].Type;
+                    //     distinct.Add(t);
+                    // }
+
+                    // for(var k=0; k<right.Count; k++)
+                    // {
+                    //     ref readonly var t = ref right[k].Type;
+                    //     distinct.Add(t);
+                    // }
+
+                    var cells = row.Joined();
+                    for(var k=0; k< cells.Count; k++)
+                    {
+                        ref readonly var t = ref cells[k].Type;
+                        if(t.IsNonEmpty)
+                            distinct.Add(t.Kind);
+                    }
+                }
+            }
+
+            var types = distinct.Array().Sort();
+            iter(types, t => Write(t.Format()));
+
+            return true;
+        }
         [CmdOp("xed/machine")]
         Outcome RunMachine(CmdArgs args)
         {

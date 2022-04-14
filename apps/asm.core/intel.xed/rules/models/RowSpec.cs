@@ -19,12 +19,12 @@ namespace Z0
 
             public readonly Index<CellKey> Keys;
 
-            public readonly Index<CellSpec> Cells;
+            public readonly Index<CellInfo> Cells;
 
             public readonly ushort ColCount;
 
             [MethodImpl(Inline)]
-            public RowSpec(RuleSig sig, ushort tid, ushort rix, CellKey[] keys, CellSpec[] cells)
+            public RowSpec(RuleSig sig, ushort tid, ushort rix, CellKey[] keys, CellInfo[] cells)
             {
                 TableKind = sig.TableKind;
                 Sig = sig;
@@ -36,7 +36,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public ref readonly CellSpec Cell(ushort i)
+            public ref readonly CellInfo Cell(ushort i)
                 => ref Cells[i];
 
             [MethodImpl(Inline)]

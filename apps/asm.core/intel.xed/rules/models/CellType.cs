@@ -7,20 +7,13 @@ namespace Z0
 {
     partial class XedRules
     {
+
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly struct CellType : IEquatable<CellType>
+        public readonly record struct CellType : IEquatable<CellType>, IComparable<CellType>
         {
             [MethodImpl(Inline)]
             public static CellType @operator(RuleOperator op)
                 => new CellType(0, RuleCellKind.Operator, op, asci16.Null, 0, asci16.Null, 0);
-
-            [MethodImpl(Inline)]
-            public static CellType keyword()
-                => new CellType(0, RuleCellKind.Keyword, RuleOperator.None, asci16.Null, 0, asci16.Null, 0);
-
-            [MethodImpl(Inline)]
-            public static CellType @char()
-                => new CellType(0, RuleCellKind.String, RuleOperator.None, asci16.Null, 0, asci16.Null, 0);
 
             public readonly FieldKind Field;
 
@@ -28,13 +21,13 @@ namespace Z0
 
             public readonly RuleOperator Operator;
 
-            public readonly asci16 DataType;
-
             public readonly byte DataWidth;
 
-            public readonly asci16 EffectiveType;
-
             public readonly byte EffectiveWidth;
+
+            public readonly asci16 DataType;
+
+            public readonly asci16 EffectiveType;
 
             [MethodImpl(Inline)]
             public CellType(FieldKind field, CellClass @class, RuleOperator op, asci16 data, byte wdata, asci16 eff, byte weff)
@@ -60,19 +53,30 @@ namespace Z0
                 get => Class.IsEmpty;
             }
 
-            [MethodImpl(Inline)]
-            public bool Equals(CellType src)
-                => Field == src.Field
-                && Class == src.Class
-                && Operator == src.Operator
-                && DataType == src.DataType
-                && EffectiveType == src.EffectiveType;
+            public CellTypeKind Kind
+            {
+                [MethodImpl(Inline)]
+                get => new (Class,Operator);
+            }
 
             public string Format()
                 => CellRender.format(this);
 
             public override string ToString()
                 => Format();
+
+            public int CompareTo(CellType src)
+            {
+                var result = Class.CompareTo(src.Class);
+
+                if(result == 0)
+                {
+                    result = XedRules.cmp(Field,src.Field);
+                    if(result == 0)
+                        result = Operator.CompareTo(src.Operator);
+                }
+                return result;
+            }
 
             public static CellType Empty
                 => new CellType(FieldKind.INVALID, CellClass.Empty, RuleOperator.None, asci16.Null,0, asci16.Null, 0);

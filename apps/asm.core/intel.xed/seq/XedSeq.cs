@@ -24,6 +24,14 @@ namespace Z0
         public static SeqDef def(SeqStep[] steps)
             => new SeqDef(steps);
 
+/* DISP_NT()::
+	DISP_WIDTH=8 DISP[dddddddd]=*  ->	emit dddddddd emit_type=letters nbits=8
+	DISP_WIDTH=16 DISP[dddddddddddddddd]=*  ->	emit dddddddddddddddd emit_type=letters nbits=16
+	DISP_WIDTH=32 DISP[dddddddddddddddddddddddddddddddd]=*  ->	emit dddddddddddddddddddddddddddddddd emit_type=letters nbits=32
+	DISP_WIDTH=64 DISP[dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd]=*  ->	emit dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd emit_type=letters nbits=64
+ */
+
+
         /*
         SEQUENCE ISA_BINDINGS
             FIXUP_EOSZ_ENC_BIND()   | FIXUP_EOSZ_ENC

@@ -18,6 +18,21 @@ namespace Z0
     {
         public readonly struct CellParser
         {
+            public static CellType celltype(string data)
+            {
+                Require.invariant(data.Length < 48);
+                var field = XedLookups.Service.FieldSpec(XedFields.kind(data));
+                CellParser.parse(data, out RuleOperator op);
+                return new (field.Field,
+                    CellParser.@class(field.Field,data),
+                    op,
+                    field.FieldType,
+                    (byte)field.FieldWidth,
+                    field.FieldTypeE,
+                    (byte)field.FieldWidthE
+                    );
+            }
+
             public static bool parse(FieldKind field, string value, out CellValue dst)
             {
                 var result = true;
@@ -338,11 +353,6 @@ namespace Z0
             public static bool IsNontermExpr(string src)
                 => IsExpr(src) && IsNontermCall(src);
 
-            public static bool IsDispSpec(string src)
-                => XedParsers.parse(src, out DispSpec _);
-
-            public static bool IsImmSpec(string src)
-                => XedParsers.parse(src, out ImmSpec _);
 
             public static bool IsSeg(string src)
             {
@@ -547,9 +557,9 @@ namespace Z0
                 if(i > 0)
                 {
                     var left = text.trim(text.left(input, i));
-                    var premise = text.nonempty(left) ? cells(left) : Index<CellSpec>.Empty;
+                    var premise = text.nonempty(left) ? cells(left) : Index<CellInfo>.Empty;
                     var right = text.trim(text.right(input, i+1));
-                    var consequent = text.nonempty(right) ? cells(right) : Index<CellSpec>.Empty;
+                    var consequent = text.nonempty(right) ? cells(right) : Index<CellInfo>.Empty;
                     if(premise.Count != 0 || consequent.Count != 0)
                         dst = new RowCriteria(premise, consequent);
                 }
@@ -669,7 +679,7 @@ namespace Z0
                 return result;
             }
 
-            static Index<CellSpec> cells(string src)
+            static Index<CellInfo> cells(string src)
             {
                 var input = text.trim(text.despace(src));
                 var cells = list<string>();
@@ -704,7 +714,7 @@ namespace Z0
                         cells.Add(input);
                 }
 
-                return cells.Map(x => new CellSpec(x));
+                return cells.Map(x => new CellInfo(celltype(x), x));
             }
 
             static string normalize(string src)

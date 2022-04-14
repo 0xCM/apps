@@ -9,12 +9,12 @@ namespace Z0
 
     partial class XedRules
     {
-        public readonly record struct CellBits : IComparable<CellBits>
+        public readonly record struct LiteralBits : IComparable<LiteralBits>
         {
-            public static Outcome parse(string src, out CellBits dst)
+            public static Outcome parse(string src, out LiteralBits dst)
             {
                 var result = Outcome.Success;
-                dst = CellBits.Empty;
+                dst = LiteralBits.Empty;
                 var n = z8;
                 if(XedParsers.IsBinaryLiteral(src))
                 {
@@ -45,7 +45,7 @@ namespace Z0
                         }
 
                         if(result)
-                            dst = new CellBits(n, BitPack.scalar<byte>(buffer));
+                            dst = new LiteralBits(n, BitPack.scalar<byte>(buffer));
                     }
                 }
                 return result;
@@ -54,7 +54,7 @@ namespace Z0
             readonly byte Data;
 
             [MethodImpl(Inline)]
-            internal CellBits(byte n, byte value)
+            internal LiteralBits(byte n, byte value)
             {
                 Data = (byte)((uint)n << 5 | (uint)value);
             }
@@ -120,14 +120,14 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public int CompareTo(CellBits src)
+            public int CompareTo(LiteralBits src)
                 => Value.CompareTo(src.Value);
 
             [MethodImpl(Inline)]
-            public static implicit operator byte(CellBits src)
+            public static implicit operator byte(LiteralBits src)
                 => src.Value;
 
-            public static CellBits Empty => default;
+            public static LiteralBits Empty => default;
         }
     }
 }

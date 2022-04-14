@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [DataWidth(4,8)]
-        public readonly struct RuleOperator
+        public readonly struct RuleOperator : IComparable<RuleOperator>, IEquatable<RuleOperator>
         {
             public static RuleOperator None => OperatorKind.None;
 
@@ -57,6 +57,10 @@ namespace Z0
                 => src is RuleOperator x && Equals(x);
 
             [MethodImpl(Inline)]
+            public int CompareTo(RuleOperator src)
+                => XedRules.cmp(Kind,src.Kind);
+
+            [MethodImpl(Inline)]
             public static implicit operator RuleOperator(OperatorKind kind)
                 =>new RuleOperator(kind);
 
@@ -67,6 +71,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public static explicit operator byte(RuleOperator src)
                 => (byte)src.Kind;
+
+            [MethodImpl(Inline)]
+            public static explicit operator RuleOperator(byte src)
+                => new RuleOperator((OperatorKind)src);
 
             [MethodImpl(Inline)]
             public static bool operator==(RuleOperator a, RuleOperator b)

@@ -9,12 +9,12 @@ namespace Z0
     {
         public readonly struct RowCriteria
         {
-            public readonly Index<CellSpec> Antecedant;
+            public readonly Index<CellInfo> Antecedant;
 
-            public readonly Index<CellSpec> Consequent;
+            public readonly Index<CellInfo> Consequent;
 
             [MethodImpl(Inline)]
-            public RowCriteria(CellSpec[] p, CellSpec[] c)
+            public RowCriteria(CellInfo[] p, CellInfo[] c)
             {
                 Antecedant = p;
                 Consequent = c;
@@ -32,13 +32,17 @@ namespace Z0
                 get => !IsEmpty;
             }
 
+            [MethodImpl(Inline)]
+            public JoinedIndex<CellInfo> Joined()
+                => new(Antecedant,Consequent);
+
             public string Format()
                 => XedRender.format(this);
 
             public override string ToString()
                 => Format();
 
-            public static RowCriteria Empty => new RowCriteria(sys.empty<CellSpec>(), sys.empty<CellSpec>());
+            public static RowCriteria Empty => new RowCriteria(sys.empty<CellInfo>(), sys.empty<CellInfo>());
         }
     }
 }

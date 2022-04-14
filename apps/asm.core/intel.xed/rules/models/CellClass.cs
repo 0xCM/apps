@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         [DataWidth(4,8)]
-        public readonly struct CellClass
+        public readonly struct CellClass : IComparable<CellClass>, IEquatable<CellClass>
         {
             public readonly RuleCellKind Kind;
 
@@ -98,6 +98,10 @@ namespace Z0
                 get => Kind == CK.NontermExpr || Kind == CK.EqExpr || Kind == CK.NeqExpr;
             }
 
+            [MethodImpl(Inline)]
+            public int CompareTo(CellClass src)
+                => ((byte)Kind).CompareTo((byte)src.Kind);
+
             public string Format()
                 => Kind.ToString();
 
@@ -120,6 +124,14 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator RuleCellKind(CellClass src)
                 => src.Kind;
+
+            [MethodImpl(Inline)]
+            public static explicit operator byte(CellClass src)
+                => (byte)src.Kind;
+
+            [MethodImpl(Inline)]
+            public static explicit operator CellClass(byte src)
+                => new CellClass((RuleCellKind)src);
 
             [MethodImpl(Inline)]
             public static bool operator ==(CellClass a, CellClass b)
