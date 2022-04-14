@@ -8,7 +8,7 @@ namespace Z0
     partial struct XedModels
     {
         [SymSource(xed)]
-        public enum BrDispWidth : byte
+        public enum BranchDispWidth : byte
         {
             None = 0,
 

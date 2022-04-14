@@ -104,50 +104,16 @@ namespace Z0
                 }
             }
 
-            public static string format(CellTypeKind src)
-            {
-                var dst = "<untyped>";
-                switch(src.Class.Kind)
-                {
-                    case CK.BitLiteral:
-                    case CK.IntLiteral:
-                    case CK.HexLiteral:
-                    case CK.SegVar:
-                    case CK.Keyword:
-                        dst = src.Class.Format();
-                    break;
-                    case CK.NontermCall:
-                        dst = "Nt()";
-                    break;
-                    case CK.Operator:
-                        dst = string.Format("Op({0})", src.Operator);
-                    break;
-                    case CK.SegField:
-                        dst = "Seg";
-                    break;
-                    case CK.NeqExpr:
-                        dst = "Neq(x)";
-                    break;
-                    case CK.EqExpr:
-                        dst = "Eq(x)";
-                    break;
-                    case CK.NontermExpr:
-                        dst = "Nt(x)";
-                    break;
-                }
-                return dst;
-            }
-
             public static string format(in CellType src)
             {
-                var dst = format(src.Kind);
+                var dst = XedRender.format(src.Class.Kind);
                 switch(src.Class.Kind)
                 {
                     case CK.SegField:
                     case CK.NeqExpr:
                     case CK.EqExpr:
                     case CK.NontermExpr:
-                        dst = string.Format("{0}:{1}", dst, src.EffectiveType);
+                        dst = string.Format("{0}:{1}", dst, src.DomainTypeName);
                     break;
                 }
                 return dst;
@@ -173,7 +139,7 @@ namespace Z0
                 {
                     case K.MASK:
                     {
-                        var x = @as<MASK>(data);
+                        var x = @as<MaskReg>(data);
                         dst = XedRender.format(x,code);
                         if(code == FormatCode.Expr)
                             dst = text.embrace(dst);

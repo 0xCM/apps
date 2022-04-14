@@ -12,25 +12,29 @@ namespace Z0
         {
             public const string TableName = "xed.fields.reflected";
 
-            public const byte FieldCount = 10;
+            public const byte FieldCount = 12;
 
             public ushort Index;
 
             public FieldKind Field;
 
-            public FieldType FieldType;
+            public FieldTypeName DataKind;
 
-            public FieldType FieldTypeE;
+            public FieldTypeName DomainType;
 
-            public byte FieldWidth;
+            public byte DataSize;
 
-            public byte FieldWidthE;
+            public byte DataWidth;
 
-            public ushort TotalSize;
+            public byte DomainWidth;
 
-            public ushort TotalWidthE;
+            public ushort DataSizeT;
 
-            public ushort TotalSizeE;
+            public ushort DataWidthT;
+
+            public ushort DomainWidthT;
+
+            public ushort DomainSizeT;
 
             public TextBlock Description;
 
@@ -48,7 +52,7 @@ namespace Z0
                 get => Field != 0;
             }
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,16,16,16,16,12,12,12,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,16,16,16,16,16,16,16,16,16,1};
         }
     }
 }

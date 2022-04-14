@@ -12,14 +12,14 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static ref readonly VexLengthKind vl(in RuleState src)
-            => ref @as<VexLengthKind>(src.VL);
+        public static ref readonly VexLength vl(in RuleState src)
+            => ref @as<VexLength>(src.VL);
 
         partial struct Edit
         {
             [MethodImpl(Inline), Op]
-            public static ref VexLengthKind vl(ref RuleState src)
-                => ref @as<VexLengthKind>(src.VL);
+            public static ref VexLength vl(ref RuleState src)
+                => ref @as<VexLength>(src.VL);
         }
     }
 }

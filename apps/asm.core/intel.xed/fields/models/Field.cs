@@ -7,7 +7,7 @@ namespace Z0
 {
     using static XedModels;
 
-    using DT = XedRules.FieldDataType;
+    using DT = XedRules.FieldDataKind;
 
     partial class XedRules
     {
@@ -41,40 +41,36 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, bit value)
-                => new Field((ushort)value, kind, FieldDataType.Bit);
+                => new Field((ushort)value, kind, FieldDataKind.Bit);
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, byte value)
-                => new Field((ushort)value, kind, FieldDataType.Byte);
+                => new Field((ushort)value, kind, FieldDataKind.Byte);
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, ushort value)
-                => new Field((ushort)value, kind, FieldDataType.Word);
+                => new Field((ushort)value, kind, FieldDataKind.Word);
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, Register value)
-                => new Field((ushort)value, kind, FieldDataType.Reg);
+                => new Field((ushort)value, kind, FieldDataKind.Reg);
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, ChipCode value)
-                => new Field((ushort)value, kind, FieldDataType.Chip);
-
-            [MethodImpl(Inline)]
-            public static Field init(FieldKind kind, BCastKind value)
-                => new Field((ushort)value, kind, FieldDataType.BCast);
+                => new Field((ushort)value, kind, FieldDataKind.Chip);
 
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, InstClass value)
-                => new Field((ushort)value, kind, FieldDataType.InstClass);
+                => new Field((ushort)value, kind, FieldDataKind.InstClass);
 
             public readonly ushort Content;
 
             public readonly FieldKind Kind;
 
-            public readonly FieldDataType Type;
+            public readonly FieldDataKind Type;
 
             [MethodImpl(Inline)]
-            Field(ushort content, FieldKind kind, FieldDataType type)
+            Field(ushort content, FieldKind kind, FieldDataKind type)
             {
                 Content = content;
                 Kind = kind;
@@ -144,17 +140,11 @@ namespace Z0
                     case DT.Reg:
                         dst = XedRender.format(Reg());
                     break;
-                    case DT.BCast:
-                        dst = XedRender.format(BCast());
-                    break;
                     case DT.Chip:
                         dst = XedRender.format(Chip());
                     break;
                     case DT.InstClass:
                         dst = XedRender.format(Inst());
-                    break;
-                    case DT.Operator:
-                        dst = XedRender.format(Operator());
                     break;
                 }
                 return dst;
@@ -205,10 +195,6 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator Field((FieldKind kind, Register data) src)
-                => init(src.kind, src.data);
-
-            [MethodImpl(Inline)]
-            public static implicit operator Field((FieldKind kind, BCastKind data) src)
                 => init(src.kind, src.data);
 
             [MethodImpl(Inline)]

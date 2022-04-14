@@ -24,7 +24,12 @@ namespace Z0
                 var kind = XedFields.kind(data);
                 var field = kind != 0 ? XedLookups.Service.FieldSpec(kind) : ReflectedField.Empty;
                 CellParser.parse(data, out RuleOperator op);
-                return new (field.Field, CellParser.@class(field.Field, data), op, field.FieldType, (byte)field.FieldWidth, field.FieldTypeE, (byte)field.FieldWidthE);
+                return new (field.Field, CellParser.@class(field.Field, data), op,
+                    field.DataKind,
+                    field.DomainType,
+                    (byte)field.DataWidth,
+                    (byte)field.DomainWidth
+                    );
             }
 
             public static bool parse(FieldKind field, string value, out CellValue dst)

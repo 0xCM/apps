@@ -7,13 +7,12 @@ namespace Z0
 {
     partial class XedRules
     {
-
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct CellType : IEquatable<CellType>, IComparable<CellType>
         {
             [MethodImpl(Inline)]
             public static CellType @operator(RuleOperator op)
-                => new CellType(0, RuleCellKind.Operator, op, asci16.Null, 0, asci16.Null, 0);
+                => new CellType(0, RuleCellKind.Operator, op, asci16.Null, asci16.Null,0, 0);
 
             public readonly FieldKind Field;
 
@@ -21,24 +20,24 @@ namespace Z0
 
             public readonly RuleOperator Operator;
 
+            public readonly asci16 DataKindName;
+
+            public readonly asci16 DomainTypeName;
+
             public readonly byte DataWidth;
 
             public readonly byte EffectiveWidth;
 
-            public readonly asci16 DataType;
-
-            public readonly asci16 EffectiveType;
-
             [MethodImpl(Inline)]
-            public CellType(FieldKind field, CellClass @class, RuleOperator op, asci16 data, byte wdata, asci16 eff, byte weff)
+            public CellType(FieldKind field, CellClass @class, RuleOperator op, asci16 data, asci16 domain, byte wData, byte wDomain)
             {
                 Field = field;
                 Class = @class;
                 Operator = op;
-                DataType = data;
-                DataWidth = wdata;
-                EffectiveType = eff;
-                EffectiveWidth = weff;
+                DataKindName = data;
+                DataWidth = wData;
+                DomainTypeName = domain;
+                EffectiveWidth = wDomain;
             }
 
             public bool IsNonEmpty
@@ -79,7 +78,7 @@ namespace Z0
             }
 
             public static CellType Empty
-                => new CellType(FieldKind.INVALID, CellClass.Empty, RuleOperator.None, asci16.Null,0, asci16.Null, 0);
+                => new CellType(FieldKind.INVALID, CellClass.Empty, RuleOperator.None, asci16.Null,asci16.Null, 0,0);
         }
     }
 }

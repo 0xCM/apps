@@ -7,14 +7,16 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed), DataWidth(1)]
-        public enum ZEROING : byte
+        public enum VexLength : byte
         {
-            [Symbol("")]
-            Disabled = 0,
+            [Symbol("128", "Specifies a vector length of 128")]
+            VL128 = 0,
 
-            [Symbol("{z}")]
-            Enabled = 1,
+            [Symbol("256", "Specifies a vector length of 256")]
+            VL256 = 1,
+
+            [Symbol("512", "Specifies a vector length of 512")]
+            VL512 = 2,
         }
     }
 }

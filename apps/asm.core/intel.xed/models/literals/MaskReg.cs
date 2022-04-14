@@ -10,7 +10,7 @@ namespace Z0
     partial struct XedModels
     {
         [SymSource(xed), DataWidth(2)]
-        public enum MASK : byte
+        public enum MaskReg : byte
         {
             [Symbol("k0","MASK=0")]
             K0 = RegIndexCode.r0,

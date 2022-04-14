@@ -17,12 +17,12 @@ namespace Z0
             => (ushort)XedRegMap.Service.Map(src).Size.Width;
 
         [Op]
-        public static ushort bitwidth(VexLengthKind src)
+        public static ushort bitwidth(VexLength src)
             => src switch
             {
-                VexLengthKind.VL128 => 128,
-                VexLengthKind.VL256 => 256,
-                VexLengthKind.VL512 => 512,
+                VexLength.VL128 => 128,
+                VexLength.VL256 => 256,
+                VexLength.VL512 => 512,
                 _ => 0
             };
 

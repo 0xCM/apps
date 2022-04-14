@@ -174,7 +174,7 @@ namespace Z0
                 if(state.ROUNDC != 0)
                     writer.AppendLineFormat(RenderPattern, nameof(state.ROUNDC), XedRender.format(XedState.rounc(state)));
 
-                var rc = (ROUNDC)state.ROUNDC;
+                var rc = (RoundingKind)state.ROUNDC;
                 if(rc == 0 && state.LLRC != 0)
                     writer.AppendLineFormat(RenderPattern, nameof(state.LLRC), XedRender.format((Hex8)state.LLRC));
 
@@ -184,19 +184,19 @@ namespace Z0
                     Require.equal(state.BCRC, bit.On);
                     switch(rc)
                     {
-                        case ROUNDC.RnSae:
+                        case RoundingKind.RnSae:
                             Require.invariant(llrc == LLRC.LLRC0);
                             Require.invariant(state.SAE);
                         break;
-                        case ROUNDC.RdSae:
+                        case RoundingKind.RdSae:
                             Require.invariant(llrc == LLRC.LLRC1);
                             Require.invariant(state.SAE);
                         break;
-                        case ROUNDC.RuSae:
+                        case RoundingKind.RuSae:
                             Require.invariant(llrc == LLRC.LLRC2);
                             Require.invariant(state.SAE);
                         break;
-                        case ROUNDC.RzSae:
+                        case RoundingKind.RzSae:
                             Require.invariant(llrc == LLRC.LLRC3);
                             Require.invariant(state.SAE);
                         break;

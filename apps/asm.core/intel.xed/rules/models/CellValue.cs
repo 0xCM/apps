@@ -171,8 +171,8 @@ namespace Z0
                 => (VexClass)Data;
 
             [MethodImpl(Inline)]
-            public VexLengthKind ToVexLength()
-                => (VexLengthKind)Data;
+            public VexLength ToVexLength()
+                => (VexLength)Data;
 
             [MethodImpl(Inline)]
             public VexKind ToVexKind()
@@ -255,7 +255,7 @@ namespace Z0
                 => src.ToVexClass();
 
             [MethodImpl(Inline)]
-            public static implicit operator VexLengthKind(CellValue src)
+            public static implicit operator VexLength(CellValue src)
                 => src.ToVexLength();
 
             [MethodImpl(Inline)]

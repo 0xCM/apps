@@ -7,37 +7,29 @@ namespace Z0
 {
     partial class XedRules
     {
-        public enum FieldDataType : byte
+        [DataWidth(3,8)]
+        public enum FieldDataKind : byte
         {
+            [Symbol("")]
             None,
 
+            [Symbol("bit")]
             Bit,
 
+            [Symbol("byte")]
             Byte,
 
+            [Symbol("ushort")]
             Word,
 
+            [Symbol("XedRegId")]
             Reg,
 
-            BCast,
-
+            [Symbol("CHIP")]
             Chip,
 
+            [Symbol("ICLASS")]
             InstClass,
-
-            Operator,
-
-            Keyword,
-
-            Nonterminal,
-
-            Text,
-
-            Char,
-
-            SegSpec,
-
-            Seg,
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Z0
                     break;
 
                     case K.BCAST:
-                        result = XedParsers.parse(src, out dst.BCast);
+                        result = XedParsers.parse(src, out dst.Byte);
                     break;
 
                     case K.BCRC:

@@ -26,7 +26,7 @@ namespace Z0
             [RuleField(K.DF32, 1, typeof(bit))]
             public bit DF32;
 
-            [RuleField(K.DF64, 1, typeof(X.DF64), "Specifies whether, in 64-bit mode, to default to 64 bit-width")]
+            [RuleField(K.DF64, 1, typeof(bit), "Specifies whether, in 64-bit mode, to default to 64 bit-width")]
             public bit DF64;
 
             [RuleField(K.NO_SCALE_DISP8, 1, typeof(bit))]
@@ -131,7 +131,7 @@ namespace Z0
             [RuleField(K.MUST_USE_EVEX, 1, typeof(bit))]
             public bit MUST_USE_EVEX;
 
-            [RuleField(K.ZEROING, 1, typeof(ZEROING), "Specifies whether zero-masking is enabled, if applicable")]
+            [RuleField(K.ZEROING, 1, typeof(bit), "Specifies whether zero-masking is enabled, if applicable")]
             public bit ZEROING;
 
             [RuleField(K.SAE, 1, typeof(bit))]
@@ -200,14 +200,32 @@ namespace Z0
             [RuleField(K.NSEG_PREFIXES, 3, typeof(byte))]
             public byte NSEG_PREFIXES;
 
-            [RuleField(K.SEG_OVD, 3, typeof(X.SegPrefixKind), "Defines the value of the seg override prefix, if any")]
+            [RuleField(K.SEG_OVD, 3, typeof(SegPrefixKind), "Defines the value of the seg override prefix, if any")]
             public byte SEG_OVD;
 
-            [RuleField(K.HINT, 3, typeof(X.HintKind))]
+            [RuleField(K.HINT, 3, typeof(HintKind))]
             public byte HINT;
 
             [RuleField(K.SCALE, 4, typeof(MemoryScale), "Specifies the scaling factor applied to an index register, if applicable")]
             public byte SCALE;
+
+            [RuleField(K.POS_NOMINAL_OPCODE, 4, typeof(byte), "Specifies the 0-based index of the NOMINAL_OPCODE field, if applicable")]
+            public byte POS_NOMINAL_OPCODE;
+
+            [RuleField(K.POS_MODRM, 4, typeof(byte), "Specifies the 0-based index of the encoded MODRM field, if applicable")]
+            public byte POS_MODRM;
+
+            [RuleField(K.POS_SIB, 4, typeof(byte), "Specifies the 0-based index of the encoded SIB field, if applicable")]
+            public byte POS_SIB;
+
+            [RuleField(K.POS_IMM, 4, typeof(byte), "Specifies the 0-based index of the encoded IMM field, if applicable")]
+            public byte POS_IMM;
+
+            [RuleField(K.POS_IMM1, 4, typeof(byte), "Specifies the 0-based index of the encoded IMM1 field, if applicable")]
+            public byte POS_IMM1;
+
+            [RuleField(K.POS_DISP, 4, typeof(byte), "Specifies the 0-based index of the encoded DISP field, if applicable")]
+            public byte POS_DISP;
 
             [RuleField(K.IMM_WIDTH, 3, typeof(NativeSizeCode), "Specifies the native size code of the IMM field, if applicable")]
             public byte IMM_WIDTH;
@@ -224,7 +242,34 @@ namespace Z0
             [RuleField(K.LAST_F2F3, 2, typeof(byte))]
             public byte LAST_F2F3;
 
-            [RuleField(K.REP, 2, typeof(X.RepPrefix), "Defines the value of the REP prefix, if any")]
+            [RuleField(K.MODRM_BYTE, 8, typeof(Hex8))]
+            public Hex8 MODRM_BYTE;
+
+            [RuleField(K.MAP, 4, typeof(byte))]
+            public byte MAP;
+
+            [RuleField(K.BRDISP_WIDTH, 8, typeof(BranchDispWidth), "Specifies the bit-width of a branch displacement, if applicable")]
+            public byte BRDISP_WIDTH;
+
+            [RuleField(K.ILD_SEG, 8, typeof(byte))]
+            public byte ILD_SEG;
+
+            [RuleField(FieldKind.MAX_BYTES, 4, typeof(byte))]
+            public byte MAX_BYTES;
+
+            [RuleField(K.NELEM, 4, typeof(byte))]
+            public byte NELEM;
+
+            [RuleField(K.ELEMENT_SIZE, 16, typeof(ushort))]
+            public ushort ELEMENT_SIZE;
+
+            [RuleField(K.MEM_WIDTH, 16, typeof(ushort))]
+            public ushort MEM_WIDTH;
+
+            [RuleField(K.DISP_WIDTH, 8, typeof(byte))]
+            public byte DISP_WIDTH;
+
+            [RuleField(K.REP, 2, typeof(RepPrefix), "Defines the value of the REP prefix, if any")]
             public byte REP;
 
             [RuleField(K.MOD, 2, typeof(uint2), "Specifies the value of the MOD segment of the ModRM bitfield, if applicable")]
@@ -235,9 +280,6 @@ namespace Z0
 
             [RuleField(K.RM, 3, typeof(uint3), "Specifies the value of the RM segment of the ModRM bitfield, if applicable")]
             public byte RM;
-
-            [RuleField(K.MODRM_BYTE, 8, typeof(Hex8))]
-            public Hex8 MODRM_BYTE;
 
             [RuleField(K.SIBSCALE, 2, typeof(uint2))]
             public byte SIBSCALE;
@@ -272,10 +314,10 @@ namespace Z0
             [RuleField(K.VEXDEST210, 3, typeof(uint3))]
             public byte VEXDEST210;
 
-            [RuleField(K.MASK, 3, typeof(MASK))]
+            [RuleField(K.MASK, 3, typeof(MaskReg))]
             public byte MASK;
 
-            [RuleField(K.ROUNDC, 3, typeof(X.ROUNDC))]
+            [RuleField(K.ROUNDC, 3, typeof(RoundingKind))]
             public byte ROUNDC;
 
             [RuleField(K.LLRC, 2, typeof(LLRC))]
@@ -287,59 +329,17 @@ namespace Z0
             [RuleField(K.ESRC, 4, typeof(ESRC))]
             public byte ESRC;
 
-            [RuleField(K.MAP, 4, typeof(byte))]
-            public byte MAP;
-
-            [RuleField(K.VEXVALID, 3, typeof(X.VexClass), "Specifies one of {VV0,VV1,EVV,XOPV,KVV}, if applicable")]
+            [RuleField(K.VEXVALID, 3, typeof(VexClass), "Specifies one of {VV0,VV1,EVV,XOPV,KVV}, if applicable")]
             public byte VEXVALID;
 
-            [RuleField(K.VEX_PREFIX, 2, typeof(X.VexKind), "Specifies one of {VNP,V66,VF2,VF3}, if applicable")]
+            [RuleField(K.VEX_PREFIX, 2, typeof(VexKind), "Specifies one of {VNP,V66,VF2,VF3}, if applicable")]
             public byte VEX_PREFIX;
 
-            [RuleField(K.VL, 3, typeof(X.VexLengthKind), "Specifies one of {V128,V256,V512}, if applicable")]
+            [RuleField(K.VL, 3, typeof(VexLength), "Specifies one of {V128,V256,V512}, if applicable")]
             public byte VL;
 
-            [RuleField(K.BRDISP_WIDTH, 8, typeof(X.BrDispWidth), "Specifies the bit-width of a branch displacement, if applicable")]
-            public byte BRDISP_WIDTH;
-
-            [RuleField(K.ILD_SEG, 8, typeof(byte))]
-            public byte ILD_SEG;
-
-            [RuleField(FieldKind.MAX_BYTES, 4, typeof(byte))]
-            public byte MAX_BYTES;
-
-            [RuleField(K.NELEM, 4, typeof(byte))]
-            public byte NELEM;
-
-            [RuleField(K.ELEMENT_SIZE, 16, typeof(ushort))]
-            public ushort ELEMENT_SIZE;
-
-            [RuleField(K.MEM_WIDTH, 16, typeof(ushort))]
-            public ushort MEM_WIDTH;
-
-            [RuleField(K.DISP_WIDTH, 8, typeof(byte))]
-            public byte DISP_WIDTH;
-
-            [RuleField(K.POS_NOMINAL_OPCODE, 4, typeof(byte), "Specifies the 0-based index of the NOMINAL_OPCODE field, if applicable")]
-            public byte POS_NOMINAL_OPCODE;
-
-            [RuleField(K.POS_MODRM, 4, typeof(byte), "Specifies the 0-based index of the encoded MODRM field, if applicable")]
-            public byte POS_MODRM;
-
-            [RuleField(K.POS_SIB, 4, typeof(byte), "Specifies the 0-based index of the encoded SIB field, if applicable")]
-            public byte POS_SIB;
-
-            [RuleField(K.POS_IMM, 4, typeof(byte), "Specifies the 0-based index of the encoded IMM field, if applicable")]
-            public byte POS_IMM;
-
-            [RuleField(K.POS_IMM1, 4, typeof(byte), "Specifies the 0-based index of the encoded IMM1 field, if applicable")]
-            public byte POS_IMM1;
-
-            [RuleField(K.POS_DISP, 4, typeof(byte), "Specifies the 0-based index of the encoded DISP field, if applicable")]
-            public byte POS_DISP;
-
             [RuleField(K.BCAST,5, typeof(X.BCastKind))]
-            public BCastKind BCAST;
+            public byte BCAST;
 
             [RuleField(K.ERROR, 1, typeof(X.ErrorKind))]
             public ErrorKind ERROR;

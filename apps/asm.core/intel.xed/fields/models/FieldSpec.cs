@@ -12,16 +12,16 @@ namespace Z0
         {
             public readonly FieldKind Kind;
 
-            public readonly FieldType Type;
+            public readonly FieldTypeName Type;
 
-            public readonly FieldType EffectiveType;
+            public readonly FieldTypeName EffectiveType;
 
             public readonly byte Width;
 
             public readonly byte EffectiveWidth;
 
             [MethodImpl(Inline)]
-            public FieldSpec(FieldKind kind, FieldType type, FieldType eff, byte width, byte ewidth)
+            public FieldSpec(FieldKind kind, FieldTypeName type, FieldTypeName eff, byte width, byte ewidth)
             {
                 Kind = kind;
                 Type = type;

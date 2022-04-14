@@ -8,7 +8,7 @@ namespace Z0
     partial struct XedModels
     {
         [SymSource(xed), DataWidth(3)]
-        public enum ROUNDC : byte
+        public enum RoundingKind : byte
         {
             [Symbol("")]
             None = 0,

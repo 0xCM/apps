@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [DataWidth(128)]
-        public readonly record struct FieldType
+        public readonly record struct FieldTypeName
         {
             const byte ZeroIndex = 14;
 
@@ -16,7 +16,7 @@ namespace Z0
 
             readonly ByteBlock16 Storage;
 
-            public FieldType(FieldKind kind, string name)
+            public FieldTypeName(FieldKind kind, string name)
             {
                 var data = ByteBlock16.Empty;
                 asci16 type = name;
@@ -62,7 +62,7 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator asci16(FieldType src)
+            public static implicit operator asci16(FieldTypeName src)
                 => src.Type;
         }
     }

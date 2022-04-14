@@ -65,11 +65,11 @@ namespace Z0
 
         static EnumRender<NontermKind> NontermKinds = new();
 
-        static EnumRender<ROUNDC> RoundingKinds = new();
+        static EnumRender<RoundingKind> RoundingKinds = new();
 
         static EnumRender<SMode> SModes = new();
 
-        static EnumRender<MASK> MaskCodes = new();
+        static EnumRender<MaskReg> MaskCodes = new();
 
         static EnumRender<ChipCode> ChipCodes = new();
 
@@ -89,7 +89,7 @@ namespace Z0
 
         static EnumRender<IClass> Classes = new();
 
-        static EnumRender<VexLengthKind> VexLengthKinds = new();
+        static EnumRender<VexLength> VexLengthKinds = new();
 
         static EnumRender<OSZ> OszKinds = new();
 
@@ -110,6 +110,8 @@ namespace Z0
         static readonly EnumRender<ModIndicator> ModIndicators = new();
 
         static EnumRender<XedRegId> XedRegs = new();
+
+        static EnumRender<RuleCellKind> RuleCellKinds = new();
 
         public static string format(Hex4 src)
             => src.Format(prespec:true, uppercase:true);
@@ -195,13 +197,13 @@ namespace Z0
         public static string format(VexKind src, FormatCode fc = FormatCode.Expr)
             => format(VexKinds, src, fc);
 
-        public static string format(MASK src, FormatCode fc = FormatCode.Expr)
+        public static string format(MaskReg src, FormatCode fc = FormatCode.Expr)
             => format(MaskCodes, src, fc);
 
         public static string format(XedModels.RepPrefix src, FormatCode fc = FormatCode.Expr)
             => format(RepPrexixKinds, src, fc);
 
-        public static string format(VexLengthKind src, FormatCode fc = FormatCode.Expr)
+        public static string format(VexLength src, FormatCode fc = FormatCode.Expr)
             => fc == FormatCode.BitWidth ? XedPatterns.bitwidth(src).ToString() : format(VexLengthKinds,src,fc);
 
         public static string format(InstFieldClass src)
@@ -282,7 +284,7 @@ namespace Z0
                 return EmptyString;
         }
 
-        public static string format(ROUNDC src)
+        public static string format(RoundingKind src)
             => RoundingKinds.Format(src);
 
         public static string format(XedRegId src)
@@ -299,6 +301,9 @@ namespace Z0
 
         public static string format(IClass src)
             => Classes.Format(src);
+
+        public static string format(RuleCellKind src)
+            => RuleCellKinds.Format(src);
 
         public static string format(OpModKind src)
             => OpModKinds.Format(src);

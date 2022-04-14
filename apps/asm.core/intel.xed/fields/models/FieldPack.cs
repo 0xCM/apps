@@ -7,7 +7,7 @@ namespace Z0
     using static XedModels;
     using static XedRules;
 
-    using K = XedRules.FieldDataType;
+    using K = XedRules.FieldDataKind;
 
     partial class XedFields
     {
@@ -30,15 +30,13 @@ namespace Z0
 
             public InstClass Class;
 
-            public FieldDataType DataType()
+            public FieldDataKind DataKind()
             {
                 var dst = K.Bit;
                 if(Class.IsNonEmpty)
                     dst = K.InstClass;
                 else if(Chip != 0)
                     dst = K.Chip;
-                else if(BCast != 0)
-                    dst = K.BCast;
                 else if(Reg.IsNonEmpty)
                     dst = K.Reg;
                 else if(Word !=0)
@@ -51,7 +49,7 @@ namespace Z0
             public ushort Value()
             {
                 var dst = z16;
-                var kind = DataType();
+                var kind = DataKind();
                 switch(kind)
                 {
                     case K.Bit:
@@ -79,7 +77,7 @@ namespace Z0
             public string Format()
             {
                 var dst = EmptyString;
-                switch(DataType())
+                switch(DataKind())
                 {
                     case K.Bit:
                         dst = Bit.ToString();

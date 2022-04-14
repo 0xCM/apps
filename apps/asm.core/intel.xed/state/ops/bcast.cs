@@ -7,19 +7,20 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
+    using static core;
 
     partial class XedState
     {
         [MethodImpl(Inline), Op]
         public static ref readonly BCastKind bcast(in RuleState src)
-            => ref src.BCAST;
+            => ref @as<BCastKind>(src.BCAST);
 
 
         partial struct Edit
         {
             [MethodImpl(Inline), Op]
             public static ref BCastKind bcast(ref RuleState src)
-                => ref src.BCAST;
+                => ref @as<BCastKind>(src.BCAST);
         }
     }
 }

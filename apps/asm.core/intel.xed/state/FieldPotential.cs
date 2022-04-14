@@ -316,7 +316,7 @@ namespace Z0
                 public S4<VexKind> VEX_PREFIX;
 
                 [RuleField(K.VL)]
-                public S3<VexLengthKind> VL;
+                public S3<VexLength> VL;
 
                 [RuleField(K.REXRR)]
                 public S2<bit> REXRR;
@@ -331,10 +331,10 @@ namespace Z0
                 public S8<uint3> VEXDEST210;
 
                 [RuleField(K.MASK)]
-                public S8<MASK> MASK;
+                public S8<MaskReg> MASK;
 
                 [RuleField(K.ROUNDC)]
-                public S5<ROUNDC> ROUNDC;
+                public S5<RoundingKind> ROUNDC;
 
                 [RuleField(K.BCAST)]
                 public S32<BCastKind> BCAST;
@@ -379,7 +379,7 @@ namespace Z0
                 public S16<byte> MAP;
 
                 [RuleField(K.BRDISP_WIDTH)]
-                public S4<BrDispWidth> BRDISP_WIDTH;
+                public S4<BranchDispWidth> BRDISP_WIDTH;
 
                 [RuleField(K.ILD_SEG)]
                 public byte ILD_SEG;
