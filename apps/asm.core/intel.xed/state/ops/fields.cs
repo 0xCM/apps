@@ -536,10 +536,7 @@ namespace Z0
                 }
                 return ref dst;
             }
-
         }
-
-
 
         partial struct Edit
         {

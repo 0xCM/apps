@@ -10,14 +10,10 @@ namespace Z0
     using api = StorageBlocks;
 
     [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1), DataType("block<n:256,t:u8>")]
-    [DataWidth(Size*8,Size*8)]
+    [DataWidth(Size*8)]
     public struct ByteBlock256 : IStorageBlock<B>
     {
         public const ushort Size = 256;
-
-        ByteBlock128 A;
-
-        ByteBlock128 B;
 
         public Span<byte> Bytes
         {
@@ -54,6 +50,7 @@ namespace Z0
             [MethodImpl(Inline)]
             get => ref seek(First,index);
         }
+
         [MethodImpl(Inline)]
         public Span<T> Storage<T>()
             where T : unmanaged

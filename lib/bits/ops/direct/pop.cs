@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static System.Runtime.Intrinsics.X86.Popcnt;
     using static System.Runtime.Intrinsics.X86.Popcnt.X64;
-    using static Root;
 
     partial class bits
     {
