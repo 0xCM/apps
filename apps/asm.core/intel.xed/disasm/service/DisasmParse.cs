@@ -19,7 +19,7 @@ namespace Z0
 
             const string YDIS = "YDIS:";
 
-            public static void parse(in DisasmLineBlock src, out DisasmProps _dst)
+            public static uint parse(in DisasmLineBlock src, out DisasmProps _dst)
             {
                 var content = text.trim(text.despace(src.Props.Content));
                 var i = text.index(content,Chars.Space);
@@ -49,6 +49,8 @@ namespace Z0
                 parse(src, out var _class, out var _form);
 
                 _dst = DisasmProps.load(_class, _form, dst);
+
+                return k;
             }
 
             static void parse(in DisasmLineBlock src, out InstClass @class, out InstForm form)

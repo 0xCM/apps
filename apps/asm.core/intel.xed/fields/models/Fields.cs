@@ -14,12 +14,15 @@ namespace Z0
         {
             Span<Field> Data;
 
-            public const uint MaxCount = 128;
+            Span<FieldKind> Kinds;
+
+            public const byte MaxCount = 128;
 
             [MethodImpl(Inline)]
             public Fields(Span<Field> src)
             {
                 Data = src;
+                Kinds = alloc<FieldKind>(src.Length);
             }
 
             public uint Count
@@ -46,6 +49,13 @@ namespace Z0
                         members.Include(field.Kind);
                 }
                 return members;
+            }
+
+            [MethodImpl(Inline)]
+            public ReadOnlySpan<FieldKind> MemberKinds()
+            {
+                var count = Members().Members(Kinds);
+                return slice(Kinds,0, count);
             }
 
             public uint Members(Span<FieldKind> dst)

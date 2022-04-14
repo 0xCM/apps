@@ -12,11 +12,12 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public static Fields fields(in DisasmLineBlock src, DisasmProps props, Fields dst, bool clear = true)
+        public static uint fields(in DisasmLineBlock src, DisasmProps props, Fields dst, bool clear = true)
         {
             if(clear)
                 dst.Clear();
 
+            var counter = 0u;
             var count = props.Count;
             var keys = props.Keys.Array();
             for(var i=0; i<count; i++)
@@ -29,14 +30,17 @@ namespace Z0
                 if(XedParsers.parse(name, out FieldKind kind))
                 {
                     if(TableCalcs.parse(value, kind, out var pack))
+                    {
                         dst.Update(pack);
+                        counter++;
+                    }
                     else
                         Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldPack), value));
                 }
                 else
                     Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind),name));
             }
-            return dst;
+            return counter;
         }
     }
 }

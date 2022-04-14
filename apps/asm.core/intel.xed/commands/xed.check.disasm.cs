@@ -11,16 +11,16 @@ namespace Z0
 
     partial class XedCmdProvider
     {
-        [CmdOp("xed/check/disam")]
+        [CmdOp("xed/check/disasm")]
         Outcome CheckDisasm(CmdArgs args)
         {
             var context = Projects.Context(Project());
             var files = context.Files(FileKind.XedRawDisasm);
             iter(files, file => {
                 var target = XedDisasmTarget.create(this);
-                var flow = XedDisasmFlow.init(context, target);
+                var flow = DisasmFlow.init(context, target);
                 flow.Run(file);
-            });
+            },true);
 
             return true;
         }

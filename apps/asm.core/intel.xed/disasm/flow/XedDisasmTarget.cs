@@ -7,71 +7,78 @@ namespace Z0
 {
     using static core;
     using static XedRules;
-    using static XedDisasm;
 
-    public class XedDisasmTarget : AppServiceClient<XedDisasmTarget>, IXedDisasmTarget
+    partial class XedDisasm
     {
-        FileRef Source;
-
-        void ProcessingFile()
+        public class XedDisasmTarget : AppServiceClient<XedDisasmTarget>, IXedDisasmTarget
         {
-            Write($"Processing {Source.Path.ToUri()}");
-        }
+            FileRef Source;
 
-        public Task Running(in FileRef src)
-        {
-            Source = src;
-            return run(ProcessingFile);
-        }
+            void ProcessingFile()
+            {
+                Write($"Processing {Source.Path.ToUri()}");
+            }
 
-        public Task Computed(in DisasmFile src)
-        {
-            return run(() => {});
-        }
+            public Task Running(in FileRef src)
+            {
+                Source = src;
+                return run(ProcessingFile);
+            }
 
-        public Task Computed(in DetailBlock src)
-        {
-            return run(() => {});
-        }
+            public Task Computed(in DisasmFile src)
+            {
+                return run(() => {});
+            }
 
-        public Task Computed(in DisasmSummaryDoc src)
-        {
-            return run(() => {});
-        }
+            public Task Computed(in DetailBlock src)
+            {
+                return run(() => {});
+            }
 
-        public Task Computed(in RuleState src)
-        {
-            return run(() => {});
-        }
+            public Task Computed(in DisasmSummaryDoc src)
+            {
+                return run(() => {});
+            }
 
-        public Task Computed(in XDis src)
-        {
-            return run(() => {});
-        }
+            public Task Computed(in RuleState src)
+            {
+                return run(() => {});
+            }
 
-        public Task Computed(in DisasmProps src)
-        {
-            return run(() => {});
-        }
+            public Task Computed(in XDis src)
+            {
+                return run(() => {});
+            }
 
-        public Task Computed(in Fields src)
-        {
-            return run(() => {});
-        }
+            public Task Computed(in DisasmProps src)
+            {
+                return run(() => {});
+            }
 
-        public Task Computed(in EncodingExtract src)
-        {
-            return run(() => {});
-        }
+            public Task Computed(in Fields src)
+            {
+                return run(() => {});
+            }
 
-        public Task Computed(ReadOnlySpan<FieldKind> src)
-        {
-            return run(() => {});
-        }
+            public Task Computed(in EncodingExtract src)
+            {
+                return run(() => {});
+            }
 
-        public Task Completed()
-        {
-            return run(() => {});
+            public Task Computed(ReadOnlySpan<FieldKind> src)
+            {
+                return run(() => {});
+            }
+
+            public Task Processed(uint seq, in DetailBlock src)
+            {
+                return run(() => {});
+
+            }
+            public Task Ran()
+            {
+                return run(() => {});
+            }
         }
     }
 }

@@ -21,28 +21,22 @@ namespace Z0
 
             readonly Action<string,Count,FS.FilePath> Channel;
 
-            readonly Span<FieldKind> Members;
-
             readonly HashSet<FieldKind> Exclusions;
 
             readonly ITextBuffer Buffer;
 
             readonly FieldRender Render;
 
-            EncodingExtract Encoding;
-
             public FieldEmitter(Func<FileRef,FS.FilePath> target, Action<string,Count,FS.FilePath> channel)
             {
                 Target = target;
                 Channel = channel;
-                Members = alloc<FieldKind>(128);
-                Fields = XedFields.fields();
                 Exclusions = hashset<FieldKind>(K.TZCNT,K.LZCNT);
-                State = RuleState.Empty;
-                XDis = XDis.Empty;
                 Buffer = text.buffer();
                 Render = XedFields.render();
-                MemberCount = 0;
+                State = RuleState.Empty;
+                Fields = XedFields.fields();
+                XDis = XDis.Empty;
                 Props = DisasmProps.Empty;
                 Encoding = EncodingExtract.Empty;
             }
@@ -55,7 +49,7 @@ namespace Z0
 
             DisasmProps Props;
 
-            uint MemberCount;
+            EncodingExtract Encoding;
 
             const string RenderPattern = DisasmRender.Columns;
 
@@ -69,16 +63,12 @@ namespace Z0
                 State = RuleState.Empty;
                 XDis = XDis.Empty;
                 Props = DisasmProps.Empty;
-                MemberCount = 0;
                 Encoding = EncodingExtract.Empty;
                 Fields.Clear();
             }
 
-            void Load(in DetailBlock src)
+            ReadOnlySpan<FieldKind> Load(in DetailBlock src)
             {
-                ref readonly var detail = ref src.Detail;
-                ref readonly var ops = ref detail.Ops;
-                ref readonly var form = ref detail.InstForm;
                 ref readonly var block = ref src.Block;
                 ref readonly var lines = ref block.Lines;
                 ref readonly var summary = ref block.Summary;
@@ -89,10 +79,10 @@ namespace Z0
                 DisasmParse.parse(lines, out Props);
                 XedDisasm.fields(lines, Props, Fields, false);
 
-                MemberCount = Fields.Members(Members);
-                var kinds = slice(Members, 0, MemberCount);
+                var kinds = Fields.MemberKinds();
                 XedState.Edit.fields(Fields, kinds, ref State);
                 Encoding = XedState.Code.encoding(State, asmhex);
+                return kinds;
             }
 
             void AppendHeader(in DisasmLineBlock lines, InstForm form)
@@ -131,11 +121,10 @@ namespace Z0
                     ref readonly var ops = ref doc[i].Detail.Ops;
                     ref readonly var form = ref doc[i].Detail.InstForm;
                     ref readonly var lines = ref doc[i].Block.Lines;
-                    Load(doc[i]);
+                    var kinds = Load(doc[i]);
 
                     AppendHeader(lines, form);
-                    var kinds = slice(Members, 0, MemberCount);
-                    for(var k=0; k<MemberCount; k++)
+                    for(var k=0; k<kinds.Length; k++)
                     {
                         ref readonly var kind = ref skip(kinds,k);
                         if(Exclusions.Contains(kind))

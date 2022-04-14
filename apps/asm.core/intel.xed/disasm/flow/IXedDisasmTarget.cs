@@ -8,28 +8,33 @@ namespace Z0
     using static XedRules;
     using static XedDisasm;
 
-    public interface IXedDisasmTarget
+    partial class XedDisasm
     {
-        Task Running(in FileRef src);
+        public interface IXedDisasmTarget
+        {
+            Task Running(in FileRef src);
 
-        Task Computed(in DisasmFile src);
+            Task Computed(in DisasmFile src);
 
-        Task Computed(in DetailBlock src);
+            Task Computed(in DetailBlock src);
 
-        Task Computed(in DisasmSummaryDoc src);
+            Task Computed(in DisasmSummaryDoc src);
 
-        Task Computed(in RuleState src);
+            Task Computed(in RuleState src);
 
-        Task Computed(in XDis src);
+            Task Computed(in XDis src);
 
-        Task Computed(in Fields src);
+            Task Computed(in Fields src);
 
-        Task Computed(ReadOnlySpan<FieldKind> src);
+            Task Computed(ReadOnlySpan<FieldKind> src);
 
-        Task Computed(in EncodingExtract src);
+            Task Computed(in EncodingExtract src);
 
-        Task Computed(in DisasmProps src);
+            Task Computed(in DisasmProps src);
 
-        Task Completed();
+            Task Processed(uint seq, in DetailBlock src);
+
+            Task Ran();
+        }
     }
 }

@@ -11,7 +11,6 @@ namespace Z0
     {
         public static ConstLookup<DisasmDetailDoc,Index<DetailBlockRow>> CalcDocDetails(ConstLookup<FileRef,DisasmDetailDoc> src)
         {
-            var docs = src.Values.ToArray();
             var buffer = cdict<DisasmDetailDoc,Index<DetailBlockRow>>();
             var kvp = core.map(src.Values, doc => (doc, details: doc.View.ToArray().Select(x => x.Detail)));
             for(var j=0; j<kvp.Length; j++)

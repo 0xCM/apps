@@ -19,6 +19,12 @@ namespace Z0
 
         public readonly DisasmFile File;
 
+        public uint Count
+        {
+            [MethodImpl(Inline)]
+            get => RowCount;
+        }
+
         public static DisasmDetailDoc Empty => new DisasmDetailDoc(DisasmFile.Empty, sys.empty<DetailBlock>());
     }
 }
