@@ -21,16 +21,10 @@ namespace Z0
             public static CellType celltype(string data)
             {
                 Require.invariant(data.Length < 48);
-                var field = XedLookups.Service.FieldSpec(XedFields.kind(data));
+                var kind = XedFields.kind(data);
+                var field = kind != 0 ? XedLookups.Service.FieldSpec(kind) : ReflectedField.Empty;
                 CellParser.parse(data, out RuleOperator op);
-                return new (field.Field,
-                    CellParser.@class(field.Field,data),
-                    op,
-                    field.FieldType,
-                    (byte)field.FieldWidth,
-                    field.FieldTypeE,
-                    (byte)field.FieldWidthE
-                    );
+                return new (field.Field, CellParser.@class(field.Field, data), op, field.FieldType, (byte)field.FieldWidth, field.FieldTypeE, (byte)field.FieldWidthE);
             }
 
             public static bool parse(FieldKind field, string value, out CellValue dst)
@@ -485,7 +479,7 @@ namespace Z0
                 else
                 {
                     if(isNonTerm)
-                        dst = CK.Nonterm;
+                        dst = CK.NontermCall;
                     else if(XedParsers.IsIntLiteral(data))
                         dst = CK.IntLiteral;
                     else if(XedParsers.IsHexLiteral(data))
@@ -504,7 +498,7 @@ namespace Z0
                     else if(XedParsers.parse(input, out RuleKeyword keyword))
                         dst = CK.Keyword;
                     else
-                        dst = CK.String;
+                        dst = CK.SegVar;
                 }
 
                 Require.invariant(dst.IsNonEmpty);

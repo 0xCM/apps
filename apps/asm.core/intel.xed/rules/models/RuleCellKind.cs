@@ -18,11 +18,11 @@ namespace Z0
 
             HexLiteral,
 
-            String,
+            SegVar,
 
             Keyword,
 
-            Nonterm,
+            NontermCall,
 
             Operator,
 

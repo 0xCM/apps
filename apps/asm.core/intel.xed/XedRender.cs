@@ -598,7 +598,7 @@ namespace Z0
                 case RuleCellKind.BitLiteral:
                     dst = format5(src.AsBitLit());
                 break;
-                case RuleCellKind.Nonterm:
+                case RuleCellKind.NontermCall:
                     dst = format(src.AsNonterminal());
                 break;
                 default:

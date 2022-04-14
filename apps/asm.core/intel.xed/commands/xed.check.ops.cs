@@ -45,21 +45,6 @@ namespace Z0
                 for(var j=0; j<table.RowCount; j++)
                 {
                     ref readonly var row = ref table[j];
-                    // ref readonly var left = ref row.Antecedant;
-                    // ref readonly var right = ref row.Consequent;
-
-                    // for(var k=0; k<left.Count; k++)
-                    // {
-                    //     ref readonly var t = ref left[k].Type;
-                    //     distinct.Add(t);
-                    // }
-
-                    // for(var k=0; k<right.Count; k++)
-                    // {
-                    //     ref readonly var t = ref right[k].Type;
-                    //     distinct.Add(t);
-                    // }
-
                     var cells = row.Joined();
                     for(var k=0; k< cells.Count; k++)
                     {

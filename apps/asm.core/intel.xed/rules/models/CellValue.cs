@@ -99,7 +99,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = (ushort)data;
-                CellKind =  kind != 0 ? RuleCellKind.NontermExpr : RuleCellKind.Nonterm;
+                CellKind =  kind != 0 ? RuleCellKind.NontermExpr : RuleCellKind.NontermCall;
             }
 
             [MethodImpl(Inline)]
@@ -129,7 +129,7 @@ namespace Z0
             public readonly bit IsNonTerminal
             {
                 [MethodImpl(Inline)]
-                get => CellKind == RuleCellKind.Nonterm;
+                get => CellKind == RuleCellKind.NontermCall;
             }
 
             public bool IsEmpty

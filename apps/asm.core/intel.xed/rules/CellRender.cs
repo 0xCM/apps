@@ -112,10 +112,12 @@ namespace Z0
                     case CK.BitLiteral:
                     case CK.IntLiteral:
                     case CK.HexLiteral:
-                    case CK.String:
+                    case CK.SegVar:
                     case CK.Keyword:
-                    case CK.Nonterm:
-                        dst = "NT";
+                        dst = src.Class.Format();
+                    break;
+                    case CK.NontermCall:
+                        dst = "Nt()";
                     break;
                     case CK.Operator:
                         dst = string.Format("Op({0})", src.Operator);
@@ -158,7 +160,7 @@ namespace Z0
                     return EmptyString;
                 else if(src.IsNonTerminal)
                     return XedRender.format(src.ToNonterminal());
-                else if(src.CellKind == RuleCellKind.String)
+                else if(src.CellKind == RuleCellKind.SegVar)
                     return src.ToAsci().Format();
                 else if(src.CellKind == RuleCellKind.Keyword)
                     return src.ToKeyword().Format();

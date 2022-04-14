@@ -71,7 +71,7 @@ namespace Z0
             public bool IsString
             {
                 [MethodImpl(Inline)]
-                get => Kind == CK.String;
+                get => Kind == CK.SegVar;
             }
 
             public bool IsOperator
@@ -83,7 +83,7 @@ namespace Z0
             public bool IsNonterm
             {
                 [MethodImpl(Inline)]
-                get => Kind == CK.Nonterm;
+                get => Kind == CK.NontermCall;
             }
 
             public bool IsNontermExpr

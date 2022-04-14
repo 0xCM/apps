@@ -34,6 +34,20 @@ namespace Z0
 
             public TextBlock Description;
 
+            public static ReflectedField Empty => default;
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Field == 0;
+            }
+
+            public bool IsNonEmpyt
+            {
+                [MethodImpl(Inline)]
+                get => Field != 0;
+            }
+
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,16,16,16,16,12,12,12,1};
         }
     }

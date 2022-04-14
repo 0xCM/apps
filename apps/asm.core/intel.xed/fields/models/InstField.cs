@@ -101,7 +101,7 @@ namespace Z0
                 var data = ByteBlock16.Empty;
                 data = (uint)src;
                 data[KindIndex] = (byte)InstFieldKind.Nonterm;
-                data[ClassIndex] = (byte)RuleCellKind.Nonterm;
+                data[ClassIndex] = (byte)RuleCellKind.NontermCall;
                 Data = data;
             }
 
