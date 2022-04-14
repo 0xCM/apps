@@ -12,20 +12,24 @@ namespace Z0
     using static Root;
     using static core;
 
-    public abstract class Interpreter<H> : IAppService<H>, IInterpreter
+    public abstract class Interpreter<H> : AppService<H>, IInterpreter
         where H : Interpreter<H>, new()
     {
-        public IWfRuntime Wf {get; private set;}
+        //public IWfRuntime Wf {get; private set;}
 
         public static H create()
             => new H();
 
-        public static H create(IWfRuntime wf)
-        {
-            var host = new H();
-            host.Init(wf);
-            return host;
-        }
+        // public static H create(IWfRuntime wf)
+        // {
+        //     var host = new H();
+        //     host.Init(wf);
+        //     return host;
+        // }
+
+        bool _Initialized;
+
+        bool _Running;
 
         protected Interpreter()
         {
@@ -35,17 +39,14 @@ namespace Z0
             ExecLog = new ConcurrentDictionary<ulong,ExecToken>();
             DispatchKeys = new ConcurrentBag<Guid>();
             Tokens = TokenDispenser.create();
-            Running = false;
-            Initialized = false;
+            _Initialized = false;
+            _Running = false;
+
         }
 
         public Name Name {get;}
 
         Duration Frequency;
-
-        bool Running;
-
-        bool Initialized;
 
         Process Worker;
 
@@ -73,7 +74,7 @@ namespace Z0
             }
             catch(Exception e)
             {
-                Wf.Error(e);
+                Error(e);
             }
         }
 
@@ -84,22 +85,21 @@ namespace Z0
 
         public Task Run()
         {
-            if(!Initialized)
-                throw new Exception("Not initialized!");
+            if(!_Initialized)
+                Errors.Throw("Not Initialized");
 
             Worker.Start();
             Worker.BeginOutputReadLine();
             Worker.BeginErrorReadLine();
-            Running = true;
+            _Running = true;
             SpinTask = core.run(() => Spin());
             return SpinTask;
         }
 
-        public void Init(IWfRuntime wf)
+        protected override void Initialized()
         {
             try
             {
-                Wf = wf;
                 Worker = new Process();
 
                 var start = new ProcessStartInfo(ExePath.Name, StartupArgs)
@@ -117,11 +117,11 @@ namespace Z0
                 Worker.ErrorDataReceived += OnError;
                 Worker.EnableRaisingEvents = true;
                 Worker.Exited += Exited;
-                Initialized = true;
+                _Initialized = true;
             }
             catch(Exception e)
             {
-                wf.Error(e);
+                Error(e);
                 throw;
             }
         }
@@ -133,24 +133,24 @@ namespace Z0
 
         void Exited(object sender, EventArgs e)
         {
-            Wf.Status("Process exit event received");
+            Status("Process exit event received");
         }
 
         void OnStatus(object sender, DataReceivedEventArgs e)
         {
             if(e != null && e.Data != null)
-                Wf.Status(e.Data);
+                Status(e.Data);
         }
 
         void OnError(object sender, DataReceivedEventArgs e)
         {
             if(e != null && e.Data != null)
             {
-                Wf.Error(e.Data);
+                Error(e.Data);
             }
         }
 
-        public void Dispose()
+        protected override void Disposing()
         {
             if(Worker != null)
                 Worker.Close();
@@ -158,7 +158,7 @@ namespace Z0
 
         void Dispatch()
         {
-            if(Running)
+            if(_Running)
             {
                 if(CommandQueue.TryDequeue(out var cmd))
                 {
@@ -172,7 +172,7 @@ namespace Z0
 
         void Spin()
         {
-            while(true && Running)
+            while(true && _Running)
             {
                 Dispatch();
                 delay(Frequency);

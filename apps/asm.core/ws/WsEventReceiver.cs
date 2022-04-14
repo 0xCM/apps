@@ -17,7 +17,7 @@ namespace Z0.Asm
 
         Index<AsmInstructionRow> InstructionRows;
 
-        ConstLookup<FileRef,Index<DisasmDetail>> DisasmDetails;
+        ConstLookup<FileRef,Index<DetailBlockRow>> DisasmDetails;
 
         Index<ObjDumpRow> ObjDumpRows;
 
@@ -71,7 +71,7 @@ namespace Z0.Asm
             InstructionRows = src;
         }
 
-        public virtual void Collected(ConstLookup<FileRef,Index<DisasmDetail>> src)
+        public virtual void Collected(ConstLookup<FileRef,Index<DetailBlockRow>> src)
         {
             DisasmDetails = src;
         }

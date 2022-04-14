@@ -1,66 +1,66 @@
-//-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
-//-----------------------------------------------------------------------------
-namespace Z0
-{
-    using static XedRules;
+// //-----------------------------------------------------------------------------
+// // Copyright   :  (c) Chris Moore, 2020
+// // License     :  MIT
+// //-----------------------------------------------------------------------------
+// namespace Z0
+// {
+//     using static XedRules;
 
-    partial class XedDisasm
-    {
-        public readonly struct DisasmProp : IEquatable<DisasmProp>, IComparable<DisasmProp>
-        {
-            readonly CellValue Data;
+//     partial class XedDisasm
+//     {
+//         public readonly struct DisasmProp : IEquatable<DisasmProp>, IComparable<DisasmProp>
+//         {
+//             readonly CellValue Data;
 
-            readonly Func<CellValue,string> Render;
+//             readonly Func<CellValue,string> Render;
 
-            [MethodImpl(Inline)]
-            public DisasmProp(CellValue data)
-            {
-                Data = data;
-                Render = XedRender.format;
-            }
+//             [MethodImpl(Inline)]
+//             public DisasmProp(CellValue data)
+//             {
+//                 Data = data;
+//                 Render = XedRender.format;
+//             }
 
-            public FieldKind Field
-            {
-                [MethodImpl(Inline)]
-                get => Data.Field;
-            }
+//             public FieldKind Field
+//             {
+//                 [MethodImpl(Inline)]
+//                 get => Data.Field;
+//             }
 
-            public ulong Value
-            {
-                [MethodImpl(Inline)]
-                get => Data.Data;
-            }
+//             public ulong Value
+//             {
+//                 [MethodImpl(Inline)]
+//                 get => Data.Data;
+//             }
 
-            [MethodImpl(Inline)]
-            public int CompareTo(DisasmProp src)
-            {
-                var result = ((byte)Field).CompareTo((byte)src.Field);
-                if(result == 0)
-                    result = Value.CompareTo(src.Value);
-                return result;
-            }
+//             [MethodImpl(Inline)]
+//             public int CompareTo(DisasmProp src)
+//             {
+//                 var result = ((byte)Field).CompareTo((byte)src.Field);
+//                 if(result == 0)
+//                     result = Value.CompareTo(src.Value);
+//                 return result;
+//             }
 
-            public string Format()
-                => Render(Data);
+//             public string Format()
+//                 => Render(Data);
 
-            public override string ToString()
-                => Format();
+//             public override string ToString()
+//                 => Format();
 
-            [MethodImpl(Inline)]
-            public bool Equals(DisasmProp src)
-                => Data.Equals(src.Data);
+//             [MethodImpl(Inline)]
+//             public bool Equals(DisasmProp src)
+//                 => Data.Equals(src.Data);
 
-            public override bool Equals(object src)
-                => src is DisasmProp x && Equals(x);
+//             public override bool Equals(object src)
+//                 => src is DisasmProp x && Equals(x);
 
-            public override int GetHashCode()
-                => (int)Data.Hash;
+//             public override int GetHashCode()
+//                 => (int)Data.Hash;
 
-            [MethodImpl(Inline)]
-            public static implicit operator DisasmProp(CellValue src)
-                => new DisasmProp(src);
-        }
-    }
-}
+//             [MethodImpl(Inline)]
+//             public static implicit operator DisasmProp(CellValue src)
+//                 => new DisasmProp(src);
+//         }
+//     }
+// }

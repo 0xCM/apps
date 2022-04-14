@@ -20,7 +20,7 @@ namespace Z0
             void load(FileRef fref)
             {
                 var file = XedDisasm.loadfile(fref);
-                dst.TryAdd(fref, CalcDisasmDetail(context, file, XedDisasm.summarize(context, file)));
+                dst.TryAdd(fref, CalcDetailDoc(context, file, XedDisasm.summarize(context, file)));
             }
         }
 
@@ -36,7 +36,7 @@ namespace Z0
                 seek(summaries,i).Seq = i;
 
             TableEmit(@readonly(summaries), DisasmSummary.RenderWidths, Projects.Table<DisasmSummary>(context.Project));
-            EmitDisasmDetails(dst, Projects.Table<DisasmDetail>(context.Project));
+            EmitDisasmDetails(dst, Projects.Table<DetailBlockRow>(context.Project));
             EmitDisasmFields(context, CalcDocDetails(dst));
         }
 
@@ -44,7 +44,7 @@ namespace Z0
         {
             var file = XedDisasm.loadfile(fref);
             var summaries = XedDisasm.summarize(context, file);
-            var details = CalcDisasmDetail(context, file, summaries);
+            var details = CalcDetailDoc(context, file, summaries);
             dst.TryAdd(fref, details);
             exec(PllExec,
                 () => EmitDisasmOps(context, details),
@@ -52,10 +52,10 @@ namespace Z0
             );
         }
 
-        Index<DisasmDetail> EmitDisasmDetails(ConstLookup<FileRef,DisasmDetailDoc> src, FS.FilePath dst)
+        Index<DetailBlockRow> EmitDisasmDetails(ConstLookup<FileRef,DisasmDetailDoc> src, FS.FilePath dst)
         {
             var emitting = EmittingFile(dst);
-            var formatter = Tables.formatter<DisasmDetail>(DisasmDetail.RenderWidths);
+            var formatter = Tables.formatter<DetailBlockRow>(DetailBlockRow.RenderWidths);
             var headerBase = formatter.FormatHeader();
             var j = text.lastindex(headerBase, Chars.Pipe);
             headerBase = text.left(headerBase,j);

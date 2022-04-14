@@ -109,6 +109,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator DisasmLineBlock(TextLine[] src)
                 => new DisasmLineBlock(src);
+
+            public static DisasmLineBlock Empty => new DisasmLineBlock(sys.empty<TextLine>());
         }
     }
 }

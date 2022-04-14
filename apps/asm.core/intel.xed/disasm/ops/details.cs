@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public static Index<DisasmDetail> details(ConstLookup<FileRef,DisasmDetailDoc> src)
+        public static Index<DetailBlockRow> details(ConstLookup<FileRef,DisasmDetailDoc> src)
         {
             var details = core.map(src.Values, doc => map(doc.View, r => r.Detail)).SelectMany(x => x).Sort();
             for(var i=0u; i<details.Length; i++)

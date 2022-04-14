@@ -13,7 +13,7 @@ namespace Z0
     partial class XedDisasm
     {
         [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableName)]
-        public struct DisasmDetail : IComparable<DisasmDetail>
+        public struct DetailBlockRow : IComparable<DetailBlockRow>
         {
             public const string TableName = "xed.disasm.detail";
 
@@ -41,21 +41,21 @@ namespace Z0
 
             public byte PSZ;
 
-            public EmptyZero<RexPrefix> Rex;
+            public RexPrefix Rex;
 
             public VexPrefix Vex;
 
             public EvexPrefix Evex;
 
-            public EmptyZero<ModRm> ModRm;
+            public ModRm ModRm;
 
-            public EmptyZero<Sib> Sib;
+            public Sib Sib;
 
             public EmptyZero<Disp> Disp;
 
             public EmptyZero<Imm> Imm;
 
-            public EmptyZero<SizeOverride> SZOV;
+            public SizeOverride SZOV;
 
             public NativeSize EASZ;
 
@@ -77,7 +77,7 @@ namespace Z0
                 get => (Seq,DocSeq,OriginId);
             }
 
-            public int CompareTo(DisasmDetail src)
+            public int CompareTo(DetailBlockRow src)
             {
                 var result = SourceName.CompareTo(src.SourceName);
                 if(result == 0)
@@ -113,7 +113,7 @@ namespace Z0
                 48,
                 1};
 
-            public static DisasmDetail Empty => default;
+            public static DetailBlockRow Empty => default;
         }
     }
 }

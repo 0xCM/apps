@@ -9,6 +9,16 @@ namespace Z0
     {
         IWfRuntime Wf {get;}
 
+        DevWs Ws {get;}
+
+        T Service<T>(Func<T> factory);
+
+        OmniScript OmniScript {get;}
+
+        IWfMessaging WfMsg {get;}
+
+        IWfTableOps TableOps {get;}
+
         IWfDb Db
             => Wf.Db();
 

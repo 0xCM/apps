@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        void EmitDisasmFields(WsContext context, ConstLookup<DisasmDetailDoc,Index<DisasmDetail>> src)
+        void EmitDisasmFields(WsContext context, ConstLookup<DisasmDetailDoc,Index<DetailBlockRow>> src)
         {
             var docs = src.Keys;
             core.iter(docs, doc => EmitDisasmFields(context,doc), PllExec);

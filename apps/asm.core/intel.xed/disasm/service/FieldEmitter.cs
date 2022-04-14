@@ -23,8 +23,6 @@ namespace Z0
 
             readonly Span<FieldKind> Members;
 
-            readonly Fields Fields;
-
             readonly HashSet<FieldKind> Exclusions;
 
             readonly ITextBuffer Buffer;
@@ -50,6 +48,8 @@ namespace Z0
             }
 
             RuleState State;
+
+            readonly Fields Fields;
 
             XDis XDis;
 
@@ -85,10 +85,10 @@ namespace Z0
                 ref readonly var asmhex = ref summary.Encoded;
                 ref readonly var asmtxt = ref summary.Asm;
                 ref readonly var ip = ref summary.IP;
-
                 DisasmParse.parse(lines.XDis.Content, out XDis).Require();
                 DisasmParse.parse(lines, out Props);
                 XedDisasm.fields(lines, Props, Fields, false);
+
                 MemberCount = Fields.Members(Members);
                 var kinds = slice(Members, 0, MemberCount);
                 XedState.Edit.fields(Fields, kinds, ref State);

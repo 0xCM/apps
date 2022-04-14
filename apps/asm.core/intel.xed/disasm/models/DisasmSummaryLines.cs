@@ -7,21 +7,23 @@ namespace Z0
 {
     public partial class XedDisasm
     {
-        public readonly struct DisasmBlock : IComparable<DisasmBlock>
+        public readonly struct DisasmSummaryLines : IComparable<DisasmSummaryLines>
         {
             public readonly DisasmLineBlock Lines;
 
             public readonly DisasmSummary Summary;
 
             [MethodImpl(Inline)]
-            public DisasmBlock(DisasmLineBlock lines, DisasmSummary summary)
+            public DisasmSummaryLines(DisasmLineBlock lines, DisasmSummary summary)
             {
                 Lines = lines;
                 Summary = summary;
             }
 
-            public int CompareTo(DisasmBlock src)
+            public int CompareTo(DisasmSummaryLines src)
                 => Summary.CompareTo(src.Summary);
+
+            public static DisasmSummaryLines Empty => new (DisasmLineBlock.Empty, DisasmSummary.Empty);
         }
     }
 }

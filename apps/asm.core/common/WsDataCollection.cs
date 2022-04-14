@@ -21,7 +21,7 @@ namespace Z0.Asm
 
         public readonly Index<AsmSyntaxRow> SyntaxRows;
 
-        public readonly ConstLookup<FileRef,Index<DisasmDetail>> XedRows;
+        public readonly ConstLookup<FileRef,Index<DetailBlockRow>> XedRows;
 
         public readonly Index<ObjDumpRow> ObjDumpRows;
 
@@ -30,7 +30,7 @@ namespace Z0.Asm
             FileCatalog files,
             Index<AsmSyntaxRow> syntax,
             Index<AsmInstructionRow> inst,
-            ConstLookup<FileRef,Index<DisasmDetail>> xed,
+            ConstLookup<FileRef,Index<DetailBlockRow>> xed,
             Index<ObjDumpRow> objdump,
             CoffSymIndex coffsym,
             ObjBlock[] objblocks

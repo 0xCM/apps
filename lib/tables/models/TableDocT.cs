@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public abstract class TableDoc<T>
-        where T : struct
     {
         protected readonly Index<T> Data;
 
@@ -53,9 +47,7 @@ namespace Z0
         }
     }
 
-
     public abstract class TableDoc<D,T> : TableDoc<T>
-        where T : struct
         where D : TableDoc<D,T>
     {
         protected TableDoc(FS.FilePath path, T[] rows)

@@ -24,7 +24,7 @@ namespace Z0.Asm
             => Code switch  {
                 OPSZ => "0x66",
                 ADSZ => "0x67",
-                _ => "0x0",
+                _ => EmptyString,
             };
 
         public override string ToString()

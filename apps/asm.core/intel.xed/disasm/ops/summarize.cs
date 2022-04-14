@@ -12,12 +12,12 @@ namespace Z0
     {
         public static DisasmSummaryDoc summarize(WsContext context, in DisasmFile file)
         {
-            var buffer = bag<DisasmBlock>();
+            var buffer = bag<DisasmSummaryLines>();
             summarize(context, file, buffer).Require();
             return DisasmSummaryDoc.from(file.Source, context.Root(file.Source), buffer.ToArray());
         }
 
-        public static Outcome summarize(WsContext context, in DisasmFile file, ConcurrentBag<DisasmBlock> dst)
+        public static Outcome summarize(WsContext context, in DisasmFile file, ConcurrentBag<DisasmSummaryLines> dst)
             => summarize(file.Source, context.Root(file.Source), file.Lines, dst);
 
         static Index<TextLine> SummaryLines(ReadOnlySpan<DisasmLineBlock> src)
@@ -36,7 +36,7 @@ namespace Z0
             return dst.ToArray();
         }
 
-        static Outcome summarize(in FileRef src, in FileRef origin, Index<DisasmLineBlock> blocks, ConcurrentBag<DisasmBlock> dst)
+        static Outcome summarize(in FileRef src, in FileRef origin, Index<DisasmLineBlock> blocks, ConcurrentBag<DisasmSummaryLines> dst)
         {
             var lines = SummaryLines(blocks);
             var expr = DisasmParse.expressions(blocks);

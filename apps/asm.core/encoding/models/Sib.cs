@@ -105,7 +105,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => AsmRender.asmbyte(this);
+            => IsEmpty ? EmptyString : AsmRender.asmbyte(this);
 
         public override string ToString()
             => Format();

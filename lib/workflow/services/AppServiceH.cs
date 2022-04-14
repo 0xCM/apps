@@ -58,7 +58,7 @@ namespace Z0
                 _Data.Clear();
         }
 
-        protected T Service<T>(Func<T> factory)
+        public T Service<T>(Func<T> factory)
         {
             lock(ServiceLock)
                 return (T)ServiceCache.GetOrAdd(typeof(T), key => factory());
@@ -86,7 +86,7 @@ namespace Z0
 
         protected Tooling Tooling => Service(Wf.Tooling);
 
-        protected OmniScript OmniScript => Service(Wf.OmniScript);
+        public OmniScript OmniScript => Service(Wf.OmniScript);
 
         protected ScriptRunner ScriptRunner => Service(Wf.ScriptRunner);
 
@@ -101,15 +101,39 @@ namespace Z0
         protected Type HostType
             => typeof(H);
 
-        protected DevWs Ws;
+        DevWs _Ws;
+
+        public DevWs Ws
+        {
+            [MethodImpl(Inline)]
+            get => _Ws;
+        }
+
+        WfMessaging _WfMsg;
+
+        public IWfMessaging WfMsg
+        {
+            [MethodImpl(Inline)]
+            get => _WfMsg;
+        }
+
+        WfTableOps _TableOps;
+
+        public IWfTableOps TableOps
+        {
+            [MethodImpl(Inline)]
+            get => _TableOps;
+        }
 
         public void Init(IWfRuntime wf)
         {
             var flow = wf.Creating(typeof(H).Name);
             Host = new WfSelfHost(typeof(H));
             Wf = wf;
+            _WfMsg = new WfMessaging(wf, Env);
+            _TableOps = new WfTableOps(wf,Env);
             Db = new WfDb(wf, wf.Env.Db);
-            Ws = DevWs.create(wf.Env.DevWs);
+            _Ws = DevWs.create(wf.Env.DevWs);
             ProjectDb = Ws.ProjectDb();
             OnInit();
             Initialized();
@@ -161,26 +185,25 @@ namespace Z0
             }
         }
 
-
         protected IApiCatalog ApiRuntimeCatalog => GetApiCatalog();
 
         protected void Babble<T>(T content)
-            => Wf.Babble(HostType, content);
+            => WfMsg.Babble(content);
 
         protected void Babble(string pattern, params object[] args)
-            => Wf.Babble(HostType, string.Format(pattern,args));
+            => WfMsg.Babble(pattern, args);
 
         protected void Status<T>(T content)
-            => Wf.Status(HostType, content);
+            => WfMsg.Status(content);
 
         protected void Status(ReadOnlySpan<char> src)
-            => Wf.Status(HostType, new string(src));
+            => WfMsg.Status(new string(src));
 
         protected void Status(string pattern, params object[] args)
-            => Wf.Status(HostType, string.Format(pattern, args));
+            => WfMsg.Status(string.Format(pattern, args));
 
         protected void Warn<T>(T content)
-            => Wf.Warn(HostType, content);
+            => WfMsg.Warn(content);
 
         protected void Warn(string pattern, params object[] args)
             => Wf.Warn(HostType, string.Format(pattern,args));
@@ -189,10 +212,10 @@ namespace Z0
             => Wf.Error(HostType,  core.require(content));
 
         protected WfExecFlow<T> Running<T>(T msg)
-            => Wf.Running(HostType, msg);
+            => WfMsg.Running(msg);
 
         protected WfExecFlow<string> Running([Caller] string msg = null)
-            => Wf.Running(HostType, msg);
+            => WfMsg.Running(msg);
 
         protected ExecToken Ran<T>(WfExecFlow<T> flow, [Caller] string msg = null)
             => Wf.Ran(HostType, flow.WithMsg(msg));
@@ -214,13 +237,13 @@ namespace Z0
                 => Wf.EmittingTable<T>(HostType, dst);
 
         protected void Write<T>(T content)
-            => Wf.Row(content, null);
+            => WfMsg.Write(content);
 
         protected void Write<T>(T content, FlairKind flair)
-            => Wf.Row(content, flair);
+            => WfMsg.Write(content, flair);
 
         protected void Write<T>(string name, T value, FlairKind? flair = null)
-            => Wf.Row(RP.attrib(name, value), flair);
+            => WfMsg.Write(name, value, flair);
 
         protected void Write<T>(ReadOnlySpan<T> src, FlairKind? flair = null)
         {
@@ -270,61 +293,26 @@ namespace Z0
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, FS.FilePath dst)
             where T : struct
-        {
-            var flow = Wf.EmittingTable<T>(HostType,dst);
-            var spec = Tables.rowspec<T>();
-            var count = Tables.emit(src, spec, dst);
-            Wf.EmittedTable(HostType,flow,count);
-            return count;
-        }
+                => TableOps.TableEmit(src,dst);
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, FS.FilePath dst)
             where T : struct
-        {
-            var flow = Wf.EmittingTable<T>(HostType, dst);
-            var spec = Tables.rowspec<T>(widths, z16);
-            var count = Tables.emit(src, spec, dst);
-            Wf.EmittedTable(HostType, flow,count);
-            return count;
-        }
+                => TableOps.TableEmit(src, widths, dst);
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, TextEncodingKind encoding, FS.FilePath dst)
             where T : struct
-        {
-            var flow = Wf.EmittingTable<T>(HostType, dst);
-            var spec = Tables.rowspec<T>(widths, z16);
-            var count = Tables.emit(src, spec, encoding, dst);
-            Wf.EmittedTable(HostType, flow,count);
-            return count;
-        }
+                => TableOps.TableEmit(src, widths, encoding, dst);
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, StreamWriter writer, FS.FilePath dst)
             where T : struct
-        {
-            var flow = Wf.EmittingTable<T>(HostType, dst);
-            var spec = Tables.rowspec<T>(widths, z16);
-            var count = Tables.emit(src, spec, writer);
-            Wf.EmittedTable(HostType, flow,count);
-            return count;
-        }
+                => TableOps.TableEmit(src, widths, writer, dst);
 
-        protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, ushort rowpad, Encoding encoding, FS.FilePath dst)
+        protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, ushort rowpad, TextEncodingKind encoding, FS.FilePath dst)
             where T : struct
-        {
-            var flow = Wf.EmittingTable<T>(HostType, dst);
-            var spec = Tables.rowspec<T>(widths, rowpad);
-            var count = Tables.emit(src, spec, encoding, dst);
-            Wf.EmittedTable(HostType, flow, count);
-            return count;
-        }
+                => TableOps.TableEmit(src, widths, rowpad, encoding, dst);
 
         protected void FileEmit(string src, Count count, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Utf8)
-        {
-            var emitting = EmittingFile(dst);
-            using var writer = dst.Writer(encoding);
-            writer.WriteLine(src);
-            EmittedFile(emitting, count);
-        }
+            => TableOps.FileEmit(src, count, dst, encoding);
 
         protected Outcome<uint> EmitLines(ReadOnlySpan<TextLine> src, FS.FilePath dst, TextEncodingKind encoding)
         {

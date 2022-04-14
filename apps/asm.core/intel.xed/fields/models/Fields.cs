@@ -83,6 +83,8 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => ref seek(Data,(byte)kind);
             }
+
+            public static Fields Empty => new Fields(sys.empty<Field>());
         }
     }
 }

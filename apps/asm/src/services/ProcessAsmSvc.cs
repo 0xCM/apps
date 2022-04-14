@@ -72,7 +72,7 @@ namespace Z0.Asm
         }
 
         public uint EmitProcessAsm(SortedReadOnlySpan<ProcessAsmRecord> src, FS.FilePath dst)
-            => TableEmit(src.View, ProcessAsmRecord.RenderWidths, ProcessAsmRecord.RowPad, Encoding.ASCII, dst);
+            => TableEmit(src.View, ProcessAsmRecord.RenderWidths, ProcessAsmRecord.RowPad, TextEncodingKind.Asci, dst);
 
         public ReadOnlySpan<ProcessAsmRecord> EmitProcessAsm(ReadOnlySpan<AsmRoutine> src, FS.FilePath dst)
         {
