@@ -4,7 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
+    partial class XTend
+    {
+        public static IProjectWs Project(this IAppService service, ProjectId id)
+            => service.Ws.Project(id);
+    }
 
     public class WsContext
     {

@@ -140,7 +140,7 @@ namespace Z0
             var running = Running();
             var counter = 0u;
 
-            using var flows = ProjectLog.open(project, string.Format("{0}.flows", descriptor.Name));
+            using var flows = WsLog.open(project, string.Format("{0}.flows", descriptor.Name));
             var eflows = EmittingFile(flows.Target);
 
             void ExecCmd(CmdLine src)

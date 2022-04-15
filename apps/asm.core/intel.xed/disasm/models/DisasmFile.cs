@@ -20,6 +20,12 @@ namespace Z0
                 Lines = lines;
             }
 
+            public uint Seq
+            {
+                [MethodImpl(Inline)]
+                get => Source.Seq;
+            }
+
             public Hex32 DocId
             {
                 [MethodImpl(Inline)]
@@ -45,7 +51,7 @@ namespace Z0
             }
 
             public int CompareTo(DisasmFile src)
-                => Source.Seq.CompareTo(src.Source.Seq);
+                => Seq.CompareTo(src.Seq);
 
             public static DisasmFile Empty => new DisasmFile(FileRef.Empty, sys.empty<DisasmLineBlock>());
         }

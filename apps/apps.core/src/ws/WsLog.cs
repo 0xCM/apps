@@ -4,27 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.IO;
 
-    public class ProjectLog : IDisposable
+    public class WsLog : IDisposable
     {
-        static ProjectLog create(FS.FilePath dst)
-            => new ProjectLog(dst);
+        static WsLog create(FS.FilePath dst)
+            => new WsLog(dst);
 
-        public static ProjectLog open(IProjectWs project, string name)
+        public static WsLog open(IProjectWs project, string name)
             => create(project.Out() + FS.file(name, FS.Log));
 
-        public static ProjectLog open(IProjectWs project, string scope, string name)
+        public static WsLog open(IProjectWs project, string scope, string name)
             => create(project.Out(scope) + FS.file(name, FS.Log));
 
         StreamWriter Writer;
 
         object Locker;
 
-        public FS.FilePath Target {get;}
+        public readonly FS.FilePath Target;
 
-        ProjectLog(FS.FilePath dst)
+        WsLog(FS.FilePath dst)
         {
             Target = dst;
             Writer = dst.AsciWriter(true);

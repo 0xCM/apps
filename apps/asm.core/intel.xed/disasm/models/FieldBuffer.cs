@@ -28,6 +28,12 @@ namespace Z0
                 return ref dst;
             }
 
+            public FieldBuffer Load(in DetailBlock src)
+            {
+                load(src, ref this);
+                return this;
+            }
+
             public static FieldBuffer init()
                 => new FieldBuffer(XedFields.fields());
 

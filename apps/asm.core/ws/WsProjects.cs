@@ -19,6 +19,16 @@ namespace Z0
             FileKindMatch = symbols.View.Map(s => ("." + s.Expr.Format().ToLower(), s.Kind)).ToSortedDictionary(TextLengthComparer.create(true));
         }
 
+        [MethodImpl(Inline)]
+        public IProjectWs Project(ProjectId id)
+            => Ws.Project(id);
+
+        public FS.FolderPath ProjectData()
+            => Ws.ProjectDb().Root;
+
+        public IProjectWs Project(FS.FolderPath root, ProjectId id)
+            => ProjectWs.create(root, id);
+
         public Outcome<Index<ToolCmdFlow>> BuildAsm(IProjectWs project)
             => RunBuildScripts(project, "build", "asm", false);
 
