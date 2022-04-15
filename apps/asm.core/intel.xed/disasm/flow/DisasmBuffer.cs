@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public delegate void StateReceiver(in RuleState state, Index<FieldKind> fields);
+        public delegate void StateReceiver(uint seq, in RuleState state, ReadOnlySpan<FieldKind> fields);
 
         public class DisasmBuffer
         {
@@ -32,10 +32,12 @@ namespace Z0
             public ref RuleState State()
                 => ref _State;
 
-            public void State(StateReceiver receiver)
+            public void State(uint seq, StateReceiver receiver)
             {
                 lock(StateLock)
-                    receiver(_State,_FieldKinds);
+                {
+                    receiver(seq,_State, slice(_FieldKinds.View, 0, FieldCount));
+                }
             }
 
             public XDis XDis;

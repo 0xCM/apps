@@ -15,7 +15,7 @@ namespace Z0
             var fields = XedFields.fields();
             var file = XedDisasm.loadfile(src);
             var summary = XedDisasm.summarize(context, file);
-            var doc = CalcDetailDoc(context, file, summary);
+            var doc = XedDisasm.doc(context, file, summary);
             var props = DisasmProps.Empty;
             var xdis = XDis.Empty;
             for(var i=0u; i<doc.Count; i++)
@@ -36,12 +36,12 @@ namespace Z0
             public static DisasmFlow init(WsContext context, IDisasmTarget dst)
                 => new DisasmFlow(context,dst);
 
-            public static void run(WsContext context, IAppService svc)
+            public static void run(IAppService svc, WsContext context)
             {
                 var files = context.Files(FileKind.XedRawDisasm).Sort();
                 void exec(int i, FileRef src)
                 {
-                    var target = DisasmTarget.create(svc);
+                    var target = DisasmTarget.create(svc, context);
                     var flow = DisasmFlow.init(context, target);
                     flow.Run(src);
                 }
@@ -134,7 +134,7 @@ namespace Z0
 
                     var summary = XedDisasm.summarize(Context, file);
                     Target.Computed(summary);
-                    var doc = CalcDetailDoc(Context, file, summary);
+                    var doc = XedDisasm.doc(Context, file, summary);
                     var details = doc.View.ToArray().Select(x => x.Detail).Sort();
                     for(var i=0u; i<details.Length; i++)
                         seek(details,i).Seq = i;

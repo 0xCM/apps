@@ -11,7 +11,7 @@ namespace Z0
         [CmdOp("xed/check/disasm")]
         Outcome CheckDisasm(CmdArgs args)
         {
-            DisasmFlow.run(Context(), this);
+            DisasmFlow.run(this, Context());
             return true;
         }
     }

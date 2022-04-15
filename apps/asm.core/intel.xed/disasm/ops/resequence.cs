@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public static ConstLookup<DisasmDetailDoc,Index<DetailBlockRow>> CalcDocDetails(ConstLookup<FileRef,DisasmDetailDoc> src)
+        public static ConstLookup<DisasmDetailDoc,Index<DetailBlockRow>> resequence(ConstLookup<FileRef,DisasmDetailDoc> src)
         {
             var buffer = cdict<DisasmDetailDoc,Index<DetailBlockRow>>();
             var kvp = core.map(src.Values, doc => (doc, details: doc.View.ToArray().Select(x => x.Detail)));

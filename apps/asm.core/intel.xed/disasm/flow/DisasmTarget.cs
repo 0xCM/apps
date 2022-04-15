@@ -14,20 +14,31 @@ namespace Z0
         {
             DisasmBuffer Buffer;
 
-            readonly XedPaths XedPaths;
+            readonly ConcurrentDictionary<uint,string> OutBlocks = new();
 
-            FS.FilePath OutputPath;
+            int Counter;
 
             public DisasmTarget()
             {
-                XedPaths = XedPaths.Service;
+                Counter = 0;
             }
+
+            void Append(uint seq, string src)
+            {
+                OutBlocks.AddOrUpdate(seq, _ => src, (_,block) => block + src);
+            }
+
+            WsProjects Projects => Service(Wf.WsProjects);
+
+            FS.FilePath OutputPath(in FileRef src)
+                => Projects.XedDisasmDir(Context.Project) + FS.file(string.Format("{0}.targets", src.Path.FileName.WithoutExtension.Format()), FS.Txt);
 
             long Tokens;
 
             public DisasmToken Starting(in FileRef src)
             {
                 DisasmToken token = (uint)inc(ref Tokens);
+                Counter = 0;
                 Buffer = new(src);
                 ProcessingFile(token);
                 return token;
@@ -36,6 +47,11 @@ namespace Z0
             public void Finished(DisasmToken token)
             {
                 Ran(Buffer.Flow, $"Processed {Buffer.Source}");
+                var keys = OutBlocks.Keys.Array().Sort();
+                var dst = text.buffer();
+                for(var i=0; i<keys.Length; i++)
+                    dst.Append(OutBlocks[skip(keys,i)]);
+                FileEmit(dst.Emit(), Counter, OutputPath(Buffer.Source));
             }
 
             public Task Computed(in DisasmFile src)
@@ -111,26 +127,38 @@ namespace Z0
                 ref readonly var value = ref Buffer.Block;
             }
 
-            void StateComputed(in RuleState state, Index<FieldKind> fields)
+            void StateComputed(uint seq, in RuleState state, ReadOnlySpan<FieldKind> fields)
             {
                 var dst = text.buffer();
-                for(var i=0; i<fields.Count; i++)
+
+                dst.AppendLine(RP.PageBreak80);
+
+                for(var i=0; i<fields.Length; i++)
                 {
-                    ref readonly var field = ref fields[i];
-                    var cell = XedState.cell(state, field);
-                    dst.AppendLineFormat("{0,-8} | {1,-22} | {2}", i, field, cell);
+                    var cell = XedState.cell(state, skip(fields,i));
+                    dst.AppendLineFormat("{0,-24} | {1}", cell.Field, cell.Format());
+                    inc(ref Counter);
                 }
                 dst.AppendLine(RP.PageBreak80);
+
+                Append(seq, dst.Emit());
             }
 
             void StateComputed(uint seq)
             {
-                Buffer.State(StateComputed);
+                Buffer.State(seq,StateComputed);
             }
 
             void XDisComputed(uint seq)
             {
                 ref readonly var value = ref Buffer.XDis;
+                var dst = text.buffer();
+                dst.AppendLineFormat("{0,-24} | {1}", nameof(value.Asm), value.Asm);
+                dst.AppendLineFormat("{0,-24} | {1}", nameof(value.Category), value.Category);
+                dst.AppendLineFormat("{0,-24} | {1}", nameof(value.Extension), value.Extension);
+                dst.AppendLineFormat("{0,-24} | {1}", nameof(value.IP), value.IP);
+                dst.AppendLineFormat("{0,-24} | {1}", nameof(value.Encoded), value.Encoded);
+                Append(seq, dst.Emit());
             }
 
             void FieldsComputed(uint seq)

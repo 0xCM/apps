@@ -11,18 +11,7 @@ namespace Z0
     partial class XedDisasmSvc
     {
         public void CollectFields(WsContext context)
-        {
-            var files = context.Files(FileKind.XedRawDisasm);
-            var dst = cdict<FileRef,DisasmDetailDoc>();
-            iter(files, load, PllExec);
-            EmitDisasmFields(context, CalcDocDetails(dst));
-
-            void load(FileRef fref)
-            {
-                var file = XedDisasm.loadfile(fref);
-                dst.TryAdd(fref, CalcDetailDoc(context, file, XedDisasm.summarize(context, file)));
-            }
-        }
+            => EmitDisasmFields(context, resequence(XedDisasm.docs(context,PllExec)));
 
         public void Collect(WsContext context)
         {
@@ -37,14 +26,14 @@ namespace Z0
 
             TableEmit(@readonly(summaries), DisasmSummary.RenderWidths, Projects.Table<DisasmSummary>(context.Project));
             EmitDisasmDetails(dst, Projects.Table<DetailBlockRow>(context.Project));
-            EmitDisasmFields(context, CalcDocDetails(dst));
+            EmitDisasmFields(context, resequence(dst));
         }
 
         void CollectDisasm(WsContext context, in FileRef fref, ConcurrentDictionary<FileRef,DisasmDetailDoc> dst)
         {
             var file = XedDisasm.loadfile(fref);
             var summaries = XedDisasm.summarize(context, file);
-            var details = CalcDetailDoc(context, file, summaries);
+            var details = XedDisasm.doc(context, file, summaries);
             dst.TryAdd(fref, details);
             exec(PllExec,
                 () => EmitDisasmOps(context, details),

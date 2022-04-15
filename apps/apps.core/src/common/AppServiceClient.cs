@@ -10,23 +10,26 @@ namespace Z0
     {
         IAppService AppSvc;
 
+        WsContext WsContext;
+
         protected virtual void Initialized()
         {
 
         }
 
-        public static C create(IAppService svc)
-        {
-            var client = new C();
-            client.AppSvc = svc;
-            client.Initialized();
-            return client;
-        }
+        // public static C create(IAppService svc)
+        // {
+        //     var client = new C();
+        //     client.AppSvc = svc;
+        //     client.Initialized();
+        //     return client;
+        // }
 
         public static C create(IAppService svc, WsContext context)
         {
             var client = new C();
             client.AppSvc = svc;
+            client.WsContext = context;
             client.Initialized();
             return client;
         }
@@ -41,6 +44,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => AppSvc.WfMsg;
+        }
+
+        protected WsContext Context
+        {
+            [MethodImpl(Inline)]
+            get => WsContext;
         }
 
         protected IWfTableOps TableOps
@@ -120,25 +129,5 @@ namespace Z0
 
         protected AppDb AppDb => Service(Wf.AppDb);
 
-        protected FS.FolderPath Projects()
-            => AppSvc.Ws.ProjectDb().ProjectData();
-
-        protected FS.FolderPath ProjectRoot(string name)
-            => Projects() + FS.folder(name);
-
-        protected FS.FolderPath ProjectRoot(string name, string scope)
-            => ProjectRoot(scope) + FS.folder(name);
-
-        protected FS.Files ProjectFiles(string name)
-            => ProjectRoot(name).AllFiles;
-
-        protected FS.Files ProjectFiles(string name, string scope)
-            => ProjectRoot(name, scope).AllFiles;
-
-        protected FS.FilePath ProjectFile(string project, string name, FileKind kind)
-            => ProjectRoot(project) + FS.file(name, kind.Ext());
-
-        protected FS.FilePath ProjectFile(string project, string scope, string name, FileKind kind)
-            => ProjectRoot(project, scope) + FS.file(name, kind.Ext());
     }
 }

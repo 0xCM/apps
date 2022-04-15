@@ -9,7 +9,6 @@ namespace Z0
     using static core;
     using static XedRules;
     using static XedModels;
-    using static XedPatterns;
 
     public partial class XedDisasm
     {
@@ -19,7 +18,68 @@ namespace Z0
 
             const string YDIS = "YDIS:";
 
-            public static uint parse(in DisasmLineBlock src, out DisasmProps _dst)
+            public static Outcome parse(in DisasmLineBlock src, out DisasmInstruction dst)
+            {
+                var result = Outcome.Success;
+                dst = default(DisasmInstruction);
+                ref readonly var content = ref src.Props.Content;
+                if(text.nonempty(content))
+                {
+                    parse(src, out dst.Class);
+                    parse(src, out dst.Form);
+                    parse(src, out dst.Props);
+                }
+                return result;
+            }
+
+            public static Outcome parse(in DisasmLineBlock src, out InstClass dst)
+            {
+                var result = Outcome.Success;
+                dst = InstClass.Empty;
+                ref readonly var content = ref src.Props.Content;
+                if(text.nonempty(content))
+                {
+                    var j = text.index(content, Chars.Space);
+                    if(j > 0)
+                    {
+                        var expr = text.left(content,j);
+                        if(!XedParsers.parse(expr, out dst))
+                        {
+                            result = (false, AppMsg.ParseFailure.Format(nameof(InstClass), content));
+                            return result;
+                        }
+                    }
+                }
+                return result;
+            }
+
+            public static Outcome parse(in DisasmLineBlock src, out InstForm dst)
+            {
+                var result = Outcome.Success;
+                dst = InstForm.Empty;
+                ref readonly var content = ref src.Props.Content;
+                if(text.nonempty(content))
+                {
+                    var j = text.index(content, Chars.Space);
+                    if(j > 0)
+                    {
+                        var expr = text.left(content,j);
+                        var k = text.index(content, j+1, Chars.Space);
+                        if(k > 0)
+                        {
+                            expr = text.inside(content, j, k);
+                            if(!XedParsers.parse(expr, out dst))
+                            {
+                                result = (false, AppMsg.ParseFailure.Format(nameof(InstForm), expr));
+                                return result;
+                            }
+                        }
+                    }
+                }
+                return result;
+            }
+
+            public static uint parse(in DisasmLineBlock src, out DisasmProps dst)
             {
                 var content = text.trim(text.despace(src.Props.Content));
                 var i = text.index(content,Chars.Space);
@@ -29,10 +89,10 @@ namespace Z0
                 var form = text.left(right,i);
                 var props = text.trim(text.split(text.right(right,j), Chars.Comma));
                 var count = props.Length;
-                var dst = alloc<Facet<string>>(count + 2);
+                var facets = alloc<Facet<string>>(count + 2);
                 var k=0u;
-                seek(dst,k++) = (nameof(FieldKind.ICLASS), @class);
-                seek(dst,k++) = (nameof(InstForm), form);
+                seek(facets,k++) = (nameof(FieldKind.ICLASS), @class);
+                seek(facets,k++) = (nameof(InstForm), form);
                 for(var m=0; m<count; m++,k++)
                 {
                     var prop = skip(props,m);
@@ -40,15 +100,15 @@ namespace Z0
                     {
                         var kv = text.split(prop,Chars.Colon);
                         Demand.eq(kv.Length,2);
-                        seek(dst,k) = ((skip(kv,0), skip(kv,1)));
+                        seek(facets,k) = ((skip(kv,0), skip(kv,1)));
                     }
                     else
-                        seek(dst,k) = ((prop, "1"));
+                        seek(facets,k) = ((prop, "1"));
                 }
 
                 parse(src, out var _class, out var _form);
 
-                _dst = DisasmProps.load(_class, _form, dst);
+                dst = DisasmProps.load(_class, _form, facets);
 
                 return k;
             }

@@ -30,7 +30,7 @@ namespace Z0
         FS.FilePath DisasmOpsPath(WsContext context, in FileRef src)
             => Projects.XedDisasmDir(context.Project) + FS.file(string.Format("{0}.ops", src.Path.FileName.WithoutExtension.Format()), FS.Txt);
 
-        FS.FilePath DisasmPropsPath(WsContext context, in FileRef src)
-            => Projects.XedDisasmDir(context.Project) + FS.file(string.Format("{0}.props", src.Path.FileName.WithoutExtension.Format()), FS.Txt);
+        FS.FilePath DisasmTargetsPath(WsContext context, in FileRef src)
+            => Projects.XedDisasmDir(context.Project) + FS.file(string.Format("{0}.targets", src.Path.FileName.WithoutExtension.Format()), FS.Txt);
     }
 }

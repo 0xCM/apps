@@ -40,7 +40,8 @@ namespace Z0
             ref readonly var lines = ref block.Lines;
             ref readonly var summary = ref block.Summary;
             ref readonly var code = ref summary.Encoded;
-            var result = CalcInstruction(lines, out var inst);
+            var inst = DisasmInstruction.Empty;
+            var result = DisasmParse.parse(lines, out inst);
             if(result.Fail)
                 Errors.Throw(result.Message);
 

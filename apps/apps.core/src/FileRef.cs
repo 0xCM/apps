@@ -45,6 +45,7 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Path.FileName.Format();
         }
+
         public int CompareTo(FileRef src)
             => DocId.CompareTo(src.DocId);
 

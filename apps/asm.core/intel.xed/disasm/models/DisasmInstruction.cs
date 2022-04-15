@@ -18,6 +18,7 @@ namespace Z0
 
             public DisasmProps Props;
 
+            [MethodImpl(Inline)]
             public DisasmInstruction(InstClass @class, InstForm form, DisasmProps props)
             {
                 Class = @class;
