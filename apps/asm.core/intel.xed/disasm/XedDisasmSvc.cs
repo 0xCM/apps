@@ -24,7 +24,7 @@ namespace Z0
         FS.FilePath DisasmChecksPath(WsContext context, in FileRef src)
             => Projects.XedDisasmDir(context.Project) + FS.file(string.Format("{0}.checks", src.Path.FileName.WithoutExtension), FS.Txt);
 
-        FS.FilePath DisasmFieldsPath(WsContext context, in FileRef src)
+        FS.FilePath DocFieldsPath(WsContext context, in FileRef src)
             => Projects.XedDisasmDir(context.Project) + FS.file(string.Format("{0}.fields", src.Path.FileName.WithoutExtension), FS.Txt);
 
         FS.FilePath DisasmOpsPath(WsContext context, in FileRef src)

@@ -16,7 +16,7 @@ namespace Z0
         {
             const string XDIS = "XDIS ";
 
-            const string YDIS = "YDIS:";
+            public const string YDIS = "YDIS:";
 
             public static Outcome parse(in DisasmLineBlock src, out DisasmInstruction dst)
             {
@@ -173,7 +173,10 @@ namespace Z0
                 return result;
             }
 
-            public static Outcome parse(string src, out XDis dst)
+            public static Outcome parse(in DisasmLineBlock src, out XDis dst)
+                => parse(src.XDis.Content, out dst);
+
+            static Outcome parse(string src, out XDis dst)
             {
                 var result = Outcome.Success;
                 dst = default;
@@ -250,21 +253,6 @@ namespace Z0
                 }
 
                 return result;
-            }
-
-            public static Index<AsmExpr> expressions(ReadOnlySpan<DisasmLineBlock> src)
-            {
-                var dst = list<AsmExpr>();
-                foreach(var block in src)
-                {
-                    foreach(var line in block.Lines)
-                    {
-                        var i = text.index(line.Content, YDIS);
-                        if(i >= 0)
-                            dst.Add(text.trim(text.right(line.Content, i + YDIS.Length)));
-                    }
-                }
-                return dst.ToArray();
             }
         }
     }

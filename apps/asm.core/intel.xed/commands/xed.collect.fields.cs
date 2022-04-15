@@ -4,12 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     partial class XedCmdProvider
     {
         [CmdOp("xed/collect/fields")]
         Outcome XedDisasmFields(CmdArgs args)
         {
-            XedDisasmSvc.CollectFields(Context());
+            var context = Context();
+            XedDisasmSvc.EmitFields(context);
             return true;
         }
     }

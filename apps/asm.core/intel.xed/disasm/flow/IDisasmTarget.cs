@@ -13,10 +13,6 @@ namespace Z0
         {
             DisasmToken Starting(in FileRef src);
 
-            Task Computed(in DisasmFile src);
-
-            Task Computed(in DisasmSummaryDoc src);
-
             Task Computed(uint seq, in DetailBlock src);
 
             Task Computed(uint seq, in RuleState src);

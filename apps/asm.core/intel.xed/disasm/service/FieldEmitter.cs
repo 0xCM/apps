@@ -75,7 +75,7 @@ namespace Z0
                 ref readonly var asmhex = ref summary.Encoded;
                 ref readonly var asmtxt = ref summary.Asm;
                 ref readonly var ip = ref summary.IP;
-                DisasmParse.parse(lines.XDis.Content, out XDis).Require();
+                DisasmParse.parse(lines, out XDis).Require();
                 DisasmParse.parse(lines, out Props);
                 XedDisasm.fields(lines, Props, Fields, false);
 

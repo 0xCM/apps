@@ -12,7 +12,7 @@ namespace Z0
 
     partial class XedDisasm
     {
-        internal static Outcome CalcDetailBlocks(WsContext context, DisasmSummaryDoc doc, in DisasmFile src, ConcurrentBag<DetailBlock> dst)
+        internal static Outcome blocks(WsContext context, DisasmSummaryDoc doc, in DisasmFile src, ConcurrentBag<DetailBlock> dst)
         {
             var blocks = doc.Blocks;
             var count = blocks.Count;
@@ -29,13 +29,13 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var lines = ref blocks[i];
-                dst.Add(new (CalcDetailRow(lines), lines));
+                dst.Add(new (row(lines), lines));
             }
 
             return result;
         }
 
-        internal static DetailBlockRow CalcDetailRow(in DisasmSummaryLines block)
+        static DetailBlockRow row(in DisasmSummaryLines block)
         {
             ref readonly var lines = ref block.Lines;
             ref readonly var summary = ref block.Summary;

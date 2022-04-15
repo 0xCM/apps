@@ -12,7 +12,7 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        public Index<DisasmSummary> LoadDisasmSummary(IProjectWs project)
+        public Index<DisasmSummary> LoadSummary(IProjectWs project)
         {
             const byte FieldCount = DisasmSummary.FieldCount;
             var src = Projects.AsmEncodingTable(project);

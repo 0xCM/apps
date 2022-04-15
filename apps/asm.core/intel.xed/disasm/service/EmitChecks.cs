@@ -14,7 +14,7 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        void EmitDisasmChecks(WsContext context, DisasmDetailDoc doc)
+        void EmitChecks(WsContext context, DisasmDetailDoc doc)
         {
             const string RenderPattern = "{0,-24} | {1}";
             ref readonly var file = ref doc.File;

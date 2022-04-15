@@ -37,6 +37,7 @@ namespace Z0
 
             public DisasmToken Starting(in FileRef src)
             {
+                OutBlocks.Clear();
                 DisasmToken token = (uint)inc(ref Tokens);
                 Counter = 0;
                 Buffer = new(src);
@@ -54,22 +55,10 @@ namespace Z0
                 FileEmit(dst.Emit(), Counter, OutputPath(Buffer.Source));
             }
 
-            public Task Computed(in DisasmFile src)
-            {
-                Buffer.File = src;
-                return run(() => FileComputed());
-            }
-
             public Task Computed(uint seq, in DetailBlock src)
             {
                 Buffer.Block = src;
                 return run(() => BlockComputed(seq));
-            }
-
-            public Task Computed(in DisasmSummaryDoc src)
-            {
-                Buffer.Summary = src;
-                return run(() => SummaryComputed());
             }
 
             public Task Computed(uint seq, in RuleState src)
@@ -110,16 +99,6 @@ namespace Z0
             void ProcessingFile(DisasmToken token)
             {
                 Buffer.Flow = Running($"Processing {Buffer.Source}");
-            }
-
-            void FileComputed()
-            {
-                ref readonly var value = ref Buffer.File;
-            }
-
-            void SummaryComputed()
-            {
-                ref readonly var value = ref Buffer.Summary;
             }
 
             void BlockComputed(uint seq)

@@ -5,30 +5,99 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static core;
 
     partial class XedDisasm
     {
         public static DisasmDetailDoc doc(WsContext context, in FileRef fref)
         {
-            var file = XedDisasm.loadfile(fref);
-            var summary = XedDisasm.summarize(context, file);
-            return doc(context, file, summary);
+            var file = load(fref);
+            return doc(context, file, summarize(context, file));
         }
 
-        public static DisasmDetailDoc doc(WsContext context, in DisasmFile file, DisasmSummaryDoc summary)
+        static DisasmDetailDoc doc(WsContext context, in DisasmFile file, DisasmSummaryDoc summary)
         {
             var dst = bag<DetailBlock>();
-            CalcDetailBlocks(context, summary, file, dst).Require();
+            blocks(context, summary, file, dst).Require();
             return DisasmDetailDoc.from(file, dst.ToArray().Sort());
         }
 
-        public static ConstLookup<FileRef,DisasmDetailDoc> docs(WsContext context, bool pll)
+        static DisasmSummaryDoc summarize(WsContext context, in DisasmFile file)
         {
-            var files = context.Files(FileKind.XedRawDisasm);
-            var dst = cdict<FileRef,DisasmDetailDoc>();
-            iter(files, file => dst.TryAdd(file, doc(context,file)), pll);
-            return dst;
+            var buffer = bag<DisasmSummaryLines>();
+            summarize(context, file, buffer).Require();
+            return DisasmSummaryDoc.from(file.Source, context.Root(file.Source), buffer.ToArray());
+        }
+
+        static Outcome summarize(WsContext context, in DisasmFile file, ConcurrentBag<DisasmSummaryLines> dst)
+            => summarize(file.Source, context.Root(file.Source), file.Lines, dst);
+
+        static Index<TextLine> SummaryLines(ReadOnlySpan<DisasmLineBlock> src)
+        {
+            var dst = list<TextLine>();
+            for(var i=0; i<src.Length; i++)
+            {
+                var lines = skip(src,i).Lines;
+                var count = lines.Count;
+                for(var j=0; j<count; j++)
+                {
+                    if(j == count-1)
+                        dst.Add(lines[j]);
+                }
+            }
+            return dst.ToArray();
+        }
+
+        static Index<AsmExpr> expressions(ReadOnlySpan<DisasmLineBlock> src)
+        {
+            var dst = list<AsmExpr>();
+            foreach(var block in src)
+            {
+                foreach(var line in block.Lines)
+                {
+                    var i = text.index(line.Content, DisasmParse.YDIS);
+                    if(i >= 0)
+                        dst.Add(text.trim(text.right(line.Content, i + DisasmParse.YDIS.Length)));
+                }
+            }
+            return dst.ToArray();
+        }
+
+        static Outcome summarize(in FileRef src, in FileRef origin, Index<DisasmLineBlock> blocks, ConcurrentBag<DisasmSummaryLines> dst)
+        {
+            var lines = SummaryLines(blocks);
+            var expr = expressions(blocks);
+            var seq = 0u;
+            var result = Outcome.Success;
+            var count = Require.equal(expr.Length,lines.Length);
+
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var line = ref lines[i];
+                var summary = new DisasmSummary();
+                result = DisasmParse.parse(line.Content, out summary.Encoded);
+                if(result.Fail)
+                    return result;
+
+                summary.DocSeq = seq++;
+                summary.OriginId = origin.DocId;
+                summary.OriginName = origin.DocName;
+                result = DisasmParse.parse(line.Content, out summary.IP);
+                if(result.Fail)
+                    break;
+
+                summary.InstructionId = AsmBytes.instid(summary.OriginId, summary.IP, summary.Encoded.Bytes);
+                summary.EncodingId = summary.InstructionId.EncodingId;
+                summary.Asm = expr[i];
+                summary.Source = src.Path;
+                summary.Source = summary.Source.LineRef(line.LineNumber);
+                summary.Size = summary.Encoded.Size;
+                dst.Add(new (blocks[i],summary));
+            }
+
+            return result;
         }
     }
 }
