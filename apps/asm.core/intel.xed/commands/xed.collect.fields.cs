@@ -5,13 +5,14 @@
 namespace Z0
 {
     using static core;
+    using static XedDisasm;
+
     partial class XedCmdProvider
     {
         [CmdOp("xed/collect/fields")]
         Outcome XedDisasmFields(CmdArgs args)
         {
-            var context = Context();
-            XedDisasmSvc.EmitFields(context);
+            this.Client<DisasmFields>(Context()).EmitFields();
             return true;
         }
     }

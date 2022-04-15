@@ -5,25 +5,46 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class AppServiceClient<C>
+    public readonly struct ClientFactory<C>
         where C : AppServiceClient<C>, new()
     {
-        IAppService AppSvc;
+        public static C client(IAppService svc, WsContext context)
+            => AppServiceClient<C>.create(svc,context);
+    }
 
-        WsContext WsContext;
+    public partial class XTend
+    {
+        public static C Client<C>(this ClientFactory<C> factory, IAppService svc, WsContext context)
+            where C : AppServiceClient<C>, new()
+                => AppServiceClient<C>.create(svc, context);
 
+        public static C Client<C>(this IAppService svc, WsContext context)
+            where C : AppServiceClient<C>, new()
+                => AppServiceClient<C>.create(svc, context);
+    }
+
+    public abstract class AppServiceClient
+    {
+        protected IAppService AppSvc;
+
+        protected WsContext WsContext;
+
+        public static C create<C>(IAppService svc, WsContext context)
+            where C : AppServiceClient<C>, new()
+                => factory<C>().Client(svc,context);
+
+        public static ClientFactory<C> factory<C>()
+            where C : AppServiceClient<C>, new()
+                => new ClientFactory<C>();
+    }
+
+    public class AppServiceClient<C> : AppServiceClient
+        where C : AppServiceClient<C>, new()
+    {
         protected virtual void Initialized()
         {
 
         }
-
-        // public static C create(IAppService svc)
-        // {
-        //     var client = new C();
-        //     client.AppSvc = svc;
-        //     client.Initialized();
-        //     return client;
-        // }
 
         public static C create(IAppService svc, WsContext context)
         {
@@ -129,5 +150,17 @@ namespace Z0
 
         protected AppDb AppDb => Service(Wf.AppDb);
 
+
+        protected static AppData AppData
+        {
+            [MethodImpl(Inline)]
+            get => AppData.get();
+        }
+
+        protected bool PllExec
+        {
+            [MethodImpl(Inline)]
+            get => AppData.PllExec();
+        }
     }
 }
