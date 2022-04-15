@@ -13,7 +13,7 @@ namespace Z0
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             var counter = 0u;
-            var count = doc.RowCount;
+            var count = doc.Count;
             for(var i=0; i<count;i++)
             {
                 ref readonly var row = ref doc[i];

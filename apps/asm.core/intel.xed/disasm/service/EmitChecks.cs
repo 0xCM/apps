@@ -40,7 +40,7 @@ namespace Z0
                     );
 
             var buffer = text.buffer();
-            var count = doc.RowCount;
+            var count = doc.Count;
             var dstpath = DisasmChecksPath(context,file.Source);
             using var writer = dstpath.AsciWriter();
             var emitting = EmittingFile(dstpath);

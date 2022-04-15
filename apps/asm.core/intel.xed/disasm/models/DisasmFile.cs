@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedDisasm
     {
-        public readonly struct DisasmFile
+        public readonly struct DisasmFile : IComparable<DisasmFile>
         {
             public readonly FileRef Source;
 
@@ -43,6 +43,9 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => ref Lines[i];
             }
+
+            public int CompareTo(DisasmFile src)
+                => Source.Seq.CompareTo(src.Source.Seq);
 
             public static DisasmFile Empty => new DisasmFile(FileRef.Empty, sys.empty<DisasmLineBlock>());
         }

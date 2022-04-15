@@ -17,11 +17,19 @@ namespace Z0
             return doc(context, file, summarize(context, file));
         }
 
+        public static Index<DisasmDetailDoc> docs(WsContext context)
+        {
+            var files = context.Files(FileKind.XedRawDisasm);
+            var dst = bag<DisasmDetailDoc>();
+            iter(files, file => dst.Add(doc(context,file)), true);
+            return dst.Array();
+        }
+
         static DisasmDetailDoc doc(WsContext context, in DisasmFile file, DisasmSummaryDoc summary)
         {
             var dst = bag<DetailBlock>();
             blocks(context, summary, file, dst).Require();
-            return DisasmDetailDoc.from(file, dst.ToArray().Sort());
+            return new (file, dst.ToArray().Sort());
         }
 
         static DisasmSummaryDoc summarize(WsContext context, in DisasmFile file)

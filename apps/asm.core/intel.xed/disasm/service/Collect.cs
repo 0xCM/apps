@@ -23,7 +23,7 @@ namespace Z0
 
         static Index<DisasmSummary> summarize(ConcurrentDictionary<FileRef,DisasmDetailDoc> src)
         {
-            var dst = map(src.Values, v => map(v.View, x => x.Block.Summary)).SelectMany(x => x).Sort();
+            var dst = map(src.Values, v => map(v.Blocks, x => x.Block.Summary)).SelectMany(x => x).Sort();
             for(var i=0u; i<dst.Length; i++)
                 seek(dst,i).Seq = i;
             return dst;

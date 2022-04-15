@@ -81,6 +81,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator DisasmOpDetail[](DisasmOpDetails src)
                 => src.Storage;
+
+            public static DisasmOpDetails Empty => new DisasmOpDetails(sys.empty<DisasmOpDetail>());
         }
     }
 }

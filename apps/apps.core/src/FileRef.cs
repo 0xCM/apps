@@ -5,24 +5,27 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-    public struct FileRef : IComparable<FileRef>, ISequential
+    public readonly struct FileRef : IComparable<FileRef>
     {
         public const string TableId = "files.index";
 
         public const byte FieldCount = 4;
 
-        public Hex32 DocId;
+        public readonly uint Seq;
 
-        public FileKind Kind;
+        public readonly Hex32 DocId;
 
-        public Timestamp Timestamp;
+        public readonly FileKind Kind;
 
-        public FS.FilePath Path;
+        public readonly Timestamp Timestamp;
+
+        public readonly FS.FilePath Path;
 
         [MethodImpl(Inline)]
-        public FileRef(uint id, FileKind kind, FS.FilePath path)
+        public FileRef(uint seq, uint docid, FileKind kind, FS.FilePath path)
         {
-            DocId = id;
+            Seq = seq;
+            DocId = docid;
             Kind = kind;
             Timestamp = path.Timestamp;
             Path = path;
@@ -57,9 +60,6 @@ namespace Z0
 
         public override string ToString()
             => Format();
-
-        uint ISequential.Seq
-            => DocId;
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,16,24,1};
 

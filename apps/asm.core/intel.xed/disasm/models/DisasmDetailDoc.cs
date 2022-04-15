@@ -6,27 +6,42 @@ namespace Z0
 {
     using static XedDisasm;
 
-    public class DisasmDetailDoc : TableDoc<DetailBlock>
+    public class DisasmDetailDoc
     {
-        public static DisasmDetailDoc from(DisasmFile file, DetailBlock[] data)
-            => new(file,data);
+        public readonly DisasmFile File;
 
+        public readonly Index<DetailBlock> Blocks;
+
+        [MethodImpl(Inline)]
         public DisasmDetailDoc(DisasmFile file, DetailBlock[] data)
-            : base(file.Source.Path, data)
         {
             File = file;
+            Blocks = data;
         }
 
-        public readonly DisasmFile File;
+        public ref DetailBlock this[int i]
+        {
+            [MethodImpl(Inline)]
+            get => ref Blocks[i];
+        }
+
+        public ref DetailBlock this[uint i]
+        {
+            [MethodImpl(Inline)]
+            get => ref Blocks[i];
+        }
+
+        public FS.FilePath Path
+        {
+            [MethodImpl(Inline)]
+            get => File.Source.Path;
+        }
 
         public uint Count
         {
             [MethodImpl(Inline)]
-            get => RowCount;
+            get => Blocks.Count;
         }
-
-        public DisasmDetailDoc WithRows(DetailBlock[] src)
-            => new DisasmDetailDoc(File, src);
 
         public static DisasmDetailDoc Empty => new DisasmDetailDoc(DisasmFile.Empty, sys.empty<DetailBlock>());
     }

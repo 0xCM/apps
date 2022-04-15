@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static core;
-    using static XedRules;
-    using static XedModels;
 
     public partial class XedDisasm
     {
@@ -34,7 +30,7 @@ namespace Z0
             static ConstLookup<DisasmDetailDoc,Index<DetailBlockRow>> resequence(ConstLookup<FileRef,DisasmDetailDoc> src)
             {
                 var buffer = cdict<DisasmDetailDoc,Index<DetailBlockRow>>();
-                var kvp = core.map(src.Values, doc => (doc, details: doc.View.ToArray().Select(x => x.Detail)));
+                var kvp = core.map(src.Values, doc => (doc, details: doc.Blocks.ToArray().Select(x => x.Detail)));
                 for(var j=0; j<kvp.Length; j++)
                 {
                     ref var details = ref seek(kvp,j).details;

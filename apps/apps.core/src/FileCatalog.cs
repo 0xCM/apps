@@ -19,12 +19,6 @@ namespace Z0
         public static ReadOnlySpan<FileKind> KnownKinds()
             => _FileKinds;
 
-        int FileId;
-
-        [MethodImpl(Inline)]
-        uint NextId()
-            => (uint)inc(ref FileId);
-
         readonly PllMap<uint,FileRef> IdMap;
 
         readonly PllMap<FileRef,uint> PathMap;
@@ -34,13 +28,12 @@ namespace Z0
         public void Include(IProjectWs project)
         {
             var src = project.ProjectFiles().Storage.Sort();
-            var id = NextId();
             var count = src.Length;
-            for(var i=0; i<count; i++)
+            for(var i=0u; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
                 var hash = alg.hash.marvin(path.ToUri().Format());
-                var file = new FileRef(hash, Match(path), path);
+                var file = new FileRef(i, hash, Match(path), path);
                 IdMap.Include(PathMap.Include(file, _ => file.DocId), file);
                 PathRefs.Include(path, file);
             }

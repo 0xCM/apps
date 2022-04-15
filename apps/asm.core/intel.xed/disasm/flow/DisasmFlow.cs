@@ -47,7 +47,7 @@ namespace Z0
                 if(token.IsNonEmpty)
                 {
                     var doc = XedDisasm.doc(Context,src);
-                    var lookup = doc.View.Select(x => (x.Detail.IP, x)).ToDictionary();
+                    var lookup = doc.Blocks.Select(x => (x.Detail.IP, x)).ToDictionary();
                     var keys = lookup.Keys.Array().Sort();
                     var blocks = alloc<DetailBlock>(keys.Length);
                     for(var i=0u; i<keys.Length; i++)
@@ -61,11 +61,6 @@ namespace Z0
 
                     for(var i=0u; i<blocks.Length; i++)
                         Step(i,skip(blocks,i));
-
-                    // var blocks = doc.View.ToArray().Sort();
-                    // for(var i=0u; i<blocks.Length; i++)
-                    //     seek(blocks,i).Detail.Seq = i;
-
 
                     Target.Finished(token);
                 }
@@ -93,7 +88,7 @@ namespace Z0
                 Target.Computed(seq, props);
 
                 var fields = XedFields.fields();
-                XedDisasm.fields(lines, props, fields, false);
+                XedDisasm.fields(props, fields, false);
                 Target.Computed(seq, fields);
 
                 var kinds = fields.MemberKinds();
