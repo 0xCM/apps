@@ -24,7 +24,6 @@ namespace Z0
             for(var i=0u; i<rows.Length; i++)
                 seek(rows,i).Seq = i;
             TableEmit(@readonly(rows), AsmSyntaxRow.RenderWidths, dst);
-            context.Receiver.Collected(rows);
             return rows;
         }
 

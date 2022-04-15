@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
     using llvm;
 
-    public sealed partial class AsmCmdProvider : AppCmdProvider<AsmCmdProvider>, IProjectConsumer<AsmCmdProvider>
+    public sealed partial class AsmCmdProvider : AppCmdProvider<AsmCmdProvider>, IProjectConsumer<AsmCmdProvider>, IProjectProvider
     {
         AsmRegSets Regs => Service(AsmRegSets.create);
 
@@ -45,7 +45,16 @@ namespace Z0
             return this;
         }
 
-        IProjectWs Project()
+        public IProjectWs Project()
             => _ProjectProvider.Project();
+
+        // IProjectWs IProjectProvider.Project()
+        // {
+        //     throw new NotImplementedException();
+        // }
+
+        public IProjectWs Project(ProjectId id)
+            => _ProjectProvider.Project(id);
+
     }
 }

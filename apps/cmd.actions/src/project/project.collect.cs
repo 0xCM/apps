@@ -12,7 +12,7 @@ namespace Z0
         Outcome Collect(CmdArgs args)
         {
             var project = Project();
-            var data = ProjectData.Collect(project);
+            ProjectData.Collect(this, project);
             return true;
         }
 

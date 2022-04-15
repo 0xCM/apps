@@ -10,60 +10,21 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public static void check(WsContext context, in FileRef src, IDisasmTarget dst)
-        {
-            var doc = XedDisasm.doc(context, src);
-            var details = doc.View.ToArray().Select(x => x.Detail).Sort();
-            for(var i=0u; i<details.Length; i++)
-                seek(details,i).Seq = i;
-
-            var token = dst.Starting(src);
-            for(var i=0u; i<doc.Count; i++)
-            {
-                ref readonly var block = ref doc[i];
-                dst.Computed(i,block);
-                check(i, doc[i], dst);
-            }
-            dst.Finished(token);
-        }
-
-        static void check(uint i, in DetailBlock block, IDisasmTarget dst)
-        {
-            var fields = XedFields.fields();
-            var state = RuleState.Empty;
-            DisasmParse.parse(block.Lines, out XDis xdis).Require();
-            dst.Computed(i,xdis);
-            DisasmParse.parse(block.Lines, out DisasmProps props);
-            dst.Computed(i,props);
-
-            XedDisasm.fields(block.Lines, props, fields);
-            dst.Computed(i,fields);
-
-            var kinds = fields.MemberKinds();
-            XedState.Edit.fields(fields, kinds, ref state);
-            dst.Computed(i,state);
-
-            var encoding = XedState.Code.encoding(state, block.Encoded);
-            dst.Computed(i,encoding);
-        }
-
         public ref struct DisasmFlow
         {
-            public static DisasmFlow init(WsContext context, IDisasmTarget dst)
-                => new DisasmFlow(context,dst);
-
             public static void run(IAppService svc, WsContext context)
             {
-                var files = context.Files(FileKind.XedRawDisasm).Sort();
-                void exec(int i, FileRef src)
-                {
-                    var target = DisasmTarget.create(svc, context);
-                    var flow = DisasmFlow.init(context, target);
-                    flow.Run(src);
-                }
-
+                var files = context.Files(FileKind.XedRawDisasm);
                 iteri(files.Storage, (i,file) => exec(i,file), true);
+                void exec(int i, in FileRef src)
+                    => run(svc, context, src.DocId, src);
             }
+
+            public static void run(IAppService svc, WsContext context, Hex32 docid, in FileRef src)
+                => init(svc,context).Run(docid,src);
+
+            static DisasmFlow init(IAppService svc, WsContext context)
+                => new DisasmFlow(context, DisasmTarget.create(svc,context));
 
             readonly WsContext Context;
 
@@ -73,39 +34,49 @@ namespace Z0
             {
                 Context = context;
                 Target = dst;
-                State = RuleState.Empty;
-                Fields = XedFields.fields();
-                XDis = XDis.Empty;
-                Props = DisasmProps.Empty;
-                Encoding = EncodingExtract.Empty;
             }
-
-            RuleState State;
-
-            Fields Fields;
-
-            XDis XDis;
-
-            DisasmProps Props;
-
-            EncodingExtract Encoding;
 
             public void Dispose()
             {
 
             }
 
-            void Clear()
+            public void Run(Hex32 docid, FileRef src)
             {
-                State = RuleState.Empty;
-                XDis = XDis.Empty;
-                Props = DisasmProps.Empty;
-                Encoding = EncodingExtract.Empty;
-                Fields.Clear();
+                var token = Target.Starting(src);
+                if(token.IsNonEmpty)
+                {
+                    var doc = XedDisasm.doc(Context,src);
+                    var lookup = doc.View.Select(x => (x.Detail.IP, x)).ToDictionary();
+                    var keys = lookup.Keys.Array().Sort();
+                    var blocks = alloc<DetailBlock>(keys.Length);
+                    for(var i=0u; i<keys.Length; i++)
+                    {
+                        ref readonly var ip = ref skip(keys,i);
+                        var srcBlock = lookup[ip];
+                        ref var detail = ref srcBlock.Detail;
+                        detail.Seq = i;
+                        seek(blocks,i) = srcBlock.WithRow(detail);
+                    }
+
+                    for(var i=0u; i<blocks.Length; i++)
+                        Step(i,skip(blocks,i));
+
+                    // var blocks = doc.View.ToArray().Sort();
+                    // for(var i=0u; i<blocks.Length; i++)
+                    //     seek(blocks,i).Detail.Seq = i;
+
+
+                    Target.Finished(token);
+                }
             }
 
-            ReadOnlySpan<FieldKind> Step(uint seq, in DetailBlock src)
+            void Step(uint seq, in DetailBlock src)
             {
+                Target.Computed(seq, src);
+
+                ref readonly var detail = ref src.Detail;
+
                 ref readonly var block = ref src.Block;
                 ref readonly var lines = ref block.Lines;
                 ref readonly var summary = ref block.Summary;
@@ -113,47 +84,27 @@ namespace Z0
                 ref readonly var asmtxt = ref summary.Asm;
                 ref readonly var ip = ref summary.IP;
 
-                DisasmParse.parse(lines, out XDis).Require();
-                Target.Computed(seq, XDis);
+                var xdis = XDis.Empty;
+                DisasmParse.parse(lines, out xdis).Require();
+                Target.Computed(seq, xdis);
 
-                DisasmParse.parse(lines, out Props);
-                Target.Computed(seq, Props);
+                var props = DisasmProps.Empty;
+                DisasmParse.parse(lines, out props);
+                Target.Computed(seq, props);
 
-                XedDisasm.fields(lines, Props, Fields, false);
-                Target.Computed(seq, Fields);
+                var fields = XedFields.fields();
+                XedDisasm.fields(lines, props, fields, false);
+                Target.Computed(seq, fields);
 
-                var kinds = Fields.MemberKinds();
+                var kinds = fields.MemberKinds();
                 Target.Computed(seq, kinds);
 
-                XedState.Edit.fields(Fields, kinds, ref State);
-                Target.Computed(seq, State);
+                var state = RuleState.Empty;
+                XedState.Edit.fields(fields, kinds, ref state);
+                Target.Computed(seq, state);
 
-                Encoding = XedState.Code.encoding(State, asmhex);
-                Target.Computed(seq, Encoding);
-
-                return kinds;
-            }
-
-            public void Run(in FileRef src)
-            {
-                var token = Target.Starting(src);
-                if(token.IsNonEmpty)
-                {
-                    var doc = XedDisasm.doc(Context,src);
-                    var details = doc.View.ToArray().Select(x => x.Detail).Sort();
-                    for(var i=0u; i<details.Length; i++)
-                        seek(details,i).Seq = i;
-
-                    for(var i=0u; i<doc.Count; i++)
-                    {
-                        Clear();
-                        ref readonly var block = ref doc[i];
-                        Target.Computed(i, block);
-                        Step(i, block);
-                    }
-
-                    Target.Finished(token);
-                }
+                var encoding = XedState.Code.encoding(state, asmhex);
+                Target.Computed(seq, encoding);
             }
         }
     }

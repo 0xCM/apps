@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
     using static core;
     using static XedDisasm;
 
@@ -20,6 +19,9 @@ namespace Z0
             TableEmit(summarize(dst).View, DisasmSummary.RenderWidths, Projects.Table<DisasmSummary>(context.Project));
             EmitDetails(dst, Projects.Table<DetailBlockRow>(context.Project));
             EmitFields(context);
+
+            DisasmFlow.run(this, context);
+
         }
 
         static Index<DisasmSummary> summarize(ConcurrentDictionary<FileRef,DisasmDetailDoc> src)

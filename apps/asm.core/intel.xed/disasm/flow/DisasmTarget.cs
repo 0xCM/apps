@@ -7,6 +7,7 @@ namespace Z0
 {
     using static core;
     using static XedRules;
+    using K = XedRules.FieldKind;
 
     partial class XedDisasm
     {
@@ -18,9 +19,12 @@ namespace Z0
 
             int Counter;
 
+            HashSet<FieldKind> Exclusions;
+
             public DisasmTarget()
             {
                 Counter = 0;
+                Exclusions = core.hashset(K.TZCNT,K.LZCNT,K.MAX_BYTES);
             }
 
             void Append(uint seq, string src)
@@ -110,32 +114,36 @@ namespace Z0
             {
                 var dst = text.buffer();
 
-                dst.AppendLine(RP.PageBreak80);
-
                 for(var i=0; i<fields.Length; i++)
                 {
+                    ref readonly var kind = ref skip(fields,i);
+                    if(Exclusions.Contains(kind))
+                        continue;
+
                     var cell = XedState.cell(state, skip(fields,i));
                     dst.AppendLineFormat("{0,-24} | {1}", cell.Field, cell.Format());
                     inc(ref Counter);
                 }
-                dst.AppendLine(RP.PageBreak80);
 
                 Append(seq, dst.Emit());
             }
 
             void StateComputed(uint seq)
             {
-                Buffer.State(seq,StateComputed);
+                Buffer.State(seq, StateComputed);
             }
 
             void XDisComputed(uint seq)
             {
                 ref readonly var value = ref Buffer.XDis;
                 var dst = text.buffer();
+                dst.AppendLine(RP.PageBreak80);
+
+                dst.AppendLineFormat("{0,-24} | {1}", "Seq", seq);
+                dst.AppendLineFormat("{0,-24} | {1}", nameof(value.IP), value.IP);
                 dst.AppendLineFormat("{0,-24} | {1}", nameof(value.Asm), value.Asm);
                 dst.AppendLineFormat("{0,-24} | {1}", nameof(value.Category), value.Category);
                 dst.AppendLineFormat("{0,-24} | {1}", nameof(value.Extension), value.Extension);
-                dst.AppendLineFormat("{0,-24} | {1}", nameof(value.IP), value.IP);
                 dst.AppendLineFormat("{0,-24} | {1}", nameof(value.Encoded), value.Encoded);
                 Append(seq, dst.Emit());
             }

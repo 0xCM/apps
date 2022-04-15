@@ -14,7 +14,7 @@ namespace Z0
     {
         public class DetailBlock : IComparable<DetailBlock>
         {
-            public readonly DetailBlockRow Detail;
+            public DetailBlockRow Detail;
 
             public readonly DisasmSummaryLines Block;
 
@@ -24,6 +24,9 @@ namespace Z0
                 Detail = detail;
                 Block = block;
             }
+
+            public DetailBlock WithRow(in DetailBlockRow src)
+                => new DetailBlock(src,Block);
 
             public ref readonly DisasmSummary Summary
             {

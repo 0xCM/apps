@@ -25,6 +25,9 @@ namespace Z0
             get => RowCount;
         }
 
+        public DisasmDetailDoc WithRows(DetailBlock[] src)
+            => new DisasmDetailDoc(File, src);
+
         public static DisasmDetailDoc Empty => new DisasmDetailDoc(DisasmFile.Empty, sys.empty<DetailBlock>());
     }
 }

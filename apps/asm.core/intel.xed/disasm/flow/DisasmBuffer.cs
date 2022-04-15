@@ -35,9 +35,7 @@ namespace Z0
             public void State(uint seq, StateReceiver receiver)
             {
                 lock(StateLock)
-                {
                     receiver(seq,_State, slice(_FieldKinds.View, 0, FieldCount));
-                }
             }
 
             public XDis XDis;

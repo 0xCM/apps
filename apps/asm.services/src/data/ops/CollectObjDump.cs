@@ -15,7 +15,6 @@ namespace Z0
             var rows = ConsolidateObjDumpRows(context);
             var blocks = CalcObjBlocks(rows);
             TableEmit(blocks.View, ObjBlock.RenderWidths, Projects.ObjBlockPath(context.Project));
-            context.Receiver.Collected(blocks);
             using var alloc = Alloc.allocate();
             var asmblocks = EmitAsmCodeBlocks(context, alloc);
             Projects.RecodedSrcDir(context.Project).Clear();
@@ -182,7 +181,6 @@ namespace Z0
                 seek(data,i).Seq = i;
 
             TableEmit(@readonly(data), ObjDumpRow.RenderWidths, TextEncodingKind.Asci, Projects.Table<ObjDumpRow>(project));
-            context.Receiver.Collected(data);
             return data;
         }
     }

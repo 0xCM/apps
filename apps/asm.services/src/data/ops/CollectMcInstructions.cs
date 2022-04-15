@@ -45,7 +45,6 @@ namespace Z0
 
             var records = buffer.ToArray();
             TableEmit(@readonly(records), AsmInstructionRow.RenderWidths, Projects.AsmInstructionTable(project));
-            context.Receiver.Collected(records);
             return records;
         }
     }

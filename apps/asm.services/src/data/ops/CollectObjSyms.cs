@@ -39,7 +39,7 @@ namespace Z0
 
             var rows = buffer.ToArray();
             TableEmit(@readonly(rows), ObjSymRow.RenderWidths, ProjectDb.ProjectTable<ObjSymRow>(project));
-            context.Receiver.Collected(rows);
+            //context.Receiver.Collected(rows);
             return rows;
         }
 
