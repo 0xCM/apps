@@ -20,7 +20,7 @@ namespace Z0
             EmitDetails(dst, Projects.Table<DetailBlockRow>(context.Project));
             EmitFields(context);
 
-            DisasmFlow.run(this, context);
+            //DisasmFlow.run(this, context);
 
         }
 
