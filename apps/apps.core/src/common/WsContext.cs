@@ -8,8 +8,10 @@ namespace Z0
 
     public class WsContext
     {
-        public static WsContext create(IProjectWs project, WsDataFlows flows, WsEventReceiver receiver = null)
-            => new WsContext(project, flows, receiver);
+        public static WsContext create(IProjectProvider projects, IProjectWs project, WsDataFlows flows)
+            => new WsContext(projects, project, flows);
+
+        public IProjectProvider Projects {get;}
 
         public IProjectWs Project {get;}
 
@@ -17,15 +19,12 @@ namespace Z0
 
         public WsDataFlows Flows {get;}
 
-        public WsEventReceiver Receiver {get;}
-
-        WsContext(IProjectWs project, WsDataFlows flows, WsEventReceiver receiver = null)
+        WsContext(IProjectProvider projects, IProjectWs project, WsDataFlows flows)
         {
+            Projects = projects;
             Project = project;
             Catalog = flows.FileCatalog;
             Flows = flows;
-            Receiver = receiver ?? new();
-            Receiver.Initialized(this);
         }
 
         public Index<FileRef> Files(FileKind k)

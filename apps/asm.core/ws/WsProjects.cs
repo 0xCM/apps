@@ -5,7 +5,6 @@
 namespace Z0
 {
     using llvm;
-    using Asm;
 
     using static core;
     using static llvm.SubtargetKind;
@@ -50,10 +49,6 @@ namespace Z0
 
         FS.FilePath ProjectDataFile(IProjectWs project, FileKind kind)
             => ProjectData(project) + FS.file(project.Name.Format(), kind.Ext());
-
-        FS.FilePath Table<T>(IProjectWs project, string scope)
-            where T : struct
-                => ProjectData(project, scope) + FS.file(string.Format("{0}.{1}", project.Name, TableId.identify<T>()),FS.Csv);
 
         FS.FilePath ScriptFlowPath(IProjectWs project, ScriptId scriptid)
             => ProjectData(project) + Tables.filename<ToolCmdFlow>(scriptid);
@@ -131,8 +126,8 @@ namespace Z0
         public WsDataFlows LoadBuildFlowIndex(IProjectWs project)
             => WsDataFlows.create(FileCatalog.load(project), LoadBuildFlows(project));
 
-        public WsContext Context(IProjectWs project, WsEventReceiver receiver = null)
-            => WsContext.create(project, LoadBuildFlowIndex(project), receiver);
+        public WsContext Context(IProjectProvider provider, IProjectWs project)
+            => WsContext.create(provider, project, LoadBuildFlowIndex(project));
 
         public Outcome<Index<ToolCmdFlow>> BuildScoped(IProjectWs project, ScriptId script, string scope)
             => RunBuildScripts(project, script, scope, false);

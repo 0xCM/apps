@@ -10,10 +10,10 @@ namespace Z0
 
     partial class XedDisasm
     {
+        public delegate void StateReceiver(in RuleState state, Index<FieldKind> fields);
+
         public class DisasmBuffer
         {
-            public readonly DisasmToken Token;
-
             public readonly FileRef Source;
 
             public WfExecFlow<string> Flow;
@@ -24,13 +24,36 @@ namespace Z0
 
             public DisasmSummaryDoc Summary;
 
-            public RuleState State;
+            object StateLock = new();
+
+            RuleState _State;
+
+            [MethodImpl(Inline)]
+            public ref RuleState State()
+                => ref _State;
+
+            public void State(StateReceiver receiver)
+            {
+                lock(StateLock)
+                    receiver(_State,_FieldKinds);
+            }
 
             public XDis XDis;
 
-            public readonly Index<Field> StateFields;
+            readonly Index<Field> _StateFields;
 
-            public readonly Index<FieldKind> FieldKinds;
+            readonly Index<FieldKind> _FieldKinds;
+
+            public void Cache(ReadOnlySpan<FieldKind> src)
+            {
+                lock(StateLock)
+                {
+                    FieldCount = (uint)src.Length;
+                    for(var i=0; i<src.Length; i++)
+                        _FieldKinds[i] = skip(src,i);
+
+                }
+            }
 
             public uint FieldCount;
 
@@ -38,16 +61,15 @@ namespace Z0
 
             public EncodingExtract Encoding;
 
-            public DisasmBuffer(DisasmToken token, in FileRef src)
+            public DisasmBuffer(in FileRef src)
             {
-                Token = token;
                 Source = src;
-                StateFields = alloc<Field>(Fields.MaxCount);
-                FieldKinds = alloc<FieldKind>(Fields.MaxCount);
+                _StateFields = alloc<Field>(Fields.MaxCount);
+                _FieldKinds = alloc<FieldKind>(Fields.MaxCount);
                 File = DisasmFile.Empty;
                 Block = DetailBlock.Empty;
                 Summary = DisasmSummaryDoc.Empty;
-                State = RuleState.Empty;
+                _State = RuleState.Empty;
                 XDis = XDis.Empty;
                 Props = DisasmProps.Empty;
                 Encoding = EncodingExtract.Empty;

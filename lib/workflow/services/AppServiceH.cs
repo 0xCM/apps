@@ -261,7 +261,6 @@ namespace Z0
             }
         }
 
-
         protected uint TableEmit<T>(ReadOnlySpan<T> src, FS.FilePath dst)
             where T : struct
                 => TableOps.TableEmit(src,dst);

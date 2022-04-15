@@ -9,7 +9,7 @@ namespace Z0
         [CmdOp("xed/collect/fields")]
         Outcome XedDisasmFields(CmdArgs args)
         {
-            XedDisasmSvc.CollectFields(Projects.Context(Project()));
+            XedDisasmSvc.CollectFields(Context());
             return true;
         }
     }

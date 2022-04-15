@@ -8,9 +8,6 @@ namespace Z0
 
     public partial class XedCmdProvider : AppCmdService<XedCmdProvider,CmdShellState>, IProjectConsumer<XedCmdProvider>
     {
-        FS.FilePath XedQueryOut(string id)
-            => ProjectDb.Subdir("xed/queries") + FS.file(text.replace(id, Chars.FSlash,Chars.Dot), FS.Csv);
-
         IntelXed Xed => Service(Wf.IntelXed);
 
         XedDisasmSvc Disasm => Service(Wf.XedDisasm);
@@ -31,6 +28,10 @@ namespace Z0
 
         IProjectProvider _ProjectProvider;
 
+        [MethodImpl(Inline)]
+        IProjectProvider ProjectProvider()
+            => _ProjectProvider;
+
         public XedCmdProvider With(IProjectProvider provider)
         {
             _ProjectProvider = provider;
@@ -38,10 +39,10 @@ namespace Z0
         }
 
         IProjectWs Project()
-            => _ProjectProvider.Project();
+            => ProjectProvider().Project();
 
         WsContext Context()
-            => Projects.Context(Project());
+            => Projects.Context(ProjectProvider(), Project());
 
         [MethodImpl(Inline)]
         public IProjectWs Project(ProjectId id)

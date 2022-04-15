@@ -24,9 +24,7 @@ namespace Z0
         public CoffSymIndex Collect(WsContext context)
         {
             CollectObjHex(context);
-            var index = CollectSymIndex(context);
-            context.Receiver.Collected(index);
-            return index;
+            return CollectSymIndex(context);
         }
 
         public CoffSymIndex CollectSymIndex(WsContext context)

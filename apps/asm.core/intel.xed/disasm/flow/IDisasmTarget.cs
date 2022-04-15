@@ -13,23 +13,23 @@ namespace Z0
         {
             DisasmToken Starting(in FileRef src);
 
-            Task Computed(DisasmToken token, in DisasmFile src);
+            Task Computed(in DisasmFile src);
 
-            Task Computed(DisasmToken token, in DetailBlock src);
+            Task Computed(in DisasmSummaryDoc src);
 
-            Task Computed(DisasmToken token, in DisasmSummaryDoc src);
+            Task Computed(uint seq, in DetailBlock src);
 
-            Task Computed(DisasmToken token, in RuleState src);
+            Task Computed(uint seq, in RuleState src);
 
-            Task Computed(DisasmToken token, in XDis src);
+            Task Computed(uint seq, in XDis src);
 
-            Task Computed(DisasmToken token, in Fields src);
+            Task Computed(uint seq, in Fields src);
 
-            Task Computed(DisasmToken token, ReadOnlySpan<FieldKind> src);
+            Task Computed(uint seq, ReadOnlySpan<FieldKind> src);
 
-            Task Computed(DisasmToken token, in EncodingExtract src);
+            Task Computed(uint seq, in EncodingExtract src);
 
-            Task Computed(DisasmToken token, in DisasmProps src);
+            Task Computed(uint seq, in DisasmProps src);
 
             void Finished(DisasmToken token);
         }

@@ -9,7 +9,7 @@ namespace Z0
         [CmdOp("xed/collect")]
         Outcome XedCollect(CmdArgs args)
         {
-            XedDisasmSvc.Collect(Projects.Context(Project()));
+            XedDisasmSvc.Collect(Context());
             return true;
         }
     }

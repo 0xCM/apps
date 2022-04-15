@@ -14,9 +14,13 @@ namespace Z0
         {
             DisasmBuffer Buffer;
 
+            readonly XedPaths XedPaths;
+
+            FS.FilePath OutputPath;
+
             public DisasmTarget()
             {
-
+                XedPaths = XedPaths.Service;
             }
 
             long Tokens;
@@ -24,7 +28,7 @@ namespace Z0
             public DisasmToken Starting(in FileRef src)
             {
                 DisasmToken token = (uint)inc(ref Tokens);
-                Buffer = new(token,src);
+                Buffer = new(src);
                 ProcessingFile(token);
                 return token;
             }
@@ -34,61 +38,57 @@ namespace Z0
                 Ran(Buffer.Flow, $"Processed {Buffer.Source}");
             }
 
-            public Task Computed(DisasmToken token, in DisasmFile src)
+            public Task Computed(in DisasmFile src)
             {
                 Buffer.File = src;
-                return run(() => FileComputed(token));
+                return run(() => FileComputed());
             }
 
-            public Task Computed(DisasmToken token, in DetailBlock src)
+            public Task Computed(uint seq, in DetailBlock src)
             {
                 Buffer.Block = src;
-                return run(() => BlockComputed(token));
+                return run(() => BlockComputed(seq));
             }
 
-            public Task Computed(DisasmToken token, in DisasmSummaryDoc src)
+            public Task Computed(in DisasmSummaryDoc src)
             {
                 Buffer.Summary = src;
-                return run(() => SummaryComputed(token));
+                return run(() => SummaryComputed());
             }
 
-            public Task Computed(DisasmToken token, in RuleState src)
+            public Task Computed(uint seq, in RuleState src)
             {
-                Buffer.State = src;
-                return run(() => StateComputed(token));
+                Buffer.State() = src;
+                return run(() => StateComputed(seq));
             }
 
-            public Task Computed(DisasmToken token, in XDis src)
+            public Task Computed(uint seq, in XDis src)
             {
                 Buffer.XDis = src;
-                return run(() => XDisComputed(token));
+                return run(() => XDisComputed(seq));
             }
 
-            public Task Computed(DisasmToken token, in DisasmProps src)
+            public Task Computed(uint seq, in DisasmProps src)
             {
                 Buffer.Props = src;
-                return run(() => PropsComputed(token));
+                return run(() => PropsComputed(seq));
             }
 
-            public Task Computed(DisasmToken token, in Fields src)
+            public Task Computed(uint seq, in Fields src)
             {
-                return run(() => FieldsComputed(token));
+                return run(() => FieldsComputed(seq));
             }
 
-            public Task Computed(DisasmToken token, in EncodingExtract src)
+            public Task Computed(uint seq, in EncodingExtract src)
             {
                 Buffer.Encoding = src;
-                return run(() => EncodingComputed(token));
+                return run(() => EncodingComputed(seq));
             }
 
-            public Task Computed(DisasmToken token, ReadOnlySpan<FieldKind> src)
+            public Task Computed(uint seq, ReadOnlySpan<FieldKind> src)
             {
-                var buffer = Buffer;
-                buffer.FieldCount = (uint)src.Length;
-                for(var i=0; i<src.Length; i++)
-                    buffer.FieldKinds[i] = skip(src,i);
-
-                return run(() => KindsComputed(token));
+                Buffer.Cache(src);
+                return run(() => KindsComputed(seq));
             }
 
             void ProcessingFile(DisasmToken token)
@@ -96,49 +96,55 @@ namespace Z0
                 Buffer.Flow = Running($"Processing {Buffer.Source}");
             }
 
-            void FieldsComputed(DisasmToken token)
-            {
-
-            }
-
-            void FileComputed(DisasmToken token)
+            void FileComputed()
             {
                 ref readonly var value = ref Buffer.File;
             }
 
-            void BlockComputed(DisasmToken token)
-            {
-                ref readonly var value = ref Buffer.Block;
-            }
-
-            void SummaryComputed(DisasmToken token)
+            void SummaryComputed()
             {
                 ref readonly var value = ref Buffer.Summary;
             }
 
-            void StateComputed(DisasmToken token)
+            void BlockComputed(uint seq)
             {
-                ref readonly var state = ref Buffer.State;
-                ref readonly var fields = ref Buffer.FieldKinds;
-                for(var i=0; i<fields.Count; i++)
-                {
-                    var cell = XedState.cell(state,fields[i]);
-                }
+                ref readonly var value = ref Buffer.Block;
             }
 
-            void XDisComputed(DisasmToken token)
+            void StateComputed(in RuleState state, Index<FieldKind> fields)
+            {
+                var dst = text.buffer();
+                for(var i=0; i<fields.Count; i++)
+                {
+                    ref readonly var field = ref fields[i];
+                    var cell = XedState.cell(state, field);
+                    dst.AppendLineFormat("{0,-8} | {1,-22} | {2}", i, field, cell);
+                }
+                dst.AppendLine(RP.PageBreak80);
+            }
+
+            void StateComputed(uint seq)
+            {
+                Buffer.State(StateComputed);
+            }
+
+            void XDisComputed(uint seq)
             {
                 ref readonly var value = ref Buffer.XDis;
             }
 
-            void PropsComputed(DisasmToken token)
+            void FieldsComputed(uint seq)
+            {
+
+            }
+
+            void PropsComputed(uint seq)
             {
                 ref readonly var value = ref Buffer.Props;
             }
 
-            void KindsComputed(DisasmToken token)
+            void KindsComputed(uint seq)
             {
-                ref readonly var value = ref Buffer.FieldKinds;
 
             }
 

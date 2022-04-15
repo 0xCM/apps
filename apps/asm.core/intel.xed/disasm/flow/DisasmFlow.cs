@@ -74,6 +74,12 @@ namespace Z0
 
             EncodingExtract Encoding;
 
+            IProjectWs Project
+            {
+                [MethodImpl(Inline)]
+                get => Context.Project;
+            }
+
             public void Dispose()
             {
 
@@ -88,7 +94,7 @@ namespace Z0
                 Fields.Clear();
             }
 
-            ReadOnlySpan<FieldKind> Step(DisasmToken token, in DetailBlock src)
+            ReadOnlySpan<FieldKind> Step(uint seq, in DetailBlock src)
             {
                 ref readonly var block = ref src.Block;
                 ref readonly var lines = ref block.Lines;
@@ -98,22 +104,22 @@ namespace Z0
                 ref readonly var ip = ref summary.IP;
 
                 DisasmParse.parse(lines.XDis.Content, out XDis).Require();
-                Target.Computed(token, XDis);
+                Target.Computed(seq, XDis);
 
                 DisasmParse.parse(lines, out Props);
-                Target.Computed(token, Props);
+                Target.Computed(seq, Props);
 
                 XedDisasm.fields(lines, Props, Fields, false);
-                Target.Computed(token, Fields);
+                Target.Computed(seq, Fields);
 
                 var kinds = Fields.MemberKinds();
-                Target.Computed(token, kinds);
+                Target.Computed(seq, kinds);
 
                 XedState.Edit.fields(Fields, kinds, ref State);
-                Target.Computed(token, State);
+                Target.Computed(seq, State);
 
                 Encoding = XedState.Code.encoding(State, asmhex);
-                Target.Computed(token, Encoding);
+                Target.Computed(seq, Encoding);
 
                 return kinds;
             }
@@ -124,10 +130,10 @@ namespace Z0
                 if(token.IsNonEmpty)
                 {
                     var file = XedDisasm.loadfile(src);
-                    Target.Computed(token, file);
+                    Target.Computed(file);
 
                     var summary = XedDisasm.summarize(Context, file);
-                    Target.Computed(token, summary);
+                    Target.Computed(summary);
                     var doc = CalcDetailDoc(Context, file, summary);
                     var details = doc.View.ToArray().Select(x => x.Detail).Sort();
                     for(var i=0u; i<details.Length; i++)
@@ -137,8 +143,8 @@ namespace Z0
                     {
                         Clear();
                         ref readonly var block = ref doc[i];
-                        Target.Computed(token, block);
-                        Step(token.Branch(i), block);
+                        Target.Computed(i, block);
+                        Step(i, block);
                     }
 
                     Target.Finished(token);

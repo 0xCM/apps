@@ -11,6 +11,7 @@ namespace Z0
         protected override void Initialized()
         {
             Root = ProjectDb.Root;
+
         }
 
         public FS.FolderPath Api()
