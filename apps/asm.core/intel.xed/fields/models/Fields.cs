@@ -58,9 +58,6 @@ namespace Z0
                 return slice(Kinds,0, count);
             }
 
-            public uint Members(Span<FieldKind> dst)
-                => Members().Members(dst);
-
             public ref Field this[uint index]
             {
                 [MethodImpl(Inline)]

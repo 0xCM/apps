@@ -17,12 +17,6 @@ namespace Z0
             return ref dst;
         }
 
-        [MethodImpl(Inline), Op]
-        public static ref BCastKind value(Field src, out BCastKind dst)
-        {
-            dst = src;
-            return ref dst;
-        }
 
         [MethodImpl(Inline), Op]
         public static ref Register value(Field src, out Register dst)
@@ -52,11 +46,5 @@ namespace Z0
             return ref dst;
         }
 
-        [MethodImpl(Inline), Op]
-        public static ref uint value(Field src, out uint dst)
-        {
-            dst = src;
-            return ref dst;
-        }
     }
 }

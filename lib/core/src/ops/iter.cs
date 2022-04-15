@@ -7,6 +7,23 @@ namespace Z0
     partial struct core
     {
         /// <summary>
+        /// Applies an action to the sequence of integers min,min+1,...,max - 1
+        /// </summary>
+        /// <param name="min">The inclusive lower bound of the sequence</param>
+        /// <param name="max">The non-inclusive upper bound of the sequence
+        /// over intergers over which iteration will occur</param>
+        /// <param name="f">The action to be applied to each  value</param>
+        [MethodImpl(Inline), Op]
+        public static void iter<T>(Pair<T> src, Action<T> f)
+            where T : unmanaged
+        {
+            var min = bw64(src.Left);
+            var max = bw64(src.Right);
+            for(var i=min; i<max; i++)
+                f(@as<T>(i));
+        }
+
+        /// <summary>
         /// Iterates over the supplied items, invoking a receiver for each
         /// </summary>
         /// <param name="src">The source items</param>

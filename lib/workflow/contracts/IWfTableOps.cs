@@ -5,14 +5,9 @@
 namespace Z0
 {
     using System.IO;
-    using System.Text;
 
     public interface IWfTableOps : IWfMessaging
     {
-        ExecToken EmittedTable<T>(WfTableFlow<T> flow, Count count, FS.FilePath? dst = null)
-            where T : struct
-                => Wf.EmittedTable(HostType, flow,count, dst);
-
         uint TableEmit<T>(ReadOnlySpan<T> src, FS.FilePath dst)
             where T : struct
         {

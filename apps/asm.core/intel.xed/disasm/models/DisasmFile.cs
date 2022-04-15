@@ -20,6 +20,12 @@ namespace Z0
                 Lines = lines;
             }
 
+            public Hex32 DocId
+            {
+                [MethodImpl(Inline)]
+                get => Source.DocId;
+            }
+
             public uint LineCount
             {
                 [MethodImpl(Inline)]

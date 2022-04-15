@@ -32,6 +32,15 @@ namespace Z0
         void Error<T>(T content)
             => Wf.Error(HostType,  core.require(content));
 
+        void Write<T>(T content)
+            => Wf.Row(content, null);
+
+        void Write<T>(T content, FlairKind flair)
+            => Wf.Row(content, flair);
+
+        void Write<T>(string name, T value, FlairKind? flair = null)
+            => Wf.Row(RP.attrib(name, value), flair);
+
         WfExecFlow<T> Running<T>(T msg)
             => Wf.Running(HostType, msg);
 
@@ -57,13 +66,8 @@ namespace Z0
             where T : struct
                 => Wf.EmittingTable<T>(HostType, dst);
 
-        void Write<T>(T content)
-            => Wf.Row(content, null);
-
-        void Write<T>(T content, FlairKind flair)
-            => Wf.Row(content, flair);
-
-        void Write<T>(string name, T value, FlairKind? flair = null)
-            => Wf.Row(RP.attrib(name, value), flair);
+        ExecToken EmittedTable<T>(WfTableFlow<T> flow, Count count, FS.FilePath? dst = null)
+            where T : struct
+                => Wf.EmittedTable(HostType, flow,count, dst);
     }
 }

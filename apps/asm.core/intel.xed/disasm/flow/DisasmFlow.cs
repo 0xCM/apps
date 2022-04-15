@@ -33,14 +33,27 @@ namespace Z0
 
         public ref struct DisasmFlow
         {
-            public static DisasmFlow init(WsContext context, IXedDisasmTarget dst)
+            public static DisasmFlow init(WsContext context, IDisasmTarget dst)
                 => new DisasmFlow(context,dst);
 
-            WsContext Context;
+            public static void run(WsContext context, IAppService svc)
+            {
+                var files = context.Files(FileKind.XedRawDisasm).Sort();
+                void exec(int i, FileRef src)
+                {
+                    var target = DisasmTarget.create(svc);
+                    var flow = DisasmFlow.init(context, target);
+                    flow.Run(src);
+                }
 
-            IXedDisasmTarget Target;
+                iteri(files.Storage, (i,file) => exec(i,file), true);
+            }
 
-            public DisasmFlow(WsContext context, IXedDisasmTarget dst)
+            readonly WsContext Context;
+
+            readonly IDisasmTarget Target;
+
+            public DisasmFlow(WsContext context, IDisasmTarget dst)
             {
                 Context = context;
                 Target = dst;
@@ -53,7 +66,7 @@ namespace Z0
 
             RuleState State;
 
-            readonly Fields Fields;
+            Fields Fields;
 
             XDis XDis;
 
@@ -75,7 +88,7 @@ namespace Z0
                 Fields.Clear();
             }
 
-            ReadOnlySpan<FieldKind> Step(in DetailBlock src)
+            ReadOnlySpan<FieldKind> Step(DisasmToken token, in DetailBlock src)
             {
                 ref readonly var block = ref src.Block;
                 ref readonly var lines = ref block.Lines;
@@ -85,50 +98,52 @@ namespace Z0
                 ref readonly var ip = ref summary.IP;
 
                 DisasmParse.parse(lines.XDis.Content, out XDis).Require();
-                Target.Computed(XDis);
+                Target.Computed(token, XDis);
 
                 DisasmParse.parse(lines, out Props);
-                Target.Computed(Props);
+                Target.Computed(token, Props);
 
                 XedDisasm.fields(lines, Props, Fields, false);
-                Target.Computed(Props);
+                Target.Computed(token, Fields);
 
                 var kinds = Fields.MemberKinds();
-                Target.Computed(kinds);
+                Target.Computed(token, kinds);
 
                 XedState.Edit.fields(Fields, kinds, ref State);
-                Target.Computed(State);
+                Target.Computed(token, State);
 
                 Encoding = XedState.Code.encoding(State, asmhex);
-                Target.Computed(Encoding);
+                Target.Computed(token, Encoding);
 
                 return kinds;
             }
 
             public void Run(in FileRef src)
             {
-                Target.Running(src);
-
-                var file = XedDisasm.loadfile(src);
-                Target.Computed(file);
-
-                var summary = XedDisasm.summarize(Context, file);
-                Target.Computed(summary);
-                var doc = CalcDetailDoc(Context, file, summary);
-                var details = doc.View.ToArray().Select(x => x.Detail).Sort();
-                for(var i=0u; i<details.Length; i++)
-                    seek(details,i).Seq = i;
-
-                for(var i=0u; i<file.LineCount; i++)
+                var token = Target.Starting(src);
+                if(token.IsNonEmpty)
                 {
-                    Clear();
+                    var file = XedDisasm.loadfile(src);
+                    Target.Computed(token, file);
 
-                    Step(doc[i]);
+                    var summary = XedDisasm.summarize(Context, file);
+                    Target.Computed(token, summary);
+                    var doc = CalcDetailDoc(Context, file, summary);
+                    var details = doc.View.ToArray().Select(x => x.Detail).Sort();
+                    for(var i=0u; i<details.Length; i++)
+                        seek(details,i).Seq = i;
+
+                    for(var i=0u; i<file.LineCount; i++)
+                    {
+                        Clear();
+                        ref readonly var block = ref doc[i];
+                        Target.Computed(token, block);
+                        Step(token.Branch(i), block);
+                    }
+
+                    Target.Finished(token);
                 }
-
-                Target.Ran();
             }
-
         }
     }
 }

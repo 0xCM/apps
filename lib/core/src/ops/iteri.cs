@@ -9,23 +9,6 @@ namespace Z0
     partial struct core
     {
         /// <summary>
-        /// Applies an action to the sequence of integers min,min+1,...,max - 1
-        /// </summary>
-        /// <param name="min">The inclusive lower bound of the sequence</param>
-        /// <param name="max">The non-inclusive upper bound of the sequence
-        /// over intergers over which iteration will occur</param>
-        /// <param name="f">The action to be applied to each  value</param>
-        [MethodImpl(Inline), Op]
-        public static void iter<T>(Pair<T> src, Action<T> f)
-            where T : unmanaged
-        {
-            var min = bw64(src.Left);
-            var max = bw64(src.Right);
-            for(var i=min; i<max; i++)
-                f(@as<T>(i));
-        }
-
-        /// <summary>
         /// Applies an action to the increasing sequence of integers 0,1,2,...,count - 1
         /// </summary>
         /// <param name="count">The number of times the action will be invoked
@@ -51,19 +34,14 @@ namespace Z0
             => iteri(src.Length, i =>  f(i,skip(src,i)), pll);
 
         /// <summary>
-        /// Applies an action to the increasing sequence of integers 0,1,2,...,count - 1
+        /// Appplies an action for each element in the source
         /// </summary>
-        /// <param name="count">The number of times the action will be invoked
-        /// <param name="f">The action to be applied to each value</param>
-        [Op]
-        public static void iteri(uint count, Action<uint> f, bool pll = false)
-        {
-            if(pll)
-                gcalc.stream(z32,count-1).AsParallel().ForAll(i => f(i));
-            else
-                for(var i = z32; i<count; i++)
-                    f(i);
-        }
+        /// <param name="src">The source span</param>
+        /// <param name="f">The receiver</param>
+        /// <typeparam name="T">The element type</typeparam>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static void iteri<T>(Index<T> src, Action<int,T> f, bool pll = false)
+            => iteri(src.Length, i =>  f(i,src[i]), pll);
 
         /// <summary>
         /// Appplies an action for each element in a source span
@@ -90,6 +68,20 @@ namespace Z0
             ref readonly var input = ref first(src);
             for(var i=0; i<src.Length; i++)
                 f(i, skip(input,i));
+        }
+        /// <summary>
+        /// Applies an action to the increasing sequence of integers 0,1,2,...,count - 1
+        /// </summary>
+        /// <param name="count">The number of times the action will be invoked
+        /// <param name="f">The action to be applied to each value</param>
+        [Op]
+        public static void iteri(uint count, Action<uint> f, bool pll = false)
+        {
+            if(pll)
+                gcalc.stream(z32,count-1).AsParallel().ForAll(i => f(i));
+            else
+                for(var i = z32; i<count; i++)
+                    f(i);
         }
     }
 }

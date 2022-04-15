@@ -15,12 +15,13 @@ namespace Z0
         Outcome CheckDisasm(CmdArgs args)
         {
             var context = Projects.Context(Project());
-            var files = context.Files(FileKind.XedRawDisasm);
-            iter(files, file => {
-                var target = XedDisasmTarget.create(this);
-                var flow = DisasmFlow.init(context, target);
-                flow.Run(file);
-            },true);
+            DisasmFlow.run(context, this);
+            // var files = context.Files(FileKind.XedRawDisasm);
+            // iter(files, file => {
+            //     var target = DisasmTarget.create(this);
+            //     var flow = DisasmFlow.init(context, target);
+            //     flow.Run(file);
+            // },true);
 
             return true;
         }

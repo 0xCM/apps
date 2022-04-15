@@ -12,24 +12,16 @@ namespace Z0
         public struct FieldSet
         {
             [MethodImpl(Inline), Op]
-            public static FieldSet create(params FieldKind[] src)
-                => new FieldSet(src);
+            public static FieldSet create()
+                => new FieldSet();
 
             public const byte Capacity = 128;
 
             BitVector128<ulong> Data;
 
-            [MethodImpl(Inline)]
-            public FieldSet(ReadOnlySpan<FieldKind> src)
+            public FieldSet()
             {
                 Data = default;
-                var count = src.Length;
-                for(byte i=0; i<count; i++)
-                {
-                    ref readonly var kind = ref skip(src,i);
-                    if(kind != 0)
-                        Data = Data.Enable((byte)kind);
-                }
             }
 
             [MethodImpl(Inline)]
@@ -122,21 +114,13 @@ namespace Z0
             public override bool Equals(object src)
                 => src is FieldSet x && Equals(x);
 
-            [MethodImpl(Inline)]
-            public static implicit operator FieldSet(ReadOnlySpan<FieldKind> src)
-                => new FieldSet(src);
+            // [MethodImpl(Inline)]
+            // public static implicit operator FieldSet(FieldKind[] src)
+            //     => new FieldSet(src);
 
-            [MethodImpl(Inline)]
-            public static implicit operator FieldSet(Span<FieldKind> src)
-                => new FieldSet(src);
-
-            [MethodImpl(Inline)]
-            public static implicit operator FieldSet(FieldKind[] src)
-                => new FieldSet(src);
-
-            [MethodImpl(Inline)]
-            public static implicit operator FieldSet(Index<FieldKind> src)
-                => new FieldSet(src);
+            // [MethodImpl(Inline)]
+            // public static implicit operator FieldSet(Index<FieldKind> src)
+            //     => new FieldSet(src);
 
             [MethodImpl(Inline)]
             public static bool operator==(FieldSet a, FieldSet b)

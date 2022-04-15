@@ -5,11 +5,8 @@
 namespace Z0
 {
     using System.IO;
-    using System.Text;
 
     using static core;
-
-    using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
 
     [WfService]
     public abstract class AppService<H> : IAppService<H>
@@ -197,44 +194,19 @@ namespace Z0
             => WfMsg.Status(content);
 
         protected void Status(ReadOnlySpan<char> src)
-            => WfMsg.Status(new string(src));
+            => WfMsg.Status(src);
 
         protected void Status(string pattern, params object[] args)
-            => WfMsg.Status(string.Format(pattern, args));
+            => WfMsg.Status(pattern, args);
 
         protected void Warn<T>(T content)
             => WfMsg.Warn(content);
 
         protected void Warn(string pattern, params object[] args)
-            => Wf.Warn(HostType, string.Format(pattern,args));
+            => WfMsg.Warn(pattern, args);
 
         protected virtual void Error<T>(T content)
-            => Wf.Error(HostType,  core.require(content));
-
-        protected WfExecFlow<T> Running<T>(T msg)
-            => WfMsg.Running(msg);
-
-        protected WfExecFlow<string> Running([Caller] string msg = null)
-            => WfMsg.Running(msg);
-
-        protected ExecToken Ran<T>(WfExecFlow<T> flow, [Caller] string msg = null)
-            => Wf.Ran(HostType, flow.WithMsg(msg));
-
-        protected ExecToken Ran<T>(WfExecFlow<T> flow, string msg, FlairKind flair = FlairKind.Ran)
-            => Wf.Ran(HostType, flow.WithMsg(msg), flair);
-
-        protected WfFileWritten EmittingFile(FS.FilePath dst)
-            => Wf.EmittingFile(HostType, dst);
-
-        public ExecToken EmittedFile(WfFileWritten flow, Count count)
-            => Wf.EmittedFile(HostType, flow, count);
-
-        protected void EmittedFile(WfFileWritten file, Count count, Arrow<FS.FileUri> flow)
-            => Wf.EmittedFile(HostType, file,count);
-
-        protected WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)
-            where T : struct
-                => Wf.EmittingTable<T>(HostType, dst);
+            => WfMsg.Error(content);
 
         protected void Write<T>(T content)
             => WfMsg.Write(content);
@@ -245,29 +217,31 @@ namespace Z0
         protected void Write<T>(string name, T value, FlairKind? flair = null)
             => WfMsg.Write(name, value, flair);
 
-        protected void Write<T>(ReadOnlySpan<T> src, FlairKind? flair = null)
-        {
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-                Write(skip(src,i), flair ?? FlairKind.Data);
-        }
+        protected WfExecFlow<T> Running<T>(T msg)
+            => WfMsg.Running(msg);
 
-        protected void Write<T>(Span<T> src, FlairKind? flair = null)
-        {
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-                Write(skip(src,i), flair ?? FlairKind.Data);
-        }
+        protected WfExecFlow<string> Running([CallerName] string msg = null)
+            => WfMsg.Running(msg);
 
-        protected void Write<R>(ReadOnlySpan<R> src, ReadOnlySpan<byte> widths)
-            where R : struct
-        {
-            var formatter = Tables.formatter<R>(widths);
-            var count = src.Length;
-            Write(formatter.FormatHeader());
-            for(var i=0; i<count; i++)
-                Write(formatter.Format(skip(src,i)));
-        }
+        protected ExecToken Ran<T>(WfExecFlow<T> flow, [CallerName] string msg = null)
+            => WfMsg.Ran(flow,msg);
+
+        protected ExecToken Ran<T>(WfExecFlow<T> flow, string msg, FlairKind flair = FlairKind.Ran)
+            => WfMsg.Ran(flow, msg, flair);
+
+        protected WfFileWritten EmittingFile(FS.FilePath dst)
+            => WfMsg.EmittingFile(dst);
+
+        public ExecToken EmittedFile(WfFileWritten flow, Count count)
+            => WfMsg.EmittedFile(flow,count);
+
+        protected WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)
+            where T : struct
+                => WfMsg.EmittingTable<T>(dst);
+
+        protected ExecToken EmittedTable<T>(WfTableFlow<T> flow, Count count, FS.FilePath? dst = null)
+            where T : struct
+                => WfMsg.EmittedTable(flow,count, dst);
 
         protected void Show(Outcome result)
         {
@@ -287,9 +261,6 @@ namespace Z0
             }
         }
 
-        protected ExecToken EmittedTable<T>(WfTableFlow<T> flow, Count count, FS.FilePath? dst = null)
-            where T : struct
-                => Wf.EmittedTable(HostType, flow,count, dst);
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, FS.FilePath dst)
             where T : struct
@@ -479,6 +450,33 @@ namespace Z0
         {
             Disposing();
             Wf.Disposed();
+        }
+
+        protected void EmittedFile(WfFileWritten file, Count count, Arrow<FS.FileUri> flow)
+            => Wf.EmittedFile(HostType, file, count);
+
+        protected void Write<T>(ReadOnlySpan<T> src, FlairKind? flair = null)
+        {
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+                Write(skip(src,i), flair ?? FlairKind.Data);
+        }
+
+        protected void Write<T>(Span<T> src, FlairKind? flair = null)
+        {
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+                Write(skip(src,i), flair ?? FlairKind.Data);
+        }
+
+        protected void Write<R>(ReadOnlySpan<R> src, ReadOnlySpan<byte> widths)
+            where R : struct
+        {
+            var formatter = Tables.formatter<R>(widths);
+            var count = src.Length;
+            Write(formatter.FormatHeader());
+            for(var i=0; i<count; i++)
+                Write(formatter.Format(skip(src,i)));
         }
 
         static IApiCatalog _ApiCatalog;
