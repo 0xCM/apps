@@ -8,6 +8,8 @@ namespace Z0
     using static XedModels;
     using static XedRules;
 
+    using Asm;
+
     partial class XedMachine
     {
         public ref readonly uint Id
@@ -38,6 +40,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => ref State().Form();
+        }
+
+        public ref readonly AsmInfo AsmInfo
+        {
+            [MethodImpl(Inline)]
+            get => ref State().Asm();
         }
 
         ref readonly InstPattern Pattern

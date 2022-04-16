@@ -23,7 +23,8 @@ namespace Z0
 
             void EmitFields(WsContext context, DisasmDetailDoc src, FS.FilePath dst)
             {
-                using var emitter = new FieldEmitter(file => dst, (data,count,path) => FileEmit(data, count,dst, TextEncodingKind.Asci));
+                //using var emitter = new FieldEmitter(file => dst, (data,count,path) => FileEmit(data, count,dst, TextEncodingKind.Asci));
+                using var emitter = new FieldEmitter(dst);
                 emitter.Emit(src);
             }
 

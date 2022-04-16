@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static core;
     using static XedModels;
     using static XedRules;
@@ -110,5 +112,31 @@ namespace Z0
             get => ref Pattern.OpDetails;
         }
 
+        /// <summary>
+        /// Specifies the asm source text of the current instruction
+        /// </summary>
+        public ref readonly asci64 AsmText
+        {
+            [MethodImpl(Inline)]
+            get => ref AsmInfo.Asm;
+        }
+
+        /// <summary>
+        /// Specifies the IP of the current instruction
+        /// </summary>
+        public ref readonly MemoryAddress IP
+        {
+            [MethodImpl(Inline)]
+            get => ref AsmInfo.IP;
+        }
+
+        /// <summary>
+        /// Specifies the encoding of the current instruction
+        /// </summary>
+        public ref readonly AsmHexCode Encoding
+        {
+            [MethodImpl(Inline)]
+            get => ref AsmInfo.Encoded;
+        }
     }
 }

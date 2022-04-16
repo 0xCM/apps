@@ -19,7 +19,7 @@ namespace Z0
                 dst.Detail = src.Detail;
                 dst.Lines = src.Block.Lines;
                 dst.Summary = src.Block.Summary;
-                DisasmParse.parse(dst.Lines, out dst.XDis).Require();
+                DisasmParse.parse(dst.Lines, out dst.AsmInfo).Require();
                 DisasmParse.parse(dst.Lines, out dst.Props);
                 XedDisasm.fields(dst.Props, dst.Fields, false);
                 dst.FieldSelection = dst.Fields.MemberKinds();
@@ -48,7 +48,7 @@ namespace Z0
                 State = RuleState.Empty;
                 Summary = DisasmSummary.Empty;
                 Lines = DisasmLineBlock.Empty;
-                XDis = AsmInfo.Empty;
+                AsmInfo = AsmInfo.Empty;
                 Props = DisasmProps.Empty;
                 Encoding = EncodingExtract.Empty;
                 FieldSelection = default;
@@ -61,7 +61,7 @@ namespace Z0
                 State = RuleState.Empty;
                 Summary = DisasmSummary.Empty;
                 Lines = DisasmLineBlock.Empty;
-                XDis = AsmInfo.Empty;
+                AsmInfo = AsmInfo.Empty;
                 Props = DisasmProps.Empty;
                 Encoding = EncodingExtract.Empty;
                 FieldSelection = default;
@@ -76,7 +76,7 @@ namespace Z0
 
             public DisasmSummary Summary;
 
-            public AsmInfo XDis;
+            public AsmInfo AsmInfo;
 
             public DisasmProps Props;
 

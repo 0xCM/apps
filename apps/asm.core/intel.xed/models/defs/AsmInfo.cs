@@ -11,7 +11,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct AsmInfo
+        public record struct AsmInfo
         {
             public asci64 Asm;
 

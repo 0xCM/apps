@@ -24,6 +24,7 @@ namespace Z0
 
             InstGroupMember _Membership;
 
+            AsmInfo _Asm;
 
             uint _Id;
 
@@ -41,6 +42,7 @@ namespace Z0
                 _Form = InstForm.Empty;
                 _Class = InstClass.Empty;
                 _Membership = InstGroupMember.Empty;
+                _Asm = AsmInfo.Empty;
             }
 
             public ref readonly uint Id
@@ -72,6 +74,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public ref RuleState Rules()
                 => ref _RuleState;
+
+            [MethodImpl(Inline)]
+            public ref AsmInfo Asm()
+                => ref _Asm;
         }
     }
 }

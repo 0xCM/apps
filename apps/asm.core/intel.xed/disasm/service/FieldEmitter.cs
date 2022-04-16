@@ -16,9 +16,9 @@ namespace Z0
     {
         public ref struct FieldEmitter
         {
-            Func<FileRef,FS.FilePath> Target;
+            // Func<FileRef,FS.FilePath> Target;
 
-            readonly Action<string,Count,FS.FilePath> Channel;
+            // readonly Action<string,Count,FS.FilePath> Channel;
 
             readonly HashSet<FieldKind> Exclusions;
 
@@ -26,10 +26,13 @@ namespace Z0
 
             readonly FieldRender Render;
 
-            public FieldEmitter(Func<FileRef,FS.FilePath> target, Action<string,Count,FS.FilePath> channel)
+            readonly FS.FilePath Path;
+
+            public FieldEmitter(FS.FilePath dst)
             {
-                Target = target;
-                Channel = channel;
+                Path = dst;
+                // Target = null;
+                // Channel = null;
                 Exclusions = hashset<FieldKind>(K.TZCNT,K.LZCNT);
                 Buffer = text.buffer();
                 Render = XedFields.render();
@@ -39,6 +42,20 @@ namespace Z0
                 Props = DisasmProps.Empty;
                 Encoding = EncodingExtract.Empty;
             }
+
+            // public FieldEmitter(Func<FileRef,FS.FilePath> target, Action<string,Count,FS.FilePath> channel)
+            // {
+            //     Target = target;
+            //     Channel = channel;
+            //     Exclusions = hashset<FieldKind>(K.TZCNT,K.LZCNT);
+            //     Buffer = text.buffer();
+            //     Render = XedFields.render();
+            //     State = RuleState.Empty;
+            //     Fields = XedFields.fields();
+            //     XDis = AsmInfo.Empty;
+            //     Props = DisasmProps.Empty;
+            //     Encoding = EncodingExtract.Empty;
+            // }
 
             RuleState State;
 
@@ -136,7 +153,9 @@ namespace Z0
                     Buffer.AppendLine();
                 }
 
-                Channel(Buffer.Emit(), file.LineCount, Target(file.Source));
+                using var emitter = Path.AsciEmitter();
+                emitter.Write(Buffer.Emit());
+                //Channel(Buffer.Emit(), file.LineCount, Target(file.Source));
             }
         }
     }

@@ -6,6 +6,8 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
+    using static XedDisasm;
+    using static XedMachine;
 
     partial class XedMachine
     {
@@ -26,6 +28,16 @@ namespace Z0
             State().Class() = pattern.InstClass;
             State().Form() = pattern.InstForm;
             return ref pattern;
+        }
+
+        public ref readonly RuleState Load(in FieldBuffer src)
+        {
+            ref readonly var fields = ref src.Fields;
+            State().Asm() = src.AsmInfo;
+            State().Class() = src.Detail.InstClass;
+            State().Form() = src.Detail.InstForm;
+            State().Rules() = src.State;
+            return ref RuleState;
         }
     }
 }

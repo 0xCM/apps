@@ -4,23 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static XedModels;
     using static XedRules;
-    using static XedDisasm;
-    using static XedMachine;
 
     partial class XedMachine
     {
-        public ref readonly RuleState Load(in FieldBuffer src)
-        {
-            ref readonly var fields = ref src.Fields;
-            State().Class() = src.Detail.InstClass;
-            State().Form() = src.Detail.InstForm;
-            State().Rules() = src.State;
-            return ref RuleState;
-        }
-
         [MethodImpl(Inline)]
         TableSpec RuleTable(in RuleSig sig)
         {

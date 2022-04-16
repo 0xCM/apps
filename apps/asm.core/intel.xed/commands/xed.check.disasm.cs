@@ -16,7 +16,7 @@ namespace Z0
         {
             var docs = XedDisasm.docs(Context()).Sort();
 
-            iter(docs, CollectFields, true);
+            iter(docs, CollectFields2, true);
 
             return true;
         }
@@ -26,6 +26,8 @@ namespace Z0
         void CollectFields2(DisasmDetailDoc doc)
         {
             var status = cdict<string,string>();
+            var name = doc.File.Source.Path.FileName.WithoutExtension.Format();
+
             MachineHost.Run(true, machine =>
             {
                 var fields = FieldBuffer.init();
@@ -34,11 +36,19 @@ namespace Z0
                 {
                     ref readonly var block = ref blocks[i];
                     fields.Load(block);
-                    var prior = machine.RuleState;
-                    var xdis = fields.XDis;
+
+                    var input = fields.AsmInfo;
                     machine.Load(fields);
-                    ref readonly var next = ref machine.RuleState;
+                    var output = machine.AsmInfo;
+                    if(input != output)
+                    {
+                        Error("State mismatch");
+                        break;
+                    }
                 }
+
+                status[name] = string.Format("{0,-8} | {1,-46} | {2,-8} | {3,-8} | {4,-8}",
+                    machine.Id, name, doc.Seq, doc.File.Source.DocId, doc.File.LineCount);
             });
 
             var names = status.Keys.Sort();
@@ -48,6 +58,7 @@ namespace Z0
         void CollectFields(DisasmDetailDoc doc)
         {
             var status = cdict<string,string>();
+            var name = doc.File.Source.Path.FileName.WithoutExtension.Format();
             MachineHost.Run(true, machine =>
             {
                 var fields = FieldBuffer.init();
@@ -60,12 +71,10 @@ namespace Z0
                     machine.Capture.FormPatterns();
                 }
 
-                ref readonly var file = ref doc.File;
-                var name = file.Source.Path.FileName.WithoutExtension.Format();
                 machine.Emitter.EmitFormPatterns(name);
 
                 status[name] = string.Format("{0,-8} | {1,-46} | {2,-8} | {3,-8} | {4,-8}",
-                    machine.Id, name, doc.Seq, file.Source.DocId, file.LineCount);
+                    machine.Id, name, doc.Seq, doc.File.Source.DocId, doc.File.LineCount);
             });
 
             var names = status.Keys.Sort();
