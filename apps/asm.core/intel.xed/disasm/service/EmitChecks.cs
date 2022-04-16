@@ -36,7 +36,8 @@ namespace Z0
                     K.ROUNDC, K.SAE, K.ZEROING, K.LLRC, K.BCRC, K.ESRC,
                     K.POS_IMM, K.POS_IMM1, K.POS_DISP, K.POS_SIB, K.POS_NOMINAL_OPCODE, K.POS_MODRM,
                     K.MEM0, K.MEM1, K.UBIT, K.NEED_MEMDISP,
-                    K.MAX_BYTES, K.LZCNT, K.TZCNT, K.USING_DEFAULT_SEGMENT0, K.SMODE, K.P4
+                    K.MAX_BYTES, K.LZCNT, K.TZCNT, K.USING_DEFAULT_SEGMENT0, K.SMODE, K.P4,
+                    K.LOCK, K.FIRST_F2F3, K.LAST_F2F3, K.ILD_F2, K.ILD_F3, K.BRDISP_WIDTH
                     );
 
             var buffer = text.buffer();
@@ -58,9 +59,7 @@ namespace Z0
                 ref readonly var asmhex = ref summary.Encoded;
                 ref readonly var asmtxt = ref summary.Asm;
                 ref readonly var ip = ref summary.IP;
-
-                var cells = XedDisasm.update(lines, ref state);
-
+                var cells = update(lines, ref state);
                 var ocindex = XedOpCodes.index(state);
                 var ockind = XedOpCodes.kind(ocindex);
                 var encoding  = XedState.Code.encoding(state, asmhex);
@@ -106,6 +105,13 @@ namespace Z0
                 if(state.REP != 0)
                     writer.AppendLineFormat(RenderPattern, nameof(state.REP), XedRender.format(XedState.rep(state)));
 
+                if(state.LOCK)
+                    writer.AppendLineFormat(RenderPattern, nameof(state.LOCK), state.LOCK);
+
+                if(state.BRDISP_WIDTH != 0)
+                    writer.AppendLineFormat(RenderPattern, nameof(state.BRDISP_WIDTH), state.BRDISP_WIDTH);
+
+
                 writer.AppendLineFormat(RenderPattern, nameof(state.EASZ), XedRender.format(XedState.easz(state)));
                 writer.AppendLineFormat(RenderPattern, nameof(state.EOSZ), XedRender.format(XedState.eosz(state)));
                 writer.AppendLineFormat(RenderPattern, nameof(state.MODE), XedRender.format(XedState.mode(state)));
@@ -129,6 +135,18 @@ namespace Z0
                     var sib = XedState.sib(state);
                     writer.AppendLineFormat(RenderPattern, "Sib", string.Format("{0} [{1}]",  sib.Format(), sib.ToBitString()));
                 }
+
+                if(state.FIRST_F2F3 != 0)
+                    writer.AppendLineFormat(RenderPattern, nameof(state.FIRST_F2F3), state.FIRST_F2F3);
+
+                if(state.ILD_F2 != 0)
+                    writer.AppendLineFormat(RenderPattern, nameof(state.ILD_F2), state.ILD_F2);
+
+                if(state.ILD_F3 != 0)
+                    writer.AppendLineFormat(RenderPattern, nameof(state.ILD_F3), state.ILD_F3);
+
+                if(state.LAST_F2F3!= 0)
+                    writer.AppendLineFormat(RenderPattern, nameof(state.LAST_F2F3), state.LAST_F2F3);
 
                 if(state.REX)
                 {
@@ -220,9 +238,7 @@ namespace Z0
                 }
 
                 if(state.ELEMENT_SIZE != 0)
-                {
                     writer.AppendLineFormat(RenderPattern, "VexSize", string.Format("{0}x{1}", XedRender.format(XedState.vl(state)), state.ELEMENT_SIZE));
-                }
 
                 if(state.NELEM != 0)
                     writer.AppendLineFormat(RenderPattern, nameof(state.NELEM), state.NELEM);
@@ -230,12 +246,15 @@ namespace Z0
                 if(state.BCAST != 0)
                     writer.AppendLineFormat(RenderPattern, nameof(state.BCAST), XedState.bcast(state));
 
+                if(state.REXRR)
+                    writer.AppendLineFormat(RenderPattern, nameof(state.REXRR), state.REXRR);
+
                 for(var k=0; k<cells.Count; k++, counter++)
                 {
                     ref readonly var value = ref cells[k];
                     ref readonly var fk = ref value.Field;
                     if(!emitted.Contains(fk))
-                        writer.AppendLineFormat(RenderPattern, "**" + XedRender.format(fk), XedRender.format(value));
+                        writer.AppendLineFormat(RenderPattern, XedRender.format(fk), XedRender.format(value));
                 }
 
                 if(state.OUTREG != 0)
@@ -248,6 +267,35 @@ namespace Z0
             }
 
             EmittedFile(emitting,counter);
+        }
+
+        static Index<CellValue> update(in DisasmLineBlock src, ref RuleState state)
+        {
+            var fields = values(src);
+            XedState.Edit.update(fields, ref state);
+            return fields;
+        }
+
+        static Index<CellValue> values(in DisasmLineBlock src)
+        {
+            DisasmParse.parse(src, out DisasmProps props);
+            var state = RuleState.Empty;
+            var names = props.Keys.Array();
+            var count = names.Length;
+            var dst = alloc<CellValue>(count - 2);
+            var k=0u;
+            for(var i=0; i<count; i++)
+            {
+                var name = skip(names,i);
+                if(name == nameof(FieldKind.ICLASS) || name == nameof(InstForm))
+                    continue;
+
+                if(XedParsers.parse(name, out FieldKind kind))
+                    seek(dst,k++) = XedState.Edit.field(props[name], kind, ref state);
+                else
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), name));
+            }
+            return dst;
         }
     }
 }

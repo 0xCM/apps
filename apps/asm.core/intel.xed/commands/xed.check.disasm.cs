@@ -55,6 +55,7 @@ namespace Z0
             iter(names, name =>  Write(status[name]));
             MachineHost.Reset();
         }
+
         void CollectFields(DisasmDetailDoc doc)
         {
             var status = cdict<string,string>();

@@ -16,10 +16,6 @@ namespace Z0
     {
         public ref struct FieldEmitter
         {
-            // Func<FileRef,FS.FilePath> Target;
-
-            // readonly Action<string,Count,FS.FilePath> Channel;
-
             readonly HashSet<FieldKind> Exclusions;
 
             readonly ITextBuffer Buffer;
@@ -31,8 +27,6 @@ namespace Z0
             public FieldEmitter(FS.FilePath dst)
             {
                 Path = dst;
-                // Target = null;
-                // Channel = null;
                 Exclusions = hashset<FieldKind>(K.TZCNT,K.LZCNT);
                 Buffer = text.buffer();
                 Render = XedFields.render();
@@ -42,20 +36,6 @@ namespace Z0
                 Props = DisasmProps.Empty;
                 Encoding = EncodingExtract.Empty;
             }
-
-            // public FieldEmitter(Func<FileRef,FS.FilePath> target, Action<string,Count,FS.FilePath> channel)
-            // {
-            //     Target = target;
-            //     Channel = channel;
-            //     Exclusions = hashset<FieldKind>(K.TZCNT,K.LZCNT);
-            //     Buffer = text.buffer();
-            //     Render = XedFields.render();
-            //     State = RuleState.Empty;
-            //     Fields = XedFields.fields();
-            //     XDis = AsmInfo.Empty;
-            //     Props = DisasmProps.Empty;
-            //     Encoding = EncodingExtract.Empty;
-            // }
 
             RuleState State;
 
@@ -68,11 +48,6 @@ namespace Z0
             EncodingExtract Encoding;
 
             const string RenderPattern = DisasmRender.Columns;
-
-            public void Dispose()
-            {
-
-            }
 
             void Clear()
             {
@@ -122,13 +97,13 @@ namespace Z0
                     Buffer.AppendLineFormat(RenderPattern, nameof(Encoding.Imm), Encoding.Imm1);
                 if(Encoding.Disp.IsNonZero)
                     Buffer.AppendLineFormat(RenderPattern, nameof(Encoding.Disp), Encoding.Disp);
-
                 Buffer.AppendLine(RP.PageBreak100);
             }
 
-            public void Emit(DisasmDetailDoc doc)
+            public uint Emit(DisasmDetailDoc doc)
             {
                 ref readonly var file = ref doc.File;
+                var counter = 0u;
                 for(var i=0u; i<file.LineCount; i++)
                 {
                     Clear();
@@ -147,6 +122,7 @@ namespace Z0
                             continue;
 
                         Buffer.AppendLineFormat(RenderPattern, kind, Render[kind](Fields[kind]));
+                        counter++;
                     }
 
                     DisasmRender.RenderOps(ops, Buffer);
@@ -155,7 +131,7 @@ namespace Z0
 
                 using var emitter = Path.AsciEmitter();
                 emitter.Write(Buffer.Emit());
-                //Channel(Buffer.Emit(), file.LineCount, Target(file.Source));
+                return counter;
             }
         }
     }

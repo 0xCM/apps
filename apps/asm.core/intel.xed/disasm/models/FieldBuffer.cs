@@ -13,21 +13,6 @@ namespace Z0
     {
         public ref struct FieldBuffer
         {
-            public static ref FieldBuffer load(in DetailBlock src, ref FieldBuffer dst)
-            {
-                dst.Clear();
-                dst.Detail = src.Detail;
-                dst.Lines = src.Block.Lines;
-                dst.Summary = src.Block.Summary;
-                DisasmParse.parse(dst.Lines, out dst.AsmInfo).Require();
-                DisasmParse.parse(dst.Lines, out dst.Props);
-                XedDisasm.fields(dst.Props, dst.Fields, false);
-                dst.FieldSelection = dst.Fields.MemberKinds();
-                XedState.Edit.fields(dst.Fields, dst.FieldSelection, ref dst.State);
-                dst.Encoding = XedState.Code.encoding(dst.State, src.Block.Summary.Encoded);
-                return ref dst;
-            }
-
             public FieldBuffer Load(in DetailBlock src)
             {
                 load(src, ref this);

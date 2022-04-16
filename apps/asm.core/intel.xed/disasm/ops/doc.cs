@@ -11,18 +11,27 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public static DisasmDetailDoc doc(WsContext context, in FileRef fref)
+        static Outcome blocks(WsContext context, DisasmSummaryDoc doc, in DisasmFile src, ConcurrentBag<DetailBlock> dst)
         {
-            var file = load(fref);
-            return doc(context, file, summarize(context, file));
-        }
+            var blocks = doc.Blocks;
+            var count = blocks.Count;
+            var result = Outcome.Success;
+            if(result.Fail)
+                return result;
 
-        public static Index<DisasmDetailDoc> docs(WsContext context)
-        {
-            var files = context.Files(FileKind.XedRawDisasm);
-            var dst = bag<DisasmDetailDoc>();
-            iter(files, file => dst.Add(doc(context,file)), true);
-            return dst.Array();
+            if(doc.RowCount != count)
+            {
+                result = (false, string.Format("{0} != {1}", count, doc.RowCount));
+                return result;
+            }
+
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var lines = ref blocks[i];
+                dst.Add(new (row(lines), lines));
+            }
+
+            return result;
         }
 
         static DisasmDetailDoc doc(WsContext context, in DisasmFile file, DisasmSummaryDoc summary)
@@ -31,16 +40,6 @@ namespace Z0
             blocks(context, summary, file, dst).Require();
             return new (file, dst.ToArray().Sort());
         }
-
-        static DisasmSummaryDoc summarize(WsContext context, in DisasmFile file)
-        {
-            var buffer = bag<DisasmSummaryLines>();
-            summarize(context, file, buffer).Require();
-            return DisasmSummaryDoc.from(file.Source, context.Root(file.Source), buffer.ToArray());
-        }
-
-        static Outcome summarize(WsContext context, in DisasmFile file, ConcurrentBag<DisasmSummaryLines> dst)
-            => summarize(file.Source, context.Root(file.Source), file.Lines, dst);
 
         static Index<TextLine> SummaryLines(ReadOnlySpan<DisasmLineBlock> src)
         {
@@ -71,41 +70,6 @@ namespace Z0
                 }
             }
             return dst.ToArray();
-        }
-
-        static Outcome summarize(in FileRef src, in FileRef origin, Index<DisasmLineBlock> blocks, ConcurrentBag<DisasmSummaryLines> dst)
-        {
-            var lines = SummaryLines(blocks);
-            var expr = expressions(blocks);
-            var seq = 0u;
-            var result = Outcome.Success;
-            var count = Require.equal(expr.Length,lines.Length);
-
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var line = ref lines[i];
-                var summary = new DisasmSummary();
-                result = DisasmParse.parse(line.Content, out summary.Encoded);
-                if(result.Fail)
-                    return result;
-
-                summary.DocSeq = seq++;
-                summary.OriginId = origin.DocId;
-                summary.OriginName = origin.DocName;
-                result = DisasmParse.parse(line.Content, out summary.IP);
-                if(result.Fail)
-                    break;
-
-                summary.InstructionId = AsmBytes.instid(summary.OriginId, summary.IP, summary.Encoded.Bytes);
-                summary.EncodingId = summary.InstructionId.EncodingId;
-                summary.Asm = expr[i];
-                summary.Source = src.Path;
-                summary.Source = summary.Source.LineRef(line.LineNumber);
-                summary.Size = summary.Encoded.Size;
-                dst.Add(new (blocks[i],summary));
-            }
-
-            return result;
         }
     }
 }

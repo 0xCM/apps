@@ -23,9 +23,10 @@ namespace Z0
 
             void EmitFields(WsContext context, DisasmDetailDoc src, FS.FilePath dst)
             {
-                //using var emitter = new FieldEmitter(file => dst, (data,count,path) => FileEmit(data, count,dst, TextEncodingKind.Asci));
-                using var emitter = new FieldEmitter(dst);
-                emitter.Emit(src);
+                var emitting = EmittingFile(dst);
+                var emitter = new FieldEmitter(dst);
+                var count = emitter.Emit(src);
+                EmittedFile(emitting,count);
             }
 
             static ConstLookup<DisasmDetailDoc,Index<DetailBlockRow>> resequence(ConstLookup<FileRef,DisasmDetailDoc> src)

@@ -11,7 +11,7 @@ namespace Z0
     partial class XedDisasm
     {
         [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public struct DisasmOpInfo
+        public record struct DisasmOpInfo
         {
             public byte Index;
 
