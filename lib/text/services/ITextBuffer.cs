@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiHost]
-    public readonly partial struct FS
+    public interface ITextBuffer : ITextEmitter
     {
-        [Op]
-        public static string SearchPattern(FS.FileExt[] src)
-            => string.Join(";*.", src.Select(e => e.Name));
+
     }
 }

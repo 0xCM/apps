@@ -4,19 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.IO;
     using System.Text;
 
-    using static Root;
-
     partial struct FS
     {
-        [Op]
-        public static string SearchPattern(FS.FileExt[] src)
-            => string.Join(";*.", src.Select(e => e.Name));
-
         [MethodImpl(Inline), Op]
         public static StreamWriter writer(FS.FilePath dst, FileWriteMode mode, Encoding encoding)
             => new StreamWriter(dst.EnsureParentExists().Name.Format(), mode == FileWriteMode.Append, encoding);

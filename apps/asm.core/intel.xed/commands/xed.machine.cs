@@ -10,25 +10,6 @@ namespace Z0
 
     partial class XedCmdProvider
     {
-        void Step(XedMachine machine, InstPattern pattern)
-        {
-            machine.Pattern() = pattern;
-            machine.Emitter.EmitClassForms();
-        }
-
-        void Step(XedMachine machine, Index<InstPattern> src)
-        {
-            var ws = Ws.Project("xed.machine");
-            for(var i=0; i<src.Count; i++)
-            {
-                ref readonly var pattern =ref src[i];
-                if(pattern.InstClass.Classifier == IClass.AND)
-                {
-                    Step(machine, pattern);
-                }
-            }
-        }
-
         [CmdOp("xed/machine")]
         Outcome RunMachine(CmdArgs args)
         {

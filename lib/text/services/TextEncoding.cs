@@ -4,16 +4,30 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.Text;
-
-    using static Root;
 
     using api = TextEncoders;
 
     public readonly unsafe struct TextEncoding : ITextEncoding<TextEncoding>
     {
+        public static TextEncoding Utf8
+        {
+            [MethodImpl(Inline), Op]
+            get => new TextEncoding(Encoding.UTF8);
+        }
+
+        public static TextEncoding Unicode
+        {
+            [MethodImpl(Inline), Op]
+            get => new TextEncoding(Encoding.Unicode);
+        }
+
+        public static TextEncoding Asci
+        {
+            [MethodImpl(Inline), Op]
+            get => new TextEncoding(Encoding.ASCII);
+        }
+
         readonly Encoding Encoding;
 
         [MethodImpl(Inline)]
@@ -133,5 +147,13 @@ namespace Z0
         [MethodImpl(Inline)]
         public string GetString(byte[] src, int index, int count)
             => api.GetString(Encoding, src, index, count);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Encoding(TextEncoding src)
+            => src.Encoding;
+
+        [MethodImpl(Inline)]
+        public static implicit operator TextEncoding(Encoding src)
+            => new TextEncoding(src);
     }
 }

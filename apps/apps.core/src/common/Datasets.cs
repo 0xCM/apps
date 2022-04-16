@@ -82,9 +82,11 @@ namespace Z0
 
         public class TableColumns
         {
-            Index<byte> Widths;
+            public string TableName {get; private set;}
 
             Index<string> Names;
+
+            Index<byte> Widths;
 
             Index<string> Slots;
 
@@ -93,20 +95,29 @@ namespace Z0
             public readonly string Sep;
 
             [MethodImpl(Inline)]
-            public TableColumns(string sep, params (string name,byte width)[] src)
+            public TableColumns(string table, params (string name,byte width)[] src)
             {
-                Sep = sep;
+                Sep = " | ";
+                TableName = table;
                 Widths = src.Map(x => x.width);
                 Names = src.Select(x => x.name);
                 Recalc();
             }
 
             [MethodImpl(Inline)]
-            public TableColumns(params (string,byte)[] src)
-                : this(" | ", src)
+            public TableColumns(params (string name,byte width)[] src)
             {
+                TableName = EmptyString;
+                Sep = " | ";
+                Names = src.Select(x => x.name);
+                Widths = src.Map(x => x.width);
+                Recalc();
+            }
 
-
+            public TableColumns WithTableName(string name)
+            {
+                TableName = name;
+                return this;
             }
 
             public string Header
@@ -137,19 +148,19 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public ref readonly string Name(int i)
+            public ref readonly string ColName(int i)
                 => ref Names[i];
 
             [MethodImpl(Inline)]
-            public ref readonly byte Width(int i)
+            public ref readonly byte ColWidth(int i)
                 => ref Widths[i];
 
             [MethodImpl(Inline)]
-            public ref readonly string Name(uint i)
+            public ref readonly string ColName(uint i)
                 => ref Names[i];
 
             [MethodImpl(Inline)]
-            public ref readonly byte Width(uint i)
+            public ref readonly byte ColWidth(uint i)
                 => ref Widths[i];
 
             public string Format<T>(ReadOnlySpan<T> src)

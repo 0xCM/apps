@@ -21,44 +21,55 @@ namespace Z0
         public static XedMachine allocate(IWfRuntime wf)
             => new XedMachine(wf);
 
-        uint MachineId;
+        uint _MachineId;
 
-        MachineState State;
+        MachineState _State;
 
-        RuleTables RuleTables;
+        RuleTables _RuleTables;
 
-        ConstLookup<ushort,InstGroupMember> GroupMembers;
+        ConstLookup<ushort,InstGroupMember> _GroupMemberLookup;
 
-        SortedLookup<InstForm,Index<InstPattern>> _FormPatterns;
+        SortedLookup<InstClass,Index<InstGroupMember>> _ClassGroupLookup;
 
-        SortedLookup<InstClass,Index<InstPattern>> _ClassPatterns;
+        SortedLookup<InstForm,Index<InstPattern>> _FormPatternLookup;
 
-        SortedLookup<InstClass,Index<InstForm>> _ClassForms;
+        SortedLookup<InstClass,Index<InstPattern>> _ClassPatternLookup;
 
-        IProjectWs Ws;
+        SortedLookup<InstClass,Index<InstForm>> _ClassFormLookup;
+
+        IProjectWs _Ws;
 
         MachineEmitter _Emitter;
+
+        [MethodImpl(Inline)]
+        ref MachineState State()
+            => ref _State;
+
+        public ref readonly uint Id
+        {
+            [MethodImpl(Inline)]
+            get => ref _MachineId;
+        }
 
         const string Identifier = "xed.machine";
 
         XedMachine(IWfRuntime wf)
         {
-            MachineId = NextId();
-
+            _MachineId = NextId();
             var rules = wf.XedRules();
-            State = new();
-            RuleTables = rules.CalcRules();
+            _State = new();
+            _RuleTables = rules.CalcRules();
             var patterns = rules.CalcInstPatterns();
             var groups = rules.CalcInstGroups(patterns);
             var members = groups.SelectMany(x => x.Members);
-            GroupMembers = members.Select(x => (x.PatternId,x)).ToDictionary();
-            _FormPatterns = patterns.FormPatterns();
-            _ClassPatterns = patterns.ClassPatterns();
-            _ClassForms = patterns.ClassForms();
-
+            _GroupMemberLookup = members.Select(x => (x.PatternId,x)).ToDictionary();
+            _FormPatternLookup = patterns.FormPatterns();
+            _ClassPatternLookup = patterns.ClassPatterns();
+            _ClassFormLookup = patterns.ClassForms();
+            _ClassGroupLookup = groups.ClassGroups();
             var projects = wf.WsProjects();
-            Ws = projects.Project(projects.ProjectData(), Identifier);
-            _Emitter = new (this);
+            _Ws = projects.Project(projects.ProjectData(), Identifier);
+            _Emitter = new (this, message => wf.Row(typeof(XedMachine),message,FlairKind.Data));
             wf.Babble(string.Format("Logging to {0}", _Emitter.Target.ToUri()));
         }
 
@@ -73,11 +84,14 @@ namespace Z0
             ref readonly var fields = ref src.Fields;
             ref readonly var @class = ref src.Detail.InstClass;
             ref readonly var form = ref src.Detail.InstForm;
-            State.Rules() = src.State;
+            _State.Rules() = src.State;
         }
 
         public IMachineEmitter Emitter
-            => _Emitter;
+        {
+            [MethodImpl(Inline)]
+            get => _Emitter;
+        }
 
         public TableSpec NontermOpTable(byte index)
         {
@@ -99,7 +113,7 @@ namespace Z0
         public ref readonly InstGroupMember Group
         {
             [MethodImpl(Inline)]
-            get => ref State.Group();
+            get => ref _State.Group();
         }
 
         public ref readonly InstClass InstClass
@@ -115,8 +129,10 @@ namespace Z0
         }
 
         public Index<InstForm> ClassForms
-            => _ClassForms.Find(InstClass, out var dst) ? dst : sys.empty<InstForm>();
+            => _ClassFormLookup.Find(InstClass, out var dst) ? dst : sys.empty<InstForm>();
 
+        public Index<InstGroupMember> ClassGroups
+            => _ClassGroupLookup.Find(InstClass, out var dst) ? dst : sys.empty<InstGroupMember>();
 
         public ref readonly InstFields InstLayout
         {
@@ -182,30 +198,45 @@ namespace Z0
             get => ref Pattern().Extension;
         }
 
-        public ref RuleState RuleState
+        public ref readonly ushort PatternId
         {
             [MethodImpl(Inline)]
-            get => ref State.Rules();
+            get => ref @as<uint,ushort>(Pattern().PatternId);
+        }
+
+        ref RuleState RuleState
+        {
+            [MethodImpl(Inline)]
+            get => ref State().Rules();
         }
 
         [MethodImpl(Inline)]
         public ref InstPattern Pattern()
         {
-            ref var inst = ref State.Pattern();
-            State.Group() = GroupMembers[(ushort)inst.PatternId];
-            State.Mode() = inst.Mode;
+            ref var inst = ref State().Pattern();
+            State().Group() = _GroupMemberLookup[(ushort)inst.PatternId];
+            State().Mode() = inst.Mode;
             return ref inst;
+        }
+
+        public void Transition(Index<InstPattern> seq, Action f)
+        {
+            for(var i=0; i<seq.Count; i++)
+            {
+                Pattern() = seq[i];
+                f();
+            }
         }
 
         [MethodImpl(Inline)]
         public ref MachineMode Mode()
-            => ref State.Mode();
+            => ref State().Mode();
 
         [MethodImpl(Inline)]
         TableSpec RuleTable(in RuleSig sig)
         {
             var dst = TableSpec.Empty;
-            ref readonly var specs = ref RuleTables.Specs();
+            ref readonly var specs = ref _RuleTables.Specs();
             specs.Find(sig,out dst);
             return dst;
         }

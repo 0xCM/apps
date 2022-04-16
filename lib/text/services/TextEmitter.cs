@@ -4,36 +4,60 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.IO;
     using System.Text;
-    using System.Threading.Tasks;
 
-    using static Root;
-    using static core;
-
-    public sealed class TextEmitter : TextWriter, ITextWriter
+    partial class XTend
     {
-        public static TextWriter cover(TextWriter src)
+        [MethodImpl(Inline)]
+        public static ITextEmitter Emitter(this TextWriter src)
+            => new TextWriterWrap(src);
+
+        [MethodImpl(Inline)]
+        public static ITextEmitter Emitter(this StringBuilder src)
+            => new TextBuffer(src);
+    }
+
+    public sealed class TextEmitter : TextWriter, ITextEmitter
+    {
+        [MethodImpl(Inline)]
+        public static ITextEmitter cover(StringBuilder src)
+            => new TextEmitter(text.buffer(src), false);
+
+        [MethodImpl(Inline)]
+        public static ITextEmitter cover(ITextBuffer src)
             => new TextEmitter(src,false);
 
-        public static TextWriter own(TextWriter src)
-            => new TextEmitter(src,true);
+        public static ITextEmitter cover(TextWriter src)
+            => new TextEmitter(src,false);
 
-        readonly TextWriter Target;
+        public static ITextEmitter own(TextWriter src)
+            => new TextEmitter(src,true);
 
         readonly bool Owns;
 
+        readonly ITextEmitter Target;
+
+        TextEmitter(ITextBuffer dst, bool owns)
+        {
+            Owns = owns;
+            Target = dst;
+        }
+
         TextEmitter(TextWriter dst, bool owns)
         {
-            Target = dst;
             Owns = owns;
+            Target = dst.Emitter();
         }
+
 
         void IDisposable.Dispose()
         {
             if(Owns)
-                Target.Dispose();
+            {
+                if(Target is IDisposable d)
+                    d.Dispose();
+            }
         }
 
         public override Encoding Encoding
@@ -46,10 +70,19 @@ namespace Z0
             => Target.NewLine;
 
         public override void Close()
-            => Target.Close();
+        {
+             if(Target is ITextWriter w)
+                w.Close();
+        }
+
+        public string Emit(bool clear = true)
+            => Target is ITextBuffer t ? t.Emit(clear) : EmptyString;
 
         public override void Flush()
-            => Target.Flush();
+        {
+             if(Target is ITextWriter w)
+                w.Flush();
+        }
 
         public override void Write(bool value)
             => Target.Write(value);
@@ -102,20 +135,17 @@ namespace Z0
         public override void Write(StringBuilder? value)
             => Target.Write(value);
 
-        public void Write(ITextBuffer src, bool reset = true)
-            => Target.Write(src.Emit(reset));
-
         public override void Write(uint value)
             => Target.Write(value);
 
         public override void Write(ulong value)
             => Target.Write(value);
 
-        public override Task WriteAsync(char value)
-            => Target.WriteAsync(value);
-
         public void AppendLine()
             => Target.WriteLine();
+
+        public void Write(ITextBuffer src, bool reset = true)
+            => Target.Write(src.Emit(reset));
 
         public void Append(ReadOnlySpan<char> src)
             => Target.Write(src);
@@ -123,11 +153,20 @@ namespace Z0
         public void Append(char[] src)
             => Target.Write(src);
 
+        public void Append(char c)
+            => Target.Write(c);
+
+        public void Append(string src)
+            => Target.Write(src);
+
+        public void Append<T>(T src)
+            => Target.Append(src);
+
         public void AppendFormat(string pattern, params object[] args)
             => Target.Write(string.Format(pattern, args));
 
-        public void Append(char c)
-            => Target.Write(c);
+        public void AppendLineFormat(string pattern, params object[] src)
+            => Target.WriteLine(string.Format(pattern, src));
 
         public void AppendLine(string src)
             => Target.WriteLine(src);
@@ -135,48 +174,28 @@ namespace Z0
         public void AppendLine<T>(T src)
             => Target.WriteLine(src?.ToString() ?? RP.Null);
 
-        public void AppendLineFormat(string pattern, params object[] src)
-            => Target.WriteLine(string.Format(pattern, src));
-
         public void IndentLine<T>(uint margin, T src)
             => Target.WriteLine(string.Format("{0}{1}", new string(Chars.Space, (int)margin), src));
 
         public void IndentLineFormat(uint margin, string pattern, params object[] args)
             => IndentLine(margin, string.Format(pattern, args));
 
-        public void AppendItem<T>(T src)
-            => Target.Write(src?.ToString() ?? RP.Null);
-
         public void Delimit(string delimiter, params object[] src)
-        {
-            var count = src.Length;
-            var terms = @readonly(src);
-            var sep = string.Format("{0} ", delimiter);
-            for(var i=0; i<src.Length; i++)
-                Target.Write(string.Format("{0}{1}", sep, skip(terms,i)));
-        }
-
-        public void AppendPadded<T,W>(T value, W width, string delimiter = EmptyString)
-        {
-            if(nonempty(delimiter))
-                Target.Write(delimiter);
-            Target.Write(string.Format(RP.pad(-i16(width)), value));
-        }
+            => Target.Delimit(delimiter, src);
 
         public void Delimit<T>(T content, char delimiter, int pad)
-        {
-            Target.Write(RP.rspace(delimiter));
-            Target.Write($"{content}".PadRight((int)pad));
-        }
+            => Target.Delimit(content, delimiter, pad);
 
         public void Delimit<F,T>(F label, T content, int pad = 0, char delimiter = '|')
-        {
-            Target.Write(RP.rspace(delimiter));
-            Target.Write(string.Format(RP.pad(pad), label));
-            Target.Write(content?.ToString() ?? RP.Null);
-        }
+            => Target.Delimit(label, content, pad, delimiter);
 
-        public void Append(string src)
-            => Target.Write(src);
+        public void AppendPadded<T,W>(T value, W width, string delimiter = EmptyString)
+            => Target.AppendPadded(value,width,delimiter);
+
+        public void Indent<T>(uint margin, T src)
+            => Target.Indent(margin,src);
+
+        public void IndentFormat<T>(uint margin, string pattern, T src)
+            => Target.IndentFormat(margin, pattern,src);
     }
 }

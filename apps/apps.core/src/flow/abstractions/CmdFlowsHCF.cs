@@ -140,15 +140,15 @@ namespace Z0
             var running = Running();
             var counter = 0u;
 
-            using var flows = WsLog.open(project, string.Format("{0}.flows", descriptor.Name));
-            var eflows = EmittingFile(flows.Target);
+            using var flows = WsLog.open(project, string.Format("{0}.flows", descriptor.Name), FileKind.Log, clean);
+            var eflows = EmittingFile(flows.Path);
 
             void ExecCmd(CmdLine src)
             {
                 OmniScript.Run(src, CmdVars.Empty, runlog, OnExecStatus, OnExecError, out var output);
                 var responses = CmdResponse.parse(output.Where(x => !x.Contains(WarningMarker) && !x.Contains(ErrorMarker)));
                 counter += (uint)responses.Length;
-                iter(responses, r => flows.WriteLine(r.Format()));
+                iter(responses, r => flows.AppendLine(r.Format()));
             }
 
             iter(BuildCmdLines(project, descriptor.Scope, descriptor.Name), ExecCmd);

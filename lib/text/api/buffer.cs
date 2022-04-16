@@ -13,7 +13,17 @@ namespace Z0
             => new TextBuffer(new StringBuilder());
 
         [Op]
+        public static ITextBuffer buffer(StringBuilder src)
+            => new TextBuffer(src);
+
+        [Op]
         public static ITextBuffer buffer(uint capacity)
             => new TextBuffer(capacity);
+
+        public static ITextEmitter emitter()
+            => TextEmitter.cover(new StringBuilder());
+
+        public static ITextEmitter emitter(StringBuilder buffer)
+            => TextEmitter.cover(buffer);
     }
 }

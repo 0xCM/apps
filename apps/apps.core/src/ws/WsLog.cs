@@ -4,61 +4,87 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
+    using static core;
+    using static Datasets;
 
     public class WsLog : IDisposable
     {
-        static WsLog create(FS.FilePath dst)
-            => new WsLog(dst);
+        public static FS.FilePath target(IProjectWs project, string name, FileKind kind = FileKind.Log)
+            => project.Out() + FS.file(name, kind.Ext());
 
-        public static WsLog open(IProjectWs project, string name)
-            => create(project.Out() + FS.file(name, FS.Log));
+        public static FS.FilePath target(IProjectWs project, string scope, string name, FileKind kind = FileKind.Log)
+            => project.Out(scope) + FS.file(name, kind.Ext());
 
-        public static WsLog open(IProjectWs project, string scope, string name)
-            => create(project.Out(scope) + FS.file(name, FS.Log));
+        public static WsLog open(FS.FilePath dst, bool overwrite = true)
+            => new (dst, overwrite);
 
-        StreamWriter Writer;
+        public static WsLog open(IProjectWs project, string name, FileKind kind = FileKind.Log, bool overwrite = true)
+            => open(target(project,name,kind), overwrite);
+
+        public static WsLog open(IProjectWs project, string scope, string name, FileKind kind = FileKind.Log, bool overwrite = true)
+            => open(target(project, scope, name, kind), overwrite);
+
+        ITextEmitter Emitter;
 
         object Locker;
 
-        public readonly FS.FilePath Target;
+        public readonly FS.FilePath Path;
 
-        WsLog(FS.FilePath dst)
+        WsLog(FS.FilePath dst, bool overwrite)
         {
-            Target = dst;
-            Writer = dst.AsciWriter(true);
             Locker = new object();
+            Path = dst;
+            Emitter = dst.AsciWriter(!overwrite).Emitter();
         }
 
-        public void WriteLine()
+        public void AppendLine()
         {
             lock(Locker)
-            {
-                Writer.WriteLine();
-            }
+                Emitter.WriteLine();
         }
 
-        public void WriteLine(object content)
+        public void AppendLine(object content)
         {
             lock(Locker)
-            {
-                Writer.WriteLine(content);
-            }
+                Emitter.AppendLine(content);
         }
 
-        public void WriteLineFormat(string pattern, params object[] args)
+        public void AppendLineFormat(string pattern, params object[] args)
         {
             lock(Locker)
+                Emitter.AppendLineFormat(pattern, args);
+        }
+
+        public void AppendLine(TableColumns cols, object[] args)
+        {
+            AppendLine(cols.Format(args));
+        }
+
+        public (Count count,FS.FileUri path) TableEmit<T>(TableColumns cols, T[] rows)
+        {
+            var count = rows.Length;
+            if(count != 0)
             {
-                Writer.WriteLine(string.Format(pattern,args));
+                AppendLine();
+                if(text.nonempty(cols.TableName))
+                    AppendLineFormat("# {0}", cols.TableName);
+                AppendLine(RP.PageBreak160);
+                AppendLine(cols.Header);
+                var type = first(rows)?.GetType() ?? typeof(void);
+                if(type.IsNonEmpty())
+                {
+                    var fields = type.InstanceFields().NonPublic();
+                    iter(rows, d => AppendLine(cols, fields.Select(x => x.GetValue(d))));
+                }
             }
+            return (count,Path);
         }
 
 
         public void Dispose()
         {
-            Writer?.Flush();
-            Writer?.Dispose();
+            Emitter?.Flush();
+            Emitter?.Dispose();
         }
     }
 }

@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.IO;
     using System.Text;
 
@@ -23,6 +22,10 @@ namespace Z0
             => FileWriters.writer(dst, FileWriteMode.Overwrite, encoding);
 
         [Op]
+        public static StreamWriter Writer(this FS.FilePath dst, Encoding encoding, bool append)
+            => FileWriters.writer(dst, append ? FileWriteMode.Append : FileWriteMode.Overwrite, encoding);
+
+        [Op]
         public static StreamWriter Writer(this FS.FilePath dst, TextEncodingKind encoding, bool append = false)
             => encoding switch {
                 TextEncodingKind.Asci => FileWriters.asci(dst,append ? FileWriteMode.Append : FileWriteMode.Overwrite),
@@ -30,6 +33,7 @@ namespace Z0
                 TextEncodingKind.Unicode => FileWriters.unicode(dst, append ? FileWriteMode.Append : FileWriteMode.Overwrite),
                 _ => FileWriters.unicode(dst, append ? FileWriteMode.Append : FileWriteMode.Overwrite)
             };
+
 
         [Op]
         public static StreamWriter AsciWriter(this FS.FilePath dst, bool append = false)

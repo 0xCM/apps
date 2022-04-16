@@ -49,6 +49,12 @@ namespace Z0
         public void Append(char src)
             => Target.Append(src);
 
+        public void Append(char[] src)
+            => Target.Append(src);
+
+        public void Append<T>(T src)
+            => Target.Append(src);
+
         public void Append(ReadOnlySpan<char> src)
             => Target.Append(src);
 
@@ -60,12 +66,6 @@ namespace Z0
 
         public void AppendLine<T>(T src)
             => Target.AppendLine(src?.ToString() ?? RP.Null);
-
-        public void Append(char[] src)
-            => Target.Append(src);
-
-        public void AppendItem<T>(T src)
-            => Append(src?.ToString() ?? RP.Null);
 
         public void Indent<T>(uint margin, T src)
             => Target.Append(string.Format("{0}{1}", new string(Chars.Space, (int)margin), src));
@@ -82,8 +82,8 @@ namespace Z0
         public void AppendPadded<T,W>(T value, W width, string delimiter = EmptyString)
         {
             if(nonempty(delimiter))
-                Append(delimiter);
-            Append(string.Format(RP.pad(-i16(width)), value));
+                Target.Append(delimiter);
+            Target.Append(string.Format(RP.pad(-i16(width)), value));
         }
 
         public void Delimit(string delimiter, params object[] src)
@@ -92,7 +92,7 @@ namespace Z0
             var terms = @readonly(src);
             var sep = string.Format("{0} ", delimiter);
             for(var i=0; i<src.Length; i++)
-                Append(string.Format("{0}{1}", sep, skip(terms,i)));
+                Target.Append(string.Format("{0}{1}", sep, skip(terms,i)));
         }
 
         public void Delimit<T>(T content, char delimiter, int pad)
@@ -108,8 +108,74 @@ namespace Z0
             Target.Append(content);
         }
 
+        public void Write(bool value)
+            => Target.Append(value);
 
-        public override string ToString()
-            => Target.ToString();
+        public void Write(char value)
+            => Target.Append(value);
+
+        public void Write(char[]? buffer)
+            => Target.Append(buffer);
+
+        public void Write(char[] buffer, int index, int count)
+            => Target.Append(buffer, index, count);
+
+        public void Write(decimal value)
+            => Target.Append(value);
+
+        public void Write(double value)
+            => Target.Append(value);
+
+        public void Write(int value)
+            => Target.Append(value);
+
+        public void Write(long value)
+            => Target.Append(value);
+
+        public void Write(object? value)
+            => Target.Append(value);
+
+        public void Write(ReadOnlySpan<char> buffer)
+            => Target.Append(buffer);
+
+        public void Write(float value)
+            => Target.Append(value);
+
+        public void Write(string? value)
+            => Target.Append(value);
+
+        public void Write(string format, object? arg0)
+            => Target.AppendFormat(format, arg0);
+
+        public void Write(string format, object? arg0, object? arg1)
+            => Target.AppendFormat(format, arg0, arg1);
+
+        public void Write(string format, object? arg0, object? arg1, object? arg2)
+            => Target.AppendFormat(format, arg0, arg1, arg2);
+
+        public void Write(string format, params object?[] arg)
+            => Target.AppendFormat(format, arg);
+
+        public void Write(StringBuilder? value)
+            => Target.Append(value);
+
+        public void Write(uint value)
+            => Target.Append(value);
+
+        public void Write(ulong value)
+            => Target.Append(value);
+
+        [MethodImpl(Inline)]
+        public void WriteLine()
+            => Target.AppendLine();
+
+        [MethodImpl(Inline)]
+        public void WriteLine(string src)
+            => Target.AppendLine(src);
+
+        void IDisposable.Dispose()
+        {
+
+        }
     }
 }
