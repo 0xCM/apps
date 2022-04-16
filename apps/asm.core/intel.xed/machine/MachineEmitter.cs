@@ -5,41 +5,70 @@
 namespace Z0
 {
     using static core;
-    using static XedRules;
     using static Datasets;
+    using static XedRules;
+    using static XedModels;
 
-    public partial class XedMachine
+    partial class XedMachine
     {
-        public interface IMachineEmitter
+        public MachineEmitter Emitter
         {
-            void EmitClassForms();
-
-            void EmitClassGroups();
+            [MethodImpl(Inline)]
+            get => _Emitter;
         }
 
-        class MachineEmitter : IDisposable, IMachineEmitter
+        public class MachineEmitter : IDisposable
         {
-            readonly WsLog Log;
+            public static MachineEmitter create(XedMachine machine, Action<object> status)
+                => new MachineEmitter(machine,status);
+
+            object LogLocker = new();
+
+            WsLog _Log;
+
+            WsLog Log
+            {
+                get
+                {
+                    lock(LogLocker)
+                    {
+                        if(_Log == null)
+                            _Log = WsLog.open(Ws, $"xed.machine.{Machine.Id}", FileKind.Csv);
+                    }
+                    return _Log;
+                }
+            }
 
             readonly XedMachine Machine;
 
             readonly IProjectWs Ws;
+
+            readonly FS.FolderPath OutDir;
 
             readonly Action<object> Status;
 
             public MachineEmitter(XedMachine machine, Action<object> status)
             {
                 Machine = machine;
-                Ws = machine._Ws;
+                Ws = machine.Ws;
                 Status = status;
-                Log = WsLog.open(Ws, $"xed.machine.{machine.Id}", FileKind.Csv);
+                OutDir = Ws.Out();
             }
-
-            public ref readonly FS.FilePath Target => ref Log.Path;
 
             public void Dispose()
             {
-                Log.Dispose();
+                lock(LogLocker)
+                    if(_Log != null)
+                        _Log.Dispose();
+            }
+
+            public void Flush()
+            {
+                lock(LogLocker)
+                {
+                    if(_Log != null)
+                        _Log.Flush();
+                }
             }
 
             public void EmitClassForms()
@@ -62,7 +91,35 @@ namespace Z0
                         item
                 });
 
-                TableEmit(cols, rows);
+                TableEmitOld(cols, rows);
+            }
+
+            public void EmitFormPatterns(string label)
+            {
+                var section = nameof(Machine.FormPatterns);
+                var cols = new TableColumns(
+                    section,
+                    ("Section",16),
+                    ("PatternId",12),
+                    ("InstClass", 18),
+                    ("OpCode", 26),
+                    ("InstForm", 1)
+                    );
+
+                var capture = Machine.Captured();
+                var src = capture.FormPatterns.Map(x => (Form:x.Key, Patterns:x.Value.Array().Sort().Index()));
+                var rows = map(src, kvp => map(kvp.Patterns, p =>
+                    new {
+                        section,
+                        p.PatternId,
+                        p.InstClass,
+                        p.OpCode,
+                        kvp.Form
+                    }
+                )).SelectMany(x => x);
+
+                var emitted = TableEmit(cols,rows, OutDir + FS.file(label,FS.Csv));
+                Status(string.Format($"Emittited {emitted.count} rows to {emitted.path}"));
             }
 
             public void EmitClassGroups()
@@ -90,16 +147,44 @@ namespace Z0
                     }
                 );
 
-                TableEmit(cols, rows);
+                TableEmitOld(cols, rows);
             }
 
-            void TableEmit<T>(TableColumns cols, T[] rows)
+            void TableEmitOld<T>(TableColumns cols, T[] rows, bool status = false)
             {
                 if(rows.Length != 0)
                 {
-                    var dst = Log.TableEmit(cols,rows);
-                    Status(string.Format($"Emittited {dst.count} rows to {dst.path}"));
+                    var dst = Log.TableEmit(cols, rows);
+
+                    // if(status)
+                    //     Status(string.Format($"Emittited {dst.count} rows to {dst.path}"));
                 }
+            }
+
+
+            static void AppendLine(TableColumns cols, object[] args, ITextBuffer dst)
+                => dst.AppendLine(cols.Format(args));
+
+            static (Count count, FS.FileUri path) TableEmit<T>(TableColumns cols, T[] rows, FS.FilePath dst)
+            {
+                var count = rows.Length;
+                if(count != 0)
+                {
+                    var buffer = text.buffer();
+                    buffer.WriteLine();
+                    if(text.nonempty(cols.TableName))
+                        buffer.AppendLineFormat("# {0}", cols.TableName);
+                    buffer.AppendLine(RP.PageBreak160);
+                    buffer.AppendLine(cols.Header);
+                    var type = first(rows)?.GetType() ?? typeof(void);
+                    if(type.IsNonEmpty())
+                    {
+                        var fields = type.InstanceFields().NonPublic();
+                        iter(rows, d => AppendLine(cols, fields.Select(x => x.GetValue(d)),buffer));
+                    }
+                    dst.Overwrite(buffer.Emit());
+                }
+                return (count,dst);
             }
         }
     }

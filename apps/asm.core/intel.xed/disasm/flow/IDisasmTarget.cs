@@ -17,7 +17,7 @@ namespace Z0
 
             Task Computed(uint seq, in RuleState src);
 
-            Task Computed(uint seq, in XDis src);
+            Task Computed(uint seq, in AsmInfo src);
 
             Task Computed(uint seq, in Fields src);
 

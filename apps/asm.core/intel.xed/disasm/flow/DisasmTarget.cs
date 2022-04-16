@@ -71,7 +71,7 @@ namespace Z0
                 return run(() => StateComputed(seq));
             }
 
-            public Task Computed(uint seq, in XDis src)
+            public Task Computed(uint seq, in AsmInfo src)
             {
                 Buffer.XDis = src;
                 return run(() => XDisComputed(seq));

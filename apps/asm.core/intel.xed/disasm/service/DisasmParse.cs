@@ -173,10 +173,10 @@ namespace Z0
                 return result;
             }
 
-            public static Outcome parse(in DisasmLineBlock src, out XDis dst)
+            public static Outcome parse(in DisasmLineBlock src, out AsmInfo dst)
                 => parse(src.XDis.Content, out dst);
 
-            static Outcome parse(string src, out XDis dst)
+            static Outcome parse(string src, out AsmInfo dst)
             {
                 var result = Outcome.Success;
                 dst = default;

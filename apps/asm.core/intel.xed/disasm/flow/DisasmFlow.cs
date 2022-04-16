@@ -79,7 +79,7 @@ namespace Z0
                 ref readonly var asmtxt = ref summary.Asm;
                 ref readonly var ip = ref summary.IP;
 
-                var xdis = XDis.Empty;
+                var xdis = AsmInfo.Empty;
                 DisasmParse.parse(lines, out xdis).Require();
                 Target.Computed(seq, xdis);
 

@@ -48,7 +48,7 @@ namespace Z0
                 State = RuleState.Empty;
                 Summary = DisasmSummary.Empty;
                 Lines = DisasmLineBlock.Empty;
-                XDis = XDis.Empty;
+                XDis = AsmInfo.Empty;
                 Props = DisasmProps.Empty;
                 Encoding = EncodingExtract.Empty;
                 FieldSelection = default;
@@ -61,7 +61,7 @@ namespace Z0
                 State = RuleState.Empty;
                 Summary = DisasmSummary.Empty;
                 Lines = DisasmLineBlock.Empty;
-                XDis = XDis.Empty;
+                XDis = AsmInfo.Empty;
                 Props = DisasmProps.Empty;
                 Encoding = EncodingExtract.Empty;
                 FieldSelection = default;
@@ -76,7 +76,7 @@ namespace Z0
 
             public DisasmSummary Summary;
 
-            public XDis XDis;
+            public AsmInfo XDis;
 
             public DisasmProps Props;
 

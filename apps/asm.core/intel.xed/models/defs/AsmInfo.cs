@@ -8,22 +8,22 @@ namespace Z0
 
     using static XedModels;
 
-    public partial class XedDisasm
+    partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct XDis
+        public struct AsmInfo
         {
-            public AsmHexCode Encoded;
+            public asci64 Asm;
 
             public MemoryAddress IP;
+
+            public AsmHexCode Encoded;
 
             public CategoryKind Category;
 
             public ExtensionKind Extension;
 
-            public asci64 Asm;
-
-            public static XDis Empty => default;
+            public static AsmInfo Empty => default;
         }
     }
 }

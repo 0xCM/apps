@@ -35,7 +35,7 @@ namespace Z0
                 Render = XedFields.render();
                 State = RuleState.Empty;
                 Fields = XedFields.fields();
-                XDis = XDis.Empty;
+                XDis = AsmInfo.Empty;
                 Props = DisasmProps.Empty;
                 Encoding = EncodingExtract.Empty;
             }
@@ -44,7 +44,7 @@ namespace Z0
 
             readonly Fields Fields;
 
-            XDis XDis;
+            AsmInfo XDis;
 
             DisasmProps Props;
 
@@ -60,7 +60,7 @@ namespace Z0
             void Clear()
             {
                 State = RuleState.Empty;
-                XDis = XDis.Empty;
+                XDis = AsmInfo.Empty;
                 Props = DisasmProps.Empty;
                 Encoding = EncodingExtract.Empty;
                 Fields.Clear();

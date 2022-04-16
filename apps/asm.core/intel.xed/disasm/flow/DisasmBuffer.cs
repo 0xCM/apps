@@ -38,7 +38,7 @@ namespace Z0
                     receiver(seq,_State, slice(_FieldKinds.View, 0, FieldCount));
             }
 
-            public XDis XDis;
+            public AsmInfo XDis;
 
             readonly Index<Field> _StateFields;
 
@@ -70,7 +70,7 @@ namespace Z0
                 Block = DetailBlock.Empty;
                 Summary = DisasmSummaryDoc.Empty;
                 _State = RuleState.Empty;
-                XDis = XDis.Empty;
+                XDis = AsmInfo.Empty;
                 Props = DisasmProps.Empty;
                 Encoding = EncodingExtract.Empty;
             }

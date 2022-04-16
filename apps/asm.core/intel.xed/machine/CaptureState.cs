@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedCmdProvider
-    {
-        [CmdOp("xed/machine")]
-        Outcome RunMachine(CmdArgs args)
-        {
-            Wf.XedMachinHost().Run();
+    using static XedRules;
+    using static XedModels;
 
-            return true;
+    partial class XedMachine
+    {
+        public class CaptureState
+        {
+            public ConcurrentDictionary<InstForm,HashSet<InstPattern>> FormPatterns = new();
         }
     }
 }
