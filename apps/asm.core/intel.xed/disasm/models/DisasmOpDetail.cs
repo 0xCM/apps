@@ -12,9 +12,7 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public struct DisasmOpDetail
         {
-            public byte Index;
-
-            public InstOpClass OpClass;
+            public DisasmOpInfo OpInfo;
 
             public OpWidthInfo OpWidth;
 
@@ -29,7 +27,7 @@ namespace Z0
             public OpAction Action
             {
                 [MethodImpl(Inline)]
-                get => OpClass.Action;
+                get => OpInfo.Action;
             }
 
             public string Format()

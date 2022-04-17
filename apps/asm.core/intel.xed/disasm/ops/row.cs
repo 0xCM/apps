@@ -75,18 +75,17 @@ namespace Z0
             for(var k=0; k<lines.OpCount; k++)
             {
                 ref var operand = ref dst.Ops[k];
-                result = XedParsers.parse(skip(lines.Ops, k).Content, out operand.OpClass);
+                result = XedParsers.parse(skip(lines.Ops, k).Content, out operand.OpInfo);
                 if(result.Fail)
                     Errors.Throw(result.Message);
 
-                var info = operand.OpClass;
-                var winfo = XedWidths.describe(info.WidthCode);
-                operand.Index = (byte)operand.OpClass.Index;
+
+                var opclass = operand.OpInfo;
+                var winfo = XedWidths.describe(opclass.WidthCode);
                 operand.OpWidth = winfo;
-                var opname = XedRules.opname(info.Kind);
-                operand.OpName = opname;
+                operand.OpName = opclass.Name;
                 var optxt = EmptyString;
-                if(ops.TryGetValue(opname, out var opval))
+                if(ops.TryGetValue(opclass.Name, out var opval))
                 {
                     operand.Def = opval;
                     optxt = opval.Format();
@@ -95,13 +94,13 @@ namespace Z0
 
                 operand.DefDescription = string.Format(DisasmRender.OpDetailPattern,
                     string.Format("Op{0}", k),
-                    opname,
+                    opclass.Name,
                     optxt,
-                    info.Action,
-                    info.Visiblity,
+                    opclass.Action,
+                    opclass.Visibility,
                     winfo.Width64,
                     winfo.Name,
-                    info.Selector
+                    opclass.Selector
                     );
             }
 

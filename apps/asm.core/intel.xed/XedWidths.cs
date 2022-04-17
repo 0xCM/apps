@@ -19,7 +19,7 @@ namespace Z0
             get => ref Index;
         }
 
-        public static OpWidth width(OpWidthCode code, MachineMode mode)
+        public static OpWidth width(MachineMode mode, OpWidthCode code)
         {
             var dst = OpWidth.Empty;
             if(code == 0)
@@ -116,14 +116,14 @@ namespace Z0
 
                 symbols.MapKind(dst.Code, out var sym);
                 dst.Name = sym.Expr.Format();
-                result = XedParsers.parse(xtype, out dst.CellType);
+                result = XedParsers.parse(xtype, out dst.ElementType);
                 if(result.Fail)
                 {
-                    result = (false,Msg.ParseFailure.Format(nameof(dst.CellType), xtype));
+                    result = (false,Msg.ParseFailure.Format(nameof(dst.ElementType), xtype));
                     break;
                 }
 
-                dst.CellWidth = OpWidthSpec.bitwidth(dst.Code, dst.CellType);
+                dst.CellWidth = OpWidthSpec.bitwidth(dst.Code, dst.ElementType);
 
                 result = ParseWidthValue(wdefault, out dst.Width16);
                 if(result.Fail)
@@ -155,7 +155,7 @@ namespace Z0
                     break;
                 }
 
-                dst.Seg = BitSegType.define(OpWidthSpec.@class(dst.Code), dst.Width64, dst.CellWidth);
+                dst.SegType = BitSegType.define(OpWidthSpec.@class(dst.Code), dst.Width64, dst.CellWidth);
                 buffer.TryAdd(dst.Code, dst);
 
             }

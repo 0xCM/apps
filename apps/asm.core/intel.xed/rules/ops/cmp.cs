@@ -32,6 +32,22 @@ namespace Z0
             return x.CompareTo(y);
         }
 
+        [MethodImpl(Inline)]
+        public static int cmp(ModeKind a, ModeKind b)
+        {
+            return order(a).CompareTo(order(b));
+
+            static int order(ModeKind src)
+                => src switch
+                {   ModeKind.Mode16 => 0,
+                    ModeKind.Mode32 => 1,
+                    ModeKind.Not64 => 2,
+                    ModeKind.Default => 3,
+                    ModeKind.Mode64 => 4,
+                    _ => 0,
+                };
+        }
+
         [MethodImpl(Inline), Op]
         public static int cmp(OpNameKind a, OpNameKind b)
             => ((byte)a).CompareTo((byte)b);

@@ -52,6 +52,10 @@ namespace Z0
                 case PTR:
                     dst = K.Ptr;
                 break;
+                case BASE0:
+                case BASE1:
+                    dst = K.Base;
+                break;
                 case INDEX:
                     dst = K.Index;
                 break;

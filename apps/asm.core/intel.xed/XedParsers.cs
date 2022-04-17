@@ -101,7 +101,7 @@ namespace Z0
         /// 3		MEM0/R/VV/EXPLICIT/IMM_CONST/1
         /// 3		BASE0/RW/SSZ/SUPPRESSED/NT_LOOKUP_FN/SRSP
         /// </remarks>
-        public static Outcome parse(string src, out InstOpClass dst)
+        public static Outcome parse(string src, out DisasmOpInfo dst)
         {
             dst = default;
             if(text.length(src) < 3)
@@ -121,19 +121,22 @@ namespace Z0
                 return (false, string.Format("Unexpected number of operand aspects in {0}", aspects));
 
             var i=0;
-            result = XedParsers.parse(skip(parts,i++), out dst.Kind);
+            result = XedParsers.parse(skip(parts,i++), out dst.Name);
             if(result.Fail)
-                return (false, AppMsg.ParseFailure.Format(nameof(dst.Kind), skip(parts,i-1)));
+                return (false, AppMsg.ParseFailure.Format(nameof(dst.Name), skip(parts,i-1)));
+
+            dst.Kind = XedRules.opkind(dst.Name);
 
             result = DataParser.eparse(skip(parts,i++), out dst.Action);
             if(result.Fail)
                 return result;
 
+
             result = DataParser.eparse(skip(parts,i++), out dst.WidthCode);
             if(result.Fail)
                 return result;
 
-            result = XedParsers.parse(skip(parts,i++), out dst.Visiblity);
+            result = XedParsers.parse(skip(parts,i++), out dst.Visibility);
             if(result.Fail)
                 return result;
 

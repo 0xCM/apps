@@ -45,12 +45,12 @@ namespace Z0
 
                 var wi = w != 0 ? XedWidths.describe(w) : OpWidthInfo.Empty;
                 var seg = EmptyString;
-                if(wi.Seg.CellCount > 1)
+                if(wi.SegType.CellCount > 1)
                 {
                     var indicator = EmptyString;
                     if(et.Indicator != 0)
                         indicator = ((char)et.Indicator).ToString();
-                    seg = string.Format("{0}x{1}{2}x{3}n", wi.Seg.DataWidth,  wi.Seg.CellWidth, indicator, wi.Seg.CellCount);
+                    seg = string.Format("{0}x{1}{2}x{3}n", wi.SegType.DataWidth,  wi.SegType.CellWidth, indicator, wi.SegType.CellCount);
                 }
 
                 if(empty(bw))

@@ -26,11 +26,11 @@ namespace Z0
             if(XedPatterns.widthcode(src, out wc))
             {
                 dst.WidthCode = wc;
-                var w = XedWidths.width(wc, mode);
+                var w = XedWidths.width(mode,wc);
                 dst.BitWidth = w.Bits;
                 var wi = XedWidths.describe(wc);
-                dst.SegType = wi.Seg;
-                dst.CellType = wi.CellType;
+                dst.SegType = wi.SegType;
+                dst.CellType = wi.ElementType;
                 dst.CellWidth = wi.CellWidth;
             }
 

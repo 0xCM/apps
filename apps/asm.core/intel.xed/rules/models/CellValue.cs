@@ -330,9 +330,9 @@ namespace Z0
             public static implicit operator LockIndicator(CellValue src)
                 => ((bit)src) ? LockIndicator.On : LockIndicator.Off;
 
-            [MethodImpl(Inline)]
-            public static implicit operator Asm.EoszKind(CellValue src)
-                => (Asm.EoszKind)XedRules.widths((EOSZ)src);
+            // [MethodImpl(Inline)]
+            // public static implicit operator Asm.EoszKind(CellValue src)
+            //     => (Asm.EoszKind)XedRules.widths((EOSZ)src);
 
             [MethodImpl(Inline)]
             public static bool operator ==(CellValue a, CellValue b)

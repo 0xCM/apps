@@ -733,13 +733,13 @@ namespace Z0
         public static string format(FieldAssign src)
             => format(src.Expression());
 
-        public static string format(in DisasmOpDetail src)
+        public static string format(byte index, in DisasmOpDetail src)
         {
             const string OpSepSlot = "/{0}";
             var dst = text.buffer();
-            dst.AppendFormat("{0,-6} {1,-4}", src.Index, XedRender.format(src.OpName));
+            dst.AppendFormat("{0,-6} {1,-4}", index, XedRender.format(src.OpName));
             var kind = opkind(src.OpName);
-            ref readonly var opinfo = ref src.OpClass;
+            ref readonly var opinfo = ref src.OpInfo;
             switch(kind)
             {
                 case OpKind.Reg:
@@ -758,10 +758,10 @@ namespace Z0
 
             ref readonly var width = ref src.OpWidth;
             dst.AppendFormat(OpSepSlot, XedRender.format(width.Code));
-            if(width.CellType.IsNumber)
-                dst.AppendFormat(OpSepSlot, src.OpWidth.CellType);
-            if(!opinfo.Visiblity.IsExplicit)
-                dst.AppendFormat(OpSepSlot, opinfo.Visiblity);
+            if(width.ElementType.IsNumber)
+                dst.AppendFormat(OpSepSlot, src.OpWidth.ElementType);
+            if(!opinfo.Visibility.IsExplicit)
+                dst.AppendFormat(OpSepSlot, opinfo.Visibility);
             if(opinfo.OpType != 0)
                 dst.AppendFormat(OpSepSlot, opinfo.OpType);
 

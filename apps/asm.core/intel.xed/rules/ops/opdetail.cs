@@ -51,9 +51,9 @@ namespace Z0
             dst.BitWidth = info.BitWidth;
             if(wcode !=0)
             {
-                var w = XedWidths.width(wcode, pattern.Mode);
+                var w = XedWidths.width(pattern.Mode,wcode);
                 var wi = XedWidths.describe(wcode);
-                dst.SegInfo = wi.Seg;
+                dst.SegInfo = wi.SegType;
                 dst.ElementCount = dst.SegInfo.CellCount;
             }
             if(info.RegLit.IsNonEmpty && dst.BitWidth == 0)

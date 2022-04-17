@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct BitSegType
+    public readonly record struct BitSegType
     {
         readonly uint Data;
 

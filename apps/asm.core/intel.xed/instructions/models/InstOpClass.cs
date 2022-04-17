@@ -14,23 +14,46 @@ namespace Z0
         /// Characterizes a disassembled operand class
         /// </summary>
         [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public record struct InstOpClass
+        public record struct InstOpClass : IComparable<InstOpClass>
         {
-            public uint Index;
+            public OpKind Kind;
 
-            public FieldKind Kind;
+            public ushort DataWidth;
 
-            public OpAction Action;
+            public ElementType ElementType;
 
-            public Visibility Visiblity;
+            public byte CellCount;
 
             public OpWidthCode WidthCode;
 
             public OpType OpType;
 
+            public OpAction Action;
+
             public asci16 Selector;
 
+            public int CompareTo(InstOpClass src)
+            {
+                var result = XedRules.cmp(Kind,src.Kind);
+                if(result == 0)
+                    result = DataWidth.CompareTo(src.DataWidth);
+                if(result == 0)
+                    result = CellCount.CompareTo(src.CellCount);
+                if(result == 0)
+                    result = ElementType.CompareTo(src.ElementType);
+                if(result == 0)
+                    result = ((byte)WidthCode).CompareTo((byte)src.WidthCode);
+                if(result == 0)
+                    result = ((byte)OpType).CompareTo((byte)src.OpType);
+                if(result == 0)
+                    result = ((byte)Action).CompareTo((byte)src.Action);
+                if(result == 0)
+                    result = Selector.CompareTo(src.Selector);
+                return result;
+            }
+
             public static InstOpClass Empty => default;
+
         }
     }
 }

@@ -60,7 +60,7 @@ namespace Z0
                 {
                     ref readonly var op =ref ops[i];
                     var tabledef = FS.FileUri.Empty;
-                    if(XedParsers.parse(op.OpClass.Selector.Format(), out Nonterminal nonterm))
+                    if(XedParsers.parse(op.OpInfo.Selector.Format(), out Nonterminal nonterm))
                     {
                         var path = XedPaths.Service.TableDef(RuleTableKind.Enc, nonterm);
                         if(path.Exists)
@@ -76,11 +76,11 @@ namespace Z0
                     dst.AppendLine(string.Format("{0} | {1,-6} | {2,-4} | {3,-4} | {4,-4} | {5,-4} | {6}",
                         i,
                         XedRender.format(op.OpName),
-                        XedRender.format(op.OpClass.Action),
-                        XedRender.format(op.OpClass.WidthCode),
-                        op.OpClass.Visiblity.Code(),
-                        XedRender.format(op.OpClass.OpType),
-                        nonterm.IsNonEmpty ? string.Format("{0} => {1}", nonterm, tabledef) : op.OpClass.Selector
+                        XedRender.format(op.OpInfo.Action),
+                        XedRender.format(op.OpInfo.WidthCode),
+                        op.OpInfo.Visibility.Code(),
+                        XedRender.format(op.OpInfo.OpType),
+                        nonterm.IsNonEmpty ? string.Format("{0} => {1}", nonterm, tabledef) : op.OpInfo.Selector
                     ));
                 }
             }

@@ -10,7 +10,7 @@ namespace Z0
     partial struct XedModels
     {
         [DataWidth(8)]
-        public readonly struct ElementType
+        public readonly record struct ElementType : IComparable<ElementType>
         {
             public readonly ElementKind Kind;
 
@@ -61,6 +61,9 @@ namespace Z0
                 get => IsSignedInt || IsUnsignedInt;
             }
 
+            public int CompareTo(ElementType src)
+                => ((byte)src.Indicator).CompareTo((byte)Indicator);
+
             public NumericIndicator Indicator
                 => indicator(Kind);
 
@@ -87,7 +90,6 @@ namespace Z0
                 => new ElementType((ElementKind)src);
 
             public static ElementType Empty => default;
-
 
             public static NumericIndicator indicator(ElementType src)
             {
@@ -123,7 +125,6 @@ namespace Z0
                 }
                 return result;
             }
-
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public readonly struct Visibility
+        public readonly struct Visibility : IComparable<Visibility>
         {
             public static Visibility Hidden
                 => new (OpVisibility.Suppressed);
@@ -88,6 +88,10 @@ namespace Z0
                 else
                     return EmptyString;
             }
+
+            [MethodImpl(Inline)]
+            public int CompareTo(Visibility src)
+                => Code().CompareTo(src.Code());
 
             public string Format()
                 => XedRender.format(this);

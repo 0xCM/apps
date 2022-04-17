@@ -18,11 +18,11 @@ namespace Z0
 
             public text15 Name;
 
-            public ElementType CellType;
+            public ElementType ElementType;
 
             public ushort CellWidth;
 
-            public BitSegType Seg;
+            public BitSegType SegType;
 
             public ushort Width64;
 

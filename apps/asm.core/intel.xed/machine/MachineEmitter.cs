@@ -118,7 +118,7 @@ namespace Z0
                     }
                 )).SelectMany(x => x);
 
-                var emitted = TableEmit(cols,rows, OutDir + FS.file(label,FS.Csv));
+                var emitted = Datasets.emit(cols,rows, OutDir + FS.file(label,FS.Csv));
                 Status(string.Format($"Emittited {emitted.count} rows to {emitted.path}"));
             }
 
@@ -159,32 +159,6 @@ namespace Z0
                     // if(status)
                     //     Status(string.Format($"Emittited {dst.count} rows to {dst.path}"));
                 }
-            }
-
-
-            static void AppendLine(TableColumns cols, object[] args, ITextBuffer dst)
-                => dst.AppendLine(cols.Format(args));
-
-            static (Count count, FS.FileUri path) TableEmit<T>(TableColumns cols, T[] rows, FS.FilePath dst)
-            {
-                var count = rows.Length;
-                if(count != 0)
-                {
-                    var buffer = text.buffer();
-                    buffer.WriteLine();
-                    if(text.nonempty(cols.TableName))
-                        buffer.AppendLineFormat("# {0}", cols.TableName);
-                    buffer.AppendLine(RP.PageBreak160);
-                    buffer.AppendLine(cols.Header);
-                    var type = first(rows)?.GetType() ?? typeof(void);
-                    if(type.IsNonEmpty())
-                    {
-                        var fields = type.InstanceFields().NonPublic();
-                        iter(rows, d => AppendLine(cols, fields.Select(x => x.GetValue(d)),buffer));
-                    }
-                    dst.Overwrite(buffer.Emit());
-                }
-                return (count,dst);
             }
         }
     }
