@@ -25,7 +25,7 @@ namespace Z0
             => width<T>();
     }
 
-    public interface IBitVector<V,T> : IBitVector<T>, IEquatable<V>
+    public interface IBitVector<V,T> : IBitVector<T>, IEquatable<V>, IComparable<V>
         where V : unmanaged, IBitVector
         where T : unmanaged
     {

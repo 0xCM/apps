@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class BitVectors
     {
         /// <summary>
@@ -18,7 +13,7 @@ namespace Z0
         /// <param name="offset">The rotation magnitude</param>
         [MethodImpl(Inline), Rotl]
         public static BitVector4 rotl(BitVector4 src, byte offset)
-            => gbits.rotl(src.Data, offset, src.Width);
+            => gbits.rotl(src.Data, offset, (byte)src.Width);
 
         /// <summary>
         /// Rotates source bits leftward

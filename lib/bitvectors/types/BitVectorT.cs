@@ -36,6 +36,10 @@ namespace Z0
         public bool Equals(BitVector<T> src)
             => State.Equals(src.State);
 
+        [MethodImpl(Inline)]
+        public int CompareTo(BitVector<T> src)
+            => bw64(this).CompareTo(bw64(src));
+
         Span<byte> Bytes
         {
             [MethodImpl(Inline)]

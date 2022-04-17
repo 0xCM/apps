@@ -12,8 +12,6 @@ namespace Z0
     {
         public static XedLookups Service => Instance;
 
-        public readonly FieldLookup FieldLookup;
-
         public readonly Index<OpWidthInfo> WidthRecords;
 
         public readonly ConstLookup<OpWidthCode,OpWidthInfo> WidthLookup;
@@ -22,19 +20,12 @@ namespace Z0
 
         XedLookups()
         {
-            FieldLookup = FieldLookup.create();
             WidthRecords = LoadOpWidths();
             WidthLookup = CalcOpWidthLookup(WidthRecords);
             _Fields = XedFields.ByPosition;
         }
 
         XedPaths XedPaths => XedPaths.Service;
-
-        public ref readonly ReflectedFields Fields
-        {
-            [MethodImpl(Inline)]
-            get => ref _Fields;
-        }
 
         [MethodImpl(Inline)]
         public ref readonly ReflectedField Field(FieldKind kind)

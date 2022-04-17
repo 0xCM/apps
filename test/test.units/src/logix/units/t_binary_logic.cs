@@ -169,10 +169,10 @@ namespace Z0.Logix
                 var bs = Random.BitString(2,7);
                 var x = bs.ToLogicSeq();
                 var y = BitVectors.create(n8,bs);
-                for(var i=0; i<bs.Length; i++)
+                for(var i=z8; i<bs.Length; i++)
                 {
-                    Claim.eq(bs[i],x[i]);
-                    Claim.eq(bs[i],y[i]);
+                    Claim.eq(bs[i], x[i]);
+                    Claim.eq(bs[i], y[i]);
                 }
             }
         }

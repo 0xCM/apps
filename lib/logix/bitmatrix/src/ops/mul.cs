@@ -37,7 +37,7 @@ namespace Z0
         {
             var n = n4;
             var z = BitVectors.alloc(n);
-            for(byte i=0; i< n; i++)
+            for(var i=z8; i< n; i++)
                 z[i] = A[i] % x;
             return z;
         }
@@ -52,7 +52,7 @@ namespace Z0
         {
             var n = n8;
             var z = BitVectors.alloc(n);
-            for(var i=0; i< n; i++)
+            for(var i=z8; i< n; i++)
                 z[i] = A[i] % B;
             return z;
         }
@@ -70,7 +70,7 @@ namespace Z0
             for(var i=0; i < n; i++)
             {
                 var row = A[i];
-                for(var j = 0; j< n; j++)
+                for(var j = z8; j<n; j++)
                 {
                     var col = C[j];
                     Z[i,j] = row % col;
@@ -100,10 +100,10 @@ namespace Z0
         {
             var n = BitMatrix8.N;
             var C = BitMatrix.transpose_v2(B);
-            for(var i=0; i< n; i++)
+            for(var i=z8; i< n; i++)
             {
                 ref var z = ref Z[i];
-                for(var j = 0; j< n; j++)
+                for(var j=z8; j< n; j++)
                     z[j] = A[i] % C[j];
             }
 
@@ -127,7 +127,7 @@ namespace Z0
         {
             var n = BitMatrix16.N;
             var dst = BitVectors.alloc(n16);
-            for(var i=0; i< n; i++)
+            for(var i=z8; i< n; i++)
                 dst[i] = A[i] % x;
             return dst;
         }
@@ -140,10 +140,10 @@ namespace Z0
             var Y = B.Transpose();
 
             var dst = BitMatrix.alloc(n16);
-            for(var i=0; i< n; i++)
+            for(var i=z8; i< n; i++)
             {
                 var row = X[i];
-                for(var j = 0; j< n; j++)
+                for(var j=z8; j< n; j++)
                     dst[i,j] = Y[j] % row;
             }
             return dst;
@@ -155,11 +155,11 @@ namespace Z0
             var n = BitMatrix32.N;
             var C = B.Transpose();
 
-            for(var i=0; i< n; i++)
+            for(var i=z8; i< n; i++)
             {
                 var r = A[i];
                 var z = BitVectors.alloc(n32);
-                for(var j = 0; j< n; j++)
+                for(var j=z8; j<n; j++)
                     z[j] = r % C[j];
                 A[i] = (uint)z;
             }
@@ -179,7 +179,7 @@ namespace Z0
         {
             const int N = 32;
             var y = BitVectors.alloc(n32);
-            for(var i=0; i< N; i++)
+            for(var i=z8; i< N; i++)
                 y[i] = A[i] % x;
             return y;
         }
@@ -189,7 +189,7 @@ namespace Z0
         {
             const int N = 64;
             var C = B.Transpose();
-            for(var i=0; i< N; i++)
+            for(var i=z8; i< N; i++)
             {
                 ref readonly var row = ref A[i];
                 var z = BitVectors.alloc(n64);
@@ -213,7 +213,7 @@ namespace Z0
         {
             const int N = 64;
             var dst = BitVectors.alloc(n64);
-            for(var i=0; i< N; i++)
+            for(var i=z8; i< N; i++)
                 dst[i] = A[i] % B;
             return dst;
         }

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class BitVectors
     {
         /// <summary>
@@ -21,8 +16,8 @@ namespace Z0
         public static bit modprod(BitVector4 x, BitVector4 y)
         {
             var result = 0;
-            var w = (uint)x.Width;
-            for(byte i=0; i<w; i++)
+            var w = x.Width;
+            for(var i=z8; i<w; i++)
             {
                 var a = x[i] ? 1 : 0;
                 var b = y[i] ? 1 : 0;
@@ -41,8 +36,8 @@ namespace Z0
         public static bit modprod(BitVector8 x, BitVector8 y)
         {
             var result = 0;
-            var w = (uint)x.Width;
-            for(var i=0; i<w; i++)
+            var w = x.Width;
+            for(var i=z8; i<w; i++)
             {
                 var a = x[i] ? 1 : 0;
                 var b = y[i] ? 1 : 0;
@@ -61,7 +56,8 @@ namespace Z0
         public static bit modprod(BitVector16 x, BitVector16 y)
         {
             var result = 0;
-            for(var i=0; i<x.Width; i++)
+            var w = x.Width;
+            for(var i=z8; i<w; i++)
             {
                 var a = x[i] ? 1 : 0;
                 var b = y[i] ? 1 : 0;
@@ -80,8 +76,8 @@ namespace Z0
         public static bit modprod(BitVector32 x, BitVector32 y)
         {
             var result = 0;
-            var w = (uint)x.Width;
-            for(var i=0; i<w; i++)
+            var w = x.Width;
+            for(var i=z8; i<w; i++)
             {
                 var a = x[i] ? 1 : 0;
                 var b = y[i] ? 1 : 0;
@@ -100,8 +96,8 @@ namespace Z0
         public static bit modprod(BitVector64 x, BitVector64 y)
         {
             var result = 0;
-            var w = (uint)x.Width;
-            for(var i=0; i<w; i++)
+            var w = x.Width;
+            for(var i=z8; i<w; i++)
             {
                 var a = x[i] ? 1 : 0;
                 var b = y[i] ? 1 : 0;

@@ -13,10 +13,10 @@ namespace Z0
 
             var dst = BitMatrix.alloc(n8);
             B = B.Transpose();
-            for(var i=0; i< n; i++)
+            for(var i=z8; i< n; i++)
             {
                 var row = A[i];
-                for(var j =0; j< n; j++)
+                for(var j =z8; j< n; j++)
                 {
                     var col = B[j];
                     dst[i,j] = BitVectors.modprod(row,col);
@@ -31,10 +31,10 @@ namespace Z0
 
             var dst = BitMatrix16.Alloc();
             B = B.Transpose();
-            for(var i=0; i< n; i++)
+            for(var i=z8; i< n; i++)
             {
                 var row = A[i];
-                for(var j =0; j< n; j++)
+                for(var j =z8; j< n; j++)
                 {
                     var col = B[j];
                     dst[i,j] = BitVectors.modprod(row,col);
@@ -49,10 +49,10 @@ namespace Z0
 
             var dst = BitMatrix.alloc(n32);
             B = B.Transpose();
-            for(var i=0; i< n; i++)
+            for(var i=z8; i< n; i++)
             {
                 var row = A[i];
-                for(var j =0; j< n; j++)
+                for(var j=z8; j< n; j++)
                 {
                     var col = B[j];
                     dst[i,j] = BitVectors.modprod(row,col);
@@ -67,10 +67,10 @@ namespace Z0
 
             var dst = BitMatrix.alloc(n64);
             B = B.Transpose();
-            for(var i=0; i< n; i++)
+            for(var i=z8; i< n; i++)
             {
                 var row = A[i];
-                for(var j =0; j< n; j++)
+                for(var j=z8; j< n; j++)
                 {
                     var col = B[j];
                     dst[i,j] = BitVectors.modprod(row,col);
@@ -82,7 +82,7 @@ namespace Z0
         void bm_mul_8x8x8()
         {
             var n = n8;
-            for(var i=0; i< RepCount; i++)
+            for(var i=z8; i< RepCount; i++)
             {
                 var m1 = Random.BitMatrix(n);
                 var m2 = m1.Replicate();
@@ -161,7 +161,7 @@ namespace Z0
                 var c = Random.BitVector(n8);
                 var z1 = m * c;
                 var z2 = BitVectors.alloc(n8);
-                for(var i = 0; i<m.Order; i++)
+                for(var i=z8; i<m.Order; i++)
                     z2[i] = m[i] % c;
 
                 Claim.eq(z1, z2);

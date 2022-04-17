@@ -10,7 +10,7 @@ namespace Z0
     /// Defines a generic bitvector over a primal cell
     /// </summary>
     /// <typeparam name="T">The cell type</typeparam>
-    public struct ScalarBits<T> : IBitVector<ScalarBits<T>,T>
+    public struct ScalarBits<T> : IComparable<ScalarBits<T>>, IEquatable<ScalarBits<T>>
         where T : unmanaged
     {
         T Data;
@@ -115,7 +115,11 @@ namespace Z0
         public readonly override int GetHashCode()
             => Data.GetHashCode();
 
-        public string Format(BitFormat config)
+        [MethodImpl(Inline)]
+        public int CompareTo(ScalarBits<T> src)
+            => bw64(this).CompareTo(bw64(src));
+
+        public string Format(in BitFormat config)
             => BitVectors.format(this,config);
 
         public string Format()

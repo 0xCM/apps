@@ -52,23 +52,22 @@ namespace Z0
                 get => core.slice(Data.View,1);
             }
 
-            public ReadOnlySpan<ReflectedField> this[FieldKind i0, FieldKind i1]
+            public ReadOnlySpan<ReflectedField> this[byte pos0, byte pos1]
             {
                 [MethodImpl(Inline)]
-                get => Segment(i0,i1);
+                get => Segment(pos0,pos1);
             }
 
             public ReflectedFields IndexSort()
                 => new ReflectedFields(Data.Storage.Sort());
 
             [MethodImpl(Inline)]
-            public ReadOnlySpan<ReflectedField> Segment(FieldKind i0, FieldKind i1)
-                => segment(@readonly(Data.Storage), (byte)i0, (byte)i1);
+            public ReadOnlySpan<ReflectedField> Segment(byte pos0, byte pos1)
+                => segment(@readonly(Data.Storage), pos0, pos1);
 
             [MethodImpl(Inline)]
             public static implicit operator Index<ReflectedField> (ReflectedFields src)
                 => src.Data.Storage;
-
         }
     }
 }

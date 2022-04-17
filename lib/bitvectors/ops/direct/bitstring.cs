@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class BitVectors
     {
         /// <summary>
@@ -17,7 +12,7 @@ namespace Z0
         /// <param name="x">The source vector</param>
         [MethodImpl(Inline), Op]
         public static BitString bitstring(BitVector4 x)
-            => BitStrings.scalar(x.Data, x.Width);
+            => BitStrings.scalar(x.Data, (byte)x.Width);
 
         /// <summary>
         /// Converts the vector to a bitstring representation

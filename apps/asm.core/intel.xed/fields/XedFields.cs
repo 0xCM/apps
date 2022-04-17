@@ -27,6 +27,8 @@ namespace Z0
 
         static Index<FieldKind,Type> EffectiveFieldTypes;
 
+        static FieldLookup _FieldLookup;
+
         public static ref readonly ReflectedFields ByPosition
         {
             [MethodImpl(Inline)]
@@ -38,7 +40,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => ref _ReflectedByIndex;
         }
-
 
         static XedFields()
         {

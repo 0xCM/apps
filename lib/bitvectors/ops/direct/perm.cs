@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class BitVectors
     {
         /// <summary>
@@ -19,8 +14,8 @@ namespace Z0
         public static BitVector4 perm(BitVector4 src, in Perm spec)
         {
             var dst = src.Replicate();
-            var w = (byte)src.Width;
-            for(byte i=0; i<w; i++)
+            var w = src.Width;
+            for(var i=z8; i<w; i++)
                 dst[i] = src[(byte)spec[i]];
             return dst;
         }
@@ -33,9 +28,9 @@ namespace Z0
         public static BitVector8 perm(BitVector8 src, in Perm p)
         {
             var dst = src.Replicate();
-            var width = (byte)src.Width;
-            for(var i=0; i<width; i++)
-                dst[i] = src[p[i]];
+            var width = src.Width;
+            for(var i=z8; i<width; i++)
+                dst[i] = src[(byte)p[i]];
             return dst;
         }
 
@@ -48,12 +43,12 @@ namespace Z0
         public static BitVector16 perm(BitVector16 src, in Perm spec)
         {
             var dst = src.Replicate();
-            var w = (byte)src.Width;
-            for(var i=0; i<w; i++)
+            var w = src.Width;
+            for(var i=z8; i<w; i++)
             {
                 ref readonly var j = ref spec[i];
                 if(j != i)
-                    dst[i] = src[j];
+                    dst[i] = src[(byte)j];
             }
             return dst;
         }
@@ -67,12 +62,12 @@ namespace Z0
         public static BitVector32 perm(BitVector32 src, in Perm spec)
         {
             var dst = src.Replicate();
-            var w = (byte)src.Width;
-            for(var i=0; i<w; i++)
+            var w = src.Width;
+            for(var i=z8; i<w; i++)
             {
                 ref readonly var j = ref spec[i];
                 if(j != i)
-                    dst[i] = src[j];
+                    dst[i] = src[(byte)j];
             }
             return dst;
         }
@@ -86,12 +81,12 @@ namespace Z0
         public static BitVector64 perm(BitVector64 src, in Perm spec)
         {
             var dst = src.Replicate();
-            var w = (byte)src.Width;
-            for(var i=0; i<w; i++)
+            var w = src.Width;
+            for(var i=z8; i<w; i++)
             {
                 ref readonly var j = ref spec[i];
                 if(j != i)
-                    dst[i] = src[j];
+                    dst[i] = src[(byte)j];
             }
             return dst;
         }

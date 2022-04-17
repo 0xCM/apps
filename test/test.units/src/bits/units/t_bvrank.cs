@@ -30,7 +30,7 @@ namespace Z0
 
                 var actual = gbits.rank(x.State,pos);
                 var expect = 0u;
-                for(var j=0; j<= pos; j++)
+                for(var j=z8; j<= pos; j++)
                     expect += (x[j] ? 1u : 0u);
                 Claim.eq(expect, actual);
             }

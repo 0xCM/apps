@@ -49,7 +49,7 @@ namespace Z0
             EffectiveFieldTypes = types;
             _ReflectedByPos = positional;
             _ReflectedByIndex = indexed.IndexSort();
-
+            _FieldLookup = FieldLookup.create();
         }
     }
 }

@@ -62,7 +62,7 @@ namespace Z0
 
             var c = Random.BitMatrix(n64);
             var a = new ulong[64];
-            for(var i = 0; i<64; i++)
+            for(var i=z8; i<64; i++)
                 a[i] = ~ c[i];
             var b = BitMatrix.primal(n64,a);
             Claim.require(b == ~c);
@@ -70,13 +70,13 @@ namespace Z0
 
         public void bm_getcol_8x8x8()
         {
-            for(var j = 0; j< RepCount; j++)
+            for(var j=0; j<RepCount; j++)
             {
                 var src = Random.BitMatrix8();
-                for(var c = 0; c < src.Order; c ++)
+                for(var c=z8; c < src.Order; c ++)
                 {
                     var col = src.Col(c);
-                    for(var r=0; r<src.Order; r++)
+                    for(var r=z8; r<src.Order; r++)
                         PrimalClaims.eq(col[r], src[r,c]);
                 }
             }
@@ -84,13 +84,13 @@ namespace Z0
 
         public void bm_getcol_16x16x16()
         {
-            for(var j = 0; j< RepCount; j++)
+            for(var j=0; j<RepCount; j++)
             {
                 var src = Random.BitMatrix16();
-                for(var c = 0; c < src.Order; c ++)
+                for(var c=z8; c<src.Order; c ++)
                 {
                     var col = src.Col(c);
-                    for(var r=0; r<src.Order; r++)
+                    for(var r=z8; r<src.Order; r++)
                         PrimalClaims.eq(col[r], src[r,c]);
                 }
             }
@@ -98,13 +98,13 @@ namespace Z0
 
         public void bm_getcol_32x32x32()
         {
-            for(var j = 0; j< RepCount; j++)
+            for(var j=0; j<RepCount; j++)
             {
                 var src = Random.BitMatrix(n32);
-                for(var c = 0; c < src.Order; c ++)
+                for(var c=z8; c<src.Order; c ++)
                 {
                     var col = BitMatrix.col(src,c);
-                    for(var r=0; r<src.Order; r++)
+                    for(var r=z8; r<src.Order; r++)
                         PrimalClaims.eq(col[r], src[r,c]);
                 }
             }
@@ -112,13 +112,13 @@ namespace Z0
 
         public void bm_getcol_64x64x64()
         {
-            for(var j = 0; j< RepCount; j++)
+            for(var j=0; j<RepCount; j++)
             {
                 var src = Random.BitMatrix(n64);
-                for(var c = 0; c < src.Order; c ++)
+                for(var c = z8; c<src.Order; c ++)
                 {
                     var col = src.Column(c);
-                    for(var r=0; r<src.Order; r++)
+                    for(var r=z8; r<src.Order; r++)
                         PrimalClaims.eq(col[r], src[r,c]);
                 }
             }
@@ -129,7 +129,7 @@ namespace Z0
             where N : unmanaged, ITypeNat
             where T : unmanaged
         {
-            for(var row=0; row< src.RowCount; row++)
+            for(var row=0; row<src.RowCount; row++)
             {
                 var vector = src.ReadRow(row);
                 for(var col=0; col<vector.Width; col++)

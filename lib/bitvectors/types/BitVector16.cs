@@ -4,24 +4,39 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
+    using static core;
 
-    using static Root;
+    using V = BitVector16;
+    using D = UInt16;
+    using W = W16;
+    using N = N16;
 
     /// <summary>
     /// Defines a 16-bit bitvector
     /// </summary>
-    public struct BitVector16 : IBitVector<BitVector16,ushort>
+    [DataWidth(16)]
+    public struct BitVector16 : IEquatable<V>, IComparable<V>
     {
-        internal ushort Data;
+        public const D MaxValue = D.MaxValue;
+
+        public static V Zero => 0;
+
+        public static V One => 1;
+
+        public static V Ones => MaxValue;
+
+        public static N N => default;
+
+        public static W W => default;
+
+        internal D Data;
 
         /// <summary>
         /// Initializes the vector with the source value it represents
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
-        public BitVector16(ushort src)
+        public BitVector16(D src)
             => Data = src;
 
         /// <summary>
@@ -36,34 +51,31 @@ namespace Z0
         /// <summary>
         /// The number of bits represented by the vector
         /// </summary>
-        public readonly int Width
+        public readonly uint Width
         {
             [MethodImpl(Inline)]
             get => 16;
         }
 
-        /// <summary>
-        /// Returns true if no bits are enabled, false otherwise
-        /// </summary>
-        public bit Empty
+        public bit IsZero
         {
             [MethodImpl(Inline)]
             get => Data == 0;
         }
 
-        /// <summary>
-        /// Returns true if the vector has at least one enabled bit; false otherwise
-        /// </summary>
-        public bit NonEmpty
+        public bit IsNonZero
         {
             [MethodImpl(Inline)]
             get => Data != 0;
         }
 
-        public bit AllOn
+        /// <summary>
+        /// Tests whether all bits are on
+        /// </summary>
+        public readonly bool Enabled
         {
             [MethodImpl(Inline)]
-            get => (UInt16.MaxValue & Data) == UInt16.MaxValue;
+            get => (MaxValue & Data) == MaxValue;
         }
 
         /// <summary>
@@ -93,16 +105,45 @@ namespace Z0
             get => core.bytes(Data);
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => (uint)Data;
+        }
+
+        [MethodImpl(Inline)]
+        public bit Test(byte pos)
+            => bit.test(Data, pos);
+
+        [MethodImpl(Inline)]
+        public V Set(byte pos, bit state)
+        {
+            Data = bit.set(Data, pos, state);
+            return this;
+        }
+
         /// <summary>
         /// Gets/sets the state of an index-identified bit
         /// </summary>
-        public bit this[int index]
+        public bit this[byte pos]
         {
             [MethodImpl(Inline)]
-            get => bit.test(Data, (byte)index);
+            get => bit.test(Data, (byte)pos);
 
             [MethodImpl(Inline)]
-            set => Data = bit.set(Data, (byte)index, value);
+            set => Data = bit.set(Data, (byte)pos, value);
+        }
+
+        /// <summary>
+        /// Gets/sets the state of an index-identified bit
+        /// </summary>
+        public bit this[int pos]
+        {
+            [MethodImpl(Inline)]
+            get => bit.test(Data, (byte)pos);
+
+            [MethodImpl(Inline)]
+            set => Data = bit.set(Data, (byte)pos, value);
         }
 
         /// <summary>
@@ -110,23 +151,27 @@ namespace Z0
         /// </summary>
         /// <param name="first">The position of the first bit</param>
         /// <param name="last">The position of the last bit</param>
-        public BitVector16 this[byte first, byte last]
+        public V this[byte first, byte last]
         {
             [MethodImpl(Inline)]
             get => BitVectors.extract(this, first, last);
         }
 
         [MethodImpl(Inline)]
-        public bool Equals(BitVector16 y)
+        public bool Equals(V y)
             => Data == y.Data;
 
         public override bool Equals(object obj)
-            => obj is BitVector16 x ? Equals(x) : false;
+            => obj is V x ? Equals(x) : false;
+
+        [MethodImpl(Inline)]
+        public int CompareTo(V src)
+            => Data.CompareTo(src.Data);
 
         public override int GetHashCode()
-            => Data.GetHashCode();
+            => Hash;
 
-         public string Format(BitFormat config)
+        public string Format(in BitFormat config)
             => BitVectors.format(this,config);
 
         public string Format()
@@ -136,27 +181,27 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator ScalarBits<ushort>(BitVector16 src)
+        public static implicit operator ScalarBits<ushort>(V src)
             => src.Data;
 
         [MethodImpl(Inline)]
-        public static implicit operator BitVector16(ushort src)
-            => new BitVector16(src);
+        public static implicit operator V(ushort src)
+            => new V(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator ushort(BitVector16 src)
+        public static implicit operator ushort(V src)
             => src.Data;
 
         [MethodImpl(Inline)]
-        public static implicit operator BitVector32(BitVector16 src)
+        public static implicit operator BitVector32(V src)
             => src.Data;
 
         [MethodImpl(Inline)]
-        public static implicit operator BitVector64(BitVector16 src)
+        public static implicit operator BitVector64(V src)
             => src.Data;
 
         [MethodImpl(Inline)]
-        public static explicit operator BitVector8(BitVector16 src)
+        public static explicit operator BitVector8(V src)
             => (byte)src.Data;
 
         /// <summary>
@@ -165,7 +210,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static BitVector16 operator &(BitVector16 x, BitVector16 y)
+        public static V operator &(V x, V y)
             => BitVectors.and(x,y);
 
         /// <summary>
@@ -174,7 +219,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static BitVector16 operator |(BitVector16 x, BitVector16 y)
+        public static V operator |(V x, V y)
             => BitVectors.or(x,y);
 
         /// <summary>
@@ -183,7 +228,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static BitVector16 operator ^(BitVector16 x, BitVector16 y)
+        public static V operator ^(V x, V y)
             => BitVectors.xor(x,y);
 
         /// <summary>
@@ -191,7 +236,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector16 operator ~(BitVector16 src)
+        public static V operator ~(V src)
             => BitVectors.not(src);
 
         /// <summary>
@@ -200,7 +245,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static BitVector16 operator +(BitVector16 x, BitVector16 y)
+        public static V operator +(V x, V y)
             => BitVectors.add(x,y);
 
         /// <summary>
@@ -208,7 +253,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source vector</param>
         [MethodImpl(Inline)]
-        public static BitVector16 operator -(BitVector16 x)
+        public static V operator -(V x)
             => BitVectors.negate(x);
 
         /// <summary>
@@ -217,7 +262,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static BitVector16 operator - (BitVector16 x, BitVector16 y)
+        public static V operator - (V x, V y)
             => BitVectors.sub(x,y);
 
         /// <summary>
@@ -226,7 +271,7 @@ namespace Z0
         /// <param name="x">The left operand</param>
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
-        public static bit operator %(BitVector16 x, BitVector16 y)
+        public static bit operator %(V x, V y)
             => BitVectors.dot(x,y);
 
         /// <summary>
@@ -234,7 +279,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector16 operator <<(BitVector16 x, int shift)
+        public static V operator <<(V x, int shift)
             => BitVectors.sll(x,(byte)shift);
 
         /// <summary>
@@ -242,7 +287,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector16 operator >>(BitVector16 x, int shift)
+        public static V operator >>(V x, int shift)
             => BitVectors.srl(x,(byte)shift);
 
         /// <summary>
@@ -250,7 +295,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        public static BitVector16 operator ++(BitVector16 src)
+        public static V operator ++(V src)
             => BitVectors.inc(src);
 
         /// <summary>
@@ -258,7 +303,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        public static BitVector16 operator --(BitVector16 src)
+        public static V operator --(V src)
             => BitVectors.dec(src);
 
         /// <summary>
@@ -266,24 +311,24 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        public static bool operator true(BitVector16 src)
-            => src.NonEmpty;
+        public static bool operator true(V src)
+            => src.IsNonZero;
 
         /// <summary>
         /// Returns false if the source vector is the zero vector, false otherwise
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        public static bool operator false(BitVector16 src)
-            => src.Empty;
+        public static bool operator false(V src)
+            => src.IsZero;
 
         /// <summary>
         /// Computes the operand's logical negation: if x = 0 then 1 else 0
         /// </summary>
         /// <param name="src">The ource operand</param>
         [MethodImpl(Inline)]
-        public static bit operator !(BitVector16 src)
-            => src.Empty;
+        public static bit operator !(V src)
+            => src.IsZero;
 
         /// <summary>
         /// Determines whether operand content is identical
@@ -291,7 +336,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static bit operator ==(BitVector16 x, BitVector16 y)
+        public static bit operator ==(V x, V y)
             => math.eq(x,y);
 
         /// <summary>
@@ -300,7 +345,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static bit operator !=(BitVector16 x, BitVector16 y)
+        public static bit operator !=(V x, V y)
             => math.neq(x,y);
 
         /// <summary>
@@ -309,7 +354,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static bit operator <(BitVector16 x, BitVector16 y)
+        public static bit operator <(V x, V y)
             => math.lt(x,y);
 
         /// <summary>
@@ -318,7 +363,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static bit operator >(BitVector16 x, BitVector16 y)
+        public static bit operator >(V x, V y)
             => math.gt(x,y);
 
         /// <summary>
@@ -327,19 +372,12 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static bit operator <=(BitVector16 x, BitVector16 y)
+        public static bit operator <=(V x, V y)
             => math.lteq(x,y);
 
         [MethodImpl(Inline)]
-        public static bit operator >=(BitVector16 x, BitVector16 y)
+        public static bit operator >=(V x, V y)
             => math.gteq(x,y);
 
-        public static BitVector16 Zero => 0;
-
-        public static BitVector16 One => 1;
-
-        public static BitVector16 Ones => ushort.MaxValue;
-
-        public static N16 N => default;
     }
 }

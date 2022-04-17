@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
     using static Numeric;
 
@@ -22,7 +18,7 @@ namespace Z0
     /// upper bound for the effective width. Finally, is the effective bitvector width, a value
     /// which is bounded above by the the natural width
     /// </remarks>
-    public struct ScalarBits<N,T> : IBitVector<ScalarBits<N,T>,T>
+    public struct ScalarBits<N,T> : IComparable<ScalarBits<N,T>>, IEquatable<ScalarBits<N,T>>
         where N : unmanaged, ITypeNat
         where T : unmanaged
     {
@@ -149,6 +145,9 @@ namespace Z0
         public readonly override int GetHashCode()
             => Data.GetHashCode();
 
+        [MethodImpl(Inline)]
+        public int CompareTo(ScalarBits<N,T> src)
+            => bw64(this).CompareTo(bw64(src));
         public string Format(BitFormat config)
             => BitVectors.format(this,config);
 

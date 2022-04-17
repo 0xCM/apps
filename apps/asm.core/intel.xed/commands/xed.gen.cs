@@ -14,9 +14,13 @@ namespace Z0
         [CmdOp("xed/gen")]
         Outcome XedGen(CmdArgs args)
         {
-            ref readonly var fields = ref XedLookups.Fields;
-
-
+            ref readonly var fields = ref XedFields.ByPosition;
+            var bits = fields[0,51];
+            for(var i=0; i<bits.Length; i++)
+            {
+                ref readonly var b = ref skip(bits,i);
+                Write(string.Format("{0,-8} | {1,-24} | {2}", b.Pos, b.Field, b.FieldSize));
+            }
 
 
             return true;

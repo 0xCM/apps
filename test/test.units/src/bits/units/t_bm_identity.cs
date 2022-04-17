@@ -44,7 +44,7 @@ namespace Z0
             for(byte i=0; i < m.Order; i++)
                 Claim.eq(m[i,i],bit.On);
 
-            Claim.require(m.Diagonal().AllOn);
+            Claim.require(m.Diagonal().Enabled);
 
             var lhs = BitMatrix8.Identity;
             var rhs = BitMatrix8.Identity;
@@ -60,7 +60,7 @@ namespace Z0
             var m = BitMatrix16.Identity;
             for(byte i=0; i < m.Order; i++)
                 Claim.eq(m[i,i], bit.On);
-            Claim.require(BitMatrix.diagonal(m).AllOn);
+            Claim.require(BitMatrix.diagonal(m).Enabled);
         }
 
         public void bm_identity_32x32u_check()
@@ -77,7 +77,7 @@ namespace Z0
             for(byte i=0; i < m.Order; i++)
                 Claim.eq(m[i,i], bit.On);
 
-            Claim.require(BitMatrix.diagonal(m).AllOn);
+            Claim.require(BitMatrix.diagonal(m).Enabled);
 
             var lhs = BitMatrix64.Identity;
             var rhs = BitMatrix64.Identity;
