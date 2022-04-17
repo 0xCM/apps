@@ -11,18 +11,8 @@ namespace Z0
     {
         public ref struct FieldBuffer
         {
-            public FieldBuffer Load(in DetailBlock src)
-            {
-                load(src, ref this);
-                return this;
-            }
-
             public static FieldBuffer init()
                 => new FieldBuffer(XedFields.fields());
-
-            [MethodImpl(Inline)]
-            public static FieldBuffer init(Fields fields)
-                => new FieldBuffer(fields);
 
             [MethodImpl(Inline)]
             FieldBuffer(Fields fields)

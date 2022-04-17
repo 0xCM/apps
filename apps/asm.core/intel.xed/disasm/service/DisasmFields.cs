@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public partial class XedDisasm
+    partial class XedDisasm
     {
         public class DisasmFields : AppServiceClient<DisasmFields>
         {

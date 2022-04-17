@@ -66,6 +66,9 @@ namespace Z0
                 return result;
             }
 
+            public Index<InstOpClass> Classes()
+                => Data.Select(x => x.OpClass);
+
             public bool Search(OpWidthCode match, out DisasmOpDetail dst)
                 => Search(match,0,out dst);
             public string Format()

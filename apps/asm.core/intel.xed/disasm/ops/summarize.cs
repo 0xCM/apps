@@ -11,11 +11,20 @@ namespace Z0
 
     partial class XedDisasm
     {
+        static Index<DisasmSummaryDoc> CalcSummaryDocs(WsContext context, bool pll = true)
+        {
+            var files = sources(context);
+            var outdir = context.Project.Datasets() + FS.folder("xed.disasm");
+            var dst = bag<DisasmSummaryDoc>();
+            iter(files, source => dst.Add(summary(context,source)), pll);
+            return dst.Array();
+        }
+
         static DisasmSummaryDoc summary(WsContext context, in DisasmFile file)
         {
             var buffer = bag<DisasmSummaryLines>();
             summarize(context, file, buffer).Require();
-            return DisasmSummaryDoc.from(file.Source, context.Root(file.Source), buffer.ToArray());
+            return DisasmSummaryDoc.create(file, context.Root(file.Source), buffer.ToArray());
         }
 
         static Outcome summarize(WsContext context, in DisasmFile file, ConcurrentBag<DisasmSummaryLines> dst)

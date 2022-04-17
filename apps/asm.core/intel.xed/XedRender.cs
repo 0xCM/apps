@@ -739,7 +739,7 @@ namespace Z0
             var dst = text.buffer();
             dst.AppendFormat("{0,-6} {1,-4}", src.Index, XedRender.format(src.OpName));
             var kind = opkind(src.OpName);
-            ref readonly var opinfo = ref src.OpInfo;
+            ref readonly var opinfo = ref src.OpClass;
             switch(kind)
             {
                 case OpKind.Reg:

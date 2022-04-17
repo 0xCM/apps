@@ -19,6 +19,34 @@ namespace Z0
 
             public static string[] OpColPatterns = new string[]{"Op{0}", "Op{0}Name", "Op{0}Val", "Op{0}Action", "Op{0}Vis", "Op{0}Width", "Op{0}WKind", "Op{0}Selector"};
 
+            public static void render(Index<DetailBlock> src, ITextBuffer dst, bool header = true)
+            {
+                var formatter = Tables.formatter<DetailBlockRow>(DetailBlockRow.RenderWidths);
+                if(header)
+                    dst.AppendLine(FormatDetailHeader(formatter));
+
+                for(var i=0; i<src.Count; i++)
+                    render(formatter, src[i].DetailRow, dst);
+            }
+
+            public static string FormatDetailHeader(IRecordFormatter<DetailBlockRow> formatter)
+            {
+                var headerBase = formatter.FormatHeader();
+                var j = text.lastindex(headerBase, Chars.Pipe);
+                headerBase = text.left(headerBase,j);
+                var opheader = text.buffer();
+                for(var k=0; k<6; k++)
+                {
+                    opheader.Append("| ");
+                    opheader.Append(DisasmRender.OpDetailHeader(k));
+                }
+
+                return string.Format("{0}{1}", headerBase, opheader.Emit());
+            }
+
+            public static void render(IRecordFormatter<DetailBlockRow> formatter, in DetailBlockRow src, ITextBuffer dst)
+                => dst.AppendLine(formatter.Format(src));
+
             public static string OpDetailHeader(int index)
                 => string.Format(OpDetailPattern, OpColPatterns.Select(x => string.Format(x, index)));
 
@@ -32,7 +60,7 @@ namespace Z0
                 {
                     ref readonly var op =ref ops[i];
                     var tabledef = FS.FileUri.Empty;
-                    if(XedParsers.parse(op.OpInfo.Selector.Format(), out Nonterminal nonterm))
+                    if(XedParsers.parse(op.OpClass.Selector.Format(), out Nonterminal nonterm))
                     {
                         var path = XedPaths.Service.TableDef(RuleTableKind.Enc, nonterm);
                         if(path.Exists)
@@ -48,11 +76,11 @@ namespace Z0
                     dst.AppendLine(string.Format("{0} | {1,-6} | {2,-4} | {3,-4} | {4,-4} | {5,-4} | {6}",
                         i,
                         XedRender.format(op.OpName),
-                        XedRender.format(op.OpInfo.Action),
-                        XedRender.format(op.OpInfo.WidthCode),
-                        op.OpInfo.Visiblity.Code(),
-                        XedRender.format(op.OpInfo.OpType),
-                        nonterm.IsNonEmpty ? string.Format("{0} => {1}", nonterm, tabledef) : op.OpInfo.Selector
+                        XedRender.format(op.OpClass.Action),
+                        XedRender.format(op.OpClass.WidthCode),
+                        op.OpClass.Visiblity.Code(),
+                        XedRender.format(op.OpClass.OpType),
+                        nonterm.IsNonEmpty ? string.Format("{0} => {1}", nonterm, tabledef) : op.OpClass.Selector
                     ));
                 }
             }

@@ -14,9 +14,6 @@ namespace Z0
         [CmdOp("xed/check/disasm")]
         Outcome CheckDisasm(CmdArgs args)
         {
-            var docs = XedDisasm.docs(Context()).Sort();
-
-            iter(docs, CollectFields2, true);
 
             return true;
         }
@@ -35,8 +32,8 @@ namespace Z0
                 for(var i=0; i<blocks.Count; i++)
                 {
                     ref readonly var block = ref blocks[i];
-                    fields.Load(block);
 
+                    XedDisasm.load(block, ref fields);
                     var input = fields.AsmInfo;
                     machine.Load(fields);
                     var output = machine.AsmInfo;
@@ -67,7 +64,9 @@ namespace Z0
                 for(var i=0; i<blocks.Count; i++)
                 {
                     ref readonly var block = ref blocks[i];
-                    fields.Load(block);
+
+                    XedDisasm.load(block, ref fields);
+
                     machine.Load(fields);
                     machine.Capture.FormPatterns();
                 }

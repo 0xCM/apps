@@ -10,6 +10,22 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
+        public void EmitDetails(WsContext context, ConstLookup<DisasmSummaryDoc,Index<DetailBlock>> src, bool pll = true)
+        {
+            var outdir = context.Project.Datasets() + FS.folder("xed.disasm");
+            iter(src.Keys, doc =>{
+                ref readonly var origin = ref doc.Origin;
+                var blocks = src[doc];
+                var target = outdir + origin.Path.FileName.WithoutExtension + FS.ext("xed.disasm.details.csv");
+                var buffer = text.buffer();
+                DisasmRender.render(blocks, buffer);
+                var emitting = EmittingFile(target);
+                using var emitter = target.AsciEmitter();
+                emitter.Write(buffer.Emit());
+                EmittedFile(emitting, blocks.Count);
+            },pll);
+        }
+
         Index<DetailBlockRow> EmitDetails(ConstLookup<FileRef,DisasmDetailDoc> src, FS.FilePath dst)
         {
             var emitting = EmittingFile(dst);

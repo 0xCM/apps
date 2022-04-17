@@ -71,12 +71,6 @@ namespace Z0
 
             public DisasmOpDetails Ops;
 
-            public AsmRowKey Key
-            {
-                [MethodImpl(Inline)]
-                get => (Seq,DocSeq,OriginId);
-            }
-
             public int CompareTo(DetailBlockRow src)
             {
                 var result = SourceName.CompareTo(src.SourceName);

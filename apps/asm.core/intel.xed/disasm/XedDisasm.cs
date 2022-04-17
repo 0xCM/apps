@@ -13,18 +13,41 @@ namespace Z0
     {
         const string XDIS = "XDIS ";
 
+        public static ref FieldBuffer load(in DetailBlock src, ref FieldBuffer dst)
+        {
+            dst.Clear();
+            dst.Detail = src.DetailRow;
+            dst.Lines = src.SummaryLines.Lines;
+            dst.Summary = src.SummaryLines.Summary;
+            DisasmParse.parse(dst.Lines, out dst.AsmInfo).Require();
+            DisasmParse.parse(dst.Lines, out dst.Props);
+            XedDisasm.fields(dst.Props, dst.Fields, false);
+            dst.FieldSelection = dst.Fields.MemberKinds();
+            XedState.Edit.fields(dst.Fields, dst.FieldSelection, ref dst.State);
+            dst.Encoding = XedState.Code.encoding(dst.State, src.SummaryLines.Summary.Encoded);
+            return ref dst;
+        }
+
+        public static Index<DisasmDocs> docs(WsContext context)
+        {
+            var summaries = CalcSummaryDocs(context);
+            var details = XedDisasm.details(summaries);
+            return details.Entries.Map(x => new DisasmDocs(x.Key,x.Value)).ToArray();
+        }
+
+        public static Index<DetailBlock> blocks(WsContext context, in FileRef src)
+            => blocks(summary(context,src));
+
+        public static Index<DetailBlock> blocks(DisasmSummaryDoc src, bool pll = true)
+        {
+            var dst = bag<DetailBlock>();
+            var summaries = src.Lines;
+            iter(summaries, summary => dst.Add(new DetailBlock(row(summary), summary)), pll);
+            return resequence(dst.Array());
+        }
+
         public static Index<FileRef> sources(WsContext context)
             => context.Files(FileKind.XedRawDisasm);
-
-        public static void render(Index<DetailBlock> src, ITextBuffer dst, bool header = true)
-        {
-            var formatter = Tables.formatter<DetailBlockRow>(DetailBlockRow.RenderWidths);
-            if(header)
-                dst.AppendLine(FormatDetailHeader(formatter));
-
-            for(var i=0; i<src.Count; i++)
-                render(formatter, src[i].DetailRow, dst);
-        }
 
         public static Index<DisasmSummaryRow> resequence(Index<DisasmSummaryRow> src)
         {
@@ -44,54 +67,11 @@ namespace Z0
         public static DisasmSummaryDoc summary(WsContext context, in FileRef src)
         {
             var buffer = bag<DisasmSummaryLines>();
-            summarize(src, context.Root(src), load(src).Lines, buffer).Require();
-            return DisasmSummaryDoc.create(src, context.Root(src), buffer.ToArray());
+            var file = load(src);
+            summarize(src, context.Root(src), file.Lines, buffer).Require();
+            return DisasmSummaryDoc.create(file, context.Root(src), buffer.ToArray());
         }
 
-        public static Index<DetailBlock> blocks(WsContext context, in FileRef src)
-            => blocks(summary(context,src));
-
-        public static Index<DetailBlock> resequence(Index<DetailBlock> src)
-        {
-            var dst = src.Sort();
-            for(var i=0u; i<dst.Count; i++)
-            {
-                var row = dst[i].DetailRow;
-                row.Seq = i;
-                dst[i] = new DetailBlock(row, dst[i].SummaryLines);
-            }
-            return dst;
-        }
-
-        public static Index<DetailBlock> blocks(DisasmSummaryDoc src, bool pll = true)
-        {
-            var dst = bag<DetailBlock>();
-            var summaries = src.Lines;
-            iter(summaries, summary => dst.Add(new DetailBlock(row(summary), summary)), pll);
-            return resequence(dst.Array());
-        }
-
-        public static Index<DisasmDetailDoc> docs(WsContext context)
-        {
-            var dst = bag<DisasmDetailDoc>();
-            iter(sources(context), file => dst.Add(details(context,file)), true);
-            return dst.Array();
-        }
-
-        public static ref FieldBuffer load(in DetailBlock src, ref FieldBuffer dst)
-        {
-            dst.Clear();
-            dst.Detail = src.DetailRow;
-            dst.Lines = src.SummaryLines.Lines;
-            dst.Summary = src.SummaryLines.Summary;
-            DisasmParse.parse(dst.Lines, out dst.AsmInfo).Require();
-            DisasmParse.parse(dst.Lines, out dst.Props);
-            XedDisasm.fields(dst.Props, dst.Fields, false);
-            dst.FieldSelection = dst.Fields.MemberKinds();
-            XedState.Edit.fields(dst.Fields, dst.FieldSelection, ref dst.State);
-            dst.Encoding = XedState.Code.encoding(dst.State, src.SummaryLines.Summary.Encoded);
-            return ref dst;
-        }
 
         public static uint fields(DisasmProps props, Fields dst, bool clear = true)
         {

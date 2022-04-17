@@ -10,10 +10,13 @@ namespace Z0
 
     partial class XedDisasm
     {
+        /// <summary>
+        /// Characterizes a disassembled operand class
+        /// </summary>
         [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public record struct DisasmOpInfo
+        public record struct InstOpClass
         {
-            public byte Index;
+            public uint Index;
 
             public FieldKind Kind;
 
@@ -26,6 +29,8 @@ namespace Z0
             public OpType OpType;
 
             public asci16 Selector;
+
+            public static InstOpClass Empty => default;
         }
     }
 }

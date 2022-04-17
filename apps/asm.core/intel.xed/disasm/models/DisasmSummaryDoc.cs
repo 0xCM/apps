@@ -8,18 +8,15 @@ namespace Z0
 
     public class DisasmSummaryDoc
     {
-        public static DisasmSummaryDoc create(in FileRef src, in FileRef origin, DisasmSummaryLines[] lines)
+        public static DisasmSummaryDoc create(in DisasmFile file, in FileRef origin, DisasmSummaryLines[] lines)
         {
             var sorted = lines.Sort();
-            return new (src, origin, XedDisasm.resequence(lines.Select(line => line.Summary)), sorted);
+            return new (file, origin, XedDisasm.resequence(lines.Select(line => line.Summary)), sorted);
         }
-
-        public static DisasmSummaryDoc from(in FileRef src, in FileRef origin, DisasmSummaryLines[] lines)
-            => new DisasmSummaryDoc(src, origin, lines);
 
         public readonly uint RowCount;
 
-        public readonly FileRef Source;
+        public readonly DisasmFile File;
 
         public readonly FileRef Origin;
 
@@ -27,18 +24,9 @@ namespace Z0
 
         public readonly Index<DisasmSummaryLines> Lines;
 
-        public DisasmSummaryDoc(in FileRef src, in FileRef origin, DisasmSummaryLines[] lines)
+        DisasmSummaryDoc(in DisasmFile src, in FileRef origin, Index<DisasmSummaryRow> rows, DisasmSummaryLines[] lines)
         {
-            Source = src;
-            Origin = origin;
-            Rows = lines.Select(x => x.Summary);
-            Lines = lines.Sort();
-            RowCount = Rows.Count;
-        }
-
-        DisasmSummaryDoc(in FileRef src, in FileRef origin, Index<DisasmSummaryRow> rows, DisasmSummaryLines[] lines)
-        {
-            Source = src;
+            File = src;
             Origin = origin;
             Rows = rows;
             Lines = lines;
@@ -58,9 +46,9 @@ namespace Z0
         }
 
         public override int GetHashCode()
-            => Source.GetHashCode();
+            => File.Source.GetHashCode();
 
         public static DisasmSummaryDoc Empty
-            => new DisasmSummaryDoc(FileRef.Empty, FileRef.Empty, sys.empty<DisasmSummaryLines>());
+            => new DisasmSummaryDoc(DisasmFile.Empty, FileRef.Empty, sys.empty<DisasmSummaryRow>(),  sys.empty<DisasmSummaryLines>());
     }
 }
