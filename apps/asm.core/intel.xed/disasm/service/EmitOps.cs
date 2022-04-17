@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedDisasmSvc
     {
-        void EmitOps(WsContext context, DisasmDetailDoc doc)
+        public void EmitOps(WsContext context, DisasmDetailDoc doc)
         {
             var dst = DisasmOpsPath(context,doc.File.Source);
             var emitting = EmittingFile(dst);

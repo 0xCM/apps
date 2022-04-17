@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        public void EmitDetails(WsContext context, ConstLookup<DisasmSummaryDoc,Index<DetailBlock>> src, bool pll = true)
+        public void EmitDetailReports(WsContext context, ConstLookup<DisasmSummaryDoc,Index<DetailBlock>> src, bool pll = true)
         {
             var outdir = context.Project.Datasets() + FS.folder("xed.disasm");
             iter(src.Keys, doc =>{
@@ -49,12 +49,6 @@ namespace Z0
             using var emitter = target.AsciEmitter();
             emitter.Write(buffer.Emit());
             EmittedFile(emitting, src.Count);
-        }
-
-        public void EmitSummaries(WsContext context, Index<DisasmSummaryRow> src)
-        {
-            var target = Projects.Table<DisasmSummaryRow>(context.Project);
-            TableEmit(resequence(src).View, DisasmSummaryRow.RenderWidths, target);
         }
     }
 }

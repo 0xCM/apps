@@ -20,39 +20,6 @@ namespace Z0
 
         MachineHost MachineHost => Service(Wf.XedMachinHost);
 
-        void CollectFields2(DisasmDetailDoc doc)
-        {
-            var status = cdict<string,string>();
-            var name = doc.File.Source.Path.FileName.WithoutExtension.Format();
-
-            MachineHost.Run(true, machine =>
-            {
-                var fields = FieldBuffer.init();
-                ref readonly var blocks = ref doc.Blocks;
-                for(var i=0; i<blocks.Count; i++)
-                {
-                    ref readonly var block = ref blocks[i];
-
-                    XedDisasm.load(block, ref fields);
-                    var input = fields.AsmInfo;
-                    machine.Load(fields);
-                    var output = machine.AsmInfo;
-                    if(input != output)
-                    {
-                        Error("State mismatch");
-                        break;
-                    }
-                }
-
-                status[name] = string.Format("{0,-8} | {1,-46} | {2,-8} | {3,-8} | {4,-8}",
-                    machine.Id, name, doc.Seq, doc.File.Source.DocId, doc.File.LineCount);
-            });
-
-            var names = status.Keys.Sort();
-            iter(names, name =>  Write(status[name]));
-            MachineHost.Reset();
-        }
-
         void CollectFields(DisasmDetailDoc doc)
         {
             var status = cdict<string,string>();

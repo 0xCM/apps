@@ -56,6 +56,14 @@ namespace Z0
             return ref dst;
         }
 
+        public static ConstLookup<FileRef,DisasmDetailDoc> details(WsContext context, bool pll = true)
+        {
+            var files = context.Files(FileKind.XedRawDisasm);
+            var dst = cdict<FileRef,DisasmDetailDoc>();
+            iter(files, file => dst.TryAdd(file, details(context,file)), pll);
+            return dst;
+        }
+
         public static Index<DisasmDocs> docs(WsContext context)
         {
             var summaries = CalcSummaryDocs(context);

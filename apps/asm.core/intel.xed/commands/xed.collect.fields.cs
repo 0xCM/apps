@@ -12,7 +12,7 @@ namespace Z0
         [CmdOp("xed/collect/fields")]
         Outcome XedDisasmFields(CmdArgs args)
         {
-            this.Client<DisasmFields>(Context()).EmitFields();
+            //this.Client<DisasmFields>(Context()).EmitFields();
             return true;
         }
     }

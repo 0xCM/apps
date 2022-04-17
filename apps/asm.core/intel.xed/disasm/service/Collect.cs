@@ -29,7 +29,7 @@ namespace Z0
             iter(docs.Select(x => x.Detail), d => {
                     EmitOps(context, d);
                     EmitChecks(context, d);
-                    this.Client<DisasmFields>(context).EmitFields(d);
+                    EmitFields(context, d);
                 }, PllExec);
         }
 
@@ -44,7 +44,7 @@ namespace Z0
 
             exec(PllExec,
                 () => EmitDetailReport(context, details.ToArray()),
-                () => EmitSummaries(context,summaries.ToArray()));
+                () => EmitSummaryReport(context,summaries.ToArray()));
         }
 
         public void EmitOpClasses(WsContext context, Index<DisasmDocs> src)

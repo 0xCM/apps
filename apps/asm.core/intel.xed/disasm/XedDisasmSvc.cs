@@ -5,11 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static XedRules;
-    using static XedModels;
-    using static XedDisasm;
-
     public partial class XedDisasmSvc : AppService<XedDisasmSvc>
     {
         WsProjects Projects => Service(Wf.WsProjects);
@@ -27,6 +22,9 @@ namespace Z0
             [MethodImpl(Inline)]
             get => AppData.PllExec();
         }
+
+        FS.FilePath DisasmFieldsPath(WsContext context, in FileRef src)
+            => Projects.XedDisasmDir(context.Project) + FS.file(string.Format("{0}.fields", src.Path.FileName.WithoutExtension), FS.Txt);
 
         FS.FilePath DisasmChecksPath(WsContext context, in FileRef src)
             => Projects.XedDisasmDir(context.Project) + FS.file(string.Format("{0}.checks", src.Path.FileName.WithoutExtension), FS.Txt);
