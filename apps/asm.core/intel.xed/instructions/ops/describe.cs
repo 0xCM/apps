@@ -15,7 +15,9 @@ namespace Z0
             var count = src.Count;
             var dst = bag<InstPatternRecord>();
             iter(src, p => dst.Add(describe(p)), pll);
-            return dst.Array().Sort(PatternSort.comparer());
+            var sorted = dst.Array().Sort(PatternSort.comparer());
+
+            return sorted;
         }
 
         public static InstPatternRecord describe(in InstPattern src)

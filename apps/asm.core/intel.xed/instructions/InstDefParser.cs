@@ -161,21 +161,26 @@ namespace Z0
                 {
                     ref var def = ref seek(defs,i);
                     ref var specs = ref def.PatternSpecs;
-                    for(var j=0; j<specs.Count; j++, pid++)
+                    for(var j=0; j<specs.Count; j++,pid++)
                     {
                         ref var spec = ref specs[j];
                         forms.TryGetValue(spec.PatternId, out spec.InstForm);
                         spec.PatternId = pid;
                         spec.Ops = new (pid, spec.Ops);
+                        for(var k=0; k<spec.Ops.Count; k++)
+                            spec.Ops[k].PatternId = pid;
                     }
                 }
 
-                var _specs = defs.Select(x => x.PatternSpecs).SelectMany(x => x).Sort();
-                for(var i=0u; i<_specs.Length; i++)
-                {
-                    ref var spec = ref _specs[i];
-                    spec.Ops = new (spec.PatternId, spec.Ops);
-                }
+                // var _specs = defs.Select(x => x.PatternSpecs).SelectMany(x => x).Sort();
+                // for(var i=0u; i<_specs.Length; i++)
+                // {
+                //     ref var spec = ref _specs[i];
+                //     spec.PatternId = i;
+                //     for(var j=0; j<spec.Ops.Count; j++)
+                //         spec.Ops[j].PatternId = i;
+                //     spec.Ops = new (i, spec.Ops);
+                // }
 
                 return defs;
             }
