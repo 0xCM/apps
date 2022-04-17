@@ -73,6 +73,28 @@ namespace Z0
                 RexW = src.RexW;
             }
 
+            [MethodImpl(Inline)]
+            public PatternSort(in InstOpDetail src)
+            {
+                InstClass = src.InstClass;
+                OpCode = src.OpCode;
+                Mode = src.Mode;
+                Lock = src.Lock;
+                Mod = src.Mod;
+                RexW = src.RexW;
+            }
+
+            [MethodImpl(Inline)]
+            public PatternSort(in PatternOpCode src)
+            {
+                InstClass = src.InstClass;
+                OpCode = src.OpCode;
+                Mode = src.Mode;
+                Lock = src.Lock;
+                Mod = src.Mod;
+                RexW = src.RexW;
+            }
+
             public int CompareTo(PatternSort src)
             {
                 var result = InstClass.CompareTo(src.InstClass);

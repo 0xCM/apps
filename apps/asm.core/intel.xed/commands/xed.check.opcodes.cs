@@ -19,6 +19,8 @@ namespace Z0
             ("Name", 8),
             ("Kind", 10),
             ("Width", 10),
+            ("Count", 4),
+            ("Type", 8),
             ("Code", 10),
             ("Nonterm",10),
             ("Expr", 1)
@@ -40,14 +42,18 @@ namespace Z0
                 buffer.Write(XedRender.format(op.Name));
                 buffer.Write(XedRender.format(op.Kind));
                 buffer.Write(op.GrpWidth.IsNonEmpty ? op.GrpWidth.Format() : op.BitWidth.ToString());
+                buffer.Write(op.ElementCount);
+                buffer.Write(op.ElementType);
                 if(op.WidthCode != 0)
                     buffer.Write(XedRender.format(op.WidthCode));
                 else
                     buffer.Write(EmptyString);
+
                 if(op.IsNonterm)
                     buffer.Write(op.NonTerm);
                 else
                     buffer.Write(EmptyString);
+
                 buffer.Write(op.SourceExpr);
                 buffer.EmitLine(dst);
             }
@@ -101,14 +107,14 @@ namespace Z0
                 else
                     dst.Write(EmptyString);
 
-                writer.AppendLineFormat("{0,-10} | {1}", EmptyString, RP.PageBreak80);
+                writer.AppendLineFormat("{0,-10} | {1}", EmptyString, RP.PageBreak120);
                 counter++;
                 dst.EmitLine(writer);
                 counter++;
                 if(pattern.Layout.IsNonEmpty)
                     writer.AppendLineFormat("{0,-10} | {1}", EmptyString, pattern.Layout);
                 counter++;
-                writer.AppendLineFormat("{0,-10} | {1}", EmptyString, RP.PageBreak80);
+                writer.AppendLineFormat("{0,-10} | {1}", EmptyString, RP.PageBreak120);
                 counter++;
 
 

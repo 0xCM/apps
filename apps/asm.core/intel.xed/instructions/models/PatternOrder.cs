@@ -18,63 +18,24 @@ namespace Z0
 
             public int Compare(InstOpDetail x, InstOpDetail y)
             {
-                var result = 0;
-
-                result = x.InstClass.CompareTo(y.InstClass);
+                var a = new PatternSort(x);
+                var b = new PatternSort(y);
+                var result = a.CompareTo(b);
                 if(result == 0)
-                    result = x.OpCode.CompareTo(y.OpCode);
-
-                if(result == 0)
-                    result = x.Mode.CompareTo(y.Mode);
-
-                if(result == 0)
-                    result = x.Lock.CompareTo(y.Lock);
-
-                if(result == 0 && x.Mod.IsNonEmpty && y.Mod.IsNonEmpty)
-                    result = x.Mod.CompareTo(y.Mod);
-
-                if(result == 0 && x.RexW.IsNonEmpty && y.RexW.IsNonEmpty)
-                    result = x.RexW.CompareTo(y.RexW);
-
-                if(result == 0)
+                {
                     result = x.PatternId.CompareTo(y.PatternId);
-
-                if(result == 0)
-                    result = x.Index.CompareTo(y.Index);
+                    if(result == 0)
+                        result = x.Index.CompareTo(y.Index);
+                }
 
                 return result;
             }
 
             public int Compare(PatternOpCode x, PatternOpCode y)
             {
-                var result = 0;
-
-                if(OpCodeFirst)
-                {
-                    result = x.OpCode.CompareTo(y.OpCode);
-                    if(result == 0)
-                        result = x.InstClass.CompareTo(y.InstClass);
-                }
-                else
-                {
-                    result = x.InstClass.CompareTo(y.InstClass);
-                    if(result == 0)
-                        result = x.OpCode.CompareTo(y.OpCode);
-                }
-
-                if(result == 0)
-                    result = x.Mode.CompareTo(y.Mode);
-
-                if(result == 0)
-                    result = x.Lock.CompareTo(y.Lock);
-
-                if(result == 0 && x.RexW.IsNonEmpty && y.RexW.IsNonEmpty)
-                    result = x.RexW.CompareTo(y.RexW);
-
-                if(result == 0 && x.Mod.IsNonEmpty && y.Mod.IsNonEmpty)
-                    result = x.Mod.CompareTo(y.Mod);
-
-                return result;
+                var a = new PatternSort(x);
+                var b = new PatternSort(y);
+                return a.CompareTo(b);
             }
         }
     }

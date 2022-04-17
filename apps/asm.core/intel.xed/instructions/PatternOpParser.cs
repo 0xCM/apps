@@ -14,7 +14,7 @@ namespace Z0
     {
         public readonly struct PatternOpParser
         {
-            public static bool opname(string src, out OpName dst)
+            public static bool opexpr(string src, out OpName name, out string expr)
             {
                 var input = text.despace(src);
                 var i = text.index(input, Chars.Colon);
@@ -26,28 +26,10 @@ namespace Z0
                     index = i;
                 else if(j>0 && i<0)
                     index = j;
-                return XedParsers.parse(text.left(input, index), out  dst);
-            }
 
-            public static bool opkind(string src, out OpKind dst)
-            {
-                dst = OpKind.None;
-                if(opname(src, out var name))
-                {
-                    dst = XedRules.opkind(name);
-                }
-                return dst != 0;
-            }
-
-            [MethodImpl(Inline)]
-            public static PatternOpParser create(MachineMode mode)
-                => new(mode);
-
-            readonly MachineMode Mode;
-
-            public PatternOpParser(MachineMode mode)
-            {
-                Mode = mode;
+                var left = text.left(input, index);
+                expr = text.right(input,index);
+                return XedParsers.parse(left, out name);
             }
 
             public static void parse(uint pattern, string ops, out PatternOps dst)
@@ -68,7 +50,6 @@ namespace Z0
 
                 var index = z8;
                 var parts = (input.Contains(Chars.Space) ? text.split(input, Chars.Space) : new string[]{input}).Where(text.nonempty);
-                //term.warn(parts.Delimit(Chars.Space).Format());
                 for(var j=z8; j<parts.Length; j++)
                 {
                     var spec = PatternOp.Empty;
@@ -91,8 +72,6 @@ namespace Z0
                     }
                     else
                         break;
-
-
                 }
 
                 return new(pattern,buffer.ToArray());
@@ -103,10 +82,10 @@ namespace Z0
                 dst.SourceExpr = src;
                 var i = text.index(src,Chars.Colon, Chars.Eq);
                 var right = text.right(src,i);
-                if(opname(src, out dst.Name))
+                if(opexpr(src, out dst.Name, out var expr))
                 {
                     var kind = XedRules.opkind(dst.Name);
-                    Parse(dst.SourceExpr, text.split(right, Chars.Colon).Where(text.nonempty), kind, ref dst);
+                    Parse(expr, text.split(right, Chars.Colon).Where(text.nonempty), kind, ref dst);
                     return true;
                 }
                 else
@@ -127,10 +106,7 @@ namespace Z0
                     break;
 
                     case K.Disp:
-                    {
-                        dst.SourceExpr = expr;
                         dst.Attribs = sys.empty<OpAttrib>();
-                    }
                     break;
 
                     case K.Index:
@@ -176,7 +152,6 @@ namespace Z0
             static void ParsePtr(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
-                dst.SourceExpr = expr;
                 var action = OpAction.None;
                 var width = OpWidthCode.INVALID;
                 Span<OpAttrib> buffer = stackalloc OpAttrib[4];
@@ -199,7 +174,6 @@ namespace Z0
             static void ParseRelBr(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
-                dst.SourceExpr = expr;
                 var action = OpAction.None;
                 var width = OpWidthCode.INVALID;
                 Span<OpAttrib> buffer = stackalloc OpAttrib[4];
@@ -221,7 +195,6 @@ namespace Z0
             static void ParseScale(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
-                dst.SourceExpr = expr;
                 var action = OpAction.None;
                 Span<OpAttrib> buffer = stackalloc OpAttrib[4];
                 var i=0;
@@ -243,8 +216,6 @@ namespace Z0
             static void ParseImm(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
-                dst.SourceExpr = expr;
-
                 var type = ElementType.Empty;
                 var action = OpAction.None;
                 var width = OpWidthCode.INVALID;
@@ -274,7 +245,6 @@ namespace Z0
             static void ParseMem(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
-                dst.SourceExpr = expr;
                 Span<OpAttrib> buffer = stackalloc OpAttrib[6];
                 var i=0;
                 var k=0;
@@ -313,18 +283,62 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            // REG2=XED_REG_XMM2 : rw : SUPP : dq : u8
-            // [0:reg, 1:action, 2:vis, 3:widthcode, 4:etype]
+            public static void reg(string expr, Index<string> props, ref PatternOp dst)
+            {
+                var count = props.Count;
+                var result = Outcome.Success;
+                var width = OpWidthCode.INVALID;
+                var type = ElementType.Empty;
+                var vis = OpVisibility.None;
+                var action = OpAction.None;
+
+                Span<OpAttrib> buffer = stackalloc OpAttrib[8];
+                var i=0;
+                var k=0;
+                ref var p = ref props[k];
+                switch(count)
+                {
+                    case 5:
+                    // [0:reg, 1:action, 2:vis, 3:widthcode, 4:etype]
+                    p = props[k++];
+                    result = XedParsers.reg(p, out seek(buffer,i++));
+
+                    p = props[k++];
+                    if(XedParsers.parse(p, out action))
+                        seek(buffer,i++) = action;
+
+                    p = props[k++];
+                    if (XedParsers.parse(p, out vis))
+                        seek(buffer,i++) = vis;
+
+                    p = props[k++];
+                    if(XedParsers.parse(p, out width))
+                        seek(buffer,i++) = width;
+
+                    p = props[k++];
+                    if(XedParsers.parse(p, out type))
+                        seek(buffer,i++) = type;
+
+                    break;
+                }
+
+                dst.Attribs = slice(buffer,0,i).ToArray();
+            }
+
             static void ParseReg(string expr, Index<string> props, ref PatternOp dst)
             {
                 var result = Outcome.Success;
                 var counter = 0;
                 var count = props.Count;
-                dst.SourceExpr = expr;
                 var width = OpWidthCode.INVALID;
                 var type = ElementType.Empty;
                 var vis = OpVisibility.None;
                 var action = OpAction.None;
+                if(count == 5)
+                {
+                    reg(expr, props, ref dst);
+                    return;
+                }
 
                 Span<OpAttrib> buffer = stackalloc OpAttrib[8];
                 var i=0;
@@ -377,14 +391,6 @@ namespace Z0
                                 seek(buffer,i++) = mod;
                         }
                     }
-                }
-
-                if(count >= 5)
-                {
-                    // etype
-                    ref readonly var p = ref props[k++];
-                    if(XedParsers.parse(p, out type))
-                        seek(buffer,i++) = type;
                 }
 
                 dst.Attribs = slice(buffer,0,i).ToArray();

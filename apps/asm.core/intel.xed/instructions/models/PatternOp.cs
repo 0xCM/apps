@@ -39,13 +39,13 @@ namespace Z0
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Name.IsEmpty;
+                get => Kind == 0;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Name.IsNonEmpty;
+                get => Kind != 0;
             }
 
             public bool IsReg
@@ -87,6 +87,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public bool Scale(out MemoryScale dst)
                 => XedPatterns.scale(this, out dst);
+
+            [MethodImpl(Inline)]
+            public bool Broadcast(out BCastKind dst)
+                => XedPatterns.bcast(this, out dst);
 
             public string Format()
                 => XedRender.format(this);

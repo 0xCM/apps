@@ -117,7 +117,7 @@ namespace Z0
                 AppendLineFormat(LabelPattern, "Expressions", pattern.Expr.Format());
 
                 AppendLineFormat(LabelPattern, nameof(pattern.Mode), XedRender.format(pattern.Mode));
-                AppendLineFormat(LabelPattern, nameof(pattern.OpCode), string.Format("{0,-8} {1}", pattern.OpCode.Kind, AsmOcValue.format(pattern.OpCode.Value)));
+                AppendLineFormat(LabelPattern, nameof(pattern.OpCode), pattern.OpCode);
                 if(pattern.InstForm.IsNonEmpty)
                     AppendLineFormat(LabelPattern, nameof(pattern.InstForm), pattern.InstForm);
 

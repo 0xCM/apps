@@ -36,7 +36,7 @@ namespace Z0
             }
 
             static SectionHeader FormHeader(in InstDocPart part)
-                => new(4, string.Format("{0} {1}", string.Format("{0} {1}", part.OcMap, part.OpCode.Value), part.InstForm));
+                => new(4, string.Format("{0} {1}", part.OpCode, part.InstForm));
 
             static SectionHeader ClassHeader(in InstDocPart part)
                 => new(3, part.Classifier.Format());

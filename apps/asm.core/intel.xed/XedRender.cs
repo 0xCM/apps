@@ -429,12 +429,21 @@ namespace Z0
 
         public static string format(in PatternOp src)
         {
-            var dst = text.buffer();
-            dst.Append(XedRender.format(src.Name));
-            if(src.Attribs.IsNonEmpty)
-                dst.Append(Chars.Colon);
-            dst.Append(format(src.Attribs));
-            return dst.Emit();
+            if(src.Kind == OpKind.Bcast)
+            {
+                src.Broadcast(out var kind);
+                var def = bcastdef(kind);
+                return def.Symbol.Format();
+            }
+            else
+            {
+                var dst = text.buffer();
+                dst.Append(XedRender.format(src.Name));
+                if(src.Attribs.IsNonEmpty)
+                    dst.Append(Chars.Colon);
+                dst.Append(format(src.Attribs));
+                return dst.Emit();
+            }
         }
 
         public static string format(OpAttrib src)

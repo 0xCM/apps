@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public record struct InstOpDetail
+        public record struct InstOpDetail : IComparable<InstOpDetail>
         {
             public uint PatternId;
 
@@ -81,6 +81,9 @@ namespace Z0
 
             public override string ToString()
                 => Format();
+
+            public int CompareTo(InstOpDetail src)
+                => new PatternOrder().Compare(this,src);
 
             public static InstOpDetail Empty => default;
         }
