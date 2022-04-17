@@ -25,7 +25,7 @@ namespace Z0
             FieldLookup = FieldLookup.create();
             WidthRecords = LoadOpWidths();
             WidthLookup = CalcOpWidthLookup(WidthRecords);
-            _Fields = XedFields.Reflected;
+            _Fields = XedFields.ByPosition;
         }
 
         XedPaths XedPaths => XedPaths.Service;

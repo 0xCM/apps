@@ -21,19 +21,24 @@ namespace Z0
                 => EffectiveFieldTypes.Where(t => t.IsEnum);
         }
 
-        static ReflectedFields _Reflected;
+        static ReflectedFields _ReflectedByPos;
 
-        static Index<FieldKind,FieldSpec> _Specs;
-
-        public static ref readonly Index<FieldKind,FieldSpec> Specs
-        {
-            [MethodImpl(Inline)]
-            get => ref _Specs;
-        }
-
-        public static ReflectedFields Reflected => _Reflected;
+        static ReflectedFields _ReflectedByIndex;
 
         static Index<FieldKind,Type> EffectiveFieldTypes;
+
+        public static ref readonly ReflectedFields ByPosition
+        {
+            [MethodImpl(Inline)]
+            get => ref _ReflectedByPos;
+        }
+
+        public static ref readonly ReflectedFields ByIndex
+        {
+            [MethodImpl(Inline)]
+            get => ref _ReflectedByIndex;
+        }
+
 
         static XedFields()
         {

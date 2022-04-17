@@ -14,7 +14,8 @@ namespace Z0
         [CmdOp("xed/gen")]
         Outcome XedGen(CmdArgs args)
         {
-            //ref readonly var fields = ref XedLookups.FieldSpecs;
+            ref readonly var fields = ref XedLookups.Fields;
+
 
 
 

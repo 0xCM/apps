@@ -15,17 +15,15 @@ namespace Z0
             var src = typeof(RuleState).InstanceFields().Tagged<RuleFieldAttribute>();
             var count = src.Length;
 
-            //var reflected = alloc<ReflectedField>(count);
-            var reflected = ReflectedFields.init();
-            var specs = alloc<FieldSpec>(count);
+            var positional = ReflectedFields.init();
+            var indexed = ReflectedFields.init();
             var types = alloc<Type>(count);
             var total = FieldSize.Empty;
 
-            for(var i=z16; i<count; i++)
+            for(var i=z8; i<count; i++)
             {
                 ref readonly var field = ref skip(src,i);
                 ref var type = ref seek(types,i);
-                ref var spec = ref seek(specs,i);
 
                 var tag = field.Tag<RuleFieldAttribute>().Require();
                 var kind = tag.Kind;
@@ -35,21 +33,23 @@ namespace Z0
                 var size = new FieldSize(fwidth/8, fwidth, dw/8 + ((dw % 8) == 0 ? 0 : 1), dw);
                 total += size;
 
-                ref var dst = ref reflected[i + 1];
-                dst.Index = i;
+                ref var dst = ref positional[i + 1];
+                dst.Pos = i;
                 dst.Field = tag.Kind;
-                dst.DataKind = new(kind,field.FieldType.DisplayName());
+                dst.Index = (byte)tag.Kind;
+                dst.DataType = new(kind,field.FieldType.DisplayName());
                 dst.DomainType = new(kind,type.DisplayName());
                 dst.FieldSize = size;
                 dst.TotalSize = total;
                 dst.Description = tag.Description;
+                indexed[(byte)tag.Kind] = dst;
 
-                spec = new(kind,  size, dst.DataKind, dst.DomainType);
             }
 
             EffectiveFieldTypes = types;
-            _Reflected = reflected;
-            _Specs = specs;
+            _ReflectedByPos = positional;
+            _ReflectedByIndex = indexed.IndexSort();
+
         }
     }
 }

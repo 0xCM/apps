@@ -7,62 +7,16 @@ namespace Z0
 {
     partial class XedRules
     {
-        public struct ReflectedFields
+        [Record(TableName), StructLayout(LayoutKind.Sequential,Pack=1)]
+        public struct ReflectedField : IComparable<ReflectedField>
         {
-            public static ReflectedFields init()
-                => new ReflectedFields(sys.alloc<ReflectedField>(128));
+            public const string TableName = "xed.fields";
 
-            readonly Index<FieldKind,ReflectedField> Data;
+            public const byte FieldCount = 8;
 
-            [MethodImpl(Inline)]
-            ReflectedFields(Index<FieldKind,ReflectedField> src)
-            {
-                Data = src;
-            }
+            public byte Pos;
 
-            public byte Count
-            {
-                [MethodImpl(Inline)]
-                get => (byte)Data.Count;
-            }
-
-            public ref ReflectedField this[FieldKind kind]
-            {
-                [MethodImpl(Inline)]
-                get => ref Data[kind];
-            }
-
-            public ref ReflectedField this[uint i]
-            {
-                [MethodImpl(Inline)]
-                get => ref Data[(FieldKind)i];
-            }
-
-            public ref ReflectedField this[int i]
-            {
-                [MethodImpl(Inline)]
-                get => ref Data[(FieldKind)i];
-            }
-
-            public ReadOnlySpan<ReflectedField> Valid
-            {
-                [MethodImpl(Inline)]
-                get => core.slice(Data.View,1);
-            }
-
-            [MethodImpl(Inline)]
-            public static implicit operator Index<ReflectedField> (ReflectedFields src)
-                => src.Data.Storage;
-
-        }
-        [Record(TableName)]
-        public struct ReflectedField
-        {
-            public const string TableName = "xed.fields.reflected";
-
-            public const byte FieldCount = 7;
-
-            public ushort Index;
+            public byte Index;
 
             public FieldKind Field;
 
@@ -70,15 +24,19 @@ namespace Z0
 
             public FieldSize TotalSize;
 
-            public FieldTypeName DataKind;
+            public FieldTypeName DataType;
 
             public FieldTypeName DomainType;
 
             public TextBlock Description;
 
+            [MethodImpl(Inline)]
+            public int CompareTo(ReflectedField src)
+                => Index.CompareTo(src.Index);
+
             public static ReflectedField Empty => default;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,20,20,16,16,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,24,20,20,16,16,1};
         }
     }
 }

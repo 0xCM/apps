@@ -25,7 +25,7 @@ namespace Z0
                 var field = kind != 0 ? XedLookups.Service.Field(kind) : ReflectedField.Empty;
                 CellParser.parse(data, out RuleOperator op);
                 return new (field.Field, CellParser.@class(field.Field, data), op,
-                    field.DataKind,
+                    field.DataType,
                     field.DomainType,
                     (byte)field.FieldSize.DataWidth,
                     (byte)field.FieldSize.DomainWidth

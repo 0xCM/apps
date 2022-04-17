@@ -79,7 +79,7 @@ namespace Z0
             => TableEmit(ImportFieldDefs().View, XedFieldDef.RenderWidths, XedPaths.Table<XedFieldDef>());
 
         void EmitReflectedFields()
-            => TableEmit(XedFields.Reflected.Valid, ReflectedField.RenderWidths, XedPaths.Table<ReflectedField>());
+            => TableEmit(XedFields.ByPosition.Valid, ReflectedField.RenderWidths, XedPaths.Table<ReflectedField>("positioned"));
 
         void EmitOpCodes(Index<InstPattern> src)
             => TableEmit(XedOpCodes.poc(src).View, PatternOpCode.RenderWidths, XedPaths.Table<PatternOpCode>());
