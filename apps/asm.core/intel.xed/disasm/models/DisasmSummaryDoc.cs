@@ -8,10 +8,10 @@ namespace Z0
 
     public class DisasmSummaryDoc
     {
-        public static DisasmSummaryDoc create(in DisasmFile file, in FileRef origin, DisasmSummaryLines[] lines)
+        public static DisasmSummaryDoc create(in DisasmFile file, DisasmSummaryLines[] lines)
         {
             var sorted = lines.Sort();
-            return new (file, origin, XedDisasm.resequence(lines.Select(line => line.Summary)), sorted);
+            return new (file, file.Origin, XedDisasm.resequence(lines.Select(line => line.Summary)), sorted);
         }
 
         public readonly uint RowCount;

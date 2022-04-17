@@ -13,10 +13,22 @@ namespace Z0
         public readonly Index<DetailBlock> Blocks;
 
         [MethodImpl(Inline)]
-        public DisasmDetailDoc(DisasmFile file, DetailBlock[] data)
+        public DisasmDetailDoc(in DisasmFile file, DetailBlock[] data)
         {
             File = file;
             Blocks = data;
+        }
+
+        public ref readonly FileRef Origin
+        {
+            [MethodImpl(Inline)]
+            get => ref File.Origin;
+        }
+
+        public ref readonly FileRef Source
+        {
+            [MethodImpl(Inline)]
+            get => ref File.Source;
         }
 
         public uint Seq

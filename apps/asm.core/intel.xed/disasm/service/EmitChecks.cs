@@ -10,36 +10,12 @@ namespace Z0
     using static XedModels;
     using static XedDisasm;
 
-    using K = XedRules.FieldKind;
-
     partial class XedDisasmSvc
     {
         void EmitChecks(WsContext context, DisasmDetailDoc doc)
         {
             const string RenderPattern = "{0,-24} | {1}";
             ref readonly var file = ref doc.File;
-            var emitted = hashset<FieldKind>(
-                    K.MODE,
-                    K.OSZ, K.ASZ, K.EASZ, K.EOSZ, K.PREFIX66, K.DF32, K.DF64,
-                    K.NPREFIXES, K.NSEG_PREFIXES, K.HINT, K.REP,
-                    K.REXW, K.REXR, K.REXX, K.REXB, K.REX, K.NREXES,
-                    K.VEXVALID, K.VEX_PREFIX, K.VEXDEST210, K.VEXDEST3, K.VEXDEST4,
-                    K.MAP, K.NOMINAL_OPCODE, K.SRM,
-                    K.OUTREG, K.REG0, K.REG1, K.REG2, K.REG3, K.REG4, K.REG5, K.REG6, K.REG7, K.REG8, K.REG9,
-                    K.ELEMENT_SIZE, K.VL, K.NELEM,
-                    K.MODRM_BYTE, K.HAS_MODRM, K.MOD, K.REG, K.RM,
-                    K.HAS_SIB, K.SIBBASE, K.SIBINDEX, K.SIBSCALE,
-                    K.DISP_WIDTH, K.DISP,
-                    K.IMM0, K.IMM0SIGNED, K.IMM_WIDTH,
-                    K.IMM1, K.IMM1_BYTES,
-                    K.MASK, K.BCAST,
-                    K.ROUNDC, K.SAE, K.ZEROING, K.LLRC, K.BCRC, K.ESRC,
-                    K.POS_IMM, K.POS_IMM1, K.POS_DISP, K.POS_SIB, K.POS_NOMINAL_OPCODE, K.POS_MODRM,
-                    K.MEM0, K.MEM1, K.UBIT, K.NEED_MEMDISP,
-                    K.MAX_BYTES, K.LZCNT, K.TZCNT, K.USING_DEFAULT_SEGMENT0, K.SMODE, K.P4,
-                    K.LOCK, K.FIRST_F2F3, K.LAST_F2F3, K.ILD_F2, K.ILD_F3, K.BRDISP_WIDTH
-                    );
-
             var buffer = text.buffer();
             var count = doc.Count;
             var dstpath = DisasmChecksPath(context,file.Source);
@@ -248,14 +224,6 @@ namespace Z0
 
                 if(state.REXRR)
                     writer.AppendLineFormat(RenderPattern, nameof(state.REXRR), state.REXRR);
-
-                for(var k=0; k<cells.Count; k++, counter++)
-                {
-                    ref readonly var value = ref cells[k];
-                    ref readonly var fk = ref value.Field;
-                    if(!emitted.Contains(fk))
-                        writer.AppendLineFormat(RenderPattern, XedRender.format(fk), XedRender.format(value));
-                }
 
                 if(state.OUTREG != 0)
                 {

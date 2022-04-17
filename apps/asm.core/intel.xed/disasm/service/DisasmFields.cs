@@ -18,6 +18,9 @@ namespace Z0
                 iter(lookup.Keys, doc => EmitFields(Context,doc, TargetPath(Context,doc.File.Source)), PllExec);
             }
 
+            public void EmitFields(DisasmDetailDoc src)
+                => EmitFields(Context, src, TargetPath(Context, src.File.Source));
+
             public FS.FilePath TargetPath(WsContext context, in FileRef src)
                 => Projects.XedDisasmDir(context.Project) + FS.file(string.Format("{0}.fields", src.Path.FileName.WithoutExtension), FS.Txt);
 

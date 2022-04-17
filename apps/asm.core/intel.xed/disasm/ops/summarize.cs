@@ -24,7 +24,7 @@ namespace Z0
         {
             var buffer = bag<DisasmSummaryLines>();
             summarize(context, file, buffer).Require();
-            return DisasmSummaryDoc.create(file, context.Root(file.Source), buffer.ToArray());
+            return DisasmSummaryDoc.create(file, buffer.ToArray());
         }
 
         static Outcome summarize(WsContext context, in DisasmFile file, ConcurrentBag<DisasmSummaryLines> dst)

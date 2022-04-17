@@ -35,7 +35,10 @@ namespace Z0
             var buffer = hashset<InstOpClass>();
             foreach(var (summary,detail) in src)
                 buffer.AddRange(detail.Blocks.Select(x => x.DetailRow).SelectMany(x => x.Ops).Select(x => XedDisasm.opclass(ModeKind.Mode64, x.OpInfo)).Distinct());
-            return buffer.Array().Sort();
+            var dst = buffer.Array().Sort();
+            for(var i=0u; i<dst.Length; i++)
+                seek(dst,i).Seq = i;
+            return dst;
         }
 
         public static ref FieldBuffer load(in DetailBlock src, ref FieldBuffer dst)
@@ -83,20 +86,31 @@ namespace Z0
             return dst;
         }
 
+        public static Index<DetailBlock> resequence(Index<DetailBlock> src)
+        {
+            var dst = src.Sort();
+            for(var i=0u; i<dst.Count; i++)
+            {
+                var row = dst[i].DetailRow;
+                row.Seq = i;
+                dst[i] = new DetailBlock(row, dst[i].SummaryLines);
+            }
+            return dst;
+        }
+
         public static DisasmDetailDoc details(WsContext context, in FileRef fref)
         {
-            var file = load(fref);
+            var file = load(context, fref);
             return doc(context, file, summary(context, file));
         }
 
         public static DisasmSummaryDoc summary(WsContext context, in FileRef src)
         {
             var buffer = bag<DisasmSummaryLines>();
-            var file = load(src);
-            summarize(src, context.Root(src), file.Lines, buffer).Require();
-            return DisasmSummaryDoc.create(file, context.Root(src), buffer.ToArray());
+            var file = load(context, src);
+            summarize(src, file.Origin, file.Lines, buffer).Require();
+            return DisasmSummaryDoc.create(file, buffer.ToArray());
         }
-
 
         public static uint fields(DisasmProps props, Fields dst, bool clear = true)
         {
@@ -129,7 +143,7 @@ namespace Z0
             return counter;
         }
 
-        public static DisasmFile load(in FileRef src)
+        public static DisasmFile load(WsContext context, in FileRef src)
         {
             var dst = list<DisasmLineBlock>();
             var lines = src.Path.ReadNumberedLines();
@@ -161,7 +175,7 @@ namespace Z0
                     }
                 }
             }
-            return new DisasmFile(src,dst.ToArray());
+            return new DisasmFile(context.Root(src), src,dst.ToArray());
         }
     }
 }

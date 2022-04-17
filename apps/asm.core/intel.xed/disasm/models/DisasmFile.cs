@@ -9,13 +9,15 @@ namespace Z0
     {
         public readonly struct DisasmFile : IComparable<DisasmFile>
         {
+            public readonly FileRef Origin;
             public readonly FileRef Source;
 
             public readonly Index<DisasmLineBlock> Lines;
 
             [MethodImpl(Inline)]
-            public DisasmFile(FileRef src, DisasmLineBlock[] lines)
+            public DisasmFile(in FileRef origin, in FileRef src, DisasmLineBlock[] lines)
             {
+                Origin = origin;
                 Source = src;
                 Lines = lines;
             }
@@ -53,7 +55,7 @@ namespace Z0
             public int CompareTo(DisasmFile src)
                 => Seq.CompareTo(src.Seq);
 
-            public static DisasmFile Empty => new DisasmFile(FileRef.Empty, sys.empty<DisasmLineBlock>());
+            public static DisasmFile Empty => new DisasmFile(FileRef.Empty, FileRef.Empty, sys.empty<DisasmLineBlock>());
         }
     }
 }

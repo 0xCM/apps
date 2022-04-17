@@ -7,37 +7,50 @@ namespace Z0
 {
     using static core;
     using static XedDisasm;
+    using static XedRules;
 
     partial class XedDisasmSvc
     {
         public void Collect(WsContext context)
         {
             Projects.XedDisasmDir(context.Project).Clear();
-            var files = context.Files(FileKind.XedRawDisasm);
-            var dst = cdict<FileRef,DisasmDetailDoc>();
-            iter(files, file => Collect(context, file, dst), PllExec);
-            TableEmit(summarize(dst).View, DisasmSummaryRow.RenderWidths, Projects.Table<DisasmSummaryRow>(context.Project));
-            EmitDetails(dst, Projects.Table<DetailBlockRow>(context.Project));
-            EmitFields(context);
-        }
-
-        static Index<DisasmSummaryRow> summarize(ConcurrentDictionary<FileRef,DisasmDetailDoc> src)
-        {
-            var dst = map(src.Values, v => map(v.Blocks, x => x.SummaryLines.Summary)).SelectMany(x => x).Sort();
-            for(var i=0u; i<dst.Length; i++)
-                seek(dst,i).Seq = i;
-            return dst;
-        }
-
-        void Collect(WsContext context, in FileRef src, ConcurrentDictionary<FileRef,DisasmDetailDoc> dst)
-        {
-            var file = load(src);
-            var details = XedDisasm.details(context, src);
-            dst.TryAdd(src, details);
+            var docs = XedDisasm.docs(context);
+            var summaries = bag<DisasmSummaryRow>();
+            var details = bag<DetailBlock>();
             exec(PllExec,
-                () => EmitOps(context, details),
-                () => EmitChecks(context, details)
-            );
+                () => EmitRecords(context,docs),
+                () => EmitOpClasses(context, docs),
+                () => EmitBreakdowns(context,docs)
+                );
+        }
+
+        void EmitBreakdowns(WsContext context, Index<DisasmDocs> docs)
+        {
+            iter(docs.Select(x => x.Detail), d => {
+                    EmitOps(context, d);
+                    EmitChecks(context, d);
+                    this.Client<DisasmFields>(context).EmitFields(d);
+                }, PllExec);
+        }
+
+        void EmitRecords(WsContext context, Index<DisasmDocs> src)
+        {
+            var summaries = bag<DisasmSummaryRow>();
+            var details = bag<DetailBlock>();
+            iter(src, pair =>{
+                iter(pair.Summary.Rows, r => summaries.Add(r));
+                iter(pair.Detail.Blocks, b => details.Add(b));
+            });
+
+            exec(PllExec,
+                () => EmitDetailReport(context, details.ToArray()),
+                () => EmitSummaries(context,summaries.ToArray()));
+        }
+
+        public void EmitOpClasses(WsContext context, Index<DisasmDocs> src)
+        {
+            var target = Projects.XedDisasmDir(context.Project) + Tables.filename<InstOpClass>(context.Project.Name.Format());
+            TableEmit(XedDisasm.opclasses(src).View, InstOpClass.RenderWidths, target);
         }
     }
 }
