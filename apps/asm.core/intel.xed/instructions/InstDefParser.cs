@@ -60,7 +60,6 @@ namespace Z0
                                         break;
                                         case P.Attributes:
                                             attribs = XedPatterns.attributes(text.despace(value));
-                                            dst.Attributes = attribs;
                                         break;
                                         case P.Category:
                                             if(XedParsers.parse(text.despace(value), out Category _category))
