@@ -12,16 +12,6 @@ namespace Z0
 
     partial class XedOpCodes
     {
-        public static char indicator(OpCodeClass src)
-            => src switch {
-                OpCodeClass.Base => 'B',
-                OpCodeClass.Xop => 'X',
-                OpCodeClass.Vex => 'V',
-                OpCodeClass.Evex => 'E',
-                OpCodeClass.Amd3D => 'A',
-                _ => (char)0
-            };
-
         public static asci4 selector(OpCodeKind src)
             => src switch {
                 Base00 => "0000",

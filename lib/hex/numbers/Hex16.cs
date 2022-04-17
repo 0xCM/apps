@@ -158,5 +158,13 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator H(Address16 src)
             => new H(src.Location);
+
+        [MethodImpl(Inline)]
+        public static explicit operator H(Hex32 src)
+            => new H((ushort)src.Value);
+
+        [MethodImpl(Inline)]
+        public static explicit operator H(Hex64 src)
+            => new H((ushort)src.Value);
    }
 }

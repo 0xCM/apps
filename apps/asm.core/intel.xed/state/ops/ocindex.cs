@@ -14,13 +14,12 @@ namespace Z0
         public static OpCodeIndex ocindex(in RuleState state)
             => XedOpCodes.index(state);
 
-
         partial struct Edit
         {
             [MethodImpl(Inline), Op]
             public static ref RuleState set(OpCodeIndex src, ref RuleState dst)
             {
-                XedOpCodes.mapcode(src, out dst.MAP);
+                XedOpCodes.mapnum(src, out dst.MAP);
                 dst.VEXVALID = (byte)XedOpCodes.vexclass(src);
                 return ref dst;
             }

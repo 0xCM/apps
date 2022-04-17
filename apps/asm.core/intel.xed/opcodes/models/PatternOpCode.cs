@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         [Record(TableId)]
-        public struct PatternOpCode : IComparable<PatternOpCode>
+        public record struct PatternOpCode : IComparable<PatternOpCode>
         {
             public const string TableId = "xed.opcodes";
 
@@ -38,6 +38,11 @@ namespace Z0
 
             public InstFields Expr;
 
+            [MethodImpl(Inline)]
+            public OcInstClass OcInstClass()
+                => XedOpCodes.instclass(InstClass, OpCode, Index);
+
+            [MethodImpl(Inline)]
             public int CompareTo(PatternOpCode src)
                 => new PatternOrder().Compare(this,src);
 

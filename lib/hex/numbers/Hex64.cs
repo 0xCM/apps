@@ -31,7 +31,7 @@ namespace Z0
 
         public const byte StorageWidth = 64;
 
-        public K Value {get;}
+        public readonly K Value;
 
         [MethodImpl(Inline)]
         public Hex64(K offset)
@@ -69,6 +69,9 @@ namespace Z0
             [MethodImpl(Inline)]
             get => alg.hash.calc(Value);
         }
+
+        ulong IHexNumber<ulong>.Value
+            => Value;
 
         [MethodImpl(Inline)]
         public bool Equals(H src)

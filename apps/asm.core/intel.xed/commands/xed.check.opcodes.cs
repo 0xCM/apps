@@ -35,7 +35,6 @@ namespace Z0
 
             for(var j=0; j<ops.Count; j++)
             {
-
                 ref readonly var op = ref ops[j];
                 buffer.Write(EmptyString);
                 buffer.Write(op.Index);
@@ -67,8 +66,7 @@ namespace Z0
                 ("InstClass", 18),
                 ("Index", 8),
                 ("OpCode", 26),
-                ("Mode", 8),
-                ("Lock", 8)
+                ("Id", 8)
                 );
 
             var counter = 0u;
@@ -96,16 +94,7 @@ namespace Z0
                 dst.Write(poc.InstClass);
                 dst.Write(poc.Index);
                 dst.Write(poc.OpCode);
-                dst.Write(poc.Mode);
-                if(poc.Lock.IsNonEmpty)
-                {
-                    if(poc.Lock.Locked)
-                        dst.Write("Lock:1");
-                    else
-                        dst.Write("Lock:0");
-                }
-                else
-                    dst.Write(EmptyString);
+                dst.Write(poc.OcInstClass());
 
                 writer.AppendLineFormat("{0,-10} | {1}", EmptyString, RP.PageBreak120);
                 counter++;

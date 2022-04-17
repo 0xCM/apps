@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public readonly struct OpCodeMap
+        public readonly record struct OpCodeMap : IComparable<OpCodeMap>
         {
             public readonly OpCodeKind Kind;
 
@@ -15,21 +15,27 @@ namespace Z0
 
             public readonly OpCodeIndex Index;
 
-            public readonly char Indicator;
+            public readonly asci2 Symbol;
 
             public readonly asci4 Selector;
 
-            public OpCodeMap(OpCodeKind kind, OpCodeClass @class, OpCodeIndex index, char indicator, asci4 selector)
+            public readonly asci8 Depictor;
+
+            public OpCodeMap(OpCodeKind kind, OpCodeClass @class, OpCodeIndex index, asci2 indicator, asci4 selector)
             {
                 Kind = kind;
                 Class = @class;
                 Index = index;
-                Indicator = indicator;
+                Symbol = indicator;
                 Selector = selector;
+                Depictor = $"{Symbol}[{Selector}]";
             }
 
+            public int CompareTo(OpCodeMap src)
+                => XedOpCodes.cmp(Kind, src.Kind);
+
             public string Format()
-                => string.Format("{0}:{1}", Indicator, Selector);
+                => Depictor.Format();
 
             public override string ToString()
                 => Format();

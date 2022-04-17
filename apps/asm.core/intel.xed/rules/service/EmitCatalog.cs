@@ -32,7 +32,7 @@ namespace Z0
                 () => EmitOpCodes(patterns),
                 () => EmitInstFields(patterns),
                 () => EmitFlagEffects(patterns),
-                () => EmitInstGroups(patterns),
+                () => EmitInstGroups(CalcInstGroups(patterns)),
                 () => EmitInstAttribs(patterns),
                 () => tables = CalcRules()
                 );

@@ -85,6 +85,12 @@ namespace Z0.Asm
             Storage = src;
         }
 
+        public ref readonly Hex8 FirstByte
+        {
+            [MethodImpl(Inline)]
+            get => ref @as<Hex8>(this[0]);
+        }
+
         public ref readonly byte this[int i]
         {
             [MethodImpl(Inline)]

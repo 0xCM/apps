@@ -174,6 +174,19 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Address8(H src)
             => new Address8(src);
+
+        [MethodImpl(Inline)]
+        public static explicit operator H(Hex16 src)
+            => new H((byte)src.Value);
+
+        [MethodImpl(Inline)]
+        public static explicit operator H(Hex32 src)
+            => new H((byte)src.Value);
+
+        [MethodImpl(Inline)]
+        public static explicit operator H(Hex64 src)
+            => new H((byte)src.Value);
+
         public static H MaxValue
         {
             [MethodImpl(Inline)]

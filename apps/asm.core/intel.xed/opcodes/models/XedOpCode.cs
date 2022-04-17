@@ -55,6 +55,12 @@ namespace Z0
                 get => ((uint)Mode << 29) | (((uint)Class << 24) | (uint)Value);
             }
 
+            public ref readonly Hex8 FirstByte
+            {
+                [MethodImpl(Inline)]
+                get => ref Value.FirstByte;
+            }
+
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
@@ -73,14 +79,11 @@ namespace Z0
             public asci4 Selector
                 => XedOpCodes.selector(Kind);
 
-            public asci8 Map
-                => $"{Symbol}[{Selector}]";
-
-            public char Indicator
-                => XedOpCodes.indicator(Class);
+            public OpCodeMap Map
+                => new OpCodeMap(Kind, Class, XedOpCodes.index(Kind), Symbol, Selector);
 
             public string Format()
-                => $"{Map}:{Value}";
+                => Map.Format();
 
             public override string ToString()
                 => Format();

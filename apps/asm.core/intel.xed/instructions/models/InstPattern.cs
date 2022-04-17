@@ -13,8 +13,6 @@ namespace Z0
         {
             public readonly InstPatternSpec Spec;
 
-            public readonly OcInstClass OcInst;
-
             public readonly Index<OpName> OpNames;
 
             public readonly FieldSet FieldDeps;
@@ -29,13 +27,12 @@ namespace Z0
 
             public readonly bit Scalable;
 
-            public InstPattern(in InstPatternSpec spec, in OcInstClass oc, FieldSet deps)
+            public InstPattern(in InstPatternSpec spec, FieldSet deps)
             {
                 ref readonly var fields = ref spec.Body.Fields;
                 var layout = fields.Layout;
                 var expr = fields.Expr;
                 Spec = spec;
-                OcInst = oc;
                 OpNames = spec.Ops.Names;
                 FieldDeps = deps;
                 Lock = XedFields.@lock(fields);
@@ -158,7 +155,7 @@ namespace Z0
             public PatternSort Sort()
                 => new PatternSort(this);
 
-            public static InstPattern Empty => new InstPattern(InstPatternSpec.Empty, OcInstClass.Empty, FieldSet.create());
+            public static InstPattern Empty => new InstPattern(InstPatternSpec.Empty, FieldSet.create());
         }
     }
 }

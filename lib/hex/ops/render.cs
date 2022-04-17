@@ -19,6 +19,16 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
+        public static uint render(LowerCased @case, Hex8 src, ref uint i, Span<char> dst, char sep)
+        {
+            var i0 = i;
+            seek(dst, i++) = hexchar(@case, src.Hi);
+            seek(dst,i++) = sep;
+            seek(dst, i++) = hexchar(@case, src.Lo);
+            return i - i0;
+        }
+
+        [MethodImpl(Inline), Op]
         public static uint render(UpperCased @case, Hex8 src, ref uint i, Span<char> dst)
         {
             var i0 = i;
@@ -28,10 +38,30 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
+        public static uint render(UpperCased @case, Hex8 src, ref uint i, Span<char> dst, char sep)
+        {
+            var i0 = i;
+            seek(dst, i++) = hexchar(@case, src.Hi);
+            seek(dst, i++) = sep;
+            seek(dst, i++) = hexchar(@case, src.Lo);
+            return i - i0;
+        }
+
+        [MethodImpl(Inline), Op]
         public static uint render(LowerCased @case, byte src, ref uint i, Span<char> dst)
         {
             var i0 = i;
             seek(dst, i++) = hexchar(@case, (byte)((byte)src >> 4));
+            seek(dst, i++) = hexchar(@case, (byte)((byte)src & 0xF));
+            return i - i0;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static uint render(LowerCased @case, byte src, ref uint i, Span<char> dst, char sep)
+        {
+            var i0 = i;
+            seek(dst, i++) = hexchar(@case, (byte)((byte)src >> 4));
+            seek(dst, i++) = sep;
             seek(dst, i++) = hexchar(@case, (byte)((byte)src & 0xF));
             return i - i0;
         }
@@ -48,6 +78,41 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
+        public static uint render(LowerCased @case, Hex16 src, ref uint i, Span<char> dst, char sep)
+        {
+            var i0 = i;
+            seek(dst, i++) = hexchar(@case, src.Hi.Hi);
+            seek(dst, i++) = hexchar(@case, src.Hi.Lo);
+            seek(dst, i++) = sep;
+            seek(dst, i++) = hexchar(@case, src.Lo.Hi);
+            seek(dst, i++) = hexchar(@case, src.Lo.Lo);
+            return i - i0;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static uint render(UpperCased @case, Hex16 src, ref uint i, Span<char> dst)
+        {
+            var i0 = i;
+            seek(dst, i++) = hexchar(@case, src.Hi.Hi);
+            seek(dst, i++) = hexchar(@case, src.Hi.Lo);
+            seek(dst, i++) = hexchar(@case, src.Lo.Hi);
+            seek(dst, i++) = hexchar(@case, src.Lo.Lo);
+            return i - i0;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static uint render(UpperCased @case, Hex16 src, ref uint i, Span<char> dst, char sep)
+        {
+            var i0 = i;
+            seek(dst, i++) = hexchar(@case, src.Hi.Hi);
+            seek(dst, i++) = hexchar(@case, src.Hi.Lo);
+            seek(dst, i++) = sep;
+            seek(dst, i++) = hexchar(@case, src.Lo.Hi);
+            seek(dst, i++) = hexchar(@case, src.Lo.Lo);
+            return i - i0;
+        }
+
+        [MethodImpl(Inline), Op]
         public static uint render(LowerCased @case, Hex32 src, ref uint i, Span<char> dst)
         {
             var i0 = i;
@@ -57,10 +122,58 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
+        public static uint render(LowerCased @case, Hex32 src, ref uint i, Span<char> dst, char sep)
+        {
+            var i0 = i;
+            render(@case, src.Hi, ref i, dst);
+            seek(dst, i++) = sep;
+            render(@case, src.Lo, ref i, dst);
+            return i - i0;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static uint render(UpperCased @case, Hex32 src, ref uint i, Span<char> dst)
+        {
+            var i0 = i;
+            render(@case, src.Hi, ref i, dst);
+            render(@case, src.Lo, ref i, dst);
+            return i - i0;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static uint render(UpperCased @case, Hex32 src, ref uint i, Span<char> dst, char sep)
+        {
+            var i0 = i;
+            render(@case, src.Hi, ref i, dst);
+            seek(dst, i++) = sep;
+            render(@case, src.Lo, ref i, dst);
+            return i - i0;
+        }
+
+        [MethodImpl(Inline), Op]
         public static uint render(LowerCased @case, Hex64 src, ref uint i, Span<char> dst)
         {
             var i0 = i;
             render(@case, src.Hi, ref i, dst);
+            render(@case, src.Lo, ref i, dst);
+            return i - i0;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static uint render(UpperCased @case, Hex64 src, ref uint i, Span<char> dst)
+        {
+            var i0 = i;
+            render(@case, src.Hi, ref i, dst);
+            render(@case, src.Lo, ref i, dst);
+            return i - i0;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static uint render(UpperCased @case, Hex64 src, ref uint i, Span<char> dst, char sep)
+        {
+            var i0 = i;
+            render(@case, src.Hi, ref i, dst);
+            seek(dst, i++) = sep;
             render(@case, src.Lo, ref i, dst);
             return i - i0;
         }

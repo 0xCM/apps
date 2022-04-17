@@ -14,24 +14,6 @@ namespace Z0
     {
         public readonly struct PatternOpParser
         {
-            public static bool opexpr(string src, out OpName name, out string expr)
-            {
-                var input = text.despace(src);
-                var i = text.index(input, Chars.Colon);
-                var j = text.index(input, Chars.Eq);
-                var index = -1;
-                if(i > 0 && j > 0)
-                    index = i < j ? i : j;
-                else if(i>0 && j<0)
-                    index = i;
-                else if(j>0 && i<0)
-                    index = j;
-
-                var left = text.left(input, index);
-                expr = text.right(input,index);
-                return XedParsers.parse(left, out name);
-            }
-
             public static void parse(uint pattern, string ops, out PatternOps dst)
             {
                 dst = parse(pattern, ops);
@@ -75,6 +57,24 @@ namespace Z0
                 }
 
                 return new(pattern,buffer.ToArray());
+            }
+
+            static bool opexpr(string src, out OpName name, out string expr)
+            {
+                var input = text.despace(src);
+                var i = text.index(input, Chars.Colon);
+                var j = text.index(input, Chars.Eq);
+                var index = -1;
+                if(i > 0 && j > 0)
+                    index = i < j ? i : j;
+                else if(i>0 && j<0)
+                    index = i;
+                else if(j>0 && i<0)
+                    index = j;
+
+                var left = text.left(input, index);
+                expr = text.right(input,index);
+                return XedParsers.parse(left, out name);
             }
 
             static bool parse(string src, ref PatternOp dst)
@@ -283,7 +283,7 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            public static void reg(string expr, Index<string> props, ref PatternOp dst)
+            static void reg(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
                 var result = Outcome.Success;

@@ -7,17 +7,16 @@ namespace Z0
 {
     partial class XedRules
     {
-        public void EmitInstGroups(Index<InstPattern> src)
+        public void EmitInstGroups(Index<InstGroup> src)
         {
             const string RenderPattern = "{0,-12} | {1,-18} | {2,-8} | {3,-8} | {4,-6} | {5,-6} | {6,-6} | {7,-26} | {8}";
             var counter = 0u;
-            var groups = CalcInstGroups(src);
             var dst = text.buffer();
             var k=0u;
             dst.AppendLineFormat(RenderPattern, "PatternId", "Instruction", "Mod", "Lock", "Mode", "RexW", "Index", "OpCode", "Form");
-            for(var i=0; i<groups.Count; i++)
+            for(var i=0; i<src.Count; i++)
             {
-                ref readonly var group = ref groups[i];
+                ref readonly var group = ref src[i];
                 var opcode = XedOpCode.Empty;
                 foreach(var member in group.Members)
                 {
@@ -41,6 +40,7 @@ namespace Z0
                         member.OpCode,
                         member.InstForm
                         );
+
                     counter++;
                 }
 

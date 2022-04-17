@@ -29,9 +29,8 @@ namespace Z0
         public static InstPattern pattern(ref InstPatternSpec spec)
         {
             var fields = XedFields.sort(spec.Body.Fields);
-            var usage = XedFields.usage(fields);
             spec.Body = new (fields);
-            return new InstPattern(spec, new OcInstClass(spec.PatternId, spec.OpCode, spec.InstClass), usage);
+            return new InstPattern(spec, XedFields.usage(fields));
         }
     }
 }

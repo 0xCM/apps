@@ -64,7 +64,6 @@ namespace Z0
             return dst;
         }
 
-
         [Op]
         public static OpCodeIndex index(VexMapKind kind)
             => kind switch

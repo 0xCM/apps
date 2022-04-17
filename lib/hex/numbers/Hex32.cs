@@ -11,7 +11,6 @@ namespace Z0
     [DataWidth(32)]
     public readonly struct Hex32 : IHexNumber<H,W,K>
     {
-
         [Parser]
         public static Outcome parse(string src, out Hex32 dst)
         {
@@ -36,7 +35,7 @@ namespace Z0
 
         public static H Max => K.MaxValue;
 
-        public K Value {get;}
+        public readonly K Value;
 
         [MethodImpl(Inline)]
         public Hex32(K offset)
@@ -74,6 +73,9 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Value;
         }
+
+        uint IHexNumber<uint>.Value
+            => Value;
 
         [MethodImpl(Inline)]
         public bool Equals(H src)
@@ -151,6 +153,9 @@ namespace Z0
         public static explicit operator H(MemoryAddress src)
             => new H((uint)src.Location);
 
+        [MethodImpl(Inline)]
+        public static explicit operator H(Hex64 src)
+            => new H((uint)src.Value);
 
         [MethodImpl(Inline)]
         public static H operator+(H x, K y)

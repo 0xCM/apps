@@ -9,7 +9,9 @@ namespace Z0
         [CmdOp("xed/emit/groups")]
         Outcome EmitInstGroups(CmdArgs args)
         {
-            Xed.Rules.EmitInstGroups(Xed.Rules.CalcInstPatterns());
+            var patterns = Xed.Rules.CalcInstPatterns();
+            var groups = Xed.Rules.CalcInstGroups(patterns);
+            Xed.Rules.EmitInstGroups(groups);
            return true;
         }
     }

@@ -9,7 +9,7 @@ namespace Z0
     using W = W4;
 
     [DataWidth(4)]
-    public readonly struct Hex4 //: IHexNumber<H,W,K>
+    public readonly struct Hex4
     {
         [Parser]
         public static Outcome parse(string src, out H dst)
@@ -26,7 +26,6 @@ namespace Z0
             dst = new H((K)(x & 0b1111));
             return outcome;
         }
-
 
         public const byte ContentWidth = 4;
 
@@ -46,7 +45,7 @@ namespace Z0
 
         public static H Max => KMax;
 
-        public K Value {get;}
+        public readonly K Value;
 
         [MethodImpl(Inline)]
         public Hex4(K src)
@@ -92,7 +91,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => Text;
+            => Hex.hexchar(LowerCase, this).ToString();
 
         [MethodImpl(Inline)]
         public string Format(bool zpad = false, bool prespec = false, bool uppercase = false)
@@ -144,6 +143,18 @@ namespace Z0
         [MethodImpl(Inline)]
         public static explicit operator ulong(H src)
             => (ulong)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator H(Hex16 src)
+            => new H((byte)src.Value);
+
+        [MethodImpl(Inline)]
+        public static explicit operator H(Hex32 src)
+            => new H((byte)src.Value);
+
+        [MethodImpl(Inline)]
+        public static explicit operator H(Hex64 src)
+            => new H((byte)src.Value);
 
         [MethodImpl(Inline)]
         public static implicit operator H(Hex1Kind src)
