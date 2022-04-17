@@ -88,9 +88,6 @@ namespace Z0
         public static XedDocs XedDocs(this IWfRuntime wf)
             => Z0.XedDocs.create(wf);
 
-        public static XedTables XedTables(this IWfRuntime wf)
-            => Z0.XedTables.create(wf);
-
         [Op]
         public static XedTool XedTool(this IWfRuntime wf)
             => Z0.XedTool.create(wf);

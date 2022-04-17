@@ -44,8 +44,6 @@ namespace Z0
 
         AppDb AppDb => Service(Wf.AppDb);
 
-        XedLookups XedTables => Service(Wf.XedTables).Data;
-
         XedDocs Docs => Service(Wf.XedDocs);
 
         static Symbols<PointerWidthKind> PointerWidthKinds;

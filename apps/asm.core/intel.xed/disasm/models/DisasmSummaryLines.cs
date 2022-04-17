@@ -11,10 +11,10 @@ namespace Z0
         {
             public readonly DisasmLineBlock Lines;
 
-            public readonly DisasmSummary Summary;
+            public readonly DisasmSummaryRow Summary;
 
             [MethodImpl(Inline)]
-            public DisasmSummaryLines(DisasmLineBlock lines, DisasmSummary summary)
+            public DisasmSummaryLines(DisasmLineBlock lines, DisasmSummaryRow summary)
             {
                 Lines = lines;
                 Summary = summary;
@@ -23,7 +23,7 @@ namespace Z0
             public int CompareTo(DisasmSummaryLines src)
                 => Summary.CompareTo(src.Summary);
 
-            public static DisasmSummaryLines Empty => new (DisasmLineBlock.Empty, DisasmSummary.Empty);
+            public static DisasmSummaryLines Empty => new (DisasmLineBlock.Empty, DisasmSummaryRow.Empty);
         }
     }
 }

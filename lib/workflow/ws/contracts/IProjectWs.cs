@@ -15,6 +15,12 @@ namespace Z0
         FS.FolderPath Home()
             => Root + FS.folder(Project.Format());
 
+        FS.FolderPath IFileArchive.Datasets()
+            => Root + FS.folder("db/projects") + FS.folder(Project.Id);
+
+        FS.FolderPath IFileArchive.Datasets(string scope)
+            => Datasets() + FS.folder(scope);
+
         FS.FilePath IFileArchive.Path(string id, FS.FileExt ext)
             => Home() + FS.file(id,ext);
 

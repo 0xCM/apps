@@ -22,7 +22,7 @@ namespace Z0
             {
                 Require.invariant(data.Length < 48);
                 var kind = XedFields.kind(data);
-                var field = kind != 0 ? XedLookups.Service.Field(kind) : ReflectedField.Empty;
+                var field = kind != 0 ? XedFields.field(kind) : ReflectedField.Empty;
                 CellParser.parse(data, out RuleOperator op);
                 return new (field.Field, CellParser.@class(field.Field, data), op,
                     field.DataType,

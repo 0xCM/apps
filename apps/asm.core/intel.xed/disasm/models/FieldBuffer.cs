@@ -5,9 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedDisasm;
     using static XedRules;
-    using static XedModels;
 
     partial class XedDisasm
     {
@@ -31,7 +29,7 @@ namespace Z0
             {
                 Fields = fields;
                 State = RuleState.Empty;
-                Summary = DisasmSummary.Empty;
+                Summary = DisasmSummaryRow.Empty;
                 Lines = DisasmLineBlock.Empty;
                 AsmInfo = AsmInfo.Empty;
                 Props = DisasmProps.Empty;
@@ -44,7 +42,7 @@ namespace Z0
             {
                 Fields.Clear();
                 State = RuleState.Empty;
-                Summary = DisasmSummary.Empty;
+                Summary = DisasmSummaryRow.Empty;
                 Lines = DisasmLineBlock.Empty;
                 AsmInfo = AsmInfo.Empty;
                 Props = DisasmProps.Empty;
@@ -59,7 +57,7 @@ namespace Z0
 
             public DisasmLineBlock Lines;
 
-            public DisasmSummary Summary;
+            public DisasmSummaryRow Summary;
 
             public AsmInfo AsmInfo;
 
@@ -70,18 +68,6 @@ namespace Z0
             public EncodingExtract Encoding;
 
             public ReadOnlySpan<FieldKind> FieldSelection;
-
-            public InstForm Form
-            {
-                [MethodImpl(Inline)]
-                get => Detail.InstForm;
-            }
-
-            public DisasmOpDetails Ops
-            {
-                [MethodImpl(Inline)]
-                get => Detail.Ops;
-            }
         }
     }
 }

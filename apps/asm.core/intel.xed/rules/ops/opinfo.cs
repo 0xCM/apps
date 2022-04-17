@@ -13,8 +13,6 @@ namespace Z0
     {
         public static PatternOpInfo opinfo(MachineMode mode, in PatternOp src)
         {
-            var lookups = XedLookups.Service;
-
             var dst = PatternOpInfo.Empty;
             dst.Index = src.Index;
             dst.Kind = src.Kind;
@@ -28,9 +26,9 @@ namespace Z0
             if(XedPatterns.widthcode(src, out wc))
             {
                 dst.WidthCode = wc;
-                var w = lookups.Width(wc, mode);
+                var w = XedWidths.width(wc, mode);
                 dst.BitWidth = w.Bits;
-                var wi = lookups.WidthInfo(wc);
+                var wi = XedWidths.describe(wc);
                 dst.SegType = wi.Seg;
                 dst.CellType = wi.CellType;
                 dst.CellWidth = wi.CellWidth;

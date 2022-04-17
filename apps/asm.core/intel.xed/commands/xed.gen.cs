@@ -11,28 +11,70 @@ namespace Z0
 
     partial class XedCmdProvider
     {
+        Index<DisasmSummaryDoc> CalcSummaries(WsContext context, bool pll = true)
+        {
+            var sources = XedDisasm.sources(context);
+            var outdir = context.Project.Datasets() + FS.folder("xed.disasm");
+            var dst = bag<DisasmSummaryDoc>();
+            iter(sources, source => dst.Add(XedDisasm.summary(context,source)), pll);
+            return dst.Array();
+        }
+
+        void EmitSummaries(WsContext context, Index<DisasmSummaryDoc> src, bool pll = true)
+        {
+            var outdir = context.Project.Datasets() + FS.folder("xed.disasm");
+            iter(src, doc =>{
+                ref readonly var origin = ref doc.Origin;
+                var target = outdir + origin.Path.FileName.WithoutExtension + FS.ext("xed.disasm.summary.csv");
+                TableEmit(doc.Rows.View, DisasmSummaryRow.RenderWidths, TextEncodingKind.Asci, target);
+            },pll);
+        }
+
+        void EmitDetails(WsContext context, in FileRef origin, Index<DetailBlock> src)
+        {
+            var outdir = context.Project.Datasets() + FS.folder("xed.disasm");
+            var target = outdir + origin.Path.FileName.WithoutExtension + FS.ext("xed.disasm.details.csv");
+            var rows = src.Select(x => x.DetailRow);
+            TableEmit(rows.View, DisasmSummaryRow.RenderWidths, TextEncodingKind.Asci, target);
+        }
+
+        ConstLookup<DisasmSummaryDoc,Index<DetailBlock>> CalcDetailBlocks(Index<DisasmSummaryDoc> src, bool pll = true)
+        {
+            var dst = cdict<DisasmSummaryDoc,Index<DetailBlock>>();
+            iter(src, doc => dst.TryAdd(doc, XedDisasm.blocks(doc)), pll);
+            return dst;
+        }
+
+        void EmitDetails(WsContext context, ConstLookup<DisasmSummaryDoc,Index<DetailBlock>> src, bool pll = true)
+        {
+            var outdir = context.Project.Datasets() + FS.folder("xed.disasm");
+            iter(src.Keys, doc =>{
+                ref readonly var origin = ref doc.Origin;
+                var blocks = src[doc];
+                var target = outdir + origin.Path.FileName.WithoutExtension + FS.ext("xed.disasm.details.csv");
+                var buffer = text.buffer();
+                XedDisasm.render(blocks, buffer);
+                var emitting = EmittingFile(target);
+                using var emitter = target.AsciEmitter();
+                emitter.Write(buffer.Emit());
+                EmittedFile(emitting, blocks.Count);
+            },pll);
+        }
+
         [CmdOp("xed/gen")]
         Outcome XedGen(CmdArgs args)
         {
             var context = Context();
-            var pll = true;
-            var sources = XedDisasm.sources(context);
-
-            foreach(var file in sources)
-            {
-                var summary = XedDisasm.summary(context,file);
-                Write(string.Format("{0,-8} | {1}", summary.RowCount, file));
-            }
-            // var dst = sources.Select(file => (file, Index<DetailBlock>.Empty)).ToConcurrentDictionary();
-            // iter(dst, b => dst.TryAdd(b.Key, XedDisasm.blocks(context,b.Key)), pll);
-
-
-            // var files = dst.Keys.Array().Sort();
-            // for(var i=0; i<files.Length; i++)
+            var summaries = CalcSummaries(context);
+            var details = CalcDetailBlocks(summaries);
+            EmitSummaries(context, summaries);
+            EmitDetails(context, details);
+            // var docs = details.Keys;
+            // for(var i=0; i<docs.Length; i++)
             // {
-            //     ref readonly var file = ref skip(files,i);
-            //     var blocks = dst[file];
-            //     Write(string.Format("{0,-8} | {1,-8} | {2}", i, blocks.Count, file));
+            //     ref readonly var doc = ref skip(docs,i);
+            //     var blocks = details[doc];
+            //     Write(string.Format("{0,-8} | {1,-8} | {2}", i, blocks.Count, doc.Origin));
             // }
 
             // ref readonly var fields = ref XedFields.ByPosition;

@@ -6,40 +6,25 @@ namespace Z0
 {
     using static core;
     using static XedModels;
-    using static XedRules;
 
-    public class XedLookups
+    public class XedWidths
     {
-        public static XedLookups Service => Instance;
+        [MethodImpl(Inline)]
+        public static OpWidthInfo describe(OpWidthCode code)
+            => code == 0 ? OpWidthInfo.Empty : Lookup[code];
 
-        public readonly Index<OpWidthInfo> WidthRecords;
-
-        public readonly ConstLookup<OpWidthCode,OpWidthInfo> WidthLookup;
-
-        readonly ReflectedFields _Fields;
-
-        XedLookups()
+        public static ref readonly Index<OpWidthInfo> Records
         {
-            WidthRecords = LoadOpWidths();
-            WidthLookup = CalcOpWidthLookup(WidthRecords);
-            _Fields = XedFields.ByPosition;
+            [MethodImpl(Inline)]
+            get => ref Index;
         }
 
-        XedPaths XedPaths => XedPaths.Service;
-
-        [MethodImpl(Inline)]
-        public ref readonly ReflectedField Field(FieldKind kind)
-            => ref _Fields[kind];
-
-        public OpWidthInfo WidthInfo(OpWidthCode code)
-            => code == 0 ? OpWidthInfo.Empty : WidthLookup[code];
-
-        public OpWidth Width(OpWidthCode code, MachineMode mode)
+        public static OpWidth width(OpWidthCode code, MachineMode mode)
         {
             var dst = OpWidth.Empty;
             if(code == 0)
                 return dst;
-            else if(WidthLookup.Find(code, out var info))
+            else if(Lookup.Find(code, out var info))
             {
                 switch(mode.Kind)
                 {
@@ -61,8 +46,11 @@ namespace Z0
             return dst;
         }
 
-        ConstLookup<OpWidthCode,OpWidthInfo> CalcOpWidthLookup(Index<OpWidthInfo> src)
-            => src.Select(x => (x.Code,x)).ToDictionary();
+        static XedPaths XedPaths => XedPaths.Service;
+
+        static Index<OpWidthInfo> Index;
+
+        static ConstLookup<OpWidthCode,OpWidthInfo> Lookup;
 
         static Outcome ParseWidthValue(string src, out ushort bits)
         {
@@ -80,7 +68,13 @@ namespace Z0
             return result;
         }
 
-        Index<OpWidthInfo> LoadOpWidths()
+        static XedWidths()
+        {
+            Index = load();
+            Lookup = Index.Select(x => (x.Code,x)).ToDictionary();
+        }
+
+        static Index<OpWidthInfo> load()
         {
             var buffer = dict<OpWidthCode,OpWidthInfo>();
             var symbols = Symbols.index<OpWidthCode>();
@@ -171,7 +165,5 @@ namespace Z0
 
             return buffer.Values.Array().Sort();
         }
-
-        static XedLookups Instance = new();
     }
 }

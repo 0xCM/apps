@@ -22,7 +22,6 @@ namespace Z0
 
         public static InstOpDetail opdetail(InstPattern pattern, byte opcount, in PatternOp op)
         {
-            var lookups = XedLookups.Service;
             ref readonly var fields = ref pattern.Fields;
             var info = opinfo(pattern.Mode,op);
             var wcode = info.WidthCode;
@@ -52,8 +51,8 @@ namespace Z0
             dst.BitWidth = info.BitWidth;
             if(wcode !=0)
             {
-                var w = lookups.Width(wcode, pattern.Mode);
-                var wi = lookups.WidthInfo(wcode);
+                var w = XedWidths.width(wcode, pattern.Mode);
+                var wi = XedWidths.describe(wcode);
                 dst.SegInfo = wi.Seg;
                 dst.ElementCount = dst.SegInfo.CellCount;
             }

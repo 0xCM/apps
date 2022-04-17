@@ -16,6 +16,25 @@ namespace Z0
         public static Index<FileRef> sources(WsContext context)
             => context.Files(FileKind.XedRawDisasm);
 
+        public static void render(Index<DetailBlock> src, ITextBuffer dst, bool header = true)
+        {
+            var formatter = Tables.formatter<DetailBlockRow>(DetailBlockRow.RenderWidths);
+            if(header)
+                dst.AppendLine(FormatDetailHeader(formatter));
+
+            for(var i=0; i<src.Count; i++)
+                render(formatter, src[i].DetailRow, dst);
+        }
+
+        public static Index<DisasmSummaryRow> resequence(Index<DisasmSummaryRow> src)
+        {
+            var dst = src.Sort();
+            var count = dst.Count;
+            for(var i=0u; i<count; i++)
+                dst[i].Seq = i;
+            return dst;
+        }
+
         public static DisasmDetailDoc details(WsContext context, in FileRef fref)
         {
             var file = load(fref);
@@ -23,17 +42,33 @@ namespace Z0
         }
 
         public static DisasmSummaryDoc summary(WsContext context, in FileRef src)
-            => summary(context, load(src));
+        {
+            var buffer = bag<DisasmSummaryLines>();
+            summarize(src, context.Root(src), load(src).Lines, buffer).Require();
+            return DisasmSummaryDoc.create(src, context.Root(src), buffer.ToArray());
+        }
 
         public static Index<DetailBlock> blocks(WsContext context, in FileRef src)
             => blocks(summary(context,src));
+
+        public static Index<DetailBlock> resequence(Index<DetailBlock> src)
+        {
+            var dst = src.Sort();
+            for(var i=0u; i<dst.Count; i++)
+            {
+                var row = dst[i].DetailRow;
+                row.Seq = i;
+                dst[i] = new DetailBlock(row, dst[i].SummaryLines);
+            }
+            return dst;
+        }
 
         public static Index<DetailBlock> blocks(DisasmSummaryDoc src, bool pll = true)
         {
             var dst = bag<DetailBlock>();
             var summaries = src.Lines;
             iter(summaries, summary => dst.Add(new DetailBlock(row(summary), summary)), pll);
-            return dst.Array().Sort();
+            return resequence(dst.Array());
         }
 
         public static Index<DisasmDetailDoc> docs(WsContext context)

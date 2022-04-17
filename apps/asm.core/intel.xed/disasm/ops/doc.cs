@@ -25,36 +25,5 @@ namespace Z0
             blocks(summary, dst);
             return new (file, dst.ToArray().Sort());
         }
-
-        static Index<TextLine> SummaryLines(ReadOnlySpan<DisasmLineBlock> src)
-        {
-            var dst = list<TextLine>();
-            for(var i=0; i<src.Length; i++)
-            {
-                var lines = skip(src,i).Lines;
-                var count = lines.Count;
-                for(var j=0; j<count; j++)
-                {
-                    if(j == count-1)
-                        dst.Add(lines[j]);
-                }
-            }
-            return dst.ToArray();
-        }
-
-        static Index<AsmExpr> expressions(ReadOnlySpan<DisasmLineBlock> src)
-        {
-            var dst = list<AsmExpr>();
-            foreach(var block in src)
-            {
-                foreach(var line in block.Lines)
-                {
-                    var i = text.index(line.Content, DisasmParse.YDIS);
-                    if(i >= 0)
-                        dst.Add(text.trim(text.right(line.Content, i + DisasmParse.YDIS.Length)));
-                }
-            }
-            return dst.ToArray();
-        }
     }
 }

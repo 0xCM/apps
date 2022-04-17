@@ -34,10 +34,10 @@ namespace Z0
             return dst;
         }
 
-        static DetailBlockRow row(in DisasmSummaryLines block)
+        static DetailBlockRow row(in DisasmSummaryLines src)
         {
-            ref readonly var lines = ref block.Lines;
-            ref readonly var summary = ref block.Summary;
+            ref readonly var lines = ref src.Lines;
+            ref readonly var summary = ref src.Summary;
             ref readonly var code = ref summary.Encoded;
             var inst = DisasmInstruction.Empty;
             var result = DisasmParse.parse(lines, out inst);
@@ -80,7 +80,7 @@ namespace Z0
                     Errors.Throw(result.Message);
 
                 var info = operand.OpInfo;
-                var winfo = XedLookups.Service.WidthInfo(info.WidthCode);
+                var winfo = XedWidths.describe(info.WidthCode);
                 operand.OpWidth = winfo;
                 var opname = XedRules.opname(info.Kind);
                 operand.OpName = opname;

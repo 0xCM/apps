@@ -4,18 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class XedTables : GlobalService<XedTables,XedLookups>
+    public partial class XedTables : GlobalService<XedTables,object>
     {
-        protected override XedTables Init(out XedLookups state)
+        protected override XedTables Init(out object state)
         {
-            state = XedLookups.Service;
+            state = new();
             return this;
         }
 
-        public XedLookups Data
-        {
-            [MethodImpl(Inline)]
-            get => State;
-        }
+    }
+
+    partial class XTend
+    {
+        public static XedTables XedTables(this IWfRuntime wf)
+            => Z0.XedTables.create(wf);
+
     }
 }

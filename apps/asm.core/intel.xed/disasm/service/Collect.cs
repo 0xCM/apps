@@ -16,12 +16,12 @@ namespace Z0
             var files = context.Files(FileKind.XedRawDisasm);
             var dst = cdict<FileRef,DisasmDetailDoc>();
             iter(files, file => Collect(context, file, dst), PllExec);
-            TableEmit(summarize(dst).View, DisasmSummary.RenderWidths, Projects.Table<DisasmSummary>(context.Project));
+            TableEmit(summarize(dst).View, DisasmSummaryRow.RenderWidths, Projects.Table<DisasmSummaryRow>(context.Project));
             EmitDetails(dst, Projects.Table<DetailBlockRow>(context.Project));
             EmitFields(context);
         }
 
-        static Index<DisasmSummary> summarize(ConcurrentDictionary<FileRef,DisasmDetailDoc> src)
+        static Index<DisasmSummaryRow> summarize(ConcurrentDictionary<FileRef,DisasmDetailDoc> src)
         {
             var dst = map(src.Values, v => map(v.Blocks, x => x.SummaryLines.Summary)).SelectMany(x => x).Sort();
             for(var i=0u; i<dst.Length; i++)

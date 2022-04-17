@@ -43,7 +43,7 @@ namespace Z0
                     wcode = text.ifempty(wcode,"reg");
                 }
 
-                var wi = w != 0 ? Lookups.WidthInfo(w) : OpWidthInfo.Empty;
+                var wi = w != 0 ? XedWidths.describe(w) : OpWidthInfo.Empty;
                 var seg = EmptyString;
                 if(wi.Seg.CellCount > 1)
                 {
@@ -81,8 +81,6 @@ namespace Z0
             readonly RuleTables Tables;
 
             readonly ITextBuffer Dst;
-
-            static readonly XedLookups Lookups = XedLookups.Service;
 
             readonly Index<string> Buffer;
 

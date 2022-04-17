@@ -21,18 +21,49 @@ namespace Z0
         static Outcome summarize(WsContext context, in DisasmFile file, ConcurrentBag<DisasmSummaryLines> dst)
             => summarize(file.Source, context.Root(file.Source), file.Lines, dst);
 
+        static Index<TextLine> NumberedLines(ReadOnlySpan<DisasmLineBlock> src)
+        {
+            var dst = list<TextLine>();
+            for(var i=0; i<src.Length; i++)
+            {
+                ref readonly var lines = ref skip(src,i).Lines;
+                var count = lines.Count;
+                for(var j=0; j<count; j++)
+                {
+                    if(j == count-1)
+                        dst.Add(lines[j]);
+                }
+            }
+            return dst.ToArray();
+        }
+
+        static Index<AsmExpr> expressions(ReadOnlySpan<DisasmLineBlock> src)
+        {
+            var dst = list<AsmExpr>();
+            foreach(var block in src)
+            {
+                foreach(var line in block.Lines)
+                {
+                    var i = text.index(line.Content, DisasmParse.YDIS);
+                    if(i >= 0)
+                        dst.Add(text.trim(text.right(line.Content, i + DisasmParse.YDIS.Length)));
+                }
+            }
+            return dst.ToArray();
+        }
+
         static Outcome summarize(in FileRef src, in FileRef origin, Index<DisasmLineBlock> blocks, ConcurrentBag<DisasmSummaryLines> dst)
         {
-            var lines = SummaryLines(blocks);
+            var lines = NumberedLines(blocks);
             var expr = expressions(blocks);
             var seq = 0u;
             var result = Outcome.Success;
-            var count = Require.equal(expr.Length,lines.Length);
+            var count = Require.equal(expr.Length, lines.Length);
 
             for(var i=0; i<count; i++)
             {
                 ref readonly var line = ref lines[i];
-                var summary = new DisasmSummary();
+                var summary = new DisasmSummaryRow();
                 result = DisasmParse.parse(line.Content, out summary.Encoded);
                 if(result.Fail)
                     return result;
@@ -50,7 +81,7 @@ namespace Z0
                 summary.Source = src.Path;
                 summary.Source = summary.Source.LineRef(line.LineNumber);
                 summary.Size = summary.Encoded.Size;
-                dst.Add(new (blocks[i],summary));
+                dst.Add(new (blocks[i], summary));
             }
 
             return result;

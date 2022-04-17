@@ -12,7 +12,6 @@ namespace Z0
         public static Index<InstOpDetail> opdetails(RuleTables tables, Index<InstPattern> src)
         {
             var buffer = list<InstOpDetail>();
-            var lookups = XedLookups.Service;
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var pattern = ref src[i];

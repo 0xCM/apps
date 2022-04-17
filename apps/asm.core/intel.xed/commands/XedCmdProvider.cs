@@ -20,9 +20,6 @@ namespace Z0
 
         XedDisasmSvc XedDisasmSvc => Service(Wf.XedDisasm);
 
-        XedLookups XedLookups => Service(() => XedLookups.Service);
-
-
         AppDb AppDb => Service(Wf.AppDb);
 
         AppCmdRunner _AppCmdRunner;

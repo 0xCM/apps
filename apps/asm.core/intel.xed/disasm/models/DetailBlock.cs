@@ -28,7 +28,7 @@ namespace Z0
             public DetailBlock WithRow(in DetailBlockRow src)
                 => new DetailBlock(src,SummaryLines);
 
-            public ref readonly DisasmSummary Summary
+            public ref readonly DisasmSummaryRow Summary
             {
                 [MethodImpl(Inline)]
                 get => ref SummaryLines.Summary;
@@ -188,12 +188,6 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => ref DetailRow.Evex;
-            }
-
-            public ref readonly DisasmOpDetails Ops
-            {
-                [MethodImpl(Inline)]
-                get => ref DetailRow.Ops;
             }
 
             public int CompareTo(DetailBlock src)

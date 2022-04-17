@@ -29,6 +29,10 @@ namespace Z0
 
         static FieldLookup _FieldLookup;
 
+        [MethodImpl(Inline)]
+        public static ref readonly ReflectedField field(FieldKind kind)
+            => ref ByPosition[kind];
+
         public static ref readonly ReflectedFields ByPosition
         {
             [MethodImpl(Inline)]

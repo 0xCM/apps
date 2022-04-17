@@ -21,12 +21,9 @@ namespace Z0
 
             readonly MachineMode Mode;
 
-            readonly XedLookups Tables;
-
             public PatternOpParser(MachineMode mode)
             {
                 Mode = mode;
-                Tables = XedLookups.Service;
             }
 
             public void Parse(uint pattern, string ops, out PatternOps dst)
