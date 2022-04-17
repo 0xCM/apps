@@ -20,7 +20,6 @@ namespace Z0
             return true;
         }
 
-
         Index<SegField> CalcInstSegs()
         {
             var layouts = Xed.Rules.CalcInstLayouts();

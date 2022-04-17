@@ -62,6 +62,11 @@ namespace Z0
                 dst.AppendLine(Cols.Header);
             }
 
+            public void EmitHeader(ITextEmitter dst)
+            {
+                dst.AppendLine(Cols.Header);
+            }
+
             public void EmitHeader(StreamWriter dst)
             {
                 dst.AppendLine(Cols.Header);
@@ -81,6 +86,11 @@ namespace Z0
             }
 
             public void EmitLine(ITextBuffer dst)
+            {
+                dst.AppendLine(Emit());
+            }
+
+            public void EmitLine(ITextEmitter dst)
             {
                 dst.AppendLine(Emit());
             }

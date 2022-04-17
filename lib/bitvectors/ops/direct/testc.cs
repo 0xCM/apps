@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    partial class BitVectors
+   partial class BitVectors
     {
         /// <summary>
         /// Returns true of all bits are enabled, false otherwise

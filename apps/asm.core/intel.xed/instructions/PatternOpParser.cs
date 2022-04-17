@@ -6,7 +6,6 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
-    using static XedModels.OpNameKind;
     using static core;
 
     using K = XedModels.OpKind;
@@ -15,60 +14,7 @@ namespace Z0
     {
         public readonly struct PatternOpParser
         {
-            [MethodImpl(Inline)]
-            public static PatternOpParser create(MachineMode mode)
-                => new(mode);
-
-            readonly MachineMode Mode;
-
-            public PatternOpParser(MachineMode mode)
-            {
-                Mode = mode;
-            }
-
-            public void Parse(uint pattern, string ops, out PatternOps dst)
-            {
-                dst = Parse(pattern, ops);
-            }
-
-            PatternOps Parse(uint pattern, string ops)
-            {
-                var buffer = list<PatternOp>();
-                var input = text.despace(ops);
-                var i = text.index(input,Chars.Hash);
-                if(i > 0)
-                    input = text.left(input,i);
-
-                var index = z8;
-                var parts = input.Contains(Chars.Space) ? text.split(input, Chars.Space) : new string[]{input};
-                for(var j=0; j<parts.Length; j++)
-                {
-                    var spec = PatternOp.Empty;
-                    Parse(index, skip(parts,j), ref spec);
-                    if(spec.IsNonEmpty)
-                    {
-                        spec.PatternId = pattern;
-                        spec.Index = index++;
-                        buffer.Add(spec);
-                    }
-                    else
-                        break;
-                }
-
-                return new(pattern,buffer.ToArray());
-            }
-
-            void Parse(byte index, string src, ref PatternOp dst)
-            {
-                var input = text.despace(src);
-                var i = text.index(input, Chars.Colon, Chars.Eq);
-                var attribs = text.right(src,i);
-                dst.SourceExpr = attribs;
-                opname(src, out dst.Name);
-                Parse(dst.SourceExpr, text.split(dst.SourceExpr, Chars.Colon).Where(text.nonempty), ref dst);
-            }
-
-            static bool opname(string src, out OpName dst)
+            public static bool opname(string src, out OpName dst)
             {
                 var input = text.despace(src);
                 var i = text.index(input, Chars.Colon);
@@ -80,86 +26,145 @@ namespace Z0
                     index = i;
                 else if(j>0 && i<0)
                     index = j;
-
                 return XedParsers.parse(text.left(input, index), out  dst);
             }
 
-            void Parse(string expr, string[] props, ref PatternOp dst)
+            public static bool opkind(string src, out OpKind dst)
             {
-                switch(dst.Name.Kind)
+                dst = OpKind.None;
+                if(opname(src, out var name))
                 {
-                    case None:
-                    break;
-                    case REG0:
-                    case REG1:
-                    case REG2:
-                    case REG3:
-                    case REG4:
-                    case REG5:
-                    case REG6:
-                    case REG7:
-                    case REG8:
-                    case REG9:
-                        dst.Kind = K.Reg;
-                        ParseReg(expr, props, ref dst);
-                    break;
+                    dst = XedRules.opkind(name);
+                }
+                return dst != 0;
+            }
 
-                    case INDEX:
-                        dst.Kind = K.Index;
-                        ParseReg(expr, props, ref dst);
-                    break;
+            [MethodImpl(Inline)]
+            public static PatternOpParser create(MachineMode mode)
+                => new(mode);
 
-                    case BASE0:
-                    case BASE1:
-                        dst.Kind = K.Base;
-                        ParseReg(expr, props, ref dst);
-                    break;
+            readonly MachineMode Mode;
 
-                    case SEG0:
-                    case SEG1:
-                        dst.Kind = K.Seg;
-                        ParseReg(expr, props, ref dst);
-                    break;
+            public PatternOpParser(MachineMode mode)
+            {
+                Mode = mode;
+            }
 
-                    case SCALE:
-                        dst.Kind = K.Scale;
-                        ParseScale(expr, props, ref dst);
-                    break;
+            public static void parse(uint pattern, string ops, out PatternOps dst)
+            {
+                dst = parse(pattern, ops);
+            }
 
-                    case DISP:
+            static PatternOps parse(uint pattern, string ops)
+            {
+                var buffer = list<PatternOp>();
+                var input = text.trim(text.despace(ops));
+                var i = text.index(input,Chars.Hash);
+                if(i > 0)
+                    input = text.left(input,i);
+                i = text.index(input,Chars.Colon);
+                if(i==0)
+                    input = text.trim(text.right(input,i));
+
+                var index = z8;
+                var parts = (input.Contains(Chars.Space) ? text.split(input, Chars.Space) : new string[]{input}).Where(text.nonempty);
+                //term.warn(parts.Delimit(Chars.Space).Format());
+                for(var j=z8; j<parts.Length; j++)
+                {
+                    var spec = PatternOp.Empty;
+                    ref readonly var part = ref skip(parts,j);
+                    if(!parse(part, ref spec))
                     {
-                        dst.Kind = K.Disp;
+                        if(DataParser.eparse(part, out EMX_BROADCAST_KIND bck))
+                        {
+                            spec.Kind = OpKind.Bcast;
+                            spec.SourceExpr = bcastdef((BCastKind)bck).Symbol.Format();
+                        }
+                        else
+                            Errors.Throw(AppMsg.ParseFailure.Format(part, nameof(PatternOp)));
+                    }
+                    if(spec.IsNonEmpty)
+                    {
+                        spec.PatternId = pattern;
+                        spec.Index = index++;
+                        buffer.Add(spec);
+                    }
+                    else
+                        break;
+
+
+                }
+
+                return new(pattern,buffer.ToArray());
+            }
+
+            static bool parse(string src, ref PatternOp dst)
+            {
+                dst.SourceExpr = src;
+                var i = text.index(src,Chars.Colon, Chars.Eq);
+                var right = text.right(src,i);
+                if(opname(src, out dst.Name))
+                {
+                    var kind = XedRules.opkind(dst.Name);
+                    Parse(dst.SourceExpr, text.split(right, Chars.Colon).Where(text.nonempty), kind, ref dst);
+                    return true;
+                }
+                else
+                    return false;
+            }
+
+            static void Parse(string expr, string[] props, OpKind opkind, ref PatternOp dst)
+            {
+                dst.Kind = opkind;
+                switch(opkind)
+                {
+                    case K.Agen:
+                        ParseMem(expr, props, ref dst);
+                    break;
+
+                    case K.Base:
+                        ParseReg(expr, props, ref dst);
+                    break;
+
+                    case K.Disp:
+                    {
                         dst.SourceExpr = expr;
                         dst.Attribs = sys.empty<OpAttrib>();
                     }
                     break;
 
-                    case IMM0:
-                    case IMM1:
-                    case IMM2:
-                        dst.Kind = K.Imm;
+                    case K.Index:
+                        ParseReg(expr, props, ref dst);
+                    break;
+
+                    case K.Imm:
                         ParseImm(expr, props, ref dst);
                     break;
 
-                    case MEM0:
-                    case MEM1:
-                        dst.Kind = K.Mem;
+                    case K.Mem:
                         ParseMem(expr, props, ref dst);
                     break;
 
-                    case AGEN:
-                        dst.Kind = K.Agen;
-                        ParseMem(expr, props, ref dst);
-                    break;
-
-                    case PTR:
+                    case K.Ptr:
                         dst.Kind = K.Ptr;
                         ParsePtr(expr, props, ref dst);
                     break;
 
-                    case RELBR:
+                    case K.Reg:
+                        ParseReg(expr, props, ref dst);
+                    break;
+
+                    case K.RelBr:
                         dst.Kind = K.RelBr;
                         ParseRelBr(expr, props, ref dst);
+                    break;
+
+                    case K.Seg:
+                        ParseReg(expr, props, ref dst);
+                    break;
+
+                    case K.Scale:
+                        ParseScale(expr, props, ref dst);
                     break;
 
                     default:
@@ -168,7 +173,7 @@ namespace Z0
                  }
             }
 
-            void ParsePtr(string expr, Index<string> props, ref PatternOp dst)
+            static void ParsePtr(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
                 dst.SourceExpr = expr;
@@ -191,7 +196,7 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            void ParseRelBr(string expr, Index<string> props, ref PatternOp dst)
+            static void ParseRelBr(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
                 dst.SourceExpr = expr;
@@ -213,7 +218,7 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            void ParseScale(string expr, Index<string> props, ref PatternOp dst)
+            static void ParseScale(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
                 dst.SourceExpr = expr;
@@ -235,7 +240,7 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            void ParseImm(string expr, Index<string> props, ref PatternOp dst)
+            static void ParseImm(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
                 dst.SourceExpr = expr;
@@ -266,7 +271,7 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
-            void ParseMem(string expr, Index<string> props, ref PatternOp dst)
+            static void ParseMem(string expr, Index<string> props, ref PatternOp dst)
             {
                 var count = props.Count;
                 dst.SourceExpr = expr;
@@ -310,7 +315,7 @@ namespace Z0
 
             // REG2=XED_REG_XMM2 : rw : SUPP : dq : u8
             // [0:reg, 1:action, 2:vis, 3:widthcode, 4:etype]
-            void ParseReg(string expr, Index<string> props, ref PatternOp dst)
+            static void ParseReg(string expr, Index<string> props, ref PatternOp dst)
             {
                 var result = Outcome.Success;
                 var counter = 0;

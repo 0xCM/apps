@@ -190,6 +190,20 @@ namespace Z0
 
             NOVSR,
 
+            VL512,
+
+            VLBAD,
+
+            KVV,
+
+            NOEVSR,
+
+            NO_SPARSE_EVSR,
+
+            EVV,
+
+            EVEXRR_ONE,
+
             EMX_BROADCAST_1TO4_32,
 
             EMX_BROADCAST_1TO4_64,
@@ -208,16 +222,6 @@ namespace Z0
 
             EMX_BROADCAST_1TO32_8,
 
-            VL512,
-
-            VLBAD,
-
-            KVV,
-
-            NOEVSR,
-
-            NO_SPARSE_EVSR,
-
             EMX_BROADCAST_1TO16_32,
 
             EMX_BROADCAST_4TO16_32,
@@ -225,8 +229,6 @@ namespace Z0
             EMX_BROADCAST_1TO8_64,
 
             EMX_BROADCAST_4TO8_64,
-
-            EVV,
 
             EMX_BROADCAST_2TO16_32,
 
@@ -245,8 +247,6 @@ namespace Z0
             EMX_BROADCAST_2TO8_32,
 
             EMX_BROADCAST_1TO2_32,
-
-            EVEXRR_ONE,
 
             EMX_BROADCAST_1TO2_8,
 

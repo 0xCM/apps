@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using api = BitVectors;
+
     /// <summary>
     /// Defines a bit sequence representation compatible with both llvm and SMTLib 'FixedSizeBitVectors' theory
     /// </summary>

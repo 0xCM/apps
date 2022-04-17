@@ -7,6 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
+        [SymSource(xed)]
         public enum OpKind : byte
         {
             None = 0,
@@ -26,13 +27,13 @@ namespace Z0
             [Symbol("index")]
             Index = 5,
 
-            [Symbol("m")]
+            [Symbol("mem")]
             Mem = 6,
 
             [Symbol("ptr")]
             Ptr = 7,
 
-            [Symbol("r")]
+            [Symbol("reg")]
             Reg = 8,
 
             [Symbol("relbr")]
@@ -43,6 +44,9 @@ namespace Z0
 
             [Symbol("seg")]
             Seg = 11,
+
+            [Symbol("bcast")]
+            Bcast,
         }
     }
 }

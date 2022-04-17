@@ -10,6 +10,7 @@ namespace Z0
     using D = Byte;
     using W = W4;
     using N = N4;
+    using api = BitVectors;
 
     /// <summary>
     /// Defines a 4-bit bitvector
@@ -85,6 +86,10 @@ namespace Z0
             Data = math.and(bit.set(Data, pos, state), MaxValue);
             return this;
         }
+
+        [MethodImpl(Inline)]
+        public BitVector8 Concat(V src)
+            => api.join(this, src);
 
         public bit this[byte pos]
         {
@@ -266,5 +271,20 @@ namespace Z0
         public static bit operator >=(V x, V y)
             => math.gteq(x,y);
 
+        [MethodImpl(Inline)]
+        public static implicit operator BitVector8(BitVector4 src)
+            => src.State;
+
+        [MethodImpl(Inline)]
+        public static implicit operator BitVector16(BitVector4 src)
+            => src.State;
+
+        [MethodImpl(Inline)]
+        public static implicit operator BitVector32(BitVector4 src)
+            => src.State;
+
+        [MethodImpl(Inline)]
+        public static implicit operator BitVector64(BitVector4 src)
+            => src.State;
     }
 }

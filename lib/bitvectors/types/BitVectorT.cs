@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+    using api = BitVectors;
 
     public struct BitVector<T> : IBitVector<BitVector<T>,T>
         where T : unmanaged, IEquatable<T>

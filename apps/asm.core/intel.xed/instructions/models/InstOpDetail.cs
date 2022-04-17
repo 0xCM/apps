@@ -62,7 +62,7 @@ namespace Z0
 
             public Nonterminal NonTerm;
 
-            public asci32 SourceExpr;
+            public asci64 SourceExpr;
 
             public bool IsNonterm
             {

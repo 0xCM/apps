@@ -10,6 +10,7 @@ namespace Z0
     using D = UInt64;
     using W = W64;
     using N = N64;
+    using api = BitVectors;
 
     /// <summary>
     /// Defines a 64-bit bitvector
@@ -36,13 +37,13 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
-        public BitVector64(ulong data)
+        public BitVector64(D data)
             => Data = data;
 
         /// <summary>
         /// Extracts the scalar represented by the vector
         /// </summary>
-        public readonly ulong State
+        public readonly D State
         {
             [MethodImpl(Inline)]
             get => Data;

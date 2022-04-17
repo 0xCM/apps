@@ -4,14 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class BitVectors
     {
-
         [MethodImpl(Inline), Broadcast]
         public static BitVector16 broadcast(N16 n, byte a)
         {

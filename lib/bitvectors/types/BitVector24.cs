@@ -10,6 +10,7 @@ namespace Z0
     using D = UInt32;
     using W = W24;
     using N = N24;
+    using api = BitVectors;
 
     /// <summary>
     /// Defines a 32-bit bitvector

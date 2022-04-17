@@ -6,6 +6,7 @@ namespace Z0
 {
     using static core;
     using static Numeric;
+    using api = BitVectors;
 
     /// <summary>
     /// Defines a natural bitvector over a primal cell

@@ -574,63 +574,63 @@ namespace Z0
                 => assign(M.EMX_BROADCAST_1TO2_32, K.BCAST, BCast_1TO2_32);
 
             [MethodImpl(Inline), Op]
-            public static MacroSpec EMX_BROADCAST_1TO4_32()
+            static MacroSpec EMX_BROADCAST_1TO4_32()
                 => assign(M.EMX_BROADCAST_1TO4_32, K.BCAST, BCast_1TO4_32);
 
             [MethodImpl(Inline), Op]
-            public static MacroSpec EMX_BROADCAST_1TO8_32()
+            static MacroSpec EMX_BROADCAST_1TO8_32()
                 => assign(M.EMX_BROADCAST_1TO8_32, K.BCAST, BCast_1TO8_32);
 
             [MethodImpl(Inline), Op]
-            public static MacroSpec EMX_BROADCAST_1TO16_32()
+            static MacroSpec EMX_BROADCAST_1TO16_32()
                 => assign(M.EMX_BROADCAST_1TO16_32, K.BCAST, BCast_1TO16_32);
 
             [MethodImpl(Inline), Op]
-            public static MacroSpec EMX_BROADCAST_2TO4_32()
+            static MacroSpec EMX_BROADCAST_2TO4_32()
                 => assign(M.EMX_BROADCAST_2TO4_32, K.BCAST, BCast_2TO4_32);
 
             [MethodImpl(Inline), Op]
-            public static MacroSpec EMX_BROADCAST_2TO8_32()
+            static MacroSpec EMX_BROADCAST_2TO8_32()
                 => assign(M.EMX_BROADCAST_2TO8_32, K.BCAST, BCast_2TO8_32);
 
             [MethodImpl(Inline), Op]
-            public static MacroSpec EMX_BROADCAST_2TO16_32()
+            static MacroSpec EMX_BROADCAST_2TO16_32()
                 => assign(M.EMX_BROADCAST_2TO16_32, K.BCAST, BCast_2TO16_32);
 
             [MethodImpl(Inline), Op]
-            public static MacroSpec EMX_BROADCAST_4TO8_32()
+            static MacroSpec EMX_BROADCAST_4TO8_32()
                 => assign(M.EMX_BROADCAST_4TO8_32, K.BCAST, BCast_4TO8_32);
 
             [MethodImpl(Inline), Op]
-            public static MacroSpec EMX_BROADCAST_4TO16_32()
+            static MacroSpec EMX_BROADCAST_4TO16_32()
                 => assign(M.EMX_BROADCAST_4TO16_32, K.BCAST, BCast_4TO16_32);
 
             [MethodImpl(Inline), Op]
-            public static MacroSpec EMX_BROADCAST_8TO16_32()
+            static MacroSpec EMX_BROADCAST_8TO16_32()
                 => assign(M.EMX_BROADCAST_8TO16_32, K.BCAST, BCast_8TO16_32);
 
             [MethodImpl(Inline), Op]
-            public static MacroSpec EMX_BROADCAST_1TO2_64()
+            static MacroSpec EMX_BROADCAST_1TO2_64()
                 => assign(M.EMX_BROADCAST_1TO2_64, K.BCAST, BCast_1TO2_64);
 
             [MethodImpl(Inline), Op]
-            public static MacroSpec EMX_BROADCAST_1TO4_64()
+            static MacroSpec EMX_BROADCAST_1TO4_64()
                 => assign(M.EMX_BROADCAST_1TO4_64, K.BCAST, BCast_1TO4_64);
 
             [MethodImpl(Inline), Op]
-            public static MacroSpec EMX_BROADCAST_1TO8_64()
+            static MacroSpec EMX_BROADCAST_1TO8_64()
                 => assign(M.EMX_BROADCAST_1TO8_64, K.BCAST, BCast_1TO8_64);
 
             [MethodImpl(Inline), Op]
-            public static MacroSpec EMX_BROADCAST_2TO4_64()
+            static MacroSpec EMX_BROADCAST_2TO4_64()
                 => assign(M.EMX_BROADCAST_2TO4_64, K.BCAST, BCast_2TO4_64);
 
             [MethodImpl(Inline), Op]
-            public static MacroSpec EMX_BROADCAST_2TO8_64()
+            static MacroSpec EMX_BROADCAST_2TO8_64()
                 => assign(M.EMX_BROADCAST_2TO8_64, K.BCAST, BCast_2TO8_64);
 
             [MethodImpl(Inline), Op]
-            public static MacroSpec EMX_BROADCAST_4TO8_64()
+            static MacroSpec EMX_BROADCAST_4TO8_64()
                 => assign(M.EMX_BROADCAST_4TO8_64, K.BCAST, BCast_4TO8_64);
         }
     }

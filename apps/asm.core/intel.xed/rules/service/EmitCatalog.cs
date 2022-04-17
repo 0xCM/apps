@@ -13,6 +13,18 @@ namespace Z0
     {
         public void EmitCatalog()
         {
+            exec(PllExec,
+                EmitFieldSpecs,
+                EmitOpCodeKinds,
+                EmitOpWidths,
+                EmitPointerWidths,
+                EmitMacroMatches,
+                EmitMacroDefs,
+                EmitReflectedFields,
+                EmitSymbolicFields,
+                EmitFieldDefs
+            );
+
             var patterns = CalcInstPatterns(CalcInstDefs());
             var tables = RuleTables.Empty;
             exec(PllExec,
@@ -22,15 +34,6 @@ namespace Z0
                 () => EmitFlagEffects(patterns),
                 () => EmitInstGroups(patterns),
                 () => EmitInstAttribs(patterns),
-                EmitFieldSpecs,
-                EmitOpCodeKinds,
-                EmitOpWidths,
-                EmitPointerWidths,
-                EmitMacroMatches,
-                EmitMacroDefs,
-                EmitReflectedFields,
-                EmitSymbolicFields,
-                EmitFieldDefs,
                 () => tables = CalcRules()
                 );
 

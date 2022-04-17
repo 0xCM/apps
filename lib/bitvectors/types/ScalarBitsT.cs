@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+    using api = BitVectors;
 
     /// <summary>
     /// Defines a generic bitvector over a primal cell

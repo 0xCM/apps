@@ -10,6 +10,7 @@ namespace Z0
     using D = Byte;
     using W = W8;
     using N = N8;
+    using api = BitVectors;
 
     [DataWidth(8)]
     public struct BitVector8 : IEquatable<V>, IComparable<V>
@@ -137,6 +138,10 @@ namespace Z0
             [MethodImpl(Inline)]
             get => BitVectors.extract(this,first,last);
         }
+
+        [MethodImpl(Inline)]
+        public BitVector16 Concat(V src)
+            => api.join(this, src);
 
         [MethodImpl(Inline)]
         public readonly bool Equals(V y)

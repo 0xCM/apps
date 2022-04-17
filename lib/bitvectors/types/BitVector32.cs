@@ -10,6 +10,7 @@ namespace Z0
     using D = UInt32;
     using W = W32;
     using N = N32;
+    using api = BitVectors;
 
     /// <summary>
     /// Defines a 32-bit bitvector
@@ -153,6 +154,10 @@ namespace Z0
             [MethodImpl(Inline)]
             get =>  bits.extract(Data, i0, i1);
         }
+
+        [MethodImpl(Inline)]
+        public BitVector64 Concat(V src)
+            => api.join(this, src);
 
         [MethodImpl(Inline)]
         public bool Equals(V y)

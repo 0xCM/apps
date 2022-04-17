@@ -64,8 +64,9 @@ namespace Z0
             }
 
             var expr = op.SourceExpr.Value;
-            Demand.lteq(op.SourceExpr.Format().Length,32);
-            dst.SourceExpr = op.SourceExpr.Value;
+            var exprFmt = op.SourceExpr.Format();
+            Demand.lteq(text.squote(exprFmt), exprFmt.Length, asci64.Size);
+            dst.SourceExpr = expr;
             return dst;
         }
     }

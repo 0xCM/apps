@@ -78,7 +78,7 @@ namespace Z0
         {
             var result = a.CompareTo(b);
             if(result > 0)
-                Fail.gt(name,a,b,caller,file,line);
+                Fail.gt(name, a, b, caller,file,line);
         }
 
         public static void gt<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)

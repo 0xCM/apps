@@ -10,6 +10,7 @@ namespace Z0
     using D = UInt16;
     using W = W16;
     using N = N16;
+    using api = BitVectors;
 
     /// <summary>
     /// Defines a 16-bit bitvector
@@ -156,6 +157,10 @@ namespace Z0
             [MethodImpl(Inline)]
             get => BitVectors.extract(this, first, last);
         }
+
+        [MethodImpl(Inline)]
+        public BitVector32 Concat(V src)
+            => api.join(this, src);
 
         [MethodImpl(Inline)]
         public bool Equals(V y)

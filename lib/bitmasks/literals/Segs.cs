@@ -9,6 +9,7 @@ namespace Z0
         [BitMask("00000000 11111111")]
         public const ushort Seg16x8x0 = Lo8x8;
 
+
         [BitMask("11111111 00000000")]
         public const ushort Seg16x8x1 = Seg16x8x0 << 8;
 
@@ -47,5 +48,23 @@ namespace Z0
 
         [BitMask("11111111 00000000 00000000 00000000 00000000 00000000 00000000 00000000")]
         public const ulong Seg64x8x7 = Seg64x8x6 << 8;
+
+        [BitMask("00001111")]
+        public const byte Seg8x4x0 = Lo8x4;
+
+        [BitMask("00001111")]
+        public const byte Seg8x4x1 = Lo8x4 << 4;
+
+        [BitMask("00000000 00001111")]
+        public const ushort Seg16x4x0 = Lo16x4;
+
+        [BitMask("00000000 11110000")]
+        public const ushort Seg16x4x1 = Seg16x4x0 << 4;
+
+        [BitMask("00001111 00000000")]
+        public const ushort Seg16x4x2 = Seg16x4x1 << 4;
+
+        [BitMask("11110000 00000000")]
+        public const ushort Seg16x4x3 = Seg16x4x2 << 4;
     }
 }

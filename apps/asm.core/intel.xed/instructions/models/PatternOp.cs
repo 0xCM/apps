@@ -21,9 +21,9 @@ namespace Z0
 
             public OpAttribs Attribs;
 
-            public @string SourceExpr;
-
             public OpWidthSpec Width;
+
+            public @string SourceExpr;
 
             public PatternOp()
             {

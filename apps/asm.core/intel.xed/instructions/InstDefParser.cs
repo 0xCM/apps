@@ -120,7 +120,7 @@ namespace Z0
                                                 }
                                             }
 
-                                            var opexpr = value;
+                                            var opexpr = text.trim(text.remove(value,"OPERANDS"));
                                             var spec = InstPatternSpec.Empty;
                                             spec.PatternId = seq;
                                             spec.InstClass = @class;
@@ -133,7 +133,7 @@ namespace Z0
                                             spec.RawBody = rawbody;
                                             CellParser.parse(RuleMacros.expand(InstPatternBody.normalize(rawbody)), out spec.Body);
                                             spec.Mode = XedFields.mode(spec.Body.Fields);
-                                            PatternOpParser.create(spec.Mode).Parse(spec.PatternId, opexpr, out spec.Ops);
+                                            PatternOpParser.parse(spec.PatternId, opexpr, out spec.Ops);
                                             spec.OpCode = XedOpCodes.opcode(spec.Body.Fields);
                                             specs.Add(spec);
                                         }
