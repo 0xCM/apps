@@ -12,27 +12,33 @@ namespace Z0
     {
         public static XedLookups Service => Instance;
 
-        public readonly FieldLookup Fields;
+        public readonly FieldLookup FieldLookup;
 
         public readonly Index<OpWidthInfo> WidthRecords;
 
         public readonly ConstLookup<OpWidthCode,OpWidthInfo> WidthLookup;
 
-        readonly Index<FieldKind,ReflectedField> FieldSpecs;
+        readonly ReflectedFields _Fields;
 
         XedLookups()
         {
-            Fields = FieldLookup.create();
+            FieldLookup = FieldLookup.create();
             WidthRecords = LoadOpWidths();
             WidthLookup = CalcOpWidthLookup(WidthRecords);
-            FieldSpecs = XedFields.Reflected;
+            _Fields = XedFields.Reflected;
         }
 
         XedPaths XedPaths => XedPaths.Service;
 
+        public ref readonly ReflectedFields Fields
+        {
+            [MethodImpl(Inline)]
+            get => ref _Fields;
+        }
+
         [MethodImpl(Inline)]
-        public ref readonly ReflectedField FieldSpec(FieldKind kind)
-            => ref FieldSpecs[kind];
+        public ref readonly ReflectedField Field(FieldKind kind)
+            => ref _Fields[kind];
 
         public OpWidthInfo WidthInfo(OpWidthCode code)
             => code == 0 ? OpWidthInfo.Empty : WidthLookup[code];

@@ -36,12 +36,12 @@ namespace Z0
                 buffer.Write(i-1);
                 buffer.Write(spec.Kind);
                 buffer.Write(offset);
-                buffer.Write(spec.Width/8);
+                buffer.Write(spec.Size.DataSize);
                 buffer.Write(spec.Type);
                 buffer.Write(spec.EffectiveType);
                 buffer.EmitLine(dst);
 
-                offset += (spec.Width/8u);
+                offset += (spec.Size.DataSize);
             }
 
             FileEmit(dst.Emit(), specs.Count, XedPaths.Targets() + FS.file("xed.fields", FS.Csv), TextEncodingKind.Asci);

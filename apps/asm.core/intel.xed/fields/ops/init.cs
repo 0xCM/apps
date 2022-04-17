@@ -14,42 +14,37 @@ namespace Z0
         {
             var src = typeof(RuleState).InstanceFields().Tagged<RuleFieldAttribute>();
             var count = src.Length;
-            var reflected = alloc<ReflectedField>(count);
+
+            //var reflected = alloc<ReflectedField>(count);
+            var reflected = ReflectedFields.init();
             var specs = alloc<FieldSpec>(count);
             var types = alloc<Type>(count);
-            var szTotal = z16;
-            var dwTotal = z16;
+            var total = FieldSize.Empty;
 
             for(var i=z16; i<count; i++)
             {
                 ref readonly var field = ref skip(src,i);
-                ref var record = ref seek(reflected,i);
                 ref var type = ref seek(types,i);
                 ref var spec = ref seek(specs,i);
 
                 var tag = field.Tag<RuleFieldAttribute>().Require();
                 var kind = tag.Kind;
-                var fw = (byte)width(field.FieldType);
-                var fsize = (byte)(fw/8);
-                var dw = tag.Width;
                 type = tag.EffectiveType;
-                szTotal = (ushort)(szTotal + fsize);
-                dwTotal += dw;
+                var fwidth = width(field.FieldType);
+                var dw = tag.Width;
+                var size = new FieldSize(fwidth/8, fwidth, dw/8 + ((dw % 8) == 0 ? 0 : 1), dw);
+                total += size;
 
-                record.Index = i;
-                record.DataSize = fsize;
-                record.DataWidth = fw;
-                record.DomainWidth = dw;
-                record.Field = tag.Kind;
-                record.DataKind = new(kind,field.FieldType.DisplayName());
-                record.DomainType = new(kind,type.DisplayName());
-                record.DomainSizeT = (ushort)(dwTotal/8 + ((dwTotal % 8) == 0 ? 0 : 1));
-                record.DataSizeT = szTotal;
-                record.DataWidthT = (ushort)(szTotal*8);
-                record.DomainWidthT = dwTotal;
-                record.Description = tag.Description;
+                ref var dst = ref reflected[i + 1];
+                dst.Index = i;
+                dst.Field = tag.Kind;
+                dst.DataKind = new(kind,field.FieldType.DisplayName());
+                dst.DomainType = new(kind,type.DisplayName());
+                dst.FieldSize = size;
+                dst.TotalSize = total;
+                dst.Description = tag.Description;
 
-                spec = new(kind, record.DataKind,record.DomainType, fw, dw);
+                spec = new(kind,  size, dst.DataKind, dst.DomainType);
             }
 
             EffectiveFieldTypes = types;

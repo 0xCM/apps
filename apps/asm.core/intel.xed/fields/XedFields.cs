@@ -21,7 +21,7 @@ namespace Z0
                 => EffectiveFieldTypes.Where(t => t.IsEnum);
         }
 
-        static Index<FieldKind,ReflectedField> _Reflected;
+        static ReflectedFields _Reflected;
 
         static Index<FieldKind,FieldSpec> _Specs;
 
@@ -31,7 +31,7 @@ namespace Z0
             get => ref _Specs;
         }
 
-        public static Index<FieldKind,ReflectedField> Reflected => _Reflected;
+        public static ReflectedFields Reflected => _Reflected;
 
         static Index<FieldKind,Type> EffectiveFieldTypes;
 
