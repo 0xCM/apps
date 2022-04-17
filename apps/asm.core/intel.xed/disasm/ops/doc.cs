@@ -11,33 +11,18 @@ namespace Z0
 
     partial class XedDisasm
     {
-        static Outcome blocks(WsContext context, DisasmSummaryDoc doc, in DisasmFile src, ConcurrentBag<DetailBlock> dst)
+        static void blocks(DisasmSummaryDoc doc, ConcurrentBag<DetailBlock> dst)
         {
-            var blocks = doc.Blocks;
-            var count = blocks.Count;
-            var result = Outcome.Success;
-            if(result.Fail)
-                return result;
-
-            if(doc.RowCount != count)
-            {
-                result = (false, string.Format("{0} != {1}", count, doc.RowCount));
-                return result;
-            }
-
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var lines = ref blocks[i];
-                dst.Add(new (row(lines), lines));
-            }
-
-            return result;
+            var blocks = doc.Lines;
+            Require.equal(blocks.Count, doc.RowCount);
+            for(var i=0; i<blocks.Count; i++)
+                dst.Add(new (row(blocks[i]), blocks[i]));
         }
 
         static DisasmDetailDoc doc(WsContext context, in DisasmFile file, DisasmSummaryDoc summary)
         {
             var dst = bag<DetailBlock>();
-            blocks(context, summary, file, dst).Require();
+            blocks(summary, dst);
             return new (file, dst.ToArray().Sort());
         }
 

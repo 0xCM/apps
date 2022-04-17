@@ -37,7 +37,7 @@ namespace Z0
 
         static Index<DetailBlockRow> details(ConstLookup<FileRef,DisasmDetailDoc> src)
         {
-            var details = core.map(src.Values, doc => map(doc.Blocks, r => r.Detail)).SelectMany(x => x).Sort();
+            var details = core.map(src.Values, doc => map(doc.Blocks, r => r.DetailRow)).SelectMany(x => x).Sort();
             for(var i=0u; i<details.Length; i++)
                 seek(details,i).Seq = i;
             return details;

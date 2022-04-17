@@ -51,9 +51,9 @@ namespace Z0
                 var state = RuleState.Empty;
                 buffer.Clear();
 
-                ref readonly var detail = ref doc[j].Detail;
+                ref readonly var detail = ref doc[j].DetailRow;
                 ref readonly var ops = ref detail.Ops;
-                ref readonly var block = ref doc[j].Block;
+                ref readonly var block = ref doc[j].SummaryLines;
                 ref readonly var summary = ref block.Summary;
                 ref readonly var lines = ref block.Lines;
                 ref readonly var asmhex = ref summary.Encoded;

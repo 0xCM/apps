@@ -60,7 +60,7 @@ namespace Z0
 
             ReadOnlySpan<FieldKind> Load(in DetailBlock src)
             {
-                ref readonly var block = ref src.Block;
+                ref readonly var block = ref src.SummaryLines;
                 ref readonly var lines = ref block.Lines;
                 ref readonly var summary = ref block.Summary;
                 ref readonly var asmhex = ref summary.Encoded;
@@ -109,9 +109,9 @@ namespace Z0
                     Clear();
 
                     ref readonly var block = ref doc[i];
-                    ref readonly var ops = ref block.Detail.Ops;
-                    ref readonly var form = ref block.Detail.InstForm;
-                    ref readonly var lines = ref block.Block.Lines;
+                    ref readonly var ops = ref block.DetailRow.Ops;
+                    ref readonly var form = ref block.DetailRow.InstForm;
+                    ref readonly var lines = ref block.SummaryLines.Lines;
                     var kinds = Load(block);
 
                     AppendHeader(lines, form);

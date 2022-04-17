@@ -11,7 +11,7 @@ namespace Z0
 
     partial class XedDisasm
     {
-        static DisasmSummaryDoc summarize(WsContext context, in DisasmFile file)
+        static DisasmSummaryDoc summary(WsContext context, in DisasmFile file)
         {
             var buffer = bag<DisasmSummaryLines>();
             summarize(context, file, buffer).Require();

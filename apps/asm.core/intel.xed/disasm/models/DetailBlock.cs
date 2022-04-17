@@ -14,24 +14,24 @@ namespace Z0
     {
         public class DetailBlock : IComparable<DetailBlock>
         {
-            public DetailBlockRow Detail;
+            public DetailBlockRow DetailRow;
 
-            public readonly DisasmSummaryLines Block;
+            public readonly DisasmSummaryLines SummaryLines;
 
             [MethodImpl(Inline)]
             public DetailBlock(DetailBlockRow detail, DisasmSummaryLines block)
             {
-                Detail = detail;
-                Block = block;
+                DetailRow = detail;
+                SummaryLines = block;
             }
 
             public DetailBlock WithRow(in DetailBlockRow src)
-                => new DetailBlock(src,Block);
+                => new DetailBlock(src,SummaryLines);
 
             public ref readonly DisasmSummary Summary
             {
                 [MethodImpl(Inline)]
-                get => ref Block.Summary;
+                get => ref SummaryLines.Summary;
             }
 
             public ref readonly Hex32 OriginId
@@ -67,7 +67,7 @@ namespace Z0
             public ref readonly DisasmLineBlock Lines
             {
                 [MethodImpl(Inline)]
-                get => ref Block.Lines;
+                get => ref SummaryLines.Lines;
             }
 
             public ReadOnlySpan<TextLine> OpLines
@@ -103,55 +103,55 @@ namespace Z0
             public SizeOverride SZOV
             {
                 [MethodImpl(Inline)]
-                get => Detail.SZOV;
+                get => DetailRow.SZOV;
             }
 
             public ref readonly NativeSize EASZ
             {
                 [MethodImpl(Inline)]
-                get => ref Detail.EASZ;
+                get => ref DetailRow.EASZ;
             }
 
             public ref readonly NativeSize EOSZ
             {
                 [MethodImpl(Inline)]
-                get => ref Detail.EOSZ;
+                get => ref DetailRow.EOSZ;
             }
 
             public ref readonly AsmExpr Asm
             {
                 [MethodImpl(Inline)]
-                get => ref Detail.Asm;
+                get => ref DetailRow.Asm;
             }
 
             public ref readonly MemoryAddress IP
             {
                 [MethodImpl(Inline)]
-                get => ref Detail.IP;
+                get => ref DetailRow.IP;
             }
 
             public ref readonly AsmHexCode Encoded
             {
                 [MethodImpl(Inline)]
-                get => ref Detail.Encoded;
+                get => ref DetailRow.Encoded;
             }
 
             public ref readonly EncodingOffsets Offsets
             {
                 [MethodImpl(Inline)]
-                get => ref Detail.Offsets;
+                get => ref DetailRow.Offsets;
             }
 
             public ref readonly InstClass InstClass
             {
                 [MethodImpl(Inline)]
-                get => ref Detail.InstClass;
+                get => ref DetailRow.InstClass;
             }
 
             public ref readonly InstForm InstForm
             {
                 [MethodImpl(Inline)]
-                get => ref Detail.InstForm;
+                get => ref DetailRow.InstForm;
             }
 
             public ref readonly byte Size
@@ -163,41 +163,41 @@ namespace Z0
             public ref readonly Hex8 OpCode
             {
                 [MethodImpl(Inline)]
-                get => ref Detail.OpCode;
+                get => ref DetailRow.OpCode;
             }
 
             public ref readonly byte PSZ
             {
                 [MethodImpl(Inline)]
-                get => ref Detail.PSZ;
+                get => ref DetailRow.PSZ;
             }
 
             public ref readonly RexPrefix Rex
             {
                 [MethodImpl(Inline)]
-                get => ref Detail.Rex;
+                get => ref DetailRow.Rex;
             }
 
             public ref readonly VexPrefix Vex
             {
                 [MethodImpl(Inline)]
-                get => ref Detail.Vex;
+                get => ref DetailRow.Vex;
             }
 
             public ref readonly EvexPrefix Evex
             {
                 [MethodImpl(Inline)]
-                get => ref Detail.Evex;
+                get => ref DetailRow.Evex;
             }
 
             public ref readonly DisasmOpDetails Ops
             {
                 [MethodImpl(Inline)]
-                get => ref Detail.Ops;
+                get => ref DetailRow.Ops;
             }
 
             public int CompareTo(DetailBlock src)
-                => Detail.CompareTo(src.Detail);
+                => DetailRow.CompareTo(src.DetailRow);
 
             public static DetailBlock Empty => new DetailBlock(DetailBlockRow.Empty, DisasmSummaryLines.Empty);
         }

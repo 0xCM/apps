@@ -32,7 +32,7 @@ namespace Z0
             static ConstLookup<DisasmDetailDoc,Index<DetailBlockRow>> resequence(ConstLookup<FileRef,DisasmDetailDoc> src)
             {
                 var buffer = cdict<DisasmDetailDoc,Index<DetailBlockRow>>();
-                var kvp = core.map(src.Values, doc => (doc, details: doc.Blocks.ToArray().Select(x => x.Detail)));
+                var kvp = core.map(src.Values, doc => (doc, details: doc.Blocks.ToArray().Select(x => x.DetailRow)));
                 for(var j=0; j<kvp.Length; j++)
                 {
                     ref var details = ref seek(kvp,j).details;
@@ -49,7 +49,7 @@ namespace Z0
             {
                 var files = context.Files(FileKind.XedRawDisasm);
                 var dst = cdict<FileRef,DisasmDetailDoc>();
-                iter(files, file => dst.TryAdd(file, doc(context,file)), pll);
+                iter(files, file => dst.TryAdd(file, details(context,file)), pll);
                 return dst;
             }
         }

@@ -17,7 +17,7 @@ namespace Z0
             for(var i=0; i<count;i++)
             {
                 ref readonly var row = ref doc[i];
-                ref readonly var detail = ref row.Detail;
+                ref readonly var detail = ref row.DetailRow;
                 var mnemonic = detail.InstClass;
                 writer.AppendLineFormat("{0,-6} {1}", counter++, mnemonic);
                 writer.AppendLine(RP.PageBreak40);

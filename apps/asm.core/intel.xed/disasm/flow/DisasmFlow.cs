@@ -46,15 +46,15 @@ namespace Z0
                 var token = Target.Starting(src);
                 if(token.IsNonEmpty)
                 {
-                    var doc = XedDisasm.doc(Context,src);
-                    var lookup = doc.Blocks.Select(x => (x.Detail.IP, x)).ToDictionary();
+                    var doc = XedDisasm.details(Context,src);
+                    var lookup = doc.Blocks.Select(x => (x.DetailRow.IP, x)).ToDictionary();
                     var keys = lookup.Keys.Array().Sort();
                     var blocks = alloc<DetailBlock>(keys.Length);
                     for(var i=0u; i<keys.Length; i++)
                     {
                         ref readonly var ip = ref skip(keys,i);
                         var srcBlock = lookup[ip];
-                        ref var detail = ref srcBlock.Detail;
+                        ref var detail = ref srcBlock.DetailRow;
                         detail.Seq = i;
                         seek(blocks,i) = srcBlock.WithRow(detail);
                     }
@@ -70,9 +70,9 @@ namespace Z0
             {
                 Target.Computed(seq, src);
 
-                ref readonly var detail = ref src.Detail;
+                ref readonly var detail = ref src.DetailRow;
 
-                ref readonly var block = ref src.Block;
+                ref readonly var block = ref src.SummaryLines;
                 ref readonly var lines = ref block.Lines;
                 ref readonly var summary = ref block.Summary;
                 ref readonly var asmhex = ref summary.Encoded;
