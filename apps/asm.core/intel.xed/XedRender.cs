@@ -317,41 +317,50 @@ namespace Z0
         public static string format(OpType src)
             => OpTypes.Format(src);
 
-        public static string format(EoszKind src)
-        {
-            var dst = EmptyString;
-            if(src != 0)
+        public char format(NumericIndicator src)
+            => src switch
             {
-                if(src.Test(EoszKind.W8))
-                    dst = "8";
+                NumericIndicator.Float => 'f',
+                NumericIndicator.Unsigned => 'u',
+                NumericIndicator.Signed=> 'i',
+                _ => '\0',
+            };
 
-                if(src.Test(EoszKind.W16))
-                {
-                    if(text.empty(dst))
-                        dst = "16";
-                    else
-                        dst += "16";
-                }
+        // public static string format(EoszKind src)
+        // {
+        //     var dst = EmptyString;
+        //     if(src != 0)
+        //     {
+        //         if(src.Test(EoszKind.W8))
+        //             dst = "8";
 
-                if(src.Test(EoszKind.W32))
-                {
-                    if(text.empty(dst))
-                        dst = "32";
-                    else
-                        dst += "32";
-                }
+        //         if(src.Test(EoszKind.W16))
+        //         {
+        //             if(text.empty(dst))
+        //                 dst = "16";
+        //             else
+        //                 dst += "16";
+        //         }
 
-                if(src.Test(EoszKind.W64))
-                {
-                    if(text.empty(dst))
-                        dst = "64";
-                    else
-                        dst += "64";
+        //         if(src.Test(EoszKind.W32))
+        //         {
+        //             if(text.empty(dst))
+        //                 dst = "32";
+        //             else
+        //                 dst += "32";
+        //         }
 
-                }
-            }
-            return dst;
-        }
+        //         if(src.Test(EoszKind.W64))
+        //         {
+        //             if(text.empty(dst))
+        //                 dst = "64";
+        //             else
+        //                 dst += "64";
+
+        //         }
+        //     }
+        //     return dst;
+        // }
 
         public static string format(Index<XedFlagEffect> src, bool embrace = true, char sep = Chars.Comma)
         {

@@ -52,6 +52,24 @@ namespace Z0
         public static int cmp(OpNameKind a, OpNameKind b)
             => ((byte)a).CompareTo((byte)b);
 
+        public static int cmp(InstOpClass a, InstOpClass b)
+        {
+            var result = XedRules.cmp(a.Kind,b.Kind);
+            if(result == 0)
+                result = a.DataWidth.CompareTo(b.DataWidth);
+            if(result == 0)
+                result = a.IsRegLit.CompareTo(b.IsRegLit);
+            if(result == 0)
+                result = a.IsLookup.CompareTo(b.IsLookup);
+            if(result == 0)
+                result = a.CellCount.CompareTo(b.CellCount);
+            if(result == 0)
+                result = a.ElementType.CompareTo(b.ElementType);
+            if(result == 0)
+                result = ((byte)a.WidthCode).CompareTo((byte)b.WidthCode);
+            return result;
+        }
+
         static ReadOnlySpan<byte> OpKindOrder => new byte[(byte)K.Seg + 1]{
             0,  // None:0 -> 0
             7,  // Agen:1 -> 7

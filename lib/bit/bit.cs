@@ -10,7 +10,7 @@ namespace Z0
     /// Defines a value that represents a base-2 value
     /// </summary>
     [ApiHost, DataType("bit")]
-    public readonly partial struct bit : ITextual, IEquatable<bit>
+    public readonly partial struct bit : ITextual, IEquatable<bit>, IComparable<bit>
     {
         public const uint SZ = PrimalSizes.U1;
 
@@ -85,6 +85,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public string Format()
             => State ? "1" : "0";
+
+        [MethodImpl(Inline), Op]
+        public int CompareTo(bit src)
+            => State.CompareTo(src.State);
 
         [Ignore]
         string ITextual.Format()

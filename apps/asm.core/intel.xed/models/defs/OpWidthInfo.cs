@@ -30,6 +30,12 @@ namespace Z0
 
             public ushort Width16;
 
+            public byte CellCount
+            {
+                [MethodImpl(Inline)]
+                get => SegType.CellCount;
+            }
+
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]

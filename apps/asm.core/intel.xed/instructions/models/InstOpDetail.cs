@@ -70,6 +70,12 @@ namespace Z0
                 get => NonTerm.IsNonEmpty;
             }
 
+            public bool IsRegLit
+            {
+                [MethodImpl(Inline)]
+                get => RegLit.IsNonEmpty;
+            }
+
             public string Format()
                 => XedRender.format(this);
 

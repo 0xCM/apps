@@ -13,6 +13,31 @@ namespace Z0
     {
         const string XDIS = "XDIS ";
 
+        public static InstOpClass opclass(MachineMode mode, DisasmOpInfo src)
+        {
+            var info = XedWidths.describe(src.WidthCode);
+            var bitwidth = XedWidths.width(mode, src.WidthCode).Bits;
+            var dst =  new InstOpClass {
+                        Kind = src.Kind,
+                        DataWidth = bitwidth,
+                        ElementType = info.ElementType,
+                        IsRegLit = IsRegLit(src.OpType),
+                        IsLookup = IsLookup(src.OpType),
+                        CellCount = info.CellCount,
+                        WidthCode = src.WidthCode,
+                    };
+
+            return dst;
+        }
+
+        public static Index<InstOpClass> opclasses(Index<DisasmDocs> src)
+        {
+            var buffer = hashset<InstOpClass>();
+            foreach(var (summary,detail) in src)
+                buffer.AddRange(detail.Blocks.Select(x => x.DetailRow).SelectMany(x => x.Ops).Select(x => XedDisasm.opclass(ModeKind.Mode64, x.OpInfo)).Distinct());
+            return buffer.Array().Sort();
+        }
+
         public static ref FieldBuffer load(in DetailBlock src, ref FieldBuffer dst)
         {
             dst.Clear();
