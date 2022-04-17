@@ -33,17 +33,13 @@ namespace Z0
             public static string opwidth(MachineMode mode, in PatternOp src)
             {
                 const string RenderPattern = "{0,-6} {1,-3} {2,-10} {3,-12}";
-                var bw = EmptyString;
                 src.ElementType(out var et);
                 src.WidthCode(out var w);
-                var wcode = XedRender.format(w);
+                var bw = XedWidths.width(mode,w).Bits;
+                var wi = XedWidths.describe(w);
                 if(XedPatterns.reglit(src, out Register reg))
-                {
-                    bw = XedPatterns.bitwidth(reg).ToString();
-                    wcode = text.ifempty(wcode,"reg");
-                }
+                    bw = XedPatterns.bitwidth(reg);
 
-                var wi = w != 0 ? XedWidths.describe(w) : OpWidthInfo.Empty;
                 var seg = EmptyString;
                 if(wi.SegType.CellCount > 1)
                 {
@@ -53,17 +49,14 @@ namespace Z0
                     seg = string.Format("{0}x{1}{2}x{3}n", wi.SegType.DataWidth,  wi.SegType.CellWidth, indicator, wi.SegType.CellCount);
                 }
 
-                if(empty(bw))
-                    bw = bitwidth(wi, mode).ToString();
-
+                var _bw = bw.ToString();
                 if(src.Nonterminal(out var nt))
                 {
-                    wcode = text.ifempty(wcode, "ntv");
                     if(GprWidth.widths(nt, out var gpr))
-                        bw = gpr.Format();
+                        _bw = gpr.Format();
                 }
 
-                return string.Format(RenderPattern, wcode, et, bw, seg);
+                return string.Format(RenderPattern, XedRender.format(w), et, _bw, seg);
             }
 
             const byte SectionWidth = 140;
@@ -213,7 +206,7 @@ namespace Z0
                             XedRender.format(op.Name),
                             XedRender.format(action),
                             opvis.Code(),
-                            opwidth(pattern.Mode,op),
+                            opwidth(pattern.Mode, op),
                             FormatNonterm(op),
                             op.SourceExpr
                             ));
@@ -223,7 +216,7 @@ namespace Z0
                             XedRender.format(op.Name),
                             XedRender.format(action),
                             opvis.Code(),
-                            opwidth(pattern.Mode,op),
+                            opwidth(pattern.Mode, op),
                             op.IsReg ? FormatRegLit(op) : EmptyString,
                             op.SourceExpr
                             ));

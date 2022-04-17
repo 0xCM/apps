@@ -308,6 +308,8 @@ namespace Z0
                 dst.Attribs = slice(buffer,0,i).ToArray();
             }
 
+            // REG2=XED_REG_XMM2 : rw : SUPP : dq : u8
+            // [0:reg, 1:action, 2:vis, 3:widthcode, 4:etype]
             void ParseReg(string expr, Index<string> props, ref PatternOp dst)
             {
                 var result = Outcome.Success;
@@ -324,6 +326,7 @@ namespace Z0
                 var k=0;
                 if(count >= 1)
                 {
+                    // reg
                     ref readonly var p = ref props[k++];
                     result = XedParsers.reg(p, out seek(buffer,i++));
                     if(!result)
@@ -332,6 +335,7 @@ namespace Z0
 
                 if(count >= 2)
                 {
+                    // action | width
                     ref readonly var p = ref props[k++];
                     if(XedParsers.parse(p, out action))
                         seek(buffer,i++) = action;
@@ -341,6 +345,7 @@ namespace Z0
 
                 if(count >= 3)
                 {
+                    // width | vis
                     ref readonly var p = ref props[k++];
                     if(width==0 && XedParsers.parse(p, out width))
                         seek(buffer,i++) = width;
@@ -350,6 +355,7 @@ namespace Z0
 
                 if(count >= 4)
                 {
+                    // width | etype | vis
                     ref readonly var p = ref props[k++];
                     if(width == 0 && XedParsers.parse(p, out width))
                         seek(buffer,i++) = type;
@@ -370,6 +376,7 @@ namespace Z0
 
                 if(count >= 5)
                 {
+                    // etype
                     ref readonly var p = ref props[k++];
                     if(XedParsers.parse(p, out type))
                         seek(buffer,i++) = type;
