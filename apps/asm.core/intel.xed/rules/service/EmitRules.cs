@@ -11,15 +11,19 @@ namespace Z0
     {
         public void EmitRules(RuleTables tables, Index<InstPattern> patterns)
         {
-            EmitOperandRows(tables, patterns);
-
+            var details = CalcInstOpDetails(tables,patterns);
             exec(PllExec,
+                () => EmitInstOperands(CalcInstOpRows(details)),
                 () => EmitTableSigs(tables.SigRows),
                 () => EmitRuleSeq(),
+                () => EmitOpClasses(CalcOpClasses(details)),
                 () => EmitCriteria(tables),
                 () => EmitTableFiles(tables)
             );
         }
+
+        void EmitOpClasses(Index<InstOpClass> src)
+            => TableEmit(src.View, InstOpClass.RenderWidths, XedPaths.Table<InstOpClass>());
 
         void EmitTableSigs(Index<RuleSigRow> src)
             => TableEmit(src.View, RuleSigRow.RenderWidths, XedPaths.Service.RuleTable<RuleSigRow>());

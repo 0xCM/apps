@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         public Index<InstOperandRow> CalcInstOps()
-            => CalcInstOps(CalcRules(), CalcInstPatterns());
+            => CalcInstOpRows(CalcInstOpDetails());
 
         public Index<InstOpDetail> CalcInstOpDetails()
             => CalcInstOpDetails(CalcRules(), CalcInstPatterns());
@@ -18,13 +18,12 @@ namespace Z0
         public Index<InstOpDetail> CalcInstOpDetails(RuleTables tables, Index<InstPattern> patterns)
             => Data(nameof(CalcInstOpDetails), () => opdetails(tables,patterns));
 
-        public Index<InstOperandRow> CalcInstOps(RuleTables tables, Index<InstPattern> patterns)
+        public Index<InstOperandRow> CalcInstOpRows(Index<InstOpDetail> details)
         {
-            return Data(nameof(CalcInstOps),Calc);
+            return Data(nameof(CalcInstOpRows),Calc);
 
             Index<InstOperandRow> Calc()
             {
-                var details = CalcInstOpDetails(tables, patterns);
                 var count = details.Count;
                 var rows = alloc<InstOperandRow>(count);
                 for(var i=0; i<count; i++)

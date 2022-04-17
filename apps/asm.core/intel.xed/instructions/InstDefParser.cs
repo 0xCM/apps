@@ -172,16 +172,6 @@ namespace Z0
                     }
                 }
 
-                // var _specs = defs.Select(x => x.PatternSpecs).SelectMany(x => x).Sort();
-                // for(var i=0u; i<_specs.Length; i++)
-                // {
-                //     ref var spec = ref _specs[i];
-                //     spec.PatternId = i;
-                //     for(var j=0; j<spec.Ops.Count; j++)
-                //         spec.Ops[j].PatternId = i;
-                //     spec.Ops = new (i, spec.Ops);
-                // }
-
                 return defs;
             }
 
