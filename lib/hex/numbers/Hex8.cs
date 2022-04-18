@@ -8,7 +8,7 @@ namespace Z0
     using K = Hex8Kind;
     using W = W8;
 
-    [DataWidth(8)]
+    [DataWidth(Width)]
     public readonly struct Hex8 : IHexNumber<H,W,K>
     {
         [Parser]
@@ -27,9 +27,9 @@ namespace Z0
             return outcome;
         }
 
-        public const byte ContentWidth = 8;
+        public const byte Width = 8;
 
-        public const byte StorageWidth = 8;
+        public const byte MaxValue = Pow2.T08m1;
 
         public const K KMin = K.x00;
 
@@ -45,7 +45,7 @@ namespace Z0
 
         public static H Max => KMax;
 
-        public K Value {get;}
+        public readonly K Value;
 
         [MethodImpl(Inline)]
         public Hex8(K src)
@@ -100,6 +100,9 @@ namespace Z0
             [MethodImpl(Inline)]
             get => ((byte)Value).FormatHex(specifier:false, zpad:true);
         }
+
+        K IHexNumber<K>.Value
+            => Value;
 
         [MethodImpl(Inline)]
         public string Format()
@@ -186,11 +189,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static explicit operator H(Hex64 src)
             => new H((byte)src.Value);
-
-        public static H MaxValue
-        {
-            [MethodImpl(Inline)]
-            get =>  byte.MaxValue;
-        }
     }
 }

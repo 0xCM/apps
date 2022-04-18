@@ -8,8 +8,8 @@ namespace Z0
     using K = Hex2Kind;
     using W = W2;
 
-    [DataWidth(2)]
-    public readonly struct Hex2 //: IHexNumber<H,W,K>
+    [DataWidth(Width,StorageWidth)]
+    public readonly struct Hex2
     {
         [Parser]
         public static Outcome parse(string src, out H dst)
@@ -27,11 +27,13 @@ namespace Z0
             return outcome;
         }
 
-        public K Value {get;}
+        public readonly K Value;
 
-        public const byte ContentWidth = 2;
+        public const byte Width = 2;
 
-        public const byte StorageWidth = 8;
+        const byte StorageWidth = 8;
+
+        public const byte MaxValue = Pow2.T02m1;
 
         public const uint Count = 4;
 

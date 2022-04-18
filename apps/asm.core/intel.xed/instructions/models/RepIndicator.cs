@@ -9,8 +9,11 @@ namespace Z0
 
     partial class XedRules
     {
+        [DataWidth(Width, 8)]
         public readonly record struct RepIndicator : IComparable<RepIndicator>
         {
+            public const byte Width = uint2.Width;
+
             readonly byte Data;
 
             [MethodImpl(Inline)]
@@ -22,7 +25,7 @@ namespace Z0
             public RepPrefix Kind
             {
                 [MethodImpl(Inline)]
-                get =>  (RepPrefix)bit.set(Data, 7, 0);
+                get => (RepPrefix)bit.set(Data, 7, 0);
             }
 
             public bool IsEmpty
@@ -56,6 +59,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator RepIndicator(RepPrefix src)
                 => new RepIndicator(src);
+
+            [MethodImpl(Inline)]
+            public static explicit operator uint2(RepIndicator src)
+                => (uint2)(byte)src.Kind;
 
             public static RepIndicator Empty => default;
         }

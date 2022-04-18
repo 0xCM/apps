@@ -8,7 +8,7 @@ namespace Z0
     using W = W64;
     using K = System.UInt64;
 
-    [DataWidth(64)]
+    [DataWidth(Width)]
     public readonly struct Hex64 : IHexNumber<H,W,K>
     {
         [Parser]
@@ -27,9 +27,13 @@ namespace Z0
             return outcome;
         }
 
-        public const byte ContentWidth = 64;
+        public const byte Width = 64;
 
-        public const byte StorageWidth = 64;
+        public const K MaxValue = Pow2.T64m1;
+
+        public static H Zero => new H(0);
+
+        public static H Max => new H(MaxValue);
 
         public readonly K Value;
 
@@ -182,8 +186,5 @@ namespace Z0
         public static explicit operator H(MemoryAddress src)
             => new H((uint)src.Location);
 
-        public static H Zero => default;
-
-        public static H Max => K.MaxValue;
     }
 }

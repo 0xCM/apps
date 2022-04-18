@@ -13,7 +13,7 @@ namespace Z0
     using N = N4;
 
     /// <summary>
-    /// Represents a value in the range [<see cef='MinLiteral'/>, <see cref='MaxLiteral'/>]
+    /// Represents a value in the range [<see cef='MinLiteral'/>, <see cref='MaxValue'/>]
     /// </summary>
     [DataType("u<w:4>", Width, 8)]
     public readonly struct uint4 : IBitNumber<U,W,K,T>
@@ -22,11 +22,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         internal uint4(uint8b src)
-            => data = (byte)(src & MaxLiteral);
+            => data = (byte)(src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint4(byte src)
-            => data = (byte)(U.MaxLiteral & src);
+            => data = (byte)(U.MaxValue & src);
 
         [MethodImpl(Inline)]
         internal uint4(byte src, bool @unchecked)
@@ -75,7 +75,7 @@ namespace Z0
         public bool IsMax
         {
             [MethodImpl(Inline)]
-            get => data == MaxLiteral;
+            get => data == MaxValue;
         }
 
         /// <summary>
@@ -259,7 +259,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static U operator ^(U x, U y)
-            => wrap4((byte)((byte)(x.data & y.data) & MaxLiteral));
+            => wrap4((byte)((byte)(x.data & y.data) & MaxValue));
 
         [MethodImpl(Inline)]
         public static U operator >>(U x, int y)
@@ -271,7 +271,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static U operator ~(U src)
-            => wrap4((byte)(~src.data & MaxLiteral));
+            => wrap4((byte)(~src.data & MaxValue));
 
         [MethodImpl(Inline)]
         public static U operator ++(U x)
@@ -313,12 +313,14 @@ namespace Z0
         /// <summary>
         /// Specifies the inclusive upper bound of the <see cref='U'/> data type as a literal value
         /// </summary>
-        public const byte MaxLiteral = 0xF;
+        public const byte MaxValue = Pow2.T04m1;
+
+        public const T MaxLiteral = MaxValue;
 
         /// <summary>
         /// Specifies the count of unique values representable by a <see cref='U'/>
         /// </summary>
-        public const byte Mod = (byte)MaxLiteral + 1;
+        public const byte Mod = (byte)MaxValue + 1;
 
         /// <summary>
         /// Specifies the represented data type bit-width
@@ -344,7 +346,7 @@ namespace Z0
         public static U Max
         {
             [MethodImpl(Inline)]
-            get => new U(MaxLiteral,true);
+            get => new U(MaxValue,true);
         }
 
         /// <summary>

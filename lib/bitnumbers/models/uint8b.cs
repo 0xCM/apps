@@ -73,7 +73,7 @@ namespace Z0
         public bool IsMax
         {
             [MethodImpl(Inline)]
-            get => data == MaxLiteral;
+            get => data == MaxValue;
         }
 
         /// <summary>
@@ -283,9 +283,11 @@ namespace Z0
         public static U operator ++ (U src)
             => inc(src);
 
-       public const T MinLiteral = 0;
+        public const T MinLiteral = 0;
 
-        public const T MaxLiteral = byte.MaxValue;
+        public const T MaxValue = byte.MaxValue;
+
+        public const T MaxLiteral = MaxValue;
 
         /// <summary>
         /// Specifies the bit-width represented by <see cref='U'/>
@@ -317,7 +319,7 @@ namespace Z0
         public static U Max
         {
             [MethodImpl(Inline)]
-            get => new U(MaxLiteral);
+            get => new U(MaxValue);
         }
 
         public Span<bit> Bits

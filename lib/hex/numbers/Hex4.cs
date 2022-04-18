@@ -8,7 +8,7 @@ namespace Z0
     using K = Hex4Kind;
     using W = W4;
 
-    [DataWidth(4)]
+    [DataWidth(Width,StorageWidth)]
     public readonly struct Hex4
     {
         [Parser]
@@ -27,9 +27,11 @@ namespace Z0
             return outcome;
         }
 
-        public const byte ContentWidth = 4;
+        public const byte Width = 4;
 
-        public const byte StorageWidth = 8;
+        const byte StorageWidth = 8;
+
+        public const byte MaxValue = Pow2.T04m1;
 
         public const K KMin = K.x00;
 

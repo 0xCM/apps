@@ -7,9 +7,11 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [DataWidth(16)]
+        [DataWidth(Width,16)]
         public struct InstForm : IEquatable<InstForm>, IComparable<InstForm>
         {
+            public const byte Width = Hex14.Width;
+
             public readonly IFormType Kind;
 
             [MethodImpl(Inline)]

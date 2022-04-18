@@ -22,7 +22,8 @@ namespace Z0
 
         Index<SegField> CalcInstSegs()
         {
-            var layouts = Xed.Rules.CalcInstLayouts();
+            var patterns = Xed.Rules.CalcInstPatterns();
+            var layouts = Xed.Rules.CalcInstLayouts(patterns);
             var literals = hashset<SegField>();
             var symbolics = hashset<SegField>();
             var combined = hashset<SegField>();

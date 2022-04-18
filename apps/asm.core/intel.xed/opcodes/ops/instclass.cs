@@ -14,7 +14,6 @@ namespace Z0
         public static OcInstClass instclass(InstClass @class, XedOpCode opcode, byte index)
             => new OcInstClass(identify(@class,opcode,index), @class, opcode, index);
 
-
         [MethodImpl(Inline)]
         public static uint identify(InstClass @class, XedOpCode opcode, byte index)
         {

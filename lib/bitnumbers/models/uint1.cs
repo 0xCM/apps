@@ -23,11 +23,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         internal uint1(uint8b src)
-            => data = (byte)(src & MaxLiteral);
+            => data = (byte)(src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint1(byte src)
-            => data = (byte)(src & MaxLiteral);
+            => data = (byte)(src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint1(byte src, bool @unchecked)
@@ -35,27 +35,27 @@ namespace Z0
 
         [MethodImpl(Inline)]
         internal uint1(sbyte src)
-            => data = (byte)((uint)src & MaxLiteral);
+            => data = (byte)((uint)src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint1(short src)
-            => data = (byte)((uint)src & MaxLiteral);
+            => data = (byte)((uint)src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint1(ushort src)
-            => data = (byte)(src & MaxLiteral);
+            => data = (byte)(src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint1(int x)
-            => data = (byte)((uint)x & MaxLiteral);
+            => data = (byte)((uint)x & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint1(uint src)
-            => data = (byte)(src & MaxLiteral);
+            => data = (byte)(src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint1(long src)
-            => data = (byte)((uint)src & MaxLiteral);
+            => data = (byte)((uint)src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint1(uint src, bool safe)
@@ -99,7 +99,7 @@ namespace Z0
         public bool IsMax
         {
             [MethodImpl(Inline)]
-            get => data == MaxLiteral;
+            get => data == MaxValue;
         }
 
         /// <summary>
@@ -336,7 +336,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static U operator ~(U src)
-            => wrap1(~src.data & MaxLiteral);
+            => wrap1(~src.data & MaxValue);
 
         [MethodImpl(Inline)]
         public static U operator ++(U x)
@@ -378,12 +378,14 @@ namespace Z0
         /// <summary>
         /// Specifies the inclusive upper bound of the <see cref='U'/> data type as a literal value
         /// </summary>
-        public const T MaxLiteral = 1;
+        public const T MaxValue = Pow2.T01m1;
+
+        public const T MaxLiteral = MaxValue;
 
         /// <summary>
         /// Specifies the count of unique values representable by a <see cref='U'/>
         /// </summary>
-        public const uint Count = MaxLiteral + 1;
+        public const uint Count = MaxValue + 1;
 
         /// <summary>
         /// Specifies the bit-width represented by <see cref='U'/>
@@ -410,7 +412,7 @@ namespace Z0
         public static U Max
         {
             [MethodImpl(Inline)]
-            get => new U(MaxLiteral,true);
+            get => new U(MaxValue,true);
         }
 
         /// <summary>

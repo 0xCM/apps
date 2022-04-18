@@ -70,6 +70,7 @@ namespace Z0
             seek64(lead, 1) = bits.scatter((ulong)((byte)(src >> 8)), mask);
         }
 
+
         /// <summary>
         /// Sends each source bit to a corresponding target cell
         /// </summary>

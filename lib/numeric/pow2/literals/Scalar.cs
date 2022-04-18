@@ -46,7 +46,7 @@ namespace Z0
         /// <summary>
         /// 2^7 = 128
         /// </summary>
-        public const byte T07 =  128;
+        public const byte T07 = 128;
 
         /// <summary>
         /// 2^8 = 256 = UInt8.MaxValue + 1
@@ -63,6 +63,7 @@ namespace Z0
         /// </summary>
         public const ushort T10 = 1024;
 
+
         /// <summary>
         /// 2^11 = 2048
         /// </summary>
@@ -71,7 +72,7 @@ namespace Z0
         /// <summary>
         /// 2^12 = 4096
         /// </summary>
-        public const ushort T12 =  4096;
+        public const ushort T12 = 4096;
 
         /// <summary>
         /// 2^13 = 8192
@@ -237,5 +238,94 @@ namespace Z0
         /// T63 = 9223372036854775808
         /// </summary>
         public const ulong T63 = (ulong)K.P2ᐞ63;
+
+        /// <summary>
+        /// 0
+        /// </summary>
+        public const byte T00m1 = T00 - 1;
+
+        /// <summary>
+        /// 1
+        /// </summary>
+        public const byte T01m1 = T01 - 1;
+
+        /// <summary>
+        /// 3
+        /// </summary>
+        public const byte T02m1 = T02 - 1;
+
+        /// <summary>
+        /// 7
+        /// </summary>
+        public const byte T03m1 = T03 - 1;
+
+        /// <summary>
+        /// 15
+        /// </summary>
+        public const byte T04m1 = T04 - 1;
+
+        /// <summary>
+        /// 31
+        /// </summary>
+        public const byte T05m1 = T05 - 1;
+
+        /// <summary>
+        /// 63
+        /// </summary>
+        public const byte T06m1 = T06 - 1;
+
+        /// <summary>
+        /// 127
+        /// </summary>
+        public const byte T07m1 = T07 - 2;
+
+        /// <summary>
+        /// 255
+        /// </summary>
+        public const byte T08m1 = T08 - 1;
+
+        /// <summary>
+        /// 511
+        /// </summary>
+        public const ushort T09m1 = T09 - 1;
+
+        /// <summary>
+        /// 1,023
+        /// </summary>
+        public const ushort T10m1 = T10 - 1;
+
+        /// <summary>
+        /// 2,047
+        /// </summary>
+        public const ushort T11m1 = T11 - 1;
+
+        /// <summary>
+        /// 4,095
+        /// </summary>
+        public const ushort T12m1 = T12 - 1;
+
+        /// <summary>
+        /// 8,193
+        /// </summary>
+        public const ushort T13m1 = T13 - 1;
+
+        /// <summary>
+        /// 16,383
+        /// </summary>
+        public const ushort T14m1 =  T14 - 1;
+
+        /// <summary>
+        /// 32,767
+        /// </summary>
+        public const ushort T15m1 = T15 - 1;
+
+        /// <summary>
+        /// 65,535
+        /// </summary>
+        public const ushort T16m1 = ushort.MaxValue;
+
+        public const uint T32m1 = uint.MaxValue;
+
+        public const ulong T64m1 = ulong.MaxValue;
     }
 }

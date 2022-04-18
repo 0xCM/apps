@@ -175,7 +175,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         [MethodImpl(Inline), Op]
         public static U create(W w, ulong src)
-            => new U((byte)((byte)src & U.MaxLiteral));
+            => new U((byte)((byte)src & U.MaxValue));
 
         /// <summary>
         /// Creates a 2-bit unsigned integer from a 2-term bit sequence
@@ -261,7 +261,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         [MethodImpl(Inline), Op]
         public static U uint2(ulong src)
-            => new U((byte)((byte)src & U.MaxLiteral));
+            => new U((byte)((byte)src & U.MaxValue));
 
         [MethodImpl(Inline), Op]
         public static U add(U x, U y)
@@ -323,7 +323,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U not(U a)
-            => wrap2(~a.data & U.MaxLiteral);
+            => wrap2(~a.data & U.MaxValue);
 
         [MethodImpl(Inline), Nand]
         public static U nand(U a, U b)
@@ -391,7 +391,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static byte crop2(byte x)
-            => (byte)(U.MaxLiteral & x);
+            => (byte)(U.MaxValue & x);
 
         [MethodImpl(Inline), Op]
         internal static byte reduce2(byte x)

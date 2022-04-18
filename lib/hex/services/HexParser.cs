@@ -142,7 +142,22 @@ namespace Z0
         public static Outcome<uint> parse(ReadOnlySpan<char> src, Span<byte> dst)
         {
             var counter = 0u;
-            var input = ClearSpecs(src);
+            var input = src;
+
+            var j = text.index(src, Chars.x);
+            var k = text.index(src, Chars.h);
+
+            if(j > 0)
+                input = right(input,j);
+            if(k > 0)
+                input = left(input, k);
+
+            // if(j > 0)
+            //     input = slice(src,j);
+            // if(k >0)
+            //     input = slice(src, 0, k);
+
+            //var input = ClearSpecs(src);
             var count = input.Length;
             ref var target = ref first(dst);
             var hi = byte.MaxValue;

@@ -8,7 +8,7 @@ namespace Z0
     using W = W16;
     using K = System.UInt16;
 
-    [DataWidth(16)]
+    [DataWidth(Width)]
     public readonly struct Hex16 : IHexNumber<H,W,K>
     {
         [Parser]
@@ -27,15 +27,15 @@ namespace Z0
             return outcome;
         }
 
-        public static H Max => K.MaxValue;
+        public const K MaxValue = Pow2.T16m1;
 
-        public const byte ContentWidth = 16;
+        public static H Max => new H(MaxValue);
 
-        public const byte StorageWidth = 16;
+        public const byte Width = 16;
 
         public static H Zero => default;
 
-        public K Value {get;}
+        public readonly K Value;
 
         [MethodImpl(Inline)]
         public Hex16(K offset)
@@ -73,6 +73,9 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Value;
         }
+
+        ushort IHexNumber<ushort>.Value
+            => Value;
 
         [MethodImpl(Inline)]
         public bool Equals(H src)

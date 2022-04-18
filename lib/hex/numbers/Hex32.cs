@@ -8,7 +8,7 @@ namespace Z0
     using W = W32;
     using K = System.UInt32;
 
-    [DataWidth(32)]
+    [DataWidth(Width)]
     public readonly struct Hex32 : IHexNumber<H,W,K>
     {
         [Parser]
@@ -27,13 +27,13 @@ namespace Z0
             return outcome;
         }
 
-        public const byte ContentWidth = 32;
+        public const byte Width = 32;
 
-        public const byte StorageWidth = 32;
+        public const K MaxValue = Pow2.T32m1;
 
-        public static H Zero => default;
+        public static H Zero => new H(0);
 
-        public static H Max => K.MaxValue;
+        public static H Max => new H(MaxValue);
 
         public readonly K Value;
 

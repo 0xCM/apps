@@ -152,7 +152,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         [MethodImpl(Inline), Op]
         public static U uint3(ulong src)
-            => new U((byte)((byte)src & U.MaxLiteral));
+            => new U((byte)((byte)src & U.MaxValue));
 
         /// <summary>
         /// Creates a 3-bit unsigned integer from a 3-term bit sequence
@@ -212,7 +212,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U not(U a)
-            => wrap3(~a.data & U.MaxLiteral);
+            => wrap3(~a.data & U.MaxValue);
 
         [MethodImpl(Inline), Op]
         public static U srl(U lhs, byte offset)
@@ -267,7 +267,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static byte crop3(byte x)
-            => (byte)(U.MaxLiteral & x);
+            => (byte)(U.MaxValue & x);
 
         static BitFormat FormatConfig3
             => BitFormat.limited(U.Width, U.Width);

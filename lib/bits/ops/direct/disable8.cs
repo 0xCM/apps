@@ -50,7 +50,7 @@ namespace Z0
           [MethodImpl(Inline), Disable]
           public static ushort disable(N8 n, ushort src, byte offset)
           {
-               var mask = ulong.MaxValue ^ ((ulong)uint8b.MaxLiteral << offset);
+               var mask = ulong.MaxValue ^ ((ulong)uint8b.MaxValue << offset);
                return (ushort)(mask & src);
           }
 
@@ -62,7 +62,7 @@ namespace Z0
           [MethodImpl(Inline), Disable]
           public static uint disable(N8 n, uint src, byte offset)
           {
-               var mask = ulong.MaxValue ^ ((ulong)uint8b.MaxLiteral << offset);
+               var mask = ulong.MaxValue ^ ((ulong)uint8b.MaxValue << offset);
                return (uint)(mask & src);
           }
 
@@ -74,7 +74,7 @@ namespace Z0
           [MethodImpl(Inline), Disable]
           public static ulong disable(N8 n,ulong src, byte offset)
           {
-               var mask = ulong.MaxValue ^ ((ulong)uint8b.MaxLiteral << offset);
+               var mask = ulong.MaxValue ^ ((ulong)uint8b.MaxValue << offset);
                return (ulong)(mask & src);
           }
      }

@@ -67,6 +67,10 @@ namespace Z0
             => new Hash32((uint)src);
 
         [MethodImpl(Inline)]
+        public static implicit operator Hash32(ushort src)
+            => new Hash32((uint)src);
+
+        [MethodImpl(Inline)]
         public static uint operator %(Hash32 src, uint m)
             => src.Value % m;
     }

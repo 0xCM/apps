@@ -8,7 +8,7 @@ namespace Z0
     using K = Hex3Kind;
     using W = W3;
 
-    [DataWidth(3)]
+    [DataWidth(Width,StorageWidth)]
     public readonly struct Hex3
     {
         [Parser]
@@ -26,6 +26,12 @@ namespace Z0
             dst = new H((K)(x & 0b111));
             return outcome;
         }
+
+        public const byte Width = 3;
+
+        const byte StorageWidth = 8;
+
+        public const byte MaxValue = Pow2.T03m1;
 
         public const K KMin = K.x00;
 

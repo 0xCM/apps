@@ -6,8 +6,11 @@ namespace Z0
 {
     partial class XedRules
     {
+        [DataWidth(Width, 8)]
         public readonly record struct InstLock : IComparable<InstLock>
         {
+            public const byte Width = uint2.Width;
+
             readonly byte Data;
 
             [MethodImpl(Inline)]
@@ -19,7 +22,7 @@ namespace Z0
                     if(locked)
                         Data = 2;
                     else
-                        Data=1;
+                        Data = 1;
                 }
             }
 
@@ -47,6 +50,7 @@ namespace Z0
                 get => Data != 0;
             }
 
+            [MethodImpl(Inline)]
             public int CompareTo(InstLock src)
                 => new LockSort(this).CompareTo(new LockSort(src));
 
@@ -57,6 +61,10 @@ namespace Z0
 
             public override string ToString()
                 => Format();
+
+            [MethodImpl(Inline)]
+            public static explicit operator uint2(InstLock src)
+                => (uint2)src.Data;
         }
     }
 }

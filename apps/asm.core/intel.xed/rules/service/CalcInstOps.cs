@@ -9,12 +9,6 @@ namespace Z0
 
     partial class XedRules
     {
-        public Index<InstOperandRow> CalcInstOps()
-            => CalcInstOpRows(CalcInstOpDetails());
-
-        public Index<InstOpDetail> CalcInstOpDetails()
-            => CalcInstOpDetails(CalcRules(), CalcInstPatterns());
-
         public Index<InstOpDetail> CalcInstOpDetails(RuleTables tables, Index<InstPattern> patterns)
             => Data(nameof(CalcInstOpDetails), () => opdetails(tables,patterns));
 

@@ -7,8 +7,11 @@ namespace Z0
 {
     partial struct XedModels
     {
+        [DataWidth(Width, 8)]
         public readonly struct ModIndicator : IComparable<ModIndicator>, IEquatable<ModIndicator>
         {
+            public const byte Width = uint3.Width;
+
             public readonly ModKind Kind;
 
             [MethodImpl(Inline)]
@@ -52,6 +55,14 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator ModIndicator(ModKind src)
                 => new ModIndicator(src);
+
+            [MethodImpl(Inline)]
+            public static explicit operator ModIndicator(uint3 src)
+                => new ModIndicator((ModKind)(byte)src);
+
+            [MethodImpl(Inline)]
+            public static explicit operator uint3(ModIndicator src)
+                => (uint3)(byte)src.Kind;
 
             public static ModIndicator Empty => default;
         }

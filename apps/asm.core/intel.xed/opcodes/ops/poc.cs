@@ -45,7 +45,7 @@ namespace Z0
                 dst.Index = oci++;
             }
 
-            buffer.Sort(new PatternOrder(false));
+            buffer.Sort(new PatternOrder());
             for(var i=0u; i<count; i++)
                 seek(buffer,i).Seq = i;
 

@@ -9,9 +9,11 @@ namespace Z0
 
     partial class XedRules
     {
-        [DataWidth(16)]
+        [DataWidth(Width,16)]
         public readonly struct InstClass : IComparable<InstClass>, IEquatable<InstClass>
         {
+            public const byte Width = Hex12.Width;
+
             public readonly IClass Kind;
 
             [MethodImpl(Inline)]
@@ -81,6 +83,10 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static explicit operator ushort(InstClass src)
+                => (ushort)src.Kind;
+
+            [MethodImpl(Inline)]
+            public static explicit operator Hex12(InstClass src)
                 => (ushort)src.Kind;
 
             [MethodImpl(Inline)]

@@ -8,8 +8,8 @@ namespace Z0
     using K = Hex6Kind;
     using W = W6;
 
-    [DataWidth(6)]
-    public readonly struct Hex6 //: IHexNumber<H,W,K>
+    [DataWidth(Width,StorageWidth)]
+    public readonly struct Hex6
     {
         [Parser]
         public static Outcome parse(string src, out H dst)
@@ -27,10 +27,11 @@ namespace Z0
             return outcome;
         }
 
-
-        public const byte ContentWidth = 6;
+        public const byte Width = 6;
 
         public const byte StorageWidth = 8;
+
+        public const byte MaxValue = Pow2.T06m1;
 
         public const K KMin = K.x00;
 

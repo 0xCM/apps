@@ -173,7 +173,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         [MethodImpl(Inline), Op]
         public static U uint6(ulong src)
-            => new U((byte)((byte)src & U.MaxLiteral));
+            => new U((byte)((byte)src & U.MaxValue));
 
         /// <summary>
         /// Constructs a uint6 value from a sequence of bits ranging from low to high
@@ -245,7 +245,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static byte crop6(byte x)
-            => (byte)(U.MaxLiteral & x);
+            => (byte)(U.MaxValue & x);
 
         [MethodImpl(Inline), Op]
         internal static byte reduce6(byte x)

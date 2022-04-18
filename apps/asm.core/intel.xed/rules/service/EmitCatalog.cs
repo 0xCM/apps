@@ -29,7 +29,7 @@ namespace Z0
             var tables = RuleTables.Empty;
             exec(PllExec,
                 () => EmitPatternInfo(patterns),
-                () => EmitOpCodes(patterns),
+                () => EmitPoc(patterns),
                 () => EmitInstFields(patterns),
                 () => EmitFlagEffects(patterns),
                 () => EmitInstGroups(CalcInstGroups(patterns)),
@@ -84,8 +84,8 @@ namespace Z0
         void EmitReflectedFields()
             => TableEmit(XedFields.ByPosition.Valid, ReflectedField.RenderWidths, XedPaths.Table<ReflectedField>("positioned"));
 
-        void EmitOpCodes(Index<InstPattern> src)
-            => TableEmit(XedOpCodes.poc(src).View, PatternOpCode.RenderWidths, XedPaths.Table<PatternOpCode>());
+        void EmitPoc(Index<InstPattern> src)
+            => TableEmit(CalcPoc(src).View, PatternOpCode.RenderWidths, XedPaths.Table<PatternOpCode>());
 
         void EmitInstFields(Index<InstPattern> src)
             => TableEmit(CalcInstFields(src).View, InstFieldRow.RenderWidths, XedPaths.Table<InstFieldRow>());

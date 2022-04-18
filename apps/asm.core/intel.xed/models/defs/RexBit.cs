@@ -7,8 +7,11 @@ namespace Z0
 {
     partial struct XedModels
     {
+        [DataWidth(Width, 8)]
         public readonly record struct RexBit
         {
+            public const byte Width = uint2.Width;
+
             readonly byte Data;
 
             [MethodImpl(Inline)]
@@ -73,6 +76,10 @@ namespace Z0
             }
 
             public static RexBit Empty => default;
+
+            [MethodImpl(Inline)]
+            public static implicit operator bit(RexBit src)
+                => src.State;
         }
     }
 }

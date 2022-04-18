@@ -8,8 +8,8 @@ namespace Z0
     using K = Hex1Kind;
     using W = W1;
 
-    [DataWidth(1)]
-    public readonly struct Hex1 : IHexNumber<H,W,K>
+    [DataWidth(Width,StorageWidth)]
+    public readonly struct Hex1
     {
         [Parser]
         public static Outcome parse(string src, out H dst)
@@ -31,9 +31,11 @@ namespace Z0
 
         public const string Off = "0";
 
-        public const byte ContentWidth = 1;
+        public const byte Width = 1;
 
-        public const byte StorageWidth = 8;
+        const byte StorageWidth = 8;
+
+        public const byte MaxValue = Pow2.T01m1;
 
         public const K KMin = K.x00;
 
@@ -59,9 +61,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public Hex1(byte src)
             => Value = (K)src & KMax;
-
-        K IHexNumber<K>.Value
-            => Value;
 
         [MethodImpl(Inline)]
         public bool Equals(H src)

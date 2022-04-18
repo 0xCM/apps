@@ -171,7 +171,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         [MethodImpl(Inline), Op]
         public static U uint4(ulong src)
-            => new U((byte)((byte)src & U.MaxLiteral));
+            => new U((byte)((byte)src & U.MaxValue));
 
         [MethodImpl(Inline), Op]
         public static U add(U x, U y)
@@ -209,7 +209,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U not(U a)
-            => wrap4(~a.data & U.MaxLiteral);
+            => wrap4(~a.data & U.MaxValue);
 
         [MethodImpl(Inline), Op]
         public static U hi(U src)

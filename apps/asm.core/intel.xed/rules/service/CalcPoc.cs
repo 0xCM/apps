@@ -7,10 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public Index<InstLayout> CalcInstLayouts(Index<InstPattern> patterns)
-            => CalcInstLayouts(CalcInstGroups(patterns));
-
-        public Index<InstLayout> CalcInstLayouts(Index<InstGroup> groups)
-            => Data(nameof(CalcInstLayouts), () => XedPatterns.layouts(groups));
+        public Index<PatternOpCode> CalcPoc(Index<InstPattern> src)
+            => Data(nameof(CalcPoc), () => XedOpCodes.poc(src));
     }
 }

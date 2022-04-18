@@ -13,7 +13,7 @@ namespace Z0
     using N = N5;
 
     /// <summary>
-    /// Represents a value in the range [<see cef='MinLiteral'/>, <see cref='MaxLiteral'/>]
+    /// Represents a value in the range [<see cef='MinLiteral'/>, <see cref='MaxValue'/>]
     /// </summary>
     [DataType("u<w:5>", Width, 8)]
     public readonly struct uint5 : IBitNumber<U,W,K,T>
@@ -22,11 +22,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         internal uint5(uint8b src)
-            => data = (byte)(src & MaxLiteral);
+            => data = (byte)(src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint5(byte src)
-            => data = (byte)(src & MaxLiteral);
+            => data = (byte)(src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint5(byte src, bool @unchecked)
@@ -34,27 +34,27 @@ namespace Z0
 
         [MethodImpl(Inline)]
         internal uint5(sbyte src)
-            => data = (byte)((uint)src & MaxLiteral);
+            => data = (byte)((uint)src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint5(short src)
-            => data = (byte)((uint)src & MaxLiteral);
+            => data = (byte)((uint)src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint5(ushort src)
-            => data = (byte)(src & MaxLiteral);
+            => data = (byte)(src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint5(int x)
-            => data = (byte)((uint)x & MaxLiteral);
+            => data = (byte)((uint)x & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint5(uint src)
-            => data = (byte)(src & MaxLiteral);
+            => data = (byte)(src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint5(long src)
-            => data = (byte)((uint)src & MaxLiteral);
+            => data = (byte)((uint)src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint5(uint src, bool safe)
@@ -107,7 +107,7 @@ namespace Z0
         public bool IsMax
         {
             [MethodImpl(Inline)]
-            get => data == MaxLiteral;
+            get => data == MaxValue;
         }
 
         /// <summary>
@@ -290,7 +290,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static U operator ~(U src)
-            => wrap5(~src.data & MaxLiteral);
+            => wrap5(~src.data & MaxValue);
 
         [MethodImpl(Inline)]
         public static U operator ++(U x)
@@ -332,7 +332,9 @@ namespace Z0
         /// <summary>
         /// Specifies the inclusive upper bound of the <see cref='U'/> data type as a literal value
         /// </summary>
-        public const T MaxLiteral = 31;
+        public const T MaxValue = Pow2.T05m1;
+
+        public const T MaxLiteral = MaxValue;
 
         /// <summary>
         /// Specifies the bit-width represented by <see cref='U'/>
@@ -342,7 +344,7 @@ namespace Z0
         /// <summary>
         /// Specifies the count of unique values representable by a <see cref='U'/>
         /// </summary>
-        public const byte Mod = (byte)MaxLiteral + 1;
+        public const byte Mod = (byte)MaxValue + 1;
 
         /// <summary>
         /// Specifies the <see cref='Width'/> values as a type-level width
@@ -369,7 +371,7 @@ namespace Z0
         public static U Max
         {
             [MethodImpl(Inline)]
-            get => new U(MaxLiteral,true);
+            get => new U(MaxValue,true);
         }
 
         /// <summary>
