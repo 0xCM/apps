@@ -40,24 +40,24 @@ namespace Z0
 
             if(mod.IsNonEmpty)
             {
-                switch(mod.Indicator)
+                switch(mod.Kind)
                 {
-                    case ModIndicator.MOD0:
+                    case ModKind.MOD0:
                         discrim += "1100";
                     break;
-                    case ModIndicator.ANY:
+                    case ModKind.ANY:
                         discrim += "0100";
                     break;
-                    case ModIndicator.MOD1:
+                    case ModKind.MOD1:
                         discrim += "0001";
                     break;
-                    case ModIndicator.MOD2:
+                    case ModKind.MOD2:
                         discrim += "0010";
                     break;
-                    case ModIndicator.MOD3:
+                    case ModKind.MOD3:
                         discrim += "0011";
                     break;
-                    case ModIndicator.NE3:
+                    case ModKind.NE3:
                         discrim += "1000";
                     break;
                 }

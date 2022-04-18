@@ -22,9 +22,11 @@ namespace Z0
 
             public readonly InstLock Lock;
 
-            public readonly ModKind Mod;
+            public readonly ModIndicator Mod;
 
             public readonly RexBit RexW;
+
+            public readonly RepIndicator Rep;
 
             [MethodImpl(Inline)]
             public PatternSort(InstPattern src)
@@ -36,6 +38,7 @@ namespace Z0
                 Lock = src.Lock;
                 Mod = XedFields.mod(fields);
                 RexW = XedFields.rexw(fields);
+                Rep = XedFields.rep(fields);
             }
 
             [MethodImpl(Inline)]
@@ -48,6 +51,8 @@ namespace Z0
                 Lock = src.Lock;
                 Mod = XedFields.mod(fields);
                 RexW = XedFields.rexw(fields);
+                Rep = RepIndicator.Empty;
+                Rep = XedFields.rep(fields);
             }
 
             [MethodImpl(Inline)]
@@ -60,6 +65,8 @@ namespace Z0
                 Lock = XedFields.@lock(fields);
                 Mod = XedFields.mod(fields);
                 RexW = XedFields.rexw(fields);
+                Rep = RepIndicator.Empty;
+                Rep = XedFields.rep(fields);
            }
 
             [MethodImpl(Inline)]
@@ -71,6 +78,7 @@ namespace Z0
                 Lock = src.Lock;
                 Mod = src.Mod;
                 RexW = src.RexW;
+                Rep = src.Rep;
             }
 
             [MethodImpl(Inline)]
@@ -82,6 +90,7 @@ namespace Z0
                 Lock = src.Lock;
                 Mod = src.Mod;
                 RexW = src.RexW;
+                Rep = src.Rep;
             }
 
             [MethodImpl(Inline)]
@@ -93,6 +102,7 @@ namespace Z0
                 Lock = src.Lock;
                 Mod = src.Mod;
                 RexW = src.RexW;
+                Rep = src.Rep;
             }
 
             public int CompareTo(PatternSort src)
@@ -108,11 +118,12 @@ namespace Z0
                     if(result == 0)
                         result = Lock.CompareTo(src.Lock);
 
-                    if(result == 0 && Mod.IsNonEmpty && src.Mod.IsNonEmpty)
-                        result = Mod.CompareTo(src.Mod);
-
-                    if(result == 0 && RexW.IsNonEmpty && src.RexW.IsNonEmpty)
-                        result = RexW.CompareTo(src.RexW);
+                    if(result==0)
+                    {
+                        var a = (uint)Rep.Kind | ((uint)Mod.Kind << 4) | (RexW.IsNonEmpty ? 0xFFu << 8 : 0u);
+                        var b = (uint)src.Rep.Kind | ((uint)src.Mod.Kind << 4) | (src.RexW.IsNonEmpty ? 0xFFu << 8 : 0u);
+                        result = a.CompareTo(b);
+                    }
 
                 }
                 return result;

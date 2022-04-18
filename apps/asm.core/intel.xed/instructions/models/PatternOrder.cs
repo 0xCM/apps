@@ -32,11 +32,7 @@ namespace Z0
             }
 
             public int Compare(PatternOpCode x, PatternOpCode y)
-            {
-                var a = new PatternSort(x);
-                var b = new PatternSort(y);
-                return a.CompareTo(b);
-            }
+                => new PatternSort(x).CompareTo(new PatternSort(y));
         }
     }
 }

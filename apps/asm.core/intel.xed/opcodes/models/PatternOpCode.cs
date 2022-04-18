@@ -14,7 +14,7 @@ namespace Z0
         {
             public const string TableId = "xed.opcodes";
 
-            public const byte FieldCount = 11;
+            public const byte FieldCount = 12;
 
             public uint Seq;
 
@@ -30,9 +30,11 @@ namespace Z0
 
             public InstLock Lock;
 
-            public ModKind Mod;
+            public ModIndicator Mod;
 
             public RexBit RexW;
+
+            public RepIndicator Rep;
 
             public InstFields Layout;
 
@@ -44,9 +46,9 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public int CompareTo(PatternOpCode src)
-                => new PatternOrder().Compare(this,src);
+                => XedRules.cmp(this, src);
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,10,18,8,26,6,6,6,6,112,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,10,18,8,26,6,6,6,6,6,112,1};
         }
     }
 }

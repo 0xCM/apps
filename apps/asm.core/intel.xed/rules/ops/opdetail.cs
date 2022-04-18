@@ -33,6 +33,7 @@ namespace Z0
             dst.Lock = XedFields.@lock(fields);
             dst.Mod = XedFields.mod(fields);
             dst.RexW = XedFields.rexw(fields);
+            dst.Rep = XedFields.rep(fields);
             dst.Attribs = op.Attribs;
             dst.OpCount = opcount;
             dst.Index = info.Index;

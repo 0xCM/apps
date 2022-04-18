@@ -13,6 +13,10 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
+        public static int cmp(RepPrefix a, RepPrefix b)
+            => ((byte)a).CompareTo((byte)b);
+
+        [MethodImpl(Inline), Op]
         public static int cmp(RuleTableKind a, RuleTableKind b)
             => ((byte)b).CompareTo((byte)a);
 
@@ -69,6 +73,10 @@ namespace Z0
                 result = ((byte)a.WidthCode).CompareTo((byte)b.WidthCode);
             return result;
         }
+
+        [MethodImpl(Inline)]
+        public static int cmp(in PatternOpCode a, in PatternOpCode b)
+            => new PatternOrder().Compare(a,b);
 
         static ReadOnlySpan<byte> OpKindOrder => new byte[(byte)K.Seg + 1]{
             0,  // None:0 -> 0

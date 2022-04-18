@@ -63,6 +63,7 @@ namespace Z0
             dst.Lock = XedFields.@lock(src.Fields);
             dst.Mod = XedFields.mod(src.Fields);
             dst.RexW = XedFields.rexw(src.Fields);
+            dst.Rep = XedFields.rep(src.Fields);
             dst.Layout = src.Layout;
             dst.Expr = src.Expr;
         }

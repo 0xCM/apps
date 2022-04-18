@@ -10,11 +10,11 @@ namespace Z0
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static ModKind mod(uint2 src)
-            => new ModKind((ModIndicator)(byte)src + 1);
+        public static ModIndicator mod(uint2 src)
+            => new ModIndicator((ModKind)(byte)src + 1);
 
         [MethodImpl(Inline), Op]
-        public static ModKind modNeq3()
-            =>new ModKind(ModIndicator.NE3);
+        public static ModIndicator modNeq3()
+            =>new ModIndicator(ModKind.NE3);
     }
 }

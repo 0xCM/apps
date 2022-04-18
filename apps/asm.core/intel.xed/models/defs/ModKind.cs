@@ -7,47 +7,29 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public readonly struct ModKind : IComparable<ModKind>, IEquatable<ModKind>
+        [SymSource("xed"),DataWidth(3)]
+        public enum ModKind : byte
         {
-            public readonly ModIndicator Indicator;
+            [Symbol("")]
+            None = 0,
 
-            [MethodImpl(Inline)]
-            public ModKind(ModIndicator indicator)
-            {
-                Indicator = indicator;
-            }
+            [Symbol("mm")]
+            ANY,
 
-            public bool IsEmpty
-            {
-                [MethodImpl(Inline)]
-                get => Indicator == 0;
-            }
+            [Symbol("0b00")]
+            MOD0,
 
-            public bool IsNonEmpty
-            {
-                [MethodImpl(Inline)]
-                get => Indicator != 0;
-            }
+            [Symbol("0b01")]
+            MOD1,
 
-            public string Format()
-                => XedRender.format(Indicator);
+            [Symbol("0b10")]
+            MOD2,
 
-            public override string ToString()
-                => Format();
+            [Symbol("0b**")]
+            NE3,
 
-            [MethodImpl(Inline)]
-            public int CompareTo(ModKind src)
-                => ((byte)Indicator).CompareTo((byte)src.Indicator);
-
-            [MethodImpl(Inline)]
-            public bool Equals(ModKind src)
-                => Indicator == src.Indicator;
-
-            [MethodImpl(Inline)]
-            public static implicit operator ModKind(ModIndicator src)
-                => new ModKind(src);
-
-            public static ModKind Empty => default;
+            [Symbol("0b11")]
+            MOD3,
         }
     }
 }

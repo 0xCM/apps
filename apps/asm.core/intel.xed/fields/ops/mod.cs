@@ -11,10 +11,10 @@ namespace Z0
     partial class XedFields
     {
         [MethodImpl(Inline), Op]
-        public static ModKind mod(in InstFields src)
+        public static ModIndicator mod(in InstFields src)
         {
             var result = false;
-            var dst = ModKind.Empty;
+            var dst = ModIndicator.Empty;
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var field = ref src[i];
@@ -23,13 +23,13 @@ namespace Z0
                     var expr = field.ToFieldExpr();
                     if(expr.Operator == OperatorKind.Neq)
                     {
-                        dst = ModIndicator.NE3;
+                        dst = ModKind.NE3;
                         result = true;
                         break;
                     }
                     else if(expr.Operator == OperatorKind.Eq)
                     {
-                        dst = ModIndicator.MOD3;
+                        dst = ModKind.MOD3;
                         result = true;
                         break;
                     }

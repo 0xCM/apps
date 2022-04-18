@@ -81,6 +81,7 @@ namespace Z0
                     Mode = pattern.Mode,
                     Mod = XedFields.mod(fields),
                     RexW = XedFields.rexw(fields),
+                    Rep = XedFields.rep(fields)
                     };
 
                 seek(dst,i) = new (seq,pattern);

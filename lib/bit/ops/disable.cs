@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class bits
+    using static core;
+
+    partial struct bit
     {
         /// <summary>
         /// Disables a specified source bit
@@ -13,7 +15,7 @@ namespace Z0
         /// <param name="pos">The position of the bit to disable</param>
         [MethodImpl(Inline), Disable]
         public static sbyte disable(sbyte src, int pos)
-            => bit.disable(src, pos);
+            => (sbyte)(src & (byte)~((sbyte)(1 << pos)));
 
         /// <summary>
         /// Disables a specified source bit
@@ -22,7 +24,7 @@ namespace Z0
         /// <param name="pos">The position of the bit to disable</param>
         [MethodImpl(Inline), Disable]
         public static byte disable(byte src, int pos)
-            => bit.disable(src, pos);
+            => (byte)(src & (byte)~((byte)(1 << pos)));
 
         /// <summary>
         /// Disables a specified source bit
@@ -31,7 +33,7 @@ namespace Z0
         /// <param name="pos">The position of the bit to disable</param>
         [MethodImpl(Inline), Disable]
         public static short disable(short src, int pos)
-            => bit.disable(src, pos);
+            => (short)(src & (short)~((short)(1 << pos)));
 
         /// <summary>
         /// Disables a specified source bit
@@ -40,7 +42,7 @@ namespace Z0
         /// <param name="pos">The position of the bit to disable</param>
         [MethodImpl(Inline), Disable]
         public static ushort disable(ushort src, int pos)
-            => bit.disable(src, pos);
+            => (ushort)(src & (ushort)~((ushort)(1 << pos)));
 
         /// <summary>
         /// Disables a specified source bit
@@ -49,7 +51,7 @@ namespace Z0
         /// <param name="pos">The position of the bit to disable</param>
         [MethodImpl(Inline), Disable]
         public static int disable(int src, int pos)
-            => bit.disable(src, pos);
+            => src & ~((1 << pos));
 
         /// <summary>
         /// Disables a specified source bit
@@ -58,7 +60,7 @@ namespace Z0
         /// <param name="pos">The position of the bit to disable</param>
         [MethodImpl(Inline), Disable]
         public static uint disable(uint src, int pos)
-            => bit.disable(src, pos);
+            => src & ~((1u << pos));
 
         /// <summary>
         /// Disables a specified source bit
@@ -67,7 +69,7 @@ namespace Z0
         /// <param name="pos">The position of the bit to disable</param>
         [MethodImpl(Inline), Disable]
         public static long disable(long src, int pos)
-            => bit.disable(src, pos);
+            => src & ~((1L << pos));
 
         /// <summary>
         /// Disables a specified source bit
@@ -76,34 +78,6 @@ namespace Z0
         /// <param name="pos">The position of the bit to disable</param>
         [MethodImpl(Inline), Disable]
         public static ulong disable(ulong src, int pos)
-            => bit.disable(src, pos);
-
-        /// <summary>
-        /// Disables a specified source bit
-        /// </summary>
-        /// <param name="src">The source value to manipulate</param>
-        /// <param name="pos">The position of the bit to disable</param>
-        [MethodImpl(Inline), Disable]
-        public static float disable(float src, int pos)
-        {
-            ref var bits = ref Unsafe.As<float,int>(ref src);
-            var m = 1 << pos;
-            bits &= ~m;
-            return src;
-        }
-
-        /// <summary>
-        /// Disables a specified source bit
-        /// </summary>
-        /// <param name="src">The source value to manipulate</param>
-        /// <param name="pos">The position of the bit to disable</param>
-        [MethodImpl(Inline), Disable]
-        public static double disable(double src, int pos)
-        {
-            ref var bits = ref Unsafe.As<double,long>(ref src);
-            var m = 1L << pos;
-            bits &= ~m;
-            return src;
-        }
+            => src & ~((1ul << pos));
     }
 }

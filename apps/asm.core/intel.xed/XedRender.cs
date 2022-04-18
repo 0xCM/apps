@@ -107,7 +107,7 @@ namespace Z0
 
         static Index<Asm.BroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
 
-        static readonly EnumRender<ModIndicator> ModIndicators = new();
+        static readonly EnumRender<ModKind> ModIndicators = new();
 
         static EnumRender<XedRegId> XedRegs = new();
 
@@ -215,7 +215,7 @@ namespace Z0
         public static string format(OSZ src)
             => OszKinds.Format(src);
 
-        public static string format(ModIndicator src)
+        public static string format(ModKind src)
             => ModIndicators.Format(src);
 
         public static string format(CellValue src)

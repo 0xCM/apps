@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial class bits
@@ -156,6 +152,5 @@ namespace Z0
             src ^= (c ^ src) & (1ul << pos);
             return ref src;
         }
-
     }
 }

@@ -25,9 +25,11 @@ namespace Z0
 
             public InstLock Lock;
 
-            public ModKind Mod;
+            public ModIndicator Mod;
 
             public RexBit RexW;
+
+            public RepIndicator Rep;
 
             public InstGroupKey Key
             {

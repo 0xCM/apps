@@ -25,7 +25,6 @@ namespace Z0
                 Indicator = indicator(seq);
             }
 
-
             public ref readonly InstForm InstForm
             {
                 [MethodImpl(Inline)]
@@ -44,7 +43,7 @@ namespace Z0
                 get => ref Seq.Index;
             }
 
-            public ref readonly ModKind Mod
+            public ref readonly ModIndicator Mod
             {
                 [MethodImpl(Inline)]
                 get => ref Seq.Mod;
@@ -54,6 +53,12 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => ref Seq.RexW;
+            }
+
+            public ref readonly RepIndicator Rep
+            {
+                [MethodImpl(Inline)]
+                get => ref Seq.Rep;
             }
 
             public ref readonly ushort PatternId
