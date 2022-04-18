@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
     using static Numeric;
 
@@ -56,6 +52,43 @@ namespace Z0
         public static T or<T>(T a, T b, T c, T d, T e)
             where T : unmanaged
                 => or(or(a,b,c), or(d, e));
+
+        [MethodImpl(Inline), Op, Closures(Integers)]
+        public static T or<T>(T a, T b, T c, T d, T e, T f)
+            where T : unmanaged
+                => or(or(a,b,c), or(d, e, f));
+
+        [MethodImpl(Inline), Op, Closures(Integers)]
+        public static T or<T>(T a, T b, T c, T d, T e, T f, T g)
+            where T : unmanaged
+                => or(
+                    or(or(a,b), or(c,d), or(e, f)),
+                    g
+                    );
+
+        [MethodImpl(Inline), Op, Closures(Integers)]
+        public static T or<T>(T a, T b, T c, T d, T e, T f, T g, T h)
+            where T : unmanaged
+                => or(
+                    or(or(a,b), or(c,d), or(e, f)),
+                    or(g, h)
+                    );
+
+        [MethodImpl(Inline), Op, Closures(Integers)]
+        public static T or<T>(T a, T b, T c, T d, T e, T f, T g, T h, T i)
+            where T : unmanaged
+                => or(
+                    or(or(a,b), or(c,d), or(e, f)),
+                    or(g, h, i)
+                    );
+
+        [MethodImpl(Inline), Op, Closures(Integers)]
+        public static T or<T>(T a, T b, T c, T d, T e, T f, T g, T h, T i, T j)
+            where T : unmanaged
+                => or(
+                    or(or(a,b), or(c,d), or(e, f)),
+                    or(g, h), or(i,j)
+                    );
 
         [MethodImpl(Inline)]
         static T or_u<T>(T a, T b)
