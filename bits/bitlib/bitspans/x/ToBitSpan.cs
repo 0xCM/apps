@@ -113,7 +113,7 @@ namespace Z0
         public static BitSpan32 ToBitSpan32<N,T>(this ScalarBits<N,T> x)
             where T : unmanaged
             where N : unmanaged, ITypeNat
-                => BitVectors.bitspan32(x);
+                => BitVectorsK.bitspan32(x);
 
         [MethodImpl(Inline)]
         public static ScalarBits<T> ToBitVector<T>(this BitSpan32 src)

@@ -49,8 +49,8 @@ public enum PartId : byte
     [Symbol("asm.prototypes")]
     AsmPrototypes = 15,
 
-    [Symbol("codegen.common")]
-    CgCommon = 16,
+    [Symbol("bits.lib")]
+    BitLib = 16,
 
     [Symbol("polyrand")]
     Polyrand = 17,

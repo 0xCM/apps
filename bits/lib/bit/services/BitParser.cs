@@ -11,27 +11,6 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-        public static byte parse(string src, out byte dst)
-        {
-            var storage = ByteBlock8.Empty;
-            var buffer = recover<bit>(storage.Bytes);
-            dst = 0;
-            var count = bits.parse(src, buffer);
-            if(count >= 0)
-                dst = BitPack.scalar<byte>(buffer);
-            return (byte)count;
-        }
-
-        public static byte parse(string src, out ushort dst)
-        {
-            var storage = ByteBlock16.Empty;
-            var buffer = recover<bit>(storage.Bytes);
-            dst = 0;
-            var count = bits.parse(src, buffer);
-            if(count >= 0)
-                dst = BitPack.scalar<ushort>(buffer);
-            return (byte)count;
-        }
 
         [MethodImpl(Inline), Op]
         public static uint parse(ReadOnlySpan<char> src, Span<bit> dst)

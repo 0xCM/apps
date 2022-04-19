@@ -35,7 +35,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public T Mask(byte index)
-            => vmask.mask(this, index);
+            => api.mask(this, index);
 
         [MethodImpl(Inline)]
         public T Extract(byte index)

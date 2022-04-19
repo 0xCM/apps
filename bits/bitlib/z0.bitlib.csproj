@@ -9,7 +9,7 @@
   <Import Project="../imports.props"/>
 
   <ItemGroup>
-    <ProjectReference Include="$(ZLib)" />
+    <ProjectReference Include="../lib/z0.lib.csproj" />
   </ItemGroup>
 
 </Project>
