@@ -5,18 +5,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class XedOpCodes : AppService<XedOpCodes>
-    {
-        static AppData AppData
-        {
-            [MethodImpl(Inline)]
-            get => AppData.get();
-        }
+    using static XedRules;
+    using static XedModels;
 
-        bool PllExec
-        {
-            [MethodImpl(Inline)]
-            get => AppData.PllExec();
-        }
+    partial class XedOpCodes
+    {
+        public static Index<OpCodeId> identify(Index<PatternOpCode> src)
+            => OpCodeIdentity.identify(src);
     }
 }

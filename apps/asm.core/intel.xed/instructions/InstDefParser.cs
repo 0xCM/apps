@@ -160,7 +160,7 @@ namespace Z0
                 {
                     ref var def = ref seek(defs,i);
                     ref var specs = ref def.PatternSpecs;
-                    for(var j=0; j<specs.Count; j++,pid++)
+                    for(var j=0; j<specs.Count; j++, pid++)
                     {
                         ref var spec = ref specs[j];
                         forms.TryGetValue(spec.PatternId, out spec.InstForm);

@@ -32,8 +32,6 @@ namespace Z0
 
             public XedOpCode OpCode;
 
-            public TextBlock BodyExpr;
-
             public TextBlock RawBody;
 
             public InstPatternBody Body;

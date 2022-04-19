@@ -16,26 +16,20 @@ namespace Z0
             [MethodImpl(Inline)]
             public LockIndicator(bit lockable, bit locked)
             {
-                Data = 0;
-                if(lockable)
-                {
-                    if(locked)
-                        Data = 2;
-                    else
-                        Data = 1;
-                }
+                Data = (byte)lockable;
+                Data = bit.set(Data, 1, locked);
             }
 
             public bit Lockable
             {
                 [MethodImpl(Inline)]
-                get => Data == 1 || Data == 2;
+                get => bit.test(Data,0);
             }
 
             public bit Locked
             {
                 [MethodImpl(Inline)]
-                get => Data == 2;
+                get => bit.test(Data,1);
             }
 
             public bool IsEmpty
@@ -69,7 +63,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static explicit operator uint(LockIndicator src)
                 => (uint)src.Data;
-
         }
     }
 }

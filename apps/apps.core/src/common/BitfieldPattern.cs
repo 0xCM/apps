@@ -11,36 +11,36 @@ namespace Z0
         /// <summary>
         /// The pattern specification
         /// </summary>
-        public string Content {get;}
+        public readonly string Content;
 
         /// <summary>
         /// The pattern name
         /// </summary>
-        public string Name {get;}
+        public readonly string Name;
 
         /// <summary>
         /// Segment indicators/specifiers
         /// </summary>
-        public Index<string> Indicators {get;}
+        public readonly Index<string> Indicators;
 
         /// <summary>
         /// The width of the data represented by the pattern
         /// </summary>
-        public byte DataWidth {get;}
+        public readonly byte DataWidth;
 
         /// <summary>
         /// The minimum amount of storage required to store the represented data
         /// </summary>
-        public NativeSize MinSize {get;}
+        public readonly NativeSize MinSize;
 
         /// <summary>
         /// A data type with size of <see cref='MinSize'/> or greater
         /// </summary>
-        public Type DataType {get;}
+        public readonly Type DataType;
 
         public Index<BitfieldSegModel> Segments {get;}
 
-        public Index<byte> SegWidths {get;}
+        public readonly Index<byte> SegWidths;
 
         public string Descriptor {get;}
 

@@ -85,7 +85,11 @@ namespace Z0
             => TableEmit(XedFields.ByPosition.Valid, ReflectedField.RenderWidths, XedPaths.Table<ReflectedField>("positioned"));
 
         void EmitPoc(Index<InstPattern> src)
-            => TableEmit(CalcPoc(src).View, PatternOpCode.RenderWidths, XedPaths.Table<PatternOpCode>());
+        {
+            var poc = CalcPoc(src);
+            TableEmit(poc.View, PatternOpCode.RenderWidths, XedPaths.Table<PatternOpCode>());
+            EmitOpCodeIdentities(poc);
+        }
 
         void EmitInstFields(Index<InstPattern> src)
             => TableEmit(CalcInstFields(src).View, InstFieldRow.RenderWidths, XedPaths.Table<InstFieldRow>());

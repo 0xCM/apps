@@ -1,7 +1,6 @@
 //-----------------------------------------------------------------------------
-// Derivative Work based on https://github.com/intelxed/xed
-// Author : Chris Moore
-// License: https://github.com/intelxed/xed/blob/main/LICENSE
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
@@ -11,34 +10,34 @@ namespace Z0
         /// <summary>
         /// The index of the first bit in the segment
         /// </summary>
-        public readonly ushort Min;
+        public readonly byte Min;
 
         /// <summary>
         /// The segment width
         /// </summary>
-        public readonly ushort Width;
+        public readonly byte Width;
+
+        [MethodImpl(Inline)]
+        public BitfieldInterval(byte offset, byte width)
+        {
+            Min = offset;
+            Width = width;
+        }
 
         /// <summary>
         /// The index of the last bit in the segment
         /// </summary>
-        public readonly ushort Max;
-
-        readonly ushort Pad;
-
-        [MethodImpl(Inline)]
-        public BitfieldInterval(ushort offset, ushort width)
+        public readonly byte Max
         {
-            Min = offset;
-            Width = width;
-            Max = (ushort)Bitfields.endpos(Min,Width);
-            Pad = 0;
+            [MethodImpl(Inline)]
+            get => (byte)Bitfields.endpos(Min,Width);
         }
 
         public int CompareTo(BitfieldInterval src)
             => Min.CompareTo(src.Min);
 
         public string Format()
-            => string.Format("[{0}:{1}]", Max, Min);
+            => BitfieldMechanics.format(this);
 
         public override string ToString()
             => Format();

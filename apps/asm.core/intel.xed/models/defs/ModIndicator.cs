@@ -38,6 +38,12 @@ namespace Z0
                 get => Kind != 0;
             }
 
+            public uint2 Glyph
+            {
+                [MethodImpl(Inline)]
+                get => IsEmpty ? uint2.Zero : (Kind == ModKind.NE3 ? uint2.One : uint2.Max);
+            }
+
             public string Format()
                 => XedRender.format(Kind);
 
