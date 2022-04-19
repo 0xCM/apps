@@ -11,6 +11,9 @@
 		},
 		{
 			"path": "..\\asm.operands"
+		},
+		{
+			"path": "..\\..\\bits"
 		}
 	],
 	"settings": {}
