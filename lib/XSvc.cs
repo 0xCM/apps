@@ -96,9 +96,6 @@ namespace Z0
         public static ApiMetadataService ApiMetadata(this IWfRuntime context)
             => Z0.ApiMetadataService.create(context);
 
-        [Op]
-        public static ApiComments ApiComments(this IWfRuntime wf)
-            => Z0.ApiComments.create(wf);
 
         [Op]
         public static ApiRuntime ApiRuntime(this IWfRuntime wf)

@@ -50,6 +50,7 @@ namespace Z0
             => TableEmit(ApiRuntimeCatalog.ApiDataTypes, ApiDataType.RenderWidths, ProjectDb.ApiTablePath<ApiDataType>());
 
         void EmitApiComments()
+
             => ApiComments.Collect();
 
         void EmitApiClasses()

@@ -34,7 +34,7 @@ namespace Z0
 
         CliEmitter CliEmitter => Service(Wf.CliEmitter);
 
-        ApiComments ApiComments => Service(Wf.ApiComments);
+        ApiComments ApiComments => Service(() => Z0.ApiComments.create(Wf));
 
         Symbolism Symbolism => Service(Wf.Symbolism);
 

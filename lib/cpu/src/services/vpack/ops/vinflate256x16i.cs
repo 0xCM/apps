@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
     using static System.Runtime.Intrinsics.X86.Avx2;
-    using static Root;
     using static cpu;
 
     partial struct vpack
@@ -34,6 +29,6 @@ namespace Z0
         /// <param name="hi">The target for the upper source elements</param>
         [MethodImpl(Inline), Op]
         public static Vector256<short> vinflate256x16i(Vector128<sbyte> src)
-            => vconcat(vpack.vlo128x16i(src), vpack.vhi128x16i(src));
+            => vconcat(vlo128x16i(src), vhi128x16i(src));
     }
 }
