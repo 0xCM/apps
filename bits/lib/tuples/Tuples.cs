@@ -1,0 +1,14 @@
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0
+{
+    using static Root;
+
+    [ApiHost]
+    public partial class Tuples
+    {
+        const NumericKind Closure = UnsignedInts;
+    }
+}

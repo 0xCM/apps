@@ -1,0 +1,44 @@
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0
+{
+    [Free]
+    public interface IAppService : IService, IDisposable
+    {
+        IWfRuntime Wf {get;}
+
+        DevWs Ws {get;}
+
+        T Service<T>(Func<T> factory);
+
+        OmniScript OmniScript {get;}
+
+        IWfMessaging WfMsg {get;}
+
+        IWfTableOps TableOps {get;}
+
+        IWfDb Db
+            => Wf.Db();
+
+        EnvData IEnvProvider.Env
+            => Wf.Env;
+
+        void Init(IWfRuntime wf);
+
+
+        void IDisposable.Dispose() {}
+    }
+
+    /// <summary>
+    /// Characterizes a workflow service implementation
+    /// </summary>
+    /// <typeparam name="H">The reifying type</typeparam>
+    [Free]
+    public interface IAppService<H> : IAppService, IService<H>
+        where H : IAppService<H>, new()
+    {
+
+    }
+}
