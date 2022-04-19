@@ -151,15 +151,23 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static explicit operator H(MemoryAddress src)
-            => new H((uint)src.Location);
+            => new H((K)src.Location);
 
         [MethodImpl(Inline)]
         public static explicit operator H(Hex64 src)
-            => new H((uint)src.Value);
+            => new H((K)src.Value);
 
         [MethodImpl(Inline)]
-        public static H operator+(H x, K y)
-            => new H((K)(x.Value + y));
+        public static H operator+(H x, H y)
+            => new H((K)(x.Value + y.Value));
+
+        [MethodImpl(Inline)]
+        public static H operator-(H x, H y)
+            => new H((K)(x.Value - y.Value));
+
+        [MethodImpl(Inline)]
+        public static H operator-(H x)
+            => new H(math.negate(x.Value));
 
         [MethodImpl(Inline)]
         public static bool operator <(H a, H b)

@@ -5,21 +5,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
     using static XedRules;
 
     partial class XedFields
     {
         [MethodImpl(Inline), Op]
-        public static RexBit rexw(in InstFields src)
+        public static BitIndicator rexw(in InstFields src)
         {
-            var dst = RexBit.Empty;
+            var dst = BitIndicator.Empty;
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var f = ref src[i];
                 if(f.DataKind == InstFieldKind.Expr && f.FieldKind == FieldKind.REXW)
                 {
-                    dst = new (RexIndicator.W,f.ToFieldExpr().Value);
+                    dst = BitIndicator.defined(f.ToFieldExpr().Value);
                     break;
                 }
             }

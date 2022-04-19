@@ -22,22 +22,6 @@ namespace Z0
             return ref dst;
         }
 
-        /// <summary>
-        /// Packs the leading 8 source bits
-        /// </summary>
-        /// <param name="src">The bit source</param>
-        /// <param name="count">The number of bits to pack</param>
-        [MethodImpl(Inline), Op]
-        public static byte pack1x8(Span<uint> src)
-        {
-            var v0 = vload(w256, first(src));
-            return (byte)vpack.vpacklsb(vpack.vpack128x8u(v0));
-        }
-
-        /// <summary>
-        /// Packs the least significant bit from 8 32-bit unsigned integers to an 8-bit target
-        /// </summary>
-        /// <param name="src">The data source</param>
         [MethodImpl(Inline), Op]
         public static byte pack1x8(uint src)
         {

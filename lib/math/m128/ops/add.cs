@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct Math128
@@ -34,13 +30,6 @@ namespace Z0
                 dstHi++;
             dstHi += srcHi;
         }
-
-        // [MethodImpl(Inline), Add]
-        // public static ref uint128 add(ref uint128 dst, in uint128 src)
-        // {
-        //     add(ref dst.Lo, ref dst.Hi, src.Lo, src.Hi);
-        //     return ref dst;
-        // }
 
         /// <summary>
         /// Computes the sum of two 128-bit integers

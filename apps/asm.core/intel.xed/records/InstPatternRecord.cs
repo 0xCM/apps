@@ -24,7 +24,7 @@ namespace Z0
 
             public MachineMode Mode;
 
-            public InstLock Lock;
+            public LockIndicator Lock;
 
             public EmptyZero<bit> Scalable;
 

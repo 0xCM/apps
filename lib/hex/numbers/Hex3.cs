@@ -33,29 +33,29 @@ namespace Z0
 
         public const byte MaxValue = Pow2.T03m1;
 
-        public const K KMin = K.x00;
+        // public const K KMin = K.x00;
 
-        public const K KMax = K.x03;
+        // public const K KMax = K.x07;
 
-        public const K KOne = K.x01;
+        // public const K KOne = K.x01;
 
-        public static H Zero => new H(KMin);
+        public static H Zero => new H(z8);
 
-        public static H One => new H(KOne);
+        public static H One => new H(1);
 
-        public static H Min => new H(KMin);
+        public static H Min => Zero;
 
-        public static H Max => KMax;
+        public static H Max => new H(MaxValue);
 
         public readonly byte Value;
 
         [MethodImpl(Inline)]
         public Hex3(K src)
-            => Value = (byte)((byte)src & (byte)KMax);
+            => Value = (byte)((byte)src & MaxValue);
 
         [MethodImpl(Inline)]
         public Hex3(byte src)
-            => Value = (byte)((byte)src & (byte)KMax);
+            => Value = (byte)((byte)src & MaxValue);
 
         [MethodImpl(Inline)]
         public bool Equals(H src)

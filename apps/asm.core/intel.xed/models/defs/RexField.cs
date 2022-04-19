@@ -7,15 +7,15 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public readonly record struct RexIndicator : IComparable<RexIndicator>
+        public readonly record struct RexField : IComparable<RexField>
         {
-            public static RexIndicator W => new RexIndicator('w');
+            public static RexField W => new RexField('w');
 
-            public static RexIndicator R => new RexIndicator('r');
+            public static RexField R => new RexField('r');
 
-            public static RexIndicator X => new RexIndicator('x');
+            public static RexField X => new RexField('x');
 
-            public static RexIndicator B => new RexIndicator('b');
+            public static RexField B => new RexField('b');
 
             public static int order(char c)
             {
@@ -42,9 +42,9 @@ namespace Z0
                 return result;
             }
 
-            public static RexIndicator parse(char c)
+            public static RexField parse(char c)
             {
-                var dst = RexIndicator.Empty;
+                var dst = RexField.Empty;
                 switch(c)
                 {
                     case 'W':
@@ -55,13 +55,13 @@ namespace Z0
                     case 'x':
                     case 'B':
                     case 'b':
-                        dst = new RexIndicator(c);
+                        dst = new RexField(c);
                     break;
                 }
                 return dst;
             }
 
-            public static bool parse(char c, out RexIndicator dst)
+            public static bool parse(char c, out RexField dst)
             {
                 dst = parse(c);
                 return dst.IsNonEmpty;
@@ -70,7 +70,7 @@ namespace Z0
             readonly byte Data;
 
             [MethodImpl(Inline)]
-            internal RexIndicator(char c)
+            internal RexField(char c)
             {
                 Data = (byte)Char.ToLower(c);
             }
@@ -99,7 +99,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public int CompareTo(RexIndicator src)
+            public int CompareTo(RexField src)
             {
                 var a = order(Symbol);
                 var b = order(src.Symbol);
@@ -107,10 +107,10 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public static explicit operator byte(RexIndicator src)
+            public static explicit operator byte(RexField src)
                 => src.Data;
 
-            public static RexIndicator Empty => default;
+            public static RexField Empty => default;
         }
     }
 }

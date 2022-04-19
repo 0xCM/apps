@@ -15,17 +15,7 @@ namespace Z0
             readonly byte Data;
 
             [MethodImpl(Inline)]
-            public RexBit(char c, bit state)
-            {
-                var indicator = RexIndicator.parse(c);
-                if(indicator.IsNonEmpty)
-                    Data = bit.set((byte)indicator, 7, state);
-                else
-                    Data = 0;
-            }
-
-            [MethodImpl(Inline)]
-            public RexBit(RexIndicator indicator, bit state)
+            public RexBit(RexField indicator, bit state)
             {
                 if(indicator.IsNonEmpty)
                     Data = bit.set((byte)indicator, 7, state);
@@ -39,10 +29,10 @@ namespace Z0
                 get => bit.test(Data,7);
             }
 
-            public RexIndicator Indicator
+            public RexField Field
             {
                 [MethodImpl(Inline)]
-                get => IsNonEmpty ? new RexIndicator((char)math.and(sbyte.MaxValue,Data)) : RexIndicator.Empty;
+                get => IsNonEmpty ? new RexField((char)math.and(sbyte.MaxValue,Data)) : RexField.Empty;
             }
 
             public bool IsEmpty
@@ -68,7 +58,7 @@ namespace Z0
                 var result = 0;
                 if(IsNonEmpty && src.IsNonEmpty)
                 {
-                    result = Indicator.CompareTo(src.Indicator);
+                    result = Field.CompareTo(src.Field);
                     if(result==0)
                         result = ((byte)State).CompareTo((byte)src.State);
                 }
@@ -80,6 +70,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator bit(RexBit src)
                 => src.State;
+
+            [MethodImpl(Inline)]
+            public static explicit operator uint(RexBit src)
+                => (uint)src.State;
         }
     }
 }

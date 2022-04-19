@@ -64,6 +64,10 @@ namespace Z0
             public static explicit operator uint3(ModIndicator src)
                 => (uint3)(byte)src.Kind;
 
+            [MethodImpl(Inline)]
+            public static explicit operator uint(ModIndicator src)
+                => (uint)src.Kind;
+
             public static ModIndicator Empty => default;
         }
     }

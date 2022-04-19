@@ -13,7 +13,7 @@ namespace Z0
             readonly bit LockValue;
 
             [MethodImpl(Inline)]
-            public LockSort(InstLock @lock)
+            public LockSort(LockIndicator @lock)
             {
                 Lockable = @lock.Lockable;
                 LockValue = @lock.Locked;

@@ -130,7 +130,6 @@ namespace Z0
                     ("Section",16),
                     ("Mode",8),
                     ("InstClass", 18),
-                    ("Indicator", 12),
                     ("Index", 8),
                     ("OpCode", 26)
                     );
@@ -141,7 +140,6 @@ namespace Z0
                         section,
                         member.Mode,
                         member.Class,
-                        member.Indicator,
                         member.Index,
                         member.OpCode
                     }

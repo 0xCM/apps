@@ -13,8 +13,6 @@ namespace Z0
         {
             public readonly InstGroupSeq Seq;
 
-            public readonly Hex16 Indicator;
-
             public readonly InstPattern Pattern;
 
             [MethodImpl(Inline)]
@@ -22,7 +20,6 @@ namespace Z0
             {
                 Pattern = pattern;
                 Seq = seq;
-                Indicator = indicator(seq);
             }
 
             public ref readonly InstForm InstForm
@@ -49,7 +46,7 @@ namespace Z0
                 get => ref Seq.Mod;
             }
 
-            public ref readonly RexBit RexW
+            public ref readonly BitIndicator RexW
             {
                 [MethodImpl(Inline)]
                 get => ref Seq.RexW;
@@ -67,7 +64,7 @@ namespace Z0
                 get => ref Seq.PatternId;
             }
 
-            public ref readonly InstLock Lock
+            public ref readonly LockIndicator Lock
             {
                 [MethodImpl(Inline)]
                 get => ref Seq.Lock;

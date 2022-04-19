@@ -93,61 +93,9 @@ namespace Z0
             };
     }
 
-    public struct OpCodeId
+    public record struct OpCodeId : IComparable<OpCodeId>
     {
-
-        public const byte FieldCount = (byte)FK.Class + 1;
-
-        public static ReadOnlySpan<FieldKind> FieldKinds => new FieldKind[FieldCount]{
-            FK.Rep,
-            FK.Rex,
-            FK.Lock,
-            FK.Mod,
-            FK.OpCode,
-            FK.Class
-            };
-
-        public const byte RepWidth = RepIndicator.Width;
-
-        public const byte RexWidth = RexBit.Width;
-
-        public const byte LockWidth = InstLock.Width;
-
-        public const byte ModWidth = ModIndicator.Width;
-
-        public const byte OcWidth = Hex8.Width;
-
-        public const byte ClassWidth = InstClass.Width;
-
-        public const byte TotalWidth = ClassWidth + OcWidth + ModWidth + LockWidth + RexWidth + RepWidth;
-
-        const byte RepPos = z8;
-
-        const byte RexPos = RepWidth;
-
-        const byte LockPos = RexWidth;
-
-        const byte ModPos = LockWidth;
-
-        public const byte OcPos = ModWidth;
-
-        public const byte ClassPos = OcWidth;
-
-        public const byte MaxIndex = ClassPos + ClassWidth;
-
-        public const uint ModMask = (uint)uint3.MaxValue << ModPos;
-
-        public const uint RexMask = (uint)uint2.MaxValue << RexPos;
-
-        public const uint RepMask = (uint)uint2.MaxValue << RepPos;
-
-        public const uint LockMask = (uint)uint2.MaxValue << LockPos;
-
-        public const uint OcMask = (uint)byte.MaxValue << OcPos;
-
-        public const uint ClassMask = ((uint)Hex12.MaxValue) << ClassPos;
-
-        public enum FieldKind
+        public enum FieldKind : byte
         {
             Rep,
 
@@ -162,72 +110,231 @@ namespace Z0
             Class,
         }
 
+        public static OpCodeId define(InstClass @class, Hex8 oc, ModIndicator mod, LockIndicator @lock, BitIndicator rex, RepIndicator rep)
+        {
+            var data = math.or(
+                (uint)@class << pos(FK.Class),
+                (uint)oc << pos(FK.OpCode),
+                (uint)mod << pos(FK.Mod),
+                (uint)@lock << pos(FK.Lock),
+                (uint)rex << pos(FK.Rex),
+                (uint)rep << pos(FK.Rep)
+                );
+            return new OpCodeId(data);
+        }
+
+        public enum FieldWidth : byte
+        {
+            Rep = RepIndicator.Width,
+
+            Rex = RexBit.Width,
+
+            Lock = LockIndicator.Width,
+
+            Mod = ModIndicator.Width,
+
+            OpCode = Hex8.Width,
+
+            Class = InstClass.Width,
+        }
+
+        public const FieldKind LastField = FieldKind.Class;
+
+        public const byte FieldCount = (byte)LastField + 1;
+
+        public static ReadOnlySpan<FieldKind> Fields
+            => _Fields;
+
         public static ReadOnlySpan<byte> FieldWidths
-            => new byte[FieldCount]{RepWidth, RexWidth, LockWidth, ModWidth, OcWidth, ClassWidth,};
+            => _Widths;
+
+        public static byte TotalWidth => FieldWidths.Sum();
 
         public static ReadOnlySpan<byte> FieldPositions
-            => new byte[FieldCount]{
-                0,
-                skip(FieldWidths, (byte)FK.Rep),
-                skip(FieldWidths, (byte)FK.Rex),
-                skip(FieldWidths, (byte)FK.Lock),
-                skip(FieldWidths, (byte)FK.Mod),
-                skip(FieldWidths, (byte)FK.OpCode),
-                };
+            => _Positions;
 
         public static ReadOnlySpan<Hex32> FieldMasks
-            => new Hex32[FieldCount]{
-                    (Hex32)HexMax.max(skip(FieldWidths, (byte)FK.Rep)),
-                    (Hex32)HexMax.max(skip(FieldWidths, (byte)FK.Rex)),
-                    (Hex32)HexMax.max(skip(FieldWidths, (byte)FK.Lock)),
-                    (Hex32)HexMax.max(skip(FieldWidths, (byte)FK.Mod)),
-                    (Hex32)HexMax.max(skip(FieldWidths, (byte)FK.OpCode)),
-                    (Hex32)HexMax.max(skip(FieldWidths, (byte)FK.Class)),
-                    };
+            => _FieldMasks;
 
-        public static Hex32 FieldMask => math.or(
-            math.or(skip(FieldMasks,0), skip(FieldMasks,1), skip(FieldMasks,2)),
-                skip(FieldMasks,3),
-                skip(FieldMasks,4),
-                skip(FieldMasks,5)
-            );
+        [MethodImpl(Inline)]
+        public static byte index(FieldKind field)
+            => (byte)field;
+
+        [MethodImpl(Inline)]
+        public static byte pos(FieldKind field)
+            => skip(FieldPositions, index(field));
+
+        [MethodImpl(Inline)]
+        public static ref readonly byte width(FieldKind field)
+            => ref skip(FieldWidths, index(field));
+
+        [MethodImpl(Inline)]
+        public static Hex32 mask(FieldKind field)
+            => skip(FieldMasks, index(field));
+
+        public static ReadOnlySpan<BitfieldInterval> Segments
+            => _Segs;
+
+        [MethodImpl(Inline)]
+        public static ref readonly BitfieldInterval segment(FieldKind field)
+            => ref skip(Segments, index(field));
+
+        static Index<BitfieldInterval> CalcSegments()
+            => map(Fields, field => new BitfieldInterval(pos(field), width(field)));
+
+        static Index<byte> CalcPositions()
+        {
+            var dst = alloc<byte>(FieldCount);
+            var offset = z8;
+            for(var i=0; i<FieldCount; i++)
+            {
+                var field = (FieldKind)i;
+                seek(dst,i) = offset;
+                offset += width(field);
+            }
+            return dst;
+        }
+
+        static Index<Hex32> CalcFieldMasks()
+        {
+            var fields = Fields;
+            var dst = alloc<Hex32>(FieldCount);
+            for(var i=0; i<FieldCount; i++)
+            {
+                ref readonly var field = ref skip(fields,i);
+                var m = (Hex32)HexMax.max(width(field));
+                seek(dst,i) = m << pos(field);
+            }
+            return dst;
+        }
+
+        static Index<byte> CalcWidths()
+            => Symbols.index<FieldWidth>().Kinds.Map(x => (byte)x).ToArray();
+
+        static string CalcRenderPattern()
+        {
+            var dst = text.buffer();
+            var fields = Fields;
+            for(var i=z8; i<FieldCount; i++)
+            {
+                ref readonly var field = ref skip(fields,i);
+                ref readonly var w = ref width(field);
+                var slot = RP.slot(i, math.negate((sbyte)w));
+                dst.Append(slot);
+                if(i != FieldCount - 1)
+                    dst.Append(Chars.Space);
+            }
+            return dst.Emit();
+        }
+
+        static Index<byte> _Positions;
+
+        static Index<Hex32> _FieldMasks;
+
+        static Index<FieldKind> _Fields;
+
+        static Index<byte> _Widths;
+
+        static Index<BitfieldInterval> _Segs;
+
+        static string _BitfieldRender;
+
+        static OpCodeId()
+        {
+            _Widths = CalcWidths();
+            _Fields = Symbols.index<FieldKind>().Kinds.ToArray();
+            _Positions = CalcPositions();
+            _FieldMasks = CalcFieldMasks();
+            _Segs = CalcSegments();
+            _BitfieldRender = CalcRenderPattern();
+        }
 
         uint Data;
+
+        [MethodImpl(Inline)]
+        OpCodeId(uint data)
+        {
+            Data = data;
+        }
 
         public static OpCodeId Empty => default;
 
         [MethodImpl(Inline)]
-        public static ref OpCodeId @class(InstClass src, ref OpCodeId dst)
+        public static ref OpCodeId set<T>(T src, FieldKind field, ref OpCodeId dst)
+            where T : unmanaged
         {
-            dst.Data = bits.gather(dst.Data, ~ClassMask);
-            dst.Data |= bits.scatter((Hex12)src, ClassMask);
+            dst.Data = bits.gather(dst.Data, ~mask(field));
+            dst.Data |= (bw32(src) << pos(field));
             return ref dst;
         }
 
         [MethodImpl(Inline)]
-        public static ref OpCodeId opcode(Hex8 src, ref OpCodeId dst)
+        public static uint get(OpCodeId src, FieldKind field)
+            => bits.extract(src.Data, pos(field), (byte)(pos(field) + width(field)));
+
+        [MethodImpl(Inline)]
+        public static ref T get<T>(OpCodeId src, FieldKind field, out T dst)
         {
-            dst.Data = bits.gather(dst.Data, ~OcMask);
-            dst.Data |= bits.scatter(src, OcMask);
+            dst = generic<T>(get(src,field));
             return ref dst;
         }
 
         [MethodImpl(Inline)]
-        public static Hex12 @class(OpCodeId src)
-            => (Hex12)bits.extract(src.Data, ClassPos, ClassPos + ClassWidth);
+        public static InstClass @class(OpCodeId src)
+            => get(src, FK.Class, out InstClass _);
 
         [MethodImpl(Inline)]
         public static Hex8 opcode(OpCodeId src)
-            => (Hex8)bits.extract(src.Data, OcPos, OcPos + OcWidth);
+            => get(src, FK.OpCode, out Hex8 _);
+
+        public InstClass Class
+        {
+            [MethodImpl(Inline)]
+            get => get(this, FK.Class, out InstClass _);
+        }
+
+        public Hex8 PrimaryByte
+        {
+            [MethodImpl(Inline)]
+            get => get(this, FK.OpCode, out Hex8 _);
+        }
+
+        public ModIndicator Mod
+        {
+            [MethodImpl(Inline)]
+            get => get(this, FK.OpCode, out ModIndicator _);
+        }
+
+        public RexBit Rex
+        {
+            [MethodImpl(Inline)]
+            get => get(this, FK.OpCode, out RexBit _);
+        }
+
+        public LockIndicator Lock
+        {
+            [MethodImpl(Inline)]
+            get => get(this, FK.OpCode, out LockIndicator _);
+        }
+
+        public RepIndicator Rep
+        {
+            [MethodImpl(Inline)]
+            get => get(this, FK.OpCode, out RepIndicator _);
+        }
 
         public string Format()
         {
-            const string RenderPattern = "{0,-4} {1, -2}";
-            return string.Format("{0} {1}", @class(this), opcode(this));
+            return Data.FormatBits();
+
         }
 
         public override string ToString()
             => Format();
+
+        public int CompareTo(OpCodeId src)
+            => Data.CompareTo(src.Data);
+
     }
 
 
@@ -236,18 +343,22 @@ namespace Z0
         [CmdOp("xed/fuck")]
         Outcome CheckBits2(CmdArgs args)
         {
+            var segs = Segments;
             var total = z8;
-            for(var i=0; i<FieldCount; i++)
+            for(var i=0; i<segs.Length; i++)
             {
-                ref readonly var width = ref FieldWidths[i];
-                ref readonly var pos = ref FieldPositions[i];
-                total += width;
-                var seg = bits.enable(0u,0, width);
-                var segbits = slice(span(seg.FormatBits()), TotalWidth - pos, pos);
+                var field = (FK)i;
+                ref readonly var seg = ref skip(segs,i);
 
-                Write(string.Format("{0,-2} {1,-2} {2} ", width, total, text.format(segbits)));
+                Write(string.Format("{0:D2} {1,-8} {2:D2} {3} {4}",
+                    index(field),
+                    seg.Format(),
+                    width(field),
+                    mask(field).FormatBits(n8),
+                    field));
             }
 
+            //Write(FieldMask.FormatBits(n4));
 
             return true;
         }
@@ -260,31 +371,21 @@ namespace Z0
             var count = Require.equal(patterns.Count, opcodes.Count);
             var lookup = patterns.Select(x => (x.PatternId,x)).ToDictionary();
             var rules = Xed.Rules.CalcRules();
+            var collected = alloc<OpCodeId>(count);
             for(var i=0; i< count; i++)
             {
-                ref readonly var opcode = ref opcodes[i];
-                ref readonly var pid = ref opcode.PatternId;
+                ref readonly var oc = ref opcodes[i];
+                ref readonly var pid = ref oc.PatternId;
                 var pattern = lookup[pid];
 
                 ref readonly var ops = ref pattern.OpDetails;
 
-                var id = OpCodeId.Empty;
-                OpCodeId.@class(pattern.InstClass, ref id);
-                OpCodeId.opcode(opcode.OpCode.FirstByte, ref id);
-                Write(id.Format());
+                seek(collected,i) = OpCodeId.define(oc.InstClass, oc.PrimaryByte, oc.Mod, oc.Lock, oc.RexW, oc.Rep);
 
+                //Write(id.Format());
 
+                //Write(string.Format("{0,-18} | {1}", @class(id), opcode(id)));
 
-                // Hex12 @class = (ushort)pattern.InstClass;
-                // Hex8 ocbyte = opcode.OpCode.FirstByte;
-                // uint3 mode = (uint3)opcode.Mode;
-                // uint2 @lock = (uint2)opcode.Lock;
-                // uint3 mod = (uint3)opcode.Mod;
-                // bit rexw = opcode.RexW;
-                // uint2 rep = (uint2)opcode.Rep;
-
-
-                //var id = (uint)rep.Kind | ((uint)mod.Kind << 4) | (rexw ? 0xFFu << 8 : 0u);
 
                 for(var j=z8; j<ops.Count; j++)
                 {
@@ -292,8 +393,13 @@ namespace Z0
                 }
             }
 
-            //var ops = Xed.Rules.CalcInstOpDetails(rules,patterns);
+            var sorted = collected.Sort();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var id = ref skip(sorted,i);
+                Write(string.Format("{0,-18} | {1}", @class(id), opcode(id)));
 
+            }
 
             return true;
         }

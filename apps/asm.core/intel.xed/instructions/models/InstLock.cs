@@ -7,14 +7,14 @@ namespace Z0
     partial class XedRules
     {
         [DataWidth(Width, 8)]
-        public readonly record struct InstLock : IComparable<InstLock>
+        public readonly record struct LockIndicator : IComparable<LockIndicator>
         {
             public const byte Width = uint2.Width;
 
             readonly byte Data;
 
             [MethodImpl(Inline)]
-            public InstLock(bit lockable, bit locked)
+            public LockIndicator(bit lockable, bit locked)
             {
                 Data = 0;
                 if(lockable)
@@ -51,10 +51,10 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public int CompareTo(InstLock src)
+            public int CompareTo(LockIndicator src)
                 => new LockSort(this).CompareTo(new LockSort(src));
 
-            public static InstLock Empty => default;
+            public static LockIndicator Empty => default;
 
             public string Format()
                 => IsEmpty ? EmptyString : Locked.Format();
@@ -63,8 +63,13 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static explicit operator uint2(InstLock src)
+            public static explicit operator uint2(LockIndicator src)
                 => (uint2)src.Data;
+
+            [MethodImpl(Inline)]
+            public static explicit operator uint(LockIndicator src)
+                => (uint)src.Data;
+
         }
     }
 }

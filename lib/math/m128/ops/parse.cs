@@ -4,12 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.Globalization;
 
     using static core;
-    using static Root;
 
     partial struct Math128
     {

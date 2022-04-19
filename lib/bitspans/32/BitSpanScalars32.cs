@@ -160,7 +160,7 @@ namespace Z0
         {
             ref readonly var unpacked = ref first(extract(src, offset, 64));
             var buffer = z64;
-            return BitPack.pack1x64(unpacked, ref buffer);
+            return BitPack.pack64x1(unpacked, ref buffer);
         }
     }
 }

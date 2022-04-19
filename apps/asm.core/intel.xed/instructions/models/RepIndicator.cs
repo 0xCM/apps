@@ -64,6 +64,10 @@ namespace Z0
             public static explicit operator uint2(RepIndicator src)
                 => (uint2)(byte)src.Kind;
 
+            [MethodImpl(Inline)]
+            public static explicit operator uint(RepIndicator src)
+                => (uint)src.Kind;
+
             public static RepIndicator Empty => default;
         }
     }

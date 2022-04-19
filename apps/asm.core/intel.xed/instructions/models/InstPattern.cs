@@ -17,7 +17,7 @@ namespace Z0
 
             public readonly FieldSet FieldDeps;
 
-            public readonly InstLock Lock;
+            public readonly LockIndicator Lock;
 
             public readonly Index<InstOpDetail> OpDetails;
 

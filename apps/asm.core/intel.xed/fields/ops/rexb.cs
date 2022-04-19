@@ -11,15 +11,15 @@ namespace Z0
     partial class XedFields
     {
         [MethodImpl(Inline), Op]
-        public static RexBit rexb(in InstFields src)
+        public static BitIndicator rexb(in InstFields src)
         {
-            var dst = RexBit.Empty;
+            var dst = BitIndicator.Empty;
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var f = ref src[i];
                 if(f.DataKind == InstFieldKind.Expr && f.FieldKind == FieldKind.REXB)
                 {
-                    dst = new (RexIndicator.B, f.ToFieldExpr().Value);
+                    dst = BitIndicator.defined(f.ToFieldExpr().Value);
                     break;
                 }
             }

@@ -19,11 +19,11 @@ namespace Z0
 
             public XedOpCode OpCode;
 
-            public InstLock Lock;
+            public LockIndicator Lock;
 
             public ModIndicator Mod;
 
-            public RexBit RexW;
+            public BitIndicator RexW;
 
             public InstFields Layout;
 

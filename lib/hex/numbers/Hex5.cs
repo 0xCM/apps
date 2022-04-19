@@ -57,9 +57,6 @@ namespace Z0
         public Hex5(byte src)
             => Value = (K)src & KMax;
 
-        // K IHexNumber<K>.Value
-        //     => Value;
-
         [MethodImpl(Inline)]
         public bool Equals(H src)
             => Value == src.Value;

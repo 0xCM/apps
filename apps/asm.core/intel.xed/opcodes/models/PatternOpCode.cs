@@ -28,17 +28,23 @@ namespace Z0
 
             public MachineMode Mode;
 
-            public InstLock Lock;
+            public LockIndicator Lock;
 
             public ModIndicator Mod;
 
-            public RexBit RexW;
+            public BitIndicator RexW;
 
             public RepIndicator Rep;
 
             public InstFields Layout;
 
             public InstFields Expr;
+
+            public Hex8 PrimaryByte
+            {
+                [MethodImpl(Inline)]
+                get => OpCode.FirstByte;
+            }
 
             [MethodImpl(Inline)]
             public OcInstClass OcInstClass()

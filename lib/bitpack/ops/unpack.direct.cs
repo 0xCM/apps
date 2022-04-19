@@ -17,7 +17,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref byte unpack3x21(ulong src, ref byte dst)
         {
-            Repack.unpack21x3(src, cover(dst, 8));
+            Bitfields.unpack21x3(src, cover(dst, 8));
             return ref dst;
         }
 

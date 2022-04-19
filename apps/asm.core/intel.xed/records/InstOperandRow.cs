@@ -24,11 +24,11 @@ namespace Z0
 
             public MachineMode Mode;
 
-            public InstLock Lock;
+            public LockIndicator Lock;
 
             public ModIndicator Mod;
 
-            public RexBit RexW;
+            public BitIndicator RexW;
 
             public byte OpCount;
 

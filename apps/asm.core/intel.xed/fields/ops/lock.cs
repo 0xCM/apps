@@ -10,7 +10,7 @@ namespace Z0
     partial class XedFields
     {
         [MethodImpl(Inline), Op]
-        public static InstLock @lock(in InstFields src)
+        public static LockIndicator @lock(in InstFields src)
             => new (XedFields.lockable(src), XedFields.locked(src));
     }
 }

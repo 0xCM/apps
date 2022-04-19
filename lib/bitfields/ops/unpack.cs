@@ -8,8 +8,8 @@ namespace Z0
     using static core;
     using static cpu;
 
-    [ApiHost]
-    public readonly struct Repack
+
+    partial struct Bitfields
     {
         /// <summary>
         /// Partitions the source into 8 segments, each of effective width 1
@@ -165,15 +165,14 @@ namespace Z0
         }
 
         /// <summary>
-        /// Partitions the 24 source bits 9 segments, each of effective width 3
+        /// Partitions the first 24 source bits 9 segments, each of effective width 3
         /// </summary>
         /// <param name="src">The source value</param>
         /// <param name="dst">A target span of sufficient length</param>
         [MethodImpl(Inline), Op]
-        public static ref byte unpack9x3(uint src, ref byte dst)
+        public static void unpack9x3(uint src, Span<byte> dst)
         {
             seek64(dst, 0) = bits.scatter(src, Lsb64x8x3);
-            return ref dst;
         }
 
         /// <summary>
@@ -203,6 +202,7 @@ namespace Z0
             seek(dst, 1) = (byte)((src >> 4) & Lsb8x8x4);
             seek(dst, 2) = (byte)((src >> 8) & Lsb8x8x4);
         }
+
 
         /// <summary>
         /// Partitions a 16-bit source into 4 segments,each of effective width 4

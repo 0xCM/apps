@@ -4,8 +4,47 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static BitMaskLiterals;
+    using static core;
+    using static cpu;
+
     partial struct Bitfields
     {
+        /// <summary>
+        /// Packs 8 1-bit values taken from the least significant bit of each 8-bit source segment
+        /// </summary>
+        [MethodImpl(Inline), Op]
+        public static byte pack8x1(ulong src)
+            => (byte)bits.gather(src, Lsb64x8x1);
+
+        /// <summary>
+        /// Packs 4 1-bit values taken from the least significant bit of each 8-bit source segment
+        /// </summary>
+        [MethodImpl(Inline), Op]
+        public static byte pack4x1(uint src)
+            => (byte)bits.gather(src, Lsb32x8x1);
+
+        /// <summary>
+        /// Packs the the leading source bits from 8 32-bit integers into a single 8-bit segment
+        /// </summary>
+        /// <param name="src">The data source</param>
+        /// <param name="dst">The target value</param>
+        [MethodImpl(Inline), Op]
+        public static byte pack8x1(ReadOnlySpan<uint> src)
+        {
+            var v0 = vload(w256, first(src));
+            return (byte)vpack.vpacklsb(vpack.vpack128x8u(v0));
+        }
+
+        /// <summary>
+        /// Partitions a 64-bit source value into 64 individual bit values
+        /// </summary>
+        /// <param name="src">The source value</param>
+        /// <param name="dst">The target span</param>
+        [MethodImpl(Inline), Op]
+        public static void pack64x1(ulong src, Span<bit> dst)
+            => BitPack.pack64x1(src, dst);
+
         [MethodImpl(Inline), Op]
         public static ref byte pack4x2(byte a, byte b, ref byte dst)
         {

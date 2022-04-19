@@ -17,10 +17,10 @@ namespace Z0
         /// <param name="n">The number of bits to pack</param>
         /// <param name="w">The target width</param>
         [MethodImpl(Inline), Op]
-        public static ulong pack1x64(in uint src)
+        public static ulong pack64x1(in uint src)
         {
             var buffer = z64;
-            return pack1x64(src, ref buffer);
+            return pack64x1(src, ref buffer);
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         /// <param name="dst">The target span</param>
         [MethodImpl(Inline), Op]
-        public static ref byte pack1x64(ulong src, ref byte dst)
+        public static ref byte pack64x1(ulong src, ref byte dst)
         {
             ref var target = ref seek64(dst,0);
             seek(target, 0) = lsb8x1(src);
@@ -49,7 +49,7 @@ namespace Z0
         /// <param name="src">The data source</param>
         /// <param name="dst">The target value</param>
         [MethodImpl(Inline), Op]
-        public static ref ulong pack1x64(in uint src, ref ulong dst)
+        public static ref ulong pack64x1(in uint src, ref ulong dst)
         {
             var w = w256;
             var v0 = vload(w, skip(src, 0*8));
@@ -81,10 +81,10 @@ namespace Z0
         /// <param name="src">The source value</param>
         /// <param name="dst">The target span</param>
         [MethodImpl(Inline), Op]
-        public static void pack1x64(ulong src, Span<bit> dst)
+        public static void pack64x1(ulong src, Span<bit> dst)
         {
             ref var target = ref first(recover<bit,byte>(dst));
-            pack1x64(src, ref target);
+            BitPack.pack64x1(src, ref target);
         }
 
         /// <summary>
@@ -93,9 +93,9 @@ namespace Z0
         /// <param name="src">The source sequence</param>
         /// <param name="dst">The target</param>
         [MethodImpl(Inline), Op]
-        public static ref ulong pack1x64(in NatSpan<N64,uint> src, ref ulong dst)
+        public static ref ulong pack64x1(in NatSpan<N64,uint> src, ref ulong dst)
         {
-            dst = pack1x64(src.First);
+            dst = pack64x1(src.First);
             return ref dst;
         }
 
@@ -104,7 +104,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The bit source</param>
         [MethodImpl(Inline), Op]
-        public static ulong pack1x64(Span<uint> src)
-            => pack1x64(first(src));
+        public static ulong pack64x1(Span<uint> src)
+            => pack64x1(first(src));
     }
 }

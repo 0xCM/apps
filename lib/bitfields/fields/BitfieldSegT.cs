@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [StructLayout(LayoutKind.Sequential)]
+
+    [StructLayout(LayoutKind.Sequential,Pack=1)]
     public struct BitfieldSeg<T>
         where T : unmanaged
     {
@@ -46,12 +47,11 @@ namespace Z0
         public uint EndPos
         {
             [MethodImpl(Inline)]
-            get => Bitfields.endpos(Offset,Width);
+            get => Bitfields.endpos(Offset, Width);
         }
 
-
         public string Format()
-            => string.Format("[{0}:{1}] {2}", EndPos, Offset, core.bytes(Value).FormatBits());
+            => string.Format("{0,-8} {1}", EndPos, Offset, core.bytes(Value).FormatBits());
 
         public override string ToString()
             => Format();
@@ -59,6 +59,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator T(BitfieldSeg<T> src)
             => src.Value;
+
         public static BitfieldSeg<T> Empty => default;
     }
 }

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct Math128
@@ -23,19 +19,6 @@ namespace Z0
                 dst.Hi--;
             dst.Lo -= src;
         }
-
-        // /// <summary>
-        // /// Subtraction mod 2^128.
-        // /// </summary>
-        // /// <remarks>Adapted from IntUtils.cs / Microsoft Machine Learning repository</remarks>
-        // [MethodImpl(Inline), Sub]
-        // public static void sub(in uint128 src, ref uint128 dst)
-        // {
-        //     dst.Hi -= src.Hi;
-        //     if (dst.Lo < src.Lo)
-        //         dst.Hi--;
-        //     dst.Lo -= src.Lo;
-        // }
 
         /// <summary>
         /// Computes the difference c := a - b between 128-bit unsigned integers a and b

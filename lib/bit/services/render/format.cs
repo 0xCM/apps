@@ -85,6 +85,16 @@ namespace Z0
         }
 
         [Op]
+        public static string format16x4(ushort src, char sep = Chars.Space)
+        {
+            var storage = CharBlock24.Null;
+            var buffer = storage.Data;
+            var i=0u;
+            var count = render16x4(sep, src, ref i, buffer);
+            return text.format(slice(buffer, 0, count));
+        }
+
+        [Op]
         public static string format16x8(ushort src)
         {
             var storage = CharBlock24.Null;
@@ -95,6 +105,55 @@ namespace Z0
         }
 
         [Op]
+        public static string format20x4(uint src, char sep = Chars.Space)
+        {
+            var storage = CharBlock32.Null;
+            var buffer = storage.Data;
+            var i=0u;
+            var count = render20x4(sep, src, ref i, buffer);
+            return text.format(slice(buffer, 0, count));
+        }
+
+        [Op]
+        public static string format24x4(uint src, char sep = Chars.Space)
+        {
+            var storage = CharBlock32.Null;
+            var buffer = storage.Data;
+            var i=0u;
+            var count = render24x4(sep, src, ref i, buffer);
+            return text.format(slice(buffer, 0, count));
+        }
+
+        [Op]
+        public static string format28x4(uint src, char sep = Chars.Space)
+        {
+            var storage = CharBlock48.Null;
+            var buffer = storage.Data;
+            var i=0u;
+            var count = render28x4(sep, src, ref i, buffer);
+            return text.format(slice(buffer, 0, count));
+        }
+
+        [Op]
+        public static string format32x4(uint src, char sep = Chars.Space)
+        {
+            var storage = CharBlock48.Null;
+            var buffer = storage.Data;
+            var i=0u;
+            var count = render32x4(sep, src, ref i, buffer);
+            return text.format(slice(buffer, 0, count));
+        }
+
+        [Op]
+        public static string format64x4(ulong src, char sep = Chars.Space)
+        {
+            Span<char> buffer = stackalloc char[92];
+            var i=0u;
+            var count = render64x4(sep, src, ref i, buffer);
+            return text.format(slice(buffer, 0, count));
+        }
+
+        [Op]
         public static string format16(ushort src)
         {
             var storage = CharBlock16.Null;
@@ -102,6 +161,15 @@ namespace Z0
             var i=0u;
             var count = render16(src, ref i, buffer);
             return text.format(slice(buffer,0,count));
+        }
+
+        [MethodImpl(Inline), Op]
+        public static string format32(uint src)
+        {
+            var buffer = CharBlock32.Null.Data;
+            var i=0u;
+            render32(src, ref i, buffer);
+            return text.format(buffer);
         }
 
         [Op]
