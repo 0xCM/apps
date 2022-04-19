@@ -2,6 +2,8 @@
 
   <ItemGroup>
     <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
+    <ProjectReference Include="$(Bits)" />
+
   </ItemGroup>
 
 </Project>

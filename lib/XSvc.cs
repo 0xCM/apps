@@ -65,10 +65,6 @@ namespace Z0
             => Z0.SymServices.create(wf);
 
         [Op]
-        public static BitfieldServices Bitfields(this IWfRuntime wf)
-            => Z0.BitfieldServices.create(wf);
-
-        [Op]
         public static TableEmitters TableEmitters(this IWfRuntime context)
             => Z0.TableEmitters.create(context);
 
