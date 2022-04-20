@@ -11,13 +11,6 @@ namespace Z0
 
     partial class XedCmdProvider
     {
-        [CmdOp("xed/check/disasm")]
-        Outcome CheckDisasm(CmdArgs args)
-        {
-
-            return true;
-        }
-
         MachineHost MachineHost => Service(Wf.XedMachinHost);
 
         void CollectFields(DisasmDetailDoc doc)

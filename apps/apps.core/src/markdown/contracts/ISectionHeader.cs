@@ -4,16 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IMarkdownElement : ITextual
+    partial struct Markdown
     {
+        public interface ISectionHeader : INamed, ILeveled
+        {
 
+        }
+
+        public interface ISectionHeader<E> : ISectionHeader, IElement<E>
+            where E :IElement<E>
+        {
+
+        }
     }
-
-    public interface IMarkdownElement<T> : IMarkdownElement
-        where T : IMarkdownElement<T>
-    {
-
-
-    }
-
 }

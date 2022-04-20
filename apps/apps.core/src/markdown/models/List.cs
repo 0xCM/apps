@@ -6,17 +6,13 @@ namespace Z0
 {
     partial struct Markdown
     {
-        public readonly struct List : IMarkdownElement<List>
+        public readonly record struct List : IElement<List>
         {
-            [MethodImpl(Inline), Op]
-            public static ListItem item(byte level, string content, ListStyle style)
-                => new ListItem(level, content, style);
-
             public readonly Index<ListItem> Items;
 
-            public readonly ListStyle Style;
+            public readonly DepthIndicator Style;
 
-            public List(Index<ListItem> items, ListStyle style)
+            public List(Index<ListItem> items, DepthIndicator style)
             {
                 Items = items;
                 Style = style;
@@ -27,9 +23,7 @@ namespace Z0
                 var dst = text.buffer();
                 var count = Items.Count;
                 for(var i=0; i<count; i++)
-                {
                     dst.AppendLine(Items[i]);
-                }
                 return dst.Emit();
             }
 

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
     partial class XText
     {
         [TextUtility]
@@ -25,7 +21,7 @@ namespace Z0
 
         [TextUtility]
         public static string Join(this Span<string> src, string sep)
-            => TextTools.join(sep,src);
+            => text.concat(src, sep);
 
         [TextUtility]
         public static string Join(this ReadOnlySpan<string> src, char sep)
@@ -41,6 +37,7 @@ namespace Z0
         /// <param name="src">The source text</param>
         [TextUtility]
         public static string Join(this Span<string> src, char sep)
-            => src.Join(sep.ToString());
+            => text.concat(src, sep);
     }
+
 }

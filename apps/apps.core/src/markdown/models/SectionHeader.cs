@@ -6,24 +6,30 @@ namespace Z0
 {
     partial struct Markdown
     {
-        public readonly struct SectionHeader : IMarkdownElement<SectionHeader>
+        public readonly record struct SectionHeader : ISectionHeader<SectionHeader>
         {
-            public readonly byte Depth;
+            public readonly Level Level;
 
-            public readonly string Name;
+            public readonly Name Name;
 
             [MethodImpl(Inline)]
-            public SectionHeader(byte depth, string name)
+            public SectionHeader(byte depth, Name name)
             {
-                Depth = depth;
+                Level = new Level(depth, DepthIndicator.Hash);
                 Name = name;
             }
 
             public string Format()
-                => string.Format("{0} {1}", new string(Chars.Hash,Depth), Name);
+                => string.Format("{0} {1}", Level, Name);
 
             public override string ToString()
                 => Format();
+
+            Name INamed.Name
+                => Name;
+
+            Level ILeveled.Level
+                => Level;
         }
     }
 }

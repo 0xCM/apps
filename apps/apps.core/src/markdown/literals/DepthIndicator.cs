@@ -4,10 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    // partial struct TextTools
-    // {
-    //     [MethodImpl(Inline), Op]
-    //     public static TextLine line(uint number, TextRow src)
-    //         => new TextLine(number, src.RowText);
-    // }
+    partial struct Markdown
+    {
+        public enum DepthIndicator : byte
+        {
+            None = 0,
+
+            Bullet = (byte)'*',
+
+            Hash = AsciCode.Hash,
+
+            Dash = AsciCode.Dash,
+        }
+    }
 }

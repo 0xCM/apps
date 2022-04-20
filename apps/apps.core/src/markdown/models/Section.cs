@@ -6,7 +6,7 @@ namespace Z0
 {
     partial struct Markdown
     {
-        public readonly record struct PageTitle : ISection<PageTitle,string>
+        public readonly record struct Section : ISection<Section,SectionHeader,string>
         {
             public readonly uint Index;
 
@@ -15,27 +15,28 @@ namespace Z0
             public readonly string Content;
 
             [MethodImpl(Inline)]
-            public PageTitle(Name src, string content)
+            public Section(uint index, SectionHeader header, string content)
             {
-                Index = 0;
-                Header = new (1,src);
+                Index = index;
+                Header = header;
                 Content = content;
             }
+
+            public string Format()
+                => text.concat(Header, Chars.Eol, Chars.Eol, Content);
 
             string IContented<string>.Content
                 => Content;
 
-            ISectionHeader ISection.Header
+
+            SectionHeader ISection<Section, SectionHeader, string>.Header
                 => Header;
 
             uint ISection.Index
                 => Index;
-            public string Format()
-                => string.Format("{0}", Header);
 
             public override string ToString()
                 => Format();
-
         }
     }
 }

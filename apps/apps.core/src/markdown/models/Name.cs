@@ -6,29 +6,28 @@ namespace Z0
 {
     partial struct Markdown
     {
-        public readonly record struct ListItem : IContented<ListItem,string>, ILeveled
+        public readonly record struct Name : IContented<Name,string>
         {
-            public readonly Level Level;
-
             public readonly string Content;
 
-            public ListItem(Level level, string content)
+            [MethodImpl(Inline)]
+            public Name(string src)
             {
-                Level = level;
-                Content = content;
+                Content = src;
             }
+
+            public string Format()
+                => Content;
 
             string IContented<string>.Content
                 => Content;
 
-            Level ILeveled.Level
-                => Level;
-
-            public string Format()
-                => string.Format("{0} {1}", Level, Content);
-
             public override string ToString()
                 => Format();
+
+            [MethodImpl(Inline)]
+            public static implicit operator Name(string src)
+                => new Name(src);
         }
     }
 }

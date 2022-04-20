@@ -6,11 +6,16 @@ namespace Z0
 {
     partial struct Markdown
     {
-        public enum ListStyle : byte
+        public interface IElement : ITextual
         {
-            None = 0,
 
-            Bullet = 1,
+        }
+
+        public interface IElement<T> : IElement, IEquatable<T>
+            where T : IElement<T>
+        {
+
+
         }
     }
 }

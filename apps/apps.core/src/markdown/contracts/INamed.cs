@@ -4,10 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    // partial struct TextTools
-    // {
-    //     [MethodImpl(Inline), Op]
-    //     public static TextLine line(uint number, TextRow src)
-    //         => new TextLine(number, src.RowText);
-    // }
+    partial struct Markdown
+    {
+        public interface INamed : IElement
+        {
+            Name Name {get;}
+        }
+    }
 }
