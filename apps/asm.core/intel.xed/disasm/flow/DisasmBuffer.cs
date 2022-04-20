@@ -18,11 +18,11 @@ namespace Z0
 
             public WfExecFlow<string> Flow;
 
-            public DisasmFile File;
+            public DataFile File;
 
             public DetailBlock Block;
 
-            public DisasmSummaryDoc Summary;
+            public Summary Summary;
 
             object StateLock = new();
 
@@ -66,9 +66,9 @@ namespace Z0
                 Source = src;
                 _StateFields = alloc<Field>(Fields.MaxCount);
                 _FieldKinds = alloc<FieldKind>(Fields.MaxCount);
-                File = DisasmFile.Empty;
+                File = DataFile.Empty;
                 Block = DetailBlock.Empty;
-                Summary = DisasmSummaryDoc.Empty;
+                Summary = Summary.Empty;
                 _State = RuleState.Empty;
                 XDis = AsmInfo.Empty;
                 Props = DisasmProps.Empty;

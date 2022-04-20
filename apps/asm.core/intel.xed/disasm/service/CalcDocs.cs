@@ -5,21 +5,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using static XedDisasm;
-    using static XedRules;
 
     partial class XedDisasmSvc
     {
-        public void Collect(WsContext context)
-        {
-            Projects.XedDisasmDir(context.Project).Clear();
-            var docs = CalcDocs(context);
-            exec(PllExec,
-                () => EmitConsolidated(context,docs),
-                () => EmitBreakdowns(context,docs)
-                );
-        }
-
+        public Index<Document> CalcDocs(WsContext context)
+            => Data(nameof(CalcDocs), () => XedDisasm.docs(context));
     }
 }

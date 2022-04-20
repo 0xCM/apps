@@ -11,10 +11,10 @@ namespace Z0
 
     partial class XedDisasm
     {
-        static ConstLookup<DisasmSummaryDoc,DisasmDetailDoc> details(Index<DisasmSummaryDoc> src, bool pll = true)
+        static ConstLookup<Summary,Detail> details(Index<Summary> src, bool pll = true)
         {
-            var dst = cdict<DisasmSummaryDoc,DisasmDetailDoc>();
-            iter(src, doc => dst.TryAdd(doc, new DisasmDetailDoc(doc.File, XedDisasm.blocks(doc))), pll);
+            var dst = cdict<Summary,Detail>();
+            iter(src, doc => dst.TryAdd(doc, new Detail(doc.File, XedDisasm.blocks(doc))), pll);
             return dst;
         }
     }

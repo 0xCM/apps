@@ -5,39 +5,37 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     partial class XedDisasm
     {
-        public class DisasmDocs : IPaired<DisasmSummaryDoc,DisasmDetailDoc>
+        public class Document : IPaired<Summary,Detail>
         {
-            public readonly DisasmSummaryDoc Summary;
+            public readonly Summary Summary;
 
-            public readonly DisasmDetailDoc Detail;
+            public readonly Detail Detail;
 
             [MethodImpl(Inline)]
-            public DisasmDocs(DisasmSummaryDoc summary, DisasmDetailDoc detail)
+            public Document(Summary summary, Detail detail)
             {
                 Summary = summary;
                 Detail = detail;
             }
 
-            DisasmSummaryDoc IPaired<DisasmSummaryDoc, DisasmDetailDoc>.Left
+            Summary IPaired<Summary, Detail>.Left
                 => Summary;
 
-            DisasmDetailDoc IPaired<DisasmSummaryDoc, DisasmDetailDoc>.Right
+            Detail IPaired<Summary, Detail>.Right
                 => Detail;
 
             [MethodImpl(Inline)]
-            public void Deconstruct(out DisasmSummaryDoc s, out DisasmDetailDoc d)
+            public void Deconstruct(out Summary s, out Detail d)
             {
                 s = Summary;
                 d = Detail;
             }
 
             [MethodImpl(Inline)]
-            public static implicit operator DisasmDocs((DisasmSummaryDoc s, DisasmDetailDoc d) src)
-                => new DisasmDocs(src.s,src.d);
+            public static implicit operator Document((Summary s, Detail d) src)
+                => new Document(src.s,src.d);
         }
     }
 }

@@ -8,7 +8,6 @@ namespace Z0
     using static core;
     using static cpu;
 
-
     partial struct Bitfields
     {
         /// <summary>
@@ -53,13 +52,13 @@ namespace Z0
             => unpack16x1(src, recover<bit,byte>(dst));
 
         /// <summary>
-        /// Distributes 64 packed source bits to 64 corresponding target bits
+        /// Partitions the source into 64 segments, each of effective width 1
         /// </summary>
-        /// <param name="src">The packed source bits</param>
-        /// <param name="dst">The target buffer</param>
+        /// <param name="src">The source value</param>
+        /// <param name="dst">The target span</param>
         [MethodImpl(Inline), Op]
         public static void unpack64x1(ulong src, Span<bit> dst)
-            => BitPack.unpack1x64x8(src, ref u8(first(dst)));
+            => BitPack.pack64x1(src, dst);
 
         /// <summary>
         /// Partitions a the source into 2 segments, each of effective width of 4
@@ -203,7 +202,6 @@ namespace Z0
             seek(dst, 2) = (byte)((src >> 8) & Lsb8x8x4);
         }
 
-
         /// <summary>
         /// Partitions a 16-bit source into 4 segments,each of effective width 4
         /// </summary>
@@ -296,6 +294,5 @@ namespace Z0
             BitPack.unpack1x8(src, ref tmp);
             vpack.vinflate8x256x32u(tmp).StoreTo(ref lead);
         }
-
     }
 }

@@ -55,7 +55,7 @@ namespace Z0
                 dst.AppendLine(RP.PageBreak100);
             }
 
-            public uint EmitFields(DisasmDetailDoc doc)
+            public uint EmitFields(Detail doc)
             {
                 var buffer = FieldBuffer.init();
                 var dst = text.buffer();

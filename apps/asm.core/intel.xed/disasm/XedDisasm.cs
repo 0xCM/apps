@@ -30,16 +30,29 @@ namespace Z0
             return dst;
         }
 
-        public static Index<InstOpClass> opclasses(Index<DisasmDocs> src)
+        static Index<InstOpClass> resequence(Index<InstOpClass> src)
+        {
+            src.Sort();
+            for(var i=0u; i<src.Length; i++)
+                src[i].Seq = i;
+            return src;
+        }
+
+        public static Index<InstOpClass> opclasses(Index<Document> src)
         {
             var buffer = hashset<InstOpClass>();
             foreach(var (summary,detail) in src)
                 buffer.AddRange(detail.Blocks.Select(x => x.DetailRow).SelectMany(x => x.Ops).Select(x => XedDisasm.opclass(ModeKind.Mode64, x.OpInfo)).Distinct());
-            var dst = buffer.Array().Sort();
-            for(var i=0u; i<dst.Length; i++)
-                seek(dst,i).Seq = i;
-            return dst;
+            var dst = buffer.Array();
+            return resequence(dst);
         }
+
+        public static Index<InstOpClass> opclasses(Document src)
+            => resequence(
+                src.Detail.Blocks.Select(x => x.DetailRow)
+                   .SelectMany(x => x.Ops)
+                   .Select(x => opclass(ModeKind.Mode64, x.OpInfo))
+                   .Distinct());
 
         public static ref FieldBuffer load(in DetailBlock src, ref FieldBuffer dst)
         {
@@ -56,25 +69,25 @@ namespace Z0
             return ref dst;
         }
 
-        public static ConstLookup<FileRef,DisasmDetailDoc> details(WsContext context, bool pll = true)
+        public static ConstLookup<FileRef,Detail> details(WsContext context, bool pll = true)
         {
             var files = context.Files(FileKind.XedRawDisasm);
-            var dst = cdict<FileRef,DisasmDetailDoc>();
+            var dst = cdict<FileRef,Detail>();
             iter(files, file => dst.TryAdd(file, details(context,file)), pll);
             return dst;
         }
 
-        public static Index<DisasmDocs> docs(WsContext context)
+        public static Index<Document> docs(WsContext context)
         {
             var summaries = CalcSummaryDocs(context);
             var details = XedDisasm.details(summaries);
-            return details.Entries.Map(x => new DisasmDocs(x.Key,x.Value)).ToArray();
+            return details.Entries.Map(x => new Document(x.Key,x.Value)).ToArray();
         }
 
         public static Index<DetailBlock> blocks(WsContext context, in FileRef src)
             => blocks(summary(context,src));
 
-        public static Index<DetailBlock> blocks(DisasmSummaryDoc src, bool pll = true)
+        public static Index<DetailBlock> blocks(Summary src, bool pll = true)
         {
             var dst = bag<DetailBlock>();
             var summaries = src.Lines;
@@ -106,18 +119,18 @@ namespace Z0
             return dst;
         }
 
-        public static DisasmDetailDoc details(WsContext context, in FileRef fref)
+        public static Detail details(WsContext context, in FileRef fref)
         {
             var file = load(context, fref);
             return doc(context, file, summary(context, file));
         }
 
-        public static DisasmSummaryDoc summary(WsContext context, in FileRef src)
+        public static Summary summary(WsContext context, in FileRef src)
         {
             var buffer = bag<DisasmSummaryLines>();
             var file = load(context, src);
             summarize(src, file.Origin, file.Lines, buffer).Require();
-            return DisasmSummaryDoc.create(file, buffer.ToArray());
+            return Summary.create(file, buffer.ToArray());
         }
 
         public static uint fields(DisasmProps props, Fields dst, bool clear = true)
@@ -151,7 +164,7 @@ namespace Z0
             return counter;
         }
 
-        public static DisasmFile load(WsContext context, in FileRef src)
+        public static DataFile load(WsContext context, in FileRef src)
         {
             var dst = list<DisasmLineBlock>();
             var lines = src.Path.ReadNumberedLines();
@@ -183,7 +196,7 @@ namespace Z0
                     }
                 }
             }
-            return new DisasmFile(context.Root(src), src,dst.ToArray());
+            return new DataFile(context.Root(src), src,dst.ToArray());
         }
     }
 }

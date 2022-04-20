@@ -42,19 +42,6 @@ namespace Z0
             public static InstOpClass Empty => default;
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,12,12,12,12,12,12};
-
-            /*
-                ("Seq",8),
-                ("Kind",8),
-                ("DataWidth", 12),
-                ("ElementType", 12),
-                ("IsRegLit", 12),
-                ("IsLookup", 12),
-                ("CellCount", 12),
-                ("WidthCode", 16)
-                );
-
-            */
         }
     }
 }

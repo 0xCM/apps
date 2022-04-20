@@ -13,7 +13,17 @@ namespace Z0
     {
         MachineHost MachineHost => Service(Wf.XedMachinHost);
 
-        void CollectFields(DisasmDetailDoc doc)
+        [CmdOp("xed/emit/breakdowns")]
+        Outcome EmitBreakdowns(CmdArgs args)
+        {
+            var context = Context();
+            var docs = Disasm.CalcDocs(context);
+            Disasm.EmitBreakdowns(context,docs);
+
+            return true;
+        }
+
+        void CollectFields(Detail doc)
         {
             var status = cdict<string,string>();
             var name = doc.File.Source.Path.FileName.WithoutExtension.Format();

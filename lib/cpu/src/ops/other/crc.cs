@@ -4,13 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using CRC = System.Runtime.Intrinsics.X86.Sse42;
     using CRC64 = System.Runtime.Intrinsics.X86.Sse42.X64;
-
-    using static Root;
 
     partial struct cpu
     {

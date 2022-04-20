@@ -6,7 +6,6 @@ namespace Z0
 {
     using static System.Runtime.Intrinsics.X86.Sse41;
     using static System.Runtime.Intrinsics.X86.Avx;
-    using static Root;
 
     partial struct cpu
     {
@@ -203,6 +202,10 @@ namespace Z0
         ///     ZF := 1
         /// ELSE
         ///     ZF := 0
+        /// IF (((NOT a[127:0]) AND b[127:0]) == 0)
+        ///   	CF := 1
+        /// ELSE
+        ///     CF := 0
         /// <algorithm>
         [MethodImpl(Inline), TestC]
         public static bit vtestc(Vector128<sbyte> src, Vector128<sbyte> mask)

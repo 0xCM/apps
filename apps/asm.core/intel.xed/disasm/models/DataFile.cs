@@ -7,15 +7,16 @@ namespace Z0
 {
     partial class XedDisasm
     {
-        public readonly struct DisasmFile : IComparable<DisasmFile>
+        public readonly struct DataFile : IComparable<DataFile>
         {
             public readonly FileRef Origin;
+
             public readonly FileRef Source;
 
             public readonly Index<DisasmLineBlock> Lines;
 
             [MethodImpl(Inline)]
-            public DisasmFile(in FileRef origin, in FileRef src, DisasmLineBlock[] lines)
+            public DataFile(in FileRef origin, in FileRef src, DisasmLineBlock[] lines)
             {
                 Origin = origin;
                 Source = src;
@@ -52,10 +53,10 @@ namespace Z0
                 get => ref Lines[i];
             }
 
-            public int CompareTo(DisasmFile src)
+            public int CompareTo(DataFile src)
                 => Seq.CompareTo(src.Seq);
 
-            public static DisasmFile Empty => new DisasmFile(FileRef.Empty, FileRef.Empty, sys.empty<DisasmLineBlock>());
+            public static DataFile Empty => new DataFile(FileRef.Empty, FileRef.Empty, sys.empty<DisasmLineBlock>());
         }
     }
 }

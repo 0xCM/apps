@@ -11,7 +11,7 @@ namespace Z0
 
     partial class XedDisasm
     {
-        static void blocks(DisasmSummaryDoc doc, ConcurrentBag<DetailBlock> dst)
+        static void blocks(Summary doc, ConcurrentBag<DetailBlock> dst)
         {
             var blocks = doc.Lines;
             Require.equal(blocks.Count, doc.RowCount);
@@ -19,7 +19,7 @@ namespace Z0
                 dst.Add(new (row(blocks[i]), blocks[i]));
         }
 
-        static DisasmDetailDoc doc(WsContext context, in DisasmFile file, DisasmSummaryDoc summary)
+        static Detail doc(WsContext context, in DataFile file, Summary summary)
         {
             var dst = bag<DetailBlock>();
             blocks(summary, dst);

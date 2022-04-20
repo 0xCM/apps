@@ -4,16 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     using static XedDisasm;
 
     partial class XedDisasmSvc
     {
-        public void EmitFields(WsContext context, Index<DisasmDetailDoc> src)
-            => iter(src, doc => EmitFields(context,doc), PllExec);
+        public void EmitFieldReport(WsContext context, Document src)
+            => EmitFieldReport(context, src.Detail);
 
-        public void EmitFields(WsContext context, DisasmDetailDoc src)
+        void EmitFieldReport(WsContext context, Detail src)
         {
             var dst = DisasmFieldsPath(context, src.Source);
             var emitting = EmittingFile(dst);

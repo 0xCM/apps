@@ -5,9 +5,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedDisasm;
+
     partial class XedDisasmSvc
     {
-        public void EmitOps(WsContext context, DisasmDetailDoc doc)
+        public void EmitOpsReport(WsContext context, Document src)
+            => EmitOpsReport(context, src.Detail);
+
+        void EmitOpsReport(WsContext context, Detail doc)
         {
             var dst = DisasmOpsPath(context,doc.File.Source);
             var emitting = EmittingFile(dst);

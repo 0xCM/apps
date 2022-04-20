@@ -12,7 +12,10 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        public void EmitChecks(WsContext context, DisasmDetailDoc doc)
+        public void EmitChecksReport(WsContext context, Document src)
+            => EmitChecksReport(context, src.Detail);
+
+        void EmitChecksReport(WsContext context, Detail doc)
         {
             const string RenderPattern = "{0,-24} | {1}";
             ref readonly var file = ref doc.File;

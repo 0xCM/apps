@@ -84,7 +84,7 @@ namespace Z0
         public static void pack64x1(ulong src, Span<bit> dst)
         {
             ref var target = ref first(recover<bit,byte>(dst));
-            BitPack.pack64x1(src, ref target);
+            pack64x1(src, ref target);
         }
 
         /// <summary>
