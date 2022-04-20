@@ -7,15 +7,14 @@ namespace Z0
 {
     using static core;
     using static XedRules;
+
     using K = XedRules.FieldKind;
 
     partial class XedDisasm
     {
-        public class DisasmTarget : AppServiceClient<DisasmTarget>, IDisasmTarget
+        public class DisasmTarget : IDisasmTarget
         {
             DisasmBuffer Buffer;
-
-            readonly ConcurrentDictionary<uint,string> OutBlocks = new();
 
             int Counter;
 
@@ -25,62 +24,86 @@ namespace Z0
             {
                 Counter = 0;
                 Exclusions = core.hashset(K.TZCNT,K.LZCNT,K.MAX_BYTES);
+                Running += Nothing;
+                Ran += Nothing;
+                BlockComputed += Nothing;
+                RuleStateComputed += StateComputed;
+                InfoComputed += Nothing;
+                ExtractComputed += Nothing;
+                PropsComputed += Nothing;
+                FieldsComputed += Nothing;
             }
 
-            public DisasmToken Starting(in FileRef src)
+            protected event Receiver<FileRef> Running;
+
+            protected event Action<DisasmToken> Ran;
+
+            protected event DisasmReceiver<DetailBlock> BlockComputed;
+
+            protected event StateReceiver RuleStateComputed;
+
+            protected event DisasmReceiver<AsmInfo> InfoComputed;
+
+            protected event DisasmReceiver<EncodingExtract> ExtractComputed;
+
+            protected event DisasmReceiver<DisasmProps> PropsComputed;
+
+            protected event FieldReceiver FieldsComputed;
+
+            void IDisasmTarget.Computed(uint seq, in DetailBlock src)
             {
-                OutBlocks.Clear();
-                DisasmToken t = token();
-                Counter = 0;
-                Buffer = new(src);
-                return t;
+                BlockComputed(seq,src);
             }
 
-            public void Finished(DisasmToken token)
+            void IDisasmTarget.Computed(uint seq, in RuleState src)
             {
-
+                Buffer.State(seq, src, RuleStateComputed);
             }
 
-            public void Computed(uint seq, in DetailBlock src)
-            {
-                Buffer.Block() = src;
-
-            }
-
-            public void Computed(uint seq, in RuleState src)
-            {
-                Buffer.State(seq, src, StateComputed);
-            }
-
-            public void Computed(uint seq, in AsmInfo src)
+            void IDisasmTarget.Computed(uint seq, in AsmInfo src)
             {
                 Buffer.AsmInfo() = src;
+                InfoComputed(seq, src);
             }
 
-            public void Computed(uint seq, in DisasmProps src)
+            void IDisasmTarget.Computed(uint seq, in Fields src)
             {
-                Buffer.Props() = src;
+                FieldsComputed(seq,src);
             }
 
-            public void Computed(uint seq, in Fields src)
-            {
-
-            }
-
-            public void Computed(uint seq, in EncodingExtract src)
-            {
-                Buffer.Encoding() = src;
-            }
-
-            public void Computed(uint seq, ReadOnlySpan<FieldKind> src)
+            void IDisasmTarget.Computed(uint seq, ReadOnlySpan<FieldKind> src)
             {
                 Buffer.Cache(src);
             }
 
+            void IDisasmTarget.Computed(uint seq, in EncodingExtract src)
+            {
+                Buffer.Encoding() = src;
+                ExtractComputed(seq,src);
+            }
+
+            void IDisasmTarget.Computed(uint seq, in DisasmProps src)
+            {
+                Buffer.Props() = src;
+                PropsComputed(seq,src);
+            }
+
+            public DisasmToken Starting(in FileRef src)
+            {
+                DisasmToken t = token();
+                Counter = 0;
+                Buffer = new(src);
+                Running(src);
+                return t;
+            }
+
+            void IDisasmTarget.Finished(DisasmToken token)
+            {
+                Ran(token);
+            }
+
             void StateComputed(uint seq, in RuleState state, ReadOnlySpan<FieldKind> fields)
             {
-                var dst = text.buffer();
-
                 for(var i=0; i<fields.Length; i++)
                 {
                     ref readonly var kind = ref skip(fields,i);
@@ -91,6 +114,14 @@ namespace Z0
                     inc(ref Counter);
                 }
             }
-        }
+
+            static void Nothing(in FileRef src) {}
+
+            static void Nothing(DisasmToken src) {}
+
+            static void Nothing<T>(uint seq, in T src) {}
+
+            static void Nothing(uint seq, in Fields src) {}
+       }
     }
 }

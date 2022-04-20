@@ -26,7 +26,7 @@ namespace Z0
         void CollectFields(Detail doc)
         {
             var status = cdict<string,string>();
-            var name = doc.File.Source.Path.FileName.WithoutExtension.Format();
+            var name = doc.DataFile.Source.Path.FileName.WithoutExtension.Format();
             MachineHost.Run(true, machine =>
             {
                 var fields = FieldBuffer.init();
@@ -35,7 +35,7 @@ namespace Z0
                 {
                     ref readonly var block = ref blocks[i];
 
-                    XedDisasm.load(block, ref fields);
+                    XedDisasm.fields(block, ref fields);
 
                     machine.Load(fields);
                     machine.Capture.FormPatterns();
@@ -44,7 +44,7 @@ namespace Z0
                 machine.Emitter.EmitFormPatterns(name);
 
                 status[name] = string.Format("{0,-8} | {1,-46} | {2,-8} | {3,-8} | {4,-8}",
-                    machine.Id, name, doc.Seq, doc.File.Source.DocId, doc.File.LineCount);
+                    machine.Id, name, doc.Seq, doc.DataFile.Source.DocId, doc.DataFile.LineCount);
             });
 
             var names = status.Keys.Sort();

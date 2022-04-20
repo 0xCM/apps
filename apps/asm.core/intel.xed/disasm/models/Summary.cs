@@ -8,12 +8,6 @@ namespace Z0
     {
         public class Summary
         {
-            public static Summary create(in DataFile file, SummaryLines[] lines)
-            {
-                var sorted = lines.Sort();
-                return new (file, file.Origin, XedDisasm.resequence(lines.Select(line => line.Summary)), sorted);
-            }
-
             public readonly uint RowCount;
 
             public readonly DataFile File;
@@ -24,7 +18,7 @@ namespace Z0
 
             public readonly Index<SummaryLines> Lines;
 
-            Summary(in DataFile src, in FileRef origin, Index<SummaryRow> rows, SummaryLines[] lines)
+            internal Summary(in DataFile src, in FileRef origin, Index<SummaryRow> rows, SummaryLines[] lines)
             {
                 File = src;
                 Origin = origin;

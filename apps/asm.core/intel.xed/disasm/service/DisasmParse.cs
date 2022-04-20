@@ -14,9 +14,9 @@ namespace Z0
     {
         internal partial class DisasmParse
         {
-            const string XDIS = "XDIS ";
+            internal const string XDIS = "XDIS ";
 
-            public const string YDIS = "YDIS:";
+            internal const string YDIS = "YDIS:";
 
             public static Outcome parse(string src, out MemoryAddress dst)
             {

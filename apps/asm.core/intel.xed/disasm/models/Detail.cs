@@ -8,33 +8,33 @@ namespace Z0
     {
         public class Detail : IComparable<Detail>
         {
-            public readonly DataFile File;
+            public readonly DataFile DataFile;
 
             public readonly Index<DetailBlock> Blocks;
 
             [MethodImpl(Inline)]
             public Detail(in DataFile file, DetailBlock[] data)
             {
-                File = file;
+                DataFile = file;
                 Blocks = data;
             }
 
             public ref readonly FileRef Origin
             {
                 [MethodImpl(Inline)]
-                get => ref File.Origin;
+                get => ref DataFile.Origin;
             }
 
             public ref readonly FileRef Source
             {
                 [MethodImpl(Inline)]
-                get => ref File.Source;
+                get => ref DataFile.Source;
             }
 
             public uint Seq
             {
                 [MethodImpl(Inline)]
-                get => File.Source.Seq;
+                get => DataFile.Source.Seq;
             }
 
             public ref DetailBlock this[int i]
@@ -52,7 +52,7 @@ namespace Z0
             public FS.FilePath Path
             {
                 [MethodImpl(Inline)]
-                get => File.Source.Path;
+                get => DataFile.Source.Path;
             }
 
             public uint Count

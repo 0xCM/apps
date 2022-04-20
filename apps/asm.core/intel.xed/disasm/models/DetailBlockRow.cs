@@ -13,7 +13,7 @@ namespace Z0
     partial class XedDisasm
     {
         [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableName)]
-        public struct DetailBlockRow : IComparable<DetailBlockRow>
+        public record struct DetailBlockRow : IComparable<DetailBlockRow>
         {
             public const string TableName = "xed.disasm.detail";
 

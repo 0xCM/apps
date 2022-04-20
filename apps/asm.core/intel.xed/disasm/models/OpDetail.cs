@@ -12,7 +12,7 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public record struct OpDetail
         {
-            public DisasmOpInfo OpInfo;
+            public OpInfo OpInfo;
 
             public OpWidthInfo OpWidth;
 

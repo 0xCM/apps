@@ -11,19 +11,14 @@ namespace Z0
 
     partial class XedDisasm
     {
-        static void blocks(Summary doc, ConcurrentBag<DetailBlock> dst)
-        {
-            var blocks = doc.Lines;
-            Require.equal(blocks.Count, doc.RowCount);
-            for(var i=0; i<blocks.Count; i++)
-                dst.Add(new (row(blocks[i]), blocks[i]));
-        }
+        public static Index<Document> docs(WsContext context)
+            => details(summaries(context)).Entries.Map(x => new Document(x.Key,x.Value)).ToArray();
 
-        static Detail doc(WsContext context, in DataFile file, Summary summary)
+        static ConstLookup<Summary,Detail> details(Index<Summary> src, bool pll = true)
         {
-            var dst = bag<DetailBlock>();
-            blocks(summary, dst);
-            return new (file, dst.ToArray().Sort());
+            var dst = cdict<Summary,Detail>();
+            iter(src, doc => dst.TryAdd(doc, new Detail(doc.File, blocks(doc))), pll);
+            return dst;
         }
     }
 }

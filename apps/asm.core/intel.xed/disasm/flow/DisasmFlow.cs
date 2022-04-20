@@ -10,29 +10,22 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public struct DisasmFlow
+        public readonly struct DisasmFlow
         {
             readonly WsContext Context;
 
-            readonly IDisasmTarget Target;
-
-            public DisasmFlow(WsContext context, IDisasmTarget dst)
+            [MethodImpl(Inline)]
+            public DisasmFlow(WsContext context)
             {
                 Context = context;
-                Target = dst;
             }
 
-            public void Dispose()
+            public void Run(in FileRef src, IDisasmTarget dst)
             {
-
-            }
-
-            public void Run(in FileRef src)
-            {
-                var token = Target.Starting(src);
+                var token = dst.Starting(src);
                 if(token.IsNonEmpty)
                 {
-                    var doc = XedDisasm.details(Context,src);
+                    var doc = detail(Context, src);
                     var lookup = doc.Blocks.Select(x => (x.DetailRow.IP, x)).ToDictionary();
                     var keys = lookup.Keys.Array().Sort();
                     var blocks = alloc<DetailBlock>(keys.Length);
@@ -46,15 +39,15 @@ namespace Z0
                     }
 
                     for(var i=0u; i<blocks.Length; i++)
-                        Step(i,skip(blocks,i));
+                        Step(i,skip(blocks,i), dst);
 
-                    Target.Finished(token);
+                    dst.Finished(token);
                 }
             }
 
-            void Step(uint seq, in DetailBlock src)
+            void Step(uint seq, in DetailBlock src, IDisasmTarget dst)
             {
-                Target.Computed(seq, src);
+                dst.Computed(seq, src);
 
                 ref readonly var detail = ref src.DetailRow;
                 ref readonly var block = ref src.SummaryLines;
@@ -66,25 +59,25 @@ namespace Z0
 
                 var xdis = AsmInfo.Empty;
                 parse(lines, out xdis).Require();
-                Target.Computed(seq, xdis);
+                dst.Computed(seq, xdis);
 
                 var props = DisasmProps.Empty;
                 XedDisasm.parse(lines, out props);
-                Target.Computed(seq, props);
+                dst.Computed(seq, props);
 
                 var fields = XedFields.fields();
                 XedDisasm.fields(props, fields, false);
-                Target.Computed(seq, fields);
+                dst.Computed(seq, fields);
 
                 var kinds = fields.MemberKinds();
-                Target.Computed(seq, kinds);
+                dst.Computed(seq, kinds);
 
                 var state = RuleState.Empty;
                 XedState.Edit.fields(fields, kinds, ref state);
-                Target.Computed(seq, state);
+                dst.Computed(seq, state);
 
                 var encoding = XedState.Code.encoding(state, asmhex);
-                Target.Computed(seq, encoding);
+                dst.Computed(seq, encoding);
             }
         }
     }

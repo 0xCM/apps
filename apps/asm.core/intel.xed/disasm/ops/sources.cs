@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class XedDisasm : AppService<XedDisasm>
+    partial class XedDisasm
     {
+        public static Index<FileRef> sources(WsContext context)
+            => context.Files(FileKind.XedRawDisasm);
     }
 }

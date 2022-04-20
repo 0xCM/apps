@@ -7,7 +7,7 @@ namespace Z0
 {
     public partial class XedDisasm
     {
-        public readonly struct SummaryLines : IComparable<SummaryLines>
+        public readonly record struct SummaryLines : IComparable<SummaryLines>
         {
             public readonly LineBlock Lines;
 

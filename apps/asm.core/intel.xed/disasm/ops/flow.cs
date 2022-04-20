@@ -10,18 +10,12 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public static DisasmFlow flow(IAppService svc, WsContext context, IDisasmTarget dst)
-            => new DisasmFlow(context, dst);
+        [MethodImpl(Inline)]
+        public static DisasmFlow flow(WsContext context)
+            => new DisasmFlow(context);
 
-        public static DisasmFlow flow(IAppService svc, WsContext context)
-            => flow(svc, context, DisasmTarget.create(svc, context));
-
-        public static void flow(IAppService svc, WsContext context, in FileRef src, Func<IDisasmTarget> dst)
-        {
-            var target = DisasmTarget.create(svc,context);
-            var f = flow(svc,context);
-
-        }
+        public static void flow(IAppService svc, WsContext context, in FileRef src, IDisasmTarget dst)
+            => flow(context).Run(src,dst);
 
         static long DisasmTokens;
 
@@ -37,20 +31,19 @@ namespace Z0
             return dst;
         }
 
-        public static Index<DisasmFlow> flows(IAppService svc, WsContext context, Index<IDisasmTarget> targets)
+        public static Index<DisasmFlow> flows(WsContext context, Index<IDisasmTarget> targets)
         {
             var dst = alloc<DisasmFlow>(targets.Count);
             for(var i=0; i<targets.Count; i++)
-                seek(dst,i) = flow(svc,context, targets[i]);
+                seek(dst,i) = flow(context);
             return dst;
-
         }
 
-        public static Index<DisasmFlow> flows(IAppService svc, WsContext context, uint count)
+        public static Index<DisasmFlow> flows(WsContext context, uint count)
         {
             var dst = alloc<DisasmFlow>(count);
             for(var i=0; i<count; i++)
-                seek(dst,i) = flow(svc,context);
+                seek(dst,i) = flow(context);
             return dst;
         }
     }

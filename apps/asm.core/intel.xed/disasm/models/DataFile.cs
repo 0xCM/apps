@@ -7,20 +7,20 @@ namespace Z0
 {
     partial class XedDisasm
     {
-        public readonly struct DataFile : IComparable<DataFile>
+        public readonly record struct DataFile : IComparable<DataFile>
         {
             public readonly FileRef Origin;
 
             public readonly FileRef Source;
 
-            public readonly Index<LineBlock> Lines;
+            public readonly Index<LineBlock> Blocks;
 
             [MethodImpl(Inline)]
-            public DataFile(in FileRef origin, in FileRef src, LineBlock[] lines)
+            public DataFile(in FileRef origin, in FileRef src, LineBlock[] blocks)
             {
                 Origin = origin;
                 Source = src;
-                Lines = lines;
+                Blocks = blocks;
             }
 
             public uint Seq
@@ -38,19 +38,19 @@ namespace Z0
             public uint LineCount
             {
                 [MethodImpl(Inline)]
-                get => Lines.Count;
+                get => Blocks.Count;
             }
 
             public ref readonly LineBlock this[int i]
             {
                 [MethodImpl(Inline)]
-                get => ref Lines[i];
+                get => ref Blocks[i];
             }
 
             public ref readonly LineBlock this[uint i]
             {
                 [MethodImpl(Inline)]
-                get => ref Lines[i];
+                get => ref Blocks[i];
             }
 
             public int CompareTo(DataFile src)

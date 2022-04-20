@@ -11,7 +11,7 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public readonly struct Operand
+        public readonly record struct Operand
         {
             public readonly OpName Name;
 

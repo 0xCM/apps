@@ -101,7 +101,7 @@ namespace Z0
         /// 3		MEM0/R/VV/EXPLICIT/IMM_CONST/1
         /// 3		BASE0/RW/SSZ/SUPPRESSED/NT_LOOKUP_FN/SRSP
         /// </remarks>
-        public static Outcome parse(string src, out DisasmOpInfo dst)
+        public static Outcome parse(string src, out OpInfo dst)
         {
             dst = default;
             if(text.length(src) < 3)

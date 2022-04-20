@@ -11,6 +11,21 @@ namespace Z0
 
     partial class XedDisasm
     {
+        public static ref FieldBuffer fields(in DetailBlock src, ref FieldBuffer dst)
+        {
+            dst.Clear();
+            dst.Detail = src.DetailRow;
+            dst.Lines = src.SummaryLines.Lines;
+            dst.Summary = src.SummaryLines.Summary;
+            parse(dst.Lines, out dst.AsmInfo).Require();
+            parse(dst.Lines, out dst.Props);
+            fields(dst.Props, dst.Fields, false);
+            dst.FieldSelection = dst.Fields.MemberKinds();
+            XedState.Edit.fields(dst.Fields, dst.FieldSelection, ref dst.State);
+            dst.Encoding = XedState.Code.encoding(dst.State, src.SummaryLines.Summary.Encoded);
+            return ref dst;
+        }
+
         public static uint fields(DisasmProps props, Fields dst, bool clear = true)
         {
             if(clear)

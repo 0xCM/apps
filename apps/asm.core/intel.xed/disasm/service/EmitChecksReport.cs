@@ -18,7 +18,7 @@ namespace Z0
         void EmitChecksReport(WsContext context, Detail doc)
         {
             const string RenderPattern = "{0,-24} | {1}";
-            ref readonly var file = ref doc.File;
+            ref readonly var file = ref doc.DataFile;
             var buffer = text.buffer();
             var count = doc.Count;
             var dstpath = DisasmChecksPath(context,file.Source);
@@ -38,7 +38,7 @@ namespace Z0
                 ref readonly var asmhex = ref summary.Encoded;
                 ref readonly var asmtxt = ref summary.Asm;
                 ref readonly var ip = ref summary.IP;
-                var cells = update(lines, ref state);
+                var cells = XedDisasm.update(lines, ref state);
                 var ocindex = XedOpCodes.index(state);
                 var ockind = XedOpCodes.kind(ocindex);
                 var encoding  = XedState.Code.encoding(state, asmhex);
@@ -238,35 +238,6 @@ namespace Z0
             }
 
             EmittedFile(emitting,counter);
-        }
-
-        static Index<CellValue> update(in XedDisasm.LineBlock src, ref RuleState state)
-        {
-            var fields = values(src);
-            XedState.Edit.update(fields, ref state);
-            return fields;
-        }
-
-        static Index<CellValue> values(in XedDisasm.LineBlock src)
-        {
-            XedDisasm.parse(src, out DisasmProps props);
-            var state = RuleState.Empty;
-            var names = props.Keys.Array();
-            var count = names.Length;
-            var dst = alloc<CellValue>(count - 2);
-            var k=0u;
-            for(var i=0; i<count; i++)
-            {
-                var name = skip(names,i);
-                if(name == nameof(FieldKind.ICLASS) || name == nameof(InstForm))
-                    continue;
-
-                if(XedParsers.parse(name, out FieldKind kind))
-                    seek(dst,k++) = XedState.Edit.field(props[name], kind, ref state);
-                else
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), name));
-            }
-            return dst;
         }
     }
 }

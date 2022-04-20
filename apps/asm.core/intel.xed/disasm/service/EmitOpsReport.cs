@@ -14,7 +14,7 @@ namespace Z0
 
         void EmitOpsReport(WsContext context, Detail doc)
         {
-            var dst = DisasmOpsPath(context,doc.File.Source);
+            var dst = DisasmOpsPath(context,doc.DataFile.Source);
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             var counter = 0u;

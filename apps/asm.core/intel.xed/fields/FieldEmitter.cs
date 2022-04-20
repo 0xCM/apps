@@ -59,12 +59,12 @@ namespace Z0
             {
                 var buffer = FieldBuffer.init();
                 var dst = text.buffer();
-                ref readonly var file = ref doc.File;
+                ref readonly var data = ref doc.DataFile;
                 var counter = 0u;
-                for(var i=0u; i<file.LineCount; i++)
+                for(var i=0u; i<data.LineCount; i++)
                 {
                     ref readonly var block = ref doc[i];
-                    load(block, ref buffer);
+                    fields(block, ref buffer);
 
                     ref readonly var ops = ref block.DetailRow.Ops;
                     var kinds = buffer.FieldSelection;

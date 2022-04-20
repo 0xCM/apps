@@ -9,7 +9,7 @@ namespace Z0
     partial class XedDisasm
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct SummaryRow : IComparable<SummaryRow>
+        public record struct SummaryRow : IComparable<SummaryRow>
         {
             public const string TableId = "xed.disasm.summary";
 
