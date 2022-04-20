@@ -5,8 +5,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels.OpWidthCode;
+
     partial struct XedModels
     {
+        public readonly struct OpWidths
+        {
+            // simd_widths = ['b','w','xud', 'qq', 'dq', 'q', 'ps','pd', 'ss', 'sd', 'd', 'm384', 'm512', 'xuq', 'zd']
+            public static ReadOnlySpan<OpWidthCode> SimdWidths
+                => new OpWidthCode[]{B,W,XUD, QQ, DQ, Q, PS,PD, SS, SD, D, M384, M512, XUQ, ZD};
+
+        }
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct OpWidth
         {
