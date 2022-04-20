@@ -36,11 +36,11 @@ namespace Z0
 
         static DetailBlockRow row(in SummaryLines src)
         {
-            ref readonly var lines = ref src.Lines;
-            ref readonly var summary = ref src.Summary;
+            ref readonly var lines = ref src.Block;
+            ref readonly var summary = ref src.Row;
             ref readonly var code = ref summary.Encoded;
             var inst = Instruction.Empty;
-            var result = parse(lines, out inst);
+            var result = parse(src, out inst);
             if(result.Fail)
                 Errors.Throw(result.Message);
 
@@ -62,8 +62,8 @@ namespace Z0
             ref readonly var state = ref dstate.RuleState;
             dst.Offsets = XedState.Code.offsets(state);
             dst.OpCode = state.NOMINAL_OPCODE;
-            dst.Ops = alloc<OpDetail>(lines.OpCount);
 
+            dst.Ops = alloc<OpDetail>(src.Block.OpCount);
             var ocpos = state.POS_NOMINAL_OPCODE;
             var opcode = state.NOMINAL_OPCODE;
             var ocsrm = math.and((byte)state.SRM, opcode);
@@ -78,7 +78,6 @@ namespace Z0
                 result = XedParsers.parse(skip(lines.Ops, k).Content, out operand.OpInfo);
                 if(result.Fail)
                     Errors.Throw(result.Message);
-
 
                 var opclass = operand.OpInfo;
                 var winfo = XedWidths.describe(opclass.WidthCode);

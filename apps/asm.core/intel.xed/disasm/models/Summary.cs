@@ -10,20 +10,20 @@ namespace Z0
         {
             public readonly uint RowCount;
 
-            public readonly DataFile File;
+            public readonly DataFile DataFile;
 
             public readonly FileRef Origin;
 
             public readonly Index<SummaryRow> Rows;
 
-            public readonly Index<SummaryLines> Lines;
+            public readonly Index<SummaryLines> LineIndex;
 
             internal Summary(in DataFile src, in FileRef origin, Index<SummaryRow> rows, SummaryLines[] lines)
             {
-                File = src;
+                DataFile = src;
                 Origin = origin;
                 Rows = rows;
-                Lines = lines;
+                LineIndex = lines;
                 RowCount = Rows.Count;
             }
 
@@ -40,7 +40,7 @@ namespace Z0
             }
 
             public override int GetHashCode()
-                => File.Source.GetHashCode();
+                => DataFile.Source.GetHashCode();
 
             public static Summary Empty
                 => new Summary(DataFile.Empty, FileRef.Empty, sys.empty<SummaryRow>(),  sys.empty<SummaryLines>());

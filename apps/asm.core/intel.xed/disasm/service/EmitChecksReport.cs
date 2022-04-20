@@ -33,8 +33,8 @@ namespace Z0
                 ref readonly var detail = ref doc[j].DetailRow;
                 ref readonly var ops = ref detail.Ops;
                 ref readonly var block = ref doc[j].SummaryLines;
-                ref readonly var summary = ref block.Summary;
-                ref readonly var lines = ref block.Lines;
+                ref readonly var summary = ref block.Row;
+                ref readonly var lines = ref block.Block;
                 ref readonly var asmhex = ref summary.Encoded;
                 ref readonly var asmtxt = ref summary.Asm;
                 ref readonly var ip = ref summary.IP;

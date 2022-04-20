@@ -4,14 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static core;
     using static XedRules;
     using static XedModels;
 
     partial class XedDisasm
     {
+        public static Outcome parse(in SummaryLines src, out Instruction dst)
+            => parse(src.Block, out dst);
+
         public static Outcome parse(in LineBlock src, out AsmInfo dst)
             => DisasmParse.parse(src.XDis.Content, out dst);
 
@@ -22,15 +23,16 @@ namespace Z0
             ref readonly var content = ref src.Props.Content;
             if(text.nonempty(content))
             {
-                result = DisasmParse.parse(src, out dst.Class);
+                result = DisasmParse.parse(src, out InstClass @class);
                 if(result.Fail)
                     return result;
 
-                result = DisasmParse.parse(src, out dst.Form);
+                result = DisasmParse.parse(src, out InstForm form);
                 if(result.Fail)
                     return result;
 
-                XedDisasm.parse(src, out dst.Props);
+                XedDisasm.parse(src, out DisasmProps props);
+                dst = new Instruction(@class, form, props);
             }
             return result;
         }

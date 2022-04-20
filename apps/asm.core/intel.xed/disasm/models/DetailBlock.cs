@@ -18,56 +18,66 @@ namespace Z0
 
             public readonly SummaryLines SummaryLines;
 
+            public readonly Instruction Instruction;
+
             [MethodImpl(Inline)]
-            public DetailBlock(DetailBlockRow detail, SummaryLines block)
+            public DetailBlock(DetailBlockRow detail, in SummaryLines lines, in Instruction inst)
             {
                 DetailRow = detail;
-                SummaryLines = block;
+                SummaryLines = lines;
+                Instruction = inst;
             }
 
+            [MethodImpl(Inline)]
             public DetailBlock WithRow(in DetailBlockRow src)
-                => new DetailBlock(src,SummaryLines);
+                => new DetailBlock(src, SummaryLines, Instruction);
 
-            public ref readonly SummaryRow Summary
+            public ref readonly OpDetails Ops
             {
                 [MethodImpl(Inline)]
-                get => ref SummaryLines.Summary;
+                get => ref DetailRow.Ops;
+            }
+
+            public ref readonly SummaryRow SummaryRow
+            {
+                [MethodImpl(Inline)]
+                get => ref SummaryLines.Row;
             }
 
             public ref readonly Hex32 OriginId
             {
                 [MethodImpl(Inline)]
-                get => ref Summary.OriginId;
+                get => ref SummaryRow.OriginId;
             }
 
             public ref readonly @string OriginName
             {
                 [MethodImpl(Inline)]
-                get => ref Summary.OriginName;
+                get => ref SummaryRow.OriginName;
             }
 
             public ref readonly uint Seq
             {
                 [MethodImpl(Inline)]
-                get => ref Summary.Seq;
+                get => ref SummaryRow.Seq;
             }
 
             public ref readonly uint DocSeq
             {
                 [MethodImpl(Inline)]
-                get => ref Summary.DocSeq;
+                get => ref SummaryRow.DocSeq;
             }
 
             public ref readonly InstructionId Id
             {
                 [MethodImpl(Inline)]
-                get => ref Summary.InstructionId;
+                get => ref SummaryRow.InstructionId;
             }
 
             public ref readonly LineBlock Lines
             {
                 [MethodImpl(Inline)]
-                get => ref SummaryLines.Lines;
+                get => ref SummaryLines.Block;
             }
 
             public ReadOnlySpan<TextLine> OpLines
@@ -97,7 +107,7 @@ namespace Z0
             public ref readonly FS.FileUri SourceFile
             {
                 [MethodImpl(Inline)]
-                get => ref Summary.Source;
+                get => ref SummaryRow.Source;
             }
 
             public SizeOverride SZOV
@@ -157,7 +167,7 @@ namespace Z0
             public ref readonly byte Size
             {
                 [MethodImpl(Inline)]
-                get => ref Summary.Size;
+                get => ref SummaryRow.Size;
             }
 
             public ref readonly Hex8 OpCode
@@ -193,7 +203,7 @@ namespace Z0
             public int CompareTo(DetailBlock src)
                 => DetailRow.CompareTo(src.DetailRow);
 
-            public static DetailBlock Empty => new DetailBlock(DetailBlockRow.Empty, SummaryLines.Empty);
+            public static DetailBlock Empty => new DetailBlock(DetailBlockRow.Empty, SummaryLines.Empty, Instruction.Empty);
         }
     }
 }

@@ -10,13 +10,13 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public record struct Instruction
+        public readonly record struct Instruction
         {
-            public InstClass Class;
+            public readonly InstClass Class;
 
-            public InstForm Form;
+            public readonly InstForm Form;
 
-            public DisasmProps Props;
+            public readonly DisasmProps Props;
 
             [MethodImpl(Inline)]
             public Instruction(InstClass @class, InstForm form, DisasmProps props)

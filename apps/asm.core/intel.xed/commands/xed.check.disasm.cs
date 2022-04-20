@@ -17,8 +17,32 @@ namespace Z0
         Outcome EmitBreakdowns(CmdArgs args)
         {
             var context = Context();
-            var docs = Disasm.CalcDocs(context);
-            Disasm.EmitBreakdowns(context,docs);
+            var sources = XedDisasm.sources(context);
+
+            foreach(var src in sources)
+            {
+                var fields = XedDisasm.fields();
+                var data = XedDisasm.datafile(context, src);
+                var summary = XedDisasm.summary(context, data);
+                var detail = XedDisasm.detail(context, summary);
+                ref readonly var blocks = ref detail.Blocks;
+                for(var i=0; i<blocks.Count; i++)
+                {
+                    ref readonly var block = ref blocks[i];
+                    XedDisasm.fields(block, ref fields);
+
+                    ref readonly var inst = ref block.Instruction;
+                    ref readonly var ops = ref block.Ops;
+
+                    for(var j=0; j<ops.Count; j++)
+                    {
+                        ref readonly var op = ref ops[j];
+                    }
+
+                }
+            }
+            // var docs = Disasm.CalcDocs(context);
+            // Disasm.EmitBreakdowns(context,docs);
 
             return true;
         }
@@ -29,15 +53,15 @@ namespace Z0
             var name = doc.DataFile.Source.Path.FileName.WithoutExtension.Format();
             MachineHost.Run(true, machine =>
             {
-                var fields = FieldBuffer.init();
+                var dst = XedDisasm.fields();
                 ref readonly var blocks = ref doc.Blocks;
                 for(var i=0; i<blocks.Count; i++)
                 {
                     ref readonly var block = ref blocks[i];
 
-                    XedDisasm.fields(block, ref fields);
+                    XedDisasm.fields(block, ref dst);
 
-                    machine.Load(fields);
+                    machine.Load(dst);
                     machine.Capture.FormPatterns();
                 }
 

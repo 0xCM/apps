@@ -57,7 +57,7 @@ namespace Z0
 
             public uint EmitFields(Detail doc)
             {
-                var buffer = FieldBuffer.init();
+                var buffer = fields();
                 var dst = text.buffer();
                 ref readonly var data = ref doc.DataFile;
                 var counter = 0u;

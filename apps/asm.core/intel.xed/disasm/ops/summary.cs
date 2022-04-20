@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedDisasm
     {
-        static Summary summary(WsContext context, in FileRef src)
+        public static Summary summary(WsContext context, in FileRef src)
         {
             var buffer = bag<SummaryLines>();
             var file = datafile(context, src);
@@ -18,7 +18,7 @@ namespace Z0
             return summary(file, buffer.ToArray());
         }
 
-        static Summary summary(WsContext context, in DataFile src)
+        public static Summary summary(WsContext context, in DataFile src)
         {
             var lines = bag<SummaryLines>();
             summary(src.Source, context.Root(src.Source), src.Blocks, lines).Require();
@@ -28,7 +28,7 @@ namespace Z0
         static Summary summary(in DataFile file, SummaryLines[] src)
         {
             var lines = src.Sort();
-            var rows = resequence(lines.Select(line => line.Summary));
+            var rows = resequence(lines.Select(line => line.Row));
             return new Summary(file, file.Origin, rows, lines);
         }
 

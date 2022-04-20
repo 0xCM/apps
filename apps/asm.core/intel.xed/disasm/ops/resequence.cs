@@ -33,7 +33,7 @@ namespace Z0
             {
                 var row = dst[i].DetailRow;
                 row.Seq = i;
-                dst[i] = new DetailBlock(row, dst[i].SummaryLines);
+                dst[i] = new DetailBlock(row, dst[i].SummaryLines, dst[i].Instruction);
             }
             return dst;
         }
