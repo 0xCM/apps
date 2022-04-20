@@ -90,10 +90,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => HexFormatter.format(Value, W, false);
-
-        public string Format(bool zpad = true, bool prespec = false, bool uppercase = false)
-            => ((ulong)Value).FormatHex(zpad:zpad, prespec:prespec, uppercase:uppercase);
+            => HexFormatter.format(Value, W, false, UpperCase);
 
 
         public override string ToString()
@@ -185,6 +182,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static explicit operator H(MemoryAddress src)
             => new H((uint)src.Location);
-
     }
 }

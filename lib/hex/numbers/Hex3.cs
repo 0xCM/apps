@@ -33,12 +33,6 @@ namespace Z0
 
         public const byte MaxValue = Pow2.T03m1;
 
-        // public const K KMin = K.x00;
-
-        // public const K KMax = K.x07;
-
-        // public const K KOne = K.x01;
-
         public static H Zero => new H(z8);
 
         public static H One => new H(1);
@@ -88,16 +82,12 @@ namespace Z0
         public string Text
         {
             [MethodImpl(Inline)]
-            get => ((byte)Value).FormatHex(specifier:false, zpad:true);
+            get => Hex.hexchar(UpperCase, this).ToString();
         }
 
         [MethodImpl(Inline)]
         public string Format()
             => Text;
-
-        [MethodImpl(Inline)]
-        public string Format(bool zpad = false, bool prespec = false, bool uppercase = false)
-            => ((byte)Value).FormatHex(zpad ? 2 : 1, prespec:prespec, postspec:false, @case: uppercase ?  LetterCaseKind.Upper : LetterCaseKind.Lower);
 
         public override string ToString()
             => Text;

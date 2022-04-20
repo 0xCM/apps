@@ -59,6 +59,14 @@ namespace Z0
             public static implicit operator IFormType(InstForm src)
                 => src.Kind;
 
+            [MethodImpl(Inline)]
+            public static explicit operator ushort(InstForm src)
+                => (ushort)src.Kind;
+
+            [MethodImpl(Inline)]
+            public static explicit operator InstForm(ushort src)
+                => new InstForm((IFormType)src);
+
             public static InstForm Empty => default;
         }
     }

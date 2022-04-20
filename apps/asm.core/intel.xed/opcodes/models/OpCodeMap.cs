@@ -21,6 +21,8 @@ namespace Z0
 
             public readonly asci8 Depictor;
 
+            public readonly Hex16 Value;
+
             public OpCodeMap(OpCodeKind kind, OpCodeClass @class, OpCodeIndex index, asci2 indicator, asci4 selector)
             {
                 Kind = kind;
@@ -28,7 +30,8 @@ namespace Z0
                 Index = index;
                 Symbol = indicator;
                 Selector = selector;
-                Depictor = $"{Symbol}[{Selector}]";
+                Value = XedOpCodes.value(kind);
+                Depictor = $"{Symbol}[{Value}]";
             }
 
             public int CompareTo(OpCodeMap src)

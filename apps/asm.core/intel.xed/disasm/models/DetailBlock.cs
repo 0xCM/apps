@@ -68,7 +68,7 @@ namespace Z0
                 get => ref SummaryRow.DocSeq;
             }
 
-            public ref readonly InstructionId Id
+            public ref readonly InstructionId InstId
             {
                 [MethodImpl(Inline)]
                 get => ref SummaryRow.InstructionId;

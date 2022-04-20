@@ -521,18 +521,18 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static string format<W,T>(T value, W w = default, bool postspec = false)
+        public static string format<W,T>(T value, W w = default, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             where W : unmanaged, IDataWidth
             where T : unmanaged
         {
             if(typeof(W) == typeof(W8))
-                return format(w8, bw8(value), postspec:postspec);
+                return format(w8, bw8(value), postspec:postspec, @case:@case);
             else if(typeof(W) == typeof(W16))
-                return format(w16, bw16(value), postspec:postspec);
+                return format(w16, bw16(value), postspec:postspec, @case:@case);
             else if(typeof(W) == typeof(W32))
-                return format(w32, bw32(value), postspec:postspec);
+                return format(w32, bw32(value), postspec:postspec, @case:@case);
             else
-                return format(w64, bw64(value), postspec:postspec);
+                return format(w64, bw64(value), postspec:postspec, @case:@case);
         }
 
         [MethodImpl(Inline)]

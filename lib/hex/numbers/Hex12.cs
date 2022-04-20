@@ -91,15 +91,13 @@ namespace Z0
         public string Text
         {
             [MethodImpl(Inline)]
-            get => Value.FormatHex(specifier:false, zpad:true);
+            get => Value.FormatHex(specifier:false, zpad:true, uppercase:true);
         }
 
         [MethodImpl(Inline)]
         public string Format()
             => Text;
 
-        public string Format(bool zpad = true, bool prespec = false, bool uppercase = false)
-            => Value.FormatHex(zpad:zpad, prespec:prespec, uppercase:uppercase);
 
         public override string ToString()
             => Text;

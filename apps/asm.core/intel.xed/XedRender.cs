@@ -114,19 +114,19 @@ namespace Z0
         static EnumRender<RuleCellKind> RuleCellKinds = new();
 
         public static string format(Hex4 src)
-            => src.Format(prespec:true, uppercase:true);
+            => $"0x{src}";
 
         public static string format(Hex8 src)
-            => src.Format(prespec:true, uppercase:true);
+            => $"0x{src}";
 
         public static string format(Hex16 src)
-            => src.Format(prespec:true, uppercase:true);
+            => $"0x{src}";
 
         public static string format(Hex32 src)
-            => src.Format(prespec:true, uppercase:true);
+            => $"0x{src}";
 
         public static string format(Hex64 src)
-            => src.Format(prespec:true, uppercase:true);
+            => $"0x{src}";
 
         public static string format(uint1 src)
             => "0b" + src.Format();

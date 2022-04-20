@@ -51,8 +51,8 @@ namespace Z0
         public static uint render(LowerCased @case, byte src, ref uint i, Span<char> dst)
         {
             var i0 = i;
-            seek(dst, i++) = hexchar(@case, (byte)((byte)src >> 4));
-            seek(dst, i++) = hexchar(@case, (byte)((byte)src & 0xF));
+            seek(dst, i++) = hexchar(@case, (Hex4)((byte)src >> 4));
+            seek(dst, i++) = hexchar(@case, (Hex4)((byte)src & 0xF));
             return i - i0;
         }
 
@@ -60,9 +60,9 @@ namespace Z0
         public static uint render(LowerCased @case, byte src, ref uint i, Span<char> dst, char sep)
         {
             var i0 = i;
-            seek(dst, i++) = hexchar(@case, (byte)((byte)src >> 4));
+            seek(dst, i++) = hexchar(@case, (Hex4)((byte)src >> 4));
             seek(dst, i++) = sep;
-            seek(dst, i++) = hexchar(@case, (byte)((byte)src & 0xF));
+            seek(dst, i++) = hexchar(@case, (Hex4)((byte)src & 0xF));
             return i - i0;
         }
 

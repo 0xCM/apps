@@ -10,12 +10,12 @@ namespace Z0
     partial struct Hex
     {
         [MethodImpl(Inline), Op]
-        public static char hexchar(UpperCased @case, byte value)
-            => (char)symbol(@case, (HexDigitValue)value);
+        public static char hexchar(UpperCased @case, Hex1 src)
+            => (char)symbol(@case, (Hex3Kind)src.Value);
 
         [MethodImpl(Inline), Op]
-        public static char hexchar(LowerCased @case, byte value)
-            => (char)symbol(@case, (HexDigitValue)value);
+        public static char hexchar(UpperCased @case, Hex2 src)
+            => (char)symbol(@case, (Hex3Kind)src.Value);
 
         [MethodImpl(Inline), Op]
         public static char hexchar(UpperCased @case, Hex3 src)
@@ -38,9 +38,9 @@ namespace Z0
             where C : unmanaged, ILetterCase
         {
             if(typeof(C) == typeof(LowerCased))
-                return hexchar(LowerCase,value);
+                return hexchar(LowerCase,(Hex4)value);
             else if(typeof(C) == typeof(UpperCased))
-                return hexchar(UpperCase,value);
+                return hexchar(UpperCase,(Hex4)value);
             else
                 throw no<C>();
         }
@@ -50,13 +50,13 @@ namespace Z0
             where T : unmanaged
             where C : unmanaged, ILetterCase
         {
-            if(typeof(T) == typeof(byte))
+            if(width<T>() == 8)
                 return hexchar(@case, uint8(src), pos);
-            else if(typeof(T) == typeof(ushort))
+            else if(width<T>() == 16)
                 return hexchar(@case, uint16(src), pos);
-            else if(typeof(T) == typeof(uint))
+            else if(width<T>() == 32)
                 return hexchar(@case, uint32(src), pos);
-            else if(typeof(T) == typeof(ulong))
+            else if(width<T>() == 64)
                 return hexchar(@case, uint64(src), pos);
             else
                 return default;

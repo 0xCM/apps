@@ -90,10 +90,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => HexFormatter.format(Value, W, false);
-
-        public string Format(bool zpad = true, bool prespec = false, bool uppercase = false)
-            => ((ushort)Value).FormatHex(zpad:zpad, prespec:prespec, uppercase:uppercase);
+            => HexFormatter.format(Value, W, false, UpperCase);
 
 
         public override string ToString()

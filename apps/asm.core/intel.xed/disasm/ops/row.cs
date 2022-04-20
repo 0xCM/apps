@@ -57,7 +57,7 @@ namespace Z0
             dst.InstForm = inst.Form;
             dst.InstClass = inst.Class;
             dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
-            XedDisasm.parse(inst, out DisasmState dstate);
+            var dstate = new FieldParser().Parse(inst.Props);
             var opsLU = ops(dstate, code);
             ref readonly var state = ref dstate.RuleState;
             dst.Offsets = XedState.Code.offsets(state);

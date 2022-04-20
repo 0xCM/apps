@@ -37,11 +37,6 @@ namespace Z0
             return result;
         }
 
-        public static void parse(in Instruction src, out DisasmState dst)
-        {
-            var parser = new FieldParser();
-            dst = parser.Parse(src.Props);
-        }
 
         public static uint parse(in LineBlock src, out DisasmProps dst)
         {

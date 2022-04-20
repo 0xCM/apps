@@ -88,16 +88,12 @@ namespace Z0
         public string Text
         {
             [MethodImpl(Inline)]
-            get => ((byte)Value).FormatHex(specifier:false, zpad:true);
+            get => Hex.hexchar(UpperCase, this).ToString();
         }
 
         [MethodImpl(Inline)]
         public string Format()
-            => Hex.hexchar(LowerCase, this).ToString();
-
-        [MethodImpl(Inline)]
-        public string Format(bool zpad = false, bool prespec = false, bool uppercase = false)
-            => ((byte)Value).FormatHex(zpad ? 2 : 1, prespec:prespec, postspec:false, @case: uppercase ?  LetterCaseKind.Upper : LetterCaseKind.Lower);
+            => Text;
 
         public override string ToString()
             => Text;

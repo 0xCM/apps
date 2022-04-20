@@ -27,8 +27,10 @@ namespace Z0
 
             public readonly RepIndicator Rep;
 
+            readonly bool OpCodeFirst;
+
             [MethodImpl(Inline)]
-            public PatternSort(InstPattern src)
+            public PatternSort(InstPattern src, bool ocfirst = false)
             {
                 ref readonly var fields = ref src.Fields;
                 InstClass = src.InstClass;
@@ -38,10 +40,11 @@ namespace Z0
                 Mod = XedFields.mod(fields);
                 RexW = XedFields.rexw(fields);
                 Rep = XedFields.rep(fields);
+                OpCodeFirst = ocfirst;
             }
 
             [MethodImpl(Inline)]
-            public PatternSort(in InstPatternRecord src)
+            public PatternSort(in InstPatternRecord src, bool ocfirst = false)
             {
                 ref readonly var fields = ref src.Body.Fields;
                 InstClass = src.InstClass;
@@ -52,10 +55,11 @@ namespace Z0
                 RexW = XedFields.rexw(fields);
                 Rep = RepIndicator.Empty;
                 Rep = XedFields.rep(fields);
+                OpCodeFirst = ocfirst;
             }
 
             [MethodImpl(Inline)]
-            public PatternSort(in InstPatternSpec src)
+            public PatternSort(in InstPatternSpec src, bool ocfirst = false)
             {
                 ref readonly var fields = ref src.Body.Fields;
                 InstClass = src.InstClass;
@@ -66,22 +70,24 @@ namespace Z0
                 RexW = XedFields.rexw(fields);
                 Rep = RepIndicator.Empty;
                 Rep = XedFields.rep(fields);
+                OpCodeFirst = ocfirst;
            }
 
             [MethodImpl(Inline)]
-            public PatternSort(in InstGroupSeq src)
+            public PatternSort(in InstGroupSeq src, bool ocfirst = false)
             {
-                InstClass = src.InstClass;
+                InstClass = src.Instruction;
                 OpCode = src.OpCode;
                 Mode = src.Mode;
                 Lock = src.Lock;
                 Mod = src.Mod;
                 RexW = src.RexW;
                 Rep = src.Rep;
+                OpCodeFirst = ocfirst;
             }
 
             [MethodImpl(Inline)]
-            public PatternSort(in InstOpDetail src)
+            public PatternSort(in InstOpDetail src, bool ocfirst = false)
             {
                 InstClass = src.InstClass;
                 OpCode = src.OpCode;
@@ -90,10 +96,11 @@ namespace Z0
                 Mod = src.Mod;
                 RexW = src.RexW;
                 Rep = src.Rep;
+                OpCodeFirst = ocfirst;
             }
 
             [MethodImpl(Inline)]
-            public PatternSort(in PatternOpCode src)
+            public PatternSort(in PatternOpCode src, bool ocfirst = false)
             {
                 InstClass = src.InstClass;
                 OpCode = src.OpCode;
@@ -102,15 +109,29 @@ namespace Z0
                 Mod = src.Mod;
                 RexW = src.RexW;
                 Rep = src.Rep;
+                OpCodeFirst = ocfirst;
             }
 
             public int CompareTo(PatternSort src)
             {
-                var result = InstClass.CompareTo(src.InstClass);
+                var result = 0;
+                if(OpCodeFirst)
+                {
+                    result = XedOpCodes.cmp(OpCode.Kind,src.OpCode.Kind);
+                    if(result == 0)
+                        result = OpCode.Value.CompareTo(src.OpCode.Value);
+                    if(result == 0)
+                        result = InstClass.CompareTo(src.InstClass);
+                }
+                else
+                {
+                    result = InstClass.CompareTo(src.InstClass);
+                    if(result == 0)
+                        result = OpCode.Value.CompareTo(src.OpCode.Value);
+                }
+
                 if(result == 0)
                 {
-                    result = OpCode.Value.CompareTo(src.OpCode.Value);
-
                     if(result == 0)
                         result = Mode.CompareTo(src.Mode);
 

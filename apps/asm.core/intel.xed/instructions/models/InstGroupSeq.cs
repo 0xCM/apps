@@ -5,36 +5,49 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static core;
     using static XedModels;
 
+
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential,Pack =1)]
+        [StructLayout(LayoutKind.Sequential,Pack =1), Record(TableId)]
         public record struct InstGroupSeq : IComparable<InstGroupSeq>
         {
-            public byte Index;
+            public const string TableId = "xed.inst.groups";
+
+            public const byte FieldCount = 12;
+
+            public uint Seq;
 
             public ushort PatternId;
 
-            public InstClass InstClass;
+            public InstClass Instruction;
 
-            public XedOpCode OpCode;
-
-            public MachineMode Mode;
+            public ModIndicator Mod;
 
             public LockIndicator Lock;
 
-            public ModIndicator Mod;
+            public MachineMode Mode;
 
             public BitIndicator RexW;
 
             public RepIndicator Rep;
 
-            public InstGroupKey Key
+            public byte Index;
+
+            public XedOpCode OpCode;
+
+            public AsmOcValue OpCodeBytes;
+
+            public InstForm Form;
+
+            public OpCodeClass OpCodeClass
             {
                 [MethodImpl(Inline)]
-                get => new (PatternId,Index);
+                get => OpCode.Class;
             }
 
             PatternSort Sort()
@@ -44,9 +57,12 @@ namespace Z0
                 => Sort().CompareTo(src.Sort());
 
             public override int GetHashCode()
-                => Key.Hash;
+                => new InstGroupKey(PatternId,Index).Hash;
 
             public static InstGroupSeq Empty => default;
+
+            public static ReadOnlySpan<byte> RenderWidths
+                => new byte[FieldCount]{8,12,18,6, 6, 6, 6, 6, 6, 26, 22, 1};
         }
     }
 }

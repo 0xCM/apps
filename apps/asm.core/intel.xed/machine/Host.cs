@@ -17,7 +17,7 @@ namespace Z0
 
     partial class XedMachine
     {
-        static XedMachine allocate(IAppService svc)
+        public static XedMachine allocate(IAppService svc)
             => new XedMachine(svc);
 
         public class MachineHost : AppService<MachineHost>

@@ -40,19 +40,19 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static AsmDirectiveOp operand(Hex8 src)
-            => src.Format(prespec:true);
+            => $"0x{src}";
 
         [MethodImpl(Inline), Op]
         public static AsmDirectiveOp operand(Hex16 src)
-            => src.Format(prespec:true);
+            => $"0x{src}";
 
         [MethodImpl(Inline), Op]
         public static AsmDirectiveOp operand(Hex32 src)
-            => src.Format(prespec:true);
+            => $"0x{src}";
 
         [MethodImpl(Inline), Op]
         public static AsmDirectiveOp operand(Hex64 src)
-            => src.Format(prespec:true);
+            => $"0x{src}";
 
         [MethodImpl(Inline), Op]
         public static AsmDirective @byte(Hex8 src)

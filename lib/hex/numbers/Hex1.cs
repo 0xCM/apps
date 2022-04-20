@@ -93,7 +93,7 @@ namespace Z0
         public string Text
         {
             [MethodImpl(Inline)]
-            get => ((byte)Value).FormatHex(specifier:false, zpad:true);
+            get => Hex.hexchar(UpperCase, this).ToString();
         }
 
         [MethodImpl(Inline)]

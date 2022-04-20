@@ -13,13 +13,16 @@ namespace Z0
         {
             public readonly InstGroupSeq Seq;
 
+            public readonly OpCodeMap Map;
+
             public readonly InstPattern Pattern;
 
             [MethodImpl(Inline)]
             public InstGroupMember(InstGroupSeq seq, InstPattern pattern)
             {
-                Pattern = pattern;
                 Seq = seq;
+                Map = XedOpCodes.map(seq.OpCode.Kind);
+                Pattern = pattern;
             }
 
             public ref readonly InstForm InstForm
@@ -79,7 +82,7 @@ namespace Z0
             public ref readonly InstClass Class
             {
                 [MethodImpl(Inline)]
-                get => ref Seq.InstClass;
+                get => ref Seq.Instruction;
             }
 
             public ref readonly XedOpCode OpCode

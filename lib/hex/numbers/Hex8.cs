@@ -98,7 +98,7 @@ namespace Z0
         public string Text
         {
             [MethodImpl(Inline)]
-            get => ((byte)Value).FormatHex(specifier:false, zpad:true);
+            get => ((byte)Value).FormatHex(specifier:false, zpad:true, uppercase:true);
         }
 
         K IHexNumber<K>.Value
@@ -107,9 +107,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public string Format()
             => Text;
-
-        public string Format(bool zpad = true, bool prespec = false, bool uppercase = false)
-            => ((byte)Value).FormatHex(zpad:zpad, prespec:prespec, uppercase:uppercase);
 
         public override string ToString()
             => Text;

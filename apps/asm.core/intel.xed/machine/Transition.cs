@@ -7,7 +7,6 @@ namespace Z0
     using static XedModels;
     using static XedRules;
     using static XedDisasm;
-    using static XedMachine;
 
     partial class XedMachine
     {

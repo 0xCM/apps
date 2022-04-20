@@ -82,8 +82,29 @@ namespace Z0
             public OpCodeMap Map
                 => new OpCodeMap(Kind, Class, XedOpCodes.index(Kind), Symbol, Selector);
 
+            static string minimal(AsmOcValue src)
+            {
+                var size = src.TrimmedSize;
+                ref readonly var b0 = ref src[0];
+                ref readonly var b1 = ref src[1];
+                ref readonly var b2 = ref src[2];
+
+                var dst = $"0x{b0} 0x{b1} 0x{b2}";
+                switch(size)
+                {
+                    case 0:
+                    case 1:
+                        dst = $"0x{b0}";
+                    break;
+                    case 2:
+                    dst = $"0x{b0} 0x{b1}";
+                    break;
+                }
+                return dst;
+            }
+
             public string Format()
-                => Map.Format();
+                => XedOpCodes.format(this);
 
             public override string ToString()
                 => Format();

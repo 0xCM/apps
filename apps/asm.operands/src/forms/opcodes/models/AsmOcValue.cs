@@ -53,7 +53,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public AsmOcValue(byte b0, byte b1, byte b2, byte b3)
         {
-            Storage = Bytes.join(w32,b0,b1,b2,b3);
+            Storage = Bytes.join(w32, b0, b1, b2, b3);
         }
 
         [MethodImpl(Inline)]
@@ -103,6 +103,18 @@ namespace Z0.Asm
             get => ref Storage[i];
         }
 
+        [MethodImpl(Inline)]
+        public uint ToScalar()
+        {
+            var dst = (uint)FirstByte;
+            var sz = TrimmedSize;
+            if(sz == 2)
+                dst = @as<ushort>(Storage.Bytes);
+            else if(sz == 3)
+                dst = @as<uint>(Storage.Bytes);
+            return dst;
+        }
+
         public ReadOnlySpan<byte> ToSpan()
             => slice(Storage.Bytes, 0, StorageBlocks.trim(Storage).TrimmedSize);
 
@@ -116,6 +128,12 @@ namespace Z0.Asm
         {
             [MethodImpl(Inline)]
             get => slice(Storage.Bytes, 0, TrimmedSize);
+        }
+
+        public ReadOnlySpan<byte> Data
+        {
+            [MethodImpl(Inline)]
+            get => Storage.Bytes;
         }
 
         public string Format()
