@@ -30,12 +30,12 @@ namespace Z0
         /// <summary>
         /// Represents the content of a verbose xed instruction disassembly
         /// </summary>
-        public readonly struct DisasmLineBlock
+        public readonly struct LineBlock
         {
             public readonly Index<TextLine> Lines;
 
             [MethodImpl(Inline)]
-            public DisasmLineBlock(TextLine[] src)
+            public LineBlock(TextLine[] src)
             {
                 Lines = src;
             }
@@ -89,28 +89,16 @@ namespace Z0
             }
 
             public string Format()
-            {
-                var dst = text.buffer();
-                var count = Lines.Count;
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var line = ref Lines[i];
-                    if(i != count - 1)
-                        dst.AppendLine(line.Content);
-                    else
-                        dst.Append(line.Content);
-                }
-                return dst.Emit();
-            }
+                => DisasmRender.format(this);
 
             public override string ToString()
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator DisasmLineBlock(TextLine[] src)
-                => new DisasmLineBlock(src);
+            public static implicit operator LineBlock(TextLine[] src)
+                => new LineBlock(src);
 
-            public static DisasmLineBlock Empty => new DisasmLineBlock(sys.empty<TextLine>());
+            public static LineBlock Empty => new LineBlock(sys.empty<TextLine>());
         }
     }
 }

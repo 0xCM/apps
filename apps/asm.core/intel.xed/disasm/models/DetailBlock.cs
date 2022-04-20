@@ -16,10 +16,10 @@ namespace Z0
         {
             public DetailBlockRow DetailRow;
 
-            public readonly DisasmSummaryLines SummaryLines;
+            public readonly SummaryLines SummaryLines;
 
             [MethodImpl(Inline)]
-            public DetailBlock(DetailBlockRow detail, DisasmSummaryLines block)
+            public DetailBlock(DetailBlockRow detail, SummaryLines block)
             {
                 DetailRow = detail;
                 SummaryLines = block;
@@ -28,7 +28,7 @@ namespace Z0
             public DetailBlock WithRow(in DetailBlockRow src)
                 => new DetailBlock(src,SummaryLines);
 
-            public ref readonly DisasmSummaryRow Summary
+            public ref readonly SummaryRow Summary
             {
                 [MethodImpl(Inline)]
                 get => ref SummaryLines.Summary;
@@ -64,7 +64,7 @@ namespace Z0
                 get => ref Summary.InstructionId;
             }
 
-            public ref readonly DisasmLineBlock Lines
+            public ref readonly LineBlock Lines
             {
                 [MethodImpl(Inline)]
                 get => ref SummaryLines.Lines;
@@ -193,7 +193,7 @@ namespace Z0
             public int CompareTo(DetailBlock src)
                 => DetailRow.CompareTo(src.DetailRow);
 
-            public static DetailBlock Empty => new DetailBlock(DetailBlockRow.Empty, DisasmSummaryLines.Empty);
+            public static DetailBlock Empty => new DetailBlock(DetailBlockRow.Empty, SummaryLines.Empty);
         }
     }
 }

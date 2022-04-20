@@ -6,21 +6,20 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedRules;
 
     partial class XedDisasm
     {
-        public readonly struct DisasmOpDetails : IIndex<DisasmOpDetail>
+        public readonly struct OpDetails : IIndex<OpDetail>
         {
-            readonly Index<DisasmOpDetail> Data;
+            readonly Index<OpDetail> Data;
 
             [MethodImpl(Inline)]
-            public DisasmOpDetails(DisasmOpDetail[] src)
+            public OpDetails(OpDetail[] src)
             {
                 Data = src;
             }
 
-            public DisasmOpDetail[] Storage
+            public OpDetail[] Storage
             {
                 [MethodImpl(Inline)]
                 get => Data.Storage;
@@ -38,19 +37,19 @@ namespace Z0
                 get => Data.Length;
             }
 
-            public ref DisasmOpDetail this[int i]
+            public ref OpDetail this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
             }
 
-            public ref DisasmOpDetail this[uint i]
+            public ref OpDetail this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
             }
 
-            public bool Search(OpWidthCode match, byte offset, out DisasmOpDetail dst)
+            public bool Search(OpWidthCode match, byte offset, out OpDetail dst)
             {
                 var result = false;
                 dst = default;
@@ -67,7 +66,7 @@ namespace Z0
                 return result;
             }
 
-            public bool Search(OpWidthCode match, out DisasmOpDetail dst)
+            public bool Search(OpWidthCode match, out OpDetail dst)
                 => Search(match,0,out dst);
             public string Format()
                 => XedRender.format(this);
@@ -76,14 +75,14 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator DisasmOpDetails(DisasmOpDetail[] src)
-                => new DisasmOpDetails(src);
+            public static implicit operator OpDetails(OpDetail[] src)
+                => new OpDetails(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator DisasmOpDetail[](DisasmOpDetails src)
+            public static implicit operator OpDetail[](OpDetails src)
                 => src.Storage;
 
-            public static DisasmOpDetails Empty => new DisasmOpDetails(sys.empty<DisasmOpDetail>());
+            public static OpDetails Empty => new OpDetails(sys.empty<OpDetail>());
         }
     }
 }

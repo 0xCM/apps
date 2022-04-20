@@ -22,15 +22,15 @@ namespace Z0
 
         static Summary summary(WsContext context, in DataFile file)
         {
-            var buffer = bag<DisasmSummaryLines>();
+            var buffer = bag<SummaryLines>();
             summarize(context, file, buffer).Require();
             return Summary.create(file, buffer.ToArray());
         }
 
-        static Outcome summarize(WsContext context, in DataFile file, ConcurrentBag<DisasmSummaryLines> dst)
+        static Outcome summarize(WsContext context, in DataFile file, ConcurrentBag<SummaryLines> dst)
             => summarize(file.Source, context.Root(file.Source), file.Lines, dst);
 
-        static Index<TextLine> NumberedLines(ReadOnlySpan<DisasmLineBlock> src)
+        static Index<TextLine> NumberedLines(ReadOnlySpan<LineBlock> src)
         {
             var dst = list<TextLine>();
             for(var i=0; i<src.Length; i++)
@@ -46,7 +46,7 @@ namespace Z0
             return dst.ToArray();
         }
 
-        static Index<AsmExpr> expressions(ReadOnlySpan<DisasmLineBlock> src)
+        static Index<AsmExpr> expressions(ReadOnlySpan<LineBlock> src)
         {
             var dst = list<AsmExpr>();
             foreach(var block in src)
@@ -61,7 +61,7 @@ namespace Z0
             return dst.ToArray();
         }
 
-        static Outcome summarize(in FileRef src, in FileRef origin, Index<DisasmLineBlock> blocks, ConcurrentBag<DisasmSummaryLines> dst)
+        static Outcome summarize(in FileRef src, in FileRef origin, Index<LineBlock> blocks, ConcurrentBag<SummaryLines> dst)
         {
             var lines = NumberedLines(blocks);
             var expr = expressions(blocks);
@@ -72,7 +72,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var line = ref lines[i];
-                var summary = new DisasmSummaryRow();
+                var summary = new SummaryRow();
                 result = DisasmParse.parse(line.Content, out summary.Encoded);
                 if(result.Fail)
                     return result;

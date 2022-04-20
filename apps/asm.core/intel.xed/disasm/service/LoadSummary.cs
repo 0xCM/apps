@@ -12,13 +12,13 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        public Index<DisasmSummaryRow> LoadSummary(IProjectWs project)
+        public Index<SummaryRow> LoadSummary(IProjectWs project)
         {
-            const byte FieldCount = DisasmSummaryRow.FieldCount;
+            const byte FieldCount = SummaryRow.FieldCount;
             var src = Projects.AsmEncodingTable(project);
             var lines = slice(src.ReadNumberedLines().View,1);
             var count = lines.Length;
-            var buffer = alloc<DisasmSummaryRow>(count);
+            var buffer = alloc<SummaryRow>(count);
             var result = Outcome.Success;
             for(var i=0; i<count; i++)
             {

@@ -11,21 +11,21 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public readonly struct DisasmOp
+        public readonly struct Operand
         {
             public readonly OpName Name;
 
             public readonly object Value;
 
             [MethodImpl(Inline)]
-            public DisasmOp(OpValue value)
+            public Operand(OpValue value)
             {
                 Name = value.Name;
                 Value = value;
             }
 
             [MethodImpl(Inline)]
-            public DisasmOp(OpNameKind name, object value)
+            public Operand(OpNameKind name, object value)
             {
                 Name = name;
                 Value = value;
@@ -38,10 +38,10 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static explicit operator Disp(DisasmOp src)
+            public static explicit operator Disp(Operand src)
                 => src.Value is OpValue v ? (Disp)v : Disp.Empty;
 
-            public static DisasmOp Empty => new DisasmOp(OpNameKind.None, z8);
+            public static Operand Empty => new Operand(OpNameKind.None, z8);
         }
     }
 }

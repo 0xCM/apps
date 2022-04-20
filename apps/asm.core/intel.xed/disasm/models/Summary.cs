@@ -8,7 +8,7 @@ namespace Z0
     {
         public class Summary
         {
-            public static Summary create(in DataFile file, DisasmSummaryLines[] lines)
+            public static Summary create(in DataFile file, SummaryLines[] lines)
             {
                 var sorted = lines.Sort();
                 return new (file, file.Origin, XedDisasm.resequence(lines.Select(line => line.Summary)), sorted);
@@ -20,11 +20,11 @@ namespace Z0
 
             public readonly FileRef Origin;
 
-            public readonly Index<DisasmSummaryRow> Rows;
+            public readonly Index<SummaryRow> Rows;
 
-            public readonly Index<DisasmSummaryLines> Lines;
+            public readonly Index<SummaryLines> Lines;
 
-            Summary(in DataFile src, in FileRef origin, Index<DisasmSummaryRow> rows, DisasmSummaryLines[] lines)
+            Summary(in DataFile src, in FileRef origin, Index<SummaryRow> rows, SummaryLines[] lines)
             {
                 File = src;
                 Origin = origin;
@@ -33,13 +33,13 @@ namespace Z0
                 RowCount = Rows.Count;
             }
 
-            public ref DisasmSummaryRow this[int i]
+            public ref SummaryRow this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Rows[i];
             }
 
-            public ref DisasmSummaryRow this[uint i]
+            public ref SummaryRow this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Rows[i];
@@ -49,7 +49,7 @@ namespace Z0
                 => File.Source.GetHashCode();
 
             public static Summary Empty
-                => new Summary(DataFile.Empty, FileRef.Empty, sys.empty<DisasmSummaryRow>(),  sys.empty<DisasmSummaryLines>());
+                => new Summary(DataFile.Empty, FileRef.Empty, sys.empty<SummaryRow>(),  sys.empty<SummaryLines>());
         }
     }
 }

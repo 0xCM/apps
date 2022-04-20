@@ -240,16 +240,16 @@ namespace Z0
             EmittedFile(emitting,counter);
         }
 
-        static Index<CellValue> update(in DisasmLineBlock src, ref RuleState state)
+        static Index<CellValue> update(in XedDisasm.LineBlock src, ref RuleState state)
         {
             var fields = values(src);
             XedState.Edit.update(fields, ref state);
             return fields;
         }
 
-        static Index<CellValue> values(in DisasmLineBlock src)
+        static Index<CellValue> values(in XedDisasm.LineBlock src)
         {
-            DisasmParse.parse(src, out DisasmProps props);
+            XedDisasm.parse(src, out DisasmProps props);
             var state = RuleState.Empty;
             var names = props.Keys.Array();
             var count = names.Length;

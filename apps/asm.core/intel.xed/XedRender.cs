@@ -521,7 +521,7 @@ namespace Z0
             }
         }
 
-        public static string format(in DisasmOpDetails src)
+        public static string format(in OpDetails src)
         {
             var dst = text.buffer();
             for(var i=0; i<src.Count; i++)
@@ -751,7 +751,7 @@ namespace Z0
         public static string format(FieldAssign src)
             => format(src.Expression());
 
-        public static string format(byte index, in DisasmOpDetail src)
+        public static string format(byte index, in OpDetail src)
         {
             const string OpSepSlot = "/{0}";
             var dst = text.buffer();

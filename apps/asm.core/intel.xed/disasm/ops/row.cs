@@ -12,35 +12,35 @@ namespace Z0
 
     partial class XedDisasm
     {
-        static Dictionary<OpNameKind,DisasmOp> ops(in DisasmState state, in AsmHexCode code)
+        static Dictionary<OpNameKind,Operand> ops(in DisasmState state, in AsmHexCode code)
         {
-            var dst = dict<OpNameKind,DisasmOp>();
+            var dst = dict<OpNameKind,Operand>();
             var values = XedState.Code.ops(state.RuleState, code);
             var count = values.Count;
             for(var i=0; i<count; i++)
             {
                 ref readonly var value = ref values[i];
-                dst.TryAdd(value.Name, new DisasmOp(value));
+                dst.TryAdd(value.Name, new Operand(value));
             }
 
             if(state.RELBRVal.IsNonZero)
-                dst[OpNameKind.RELBR] = new DisasmOp(OpNameKind.RELBR, state.RELBRVal);
+                dst[OpNameKind.RELBR] = new Operand(OpNameKind.RELBR, state.RELBRVal);
             if(state.MEM0Val.IsNonEmpty)
-                dst[OpNameKind.MEM0] = new DisasmOp(OpNameKind.MEM0, state.MEM0Val);
+                dst[OpNameKind.MEM0] = new Operand(OpNameKind.MEM0, state.MEM0Val);
             if(state.MEM1Val.IsNonEmpty)
-                dst[OpNameKind.MEM1] = new DisasmOp(OpNameKind.MEM1, state.MEM1Val);
+                dst[OpNameKind.MEM1] = new Operand(OpNameKind.MEM1, state.MEM1Val);
             if(state.AGENVal.IsNonEmpty)
-                dst[OpNameKind.AGEN] = new DisasmOp(OpNameKind.AGEN, state.AGENVal);
+                dst[OpNameKind.AGEN] = new Operand(OpNameKind.AGEN, state.AGENVal);
             return dst;
         }
 
-        static DetailBlockRow row(in DisasmSummaryLines src)
+        static DetailBlockRow row(in SummaryLines src)
         {
             ref readonly var lines = ref src.Lines;
             ref readonly var summary = ref src.Summary;
             ref readonly var code = ref summary.Encoded;
-            var inst = DisasmInstruction.Empty;
-            var result = DisasmParse.parse(lines, out inst);
+            var inst = Instruction.Empty;
+            var result = parse(lines, out inst);
             if(result.Fail)
                 Errors.Throw(result.Message);
 
@@ -57,12 +57,12 @@ namespace Z0
             dst.InstForm = inst.Form;
             dst.InstClass = inst.Class;
             dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
-            DisasmParse.parse(inst.Props, out DisasmState dstate);
-            var ops = XedDisasm.ops(dstate, code);
+            XedDisasm.parse(inst, out DisasmState dstate);
+            var opsLU = ops(dstate, code);
             ref readonly var state = ref dstate.RuleState;
             dst.Offsets = XedState.Code.offsets(state);
             dst.OpCode = state.NOMINAL_OPCODE;
-            dst.Ops = alloc<DisasmOpDetail>(lines.OpCount);
+            dst.Ops = alloc<OpDetail>(lines.OpCount);
 
             var ocpos = state.POS_NOMINAL_OPCODE;
             var opcode = state.NOMINAL_OPCODE;
@@ -85,7 +85,7 @@ namespace Z0
                 operand.OpWidth = winfo;
                 operand.OpName = opclass.Name;
                 var optxt = EmptyString;
-                if(ops.TryGetValue(opclass.Name, out var opval))
+                if(opsLU.TryGetValue(opclass.Name, out var opval))
                 {
                     operand.Def = opval;
                     optxt = opval.Format();
@@ -104,7 +104,7 @@ namespace Z0
                     );
             }
 
-            if(ops.TryGetValue(OpNameKind.DISP, out var disp))
+            if(opsLU.TryGetValue(OpNameKind.DISP, out var disp))
                 dst.Disp = (Disp)disp;
 
             var prefix = ocpos != 0 ? slice(code.Bytes,0,ocpos) : default;

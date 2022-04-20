@@ -11,21 +11,15 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public class DisasmProps : Dictionary<string,string>
+        public static DisasmProps props(InstClass @class, InstForm form, Index<Facet<string>> src)
         {
-            public readonly InstClass Instruction;
-
-            public readonly InstForm Form;
-
-            public DisasmProps(InstClass @class, InstForm form, Dictionary<string,string> src)
-                : base(src)
+            var dst = dict<string,string>();
+            for(var i=0; i<src.Count; i++)
             {
-                Instruction = @class;
-                Form = form;
+                ref readonly var kvp = ref src[i];
+                dst.Add(kvp.Key, kvp.Value);
             }
-
-            public static DisasmProps Empty
-                => new DisasmProps(InstClass.Empty, InstForm.Empty, dict<string,string>());
+            return new DisasmProps(@class,form,dst);
         }
     }
 }

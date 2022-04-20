@@ -44,13 +44,28 @@ namespace Z0
                 return string.Format("{0}{1}", headerBase, opheader.Emit());
             }
 
+            public static string format(in LineBlock src)
+            {
+                var dst = text.buffer();
+                var count = src.Lines.Count;
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var line = ref src.Lines[i];
+                    if(i != count - 1)
+                        dst.AppendLine(line.Content);
+                    else
+                        dst.Append(line.Content);
+                }
+                return dst.Emit();
+            }
+
             public static void render(IRecordFormatter<DetailBlockRow> formatter, in DetailBlockRow src, ITextBuffer dst)
                 => dst.AppendLine(formatter.Format(src));
 
             public static string OpDetailHeader(int index)
                 => string.Format(OpDetailPattern, OpColPatterns.Select(x => string.Format(x, index)));
 
-            public static void RenderOps(in DisasmOpDetails ops, ITextBuffer dst)
+            public static void RenderOps(in OpDetails ops, ITextBuffer dst)
             {
                 const string RenderPattern = DisasmRender.Columns;
                 dst.AppendLineFormat(RenderPattern, "Operands", EmptyString);

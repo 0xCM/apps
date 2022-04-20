@@ -10,22 +10,8 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public ref struct DisasmFlow
+        public struct DisasmFlow
         {
-            public static void run(IAppService svc, WsContext context)
-            {
-                var files = context.Files(FileKind.XedRawDisasm);
-                iteri(files.Storage, (i,file) => exec(i,file), true);
-                void exec(int i, in FileRef src)
-                    => run(svc, context, src.DocId, src);
-            }
-
-            public static void run(IAppService svc, WsContext context, Hex32 docid, in FileRef src)
-                => init(svc,context).Run(docid,src);
-
-            static DisasmFlow init(IAppService svc, WsContext context)
-                => new DisasmFlow(context, DisasmTarget.create(svc,context));
-
             readonly WsContext Context;
 
             readonly IDisasmTarget Target;
@@ -41,8 +27,7 @@ namespace Z0
 
             }
 
-
-            public void Run(Hex32 docid, FileRef src)
+            public void Run(in FileRef src)
             {
                 var token = Target.Starting(src);
                 if(token.IsNonEmpty)
@@ -72,7 +57,6 @@ namespace Z0
                 Target.Computed(seq, src);
 
                 ref readonly var detail = ref src.DetailRow;
-
                 ref readonly var block = ref src.SummaryLines;
                 ref readonly var lines = ref block.Lines;
                 ref readonly var summary = ref block.Summary;
@@ -81,11 +65,11 @@ namespace Z0
                 ref readonly var ip = ref summary.IP;
 
                 var xdis = AsmInfo.Empty;
-                DisasmParse.parse(lines, out xdis).Require();
+                parse(lines, out xdis).Require();
                 Target.Computed(seq, xdis);
 
                 var props = DisasmProps.Empty;
-                DisasmParse.parse(lines, out props);
+                XedDisasm.parse(lines, out props);
                 Target.Computed(seq, props);
 
                 var fields = XedFields.fields();

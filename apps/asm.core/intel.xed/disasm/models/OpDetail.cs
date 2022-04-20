@@ -10,7 +10,7 @@ namespace Z0
     partial class XedDisasm
     {
         [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public struct DisasmOpDetail
+        public record struct OpDetail
         {
             public DisasmOpInfo OpInfo;
 
@@ -18,7 +18,7 @@ namespace Z0
 
             public OpName OpName;
 
-            public DisasmOp Def;
+            public Operand Def;
 
             public @string RuleDescription;
 

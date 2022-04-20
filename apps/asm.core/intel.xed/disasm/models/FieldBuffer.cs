@@ -19,8 +19,8 @@ namespace Z0
             {
                 Fields = fields;
                 State = RuleState.Empty;
-                Summary = DisasmSummaryRow.Empty;
-                Lines = DisasmLineBlock.Empty;
+                Summary = SummaryRow.Empty;
+                Lines = LineBlock.Empty;
                 AsmInfo = AsmInfo.Empty;
                 Props = DisasmProps.Empty;
                 Encoding = EncodingExtract.Empty;
@@ -32,8 +32,8 @@ namespace Z0
             {
                 Fields.Clear();
                 State = RuleState.Empty;
-                Summary = DisasmSummaryRow.Empty;
-                Lines = DisasmLineBlock.Empty;
+                Summary = SummaryRow.Empty;
+                Lines = LineBlock.Empty;
                 AsmInfo = AsmInfo.Empty;
                 Props = DisasmProps.Empty;
                 Encoding = EncodingExtract.Empty;
@@ -45,9 +45,9 @@ namespace Z0
 
             public DetailBlockRow Detail;
 
-            public DisasmLineBlock Lines;
+            public LineBlock Lines;
 
-            public DisasmSummaryRow Summary;
+            public SummaryRow Summary;
 
             public AsmInfo AsmInfo;
 

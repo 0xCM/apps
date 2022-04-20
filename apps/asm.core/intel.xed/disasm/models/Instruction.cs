@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public struct DisasmInstruction
+        public record struct Instruction
         {
             public InstClass Class;
 
@@ -19,14 +19,14 @@ namespace Z0
             public DisasmProps Props;
 
             [MethodImpl(Inline)]
-            public DisasmInstruction(InstClass @class, InstForm form, DisasmProps props)
+            public Instruction(InstClass @class, InstForm form, DisasmProps props)
             {
                 Class = @class;
                 Form = form;
                 Props = props;
             }
 
-            public static DisasmInstruction Empty => new DisasmInstruction(InstClass.Empty, InstForm.Empty, DisasmProps.Empty);
+            public static Instruction Empty => new Instruction(InstClass.Empty, InstForm.Empty, DisasmProps.Empty);
         }
     }
 }

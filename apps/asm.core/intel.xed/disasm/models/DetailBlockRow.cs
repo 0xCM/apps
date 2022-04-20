@@ -69,7 +69,7 @@ namespace Z0
 
             public EncodingOffsets Offsets;
 
-            public DisasmOpDetails Ops;
+            public OpDetails Ops;
 
             public int CompareTo(DetailBlockRow src)
             {

@@ -10,39 +10,63 @@ namespace Z0
 
     partial class XedDisasm
     {
+        public delegate void DisasmReceiver<T>(uint seq, in T src);
+
         public delegate void StateReceiver(uint seq, in RuleState state, ReadOnlySpan<FieldKind> fields);
+
+        public delegate void FieldReceiver(uint seq, in Fields src);
 
         public class DisasmBuffer
         {
             public readonly FileRef Source;
 
-            public WfExecFlow<string> Flow;
+            readonly Index<FieldKind> _FieldKinds;
 
-            public DataFile File;
+            DataFile _DataFile;
 
-            public DetailBlock Block;
+            DetailBlock _Block;
 
-            public Summary Summary;
+            Summary _Summary;
+
+            AsmInfo _AsmInfo;
+
+            DisasmProps _Props;
+
+            [MethodImpl(Inline)]
+            public ref DataFile DataFile()
+                => ref _DataFile;
+
+            [MethodImpl(Inline)]
+            public ref DetailBlock Block()
+                => ref _Block;
+
+            [MethodImpl(Inline)]
+            public ref Summary Summary()
+                => ref _Summary;
+
+            [MethodImpl(Inline)]
+            public ref AsmInfo AsmInfo()
+                => ref _AsmInfo;
+
+            [MethodImpl(Inline)]
+            public ref DisasmProps Props()
+                => ref _Props;
+
+            public uint FieldCount;
+
+            EncodingExtract _Encoding;
+
+            [MethodImpl(Inline)]
+            public ref EncodingExtract Encoding()
+                => ref _Encoding;
 
             object StateLock = new();
 
-            RuleState _State;
-
-            [MethodImpl(Inline)]
-            public ref RuleState State()
-                => ref _State;
-
-            public void State(uint seq, StateReceiver receiver)
+            public void State(uint seq, in RuleState state, StateReceiver receiver)
             {
                 lock(StateLock)
-                    receiver(seq,_State, slice(_FieldKinds.View, 0, FieldCount));
+                    receiver(seq, state, slice(_FieldKinds.View, 0, FieldCount));
             }
-
-            public AsmInfo XDis;
-
-            readonly Index<Field> _StateFields;
-
-            readonly Index<FieldKind> _FieldKinds;
 
             public void Cache(ReadOnlySpan<FieldKind> src)
             {
@@ -51,28 +75,19 @@ namespace Z0
                     FieldCount = (uint)src.Length;
                     for(var i=0; i<src.Length; i++)
                         _FieldKinds[i] = skip(src,i);
-
                 }
             }
-
-            public uint FieldCount;
-
-            public DisasmProps Props;
-
-            public EncodingExtract Encoding;
 
             public DisasmBuffer(in FileRef src)
             {
                 Source = src;
-                _StateFields = alloc<Field>(Fields.MaxCount);
                 _FieldKinds = alloc<FieldKind>(Fields.MaxCount);
-                File = DataFile.Empty;
-                Block = DetailBlock.Empty;
-                Summary = Summary.Empty;
-                _State = RuleState.Empty;
-                XDis = AsmInfo.Empty;
-                Props = DisasmProps.Empty;
-                Encoding = EncodingExtract.Empty;
+                _DataFile = XedDisasm.DataFile.Empty;
+                _Block = DetailBlock.Empty;
+                _Summary = XedDisasm.Summary.Empty;
+                _AsmInfo = XedRules.AsmInfo.Empty;
+                _Props = DisasmProps.Empty;
+                _Encoding = EncodingExtract.Empty;
             }
         }
     }
