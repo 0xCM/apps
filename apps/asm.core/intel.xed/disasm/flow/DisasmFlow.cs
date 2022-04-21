@@ -22,7 +22,7 @@ namespace Z0
 
             public void Run(in FileRef src, IDisasmTarget dst)
             {
-                var token = dst.Starting(src);
+                var token = dst.Starting(Context,src);
                 if(token.IsNonEmpty)
                 {
                     var doc = detail(Context, src);
@@ -39,7 +39,7 @@ namespace Z0
                     }
 
                     for(var i=0u; i<blocks.Length; i++)
-                        Step(i,skip(blocks,i), dst);
+                        Step(i, skip(blocks,i), dst);
 
                     dst.Finished(token);
                 }
@@ -47,8 +47,6 @@ namespace Z0
 
             void Step(uint seq, in DetailBlock src, IDisasmTarget dst)
             {
-                dst.Computed(seq, src);
-
                 ref readonly var detail = ref src.DetailRow;
                 ref readonly var block = ref src.SummaryLines;
                 ref readonly var lines = ref block.Block;
@@ -56,9 +54,11 @@ namespace Z0
                 ref readonly var asmhex = ref summary.Encoded;
                 ref readonly var asmtxt = ref summary.Asm;
                 ref readonly var ip = ref summary.IP;
+                ref readonly var ops = ref detail.Ops;
 
-                var xdis = AsmInfo.Empty;
-                parse(lines, out xdis).Require();
+                dst.Computing(seq, src.Instruction);
+
+                var xdis = asminfo(lines);
                 dst.Computed(seq, xdis);
 
                 var props = DisasmProps.Empty;
@@ -72,12 +72,16 @@ namespace Z0
                 var kinds = fields.MemberKinds();
                 dst.Computed(seq, kinds);
 
+                dst.Computed(seq, ops);
+
                 var state = OperandState.Empty;
-                XedState.Edit.fields(fields, kinds, ref state);
+                XedState.update(fields, kinds, ref state);
                 dst.Computed(seq, state);
 
                 var encoding = XedState.Code.encoding(state, asmhex);
                 dst.Computed(seq, encoding);
+
+                dst.Computed(seq, src.Instruction);
             }
         }
     }

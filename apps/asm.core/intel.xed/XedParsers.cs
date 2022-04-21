@@ -85,6 +85,21 @@ namespace Z0
 
         static XedParsers Instance = new();
 
+        static ConcurrentDictionary<string,NontermKind> NontermUppers
+            = uppers();
+
+        static ConcurrentDictionary<string,NontermKind> uppers()
+        {
+            var dst = cdict<string,NontermKind>();
+            var kinds =  Symbols.index<NontermKind>().Kinds;
+            for(var i=0; i<kinds.Length; i++)
+            {
+                ref readonly var kind = ref skip(kinds,i);
+                dst.TryAdd(kind.ToString().ToUpper(), kind);
+            }
+            return dst;
+        }
+
         XedParsers()
         {
 
@@ -624,7 +639,13 @@ namespace Z0
             var result = Nonterminals.Parse(input, out NontermKind ntk);
             if(result)
                 dst = ntk;
-            return result;
+            else
+            {
+                result = NontermUppers.TryGetValue(input.ToUpper(), out ntk);
+                if(result)
+                    dst = ntk;
+            }
+             return result;
         }
 
         public static bool parse(string src, out XedRegId dst)

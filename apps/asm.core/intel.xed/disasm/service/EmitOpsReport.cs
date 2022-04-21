@@ -23,7 +23,7 @@ namespace Z0
             {
                 ref readonly var row = ref doc[i];
                 ref readonly var detail = ref row.DetailRow;
-                var mnemonic = detail.Instruction;
+                var inst = detail.Instruction;
                 emitter.AppendLine(RP.PageBreak80);
                 XedRender.describe(detail, -24, emitter);
                 ref readonly var ops = ref detail.Ops;

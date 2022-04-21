@@ -41,9 +41,6 @@ namespace Z0
                     ref readonly var block = ref doc[i];
                     fields(block, ref buffer);
 
-                    ref readonly var ops = ref block.DetailRow.Ops;
-                    var kinds = buffer.FieldSelection;
-
                     dst.AppendLine(RP.PageBreak240);
                     dst.AppendLine(block.Lines.Format());
                     dst.AppendLine(RP.PageBreak100);
@@ -51,6 +48,7 @@ namespace Z0
                     XedRender.describe(buffer, dst);
                     dst.AppendLine(RP.PageBreak100);
 
+                    var kinds = buffer.FieldSelection;
                     for(var k=0; k<kinds.Length; k++)
                     {
                         ref readonly var kind = ref skip(kinds,k);
@@ -61,7 +59,7 @@ namespace Z0
                         counter++;
                     }
 
-                    DisasmRender.RenderOps(ops, dst);
+                    DisasmRender.RenderOps(block.DetailRow.Ops, dst);
                     dst.AppendLine();
                 }
 

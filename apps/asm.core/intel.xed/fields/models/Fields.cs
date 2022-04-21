@@ -25,6 +25,14 @@ namespace Z0
                 Kinds = alloc<FieldKind>(src.Length);
             }
 
+            [MethodImpl(Inline)]
+            public Fields(Span<Field> src, Span<FieldKind> kinds)
+            {
+                Data = src;
+                Kinds = kinds;
+                Require.equal(src.Length,kinds.Length);
+            }
+
             public uint Count
             {
                 [MethodImpl(Inline)]
@@ -41,14 +49,14 @@ namespace Z0
             [MethodImpl(Inline)]
             public FieldSet Members()
             {
-                var members = FieldSet.create();
+                var dst = FieldSet.create();
                 for(var i=0; i<Count; i++)
                 {
                     ref readonly var field = ref this[i];
                     if(field.IsNonEmpty)
-                        members.Include(field.Kind);
+                        dst.Include(field.Kind);
                 }
-                return members;
+                return dst;
             }
 
             [MethodImpl(Inline)]
@@ -76,13 +84,6 @@ namespace Z0
                 ref var dst = ref this[(uint)src.Field];
                 dst = field(src.Field, src.Value());
                 return ref this[src.Field];
-            }
-
-            [MethodImpl(Inline)]
-            public ref Field Update(FieldKind kind, Register value)
-            {
-                this[kind] = field(kind, value);
-                return ref this[kind];
             }
 
             public ref Field this[FieldKind kind]

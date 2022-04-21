@@ -7,16 +7,13 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
+    using static core;
 
     partial class XedFields
     {
         [MethodImpl(Inline), Op]
         public static Field field<T>(FieldKind kind, T value)
             where T : unmanaged
-                => Field.init(kind, core.bw16(value));
-
-        [MethodImpl(Inline), Op]
-        public static Field field(FieldKind kind, Register value)
-            => Field.init(kind, value);
+                => Field.init(kind, bw16(value));
     }
 }

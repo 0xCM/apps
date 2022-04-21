@@ -11,6 +11,12 @@ namespace Z0
 
     partial class XedDisasm
     {
+        public static DisasmProps props(in DisasmBlock src)
+        {
+            parse(src, out DisasmProps dst);
+            return dst;
+        }
+
         public static DisasmProps props(InstClass @class, InstForm form, Index<Facet<string>> src)
         {
             var dst = dict<string,string>();

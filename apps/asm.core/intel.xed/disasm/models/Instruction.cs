@@ -12,6 +12,10 @@ namespace Z0
     {
         public readonly record struct Instruction
         {
+            public readonly InstructionId Id;
+
+            public readonly asci64 Asm;
+
             public readonly InstClass Class;
 
             public readonly InstForm Form;
@@ -19,14 +23,16 @@ namespace Z0
             public readonly DisasmProps Props;
 
             [MethodImpl(Inline)]
-            public Instruction(InstClass @class, InstForm form, DisasmProps props)
+            public Instruction(InstructionId id, asci64 asm, InstClass @class, InstForm form, DisasmProps props)
             {
+                Id = id;
+                Asm = asm;
                 Class = @class;
                 Form = form;
                 Props = props;
             }
 
-            public static Instruction Empty => new Instruction(InstClass.Empty, InstForm.Empty, DisasmProps.Empty);
+            public static Instruction Empty => new Instruction(InstructionId.Empty, asci64.Null, InstClass.Empty, InstForm.Empty, DisasmProps.Empty);
         }
     }
 }

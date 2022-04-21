@@ -5,9 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static XedRules;
-
     partial class XedDisasm
     {
         [MethodImpl(Inline)]
@@ -22,29 +19,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static DisasmToken token()
             => (uint)core.inc(ref DisasmTokens);
-
-        public static Index<IDisasmTarget> targets(uint count)
-        {
-            var dst = alloc<IDisasmTarget>(count);
-            for(var i=0; i<count; i++)
-                seek(dst,i) = new DisasmTarget();
-            return dst;
-        }
-
-        public static Index<DisasmFlow> flows(WsContext context, Index<IDisasmTarget> targets)
-        {
-            var dst = alloc<DisasmFlow>(targets.Count);
-            for(var i=0; i<targets.Count; i++)
-                seek(dst,i) = flow(context);
-            return dst;
-        }
-
-        public static Index<DisasmFlow> flows(WsContext context, uint count)
-        {
-            var dst = alloc<DisasmFlow>(count);
-            for(var i=0; i<count; i++)
-                seek(dst,i) = flow(context);
-            return dst;
-        }
     }
 }

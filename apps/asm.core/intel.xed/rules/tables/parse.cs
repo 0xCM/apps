@@ -13,10 +13,10 @@ namespace Z0
         partial struct TableCalcs
         {
             [Op]
-            public static bool parse(string src, FieldKind kind, out FieldPack dst)
+            public static FieldPack pack(string src, FieldKind kind)
             {
                 var result = true;
-                dst = default;
+                var dst = FieldPack.Empty;
                 dst.Field = kind;
                 switch(kind)
                 {
@@ -508,7 +508,7 @@ namespace Z0
                 if(!result)
                     Errors.Throw(AppMsg.ParseFailure.Format(kind.ToString(), src));
 
-                return result;
+                return dst;
             }
         }
     }

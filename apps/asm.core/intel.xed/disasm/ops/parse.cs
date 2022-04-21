@@ -11,32 +11,26 @@ namespace Z0
     partial class XedDisasm
     {
         public static Outcome parse(in SummaryLines src, out Instruction dst)
-            => parse(src.Block, out dst);
-
-        public static Outcome parse(in DisasmBlock src, out AsmInfo dst)
-            => DisasmParse.parse(src.XDis.Content, out dst);
-
-        public static Outcome parse(in DisasmBlock src, out Instruction dst)
         {
+            ref readonly var block = ref src.Block;
             var result = Outcome.Success;
             dst = default(Instruction);
-            ref readonly var content = ref src.Props.Content;
+            ref readonly var content = ref block.Props.Content;
             if(text.nonempty(content))
             {
-                result = DisasmParse.parse(src, out InstClass @class);
+                result = DisasmParse.parse(block, out InstClass @class);
                 if(result.Fail)
                     return result;
 
-                result = DisasmParse.parse(src, out InstForm form);
+                result = DisasmParse.parse(block, out InstForm form);
                 if(result.Fail)
                     return result;
 
-                XedDisasm.parse(src, out DisasmProps props);
-                dst = new Instruction(@class, form, props);
+                XedDisasm.parse(block, out DisasmProps props);
+                dst = new Instruction(src.Row.InstructionId, src.Row.Asm.Content, @class, form, props);
             }
             return result;
         }
-
 
         public static uint parse(in DisasmBlock src, out DisasmProps dst)
         {
@@ -71,7 +65,5 @@ namespace Z0
 
             return k;
         }
-
-
     }
 }

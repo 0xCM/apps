@@ -12,6 +12,22 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
+        public static ref readonly bit rexb(in OperandState src)
+            => ref src.REXB;
+
+        [MethodImpl(Inline), Op]
+        public static ref readonly bit rexr(in OperandState src)
+            => ref src.REXR;
+
+        [MethodImpl(Inline), Op]
+        public static ref readonly bit rexx(in OperandState src)
+            => ref src.REXX;
+
+        [MethodImpl(Inline), Op]
+        public static ref readonly bit rexw(in OperandState src)
+            => ref src.REXW;
+
+        [MethodImpl(Inline), Op]
         public static RexPrefix rex(in OperandState src)
             => new RexPrefix(src.REXB, src.REXX, src.REXR, src.REXW);
 

@@ -43,7 +43,7 @@ namespace Z0
                 var ockind = XedOpCodes.kind(ocindex);
                 var encoding  = XedState.Code.encoding(state, asmhex);
                 var ocbyte = XedState.ocbyte(state);
-                var ochex = XedRender.format((Hex8)ocbyte);
+                var ochex = XedRender.format(ocbyte);
                 var ocbits = BitRender.format8x4(ocbyte);
 
                 writer.WriteLine(RP.PageBreak240);

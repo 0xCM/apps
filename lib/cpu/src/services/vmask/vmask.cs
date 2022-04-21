@@ -49,7 +49,5 @@ namespace Z0
         public static T eraser<T>(byte start, byte count)
             where T : unmanaged
                 => gmath.xor(Limits.maxval<T>(), gmath.sll(BitMasks.lo<T>((byte)(count - 1)), start));
-
-
     }
 }

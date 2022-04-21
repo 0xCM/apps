@@ -11,11 +11,13 @@ namespace Z0
     {
         public interface IDisasmTarget
         {
-            DisasmToken Starting(in FileRef src);
+            DisasmToken Starting(WsContext context, in FileRef src);
 
             void Finished(DisasmToken token);
 
-            void Computed(uint seq, in DetailBlock src);
+            void Computing(uint seq, in Instruction src);
+
+            void Computed(uint seq, in OpDetails src);
 
             void Computed(uint seq, in OperandState src);
 
@@ -28,6 +30,8 @@ namespace Z0
             void Computed(uint seq, in EncodingExtract src);
 
             void Computed(uint seq, in DisasmProps src);
+
+            void Computed(uint seq, in Instruction src);
         }
     }
 }

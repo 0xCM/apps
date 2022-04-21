@@ -5,16 +5,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static XedModels;
     using static XedRules;
+    using static core;
 
-    partial class XedFields
+    partial class XedState
     {
-        public static Fields fields()
-            => new Fields(core.alloc<Field>(Fields.MaxCount));
-
         [MethodImpl(Inline), Op]
-        public static Fields fields(Span<Field> buffer, Span<FieldKind> kinds)
-            => new Fields(buffer, kinds);
+        public static ref readonly ESRC esrc(in OperandState src)
+            => ref @as<ESRC>(src.ESRC);
     }
 }

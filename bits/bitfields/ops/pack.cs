@@ -60,7 +60,7 @@ namespace Z0
         public static ulong pack64x1(ReadOnlySpan<byte> src, byte index = 0)
         {
             var a0 = pack32x1(src, index);
-            var b0 = pack32x1(slice(src,15), index);
+            var b0 = pack32x1(slice(src,16), index);
             return join(a0,b0);
         }
 

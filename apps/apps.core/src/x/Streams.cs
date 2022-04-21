@@ -10,6 +10,30 @@ namespace Z0
 
     partial class XTend
     {
+        public static string Delimit<T>(this ReadOnlySpan<T> src, string sep, short pad = 0)
+        {
+            var dst = text.buffer();
+            var slot = RP.slot(0,pad);
+
+            for(var i=0; i<src.Length; i++)
+            {
+                if(i != 0)
+                    dst.Append(sep);
+
+                dst.AppendFormat(slot, skip(src,i));
+            }
+            return dst.Emit();
+        }
+
+        public static string Delimit<T>(this Span<T> src, string sep, short pad = 0)
+            => (@readonly(src)).Delimit(sep,pad);
+
+        public static string Delimit<T>(this T[] src, string sep, short pad = 0)
+            => (@readonly(src)).Delimit(sep,pad);
+
+        public static string Delimit<T>(this Index<T> src, string sep, short pad = 0)
+            => (src.View).Delimit(sep,pad);
+
         public static void Pipe<S,T>(this IWfDb Db, ReadOnlySpan<S> src, Func<S,T> converter, string channel = null)
             where T : ITextual
         {
@@ -39,7 +63,6 @@ namespace Z0
         public static void Pipe<S,T>(this IAppService svc, ReadOnlySpan<S> src, Func<S,T> converter, string channel = null)
             where T : ITextual
                 => svc.Db.Pipe(src,converter,channel);
-
 
         public static void Pipe<T>(this IAppService svc, ReadOnlySpan<T> src, string channel = null)
             where T : ITextual

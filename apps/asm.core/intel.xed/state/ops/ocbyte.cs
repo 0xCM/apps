@@ -6,12 +6,13 @@
 namespace Z0
 {
     using static XedRules;
+    using static core;
 
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static ref readonly byte ocbyte(in OperandState src)
-            => ref src.NOMINAL_OPCODE;
+        public static ref readonly Hex8 ocbyte(in OperandState src)
+            => ref @as<Hex8>(src.NOMINAL_OPCODE);
 
         partial struct Edit
         {

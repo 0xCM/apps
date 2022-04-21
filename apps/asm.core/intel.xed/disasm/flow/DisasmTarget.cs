@@ -7,6 +7,7 @@ namespace Z0
 {
     using static core;
     using static XedRules;
+    using static XedFields;
 
     using K = XedRules.FieldKind;
 
@@ -20,27 +21,41 @@ namespace Z0
 
             HashSet<FieldKind> Exclusions;
 
+            readonly FieldRender _Render;
+
+            FileRef _CurrentFile;
+
+            WsContext _Context;
+
             public DisasmTarget()
             {
                 Counter = 0;
                 Exclusions = core.hashset(K.TZCNT,K.LZCNT,K.MAX_BYTES);
                 Running += Nothing;
                 Ran += Nothing;
-                BlockComputed += Nothing;
-                RuleStateComputed += StateComputed;
+                OpDetailComputed += Nothing;
+                OpStateComputed += StateComputed;
                 InfoComputed += Nothing;
                 ExtractComputed += Nothing;
                 PropsComputed += Nothing;
                 FieldsComputed += Nothing;
+                ComputingInst += Nothing;
+                ComputedInst += Nothing;
+                _Render = XedFields.render();
+
             }
 
-            protected event Receiver<FileRef> Running;
+            protected event DisasmReceiver<Instruction> ComputingInst;
+
+            protected event DisasmReceiver<Instruction> ComputedInst;
+
+            protected event FileReceiver Running;
 
             protected event Action<DisasmToken> Ran;
 
-            protected event DisasmReceiver<DetailBlock> BlockComputed;
+            protected event DisasmReceiver<OpDetails> OpDetailComputed;
 
-            protected event StateReceiver RuleStateComputed;
+            protected event OpStateReceiver OpStateComputed;
 
             protected event DisasmReceiver<AsmInfo> InfoComputed;
 
@@ -50,15 +65,35 @@ namespace Z0
 
             protected event FieldReceiver FieldsComputed;
 
-            void IDisasmTarget.Computed(uint seq, in DetailBlock src)
+            protected ref readonly FileRef CurrentFile
             {
-                BlockComputed(seq,src);
+                [MethodImpl(Inline)]
+                get => ref _CurrentFile;
             }
 
-            void IDisasmTarget.Computed(uint seq, in OperandState src)
+            protected ref readonly WsContext Context
             {
-                Buffer.State(seq, src, RuleStateComputed);
+                [MethodImpl(Inline)]
+                get => ref _Context;
             }
+
+            protected ref readonly FieldRender Render
+            {
+                [MethodImpl(Inline)]
+                get => ref _Render;
+            }
+
+            void IDisasmTarget.Computed(uint seq, in OpDetails src)
+                => OpDetailComputed(seq,src);
+
+            void IDisasmTarget.Computing(uint seq, in Instruction src)
+                => ComputingInst(seq, src);
+
+            void IDisasmTarget.Computed(uint seq, in Instruction src)
+                => ComputedInst(seq, src);
+
+            void IDisasmTarget.Computed(uint seq, in OperandState src)
+                => Buffer.State(seq, src, OpStateComputed);
 
             void IDisasmTarget.Computed(uint seq, in AsmInfo src)
             {
@@ -67,14 +102,10 @@ namespace Z0
             }
 
             void IDisasmTarget.Computed(uint seq, in Fields src)
-            {
-                FieldsComputed(seq,src);
-            }
+                => FieldsComputed(seq,src);
 
             void IDisasmTarget.Computed(uint seq, ReadOnlySpan<FieldKind> src)
-            {
-                Buffer.Cache(src);
-            }
+                => Buffer.Cache(src);
 
             void IDisasmTarget.Computed(uint seq, in EncodingExtract src)
             {
@@ -88,19 +119,19 @@ namespace Z0
                 PropsComputed(seq,src);
             }
 
-            public DisasmToken Starting(in FileRef src)
+            public DisasmToken Starting(WsContext context, in FileRef src)
             {
+                _CurrentFile = src;
+                _Context = context;
                 DisasmToken t = token();
                 Counter = 0;
                 Buffer = new(src);
-                Running(src);
+                Running(context, src);
                 return t;
             }
 
             void IDisasmTarget.Finished(DisasmToken token)
-            {
-                Ran(token);
-            }
+                => Ran(token);
 
             void StateComputed(uint seq, in OperandState state, ReadOnlySpan<FieldKind> fields)
             {
@@ -115,13 +146,15 @@ namespace Z0
                 }
             }
 
-            static void Nothing(in FileRef src) {}
+            static void Nothing(WsContext context, in FileRef src) {}
 
             static void Nothing(DisasmToken src) {}
 
             static void Nothing<T>(uint seq, in T src) {}
 
             static void Nothing(uint seq, in Fields src) {}
-       }
+
+            static void Nothing(uint seq){}
+        }
     }
 }

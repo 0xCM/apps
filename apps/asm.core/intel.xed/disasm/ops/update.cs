@@ -13,7 +13,7 @@ namespace Z0
         public static Index<CellValue> update(in DisasmBlock src, ref OperandState dst)
         {
             var fields = values(src);
-            XedState.Edit.update(fields, ref dst);
+            XedState.update(fields, ref dst);
             return fields;
         }
 

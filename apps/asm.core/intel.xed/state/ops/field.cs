@@ -5,7 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
     using static XedRules;
+    using static XedModels;
     using static XedFields;
     using static XedRules.CellValue;
     using static core;
@@ -15,6 +17,74 @@ namespace Z0
 
     partial class XedState
     {
+        public delegate void FieldHandler<T>(FieldKind field, T value)
+            where T : unmanaged;
+
+        public static void field<T>(FieldKind kind, in OperandState src, FieldHandler<T> f)
+            where T : unmanaged
+        {
+            switch(kind)
+            {
+                case K.ASZ:
+                    f(kind, @as<bit,T>(src.ASZ));
+                break;
+                case K.OSZ:
+                    f(kind, @as<bit,T>(src.OSZ));
+                break;
+                case K.DF32:
+                    f(kind, @as<bit,T>(src.DF32));
+                break;
+                case K.DF64:
+                    f(kind, @as<bit,T>(src.DF64));
+                break;
+                case K.NO_SCALE_DISP8:
+                    f(kind, @as<bit,T>(src.NO_SCALE_DISP8));
+                break;
+                case K.EASZ:
+                    f(kind, @as<EASZ,T>(easz(src)));
+                break;
+                case K.EOSZ:
+                    f(kind, @as<EOSZ,T>(eosz(src)));
+                break;
+                case K.ESRC:
+                    f(kind, @as<ESRC,T>(esrc(src)));
+                break;
+                case K.ICLASS:
+                    f(kind, @as<InstClass,T>(iclass(src)));
+                break;
+                case K.MODRM_BYTE:
+                    f(kind, @as<ModRm,T>(modrm(src)));
+                break;
+                case K.OUTREG:
+                    f(kind, @as<Register,T>(outreg(src)));
+                break;
+                case K.REXB:
+                    f(kind, @as<bit,T>(rexb(src)));
+                break;
+                case K.REXR:
+                    f(kind, @as<bit,T>(rexr(src)));
+                break;
+                case K.REXW:
+                    f(kind, @as<bit,T>(rexw(src)));
+                break;
+                case K.REXX:
+                    f(kind, @as<bit,T>(rexx(src)));
+                break;
+                case K.NOMINAL_OPCODE:
+                    f(kind, @as<Hex8,T>(ocbyte(src)));
+                break;
+                case K.VEXVALID:
+                    f(kind, @as<VexClass,T>(vexclass(src)));
+                break;
+                case K.VEX_PREFIX:
+                    f(kind, @as<VexKind,T>(vexkind(src)));
+                break;
+                case K.MASK:
+                    f(kind, @as<MaskReg,T>(mask(src)));
+                break;
+            }
+        }
+
         partial struct Edit
         {
             [Op]

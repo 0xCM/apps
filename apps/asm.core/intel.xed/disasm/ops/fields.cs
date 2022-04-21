@@ -17,15 +17,16 @@ namespace Z0
         public static ref FieldBuffer fields(in DetailBlock src, ref FieldBuffer dst)
         {
             dst.Clear();
-            dst.Detail = src.DetailRow;
-            dst.Lines = src.SummaryLines.Block;
-            dst.Summary = src.SummaryLines.Row;
-            parse(dst.Lines, out dst.AsmInfo).Require();
-            parse(dst.Lines, out dst.Props);
+            ref readonly var lines = ref src.SummaryLines;
+            dst.Props = props(lines.Block);
             fields(dst.Props, dst.Fields, false);
+            dst.AsmInfo = asminfo(lines.Block);
+            dst.Lines = lines.Block;
+            dst.Detail = src.DetailRow;
+            dst.Summary = lines.Row;
             dst.FieldSelection = dst.Fields.MemberKinds();
-            XedState.Edit.fields(dst.Fields, dst.FieldSelection, ref dst.State);
-            dst.Encoding = XedState.Code.encoding(dst.State, src.SummaryLines.Row.Encoded);
+            XedState.update(dst.Fields, dst.FieldSelection, ref dst.State);
+            dst.Encoding = XedState.Code.encoding(dst.State, lines.Row.Encoded);
             return ref dst;
         }
 
@@ -47,8 +48,7 @@ namespace Z0
 
                 result = XedParsers.parse(name, out FieldKind kind);
                 result.Require();
-                result = TableCalcs.parse(value, kind, out var pack);
-                result.Require();
+                var pack = TableCalcs.pack(value, kind);
                 dst.Update(pack);
                 counter++;
             }

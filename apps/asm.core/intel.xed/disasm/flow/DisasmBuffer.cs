@@ -12,9 +12,11 @@ namespace Z0
     {
         public delegate void DisasmReceiver<T>(uint seq, in T src);
 
-        public delegate void StateReceiver(uint seq, in OperandState state, ReadOnlySpan<FieldKind> fields);
+        public delegate void OpStateReceiver(uint seq, in OperandState state, ReadOnlySpan<FieldKind> fields);
 
         public delegate void FieldReceiver(uint seq, in Fields src);
+
+        public delegate void FileReceiver(WsContext context, in FileRef src);
 
         public class DisasmBuffer
         {
@@ -62,7 +64,7 @@ namespace Z0
 
             object StateLock = new();
 
-            public void State(uint seq, in OperandState state, StateReceiver receiver)
+            public void State(uint seq, in OperandState state, OpStateReceiver receiver)
             {
                 lock(StateLock)
                     receiver(seq, state, slice(_FieldKinds.View, 0, FieldCount));
