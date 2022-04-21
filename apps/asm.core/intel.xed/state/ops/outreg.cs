@@ -12,13 +12,13 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static ref readonly Register outreg(in RuleState src)
+        public static ref readonly Register outreg(in OperandState src)
             => ref @as<XedRegId,Register>(src.OUTREG);
 
         partial struct Edit
         {
             [MethodImpl(Inline), Op]
-            public static ref Register outreg(in RuleState src)
+            public static ref Register outreg(in OperandState src)
                 => ref @as<XedRegId,Register>(src.OUTREG);
         }
     }

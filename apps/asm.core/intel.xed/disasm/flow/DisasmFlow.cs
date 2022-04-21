@@ -72,7 +72,7 @@ namespace Z0
                 var kinds = fields.MemberKinds();
                 dst.Computed(seq, kinds);
 
-                var state = RuleState.Empty;
+                var state = OperandState.Empty;
                 XedState.Edit.fields(fields, kinds, ref state);
                 dst.Computed(seq, state);
 

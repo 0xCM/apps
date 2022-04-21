@@ -30,12 +30,12 @@ namespace Z0
         /// <summary>
         /// Represents the content of a verbose xed instruction disassembly
         /// </summary>
-        public readonly struct LineBlock
+        public readonly struct DisasmBlock
         {
             public readonly Index<TextLine> Lines;
 
             [MethodImpl(Inline)]
-            public LineBlock(TextLine[] src)
+            public DisasmBlock(TextLine[] src)
             {
                 Lines = src;
             }
@@ -95,10 +95,10 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator LineBlock(TextLine[] src)
-                => new LineBlock(src);
+            public static implicit operator DisasmBlock(TextLine[] src)
+                => new DisasmBlock(src);
 
-            public static LineBlock Empty => new LineBlock(sys.empty<TextLine>());
+            public static DisasmBlock Empty => new DisasmBlock(sys.empty<TextLine>());
         }
     }
 }

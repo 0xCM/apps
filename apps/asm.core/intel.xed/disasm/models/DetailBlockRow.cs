@@ -33,7 +33,7 @@ namespace Z0
 
             public MemoryAddress IP;
 
-            public InstClass InstClass;
+            public InstClass Instruction;
 
             public AsmHexCode Encoded;
 
@@ -63,7 +63,7 @@ namespace Z0
 
             public AsmExpr Asm;
 
-            public InstForm InstForm;
+            public InstForm Form;
 
             public @string SourceName;
 

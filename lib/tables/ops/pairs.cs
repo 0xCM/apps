@@ -4,26 +4,30 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
     using static core;
 
     partial struct Tables
     {
         [Op, Closures(Closure)]
-        public static string pairs<T>(in RowAdapter<T> src)
+        public static string pairs<T>(in RowFormatSpec spec, in RowAdapter<T> src)
             where T : struct
         {
-            const char RowSep = Chars.Comma;
-            const char ValSep = Chars.Eq;
-            const string KVRP = "{0,-48}: {1}" + Eol;
-
             var dst = text.buffer();
+            pairs(spec, src, dst);
+            return dst.Emit();
+        }
+
+        [Op, Closures(Closure)]
+        public static void pairs<T>(in RowFormatSpec spec, in RowAdapter<T> src, ITextBuffer dst)
+            where T : struct
+        {
+            var pattern = KvpPattern(spec);
             var cells = src.Cells;
             var count = cells.Length;
             var fields = src.Fields.View;
             for(var i=0; i<count; i++)
-                dst.AppendFormat(KVRP, skip(fields,i).MemberName, skip(cells,i));
-            return dst.Emit();
+                dst.AppendLineFormat(pattern, skip(fields,i).MemberName, skip(cells,i));
+            dst.AppendLine();
         }
     }
 }

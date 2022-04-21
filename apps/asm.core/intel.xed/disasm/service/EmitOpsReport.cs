@@ -16,21 +16,22 @@ namespace Z0
         {
             var dst = DisasmOpsPath(context,doc.DataFile.Source);
             var emitting = EmittingFile(dst);
-            using var writer = dst.AsciWriter();
+            using var emitter = dst.AsciEmitter();
             var counter = 0u;
             var count = doc.Count;
             for(var i=0; i<count;i++)
             {
                 ref readonly var row = ref doc[i];
                 ref readonly var detail = ref row.DetailRow;
-                var mnemonic = detail.InstClass;
-                writer.AppendLineFormat("{0,-6} {1}", counter++, mnemonic);
-                writer.AppendLine(RP.PageBreak40);
+                var mnemonic = detail.Instruction;
+                emitter.AppendLine(RP.PageBreak80);
+                XedRender.describe(detail, -24, emitter);
                 ref readonly var ops = ref detail.Ops;
+                emitter.AppendLine("Operands");
                 for(var j=z8; j<ops.Count; j++)
-                    writer.AppendLine(XedRender.format(j, ops[j]));
+                    emitter.AppendLine(XedRender.format(j, -24, ops[j]));
 
-                writer.WriteLine();
+                emitter.WriteLine();
             }
 
             EmittedFile(emitting,counter);

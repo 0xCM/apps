@@ -18,9 +18,9 @@ namespace Z0
             FieldBuffer(Fields fields)
             {
                 Fields = fields;
-                State = RuleState.Empty;
+                State = OperandState.Empty;
                 Summary = SummaryRow.Empty;
-                Lines = LineBlock.Empty;
+                Lines = DisasmBlock.Empty;
                 AsmInfo = AsmInfo.Empty;
                 Props = DisasmProps.Empty;
                 Encoding = EncodingExtract.Empty;
@@ -31,9 +31,9 @@ namespace Z0
             public void Clear()
             {
                 Fields.Clear();
-                State = RuleState.Empty;
+                State = OperandState.Empty;
                 Summary = SummaryRow.Empty;
-                Lines = LineBlock.Empty;
+                Lines = DisasmBlock.Empty;
                 AsmInfo = AsmInfo.Empty;
                 Props = DisasmProps.Empty;
                 Encoding = EncodingExtract.Empty;
@@ -45,7 +45,7 @@ namespace Z0
 
             public DetailBlockRow Detail;
 
-            public LineBlock Lines;
+            public DisasmBlock Lines;
 
             public SummaryRow Summary;
 
@@ -53,7 +53,7 @@ namespace Z0
 
             public DisasmProps Props;
 
-            public RuleState State;
+            public OperandState State;
 
             public EncodingExtract Encoding;
 

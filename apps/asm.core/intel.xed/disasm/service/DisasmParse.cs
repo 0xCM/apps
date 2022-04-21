@@ -58,7 +58,7 @@ namespace Z0
                 return result;
             }
 
-            internal static Outcome parse(in LineBlock src, out InstClass dst)
+            internal static Outcome parse(in DisasmBlock src, out InstClass dst)
             {
                 var result = Outcome.Success;
                 dst = InstClass.Empty;
@@ -79,7 +79,7 @@ namespace Z0
                 return result;
             }
 
-            internal static Outcome parse(in LineBlock src, out InstForm dst)
+            internal static Outcome parse(in DisasmBlock src, out InstForm dst)
             {
                 var result = Outcome.Success;
                 dst = InstForm.Empty;
@@ -105,7 +105,7 @@ namespace Z0
                 return result;
             }
 
-            internal static void parse(in LineBlock src, out InstClass @class, out InstForm form)
+            internal static void parse(in DisasmBlock src, out InstClass @class, out InstForm form)
             {
                 var content = text.trim(text.split(text.despace(src.Props.Content), Chars.Space));
                 XedParsers.parse(skip(content,0), out @class);

@@ -11,13 +11,13 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static ref readonly MemoryScale scale(in RuleState src)
+        public static ref readonly MemoryScale scale(in OperandState src)
             => ref @as<MemoryScale>(src.SCALE);
 
         partial struct Edit
         {
             [MethodImpl(Inline), Op]
-            public static ref MemoryScale scale(in RuleState src)
+            public static ref MemoryScale scale(in OperandState src)
                 => ref @as<MemoryScale>(src.SCALE);
         }
     }

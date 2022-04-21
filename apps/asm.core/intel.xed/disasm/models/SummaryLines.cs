@@ -9,12 +9,12 @@ namespace Z0
     {
         public readonly record struct SummaryLines : IComparable<SummaryLines>
         {
-            public readonly LineBlock Block;
+            public readonly DisasmBlock Block;
 
             public readonly SummaryRow Row;
 
             [MethodImpl(Inline)]
-            public SummaryLines(LineBlock lines, SummaryRow summary)
+            public SummaryLines(DisasmBlock lines, SummaryRow summary)
             {
                 Block = lines;
                 Row = summary;
@@ -23,7 +23,7 @@ namespace Z0
             public int CompareTo(SummaryLines src)
                 => Row.CompareTo(src.Row);
 
-            public static SummaryLines Empty => new (LineBlock.Empty, SummaryRow.Empty);
+            public static SummaryLines Empty => new (DisasmBlock.Empty, SummaryRow.Empty);
         }
     }
 }

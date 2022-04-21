@@ -33,12 +33,12 @@ namespace Z0
             return ref pattern;
         }
 
-        public ref readonly RuleState Load(in FieldBuffer src)
+        public ref readonly OperandState Load(in FieldBuffer src)
         {
             ref readonly var fields = ref src.Fields;
             State().Asm() = src.AsmInfo;
-            State().Class() = src.Detail.InstClass;
-            State().Form() = src.Detail.InstForm;
+            State().Class() = src.Detail.Instruction;
+            State().Form() = src.Detail.Form;
             State().Rules() = src.State;
             return ref RuleState;
         }

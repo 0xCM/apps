@@ -13,13 +13,13 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static ref readonly ModRm modrm(in RuleState src)
+        public static ref readonly ModRm modrm(in OperandState src)
             => ref @as<Hex8,ModRm>(src.MODRM_BYTE);
 
         partial struct Edit
         {
             [MethodImpl(Inline), Op]
-            public static ref ModRm modrm(ref RuleState dst)
+            public static ref ModRm modrm(ref OperandState dst)
                 => ref @as<Hex8,ModRm>(dst.MODRM_BYTE);
         }
     }

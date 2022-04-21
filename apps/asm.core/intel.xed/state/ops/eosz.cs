@@ -12,13 +12,13 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static ref readonly EOSZ eosz(in RuleState src)
+        public static ref readonly EOSZ eosz(in OperandState src)
             => ref @as<EOSZ>(src.EOSZ);
 
         partial struct Edit
         {
             [MethodImpl(Inline), Op]
-            public static ref EOSZ eosz(ref RuleState src)
+            public static ref EOSZ eosz(ref OperandState src)
                 => ref @as<EOSZ>(src.EOSZ);
         }
     }

@@ -13,10 +13,10 @@ namespace Z0
 
             public readonly FileRef Source;
 
-            public readonly Index<LineBlock> Blocks;
+            public readonly Index<DisasmBlock> Blocks;
 
             [MethodImpl(Inline)]
-            public DataFile(in FileRef origin, in FileRef src, LineBlock[] blocks)
+            public DataFile(in FileRef origin, in FileRef src, DisasmBlock[] blocks)
             {
                 Origin = origin;
                 Source = src;
@@ -41,13 +41,13 @@ namespace Z0
                 get => Blocks.Count;
             }
 
-            public ref readonly LineBlock this[int i]
+            public ref readonly DisasmBlock this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Blocks[i];
             }
 
-            public ref readonly LineBlock this[uint i]
+            public ref readonly DisasmBlock this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Blocks[i];
@@ -56,7 +56,7 @@ namespace Z0
             public int CompareTo(DataFile src)
                 => Seq.CompareTo(src.Seq);
 
-            public static DataFile Empty => new DataFile(FileRef.Empty, FileRef.Empty, sys.empty<LineBlock>());
+            public static DataFile Empty => new DataFile(FileRef.Empty, FileRef.Empty, sys.empty<DisasmBlock>());
         }
     }
 }

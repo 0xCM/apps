@@ -16,7 +16,7 @@ namespace Z0
     {
         partial struct Code
         {
-            public static Index<OpValue> ops(in RuleState state, in AsmHexCode code)
+            public static Index<OpValue> ops(in OperandState state, in AsmHexCode code)
             {
                 var _ops = list<OpValue>();
                 if(state.IMM0)

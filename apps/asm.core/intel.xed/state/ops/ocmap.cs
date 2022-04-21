@@ -10,13 +10,13 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static ref readonly byte ocmap(in RuleState src)
+        public static ref readonly byte ocmap(in OperandState src)
             => ref src.MAP;
 
         partial struct Edit
         {
             [MethodImpl(Inline), Op]
-            public static ref byte ocmap(ref RuleState src)
+            public static ref byte ocmap(ref OperandState src)
                 => ref src.MAP;
         }
     }

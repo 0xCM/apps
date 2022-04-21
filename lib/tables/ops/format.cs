@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static core;
 
     partial struct Tables
@@ -31,8 +29,9 @@ namespace Z0
             if(kind == RecordFormatKind.Tablular)
                 return format(formatter.FormatSpec, formatter.Adapter.Adapted);
             else
-                return pairs(formatter.Adapter);
+                return pairs(formatter.FormatSpec, formatter.Adapter);
         }
+
 
         [Op, Closures(Closure)]
         public static string format<T>(in RowFormatSpec rowspec, in DynamicRow<T> src)

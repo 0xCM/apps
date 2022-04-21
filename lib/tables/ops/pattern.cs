@@ -4,14 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct Tables
     {
+        public static string KvpPattern(in RowFormatSpec spec)
+        {
+            var slot0 = RP.slot(0, math.negate((short)spec.MaxCellWidth));
+            var slot1 = RP.slot(1);
+            return slot0 + Chars.Space + spec.Delimiter + Chars.Space + slot1;
+        }
+
         [Op]
         static string slot(byte index, RenderWidth width, string delimiter = DefaultDelimiter)
             => delimiter + RP.slot(index, (short)(-(short)width));

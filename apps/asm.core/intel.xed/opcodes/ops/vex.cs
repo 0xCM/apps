@@ -24,11 +24,11 @@ namespace Z0
             => kind == VexClass.XOPV ? (XopMapKind)code : null;
 
         [MethodImpl(Inline), Op]
-        public static ref readonly VexKind vexkind(in RuleState src)
+        public static ref readonly VexKind vexkind(in OperandState src)
             => ref @as<VexKind>(src.VEX_PREFIX);
 
         [MethodImpl(Inline), Op]
-        public static ref readonly VexClass vexclass(in RuleState src)
+        public static ref readonly VexClass vexclass(in OperandState src)
             => ref @as<VexClass>(src.VEXVALID);
 
         [Op]

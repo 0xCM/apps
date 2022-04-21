@@ -27,7 +27,7 @@ namespace Z0
             var counter = 0;
             for(var j=0; j<count; j++)
             {
-                var state = RuleState.Empty;
+                var state = OperandState.Empty;
                 buffer.Clear();
 
                 ref readonly var detail = ref doc[j].DetailRow;
@@ -50,8 +50,9 @@ namespace Z0
                 writer.AppendLine(lines.Format());
                 writer.WriteLine(RP.PageBreak80);
 
-                writer.AppendLineFormat(RenderPattern, nameof(IClass), detail.InstClass);
-                writer.AppendLineFormat(RenderPattern, "IFORM", detail.InstForm);
+                writer.AppendLineFormat(RenderPattern, nameof(detail.Instruction), detail.Instruction);
+                writer.AppendLineFormat(RenderPattern, nameof(summary.InstructionId), summary.InstructionId);
+                writer.AppendLineFormat(RenderPattern, nameof(detail.Form), detail.Form);
                 writer.AppendLineFormat("{0,-24} | {1,-5} {2}", asmhex, ip, asmtxt);
                 writer.AppendLineFormat(RenderPattern, "OcMap", ockind);
                 writer.AppendLine(encoding.Format());

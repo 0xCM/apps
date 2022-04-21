@@ -40,7 +40,7 @@ namespace Z0
 
 
         [MethodImpl(Inline), Op]
-        public static OpCodeIndex index(in RuleState state)
+        public static OpCodeIndex index(in OperandState state)
         {
             var dst = OpCodeIndex.Amd3dNow;
             ref readonly var map = ref state.MAP;

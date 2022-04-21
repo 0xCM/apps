@@ -74,7 +74,7 @@ namespace Z0
                 get => ref SummaryRow.InstructionId;
             }
 
-            public ref readonly LineBlock Lines
+            public ref readonly DisasmBlock Lines
             {
                 [MethodImpl(Inline)]
                 get => ref SummaryLines.Block;
@@ -155,13 +155,13 @@ namespace Z0
             public ref readonly InstClass InstClass
             {
                 [MethodImpl(Inline)]
-                get => ref DetailRow.InstClass;
+                get => ref DetailRow.Instruction;
             }
 
             public ref readonly InstForm InstForm
             {
                 [MethodImpl(Inline)]
-                get => ref DetailRow.InstForm;
+                get => ref DetailRow.Form;
             }
 
             public ref readonly byte Size

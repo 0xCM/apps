@@ -14,7 +14,7 @@ namespace Z0
         partial struct Code
         {
             [Op]
-            public static Imm imm1(in RuleState state, in AsmHexCode code)
+            public static Imm imm1(in OperandState state, in AsmHexCode code)
             {
                 var dst = Imm.Empty;
                 if(state.IMM1)

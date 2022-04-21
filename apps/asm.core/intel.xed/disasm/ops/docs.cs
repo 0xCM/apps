@@ -5,26 +5,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    using static XedRules;
+    using static core;
 
     partial class XedDisasm
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct DisasmState
+        public static Index<Document> docs(WsContext context, bool pll = true)
         {
-            public Disp RELBRVal;
-
-            public text31 AGENVal;
-
-            public text31 MEM0Val;
-
-            public text31 MEM1Val;
-
-            public OperandState RuleState;
-
-            public static DisasmState Empty => default;
+            var dst = bag<Document>();
+            iter(sources(context), src =>
+            {
+                var s = summary(context,datafile(context,src));
+                dst.Add(new Document(s, detail(s)));
+            },
+            pll);
+            return dst.Index();
         }
     }
 }

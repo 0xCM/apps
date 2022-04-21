@@ -12,13 +12,13 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static ref readonly MachineMode mode(in RuleState src)
+        public static ref readonly MachineMode mode(in OperandState src)
             => ref @as<MachineMode>(src.MODE);
 
         partial struct Edit
         {
             [MethodImpl(Inline), Op]
-            public static ref MachineMode mode(ref RuleState src)
+            public static ref MachineMode mode(ref OperandState src)
                 => ref @as<MachineMode>(src.MODE);
         }
     }

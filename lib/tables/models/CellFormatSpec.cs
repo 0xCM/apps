@@ -4,19 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines formatting specifications for a cell
     /// </summary>
     public readonly struct CellFormatSpec
     {
-        public RenderPattern<dynamic> Pattern {get;}
+        public readonly RenderPattern<dynamic> Pattern;
 
-        public RenderWidth Width {get;}
+        public readonly RenderWidth Width;
 
         [MethodImpl(Inline)]
         public CellFormatSpec(string pattern, RenderWidth width)

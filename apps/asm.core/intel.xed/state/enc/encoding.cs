@@ -14,7 +14,7 @@ namespace Z0
         partial struct Code
         {
             [Op]
-            public static EncodingExtract encoding(in RuleState state, AsmHexCode code)
+            public static EncodingExtract encoding(in OperandState state, AsmHexCode code)
             {
                 var dst = EncodingExtract.Empty;
                 dst.Code = code;

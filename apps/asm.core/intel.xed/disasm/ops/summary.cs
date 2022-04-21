@@ -10,38 +10,15 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public static Summary summary(WsContext context, in FileRef src)
-        {
-            var buffer = bag<SummaryLines>();
-            var file = datafile(context, src);
-            summary(src, file.Origin, file.Blocks, buffer).Require();
-            return summary(file, buffer.ToArray());
-        }
-
         public static Summary summary(WsContext context, in DataFile src)
         {
             var lines = bag<SummaryLines>();
             summary(src.Source, context.Root(src.Source), src.Blocks, lines).Require();
-            return summary(src, lines.ToArray());
+            var sorted = lines.ToArray().Sort();
+            return new Summary(src, src.Origin, resequence(sorted.Select(line => line.Row)), sorted);
         }
 
-        static Summary summary(in DataFile file, SummaryLines[] src)
-        {
-            var lines = src.Sort();
-            var rows = resequence(lines.Select(line => line.Row));
-            return new Summary(file, file.Origin, rows, lines);
-        }
-
-        static Index<Summary> summaries(WsContext context, bool pll = true)
-        {
-            var files = sources(context);
-            var outdir = context.Project.Datasets() + FS.folder("xed.disasm");
-            var dst = bag<Summary>();
-            iter(files, source => dst.Add(summary(context,source)), pll);
-            return dst.Array();
-        }
-
-        static Outcome summary(in FileRef src, in FileRef origin, Index<LineBlock> blocks, ConcurrentBag<SummaryLines> dst)
+        static Outcome summary(in FileRef src, in FileRef origin, Index<DisasmBlock> blocks, ConcurrentBag<SummaryLines> dst)
         {
             var lines = NumberedLines(blocks);
             var expr = expressions(blocks);
@@ -76,7 +53,7 @@ namespace Z0
             return result;
         }
 
-        static Index<AsmExpr> expressions(ReadOnlySpan<LineBlock> src)
+        static Index<AsmExpr> expressions(ReadOnlySpan<DisasmBlock> src)
         {
             var dst = list<AsmExpr>();
             foreach(var block in src)
@@ -91,7 +68,7 @@ namespace Z0
             return dst.ToArray();
         }
 
-        static Index<TextLine> NumberedLines(ReadOnlySpan<LineBlock> src)
+        static Index<TextLine> NumberedLines(ReadOnlySpan<DisasmBlock> src)
         {
             var dst = list<TextLine>();
             for(var i=0; i<src.Length; i++)

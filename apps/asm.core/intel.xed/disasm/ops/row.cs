@@ -54,8 +54,8 @@ namespace Z0
             dst.IP = summary.IP;
             dst.Encoded = summary.Encoded;
             dst.Asm = summary.Asm;
-            dst.InstForm = inst.Form;
-            dst.InstClass = inst.Class;
+            dst.Form = inst.Form;
+            dst.Instruction = inst.Class;
             dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
             var dstate = new FieldParser().Parse(inst.Props);
             var opsLU = ops(dstate, code);

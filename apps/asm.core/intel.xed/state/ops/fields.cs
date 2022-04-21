@@ -14,7 +14,7 @@ namespace Z0
     {
         partial struct Edit
         {
-            public static ref RuleState fields(in Fields src, ref RuleState dst)
+            public static ref OperandState fields(in Fields src, ref OperandState dst)
             {
                 var storage = ByteBlock128.Empty;
                 var kinds = recover<FieldKind>(storage.Bytes);
@@ -24,7 +24,7 @@ namespace Z0
                 return ref dst;
             }
 
-            public static ref RuleState fields(in Fields src, ReadOnlySpan<FieldKind> selected, ref RuleState dst)
+            public static ref OperandState fields(in Fields src, ReadOnlySpan<FieldKind> selected, ref OperandState dst)
             {
                 var count = selected.Length;
                 for(var i=0; i<count; i++)
@@ -33,7 +33,7 @@ namespace Z0
             }
 
 
-            static ref RuleState update(in Field src, ref RuleState dst)
+            static ref OperandState update(in Field src, ref OperandState dst)
             {
                 switch(src.Kind)
                 {
@@ -540,20 +540,20 @@ namespace Z0
 
         partial struct Edit
         {
-            public static Dictionary<FieldKind,CellValue> update(Index<CellValue> src, ref RuleState state)
+            public static Dictionary<FieldKind,CellValue> update(Index<CellValue> src, ref OperandState state)
             {
                 update(src.View, ref state);
                 return src.Map(x => (x.Field, x)).ToDictionary();
             }
 
-            public static ref RuleState update(ReadOnlySpan<CellValue> src, ref RuleState dst)
+            public static ref OperandState update(ReadOnlySpan<CellValue> src, ref OperandState dst)
             {
                 for(var i=0; i<src.Length; i++)
                     update(skip(src,i), ref dst);
                 return ref dst;
             }
 
-            static ref RuleState update(in CellValue src, ref RuleState dst)
+            static ref OperandState update(in CellValue src, ref OperandState dst)
             {
                 var result = Outcome.Success;
                 switch(src.Field)

@@ -12,7 +12,7 @@ namespace Z0
     {
         static void TypeInit()
         {
-            var src = typeof(RuleState).InstanceFields().Tagged<RuleFieldAttribute>();
+            var src = typeof(OperandState).InstanceFields().Tagged<RuleFieldAttribute>();
             var count = src.Length;
 
             var positional = ReflectedFields.init();

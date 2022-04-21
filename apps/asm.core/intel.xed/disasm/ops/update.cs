@@ -10,17 +10,17 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public static Index<CellValue> update(in LineBlock src, ref RuleState dst)
+        public static Index<CellValue> update(in DisasmBlock src, ref OperandState dst)
         {
             var fields = values(src);
             XedState.Edit.update(fields, ref dst);
             return fields;
         }
 
-        public static Index<CellValue> values(in LineBlock src)
+        public static Index<CellValue> values(in DisasmBlock src)
         {
             parse(src, out DisasmProps props);
-            var state = RuleState.Empty;
+            var state = OperandState.Empty;
             var names = props.Keys.Array();
             var count = names.Length;
             var dst = alloc<CellValue>(count - 2);

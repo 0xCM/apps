@@ -12,13 +12,13 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static ref readonly HintKind hint(in RuleState src)
+        public static ref readonly HintKind hint(in OperandState src)
             => ref @as<HintKind>(src.HINT);
 
         partial struct Edit
         {
             [MethodImpl(Inline), Op]
-            public static ref HintKind hint(ref RuleState src)
+            public static ref HintKind hint(ref OperandState src)
                 => ref @as<HintKind>(src.HINT);
         }
     }

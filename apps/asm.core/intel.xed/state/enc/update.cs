@@ -14,7 +14,7 @@ namespace Z0
     {
         partial struct Code
         {
-            public static ref RuleState update(in EncodingOffsets src, AsmHexCode code, ref RuleState dst)
+            public static ref OperandState update(in EncodingOffsets src, AsmHexCode code, ref OperandState dst)
             {
                 if(src.HasOpCode)
                 {

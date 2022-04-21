@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using api = Tables;
 
     public struct RecordFormatter<T> : IRecordFormatter<T>
@@ -18,20 +13,43 @@ namespace Z0
 
         internal RowAdapter<T> Adapter;
 
+        ITextBuffer Buffer;
+
         [MethodImpl(Inline)]
         internal RecordFormatter(RowFormatSpec spec, RowAdapter<T> adapter)
         {
             FormatSpec = spec;
             Adapter = adapter;
+            Buffer = text.buffer();
         }
 
         public string Format(in T src)
-            => api.format(ref this, src);
+            => FormatRecord(src, FormatSpec.FormatKind);
 
         public string Format(in T src, RecordFormatKind kind)
-            => api.format(ref this, src, kind);
+            => FormatRecord(src, kind);
 
         public string FormatHeader()
-            => FormatSpec.Header.Format();
+        {
+            if(FormatSpec.FormatKind == RecordFormatKind.Tablular)
+                return FormatSpec.Header.Format();
+            else
+            {
+                return string.Format(api.KvpPattern(FormatSpec), "Name", "Value");
+            }
+        }
+
+        string FormatRecord(in T src, RecordFormatKind fk)
+        {
+            api.adapt(src, ref Adapter);
+            if(fk == RecordFormatKind.Tablular)
+                return api.format(FormatSpec, Adapter.Adapted);
+            else
+            {
+                Buffer.Clear();
+                api.pairs(FormatSpec, Adapter, Buffer);
+                return Buffer.Emit();
+            }
+        }
     }
 }

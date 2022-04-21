@@ -18,7 +18,7 @@ namespace Z0
         partial struct Edit
         {
             [Op]
-            public static CellValue field(string src, FieldKind kind, ref RuleState state)
+            public static CellValue field(string src, FieldKind kind, ref OperandState state)
             {
                 var result = true;
                 var fieldval = R.CellValue.Empty;

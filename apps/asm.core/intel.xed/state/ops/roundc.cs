@@ -12,13 +12,13 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static ref readonly RoundingKind rounc(in RuleState src)
+        public static ref readonly RoundingKind rounc(in OperandState src)
             => ref @as<RoundingKind>(src.ROUNDC);
 
         partial struct Edit
         {
             [MethodImpl(Inline), Op]
-            public static ref RoundingKind rounc(in RuleState src)
+            public static ref RoundingKind rounc(in OperandState src)
                 => ref @as<RoundingKind>(src.ROUNDC);
         }
     }

@@ -4,31 +4,35 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines formatting specifications for each cell in a row
     /// </summary>
     public readonly struct RowFormatSpec
     {
-        public RowHeader Header {get;}
+        public readonly RowHeader Header;
 
-        public Index<CellFormatSpec> Cells {get;}
+        public readonly Index<CellFormatSpec> Cells;
 
-        public string Pattern {get;}
+        public readonly string Pattern;
 
-        public ushort RowPad {get;}
+        public readonly ushort RowPad;
+
+        public readonly ushort MaxCellWidth;
+
+        public readonly char Delimiter;
+
+        public readonly RecordFormatKind FormatKind;
 
         [MethodImpl(Inline)]
-        public RowFormatSpec(RowHeader header, CellFormatSpec[] src, string pattern, ushort rowpad = 0)
+        public RowFormatSpec(RowHeader header, CellFormatSpec[] src, string pattern, ushort rowpad, char sep, RecordFormatKind fk)
         {
             Header = header;
             Cells = src;
             Pattern = pattern;
             RowPad = rowpad;
+            MaxCellWidth = src.Select(x => x.Width.Value).Max();
+            Delimiter = sep;
+            FormatKind = fk;
         }
     }
 }

@@ -12,12 +12,12 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static Sib sib(in RuleState src)
+        public static Sib sib(in OperandState src)
             => new Sib(src.SIBBASE, src.SIBINDEX, src.SIBSCALE);
 
         partial struct Edit
         {
-            public static ref readonly Sib sib(in Sib src, ref RuleState dst)
+            public static ref readonly Sib sib(in Sib src, ref OperandState dst)
             {
                 dst.HAS_SIB = bit.On;
                 dst.SIBSCALE = src.Scale;

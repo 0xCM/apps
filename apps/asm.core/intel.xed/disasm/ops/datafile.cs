@@ -10,7 +10,7 @@ namespace Z0
     {
         public static DataFile datafile(WsContext context, in FileRef src)
         {
-            var dst = list<LineBlock>();
+            var dst = list<DisasmBlock>();
             var lines = src.Path.ReadNumberedLines();
             var count = lines.Length;
             var blocklines = list<TextLine>();

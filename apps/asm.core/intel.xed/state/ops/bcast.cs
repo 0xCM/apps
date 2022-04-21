@@ -12,14 +12,14 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static ref readonly BCastKind bcast(in RuleState src)
+        public static ref readonly BCastKind bcast(in OperandState src)
             => ref @as<BCastKind>(src.BCAST);
 
 
         partial struct Edit
         {
             [MethodImpl(Inline), Op]
-            public static ref BCastKind bcast(ref RuleState src)
+            public static ref BCastKind bcast(ref OperandState src)
                 => ref @as<BCastKind>(src.BCAST);
         }
     }

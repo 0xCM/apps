@@ -326,41 +326,42 @@ namespace Z0
                 _ => '\0',
             };
 
-        // public static string format(EoszKind src)
-        // {
-        //     var dst = EmptyString;
-        //     if(src != 0)
-        //     {
-        //         if(src.Test(EoszKind.W8))
-        //             dst = "8";
+        public static void describe(in DetailBlockRow src, sbyte pad, ITextEmitter dst)
+        {
+            const string RenderPattern = "{0,-24} | {1}";
+            var pattern = RP.slot(0,pad) + " | " + RP.slot(1);
 
-        //         if(src.Test(EoszKind.W16))
-        //         {
-        //             if(text.empty(dst))
-        //                 dst = "16";
-        //             else
-        //                 dst += "16";
-        //         }
+            dst.AppendLineFormat(pattern, nameof(src.InstructionId), src.InstructionId);
+            dst.AppendLineFormat(pattern, nameof(src.Asm), src.Asm);
+            dst.AppendLineFormat(pattern, nameof(src.Instruction), src.Instruction);
+            dst.AppendLineFormat(pattern, nameof(src.Form), src.Form);
+            dst.AppendLineFormat(pattern, nameof(src.Offsets), src.Offsets);
+            dst.AppendLineFormat(pattern, nameof(src.OpCode), src.OpCode);
+        }
 
-        //         if(src.Test(EoszKind.W32))
-        //         {
-        //             if(text.empty(dst))
-        //                 dst = "32";
-        //             else
-        //                 dst += "32";
-        //         }
+        public static void describe(in FieldBuffer src, ITextBuffer dst)
+        {
+            const string RenderPattern = "{0,-24} | {1}";
 
-        //         if(src.Test(EoszKind.W64))
-        //         {
-        //             if(text.empty(dst))
-        //                 dst = "64";
-        //             else
-        //                 dst += "64";
-
-        //         }
-        //     }
-        //     return dst;
-        // }
+            dst.AppendLineFormat(RenderPattern, nameof(src.Summary.InstructionId), src.Summary.InstructionId);
+            dst.AppendLineFormat(RenderPattern, nameof(src.AsmInfo.Asm), src.AsmInfo.Asm);
+            dst.AppendLineFormat(RenderPattern, nameof(src.Props.Instruction), src.Props.Instruction);
+            dst.AppendLineFormat(RenderPattern, nameof(src.Props.Form), src.Props.Form);
+            dst.AppendLineFormat(RenderPattern, nameof(src.AsmInfo.Category), src.AsmInfo.Category);
+            dst.AppendLineFormat(RenderPattern, nameof(src.AsmInfo.Extension), src.AsmInfo.Extension);
+            dst.AppendLineFormat(RenderPattern, nameof(src.Encoding.Offsets), src.Encoding.Offsets.Format());
+            dst.AppendLineFormat(RenderPattern, nameof(src.Encoding.OpCode), XedRender.format(src.Encoding.OpCode));
+            if(src.Encoding.ModRm.IsNonZero)
+                dst.AppendLineFormat(RenderPattern, nameof(src.Encoding.ModRm), src.Encoding.ModRm);
+            if(src.Encoding.Sib.IsNonZero)
+                dst.AppendLineFormat(RenderPattern, nameof(src.Encoding.Sib), src.Encoding.Sib);
+            if(src.Encoding.Imm.IsNonZero)
+                dst.AppendLineFormat(RenderPattern, nameof(src.Encoding.Imm), src.Encoding.Imm);
+            if(src.Encoding.Imm1.IsNonZero)
+                dst.AppendLineFormat(RenderPattern, nameof(src.Encoding.Imm), src.Encoding.Imm1);
+            if(src.Encoding.Disp.IsNonZero)
+                dst.AppendLineFormat(RenderPattern, nameof(src.Encoding.Disp), src.Encoding.Disp);
+        }
 
         public static string format(Index<XedFlagEffect> src, bool embrace = true, char sep = Chars.Comma)
         {
@@ -751,11 +752,13 @@ namespace Z0
         public static string format(FieldAssign src)
             => format(src.Expression());
 
-        public static string format(byte index, in OpDetail src)
+        public static string format(byte index, sbyte pad, in OpDetail src)
         {
             const string OpSepSlot = "/{0}";
             var dst = text.buffer();
-            dst.AppendFormat("{0,-6} {1,-4}", index, XedRender.format(src.OpName));
+            dst.AppendFormat(RP.slot(0,pad), index);
+            dst.Append(" | ");
+            dst.AppendFormat("{0,-4}", XedRender.format(src.OpName));
             var kind = opkind(src.OpName);
             ref readonly var opinfo = ref src.OpInfo;
             switch(kind)
@@ -763,11 +766,6 @@ namespace Z0
                 case OpKind.Reg:
                 case OpKind.Base:
                 case OpKind.Index:
-                    // if(opinfo.Selector.IsNonEmpty)
-                    // {
-                    //     dst.AppendFormat(" {0}", opinfo.Selector);
-                    //     dst.AppendFormat(OpSepSlot, XedRender.format(src.Action));
-                    // }
                     if(opinfo.SelectorName.IsNonEmpty)
                     {
                         dst.AppendFormat(" {0}", opinfo.SelectorName);

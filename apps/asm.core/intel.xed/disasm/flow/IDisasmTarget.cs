@@ -17,7 +17,7 @@ namespace Z0
 
             void Computed(uint seq, in DetailBlock src);
 
-            void Computed(uint seq, in RuleState src);
+            void Computed(uint seq, in OperandState src);
 
             void Computed(uint seq, in AsmInfo src);
 

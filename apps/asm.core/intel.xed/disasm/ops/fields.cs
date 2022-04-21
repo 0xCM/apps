@@ -34,6 +34,7 @@ namespace Z0
             if(clear)
                 dst.Clear();
 
+            var result = Outcome.Success;
             var counter = 0u;
             var count = props.Count;
             var keys = props.Keys.Array();
@@ -44,18 +45,12 @@ namespace Z0
                 if(name == nameof(InstForm))
                     continue;
 
-                if(XedParsers.parse(name, out FieldKind kind))
-                {
-                    if(TableCalcs.parse(value, kind, out var pack))
-                    {
-                        dst.Update(pack);
-                        counter++;
-                    }
-                    else
-                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldPack), value));
-                }
-                else
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind),name));
+                result = XedParsers.parse(name, out FieldKind kind);
+                result.Require();
+                result = TableCalcs.parse(value, kind, out var pack);
+                result.Require();
+                dst.Update(pack);
+                counter++;
             }
             return counter;
         }

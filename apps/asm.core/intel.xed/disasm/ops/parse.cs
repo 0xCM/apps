@@ -13,10 +13,10 @@ namespace Z0
         public static Outcome parse(in SummaryLines src, out Instruction dst)
             => parse(src.Block, out dst);
 
-        public static Outcome parse(in LineBlock src, out AsmInfo dst)
+        public static Outcome parse(in DisasmBlock src, out AsmInfo dst)
             => DisasmParse.parse(src.XDis.Content, out dst);
 
-        public static Outcome parse(in LineBlock src, out Instruction dst)
+        public static Outcome parse(in DisasmBlock src, out Instruction dst)
         {
             var result = Outcome.Success;
             dst = default(Instruction);
@@ -38,7 +38,7 @@ namespace Z0
         }
 
 
-        public static uint parse(in LineBlock src, out DisasmProps dst)
+        public static uint parse(in DisasmBlock src, out DisasmProps dst)
         {
             var content = text.trim(text.despace(src.Props.Content));
             var i = text.index(content,Chars.Space);

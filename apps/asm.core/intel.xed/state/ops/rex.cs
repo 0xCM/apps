@@ -12,13 +12,13 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static RexPrefix rex(in RuleState src)
+        public static RexPrefix rex(in OperandState src)
             => new RexPrefix(src.REXB, src.REXX, src.REXR, src.REXW);
 
         partial struct Edit
         {
             [MethodImpl(Inline), Op]
-            public static ref readonly RexPrefix rex(in RexPrefix src, ref RuleState dst)
+            public static ref readonly RexPrefix rex(in RexPrefix src, ref OperandState dst)
             {
                 dst.REX = bit.On;
                 dst.REXW = src.W;

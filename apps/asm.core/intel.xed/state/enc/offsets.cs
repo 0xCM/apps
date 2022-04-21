@@ -12,7 +12,7 @@ namespace Z0
         partial struct Code
         {
             [Op]
-            public static EncodingOffsets offsets(in RuleState src)
+            public static EncodingOffsets offsets(in OperandState src)
             {
                 var offsets = EncodingOffsets.Empty;
                 offsets.OpCode = (sbyte)(src.POS_NOMINAL_OPCODE);

@@ -12,7 +12,7 @@ namespace Z0
     partial class XedState
     {
         [Op]
-        public static XedRegs regs(in RuleState src)
+        public static XedRegs regs(in OperandState src)
         {
             var storage = ByteBlock32.Empty;
             var dst = recover<XedRegId>(storage.Bytes);
@@ -43,7 +43,7 @@ namespace Z0
 
         partial struct Edit
         {
-            public static ref Register reg(byte n, ref RuleState dst)
+            public static ref Register reg(byte n, ref OperandState dst)
             {
                 switch(n)
                 {
@@ -71,7 +71,7 @@ namespace Z0
             }
 
             [Op]
-            public static ref readonly XedRegs regs(in XedRegs src, ref RuleState dst)
+            public static ref readonly XedRegs regs(in XedRegs src, ref OperandState dst)
             {
                 for(byte i=0; i<src.Count; i++)
                     reg(i, ref dst) = @as<XedRegId,Register>(src[i]);

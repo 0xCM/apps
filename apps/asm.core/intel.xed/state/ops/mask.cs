@@ -12,13 +12,13 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static ref readonly MaskReg mask(in RuleState src)
+        public static ref readonly MaskReg mask(in OperandState src)
             => ref @as<MaskReg>(src.MASK);
 
         partial struct Edit
         {
             [MethodImpl(Inline), Op]
-            public static ref MaskReg mask(ref RuleState src)
+            public static ref MaskReg mask(ref OperandState src)
                 => ref @as<MaskReg>(src.MASK);
         }
     }

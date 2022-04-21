@@ -55,7 +55,7 @@ namespace Z0
                 BlockComputed(seq,src);
             }
 
-            void IDisasmTarget.Computed(uint seq, in RuleState src)
+            void IDisasmTarget.Computed(uint seq, in OperandState src)
             {
                 Buffer.State(seq, src, RuleStateComputed);
             }
@@ -102,7 +102,7 @@ namespace Z0
                 Ran(token);
             }
 
-            void StateComputed(uint seq, in RuleState state, ReadOnlySpan<FieldKind> fields)
+            void StateComputed(uint seq, in OperandState state, ReadOnlySpan<FieldKind> fields)
             {
                 for(var i=0; i<fields.Length; i++)
                 {

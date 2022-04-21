@@ -44,7 +44,7 @@ namespace Z0
                 return string.Format("{0}{1}", headerBase, opheader.Emit());
             }
 
-            public static string format(in LineBlock src)
+            public static string format(in DisasmBlock src)
             {
                 var dst = text.buffer();
                 var count = src.Lines.Count;

@@ -10,13 +10,13 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static ref readonly byte ocbyte(in RuleState src)
+        public static ref readonly byte ocbyte(in OperandState src)
             => ref src.NOMINAL_OPCODE;
 
         partial struct Edit
         {
             [MethodImpl(Inline), Op]
-            public static ref byte ocbyte(ref RuleState src)
+            public static ref byte ocbyte(ref OperandState src)
                 => ref src.NOMINAL_OPCODE;
         }
     }

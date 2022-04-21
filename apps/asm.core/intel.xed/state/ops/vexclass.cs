@@ -12,13 +12,13 @@ namespace Z0
     partial class XedState
     {
         [MethodImpl(Inline), Op]
-        public static ref readonly VexClass vexclass(in RuleState src)
+        public static ref readonly VexClass vexclass(in OperandState src)
             => ref XedOpCodes.vexclass(src);
 
         partial struct Edit
         {
             [MethodImpl(Inline), Op]
-            public static ref VexClass vexclass(ref RuleState src)
+            public static ref VexClass vexclass(ref OperandState src)
                 => ref @as<VexClass>(src.VEXVALID);
         }
     }

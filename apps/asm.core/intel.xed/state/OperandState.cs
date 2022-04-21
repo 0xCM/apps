@@ -13,9 +13,9 @@ namespace Z0
     partial class XedRules
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct RuleState
+        public struct OperandState
         {
-            public const string TableId = "xed.rules.state";
+            public const string TableId = "xed.operands.state";
 
             [RuleField(K.ASZ, 1, typeof(bit), "Specifies whether the 0x67 prefix is applicable")]
             public bit ASZ;
@@ -398,7 +398,7 @@ namespace Z0
             [RuleField(K.OUTREG, 16, typeof(XedRegId))]
             public XedRegId OUTREG;
 
-            public static RuleState Empty => default;
+            public static OperandState Empty => default;
         }
     }
 }

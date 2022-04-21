@@ -15,6 +15,10 @@ namespace Z0
             public static FieldSet create()
                 => new FieldSet();
 
+            [MethodImpl(Inline), Op]
+            public static FieldSet create(BitVector64 src)
+                => new FieldSet(src);
+
             public const byte Capacity = 128;
 
             BitVector128<ulong> Data;
@@ -22,6 +26,12 @@ namespace Z0
             public FieldSet()
             {
                 Data = default;
+            }
+
+            [MethodImpl(Inline)]
+            public FieldSet(BitVector64 src)
+            {
+                Data = cpu.vscalar(w128,src);
             }
 
             [MethodImpl(Inline)]
@@ -113,14 +123,6 @@ namespace Z0
 
             public override bool Equals(object src)
                 => src is FieldSet x && Equals(x);
-
-            // [MethodImpl(Inline)]
-            // public static implicit operator FieldSet(FieldKind[] src)
-            //     => new FieldSet(src);
-
-            // [MethodImpl(Inline)]
-            // public static implicit operator FieldSet(Index<FieldKind> src)
-            //     => new FieldSet(src);
 
             [MethodImpl(Inline)]
             public static bool operator==(FieldSet a, FieldSet b)

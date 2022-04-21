@@ -12,7 +12,7 @@ namespace Z0
     {
         public delegate void DisasmReceiver<T>(uint seq, in T src);
 
-        public delegate void StateReceiver(uint seq, in RuleState state, ReadOnlySpan<FieldKind> fields);
+        public delegate void StateReceiver(uint seq, in OperandState state, ReadOnlySpan<FieldKind> fields);
 
         public delegate void FieldReceiver(uint seq, in Fields src);
 
@@ -62,7 +62,7 @@ namespace Z0
 
             object StateLock = new();
 
-            public void State(uint seq, in RuleState state, StateReceiver receiver)
+            public void State(uint seq, in OperandState state, StateReceiver receiver)
             {
                 lock(StateLock)
                     receiver(seq, state, slice(_FieldKinds.View, 0, FieldCount));

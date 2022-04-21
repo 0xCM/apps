@@ -18,7 +18,7 @@ namespace Z0
 
             InstClass _Class;
 
-            RuleState _RuleState;
+            OperandState _RuleState;
 
             MachineMode _Mode;
 
@@ -38,7 +38,7 @@ namespace Z0
 
             public void Reset()
             {
-                _RuleState = XedRules.RuleState.Empty;
+                _RuleState = XedRules.OperandState.Empty;
                 _Pattern = XedRules.InstPattern.Empty;
                 _Mode = ModeClass.Default;
                 _Form = InstForm.Empty;
@@ -78,7 +78,7 @@ namespace Z0
                 => ref _Membership;
 
             [MethodImpl(Inline)]
-            public ref RuleState Rules()
+            public ref OperandState Rules()
                 => ref _RuleState;
 
             [MethodImpl(Inline)]
