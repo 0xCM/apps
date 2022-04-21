@@ -19,6 +19,10 @@ namespace Z0
             => ref State().Mode();
 
         [MethodImpl(Inline)]
+        public ref Addressing Addressing()
+            => ref State().Addressing();
+
+        [MethodImpl(Inline)]
         public ref InstPattern InstPattern()
         {
             ref var pattern = ref State().Pattern();

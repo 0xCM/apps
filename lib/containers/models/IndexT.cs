@@ -198,6 +198,10 @@ namespace Z0
         public static implicit operator Index<T>(T[] src)
             => new Index<T>(src);
 
+        [MethodImpl(Inline)]
+        public static Index<T> operator +(Index<T> a, Index<T> b)
+            => a.Append(b);
+
         public static Index<T> Empty
         {
            [MethodImpl(Inline)]

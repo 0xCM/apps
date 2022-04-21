@@ -318,7 +318,7 @@ namespace Z0
                 var w0 = (ushort)gpr[w16].Width;
                 var w1 = (ushort)gpr[w32].Width;
                 var w2 = (ushort)gpr[w64].Width;
-                return new OpWidthSpec(0, ModeKind.Default, gpr, ElementType.Empty, 1);
+                return new OpWidthSpec(0, ModeClass.Default, gpr, ElementType.Empty, 1);
             }
 
             // static BitSegType segtype(@class(dst.Code), dst.Width64, dst.CellWidth)
@@ -331,9 +331,9 @@ namespace Z0
                 for(var i=0; i<src.Count; i++)
                 {
                     ref readonly var info = ref src[i];
-                    seek(dst,k++) = new OpWidthSpec(info.Code, ModeKind.Mode16, info.Name, info.SegType, 1, info.ElementType, info.CellWidth, info.Width16);
-                    seek(dst,k++) = new OpWidthSpec(info.Code, ModeKind.Mode32, info.Name, info.SegType, 1, info.ElementType, info.CellWidth, info.Width32);
-                    seek(dst,k++) = new OpWidthSpec(info.Code, ModeKind.Mode64, info.Name, info.SegType, 1, info.ElementType, info.CellWidth, info.Width64);
+                    seek(dst,k++) = new OpWidthSpec(info.Code, ModeClass.Mode16, info.Name, info.SegType, 1, info.ElementType, info.CellWidth, info.Width16);
+                    seek(dst,k++) = new OpWidthSpec(info.Code, ModeClass.Mode32, info.Name, info.SegType, 1, info.ElementType, info.CellWidth, info.Width32);
+                    seek(dst,k++) = new OpWidthSpec(info.Code, ModeClass.Mode64, info.Name, info.SegType, 1, info.ElementType, info.CellWidth, info.Width64);
                 }
                 return new OpWidthSpecs(dst);
             }

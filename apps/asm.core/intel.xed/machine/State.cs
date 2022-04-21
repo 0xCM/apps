@@ -24,6 +24,8 @@ namespace Z0
 
             InstGroupMember _Membership;
 
+            Addressing _AddressingMode;
+
             AsmInfo _Asm;
 
             uint _Id;
@@ -38,7 +40,7 @@ namespace Z0
             {
                 _RuleState = XedRules.RuleState.Empty;
                 _Pattern = XedRules.InstPattern.Empty;
-                _Mode = ModeKind.Default;
+                _Mode = ModeClass.Default;
                 _Form = InstForm.Empty;
                 _Class = InstClass.Empty;
                 _Membership = InstGroupMember.Empty;
@@ -50,6 +52,10 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => ref _Id;
             }
+
+            [MethodImpl(Inline)]
+            public ref Addressing Addressing()
+                => ref _AddressingMode;
 
             [MethodImpl(Inline)]
             public ref MachineMode Mode()

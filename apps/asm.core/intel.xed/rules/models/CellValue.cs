@@ -180,7 +180,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public MachineMode ToMode()
-                => (ModeKind)Data;
+                => (ModeClass)Data;
 
             [MethodImpl(Inline)]
             public RuleKeyword ToKeyword()
@@ -263,7 +263,7 @@ namespace Z0
                 => src.ToVexKind();
 
             [MethodImpl(Inline)]
-            public static implicit operator ModeKind(CellValue src)
+            public static implicit operator ModeClass(CellValue src)
                 => src.ToMode();
 
             [MethodImpl(Inline)]

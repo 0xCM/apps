@@ -159,7 +159,7 @@ namespace Z0
                     break;
                     case K.MODE:
                     {
-                        var x = @as<ModeKind>(data);
+                        var x = @as<ModeClass>(data);
                         dst = XedRender.format(x, code);
                     }
                     break;

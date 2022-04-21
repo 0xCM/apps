@@ -92,34 +92,6 @@ namespace Z0
                 TableEmitOld(cols, rows);
             }
 
-            public void EmitFormPatterns(string label)
-            {
-                var section = nameof(Machine.FormPatterns);
-                var cols = new TableColumns(
-                    section,
-                    ("Section",16),
-                    ("PatternId",12),
-                    ("InstClass", 18),
-                    ("OpCode", 26),
-                    ("InstForm", 1)
-                    );
-
-                var capture = Machine.Captured();
-                var src = capture.FormPatterns.Map(x => (Form:x.Key, Patterns:x.Value.Array().Sort().Index()));
-                var rows = map(src, kvp => map(kvp.Patterns, p =>
-                    new {
-                        section,
-                        p.PatternId,
-                        p.InstClass,
-                        p.OpCode,
-                        kvp.Form
-                    }
-                )).SelectMany(x => x);
-
-                var emitted = Datasets.emit(cols,rows, OutDir + FS.file(label,FS.Csv));
-                Status(string.Format($"Emittited {emitted.count} rows to {emitted.path}"));
-            }
-
             public void EmitClassGroups()
             {
                 var section = nameof(Machine.ClassGroups);

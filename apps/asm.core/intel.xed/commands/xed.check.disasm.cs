@@ -6,18 +6,23 @@ namespace Z0
 {
     using static core;
     using static XedDisasm;
-    using static XedMachine;
+    using static XedRules;
     using static XedModels;
 
     partial class XedCmdProvider
     {
+        XedForms XedForms => Service(Wf.XedForms);
 
         [CmdOp("xed/check/forms")]
         Outcome CheckForms(CmdArgs args)
         {
-            var parts = FormSyntax.parts();
-            iteri(parts, (i,part) => Write(string.Format("{0,-3} | {1}", i, part.Format())));
+            // var parts = FormParser.parts();
+            // iteri(parts, (i,part) => Write(string.Format("{0,-3} | {1}", i, part)));
+            //var tokens = FormTokens.
+            // var tokens = XedForms.tokens();
+            // iteri(tokens, (i,t) => Write(string.Format("{0,-6} | {1,-12} | {2}", i, t.Kind, t.Format())));
 
+            XedForms.EmitTokens();
             return true;
         }
 

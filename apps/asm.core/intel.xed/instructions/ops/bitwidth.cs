@@ -8,7 +8,7 @@ namespace Z0
     using static XedModels;
     using static XedModels.EASZ;
     using static XedModels.EOSZ;
-    using static XedModels.ModeKind;
+    using static XedModels.ModeClass;
 
     partial class XedPatterns
     {
@@ -53,7 +53,7 @@ namespace Z0
             };
 
         [Op]
-        public static uint bitwidth(ModeKind src)
+        public static uint bitwidth(ModeClass src)
             => src switch
             {
                 Mode16 => 16,

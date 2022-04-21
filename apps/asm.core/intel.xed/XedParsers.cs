@@ -79,7 +79,7 @@ namespace Z0
 
         static readonly EnumParser<OSZ> OszKinds = new();
 
-        static readonly EnumParser<ModeKind> ModeKinds = new();
+        static readonly EnumParser<ModeClass> ModeKinds = new();
 
         static readonly EnumParser<SMode> SModes = new();
 
@@ -144,7 +144,9 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            dst.Selector = text.trim(skip(parts,i++));
+            var selector = text.trim(skip(parts,i++));
+            dst.SelectorName = selector;
+            parse(selector, out dst.Selector);
             return result;
         }
 
@@ -452,7 +454,7 @@ namespace Z0
             return false;
         }
 
-        public static bool parse(string src, out ModeKind dst)
+        public static bool parse(string src, out ModeClass dst)
             => ModeKinds.Parse(src, out dst);
 
         public static bool parse(string src, out OpCodeKind dst)

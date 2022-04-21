@@ -31,7 +31,7 @@ namespace Z0
         {
             var buffer = hashset<InstOpClass>();
             foreach(var (summary,detail) in src)
-                buffer.AddRange(detail.Blocks.Select(x => x.DetailRow).SelectMany(x => x.Ops).Select(x => opclass(ModeKind.Mode64, x.OpInfo)).Distinct());
+                buffer.AddRange(detail.Blocks.Select(x => x.DetailRow).SelectMany(x => x.Ops).Select(x => opclass(ModeClass.Mode64, x.OpInfo)).Distinct());
             var dst = buffer.Array();
             return resequence(dst);
         }
@@ -40,7 +40,7 @@ namespace Z0
             => resequence(
                 src.Detail.Blocks.Select(x => x.DetailRow)
                    .SelectMany(x => x.Ops)
-                   .Select(x => opclass(ModeKind.Mode64, x.OpInfo))
+                   .Select(x => opclass(ModeClass.Mode64, x.OpInfo))
                    .Distinct());
     }
 }

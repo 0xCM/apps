@@ -13,25 +13,25 @@ namespace Z0
             [Symbol("")]
             INVALID,
 
-            [Symbol("error")]
+            [Symbol("ERROR")]
             ERROR,
 
-            [Symbol("imm")]
+            [Symbol("IMM")]
             IMM,
 
-            [Symbol("kimm")]
+            [Symbol("IMM_CONST")]
             IMM_CONST,
 
-            [Symbol("lu1")]
+            [Symbol("NT_LOOKUP_FN")]
             NT_LOOKUP_FN,
 
-            [Symbol("lu2")]
+            [Symbol("NT_LOOKUP_FN2")]
             NT_LOOKUP_FN2,
 
-            [Symbol("lu4")]
+            [Symbol("NT_LOOKUP_FN4")]
             NT_LOOKUP_FN4,
 
-            [Symbol("reg")]
+            [Symbol("REG")]
             REG,
         }
     }

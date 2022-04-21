@@ -6,7 +6,7 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedModels.ModeKind;
+    using static XedModels.ModeClass;
     using static Asm.AsmPrefixCodes;
     using static Asm.AsmPrefixCodes.VectorWidthCode;
     using static XedModels.EASZ;

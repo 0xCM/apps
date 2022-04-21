@@ -26,13 +26,13 @@ namespace Z0
                 return dst;
             else if(Lookup.Find(code, out var info))
             {
-                switch(mode.Kind)
+                switch(mode.Class)
                 {
-                    case ModeKind.Mode16:
+                    case ModeClass.Mode16:
                         dst = new OpWidth(code, info.Width16);
                     break;
-                    case ModeKind.Not64:
-                    case ModeKind.Mode32:
+                    case ModeClass.Not64:
+                    case ModeClass.Mode32:
                         dst = new OpWidth(code, info.Width32);
                     break;
 

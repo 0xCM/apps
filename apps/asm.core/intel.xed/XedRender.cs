@@ -29,7 +29,7 @@ namespace Z0
 
         static EnumRender<BCast64Kind> BCast64 = new();
 
-        static EnumRender<ModeKind> ModeKinds = new();
+        static EnumRender<ModeClass> ModeKinds = new();
 
         static EnumRender<VisibilityKind> VisKind = new();
 
@@ -182,7 +182,7 @@ namespace Z0
         public static string format(EOSZ src, FormatCode fc = FormatCode.Expr)
             => fc == FormatCode.BitWidth ? nsize(src) : format(EoszKinds,src,fc);
 
-        public static string format(ModeKind src, FormatCode fc = FormatCode.Expr)
+        public static string format(ModeClass src, FormatCode fc = FormatCode.Expr)
             => fc == FormatCode.BitWidth ? nsize((byte)src + 1) : format(ModeKinds,src,fc);
 
         public static string format(SMode src, FormatCode fc = FormatCode.Expr)
@@ -763,9 +763,14 @@ namespace Z0
                 case OpKind.Reg:
                 case OpKind.Base:
                 case OpKind.Index:
-                    if(opinfo.Selector.IsNonEmpty)
+                    // if(opinfo.Selector.IsNonEmpty)
+                    // {
+                    //     dst.AppendFormat(" {0}", opinfo.Selector);
+                    //     dst.AppendFormat(OpSepSlot, XedRender.format(src.Action));
+                    // }
+                    if(opinfo.SelectorName.IsNonEmpty)
                     {
-                        dst.AppendFormat(" {0}", opinfo.Selector);
+                        dst.AppendFormat(" {0}", opinfo.SelectorName);
                         dst.AppendFormat(OpSepSlot, XedRender.format(src.Action));
                     }
                 break;

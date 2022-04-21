@@ -13,7 +13,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static MachineMode mode(in InstFields src)
         {
-            var result = ModeKind.Default;
+            var result = ModeClass.Default;
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var f = ref src[i];

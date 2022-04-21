@@ -24,6 +24,10 @@ namespace Z0
             => Z0.XedPatterns.create(wf);
 
         [Op]
+        public static XedForms XedForms(this IWfRuntime wf)
+            => Z0.XedForms.create(wf);
+
+        [Op]
         public static XedCmdProvider XedCommands(this IWfRuntime wf)
             => XedCmdProvider.create(wf);
 

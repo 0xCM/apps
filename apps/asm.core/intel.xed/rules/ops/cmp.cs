@@ -37,17 +37,17 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public static int cmp(ModeKind a, ModeKind b)
+        public static int cmp(ModeClass a, ModeClass b)
         {
             return order(a).CompareTo(order(b));
 
-            static int order(ModeKind src)
+            static int order(ModeClass src)
                 => src switch
-                {   ModeKind.Mode16 => 0,
-                    ModeKind.Mode32 => 1,
-                    ModeKind.Not64 => 2,
-                    ModeKind.Default => 3,
-                    ModeKind.Mode64 => 4,
+                {   ModeClass.Mode16 => 0,
+                    ModeClass.Mode32 => 1,
+                    ModeClass.Not64 => 2,
+                    ModeClass.Default => 3,
+                    ModeClass.Mode64 => 4,
                     _ => 0,
                 };
         }

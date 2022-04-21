@@ -26,7 +26,9 @@ namespace Z0
 
             public OpType OpType;
 
-            public asci16 Selector;
+            public Nonterminal Selector;
+
+            public asci16 SelectorName;
         }
     }
 }

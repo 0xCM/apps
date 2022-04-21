@@ -15,7 +15,7 @@ namespace Z0
                 => new MacroSpec(name, field, new MacroExpansion(field, OperatorKind.Eq, new CellValue(field, core.bw64(value))));
 
         [MethodImpl(Inline), Op]
-        public static MacroSpec assign(RuleMacroKind name, FieldKind field, ModeKind value)
+        public static MacroSpec assign(RuleMacroKind name, FieldKind field, ModeClass value)
             => new MacroSpec(name, field, new MacroExpansion(field, OperatorKind.Eq, new CellValue(field, value)));
 
         [MethodImpl(Inline), Op]

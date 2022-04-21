@@ -19,8 +19,6 @@ namespace Z0
 
         readonly MachineEmitter _Emitter;
 
-        readonly MachineCapture _Capture;
-
         readonly IWfRuntime Wf;
 
         static int Seq;
@@ -38,7 +36,6 @@ namespace Z0
             Ws = projects.Project(projects.ProjectData(), Identifier);
             RuntimeState = new(NextId());
             RuleTables = XedRules.CalcRules();
-            _Capture = MachineCapture.create(this);
             _Emitter = MachineEmitter.create(this, StatusWriter);
 
             LoadLookups();

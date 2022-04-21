@@ -99,7 +99,7 @@ namespace Z0
                     opclass.Visibility,
                     winfo.Width64,
                     winfo.Name,
-                    opclass.Selector
+                    opclass.SelectorName
                     );
             }
 

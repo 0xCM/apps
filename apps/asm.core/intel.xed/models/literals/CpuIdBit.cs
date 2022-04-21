@@ -151,17 +151,29 @@ namespace Z0
             RDWRFSGS,
 
             RTM,
+
             SERIALIZE,
+
             SGX,
+
             SHA,
+
             SMAP,
+
             SMX,
+
             SNP,
+
             SSE,
+
             SSE2,
+
             SSE3,
+
             SSE4,
+
             SSE42,
+
             SSE4A,
 
             SSSE3,

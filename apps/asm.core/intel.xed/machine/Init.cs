@@ -18,7 +18,6 @@ namespace Z0
         {
             RuntimeState.Reset();
             Emitter.Flush();
-            _Capture.Clear();
         }
     }
 }

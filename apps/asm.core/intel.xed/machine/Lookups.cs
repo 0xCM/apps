@@ -18,7 +18,6 @@ namespace Z0
             var groups = rules.CalcInstGroups(patterns);
             var members = groups.SelectMany(x => x.Members);
             _GroupMemberLookup = members.Select(x => (x.PatternId,x)).ToDictionary();
-            _FormPatternLookup = patterns.FormPatterns();
             _ClassPatternLookup = patterns.ClassPatterns();
             _ClassFormLookup = patterns.ClassForms();
             _ClassGroupLookup = groups.ClassGroups();
@@ -27,8 +26,6 @@ namespace Z0
         ConstLookup<ushort,InstGroupMember> _GroupMemberLookup;
 
         SortedLookup<InstClass,Index<InstGroupMember>> _ClassGroupLookup;
-
-        SortedLookup<InstForm,Index<InstPattern>> _FormPatternLookup;
 
         SortedLookup<InstClass,Index<InstPattern>> _ClassPatternLookup;
 
@@ -53,12 +50,6 @@ namespace Z0
             => _ClassGroupLookup.Find(InstClass, out var dst) ? dst : sys.empty<InstGroupMember>();
 
         /// <summary>
-        /// Specifies <see cref='InstPattern'/> associated with the current <see cref='InstForm'/>
-        /// </summary>
-        public Index<InstPattern> FormPatterns
-            => _FormPatternLookup.Find(InstForm, out var x) ? x : sys.empty<InstPattern>();
-
-        /// <summary>
         /// Specifies <see cref='InstPattern'/> associated with the current <see cref='InstClass'/>
         /// </summary>
         public Index<InstPattern> ClassPatterns
@@ -67,12 +58,6 @@ namespace Z0
 
     partial class XTend
     {
-        public static SortedLookup<InstForm,Index<InstPattern>> FormPatterns(this Index<InstPattern> src)
-            => src.Storage.Where(x => x.InstForm.IsNonEmpty)
-                    .GroupBy(x => (x.InstForm))
-                    .Select(x => (x.Key, x.ToIndex()))
-                    .ToSortedLookup();
-
         public static SortedLookup<InstClass,Index<InstForm>> ClassForms(this Index<InstPattern> src)
             => src.Storage.Where(x => x.InstForm.IsNonEmpty)
                     .GroupBy(x => x.InstClass.Classifier)

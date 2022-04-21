@@ -243,11 +243,11 @@ namespace Z0
 
             static ushort bitwidth(OpWidthInfo src, MachineMode mode)
             {
-                if(mode.Kind == ModeKind.Mode16)
+                if(mode.Class == ModeClass.Mode16)
                     return src.Width16;
-                else if(mode.Kind == ModeKind.Mode32 || mode.Kind == ModeKind.Not64)
+                else if(mode.Class == ModeClass.Mode32 || mode.Class == ModeClass.Not64)
                     return src.Width32;
-                else if(mode.Kind == ModeKind.Mode64)
+                else if(mode.Class == ModeClass.Mode64)
                     return src.Width64;
                 else
                     return src.Width64;
