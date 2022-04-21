@@ -13,40 +13,33 @@ namespace Z0
         {
             public RuleSig(RuleTableKind kind, string name)
             {
-                var data = ByteBlock48.Empty;
-                var full = name + "." + kind.ToString().ToUpper();
-                data[46] = (byte)kind;
-                data[47] = (byte)Asci.encode(full, 0u, data.Bytes);
+                var data = ByteBlock4.Empty;
+                if(XedParsers.parse(name, out RuleName rn))
+                {
+                    @as<RuleName>(data.First) = rn;
+                    data[2] = (byte)kind;
+                }
+                else
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(XedRules.RuleName), name));
+
                 Data = data;
             }
 
-            readonly ByteBlock48 Data;
+            readonly ByteBlock4 Data;
+
+            public ref readonly RuleName Name
+            {
+                [MethodImpl(Inline)]
+                get => ref @as<RuleName>(Data.First);
+            }
 
             public string ShortName
-            {
-                get
-                {
-                    var full = Format();
-                    return text.slice(full,0, full.Length - 4);
-                }
-            }
-
-            Span<byte> CharBytes
-            {
-                [MethodImpl(Inline)]
-                get => slice(Data.Bytes,0,Length);
-            }
-
-            public readonly byte Length
-            {
-                [MethodImpl(Inline)]
-                get => Data[47];
-            }
+                => Name.ToString();
 
             public readonly RuleTableKind TableKind
             {
                 [MethodImpl(Inline)]
-                get => (RuleTableKind)Data[46];
+                get => (RuleTableKind)Data[2];
             }
 
             public bool IsEncTable
@@ -74,29 +67,16 @@ namespace Z0
             }
 
             public string Format()
-            {
-                var count = Length;
-                var storage = CharBlock48.Null;
-                var dst = storage.Data;
-                Asci.decode(n48, CharBytes, dst);
-                return new string(slice(dst,0,count));
-            }
+                => string.Format("{0}.{1}", Name.ToString(), TableKind.ToString().ToUpper());
 
             public override string ToString()
                 => Format();
 
             public bool Equals(RuleSig src)
-            {
-                if(TableKind != src.TableKind || Length != src.Length)
-                    return false;
-                return CharBytes.SequenceEqual(src.CharBytes);
-            }
-
-            public Hash32 Hash
-                => alg.hash.marvin(CharBytes);
+                => Name == src.Name && TableKind == src.TableKind;
 
             public override int GetHashCode()
-                => Hash;
+                => ((ushort)TableKind << 7) | (ushort)Name;
 
             public override bool Equals(object src)
                 => src is RuleSig x && Equals(x);

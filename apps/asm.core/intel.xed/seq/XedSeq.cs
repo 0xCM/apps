@@ -31,7 +31,6 @@ namespace Z0
 	DISP_WIDTH=64 DISP[dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd]=*  ->	emit dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd emit_type=letters nbits=64
  */
 
-
         /*
         SEQUENCE ISA_BINDINGS
             FIXUP_EOSZ_ENC_BIND()   | FIXUP_EOSZ_ENC

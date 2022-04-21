@@ -24,12 +24,57 @@ namespace Z0
         [CmdOp("xed/check/seq")]
         Outcome ChecSeq(CmdArgs args)
         {
-            var defs = XedSeq.Defs();
-            for(var i=0; i<defs.Count; i++)
+            var assets = AsmCaseAssets.create();
+            var header = assets.XedFileHeader().Utf8();
+            var path = FS.path(@"J:\z0\apps\asm.core\intel.xed\rules\models\RuleName.cs");
+            var rules = Xed.Rules.CalcRules();
+            ref readonly var specs = ref rules.Specs();
+
+            var rulenames = specs.Keys.Select(x => x.ShortName).ToHashSet();
+            var nonterms = Symbols.index<NontermKind>().Kinds.Where(x => x != 0).Select(x => XedRender.format(x));
+            rulenames.AddRange(nonterms);
+            var names = rulenames.Index().Sort();
+
+            var dst = text.emitter();
+            dst.WriteLine(header);
+            dst.WriteLine("namespace Z0");
+            dst.WriteLine("{");
+            var indent = 4u;
+
+            dst.IndentLine(indent,"partial class XedRules");
+            dst.IndentLine(indent,"{");
+            indent+=4;
+            dst.IndentLine(indent,"public enum RuleName : ushort");
+            dst.IndentLine(indent,"{");
+            var k=0u;
+            indent += 4;
+            dst.IndentLineFormat(indent, "{0} = {1},", "None", k++);
+            dst.WriteLine();
+            for(var i=0; i<names.Count; i++, k++)
             {
-                ref readonly var def = ref defs[i];
-                Write(def.Format());
+                ref readonly var name = ref names[i];
+                dst.IndentLineFormat(indent, "{0} = {1},", name, k);
+                if(i != names.Count-1)
+                    dst.WriteLine();
             }
+            indent -= 4;
+            dst.IndentLine(indent,"}");
+            indent -=4;
+            dst.IndentLine(indent,"}");
+            indent -=4;
+            dst.Indent(indent,"}");
+            using var writer = path.Utf8Emitter();
+            writer.Write(dst.Emit());
+
+
+            //var nonterms = XedSeq.Defs().SelectMany(x => x.Steps).Select(x => x.Data).Distinct().Select(x => XedRender.format(x.Kind));
+
+            // var seq = XedSeq.Defs();
+            // for(var i=0; i<seq.Count; i++)
+            // {
+            //     ref readonly var def = ref seq[i];
+            //     Write(def.Format());
+            // }
             return true;
         }
 

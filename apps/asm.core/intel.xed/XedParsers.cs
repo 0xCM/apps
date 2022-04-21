@@ -83,6 +83,8 @@ namespace Z0
 
         static readonly EnumParser<SMode> SModes = new();
 
+        static readonly EnumParser<RuleName> RuleNames = new();
+
         static XedParsers Instance = new();
 
         static ConcurrentDictionary<string,NontermKind> NontermUppers
@@ -164,6 +166,9 @@ namespace Z0
             parse(selector, out dst.Selector);
             return result;
         }
+
+        public static bool parse(string src, out RuleName dst)
+            => RuleNames.Parse(src, out dst);
 
         public static bool parse(string src, out OpType dst)
             => OpTypes.Parse(src, out dst);
