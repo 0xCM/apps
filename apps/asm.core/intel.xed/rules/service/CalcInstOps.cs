@@ -9,8 +9,8 @@ namespace Z0
 
     partial class XedRules
     {
-        public Index<InstOpDetail> CalcInstOpDetails(RuleTables tables, Index<InstPattern> patterns)
-            => Data(nameof(CalcInstOpDetails), () => opdetails(tables,patterns));
+        public Index<InstOpDetail> CalcInstOpDetails(Index<InstPattern> patterns)
+            => Data(nameof(CalcInstOpDetails), () => opdetails(patterns));
 
         public Index<InstOperandRow> CalcInstOpRows(Index<InstOpDetail> details)
         {
@@ -24,8 +24,9 @@ namespace Z0
                 {
                     ref readonly var src = ref details[i];
                     ref var dst = ref rows[i];
+                    Require.invariant(src.InstClass.Kind != 0);
                     dst.PatternId = src.PatternId;
-                    dst.InstClass = src.InstClass.Classifier;
+                    dst.InstClass = src.InstClass;
                     dst.OpCode = src.OpCode;
                     dst.Mode = src.Mode;
                     dst.Lock = src.Lock;

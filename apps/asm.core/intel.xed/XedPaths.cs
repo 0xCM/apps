@@ -83,11 +83,18 @@ namespace Z0
             };
         }
 
-        public FS.FilePath TableDef(RuleTableKind kind, Nonterminal nt)
+        public FS.FileUri TableDef(RuleTableKind kind, Nonterminal nt)
             => RuleTargets() + FS.folder("defs") + FS.file(string.Format("{0}.{1}", nt.Name, kind), FS.Csv);
 
-        public FS.FilePath TableDef(in RuleSig sig)
+
+        public FS.FileUri TableDef(RuleSig sig)
             => RuleTargets() + FS.folder("defs") + FS.file(sig.Format(), FS.Csv);
+
+        public FS.FileUri CheckedTableDef(RuleSig sig)
+        {
+            var uri = TableDef(sig);
+            return uri.Path.Exists ? uri : FS.FileUri.Empty;
+        }
 
         public FS.FilePath RuleSpecs()
             => RuleTargets() + FS.file("xed.rules.specs", FS.Csv);

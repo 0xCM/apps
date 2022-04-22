@@ -22,7 +22,7 @@ namespace Z0
 
             public RuleTableKind Kind;
 
-            public asci32 Name;
+            public RuleName Name;
 
             public TextBlock Statement;
 

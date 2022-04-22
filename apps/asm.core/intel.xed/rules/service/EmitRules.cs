@@ -9,24 +9,15 @@ namespace Z0
 
     partial class XedRules
     {
-        public void EmitRules(RuleTables tables, Index<InstPattern> patterns)
+        public void EmitRuleCells(RuleTables rules)
         {
-            var details = CalcInstOpDetails(tables,patterns);
-            exec(PllExec,
-                () => EmitInstOperands(CalcInstOpRows(details)),
-                () => EmitTableSigs(tables.SigRows),
-                () => EmitRuleSeq(),
-                () => EmitOpClasses(CalcOpClasses(details)),
-                () => EmitCriteria(tables),
-                () => EmitTableFiles(tables)
-            );
+            var dst = text.emitter();
+            CellEmitter.emit(rules,dst);
+            FileEmit(dst.Emit(), 1, XedPaths.RuleTargets() + FS.file("xed.rules.cells", FS.Csv), TextEncodingKind.Asci);
         }
 
-        void EmitOpClasses(Index<InstOpClass> src)
-            => TableEmit(src.View, InstOpClass.RenderWidths, XedPaths.Table<InstOpClass>());
-
-        void EmitTableSigs(Index<RuleSigRow> src)
-            => TableEmit(src.View, RuleSigRow.RenderWidths, XedPaths.Service.RuleTable<RuleSigRow>());
+        void EmitTableSigs(RuleTables rules)
+            => TableEmit(rules.SigRows.View, RuleSigRow.RenderWidths, XedPaths.Service.RuleTable<RuleSigRow>());
 
         void EmitRuleSeq()
         {
@@ -36,7 +27,7 @@ namespace Z0
             FileEmit(dst.Emit(), src.Count, XedPaths.Service.DocTarget(XedDocKind.RuleSeq), TextEncodingKind.Asci);
         }
 
-        void EmitCriteria(RuleTables rules)
+        void EmitRuleCriteria(RuleTables rules)
         {
             var formatter = Tables.formatter<TableDefRow>(TableDefRow.RenderWidths);
             ref readonly var tables = ref rules.Criteria();
@@ -70,7 +61,7 @@ namespace Z0
             }
         }
 
-        public void EmitTableFiles(RuleTables rules)
+        public void EmitRuleTables(RuleTables rules)
         {
             var formatter = Tables.formatter<TableDefRow>(TableDefRow.RenderWidths);
             ref readonly var tables = ref rules.Criteria();
@@ -81,7 +72,7 @@ namespace Z0
                     return;
 
                 var dst = XedPaths.Service.TableDef(table.Sig);
-                using var writer = dst.AsciWriter();
+                using var writer = dst.Path.AsciWriter();
                 writer.WriteLine(formatter.FormatHeader());
                 for(var j=0u; j<table.RowCount; j++)
                 {

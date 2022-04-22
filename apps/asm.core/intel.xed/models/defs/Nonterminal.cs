@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules;
+
     partial struct XedModels
     {
         [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(32)]
@@ -17,8 +19,8 @@ namespace Z0
                 Kind = kind;
             }
 
-            public string Name
-                => XedRender.name(this);
+            public RuleName Name
+                => Kind.ToRuleName();
 
             public bool IsEmpty
             {

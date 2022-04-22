@@ -6,13 +6,14 @@
 namespace Z0
 {
     using static core;
-    using static XedPatterns;
     using static XedModels;
 
     partial class XedRules
     {
         public void EmitCatalog()
         {
+            var patterns = Index<InstPattern>.Empty;
+            var tables = RuleTables.Empty;
             exec(PllExec,
                 EmitFieldSpecs,
                 EmitOpCodeKinds,
@@ -22,58 +23,23 @@ namespace Z0
                 EmitMacroDefs,
                 EmitReflectedFields,
                 EmitSymbolicFields,
-                EmitFieldDefs
+                EmitFieldDefs,
+                () => tables = CalcRules(),
+                () => patterns = EmitPatterns(CalcPatterns())
             );
 
-            var patterns = CalcInstPatterns(CalcInstDefs());
-            var tables = RuleTables.Empty;
-            exec(PllExec,
-                () => EmitPatternInfo(patterns),
-                () => EmitPoc(patterns),
-                () => EmitInstFields(patterns),
-                () => EmitFlagEffects(patterns),
-                () => EmitInstGroups(CalcInstGroups(patterns)),
-                () => EmitInstAttribs(patterns),
-                () => tables = CalcRules()
-                );
-
-            exec(PllExec,
-                () => EmitRules(tables, patterns),
-                () => EmitCellSpecs(tables),
-                () => EmitPatternDetails(tables, patterns),
-                () => EmitIsaPages(tables,patterns),
-                () => Docs.EmitDocs(tables,patterns)
-                );
+            Docs.EmitDocs(tables, patterns);
         }
 
-        void EmitPatternDetails(RuleTables tables, Index<InstPattern> src, FS.FilePath dst)
-        {
-            src.Sort();
-            var formatter = InstPageFormatter.create(tables);
-            var emitting = EmittingFile(dst);
-            using var writer = dst.AsciWriter();
-            for(var j=0; j<src.Count; j++)
-                writer.Write(formatter.Format(src[j]));
-
-            EmittedFile(emitting, src.Count);
-        }
-
-        void EmitIsaPages(RuleTables tables, Index<InstPattern> src)
-        {
-            XedPaths.InstIsaRoot().Delete();
-            var groups = InstPageFormatter.FormatGroups(tables, src);
-            iter(groups, EmitIsaGroup, PllExec);
-        }
-
-        void EmitIsaGroup(InstIsaFormat src)
-        {
-            var dst = XedPaths.InstIsaPath(src.Isa);
-            Require.invariant(!dst.Exists);
-            FileEmit(src.Content, src.LineCount, dst, TextEncodingKind.Asci);
-        }
 
         Index<MacroMatch> CalcMacroMatches()
             => mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i));
+
+        void EmitMacroDefs()
+            => TableEmit(CalcMacroDefs().View, MacroDef.RenderWidths, XedPaths.RuleTable<MacroDef>());
+
+        void EmitMacroMatches()
+            => TableEmit(CalcMacroMatches().View, MacroMatch.RenderWidths, XedPaths.RuleTable<MacroMatch>());
 
         void EmitSymbolicFields()
             => ApiMetadataService.create(Wf).EmitTokenSet(XedFields.EffectiveFields.create(), AppDb.XedPath("xed.fields.symbolic", FileKind.Csv));
@@ -84,36 +50,14 @@ namespace Z0
         void EmitReflectedFields()
             => TableEmit(XedFields.ByPosition.Valid, ReflectedField.RenderWidths, XedPaths.Table<ReflectedField>("positioned"));
 
-        void EmitPoc(Index<InstPattern> src)
-        {
-            var poc = CalcPoc(src);
-            TableEmit(poc.View, PatternOpCode.RenderWidths, XedPaths.Table<PatternOpCode>());
-            EmitOpCodeIdentities(poc);
-        }
-
-        void EmitInstFields(Index<InstPattern> src)
-            => TableEmit(CalcInstFields(src).View, InstFieldRow.RenderWidths, XedPaths.Table<InstFieldRow>());
-
-        void EmitPatternInfo(Index<InstPattern> src)
-            => TableEmit(XedPatterns.describe(src).View, InstPatternRecord.RenderWidths, XedPaths.Table<InstPatternRecord>());
-
-        void EmitPatternDetails(RuleTables tables, Index<InstPattern> src)
-            => EmitPatternDetails(tables, src, XedPaths.DocTarget(XedDocKind.PatternDetail));
-
-        void EmitInstOperands(Index<InstOperandRow> src)
-            => TableEmit(src.View, InstOperandRow.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));
-
-        void EmitMacroDefs()
-            => TableEmit(CalcMacroDefs().View, MacroDef.RenderWidths, XedPaths.RuleTable<MacroDef>());
-
-        void EmitMacroMatches()
-            => TableEmit(CalcMacroMatches().View, MacroMatch.RenderWidths, XedPaths.RuleTable<MacroMatch>());
-
         void EmitOpCodeKinds()
             => TableEmit(CalcOpCodeKinds().Records, OcMapKind.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodeKinds));
 
         void EmitOpWidths()
             => TableEmit(XedWidths.Records.View, OpWidthInfo.RenderWidths, XedPaths.Table<OpWidthInfo>());
+
+        Index<PointerWidthInfo> CalcPointerWidths()
+            => Data(nameof(CalcPointerWidths), () => mapi(PointerWidths.Where(x => x.Kind != 0), (i,w) => w.ToRecord((byte)i)));
 
         void EmitPointerWidths()
             => TableEmit(CalcPointerWidths().View, PointerWidthInfo.RenderWidths,  XedPaths.DocTarget(XedDocKind.PointerWidths));

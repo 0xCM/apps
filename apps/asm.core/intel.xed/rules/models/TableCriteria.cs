@@ -16,7 +16,7 @@ namespace Z0
             public readonly Index<RowCriteria> Rows;
 
             [MethodImpl(Inline)]
-            public TableCriteria(in RuleSig sig, RowCriteria[] rows)
+            public TableCriteria(RuleSig sig, RowCriteria[] rows)
             {
                 TableId = 0u;
                 Require.invariant(sig.IsNonEmpty);
@@ -26,7 +26,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public TableCriteria(uint id, in RuleSig sig, RowCriteria[] rows)
+            public TableCriteria(uint id, RuleSig sig, RowCriteria[] rows)
             {
                 TableId = id;
                 Require.invariant(sig.IsNonEmpty);
@@ -43,16 +43,22 @@ namespace Z0
                 Rows = sys.empty<RowCriteria>();
             }
 
+            public RuleSig SigKey
+            {
+                [MethodImpl(Inline)]
+                get => Sig;
+            }
+
             public RuleTableKind TableKind
             {
                 [MethodImpl(Inline)]
                 get => Sig.TableKind;
             }
 
-            public string TableName
+            public RuleName TableName
             {
                 [MethodImpl(Inline)]
-                get => Sig.ShortName;
+                get => SigKey.TableName;
             }
 
             public bool IsEncTable

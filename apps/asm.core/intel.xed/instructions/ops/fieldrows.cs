@@ -12,18 +12,19 @@ namespace Z0
     {
         public static Index<InstFieldRow> fieldrows(Index<InstPattern> src)
         {
-            var count = 0u;
-            iter(src, p => count += p.Body.FieldCount);
-            var dst = alloc<InstFieldRow>(count);
-            var k=0u;
+            var dst = list<InstFieldRow>();
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var pattern = ref src[i];
-                ref readonly var body = ref pattern.Body;
-                for(byte j=0; j<body.FieldCount; j++,k++)
-                    seek(dst,k) = fieldrow(pattern, body[j], j);
+                for(byte j=0; j<pattern.Body.FieldCount; j++)
+                {
+                    ref readonly var body = ref pattern.Body;
+                    ref readonly var fields = ref body.Fields;
+                    for(var k=z8; k<fields.Count; k++)
+                        dst.Add(fieldrow(pattern, fields[k], k));
+                }
             }
-            return dst;
+            return dst.ToIndex();
         }
 
         [Op]
@@ -36,7 +37,7 @@ namespace Z0
             dst.Index = Require.equal(index,src.Position);
             dst.FieldClass = src.FieldClass;
             dst.FieldKind = src.FieldKind;
-            dst.InstClass = pattern.InstClass.Classifier;
+            dst.InstClass = pattern.InstClass;
             dst.OpCode = pattern.OpCode;
             switch(src.DataKind)
             {

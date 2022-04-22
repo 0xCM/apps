@@ -7,7 +7,10 @@ namespace Z0
 {
     partial class XedRules
     {
-        public Index<InstFieldRow> CalcInstFields(Index<InstPattern> src)
-            => Data(nameof(CalcInstFields), () => XedPatterns.fieldrows(src));
+        public Index<TableCriteria> CalcRuleCriteria(RuleTableKind kind)
+        {
+            var dsname = nameof(CalcRuleCriteria) + kind.ToString();
+            return Data(dsname, () => TableCalcs.criteria(kind));
+        }
     }
 }

@@ -32,12 +32,6 @@ namespace Z0
                 get => Kind != 0;
             }
 
-            public bool IsSegField
-            {
-                [MethodImpl(Inline)]
-                get => Kind == CK.SegField;
-            }
-
             public bool IsKeyword
             {
                 [MethodImpl(Inline)]
@@ -56,48 +50,6 @@ namespace Z0
                 get => Kind == CK.HexLiteral;
             }
 
-            public bool IsIntLit
-            {
-                [MethodImpl(Inline)]
-                get => Kind == CK.IntLiteral;
-            }
-
-            public bool IsNumericLit
-            {
-                [MethodImpl(Inline)]
-                get => IsBinLit || IsHexLit || IsIntLit;
-            }
-
-            public bool IsString
-            {
-                [MethodImpl(Inline)]
-                get => Kind == CK.SegVar;
-            }
-
-            public bool IsOperator
-            {
-                [MethodImpl(Inline)]
-                get => Kind == CK.Operator;
-            }
-
-            public bool IsNonterm
-            {
-                [MethodImpl(Inline)]
-                get => Kind == CK.NontermCall;
-            }
-
-            public bool IsNontermExpr
-            {
-                [MethodImpl(Inline)]
-                get => Kind == CK.NontermExpr;
-            }
-
-            public bool IsExpr
-            {
-                [MethodImpl(Inline)]
-                get => Kind == CK.NontermExpr || Kind == CK.EqExpr || Kind == CK.NeqExpr;
-            }
-
             [MethodImpl(Inline)]
             public int CompareTo(CellClass src)
                 => ((byte)Kind).CompareTo((byte)src.Kind);
@@ -107,12 +59,6 @@ namespace Z0
 
             public override int GetHashCode()
                 => (int)Kind;
-
-            // public bool Equals(CellClass src)
-            //     => Kind == src.Kind;
-
-            // public override bool Equals(object src)
-            //     => src is CellClass x && Equals(x);
 
             public override string ToString()
                 => Format();
@@ -133,15 +79,7 @@ namespace Z0
             public static explicit operator CellClass(byte src)
                 => new CellClass((RuleCellKind)src);
 
-            // [MethodImpl(Inline)]
-            // public static bool operator ==(CellClass a, CellClass b)
-            //     => a.Equals(b);
-
-            // [MethodImpl(Inline)]
-            // public static bool operator !=(CellClass a, CellClass b)
-            //     => !a.Equals(b);
-
-            public static CellClass Empty => default;
+           public static CellClass Empty => default;
         }
    }
 }

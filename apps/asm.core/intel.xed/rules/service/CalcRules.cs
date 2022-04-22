@@ -6,7 +6,6 @@
 namespace Z0
 {
     using static core;
-    using static XedRules.TableCalcs;
 
     partial class XedRules
     {
@@ -15,11 +14,24 @@ namespace Z0
             var tables = new RuleTables();
             var buffers = tables.CreateBuffers();
             exec(PllExec,
-                () => buffers.Criteria.TryAdd(RuleTableKind.Enc, criteria(RuleTableKind.Enc)),
-                () => buffers.Criteria.TryAdd(RuleTableKind.Dec, criteria(RuleTableKind.Dec))
+                () => buffers.Criteria.TryAdd(RuleTableKind.Enc, CalcRuleCriteria(RuleTableKind.Enc)),
+                () => buffers.Criteria.TryAdd(RuleTableKind.Dec, CalcRuleCriteria(RuleTableKind.Dec))
                 );
 
-            return tables.Seal(buffers, PllExec);
+            tables.Seal(buffers, PllExec);
+            EmitRules(tables);
+            return tables;
+        }
+
+        public void EmitRules(RuleTables tables)
+        {
+            exec(PllExec,
+                () => EmitTableSigs(tables),
+                () => EmitRuleSeq(),
+                () => EmitRuleCriteria(tables),
+                () => EmitRuleCells(tables),
+                () => EmitRuleTables(tables)
+            );
         }
    }
 }

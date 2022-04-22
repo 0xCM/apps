@@ -17,18 +17,18 @@ namespace Z0
             return dst;
         }
 
-        public TableSpec NontermOpTable(byte index)
-        {
-            var dst = TableSpec.Empty;
-            ref readonly var op = ref InstPattern().Op(index);
-            if(op.Nonterminal(out var nonterm))
-            {
-                dst = RuleTable(new (RuleTableKind.Enc, nonterm.Name));
-                if(dst.IsEmpty)
-                    dst = RuleTable(new (RuleTableKind.Dec, nonterm.Name));
-            }
-            return dst;
-        }
+        // public TableSpec NontermOpTable(byte index)
+        // {
+        //     var dst = TableSpec.Empty;
+        //     ref readonly var op = ref InstPattern().Op(index);
+        //     if(op.Nonterminal(out var nonterm))
+        //     {
+        //         dst = RuleTable(new (RuleTableKind.Enc, nonterm.Name));
+        //         if(dst.IsEmpty)
+        //             dst = RuleTable(new (RuleTableKind.Dec, nonterm.Name));
+        //     }
+        //     return dst;
+        // }
 
         [MethodImpl(Inline)]
         public bool IsNontermOp(byte index)

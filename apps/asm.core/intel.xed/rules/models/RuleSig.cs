@@ -5,41 +5,34 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class XedRules
     {
-        public readonly struct RuleSig : IComparable<RuleSig>, IEquatable<RuleSig>
+        public readonly record struct RuleSig : IComparable<RuleSig>
         {
-            public RuleSig(RuleTableKind kind, string name)
-            {
-                var data = ByteBlock4.Empty;
-                if(XedParsers.parse(name, out RuleName rn))
-                {
-                    @as<RuleName>(data.First) = rn;
-                    data[2] = (byte)kind;
-                }
-                else
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(XedRules.RuleName), name));
+            const ushort KindMask = 0xF000;
 
-                Data = data;
+            const ushort NameMask = 0x0FFF;
+
+            const ushort KindOffset = 12;
+
+            readonly ushort Data;
+
+            [MethodImpl(Inline)]
+            public RuleSig(RuleName name, RuleTableKind kind)
+            {
+                Data = (ushort)((ushort)name | ((ushort)kind << KindOffset));
             }
 
-            readonly ByteBlock4 Data;
-
-            public ref readonly RuleName Name
+            public RuleName TableName
             {
                 [MethodImpl(Inline)]
-                get => ref @as<RuleName>(Data.First);
+                get => (RuleName)(Data & NameMask);
             }
 
-            public string ShortName
-                => Name.ToString();
-
-            public readonly RuleTableKind TableKind
+            public RuleTableKind TableKind
             {
                 [MethodImpl(Inline)]
-                get => (RuleTableKind)Data[2];
+                get => (RuleTableKind)((Data & KindMask) >> KindOffset);
             }
 
             public bool IsEncTable
@@ -57,49 +50,32 @@ namespace Z0
             public readonly bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => TableKind == 0;
+                get => Data == 0;
             }
 
             public readonly bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => TableKind != 0;
+                get => TableKind != 0 && TableName != 0;
             }
 
-            public string Format()
-                => string.Format("{0}.{1}", Name.ToString(), TableKind.ToString().ToUpper());
-
-            public override string ToString()
-                => Format();
+            public override int GetHashCode()
+                => Data;
 
             [MethodImpl(Inline)]
-            public RuleSigKey ToKey()
-                => new (Name,TableKind);
-
-            public bool Equals(RuleSig src)
-                => Name == src.Name && TableKind == src.TableKind;
-
-            public override int GetHashCode()
-                => ((ushort)TableKind << 7) | (ushort)Name;
-
-            public override bool Equals(object src)
-                => src is RuleSig x && Equals(x);
-
             public int CompareTo(RuleSig src)
             {
-                var result = ShortName.CompareTo(src.ShortName);
+                var result = cmp(TableName,src.TableName);
                 if(result == 0)
-                    result = XedRules.cmp(TableKind, src.TableKind);
+                    result = cmp(TableKind, src.TableKind);
                 return result;
             }
 
-            [MethodImpl(Inline)]
-            public static bool operator ==(RuleSig a, RuleSig b)
-                => a.Equals(b);
+            public string Format()
+                => IsEmpty ? EmptyString : string.Format("{0}.{1}", TableName, TableKind.ToString().ToUpper());
 
-            [MethodImpl(Inline)]
-            public static bool operator !=(RuleSig a, RuleSig b)
-                => !a.Equals(b);
+            public override string ToString()
+                => Format();
 
             public static RuleSig Empty => default;
         }

@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public static Index<InstOpDetail> opdetails(RuleTables tables, Index<InstPattern> src)
+        public static Index<InstOpDetail> opdetails(Index<InstPattern> src)
         {
             var buffer = list<InstOpDetail>();
             for(var i=0; i<src.Count; i++)

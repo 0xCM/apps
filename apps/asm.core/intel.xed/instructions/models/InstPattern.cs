@@ -109,7 +109,7 @@ namespace Z0
             public InstClass Classifier
             {
                 [MethodImpl(Inline)]
-                get => InstClass.Classifier;
+                get => InstClass;
             }
 
             public ref readonly InstForm InstForm

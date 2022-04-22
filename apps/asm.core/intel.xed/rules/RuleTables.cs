@@ -21,56 +21,30 @@ namespace Z0
 
             Index<RuleSigRow> _SigRows;
 
+            Index<RuleSig> _SigIndex;
+
+            Index<TableCriteria> _Criteria;
+
+            TableSpecs _Specs;
+
+            HashSet<RuleSig> _SigSet;
+
+            [MethodImpl(Inline)]
+            public ref readonly Index<RuleSig> Sigs()
+                => ref _SigIndex;
+
             public ref readonly Index<RuleSigRow> SigRows
             {
                 [MethodImpl(Inline)]
                 get => ref _SigRows;
             }
 
-            Index<RuleSig> SigIndex;
-
-            [MethodImpl(Inline)]
-            public ref readonly Index<RuleSig> Sigs()
-                => ref SigIndex;
-
-            HashSet<RuleSig> SigSet;
-
             public bool IsTableDefind(in RuleSig src)
-                => SigSet.Contains(src);
-
-            Index<TableCriteria> _EncCriteria;
-
-            Index<TableCriteria> _DecCriteria;
-
-            Index<TableCriteria> _Criteria;
+                => _SigSet.Contains(src);
 
             [MethodImpl(Inline)]
             public ref readonly Index<TableCriteria> Criteria()
                 => ref _Criteria;
-
-            Dictionary<RuleSig,FS.FilePath> TablePaths;
-
-            public FS.FileUri FindTablePath(Nonterminal src)
-            {
-                var name = src.Name;
-                var path = FS.FilePath.Empty;
-                if(!TablePaths.TryGetValue(new (RuleTableKind.Dec,name), out path))
-                    TablePaths.TryGetValue(new (RuleTableKind.Enc,name), out path);
-                return path;
-            }
-
-
-            public FS.FileUri FindTablePath(RuleSig sig)
-            {
-                if(TablePaths.TryGetValue(sig, out var path))
-                {
-                    return path;
-                }
-                else
-                    return FS.FilePath.Empty;
-            }
-
-            TableSpecs _Specs;
 
             [MethodImpl(Inline)]
             public ref readonly TableSpecs Specs()
@@ -79,7 +53,7 @@ namespace Z0
             public TableSpec Spec(RuleSig sig)
             {
                 var dst = TableSpec.Empty;
-                Specs().Find(sig,out dst);
+                Specs().Find(sig, out dst);
                 return dst;
             }
 
@@ -90,75 +64,43 @@ namespace Z0
 
             }
 
-            internal RuleTables Seal(Buffers src, bool pll)
-            {
-                Data = src;
-                var specs = SealCriteria();
-                exec(pll,
-                    SealTableDefs,
-                    SealPaths,
-                    () => _Specs = CalcRowSpecs(specs)
-                    );
-                return this;
-            }
-
             internal Buffers CreateBuffers()
                 => new();
 
-            void SealPaths()
+            internal void Seal(Buffers src, bool pll)
             {
-                var paths = dict<RuleSig,FS.FilePath>();
-                foreach(var spec in _EncCriteria)
-                    paths.TryAdd(spec.Sig, XedPaths.Service.TableDef(spec.Sig));
-                foreach(var spec in _DecCriteria)
-                    paths.TryAdd(spec.Sig, XedPaths.Service.TableDef(spec.Sig));
-                TablePaths = paths;
+                Data = src;
+                var criteria = sort(src.Criteria);
+                var count = criteria.Count;
+                var sigs =  alloc<RuleSig>(count);
+                var rows = alloc<RuleSigRow>(count);
+                var sigset = hashset<RuleSig>();
+                _Specs = XedRules.lookup(criteria);
+                _Criteria = criteria;
+                _SigIndex = sigs;
+                _SigRows = rows;
+                _SigSet = sigset;
+                for(var i=0u; i<count; i++)
+                {
+                    ref readonly var spec = ref criteria[i];
+                    ref readonly var sig = ref spec.Sig;
+                    sigs[i] = sig;
+                    sigset.Add(sig);
+                    ref var row = ref rows[i];
+                    row.Seq = i;
+                    row.Sig = sig;
+                    row.TableDef = XedPaths.Service.TableDef(sig);
+                }
             }
 
-            Index<TableCriteria> SealCriteria()
+            static Index<TableCriteria> sort(ConcurrentDictionary<RuleTableKind,Index<TableCriteria>> src)
             {
-                var enc = Data.Criteria[RuleTableKind.Enc];
-                var dec = Data.Criteria[RuleTableKind.Dec];
+                var enc = src[RuleTableKind.Enc];
+                var dec = src[RuleTableKind.Dec];
                 var specs = enc.Append(dec).Sort();
                 for(var i=0u; i<specs.Count; i++)
                     specs[i] = specs[i].WithId(i);
-
-                var j=0u;
-                var k=0u;
-                for(var i=0u; i<specs.Count; i++)
-                {
-                    ref readonly var spec = ref specs[i];
-                    if(spec.IsEncTable)
-                        enc[j++] = spec;
-                    else
-                        dec[k++] = spec;
-                }
-
-                _EncCriteria = enc;
-                _DecCriteria = dec;
-                _Criteria = specs;
                 return specs;
-            }
-
-            void SealTableDefs()
-            {
-                var specs = Criteria();
-                SigIndex = alloc<RuleSig>(specs.Count);
-                _SigRows = alloc<RuleSigRow>(specs.Count);
-                SigSet = new();
-                for(var i=0u; i<specs.Count; i++)
-                {
-                    ref readonly var spec = ref specs[i];
-                    ref readonly var sig = ref spec.Sig;
-                    SigIndex[i] = sig;
-                    SigSet.Add(sig);
-
-                    ref var row = ref _SigRows[i];
-                    row.Seq = i;
-                    row.TableKind = spec.TableKind;
-                    row.TableName = spec.TableName;
-                    row.TableDef = XedPaths.Service.TableDef(sig);
-                }
             }
 
            public static RuleTables Empty => new();

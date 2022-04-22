@@ -17,18 +17,16 @@ namespace Z0
                 for(var i=0u; i<src.Count; i++)
                 {
                     ref readonly var table = ref src[i];
-                    ref readonly var sig = ref table.Sig;
-                    if(sig.IsEmpty)
+                    if(table.SigKey.IsEmpty)
                         continue;
 
-                    if(dst.TryGetValue(sig, out var t))
-                        dst[sig] = t.Merge(table);
+                    if(dst.TryGetValue(table.SigKey, out var t))
+                        dst[table.SigKey] = t.Merge(table);
                     else
                     {
-                        if(!dst.TryAdd(sig,table))
-                            Errors.Throw(string.Format("Duplicate sig {0}", sig));
+                        if(!dst.TryAdd(table.SigKey,table))
+                            Errors.Throw(string.Format("Duplicate sig {0}", table.SigKey));
                     }
-
                 }
 
                 var specs = dst.Values.Array().Sort();

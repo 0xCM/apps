@@ -24,7 +24,7 @@ namespace Z0
             {
                 dst.AppendLine(TableHeader(src.Sig));
                 dst.AppendLine();
-                dst.AppendLineFormat("{0}(){{", src.Sig.ShortName);
+                dst.AppendLineFormat("{0}(){{", src.Sig.TableName);
                 for(var i=0; i<src.RowCount; i++)
                     dst.IndentLine(4, src[i].Format());
                 dst.AppendLine("}");
@@ -35,7 +35,7 @@ namespace Z0
             {
                 var dst = text.buffer();
                 var sigs = Rules.Sigs();
-                for(var i=0; i<sigs.Length; i++)
+                for(var i=0; i<sigs.Count; i++)
                     Render(Rules.Spec(sigs[i]), dst);
                 return dst.Emit();
             }

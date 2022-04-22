@@ -73,24 +73,6 @@ namespace Z0
             Write(rmVal.Format());
         }
 
-        // void CheckFieldSets()
-        // {
-        //     var data = XedFields.fields();
-        //     data.Update(FieldKind.REG1, XedRegId.AX);
-        //     data.Update(FieldKind.REG4, XedRegId.BX);
-        //     data.Update(FieldKind.REG8, XedRegId.DX);
-
-        //     var members = ByteBlock128.Empty;
-        //     var kinds = recover<FieldKind>(members.Bytes);
-        //     var count = data.Members().Members(kinds);
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var kind = ref skip(kinds,i);
-        //         ref readonly var field = ref data[kind];
-        //         Write(string.Format("{0}:{1}", kind, field.Format()));
-        //     }
-        // }
-
         void CheckNonTerms2()
         {
             //var dst = Nonterminals.create();

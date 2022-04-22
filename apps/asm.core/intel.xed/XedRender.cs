@@ -581,7 +581,7 @@ namespace Z0
         public static string format(in TableCriteria src)
         {
             var dst = text.buffer();
-            dst.AppendLine(string.Format("{0}()", src.Sig.ShortName));
+            dst.AppendLine(string.Format("{0}()", src.SigKey.TableName));
             dst.AppendLine(Chars.LBrace);
             for(var i=0; i<src.Rows.Count; i++)
                 dst.IndentLine(4, src.Rows[i]);

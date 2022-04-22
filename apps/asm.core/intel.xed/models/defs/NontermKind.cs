@@ -5,6 +5,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+    using static XedRules;
+
+    partial class XTend
+    {
+        public static RuleName ToRuleName(this NontermKind src)
+        {
+            var dst = RuleName.None;
+            XedParsers.parse(src.ToString(), out dst);
+            return dst;
+        }
+
+        public static RuleName ToRuleName(this Nonterminal src)
+        {
+            var dst = RuleName.None;
+            XedParsers.parse(src.Kind.ToString(), out dst);
+            return dst;
+        }
+    }
+
     partial struct XedModels
     {
         [SymSource(xed)]

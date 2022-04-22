@@ -46,7 +46,10 @@ namespace Z0
                         if(counter != 0)
                         {
                             if(!skip.Contains(name))
-                                dst.Add(new (new (tkind, name), statements.ToArray()));
+                            {
+                                XedParsers.parse(name, out RuleName rn);
+                                dst.Add(new (new (rn,tkind), statements.ToArray()));
+                            }
 
                             statements.Clear();
                         }

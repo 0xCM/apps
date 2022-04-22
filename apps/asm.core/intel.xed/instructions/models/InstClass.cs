@@ -16,10 +16,10 @@ namespace Z0
 
             public readonly IClass Kind;
 
-            [MethodImpl(Inline)]
-            public InstClass(IClass mode)
+            public InstClass(IClass kind)
             {
-                Kind = mode;
+                Require.nonzero(kind);
+                Kind = kind;
             }
 
             public Hash32 Hash
@@ -29,10 +29,10 @@ namespace Z0
             }
 
             public readonly InstClass Classifier
-                => XedPatterns.normalize(this);
+                => this;//IsEmpty ? Empty : XedPatterns.normalize(this);
 
             public Identifier Name
-                => Kind.ToString();
+                => IsEmpty ? EmptyString : Kind.ToString(); //IsEmpty ? EmptyString : Kind.ToString();
 
             public bool IsEmpty
             {

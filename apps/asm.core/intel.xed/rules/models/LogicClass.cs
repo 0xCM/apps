@@ -50,7 +50,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public int CompareTo(LogicClass src)
-                => ((byte)this).CompareTo((byte)src);
+                => XedRules.cmp(Kind,src.Kind);
 
             [MethodImpl(Inline)]
             public static implicit operator LogicClass(LogicKind src)

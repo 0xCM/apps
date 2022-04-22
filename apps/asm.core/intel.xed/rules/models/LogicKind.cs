@@ -14,7 +14,7 @@ namespace Z0
 
             Antecedant = (byte)Chars.A,
 
-            Operator = (byte)Chars.f,
+            Operator = (byte)Chars.B,
 
             Consequent = (byte)Chars.C,
         }

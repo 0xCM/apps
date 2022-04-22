@@ -11,14 +11,17 @@ namespace Z0
     {
         public static InstClass normalize(InstClass src)
         {
+            var dst = InstClass.Empty;
             if(src.IsEmpty)
                 return InstClass.Empty;
 
-            var name = XedRender.format(src.Kind);
-            if(text.ends(name,"_LOCK"))
+            var name = src.Kind.ToString();
+            if(text.ends(name,"_LOCK") || text.begins(name,"_LOCK"))
+            {
                 name = text.remove(name,"_LOCK");
-
-            XedParsers.parse(name, out InstClass dst);
+                if(text.nonempty(name))
+                    XedParsers.parse(name, out dst);
+            }
             return dst;
         }
     }

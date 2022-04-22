@@ -15,7 +15,7 @@ namespace Z0
         void EmitGroupReport(OpCodeClass @class, Index<InstGroupSeq> src)
             => TableEmit(resequence(src).View, InstGroupSeq.RenderWidths, XedPaths.Table<InstGroupSeq>(@class.ToString().ToLower()));
 
-        public void EmitInstGroups(Index<InstGroup> src)
+        public void Emit(Index<InstGroup> src)
         {
             EmitGroupReports(src);
 

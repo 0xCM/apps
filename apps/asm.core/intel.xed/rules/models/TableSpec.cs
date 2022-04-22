@@ -7,31 +7,23 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct TableSpec
+        public readonly struct TableSpec : IComparable<TableSpec>
         {
             public readonly RuleSig Sig;
 
             public readonly Index<RowSpec> Rows;
 
             [MethodImpl(Inline)]
-            public TableSpec(RowSpec[] rows)
+            public TableSpec(RuleSig key, RowSpec[] rows)
             {
-                if(rows.Length != 0)
-                {
-                    Rows = rows;
-                    Sig = Rows.First.Sig;
-                }
-                else
-                {
-                    Rows = sys.empty<RowSpec>();
-                    Sig = RuleSig.Empty;
-                }
+                Sig = key;
+                Rows = rows;
             }
 
-            public string Name
+            public RuleName Name
             {
                 [MethodImpl(Inline)]
-                get => Sig.ShortName;
+                get => Sig.TableName;
             }
 
             public RuleTableKind TableKind
@@ -43,7 +35,13 @@ namespace Z0
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Sig.IsEmpty;
+                get => Rows.IsEmpty;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Rows.IsNonEmpty;
             }
 
             public uint RowCount
@@ -70,19 +68,14 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static TableSpec Empty => new TableSpec(sys.empty<RowSpec>());
-
-            [MethodImpl(Inline)]
-            public static implicit operator TableSpec(RowSpec[] src)
-                => new TableSpec(src);
-
-            [MethodImpl(Inline)]
-            public static implicit operator TableSpec(Index<RowSpec> src)
-                => new TableSpec(src);
+            public int CompareTo(TableSpec src)
+                => Sig.CompareTo(src.Sig);
 
             [MethodImpl(Inline)]
             public static implicit operator Index<RowSpec>(TableSpec src)
                 => src.Rows;
+
+            public static TableSpec Empty => new TableSpec(RuleSig.Empty, sys.empty<RowSpec>());
         }
     }
 }

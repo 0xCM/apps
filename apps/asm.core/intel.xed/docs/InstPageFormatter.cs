@@ -7,8 +7,6 @@ namespace Z0
 {
     using System.Linq;
 
-    using Asm;
-
     using static core;
     using static XedRules;
     using static XedModels;
@@ -17,18 +15,18 @@ namespace Z0
     {
         public class InstPageFormatter
         {
-            public static InstPageFormatter create(RuleTables tables)
-                => new InstPageFormatter(tables);
+            public static InstPageFormatter create()
+                => new InstPageFormatter();
 
-            public static Index<InstIsaFormat> FormatGroups(RuleTables tables, Index<InstPattern> src)
+            public Index<InstIsaFormat> FormatGroups(Index<InstPattern> src)
             {
                 var buffer = bag<InstIsaFormat>();
-                iter(src.GroupBy(x => x.Isa.Kind), g => buffer.Add(FormatGroup(tables, g.Key, g.Array())), AppData.PllExec());
+                iter(src.GroupBy(x => x.Isa.Kind), g => buffer.Add(FormatGroup(g.Key, g.Array())), AppData.PllExec());
                 return buffer.Array().Sort();
             }
 
-            static InstIsaFormat FormatGroup(RuleTables tables, InstIsa isa, Index<InstPattern> src)
-                => create(tables).FormatGroup(isa,src);
+            InstIsaFormat FormatGroup(InstIsa isa, Index<InstPattern> src)
+                => Format(isa,src);
 
             public static string opwidth(MachineMode mode, in PatternOp src)
             {
@@ -61,8 +59,6 @@ namespace Z0
 
             const byte SectionWidth = 140;
 
-            const byte InstWidth = 180;
-
             const string InstSep = RP.PageBreak160 + RP.PageBreak20;
 
             static string FieldTitle = "Fields".PadRight(18).PadRight(SectionWidth, Chars.Dash);
@@ -71,8 +67,6 @@ namespace Z0
 
             const string LabelPattern = "{0,-18}{1}";
 
-            readonly RuleTables Tables;
-
             readonly ITextBuffer Dst;
 
             readonly Index<string> Buffer;
@@ -80,9 +74,8 @@ namespace Z0
             uint Counter;
 
             [MethodImpl(Inline)]
-            public InstPageFormatter(RuleTables tables)
+            public InstPageFormatter()
             {
-                Tables = tables;
                 Dst = text.buffer();
                 Buffer = alloc<string>(42);
                 Counter = 0;
@@ -101,7 +94,17 @@ namespace Z0
             }
 
             string Emit()
-                => Dst.Emit();
+            {
+                try
+                {
+                    return Dst.Emit();
+                }
+                catch(Exception e)
+                {
+                    term.error(e.Message);
+                    return EmptyString;
+                }
+            }
 
             public string Format(InstPattern pattern)
             {
@@ -140,13 +143,16 @@ namespace Z0
                 AppendLine(InstSep);
             }
 
-            public InstIsaFormat FormatGroup(InstIsa isa, Index<InstPattern> src)
+            public InstIsaFormat Format(InstIsa isa, Index<InstPattern> src)
             {
                 Counter=0u;
                 Dst.Clear();
 
                 for(var i=0; i<src.Count; i++)
-                    Render(src[i]);
+                {
+                    ref readonly var pattern = ref src[i];
+                    Render(pattern);
+                }
                 return new (isa, src, Emit(), Counter);
             }
 
@@ -173,8 +179,24 @@ namespace Z0
                             case InstFieldKind.Nonterm:
                             {
                                 var nt = field.AsNonterminal();
-                                var path = Tables.FindTablePath(nt);
-                                seek(dst,j) = string.Format(Pattern, j, "Nonterm",  string.Format("{0}::{1}", XedRender.format(nt), path));
+                                if(nt.IsNonEmpty)
+                                {
+                                    var rule = nt.ToRuleName();
+                                    if(rule != 0)
+                                    {
+                                        var uri = XedPaths.Service.CheckedTableDef(new RuleSig(rule,RuleTableKind.Enc));
+                                        if(!uri.Path.Exists)
+                                            uri = XedPaths.Service.CheckedTableDef(new RuleSig(rule,RuleTableKind.Dec));
+
+                                        if(uri.Path.Exists)
+                                            seek(dst,j) = string.Format(Pattern, j, "Nonterm",  string.Format("{0}::{1}", XedRender.format(nt), uri));
+                                        else
+                                            seek(dst,j) = string.Format(Pattern, j, "Nonterm",  nt);
+                                    }
+                                    else
+                                        term.warn(string.Format("There is no rule for nonterminal {0}", nt));
+                                }
+
                             }
                             break;
                             case InstFieldKind.Seg:
@@ -190,10 +212,10 @@ namespace Z0
             }
 
 
-            byte RenderOps(InstPattern pattern, Span<string> dst)
+            byte RenderOps(InstPattern src, Span<string> dst)
             {
                 const string RenderPattern = "{0,-2} {1,-14} {2,-4} {3,-4} {4} {5,-88} [{6}]";
-                ref readonly var ops = ref pattern.Ops;
+                ref readonly var ops = ref src.Ops;
                 var count = (byte)ops.Count;
                 for(var j=0; j<count; j++)
                 {
@@ -206,7 +228,7 @@ namespace Z0
                             XedRender.format(op.Name),
                             XedRender.format(action),
                             opvis.Code(),
-                            opwidth(pattern.Mode, op),
+                            opwidth(src.Mode, op),
                             FormatNonterm(op),
                             op.SourceExpr
                             ));
@@ -216,7 +238,7 @@ namespace Z0
                             XedRender.format(op.Name),
                             XedRender.format(action),
                             opvis.Code(),
-                            opwidth(pattern.Mode, op),
+                            opwidth(src.Mode, op),
                             op.IsReg ? FormatRegLit(op) : EmptyString,
                             op.SourceExpr
                             ));
@@ -237,20 +259,14 @@ namespace Z0
             {
                 var dst = EmptyString;
                 if(src.Nonterminal(out var nt))
-                    dst = string.Format("{0}::{1}", nt, Tables.FindTablePath(nt));
+                {
+                    var path = XedPaths.Service.TableDef(RuleTableKind.Enc, nt);
+                    if(path.IsEmpty)
+                        path = XedPaths.Service.TableDef(RuleTableKind.Dec, nt);
+                    if(path.IsNonEmpty)
+                        dst = string.Format("{0}::{1}", nt, path);
+                }
                 return dst;
-            }
-
-            static ushort bitwidth(OpWidthInfo src, MachineMode mode)
-            {
-                if(mode.Class == ModeClass.Mode16)
-                    return src.Width16;
-                else if(mode.Class == ModeClass.Mode32 || mode.Class == ModeClass.Not64)
-                    return src.Width32;
-                else if(mode.Class == ModeClass.Mode64)
-                    return src.Width64;
-                else
-                    return src.Width64;
             }
         }
     }

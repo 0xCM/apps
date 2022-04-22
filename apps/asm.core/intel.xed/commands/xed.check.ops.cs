@@ -30,7 +30,7 @@ namespace Z0
             var rules = Xed.Rules.CalcRules();
             ref readonly var specs = ref rules.Specs();
 
-            var rulenames = specs.Keys.Select(x => x.ShortName).ToHashSet();
+            var rulenames = specs.Keys.Select(x => x.TableName.ToString()).ToHashSet();
             var nonterms = Symbols.index<NontermKind>().Kinds.Where(x => x != 0).Select(x => XedRender.format(x));
             rulenames.AddRange(nonterms);
             var names = rulenames.Index().Sort();
@@ -83,21 +83,24 @@ namespace Z0
         {
             var rules = Xed.Rules.CalcRules();
             var src = rules.Criteria();
-            var paths = dict<RuleSigKey,FS.FileUri>();
-            var left = dict<RuleSigKey,HashSet<CellType>>();
-            var right = dict<RuleSigKey,HashSet<CellType>>();
-            var keys = hashset<RuleSigKey>();
+            var paths = dict<RuleSig,FS.FileUri>();
+            var left = dict<RuleSig,HashSet<CellType>>();
+            var right = dict<RuleSig,HashSet<CellType>>();
+            var sigs = hashset<RuleSig>();
 
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var table = ref src[i];
-                var key = table.Sig.ToKey();
-                keys.Add(key);
+                ref readonly var sig = ref table.Sig;
+                sigs.Add(sig);
 
-                var path = rules.FindTablePath(table.Sig);
-                paths[key] = path;
-                left[key] = new();
-                right[key] = new();
+                var path = XedPaths.CheckedTableDef(sig);
+                if(path.IsEmpty)
+                    continue;
+
+                paths[sig] = path;
+                left[sig] = new();
+                right[sig] = new();
                 for(var j=0; j<table.RowCount; j++)
                 {
                     ref readonly var row = ref table[j];
@@ -105,35 +108,36 @@ namespace Z0
                     for(var k=0; k<row.Antecedant.Count; k++)
                     {
                         ref readonly var logic = ref row.Antecedant[k];
-                        left[key].Add(logic.Type);
+                        left[sig].Add(logic.Type);
                     }
 
                     for(var k=0; k<row.Consequent.Count; k++)
                     {
                         ref readonly var logic = ref row.Consequent[k];
-                        right[key].Add(logic.Type);
+                        right[sig].Add(logic.Type);
                     }
                 }
             }
 
             var dst = text.emitter();
-            var sorted = keys.Index().Sort();
+            var sorted = sigs.Index().Sort();
             var types = hashset<CellType>();
+
             for(var i=0; i<sorted.Count; i++)
             {
                 dst.AppendLine(RP.PageBreak120);
-                ref readonly var key = ref sorted[i];
-                paths.TryGetValue(key, out var path);
+                ref readonly var sig = ref sorted[i];
+                paths.TryGetValue(sig, out var path);
                 if(path.IsNonEmpty)
-                    dst.AppendLineFormat("{0}({1}) => {2}", key.TableName, key.TableKind, path);
+                    dst.AppendLineFormat("{0,-3} | {1,-16} | {2}", sig.TableKind, sig.TableName, path);
                 else
-                    dst.AppendLineFormat("{0}({1}) | {2}", key.TableName, key.TableKind, "Undefined");
+                    dst.AppendLineFormat("{0,-3} | {1,-16} | {2}", sig.TableKind, sig.TableName, "Undefined");
 
-                if(left.TryGetValue(key, out types))
+                if(left.TryGetValue(sig, out types))
                 {
                     render(types.Index().Sort(), LogicKind.Antecedant, dst);
                 }
-                if(right.TryGetValue(key, out types))
+                if(right.TryGetValue(sig, out types))
                 {
                     render(types.Index().Sort(), LogicKind.Consequent, dst);
                 }
@@ -145,7 +149,7 @@ namespace Z0
 
         static void render(in CellType type, uint i, LogicKind lk, ITextEmitter dst)
         {
-            dst.AppendLine(string.Format("{0,-2} | {1,-2} | {2,-8} | {3,-12} | {4,-4} | {5}",
+            dst.AppendLine(string.Format("{0,-3} | {1,-16} | {2,-8} | {3,-12} | {4,-4} | {5}",
                 i,
                 (char)lk,
                 type.Kind,

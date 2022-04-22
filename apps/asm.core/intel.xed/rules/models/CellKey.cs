@@ -8,30 +8,27 @@ namespace Z0
 
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential,Pack = 1)]
+        [StructLayout(LayoutKind.Sequential,Pack = 1,Size=8)]
         public readonly struct CellKey : IComparable<CellKey>, IEquatable<CellKey>
         {
             public readonly ushort TableId;
+
+            public readonly RuleSig TableSig;
 
             public readonly ushort RowIndex;
 
             public readonly byte CellIndex;
 
-            public readonly RuleTableKind TableKind;
-
             public readonly LogicClass Logic;
 
-            readonly byte Pad;
-
             [MethodImpl(Inline)]
-            public CellKey(RuleTableKind kind, uint table, ushort row, LogicClass logic, byte cell)
+            public CellKey(RuleSig key, uint table, ushort row, LogicClass logic, byte cix)
             {
-                TableKind = kind;
+                TableSig = key;
                 TableId = (ushort)table;
                 RowIndex = row;
                 Logic = logic;
-                CellIndex = cell;
-                Pad = 0;
+                CellIndex = cix;
             }
 
             public bool IsEmpty

@@ -16,7 +16,6 @@ namespace Z0
             var dst = bag<InstPatternRecord>();
             iter(src, p => dst.Add(describe(p)), pll);
             var sorted = dst.Array().Sort(PatternSort.comparer());
-
             return sorted;
         }
 
@@ -29,7 +28,8 @@ namespace Z0
             dst.Mode = src.Mode;
             dst.Lock = src.Lock;
             dst.Scalable = src.Scalable;
-            dst.InstClass = src.InstClass.Classifier;
+            Require.invariant(src.InstClass.Kind != 0);
+            dst.InstClass = src.InstClass;
             dst.InstForm = src.InstForm;
             dst.Body = body;
             return dst;

@@ -78,6 +78,7 @@ namespace Z0
                                             {
                                                 if(_class != @class)
                                                 {
+                                                    Require.nonzero(_class.Kind);
                                                     category = Category.Empty;
                                                     isa = InstIsa.Empty;
                                                     ext = Extension.Empty;

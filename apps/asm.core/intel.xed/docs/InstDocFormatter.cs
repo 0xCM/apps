@@ -11,7 +11,7 @@ namespace Z0
 
     partial class XedDocs
     {
-        static SectionHeader TableHeader(in RuleSig sig)
+        static SectionHeader TableHeader(RuleSig sig)
             => new(3, sig.Format());
 
         public class InstDocFormatter
@@ -41,8 +41,8 @@ namespace Z0
             static SectionHeader ClassHeader(in InstDocPart part)
                 => new(3, part.Classifier.Format());
 
-            AbsoluteLink Link(in RuleSig sig)
-                => Markdown.link(sig.ShortName + "()", Rules.FindTablePath(sig));
+            AbsoluteLink Link(RuleSig key)
+                => Markdown.link(key.TableName.ToString() + "()", XedPaths.CheckedTableDef(key));
 
             static void RenderSigHeader(in InstDocPart part, ITextBuffer dst)
             {
@@ -105,15 +105,14 @@ namespace Z0
 
                     if(op.Nonterminal(out var nt))
                     {
-                        var sig = new RuleSig(RuleTableKind.Enc,nt.Name);
+                        var sig = new RuleSig(nt.Name, RuleTableKind.Enc);
                         if(Rules.IsTableDefind(sig))
                         {
                             dst.Append(Link(sig).Format());
-
                         }
                         else
                         {
-                            sig = new RuleSig(RuleTableKind.Dec,nt.Name);
+                            sig = new RuleSig(nt.Name, RuleTableKind.Dec);
                             if(Rules.IsTableDefind(sig))
                                 dst.Append(Link(sig).Format());
                             else
@@ -123,17 +122,6 @@ namespace Z0
 
                     dst.AppendLine();
                 }
-                dst.AppendLine();
-            }
-
-            void Render(in TableSpec src, ITextBuffer dst)
-            {
-                dst.AppendLine(TableHeader(src.Sig));
-                dst.AppendLine();
-                dst.AppendLineFormat("{0}(){{", src.Sig.ShortName);
-                for(var i=0; i<src.RowCount; i++)
-                    dst.IndentLine(4, src[i].Format());
-                dst.AppendLine("}");
                 dst.AppendLine();
             }
 
@@ -148,12 +136,6 @@ namespace Z0
                 for(var i=0; i<doc.Parts.Count; i++)
                     Render(doc[i],dst);
 
-                // dst.AppendLine(header(2,"Rules"));
-                // dst.AppendLine();
-
-                // var sigs = Rules.Sigs();
-                // for(var i=0; i<sigs.Length; i++)
-                //     Render(Rules.Spec(sigs[i]), dst);
                 return dst.Emit();
             }
         }

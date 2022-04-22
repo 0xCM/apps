@@ -13,6 +13,10 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
+        public static int cmp(LogicKind a, LogicKind b)
+            => ((byte)a).CompareTo((byte)b);
+
+        [MethodImpl(Inline), Op]
         public static int cmp(RuleName a, RuleName b)
             => ((ushort)a).CompareTo((ushort)b);
 

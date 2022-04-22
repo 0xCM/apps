@@ -12,31 +12,18 @@ namespace Z0
         {
             public const string TableId = "xed.rules.tables.sigs";
 
-            public const byte FieldCount = 4;
+            public const byte FieldCount = 3;
 
             public uint Seq;
 
-            public Identifier TableName;
-
-            public RuleTableKind TableKind;
+            public RuleSig Sig;
 
             public FS.FileUri TableDef;
 
             public int CompareTo(RuleSigRow src)
-            {
-                var result = TableName.CompareTo(src.TableName);
-                if(result == 0)
-                    result = cmp(TableKind,src.TableKind);
-                return result;
-            }
+                => Sig.CompareTo(src.Sig);
 
-            public RuleSig Sig
-            {
-                [MethodImpl(Inline)]
-                get => new (TableKind, TableName);
-            }
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,32,12,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,32,1};
         }
     }
 }

@@ -19,9 +19,10 @@ namespace Z0
 
         public Outcome Parse(string src, out E dst)
         {
-            Outcome result = (false, AppMsg.ParseFailure.Format(typeof(E).Name, src));
+            var input = text.ifempty(src,EmptyString);
+            Outcome result = (false, AppMsg.ParseFailure.Format(typeof(E).Name, input));
             dst = default;
-            if(Syms.Lookup(src, out var sym))
+            if(Syms.Lookup(input, out var sym))
             {
                 dst = sym.Kind;
                 result = true;

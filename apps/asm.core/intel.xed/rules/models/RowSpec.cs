@@ -7,11 +7,9 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct RowSpec
+        public readonly struct RowSpec : IComparable<RowSpec>
         {
             public readonly ushort TableId;
-
-            public readonly RuleTableKind TableKind;
 
             public readonly RuleSig Sig;
 
@@ -26,7 +24,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public RowSpec(RuleSig sig, ushort tid, ushort rix, CellKey[] keys, CellInfo[] cells)
             {
-                TableKind = sig.TableKind;
                 Sig = sig;
                 TableId = tid;
                 RowIndex = rix;
@@ -48,6 +45,9 @@ namespace Z0
 
             public override string ToString()
                 => Format();
+
+            public int CompareTo(RowSpec src)
+                => Sig.CompareTo(src.Sig);
         }
     }
 }
