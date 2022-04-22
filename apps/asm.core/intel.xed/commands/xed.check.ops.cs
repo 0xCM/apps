@@ -79,31 +79,86 @@ namespace Z0
         }
 
         [CmdOp("xed/emit/types")]
-        Outcome EmitCellTypes(CmdArgs args)
+        Outcome EmitSchema(CmdArgs args)
         {
             var rules = Xed.Rules.CalcRules();
-            var distinct = hashset<CellTypeKind>();
-            ref readonly var src = ref rules.Criteria();
+            var src = rules.Criteria();
+            var paths = dict<RuleSigKey,FS.FileUri>();
+            var left = dict<RuleSigKey,HashSet<CellType>>();
+            var right = dict<RuleSigKey,HashSet<CellType>>();
+            var keys = hashset<RuleSigKey>();
+
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var table = ref src[i];
+                var key = table.Sig.ToKey();
+                keys.Add(key);
+
+                var path = rules.FindTablePath(table.Sig);
+                paths[key] = path;
+                left[key] = new();
+                right[key] = new();
                 for(var j=0; j<table.RowCount; j++)
                 {
                     ref readonly var row = ref table[j];
-                    var cells = row.Joined();
-                    for(var k=0; k< cells.Count; k++)
+
+                    for(var k=0; k<row.Antecedant.Count; k++)
                     {
-                        ref readonly var t = ref cells[k].Type;
-                        if(t.IsNonEmpty)
-                            distinct.Add(t.Kind);
+                        ref readonly var logic = ref row.Antecedant[k];
+                        left[key].Add(logic.Type);
+                    }
+
+                    for(var k=0; k<row.Consequent.Count; k++)
+                    {
+                        ref readonly var logic = ref row.Consequent[k];
+                        right[key].Add(logic.Type);
                     }
                 }
             }
 
-            var types = distinct.Array().Sort();
-            iter(types, t => Write(t.Format()));
+            var dst = text.emitter();
+            var sorted = keys.Index().Sort();
+            var types = hashset<CellType>();
+            for(var i=0; i<sorted.Count; i++)
+            {
+                dst.AppendLine(RP.PageBreak120);
+                ref readonly var key = ref sorted[i];
+                paths.TryGetValue(key, out var path);
+                if(path.IsNonEmpty)
+                    dst.AppendLineFormat("{0}({1}) => {2}", key.TableName, key.TableKind, path);
+                else
+                    dst.AppendLineFormat("{0}({1}) | {2}", key.TableName, key.TableKind, "Undefined");
 
+                if(left.TryGetValue(key, out types))
+                {
+                    render(types.Index().Sort(), LogicKind.Antecedant, dst);
+                }
+                if(right.TryGetValue(key, out types))
+                {
+                    render(types.Index().Sort(), LogicKind.Consequent, dst);
+                }
+            }
+
+            FileEmit(dst.Emit(), sorted.Count, XedPaths.Targets() + FS.folder("rules.tables") + FS.file("xed.rules.tables.schemas", FS.Txt));
             return true;
+        }
+
+        static void render(in CellType type, uint i, LogicKind lk, ITextEmitter dst)
+        {
+            dst.AppendLine(string.Format("{0,-2} | {1,-2} | {2,-8} | {3,-12} | {4,-4} | {5}",
+                i,
+                (char)lk,
+                type.Kind,
+                type.DomainTypeName,
+                type.EffectiveWidth,
+                XedRender.format(type.Field))
+                );
+        }
+
+        static void render(Index<CellType> src, LogicKind lk, ITextEmitter dst)
+        {
+            for(var i=0u; i<src.Count; i++)
+                render(src[i],i,lk,dst);
         }
 
         [CmdOp("xed/check/bits")]

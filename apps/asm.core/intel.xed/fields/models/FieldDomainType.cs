@@ -60,7 +60,7 @@ namespace Z0
             BCastKind,
 
             [Symbol("BRDISP_WIDTH")]
-            BranchDispWidth,
+            BrDispWidth,
 
             [Symbol("ERROR")]
             Error,

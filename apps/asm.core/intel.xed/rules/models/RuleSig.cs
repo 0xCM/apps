@@ -72,6 +72,10 @@ namespace Z0
             public override string ToString()
                 => Format();
 
+            [MethodImpl(Inline)]
+            public RuleSigKey ToKey()
+                => new (Name,TableKind);
+
             public bool Equals(RuleSig src)
                 => Name == src.Name && TableKind == src.TableKind;
 

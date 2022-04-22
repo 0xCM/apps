@@ -679,9 +679,6 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static string format(in XedOpCode src)
-            => string.Format("{0}:{1}", src.Kind, AsmOcValue.format(src.Value));
-
         public static string format(InstAttribs src, bool embrace = true, char sep = Chars.Comma)
         {
             if(src.IsEmpty)

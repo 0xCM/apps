@@ -24,12 +24,33 @@ namespace Z0
                 var kind = XedFields.kind(data);
                 var field = kind != 0 ? XedFields.field(kind) : ReflectedField.Empty;
                 CellParser.parse(data, out RuleOperator op);
-                return new (field.Field, CellParser.@class(field.Field, data), op,
-                    field.DataType,
-                    field.DomainType,
-                    (byte)field.FieldSize.DataWidth,
-                    (byte)field.FieldSize.DomainWidth
-                    );
+                var wData = (byte)field.FieldSize.DataWidth;
+                var wDom = (byte)field.FieldSize.DomainWidth;
+                var tDom = field.DomainType;
+                var tData = field.DataType;
+                var @class = CellParser.@class(field.Field, data);
+                if(@class.Kind == CK.Keyword)
+                {
+                    wDom = (byte)typeof(RuleKeyWordKind).Tag<DataWidthAttribute>().Require().ContentWidth;
+                    wData = (byte)core.width<RuleKeyWordKind>();
+                    tDom = new FieldTypeName(kind, nameof(CK.Keyword));
+                    tData =new FieldTypeName(kind, nameof(CK.Keyword));
+                }
+                else if(@class.Kind == CK.BitLiteral)
+                {
+                    wDom = 8;
+                    wData = 8;
+                    tDom = new FieldTypeName(kind, nameof(uint8b));
+                    tData =new FieldTypeName(kind, "byte");
+                }
+                else if(@class.Kind == CK.HexLiteral)
+                {
+                    wDom = 8;
+                    wData = 8;
+                    tDom = new FieldTypeName(kind, nameof(Hex8));
+                    tData =new FieldTypeName(kind, "byte");
+                }
+                return new (field.Field, @class, op, tData, tDom, wData, wDom);
             }
 
             public static bool parse(FieldKind field, string value, out CellValue dst)

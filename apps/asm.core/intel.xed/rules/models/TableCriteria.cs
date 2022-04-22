@@ -20,6 +20,7 @@ namespace Z0
             {
                 TableId = 0u;
                 Require.invariant(sig.IsNonEmpty);
+                Require.invariant(rows.Length != 0);
                 Sig = sig;
                 Rows = rows;
             }
@@ -29,6 +30,7 @@ namespace Z0
             {
                 TableId = id;
                 Require.invariant(sig.IsNonEmpty);
+                Require.invariant(rows.Length != 0);
                 Sig = sig;
                 Rows = rows;
             }
@@ -96,7 +98,7 @@ namespace Z0
             }
 
             public TableCriteria Merge(in TableCriteria src)
-                => new TableCriteria(Require.equal(Sig,src.Sig), Rows.Append(src.Rows));
+                => new TableCriteria(Require.equal(Sig, src.Sig), Rows.Append(src.Rows));
 
             [MethodImpl(Inline)]
             public TableCriteria WithId(uint id)

@@ -248,7 +248,7 @@ namespace Z0
             [RuleField(K.MAP, 4, typeof(byte))]
             public byte MAP;
 
-            [RuleField(K.BRDISP_WIDTH, 8, typeof(BranchDispWidth), "Specifies the bit-width of a branch displacement, if applicable")]
+            [RuleField(K.BRDISP_WIDTH, 8, typeof(BrDispWidth), "Specifies the bit-width of a branch displacement, if applicable")]
             public byte BRDISP_WIDTH;
 
             [RuleField(K.ILD_SEG, 8, typeof(byte))]

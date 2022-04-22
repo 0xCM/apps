@@ -137,7 +137,6 @@ namespace Z0
                 _EncCriteria = enc;
                 _DecCriteria = dec;
                 _Criteria = specs;
-                //_CriteriaLookup = specs.Map(x => (x.Sig,x)).ToDictionary();
                 return specs;
             }
 

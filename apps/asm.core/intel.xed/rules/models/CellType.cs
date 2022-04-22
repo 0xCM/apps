@@ -67,7 +67,6 @@ namespace Z0
             public int CompareTo(CellType src)
             {
                 var result = Class.CompareTo(src.Class);
-
                 if(result == 0)
                 {
                     result = XedRules.cmp(Field,src.Field);

@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         [DataWidth(4,8)]
-        public readonly struct CellClass : IComparable<CellClass>, IEquatable<CellClass>
+        public readonly record struct CellClass : IComparable<CellClass>
         {
             public readonly RuleCellKind Kind;
 
@@ -108,11 +108,11 @@ namespace Z0
             public override int GetHashCode()
                 => (int)Kind;
 
-            public bool Equals(CellClass src)
-                => Kind == src.Kind;
+            // public bool Equals(CellClass src)
+            //     => Kind == src.Kind;
 
-            public override bool Equals(object src)
-                => src is CellClass x && Equals(x);
+            // public override bool Equals(object src)
+            //     => src is CellClass x && Equals(x);
 
             public override string ToString()
                 => Format();
@@ -133,13 +133,13 @@ namespace Z0
             public static explicit operator CellClass(byte src)
                 => new CellClass((RuleCellKind)src);
 
-            [MethodImpl(Inline)]
-            public static bool operator ==(CellClass a, CellClass b)
-                => a.Equals(b);
+            // [MethodImpl(Inline)]
+            // public static bool operator ==(CellClass a, CellClass b)
+            //     => a.Equals(b);
 
-            [MethodImpl(Inline)]
-            public static bool operator !=(CellClass a, CellClass b)
-                => !a.Equals(b);
+            // [MethodImpl(Inline)]
+            // public static bool operator !=(CellClass a, CellClass b)
+            //     => !a.Equals(b);
 
             public static CellClass Empty => default;
         }

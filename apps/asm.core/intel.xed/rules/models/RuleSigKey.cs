@@ -7,40 +7,57 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct RuleSigKey : IEquatable<RuleSigKey>
+        public readonly record struct RuleSigKey : IComparable<RuleSigKey>
         {
-            [MethodImpl(Inline)]
-            public static RuleSigKey from(in RuleSigRow src)
-                => new (src.TableKind, src.TableName.Content);
+            readonly ushort Data;
 
             [MethodImpl(Inline)]
-            public static RuleSigKey define(RuleTableKind kind, string name)
-                => new (kind,name);
-
-            readonly Hash32 Hash;
-
-            [MethodImpl(Inline)]
-            public RuleSigKey(RuleTableKind kind, string name)
+            public RuleSigKey(RuleName name, RuleTableKind kind)
             {
-                Hash = alg.hash.marvin(name);
-                Hash = bit.set(Hash, 31, kind == RuleTableKind.Enc);
+                Data = (ushort)((ushort)name | ((ushort)kind << 11));
+            }
+
+            public RuleName TableName
+            {
+                [MethodImpl(Inline)]
+                get => (RuleName)(Data & Pow2.T10m1);
             }
 
             public RuleTableKind TableKind
             {
                 [MethodImpl(Inline)]
-                get => bit.test(Hash,31) ? RuleTableKind.Enc : RuleTableKind.Dec;
+                get => (RuleTableKind)(Data >> 11);
+            }
+
+            public readonly bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => TableKind == 0;
+            }
+
+            public readonly bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => TableKind != 0;
             }
 
             public override int GetHashCode()
-                => Hash;
+                => Data;
 
             [MethodImpl(Inline)]
-            public bool Equals(RuleSigKey src)
-                => Hash == src.Hash;
+            public int CompareTo(RuleSigKey src)
+            {
+                var result = cmp(TableName,src.TableName);
+                if(result == 0)
+                    result = cmp(TableKind, src.TableKind);
+                return result;
+            }
 
-            public override bool Equals(object src)
-                => src is RuleSigKey x && Equals(x);
+            public string Format()
+                => IsEmpty ? EmptyString : string.Format("{0}.{1}", TableName, TableKind.ToString().ToUpper());
+
+            public override string ToString()
+                => Format();
         }
     }
 }
