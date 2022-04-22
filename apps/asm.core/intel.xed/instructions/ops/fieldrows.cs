@@ -16,13 +16,10 @@ namespace Z0
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var pattern = ref src[i];
-                for(byte j=0; j<pattern.Body.FieldCount; j++)
-                {
-                    ref readonly var body = ref pattern.Body;
-                    ref readonly var fields = ref body.Fields;
-                    for(var k=z8; k<fields.Count; k++)
-                        dst.Add(fieldrow(pattern, fields[k], k));
-                }
+                ref readonly var body = ref pattern.Body;
+                ref readonly var fields = ref body.Fields;
+                for(var k=z8; k<fields.Count; k++)
+                    dst.Add(fieldrow(pattern, fields[k], k));
             }
             return dst.ToIndex();
         }
