@@ -139,12 +139,31 @@ namespace Z0
                 return dst;
             }
 
+            public static string format(in CellExpr src)
+            {
+                var dst = EmptyString;
+                var value = EmptyString;
+                if(src.Value.IsNonterm)
+                    value = XedRender.format(src.Value.ToRuleName());
+                else
+                    value = format(src.Value);
+
+                if(src.IsNonEmpty)
+                {
+                    if(src.Field == 0)
+                        dst = value;
+                    else
+                        dst = string.Format("{0}{1}{2}", XedRender.format(src.Field), XedRender.format(src.Operator), value);
+                }
+                return dst;
+            }
+
             public static string format(CellValue src)
             {
                 var dst = EmptyString;
                 if(src.IsEmpty)
                     return EmptyString;
-                else if(src.IsNonTerminal)
+                else if(src.IsNontermCall)
                     return XedRender.format(src.ToRuleName());
                 else if(src.CellKind == RuleCellKind.SegVar)
                     return src.ToAsci().Format();

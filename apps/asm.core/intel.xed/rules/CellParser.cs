@@ -87,7 +87,7 @@ namespace Z0
                     else
                         result = (false, AppMsg.ParseFailure.Format(nameof(CellExpr), src));
                 }
-                else if(IsNontermCall(src))
+                else if(IsNonterm(src))
                 {
                     result = XedParsers.parse(src, out RuleName x);
                     if(result)
@@ -107,13 +107,7 @@ namespace Z0
             public static bool parse(FieldKind field, string value, out CellValue dst)
             {
                 var result = true;
-                dst = R.CellValue.Empty;
-                if(XedParsers.IsNontermCall(value) && XedParsers.parse(value, out RuleName k))
-                {
-                    dst = new (field, k);
-                    return true;
-                }
-
+                dst = CellValue.Empty;
                 switch(field)
                 {
                     case K.AGEN:

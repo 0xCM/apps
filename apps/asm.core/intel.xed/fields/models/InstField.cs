@@ -118,7 +118,7 @@ namespace Z0
                             data[ClassIndex] = (byte)RuleCellKind.Operator;
                         break;
                         default:
-                            if(src.IsNonTerminal)
+                            if(src.IsNonterm)
                             {
                                 data[ClassIndex] = (byte)RuleCellKind.NontermExpr;
                                 data[KindIndex] = (byte)RuleCellKind.NontermExpr;

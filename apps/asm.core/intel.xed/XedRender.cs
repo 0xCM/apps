@@ -221,16 +221,6 @@ namespace Z0
         public static string format(ModKind src)
             => ModIndicators.Format(src);
 
-        public static string format(CellValue src)
-            => CellRender.format(src);
-
-        public static string format(in CellExpr src)
-            => src.IsEmpty
-                ? EmptyString
-                : src.Field == 0
-                ? format(src.Value)
-                : string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.Value));
-
         public static string format(AsmOcValue src)
             => AsmOcValue.format(src);
 
@@ -240,15 +230,11 @@ namespace Z0
         public static string format(BaseMapKind src)
             => LegacyMap.Format(src);
 
-
         public static string format(RuleTableKind src)
             => RuleTableKinds.Format(src);
 
         public static string format(FieldKind src)
             => src == 0 ? EmptyString : FieldKinds.Format(src);
-
-        public static string format(FieldKind src, bool name)
-            => FieldKinds.Format(src,name);
 
         public static string format(RuleMacroKind src)
             => MacroKinds.Format(src);
@@ -487,7 +473,7 @@ namespace Z0
             else if(src.Operator == 0)
                 return format(src.Field);
             else
-                return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.Value));
+                return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), CellRender.format(src.Value));
         }
 
         public static string format(in InstPatternBody src)
@@ -630,9 +616,6 @@ namespace Z0
             return dst;
         }
 
-        public static string format(BfSeg src)
-            => src.IsEmpty ? EmptyString : string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]", XedRender.format(src.Field), src.Pattern);
-
         public static string format(in MacroSpec src)
         {
             var dst = text.buffer();
@@ -741,9 +724,6 @@ namespace Z0
             seek(dst,i++) = src[j].ToChar();
             return new asci8(storage);
         }
-
-        public static string format(FieldAssign src)
-            => format(src.Expression());
 
         public static string format(byte index, sbyte pad, in OpDetail src)
         {

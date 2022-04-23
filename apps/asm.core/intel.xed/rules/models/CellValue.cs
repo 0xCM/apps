@@ -11,11 +11,6 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public readonly struct CellValue : IEquatable<CellValue>
         {
-            [MethodImpl(Inline)]
-            public static CellValue value<T>(FieldKind kind, T value)
-                where T : unmanaged
-                    => new CellValue(kind, core.bw64(value));
-
             public readonly FieldKind Field;
 
             public readonly ulong Data;
@@ -118,10 +113,22 @@ namespace Z0
                 CellKind = 0;
             }
 
-            public readonly bit IsNonTerminal
+            public readonly bit IsNontermCall
             {
                 [MethodImpl(Inline)]
                 get => CellKind == RuleCellKind.NontermCall;
+            }
+
+            public readonly bit IsNontermExpr
+            {
+                [MethodImpl(Inline)]
+                get => CellKind == RuleCellKind.NontermExpr;
+            }
+
+            public readonly bit IsNonterm
+            {
+                [MethodImpl(Inline)]
+                get => IsNontermCall || IsNontermExpr;
             }
 
             public bool IsEmpty
@@ -153,7 +160,7 @@ namespace Z0
                 => (int)Hash;
 
             public string Format()
-                => XedRender.format(this);
+                => CellRender.format(this);
 
             public override string ToString()
                 => Format();
@@ -215,16 +222,16 @@ namespace Z0
                 => (bit)Data;
 
             [MethodImpl(Inline)]
-            public byte ToIntLiteral()
+            public byte ToByte()
                 => (byte)Data;
 
             [MethodImpl(Inline)]
-            public Hex8 ToHexLiteral()
+            public Hex8 ToHex8()
                 => (Hex8)Data;
 
             [MethodImpl(Inline)]
-            public uint8b ToBinaryLiteral()
-                => (uint8b)Data;
+            public uint5 ToBinaryLiteral()
+                => (uint5)Data;
 
             [MethodImpl(Inline)]
             public RuleName ToRuleName()
@@ -259,10 +266,6 @@ namespace Z0
                 => src.ToMode();
 
             [MethodImpl(Inline)]
-            public static implicit operator XedRegId(CellValue src)
-                => src.ToReg();
-
-            [MethodImpl(Inline)]
             public static implicit operator IClass(CellValue src)
                 => src.ToInstClass();
 
@@ -278,42 +281,9 @@ namespace Z0
             public static implicit operator RepPrefix(CellValue src)
                 => src.ToRepPrefix();
 
-
             [MethodImpl(Inline)]
             public static implicit operator bit(CellValue src)
                 => src.ToBit();
-
-            [MethodImpl(Inline)]
-            public static implicit operator Hex8(CellValue src)
-                => src.ToHexLiteral();
-
-            [MethodImpl(Inline)]
-            public static implicit operator byte(CellValue src)
-                => (byte)src.Data;
-
-            [MethodImpl(Inline)]
-            public static implicit operator uint2(CellValue src)
-                => (uint2)src.Data;
-
-            [MethodImpl(Inline)]
-            public static implicit operator uint3(CellValue src)
-                => (uint3)src.Data;
-
-            [MethodImpl(Inline)]
-            public static implicit operator uint4(CellValue src)
-                => (uint4)src.Data;
-
-            [MethodImpl(Inline)]
-            public static implicit operator Hex4(CellValue src)
-                => (Hex4)src.Data;
-
-            [MethodImpl(Inline)]
-            public static implicit operator ushort(CellValue src)
-                => (ushort)src.Data;
-
-            [MethodImpl(Inline)]
-            public static implicit operator long(CellValue src)
-                => (long)src.Data;
 
             [MethodImpl(Inline)]
             public static bool operator ==(CellValue a, CellValue b)

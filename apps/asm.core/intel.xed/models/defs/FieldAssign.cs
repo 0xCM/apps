@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly struct FieldAssign
+        readonly struct FieldAssign
         {
             public readonly FieldKind Field;
 
@@ -38,7 +38,7 @@ namespace Z0
                 => expr(OperatorKind.Eq, Value);
 
             public string Format()
-                => XedRender.format(this);
+                => CellRender.format(Expression());
 
             public override string ToString()
                 => Format();

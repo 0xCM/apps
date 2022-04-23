@@ -26,7 +26,7 @@ namespace Z0
             => Data(nameof(CalcRuleCriteria) + kind.ToString(), () => TableCalcs.criteria(kind));
 
         public KeyedCells CaclcRuleCells(RuleTables src)
-            => Data(nameof(CaclcRuleCells), () => XedRules.cells(src));
+            => Data(nameof(CaclcRuleCells), () => CellParser.cells(src));
 
         public Index<KeyedCellRecord> CalcRecords(KeyedCells src)
             => Data(nameof(CalcRecords), () => records(src));

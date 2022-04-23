@@ -22,7 +22,7 @@ namespace Z0
                 if(part.IsFieldExpr && part.FieldKind == FieldKind.VEXVALID)
                     vc = (VexClass)part.ToFieldExpr().Value;
                 if(part.IsFieldExpr && part.FieldKind == FieldKind.MAP)
-                    number = part.ToFieldExpr().Value;
+                    number = part.ToFieldExpr().Value.ToByte();
             }
 
             switch(vc)

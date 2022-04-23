@@ -82,7 +82,7 @@ namespace Z0
             public bool IsNontermCall
             {
                 [MethodImpl(Inline)]
-                get => XedParsers.IsNontermCall(Data);
+                get => XedParsers.IsNonterm(Data);
             }
 
             public string Format()

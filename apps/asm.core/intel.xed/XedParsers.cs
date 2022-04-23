@@ -297,10 +297,10 @@ namespace Z0
                 if(q > 0)
                     content = text.left(content, q);
 
-                if(IsNontermCall(content))
+                if(IsNonterm(content))
                 {
                     var k = text.index(content, CallSyntax);
-                    terms.Add(new RuleSeqTerm(text.left(content,k), IsNontermCall(content)));
+                    terms.Add(new RuleSeqTerm(text.left(content,k), IsNonterm(content)));
                 }
                 else
                     terms.Add(new RuleSeqTerm(content, false));
@@ -308,7 +308,7 @@ namespace Z0
             return (uint)terms.Count;
         }
 
-        public static bool IsNontermCall(string src)
+        public static bool IsNonterm(string src)
             => text.trim(text.remove(src,Chars.Colon)).EndsWith("()");
 
         public static bool IsHexLiteral(string src)
@@ -700,7 +700,7 @@ namespace Z0
         {
             var result = false;
             dst = R.CellValue.Empty;
-            if(IsNontermCall(value))
+            if(IsNonterm(value))
             {
                 result = parse(value, out RuleName name);
                 dst = new(field, name);
@@ -734,7 +734,7 @@ namespace Z0
                 return true;
             }
 
-            result = IsNontermCall(src);
+            result = IsNonterm(src);
             if(result)
             {
                 if(parse(p0, out Nonterminal nonterm))
@@ -756,7 +756,7 @@ namespace Z0
                 return RF.EncodeStep;
             if(IsDecStep(content))
                 return RF.DecodeStep;
-            if(IsNontermCall(content))
+            if(IsNonterm(content))
                 return RF.Invocation;
             if(IsSeqDecl(content))
                 return RF.SeqDecl;

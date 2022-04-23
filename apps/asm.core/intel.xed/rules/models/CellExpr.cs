@@ -39,14 +39,14 @@ namespace Z0
                 get => Value.IsNonEmpty;
             }
 
-            public bool IsNonTerminal
+            public bool IsNonterm
             {
                 [MethodImpl(Inline)]
-                get => Value.IsNonTerminal;
+                get => Value.IsNonterm;
             }
 
             public string Format()
-                => XedRender.format(this);
+                => CellRender.format(this);
 
             public override string ToString()
                 => Format();

@@ -17,7 +17,7 @@ namespace Z0
             for(var i=0; i<src.Count && j<Capacity; i++)
             {
                 ref readonly var data = ref src[i].Data;
-                if(XedParsers.IsNontermCall(data))
+                if(XedParsers.IsNonterm(data))
                 {
                     if(XedParsers.parse(data, out Nonterminal nt))
                         dst[j++] = nt;

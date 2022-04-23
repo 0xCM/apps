@@ -29,6 +29,9 @@ namespace Z0
             public static bool IsExpr(string src)
                 => IsEq(src) || IsNeq(src);
 
+            static bool IsNonTerm(string src)
+                => XedParsers.IsNonterm(src);
+
             public static bool IsSeg(string src)
             {
                 var i = text.index(src, Chars.LBracket);
@@ -47,7 +50,7 @@ namespace Z0
                 var left = EmptyString;
                 var fv = CellValue.Empty;
                 var fk = FieldKind.INVALID;
-                var op = OperatorKind.None;
+                RuleOperator op = OperatorKind.None;
                 if(i > 0)
                 {
                     right = text.right(src, i + 1);
@@ -62,6 +65,7 @@ namespace Z0
                 }
 
                 Require.nonempty(left);
+                Require.nonempty(right);
                 if(IsSeg(left))
                 {
                     var k = text.index(left, Chars.LBracket);
@@ -74,7 +78,18 @@ namespace Z0
                     if(type.IsEmpty)
                         Errors.Throw(AppMsg.ParseFailure.Format(nameof(SegFieldType), ft));
 
-                    dst = new CellExpr(OperatorKind.None, new CellValue(fk, type));
+                    dst = new CellExpr(op, new CellValue(fk, type));
+                }
+                else if(IsNonTerm(right))
+                {
+                    XedParsers.parse(left, out fk);
+                    var k = text.index(right, Chars.LParen);
+                    var name = text.left(right,k);
+                    var result = Enum.TryParse(name, out RuleName rule);
+                    if(!result)
+                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleName), name));
+                    dst = new CellExpr(op, new CellValue(fk, rule));
+                    term.babble($"Parsed expression {dst}");
                 }
                 else
                 {
