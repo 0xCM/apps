@@ -35,7 +35,7 @@ namespace Z0
         }
 
         public void EmitRuleDocs(RuleTables src)
-            => FileEmit(RuleDocFormatter.create(Rules.CaclcRuleCells(src)).Format(), 1, XedPaths.Targets() + FS.file("xed.rules", FS.Md), TextEncodingKind.Asci);
+            => FileEmit(RuleDocFormatter.create(Rules.CalcRuleCells(src)).Format(), 1, XedPaths.Targets() + FS.file("xed.rules", FS.Md), TextEncodingKind.Asci);
 
         void EmitInstDocs()
             => EmitInstDocs(Rules.CalcPatterns());

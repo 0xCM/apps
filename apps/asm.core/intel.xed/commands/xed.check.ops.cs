@@ -137,7 +137,7 @@ namespace Z0
         [CmdOp("xed/emit/metrics")]
         Outcome EmitMetrics(CmdArgs args)
         {
-            CalcRuleMetrics(Rules.CaclcRuleCells(CalcRules()));
+            CalcRuleMetrics(Rules.CalcRuleCells(CalcRules()));
             return true;
         }
 

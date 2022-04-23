@@ -28,7 +28,7 @@ namespace Z0
         [CmdOp("xed/emit/rulerecs")]
         Outcome EmitRuleRecords(CmdArgs args)
         {
-            var records = Rules.CalcRecords(Rules.CaclcRuleCells(CalcRules()));
+            var records = Rules.CalcRecords(Rules.CalcRuleCells(CalcRules()));
             TableEmit(records.View, KeyedCellRecord.RenderWidths, XedPaths.RuleTable<KeyedCellRecord>());
             return true;
         }
@@ -46,7 +46,7 @@ namespace Z0
         Outcome EmitRuleCells(CmdArgs args)
         {
             var rules = CalcRules();
-            Rules.EmitRuleCells(Rules.CaclcRuleCells(rules));
+            Rules.EmitRuleCells(Rules.CalcRuleCells(rules));
             return true;
         }
 

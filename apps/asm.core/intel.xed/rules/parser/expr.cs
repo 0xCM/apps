@@ -5,14 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static XedParsers;
-    using static XedModels;
-
-    using CK = XedRules.RuleCellKind;
-    using K = XedRules.FieldKind;
-    using R = XedRules;
-
     partial class XedRules
     {
         partial struct CellParser

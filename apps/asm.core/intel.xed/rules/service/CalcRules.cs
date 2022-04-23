@@ -25,26 +25,10 @@ namespace Z0
         public Index<TableCriteria> CalcRuleCriteria(RuleTableKind kind)
             => Data(nameof(CalcRuleCriteria) + kind.ToString(), () => TableCalcs.criteria(kind));
 
-        public KeyedCells CaclcRuleCells(RuleTables src)
-            => Data(nameof(CaclcRuleCells), () => CellParser.cells(src));
+        public KeyedCells CalcRuleCells(RuleTables src)
+            => Data(nameof(CalcRuleCells), () => CellParser.cells(src));
 
         public Index<KeyedCellRecord> CalcRecords(KeyedCells src)
             => Data(nameof(CalcRecords), () => records(src));
-
-        public void EmitRuleCells(KeyedCells src)
-            => TableEmit(CalcRecords(src).View, KeyedCellRecord.RenderWidths, XedPaths.RuleTable<KeyedCellRecord>());
-
-        public RuleTables EmitRules(RuleTables src)
-        {
-            var fields = CaclcRuleCells(src);
-            exec(PllExec,
-                () => EmitTableSigs(src),
-                () => EmitRuleSeq(),
-                () => EmitRuleCells(fields),
-                () => EmitTableFiles(src)
-            );
-            Docs.EmitRuleDocs(src);
-            return src;
-        }
    }
 }

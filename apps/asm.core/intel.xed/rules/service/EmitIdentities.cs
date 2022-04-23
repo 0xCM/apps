@@ -9,10 +9,9 @@ namespace Z0
 
     partial class XedRules
     {
-        void EmitOpCodeIdentities(Index<PatternOpCode> src)
+        void EmitIdentities(Index<PatternOpCode> src)
         {
             var dst = text.buffer();
-            //var formatter = XedOpCodes.OpCodeIdentity.formatter();
             var ids = XedOpCodes.identify(src);
             var count = ids.Count;
             var @class = InstClass.Empty;

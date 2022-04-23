@@ -5,16 +5,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static XedPatterns;
-    using static XedModels;
-
     partial class XedRules
     {
         void Emit(Index<PatternOpCode> src)
         {
             TableEmit(src.View, PatternOpCode.RenderWidths, XedPaths.Table<PatternOpCode>());
-            EmitOpCodeIdentities(src);
+            EmitIdentities(src);
         }
 
         void Emit(Index<InstFieldRow> src)

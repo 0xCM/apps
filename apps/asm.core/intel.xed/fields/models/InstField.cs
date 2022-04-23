@@ -99,16 +99,24 @@ namespace Z0
             public InstField(CellExpr src)
             {
                 var data = ByteBlock16.Empty;
-                @as<ulong>(data.First) = src.Value.Data;
-                if(CellParser.parse(src.Format(), out RuleOperator op))
+                if(src.IsNonterm)
                 {
-                    data[OpIndex] = (byte)op;
-                    switch(op.Kind)
+                    @as<RuleName>(data.First) = src.Value.ToRuleName();
+                    data[ClassIndex] = (byte)RuleCellKind.NontermExpr;
+                    data[KindIndex] = (byte)RuleCellKind.NontermExpr;
+                    data[OpIndex] = (byte)src.Operator;
+                    data[FieldIndex] = (byte)src.Field;
+                }
+                else
+                {
+                    @as<ulong>(data.First) = src.Value.Data;
+                    data[OpIndex] = (byte)src.Operator;
+                    data[FieldIndex] = (byte)src.Field;
+                    switch(src.Operator.Kind)
                     {
                         case OperatorKind.Eq:
                             data[ClassIndex] = (byte)RuleCellKind.EqExpr;
                             data[KindIndex] = (byte)RuleCellKind.EqExpr;
-
                         break;
                         case OperatorKind.Neq:
                             data[ClassIndex] = (byte)RuleCellKind.NeqExpr;
@@ -117,16 +125,8 @@ namespace Z0
                         case OperatorKind.Impl:
                             data[ClassIndex] = (byte)RuleCellKind.Operator;
                         break;
-                        default:
-                            if(src.IsNonterm)
-                            {
-                                data[ClassIndex] = (byte)RuleCellKind.NontermExpr;
-                                data[KindIndex] = (byte)RuleCellKind.NontermExpr;
-                            }
-                        break;
                     }
                 }
-                data[FieldIndex] = (byte)src.Field;
                 Data = data;
             }
 
