@@ -95,8 +95,8 @@ namespace Z0
 
             static Index<TableCriteria> sort(ConcurrentDictionary<RuleTableKind,Index<TableCriteria>> src)
             {
-                var enc = src[RuleTableKind.Enc];
-                var dec = src[RuleTableKind.Dec];
+                var enc = src[RuleTableKind.ENC];
+                var dec = src[RuleTableKind.DEC];
                 var specs = enc.Append(dec).Sort();
                 for(var i=0u; i<specs.Count; i++)
                     specs[i] = specs[i].WithId(i);

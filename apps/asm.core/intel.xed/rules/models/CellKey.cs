@@ -59,28 +59,17 @@ namespace Z0
             public override int GetHashCode()
                 => Hash;
 
+            public string FormatSemantic()
+                => string.Format("{0}[{1:D2}:{2:D2}].{3}", TableSig, RowIndex, CellIndex, Logic);
             public string Format()
                 => ((ulong)this).FormatHex(uppercase:true);
 
             public override string ToString()
                 => Format();
 
+            [MethodImpl(Inline)]
             public int CompareTo(CellKey src)
-            {
-                var result = TableId.CompareTo(src.TableId);
-                if(result == 0)
-                {
-                    result = RowIndex.CompareTo(src.RowIndex);
-                    if(result == 0)
-                    {
-                        result = Logic.CompareTo(src.Logic);
-                        if(result == 0)
-                            result = CellIndex.CompareTo(src.CellIndex);
-
-                    }
-                }
-                return result;
-            }
+                => cmp(this,src);
 
             [MethodImpl(Inline)]
             public static explicit operator ulong(CellKey src)

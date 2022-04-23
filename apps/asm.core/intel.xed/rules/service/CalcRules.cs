@@ -14,13 +14,16 @@ namespace Z0
             var dst = new RuleTables();
             var buffers = dst.CreateBuffers();
             exec(PllExec,
-                () => buffers.Criteria.TryAdd(RuleTableKind.Enc, CalcRuleCriteria(RuleTableKind.Enc)),
-                () => buffers.Criteria.TryAdd(RuleTableKind.Dec, CalcRuleCriteria(RuleTableKind.Dec))
+                () => buffers.Criteria.TryAdd(RuleTableKind.ENC, CalcRuleCriteria(RuleTableKind.ENC)),
+                () => buffers.Criteria.TryAdd(RuleTableKind.DEC, CalcRuleCriteria(RuleTableKind.DEC))
                 );
 
             dst.Seal(buffers, PllExec);
             return dst;
         }
+
+        public SortedLookup<RuleSig,Index<KeyedCell>> CalcRuleFields(RuleTables src)
+            => Data(nameof(CalcRuleFields), () => XedRules.fields(src));
 
         public RuleTables EmitRules(RuleTables src)
         {

@@ -38,16 +38,18 @@ namespace Z0
             dst.OpCode = pattern.OpCode;
             switch(src.DataKind)
             {
-                case InstFieldKind.Seg:
+                case InstFieldKind.SegField:
                     dst.Seg = src.AsSegField();
                 break;
                 case InstFieldKind.BitLiteral:
                     dst.BitLiteral = src.AsBitLit();
                 break;
-                case InstFieldKind.Expr:
+                case InstFieldKind.NeqExpr:
+                case InstFieldKind.EqExpr:
                     dst.FieldExpr = src.ToFieldExpr();
-                    if(dst.FieldExpr.IsNonTerminal)
-                        dst.Nonterminal = dst.FieldExpr.Value.ToNonterminal();
+                break;
+                case InstFieldKind.NontermExpr:
+                    dst.Nonterminal = dst.FieldExpr.Value.ToNonterminal();
                 break;
                 case InstFieldKind.HexLiteral:
                     dst.HexLiteral = src.AsHexLit();
@@ -55,7 +57,7 @@ namespace Z0
                 case InstFieldKind.IntLiteral:
                     dst.IntLiteral = src.AsIntLit();
                 break;
-                case InstFieldKind.Nonterm:
+                case InstFieldKind.NontermCall:
                     dst.Nonterminal = src.AsNonterminal();
                 break;
             }

@@ -18,6 +18,77 @@ namespace Z0
     {
         public readonly struct CellRender
         {
+            public static string format(in CellInfo src)
+            {
+                var dst = EmptyString;
+                if(src.IsFieldExpr)
+                    dst = string.Format("{0}{1}{2}", XedRender.format(src.Field), XedRender.format(src.Operator), value(src));
+                else if(src.IsOperator)
+                    dst = XedRender.format(src.Operator);
+                else if(src.Class.IsBinLit)
+                {
+                    var result = LiteralBits.parse(src.Data, out var b);
+                    if(result.Fail)
+                        Errors.Throw(result.Message);
+                    dst = b.Format();
+                }
+                else if(src.Class.IsHexLit)
+                {
+                    if(XedParsers.parse(src.Data, out Hex8 x))
+                        dst = XedRender.format(x);
+                    else
+                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCellKind.HexLiteral), src.Data));
+                }
+                else if(src.Class.IsKeyword)
+                {
+                    if(XedParsers.parse(src.Data, out RuleKeyword kw))
+                        dst = kw.Format();
+                }
+                else if(src.IsSeg)
+                {
+                    CellParser.SegData(src.Data, out var data);
+                    dst = string.Format("{0}[{1}]", XedRender.format(src.Field), data);
+                }
+                else if(src.IsNontermCall)
+                {
+                    XedParsers.parse(src.Data, out Nonterminal x);
+                    dst = x.Format();
+                }
+                else
+                    dst = RP.squote(src.Data);
+                return dst;
+            }
+
+            static string value(in CellInfo src)
+            {
+                var dst = EmptyString;
+                if(src.IsFieldExpr)
+                {
+                    switch(src.Operator.Kind)
+                    {
+                        case OperatorKind.Eq:
+                        {
+                            var i = text.index(src.Data, Chars.Eq);
+                            dst = text.right(src.Data,i);
+                        }
+                        break;
+                        case OperatorKind.Neq:
+                        {
+                            var i = text.index(src.Data, Chars.Bang);
+                            dst = text.right(src.Data,i+1);
+                        }
+                        break;
+                        case OperatorKind.And:
+                        {
+                            var i = text.index(src.Data, Chars.Amp);
+                            dst = text.right(src.Data,i);
+                        }
+                        break;
+                    }
+                }
+                return dst;
+            }
+
             public static string expressions(in TableSpec src)
             {
                 var dst = text.buffer();

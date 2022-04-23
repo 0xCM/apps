@@ -38,13 +38,13 @@ namespace Z0
             public bool IsEncTable
             {
                 [MethodImpl(Inline)]
-                get => TableKind == RuleTableKind.Enc;
+                get => TableKind == RuleTableKind.ENC;
             }
 
             public bool IsDecTable
             {
                 [MethodImpl(Inline)]
-                get => TableKind == RuleTableKind.Dec;
+                get => TableKind == RuleTableKind.DEC;
             }
 
             public readonly bool IsEmpty

@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
@@ -14,13 +12,15 @@ namespace Z0
         {
             public readonly CellType Type;
 
+            public readonly LogicClass Logic;
+
             public readonly string Data;
 
-            [MethodImpl(Inline)]
-            public CellInfo(in CellType type, string data)
+            public CellInfo(in CellType type, LogicClass logic, string data)
             {
                 Type = type;
                 Data = text.ifempty(data, EmptyString);
+                Logic = logic;
             }
 
             [MethodImpl(Inline)]
@@ -28,6 +28,7 @@ namespace Z0
             {
                 Type = CellType.@operator(op);
                 Data = EmptyString;
+                Logic = LogicKind.Operator;
             }
 
             public CellClass Class
@@ -84,76 +85,8 @@ namespace Z0
                 get => XedParsers.IsNontermCall(Data);
             }
 
-            string Value()
-            {
-                var dst = EmptyString;
-                if(IsFieldExpr)
-                {
-                    switch(Operator.Kind)
-                    {
-                        case OperatorKind.Eq:
-                        {
-                            var i = text.index(Data, Chars.Eq);
-                            dst = text.right(Data,i);
-                        }
-                        break;
-                        case OperatorKind.Neq:
-                        {
-                            var i = text.index(Data, Chars.Bang);
-                            dst = text.right(Data,i+1);
-                        }
-                        break;
-                        case OperatorKind.And:
-                        {
-                            var i = text.index(Data, Chars.Amp);
-                            dst = text.right(Data,i);
-                        }
-                        break;
-                    }
-                }
-                return dst;
-            }
-
             public string Format()
-            {
-                var dst = EmptyString;
-                if(IsFieldExpr)
-                    dst = string.Format("{0}{1}{2}", XedRender.format(Field), XedRender.format(Operator), Value());
-                else if(IsOperator)
-                    dst = XedRender.format(Operator);
-                else if(Class.IsBinLit)
-                {
-                    var result = LiteralBits.parse(Data, out var b);
-                    if(result.Fail)
-                        Errors.Throw(result.Message);
-                    dst = b.Format();
-                }
-                else if(Class.IsHexLit)
-                {
-                    if(XedParsers.parse(Data, out Hex8 x))
-                        dst = XedRender.format(x);
-                    else
-                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCellKind.HexLiteral), Data));
-                }
-                else if(Class.IsKeyword)
-                {
-                    if(XedParsers.parse(Data, out RuleKeyword kw))
-                        dst = kw.Format();
-                }
-                else if(IsSeg)
-                {
-                    CellParser.SegData(Data, out var data);
-                    dst = string.Format("{0}[{1}]", XedRender.format(Field), data);
-                }
-                else if(IsNontermCall)
-                {
-                    XedParsers.parse(Data, out Nonterminal x);
-                    dst = x.Format();
-                }
-                else
-                    dst = RP.squote(Data);
-                return dst;
-            }
+                => CellRender.format(this);
 
             public override string ToString()
                 => Format();

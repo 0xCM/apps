@@ -55,13 +55,43 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
+            public InstField(RuleKeyword src)
+            {
+                var data = ByteBlock16.Empty;
+                data[0] = (byte)src.KeywordKind;
+                data[KindIndex] = (byte)InstFieldKind.Keyword;
+                data[ClassIndex] = (byte)RuleCellKind.Keyword;
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
+            public InstField(RuleOperator src)
+            {
+                var data = ByteBlock16.Empty;
+                data[0] = (byte)src.Kind;
+                data[KindIndex] = (byte)InstFieldKind.Operator;
+                data[ClassIndex] = (byte)RuleCellKind.Operator;
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
             public InstField(SegField src)
             {
                 var data = ByteBlock16.Empty;
                 core.@as<SegField>(data.First) = src;
-                data[KindIndex] = (byte)InstFieldKind.Seg;
+                data[KindIndex] = (byte)InstFieldKind.SegField;
                 data[FieldIndex] = (byte)src.Field;
                 data[ClassIndex] = (byte)RuleCellKind.SegField;
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
+            public InstField(SegVar src)
+            {
+                var data = ByteBlock16.Empty;
+                data.A = (ulong)src;
+                data[KindIndex] = (byte)InstFieldKind.SegVar;
+                data[ClassIndex] = (byte)RuleCellKind.SegVar;
                 Data = data;
             }
 
@@ -77,20 +107,25 @@ namespace Z0
                     {
                         case OperatorKind.Eq:
                             data[ClassIndex] = (byte)RuleCellKind.EqExpr;
+                            data[KindIndex] = (byte)InstFieldKind.EqExpr;
+
                         break;
                         case OperatorKind.Neq:
                             data[ClassIndex] = (byte)RuleCellKind.NeqExpr;
+                            data[KindIndex] = (byte)InstFieldKind.NeqExpr;
                         break;
                         case OperatorKind.Impl:
                             data[ClassIndex] = (byte)RuleCellKind.Operator;
                         break;
                         default:
                             if(src.IsNonTerminal)
+                            {
                                 data[ClassIndex] = (byte)RuleCellKind.NontermExpr;
+                                data[KindIndex] = (byte)InstFieldKind.NontermExpr;
+                            }
                         break;
                     }
                 }
-                data[KindIndex] = (byte)InstFieldKind.Expr;
                 data[FieldIndex] = (byte)src.Field;
                 Data = data;
             }
@@ -100,7 +135,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data = (uint)src;
-                data[KindIndex] = (byte)InstFieldKind.Nonterm;
+                data[KindIndex] = (byte)InstFieldKind.NontermCall;
                 data[ClassIndex] = (byte)RuleCellKind.NontermCall;
                 Data = data;
             }
@@ -110,6 +145,7 @@ namespace Z0
             {
                 Data = data;
             }
+
 
             public ref readonly InstFieldKind DataKind
             {
@@ -132,7 +168,25 @@ namespace Z0
             public bool IsFieldExpr
             {
                 [MethodImpl(Inline)]
-                get => DataKind == InstFieldKind.Expr;
+                get => DataKind == InstFieldKind.EqExpr || DataKind == InstFieldKind.NeqExpr || DataKind == InstFieldKind.NontermExpr;
+            }
+
+            public bool IsOperator
+            {
+                [MethodImpl(Inline)]
+                get => DataKind == InstFieldKind.Operator;
+            }
+
+            public bool IsSegVar
+            {
+                [MethodImpl(Inline)]
+                get => DataKind == InstFieldKind.SegVar;
+            }
+
+            public bool IsKeyword
+            {
+                [MethodImpl(Inline)]
+                get => DataKind == InstFieldKind.Keyword;
             }
 
             public bool IsLiteral
@@ -178,6 +232,10 @@ namespace Z0
                 => ref @as<Hex8>(Data.First);
 
             [MethodImpl(Inline)]
+            public ref readonly SegVar AsSegVar()
+                => ref @as<SegVar>(Data.First);
+
+            [MethodImpl(Inline)]
             public ref readonly byte AsIntLit()
                 => ref @as<byte>(Data.First);
 
@@ -193,18 +251,62 @@ namespace Z0
                     );
 
             [MethodImpl(Inline)]
-            public ref readonly SegField AsSegField()
-                => ref @as<SegField>(Data.First);
-
-            [MethodImpl(Inline)]
             public ref readonly uint5 AsBitLit()
                 => ref @as<uint5>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly RuleOperator AsOperator()
+                => ref @as<RuleOperator>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly RuleKeyword AsKeyword()
+                => ref @as<RuleKeyword>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly SegField AsSegField()
+                => ref @as<SegField>(Data.First);
 
             public string Format()
                 => XedRender.format(this);
 
             public override string ToString()
                 => Format();
+
+            [MethodImpl(Inline)]
+            public static implicit operator InstField(byte src)
+                => new InstField(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator InstField(Hex8 src)
+                => new InstField(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator InstField(uint5 src)
+                => new InstField(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator InstField(Nonterminal src)
+                => new InstField(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator InstField(RuleKeyword src)
+                => new InstField(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator InstField(RuleOperator src)
+                => new InstField(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator InstField(CellExpr src)
+                => new InstField(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator InstField(SegField src)
+                => new InstField(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator InstField(SegVar src)
+                => new InstField(src);
 
             public static InstField Empty => default;
         }

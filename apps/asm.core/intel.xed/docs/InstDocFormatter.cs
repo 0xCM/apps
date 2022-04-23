@@ -102,7 +102,7 @@ namespace Z0
 
                     if(op.Nonterminal(out var nt))
                     {
-                        var sig = new RuleSig(nt.Name, RuleTableKind.Enc);
+                        var sig = new RuleSig(nt.Name, RuleTableKind.ENC);
                         var uri = XedPaths.CheckedTableDef(sig);
 
                         if(uri.Path.Exists)
@@ -111,7 +111,7 @@ namespace Z0
                         }
                         else
                         {
-                            sig = new RuleSig(nt.Name, RuleTableKind.Dec);
+                            sig = new RuleSig(nt.Name, RuleTableKind.DEC);
                             uri = XedPaths.CheckedTableDef(sig);
                             if(uri.Path.Exists)
                                 dst.Append(Link(sig).Format());

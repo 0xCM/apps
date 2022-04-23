@@ -16,9 +16,9 @@ namespace Z0
 
             Nonterm = 2,
 
-            Seg = 4,
+            SegField = 4,
 
-            Expr = 8,
+            SegVar = 8,
         }
     }
 }

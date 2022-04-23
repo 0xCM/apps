@@ -133,10 +133,13 @@ namespace Z0
                     {
                         switch(field.DataKind)
                         {
-                            case InstFieldKind.Expr:
+                            case InstFieldKind.EqExpr:
+                            case InstFieldKind.NeqExpr:
+                            case InstFieldKind.NontermExpr:
+                            //case InstFieldKind.Expr:
                                 seek(dst,j) = string.Format(Pattern, j, fk, field.ToFieldExpr());
                                 break;
-                            case InstFieldKind.Nonterm:
+                            case InstFieldKind.NontermCall:
                             {
                                 var nt = field.AsNonterminal();
                                 if(nt.IsNonEmpty)
@@ -144,9 +147,9 @@ namespace Z0
                                     var rule = nt.ToRuleName();
                                     if(rule != 0)
                                     {
-                                        var uri = XedPaths.Service.CheckedTableDef(new RuleSig(rule,RuleTableKind.Enc));
+                                        var uri = XedPaths.Service.CheckedTableDef(new RuleSig(rule,RuleTableKind.ENC));
                                         if(!uri.Path.Exists)
-                                            uri = XedPaths.Service.CheckedTableDef(new RuleSig(rule,RuleTableKind.Dec));
+                                            uri = XedPaths.Service.CheckedTableDef(new RuleSig(rule,RuleTableKind.DEC));
 
                                         if(uri.Path.Exists)
                                             seek(dst,j) = string.Format(Pattern, j, "Nonterm",  string.Format("{0}::{1}", XedRender.format(nt), uri));
@@ -159,7 +162,7 @@ namespace Z0
 
                             }
                             break;
-                            case InstFieldKind.Seg:
+                            case InstFieldKind.SegField:
                                 seek(dst,j) = string.Format(Pattern, j, fk, field.AsSegField());
                             break;
                             default:
@@ -219,9 +222,9 @@ namespace Z0
                 var dst = EmptyString;
                 if(src.Nonterminal(out var nt))
                 {
-                    var path = XedPaths.Service.TableDef(RuleTableKind.Enc, nt);
+                    var path = XedPaths.Service.TableDef(RuleTableKind.ENC, nt);
                     if(path.IsEmpty)
-                        path = XedPaths.Service.TableDef(RuleTableKind.Dec, nt);
+                        path = XedPaths.Service.TableDef(RuleTableKind.DEC, nt);
                     if(path.IsNonEmpty)
                         dst = string.Format("{0}::{1}", nt, path);
                 }

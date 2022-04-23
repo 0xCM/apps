@@ -79,12 +79,12 @@ namespace Z0
 
                     if(nonterm.IsNonEmpty)
                     {
-                        var uri = XedPaths.Service.TableDef(RuleTableKind.Enc, nonterm);
+                        var uri = XedPaths.Service.TableDef(RuleTableKind.ENC, nonterm);
                         if(uri.Path.Exists)
                             tabledef = uri;
                         else
                         {
-                            uri = XedPaths.Service.TableDef(RuleTableKind.Dec, nonterm);
+                            uri = XedPaths.Service.TableDef(RuleTableKind.DEC, nonterm);
                             if(uri.Path.Exists)
                                 tabledef = uri;
                         }

@@ -7,16 +7,15 @@ namespace Z0
 {
     partial class XedRules
     {
-        [DataWidth(2)]
-        public enum RuleTableKind : byte
+        public enum SegVarKind : ulong
         {
             None = 0,
 
-            [Symbol("enc")]
-            ENC = 1,
+            ssss_dddd = SegVar.FirstKind,
 
-            [Symbol("dec")]
-            DEC = 2,
+            ss_iii_bbb = ssss_dddd + 1,
+
+            ss_iii_bb = ss_iii_bbb + 1,
         }
     }
 }

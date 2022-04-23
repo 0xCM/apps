@@ -31,8 +31,8 @@ namespace Z0
                 data[IndexPos] = index;
                 @as<SegField>(data.First) = src;
                 data[NonEmptyPos] = (bit)src.IsNonEmpty;
-                data[ClassPos] = (byte)C.Seg;
-                data[KindPos] = (byte)K.Seg;
+                data[ClassPos] = (byte)C.SegField;
+                data[KindPos] = (byte)K.SegField;
                 Data = data;
             }
 
@@ -68,7 +68,18 @@ namespace Z0
                 @as<Nonterminal>(data.First) = nt;
                 data[NonEmptyPos] = (bit)nt.IsNonEmpty;
                 data[ClassPos] = (byte)C.Nonterm;
-                data[KindPos] = (byte)K.Nonterm;
+                data[KindPos] = (byte)K.NontermCall;
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
+            public LayoutField(byte index, SegVar src)
+            {
+                var data = ByteBlock16.Empty;
+                data[IndexPos] = index;
+                @as<SegVar>(data.First) = src;
+                data[ClassPos] = (byte)C.SegVar;
+                data[KindPos] = (byte)K.SegVar;
                 Data = data;
             }
 
@@ -93,7 +104,13 @@ namespace Z0
             public bool IsSeg
             {
                 [MethodImpl(Inline)]
-                get => Class == C.Seg;
+                get => Class == C.SegField;
+            }
+
+            public bool IsSegVar
+            {
+                [MethodImpl(Inline)]
+                get => Class == C.SegVar;
             }
 
             public ref readonly C Class
@@ -135,10 +152,10 @@ namespace Z0
                     case K.HexLiteral:
                         dst = XedRender.format(AsHexLit());
                     break;
-                    case K.Nonterm:
+                    case K.NontermCall:
                         dst = XedRender.format(AsNonterm());
                     break;
-                    case K.Seg:
+                    case K.SegField:
                         dst = AsSeg().Format();
                     break;
                 }

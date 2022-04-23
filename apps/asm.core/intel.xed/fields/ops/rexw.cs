@@ -16,7 +16,7 @@ namespace Z0
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var f = ref src[i];
-                if(f.DataKind == InstFieldKind.Expr && f.FieldKind == FieldKind.REXW)
+                if(f.IsFieldExpr && f.FieldKind == FieldKind.REXW)
                 {
                     dst = BitIndicator.defined(f.ToFieldExpr().Value);
                     break;

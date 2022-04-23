@@ -53,6 +53,58 @@ namespace Z0
                 return new (field.Field, @class, op, tData, tDom, wData, wDom);
             }
 
+            public static Outcome parse(string src, out InstField dst)
+            {
+                dst = InstField.Empty;
+                Outcome result = (false, string.Format("Unrecognized segment '{0}'", src));
+                if(IsHexLiteral(src))
+                {
+                    result = XedParsers.parse(src, out Hex8 x);
+                    if(result)
+                        dst = part(x);
+                    else
+                        result = (false, AppMsg.ParseFailure.Format(nameof(Hex8), src));
+                }
+                else if(IsBinaryLiteral(src))
+                {
+                    result = XedParsers.parse(src, out uint5 x);
+                    if(result)
+                        dst = part(x);
+                    else
+                        result = (false, AppMsg.ParseFailure.Format(nameof(uint5), src));
+
+                }
+                else if(IsSeg(src))
+                {
+                    result = parse(src, out SegField x);
+                    if(result)
+                        dst = part(x);
+                }
+                else if (IsExpr(src))
+                {
+                    result = parse(src, out CellExpr x);
+                    if(result)
+                        dst = part(x);
+                    else
+                        result = (false, AppMsg.ParseFailure.Format(nameof(CellExpr), src));
+                }
+                else if(IsNontermCall(src))
+                {
+                    result = XedParsers.parse(src, out Nonterminal x);
+                    if(result)
+                        dst = part(x);
+                    else
+                        result = (false, AppMsg.ParseFailure.Format(nameof(Nonterminal), src));
+                }
+                else if (XedParsers.parse(src, out byte a))
+                {
+                    result = true;
+                    dst = new(a);
+                }
+
+                return result;
+            }
+
             public static bool parse(FieldKind field, string value, out CellValue dst)
             {
                 var result = true;
@@ -370,10 +422,6 @@ namespace Z0
             public static bool IsExpr(string src)
                 => IsEq(src) || IsNeq(src);
 
-            public static bool IsNontermExpr(string src)
-                => IsExpr(src) && IsNontermCall(src);
-
-
             public static bool IsSeg(string src)
             {
                 var i = text.index(src, Chars.LBracket);
@@ -598,7 +646,7 @@ namespace Z0
                 return result;
             }
 
-            static bool parse(string src, out CellExpr dst)
+            public static bool parse(string src, out CellExpr dst)
             {
                 dst = CellExpr.Empty;
                 Require.invariant(IsExpr(src));
@@ -634,7 +682,6 @@ namespace Z0
                 Require.nonzero(fk);
 
                 var result = spec(fk, right, out dst);
-
                 if(!result)
                 {
                     result = parse(fk, right, out fv);
@@ -643,58 +690,6 @@ namespace Z0
 
                 if(!result)
                     Errors.Throw(AppMsg.ParseFailure.Format(nameof(CellExpr), src));
-
-                return result;
-            }
-
-            static Outcome parse(string src, out InstField dst)
-            {
-                dst = InstField.Empty;
-                Outcome result = (false, string.Format("Unrecognized segment '{0}'", src));
-                if(IsHexLiteral(src))
-                {
-                    result = XedParsers.parse(src, out Hex8 x);
-                    if(result)
-                        dst = part(x);
-                    else
-                        result = (false, AppMsg.ParseFailure.Format(nameof(Hex8), src));
-                }
-                else if(IsBinaryLiteral(src))
-                {
-                    result = XedParsers.parse(src, out uint5 x);
-                    if(result)
-                        dst = part(x);
-                    else
-                        result = (false, AppMsg.ParseFailure.Format(nameof(uint5), src));
-
-                }
-                else if(IsSeg(src))
-                {
-                    result = parse(src, out SegField x);
-                    if(result)
-                        dst = part(x);
-                }
-                else if (IsExpr(src))
-                {
-                    result = parse(src, out CellExpr x);
-                    if(result)
-                        dst = part(x);
-                    else
-                        result = (false, AppMsg.ParseFailure.Format(nameof(CellExpr), src));
-                }
-                else if(IsNontermCall(src))
-                {
-                    result = XedParsers.parse(src, out Nonterminal x);
-                    if(result)
-                        dst = part(x);
-                    else
-                        result = (false, AppMsg.ParseFailure.Format(nameof(Nonterminal), src));
-                }
-                else if (XedParsers.parse(src, out byte a))
-                {
-                    result = true;
-                    dst = new(a);
-                }
 
                 return result;
             }
@@ -734,7 +729,7 @@ namespace Z0
                         cells.Add(input);
                 }
 
-                return cells.Map(x => new CellInfo(celltype(x), x));
+                return cells.Map(x => cellinfo(celltype(x), LogicKind.None, x));
             }
 
             static string normalize(string src)

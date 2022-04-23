@@ -77,8 +77,8 @@ namespace Z0
         {
             return srckind(src) switch
             {
-                XedDocKind.EncRuleTable => RuleTableKind.Enc,
-                XedDocKind.DecRuleTable => RuleTableKind.Dec,
+                XedDocKind.EncRuleTable => RuleTableKind.ENC,
+                XedDocKind.DecRuleTable => RuleTableKind.DEC,
                 _ => 0
             };
         }
@@ -164,8 +164,8 @@ namespace Z0
         {
             var name = kind switch
             {
-                RuleTableKind.Enc => EncRuleTable,
-                RuleTableKind.Dec => DecRuleTable,
+                RuleTableKind.ENC => EncRuleTable,
+                RuleTableKind.DEC => DecRuleTable,
                 _ => FS.FileName.Empty
             };
 

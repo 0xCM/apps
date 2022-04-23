@@ -85,6 +85,8 @@ namespace Z0
 
         static readonly EnumParser<RuleName> RuleNames = new();
 
+        static readonly EnumParser<SegVarKind> SegVarKinds = new();
+
         static XedParsers Instance = new();
 
         static ConcurrentDictionary<string,NontermKind> NontermUppers
@@ -428,6 +430,9 @@ namespace Z0
         public static bool parse(string src, out VisibilityKind dst)
             => VisKinds.Parse(src, out dst);
 
+        public static bool parse(string src, out SegVarKind dst)
+            => SegVarKinds.Parse(src, out dst);
+
         public static bool parse(string src, out Visibility dst)
         {
             if(parse(src, out OpVisibility ov))
@@ -464,6 +469,22 @@ namespace Z0
                 return DataParser.parse(src, out dst);
             dst = default;
             return false;
+        }
+
+        public static bool parse(string src, out SegVar dst)
+        {
+            var result = src.Length <= 7;
+            dst = SegVar.Empty;
+            if(result)
+            {
+                dst = segvar(src);
+            }
+            else
+            {
+                result = parse(src, out SegVarKind vk);
+                dst = segvar(vk);
+            }
+            return result;
         }
 
         public static bool parse(string src, out Hex16 dst)

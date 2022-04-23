@@ -9,13 +9,16 @@ namespace Z0
     {
         public readonly struct TableSpec : IComparable<TableSpec>
         {
+            public readonly ushort TableId;
+
             public readonly RuleSig Sig;
 
             public readonly Index<RowSpec> Rows;
 
             [MethodImpl(Inline)]
-            public TableSpec(RuleSig key, RowSpec[] rows)
+            public TableSpec(ushort id, RuleSig key, RowSpec[] rows)
             {
+                TableId = id;
                 Sig = key;
                 Rows = rows;
             }
@@ -75,7 +78,7 @@ namespace Z0
             public static implicit operator Index<RowSpec>(TableSpec src)
                 => src.Rows;
 
-            public static TableSpec Empty => new TableSpec(RuleSig.Empty, sys.empty<RowSpec>());
+            public static TableSpec Empty => new TableSpec(z16, RuleSig.Empty, sys.empty<RowSpec>());
         }
     }
 }

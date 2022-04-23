@@ -13,6 +13,19 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
+        public static int cmp(in CellKey a, in CellKey b)
+        {
+            var result = a.TableId.CompareTo(b.TableId);
+            if(result == 0)
+            {
+                result = a.RowIndex.CompareTo(b.RowIndex);
+                if(result == 0)
+                    result = a.CellIndex.CompareTo(b.CellIndex);
+            }
+            return result;
+        }
+
+        [MethodImpl(Inline), Op]
         public static int cmp(LogicKind a, LogicKind b)
             => ((byte)a).CompareTo((byte)b);
 

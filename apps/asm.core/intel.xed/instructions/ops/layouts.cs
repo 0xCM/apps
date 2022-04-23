@@ -50,10 +50,13 @@ namespace Z0
                     case K.HexLiteral:
                         cell = new (i, field.AsHexLit());
                     break;
-                    case K.Nonterm:
+                    case K.NontermCall:
                         cell = new (i, field.AsNonterminal());
                     break;
-                    case K.Seg:
+                    case K.SegVar:
+                        cell = new (i, field.AsSegVar());
+                    break;
+                    case K.SegField:
                         cell = new (i, field.AsSegField());
                     break;
                     default:

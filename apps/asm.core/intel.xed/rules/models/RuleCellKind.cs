@@ -8,6 +8,34 @@ namespace Z0
     partial class XedRules
     {
         [DataWidth(4,8)]
+        public enum InstFieldKind : byte
+        {
+            None,
+
+            BitLiteral,
+
+            IntLiteral,
+
+            HexLiteral,
+
+            SegVar,
+
+            Keyword,
+
+            NontermCall,
+
+            Operator,
+
+            SegField,
+
+            NeqExpr,
+
+            EqExpr,
+
+            NontermExpr,
+        }
+
+        [DataWidth(4,8)]
         public enum RuleCellKind : byte
         {
             [Symbol("<untyped>")]

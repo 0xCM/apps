@@ -10,13 +10,109 @@ namespace Z0
     using static XedModels;
     using static core;
 
+    using FK = XedRules.InstFieldKind;
+
     partial class XedCmdProvider
     {
-        [CmdOp("xed/check/layouts")]
+        public static KeyedCellRecord record(uint seq, in KeyedCell src)
+        {
+            ref readonly var field = ref src.Value;
+            ref readonly var key = ref src.Key;
+            var dst = KeyedCellRecord.Empty;
+            ref readonly var fk = ref field.FieldKind;
+            ref readonly var dk = ref src.Value.DataKind;
+            dst.Seq = seq;
+            dst.CellIndex = key.CellIndex;
+            dst.Field = fk;
+            dst.Logic = key.Logic;
+            dst.RowIndex = key.RowIndex;
+            dst.TableName = key.TableSig.TableName;
+            dst.TableKind = key.TableSig.TableKind;
+            dst.TableId = key.TableId;
+            if(fk == 0 && dk != FK.Operator)
+            {
+
+            }
+            switch(src.Value.DataKind)
+            {
+                case FK.EqExpr:
+                case FK.NeqExpr:
+                case FK.NontermExpr:
+                {
+                    var expr = field.ToFieldExpr();
+                    dst.Op = expr.Operator;
+                    dst.Value = expr.Value;
+                }
+                break;
+
+                case FK.BitLiteral:
+                    dst.Value = field.AsBitLit();
+                break;
+
+                case FK.IntLiteral:
+                    dst.Value = field.AsIntLit();
+                break;
+
+                case FK.HexLiteral:
+                    dst.Value = field.AsHexLit();
+                break;
+
+                case FK.SegVar:
+                    dst.Value = field.AsSegVar();
+                break;
+
+                case FK.Keyword:
+                    dst.Value = field.AsKeyword();
+                break;
+
+                case FK.NontermCall:
+                    dst.Value = field.AsNonterminal();
+                break;
+
+                case FK.Operator:
+                    dst.Op = field.AsOperator();
+                    dst.Value = EmptyString;
+                break;
+
+                case FK.SegField:
+                    dst.Value = field.AsSegField();
+                break;
+            }
+
+
+
+            return dst;
+        }
+
+        public static Index<KeyedCellRecord> records(SortedLookup<RuleSig,Index<KeyedCell>> src)
+        {
+            var dst = list<KeyedCellRecord>();
+            var k=0u;
+            var sigs = src.Keys;
+            for(var i=z16; i<sigs.Length; i++)
+            {
+                ref readonly var sig = ref skip(sigs,i);
+                if(src.Find(sig, out var cells))
+                {
+                    for(var j=z16; j<cells.Count; j++, k++)
+                        dst.Add(record(k, cells[j]));
+                }
+            }
+
+            return dst.ToIndex();
+        }
+
+
+        [CmdOp("xed/check/rules")]
         Outcome CheckLayouts(CmdArgs args)
         {
-            var inst = CalcInstSegs();
-            iter(inst, x => Write(x));
+            var rules = Xed.Rules.CalcRules();
+            var lookup = Xed.Rules.CalcRuleFields(rules);
+            var src = records(lookup);
+            TableEmit(src.View, KeyedCellRecord.RenderWidths, XedPaths.RuleTable<KeyedCellRecord>());
+
+            // var inst = CalcInstSegs();
+            // iter(inst, x => Write(x));
             return true;
         }
 

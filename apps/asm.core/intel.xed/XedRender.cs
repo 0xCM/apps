@@ -623,7 +623,16 @@ namespace Z0
                     dst = format5(src.AsBitLit());
                 break;
                 case RuleCellKind.NontermCall:
-                    dst = format(src.AsNonterminal());
+                    dst = src.AsNonterminal().Format();
+                break;
+                case RuleCellKind.Operator:
+                    dst = src.AsOperator().Format();
+                break;
+                case RuleCellKind.Keyword:
+                    dst = src.AsKeyword().Format();
+                break;
+                case RuleCellKind.SegVar:
+                    dst = src.AsKeyword().Format();
                 break;
                 default:
                     Errors.Throw(string.Format("Unknown Part:{0} | {1}", @class, bytes(src).FormatHex()));

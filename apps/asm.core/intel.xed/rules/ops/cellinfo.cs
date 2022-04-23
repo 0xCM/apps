@@ -1,3 +1,4 @@
+
 //-----------------------------------------------------------------------------
 // Derivative Work based on https://github.com/intelxed/xed
 // Author : Chris Moore
@@ -7,16 +8,12 @@ namespace Z0
 {
     partial class XedRules
     {
-        [DataWidth(2)]
-        public enum RuleTableKind : byte
-        {
-            None = 0,
+        [MethodImpl(Inline)]
+        public static CellInfo cellinfo(in CellType type, LogicClass logic, string data)
+            => new CellInfo(type, logic, data);
 
-            [Symbol("enc")]
-            ENC = 1,
-
-            [Symbol("dec")]
-            DEC = 2,
-        }
+        [MethodImpl(Inline)]
+        public static CellInfo cellinfo(RuleOperator op)
+            => new CellInfo(op);
     }
 }

@@ -7,21 +7,5 @@ namespace Z0
 {
     partial class XedRules
     {
-        public enum InstFieldKind : byte
-        {
-            None,
-
-            BitLiteral,
-
-            HexLiteral,
-
-            IntLiteral,
-
-            Seg,
-
-            Nonterm,
-
-            Expr,
-        }
     }
 }
