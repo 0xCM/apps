@@ -30,9 +30,8 @@ namespace Z0
             exec(PllExec,
                 () => EmitTableSigs(src),
                 () => EmitRuleSeq(),
-                () => EmitRuleCriteria(src),
                 () => EmitRuleCells(src),
-                () => EmitRuleTables(src)
+                () => EmitTableFiles(src)
             );
             Docs.EmitRuleDocs(src);
             return src;

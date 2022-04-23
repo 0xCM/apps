@@ -9,7 +9,7 @@ namespace Z0
 
     using static XedRules;
 
-    using K = XedRules.InstFieldKind;
+    using K = XedRules.RuleCellKind;
 
     partial class XedPatterns
     {

@@ -629,10 +629,10 @@ namespace Z0
                     dst = src.AsOperator().Format();
                 break;
                 case RuleCellKind.Keyword:
-                    dst = src.AsKeyword().Format();
+                    dst = src.ToKeyword().Format();
                 break;
                 case RuleCellKind.SegVar:
-                    dst = src.AsKeyword().Format();
+                    dst = src.ToKeyword().Format();
                 break;
                 default:
                     Errors.Throw(string.Format("Unknown Part:{0} | {1}", @class, bytes(src).FormatHex()));
@@ -658,7 +658,6 @@ namespace Z0
             }
             return dst.Emit();
         }
-
 
         public static string format(in RowCriteria src)
         {

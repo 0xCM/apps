@@ -5,11 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
-
     partial class XedRules
     {
-        public static void lines(in TableCriteria src, StreamWriter dst)
+        public static void lines(in TableCriteria src, ITextEmitter dst)
         {
             foreach(var line in src.Lines())
                 dst.AppendLineFormat("# {0}", line.Content);

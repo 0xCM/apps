@@ -10,11 +10,7 @@ namespace Z0
     partial class XedRules
     {
         public void EmitRuleCells(RuleTables rules)
-        {
-            var dst = text.emitter();
-            CellEmitter.emit(rules,dst);
-            FileEmit(dst.Emit(), 1, XedPaths.RuleTargets() + FS.file("xed.rules.cells", FS.Csv), TextEncodingKind.Asci);
-        }
+            => TableEmit(records(CalcRuleFields(rules)).View, KeyedCellRecord.RenderWidths, XedPaths.RuleTable<KeyedCellRecord>());
 
         void EmitTableSigs(RuleTables rules)
             => TableEmit(rules.SigRows.View, RuleSigRow.RenderWidths, XedPaths.Service.RuleTable<RuleSigRow>());
@@ -27,68 +23,55 @@ namespace Z0
             FileEmit(dst.Emit(), src.Count, XedPaths.Service.DocTarget(XedDocKind.RuleSeq), TextEncodingKind.Asci);
         }
 
-        void EmitRuleCriteria(RuleTables rules)
+        public void EmitTableFiles(RuleTables src)
         {
             var formatter = Tables.formatter<TableDefRow>(TableDefRow.RenderWidths);
-            ref readonly var tables = ref rules.Criteria();
-            var dst = XedPaths.RuleSpecs();
-            using var writer = dst.AsciWriter();
-            writer.AppendLine(formatter.FormatHeader());
+            ref readonly var tables = ref src.Criteria();
+            using var sEmitter = XedPaths.RuleSpecs().AsciEmitter();
+            sEmitter.AppendLine(formatter.FormatHeader());
             var k=0u;
+
             for(var i=0; i<tables.Count; i++)
             {
                 ref readonly var table = ref tables[i];
                 if(table.IsNonEmpty)
                 {
-                    writer.AppendLine();
+                    using var fEmitter = XedPaths.Service.TableDef(table.Sig).Path.AsciEmitter();
+                    fEmitter.AppendLine(formatter.FormatHeader());
+                    sEmitter.AppendLine();
+
                     for(var j=0u; j<table.RowCount; j++, k++)
                     {
                         ref readonly var spec = ref table[j];
-                        var row = TableDefRow.Empty;
-                        row.Seq = k;
-                        row.TableId = table.TableId;
-                        row.Index = j;
-                        row.Kind = table.TableKind;
-                        row.Name = table.TableName;
-                        row.Statement = spec.Format();
-                        writer.AppendLine(formatter.Format(row));
+                        var specFormat = spec.Format();
+
+                        var tRow = TableDefRow.Empty;
+                        var sRow = TableDefRow.Empty;
+                        tRow.Seq = k;
+                        tRow.TableId = table.TableId;
+                        tRow.Index = j;
+                        tRow.Kind = table.TableKind;
+                        tRow.Name = table.TableName;
+                        tRow.Statement = specFormat;
+                        fEmitter.AppendLine(formatter.Format(tRow));
+
+                        sRow.Seq = k;
+                        sRow.TableId = table.TableId;
+                        sRow.Index = j;
+                        sRow.Kind = table.TableKind;
+                        sRow.Name = table.TableName;
+                        sRow.Statement = specFormat;
+                        sEmitter.AppendLine(formatter.Format(sRow));
+
                     }
-                    writer.AppendLine();
-                    writer.AppendLine();
-                    lines(table,writer);
-                    writer.AppendLine();
-                }
-            }
-        }
+                    fEmitter.AppendLine();
+                    fEmitter.AppendLine();
+                    lines(table, fEmitter);
 
-        public void EmitRuleTables(RuleTables rules)
-        {
-            var formatter = Tables.formatter<TableDefRow>(TableDefRow.RenderWidths);
-            ref readonly var tables = ref rules.Criteria();
-            for(var i=0; i<tables.Count; i++)
-            {
-                ref readonly var table = ref tables[i];
-                if(table.IsEmpty)
-                    return;
-
-                var dst = XedPaths.Service.TableDef(table.Sig);
-                using var writer = dst.Path.AsciWriter();
-                writer.WriteLine(formatter.FormatHeader());
-                for(var j=0u; j<table.RowCount; j++)
-                {
-                    var row = TableDefRow.Empty;
-                    row.Seq = j;
-                    row.TableId = table.TableId;
-                    row.Index = j;
-                    row.Kind = table.TableKind;
-                    row.Name = table.TableName;
-                    row.Statement = table[j].Format();
-                    writer.AppendLine(formatter.Format(row));
+                    sEmitter.AppendLine();
+                    sEmitter.AppendLine();
+                    lines(table,sEmitter);
                 }
-                writer.AppendLine();
-                writer.AppendLine();
-                lines(table,writer);
-                writer.AppendLine();
             }
         }
     }

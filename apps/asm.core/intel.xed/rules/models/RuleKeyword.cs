@@ -5,13 +5,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using KW = XedRules.RuleKeyWordKind;
+    using KW = XedRules.KeywordKind;
 
     partial class XedRules
     {
         public readonly struct RuleKeyword
         {
-            public static RuleKeyword from(RuleKeyWordKind kind)
+            public static RuleKeyword from(KeywordKind kind)
                 => kind switch
                 {
                     KW.Else => Else,
@@ -24,18 +24,18 @@ namespace Z0
 
             public static RuleKeyword Wildcard => new RuleKeyword(KW.Wildcard, "@");
 
-            public static RuleKeyword Null => new RuleKeyword(KW.Null, "null");
+            public static RuleKeyword Null => new RuleKeyword(KW.Null, "NULL");
 
-            public static RuleKeyword Default => new RuleKeyword(KW.Default, "default");
+            public static RuleKeyword Default => new RuleKeyword(KW.Default, "DEFAULT");
 
-            public static RuleKeyword Else => new RuleKeyword(KW.Else, "else");
+            public static RuleKeyword Else => new RuleKeyword(KW.Else, "ELSE");
 
-            public static RuleKeyword Error => new RuleKeyword(KW.Error, "error");
+            public static RuleKeyword Error => new RuleKeyword(KW.Error, "ERROR");
 
             readonly ByteBlock16 Data;
 
             [MethodImpl(Inline)]
-            RuleKeyword(RuleKeyWordKind kind, asci8 src)
+            RuleKeyword(KeywordKind kind, asci8 src)
             {
                 var data = ByteBlock16.Empty;
                 data = (ulong)src;
@@ -43,10 +43,10 @@ namespace Z0
                 Data = data;
             }
 
-            public ref readonly RuleKeyWordKind KeywordKind
+            public ref readonly KeywordKind KeywordKind
             {
                 [MethodImpl(Inline)]
-                get => ref core.@as<RuleKeyWordKind>(Data[15]);
+                get => ref core.@as<KeywordKind>(Data[15]);
             }
 
             [MethodImpl(Inline)]

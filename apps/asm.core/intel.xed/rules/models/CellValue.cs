@@ -184,7 +184,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public RuleKeyword ToKeyword()
-                => RuleKeyword.from((RuleKeyWordKind)Data);
+                => RuleKeyword.from((KeywordKind)Data);
 
             [MethodImpl(Inline)]
             public XedRegId ToReg()

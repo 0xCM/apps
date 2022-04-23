@@ -8,70 +8,42 @@ namespace Z0
     partial class XedRules
     {
         [DataWidth(4,8)]
-        public enum InstFieldKind : byte
-        {
-            None,
-
-            BitLiteral,
-
-            IntLiteral,
-
-            HexLiteral,
-
-            SegVar,
-
-            Keyword,
-
-            NontermCall,
-
-            Operator,
-
-            SegField,
-
-            NeqExpr,
-
-            EqExpr,
-
-            NontermExpr,
-        }
-
-        [DataWidth(4,8)]
         public enum RuleCellKind : byte
         {
-            [Symbol("<untyped>")]
+            [Symbol("<?>")]
             None = 0,
 
-            [Symbol("Lit(0b)")]
+            [Symbol("0b")]
             BitLiteral,
 
-            [Symbol("Lit(0i)")]
+            [Symbol("0i")]
             IntLiteral,
 
-            [Symbol("Lit(0x)")]
+            [Symbol("0x")]
             HexLiteral,
 
-            [Symbol("SegVar")]
+            [Symbol("SegV")]
             SegVar,
 
-            [Symbol("Keyword")]
+            [Symbol("Kw")]
             Keyword,
 
-            [Symbol("Nt()")]
+            [Symbol("NtC")]
             NontermCall,
 
-            [Symbol("Op()")]
+            [Symbol("OpX")]
             Operator,
 
-            [Symbol("SegField")]
+            [Symbol("SegF")]
             SegField,
 
-            [Symbol("Neq(x)")]
+            [Symbol("NeqX")]
             NeqExpr,
 
-            [Symbol("Eq(x)")]
+            [Symbol("EqX")]
             EqExpr,
 
-            [Symbol("Nt(x)")]
+            [Symbol("NtX")]
             NontermExpr,
         }
    }

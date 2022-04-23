@@ -133,13 +133,12 @@ namespace Z0
                     {
                         switch(field.DataKind)
                         {
-                            case InstFieldKind.EqExpr:
-                            case InstFieldKind.NeqExpr:
-                            case InstFieldKind.NontermExpr:
-                            //case InstFieldKind.Expr:
+                            case RuleCellKind.EqExpr:
+                            case RuleCellKind.NeqExpr:
+                            case RuleCellKind.NontermExpr:
                                 seek(dst,j) = string.Format(Pattern, j, fk, field.ToFieldExpr());
-                                break;
-                            case InstFieldKind.NontermCall:
+                            break;
+                            case RuleCellKind.NontermCall:
                             {
                                 var nt = field.AsNonterminal();
                                 if(nt.IsNonEmpty)
@@ -162,7 +161,7 @@ namespace Z0
 
                             }
                             break;
-                            case InstFieldKind.SegField:
+                            case RuleCellKind.SegField:
                                 seek(dst,j) = string.Format(Pattern, j, fk, field.AsSegField());
                             break;
                             default:

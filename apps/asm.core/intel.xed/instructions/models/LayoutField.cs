@@ -8,7 +8,7 @@ namespace Z0
     using static core;
 
     using C = XedRules.InstFieldClass;
-    using K = XedRules.InstFieldKind;
+    using K = XedRules.RuleCellKind;
 
     partial class XedRules
     {

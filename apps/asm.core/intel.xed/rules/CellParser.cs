@@ -31,8 +31,8 @@ namespace Z0
                 var @class = CellParser.@class(field.Field, data);
                 if(@class.Kind == CK.Keyword)
                 {
-                    wDom = (byte)typeof(RuleKeyWordKind).Tag<DataWidthAttribute>().Require().ContentWidth;
-                    wData = (byte)core.width<RuleKeyWordKind>();
+                    wDom = (byte)typeof(KeywordKind).Tag<DataWidthAttribute>().Require().ContentWidth;
+                    wData = (byte)core.width<KeywordKind>();
                     tDom = new FieldTypeName(kind, nameof(CK.Keyword));
                     tData =new FieldTypeName(kind, nameof(CK.Keyword));
                 }

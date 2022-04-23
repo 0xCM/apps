@@ -10,21 +10,23 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(RecordId)]
         public record struct KeyedCellRecord : IComparable<KeyedCellRecord>
         {
-            public const string RecordId = "xed.rules.cells.keyed";
+            public const string RecordId = "xed.rules.cells";
 
-            public const byte FieldCount = 10;
+            public const byte FieldCount = 11;
 
             public uint Seq;
 
             public ushort TableId;
 
-            public RuleName TableName;
+            public RuleSig Sig;
 
-            public RuleTableKind TableKind;
+            public asci32 Expression;
 
-            public ushort RowIndex;
+            public EnumFormat<RuleCellKind> Type;
 
-            public byte CellIndex;
+            public ushort Row;
+
+            public byte Col;
 
             public LogicClass Logic;
 
@@ -35,12 +37,12 @@ namespace Z0
             public dynamic Value;
 
             public CellKey Key
-                => new CellKey(new (TableName,TableKind), TableId, RowIndex, Logic, CellIndex);
+                => new CellKey(Sig, TableId, Row, Logic, Col);
 
             public int CompareTo(KeyedCellRecord src)
                 => Key.CompareTo(src.Key);
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,32,12,12,12,12,24,4,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,36,32,6,6,6,6,24,4,1};
 
             public static KeyedCellRecord Empty => default;
         }

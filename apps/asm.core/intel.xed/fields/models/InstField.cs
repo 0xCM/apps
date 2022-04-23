@@ -29,7 +29,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data.First = src;
-                data[KindIndex] = (byte)InstFieldKind.IntLiteral;
+                data[KindIndex] = (byte)RuleCellKind.IntLiteral;
                 data[ClassIndex] = (byte)RuleCellKind.IntLiteral;
                 Data = data;
             }
@@ -39,7 +39,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data.First = src;
-                data[KindIndex] = (byte)InstFieldKind.BitLiteral;
+                data[KindIndex] = (byte)RuleCellKind.BitLiteral;
                 data[ClassIndex] = (byte)RuleCellKind.BitLiteral;
                 Data = data;
             }
@@ -49,7 +49,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data[0] = src;
-                data[KindIndex] = (byte)InstFieldKind.HexLiteral;
+                data[KindIndex] = (byte)RuleCellKind.HexLiteral;
                 data[ClassIndex] = (byte)RuleCellKind.HexLiteral;
                 Data = data;
             }
@@ -59,7 +59,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data[0] = (byte)src.KeywordKind;
-                data[KindIndex] = (byte)InstFieldKind.Keyword;
+                data[KindIndex] = (byte)RuleCellKind.Keyword;
                 data[ClassIndex] = (byte)RuleCellKind.Keyword;
                 Data = data;
             }
@@ -69,7 +69,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data[0] = (byte)src.Kind;
-                data[KindIndex] = (byte)InstFieldKind.Operator;
+                data[KindIndex] = (byte)RuleCellKind.Operator;
                 data[ClassIndex] = (byte)RuleCellKind.Operator;
                 Data = data;
             }
@@ -79,7 +79,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 core.@as<SegField>(data.First) = src;
-                data[KindIndex] = (byte)InstFieldKind.SegField;
+                data[KindIndex] = (byte)RuleCellKind.SegField;
                 data[FieldIndex] = (byte)src.Field;
                 data[ClassIndex] = (byte)RuleCellKind.SegField;
                 Data = data;
@@ -90,7 +90,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data.A = (ulong)src;
-                data[KindIndex] = (byte)InstFieldKind.SegVar;
+                data[KindIndex] = (byte)RuleCellKind.SegVar;
                 data[ClassIndex] = (byte)RuleCellKind.SegVar;
                 Data = data;
             }
@@ -107,12 +107,12 @@ namespace Z0
                     {
                         case OperatorKind.Eq:
                             data[ClassIndex] = (byte)RuleCellKind.EqExpr;
-                            data[KindIndex] = (byte)InstFieldKind.EqExpr;
+                            data[KindIndex] = (byte)RuleCellKind.EqExpr;
 
                         break;
                         case OperatorKind.Neq:
                             data[ClassIndex] = (byte)RuleCellKind.NeqExpr;
-                            data[KindIndex] = (byte)InstFieldKind.NeqExpr;
+                            data[KindIndex] = (byte)RuleCellKind.NeqExpr;
                         break;
                         case OperatorKind.Impl:
                             data[ClassIndex] = (byte)RuleCellKind.Operator;
@@ -121,7 +121,7 @@ namespace Z0
                             if(src.IsNonTerminal)
                             {
                                 data[ClassIndex] = (byte)RuleCellKind.NontermExpr;
-                                data[KindIndex] = (byte)InstFieldKind.NontermExpr;
+                                data[KindIndex] = (byte)RuleCellKind.NontermExpr;
                             }
                         break;
                     }
@@ -135,7 +135,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data = (uint)src;
-                data[KindIndex] = (byte)InstFieldKind.NontermCall;
+                data[KindIndex] = (byte)RuleCellKind.NontermCall;
                 data[ClassIndex] = (byte)RuleCellKind.NontermCall;
                 Data = data;
             }
@@ -147,10 +147,10 @@ namespace Z0
             }
 
 
-            public ref readonly InstFieldKind DataKind
+            public ref readonly RuleCellKind DataKind
             {
                 [MethodImpl(Inline)]
-                get => ref @as<InstFieldKind>(Data[KindIndex]);
+                get => ref @as<RuleCellKind>(Data[KindIndex]);
             }
 
             public ref readonly FieldKind FieldKind
@@ -168,34 +168,34 @@ namespace Z0
             public bool IsFieldExpr
             {
                 [MethodImpl(Inline)]
-                get => DataKind == InstFieldKind.EqExpr || DataKind == InstFieldKind.NeqExpr || DataKind == InstFieldKind.NontermExpr;
+                get => DataKind == RuleCellKind.EqExpr || DataKind == RuleCellKind.NeqExpr || DataKind == RuleCellKind.NontermExpr;
             }
 
             public bool IsOperator
             {
                 [MethodImpl(Inline)]
-                get => DataKind == InstFieldKind.Operator;
+                get => DataKind == RuleCellKind.Operator;
             }
 
             public bool IsSegVar
             {
                 [MethodImpl(Inline)]
-                get => DataKind == InstFieldKind.SegVar;
+                get => DataKind == RuleCellKind.SegVar;
             }
 
             public bool IsKeyword
             {
                 [MethodImpl(Inline)]
-                get => DataKind == InstFieldKind.Keyword;
+                get => DataKind == RuleCellKind.Keyword;
             }
 
             public bool IsLiteral
             {
                 [MethodImpl(Inline)]
                 get =>
-                   DataKind == InstFieldKind.BitLiteral
-                || DataKind == InstFieldKind.HexLiteral
-                || DataKind == InstFieldKind.IntLiteral;
+                   DataKind == RuleCellKind.BitLiteral
+                || DataKind == RuleCellKind.HexLiteral
+                || DataKind == RuleCellKind.IntLiteral;
             }
 
             public ref readonly byte Position
@@ -259,8 +259,8 @@ namespace Z0
                 => ref @as<RuleOperator>(Data.First);
 
             [MethodImpl(Inline)]
-            public ref readonly RuleKeyword AsKeyword()
-                => ref @as<RuleKeyword>(Data.First);
+            public RuleKeyword ToKeyword()
+                => RuleKeyword.from(@as<KeywordKind>(Data.First));
 
             [MethodImpl(Inline)]
             public ref readonly SegField AsSegField()

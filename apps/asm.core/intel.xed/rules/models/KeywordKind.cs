@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [DataWidth(3)]
-        public enum RuleKeyWordKind : byte
+        public enum KeywordKind : byte
         {
             [Symbol("")]
             None,
@@ -16,16 +16,16 @@ namespace Z0
             [Symbol("@")]
             Wildcard,
 
-            [Symbol("null")]
+            [Symbol("NULL")]
             Null,
 
-            [Symbol("default")]
+            [Symbol("DEFAULT")]
             Default,
 
-            [Symbol("else")]
+            [Symbol("ELSE")]
             Else,
 
-            [Symbol("error")]
+            [Symbol("ERROR")]
             Error,
         }
     }
