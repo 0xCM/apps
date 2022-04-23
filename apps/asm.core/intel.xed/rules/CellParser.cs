@@ -15,7 +15,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public readonly struct CellParser
+        public readonly partial struct CellParser
         {
             public static CellType celltype(string data)
             {
@@ -81,7 +81,7 @@ namespace Z0
                 }
                 else if (IsExpr(src))
                 {
-                    result = parse(src, out CellExpr x);
+                    result = expr(src, out CellExpr x);
                     if(result)
                         dst = x;
                     else
@@ -409,24 +409,6 @@ namespace Z0
                 return result;
             }
 
-            public static bool IsEq(string src)
-                => !src.Contains("!=") && src.Contains("=");
-
-            public static bool IsNeq(string src)
-                => src.Contains("!=");
-
-            public static bool IsImpl(string src)
-                => src.Contains("=>");
-
-            public static bool IsExpr(string src)
-                => IsEq(src) || IsNeq(src);
-
-            public static bool IsSeg(string src)
-            {
-                var i = text.index(src, Chars.LBracket);
-                var j = text.index(src, Chars.RBracket);
-                return i> 0 && j > i;
-            }
 
             public static bool SegData(string src, out string dst)
             {
@@ -455,7 +437,6 @@ namespace Z0
                         Errors.Throw(result.Message);
                     }
                 }
-
             }
 
             public static Outcome parse(string src, out SegField dst)
@@ -635,63 +616,6 @@ namespace Z0
                     Errors.Throw(AppMsg.ParseFailure.Format(nameof(RowCriteria), src));
 
                 return dst.IsNonEmpty;
-            }
-
-            static bool spec(FieldKind field, string src, out CellExpr dst)
-            {
-                var result = false;
-                var type = SegTypes.type(src);
-                dst = new CellExpr(OperatorKind.None, new CellValue(field,type));
-                result = type.IsNonEmpty;
-                return result;
-            }
-
-            public static bool parse(string src, out CellExpr dst)
-            {
-                dst = CellExpr.Empty;
-                Require.invariant(IsExpr(src));
-
-                var i = text.index(src, "!=");
-                var j = text.index(src, "=");
-                var right = EmptyString;
-                var left = EmptyString;
-                var fv = CellValue.Empty;
-                var fk = FieldKind.INVALID;
-                var op = OperatorKind.None;
-                if(i > 0)
-                {
-                    right = text.right(src, i + 1);
-                    op = OperatorKind.Neq;
-                    left = text.left(src,i);
-                }
-                else if (j>0)
-                {
-                    right = text.right(src, j);
-                    op = OperatorKind.Eq;
-                    left = text.left(src,j);
-                }
-
-                Require.nonempty(left);
-                if(IsSeg(left))
-                {
-                    var k = text.index(left,Chars.LBracket);
-                    left = text.left(left,k);
-                }
-
-                XedParsers.parse(left, out fk);
-                Require.nonzero(fk);
-
-                var result = spec(fk, right, out dst);
-                if(!result)
-                {
-                    result = parse(fk, right, out fv);
-                    dst = new CellExpr(op, fv);
-                }
-
-                if(!result)
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(CellExpr), src));
-
-                return result;
             }
 
             static Index<CellInfo> cells(string src)

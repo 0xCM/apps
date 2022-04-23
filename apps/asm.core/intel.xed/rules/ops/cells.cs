@@ -103,7 +103,7 @@ namespace Z0
                             case CK.EqExpr:
                             case CK.NeqExpr:
                             {
-                                result = CellParser.parse(data, out CellExpr value);
+                                result = CellParser.expr(data, out CellExpr value);
                                 field = value;
                             }
                             break;
