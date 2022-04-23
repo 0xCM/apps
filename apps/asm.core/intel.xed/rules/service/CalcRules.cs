@@ -11,27 +11,28 @@ namespace Z0
     {
         public RuleTables CalcRules()
         {
-            var tables = new RuleTables();
-            var buffers = tables.CreateBuffers();
+            var dst = new RuleTables();
+            var buffers = dst.CreateBuffers();
             exec(PllExec,
                 () => buffers.Criteria.TryAdd(RuleTableKind.Enc, CalcRuleCriteria(RuleTableKind.Enc)),
                 () => buffers.Criteria.TryAdd(RuleTableKind.Dec, CalcRuleCriteria(RuleTableKind.Dec))
                 );
 
-            tables.Seal(buffers, PllExec);
-            EmitRules(tables);
-            return tables;
+            dst.Seal(buffers, PllExec);
+            return dst;
         }
 
-        public void EmitRules(RuleTables tables)
+        public RuleTables EmitRules(RuleTables src)
         {
             exec(PllExec,
-                () => EmitTableSigs(tables),
+                () => EmitTableSigs(src),
                 () => EmitRuleSeq(),
-                () => EmitRuleCriteria(tables),
-                () => EmitRuleCells(tables),
-                () => EmitRuleTables(tables)
+                () => EmitRuleCriteria(src),
+                () => EmitRuleCells(src),
+                () => EmitRuleTables(src)
             );
+            Docs.EmitRuleDocs(src);
+            return src;
         }
    }
 }

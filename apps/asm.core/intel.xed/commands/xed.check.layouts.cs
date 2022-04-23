@@ -27,7 +27,6 @@ namespace Z0
             var literals = hashset<SegField>();
             var symbolics = hashset<SegField>();
             var combined = hashset<SegField>();
-
             for(var i=0; i<layouts.Count; i++)
             {
                 ref readonly var layout = ref layouts[i];

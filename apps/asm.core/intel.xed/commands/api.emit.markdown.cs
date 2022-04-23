@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+
     partial class XedCmdProvider
     {
         ApiComments ApiComments => Service(Wf.ApiComments);

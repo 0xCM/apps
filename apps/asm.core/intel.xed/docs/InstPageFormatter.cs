@@ -18,15 +18,18 @@ namespace Z0
             public static InstPageFormatter create()
                 => new InstPageFormatter();
 
-            public Index<InstIsaFormat> FormatGroups(Index<InstPattern> src)
+            public string Format(InstPattern pattern)
+                => format(pattern);
+
+            public Index<InstIsaFormat> GroupFormats(Index<InstPattern> src)
+                => groups(src);
+
+            public static Index<InstIsaFormat> groups(Index<InstPattern> src)
             {
                 var buffer = bag<InstIsaFormat>();
-                iter(src.GroupBy(x => x.Isa.Kind), g => buffer.Add(FormatGroup(g.Key, g.Array())), AppData.PllExec());
+                iter(src.GroupBy(x => x.Isa.Kind), g => buffer.Add(format(g.Key, g.Array())), AppData.PllExec());
                 return buffer.Array().Sort();
             }
-
-            InstIsaFormat FormatGroup(InstIsa isa, Index<InstPattern> src)
-                => Format(isa,src);
 
             public static string opwidth(MachineMode mode, in PatternOp src)
             {
@@ -67,99 +70,56 @@ namespace Z0
 
             const string LabelPattern = "{0,-18}{1}";
 
-            readonly ITextBuffer Dst;
-
-            readonly Index<string> Buffer;
-
-            uint Counter;
-
-            [MethodImpl(Inline)]
-            public InstPageFormatter()
+            public static string format(InstPattern pattern)
             {
-                Dst = text.buffer();
-                Buffer = alloc<string>(42);
-                Counter = 0;
-            }
+                var emitter = text.emitter();
+                emitter.AppendLine(header(pattern));
+                emitter.AppendLineFormat(LabelPattern, nameof(pattern.Category), pattern.Category);
+                emitter.AppendLineFormat(LabelPattern, "Layout", pattern.Layout.Format());
+                emitter.AppendLineFormat(LabelPattern, "Expressions", pattern.Expr.Format());
 
-            void AppendLine(string src)
-            {
-                Dst.AppendLine(src);
-                Counter++;
-            }
-
-            void AppendLineFormat(string src, params object[] args)
-            {
-                Dst.AppendLineFormat(src, args);
-                Counter++;
-            }
-
-            string Emit()
-            {
-                try
-                {
-                    return Dst.Emit();
-                }
-                catch(Exception e)
-                {
-                    term.error(e.Message);
-                    return EmptyString;
-                }
-            }
-
-            public string Format(InstPattern pattern)
-            {
-                Render(pattern);
-                return Emit();
-            }
-
-            void Render(InstPattern pattern)
-            {
-                AppendLine(FormatInstHeader(pattern));
-                AppendLineFormat(LabelPattern, nameof(pattern.Category), pattern.Category);
-                AppendLineFormat(LabelPattern, "Layout", pattern.Layout.Format());
-                AppendLineFormat(LabelPattern, "Expressions", pattern.Expr.Format());
-
-                AppendLineFormat(LabelPattern, nameof(pattern.Mode), XedRender.format(pattern.Mode));
-                AppendLineFormat(LabelPattern, nameof(pattern.OpCode), pattern.OpCode);
+                emitter.AppendLineFormat(LabelPattern, nameof(pattern.Mode), XedRender.format(pattern.Mode));
+                emitter.AppendLineFormat(LabelPattern, nameof(pattern.OpCode), pattern.OpCode);
                 if(pattern.InstForm.IsNonEmpty)
-                    AppendLineFormat(LabelPattern, nameof(pattern.InstForm), pattern.InstForm);
+                    emitter.AppendLineFormat(LabelPattern, nameof(pattern.InstForm), pattern.InstForm);
 
                 if(pattern.Attributes.IsNonEmpty)
-                    AppendLineFormat(LabelPattern, nameof(pattern.Attributes), XedRender.format(pattern.Attributes, false, Chars.Space));
+                    emitter.AppendLineFormat(LabelPattern, nameof(pattern.Attributes), XedRender.format(pattern.Attributes, false, Chars.Space));
 
                 if(pattern.Effects.IsNonEmpty)
-                    AppendLineFormat(LabelPattern, nameof(pattern.Effects), XedRender.format(pattern.Effects, false, Chars.Space));
+                    emitter.AppendLineFormat(LabelPattern, nameof(pattern.Effects), XedRender.format(pattern.Effects, false, Chars.Space));
 
-                AppendLine(FieldTitle);
-                var fcount = RenderFields(pattern, Buffer);
+                Index<string> buffer = alloc<string>(128);
+                emitter.AppendLine(FieldTitle);
+                var fcount = RenderFields(pattern, buffer);
                 for(var k=0; k<fcount;k++)
-                    AppendLine(Buffer[k]);
+                    emitter.AppendLine(buffer[k]);
 
-                AppendLine(OpsTitle);
-                var opscount = RenderOps(pattern, Buffer);
+                buffer.Clear();
+
+                emitter.AppendLine(OpsTitle);
+                var opscount = RenderOps(pattern, buffer);
                 for(var k=0; k<opscount;k++)
-                    AppendLine(Buffer[k]);
+                    emitter.AppendLine(buffer[k]);
 
-                AppendLine(InstSep);
+                emitter.AppendLine(InstSep);
+
+                return emitter.Emit();
             }
 
-            public InstIsaFormat Format(InstIsa isa, Index<InstPattern> src)
+            static InstIsaFormat format(InstIsa isa, Index<InstPattern> src)
             {
-                Counter=0u;
-                Dst.Clear();
-
+                var counter=0u;
+                var dst = text.emitter();
                 for(var i=0; i<src.Count; i++)
-                {
-                    ref readonly var pattern = ref src[i];
-                    Render(pattern);
-                }
-                return new (isa, src, Emit(), Counter);
+                    dst.Append(format(src[i]));
+                return new (isa, src, dst.Emit(), counter);
             }
 
-            public string FormatInstHeader(InstPattern src)
+            static string header(InstPattern src)
                 => string.Format("{0,-18}{1,-18}{2}", src.InstClass, src.Isa, src.InstForm);
 
-            byte RenderFields(InstPattern src, Span<string> dst)
+            static byte RenderFields(InstPattern src, Span<string> dst)
             {
                 const string Pattern = "{0,-2} {1,-14} {2}";
                 var count = (byte)src.Fields.Count;
@@ -211,8 +171,7 @@ namespace Z0
                 return count;
             }
 
-
-            byte RenderOps(InstPattern src, Span<string> dst)
+            static byte RenderOps(InstPattern src, Span<string> dst)
             {
                 const string RenderPattern = "{0,-2} {1,-14} {2,-4} {3,-4} {4} {5,-88} [{6}]";
                 ref readonly var ops = ref src.Ops;
@@ -247,7 +206,7 @@ namespace Z0
                 return count;
             }
 
-            string FormatRegLit(in PatternOp src)
+            static string FormatRegLit(in PatternOp src)
             {
                 var dst = EmptyString;
                 if(src.RegLiteral(out var reg))
@@ -255,7 +214,7 @@ namespace Z0
                 return dst;
             }
 
-            string FormatNonterm(in PatternOp src)
+            static string FormatNonterm(in PatternOp src)
             {
                 var dst = EmptyString;
                 if(src.Nonterminal(out var nt))

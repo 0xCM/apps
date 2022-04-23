@@ -6,29 +6,38 @@ namespace Z0
 {
     using Asm;
     using static core;
-
     using static XedRules;
     using static XedPatterns;
 
     public partial class XedDocs : AppService<XedDocs>
     {
-        IntelXed Xed => Service(Wf.IntelXed);
-
         XedPaths XedPaths => Service(Wf.XedPaths);
+
+        XedRules XedRules => Service(Wf.XedRules);
 
         RuleDoc CalcRuleDoc(RuleTables tables)
             => new RuleDoc(tables);
 
-        InstDoc CalcInstDoc(RuleTables tables, Index<InstPattern> src)
-            => new InstDoc(tables, src.Map(x => new InstDocPart(x)));
+        InstDoc CalcInstDoc(Index<InstPattern> src)
+            => new InstDoc(src.Map(x => new InstDocPart(x)));
 
-        public void EmitDocs(RuleTables tables, Index<InstPattern> patterns)
+        public void EmitDocs()
         {
-            var inst = CalcInstDoc(tables, patterns);
+            EmitRuleDocs(XedRules.CalcRules());
+            EmitInstDocs(XedRules.CalcPatterns());
+        }
+
+        public void EmitInstDocs(Index<InstPattern> src)
+        {
+            var inst = CalcInstDoc(src);
             FileEmit(inst.Format(), inst.Parts.Count, XedPaths.Targets() + FS.file("xed.instructions", FS.Md), TextEncodingKind.Asci);
-            var rules = CalcRuleDoc(tables);
+            EmitPatternDocs(src, XedPaths.DocTarget(XedDocKind.PatternDetail));
+        }
+
+        public void EmitRuleDocs(RuleTables src)
+        {
+            var rules = CalcRuleDoc(src);
             FileEmit(rules.Format(), 1, XedPaths.Targets() + FS.file("xed.rules", FS.Md), TextEncodingKind.Asci);
-            EmitPatternDocs(patterns, XedPaths.DocTarget(XedDocKind.PatternDetail));
         }
 
         void EmitPatternDocs(Index<InstPattern> src, FS.FilePath dst)
@@ -47,7 +56,7 @@ namespace Z0
         void EmitIsaPages(InstPageFormatter formatter, Index<InstPattern> src)
         {
             XedPaths.InstIsaRoot().Delete();
-            iter(formatter.FormatGroups(src), EmitIsaGroup, true);
+            iter(formatter.GroupFormats(src), EmitIsaGroup, true);
         }
 
         void EmitIsaGroup(InstIsaFormat src)

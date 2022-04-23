@@ -4,19 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-
     partial class XedDocs
     {
         public class InstDoc
         {
             public readonly Index<InstDocPart> Parts;
 
-            public readonly RuleTables Tables;
-
-            public InstDoc(RuleTables tables, InstDocPart[] src)
+            public InstDoc(InstDocPart[] src)
             {
-                Tables = tables;
                 Parts = src;
             }
 
@@ -33,7 +28,7 @@ namespace Z0
             }
 
             public string Format()
-                => new InstDocFormatter(Tables,this).Format();
+                => new InstDocFormatter(this).Format();
 
             public override string ToString()
                 => Format();

@@ -18,19 +18,16 @@ namespace Z0
         {
             readonly InstDoc Doc;
 
-            readonly RuleTables Rules;
-
             InstClass Classifier;
 
             XedOpCode OpCode;
 
             XedPaths XedPaths;
 
-            public InstDocFormatter(RuleTables rules, InstDoc doc)
+            public InstDocFormatter(InstDoc doc)
             {
                 Classifier = InstClass.Empty;
                 OpCode = XedOpCode.Empty;
-                Rules = rules;
                 Doc = doc;
                 XedPaths = XedPaths.Service;
             }
@@ -106,14 +103,17 @@ namespace Z0
                     if(op.Nonterminal(out var nt))
                     {
                         var sig = new RuleSig(nt.Name, RuleTableKind.Enc);
-                        if(Rules.IsTableDefind(sig))
+                        var uri = XedPaths.CheckedTableDef(sig);
+
+                        if(uri.Path.Exists)
                         {
                             dst.Append(Link(sig).Format());
                         }
                         else
                         {
                             sig = new RuleSig(nt.Name, RuleTableKind.Dec);
-                            if(Rules.IsTableDefind(sig))
+                            uri = XedPaths.CheckedTableDef(sig);
+                            if(uri.Path.Exists)
                                 dst.Append(Link(sig).Format());
                             else
                                 dst.Append(nt.Format());

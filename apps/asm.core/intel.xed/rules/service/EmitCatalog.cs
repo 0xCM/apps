@@ -24,13 +24,12 @@ namespace Z0
                 EmitReflectedFields,
                 EmitSymbolicFields,
                 EmitFieldDefs,
-                () => tables = CalcRules(),
+                () => tables = EmitRules(CalcRules()),
                 () => patterns = EmitPatterns(CalcPatterns())
             );
 
-            Docs.EmitDocs(tables, patterns);
+            Docs.EmitInstDocs(patterns);
         }
-
 
         Index<MacroMatch> CalcMacroMatches()
             => mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i));
