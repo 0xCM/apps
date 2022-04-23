@@ -7,17 +7,18 @@ namespace Z0
 {
     using static XedModels;
     using static XedModels.SeqEffect;
+    using static XedRules;
 
-    using NT = XedModels.NontermKind;
+    using NT = XedRules.RuleName;
 
     public unsafe partial class XedSeq
     {
         [MethodImpl(Inline), Op]
-        public static SeqStep bind(NontermKind kind)
+        public static SeqStep bind(RuleName kind)
             => new SeqStep(kind,SeqEffect.BIND);
 
         [MethodImpl(Inline), Op]
-        public static SeqStep emit(NontermKind kind)
+        public static SeqStep emit(RuleName kind)
             => new SeqStep(kind,SeqEffect.EMIT);
 
         [MethodImpl(Inline), Op]

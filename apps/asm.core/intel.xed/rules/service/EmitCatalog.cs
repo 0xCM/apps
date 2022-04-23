@@ -23,7 +23,7 @@ namespace Z0
                 EmitMacroDefs,
                 EmitReflectedFields,
                 EmitSymbolicFields,
-                EmitFieldDefs,
+                EmitFieldImports,
                 () => tables = EmitRules(CalcRules()),
                 () => patterns = EmitPatterns(CalcPatterns())
             );
@@ -43,14 +43,14 @@ namespace Z0
         void EmitSymbolicFields()
             => ApiMetadataService.create(Wf).EmitTokenSet(XedFields.EffectiveFields.create(), AppDb.XedPath("xed.fields.symbolic", FileKind.Csv));
 
-        void EmitFieldDefs()
+        void EmitFieldImports()
             => TableEmit(ImportFieldDefs().View, XedFieldDef.RenderWidths, XedPaths.Table<XedFieldDef>());
 
         void EmitReflectedFields()
             => TableEmit(XedFields.ByPosition.Valid, ReflectedField.RenderWidths, XedPaths.Table<ReflectedField>("positioned"));
 
         void EmitOpCodeKinds()
-            => TableEmit(CalcOpCodeKinds().Records, OcMapKind.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodeKinds));
+            => TableEmit(OpCodeKinds.Instanace.Records, OcMapKind.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodeKinds));
 
         void EmitOpWidths()
             => TableEmit(XedWidths.Records.View, OpWidthInfo.RenderWidths, XedPaths.Table<OpWidthInfo>());

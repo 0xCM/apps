@@ -4,41 +4,44 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
     using static core;
     using static XedRules;
+    using static XedModels;
     using static XedPatterns;
 
     public partial class XedDocs : AppService<XedDocs>
     {
-        XedPaths XedPaths => Service(Wf.XedPaths);
+        static XedPaths XedPaths => XedPaths.Service;
 
-        XedRules XedRules => Service(Wf.XedRules);
+        static AppData AppData => AppData.get();
 
-        RuleDoc CalcRuleDoc(RuleTables tables)
-            => new RuleDoc(tables);
+        static bool PllExec => AppData.PllExec();
 
-        InstDoc CalcInstDoc(Index<InstPattern> src)
-            => new InstDoc(src.Map(x => new InstDocPart(x)));
+        XedRules Rules => Service(Wf.XedRules);
 
         public void EmitDocs()
         {
-            EmitRuleDocs(XedRules.CalcRules());
-            EmitInstDocs(XedRules.CalcPatterns());
+            exec(AppData.PllExec(),
+                EmitRuleDocs,
+                EmitInstDocs
+            );
         }
 
         public void EmitInstDocs(Index<InstPattern> src)
         {
-            var inst = CalcInstDoc(src);
+            var inst = new InstDoc(src.Map(x => new InstDocPart(x)));
             FileEmit(inst.Format(), inst.Parts.Count, XedPaths.Targets() + FS.file("xed.instructions", FS.Md), TextEncodingKind.Asci);
             EmitPatternDocs(src, XedPaths.DocTarget(XedDocKind.PatternDetail));
         }
 
         public void EmitRuleDocs(RuleTables src)
-        {
-            var rules = CalcRuleDoc(src);
-            FileEmit(rules.Format(), 1, XedPaths.Targets() + FS.file("xed.rules", FS.Md), TextEncodingKind.Asci);
-        }
+            => FileEmit(RuleDocFormatter.create(Rules.CaclcRuleCells(src)).Format(), 1, XedPaths.Targets() + FS.file("xed.rules", FS.Md), TextEncodingKind.Asci);
+
+        void EmitInstDocs()
+            => EmitInstDocs(Rules.CalcPatterns());
+
+        void EmitRuleDocs()
+            => EmitRuleDocs(Rules.CalcRules());
 
         void EmitPatternDocs(Index<InstPattern> src, FS.FilePath dst)
         {
@@ -56,7 +59,7 @@ namespace Z0
         void EmitIsaPages(InstPageFormatter formatter, Index<InstPattern> src)
         {
             XedPaths.InstIsaRoot().Delete();
-            iter(formatter.GroupFormats(src), EmitIsaGroup, true);
+            iter(formatter.GroupFormats(src), EmitIsaGroup, PllExec);
         }
 
         void EmitIsaGroup(InstIsaFormat src)

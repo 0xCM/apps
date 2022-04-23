@@ -49,7 +49,7 @@ namespace Z0
                     dst.FieldExpr = src.ToFieldExpr();
                 break;
                 case RuleCellKind.NontermExpr:
-                    dst.Nonterminal = dst.FieldExpr.Value.ToNonterminal();
+                    dst.Nonterminal = dst.FieldExpr.Value.ToRuleName();
                 break;
                 case RuleCellKind.HexLiteral:
                     dst.HexLiteral = src.AsHexLit();
@@ -58,7 +58,7 @@ namespace Z0
                     dst.IntLiteral = src.AsIntLit();
                 break;
                 case RuleCellKind.NontermCall:
-                    dst.Nonterminal = src.AsNonterminal();
+                    dst.Nonterminal = src.AsRuleName();
                 break;
             }
 

@@ -31,8 +31,8 @@ namespace Z0
             ref readonly var specs = ref rules.Specs();
 
             var rulenames = specs.Keys.Select(x => x.TableName.ToString()).ToHashSet();
-            var nonterms = Symbols.index<NontermKind>().Kinds.Where(x => x != 0).Select(x => XedRender.format(x));
-            rulenames.AddRange(nonterms);
+            //var nonterms = Symbols.index<NontermKind>().Kinds.Where(x => x != 0).Select(x => XedRender.format(x));
+            //rulenames.AddRange(nonterms);
             var names = rulenames.Index().Sort();
 
             var dst = text.emitter();
@@ -66,7 +66,6 @@ namespace Z0
             using var writer = path.Utf8Emitter();
             writer.Write(dst.Emit());
 
-
             //var nonterms = XedSeq.Defs().SelectMany(x => x.Steps).Select(x => x.Data).Distinct().Select(x => XedRender.format(x.Kind));
 
             // var seq = XedSeq.Defs();
@@ -75,6 +74,70 @@ namespace Z0
             //     ref readonly var def = ref seq[i];
             //     Write(def.Format());
             // }
+            return true;
+        }
+
+
+        string CaclTableMetrics(RuleSig sig, Index<KeyedCell> src)
+        {
+            var view = src.View;
+            var tid = src.IsNonEmpty ? src.First.Key.TableId : Hex12.MaxValue;
+            var rix = z16;
+            var rowExpr = text.emitter();
+            var dst = text.emitter();
+            var count = src.Count;
+            dst.AppendLine(string.Format("{0:D3} {1,-32} {2}", tid,  sig.Format(), XedPaths.CheckedTableDef(sig)));
+            dst.AppendLine(RP.PageBreak120);
+            dst.AppendLine();
+            var emit = false;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var cell = ref src[i];
+                ref readonly var key = ref cell.Key;
+                emit = key.RowIndex != rix;
+                if(key.RowIndex != rix)
+                    rix = key.RowIndex;
+
+                if(emit)
+                {
+                    dst.AppendLine(rowExpr.Emit());
+                    dst.AppendLine();
+
+                    dst.AppendLineFormat("{0:D3} {1:D3}", tid, rix);
+                    dst.AppendLine(RP.PageBreak60);
+                }
+
+                var descriptor = string.Format("{0:D3} {1:D3} {2:D3} {3}", tid, rix, key.CellIndex, key.FormatSemantic());
+                dst.AppendLineFormat("{0} {1,-12} | {2}", descriptor, XedRender.format(cell.Field), cell);
+                rowExpr.Append(cell.Format());
+                rowExpr.Append(Chars.Space);
+
+
+                if(i == count - 1 )
+                    dst.AppendLine(rowExpr.Emit());
+
+            }
+            return dst.Emit();
+        }
+
+        void CalcRuleMetrics(KeyedCells src)
+        {
+            var sigs = src.Keys;
+            var dst = text.emitter();
+            for(var i=0; i<sigs.Length; i++)
+            {
+                ref readonly var sig = ref skip(sigs,i);
+                var table = src[sig];
+                dst.AppendLine(CaclTableMetrics(sig,table));
+            }
+
+            FileEmit(dst.Emit(), sigs.Length, XedPaths.RuleTargets() + FS.file("xed.rules.metrics", FS.Txt));
+        }
+
+        [CmdOp("xed/emit/metrics")]
+        Outcome EmitMetrics(CmdArgs args)
+        {
+            CalcRuleMetrics(Rules.CaclcRuleCells(CalcRules()));
             return true;
         }
 
@@ -88,36 +151,36 @@ namespace Z0
             var right = dict<RuleSig,HashSet<CellType>>();
             var sigs = hashset<RuleSig>();
 
-            for(var i=0; i<src.Count; i++)
-            {
-                ref readonly var table = ref src[i];
-                ref readonly var sig = ref table.Sig;
-                sigs.Add(sig);
+            // for(var i=0; i<src.Count; i++)
+            // {
+            //     ref readonly var table = ref src[i];
+            //     ref readonly var sig = ref table.Sig;
+            //     sigs.Add(sig);
 
-                var path = XedPaths.CheckedTableDef(sig);
-                if(path.IsEmpty)
-                    continue;
+            //     var path = XedPaths.CheckedTableDef(sig);
+            //     if(path.IsEmpty)
+            //         continue;
 
-                paths[sig] = path;
-                left[sig] = new();
-                right[sig] = new();
-                for(var j=0; j<table.RowCount; j++)
-                {
-                    ref readonly var row = ref table[j];
+            //     paths[sig] = path;
+            //     left[sig] = new();
+            //     right[sig] = new();
+            //     for(var j=0; j<table.RowCount; j++)
+            //     {
+            //         ref readonly var row = ref table[j];
 
-                    for(var k=0; k<row.Antecedant.Count; k++)
-                    {
-                        ref readonly var logic = ref row.Antecedant[k];
-                        left[sig].Add(logic.Type);
-                    }
+            //         for(var k=0; k<row.Antecedant.Count; k++)
+            //         {
+            //             ref readonly var logic = ref row.Antecedant[k];
+            //             left[sig].Add(logic.Type);
+            //         }
 
-                    for(var k=0; k<row.Consequent.Count; k++)
-                    {
-                        ref readonly var logic = ref row.Consequent[k];
-                        right[sig].Add(logic.Type);
-                    }
-                }
-            }
+            //         for(var k=0; k<row.Consequent.Count; k++)
+            //         {
+            //             ref readonly var logic = ref row.Consequent[k];
+            //             right[sig].Add(logic.Type);
+            //         }
+            //     }
+            // }
 
             var dst = text.emitter();
             var sorted = sigs.Index().Sort();

@@ -131,7 +131,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstField(Nonterminal src)
+            public InstField(RuleName src)
             {
                 var data = ByteBlock16.Empty;
                 data = (uint)src;
@@ -145,7 +145,6 @@ namespace Z0
             {
                 Data = data;
             }
-
 
             public ref readonly RuleCellKind DataKind
             {
@@ -192,10 +191,7 @@ namespace Z0
             public bool IsLiteral
             {
                 [MethodImpl(Inline)]
-                get =>
-                   DataKind == RuleCellKind.BitLiteral
-                || DataKind == RuleCellKind.HexLiteral
-                || DataKind == RuleCellKind.IntLiteral;
+                get => DataKind == RuleCellKind.BitLiteral || DataKind == RuleCellKind.HexLiteral || DataKind == RuleCellKind.IntLiteral;
             }
 
             public ref readonly byte Position
@@ -212,10 +208,6 @@ namespace Z0
                 data[PosIndex] = pos;
                 return new InstField(data);
             }
-
-            [MethodImpl(Inline)]
-            public int CompareTo(InstField src)
-                => Position.CompareTo(src.Position);
 
             [MethodImpl(Inline)]
             public bool Equals(InstField src)
@@ -240,8 +232,8 @@ namespace Z0
                 => ref @as<byte>(Data.First);
 
             [MethodImpl(Inline)]
-            public ref readonly Nonterminal AsNonterminal()
-                => ref @as<Nonterminal>(Data.First);
+            public ref readonly RuleName AsRuleName()
+                => ref @as<RuleName>(Data.First);
 
             [MethodImpl(Inline)]
             public CellExpr ToFieldExpr()
@@ -273,6 +265,10 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
+            public int CompareTo(InstField src)
+                => Position.CompareTo(src.Position);
+
+            [MethodImpl(Inline)]
             public static implicit operator InstField(byte src)
                 => new InstField(src);
 
@@ -282,10 +278,6 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator InstField(uint5 src)
-                => new InstField(src);
-
-            [MethodImpl(Inline)]
-            public static implicit operator InstField(Nonterminal src)
                 => new InstField(src);
 
             [MethodImpl(Inline)]
@@ -306,6 +298,10 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator InstField(SegVar src)
+                => new InstField(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator InstField(RuleName src)
                 => new InstField(src);
 
             public static InstField Empty => default;

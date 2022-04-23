@@ -145,7 +145,7 @@ namespace Z0
                 if(src.IsEmpty)
                     return EmptyString;
                 else if(src.IsNonTerminal)
-                    return XedRender.format(src.ToNonterminal());
+                    return XedRender.format(src.ToRuleName());
                 else if(src.CellKind == RuleCellKind.SegVar)
                     return src.ToAsci().Format();
                 else if(src.CellKind == RuleCellKind.Keyword)

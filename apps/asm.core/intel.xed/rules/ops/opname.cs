@@ -67,8 +67,8 @@ namespace Z0
                 break;
 
                 case CK.NontermCall:
-                    dst.Value = field.AsNonterminal();
-                    dst.Expression = dst.Value.Format();
+                    dst.Value = field.AsRuleName();
+                    dst.Expression = XedRender.format(field.AsRuleName());
                 break;
 
                 case CK.Operator:
@@ -86,7 +86,7 @@ namespace Z0
             return dst;
         }
 
-        public static Index<KeyedCellRecord> records(SortedLookup<RuleSig,Index<KeyedCell>> src)
+        public static Index<KeyedCellRecord> records(KeyedCells src)
         {
             var dst = list<KeyedCellRecord>();
             var k=0u;

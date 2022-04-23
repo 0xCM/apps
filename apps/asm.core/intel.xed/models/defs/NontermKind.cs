@@ -1,679 +1,659 @@
-//-----------------------------------------------------------------------------
-// Derivative Work based on https://github.com/intelxed/xed
-// Author : Chris Moore
-// License: https://github.com/intelxed/xed/blob/main/LICENSE
-//-----------------------------------------------------------------------------
-namespace Z0
-{
-    using static XedModels;
-    using static XedRules;
+// //-----------------------------------------------------------------------------
+// // Derivative Work based on https://github.com/intelxed/xed
+// // Author : Chris Moore
+// // License: https://github.com/intelxed/xed/blob/main/LICENSE
+// //-----------------------------------------------------------------------------
+// namespace Z0
+// {
+//     partial struct XedModels
+//     {
+//         [SymSource(xed)]
+//         public enum NontermKind : ushort
+//         {
+//             [Symbol("")]
+//             None,
 
-    partial class XTend
-    {
-        public static RuleName ToRuleName(this NontermKind src)
-        {
-            var dst = RuleName.None;
-            XedParsers.parse(src.ToString(), out dst);
-            return dst;
-        }
+//             Ar10 = 1,
 
-        public static RuleName ToRuleName(this Nonterminal src)
-        {
-            var dst = RuleName.None;
-            XedParsers.parse(src.Kind.ToString(), out dst);
-            return dst;
-        }
-    }
+//             Ar11 = 2,
 
-    partial struct XedModels
-    {
-        [SymSource(xed)]
-        public enum NontermKind : ushort
-        {
-            [Symbol("")]
-            None,
+//             Ar12 = 3,
 
-            Ar10 = 1,
+//             Ar13 = 4,
 
-            Ar11 = 2,
+//             Ar14 = 5,
 
-            Ar12 = 3,
+//             Ar15,
 
-            Ar13 = 4,
+//             Ar8,
 
-            Ar14 = 5,
+//             Ar9,
 
-            Ar15,
+//             ArAX,
 
-            Ar8,
+//             ArBP,
 
-            Ar9,
+//             ArBX,
 
-            ArAX,
+//             ArCX,
 
-            ArBP,
+//             ArDI,
 
-            ArBX,
+//             ArDX,
 
-            ArCX,
+//             ArSI,
 
-            ArDI,
+//             ArSP,
 
-            ArDX,
+//             ASZ_NONTERM,
 
-            ArSI,
+//             AVX512_ROUND,
 
-            ArSP,
+//             AVX_INSTRUCTIONS,
 
-            ASZ_NONTERM,
+//             AVX_SPLITTER,
 
-            AVX512_ROUND,
+//             A_GPR_B,
 
-            AVX_INSTRUCTIONS,
+//             A_GPR_R,
 
-            AVX_SPLITTER,
+//             BND_B,
 
-            A_GPR_B,
+//             BND_B_CHECK,
 
-            A_GPR_R,
+//             BND_R,
 
-            BND_B,
+//             BND_R_CHECK,
 
-            BND_B_CHECK,
+//             BRANCH_HINT,
 
-            BND_R,
+//             BRDISP32,
 
-            BND_R_CHECK,
+//             BRDISP8,
 
-            BRANCH_HINT,
+//             BRDISPz,
 
-            BRDISP32,
+//             CET_NO_TRACK,
 
-            BRDISP8,
+//             CR_B,
 
-            BRDISPz,
+//             CR_R,
 
-            CET_NO_TRACK,
+//             CR_WIDTH,
 
-            CR_B,
+//             DF64,
 
-            CR_R,
+//             DR_R,
 
-            CR_WIDTH,
+//             ESIZE_128_BITS,
 
-            DF64,
+//             ESIZE_16_BITS,
 
-            DR_R,
+//             ESIZE_1_BITS,
 
-            ESIZE_128_BITS,
+//             ESIZE_2_BITS,
 
-            ESIZE_16_BITS,
+//             ESIZE_32_BITS,
 
-            ESIZE_1_BITS,
+//             ESIZE_4_BITS,
 
-            ESIZE_2_BITS,
+//             ESIZE_64_BITS,
 
-            ESIZE_32_BITS,
+//             ESIZE_8_BITS,
 
-            ESIZE_4_BITS,
+//             EVEX_INSTRUCTIONS,
 
-            ESIZE_64_BITS,
+//             EVEX_SPLITTER,
 
-            ESIZE_8_BITS,
+//             FINAL_DSEG,
 
-            EVEX_INSTRUCTIONS,
+//             FINAL_DSEG1,
 
-            EVEX_SPLITTER,
+//             FINAL_DSEG1_MODE64,
 
-            FINAL_DSEG,
+//             FINAL_DSEG1_NOT64,
 
-            FINAL_DSEG1,
+//             FINAL_DSEG_MODE64,
 
-            FINAL_DSEG1_MODE64,
+//             FINAL_DSEG_NOT64,
 
-            FINAL_DSEG1_NOT64,
+//             FINAL_ESEG,
 
-            FINAL_DSEG_MODE64,
+//             FINAL_ESEG1,
 
-            FINAL_DSEG_NOT64,
+//             FINAL_SSEG,
 
-            FINAL_ESEG,
+//             FINAL_SSEG0,
 
-            FINAL_ESEG1,
+//             FINAL_SSEG1,
 
-            FINAL_SSEG,
+//             FINAL_SSEG_MODE64,
 
-            FINAL_SSEG0,
+//             FINAL_SSEG_NOT64,
 
-            FINAL_SSEG1,
+//             FIX_ROUND_LEN128,
 
-            FINAL_SSEG_MODE64,
+//             FIX_ROUND_LEN512,
 
-            FINAL_SSEG_NOT64,
+//             FORCE64,
 
-            FIX_ROUND_LEN128,
+//             GPR16_B,
 
-            FIX_ROUND_LEN512,
+//             GPR16_R,
 
-            FORCE64,
+//             GPR16_SB,
 
-            GPR16_B,
+//             GPR32_B,
 
-            GPR16_R,
+//             GPR32_R,
 
-            GPR16_SB,
+//             GPR32_SB,
 
-            GPR32_B,
+//             GPR32_X,
 
-            GPR32_R,
+//             GPR64_B,
 
-            GPR32_SB,
+//             GPR64_R,
 
-            GPR32_X,
+//             GPR64_SB,
 
-            GPR64_B,
+//             GPR64_X,
 
-            GPR64_R,
+//             GPR8_B,
 
-            GPR64_SB,
+//             GPR8_R,
 
-            GPR64_X,
+//             GPR8_SB,
 
-            GPR8_B,
+//             GPRv_B,
 
-            GPR8_R,
+//             GPRv_R,
 
-            GPR8_SB,
+//             GPRv_SB,
 
-            GPRv_B,
+//             GPRy_B,
 
-            GPRv_R,
+//             GPRy_R,
 
-            GPRv_SB,
+//             GPRz_B,
 
-            GPRy_B,
+//             GPRz_R,
 
-            GPRy_R,
+//             IGNORE66,
 
-            GPRz_B,
+//             IMMUNE66,
 
-            GPRz_R,
+//             IMMUNE66_LOOP64,
 
-            IGNORE66,
+//             IMMUNE_REXW,
 
-            IMMUNE66,
+//             INSTRUCTIONS,
 
-            IMMUNE66_LOOP64,
+//             ISA,
 
-            IMMUNE_REXW,
+//             MASK1,
 
-            INSTRUCTIONS,
+//             MASKNOT0,
 
-            ISA,
+//             MASK_B,
 
-            MASK1,
+//             MASK_N,
 
-            MASKNOT0,
+//             MASK_N32,
 
-            MASK_B,
+//             MASK_N64,
 
-            MASK_N,
+//             MASK_R,
 
-            MASK_N32,
+//             MEMDISP,
 
-            MASK_N64,
+//             MEMDISP16,
 
-            MASK_R,
+//             MEMDISP32,
 
-            MEMDISP,
+//             MEMDISP8,
 
-            MEMDISP16,
+//             MEMDISPv,
 
-            MEMDISP32,
+//             MMX_B,
 
-            MEMDISP8,
+//             MMX_R,
 
-            MEMDISPv,
+//             MODRM,
 
-            MMX_B,
+//             MODRM16,
 
-            MMX_R,
+//             MODRM32,
 
-            MODRM,
+//             MODRM64ALT32,
 
-            MODRM16,
+//             NELEM_EIGHTHMEM,
 
-            MODRM32,
+//             NELEM_FULL,
 
-            MODRM64ALT32,
+//             NELEM_FULLMEM,
 
-            NELEM_EIGHTHMEM,
+//             NELEM_GPR_READER,
 
-            NELEM_FULL,
+//             NELEM_GPR_READER_BYTE,
 
-            NELEM_FULLMEM,
+//             NELEM_GPR_READER_SUBDWORD,
 
-            NELEM_GPR_READER,
+//             NELEM_GPR_READER_WORD,
 
-            NELEM_GPR_READER_BYTE,
+//             NELEM_GPR_WRITER_LDOP,
 
-            NELEM_GPR_READER_SUBDWORD,
+//             NELEM_GPR_WRITER_LDOP_D,
 
-            NELEM_GPR_READER_WORD,
+//             NELEM_GPR_WRITER_LDOP_Q,
 
-            NELEM_GPR_WRITER_LDOP,
+//             NELEM_GPR_WRITER_STORE,
 
-            NELEM_GPR_WRITER_LDOP_D,
+//             NELEM_GPR_WRITER_STORE_BYTE,
 
-            NELEM_GPR_WRITER_LDOP_Q,
+//             NELEM_GPR_WRITER_STORE_SUBDWORD,
 
-            NELEM_GPR_WRITER_STORE,
+//             NELEM_GPR_WRITER_STORE_WORD,
 
-            NELEM_GPR_WRITER_STORE_BYTE,
+//             NELEM_GSCAT,
 
-            NELEM_GPR_WRITER_STORE_SUBDWORD,
+//             NELEM_HALF,
 
-            NELEM_GPR_WRITER_STORE_WORD,
+//             NELEM_HALFMEM,
 
-            NELEM_GSCAT,
+//             NELEM_MEM128,
 
-            NELEM_HALF,
+//             NELEM_MOVDDUP,
 
-            NELEM_HALFMEM,
+//             NELEM_QUARTERMEM,
 
-            NELEM_MEM128,
+//             NELEM_SCALAR,
 
-            NELEM_MOVDDUP,
+//             NELEM_TUPLE1,
 
-            NELEM_QUARTERMEM,
+//             NELEM_TUPLE1_4X,
 
-            NELEM_SCALAR,
+//             NELEM_TUPLE1_BYTE,
 
-            NELEM_TUPLE1,
+//             NELEM_TUPLE1_SUBDWORD,
 
-            NELEM_TUPLE1_4X,
+//             NELEM_TUPLE1_WORD,
 
-            NELEM_TUPLE1_BYTE,
+//             NELEM_TUPLE2,
 
-            NELEM_TUPLE1_SUBDWORD,
+//             NELEM_TUPLE4,
 
-            NELEM_TUPLE1_WORD,
+//             NELEM_TUPLE8,
 
-            NELEM_TUPLE2,
+//             OeAX,
 
-            NELEM_TUPLE4,
+//             ONE,
 
-            NELEM_TUPLE8,
+//             OrAX,
 
-            OeAX,
+//             OrBP,
 
-            ONE,
+//             OrBX,
 
-            OrAX,
+//             OrCX,
 
-            OrBP,
+//             OrDX,
 
-            OrBX,
+//             OrSP,
 
-            OrCX,
+//             OSZ_NONTERM,
 
-            OrDX,
+//             OVERRIDE_SEG0,
 
-            OrSP,
+//             OVERRIDE_SEG1,
 
-            OSZ_NONTERM,
+//             PREFIXES,
 
-            OVERRIDE_SEG0,
+//             REFINING66,
 
-            OVERRIDE_SEG1,
+//             REMOVE_SEGMENT,
 
-            PREFIXES,
+//             rFLAGS,
 
-            REFINING66,
+//             rIP,
 
-            REMOVE_SEGMENT,
+//             rIPa,
 
-            rFLAGS,
+//             SAE,
 
-            rIP,
+//             SEG,
 
-            rIPa,
+//             SEG_MOV,
 
-            SAE,
+//             SE_IMM8,
 
-            SEG,
+//             SIB,
 
-            SEG_MOV,
+//             SIB_BASE0,
 
-            SE_IMM8,
+//             SIMM8,
 
-            SIB,
+//             SIMMz,
 
-            SIB_BASE0,
+//             SRBP,
 
-            SIMM8,
+//             SRSP,
 
-            SIMMz,
+//             TMM_B,
 
-            SRBP,
+//             TMM_N,
 
-            SRSP,
+//             TMM_R,
 
-            TMM_B,
+//             UIMM16,
 
-            TMM_N,
+//             UIMM32,
 
-            TMM_R,
+//             UIMM8,
 
-            UIMM16,
+//             UIMM8_1,
 
-            UIMM32,
+//             UIMMv,
 
-            UIMM8,
+//             UISA_VMODRM_XMM,
 
-            UIMM8_1,
+//             UISA_VMODRM_YMM,
 
-            UIMMv,
+//             UISA_VMODRM_ZMM,
 
-            UISA_VMODRM_XMM,
+//             UISA_VSIB_BASE,
 
-            UISA_VMODRM_YMM,
+//             UISA_VSIB_INDEX_XMM,
 
-            UISA_VMODRM_ZMM,
+//             UISA_VSIB_INDEX_YMM,
 
-            UISA_VSIB_BASE,
+//             UISA_VSIB_INDEX_ZMM,
 
-            UISA_VSIB_INDEX_XMM,
+//             UISA_VSIB_XMM,
 
-            UISA_VSIB_INDEX_YMM,
+//             UISA_VSIB_YMM,
 
-            UISA_VSIB_INDEX_ZMM,
+//             UISA_VSIB_ZMM,
 
-            UISA_VSIB_XMM,
+//             VGPR32_B,
 
-            UISA_VSIB_YMM,
+//             VGPR32_B_32,
 
-            UISA_VSIB_ZMM,
+//             VGPR32_B_64,
 
-            VGPR32_B,
+//             VGPR32_N,
 
-            VGPR32_B_32,
+//             VGPR32_N_32,
 
-            VGPR32_B_64,
+//             VGPR32_N_64,
 
-            VGPR32_N,
+//             VGPR32_R,
 
-            VGPR32_N_32,
+//             VGPR32_R_32,
 
-            VGPR32_N_64,
+//             VGPR32_R_64,
 
-            VGPR32_R,
+//             VGPR64_B,
 
-            VGPR32_R_32,
+//             VGPR64_N,
 
-            VGPR32_R_64,
+//             VGPR64_R,
 
-            VGPR64_B,
+//             VGPRy_B,
 
-            VGPR64_N,
+//             VGPRy_N,
 
-            VGPR64_R,
+//             VGPRy_R,
 
-            VGPRy_B,
+//             VMODRM_XMM,
 
-            VGPRy_N,
+//             VMODRM_YMM,
 
-            VGPRy_R,
+//             VSIB_BASE,
 
-            VMODRM_XMM,
+//             VSIB_INDEX_XMM,
 
-            VMODRM_YMM,
+//             VSIB_INDEX_YMM,
 
-            VSIB_BASE,
+//             VSIB_XMM,
 
-            VSIB_INDEX_XMM,
+//             VSIB_YMM,
 
-            VSIB_INDEX_YMM,
+//             X87,
 
-            VSIB_XMM,
+//             XMM_B,
 
-            VSIB_YMM,
+//             XMM_B3,
 
-            X87,
+//             XMM_B3_32,
 
-            XMM_B,
+//             XMM_B3_64,
 
-            XMM_B3,
+//             XMM_B_32,
 
-            XMM_B3_32,
+//             XMM_B_64,
 
-            XMM_B3_64,
+//             XMM_N,
 
-            XMM_B_32,
+//             XMM_N3,
 
-            XMM_B_64,
+//             XMM_N3_32,
 
-            XMM_N,
+//             XMM_N3_64,
 
-            XMM_N3,
+//             XMM_N_32,
 
-            XMM_N3_32,
+//             XMM_N_64,
 
-            XMM_N3_64,
+//             XMM_R,
 
-            XMM_N_32,
+//             XMM_R3,
 
-            XMM_N_64,
+//             XMM_R3_32,
 
-            XMM_R,
+//             XMM_R3_64,
 
-            XMM_R3,
+//             XMM_R_32,
 
-            XMM_R3_32,
+//             XMM_R_64,
 
-            XMM_R3_64,
+//             XMM_SE,
 
-            XMM_R_32,
+//             XMM_SE32,
 
-            XMM_R_64,
+//             XMM_SE64,
 
-            XMM_SE,
+//             XOP_INSTRUCTIONS,
 
-            XMM_SE32,
+//             YMM_B,
 
-            XMM_SE64,
+//             YMM_B3,
 
-            XOP_INSTRUCTIONS,
+//             YMM_B3_32,
 
-            YMM_B,
+//             YMM_B3_64,
 
-            YMM_B3,
+//             YMM_B_32,
 
-            YMM_B3_32,
+//             YMM_B_64,
 
-            YMM_B3_64,
+//             YMM_N,
 
-            YMM_B_32,
+//             YMM_N3,
 
-            YMM_B_64,
+//             YMM_N3_32,
 
-            YMM_N,
+//             YMM_N3_64,
 
-            YMM_N3,
+//             YMM_N_32,
 
-            YMM_N3_32,
+//             YMM_N_64,
 
-            YMM_N3_64,
+//             YMM_R,
 
-            YMM_N_32,
+//             YMM_R3,
 
-            YMM_N_64,
+//             YMM_R3_32,
 
-            YMM_R,
+//             YMM_R3_64,
 
-            YMM_R3,
+//             YMM_R_32,
 
-            YMM_R3_32,
+//             YMM_R_64,
 
-            YMM_R3_64,
+//             YMM_SE,
 
-            YMM_R_32,
+//             YMM_SE32,
 
-            YMM_R_64,
+//             YMM_SE64,
 
-            YMM_SE,
+//             ZMM_B3,
 
-            YMM_SE32,
+//             ZMM_B3_32,
 
-            YMM_SE64,
+//             ZMM_B3_64,
 
-            ZMM_B3,
+//             ZMM_N3,
 
-            ZMM_B3_32,
+//             ZMM_N3_32,
 
-            ZMM_B3_64,
+//             ZMM_N3_64,
 
-            ZMM_N3,
+//             ZMM_R3,
 
-            ZMM_N3_32,
+//             ZMM_R3_32,
 
-            ZMM_N3_64,
+//             ZMM_R3_64,
 
-            ZMM_R3,
+//             GPR32e_m32,
 
-            ZMM_R3_32,
+//             MODRM64alt32,
 
-            ZMM_R3_64,
+//             GPR32e_m64,
 
-            GPR32e_m32,
+//             GPR32e,
 
-            MODRM64alt32,
+//             SEGe,
 
-            GPR32e_m64,
+//             GPR16e,
 
-            GPR32e,
+//             GPR64e,
 
-            SEGe,
+//             SrSP,
 
-            GPR16e,
+//             SrBP,
 
-            GPR64e,
+//             MODRM_MOD_EA16_DISP0,
 
-            SrSP,
+//             MODRM_MOD_EA16_DISP8,
 
-            SrBP,
+//             MODRM_MOD_EA16_DISP16,
 
-            MODRM_MOD_EA16_DISP0,
+//             MODRM_MOD_EA32_DISP0,
 
-            MODRM_MOD_EA16_DISP8,
+//             MODRM_MOD_EA32_DISP8,
 
-            MODRM_MOD_EA16_DISP16,
+//             MODRM_MOD_EA32_DISP32,
 
-            MODRM_MOD_EA32_DISP0,
+//             MODRM_MOD_EA64_DISP0,
 
-            MODRM_MOD_EA32_DISP8,
+//             MODRM_MOD_EA64_DISP8,
 
-            MODRM_MOD_EA32_DISP32,
+//             MODRM_MOD_EA64_DISP32,
 
-            MODRM_MOD_EA64_DISP0,
+//             ERROR,
 
-            MODRM_MOD_EA64_DISP8,
+//             MODRM_RM_ENCODE_EA16_SIB0,
 
-            MODRM_MOD_EA64_DISP32,
+//             MODRM_RM_ENCODE_EA32_SIB0,
 
-            ERROR,
+//             MODRM_RM_ENCODE_EA64_SIB0,
 
-            MODRM_RM_ENCODE_EA16_SIB0,
+//             MODRM_RM_ENCODE_EANOT16_SIB1,
 
-            MODRM_RM_ENCODE_EA32_SIB0,
+//             DISP_WIDTH_16,
 
-            MODRM_RM_ENCODE_EA64_SIB0,
+//             DISP_WIDTH_0_8_16,
 
-            MODRM_RM_ENCODE_EANOT16_SIB1,
+//             DISP_WIDTH_32,
 
-            DISP_WIDTH_16,
+//             DISP_WIDTH_0_8_32,
 
-            DISP_WIDTH_0_8_16,
+//             REMOVE_SEGMENT_AGEN1,
 
-            DISP_WIDTH_32,
+//             SIBBASE_ENCODE_SIB1,
 
-            DISP_WIDTH_0_8_32,
+//             SIBINDEX_ENCODE_SIB1,
 
-            REMOVE_SEGMENT_AGEN1,
+//             DISP_WIDTH_8_32,
 
-            SIBBASE_ENCODE_SIB1,
+//             XOP_ENC,
 
-            SIBINDEX_ENCODE_SIB1,
+//             EVEX_ENC,
 
-            DISP_WIDTH_8_32,
+//             REX_PREFIX_ENC,
 
-            XOP_ENC,
+//             NEWVEX_ENC,
 
-            EVEX_ENC,
+//             FIXUP_EOSZ_ENC,
 
-            REX_PREFIX_ENC,
+//             FIXUP_EASZ_ENC,
 
-            NEWVEX_ENC,
+//             PREFIX_ENC,
 
-            FIXUP_EOSZ_ENC,
+//             VEXED_REX,
 
-            FIXUP_EASZ_ENC,
+//             OSZ_NONTERM_ENC,
 
-            PREFIX_ENC,
+//             SIB_REQUIRED_ENCODE,
 
-            VEXED_REX,
+//             SIBSCALE_ENCODE,
 
-            OSZ_NONTERM_ENC,
+//             SIBINDEX_ENCODE,
 
-            SIB_REQUIRED_ENCODE,
+//             SIBBASE_ENCODE,
 
-            SIBSCALE_ENCODE,
+//             MODRM_RM_ENCODE,
 
-            SIBINDEX_ENCODE,
+//             MODRM_MOD_ENCODE,
 
-            SIBBASE_ENCODE,
+//             SEGMENT_DEFAULT_ENCODE,
 
-            MODRM_RM_ENCODE,
+//             SEGMENT_ENCODE,
 
-            MODRM_MOD_ENCODE,
+//             SIB_NT,
 
-            SEGMENT_DEFAULT_ENCODE,
+//             DISP_NT,
 
-            SEGMENT_ENCODE,
+//             VEX_TYPE_ENC,
 
-            SIB_NT,
+//             VEX_REXR_ENC,
 
-            DISP_NT,
+//             VEX_REXXB_ENC,
 
-            VEX_TYPE_ENC,
+//             VEX_MAP_ENC,
 
-            VEX_REXR_ENC,
+//             VEX_REG_ENC,
 
-            VEX_REXXB_ENC,
+//             VEX_ESCVL_ENC,
 
-            VEX_MAP_ENC,
+//             EVEX_62_REXR_ENC_BIND,
 
-            VEX_REG_ENC,
+//             EVEX_REXX_ENC_BIND,
 
-            VEX_ESCVL_ENC,
+//             EVEX_REXB_ENC_BIND,
 
-            EVEX_62_REXR_ENC_BIND,
+//             EVEX_REXRR_ENC_BIND,
 
-            EVEX_REXX_ENC_BIND,
+//             EVEX_MAP_ENC_BIND,
 
-            EVEX_REXB_ENC_BIND,
+//             EVEX_REXW_VVVV_ENC_BIND,
 
-            EVEX_REXRR_ENC_BIND,
+//             EVEX_UPP_ENC_BIND,
 
-            EVEX_MAP_ENC_BIND,
+//             EVEX_LL_ENC_BIND,
 
-            EVEX_REXW_VVVV_ENC_BIND,
-
-            EVEX_UPP_ENC_BIND,
-
-            EVEX_LL_ENC_BIND,
-
-            AVX512_EVEX_BYTE3_ENC_BIND,
-       }
-    }
-}
+//             AVX512_EVEX_BYTE3_ENC_BIND,
+//        }
+//     }
+// }

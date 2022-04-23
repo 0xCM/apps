@@ -9,9 +9,6 @@ namespace Z0
 
     partial class XedRules
     {
-        public void EmitRuleCells(RuleTables rules)
-            => TableEmit(records(CalcRuleFields(rules)).View, KeyedCellRecord.RenderWidths, XedPaths.RuleTable<KeyedCellRecord>());
-
         void EmitTableSigs(RuleTables rules)
             => TableEmit(rules.SigRows.View, RuleSigRow.RenderWidths, XedPaths.Service.RuleTable<RuleSigRow>());
 

@@ -7,7 +7,7 @@ namespace Z0
 {
     using I = XedModels.GprWidthIndex;
 
-    using static XedModels.NontermKind;
+    using static XedRules.RuleName;
 
     partial struct XedModels
     {
@@ -31,7 +31,7 @@ namespace Z0
             {
                 dst = GprWidth.Empty;;
                 var result = true;
-                switch(src.Kind)
+                switch(src.Name)
                 {
                     case GPR16_B:
                         dst = widths(I.GPR16_B);

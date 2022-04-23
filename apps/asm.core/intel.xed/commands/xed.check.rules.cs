@@ -5,13 +5,13 @@
 namespace Z0
 {
     using static XedModels;
-    using static core;
+    using static XedRules;
 
     partial class XedCmdProvider
     {
         void CheckNonTerms()
         {
-            var patterns = Xed.Rules.CalcInstPatterns();
+            var patterns = CalcPatterns();
             var count = patterns.Count;
             for(var i=0; i<count; i++)
             {
@@ -34,7 +34,7 @@ namespace Z0
 
         void CheckGprWidths()
         {
-            var ntk = NontermKind.GPR8_R;
+            var ntk = RuleName.GPR8_R;
             var result = GprWidth.widths(ntk, out var widths);
             Write(widths.Format());
         }

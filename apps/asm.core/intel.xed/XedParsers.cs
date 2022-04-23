@@ -27,8 +27,6 @@ namespace Z0
 
         static readonly EnumParser<PointerWidthKind> PointerWidths = new();
 
-        static readonly EnumParser<NontermKind> Nonterminals = new();
-
         static readonly EnumParser<XedRegId> Regs = new();
 
         static readonly EnumParser<ElementKind> ElementKinds = new();
@@ -89,13 +87,13 @@ namespace Z0
 
         static XedParsers Instance = new();
 
-        static ConcurrentDictionary<string,NontermKind> NontermUppers
+        static ConcurrentDictionary<string,RuleName> NontermUppers
             = uppers();
 
-        static ConcurrentDictionary<string,NontermKind> uppers()
+        static ConcurrentDictionary<string,RuleName> uppers()
         {
-            var dst = cdict<string,NontermKind>();
-            var kinds =  Symbols.index<NontermKind>().Kinds;
+            var dst = cdict<string,RuleName>();
+            var kinds =  Symbols.index<RuleName>().Kinds;
             for(var i=0; i<kinds.Length; i++)
             {
                 ref readonly var kind = ref skip(kinds,i);
@@ -170,7 +168,20 @@ namespace Z0
         }
 
         public static bool parse(string src, out RuleName dst)
-            => RuleNames.Parse(src, out dst);
+        {
+            dst = Nonterminal.Empty;
+            var input = text.trim(src.Remove(":").Remove("()"));
+            var result = RuleNames.Parse(input, out RuleName rule);
+            if(result)
+                dst = rule;
+            else
+            {
+                result = NontermUppers.TryGetValue(input.ToUpper(), out rule);
+                if(result)
+                    dst = rule;
+            }
+            return result;
+        }
 
         public static bool parse(string src, out OpType dst)
             => OpTypes.Parse(src, out dst);
@@ -299,9 +310,6 @@ namespace Z0
 
         public static bool IsNontermCall(string src)
             => text.trim(text.remove(src,Chars.Colon)).EndsWith("()");
-
-        public static bool IsNontermLiteral(string src)
-            => Nonterminals.Parse(src, out NontermKind _);
 
         public static bool IsHexLiteral(string src)
             => text.begins(src, HexFormatSpecs.PreSpec);
@@ -660,18 +668,9 @@ namespace Z0
 
         public static bool parse(string src, out Nonterminal dst)
         {
-            dst = Nonterminal.Empty;
-            var input = text.trim(src.Remove(":").Remove("()"));
-            var result = Nonterminals.Parse(input, out NontermKind ntk);
-            if(result)
-                dst = ntk;
-            else
-            {
-                result = NontermUppers.TryGetValue(input.ToUpper(), out ntk);
-                if(result)
-                    dst = ntk;
-            }
-             return result;
+            var result = parse(src, out RuleName rn);
+            dst = rn;
+            return result;
         }
 
         public static bool parse(string src, out XedRegId dst)
@@ -703,17 +702,17 @@ namespace Z0
             dst = R.CellValue.Empty;
             if(IsNontermCall(value))
             {
-                result = parse(value, out Nonterminal nt);
-                dst = new(field, nt);
+                result = parse(value, out RuleName name);
+                dst = new(field, name);
             }
             else if(parse(value, out XedRegId reg))
             {
                 dst = new (field, reg);
                 result = true;
             }
-            else if(parse(value, out RuleKeyword keyword))
+            else if(parse(value, out RuleKeyword kw))
             {
-                dst = new(keyword);
+                dst = new(kw);
                 result = true;
             }
             return result;

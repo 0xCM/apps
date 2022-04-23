@@ -12,9 +12,13 @@ namespace Z0
     {
         public class OpCodeKinds
         {
+            public static OpCodeKinds Instanace => _Instance;
+
+            static OpCodeKinds _Instance = new();
+
             Index<OcMapKind> Data;
 
-            public OpCodeKinds()
+            OpCodeKinds()
             {
                 Data = derive();
             }

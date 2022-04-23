@@ -19,12 +19,9 @@ namespace Z0
                 => new InstPageFormatter();
 
             public string Format(InstPattern pattern)
-                => format(pattern);
+                => page(pattern);
 
             public Index<InstIsaFormat> GroupFormats(Index<InstPattern> src)
-                => groups(src);
-
-            public static Index<InstIsaFormat> groups(Index<InstPattern> src)
             {
                 var buffer = bag<InstIsaFormat>();
                 iter(src.GroupBy(x => x.Isa.Kind), g => buffer.Add(format(g.Key, g.Array())), AppData.PllExec());
@@ -70,7 +67,7 @@ namespace Z0
 
             const string LabelPattern = "{0,-18}{1}";
 
-            public static string format(InstPattern pattern)
+            public static string page(InstPattern pattern)
             {
                 var emitter = text.emitter();
                 emitter.AppendLine(header(pattern));
@@ -112,7 +109,7 @@ namespace Z0
                 var counter=0u;
                 var dst = text.emitter();
                 for(var i=0; i<src.Count; i++)
-                    dst.Append(format(src[i]));
+                    dst.Append(page(src[i]));
                 return new (isa, src, dst.Emit(), counter);
             }
 
@@ -140,24 +137,20 @@ namespace Z0
                             break;
                             case RuleCellKind.NontermCall:
                             {
-                                var nt = field.AsNonterminal();
-                                if(nt.IsNonEmpty)
+                                var rule = field.AsRuleName();
+                                if(rule != 0)
                                 {
-                                    var rule = nt.ToRuleName();
-                                    if(rule != 0)
-                                    {
-                                        var uri = XedPaths.Service.CheckedTableDef(new RuleSig(rule,RuleTableKind.ENC));
-                                        if(!uri.Path.Exists)
-                                            uri = XedPaths.Service.CheckedTableDef(new RuleSig(rule,RuleTableKind.DEC));
+                                    var uri = XedPaths.Service.CheckedTableDef(new RuleSig(rule,RuleTableKind.ENC));
+                                    if(!uri.Path.Exists)
+                                        uri = XedPaths.Service.CheckedTableDef(new RuleSig(rule,RuleTableKind.DEC));
 
-                                        if(uri.Path.Exists)
-                                            seek(dst,j) = string.Format(Pattern, j, "Nonterm",  string.Format("{0}::{1}", XedRender.format(nt), uri));
-                                        else
-                                            seek(dst,j) = string.Format(Pattern, j, "Nonterm",  nt);
-                                    }
+                                    if(uri.Path.Exists)
+                                        seek(dst,j) = string.Format(Pattern, j, "Nonterm",  string.Format("{0}::{1}", XedRender.format(rule), uri));
                                     else
-                                        term.warn(string.Format("There is no rule for nonterminal {0}", nt));
+                                        seek(dst,j) = string.Format(Pattern, j, "Nonterm",  rule);
                                 }
+                                else
+                                    term.warn(string.Format("There is no rule for nonterminal {0}", rule));
 
                             }
                             break;

@@ -8,7 +8,6 @@ namespace Z0
     using static core;
     using static XedParsers;
     using static XedModels;
-    using static XedPatterns;
 
     using CK = XedRules.RuleCellKind;
     using K = XedRules.FieldKind;
@@ -61,7 +60,7 @@ namespace Z0
                 {
                     result = XedParsers.parse(src, out Hex8 x);
                     if(result)
-                        dst = part(x);
+                        dst = x;
                     else
                         result = (false, AppMsg.ParseFailure.Format(nameof(Hex8), src));
                 }
@@ -69,7 +68,7 @@ namespace Z0
                 {
                     result = XedParsers.parse(src, out uint5 x);
                     if(result)
-                        dst = part(x);
+                        dst = x;
                     else
                         result = (false, AppMsg.ParseFailure.Format(nameof(uint5), src));
 
@@ -78,28 +77,28 @@ namespace Z0
                 {
                     result = parse(src, out SegField x);
                     if(result)
-                        dst = part(x);
+                        dst = x;
                 }
                 else if (IsExpr(src))
                 {
                     result = parse(src, out CellExpr x);
                     if(result)
-                        dst = part(x);
+                        dst = x;
                     else
                         result = (false, AppMsg.ParseFailure.Format(nameof(CellExpr), src));
                 }
                 else if(IsNontermCall(src))
                 {
-                    result = XedParsers.parse(src, out Nonterminal x);
+                    result = XedParsers.parse(src, out RuleName x);
                     if(result)
-                        dst = part(x);
+                        dst = x;
                     else
-                        result = (false, AppMsg.ParseFailure.Format(nameof(Nonterminal), src));
+                        result = (false, AppMsg.ParseFailure.Format(nameof(RuleName), src));
                 }
                 else if (XedParsers.parse(src, out byte a))
                 {
                     result = true;
-                    dst = new(a);
+                    dst = a;
                 }
 
                 return result;
@@ -109,7 +108,7 @@ namespace Z0
             {
                 var result = true;
                 dst = R.CellValue.Empty;
-                if(XedParsers.IsNontermCall(value) && XedParsers.parse(value, out Nonterminal k))
+                if(XedParsers.IsNontermCall(value) && XedParsers.parse(value, out RuleName k))
                 {
                     dst = new (field, k);
                     return true;
@@ -449,13 +448,14 @@ namespace Z0
                 dst = alloc<InstField>(count);
                 for(var i=0; i<count; i++)
                 {
-                    result = parse(skip(parts,i), out dst[i]);
+                    ref readonly var part = ref skip(parts,i);
+                    result = parse(part, out dst[i]);
                     if(result.Fail)
-                        break;
+                    {
+                        Errors.Throw(result.Message);
+                    }
                 }
 
-                if(result.Fail)
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(InstPatternBody), src));
             }
 
             public static Outcome parse(string src, out SegField dst)

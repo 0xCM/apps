@@ -61,12 +61,12 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public LayoutField(byte index, Nonterminal nt)
+            public LayoutField(byte index, RuleName rule)
             {
                 var data = ByteBlock16.Empty;
                 data[IndexPos] = index;
-                @as<Nonterminal>(data.First) = nt;
-                data[NonEmptyPos] = (bit)nt.IsNonEmpty;
+                @as<RuleName>(data.First) = rule;
+                data[NonEmptyPos] = (bit)(rule != 0);
                 data[ClassPos] = (byte)C.Nonterm;
                 data[KindPos] = (byte)K.NontermCall;
                 Data = data;
@@ -138,8 +138,8 @@ namespace Z0
                 => ref @as<Hex8>(Data.First);
 
             [MethodImpl(Inline)]
-            public ref Nonterminal AsNonterm()
-                => ref @as<Nonterminal>(Data.First);
+            public ref RuleName AsRuleName()
+                => ref @as<RuleName>(Data.First);
 
             public string Format()
             {
@@ -153,7 +153,7 @@ namespace Z0
                         dst = XedRender.format(AsHexLit());
                     break;
                     case K.NontermCall:
-                        dst = XedRender.format(AsNonterm());
+                        dst = XedRender.format(AsRuleName());
                     break;
                     case K.SegField:
                         dst = AsSeg().Format();

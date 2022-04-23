@@ -4,30 +4,49 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules;
+    using static XedModels;
+    using static core;
+
     partial class XedCmdProvider
     {
+        XedRules Rules => Service(Wf.XedRules);
+
+        RuleTables CalcRules() => Rules.CalcRules();
+
+        Index<InstPattern> CalcPatterns() => Rules.CalcPatterns();
+
+
         [CmdOp("xed/emit/patterns")]
         Outcome EmitPatterns(CmdArgs args)
         {
-            var patterns = Xed.Rules.CalcPatterns();
-            Xed.Rules.EmitPatterns(patterns);
+            var patterns = Rules.CalcPatterns();
+            Rules.EmitPatterns(patterns);
+            return true;
+        }
+
+        [CmdOp("xed/emit/rulerecs")]
+        Outcome EmitRuleRecords(CmdArgs args)
+        {
+            var records = Rules.CalcRecords(Rules.CaclcRuleCells(CalcRules()));
+            TableEmit(records.View, KeyedCellRecord.RenderWidths, XedPaths.RuleTable<KeyedCellRecord>());
             return true;
         }
 
         [CmdOp("xed/emit/rules")]
         Outcome EmitRuleTables(CmdArgs args)
         {
-            var rules = Xed.Rules.CalcRules();
+            var rules = CalcRules();
             Write("Emitting rules");
-            Xed.Rules.EmitRules(rules);
+            Rules.EmitRules(rules);
             return true;
         }
 
         [CmdOp("xed/emit/cells")]
         Outcome EmitRuleCells(CmdArgs args)
         {
-            var rules = Xed.Rules.CalcRules();
-            Xed.Rules.EmitRuleCells(rules);
+            var rules = CalcRules();
+            Rules.EmitRuleCells(Rules.CaclcRuleCells(rules));
             return true;
         }
 
@@ -41,30 +60,30 @@ namespace Z0
         [CmdOp("xed/emit/ruledocs")]
         Outcome EmitRuleDocs(CmdArgs args)
         {
-            XedDocs.EmitRuleDocs(Xed.Rules.CalcRules());
+            XedDocs.EmitRuleDocs(CalcRules());
             return true;
         }
 
         [CmdOp("xed/emit/instdocs")]
         Outcome EmitInstDocs(CmdArgs args)
         {
-            XedDocs.EmitInstDocs(Xed.Rules.CalcPatterns());
+            XedDocs.EmitInstDocs(CalcPatterns());
             return true;
         }
 
         [CmdOp("xed/emit/attribs")]
         Outcome CheckOps(CmdArgs args)
         {
-            Xed.Rules.EmitInstAttribs(Xed.Rules.CalcInstPatterns());
+            Rules.EmitInstAttribs(CalcPatterns());
             return true;
         }
 
         [CmdOp("xed/emit/groups")]
         Outcome EmitInstGroups(CmdArgs args)
         {
-            var patterns = Xed.Rules.CalcInstPatterns();
-            var groups = Xed.Rules.CalcInstGroups(patterns);
-            Xed.Rules.Emit(groups);
+            var patterns = CalcPatterns();
+            var groups = Rules.CalcInstGroups(patterns);
+            Rules.Emit(groups);
            return true;
         }
 
@@ -79,6 +98,5 @@ namespace Z0
         [CmdOp("xed/emit/isa")]
         Outcome XedIsa(CmdArgs args)
             => Xed.EmitIsaForms(arg(args,0).Value);
-
    }
 }

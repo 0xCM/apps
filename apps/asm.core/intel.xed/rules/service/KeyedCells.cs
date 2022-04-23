@@ -7,10 +7,16 @@ namespace Z0
 {
     partial class XedRules
     {
-        public Index<TableCriteria> CalcRuleCriteria(RuleTableKind kind)
+        public class KeyedCells : SortedLookup<RuleSig,Index<KeyedCell>>
         {
-            var dsname = nameof(CalcRuleCriteria) + kind.ToString();
-            return Data(dsname, () => TableCalcs.criteria(kind));
+            public KeyedCells(Dictionary<RuleSig,Index<KeyedCell>> src)
+                : base(src)
+            {
+
+            }
+
+            public static implicit operator KeyedCells(Dictionary<RuleSig,Index<KeyedCell>> src)
+                => new KeyedCells(src);
         }
-    }
+   }
 }

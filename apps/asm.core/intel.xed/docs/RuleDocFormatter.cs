@@ -5,28 +5,55 @@
 namespace Z0
 {
     using static XedRules;
+    using static core;
 
     partial class XedDocs
     {
         public class RuleDocFormatter
         {
-            readonly RuleTables Rules;
+            public static RuleDocFormatter create(KeyedCells src)
+                => new RuleDocFormatter(src);
+
+            readonly KeyedCells Data;
 
             XedPaths XedPaths;
 
-            public RuleDocFormatter(RuleDoc doc)
+            public RuleDocFormatter(KeyedCells src)
             {
-                Rules = doc.Rules;
+                Data = src;
                 XedPaths = XedPaths.Service;
             }
 
-            void Render(in TableSpec src, ITextBuffer dst)
+            void Render(RuleSig sig, Index<KeyedCell> src, ITextEmitter dst)
             {
-                dst.AppendLine(TableHeader(src.Sig));
+                dst.AppendLine(TableHeader(sig));
                 dst.AppendLine();
-                dst.AppendLineFormat("{0}(){{", src.Sig.TableName);
-                for(var i=0; i<src.RowCount; i++)
-                    dst.IndentLine(4, src[i].Format());
+                dst.AppendLineFormat("{0}(){{", sig.TableName);
+                var rix = z16;
+                var count = src.Count;
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var cell = ref src[i];
+                    ref readonly var key = ref cell.Key;
+                    if(i==0)
+                        dst.Append("    ");
+
+                    if(key.RowIndex != rix)
+                    {
+                        dst.AppendLine();
+                        rix = key.RowIndex;
+                        dst.Append("    ");
+                    }
+                    else
+                    {
+                        if(i != 0)
+                            dst.Append(Chars.Space);
+                    }
+
+                    dst.Append(cell.Format());
+                }
+
+                dst.AppendLine();
                 dst.AppendLine("}");
                 dst.AppendLine();
             }
@@ -34,9 +61,12 @@ namespace Z0
             public string Format()
             {
                 var dst = text.buffer();
-                var sigs = Rules.Sigs();
-                for(var i=0; i<sigs.Count; i++)
-                    Render(Rules.Spec(sigs[i]), dst);
+                var sigs = Data.Keys;
+                for(var i=0; i<sigs.Length; i++)
+                {
+                    ref readonly var sig = ref skip(sigs,i);
+                    Render(sig, Data[sig], dst);
+                }
                 return dst.Emit();
             }
         }

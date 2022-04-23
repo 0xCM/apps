@@ -12,31 +12,28 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(32)]
         public readonly struct Nonterminal : IEquatable<Nonterminal>, IComparable<Nonterminal>
         {
-            public readonly NontermKind Kind;
+            public readonly RuleName Name;
 
-            public Nonterminal(NontermKind kind)
+            public Nonterminal(RuleName name)
             {
-                Kind = kind;
+                Name = name;
             }
-
-            public RuleName Name
-                => Kind.ToRuleName();
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Kind == 0;
+                get => Name == 0;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Kind != 0;
+                get => Name != 0;
             }
 
             [MethodImpl(Inline)]
             public bool Equals(Nonterminal src)
-                => Kind == src.Kind;
+                => Name == src.Name;
 
             public override bool Equals(object src)
                 => src is Nonterminal x && Equals(x);
@@ -48,24 +45,24 @@ namespace Z0
                 => Format().CompareTo(src.Format());
 
             public string Format()
-                => IsEmpty ? EmptyString : string.Format("{0}()", XedRender.format(Kind));
+                => IsEmpty ? EmptyString : string.Format("{0}()", XedRender.format(Name));
 
             public override string ToString()
                 => Format();
 
             public static explicit operator ushort(Nonterminal src)
-                => (ushort)src.Kind;
+                => (ushort)src.Name;
 
             [MethodImpl(Inline)]
             public static explicit operator Nonterminal(ushort src)
-                => new Nonterminal((NontermKind)src);
+                => new Nonterminal((RuleName)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator NontermKind(Nonterminal src)
-                => src.Kind;
+            public static implicit operator RuleName(Nonterminal src)
+                => src.Name;
 
             [MethodImpl(Inline)]
-            public static implicit operator Nonterminal(NontermKind src)
+            public static implicit operator Nonterminal(RuleName src)
                 => new Nonterminal(src);
 
             public static Nonterminal Empty => default;

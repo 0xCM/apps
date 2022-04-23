@@ -14,11 +14,11 @@ namespace Z0
         public struct FunctionSet
         {
             [MethodImpl(Inline), Op]
-            public static FunctionSet init(params NontermKind[] src)
+            public static FunctionSet init(params RuleName[] src)
                 => init(@readonly(src));
 
             [MethodImpl(Inline), Op]
-            public static FunctionSet init(ReadOnlySpan<NontermKind> src)
+            public static FunctionSet init(ReadOnlySpan<RuleName> src)
             {
                 var dst = create();
                 for(var i=0; i<src.Length; i++)
@@ -38,7 +38,7 @@ namespace Z0
 
             const ushort Seg2Pos = 2*SegWidth;
 
-            const NontermKind LastKind = NontermKind.NEWVEX_ENC;
+            const RuleName LastKind = RuleName.ZMM_R3_64;
 
             public const uint MaxCount = (uint)LastKind + 1;
 
@@ -49,7 +49,7 @@ namespace Z0
             BitVector128<ulong> Seg2;
 
             [MethodImpl(Inline), Op]
-            public bit Contains(NontermKind src)
+            public bit Contains(RuleName src)
             {
                 var pos = ToPos(src);
                 var result = bit.Off;
@@ -66,7 +66,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public FunctionSet Include(NontermKind src)
+            public FunctionSet Include(RuleName src)
             {
                 var pos = ToPos(src);
                 if(src != 0)
@@ -91,7 +91,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public FunctionSet Clear(NontermKind src)
+            public FunctionSet Clear(RuleName src)
             {
                 var pos = ToPos(src);
                 if(src != 0)
@@ -108,7 +108,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public FunctionSet Include(params NontermKind[] src)
+            public FunctionSet Include(params RuleName[] src)
             {
                 for(var i=0; i<src.Length; i++)
                     Include(skip(src,i));
@@ -116,19 +116,19 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public uint Members(Span<NontermKind> dst)
+            public uint Members(Span<RuleName> dst)
             {
                 var counter = 0u;
                 for(var i=0; i<MaxCount; i++)
                 {
                     if(Contains(ToKind(i)))
-                        seek(dst,counter++) = (NontermKind)i;
+                        seek(dst,counter++) = (RuleName)i;
                 }
                 return counter;
             }
 
             [MethodImpl(Inline)]
-            public uint Members(Action<NontermKind> f)
+            public uint Members(Action<RuleName> f)
             {
                 var counter = 0u;
                 for(var i=0; i<MaxCount; i++)
@@ -198,34 +198,34 @@ namespace Z0
                 => !a.Equals(b);
 
             [MethodImpl(Inline)]
-            public static implicit operator FunctionSet(ReadOnlySpan<NontermKind> src)
+            public static implicit operator FunctionSet(ReadOnlySpan<RuleName> src)
                 => init(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator FunctionSet(Span<NontermKind> src)
+            public static implicit operator FunctionSet(Span<RuleName> src)
                 => init(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator FunctionSet(NontermKind[] src)
+            public static implicit operator FunctionSet(RuleName[] src)
                 => init(@readonly(src));
 
             [MethodImpl(Inline)]
-            public static implicit operator FunctionSet(Index<NontermKind> src)
+            public static implicit operator FunctionSet(Index<RuleName> src)
                 => init(src.View);
 
             public static FunctionSet Empty => default;
 
             [MethodImpl(Inline)]
-            static NontermKind ToKind(int pos)
+            static RuleName ToKind(int pos)
             {
                 if(pos <= (ushort)LastKind)
-                    return (NontermKind)pos;
+                    return (RuleName)pos;
                 else
                     return 0;
             }
 
             [MethodImpl(Inline)]
-            static byte ToPos(NontermKind src)
+            static byte ToPos(RuleName src)
             {
                 var i = (ushort)src;
                 if(i < Seg1Pos)
@@ -239,21 +239,21 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            static bit IsSeg0(NontermKind src)
+            static bit IsSeg0(RuleName src)
             {
                 var i = (ushort)src;
                 return i < Seg1Pos;
             }
 
             [MethodImpl(Inline)]
-            static bit IsSeg1(NontermKind src)
+            static bit IsSeg1(RuleName src)
             {
                 var i = (ushort)src;
                 return i >= Seg1Pos && i < Seg2Pos;
             }
 
             [MethodImpl(Inline)]
-            static bit IsSeg2(NontermKind src)
+            static bit IsSeg2(RuleName src)
             {
                 var i = (ushort)src;
                 return i >= Seg2Pos && i < MaxCount;

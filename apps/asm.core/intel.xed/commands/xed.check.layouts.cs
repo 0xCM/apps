@@ -10,19 +10,13 @@ namespace Z0
     using static XedModels;
     using static core;
 
-    using CK = XedRules.RuleCellKind;
-
     partial class XedCmdProvider
     {
-
-        [CmdOp("xed/check/rules")]
+        [CmdOp("xed/check/layouts")]
         Outcome CheckLayouts(CmdArgs args)
         {
-            var lookup = Xed.Rules.CalcRuleFields(Xed.Rules.CalcRules());
-            TableEmit(records(lookup).View, KeyedCellRecord.RenderWidths, XedPaths.RuleTable<KeyedCellRecord>());
-
-            // var inst = CalcInstSegs();
-            // iter(inst, x => Write(x));
+            var inst = CalcInstSegs();
+            iter(inst, x => Write(x));
             return true;
         }
 
@@ -81,10 +75,10 @@ namespace Z0
         void CheckNonTerms2()
         {
             //var dst = Nonterminals.create();
-            var src = Symbols.index<NontermKind>();
+            var src = Symbols.index<RuleName>();
             var kinds = src.Kinds;
             var dst = FunctionSet.init(kinds);
-            var buffer = alloc<NontermKind>(FunctionSet.MaxCount);
+            var buffer = alloc<RuleName>(FunctionSet.MaxCount);
             var count = dst.Members(buffer);
             for(var i=0; i<kinds.Length; i++)
             {
@@ -99,7 +93,7 @@ namespace Z0
             {
                 var min = skip(smaller,0);
                 var max = skip(smaller,smaller.Length - 1);
-                var kind = (NontermKind)i;
+                var kind = (RuleName)i;
                 if(kind != 0)
                 {
                     if(kind >= min & kind<= max)

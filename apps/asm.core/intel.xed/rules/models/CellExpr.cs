@@ -12,7 +12,7 @@ namespace Z0
         {
             public readonly CellValue Value;
 
-            public readonly OperatorKind Operator;
+            public readonly RuleOperator Operator;
 
             [MethodImpl(Inline)]
             public CellExpr(OperatorKind op, CellValue value)

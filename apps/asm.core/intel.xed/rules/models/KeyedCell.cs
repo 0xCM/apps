@@ -21,6 +21,18 @@ namespace Z0
                 Value = value;
             }
 
+            public FieldKind Field
+            {
+                [MethodImpl(Inline)]
+                get => Value.FieldKind;
+            }
+
+            public bool IsFieldExpr
+            {
+                [MethodImpl(Inline)]
+                get => Value.IsFieldExpr;
+            }
+
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
@@ -38,7 +50,18 @@ namespace Z0
                 => Key.CompareTo(src.Key);
 
             public string Format()
-                => Value.Format();
+            {
+                var dst = EmptyString;
+                if(IsFieldExpr)
+                {
+                    var expr = Value.ToFieldExpr();
+                    dst = expr.Format();
+                }
+                else
+                    dst = XedRender.format(Value);
+
+                return dst;
+            }
 
             public override string ToString()
                 => Format();

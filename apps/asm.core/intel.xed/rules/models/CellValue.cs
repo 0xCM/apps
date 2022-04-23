@@ -95,19 +95,11 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, Nonterminal data)
+            public CellValue(FieldKind kind, RuleName data)
             {
                 Field = kind;
                 Data = (ushort)data;
                 CellKind =  kind != 0 ? RuleCellKind.NontermExpr : RuleCellKind.NontermCall;
-            }
-
-            [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, BCastKind data)
-            {
-                Field = kind;
-                Data = (byte)data;
-                CellKind = 0;
             }
 
             [MethodImpl(Inline)]
@@ -235,8 +227,8 @@ namespace Z0
                 => (uint8b)Data;
 
             [MethodImpl(Inline)]
-            public Nonterminal ToNonterminal()
-                => (NontermKind)Data;
+            public RuleName ToRuleName()
+                => (RuleName)Data;
 
             [MethodImpl(Inline)]
             public SegField ToSegField()
@@ -286,9 +278,6 @@ namespace Z0
             public static implicit operator RepPrefix(CellValue src)
                 => src.ToRepPrefix();
 
-            [MethodImpl(Inline)]
-            public static implicit operator Nonterminal(CellValue src)
-                => src.ToNonterminal();
 
             [MethodImpl(Inline)]
             public static implicit operator bit(CellValue src)

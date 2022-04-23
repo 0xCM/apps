@@ -6,13 +6,12 @@
 namespace Z0
 {
     using static core;
-    using static XedModels;
 
     using CK = XedRules.RuleCellKind;
 
     partial class XedRules
     {
-        public static SortedLookup<RuleSig,Index<KeyedCell>> fields(RuleTables rules)
+        public static KeyedCells cells(RuleTables rules)
         {
             ref readonly var src = ref rules.Specs();
             var sigs = src.Keys;
@@ -76,7 +75,7 @@ namespace Z0
 
                             case CK.NontermCall:
                             {
-                                result = XedParsers.parse(data, out Nonterminal value);
+                                result = XedParsers.parse(data, out RuleName value);
                                 field = value;
                             }
                             break;
@@ -134,6 +133,5 @@ namespace Z0
 
             return dst;
         }
-
     }
 }

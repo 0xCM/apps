@@ -63,8 +63,6 @@ namespace Z0
 
         static EnumRender<ExtensionKind> ExtensionKinds = new();
 
-        static EnumRender<NontermKind> NontermKinds = new();
-
         static EnumRender<RoundingKind> RoundingKinds = new();
 
         static EnumRender<SMode> SModes = new();
@@ -110,6 +108,8 @@ namespace Z0
         static readonly EnumRender<ModKind> ModIndicators = new();
 
         static EnumRender<XedRegId> XedRegs = new();
+
+        static EnumRender<RuleName> RuleNames = new();
 
         static EnumRender<RuleCellKind> RuleCellKinds = new();
 
@@ -215,14 +215,14 @@ namespace Z0
         public static string format(OSZ src)
             => OszKinds.Format(src);
 
+        public static string format(RuleName src)
+            => RuleNames.Format(src);
+
         public static string format(ModKind src)
             => ModIndicators.Format(src);
 
         public static string format(CellValue src)
             => CellRender.format(src);
-
-        public static string format(RuleKeyword src)
-            => src.ToAsci().Format();
 
         public static string format(in CellExpr src)
             => src.IsEmpty
@@ -386,20 +386,6 @@ namespace Z0
 
         public static string format(in XedFlagEffect src)
             => string.Format("{0}-{1}", format(src.Flag), format(src.Effect));
-
-        public static string name(Nonterminal src)
-            => NontermKinds.Format(src.Kind);
-
-        public static string format(NontermKind src)
-            => NontermKinds.Format(src);
-
-        public static string format(Nonterminal src)
-        {
-            if(src.IsNonEmpty)
-                return string.Format("{0}()", name(src));
-            else
-                return EmptyString;
-        }
 
         public static string format(in OpAttribs src)
         {
@@ -610,6 +596,8 @@ namespace Z0
 
             switch(@class)
             {
+                case RuleCellKind.None:
+                    break;
                 case RuleCellKind.HexLiteral:
                     dst = format(src.AsHexLit());
                 break;
@@ -623,7 +611,7 @@ namespace Z0
                     dst = format5(src.AsBitLit());
                 break;
                 case RuleCellKind.NontermCall:
-                    dst = src.AsNonterminal().Format();
+                    dst = XedRender.format(src.AsRuleName());
                 break;
                 case RuleCellKind.Operator:
                     dst = src.AsOperator().Format();
@@ -635,7 +623,7 @@ namespace Z0
                     dst = src.ToKeyword().Format();
                 break;
                 default:
-                    Errors.Throw(string.Format("Unknown Part:{0} | {1}", @class, bytes(src).FormatHex()));
+                    Errors.Throw(AppMsg.UnhandledCase.Format(@class));
                     break;
             }
 
@@ -711,7 +699,7 @@ namespace Z0
             var counter = 0u;
             for(var i=0; i<FunctionSet.MaxCount; i++)
             {
-                var kind = (NontermKind)i;
+                var kind = (RuleName)i;
                 if(src.Contains(kind))
                 {
                     if(counter != 0)

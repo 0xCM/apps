@@ -51,7 +51,7 @@ namespace Z0
                         cell = new (i, field.AsHexLit());
                     break;
                     case K.NontermCall:
-                        cell = new (i, field.AsNonterminal());
+                        cell = new (i, field.AsRuleName());
                     break;
                     case K.SegVar:
                         cell = new (i, field.AsSegVar());

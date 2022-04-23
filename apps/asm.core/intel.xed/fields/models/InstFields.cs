@@ -85,6 +85,10 @@ namespace Z0
 
             public override string ToString()
                 => Format();
+
+            // public int CompareTo(InstFields other)
+            //     => Data.Storage.c
+
         }
     }
 }
