@@ -287,8 +287,6 @@ namespace Z0
 
         public const T MaxValue = byte.MaxValue;
 
-        public const T MaxLiteral = MaxValue;
-
         /// <summary>
         /// Specifies the bit-width represented by <see cref='U'/>
         /// </summary>

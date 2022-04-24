@@ -334,8 +334,6 @@ namespace Z0
         /// </summary>
         public const T MaxValue = Pow2.T05m1;
 
-        public const T MaxLiteral = MaxValue;
-
         /// <summary>
         /// Specifies the bit-width represented by <see cref='U'/>
         /// </summary>
@@ -359,11 +357,7 @@ namespace Z0
         /// <summary>
         /// Specifies the minimum <see cref='U'/> value
         /// </summary>
-        public static U Min
-        {
-            [MethodImpl(Inline)]
-            get => new U(MinLiteral,true);
-        }
+        public static U Min => default;
 
         /// <summary>
         /// Specifies the maximum <see cref='U'/> value

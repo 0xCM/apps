@@ -4,20 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    /// <summary>
-    /// Defines lower/upper bounds for uint24 values
-    /// </summary>
-    [SymSource("limits", NumericBaseKind.Base16)]
     public enum Limits24u : uint
     {
-        /// <summary>
-        /// The minimum representable uint24 value
-        /// </summary>
-        Min = ushort.MinValue,
+        Min = 0,
 
-        /// <summary>
-        /// The maximum representable uint24 value
-        /// </summary>
-        Max = (uint)Limits16u.Max | ((uint)Limits8u.Max << 16),
+        Max = (uint)(((uint)Limits23u.Max << 1) | (uint)Limits1u.Max)
     }
 }

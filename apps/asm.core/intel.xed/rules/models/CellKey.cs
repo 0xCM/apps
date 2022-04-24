@@ -29,6 +29,12 @@ namespace Z0
 
             public readonly CellClass Type;
 
+            readonly byte Pad0;
+
+            readonly byte Pad1;
+
+            readonly byte Pad2;
+
             [MethodImpl(Inline)]
             public CellKey(ushort index, ushort table, ushort row, byte col, LogicClass logic, CellClass type, RuleTableKind kind, RuleName rule, FieldKind field)
             {
@@ -41,6 +47,9 @@ namespace Z0
                 Kind = kind;
                 Rule = rule;
                 Field = field;
+                Pad0 = 0;
+                Pad1 = 0;
+                Pad2 = 0;
             }
 
             public bool IsEmpty

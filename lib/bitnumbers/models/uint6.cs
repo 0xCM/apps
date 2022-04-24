@@ -11,6 +11,7 @@ namespace Z0
     using K = BitSeq6;
     using T = System.Byte;
     using N = N6;
+    using L = Limits6u;
 
     /// <summary>
     /// Represents a value in the range [<see cef='MinLiteral'/>, <see cref='MaxValue'/>]
@@ -113,7 +114,7 @@ namespace Z0
         public bool IsMin
         {
             [MethodImpl(Inline)]
-            get => data == MinLiteral;
+            get => data == 0;
         }
 
         [MethodImpl(Inline)]
@@ -326,16 +327,9 @@ namespace Z0
             => @bool(x.data >= y.data);
 
         /// <summary>
-        /// Specifies the inclusive lower bound of <see cref='U'/> as a literal value
-        /// </summary>
-        public const T MinLiteral = 0;
-
-        /// <summary>
         /// Specifies the inclusive upper bound of the <see cref='U'/> as a literal value
         /// </summary>
         public const T MaxValue = Pow2.T06m1;
-
-        public const T MaxLiteral = MaxValue;
 
         /// <summary>
         /// Specifies the represented data type bit-width
@@ -349,8 +343,6 @@ namespace Z0
 
         public static W W => default;
 
-        //public const T MaxValue = Pow2.T06m1;
-
         /// <summary>
         /// Specifies the <see cref='Width'/> values as a type-level natural
         /// </summary>
@@ -359,11 +351,7 @@ namespace Z0
         /// <summary>
         /// Specifies the minimum <see cref='U'/> value
         /// </summary>
-        public static U Min
-        {
-            [MethodImpl(Inline)]
-            get => new U(MinLiteral,true);
-        }
+        public static U Min => default;
 
         /// <summary>
         /// Specifies the maximum <see cref='U'/> value
@@ -377,11 +365,7 @@ namespace Z0
         /// <summary>
         /// Specifies the <see cref='U'/> zero value
         /// </summary>
-        public static U Zero
-        {
-            [MethodImpl(Inline)]
-            get => new U(0,true);
-        }
+        public static U Zero => default;
 
         /// <summary>
         /// Specifies the <see cref='U'/> one value

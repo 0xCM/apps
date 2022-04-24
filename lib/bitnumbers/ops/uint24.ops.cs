@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static uint24;
+    using static core;
 
     using U = uint24;
 
@@ -105,10 +106,68 @@ namespace Z0
         [MethodImpl(Inline)]
         public static ref uint24 update(uint src, ref uint24 dst)
         {
-            dst.Lo = (ushort)src;
-            dst.Hi = (byte)(src >> 16);
+            dst = uint24(src);
             return ref dst;
         }
+
+        /// <summary>
+        /// Produces a <see cref='ushort'/> value by concatenating bits from two 8-bit segments
+        /// </summary>
+        /// <param name="b0">The first segment</param>
+        /// <param name="b1">The second segment</param>
+        [MethodImpl(Inline)]
+        public static ushort join(byte b0, byte b1)
+            => (ushort)(((uint)b0 | ((uint)b1 << 8)));
+
+        /// <summary>
+        /// Produces a <see cref='Z0.uint24'/> value by concatenating bits from three 8-bit segments
+        /// </summary>
+        /// <param name="b0">The first segment</param>
+        /// <param name="b1">The second segment</param>
+        /// <param name="b2">The third segment</param>
+        [MethodImpl(Inline), Op]
+        public static uint24 join(byte b0, byte b1, byte b2)
+            => new uint24((uint)b0 | ((uint)b1 << 8) | ((uint)b2 << 16), true);
+
+        [MethodImpl(Inline), Op]
+        public static ushort seg16(N0 n, U src)
+            => core.u16(src);
+
+        [MethodImpl(Inline), Op]
+        public static ushort seg16(N1 n, U src)
+            => join(seg8(n1, src), seg8(n2,src));
+
+        [MethodImpl(Inline), Op]
+        public static byte seg8(N0 n, uint24 src)
+            => skip(core.bytes(src),0);
+
+        [MethodImpl(Inline), Op]
+        public static byte seg8(N1 n, uint24 src)
+            => skip(core.bytes(src), 1);
+
+        [MethodImpl(Inline), Op]
+        public static byte seg8(N2 n, uint24 src)
+            => skip(core.bytes(src), 2);
+
+        [MethodImpl(Inline), Op]
+        public static ref byte seg8(N0 n, ref uint24 src)
+            => ref seek(@as<uint24,byte>(src),0);
+
+        [MethodImpl(Inline), Op]
+        public static ref byte seg8(N1 n, ref uint24 src)
+            => ref seek(@as<uint24,byte>(src),1);
+
+        [MethodImpl(Inline), Op]
+        public static ref byte seg8(N2 n, ref uint24 src)
+            => ref seek(@as<uint24,byte>(src),2);
+
+        [MethodImpl(Inline), Op]
+        public static ref ushort seg16(N0 n, ref uint24 src)
+            => ref @as<uint24,ushort>(src);
+
+        [MethodImpl(Inline), Op]
+        public static ref ushort seg16(N1 n, ref uint24 src)
+            => ref @as<ushort>(seek(@as<uint24,byte>(src), 1));
 
         [MethodImpl(Inline), Op]
         public static U add(U x, U y)

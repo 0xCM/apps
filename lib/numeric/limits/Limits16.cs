@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public enum Limits8i : sbyte
+    public enum Limits16u : ushort
     {
-        Min = sbyte.MinValue,
+        Min = ushort.MinValue,
 
-        Max = sbyte.MaxValue,
+        Max = (ushort)(((uint)Limits15u.Max << 1) | (uint)Limits1u.Max)
     }
 }

@@ -380,8 +380,6 @@ namespace Z0
         /// </summary>
         public const T MaxValue = Pow2.T01m1;
 
-        public const T MaxLiteral = MaxValue;
-
         /// <summary>
         /// Specifies the count of unique values representable by a <see cref='U'/>
         /// </summary>

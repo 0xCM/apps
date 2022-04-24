@@ -68,7 +68,7 @@ namespace Z0
             public byte Value
             {
                 [MethodImpl(Inline)]
-                get => (byte)(Data & uint5.MaxLiteral);
+                get => (byte)(Data & uint5.MaxValue);
             }
 
             public string Format()

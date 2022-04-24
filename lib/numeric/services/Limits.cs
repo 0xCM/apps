@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines literals that specify numeric type limits
     /// </summary>
@@ -228,6 +223,16 @@ namespace Z0
         /// The maximum representable <see cref='byte'/> value
         /// </summary>
         public const Limits8u Max8u = Limits8u.Max;
+
+        /// <summary>
+        /// The maximum representable uint9 value
+        /// </summary>
+        public const Limits9u Max9u = Limits9u.Max;
+
+        /// <summary>
+        /// The maximum representable uint10 value
+        /// </summary>
+        public const Limits10u Max10u = Limits10u.Max;
 
         /// <summary>
         /// The minimum representable <see cref='short'/> value

@@ -1,13 +1,13 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
+// Copyright   :  (c) Chris Moore, 1010
 // License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public enum Limits8i : sbyte
+    public enum Limits1u : byte
     {
-        Min = sbyte.MinValue,
+        Min = 0,
 
-        Max = sbyte.MaxValue,
+        Max = 1,
     }
 }

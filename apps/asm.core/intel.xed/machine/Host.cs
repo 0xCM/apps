@@ -30,7 +30,7 @@ namespace Z0
 
             XedRules Rules => Service(Wf.XedRules);
 
-            const byte Capacity = uint6.MaxLiteral + 1;
+            const byte Capacity = uint6.MaxValue + 1;
 
             protected override void Initialized()
             {

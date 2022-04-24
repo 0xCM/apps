@@ -392,8 +392,6 @@ namespace Z0
         /// </summary>
         public const T MaxValue = Pow2.T02m1;
 
-        public const T MaxLiteral = MaxValue;
-
         /// <summary>
         /// Specifies the bit-width of the <see cref='U'/> data type
         /// </summary>

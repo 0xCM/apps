@@ -18,86 +18,62 @@ namespace Z0
     /// <summary>
     /// Represents the value of an unsigned integer of bit-width 24
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Size = (int)Size), DataType("u<w:24>", Width, Width)]
-    public struct uint24 : IBitNumber<U,W,T>
+    [DataType("u<w:24>", Width, 24), StructLayout(LayoutKind.Sequential,Pack=1)]
+    public struct uint24
     {
-        internal ushort Lo;
+        byte B0;
 
-        internal byte Hi;
+        byte B1;
+
+        byte B2;
+
+        [MethodImpl(Inline)]
+        public uint24(byte b0, byte b1, byte b2)
+        {
+            B0 = b0;
+            B1 = b1;
+            B2 = b2;
+        }
+
+        [MethodImpl(Inline)]
+        public void Split(out byte b0, out byte b1, out byte b2)
+        {
+            b0 = B0;
+            b1 = B1;
+            b2 = B2;
+        }
+
+        public Span<byte> Bytes
+        {
+            [MethodImpl(Inline)]
+            get => core.bytes(this);
+        }
+
+
+        [MethodImpl(Inline)]
+        public ref byte Seg(byte i)
+            =>  ref seek(Bytes,i);
+
+        [MethodImpl(Inline)]
+        public ref byte Seg(N0 n)
+            =>  ref seek(Bytes,0);
+
+        [MethodImpl(Inline)]
+        public ref byte Seg(N1 n)
+            =>  ref seek(Bytes,1);
+
+        [MethodImpl(Inline)]
+        public ref byte Seg(N2 n)
+            =>  ref seek(Bytes,2);
 
         internal uint data
         {
             [MethodImpl(Inline)]
-            get => (uint)Lo | ((uint)Hi << 16);
+            get =>api.join(B0, B1, B2);
 
             [MethodImpl(Inline)]
             set => api.update(value, ref this);
         }
-
-        public const L MinVal = L.Min;
-
-        public const L MaxVal = L.Max;
-
-        public const uint Mask = (T)MaxVal;
-
-        /// <summary>
-        /// Specifies the bit-width represented by <see cref='U'/>
-        /// </summary>
-        public const byte Width = 24;
-
-        public const byte Size = 3;
-
-        public const uint Mod = (T)MaxVal + 1u;
-
-        public static W W => default;
-
-        public static N N => default;
-
-        /// <summary>
-        /// Specifies the minimum <see cref='U'/> value
-        /// </summary>
-        public static U Min
-        {
-            [MethodImpl(Inline)]
-            get => @as<L,U>(MinVal);
-        }
-
-        public T Content
-        {
-            [MethodImpl(Inline)]
-            get => this;
-        }
-
-        /// <summary>
-        /// Specifies the maximum <see cref='U'/> value
-        /// </summary>
-        public static U Max
-        {
-            [MethodImpl(Inline)]
-            get => @as<L,U>(MaxVal);
-        }
-
-        /// <summary>
-        /// Specifies  <see cref='U'/> type's zero-value
-        /// </summary>
-        public static U Zero
-        {
-            [MethodImpl(Inline)]
-            get => @as<T,U>(0);
-        }
-
-        /// <summary>
-        /// Specifies <see cref='U'/> type's one-value
-        /// </summary>
-        public static U One
-        {
-            [MethodImpl(Inline)]
-            get => @as<T,U>(1);
-        }
-
-        [MethodImpl(Inline)]
-        public static U @bool(bool x)
-            => @as<uint,U>(core.u32(x));
 
         /// <summary>
         /// Queries the state of an index-identified bit
@@ -132,7 +108,7 @@ namespace Z0
         public bool IsMax
         {
             [MethodImpl(Inline)]
-            get => data == (T)MaxVal;
+            get => data == (T)MaxValue;
         }
 
         /// <summary>
@@ -141,44 +117,72 @@ namespace Z0
         public bool IsMin
         {
             [MethodImpl(Inline)]
-            get => data == (T)MinVal;
+            get => data == (T)MinValue;
         }
 
         [MethodImpl(Inline)]
         internal uint24(T src)
-            : this() => data = src & (T)MaxVal;
+            : this() => data = src & (T)MaxValue;
 
         [MethodImpl(Inline)]
         public uint24(bool src)
-            : this() => Lo = @byte(src);
+        {
+            B0 = @byte(src);
+            B1 = 0;
+            B2 = 0;
+        }
+
+        [MethodImpl(Inline)]
+        public uint24(bit src)
+        {
+            B0 = @byte(src);
+            B1 = 0;
+            B2 = 0;
+        }
 
         [MethodImpl(Inline)]
         public uint24(byte src)
-            : this() => Lo = src;
+        {
+            B0 = src;
+            B1 = 0;
+            B2 = 0;
+        }
 
         [MethodImpl(Inline)]
         internal uint24(sbyte src)
-            : this() => Lo = (byte)src;
+        {
+            B0 = (byte)src;
+            B1 = 0;
+            B2 = 0;
+        }
 
         [MethodImpl(Inline)]
         internal uint24(short src)
-            : this() => Lo = (ushort)src;
+        {
+            B0 = (byte)src;
+            B1 = (byte)(((uint)(byte)src) << 8);
+            B2 = 0;
+        }
 
         [MethodImpl(Inline)]
         internal uint24(ushort src)
-            : this() => Lo = src;
+        {
+            B0 = (byte)src;
+            B1 = (byte)(((uint)(byte)src) << 8);
+            B2 = 0;
+        }
 
         [MethodImpl(Inline)]
         internal uint24(int src)
-            : this() => data = (T)src & (T)MaxVal;
+            : this() => data = (T)src & (T)MaxValue;
 
         [MethodImpl(Inline)]
         internal uint24(long src)
-            : this() => data = (T)src & (T)MaxVal;
+            : this() => data = (T)src & (T)MaxValue;
 
         [MethodImpl(Inline)]
         internal uint24(ulong src)
-            : this() => data = (T)src & (T)MaxVal;
+            : this() => data = (T)src & (T)MaxValue;
 
         [MethodImpl(Inline)]
         internal uint24(T src, bool @unchecked)
@@ -200,38 +204,16 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public bool Equals(U rhs)
-            => data == rhs.data;
-
-        [Ignore]
-        bool IEquatable<U>.Equals(U rhs)
-            => data == rhs.data;
-
-        bool IBitNumber.IsNonZero
-        {
-            [Ignore]
-            get => IsNonZero;
-        }
-
-        bool IBitNumber.IsZero
-        {
-            [Ignore]
-            get => IsZero;
-        }
-
-        uint IHashed.Hash
-        {
-            [Ignore]
-            get => data;
-        }
+        public bool Equals(U b)
+            => data == b.data;
 
         [Ignore]
         public override int GetHashCode()
             => (int)data;
 
         [Ignore]
-        public override bool Equals(object rhs)
-            => data.Equals(rhs);
+        public override bool Equals(object src)
+            => src is uint24 x && Equals(x);
 
         [MethodImpl(Inline)]
         public string Format()
@@ -239,9 +221,6 @@ namespace Z0
 
         public override string ToString()
             => Format();
-
-        public Span<bit> Bits
-            => throw new NotImplementedException();
 
         [MethodImpl(Inline)]
         public static bool operator true(U x)
@@ -252,12 +231,120 @@ namespace Z0
             => x.data == 0;
 
         [MethodImpl(Inline)]
-        public static implicit operator U(byte src)
-            => @as<T,U>(Mask & (T)src);
+        public static implicit operator U(bit src)
+            => new U(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator T(U src)
-            => src.data;
+        public static implicit operator U(bool src)
+            => new U(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator U(uint1 src)
+            => new U((bit)src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator U(uint2 src)
+            => new U(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator U(uint3 src)
+            => new U(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator U(uint4 src)
+            => new U(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator U(uint5 src)
+            => new U(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator U(uint6 src)
+            => new U(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator U(uint7 src)
+            => new U(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator U(uint8b src)
+            => new U(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator U(Hex8 src)
+            => new U(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator U(Hex16 src)
+            => new U(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator U(byte src)
+            => new U(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator U(ushort src)
+            => new U(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator U(short src)
+            => new U(src);
+
+        [MethodImpl(Inline)]
+        public static explicit operator U(uint src)
+            => new U(src);
+
+        [MethodImpl(Inline)]
+        public static explicit operator U(Hex32 src)
+            => new U(src);
+
+        [MethodImpl(Inline)]
+        public static explicit operator bit(U src)
+            => (bit)src.data;
+
+        [MethodImpl(Inline)]
+        public static explicit operator bool(U src)
+            => (bit)src.data;
+
+        [MethodImpl(Inline)]
+        public static explicit operator uint1(U src)
+            => (uint1)src.data;
+
+        [MethodImpl(Inline)]
+        public static explicit operator uint2(U src)
+            => (uint2)src.data;
+
+        [MethodImpl(Inline)]
+        public static explicit operator uint3(U src)
+            => (uint3)src.data;
+
+        [MethodImpl(Inline)]
+        public static explicit operator uint4(U src)
+            => (uint4)src.data;
+
+        [MethodImpl(Inline)]
+        public static explicit operator uint5(U src)
+            => (uint5)src.data;
+
+        [MethodImpl(Inline)]
+        public static explicit operator uint6(U src)
+            => (uint6)src.data;
+
+        [MethodImpl(Inline)]
+        public static explicit operator uint7(U src)
+            => (uint7)src.data;
+
+        [MethodImpl(Inline)]
+        public static explicit operator uint8b(U src)
+            => (uint8b)src.data;
+
+        [MethodImpl(Inline)]
+        public static explicit operator byte(U src)
+            => (byte)src.data;
+
+        [MethodImpl(Inline)]
+        public static explicit operator Hex8(U src)
+            => (Hex8)src.data;
 
         [MethodImpl(Inline)]
         public static explicit operator sbyte(U src)
@@ -272,8 +359,16 @@ namespace Z0
             => (ushort)src.data;
 
         [MethodImpl(Inline)]
+        public static explicit operator Hex16(U src)
+            => (Hex16)src.data;
+
+        [MethodImpl(Inline)]
         public static implicit operator int(U src)
             => (int)src.data;
+
+        [MethodImpl(Inline)]
+        public static implicit operator uint(U src)
+            => src.data;
 
         [MethodImpl(Inline)]
         public static implicit operator long(U src)
@@ -284,28 +379,28 @@ namespace Z0
             => src.data;
 
         [MethodImpl(Inline)]
-        public static U operator == (U lhs, U rhs)
-            => new U(lhs.data == rhs.data);
+        public static U operator == (U a, U b)
+            => new U(a.data == b.data);
 
         [MethodImpl(Inline)]
-        public static U operator != (U lhs, U rhs)
-            => new U(lhs.data != rhs.data);
+        public static U operator != (U a, U b)
+            => new U(a.data != b.data);
 
         [MethodImpl(Inline)]
-        public static U operator < (U lhs, U rhs)
-            => new U(lhs.data < rhs.data);
+        public static U operator < (U a, U b)
+            => new U(a.data < b.data);
 
         [MethodImpl(Inline)]
-        public static U operator <= (U lhs, U rhs)
-            => new U(lhs.data <= rhs.data);
+        public static U operator <= (U a, U b)
+            => new U(a.data <= b.data);
 
         [MethodImpl(Inline)]
-        public static U operator > (U lhs, U rhs)
-            => new U(lhs.data > rhs.data);
+        public static U operator > (U a, U b)
+            => new U(a.data > b.data);
 
         [MethodImpl(Inline)]
-        public static U operator >= (U lhs, U rhs)
-            => new U(lhs.data >= rhs.data);
+        public static U operator >= (U a, U b)
+            => new U(a.data >= b.data);
 
         [MethodImpl(Inline)]
         public static U operator - (U src)
@@ -320,47 +415,99 @@ namespace Z0
             => api.inc(src);
 
         [MethodImpl(Inline)]
-        public static U operator + (U lhs, U rhs)
-            => reduce(lhs.data + rhs.data);
+        public static U operator + (U a, U b)
+            => reduce(a.data + b.data);
 
         [MethodImpl(Inline)]
-        public static U operator - (U lhs, U rhs)
-            => reduce(lhs.data - rhs.data);
+        public static U operator - (U a, U b)
+            => reduce(a.data - b.data);
 
         [MethodImpl(Inline)]
-        public static U operator * (U lhs, U rhs)
-            => reduce(lhs.data * rhs.data);
+        public static U operator * (U a, U b)
+            => reduce(a.data * b.data);
 
         [MethodImpl(Inline)]
-        public static U operator / (U lhs, U rhs)
-            => wrap(lhs.data / rhs.data);
+        public static U operator / (U a, U b)
+            => wrap(a.data / b.data);
 
         [MethodImpl(Inline)]
-        public static U operator % (U lhs, U rhs)
-            => wrap(lhs.data % rhs.data);
+        public static U operator % (U a, U b)
+            => wrap(a.data % b.data);
 
         [MethodImpl(Inline)]
-        public static U operator & (U lhs, U rhs)
-            => (U)(lhs.data & rhs.data);
+        public static U operator & (U a, U b)
+            => (U)(a.data & b.data);
 
         [MethodImpl(Inline)]
-        public static U operator | (U lhs, U rhs)
-            => wrap(lhs.data | rhs.data);
+        public static U operator | (U a, U b)
+            => wrap(a.data | b.data);
 
         [MethodImpl(Inline)]
-        public static U operator ^ (U lhs, U rhs)
-            => wrap(lhs.data ^ rhs.data);
+        public static U operator ^ (U a, U b)
+            => wrap(a.data ^ b.data);
 
         [MethodImpl(Inline)]
-        public static U operator >> (U lhs, int rhs)
-            => wrap(lhs.data >> rhs);
+        public static U operator >> (U a, int b)
+            => wrap(a.data >> b);
 
         [MethodImpl(Inline)]
-        public static U operator << (U lhs, int rhs)
-            => wrap(lhs.data << rhs);
+        public static U operator << (U a, int b)
+            => wrap(a.data << b);
 
         [MethodImpl(Inline)]
         public static U operator ~ (U src)
             => wrap(~src.data);
+
+        public const L MinValue = L.Min;
+
+        public const L MaxValue = L.Max;
+
+        public const T Mask = (T)MaxValue;
+
+        public const byte Width = 24;
+
+        public const byte Size = 3;
+
+        public const uint Mod = (T)MaxValue + 1u;
+
+        public static W W => default;
+
+        public static N N => default;
+
+        /// <summary>
+        /// Specifies the minimum <see cref='U'/> value
+        /// </summary>
+        public static U Min
+        {
+            [MethodImpl(Inline)]
+            get => @as<L,U>(MinValue);
+        }
+
+        /// <summary>
+        /// Specifies the maximum <see cref='U'/> value
+        /// </summary>
+        public static U Max
+        {
+            [MethodImpl(Inline)]
+            get => @as<L,U>(MaxValue);
+        }
+
+        /// <summary>
+        /// Specifies  <see cref='U'/> type's zero-value
+        /// </summary>
+        public static U Zero
+        {
+            [MethodImpl(Inline)]
+            get => @as<T,U>(0);
+        }
+
+        /// <summary>
+        /// Specifies <see cref='U'/> type's one-value
+        /// </summary>
+        public static U One
+        {
+            [MethodImpl(Inline)]
+            get => @as<T,U>(1);
+        }
     }
 }

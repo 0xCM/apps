@@ -4,20 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    /// <summary>
-    /// Defines lower/upper bounds for <see cref='int'/> values
-    /// </summary>
-    [SymSource("limits", NumericBaseKind.Base16)]
     public enum Limits32i : int
     {
-        /// <summary>
-        /// The minimum representable <see cref='int'/> value
-        /// </summary>
         Min = int.MinValue,
 
-        /// <summary>
-        /// The maximum representable <see cref='int'/> value
-        /// </summary>
         Max = int.MaxValue,
     }
 }
