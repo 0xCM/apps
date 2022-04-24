@@ -6,9 +6,24 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
+    using static core;
 
     partial class XedCmdProvider
     {
+        [CmdOp("xed/check/rules")]
+        Outcome CheckRules(CmdArgs args)
+        {
+            var rules = CalcRules();
+            var lookup = CellParser.cells(rules);
+            var dst = text.emitter();
+            var count = CellRender.render(lookup,dst);
+            var data = Require.equal(dst.Emit(), lookup.Description);
+            FileEmit(data, count, XedPaths.RuleTarget("cells.raw", FS.Csv), TextEncodingKind.Asci);
+
+            return true;
+        }
+
+
         void CheckNonTerms()
         {
             var patterns = CalcPatterns();

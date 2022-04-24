@@ -15,6 +15,9 @@ namespace Z0
         {
             public static KeyedCells cells(RuleTables rules)
             {
+                var lix = 0u;
+                var emitter = text.emitter();
+                emitter.AppendLine(CellRender.SemanticHeader);
                 ref readonly var src = ref rules.Specs();
                 var sigs = src.Keys;
                 var dst = dict<RuleSig,Index<KeyedCell>>();
@@ -115,25 +118,23 @@ namespace Z0
                                 break;
                             }
 
+                            var kcell = KeyedCell.Empty;
                             if(result)
-                                kcells.Add(new (key,field));
+                                kcell = new (lix++, key,field);
+                            else if(info.Field == 0 && info.Class == RuleCellKind.Operator)
+                                kcell = new (lix++, key, new InstField(OperatorKind.Impl));
                             else
-                            {
-                                if(info.Field == 0 && info.Class == RuleCellKind.Operator)
-                                    kcells.Add(new (key, new InstField(OperatorKind.Impl)));
-                                else
-                                {
-                                    term.warn(info.Field.ToString() + ":="  + key.FormatSemantic() + $":{info.Class}" + "='" + data + "'");
-                                    kcells.Add(KeyedCell.Empty);
-                                }
-                            }
+                                Errors.Throw(info.Field.ToString() + ":="  + key.FormatSemantic() + $":{info.Class}" + "='" + data + "'");
+
+                            emitter.AppendLineFormat(CellRender.SemanticRenderPattern, kcell.LinearIndex, kcell.LinearIndex, kcell.Key.FormatSemantic(), kcell.Format());
+                            kcells.Add(kcell);
                         }
                     }
 
                     dst.Add(sig, kcells.ToIndex());
                 }
 
-                return dst;
+                return KeyedCells.create(dst, emitter.Emit());
             }
         }
     }

@@ -11,21 +11,38 @@ namespace Z0
     {
         public RuleTables EmitRules(RuleTables src)
         {
-            var fields = CalcRuleCells(src);
+            var lookup = CalcRuleCells(src);
             exec(PllExec,
-                () => EmitTableSigs(src),
+                () => EmitSigs(src),
                 () => EmitRuleSeq(),
-                () => EmitRuleCells(fields),
+                () => EmitCellDetail(lookup),
                 () => EmitTableFiles(src)
             );
             Docs.EmitRuleDocs(src);
             return src;
         }
 
-        public void EmitRuleCells(KeyedCells src)
-            => TableEmit(CalcRecords(src).View, KeyedCellRecord.RenderWidths, XedPaths.RuleTable<KeyedCellRecord>());
+        public void EmitCellDetail(KeyedCells src)
+        {
+            var cells = src.Flatten();
+            exec(PllExec,
+                () => EmitCellsRaw(src,cells),
+                () => EmitCellRecords(cells)
+                );
+        }
 
-        void EmitTableSigs(RuleTables rules)
+        void EmitCellsRaw(KeyedCells src, Index<KeyedCell> cells)
+        {
+            var dst = text.emitter();
+            var count = CellRender.render(cells,dst);
+            var data = Require.equal(dst.Emit(), src.Description);
+            FileEmit(data, count, XedPaths.RuleTarget("cells.raw", FS.Csv), TextEncodingKind.Asci);
+        }
+
+        public void EmitCellRecords(Index<KeyedCell> src)
+            => TableEmit(CalcCellRecords(src).View, KeyedCellRecord.RenderWidths, XedPaths.RuleTable<KeyedCellRecord>());
+
+        void EmitSigs(RuleTables rules)
             => TableEmit(rules.SigRows.View, RuleSigRow.RenderWidths, XedPaths.Service.RuleTable<RuleSigRow>());
 
         void EmitRuleSeq()

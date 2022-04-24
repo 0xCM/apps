@@ -10,98 +10,55 @@ namespace Z0
 
     using K = XedRules.FieldKind;
     using N = XedModels.OpNameKind;
-    using CK = XedRules.RuleCellKind;
 
     partial class XedRules
     {
-        public static KeyedCellRecord record(uint seq, in KeyedCell src)
-        {
-            ref readonly var field = ref src.Value;
-            ref readonly var key = ref src.Key;
-            var dst = KeyedCellRecord.Empty;
-            ref readonly var fk = ref field.FieldKind;
-            ref readonly var ck = ref src.Value.DataKind;
-            dst.Seq = seq;
-            dst.TableId = key.TableId;
-            dst.Sig = key.TableSig;
-            dst.Type = ck;
-            dst.Col = key.CellIndex;
-            dst.Field = fk;
-            dst.Logic = key.Logic;
-            dst.Row = key.RowIndex;
-            switch(ck)
-            {
-                case CK.EqExpr:
-                case CK.NeqExpr:
-                case CK.NontermExpr:
-                {
-                    dst.Op = field.ToFieldExpr().Operator;
-                    dst.Value = field.ToFieldExpr().Value;
-                    dst.Expression = field.ToFieldExpr().Format();
-                }
-                break;
-
-                case CK.BitLiteral:
-                    dst.Value = field.AsBitLit();
-                    dst.Expression = XedRender.format(field.AsBitLit());
-                break;
-
-                case CK.IntLiteral:
-                    dst.Value = field.AsIntLit();
-                    dst.Expression = XedRender.format(field.AsIntLit());
-                break;
-
-                case CK.HexLiteral:
-                    dst.Value = field.AsHexLit();
-                    dst.Expression = XedRender.format(field.AsHexLit());
-                break;
-
-                case CK.SegVar:
-                    dst.Value = field.AsSegVar();
-                    dst.Expression = dst.Value.Format();
-                break;
-
-                case CK.Keyword:
-                    dst.Value = field.ToKeyword();
-                    dst.Expression = dst.Value.Format();
-                break;
-
-                case CK.NontermCall:
-                    dst.Value = field.AsRuleName();
-                    dst.Expression = XedRender.format(field.AsRuleName());
-                break;
-
-                case CK.Operator:
-                    dst.Op = field.AsOperator();
-                    dst.Value = EmptyString;
-                    dst.Expression = dst.Op.Format();
-                break;
-
-                case CK.SegField:
-                    dst.Value = field.AsSegField();
-                    dst.Expression = dst.Value.Format();
-                break;
-            }
-
-            return dst;
-        }
-
         public static Index<KeyedCellRecord> records(KeyedCells src)
+            => records(src.Flatten());
+
+        public static Index<KeyedCellRecord> records(Index<KeyedCell> cells)
         {
-            var dst = list<KeyedCellRecord>();
-            var k=0u;
-            var sigs = src.Keys;
-            for(var i=z16; i<sigs.Length; i++)
+            var count = cells.Count;
+            var buffer = alloc<KeyedCellRecord>(count);
+            for(var i=z16; i<count; i++)
             {
-                ref readonly var sig = ref skip(sigs,i);
-                if(src.Find(sig, out var cells))
+                ref readonly var cell = ref cells[i];
+                ref readonly var value = ref cell.Value;
+                ref readonly var key = ref cell.Key;
+                ref readonly var sig = ref key.TableSig;
+                ref readonly var fk = ref value.FieldKind;
+                ref readonly var type = ref value.DataKind;
+                ref var dst = ref seek(buffer,i);
+                dst.Seq = i;
+                dst.Lix = cell.LinearIndex;
+                dst.TableId = key.TableId;
+                dst.Kind = sig.TableKind;
+                dst.Name = sig.TableName;
+                dst.Type = type;
+                dst.Row = cell.RowIndex;
+                dst.Col = cell.CellIndex;
+                dst.Logic = cell.Logic;
+                dst.Field = cell.Field;
+                dst.Value = value;
+                if(value.IsFieldExpr)
                 {
-                    for(var j=z16; j<cells.Count; j++, k++)
-                        dst.Add(record(k, cells[j]));
+                    var expr = value.ToFieldExpr();
+                    dst.Expression = expr.Format();
+                    dst.Op = expr.Operator;
+                }
+                else if (value.IsOperator)
+                {
+                    dst.Expression = value.AsOperator().Format();
+                    dst.Op = value.AsOperator();
+                }
+                else
+                {
+                    dst.Expression = cell.Format();
+                    dst.Op = RuleOperator.None;
                 }
             }
 
-            return dst.ToIndex();
+            return buffer;
         }
 
         [Op]

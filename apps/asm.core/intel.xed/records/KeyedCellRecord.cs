@@ -12,13 +12,17 @@ namespace Z0
         {
             public const string RecordId = "xed.rules.cells";
 
-            public const byte FieldCount = 11;
+            public const byte FieldCount = 13;
 
             public uint Seq;
 
+            public ushort Lix;
+
             public ushort TableId;
 
-            public RuleSig Sig;
+            public RuleTableKind Kind;
+
+            public RuleName Name;
 
             public asci32 Expression;
 
@@ -37,12 +41,12 @@ namespace Z0
             public dynamic Value;
 
             public CellKey Key
-                => new CellKey(Sig, TableId, Row, Logic, Col);
+                => new CellKey(new(Name,Kind), TableId, Row, Logic, Col);
 
             public int CompareTo(KeyedCellRecord src)
                 => Key.CompareTo(src.Key);
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,36,32,6,6,6,6,24,4,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,6,32,32,6,6,6,6,24,4,1};
 
             public static KeyedCellRecord Empty => default;
         }

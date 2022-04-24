@@ -172,6 +172,12 @@ namespace Z0
             return Sources() + name;
         }
 
+        public FS.FilePath RuleTarget(FS.FileName file)
+            => RuleTargets() + file;
+
+        public FS.FilePath RuleTarget(string name, FS.FileExt ext)
+            => RuleTargets() + FS.file("xed.rules." + name, ext);
+
         public static XedDocKind srckind(FS.FileName src)
         {
             if(src == EncInstDef)

@@ -81,7 +81,6 @@ namespace Z0
                     if(!result)
                         Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleName), name));
                     dst = new CellExpr(op, new CellValue(fk, rule));
-                    term.babble($"Parsed expression {dst}");
                 }
                 else
                 {

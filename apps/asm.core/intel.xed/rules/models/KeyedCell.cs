@@ -10,13 +10,16 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct KeyedCell : IComparable<KeyedCell>
         {
+            public readonly ushort LinearIndex;
+
             public readonly CellKey Key;
 
             public readonly InstField Value;
 
             [MethodImpl(Inline)]
-            public KeyedCell(CellKey key, InstField value)
+            public KeyedCell(uint lix, CellKey key, InstField value)
             {
+                LinearIndex = (ushort)lix;
                 Key = key;
                 Value = value;
             }
@@ -25,6 +28,36 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => Value.FieldKind;
+            }
+
+            public LogicClass Logic
+            {
+                [MethodImpl(Inline)]
+                get => Key.Logic;
+            }
+
+            public byte CellIndex
+            {
+                [MethodImpl(Inline)]
+                get => Key.CellIndex;
+            }
+
+            public ushort RowIndex
+            {
+                [MethodImpl(Inline)]
+                get => Key.RowIndex;
+            }
+
+            public ushort TableId
+            {
+                [MethodImpl(Inline)]
+                get => Key.TableId;
+            }
+
+            public RuleSig TableSig
+            {
+                [MethodImpl(Inline)]
+                get => Key.TableSig;
             }
 
             public bool IsFieldExpr

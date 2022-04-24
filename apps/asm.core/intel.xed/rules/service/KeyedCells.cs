@@ -9,14 +9,28 @@ namespace Z0
     {
         public class KeyedCells : SortedLookup<RuleSig,Index<KeyedCell>>
         {
-            public KeyedCells(Dictionary<RuleSig,Index<KeyedCell>> src)
+            public static KeyedCells create(ConcurrentDictionary<RuleSig,Index<KeyedCell>> src, string desc)
+                => new KeyedCells(src,desc);
+
+            public static KeyedCells create(Dictionary<RuleSig,Index<KeyedCell>> src, string desc)
+                => new KeyedCells(src.ToConcurrentDictionary(),desc);
+
+            public readonly uint CellCount;
+
+            public readonly string Description;
+
+            public readonly uint TableCount;
+
+            public KeyedCells(ConcurrentDictionary<RuleSig,Index<KeyedCell>> src, string desc)
                 : base(src)
             {
-
+                Description = desc;
+                TableCount = (uint)src.Count;
+                CellCount = src.Values.Map(x => x.Count).Sum();
             }
 
-            public static implicit operator KeyedCells(Dictionary<RuleSig,Index<KeyedCell>> src)
-                => new KeyedCells(src);
+            public Index<KeyedCell> Flatten()
+                => flatten(this);
         }
    }
 }
