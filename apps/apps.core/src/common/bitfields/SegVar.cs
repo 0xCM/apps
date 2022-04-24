@@ -24,6 +24,12 @@ namespace Z0
             return new SegVar(data);
         }
 
+        public static SegVar literal(byte n, byte value)
+        {
+            var bits = span(string.Format("0b{0}",value.ToBitVector8().Format()));
+            return parse(slice(bits,0, n + 2));
+        }
+
         public const byte MaxLength = 12;
 
         const byte SegWidth = 5;
@@ -101,6 +107,18 @@ namespace Z0
             get => CountChars();
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data != 0;
+        }
+
         public string Format()
         {
             var dst = CharBlock12.Empty;
@@ -121,6 +139,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static explicit operator SegVar(ulong src)
             => new SegVar(src);
-
     }
 }

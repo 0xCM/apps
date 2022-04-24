@@ -32,15 +32,13 @@ namespace Z0
             return true;
         }
 
-
-        void LoadRuleBlocks()
+        [CmdOp("xed/emit/ruleblocks")]
+        Outcome EmitRuleBlocks(CmdArgs args)
         {
             var known = Symbols.kinds<RuleName>().Where(x => x != 0).ToArray().Map(x => x.ToString()).ToHashSet();
             var found = hashset<string>();
             var dst = text.emitter();
-            var encBlocks = TableCalcs.blocks(RuleTableKind.ENC);
-            var decBlocks  = TableCalcs.blocks(RuleTableKind.DEC);
-            var blocks = (encBlocks + decBlocks).Sort();
+            var blocks = CellParser.blocks();
             var count = blocks.Count;
             for(var i=0; i<count; i++)
             {
@@ -59,55 +57,8 @@ namespace Z0
                     Write($"Not known: {f}");
             }
 
-        }
-        void CheckNonTerms()
-        {
-            var patterns = CalcPatterns();
-            var count = patterns.Count;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var pattern = ref patterns[i];
-                ref readonly var fields = ref pattern.Fields;
-                ref readonly var ops = ref pattern.Ops;
-                for(var j=0; j<ops.Count; j++)
-                {
-                    ref readonly var op = ref ops[j];
-                    if(op.Nonterminal(out var nt))
-                    {
-                        Require.invariant(nt.IsNonEmpty);
-                        GprWidth.widths(nt, out var widths);
-                        Write(string.Format("{0,-18} | {1}={2,-24} | {3}", pattern.InstClass, op.Name, nt, widths), FlairKind.StatusData);
-                    }
-
-                }
-            }
+            return true;
         }
 
-        void CheckGprWidths()
-        {
-            var ntk = RuleName.GPR8_R;
-            var result = GprWidth.widths(ntk, out var widths);
-            Write(widths.Format());
-        }
-
-        bool Match(Index<string> a, Index<string> b)
-        {
-            var result = true;
-            var count = a.Count;
-            result = (count == b.Count);
-            if(result)
-            {
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var x = ref a[i];
-                    ref readonly var y = ref b[i];
-                    result = x == y;
-                    if(!result)
-                        break;
-                }
-            }
-
-            return result;
-        }
     }
 }

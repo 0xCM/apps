@@ -10,12 +10,9 @@ namespace Z0
     using static XedModels;
     using static XedRules;
     using static XedFields;
-    using static XedDisasm;
-    using static XedRules.SyntaxLiterals;
     using static core;
 
     using R = XedRules;
-    using RF = XedRules.RuleFormKind;
 
     public partial class XedParsers
     {
@@ -105,66 +102,6 @@ namespace Z0
 
         }
 
-        /// <summary>
-        /// Parses an operand disassembly line
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <remarks>
-        /// For example:
-        /// 0		REG0/W/ZU32/EXPLICIT/NT_LOOKUP_FN/ZMM_R3
-        /// 3		MEM0/R/VV/EXPLICIT/IMM_CONST/1
-        /// 3		BASE0/RW/SSZ/SUPPRESSED/NT_LOOKUP_FN/SRSP
-        /// </remarks>
-        public static Outcome parse(string src, out OpInfo dst)
-        {
-            dst = default;
-            if(text.length(src) < 3)
-                return (false,RP.Empty);
-
-            var result = Outcome.Success;
-            var data = span(src);
-
-            var idx = text.trim(text.left(src,2));
-            result = DataParser.parse(idx, out dst.Index);
-            if(result.Fail)
-                return (false,AppMsg.ParseFailure.Format(nameof(dst.Index), idx));
-
-            var aspects = text.trim(text.right(src,2));
-            var parts = text.split(aspects, Chars.FSlash);
-            if(parts.Length != 6)
-                return (false, string.Format("Unexpected number of operand aspects in {0}", aspects));
-
-            var i=0;
-            result = XedParsers.parse(skip(parts,i++), out dst.Name);
-            if(result.Fail)
-                return (false, AppMsg.ParseFailure.Format(nameof(dst.Name), skip(parts,i-1)));
-
-            dst.Kind = XedRules.opkind(dst.Name);
-
-            result = DataParser.eparse(skip(parts,i++), out dst.Action);
-            if(result.Fail)
-                return result;
-
-
-            result = DataParser.eparse(skip(parts,i++), out dst.WidthCode);
-            if(result.Fail)
-                return result;
-
-            result = XedParsers.parse(skip(parts,i++), out dst.Visibility);
-            if(result.Fail)
-                return result;
-
-            result = DataParser.eparse(skip(parts,i++), out dst.OpType);
-            if(result.Fail)
-                return result;
-
-            var selector = text.trim(skip(parts,i++));
-            dst.SelectorName = selector;
-            parse(selector, out dst.Selector);
-            return result;
-        }
-
         public static bool parse(string src, out RuleName dst)
         {
             dst = Nonterminal.Empty;
@@ -217,95 +154,6 @@ namespace Z0
         public static bool parse(string src, out imm64 dst)
             => imm64.parse(src, out dst);
 
-        public static Index<RuleSeq> ruleseq(FS.FilePath src)
-            => ruleseq(src.ReadNumberedLines());
-
-        static public Index<RuleSeq> ruleseq(ReadOnlySpan<TextLine> src)
-        {
-            var count = src.Length;
-            var buffer = list<RuleSeq>();
-            var terms = list<RuleSeqTerm>();
-            var result = Outcome.Success;
-            for(var j=0u; j<count; j++)
-            {
-                ref readonly var line = ref skip(src,j);
-                if(line.IsEmpty)
-                    continue;
-
-                var form = RuleForm(line.Content);
-                if(form == RuleFormKind.SeqDecl)
-                {
-                    var content = text.despace(line.Content);
-                    var i = text.index(content, Chars.Space);
-                    var name = text.right(content, i);
-                    terms.Clear();
-                    j++;
-
-                    if(parse(src, ref j, terms) != 0)
-                    {
-                        buffer.Add(new RuleSeq(name, terms.ToArray()));
-                        terms.Clear();
-                        content = text.despace(skip(src,j).Content);
-                        if(IsSeqDecl(content))
-                        {
-                            i = text.index(content, Chars.Space);
-                            name = text.right(content, i);
-                            parse(name, src, ref j, buffer);
-                        }
-                    }
-                }
-            }
-            return buffer.ToArray();
-        }
-
-        static void parse(Identifier name, ReadOnlySpan<TextLine> src, ref uint j, List<RuleSeq> dst)
-        {
-            var content = text.despace(skip(src,j).Content);
-            var terms = list<RuleSeqTerm>();
-            if(parse(src, ref j, terms) != 0)
-            {
-                dst.Add(new RuleSeq(name, terms.ToArray()));
-                content = text.despace(skip(src,j).Content);
-                if(IsSeqDecl(content))
-                {
-                    var i = text.index(content, Chars.Space);
-                    name = text.right(content, i);
-                    parse(name, src, ref j, dst);
-                }
-            }
-        }
-
-        static uint parse(ReadOnlySpan<TextLine> src, ref uint j, List<RuleSeqTerm> terms)
-        {
-            var i0 = j;
-            for(;j<src.Length; j++)
-            {
-                ref readonly var line = ref skip(src,j);
-                if(line.IsEmpty)
-                    break;
-
-                if(!text.begins(line.Content, "   "))
-                    break;
-
-                var content = line.Content.Trim();
-                if(text.begins(content, Chars.Hash))
-                    continue;
-
-                var q = text.index(content, Chars.Hash);
-                if(q > 0)
-                    content = text.left(content, q);
-
-                if(IsNonterm(content))
-                {
-                    var k = text.index(content, CallSyntax);
-                    terms.Add(new RuleSeqTerm(text.left(content,k), IsNonterm(content)));
-                }
-                else
-                    terms.Add(new RuleSeqTerm(content, false));
-            }
-            return (uint)terms.Count;
-        }
-
         public static bool IsNonterm(string src)
             => text.trim(text.remove(src,Chars.Colon)).EndsWith("()");
 
@@ -320,18 +168,6 @@ namespace Z0
 
         public static bool IsNumber(string src)
             => IsHexLiteral(src) || IsBinaryLiteral(src) || IsIntLiteral(src);
-
-        public static bool IsTableDecl(string src)
-            => src.EndsWith(TableDeclSyntax);
-
-        public static bool IsEncStep(string src)
-            => src.Contains(EncStep);
-
-        public static bool IsDecStep(string src)
-            => src.Contains(DecStep);
-
-        public static bool IsSeqDecl(string src)
-            => src.StartsWith(SeqDeclSyntax);
 
         public static bool number(string src, out byte dst)
         {
@@ -428,6 +264,53 @@ namespace Z0
                 dst = default;
                 return false;
             }
+        }
+
+        public static bool bitnumber(string src, out byte n, out byte number)
+        {
+            n = 0;
+            number = 0;
+            if(!parse(src, out uint5 value))
+                return false;
+
+            var len = src.Length - 2;
+            switch(len)
+            {
+                case 1:
+                    number = (uint1)value;
+                    n = (byte)len;
+                break;
+                case 2:
+                    number = (uint2)value;
+                    n = (byte)len;
+                break;
+                case 3:
+                    number = (uint3)(byte)value;
+                    n = (byte)len;
+                break;
+                case 4:
+                    number = (uint4)(byte)value;
+                    n = (byte)len;
+                break;
+                case 5:
+                    number = value;
+                    n = (byte)len;
+                break;
+            }
+
+            return n != 0;
+        }
+
+        public static bool segdata(string src, out string dst)
+        {
+            var i = text.index(src, Chars.LBracket);
+            var j = text.index(src, Chars.RBracket);
+            var result = i>0 && j>i;
+            if(result)
+                dst = text.inside(src,i,j);
+            else
+                dst = EmptyString;
+            return result;
         }
 
         public static bool parse(string src, out RuleMacroKind dst)
@@ -729,23 +612,6 @@ namespace Z0
                 }
             }
             return result;
-        }
-
-        public static RF RuleForm(string src)
-        {
-            var i = text.index(src, Chars.Hash);
-            var content = (i> 0 ? text.left(src,i) : src).Trim();
-            if(IsTableDecl(content))
-                return RF.RuleDecl;
-            if(IsEncStep(content))
-                return RF.EncodeStep;
-            if(IsDecStep(content))
-                return RF.DecodeStep;
-            if(IsNonterm(content))
-                return RF.Invocation;
-            if(IsSeqDecl(content))
-                return RF.SeqDecl;
-            return 0;
         }
 
         public static bool parse(string src, out ElementKind dst)

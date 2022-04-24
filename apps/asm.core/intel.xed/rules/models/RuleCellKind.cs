@@ -25,6 +25,9 @@ namespace Z0
             [Symbol("SegV")]
             SegVar,
 
+            [Symbol("SegF")]
+            SegField,
+
             [Symbol("Kw")]
             Keyword,
 
@@ -34,8 +37,8 @@ namespace Z0
             [Symbol("OpX")]
             Operator,
 
-            [Symbol("SegF")]
-            SegField,
+            [Symbol("SegI")]
+            InstSeg,
 
             [Symbol("NeqX")]
             NeqExpr,

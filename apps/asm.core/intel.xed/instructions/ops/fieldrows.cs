@@ -38,8 +38,8 @@ namespace Z0
             dst.OpCode = pattern.OpCode;
             switch(src.DataKind)
             {
-                case RuleCellKind.SegField:
-                    dst.Seg = src.AsSegField();
+                case RuleCellKind.InstSeg:
+                    dst.Seg = src.AsInstSeg();
                 break;
                 case RuleCellKind.BitLiteral:
                     dst.BitLiteral = src.AsBitLit();

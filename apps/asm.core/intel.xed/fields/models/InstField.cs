@@ -78,9 +78,9 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 core.@as<InstSeg>(data.First) = src;
-                data[KindIndex] = (byte)RuleCellKind.SegField;
+                data[KindIndex] = (byte)RuleCellKind.InstSeg;
                 data[FieldIndex] = (byte)src.Field;
-                data[ClassIndex] = (byte)RuleCellKind.SegField;
+                data[ClassIndex] = (byte)RuleCellKind.InstSeg;
                 Data = data;
             }
 
@@ -91,6 +91,17 @@ namespace Z0
                 data.A = (ulong)src;
                 data[KindIndex] = (byte)RuleCellKind.SegVar;
                 data[ClassIndex] = (byte)RuleCellKind.SegVar;
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
+            public InstField(SegField src)
+            {
+                var data = ByteBlock16.Empty;
+                data.A = (ulong)src.Seg;
+                data[KindIndex] = (byte)RuleCellKind.SegField;
+                data[FieldIndex] = (byte)src.Field;
+                data[ClassIndex] = (byte)RuleCellKind.SegField;
                 Data = data;
             }
 
@@ -254,8 +265,12 @@ namespace Z0
                 => RuleKeyword.from(@as<KeywordKind>(Data.First));
 
             [MethodImpl(Inline)]
-            public ref readonly InstSeg AsSegField()
+            public ref readonly InstSeg AsInstSeg()
                 => ref @as<InstSeg>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly SegField AsSegField()
+                => ref @as<SegField>(Data.First);
 
             public string Format()
                 => XedRender.format(this);

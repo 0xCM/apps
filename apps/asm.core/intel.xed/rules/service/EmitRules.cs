@@ -47,7 +47,7 @@ namespace Z0
 
         void EmitRuleSeq()
         {
-            var src = TableCalcs.ruleseq();
+            var src = CellParser.ruleseq();
             var dst = text.buffer();
             iter(src, x => dst.AppendLine(x.Format()));
             FileEmit(dst.Emit(), src.Count, XedPaths.Service.DocTarget(XedDocKind.RuleSeq), TextEncodingKind.Asci);

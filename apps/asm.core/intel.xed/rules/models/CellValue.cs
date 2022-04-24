@@ -46,7 +46,7 @@ namespace Z0
             {
                 Field = src.Field;
                 Data = (ulong)src;
-                CellKind = RuleCellKind.SegField;
+                CellKind = RuleCellKind.InstSeg;
             }
 
             [MethodImpl(Inline)]
@@ -58,11 +58,19 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
+            public CellValue(SegField src)
+            {
+                Field = src.Field;
+                Data = (ulong)src.Seg;
+                CellKind = RuleCellKind.SegField;
+            }
+
+            [MethodImpl(Inline)]
             public CellValue(FieldKind field, InstSegType type)
             {
                 Field = field;
                 Data = (ulong)new InstSeg(field, type);
-                CellKind = RuleCellKind.SegField;
+                CellKind = RuleCellKind.InstSeg;
             }
 
             [MethodImpl(Inline)]
@@ -202,6 +210,10 @@ namespace Z0
                 => (SegVar)Data;
 
             [MethodImpl(Inline)]
+            public SegField ToSegField()
+                => new SegField((SegVar)Data, Field);
+
+            [MethodImpl(Inline)]
             public InstClass ToInstClass()
                 => (IClass)Data;
 
@@ -246,7 +258,7 @@ namespace Z0
                 => (RuleName)Data;
 
             [MethodImpl(Inline)]
-            public InstSeg ToSegField()
+            public InstSeg ToInstSeg()
                 => (InstSeg)Data;
 
             [MethodImpl(Inline)]

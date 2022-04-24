@@ -7,7 +7,6 @@ namespace Z0
     using static core;
     using static XedRules;
     using static XedModels;
-    using static XedFields;
 
     partial class XedDisasm
     {
@@ -48,8 +47,7 @@ namespace Z0
 
                 result = XedParsers.parse(name, out FieldKind kind);
                 result.Require();
-                var pack = TableCalcs.pack(value, kind);
-                dst.Update(pack);
+                dst.Update(pack(value, kind));
                 counter++;
             }
             return counter;

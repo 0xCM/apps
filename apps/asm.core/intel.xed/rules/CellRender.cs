@@ -109,7 +109,7 @@ namespace Z0
                 }
                 else if(src.IsSeg)
                 {
-                    CellParser.SegData(src.Data, out var data);
+                    XedParsers.segdata(src.Data, out var data);
                     dst = string.Format("{0}[{1}]", XedRender.format(src.Field), data);
                 }
                 else if(src.IsNontermCall)
@@ -195,7 +195,7 @@ namespace Z0
                 var dst = XedRender.format(src.Class.Kind);
                 switch(src.Class.Kind)
                 {
-                    case CK.SegField:
+                    case CK.InstSeg:
                     case CK.NeqExpr:
                     case CK.EqExpr:
                     case CK.NontermExpr:
@@ -235,6 +235,8 @@ namespace Z0
                     return src.ToSegVar().Format();
                 else if(src.CellKind == RuleCellKind.Keyword)
                     return src.ToKeyword().Format();
+                else if(src.CellKind == RuleCellKind.InstSeg)
+                    return src.ToInstSeg().Format();
                 else if(src.CellKind == RuleCellKind.SegField)
                     return src.ToSegField().Format();
 

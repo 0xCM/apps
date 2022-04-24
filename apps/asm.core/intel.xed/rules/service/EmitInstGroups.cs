@@ -6,15 +6,10 @@
 namespace Z0
 {
     using static XedModels;
+    using static core;
 
     partial class XedRules
     {
-        public void EmitGroupReports(Index<InstGroup> src)
-            => core.iter(XedRules.seq(src), kvp => EmitGroupReport(kvp.Key, kvp.Value), PllExec);
-
-        void EmitGroupReport(OpCodeClass @class, Index<InstGroupSeq> src)
-            => TableEmit(resequence(src).View, InstGroupSeq.RenderWidths, XedPaths.Table<InstGroupSeq>(@class.ToString().ToLower()));
-
         public void Emit(Index<InstGroup> src)
         {
             EmitGroupReports(src);
@@ -61,5 +56,14 @@ namespace Z0
             }
             FileEmit(dst.Emit(), counter, XedPaths.Targets() + FS.file("xed.inst.groups", FS.Csv), TextEncodingKind.Asci);
         }
+
+        public ConcurrentDictionary<OpCodeClass,Index<InstGroupSeq>> CalcGroupLookup(Index<InstGroup> src)
+            => Data(nameof(CalcGroupLookup), () => XedRules.grouplookup(src,PllExec));
+
+        public void EmitGroupReports(Index<InstGroup> src)
+            => iter(CalcGroupLookup(src), kvp => EmitGroupReport(kvp.Key, kvp.Value), PllExec);
+
+        void EmitGroupReport(OpCodeClass @class, Index<InstGroupSeq> src)
+            => TableEmit(src.View, InstGroupSeq.RenderWidths, XedPaths.Table<InstGroupSeq>(@class.ToString().ToLower()));
     }
 }

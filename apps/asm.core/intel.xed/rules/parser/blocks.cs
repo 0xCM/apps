@@ -9,8 +9,11 @@ namespace Z0
 
     partial class XedRules
     {
-        partial struct TableCalcs
+        partial struct CellParser
         {
+            public static Index<RuleTableBlock> blocks()
+                => (blocks(RuleTableKind.ENC) + blocks(RuleTableKind.DEC)).Sort();
+
             public static Index<RuleTableBlock> blocks(RuleTableKind kind)
             {
                 var src = XedPaths.Service.RuleSource(kind);
@@ -52,6 +55,7 @@ namespace Z0
 
                 return dst.Sort();
             }
+
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Z0
                 @as<InstSeg>(data.First) = src;
                 data[NonEmptyPos] = (bit)src.IsNonEmpty;
                 data[ClassPos] = (byte)C.SegField;
-                data[KindPos] = (byte)K.SegField;
+                data[KindPos] = (byte)K.InstSeg;
                 Data = data;
             }
 
@@ -159,7 +159,7 @@ namespace Z0
                     case K.NontermCall:
                         dst = XedRender.format(AsRuleName());
                     break;
-                    case K.SegField:
+                    case K.InstSeg:
                         dst = AsSeg().Format();
                     break;
                 }

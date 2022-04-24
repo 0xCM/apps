@@ -74,7 +74,7 @@ namespace Z0
                 var sigs =  alloc<RuleSig>(count);
                 var rows = alloc<RuleSigRow>(count);
                 var sigset = hashset<RuleSig>();
-                _Specs = XedRules.lookup(criteria);
+                _Specs = CellParser.specs(criteria);
                 _Criteria = criteria;
                 _SigIndex = sigs;
                 _SigRows = rows;

@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct SegLiterals
+        public readonly struct InstSegLiterals
         {
             const string over = "/";
 

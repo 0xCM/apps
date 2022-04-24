@@ -16,7 +16,6 @@ namespace Z0
 
         Index<InstPattern> CalcPatterns() => Rules.CalcPatterns();
 
-
         [CmdOp("xed/emit/patterns")]
         Outcome EmitPatterns(CmdArgs args)
         {

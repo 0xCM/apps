@@ -55,8 +55,8 @@ namespace Z0
                     case K.SegVar:
                         cell = new (i, field.AsSegVar());
                     break;
-                    case K.SegField:
-                        cell = new (i, field.AsSegField());
+                    case K.InstSeg:
+                        cell = new (i, field.AsInstSeg());
                     break;
                     default:
                         Errors.Throw(AppMsg.UnhandledCase.Format(field.DataKind));

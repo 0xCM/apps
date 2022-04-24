@@ -154,8 +154,8 @@ namespace Z0
 
                             }
                             break;
-                            case RuleCellKind.SegField:
-                                seek(dst,j) = string.Format(Pattern, j, fk, field.AsSegField());
+                            case RuleCellKind.InstSeg:
+                                seek(dst,j) = string.Format(Pattern, j, fk, field.AsInstSeg());
                             break;
                             default:
                                 Errors.Throw(string.Format("Unhandled case: {0}", field.DataKind));

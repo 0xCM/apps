@@ -590,8 +590,8 @@ namespace Z0
                 case RuleCellKind.IntLiteral:
                     dst = src.AsIntLit().ToString();
                 break;
-                case RuleCellKind.SegField:
-                    dst = src.AsSegField().Format();
+                case RuleCellKind.InstSeg:
+                    dst = src.AsInstSeg().Format();
                 break;
                 case RuleCellKind.BitLiteral:
                     dst = format5(src.AsBitLit());

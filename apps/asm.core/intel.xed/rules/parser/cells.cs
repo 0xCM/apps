@@ -91,15 +91,15 @@ namespace Z0
                                         field = info.Operator;
                                     else
                                     {
-                                        result = CellParser.parse(data, out RuleOperator value);
+                                        result = ruleop(data, out RuleOperator value);
                                         field = value;
                                     }
                                 }
                                 break;
 
-                                case CK.SegField:
+                                case CK.InstSeg:
                                 {
-                                    result = CellParser.parse(data, out InstSeg value);
+                                    result = parse(data, out InstSeg value);
                                     field = value;
                                 }
                                 break;

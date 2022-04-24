@@ -36,7 +36,7 @@ namespace Z0
 
             public InstSeg Seg;
 
-            public RuleName Nonterminal;
+            public Nonterminal Nonterminal;
 
             public EmptyZero<byte> IntLiteral;
 

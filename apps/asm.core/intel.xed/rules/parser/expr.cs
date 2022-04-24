@@ -86,7 +86,7 @@ namespace Z0
                 {
                     XedParsers.parse(left, out fk);
                     Require.nonzero(fk);
-                    var result = parse(fk, right, out fv);
+                    var result = cellvalue(fk, right, out fv);
                     if(!result)
                         Errors.Throw(AppMsg.ParseFailure.Format(nameof(CellExpr), src));
                     dst = new CellExpr(op, fv);

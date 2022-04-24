@@ -86,5 +86,25 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bool equals(Span<char> a, Span<char> b)
             => equals(a.ReadOnly(), b.ReadOnly());
+
+        [Op]
+        public static bool equals(ReadOnlySpan<string> a, ReadOnlySpan<string> b, bool matchcase = true)
+        {
+            var result = true;
+            var ct = matchcase ? StringComparison.InvariantCulture : StringComparison.InvariantCultureIgnoreCase;
+            var count = a.Length;
+            result = (count == b.Length);
+            if(result)
+            {
+                for(var i=0; i<count; i++)
+                {
+                    result = equals(skip(a,i), skip(b,i), ct);
+                    if(!result)
+                        break;
+                }
+            }
+
+            return result;
+        }
     }
 }

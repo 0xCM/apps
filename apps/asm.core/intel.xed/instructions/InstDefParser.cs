@@ -132,7 +132,7 @@ namespace Z0
                                             spec.Isa = isa;
                                             InstPatternSpec.FixIsa(ref spec);
                                             spec.RawBody = rawbody;
-                                            CellParser.parse(RuleMacros.expand(InstPatternBody.normalize(rawbody)), out spec.Body);
+                                            InstParser.parse(RuleMacros.expand(InstPatternBody.normalize(rawbody)), out spec.Body);
                                             spec.Mode = XedFields.mode(spec.Body.Fields);
                                             PatternOpParser.parse(spec.PatternId, opexpr, out spec.Ops);
                                             spec.OpCode = XedOpCodes.opcode(spec.Body.Fields);

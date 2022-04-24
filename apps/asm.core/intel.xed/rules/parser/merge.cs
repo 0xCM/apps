@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        partial struct TableCalcs
+        partial struct CellParser
         {
             static Index<TableCriteria> merge(Index<TableCriteria> src)
             {

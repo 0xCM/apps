@@ -57,7 +57,7 @@ namespace Z0
 
             static InstSegTypes()
             {
-                SegTypeIndex = SegLiterals.Index();
+                SegTypeIndex = InstSegLiterals.Index();
                 SegTypeLookup = SegTypeIndex.Map(x => (x.Right,x.Left)).ToDictionary();
             }
         }

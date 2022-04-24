@@ -75,7 +75,7 @@ namespace Z0
             for(var k=0; k<lines.OpCount; k++)
             {
                 ref var operand = ref dst.Ops[k];
-                result = XedParsers.parse(skip(lines.Ops, k).Content, out operand.OpInfo);
+                result = opinfo(skip(lines.Ops, k).Content, out operand.OpInfo);
                 if(result.Fail)
                     Errors.Throw(result.Message);
 
