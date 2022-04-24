@@ -28,7 +28,7 @@ namespace Z0
             }
 
             public string Format()
-                => $"{Kind}_{Effect}";
+                => $"{Kind.Name}_{Effect}";
 
             public override string ToString()
                 => Format();

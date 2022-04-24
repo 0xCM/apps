@@ -5,55 +5,42 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules;
+
     partial struct XedModels
     {
         public readonly struct SeqDef
         {
-            public readonly SeqType Type;
+            public readonly asci32 SeqName;
 
-            public readonly Index<SeqStep> Steps;
+            public readonly SeqEffect Effect;
+
+            public readonly Index<RuleName> Rules;
 
             [MethodImpl(Inline)]
-            public SeqDef(SeqStep[] steps)
+            public SeqDef(asci32 name, SeqEffect effect, RuleName[] rules)
             {
-                Steps = steps;
-                Type = SeqType.Empty;
+                SeqName = name;
+                Effect = effect;
+                Rules = rules;
             }
 
             [MethodImpl(Inline)]
-            public SeqDef(Nonterminal name, SeqStep[] steps)
+            public SeqDef(SeqEffect effect, RuleName[] rules)
             {
-                Steps = steps;
-                Type = new(name);
+                SeqName = asci32.Null;
+                Effect = effect;
+                Rules = rules;
             }
-
-            [MethodImpl(Inline)]
-            public SeqDef(SeqType type, SeqStep[] steps)
-            {
-                Steps = steps;
-                Type = type;
-            }
-
-            [MethodImpl(Inline)]
-            public SeqDef WithType(SeqType type)
-                => new SeqDef(type, Steps);
-
-            [MethodImpl(Inline)]
-            public SeqDef WithType(Nonterminal name)
-                => new SeqDef(name, Steps);
-
-            [MethodImpl(Inline)]
-            public SeqDef WithType(Nonterminal name, SeqEffect effect)
-                => new SeqDef(new SeqType(name,effect), Steps);
 
             public string Format()
             {
                 var dst = text.buffer();
-                dst.AppendLineFormat("{0}(){{", Type);
-                for(var i=0; i<Steps.Count; i++)
+                dst.AppendLineFormat("{0}(){{", "Name");
+                for(var i=0; i<Rules.Count; i++)
                 {
-                    ref readonly var step = ref Steps[i];
-                    dst.IndentLine(4,step.Format());
+                    ref readonly var step = ref Rules[i];
+                    dst.IndentLine(4,step.ToString());
                 }
                 dst.AppendLine("}");
 
@@ -62,14 +49,6 @@ namespace Z0
 
             public override string ToString()
                 => Format();
-
-            [MethodImpl(Inline)]
-            public static implicit operator SeqDef(SeqStep[] src)
-                => new SeqDef(src);
-
-            [MethodImpl(Inline)]
-            public static implicit operator SeqDef(Index<SeqStep> src)
-                => new SeqDef(src);
         }
     }
 }
