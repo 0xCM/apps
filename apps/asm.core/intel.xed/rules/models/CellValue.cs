@@ -42,7 +42,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellValue(SegField src)
+            public CellValue(InstSeg src)
             {
                 Field = src.Field;
                 Data = (ulong)src;
@@ -58,10 +58,10 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind field, SegFieldType type)
+            public CellValue(FieldKind field, InstSegType type)
             {
                 Field = field;
-                Data = (ulong)new SegField(field, type);
+                Data = (ulong)new InstSeg(field, type);
                 CellKind = RuleCellKind.SegField;
             }
 
@@ -246,8 +246,8 @@ namespace Z0
                 => (RuleName)Data;
 
             [MethodImpl(Inline)]
-            public SegField ToSegField()
-                => (SegField)Data;
+            public InstSeg ToSegField()
+                => (InstSeg)Data;
 
             [MethodImpl(Inline)]
             public static implicit operator EASZ(CellValue src)

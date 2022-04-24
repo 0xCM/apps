@@ -7,29 +7,29 @@ namespace Z0
 {
     partial class XedRules
     {
-        public class SegTypes
+        public class InstSegTypes
         {
-            public static SegFieldType type(string pattern)
+            public static InstSegType type(string pattern)
                 => new(SegTypeId(pattern));
 
-            public static SegFieldType type(char c)
+            public static InstSegType type(char c)
                 => new(SegTypeId(c));
 
-            public static SegFieldType type(char c0, char c1)
+            public static InstSegType type(char c0, char c1)
                 => new(SegTypeId(new asci8(c0,c1)));
 
-            public static SegFieldType type(char c0, char c1, char c2)
+            public static InstSegType type(char c0, char c1, char c2)
                 => new(SegTypeId(new asci8(c0, c1, c2)));
 
-            public static SegFieldType type(char c0, char c1, char c2, char c3)
+            public static InstSegType type(char c0, char c1, char c2, char c3)
                 => new(SegTypeId(new asci8(c0, c1, c2, c3)));
 
             [MethodImpl(Inline), Op]
-            public static SegFieldType type(byte n, byte value)
-                => new SegFieldType(n, value);
+            public static InstSegType type(byte n, byte value)
+                => new InstSegType(n, value);
 
             [MethodImpl(Inline)]
-            public static string pattern(SegFieldType src)
+            public static string pattern(InstSegType src)
             {
                 var dst = EmptyString;
                 if(src.Id < SegTypeIndex.Count)
@@ -55,7 +55,7 @@ namespace Z0
 
             static readonly ConstLookup<string,byte> SegTypeLookup;
 
-            static SegTypes()
+            static InstSegTypes()
             {
                 SegTypeIndex = SegLiterals.Index();
                 SegTypeLookup = SegTypeIndex.Map(x => (x.Right,x.Left)).ToDictionary();

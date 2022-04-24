@@ -1,10 +1,10 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
     using static core;
 
     using C = XedRules.InstFieldClass;
@@ -25,11 +25,11 @@ namespace Z0
             readonly ByteBlock16 Data;
 
             [MethodImpl(Inline)]
-            public LayoutField(byte index, SegField src)
+            public LayoutField(byte index, InstSeg src)
             {
                 var data = ByteBlock16.Empty;
                 data[IndexPos] = index;
-                @as<SegField>(data.First) = src;
+                @as<InstSeg>(data.First) = src;
                 data[NonEmptyPos] = (bit)src.IsNonEmpty;
                 data[ClassPos] = (byte)C.SegField;
                 data[KindPos] = (byte)K.SegField;
@@ -126,8 +126,8 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public ref readonly SegField AsSeg()
-                => ref @as<SegField>(Data.First);
+            public ref readonly InstSeg AsSeg()
+                => ref @as<InstSeg>(Data.First);
 
             [MethodImpl(Inline)]
             public ref readonly SegVar AsSegVar()

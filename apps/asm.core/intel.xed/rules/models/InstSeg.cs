@@ -8,48 +8,48 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly struct SegField : IEquatable<SegField>, IComparable<SegField>
+        public readonly struct InstSeg : IEquatable<InstSeg>, IComparable<InstSeg>
         {
             public readonly FieldKind Field;
 
-            public readonly SegFieldType Type;
+            public readonly InstSegType Type;
 
             readonly ByteBlock3 Pad;
 
             [MethodImpl(Inline)]
-            internal SegField(FieldKind field, byte n, uint4 value)
+            internal InstSeg(FieldKind field, byte n, uint4 value)
             {
                 Field = field;
-                Type = SegTypes.type(n, value);
+                Type = InstSegTypes.type(n, value);
                 Pad = default;
             }
 
             [MethodImpl(Inline)]
-            internal SegField(FieldKind field, char c0)
+            internal InstSeg(FieldKind field, char c0)
             {
                 Field = field;
-                Type = SegTypes.type(c0);
+                Type = InstSegTypes.type(c0);
                 Pad = default;
             }
 
             [MethodImpl(Inline)]
-            internal SegField(FieldKind field, char c0, char c1)
+            internal InstSeg(FieldKind field, char c0, char c1)
             {
                 Field = field;
-                Type = SegTypes.type(c0, c1);
+                Type = InstSegTypes.type(c0, c1);
                 Pad = default;
             }
 
             [MethodImpl(Inline)]
-            internal SegField(FieldKind field, char c0, char c1, char c2)
+            internal InstSeg(FieldKind field, char c0, char c1, char c2)
             {
                 Field = field;
-                Type = SegTypes.type(c0,c1,c2);
+                Type = InstSegTypes.type(c0,c1,c2);
                 Pad = default;
             }
 
             [MethodImpl(Inline)]
-            internal SegField(FieldKind field, SegFieldType type)
+            internal InstSeg(FieldKind field, InstSegType type)
             {
                 Field = field;
                 Type = type;
@@ -88,7 +88,7 @@ namespace Z0
                     return uint5.Max;
             }
 
-            public int CompareTo(SegField src)
+            public int CompareTo(InstSeg src)
             {
                 var result = XedRules.cmp(Field,src.Field);
                 if(result == 0)
@@ -106,14 +106,14 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public bool Equals(SegField src)
+            public bool Equals(InstSeg src)
                 => Field == src.Field && Type == src.Type;
 
             public override int GetHashCode()
                 => (int)alg.hash.combine(Type.GetHashCode(),(uint)Field);
 
             public override bool Equals(object src)
-                => src is SegField s && Equals(s);
+                => src is InstSeg s && Equals(s);
 
             public string Format()
                 => IsEmpty ? EmptyString : string.Format("{0}[{1}]", XedRender.format(Field), Type.Format());
@@ -122,22 +122,22 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static bool operator ==(SegField a, SegField b)
+            public static bool operator ==(InstSeg a, InstSeg b)
                 => a.Equals(b);
 
             [MethodImpl(Inline)]
-            public static bool operator !=(SegField a, SegField b)
+            public static bool operator !=(InstSeg a, InstSeg b)
                 => !a.Equals(b);
 
             [MethodImpl(Inline)]
-            public static explicit operator ulong(SegField src)
-                => core.@as<SegField,ulong>(src);
+            public static explicit operator ulong(InstSeg src)
+                => core.@as<InstSeg,ulong>(src);
 
             [MethodImpl(Inline)]
-            public static explicit operator SegField(ulong src)
-                => core.@as<ulong,SegField>(src);
+            public static explicit operator InstSeg(ulong src)
+                => core.@as<ulong,InstSeg>(src);
 
-            public static SegField Empty => default;
+            public static InstSeg Empty => default;
         }
     }
 }

@@ -11,7 +11,6 @@ namespace Z0
 
     using CK = XedRules.RuleCellKind;
     using K = XedRules.FieldKind;
-    using R = XedRules;
 
     partial class XedRules
     {
@@ -75,7 +74,7 @@ namespace Z0
                 }
                 else if(IsSeg(src))
                 {
-                    result = parse(src, out SegField x);
+                    result = parse(src, out InstSeg x);
                     if(result)
                         dst = x;
                 }
@@ -327,7 +326,7 @@ namespace Z0
                             {
                                 if(SegData(value, out var sd))
                                 {
-                                    var type = SegTypes.type(sd);
+                                    var type = InstSegTypes.type(sd);
                                     if(type.IsNonEmpty)
                                         dst = new (field,type);
                                     else
@@ -433,10 +432,10 @@ namespace Z0
                 }
             }
 
-            public static Outcome parse(string src, out SegField dst)
+            public static Outcome parse(string src, out InstSeg dst)
             {
                 var result = Outcome.Success;
-                dst = SegField.Empty;
+                dst = InstSeg.Empty;
                 var i = text.index(src, Chars.LBracket);
                 var j = text.index(src, Chars.RBracket);
                 result = i>0 && j>i;
@@ -453,7 +452,7 @@ namespace Z0
                     var literal = XedParsers.IsBinaryLiteral(sd);
                     if(!literal)
                     {
-                        var vt = SegTypes.type(sd);
+                        var vt = InstSegTypes.type(sd);
                         if(vt.IsNonEmpty)
                         {
                             dst = seg(field, vt);

@@ -74,10 +74,10 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstField(SegField src)
+            public InstField(InstSeg src)
             {
                 var data = ByteBlock16.Empty;
-                core.@as<SegField>(data.First) = src;
+                core.@as<InstSeg>(data.First) = src;
                 data[KindIndex] = (byte)RuleCellKind.SegField;
                 data[FieldIndex] = (byte)src.Field;
                 data[ClassIndex] = (byte)RuleCellKind.SegField;
@@ -254,8 +254,8 @@ namespace Z0
                 => RuleKeyword.from(@as<KeywordKind>(Data.First));
 
             [MethodImpl(Inline)]
-            public ref readonly SegField AsSegField()
-                => ref @as<SegField>(Data.First);
+            public ref readonly InstSeg AsSegField()
+                => ref @as<InstSeg>(Data.First);
 
             public string Format()
                 => XedRender.format(this);
@@ -292,7 +292,7 @@ namespace Z0
                 => new InstField(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator InstField(SegField src)
+            public static implicit operator InstField(InstSeg src)
                 => new InstField(src);
 
             [MethodImpl(Inline)]

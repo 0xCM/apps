@@ -99,7 +99,7 @@ namespace Z0
 
                                 case CK.SegField:
                                 {
-                                    result = CellParser.parse(data, out SegField value);
+                                    result = CellParser.parse(data, out InstSeg value);
                                     field = value;
                                 }
                                 break;

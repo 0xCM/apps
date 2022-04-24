@@ -66,9 +66,9 @@ namespace Z0
                     left = text.left(left, k);
                     XedParsers.parse(left, out fk);
                     Require.nonzero(fk);
-                    var type = SegTypes.type(ft);
+                    var type = InstSegTypes.type(ft);
                     if(type.IsEmpty)
-                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(SegFieldType), ft));
+                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(InstSegType), ft));
 
                     dst = new CellExpr(op, new CellValue(fk, type));
                 }

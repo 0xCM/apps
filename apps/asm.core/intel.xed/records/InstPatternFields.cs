@@ -34,7 +34,7 @@ namespace Z0
 
             public CellExpr FieldExpr;
 
-            public SegField Seg;
+            public InstSeg Seg;
 
             public RuleName Nonterminal;
 

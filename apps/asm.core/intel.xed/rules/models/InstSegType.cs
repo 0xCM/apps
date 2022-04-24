@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly struct SegFieldType : IEquatable<SegFieldType>
+        public readonly struct InstSegType : IEquatable<InstSegType>
         {
             public readonly byte Id;
 
@@ -19,7 +19,7 @@ namespace Z0
             readonly byte Pad;
 
             [MethodImpl(Inline)]
-            public SegFieldType(byte id)
+            public InstSegType(byte id)
             {
                 Id = id;
                 Literal = 0;
@@ -28,7 +28,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public SegFieldType(uint value)
+            public InstSegType(uint value)
             {
                 Id = (byte)(value & 0xFF);
                 Pad = 0;
@@ -45,7 +45,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            internal SegFieldType(byte n, byte literal)
+            internal InstSegType(byte n, byte literal)
             {
                 Id = 0;
                 N = n;
@@ -104,7 +104,7 @@ namespace Z0
                 }
                 else
                 {
-                    dst = SegTypes.pattern(this);
+                    dst = InstSegTypes.pattern(this);
                 }
 
                 return dst;
@@ -114,32 +114,32 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public bool Equals(SegFieldType src)
+            public bool Equals(InstSegType src)
                 => (uint)this == (uint)src;
 
             public override int GetHashCode()
                 => (int)(uint)this;
 
             public override bool Equals(object src)
-                => src is SegFieldType x && Equals(x);
+                => src is InstSegType x && Equals(x);
 
             [MethodImpl(Inline)]
-            public static explicit operator uint(SegFieldType src)
+            public static explicit operator uint(InstSegType src)
                 => src.Id;
 
             [MethodImpl(Inline)]
-            public static explicit operator SegFieldType(uint src)
-                => new SegFieldType(src);
+            public static explicit operator InstSegType(uint src)
+                => new InstSegType(src);
 
             [MethodImpl(Inline)]
-            public static bool operator ==(SegFieldType a, SegFieldType b)
+            public static bool operator ==(InstSegType a, InstSegType b)
                 => a.Equals(b);
 
             [MethodImpl(Inline)]
-            public static bool operator !=(SegFieldType a, SegFieldType b)
+            public static bool operator !=(InstSegType a, InstSegType b)
                 => !a.Equals(b);
 
-            public static SegFieldType Empty => default;
+            public static InstSegType Empty => default;
         }
     }
 }

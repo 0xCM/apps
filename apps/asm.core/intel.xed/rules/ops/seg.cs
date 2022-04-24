@@ -8,35 +8,27 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
-        public static SegField seg(FieldKind field, SegFieldType vt)
-            => new SegField(field, vt);
+        public static InstSeg seg(FieldKind field, InstSegType vt)
+            => new InstSeg(field, vt);
 
         [MethodImpl(Inline), Op]
-        public static SegField seg(FieldKind field, char c0)
-            => new SegField(field, c0);
+        public static InstSeg seg(FieldKind field, char c0)
+            => new InstSeg(field, c0);
 
         [MethodImpl(Inline), Op]
-        public static SegField seg(FieldKind field, char c0, char c1)
-            => new SegField(field, c0, c1);
+        public static InstSeg seg(FieldKind field, uint1 value)
+            => new InstSeg(field, 1, value);
 
         [MethodImpl(Inline), Op]
-        public static SegField seg(FieldKind field, char c0, char c1, char c2)
-            => new SegField(field, c0,c1,c2);
+        public static InstSeg seg(FieldKind field, uint2 value)
+            => new InstSeg(field, 2, value);
 
         [MethodImpl(Inline), Op]
-        public static SegField seg(FieldKind field, uint1 value)
-            => new SegField(field, 1, value);
+        public static InstSeg seg(FieldKind field, uint3 value)
+            => new InstSeg(field, 3, value);
 
         [MethodImpl(Inline), Op]
-        public static SegField seg(FieldKind field, uint2 value)
-            => new SegField(field, 2, value);
-
-        [MethodImpl(Inline), Op]
-        public static SegField seg(FieldKind field, uint3 value)
-            => new SegField(field, 3, value);
-
-        [MethodImpl(Inline), Op]
-        public static SegField seg(FieldKind field, uint4 value)
-            => new SegField(field, 4, value);
+        public static InstSeg seg(FieldKind field, uint4 value)
+            => new InstSeg(field, 4, value);
     }
 }

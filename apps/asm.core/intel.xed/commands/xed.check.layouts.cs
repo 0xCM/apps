@@ -20,13 +20,13 @@ namespace Z0
             return true;
         }
 
-        Index<SegField> CalcInstSegs()
+        Index<InstSeg> CalcInstSegs()
         {
             var patterns = Xed.Rules.CalcInstPatterns();
             var layouts = Xed.Rules.CalcInstLayouts(patterns);
-            var literals = hashset<SegField>();
-            var symbolics = hashset<SegField>();
-            var combined = hashset<SegField>();
+            var literals = hashset<InstSeg>();
+            var symbolics = hashset<InstSeg>();
+            var combined = hashset<InstSeg>();
             for(var i=0; i<layouts.Count; i++)
             {
                 ref readonly var layout = ref layouts[i];
@@ -50,26 +50,6 @@ namespace Z0
             var literal = literals.Array().Sort();
             var result = combined.Array().Sort();
             return result;
-        }
-        void CheckSegs()
-        {
-            var regVal = seg(FieldKind.REG,(uint3)0b010);
-            Write(regVal.Format());
-
-            var regVar = seg(FieldKind.REG,'r', 'r', 'r');
-            Write(regVar.Format());
-
-            var modVal = seg(FieldKind.MOD,(uint2)0b11);
-            Write(modVal.Format());
-
-            var modVar = seg(FieldKind.MOD, 'm', 'm');
-            Write(modVar.Format());
-
-            var rmVar = seg(FieldKind.RM,'n','n','n');
-            Write(rmVar.Format());
-
-            var rmVal= seg(FieldKind.RM,(uint3)0b011);
-            Write(rmVal.Format());
         }
 
         void CheckNonTerms2()
