@@ -50,6 +50,14 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
+            public CellValue(SegVar src)
+            {
+                Field = FieldKind.INVALID;
+                Data = (ulong)src;
+                CellKind = RuleCellKind.SegVar;
+            }
+
+            [MethodImpl(Inline)]
             public CellValue(FieldKind field, SegFieldType type)
             {
                 Field = field;
@@ -190,8 +198,8 @@ namespace Z0
                 => (XedRegId)Data;
 
             [MethodImpl(Inline)]
-            public asci8 ToAsci()
-                => (asci8)Data;
+            public SegVar ToSegVar()
+                => (SegVar)Data;
 
             [MethodImpl(Inline)]
             public InstClass ToInstClass()

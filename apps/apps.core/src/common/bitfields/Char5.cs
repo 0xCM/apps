@@ -12,21 +12,49 @@ namespace Z0
         public static Char5 parse(char c)
         {
             var dst = Char5.Empty;
-            if(valid(c))
-                dst = new Char5((byte)(c - Base));
+            if(letter(c))
+                dst = from((Code)(c - Base));
+            else if(symbol(c))
+                dst = from(Code._);
             return dst;
         }
+
+        [MethodImpl(Inline)]
+        public static Char5 from(Code code)
+            => new Char5(code);
+
+        [MethodImpl(Inline)]
+        public static bool letter(char c)
+            => (c >= 'a' && c<= 'z');
+
+        [MethodImpl(Inline)]
+        public static bool symbol(char c)
+            => c == '_';
+
+        [MethodImpl(Inline)]
+        public static bool letter(Code c)
+            => c >= Code.A && c <= Code.Z;
+
+        [MethodImpl(Inline)]
+        public static bool symbol(Code c)
+            => c == Code._;
 
         readonly byte Index;
 
         [MethodImpl(Inline)]
         public static bool valid(char c)
-            => c == '_' || (c >= 'a' && c<= 'z');
+            => symbol(c) || letter(c);
 
         [MethodImpl(Inline)]
         Char5(byte index)
         {
             Index = index;
+        }
+
+        [MethodImpl(Inline)]
+        public Char5(Code code)
+        {
+            Index = (byte)code;
         }
 
         [MethodImpl(Inline)]
@@ -59,7 +87,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public char ToAsci()
-            => (char)skip(Codes,Index);
+            => (char)skip(AsciCodes,Index);
 
         public string Format()
             => $"{ToAsci()}";
@@ -108,6 +136,10 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator Char5(AsciCode c)
+            => new Char5(c);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Char5(Code c)
             => new Char5(c);
 
         [MethodImpl(Inline)]

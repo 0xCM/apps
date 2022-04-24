@@ -8,14 +8,6 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
-        public static SegVar segvar(asci8 name)
-            => new SegVar(name);
-
-        [MethodImpl(Inline), Op]
-        public static SegVar segvar(SegVarKind kind)
-            => new SegVar(kind);
-
-        [MethodImpl(Inline), Op]
         public static SegField seg(FieldKind field, SegFieldType vt)
             => new SegField(field, vt);
 

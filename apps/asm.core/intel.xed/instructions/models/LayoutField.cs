@@ -130,6 +130,10 @@ namespace Z0
                 => ref @as<SegField>(Data.First);
 
             [MethodImpl(Inline)]
+            public ref readonly SegVar AsSegVar()
+                => ref @as<SegVar>(Data.First);
+
+            [MethodImpl(Inline)]
             public ref readonly uint5 AsBitLit()
                 => ref @as<uint5>(Data.First);
 

@@ -64,16 +64,16 @@ namespace Z0
                                 }
                                 break;
 
-                                case CK.SegVar:
+                                case CK.Keyword:
                                 {
-                                    result = XedParsers.parse(data, out SegVar value);
+                                    result = XedParsers.parse(data, out RuleKeyword value);
                                     field = value;
                                 }
                                 break;
 
-                                case CK.Keyword:
+                                case CK.SegVar:
                                 {
-                                    result = XedParsers.parse(data, out RuleKeyword value);
+                                    result = XedParsers.parse(data, out SegVar value);
                                     field = value;
                                 }
                                 break;

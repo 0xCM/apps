@@ -22,9 +22,6 @@ namespace Z0
 
             internal static string SemanticHeader => string.Format("{0,-5} | {1,-5} | {2,-48} | {3}", "Seq", "Lix", "Key", "Value");
 
-            public static uint render(KeyedCells src, ITextEmitter dst)
-                => render(src.Flatten(), dst);
-
             public static uint render(Index<KeyedCell> cells, ITextEmitter dst)
             {
                 dst.AppendLine(CellRender.SemanticHeader);
@@ -121,7 +118,10 @@ namespace Z0
                     dst = x.Format();
                 }
                 else
-                    dst = RP.squote(src.Data);
+                {
+                    XedParsers.parse(src.Data, out SegVar x);
+                    dst = x.Format();
+                }
                 return dst;
             }
 
@@ -232,7 +232,7 @@ namespace Z0
                 else if(src.IsNontermCall)
                     return XedRender.format(src.ToRuleName());
                 else if(src.CellKind == RuleCellKind.SegVar)
-                    return src.ToAsci().Format();
+                    return src.ToSegVar().Format();
                 else if(src.CellKind == RuleCellKind.Keyword)
                     return src.ToKeyword().Format();
                 else if(src.CellKind == RuleCellKind.SegField)
