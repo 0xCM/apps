@@ -7,19 +7,20 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct CellRow
+        public readonly struct CellRow : IComparable<CellRow>
         {
             public readonly RuleSig TableSig;
 
-            public readonly ushort TableId;
+            public readonly ushort TableIndex;
 
             public readonly ushort RowIndex;
+
             public readonly Index<KeyedCell> Cells;
 
             [MethodImpl(Inline)]
             public CellRow(RuleSig sig, ushort tid, ushort rix, KeyedCell[] src)
             {
-                TableId = tid;
+                TableIndex = tid;
                 RowIndex = rix;
                 TableSig = sig;
                 Cells = src;
@@ -66,6 +67,16 @@ namespace Z0
 
             public override string ToString()
                 => Format();
+
+            public int CompareTo(CellRow src)
+            {
+                var result = TableSig.CompareTo(src.TableSig);
+                if(result == 0)
+                    result = TableIndex.CompareTo(src.TableIndex);
+                if(result == 0)
+                    result = RowIndex.CompareTo(src.RowIndex);
+                return result;
+            }
 
             public static CellRow Empty => new CellRow(RuleSig.Empty, 0, 0, sys.empty<KeyedCell>());
         }

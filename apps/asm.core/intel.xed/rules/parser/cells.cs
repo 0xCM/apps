@@ -15,7 +15,7 @@ namespace Z0
         {
             public static KeyedCells cells(RuleTables rules)
             {
-                var lix = 0u;
+                var lix = z16;
                 var emitter = text.emitter();
                 emitter.AppendLine(CellRender.SemanticHeader);
                 ref readonly var src = ref rules.Specs();
@@ -38,7 +38,7 @@ namespace Z0
                             ref readonly var info = ref cells[k];
                             ref readonly var data = ref info.Data;
                             ref readonly var logic = ref info.Logic;
-                            var key = new CellKey(sig, tid, rix, logic, k);
+                            var key = new CellKey(lix, tid, rix, k, logic, info.Class, sig.TableKind, sig.TableName, info.Field);
                             var result = false;
                             var field = InstField.Empty;
                             switch(info.Class.Kind)

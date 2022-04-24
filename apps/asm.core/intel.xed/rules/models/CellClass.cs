@@ -55,7 +55,7 @@ namespace Z0
                 => ((byte)Kind).CompareTo((byte)src.Kind);
 
             public string Format()
-                => Kind.ToString();
+                => XedRender.format(Kind);
 
             public override int GetHashCode()
                 => (int)Kind;

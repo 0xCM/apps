@@ -81,7 +81,7 @@ namespace Z0
         string CaclTableMetrics(RuleSig sig, Index<KeyedCell> src)
         {
             var view = src.View;
-            var tid = src.IsNonEmpty ? src.First.Key.TableId : Hex12.MaxValue;
+            var tid = src.IsNonEmpty ? src.First.Key.Table : Hex12.MaxValue;
             var rix = z16;
             var rowExpr = text.emitter();
             var dst = text.emitter();
@@ -94,9 +94,9 @@ namespace Z0
             {
                 ref readonly var cell = ref src[i];
                 ref readonly var key = ref cell.Key;
-                emit = key.RowIndex != rix;
-                if(key.RowIndex != rix)
-                    rix = key.RowIndex;
+                emit = key.Row != rix;
+                if(key.Row != rix)
+                    rix = key.Row;
 
                 if(emit)
                 {
@@ -107,7 +107,7 @@ namespace Z0
                     dst.AppendLine(RP.PageBreak60);
                 }
 
-                var descriptor = string.Format("{0:D3} {1:D3} {2:D3} {3}", tid, rix, key.CellIndex, key.FormatSemantic());
+                var descriptor = string.Format("{0:D3} {1:D3} {2:D3} {3}", tid, rix, key.Col, key.FormatSemantic());
                 dst.AppendLineFormat("{0} {1,-12} | {2}", descriptor, XedRender.format(cell.Field), cell);
                 rowExpr.Append(cell.Format());
                 rowExpr.Append(Chars.Space);

@@ -38,10 +38,10 @@ namespace Z0
                     if(i==0)
                         dst.Append("    ");
 
-                    if(key.RowIndex != rix)
+                    if(key.Row != rix)
                     {
                         dst.AppendLine();
-                        rix = key.RowIndex;
+                        rix = key.Row;
                         dst.Append("    ");
                     }
                     else

@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct CellTable
+        public readonly struct CellTable : IComparable<CellTable>
         {
             public readonly RuleSig Sig;
 
@@ -67,6 +67,14 @@ namespace Z0
 
             public override string ToString()
                 => Format();
+
+            public int CompareTo(CellTable src)
+            {
+                var result = Sig.CompareTo(src.Sig);
+                if(result == 0)
+                    result = TableIndex.CompareTo(src.TableIndex);
+                return result;
+            }
 
             public static CellTable Empty => new CellTable(RuleSig.Empty, 0, sys.empty<CellRow>());
         }

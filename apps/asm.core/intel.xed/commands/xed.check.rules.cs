@@ -13,13 +13,29 @@ namespace Z0
         [CmdOp("xed/check/rules")]
         Outcome CheckRules(CmdArgs args)
         {
-            // var rules = CalcRules();
-            // var lookup = CellParser.cells(rules);
+            var rules = CalcRules();
+            var lookup = CellParser.cells(rules);
+            var tables = lookup.Tables;
             // var dst = text.emitter();
             // var count = CellRender.render(lookup,dst);
             // var data = Require.equal(dst.Emit(), lookup.Description);
             // FileEmit(data, count, XedPaths.RuleTarget("cells.raw", FS.Csv), TextEncodingKind.Asci);
 
+            // var sigs = lookup.Keys;
+            // var tables = sigs.ToArray().Map(x => lookup.Table(x)).Index().Sort();
+            // for(var i=0; i<tables.Count; i++)
+            // {
+            //     ref readonly var table = ref tables[i];
+            //     Write(table.Sig.Format());
+            // }
+
+
+            return true;
+        }
+
+
+        void LoadRuleBlocks()
+        {
             var known = Symbols.kinds<RuleName>().Where(x => x != 0).ToArray().Map(x => x.ToString()).ToHashSet();
             var found = hashset<string>();
             var dst = text.emitter();
@@ -43,10 +59,8 @@ namespace Z0
                 if(!known.Contains(f))
                     Write($"Not known: {f}");
             }
-            return true;
+
         }
-
-
         void CheckNonTerms()
         {
             var patterns = CalcPatterns();

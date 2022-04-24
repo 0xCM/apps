@@ -27,7 +27,7 @@ namespace Z0
             var cells = src.Flatten();
             exec(PllExec,
                 () => EmitCellsRaw(src,cells),
-                () => EmitCellRecords(cells)
+                () => EmitCellRecords(src)
                 );
         }
 
@@ -39,7 +39,7 @@ namespace Z0
             FileEmit(data, count, XedPaths.RuleTarget("cells.raw", FS.Csv), TextEncodingKind.Asci);
         }
 
-        public void EmitCellRecords(Index<KeyedCell> src)
+        public void EmitCellRecords(KeyedCells src)
             => TableEmit(CalcCellRecords(src).View, KeyedCellRecord.RenderWidths, XedPaths.RuleTable<KeyedCellRecord>());
 
         void EmitSigs(RuleTables rules)

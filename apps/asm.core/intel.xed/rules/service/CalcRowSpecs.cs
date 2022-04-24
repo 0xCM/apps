@@ -13,16 +13,17 @@ namespace Z0
         {
             var dst = dict<RuleSig,TableSpec>();
             var specs = alloc<TableSpec>(src.Count);
+            var seq = z16;
             for(var i=z16; i<src.Count; i++)
             {
                 ref readonly var table = ref src[i];
-                var tid = i;
+                var tix = i;
                 var tk = table.TableKind;
                 ref readonly var sig = ref table.Sig;
                 var rows = alloc<RowSpec>(table.RowCount);
                 for(ushort j=0; j<table.RowCount; j++)
                 {
-                    var rid = j;
+                    var rix = j;
                     ref readonly var row = ref table[j];
                     var left = row.Antecedant.Select(x => cellinfo(x.Type, LogicKind.Antecedant, x.Data));
                     var right = row.Consequent.Select(x => cellinfo(x.Type, LogicKind.Consequent, x.Data));
@@ -32,25 +33,28 @@ namespace Z0
                     var m=z8;
                     for(var k=0; k<left.Count; k++,m++)
                     {
-                        seek(keys, m) = new CellKey(sig, tid, rid, LogicKind.Antecedant, m);
+                        var key = new CellKey(seq++, tix, rix, m, LogicKind.Antecedant, left[k].Class, tk, sig.TableName, left[k].Field);
+                        seek(keys,m) = key;
                         seek(cells, m) = left[k];
                     }
 
                     {
-                        seek(keys, m) = new CellKey(sig, tid, rid, LogicKind.Operator, m);
+                        var key = new CellKey(seq++, tix, rix, m, LogicKind.Operator, RuleCellKind.Operator, tk, sig.TableName, FieldKind.INVALID);
+                        seek(keys,m) = key;
                         seek(cells, m) = cellinfo(OperatorKind.Impl);
                         m++;
                     }
 
                     for(var k=0; k<right.Count; k++,m++)
                     {
-                        seek(keys, m) = new CellKey(sig, tid, rid, LogicKind.Consequent, m);
+                        var key = new CellKey(seq++, tix, rix, m, LogicKind.Consequent, left[k].Class, tk, sig.TableName, left[k].Field);
+                        seek(keys,m) = key;
                         seek(cells, m) = right[k];
                     }
-                    seek(rows,j) = new RowSpec(sig, tid, rid, keys, cells);
+                    seek(rows,j) = new RowSpec(sig, tix, rix, keys, cells);
                 }
 
-                var spec = new TableSpec(tid, sig, rows);
+                var spec = new TableSpec(tix, sig, rows);
                 seek(specs,i) = spec;
                 dst.Add(sig, spec);
             }

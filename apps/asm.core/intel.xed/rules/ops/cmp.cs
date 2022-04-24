@@ -15,12 +15,12 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static int cmp(in CellKey a, in CellKey b)
         {
-            var result = a.TableId.CompareTo(b.TableId);
+            var result = a.Table.CompareTo(b.Table);
             if(result == 0)
             {
-                result = a.RowIndex.CompareTo(b.RowIndex);
+                result = a.Row.CompareTo(b.Row);
                 if(result == 0)
-                    result = a.CellIndex.CompareTo(b.CellIndex);
+                    result = a.Col.CompareTo(b.Col);
             }
             return result;
         }

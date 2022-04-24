@@ -13,54 +13,6 @@ namespace Z0
 
     partial class XedRules
     {
-        public static Index<KeyedCellRecord> records(KeyedCells src)
-            => records(src.Flatten());
-
-        public static Index<KeyedCellRecord> records(Index<KeyedCell> cells)
-        {
-            var count = cells.Count;
-            var buffer = alloc<KeyedCellRecord>(count);
-            for(var i=z16; i<count; i++)
-            {
-                ref readonly var cell = ref cells[i];
-                ref readonly var value = ref cell.Value;
-                ref readonly var key = ref cell.Key;
-                ref readonly var sig = ref key.TableSig;
-                ref readonly var fk = ref value.FieldKind;
-                ref readonly var type = ref value.DataKind;
-                ref var dst = ref seek(buffer,i);
-                dst.Seq = i;
-                dst.Lix = cell.LinearIndex;
-                dst.TableId = key.TableId;
-                dst.Kind = sig.TableKind;
-                dst.Name = sig.TableName;
-                dst.Type = type;
-                dst.Row = cell.RowIndex;
-                dst.Col = cell.CellIndex;
-                dst.Logic = cell.Logic;
-                dst.Field = cell.Field;
-                dst.Value = value;
-                if(value.IsFieldExpr)
-                {
-                    var expr = value.ToFieldExpr();
-                    dst.Expression = expr.Format();
-                    dst.Op = expr.Operator;
-                }
-                else if (value.IsOperator)
-                {
-                    dst.Expression = value.AsOperator().Format();
-                    dst.Op = value.AsOperator();
-                }
-                else
-                {
-                    dst.Expression = cell.Format();
-                    dst.Op = RuleOperator.None;
-                }
-            }
-
-            return buffer;
-        }
-
         [Op]
         public static OpName opname(FieldKind src)
         {

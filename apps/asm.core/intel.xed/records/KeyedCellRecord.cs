@@ -16,23 +16,23 @@ namespace Z0
 
             public uint Seq;
 
-            public ushort Lix;
+            public ushort Index;
 
-            public ushort TableId;
-
-            public RuleTableKind Kind;
-
-            public RuleName Name;
-
-            public asci32 Expression;
-
-            public EnumFormat<RuleCellKind> Type;
+            public ushort Table;
 
             public ushort Row;
 
             public byte Col;
 
             public LogicClass Logic;
+
+            public CellClass Type;
+
+            public RuleTableKind Kind;
+
+            public RuleName Rule;
+
+            public asci32 Expression;
 
             public EmptyZero<FieldKind> Field;
 
@@ -41,12 +41,13 @@ namespace Z0
             public dynamic Value;
 
             public CellKey Key
-                => new CellKey(new(Name,Kind), TableId, Row, Logic, Col);
+                => new CellKey(Index, Table, Row, Col, Logic, Type, Kind, Rule, Field);
+                //=> new CellKey(new(Rule,Kind), Table, Row, Logic, Col);
 
             public int CompareTo(KeyedCellRecord src)
                 => Key.CompareTo(src.Key);
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,6,32,32,6,6,6,6,24,4,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,8,8,6,6,6,6,6,32,32,24,4,1};
 
             public static KeyedCellRecord Empty => default;
         }

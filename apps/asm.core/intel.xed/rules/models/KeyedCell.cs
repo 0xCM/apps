@@ -7,9 +7,28 @@ namespace Z0
 {
     partial class XedRules
     {
+        public delegate asci32 CellFormatter(in KeyedCell src);
+
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct KeyedCell : IComparable<KeyedCell>
         {
+            public static CellFormatter formatter()
+            {
+                return Calc;
+                asci32 Calc(in KeyedCell src)
+                {
+                    var dst = asci32.Null;
+                    ref readonly var value = ref src.Value;
+                    if(value.IsFieldExpr)
+                        dst = value.ToFieldExpr().Format();
+                    else if (value.IsOperator)
+                        dst = value.AsOperator().Format();
+                    else
+                        dst = src.Format();
+                    return dst;
+                }
+            }
+
             public readonly ushort LinearIndex;
 
             public readonly CellKey Key;
@@ -22,6 +41,17 @@ namespace Z0
                 LinearIndex = (ushort)lix;
                 Key = key;
                 Value = value;
+            }
+
+            [MethodImpl(Inline)]
+            public RuleOperator Operator()
+            {
+                var dst = RuleOperator.None;
+                if(Value.IsFieldExpr)
+                    dst = Value.ToFieldExpr().Operator;
+                else if (Value.IsOperator)
+                    dst = Value.AsOperator();
+                return dst;
             }
 
             public FieldKind Field
@@ -39,25 +69,31 @@ namespace Z0
             public byte CellIndex
             {
                 [MethodImpl(Inline)]
-                get => Key.CellIndex;
+                get => Key.Col;
             }
 
             public ushort RowIndex
             {
                 [MethodImpl(Inline)]
-                get => Key.RowIndex;
+                get => Key.Row;
             }
 
-            public ushort TableId
+            public ushort TableIndex
             {
                 [MethodImpl(Inline)]
-                get => Key.TableId;
+                get => Key.Table;
             }
 
-            public RuleSig TableSig
+            public RuleTableKind TableKind
             {
                 [MethodImpl(Inline)]
-                get => Key.TableSig;
+                get => Key.Kind;
+            }
+
+            public RuleName Rule
+            {
+                [MethodImpl(Inline)]
+                get => Key.Rule;
             }
 
             public bool IsFieldExpr

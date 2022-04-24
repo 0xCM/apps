@@ -11,7 +11,7 @@ namespace Z0
         public enum RuleCellKind : byte
         {
             [Symbol("<?>")]
-            None = 0,
+            Void = 0,
 
             [Symbol("0b")]
             BitLiteral,

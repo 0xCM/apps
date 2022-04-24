@@ -29,9 +29,9 @@ namespace Z0
             => Data(nameof(CalcRuleCells), () => CellParser.cells(src));
 
         public Index<KeyedCellRecord> CalcCellRecords(KeyedCells src)
-            => CalcCellRecords(flatten(src));
+            => records(src);
 
         public Index<KeyedCellRecord> CalcCellRecords(Index<KeyedCell> src)
-            => Data(nameof(CalcCellRecords), () => records(src));
+            => records(src);
    }
 }

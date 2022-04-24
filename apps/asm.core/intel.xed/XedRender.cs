@@ -582,7 +582,7 @@ namespace Z0
 
             switch(@class)
             {
-                case RuleCellKind.None:
+                case RuleCellKind.Void:
                     break;
                 case RuleCellKind.HexLiteral:
                     dst = format(src.AsHexLit());
