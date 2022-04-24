@@ -13,13 +13,36 @@ namespace Z0
         [CmdOp("xed/check/rules")]
         Outcome CheckRules(CmdArgs args)
         {
-            var rules = CalcRules();
-            var lookup = CellParser.cells(rules);
-            var dst = text.emitter();
-            var count = CellRender.render(lookup,dst);
-            var data = Require.equal(dst.Emit(), lookup.Description);
-            FileEmit(data, count, XedPaths.RuleTarget("cells.raw", FS.Csv), TextEncodingKind.Asci);
+            // var rules = CalcRules();
+            // var lookup = CellParser.cells(rules);
+            // var dst = text.emitter();
+            // var count = CellRender.render(lookup,dst);
+            // var data = Require.equal(dst.Emit(), lookup.Description);
+            // FileEmit(data, count, XedPaths.RuleTarget("cells.raw", FS.Csv), TextEncodingKind.Asci);
 
+            var known = Symbols.kinds<RuleName>().Where(x => x != 0).ToArray().Map(x => x.ToString()).ToHashSet();
+            var found = hashset<string>();
+            var dst = text.emitter();
+            var encBlocks = TableCalcs.blocks(RuleTableKind.ENC);
+            var decBlocks  = TableCalcs.blocks(RuleTableKind.DEC);
+            var blocks = (encBlocks + decBlocks).Sort();
+            var count = blocks.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var block = ref blocks[i];
+                var seq = string.Format("{0:D3}",i);
+                var offset = string.Format("{0:D5}", block.Offset);
+                found.Add(block.TableName);
+                dst.AppendLine($"{seq} {block.TableKind} {string.Format(RP.slot(0,-32),block.TableName)} | {offset}");
+            }
+
+            FileEmit(dst.Emit(), count, XedPaths.RuleTarget("names", FS.Csv));
+
+            foreach(var f in found)
+            {
+                if(!known.Contains(f))
+                    Write($"Not known: {f}");
+            }
             return true;
         }
 

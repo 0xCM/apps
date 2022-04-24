@@ -327,8 +327,6 @@ namespace Z0
 
             MODRM64alt32 = 158,
 
-            MODRM64ALT32 = 159,
-
             NELEM_EIGHTHMEM = 160,
 
             NELEM_FULL = 161,
@@ -698,6 +696,8 @@ namespace Z0
             ZMM_R3_32 = 343,
 
             ZMM_R3_64 = 344,
+
+            UISA_ENC_INDEX_XMM,
         }
     }
 }
