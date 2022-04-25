@@ -12,6 +12,9 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
 
+        public static string cleanse(string src)
+            => src.RemoveBlanks().Remove("0b").Remove("_");
+
         [MethodImpl(Inline), Op]
         public static uint parse(ReadOnlySpan<char> src, Span<bit> dst)
         {

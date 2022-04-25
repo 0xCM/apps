@@ -14,6 +14,13 @@ namespace Z0
         /// Packs 4 1-bit values taken from the least significant bit of each 8-bit source segment
         /// </summary>
         [MethodImpl(Inline), Op]
+        public static byte pack2x1(ushort src)
+            => (byte)bits.gather(src, Lsb32x8x1);
+
+        /// <summary>
+        /// Packs 4 1-bit values taken from the least significant bit of each 8-bit source segment
+        /// </summary>
+        [MethodImpl(Inline), Op]
         public static byte pack4x1(uint src)
             => (byte)bits.gather(src, Lsb32x8x1);
 
@@ -34,7 +41,16 @@ namespace Z0
             => (byte)vpack.vpacklsb(vpack.vpack128x8u(vload(w256, first(src))));
 
         /// <summary>
-        /// Packs 32 1-bit values taken from an index-identified bit of each source byte
+        /// Packs 8 1-bit values taken from an index-identified bit of the leading byte
+        /// </summary>
+        /// <param name="src">The bit source</param>
+        /// <param name="index">The cell-relative bit index from [0,7] </param>
+        [MethodImpl(Inline), Op]
+        public static byte pack8x1(ReadOnlySpan<byte> src, byte index = 0)
+            => (byte)pack16x1(vscalar(w128,first(src)),index);
+
+        /// <summary>
+        /// Packs 16 1-bit values taken from an index-identified bit of each source byte
         /// </summary>
         /// <param name="src">The bit source</param>
         /// <param name="index">The cell-relative bit index from [0,7] </param>

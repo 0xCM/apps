@@ -6,9 +6,8 @@ namespace Z0
 {
     using static core;
 
-    public static class BitPackK
+    partial struct BitNumbers
     {
-        const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ref T pack<T>(ReadOnlySpan<byte> src, uint offset, out T dst)
@@ -76,11 +75,7 @@ namespace Z0
             return scalar<T>(core.slice(src,offset, len));;
         }
 
-
-    }
-    partial struct BitNumbers
-    {
-        static Outcome parse(string src, byte width, out byte b)
+        public static Outcome parse(string src, byte width, out byte b)
         {
             var count = 0;
             var input = text.trim(text.remove(text.remove(src,Chars.Underscore), "0b"));
@@ -90,7 +85,7 @@ namespace Z0
             count = Z0.bits.parse(input, buffer);
             if(count >= 0)
             {
-                b = BitPackK.scalar<byte>(buffer);
+                b = scalar<byte>(buffer);
                 return true;
             }
 

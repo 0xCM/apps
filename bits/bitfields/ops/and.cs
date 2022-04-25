@@ -8,7 +8,6 @@ namespace Z0
 
     partial struct Bitfields
     {
-
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static T mask<T>(in Bitfield256<T> src, byte index)
             where T : unmanaged

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -323,7 +318,7 @@ namespace Z0
         [Op]
         public static BitString parse(string src)
         {
-            src = src.RemoveBlanks();
+            src = src.RemoveBlanks().Remove("_").Remove("0b");
             var len = src.Length;
             var lastix = len - 1;
             Span<byte> dst = core.alloc<byte>(len);

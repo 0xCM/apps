@@ -27,7 +27,7 @@ namespace Z0
 
         public static int parse(string src, Span<bit> dst)
         {
-            var input = core.span(src.RemoveBlanks().Remove("0b").Remove("_")).Reverse();
+            var input = core.span(BitParser.cleanse(src)).Reverse();
             if(input.Length > dst.Length)
                 return -1;
 

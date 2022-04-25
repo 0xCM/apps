@@ -29,7 +29,7 @@ namespace Z0
         [Op]
         public static string concat(ReadOnlySpan<string> src, string sep)
         {
-            var dst = buffer();
+            var dst = emitter();
             var count = src.Length;
             for(var i=0; i<count; i++)
             {
@@ -38,7 +38,7 @@ namespace Z0
 
                 dst.Append(skip(src,i));
             }
-            return dst.ToString();
+            return dst.Emit();
         }
 
         /// <summary>

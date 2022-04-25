@@ -8,6 +8,139 @@ namespace Z0
 
     public readonly struct BitNumber : IBitNumber<BitNumber,ulong>
     {
+        static bool IsBinaryLiteral(ReadOnlySpan<char> src)
+            => text.begins(src, "0b");
+
+        public static void validate<N,T>(N n, T value, ITextEmitter log)
+            where N : unmanaged, ITypeNat
+            where T : unmanaged
+        {
+            var bn = BitNumber.generic(n,value);
+            var width = Require.equal((byte)n.NatValue, bn.Width);
+            var bs = BitNumber.bitstring(n,value);
+            var scalar = bn.Value;
+            Require.invariant(gmath.eq(scalar,value));
+            var f0 = Require.equal(bs.Format(), bn.Format());
+            BitNumber.parse(f0,n, out BitNumber<T> roundtrip);
+            Require.equal(f0, roundtrip.Format());
+
+            var storage = ByteBlock32.Empty;
+            var bits = BitNumber.parse(f0, n, storage);
+            var f1 = bits.ToArray().Reverse().Select(x => x.Format()).Concat();
+            Require.equal(f0,f1);
+            log.AppendLine(string.Format("{0:D2} | {1:X4} | {2}", width, scalar, f0));
+        }
+
+        public static BitString bitstring<N,T>(N n, T src)
+            where N : unmanaged, ITypeNat
+            where T : unmanaged
+        {
+            if(size<T>() <=8)
+                return u8(src).ToBitString((byte)n.NatValue);
+            else if(size<T>() <=16)
+                return u16(src).ToBitString((byte)n.NatValue);
+            else if(size<T>() <=32)
+                return u32(src).ToBitString((byte)n.NatValue);
+            else
+                return u64(src).ToBitString((byte)n.NatValue);
+        }
+
+        public static bool parse(string src, out uint5 dst)
+        {
+            if(IsBinaryLiteral(src))
+                return DataParser.parse(src, out dst);
+            else
+            {
+                dst = default;
+                return false;
+            }
+        }
+
+        static int parse(string src, Span<bit> dst)
+        {
+            var input = span(BitParser.cleanse(src)).Reverse();
+            var result = true;
+            var count = min(input.Length, dst.Length);
+            var counter = 0;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var c = ref skip(input,i);
+                if(skip(input,i) == bit.Zero)
+                    seek(dst, i) = bit.Off;
+                else if(skip(input,i) == bit.One)
+                    seek(dst, i) = bit.On;
+                else
+                {
+                    result = false;
+                    break;
+                }
+                counter++;
+            }
+            return result ? counter : -1;
+        }
+
+        public static Span<bit> parse<N,B>(string src, N n, B buffer)
+            where N : unmanaged, ITypeNat
+            where B : unmanaged, IStorageBlock<B>
+        {
+            var length = (byte)BitParser.cleanse(src).Length;
+            var width = (byte)n.NatValue;
+            Require.invariant(length >= width);
+            var dst = recover<bit>(buffer.Bytes);
+            var count = Require.equal((byte)parse(src, dst),width);
+            var result= slice(dst,0,count);
+            return result;
+        }
+
+        public static BitNumber<N,T> parse<N,T>(string src, N n, out BitNumber<T> dst)
+            where T : unmanaged
+            where N : unmanaged, ITypeNat
+        {
+            var length = (byte)BitParser.cleanse(src).Length;
+            var width = (byte)n.NatValue;
+            Require.invariant(length >= width);
+            Span<bit> buffer = stackalloc bit[width];
+            parse(src, buffer);
+            var bn = generic(n, BitNumbers.scalar<T>(buffer));
+            dst = bn;
+            return bn;
+        }
+
+        public static bool parse(string src, out byte n, out byte number)
+        {
+            n = 0;
+            number = 0;
+            if(!parse(src, out uint5 value))
+                return false;
+
+            var len = src.Length - 2;
+            switch(len)
+            {
+                case 1:
+                    number = (uint1)value;
+                    n = (byte)len;
+                break;
+                case 2:
+                    number = (uint2)value;
+                    n = (byte)len;
+                break;
+                case 3:
+                    number = (uint3)(byte)value;
+                    n = (byte)len;
+                break;
+                case 4:
+                    number = (uint4)(byte)value;
+                    n = (byte)len;
+                break;
+                case 5:
+                    number = value;
+                    n = (byte)len;
+                break;
+            }
+
+            return n != 0;
+        }
+
         [MethodImpl(Inline)]
         public static BitNumber<T> generic<T>(byte n, T src)
             where T : unmanaged
