@@ -20,4 +20,13 @@ namespace Z0
         int HashCode
             => (int)Hash;
     }
+
+    public interface IHashed<F> : IHashed
+        where F : IHashed<F>
+    {
+        new Hash32 Hash {get;}
+
+        uint IHashed.Hash
+            => Hash;
+    }
 }

@@ -18,7 +18,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U set(U src, byte pos, bit state)
-            => Bytes.lt(pos, U.Width) ? new U(bit.set(src.data, pos, state), false) : src;
+            => Bytes.lt(pos, U.Width) ? new U(bit.set(src.Value, pos, state), false) : src;
 
         /// <summary>
         /// Reinterprets an input reference as a mutable <see cref='Z0.uint4'/> reference cell
@@ -48,7 +48,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U dec(U x)
-            => !x.IsMin ? new U(Bytes.sub(x.data, 1), false) : Z0.uint5.Max;
+            => !x.IsMin ? new U(Bytes.sub(x.Value, 1), false) : Z0.uint5.Max;
 
         /// <summary>
         /// Converts a source integral value to an enum value
@@ -163,12 +163,12 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U inc(U x)
-            => !x.IsMax ? new U(core.add(x.data, 1), false) : U.Min;
+            => !x.IsMax ? new U(core.add(x.Value, 1), false) : U.Min;
 
         [MethodImpl(Inline), Op]
         public static U add(U x, U y)
         {
-            var d = (byte)(x.data + y.data);
+            var d = (byte)(x.Value + y.Value);
             var result = Bytes.gteq(d, U.Mod) ? Bytes.sub(d, U.Mod) : d;
             return new U(result, true);
         }
@@ -176,7 +176,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static U sub(U x, U y)
         {
-            var delta = x.data - y.data;
+            var delta = x.Value - y.Value;
             if(delta < 0)
                 return wrap5((byte)(delta + U.Mod));
             else
@@ -185,40 +185,40 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U div (U a, U b)
-            => wrap5((byte)(a.data / b.data));
+            => wrap5((byte)(a.Value / b.Value));
 
         [MethodImpl(Inline), Op]
         public static U mod (U lhs, U rhs)
-            => wrap5((byte)(lhs.data % rhs.data));
+            => wrap5((byte)(lhs.Value % rhs.Value));
 
         [MethodImpl(Inline), Op]
         public static U mul(U lhs, U rhs)
-            => reduce5((byte)(lhs.data * rhs.data));
+            => reduce5((byte)(lhs.Value * rhs.Value));
 
         [MethodImpl(Inline), Op]
         public static U or(U a, U b)
-            => wrap5((byte)(a.data | b.data));
+            => wrap5((byte)(a.Value | b.Value));
 
         [MethodImpl(Inline), Op]
         public static U and(U a, U b)
-            => wrap5((byte)(a.data & b.data));
+            => wrap5((byte)(a.Value & b.Value));
 
         [MethodImpl(Inline), Op]
         public static U xor(U lhs, U rhs)
-            => wrap5((byte)(lhs.data ^ rhs.data));
+            => wrap5((byte)(lhs.Value ^ rhs.Value));
 
         [MethodImpl(Inline), Op]
         public static U srl(U lhs, byte rhs)
-            => uint5(lhs.data >> rhs);
+            => uint5(lhs.Value >> rhs);
 
         [MethodImpl(Inline), Op]
         public static U sll(U lhs, byte rhs)
-            => uint5(lhs.data << rhs);
+            => uint5(lhs.Value << rhs);
 
 
         [MethodImpl(Inline)]
         public static bool eq(U x, U y)
-            => Bytes.eq(x.data, y.data);
+            => Bytes.eq(x.Value, y.Value);
 
         [MethodImpl(Inline)]
         public static byte crop5(byte x)
@@ -241,11 +241,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static string format(U src)
-            => BitRender.gformat(src.data, FormatConfig5);
+            => BitRender.gformat(src.Value, FormatConfig5);
 
         [MethodImpl(Inline)]
         public static string format(U src, BitFormat config)
-            => BitRender.gformat(src.data, config);
+            => BitRender.gformat(src.Value, config);
 
         [MethodImpl(Inline), False]
         public static U @false(U a, U b)

@@ -4,11 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public interface IBits
     {
-        uint Width {get;}
+        byte Width {get;}
     }
 
     public interface IBits<T> : IBits
@@ -17,25 +15,11 @@ namespace Z0
         T Value {get;}
     }
 
-    public interface IBitContainer<H,T> : IBits<T>, IEquatable<H>
-        where H : unmanaged, IBitContainer<H,T>
-        where T : unmanaged
-    {
-
-    }
-
     public interface IBits<N,T> : IBits<T>
         where N : unmanaged, ITypeNat
         where T : unmanaged
     {
-
-    }
-
-    public interface IBitContainer<H,N,T> : IBits<N,T>, IBitContainer<H,T>
-        where N : unmanaged, ITypeNat
-        where T : unmanaged
-        where H : unmanaged, IBitContainer<H,N,T>
-    {
-
+        byte IBits.Width
+            => core.nat8u<N>();
     }
 }

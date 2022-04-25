@@ -18,55 +18,55 @@ namespace Z0
     [DataType("u<w:5>", Width, 8)]
     public readonly struct uint5 : IBitNumber<U,W,K,T>
     {
-        internal readonly T data;
+        internal readonly T Value;
 
         [MethodImpl(Inline)]
         internal uint5(uint8b src)
-            => data = (byte)(src & MaxValue);
+            => Value = (byte)(src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint5(byte src)
-            => data = (byte)(src & MaxValue);
+            => Value = (byte)(src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint5(byte src, bool @unchecked)
-            => data = (byte)src;
+            => Value = (byte)src;
 
         [MethodImpl(Inline)]
         internal uint5(sbyte src)
-            => data = (byte)((uint)src & MaxValue);
+            => Value = (byte)((uint)src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint5(short src)
-            => data = (byte)((uint)src & MaxValue);
+            => Value = (byte)((uint)src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint5(ushort src)
-            => data = (byte)(src & MaxValue);
+            => Value = (byte)(src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint5(int x)
-            => data = (byte)((uint)x & MaxValue);
+            => Value = (byte)((uint)x & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint5(uint src)
-            => data = (byte)(src & MaxValue);
+            => Value = (byte)(src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint5(long src)
-            => data = (byte)((uint)src & MaxValue);
+            => Value = (byte)((uint)src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint5(uint src, bool safe)
-            => data = (byte)src;
+            => Value = (byte)src;
 
         [MethodImpl(Inline)]
         internal uint5(K src)
-            => data = (byte)src;
+            => Value = (byte)src;
 
         [MethodImpl(Inline)]
         internal uint5(BitState src)
-            => data = (byte)src;
+            => Value = (byte)src;
 
         /// <summary>
         /// Queries an index-identified bit
@@ -80,25 +80,25 @@ namespace Z0
         public K Kind
         {
             [MethodImpl(Inline)]
-            get => (K) data;
+            get => (K) Value;
         }
 
         public T Content
         {
             [MethodImpl(Inline)]
-            get => data;
+            get => Value;
         }
 
         public bool IsZero
         {
             [MethodImpl(Inline)]
-            get => data == 0;
+            get => Value == 0;
         }
 
         public bool IsNonZero
         {
             [MethodImpl(Inline)]
-            get => data != 0;
+            get => Value != 0;
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Z0
         public bool IsMax
         {
             [MethodImpl(Inline)]
-            get => data == MaxValue;
+            get => Value == MaxValue;
         }
 
         /// <summary>
@@ -116,21 +116,26 @@ namespace Z0
         public bool IsMin
         {
             [MethodImpl(Inline)]
-            get => data == MinLiteral;
+            get => Value == MinLiteral;
         }
 
         [MethodImpl(Inline)]
         public string Format(N2 b)
-            => BitRender.gformat(data);
+            => BitRender.gformat(Value);
 
+        byte IBits<byte>.Value
+            => Value;
+
+        byte IBits.Width
+            => Width;
         public string Format()
              => format(this);
 
-        public string Format(BitFormat config)
-            => format(this,config);
-
         public override string ToString()
             => Format();
+
+        public string Format(BitFormat config)
+            => format(this,config);
 
         [MethodImpl(Inline)]
         public bool Equals(U y)
@@ -139,18 +144,22 @@ namespace Z0
         public override bool Equals(object y)
             => y is U x && Equals(x);
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => data;
+            get => Value;
         }
+
+        [MethodImpl(Inline)]
+        public int CompareTo(U src)
+            => Value.CompareTo(src.Value);
 
         public override int GetHashCode()
             => (int)Hash;
 
         [MethodImpl(Inline)]
         public static implicit operator uint8b(U src)
-            => src.data;
+            => src.Value;
 
         [MethodImpl(Inline)]
         public static implicit operator U(uint8b src)
@@ -162,7 +171,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator K(U src)
-            => (K)src.data;
+            => (K)src.Value;
 
         /// <summary>
         /// Converts a 5-bit integer to an unsigned 8-bit integer
@@ -170,11 +179,11 @@ namespace Z0
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
         public static implicit operator byte(U src)
-            => (byte)src.data;
+            => (byte)src.Value;
 
         [MethodImpl(Inline)]
         public static explicit operator bit(U src)
-            => new bit(src.data & 1);
+            => new bit(src.Value & 1);
 
         [MethodImpl(Inline)]
         public static explicit operator U(bit src)
@@ -186,7 +195,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
         public static implicit operator ushort(U src)
-            => (ushort)src.data;
+            => (ushort)src.Value;
 
         /// <summary>
         /// Converts a 5-bit integer to an unsigned 32-bit integer
@@ -194,7 +203,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
         public static implicit operator uint(U src)
-            => src.data;
+            => src.Value;
 
         /// <summary>
         /// Converts a 5-bit integer to an unsigned 65-bit integer
@@ -202,7 +211,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
         public static implicit operator ulong(U src)
-            => src.data;
+            => src.Value;
 
         /// <summary>
         /// Converts a 5-bit integer to a signed 32-bit integer
@@ -210,7 +219,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
         public static implicit operator int(U src)
-            => (int)src.data;
+            => (int)src.Value;
 
         /// <summary>
         /// Creates a 5-bit integer from the least four bits of the source operand
@@ -242,11 +251,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static bool operator true(U x)
-            => x.data != 0;
+            => x.Value != 0;
 
         [MethodImpl(Inline)]
         public static bool operator false(U x)
-            => x.data == 0;
+            => x.Value == 0;
 
         [MethodImpl(Inline)]
         public static U operator + (U x, U y)
@@ -290,7 +299,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static U operator ~(U src)
-            => wrap5(~src.data & MaxValue);
+            => wrap5(~src.Value & MaxValue);
 
         [MethodImpl(Inline)]
         public static U operator ++(U x)
@@ -310,19 +319,19 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static U operator < (U x, U y)
-            => @bool(x.data < y.data);
+            => @bool(x.Value < y.Value);
 
         [MethodImpl(Inline)]
         public static U operator <= (U x, U y)
-            => @bool(x.data <= y.data);
+            => @bool(x.Value <= y.Value);
 
         [MethodImpl(Inline)]
         public static U operator > (U x, U y)
-            => @bool(x.data > y.data);
+            => @bool(x.Value > y.Value);
 
         [MethodImpl(Inline)]
         public static U operator >= (U x, U y)
-            => @bool(x.data >= y.data);
+            => @bool(x.Value >= y.Value);
 
         /// <summary>
         /// Specifies the inclusive lower bound of the <see cref='U'/> data type as a literal value
@@ -386,7 +395,7 @@ namespace Z0
             get => new U(1,true);
         }
 
-        public Span<bit> Bits
+        public Span<bit> _Bits
         {
             [MethodImpl(Inline)]
             get => bits(this);

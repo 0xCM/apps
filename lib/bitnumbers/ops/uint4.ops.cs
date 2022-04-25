@@ -19,7 +19,7 @@ namespace Z0
         public static U set(U src, byte pos, bit state)
         {
             if(pos < U.Width)
-                return wrap4(bit.set(src.data, pos, state));
+                return wrap4(bit.set(src.Value, pos, state));
             else
                 return src;
         }
@@ -55,11 +55,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U inc(U x)
-            => !x.IsMax ? new U(Bytes.add(x.data, 1), false) : U.Min;
+            => !x.IsMax ? new U(Bytes.add(x.Value, 1), false) : U.Min;
 
         [MethodImpl(Inline), Op]
         public static U dec(U x)
-            => !x.IsMin ? new U(Bytes.sub(x.data, 1), false) : U.Max;
+            => !x.IsMin ? new U(Bytes.sub(x.Value, 1), false) : U.Max;
 
         /// <summary>
         /// Converts a source integral value to an enum value
@@ -176,7 +176,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static U add(U x, U y)
         {
-            var d = (byte)(x.data +y.data);
+            var d = (byte)(x.Value +y.Value);
             var result = Bytes.gteq(d, U.Mod) ? Bytes.sub(d, U.Mod) : d;
             return new U(result, true);
         }
@@ -184,7 +184,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static U sub(U a, U b)
         {
-            var delta = a.data - b.data;
+            var delta = a.Value - b.Value;
             if(delta < 0)
                 return wrap4((byte)(delta + U.Mod));
             else
@@ -193,35 +193,35 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U mul(U a, U b)
-            => reduce4((byte)(a.data * b.data));
+            => reduce4((byte)(a.Value * b.Value));
 
         [MethodImpl(Inline), Op]
         public static U and(U a, U b)
-            => wrap4(a.data & b.data);
+            => wrap4(a.Value & b.Value);
 
         [MethodImpl(Inline), Op]
         public static U or(U lhs, U rhs)
-            => wrap4(lhs.data | rhs.data);
+            => wrap4(lhs.Value | rhs.Value);
 
         [MethodImpl(Inline), Op]
         public static U xor(U lhs, U rhs)
-            => wrap4(lhs.data ^ rhs.data);
+            => wrap4(lhs.Value ^ rhs.Value);
 
         [MethodImpl(Inline), Op]
         public static U not(U a)
-            => wrap4(~a.data & U.MaxValue);
+            => wrap4(~a.Value & U.MaxValue);
 
         [MethodImpl(Inline), Op]
         public static U hi(U src)
-            => wrap4(src.data >> 2 & 0b11);
+            => wrap4(src.Value >> 2 & 0b11);
 
         [MethodImpl(Inline), Op]
         public static U lo(U src)
-            => wrap4(src.data & 0b11);
+            => wrap4(src.Value & 0b11);
 
         [MethodImpl(Inline)]
         public static bool eq(U x, U y)
-            => x.data == y.data;
+            => x.Value == y.Value;
 
         [MethodImpl(Inline), Op]
         internal static byte reduce4(byte x)
@@ -233,11 +233,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static string format(U src)
-            => BitRender.gformat(src.data, BitFormat.limited(U.Width, U.Width));
+            => BitRender.gformat(src.Value, BitFormat.limited(U.Width, U.Width));
 
         [MethodImpl(Inline)]
         public static string format(U src, BitFormat config)
-            => BitRender.gformat(src.data, config);
+            => BitRender.gformat(src.Value, config);
 
         [MethodImpl(Inline), Op]
         public static U @false(U a, U b)

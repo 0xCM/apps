@@ -19,7 +19,7 @@ namespace Z0
         public static U set(U src, byte pos, bit state)
         {
             if(pos < U.Width)
-                return wrap7(bit.set(src.data, pos, state));
+                return wrap7(bit.set(src.Value, pos, state));
             else
                 return src;
         }
@@ -43,11 +43,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U inc(U x)
-            => !x.IsMax ? new U(core.add(x.data, 1), false) : U.Min;
+            => !x.IsMax ? new U(core.add(x.Value, 1), false) : U.Min;
 
         [MethodImpl(Inline), Op]
         public static U dec(U x)
-            => !x.IsMin ? new U(Bytes.sub(x.data, 1), false) : U.Max;
+            => !x.IsMin ? new U(Bytes.sub(x.Value, 1), false) : U.Max;
 
         /// <summary>
         /// Reinterprets an input reference as a mutable <see cref='Z0.uint7'/> reference cell
@@ -185,7 +185,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static U add(U x, U y)
         {
-            var sum = (byte)(x.data + y.data);
+            var sum = (byte)(x.Value + y.Value);
             return wrap7((sum >= U.Mod) ? (byte)(sum - U.Mod): sum);
         }
 
@@ -198,40 +198,40 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U div (U a, U b)
-            => wrap7((byte)(a.data / b.data));
+            => wrap7((byte)(a.Value / b.Value));
 
         [MethodImpl(Inline), Op]
         public static U mod (U a, U b)
-            => wrap7((byte)(a.data % b.data));
+            => wrap7((byte)(a.Value % b.Value));
 
         [MethodImpl(Inline), Op]
         public static U mul(U a, U b)
-            => reduce7((byte)(a.data * b.data));
+            => reduce7((byte)(a.Value * b.Value));
 
         [MethodImpl(Inline), Op]
         public static U and(U a, U b)
-            => wrap7((byte)(a.data & b.data));
+            => wrap7((byte)(a.Value & b.Value));
 
         [MethodImpl(Inline), Op]
         public static U or(U a, U b)
-            => wrap7((byte)(a.data | b.data));
+            => wrap7((byte)(a.Value | b.Value));
 
         [MethodImpl(Inline), Op]
         public static U xor(U a, U b)
-            => wrap7((byte)(a.data ^ b.data));
+            => wrap7((byte)(a.Value ^ b.Value));
 
         [MethodImpl(Inline), Op]
         public static U srl(U a, byte b)
-            => uint7(a.data >> b);
+            => uint7(a.Value >> b);
 
         [MethodImpl(Inline), Op]
         public static U sll(U a, byte b)
-            => uint7(a.data << b);
+            => uint7(a.Value << b);
 
 
         [MethodImpl(Inline)]
         public static bool eq(U x, U y)
-            => x.data == y.data;
+            => x.Value == y.Value;
 
         [MethodImpl(Inline)]
         public static byte crop7(byte x)
@@ -254,11 +254,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static string format(U src)
-            => BitRender.gformat(src.data, FormatConfig7);
+            => BitRender.gformat(src.Value, FormatConfig7);
 
         [MethodImpl(Inline)]
         public static string format(U src, BitFormat config)
-            => BitRender.gformat(src.data, config);
+            => BitRender.gformat(src.Value, config);
 
         /// <summary>
         /// Promotes a <see cref='U2'/> to a <see cref='Z0.uint7'/>, as indicated by the <see cref='W7'/> selector
@@ -267,7 +267,7 @@ namespace Z0
         /// <param name="w">The target width</param>
         [MethodImpl(Inline), Op]
         public static uint7 extend(W7 w, uint2 src)
-            => new U(src.data);
+            => new U(src.Value);
 
         [MethodImpl(Inline), Op]
         public static Span<bit> bits(uint7 src)
@@ -290,5 +290,25 @@ namespace Z0
                 seek(dst,6) = bit.On;
             return dst;
         }
+
+        [MethodImpl(Inline), Op]
+        public static Span<bit> bits(uint24 src)
+        {
+            var storage = ByteBlock24.Empty;
+            var dst = recover<bit>(storage.Bytes);
+            bits(src,dst);
+            return dst;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static uint bits(uint24 src, Span<bit> dst)
+        {
+            var input = @readonly(recover<bit>((((uint)src).ToBitVector32().ToBitString()[0,23]).BitSeq));
+            seek64(dst,0) = skip64(input,0);
+            seek64(dst,1) = skip64(input,1);
+            seek64(dst,2) = skip64(input,2);
+            return 24;
+        }
+
     }
 }

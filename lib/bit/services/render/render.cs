@@ -31,6 +31,7 @@ namespace Z0
                 dst.Append(fence.Right);
         }
 
+        [Op, Closures(Closure)]
         public static uint render<T>(uint n, in T src, Span<char> dst)
             where T : unmanaged
         {

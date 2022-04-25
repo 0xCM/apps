@@ -19,7 +19,7 @@ namespace Z0
         public static U set(U src, byte pos, bit state)
         {
             if(pos < U.Width)
-                return wrap6(bit.set(src.data, pos, state));
+                return wrap6(bit.set(src.Value, pos, state));
             else
                 return src;
         }
@@ -34,11 +34,11 @@ namespace Z0
         /// <param name="a">The source operand</param>
         [MethodImpl(Inline), Op]
         public static U inc(U a)
-            => !a.IsMax ? new U(core.add(a.data, 1), false) : U.Min;
+            => !a.IsMax ? new U(core.add(a.Value, 1), false) : U.Min;
 
         [MethodImpl(Inline), Op]
         public static U dec(U a)
-            => !a.IsMin ? new U(Bytes.sub(a.data, 1), false) : U.Max;
+            => !a.IsMin ? new U(Bytes.sub(a.Value, 1), false) : U.Max;
 
         /// <summary>
         /// Reinterprets an input reference as a mutable <see cref='U'/> reference cell
@@ -196,7 +196,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static U add(U x, U y)
         {
-            var sum = (byte)(x.data + y.data);
+            var sum = (byte)(x.Value + y.Value);
             return wrap6((sum >= U.Mod) ? (byte)(sum - U.Mod): sum);
         }
 
@@ -209,39 +209,39 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U div (U lhs, U rhs)
-            => wrap6((byte)(lhs.data / rhs.data));
+            => wrap6((byte)(lhs.Value / rhs.Value));
 
         [MethodImpl(Inline), Op]
         public static U mod (U lhs, U rhs)
-            => wrap6((byte)(lhs.data % rhs.data));
+            => wrap6((byte)(lhs.Value % rhs.Value));
 
         [MethodImpl(Inline), Op]
         public static U mul(U lhs, U rhs)
-            => reduce6((byte)(lhs.data * rhs.data));
+            => reduce6((byte)(lhs.Value * rhs.Value));
 
         [MethodImpl(Inline), Op]
         public static U or(U lhs, U rhs)
-            => wrap6((byte)(lhs.data | rhs.data));
+            => wrap6((byte)(lhs.Value | rhs.Value));
 
         [MethodImpl(Inline), Op]
         public static U and(U lhs, U rhs)
-            => wrap6((byte)(lhs.data & rhs.data));
+            => wrap6((byte)(lhs.Value & rhs.Value));
 
         [MethodImpl(Inline), Op]
         public static U xor(U lhs, U rhs)
-            => wrap6((byte)(lhs.data ^ rhs.data));
+            => wrap6((byte)(lhs.Value ^ rhs.Value));
 
         [MethodImpl(Inline), Op]
         public static U srl(U lhs, byte count)
-            => uint6(lhs.data >> count);
+            => uint6(lhs.Value >> count);
 
         [MethodImpl(Inline), Op]
         public static U sll(U lhs, byte count)
-            => uint6(lhs.data << count);
+            => uint6(lhs.Value << count);
 
         [MethodImpl(Inline)]
         public static bool eq(U x, U y)
-            => x.data == y.data;
+            => x.Value == y.Value;
 
         [MethodImpl(Inline)]
         public static byte crop6(byte x)
@@ -257,11 +257,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static string format(U src)
-            => BitRender.gformat(src.data, BitFormat.limited(U.Width,U.Width));
+            => BitRender.gformat(src.Value, BitFormat.limited(U.Width,U.Width));
 
         [MethodImpl(Inline)]
         public static string format(U src, BitFormat config)
-            => BitRender.gformat(src.data, config);
+            => BitRender.gformat(src.Value, config);
 
         [MethodImpl(Inline), Op]
         public static Span<bit> bits(uint6 src)

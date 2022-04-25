@@ -13,11 +13,11 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static bit test(U x, byte pos)
-            => bit.test(x.data, pos);
+            => bit.test(x.Value, pos);
 
         [MethodImpl(Inline), Op]
         public static U set(U x, byte pos, bit state)
-            => new U(bit.set(x.data, pos, state));
+            => new U(bit.set(x.Value, pos, state));
 
         [MethodImpl(Inline), Op]
         public static U maxval(W24 w)
@@ -213,10 +213,10 @@ namespace Z0
         public static ref U inc(in U a)
         {
             ref var b = ref core.edit(a);
-            b.data++;
+            b.Value++;
 
-            if(b.data > Mask)
-                b.data = 0;
+            if(b.Value > Mask)
+                b.Value = 0;
 
             return ref b;
         }
@@ -225,27 +225,27 @@ namespace Z0
         public static ref U dec(in U a)
         {
             ref var b = ref core.edit(a);
-            b.data--;
+            b.Value--;
 
-            if(b.data > Mask)
-                b.data = Mask;
+            if(b.Value > Mask)
+                b.Value = Mask;
 
             return ref b;
         }
 
         [MethodImpl(Inline), Op]
         public static bool eq(U a, U b)
-            => a.data == b.data;
+            => a.Value == b.Value;
 
         static BitFormat FormatConfig24
             => BitFormat.limited(U.Width, U.Width);
 
         [MethodImpl(Inline)]
         public static string format(U src)
-            => BitRender.gformat(src.data, FormatConfig24);
+            => BitRender.gformat(src.Value, FormatConfig24);
 
         [MethodImpl(Inline)]
         public static string format(U src, BitFormat config)
-            => BitRender.gformat(src.data, config);
+            => BitRender.gformat(src.Value, config);
     }
 }

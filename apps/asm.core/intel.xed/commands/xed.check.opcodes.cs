@@ -139,5 +139,47 @@ namespace Z0
 
             return true;
         }
+
+        [CmdOp("bits/check/numbers")]
+        Outcome CheckBitNumbers(CmdArgs args)
+        {
+            CheckBitNumbers(n3, (byte)0b0000_0111);
+            CheckBitNumbers(n6, (byte)0b0011_1000);
+
+            CheckBitNumbers(n3, (ushort)0b0000_0111);
+            CheckBitNumbers(n6, (ushort)0b0011_1000);
+
+            CheckBitNumbers(n3, (uint)0b0000_0111);
+            CheckBitNumbers(n6, (uint)0b0011_1000);
+
+            return true;
+        }
+
+        static BitString bitstring<N,T>(N n, T src)
+            where N : unmanaged, ITypeNat
+            where T : unmanaged
+        {
+            if(size<T>() <=8)
+                return u8(src).ToBitString((byte)n.NatValue);
+            else if(size<T>() <=16)
+                return u16(src).ToBitString((byte)n.NatValue);
+            else if(size<T>() <=32)
+                return u32(src).ToBitString((byte)n.NatValue);
+            else
+                return u64(src).ToBitString((byte)n.NatValue);
+        }
+
+        void CheckBitNumbers<N,T>(N n, T value)
+            where N : unmanaged, ITypeNat
+            where T : unmanaged
+        {
+            var bn = BitNumber.generic(n,value);
+            var width = Require.equal((byte)n.NatValue, bn.Width);
+            var bs = bitstring(n,value);
+            var scalar = bn.Value;
+            Require.invariant(gmath.eq(scalar,value));
+            var bits = Require.equal(bs.Format(), bn.Format());
+            Write(string.Format("{0:D2} | {1:X4} | {2}", width, scalar, bits));
+        }
     }
 }

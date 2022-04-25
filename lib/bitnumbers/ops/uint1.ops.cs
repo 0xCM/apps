@@ -13,13 +13,13 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static bit test(U x)
-            => bit.test(x.data, 0);
+            => bit.test(x.Value, 0);
 
         [MethodImpl(Inline), Op]
         public static U set(U src, byte pos, bit state)
         {
             if(pos < U.Width)
-                return wrap1(bit.set(src.data, pos, state));
+                return wrap1(bit.set(src.Value, pos, state));
             else
                 return src;
         }
@@ -154,7 +154,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static U add(U a, U b)
         {
-            var sum = a.data + b.data;
+            var sum = a.Value + b.Value;
             return wrap1((sum >= U.Count) ? (byte)sum - (byte)U.Count: sum);
         }
 
@@ -167,35 +167,35 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U mul(U a, U b)
-            => reduce1((byte)(a.data * b.data));
+            => reduce1((byte)(a.Value * b.Value));
 
         [MethodImpl(Inline), Op]
         public static U div (U lhs, U rhs)
-            => wrap1((byte)(lhs.data / rhs.data));
+            => wrap1((byte)(lhs.Value / rhs.Value));
 
         [MethodImpl(Inline), Op]
         public static U mod (U lhs, U rhs)
-            => wrap1((byte)(lhs.data % rhs.data));
+            => wrap1((byte)(lhs.Value % rhs.Value));
 
         [MethodImpl(Inline), Op]
         public static U srl(U lhs, byte rhs)
-            => uint1((byte)(lhs.data >> rhs));
+            => uint1((byte)(lhs.Value >> rhs));
 
         [MethodImpl(Inline), Op]
         public static U sll(U a, byte b)
-            => uint1((byte)(a.data << b));
+            => uint1((byte)(a.Value << b));
 
         [MethodImpl(Inline), Op]
         public static U inc(U x)
-            => !x.IsMax ? new U(Bytes.add(x.data, 1), false) : U.Min;
+            => !x.IsMax ? new U(Bytes.add(x.Value, 1), false) : U.Min;
 
         [MethodImpl(Inline), Op]
         public static U dec(U x)
-            => !x.IsMin ? new U(Bytes.sub(x.data, 1), false) : U.Max;
+            => !x.IsMin ? new U(Bytes.sub(x.Value, 1), false) : U.Max;
 
         [MethodImpl(Inline), Op]
         public static bit eq(U a, U b)
-            => a.data == b.data;
+            => a.Value == b.Value;
 
         [MethodImpl(Inline)]
         public static byte crop1(byte a)
@@ -228,15 +228,15 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U or(U a, U b)
-            => wrap1((byte)(a.data | b.data));
+            => wrap1((byte)(a.Value | b.Value));
 
         [MethodImpl(Inline), Op]
         public static U and(U a, U b)
-            => wrap1((byte)(a.data & b.data));
+            => wrap1((byte)(a.Value & b.Value));
 
         [MethodImpl(Inline), Op]
         public static U xor(U lhs, U rhs)
-            => wrap1((byte)(lhs.data ^ rhs.data));
+            => wrap1((byte)(lhs.Value ^ rhs.Value));
 
         [MethodImpl(Inline), Op]
         public static U nand(U a, U b)

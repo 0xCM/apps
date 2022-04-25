@@ -19,7 +19,7 @@ namespace Z0
         public static U set(U src, byte pos, bit state)
         {
             if(pos < U.Width)
-                return wrap3(bit.set(src.data, pos, state));
+                return wrap3(bit.set(src.Value, pos, state));
             else
                 return src;
         }
@@ -44,11 +44,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U inc(U x)
-            => !x.IsMax ? new U(core.add(x.data, 1), false) : U.Min;
+            => !x.IsMax ? new U(core.add(x.Value, 1), false) : U.Min;
 
         [MethodImpl(Inline), Op]
         public static U dec(U x)
-            => !x.IsMin ? new U(Bytes.sub(x.data, 1), false) : U.Max;
+            => !x.IsMin ? new U(Bytes.sub(x.Value, 1), false) : U.Max;
 
         /// <summary>
         /// Reinterprets an input reference as a mutable <see cref='Z0.uint2'/> reference cell
@@ -171,7 +171,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static U add(U a, U b)
         {
-            var sum = a.data + b.data;
+            var sum = a.Value + b.Value;
             return wrap3((sum >= U.Mod) ? (byte)(sum - U.Mod): (byte)sum);
         }
 
@@ -184,47 +184,47 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U mul(U a, U b)
-            => reduce3((byte)(a.data * b.data));
+            => reduce3((byte)(a.Value * b.Value));
 
         [MethodImpl(Inline), Op]
         public static U div (U a, U b)
-            => wrap3((byte)(a.data / b.data));
+            => wrap3((byte)(a.Value / b.Value));
 
         [MethodImpl(Inline), Op]
         public static U mod (U a, U b)
-            => wrap3((byte)(a.data % b.data));
+            => wrap3((byte)(a.Value % b.Value));
 
         [MethodImpl(Inline), Op]
         public static U and(U a, U b)
-            => wrap3((byte)(a.data & b.data));
+            => wrap3((byte)(a.Value & b.Value));
 
         [MethodImpl(Inline), Op]
         public static U or(U a, U b)
-            => wrap3((byte)(a.data | b.data));
+            => wrap3((byte)(a.Value | b.Value));
 
         [MethodImpl(Inline), Op]
         public static U or(U a, U b, U c)
-            => wrap3((byte)(a.data | b.data | c.data));
+            => wrap3((byte)(a.Value | b.Value | c.Value));
 
         [MethodImpl(Inline), Op]
         public static U xor(U a, U b)
-            => wrap3((byte)(a.data ^ b.data));
+            => wrap3((byte)(a.Value ^ b.Value));
 
         [MethodImpl(Inline), Op]
         public static U not(U a)
-            => wrap3(~a.data & U.MaxValue);
+            => wrap3(~a.Value & U.MaxValue);
 
         [MethodImpl(Inline), Op]
         public static U srl(U lhs, byte offset)
-            => uint3(lhs.data >> offset);
+            => uint3(lhs.Value >> offset);
 
         [MethodImpl(Inline), Op]
         public static U sll(U lhs, byte offset)
-            => uint3(lhs.data << offset);
+            => uint3(lhs.Value << offset);
 
         [MethodImpl(Inline), Op]
         public static bool eq(U x, U y)
-            => x.data == y.data;
+            => x.Value == y.Value;
 
         /// <summary>
         /// Injects the source value directly into the width-identified target, bypassing bounds-checks
@@ -274,10 +274,10 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static string format(U src)
-            => BitRender.gformat(src.data, FormatConfig3);
+            => BitRender.gformat(src.Value, FormatConfig3);
 
         [MethodImpl(Inline)]
         public static string format(U src, BitFormat config)
-            => BitRender.gformat(src.data, config);
+            => BitRender.gformat(src.Value, config);
     }
 }

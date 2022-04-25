@@ -58,6 +58,24 @@ namespace Z0
         public static bit negative(double x)
             => x < 0;
 
+        /// <summary>
+        /// Compares two operands via their <see cref='IComparable'> implementations
+        /// </summary>
+        /// <param name="a">The first operand</param>
+        /// <param name="b">The second operand</param>
+        [MethodImpl(Inline), Eq]
+        public static int cmp(float a, float b)
+            => a.CompareTo(b);
+
+        /// <summary>
+        /// Compares two operands via their <see cref='IComparable'> implementations
+        /// </summary>
+        /// <param name="a">The first operand</param>
+        /// <param name="b">The second operand</param>
+        [MethodImpl(Inline), Eq]
+        public static int cmp(double a, double b)
+            => a.CompareTo(b);
+
         [MethodImpl(Inline), Eq]
         public static bit eq(float a, float b)
             => a == b;

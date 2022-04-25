@@ -13,11 +13,11 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static uint4 lo(uint8b src)
-            => Bytes.and(src.data, 0xF);
+            => Bytes.and(src.Value, 0xF);
 
         [MethodImpl(Inline), Op]
         public static uint4 hi(uint8b src)
-            => Bytes.srl(src.data, 4);
+            => Bytes.srl(src.Value, 4);
 
         [MethodImpl(Inline), Op]
         public static void render(U src, uint offset, Span<char> dst)
@@ -33,11 +33,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U inc(U x)
-            => !x.IsMax ? new U(core.add(x.data, 1)) : U.Min;
+            => !x.IsMax ? new U(core.add(x.Value, 1)) : U.Min;
 
         [MethodImpl(Inline), Op]
         public static U dec(U x)
-            => !x.IsMin ? new U(Bytes.sub(x.data, 1)) : U.Max;
+            => !x.IsMin ? new U(Bytes.sub(x.Value, 1)) : U.Max;
 
         /// <summary>
         /// Reinterprets an input reference as a mutable <see cref='U'/> reference cell
@@ -174,7 +174,7 @@ namespace Z0
         public static U set(U src, byte pos, bit state)
         {
             if(pos < U.Width)
-                return new U(bit.set(src.data, pos, state));
+                return new U(bit.set(src.Value, pos, state));
             else
                 return src;
         }
@@ -184,11 +184,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static string format(U src)
-            => BitRender.gformat(src.data, FormatConfig8);
+            => BitRender.gformat(src.Value, FormatConfig8);
 
         [MethodImpl(Inline)]
         public static string format(U src, BitFormat config)
-            => BitRender.gformat(src.data, config);
+            => BitRender.gformat(src.Value, config);
 
         [MethodImpl(Inline), Op]
         public static Span<bit> bits(uint8b src)

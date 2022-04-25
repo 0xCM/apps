@@ -18,23 +18,23 @@ namespace Z0
     [DataType("u<w:4>", Width, 8)]
     public readonly struct uint4 : IBitNumber<U,W,K,T>
     {
-        internal readonly T data;
+        internal readonly T Value;
 
         [MethodImpl(Inline)]
         internal uint4(uint8b src)
-            => data = (byte)(src & MaxValue);
+            => Value = (byte)(src & MaxValue);
 
         [MethodImpl(Inline)]
         internal uint4(byte src)
-            => data = (byte)(U.MaxValue & src);
+            => Value = (byte)(U.MaxValue & src);
 
         [MethodImpl(Inline)]
         internal uint4(byte src, bool @unchecked)
-            => data = (byte)src;
+            => Value = (byte)src;
 
         [MethodImpl(Inline)]
         internal uint4(K src)
-            => data = (byte)src;
+            => Value = (byte)src;
 
         /// <summary>
         /// Queries an index-identified bit
@@ -48,25 +48,25 @@ namespace Z0
         public K Kind
         {
             [MethodImpl(Inline)]
-            get => (K) data;
+            get => (K) Value;
         }
 
         public T Content
         {
             [MethodImpl(Inline)]
-            get => data;
+            get => Value;
         }
 
         public bool IsZero
         {
             [MethodImpl(Inline)]
-            get => data == 0;
+            get => Value == 0;
         }
 
         public bool IsNonZero
         {
             [MethodImpl(Inline)]
-            get => data != 0;
+            get => Value != 0;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Z0
         public bool IsMax
         {
             [MethodImpl(Inline)]
-            get => data == MaxValue;
+            get => Value == MaxValue;
         }
 
         /// <summary>
@@ -84,11 +84,14 @@ namespace Z0
         public bool IsMin
         {
             [MethodImpl(Inline)]
-            get => data == MinLiteral;
+            get => Value == MinLiteral;
         }
 
         public string Format()
              => format(this);
+
+        public override string ToString()
+            => Format();
 
         public string Format(BitFormat config)
             => format(this,config);
@@ -100,30 +103,39 @@ namespace Z0
         public override bool Equals(object y)
             => y is U x && Equals(x);
 
-        public uint Hash
+        byte IBits<byte>.Value
+            => Value;
+
+        byte IBits.Width
+            => Width;
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
-            get => data;
+            get => Value;
         }
+
+        [MethodImpl(Inline)]
+        public int CompareTo(U src)
+            => Value.CompareTo(src.Value);
 
         public override int GetHashCode()
             => (int)Hash;
 
         [MethodImpl(Inline)]
         public static implicit operator uint5(U src)
-            => new uint5(src.data);
+            => new uint5(src.Value);
 
         [MethodImpl(Inline)]
         public static implicit operator uint6(U src)
-            => new uint6(src.data);
+            => new uint6(src.Value);
 
         [MethodImpl(Inline)]
         public static implicit operator uint7(U src)
-            => new uint7(src.data);
+            => new uint7(src.Value);
 
         [MethodImpl(Inline)]
         public static implicit operator uint8b(U src)
-            => new uint8b(src.data);
+            => new uint8b(src.Value);
 
         [MethodImpl(Inline)]
         public static implicit operator U(uint8b src)
@@ -135,11 +147,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator K(U src)
-            => (K)src.data;
+            => (K)src.Value;
 
         [MethodImpl(Inline)]
         public static explicit operator bit(U src)
-            => new bit(src.data & 1);
+            => new bit(src.Value & 1);
 
         [MethodImpl(Inline)]
         public static explicit operator U(bit src)
@@ -151,7 +163,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
         public static implicit operator byte(U src)
-            => (byte)src.data;
+            => (byte)src.Value;
 
         /// <summary>
         /// Converts a 4-bit integer to an unsigned 16-bit integer
@@ -159,7 +171,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
         public static implicit operator ushort(U src)
-            => (ushort)src.data;
+            => (ushort)src.Value;
 
         /// <summary>
         /// Converts a 4-bit integer to an unsigned 32-bit integer
@@ -167,7 +179,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
         public static implicit operator uint(U src)
-            => src.data;
+            => src.Value;
 
         /// <summary>
         /// Converts a 4-bit integer to an unsigned 64-bit integer
@@ -175,7 +187,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
         public static implicit operator ulong(U src)
-            => src.data;
+            => src.Value;
 
         /// <summary>
         /// Converts a 4-bit integer to a signed 32-bit integer
@@ -183,7 +195,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
         public static implicit operator int(U src)
-            => (int)src.data;
+            => (int)src.Value;
 
         /// <summary>
         /// Creates a 4-bit integer from the least four bits of the source operand
@@ -207,7 +219,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator HexDigitValue(U src)
-            => (HexDigitValue)src.data;
+            => (HexDigitValue)src.Value;
 
         /// <summary>
         /// Creates a 4-bit integer from the least four bits of the source operand
@@ -223,11 +235,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static bool operator true(U x)
-            => x.data != 0;
+            => x.Value != 0;
 
         [MethodImpl(Inline)]
         public static bool operator false(U x)
-            => x.data == 0;
+            => x.Value == 0;
 
         [MethodImpl(Inline)]
         public static U operator + (U x, U y)
@@ -239,39 +251,39 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static U operator * (U x, U y)
-            => reduce4((byte)(x.data * y.data));
+            => reduce4((byte)(x.Value * y.Value));
 
         [MethodImpl(Inline)]
         public static U operator / (U x, U y)
-            => wrap4((byte)(x.data / y.data));
+            => wrap4((byte)(x.Value / y.Value));
 
         [MethodImpl(Inline)]
         public static U operator % (U x, U y)
-            => wrap4((byte)(x.data % y.data));
+            => wrap4((byte)(x.Value % y.Value));
 
         [MethodImpl(Inline)]
         public static U operator |(U x, U y)
-            => wrap4((byte)(x.data | y.data));
+            => wrap4((byte)(x.Value | y.Value));
 
         [MethodImpl(Inline)]
         public static U operator &(U x, U y)
-            => wrap4((byte)(x.data & y.data));
+            => wrap4((byte)(x.Value & y.Value));
 
         [MethodImpl(Inline)]
         public static U operator ^(U x, U y)
-            => wrap4((byte)((byte)(x.data & y.data) & MaxValue));
+            => wrap4((byte)((byte)(x.Value & y.Value) & MaxValue));
 
         [MethodImpl(Inline)]
         public static U operator >>(U x, int y)
-            => uint4(x.data >> y);
+            => uint4(x.Value >> y);
 
         [MethodImpl(Inline)]
         public static U operator <<(U x, int y)
-            => uint4(x.data << y);
+            => uint4(x.Value << y);
 
         [MethodImpl(Inline)]
         public static U operator ~(U src)
-            => wrap4((byte)(~src.data & MaxValue));
+            => wrap4((byte)(~src.Value & MaxValue));
 
         [MethodImpl(Inline)]
         public static U operator ++(U x)
@@ -291,19 +303,19 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static U operator < (U x, U y)
-            => @bool(x.data < y.data);
+            => @bool(x.Value < y.Value);
 
         [MethodImpl(Inline)]
         public static U operator <= (U x, U y)
-            => @bool(x.data <= y.data);
+            => @bool(x.Value <= y.Value);
 
         [MethodImpl(Inline)]
         public static U operator > (U x, U y)
-            => @bool(x.data > y.data);
+            => @bool(x.Value > y.Value);
 
         [MethodImpl(Inline)]
         public static U operator >= (U x, U y)
-            => @bool(x.data >= y.data);
+            => @bool(x.Value >= y.Value);
 
         /// <summary>
         /// Specifies the inclusive lower bound of the <see cref='U'/> data type as a literal value
@@ -361,7 +373,7 @@ namespace Z0
             get => new U(1,true);
         }
 
-        public Span<bit> Bits
+        public Span<bit> _Bits
         {
             [MethodImpl(Inline)]
             get => bits(this);

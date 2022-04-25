@@ -6,9 +6,19 @@ namespace Z0
 {
     using System;
 
-    public interface IBitNumber : IHashed, ISized
+    public interface IBitNumber : IHashed, IBits
     {
-        Span<bit> Bits {get;}
+        Span<bit> _Bits
+            => throw new NotImplementedException();
+
+        void Bits<B>(B dst)
+            where B : unmanaged, IStorageBlock<B>
+        {
+            var src = core.recover<bit,byte>(_Bits);
+            var buffer = dst.Bytes;
+            for(var i=0; i<Width; i++)
+                core.seek(buffer,i) = core.skip(src,i);
+        }
 
         bool IsZero {get;}
 
@@ -16,26 +26,25 @@ namespace Z0
             => !IsZero;
     }
 
-    public interface IBitNumber<S> : IBitNumber, IEquatable<S>
-        where S : unmanaged, IBitNumber<S>
+    public interface IBitNumber<F> : IBitNumber, IEquatable<F>, IComparable<F>
+        where F : unmanaged, IBitNumber<F>
     {
 
     }
 
-    public interface IBitNumber<S,T> : IBitNumber<S>, INullary<S,T>
-        where S : unmanaged, IBitNumber<S,T>
+    public interface IBitNumber<F,T> : IBitNumber<F>, INullary<F,T>, IHashed<F>, IBits<T>
+        where F : unmanaged, IBitNumber<F,T>
         where T : unmanaged
     {
 
     }
 
-    public interface IBitNumber<S,W,T> : IBitNumber<S,T>
-        where S : unmanaged, IBitNumber<S,W,T>
+    public interface IBitNumber<F,W,T> : IBitNumber<F,T>
+        where F : unmanaged, IBitNumber<F,W,T>
         where W : unmanaged, IDataWidth
         where T : unmanaged
     {
-        BitWidth ISized.Width
-            => default(W).BitWidth;
+
     }
 
     public interface IBitNumber<F,W,K,T> : IBitNumber<F,W,T>

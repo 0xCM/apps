@@ -46,5 +46,7 @@ namespace Z0
             seek(dst, i++) = bitchar(src, 0);
             return i - i0;
         }
+
+
     }
 }

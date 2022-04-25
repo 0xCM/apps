@@ -19,18 +19,18 @@ namespace Z0
         public static U set(U src, byte pos, bit state)
         {
             if(pos < U.Width)
-                return wrap(w2, bit.set(src.data, pos, state));
+                return wrap(w2, bit.set(src.Value, pos, state));
             else
                 return src;
         }
 
         [MethodImpl(Inline), Op]
         public static string format(U src)
-            => BitRender.gformat(src.data, BitFormat.limited(U.Width, U.Width));
+            => BitRender.gformat(src.Value, BitFormat.limited(U.Width, U.Width));
 
         [MethodImpl(Inline)]
         public static string format(U src, BitFormat config)
-            => BitRender.gformat(src.data, config);
+            => BitRender.gformat(src.Value, config);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ref S edit<S>(in U src)
@@ -74,11 +74,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U dec(U x)
-            => !x.IsMin ? new U(Bytes.sub(x.data, 1), false) : U.Max;
+            => !x.IsMin ? new U(Bytes.sub(x.Value, 1), false) : U.Max;
 
         [MethodImpl(Inline), Op]
         public static U inc(U x)
-            => !x.IsMax ? new U(core.add(x.data, 1), false) : U.Min;
+            => !x.IsMax ? new U(core.add(x.Value, 1), false) : U.Min;
 
         /// <summary>
         /// Converts a source integral value to an enum value
@@ -266,7 +266,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static U add(U x, U y)
         {
-            var sum = x.data + y.data;
+            var sum = x.Value + y.Value;
             return wrap(w2, (sum >= U.Mod) ? sum - (byte)U.Mod: sum);
         }
 
@@ -279,27 +279,27 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U mul(U a, U b)
-            => reduce2((byte)(a.data * b.data));
+            => reduce2((byte)(a.Value * b.Value));
 
         [MethodImpl(Inline), Op]
         public static U div (U a, U b)
-            => wrap(w2, (byte)(a.data / b.data));
+            => wrap(w2, (byte)(a.Value / b.Value));
 
         [MethodImpl(Inline), Op]
         public static U mod (U a, U b)
-            => wrap(w2, (byte)(a.data % b.data));
+            => wrap(w2, (byte)(a.Value % b.Value));
 
         [MethodImpl(Inline), Op]
         public static U srl(U a, byte b)
-            => create(w2, a.data >> b);
+            => create(w2, a.Value >> b);
 
         [MethodImpl(Inline), Op]
         public static U sll(U a, byte b)
-            => create(w2, a.data << b);
+            => create(w2, a.Value << b);
 
         [MethodImpl(Inline), Op]
         public static bool eq(U x, U y)
-            => x.data == y.data;
+            => x.Value == y.Value;
 
         [MethodImpl(Inline), False]
         public static U @false(U a, U b)
@@ -311,19 +311,19 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static U and(U a, U b)
-            => wrap(w2, (byte)(a.data & b.data));
+            => wrap(w2, (byte)(a.Value & b.Value));
 
         [MethodImpl(Inline), Op]
         public static U or(U a, U b)
-            => wrap(w2, (byte)(a.data | b.data));
+            => wrap(w2, (byte)(a.Value | b.Value));
 
         [MethodImpl(Inline), Op]
         public static U xor(U a, U b)
-            => wrap(w2, (byte)(a.data ^ b.data));
+            => wrap(w2, (byte)(a.Value ^ b.Value));
 
         [MethodImpl(Inline), Op]
         public static U not(U a)
-            => wrap2(~a.data & U.MaxValue);
+            => wrap2(~a.Value & U.MaxValue);
 
         [MethodImpl(Inline), Nand]
         public static U nand(U a, U b)
