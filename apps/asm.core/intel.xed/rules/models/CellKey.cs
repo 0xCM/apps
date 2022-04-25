@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+    using static XedModels;
 
     partial class XedRules
     {
@@ -23,7 +24,7 @@ namespace Z0
 
             public readonly RuleTableKind Kind;
 
-            public readonly RuleName Rule;
+            public readonly Nonterminal Rule;
 
             public readonly FieldKind Field;
 
@@ -36,7 +37,7 @@ namespace Z0
             readonly byte Pad2;
 
             [MethodImpl(Inline)]
-            public CellKey(ushort index, ushort table, ushort row, byte col, LogicClass logic, CellClass type, RuleTableKind kind, RuleName rule, FieldKind field)
+            public CellKey(ushort index, ushort table, ushort row, byte col, LogicClass logic, CellClass type, RuleTableKind kind, Nonterminal rule, FieldKind field)
             {
                 Index = index;
                 Table = table;
@@ -55,13 +56,13 @@ namespace Z0
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Rule == 0;
+                get => Rule.IsEmpty;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Rule !=0;
+                get => Rule.IsNonEmpty;
             }
 
             public Hash32 Hash
@@ -81,6 +82,12 @@ namespace Z0
                 result &= Kind == src.Kind;
                 result &= Rule == src.Rule;
                 return result;
+            }
+
+            public Coordinate Location
+            {
+                [MethodImpl(Inline)]
+                get => new Coordinate(Table, Row, Col);
             }
 
             public override bool Equals(object src)

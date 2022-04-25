@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+
     partial class XedRules
     {
         public delegate asci32 CellFormatter(in KeyedCell src);
@@ -90,7 +92,7 @@ namespace Z0
                 get => Key.Kind;
             }
 
-            public RuleName Rule
+            public Nonterminal Rule
             {
                 [MethodImpl(Inline)]
                 get => Key.Rule;

@@ -39,7 +39,7 @@ namespace Z0
                 => src is Nonterminal x && Equals(x);
 
             public override int GetHashCode()
-                => (int)(uint)this;
+                => (ushort)Name;
 
             public int CompareTo(Nonterminal src)
                 => Format().CompareTo(src.Format());
@@ -64,6 +64,14 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator Nonterminal(RuleName src)
                 => new Nonterminal(src);
+
+            [MethodImpl(Inline)]
+            public static bool operator ==(Nonterminal a, Nonterminal b)
+                => a.Equals(b);
+
+            [MethodImpl(Inline)]
+            public static bool operator !=(Nonterminal a, Nonterminal b)
+                => a.Equals(b);
 
             public static Nonterminal Empty => default;
         }

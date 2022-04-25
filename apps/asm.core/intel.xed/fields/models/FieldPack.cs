@@ -24,8 +24,6 @@ namespace Z0
 
             public Register Reg;
 
-            public BCastKind BCast;
-
             public ChipCode Chip;
 
             public InstClass Class;

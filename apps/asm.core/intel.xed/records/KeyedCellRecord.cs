@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(RecordId)]
@@ -30,7 +32,7 @@ namespace Z0
 
             public RuleTableKind Kind;
 
-            public RuleName Rule;
+            public Nonterminal Rule;
 
             public asci32 Expression;
 
@@ -42,7 +44,6 @@ namespace Z0
 
             public CellKey Key
                 => new CellKey(Index, Table, Row, Col, Logic, Type, Kind, Rule, Field);
-                //=> new CellKey(new(Rule,Kind), Table, Row, Logic, Col);
 
             public int CompareTo(KeyedCellRecord src)
                 => Key.CompareTo(src.Key);
