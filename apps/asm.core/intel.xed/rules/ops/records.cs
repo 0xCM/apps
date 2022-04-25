@@ -19,7 +19,7 @@ namespace Z0
             dst.Row = cell.RowIndex;
             dst.Col = cell.CellIndex;
             dst.Logic = cell.Logic;
-            dst.Type = value.DataKind;
+            dst.Type = value.CellKind;
             dst.Kind = cell.TableKind;
             dst.Rule = cell.Rule.TableName;
             dst.Field = cell.Field;

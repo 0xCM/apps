@@ -21,7 +21,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var seg = ref src[i];
-                if(seg.DataKind == RuleCellKind.HexLiteral)
+                if(seg.CellKind == RuleCellKind.HexLiteral)
                     seek(dst,j++) = seg.AsHexLit();
             }
             return new AsmOcValue(slice(dst,0,j));

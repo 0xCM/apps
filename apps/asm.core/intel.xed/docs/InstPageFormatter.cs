@@ -128,7 +128,7 @@ namespace Z0
                         seek(dst,j) = string.Format(Pattern, j, "Literal", field.Format());
                     else
                     {
-                        switch(field.DataKind)
+                        switch(field.CellKind)
                         {
                             case RuleCellKind.EqExpr:
                             case RuleCellKind.NeqExpr:
@@ -164,7 +164,7 @@ namespace Z0
                                 seek(dst,j) = string.Format(Pattern, j, fk, field.AsSegVar());
                             break;
                             default:
-                                Errors.Throw(string.Format("Unhandled case: {0}", field.DataKind));
+                                Errors.Throw(string.Format("Unhandled case: {0}", field.CellKind));
                             break;
                         }
                     }

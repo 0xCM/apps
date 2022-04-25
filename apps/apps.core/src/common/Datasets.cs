@@ -194,14 +194,17 @@ namespace Z0
             public ref readonly byte ColWidth(uint i)
                 => ref Widths[i];
 
-            public string Format<T>(ReadOnlySpan<T> src)
+            public string Format(ReadOnlySpan<object> src)
                 => string.Format(RenderPattern, src.ToArray());
 
-            public string Format<T>(Span<T> src)
-                => string.Format(RenderPattern, src.ToArray());
-
-            public string Format<T>(Index<T> src)
+            public string FormatSeq(Index<object> src)
                 => string.Format(RenderPattern, src.Storage);
+
+            // public string Format(Span<object> src)
+            //     => string.Format(RenderPattern, src.ToArray());
+
+            // public string Format(Index<object> src)
+            //     => string.Format(RenderPattern, src.Storage);
 
             public string Format(object src)
                 => string.Format(RenderPattern, src);

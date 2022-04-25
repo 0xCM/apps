@@ -7,8 +7,8 @@ namespace Z0
 {
     using static XedRules;
 
-    partial struct XedModels
-    {
+    partial class XedRules
+     {
         public readonly struct SeqDef
         {
             public readonly asci32 SeqName;

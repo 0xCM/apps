@@ -72,7 +72,6 @@ namespace Z0
         Outcome LoadProject(CmdArgs args)
             => _AppCmdRunner.LoadProject(args);
 
-
         protected void TableEmit<T>(T[] src, ReadOnlySpan<byte> widths, FS.FilePath dst, RecordFormatKind fk, TextEncodingKind encoding = TextEncodingKind.Asci)
             where T : struct
                 => TableEmit(@readonly(src), widths, dst, fk, encoding);
@@ -106,6 +105,7 @@ namespace Z0
         protected void FormatRows<T>(T[] src, ReadOnlySpan<byte> widths, ITextEmitter dst, RecordFormatKind fk, TextEncodingKind encoding = TextEncodingKind.Asci)
             where T : struct
                 => TableEmit(@readonly(src), widths, dst, fk, encoding);
+
         XedRules Rules => Service(Wf.XedRules);
 
         RuleTables CalcRules() => Rules.CalcRules();
@@ -191,67 +191,24 @@ namespace Z0
             public InstSeg Seg3;
 
 
-            public List<LayoutField> Fields;
-
             public int CompareTo(InstLayoutRecord src)
                 => PatternId.CompareTo(src.PatternId);
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,26,12,12,12,12};
         }
 
-        Index<InstLayoutRecord> CalcLayoutRecords()
+        ConstLookup<InstPattern,Index<LayoutCell>> CalcLayoutCells()
         {
-            var dst = list<InstLayoutRecord>();
+            var dst = dict<InstPattern,Index<LayoutCell>>();
             var patterns = Xed.Rules.CalcInstPatterns();
-            var layouts = Xed.Rules.CalcInstLayouts(patterns);
-            for(var i=0; i<layouts.Count; i++)
+            for(var i=0; i<patterns.Count; i++)
             {
-                ref readonly var layout = ref layouts[i];
-                ref readonly var fields = ref layout.Fields;
-                var record = new InstLayoutRecord();
-                record.Instruction = layout.Class;
-                record.OpCode = layout.OpCode;
-                record.PatternId = layout.PatternId;
-                record.Fields = new();
-                for(var j=0; j<fields.Count; j++)
-                {
-                    ref readonly var field = ref fields[j];
-                    record.Fields.Add(field);
-                    if(field.IsSeg)
-                    {
-                        ref readonly var seg = ref field.AsSeg();
-                    }
-                }
-                dst.Add(record);
-            }
-
-            return dst.ToArray().Sort();
-        }
-
-        Dictionary<ushort,List<InstSeg>> CalcInstSegs()
-        {
-            var patterns = Xed.Rules.CalcInstPatterns();
-            var layouts = Xed.Rules.CalcInstLayouts(patterns);
-            var dst = dict<ushort,List<InstSeg>>();
-
-            for(var i=0; i<layouts.Count; i++)
-            {
-                ref readonly var layout = ref layouts[i];
-                ref readonly var fields = ref layout.Fields;
-                dst.Add(layout.PatternId, new());
-                for(var j=0; j<fields.Count; j++)
-                {
-                    ref readonly var field = ref fields[j];
-                    if(field.IsSeg)
-                    {
-                        ref readonly var seg = ref field.AsSeg();
-                        dst[layout.PatternId].Add(seg);
-                    }
-                }
+                ref readonly var pattern = ref patterns[i];
+                ref readonly var fields = ref pattern.Fields;
+                dst[pattern] = pattern.Layout.Map(x => new LayoutCell(x));
             }
 
             return dst;
         }
-
     }
 }

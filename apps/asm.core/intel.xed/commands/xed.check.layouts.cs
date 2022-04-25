@@ -7,36 +7,64 @@ namespace Z0
     using Asm;
 
     using static XedRules;
-    using static XedModels;
+    using static Datasets;
     using static core;
 
     partial class XedCmdProvider
     {
+        static Span<object> clear(Span<object> src)
+        {
+            for(var i=0; i<src.Length; i++)
+                seek(src,i) = EmptyString;
+            return src;
+        }
         [CmdOp("xed/check/layouts")]
         Outcome CheckLayouts(CmdArgs args)
         {
-            var src = CalcInstSegs();
-            var maxcount = 0;
-            var records = CalcLayoutRecords();
-            foreach(var r in records)
-            {
-                var fields = r.Fields.Map(x => x.Format().PadRight(12));
-                var count = fields.Length;
-                if(count > maxcount)
-                    maxcount = count;
-                Write(string.Format("{0,-8} | {1,-18} | {2,-26} | {3,-3} | {4}", r.PatternId, r.Instruction, r.OpCode, count, fields.Concat(" ")));
-            }
-            // foreach(var pid in src.Keys)
-            // {
-            //     var segs = src[pid];
-            //     var fmt = segs.Map(x => x.Format().PadRight(12));
-            //     var count = fmt.Length;
-            //     if(count > maxcount)
-            //         maxcount = count;
-            //     Write(string.Format("{0,-8} | {1,-3} | {2}", pid, fmt.Length, fmt.Concat(" ")));
-            // }
+            var cols = new TableColumns("xed.inst.layouts", new (string, byte)[]{
+                ("PatternId",12),
+                ("Instruction",18),
+                ("OpCode",18),
+                ("Count", 6),
+                ("Cell[0]", 22),
+                ("Cell[1]", 22),
+                ("Cell[2]", 22),
+                ("Cell[3]", 22),
+                ("Cell[4]", 22),
+                ("Cell[5]", 22),
+                ("Cell[6]", 22),
+                ("Cell[7]", 22),
+                ("Cell[8]", 22),
+                ("Cell[9]", 22),
+            });
 
-            Write($"Max {maxcount}");
+            var counter = 0;
+            var src = CalcLayoutCells();
+            var dst = text.emitter();
+            Index<object> buffer = alloc<object>(cols.Count);
+            dst.AppendLine(cols.Header);
+            foreach(var r in src.Keys)
+            {
+                var cells = src[r];
+                var count = cells.Length;
+                counter += count;
+
+                var fmt = cells.Select(x => string.Format("{0}:{1}", x.Kind, x));
+
+
+                clear(buffer);
+                var k=0;
+                buffer[k++] = r.PatternId;
+                buffer[k++] = r.InstClass;
+                buffer[k++] = r.OpCode;
+                buffer[k++] = count;
+                for(var j=0; j<fmt.Length; j++, k++)
+                    buffer[k] = fmt[j];
+
+                dst.AppendLine(cols.FormatSeq(buffer));
+            }
+
+            FileEmit(dst.Emit(), counter, XedPaths.Targets() + FS.file("xed.inst.layouts", FS.Csv));
             // var inst = CalcInstSegs();
             // iter(inst, x => Write(x));
             return true;

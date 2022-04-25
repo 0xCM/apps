@@ -36,7 +36,7 @@ namespace Z0
             dst.FieldKind = src.FieldKind;
             dst.InstClass = pattern.InstClass;
             dst.OpCode = pattern.OpCode;
-            switch(src.DataKind)
+            switch(src.CellKind)
             {
                 case RuleCellKind.InstSeg:
                     dst.Seg = src.AsInstSeg();

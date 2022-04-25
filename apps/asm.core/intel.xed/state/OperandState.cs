@@ -29,7 +29,7 @@ namespace Z0
             [RuleField(K.DF64, 1, typeof(bit), "Specifies whether, in 64-bit mode, to default to 64 bit-width")]
             public bit DF64;
 
-            [RuleField(K.NO_SCALE_DISP8, 1, typeof(bit))]
+            [RuleField(K.NO_SCALE_DISP8, 1, typeof(bit), "When enabled, indicates that displacement is not scaled by the number of elements")]
             public bit NO_SCALE_DISP8;
 
             [RuleField(K.AMD3DNOW, 1, typeof(bit))]

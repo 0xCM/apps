@@ -6,7 +6,6 @@
 namespace Z0
 {
     using static core;
-    using static XedModels;
 
     partial class XedRules
     {
@@ -143,7 +142,7 @@ namespace Z0
                 Data = data;
             }
 
-            public ref readonly RuleCellKind DataKind
+            public ref readonly RuleCellKind CellKind
             {
                 [MethodImpl(Inline)]
                 get => ref @as<RuleCellKind>(Data[ClassIndex]);
@@ -164,31 +163,19 @@ namespace Z0
             public bool IsFieldExpr
             {
                 [MethodImpl(Inline)]
-                get => DataKind == RuleCellKind.EqExpr || DataKind == RuleCellKind.NeqExpr || DataKind == RuleCellKind.NontermExpr;
+                get => CellKind == RuleCellKind.EqExpr || CellKind == RuleCellKind.NeqExpr || CellKind == RuleCellKind.NontermExpr;
             }
 
             public bool IsOperator
             {
                 [MethodImpl(Inline)]
-                get => DataKind == RuleCellKind.Operator;
-            }
-
-            public bool IsSegVar
-            {
-                [MethodImpl(Inline)]
-                get => DataKind == RuleCellKind.SegVar;
-            }
-
-            public bool IsKeyword
-            {
-                [MethodImpl(Inline)]
-                get => DataKind == RuleCellKind.Keyword;
+                get => CellKind == RuleCellKind.Operator;
             }
 
             public bool IsLiteral
             {
                 [MethodImpl(Inline)]
-                get => DataKind == RuleCellKind.BitLiteral || DataKind == RuleCellKind.HexLiteral || DataKind == RuleCellKind.IntLiteral;
+                get => CellKind == RuleCellKind.BitLiteral || CellKind == RuleCellKind.HexLiteral || CellKind == RuleCellKind.IntLiteral;
             }
 
             public ref readonly byte Position
@@ -304,10 +291,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator InstField(SegVar src)
                 => new InstField(src);
-
-            // [MethodImpl(Inline)]
-            // public static implicit operator InstField(RuleName src)
-            //     => new InstField(src);
 
             [MethodImpl(Inline)]
             public static implicit operator InstField(Nonterminal src)

@@ -5,9 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-
-    partial struct XedModels
+    partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(32)]
         public readonly struct Nonterminal : IEquatable<Nonterminal>, IComparable<Nonterminal>
