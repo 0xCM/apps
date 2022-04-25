@@ -112,7 +112,7 @@ namespace Z0
 
         Index<InstPattern> CalcPatterns() => Rules.CalcPatterns();
 
-        string CaclTableMetrics(RuleSig sig, Index<KeyedCell> src)
+        string CaclTableMetrics(RuleSig sig, Index<RuleCell> src)
         {
             var view = src.View;
             var tid = src.IsNonEmpty ? src.First.Key.Table : Hex12.MaxValue;
@@ -154,7 +154,7 @@ namespace Z0
             return dst.Emit();
         }
 
-        void CalcRuleMetrics(KeyedCells src)
+        void CalcRuleMetrics(RulCells src)
         {
             var sigs = src.Keys;
             var dst = text.emitter();

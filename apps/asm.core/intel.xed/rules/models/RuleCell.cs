@@ -9,15 +9,15 @@ namespace Z0
 
     partial class XedRules
     {
-        public delegate asci32 CellFormatter(in KeyedCell src);
+        public delegate asci32 CellFormatter(in RuleCell src);
 
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct KeyedCell : IComparable<KeyedCell>
+        public readonly record struct RuleCell : IComparable<RuleCell>
         {
             public static CellFormatter formatter()
             {
                 return Calc;
-                asci32 Calc(in KeyedCell src)
+                asci32 Calc(in RuleCell src)
                 {
                     var dst = asci32.Null;
                     ref readonly var value = ref src.Value;
@@ -36,7 +36,7 @@ namespace Z0
             public readonly InstField Value;
 
             [MethodImpl(Inline)]
-            public KeyedCell(CellKey key, InstField value)
+            public RuleCell(CellKey key, InstField value)
             {
                 Key = key;
                 Value = value;
@@ -114,7 +114,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public int CompareTo(KeyedCell src)
+            public int CompareTo(RuleCell src)
                 => Key.CompareTo(src.Key);
 
             public string Format()
@@ -134,7 +134,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static KeyedCell Empty => default;
+            public static RuleCell Empty => default;
         }
     }
 }

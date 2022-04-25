@@ -14,18 +14,18 @@ namespace Z0
     {
         partial struct CellParser
         {
-            public static KeyedCells cells(RuleTables rules)
+            public static RulCells cells(RuleTables rules)
             {
                 var lix = z16;
                 var emitter = text.emitter();
                 emitter.AppendLine(CellRender.SemanticHeader);
                 ref readonly var src = ref rules.Specs();
                 var sigs = src.Keys;
-                var dst = dict<RuleSig,Index<KeyedCell>>();
+                var dst = dict<RuleSig,Index<RuleCell>>();
                 for(var i=z16; i<sigs.Length; i++)
                 {
                     ref readonly var sig = ref skip(sigs,i);
-                    var kcells = list<KeyedCell>();
+                    var kcells = list<RuleCell>();
                     var table = src[sig];
                     ref readonly var tid = ref table.TableId;
                     ref readonly var rows = ref table.Rows;
@@ -125,7 +125,7 @@ namespace Z0
                                 break;
                             }
 
-                            var kcell = KeyedCell.Empty;
+                            var kcell = RuleCell.Empty;
                             if(result)
                                 kcell = new (key,field);
                             else if(info.Field == 0 && info.Class == RuleCellKind.Operator)
@@ -141,7 +141,7 @@ namespace Z0
                     dst.Add(sig, kcells.ToIndex());
                 }
 
-                return KeyedCells.create(dst, emitter.Emit());
+                return RulCells.create(dst, emitter.Emit());
             }
         }
     }

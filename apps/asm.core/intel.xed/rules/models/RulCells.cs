@@ -9,9 +9,9 @@ namespace Z0
 
     partial class XedRules
     {
-        public class KeyedCells : SortedLookup<RuleSig,Index<KeyedCell>>
+        public class RulCells : SortedLookup<RuleSig,Index<RuleCell>>
         {
-            public static KeyedCells create(Dictionary<RuleSig,Index<KeyedCell>> src, string desc)
+            public static RulCells create(Dictionary<RuleSig,Index<RuleCell>> src, string desc)
             {
                 var _src = src.ToConcurrentDictionary();
                 var data = tables(_src);
@@ -20,13 +20,13 @@ namespace Z0
                 metrics.CellCount = _src.Values.Map(x => x.Count).Sum();
                 metrics.RowCounts = data.Select(x => (ushort)x.RowCount);
                 metrics.RowCount = data.Select(x => x.RowCount).Storage.Sum();
-                return new KeyedCells(_src, data, metrics, desc);
+                return new RulCells(_src, data, metrics, desc);
             }
 
-            static Index<CellTable> tables(ConcurrentDictionary<RuleSig,Index<KeyedCell>> src)
+            static Index<CellTable> tables(ConcurrentDictionary<RuleSig,Index<RuleCell>> src)
                 => src.Keys.Array().Select(sig => table(src,sig)).Index().Sort();
 
-            static CellTable table(ConcurrentDictionary<RuleSig,Index<KeyedCell>> src, RuleSig sig)
+            static CellTable table(ConcurrentDictionary<RuleSig,Index<RuleCell>> src, RuleSig sig)
             {
                 var dst = CellTable.Empty;
                 if(src.TryGetValue(sig, out var cells))
@@ -57,7 +57,7 @@ namespace Z0
             /// </summary>
             public readonly string Description;
 
-            public KeyedCells(ConcurrentDictionary<RuleSig,Index<KeyedCell>> src, Index<CellTable> tables, CellMetrics metrics, string desc)
+            public RulCells(ConcurrentDictionary<RuleSig,Index<RuleCell>> src, Index<CellTable> tables, CellMetrics metrics, string desc)
                 : base(src)
             {
                 Description = desc;
@@ -66,7 +66,7 @@ namespace Z0
                 Description = desc;
             }
 
-            public Index<KeyedCell> Flatten()
+            public Index<RuleCell> Flatten()
                 => flatten(this);
         }
    }

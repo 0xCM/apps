@@ -15,10 +15,10 @@ namespace Z0
 
             public readonly ushort RowIndex;
 
-            public readonly Index<KeyedCell> Cells;
+            public readonly Index<RuleCell> Cells;
 
             [MethodImpl(Inline)]
-            public CellRow(RuleSig sig, ushort tid, ushort rix, KeyedCell[] src)
+            public CellRow(RuleSig sig, ushort tid, ushort rix, RuleCell[] src)
             {
                 TableIndex = tid;
                 RowIndex = rix;
@@ -38,13 +38,13 @@ namespace Z0
                 get => Cells.Count;
             }
 
-            public ref KeyedCell this[uint i]
+            public ref RuleCell this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Cells[i];
             }
 
-            public ref KeyedCell this[int i]
+            public ref RuleCell this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Cells[i];
@@ -78,7 +78,7 @@ namespace Z0
                 return result;
             }
 
-            public static CellRow Empty => new CellRow(RuleSig.Empty, 0, 0, sys.empty<KeyedCell>());
+            public static CellRow Empty => new CellRow(RuleSig.Empty, 0, 0, sys.empty<RuleCell>());
         }
     }
 }

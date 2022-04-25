@@ -11,20 +11,20 @@ namespace Z0
     {
         public class RuleDocFormatter
         {
-            public static RuleDocFormatter create(KeyedCells src)
+            public static RuleDocFormatter create(RulCells src)
                 => new RuleDocFormatter(src);
 
-            readonly KeyedCells Data;
+            readonly RulCells Data;
 
             XedPaths XedPaths;
 
-            public RuleDocFormatter(KeyedCells src)
+            public RuleDocFormatter(RulCells src)
             {
                 Data = src;
                 XedPaths = XedPaths.Service;
             }
 
-            void Render(RuleSig sig, Index<KeyedCell> src, ITextEmitter dst)
+            void Render(RuleSig sig, Index<RuleCell> src, ITextEmitter dst)
             {
                 dst.AppendLine(TableHeader(sig));
                 dst.AppendLine();

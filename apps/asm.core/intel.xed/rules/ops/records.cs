@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public static KeyedCellRecord record(ushort seq, in KeyedCell cell)
+        public static KeyedCellRecord record(ushort seq, in RuleCell cell)
         {
             ref readonly var value = ref cell.Value;
             var dst = KeyedCellRecord.Empty;
@@ -24,12 +24,12 @@ namespace Z0
             dst.Rule = cell.Rule.TableName;
             dst.Field = cell.Field;
             dst.Value = value;
-            dst.Expression = KeyedCell.formatter()(cell);
+            dst.Expression = RuleCell.formatter()(cell);
             dst.Op = cell.Operator();
             return dst;
         }
 
-        public static Index<KeyedCellRecord> records(KeyedCells src)
+        public static Index<KeyedCellRecord> records(RulCells src)
             => records(src.Tables);
 
         public static Index<KeyedCellRecord> records(Index<CellTable> src)
@@ -64,7 +64,7 @@ namespace Z0
                 seek(dst,seq) = record(seq, row[k]);
         }
 
-        public static Index<KeyedCellRecord> records(Index<KeyedCell> cells)
+        public static Index<KeyedCellRecord> records(Index<RuleCell> cells)
         {
             var count = cells.Count;
             var buffer = alloc<KeyedCellRecord>(count);

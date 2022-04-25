@@ -22,7 +22,7 @@ namespace Z0
 
             internal static string SemanticHeader => string.Format("{0,-5} | {1,-5} | {2,-48} | {3}", "Seq", "Lix", "Key", "Value");
 
-            public static uint render(Index<KeyedCell> cells, ITextEmitter dst)
+            public static uint render(Index<RuleCell> cells, ITextEmitter dst)
             {
                 dst.AppendLine(CellRender.SemanticHeader);
                 for(var i=z16; i<cells.Count; i++)
