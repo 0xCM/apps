@@ -6,11 +6,12 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedRules;
 
-    partial class XedRules
+    partial class XedGrids
     {
         public readonly record struct RuleOperand<T> : ILogicOperand<T>
-            where T : unmanaged
+            where T : unmanaged, ILogicValue<T>
         {
             public readonly Nonterminal Rule;
 
@@ -31,6 +32,10 @@ namespace Z0
 
             RuleOperator ILogicOperand.Operator
                 => Operator;
+
+            [MethodImpl(Inline)]
+            public static implicit operator RuleOperand(RuleOperand<T> src)
+                =>  new RuleOperand(src.Rule, src.Operator, LogicValue.untype(src.Value));
         }
     }
 }

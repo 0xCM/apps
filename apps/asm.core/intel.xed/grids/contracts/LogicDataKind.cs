@@ -5,17 +5,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    partial class XedGrids
     {
-        public interface ILogicOperand
+        public enum LogicDataKind : byte
         {
-            RuleOperator Operator {get;}
-        }
+            None = 0,
 
-        public interface ILogicOperand<T> : ILogicOperand
-            where T : unmanaged
-        {
-            T Value {get;}
+            Bit,
+
+            BitNumber,
+
+            Byte,
+
+            Word,
+
+            Indicator,
+
+            Refinement,
         }
     }
 }

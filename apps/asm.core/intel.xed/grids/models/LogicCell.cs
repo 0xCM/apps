@@ -5,29 +5,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    using static XedRules;
+
+    partial class XedGrids
     {
-        public class LogicGrid
-        {
-
-        }
-
-        public readonly record struct LogicCell<T> : IComparable<LogicCell<T>>
-            where T : unmanaged, IEquatable<T>, ILogicOperand<T>
+        public readonly record struct LogicCell
         {
             public readonly CellKey Key;
 
-            public readonly T Value;
+            public readonly RuleOperator Operator;
+
+            public readonly LogicValue Value;
 
             [MethodImpl(Inline)]
-            public LogicCell(CellKey key, T value)
+            public LogicCell(CellKey key, RuleOperator op, LogicValue value)
             {
                 Key = key;
+                Operator = op;
                 Value = value;
             }
-
-            public int CompareTo(LogicCell<T> src)
-                => Key.CompareTo(src.Key);
 
             public uint Index
             {

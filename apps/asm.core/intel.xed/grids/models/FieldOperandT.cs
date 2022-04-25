@@ -5,11 +5,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    using static XedRules;
+
+    partial class XedGrids
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct FieldOperand<T> : ILogicOperand<T>
-            where T : unmanaged
+            where T : unmanaged, ILogicValue<T>
         {
             public readonly FieldKind Field;
 
@@ -30,6 +32,10 @@ namespace Z0
 
             RuleOperator ILogicOperand.Operator
                 => Operator;
+
+            [MethodImpl(Inline)]
+            public static implicit operator FieldOperand(FieldOperand<T> src)
+                => new FieldOperand(src.Field, src.Operator, LogicValue.untype(src.Value));
         }
     }
 }
