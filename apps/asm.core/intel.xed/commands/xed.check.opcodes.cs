@@ -115,31 +115,6 @@ namespace Z0
             return true;
         }
 
-
-        [CmdOp("xed/check/modrm")]
-        Outcome CheckModRm(CmdArgs args)
-        {
-            var spec = ModRmVar.init();
-            Write(spec.Format());
-
-            spec.Mod(0b10);
-            var a0 = spec.Evaluate();
-            Require.equal(a0.Mod(), (uint2)0b10);
-            Write(spec.Format());
-
-            spec.Reg(0b101);
-            var a1 = spec.Evaluate();
-            Require.equal(a1.Reg(), (uint3)0b101);
-            Write(spec.Format());
-
-            spec.Rm(0b011);
-            var a2 = spec.Evaluate();
-            Require.equal(a2.Rm(), (uint3)0b011);
-            Write(spec.Format());
-
-            return true;
-        }
-
         [CmdOp("bits/check/numbers")]
         Outcome CheckBitNumbers(CmdArgs args)
         {
@@ -156,26 +131,5 @@ namespace Z0
             return true;
         }
 
-        void CheckBitNumbers<N,T>(N n, T value)
-            where N : unmanaged, ITypeNat
-            where T : unmanaged
-        {
-            var bn = BitNumber.generic(n,value);
-            var width = Require.equal((byte)n.NatValue, bn.Width);
-            var bs = BitNumber.bitstring(n,value);
-            var scalar = bn.Value;
-            Require.invariant(gmath.eq(scalar,value));
-            var f0 = Require.equal(bs.Format(), bn.Format());
-            BitNumber.parse(f0,n, out BitNumber<T> roundtrip);
-            Require.equal(f0, roundtrip.Format());
-
-            var storage = ByteBlock32.Empty;
-            var bits = BitNumber.parse(f0, n, storage);
-            var f1 = bits.ToArray().Reverse().Select(x => x.Format()).Concat();
-            Require.equal(f0,f1);
-
-            Write(string.Format("{0:D2} | {1:X4} | {2}", width, scalar, f0));
-
-        }
     }
 }

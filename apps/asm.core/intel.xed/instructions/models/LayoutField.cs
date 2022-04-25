@@ -83,6 +83,17 @@ namespace Z0
                 Data = data;
             }
 
+            [MethodImpl(Inline)]
+            public LayoutField(byte index, SegField src)
+            {
+                var data = ByteBlock16.Empty;
+                data[IndexPos] = index;
+                @as<SegField>(data.First) = src;
+                data[ClassPos] = (byte)C.SegField;
+                data[KindPos] = (byte)K.SegField;
+                Data = data;
+            }
+
             public ref readonly byte Index
             {
                 [MethodImpl(Inline)]
@@ -134,6 +145,10 @@ namespace Z0
                 => ref @as<SegVar>(Data.First);
 
             [MethodImpl(Inline)]
+            public ref readonly SegField AsSegField()
+                => ref @as<SegField>(Data.First);
+
+            [MethodImpl(Inline)]
             public ref readonly uint5 AsBitLit()
                 => ref @as<uint5>(Data.First);
 
@@ -161,6 +176,12 @@ namespace Z0
                     break;
                     case K.InstSeg:
                         dst = AsSeg().Format();
+                    break;
+                    case K.SegField:
+                        dst = AsSegField().Format();
+                    break;
+                    case K.SegVar:
+                        dst = AsSegVar().Format();
                     break;
                 }
                 return dst;

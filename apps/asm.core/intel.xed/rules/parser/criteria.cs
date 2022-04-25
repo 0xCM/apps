@@ -48,7 +48,7 @@ namespace Z0
                             if(!skip.Contains(name))
                             {
                                 XedParsers.parse(name, out RuleName rn);
-                                dst.Add(new (new (rn,tkind), statements.ToArray()));
+                                dst.Add(new (new (tkind,rn), statements.ToArray()));
                             }
 
                             statements.Clear();

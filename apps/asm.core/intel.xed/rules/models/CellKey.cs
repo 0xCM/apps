@@ -22,13 +22,11 @@ namespace Z0
 
             public readonly LogicClass Logic;
 
-            public readonly RuleTableKind Kind;
-
-            public readonly Nonterminal Rule;
-
             public readonly FieldKind Field;
 
             public readonly CellClass Type;
+
+            public readonly RuleSig Rule;
 
             readonly byte Pad0;
 
@@ -41,12 +39,11 @@ namespace Z0
             {
                 Index = index;
                 Table = table;
+                Rule = new (kind,rule.Name);
                 Row = row;
                 Col = col;
                 Logic = logic;
                 Type = type;
-                Kind = kind;
-                Rule = rule;
                 Field = field;
                 Pad0 = 0;
                 Pad1 = 0;
@@ -79,8 +76,8 @@ namespace Z0
                 result &= Row == src.Row;
                 result &= Col == src.Col;
                 result &= Logic == src.Logic;
-                result &= Kind == src.Kind;
                 result &= Rule == src.Rule;
+
                 return result;
             }
 
@@ -97,7 +94,7 @@ namespace Z0
                 => Hash;
 
             public string FormatSemantic()
-                => string.Format("{0}[{1:D2}:{2:D2}].{3}", new RuleSig(Rule,Kind), Row, Col, Logic);
+                => string.Format("{0}[{1:D2}:{2:D2}].{3}", Rule, Row, Col, Logic);
 
             public string Format()
                 => core.bytes(this).FormatHex();

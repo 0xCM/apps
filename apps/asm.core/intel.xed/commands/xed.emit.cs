@@ -10,11 +10,6 @@ namespace Z0
 
     partial class XedCmdProvider
     {
-        XedRules Rules => Service(Wf.XedRules);
-
-        RuleTables CalcRules() => Rules.CalcRules();
-
-        Index<InstPattern> CalcPatterns() => Rules.CalcPatterns();
 
         [CmdOp("xed/emit/patterns")]
         Outcome EmitPatterns(CmdArgs args)

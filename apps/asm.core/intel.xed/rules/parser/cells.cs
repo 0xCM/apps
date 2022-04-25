@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static core;
+    using static XedModels;
 
     using CK = XedRules.RuleCellKind;
 
@@ -38,7 +39,7 @@ namespace Z0
                             ref readonly var info = ref cells[k];
                             ref readonly var data = ref info.Data;
                             ref readonly var logic = ref info.Logic;
-                            var key = new CellKey(lix, tid, rix, k, logic, info.Class, sig.TableKind, sig.TableName, info.Field);
+                            var key = new CellKey(lix++, tid, rix, k, logic, info.Class, sig.TableKind, sig.TableName, info.Field);
                             var result = false;
                             var field = InstField.Empty;
                             switch(info.Class.Kind)
@@ -80,7 +81,7 @@ namespace Z0
 
                                 case CK.NontermCall:
                                 {
-                                    result = XedParsers.parse(data, out RuleName value);
+                                    result = XedParsers.parse(data, out Nonterminal value);
                                     field = value;
                                 }
                                 break;
@@ -97,6 +98,12 @@ namespace Z0
                                 }
                                 break;
 
+                                case CK.SegField:
+                                {
+                                    result = CellParser.segfield(data, out SegField value);
+                                    field = value;
+                                }
+                                break;
                                 case CK.InstSeg:
                                 {
                                     result = parse(data, out InstSeg value);
@@ -120,13 +127,13 @@ namespace Z0
 
                             var kcell = KeyedCell.Empty;
                             if(result)
-                                kcell = new (lix++, key,field);
+                                kcell = new (key,field);
                             else if(info.Field == 0 && info.Class == RuleCellKind.Operator)
-                                kcell = new (lix++, key, new InstField(OperatorKind.Impl));
+                                kcell = new (key, new InstField(OperatorKind.Impl));
                             else
                                 Errors.Throw(info.Field.ToString() + ":="  + key.FormatSemantic() + $":{info.Class}" + "='" + data + "'");
 
-                            emitter.AppendLineFormat(CellRender.SemanticRenderPattern, kcell.LinearIndex, kcell.LinearIndex, kcell.Key.FormatSemantic(), kcell.Format());
+                            emitter.AppendLineFormat(CellRender.SemanticRenderPattern, kcell.Key.Index, kcell.Key.Index, kcell.Key.FormatSemantic(), kcell.Format());
                             kcells.Add(kcell);
                         }
                     }

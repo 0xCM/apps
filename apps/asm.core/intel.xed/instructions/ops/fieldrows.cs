@@ -41,6 +41,12 @@ namespace Z0
                 case RuleCellKind.InstSeg:
                     dst.Seg = src.AsInstSeg();
                 break;
+                case RuleCellKind.SegField:
+                    dst.SegField = src.AsSegField();
+                break;
+                case RuleCellKind.SegVar:
+                    dst.SegVar = src.AsSegVar();
+                break;
                 case RuleCellKind.BitLiteral:
                     dst.BitLiteral = src.AsBitLit();
                 break;
@@ -58,7 +64,7 @@ namespace Z0
                     dst.IntLiteral = src.AsIntLit();
                 break;
                 case RuleCellKind.NontermCall:
-                    dst.Nonterminal = src.AsRuleName();
+                    dst.Nonterminal = src.AsNonterm();
                 break;
             }
 

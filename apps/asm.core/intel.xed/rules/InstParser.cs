@@ -7,7 +7,7 @@ namespace Z0
 {
     using static core;
     using static XedParsers;
-
+    using static XedModels;
     using static XedRules.CellParser;
 
     partial class XedRules
@@ -51,11 +51,11 @@ namespace Z0
                 }
                 else if(IsNonterm(src))
                 {
-                    result = XedParsers.parse(src, out RuleName x);
+                    result = XedParsers.parse(src, out Nonterminal x);
                     if(result)
                         dst = x;
                     else
-                        result = (false, AppMsg.ParseFailure.Format(nameof(RuleName), src));
+                        result = (false, AppMsg.ParseFailure.Format(nameof(Nonterminal), src));
                 }
                 else if (XedParsers.parse(src, out byte a))
                 {

@@ -50,13 +50,16 @@ namespace Z0
                         cell = new (i, field.AsHexLit());
                     break;
                     case K.NontermCall:
-                        cell = new (i, field.AsRuleName());
+                        cell = new (i, field.AsNonterm());
                     break;
                     case K.SegVar:
                         cell = new (i, field.AsSegVar());
                     break;
                     case K.InstSeg:
                         cell = new (i, field.AsInstSeg());
+                    break;
+                    case K.SegField:
+                        cell = new (i, field.AsSegField());
                     break;
                     default:
                         Errors.Throw(AppMsg.UnhandledCase.Format(field.DataKind));

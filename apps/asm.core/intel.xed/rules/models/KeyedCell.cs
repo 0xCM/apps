@@ -31,16 +31,13 @@ namespace Z0
                 }
             }
 
-            public readonly ushort LinearIndex;
-
             public readonly CellKey Key;
 
             public readonly InstField Value;
 
             [MethodImpl(Inline)]
-            public KeyedCell(uint lix, CellKey key, InstField value)
+            public KeyedCell(CellKey key, InstField value)
             {
-                LinearIndex = (ushort)lix;
                 Key = key;
                 Value = value;
             }
@@ -89,10 +86,10 @@ namespace Z0
             public RuleTableKind TableKind
             {
                 [MethodImpl(Inline)]
-                get => Key.Kind;
+                get => Rule.TableKind;
             }
 
-            public Nonterminal Rule
+            public RuleSig Rule
             {
                 [MethodImpl(Inline)]
                 get => Key.Rule;

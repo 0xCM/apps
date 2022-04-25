@@ -137,15 +137,15 @@ namespace Z0
                             break;
                             case RuleCellKind.NontermCall:
                             {
-                                var rule = field.AsRuleName();
-                                if(rule != 0)
+                                var rule = field.AsNonterm();
+                                if(rule.IsNonEmpty)
                                 {
-                                    var uri = XedPaths.Service.CheckedTableDef(new RuleSig(rule,RuleTableKind.ENC));
+                                    var uri = XedPaths.Service.CheckedTableDef(new RuleSig(RuleTableKind.ENC, rule));
                                     if(!uri.Path.Exists)
-                                        uri = XedPaths.Service.CheckedTableDef(new RuleSig(rule,RuleTableKind.DEC));
+                                        uri = XedPaths.Service.CheckedTableDef(new RuleSig(RuleTableKind.DEC, rule));
 
                                     if(uri.Path.Exists)
-                                        seek(dst,j) = string.Format(Pattern, j, "Nonterm",  string.Format("{0}::{1}", XedRender.format(rule), uri));
+                                        seek(dst,j) = string.Format(Pattern, j, "Nonterm",  string.Format("{0}::{1}", rule.Format(), uri));
                                     else
                                         seek(dst,j) = string.Format(Pattern, j, "Nonterm",  rule);
                                 }
@@ -154,8 +154,14 @@ namespace Z0
 
                             }
                             break;
+                            case RuleCellKind.SegField:
+                                seek(dst,j) = string.Format(Pattern, j, fk, field.AsSegField());
+                            break;
                             case RuleCellKind.InstSeg:
                                 seek(dst,j) = string.Format(Pattern, j, fk, field.AsInstSeg());
+                            break;
+                            case RuleCellKind.SegVar:
+                                seek(dst,j) = string.Format(Pattern, j, fk, field.AsSegVar());
                             break;
                             default:
                                 Errors.Throw(string.Format("Unhandled case: {0}", field.DataKind));

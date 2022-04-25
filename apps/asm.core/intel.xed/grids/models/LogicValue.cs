@@ -12,24 +12,24 @@ namespace Z0
             [MethodImpl(Inline)]
             public static LogicValue untype<T>(T src)
                 where T : unmanaged, ILogicValue<T>
-                    => new LogicValue(src.DataKind, src.DataWidth, core.bw32(src.Content));
+                    => new LogicValue(src.DataKind, src.DataWidth, core.bw32(src.Storage));
 
             public readonly LogicDataKind DataKind;
 
             public readonly byte DataWidth;
 
-            public readonly uint Content;
+            public readonly uint Storage;
 
             [MethodImpl(Inline)]
             public LogicValue(LogicDataKind kind, byte width, uint data)
             {
                 DataKind = kind;
                 DataWidth = width;
-                Content = data;
+                Storage = data;
             }
 
-            uint ILogicValue<uint>.Content
-                => Content;
+            uint ILogicValue<uint>.Storage
+                => Storage;
 
             LogicDataKind ILogicValue.DataKind
                 => DataKind;

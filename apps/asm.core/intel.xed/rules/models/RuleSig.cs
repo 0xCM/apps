@@ -18,9 +18,15 @@ namespace Z0
             readonly ushort Data;
 
             [MethodImpl(Inline)]
-            public RuleSig(RuleName name, RuleTableKind kind)
+            public RuleSig(RuleTableKind kind, RuleName name)
             {
                 Data = (ushort)((ushort)name | ((ushort)kind << KindOffset));
+            }
+
+            [MethodImpl(Inline)]
+            public RuleSig(ushort data)
+            {
+                Data = data;
             }
 
             public RuleName TableName
@@ -76,6 +82,14 @@ namespace Z0
 
             public override string ToString()
                 => Format();
+
+            [MethodImpl(Inline)]
+            public static explicit operator ushort(RuleSig src)
+                => src.Data;
+
+            [MethodImpl(Inline)]
+            public static explicit operator RuleSig(ushort src)
+                => new RuleSig(src);
 
             public static RuleSig Empty => default;
         }

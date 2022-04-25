@@ -38,6 +38,7 @@ namespace Z0
                 get => Key.Location;
             }
 
+            [MethodImpl(Inline)]
             public static implicit operator LogicCell(LogicCell<T> src)
                 => new LogicCell(src.Key, src.Value.Operator, LogicValue.untype(src.Value));
         }

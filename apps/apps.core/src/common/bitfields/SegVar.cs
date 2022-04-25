@@ -30,6 +30,28 @@ namespace Z0
             return parse(slice(bits,0, n + 2));
         }
 
+        public bool IsLiteral()
+        {
+            var result = true;
+            var count = CountChars();
+            var offset=z8;
+            if(count > 2)
+            {
+                var c0 = this[0];
+                var c1 = this[1];
+                if(c0 == '0' && c1 == 'b')
+                    offset = 2;
+            }
+            for(var i=offset; i<count; i++)
+            {
+                if(!Char5.digit(this[i]))
+                {
+                    result = false;
+                    break;
+                }
+            }
+            return result;
+        }
         public const byte MaxLength = 12;
 
         const byte SegWidth = 5;
@@ -139,5 +161,9 @@ namespace Z0
         [MethodImpl(Inline)]
         public static explicit operator SegVar(ulong src)
             => new SegVar(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator SegVar(char c)
+            => new SegVar(Char5.parse(c));
     }
 }

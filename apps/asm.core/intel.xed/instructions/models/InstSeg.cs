@@ -25,26 +25,10 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            internal InstSeg(FieldKind field, char c0)
+            internal InstSeg(FieldKind field, BitNumber<byte> src)
             {
                 Field = field;
-                Type = InstSegTypes.type(c0);
-                Pad = default;
-            }
-
-            [MethodImpl(Inline)]
-            internal InstSeg(FieldKind field, char c0, char c1)
-            {
-                Field = field;
-                Type = InstSegTypes.type(c0, c1);
-                Pad = default;
-            }
-
-            [MethodImpl(Inline)]
-            internal InstSeg(FieldKind field, char c0, char c1, char c2)
-            {
-                Field = field;
-                Type = InstSegTypes.type(c0,c1,c2);
+                Type = InstSegTypes.type(src.Width, src.Value);
                 Pad = default;
             }
 

@@ -8,11 +8,33 @@ namespace Z0
     using static XedRules;
     using static Char5;
     using static core;
+    using static XedGrids;
 
     partial class XedCmdProvider
     {
         [CmdOp("xed/check/rules")]
         Outcome CheckRules(CmdArgs args)
+        {
+            var rules = CalcRules();
+            var cells = Rules.CalcRuleCells(rules);
+            ref readonly var tables = ref cells.Tables;
+            for(var i=0; i<tables.Count; i++)
+            {
+                ref readonly var table = ref tables[i];
+                for(var j=0; i<table.RowCount; j++)
+                {
+                    ref readonly var row = ref table[i];
+                    for(var k=0; i<row.CellCount; k++)
+                    {
+                        ref readonly var cell = ref row[k];
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        Outcome CheckSegVars(CmdArgs args)
         {
             var a = Code.A;
             var b = Code.B;
@@ -30,6 +52,7 @@ namespace Z0
             Write(v2);
 
             return true;
+
         }
 
         [CmdOp("xed/emit/ruleblocks")]

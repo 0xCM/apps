@@ -14,7 +14,7 @@ namespace Z0
         {
             public const string TableId = "xed.inst.patterns.fields";
 
-            public const byte FieldCount = 14;
+            public const byte FieldCount = 16;
 
             public uint PatternId;
 
@@ -36,6 +36,10 @@ namespace Z0
 
             public InstSeg Seg;
 
+            public SegField SegField;
+
+            public SegVar SegVar;
+
             public Nonterminal Nonterminal;
 
             public EmptyZero<byte> IntLiteral;
@@ -44,7 +48,7 @@ namespace Z0
 
             public EmptyZero<uint5> BitLiteral;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,26,8,8,12,12,26,16,16,22,22,12,12,};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,26,8,8,12,12,26,16,16,16,16,22,22,12,12,};
 
             public static InstFieldRow Empty => default;
         }

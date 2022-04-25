@@ -597,7 +597,7 @@ namespace Z0
                     dst = format5(src.AsBitLit());
                 break;
                 case RuleCellKind.NontermCall:
-                    dst = XedRender.format(src.AsRuleName());
+                    dst = src.AsNonterm().Format();
                 break;
                 case RuleCellKind.Operator:
                     dst = src.AsOperator().Format();
@@ -605,8 +605,11 @@ namespace Z0
                 case RuleCellKind.Keyword:
                     dst = src.ToKeyword().Format();
                 break;
+                case RuleCellKind.SegField:
+                    dst = src.AsSegField().Format();
+                break;
                 case RuleCellKind.SegVar:
-                    dst = src.ToKeyword().Format();
+                    dst = src.AsSegVar().Format();
                 break;
                 default:
                     Errors.Throw(AppMsg.UnhandledCase.Format(@class));

@@ -15,41 +15,31 @@ namespace Z0
         [CmdOp("xed/check/layouts")]
         Outcome CheckLayouts(CmdArgs args)
         {
-            var inst = CalcInstSegs();
-            iter(inst, x => Write(x));
-            return true;
-        }
-
-        Index<InstSeg> CalcInstSegs()
-        {
-            var patterns = Xed.Rules.CalcInstPatterns();
-            var layouts = Xed.Rules.CalcInstLayouts(patterns);
-            var literals = hashset<InstSeg>();
-            var symbolics = hashset<InstSeg>();
-            var combined = hashset<InstSeg>();
-            for(var i=0; i<layouts.Count; i++)
+            var src = CalcInstSegs();
+            var maxcount = 0;
+            var records = CalcLayoutRecords();
+            foreach(var r in records)
             {
-                ref readonly var layout = ref layouts[i];
-                ref readonly var fields = ref layout.Fields;
-                for(var j=0; j<fields.Count; j++)
-                {
-                    ref readonly var field = ref fields[j];
-                    if(field.IsSeg)
-                    {
-                        ref readonly var seg = ref field.AsSeg();
-                        combined.Add(seg);
-                        if(seg.IsLiteral)
-                            literals.Add(seg);
-                        else
-                            symbolics.Add(seg);
-                    }
-                }
+                var fields = r.Fields.Map(x => x.Format().PadRight(12));
+                var count = fields.Length;
+                if(count > maxcount)
+                    maxcount = count;
+                Write(string.Format("{0,-8} | {1,-18} | {2,-26} | {3,-3} | {4}", r.PatternId, r.Instruction, r.OpCode, count, fields.Concat(" ")));
             }
+            // foreach(var pid in src.Keys)
+            // {
+            //     var segs = src[pid];
+            //     var fmt = segs.Map(x => x.Format().PadRight(12));
+            //     var count = fmt.Length;
+            //     if(count > maxcount)
+            //         maxcount = count;
+            //     Write(string.Format("{0,-8} | {1,-3} | {2}", pid, fmt.Length, fmt.Concat(" ")));
+            // }
 
-            var symbolic = symbolics.Array().Sort();
-            var literal = literals.Array().Sort();
-            var result = combined.Array().Sort();
-            return result;
+            Write($"Max {maxcount}");
+            // var inst = CalcInstSegs();
+            // iter(inst, x => Write(x));
+            return true;
         }
 
         void CheckNonTerms2()

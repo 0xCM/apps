@@ -89,8 +89,7 @@ namespace Z0
                         }
                         else if(value.Length == 1 && value[0] == 'w')
                         {
-                            dst = new (seg(field, 'w'));
-
+                            dst = new (XedRules.segfield(field, 'w'));
                             result = true;
                         }
                     }
@@ -104,7 +103,7 @@ namespace Z0
                         }
                         else if(value.Length == 1 && value[0] == 'r')
                         {
-                            dst = new (seg(field, 'r'));
+                            dst = new (XedRules.segfield(field, 'r'));
                             result = true;
                         }
                     }
@@ -118,7 +117,7 @@ namespace Z0
                         }
                         else if(value.Length == 1 && value[0] == 'x')
                         {
-                            dst = new (seg(field, 'x'));
+                            dst = new (XedRules.segfield(field, 'x'));
                             result = true;
                         }
                     }
@@ -132,7 +131,7 @@ namespace Z0
                         }
                         else if(value.Length == 1 && value[0] == 'b')
                         {
-                            dst = new (seg(field, 'b'));
+                            dst = new (XedRules.segfield(field, 'b'));
                             result = true;
                         }
                     }

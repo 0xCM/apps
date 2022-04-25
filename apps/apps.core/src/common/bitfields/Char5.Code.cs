@@ -78,6 +78,10 @@ namespace Z0
             Z = FirstLetter + 25,
 
             _ = FirstSymbol,
+
+            Zero = FirstDigit,
+
+            One = FirstDigit + 1,
         }
     }
 }

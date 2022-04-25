@@ -12,31 +12,16 @@ namespace Z0
             => new InstSeg(field, vt);
 
         [MethodImpl(Inline), Op]
-        public static SegField seg(FieldKind field, SegVar seg)
+        public static SegField segfield(FieldKind field, SegVar seg)
             => new SegField(seg,field);
 
         [MethodImpl(Inline), Op]
-        public static InstSeg seg(FieldKind field, char c0)
-            => new InstSeg(field, c0);
-
-        // [MethodImpl(Inline), Op]
-        // public static InstSeg seg(FieldKind field, uint1 value)
-        //     => new InstSeg(field, 1, value);
-
-        // [MethodImpl(Inline), Op]
-        // public static InstSeg seg(FieldKind field, uint2 value)
-        //     => new InstSeg(field, 2, value);
-
-        // [MethodImpl(Inline), Op]
-        // public static InstSeg seg(FieldKind field, uint3 value)
-        //     => new InstSeg(field, 3, value);
-
-        // [MethodImpl(Inline), Op]
-        // public static InstSeg seg(FieldKind field, uint4 value)
-        //     => new InstSeg(field, 4, value);
+        public static SegField segfield(FieldKind field, char c0)
+            => new SegField(c0,field);
 
         [MethodImpl(Inline), Op]
-        public static InstSeg seg(FieldKind field, byte n, byte value)
-            => new InstSeg(field, n, value);
+        public static SegField segfield(FieldKind field, byte n, byte value)
+            => SegField.literal(field,n,value);
+
     }
 }

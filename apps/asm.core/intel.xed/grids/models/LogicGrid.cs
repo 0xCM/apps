@@ -5,12 +5,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    using static XedRules;
+
+    partial class XedGrids
     {
-        public static void lines(in TableCriteria src, ITextEmitter dst)
+        public class LogicGrid
         {
-            foreach(var line in src.Lines())
-                dst.AppendLineFormat("# {0}", line.Content);
+            public readonly RuleSig Rule;
+
+            public LogicGrid(RuleSig rule)
+            {
+                Rule = rule;
+            }
         }
     }
 }

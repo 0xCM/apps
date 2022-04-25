@@ -4,6 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    /// <summary>
+    /// Specifies the presence of a bit and,if present, specifies its state
+    /// </summary>
     [DataWidth(Width, 2)]
     public readonly record struct BitIndicator : IComparable<BitIndicator>
     {

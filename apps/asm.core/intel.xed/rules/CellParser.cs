@@ -44,7 +44,7 @@ namespace Z0
                     {
                         result = XedParsers.bitnumber(sd, out byte n, out byte value);
                         if(result)
-                            dst = seg(field, n, value);
+                            dst = new (field, BitNumber.generic(n, value));
                     }
                 }
 

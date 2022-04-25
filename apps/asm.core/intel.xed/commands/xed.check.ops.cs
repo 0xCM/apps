@@ -6,21 +6,10 @@ namespace Z0
 {
     using static XedRules;
     using static XedModels;
-    using static Datasets;
     using static core;
 
     partial class XedCmdProvider
     {
-        [MethodImpl(Inline)]
-        public static bits<T> load<T>(T src)
-            where T : unmanaged
-                => src;
-
-        [MethodImpl(Inline)]
-        public static bits<T> load<T>(byte n, T src)
-            where T : unmanaged
-                => (n,src);
-
         [CmdOp("xed/check/seq")]
         Outcome ChecSeq(CmdArgs args)
         {
@@ -77,62 +66,6 @@ namespace Z0
             return true;
         }
 
-
-        string CaclTableMetrics(RuleSig sig, Index<KeyedCell> src)
-        {
-            var view = src.View;
-            var tid = src.IsNonEmpty ? src.First.Key.Table : Hex12.MaxValue;
-            var rix = z16;
-            var rowExpr = text.emitter();
-            var dst = text.emitter();
-            var count = src.Count;
-            dst.AppendLine(string.Format("{0:D3} {1,-32} {2}", tid,  sig.Format(), XedPaths.CheckedTableDef(sig)));
-            dst.AppendLine(RP.PageBreak120);
-            dst.AppendLine();
-            var emit = false;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var cell = ref src[i];
-                ref readonly var key = ref cell.Key;
-                emit = key.Row != rix;
-                if(key.Row != rix)
-                    rix = key.Row;
-
-                if(emit)
-                {
-                    dst.AppendLine(rowExpr.Emit());
-                    dst.AppendLine();
-
-                    dst.AppendLineFormat("{0:D3} {1:D3}", tid, rix);
-                    dst.AppendLine(RP.PageBreak60);
-                }
-
-                var descriptor = string.Format("{0:D3} {1:D3} {2:D3} {3}", tid, rix, key.Col, key.FormatSemantic());
-                dst.AppendLineFormat("{0} {1,-12} | {2}", descriptor, XedRender.format(cell.Field), cell);
-                rowExpr.Append(cell.Format());
-                rowExpr.Append(Chars.Space);
-
-
-                if(i == count - 1 )
-                    dst.AppendLine(rowExpr.Emit());
-
-            }
-            return dst.Emit();
-        }
-
-        void CalcRuleMetrics(KeyedCells src)
-        {
-            var sigs = src.Keys;
-            var dst = text.emitter();
-            for(var i=0; i<sigs.Length; i++)
-            {
-                ref readonly var sig = ref skip(sigs,i);
-                var table = src[sig];
-                dst.AppendLine(CaclTableMetrics(sig,table));
-            }
-
-            FileEmit(dst.Emit(), sigs.Length, XedPaths.RuleTargets() + FS.file("xed.rules.metrics", FS.Txt));
-        }
 
         [CmdOp("xed/emit/metrics")]
         Outcome EmitMetrics(CmdArgs args)

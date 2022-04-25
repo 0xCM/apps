@@ -30,8 +30,5 @@ namespace Z0
 
         public Index<KeyedCellRecord> CalcCellRecords(KeyedCells src)
             => records(src);
-
-        public Index<KeyedCellRecord> CalcCellRecords(Index<KeyedCell> src)
-            => records(src);
    }
 }

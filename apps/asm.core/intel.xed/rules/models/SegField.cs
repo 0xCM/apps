@@ -30,6 +30,10 @@ namespace Z0
                 Field = field;
             }
 
+            [MethodImpl(Inline)]
+            public bool IsLiteral()
+                => Seg.IsLiteral();
+
             public string Format()
             {
                 var dst = EmptyString;

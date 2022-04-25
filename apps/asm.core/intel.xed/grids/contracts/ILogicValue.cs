@@ -17,7 +17,7 @@ namespace Z0
         public interface ILogicValue<T> : ILogicValue
             where T : unmanaged
         {
-            T Content {get;}
+            T Storage {get;}
         }
     }
 }

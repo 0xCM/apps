@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static core;
+    using static XedModels;
 
     partial class XedRules
     {
@@ -17,8 +18,6 @@ namespace Z0
 
             const byte PosIndex = 12;
 
-            const byte KindIndex = 13;
-
             const byte FieldIndex = 14;
 
             const byte ClassIndex = 15;
@@ -28,7 +27,6 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data.First = src;
-                data[KindIndex] = (byte)RuleCellKind.IntLiteral;
                 data[ClassIndex] = (byte)RuleCellKind.IntLiteral;
                 Data = data;
             }
@@ -38,7 +36,6 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data.First = src;
-                data[KindIndex] = (byte)RuleCellKind.BitLiteral;
                 data[ClassIndex] = (byte)RuleCellKind.BitLiteral;
                 Data = data;
             }
@@ -48,7 +45,6 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data[0] = src;
-                data[KindIndex] = (byte)RuleCellKind.HexLiteral;
                 data[ClassIndex] = (byte)RuleCellKind.HexLiteral;
                 Data = data;
             }
@@ -58,7 +54,6 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data[0] = (byte)src.KeywordKind;
-                data[KindIndex] = (byte)RuleCellKind.Keyword;
                 data[ClassIndex] = (byte)RuleCellKind.Keyword;
                 Data = data;
             }
@@ -68,7 +63,6 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data[0] = (byte)src.Kind;
-                data[KindIndex] = (byte)RuleCellKind.Operator;
                 data[ClassIndex] = (byte)RuleCellKind.Operator;
                 Data = data;
             }
@@ -78,7 +72,6 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 core.@as<InstSeg>(data.First) = src;
-                data[KindIndex] = (byte)RuleCellKind.InstSeg;
                 data[FieldIndex] = (byte)src.Field;
                 data[ClassIndex] = (byte)RuleCellKind.InstSeg;
                 Data = data;
@@ -89,7 +82,6 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data.A = (ulong)src;
-                data[KindIndex] = (byte)RuleCellKind.SegVar;
                 data[ClassIndex] = (byte)RuleCellKind.SegVar;
                 Data = data;
             }
@@ -99,7 +91,6 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data.A = (ulong)src.Seg;
-                data[KindIndex] = (byte)RuleCellKind.SegField;
                 data[FieldIndex] = (byte)src.Field;
                 data[ClassIndex] = (byte)RuleCellKind.SegField;
                 Data = data;
@@ -113,7 +104,6 @@ namespace Z0
                 {
                     @as<RuleName>(data.First) = src.Value.ToRuleName();
                     data[ClassIndex] = (byte)RuleCellKind.NontermExpr;
-                    data[KindIndex] = (byte)RuleCellKind.NontermExpr;
                     data[OpIndex] = (byte)src.Operator;
                     data[FieldIndex] = (byte)src.Field;
                 }
@@ -126,11 +116,9 @@ namespace Z0
                     {
                         case OperatorKind.Eq:
                             data[ClassIndex] = (byte)RuleCellKind.EqExpr;
-                            data[KindIndex] = (byte)RuleCellKind.EqExpr;
                         break;
                         case OperatorKind.Neq:
                             data[ClassIndex] = (byte)RuleCellKind.NeqExpr;
-                            data[KindIndex] = (byte)RuleCellKind.NeqExpr;
                         break;
                         case OperatorKind.Impl:
                             data[ClassIndex] = (byte)RuleCellKind.Operator;
@@ -141,11 +129,10 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstField(RuleName src)
+            public InstField(Nonterminal src)
             {
                 var data = ByteBlock16.Empty;
                 data = (uint)src;
-                data[KindIndex] = (byte)RuleCellKind.NontermCall;
                 data[ClassIndex] = (byte)RuleCellKind.NontermCall;
                 Data = data;
             }
@@ -159,7 +146,7 @@ namespace Z0
             public ref readonly RuleCellKind DataKind
             {
                 [MethodImpl(Inline)]
-                get => ref @as<RuleCellKind>(Data[KindIndex]);
+                get => ref @as<RuleCellKind>(Data[ClassIndex]);
             }
 
             public ref readonly FieldKind FieldKind
@@ -242,8 +229,8 @@ namespace Z0
                 => ref @as<byte>(Data.First);
 
             [MethodImpl(Inline)]
-            public ref readonly RuleName AsRuleName()
-                => ref @as<RuleName>(Data.First);
+            public ref readonly Nonterminal AsNonterm()
+                => ref @as<Nonterminal>(Data.First);
 
             [MethodImpl(Inline)]
             public CellExpr ToFieldExpr()
@@ -307,6 +294,10 @@ namespace Z0
                 => new InstField(src);
 
             [MethodImpl(Inline)]
+            public static implicit operator InstField(SegField src)
+                => new InstField(src);
+
+            [MethodImpl(Inline)]
             public static implicit operator InstField(InstSeg src)
                 => new InstField(src);
 
@@ -314,8 +305,12 @@ namespace Z0
             public static implicit operator InstField(SegVar src)
                 => new InstField(src);
 
+            // [MethodImpl(Inline)]
+            // public static implicit operator InstField(RuleName src)
+            //     => new InstField(src);
+
             [MethodImpl(Inline)]
-            public static implicit operator InstField(RuleName src)
+            public static implicit operator InstField(Nonterminal src)
                 => new InstField(src);
 
             public static InstField Empty => default;

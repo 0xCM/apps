@@ -9,6 +9,10 @@ namespace Z0
     {
         partial struct CellParser
         {
+            [MethodImpl(Inline), Op]
+            public static SegField segfield(FieldKind field, string content)
+                => new SegField(SegVar.parse(content), field);
+
             public static bool segfield(string src, out SegField dst)
             {
                 dst = SegField.Empty;

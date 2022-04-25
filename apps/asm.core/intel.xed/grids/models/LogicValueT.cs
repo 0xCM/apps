@@ -14,18 +14,18 @@ namespace Z0
 
             public readonly byte DataWidth;
 
-            public readonly T Content;
+            public readonly T Storage;
 
             [MethodImpl(Inline)]
             public LogicValue(LogicDataKind kind, byte width, T data)
             {
                 DataKind = kind;
                 DataWidth = width;
-                Content = data;
+                Storage = data;
             }
 
-            T ILogicValue<T>.Content
-                => Content;
+            T ILogicValue<T>.Storage
+                => Storage;
 
             LogicDataKind ILogicValue.DataKind
                 => DataKind;
@@ -35,7 +35,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator LogicValue(LogicValue<T> src)
-                => new LogicValue(src.DataKind, src.DataWidth, core.bw32(src.Content));
+                => new LogicValue(src.DataKind, src.DataWidth, core.bw32(src.Storage));
         }
     }
 }

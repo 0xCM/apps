@@ -28,7 +28,7 @@ namespace Z0
                 for(var i=z16; i<cells.Count; i++)
                 {
                     ref readonly var cell = ref cells[i];
-                    dst.AppendLineFormat(CellRender.SemanticRenderPattern, i, cell.LinearIndex, cell.Key.FormatSemantic(), cell.Format());
+                    dst.AppendLineFormat(CellRender.SemanticRenderPattern, i, cell.Key.Index, cell.Key.FormatSemantic(), cell.Format());
                 }
                 return cells.Count;
             }
@@ -77,7 +77,7 @@ namespace Z0
                 for(var i=0; i<src.Count; i++)
                 {
                     ref readonly var cell = ref src[i];
-                    dst.AppendLineFormat(SemanticRenderPattern, seq++, cell.LinearIndex, cell.Key.FormatSemantic(), cell.Format());
+                    dst.AppendLineFormat(SemanticRenderPattern, seq++, cell.Key.Index, cell.Key.FormatSemantic(), cell.Format());
                 }
             }
 

@@ -16,6 +16,13 @@ namespace Z0
                 dst = from((Code)(c - Base));
             else if(symbol(c))
                 dst = from(Code._);
+            else
+            {
+                if((Code)c == Code.Zero)
+                    dst = from(Code.Zero);
+                else if((Code)c == Code.One)
+                    dst = from(Code.One);
+            }
             return dst;
         }
 
@@ -32,6 +39,10 @@ namespace Z0
             => c == '_';
 
         [MethodImpl(Inline)]
+        public static bool digit(char c)
+            => c == '0' || c == '1';
+
+        [MethodImpl(Inline)]
         public static bool letter(Code c)
             => c >= Code.A && c <= Code.Z;
 
@@ -39,11 +50,20 @@ namespace Z0
         public static bool symbol(Code c)
             => c == Code._;
 
-        readonly byte Index;
+        [MethodImpl(Inline)]
+        public static bool digit(Code c)
+            => c == Code.Zero || c == Code.One;
 
         [MethodImpl(Inline)]
         public static bool valid(char c)
-            => symbol(c) || letter(c);
+            => symbol(c) || letter(c) || digit(c);
+
+        [MethodImpl(Inline)]
+        public static bool valid(Code c)
+            => symbol(c) || letter(c) || digit(c);
+
+        readonly byte Index;
+
 
         [MethodImpl(Inline)]
         Char5(byte index)

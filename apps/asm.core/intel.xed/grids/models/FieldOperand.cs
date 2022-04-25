@@ -26,7 +26,6 @@ namespace Z0
                 Value = value;
             }
 
-
             RuleOperator ILogicOperand.Operator
                 => Operator;
 

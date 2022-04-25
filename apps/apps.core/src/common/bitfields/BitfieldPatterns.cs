@@ -32,7 +32,7 @@ namespace Z0
                 var width = (byte)name.Length;
                 var min = offset;
                 var max = (byte)(width + offset - 1);
-                dst = Bitfields.segmodel(name, min, max, BitMasks.mask(size, min, max));
+                dst = Bitfields.segmodel(name, min, max, BitMask.mask(size, min, max));
                 offset += width;
             }
             return buffer;

@@ -14,14 +14,14 @@ namespace Z0
             ref readonly var value = ref cell.Value;
             var dst = KeyedCellRecord.Empty;
             dst.Seq = seq++;
-            dst.Index = cell.LinearIndex;
+            dst.Index = cell.Key.Index;
             dst.Table = cell.TableIndex;
             dst.Row = cell.RowIndex;
             dst.Col = cell.CellIndex;
             dst.Logic = cell.Logic;
             dst.Type = value.DataKind;
             dst.Kind = cell.TableKind;
-            dst.Rule = cell.Rule;
+            dst.Rule = cell.Rule.TableName;
             dst.Field = cell.Field;
             dst.Value = value;
             dst.Expression = KeyedCell.formatter()(cell);

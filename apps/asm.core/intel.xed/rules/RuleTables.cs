@@ -20,26 +20,15 @@ namespace Z0
 
             Index<RuleSigRow> _SigRows;
 
-            Index<RuleSig> _SigIndex;
-
             Index<TableCriteria> _Criteria;
 
             TableSpecs _Specs;
-
-            HashSet<RuleSig> _SigSet;
-
-            [MethodImpl(Inline)]
-            public ref readonly Index<RuleSig> Sigs()
-                => ref _SigIndex;
 
             public ref readonly Index<RuleSigRow> SigRows
             {
                 [MethodImpl(Inline)]
                 get => ref _SigRows;
             }
-
-            public bool IsTableDefind(in RuleSig src)
-                => _SigSet.Contains(src);
 
             [MethodImpl(Inline)]
             public ref readonly Index<TableCriteria> Criteria()
@@ -48,13 +37,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public ref readonly TableSpecs Specs()
                 => ref _Specs;
-
-            public TableSpec Spec(RuleSig sig)
-            {
-                var dst = TableSpec.Empty;
-                Specs().Find(sig, out dst);
-                return dst;
-            }
 
             Buffers Data = Buffers.Empty;
 
@@ -76,9 +58,7 @@ namespace Z0
                 var sigset = hashset<RuleSig>();
                 _Specs = CellParser.specs(criteria);
                 _Criteria = criteria;
-                _SigIndex = sigs;
                 _SigRows = rows;
-                _SigSet = sigset;
                 for(var i=0u; i<count; i++)
                 {
                     ref readonly var spec = ref criteria[i];
@@ -96,7 +76,7 @@ namespace Z0
             {
                 var enc = src[RuleTableKind.ENC];
                 var dec = src[RuleTableKind.DEC];
-                var specs = enc.Append(dec).Sort();
+                var specs = enc.Append(dec).Where(x => x.IsNonEmpty).Sort();
                 for(var i=0u; i<specs.Count; i++)
                     specs[i] = specs[i].WithId(i);
                 return specs;
