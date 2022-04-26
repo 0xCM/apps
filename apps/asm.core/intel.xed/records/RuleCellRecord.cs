@@ -5,12 +5,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(RecordId)]
-        public record struct KeyedCellRecord : IComparable<KeyedCellRecord>
+        public record struct RuleCellRecord : IComparable<RuleCellRecord>
         {
             public const string RecordId = "xed.rules.cells";
 
@@ -32,7 +30,7 @@ namespace Z0
 
             public RuleTableKind Kind;
 
-            public Nonterminal Rule;
+            public RuleName Rule;
 
             public asci32 Expression;
 
@@ -45,12 +43,12 @@ namespace Z0
             public CellKey Key
                 => new CellKey(Index, Table, Row, Col, Logic, Type, Kind, Rule, Field);
 
-            public int CompareTo(KeyedCellRecord src)
+            public int CompareTo(RuleCellRecord src)
                 => Key.CompareTo(src.Key);
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,8,8,6,6,6,6,6,32,32,24,4,1};
 
-            public static KeyedCellRecord Empty => default;
+            public static RuleCellRecord Empty => default;
         }
     }
 }

@@ -30,12 +30,12 @@ namespace Z0
                         if(literal)
                             dst = SegField.literal(field, data);
                         else
-                            dst = new SegField(SegVar.parse(data), field);
+                            dst = SegField.symbolic(field, data);
                     }
                 }
                 else
                 {
-                    dst = new SegField(SegVar.parse(src), 0);
+                    dst = SegField.symbolic(src);
                     result = true;
                 }
 

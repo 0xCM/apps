@@ -22,8 +22,8 @@ namespace Z0
         [CmdOp("xed/emit/rulerecs")]
         Outcome EmitRuleRecords(CmdArgs args)
         {
-            var records = Rules.CalcCellRecords(Rules.CalcRuleCells(CalcRules()));
-            TableEmit(records.View, KeyedCellRecord.RenderWidths, XedPaths.RuleTable<KeyedCellRecord>());
+            var cells = CalcRuleCells();
+            TableEmit(cells.Tables.View, RuleCellRecord.RenderWidths, XedPaths.RuleTable<RuleCellRecord>());
             return true;
         }
 

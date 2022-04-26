@@ -11,14 +11,14 @@ namespace Z0
     {
         public class RuleDocFormatter
         {
-            public static RuleDocFormatter create(RulCells src)
+            public static RuleDocFormatter create(RuleCells src)
                 => new RuleDocFormatter(src);
 
-            readonly RulCells Data;
+            readonly RuleCells Data;
 
             XedPaths XedPaths;
 
-            public RuleDocFormatter(RulCells src)
+            public RuleDocFormatter(RuleCells src)
             {
                 Data = src;
                 XedPaths = XedPaths.Service;

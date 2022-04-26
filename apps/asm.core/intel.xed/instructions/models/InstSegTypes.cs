@@ -12,18 +12,6 @@ namespace Z0
             public static InstSegType type(string pattern)
                 => new(SegTypeId(pattern));
 
-            public static InstSegType type(char c)
-                => new(SegTypeId(c));
-
-            public static InstSegType type(char c0, char c1)
-                => new(SegTypeId(new asci8(c0,c1)));
-
-            public static InstSegType type(char c0, char c1, char c2)
-                => new(SegTypeId(new asci8(c0, c1, c2)));
-
-            public static InstSegType type(char c0, char c1, char c2, char c3)
-                => new(SegTypeId(new asci8(c0, c1, c2, c3)));
-
             [MethodImpl(Inline), Op]
             public static InstSegType type(byte n, byte value)
                 => new InstSegType(n, value);
@@ -41,13 +29,6 @@ namespace Z0
             {
                 var dst = z8;
                 SegTypeLookup.Find(src, out dst);
-                return dst;
-            }
-
-            static byte SegTypeId(char src)
-            {
-                var dst = z8;
-                SegTypeLookup.Find(src.ToLower().ToString(), out dst);
                 return dst;
             }
 

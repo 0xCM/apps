@@ -17,19 +17,12 @@ namespace Z0
             readonly ByteBlock3 Pad;
 
             [MethodImpl(Inline)]
-            internal InstSeg(FieldKind field, byte n, uint4 value)
-            {
-                Field = field;
-                Type = InstSegTypes.type(n, value);
-                Pad = default;
-            }
-
-            [MethodImpl(Inline)]
             internal InstSeg(FieldKind field, BitNumber<byte> src)
             {
                 Field = field;
                 Type = InstSegTypes.type(src.Width, src.Value);
                 Pad = default;
+                core.@as<BitNumber<byte>>(Pad.First) = src;
             }
 
             [MethodImpl(Inline)]
@@ -63,6 +56,10 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => Field != 0;
             }
+
+            [MethodImpl(Inline)]
+            public BitNumber<byte> _ToLiteral()
+                => core.@as<BitNumber<byte>>(Pad.First);
 
             public byte ToLiteral()
             {

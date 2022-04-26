@@ -6,7 +6,6 @@
 namespace Z0
 {
     using static core;
-    using static XedModels;
 
     using CK = XedRules.RuleCellKind;
 
@@ -14,7 +13,7 @@ namespace Z0
     {
         partial struct CellParser
         {
-            public static RulCells cells(RuleTables rules)
+            public static RuleCells cells(RuleTables rules)
             {
                 var lix = z16;
                 var emitter = text.emitter();
@@ -141,7 +140,7 @@ namespace Z0
                     dst.Add(sig, kcells.ToIndex());
                 }
 
-                return RulCells.create(dst, emitter.Emit());
+                return RuleCells.create(dst, emitter.Emit());
             }
         }
     }

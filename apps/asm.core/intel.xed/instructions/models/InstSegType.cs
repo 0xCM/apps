@@ -12,9 +12,9 @@ namespace Z0
         {
             public readonly byte Id;
 
-            readonly byte N;
+            public readonly byte Width;
 
-            readonly byte Literal;
+            public readonly byte Literal;
 
             readonly byte Pad;
 
@@ -23,7 +23,7 @@ namespace Z0
             {
                 Id = id;
                 Literal = 0;
-                N = 0;
+                Width = 0;
                 Pad = 0;
             }
 
@@ -34,12 +34,12 @@ namespace Z0
                 Pad = 0;
                 if(Id != 0)
                 {
-                    N = (byte)((value >> 8) & 0xFF);
+                    Width = (byte)((value >> 8) & 0xFF);
                     Literal = (byte)((value >> 16) & 0xFF);
                 }
                 else
                 {
-                    N = 0;
+                    Width = 0;
                     Literal = 0;
                 }
             }
@@ -48,7 +48,7 @@ namespace Z0
             internal InstSegType(byte n, byte literal)
             {
                 Id = 0;
-                N = n;
+                Width = n;
                 Literal = literal;
                 Pad = 0;
             }
@@ -56,19 +56,19 @@ namespace Z0
             public bool IsSymbolic
             {
                 [MethodImpl(Inline)]
-                get => N == 0 && Id !=0;
+                get => Width == 0 && Id !=0;
             }
 
             public bool IsLiteral
             {
                 [MethodImpl(Inline)]
-                get => N != 0 & Id == 0;
+                get => Width != 0 & Id == 0;
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Id == 0 && N == 0;
+                get => Id == 0 && Width == 0;
             }
 
             public bool IsNonEmpty
@@ -86,7 +86,7 @@ namespace Z0
                 var dst = EmptyString;
                 if(IsLiteral)
                 {
-                    switch(N)
+                    switch(Width)
                     {
                         case 1:
                             dst = XedRender.format((uint1)Literal);

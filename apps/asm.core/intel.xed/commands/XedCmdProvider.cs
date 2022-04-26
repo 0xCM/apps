@@ -112,15 +112,17 @@ namespace Z0
 
         Index<InstPattern> CalcPatterns() => Rules.CalcPatterns();
 
+        RuleCells CalcRuleCells() => Rules.CalcRuleCells(CalcRules());
+
         string CaclTableMetrics(RuleSig sig, Index<RuleCell> src)
         {
             var view = src.View;
-            var tid = src.IsNonEmpty ? src.First.Key.Table : Hex12.MaxValue;
+            var tix = src.IsNonEmpty ? src.First.Key.Table : Hex12.MaxValue;
             var rix = z16;
             var rowExpr = text.emitter();
             var dst = text.emitter();
             var count = src.Count;
-            dst.AppendLine(string.Format("{0:D3} {1,-32} {2}", tid,  sig.Format(), XedPaths.CheckedTableDef(sig)));
+            dst.AppendLine(string.Format("{0:D3} {1,-32} {2}", tix,  sig.Format(), XedPaths.CheckedTableDef(sig)));
             dst.AppendLine(RP.PageBreak120);
             dst.AppendLine();
             var emit = false;
@@ -137,11 +139,11 @@ namespace Z0
                     dst.AppendLine(rowExpr.Emit());
                     dst.AppendLine();
 
-                    dst.AppendLineFormat("{0:D3} {1:D3}", tid, rix);
+                    dst.AppendLineFormat("{0:D3} {1:D3}", tix, rix);
                     dst.AppendLine(RP.PageBreak60);
                 }
 
-                var descriptor = string.Format("{0:D3} {1:D3} {2:D3} {3}", tid, rix, key.Col, key.FormatSemantic());
+                var descriptor = string.Format("{0:D3} {1:D3} {2:D3} {3}", tix, rix, key.Col, key.FormatSemantic());
                 dst.AppendLineFormat("{0} {1,-12} | {2}", descriptor, XedRender.format(cell.Field), cell);
                 rowExpr.Append(cell.Format());
                 rowExpr.Append(Chars.Space);
@@ -154,7 +156,7 @@ namespace Z0
             return dst.Emit();
         }
 
-        void CalcRuleMetrics(RulCells src)
+        void CalcRuleMetrics(RuleCells src)
         {
             var sigs = src.Keys;
             var dst = text.emitter();
@@ -190,7 +192,6 @@ namespace Z0
 
             public InstSeg Seg3;
 
-
             public int CompareTo(InstLayoutRecord src)
                 => PatternId.CompareTo(src.PatternId);
 
@@ -205,7 +206,7 @@ namespace Z0
             {
                 ref readonly var pattern = ref patterns[i];
                 ref readonly var fields = ref pattern.Fields;
-                dst[pattern] = pattern.Layout.Map(x => new LayoutCell(x));
+                dst[pattern] = pattern.Layout.Map(x => LayoutCell.from(x));
             }
 
             return dst;

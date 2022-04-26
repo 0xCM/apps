@@ -15,8 +15,7 @@ namespace Z0
         [CmdOp("xed/check/rules")]
         Outcome CheckRules(CmdArgs args)
         {
-            var rules = CalcRules();
-            var cells = Rules.CalcRuleCells(rules);
+            var cells = CalcRuleCells();
             ref readonly var tables = ref cells.Tables;
             for(var i=0; i<tables.Count; i++)
             {

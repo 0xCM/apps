@@ -55,14 +55,6 @@ namespace Z0
             using var writer = path.Utf8Emitter();
             writer.Write(dst.Emit());
 
-            //var nonterms = XedSeq.Defs().SelectMany(x => x.Steps).Select(x => x.Data).Distinct().Select(x => XedRender.format(x.Kind));
-
-            // var seq = XedSeq.Defs();
-            // for(var i=0; i<seq.Count; i++)
-            // {
-            //     ref readonly var def = ref seq[i];
-            //     Write(def.Format());
-            // }
             return true;
         }
 
@@ -70,7 +62,7 @@ namespace Z0
         [CmdOp("xed/emit/metrics")]
         Outcome EmitMetrics(CmdArgs args)
         {
-            CalcRuleMetrics(Rules.CalcRuleCells(CalcRules()));
+            CalcRuleMetrics(CalcRuleCells());
             return true;
         }
 
@@ -83,37 +75,6 @@ namespace Z0
             var left = dict<RuleSig,HashSet<CellType>>();
             var right = dict<RuleSig,HashSet<CellType>>();
             var sigs = hashset<RuleSig>();
-
-            // for(var i=0; i<src.Count; i++)
-            // {
-            //     ref readonly var table = ref src[i];
-            //     ref readonly var sig = ref table.Sig;
-            //     sigs.Add(sig);
-
-            //     var path = XedPaths.CheckedTableDef(sig);
-            //     if(path.IsEmpty)
-            //         continue;
-
-            //     paths[sig] = path;
-            //     left[sig] = new();
-            //     right[sig] = new();
-            //     for(var j=0; j<table.RowCount; j++)
-            //     {
-            //         ref readonly var row = ref table[j];
-
-            //         for(var k=0; k<row.Antecedant.Count; k++)
-            //         {
-            //             ref readonly var logic = ref row.Antecedant[k];
-            //             left[sig].Add(logic.Type);
-            //         }
-
-            //         for(var k=0; k<row.Consequent.Count; k++)
-            //         {
-            //             ref readonly var logic = ref row.Consequent[k];
-            //             right[sig].Add(logic.Type);
-            //         }
-            //     }
-            // }
 
             var dst = text.emitter();
             var sorted = sigs.Index().Sort();

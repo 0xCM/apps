@@ -210,7 +210,7 @@ namespace Z0
                 var dst = EmptyString;
                 var value = EmptyString;
                 if(src.Value.IsNonterm)
-                    value = XedRender.format(src.Value.ToRuleName());
+                    value = src.Value.ToNonterm().Format();
                 else
                     value = format(src.Value);
 
@@ -230,7 +230,7 @@ namespace Z0
                 if(src.IsEmpty)
                     return EmptyString;
                 else if(src.IsNontermCall)
-                    return XedRender.format(src.ToRuleName());
+                    return src.ToNonterm().Format();
                 else if(src.CellKind == RuleCellKind.SegVar)
                     return src.ToSegVar().Format();
                 else if(src.CellKind == RuleCellKind.Keyword)

@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static XedModels;
-
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack = 1)]
@@ -24,7 +21,7 @@ namespace Z0
 
             public readonly FieldKind Field;
 
-            public readonly CellClass Type;
+            public readonly CellClass DataType;
 
             public readonly RuleSig Rule;
 
@@ -43,7 +40,7 @@ namespace Z0
                 Row = row;
                 Col = col;
                 Logic = logic;
-                Type = type;
+                DataType = type;
                 Field = field;
                 Pad0 = 0;
                 Pad1 = 0;

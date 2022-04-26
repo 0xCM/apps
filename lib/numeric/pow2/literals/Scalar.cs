@@ -277,7 +277,7 @@ namespace Z0
         /// <summary>
         /// 127
         /// </summary>
-        public const byte T07m1 = T07 - 2;
+        public const byte T07m1 = T07 - 1;
 
         /// <summary>
         /// 255
@@ -323,6 +323,14 @@ namespace Z0
         /// 65,535
         /// </summary>
         public const ushort T16m1 = ushort.MaxValue;
+
+        public const uint T17m1 = T17 - 1;
+
+        public const uint T18m1 = T18 - 1;
+
+        public const uint T19m1 = T19 - 1;
+
+        public const uint T20m1 = T20 - 1;
 
         public const uint T32m1 = uint.MaxValue;
 

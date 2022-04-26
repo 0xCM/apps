@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     readonly struct Pow2Data
     {
         public static ReadOnlySpan<byte> Pow2Bytes => new byte[]

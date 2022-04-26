@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public void EmitCellDetail(RulCells src)
+        public void EmitCellDetail(RuleCells src)
         {
             exec(PllExec,
                 () => EmitCellsRaw(src),
@@ -17,16 +17,15 @@ namespace Z0
                 );
         }
 
-        void EmitCellsRaw(RulCells src)
+        void EmitCellsRaw(RuleCells src)
         {
-            var cells = src.Flatten();
             var dst = text.emitter();
-            var count = CellRender.render(cells,dst);
+            var count = CellRender.render(src.Flatten(), dst);
             var data = Require.equal(dst.Emit(), src.Description);
             FileEmit(data, count, XedPaths.RuleTarget("cells.raw", FS.Csv), TextEncodingKind.Asci);
         }
 
-        public void EmitCellRecords(RulCells src)
-            => TableEmit(CalcCellRecords(src).View, KeyedCellRecord.RenderWidths, XedPaths.RuleTable<KeyedCellRecord>());
+        public void EmitCellRecords(RuleCells src)
+            => TableEmit(src.Records.View, RuleCellRecord.RenderWidths, XedPaths.RuleTable<RuleCellRecord>());
     }
 }

@@ -26,6 +26,19 @@ namespace Z0
                 Cells = src;
             }
 
+            [MethodImpl(Inline)]
+            public FieldVector Fields()
+            {
+                var n = (byte)Cells.Count;
+                var dst = FieldVector.init(n);
+                for(var i=z8; i<n; i++)
+                {
+                    if(!Cells[i].IsOperator)
+                        dst[i] = Cells[i].Field;
+                }
+                return dst;
+            }
+
             public readonly uint Count
             {
                 [MethodImpl(Inline)]

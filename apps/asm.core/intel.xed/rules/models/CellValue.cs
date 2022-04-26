@@ -211,7 +211,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public SegField ToSegField()
-                => new SegField((SegVar)Data, Field);
+                => new SegField(Field, (SegVar)Data);
 
             [MethodImpl(Inline)]
             public InstClass ToInstClass()
@@ -255,6 +255,10 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public RuleName ToRuleName()
+                => (RuleName)Data;
+
+            [MethodImpl(Inline)]
+            public Nonterminal ToNonterm()
                 => (RuleName)Data;
 
             [MethodImpl(Inline)]

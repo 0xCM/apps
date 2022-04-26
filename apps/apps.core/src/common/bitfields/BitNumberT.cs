@@ -80,5 +80,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator T (BitNumber<T> src)
             => src.Value;
+
+
     }
 }

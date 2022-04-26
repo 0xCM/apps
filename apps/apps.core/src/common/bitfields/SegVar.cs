@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+    using static Char5;
 
     public readonly struct SegVar
     {
@@ -26,8 +27,23 @@ namespace Z0
 
         public static SegVar literal(byte n, byte value)
         {
-            var bits = span(string.Format("0b{0}",value.ToBitVector8().Format()));
+            var bits = span(string.Format("0b{0}", value.ToBitVector8().Format()));
             return parse(slice(bits,0, n + 2));
+        }
+
+        public static SegVar literal(BitNumber<byte> src)
+        {
+            var storage = ByteBlock8.Empty;
+            var dst = recover<Char5>(storage.Bytes);
+            var i=0;
+            var n = (int)src.Width;
+            dst[i++] = Code.Zero;
+            dst[i++] = Code.B;
+            var bits = slice(span(src.Value.ToBitVector8().Format()),0,n);
+            for(var j=0; j<n; j++)
+                dst[i++] = Char5.parse(skip(bits,j));
+            literal(src.Width, src.Value);
+            return new SegVar(dst);
         }
 
         public bool IsLiteral()
@@ -52,6 +68,7 @@ namespace Z0
             }
             return result;
         }
+
         public const byte MaxLength = 12;
 
         const byte SegWidth = 5;

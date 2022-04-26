@@ -131,19 +131,19 @@ namespace Z0
             => Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator byte(Char5 src)
+        public static explicit operator byte(Char5 src)
             => src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator ushort(Char5 src)
+        public static explicit operator ushort(Char5 src)
             => src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator uint(Char5 src)
+        public static explicit operator uint(Char5 src)
             => src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator ulong(Char5 src)
+        public static explicit operator ulong(Char5 src)
             => src.Index;
 
         [MethodImpl(Inline)]

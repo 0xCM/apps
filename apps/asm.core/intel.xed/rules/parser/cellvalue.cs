@@ -89,7 +89,7 @@ namespace Z0
                         }
                         else if(value.Length == 1 && value[0] == 'w')
                         {
-                            dst = new (XedRules.segfield(field, 'w'));
+                            dst = new (SegField.symbolic(field, 'w'));
                             result = true;
                         }
                     }
@@ -103,7 +103,7 @@ namespace Z0
                         }
                         else if(value.Length == 1 && value[0] == 'r')
                         {
-                            dst = new (XedRules.segfield(field, 'r'));
+                            dst = new (SegField.symbolic(field, 'r'));
                             result = true;
                         }
                     }
@@ -117,7 +117,7 @@ namespace Z0
                         }
                         else if(value.Length == 1 && value[0] == 'x')
                         {
-                            dst = new (XedRules.segfield(field, 'x'));
+                            dst = new (SegField.symbolic(field, 'x'));
                             result = true;
                         }
                     }
@@ -131,7 +131,7 @@ namespace Z0
                         }
                         else if(value.Length == 1 && value[0] == 'b')
                         {
-                            dst = new (XedRules.segfield(field, 'b'));
+                            dst = new (SegField.symbolic(field, 'b'));
                             result = true;
                         }
                     }

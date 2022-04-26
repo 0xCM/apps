@@ -25,10 +25,7 @@ namespace Z0
         public Index<TableCriteria> CalcRuleCriteria(RuleTableKind kind)
             => Data(nameof(CalcRuleCriteria) + kind.ToString(), () => CellParser.criteria(kind));
 
-        public RulCells CalcRuleCells(RuleTables src)
+        public RuleCells CalcRuleCells(RuleTables src)
             => Data(nameof(CalcRuleCells), () => CellParser.cells(src));
-
-        public Index<KeyedCellRecord> CalcCellRecords(RulCells src)
-            => records(src);
    }
 }

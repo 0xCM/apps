@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     partial class XedRules
     {
         public delegate asci32 CellFormatter(in RuleCell src);
@@ -63,6 +61,12 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => Key.Logic;
+            }
+
+            public bool IsOperator
+            {
+                [MethodImpl(Inline)]
+                get => Value.IsOperator;
             }
 
             public byte CellIndex
