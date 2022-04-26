@@ -140,5 +140,8 @@ namespace Z0
 
         public static Parsers Parsers(this IWfRuntime wf)
             => Z0.Parsers.create(wf);
+
+        public static XedDb XedDb(this IWfRuntime wf)
+            => Z0.XedDb.create(wf);
    }
 }

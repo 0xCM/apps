@@ -12,7 +12,7 @@ namespace Z0
     {
         public class OpCodeKinds
         {
-            public static OpCodeKinds Instanace => _Instance;
+            public static OpCodeKinds Instance => _Instance;
 
             static OpCodeKinds _Instance = new();
 

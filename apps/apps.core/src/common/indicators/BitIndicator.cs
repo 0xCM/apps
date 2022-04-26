@@ -8,59 +8,41 @@ namespace Z0
     /// Specifies the presence of a bit and,if present, specifies its state
     /// </summary>
     [DataWidth(Width, 2)]
-    public readonly record struct BitIndicator : IComparable<BitIndicator>
+    public readonly record struct BitIndicator : IIndicator<BitIndicator,bit>
     {
         [MethodImpl(Inline)]
         public static BitIndicator defined(bit state)
             => new BitIndicator(state, 1);
-
-        public static BitIndicator Undefined => default;
-
-        public static BitIndicator Disabled => new BitIndicator(bit.Off, bit.On);
-
-        public static BitIndicator Enabled => new BitIndicator(bit.On, bit.On);
 
         public const byte Width = uint2.Width;
 
         readonly byte Data;
 
         [MethodImpl(Inline)]
-        public BitIndicator(bit state, bit defined)
+        public BitIndicator(bit state, bit enabled)
         {
             var data = 0u;
             data |= (uint)state;
-            data |= (uint)defined << 1;
+            data |= (uint)enabled << 1;
             Data = (byte)data;
         }
 
-        public bit State
+        public bit Value
         {
             [MethodImpl(Inline)]
             get => bit.test(Data,0);
         }
 
-        public bool IsDefined
+        public bit Enabled
         {
             [MethodImpl(Inline)]
             get => bit.test(Data,1);
         }
 
-        public bool IsUndefined
+        public bit Disabled
         {
             [MethodImpl(Inline)]
             get => !bit.test(Data,1);
-        }
-
-        public bool IsEnabled
-        {
-            [MethodImpl(Inline)]
-            get => bit.test(Data,1) && State;
-        }
-
-        public bool IsDisabled
-        {
-            [MethodImpl(Inline)]
-            get => IsDefined && !bit.test(Data,0);
         }
 
         [MethodImpl(Inline)]
@@ -68,18 +50,18 @@ namespace Z0
             => Data.CompareTo(src.Data);
 
         public string Format()
-            => IsUndefined ? EmptyString : State.Format();
+            => Disabled ? EmptyString : Value.Format();
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
         public static explicit operator bit(BitIndicator src)
-            => src.State;
+            => src.Value;
 
         [MethodImpl(Inline)]
         public static explicit operator byte(BitIndicator src)
-            => src.State;
+            => src.Value;
 
         public static BitIndicator Empty => default;
     }

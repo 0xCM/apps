@@ -50,7 +50,7 @@ namespace Z0
             => TableEmit(XedFields.ByPosition.Valid, ReflectedField.RenderWidths, XedPaths.Table<ReflectedField>("positioned"));
 
         void EmitOpCodeKinds()
-            => TableEmit(OpCodeKinds.Instanace.Records, OcMapKind.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodeKinds));
+            => TableEmit(OpCodeKinds.Instance.Records, OcMapKind.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodeKinds));
 
         void EmitOpWidths()
             => TableEmit(XedWidths.Records.View, OpWidthInfo.RenderWidths, XedPaths.Table<OpWidthInfo>());

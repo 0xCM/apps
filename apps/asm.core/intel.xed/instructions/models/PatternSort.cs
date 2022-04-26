@@ -140,8 +140,8 @@ namespace Z0
 
                     if(result==0)
                     {
-                        var a = (uint)Rep.Kind | ((uint)Mod.Kind << 4) | (RexW.IsDefined ? 0xFFu << 8 : 0u);
-                        var b = (uint)src.Rep.Kind | ((uint)src.Mod.Kind << 4) | (src.RexW.IsDefined ? 0xFFu << 8 : 0u);
+                        var a = (uint)Rep.Kind | ((uint)Mod.Kind << 4) | (RexW.Enabled ? 0xFFu << 8 : 0u);
+                        var b = (uint)src.Rep.Kind | ((uint)src.Mod.Kind << 4) | (src.RexW.Enabled ? 0xFFu << 8 : 0u);
                         result = a.CompareTo(b);
                     }
 

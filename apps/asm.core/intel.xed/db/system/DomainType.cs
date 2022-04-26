@@ -7,9 +7,9 @@ namespace Z0
 {
     using T = XedRules.FieldDataKind;
 
-    partial class XedRules
+    partial class XedDb
     {
-        public enum FieldDomainType
+        public enum DomainType
         {
             [Symbol("")]
             None,
