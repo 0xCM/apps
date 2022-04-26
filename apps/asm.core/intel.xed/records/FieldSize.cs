@@ -19,7 +19,7 @@ namespace Z0
             public ushort DomainWidth;
 
             [MethodImpl(Inline)]
-            public FieldSize(ByteSize datsz, BitWidth datw, ByteSize domsz,  BitWidth domw)
+            public FieldSize(ByteSize datsz, BitWidth datw, ByteSize domsz, BitWidth domw)
             {
                 DataSize = (ushort)datsz;
                 DataWidth = (ushort)datw;

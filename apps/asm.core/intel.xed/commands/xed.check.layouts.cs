@@ -32,8 +32,8 @@ namespace Z0
                 for(var j=0; j<table.RowCount; j++)
                 {
                     ref readonly var row = ref table[j];
-                    var fields = row.Fields();
-                    dst.AppendLineFormat("{0,-32} {1:D3} {2:D2} {3}", table.Sig, table.TableIndex, row.RowIndex, fields.Format());
+                    var fields = CellTable.fields(row);
+                    dst.AppendLineFormat("{0,-32} {1:D3} {2:D2} {3}", table.Sig, table.TableIndex, row.RowIndex, fields.Delimit(Chars.Space).Format());
                     counter++;
                 }
             }

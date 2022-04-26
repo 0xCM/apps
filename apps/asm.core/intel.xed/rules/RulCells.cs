@@ -30,7 +30,7 @@ namespace Z0
                 return dst;
             }
 
-            public static RuleCellRecord record(ushort seq, in RuleCell cell)
+            static RuleCellRecord record(ushort seq, in RuleCell cell)
             {
                 ref readonly var value = ref cell.Value;
                 var dst = RuleCellRecord.Empty;
@@ -126,6 +126,12 @@ namespace Z0
                 _Metrics = metrics;
             }
 
+            public uint TableCount
+            {
+                [MethodImpl(Inline)]
+                get => _Tables.Count;
+            }
+
             /// <summary>
             /// Describes the dataset
             /// </summary>
@@ -157,6 +163,18 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => ref _Records;
+            }
+
+            public new ref readonly CellTable this[uint i]
+            {
+                [MethodImpl(Inline)]
+                get => ref _Tables[i];
+            }
+
+            public new ref readonly CellTable this[int i]
+            {
+                [MethodImpl(Inline)]
+                get => ref _Tables[i];
             }
 
             public Index<RuleCell> Flatten()

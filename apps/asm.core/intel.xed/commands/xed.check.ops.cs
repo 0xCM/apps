@@ -59,6 +59,13 @@ namespace Z0
         }
 
 
+        [CmdOp("xed/emit/schema")]
+        Outcome EmitSchema(CmdArgs args)
+        {
+            EmitRuleSchema(CalcRuleCells());
+            return true;
+        }
+
         [CmdOp("xed/emit/metrics")]
         Outcome EmitMetrics(CmdArgs args)
         {
@@ -66,43 +73,43 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("xed/emit/types")]
-        Outcome EmitSchema(CmdArgs args)
-        {
-            var rules = Xed.Rules.CalcRules();
-            var src = rules.Criteria();
-            var paths = dict<RuleSig,FS.FileUri>();
-            var left = dict<RuleSig,HashSet<CellType>>();
-            var right = dict<RuleSig,HashSet<CellType>>();
-            var sigs = hashset<RuleSig>();
+        // [CmdOp("xed/emit/types")]
+        // Outcome EmitSchema(CmdArgs args)
+        // {
+        //     var rules = Xed.Rules.CalcRules();
+        //     var src = rules.Criteria();
+        //     var paths = dict<RuleSig,FS.FileUri>();
+        //     var left = dict<RuleSig,HashSet<CellType>>();
+        //     var right = dict<RuleSig,HashSet<CellType>>();
+        //     var sigs = hashset<RuleSig>();
 
-            var dst = text.emitter();
-            var sorted = sigs.Index().Sort();
-            var types = hashset<CellType>();
+        //     var dst = text.emitter();
+        //     var sorted = sigs.Index().Sort();
+        //     var types = hashset<CellType>();
 
-            for(var i=0; i<sorted.Count; i++)
-            {
-                dst.AppendLine(RP.PageBreak120);
-                ref readonly var sig = ref sorted[i];
-                paths.TryGetValue(sig, out var path);
-                if(path.IsNonEmpty)
-                    dst.AppendLineFormat("{0,-3} | {1,-16} | {2}", sig.TableKind, sig.TableName, path);
-                else
-                    dst.AppendLineFormat("{0,-3} | {1,-16} | {2}", sig.TableKind, sig.TableName, "Undefined");
+        //     for(var i=0; i<sorted.Count; i++)
+        //     {
+        //         dst.AppendLine(RP.PageBreak120);
+        //         ref readonly var sig = ref sorted[i];
+        //         paths.TryGetValue(sig, out var path);
+        //         if(path.IsNonEmpty)
+        //             dst.AppendLineFormat("{0,-3} | {1,-16} | {2}", sig.TableKind, sig.TableName, path);
+        //         else
+        //             dst.AppendLineFormat("{0,-3} | {1,-16} | {2}", sig.TableKind, sig.TableName, "Undefined");
 
-                if(left.TryGetValue(sig, out types))
-                {
-                    render(types.Index().Sort(), LogicKind.Antecedant, dst);
-                }
-                if(right.TryGetValue(sig, out types))
-                {
-                    render(types.Index().Sort(), LogicKind.Consequent, dst);
-                }
-            }
+        //         if(left.TryGetValue(sig, out types))
+        //         {
+        //             render(types.Index().Sort(), LogicKind.Antecedant, dst);
+        //         }
+        //         if(right.TryGetValue(sig, out types))
+        //         {
+        //             render(types.Index().Sort(), LogicKind.Consequent, dst);
+        //         }
+        //     }
 
-            FileEmit(dst.Emit(), sorted.Count, XedPaths.Targets() + FS.folder("rules.tables") + FS.file("xed.rules.tables.schemas", FS.Txt));
-            return true;
-        }
+        //     FileEmit(dst.Emit(), sorted.Count, XedPaths.Targets() + FS.folder("rules.tables") + FS.file("xed.rules.tables.schemas", FS.Txt));
+        //     return true;
+        // }
 
         static void render(in CellType type, uint i, LogicKind lk, ITextEmitter dst)
         {

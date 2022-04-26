@@ -114,62 +114,69 @@ namespace Z0
 
         RuleCells CalcRuleCells() => Rules.CalcRuleCells(CalcRules());
 
-        string CaclTableMetrics(RuleSig sig, Index<RuleCell> src)
+        void EmitRuleSchema(RuleCells src)
         {
-            var view = src.View;
-            var tix = src.IsNonEmpty ? src.First.Key.Table : Hex12.MaxValue;
-            var rix = z16;
-            var rowExpr = text.emitter();
             var dst = text.emitter();
-            var count = src.Count;
-            dst.AppendLine(string.Format("{0:D3} {1,-32} {2}", tix,  sig.Format(), XedPaths.CheckedTableDef(sig)));
+            for(var i=0; i<src.TableCount; i++)
+            {
+                ref readonly var table = ref src[i];
+                dst.AppendLine(string.Format("{0:D3} {1,-32} {2}", table.TableIndex, table.Sig.Format(), XedPaths.CheckedTableDef(table.Sig)));
+                dst.AppendLine(RP.PageBreak120);
+                var fields = CellTable.fields(table);
+
+                dst.Append(fields.Format());
+                dst.AppendLine();
+
+                // for(var j=0; j<data.Count; j++)
+                // {
+                //     ref readonly var field = ref data[j];
+                //     var size = XedFields.field(field.Field).FieldSize;
+                //     Write(string.Format("{0,-32} | {1}", field.Field, size));
+                // }
+            }
+
+            FileEmit(dst.Emit(), src.TableCount, XedPaths.RuleTargets() + FS.file("xed.rules.schema", FS.Txt));
+        }
+
+        string CalcTableMetrics(in CellTable table)
+        {
+            var dst = text.emitter();
+            dst.AppendLine(string.Format("{0:D3} {1,-32} {2}", table.TableIndex,  table.Sig.Format(), XedPaths.CheckedTableDef(table.Sig)));
             dst.AppendLine(RP.PageBreak120);
             dst.AppendLine();
-            var emit = false;
-            for(var i=0; i<count; i++)
+            for(var i=0; i<table.RowCount; i++)
             {
-                ref readonly var cell = ref src[i];
-                ref readonly var key = ref cell.Key;
-                emit = key.Row != rix;
-                if(key.Row != rix)
-                    rix = key.Row;
+                ref readonly var row = ref table[i];
 
-                if(emit)
-                {
-                    dst.AppendLine(rowExpr.Emit());
+                if(i != 0)
                     dst.AppendLine();
 
-                    dst.AppendLineFormat("{0:D3} {1:D3}", tix, rix);
-                    dst.AppendLine(RP.PageBreak60);
+                dst.AppendLineFormat("{0:D3} {1:D3}", table.TableIndex, row.RowIndex);
+                dst.AppendLine(RP.PageBreak80);
+                for(var j=0; j<row.CellCount; j++)
+                {
+                    ref readonly var cell = ref row[j];
+                    ref readonly var key = ref cell.Key;
+                    var descriptor = string.Format("{0:D3} {1:D3} {2:D3} {3}", table.TableIndex, row.RowIndex, key.Col, key.FormatSemantic());
+                    dst.AppendLineFormat("{0} {1,-12} | {2}", descriptor, XedRender.format(cell.Field), cell);
                 }
 
-                var descriptor = string.Format("{0:D3} {1:D3} {2:D3} {3}", tix, rix, key.Col, key.FormatSemantic());
-                dst.AppendLineFormat("{0} {1,-12} | {2}", descriptor, XedRender.format(cell.Field), cell);
-                rowExpr.Append(cell.Format());
-                rowExpr.Append(Chars.Space);
-
-
-                if(i == count - 1 )
-                    dst.AppendLine(rowExpr.Emit());
-
+                dst.AppendLine(row.Expression);
             }
+
+            dst.AppendLine(RP.PageBreak80);
+            dst.Append(CellTable.fields(table).Format());
+
             return dst.Emit();
         }
 
         void CalcRuleMetrics(RuleCells src)
         {
-            var sigs = src.Keys;
             var dst = text.emitter();
-            for(var i=0; i<sigs.Length; i++)
-            {
-                ref readonly var sig = ref skip(sigs,i);
-                var table = src[sig];
-                dst.AppendLine(CaclTableMetrics(sig,table));
-            }
-
-            FileEmit(dst.Emit(), sigs.Length, XedPaths.RuleTargets() + FS.file("xed.rules.metrics", FS.Txt));
+            for(var i=0; i<src.TableCount; i++)
+                dst.AppendLine(CalcTableMetrics(src[i]));
+            FileEmit(dst.Emit(), src.TableCount, XedPaths.RuleTargets() + FS.file("xed.rules.metrics", FS.Txt));
         }
-
 
         [Record(TableName)]
         public struct InstLayoutRecord : IComparable<InstLayoutRecord>
