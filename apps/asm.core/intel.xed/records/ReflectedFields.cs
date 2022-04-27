@@ -11,8 +11,10 @@ namespace Z0
     {
         public struct ReflectedFields
         {
+            public const byte FieldCount = 128;
+
             public static ReflectedFields init()
-                => new ReflectedFields(sys.alloc<ReflectedField>(128));
+                => new ReflectedFields(sys.alloc<ReflectedField>(FieldCount));
 
             readonly Index<FieldKind,ReflectedField> Data;
 

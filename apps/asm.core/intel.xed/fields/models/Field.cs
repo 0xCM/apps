@@ -29,7 +29,7 @@ namespace Z0
                     if(XedParsers.parse(data, out uint8b b))
                         field = Field.init(kind, b);
                 }
-                else if(XedParsers.IsIntLiteral(data))
+                else if(XedParsers.IsInt(data))
                 {
                     if(XedParsers.parse(data, out byte n8))
                         field = Field.init(kind, n8);

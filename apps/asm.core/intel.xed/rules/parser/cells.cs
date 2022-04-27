@@ -50,7 +50,7 @@ namespace Z0
                                 }
                                 break;
 
-                                case CK.IntLiteral:
+                                case CK.IntVal:
                                 {
                                     result = XedParsers.parse(data, out byte value);
                                     field = value;

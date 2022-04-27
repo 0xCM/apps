@@ -45,7 +45,7 @@ namespace Z0
                     tDom = new FieldTypeName(kind, nameof(Hex8));
                     tData =new FieldTypeName(kind, "byte");
                 }
-                return new (field.Field, @class, op, tData, tDom, wData, wDom);
+                return new (kind, @class, op, tData, tDom, wData, wDom);
             }
         }
     }

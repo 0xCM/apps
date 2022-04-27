@@ -18,9 +18,9 @@ namespace Z0
             {
                 ref readonly var f = ref src[i];
 
-                if(f.IsFieldExpr && f.FieldKind == FieldKind.CHIP)
+                if(f.IsCellExpr && f.FieldKind == FieldKind.CHIP)
                 {
-                    dst = f.ToFieldExpr().Value;
+                    dst = f.ToCellExpr().Value;
                     break;
                 }
             }

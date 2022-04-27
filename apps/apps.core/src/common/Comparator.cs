@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct Comparator<T> : IChannel2x2<Comparator<T>,T>
         where T : unmanaged
     {

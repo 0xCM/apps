@@ -32,7 +32,7 @@ namespace Z0
             dst.Mode = pattern.Mode;
             dst.Lock = XedFields.@lock(pattern.Fields);
             dst.Index = Require.equal(index,src.Position);
-            dst.FieldClass = src.FieldClass;
+            dst.FieldClass = src.CellKind;
             dst.FieldKind = src.FieldKind;
             dst.InstClass = pattern.InstClass;
             dst.OpCode = pattern.OpCode;
@@ -42,7 +42,7 @@ namespace Z0
                     dst.Seg = src.AsInstSeg();
                 break;
                 case RuleCellKind.SegField:
-                    dst.SegField = src.AsSegField();
+                    dst.SegField = src.ToSegField();
                 break;
                 case RuleCellKind.SegVar:
                     dst.SegVar = src.AsSegVar();
@@ -52,7 +52,7 @@ namespace Z0
                 break;
                 case RuleCellKind.NeqExpr:
                 case RuleCellKind.EqExpr:
-                    dst.FieldExpr = src.ToFieldExpr();
+                    dst.FieldExpr = src.ToCellExpr();
                 break;
                 case RuleCellKind.NontermExpr:
                     dst.Nonterminal = dst.FieldExpr.Value.ToRuleName();
@@ -60,7 +60,7 @@ namespace Z0
                 case RuleCellKind.HexLiteral:
                     dst.HexLiteral = src.AsHexLit();
                 break;
-                case RuleCellKind.IntLiteral:
+                case RuleCellKind.IntVal:
                     dst.IntLiteral = src.AsIntLit();
                 break;
                 case RuleCellKind.NontermCall:

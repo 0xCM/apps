@@ -8,24 +8,23 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct FieldSpec
+        public record struct FieldSpec
         {
-            public readonly FieldKind Kind;
+            public byte Seq;
 
-            public readonly FieldSize Size;
+            public byte Index;
 
-            public readonly FieldTypeName Type;
+            public FieldKind Kind;
 
-            public readonly FieldTypeName EffectiveType;
+            public Type DomainType;
 
-            [MethodImpl(Inline)]
-            public FieldSpec(FieldKind kind, FieldSize sz, FieldTypeName type, FieldTypeName eff)
-            {
-                Kind = kind;
-                Size = sz;
-                Type = type;
-                EffectiveType = eff;
-            }
+            public PackedWidth DomainWidth;
+
+            public Type StorageType;
+
+            public StorageWidth StorageWidth;
+
+            public TextBlock Description;
 
             public static FieldSpec Empty => default;
         }

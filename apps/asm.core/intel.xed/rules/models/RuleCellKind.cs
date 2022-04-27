@@ -7,17 +7,22 @@ namespace Z0
 {
     partial class XedRules
     {
-        [DataWidth(4,8)]
         public enum RuleCellKind : byte
         {
             [Symbol("<?>")]
             Void = 0,
 
+            [Symbol("bit")]
+            BitVal,
+
+            [Symbol("int")]
+            IntVal,
+
+            [Symbol("hex")]
+            HexVal,
+
             [Symbol("0b")]
             BitLiteral,
-
-            [Symbol("0i")]
-            IntLiteral,
 
             [Symbol("0x")]
             HexLiteral,

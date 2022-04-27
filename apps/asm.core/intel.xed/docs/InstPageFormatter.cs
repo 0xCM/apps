@@ -133,7 +133,7 @@ namespace Z0
                             case RuleCellKind.EqExpr:
                             case RuleCellKind.NeqExpr:
                             case RuleCellKind.NontermExpr:
-                                seek(dst,j) = string.Format(Pattern, j, fk, field.ToFieldExpr());
+                                seek(dst,j) = string.Format(Pattern, j, fk, field.ToCellExpr());
                             break;
                             case RuleCellKind.NontermCall:
                             {
@@ -155,7 +155,7 @@ namespace Z0
                             }
                             break;
                             case RuleCellKind.SegField:
-                                seek(dst,j) = string.Format(Pattern, j, fk, field.AsSegField());
+                                seek(dst,j) = string.Format(Pattern, j, fk, field.ToSegField());
                             break;
                             case RuleCellKind.InstSeg:
                                 seek(dst,j) = string.Format(Pattern, j, fk, field.AsInstSeg());

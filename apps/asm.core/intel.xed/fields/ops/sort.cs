@@ -20,7 +20,7 @@ namespace Z0
             for(var i=z8; i<count; i++)
             {
                 ref var field = ref data[i];
-                if(field.IsFieldExpr)
+                if(field.IsCellExpr)
                     eCount++;
                 else
                     lCount++;
@@ -31,7 +31,7 @@ namespace Z0
             for(var i=z8; i<count; i++)
             {
                 ref var field = ref data[i];
-                if(field.IsFieldExpr)
+                if(field.IsCellExpr)
                     field = field.WithPosition(eIx++);
                 else
                     field = field.WithPosition(lIx++);

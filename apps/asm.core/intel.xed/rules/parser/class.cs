@@ -45,8 +45,8 @@ namespace Z0
                 {
                     if(isNonTerm)
                         dst = CK.NontermCall;
-                    else if(XedParsers.IsIntLiteral(data))
-                        dst = CK.IntLiteral;
+                    else if(XedParsers.IsInt(data))
+                        dst = CK.IntVal;
                     else if(XedParsers.IsHexLiteral(data))
                         dst = CK.HexLiteral;
                     else if(XedParsers.IsBinaryLiteral(data))

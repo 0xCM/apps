@@ -26,8 +26,14 @@ namespace Z0
                 Cells = src;
             }
 
+            public bool HasConsequent
+            {
+                [MethodImpl(Inline)]
+                get => Cells.IsNonEmpty && Cells.Last.IsOperator;
+            }
+
             public string Expression
-                => Cells.Select(c => c.Format()).Concat(" ");
+                => expr(this);
 
             public readonly uint Count
             {

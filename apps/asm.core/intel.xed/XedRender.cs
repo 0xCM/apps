@@ -576,9 +576,9 @@ namespace Z0
         public static string format(in InstField src)
         {
             var dst = EmptyString;
-            var @class = src.FieldClass.Kind;
-            if(src.IsFieldExpr)
-                return src.ToFieldExpr().Format();
+            var @class = src.CellKind;
+            if(src.IsCellExpr)
+                return src.ToCellExpr().Format();
 
             switch(@class)
             {
@@ -587,7 +587,7 @@ namespace Z0
                 case RuleCellKind.HexLiteral:
                     dst = format(src.AsHexLit());
                 break;
-                case RuleCellKind.IntLiteral:
+                case RuleCellKind.IntVal:
                     dst = src.AsIntLit().ToString();
                 break;
                 case RuleCellKind.InstSeg:
@@ -606,13 +606,13 @@ namespace Z0
                     dst = src.ToKeyword().Format();
                 break;
                 case RuleCellKind.SegField:
-                    dst = src.AsSegField().Format();
+                    dst = src.ToSegField().Format();
                 break;
                 case RuleCellKind.SegVar:
                     dst = src.AsSegVar().Format();
                 break;
                 default:
-                    Errors.Throw(AppMsg.UnhandledCase.Format(@class));
+                    Errors.Throw(AppMsg.UnhandledCase.Format(@class.ToString()));
                     break;
             }
 

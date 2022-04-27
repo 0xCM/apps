@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct EncodingOffsets
+        public record struct EncodingOffsets
         {
             [MethodImpl(Inline), Op]
             public static void pack(EncodingOffsets src, Span<byte> dst)

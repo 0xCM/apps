@@ -163,11 +163,11 @@ namespace Z0
         public static bool IsBinaryLiteral(string src)
             => text.begins(src, "0b");
 
-        public static bool IsIntLiteral(string src)
+        public static bool IsInt(string src)
             => byte.TryParse(src, out _);
 
         public static bool IsNumber(string src)
-            => IsHexLiteral(src) || IsBinaryLiteral(src) || IsIntLiteral(src);
+            => IsHexLiteral(src) || IsBinaryLiteral(src) || IsInt(src);
 
         public static bool number(string src, out byte dst)
         {

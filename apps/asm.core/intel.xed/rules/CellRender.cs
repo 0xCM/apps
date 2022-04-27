@@ -77,7 +77,7 @@ namespace Z0
                 for(var i=0; i<src.Count; i++)
                 {
                     ref readonly var cell = ref src[i];
-                    dst.AppendLineFormat(SemanticRenderPattern, seq++, cell.Key.Index, cell.Key.FormatSemantic(), cell.Format());
+                    dst.AppendLineFormat("{0:D5} | {1,-48} | {2}", cell.Key.Index, cell.Key.FormatSemantic(), cell.Format());
                 }
             }
 

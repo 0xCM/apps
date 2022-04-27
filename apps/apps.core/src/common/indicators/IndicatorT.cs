@@ -34,7 +34,7 @@ namespace Z0
         public bit Disabled
         {
             [MethodImpl(Inline)]
-            get => gbits.state(Data, hipos());
+            get => !gbits.state(Data, hipos());
         }
 
         public bool IsEmpty
@@ -77,12 +77,11 @@ namespace Z0
             => new Indicator<T>(src.data,src.present);
 
         [MethodImpl(Inline)]
-        public static explicit operator Indicator<T>(T src)
+        public static implicit operator Indicator<T>(T src)
             => new Indicator<T>(src);
 
         [MethodImpl(Inline)]
         public static explicit operator T(Indicator<T> src)
             => src.Value;
-
     }
 }

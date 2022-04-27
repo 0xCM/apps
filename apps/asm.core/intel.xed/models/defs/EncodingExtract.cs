@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct EncodingExtract
+        public record struct EncodingExtract
         {
             public AsmHexCode Code;
 

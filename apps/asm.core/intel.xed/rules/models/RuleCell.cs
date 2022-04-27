@@ -19,8 +19,8 @@ namespace Z0
                 {
                     var dst = asci32.Null;
                     ref readonly var value = ref src.Value;
-                    if(value.IsFieldExpr)
-                        dst = value.ToFieldExpr().Format();
+                    if(value.IsCellExpr)
+                        dst = value.ToCellExpr().Format();
                     else if (value.IsOperator)
                         dst = value.AsOperator().Format();
                     else
@@ -44,8 +44,8 @@ namespace Z0
             public RuleOperator Operator()
             {
                 var dst = RuleOperator.None;
-                if(Value.IsFieldExpr)
-                    dst = Value.ToFieldExpr().Operator;
+                if(Value.IsCellExpr)
+                    dst = Value.ToCellExpr().Operator;
                 else if (Value.IsOperator)
                     dst = Value.AsOperator();
                 return dst;
@@ -99,10 +99,10 @@ namespace Z0
                 get => Key.Rule;
             }
 
-            public bool IsFieldExpr
+            public bool IsCellExpr
             {
                 [MethodImpl(Inline)]
-                get => Value.IsFieldExpr;
+                get => Value.IsCellExpr;
             }
 
             public bool IsEmpty
@@ -124,9 +124,9 @@ namespace Z0
             public string Format()
             {
                 var dst = EmptyString;
-                if(IsFieldExpr)
+                if(IsCellExpr)
                 {
-                    var expr = Value.ToFieldExpr();
+                    var expr = Value.ToCellExpr();
                     dst = expr.Format();
                 }
                 else

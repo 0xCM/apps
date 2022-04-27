@@ -47,9 +47,9 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public FieldSet Clear(FieldKind src)
+            public FieldSet Clear()
             {
-                Data = Data.Disable((byte)src);
+                Data = cpu.vscalar(w128,0ul);
                 return this;
             }
 

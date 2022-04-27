@@ -19,10 +19,10 @@ namespace Z0
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var part = ref src[i];
-                if(part.IsFieldExpr && part.FieldKind == FieldKind.VEXVALID)
-                    vc = (VexClass)part.ToFieldExpr().Value;
-                if(part.IsFieldExpr && part.FieldKind == FieldKind.MAP)
-                    number = part.ToFieldExpr().Value.ToByte();
+                if(part.IsCellExpr && part.FieldKind == FieldKind.VEXVALID)
+                    vc = (VexClass)part.ToCellExpr().Value;
+                if(part.IsCellExpr && part.FieldKind == FieldKind.MAP)
+                    number = part.ToCellExpr().Value.ToByte();
             }
 
             switch(vc)

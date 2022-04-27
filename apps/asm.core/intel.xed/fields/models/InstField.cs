@@ -26,7 +26,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data.First = src;
-                data[ClassIndex] = (byte)RuleCellKind.IntLiteral;
+                data[ClassIndex] = (byte)RuleCellKind.IntVal;
                 Data = data;
             }
 
@@ -98,33 +98,33 @@ namespace Z0
             [MethodImpl(Inline)]
             public InstField(CellExpr src)
             {
-                var data = ByteBlock16.Empty;
+                var dst = ByteBlock16.Empty;
                 if(src.IsNonterm)
                 {
-                    @as<RuleName>(data.First) = src.Value.ToRuleName();
-                    data[ClassIndex] = (byte)RuleCellKind.NontermExpr;
-                    data[OpIndex] = (byte)src.Operator;
-                    data[FieldIndex] = (byte)src.Field;
+                    @as<RuleName>(dst.First) = src.Value.ToRuleName();
+                    dst[ClassIndex] = (byte)RuleCellKind.NontermExpr;
+                    dst[OpIndex] = (byte)src.Operator;
+                    dst[FieldIndex] = (byte)src.Field;
                 }
                 else
                 {
-                    @as<ulong>(data.First) = src.Value.Data;
-                    data[OpIndex] = (byte)src.Operator;
-                    data[FieldIndex] = (byte)src.Field;
+                    @as<ulong>(dst.First) = src.Value.Data;
+                    dst[OpIndex] = (byte)src.Operator;
+                    dst[FieldIndex] = (byte)src.Field;
                     switch(src.Operator.Kind)
                     {
                         case OperatorKind.Eq:
-                            data[ClassIndex] = (byte)RuleCellKind.EqExpr;
+                            dst[ClassIndex] = (byte)RuleCellKind.EqExpr;
                         break;
                         case OperatorKind.Neq:
-                            data[ClassIndex] = (byte)RuleCellKind.NeqExpr;
+                            dst[ClassIndex] = (byte)RuleCellKind.NeqExpr;
                         break;
                         case OperatorKind.Impl:
-                            data[ClassIndex] = (byte)RuleCellKind.Operator;
+                            dst[ClassIndex] = (byte)RuleCellKind.Operator;
                         break;
                     }
                 }
-                Data = data;
+                Data = dst;
             }
 
             [MethodImpl(Inline)]
@@ -154,13 +154,7 @@ namespace Z0
                 get => ref @as<FieldKind>(Data[FieldIndex]);
             }
 
-            public ref readonly CellClass FieldClass
-            {
-                [MethodImpl(Inline)]
-                get => ref @as<CellClass>(Data[ClassIndex]);
-            }
-
-            public bool IsFieldExpr
+            public bool IsCellExpr
             {
                 [MethodImpl(Inline)]
                 get => CellKind == RuleCellKind.EqExpr || CellKind == RuleCellKind.NeqExpr || CellKind == RuleCellKind.NontermExpr;
@@ -175,7 +169,7 @@ namespace Z0
             public bool IsLiteral
             {
                 [MethodImpl(Inline)]
-                get => CellKind == RuleCellKind.BitLiteral || CellKind == RuleCellKind.HexLiteral || CellKind == RuleCellKind.IntLiteral;
+                get => CellKind == RuleCellKind.BitLiteral || CellKind == RuleCellKind.HexLiteral || CellKind == RuleCellKind.IntVal;
             }
 
             public ref readonly byte Position
@@ -220,10 +214,10 @@ namespace Z0
                 => ref @as<Nonterminal>(Data.First);
 
             [MethodImpl(Inline)]
-            public CellExpr ToFieldExpr()
+            public CellExpr ToCellExpr()
                 => new CellExpr(
                     (OperatorKind)Data[OpIndex],
-                    new CellValue(FieldKind, @as<ulong>(Data.First), FieldClass)
+                    new CellValue(FieldKind, @as<ulong>(Data.First), CellKind)
                     );
 
             [MethodImpl(Inline)]
@@ -243,8 +237,8 @@ namespace Z0
                 => ref @as<InstSeg>(Data.First);
 
             [MethodImpl(Inline)]
-            public ref readonly SegField AsSegField()
-                => ref @as<SegField>(Data.First);
+            public SegField ToSegField()
+                => new SegField(SegVar.parse(AsInstSeg().Type.Format()), FieldKind);
 
             public string Format()
                 => XedRender.format(this);

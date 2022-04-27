@@ -6,9 +6,9 @@
 namespace Z0
 {
     using static XedRules;
-    using I = XedModels.GprWidthIndex;
-
     using static XedRules.RuleName;
+
+    using I = XedModels.GprWidthIndex;
 
     partial struct XedModels
     {
