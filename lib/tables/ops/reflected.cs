@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Reflection;
-    using System.Collections.Generic;
-
     using static core;
 
     partial struct Tables

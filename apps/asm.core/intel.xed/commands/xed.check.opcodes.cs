@@ -114,22 +114,5 @@ namespace Z0
 
             return true;
         }
-
-        [CmdOp("bits/check/numbers")]
-        Outcome CheckBitNumbers(CmdArgs args)
-        {
-            var log = text.emitter();
-            BitNumber.validate(n3, (byte)0b0000_0111, log);
-            BitNumber.validate(n6, (byte)0b0011_1000, log);
-
-            BitNumber.validate(n3, (ushort)0b0000_0111, log);
-            BitNumber.validate(n6, (ushort)0b0011_1000, log);
-
-            BitNumber.validate(n3, (uint)0b0000_0111, log);
-            BitNumber.validate(n6, (uint)0b0011_1000, log);
-            Write(log.Emit());
-            return true;
-        }
-
     }
 }

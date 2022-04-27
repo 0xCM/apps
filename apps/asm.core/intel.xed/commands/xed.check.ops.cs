@@ -59,57 +59,12 @@ namespace Z0
         }
 
 
-        [CmdOp("xed/emit/schema")]
-        Outcome EmitSchema(CmdArgs args)
-        {
-            EmitRuleSchema(CalcRuleCells());
-            return true;
-        }
-
         [CmdOp("xed/emit/metrics")]
         Outcome EmitMetrics(CmdArgs args)
         {
             CalcRuleMetrics(CalcRuleCells());
             return true;
         }
-
-        // [CmdOp("xed/emit/types")]
-        // Outcome EmitSchema(CmdArgs args)
-        // {
-        //     var rules = Xed.Rules.CalcRules();
-        //     var src = rules.Criteria();
-        //     var paths = dict<RuleSig,FS.FileUri>();
-        //     var left = dict<RuleSig,HashSet<CellType>>();
-        //     var right = dict<RuleSig,HashSet<CellType>>();
-        //     var sigs = hashset<RuleSig>();
-
-        //     var dst = text.emitter();
-        //     var sorted = sigs.Index().Sort();
-        //     var types = hashset<CellType>();
-
-        //     for(var i=0; i<sorted.Count; i++)
-        //     {
-        //         dst.AppendLine(RP.PageBreak120);
-        //         ref readonly var sig = ref sorted[i];
-        //         paths.TryGetValue(sig, out var path);
-        //         if(path.IsNonEmpty)
-        //             dst.AppendLineFormat("{0,-3} | {1,-16} | {2}", sig.TableKind, sig.TableName, path);
-        //         else
-        //             dst.AppendLineFormat("{0,-3} | {1,-16} | {2}", sig.TableKind, sig.TableName, "Undefined");
-
-        //         if(left.TryGetValue(sig, out types))
-        //         {
-        //             render(types.Index().Sort(), LogicKind.Antecedant, dst);
-        //         }
-        //         if(right.TryGetValue(sig, out types))
-        //         {
-        //             render(types.Index().Sort(), LogicKind.Consequent, dst);
-        //         }
-        //     }
-
-        //     FileEmit(dst.Emit(), sorted.Count, XedPaths.Targets() + FS.folder("rules.tables") + FS.file("xed.rules.tables.schemas", FS.Txt));
-        //     return true;
-        // }
 
         static void render(in CellType type, uint i, LogicKind lk, ITextEmitter dst)
         {
@@ -127,19 +82,6 @@ namespace Z0
         {
             for(var i=0u; i<src.Count; i++)
                 render(src[i],i,lk,dst);
-        }
-
-        [CmdOp("xed/check/bits")]
-        Outcome CheckBits(CmdArgs args)
-        {
-            Span<char> buffer = stackalloc char[84];
-            ulong input = 0xF0CCAADD33;
-            uint n = 24;
-            ulong match = 0b1010_1010_1101_1101_0011_0011;
-            var output = BitRender.render4x4(Chars.Underscore, n,input,buffer);
-            Write(string.Format("{0} | {1}",  "1010_1010_1101_1101_0011_0011", text.format(output)));
-
-            return true;
         }
 
         static byte _format(InstPattern pattern, Span<string> dst)

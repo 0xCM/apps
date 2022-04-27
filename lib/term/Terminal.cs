@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
     using System.Text;
-    using System.IO;
-
-    using static Root;
 
     public readonly partial struct term
     {
@@ -192,20 +186,27 @@ namespace Z0
         public void Write(object src)
         {
             lock(TermLock)
-            {
                 Console.Write(src);
-            }
         }
 
-        public void Write(object src, FlairKind color)
+        public void Write(object src, FlairKind flair)
         {
             lock(TermLock)
-            {
-                var current = Console.ForegroundColor;
-                Console.ForegroundColor = (ConsoleColor)color;
-                Console.Write(src);
-                Console.ForegroundColor = current;
-            }
+                WriteNoLock(src, flair);
+        }
+
+        void WriteNoLock(object src, FlairKind flair)
+        {
+            var current = Console.ForegroundColor;
+            Console.ForegroundColor = (ConsoleColor)flair;
+            Console.Write(src);
+            Console.ForegroundColor = current;
+        }
+
+        public void Write(params (object content, FlairKind flair)[] messages)
+        {
+            lock(TermLock)
+                core.iter(messages, msg => WriteNoLock(msg.content,msg.flair));
         }
 
         public void WriteError(IAppMsg src)
@@ -237,9 +238,6 @@ namespace Z0
                         Console.Error.Write(Chars.Eol);
                         Console.ForegroundColor = current;
                     }
-
-                    // lock(ErrLock)
-                    //     File.AppendAllText(ErrorLogPath, rendered + "\r\n");
                 }
             }
         }

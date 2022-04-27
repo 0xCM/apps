@@ -24,6 +24,12 @@ namespace Z0
         public StringBuilder ToStringBuilder()
             => Target;
 
+        public override string ToString()
+            => Target.ToString();
+
+        public string Peek()
+            => ToString();
+
         public string Emit(bool reset = true)
         {
             var content = Target.ToString();

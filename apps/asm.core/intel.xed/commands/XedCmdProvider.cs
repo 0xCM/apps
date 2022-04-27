@@ -7,7 +7,6 @@ namespace Z0
     using Asm;
 
     using static XedRules;
-    using static XedModels;
     using static core;
 
     public partial class XedCmdProvider : AppCmdService<XedCmdProvider,CmdShellState>, IProjectConsumer<XedCmdProvider>
@@ -126,13 +125,6 @@ namespace Z0
 
                 dst.Append(fields.Format());
                 dst.AppendLine();
-
-                // for(var j=0; j<data.Count; j++)
-                // {
-                //     ref readonly var field = ref data[j];
-                //     var size = XedFields.field(field.Field).FieldSize;
-                //     Write(string.Format("{0,-32} | {1}", field.Field, size));
-                // }
             }
 
             FileEmit(dst.Emit(), src.TableCount, XedPaths.RuleTargets() + FS.file("xed.rules.schema", FS.Txt));

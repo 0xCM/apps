@@ -4,20 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct HeaderCell : ITextual, IComparable<HeaderCell>
     {
-        public uint Index {get;}
+        public readonly uint Index;
 
-        public Name Name {get;}
+        public readonly Name Name;
 
-        public RenderWidth Width {get;}
+        public readonly RenderWidth Width;
 
-        public CellFormatSpec CellFormat {get;}
+        public readonly CellFormatSpec CellFormat;
 
         [MethodImpl(Inline)]
         public HeaderCell(uint index, string name, RenderWidth width)

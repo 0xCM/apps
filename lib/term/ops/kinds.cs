@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Text;
-
-    using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
-    using Line = System.Runtime.CompilerServices.CallerLineNumberAttribute;
-    using File = System.Runtime.CompilerServices.CallerFilePathAttribute;
 
     partial struct term
     {
@@ -32,7 +27,7 @@ namespace Z0
         /// Announces a menthod invocation
         /// </summary>
         /// <param name="caller">The invoked method</param>
-        public static void announce([Caller] string caller = null)
+        public static void announce([CallerName] string caller = null)
             => T.WriteMessage(AppMsg.colorize(caller, FlairKind.Running));
 
         /// <summary>
@@ -40,7 +35,7 @@ namespace Z0
         /// </summary>
         /// <param name="content">The message to emit</param>
         /// <param name="caller">The calling member</param>
-        public static void warn(object content, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void warn(object content, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => T.WriteMessage(AppMsg.called(content?.ToString() ?? string.Empty, LogLevel.Warning, caller, file, line));
 
         /// <summary>
@@ -48,7 +43,7 @@ namespace Z0
         /// </summary>
         /// <param name="content">The message to emit</param>
         /// <param name="caller">The calling member</param>
-        public static void error(object content, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void error(object content, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
         {
             var msg = string.Empty.Build();
             msg.AppendLine($"Failure occurred at {caller} {file}:line {line}");
@@ -61,7 +56,7 @@ namespace Z0
         /// </summary>
         /// <param name="e">The raised exception</param>
         /// <param name="title">The name/context of the error</param>
-        public static void error(Exception e, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void error(Exception e, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
         {
             var dst = new StringBuilder();
             dst.AppendLine($"Failure trapped by {caller} at {file}:line {line}");
@@ -95,7 +90,7 @@ namespace Z0
         /// </summary>
         /// <param name="e">The raised exception</param>
         /// <param name="title">The name/context of the error</param>
-        public static void errlabel(Exception e, string title, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void errlabel(Exception e, string title, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
         {
             var msg = string.Empty.Build();
             msg.AppendLine($"{title}: Failure occurred at {caller} {file} {line}");

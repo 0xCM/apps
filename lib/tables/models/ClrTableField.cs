@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
-
     /// <summary>
     /// Describes a column in a table
     /// </summary>
@@ -18,17 +12,17 @@ namespace Z0
         /// <summary>
         /// The 0-based, declaration order of the field
         /// </summary>
-        public ushort FieldIndex {get;}
+        public readonly ushort FieldIndex;
 
         /// <summary>
         /// The defining field
         /// </summary>
-        public FieldInfo Definition {get;}
+        public readonly FieldInfo Definition;
 
         /// <summary>
         /// The external field name
         /// </summary>
-        public Name FieldName {get;}
+        public readonly Name FieldName;
 
         [MethodImpl(Inline)]
         public ClrTableField(ushort index, FieldInfo def)

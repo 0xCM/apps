@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-
     partial struct term
     {
         /// <summary>
@@ -105,6 +102,13 @@ namespace Z0
         public static void print<F>(FlairKind color, params F[] content)
             where F : ITextual
                 => T.WriteLines(color,content);
+
+        /// <summary>
+        /// Writes a contiguous sequence of flaired messages
+        /// </summary>
+        /// <param name="src">The message sequence</param>
+        public static void print(params (object content, FlairKind flair)[] src)
+            => T.Write(src);
 
         /// <summary>
         /// Prints a sequence of messages in an unbroken block

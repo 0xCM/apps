@@ -11,7 +11,8 @@ namespace Z0
             where T : struct
         {
             adapter.Source = src;
-            load(adapter.Fields.Storage, adapter.Index++, adapter.Source, ref adapter.Row);
+            adapter.Index++;
+            load(adapter.Source, ref adapter.Row);
             return ref adapter;
         }
     }

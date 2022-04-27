@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public readonly struct RecordType<T> : IRecordType<T>
         where T : struct
     {

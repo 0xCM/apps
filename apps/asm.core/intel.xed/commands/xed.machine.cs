@@ -10,7 +10,6 @@ namespace Z0
         Outcome RunMachine(CmdArgs args)
         {
             Wf.XedMachinHost().Run();
-
             return true;
         }
     }

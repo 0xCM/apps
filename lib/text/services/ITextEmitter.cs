@@ -102,6 +102,8 @@ namespace Z0
         Encoding Encoding
             => TextEncoding.Utf8;
 
+        string Peek() => EmptyString;
+
         void Close() => throw new NotSupportedException();
 
         void Flush() => throw new NotSupportedException();

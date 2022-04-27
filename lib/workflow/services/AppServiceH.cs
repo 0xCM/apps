@@ -61,6 +61,19 @@ namespace Z0
                 return (T)ServiceCache.GetOrAdd(typeof(T), key => factory());
         }
 
+        protected static T service<T>(Func<T> factory)
+        {
+            lock(ServiceLock)
+                return (T)ServiceCache.GetOrAdd(typeof(T), key => factory());
+        }
+
+        [MethodImpl(Inline)]
+        protected static D data<D>(string key, Func<D> factory)
+        {
+            lock(DataLock)
+                return (D)_Data.GetOrAdd(key, k => factory());
+        }
+
         public IWfRuntime Wf {get; private set;}
 
         protected WfHost Host {get; private set;}

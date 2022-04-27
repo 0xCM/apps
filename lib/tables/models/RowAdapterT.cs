@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using api = Tables;
 
     /// <summary>
@@ -18,7 +13,11 @@ namespace Z0
     public struct RowAdapter<T>
         where T : struct
     {
-        public ClrRecordFields Fields {get;}
+        public readonly ClrRecordFields Fields
+        {
+            [MethodImpl(Inline)]
+            get => Row.Fields;
+        }
 
         internal uint Index;
 
@@ -31,8 +30,7 @@ namespace Z0
         {
             Source = default;
             Index = 0;
-            Fields = fields;
-            Row = api.dynarow<T>(fields.Count);
+            Row = api.dynarow<T>(fields);
         }
 
         [MethodImpl(Inline)]

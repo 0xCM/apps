@@ -5,12 +5,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedCmdProvider
+    partial class XedDb
     {
-        [CmdOp("xed/emit/opcodes")]
-        Outcome XedGen(CmdArgs args)
+        public enum ObjectKind : byte
         {
-            return true;
+            None,
+
+            TypeTableField,
+
+            TypeTable,
+
+            DataType,
         }
     }
 }

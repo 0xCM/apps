@@ -37,7 +37,7 @@ namespace Z0
                 if(i != count - 1)
                     dst.Append(sep);
             }
-            return dst.ToString();
+            return dst.Emit();
         }
 
         public static string slots(char sep, params short[] pad)
@@ -50,7 +50,7 @@ namespace Z0
                 if(i != count - 1)
                     dst.Append(sep);
             }
-            return dst.ToString();
+            return dst.Emit();
         }
     }
 }

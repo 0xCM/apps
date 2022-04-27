@@ -10,8 +10,7 @@ namespace Z0
     /// Defines the content of a row
     /// </summary>
     /// <typeparam name="T">The record type</typeparam>
-    public struct DynamicRow<T>
-        where T : struct
+    public struct DynamicRow
     {
         /// <summary>
         /// The record fields
@@ -30,7 +29,8 @@ namespace Z0
             Cells = cells;
         }
 
-        public void Update(in T src)
+        public void Update<T>(in T src)
+            where T : struct
         {
             var tr = __makeref(edit(src));
             for(var i=0u; i<FieldCount; i++)
@@ -60,9 +60,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => ref seek(Cells,index);
         }
-
-        [MethodImpl(Inline)]
-        public static implicit operator DynamicRow(DynamicRow<T> src)
-            => new DynamicRow(src.Fields, src.Cells);
     }
 }

@@ -36,11 +36,19 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("xed/emit/cells")]
-        Outcome EmitRuleCells(CmdArgs args)
+        [CmdOp("xed/emit/tabledefs")]
+        Outcome EmitTableDefs(CmdArgs args)
         {
-            // var rules = CalcRules();
-            // Rules.EmitRecords(Rules.CalcRuleCells(rules));
+            var rules = CalcRules();
+            Rules.EmitTableDefs(rules);
+            return true;
+        }
+
+        [CmdOp("xed/emit/cells")]
+        Outcome EmitTableCells(CmdArgs args)
+        {
+            var rules = CalcRules();
+            Rules.EmitTableDefReport(rules);
             return true;
         }
 

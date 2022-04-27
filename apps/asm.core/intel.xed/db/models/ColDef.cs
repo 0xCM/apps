@@ -16,17 +16,24 @@ namespace Z0
 
             public readonly asci32 Name;
 
+            public readonly byte Width;
+
             [MethodImpl(Inline)]
-            public ColDef(ushort pos, ColKind type, asci32 name)
+            public ColDef(ushort pos, ColKind type, asci32 name, byte width)
             {
                 Pos = pos;
                 Type = type;
                 Name = name;
+                Width = width;
             }
 
             [MethodImpl(Inline)]
             public int CompareTo(ColDef src)
                 => Pos.CompareTo(src.Pos);
+
+            [MethodImpl(Inline)]
+            public ColDef Reposition(ushort pos)
+                => new ColDef(pos, Type, Name, Width);
         }
     }
 }
