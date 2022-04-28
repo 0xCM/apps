@@ -16,18 +16,19 @@ namespace Z0
             => Data =x;
 
         [MethodImpl(Inline)]
-        public bool Equals(D b)
-            => Data == b.Data;
-
-        [MethodImpl(Inline)]
         public int CompareTo(D src)
             => Data.CompareTo(src.Data);
 
         public override int GetHashCode()
             => Data.GetHashCode();
 
-        public override bool Equals(object b)
-            => Data.Equals(b);
+        [MethodImpl(Inline)]
+
+        public bool Equals(D b)
+            => Data == b.Data;
+
+        public override bool Equals(object src)
+            => src is D d && Equals(d);
 
         public override string ToString()
             => Data.ToString();

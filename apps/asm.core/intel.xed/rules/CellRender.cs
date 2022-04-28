@@ -88,21 +88,21 @@ namespace Z0
                     dst = string.Format("{0}{1}{2}", XedRender.format(src.Field), XedRender.format(src.Operator), value(src));
                 else if(src.IsOperator)
                     dst = XedRender.format(src.Operator);
-                else if(src.Class.IsBinLit)
+                else if(src.IsBinLit)
                 {
                     var result = LiteralBits.parse(src.Data, out var b);
                     if(result.Fail)
                         Errors.Throw(result.Message);
                     dst = b.Format();
                 }
-                else if(src.Class.IsHexLit)
+                else if(src.IsHexLit)
                 {
                     if(XedParsers.parse(src.Data, out Hex8 x))
                         dst = XedRender.format(x);
                     else
                         Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCellKind.HexLiteral), src.Data));
                 }
-                else if(src.Class.IsKeyword)
+                else if(src.IsKeyword)
                 {
                     if(XedParsers.parse(src.Data, out RuleKeyword kw))
                         dst = kw.Format();
@@ -190,7 +190,7 @@ namespace Z0
                 }
             }
 
-            public static string format(in CellType src)
+            public static string format(in CellTypeInfo src)
             {
                 var dst = XedRender.format(src.Class.Kind);
                 switch(src.Class.Kind)
@@ -199,7 +199,7 @@ namespace Z0
                     case CK.NeqExpr:
                     case CK.EqExpr:
                     case CK.NontermExpr:
-                        dst = string.Format("{0}:{1}", dst, src.DomainTypeName);
+                        dst = string.Format("{0}:{1}", dst, src.TypeName);
                     break;
                 }
                 return dst;

@@ -29,6 +29,49 @@ namespace Z0
         public static string format(BitfieldInterval src)
             => string.Format("[{0}:{1}]", src.Max, src.Min);
 
+        public static string format<F>(BitfieldInterval<F> src)
+            where F : unmanaged
+                => string.Format("{0}:[{1}:{2}]", src.Field, src.Max, src.Min);
+
+        public static string format(ReadOnlySpan<BitfieldInterval> src)
+        {
+            var dst = text.buffer();
+            var count = src.Length;
+            for(var i=count-1; i>= 0; i--)
+            {
+                if(i != count-1)
+                {
+                    dst.Append(Chars.Space);
+                    dst.Append(Chars.Pipe);
+                    dst.Append(Chars.Space);
+                }
+
+                dst.Append(format(skip(src,i)));
+
+            }
+            return dst.Emit();
+        }
+
+        public static string format<F>(ReadOnlySpan<BitfieldInterval<F>> src)
+            where F : unmanaged
+        {
+            var dst = text.buffer();
+            var count = src.Length;
+            for(var i=count-1; i>= 0; i--)
+            {
+                if(i != count-1)
+                {
+                    dst.Append(Chars.Space);
+                    dst.Append(Chars.Pipe);
+                    dst.Append(Chars.Space);
+                }
+
+                dst.Append(format(skip(src,i)));
+
+            }
+            return dst.Emit();
+        }
+
         [Op]
         public static string format(Bitfield8 src)
             => text.format(render(src));

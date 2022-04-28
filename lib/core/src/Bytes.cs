@@ -13,6 +13,81 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        [MethodImpl(Inline)]
+        public static ReadOnlySpan<byte> sequential(byte i0, byte i1)
+            => slice(B256x8u,i0, (byte)(i1 - i1 + 1));
+
+        [MethodImpl(Inline)]
+        public static ReadOnlySpan<T> sequential<T>(byte i0, byte i1)
+            where T : unmanaged
+                => recover<T>(slice(B256x8u,i0, (byte)(i1 - i1 + 1)));
+
+        /// <summary>
+        /// Converts an input sequence to a <see cref='uint'/>
+        /// </summary>
+        /// <param name="src">The data source</param>
+        /// <param name="w">The target width</param>
+        [MethodImpl(Inline), Op]
+        public static ref ushort convert(ReadOnlySpan<byte> src, out ushort dst)
+        {
+            var n = src.Length;
+            if(n >= 2)
+                dst = @as<ushort>(src);
+            else
+            {
+                dst = 0;
+                ref var b = ref @as<byte>(dst);
+                for(var i=0; i<n; i++)
+                    seek(b,i) = skip(src,i);
+            }
+
+            return ref dst;
+        }
+
+        /// <summary>
+        /// Converts an input sequence to a <see cref='uint'/>
+        /// </summary>
+        /// <param name="src">The data source</param>
+        /// <param name="w">The target width</param>
+        [MethodImpl(Inline), Op]
+        public static ref uint convert(ReadOnlySpan<byte> src, out uint dst)
+        {
+            var n = src.Length;
+            if(n >= 4)
+                dst = @as<uint>(src);
+            else
+            {
+                dst = 0;
+                ref var b = ref @as<byte>(dst);
+                for(var i=0; i<n; i++)
+                    seek(b,i) = skip(src,i);
+            }
+
+            return ref dst;
+        }
+
+        /// <summary>
+        /// Converts an input sequence to a <see cref='ulong'/>
+        /// </summary>
+        /// <param name="src">The data source</param>
+        /// <param name="w">The target width</param>
+        [MethodImpl(Inline), Op]
+        public static ref ulong convert(ReadOnlySpan<byte> src, out ulong dst)
+        {
+            var n = src.Length;
+            if(n >= 8)
+                dst = @as<ulong>(src);
+            else
+            {
+                dst = 0;
+                ref var b = ref @as<byte>(dst);
+                for(var i=0; i<n; i++)
+                    seek(b,i) = skip(src,i);
+            }
+
+            return ref dst;
+        }
+
         [MethodImpl(Inline), Op]
         public static uint copy(ReadOnlySpan<byte> src, ref byte dst)
         {
@@ -159,7 +234,7 @@ namespace Z0
         /// <param name="src">The data source</param>
         /// <param name="w">The target width</param>
         [MethodImpl(Inline), Op]
-        public static uint convert(ReadOnlySpan<byte> src, W16 w)
+        public static ushort convert(ReadOnlySpan<byte> src, W16 w)
         {
             var n = max(src.Length, 2);
             var dst = z16;

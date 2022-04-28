@@ -218,7 +218,7 @@ namespace Z0
                 }
 
                 if(state.ELEMENT_SIZE != 0)
-                    writer.AppendLineFormat(RenderPattern, "VexSize", string.Format("{0}x{1}", XedRender.format(XedState.vl(state)), state.ELEMENT_SIZE));
+                    writer.AppendLineFormat(RenderPattern, "VexSize", string.Format("{0}x{1}", XedRender.format(XedState.vl(state)), XedRender.format(state.ELEMENT_SIZE)));
 
                 if(state.NELEM != 0)
                     writer.AppendLineFormat(RenderPattern, nameof(state.NELEM), state.NELEM);

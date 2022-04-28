@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct PairMap<I,K>
+    public class PairMap<I,K>
     {
         public readonly Pairings<I,K> Left;
 

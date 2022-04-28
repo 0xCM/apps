@@ -7,13 +7,13 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [DataWidth(8)]
-        public readonly record struct Category
+        [DataWidth(7)]
+        public readonly record struct InstCategory
         {
             public readonly CategoryKind Kind;
 
             [MethodImpl(Inline)]
-            public Category(CategoryKind src)
+            public InstCategory(CategoryKind src)
             {
                 Kind = src;
             }
@@ -25,14 +25,14 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator Category(CategoryKind src)
-                => new Category(src);
+            public static implicit operator InstCategory(CategoryKind src)
+                => new InstCategory(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator CategoryKind(Category src)
+            public static implicit operator CategoryKind(InstCategory src)
                 => src.Kind;
 
-            public static Category Empty => default;
+            public static InstCategory Empty => default;
         }
     }
 }

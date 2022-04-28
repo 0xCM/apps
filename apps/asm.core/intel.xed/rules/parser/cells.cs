@@ -38,10 +38,10 @@ namespace Z0
                             ref readonly var info = ref cells[k];
                             ref readonly var data = ref info.Data;
                             ref readonly var logic = ref info.Logic;
-                            var key = new CellKey(lix++, tid, rix, k, logic, info.Class, sig.TableKind, sig.TableName, info.Field);
+                            var key = new CellKey(lix++, tid, rix, k, logic, info.Kind, sig.TableKind, sig.TableName, info.Field);
                             var result = false;
                             var field = InstField.Empty;
-                            switch(info.Class.Kind)
+                            switch(info.Kind)
                             {
                                 case CK.BitLiteral:
                                 {
@@ -120,17 +120,17 @@ namespace Z0
                                 break;
 
                                 default:
-                                    Errors.Throw(AppMsg.UnhandledCase.Format(info.Class.Kind));
+                                    Errors.Throw(AppMsg.UnhandledCase.Format(info.Kind));
                                 break;
                             }
 
                             var kcell = RuleCell.Empty;
                             if(result)
                                 kcell = new (key,field);
-                            else if(info.Field == 0 && info.Class == RuleCellKind.Operator)
+                            else if(info.Field == 0 && info.Kind == RuleCellKind.Operator)
                                 kcell = new (key, new InstField(OperatorKind.Impl));
                             else
-                                Errors.Throw(info.Field.ToString() + ":="  + key.FormatSemantic() + $":{info.Class}" + "='" + data + "'");
+                                Errors.Throw(info.Field.ToString() + ":="  + key.FormatSemantic() + $":{info.Kind}" + "='" + data + "'");
 
                             emitter.AppendLineFormat(CellRender.SemanticRenderPattern, kcell.Key.Index, kcell.Key.Index, kcell.Key.FormatSemantic(), kcell.Format());
                             kcells.Add(kcell);

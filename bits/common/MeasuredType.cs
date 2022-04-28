@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public readonly struct MeasuredType : IComparable<MeasuredType>
     {
         public static Index<MeasuredType> symbolic(Assembly src, string group)

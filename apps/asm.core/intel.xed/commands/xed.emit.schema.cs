@@ -15,9 +15,6 @@ namespace Z0
         [CmdOp("xed/emit/schema")]
         Outcome EmitSchema(CmdArgs args)
         {
-            var formatter = Tables.formatter<TypeTable>();
-            Write(formatter.FormatHeader());
-
             var dst = text.emitter();
             var objects = XedDb.Schema.Objects;
             var render = XedDb.Render;

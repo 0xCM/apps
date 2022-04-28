@@ -25,7 +25,7 @@ namespace Z0
                 var forms = dict<uint,InstForm>();
                 var logdst = XedPaths.Service.Targets() + FS.file("xed.inst.patterns.log", FS.Csv);
                 var @class = InstClass.Empty;
-                var category = Category.Empty;
+                var category = InstCategory.Empty;
                 var isa = InstIsa.Empty;
                 var ext = Extension.Empty;
                 var attribs = InstAttribs.Empty;
@@ -62,7 +62,7 @@ namespace Z0
                                             attribs = XedPatterns.attributes(text.despace(value));
                                         break;
                                         case P.Category:
-                                            if(XedParsers.parse(text.despace(value), out Category _category))
+                                            if(XedParsers.parse(text.despace(value), out InstCategory _category))
                                                 category = _category;
                                         break;
                                         case P.Extension:
@@ -79,7 +79,7 @@ namespace Z0
                                                 if(_class != @class)
                                                 {
                                                     Require.nonzero(_class.Kind);
-                                                    category = Category.Empty;
+                                                    category = InstCategory.Empty;
                                                     isa = InstIsa.Empty;
                                                     ext = Extension.Empty;
                                                     attribs = InstAttribs.Empty;

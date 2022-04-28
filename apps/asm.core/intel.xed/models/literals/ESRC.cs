@@ -10,52 +10,52 @@ namespace Z0
         [SymSource(xed), DataWidth(3)]
         public enum ESRC : byte
         {
-            [Symbol("ESRC0", "ESRC=0")]
+            [Symbol("0", "ESRC=0")]
             ESRC0,
 
-            [Symbol("ESRC1","ESRC=1")]
+            [Symbol("1","ESRC=1")]
             ESRC1,
 
-            [Symbol("ESRC2","ESRC=2")]
+            [Symbol("2","ESRC=2")]
             ESRC2,
 
-            [Symbol("ESRC3","ESRC=3")]
+            [Symbol("3","ESRC=3")]
             ESRC3,
 
-            [Symbol("ESRC4","ESRC=4")]
+            [Symbol("4","ESRC=4")]
             ESRC4,
 
-            [Symbol("ESRC5","ESRC=5")]
+            [Symbol("5","ESRC=5")]
             ESRC5,
 
-            [Symbol("ESRC6","ESRC=6")]
+            [Symbol("6","ESRC=6")]
             ESRC6,
 
-            [Symbol("ESRC7","ESRC=7")]
+            [Symbol("7","ESRC=7")]
             ESRC7,
 
-            [Symbol("ESRC8","ESRC=8")]
+            [Symbol("8","ESRC=8")]
             ESRC8,
 
-            [Symbol("ESRC9","ESRC=9")]
+            [Symbol("9","ESRC=9")]
             ESRC9,
 
-            [Symbol("ESRC10","ESRC=10")]
+            [Symbol("10","ESRC=10")]
             ESRC10,
 
-            [Symbol("ESRC11","ESRC=11")]
+            [Symbol("11","ESRC=11")]
             ESRC11,
 
-            [Symbol("ESRC12","ESRC=12")]
+            [Symbol("12","ESRC=12")]
             ESRC12,
 
-            [Symbol("ESRC13","ESRC=13")]
+            [Symbol("13","ESRC=13")]
             ESRC13,
 
-            [Symbol("ESRC14","ESRC=14")]
+            [Symbol("14","ESRC=14")]
             ESRC14,
 
-            [Symbol("ESRC15","ESRC=15")]
+            [Symbol("15","ESRC=15")]
             ESRC15,
         }
     }

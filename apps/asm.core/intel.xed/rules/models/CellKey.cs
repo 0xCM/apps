@@ -21,7 +21,7 @@ namespace Z0
 
             public readonly FieldKind Field;
 
-            public readonly CellClass DataType;
+            public readonly RuleCellType DataType;
 
             public readonly RuleSig Rule;
 
@@ -32,7 +32,7 @@ namespace Z0
             readonly byte Pad2;
 
             [MethodImpl(Inline)]
-            public CellKey(ushort index, ushort table, ushort row, byte col, LogicClass logic, CellClass type, RuleTableKind kind, Nonterminal rule, FieldKind field)
+            public CellKey(ushort index, ushort table, ushort row, byte col, LogicClass logic, RuleCellType type, RuleTableKind kind, Nonterminal rule, FieldKind field)
             {
                 Index = index;
                 Table = table;

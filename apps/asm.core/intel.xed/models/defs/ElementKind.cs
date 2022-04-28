@@ -10,7 +10,7 @@ namespace Z0
         /// <summary>
         ///  all-element-types.txt
         /// </summary>
-        [SymSource(xed), DataWidth(8)]
+        [SymSource(xed), DataWidth(5)]
         public enum ElementKind : byte
         {
             INVALID = 0,

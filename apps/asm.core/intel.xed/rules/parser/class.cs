@@ -11,11 +11,11 @@ namespace Z0
     {
         partial struct CellParser
         {
-            static CellClass @class(FieldKind field, string data)
+            static RuleCellType @class(FieldKind field, string data)
             {
                 var result = false;
                 var input = CellParser.normalize(data);
-                var dst = CellClass.Empty;
+                var dst = RuleCellType.Empty;
                 var isNonTerm = text.contains(input, "()");
 
                 if(IsExpr(input))
@@ -58,7 +58,7 @@ namespace Z0
                         if(field != 0)
                             dst = CK.InstSeg;
                         else
-                            Errors.Throw(AppMsg.ParseFailure.Format(nameof(CellClass), input));
+                            Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCellType), input));
                     }
                     else if(XedParsers.parse(input, out RuleKeyword keyword))
                         dst = CK.Keyword;

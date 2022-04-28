@@ -10,12 +10,12 @@ namespace Z0
     partial class XedRules
     {
         [DataWidth(4,8)]
-        public readonly record struct CellClass : IComparable<CellClass>
+        public readonly record struct RuleCellType : IComparable<RuleCellType>
         {
             public readonly RuleCellKind Kind;
 
             [MethodImpl(Inline)]
-            public CellClass(RuleCellKind kind)
+            public RuleCellType(RuleCellKind kind)
             {
                 Kind = kind;
             }
@@ -51,7 +51,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public int CompareTo(CellClass src)
+            public int CompareTo(RuleCellType src)
                 => ((byte)Kind).CompareTo((byte)src.Kind);
 
             public string Format()
@@ -64,22 +64,22 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator CellClass(RuleCellKind src)
-                => new CellClass(src);
+            public static implicit operator RuleCellType(RuleCellKind src)
+                => new RuleCellType(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleCellKind(CellClass src)
+            public static implicit operator RuleCellKind(RuleCellType src)
                 => src.Kind;
 
             [MethodImpl(Inline)]
-            public static explicit operator byte(CellClass src)
+            public static explicit operator byte(RuleCellType src)
                 => (byte)src.Kind;
 
             [MethodImpl(Inline)]
-            public static explicit operator CellClass(byte src)
-                => new CellClass((RuleCellKind)src);
+            public static explicit operator RuleCellType(byte src)
+                => new RuleCellType((RuleCellKind)src);
 
-           public static CellClass Empty => default;
+            public static RuleCellType Empty => default;
         }
    }
 }

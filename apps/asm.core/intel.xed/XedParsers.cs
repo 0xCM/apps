@@ -28,6 +28,8 @@ namespace Z0
 
         static readonly EnumParser<ElementKind> ElementKinds = new();
 
+        static readonly EnumParser<ElementSize> ElementSizes = new();
+
         static readonly EnumParser<OpVisibility> OpVisKinds = new();
 
         static readonly EnumParser<VisibilityKind> VisKinds = new();
@@ -41,6 +43,8 @@ namespace Z0
         static readonly EnumParser<IClass> Classes = new();
 
         static readonly EnumParser<IFormType> Forms = new();
+
+        static readonly EnumParser<DispWidth> DispWidths = new();
 
         static readonly EnumParser<ExtensionKind> ExtensionKinds = new();
 
@@ -188,6 +192,9 @@ namespace Z0
         public static bool parse(string src, out ChipCode dst)
             => ChipCodes.Parse(src, out dst);
 
+        public static bool parse(string src, out ElementSize dst)
+            => ElementSizes.Parse(src, out dst);
+
         public static bool parse(string src, out Disp64 dst)
             => Disp64.parse(src, out dst);
 
@@ -196,6 +203,9 @@ namespace Z0
 
         public static bool parse(string src, out VexKind dst)
             => VexKinds.Parse(src, out dst);
+
+        public static bool parse(string src, out DispWidth dst)
+            => DispWidths.Parse(src, out dst);
 
         public static bool parse(string src, out EASZ dst)
             => EaszKinds.Parse(src, out dst);
@@ -399,7 +409,7 @@ namespace Z0
         public static bool parse(string src, out VexClass dst)
             => VexClasses.Parse(src, out dst);
 
-        public static bool parse(string src, out Category dst)
+        public static bool parse(string src, out InstCategory dst)
         {
             if(parse(src, out CategoryKind kind))
             {

@@ -7,12 +7,12 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct CellTypes : IIndex<CellType>
+        public readonly struct CellTypes : IIndex<CellTypeInfo>
         {
-            readonly Index<CellType> Data;
+            readonly Index<CellTypeInfo> Data;
 
             [MethodImpl(Inline)]
-            public CellTypes(CellType[] src)
+            public CellTypes(CellTypeInfo[] src)
             {
                 Data = src;
             }
@@ -23,30 +23,30 @@ namespace Z0
                 get => Data.Count;
             }
 
-            public ref CellType this[int i]
+            public ref CellTypeInfo this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
             }
 
-            public ref CellType this[uint i]
+            public ref CellTypeInfo this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
             }
 
-            public CellType[] Storage
+            public CellTypeInfo[] Storage
             {
                 [MethodImpl(Inline)]
                 get => Data.Storage;
             }
 
             [MethodImpl(Inline)]
-            public static implicit operator CellTypes(CellType[] src)
+            public static implicit operator CellTypes(CellTypeInfo[] src)
                 => new CellTypes(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator CellType[](CellTypes src)
+            public static implicit operator CellTypeInfo[](CellTypes src)
                 => src.Data;
         }
     }

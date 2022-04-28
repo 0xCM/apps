@@ -7,20 +7,20 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed), DataWidth(2,8)]
+        [SymSource(xed), DataWidth(2)]
         public enum ASZ : byte
         {
-            [Symbol("")]
+            [Symbol("0")]
             None = 0,
 
             [Symbol("a16")]
-            a16 = NativeSizeCode.W16,
+            a16 = 1,
 
             [Symbol("a32")]
-            a32 = NativeSizeCode.W32,
+            a32 = 2,
 
             [Symbol("a64")]
-            a64 = NativeSizeCode.W64,
+            a64 = 3,
         }
     }
 }

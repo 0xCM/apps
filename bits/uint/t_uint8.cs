@@ -4,13 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class t_uint8 : t_numeric<t_uint8>
+    public sealed class t_uint8 : UnitTest<t_uint8>
     {
-        protected override int CycleCount => (int)Pow2.T24;
+        static new readonly IPolyrand Random = Rng.wyhash64(PolySeed64.Seed00);
 
-        public void bv8_ops_check()
+        const uint Reps = Pow2.T16;
+
+        static new ICheckNumeric Claim => NumericClaims.Checker;
+
+        public static void bv8_ops_check()
         {
-            for(var i=0; i<RepCount; i++)
+            for(var i=0; i<Reps; i++)
             {
                 var a = Random.Next<byte>();
                 var b = Random.Next<byte>();

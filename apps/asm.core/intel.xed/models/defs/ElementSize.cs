@@ -5,18 +5,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-
-    partial class XedGrids
+    partial struct XedModels
     {
-        public class LogicGrid
+        [SymSource(xed), DataWidth(3)]
+        public enum ElementSize : byte
         {
-            public readonly RuleSig Rule;
+            [Symbol("0")]
+            None = 0,
 
-            public LogicGrid(RuleSig rule)
-            {
-                Rule = rule;
-            }
+            [Symbol("8")]
+            W8 = 1,
+
+            [Symbol("16")]
+            W16 = 2,
+
+            [Symbol("32")]
+            W32 = 3,
+
+            [Symbol("64")]
+            W64 = 4,
         }
     }
 }

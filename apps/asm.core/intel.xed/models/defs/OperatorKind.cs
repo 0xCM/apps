@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        [SymSource(xed), DataWidth(4,8)]
+        [SymSource(xed), DataWidth(3,8)]
         public enum OperatorKind : byte
         {
             [Symbol("")]

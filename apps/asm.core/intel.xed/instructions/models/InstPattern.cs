@@ -124,7 +124,7 @@ namespace Z0
                 get => ref Spec.Isa;
             }
 
-            public ref readonly Category Category
+            public ref readonly InstCategory Category
             {
                 [MethodImpl(Inline)]
                 get => ref Spec.Category;

@@ -66,24 +66,6 @@ namespace Z0
             return true;
         }
 
-        static void render(in CellType type, uint i, LogicKind lk, ITextEmitter dst)
-        {
-            dst.AppendLine(string.Format("{0,-3} | {1,-16} | {2,-8} | {3,-12} | {4,-4} | {5}",
-                i,
-                (char)lk,
-                type.Kind,
-                type.DomainTypeName,
-                type.EffectiveWidth,
-                XedRender.format(type.Field))
-                );
-        }
-
-        static void render(Index<CellType> src, LogicKind lk, ITextEmitter dst)
-        {
-            for(var i=0u; i<src.Count; i++)
-                render(src[i],i,lk,dst);
-        }
-
         static byte _format(InstPattern pattern, Span<string> dst)
         {
             ref readonly var ops = ref pattern.Ops;

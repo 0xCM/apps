@@ -11,41 +11,39 @@ namespace Z0
     {
         public void EmitFieldSpecs()
         {
-            var cols = new TableColumns(
-                ("Index", 8),
-                ("Pos", 8),
-                ("Kind", 22),
-                ("Offset", 8),
-                ("Size", 8),
-                ("DataType", 16),
-                ("EffectiveType", 16)
-                );
-            var dst = text.buffer();
-            var buffer = cols.Buffer();
-            buffer.EmitHeader(dst);
+            // var cols = new TableColumns(
+            //     ("Index", 8),
+            //     ("Pos", 8),
+            //     ("Kind", 22),
+            //     ("Offset", 8),
+            //     ("Size", 8),
+            //     ("TypeName", 16)
+            //     );
+            // var dst = text.buffer();
+            // var buffer = cols.Buffer();
+            // buffer.EmitHeader(dst);
 
-            ref readonly var specs = ref XedFields.ByIndex;
-            var offset = 0u;
-            for(var i=0; i<specs.Count; i++)
-            {
-                if(i==0)
-                    continue;
+            // ref readonly var specs = ref XedFields.ByIndex;
+            // var offset = 0u;
+            // for(var i=0; i<specs.Count; i++)
+            // {
+            //     if(i==0)
+            //         continue;
 
-                ref readonly var spec = ref specs[i];
+            //     ref readonly var spec = ref specs[i];
 
-                buffer.Write(i);
-                buffer.Write(spec.Pos);
-                buffer.Write(spec.Field);
-                buffer.Write(offset);
-                buffer.Write(spec.FieldSize.DataSize);
-                buffer.Write(spec.DataType);
-                buffer.Write(spec.DomainType);
-                buffer.EmitLine(dst);
+            //     buffer.Write(i);
+            //     buffer.Write(spec.Pos);
+            //     buffer.Write(spec.Field);
+            //     buffer.Write(offset);
+            //     buffer.Write(spec.Size);
+            //     buffer.Write(spec.Name);
+            //     buffer.EmitLine(dst);
 
-                offset += (spec.FieldSize.DataSize);
-            }
+            //     offset += ((uint)spec.Size.Packed);
+            // }
 
-            FileEmit(dst.Emit(), specs.Count, XedPaths.Targets() + FS.file("xed.fields.indexed", FS.Csv), TextEncodingKind.Asci);
+            // FileEmit(dst.Emit(), specs.Count, XedPaths.Targets() + FS.file("xed.fields.indexed", FS.Csv), TextEncodingKind.Asci);
         }
     }
 }

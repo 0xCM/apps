@@ -29,7 +29,7 @@ namespace Z0
 
             public static Index<GridField> fields(CellRow src)
                 => src.Cells.Storage.Where(x => x.Field != 0).Mapi((i,f)
-                    => new GridField(src.TableIndex, src.RowIndex, (byte)i, f.Field, (byte)XedFields.field(f.Field).FieldSize.DomainWidth));
+                    => new GridField(src.TableIndex, src.RowIndex, (byte)i, f.Field, (byte)XedFields.field(f.Field).PackedWidth.Packed));
 
             public readonly RuleSig Sig;
 

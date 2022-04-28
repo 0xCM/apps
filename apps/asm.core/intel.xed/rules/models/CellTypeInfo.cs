@@ -8,36 +8,30 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct CellType : IEquatable<CellType>, IComparable<CellType>
+        public readonly record struct CellTypeInfo : IEquatable<CellTypeInfo>, IComparable<CellTypeInfo>
         {
             [MethodImpl(Inline)]
-            public static CellType @operator(RuleOperator op)
-                => new CellType(0, RuleCellKind.Operator, op, asci16.Null, asci16.Null,0, 0);
+            public static CellTypeInfo @operator(RuleOperator op)
+                => new CellTypeInfo(0, RuleCellKind.Operator, op, asci16.Null,default(DataSize));
 
             public readonly FieldKind Field;
 
-            public readonly CellClass Class;
+            public readonly RuleCellType Class;
 
             public readonly RuleOperator Operator;
 
-            public readonly asci16 DataKindName;
+            public readonly asci16 TypeName;
 
-            public readonly asci16 DomainTypeName;
-
-            public readonly byte DataWidth;
-
-            public readonly byte EffectiveWidth;
+            public readonly DataSize Size;
 
             [MethodImpl(Inline)]
-            public CellType(FieldKind field, CellClass @class, RuleOperator op, asci16 data, asci16 domain, byte wData, byte wDomain)
+            public CellTypeInfo(FieldKind field, RuleCellType @class, RuleOperator op, asci16 type, DataSize size)
             {
                 Field = field;
                 Class = @class;
                 Operator = op;
-                DataKindName = data;
-                DataWidth = wData;
-                DomainTypeName = domain;
-                EffectiveWidth = wDomain;
+                Size = size;
+                TypeName = type;
             }
 
             public bool IsNonEmpty
@@ -52,19 +46,13 @@ namespace Z0
                 get => Class.IsEmpty;
             }
 
-            public CellTypeKind Kind
-            {
-                [MethodImpl(Inline)]
-                get => new (Class,Operator);
-            }
-
             public string Format()
                 => CellRender.format(this);
 
             public override string ToString()
                 => Format();
 
-            public int CompareTo(CellType src)
+            public int CompareTo(CellTypeInfo src)
             {
                 var result = Class.CompareTo(src.Class);
                 if(result == 0)
@@ -76,8 +64,8 @@ namespace Z0
                 return result;
             }
 
-            public static CellType Empty
-                => new CellType(FieldKind.INVALID, CellClass.Empty, RuleOperator.None, asci16.Null,asci16.Null, 0,0);
+            public static CellTypeInfo Empty
+                => new CellTypeInfo(FieldKind.INVALID, RuleCellType.Empty, RuleOperator.None, asci16.Null, default(DataSize));
         }
     }
 }

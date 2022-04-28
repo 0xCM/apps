@@ -10,9 +10,9 @@ namespace Z0
         [Record(TableName), StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct ReflectedField : IComparable<ReflectedField>
         {
-            public const string TableName = "xed.fields";
+            public const string TableName = "xed.fields.positioned";
 
-            public const byte FieldCount = 8;
+            public const byte FieldCount = 9;
 
             public byte Pos;
 
@@ -20,13 +20,15 @@ namespace Z0
 
             public FieldKind Field;
 
-            public FieldSize FieldSize;
+            public asci16 DataType;
 
-            public FieldSize TotalSize;
+            public Aligned NativeWidth;
 
-            public FieldTypeName DataType;
+            public ushort NativeOffset;
 
-            public FieldTypeName DomainType;
+            public DataSize PackedWidth;
+
+            public ushort PackedOffset;
 
             public TextBlock Description;
 
@@ -36,7 +38,7 @@ namespace Z0
 
             public static ReflectedField Empty => default;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,24,20,20,16,16,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,24,16,12,12,12,12,1};
         }
     }
 }

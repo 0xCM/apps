@@ -10,16 +10,16 @@ namespace Z0
         [SymSource(xed), DataWidth(2)]
         public enum LLRC : byte
         {
-            [Symbol("LLRC0", "LLRC=0")]
+            [Symbol("0", "LLRC=0")]
             LLRC0=0,
 
-            [Symbol("LLRC1", "LLRC=1")]
+            [Symbol("1", "LLRC=1")]
             LLRC1=1,
 
-            [Symbol("LLRC2", "LLRC=2")]
+            [Symbol("2", "LLRC=2")]
             LLRC2=2,
 
-            [Symbol("LLRC3", "LLRC=3")]
+            [Symbol("3", "LLRC=3")]
             LLRC3=3
         }
     }

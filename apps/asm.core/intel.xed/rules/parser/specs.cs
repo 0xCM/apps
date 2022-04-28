@@ -35,7 +35,7 @@ namespace Z0
                         var m=z8;
                         for(var k=0; k<left.Count; k++,m++)
                         {
-                            seek(keys,m) = new CellKey(seq++, tix, rix, m, LogicKind.Antecedant, left[k].Class, tk, sig.TableName, left[k].Field);
+                            seek(keys,m) = new CellKey(seq++, tix, rix, m, LogicKind.Antecedant, left[k].Kind, tk, sig.TableName, left[k].Field);
                             seek(cells, m) = left[k];
                         }
 
@@ -47,7 +47,7 @@ namespace Z0
 
                         for(var k=0; k<right.Count; k++,m++)
                         {
-                            seek(keys,m) = new CellKey(seq++, tix, rix, m, LogicKind.Consequent, right[k].Class, tk, sig.TableName, right[k].Field);
+                            seek(keys,m) = new CellKey(seq++, tix, rix, m, LogicKind.Consequent, right[k].Kind, tk, sig.TableName, right[k].Field);
                             seek(cells, m) = right[k];
                         }
                         seek(rows,j) = new RowSpec(sig, tix, rix, keys, cells);

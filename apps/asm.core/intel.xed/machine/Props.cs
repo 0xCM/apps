@@ -68,9 +68,9 @@ namespace Z0
         }
 
         /// <summary>
-        /// Specifies the <see cref='M.Category'/> of the current <see cref='P'/>
+        /// Specifies the <see cref='M.InstCategory'/> of the current <see cref='P'/>
         /// </summary>
-        public ref readonly Category Category
+        public ref readonly InstCategory Category
         {
             [MethodImpl(Inline)]
             get => ref Pattern.Category;

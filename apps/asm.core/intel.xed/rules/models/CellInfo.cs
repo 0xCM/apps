@@ -5,18 +5,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using CK = XedRules.RuleCellKind;
+
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct CellInfo
         {
-            public readonly CellType Type;
+            public readonly CellTypeInfo Type;
 
             public readonly LogicClass Logic;
 
             public readonly string Data;
 
-            public CellInfo(in CellType type, LogicClass logic, string data)
+            public CellInfo(in CellTypeInfo type, LogicClass logic, string data)
             {
                 Type = type;
                 Data = text.ifempty(data, EmptyString);
@@ -26,15 +28,33 @@ namespace Z0
             [MethodImpl(Inline)]
             public CellInfo(RuleOperator op)
             {
-                Type = CellType.@operator(op);
+                Type = CellTypeInfo.@operator(op);
                 Data = EmptyString;
                 Logic = LogicKind.Operator;
             }
 
-            public CellClass Class
+            public RuleCellKind Kind
             {
                 [MethodImpl(Inline)]
-                get => Type.Class;
+                get => Type.Class.Kind;
+            }
+
+            public bool IsKeyword
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.Keyword;
+            }
+
+            public bool IsBinLit
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.BitLiteral;
+            }
+
+            public bool IsHexLit
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.HexLiteral;
             }
 
             public readonly FieldKind Field

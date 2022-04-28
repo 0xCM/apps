@@ -9,7 +9,7 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline)]
-        public static CellInfo cellinfo(in CellType type, LogicClass logic, string data)
+        public static CellInfo cellinfo(in CellTypeInfo type, LogicClass logic, string data)
             => new CellInfo(type, logic, data);
 
         [MethodImpl(Inline)]

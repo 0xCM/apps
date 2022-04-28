@@ -28,7 +28,7 @@ namespace Z0
 
             public byte Index;
 
-            public CellClass FieldClass;
+            public RuleCellType FieldClass;
 
             public EmptyZero<FieldKind> FieldKind;
 

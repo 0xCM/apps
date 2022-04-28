@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed), DataWidth(8)]
+        [SymSource(xed), DataWidth(7)]
         public enum CategoryKind : byte
         {
             INVALID,

@@ -18,7 +18,7 @@ namespace Z0
 
             public InstIsa Isa;
 
-            public Category Category;
+            public InstCategory Category;
 
             public Extension Extension;
 

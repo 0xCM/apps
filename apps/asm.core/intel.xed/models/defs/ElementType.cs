@@ -9,7 +9,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        [DataWidth(8)]
+        [DataWidth(5)]
         public readonly record struct ElementType : IComparable<ElementType>
         {
             public readonly ElementKind Kind;

@@ -8,7 +8,7 @@ namespace Z0
     using static XedModels;
 
     using K = XedRules.FieldKind;
-    using X = XedModels;
+    using M = XedModels;
 
     partial class XedRules
     {
@@ -173,22 +173,22 @@ namespace Z0
             [RuleField(K.DISP, 1, typeof(bit))]
             public bit DISP;
 
-            [RuleField(K.MODE, 2, typeof(X.MachineMode), "Specifies one of {Mode16,Mode32,Mode64,Not64} if applicable")]
+            [RuleField(K.MODE, 2, typeof(M.MachineMode), "Specifies one of {Mode16,Mode32,Mode64,Not64} if applicable")]
             public byte MODE;
 
-            [RuleField(K.SMODE, 2, typeof(X.SMode), "Specifies one of {SMode16,SMode32,SMode64} if applicable")]
+            [RuleField(K.SMODE, 2, typeof(M.SMode), "Specifies one of {SMode16,SMode32,SMode64} if applicable")]
             public byte SMODE;
 
-            [RuleField(K.EASZ, 3, typeof(X.EASZ), "Specifies one of {EASZ16,EASZ32,EASZ64,EASZNot16} if applicable")]
+            [RuleField(K.EASZ, 3, typeof(M.EASZ), "Specifies one of {EASZ16,EASZ32,EASZ64,EASZNot16} if applicable")]
             public byte EASZ;
 
-            [RuleField(K.EOSZ, 3, typeof(X.EOSZ), "Specifies one of {EOSZ8,EOSZ16,EOSZ32,EOSZ64,EASZNot64} if applicable")]
+            [RuleField(K.EOSZ, 3, typeof(M.EOSZ), "Specifies one of {EOSZ8,EOSZ16,EOSZ32,EOSZ64,EASZNot64} if applicable")]
             public byte EOSZ;
 
-            [RuleField(K.NEED_MEMDISP, 8, typeof(byte))]
+            [RuleField(K.NEED_MEMDISP, 3, typeof(M.DispWidth))]
             public byte NEED_MEMDISP;
 
-            [RuleField(K.NOMINAL_OPCODE, 8, typeof(byte), "Specifies the nominal opcode value")]
+            [RuleField(K.NOMINAL_OPCODE, 8, typeof(Hex8), "Specifies the nominal opcode value")]
             public byte NOMINAL_OPCODE;
 
             [RuleField(K.NPREFIXES, 3, typeof(byte))]
@@ -200,10 +200,10 @@ namespace Z0
             [RuleField(K.NSEG_PREFIXES, 3, typeof(byte))]
             public byte NSEG_PREFIXES;
 
-            [RuleField(K.SEG_OVD, 3, typeof(SegPrefixKind), "Defines the value of the seg override prefix, if any")]
+            [RuleField(K.SEG_OVD, 3, typeof(M.SegPrefixKind), "Defines the value of the seg override prefix, if any")]
             public byte SEG_OVD;
 
-            [RuleField(K.HINT, 3, typeof(HintKind))]
+            [RuleField(K.HINT, 3, typeof(M.HintKind))]
             public byte HINT;
 
             [RuleField(K.SCALE, 4, typeof(MemoryScale), "Specifies the scaling factor applied to an index register, if applicable")]
@@ -248,7 +248,7 @@ namespace Z0
             [RuleField(K.MAP, 4, typeof(byte))]
             public byte MAP;
 
-            [RuleField(K.BRDISP_WIDTH, 8, typeof(BrDispWidth), "Specifies the bit-width of a branch displacement, if applicable")]
+            [RuleField(K.BRDISP_WIDTH, 3, typeof(M.DispWidth), "Specifies the bit-width of a branch displacement, if applicable")]
             public byte BRDISP_WIDTH;
 
             [RuleField(K.ILD_SEG, 8, typeof(byte))]
@@ -260,11 +260,11 @@ namespace Z0
             [RuleField(K.NELEM, 4, typeof(byte))]
             public byte NELEM;
 
-            [RuleField(K.ELEMENT_SIZE, 16, typeof(ushort))]
+            [RuleField(K.ELEMENT_SIZE, 3, typeof(M.ElementSize))]
             public ushort ELEMENT_SIZE;
 
-            [RuleField(K.MEM_WIDTH, 16, typeof(ushort))]
-            public ushort MEM_WIDTH;
+            [RuleField(K.MEM_WIDTH, 7, typeof(byte), "The size of referenced memory, in bytes")]
+            public byte MEM_WIDTH;
 
             [RuleField(K.DISP_WIDTH, 8, typeof(byte))]
             public byte DISP_WIDTH;
@@ -338,64 +338,64 @@ namespace Z0
             [RuleField(K.VL, 3, typeof(VexLength), "Specifies one of {V128,V256,V512}, if applicable")]
             public byte VL;
 
-            [RuleField(K.BCAST,5, typeof(X.BCastKind))]
+            [RuleField(K.BCAST,5, typeof(M.BCastKind))]
             public byte BCAST;
 
-            [RuleField(K.ERROR, 1, typeof(X.ErrorKind))]
+            [RuleField(K.ERROR, 1, typeof(M.ErrorKind))]
             public ErrorKind ERROR;
 
-            [RuleField(K.ICLASS, 16, typeof(IClass))]
+            [RuleField(K.ICLASS, 16, typeof(M.IClass))]
             public IClass ICLASS;
 
-            [RuleField(K.CHIP, 8, typeof(ChipCode))]
+            [RuleField(K.CHIP, 8, typeof(M.ChipCode))]
             public ChipCode CHIP;
 
-            [RuleField(K.REG0, 16, typeof(XedRegId), "Specifies the value of a first register operand, if applicable")]
+            [RuleField(K.REG0, 9, typeof(XedRegId), "Specifies the value of a first register operand, if applicable")]
             public XedRegId REG0;
 
-            [RuleField(K.REG1, 16, typeof(XedRegId), "Specifies the value of a second register operand, if applicable")]
+            [RuleField(K.REG1, 9, typeof(XedRegId), "Specifies the value of a second register operand, if applicable")]
             public XedRegId REG1;
 
-            [RuleField(K.REG2, 16, typeof(XedRegId), "Specifies the value of a third register operand, if applicable")]
+            [RuleField(K.REG2, 9, typeof(XedRegId), "Specifies the value of a third register operand, if applicable")]
             public XedRegId REG2;
 
-            [RuleField(K.REG3, 16, typeof(XedRegId), "Specifies the value of a fourth register operand, if applicable")]
+            [RuleField(K.REG3, 9, typeof(XedRegId), "Specifies the value of a fourth register operand, if applicable")]
             public XedRegId REG3;
 
-            [RuleField(K.REG4, 16, typeof(XedRegId), "Specifies the value of a fifth register operand, if applicable")]
+            [RuleField(K.REG4, 9, typeof(XedRegId), "Specifies the value of a fifth register operand, if applicable")]
             public XedRegId REG4;
 
-            [RuleField(K.REG5, 16, typeof(XedRegId), "Specifies the value of a sixth register operand, if applicable")]
+            [RuleField(K.REG5, 9, typeof(XedRegId), "Specifies the value of a sixth register operand, if applicable")]
             public XedRegId REG5;
 
-            [RuleField(K.REG6, 16, typeof(XedRegId), "Specifies the value of a seventh register operand, if applicable")]
+            [RuleField(K.REG6, 9, typeof(XedRegId), "Specifies the value of a seventh register operand, if applicable")]
             public XedRegId REG6;
 
-            [RuleField(K.REG7, 16, typeof(XedRegId), "Specifies the value of an eighth register operand, if applicable")]
+            [RuleField(K.REG7, 9, typeof(XedRegId), "Specifies the value of an eighth register operand, if applicable")]
             public XedRegId REG7;
 
-            [RuleField(K.REG8, 16, typeof(XedRegId), "Specifies the value of a ningth register operand, if applicable")]
+            [RuleField(K.REG8, 9, typeof(XedRegId), "Specifies the value of a ningth register operand, if applicable")]
             public XedRegId REG8;
 
-            [RuleField(K.REG9, 16, typeof(XedRegId), "Specifies the value of a tenth register operand, if applicable")]
+            [RuleField(K.REG9, 9, typeof(XedRegId), "Specifies the value of a tenth register operand, if applicable")]
             public XedRegId REG9;
 
-            [RuleField(K.BASE0, 16, typeof(XedRegId))]
+            [RuleField(K.BASE0, 9, typeof(XedRegId))]
             public XedRegId BASE0;
 
-            [RuleField(K.BASE1, 16, typeof(XedRegId))]
+            [RuleField(K.BASE1, 9, typeof(XedRegId))]
             public XedRegId BASE1;
 
-            [RuleField(K.INDEX, 16, typeof(XedRegId), "Specifies an index register, if applicable")]
+            [RuleField(K.INDEX, 9, typeof(XedRegId), "Specifies an index register, if applicable")]
             public XedRegId INDEX;
 
-            [RuleField(K.SEG0, 16, typeof(XedRegId))]
+            [RuleField(K.SEG0, 9, typeof(XedRegId))]
             public XedRegId SEG0;
 
-            [RuleField(K.SEG1, 16, typeof(XedRegId))]
+            [RuleField(K.SEG1, 9, typeof(XedRegId))]
             public XedRegId SEG1;
 
-            [RuleField(K.OUTREG, 16, typeof(XedRegId))]
+            [RuleField(K.OUTREG, 9, typeof(XedRegId))]
             public XedRegId OUTREG;
 
             public static OperandState Empty => default;

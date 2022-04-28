@@ -5,20 +5,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    partial struct XedModels
     {
-        [Flags]
-        public enum InstFieldClass : byte
+        [SymSource(xed), DataWidth(3)]
+        public enum DispWidth : byte
         {
-            None,
+            [Symbol("0")]
+            None = 0,
 
-            Literal = 1,
+            [Symbol("8")]
+            W8 = 1,
 
-            Nonterm = 2,
+            [Symbol("16")]
+            W16 = 2,
 
-            SegField = 4,
+            [Symbol("32")]
+            W32 = 3,
 
-            SegVar = 8,
+            [Symbol("64")]
+            W64 = 4,
         }
     }
 }

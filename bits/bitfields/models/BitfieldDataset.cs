@@ -4,74 +4,59 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = BitfieldDataset;
+    using api = BitfieldDatasets;
 
-    public class BitfieldDataset<F,T>
-        where F : unmanaged, Enum
-        where T : unmanaged
+    public class BitfieldDataset
     {
-        public readonly Index<F> Fields;
-
         public readonly byte FieldCount;
 
-        readonly Index<byte> Offsets;
+        public readonly Index<byte> Offsets;
 
-        readonly Index<ulong> Masks;
+        public readonly Index<byte> Widths;
 
-        readonly Index<byte> Widths;
+        public readonly BitfieldIntervals Intervals;
 
-        readonly Index<BitfieldInterval> Intervals;
+        public readonly string RenderPattern;
 
-        readonly string RenderPattern;
-
-        public BitfieldDataset(F[] fields, byte[] widths)
+        public BitfieldDataset(Index<byte> widths, char sep = Chars.Space)
         {
-            Fields = fields;
             Widths = widths;
-            FieldCount = (byte)Require.equal(fields.Length, widths.Length);
-            Offsets = api.offsets(this);
-            Masks = api.masks(this);
-            Intervals = api.intervals(this);
-            RenderPattern = api.rp(this);
+            FieldCount = (byte)Widths.Count;
+            Offsets = api.offsets(Widths);
+            Intervals = api.intervals(Offsets,Widths);
+            RenderPattern = api.bitrender(Widths, sep);
         }
 
         [MethodImpl(Inline)]
-        public byte Index(F field)
-            => core.bw8(field);
+        public ref readonly byte Width(byte index)
+            => ref Widths[index];
 
         [MethodImpl(Inline)]
-        public ref readonly F Field(byte index)
-            => ref Fields[index];
+        public ref readonly byte Offset(byte index)
+            => ref Offsets[index];
 
         [MethodImpl(Inline)]
-        public ref readonly byte Width(F field)
-            => ref Widths[Index(field)];
+        public ref readonly BitfieldInterval Interval(byte index)
+            => ref Intervals[index];
 
         [MethodImpl(Inline)]
-        public ref readonly byte Offset(F field)
-            => ref Offsets[Index(field)];
+        public T Extract<T>(byte index, T src)
+            where T : unmanaged
+                => Bitfields.extract(src, Offset(index), Width(index));
 
         [MethodImpl(Inline)]
-        public ref readonly ulong Mask(F field)
-            => ref Masks[Index(field)];
+        public Index<BitfieldCell<T>> Cells<T>(T src, Index<BitfieldCell<T>> dst)
+            where T : unmanaged
+                => api.cells(this, src, dst);
 
         [MethodImpl(Inline)]
-        public ref readonly BitfieldInterval Interval(F field)
-            => ref Intervals[Index(field)];
+        public Index<T> Masks<T>(Index<T> dst)
+            where T : unmanaged
+                => api.masks(this, dst);
 
         [MethodImpl(Inline)]
-        public T Extract(F field, T src)
-            => Bitfields.extract(this, field, src);
-
-        [MethodImpl(Inline)]
-        public Index<BitfieldCell<T>> Cells(T src)
-            => api.cells(this, src);
-
-        public Index<BitfieldCell<T>> CellBuffer()
-            => api.cells(this, default(T));
-
-        [MethodImpl(Inline)]
-        public void Cells(T src, Index<BitfieldCell<T>> dst)
-            => api.cells(this, src, dst);
+        public T Mask<T>(byte index)
+            where T : unmanaged
+                => api.mask<T>(Offset(index), Width(index));
     }
 }

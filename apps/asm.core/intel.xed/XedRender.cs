@@ -31,6 +31,10 @@ namespace Z0
 
         static EnumRender<ModeClass> ModeKinds = new();
 
+        static EnumRender<ElementSize> ElementSizes = new();
+
+        static EnumRender<DispWidth> DispWidthKinds = new();
+
         static EnumRender<VisibilityKind> VisKind = new();
 
         static EnumRender<VexClass> VexClasses = new();
@@ -101,7 +105,7 @@ namespace Z0
 
         static EnumRender<HintKind> HintKinds = new();
 
-        static EnumRender<InstFieldClass> InstFieldClasses = new();
+        static EnumRender<ESRC> EsrcKinds = new();
 
         static Index<Asm.BroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
 
@@ -155,6 +159,9 @@ namespace Z0
         public static string format(byte src)
             => src.ToString();
 
+        public static string format(ushort src)
+            => src.ToString();
+
         public static string format(FlagEffectKind src)
             => FlagEffects.Format(src);
 
@@ -163,6 +170,9 @@ namespace Z0
 
         public static string format(IsaKind src)
             => src == 0 ? EmptyString : IsaKinds.Format(src);
+
+        public static string format(ESRC src)
+            => EsrcKinds.Format(src);
 
         public static string format(ExtensionKind src)
             => src == 0 ? EmptyString : ExtensionKinds.Format(src);
@@ -206,14 +216,17 @@ namespace Z0
         public static string format(VexLength src, FormatCode fc = FormatCode.Expr)
             => fc == FormatCode.BitWidth ? XedPatterns.bitwidth(src).ToString() : format(VexLengthKinds,src,fc);
 
-        public static string format(InstFieldClass src)
-            => InstFieldClasses.Format(src);
-
         public static string format(ASZ src)
             => AszKinds.Format(src);
 
+        public static string format(ElementSize src)
+            => ElementSizes.Format(src);
+
         public static string format(OSZ src)
             => OszKinds.Format(src);
+
+        public static string format(DispWidth src)
+            => DispWidthKinds.Format(src);
 
         public static string format(RuleName src)
             => RuleNames.Format(src);

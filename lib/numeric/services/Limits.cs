@@ -235,6 +235,31 @@ namespace Z0
         public const Limits10u Max10u = Limits10u.Max;
 
         /// <summary>
+        /// The maximum representable uint11 value
+        /// </summary>
+        public const Limits11u Max11u = Limits11u.Max;
+
+        /// <summary>
+        /// The maximum representable uint12 value
+        /// </summary>
+        public const Limits12u Max12u = Limits12u.Max;
+
+        /// <summary>
+        /// The maximum representable uint13 value
+        /// </summary>
+        public const Limits13u Max13u = Limits13u.Max;
+
+        /// <summary>
+        /// The maximum representable uint14 value
+        /// </summary>
+        public const Limits14u Max14u = Limits14u.Max;
+
+        /// <summary>
+        /// The maximum representable uint15 value
+        /// </summary>
+        public const Limits15u Max15u = Limits15u.Max;
+
+        /// <summary>
         /// The minimum representable <see cref='short'/> value
         /// </summary>
         public const Limits16i Min16i = Limits16i.Min;
@@ -255,6 +280,41 @@ namespace Z0
         public const Limits16u Max16u = Limits16u.Max;
 
         /// <summary>
+        /// The maximum representable uint17 value
+        /// </summary>
+        public const Limits17u Max17u = Limits17u.Max;
+
+        /// <summary>
+        /// The maximum representable uint18 value
+        /// </summary>
+        public const Limits18u Max18u = Limits18u.Max;
+
+        /// <summary>
+        /// The maximum representable uint19 value
+        /// </summary>
+        public const Limits19u Max19u = Limits19u.Max;
+
+        /// <summary>
+        /// The maximum representable uint22 value
+        /// </summary>
+        public const Limits20u Max20u = Limits20u.Max;
+
+        /// <summary>
+        /// The maximum representable uint21 value
+        /// </summary>
+        public const Limits21u Max21u = Limits21u.Max;
+
+        /// <summary>
+        /// The maximum representable uint22 value
+        /// </summary>
+        public const Limits22u Max22u = Limits22u.Max;
+
+        /// <summary>
+        /// The maximum representable uint23 value
+        /// </summary>
+        public const Limits23u Max23u = Limits23u.Max;
+
+        /// <summary>
         /// The minimum representable uint24 value
         /// </summary>
         public const Limits24u Min24u = Limits24u.Min;
@@ -263,6 +323,16 @@ namespace Z0
         /// The maximum representable <see cref='ushort'/> value
         /// </summary>
         public const Limits24u Max24u = Limits24u.Max;
+
+        /// <summary>
+        /// The minimum representable uint25 value
+        /// </summary>
+        public const Limits25u Max25u = Limits25u.Max;
+
+        /// <summary>
+        /// The minimum representable uint26 value
+        /// </summary>
+        public const Limits26u Max26u = Limits26u.Max;
 
         /// <summary>
         /// The minimum representable <see cref='int'/> value

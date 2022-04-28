@@ -18,7 +18,7 @@ namespace Z0
         {
             public static Index<OpCodeId> identify(Index<PatternOpCode> src)
             {
-                var bitfield = BitfieldDataset.create<FK,FW,uint>();
+                var bitfield = Bitfields.dataset<FK,FW,uint>();
                 var count = src.Count;
                 var dst = alloc<OpCodeId>(count);
                 for(var i=z16; i< count; i++)
@@ -41,7 +41,7 @@ namespace Z0
             }
 
             public static BitfieldDataset<FK,uint> bitfield()
-                => BitfieldDataset.create<FK,FW,uint>();
+                => Bitfields.dataset<FK,FW,uint>();
 
             public static Func<OpCodeId,string> formatter()
                 => formatter(bitfield());

@@ -26,7 +26,7 @@ namespace Z0
 
             public LogicClass Logic;
 
-            public CellClass Type;
+            public RuleCellType Type;
 
             public RuleTableKind Kind;
 
