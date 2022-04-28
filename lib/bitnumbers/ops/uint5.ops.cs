@@ -215,7 +215,6 @@ namespace Z0
         public static U sll(U lhs, byte rhs)
             => uint5(lhs.Value << rhs);
 
-
         [MethodImpl(Inline)]
         public static bool eq(U x, U y)
             => Bytes.eq(x.Value, y.Value);

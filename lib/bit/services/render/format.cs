@@ -37,16 +37,6 @@ namespace Z0
         }
 
         [Op]
-        public static string format8x4(byte src)
-        {
-            var storage = CharBlock16.Null;
-            var buffer = storage.Data;
-            var i=0u;
-            var count = render8x4(src, ref i, buffer);
-            return text.format(slice(buffer, 0, count));
-        }
-
-        [Op]
         public static string format5(byte src)
         {
             var buffer = CharBlock5.Null.Data;
@@ -82,6 +72,84 @@ namespace Z0
             var i=0u;
             var count = render8(src, ref i, buffer);
             return text.format(slice(buffer,0,count));
+        }
+
+        [Op]
+        public static string format16(ushort src)
+        {
+            var storage = CharBlock16.Null;
+            var buffer = storage.Data;
+            var i=0u;
+            var count = render16(src, ref i, buffer);
+            return text.format(slice(buffer,0,count));
+        }
+
+        [MethodImpl(Inline), Op]
+        public static string format32(uint src)
+        {
+            var buffer = CharBlock32.Null.Data;
+            var i=0u;
+            render32(src, ref i, buffer);
+            return text.format(buffer);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static string format64(ulong src)
+        {
+            var buffer = CharBlock64.Null.Data;
+            var i=0u;
+            render64(src, ref i, buffer);
+            return text.format(buffer);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static string format(N2 n, byte src)
+            => format2(src);
+
+        [MethodImpl(Inline), Op]
+        public static string format(N3 n, byte src)
+            => format3(src);
+
+        [MethodImpl(Inline), Op]
+        public static string format(N4 n, byte src)
+            => format4(src);
+
+        [MethodImpl(Inline), Op]
+        public static string format(N5 n, byte src)
+            => format5(src);
+
+        [MethodImpl(Inline), Op]
+        public static string format(N6 n, byte src)
+            => format6(src);
+
+        [MethodImpl(Inline), Op]
+        public static string format(N7 n, byte src)
+            => format7(src);
+
+        [MethodImpl(Inline), Op]
+        public static string format(N8 n, byte src)
+            => format8(src);
+
+        [MethodImpl(Inline), Op]
+        public static string format(N16 n, ushort src)
+            => format16(src);
+
+        [MethodImpl(Inline), Op]
+        public static string format(N32 n, uint src)
+            => format32(src);
+
+        [MethodImpl(Inline), Op]
+        public static string format(N64 n, ulong src)
+            => format64(src);
+
+        [Op]
+        public static string format8x4(byte src)
+        {
+            var storage = CharBlock16.Null;
+            var buffer = storage.Data;
+            var i=0u;
+            var count = render8x4(src, ref i, buffer);
+            return text.format(slice(buffer, 0, count));
         }
 
         [Op]
@@ -151,25 +219,6 @@ namespace Z0
             var i=0u;
             var count = render64x4(sep, src, ref i, buffer);
             return text.format(slice(buffer, 0, count));
-        }
-
-        [Op]
-        public static string format16(ushort src)
-        {
-            var storage = CharBlock16.Null;
-            var buffer = storage.Data;
-            var i=0u;
-            var count = render16(src, ref i, buffer);
-            return text.format(slice(buffer,0,count));
-        }
-
-        [MethodImpl(Inline), Op]
-        public static string format32(uint src)
-        {
-            var buffer = CharBlock32.Null.Data;
-            var i=0u;
-            render32(src, ref i, buffer);
-            return text.format(buffer);
         }
 
         [Op]

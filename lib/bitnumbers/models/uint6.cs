@@ -6,20 +6,19 @@ namespace Z0
 {
     using static BitNumbers;
 
-    using U = uint6;
+    using T = uint6;
     using W = W6;
     using K = BitSeq6;
-    using T = System.Byte;
+    using D = System.Byte;
     using N = N6;
-    using L = Limits6u;
 
     /// <summary>
     /// Represents a value in the range [<see cef='MinLiteral'/>, <see cref='MaxValue'/>]
     /// </summary>
     [DataType("u<w:6>", Width, 8)]
-    public readonly struct uint6 : IBitNumber<U,W,K,T>
+    public readonly struct uint6 : IBitNumber<T,W,K,D>
     {
-        internal readonly T Value;
+        internal readonly D Value;
 
         [MethodImpl(Inline)]
         internal uint6(uint8b src)
@@ -80,7 +79,7 @@ namespace Z0
             get => (K) Value;
         }
 
-        public T Content
+        public D Content
         {
             [MethodImpl(Inline)]
             get => Value;
@@ -134,11 +133,11 @@ namespace Z0
             => format(this,config);
 
         [MethodImpl(Inline)]
-        public bool Equals(U y)
+        public bool Equals(T y)
             => eq(this,y);
 
         public override bool Equals(object y)
-            => y is U x && Equals(x);
+            => y is T x && Equals(x);
 
         public Hash32 Hash
         {
@@ -147,38 +146,38 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public int CompareTo(U src)
+        public int CompareTo(T src)
             => Value.CompareTo(src.Value);
 
         public override int GetHashCode()
             => (int)Hash;
 
         [MethodImpl(Inline)]
-        public static implicit operator uint8b(U src)
+        public static implicit operator uint8b(T src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator uint7(U src)
+        public static implicit operator uint7(T src)
             => new uint7(src.Value);
 
         [MethodImpl(Inline)]
-        public static implicit operator U(uint8b src)
-            => new U(src);
+        public static implicit operator T(uint8b src)
+            => new T(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator U(K src)
-            => new U(src);
+        public static implicit operator T(K src)
+            => new T(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator K(U src)
+        public static implicit operator K(T src)
             => (K)src.Value;
 
         [MethodImpl(Inline)]
-        public static explicit operator bit(U src)
+        public static explicit operator bit(T src)
             => new bit(src.Value & 1);
 
         [MethodImpl(Inline)]
-        public static explicit operator U(bit src)
+        public static explicit operator T(bit src)
             => (byte)src;
 
         /// <summary>
@@ -186,7 +185,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
-        public static implicit operator byte(U src)
+        public static implicit operator byte(T src)
             => (byte)src.Value;
 
         /// <summary>
@@ -194,7 +193,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
-        public static implicit operator ushort(U src)
+        public static implicit operator ushort(T src)
             => (ushort)src.Value;
 
         /// <summary>
@@ -202,7 +201,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
-        public static implicit operator uint(U src)
+        public static implicit operator uint(T src)
             => src.Value;
 
         /// <summary>
@@ -210,7 +209,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
-        public static implicit operator ulong(U src)
+        public static implicit operator ulong(T src)
             => src.Value;
 
         /// <summary>
@@ -218,7 +217,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
-        public static implicit operator int(U src)
+        public static implicit operator int(T src)
             => (int)src.Value;
 
         /// <summary>
@@ -226,7 +225,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
-        public static explicit operator U(byte src)
+        public static explicit operator T(byte src)
             => uint6(src);
 
         /// <summary>
@@ -234,7 +233,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
-        public static implicit operator U(uint src)
+        public static implicit operator T(uint src)
             => uint6(src);
 
         /// <summary>
@@ -242,101 +241,101 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
-        public static explicit operator U(ulong src)
+        public static explicit operator T(ulong src)
             => uint6(src);
 
         [MethodImpl(Inline)]
-        public static U @bool(bool x)
+        public static T @bool(bool x)
             => uint6(x);
 
         [MethodImpl(Inline)]
-        public static bool operator true(U x)
+        public static bool operator true(T x)
             => x.Value != 0;
 
         [MethodImpl(Inline)]
-        public static bool operator false(U x)
+        public static bool operator false(T x)
             => x.Value == 0;
 
         [MethodImpl(Inline)]
-        public static U operator + (U x, U y)
+        public static T operator + (T x, T y)
             => add(x,y);
 
         [MethodImpl(Inline)]
-        public static U operator - (U x, U y)
+        public static T operator - (T x, T y)
             => sub(x,y);
 
         [MethodImpl(Inline)]
-        public static U operator * (U x, U y)
+        public static T operator * (T x, T y)
             => mul(x,y);
 
         [MethodImpl(Inline)]
-        public static U operator / (U x, U y)
+        public static T operator / (T x, T y)
             => div(x,y);
 
         [MethodImpl(Inline)]
-        public static U operator % (U x, U y)
+        public static T operator % (T x, T y)
             => mod(x,y);
 
         [MethodImpl(Inline)]
-        public static U operator &(U x, U y)
+        public static T operator &(T x, T y)
             => and(x,y);
 
         [MethodImpl(Inline)]
-        public static U operator |(U x, U y)
+        public static T operator |(T x, T y)
             => or(x,y);
 
         [MethodImpl(Inline)]
-        public static U operator ^(U x, U y)
+        public static T operator ^(T x, T y)
             => xor(x,y);
 
         [MethodImpl(Inline)]
-        public static U operator >>(U x, int count)
+        public static T operator >>(T x, int count)
             => srl(x, (byte)count);
 
         [MethodImpl(Inline)]
-        public static U operator <<(U x, int count)
+        public static T operator <<(T x, int count)
             => sll(x, (byte)count);
 
         [MethodImpl(Inline)]
-        public static U operator ~(U src)
+        public static T operator ~(T src)
             => wrap6((byte)(~src.Value & MaxValue));
 
         [MethodImpl(Inline)]
-        public static U operator ++(U x)
+        public static T operator ++(T x)
             => inc(x);
 
         [MethodImpl(Inline)]
-        public static U operator --(U x)
+        public static T operator --(T x)
             => dec(x);
 
         [MethodImpl(Inline)]
-        public static bool operator ==(U x, U y)
+        public static bool operator ==(T x, T y)
             => eq(x,y);
 
         [MethodImpl(Inline)]
-        public static bool operator !=(U x, U y)
+        public static bool operator !=(T x, T y)
             => !x.Equals(y);
 
         [MethodImpl(Inline)]
-        public static U operator < (U x, U y)
+        public static T operator < (T x, T y)
             => @bool(x.Value < y.Value);
 
         [MethodImpl(Inline)]
-        public static U operator <= (U x, U y)
+        public static T operator <= (T x, T y)
             => @bool(x.Value <= y.Value);
 
         [MethodImpl(Inline)]
-        public static U operator > (U x, U y)
+        public static T operator > (T x, T y)
             => @bool(x.Value > y.Value);
 
         [MethodImpl(Inline)]
-        public static U operator >= (U x, U y)
+        public static T operator >= (T x, T y)
             => @bool(x.Value >= y.Value);
 
         /// <summary>
-        /// Specifies the inclusive upper bound of the <see cref='U'/> as a literal value
+        /// Specifies the inclusive upper bound of the <see cref='T'/> as a literal value
         /// </summary>
-        public const T MaxValue = Pow2.T06m1;
+        public const D MaxValue = Pow2.T06m1;
 
         /// <summary>
         /// Specifies the represented data type bit-width
@@ -344,7 +343,7 @@ namespace Z0
         public const byte Width = 6;
 
         /// <summary>
-        /// Specifies the count of unique values representable by a <see cref='U'/>
+        /// Specifies the count of unique values representable by a <see cref='T'/>
         /// </summary>
         public const byte Mod = MaxValue + 1;
 
@@ -356,31 +355,31 @@ namespace Z0
         public static N N => default;
 
         /// <summary>
-        /// Specifies the minimum <see cref='U'/> value
+        /// Specifies the minimum <see cref='T'/> value
         /// </summary>
-        public static U Min => default;
+        public static T Min => default;
 
         /// <summary>
-        /// Specifies the maximum <see cref='U'/> value
+        /// Specifies the maximum <see cref='T'/> value
         /// </summary>
-        public static U Max
+        public static T Max
         {
             [MethodImpl(Inline)]
-            get => new U(MaxValue,true);
+            get => new T(MaxValue,true);
         }
 
         /// <summary>
-        /// Specifies the <see cref='U'/> zero value
+        /// Specifies the <see cref='T'/> zero value
         /// </summary>
-        public static U Zero => default;
+        public static T Zero => default;
 
         /// <summary>
-        /// Specifies the <see cref='U'/> one value
+        /// Specifies the <see cref='T'/> one value
         /// </summary>
-        public static U One
+        public static T One
         {
             [MethodImpl(Inline)]
-            get => new U(1,true);
+            get => new T(1,true);
         }
 
         public Span<bit> _Bits

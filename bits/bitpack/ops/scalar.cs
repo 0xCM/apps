@@ -55,7 +55,6 @@ namespace Z0
             var dst = default(T);
             if(src.Length == 0)
                 return dst;
-
             return pack(src, ref dst);
         }
 
@@ -76,7 +75,6 @@ namespace Z0
             pack(src, offset, ref first(buffer));
             return ref dst;
         }
-
 
         [MethodImpl(Inline), Op]
         static void pack(ReadOnlySpan<byte> src, uint offset, ref byte dst)

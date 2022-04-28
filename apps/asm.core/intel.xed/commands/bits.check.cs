@@ -5,6 +5,7 @@
 namespace Z0
 {
     using Asm;
+    using static core;
     using static Char5;
 
     partial class XedCmdProvider
@@ -100,14 +101,122 @@ namespace Z0
             log.WriteLine(result);
         }
 
+        void CheckUnpack4x1(ITextEmitter log)
+        {
+            const byte a0 = 0b1111;
+            const byte a1 = 0b1110;
+            const byte a2 = 0b1101;
+            const byte a3 = 0b1011;
+            const byte a4 = 0b0111;
+            const byte RenderWidth = 64;
+            const char sep = Chars.Space;
+            var i = 0u;
+            var count = 0u;
+            var storage = 0u;
+            var src = z8;
+            var input = 0u;
+            var output = 0u;
+            var bitstring = EmptyString;
+
+            Span<char> dst = stackalloc char[RenderWidth];
+            var buffer = default(Span<bit>);
+
+            i=0;
+            src = a0;
+            input = src;
+            count = BitRender.render32x4(sep, src, ref i, dst);
+            bitstring = text.format(slice(dst, 0, count));
+            log.AppendFormat("{0} => ", bitstring);
+
+            i=0;
+            storage = 0;
+            buffer = recover<bit>(@bytes(storage));
+            Bitfields.unpack4x1(src,buffer);
+            output = BitPack.scalar<uint>(buffer);
+            Require.equal(input,output);
+            count = BitRender.render32x4(sep, storage, ref i, dst);
+            bitstring = text.format(slice(dst, 0, count));
+            log.AppendLine(bitstring);
+
+            i=0;
+            src = a1;
+            input = src;
+            count = BitRender.render32x4(sep, src, ref i, dst);
+            bitstring = text.format(slice(dst, 0, count));
+            log.AppendFormat("{0} => ", bitstring);
+
+            i=0;
+            storage = 0;
+            buffer = recover<bit>(@bytes(storage));
+            Bitfields.unpack4x1(src, buffer);
+            output = BitPack.scalar<uint>(buffer);
+            Require.equal(input,output);
+            count = BitRender.render32x4(sep, storage, ref i, dst);
+            bitstring = text.format(slice(dst, 0, count));
+            log.AppendLine(bitstring);
+
+            i=0;
+            src = a2;
+            input = src;
+            count = BitRender.render32x4(sep, src, ref i, dst);
+            bitstring = text.format(slice(dst, 0, count));
+            log.AppendFormat("{0} => ", bitstring);
+
+            i=0;
+            storage = 0;
+            buffer = recover<bit>(@bytes(storage));
+            Bitfields.unpack4x1(src,buffer);
+            output = BitPack.scalar<uint>(buffer);
+            Require.equal(input,output);
+            count = BitRender.render32x4(sep, storage, ref i, dst);
+            bitstring = text.format(slice(dst, 0, count));
+            log.AppendLine(bitstring);
+
+            i=0;
+            src = a3;
+            input = src;
+            count = BitRender.render32x4(sep, src, ref i, dst);
+            bitstring = text.format(slice(dst, 0, count));
+            log.AppendFormat("{0} => ", bitstring);
+
+            i=0;
+            storage = 0;
+            buffer = recover<bit>(@bytes(storage));
+            Bitfields.unpack4x1(src,buffer);
+            output = BitPack.scalar<uint>(buffer);
+            Require.equal(input,output);
+            count = BitRender.render32x4(sep, storage, ref i, dst);
+            bitstring = text.format(slice(dst, 0, count));
+            log.AppendLine(bitstring);
+
+            i=0;
+            src = a4;
+            input = src;
+            count = BitRender.render32x4(sep, src, ref i, dst);
+            bitstring = text.format(slice(dst, 0, count));
+            log.AppendFormat("{0} => ", bitstring);
+
+            i=0;
+            storage = 0;
+            buffer = recover<bit>(@bytes(storage));
+            Bitfields.unpack4x1(src,buffer);
+            output = BitPack.scalar<uint>(buffer);
+            Require.equal(input,output);
+            count = BitRender.render32x4(sep, storage, ref i, dst);
+            bitstring = text.format(slice(dst, 0, count));
+            log.AppendLine(bitstring);
+
+        }
 
         [CmdOp("bits/check")]
         Outcome CheckBits(CmdArgs args)
         {
-            CheckRunner.run(true, (nameof(CheckBitNumbers), CheckBitNumbers),
-            (nameof(CheckBitReplication), CheckBitReplication),
-            (nameof(GenBitfield), GenBitfield),
-            (nameof(CheckSegVars), GenBitfield)
+            CheckRunner.run(true,
+                (nameof(CheckBitNumbers), CheckBitNumbers),
+                (nameof(CheckBitReplication), CheckBitReplication),
+                (nameof(GenBitfield), GenBitfield),
+                (nameof(CheckSegVars), CheckSegVars),
+                (nameof(CheckUnpack4x1), CheckUnpack4x1)
             );
 
             return true;

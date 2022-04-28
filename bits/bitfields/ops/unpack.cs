@@ -7,6 +7,7 @@ namespace Z0
     using static BitMaskLiterals;
     using static core;
     using static cpu;
+    using static BitMasks;
 
     partial struct Bitfields
     {
@@ -18,6 +19,15 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static void unpack8x1(byte src, Span<bit> dst)
             => BitPack.unpack1x8(src, ref u8(first(dst)));
+
+        /// <summary>
+        /// Distributes the first 4 source bits acros 4 segments, each of effective width of 1
+        /// </summary>
+        /// <param name="src">The packed source bits</param>
+        /// <param name="dst">The target buffer</param>
+        [MethodImpl(Inline), Op]
+        public static void unpack4x1(byte src, Span<bit> dst)
+            => first(recover<bit,uint>(dst)) = bits.scatter((uint)src, lsb<uint>(n8, n1));
 
         /// <summary>
         /// Partitions the source into 8 segments, each of effective width 1
@@ -74,7 +84,7 @@ namespace Z0
 
         /// <summary>
         /// [7:0] => [7:6 | 5:4 | 3:2 | 1:0]
-        /// Evenly partitions an 8-bit source value into 4 target segments each of effective width of 2
+        /// Partitions the source into 4 target segments each of effective width of 2
         /// </summary>
         /// <param name="src">The source value</param>
         /// <param name="dst">The target memory location</param>
@@ -88,7 +98,7 @@ namespace Z0
         }
 
         /// <summary>
-        /// Partitions a 16-bit source into 8 segments, each of effective width of 2
+        /// Partitions the source into 8 segments, each of effective width of 2
         /// </summary>
         /// <param name="src">The source value</param>
         /// <param name="dst">The target memory location</param>
@@ -100,7 +110,7 @@ namespace Z0
         }
 
         /// <summary>
-        /// Partitions a 32-bit source into 16 target segments of effective width of 2
+        /// Distributes the source value across 16 segments, each of effective width of 2
         /// </summary>
         /// <param name="src">The source value</param>
         /// <param name="dst">A target span of sufficient length</param>
@@ -112,7 +122,7 @@ namespace Z0
         }
 
         /// <summary>
-        /// Partitions the first 6 source bits into 2 segments, each of effective width of 3
+        /// Distributes the first 6 source bits acros 2 segments, each of effective width of 3
         /// </summary>
         /// <param name="src">The source value</param>
         /// <param name="dst">The target memory location</param>

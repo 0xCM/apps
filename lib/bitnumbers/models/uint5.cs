@@ -128,6 +128,7 @@ namespace Z0
 
         byte IBits.Width
             => Width;
+
         public string Format()
              => format(this);
 

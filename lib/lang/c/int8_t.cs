@@ -5,9 +5,9 @@
 namespace Z0
 {
     using P = System.SByte;
-    using D = int8_t;
+    using T = int8_t;
 
-    public struct int8_t : IEquatable<D>, IComparable<D>
+    public struct int8_t : IEquatable<T>, IComparable<T>
     {
         P Data;
 
@@ -16,164 +16,164 @@ namespace Z0
             => Data =src;
 
         [MethodImpl(Inline)]
-        public bool Equals(D src)
+        public bool Equals(T src)
             => Data == src.Data;
 
         [MethodImpl(Inline)]
-        public int CompareTo(D src)
+        public int CompareTo(T src)
             => Data.CompareTo(src.Data);
 
         public override int GetHashCode()
             => Data.GetHashCode();
 
         public override bool Equals(object src)
-            => src is D a && Equals(a);
+            => src is T a && Equals(a);
 
         public override string ToString()
             => Data.ToString();
 
         [MethodImpl(Inline)]
-        public static bool operator true(D src)
+        public static bool operator true(T src)
             => src.Data != 0;
 
         [MethodImpl(Inline)]
-        public static bool operator false(D src)
+        public static bool operator false(T src)
             => src.Data == 0;
 
         [MethodImpl(Inline)]
-        public static implicit operator bool(D src)
+        public static implicit operator bool(T src)
             => src.Data != 0;
 
         [MethodImpl(Inline)]
-        public static implicit operator D(bool src)
+        public static implicit operator T(bool src)
             => src ? one : zero;
 
         [MethodImpl(Inline)]
-        public static implicit operator D(P src)
-            => new D(src);
+        public static implicit operator T(P src)
+            => new T(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator P(D src)
+        public static implicit operator P(T src)
             => src.Data;
 
         [MethodImpl(Inline)]
-        public static explicit operator byte(D src)
+        public static explicit operator byte(T src)
             => (byte)src.Data;
 
         [MethodImpl(Inline)]
-        public static explicit operator short(D src)
+        public static explicit operator short(T src)
             => (short)src.Data;
 
         [MethodImpl(Inline)]
-        public static explicit operator ushort(D src)
+        public static explicit operator ushort(T src)
             => (byte)src.Data;
 
         [MethodImpl(Inline)]
-        public static explicit operator int(D src)
+        public static explicit operator int(T src)
             => (int)src.Data;
 
         [MethodImpl(Inline)]
-        public static explicit operator uint(D src)
+        public static explicit operator uint(T src)
             => (uint)src.Data;
 
         [MethodImpl(Inline)]
-        public static explicit operator long(D src)
+        public static explicit operator long(T src)
             => (long)src.Data;
 
         [MethodImpl(Inline)]
-        public static explicit operator ulong(D src)
+        public static explicit operator ulong(T src)
             => (ulong)src.Data;
 
         [MethodImpl(Inline)]
-        public static implicit operator float(D src)
+        public static implicit operator float(T src)
             => src.Data;
 
         [MethodImpl(Inline)]
-        public static implicit operator double(D src)
+        public static implicit operator double(T src)
             => src.Data;
 
         [MethodImpl(Inline)]
-        public static D operator == (D a, D b)
+        public static T operator == (T a, T b)
             => a.Data == b.Data;
 
         [MethodImpl(Inline)]
-        public static D operator != (D a, D b)
+        public static T operator != (T a, T b)
             => a.Data != b.Data;
 
         [MethodImpl(Inline)]
-        public static D operator + (D a, D b)
-            => (D)(a.Data + b.Data);
+        public static T operator + (T a, T b)
+            => (T)(a.Data + b.Data);
 
         [MethodImpl(Inline)]
-        public static D operator - (D a, D b)
-            => (D)(a.Data - b.Data);
+        public static T operator - (T a, T b)
+            => (T)(a.Data - b.Data);
 
         [MethodImpl(Inline)]
-        public static D operator * (D a, D b)
-            => (D)(a.Data * b.Data);
+        public static T operator * (T a, T b)
+            => (T)(a.Data * b.Data);
 
         [MethodImpl(Inline)]
-        public static D operator / (D a, D b)
-            => (D)(a.Data / b.Data);
+        public static T operator / (T a, T b)
+            => (T)(a.Data / b.Data);
 
         [MethodImpl(Inline)]
-        public static D operator % (D a, D b)
-            => (D)(a.Data % b.Data);
+        public static T operator % (T a, T b)
+            => (T)(a.Data % b.Data);
 
         [MethodImpl(Inline)]
-        public static D operator < (D a, D b)
+        public static T operator < (T a, T b)
             => a.Data < b.Data;
 
         [MethodImpl(Inline)]
-        public static D operator <= (D a, D b)
+        public static T operator <= (T a, T b)
             => a.Data <= b.Data;
 
         [MethodImpl(Inline)]
-        public static D operator > (D a, D b)
+        public static T operator > (T a, T b)
             => a.Data > b.Data;
 
         [MethodImpl(Inline)]
-        public static D operator >= (D a, D b)
+        public static T operator >= (T a, T b)
             => a.Data >= b.Data;
 
         [MethodImpl(Inline)]
-        public static D operator & (D a, D b)
-            => (D)(a.Data & b.Data);
+        public static T operator & (T a, T b)
+            => (T)(a.Data & b.Data);
 
         [MethodImpl(Inline)]
-        public static D operator | (D a, D b)
-            => (D)(a.Data | b.Data);
+        public static T operator | (T a, T b)
+            => (T)(a.Data | b.Data);
 
         [MethodImpl(Inline)]
-        public static D operator ^ (D a, D b)
-            => (D)(a.Data ^ b.Data);
+        public static T operator ^ (T a, T b)
+            => (T)(a.Data ^ b.Data);
 
         [MethodImpl(Inline)]
-        public static D operator >> (D a, int offset)
-            => (D)(a.Data >> offset);
+        public static T operator >> (T a, int offset)
+            => (T)(a.Data >> offset);
 
         [MethodImpl(Inline)]
-        public static D operator << (D a, int offset)
-            => (D)(a.Data << offset);
+        public static T operator << (T a, int offset)
+            => (T)(a.Data << offset);
 
         [MethodImpl(Inline)]
-        public static D operator ~ (D src)
-            => (D)~ src.Data;
+        public static T operator ~ (T src)
+            => (T)~ src.Data;
 
         [MethodImpl(Inline)]
-        public static D operator - (D src)
-            => (D)(-src.Data);
+        public static T operator - (T src)
+            => (T)(-src.Data);
 
         [MethodImpl(Inline)]
-        public static D operator -- (D src)
+        public static T operator -- (T src)
             =>  --src.Data;
 
         [MethodImpl(Inline)]
-        public static D operator ++ (D src)
+        public static T operator ++ (T src)
             =>  ++src.Data;
 
-        public static D zero => 0;
+        public static T zero => 0;
 
-        public static D one => 1;
+        public static T one => 1;
     }
 }
