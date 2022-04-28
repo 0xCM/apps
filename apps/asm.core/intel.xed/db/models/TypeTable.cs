@@ -14,11 +14,11 @@ namespace Z0
 
             public const ObjectKind ObjKind = ObjectKind.TypeTable;
 
-            public readonly uint Seq;
+            public readonly uint Key;
 
             public readonly asci32 TypeName;
 
-            public readonly byte TypeWidth;
+            public readonly DataSize Size;
 
             public readonly ushort RowCount;
 
@@ -26,11 +26,11 @@ namespace Z0
             public readonly Index<TypeTableField> Fields;
 
             [MethodImpl(Inline)]
-            public TypeTable(uint seq, asci32 name, byte width, TypeTableField[] rows)
+            public TypeTable(uint key, asci32 name, DataSize width, TypeTableField[] rows)
             {
-                Seq = seq;
+                Key = key;
                 TypeName = name;
-                TypeWidth = width;
+                Size = width;
                 RowCount = (ushort)rows.Length;
                 Fields = rows;
             }
@@ -86,11 +86,15 @@ namespace Z0
             public override string ToString()
                 => Format();
 
+            uint IKeyed.Key
+                => Key;
+
+
             public static Index<ColDef> Columns(ref ushort pos)
                 =>  cols(new ColDef[ColCount]{
-                    col(pos++, ColKind.U32, nameof(Seq), RenderWidths),
+                    col(pos++, ColKind.U32, nameof(Key), RenderWidths),
                     col(pos++, ColKind.Asci32, nameof(TypeName), RenderWidths),
-                    col(pos++, ColKind.U8, nameof(TypeWidth), RenderWidths),
+                    col(pos++, ColKind.U8, nameof(Size), RenderWidths),
                     col(pos++, ColKind.U16, nameof(RowCount), RenderWidths),
                         });
 

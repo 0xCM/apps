@@ -10,7 +10,7 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public record class TableSpec : IEntity<TableSpec>
         {
-            public readonly ushort Id;
+            public readonly uint Key;
 
             public readonly asci32 Name;
 
@@ -18,20 +18,23 @@ namespace Z0
 
             public readonly Index<ColSpec> Cols;
 
-            public TableSpec(ushort id, asci32 name, ColSpec[] cols, Relation[] rels)
+            public TableSpec(uint id, asci32 name, ColSpec[] cols, Relation[] rels)
             {
-                Id = id;
+                Key = id;
                 Name = name;
                 Cols = cols;
                 Rels = rels;
             }
 
-            ref readonly Index<Relation> IEntity<TableSpec>.Rels
+            ref readonly Index<Relation> IEntity<TableSpec>.Relations
                 => ref Rels;
+
+            uint IKeyed.Key
+                => Key;
 
             [MethodImpl(Inline)]
             public int CompareTo(TableSpec src)
-                => Id.CompareTo(src.Id);
+                => Key.CompareTo(src.Key);
         }
     }
 }

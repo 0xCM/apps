@@ -8,15 +8,18 @@ namespace Z0
     partial class XedDb
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct TableDef : ITableDef<TableDef>
+        public readonly record struct TableDef : IKeyed<TableDef>
         {
+            public readonly uint Key;
+
             public readonly asci32 Name;
 
             public readonly Index<ColDef> Cols;
 
             [MethodImpl(Inline)]
-            public TableDef(asci32 name, ColDef[] cols)
+            public TableDef(uint seq, asci32 name, ColDef[] cols)
             {
+                Key = seq;
                 Name = name;
                 Cols = cols;
             }
@@ -25,8 +28,8 @@ namespace Z0
             public int CompareTo(TableDef src)
                 => Name.CompareTo(src.Name);
 
-            Index<ColDef> ITableDef<TableDef>.Cols
-                => Cols;
+            uint IKeyed.Key
+                => Key;
         }
     }
 }

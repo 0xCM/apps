@@ -14,11 +14,11 @@ namespace Z0
 
             public const byte ColCount = 7;
 
-            public readonly uint FieldSeq;
+            public readonly uint Key;
 
             public readonly ushort Index;
 
-            public readonly byte DataWidth;
+            public readonly DataSize Size;
 
             public readonly asci32 Name;
 
@@ -29,11 +29,11 @@ namespace Z0
             public readonly asci64 Meaning;
 
             [MethodImpl(Inline)]
-            public TypeTableField(uint seq, ushort index, byte width, asci32 name, ulong value, asci32 symbol, asci64 meaning)
+            public TypeTableField(uint key, ushort index, DataSize size, asci32 name, ulong value, asci32 symbol, asci64 meaning)
             {
-                FieldSeq = seq;
+                Key = key;
                 Index =index;
-                DataWidth = width;
+                Size = size;
                 Name = name;
                 Value = value;
                 Symbol = symbol;
@@ -47,9 +47,9 @@ namespace Z0
             public string Format()
             {
                 return string.Format(DbSvc.Render.Pattern(ObjKind),
-                    FieldSeq,
+                    Key,
                     Index,
-                    DataWidth,
+                    Size,
                     Name,
                     Symbol,
                     Value,
@@ -60,11 +60,14 @@ namespace Z0
             public override string ToString()
                 => Format();
 
+            uint IKeyed.Key
+                => Key;
+
             public static Index<ColDef> Columns(ref ushort seq)
                 => cols(new ColDef[ColCount]{
-                col(seq++, ColKind.U16, nameof(FieldSeq), RenderWidths),
+                col(seq++, ColKind.U16, nameof(Key), RenderWidths),
                 col(seq++, ColKind.U16, nameof(Index), RenderWidths),
-                col(seq++, ColKind.U8, nameof(DataWidth), RenderWidths),
+                col(seq++, ColKind.U8, nameof(Size), RenderWidths),
                 col(seq++, ColKind.Asci32, nameof(Name), RenderWidths),
                 col(seq++, ColKind.Asci32, nameof(Symbol), RenderWidths),
                 col(seq++, ColKind.U64, nameof(Value), RenderWidths),

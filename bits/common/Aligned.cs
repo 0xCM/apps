@@ -11,7 +11,7 @@ namespace Z0
     /// </summary>
     public readonly struct Aligned : IComparable<Aligned>, IEquatable<Aligned>
     {
-        readonly Log2x64 Code;
+        public static Aligned None => new Aligned(3);
 
         public static Aligned W8 => new Aligned(Log2x64.L3);
 
@@ -29,106 +29,121 @@ namespace Z0
 
         public static Aligned W1024 => new Aligned(Log2x64.L10);
 
+        public static Aligned W2048 => new Aligned(Log2x64.L11);
+
+        [MethodImpl(Inline)]
+        public static bit test(ulong src)
+            => Pow2.test(src);
+
+        const byte StateBit = 7;
+
+        readonly byte Data;
+
+        readonly Log2x64 Code
+        {
+            [MethodImpl(Inline)]
+            get => (Log2x64)bit.disable(Data, StateBit);
+        }
+
         [MethodImpl(Inline)]
         public Aligned(Log2x2 src)
-        {
-            Code = (Log2x64)src;
-        }
+            => Data = bit.enable((byte)src, StateBit);
 
         [MethodImpl(Inline)]
         public Aligned(Log2x3 src)
         {
-            Code = (Log2x64)src;
+            Data = bit.enable((byte)src, StateBit);
         }
 
         [MethodImpl(Inline)]
         public Aligned(Log2x4 src)
         {
-            Code = (Log2x64)src;
+            Data = bit.enable((byte)src, StateBit);
         }
 
         [MethodImpl(Inline)]
         public Aligned(Log2x8 src)
         {
-            Code = (Log2x64)src;
+            Data = bit.enable((byte)src, StateBit);
         }
 
         [MethodImpl(Inline)]
         public Aligned(Log2x16 src)
         {
-            Code = (Log2x64)src;
+            Data = bit.enable((byte)src, StateBit);
         }
 
         [MethodImpl(Inline)]
         public Aligned(Log2x32 src)
         {
-            Code = (Log2x64)src;
+            Data = bit.enable((byte)src, StateBit);
         }
 
         [MethodImpl(Inline)]
         public Aligned(Log2x64 src)
         {
-            Code = src;
+            Data = bit.enable((byte)src, StateBit);
         }
 
         [MethodImpl(Inline)]
         public Aligned(Pow2x2 src)
         {
-            Code = (Log2x64)Pow2.log(src);
+            Data = bit.enable((byte)Pow2.log(src), StateBit);
         }
 
         [MethodImpl(Inline)]
         public Aligned(Pow2x3 src)
         {
-            Code = (Log2x64)Pow2.log(src);
+            Data = bit.enable((byte)Pow2.log(src), StateBit);
         }
 
         [MethodImpl(Inline)]
         public Aligned(Pow2x4 src)
         {
-            Code = (Log2x64)Pow2.log(src);
+            Data = bit.enable((byte)Pow2.log(src), StateBit);
         }
 
         [MethodImpl(Inline)]
         public Aligned(Pow2x8 src)
         {
-            Code = (Log2x64)Pow2.log(src);
+            Data = bit.enable((byte)Pow2.log(src), StateBit);
         }
 
         [MethodImpl(Inline)]
         public Aligned(Pow2x16 src)
         {
-            Code = (Log2x64)Pow2.log(src);
+            Data = bit.enable((byte)Pow2.log(src), StateBit);
         }
 
         [MethodImpl(Inline)]
         public Aligned(Pow2x32 src)
         {
-            Code = (Log2x64)Pow2.log(src);
+            Data = bit.enable((byte)Pow2.log(src), StateBit);
         }
 
         [MethodImpl(Inline)]
         public Aligned(Pow2x64 src)
         {
-            Code = Pow2.log(src);
+            Data = bit.enable((byte)Pow2.log(src), StateBit);
         }
 
         [MethodImpl(Inline)]
         public Aligned(ByteSize src)
         {
-            Code = (Log2x64)Pow2.log((byte)((byte)src*8));
+            var width = (ulong)src*8;
+            Data = test(width) ? bit.enable((byte)Pow2.log(width), StateBit) : z8;
         }
 
         [MethodImpl(Inline)]
-        public Aligned(ulong width)
+        public Aligned(ulong src)
         {
-            Code = (Log2x64)Pow2.log(width);
+            Data = test(src) ? bit.enable((byte)Pow2.log(src), StateBit) : z8;
         }
 
         [MethodImpl(Inline)]
-        public Aligned(byte code)
+        public Aligned(byte src)
         {
-            Code = (Log2x64)code;
+            Data = test(src) ? bit.enable(src, StateBit) : z8;
         }
 
         public byte Log2
@@ -147,6 +162,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => ((ulong)Width/8);
+        }
+
+        public bool IsDefined
+        {
+            [MethodImpl(Inline)]
+            get => bit.test(Data,7);
         }
 
         [MethodImpl(Inline)]

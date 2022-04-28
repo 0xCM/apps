@@ -10,11 +10,7 @@ namespace Z0
     partial class XedDb
     {
         [MethodImpl(Inline), Op]
-        public static ColDef col(ushort pos, ColKind type, asci32 name, ReadOnlySpan<byte> widths)
-            => new ColDef(pos, type, name, skip(widths, pos));
-
-        [MethodImpl(Inline), Op]
-        public static Index<ColDef> cols(params ColDef[] cols)
-            => cols;
+        public static DataType type(uint seq, asci32 name, asci32 primitive, DataSize size, asci32 refinement = default)
+            => new DataType(seq, name, primitive, size, !refinement.IsNull, refinement);
     }
 }

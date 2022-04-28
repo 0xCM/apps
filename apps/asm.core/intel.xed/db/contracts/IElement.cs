@@ -7,9 +7,15 @@ namespace Z0
 {
     partial class XedDb
     {
-        public readonly record struct TableSeq
+        [Free]
+        public interface IElement
         {
+        }
 
+        [Free]
+        public interface IElement<T> : IEquatable<T>, IComparable<T>
+            where T : IElement<T>
+        {
 
         }
     }

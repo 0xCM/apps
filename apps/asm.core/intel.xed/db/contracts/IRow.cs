@@ -5,16 +5,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class XedDb
     {
-        [MethodImpl(Inline), Op]
-        public static ColDef col(ushort pos, ColKind type, asci32 name, ReadOnlySpan<byte> widths)
-            => new ColDef(pos, type, name, skip(widths, pos));
+        [Free]
+        public interface IRow : IKeyed
+        {
 
-        [MethodImpl(Inline), Op]
-        public static Index<ColDef> cols(params ColDef[] cols)
-            => cols;
+        }
+
+        [Free]
+        public interface IRow<T> : IRow, IKeyed<T>
+            where T : IRow<T>
+        {
+
+        }
     }
 }

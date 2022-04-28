@@ -8,7 +8,7 @@ namespace Z0
     partial class XedDb
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct ColDef : IElement<ColDef>
+        public readonly record struct ColDef : ISequential<ColDef>
         {
             public readonly ushort Pos;
 
@@ -34,6 +34,9 @@ namespace Z0
             [MethodImpl(Inline)]
             public ColDef Reposition(ushort pos)
                 => new ColDef(pos, Type, Name, Width);
+
+            uint ISequential.Seq
+                => Pos;
         }
     }
 }

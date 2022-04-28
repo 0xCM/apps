@@ -5,16 +5,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class XedDb
     {
-        [MethodImpl(Inline), Op]
-        public static ColDef col(ushort pos, ColKind type, asci32 name, ReadOnlySpan<byte> widths)
-            => new ColDef(pos, type, name, skip(widths, pos));
+        public interface ISequential : IElement
+        {
+            uint Seq {get;}
+        }
 
-        [MethodImpl(Inline), Op]
-        public static Index<ColDef> cols(params ColDef[] cols)
-            => cols;
+        public interface ISequential<T> : ISequential, IElement<T>
+            where T : ISequential<T>
+        {
+
+        }
     }
 }

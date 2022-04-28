@@ -5,35 +5,64 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-
     partial class XedDb
     {
-        public readonly record struct DataType : IElement<DataType>
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
+        public readonly record struct DataType : IType<DataType>
         {
-            public readonly ushort TypeId;
+            /// <summary>
+            /// Specifies a surrogate key
+            /// </summary>
+            public readonly uint Seq;
 
-            public readonly asci8 Primitive;
+            /// <summary>
+            /// Specifies the name of the domain type
+            /// </summary>
+            public readonly asci32 Name;
 
-            public readonly asci16 TypeName;
+            /// <summary>
+            /// Specifies the name of a system-defined primitive with which the defined type is isomorphic
+            /// </summary>
+            public readonly asci32 Primitive;
 
-            public readonly byte PrimalWidth;
+            /// <summary>
+            /// Specifies the physical/logical type size
+            /// </summary>
+            public readonly DataSize Size;
 
-            public readonly byte PackedWidth;
+            /// <summary>
+            /// Specifies whether the type refines a system or user-defined type
+            /// </summary>
+            public readonly bit Refines;
+
+            /// <summary>
+            /// Specifies the name, if any, the type refines
+            /// </summary>
+            public readonly asci32 Refinement;
 
             [MethodImpl(Inline)]
-            public DataType(ushort id, asci8 prim, asci16 name, byte width, byte packed)
+            public DataType(uint seq, asci32 name, asci32 prim, DataSize size, bit refines, asci32 refinement)
             {
-                TypeId = id;
+                Seq = seq;
                 Primitive = prim;
-                TypeName = name;
-                PrimalWidth = width;
-                PackedWidth = packed;
+                Name = name;
+                Size = size;
+                Refines = refines;
+                Refinement = refinement;
             }
+
+            asci32 IType.Name
+                => Name;
+
+            uint ISequential.Seq
+                => Seq;
+
+            DataSize IType.Size
+                => Size;
 
             [MethodImpl(Inline)]
             public int CompareTo(DataType src)
-                => TypeId.CompareTo(src.TypeId);
+                => Seq.CompareTo(src.Seq);
         }
     }
 }
