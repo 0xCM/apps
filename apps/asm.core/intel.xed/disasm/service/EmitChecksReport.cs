@@ -91,7 +91,6 @@ namespace Z0
                 if(state.BRDISP_WIDTH != 0)
                     writer.AppendLineFormat(RenderPattern, nameof(state.BRDISP_WIDTH), state.BRDISP_WIDTH);
 
-
                 writer.AppendLineFormat(RenderPattern, nameof(state.EASZ), XedRender.format(XedState.easz(state)));
                 writer.AppendLineFormat(RenderPattern, nameof(state.EOSZ), XedRender.format(XedState.eosz(state)));
                 writer.AppendLineFormat(RenderPattern, nameof(state.MODE), XedRender.format(XedState.mode(state)));

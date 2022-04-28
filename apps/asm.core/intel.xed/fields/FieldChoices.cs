@@ -69,6 +69,25 @@ namespace Z0
                 [MethodImpl(Inline), Op]
                 get => Bytes.sequential<M.ElementType>(0, (byte)M.ElementKind.VAR);
             }
+
+            public static ReadOnlySpan<M.SegPrefixKind> SegPrefixKind
+            {
+                [MethodImpl(Inline), Op]
+                get => Bytes.sequential<M.SegPrefixKind>(0, (byte)M.SegPrefixKind.SS);
+            }
+
+            public static ReadOnlySpan<M.RoundingKind> RoundingKind
+            {
+                [MethodImpl(Inline), Op]
+                get => Bytes.sequential<M.RoundingKind>(0, (byte)M.RoundingKind.RzSae);
+            }
+
+            public static ReadOnlySpan<M.SMODE> SMODE
+            {
+                [MethodImpl(Inline), Op]
+                get => Bytes.sequential<M.SMODE>(0, (byte)M.SMODE.SMode64);
+            }
+
         }
     }
 }

@@ -69,7 +69,7 @@ namespace Z0
 
         static EnumRender<RoundingKind> RoundingKinds = new();
 
-        static EnumRender<SMode> SModes = new();
+        static EnumRender<SMODE> SModes = new();
 
         static EnumRender<MaskReg> MaskCodes = new();
 
@@ -195,7 +195,7 @@ namespace Z0
         public static string format(ModeClass src, FormatCode fc = FormatCode.Expr)
             => fc == FormatCode.BitWidth ? nsize((byte)src + 1) : format(ModeKinds,src,fc);
 
-        public static string format(SMode src, FormatCode fc = FormatCode.Expr)
+        public static string format(SMODE src, FormatCode fc = FormatCode.Expr)
             => fc == FormatCode.BitWidth ? nsize((byte)src + 1) : format(SModes,src,fc);
 
         public static string format(VexClass src, FormatCode fc = FormatCode.Expr)
@@ -222,8 +222,8 @@ namespace Z0
         public static string format(ElementSize src)
             => ElementSizes.Format(src);
 
-        public static string format(OSZ src)
-            => OszKinds.Format(src);
+        public static string format(OSZ src, FormatCode fc = FormatCode.BitWidth)
+            => fc == FormatCode.BitWidth ? XedPatterns.bitwidth(src).ToString() :format(OszKinds, src, fc);
 
         public static string format(DispWidth src)
             => DispWidthKinds.Format(src);

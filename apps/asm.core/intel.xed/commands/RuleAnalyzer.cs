@@ -55,25 +55,25 @@ namespace Z0
             switch(value.CellKind)
             {
                 case CK.BitVal:
-                    dst = FieldBits.Define(field, value.CellKind, (bit)value.Data);
+                    dst = FieldBits.Define(field, op, value.CellKind, (bit)value.Data);
                 break;
                 case CK.IntVal:
-                    dst = FieldBits.Define(field, value.CellKind, (byte)value.Data);
+                    dst = FieldBits.Define(field, op, value.CellKind, (byte)value.Data);
                 break;
                 case CK.HexVal:
-                    dst = FieldBits.Define(field, value.CellKind, (Hex8)value.Data);
+                    dst = FieldBits.Define(field, op, value.CellKind, (Hex8)value.Data);
                 break;
                 case CK.BitLiteral:
-                    dst = FieldBits.Define(field, value.CellKind, (uint5)value.Data);
+                    dst = FieldBits.Define(field, op, value.CellKind, (uint5)value.Data);
                 break;
                 case CK.HexLiteral:
-                    dst = FieldBits.Define(field, value.CellKind, (Hex8)value.Data);
+                    dst = FieldBits.Define(field, op, value.CellKind, (Hex8)value.Data);
                 break;
                 case CK.NontermCall:
-                    dst = FieldBits.Define(field, value.CellKind, (Nonterminal)value.Data);
+                    dst = FieldBits.Define(field, op, value.CellKind, (Nonterminal)value.Data);
                 break;
                 case CK.Keyword:
-                    dst = FieldBits.Define(field, value.CellKind, (KeywordKind)value.Data);
+                    dst = FieldBits.Define(field, op, value.CellKind, (KeywordKind)value.Data);
                 break;
                 case CK.EqExpr:
                     dst = FieldBits.Define(field, op, value.CellKind, (ushort)value.Data);
@@ -220,7 +220,7 @@ namespace Z0
             for(var k=0; k<src.CellCount; k++)
             {
                 var field = Run(src[k]);
-
+                term.print(FieldBits.Format(field, Render));
             }
 
             Dst.AppendLineFormat("{0:D4} | {1:D3} | {2:D3} | {3,-6} | {4,-32} | {5,-82} | {6} ",

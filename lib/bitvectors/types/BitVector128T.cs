@@ -14,7 +14,7 @@ namespace Z0
     /// <typeparam name="T">The cell type</typeparam>
     /// <typeparam name="N">The bit-width type</typeparam>
     [StructLayout(LayoutKind.Sequential, Size = 16)]
-    public struct BitVector128<T> //: IBitVector<BitVector128<T>, Vector128<T>>
+    public struct BitVector128<T>
         where T : unmanaged
     {
         Vector128<T> Data;
@@ -108,6 +108,14 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
+        public void Store(Span<T> dst)
+            => api.store(this, dst);
+
+        [MethodImpl(Inline)]
+        public void Store(Span<byte> dst)
+            => api.store(this, dst);
+
+        [MethodImpl(Inline)]
         public bit TestC()
             => api.testc(this);
 
@@ -158,7 +166,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static BitVector128<T> operator &(in BitVector128<T> x, in BitVector128<T> y)
+        public static BitVector128<T> operator &(BitVector128<T> x, BitVector128<T> y)
             => api.and(x,y);
 
         /// <summary>
@@ -167,7 +175,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static BitVector128<T> operator |(in BitVector128<T> x, in BitVector128<T> y)
+        public static BitVector128<T> operator |(BitVector128<T> x, BitVector128<T> y)
             => api.or(x,y);
 
         /// <summary>
@@ -176,7 +184,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static BitVector128<T> operator ^(in BitVector128<T> x, in BitVector128<T> y)
+        public static BitVector128<T> operator ^(BitVector128<T> x, BitVector128<T> y)
             => api.xor(x,y);
 
         /// <summary>
@@ -185,15 +193,24 @@ namespace Z0
         /// <param name="x">The left operand</param>
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
-        public static bit operator *(in BitVector128<T> x, in BitVector128<T> y)
+        public static bit operator *(BitVector128<T> x, BitVector128<T> y)
             => api.dot(x,y);
+
+        /// <summary>
+        /// Computes the 128-bit sum of the operands
+        /// </summary>
+        /// <param name="x">The left operand</param>
+        /// <param name="y">The right operand</param>
+        [MethodImpl(Inline)]
+        public static BitVector128<T> operator +(BitVector128<T> x, BitVector128<T> y)
+            => api.add(x,y);
 
         /// <summary>
         /// Computes the bitwise complement of the operand
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector128<T> operator ~(in BitVector128<T> src)
+        public static BitVector128<T> operator ~(BitVector128<T> src)
             => api.not(src);
 
         /// <summary>
@@ -201,7 +218,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector128<T> operator -(in BitVector128<T> src)
+        public static BitVector128<T> operator -(BitVector128<T> src)
             => api.negate(src);
 
         /// <summary>
@@ -209,7 +226,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector128<T> operator <<(in BitVector128<T> x, int count)
+        public static BitVector128<T> operator <<(BitVector128<T> x, int count)
             => api.sll(x,(byte)count);
 
         /// <summary>
@@ -217,7 +234,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector128<T> operator >>(in BitVector128<T> x, int count)
+        public static BitVector128<T> operator >>(BitVector128<T> x, int count)
             => api.srl(x,(byte)count);
 
         /// <summary>
@@ -225,7 +242,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        public static bool operator true(in BitVector128<T> src)
+        public static bool operator true(BitVector128<T> src)
             => src.NonEmpty;
 
         /// <summary>
@@ -233,7 +250,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        public static bool operator false(in BitVector128<T> src)
+        public static bool operator false(BitVector128<T> src)
             => src.Empty;
 
         /// <summary>
@@ -242,7 +259,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static bit operator ==(in BitVector128<T> x, in BitVector128<T> y)
+        public static bit operator ==(BitVector128<T> x, BitVector128<T> y)
             => api.equals(x,y);
 
         /// <summary>
@@ -251,7 +268,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static bit operator !=(in BitVector128<T> x, in BitVector128<T> y)
+        public static bit operator !=(BitVector128<T> x, BitVector128<T> y)
             => !api.equals(x,y);
 
         public static Vector128<T> Ones

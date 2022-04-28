@@ -80,7 +80,9 @@ namespace Z0
 
         static readonly EnumParser<ModeClass> ModeKinds = new();
 
-        static readonly EnumParser<SMode> SModes = new();
+        static readonly EnumParser<RoundingKind> RoundingKinds = new();
+
+        static readonly EnumParser<SMODE> SModes = new();
 
         static readonly EnumParser<RuleName> RuleNames = new();
 
@@ -191,6 +193,9 @@ namespace Z0
 
         public static bool parse(string src, out ChipCode dst)
             => ChipCodes.Parse(src, out dst);
+
+        public static bool parse(string src, out RoundingKind dst)
+            => RoundingKinds.Parse(src, out dst);
 
         public static bool parse(string src, out ElementSize dst)
             => ElementSizes.Parse(src, out dst);
@@ -630,7 +635,7 @@ namespace Z0
         public static bool parse(string src, out OpVisibility dst)
             => OpVisKinds.Parse(src, out dst);
 
-        public static bool parse(string src, out SMode dst)
+        public static bool parse(string src, out SMODE dst)
             => SModes.Parse(src, out dst);
 
         public static bool parse(string src, out ExtensionKind dst)

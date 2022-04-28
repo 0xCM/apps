@@ -31,7 +31,7 @@ namespace Z0
         /// <typeparam name="N">The bitvector width</typeparam>
         /// <typeparam name="T">The storage cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitString bitstring<T>(in BitVector128<T> x)
+        public static BitString bitstring<T>(BitVector128<T> x)
             where T : unmanaged
                 => BitStrings.load(x.State, x.Width);
 
@@ -42,7 +42,7 @@ namespace Z0
         /// <typeparam name="N">The bitvector width</typeparam>
         /// <typeparam name="T">The storage cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitString bitstring<T>(in BitVector256<T> x)
+        public static BitString bitstring<T>(BitVector256<T> x)
             where T : unmanaged
                 => BitStrings.load(x.State, x.Width);
 

@@ -26,6 +26,16 @@ namespace Z0
                 _ => 0
             };
 
+        [Op]
+        public static ushort bitwidth(OSZ src)
+            => src switch
+            {
+                OSZ.o16=> 16,
+                OSZ.o32=> 32,
+                OSZ.o64=> 64,
+                _ => 0
+            };
+
         [MethodImpl(Inline)]
         public static ushort bitwidth(PointerWidthKind src)
             => src == 0 ? z16 : (ushort)((ushort)src * 8);

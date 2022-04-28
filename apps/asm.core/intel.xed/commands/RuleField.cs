@@ -15,10 +15,10 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             public static implicit operator uint(RuleField src)
-                => core.@as<uint>(src);
+                => core.@as<RuleField,uint>(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleField(uint src)
+            public static explicit operator RuleField(uint src)
                 => core.@as<RuleField>(src);
 
             public static RuleField Empty => default;
@@ -38,7 +38,7 @@ namespace Z0
                 dst |= (uint)op << Dataset.Offset(Segment.Operator);
                 dst |= (uint)kind << Dataset.Offset(Segment.DataKind);
                 dst |= (uint)core.@as<T,ushort>(value) << Dataset.Offset(Segment.Value);
-                return dst;
+                return (RuleField)dst;
             }
 
             [MethodImpl(Inline)]
@@ -83,14 +83,13 @@ namespace Z0
             {
                 const string Pattern0 = "{0}";
                 const string Pattern2 = "{0}{1}{2}";
+                var dst = EmptyString;
                 var field = Field(src);
                 var op = Operator(src);
                 var kind = DataKind(src);
                 var value = render[field](Value(w16, src));
-                var pattern = Pattern0;
-
-
-                return string.Format("{0}{1}{2}");
+                dst = XedRender.format(field) + op.Format() + value;
+                return dst;
             }
 
             [MethodImpl(Inline)]

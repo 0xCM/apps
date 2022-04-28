@@ -44,9 +44,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static BitVector256<T> enable<T>(BitVector256<T> src, byte pos)
             where T : unmanaged
-                => pos < 127
-                ? gcpu.vinsert(enable(src.Lo,pos), src.State,LaneIndex.L0)
-                : gcpu.vinsert(enable(src.Hi,pos), src.State,LaneIndex.L1);
+                => pos < 128 ? gcpu.vinsert(enable(src.Lo, pos), src.State, LaneIndex.L0) : gcpu.vinsert(enable(src.Hi, (byte)(pos - 128)), src.State, LaneIndex.L1);
 
     }
 }

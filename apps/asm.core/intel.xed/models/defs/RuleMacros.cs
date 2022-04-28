@@ -11,7 +11,7 @@ namespace Z0
     using static Asm.AsmPrefixCodes.VectorWidthCode;
     using static XedModels.EASZ;
     using static XedModels.EOSZ;
-    using static XedModels.SMode;
+    using static XedModels.SMODE;
     using static XedModels.SegPrefixKind;
     using static XedModels.VexMapKind;
     using static XedModels.BCastKind;

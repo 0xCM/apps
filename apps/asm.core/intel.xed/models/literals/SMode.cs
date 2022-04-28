@@ -11,7 +11,7 @@ namespace Z0
         /// Stack addressing mode
         /// </summary>
         [SymSource(xed), DataWidth(2)]
-        public enum SMode : sbyte
+        public enum SMODE : sbyte
         {
             [Symbol("smode16", "SMODE=0")]
             SMode16 = 0,

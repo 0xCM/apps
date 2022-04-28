@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static cpu;
-
     using api = BitVectors;
 
     /// <summary>
@@ -34,6 +32,14 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
+        public void Store(Span<T> dst)
+            => api.store(this, dst);
+
+        [MethodImpl(Inline)]
+        public void Store(Span<byte> dst)
+            => api.store(this, dst);
+
+        [MethodImpl(Inline)]
         public T Cell(byte index)
             => api.cell(this,index);
 
@@ -41,12 +47,11 @@ namespace Z0
         public readonly bool Equals(BitVector256<T> src)
             => api.equals(this,src);
 
-        public readonly override bool Equals(object obj)
-            => obj is BitVector256<T> x && Equals(x);
+        public readonly override bool Equals(object src)
+            => src is BitVector256<T> x && Equals(x);
 
         public readonly override int GetHashCode()
             => Data.GetHashCode();
-
 
         [MethodImpl(Inline)]
         public ulong Seg64(N0 n)
@@ -107,7 +112,6 @@ namespace Z0
             get => 256;
         }
 
-
         /// <summary>
         /// Specifies whether all bits are disabled
         /// </summary>
@@ -126,29 +130,28 @@ namespace Z0
             get => !api.equals(this, Zero);
         }
 
+        [MethodImpl(Inline)]
+        public bit Test(byte pos)
+            => api.testbit(this,pos);
 
         [MethodImpl(Inline)]
-        public bit Test(byte index)
-            => api.testbit(this,index);
-
-        [MethodImpl(Inline)]
-        public BitVector256<T> Enable(byte index)
+        public BitVector256<T> Enable(byte pos)
         {
-            Data = api.enable(this,index);
+            Data = api.enable(this, pos);
             return this;
         }
 
         [MethodImpl(Inline)]
-        public BitVector256<T> Disable(byte index)
+        public BitVector256<T> Disable(byte pos)
         {
-            Data = api.disable(this, index);
+            Data = api.disable(this, pos);
             return this;
         }
 
         [MethodImpl(Inline)]
-        public BitVector256<T> Set(byte index, bit state)
+        public BitVector256<T> Set(byte pos, bit state)
         {
-            Data = api.setbit(this,index,state);
+            Data = api.setbit(this, pos, state);
             return this;
         }
 

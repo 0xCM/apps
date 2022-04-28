@@ -5,11 +5,37 @@
 namespace Z0
 {
     using Asm;
+
     using static core;
     using static Char5;
 
     partial class XedCmdProvider
     {
+        public static BitVector256<T> bv256<T>()
+            where T : unmanaged
+                => default;
+        void CheckBv256(ITextEmitter log)
+        {
+            var width = 256;
+            var storage = ByteBlock32.Empty;
+            var dst = recover<uint>(storage.Bytes);
+            var src = bv256<byte>();
+
+            Span<char> bitstring = stackalloc char[92];
+            for(var i=0; i<width; i++)
+                src.Enable((byte)i);
+
+            src.Store(recover<byte>(dst));
+
+            var j=0u;
+            for(var i=0; i<dst.Length; i++)
+            {
+                j=0;
+                var count = BitRender.render32x4(Chars.Space, skip(dst,i), ref j, bitstring);
+                log.AppendLine(text.format(slice(bitstring,0,count)));
+            }
+        }
+
         void GenBitfield(ITextEmitter log)
         {
             var modrm = BitfieldPatterns.infer(ModRm.BitPattern);
@@ -216,6 +242,7 @@ namespace Z0
                 (nameof(CheckBitReplication), CheckBitReplication),
                 (nameof(GenBitfield), GenBitfield),
                 (nameof(CheckSegVars), CheckSegVars),
+                (nameof(CheckBv256), CheckBv256),
                 (nameof(CheckUnpack4x1), CheckUnpack4x1)
             );
 

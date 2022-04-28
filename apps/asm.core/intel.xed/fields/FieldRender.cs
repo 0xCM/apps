@@ -43,47 +43,102 @@ namespace Z0
                     var kind = (FieldKind)i;
                     switch(kind)
                     {
-                        case K.ASZ:
-                            r[kind] = (x => XedRender.format((ASZ)x));
+                        case K.AGEN:
+                            r[kind] = (x => x.ToString());
                         break;
 
-                        case K.BCRC:
-                            r[kind] = (x => ((bit)x).Format());
+                        case K.ASZ:
+                            r[kind] = (x => XedRender.format((ASZ)x));
                         break;
 
                         case K.BCAST:
                             r[kind] = (x => XedRender.format((BCastKind)x));
                         break;
 
+                        case K.BCRC:
+                            r[kind] = (x => ((bit)x).Format());
+                        break;
+
                         case K.BRDISP_WIDTH:
                             r[kind] = (x => XedRender.format((DispWidth)x));
+                        break;
+
+                        case K.CET:
+                            r[kind] = (x => ((bit)x).Format());
+                        break;
+
+                        case K.CHIP:
+                            r[kind] = (x => XedRender.format((ChipCode)x));
+                        break;
+
+                        case K.CLDEMOTE:
+                            r[kind] = (x => ((bit)x).Format());
+                        break;
+
+                        case K.DF32:
+                            r[kind] = (x => ((bit)x).Format());
+                        break;
+
+                        case K.DF64:
+                            r[kind] = (x => ((bit)x).Format());
+                        break;
+
+                        case K.DISP:
+                            r[kind] = (x => ((bit)x).Format());
+                        break;
+
+                        // case K.DISP_WIDTH:
+                        //     r[kind] = (x => XedRender.format((DispWidth)x));
+                        // break;
+
+                        // case K.ELEMENT_SIZE:
+                        //     r[kind] = (x => XedRender.format((ElementSize)x));
+                        // break;
+
+                        case K.EASZ:
+                            r[kind] = (x => XedRender.format((EASZ)x, FormatCode.BitWidth));
+                        break;
+
+                        case K.EOSZ:
+                            r[kind] = (x => XedRender.format((EOSZ)x, FormatCode.BitWidth));
                         break;
 
                         case K.ESRC:
                             r[kind] = (x => XedRender.format((ESRC)x));
                         break;
 
-                        case K.CHIP:
-                            r[kind] = (x => XedRender.format((ChipCode)x));
-                        break;
                         case K.ICLASS:
                             r[kind] = (x => XedRender.format((InstClass)x));
                         break;
+
+                        case K.MASK:
+                            r[kind] = (x => XedRender.format((MaskReg)x));
+                        break;
+
+                        case K.OSZ:
+                            r[kind] = (x => XedRender.format((OSZ)x, FormatCode.BitWidth));
+                        break;
+
+                        // case K.MAP:
+                        //     r[kind] = (x => XedRender.format((OcMapKind)x));
+                        // break;
+
                         case K.NOMINAL_OPCODE:
                             r[kind] = (x => XedRender.format((Hex8)x));
                         break;
-                        case K.EASZ:
-                            r[kind] = (x => XedRender.format((EASZ)x,FormatCode.BitWidth));
-                        break;
-                        case K.EOSZ:
-                            r[kind] = (x => XedRender.format((EOSZ)x,FormatCode.BitWidth));
-                        break;
+
                         case K.MOD:
                             r[kind] = (x => XedRender.format((uint2)x));
                         break;
+
                         case K.MODE:
                             r[kind] = (x => XedRender.format((MachineMode)x));
                         break;
+
+                        case K.REP:
+                            r[kind] = (x => XedRender.format((XedModels.RepPrefix)x));
+                        break;
+
                         case K.MODRM_BYTE:
                             r[kind] = (x => ((ModRm)x).Format());
                         break;
@@ -91,6 +146,7 @@ namespace Z0
                         case K.REG:
                             r[kind] = (x => XedRender.format((uint3)x));
                         break;
+
                         case K.RM:
                             r[kind] = (x => XedRender.format((uint3)x));
                         break;
@@ -100,7 +156,7 @@ namespace Z0
                         break;
 
                         case K.SMODE:
-                            r[kind] = (x => XedRender.format((SMode)x,FormatCode.BitWidth));
+                            r[kind] = (x => XedRender.format((SMODE)x,FormatCode.BitWidth));
                         break;
 
                         case K.VEXDEST210:
@@ -114,6 +170,9 @@ namespace Z0
                         break;
                         case K.VEX_PREFIX:
                             r[kind] = (x => XedRender.format((VexKind)x));
+                        break;
+                        case K.VL:
+                            r[kind] = (x => XedRender.format((VexLength)x, FormatCode.BitWidth));
                         break;
 
                         case K.BASE0:

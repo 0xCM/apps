@@ -272,7 +272,7 @@ namespace Z0
                     break;
                     case K.SMODE:
                     {
-                        var x = @as<SMode>(data);
+                        var x = @as<SMODE>(data);
                         dst = XedRender.format(x, code);
                     }
                     break;
