@@ -52,12 +52,12 @@ namespace Z0
                     switch(kind)
                     {
                         case ObjectKind.TypeTable:
-                            Cols[kind] = map(cols, col => col.Name);
-                            Patterns[kind] = cols.Select(x => RP.slot((byte)x.Pos, (sbyte)-x.Width)).Concat(" | ");
+                            Cols[kind] = map(cols, col => col.ColName);
+                            Patterns[kind] = cols.Select(x => RP.slot((byte)x.Pos, (sbyte)-x.RenderWidth)).Concat(" | ");
                         break;
                         case ObjectKind.TypeTableField:
-                            Cols[kind] = map(cols, col => col.Name);
-                            Patterns[kind] = cols.Select(x => RP.slot((byte)x.Pos, (sbyte)-x.Width)).Concat(" | ");
+                            Cols[kind] = map(cols, col => col.ColName);
+                            Patterns[kind] = cols.Select(x => RP.slot((byte)x.Pos, (sbyte)-x.RenderWidth)).Concat(" | ");
                         break;
                     }
                 }

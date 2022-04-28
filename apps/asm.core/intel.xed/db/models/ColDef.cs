@@ -12,19 +12,16 @@ namespace Z0
         {
             public readonly ushort Pos;
 
-            public readonly ColKind Type;
+            public readonly asci32 ColName;
 
-            public readonly asci32 Name;
-
-            public readonly byte Width;
+            public readonly byte RenderWidth;
 
             [MethodImpl(Inline)]
-            public ColDef(ushort pos, ColKind type, asci32 name, byte width)
+            public ColDef(ushort pos, asci32 name, byte rw)
             {
                 Pos = pos;
-                Type = type;
-                Name = name;
-                Width = width;
+                ColName = name;
+                RenderWidth = rw;
             }
 
             [MethodImpl(Inline)]
@@ -33,7 +30,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public ColDef Reposition(ushort pos)
-                => new ColDef(pos, Type, Name, Width);
+                => new ColDef(pos, ColName, RenderWidth);
 
             uint ISequential.Seq
                 => Pos;

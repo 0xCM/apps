@@ -9,38 +9,19 @@ namespace Z0
     {
         public readonly record struct ColType : IElement<ColType>
         {
-            public readonly ushort Id;
+            public readonly uint Key;
 
-            public readonly ColKind Kind;
-
-            public readonly asci16 TypeName;
+            public readonly asci64 TypeName;
 
             [MethodImpl(Inline)]
-            public ColType(ColKind kind, asci16 name)
+            public ColType(uint key, asci64 name)
             {
-                Id = (byte)((ushort)kind | (ushort)kind << 5);
-                Kind = kind;
-                TypeName = name;
-            }
-
-            [MethodImpl(Inline)]
-            public ColType(ushort id, asci16 name)
-            {
-                Id = id;
-                Kind = (ColKind)(id & uint5.MaxValue);
-                TypeName = name;
-            }
-
-            [MethodImpl(Inline)]
-            public ColType(ushort id, ColKind kind, asci16 name)
-            {
-                Id = id;
-                Kind = kind;
+                Key = key;
                 TypeName = name;
             }
 
             public int CompareTo(ColType src)
-                => Id.CompareTo(src);
+                => TypeName.CompareTo(src.TypeName);
 
             public string Format()
                 => string.Format("{0,-6} | {1,-8} | {2}");

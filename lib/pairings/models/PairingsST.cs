@@ -4,17 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
-    using static Root;
-
     /// <summary>
     /// Captures a heterogenous pair sequence
     /// </summary>
     /// <typeparam name="T">The sequence element type</typeparam>
-    public readonly struct Pairings<S,T>
+    public readonly struct Pairings<S,T> : IIndex<Paired<S,T>>
     {
         /// <summary>
         /// The captured sequence
@@ -24,6 +18,12 @@ namespace Z0
         [MethodImpl(Inline)]
         public Pairings(Paired<S,T>[] data)
             => Data = data;
+
+        public Paired<S,T>[] Storage
+        {
+            [MethodImpl(Inline)]
+            get => Data.Storage;
+        }
 
         /// <summary>
         /// Returns a mutable reference to an index-identified sequence element
@@ -54,11 +54,12 @@ namespace Z0
             get => Data.Length;
         }
 
-        public IEnumerable<Paired<S,T>> Enumerate()
-            => Data;
-
         [MethodImpl(Inline)]
         public static implicit operator Pairings<S,T>(Paired<S,T>[] src)
             => new Pairings<S,T>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Paired<S,T>[](Pairings<S,T> src)
+            => src.Storage;
     }
 }

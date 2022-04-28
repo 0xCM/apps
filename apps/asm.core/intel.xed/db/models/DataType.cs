@@ -13,7 +13,7 @@ namespace Z0
             /// <summary>
             /// Specifies a surrogate key
             /// </summary>
-            public readonly uint Seq;
+            public readonly uint Key;
 
             /// <summary>
             /// Specifies the name of the domain type
@@ -43,7 +43,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public DataType(uint seq, asci32 name, asci32 prim, DataSize size, bit refines, asci32 refinement)
             {
-                Seq = seq;
+                Key = seq;
                 Primitive = prim;
                 Name = name;
                 Size = size;
@@ -54,15 +54,15 @@ namespace Z0
             asci32 IType.Name
                 => Name;
 
-            uint ISequential.Seq
-                => Seq;
-
             DataSize IType.Size
                 => Size;
 
+            uint IEntity.Key
+                => Key;
+
             [MethodImpl(Inline)]
             public int CompareTo(DataType src)
-                => Seq.CompareTo(src.Seq);
+                => Key.CompareTo(src.Key);
         }
     }
 }

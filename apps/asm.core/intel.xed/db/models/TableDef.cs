@@ -8,7 +8,7 @@ namespace Z0
     partial class XedDb
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct TableDef : IKeyed<TableDef>
+        public readonly record struct TableDef : IEntity<TableDef>
         {
             public readonly uint Key;
 
@@ -28,7 +28,7 @@ namespace Z0
             public int CompareTo(TableDef src)
                 => Name.CompareTo(src.Name);
 
-            uint IKeyed.Key
+            uint IEntity.Key
                 => Key;
         }
     }

@@ -9,15 +9,16 @@ namespace Z0
 
     partial class XedDb
     {
-        public class DbObjects
+        public partial class DbObjects
         {
             public static DbObjects create()
             {
                 var dst = new DbObjects();
-                Calc(out dst.ObjectKinds);
-                Calc(out dst.TypeTableSource);
-                Calc(dst.ObjectKinds, out dst.ObjColsSource);
-                dst.TableSpecSource = sys.empty<TableSpec>();
+                var kinds = CalcObjKinds();
+                dst.ObjectKinds = kinds;
+                dst.TypeTableSource = CalcTypeTables();
+                dst.ObjColsSource = CalcColDefs(kinds);
+                dst.TableSpecSource = sys.empty<Entity>();
                 dst.ColSpecSource = sys.empty<ColSpec>();
                 dst.RelationSource = sys.empty<Relation>();
                 return dst;
@@ -29,7 +30,7 @@ namespace Z0
 
             Index<ObjectKind,Index<ColDef>> ObjColsSource;
 
-            Index<TableSpec> TableSpecSource;
+            Index<Entity> TableSpecSource;
 
             Index<ColSpec> ColSpecSource;
 
@@ -78,17 +79,18 @@ namespace Z0
 
             }
 
-            static void Calc(out Index<ObjectKind> dst)
+            static Index<ObjectKind> CalcObjKinds()
             {
-                dst = alloc<ObjectKind>(ObjTypeCount);
+                Index<ObjectKind> dst = alloc<ObjectKind>(ObjTypeCount);
                 var kinds = Symbols.kinds<ObjectKind>();
                 for(var i=0; i<kinds.Length; i++)
                     dst[i] = skip(kinds,i);
+                return dst;
             }
 
-            static void Calc(in Index<ObjectKind> kinds, out Index<ObjectKind,Index<ColDef>> dst)
+            static Index<ObjectKind,Index<ColDef>> CalcColDefs(in Index<ObjectKind> kinds)
             {
-                dst = alloc<Index<ColDef>>(ObjTypeCount);
+                Index<ObjectKind,Index<ColDef>> dst = alloc<Index<ColDef>>(ObjTypeCount);
 
                 for(var i=1; i<kinds.Count; i++)
                 {
@@ -97,7 +99,6 @@ namespace Z0
                         break;
 
                     var seq=z16;
-
                     switch(kind)
                     {
                         case ObjectKind.TypeTableField:
@@ -108,32 +109,33 @@ namespace Z0
                         break;
                     }
                 }
+                return dst;
             }
 
             [MethodImpl(Inline)]
             static uint NextSeq(ObjectKind kind)
                 => inc(ref ObjSeqSource[kind]);
 
-            static void Calc(out Index<TypeTable> tables)
+            static Index<TypeTable> CalcTypeTables()
             {
-                var attribs = typeof(XedDb).Assembly.Enums().Attributions<SymSourceAttribute>().Where(x => x.Tag.SymGroup == "xed").ToIndex();
-                var count = attribs.Count;
-                tables = alloc<TypeTable>(count);
-                for(var i=0; i<count; i++)
-                {
-                    var type = attribs[i].Type;
-                    var width = (byte)PrimalBits.width(Enums.@base(type));
-                    var symbols = Symbols.syminfo(type);
-                    var symcount = symbols.Count;
-                    Index<TypeTableField> rows = alloc<TypeTableField>(symcount);
-                    for(var j=0; j<symcount; j++)
+                var types = MeasuredType.symbolic(typeof(XedDb).Assembly, "xed");
+                Index<TypeTable> tables = alloc<TypeTable>(types.Count);
+                for(var i=0; i<types.Count; i++)
+                    tables[i] = CalcTypeTable(types[i]);
+                return tables.Sort();
+            }
+
+            static TypeTable CalcTypeTable(MeasuredType type)
+            {
+                    var symbols = Symbols.syminfo(type.Definition);
+                    Index<TypeTableField> rows = alloc<TypeTableField>(symbols.Count);
+                    for(var j=0; j<symbols.Count; j++)
                     {
                         ref readonly var sym = ref symbols[j];
-                        rows[j] = new TypeTableField(NextSeq(ObjectKind.TypeTableField), (ushort)sym.Index, width, sym.Name.Text, sym.Value, sym.Expr.Text, sym.Description);
+                        rows[j] = new TypeTableField(NextSeq(ObjectKind.TypeTableField), (ushort)sym.Index, sym.Name.Text, sym.Value, sym.Expr.Text, sym.Description);
                     }
 
-                    tables[i] = new TypeTable(NextSeq(ObjectKind.TypeTable), type.Name, width, rows);
-                }
+                return new TypeTable(NextSeq(ObjectKind.TypeTable), type.Definition.Name, type.Size, rows);
             }
         }
     }

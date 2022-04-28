@@ -10,29 +10,43 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), Record("xed.db.typetable")]
         public readonly record struct TypeTable : ITable<TypeTable>
         {
-            public const byte ColCount = 4;
+            public const byte ColCount = 5;
 
             public const ObjectKind ObjKind = ObjectKind.TypeTable;
 
-            public readonly uint Key;
+            [RenderWidth(8)]
+            public readonly uint TypeKey;
 
-            public readonly asci32 TypeName;
+            [RenderWidth(32)]
+            public readonly asci64 TypeName;
 
-            public readonly DataSize Size;
+            [RenderWidth(12)]
+            public readonly Aligned PrimalWidth;
 
+            [RenderWidth(12)]
+            public readonly byte PackedWidth;
+
+            [RenderWidth(12)]
             public readonly ushort RowCount;
 
             [Ignore]
             public readonly Index<TypeTableField> Fields;
 
             [MethodImpl(Inline)]
-            public TypeTable(uint key, asci32 name, DataSize width, TypeTableField[] rows)
+            public TypeTable(uint key, asci64 name, DataSize size, TypeTableField[] rows)
             {
-                Key = key;
+                TypeKey = key;
                 TypeName = name;
-                Size = width;
+                PrimalWidth = size.Aligned;
+                PackedWidth = (byte)size.Packed;
                 RowCount = (ushort)rows.Length;
                 Fields = rows;
+            }
+
+            public readonly DataSize Size
+            {
+                [MethodImpl(Inline)]
+                get => new (PrimalWidth, PackedWidth);
             }
 
             [MethodImpl(Inline)]
@@ -46,9 +60,9 @@ namespace Z0
                 var left = Columns(ref s0);
                 var right = TypeTableField.Columns(ref s1);
                 var joined = resequence(left,right);
-                var names = joined.Select(x => x.Name.Format());
-                var widths = joined.Select(x => x.Width);
-                var pattern = joined.Select(x => RP.slot((byte)x.Pos, (sbyte)-x.Width)).Concat(" | ");
+                var names = joined.Select(x => x.ColName.Format());
+                var widths = joined.Select(x => x.RenderWidth);
+                var pattern = joined.Select(x => RP.slot((byte)x.Pos, (sbyte)-x.RenderWidth)).Concat(" | ");
                 return pattern;
             }
 
@@ -59,8 +73,8 @@ namespace Z0
                 var left = Columns(ref s0);
                 var right = TypeTableField.Columns(ref s1);
                 var joined = resequence(left,right);
-                var names = joined.Select(x => x.Name.Format());
-                var widths = joined.Select(x => x.Width);
+                var names = joined.Select(x => x.ColName.Format());
+                var widths = joined.Select(x => x.RenderWidth);
                 return string.Format(combined(), names.Storage);
             }
 
@@ -86,19 +100,19 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            uint IKeyed.Key
-                => Key;
-
+            uint IEntity.Key
+                => TypeKey;
 
             public static Index<ColDef> Columns(ref ushort pos)
                 =>  cols(new ColDef[ColCount]{
-                    col(pos++, ColKind.U32, nameof(Key), RenderWidths),
-                    col(pos++, ColKind.Asci32, nameof(TypeName), RenderWidths),
-                    col(pos++, ColKind.U8, nameof(Size), RenderWidths),
-                    col(pos++, ColKind.U16, nameof(RowCount), RenderWidths),
+                    col(pos++, nameof(TypeKey), RenderWidths),
+                    col(pos++, nameof(TypeName), RenderWidths),
+                    col(pos++, nameof(PrimalWidth), RenderWidths),
+                    col(pos++, nameof(PackedWidth), RenderWidths),
+                    col(pos++, nameof(RowCount), RenderWidths),
                         });
 
-            static ReadOnlySpan<byte> RenderWidths => new byte[ColCount]{8,32,12,12};
+            static ReadOnlySpan<byte> RenderWidths => new byte[ColCount]{8,32,12,12,12};
         }
     }
 }

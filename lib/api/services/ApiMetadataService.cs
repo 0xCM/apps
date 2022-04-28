@@ -74,7 +74,7 @@ namespace Z0
         {
             var types = ApiRuntimeCatalog.Components.Storage.Enums().TypeTags<SymSourceAttribute>();
             var selected = list<Type>();
-            foreach(var (t,tv) in types.Enumerate())
+            foreach(var (t,tv) in types.Storage)
             {
                 if(tv.SymGroup == tag)
                     selected.Add(t);

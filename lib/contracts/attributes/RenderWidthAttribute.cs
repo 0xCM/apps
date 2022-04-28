@@ -4,20 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public class RenderWidthAttribute : Attribute
     {
-        public RenderWidthAttribute(RenderWidths width)
+        public RenderWidthAttribute(uint width)
         {
-            Width = (byte)width;
+            Width = width;
         }
 
-        public RenderWidthAttribute(byte width)
-        {
-            Width = (byte)width;
-        }
-
-        public byte Width {get;}
+        public readonly uint Width;
     }
 }

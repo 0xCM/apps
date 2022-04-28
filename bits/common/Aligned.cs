@@ -32,6 +32,10 @@ namespace Z0
         public static Aligned W2048 => new Aligned(Log2x64.L11);
 
         [MethodImpl(Inline)]
+        public static Aligned from(NativeTypeWidth src)
+            => (byte)src >= 8 ? new Aligned((Pow2x64)src) : None;
+
+        [MethodImpl(Inline)]
         public static bit test(ulong src)
             => Pow2.test(src);
 

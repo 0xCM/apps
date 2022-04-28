@@ -25,7 +25,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public DataSize(Aligned aligned, BitWidth packed)
         {
-            Data = ((ulong)aligned << AlignedOffset) | packed & PackedMask;
+            Data = ((ulong)aligned << AlignedOffset) | (packed == 0 ? aligned.Width : (packed & PackedMask));
         }
 
         public ulong Packed

@@ -8,7 +8,7 @@ namespace Z0
     partial class XedDb
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public record class TableSpec : IEntity<TableSpec>
+        public record class Entity : IEntity<Entity>
         {
             public readonly uint Key;
 
@@ -18,22 +18,19 @@ namespace Z0
 
             public readonly Index<ColSpec> Cols;
 
-            public TableSpec(uint id, asci32 name, ColSpec[] cols, Relation[] rels)
+            public Entity(uint key, asci32 name, ColSpec[] cols, Relation[] rels)
             {
-                Key = id;
+                Key = key;
                 Name = name;
                 Cols = cols;
                 Rels = rels;
             }
 
-            ref readonly Index<Relation> IEntity<TableSpec>.Relations
-                => ref Rels;
-
-            uint IKeyed.Key
+            uint IEntity.Key
                 => Key;
 
             [MethodImpl(Inline)]
-            public int CompareTo(TableSpec src)
+            public int CompareTo(Entity src)
                 => Key.CompareTo(src.Key);
         }
     }

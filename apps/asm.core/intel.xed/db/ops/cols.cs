@@ -10,8 +10,8 @@ namespace Z0
     partial class XedDb
     {
         [MethodImpl(Inline), Op]
-        public static ColDef col(ushort pos, ColKind type, asci32 name, ReadOnlySpan<byte> widths)
-            => new ColDef(pos, type, name, skip(widths, pos));
+        public static ColDef col(ushort pos, asci32 name, ReadOnlySpan<byte> widths)
+            => new ColDef(pos, name, skip(widths, pos));
 
         [MethodImpl(Inline), Op]
         public static Index<ColDef> cols(params ColDef[] cols)

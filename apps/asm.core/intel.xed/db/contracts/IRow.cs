@@ -8,13 +8,13 @@ namespace Z0
     partial class XedDb
     {
         [Free]
-        public interface IRow : IKeyed
+        public interface IRow : IEntity
         {
 
         }
 
         [Free]
-        public interface IRow<T> : IRow, IKeyed<T>
+        public interface IRow<T> : IRow, IEntity<T>
             where T : IRow<T>
         {
 

@@ -8,7 +8,7 @@ namespace Z0
     partial class XedDb
     {
         [Free]
-        public interface IType : ISequential
+        public interface IType : IEntity
         {
             asci32 Name {get;}
 
@@ -16,7 +16,7 @@ namespace Z0
         }
 
         [Free]
-        public interface IType<T> : IType, IElement<T>
+        public interface IType<T> : IType, IEntity<T>
             where T : IType<T>
         {
 

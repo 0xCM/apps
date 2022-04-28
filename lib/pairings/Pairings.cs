@@ -4,14 +4,33 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
-    partial class Tuples
+    [ApiHost]
+    public readonly struct Pairings
     {
+        const NumericKind Closure = UnsignedInts;
+
+        [MethodImpl(Inline)]
+        public static Pairings<A,B> define<A,B>(Paired<A,B>[] src)
+            => src;
+
+        public static Pairings<A,B> define<A,B>(ReadOnlySpan<A> left, ReadOnlySpan<B> right)
+        {
+            var count = min(left.Length, right.Length);
+            var dst = alloc<Paired<A,B>>(count);
+            define(left,right,dst);
+            return dst;
+        }
+
+        [MethodImpl(Inline)]
+        public static void define<A,B>(ReadOnlySpan<A> left, ReadOnlySpan<B> right, Pairings<A,B> dst)
+        {
+            var count = min(left.Length, right.Length);
+            for(var i=0u; i<count; i++)
+                dst[i] = paired(skip(left,i), skip(right,i));
+        }
+
         /// <summary>
         /// Creates a 0-based classifier map with at most <see cref='Pow2.T08'/> entries with indices of type <see cref='byte'/>
         /// </summary>
@@ -20,7 +39,6 @@ namespace Z0
         /// <typeparam name="K">The classifier type</typeparam>
         [Op, Closures(UInt8k)]
         public static PairMap<byte,K> map<K>(W8 w, K[] src)
-            where K : unmanaged
         {
             var source = @readonly(src);
             var count = min((byte)src.Length, byte.MaxValue);
@@ -40,7 +58,6 @@ namespace Z0
         /// <typeparam name="K">The classifier type</typeparam>
         [Op, Closures(UInt16k)]
         public static PairMap<ushort,K> map<K>(W16 w, K[] src)
-            where K : unmanaged
         {
             var source = @readonly(src);
             var count = min((ushort)src.Length, ushort.MaxValue);
@@ -60,7 +77,6 @@ namespace Z0
         /// <typeparam name="K">The classifier type</typeparam>
         [Op, Closures(UInt32k)]
         public static PairMap<uint,K> map<K>(W32 w, K[] src)
-            where K : unmanaged
         {
             var source = @readonly(src);
             var count = min((uint)src.Length, uint.MaxValue);
@@ -80,7 +96,6 @@ namespace Z0
         /// <typeparam name="K">The classifier type</typeparam>
         [Op, Closures(UInt64k)]
         public static PairMap<ulong,K> map<K>(W64 w, K[] src)
-            where K : unmanaged
         {
             var source = @readonly(src);
             var count = min((ulong)src.Length, ulong.MaxValue);
@@ -93,8 +108,6 @@ namespace Z0
         }
 
         public static PairMap<I,K> map<I,K>(Paired<I,K>[] src)
-            where I : unmanaged
-            where K : unmanaged
         {
             var source = @readonly(src);
             var count = (uint)src.Length;
@@ -104,79 +117,63 @@ namespace Z0
             return new PairMap<I,K>(count, iK, Ki);
         }
 
-        [MethodImpl(Inline), Op, Closures(UnsignedInts)]
+        [MethodImpl(Inline), Op, Closures(Closure)]
         public static void project<K>(ReadOnlySpan<K> src, Span<Paired<byte,K>> indexed, Span<Paired<K,byte>> kinds)
-            where K : unmanaged
         {
             var count = src.Length;
             for(byte i=0; i<count; i++)
             {
                 ref readonly var k = ref skip(src,i);
-                ref var index = ref seek(indexed,i);
-                index = (i,k);
-                ref var kind = ref seek(kinds, i);
-                kind = (k,i);
+                seek(indexed,i) = (i,k);
+                seek(kinds, i) = (k,i);
             }
         }
 
-        [MethodImpl(Inline), Op, Closures(UnsignedInts)]
+        [MethodImpl(Inline), Op, Closures(Closure)]
         static void project<K>(ReadOnlySpan<K> src, Span<Paired<ushort,K>> indexed, Span<Paired<K,ushort>> kinds)
-            where K : unmanaged
         {
             var count = src.Length;
-            for(ushort i=0; i<count; i++)
+            for(var i=z16; i<count; i++)
             {
                 ref readonly var k = ref skip(src,i);
-                ref var index = ref seek(indexed,i);
-                index = (i,k);
-                ref var kind = ref seek(kinds, i);
-                kind = (k,i);
+                seek(indexed,i) = (i,k);
+                seek(kinds, i) = (k,i);
             }
         }
 
-        [MethodImpl(Inline), Op, Closures(UnsignedInts)]
+        [MethodImpl(Inline), Op, Closures(Closure)]
         static void project<K>(ReadOnlySpan<K> src, Span<Paired<uint,K>> indexed, Span<Paired<K,uint>> kinds)
-            where K : unmanaged
         {
             var count = src.Length;
             for(ushort i=0; i<count; i++)
             {
                 ref readonly var k = ref skip(src,i);
-                ref var index = ref seek(indexed,i);
-                index = (i,k);
-                ref var kind = ref seek(kinds, i);
-                kind = (k,i);
+                seek(indexed,i) = (i,k);
+                seek(kinds, i) = (k,i);
             }
         }
 
-        [MethodImpl(Inline), Op, Closures(UnsignedInts)]
+        [MethodImpl(Inline), Op, Closures(Closure)]
         static void project<K>(ReadOnlySpan<K> src, Span<Paired<ulong,K>> indexed, Span<Paired<K,ulong>> kinds)
-            where K : unmanaged
         {
             var count = src.Length;
             for(ushort i=0; i<count; i++)
             {
                 ref readonly var k = ref skip(src,i);
-                ref var index = ref seek(indexed,i);
-                index = (i,k);
-                ref var kind = ref seek(kinds, i);
-                kind = (k,i);
+                seek(indexed, i) = (i,k);
+                seek(kinds, i) = (k,i);
             }
         }
 
         [MethodImpl(Inline)]
         static void project<I,K>(ReadOnlySpan<Paired<I,K>> src, Span<Paired<I,K>> indexed, Span<Paired<K,I>> kinds)
-            where I : unmanaged
-            where K : unmanaged
         {
             var count = src.Length;
             for(var i=0u; i<count; i++)
             {
                 ref readonly var pair = ref skip(src,i);
-                ref var index = ref seek(indexed,i);
-                index = pair;
-                ref var kind = ref seek(kinds,i);
-                kind = (pair.Right, pair.Left);
+                seek(indexed, i) = pair;
+                seek(kinds, i) = (pair.Right, pair.Left);
             }
         }
     }
