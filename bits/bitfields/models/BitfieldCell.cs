@@ -20,7 +20,7 @@ namespace Z0
         }
 
         public string Format()
-            => BitfieldMechanics.format(this);
+            => Bitfields.format(this);
 
         public override string ToString()
             => Format();

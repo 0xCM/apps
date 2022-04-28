@@ -9,8 +9,8 @@ namespace Z0
     partial struct Bitfields
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static BitfieldSeg<T> segment<T>(T src, byte offset, byte width)
+        public static BitfieldCell<T> cell<T>(BitfieldInterval i, T value)
             where T : unmanaged
-                => new BitfieldSeg<T>(src, offset, width);
+                => new BitfieldCell<T>(i,value);
     }
 }

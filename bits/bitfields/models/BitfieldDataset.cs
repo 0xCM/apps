@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = BitfieldMechanics;
+    using api = BitfieldDataset;
 
     public class BitfieldDataset<F,T>
         where F : unmanaged, Enum
@@ -61,7 +61,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public T Extract(F field, T src)
-            => api.extract(this, field, src);
+            => Bitfields.extract(this, field, src);
 
         [MethodImpl(Inline)]
         public Index<BitfieldCell<T>> Cells(T src)

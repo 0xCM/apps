@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static Root;
     using static core;
     using static TaggedLiterals;
 
@@ -26,9 +23,9 @@ namespace Z0
                 if(IsMultiLiteral(field))
                     dst.AddRange(descriptions(polymorphic(field), vRaw));
                 else if(IsBinaryLiteral(field))
-                    dst.Add(BitMasks.describe(binaryliteral(field,vRaw)));
+                    dst.Add(BitMaskData.describe(binaryliteral(field,vRaw)));
                 else
-                    dst.Add(BitMasks.describe(Numeric.literal(base2, field.Name, vRaw, BitRender.format(vRaw, tc))));
+                    dst.Add(BitMaskData.describe(Numeric.literal(base2, field.Name, vRaw, BitRender.format(vRaw, tc))));
             }
             return dst.ToArray();
         }
@@ -60,16 +57,16 @@ namespace Z0
                         var nbk = NumericBases.kind(nbi);
 
                         if(nbi != 0)
-                            seek(dst, i) = BitMasks.describe(Numeric.literal(nbk, src.Name, value, component.Substring(1)));
+                            seek(dst, i) = BitMaskData.describe(Numeric.literal(nbk, src.Name, value, component.Substring(1)));
                         else
                         {
                             nbi = NumericBases.indicator(component[length - 1]);
                             nbi = nbi != 0 ? nbi : NBI.Base2;
-                            seek(dst, i) = BitMasks.describe(Numeric.literal(nbk, src.Name, value, component.Substring(0, length - 1)));
+                            seek(dst, i) = BitMaskData.describe(Numeric.literal(nbk, src.Name, value, component.Substring(0, length - 1)));
                         }
                     }
                     else
-                        seek(dst, i) = BitMasks.describe(NumericLiteral.Empty);
+                        seek(dst, i) = BitMaskData.describe(NumericLiteral.Empty);
                 }
             }
 

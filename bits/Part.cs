@@ -29,24 +29,16 @@ namespace Z0.Parts
 
 namespace Z0
 {
-    using static Root;
-
     [ApiHost]
     public static partial class XTend
     {
         const NumericKind Closure = Root.UnsignedInts;
-
-        [Op]
-        public static BitfieldServices Bitfields(this IWfRuntime wf)
-            => Z0.BitfieldServices.create(wf);
-
     }
 
 
     partial struct Msg
     {
         const NumericKind Closure = Root.UnsignedInts;
-
 
     }
 }

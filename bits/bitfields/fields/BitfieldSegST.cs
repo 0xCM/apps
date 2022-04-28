@@ -10,6 +10,21 @@ namespace Z0
         where S : unmanaged
         where T : unmanaged
     {
+
+        [MethodImpl(Inline)]
+        public static X extract<X>(X src, byte min, byte max)
+            where X : unmanaged
+        {
+            if(width<X>() == 8)
+                return @as<byte,X>(bits.extract(bw8(src), min, max));
+            else if(width<X>() == 16)
+                return @as<ushort,X>(bits.extract(bw16(src), min, max));
+            else if(width<X>() == 32)
+                return @as<uint,X>(bits.extract(bw32(src), min, max));
+            else
+                return @as<ulong,X>(bits.extract(bw64(src), min, max));
+        }
+
         protected ClosedInterval<byte> SegRange {get;}
 
         public S Mask {get;}
@@ -37,7 +52,7 @@ namespace Z0
         public T Value
         {
             [MethodImpl(Inline)]
-            get => @as<S,T>(Bitfields.extract(SourceValue, SegRange.Min, SegRange.Max));
+            get => @as<S,T>(extract(SourceValue, SegRange.Min, SegRange.Max));
 
             [MethodImpl(Inline)]
             set => SourceValue = Bitfields.or(Bitfields.scatter(@as<T,S>(value), Mask), Bitfields.and(SourceValue, Bitfields.not(Mask)));

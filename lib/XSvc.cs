@@ -73,10 +73,6 @@ namespace Z0
             => Z0.ApiResProvider.create(wf);
 
         [Op]
-        public static BitMaskServices ApiBitMasks(this IWfRuntime wf)
-            => Z0.BitMaskServices.create(wf);
-
-        [Op]
         public static ApiHex ApiHex(this IWfRuntime wf)
             => Z0.ApiHex.create(wf);
 

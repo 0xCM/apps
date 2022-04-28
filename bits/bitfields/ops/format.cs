@@ -8,6 +8,27 @@ namespace Z0
 
     partial struct Bitfields
     {
+        public static string format<T>(BitfieldCell<T> src)
+            where T : unmanaged
+        {
+            var dw = core.width<T>();
+            var bits = EmptyString;
+            var offset = dw - src.Interval.Width;
+            if(dw == 8)
+                bits = bw8(src.Value).FormatBits();
+            if(dw == 16)
+                bits = bw16(src.Value).FormatBits();
+            else if(dw == 32)
+                bits = bw32(src.Value).FormatBits();
+            else if(dw == 64)
+                bits = bw64(src.Value).FormatBits();
+
+            return text.format(slice(span(bits), offset));
+        }
+
+        public static string format(BitfieldInterval src)
+            => string.Format("[{0}:{1}]", src.Max, src.Min);
+
         [Op]
         public static string format(Bitfield8 src)
             => text.format(render(src));
@@ -103,6 +124,5 @@ namespace Z0
             else
                 return string.Format("{0}[{1}:{2}]", src.SegName, src.MinIndex, i);
         }
-
     }
 }

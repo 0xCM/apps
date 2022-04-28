@@ -1,71 +1,25 @@
 //-----------------------------------------------------------------------------
-// Derivative Work based on https://github.com/intelxed/xed
-// Author : Chris Moore
-// License: https://github.com/intelxed/xed/blob/main/LICENSE
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
     using static core;
 
-    public readonly struct BitfieldMechanics
+    public readonly struct BitfieldDataset
     {
-        [MethodImpl(Inline)]
-        public static T extract<T>(T src, byte offset, byte width)
-            where T : unmanaged
-                => generic<T>(bits.extract(@bw64(src), offset, math.add(offset, width)));
-
-        [MethodImpl(Inline)]
-        public static T extract<F,T>(BitfieldDataset<F,T> bitfield, F field, T src)
+        public static BitfieldDataset<F,T> create<F,W,T>()
             where F : unmanaged, Enum
-            where T : unmanaged
-                => extract(src, bitfield.Offset(field), bitfield.Width(field));
-
-        [MethodImpl(Inline)]
-        public static BitfieldInterval interval(byte offset, byte width)
-            => new BitfieldInterval(offset,width);
-
-        [MethodImpl(Inline)]
-        public static BitfieldCell<T> cell<T>(BitfieldInterval i, T value)
-            where T : unmanaged
-                => new BitfieldCell<T>(i,value);
-
-        public static string format<T>(BitfieldCell<T> src)
-            where T : unmanaged
-        {
-            var dw = core.width<T>();
-            var bits = EmptyString;
-            var offset = dw - src.Interval.Width;
-            if(dw == 8)
-                bits = bw8(src.Value).FormatBits();
-            if(dw == 16)
-                bits = bw16(src.Value).FormatBits();
-            else if(dw == 32)
-                bits = bw32(src.Value).FormatBits();
-            else if(dw == 64)
-                bits = bw64(src.Value).FormatBits();
-
-            return text.format(slice(span(bits), offset));
-        }
-
-        public static string format(BitfieldInterval src)
-            => string.Format("[{0}:{1}]", src.Max, src.Min);
-
-        internal static Index<byte> widths<W>()
             where W : unmanaged, Enum
-                => Symbols.index<W>().Kinds.Map(x => bw8(x)).ToArray();
+            where T : unmanaged
+                => new BitfieldDataset<F,T>(Symbols.index<F>().Kinds.ToArray(), widths<W>());
 
         internal static Index<BitfieldInterval> intervals<F,T>(BitfieldDataset<F,T> src)
             where F : unmanaged, Enum
             where T : unmanaged
                 => map(src.Fields, field => new BitfieldInterval(src.Offset(field), src.Width(field)));
 
-        public static BitfieldDataset<F,T> dataset<F,W,T>()
-            where F : unmanaged, Enum
-            where W : unmanaged, Enum
-            where T : unmanaged
-                => new BitfieldDataset<F,T>(Symbols.index<F>().Kinds.ToArray(), BitfieldMechanics.widths<W>());
-
-        internal static Index<byte> offsets<F,T>(BitfieldDataset<F,T> src)
+        public static Index<byte> offsets<F,T>(BitfieldDataset<F,T> src)
             where F : unmanaged, Enum
             where T : unmanaged
         {
@@ -80,6 +34,16 @@ namespace Z0
             }
             return dst;
         }
+
+        internal static Index<byte> widths<W>()
+            where W : unmanaged, Enum
+                => Symbols.index<W>().Kinds.Map(x => bw8(x)).ToArray();
+
+        // public static BitfieldDataset<F,T> dataset<F,W,T>()
+        //     where F : unmanaged, Enum
+        //     where W : unmanaged, Enum
+        //     where T : unmanaged
+        //         => new BitfieldDataset<F,T>(Symbols.index<F>().Kinds.ToArray(), widths<W>());
 
         [MethodImpl(Inline)]
         public static T segment<F,T>(BitfieldDataset<F,T> ds, F field, T src)
@@ -96,7 +60,7 @@ namespace Z0
             for(var i=0; i<ds.FieldCount; i++)
             {
                 ref readonly var field = ref ds.Fields[i];
-                seek(dst,i) = new BitfieldCell<T>(interval(ds.Offset(field), ds.Width(field)), segment(ds, field, src));
+                seek(dst,i) = new BitfieldCell<T>(Bitfields.interval(ds.Offset(field), ds.Width(field)), segment(ds, field, src));
             }
             return dst;
         }
@@ -143,5 +107,9 @@ namespace Z0
             }
             return dst.Emit();
         }
+
+
+
+
     }
 }

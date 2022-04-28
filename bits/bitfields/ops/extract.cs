@@ -9,18 +9,15 @@ namespace Z0
     partial struct Bitfields
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static T extract<T>(T src, byte min, byte max)
+        public static T extract<T>(T src, byte offset, byte width)
             where T : unmanaged
-        {
-            if(width<T>() == 8)
-                return @as<byte,T>(bits.extract(bw8(src), min, max));
-            else if(width<T>() == 16)
-                return @as<ushort,T>(bits.extract(bw16(src), min, max));
-            else if(width<T>() == 32)
-                return @as<uint,T>(bits.extract(bw32(src), min, max));
-            else
-                return @as<ulong,T>(bits.extract(bw64(src), min, max));
-        }
+                => generic<T>(bits.extract(@bw64(src), offset, math.add(offset, width)));
+
+        [MethodImpl(Inline)]
+        public static T extract<F,T>(BitfieldDataset<F,T> bitfield, F field, T src)
+            where F : unmanaged, Enum
+            where T : unmanaged
+                => extract(src, bitfield.Offset(field), bitfield.Width(field));
 
         [MethodImpl(Inline), Op]
         public static byte extract(Bitfield8 src, byte min, byte max)

@@ -63,7 +63,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public T Extract<T>(FieldKind field)
                 where T : unmanaged
-                    => core.@as<uint,T>(BitfieldMechanics.extract(Data, skip(Offsets, (byte)field), skip(Widths, (byte)field)));
+                    => core.@as<uint,T>(Bitfields.extract(Data, skip(Offsets, (byte)field), skip(Widths, (byte)field)));
 
             public enum FieldKind : byte
             {

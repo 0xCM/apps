@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     public struct BitMask<T>
-        where T : unmanaged, IDataCell
+        where T : unmanaged
     {
         public readonly T Invariant;
 

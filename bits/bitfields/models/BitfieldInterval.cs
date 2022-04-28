@@ -37,7 +37,7 @@ namespace Z0
             => Min.CompareTo(src.Min);
 
         public string Format()
-            => BitfieldMechanics.format(this);
+            => Bitfields.format(this);
 
         public override string ToString()
             => Format();

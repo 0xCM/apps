@@ -6,88 +6,89 @@ namespace Z0
 {
     using P = Pow2x64;
 
+
     /// <summary>
     /// Defines log2 literals for each pow^2 defined by <see cref ='P'/> and requires 6 bits of storage
     /// </summary>
     public enum Log2x64 : byte
     {
         /// <summary>
-        /// The exponent of <see cref='P.P2ᐞ00'/>
+        /// log2(<see cref='P.P2ᐞ01'/>) = log2(1) = 0
         /// </summary>
         L0 = 0,
 
         /// <summary>
-        /// The exponent of <see cref='P.P2ᐞ01'/>
+        /// log2(<see cref='P.P2ᐞ01'/>) = log2(2) = 1
         /// </summary>
         L1 = 1,
 
         /// <summary>
-        /// The exponent of <see cref='P.P2ᐞ02'/>
+        /// log2(<see cref='P.P2ᐞ02'/>) = log2(4) = 2
         /// </summary>
         L2 = 2,
 
         /// <summary>
-        /// The exponent of <see cref='P.P2ᐞ03'/>
+        /// log2(<see cref='P.P2ᐞ03'/>) = log2(8) = 3
         /// </summary>
         L3 = 3,
 
         /// <summary>
-        /// The exponent of <see cref='P.P2ᐞ04'/>
+        /// log2(<see cref='P.P2ᐞ04'/>) = log2(16) = 4
         /// </summary>
         L4 = 4,
 
         /// <summary>
-        /// The exponent of <see cref='P.P2ᐞ04'/>
+        /// log2(<see cref='P.P2ᐞ05'/>) = log2(32) = 5
         /// </summary>
         L5 = 5,
 
         /// <summary>
-        /// The exponent of <see cref='P.P2ᐞ06'/>
+        /// log2(<see cref='P.P2ᐞ06'/>) = log2(64) = 6
         /// </summary>
         L6 = 6,
 
         /// <summary>
-        /// The exponent of <see cref='P.P2ᐞ07'/>
+        /// log2(<see cref='P.P2ᐞ07'/>) = log2(128) = 8
         /// </summary>
         L7 = 7,
 
         /// <summary>
-        /// The exponent of <see cref='P.P2ᐞ08'/>
+        /// log2(<see cref='P.P2ᐞ08'/>) = log2(256) = 8
         /// </summary>
         L8 = 8,
 
         /// <summary>
-        /// The exponent of <see cref='P.P2ᐞ09'/>
+        /// log2(<see cref='P.P2ᐞ9'/>) = log2(512) = 9
         /// </summary>
         L9 = 9,
 
         /// <summary>
-        /// The exponent of <see cref='P.P2ᐞ10'/>
+        /// log2(<see cref='P.P2ᐞ10'/>) = log2(1024) = 10
         /// </summary>
         L10 = 10,
 
         /// <summary>
-        /// The exponent of <see cref='P.P2ᐞ11'/>
+        /// log2(<see cref='P.P2ᐞ11'/>) = log2(2048) = 11
         /// </summary>
         L11 = 11,
 
         /// <summary>
-        /// The exponent of <see cref='P.P2ᐞ12'/>
+        /// log2(<see cref='P.P2ᐞ12'/>) = log2(4096) = 12
         /// </summary>
         L12 = 12,
 
         /// <summary>
-        /// The exponent of <see cref='P.P2ᐞ13'/>
+        /// log2(<see cref='P.P2ᐞ13'/>) = log2(8192) = 13
         /// </summary>
         L13 = 13,
 
         /// <summary>
-        /// The exponent of <see cref='P.P2ᐞ14'/>
+        /// log2(<see cref='P.P2ᐞ14'/>) = 14
         /// </summary>
         L14 = 14,
 
         /// <summary>
-        /// The exponent of <see cref='P.P2ᐞ15'/>
+        /// log2(<see cref='P.P2ᐞ15'/>) = 15
         /// </summary>
         L15 = 15,
 
