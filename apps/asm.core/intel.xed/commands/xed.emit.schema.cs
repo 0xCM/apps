@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static XedRules;
-    using static XedDb;
+    using static MemDb;
     using static core;
 
     partial class XedCmdProvider
@@ -33,6 +33,5 @@ namespace Z0
 
             return true;
         }
-
     }
 }

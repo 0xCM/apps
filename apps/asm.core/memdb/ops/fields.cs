@@ -1,13 +1,12 @@
 //-----------------------------------------------------------------------------
-// Derivative Work based on https://github.com/intelxed/xed
-// Author : Chris Moore
-// License: https://github.com/intelxed/xed/blob/main/LICENSE
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
     using static core;
 
-    partial class XedDb
+    partial class MemDb
     {
         public static ClrRecordFields fields(Type a, Type b)
             => (Tables.fields(a).Index() + Tables.fields(b).Index()).Storage;

@@ -1,12 +1,15 @@
 //-----------------------------------------------------------------------------
-// Derivative Work based on https://github.com/intelxed/xed
-// Author : Chris Moore
-// License: https://github.com/intelxed/xed/blob/main/LICENSE
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedDb
+    public partial class MemDb
     {
+        [MethodImpl(Inline), Op]
+        public static DataType type(uint seq, asci32 name, asci32 primitive, DataSize size, asci32 refinement = default)
+            => new DataType(seq, name, primitive, size, !refinement.IsNull, refinement);
+
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct DataType : IType<DataType>
         {

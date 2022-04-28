@@ -143,5 +143,9 @@ namespace Z0
 
         public static XedDb XedDb(this IWfRuntime wf)
             => Z0.XedDb.create(wf);
+
+        public static MemDb MemDb(this IWfRuntime wf)
+            => Z0.MemDb.create(wf);
+
    }
 }

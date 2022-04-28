@@ -1,13 +1,12 @@
 //-----------------------------------------------------------------------------
-// Derivative Work based on https://github.com/intelxed/xed
-// Author : Chris Moore
-// License: https://github.com/intelxed/xed/blob/main/LICENSE
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
     using static core;
 
-    partial class XedDb
+    partial class MemDb
     {
         public partial class DbObjects
         {
@@ -102,10 +101,10 @@ namespace Z0
                     switch(kind)
                     {
                         case ObjectKind.TypeTableField:
-                            dst[kind] = XedDb.TypeTableField.Columns(ref seq);
+                            dst[kind] = MemDb.TypeTableField.Columns(ref seq);
                         break;
                         case ObjectKind.TypeTable:
-                            dst[kind] = XedDb.TypeTable.Columns(ref seq);
+                            dst[kind] = MemDb.TypeTable.Columns(ref seq);
                         break;
                     }
                 }
