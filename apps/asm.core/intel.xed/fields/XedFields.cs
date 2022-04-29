@@ -39,12 +39,6 @@ namespace Z0
             get => ref _ReflectedByPos;
         }
 
-        public static ref readonly ReflectedFields ByIndex
-        {
-            [MethodImpl(Inline)]
-            get => ref _ReflectedByIndex;
-        }
-
         static XedFields()
         {
             TypeInit();

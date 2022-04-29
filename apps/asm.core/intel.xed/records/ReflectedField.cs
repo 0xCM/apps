@@ -12,7 +12,7 @@ namespace Z0
         {
             public const string TableName = "xed.fields.positioned";
 
-            public const byte FieldCount = 9;
+            public const byte FieldCount = 10;
 
             public byte Pos;
 
@@ -21,6 +21,8 @@ namespace Z0
             public FieldKind Field;
 
             public asci16 DataType;
+
+            public asci16 NativeType;
 
             public Aligned NativeWidth;
 
@@ -38,7 +40,7 @@ namespace Z0
 
             public static ReflectedField Empty => default;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,24,16,12,12,12,12,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,24,16,16,12,12,12,12,1};
         }
     }
 }

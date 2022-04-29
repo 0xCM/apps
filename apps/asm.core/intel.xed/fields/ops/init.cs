@@ -36,6 +36,7 @@ namespace Z0
                 dst.Field = tag.Kind;
                 dst.Index = index;
                 dst.DataType = type.DisplayName();
+                dst.NativeType = field.FieldType.DisplayName();
                 dst.NativeWidth = nwidth;
                 dst.NativeOffset = native;
                 dst.PackedWidth = new DataSize(pwidth);

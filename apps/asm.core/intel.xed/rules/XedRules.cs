@@ -11,34 +11,6 @@ namespace Z0
     [ApiHost]
     public partial class XedRules : AppService<XedRules>
     {
-        public static Index<FieldSpec> FieldSpecs()
-        {
-            return data(nameof(FieldSpecs), calc);
-
-            Index<FieldSpec> calc()
-            {
-                var src = typeof(OperandState).InstanceFields().Tagged<RuleFieldAttribute>().ToIndex();
-                var count = src.Length;
-                Index<FieldSpec> dst = core.alloc<FieldSpec>(ReflectedFields.FieldCount);
-                for(var i=z8; i<count; i++)
-                {
-                    ref var field = ref src[i];
-                    ref var record = ref dst[i + 1];
-
-                    var tag = field.Tag<RuleFieldAttribute>().Require();
-                    record.Seq = i;
-                    record.Kind = tag.Kind;
-                    record.Index = (byte)tag.Kind;
-                    record.StorageType = field.FieldType;
-                    record.DomainType = tag.EffectiveType;
-                    record.DomainWidth = tag.Width;
-                    record.StorageWidth = (byte)XedFields.width(field.FieldType);
-                    record.Description = tag.Description;
-                }
-                return dst;
-            }
-        }
-
         const string xed = "xed";
 
         const NumericKind Closure = UnsignedInts;
