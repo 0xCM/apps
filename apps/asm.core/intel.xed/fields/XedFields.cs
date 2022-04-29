@@ -31,7 +31,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static ref readonly ReflectedField field(FieldKind kind)
-            => ref ByPosition[kind];
+            => ref _ReflectedByIndex[kind];
 
         public static ref readonly ReflectedFields ByPosition
         {

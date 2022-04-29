@@ -28,7 +28,26 @@ namespace Z0
             }
             FileEmit(dst.Emit(), count, XedDb.TargetPath("typetables", FileKind.Csv), TextEncodingKind.Asci);
 
+            EmitRuleSchema(CalcRuleCells());
+
             return true;
         }
+
+        void EmitRuleSchema(RuleCells src)
+        {
+            var dst = text.emitter();
+            var grids = src.Grids();
+
+            for(var i=0; i<grids.TableCount; i++)
+            {
+                grids[i].Render(dst);
+                dst.AppendLine();
+            }
+
+            Write(grids.MaxCols);
+
+            FileEmit(dst.Emit(), src.TableCount, XedDb.TargetPath("rules.tables", FileKind.Txt));
+        }
+
     }
 }

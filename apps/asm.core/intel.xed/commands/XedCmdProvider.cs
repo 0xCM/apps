@@ -113,22 +113,6 @@ namespace Z0
 
         RuleCells CalcRuleCells() => Rules.CalcRuleCells(CalcRules());
 
-        void EmitRuleSchema(RuleCells src)
-        {
-            var dst = text.emitter();
-            for(var i=0; i<src.TableCount; i++)
-            {
-                ref readonly var table = ref src[i];
-                dst.AppendLine(string.Format("{0:D3} {1,-32} {2}", table.TableIndex, table.Sig.Format(), XedPaths.CheckedTableDef(table.Sig)));
-                dst.AppendLine(RP.PageBreak120);
-                var fields = CellTable.fields(table);
-
-                dst.Append(fields.Format());
-                dst.AppendLine();
-            }
-
-            FileEmit(dst.Emit(), src.TableCount, XedPaths.RuleTargets() + FS.file("xed.rules.schema", FS.Txt));
-        }
 
         string CalcTableMetrics(in CellTable table)
         {
@@ -157,7 +141,8 @@ namespace Z0
             }
 
             dst.AppendLine(RP.PageBreak80);
-            dst.Append(CellTable.fields(table).Format());
+
+            dst.Append(table.Grid().Format());
 
             return dst.Emit();
         }

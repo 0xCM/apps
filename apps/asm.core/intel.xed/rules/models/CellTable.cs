@@ -13,23 +13,35 @@ namespace Z0
         {
             public static GridFields fields(in CellTable src)
             {
-                var cols = src.Rows.Select(row => fields(row).Count).Storage.Max();
+                var cols = (byte)src.Rows.Select(row => fields(row).Count).Storage.Max();
                 var dst = alloc<GridField>(cols*src.RowCount);
                 var k=z8;
                 for(var i=0; i<src.RowCount; i++)
                 {
-                    var _fields = fields(src[i]);
-                    for(var j=0; j<_fields.Count; j++)
-                        seek(dst, k++) = _fields[j];
-                    for(var j=k; j<cols; j++)
-                        seek(dst, k++) = new GridField(src.TableIndex, src[i].RowIndex, k, 0, 0);
+                    var fields = CellTable.fields(src[i]);
+                    for(var j=0; j<fields.Count; j++, k++)
+                        seek(dst, k) = fields[j];
+                    for(var j=k; j<cols; j++, k++)
+                        seek(dst, k) = GridField.Empty;
                 }
-                return new GridFields((ushort)src.RowCount, (byte)cols, dst);
+                return new GridFields(src.Sig, (ushort)src.RowCount, cols, dst);
             }
 
+            public GridFields Grid()
+                => fields(this);
+
+            [MethodImpl(Inline)]
+            static DataSize size(in ReflectedField src)
+                => new DataSize(src.NativeWidth, src.PackedWidth.Packed);
+
             public static Index<GridField> fields(CellRow src)
-                => src.Cells.Storage.Where(x => x.Field != 0).Mapi((i,f)
-                    => new GridField(src.TableIndex, src.RowIndex, (byte)i, f.Field, (byte)XedFields.field(f.Field).PackedWidth.Packed));
+            {
+                return
+                    src.Cells.Storage
+                        //.Where(x => x.Field != 0)
+                        .Mapi((i,f) => new GridField(src.TableIndex, src.RowIndex, (byte)i, f.Field,
+                            size(XedFields.field(f.Field))));
+            }
 
             public readonly RuleSig Sig;
 

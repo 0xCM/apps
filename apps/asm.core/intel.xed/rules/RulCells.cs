@@ -13,6 +13,19 @@ namespace Z0
     {
         public class RuleCells : SortedLookup<RuleSig,Index<RuleCell>>
         {
+            public RuleGrids Grids()
+                => _Tables.Select(t => CellTable.fields(t));
+
+            [MethodImpl(Inline)]
+            public static LogicCell<T> logical<T>(CellKey key, T value)
+                where T : unmanaged,  ILogicValue<T>, IEquatable<T>, ILogicOperand<T>
+                    => new LogicCell<T>(key,value);
+
+            [MethodImpl(Inline)]
+            public static LogicValue<T> value<T>(LogicDataKind kind, byte width, T data)
+                where T : unmanaged
+                    => new LogicValue<T>(kind,width,data);
+
             public static RuleCells create(Dictionary<RuleSig,Index<RuleCell>> src, string desc)
             {
                 var _src = src.ToConcurrentDictionary();

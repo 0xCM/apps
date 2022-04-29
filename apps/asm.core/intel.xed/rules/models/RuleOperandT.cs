@@ -5,10 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-    using static XedRules;
-
-    partial class XedGrids
+    partial class XedRules
     {
         public readonly record struct RuleOperand<T> : ILogicOperand<T>
             where T : unmanaged, ILogicValue<T>

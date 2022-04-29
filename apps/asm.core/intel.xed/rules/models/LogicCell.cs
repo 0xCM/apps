@@ -5,9 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-
-    partial class XedGrids
+    partial class XedRules
     {
         public readonly record struct LogicCell
         {

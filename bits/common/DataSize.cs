@@ -49,6 +49,10 @@ namespace Z0
         public string Format()
             => Packed.ToString();
 
+
+        public string FormatSemantic()
+            => string.Format("{0}:{1}", Aligned, Packed);
+
         public override string ToString()
             => Format();
 

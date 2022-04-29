@@ -18,16 +18,16 @@ namespace Z0
 
             public readonly byte Col;
 
-            public readonly byte Width;
+            public readonly DataSize Size;
 
             [MethodImpl(Inline)]
-            public GridField(ushort table, ushort row, byte col, FieldKind field, byte width)
+            public GridField(ushort table, ushort row, byte col, FieldKind field, DataSize size)
             {
                 Table = table;
                 Row = row;
                 Field = field;
                 Col = col;
-                Width = width;
+                Size = size;
             }
 
             public bool IsEmpty
@@ -47,7 +47,7 @@ namespace Z0
                 => Col.CompareTo(src.Col);
 
             public string Format()
-                => string.Format("{0:D2} {1:D2} {2:D2} | {3:D2} | {4}", Table, Row, Col, Width, Field);
+                => IsEmpty ? EmptyString : string.Format("{0:D2} {1:D2} {2:D2} | {3:D2} | {4}", Table, Row, Col, Size.FormatSemantic(), Field);
 
             public override string ToString()
                 => Format();

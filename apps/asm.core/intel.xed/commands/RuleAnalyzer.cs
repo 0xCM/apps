@@ -175,6 +175,17 @@ namespace Z0
             return usage.Emit();
         }
 
+        LogicValue Value(in RuleCell src)
+        {
+            var dst = LogicValue.Empty;
+            if(src.IsOperator)
+            {
+
+            }
+
+            return dst;
+        }
+
         RuleField Run(in RuleCell src)
         {
             var dst = RuleField.Empty;

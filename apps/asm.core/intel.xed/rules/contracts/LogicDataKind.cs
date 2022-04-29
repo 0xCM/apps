@@ -5,19 +5,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedGrids
+    partial class XedRules
     {
-        public interface ILogicValue
+        [Flags]
+        public enum LogicDataKind : byte
         {
-            LogicDataKind DataKind {get;}
+            None = 0,
 
-            byte DataWidth {get;}
-        }
+            Bit = 1,
 
-        public interface ILogicValue<T> : ILogicValue
-            where T : unmanaged
-        {
-            T Storage {get;}
+            Bits = 2,
+
+            Byte = 4,
+
+            Word = 8,
+
+            Operator = 16,
+
+            Indicator = 32,
+
+            Refinement = 64,
         }
     }
 }

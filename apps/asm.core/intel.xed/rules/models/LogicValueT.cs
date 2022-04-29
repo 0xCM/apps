@@ -5,22 +5,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedGrids
+    partial class XedRules
     {
         public readonly record struct LogicValue<T> : ILogicValue<T>
             where T : unmanaged
         {
             public readonly LogicDataKind DataKind;
 
-            public readonly byte DataWidth;
+            public readonly DataSize Size;
 
             public readonly T Storage;
 
             [MethodImpl(Inline)]
-            public LogicValue(LogicDataKind kind, byte width, T data)
+            public LogicValue(LogicDataKind kind, DataSize size, T data)
             {
                 DataKind = kind;
-                DataWidth = width;
+                Size = size;
                 Storage = data;
             }
 
@@ -30,12 +30,14 @@ namespace Z0
             LogicDataKind ILogicValue.DataKind
                 => DataKind;
 
-            byte ILogicValue.DataWidth
-                => DataWidth;
+            DataSize ILogicValue.Size
+                => Size;
 
             [MethodImpl(Inline)]
             public static implicit operator LogicValue(LogicValue<T> src)
-                => new LogicValue(src.DataKind, src.DataWidth, core.bw32(src.Storage));
+                => new LogicValue(src.DataKind, src.Size, core.bw32(src.Storage));
+
+            public static LogicValue<T> Empty => default;
         }
     }
 }

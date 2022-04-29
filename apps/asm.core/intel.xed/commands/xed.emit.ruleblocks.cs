@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
     using static XedRules;
-    using static Char5;
     using static core;
-    using static XedGrids;
 
     partial class XedCmdProvider
     {
