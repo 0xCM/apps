@@ -82,6 +82,12 @@ namespace Z0
             get => !api.equals(this, Zero);
         }
 
+        public BitVector128<T> Clear()
+        {
+            Data = default;
+            return this;
+        }
+
         [MethodImpl(Inline)]
         public bit Test(byte index)
             => api.testbit(this,index);

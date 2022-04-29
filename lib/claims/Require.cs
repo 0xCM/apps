@@ -4,15 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
-
-    using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
-    using File = System.Runtime.CompilerServices.CallerFilePathAttribute;
-    using Line = System.Runtime.CompilerServices.CallerLineNumberAttribute;
 
     [ApiHost]
     public readonly struct Require
@@ -20,7 +12,7 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         [Op]
-        public static void invariant(bool invariant, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void invariant(bool invariant, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
         {
             if(!invariant)
                 Throw.sourced("The invariant, it failed", caller, file, line);
@@ -58,7 +50,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public static T notnull<T>(T src, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static T notnull<T>(T src, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
         {
             if(src == null)
                Throw.sourced("!!null!!", caller, file, line);
@@ -66,7 +58,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static string nonempty(string src, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static string nonempty(string src, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
         {
             if(text.empty(src))
                Throw.sourced("Empty string", caller, file, line);

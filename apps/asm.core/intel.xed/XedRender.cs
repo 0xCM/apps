@@ -692,11 +692,11 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static string format(in FunctionSet src, char sep = Chars.Comma)
+        public static string format(in RuleNames src, char sep = Chars.Comma)
         {
             var dst = text.buffer();
             var counter = 0u;
-            for(var i=0; i<FunctionSet.MaxCount; i++)
+            for(var i=0; i<XedRules.RuleNames.MaxCount; i++)
             {
                 var kind = (RuleName)i;
                 if(src.Contains(kind))

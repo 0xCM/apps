@@ -31,6 +31,12 @@ namespace Z0
             get => Data;
         }
 
+        public Vector256<T> Clear()
+        {
+            Data = default;
+            return this;
+        }
+
         [MethodImpl(Inline)]
         public void Store(Span<T> dst)
             => api.store(this, dst);

@@ -4,14 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct gcalc
     {
+        /// <summary>
+        /// Counts the number of (integral) values defined in an inclusive range
+        /// </summary>
+        /// <param name="min">The first value</param>
+        /// <param name="max">The last value, that must not be smaller than the first</param>
+        /// <typeparam name="T">The value type</typeparam>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static long count<T>(T min, T max)
+            where T : unmanaged
+                => Numeric.force<T,long>(max) - Numeric.force<T,long>(min) + 1;
+
         /// <summary>
         /// Findes the number of items in an index-identified bucket
         /// </summary>

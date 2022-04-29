@@ -92,37 +92,5 @@ namespace Z0
             // iter(inst, x => Write(x));
             return true;
         }
-
-        void CheckNonTerms2()
-        {
-            //var dst = Nonterminals.create();
-            var src = Symbols.index<RuleName>();
-            var kinds = src.Kinds;
-            var dst = FunctionSet.init(kinds);
-            var buffer = alloc<RuleName>(FunctionSet.MaxCount);
-            var count = dst.Members(buffer);
-            for(var i=0; i<kinds.Length; i++)
-            {
-                ref readonly var kind = ref skip(kinds,i);
-                if(kind != 0)
-                    Require.invariant(dst.Contains(kind));
-            }
-
-            var smaller = slice(kinds,100,150);
-            dst = smaller;
-            for(var i=0; i<FunctionSet.MaxCount; i++)
-            {
-                var min = skip(smaller,0);
-                var max = skip(smaller,smaller.Length - 1);
-                var kind = (RuleName)i;
-                if(kind != 0)
-                {
-                    if(kind >= min & kind<= max)
-                        Require.invariant(dst.Contains(kind));
-                    else
-                        Require.invariant(!dst.Contains(kind));
-                }
-            }
-        }
     }
 }

@@ -88,6 +88,11 @@ namespace Z0
                 get => Bytes.sequential<M.SMODE>(0, (byte)M.SMODE.SMode64);
             }
 
+            public static ReadOnlySpan<R.RuleName> RuleNames
+            {
+                [MethodImpl(Inline), Op]
+                get => R.RuleNames.View;
+            }
         }
     }
 }
