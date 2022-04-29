@@ -3,11 +3,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
@@ -80,7 +75,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static ScalarBits<T> operator * (BitMatrix<T> A, ScalarBits<T> x)
             => BitMatrix.mul(A,x);
-
-
     }
 }

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public static class BitMatrix32x
     {
         /// <summary>
@@ -62,9 +57,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static Bit32 IsZero(this BitMatrix32 A)
             => BitMatrix.empty(A);
-
-        public static BitMatrix32 Replicate(this BitMatrix32 A)
-            => new BitMatrix32(A.Content.Replicate());
 
         [MethodImpl(Inline)]
         public static string Format(this BitMatrix32 A)

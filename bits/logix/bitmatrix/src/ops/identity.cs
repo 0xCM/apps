@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class BitMatrix
     {
         [MethodImpl(Inline), IdentityFunction, Closures(Closure)]
@@ -38,7 +33,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static BitMatrix32 identity(N32 n)
-            => BitMatrix.primal(n, Identity32x32);
+            => BitMatrix.primal(n, core.recover<uint>(Identity32x32).ToArray());
 
         [MethodImpl(Inline), Op]
         public static BitMatrix64 identity(N64 n)

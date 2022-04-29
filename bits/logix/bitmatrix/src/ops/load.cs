@@ -4,13 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class BitMatrix
     {
+        /// <summary>
+        /// Loads a generic bitmatrix from a span
+        /// </summary>
+        /// <param name="src">The row content</param>
+        /// <typeparam name="T">The primal type over which the matrix is constructed</typeparam>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static BitMatrix<T> load<T>(T[] src)
+            where T : unmanaged
+                => new BitMatrix<T>(src);
+
         /// <summary>
         /// Loads a generic bitmatrix from a span
         /// </summary>

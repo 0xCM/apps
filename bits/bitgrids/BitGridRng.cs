@@ -10,7 +10,6 @@ namespace Z0
     using BS = Z0.BitBlocks;
     using BM = Z0.BitMatrix;
 
-
     partial class XTend
     {
         /// <summary>
@@ -32,7 +31,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static BitSpanBlocks256<ulong> ToBitGrid(this BitMatrix64 src)
             => BitGrid.load(SpanBlocks.load(n256,src.Content),64,64);
-
     }
 
     public static class BitGridRng
@@ -690,7 +688,7 @@ namespace Z0
         /// <param name="random">The random source</param>
         [MethodImpl(Inline)]
         public static BitMatrix32 BitMatrix32(this ISource random)
-            => BM.primal(n32,random.Array<uint>(32));
+            => BM.primal(n32, random.Array<uint>(32));
 
         /// <summary>
         /// Produces a 32x32 bitmatrix from a random source

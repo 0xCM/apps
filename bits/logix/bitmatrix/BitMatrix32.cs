@@ -4,19 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
     /// Defines a 32x32 matrix of bits
     /// </summary>
     [IdentityProvider(typeof(BitMatrixIdentityProvider))]
-    public ref struct BitMatrix32
+    public struct BitMatrix32
     {
-        readonly Span<uint> Data;
+        readonly Index<uint> Data;
+
+        public static BitMatrix32 from(BitMatrix<uint> src)
+            => new BitMatrix32(src.Content.ToArray());
 
         /// <summary>
         /// The matrix order
@@ -24,16 +23,19 @@ namespace Z0
         public const int N = 32;
 
         [MethodImpl(Inline)]
-        internal BitMatrix32(Span<uint> src)
+        internal BitMatrix32(uint[] src)
             => Data = src;
 
         [MethodImpl(Inline)]
         internal BitMatrix32(bit fill)
         {
-            this.Data = new uint[N];
+            Data = new uint[N];
             if(fill)
-                Data.Fill(uint.MaxValue);
+                Data.Edit.Fill(uint.MaxValue);
         }
+
+        public BitMatrix32 Replicate()
+            => new BitMatrix32(Data.Replicate());
 
         /// <summary>
         /// The underlying matrix data
@@ -50,16 +52,16 @@ namespace Z0
         public Span<byte> Bytes
         {
             [MethodImpl(Inline)]
-            get => Data.Bytes();
+            get => core.recover<byte>(Data.Edit);
         }
 
         /// <summary>
         /// A reference to the first row of the matrix
         /// </summary>
-        public unsafe ref uint Head
+        public ref uint Head
         {
             [MethodImpl(Inline)]
-            get => ref first(Data);
+            get => ref Data.First;
         }
 
         /// <summary>
@@ -79,10 +81,10 @@ namespace Z0
         public bit this[int row, int col]
         {
             [MethodImpl(Inline)]
-            get => bit.test(skip(Data, row), (byte)col);
+            get => bit.test(Data[row], (byte)col);
 
             [MethodImpl(Inline)]
-            set =>  seek(Data,row) = bit.set(skip(Data, row), (byte)col, value);
+            set =>  Data[row] = bit.set(Data[row], (byte)col, value);
         }
 
         /// <summary>
@@ -95,8 +97,11 @@ namespace Z0
             get => ref Unsafe.As<uint,BitVector32>(ref seek(Head, row));
         }
 
+        public BitMatrix<uint> Generic()
+            => BitMatrix.load(Data.Storage);
+
         [MethodImpl(Inline)]
-        public bool Equals(BitMatrix32  src)
+        public bool Equals(BitMatrix32 src)
             => BitMatrix.same(this, src);
 
         public override bool Equals(object obj)
@@ -110,7 +115,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator BitMatrix<uint>(in BitMatrix32 src)
-            => BitMatrix.load(src.Data);
+            => src.Generic();
 
         [MethodImpl(Inline)]
         public static BitMatrix32 operator & (in BitMatrix32 A, in BitMatrix32 B)

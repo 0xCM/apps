@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial class BitMatrix
@@ -90,17 +86,8 @@ namespace Z0
         /// <param name="n">The order selector</param>
         /// <param name="src">The data used to populate the matrix</param>
         [MethodImpl(Inline), Op]
-        public static BitMatrix32 primal(N32 n, Span<uint> src)
+        public static BitMatrix32 primal(N32 n, uint[] src)
             => new BitMatrix32(src);
-
-        /// <summary>
-        /// Defines a primal bitmatrix of order 32
-        /// </summary>
-        /// <param name="n">The order selector</param>
-        /// <param name="src">The data used to populate the matrix</param>
-        [MethodImpl(Inline), Op]
-        public static BitMatrix32 primal(N32 n, ReadOnlySpan<byte> src)
-            => new BitMatrix32(src.AsUInt32().Replicate());
 
         /// <summary>
         /// Defines a primal bitmatrix of order 64

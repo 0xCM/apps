@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class BitMatrix
     {
         /// <summary>
@@ -25,15 +20,6 @@ namespace Z0
                     A.RowSwap(row, spec[row]);
             return ref A;
         }
-
-        // [Op]
-        // public static ref readonly BitMatrix8 permute(in NatPerm<N8> perm, in BitMatrix8 A)
-        // {
-        //     for(var row = 0; row < perm.Length; row++)
-        //         if(perm[row] != row)
-        //             A.RowSwap(row, perm[row]);
-        //     return ref A;
-        // }
 
         /// <summary>
         /// Permutes the rows of a matrix in-place according to a specified permutation

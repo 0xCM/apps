@@ -70,7 +70,7 @@ namespace Z0
                 a[j] = tmp;
             }
 
-            var B = BitMatrix.primal(n,a);
+            var B = BitMatrix.primal(n, a.ToArray());
             Claim.require(A == B);
         }
     }

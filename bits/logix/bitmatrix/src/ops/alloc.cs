@@ -161,7 +161,7 @@ namespace Z0
         /// <param name="fill">The row with which the allocated matrix is filled</param>
         public static BitMatrix32 alloc(BitVector32 fill)
         {
-            Span<uint> data = new uint[32];
+            var data = new uint[32];
             data.Fill(fill);
             return new BitMatrix32(data);
         }
