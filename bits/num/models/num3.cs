@@ -8,19 +8,44 @@ namespace Z0
 
     using T = num3;
     using D = System.Byte;
-    using W = W3;
     using N = N3;
 
     [DataWidth(Width, 8), ApiHost]
-    public readonly struct num3 : IEquatable<num3>, IComparable<num3>
+    public readonly struct num3 : inum<T>
     {
+        public readonly D Value;
+
+        [MethodImpl(Inline)]
+        public num3(D src)
+            => Value = crop(src);
+
+        [MethodImpl(Inline)]
+        num3(uint src)
+            => Value = (byte)src;
+
+        public const byte Width = 3;
+
+        public const D MaxValue = Pow2.T03m1;
+
+        public const D Mod = (D)MaxValue + 1;
+
+        public static T Zero => default;
+
+        public static T One => wrap(1);
+
+        public static T Min => wrap(0);
+
+        public static T Max => wrap(MaxValue);
+
+        public static N N => default;
+
         [MethodImpl(Inline)]
         public static D crop(D src)
             => (D)(MaxValue & src);
 
         [MethodImpl(Inline)]
-        public static T create(D src)
-            => new T(src);
+        public static T create(ulong src)
+            => new T((D)src);
 
         [MethodImpl(Inline)]
         public static T wrap(D src)
@@ -64,11 +89,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static T inc(T src)
-            => src != Max ? wrap(math.inc(src.Value)) : Min;
+            => src.Value != MaxValue ? wrap(math.inc(src.Value)) : Min;
 
         [MethodImpl(Inline), Op]
         public static T dec(T src)
-            => src != 0 ? wrap(math.dec(src.Value)) : Max;
+            => src.Value != 0 ? wrap(math.dec(src.Value)) : Max;
 
         [MethodImpl(Inline), Op]
         public static T reduce(T src)
@@ -130,60 +155,29 @@ namespace Z0
             return ref dst;
         }
 
-        public const byte Width = 3;
-
-        public const D MaxValue = Pow2.T03m1;
-
-        public const D Mod = (D)MaxValue + 1;
-
-        public static T Zero => default;
-
-        public static T One => wrap(1);
-
-        public static T Min => wrap(0);
-
-        public static T Max => wrap(MaxValue);
-
-        public static W W => default;
-
-        public static N N => default;
-
-        public readonly D Value;
-
-        [MethodImpl(Inline)]
-        public num3(D src)
-            => Value = crop(src);
-
-        [MethodImpl(Inline)]
-        num3(uint src)
-            => Value = (byte)src;
-
         [MethodImpl(Inline)]
         public bool Equals(T src)
             => Value == src.Value;
 
-        /// <summary>
-        /// Specifies whether the current value is equal to zero
-        /// </summary>
-        public bool IsZero
+        byte inum.Width
+            => Width;
+
+        ulong inum.Value
+            => Value;
+
+        public bit IsZero
         {
              [MethodImpl(Inline)]
              get => Value == 0;
         }
 
-        /// <summary>
-        /// Specifies whether the current value is nonzero
-        /// </summary>
-        public bool IsNonZero
+        public bit IsNonZero
         {
              [MethodImpl(Inline)]
              get => Value != 0;
         }
 
-        /// <summary>
-        /// Specifies whether the current value is the maximum value
-        /// </summary>
-        public bool IsMax
+        public bit IsMax
         {
             [MethodImpl(Inline)]
             get => Value == MaxValue;

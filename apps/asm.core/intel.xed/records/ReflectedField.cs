@@ -24,15 +24,21 @@ namespace Z0
 
             public asci16 NativeType;
 
-            public Aligned NativeWidth;
+            public byte NativeWidth;
 
             public ushort NativeOffset;
 
-            public DataSize PackedWidth;
+            public byte PackedWidth;
 
             public ushort PackedOffset;
 
             public TextBlock Description;
+
+            public DataSize Size
+            {
+                [MethodImpl(Inline)]
+                get => new DataSize(NativeWidth, PackedWidth);
+            }
 
             [MethodImpl(Inline)]
             public int CompareTo(ReflectedField src)

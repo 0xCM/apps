@@ -10,6 +10,8 @@ namespace Z0
 
     partial class XedFields
     {
+        // public static ushort pack(bit a, bit b, XedRegId c)
+        //     => num.pack(a,b,(num9)c);
         [MethodImpl(Inline), Op]
         public static ChipCode chip(in InstFields src)
         {

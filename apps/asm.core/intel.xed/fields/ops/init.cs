@@ -37,13 +37,12 @@ namespace Z0
                 dst.Index = index;
                 dst.DataType = type.DisplayName();
                 dst.NativeType = field.FieldType.DisplayName();
-                dst.NativeWidth = nwidth;
+                dst.NativeWidth = (byte)width(field.FieldType);
                 dst.NativeOffset = native;
-                dst.PackedWidth = new DataSize(pwidth);
+                dst.PackedWidth = pwidth;
                 dst.PackedOffset = packed;
                 dst.Description = tag.Description;
                 indexed[index] = dst;
-
                 packed += pwidth;
                 native += nwidth;
             }

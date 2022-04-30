@@ -30,18 +30,8 @@ namespace Z0
             public GridFields Grid()
                 => fields(this);
 
-            [MethodImpl(Inline)]
-            static DataSize size(in ReflectedField src)
-                => new DataSize(src.NativeWidth, src.PackedWidth.Packed);
-
             public static Index<GridField> fields(CellRow src)
-            {
-                return
-                    src.Cells.Storage
-                        //.Where(x => x.Field != 0)
-                        .Mapi((i,f) => new GridField(src.TableIndex, src.RowIndex, (byte)i, f.Field,
-                            size(XedFields.field(f.Field))));
-            }
+                => src.Cells.Select(f => new GridField(src.TableIndex, src.RowIndex, f.CellIndex, f.Field, XedFields.field(f.Field).Size));
 
             public readonly RuleSig Sig;
 
@@ -79,12 +69,6 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => Rows.IsNonEmpty;
-            }
-
-            public readonly uint Count
-            {
-                [MethodImpl(Inline)]
-                get => Rows.Count;
             }
 
             public uint RowCount

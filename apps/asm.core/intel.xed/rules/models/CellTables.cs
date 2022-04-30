@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct CellTables
+        public readonly struct CellTables : IIndex<CellTable>
         {
             readonly Index<CellTable> Data;
 
@@ -47,23 +47,11 @@ namespace Z0
                 get => ref Data[i];
             }
 
-            public uint Count
-            {
-                [MethodImpl(Inline)]
-                get => Data.Count;
-            }
-
             public uint TableCount
             {
                 [MethodImpl(Inline)]
                 get => Data.Count;
             }
-
-            public uint RowCount()
-                => Data.Select(x => x.RowCount).Storage.Sum();
-
-            public uint CellCount()
-                => Data.Select(x => x.CellCount()).Storage.Sum();
 
             public bool IsEmpty
             {

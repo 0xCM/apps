@@ -332,6 +332,12 @@ namespace Z0
 
         public const uint T20m1 = T20 - 1;
 
+        public const uint T21m1 = T21 - 1;
+
+        public const uint T22m1 = T22 - 1;
+
+        public const uint T23m1 = T23 - 1;
+
         public const uint T32m1 = uint.MaxValue;
 
         public const ulong T64m1 = ulong.MaxValue;

@@ -30,11 +30,9 @@ namespace Z0
                 RowCount = rows;
                 ColCount = cols;
                 Data = src;
-
                 FieldCount = Require.equal((ushort)(rows*cols), (ushort)src.Count);
                 TablePath = XedPaths.Service.CheckedTableDef(sig);
             }
-
 
             [StructLayout(LayoutKind.Sequential,Pack=1)]
             public struct Cell
@@ -46,7 +44,6 @@ namespace Z0
                 public FieldKind Field;
 
                 public byte Col;
-
 
                 [MethodImpl(Inline)]
                 public Cell(byte col, DataSize size, FieldKind field)
@@ -73,19 +70,19 @@ namespace Z0
 
                 public byte ColCount;
 
-                ByteBlock128 Data;
+                public Index<Cell> Cols;
 
                 public ref Cell this[byte i]
                 {
                     [MethodImpl(Inline)]
-                    get => ref seek(Cols,i);
+                    get => ref Cols[i];
                 }
 
-                public Span<Cell> Cols
-                {
-                    [MethodImpl(Inline)]
-                    get => slice(recover<Cell>(Data.Bytes), ColCount);
-                }
+                public uint PackedWidth()
+                    => Cols.Storage.Where(c => c.Field != 0).Select(x => (uint)x.Size.Packed).Sum();
+
+                public uint AlignedWidth()
+                    => Cols.Storage.Where(c => c.Field != 0).Select(x => (uint)x.Size.Aligned.Width).Sum();
 
                 public void Render(ITextEmitter dst)
                 {
@@ -108,23 +105,19 @@ namespace Z0
             {
                 var src = Data.View;
                 var dst = alloc<GridRow>(RowCount);
+                var k=0u;
                 for(var i=0; i<RowCount; i++)
                 {
-                    var offset = i*ColCount;
-                    var fields = slice(src, offset, ColCount);
-                    var count = (byte)Require.equal(fields.Length, ColCount);
-                    var nonempty = fields.Where(x => x.Field != 0);
-                    count = (byte)nonempty.Length;
-
                     ref var row = ref seek(dst,i);
-                    for(var j=z8; j<ColCount; j++)
+                    row.ColCount = ColCount;
+                    row.Rule = Rule;
+                    row.Cols = alloc<Cell>(ColCount);
+                    for(var j=0; j<ColCount; j++, k++)
                     {
-                        ref readonly var field = ref skip(fields,j);
+                        ref readonly var field = ref Data[k];
                         row.Index = field.Table;
                         row.Row = field.Row;
-                        row.ColCount = ColCount;
-                        row.Rule = Rule;
-                        row[j] = new Cell(field.Col, field.Size, field.Field);
+                        row.Cols[j] = new Cell(field.Col, field.Size, field.Field);
                     }
                 }
                 return dst;

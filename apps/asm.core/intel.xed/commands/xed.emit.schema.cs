@@ -33,21 +33,52 @@ namespace Z0
             return true;
         }
 
+        static string format(DataSize src)
+            => string.Format("[{0:D2}:{1:D2}]", src.Aligned.Width, src.Packed);
+
+        static string format(ByteSize aligned, BitWidth packed)
+            => string.Format("[{0:D3}:{1:D3}]", (ulong)aligned, (ulong)packed);
+
         void EmitRuleSchema(RuleCells src)
         {
+            const string RulePattern = "{0:D2} | {1} | {2,-6} | {3,-32} | ";
+            const string FieldPattern = "{0,-6} {1,-24}";
             var dst = text.emitter();
             var grids = src.Grids();
-
             for(var i=0; i<grids.TableCount; i++)
             {
-                grids[i].Render(dst);
+                var rows = grids.Rows(i);
+                ref readonly var rule = ref grids[i].Rule;
+
                 dst.AppendLine();
+                dst.AppendLineFormat("# {0}", grids[i].TablePath);
+                var aw = 0ul;
+                var pw = 0ul;
+
+                var widths = rows.Storage.Select(x => (aligned: x.AlignedWidth(), packed: x.PackedWidth()));
+
+                for(var j=z16; j<rows.Count; j++)
+                {
+                    ref readonly var row = ref rows[j];
+                    var cols = row.Cols.Where(c => c.Field != 0);
+                    var count = cols.Count;
+                    ref readonly var width = ref skip(widths,j);
+                    aw += width.aligned;
+                    pw += width.packed;
+
+                    dst.AppendFormat(RulePattern, j, format(aw, pw), format(row.AlignedWidth(), row.PackedWidth()), rule);
+                    for(var k=0; k<count; k++)
+                    {
+                        ref readonly var col = ref cols[k];
+                        dst.AppendFormat(FieldPattern, format(col.Size), col.Field);
+                        if(k != count - 1)
+                            dst.Append(" | ");
+                    }
+                    dst.Append(Eol);
+                }
             }
 
-            Write(grids.MaxCols);
-
-            FileEmit(dst.Emit(), src.TableCount, XedDb.TargetPath("rules.tables", FileKind.Txt));
+            FileEmit(dst.Emit(), src.TableCount, XedDb.TargetPath("rules.tables.2", FileKind.Txt));
         }
-
     }
 }

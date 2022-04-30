@@ -8,19 +8,44 @@ namespace Z0
 
     using T = num2;
     using D = System.Byte;
-    using W = W2;
     using N = N2;
 
     [DataWidth(Width, 8), ApiHost]
-    public readonly struct num2 : IEquatable<num2>, IComparable<num2>
+    public readonly struct num2 : inum<T>
     {
+        public readonly D Value;
+
+        [MethodImpl(Inline)]
+        public num2(D src)
+            => Value = crop(src);
+
+        [MethodImpl(Inline)]
+        num2(uint src)
+            => Value = (byte)src;
+
+        public const byte Width = 2;
+
+        public const D MaxValue = Pow2.T02m1;
+
+        public const D Mod = (D)MaxValue + 1;
+
+        public static T Zero => default;
+
+        public static T One => wrap(1);
+
+        public static T Min => wrap(0);
+
+        public static T Max => wrap(MaxValue);
+
+        public static N N => default;
+
         [MethodImpl(Inline)]
         public static D crop(D src)
             => (D)(MaxValue & src);
 
         [MethodImpl(Inline)]
-        public static T create(D src)
-            => new T(src);
+        public static T create(ulong src)
+            => new T((D)src);
 
         [MethodImpl(Inline)]
         public static T wrap(D src)
@@ -33,6 +58,31 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static T set(T src, byte pos, bit state)
             => math.lt(pos, Width) ? wrap(bit.set(src.Value, pos, state)) : src;
+
+        [MethodImpl(Inline)]
+        public static bit eq(T a, T b)
+            => a.Value == b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit ne(T a, T b)
+            => a.Value != b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit gt(T a, T b)
+            => a.Value > b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit ge(T a, T b)
+            => a.Value >= b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit lt(T a, T b)
+            => a.Value < b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit le(T a, T b)
+            => a.Value <= b.Value;
+
 
         [MethodImpl(Inline), Op]
         public static T negate(T src)
@@ -64,11 +114,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static T inc(T src)
-            => src != Max ? wrap(math.inc(src.Value)) : Min;
+            => src.Value != MaxValue ? wrap(math.inc(src.Value)) : Min;
 
         [MethodImpl(Inline), Op]
         public static T dec(T src)
-            => src != 0 ? wrap(math.dec(src.Value)) : Max;
+            => src.Value != 0 ? wrap(math.dec(src.Value)) : Max;
 
         [MethodImpl(Inline), Op]
         public static T reduce(T src)
@@ -130,64 +180,33 @@ namespace Z0
             return ref dst;
         }
 
-        public const byte Width = 2;
-
-        public const D MaxValue = Pow2.T02m1;
-
-        public const D Mod = (D)MaxValue + 1;
-
-        public static T Zero => default;
-
-        public static T One => wrap(1);
-
-        public static T Min => wrap(0);
-
-        public static T Max => wrap(MaxValue);
-
-        public static W W => default;
-
-        public static N N => default;
-
-        public readonly D Value;
-
-        [MethodImpl(Inline)]
-        public num2(D src)
-            => Value = crop(src);
-
-        [MethodImpl(Inline)]
-        num2(uint src)
-            => Value = (byte)src;
-
         [MethodImpl(Inline)]
         public bool Equals(T src)
-            => Value == src.Value;
+            => eq(this,src);
 
-        /// <summary>
-        /// Specifies whether the current value is equal to zero
-        /// </summary>
-        public bool IsZero
+        public bit IsZero
         {
              [MethodImpl(Inline)]
              get => Value == 0;
         }
 
-        /// <summary>
-        /// Specifies whether the current value is nonzero
-        /// </summary>
-        public bool IsNonZero
+        public bit IsNonZero
         {
              [MethodImpl(Inline)]
              get => Value != 0;
         }
 
-        /// <summary>
-        /// Specifies whether the current value is the maximum value
-        /// </summary>
-        public bool IsMax
+        public bit IsMax
         {
             [MethodImpl(Inline)]
             get => Value == MaxValue;
         }
+
+        byte inum.Width
+            => Width;
+
+        ulong inum.Value
+            => Value;
 
         [MethodImpl(Inline)]
         public string Format()
@@ -300,26 +319,26 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static bit operator ==(T a, T b)
-            => a.Value == b.Value;
+            => eq(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator !=(T a, T b)
-            => a.Value != b.Value;
+            => ne(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator < (T a, T b)
-            => a.Value < b.Value;
+            => lt(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator <= (T a, T b)
-            => a.Value <= b.Value;
+            => le(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator > (T a, T b)
-            => a.Value > b.Value;
+            => gt(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator >= (T a, T b)
-            => a.Value >= b.Value;
+            => ge(a,b);
     }
 }

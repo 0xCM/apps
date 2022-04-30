@@ -44,7 +44,7 @@ namespace Z0
             static void render(CellTables src, ref uint seq, ITextEmitter dst)
             {
                 dst.AppendLine(SemanticHeader);
-                for(var i=0; i<src.Count; i++)
+                for(var i=0; i<src.TableCount; i++)
                     render(src[i], ref seq, dst);
             }
 
@@ -59,7 +59,7 @@ namespace Z0
             [MethodImpl(Inline)]
             static void render(CellTable src, ref uint seq, ITextEmitter dst)
             {
-                for(var i=0; i<src.Count; i++)
+                for(var i=0; i<src.RowCount; i++)
                     render(src[i], ref seq, dst);
             }
 

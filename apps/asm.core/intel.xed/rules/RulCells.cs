@@ -63,9 +63,6 @@ namespace Z0
                 return dst;
             }
 
-            static Index<RuleCellRecord> records(RuleCells src)
-                => records(src.Tables);
-
             static Index<RuleCellRecord> records(Index<CellTable> src)
             {
                 var seq = z16;

@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    [DataType(TypeSyntax.Num)]
     public struct num<T> : IScalarValue<T>
         where T : unmanaged
     {
@@ -17,13 +11,6 @@ namespace Z0
 
         public TypeSpec ScalarType
             => TypeSyntax.num(TypeSyntax.infer<T>());
-
-        public BitWidth ContentWidth
-            => core.size<T>();
-
-        T IValue<T>.Value
-            => Value;
-
 
         [MethodImpl(Inline)]
         public num(T value)
@@ -41,6 +28,12 @@ namespace Z0
 
         public override bool Equals(object src)
             => src is num<T> x && Equals(x);
+
+        T IValue<T>.Value
+            => Value;
+
+        BitWidth ISizedValue.ContentWidth
+            => core.width<T>();
 
         [MethodImpl(Inline)]
         public static bool operator ==(num<T> a, num<T> b)
