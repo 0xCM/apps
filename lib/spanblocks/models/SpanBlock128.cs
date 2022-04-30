@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
@@ -191,6 +187,15 @@ namespace Z0
         [MethodImpl(Inline)]
         public void CopyTo(Span<T> dst)
             => Data.CopyTo(dst);
+
+        /// <summary>
+        /// Reinterprets the storage cell type
+        /// </summary>
+        /// <typeparam name="S">The target cell type</typeparam>
+        [MethodImpl(Inline)]
+        public SpanBlock128<S> Cover<S>()
+            where S : unmanaged
+                => As<S>();
 
         /// <summary>
         /// Reinterprets the storage cell type

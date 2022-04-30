@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
     using static core;
 
     using BL = ByteLogic;
@@ -67,7 +62,7 @@ namespace Z0
         [MethodImpl(Inline), TestZ, Closures(Closure)]
         public static bit testz<T>(W256 n, in T a, in T b)
             where T : unmanaged
-            => vtestz(n, a, b);
+                => vtestz(n, a, b);
 
         [MethodImpl(Inline), TestZ, Closures(Closure)]
         public static bit testz<T>(W128 n, int vcount, int blocklen, in T a)

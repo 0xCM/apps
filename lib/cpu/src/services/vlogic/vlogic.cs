@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-
     /// <summary>
     /// Defines operators over square bit domains
     /// </summary>

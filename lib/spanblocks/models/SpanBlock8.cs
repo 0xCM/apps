@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
@@ -103,30 +99,12 @@ namespace Z0
         }
 
         /// <summary>
-        /// Mediates access to the underlying storage cells via linear index
-        /// </summary>
-        public ref T this[uint index]
-        {
-            [MethodImpl(Inline)]
-            get => ref seek(First,index);
-        }
-
-        /// <summary>
         /// Mediates access to the the underlying storage cells via block index and block-relative cell index
         /// </summary>
         public ref T this[int block, int segment]
         {
             [MethodImpl(Inline)]
             get => ref Cell(block, segment);
-        }
-
-        /// <summary>
-        /// Presents the source data as bytespan
-        /// </summary>
-        public Span<byte> Bytes
-        {
-            [MethodImpl(Inline)]
-            get => bytes(Data);
         }
 
         /// <summary>
@@ -145,6 +123,42 @@ namespace Z0
         [MethodImpl(Inline)]
         public Span<T> CellBlock(int block)
             => slice(Data,block * BlockLength, BlockLength);
+
+        /// <summary>
+        /// Mediates access to the underlying storage cells via linear index
+        /// </summary>
+        public ref T this[uint index]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(First,index);
+        }
+
+        /// <summary>
+        /// Mediates access to the the underlying storage cells via block index and block-relative cell index
+        /// </summary>
+        public ref T this[uint block, uint cell]
+        {
+            [MethodImpl(Inline)]
+            get => ref Cell(block, cell);
+        }
+
+        /// <summary>
+        /// Mediates access to the the underlying storage cells via block index and block-relative cell index
+        /// </summary>
+        /// <param name="block">The block index</param>
+        /// <param name="index">The cell relative block index</param>
+        [MethodImpl(Inline)]
+        public ref T Cell(uint block, uint index)
+            => ref add(First, BlockLength*block + index);
+
+        /// <summary>
+        /// Presents the source data as bytespan
+        /// </summary>
+        public Span<byte> Bytes
+        {
+            [MethodImpl(Inline)]
+            get => bytes(Data);
+        }
 
         /// <summary>
         /// Broadcasts a value to all blocked cells
@@ -168,6 +182,75 @@ namespace Z0
         [MethodImpl(Inline)]
         public void CopyTo(Span<T> dst)
             => Data.CopyTo(dst);
+
+        /// <summary>
+        /// Reinterprets the storage cell type
+        /// </summary>
+        /// <typeparam name="S">The target cell type</typeparam>
+        [MethodImpl(Inline)]
+        public SpanBlock8<S> Cover<S>()
+            where S : unmanaged
+                => As<S>();
+
+        /// <summary>
+        /// Presents 8-bit blocks as 16-bit <typeparamref name='S'/> blocks
+        /// </summary>
+        /// <param name="w">The target width</param>
+        /// <typeparam name="S">The target cell type</typeparam>
+        [MethodImpl(Inline)]
+        public SpanBlock16<S> Recover<S>(W16 w)
+            where S : unmanaged
+                => Cover<S>().Reblock(w);
+
+        /// <summary>
+        /// Presents 8-bit blocks as 32-bit <typeparamref name='S'/> blocks
+        /// </summary>
+        /// <param name="w">The target width</param>
+        /// <typeparam name="S">The target cell type</typeparam>
+        [MethodImpl(Inline)]
+        public SpanBlock32<S> Recover<S>(W32 w)
+            where S : unmanaged
+                => Cover<S>().Reblock(w);
+
+        /// <summary>
+        /// Presents 8-bit blocks as 64-bit <typeparamref name='S'/> blocks
+        /// </summary>
+        /// <param name="w">The target width</param>
+        /// <typeparam name="S">The target cell type</typeparam>
+        [MethodImpl(Inline)]
+        public SpanBlock64<S> Recover<S>(W64 w)
+            where S : unmanaged
+                => Cover<S>().Reblock(w);
+
+        /// <summary>
+        /// Presents 8-bit blocks as 128-bit <typeparamref name='S'/> blocks
+        /// </summary>
+        /// <param name="w">The target width</param>
+        /// <typeparam name="S">The target cell type</typeparam>
+        [MethodImpl(Inline)]
+        public SpanBlock128<S> Recover<S>(W128 w)
+            where S : unmanaged
+                => Cover<S>().Reblock(w);
+
+        /// <summary>
+        /// Presents 8-bit blocks as 8-bit <typeparamref name='S'/> blocks
+        /// </summary>
+        /// <param name="w">The target width</param>
+        /// <typeparam name="S">The target cell type</typeparam>
+        [MethodImpl(Inline)]
+        public SpanBlock256<S> Recover<S>(W256 w)
+            where S : unmanaged
+                => Cover<S>().Reblock(w);
+
+        /// <summary>
+        /// Presents 8-bit blocks as 512-bit <typeparamref name='S'/> blocks
+        /// </summary>
+        /// <param name="w">The target width</param>
+        /// <typeparam name="S">The target cell type</typeparam>
+        [MethodImpl(Inline)]
+        public SpanBlock512<S> Recover<S>(W512 w)
+            where S : unmanaged
+                => Cover<S>().Reblock(w);
 
         /// <summary>
         /// Reinterprets the storage cell type

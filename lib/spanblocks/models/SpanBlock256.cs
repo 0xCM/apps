@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
@@ -199,6 +195,75 @@ namespace Z0
         [MethodImpl(Inline)]
         public void CopyTo(Span<T> dst)
             => Data.CopyTo(dst);
+
+        /// <summary>
+        /// Reinterprets the storage cell type
+        /// </summary>
+        /// <typeparam name="S">The target cell type</typeparam>
+        [MethodImpl(Inline)]
+        public SpanBlock256<S> Cover<S>()
+            where S : unmanaged
+                => As<S>();
+
+        /// <summary>
+        /// Presents 256-bit blocks as 8-bit <typeparamref name='S'/> blocks
+        /// </summary>
+        /// <param name="w">The target width</param>
+        /// <typeparam name="S">The target cell type</typeparam>
+        [MethodImpl(Inline)]
+        public SpanBlock8<S> Recover<S>(W8 w)
+            where S : unmanaged
+                => Cover<S>().Reblock(w);
+
+        /// <summary>
+        /// Presents 256-bit blocks as 16-bit <typeparamref name='S'/> blocks
+        /// </summary>
+        /// <param name="w">The target width</param>
+        /// <typeparam name="S">The target cell type</typeparam>
+        [MethodImpl(Inline)]
+        public SpanBlock16<S> Recover<S>(W16 w)
+            where S : unmanaged
+                => Cover<S>().Reblock(w);
+
+        /// <summary>
+        /// Presents 256-bit blocks as 32-bit <typeparamref name='S'/> blocks
+        /// </summary>
+        /// <param name="w">The target width</param>
+        /// <typeparam name="S">The target cell type</typeparam>
+        [MethodImpl(Inline)]
+        public SpanBlock32<S> Recover<S>(W32 w)
+            where S : unmanaged
+                => Cover<S>().Reblock(w);
+
+        /// <summary>
+        /// Presents 256-bit blocks as 64-bit <typeparamref name='S'/> blocks
+        /// </summary>
+        /// <param name="w">The target width</param>
+        /// <typeparam name="S">The target cell type</typeparam>
+        [MethodImpl(Inline)]
+        public SpanBlock64<S> Recover<S>(W64 w)
+            where S : unmanaged
+                => Cover<S>().Reblock(w);
+
+        /// <summary>
+        /// Presents 256-bit blocks as 128-bit <typeparamref name='S'/> blocks
+        /// </summary>
+        /// <param name="w">The target width</param>
+        /// <typeparam name="S">The target cell type</typeparam>
+        [MethodImpl(Inline)]
+        public SpanBlock128<S> Recover<S>(W128 w)
+            where S : unmanaged
+                => Cover<S>().Reblock(w);
+
+        /// <summary>
+        /// Presents 256-bit blocks as 512-bit <typeparamref name='S'/> blocks
+        /// </summary>
+        /// <param name="w">The target width</param>
+        /// <typeparam name="S">The target cell type</typeparam>
+        [MethodImpl(Inline)]
+        public SpanBlock512<S> Recover<S>(W512 w)
+            where S : unmanaged
+                => Cover<S>().Reblock(w);
 
         /// <summary>
         /// Reinterprets the storage cell type

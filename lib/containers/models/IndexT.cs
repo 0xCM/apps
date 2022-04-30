@@ -15,6 +15,7 @@ namespace Z0
         public Index(T[] content)
             => Data = content;
 
+
         public int Length
         {
             [MethodImpl(Inline)]
