@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static System.Runtime.Intrinsics.X86.Bmi2;
     using static System.Runtime.Intrinsics.X86.Bmi2.X64;
-    using static Root;
 
     partial class bits
     {
@@ -48,6 +44,14 @@ namespace Z0
         /// <param name="offset">The index at which to begin disabling bits</param>
         [MethodImpl(Inline), MsbOff]
         public static ulong zhi(ulong src, byte offset)
+            => ZeroHighBits(src, offset);
+
+        [MethodImpl(Inline), MsbOff]
+        public static uint zhi(uint src, uint offset)
+            => ZeroHighBits(src, offset);
+
+        [MethodImpl(Inline), MsbOff]
+        public static ulong zhi(ulong src, ulong offset)
             => ZeroHighBits(src, offset);
     }
 }

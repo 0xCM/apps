@@ -4,6 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    public readonly struct BitfieldSeg
+    {
+        [MethodImpl(Inline)]
+        public static BitfieldSeg<T> define<T>(T src, byte offset, byte width)
+            where T : unmanaged
+                => new BitfieldSeg<T>(src, offset, width);
+    }
 
     [StructLayout(LayoutKind.Sequential,Pack=1)]
     public struct BitfieldSeg<T>

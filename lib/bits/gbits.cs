@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     [ApiHost]
     public partial class gbits

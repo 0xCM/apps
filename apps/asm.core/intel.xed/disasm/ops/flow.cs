@@ -8,11 +8,8 @@ namespace Z0
     partial class XedDisasm
     {
         [MethodImpl(Inline)]
-        public static DisasmFlow flow(WsContext context)
-            => new DisasmFlow(context);
-
-        public static void flow(IAppService svc, WsContext context, in FileRef src, IDisasmTarget dst)
-            => flow(context).Run(src,dst);
+        public static IFlow flow(WsContext context)
+            => new Flow(context);
 
         static long DisasmTokens;
 

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [ApiHost]
     readonly struct BitPosCalcs
     {
@@ -22,31 +18,29 @@ namespace Z0
 		public static uint delta(BitPos a, BitPos b)
 			=> (uint)(a.LinearIndex > b.LinearIndex ? a.LinearIndex - b.LinearIndex : b.LinearIndex - a.LinearIndex);
 
-
 		[MethodImpl(Inline), Op]
-        public static ref BitPos add(ref BitPos pos, uint bitindex)
+        public static ref BitPos add(ref BitPos pos, uint offset)
         {
-            var newindex = pos.LinearIndex + bitindex;
-            pos.CellIndex = linearIndex(pos.CellWidth,newindex);
-            pos.BitOffset = offsetMod(pos.CellWidth, newindex);
+            var i = pos.LinearIndex + offset;
+            pos.CellIndex = linearIndex(pos.CellWidth,i);
+            pos.BitOffset = offsetMod(pos.CellWidth, i);
             return ref pos;
         }
 
 		[MethodImpl(Inline), Op, Closures(Closure)]
-        public static ref BitPos<T> add<T>(ref BitPos<T> pos, uint bitindex)
+        public static ref BitPos<T> add<T>(ref BitPos<T> pos, uint offset)
             where T : unmanaged
         {
-            var newindex = pos.LinearIndex + bitindex;
-            pos.CellIndex = linearIndex(pos.CellWidth,newindex);
-            pos.BitOffset = offsetMod(pos.CellWidth, newindex);
+            var i = pos.LinearIndex + offset;
+            pos.CellIndex = linearIndex(pos.CellWidth, i);
+            pos.BitOffset = offsetMod(pos.CellWidth, i);
             return ref pos;
         }
 
 		[MethodImpl(Inline), Op, Closures(Closure)]
-		public static uint count<T>(in BitPos<T> src, in BitPos<T> dst)
+		public static uint count<T>(in BitPos<T> i0, in BitPos<T> i1)
             where T : unmanaged
-			    => (uint)core.abs((long)src.LinearIndex - (long)dst.LinearIndex) + 1;
-
+			    => (uint)core.abs((long)i0.LinearIndex - (long)i1.LinearIndex) + 1;
 
 		[MethodImpl(Inline), Op]
         public static ref BitPos inc(ref BitPos pos)

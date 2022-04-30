@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial class gbits
@@ -19,7 +15,7 @@ namespace Z0
         /// <param name="pos">The 0-based index of the bit to change</param>
         /// <typeparam name="T">The source element type</typeparam>
         [MethodImpl(Inline), Disable, Closures(AllNumeric)]
-        public static T disable<T>(T src, int pos)
+        public static T disable<T>(T src, byte pos)
             where T : unmanaged
         {
             if(size<T>() == 1)

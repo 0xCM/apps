@@ -33,17 +33,9 @@ namespace Z0
         public SpanBlock64<T> Slice(uint start, uint blocks)
             => new SpanBlock64<T>(slice(Data, start * (uint)BlockLength,  blocks*(uint)BlockLength));
 
-        // [MethodImpl(Inline)]
-        // public ref Cell64 Cell(uint block)
-        //     => ref first(recover<T,Cell64>(CellBlock((int)block)));
-
         [MethodImpl(Inline)]
-        public T Bits(byte start, byte length)
-            => gbits.slice(Data[(int)(start/CellWidth)], (byte)(start % CellWidth), length);
-
-        [MethodImpl(Inline)]
-        public T Bits(uint block, byte offset, byte width)
-            => gbits.slice(this[block, (uint)(offset/CellWidth)], (byte)(offset % CellWidth), width);
+        public T Bits(uint block, uint cell, byte offset, byte width)
+            => gbits.slice(this[block, cell], offset, width);
 
         /// <summary>
         /// The unblocked storage cells

@@ -11,21 +11,21 @@ namespace Z0
         /// <summary>
         /// Disables a bit if it is enabled
         /// </summary>
-        /// <param name="index">The position of the bit to disable</param>
+        /// <param name="pos">The position of the bit to disable</param>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ScalarBits<T> disable<T>(ScalarBits<T> x, int index)
+        public static ScalarBits<T> disable<T>(ScalarBits<T> x, int pos)
             where T : unmanaged
-                => gbits.disable(x.State,index);
+                => gbits.disable(x.State, (byte)pos);
 
         /// <summary>
         /// Disables a bit if it is enabled
         /// </summary>
-        /// <param name="index">The position of the bit to disable</param>
+        /// <param name="pos">The position of the bit to disable</param>
         [MethodImpl(Inline)]
-        public static ScalarBits<N,T> disable<N,T>(ScalarBits<N,T> x, int index)
+        public static ScalarBits<N,T> disable<N,T>(ScalarBits<N,T> x, int pos)
             where T : unmanaged
             where N : unmanaged, ITypeNat
-                => gbits.disable(x.State,index);
+                => gbits.disable(x.State, (byte)pos);
 
         /// <summary>
         /// Disables a bit if it is enabled

@@ -10,17 +10,17 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public readonly struct DisasmFlow
+        readonly struct Flow : IFlow
         {
             readonly WsContext Context;
 
             [MethodImpl(Inline)]
-            public DisasmFlow(WsContext context)
+            public Flow(WsContext context)
             {
                 Context = context;
             }
 
-            public void Run(in FileRef src, IDisasmTarget dst)
+            public void Run(in FileRef src, ITarget dst)
             {
                 var token = dst.Starting(Context,src);
                 if(token.IsNonEmpty)
@@ -45,7 +45,7 @@ namespace Z0
                 }
             }
 
-            void Step(uint seq, in DetailBlock src, IDisasmTarget dst)
+            void Step(uint seq, in DetailBlock src, ITarget dst)
             {
                 ref readonly var detail = ref src.DetailRow;
                 ref readonly var block = ref src.SummaryLines;

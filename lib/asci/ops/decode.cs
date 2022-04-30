@@ -9,6 +9,18 @@ namespace Z0
     partial struct Asci
     {
         [MethodImpl(Inline), Op]
+        public static Vector128<ushort> decode(ulong src)
+            => cpu.vlo(vpack.vinflate256x16u(cpu.v8u(cpu.vscalar(src))));
+
+        [MethodImpl(Inline), Op]
+        public static Vector256<ushort> decode(Vector128<byte> src)
+            => vpack.vinflate256x16u(src);
+
+        [MethodImpl(Inline), Op]
+        public static Vector512<ushort> decode(Vector256<byte> src)
+            => cpu.vparts(w512, vpack.vinflatelo256x16u(src), vpack.vinflatehi256x16u(src));
+
+        [MethodImpl(Inline), Op]
         public static ReadOnlySpan<char> decode(in asci2 src)
         {
             var storage = 0u;
@@ -41,6 +53,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static void decode(N16 n, ReadOnlySpan<byte> src, Span<char> dst)
             => cpu.vstore(vpack.vinflate256x16u(cpu.vload(w128,src)), ref @as<ushort>(core.first(dst)));
+
 
         [MethodImpl(Inline), Op]
         public static void decode(N32 n, ReadOnlySpan<byte> src, Span<char> dst)

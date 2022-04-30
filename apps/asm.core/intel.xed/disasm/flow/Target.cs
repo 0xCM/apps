@@ -13,9 +13,9 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public class DisasmTarget : IDisasmTarget
+        class Target : ITarget
         {
-            DisasmBuffer Buffer;
+            IContextBuffer Buffer;
 
             int Counter;
 
@@ -27,7 +27,7 @@ namespace Z0
 
             WsContext _Context;
 
-            public DisasmTarget()
+            public Target()
             {
                 Counter = 0;
                 Exclusions = core.hashset(K.TZCNT,K.LZCNT,K.MAX_BYTES);
@@ -82,37 +82,37 @@ namespace Z0
                 get => ref _Render;
             }
 
-            void IDisasmTarget.Computed(uint seq, in OpDetails src)
+            void ITarget.Computed(uint seq, in OpDetails src)
                 => OpDetailComputed(seq,src);
 
-            void IDisasmTarget.Computing(uint seq, in Instruction src)
+            void ITarget.Computing(uint seq, in Instruction src)
                 => ComputingInst(seq, src);
 
-            void IDisasmTarget.Computed(uint seq, in Instruction src)
+            void ITarget.Computed(uint seq, in Instruction src)
                 => ComputedInst(seq, src);
 
-            void IDisasmTarget.Computed(uint seq, in OperandState src)
+            void ITarget.Computed(uint seq, in OperandState src)
                 => Buffer.State(seq, src, OpStateComputed);
 
-            void IDisasmTarget.Computed(uint seq, in AsmInfo src)
+            void ITarget.Computed(uint seq, in AsmInfo src)
             {
                 Buffer.AsmInfo() = src;
                 InfoComputed(seq, src);
             }
 
-            void IDisasmTarget.Computed(uint seq, in Fields src)
+            void ITarget.Computed(uint seq, in Fields src)
                 => FieldsComputed(seq,src);
 
-            void IDisasmTarget.Computed(uint seq, ReadOnlySpan<FieldKind> src)
+            void ITarget.Computed(uint seq, ReadOnlySpan<FieldKind> src)
                 => Buffer.Cache(src);
 
-            void IDisasmTarget.Computed(uint seq, in EncodingExtract src)
+            void ITarget.Computed(uint seq, in EncodingExtract src)
             {
                 Buffer.Encoding() = src;
                 ExtractComputed(seq,src);
             }
 
-            void IDisasmTarget.Computed(uint seq, in DisasmProps src)
+            void ITarget.Computed(uint seq, in DisasmProps src)
             {
                 Buffer.Props() = src;
                 PropsComputed(seq,src);
@@ -124,12 +124,12 @@ namespace Z0
                 _Context = context;
                 DisasmToken t = token();
                 Counter = 0;
-                Buffer = new(src);
+                Buffer = buffer(context, src);
                 Running(context, src);
                 return t;
             }
 
-            void IDisasmTarget.Finished(DisasmToken token)
+            void ITarget.Finished(DisasmToken token)
                 => Ran(token);
 
             void StateComputed(uint seq, in OperandState state, ReadOnlySpan<FieldKind> fields)

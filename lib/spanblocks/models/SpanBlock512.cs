@@ -31,10 +31,6 @@ namespace Z0
         public SpanBlock512<T> Slice(uint start, uint blocks)
             => new SpanBlock512<T>(slice(Data, start * (uint)BlockLength,  blocks*(uint)BlockLength));
 
-        [MethodImpl(Inline)]
-        public ref Cell512 Cell(uint block)
-            => ref first(recover<T,Cell512>(CellBlock((int)block)));
-
         /// <summary>
         /// The unblocked storage cells
         /// </summary>

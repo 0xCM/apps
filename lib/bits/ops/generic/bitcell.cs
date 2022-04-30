@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial class gbits
@@ -37,12 +33,12 @@ namespace Z0
         /// <summary>
         /// Reads/manipulates a cell identified by a linear bit position
         /// </summary>
-        /// <param name="bitpos">The linear bit position</param>
+        /// <param name="index">The linear bit position</param>
         /// <param name="src">A reference to grid storage</param>
         /// <typeparam name="T">The storage segment type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ref T bitcell<T>(ref T src, uint bitpos)
+        public static ref T bitcell<T>(ref T src, uint index)
             where T : unmanaged
-                => ref seek(src, bitpos / width<T>());
+                => ref seek(src, index/width<T>());
     }
 }

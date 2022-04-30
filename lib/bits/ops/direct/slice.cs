@@ -10,91 +10,91 @@ namespace Z0
     partial class bits
     {
         /// <summary>
-        /// Extracts a contiguous range of bits from the source
-        /// unsigned int _bextr_u32 (unsigned int a, unsigned int start, unsigned int len) BEXTR r32a, reg/m32, r32b
+        /// Extracts a contiguous range of bits beginning at a specified pos
+        /// unsigned int _bextr_u32 (unsigned int a, unsigned int pos, unsigned int len) BEXTR r32a, reg/m32, r32b
         /// </summary>
         /// <param name="src">The source value</param>
-        /// <param name="start">The bit position within the source where extraction should benin</param>
-        /// <param name="length">The number of bits that should be extracted</param>
+        /// <param name="pos">The position of the first bit</param>
+        /// <param name="width">The number of bits that should be extracted</param>
         [MethodImpl(Inline), Slice]
-        public static sbyte slice(sbyte src, byte start, byte length)
-            => (sbyte)BitFieldExtract((uint)src, start, length);
+        public static sbyte slice(sbyte src, byte pos, byte width)
+            => (sbyte)BitFieldExtract((uint)src, pos, width);
 
         /// <summary>
-        /// Extracts a contiguous range of bits from the source
-        /// unsigned int _bextr_u32 (unsigned int a, unsigned int start, unsigned int len) BEXTR r32a, reg/m32, r32b
+        /// Extracts a contiguous range of bits beginning at a specified pos
+        /// unsigned int _bextr_u32 (unsigned int a, unsigned int pos, unsigned int len) BEXTR r32a, reg/m32, r32b
         /// </summary>
         /// <param name="src">The source value</param>
-        /// <param name="start">The bit position within the source where extraction should benin</param>
-        /// <param name="length">The number of bits that should be extracted</param>
+        /// <param name="pos">The bit position within the source where extraction should benin</param>
+        /// <param name="width">The number of bits that should be extracted</param>
         [MethodImpl(Inline), Slice]
-        public static byte slice(byte src, byte start, byte length)
-            => (byte)BitFieldExtract((uint)src, start, length);
+        public static byte slice(byte src, byte pos, byte width)
+            => (byte)BitFieldExtract((uint)src, pos, width);
 
         /// <summary>
-        /// Extracts a contiguous range of bits from the source
-        /// unsigned int _bextr_u32 (unsigned int a, unsigned int start, unsigned int len) BEXTR r32a, reg/m32, r32b
+        /// Extracts a contiguous range of bits beginning at a specified pos
+        /// unsigned int _bextr_u32 (unsigned int a, unsigned int pos, unsigned int len) BEXTR r32a, reg/m32, r32b
         /// </summary>
         /// <param name="src">The source value</param>
-        /// <param name="start">The bit position within the source where extraction should benin</param>
-        /// <param name="length">The number of bits that should be extracted</param>
+        /// <param name="pos">The bit position within the source where extraction should benin</param>
+        /// <param name="width">The number of bits that should be extracted</param>
         [MethodImpl(Inline), Slice]
-        public static short slice(short src, byte start, byte length)
-            => (short)BitFieldExtract((uint)src, start, length);
+        public static short slice(short src, byte pos, byte width)
+            => (short)BitFieldExtract((uint)src, pos, width);
 
         /// <summary>
-        /// Extracts a contiguous range of bits from the source
-        /// unsigned int _bextr_u32 (unsigned int a, unsigned int start, unsigned int len) BEXTR r32a, reg/m32, r32b
+        /// Extracts a contiguous range of bits beginning at a specified pos
+        /// unsigned int _bextr_u32 (unsigned int a, unsigned int pos, unsigned int len) BEXTR r32a, reg/m32, r32b
         /// </summary>
         /// <param name="src">The source value</param>
-        /// <param name="start">The bit position within the source where extraction should benin</param>
-        /// <param name="length">The number of bits that should be extracted</param>
+        /// <param name="pos">The bit position within the source where extraction should benin</param>
+        /// <param name="width">The number of bits that should be extracted</param>
         [MethodImpl(Inline), Slice]
-        public static ushort slice(ushort src, byte start, byte length)
-            => (ushort)BitFieldExtract((uint)src, start, length);
+        public static ushort slice(ushort src, byte pos, byte width)
+            => (ushort)BitFieldExtract((uint)src, pos, width);
 
         /// <summary>
-        /// Extracts a contiguous range of bits from the source
-        /// unsigned int _bextr_u32 (unsigned int a, unsigned int start, unsigned int len) BEXTR r32a, reg/m32, r32b
+        /// Extracts a contiguous range of bits beginning at a specified pos
+        /// unsigned int _bextr_u32 (unsigned int a, unsigned int pos, unsigned int len) BEXTR r32a, reg/m32, r32b
         /// </summary>
         /// <param name="src">The source value</param>
-        /// <param name="start">The bit position within the source where extraction should benin</param>
-        /// <param name="length">The number of bits that should be extracted</param>
+        /// <param name="pos">The bit position within the source where extraction should benin</param>
+        /// <param name="width">The number of bits that should be extracted</param>
         [MethodImpl(Inline), Slice]
-        public static int slice(int src, byte start, byte length)
-            => (int)BitFieldExtract((uint)src, start, length);
+        public static int slice(int src, byte pos, byte width)
+            => (int)BitFieldExtract((uint)src, pos, width);
 
         /// <summary>
-        /// Extracts a contiguous range of bits from the source
-        /// unsigned int _bextr_u32 (unsigned int a, unsigned int start, unsigned int len) BEXTR r32a, reg/m32, r32b
+        /// Extracts a contiguous range of bits beginning at a specified pos
+        /// unsigned int _bextr_u32 (unsigned int a, unsigned int pos, unsigned int len) BEXTR r32a, reg/m32, r32b
         /// </summary>
         /// <param name="src">The source value</param>
-        /// <param name="start">The bit position within the source where extraction should benin</param>
-        /// <param name="length">The number of bits that should be extracted</param>
+        /// <param name="pos">The bit position within the source where extraction should benin</param>
+        /// <param name="width">The number of bits that should be extracted</param>
         [MethodImpl(Inline), Slice]
-        public static uint slice(uint src, byte start, byte length)
-            => BitFieldExtract(src, start, length);
+        public static uint slice(uint src, byte pos, byte width)
+            => BitFieldExtract(src, pos, width);
 
         /// <summary>
-        /// Extracts a contiguous range of bits from the source
-        /// unsigned __int64 _bextr_u64 (unsigned __int64 a, unsigned int start, unsigned int len) BEXTR r64a, reg/m64, r64b
+        /// Extracts a contiguous range of bits beginning at a specified pos
+        /// unsigned __int64 _bextr_u64 (unsigned __int64 a, unsigned int pos, unsigned int len) BEXTR r64a, reg/m64, r64b
         /// </summary>
         /// <param name="src">The source value</param>
-        /// <param name="start">The bit position within the source where extraction should benin</param>
-        /// <param name="length">The number of bits that should be extracted</param>
+        /// <param name="pos">The bit position within the source where extraction should benin</param>
+        /// <param name="width">The number of bits that should be extracted</param>
         [MethodImpl(Inline), Slice]
-        public static long slice(long src, byte start, byte length)
-            => (long)BitFieldExtract((ulong)src, start, length);
+        public static long slice(long src, byte pos, byte width)
+            => (long)BitFieldExtract((ulong)src, pos, width);
 
         /// <summary>
-        /// Extracts a contiguous range of bits from the source
-        /// unsigned __int64 _bextr_u64 (unsigned __int64 a, unsigned int start, unsigned int len) BEXTR r64a, reg/m64, r64b
+        /// Extracts a contiguous range of bits beginning at a specified pos
+        /// unsigned __int64 _bextr_u64 (unsigned __int64 a, unsigned int pos, unsigned int len) BEXTR r64a, reg/m64, r64b
         /// </summary>
         /// <param name="src">The source value</param>
-        /// <param name="start">The bit position within the source where extraction should benin</param>
-        /// <param name="length">The number of bits that should be extracted</param>
+        /// <param name="pos">The bit position within the source where extraction should benin</param>
+        /// <param name="width">The number of bits that should be extracted</param>
         [MethodImpl(Inline), Slice]
-        public static ulong slice(ulong src, byte start, byte length)
-            => BitFieldExtract(src, start, length);
+        public static ulong slice(ulong src, byte pos, byte width)
+            => BitFieldExtract(src, pos, width);
     }
 }

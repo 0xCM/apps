@@ -69,6 +69,22 @@ namespace Z0
             => Vector512.Create(x0,x1,x2,x3,x4,x5,x6,x7);
 
         /// <summary>
+        /// Defines a 512-bit vector by lane specifiecation
+        /// </summary>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Vector512<T> vparts<T>(W512 w, Vector256<T> a, Vector256<T> b)
+            where T : unmanaged
+                => new Vector512<T>(a, b);
+
+        /// <summary>
+        /// Defines a 512-bit vector by lane specifiecation
+        /// </summary>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Vector512<T> vparts<T>(W512 w, Vector128<T> a, Vector128<T> b, Vector128<T> c, Vector128<T> d)
+            where T : unmanaged
+                => new Vector512<T>(a, b, c, d);
+
+        /// <summary>
         /// Defines a 512-bit vector by explicit component specification, from least -> most significant
         /// </summary>
         /// <param name="w">The vector width selector</param>

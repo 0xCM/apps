@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
     using static SFx;
 
     using K = ApiClasses;
@@ -20,8 +15,8 @@ namespace Z0
             where T : unmanaged
         {
             [MethodImpl(Inline)]
-            public T Invoke(T a, byte k1, byte k2)
-                => gbits.extract(a,k1,k2);
+            public T Invoke(T a, byte i0, byte i1)
+                => gbits.extract(a,i0,i1);
         }
     }
 }

@@ -31,10 +31,6 @@ namespace Z0
         public SpanBlock128<T> Slice(uint start, uint blocks)
             => new SpanBlock128<T>(slice(Data, start * (uint)BlockLength,  blocks*(uint)BlockLength));
 
-        [MethodImpl(Inline)]
-        public ref Cell128 Cell(uint block)
-            => ref first(recover<T,Cell128>(CellBlock((int)block)));
-
         /// <summary>
         /// The backing storage
         /// </summary>

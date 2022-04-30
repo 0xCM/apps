@@ -61,12 +61,12 @@ namespace Z0.Asm
                 ref readonly var b = ref skip(src,i);
                 if(b == (byte)VexPrefixCode.C4)
                 {
-                    seg = Bitfields.segment(VexPrefixCode.C4,i,8);
+                    seg = BitfieldSeg.define(VexPrefixCode.C4, i, 8);
                     break;
                 }
                 if(b == (byte)VexPrefixCode.C5)
                 {
-                    seg = Bitfields.segment(VexPrefixCode.C5,i,8);
+                    seg = BitfieldSeg.define(VexPrefixCode.C5, i, 8);
                     break;
                 }
             }

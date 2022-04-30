@@ -14,7 +14,7 @@ namespace Z0
         public static BitVector256<T> bv256<T>()
             where T : unmanaged
                 => default;
-        void CheckBv256(ITextEmitter log)
+        static void CheckBv256(ITextEmitter log)
         {
             var width = 256;
             var storage = ByteBlock32.Empty;
@@ -36,7 +36,7 @@ namespace Z0
             }
         }
 
-        void GenBitfield(ITextEmitter log)
+        static void GenBitfield(ITextEmitter log)
         {
             var modrm = BitfieldPatterns.infer(ModRm.BitPattern);
             log.WriteLine(modrm.Descriptor);
@@ -57,7 +57,7 @@ namespace Z0
             log.WriteLine(BitfieldPatterns.bitstring(sib, data));
         }
 
-        void CheckBitReplication(ITextEmitter log)
+        static void CheckBitReplication(ITextEmitter log)
         {
             const byte PW = 4;
 
@@ -95,7 +95,7 @@ namespace Z0
 
         }
 
-        void CheckBitNumbers(ITextEmitter log)
+        static void CheckBitNumbers(ITextEmitter log)
         {
             BitNumber.validate(n3, (byte)0b0000_0111, log);
             BitNumber.validate(n6, (byte)0b0011_1000, log);
@@ -107,7 +107,7 @@ namespace Z0
             BitNumber.validate(n6, (uint)0b0011_1000, log);
         }
 
-        void CheckSegVars(ITextEmitter log)
+        static void CheckSegVars(ITextEmitter log)
         {
             var a = Code.A;
             var b = Code.B;
@@ -127,7 +127,7 @@ namespace Z0
             log.WriteLine(result);
         }
 
-        void CheckUnpack4x1(ITextEmitter log)
+        static void CheckUnpack4x1(ITextEmitter log)
         {
             const byte a0 = 0b1111;
             const byte a1 = 0b1110;
@@ -231,7 +231,54 @@ namespace Z0
             count = BitRender.render32x4(sep, storage, ref i, dst);
             bitstring = text.format(slice(dst, 0, count));
             log.AppendLine(bitstring);
+        }
 
+        static void render(ulong src, W4 seg, ITextEmitter dst)
+        {
+            var storage = CharBlock128.Null;
+            var buffer = storage.Data;
+            var i=0u;
+            var length = BitRender.render64x4(Chars.Space, src, ref i, buffer);
+            dst.Append(slice(buffer,0,length));
+        }
+
+        static void render(ulong src, W8 seg, ITextEmitter dst)
+        {
+            var storage = CharBlock80.Null;
+            var buffer = storage.Data;
+            var i=0u;
+            var length = BitRender.render64x8(Chars.Space, src, ref i, buffer);
+            dst.Append(slice(buffer,0,length));
+        }
+
+        static void CheckPack64x1(BitVector64 input)
+        {
+            var storage = ByteBlock64.Empty;
+            var unpacked = recover<bit>(storage.Bytes);
+            Bitfields.unpack64x1(input, unpacked);
+            BitVector64 packed = Bitfields.pack64x1(unpacked);
+
+            Require.equal(input, packed);
+            for(var i=z8; i<64; i++)
+                Require.equal(packed[i], skip(unpacked,i));
+        }
+
+        static void CheckPack64x1(ITextEmitter dst)
+        {
+            var a = 0xAAAAAAAAAAAAAAAAul;
+            CheckPack64x1(a);
+            dst.Append(a.FormatHex(uppercase:true));
+            dst.Append(" => ");
+            render(a, w4, dst);
+            dst.Append(Eol);
+
+            var b = 0xFF00ul;
+            CheckPack64x1(b);
+
+            dst.Append(((ulong)b).FormatHex(uppercase:true));
+            dst.Append(" => ");
+            render(b, w4, dst);
+            dst.Append(Eol);
         }
 
         [CmdOp("bits/check")]
@@ -243,12 +290,12 @@ namespace Z0
                 (nameof(GenBitfield), GenBitfield),
                 (nameof(CheckSegVars), CheckSegVars),
                 (nameof(CheckBv256), CheckBv256),
+                (nameof(CheckPack64x1), CheckPack64x1),
                 (nameof(CheckUnpack4x1), CheckUnpack4x1)
             );
 
             return true;
         }
-
 
         [CmdOp("bytes/emit")]
         Outcome BytesEmit(CmdArgs args)

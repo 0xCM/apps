@@ -25,7 +25,7 @@ namespace Z0
                 var offset = (byte)(i*segwidth);
                 if(cell != 0)
                 {
-                    var seg = Bitfields.segment(cell, offset, segwidth);
+                    var seg = BitfieldSeg.define(cell, offset, segwidth);
                     Write(seg.Format());
                 }
             }

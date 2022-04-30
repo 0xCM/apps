@@ -7,11 +7,11 @@ namespace Z0
     partial class bits
     {
         [MethodImpl(Inline), Op]
-        public static byte segwidth(byte min, byte max)
-            => (byte)(max - min + 1);
+        public static byte segwidth(byte i0, byte i1)
+            => (byte)(i1 - i0 + 1);
 
         [MethodImpl(Inline), Op]
-        public static uint segwidth(uint min, uint max)
-            => max - min + 1;
+        public static uint segwidth(uint i0, uint i1)
+            => i1 - i0 + 1;
     }
 }

@@ -31,10 +31,6 @@ namespace Z0
         public SpanBlock32<T> Slice(uint start, uint blocks)
             => new SpanBlock32<T>(slice(Data, start * (uint)BlockLength,  blocks*(uint)BlockLength));
 
-        [MethodImpl(Inline)]
-        public ref Cell32 Cell(uint block)
-            => ref first(recover<T,Cell32>(CellBlock((int)block)));
-
         public Span<T> Storage
         {
             [MethodImpl(Inline)]

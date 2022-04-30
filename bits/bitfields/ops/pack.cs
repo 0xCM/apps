@@ -80,6 +80,14 @@ namespace Z0
             return join(a0,b0);
         }
 
+        /// <summary>
+        /// Packs 64 logical 1-bit values, eqch requiring 8 bits of storage into a 64-bit integer
+        /// </summary>
+        /// <param name="src">The bit source</param>
+        [MethodImpl(Inline), Op]
+        public static ulong pack64x1(ReadOnlySpan<bit> src)
+            => pack64x1(recover<bit,byte>(src), 0);
+
         [MethodImpl(Inline), Op]
         public static ref byte pack4x2(byte a, byte b, ref byte dst)
         {

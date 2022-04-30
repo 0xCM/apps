@@ -130,6 +130,14 @@ namespace Z0
             get => new asci16(Storage.GetUpper());
         }
 
+        [MethodImpl(Inline)]
+        public Vector256<byte> EncodedVector()
+            => Storage;
+
+        [MethodImpl(Inline)]
+        public Vector512<ushort> DecodedVector()
+            => api.decode(Storage);
+
         public TextBlock Text
         {
             [MethodImpl(Inline)]

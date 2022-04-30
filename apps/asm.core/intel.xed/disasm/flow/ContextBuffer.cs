@@ -10,17 +10,9 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public delegate void DisasmReceiver<T>(uint seq, in T src);
-
-        public delegate void OpStateReceiver(uint seq, in OperandState state, ReadOnlySpan<FieldKind> fields);
-
-        public delegate void FieldReceiver(uint seq, in Fields src);
-
-        public delegate void FileReceiver(WsContext context, in FileRef src);
-
-        public class DisasmBuffer
+        class ContextBuffer : IContextBuffer
         {
-            public readonly FileRef Source;
+            readonly FileRef _Source;
 
             readonly Index<FieldKind> _FieldKinds;
 
@@ -33,6 +25,12 @@ namespace Z0
             AsmInfo _AsmInfo;
 
             DisasmProps _Props;
+
+            public ref readonly FileRef Source
+            {
+                [MethodImpl(Inline)]
+                get => ref _Source;
+            }
 
             [MethodImpl(Inline)]
             public ref DataFile DataFile()
@@ -54,15 +52,18 @@ namespace Z0
             public ref DisasmProps Props()
                 => ref _Props;
 
-            public uint FieldCount;
-
-            EncodingExtract _Encoding;
-
             [MethodImpl(Inline)]
             public ref EncodingExtract Encoding()
                 => ref _Encoding;
 
+            public uint FieldCount;
+
+            EncodingExtract _Encoding;
+
             object StateLock = new();
+
+            uint IContextBuffer.FieldCount
+                => FieldCount;
 
             public void State(uint seq, in OperandState state, OpStateReceiver receiver)
             {
@@ -80,9 +81,10 @@ namespace Z0
                 }
             }
 
-            public DisasmBuffer(in FileRef src)
+            [MethodImpl(Inline)]
+            public ContextBuffer(in FileRef src)
             {
-                Source = src;
+                _Source = src;
                 _FieldKinds = alloc<FieldKind>(Fields.MaxCount);
                 _DataFile = XedDisasm.DataFile.Empty;
                 _Block = DetailBlock.Empty;

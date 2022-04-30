@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
     using static core;
 
     using api = BitPosCalcs;
@@ -51,6 +46,10 @@ namespace Z0
 			[MethodImpl(Inline)]
 			get => api.linearIndex(this);
 		}
+
+		[MethodImpl(Inline)]
+        public uint Width(BitPos<T> i1)
+            => api.count(this, i1);
 
 		[MethodImpl(Inline)]
 		public uint CountTo(in BitPos<T> dst)
@@ -103,10 +102,8 @@ namespace Z0
 		}
 
 		[MethodImpl(Inline)]
-		public static uint operator -(BitPos<T> a, BitPos<T> b)
-		{
-			return a.CountTo(b);
-		}
+		public static uint operator -(BitPos<T> i0, BitPos<T> i1)
+            => i0.Width(i1);
 
 		[MethodImpl(Inline)]
 		public static BitPos<T> operator --(BitPos<T> src)

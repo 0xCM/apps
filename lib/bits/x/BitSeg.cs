@@ -4,21 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class XTend
     {
         /// <summary>
         /// Retrieves, at most, one cell's worth of bits defined by an inclusive bit index range
         /// </summary>
-        /// <param name="first">The linear index of the first bit</param>
-        /// <param name="last">The linear index of the last bit</param>
+        /// <param name="i0">The linear index of the first bit</param>
+        /// <param name="i1">The linear index of the last bit</param>
         [MethodImpl(Inline)]
-        public static T BitSeg<T>(this Span<T> src, byte first, byte last)
+        public static T BitSeg<T>(this Span<T> src, uint i0, uint i1)
             where T : unmanaged
-                => gbits.extract(src, first, last);
+                => gbits.extract(src, i0, i1);
     }
 }

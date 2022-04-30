@@ -7,8 +7,7 @@ namespace Z0
     using Asm;
     using static core;
     using static XedRules;
-    using static XedModels;
-    using static XedFields;
+    using static XedDisasm;
 
     partial class XedCmdProvider
     {
@@ -33,15 +32,16 @@ namespace Z0
             return true;
         }
 
+
         [CmdOp("xed/check/disasm")]
         Outcome EmitBreakdowns(CmdArgs args)
         {
             var context = Context();
             var flow = XedDisasm.flow(context);
-            var targets = bag<DTarget>();
+            var targets = bag<ITarget>();
             var sources = XedDisasm.sources(context);
             iter(XedDisasm.sources(context), src => {
-                var dst = new DTarget(this);
+                var dst = XedDisasm.analyzer(this);
                 flow.Run(src,dst);
                 targets.Add(dst);
             }, true);

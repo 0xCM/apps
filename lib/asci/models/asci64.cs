@@ -104,6 +104,10 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
+        public Vector512<byte> EncodedVector()
+            => Storage;
+
+        [MethodImpl(Inline)]
         public void CopyTo(Span<byte> dst)
             => api.copy(this,dst);
 

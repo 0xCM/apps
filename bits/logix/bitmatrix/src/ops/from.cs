@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial class BitMatrix
@@ -26,9 +22,5 @@ namespace Z0
 
             return load(src.Storage);
         }
-
-        // [MethodImpl(Inline), Op]
-        // public static BitMatrix32 from(N32 n, Span<byte> src)
-        //     => new BitMatrix32(src.AsUInt32());
     }
 }

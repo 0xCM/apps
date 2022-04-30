@@ -109,6 +109,12 @@ namespace Z0
             get => Size;
         }
 
+        public Span<byte> Edit
+        {
+            [MethodImpl(Inline)]
+            get => core.bytes(Storage);
+        }
+
         public ReadOnlySpan<byte> View
         {
             [MethodImpl(Inline)]
@@ -126,6 +132,14 @@ namespace Z0
             [MethodImpl(Inline)]
             get => text.format(Decoded);
         }
+
+        [MethodImpl(Inline)]
+        public Vector128<byte> EncodedVector()
+            => cpu.v8u(cpu.vscalar(w128,Storage));
+
+        [MethodImpl(Inline)]
+        public Vector128<ushort> DecodedVector()
+            => api.decode(Storage);
 
         [MethodImpl(Inline)]
         public void Store(Span<char> dst)

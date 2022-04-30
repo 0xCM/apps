@@ -121,7 +121,7 @@ namespace Z0
             get => gbits.readbit(Head, (uint)bitpos);
 
             [MethodImpl(Inline)]
-            set => gbits.setbit((uint)bitpos, value, ref Head);
+            set => gbits.set((uint)bitpos, value, data);
         }
 
         /// <summary>

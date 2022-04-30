@@ -92,7 +92,7 @@ namespace Z0
             get => gbits.test(Data, (byte)index);
 
             [MethodImpl(Inline)]
-            set => Data = gbits.setbit(Data, (byte)index, value);
+            set => Data = gbits.set(Data, (byte)index, value);
         }
 
         /// <summary>

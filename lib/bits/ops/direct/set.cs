@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class bits
     {
         /// <summary>
@@ -96,7 +94,6 @@ namespace Z0
         public static long set(long src, byte index, bit state)
             => bit.set(src, index, state);
 
-
         /// <summary>
         /// Aligns an index-identified source bit with with a suplied state
         /// </summary>
@@ -106,8 +103,7 @@ namespace Z0
         [MethodImpl(Inline), SetBit]
         public static ref byte set(ref byte src, byte pos, bit state)
         {
-            var c = ~u8(state) + 1;
-            src ^= (byte)((c ^ src) & (1 << pos));
+            src = bit.set(src,pos,state);
             return ref src;
         }
 
@@ -120,8 +116,7 @@ namespace Z0
         [MethodImpl(Inline), SetBit]
         public static ref ushort set(ref ushort src, byte pos, bit state)
         {
-            var c = ~u16(state) + 1;
-            src ^= (ushort)((c ^ src) & (1 << pos));
+            src = bit.set(src,pos,state);
             return ref src;
         }
 
@@ -134,8 +129,7 @@ namespace Z0
         [MethodImpl(Inline), SetBit]
         public static ref uint set(ref uint src, byte pos, bit state)
         {
-            var c = ~u32(state) + 1u;
-            src ^= (uint)((c ^ src) & (1u << pos));
+            src = bit.set(src,pos,state);
             return ref src;
         }
 
@@ -148,8 +142,7 @@ namespace Z0
         [MethodImpl(Inline), SetBit]
         public static ref ulong set(ref ulong src, byte pos, bit state)
         {
-            var c = ~u64(state) + 1ul;
-            src ^= (c ^ src) & (1ul << pos);
+            src = bit.set(src,pos,state);
             return ref src;
         }
     }

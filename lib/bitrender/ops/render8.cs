@@ -26,25 +26,26 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static uint render8(byte src, uint offset, Span<char> dst)
         {
-            seek(dst, offset++) = bitchar(src, 7);
-            seek(dst, offset++) = bitchar(src, 6);
-            seek(dst, offset++) = bitchar(src, 5);
-            seek(dst, offset++) = bitchar(src, 4);
-            seek(dst, offset++) = bitchar(src, 3);
-            seek(dst, offset++) = bitchar(src, 2);
-            seek(dst, offset++) = bitchar(src, 1);
-            seek(dst, offset++) = bitchar(src, 0);
-            return 8;
+            var i = offset;
+            seek(dst, i++) = bitchar(src, 7);
+            seek(dst, i++) = bitchar(src, 6);
+            seek(dst, i++) = bitchar(src, 5);
+            seek(dst, i++) = bitchar(src, 4);
+            seek(dst, i++) = bitchar(src, 3);
+            seek(dst, i++) = bitchar(src, 2);
+            seek(dst, i++) = bitchar(src, 1);
+            seek(dst, i++) = bitchar(src, 0);
+            return i - offset;
         }
 
-        [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> render8(byte src)
-        {
-            var storage = CharBlock8.Null;
-            var buffer = storage.Data;
-            var i=0u;
-            render8(src,i,buffer);
-            return buffer;
-        }
+        // [MethodImpl(Inline), Op]
+        // public static ReadOnlySpan<char> render8(byte src)
+        // {
+        //     var storage = CharBlock8.Null;
+        //     var buffer = storage.Data;
+        //     var i=0u;
+        //     render8(src,i,buffer);
+        //     return buffer;
+        // }
     }
 }

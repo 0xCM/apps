@@ -75,6 +75,12 @@ namespace Z0
             get => Size;
         }
 
+        public Span<byte> Edit
+        {
+            [MethodImpl(Inline)]
+            get => core.bytes(Storage);
+        }
+
         public ReadOnlySpan<byte> View
         {
             [MethodImpl(Inline)]

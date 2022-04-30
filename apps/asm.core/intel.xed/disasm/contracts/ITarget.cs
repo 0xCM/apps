@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public interface IDisasmTarget
+        public interface ITarget
         {
             DisasmToken Starting(WsContext context, in FileRef src);
 

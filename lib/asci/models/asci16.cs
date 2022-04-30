@@ -92,6 +92,12 @@ namespace Z0
             get => Size;
         }
 
+        public Span<byte> Edit
+        {
+            [MethodImpl(Inline)]
+            get => core.bytes(Storage);
+        }
+
         public ReadOnlySpan<byte> View
         {
             [MethodImpl(Inline)]
@@ -142,6 +148,13 @@ namespace Z0
         public void CopyTo(Span<byte> dst)
             => api.copy(this,dst);
 
+        [MethodImpl(Inline)]
+        public Vector128<byte> EncodedVector()
+            => Storage;
+
+        [MethodImpl(Inline)]
+        public Vector256<ushort> DecodedVector()
+            => api.decode(Storage);
 
          public override int GetHashCode()
             => Storage.GetHashCode();

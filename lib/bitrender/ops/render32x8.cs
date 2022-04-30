@@ -8,6 +8,13 @@ namespace Z0
 
     partial struct BitRender
     {
+        /// <summary>
+        /// Renders 32 1-bit values interspersed with 3 segment separators, consuming 35 characters in the target buffer
+        /// </summary>
+        /// <param name="sep">The segment separator</param>
+        /// <param name="src">The source bits</param>
+        /// <param name="i">The target offset</param>
+        /// <param name="dst">The target buffer</param>
         [MethodImpl(Inline), Op]
         public static uint render32x8(char sep, uint src, ref uint i, Span<char> dst)
         {
@@ -27,24 +34,27 @@ namespace Z0
             return i-i0;
         }
 
+        /// <summary>
+        /// Renders 32 1-bit values interspersed with 3 segment separators, consuming 35 characters in the target buffer
+        /// </summary>
+        /// <param name="src">The source bits</param>
+        /// <param name="dst">The target buffer</param>
+        /// <param name="i">The target offset</param>
         [MethodImpl(Inline), Op]
         public static uint render32x8(uint src, ref uint i, Span<char> dst)
             => render32x8(Chars.Space, src, ref i, dst);
 
+        /// <summary>
+        /// Renders 32 1-bit values interspersed with 3 segment separators, consuming 35 characters in the target buffer
+        /// </summary>
+        /// <param name="sep">The segment separator</param>
+        /// <param name="src">The source bits</param>
+        /// <param name="dst">The target buffer</param>
         [MethodImpl(Inline), Op]
         public static uint render32x8(char sep, uint src, Span<char> dst)
         {
             var i = 0u;
             return render32x8(sep, src, ref i, dst);
-        }
-
-        [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> render32x8(char sep, uint src)
-        {
-            var buffer = CharBlock64.Null.Data;
-            var i=0u;
-            var count = render32x8(sep, src, ref i, buffer);
-            return slice(buffer,0,count);
         }
     }
 }
