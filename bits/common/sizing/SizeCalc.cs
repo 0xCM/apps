@@ -17,6 +17,8 @@ namespace Z0
     {
         public static ByteSize size(Type src)
         {
+            if(src == typeof(void) || src == typeof(Null))
+                return 0;
             var type = typeof(SizeCalc<>).MakeGenericType(src);
             var method = first(type.StaticMethods().Public());
             return (int)method.Invoke(null, sys.empty<object>());

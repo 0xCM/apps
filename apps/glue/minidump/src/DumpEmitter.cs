@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 namespace Z0
 {
-    using System;
     using System.Diagnostics;
     using System.IO;
     using System.Runtime.InteropServices;

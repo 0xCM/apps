@@ -11,14 +11,14 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(MetaWidth,MetaWidth)]
         public readonly struct SegValType : IFieldType<SegValType>
         {
-            public const uint MetaWidth = SegField.MetaWidth + CellType.MetaWidth;
+            public const uint MetaWidth = SegField.MetaWidth + TypeKey.MetaWidth;
 
             public readonly SegField Seg;
 
-            public readonly CellType DataType;
+            public readonly TypeKey DataType;
 
             [MethodImpl(Inline)]
-            public SegValType(SegField seg, CellType type)
+            public SegValType(SegField seg, TypeKey type)
             {
                 Seg = seg;
                 DataType = type;

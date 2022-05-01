@@ -3,10 +3,8 @@
 // License     :  MIT
 // Origin      : https://github.com/microsoft/CsWin32/src/ScrapeDocs/DocEnum.cs
 //-----------------------------------------------------------------------------
-namespace Z0.Toolz
+namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     partial struct MsDocs

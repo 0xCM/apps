@@ -9,39 +9,29 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(MetaWidth,MetaWidth)]
         public readonly struct CellType : IRuleType<CellType>
         {
-            internal const uint MetaWidth = asci16.Size*8 + PrimalType.MetaWidth + 8;
+            public const uint MetaWidth = TypeKey.MetaWidth + asci16.Size*8 + TypeKey.MetaWidth + PrimalType.W8;
+
+            public const RuleTypeKind TypeKind = RuleTypeKind.Cell;
+
+            public readonly TypeKey Key;
 
             public readonly asci16 TypeName;
 
-            public readonly PrimalType Primitive;
+            public readonly TypeKey Base;
 
             public readonly byte PackedWidth;
 
             [MethodImpl(Inline)]
-            public CellType(asci16 type, PrimalType prim, byte packed)
+            public CellType(TypeKey key, asci16 type, TypeKey @base, byte packed)
             {
+                Key = key;
                 TypeName = type;
-                Primitive = prim;
+                Base = @base;
                 PackedWidth = packed;
             }
 
-            public asci16 PrimalName
-            {
-                [MethodImpl(Inline)]
-                get => Primitive.TypeName;
-            }
-
-            public AlignedWidth AlignedWidth
-            {
-                [MethodImpl(Inline)]
-                get => Primitive.Width;
-            }
-
-            public RuleTypeKind TypeKind
-            {
-                [MethodImpl(Inline)]
-                get => RuleTypeKind.Cell;
-            }
+            RuleTypeKind IRuleType.TypeKind
+                => TypeKind;
 
             asci32 IRuleType.TypeName
                 => TypeName;

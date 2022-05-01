@@ -9,36 +9,29 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(MetaWidth,MetaWidth)]
         public readonly struct TypedLiteral : IRuleType<TypedLiteral>
         {
-            public const uint MetaWidth = asci32.Size*8 + LiteralType.MetaWidth + 8;
+            public const uint MetaWidth = asci32.Size*8 + TypeKey.MetaWidth + PrimalType.W8;
 
-            public readonly asci32 TypeName;
+            public const RuleTypeKind TypeKind = RuleTypeKind.TypedLiteral;
 
-            public readonly LiteralType Base;
+            public readonly asci32 LiteralName;
+
+            public readonly TypeKey Base;
 
             public readonly byte PackedWidth;
 
             [MethodImpl(Inline)]
-            public TypedLiteral(asci32 name, LiteralType @base, byte packed)
+            public TypedLiteral(asci32 literal, TypeKey @base, byte packed)
             {
-                TypeName = name;
+                LiteralName = literal;
                 Base = @base;
                 PackedWidth = packed;
             }
 
-            public RuleTypeKind TypeKind
-            {
-                [MethodImpl(Inline)]
-                get => RuleTypeKind.TypedLiteral;
-            }
-
-            public AlignedWidth AlignedWidth
-            {
-                [MethodImpl(Inline)]
-                get => Base.AlignedWidth;
-            }
+            RuleTypeKind IRuleType.TypeKind
+                => TypeKind;
 
             asci32 IRuleType.TypeName
-                => TypeName;
+                => LiteralName;
         }
     }
 }

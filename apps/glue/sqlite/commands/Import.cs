@@ -2,19 +2,31 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Toolz
+namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
-    using static Sqlite;
 
-    public readonly struct SqliteCommands
+    partial struct Sqlite
     {
         public struct Import
         {
+            public static Command command(FS.FilePath src)
+                => string.Format(".import {0} {1}", src.Format(PathSeparator.FS), identifier(null, src.FileName));
+
+            public static Index<Command> commands(FS.Files src)
+            {
+                var count = src.Length;
+                var buffer = alloc<Command>(count);
+                if(count != 0)
+                {
+                    ref var dst = ref first(buffer);
+                    var view = src.View;
+                    for(var i=0; i<count; i++)
+                        seek(dst,i) = command(skip(view,i));
+                }
+                return buffer;
+            }
+
             public FS.FilePath Source;
 
             public TableId Target;
@@ -36,5 +48,6 @@ namespace Z0.Toolz
             public static implicit operator Command(Import src)
                 => src.Format();
         }
+
     }
 }

@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-
     using ClrMd = Microsoft.Diagnostics.Runtime;
 
     partial struct ClrMdRecords

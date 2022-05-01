@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static PdbModel;
 
     public sealed class PdbIndex : GlobalService<PdbIndex,PdbDataStore>

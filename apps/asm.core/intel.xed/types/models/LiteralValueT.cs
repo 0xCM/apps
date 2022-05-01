@@ -6,25 +6,26 @@ namespace Z0
 {
     public partial class XedDataTypes
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(MetaWidth,MetaWidth)]
-        public readonly struct LiteralValue
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
+        public readonly struct LiteralValue<T>
+            where T : unmanaged
         {
-            public const uint MetaWidth = TypeKey.MetaWidth + PrimalType.W64;
+            public static uint MetaWidth => core.width<T>() + TypeKey.MetaWidth;
 
             public readonly TypeKey Type;
 
-            public readonly ulong Value;
+            public readonly T Value;
 
             [MethodImpl(Inline)]
-            public LiteralValue(TypeKey type, ulong value)
+            public LiteralValue(TypeKey type, T value)
             {
                 Type = type;
                 Value = value;
             }
 
             [MethodImpl(Inline)]
-            public static implicit operator LiteralValue<ulong>(LiteralValue src)
-                => new LiteralValue<ulong>(src.Type, src.Value);
+            public static implicit operator LiteralValue(LiteralValue<T> src)
+                => new LiteralValue(src.Type, core.bw64(src.Value));
         }
     }
 }

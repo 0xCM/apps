@@ -3,9 +3,6 @@
 // See the LICENSE file in the project root for more information.
 namespace SOS
 {
-    using System;
-    using System.Runtime.InteropServices;
-
     [StructLayout(LayoutKind.Sequential)]
     public struct MethodDebugInfo
     {

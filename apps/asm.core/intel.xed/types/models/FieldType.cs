@@ -11,7 +11,9 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(MetaWidth,MetaWidth)]
         public readonly struct FieldType : IFieldType<FieldType>
         {
-            internal const uint MetaWidth = 8 + CellType.MetaWidth;
+            public const uint MetaWidth = PrimalType.W8 + CellType.MetaWidth;
+
+            public const RuleTypeKind TypeKind = RuleTypeKind.Field;
 
             public readonly FieldKind Field;
 
@@ -24,11 +26,8 @@ namespace Z0
                 DataType = cell;
             }
 
-            public RuleTypeKind TypeKind
-            {
-                [MethodImpl(Inline)]
-                get => RuleTypeKind.Field;
-            }
+            RuleTypeKind IRuleType.TypeKind
+                => TypeKind;
 
             FieldKind IFieldType.Field
                 => Field;

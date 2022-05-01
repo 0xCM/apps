@@ -11,7 +11,9 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(MetaWidth,MetaWidth)]
         public readonly struct ExpressionType :  IFieldType<ExpressionType>
         {
-            internal const uint MetaWidth = FieldType.MetaWidth + OperatorType.MetaWidth;
+            public const uint MetaWidth = FieldType.MetaWidth + OperatorType.MetaWidth;
+
+            public const RuleTypeKind TypeKind = RuleTypeKind.Expression;
 
             public readonly FieldType Field;
 
@@ -24,17 +26,8 @@ namespace Z0
                 Operator = op;
             }
 
-            public RuleTypeKind TypeKind
-            {
-                [MethodImpl(Inline)]
-                get => RuleTypeKind.Expression;
-            }
-
-            public CellType DataType
-            {
-                [MethodImpl(Inline)]
-                get => Field.DataType;
-            }
+            RuleTypeKind IRuleType.TypeKind
+                => TypeKind;
 
             FieldKind IFieldType.Field
                 => Field.Field;

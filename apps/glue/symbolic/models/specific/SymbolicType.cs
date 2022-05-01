@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct CaSymbolModels
     {
         public readonly struct SymbolicType : ICaSymbolArtifact<ClrTypeAdapter,TypeSymbol>

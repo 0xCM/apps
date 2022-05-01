@@ -4,26 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
     using Microsoft.Win32.SafeHandles;
 
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     using static MinidumpRecords;
-
-    public readonly struct CodeRepoLink
-    {
-        public string Http {get;}
-
-        public CodeRepoLink(string http)
-        {
-            Http = http;
-        }
-
-        public static implicit operator CodeRepoLink(string src)
-            => new CodeRepoLink(src);
-    }
 
     public readonly struct DbgHelp
     {

@@ -3,9 +3,8 @@
 // License     :  MIT
 // Origin      : https://github.com/microsoft/CsWin32/src/ScrapeDocs/Program.cs
 //-----------------------------------------------------------------------------
-namespace Z0.Toolz
+namespace Z0
 {
-    using System;
     using System.IO;
 
     partial struct MsDocs

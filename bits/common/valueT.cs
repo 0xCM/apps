@@ -179,7 +179,6 @@ namespace Z0
         public static value<T> operator <<(value<T> a, int count)
             => sll(a,(byte)count);
 
-
         public static value<T> Zero => default;
     }
 }

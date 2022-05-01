@@ -4,18 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static MsDocs;
-
-    public readonly partial struct MsDocs
+    public readonly struct CodeRepoLink
     {
+        public string Http {get;}
 
-    }
-
-    public class MsDocsService : AppService<MsDocsService>
-    {
-        public void Process(FS.FolderPath src, FS.FilePath dst)
+        public CodeRepoLink(string http)
         {
-            Processor.run(src,dst);
+            Http = http;
         }
+
+        public static implicit operator CodeRepoLink(string src)
+            => new CodeRepoLink(src);
     }
 }

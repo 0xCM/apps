@@ -11,8 +11,14 @@ global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
 global using System.Threading.Tasks;
 
+global using System.Collections.Immutable;
+global using System.Globalization;
+global using System.Threading;
+global using Microsoft.CodeAnalysis;
+
 global using static Z0.Root;
 global using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
+global using ClrMd = Microsoft.Diagnostics.Runtime;
 
 [assembly: PartId(PartId.Glue)]
 

@@ -19,6 +19,9 @@ namespace Z0
 
             Cell,
 
+            /// <summary>
+            /// Characterizes a named literal
+            /// </summary>
             TypedLiteral,
 
             Field,
