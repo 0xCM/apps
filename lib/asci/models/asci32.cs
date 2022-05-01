@@ -32,7 +32,6 @@ namespace Z0
             Storage = cpu.vinsert(src, default, LaneIndex.L0);
         }
 
-
         [MethodImpl(Inline)]
         public asci32(string src)
             => Storage = api.encode(n,src).Storage;
