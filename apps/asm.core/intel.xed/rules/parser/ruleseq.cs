@@ -6,8 +6,8 @@
 namespace Z0
 {
     using static core;
-
     using static XedRules.SyntaxLiterals;
+
     using RF = XedRules.RuleFormKind;
 
     partial class XedRules

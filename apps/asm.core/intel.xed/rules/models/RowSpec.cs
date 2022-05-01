@@ -32,6 +32,18 @@ namespace Z0
                 ColCount = (ushort)Require.equal(keys.Length, cells.Length);
             }
 
+            public ref readonly CellInfo this[int i]
+            {
+                [MethodImpl(Inline)]
+                get => ref Cells[i];
+            }
+
+            public ref readonly CellInfo this[uint i]
+            {
+                [MethodImpl(Inline)]
+                get => ref Cells[i];
+            }
+
             [MethodImpl(Inline)]
             public ref readonly CellInfo Cell(ushort i)
                 => ref Cells[i];

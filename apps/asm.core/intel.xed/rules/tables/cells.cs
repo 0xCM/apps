@@ -13,71 +13,6 @@ namespace Z0
     {
         partial class RuleTables
         {
-            static string SemanticHeader
-                => string.Format("{0,-5} | {1,-5} | {2,-48} | {3}", "Seq", "Lix", "Key", "Value");
-
-            static string format(in RuleCell cell)
-                => string.Format("{0:D5} | {1:D5} | {2,-48} | {3}", cell.Key.Index, cell.Key.Index, cell.Key.FormatSemantic(), cell.Format());
-
-            public static CellMetrics metrics(Index<CellTable> src)
-            {
-                var metrics = new CellMetrics();
-                metrics.TableCount = (ushort)src.Count;
-                metrics.CellCount = src.Select(x => x.CellCount()).Storage.Sum();
-                metrics.RowCounts = src.Select(x => (ushort)x.RowCount);
-                metrics.RowCount = src.Select(x => x.RowCount).Storage.Sum();
-                return metrics;
-            }
-
-            public static Index<RuleCellRecord> records(Index<CellTable> src)
-            {
-                var seq = z16;
-                var kCells = src.Select(x => x.CellCount()).Storage.Sum();
-                var dst = alloc<RuleCellRecord>(kCells);
-                for(var i=0; i<src.Count; i++)
-                    records(src[i], ref seq, dst);
-                return dst;
-            }
-
-            static void records(in CellTable table, ref ushort seq, Span<RuleCellRecord> dst)
-            {
-                for(var j=z16; j<table.RowCount; j++)
-                    records(table[j], ref seq, dst);
-            }
-
-            static void records(in CellRow row, ref ushort seq, Span<RuleCellRecord> dst)
-            {
-                for(var k=z16; k<row.CellCount; k++, seq++)
-                    seek(dst,seq) = record(seq, row[k]);
-            }
-
-            static RuleCellRecord record(ushort seq, in RuleCell cell)
-            {
-                ref readonly var value = ref cell.Value;
-                var dst = RuleCellRecord.Empty;
-                dst.Seq = seq++;
-                dst.Index = cell.Key.Index;
-                dst.Table = cell.TableIndex;
-                dst.Row = cell.RowIndex;
-                dst.Col = cell.CellIndex;
-                dst.Logic = cell.Logic;
-                dst.Type = value.CellKind;
-                dst.Kind = cell.TableKind;
-                dst.Rule = cell.Rule.TableName;
-                dst.Field = cell.Field;
-                dst.Value = value;
-                dst.Expression = RuleCell.formatter()(cell);
-                dst.Op = cell.Operator();
-                return dst;
-            }
-
-            public static RuleCells dataset(Dictionary<RuleSig,Index<RuleCell>> src, string desc)
-            {
-                var data = tables(src.ToConcurrentDictionary());
-                var sigcells = core.pairings(src.Map(x => core.paired(x.Key,x.Value)));
-                return new RuleCells(sigcells, data, metrics(data), records(data), desc);
-            }
-
             public static RuleCells cells(RuleTables rules)
             {
                 var lix = z16;
@@ -206,6 +141,71 @@ namespace Z0
                 }
 
                 return dataset(dst, emitter.Emit());
+            }
+
+            static RuleCells dataset(Dictionary<RuleSig,Index<RuleCell>> src, string desc)
+            {
+                var data = tables(src.ToConcurrentDictionary());
+                var sigcells = core.pairings(src.Map(x => core.paired(x.Key,x.Value)));
+                return new RuleCells(sigcells, data, metrics(data), records(data), desc);
+            }
+
+            static string SemanticHeader
+                => string.Format("{0,-5} | {1,-5} | {2,-48} | {3}", "Seq", "Lix", "Key", "Value");
+
+            static string format(in RuleCell cell)
+                => string.Format("{0:D5} | {1:D5} | {2,-48} | {3}", cell.Key.Index, cell.Key.Index, cell.Key.FormatSemantic(), cell.Format());
+
+            static CellMetrics metrics(Index<CellTable> src)
+            {
+                var metrics = new CellMetrics();
+                metrics.TableCount = (ushort)src.Count;
+                metrics.CellCount = src.Select(x => x.CellCount()).Storage.Sum();
+                metrics.RowCounts = src.Select(x => (ushort)x.RowCount);
+                metrics.RowCount = src.Select(x => x.RowCount).Storage.Sum();
+                return metrics;
+            }
+
+            static Index<RuleCellRecord> records(Index<CellTable> src)
+            {
+                var seq = z16;
+                var kCells = src.Select(x => x.CellCount()).Storage.Sum();
+                var dst = alloc<RuleCellRecord>(kCells);
+                for(var i=0; i<src.Count; i++)
+                    records(src[i], ref seq, dst);
+                return dst;
+            }
+
+            static void records(in CellTable table, ref ushort seq, Span<RuleCellRecord> dst)
+            {
+                for(var j=z16; j<table.RowCount; j++)
+                    records(table[j], ref seq, dst);
+            }
+
+            static void records(in CellRow row, ref ushort seq, Span<RuleCellRecord> dst)
+            {
+                for(var k=z16; k<row.CellCount; k++, seq++)
+                    seek(dst,seq) = record(seq, row[k]);
+            }
+
+            static RuleCellRecord record(ushort seq, in RuleCell cell)
+            {
+                ref readonly var value = ref cell.Value;
+                var dst = RuleCellRecord.Empty;
+                dst.Seq = seq++;
+                dst.Index = cell.Key.Index;
+                dst.Table = cell.TableIndex;
+                dst.Row = cell.RowIndex;
+                dst.Col = cell.CellIndex;
+                dst.Logic = cell.Logic;
+                dst.Type = value.CellKind;
+                dst.Kind = cell.TableKind;
+                dst.Rule = cell.Rule.TableName;
+                dst.Field = cell.Field;
+                dst.Value = value;
+                dst.Expression = XedRender.format(cell.Value);
+                dst.Op = cell.Operator();
+                return dst;
             }
         }
     }

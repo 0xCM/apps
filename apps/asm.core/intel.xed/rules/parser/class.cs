@@ -14,13 +14,13 @@ namespace Z0
             static RuleCellType @class(FieldKind field, string data)
             {
                 var result = false;
-                var input = CellParser.normalize(data);
+                var input = normalize(data);
                 var dst = RuleCellType.Empty;
                 var isNonTerm = text.contains(input, "()");
 
-                if(IsExpr(input))
+                if(XedParsers.IsExpr(input))
                 {
-                    result = CellParser.ruleop(input, out RuleOperator op);
+                    result = ruleop(input, out RuleOperator op);
                     if(!result)
                         Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleOperator), input));
 
@@ -51,9 +51,9 @@ namespace Z0
                         dst = CK.HexLiteral;
                     else if(XedParsers.IsBinaryLiteral(data))
                         dst = CK.BitLiteral;
-                    else if(IsImpl(input))
+                    else if(XedParsers.IsImpl(input))
                         dst = CK.Operator;
-                    else if(IsSeg(input))
+                    else if(XedParsers.IsSeg(input))
                     {
                         if(field != 0)
                             dst = CK.InstSeg;

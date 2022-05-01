@@ -7,8 +7,6 @@ namespace Z0
 {
     using static core;
     using static XedParsers;
-    using static XedModels;
-    using static XedRules.CellParser;
 
     partial class XedRules
     {
@@ -35,13 +33,13 @@ namespace Z0
                         result = (false, AppMsg.ParseFailure.Format(nameof(uint5), src));
 
                 }
-                else if(IsSeg(src))
+                else if(XedParsers.IsSeg(src))
                 {
                     result = CellParser.parse(src, out InstSeg x);
                     if(result)
                         dst = x;
                 }
-                else if (IsExpr(src))
+                else if (XedParsers.IsExpr(src))
                 {
                     result = CellParser.expr(src, out CellExpr x);
                     if(result)

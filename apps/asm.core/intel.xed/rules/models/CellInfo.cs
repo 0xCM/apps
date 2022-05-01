@@ -96,7 +96,7 @@ namespace Z0
             public bool IsSeg
             {
                 [MethodImpl(Inline)]
-                get => CellParser.IsSeg(Data);
+                get => XedParsers.IsSeg(Data);
             }
 
             public bool IsNontermCall

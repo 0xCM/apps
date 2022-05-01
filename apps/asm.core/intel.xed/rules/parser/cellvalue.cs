@@ -231,7 +231,7 @@ namespace Z0
                             dst = new (field,b);
                         else
                         {
-                            if(IsSeg(value))
+                            if(XedParsers.IsSeg(value))
                             {
                                 if(XedParsers.segdata(value, out var sd))
                                 {

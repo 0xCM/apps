@@ -42,7 +42,7 @@ namespace Z0
                 else if(src.IsKeyword)
                 {
                     if(XedParsers.parse(src.Data, out RuleKeyword kw))
-                        dst = kw.Format();
+                        dst = XedRender.format(kw);
                 }
                 else if(src.IsSeg)
                 {
@@ -52,7 +52,7 @@ namespace Z0
                 else if(src.IsNontermCall)
                 {
                     XedParsers.parse(src.Data, out Nonterminal x);
-                    dst = x.Format();
+                    dst = XedRender.format(x);
                 }
                 else
                 {
@@ -62,7 +62,7 @@ namespace Z0
                 return dst;
             }
 
-            static string value(in CellInfo src)
+            internal static string value(in CellInfo src)
             {
                 var dst = EmptyString;
                 if(src.IsFieldExpr)
@@ -79,12 +79,6 @@ namespace Z0
                         {
                             var i = text.index(src.Data, Chars.Bang);
                             dst = text.right(src.Data,i+1);
-                        }
-                        break;
-                        case OperatorKind.And:
-                        {
-                            var i = text.index(src.Data, Chars.Amp);
-                            dst = text.right(src.Data,i);
                         }
                         break;
                     }
@@ -106,7 +100,7 @@ namespace Z0
             public static string expression(in RowSpec src)
             {
                 var dst = text.buffer();
-                expression(src,dst);
+                expression(src, dst);
                 return dst.Emit();
             }
 
@@ -116,14 +110,13 @@ namespace Z0
                 for(var k = z16; k<count; k++)
                 {
                     ref readonly var cell = ref src.Cell(k);
-
                     if(k == count - 1 && cell.IsOperator)
                         break;
 
                     if(k != 0)
                         dst.Append(Chars.Space);
 
-                    dst.Append(cell.Format());
+                    dst.Append(format(cell));
                 }
             }
 
@@ -141,25 +134,6 @@ namespace Z0
                 }
                 return dst;
             }
-
-            // public static string format(in CellExpr src)
-            // {
-            //     var dst = EmptyString;
-            //     var value = EmptyString;
-            //     if(src.Value.IsNonterm)
-            //         value = XedRender.format(src.Value.ToNonterm());
-            //     else
-            //         value = XedRender.format(src.Value);
-
-            //     if(src.IsNonEmpty)
-            //     {
-            //         if(src.Field == 0)
-            //             dst = value;
-            //         else
-            //             dst = string.Format("{0}{1}{2}", XedRender.format(src.Field), XedRender.format(src.Operator), value);
-            //     }
-            //     return dst;
-            // }
 
             public static string _format(in CellValue src)
             {

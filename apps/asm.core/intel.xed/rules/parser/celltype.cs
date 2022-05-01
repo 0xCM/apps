@@ -9,14 +9,13 @@ namespace Z0
     {
         partial struct CellParser
         {
-            public static CellTypeInfo celltype(string data)
+            public static void parse(string data, out CellTypeInfo dst)
             {
                 Require.invariant(data.Length < 48);
                 var kind = XedFields.kind(data);
                 var field = kind != 0 ? XedFields.field(kind) : ReflectedField.Empty;
                 CellParser.ruleop(data, out RuleOperator op);
-                var @class = CellParser.@class(field.Field, data);
-                return new (kind, @class, op, field.DataType, field.PackedWidth);
+                dst = new (kind, CellParser.@class(field.Field, data), op, field.DataType, field.PackedWidth);
             }
         }
     }

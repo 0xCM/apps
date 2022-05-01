@@ -11,17 +11,17 @@ namespace Z0
         {
             static bool ruleop(string src, out OperatorKind dst)
             {
-                if(IsNe(src))
+                if(XedParsers.IsNe(src))
                 {
                     dst = OperatorKind.Ne;
                     return true;
                 }
-                else if(IsEq(src))
+                else if(XedParsers.IsEq(src))
                 {
                     dst = OperatorKind.Eq;
                     return true;
                 }
-                else if(IsImpl(src))
+                else if(XedParsers.IsImpl(src))
                 {
                     dst = OperatorKind.Impl;
                     return true;

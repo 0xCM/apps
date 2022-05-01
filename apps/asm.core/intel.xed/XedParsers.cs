@@ -9,7 +9,6 @@ namespace Z0
 
     using static XedModels;
     using static XedRules;
-    using static XedFields;
     using static core;
 
     using R = XedRules;
@@ -106,6 +105,25 @@ namespace Z0
         XedParsers()
         {
 
+        }
+
+        public static bool IsEq(string src)
+            => !src.Contains("!=") && src.Contains("=");
+
+        public static bool IsNe(string src)
+            => src.Contains("!=");
+
+        public static bool IsImpl(string src)
+            => src.Contains("=>");
+
+        public static bool IsExpr(string src)
+            => IsEq(src) || IsNe(src);
+
+        public static bool IsSeg(string src)
+        {
+            var i = text.index(src, Chars.LBracket);
+            var j = text.index(src, Chars.RBracket);
+            return i> 0 && j > i;
         }
 
         public static bool parse(string src, out RuleName dst)

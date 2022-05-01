@@ -27,8 +27,8 @@ namespace Z0
                     {
                         var rix = j;
                         ref readonly var row = ref table[j];
-                        var left = row.Antecedant.Select(x => cellinfo(x.Type, LogicKind.Antecedant, x.Data));
-                        var right = row.Consequent.Select(x => cellinfo(x.Type, LogicKind.Consequent, x.Data));
+                        var left = row.Antecedant.Select(x => XedRules.cellinfo(x.Type, LogicKind.Antecedant, x.Data));
+                        var right = row.Consequent.Select(x => XedRules.cellinfo(x.Type, LogicKind.Consequent, x.Data));
                         var count = left.Count + 1 + right.Count;
                         var keys = alloc<CellKey>(count);
                         var cells = alloc<CellInfo>(count);
@@ -41,7 +41,7 @@ namespace Z0
 
                         {
                             seek(keys,m) = new CellKey(seq++, tix, rix, m, LogicKind.Operator, RuleCellKind.Operator, tk, sig.TableName, FieldKind.INVALID);
-                            seek(cells, m) = cellinfo(OperatorKind.Impl);
+                            seek(cells, m) = XedRules.cellinfo(OperatorKind.Impl);
                             m++;
                         }
 

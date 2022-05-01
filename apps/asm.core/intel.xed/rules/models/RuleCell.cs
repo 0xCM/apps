@@ -10,15 +10,6 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct RuleCell : IComparable<RuleCell>
         {
-            public delegate asci32 AsciFormatter(in RuleCell src);
-
-            public static AsciFormatter formatter()
-            {
-                return Calc;
-                asci32 Calc(in RuleCell src)
-                    => XedRender.format(src.Value);
-            }
-
             public readonly CellKey Key;
 
             public readonly InstField Value;
@@ -113,18 +104,6 @@ namespace Z0
 
             public string Format()
                 => XedRender.format(Value);
-            // {
-            //     var dst = EmptyString;
-            //     if(IsCellExpr)
-            //     {
-            //         var expr = Value.ToCellExpr();
-            //         dst = expr.Format();
-            //     }
-            //     else
-            //         dst = XedRender.atomic(Value);
-
-            //     return dst;
-            // }
 
             public override string ToString()
                 => Format();

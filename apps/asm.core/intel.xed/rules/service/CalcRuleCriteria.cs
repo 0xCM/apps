@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class XedRules
     {
         public Index<TableCriteria> CalcRuleCriteria(RuleTableKind kind)

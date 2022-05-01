@@ -9,32 +9,10 @@ namespace Z0
     {
         partial struct CellParser
         {
-            public static bool IsEq(string src)
-                => !src.Contains("!=") && src.Contains("=");
-
-            public static bool IsNe(string src)
-                => src.Contains("!=");
-
-            public static bool IsImpl(string src)
-                => src.Contains("=>");
-
-            public static bool IsExpr(string src)
-                => IsEq(src) || IsNe(src);
-
-            static bool IsNonTerm(string src)
-                => XedParsers.IsNonterm(src);
-
-            public static bool IsSeg(string src)
-            {
-                var i = text.index(src, Chars.LBracket);
-                var j = text.index(src, Chars.RBracket);
-                return i> 0 && j > i;
-            }
-
             public static bool expr(string src, out CellExpr dst)
             {
                 dst = CellExpr.Empty;
-                Require.invariant(IsExpr(src));
+                Require.invariant(XedParsers.IsExpr(src));
 
                 var i = text.index(src, "!=");
                 var j = text.index(src, "=");
@@ -58,7 +36,7 @@ namespace Z0
 
                 Require.nonempty(left);
                 Require.nonempty(right);
-                if(IsSeg(left))
+                if(XedParsers.IsSeg(left))
                 {
                     var k = text.index(left, Chars.LBracket);
                     var q = text.index(left, Chars.RBracket);
@@ -72,7 +50,7 @@ namespace Z0
 
                     dst = new CellExpr(op, new CellValue(fk, type));
                 }
-                else if(IsNonTerm(right))
+                else if(XedParsers.IsNonterm(right))
                 {
                     XedParsers.parse(left, out fk);
                     var k = text.index(right, Chars.LParen);

@@ -108,7 +108,7 @@ namespace Z0
                             {
                                 var expansions = text.split(expanded, Chars.Space);
                                 for(var k=0; k<expansions.Length; k++)
-                                    cells.Add(skip(expansions,k));
+                                    cells.Add(skip(expansions, k));
                             }
                             else
                                 cells.Add(expanded);
@@ -125,10 +125,16 @@ namespace Z0
                         cells.Add(input);
                 }
 
-                return cells.Map(x => cellinfo(celltype(x), LogicKind.None, x));
+                return cells.Map(cellinfo);
             }
 
-            internal static string normalize(string src)
+            static CellInfo cellinfo(string src)
+            {
+                parse(src, out CellTypeInfo t);
+                return XedRules.cellinfo(t, LogicKind.None, src);
+            }
+
+            static string normalize(string src)
             {
                 var dst = EmptyString;
                 var i = text.index(src, Chars.Hash);

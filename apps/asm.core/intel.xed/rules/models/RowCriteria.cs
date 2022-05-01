@@ -32,10 +32,6 @@ namespace Z0
                 get => !IsEmpty;
             }
 
-            [MethodImpl(Inline)]
-            public JoinedIndex<CellInfo> Joined()
-                => new(Antecedant,Consequent);
-
             public string Format()
                 => XedRender.format(this);
 
