@@ -72,7 +72,7 @@ namespace Z0
             }
 
             public string Format()
-                => CellRender.format(this);
+                => CellRender.Tables.format(this);
 
             public override string ToString()
                 => Format();

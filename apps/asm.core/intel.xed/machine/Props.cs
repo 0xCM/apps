@@ -97,7 +97,7 @@ namespace Z0
         /// <summary>
         /// Specifies layout <see cref='R.InstFields'/> associated with the current <see cref='P'/>
         /// </summary>
-        public ref readonly InstFields InstLayout
+        public ref readonly InstFields LayoutFields
         {
             [MethodImpl(Inline)]
             get => ref Pattern.Layout;

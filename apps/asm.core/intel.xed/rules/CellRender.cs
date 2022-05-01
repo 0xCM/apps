@@ -16,71 +16,8 @@ namespace Z0
 
     partial class XedRules
     {
-        public readonly struct CellRender
+        public readonly partial struct CellRender
         {
-            internal const string SemanticRenderPattern = "{0:D5} | {1:D5} | {2,-48} | {3}";
-
-            internal static string SemanticHeader => string.Format("{0,-5} | {1,-5} | {2,-48} | {3}", "Seq", "Lix", "Key", "Value");
-
-            public static uint render(Index<RuleCell> cells, ITextEmitter dst)
-            {
-                dst.AppendLine(CellRender.SemanticHeader);
-                for(var i=z16; i<cells.Count; i++)
-                {
-                    ref readonly var cell = ref cells[i];
-                    dst.AppendLineFormat(CellRender.SemanticRenderPattern, i, cell.Key.Index, cell.Key.FormatSemantic(), cell.Format());
-                }
-                return cells.Count;
-            }
-
-            public static string format(CellTables src)
-            {
-                var dst = text.emitter();
-                var k=0u;
-                render(src, ref k, dst);
-                return dst.Emit();
-            }
-
-            static void render(CellTables src, ref uint seq, ITextEmitter dst)
-            {
-                dst.AppendLine(SemanticHeader);
-                for(var i=0; i<src.TableCount; i++)
-                    render(src[i], ref seq, dst);
-            }
-
-            public static string format(CellTable src)
-            {
-                var dst = text.emitter();
-                var lix = 0u;
-                render(src, ref lix, dst);
-                return dst.Emit();
-            }
-
-            [MethodImpl(Inline)]
-            static void render(CellTable src, ref uint seq, ITextEmitter dst)
-            {
-                for(var i=0; i<src.RowCount; i++)
-                    render(src[i], ref seq, dst);
-            }
-
-            public static string format(CellRow src)
-            {
-                var dst = text.emitter();
-                var lix = 0u;
-                render(src,ref lix, dst);
-                return dst.Emit();
-            }
-
-            [MethodImpl(Inline)]
-            static void render(CellRow src, ref uint seq, ITextEmitter dst)
-            {
-                for(var i=0; i<src.Count; i++)
-                {
-                    ref readonly var cell = ref src[i];
-                    dst.AppendLineFormat("{0:D5} | {1,-48} | {2}", cell.Key.Index, cell.Key.FormatSemantic(), cell.Format());
-                }
-            }
-
             public static string format(in CellInfo src)
             {
                 var dst = EmptyString;

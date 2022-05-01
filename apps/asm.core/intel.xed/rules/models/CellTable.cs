@@ -31,7 +31,17 @@ namespace Z0
                 => fields(this);
 
             public static Index<GridField> fields(CellRow src)
-                => src.Cells.Select(f => new GridField(src.TableIndex, src.RowIndex, f.CellIndex, f.Field, XedFields.field(f.Field).Size));
+            {
+                var count = src.CellCount;
+                var dst = alloc<GridField>(count);
+                for(var i=0; i< count; i++)
+                {
+                    ref readonly var f = ref src[i];
+                    seek(dst,i) = new GridField(f.TableIndex, f.RowIndex, f.CellIndex, f.Field, XedFields.field(f.Field).Size);
+
+                }
+                return dst;
+            }
 
             public readonly RuleSig Sig;
 
@@ -81,7 +91,7 @@ namespace Z0
                 => Rows.Select(x => x.CellCount).Storage.Sum();
 
             public string Format()
-                => CellRender.format(this);
+                => CellRender.Tables.format(this);
 
             public override string ToString()
                 => Format();

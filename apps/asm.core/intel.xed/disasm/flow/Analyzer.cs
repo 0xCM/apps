@@ -11,8 +11,6 @@ namespace Z0
     {
         sealed class Analyzer : Target
         {
-            const sbyte Pad = -24;
-
             const string PaddedSlots = "{0,-24} | {1}";
 
             readonly ITextEmitter Output;
@@ -90,7 +88,7 @@ namespace Z0
             void OnEnd(DisasmToken src)
             {
                 var name = text.left(CurrentFile.Path.FileName.Format(),Chars.Dot);
-                var path = Context.Project.Datasets() + FS.folder("xed.disasm") +  FS.file(string.Format("{0}.{1}",name, "xed.disasm.experiment"), FS.Txt);
+                var path = Context.Project.Datasets() + FS.folder("xed.disasm") +  FS.file(string.Format("{0}.{1}",name, "xed.disasm.flow"), FS.Txt);
                 Wf.TableOps.FileEmit(Output.Emit(), 0, path, TextEncodingKind.Asci);
             }
         }

@@ -59,13 +59,6 @@ namespace Z0
         }
 
 
-        [CmdOp("xed/emit/metrics")]
-        Outcome EmitMetrics(CmdArgs args)
-        {
-            CalcRuleMetrics(CalcRuleCells());
-            return true;
-        }
-
         static byte _format(InstPattern pattern, Span<string> dst)
         {
             ref readonly var ops = ref pattern.Ops;

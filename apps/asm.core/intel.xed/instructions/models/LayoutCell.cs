@@ -6,68 +6,16 @@
 namespace Z0
 {
     using static core;
-
-    using K = XedRules.RuleCellKind;
     using static XedRules.LayoutCellKind;
 
     partial class XedRules
     {
-        public enum LayoutCellKind : byte
-        {
-            None,
-
-            BL = K.BitLiteral,
-
-            XL = K.HexLiteral,
-
-            SV = K.SegVar,
-
-            SF = K.SegField,
-
-            NT = K.NontermCall,
-        }
-
         public readonly record struct LayoutCell
         {
-            public static LayoutCell from(InstField src)
-            {
-                var dst = ByteBlock16.Empty;
-                switch(src.CellKind)
-                {
-                    case K.BitLiteral:
-                        dst[0] = src.AsBitLit();
-                        dst[15] = (byte)BL;
-                    break;
-                    case K.HexLiteral:
-                        dst[0] = src.AsHexLit();
-                        dst[15] = (byte)XL;
-                    break;
-                    case K.InstSeg:
-                    {
-                        var iseg = src.AsInstSeg();
-                        if(iseg.IsLiteral)
-                            @as<SegField>(dst.First) = SegField.literal(iseg.Field, iseg._ToLiteral());
-                        else
-                            @as<SegField>(dst.First) = SegField.symbolic(iseg.Field, InstSegTypes.pattern(iseg.Type));
-                        dst[15] = (byte)SF;
-                    }
-                    break;
-                    case K.NontermCall:
-                        @as<Nonterminal>(dst.First) = src.AsNonterm();
-                        dst[15] = (byte)NT;
-                    break;
-                    default:
-                        Errors.Throw($"The field type {src.CellKind} is not supported");
-                    break;
-
-                }
-                return new LayoutCell(dst);
-            }
-
             readonly ByteBlock16 Data;
 
             [MethodImpl(Inline)]
-            LayoutCell(ByteBlock16 data)
+            internal LayoutCell(ByteBlock16 data)
             {
                 Data = data;
             }
@@ -99,6 +47,9 @@ namespace Z0
                 var dst = EmptyString;
                 switch(Kind)
                 {
+                    case None:
+                        dst = EmptyString;
+                    break;
                     case BL:
                         dst = AsBitLit().Format();
                     break;

@@ -35,66 +35,75 @@ namespace Z0
 
     public readonly struct Demand
     {
-        public static void eq<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        public static T eq<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : IEquatable<T>
         {
             if(!a.Equals(b))
                 Fail.eq(a,b,caller,file,line);
+            return a;
+
         }
 
-        public static void eq<T>(string name, T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        public static T eq<T>(string name, T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : IEquatable<T>
         {
             if(!a.Equals(b))
                 Fail.eq(name, a,b,caller,file,line);
+            return a;
         }
 
-        public static void lt<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        public static T lt<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : IComparable<T>
         {
             var result = a.CompareTo(b);
             if(result >= 0)
                 Fail.nlt(a,b,caller,file,line);
+            return a;
         }
 
-        public static void lt<T>(string name, T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        public static T lt<T>(string name, T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : IComparable<T>
         {
             var result = a.CompareTo(b);
             if(result >= 0)
                 Fail.nlt(name,a,b,caller,file,line);
+            return a;
         }
 
-        public static void lteq<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        public static T lteq<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : IComparable<T>
         {
             var result = a.CompareTo(b);
             if(result > 0)
                 Fail.gt(a,b,caller,file,line);
+            return a;
         }
 
-        public static void lteq<T>(string name, T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        public static T lteq<T>(string name, T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : IComparable<T>
         {
             var result = a.CompareTo(b);
             if(result > 0)
                 Fail.gt(name, a, b, caller,file,line);
+            return a;
         }
 
-        public static void gt<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        public static T gt<T>(T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : IComparable<T>
         {
             var result = a.CompareTo(b);
             if(result <= 0)
                 Fail.ngt(a,b,caller,file,line);
+            return a;
         }
 
-        public static void gt<T>(string name, T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
+        public static T gt<T>(string name, T a, T b, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             where T : IComparable<T>
         {
             var result = a.CompareTo(b);
             if(result <= 0)
                 Fail.ngt(name,a,b,caller,file,line);
+            return a;
         }
     }
 }

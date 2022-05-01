@@ -10,10 +10,13 @@ namespace Z0
     partial class XedRules
     {
         public Index<InstPattern> CalcPatterns()
-        {
-            var patterns = CalcInstPatterns(CalcInstDefs());
-            return patterns;
-        }
+            => CalcInstPatterns(CalcInstDefs());
+
+        public Index<InstLayout> CalcInstLayouts(Index<InstPattern> src)
+            => Data(nameof(CalcInstLayouts), () => LayoutCalcs.layouts(src));
+
+        void Emit(Index<InstLayout> src)
+            => TableEmit(src.View, InstLayout.RenderWidths, XedPaths.Table<InstLayout>());
 
         public Index<InstFieldRow> CalcInstFields(Index<InstPattern> src)
             => Data(nameof(CalcInstFields), () => XedPatterns.fieldrows(src));
@@ -24,26 +27,30 @@ namespace Z0
         public Index<InstGroup> CalcInstGroups(Index<InstPattern> src)
             => Data(nameof(CalcInstGroups),() => XedPatterns.groups(src).Values.ToArray().Sort());
 
-        public Index<InstPattern> EmitPatterns(Index<InstPattern> patterns)
+        public Index<InstPattern> EmitPatterns(Index<InstPattern> src)
         {
-            var records = CalcPatternRecords(patterns);
-            Emit(records);
-            var fields = CalcInstFields(patterns);
-            var details = CalcInstOpDetails(patterns);
-            var classes = CalcOpClasses(details);
-            var ops = CalcInstOpRows(details);
-            var groups = CalcInstGroups(patterns);
-            var poc = CalcPoc(patterns);
             exec(PllExec,
-                () => Emit(ops),
-                () => Emit(classes),
-                () => Emit(groups),
-                () => Emit(poc),
-                () => Emit(fields),
-                () => EmitFlagEffects(patterns),
-                () => EmitInstAttribs(patterns)
+                () => Emit(CalcInstLayouts(src)),
+                () => Emit(CalcPatternRecords(src)),
+                () => EmitFlagEffects(src),
+                () => EmitInstAttribs(src),
+                () => Emit(CalcInstFields(src)),
+                () => Emit(CalcInstGroups(src)),
+                () => EmitDetails(src),
+                () => {},
+                () => Emit(CalcPoc(src))
                 );
-            return patterns;
+
+            return src;
+        }
+
+        void EmitDetails(Index<InstPattern> src)
+        {
+            var details = CalcInstOpDetails(src);
+            exec(PllExec,
+            () => Emit(CalcInstOpRows(details)),
+            () => Emit(CalcOpClasses(details))
+            );
         }
     }
 }

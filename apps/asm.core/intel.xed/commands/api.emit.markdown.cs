@@ -14,7 +14,6 @@ namespace Z0
         Outcome EmitMarkdownDocs(CmdArgs args)
         {
             ApiComments.EmitMarkdownDocs(array(nameof(vpack),nameof(vmask)));
-
             return true;
         }
     }

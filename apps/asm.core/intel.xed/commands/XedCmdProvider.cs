@@ -13,6 +13,8 @@ namespace Z0
     {
         IntelXed Xed => Service(Wf.IntelXed);
 
+        XedForms XedForms => Service(Wf.XedForms);
+
         XedDisasmSvc Disasm => Service(Wf.XedDisasm);
 
         XedDocs XedDocs => Service(Wf.XedDocs);
@@ -22,6 +24,8 @@ namespace Z0
         XedPaths XedPaths => Service(Wf.XedPaths);
 
         XedDisasmSvc XedDisasmSvc => Service(Wf.XedDisasm);
+
+        BitMaskServices ApiBitMasks => Service(Wf.ApiBitMasks);
 
         AppDb AppDb => Service(Wf.AppDb);
 
@@ -113,87 +117,5 @@ namespace Z0
 
         RuleCells CalcRuleCells() => Rules.CalcRuleCells(CalcRules());
 
-
-        string CalcTableMetrics(in CellTable table)
-        {
-            var dst = text.emitter();
-            dst.AppendLine(string.Format("{0:D3} {1,-32} {2}", table.TableIndex,  table.Sig.Format(), XedPaths.CheckedTableDef(table.Sig)));
-            dst.AppendLine(RP.PageBreak120);
-            dst.AppendLine();
-            for(var i=0; i<table.RowCount; i++)
-            {
-                ref readonly var row = ref table[i];
-
-                if(i != 0)
-                    dst.AppendLine();
-
-                dst.AppendLineFormat("{0:D3} {1:D3}", table.TableIndex, row.RowIndex);
-                dst.AppendLine(RP.PageBreak80);
-                for(var j=0; j<row.CellCount; j++)
-                {
-                    ref readonly var cell = ref row[j];
-                    ref readonly var key = ref cell.Key;
-                    var descriptor = string.Format("{0:D3} {1:D3} {2:D3} {3}", table.TableIndex, row.RowIndex, key.Col, key.FormatSemantic());
-                    dst.AppendLineFormat("{0} {1,-12} | {2}", descriptor, XedRender.format(cell.Field), cell);
-                }
-
-                dst.AppendLine(row.Expression);
-            }
-
-            dst.AppendLine(RP.PageBreak80);
-
-            dst.Append(table.Grid().Format());
-
-            return dst.Emit();
-        }
-
-        void CalcRuleMetrics(RuleCells src)
-        {
-            var dst = text.emitter();
-            for(var i=0; i<src.TableCount; i++)
-                dst.AppendLine(CalcTableMetrics(src[i]));
-            FileEmit(dst.Emit(), src.TableCount, XedPaths.RuleTargets() + FS.file("xed.rules.metrics", FS.Txt));
-        }
-
-        [Record(TableName)]
-        public struct InstLayoutRecord : IComparable<InstLayoutRecord>
-        {
-            public const string TableName = "xed.inst.layouts";
-
-            public const byte FieldCount = 7;
-
-            public ushort PatternId;
-
-            public InstClass Instruction;
-
-            public XedOpCode OpCode;
-
-            public InstSeg Seg0;
-
-            public InstSeg Seg1;
-
-            public InstSeg Seg2;
-
-            public InstSeg Seg3;
-
-            public int CompareTo(InstLayoutRecord src)
-                => PatternId.CompareTo(src.PatternId);
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,26,12,12,12,12};
-        }
-
-        ConstLookup<InstPattern,Index<LayoutCell>> CalcLayoutCells()
-        {
-            var dst = dict<InstPattern,Index<LayoutCell>>();
-            var patterns = Xed.Rules.CalcInstPatterns();
-            for(var i=0; i<patterns.Count; i++)
-            {
-                ref readonly var pattern = ref patterns[i];
-                ref readonly var fields = ref pattern.Fields;
-                dst[pattern] = pattern.Layout.Map(x => LayoutCell.from(x));
-            }
-
-            return dst;
-        }
     }
 }

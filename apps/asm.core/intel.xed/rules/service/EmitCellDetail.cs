@@ -20,7 +20,7 @@ namespace Z0
         void EmitCellsRaw(RuleCells src)
         {
             var dst = text.emitter();
-            var count = CellRender.render(src.Flatten(), dst);
+            var count = CellRender.Tables.render(src.Flatten(), dst);
             var data = Require.equal(dst.Emit(), src.Description);
             FileEmit(data, count, XedPaths.RuleTarget("cells.raw", FS.Csv), TextEncodingKind.Asci);
         }

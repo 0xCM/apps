@@ -11,6 +11,22 @@ namespace Z0
     {
         public readonly struct GridFields
         {
+            public static GridFields load(in CellTable src)
+            {
+                var cols = (byte)src.Rows.Select(row => CellTable.fields(row).Count).Storage.Max();
+                var dst = alloc<GridField>(cols*src.RowCount);
+                var k=z8;
+                for(var i=0; i<src.RowCount; i++)
+                {
+                    var fields = CellTable.fields(src[i]);
+                    for(var j=0; j<fields.Count; j++, k++)
+                        seek(dst, k) = fields[j];
+                    for(var j=k; j<cols; j++, k++)
+                        seek(dst, k) = GridField.Empty;
+                }
+                return new GridFields(src.Sig, (ushort)src.RowCount, cols, dst);
+            }
+
             public readonly RuleSig Rule;
 
             public readonly ushort RowCount;

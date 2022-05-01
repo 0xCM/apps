@@ -6,11 +6,13 @@ namespace Z0
 {
     partial class XedCmdProvider
     {
-        [CmdOp("api/emit/bitmasks")]
-        Outcome EmitBitMasks(CmdArgs args)
+        [CmdOp("bytes/emit")]
+        Outcome BytesEmit(CmdArgs args)
         {
-            var emitted = ApiBitMasks.Emit();
-
+            var dst = text.emitter();
+            var offset = 8u;
+            Bytes.RenderByteSpan<ushort>(0, Pow2.T11m1, offset, dst);
+            FileEmit(dst.Emit(), 4, AppDb.CgStage() + FS.file("UnpackedBytes", FS.Cs));
             return true;
         }
     }

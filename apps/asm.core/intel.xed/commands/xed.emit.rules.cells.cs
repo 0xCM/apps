@@ -6,11 +6,12 @@ namespace Z0
 {
     partial class XedCmdProvider
     {
-        [CmdOp("api/emit/bitmasks")]
-        Outcome EmitBitMasks(CmdArgs args)
+        [CmdOp("xed/emit/rules/cells")]
+        Outcome CheckRules(CmdArgs args)
         {
-            var emitted = ApiBitMasks.Emit();
-
+            var src = CalcRuleCells();
+            var analyzer = new RuleAnalyzer(this, (data,count,path) => FileEmit(data, count,path, TextEncodingKind.Asci));
+            analyzer.Run(src);
             return true;
         }
     }

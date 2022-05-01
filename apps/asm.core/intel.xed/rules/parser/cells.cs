@@ -13,11 +13,18 @@ namespace Z0
     {
         partial struct CellParser
         {
+            static string SemanticHeader
+                => string.Format("{0,-5} | {1,-5} | {2,-48} | {3}", "Seq", "Lix", "Key", "Value");
+
+            static string format(in RuleCell cell)
+                => string.Format("{0:D5} | {1:D5} | {2,-48} | {3}", cell.Key.Index, cell.Key.Index, cell.Key.FormatSemantic(), cell.Format());
+
             public static RuleCells cells(RuleTables rules)
             {
                 var lix = z16;
                 var emitter = text.emitter();
-                emitter.AppendLine(CellRender.SemanticHeader);
+                //emitter.AppendLine(CellRender.SemanticHeader);
+                emitter.AppendLine(SemanticHeader);
                 ref readonly var src = ref rules.Specs();
                 var sigs = src.Keys;
                 var dst = dict<RuleSig,Index<RuleCell>>();
@@ -132,7 +139,8 @@ namespace Z0
                             else
                                 Errors.Throw(info.Field.ToString() + ":="  + key.FormatSemantic() + $":{info.Kind}" + "='" + data + "'");
 
-                            emitter.AppendLineFormat(CellRender.SemanticRenderPattern, kcell.Key.Index, kcell.Key.Index, kcell.Key.FormatSemantic(), kcell.Format());
+                            emitter.AppendLineFormat(format(kcell));
+                            //emitter.AppendLineFormat(CellRender.SemanticRenderPattern, kcell.Key.Index, kcell.Key.Index, kcell.Key.FormatSemantic(), kcell.Format());
                             kcells.Add(kcell);
                         }
                     }
@@ -141,6 +149,9 @@ namespace Z0
                 }
 
                 return RuleCells.create(dst, emitter.Emit());
+
+
+
             }
         }
     }

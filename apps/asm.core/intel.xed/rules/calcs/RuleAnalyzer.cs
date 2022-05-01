@@ -257,8 +257,8 @@ namespace Z0
             {
                 Run(src[i]);
             }
-
         }
+
         public void Run(RuleCells src)
         {
             Run(src.Tables);
