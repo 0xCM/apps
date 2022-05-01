@@ -63,7 +63,6 @@ namespace Z0
                     for(var j=0u; j<table.RowCount; j++, k++)
                     {
                         ref readonly var spec = ref table[j];
-
                         var row = TableDefRow.Empty;
                         row.Seq = k;
                         row.TableId = table.TableId;
@@ -72,7 +71,6 @@ namespace Z0
                         row.Name = table.TableName;
                         row.Statement = spec.Format();
                         emitter.AppendLine(formatter.Format(row));
-
                     }
 
                     emitter.AppendLine();

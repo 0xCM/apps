@@ -16,13 +16,13 @@ namespace Z0
     {
         public class OpCodeIdentity
         {
-            public static Index<OpCodeId> identify(Index<PatternOpCode> src)
+            public static Index<OpCodeId> identify(ReadOnlySpan<PatternOpCode> src)
             {
                 var bitfield = Bitfields.dataset<FK,FW,uint>();
-                var count = src.Count;
+                var count = src.Length;
                 var dst = alloc<OpCodeId>(count);
-                for(var i=z16; i< count; i++)
-                    seek(dst,i) = define(bitfield, src[i]);
+                for(var i=z16; i<count; i++)
+                    seek(dst,i) = define(bitfield, skip(src,i));
                 return dst.Sort();
             }
 

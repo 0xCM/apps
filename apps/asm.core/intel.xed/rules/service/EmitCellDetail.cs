@@ -13,7 +13,7 @@ namespace Z0
         {
             exec(PllExec,
                 () => EmitCellsRaw(src),
-                () => EmitCellRecords(src)
+                () => Emit(src.Records.View)
                 );
         }
 
@@ -24,8 +24,5 @@ namespace Z0
             var data = Require.equal(dst.Emit(), src.Description);
             FileEmit(data, count, XedPaths.RuleTarget("cells.raw", FS.Csv), TextEncodingKind.Asci);
         }
-
-        public void EmitCellRecords(RuleCells src)
-            => TableEmit(src.Records.View, RuleCellRecord.RenderWidths, XedPaths.RuleTable<RuleCellRecord>());
     }
 }

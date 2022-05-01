@@ -15,9 +15,6 @@ namespace Z0
         public Index<InstLayout> CalcInstLayouts(Index<InstPattern> src)
             => Data(nameof(CalcInstLayouts), () => LayoutCalcs.layouts(src));
 
-        void Emit(Index<InstLayout> src)
-            => TableEmit(src.View, InstLayout.RenderWidths, XedPaths.Table<InstLayout>());
-
         public Index<InstFieldRow> CalcInstFields(Index<InstPattern> src)
             => Data(nameof(CalcInstFields), () => XedPatterns.fieldrows(src));
 
@@ -36,21 +33,10 @@ namespace Z0
                 () => EmitInstAttribs(src),
                 () => Emit(CalcInstFields(src)),
                 () => Emit(CalcInstGroups(src)),
-                () => EmitDetails(src),
-                () => {},
+                () => Emit(CalcInstOpDetails(src)),
                 () => Emit(CalcPoc(src))
                 );
-
             return src;
-        }
-
-        void EmitDetails(Index<InstPattern> src)
-        {
-            var details = CalcInstOpDetails(src);
-            exec(PllExec,
-            () => Emit(CalcInstOpRows(details)),
-            () => Emit(CalcOpClasses(details))
-            );
         }
     }
 }

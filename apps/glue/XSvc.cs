@@ -93,6 +93,6 @@ namespace Z0
 
         [Op]
         public static MsDocsService MsDocs(this IWfRuntime wf)
-            => Toolz.MsDocsService.create(wf);
+            => Z0.MsDocsService.create(wf);
     }
 }

@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedOpCodes
     {
-        public static Index<OpCodeId> identify(Index<PatternOpCode> src)
+        public static Index<OpCodeId> identify(ReadOnlySpan<PatternOpCode> src)
             => OpCodeIdentity.identify(src);
     }
 }

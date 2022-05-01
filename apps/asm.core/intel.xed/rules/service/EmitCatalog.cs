@@ -15,15 +15,14 @@ namespace Z0
             var patterns = Index<InstPattern>.Empty;
             var tables = RuleTables.Empty;
             exec(PllExec,
-                EmitFieldSpecs,
                 EmitOpCodeKinds,
                 EmitOpWidths,
                 EmitPointerWidths,
-                EmitMacroMatches,
+                () => Emit(CalcMacroMatches()),
                 EmitMacroDefs,
-                EmitReflectedFields,
+                () => Emit(XedFields.ByPosition.Valid),
                 EmitSymbolicFields,
-                EmitFieldImports,
+                () => Emit(ImportFieldDefs()),
                 () => tables = EmitRules(CalcRules()),
                 () => patterns = EmitPatterns(CalcPatterns())
             );
@@ -35,19 +34,10 @@ namespace Z0
             => mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i));
 
         void EmitMacroDefs()
-            => TableEmit(CalcMacroDefs().View, MacroDef.RenderWidths, XedPaths.RuleTable<MacroDef>());
-
-        void EmitMacroMatches()
-            => TableEmit(CalcMacroMatches().View, MacroMatch.RenderWidths, XedPaths.RuleTable<MacroMatch>());
+            => Emit(CalcMacroDefs().View);
 
         void EmitSymbolicFields()
             => ApiMetadataService.create(Wf).EmitTokenSet(XedFields.EffectiveFields.create(), AppDb.XedPath("xed.fields.symbolic", FileKind.Csv));
-
-        void EmitFieldImports()
-            => TableEmit(ImportFieldDefs().View, XedFieldDef.RenderWidths, XedPaths.Table<XedFieldDef>());
-
-        void EmitReflectedFields()
-            => TableEmit(XedFields.ByPosition.Valid, ReflectedField.RenderWidths, XedPaths.Table<ReflectedField>());
 
         void EmitOpCodeKinds()
             => TableEmit(OpCodeKinds.Instance.Records, OcMapKind.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodeKinds));
@@ -59,6 +49,6 @@ namespace Z0
             => Data(nameof(CalcPointerWidths), () => mapi(PointerWidths.Where(x => x.Kind != 0), (i,w) => w.ToRecord((byte)i)));
 
         void EmitPointerWidths()
-            => TableEmit(CalcPointerWidths().View, PointerWidthInfo.RenderWidths,  XedPaths.DocTarget(XedDocKind.PointerWidths));
+            => Emit(CalcPointerWidths().View);
     }
 }

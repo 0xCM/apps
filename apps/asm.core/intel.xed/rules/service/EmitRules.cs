@@ -11,24 +11,22 @@ namespace Z0
     {
         public RuleTables EmitRules(RuleTables src)
         {
-            var lookup = CalcRuleCells(src);
             exec(PllExec,
-                () => EmitSigs(src),
-                () => EmitRuleSeq(),
-                () => EmitCellDetail(lookup),
+                () => Emit(src.SigRows),
+                () => EmitCellDetail(CalcRuleCells(src)),
                 () => EmitTableDefReport(src),
+                () => Emit(CellParser.ruleseq()),
+                () => Docs.EmitRuleDocs(src),
                 () => EmitTableDefs(src)
             );
-            Docs.EmitRuleDocs(src);
             return src;
         }
 
-        void EmitSigs(RuleTables rules)
-            => TableEmit(rules.SigRows.View, RuleSigRow.RenderWidths, XedPaths.Service.RuleTable<RuleSigRow>());
+        public void Emit(Index<RuleSigRow> src)
+            => TableEmit(src.View, RuleSigRow.RenderWidths, XedPaths.Service.RuleTable<RuleSigRow>());
 
-        void EmitRuleSeq()
+        public void Emit(Index<RuleSeq> src)
         {
-            var src = CellParser.ruleseq();
             var dst = text.buffer();
             iter(src, x => dst.AppendLine(x.Format()));
             FileEmit(dst.Emit(), src.Count, XedPaths.Service.DocTarget(XedDocKind.RuleSeq), TextEncodingKind.Asci);
