@@ -117,6 +117,9 @@ namespace Z0
 
         static EnumRender<RuleCellKind> RuleCellKinds = new();
 
+        public static string format(Nonterminal src)
+            => src.IsEmpty ? EmptyString : string.Format("{0}()", XedRender.format(src.Name));
+
         public static string format(Hex4 src)
             => $"0x{src}";
 
@@ -245,6 +248,16 @@ namespace Z0
 
         public static string format(RuleTableKind src)
             => RuleTableKinds.Format(src);
+
+        public static string format(SegField src)
+        {
+            var dst = EmptyString;
+            if(src.Field == 0)
+                dst = src.Seg.Format();
+            else
+                dst = string.Format("{0}[{1}]", XedRender.format(src.Field), src.Seg);
+            return dst;
+        }
 
         public static string format(FieldKind src)
             => src == 0 ? EmptyString : FieldKinds.Format(src);

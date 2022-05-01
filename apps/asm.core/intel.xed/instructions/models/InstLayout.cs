@@ -17,7 +17,7 @@ namespace Z0
 
             const byte TotalCount = HeaderCount + CellCount;
 
-            const byte CellWidth = 22;
+            public const byte CellWidth = 22;
 
             public ushort PatternId;
 
@@ -49,6 +49,76 @@ namespace Z0
 
             public LayoutCell Cell10;
 
+            public LayoutCell this[byte i]
+            {
+                get
+                {
+                    var dst = LayoutCell.Empty;
+                    switch(i)
+                    {
+                        case 0:
+                            dst = Cell0;
+                        break;
+                        case 1:
+                            dst = Cell1;
+                        break;
+
+                        case 2:
+                            dst = Cell2;
+                        break;
+
+                        case 3:
+                            dst = Cell3;
+                        break;
+
+                        case 4:
+                            dst = Cell4;
+                        break;
+
+                        case 5:
+                            dst = Cell5;
+                        break;
+
+                        case 6:
+                            dst = Cell6;
+                        break;
+
+                        case 7:
+                            dst = Cell7;
+                        break;
+
+                        case 8:
+                            dst = Cell8;
+                        break;
+
+                        case 9:
+                            dst = Cell9;
+                        break;
+
+                        case 10:
+                            dst = Cell10;
+                        break;
+                    };
+
+                    return dst;
+                }
+            }
+
+            public static string cells(in InstLayout src)
+            {
+                var dst = text.emitter();
+                cells(src,dst);
+                return dst.Emit();
+            }
+
+            public static void cells(in InstLayout src, ITextEmitter dst)
+            {
+                for(var i=z8; i<src.Count; i++)
+                {
+                    dst.AppendFormat("{0} ", src[i]);
+                }
+            }
+
             public int CompareTo(InstLayout src)
                 => PatternId.CompareTo(src.PatternId);
 
@@ -58,6 +128,8 @@ namespace Z0
                 CellWidth,CellWidth,CellWidth,CellWidth,
                 CellWidth,CellWidth,CellWidth,
                 };
+
+            public static InstLayout Empty => default;
         }
     }
 }

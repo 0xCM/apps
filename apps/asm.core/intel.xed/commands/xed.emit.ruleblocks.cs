@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedCmdProvider
     {
-       [CmdOp("xed/emit/ruleblocks")]
+        [CmdOp("xed/emit/ruleblocks")]
         Outcome EmitRuleBlocks(CmdArgs args)
         {
             var known = Symbols.kinds<RuleName>().Where(x => x != 0).ToArray().Map(x => x.ToString()).ToHashSet();

@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
     using static core;
-    using static XedRules;
     using static XedDisasm;
 
     partial class XedCmdProvider
     {
         [CmdOp("xed/disasm/flow")]
-        Outcome EmitBreakdowns(CmdArgs args)
+        Outcome RunDisasmFlow(CmdArgs args)
         {
             var context = Context();
             var flow = XedDisasm.flow(context);

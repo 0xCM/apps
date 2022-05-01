@@ -42,6 +42,18 @@ namespace Z0
                 get => ref @as<LayoutCellKind>(Data[15]);
             }
 
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Kind == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Kind != 0;
+            }
+
             public string Format()
             {
                 var dst = EmptyString;
@@ -51,24 +63,25 @@ namespace Z0
                         dst = EmptyString;
                     break;
                     case BL:
-                        dst = AsBitLit().Format();
+                        dst = XedRender.format(AsBitLit());
                     break;
                     case XL:
-                        dst = AsHexLit().Format();
+                        dst = XedRender.format(AsHexLit());
                     break;
                     case SF:
-                        dst = AsSegField().Format();
+                        dst = XedRender.format(AsSegField());
                     break;
                     case NT:
-                        dst = AsNonterm().Format();
+                        dst = XedRender.format(AsNonterm());
                     break;
                 }
                 return dst;
             }
 
-
             public override string ToString()
                 => Format();
+
+            public static LayoutCell Empty => default;
         }
     }
 }

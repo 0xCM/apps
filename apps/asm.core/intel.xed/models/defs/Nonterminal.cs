@@ -43,7 +43,7 @@ namespace Z0
                 => Format().CompareTo(src.Format());
 
             public string Format()
-                => IsEmpty ? EmptyString : string.Format("{0}()", XedRender.format(Name));
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

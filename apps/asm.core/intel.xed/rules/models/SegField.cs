@@ -61,14 +61,7 @@ namespace Z0
                 => Seg.IsLiteral();
 
             public string Format()
-            {
-                var dst = EmptyString;
-                if(Field == 0)
-                    dst = Seg.Format();
-                else
-                    dst = string.Format("{0}[{1}]", XedRender.format(Field), Seg);
-                return dst;
-            }
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

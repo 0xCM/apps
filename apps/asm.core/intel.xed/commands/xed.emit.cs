@@ -10,12 +10,34 @@ namespace Z0
 
     partial class XedCmdProvider
     {
-
         [CmdOp("xed/emit/patterns")]
         Outcome EmitPatterns(CmdArgs args)
         {
             var patterns = Rules.CalcPatterns();
             Rules.EmitPatterns(patterns);
+            return true;
+        }
+
+        [CmdOp("xed/emit/analysis")]
+        Outcome EmitAnalysis(CmdArgs args)
+        {
+            var src = CalcRuleCells();
+            var analyzer = new RuleAnalyzer(this, (data,count,path) => FileEmit(data, count,path, TextEncodingKind.Asci));
+            analyzer.Run(src);
+            return true;
+        }
+
+        [CmdOp("xed/emit/layouts")]
+        Outcome EmitLayouts(CmdArgs args)
+        {
+            Rules.Emit(Rules.CalcInstLayouts(CalcPatterns()));
+            return true;
+        }
+
+        [CmdOp("xed/emit/metrics")]
+        Outcome EmitMetrics(CmdArgs args)
+        {
+            Rules.EmitRuleMetrics(CalcRuleCells());
             return true;
         }
 

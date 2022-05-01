@@ -12,9 +12,6 @@ namespace Z0
         public Index<InstPattern> CalcPatterns()
             => CalcInstPatterns(CalcInstDefs());
 
-        public Index<InstLayout> CalcInstLayouts(Index<InstPattern> src)
-            => Data(nameof(CalcInstLayouts), () => LayoutCalcs.layouts(src));
-
         public Index<InstFieldRow> CalcInstFields(Index<InstPattern> src)
             => Data(nameof(CalcInstFields), () => XedPatterns.fieldrows(src));
 

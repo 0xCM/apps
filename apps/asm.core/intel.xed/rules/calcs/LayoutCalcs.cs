@@ -19,18 +19,20 @@ namespace Z0
                 var count = src.Count;
                 var dst = alloc<InstLayout>(count);
                 for(var i=0; i<src.Count; i++)
-                {
-                    ref readonly var pattern = ref src[i];
-                    ref readonly var fields = ref pattern.Layout;
-                    ref var target = ref seek(dst,i);
-                    target.PatternId = (ushort)pattern.PatternId;
-                    target.Instruction = pattern.InstClass;
-                    target.OpCode = pattern.OpCode;
-                    target.Count = Demand.lteq(fields.Count,InstLayout.CellCount);
-                    for(var j=z8; j<fields.Count; j++)
-                        layout(j, fields[j], ref target);
-                }
+                    seek(dst,i) = layout(src[i]);
+                return dst;
+            }
 
+            public static InstLayout layout(InstPattern src)
+            {
+                var dst = InstLayout.Empty;
+                ref readonly var fields = ref src.Layout;
+                dst.PatternId = (ushort)src.PatternId;
+                dst.Instruction = src.InstClass;
+                dst.OpCode = src.OpCode;
+                dst.Count = Demand.lteq(fields.Count,InstLayout.CellCount);
+                for(var j=z8; j<fields.Count; j++)
+                    layout(j, fields[j], ref dst);
                 return dst;
             }
 

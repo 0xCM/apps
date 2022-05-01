@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedRules;
-    using static XedModels;
-    using static core;
     using static Datasets;
 
     partial class XedCmdProvider
@@ -58,7 +54,7 @@ namespace Z0
             }
         }
 
-        [CmdOp("xed/check/opcodes")]
+        [CmdOp("xed/emit/opdata")]
         Outcome CheckOpCodes(CmdArgs args)
         {
             var occols = new TableColumns(
@@ -83,13 +79,11 @@ namespace Z0
             for(var i=0; i<opcodes.Count; i++)
             {
                 ref readonly var poc = ref opcodes[i];
-                ref readonly var layout = ref poc.Layout;
                 ref readonly var expr = ref poc.Expr;
 
                 var pattern = patternLU[poc.PatternId];
 
                 ref readonly var ops = ref pattern.OpDetails;
-
                 dst.Write(poc.PatternId);
                 dst.Write(poc.InstClass);
                 dst.Write(poc.Index);
@@ -100,8 +94,12 @@ namespace Z0
                 counter++;
                 dst.EmitLine(writer);
                 counter++;
-                if(pattern.Layout.IsNonEmpty)
-                    writer.AppendLineFormat("{0,-10} | {1}", EmptyString, pattern.Layout);
+
+                writer.AppendLineFormat("{0,-10} | {1}", EmptyString, InstLayout.cells(LayoutCalcs.layout(pattern)));
+
+                // if(pattern.Layout.IsNonEmpty)
+                //     writer.AppendLineFormat("{0,-10} | {1}", EmptyString, pattern.Layout);
+
                 counter++;
                 writer.AppendLineFormat("{0,-10} | {1}", EmptyString, RP.PageBreak120);
                 counter++;
