@@ -9,16 +9,16 @@ namespace Z0
 
     partial class XedMachine
     {
-        public MachineEmitter Emitter
+        public Emitter Emissions
         {
             [MethodImpl(Inline)]
             get => _Emitter;
         }
 
-        public class MachineEmitter : IDisposable
+        public class Emitter : IDisposable
         {
-            public static MachineEmitter create(XedMachine machine, Action<object> status)
-                => new MachineEmitter(machine,status);
+            public static Emitter create(XedMachine machine, Action<object> status)
+                => new Emitter(machine,status);
 
             object LogLocker = new();
 
@@ -45,7 +45,7 @@ namespace Z0
 
             readonly Action<object> Status;
 
-            public MachineEmitter(XedMachine machine, Action<object> status)
+            public Emitter(XedMachine machine, Action<object> status)
             {
                 Machine = machine;
                 Ws = machine.Ws;

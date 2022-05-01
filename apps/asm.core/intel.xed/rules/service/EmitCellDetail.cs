@@ -12,6 +12,7 @@ namespace Z0
         public void EmitCellDetail(RuleCells src)
         {
             exec(PllExec,
+                () => EmitRuleMetrics(src),
                 () => EmitCellsRaw(src),
                 () => Emit(src.Records.View)
                 );

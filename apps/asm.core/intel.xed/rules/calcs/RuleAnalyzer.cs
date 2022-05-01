@@ -262,7 +262,7 @@ namespace Z0
         public void Run(RuleCells src)
         {
             Run(src.Tables);
-            FileEmitter(Dst.Emit(), src.TableCount, Paths.RuleTarget("cells.test", FS.Csv));
+            FileEmitter(Dst.Emit(), src.TableCount, Paths.RuleTarget("analysis", FS.Csv));
         }
     }
 }

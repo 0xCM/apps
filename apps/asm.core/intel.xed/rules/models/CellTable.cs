@@ -5,44 +5,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class XedRules
     {
         public readonly struct CellTable : IComparable<CellTable>
         {
-            public static GridFields fields(in CellTable src)
-            {
-                var cols = (byte)src.Rows.Select(row => fields(row).Count).Storage.Max();
-                var dst = alloc<GridField>(cols*src.RowCount);
-                var k=z8;
-                for(var i=0; i<src.RowCount; i++)
-                {
-                    var fields = CellTable.fields(src[i]);
-                    for(var j=0; j<fields.Count; j++, k++)
-                        seek(dst, k) = fields[j];
-                    for(var j=k; j<cols; j++, k++)
-                        seek(dst, k) = GridField.Empty;
-                }
-                return new GridFields(src.Sig, (ushort)src.RowCount, cols, dst);
-            }
-
-            public GridFields Grid()
-                => fields(this);
-
-            public static Index<GridField> fields(CellRow src)
-            {
-                var count = src.CellCount;
-                var dst = alloc<GridField>(count);
-                for(var i=0; i< count; i++)
-                {
-                    ref readonly var f = ref src[i];
-                    seek(dst,i) = new GridField(f.TableIndex, f.RowIndex, f.CellIndex, f.Field, XedFields.field(f.Field).Size);
-
-                }
-                return dst;
-            }
-
             public readonly RuleSig Sig;
 
             public readonly ushort TableIndex;

@@ -17,19 +17,6 @@ namespace Z0
             return dst;
         }
 
-        // public TableSpec NontermOpTable(byte index)
-        // {
-        //     var dst = TableSpec.Empty;
-        //     ref readonly var op = ref InstPattern().Op(index);
-        //     if(op.Nonterminal(out var nonterm))
-        //     {
-        //         dst = RuleTable(new (RuleTableKind.Enc, nonterm.Name));
-        //         if(dst.IsEmpty)
-        //             dst = RuleTable(new (RuleTableKind.Dec, nonterm.Name));
-        //     }
-        //     return dst;
-        // }
-
         [MethodImpl(Inline)]
         public bool IsNontermOp(byte index)
             => Op(index).NonTerm.IsNonEmpty;
@@ -41,7 +28,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public void Transition(InstPattern src, Action f)
         {
-            InstPattern() = src;
+            LoadPattern() = src;
             f();
         }
 
@@ -50,7 +37,7 @@ namespace Z0
         {
             for(var i=0; i<seq.Count; i++)
             {
-                InstPattern() = seq[i];
+                LoadPattern() = seq[i];
                 f();
             }
         }

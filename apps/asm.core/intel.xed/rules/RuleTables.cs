@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public class RuleTables
+        public partial class RuleTables
         {
             internal class Buffers
             {

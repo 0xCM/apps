@@ -11,7 +11,7 @@ namespace Z0
 
     partial class XedRules
     {
-        partial struct CellParser
+        partial class RuleTables
         {
             static string SemanticHeader
                 => string.Format("{0,-5} | {1,-5} | {2,-48} | {3}", "Seq", "Lix", "Key", "Value");
@@ -23,7 +23,6 @@ namespace Z0
             {
                 var lix = z16;
                 var emitter = text.emitter();
-                //emitter.AppendLine(CellRender.SemanticHeader);
                 emitter.AppendLine(SemanticHeader);
                 ref readonly var src = ref rules.Specs();
                 var sigs = src.Keys;
@@ -98,7 +97,7 @@ namespace Z0
                                         field = info.Operator;
                                     else
                                     {
-                                        result = ruleop(data, out RuleOperator value);
+                                        result = CellParser.ruleop(data, out RuleOperator value);
                                         field = value;
                                     }
                                 }
@@ -112,7 +111,7 @@ namespace Z0
                                 break;
                                 case CK.InstSeg:
                                 {
-                                    result = parse(data, out InstSeg value);
+                                    result = CellParser.parse(data, out InstSeg value);
                                     field = value;
                                 }
                                 break;
@@ -140,7 +139,6 @@ namespace Z0
                                 Errors.Throw(info.Field.ToString() + ":="  + key.FormatSemantic() + $":{info.Kind}" + "='" + data + "'");
 
                             emitter.AppendLineFormat(format(kcell));
-                            //emitter.AppendLineFormat(CellRender.SemanticRenderPattern, kcell.Key.Index, kcell.Key.Index, kcell.Key.FormatSemantic(), kcell.Format());
                             kcells.Add(kcell);
                         }
                     }
@@ -149,9 +147,6 @@ namespace Z0
                 }
 
                 return RuleCells.create(dst, emitter.Emit());
-
-
-
             }
         }
     }

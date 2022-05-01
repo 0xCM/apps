@@ -18,7 +18,7 @@ namespace Z0
             get => ref State().Id;
         }
 
-        public ref readonly OperandState RuleState
+        public ref readonly OperandState OpState
         {
             [MethodImpl(Inline)]
             get => ref State().Rules();

@@ -7,17 +7,15 @@ namespace Z0
 {
     using static core;
 
-    using static XedRules.GridFields;
-
     partial class XedRules
     {
-        public class RuleGrids
+        public partial class RuleGrids
         {
-            public readonly Index<GridFields> Tables;
+            public readonly Index<RuleGrid> Tables;
 
             public readonly uint ColCount;
 
-            public RuleGrids(GridFields[] src)
+            public RuleGrids(RuleGrid[] src)
             {
                 Tables = src;
                 ColCount = src.Select(x => x.ColCount).Max();
@@ -29,28 +27,31 @@ namespace Z0
                 get => Tables.Count;
             }
 
-            public ref GridFields this[int i]
+            public ref RuleGrid this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Tables[i];
             }
 
-            public ref GridFields this[uint i]
+            public ref RuleGrid this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Tables[i];
             }
 
             public Index<GridRow> Rows(uint i)
-                => Tables[i].Rows();
+            {
+                ref readonly var table = ref Tables[i];
+                return rows(table.Rule, table.RowCount, table.ColCount, table.Cells);
+            }
 
             public Index<GridRow> Rows(int i)
-                => Tables[i].Rows();
+                => Rows((uint)i);
 
-            public static implicit operator RuleGrids(GridFields[] src)
+            public static implicit operator RuleGrids(RuleGrid[] src)
                 => new RuleGrids(src);
 
-            public static implicit operator RuleGrids(Index<GridFields> src)
+            public static implicit operator RuleGrids(Index<RuleGrid> src)
                 => new RuleGrids(src);
         }
     }

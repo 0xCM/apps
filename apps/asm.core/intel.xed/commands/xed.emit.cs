@@ -32,7 +32,7 @@ namespace Z0
         {
             var rules = CalcRules();
             Write("Emitting rules");
-            Rules.EmitRules(rules);
+            Rules.Emit(rules);
             return true;
         }
 

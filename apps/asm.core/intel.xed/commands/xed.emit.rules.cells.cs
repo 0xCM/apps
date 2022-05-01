@@ -6,8 +6,8 @@ namespace Z0
 {
     partial class XedCmdProvider
     {
-        [CmdOp("xed/emit/rules/cells")]
-        Outcome CheckRules(CmdArgs args)
+        [CmdOp("xed/emit/analysis")]
+        Outcome EmitAnalysis(CmdArgs args)
         {
             var src = CalcRuleCells();
             var analyzer = new RuleAnalyzer(this, (data,count,path) => FileEmit(data, count,path, TextEncodingKind.Asci));

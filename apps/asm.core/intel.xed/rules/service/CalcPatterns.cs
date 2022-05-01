@@ -29,6 +29,7 @@ namespace Z0
             exec(PllExec,
                 () => Emit(CalcInstLayouts(src)),
                 () => Emit(CalcPatternRecords(src)),
+                () => Docs.EmitInstDocs(src),
                 () => EmitFlagEffects(src),
                 () => EmitInstAttribs(src),
                 () => Emit(CalcInstFields(src)),

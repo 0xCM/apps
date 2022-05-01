@@ -4,20 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+
     partial class XedMachine
     {
         [MethodImpl(Inline)]
-        T Service<T>(Func<T> factory)
-            => AppService.Service(factory);
+        ref MachineState State()
+            => ref RuntimeState;
 
         [MethodImpl(Inline)]
-        void StatusWriter(object message)
-            => AppService.Wf.Row(message,FlairKind.StatusData);
+        public ref MachineMode Mode()
+            => ref State().Mode();
 
-        public void Reset()
-        {
-            RuntimeState.Reset();
-            Emitter.Flush();
-        }
+        [MethodImpl(Inline)]
+        public ref Addressing Addressing()
+            => ref State().Addressing();
     }
 }

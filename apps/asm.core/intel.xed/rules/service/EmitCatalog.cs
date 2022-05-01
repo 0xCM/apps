@@ -12,8 +12,6 @@ namespace Z0
     {
         public void EmitCatalog()
         {
-            var patterns = Index<InstPattern>.Empty;
-            var tables = RuleTables.Empty;
             exec(PllExec,
                 EmitOpCodeKinds,
                 EmitOpWidths,
@@ -23,11 +21,9 @@ namespace Z0
                 () => Emit(XedFields.ByPosition.Valid),
                 EmitSymbolicFields,
                 () => Emit(ImportFieldDefs()),
-                () => tables = EmitRules(CalcRules()),
-                () => patterns = EmitPatterns(CalcPatterns())
+                () => Emit(CalcRuleTables()),
+                () => EmitPatterns(CalcPatterns())
             );
-
-            Docs.EmitInstDocs(patterns);
         }
 
         Index<MacroMatch> CalcMacroMatches()

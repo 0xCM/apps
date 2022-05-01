@@ -12,7 +12,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public static ConcurrentDictionary<OpCodeClass,Index<InstGroupSeq>> grouplookup(Index<InstGroup> src, bool pll = true)
+        public static ConcurrentDictionary<OpCodeClass,Index<InstGroupSeq>> CalcGroupLookup(Index<InstGroup> src, bool pll)
         {
             var dst = cdict<OpCodeClass,Index<InstGroupSeq>>();
             iter(groupseq(src), kvp => dst.TryAdd(kvp.Key, resequence(kvp.Value)), pll);

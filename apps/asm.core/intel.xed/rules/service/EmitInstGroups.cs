@@ -12,7 +12,7 @@ namespace Z0
     {
         public void Emit(Index<InstGroup> src)
         {
-            EmitGroupReports(src);
+            iter(CalcGroupLookup(src,PllExec), kvp => Emit(kvp.Key, kvp.Value), PllExec);
 
             const string RenderPattern = "{0,-8} | {1,-12} | {2,-18} | {3,-8} | {4,-8} | {5,-6} | {6,-6} | {7,-6} | {8,-6} | {9,-26} | {10,-22} | {11}";
             var counter = 0u;
@@ -56,14 +56,5 @@ namespace Z0
             }
             FileEmit(dst.Emit(), counter, XedPaths.Targets() + FS.file("xed.inst.groups", FS.Csv), TextEncodingKind.Asci);
         }
-
-        public ConcurrentDictionary<OpCodeClass,Index<InstGroupSeq>> CalcGroupLookup(Index<InstGroup> src)
-            => Data(nameof(CalcGroupLookup), () => XedRules.grouplookup(src,PllExec));
-
-        public void EmitGroupReports(Index<InstGroup> src)
-            => iter(CalcGroupLookup(src), kvp => EmitGroupReport(kvp.Key, kvp.Value), PllExec);
-
-        void EmitGroupReport(OpCodeClass @class, Index<InstGroupSeq> src)
-            => TableEmit(src.View, InstGroupSeq.RenderWidths, XedPaths.Table<InstGroupSeq>(@class.ToString().ToLower()));
     }
 }

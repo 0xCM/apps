@@ -23,6 +23,14 @@ namespace Z0
 
         XedPaths XedPaths => Service(Wf.XedPaths);
 
+        XedRules Rules => Service(Wf.XedRules);
+
+        RuleTables CalcRules() => Rules.CalcRuleTables();
+
+        Index<InstPattern> CalcPatterns() => Rules.CalcPatterns();
+
+        RuleCells CalcRuleCells() => Rules.CalcRuleCells(CalcRules());
+
         XedDisasmSvc XedDisasmSvc => Service(Wf.XedDisasm);
 
         BitMaskServices ApiBitMasks => Service(Wf.ApiBitMasks);
@@ -108,14 +116,5 @@ namespace Z0
         protected void FormatRows<T>(T[] src, ReadOnlySpan<byte> widths, ITextEmitter dst, RecordFormatKind fk, TextEncodingKind encoding = TextEncodingKind.Asci)
             where T : struct
                 => TableEmit(@readonly(src), widths, dst, fk, encoding);
-
-        XedRules Rules => Service(Wf.XedRules);
-
-        RuleTables CalcRules() => Rules.CalcRules();
-
-        Index<InstPattern> CalcPatterns() => Rules.CalcPatterns();
-
-        RuleCells CalcRuleCells() => Rules.CalcRuleCells(CalcRules());
-
     }
 }

@@ -5,12 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-    using static XedModels;
-
-    partial class XedOpCodes
+    partial class XedRules
     {
-        public static Index<OpCodeId> identify(ReadOnlySpan<PatternOpCode> src)
-            => OpCodeIdentity.identify(src);
+        public RuleCells CalcRuleCells(RuleTables src)
+            => Data(nameof(CalcRuleCells), () => RuleTables.cells(src));
     }
 }

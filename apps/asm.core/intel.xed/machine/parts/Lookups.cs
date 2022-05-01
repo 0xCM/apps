@@ -32,7 +32,7 @@ namespace Z0
         SortedLookup<InstClass,Index<InstForm>> _ClassFormLookup;
 
         /// <summary>
-        /// Specifies <see cref='InstGroupMember'/> associated with the current <see cref='InstPattern'/>
+        /// Specifies <see cref='InstGroupMember'/> associated with the current <see cref='LoadPattern'/>
         /// </summary>
         public InstGroupMember PatternGroup
             => _GroupMemberLookup.Find(PatternId, out var dst) ? dst : InstGroupMember.Empty;
@@ -50,7 +50,7 @@ namespace Z0
             => _ClassGroupLookup.Find(InstClass, out var dst) ? dst : sys.empty<InstGroupMember>();
 
         /// <summary>
-        /// Specifies <see cref='InstPattern'/> associated with the current <see cref='InstClass'/>
+        /// Specifies <see cref='LoadPattern'/> associated with the current <see cref='InstClass'/>
         /// </summary>
         public Index<InstPattern> ClassPatterns
             => _ClassPatternLookup.Find(InstClass, out var x) ? x : sys.empty<InstPattern>();

@@ -14,17 +14,7 @@ namespace Z0
         public class RuleCells : SortedLookup<RuleSig,Index<RuleCell>>
         {
             public RuleGrids Grids()
-                => _Tables.Select(t => CellTable.fields(t));
-
-            [MethodImpl(Inline)]
-            public static LogicCell<T> logical<T>(CellKey key, T value)
-                where T : unmanaged,  ILogicValue<T>, IEquatable<T>, ILogicOperand<T>
-                    => new LogicCell<T>(key,value);
-
-            [MethodImpl(Inline)]
-            public static LogicValue<T> value<T>(LogicDataKind kind, byte width, T data)
-                where T : unmanaged
-                    => new LogicValue<T>(kind,width,data);
+                => _Tables.Select(t => RuleGrids.grid(t));
 
             public static RuleCells create(Dictionary<RuleSig,Index<RuleCell>> src, string desc)
             {
@@ -128,14 +118,6 @@ namespace Z0
 
             }
 
-            public RuleCells(ConcurrentDictionary<RuleSig,Index<RuleCell>> src, Index<CellTable> tables, CellMetrics metrics, string desc)
-                : base(src)
-            {
-                _Description = desc;
-                _Tables = tables;
-                _Metrics = metrics;
-            }
-
             public uint TableCount
             {
                 [MethodImpl(Inline)]
@@ -188,7 +170,7 @@ namespace Z0
             }
 
             public Index<RuleCell> Flatten()
-                => flatten(this);
+                => RuleTables.flatten(this);
         }
    }
 }

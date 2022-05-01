@@ -41,7 +41,7 @@ namespace Z0
             => EmitInstDocs(Rules.CalcPatterns());
 
         void EmitRuleDocs()
-            => EmitRuleDocs(Rules.CalcRules());
+            => EmitRuleDocs(Rules.CalcRuleTables());
 
         void EmitPatternDocs(Index<InstPattern> src, FS.FilePath dst)
         {

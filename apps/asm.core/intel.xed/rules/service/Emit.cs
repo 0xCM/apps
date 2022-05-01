@@ -7,9 +7,34 @@ namespace Z0
 {
     using static core;
     using static XedModels;
+    using static XedOpCodes;
 
     partial class XedRules
     {
+        public void Emit(RuleTables src)
+        {
+            exec(PllExec,
+                () => Emit(src.SigRows),
+                () => EmitCellDetail(CalcRuleCells(src)),
+                () => EmitTableDefReport(src),
+                () => Emit(CellParser.ruleseq()),
+                () => Docs.EmitRuleDocs(src),
+                () => EmitTableDefs(src)
+            );
+        }
+
+        public void Emit(OpCodeClass @class, ReadOnlySpan<InstGroupSeq> src)
+            => TableEmit(src, InstGroupSeq.RenderWidths, XedPaths.Table<InstGroupSeq>(@class.ToString().ToLower()));
+
+        public void Emit(Index<RuleSigRow> src)
+            => TableEmit(src.View, RuleSigRow.RenderWidths, XedPaths.Service.RuleTable<RuleSigRow>());
+
+        public void Emit(Index<RuleSeq> src)
+        {
+            var dst = text.buffer();
+            iter(src, x => dst.AppendLine(x.Format()));
+            FileEmit(dst.Emit(), src.Count, XedPaths.Service.DocTarget(XedDocKind.RuleSeq), TextEncodingKind.Asci);
+        }
 
         public void Emit(ReadOnlySpan<MacroMatch> src)
             => TableEmit(src, MacroMatch.RenderWidths, XedPaths.RuleTable<MacroMatch>());
@@ -29,7 +54,7 @@ namespace Z0
         public void Emit(ReadOnlySpan<PatternOpCode> src)
         {
             TableEmit(src, PatternOpCode.RenderWidths, XedPaths.Table<PatternOpCode>());
-            Emit(XedOpCodes.identify(src));
+            Emit(OpCodeIdentity.identify(src));
         }
 
         public void Emit(Index<InstOpDetail> src)

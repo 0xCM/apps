@@ -9,18 +9,9 @@ namespace Z0
     using static XedMachine;
     using static core;
 
-    partial class XTend
-    {
-        public static MachineHost XedMachinHost(this IWfRuntime wf)
-            => MachineHost.create(wf);
-    }
-
     partial class XedMachine
     {
-        public static XedMachine allocate(IAppService svc)
-            => new XedMachine(svc);
-
-        public class MachineHost : AppService<MachineHost>
+        public class Host : AppService<Host>
         {
             uint6 Current = 0;
 
@@ -56,7 +47,7 @@ namespace Z0
                     if(!classes.Contains(src.Classifier))
                     {
                         classes.Add(src.Classifier);
-                        transition(machine,src,() => machine.Emitter.EmitClassGroups());
+                        transition(machine,src,() => machine.Emissions.EmitClassGroups());
                     }
                 }
             }
@@ -77,7 +68,6 @@ namespace Z0
             {
                 iter(Allocated.Values, machine => machine.Reset());
             }
-
 
             public void Run(bool rent, Action<XedMachine> f)
             {

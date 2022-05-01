@@ -10,18 +10,15 @@ namespace Z0
 
     partial class XedCmdProvider
     {
-        [CmdOp("xed/check/seq")]
+        [CmdOp("xed/gen/rulenames")]
         Outcome ChecSeq(CmdArgs args)
         {
             var assets = AsmCaseAssets.create();
             var header = assets.XedFileHeader().Utf8();
             var path = FS.path(@"J:\z0\apps\asm.core\intel.xed\rules\models\RuleName.cs");
-            var rules = Xed.Rules.CalcRules();
+            var rules = Xed.Rules.CalcRuleTables();
             ref readonly var specs = ref rules.Specs();
-
             var rulenames = specs.Keys.Select(x => x.TableName.ToString()).ToHashSet();
-            //var nonterms = Symbols.index<NontermKind>().Kinds.Where(x => x != 0).Select(x => XedRender.format(x));
-            //rulenames.AddRange(nonterms);
             var names = rulenames.Index().Sort();
 
             var dst = text.emitter();
@@ -57,7 +54,6 @@ namespace Z0
 
             return true;
         }
-
 
         static byte _format(InstPattern pattern, Span<string> dst)
         {

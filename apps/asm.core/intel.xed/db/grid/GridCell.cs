@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct GridField : IComparable<GridField>
+        public readonly record struct GridCell : IComparable<GridCell>
         {
             public readonly FieldKind Field;
 
@@ -21,7 +21,7 @@ namespace Z0
             public readonly DataSize Size;
 
             [MethodImpl(Inline)]
-            public GridField(ushort table, ushort row, byte col, FieldKind field, DataSize size)
+            public GridCell(ushort table, ushort row, byte col, FieldKind field, DataSize size)
             {
                 Table = table;
                 Row = row;
@@ -43,7 +43,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public int CompareTo(GridField src)
+            public int CompareTo(GridCell src)
                 => Col.CompareTo(src.Col);
 
             public string Format()
@@ -52,7 +52,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static GridField Empty => default;
+            public static GridCell Empty => default;
         }
     }
 }

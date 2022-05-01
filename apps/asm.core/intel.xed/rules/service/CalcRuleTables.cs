@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public RuleTables CalcRules()
+        public RuleTables CalcRuleTables()
         {
             var dst = new RuleTables();
             var buffers = dst.CreateBuffers();
@@ -21,11 +21,5 @@ namespace Z0
             dst.Seal(buffers, PllExec);
             return dst;
         }
-
-        public Index<TableCriteria> CalcRuleCriteria(RuleTableKind kind)
-            => Data(nameof(CalcRuleCriteria) + kind.ToString(), () => CellParser.criteria(kind));
-
-        public RuleCells CalcRuleCells(RuleTables src)
-            => Data(nameof(CalcRuleCells), () => CellParser.cells(src));
    }
 }

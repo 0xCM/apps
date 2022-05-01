@@ -33,7 +33,7 @@ namespace Z0
                 }
             }
 
-            static bool ruleop(string src, out RuleOperator dst)
+            public static bool ruleop(string src, out RuleOperator dst)
             {
                 if(ruleop(src, out OperatorKind k))
                 {
