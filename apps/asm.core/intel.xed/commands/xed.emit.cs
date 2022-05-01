@@ -75,21 +75,8 @@ namespace Z0
         [CmdOp("xed/emit/docs")]
         Outcome EmitDocs(CmdArgs args)
         {
-            XedDocs.EmitDocs();
-            return true;
-        }
-
-        [CmdOp("xed/emit/ruledocs")]
-        Outcome EmitRuleDocs(CmdArgs args)
-        {
-            XedDocs.EmitRuleDocs(CalcRules());
-            return true;
-        }
-
-        [CmdOp("xed/emit/instdocs")]
-        Outcome EmitInstDocs(CmdArgs args)
-        {
-            XedDocs.EmitInstDocs(CalcPatterns());
+            XedDocs.EmitDocs(CalcRules());
+            XedDocs.EmitDocs(CalcPatterns());
             return true;
         }
 

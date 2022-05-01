@@ -14,20 +14,16 @@ namespace Z0
         public void Emit(RuleTables src)
         {
             exec(PllExec,
-                () => Emit(src.SigRows),
                 () => EmitCellDetail(CalcRuleCells(src)),
                 () => EmitTableDefReport(src),
                 () => Emit(CellParser.ruleseq()),
-                () => Docs.EmitRuleDocs(src),
+                () => Docs.EmitDocs(src),
                 () => EmitTableDefs(src)
             );
         }
 
         public void Emit(OpCodeClass @class, ReadOnlySpan<InstGroupSeq> src)
             => TableEmit(src, InstGroupSeq.RenderWidths, XedPaths.Table<InstGroupSeq>(@class.ToString().ToLower()));
-
-        public void Emit(Index<RuleSigRow> src)
-            => TableEmit(src.View, RuleSigRow.RenderWidths, XedPaths.Service.RuleTable<RuleSigRow>());
 
         public void Emit(Index<RuleSeq> src)
         {

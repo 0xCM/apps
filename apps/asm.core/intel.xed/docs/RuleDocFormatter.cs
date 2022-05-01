@@ -61,11 +61,13 @@ namespace Z0
             public string Format()
             {
                 var dst = text.buffer();
-                var sigs = Data.Keys;
-                for(var i=0; i<sigs.Length; i++)
+                var count = Require.equal(Data.TableCount, (uint)Data.Cells.Count);
+                for(var i=0; i<Data.TableCount; i++)
                 {
-                    ref readonly var sig = ref skip(sigs,i);
-                    Render(sig, Data[sig], dst);
+                    ref readonly var cells = ref Data.Cells[i];
+                    //ref readonly var table = ref Data[i];
+                    //ref readonly var sig = ref skip(sigs,i);
+                    Render(cells.Left, cells.Right, dst);
                 }
                 return dst.Emit();
             }

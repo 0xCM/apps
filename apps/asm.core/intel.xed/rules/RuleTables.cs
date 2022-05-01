@@ -18,17 +18,9 @@ namespace Z0
                 public static Buffers Empty => new();
             }
 
-            Index<RuleSigRow> _SigRows;
-
             Index<TableCriteria> _Criteria;
 
             TableSpecs _Specs;
-
-            public ref readonly Index<RuleSigRow> SigRows
-            {
-                [MethodImpl(Inline)]
-                get => ref _SigRows;
-            }
 
             [MethodImpl(Inline)]
             public ref readonly Index<TableCriteria> Criteria()
@@ -52,24 +44,8 @@ namespace Z0
             {
                 Data = src;
                 var criteria = sort(src.Criteria);
-                var count = criteria.Count;
-                var sigs =  alloc<RuleSig>(count);
-                var rows = alloc<RuleSigRow>(count);
-                var sigset = hashset<RuleSig>();
                 _Specs = CellParser.specs(criteria);
                 _Criteria = criteria;
-                _SigRows = rows;
-                for(var i=0u; i<count; i++)
-                {
-                    ref readonly var spec = ref criteria[i];
-                    ref readonly var sig = ref spec.Sig;
-                    sigs[i] = sig;
-                    sigset.Add(sig);
-                    ref var row = ref rows[i];
-                    row.Seq = i;
-                    row.Sig = sig;
-                    row.TableDef = XedPaths.Service.TableDef(sig);
-                }
             }
 
             static Index<TableCriteria> sort(ConcurrentDictionary<RuleTableKind,Index<TableCriteria>> src)

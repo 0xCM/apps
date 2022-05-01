@@ -19,47 +19,30 @@ namespace Z0
 
         XedRules Rules => Service(Wf.XedRules);
 
-        public void EmitDocs()
-        {
-            exec(AppData.PllExec(),
-                EmitRuleDocs,
-                EmitInstDocs
-            );
-        }
-
-        public void EmitInstDocs(Index<InstPattern> src)
+        public void EmitDocs(Index<InstPattern> src)
         {
             var inst = new InstDoc(src.Map(x => new InstDocPart(x)));
-            FileEmit(inst.Format(), inst.Parts.Count, XedPaths.Targets() + FS.file("xed.instructions", FS.Md), TextEncodingKind.Asci);
-            EmitPatternDocs(src, XedPaths.DocTarget(XedDocKind.PatternDetail));
+            FileEmit(inst.Format(), inst.Parts.Count, XedPaths.Target("xed.instructions", FS.Md), TextEncodingKind.Asci);
+            EmitDocs(src, XedPaths.Target("xed.inst.patterns.detail", FS.Txt));
         }
 
-        public void EmitRuleDocs(RuleTables src)
-            => FileEmit(RuleDocFormatter.create(Rules.CalcRuleCells(src)).Format(), 1, XedPaths.Targets() + FS.file("xed.rules", FS.Md), TextEncodingKind.Asci);
+        public void EmitDocs(RuleTables src)
+            => FileEmit(RuleDocFormatter.create(Rules.CalcRuleCells(src)).Format(), 1, XedPaths.Target("xed.rules", FS.Md), TextEncodingKind.Asci);
 
-        void EmitInstDocs()
-            => EmitInstDocs(Rules.CalcPatterns());
-
-        void EmitRuleDocs()
-            => EmitRuleDocs(Rules.CalcRuleTables());
-
-        void EmitPatternDocs(Index<InstPattern> src, FS.FilePath dst)
+        void EmitDocs(Index<InstPattern> src, FS.FilePath dst)
         {
             src.Sort();
             var formatter = InstPageFormatter.create();
-            EmitIsaPages(formatter, src);
+
+            XedPaths.InstIsaRoot().Delete();
+            iter(formatter.GroupFormats(src), EmitIsaGroup, PllExec);
+
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             for(var j=0; j<src.Count; j++)
                 writer.Write(formatter.Format(src[j]));
 
             EmittedFile(emitting, src.Count);
-        }
-
-        void EmitIsaPages(InstPageFormatter formatter, Index<InstPattern> src)
-        {
-            XedPaths.InstIsaRoot().Delete();
-            iter(formatter.GroupFormats(src), EmitIsaGroup, PllExec);
         }
 
         void EmitIsaGroup(InstIsaFormat src)
