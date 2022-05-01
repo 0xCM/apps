@@ -12,14 +12,14 @@ namespace Z0
             public static bool IsEq(string src)
                 => !src.Contains("!=") && src.Contains("=");
 
-            public static bool IsNeq(string src)
+            public static bool IsNe(string src)
                 => src.Contains("!=");
 
             public static bool IsImpl(string src)
                 => src.Contains("=>");
 
             public static bool IsExpr(string src)
-                => IsEq(src) || IsNeq(src);
+                => IsEq(src) || IsNe(src);
 
             static bool IsNonTerm(string src)
                 => XedParsers.IsNonterm(src);
@@ -46,7 +46,7 @@ namespace Z0
                 if(i > 0)
                 {
                     right = text.right(src, i + 1);
-                    op = OperatorKind.Neq;
+                    op = OperatorKind.Ne;
                     left = text.left(src,i);
                 }
                 else if (j>0)

@@ -138,7 +138,7 @@ namespace Z0
                             dst = text.right(src.Data,i);
                         }
                         break;
-                        case OperatorKind.Neq:
+                        case OperatorKind.Ne:
                         {
                             var i = text.index(src.Data, Chars.Bang);
                             dst = text.right(src.Data,i+1);

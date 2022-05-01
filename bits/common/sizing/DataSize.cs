@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [StructLayout(LayoutKind.Sequential,Pack=1)]
+    [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(StorageWidth)]
     public readonly record struct DataSize : IComparable<DataSize>
     {
+        public const uint StorageWidth = 64;
+
         const byte AlignedOffset = 56;
 
         const ulong AlignedMask = 0xFFul << AlignedOffset;
@@ -18,14 +20,14 @@ namespace Z0
         [MethodImpl(Inline)]
         public DataSize(BitWidth width)
         {
-            Aligned aligned = (ulong)width;
+            AlignedWidth aligned = (ulong)width;
             Data = ((ulong)aligned << AlignedOffset) | (ulong)width & PackedMask;
         }
 
         [MethodImpl(Inline)]
-        public DataSize(Aligned aligned, BitWidth packed)
+        public DataSize(AlignedWidth aligned, BitWidth packed)
         {
-            Data = ((ulong)aligned << AlignedOffset) | (packed == 0 ? aligned.Width : (packed & PackedMask));
+            Data = ((ulong)aligned << AlignedOffset) | (packed == 0 ? aligned.Value : (packed & PackedMask));
         }
 
         public ulong Packed
@@ -34,10 +36,10 @@ namespace Z0
             get => Data & PackedMask;
         }
 
-        public Aligned Aligned
+        public AlignedWidth Aligned
         {
             [MethodImpl(Inline)]
-            get => (Aligned)((Data & AlignedMask) >> AlignedOffset);
+            get => (AlignedWidth)((Data & AlignedMask) >> AlignedOffset);
         }
 
         public bool IsAligned

@@ -82,7 +82,7 @@ namespace Z0
                     => Cols.Storage.Where(c => c.Field != 0).Select(x => (uint)x.Size.Packed).Sum();
 
                 public uint AlignedWidth()
-                    => Cols.Storage.Where(c => c.Field != 0).Select(x => (uint)x.Size.Aligned.Width).Sum();
+                    => Cols.Storage.Where(c => c.Field != 0).Select(x => (uint)x.Size.Aligned.Value).Sum();
 
                 public void Render(ITextEmitter dst)
                 {

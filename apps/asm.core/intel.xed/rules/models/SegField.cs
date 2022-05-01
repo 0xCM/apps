@@ -7,9 +7,11 @@ namespace Z0
 {
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1)]
+        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(MetaWidth,MetaWidth)]
         public readonly record struct SegField
         {
+            public const uint MetaWidth = 8 + SegVar.MetaWidth;
+
             public static SegField literal(FieldKind field, byte n, byte value)
                 => new SegField(field, SegVar.literal(n,value));
 

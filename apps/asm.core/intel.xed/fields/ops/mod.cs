@@ -21,7 +21,7 @@ namespace Z0
                 if(field.FieldKind == FieldKind.MOD && field.IsCellExpr)
                 {
                     var expr = field.ToCellExpr();
-                    if(expr.Operator == OperatorKind.Neq)
+                    if(expr.Operator == OperatorKind.Ne)
                     {
                         dst = ModKind.NE3;
                         result = true;

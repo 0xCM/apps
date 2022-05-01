@@ -12,8 +12,8 @@ namespace Z0
             return x.Select(x => new MeasuredType(x.Left, CalcSize(x.Left))).Sort();
         }
 
-        static Aligned CalcAligned(Type src)
-            => Aligned.from(PrimalBits.width(Enums.@base(src)));
+        static AlignedWidth CalcAligned(Type src)
+            => AlignedWidth.from(PrimalBits.width(Enums.@base(src)));
 
         static ulong CalcPacked(Type src)
             => src.Tag<DataWidthAttribute>().MapValueOrElse(x => x.ContentWidth, () => 0);
@@ -22,7 +22,7 @@ namespace Z0
         {
             var aligned = CalcAligned(src);
             var packed = CalcPacked(src);
-            return new DataSize(aligned, packed == 0 ? aligned.Width : packed);
+            return new DataSize(aligned, packed == 0 ? aligned.Value : packed);
         }
 
         public readonly Type Definition;

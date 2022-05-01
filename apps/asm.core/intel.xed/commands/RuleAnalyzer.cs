@@ -231,7 +231,6 @@ namespace Z0
             for(var k=0; k<src.CellCount; k++)
             {
                 var field = Run(src[k]);
-                term.print(FieldBits.Format(field, Render));
             }
 
             Dst.AppendLineFormat("{0:D4} | {1:D3} | {2:D3} | {3,-6} | {4,-32} | {5,-82} | {6} ",

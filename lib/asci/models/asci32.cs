@@ -27,6 +27,13 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
+        public asci32(Vector128<byte> src)
+        {
+            Storage = cpu.vinsert(src, default, LaneIndex.L0);
+        }
+
+
+        [MethodImpl(Inline)]
         public asci32(string src)
             => Storage = api.encode(n,src).Storage;
 
@@ -186,6 +193,14 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator A(string src)
             => new A(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator A(asci16 src)
+            => new A(src.EncodedVector());
+
+        [MethodImpl(Inline)]
+        public static implicit operator A(asci8 src)
+            => new A(src.EncodedVector());
 
         [MethodImpl(Inline)]
         public static implicit operator A(TextBlock src)

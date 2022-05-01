@@ -10,19 +10,19 @@ namespace Z0
         [SymSource(xed), DataWidth(3,8)]
         public enum OperatorKind : byte
         {
-            [Symbol("")]
+            [Symbol(RuleOperator.EmptySym)]
             None,
 
-            [Symbol("=")]
+            [Symbol(RuleOperator.EqSym)]
             Eq,
 
-            [Symbol("!=")]
-            Neq,
+            [Symbol(RuleOperator.NeSym)]
+            Ne,
 
-            [Symbol("&&")]
+            [Symbol(RuleOperator.AndSym)]
             And,
 
-            [Symbol("=>")]
+            [Symbol(RuleOperator.ImplSym)]
             Impl,
         }
     }

@@ -20,7 +20,7 @@ namespace Z0
             public readonly asci64 TypeName;
 
             [RenderWidth(12)]
-            public readonly Aligned PrimalWidth;
+            public readonly AlignedWidth PrimalWidth;
 
             [RenderWidth(12)]
             public readonly byte PackedWidth;

@@ -190,6 +190,10 @@ namespace Z0
             => new A(src);
 
         [MethodImpl(Inline)]
+        public static implicit operator A(asci8 src)
+            => new A(src.EncodedVector());
+
+        [MethodImpl(Inline)]
         public static implicit operator A(TextBlock src)
             => new A(src.Format());
 

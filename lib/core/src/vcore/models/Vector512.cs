@@ -4,59 +4,35 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
-    /// <summary>
-    /// Characterizes a vectorized binary operator over 256-bit operands
-    /// </summary>
-    /// <typeparam name="T">The vector component type</typeparam>
-    [Free, SFx]
-    public interface IBinaryOp512<T> : IBinaryOp<Vector512<T>>, IFunc512<T>
-        where T : unmanaged
-    {
-
-    }
-
-    /// <summary>
-    /// Characterizes a vectorized binary operator over 256-bit operands that is accompanied by componentwise decomposition/evaluation
-    /// </summary>
-    /// <typeparam name="T">The vector component type</typeparam>
-    [Free, SFx]
-    public interface IBinaryOp512D<T> : IBinaryOp512<T>, IBinaryOp<T>
-        where T : unmanaged
-    {
-
-    }
-
-    /// <summary>
-    /// Characterizes a vectorized binary operator over 256-bit operands that accepts an 8-bit immediate
-    /// </summary>
-    /// <typeparam name="T">The vector component type</typeparam>
-    [Free, SFx]
-    public interface IBinaryImm8Op512<T> : IBinaryImm8Op<Vector512<T>>, IFunc512<T>
-        where T : unmanaged
-    {
-
-    }
-
-    [Free, SFx]
-    public interface IEmitter512<T> : ISFxEmitter<Vector512<T>>, IFunc512<T>
-        where T : unmanaged
-    {
-
-    }
-
     [StructLayout(LayoutKind.Sequential, Size = 64), Vector(NativeTypeWidth.W512)]
     public readonly struct Vector512<T>
         where T : unmanaged
     {
+
+        [MethodImpl(Inline)]
+        public static Vector512<T> from(Vector256<T> src)
+            => new Vector512<T>(src, default);
+
+        [MethodImpl(Inline)]
+        public static Vector512<T> from(Vector256<T> a, Vector256<T> b)
+            => new Vector512<T>(a, b);
+
+        [MethodImpl(Inline)]
+        public static Vector512<T> from(Vector128<T> src)
+            => new Vector512<T>(src, default, default, default);
+
+        [MethodImpl(Inline)]
+        public static Vector512<T> from(Vector128<T> a, Vector128<T> b)
+            => new Vector512<T>(a, b, default, default);
+
+        [MethodImpl(Inline)]
+        public static Vector512<T> from(Vector128<T> a, Vector128<T> b, Vector128<T> c)
+            => new Vector512<T>(a, b, c, default);
+
+        [MethodImpl(Inline)]
+        public static Vector512<T> from(Vector128<T> a, Vector128<T> b, Vector128<T> c, Vector128<T> d)
+            => new Vector512<T>(a, b, c, d);
+
         /// <summary>
         /// The lo 256 bits
         /// </summary>

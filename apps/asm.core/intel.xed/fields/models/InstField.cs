@@ -116,7 +116,7 @@ namespace Z0
                         case OperatorKind.Eq:
                             dst[ClassIndex] = (byte)RuleCellKind.EqExpr;
                         break;
-                        case OperatorKind.Neq:
+                        case OperatorKind.Ne:
                             dst[ClassIndex] = (byte)RuleCellKind.NeqExpr;
                         break;
                         case OperatorKind.Impl:

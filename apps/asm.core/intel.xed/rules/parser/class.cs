@@ -32,7 +32,7 @@ namespace Z0
                             else
                                 dst = CK.EqExpr;
                         break;
-                        case OperatorKind.Neq:
+                        case OperatorKind.Ne:
                             dst = CK.NeqExpr;
                         break;
                         case OperatorKind.And:

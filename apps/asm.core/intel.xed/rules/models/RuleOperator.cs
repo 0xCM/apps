@@ -7,14 +7,50 @@ namespace Z0
 {
     partial class XedRules
     {
-        [DataWidth(4,8)]
+        [DataWidth(4,StorageWidth)]
         public readonly struct RuleOperator : IComparable<RuleOperator>, IEquatable<RuleOperator>
         {
+            public const string EmptySym = EmptyString;
+
+            public const string EqSym = "=";
+
+            public const string NeSym = "!=";
+
+            public const string ImplSym = "=>";
+
+            public const string AndSym = "&&";
+
+            public static asci4 symbol(OperatorKind kind)
+            {
+                var dst = EmptyString;
+                switch(kind)
+                {
+                    case OperatorKind.Eq:
+                        dst = EqSym;
+                    break;
+                    case OperatorKind.Ne:
+                        dst = NeSym;
+                    break;
+                    case OperatorKind.Impl:
+                        dst = ImplSym;
+                    break;
+                    case OperatorKind.And:
+                        dst = AndSym;
+                    break;
+                    default:
+                        dst = EmptySym;
+                    break;
+                }
+                return dst;
+            }
+
+            public const uint StorageWidth = 8;
+
             public static RuleOperator None => OperatorKind.None;
 
             public static RuleOperator Eq => OperatorKind.Eq;
 
-            public static RuleOperator Neq => OperatorKind.Neq;
+            public static RuleOperator Neq => OperatorKind.Ne;
 
             public static RuleOperator Impl => OperatorKind.Impl;
 
@@ -27,6 +63,9 @@ namespace Z0
             {
                 Kind = kind;
             }
+
+            public asci4 Symbol
+                => symbol(Kind);
 
             public bool IsEmpty
             {

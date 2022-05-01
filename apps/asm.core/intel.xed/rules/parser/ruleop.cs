@@ -11,9 +11,9 @@ namespace Z0
         {
             static bool ruleop(string src, out OperatorKind dst)
             {
-                if(IsNeq(src))
+                if(IsNe(src))
                 {
-                    dst = OperatorKind.Neq;
+                    dst = OperatorKind.Ne;
                     return true;
                 }
                 else if(IsEq(src))

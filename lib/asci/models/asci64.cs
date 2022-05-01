@@ -24,6 +24,30 @@ namespace Z0
             => Storage = src;
 
         [MethodImpl(Inline)]
+        public asci64(Vector256<byte> a)
+            => Storage = Vector512<byte>.from(a);
+
+        [MethodImpl(Inline)]
+        public asci64(Vector256<byte> a, Vector256<byte> b)
+            => Storage = Vector512<byte>.from(a,b);
+
+        [MethodImpl(Inline)]
+        public asci64(Vector128<byte> a)
+            => Storage = Vector512<byte>.from(a);
+
+        [MethodImpl(Inline)]
+        public asci64(Vector128<byte> a, Vector128<byte> b)
+            => Storage = Vector512<byte>.from(a, b);
+
+        [MethodImpl(Inline)]
+        public asci64(Vector128<byte> a, Vector128<byte> b, Vector128<byte> c)
+            => Storage = Vector512<byte>.from(a, b, c);
+
+        [MethodImpl(Inline)]
+        public asci64(Vector128<byte> a, Vector128<byte> b, Vector128<byte> c, Vector128<byte> d)
+            => Storage = Vector512<byte>.from(a, b, c, d);
+
+        [MethodImpl(Inline)]
         public asci64(string src)
             => Storage = api.encode(n,src).Storage;
 
@@ -108,6 +132,30 @@ namespace Z0
             => Storage;
 
         [MethodImpl(Inline)]
+        public Vector256<byte> EncodedVector(N0 n)
+            => Storage.Lo;
+
+        [MethodImpl(Inline)]
+        public Vector256<byte> EncodedVector(N1 n)
+            => Storage.Hi;
+
+        [MethodImpl(Inline)]
+        public Vector128<byte> EncodedVector(N0 n, W128 w)
+            => Storage[n];
+
+        [MethodImpl(Inline)]
+        public Vector128<byte> EncodedVector(N1 n, W128 w)
+            => Storage[n];
+
+        [MethodImpl(Inline)]
+        public Vector128<byte> EncodedVector(N2 n, W128 w)
+            => Storage[n];
+
+        [MethodImpl(Inline)]
+        public Vector128<byte> EncodedVector(N3 n, W128 w)
+            => Storage[n];
+
+        [MethodImpl(Inline)]
         public void CopyTo(Span<byte> dst)
             => api.copy(this,dst);
 
@@ -132,7 +180,6 @@ namespace Z0
         public override bool Equals(object src)
             => src is A j && Equals(j);
 
-
         public static A Spaced
         {
             [MethodImpl(Inline)]
@@ -144,6 +191,18 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator A(string src)
             => new A(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator A(asci32 src)
+            => new A(src.EncodedVector());
+
+        [MethodImpl(Inline)]
+        public static implicit operator A(asci16 src)
+            => new A(src.EncodedVector());
+
+        [MethodImpl(Inline)]
+        public static implicit operator A(asci8 src)
+            => new A(src.EncodedVector());
 
         [MethodImpl(Inline)]
         public static implicit operator A(TextBlock src)

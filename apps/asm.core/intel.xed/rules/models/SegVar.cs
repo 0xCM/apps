@@ -7,8 +7,11 @@ namespace Z0
     using static core;
     using static Char5;
 
+    [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(MetaWidth,MetaWidth)]
     public readonly struct SegVar
     {
+        public const uint MetaWidth = 64 + 8;
+
         public static SegVar parse(ReadOnlySpan<char> src)
         {
             var data = 0ul;
