@@ -7,26 +7,16 @@ namespace Z0
 {
     partial class XedRules
     {
-        public delegate asci32 CellFormatter(in RuleCell src);
-
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct RuleCell : IComparable<RuleCell>
         {
-            public static CellFormatter formatter()
+            public delegate asci32 AsciFormatter(in RuleCell src);
+
+            public static AsciFormatter formatter()
             {
                 return Calc;
                 asci32 Calc(in RuleCell src)
-                {
-                    var dst = asci32.Null;
-                    ref readonly var value = ref src.Value;
-                    if(value.IsCellExpr)
-                        dst = value.ToCellExpr().Format();
-                    else if (value.IsOperator)
-                        dst = value.AsOperator().Format();
-                    else
-                        dst = src.Format();
-                    return dst;
-                }
+                    => XedRender.format(src.Value);
             }
 
             public readonly CellKey Key;
@@ -122,18 +112,19 @@ namespace Z0
                 => Key.CompareTo(src.Key);
 
             public string Format()
-            {
-                var dst = EmptyString;
-                if(IsCellExpr)
-                {
-                    var expr = Value.ToCellExpr();
-                    dst = expr.Format();
-                }
-                else
-                    dst = XedRender.format(Value);
+                => XedRender.format(Value);
+            // {
+            //     var dst = EmptyString;
+            //     if(IsCellExpr)
+            //     {
+            //         var expr = Value.ToCellExpr();
+            //         dst = expr.Format();
+            //     }
+            //     else
+            //         dst = XedRender.atomic(Value);
 
-                return dst;
-            }
+            //     return dst;
+            // }
 
             public override string ToString()
                 => Format();

@@ -142,41 +142,28 @@ namespace Z0
                 return dst;
             }
 
-            public static string format(in CellExpr src)
+            // public static string format(in CellExpr src)
+            // {
+            //     var dst = EmptyString;
+            //     var value = EmptyString;
+            //     if(src.Value.IsNonterm)
+            //         value = XedRender.format(src.Value.ToNonterm());
+            //     else
+            //         value = XedRender.format(src.Value);
+
+            //     if(src.IsNonEmpty)
+            //     {
+            //         if(src.Field == 0)
+            //             dst = value;
+            //         else
+            //             dst = string.Format("{0}{1}{2}", XedRender.format(src.Field), XedRender.format(src.Operator), value);
+            //     }
+            //     return dst;
+            // }
+
+            public static string _format(in CellValue src)
             {
                 var dst = EmptyString;
-                var value = EmptyString;
-                if(src.Value.IsNonterm)
-                    value = src.Value.ToNonterm().Format();
-                else
-                    value = format(src.Value);
-
-                if(src.IsNonEmpty)
-                {
-                    if(src.Field == 0)
-                        dst = value;
-                    else
-                        dst = string.Format("{0}{1}{2}", XedRender.format(src.Field), XedRender.format(src.Operator), value);
-                }
-                return dst;
-            }
-
-            public static string format(CellValue src)
-            {
-                var dst = EmptyString;
-                if(src.IsEmpty)
-                    return EmptyString;
-                else if(src.IsNontermCall)
-                    return src.ToNonterm().Format();
-                else if(src.CellKind == RuleCellKind.SegVar)
-                    return src.ToSegVar().Format();
-                else if(src.CellKind == RuleCellKind.Keyword)
-                    return src.ToKeyword().Format();
-                else if(src.CellKind == RuleCellKind.InstSeg)
-                    return src.ToInstSeg().Format();
-                else if(src.CellKind == RuleCellKind.SegField)
-                    return src.ToSegField().Format();
-
                 var data = bytes(src.Data);
                 var code = CellRender.fcode(src.Field);
                 switch(src.Field)
@@ -489,6 +476,25 @@ namespace Z0
                 }
                 return dst;
             }
+
+            // public static string format(in CellValue src)
+            // {
+            //     var dst = EmptyString;
+            //     if(src.IsEmpty)
+            //         return EmptyString;
+            //     else if(src.IsNontermCall)
+            //         return XedRender.format(src.ToNonterm());
+            //     else if(src.CellKind == RuleCellKind.SegVar)
+            //         return src.ToSegVar().Format();
+            //     else if(src.CellKind == RuleCellKind.Keyword)
+            //         return XedRender.format(src.ToKeyword());
+            //     else if(src.CellKind == RuleCellKind.InstSeg)
+            //         return XedRender.format(src.ToInstSeg());
+            //     else if(src.CellKind == RuleCellKind.SegField)
+            //         return XedRender.format(src.ToSegField());
+            //     else
+            //         return CellRender._format(src);
+            // }
 
             static string format(sbyte src)
                 => src.ToString();

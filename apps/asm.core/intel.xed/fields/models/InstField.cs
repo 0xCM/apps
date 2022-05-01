@@ -215,10 +215,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public CellExpr ToCellExpr()
-                => new CellExpr(
-                    (OperatorKind)Data[OpIndex],
-                    new CellValue(FieldKind, @as<ulong>(Data.First), CellKind)
-                    );
+                => new CellExpr((OperatorKind)Data[OpIndex], new CellValue(FieldKind, @as<ulong>(Data.First), CellKind));
 
             [MethodImpl(Inline)]
             public ref readonly uint5 AsBitLit()

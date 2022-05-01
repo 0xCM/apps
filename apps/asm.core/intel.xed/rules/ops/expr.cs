@@ -11,24 +11,8 @@ namespace Z0
         public static CellExpr expr(OperatorKind op, CellValue value)
             => new (op,value);
 
-        static string expr(Index<RuleCell> src)
-        {
-            var count = src.Count;
-            var dst = text.buffer();
-            for(var i=0; i<count; i++)
-            {
-                if(i != 0)
-                    dst.Append(Chars.Space);
-
-                if(i == count - 1 && src[i].IsOperator)
-                    break;
-
-                dst.Append(src[i].Format());
-            }
-            return dst.Emit();
-        }
-
-        public static string expr(in CellRow src)
-            => expr(src.Cells);
+        [MethodImpl(Inline), Op]
+        public static RowExpr expr(Index<RuleCell> src)
+            => new RowExpr(src);
     }
 }

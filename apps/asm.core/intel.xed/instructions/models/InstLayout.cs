@@ -104,19 +104,20 @@ namespace Z0
                 }
             }
 
-            public static string cells(in InstLayout src)
+            public string Format()
             {
                 var dst = text.emitter();
-                cells(src,dst);
+                cells(this, dst);
                 return dst.Emit();
             }
 
-            public static void cells(in InstLayout src, ITextEmitter dst)
+            public override string ToString()
+                => Format();
+
+            static void cells(in InstLayout src, ITextEmitter dst)
             {
                 for(var i=z8; i<src.Count; i++)
-                {
                     dst.AppendFormat("{0} ", src[i]);
-                }
             }
 
             public int CompareTo(InstLayout src)

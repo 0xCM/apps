@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
-        public static InstSeg seg(FieldKind field, InstSegType vt)
-            => new InstSeg(field, vt);
+        public static InstSeg seg(FieldKind field, InstSegType type)
+            => new InstSeg(field, type);
     }
 }

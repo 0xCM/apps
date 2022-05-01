@@ -32,8 +32,8 @@ namespace Z0
                 get => Cells.IsNonEmpty && Cells.Last.IsOperator;
             }
 
-            public string Expression
-                => expr(this);
+            public RowExpr Expression
+                => expr(Cells);
 
             public readonly uint Count
             {

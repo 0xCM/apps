@@ -64,7 +64,7 @@ namespace Z0
                 => src is RuleKeyword x && Equals(x);
 
             public string Format()
-                => ToAsci().Format();
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

@@ -58,16 +58,8 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public BitNumber<byte> _ToLiteral()
+            public BitNumber<byte> ToLiteral()
                 => core.@as<BitNumber<byte>>(Pad.First);
-
-            public byte ToLiteral()
-            {
-                if(Type.IsLiteral)
-                    return Type.LiteralValue();
-                else
-                    return uint5.Max;
-            }
 
             public int CompareTo(InstSeg src)
             {
@@ -97,7 +89,7 @@ namespace Z0
                 => src is InstSeg s && Equals(s);
 
             public string Format()
-                => IsEmpty ? EmptyString : string.Format("{0}[{1}]", XedRender.format(Field), Type.Format());
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

@@ -22,17 +22,17 @@ namespace Z0
                     if(!result)
                         return false;
 
-                    result = XedParsers.segdata(src, out var sd);
+                    result = XedParsers.segdata(src, out var data);
                     if(!result)
                         return result;
 
-                    var literal = XedParsers.IsBinaryLiteral(sd);
+                    var literal = XedParsers.IsBinaryLiteral(data);
                     if(!literal)
                     {
-                        var vt = InstSegTypes.type(sd);
-                        if(vt.IsNonEmpty)
+                        var type = InstSegTypes.type(data);
+                        if(type.IsNonEmpty)
                         {
-                            dst = seg(field, vt);
+                            dst = seg(field, type);
                             return true;
                         }
                         else
@@ -42,7 +42,7 @@ namespace Z0
                     }
                     else
                     {
-                        result = XedParsers.bitnumber(sd, out byte n, out byte value);
+                        result = XedParsers.bitnumber(data, out byte n, out byte value);
                         if(result)
                             dst = new (field, BitNumber.generic(n, value));
                     }

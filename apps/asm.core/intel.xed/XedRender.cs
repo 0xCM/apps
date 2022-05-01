@@ -499,7 +499,7 @@ namespace Z0
             else if(src.Operator == 0)
                 return format(src.Field);
             else
-                return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), CellRender.format(src.Value));
+                return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(src.Value));
         }
 
         public static string format(in InstPatternBody src)
@@ -599,13 +599,58 @@ namespace Z0
         public static string format(OpCodeKind src)
             => format(XedOpCodes.index(src));
 
-        public static string format(in InstField src)
+        public static string format(in RuleKeyword src)
+            => src.ToAsci().Format();
+
+        public static string format(InstSeg src)
+            => src.IsEmpty
+            ? EmptyString
+            : string.Format("{0}[{1}]", format(src.Field), src.Type.Format());
+
+        public static string format(in CellValue src)
         {
             var dst = EmptyString;
-            var @class = src.CellKind;
-            if(src.IsCellExpr)
-                return src.ToCellExpr().Format();
+            if(src.IsEmpty)
+                return EmptyString;
+            else if(src.IsNontermCall)
+                return format(src.ToNonterm());
+            else if(src.CellKind == RuleCellKind.SegVar)
+                return src.ToSegVar().Format();
+            else if(src.CellKind == RuleCellKind.Keyword)
+                return format(src.ToKeyword());
+            else if(src.CellKind == RuleCellKind.InstSeg)
+                return format(src.ToInstSeg());
+            else if(src.CellKind == RuleCellKind.SegField)
+                return format(src.ToSegField());
+            else
+                return CellRender._format(src);
+        }
 
+
+        public static string format(in CellExpr src)
+        {
+            var dst = EmptyString;
+            var value = EmptyString;
+            if(src.Value.IsNonterm)
+                value = format(src.Value.ToNonterm());
+            else
+                value = format(src.Value);
+
+            if(src.IsNonEmpty)
+            {
+                if(src.Field == 0)
+                    dst = value;
+                else
+                    dst = string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), value);
+            }
+            return dst;
+        }
+
+        static string atomic(in InstField src)
+        {
+            Require.invariant(!src.IsCellExpr);
+            var @class = src.CellKind;
+            var dst = EmptyString;
             switch(@class)
             {
                 case RuleCellKind.Void:
@@ -614,25 +659,25 @@ namespace Z0
                     dst = format(src.AsHexLit());
                 break;
                 case RuleCellKind.IntVal:
-                    dst = src.AsIntLit().ToString();
+                    dst = format(src.AsIntLit());
                 break;
                 case RuleCellKind.InstSeg:
-                    dst = src.AsInstSeg().Format();
+                    dst = format(src.AsInstSeg());
                 break;
                 case RuleCellKind.BitLiteral:
                     dst = format5(src.AsBitLit());
                 break;
                 case RuleCellKind.NontermCall:
-                    dst = src.AsNonterm().Format();
+                    dst = format(src.AsNonterm());
                 break;
                 case RuleCellKind.Operator:
-                    dst = src.AsOperator().Format();
+                    dst = format(src.AsOperator().Kind);
                 break;
                 case RuleCellKind.Keyword:
-                    dst = src.ToKeyword().Format();
+                    dst = format(src.ToKeyword());
                 break;
                 case RuleCellKind.SegField:
-                    dst = src.ToSegField().Format();
+                    dst = format(src.ToSegField());
                 break;
                 case RuleCellKind.SegVar:
                     dst = src.AsSegVar().Format();
@@ -644,6 +689,15 @@ namespace Z0
 
             return dst;
         }
+
+        static string expr(in InstField src)
+        {
+            Require.invariant(src.IsCellExpr);
+            return format(src.ToCellExpr());
+        }
+
+        public static string format(in InstField src)
+            => src.IsCellExpr ? expr(src) : atomic(src);
 
         public static string format(in MacroSpec src)
         {

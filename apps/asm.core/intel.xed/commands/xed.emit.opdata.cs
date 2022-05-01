@@ -95,10 +95,7 @@ namespace Z0
                 dst.EmitLine(writer);
                 counter++;
 
-                writer.AppendLineFormat("{0,-10} | {1}", EmptyString, InstLayout.cells(LayoutCalcs.layout(pattern)));
-
-                // if(pattern.Layout.IsNonEmpty)
-                //     writer.AppendLineFormat("{0,-10} | {1}", EmptyString, pattern.Layout);
+                writer.AppendLineFormat("{0,-10} | {1}", EmptyString, LayoutCalcs.layout(pattern));
 
                 counter++;
                 writer.AppendLineFormat("{0,-10} | {1}", EmptyString, RP.PageBreak120);

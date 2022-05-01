@@ -38,7 +38,7 @@ namespace Z0
                 => expr(OperatorKind.Eq, Value);
 
             public string Format()
-                => CellRender.format(Expression());
+                => XedRender.format(Expression());
 
             public override string ToString()
                 => Format();

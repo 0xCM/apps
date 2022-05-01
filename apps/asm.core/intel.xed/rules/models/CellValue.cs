@@ -168,7 +168,7 @@ namespace Z0
                 => (int)Hash;
 
             public string Format()
-                => CellRender.format(this);
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();
