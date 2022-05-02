@@ -123,7 +123,7 @@ namespace Z0
                 for(var j=0; j<count; j++)
                 {
                     ref readonly var field = ref src.Fields[j];
-                    var fk = XedRender.format(field.FieldKind);
+                    var fk = XedRender.format(field.Field);
                     if(field.IsLiteral)
                         seek(dst,j) = string.Format(Pattern, j, "Literal", field.Format());
                     else

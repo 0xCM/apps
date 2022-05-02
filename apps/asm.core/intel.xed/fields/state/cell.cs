@@ -12,10 +12,10 @@ namespace Z0
     partial class XedState
     {
         [Op]
-        public static CellValue cell(in OperandState src, FieldKind kind)
+        public static FieldValue cell(in OperandState src, FieldKind kind)
         {
             var result = Outcome.Success;
-            var dst = new CellValue(kind, 0ul);
+            var dst = new FieldValue(kind, 0ul);
             switch(kind)
             {
                 case K.AMD3DNOW:

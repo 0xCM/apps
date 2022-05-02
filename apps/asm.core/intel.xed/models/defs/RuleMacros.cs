@@ -31,15 +31,15 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         static MacroSpec assign<T>(RuleMacroKind name, FieldKind field, T value)
             where T : unmanaged
-                => new MacroSpec(name, field, new MacroExpansion(field, OperatorKind.Eq, new CellValue(field, core.bw64(value))));
+                => new MacroSpec(name, field, new MacroExpansion(field, OperatorKind.Eq, new FieldValue(field, core.bw64(value))));
 
         [MethodImpl(Inline), Op]
         static MacroSpec assign(RuleMacroKind name, FieldKind field, ModeClass value)
-            => new MacroSpec(name, field, new MacroExpansion(field, OperatorKind.Eq, new CellValue(field, value)));
+            => new MacroSpec(name, field, new MacroExpansion(field, OperatorKind.Eq, new FieldValue(field, value)));
 
         [MethodImpl(Inline), Op]
         static MacroExpansion expansion(FieldKind field, ushort value)
-            => new MacroExpansion(field, OperatorKind.Eq, new CellValue(field, value));
+            => new MacroExpansion(field, OperatorKind.Eq, new FieldValue(field, value));
 
         [MethodImpl(Inline), Op]
         static MacroSpec assign(RuleMacroKind name, FieldKind field, EASZ value)
@@ -52,7 +52,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         static FieldAssign assign<T>(FieldKind field, T fv)
             where T : unmanaged
-                => new (new CellValue(field, core.bw64(fv)));
+                => new (new FieldValue(field, core.bw64(fv)));
 
         [ApiHost("xed.rules.macros")]
         public class RuleMacros

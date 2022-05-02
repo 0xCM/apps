@@ -135,7 +135,7 @@ namespace Z0
                 return dst;
             }
 
-            public static string _format(in CellValue src)
+            public static string _format(in FieldValue src)
             {
                 var dst = EmptyString;
                 var data = bytes(src.Data);

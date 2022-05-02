@@ -18,9 +18,9 @@ namespace Z0
         internal class FieldParser
         {
             [MethodImpl(Inline)]
-            static CellValue value<T>(FieldKind kind, T value)
+            static FieldValue value<T>(FieldKind kind, T value)
                 where T : unmanaged
-                    => new CellValue(kind, core.bw64(value));
+                    => new FieldValue(kind, core.bw64(value));
 
             DisasmState State;
 
@@ -71,10 +71,10 @@ namespace Z0
                 => update(src, kind, ref dstate.RuleState).IsNonEmpty;
 
             [Op]
-            internal static CellValue update(string src, FieldKind kind, ref OperandState state)
+            internal static FieldValue update(string src, FieldKind kind, ref OperandState state)
             {
                 var result = true;
-                var fieldval = R.CellValue.Empty;
+                var fieldval = R.FieldValue.Empty;
                 switch(kind)
                 {
                     case K.AMD3DNOW:

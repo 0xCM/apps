@@ -10,12 +10,16 @@ namespace Z0
 
     partial class XedGrids
     {
+        [MethodImpl(Inline), Op]
+        public static RuleGrid grid(RuleSig sig, ushort rows, byte cols, GridCell[] cells)
+            => new RuleGrid(sig, rows, cols, cells);
+
         public static RuleGrids grids(RuleCells src)
             => src.Tables.Select(table => grid(table));
 
         public static RuleGrid grid(in CellTable src)
         {
-            var kCol = (byte)src.Rows.Select(row => XedGrids.cells(row).Count).Storage.Max();
+            var kCol = gcols(src);
             var kRow = src.RowCount;
             var dst = alloc<GridCell>(kCol*kRow);
             var k=z8;
@@ -29,7 +33,7 @@ namespace Z0
                 for(var j=k; j<kCol; j++, k++)
                     seek(dst, k) = GridCell.Empty;
             }
-            return new RuleGrid(src.Sig, (ushort)src.RowCount, kCol, dst);
+            return grid(src.Sig, (ushort)src.RowCount, kCol, dst);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Z0
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var f = ref src[i];
-                if(f.IsCellExpr && f.FieldKind == FieldKind.REXB)
+                if(f.IsExpr && f.Field == FieldKind.REXB)
                 {
                     dst = BitIndicator.defined(f.ToCellExpr().Value);
                     break;

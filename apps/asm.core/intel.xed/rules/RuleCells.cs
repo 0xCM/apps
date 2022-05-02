@@ -19,19 +19,28 @@ namespace Z0
 
             public readonly string Description;
 
-            public readonly Pairings<RuleSig,Index<RuleCell>> Cells;
+            public readonly Pairings<RuleSig,Index<RuleCell>> TableCells;
 
-            public readonly Index<RuleCell> Flat;
+            public readonly Index<RuleCell> Values;
+
+            public readonly uint RowCount;
 
             internal RuleCells(Pairings<RuleSig,Index<RuleCell>> cells, CellTable[] tables, CellMetrics metrics, RuleCellRecord[] records, string desc)
             {
-                Flat = RuleTables.flat(cells);
-                Cells = cells;
+                Values = RuleTables.flat(cells);
+                TableCells = cells;
                 Sigs = tables.Select(x => x.Sig).Sort();
                 Tables = tables;
                 Metrics = metrics;
                 Description = desc;
                 Records = records;
+                RowCount = tables.Select(t => t.RowCount).Sum();
+            }
+
+            public uint CellCount
+            {
+                [MethodImpl(Inline)]
+                get => Values.Count;
             }
 
             public uint TableCount

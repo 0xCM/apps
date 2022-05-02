@@ -40,13 +40,16 @@ namespace Z0
                             ref readonly var logic = ref info.Logic;
                             var key = new CellKey(lix++, tid, rix, k, logic, info.Kind, sig.TableKind, sig.TableName, info.Field);
                             var result = false;
-                            var field = InstField.Empty;
+                            var field = CellValue.Empty;
+                            var cell = RuleCell.Empty;
+
                             switch(info.Kind)
                             {
                                 case CK.BitLiteral:
                                 {
                                     result = XedParsers.parse(data, out uint5 value);
                                     field = value;
+                                    cell = new(key,field);
                                 }
                                 break;
 
@@ -54,6 +57,7 @@ namespace Z0
                                 {
                                     result = XedParsers.parse(data, out byte value);
                                     field = value;
+                                    cell = new(key,field);
                                 }
                                 break;
 
@@ -61,6 +65,7 @@ namespace Z0
                                 {
                                     result = XedParsers.parse(data, out Hex8 value);
                                     field = value;
+                                    cell = new(key,field);
                                 }
                                 break;
 
@@ -68,6 +73,7 @@ namespace Z0
                                 {
                                     result = XedParsers.parse(data, out RuleKeyword value);
                                     field = value;
+                                    cell = new(key,field);
                                 }
                                 break;
 
@@ -75,6 +81,7 @@ namespace Z0
                                 {
                                     result = XedParsers.parse(data, out SegVar value);
                                     field = value;
+                                    cell = new(key,field);
                                 }
                                 break;
 
@@ -82,17 +89,22 @@ namespace Z0
                                 {
                                     result = XedParsers.parse(data, out Nonterminal value);
                                     field = value;
+                                    cell = new(key,field);
                                 }
                                 break;
 
                                 case CK.Operator:
                                 {
-                                    if(info.Operator.IsNonEmpty)
-                                        field = info.Operator;
+                                    if(info.Operator.IsNonEmpty && info.Field == 0)
+                                    {
+                                        cell = new (key, new CellValue(OperatorKind.Impl));
+                                        result = true;
+                                    }
                                     else
                                     {
                                         result = CellParser.ruleop(data, out RuleOperator value);
                                         field = value;
+                                        cell = new(key,field);
                                     }
                                 }
                                 break;
@@ -101,12 +113,14 @@ namespace Z0
                                 {
                                     result = CellParser.seg(data, out FieldSeg value);
                                     field = value;
+                                    cell = new(key,field);
                                 }
                                 break;
                                 case CK.InstSeg:
                                 {
                                     result = CellParser.parse(data, out InstSeg value);
                                     field = value;
+                                    cell = new(key,field);
                                 }
                                 break;
 
@@ -116,6 +130,7 @@ namespace Z0
                                 {
                                     result = CellParser.expr(data, out CellExpr value);
                                     field = value;
+                                    cell = new(key,field);
                                 }
                                 break;
 
@@ -124,16 +139,11 @@ namespace Z0
                                 break;
                             }
 
-                            var kcell = RuleCell.Empty;
-                            if(result)
-                                kcell = new (key,field);
-                            else if(info.Field == 0 && info.Kind == RuleCellKind.Operator)
-                                kcell = new (key, new InstField(OperatorKind.Impl));
-                            else
+                            if(!result)
                                 Errors.Throw(info.Field.ToString() + ":="  + key.FormatSemantic() + $":{info.Kind}" + "='" + data + "'");
 
-                            emitter.AppendLineFormat(format(kcell));
-                            kcells.Add(kcell);
+                            emitter.AppendLineFormat(format(cell));
+                            kcells.Add(cell);
                         }
                     }
 

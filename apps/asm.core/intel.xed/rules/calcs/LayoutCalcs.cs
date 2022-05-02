@@ -36,7 +36,7 @@ namespace Z0
                 return dst;
             }
 
-            static void layout(byte index, InstField src, ref InstLayout dst)
+            static void layout(byte index, CellValue src, ref InstLayout dst)
             {
                 switch(index)
                 {
@@ -76,7 +76,7 @@ namespace Z0
                 }
             }
 
-            static LayoutCell layout(InstField src)
+            static LayoutCell layout(CellValue src)
             {
                 var dst = ByteBlock16.Empty;
                 switch(src.CellKind)

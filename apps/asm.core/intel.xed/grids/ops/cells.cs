@@ -21,8 +21,8 @@ namespace Z0
                 => new LogicValue<T>(kind,size,data);
 
         [MethodImpl(Inline)]
-        public static GridCell cell(in RuleCell rc)
-            => new GridCell(rc.Logic, rc.TableIndex, rc.RowIndex, rc.CellIndex, rc.Field, ColType.field(rc.Field), XedFields.field(rc.Field).Size);
+        public static GridCell cell(in RuleCell src)
+            => new GridCell(src.Key, ColType.field(src.Field), XedFields.field(src.Field).Size, src.Value);
 
         public static Index<GridCell> cells(in CellRow src)
         {

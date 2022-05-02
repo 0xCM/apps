@@ -597,10 +597,10 @@ namespace Z0
             return result;
         }
 
-        public static bool reg(FieldKind field, string value, out CellValue dst)
+        public static bool reg(FieldKind field, string value, out FieldValue dst)
         {
             var result = false;
-            dst = R.CellValue.Empty;
+            dst = R.FieldValue.Empty;
             if(IsNonterm(value))
             {
                 result = parse(value, out RuleName name);

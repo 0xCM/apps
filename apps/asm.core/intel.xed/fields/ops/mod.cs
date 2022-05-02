@@ -18,7 +18,7 @@ namespace Z0
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var field = ref src[i];
-                if(field.FieldKind == FieldKind.MOD && field.IsCellExpr)
+                if(field.Field == FieldKind.MOD && field.IsExpr)
                 {
                     var expr = field.ToCellExpr();
                     if(expr.Operator == OperatorKind.Ne)

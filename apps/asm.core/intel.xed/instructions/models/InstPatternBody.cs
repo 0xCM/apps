@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct InstPatternBody : IIndex<InstField>
+        public readonly struct InstPatternBody : IIndex<CellValue>
         {
             public static string normalize(string rawbody)
             {
@@ -25,7 +25,7 @@ namespace Z0
             public readonly InstFields Fields;
 
             [MethodImpl(Inline)]
-            public InstPatternBody(InstField[] src)
+            public InstPatternBody(CellValue[] src)
             {
                 Fields = new InstFields(src,0);
             }
@@ -36,7 +36,7 @@ namespace Z0
                 Fields = fields;
             }
 
-            public InstField[] Storage
+            public CellValue[] Storage
             {
                 [MethodImpl(Inline)]
                 get => Fields.Storage;
@@ -72,13 +72,13 @@ namespace Z0
                 get => Fields.IsNonEmpty;
             }
 
-            public ref InstField this[int i]
+            public ref CellValue this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Fields[i];
             }
 
-            public ref InstField this[uint i]
+            public ref CellValue this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Fields[i];
@@ -91,11 +91,11 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator InstPatternBody(InstField[] src)
+            public static implicit operator InstPatternBody(CellValue[] src)
                 => new InstPatternBody(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator InstPatternBody(Index<InstField> src)
+            public static implicit operator InstPatternBody(Index<CellValue> src)
                 => new InstPatternBody(src);
         }
     }

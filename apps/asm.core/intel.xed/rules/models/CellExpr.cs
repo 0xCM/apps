@@ -10,12 +10,12 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public readonly struct CellExpr
         {
-            public readonly CellValue Value;
+            public readonly FieldValue Value;
 
             public readonly RuleOperator Operator;
 
             [MethodImpl(Inline)]
-            public CellExpr(OperatorKind op, CellValue value)
+            public CellExpr(OperatorKind op, FieldValue value)
             {
                 Operator = op;
                 Value = value;
@@ -51,7 +51,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static CellExpr Empty => new CellExpr(0, CellValue.Empty);
+            public static CellExpr Empty => new CellExpr(0, FieldValue.Empty);
         }
     }
 }

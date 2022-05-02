@@ -12,10 +12,10 @@ namespace Z0
         {
             public readonly FieldKind Field;
 
-            public readonly CellValue Value;
+            public readonly FieldValue Value;
 
             [MethodImpl(Inline)]
-            public FieldAssign(CellValue value)
+            public FieldAssign(FieldValue value)
             {
                 Field = value.Field;
                 Value = value;
@@ -44,10 +44,10 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator FieldAssign(CellValue src)
+            public static implicit operator FieldAssign(FieldValue src)
                 => new FieldAssign(src);
 
-            public static FieldAssign Empty => new FieldAssign(CellValue.Empty);
+            public static FieldAssign Empty => new FieldAssign(FieldValue.Empty);
         }
     }
 }

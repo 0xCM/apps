@@ -8,18 +8,24 @@ namespace Z0
     /// Covers a field along with a value that was either extracted from a field instance or that may be pushed into a field instance
     /// </summary>
     /// <typeparam name="T">The field value type</param>
-    public readonly struct FieldValue<T> : IFieldValue<T,object>
+    public readonly struct StructField<T> : IFieldValue<T,object>
         where T : struct
     {
-        public FieldInfo Field {get;}
+        public readonly FieldInfo Field;
 
-        public object Value {get;}
+        public readonly object Value;
 
         [MethodImpl(Inline)]
-        public FieldValue(FieldInfo field, object value)
+        public StructField(FieldInfo field, object value)
         {
             Field = field;
             Value = value;
         }
+
+        object IFieldValue<T, object>.Value
+            => Value;
+
+        FieldInfo IFieldValue.Field
+            => Field;
     }
 }

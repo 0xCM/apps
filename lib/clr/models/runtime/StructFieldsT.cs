@@ -8,16 +8,16 @@ namespace Z0
     /// Covers a sequence of T-valued fields
     /// </summary>
     /// <typeparam name="T">The field value type</param>
-    public readonly struct FieldValues<T> : IIndex<FieldValue<T>>
+    public readonly struct StructFields<T> : IIndex<StructField<T>>
         where T : struct
     {
-        readonly FieldValue<T>[] Data;
+        readonly StructField<T>[] Data;
 
         [MethodImpl(Inline)]
-        public FieldValues(FieldValue<T>[] src)
+        public StructFields(StructField<T>[] src)
             => Data = src;
 
-        public FieldValue<T>[] Storage
+        public StructField<T>[] Storage
         {
             get => Data;
         }
@@ -28,29 +28,29 @@ namespace Z0
             get => Data.Length;
         }
 
-        public ref readonly FieldValue<T> this[int index]
+        public ref readonly StructField<T> this[int index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
-        public ref readonly FieldValue<T> this[ulong index]
+        public ref readonly StructField<T> this[ulong index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
         [MethodImpl(Inline)]
-        public Span<FieldValue<T>> ToSpan()
+        public Span<StructField<T>> ToSpan()
             => Data;
 
         [MethodImpl(Inline)]
-        public static implicit operator FieldValues<T>(FieldValue<T>[] src)
-            => new FieldValues<T>(src);
+        public static implicit operator StructFields<T>(StructField<T>[] src)
+            => new StructFields<T>(src);
 
 
         [MethodImpl(Inline)]
-        public static implicit operator FieldValue<T>[](FieldValues<T> src)
+        public static implicit operator StructField<T>[](StructFields<T> src)
             => src.Data;
     }
 }

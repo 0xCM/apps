@@ -12,10 +12,10 @@ namespace Z0
         {
             public readonly CellKey Key;
 
-            public readonly InstField Value;
+            public readonly CellValue Value;
 
             [MethodImpl(Inline)]
-            public RuleCell(CellKey key, InstField value)
+            public RuleCell(CellKey key, CellValue value)
             {
                 Key = key;
                 Value = value;
@@ -25,7 +25,7 @@ namespace Z0
             public RuleOperator Operator()
             {
                 var dst = RuleOperator.None;
-                if(Value.IsCellExpr)
+                if(Value.IsExpr)
                     dst = Value.ToCellExpr().Operator;
                 else if (Value.IsOperator)
                     dst = Value.AsOperator();
@@ -35,7 +35,7 @@ namespace Z0
             public FieldKind Field
             {
                 [MethodImpl(Inline)]
-                get => Value.FieldKind;
+                get => Value.Field;
             }
 
             public LogicClass Logic
@@ -48,6 +48,12 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => Value.IsOperator;
+            }
+
+            public bool IsNontermCall
+            {
+                [MethodImpl(Inline)]
+                get => Value.IsNontermCall;
             }
 
             public byte CellIndex
@@ -83,7 +89,7 @@ namespace Z0
             public bool IsCellExpr
             {
                 [MethodImpl(Inline)]
-                get => Value.IsCellExpr;
+                get => Value.IsExpr;
             }
 
             public bool IsEmpty

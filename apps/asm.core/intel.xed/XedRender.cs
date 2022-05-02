@@ -508,7 +508,7 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static void render(ReadOnlySpan<InstField> src, ITextBuffer dst)
+        public static void render(ReadOnlySpan<CellValue> src, ITextBuffer dst)
         {
             for(var i=0; i<src.Length; i++)
             {
@@ -606,7 +606,7 @@ namespace Z0
             ? EmptyString
             : string.Format("{0}[{1}]", format(src.Field), src.Type.Format());
 
-        public static string format(in CellValue src)
+        public static string format(in FieldValue src)
         {
             var dst = EmptyString;
             if(src.IsEmpty)
@@ -645,9 +645,9 @@ namespace Z0
             return dst;
         }
 
-        static string atomic(in InstField src)
+        static string atomic(in CellValue src)
         {
-            Require.invariant(!src.IsCellExpr);
+            Require.invariant(!src.IsExpr);
             var @class = src.CellKind;
             var dst = EmptyString;
             switch(@class)
@@ -689,14 +689,14 @@ namespace Z0
             return dst;
         }
 
-        static string expr(in InstField src)
+        static string expr(in CellValue src)
         {
-            Require.invariant(src.IsCellExpr);
+            Require.invariant(src.IsExpr);
             return format(src.ToCellExpr());
         }
 
-        public static string format(in InstField src)
-            => src.IsCellExpr ? expr(src) : atomic(src);
+        public static string format(in CellValue src)
+            => src.IsExpr ? expr(src) : atomic(src);
 
         public static string format(in MacroSpec src)
         {

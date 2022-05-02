@@ -13,10 +13,10 @@ namespace Z0
 
             public readonly OperatorKind Operator;
 
-            public readonly CellValue Value;
+            public readonly FieldValue Value;
 
             [MethodImpl(Inline)]
-            public MacroExpansion(FieldKind field, OperatorKind op, CellValue value)
+            public MacroExpansion(FieldKind field, OperatorKind op, FieldValue value)
             {
                 Field = field;
                 Operator = op;

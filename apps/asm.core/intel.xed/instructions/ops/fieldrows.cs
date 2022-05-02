@@ -25,7 +25,7 @@ namespace Z0
         }
 
         [Op]
-        static InstFieldRow fieldrow(InstPattern pattern, in InstField src, byte index)
+        static InstFieldRow fieldrow(InstPattern pattern, in CellValue src, byte index)
         {
             var dst = InstFieldRow.Empty;
             dst.PatternId = pattern.PatternId;
@@ -33,7 +33,7 @@ namespace Z0
             dst.Lock = XedFields.@lock(pattern.Fields);
             dst.Index = Require.equal(index,src.Position);
             dst.FieldClass = src.CellKind;
-            dst.FieldKind = src.FieldKind;
+            dst.FieldKind = src.Field;
             dst.InstClass = pattern.InstClass;
             dst.OpCode = pattern.OpCode;
             switch(src.CellKind)

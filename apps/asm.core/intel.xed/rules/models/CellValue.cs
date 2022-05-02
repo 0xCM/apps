@@ -1,171 +1,253 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
+    using static core;
 
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public readonly struct CellValue : IEquatable<CellValue>
+        public struct CellValue : IEquatable<CellValue>, IComparable<CellValue>
         {
-            public readonly FieldKind Field;
+            readonly ByteBlock16 Data;
 
-            public readonly ulong Data;
+            const byte OpIndex = 11;
 
-            public readonly RuleCellKind CellKind;
+            const byte PosIndex = 12;
 
-            [MethodImpl(Inline)]
-            public CellValue(FieldKind field, bit data)
-            {
-                Field = field;
-                Data = (byte)data;
-                CellKind = 0;
-            }
+            const byte FieldIndex = 14;
+
+            const byte ClassIndex = 15;
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind field, byte data)
+            public CellValue(byte src)
             {
-                Field = field;
+                var data = ByteBlock16.Empty;
+                data.First = src;
+                data[ClassIndex] = (byte)RuleCellKind.IntVal;
                 Data = data;
-                CellKind = 0;
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, ushort data)
+            public CellValue(uint5 src)
             {
-                Field = kind;
+                var data = ByteBlock16.Empty;
+                data.First = src;
+                data[ClassIndex] = (byte)RuleCellKind.BitLiteral;
                 Data = data;
-                CellKind = 0;
             }
 
             [MethodImpl(Inline)]
-            public CellValue(SegVar src)
+            public CellValue(Hex8 src)
             {
-                Field = FieldKind.INVALID;
-                Data = (ulong)src;
-                CellKind = RuleCellKind.SegVar;
-            }
-
-            [MethodImpl(Inline)]
-            public CellValue(FieldSeg src)
-            {
-                Field = src.Field;
-                Data = (ulong)src.Seg;
-                CellKind = RuleCellKind.SegField;
-            }
-
-            [MethodImpl(Inline)]
-            public CellValue(FieldKind field, InstSegType type)
-            {
-                Field = field;
-                Data = (ulong)new InstSeg(field, type);
-                CellKind = RuleCellKind.InstSeg;
+                var data = ByteBlock16.Empty;
+                data[0] = src;
+                data[ClassIndex] = (byte)RuleCellKind.HexLiteral;
+                Data = data;
             }
 
             [MethodImpl(Inline)]
             public CellValue(RuleKeyword src)
             {
-                Field = 0;
-                Data = (byte)src;
-                CellKind = RuleCellKind.Keyword;
-            }
-
-            [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, ulong data, RuleCellKind ck = 0)
-            {
-                Field = kind;
+                var data = ByteBlock16.Empty;
+                data[0] = (byte)src.KeywordKind;
+                data[ClassIndex] = (byte)RuleCellKind.Keyword;
                 Data = data;
-                CellKind = ck;
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, MachineMode data)
+            public CellValue(RuleOperator src)
             {
-                Field = kind;
-                Data = (ushort)data;
-                CellKind = 0;
+                var data = ByteBlock16.Empty;
+                data[0] = (byte)src.Kind;
+                data[ClassIndex] = (byte)RuleCellKind.Operator;
+                Data = data;
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, XedRegId data)
+            public CellValue(InstSeg src)
             {
-                Field = kind;
-                Data = (ushort)data;
-                CellKind = 0;
+                var data = ByteBlock16.Empty;
+                core.@as<InstSeg>(data.First) = src;
+                data[FieldIndex] = (byte)src.Field;
+                data[ClassIndex] = (byte)RuleCellKind.InstSeg;
+                Data = data;
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, RuleName data)
+            public CellValue(SegVar src)
             {
-                Field = kind;
-                Data = (ushort)data;
-                CellKind =  kind != 0 ? RuleCellKind.NontermExpr : RuleCellKind.NontermCall;
+                var data = ByteBlock16.Empty;
+                data.A = (ulong)src;
+                data[ClassIndex] = (byte)RuleCellKind.SegVar;
+                Data = data;
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, IClass data)
+            public CellValue(FieldSeg src)
             {
-                Field = kind;
-                Data = (ushort)data;
-                CellKind = 0;
+                var data = ByteBlock16.Empty;
+                data.A = (ulong)src.Seg;
+                data[FieldIndex] = (byte)src.Field;
+                data[ClassIndex] = (byte)RuleCellKind.SegField;
+                Data = data;
             }
 
             [MethodImpl(Inline)]
-            public CellValue(FieldKind kind, ChipCode data)
+            public CellValue(CellExpr src)
             {
-                Field = kind;
-                Data = (uint)data;
-                CellKind = 0;
+                var dst = ByteBlock16.Empty;
+                if(src.IsNonterm)
+                {
+                    @as<RuleName>(dst.First) = src.Value.ToRuleName();
+                    dst[ClassIndex] = (byte)RuleCellKind.NontermExpr;
+                    dst[OpIndex] = (byte)src.Operator;
+                    dst[FieldIndex] = (byte)src.Field;
+                }
+                else
+                {
+                    @as<ulong>(dst.First) = src.Value.Data;
+                    dst[OpIndex] = (byte)src.Operator;
+                    dst[FieldIndex] = (byte)src.Field;
+                    switch(src.Operator.Kind)
+                    {
+                        case OperatorKind.Eq:
+                            dst[ClassIndex] = (byte)RuleCellKind.EqExpr;
+                        break;
+                        case OperatorKind.Ne:
+                            dst[ClassIndex] = (byte)RuleCellKind.NeqExpr;
+                        break;
+                        case OperatorKind.Impl:
+                            dst[ClassIndex] = (byte)RuleCellKind.Operator;
+                        break;
+                    }
+                }
+                Data = dst;
             }
 
-            public readonly bit IsNontermCall
+            [MethodImpl(Inline)]
+            public CellValue(Nonterminal src)
+            {
+                var data = ByteBlock16.Empty;
+                data = (uint)src;
+                data[ClassIndex] = (byte)RuleCellKind.NontermCall;
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
+            CellValue(ByteBlock16 data)
+            {
+                Data = data;
+            }
+
+            public ref readonly RuleCellKind CellKind
+            {
+                [MethodImpl(Inline)]
+                get => ref @as<RuleCellKind>(Data[ClassIndex]);
+            }
+
+            public ref readonly FieldKind Field
+            {
+                [MethodImpl(Inline)]
+                get => ref @as<FieldKind>(Data[FieldIndex]);
+            }
+
+            public bool IsExpr
+            {
+                [MethodImpl(Inline)]
+                get => CellKind == RuleCellKind.EqExpr || CellKind == RuleCellKind.NeqExpr || CellKind == RuleCellKind.NontermExpr;
+            }
+
+            public bool IsOperator
+            {
+                [MethodImpl(Inline)]
+                get => CellKind == RuleCellKind.Operator;
+            }
+
+            public bool IsLiteral
+            {
+                [MethodImpl(Inline)]
+                get => CellKind == RuleCellKind.BitLiteral || CellKind == RuleCellKind.HexLiteral || CellKind == RuleCellKind.IntVal;
+            }
+
+            public bool IsNontermCall
             {
                 [MethodImpl(Inline)]
                 get => CellKind == RuleCellKind.NontermCall;
             }
 
-            public readonly bit IsNontermExpr
+            public bool IsNontermExpr
             {
                 [MethodImpl(Inline)]
                 get => CellKind == RuleCellKind.NontermExpr;
             }
 
-            public readonly bit IsNonterm
+            public ref readonly byte Position
             {
                 [MethodImpl(Inline)]
-                get => IsNontermCall || IsNontermExpr;
+                get => ref Data[PosIndex];
             }
 
-            public bool IsEmpty
+            [MethodImpl(Inline)]
+            public CellValue WithPosition(byte pos)
             {
-                [MethodImpl(Inline)]
-                get => Field == 0;
-            }
-
-            public bool IsNonEmpty
-            {
-                [MethodImpl(Inline)]
-                get => Field != 0;
+                var dst = CellValue.Empty;
+                var data = Data;
+                data[PosIndex] = pos;
+                return new CellValue(data);
             }
 
             [MethodImpl(Inline)]
             public bool Equals(CellValue src)
-                => Field == src.Field && Data == src.Data;
-
-            public override bool Equals(object src)
-                => src is CellValue x && Equals(x);
-
-            public uint Hash
-            {
-                [MethodImpl(Inline)]
-                get => (uint)((ulong)Field << 24 | (Data & 0xFFFFFF));
-            }
+                => Data.Equals(src.Data);
 
             public override int GetHashCode()
-                => (int)Hash;
+                => Data.GetHashCode();
+
+            public override bool Equals(object src)
+                => src is CellValue p && Equals(p);
+
+            [MethodImpl(Inline)]
+            public ref readonly Hex8 AsHexLit()
+                => ref @as<Hex8>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly SegVar AsSegVar()
+                => ref @as<SegVar>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly byte AsIntLit()
+                => ref @as<byte>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly Nonterminal AsNonterm()
+                => ref @as<Nonterminal>(Data.First);
+
+            [MethodImpl(Inline)]
+            public CellExpr ToCellExpr()
+                => new CellExpr((OperatorKind)Data[OpIndex], new FieldValue(Field, @as<ulong>(Data.First), CellKind));
+
+            [MethodImpl(Inline)]
+            public ref readonly uint5 AsBitLit()
+                => ref @as<uint5>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly RuleOperator AsOperator()
+                => ref @as<RuleOperator>(Data.First);
+
+            [MethodImpl(Inline)]
+            public RuleKeyword ToKeyword()
+                => RuleKeyword.from(@as<KeywordKind>(Data.First));
+
+            [MethodImpl(Inline)]
+            public ref readonly InstSeg AsInstSeg()
+                => ref @as<InstSeg>(Data.First);
+
+            [MethodImpl(Inline)]
+            public FieldSeg ToSegField()
+                => new FieldSeg(SegVar.parse(AsInstSeg().Type.Format()), Field);
 
             public string Format()
                 => XedRender.format(this);
@@ -174,140 +256,48 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public VexClass ToVexClass()
-                => (VexClass)Data;
+            public int CompareTo(CellValue src)
+                => Position.CompareTo(src.Position);
 
             [MethodImpl(Inline)]
-            public VexLength ToVexLength()
-                => (VexLength)Data;
+            public static implicit operator CellValue(byte src)
+                => new CellValue(src);
 
             [MethodImpl(Inline)]
-            public VexKind ToVexKind()
-                => (VexKind)Data;
+            public static implicit operator CellValue(Hex8 src)
+                => new CellValue(src);
 
             [MethodImpl(Inline)]
-            public MachineMode ToMode()
-                => (ModeClass)Data;
+            public static implicit operator CellValue(uint5 src)
+                => new CellValue(src);
 
             [MethodImpl(Inline)]
-            public RuleKeyword ToKeyword()
-                => RuleKeyword.from((KeywordKind)Data);
+            public static implicit operator CellValue(RuleKeyword src)
+                => new CellValue(src);
 
             [MethodImpl(Inline)]
-            public XedRegId ToReg()
-                => (XedRegId)Data;
+            public static implicit operator CellValue(RuleOperator src)
+                => new CellValue(src);
 
             [MethodImpl(Inline)]
-            public SegVar ToSegVar()
-                => (SegVar)Data;
+            public static implicit operator CellValue(CellExpr src)
+                => new CellValue(src);
 
             [MethodImpl(Inline)]
-            public FieldSeg ToSegField()
-                => new FieldSeg(Field, (SegVar)Data);
+            public static implicit operator CellValue(FieldSeg src)
+                => new CellValue(src);
 
             [MethodImpl(Inline)]
-            public InstClass ToInstClass()
-                => (IClass)Data;
+            public static implicit operator CellValue(InstSeg src)
+                => new CellValue(src);
 
             [MethodImpl(Inline)]
-            public ChipCode ToChip()
-                => (ChipCode)Data;
+            public static implicit operator CellValue(SegVar src)
+                => new CellValue(src);
 
             [MethodImpl(Inline)]
-            public RepPrefix ToRepPrefix()
-                => (RepPrefix)Data;
-
-            [MethodImpl(Inline)]
-            public BCastKind ToBCast()
-                => (BCastKind)Data;
-
-            [MethodImpl(Inline)]
-            public EOSZ ToEOSZ()
-                => (EOSZ)Data;
-
-            [MethodImpl(Inline)]
-            public EASZ ToEASZ()
-                => (EASZ)Data;
-
-            [MethodImpl(Inline)]
-            public bit ToBit()
-                => (bit)Data;
-
-            [MethodImpl(Inline)]
-            public byte ToByte()
-                => (byte)Data;
-
-            [MethodImpl(Inline)]
-            public Hex8 ToHex8()
-                => (Hex8)Data;
-
-            [MethodImpl(Inline)]
-            public uint5 ToBinaryLiteral()
-                => (uint5)Data;
-
-            [MethodImpl(Inline)]
-            public RuleName ToRuleName()
-                => (RuleName)Data;
-
-            [MethodImpl(Inline)]
-            public Nonterminal ToNonterm()
-                => (RuleName)Data;
-
-            [MethodImpl(Inline)]
-            public InstSeg ToInstSeg()
-                => (InstSeg)Data;
-
-            [MethodImpl(Inline)]
-            public static implicit operator EASZ(CellValue src)
-                => src.ToEASZ();
-
-            [MethodImpl(Inline)]
-            public static implicit operator EOSZ(CellValue src)
-                => src.ToEOSZ();
-
-            [MethodImpl(Inline)]
-            public static implicit operator VexClass(CellValue src)
-                => src.ToVexClass();
-
-            [MethodImpl(Inline)]
-            public static implicit operator VexLength(CellValue src)
-                => src.ToVexLength();
-
-            [MethodImpl(Inline)]
-            public static implicit operator VexKind(CellValue src)
-                => src.ToVexKind();
-
-            [MethodImpl(Inline)]
-            public static implicit operator ModeClass(CellValue src)
-                => src.ToMode();
-
-            [MethodImpl(Inline)]
-            public static implicit operator IClass(CellValue src)
-                => src.ToInstClass();
-
-            [MethodImpl(Inline)]
-            public static implicit operator ChipCode(CellValue src)
-                => src.ToChip();
-
-            [MethodImpl(Inline)]
-            public static implicit operator BCastKind(CellValue src)
-                => src.ToBCast();
-
-            [MethodImpl(Inline)]
-            public static implicit operator RepPrefix(CellValue src)
-                => src.ToRepPrefix();
-
-            [MethodImpl(Inline)]
-            public static implicit operator bit(CellValue src)
-                => src.ToBit();
-
-            [MethodImpl(Inline)]
-            public static bool operator ==(CellValue a, CellValue b)
-                => a.Equals(b);
-
-            [MethodImpl(Inline)]
-            public static bool operator !=(CellValue a, CellValue b)
-                => !a.Equals(b);
+            public static implicit operator CellValue(Nonterminal src)
+                => new CellValue(src);
 
             public static CellValue Empty => default;
         }

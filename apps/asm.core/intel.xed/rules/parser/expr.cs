@@ -18,7 +18,7 @@ namespace Z0
                 var j = text.index(src, "=");
                 var right = EmptyString;
                 var left = EmptyString;
-                var fv = CellValue.Empty;
+                var fv = FieldValue.Empty;
                 var fk = FieldKind.INVALID;
                 RuleOperator op = OperatorKind.None;
                 if(i > 0)
@@ -48,7 +48,7 @@ namespace Z0
                     if(type.IsEmpty)
                         Errors.Throw(AppMsg.ParseFailure.Format(nameof(InstSegType), ft));
 
-                    dst = new CellExpr(op, new CellValue(fk, type));
+                    dst = new CellExpr(op, new FieldValue(fk, type));
                 }
                 else if(XedParsers.IsNonterm(right))
                 {
@@ -58,7 +58,7 @@ namespace Z0
                     var result = Enum.TryParse(name, out RuleName rule);
                     if(!result)
                         Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleName), name));
-                    dst = new CellExpr(op, new CellValue(fk, rule));
+                    dst = new CellExpr(op, new FieldValue(fk, rule));
                 }
                 else
                 {

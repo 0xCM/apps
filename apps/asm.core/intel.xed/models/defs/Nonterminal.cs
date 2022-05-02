@@ -7,9 +7,11 @@ namespace Z0
 {
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(32)]
+        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(9,16)]
         public readonly struct Nonterminal : IEquatable<Nonterminal>, IComparable<Nonterminal>
         {
+            public static DataSize DataSize => new (9,16);
+
             public readonly RuleName Name;
 
             public Nonterminal(RuleName name)

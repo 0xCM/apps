@@ -50,6 +50,10 @@ namespace Z0
             public static ColType expr(FieldKind left, OperatorKind op, byte width)
                 => new ColType(left, op, width);
 
+            [MethodImpl(Inline)]
+            public static ColType nonterm(RuleName rule)
+                => new ColType(rule);
+
             /// <summary>
             /// Defines a rule expression type
             /// </summary>
@@ -85,12 +89,12 @@ namespace Z0
                 => this = Bitfields.join((byte)ColKind.RuleExpr, (byte)field, (ushort)num.pack(num.force(op, n3), width));
 
             [MethodImpl(Inline)]
-            public ColType(RuleName refined)
-                => this = Bitfields.join((byte)ColKind.Rule, (ushort)refined);
+            public ColType(RuleName src)
+                => this = Bitfields.join((byte)ColKind.Rule, (ushort)src);
 
             [MethodImpl(Inline)]
-            public ColType(OperatorKind refined)
-                => this = Bitfields.join((byte)ColKind.Operator, (ushort)refined);
+            public ColType(OperatorKind src)
+                => this = Bitfields.join((byte)ColKind.Operator, (ushort)src);
 
             [MethodImpl(Inline)]
             public ColType(ColKind k)
@@ -190,6 +194,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator ColType(RuleKeyword src)
                 => new (src.KeywordKind);
+
+            public static ColType Empty => default;
 
             // struct Formatter
             // {

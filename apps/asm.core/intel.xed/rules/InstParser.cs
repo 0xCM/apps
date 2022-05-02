@@ -12,9 +12,9 @@ namespace Z0
     {
         public readonly struct InstParser
         {
-            public static Outcome field(string src, out InstField dst)
+            public static Outcome field(string src, out CellValue dst)
             {
-                dst = InstField.Empty;
+                dst = CellValue.Empty;
                 Outcome result = (false, string.Format("Unrecognized segment '{0}'", src));
                 if(IsHexLiteral(src))
                 {
@@ -69,7 +69,7 @@ namespace Z0
                 var result = Outcome.Success;
                 var parts = text.trim(text.split(text.despace(src), Chars.Space));
                 var count = parts.Length;
-                dst = alloc<InstField>(count);
+                dst = alloc<CellValue>(count);
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var part = ref skip(parts,i);

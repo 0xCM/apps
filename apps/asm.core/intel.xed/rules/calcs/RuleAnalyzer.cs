@@ -49,7 +49,7 @@ namespace Z0
             FieldBits = RuleFieldBits.create();
         }
 
-        RuleField Run(LogicKind logic, FieldKind field, RuleOperator op, CellValue value)
+        RuleField Run(LogicKind logic, FieldKind field, RuleOperator op, FieldValue value)
         {
             var dst = RuleField.Empty;
             switch(value.CellKind)

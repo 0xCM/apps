@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
-        public static CellExpr expr(OperatorKind op, CellValue value)
+        public static CellExpr expr(OperatorKind op, FieldValue value)
             => new (op,value);
 
         [MethodImpl(Inline), Op]

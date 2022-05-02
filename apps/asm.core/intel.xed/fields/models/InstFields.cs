@@ -7,32 +7,32 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct InstFields : IIndex<InstField>
+        public readonly struct InstFields : IIndex<CellValue>
         {
-            public readonly Index<InstField> Data;
+            public readonly Index<CellValue> Data;
 
             public readonly byte LayoutCount;
 
             [MethodImpl(Inline)]
-            public InstFields(InstField[] src, byte lCount)
+            public InstFields(CellValue[] src, byte lCount)
             {
                 Data = src;
                 LayoutCount = lCount;
             }
 
-            public ReadOnlySpan<InstField> Layout
+            public ReadOnlySpan<CellValue> Layout
             {
                 [MethodImpl(Inline)]
                 get => IsEmpty ? default : core.slice(Data.View, 0, LayoutCount);
             }
 
-            public ReadOnlySpan<InstField> Expr
+            public ReadOnlySpan<CellValue> Expr
             {
                 [MethodImpl(Inline)]
                 get => IsEmpty ?  default :core.slice(Data.View, LayoutCount);
             }
 
-            public InstField[] Storage
+            public CellValue[] Storage
             {
                 [MethodImpl(Inline)]
                 get => Data;
@@ -50,19 +50,19 @@ namespace Z0
                 get =>  Data.IsNonEmpty;
             }
 
-            public ref InstField First
+            public ref CellValue First
             {
                 [MethodImpl(Inline)]
                 get => ref Data.First;
             }
 
-            public ref InstField this[int i]
+            public ref CellValue this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];
             }
 
-            public ref InstField this[uint i]
+            public ref CellValue this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[i];

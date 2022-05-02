@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     using static XedRules;
 
     partial class XedGrids
@@ -22,18 +20,18 @@ namespace Z0
 
             public readonly Index<GridCell> Cells;
 
-            public readonly ushort FieldCount;
+            public readonly ushort CellCount;
 
             public readonly FS.FileUri TablePath;
 
             [MethodImpl(Inline)]
-            public RuleGrid(RuleSig sig, ushort rows, byte cols, Index<GridCell> src)
+            public RuleGrid(RuleSig sig, ushort rows, byte cols, Index<GridCell> cells)
             {
                 Rule = sig;
                 RowCount = rows;
                 ColCount = cols;
-                Cells = src;
-                FieldCount = Require.equal((ushort)(rows*cols), (ushort)src.Count);
+                Cells = cells;
+                CellCount = Require.equal((ushort)(rows*cols), (ushort)cells.Count);
                 TablePath = XedPaths.Service.CheckedTableDef(sig);
             }
 

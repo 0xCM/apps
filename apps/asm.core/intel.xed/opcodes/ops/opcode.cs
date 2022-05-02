@@ -19,9 +19,9 @@ namespace Z0
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var part = ref src[i];
-                if(part.IsCellExpr && part.FieldKind == FieldKind.VEXVALID)
+                if(part.IsExpr && part.Field == FieldKind.VEXVALID)
                     vc = (VexClass)part.ToCellExpr().Value;
-                if(part.IsCellExpr && part.FieldKind == FieldKind.MAP)
+                if(part.IsExpr && part.Field == FieldKind.MAP)
                     number = part.ToCellExpr().Value.ToByte();
             }
 

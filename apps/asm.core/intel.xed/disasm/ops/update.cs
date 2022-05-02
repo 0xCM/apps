@@ -12,20 +12,20 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public static Index<CellValue> update(in DisasmBlock src, ref OperandState dst)
+        public static Index<FieldValue> update(in DisasmBlock src, ref OperandState dst)
         {
             var fields = values(src);
             update(fields, ref dst);
             return fields;
         }
 
-        static Index<CellValue> values(in DisasmBlock src)
+        static Index<FieldValue> values(in DisasmBlock src)
         {
             parse(src, out DisasmProps props);
             var state = OperandState.Empty;
             var names = props.Keys.Array();
             var count = names.Length;
-            var dst = alloc<CellValue>(count - 2);
+            var dst = alloc<FieldValue>(count - 2);
             var k=0u;
             for(var i=0; i<count; i++)
             {
@@ -41,20 +41,20 @@ namespace Z0
             return dst;
         }
 
-        static Dictionary<FieldKind,CellValue> update(Index<CellValue> src, ref OperandState state)
+        static Dictionary<FieldKind,FieldValue> update(Index<FieldValue> src, ref OperandState state)
         {
             update(src.View, ref state);
             return src.Map(x => (x.Field, x)).ToDictionary();
         }
 
-        static ref OperandState update(ReadOnlySpan<CellValue> src, ref OperandState dst)
+        static ref OperandState update(ReadOnlySpan<FieldValue> src, ref OperandState dst)
         {
             for(var i=0; i<src.Length; i++)
                 update(skip(src,i), ref dst);
             return ref dst;
         }
 
-        static ref OperandState update(in CellValue src, ref OperandState dst)
+        static ref OperandState update(in FieldValue src, ref OperandState dst)
         {
             var result = Outcome.Success;
             switch(src.Field)

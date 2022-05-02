@@ -33,7 +33,6 @@ namespace Z0
                 var mcc = 0u;
 
                 var widths = rows.Storage.Select(x => x.Size());
-
                 for(var j=z16; j<rows.Count; j++)
                 {
                     ref readonly var row = ref rows[j];

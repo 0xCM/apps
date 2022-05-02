@@ -56,11 +56,11 @@ namespace Z0
             values(src, fields, dst);
         }
 
-        public static FieldValue<S>[] values<S,T>(S src)
+        public static StructField<S>[] values<S,T>(S src)
             where S : struct
         {
             var fields = @readonly(typeof(S).DeclaredInstanceFields());
-            var buffer = alloc<FieldValue<S>>(fields.Length);
+            var buffer = alloc<StructField<S>>(fields.Length);
             var dst = span(buffer);
             ref var target = ref first(dst);
             var tRef = __makeref(src);
@@ -68,7 +68,7 @@ namespace Z0
             for(var i=0u; i<count; i++)
             {
                 ref readonly var f = ref skip(fields,i);
-                seek(target,i) = new FieldValue<S>(f, f.GetValueDirect(tRef));
+                seek(target,i) = new StructField<S>(f, f.GetValueDirect(tRef));
             }
             return buffer;
         }
@@ -102,22 +102,22 @@ namespace Z0
         }
 
         [Op, Closures(Closure)]
-        public static FieldValues<T> values<T>(in T src, FieldInfo[] fields)
+        public static StructFields<T> values<T>(in T src, FieldInfo[] fields)
             where T : struct
         {
             var tr = __makeref(edit(src));
             var count = fields.Length;
             var fv = @readonly(fields);
 
-            var buffer = sys.alloc<FieldValue<T>>(count);
+            var buffer = sys.alloc<StructField<T>>(count);
             var dst = span(buffer);
             for(ushort i=0; i<count; i++)
             {
                 ref readonly var field = ref skip(fv,i);
-                seek(dst,i) = new FieldValue<T>(field,  field.GetValueDirect(tr));
+                seek(dst,i) = new StructField<T>(field,  field.GetValueDirect(tr));
             }
 
-            return new FieldValues<T>(buffer);
+            return new StructFields<T>(buffer);
         }
 
         /// <summary>

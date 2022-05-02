@@ -13,10 +13,10 @@ namespace Z0
     {
         partial struct CellParser
         {
-            static bool cellvalue(FieldKind field, string value, out CellValue dst)
+            static bool cellvalue(FieldKind field, string value, out FieldValue dst)
             {
                 var result = true;
-                dst = CellValue.Empty;
+                dst = FieldValue.Empty;
                 switch(field)
                 {
                     case K.AGEN:
@@ -239,7 +239,7 @@ namespace Z0
                                     if(type.IsNonEmpty)
                                         dst = new (field,type);
                                     else
-                                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(CellValue), value));
+                                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldValue), value));
                                 }
                             }
                         }

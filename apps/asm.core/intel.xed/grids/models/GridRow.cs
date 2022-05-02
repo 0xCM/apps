@@ -10,17 +10,27 @@ namespace Z0
     partial class XedGrids
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct GridRow
+        public readonly struct GridRow
         {
-            public RuleSig Rule;
+            public readonly RuleSig Rule;
 
-            public ushort Index;
+            public readonly ushort Row;
 
-            public ushort Row;
+            public readonly Index<GridCol> Cols;
 
-            public byte ColCount;
+            [MethodImpl(Inline)]
+            public GridRow(RuleSig rule, ushort row, GridCol[] cols)
+            {
+                Rule = rule;
+                Row = row;
+                Cols = cols;
+            }
 
-            public Index<GridCol> Cols;
+            public byte ColCount
+            {
+                [MethodImpl(Inline)]
+                get => (byte)Cols.Count;
+            }
 
             public ref GridCol this[byte i]
             {

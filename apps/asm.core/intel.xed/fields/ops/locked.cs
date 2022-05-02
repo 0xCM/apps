@@ -16,7 +16,7 @@ namespace Z0
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var field = ref src[i];
-                if(field.FieldKind == FieldKind.LOCK)
+                if(field.Field == FieldKind.LOCK)
                 {
                     result = field.ToCellExpr().Value;
                     break;

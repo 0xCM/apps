@@ -23,6 +23,18 @@ namespace Z0
                 Rows = src;
             }
 
+            public RuleTableKind Kind
+            {
+                [MethodImpl(Inline)]
+                get => Sig.TableKind;
+            }
+
+            public RuleName Name
+            {
+                [MethodImpl(Inline)]
+                get => Sig.TableName;
+            }
+
             public ref CellRow this[uint i]
             {
                 [MethodImpl(Inline)]

@@ -12,6 +12,8 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct GridCell : IComparable<GridCell>
         {
+            public readonly CellKey Key;
+
             public readonly LogicClass Logic;
 
             public readonly FieldKind Field;
@@ -26,16 +28,20 @@ namespace Z0
 
             public readonly DataSize Size;
 
+            public readonly CellValue Value;
+
             [MethodImpl(Inline)]
-            public GridCell(LogicClass logic, ushort table, ushort row, byte col, FieldKind field, ColType type, DataSize size)
+            public GridCell(in CellKey key, ColType type, DataSize size, CellValue value)
             {
-                Logic = logic;
-                TableIndex = table;
-                RowIndex = row;
-                Field = field;
-                ColIndex = col;
+                Key = key;
+                Logic = key.Logic;
+                TableIndex = key.Table;
+                RowIndex = key.Row;
+                Field = key.Field;
+                ColIndex = key.Col;
                 Type = type;
                 Size = size;
+                Value = value;
             }
 
             public GridCol Column
@@ -47,13 +53,13 @@ namespace Z0
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Field == 0;
+                get => Key.IsEmpty;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Field != 0;
+                get => Key.IsNonEmpty;
             }
 
             [MethodImpl(Inline)]
@@ -61,7 +67,17 @@ namespace Z0
                 => ColIndex.CompareTo(src.ColIndex);
 
             public string Format()
-                => IsEmpty ? EmptyString : string.Format("{0,-6} | {0:D2} {1:D2} {2:D2} | {3,-8} | {4}", Logic, TableIndex, RowIndex, ColIndex, Size.Format(true), Field);
+                => IsEmpty ? EmptyString : string.Format("{0:D3} | {1,-3} | {2,-32} | {3:D2} | {4:D2} | {5} | {6,-6} | {7,-26} | {8}",
+                    Key.Table,
+                    Key.Rule.TableKind,
+                    Key.Rule.TableName,
+                    RowIndex,
+                    ColIndex,
+                    Size.Format(2,2,true),
+                    Logic,
+                    Field,
+                    Value
+                    );
 
             public override string ToString()
                 => Format();

@@ -17,7 +17,7 @@ namespace Z0
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var field = ref src[i];
-                if(field.FieldKind == FieldKind.REP)
+                if(field.Field == FieldKind.REP)
                 {
                     dst = (RepPrefix)field.ToCellExpr().Value;
                     break;

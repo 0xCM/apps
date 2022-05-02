@@ -12,17 +12,17 @@ namespace Z0
         public static Index<CellTable> tables(ConcurrentDictionary<RuleSig,Index<RuleCell>> src)
             => src.Keys.Array().Select(sig => table(src,sig)).Index().Sort();
 
-        static CellTable table(ConcurrentDictionary<RuleSig,Index<RuleCell>> src, RuleSig sig)
+        static CellTable table(ConcurrentDictionary<RuleSig,Index<RuleCell>> src, RuleSig rule)
         {
             var dst = CellTable.Empty;
-            if(src.TryGetValue(sig, out var cells))
+            if(src.TryGetValue(rule, out var cells))
             {
                 var tix = z16;
                 if(cells.Count !=0)
                 {
                     tix = cells.First.TableIndex;
-                    var rows = cells.GroupBy(x => x.RowIndex).Select(x => (new CellRow(sig, tix, x.Key, x.ToIndex()))).ToIndex();
-                    dst = new CellTable(sig, tix, rows);
+                    var rows = cells.GroupBy(x => x.RowIndex).Select(x => (new CellRow(rule, tix, x.Key, x.ToIndex()))).ToIndex();
+                    dst = new CellTable(rule, tix, rows);
                 }
             }
             return dst;

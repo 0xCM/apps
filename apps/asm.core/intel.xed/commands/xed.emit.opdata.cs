@@ -23,7 +23,7 @@ namespace Z0
             ("Expr", 1)
             );
 
-        uint Nonterminals<T>(Index<InstOpDetail> src, ref T dst)
+        static uint nonterms<T>(Index<InstOpDetail> src, ref T dst)
             where T : unmanaged, IStorageBlock<T>
         {
             var j = 0u;
@@ -65,6 +65,14 @@ namespace Z0
 
                 buffer.Write(op.SourceExpr);
                 buffer.EmitLine(dst);
+            }
+
+            var storage = ByteBlock32.Empty;
+            var ntcount = nonterms(ops, ref storage);
+            if(ntcount != 0)
+            {
+                var rules = slice(storage.Storage<Nonterminal>(),0,ntcount);
+
             }
         }
 
@@ -111,7 +119,7 @@ namespace Z0
                 counter++;
 
 
-                Render(ops,writer);
+                Render(pattern.OpDetails,writer);
             }
 
             EmittedFile(emitting,counter);
