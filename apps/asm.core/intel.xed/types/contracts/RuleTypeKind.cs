@@ -7,7 +7,7 @@ namespace Z0
     partial class XedDataTypes
     {
         [DataWidth(4,8)]
-        public enum RuleTypeKind : byte
+        public enum TypeKind : byte
         {
             None,
 
@@ -33,6 +33,16 @@ namespace Z0
             SegField,
 
             SegVal,
+
+            Rule,
+
+            BitLiteral,
+
+            IntLiteral,
+
+            HexLiteral,
+
+            Keyword
         }
     }
 }

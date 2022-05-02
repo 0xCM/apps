@@ -16,7 +16,7 @@ namespace Z0
         {
             public const uint MetaWidth = TypeKey.MetaWidth + asci32.Size*8 + PrimalType.MetaWidth + PrimalType.W8;
 
-            public const RuleTypeKind TypeKind = RuleTypeKind.Literal;
+            public const TypeKind Kind = TypeKind.Literal;
 
             public readonly struct Intrinsic
             {
@@ -94,8 +94,8 @@ namespace Z0
                 get => Base.Width;
             }
 
-            RuleTypeKind IRuleType.TypeKind
-                => TypeKind;
+            TypeKind IRuleType.TypeKind
+                => Kind;
 
             asci32 IRuleType.TypeName
                 => TypeName;

@@ -13,7 +13,7 @@ namespace Z0
         {
             public const uint MetaWidth = FieldType.MetaWidth;
 
-            public const RuleTypeKind TypeKind = RuleTypeKind.SegField;
+            public const TypeKind Kind = TypeKind.SegField;
 
             public readonly FieldType Field;
 
@@ -23,8 +23,8 @@ namespace Z0
                 Field = field;
             }
 
-            RuleTypeKind IRuleType.TypeKind
-                => TypeKind;
+            TypeKind IRuleType.TypeKind
+                => Kind;
 
             public readonly CellType DataType
             {

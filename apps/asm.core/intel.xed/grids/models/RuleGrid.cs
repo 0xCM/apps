@@ -7,10 +7,11 @@ namespace Z0
 {
     using static core;
 
-    using static XedRules.RuleGrids;
+    using static XedRules;
 
-    partial class XedRules
+    partial class XedGrids
     {
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct RuleGrid
         {
             public readonly RuleSig Rule;

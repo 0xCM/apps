@@ -82,6 +82,10 @@ namespace Z0
                 => (byte)src.KeywordKind;
 
             [MethodImpl(Inline)]
+            public static implicit operator RuleKeyword(KeywordKind src)
+                => from(src);
+
+            [MethodImpl(Inline)]
             public static explicit operator asci8(RuleKeyword src)
                 => src.ToAsci();
 

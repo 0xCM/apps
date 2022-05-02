@@ -17,29 +17,29 @@ namespace Z0
         {
             public const uint MetaWidth = asci16.Size*8 + TypeKey.MetaWidth + PrimalType.W8;
 
-            public const RuleTypeKind TypeKind = RuleTypeKind.Numeric;
+            public const TypeKind Kind = TypeKind.Numeric;
 
             public readonly struct Intrinsic
             {
-                public static NumericType None => numeric(NextKey(RuleTypeKind.Numeric),  P.Empty.TypeName, (NumericWidth)L.Null.PackedWidth);
+                public static NumericType None => numeric(NextKey(TypeKind.Numeric),  P.Empty.TypeName, (NumericWidth)L.Null.PackedWidth);
 
-                public static NumericType U1 => numeric(NextKey(RuleTypeKind.Numeric),  P.U1.TypeName, (NumericWidth)L.U1.PackedWidth);
+                public static NumericType U1 => numeric(NextKey(TypeKind.Numeric),  P.U1.TypeName, (NumericWidth)L.U1.PackedWidth);
 
-                public static NumericType U8 => numeric(NextKey(RuleTypeKind.Numeric),  P.U8.TypeName, (NumericWidth)L.U8.PackedWidth);
+                public static NumericType U8 => numeric(NextKey(TypeKind.Numeric),  P.U8.TypeName, (NumericWidth)L.U8.PackedWidth);
 
-                public static NumericType U16 => numeric(NextKey(RuleTypeKind.Numeric), P.U16.TypeName, (NumericWidth)L.U16.PackedWidth);
+                public static NumericType U16 => numeric(NextKey(TypeKind.Numeric), P.U16.TypeName, (NumericWidth)L.U16.PackedWidth);
 
-                public static NumericType U32 => numeric(NextKey(RuleTypeKind.Numeric), P.U32.TypeName, (NumericWidth)L.U32.PackedWidth);
+                public static NumericType U32 => numeric(NextKey(TypeKind.Numeric), P.U32.TypeName, (NumericWidth)L.U32.PackedWidth);
 
-                public static NumericType U64 => numeric(NextKey(RuleTypeKind.Numeric),  P.U64.TypeName, (NumericWidth)L.U64.PackedWidth);
+                public static NumericType U64 => numeric(NextKey(TypeKind.Numeric),  P.U64.TypeName, (NumericWidth)L.U64.PackedWidth);
 
-                public static NumericType U2 => numeric(NextKey(RuleTypeKind.Numeric),  nameof(uint2), NumericWidth.W2);
+                public static NumericType U2 => numeric(NextKey(TypeKind.Numeric),  nameof(uint2), NumericWidth.W2);
 
-                public static NumericType U3 => numeric(NextKey(RuleTypeKind.Numeric),  nameof(uint3), NumericWidth.W3);
+                public static NumericType U3 => numeric(NextKey(TypeKind.Numeric),  nameof(uint3), NumericWidth.W3);
 
-                public static NumericType U4 => numeric(NextKey(RuleTypeKind.Numeric),  nameof(uint4), NumericWidth.W4);
+                public static NumericType U4 => numeric(NextKey(TypeKind.Numeric),  nameof(uint4), NumericWidth.W4);
 
-                public static NumericType U5 => numeric(NextKey(RuleTypeKind.Numeric),  nameof(uint5), NumericWidth.W5);
+                public static NumericType U5 => numeric(NextKey(TypeKind.Numeric),  nameof(uint5), NumericWidth.W5);
 
                 public static Intrinsic Types => new();
 
@@ -83,8 +83,8 @@ namespace Z0
             asci32 IRuleType.TypeName
                 => TypeName;
 
-            RuleTypeKind IRuleType.TypeKind
-                => TypeKind;
+            TypeKind IRuleType.TypeKind
+                => Kind;
 
             public static NumericType Empty => Intrinsic.None;
         }

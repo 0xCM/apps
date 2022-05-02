@@ -13,7 +13,7 @@ namespace Z0
         {
             public const uint MetaWidth = W8 + asci16.Size*8 + AlignedWidth.MetaWidth;
 
-            public const RuleTypeKind TypeKind = RuleTypeKind.Primitive;
+            public const TypeKind Kind = TypeKind.Primitive;
 
             public const PrimalKind LastKind = PrimalKind.Void;
 
@@ -75,7 +75,7 @@ namespace Z0
             public static ref readonly PrimalType type(PrimalKind kind)
                 => ref Intrinsic.type(kind);
 
-            public readonly PrimalKind Kind;
+            public readonly PrimalKind PrimalKind;
 
             public readonly asci16 TypeName;
 
@@ -84,7 +84,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public PrimalType(PrimalKind kind, asci16 name, AlignedWidth width)
             {
-                Kind = kind;
+                PrimalKind = kind;
                 TypeName = name;
                 Width = (byte)(width.Size*8);
             }
@@ -98,23 +98,23 @@ namespace Z0
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Kind == 0;
+                get => PrimalKind == 0;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Kind != 0;
+                get => PrimalKind != 0;
             }
 
             public TypeKey Key
             {
                 [MethodImpl(Inline)]
-                get => (byte)Kind;
+                get => (byte)PrimalKind;
             }
 
-            RuleTypeKind IRuleType.TypeKind
-                => TypeKind;
+            TypeKind IRuleType.TypeKind
+                => Kind;
 
             asci32 IRuleType.TypeName
                 => TypeName;

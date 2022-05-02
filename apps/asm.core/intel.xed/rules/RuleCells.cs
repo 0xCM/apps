@@ -34,9 +34,6 @@ namespace Z0
                 Records = records;
             }
 
-            public RuleGrids Grids()
-                => Tables.Select(t => RuleGrids.grid(t));
-
             public uint TableCount
             {
                 [MethodImpl(Inline)]

@@ -13,9 +13,9 @@ namespace Z0
 
         static Index<PrimalKind,LiteralType> _IntrinsicLiterals;
 
-        static Index<RuleTypeKind> _TypeKinds;
+        static Index<TypeKind> _TypeKinds;
 
-        static Index<RuleTypeKind,TypeKey> _Keys;
+        static Index<TypeKind,TypeKey> _Keys;
 
         static Index<PrimalKind,Type> _RuntimePrimitives;
 
@@ -34,47 +34,47 @@ namespace Z0
                 ref var type = ref seek(dst,i);
                 switch(kinds[i])
                 {
-                    case RuleTypeKind.Primitive:
+                    case TypeKind.Primitive:
                         type = typeof(PrimalType);
                     break;
 
-                    case RuleTypeKind.Numeric:
+                    case TypeKind.Numeric:
                         type = typeof(NumericType);
                     break;
 
-                    case RuleTypeKind.Literal:
+                    case TypeKind.Literal:
                         type = typeof(LiteralType);
                     break;
 
-                    case RuleTypeKind.Cell:
+                    case TypeKind.Cell:
                         type = typeof(CellType);
                     break;
 
-                    case RuleTypeKind.TypedLiteral:
+                    case TypeKind.TypedLiteral:
                         type = typeof(TypedLiteral);
                     break;
 
-                    case RuleTypeKind.Field:
+                    case TypeKind.Field:
                         type = typeof(FieldType);
                     break;
 
-                    case RuleTypeKind.Operator:
+                    case TypeKind.Operator:
                         type = typeof(OperatorType);
                     break;
 
-                    case RuleTypeKind.Expression:
+                    case TypeKind.Expression:
                         type = typeof(ExpressionType);
                     break;
 
-                    case RuleTypeKind.SegField:
+                    case TypeKind.SegField:
                         type = typeof(SegFieldType);
                     break;
 
-                    case RuleTypeKind.SegVal:
+                    case TypeKind.SegVal:
                         type = typeof(SegValType);
                     break;
 
-                    case RuleTypeKind.None:
+                    case TypeKind.None:
                         type = typeof(void);
                     break;
 
@@ -87,7 +87,7 @@ namespace Z0
             return dst;
         }
 
-        static TypeKey NextKey(RuleTypeKind kind)
+        static TypeKey NextKey(TypeKind kind)
         {
             lock(KeyLocker)
             {
@@ -99,11 +99,11 @@ namespace Z0
 
         static XedDataTypes()
         {
-            _TypeKinds = Symbols.index<RuleTypeKind>().Kinds.ToArray();
+            _TypeKinds = Symbols.index<TypeKind>().Kinds.ToArray();
             _Keys = alloc<TypeKey>(_TypeKinds.Count);
 
             for(var i=0; i<_Keys.Length; i++)
-                _Keys[(RuleTypeKind)i] = TypeKey.Empty;
+                _Keys[(TypeKind)i] = TypeKey.Empty;
 
             _Primitives = PrimalType.Intrinsic.Types;
             _RuntimePrimitives = LiteralType.Intrinsic.ClrIntrinsic;
@@ -136,7 +136,7 @@ namespace Z0
             get  => ref _RuntimePrimitives;
         }
 
-        public static ref readonly Index<RuleTypeKind> TypeKinds
+        public static ref readonly Index<TypeKind> TypeKinds
         {
             [MethodImpl(Inline), Op]
             get => ref _TypeKinds;
@@ -210,7 +210,7 @@ namespace Z0
             var count = src.Length;
             var dst = alloc<LiteralType>(count);
             for(var i=0; i<count; i++)
-                seek(dst,i) = CalcLiteralType(NextKey(RuleTypeKind.Literal), skip(src,i));
+                seek(dst,i) = CalcLiteralType(NextKey(TypeKind.Literal), skip(src,i));
             return dst;
         }
 

@@ -33,18 +33,12 @@ namespace Z0
             return true;
         }
 
-        static string format(DataSize src)
-            => string.Format("[{0:D2}:{1:D2}]", src.Aligned, src.Packed);
-
-        static string format(ByteSize aligned, BitWidth packed)
-            => string.Format("[{0:D3}:{1:D3}]", (ulong)aligned, (ulong)packed);
-
         void EmitRuleSchema(RuleCells src)
         {
-            const string RulePattern = "{0:D2} | {1} | {2,-6} | {3,-32} | ";
-            const string FieldPattern = "{0,-6} {1,-24}";
+            const string RulePattern = "{0:D2} | {1,-8} | {2,-8} | {3,-32} | ";
+            const string FieldPattern = "{0,-8} {1,-24}";
             var dst = text.emitter();
-            var grids = src.Grids();
+            var grids = XedGrids.grids(src);
             for(var i=0; i<grids.TableCount; i++)
             {
                 var rows = grids.Rows(i);
@@ -52,10 +46,14 @@ namespace Z0
 
                 dst.AppendLine();
                 dst.AppendLineFormat("# {0}", grids[i].TablePath);
-                var aw = 0ul;
-                var pw = 0ul;
+                var pw = 0u;
+                var aw = 0u;
+                var mpw = 0u;
+                var maw = 0u;
+                var mcc = 0u;
 
-                var widths = rows.Storage.Select(x => (aligned: x.AlignedWidth(), packed: x.PackedWidth()));
+                var widths = rows.Storage.Select(x => x.Size());
+
 
                 for(var j=z16; j<rows.Count; j++)
                 {
@@ -63,22 +61,39 @@ namespace Z0
                     var cols = row.Cols.Where(c => c.Field != 0);
                     var count = cols.Count;
                     ref readonly var width = ref skip(widths,j);
-                    aw += width.aligned;
-                    pw += width.packed;
 
-                    dst.AppendFormat(RulePattern, j, format(aw, pw), format(row.AlignedWidth(), row.PackedWidth()), rule);
+                    if(count > mcc)
+                        mcc = count;
+                    if(width.Packed > mpw)
+                        mpw = width.Packed;
+                    if(width.Aligned> maw)
+                        maw = width.Aligned;
+
+                    pw += width.Packed;
+                    aw += width.Aligned;
+
+                    dst.AppendFormat(RulePattern, j, (new DataSize(pw, aw)).Format(3,3,true), row.Size().Format(2,2,true), rule);
                     for(var k=0; k<count; k++)
                     {
                         ref readonly var col = ref cols[k];
-                        dst.AppendFormat(FieldPattern, format(col.Size), col.Field);
+                        dst.AppendFormat(FieldPattern, col.Size.Format(2,2,true), col.Field);
                         if(k != count - 1)
                             dst.Append(" | ");
                     }
+
                     dst.Append(Eol);
                 }
+
+                dst.AppendLine(RP.PageBreak180);
+                dst.AppendLineFormat("TableSize:{0} MaxRowSize:{1} MaxColCount:{2}",
+                    (new DataSize(pw, aw)).Format(3,3,true),
+                    new DataSize(mpw,maw).Format(2,2,true),
+                    mcc
+                    );
+                dst.Append(Eol);
             }
 
-            FileEmit(dst.Emit(), src.TableCount, XedDb.TargetPath("rules.tables.2", FileKind.Txt));
+            FileEmit(dst.Emit(), src.TableCount, XedDb.TargetPath("rules.tables", FileKind.Txt));
         }
     }
 }

@@ -5,11 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    partial class XedRules
+    partial class XedGrids
     {
-        public partial class RuleGrids
+        public class RuleGrids
         {
             public readonly Index<RuleGrid> Tables;
 

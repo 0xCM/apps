@@ -5,7 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    using static XedRules;
+
+    partial class XedGrids
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct GridCell : IComparable<GridCell>
@@ -47,7 +49,7 @@ namespace Z0
                 => Col.CompareTo(src.Col);
 
             public string Format()
-                => IsEmpty ? EmptyString : string.Format("{0:D2} {1:D2} {2:D2} | {3:D2} | {4}", Table, Row, Col, Size.FormatSemantic(), Field);
+                => IsEmpty ? EmptyString : string.Format("{0:D2} {1:D2} {2:D2} | {3,-8} | {4}", Table, Row, Col, Size.Format(true), Field);
 
             public override string ToString()
                 => Format();

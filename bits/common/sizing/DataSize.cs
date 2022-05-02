@@ -41,16 +41,25 @@ namespace Z0
         }
 
         public string Format()
-            => Packed.ToString();
+            => string.Format("{0}:{1}",  Packed, Aligned);
 
-        public string FormatSemantic(bool bracket = true)
-            => bracket ? text.bracket(string.Format("{0}:{1}", Aligned, Packed)) : string.Format("{0}:{1}", Aligned, Packed);
+        public static string digits(byte index, byte n)
+            => Chars.LBrace + $"{index}:D{n}" + Chars.RBrace;
+
+        public string Format(byte pN, byte aN)
+            => string.Format(string.Format("{0}:{1}", digits(0,pN), digits(1, aN)), Packed, Aligned);
+
+        public string Format(byte pN, byte aN, bool bracket)
+            => bracket ? text.bracket(Format(pN, aN)) : Format(pN, aN);
+
+        public string Format(bool bracket)
+            => bracket ? text.bracket(Format()) : Format();
 
         public override string ToString()
             => Format();
 
         public int CompareTo(DataSize src)
-            => Packed.CompareTo(src);
+            => Packed.CompareTo(src.Packed);
 
         public static DataSize Empty => default;
     }

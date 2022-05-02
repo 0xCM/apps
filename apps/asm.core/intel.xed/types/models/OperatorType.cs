@@ -13,7 +13,7 @@ namespace Z0
         {
             public const uint MetaWidth = RuleOperator.StorageWidth + asci4.Size*8;
 
-            public const RuleTypeKind TypeKind = RuleTypeKind.Operator;
+            public const TypeKind Kind = TypeKind.Operator;
 
             public readonly RuleOperator Operator;
 
@@ -26,8 +26,8 @@ namespace Z0
                 Symbol = op.Symbol;
             }
 
-            RuleTypeKind IRuleType.TypeKind
-                => TypeKind;
+            TypeKind IRuleType.TypeKind
+                => Kind;
 
             asci32 IRuleType.TypeName
                 => Operator.Kind.ToString();

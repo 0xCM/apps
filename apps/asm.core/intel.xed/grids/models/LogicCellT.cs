@@ -5,7 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    using static XedRules;
+
+    partial class XedGrids
     {
         public readonly record struct LogicCell<T> : IComparable<LogicCell<T>>
             where T : unmanaged,  ILogicValue<T>, IEquatable<T>, ILogicOperand<T>

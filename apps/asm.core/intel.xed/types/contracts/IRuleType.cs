@@ -11,7 +11,7 @@ namespace Z0
         {
             asci32 TypeName {get;}
 
-            RuleTypeKind TypeKind {get;}
+            TypeKind TypeKind {get;}
 
             uint MetaWidth {get;}
         }

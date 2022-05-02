@@ -11,7 +11,7 @@ namespace Z0
         {
             public const uint MetaWidth = asci32.Size*8 + TypeKey.MetaWidth + PrimalType.W8;
 
-            public const RuleTypeKind TypeKind = RuleTypeKind.TypedLiteral;
+            public const TypeKind Kind = TypeKind.TypedLiteral;
 
             public readonly asci32 LiteralName;
 
@@ -27,8 +27,8 @@ namespace Z0
                 PackedWidth = packed;
             }
 
-            RuleTypeKind IRuleType.TypeKind
-                => TypeKind;
+            TypeKind IRuleType.TypeKind
+                => Kind;
 
             asci32 IRuleType.TypeName
                 => LiteralName;

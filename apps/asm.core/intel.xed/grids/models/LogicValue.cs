@@ -7,6 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct LogicValue : ILogicValue<uint>
         {
             [MethodImpl(Inline)]

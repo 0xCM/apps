@@ -13,7 +13,7 @@ namespace Z0
         {
             public const uint MetaWidth = FieldType.MetaWidth + OperatorType.MetaWidth;
 
-            public const RuleTypeKind TypeKind = RuleTypeKind.Expression;
+            public const TypeKind Kind = TypeKind.Expression;
 
             public readonly FieldType Field;
 
@@ -26,8 +26,8 @@ namespace Z0
                 Operator = op;
             }
 
-            RuleTypeKind IRuleType.TypeKind
-                => TypeKind;
+            TypeKind IRuleType.TypeKind
+                => Kind;
 
             FieldKind IFieldType.Field
                 => Field.Field;

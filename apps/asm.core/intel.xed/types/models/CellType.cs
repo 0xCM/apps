@@ -11,7 +11,7 @@ namespace Z0
         {
             public const uint MetaWidth = TypeKey.MetaWidth + asci16.Size*8 + TypeKey.MetaWidth + PrimalType.W8;
 
-            public const RuleTypeKind TypeKind = RuleTypeKind.Cell;
+            public const TypeKind Kind = TypeKind.Cell;
 
             public readonly TypeKey Key;
 
@@ -30,8 +30,8 @@ namespace Z0
                 PackedWidth = packed;
             }
 
-            RuleTypeKind IRuleType.TypeKind
-                => TypeKind;
+            TypeKind IRuleType.TypeKind
+                => Kind;
 
             asci32 IRuleType.TypeName
                 => TypeName;

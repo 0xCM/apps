@@ -13,6 +13,8 @@ namespace Z0
         {
             public const uint MetaWidth = SegField.MetaWidth + TypeKey.MetaWidth;
 
+            public const TypeKind Kind = TypeKind.SegVal;
+
             public readonly SegField Seg;
 
             public readonly TypeKey DataType;
@@ -24,11 +26,8 @@ namespace Z0
                 DataType = type;
             }
 
-            public RuleTypeKind TypeKind
-            {
-                [MethodImpl(Inline)]
-                get => RuleTypeKind.SegVal;
-            }
+            TypeKind IRuleType.TypeKind
+                => Kind;
 
             FieldKind IFieldType.Field
                 => Seg.Field;
