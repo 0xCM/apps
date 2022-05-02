@@ -15,11 +15,9 @@ namespace Z0
         {
             var field = src.Field;
             var type = ColType.field(field);
-            var size = XedFields.field(field).Size;
             if(src.IsNontermCall)
             {
                 type = ColType.nonterm(src.Value.AsNonterm());
-                size = Nonterminal.DataSize;
             }
             else if(src.IsCellExpr)
             {
@@ -30,7 +28,7 @@ namespace Z0
                     type = ColType.expr(field, expr.Operator);
             }
 
-            return new GridCell(src.Key, type, size, src.Value);
+            return new GridCell(src.Key, type, src.Size, src.Value);
         }
 
         [CmdOp("xed/check/rules")]

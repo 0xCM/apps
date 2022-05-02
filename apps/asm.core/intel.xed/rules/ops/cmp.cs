@@ -81,17 +81,17 @@ namespace Z0
         {
             var result = XedRules.cmp(a.Kind,b.Kind);
             if(result == 0)
-                result = a.DataWidth.CompareTo(b.DataWidth);
+                result = a.BitWidth.CompareTo(b.BitWidth);
             if(result == 0)
                 result = a.IsRegLit.CompareTo(b.IsRegLit);
             if(result == 0)
-                result = a.IsLookup.CompareTo(b.IsLookup);
+                result = a.IsRule.CompareTo(b.IsRule);
             if(result == 0)
-                result = a.CellCount.CompareTo(b.CellCount);
+                result = a.ElementCount.CompareTo(b.ElementCount);
             if(result == 0)
                 result = a.ElementType.CompareTo(b.ElementType);
             if(result == 0)
-                result = ((byte)a.WidthCode).CompareTo((byte)b.WidthCode);
+                result = a.OpWidth.CompareTo(b.OpWidth);
             return result;
         }
 
@@ -100,18 +100,18 @@ namespace Z0
             => new PatternOrder().Compare(a,b);
 
         static ReadOnlySpan<byte> OpKindOrder => new byte[(byte)K.Seg + 1]{
-            0,  // None:0 -> 0
-            7,  // Agen:1 -> 7
-            5,  // Base:2 -> 5
+            0,   // None:0 -> 0
+            7,   // Agen:1 -> 7
+            5,   // Base:2 -> 5
             11,  // Disp:3 -> 11
-            3,  // Imm:4 -> 3
-            9,  // Index:5 -> 9
-            2,  // Mem:6 -> 2,
-            8,  // Ptr:7 -> 8,
-            1,  // Reg:8 -> 1,
-            4, // RelBr:9 -> 4,
+            3,   // Imm:4 -> 3
+            9,   // Index:5 -> 9
+            2,   // Mem:6 -> 2,
+            8,   // Ptr:7 -> 8,
+            1,   // Reg:8 -> 1,
+            4,   // RelBr:9 -> 4,
             10,  // Scale:10 -> 10,
-            6, // Seg:11 -> 6
+            6,   // Seg:11 -> 6
             };
     }
 }

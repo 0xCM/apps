@@ -11,6 +11,12 @@ namespace Z0
     {
         public readonly struct RuleKeyword
         {
+            internal const byte PackedWidth = 3;
+
+            internal const byte AlignedWidth = 8;
+
+            public static DataSize DataSize => new (PackedWidth, AlignedWidth);
+
             public static RuleKeyword from(KeywordKind kind)
                 => kind switch
                 {

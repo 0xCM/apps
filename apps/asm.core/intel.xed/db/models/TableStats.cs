@@ -11,7 +11,7 @@ namespace Z0
         {
             public const string TableId = "rules.tables.stats";
 
-            public const byte FieldCount = 9;
+            public const byte FieldCount = 10;
 
             public uint Seq;
 
@@ -19,30 +19,33 @@ namespace Z0
 
             public RuleName Rule;
 
-            public ushort Rows;
-
             public DataSize TableSize;
 
             public DataSize MaxRowSize;
 
+            public ushort Rows;
+
+            public ushort Cells;
+
             public byte MaxCols;
 
-            public DataSize UniformTableSize;
+            public DataSize UniformSize;
 
             public bit Homogenous;
 
             [MethodImpl(Inline)]
-            public TableStats(uint seq,RuleSig rule, ushort rows, DataSize tsz, DataSize mrsz, byte maxcc)
+            public TableStats(uint seq,RuleSig rule, DataSize tsz, DataSize mrsz, ushort rows, ushort cells, byte maxcc)
             {
                 Seq = seq;
                 Rule = rule.TableName;
                 Kind = rule.TableKind;
                 Rows = rows;
+                Cells = cells;
                 TableSize = tsz;
                 MaxRowSize = mrsz;
                 MaxCols = maxcc;
-                UniformTableSize = new DataSize(mrsz.Packed*rows, mrsz.Aligned*rows);
-                Homogenous = TableSize == UniformTableSize;
+                UniformSize = new DataSize(mrsz.Packed*rows, mrsz.Aligned*rows);
+                Homogenous = TableSize == UniformSize;
             }
 
             public RuleSig Sig
@@ -54,7 +57,7 @@ namespace Z0
             public int CompareTo(TableStats src)
                 => Sig.CompareTo(src.Sig);
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,6,32,8,12,12,8,16,12};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,6,32,12,12,8,8,8,16,12};
         }
     }
 }

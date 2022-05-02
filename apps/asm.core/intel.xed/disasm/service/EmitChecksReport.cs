@@ -42,7 +42,7 @@ namespace Z0
                 var ocindex = XedOpCodes.index(state);
                 var ockind = XedOpCodes.kind(ocindex);
                 var encoding  = XedState.Code.encoding(state, asmhex);
-                var ocbyte = XedState.ocbyte(state);
+                var ocbyte = XedOperands.ocbyte(state);
                 var ochex = XedRender.format(ocbyte);
                 var ocbits = BitRender.format8x4(ocbyte);
 
@@ -80,10 +80,10 @@ namespace Z0
                     writer.AppendLineFormat(RenderPattern, nameof(state.NSEG_PREFIXES), state.NSEG_PREFIXES);
 
                 if(state.HINT != 0)
-                    writer.AppendLineFormat(RenderPattern, nameof(state.HINT), XedRender.format(XedState.hint(state)));
+                    writer.AppendLineFormat(RenderPattern, nameof(state.HINT), XedRender.format(XedOperands.hint(state)));
 
                 if(state.REP != 0)
-                    writer.AppendLineFormat(RenderPattern, nameof(state.REP), XedRender.format(XedState.rep(state)));
+                    writer.AppendLineFormat(RenderPattern, nameof(state.REP), XedRender.format(XedOperands.rep(state)));
 
                 if(state.LOCK)
                     writer.AppendLineFormat(RenderPattern, nameof(state.LOCK), state.LOCK);
@@ -91,9 +91,9 @@ namespace Z0
                 if(state.BRDISP_WIDTH != 0)
                     writer.AppendLineFormat(RenderPattern, nameof(state.BRDISP_WIDTH), state.BRDISP_WIDTH);
 
-                writer.AppendLineFormat(RenderPattern, nameof(state.EASZ), XedRender.format(XedState.easz(state)));
-                writer.AppendLineFormat(RenderPattern, nameof(state.EOSZ), XedRender.format(XedState.eosz(state)));
-                writer.AppendLineFormat(RenderPattern, nameof(state.MODE), XedRender.format(XedState.mode(state)));
+                writer.AppendLineFormat(RenderPattern, nameof(state.EASZ), XedRender.format(XedOperands.easz(state)));
+                writer.AppendLineFormat(RenderPattern, nameof(state.EOSZ), XedRender.format(XedOperands.eosz(state)));
+                writer.AppendLineFormat(RenderPattern, nameof(state.MODE), XedRender.format(XedOperands.mode(state)));
                 writer.AppendLineFormat(RenderPattern, "OpCode", string.Format("{0} [{1}]", ochex, ocbits));
 
                 if(state.SRM != 0)
@@ -105,13 +105,13 @@ namespace Z0
 
                 if(state.HAS_MODRM)
                 {
-                    var modrm = XedState.modrm(state);
+                    var modrm = XedOperands.modrm(state);
                     writer.AppendLineFormat(RenderPattern, "ModRm", string.Format("{0} [{1}]", modrm.Format(), modrm.ToBitString()));
                 }
 
                 if(state.HAS_SIB)
                 {
-                    var sib = XedState.sib(state);
+                    var sib = XedOperands.sib(state);
                     writer.AppendLineFormat(RenderPattern, "Sib", string.Format("{0} [{1}]",  sib.Format(), sib.ToBitString()));
                 }
 
@@ -169,7 +169,7 @@ namespace Z0
                     writer.AppendLineFormat(RenderPattern, nameof(state.ESRC), XedRender.format((Hex8)state.ESRC));
 
                 if(state.ROUNDC != 0)
-                    writer.AppendLineFormat(RenderPattern, nameof(state.ROUNDC), XedRender.format(XedState.rounc(state)));
+                    writer.AppendLineFormat(RenderPattern, nameof(state.ROUNDC), XedRender.format(XedOperands.rounc(state)));
 
                 var rc = (RoundingKind)state.ROUNDC;
                 if(rc == 0 && state.LLRC != 0)
@@ -217,13 +217,13 @@ namespace Z0
                 }
 
                 if(state.ELEMENT_SIZE != 0)
-                    writer.AppendLineFormat(RenderPattern, "VexSize", string.Format("{0}x{1}", XedRender.format(XedState.vl(state)), XedRender.format(state.ELEMENT_SIZE)));
+                    writer.AppendLineFormat(RenderPattern, "VexSize", string.Format("{0}x{1}", XedRender.format(XedOperands.vl(state)), XedRender.format(state.ELEMENT_SIZE)));
 
                 if(state.NELEM != 0)
                     writer.AppendLineFormat(RenderPattern, nameof(state.NELEM), state.NELEM);
 
                 if(state.BCAST != 0)
-                    writer.AppendLineFormat(RenderPattern, nameof(state.BCAST), XedState.bcast(state));
+                    writer.AppendLineFormat(RenderPattern, nameof(state.BCAST), XedOperands.bcast(state));
 
                 if(state.REXRR)
                     writer.AppendLineFormat(RenderPattern, nameof(state.REXRR), state.REXRR);

@@ -16,12 +16,12 @@ namespace Z0
             var bitwidth = XedWidths.width(mode, src.WidthCode).Bits;
             var dst =  new InstOpClass {
                         Kind = src.Kind,
-                        DataWidth = bitwidth,
+                        BitWidth = bitwidth,
                         ElementType = info.ElementType,
-                        IsRegLit = IsRegLit(src.OpType),
-                        IsLookup = IsLookup(src.OpType),
-                        CellCount = info.CellCount,
-                        WidthCode = src.WidthCode,
+                        IsRegLit = XedOperands.IsRegLit(src.OpType),
+                        IsRule = XedOperands.IsRule(src.OpType),
+                        ElementCount = info.CellCount,
+                        OpWidth = new OpWidth(src.WidthCode, bitwidth)
                     };
 
             return dst;

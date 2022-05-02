@@ -216,7 +216,7 @@ namespace Z0
             => format(RepPrexixKinds, src, fc);
 
         public static string format(VexLength src, FormatCode fc = FormatCode.Expr)
-            => fc == FormatCode.BitWidth ? XedPatterns.bitwidth(src).ToString() : format(VexLengthKinds,src,fc);
+            => fc == FormatCode.BitWidth ? XedOperands.bitwidth(src).ToString() : format(VexLengthKinds,src,fc);
 
         public static string format(ASZ src)
             => AszKinds.Format(src);
@@ -225,7 +225,7 @@ namespace Z0
             => ElementSizes.Format(src);
 
         public static string format(OSZ src, FormatCode fc = FormatCode.BitWidth)
-            => fc == FormatCode.BitWidth ? XedPatterns.bitwidth(src).ToString() :format(OszKinds, src, fc);
+            => fc == FormatCode.BitWidth ? XedOperands.bitwidth(src).ToString() :format(OszKinds, src, fc);
 
         public static string format(DispWidth src)
             => DispWidthKinds.Format(src);
@@ -814,7 +814,7 @@ namespace Z0
             dst.AppendFormat(RP.slot(0,pad), index);
             dst.Append(" | ");
             dst.AppendFormat("{0,-4}", XedRender.format(src.OpName));
-            var kind = opkind(src.OpName);
+            var kind = XedOperands.opkind(src.OpName);
             ref readonly var opinfo = ref src.OpInfo;
             switch(kind)
             {

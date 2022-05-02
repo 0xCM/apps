@@ -35,13 +35,10 @@ namespace Z0
                 TablePath = XedPaths.Service.CheckedTableDef(sig);
             }
 
-            public void Render(ITextEmitter dst)
-                => render(this,dst);
-
             public string Format()
             {
                 var dst = text.buffer();
-                Render(dst);
+                render(this,dst);
                 return dst.Emit();
             }
 

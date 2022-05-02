@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        [DataWidth(4,StorageWidth)]
+        [DataWidth(PackedWidth,AlignedWidth)]
         public readonly struct RuleOperator : IComparable<RuleOperator>, IEquatable<RuleOperator>
         {
             public const string EmptySym = EmptyString;
@@ -44,7 +44,11 @@ namespace Z0
                 return dst;
             }
 
-            public const uint StorageWidth = 8;
+            internal const byte PackedWidth = 4;
+
+            internal const byte AlignedWidth = 8;
+
+            public static DataSize DataSize => new (PackedWidth, AlignedWidth);
 
             public static RuleOperator None => OperatorKind.None;
 

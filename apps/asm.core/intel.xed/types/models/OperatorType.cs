@@ -11,7 +11,7 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(MetaWidth,MetaWidth)]
         public readonly struct OperatorType : IRuleType<OperatorType>
         {
-            public const uint MetaWidth = RuleOperator.StorageWidth + asci4.Size*8;
+            public const uint MetaWidth = RuleOperator.AlignedWidth + asci4.Size*8;
 
             public const TypeKind Kind = TypeKind.Operator;
 

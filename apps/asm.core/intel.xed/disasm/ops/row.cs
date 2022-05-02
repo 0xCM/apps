@@ -130,7 +130,7 @@ namespace Z0
 
             if(state.HAS_MODRM)
             {
-                var modrm = XedState.modrm(state);
+                var modrm = XedOperands.modrm(state);
                 dst.ModRm = modrm;
                 if(modrm != code[state.POS_MODRM])
                 {
@@ -141,7 +141,7 @@ namespace Z0
 
             if(state.HAS_SIB)
             {
-                var sib = XedState.sib(state);
+                var sib = XedOperands.sib(state);
                 dst.Sib = sib;
                 var sibenc = Sib.init(code[state.POS_SIB]);
                 if(sibenc.Value() != sib)
@@ -171,8 +171,8 @@ namespace Z0
             if(state.IMM0)
                 dst.Imm = asm.imm(code, state.POS_IMM, state.IMM0SIGNED, Sizes.native(state.IMM_WIDTH));
 
-            dst.EASZ = Sizes.native(XedPatterns.bitwidth((EASZ)state.EASZ));
-            dst.EOSZ = Sizes.native(XedPatterns.bitwidth((EOSZ)state.EOSZ));
+            dst.EASZ = Sizes.native(XedOperands.bitwidth((EASZ)state.EASZ));
+            dst.EOSZ = Sizes.native(XedOperands.bitwidth((EOSZ)state.EOSZ));
             return dst;
         }
     }

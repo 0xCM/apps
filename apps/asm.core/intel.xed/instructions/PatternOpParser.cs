@@ -84,7 +84,7 @@ namespace Z0
                 var right = text.right(src,i);
                 if(opexpr(src, out dst.Name, out var expr))
                 {
-                    var kind = XedRules.opkind(dst.Name);
+                    var kind = XedOperands.opkind(dst.Name);
                     Parse(expr, text.split(right, Chars.Colon).Where(text.nonempty), kind, ref dst);
                     return true;
                 }

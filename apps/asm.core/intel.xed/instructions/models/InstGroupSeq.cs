@@ -55,7 +55,7 @@ namespace Z0
                 => Sort().CompareTo(src.Sort());
 
             public override int GetHashCode()
-                => new InstGroupKey(PatternId,Index).Hash;
+                => (int)PatternId | (int)Index << 16;
 
             public static InstGroupSeq Empty => default;
 

@@ -10,30 +10,48 @@ namespace Z0
     partial class XedGrids
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public record struct GridCol
+        public readonly record struct GridCol
         {
-            public LogicClass Logic;
+            public readonly CellKey Key;
 
-            public ColType Type;
+            public readonly ColType Type;
 
-            public DataSize Size;
-
-            public FieldKind Field;
-
-            public byte Index;
+            public readonly DataSize Size;
 
             [MethodImpl(Inline)]
-            public GridCol(LogicClass logic, byte index, DataSize size, ColType type, FieldKind field)
+            public GridCol(CellKey key, ColType type, DataSize size)
             {
-                Logic = logic;
+                Key = key;
                 Type = type;
                 Size = size;
-                Field = field;
-                Index = index;
+            }
+
+            public LogicClass Logic
+            {
+                [MethodImpl(Inline)]
+                get => Key.Logic;
+            }
+
+            public FieldKind Field
+            {
+                [MethodImpl(Inline)]
+                get => Key.Field;
+            }
+
+            public byte Index
+            {
+                [MethodImpl(Inline)]
+                get => Key.Col;
+            }
+
+            public ushort Row
+            {
+                [MethodImpl(Inline)]
+                get => Key.Row;
             }
 
             public string Format()
-                => string.Format("{0,-6} | {1,-3} | {2} | {3,-24}", Logic, Index, Size.Format(2,2,true), XedRender.format(Field));
+                => string.Format("{2,-24} | {0,-2} | {1,-3} | {3}", XedRender.format(Field), Index, Logic, Size.Format(2,2,true));
 
             public override string ToString()
                 => Format();

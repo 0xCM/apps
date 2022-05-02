@@ -5,22 +5,9 @@
 namespace Z0
 {
     using static core;
+
     partial class XedRules
     {
-        static int length(in asci32 src)
-        {
-            var data = src.View;
-            var len = 0;
-            for(var i=0; i<asci32.Size; i++)
-            {
-                if(skip(data,i) != 0 && skip(data,i) != (byte)Chars.Space)
-                    len++;
-                else
-                    break;
-            }
-            return len;
-        }
-
         public struct CellPrimitive
         {
             public static CellPrimitive from(in CellInfo src)

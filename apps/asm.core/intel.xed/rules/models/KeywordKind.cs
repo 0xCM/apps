@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        [DataWidth(3)]
+        [DataWidth(RuleKeyword.PackedWidth)]
         public enum KeywordKind : byte
         {
             [Symbol("")]

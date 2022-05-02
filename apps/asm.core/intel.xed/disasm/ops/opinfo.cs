@@ -44,7 +44,7 @@ namespace Z0
             if(result.Fail)
                 return (false, AppMsg.ParseFailure.Format(nameof(dst.Name), skip(parts,i-1)));
 
-            dst.Kind = XedRules.opkind(dst.Name);
+            dst.Kind = XedOperands.opkind(dst.Name);
 
             result = DataParser.eparse(skip(parts,i++), out dst.Action);
             if(result.Fail)

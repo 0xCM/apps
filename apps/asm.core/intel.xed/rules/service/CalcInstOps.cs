@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         public Index<InstOpDetail> CalcInstOpDetails(Index<InstPattern> patterns)
-            => Data(nameof(CalcInstOpDetails), () => opdetails(patterns));
+            => Data(nameof(CalcInstOpDetails), () => XedOperands.opdetails(patterns));
 
         public Index<InstOperandRow> CalcInstOpRows(Index<InstOpDetail> details)
         {

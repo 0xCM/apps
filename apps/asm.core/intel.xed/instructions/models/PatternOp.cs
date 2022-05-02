@@ -21,8 +21,6 @@ namespace Z0
 
             public OpAttribs Attribs;
 
-            public OpWidthSpec Width;
-
             public @string SourceExpr;
 
             public PatternOp()
@@ -33,7 +31,6 @@ namespace Z0
                 Kind = 0;
                 Attribs = OpAttribs.Empty;
                 SourceExpr = EmptyString;
-                Width = OpWidthSpec.Empty;
             }
 
             public bool IsEmpty
@@ -57,40 +54,40 @@ namespace Z0
             public bool IsNonTerminal
             {
                 [MethodImpl(Inline)]
-                get => XedPatterns.nonterm(this, out _);
+                get => XedOperands.nonterm(this, out _);
             }
 
             [MethodImpl(Inline)]
             public bool Nonterminal(out Nonterminal dst)
-                => XedPatterns.nonterm(this, out dst);
+                => XedOperands.nonterm(this, out dst);
 
             [MethodImpl(Inline)]
             public bool RegLiteral(out Register dst)
-                => XedPatterns.reglit(this, out dst);
+                => XedOperands.reglit(this, out dst);
 
             [MethodImpl(Inline)]
             public bool WidthCode(out OpWidthCode dst)
-                => XedPatterns.widthcode(this, out dst);
+                => XedOperands.widthcode(this, out dst);
 
             [MethodImpl(Inline)]
             public bool ElementType(out ElementType dst)
-                => XedPatterns.etype(this, out dst);
+                => XedOperands.etype(this, out dst);
 
             [MethodImpl(Inline)]
             public bool Visibility(out Visibility dst)
-                => XedPatterns.visibility(this, out dst);
+                => XedOperands.visibility(this, out dst);
 
             [MethodImpl(Inline)]
             public bool Action(out OpAction dst)
-                => XedPatterns.action(this, out dst);
+                => XedOperands.action(this, out dst);
 
             [MethodImpl(Inline)]
             public bool Scale(out MemoryScale dst)
-                => XedPatterns.scale(this, out dst);
+                => XedOperands.scale(this, out dst);
 
             [MethodImpl(Inline)]
             public bool Broadcast(out BCastKind dst)
-                => XedPatterns.bcast(this, out dst);
+                => XedOperands.bcast(this, out dst);
 
             public string Format()
                 => XedRender.format(this);

@@ -14,7 +14,7 @@ namespace Z0
             var src = RuleCells;
             exec(PllExec,
                 () => EmitRuleMetrics(src),
-                () => EmitTableDefs(src)
+                () => EmitTableStats(src)
                 );
         }
     }

@@ -9,6 +9,6 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static GridCol col(in GridCell src)
-            => new GridCol(src.Logic, src.ColIndex, src.Size, src.Type, src.Field);
+            => new GridCol(src.Key, src.Type, src.Size);
     }
 }

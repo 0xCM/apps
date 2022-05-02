@@ -5,8 +5,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+    using CK = XedRules.RuleCellKind;
+
     partial class XedRules
     {
+        public static DataSize size(FieldKind field, RuleCellKind kind)
+        {
+            var dst = XedFields.field(field).Size;
+            switch(kind)
+            {
+                case CK.Keyword:
+                    dst = RuleKeyword.DataSize;
+                break;
+                case CK.NontermCall:
+                    dst = Nonterminal.DataSize;
+                break;
+                case CK.Operator:
+                    dst = RuleOperator.DataSize;
+                break;
+            }
+            return dst;
+        }
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct RuleCell : IComparable<RuleCell>
         {
@@ -14,11 +34,14 @@ namespace Z0
 
             public readonly CellValue Value;
 
+            public readonly DataSize Size;
+
             [MethodImpl(Inline)]
             public RuleCell(CellKey key, CellValue value)
             {
                 Key = key;
                 Value = value;
+                Size = size(key.Field, key.DataType);
             }
 
             [MethodImpl(Inline)]

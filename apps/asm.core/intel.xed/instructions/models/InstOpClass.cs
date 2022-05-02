@@ -6,7 +6,6 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedRules;
 
     partial class XedRules
     {
@@ -24,17 +23,17 @@ namespace Z0
 
             public OpKind Kind;
 
-            public ushort DataWidth;
+            public ushort BitWidth;
 
-            public OpWidthCode WidthCode;
+            public OpWidth OpWidth;
 
             public ElementType ElementType;
 
-            public byte CellCount;
+            public byte ElementCount;
 
             public bit IsRegLit;
 
-            public bit IsLookup;
+            public bit IsRule;
 
             public int CompareTo(InstOpClass src)
                 => XedRules.cmp(this,src);

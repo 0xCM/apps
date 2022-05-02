@@ -50,7 +50,7 @@ namespace Z0
 
             dst.AppendLine();
             dst.AppendLine(RP.PageBreak80);
-            dst.Append(XedGrids.grid(table).Format());
+            //dst.Append(XedGrids.grid(table).Format());
 
             return dst.Emit();
         }
