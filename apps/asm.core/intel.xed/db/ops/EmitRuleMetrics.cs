@@ -23,6 +23,7 @@ namespace Z0
         string CalcTableMetrics(in CellTable table)
         {
             var dst = text.emitter();
+
             dst.AppendLine(string.Format("{0,-32} {1}", table.Sig.Format(), Paths.CheckedTableDef(table.Sig)));
             dst.AppendLine(RP.PageBreak120);
             dst.AppendLine();

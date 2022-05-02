@@ -10,13 +10,30 @@ namespace Z0
 
     partial class XedRules
     {
+        public void Emit(Index<InstPattern> patterns, RuleTables rules)
+        {
+            exec(PllExec,
+                () => Emit(patterns),
+                () => Emit(rules)
+            );
+
+            EmitDocs(patterns,rules);
+        }
+
+        public void EmitDocs(Index<InstPattern> patterns, RuleTables rules)
+        {
+            exec(PllExec,
+                () => Docs.EmitDocs(patterns),
+                () => Docs.EmitDocs(rules)
+            );
+        }
+
         public void Emit(RuleTables src)
         {
             exec(PllExec,
                 () => EmitCellDetail(CalcRuleCells(src)),
                 () => EmitTableDefReport(src),
                 () => Emit(CellParser.ruleseq()),
-                () => Docs.EmitDocs(src),
                 () => EmitTableDefs(src)
             );
         }

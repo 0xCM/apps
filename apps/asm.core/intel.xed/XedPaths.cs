@@ -95,6 +95,32 @@ namespace Z0
             return uri.Path.Exists ? uri : FS.FileUri.Empty;
         }
 
+        public FS.FileUri CheckedTableDef(RuleName rule, bit decfirst, out RuleSig sig)
+        {
+            var dst = FS.FileUri.Empty;
+            if(decfirst)
+            {
+                sig = new RuleSig(RuleTableKind.DEC, rule);
+                dst = CheckedTableDef(sig);
+                if(dst.IsEmpty)
+                {
+                    sig = new RuleSig(RuleTableKind.ENC,rule);
+                    dst = CheckedTableDef(sig);
+                }
+            }
+            else
+            {
+                sig = new RuleSig(RuleTableKind.ENC,rule);
+                dst = CheckedTableDef(sig);
+                if(dst.IsEmpty)
+                {
+                    sig = new RuleSig(RuleTableKind.DEC,rule);
+                    dst = CheckedTableDef(sig);
+                }
+            }
+            return dst;
+        }
+
         public FS.FilePath RuleSpecs()
             => RuleTargets() + FS.file("xed.rules.specs", FS.Csv);
 

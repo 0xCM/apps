@@ -65,8 +65,6 @@ namespace Z0
                 for(var i=0; i<Data.TableCount; i++)
                 {
                     ref readonly var cells = ref Data.TableCells[i];
-                    //ref readonly var table = ref Data[i];
-                    //ref readonly var sig = ref skip(sigs,i);
                     Render(cells.Left, cells.Right, dst);
                 }
                 return dst.Emit();

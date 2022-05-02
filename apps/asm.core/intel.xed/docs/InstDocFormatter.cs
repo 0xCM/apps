@@ -102,22 +102,9 @@ namespace Z0
 
                     if(op.Nonterminal(out var nt))
                     {
-                        var sig = new RuleSig(RuleTableKind.ENC, nt.Name);
-                        var uri = XedPaths.CheckedTableDef(sig);
-
+                        var uri = XedPaths.CheckedTableDef(nt.Name, true, out var sig);
                         if(uri.Path.Exists)
-                        {
                             dst.Append(Link(sig).Format());
-                        }
-                        else
-                        {
-                            sig = new RuleSig(RuleTableKind.DEC, nt.Name);
-                            uri = XedPaths.CheckedTableDef(sig);
-                            if(uri.Path.Exists)
-                                dst.Append(Link(sig).Format());
-                            else
-                                dst.Append(nt.Format());
-                        }
                     }
 
                     dst.AppendLine();

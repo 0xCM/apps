@@ -21,12 +21,11 @@ namespace Z0
         public Index<InstGroup> CalcInstGroups(Index<InstPattern> src)
             => Data(nameof(CalcInstGroups),() => XedPatterns.groups(src).Values.ToArray().Sort());
 
-        public Index<InstPattern> EmitPatterns(Index<InstPattern> src)
+        public Index<InstPattern> Emit(Index<InstPattern> src)
         {
             exec(PllExec,
                 () => Emit(CalcInstLayouts(src)),
                 () => Emit(CalcPatternRecords(src)),
-                () => Docs.EmitDocs(src),
                 () => EmitFlagEffects(src),
                 () => EmitInstAttribs(src),
                 () => Emit(CalcInstFields(src)),

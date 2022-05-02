@@ -12,7 +12,7 @@ namespace Z0
         Outcome EmitPatterns(CmdArgs args)
         {
             var patterns = Rules.CalcPatterns();
-            Rules.EmitPatterns(patterns);
+            Rules.Emit(patterns);
             return true;
         }
 

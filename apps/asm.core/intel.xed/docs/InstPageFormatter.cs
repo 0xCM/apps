@@ -111,14 +111,16 @@ namespace Z0
                                 var rule = field.AsNonterm();
                                 if(rule.IsNonEmpty)
                                 {
-                                    var uri = XedPaths.Service.CheckedTableDef(new RuleSig(RuleTableKind.ENC, rule));
-                                    if(!uri.Path.Exists)
-                                        uri = XedPaths.Service.CheckedTableDef(new RuleSig(RuleTableKind.DEC, rule));
+                                    var uri = XedPaths.Service.CheckedTableDef(rule, true, out var sig);
+                                    seek(dst,j) = string.Format(Pattern, j, "Nonterm",  string.Format("{0}::{1}", rule.Format(), uri));
+                                    // var uri = XedPaths.Service.CheckedTableDef(new RuleSig(RuleTableKind.ENC, rule));
+                                    // if(!uri.Path.Exists)
+                                    //     uri = XedPaths.Service.CheckedTableDef(new RuleSig(RuleTableKind.DEC, rule));
 
-                                    if(uri.Path.Exists)
-                                        seek(dst,j) = string.Format(Pattern, j, "Nonterm",  string.Format("{0}::{1}", rule.Format(), uri));
-                                    else
-                                        seek(dst,j) = string.Format(Pattern, j, "Nonterm",  rule);
+                                    // if(uri.Path.Exists)
+                                    //     seek(dst,j) = string.Format(Pattern, j, "Nonterm",  string.Format("{0}::{1}", rule.Format(), uri));
+                                    // else
+                                    //     seek(dst,j) = string.Format(Pattern, j, "Nonterm",  rule);
                                 }
                                 else
                                     term.warn(string.Format("There is no rule for nonterminal {0}", rule));
@@ -154,15 +156,19 @@ namespace Z0
                     op.Action(out var action);
                     op.Visibility(out var opvis);
                     if(op.IsNonTerminal)
+                    {
+                        op.Nonterminal(out var nt);
+                        var uri = XedPaths.Service.CheckedTableDef(nt, true, out var sig);
                         seek(dst,j) = (string.Format(RenderPattern,
                             op.Index,
                             XedRender.format(op.Name),
                             XedRender.format(action),
                             opvis.Code(),
                             XedOperands.descriptor(src.Mode, op),
-                            FormatNonterm(op),
+                            string.Format("{0}::{1}", nt, uri),
                             op.SourceExpr
                             ));
+                    }
                     else
                         seek(dst,j) = (string.Format(RenderPattern,
                             op.Index,
@@ -186,19 +192,19 @@ namespace Z0
                 return dst;
             }
 
-            static string FormatNonterm(in PatternOp src)
-            {
-                var dst = EmptyString;
-                if(src.Nonterminal(out var nt))
-                {
-                    var path = XedPaths.Service.TableDef(RuleTableKind.ENC, nt);
-                    if(path.IsEmpty)
-                        path = XedPaths.Service.TableDef(RuleTableKind.DEC, nt);
-                    if(path.IsNonEmpty)
-                        dst = string.Format("{0}::{1}", nt, path);
-                }
-                return dst;
-            }
+            // static string FormatNonterm(in PatternOp src)
+            // {
+            //     var dst = EmptyString;
+            //     if(src.Nonterminal(out var nt))
+            //     {
+            //         var path = XedPaths.Service.TableDef(RuleTableKind.ENC, nt);
+            //         if(path.IsEmpty)
+            //             path = XedPaths.Service.TableDef(RuleTableKind.DEC, nt);
+            //         if(path.IsNonEmpty)
+            //             dst = string.Format("{0}::{1}", nt, path);
+            //     }
+            //     return dst;
+            // }
         }
     }
 }

@@ -74,21 +74,11 @@ namespace Z0
                 for(var i=0; i<ops.Count; i++)
                 {
                     ref readonly var op =ref ops[i];
-                    var tabledef = FS.FileUri.Empty;
+                    var uri = FS.FileUri.Empty;
                     var nonterm = op.OpInfo.Selector;
 
                     if(nonterm.IsNonEmpty)
-                    {
-                        var uri = XedPaths.Service.TableDef(RuleTableKind.ENC, nonterm);
-                        if(uri.Path.Exists)
-                            tabledef = uri;
-                        else
-                        {
-                            uri = XedPaths.Service.TableDef(RuleTableKind.DEC, nonterm);
-                            if(uri.Path.Exists)
-                                tabledef = uri;
-                        }
-                    }
+                        uri = XedPaths.Service.CheckedTableDef(nonterm, true, out var sig);
 
                     dst.AppendLine(string.Format("{0} | {1,-6} | {2,-4} | {3,-4} | {4,-4} | {5,-16} | {6}",
                         i,
@@ -97,7 +87,7 @@ namespace Z0
                         XedRender.format(op.OpInfo.WidthCode),
                         op.OpInfo.Visibility.Code(),
                         XedRender.format(op.OpInfo.OpType),
-                        nonterm.IsNonEmpty ? string.Format("{0} => {1}", nonterm, tabledef) : op.OpInfo.SelectorName
+                        nonterm.IsNonEmpty ? string.Format("{0} => {1}", nonterm, uri) : op.OpInfo.SelectorName
                     ));
                 }
             }
