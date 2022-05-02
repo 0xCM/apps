@@ -17,11 +17,23 @@ namespace Z0
 
             Field = TK.Field,
 
+            FieldSeg = TK.FieldSeg,
+
             Rule = TK.Rule,
 
             Operator = TK.Operator,
 
-            Expression = TK.Expression,
+            BitLiteral = TK.BitLiteral,
+
+            HexLiteral = TK.HexLiteral,
+
+            Expr = TK.Expression,
+
+            SegVal = TK.SegVal,
+
+            SegVar = TK.SegVar,
+
+            RuleExpr
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Z0
         public static string format(XedOpCode src)
         {
             var a = src.Map.Value;
-            var value = src.Value.Data;
+            var value = src.Value.Bytes;
             var size = src.Value.TrimmedSize;
             var lo = (byte)a;
             var hi = (byte)(a >> 8);

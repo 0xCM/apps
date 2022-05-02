@@ -36,7 +36,7 @@ namespace Z0
 
             public InstSeg Seg;
 
-            public SegField SegField;
+            public FieldSeg SegField;
 
             public SegVar SegVar;
 

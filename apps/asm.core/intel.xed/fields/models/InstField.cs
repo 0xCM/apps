@@ -86,7 +86,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public InstField(SegField src)
+            public InstField(FieldSeg src)
             {
                 var data = ByteBlock16.Empty;
                 data.A = (ulong)src.Seg;
@@ -234,8 +234,8 @@ namespace Z0
                 => ref @as<InstSeg>(Data.First);
 
             [MethodImpl(Inline)]
-            public SegField ToSegField()
-                => new SegField(SegVar.parse(AsInstSeg().Type.Format()), FieldKind);
+            public FieldSeg ToSegField()
+                => new FieldSeg(SegVar.parse(AsInstSeg().Type.Format()), FieldKind);
 
             public string Format()
                 => XedRender.format(this);
@@ -272,7 +272,7 @@ namespace Z0
                 => new InstField(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator InstField(SegField src)
+            public static implicit operator InstField(FieldSeg src)
                 => new InstField(src);
 
             [MethodImpl(Inline)]

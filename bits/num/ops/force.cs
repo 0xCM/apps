@@ -53,5 +53,15 @@ namespace Z0
         public static num13 force<T>(T src, N13 dst)
             where T : unmanaged
                 => num13.crop(bw16(src));
+
+        [MethodImpl(Inline), Factory, Closures(Closure)]
+        public static num14 force<T>(T src, N14 dst)
+            where T : unmanaged
+                => num14.crop(bw16(src));
+
+        [MethodImpl(Inline), Factory, Closures(Closure)]
+        public static num15 force<T>(T src, N15 dst)
+            where T : unmanaged
+                => num15.crop(bw16(src));
    }
 }

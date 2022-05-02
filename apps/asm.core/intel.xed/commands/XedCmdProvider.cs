@@ -29,11 +29,15 @@ namespace Z0
 
         Index<InstPattern> CalcPatterns() => Rules.CalcPatterns();
 
+        Index<PatternOpCode> CalcPatternOpCodes() => XedOpCodes.poc(CalcPatterns());
+
         RuleCells CalcRuleCells() => Rules.CalcRuleCells(CalcRules());
 
         XedDisasmSvc XedDisasmSvc => Service(Wf.XedDisasm);
 
         BitMaskServices ApiBitMasks => Service(Wf.ApiBitMasks);
+
+        XedDb XedDb => Service(Wf.XedDb);
 
         AppDb AppDb => Service(Wf.AppDb);
 

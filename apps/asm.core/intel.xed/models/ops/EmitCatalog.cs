@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static XedModels;
     using static core;
 
     partial class IntelXed
@@ -20,12 +19,7 @@ namespace Z0.Asm
                 EmitBroadcastDefs,
                 () => Rules.EmitCatalog()
                 );
-        }
-
-        void EmitRegmaps()
-        {
-            TableEmit(XedRegMap.Service.REntries, RegMapEntry.RenderWidths, XedPaths.Table<RegMapEntry>("rmap"));
-            TableEmit(XedRegMap.Service.XEntries, RegMapEntry.RenderWidths, XedPaths.Table<RegMapEntry>("xmap"));
+            Db.EmitArtifacts();
         }
     }
 }

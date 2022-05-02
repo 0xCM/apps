@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     using B = ByteBlock27;
-    using api = StorageBlocks;
+    using api = Storage;
     [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1), DataType("block<n:27,t:u8>")]
     [DataWidth(Size*8,Size*8)]
     public struct ByteBlock27 : IStorageBlock<B>

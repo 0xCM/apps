@@ -16,6 +16,13 @@ namespace Z0
             return true;
         }
 
+        [CmdOp("xed/db/emit")]
+        Outcome EmitSchema(CmdArgs args)
+        {
+            XedDb.EmitArtifacts();
+            return true;
+        }
+
         [CmdOp("xed/emit/analysis")]
         Outcome EmitAnalysis(CmdArgs args)
         {
@@ -29,13 +36,6 @@ namespace Z0
         Outcome EmitLayouts(CmdArgs args)
         {
             Rules.Emit(Rules.CalcInstLayouts(CalcPatterns()));
-            return true;
-        }
-
-        [CmdOp("xed/emit/metrics")]
-        Outcome EmitMetrics(CmdArgs args)
-        {
-            Rules.EmitRuleMetrics(CalcRuleCells());
             return true;
         }
 

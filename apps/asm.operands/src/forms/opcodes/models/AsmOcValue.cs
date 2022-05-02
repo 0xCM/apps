@@ -30,30 +30,30 @@ namespace Z0.Asm
             return dst;
         }
 
-        readonly ByteBlock4 Storage;
+        readonly ByteBlock4 Data;
 
         [MethodImpl(Inline)]
         public AsmOcValue(byte b0)
         {
-            Storage = b0;
+            Data = b0;
         }
 
         [MethodImpl(Inline)]
         public AsmOcValue(byte b0, byte b1)
         {
-            Storage = Bytes.join(w32,b0,b1);
+            Data = Z0.Bytes.join(w32,b0,b1);
         }
 
         [MethodImpl(Inline)]
         public AsmOcValue(byte b0, byte b1, byte b2)
         {
-            Storage = Bytes.join(w32,b0,b1,b2);
+            Data = Z0.Bytes.join(w32,b0,b1,b2);
         }
 
         [MethodImpl(Inline)]
         public AsmOcValue(byte b0, byte b1, byte b2, byte b3)
         {
-            Storage = Bytes.join(w32, b0, b1, b2, b3);
+            Data = Z0.Bytes.join(w32, b0, b1, b2, b3);
         }
 
         [MethodImpl(Inline)]
@@ -62,19 +62,19 @@ namespace Z0.Asm
             switch(src.Length)
             {
                 case 0:
-                    Storage = 0u;
+                    Data = 0u;
                 break;
                 case 1:
-                    Storage = skip(src,0);
+                    Data = skip(src,0);
                 break;
                 case 2:
-                    Storage = @as<ushort>(src);
+                    Data = @as<ushort>(src);
                 break;
                 case 3:
-                    Storage = (uint)@as<ushort>(src) | ((uint)skip(src,2) << 16);
+                    Data = (uint)@as<ushort>(src) | ((uint)skip(src,2) << 16);
                 break;
                 default:
-                    Storage = @as<uint>(src);
+                    Data = @as<uint>(src);
                 break;
             }
         }
@@ -82,7 +82,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public AsmOcValue(uint src)
         {
-            Storage = src;
+            Data = src;
         }
 
         public ref readonly Hex8 FirstByte
@@ -94,13 +94,13 @@ namespace Z0.Asm
         public ref readonly byte this[int i]
         {
             [MethodImpl(Inline)]
-            get => ref Storage[i];
+            get => ref Data[i];
         }
 
         public ref readonly byte this[uint i]
         {
             [MethodImpl(Inline)]
-            get => ref Storage[i];
+            get => ref Data[i];
         }
 
         [MethodImpl(Inline)]
@@ -109,59 +109,59 @@ namespace Z0.Asm
             var dst = (uint)FirstByte;
             var sz = TrimmedSize;
             if(sz == 2)
-                dst = @as<ushort>(Storage.Bytes);
+                dst = @as<ushort>(Data.Bytes);
             else if(sz == 3)
-                dst = @as<uint>(Storage.Bytes);
+                dst = @as<uint>(Data.Bytes);
             return dst;
         }
 
         public ReadOnlySpan<byte> ToSpan()
-            => slice(Storage.Bytes, 0, StorageBlocks.trim(Storage).TrimmedSize);
+            => slice(Data.Bytes, 0, Z0.Storage.trim(Data).TrimmedSize);
 
         public byte TrimmedSize
         {
             [MethodImpl(Inline)]
-            get => (byte)StorageBlocks.trim(Storage).TrimmedSize;
+            get => (byte)Z0.Storage.trim(Data).TrimmedSize;
         }
 
         public ReadOnlySpan<byte> Trimmed
         {
             [MethodImpl(Inline)]
-            get => slice(Storage.Bytes, 0, TrimmedSize);
+            get => slice(Data.Bytes, 0, TrimmedSize);
         }
 
-        public ReadOnlySpan<byte> Data
+        public ReadOnlySpan<byte> Bytes
         {
             [MethodImpl(Inline)]
-            get => Storage.Bytes;
+            get => Data.Bytes;
         }
 
         public string Format()
             => format(this);
 
         public string Format(bool prespec, bool uppercase)
-            => StorageBlocks.trim(Storage).Format();
+            => Z0.Storage.trim(Data).Format();
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
         public bool Equals(AsmOcValue src)
-            => Storage == src.Storage;
+            => Data == src.Data;
 
         public override bool Equals(object src)
             => src is AsmOcValue x && Equals(x);
 
         [MethodImpl(Inline)]
         public int CompareTo(AsmOcValue src)
-            => ((uint)Storage).CompareTo((uint)src.Storage);
+            => ((uint)Data).CompareTo((uint)src.Data);
 
         public override int GetHashCode()
-            => (int)((uint)Storage);
+            => (int)((uint)Data);
 
         [MethodImpl(Inline)]
         public static implicit operator Hex32(AsmOcValue src)
-            => (uint)src.Storage;
+            => (uint)src.Data;
 
         [MethodImpl(Inline)]
         public static implicit operator AsmOcValue(Hex32 src)
@@ -173,7 +173,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator uint(AsmOcValue src)
-            => src.Storage;
+            => src.Data;
 
         [MethodImpl(Inline)]
         public static implicit operator AsmOcValue(ReadOnlySpan<byte> src)

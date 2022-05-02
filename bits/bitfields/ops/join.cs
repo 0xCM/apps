@@ -7,16 +7,20 @@ namespace Z0
     partial struct Bitfields
     {
         [MethodImpl(Inline), Op]
-        public static ushort join(byte a0, byte a2)
-            => (ushort)((uint)a0 | ((uint)a2 << 8));
+        public static ushort join(byte a0, byte a1)
+            => (ushort)((uint)a0 | ((uint)a1 << 8));
 
         [MethodImpl(Inline), Op]
-        public static ushort join(byte a0, ushort a2)
-            => (ushort)((uint)a0 | ((uint)a2 << 8));
+        public static ushort join(byte a0, ushort a1)
+            => (ushort)((uint)a0 | ((uint)a1 << 8));
+
+        [MethodImpl(Inline), Op]
+        public static uint join(byte a0, byte a1, ushort a2)
+            => (uint)a0 | ((uint)a1 << 8) | ((uint)a2 << 16);
 
         [MethodImpl(Inline), Op]
         public static uint join(byte a0, byte a1, byte a2)
-            => (uint)a0 | ((uint)a1 << 8) |((uint)a2 << 16);
+            => (uint)a0 | ((uint)a1 << 8) | (uint)a2 << 16;
 
         [MethodImpl(Inline), Op]
         public static uint join(byte a0, byte a1, byte a2, byte a3)

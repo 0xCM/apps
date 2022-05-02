@@ -14,8 +14,6 @@ namespace Z0
         {
             Write(nameof(XedDataTypes.IntrinsicNumeric));
             iter(XedDataTypes.IntrinsicNumeric, t => Write(string.Format("{0,-8} | {1,-8} | {2}", t.Key, t.Format(), t.Width)));
-
-
             return true;
         }
     }

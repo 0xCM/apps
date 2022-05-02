@@ -89,7 +89,7 @@ namespace Z0
                         }
                         else if(value.Length == 1 && value[0] == 'w')
                         {
-                            dst = new (SegField.symbolic(field, 'w'));
+                            dst = new (FieldSeg.symbolic(field, 'w'));
                             result = true;
                         }
                     }
@@ -103,7 +103,7 @@ namespace Z0
                         }
                         else if(value.Length == 1 && value[0] == 'r')
                         {
-                            dst = new (SegField.symbolic(field, 'r'));
+                            dst = new (FieldSeg.symbolic(field, 'r'));
                             result = true;
                         }
                     }
@@ -117,7 +117,7 @@ namespace Z0
                         }
                         else if(value.Length == 1 && value[0] == 'x')
                         {
-                            dst = new (SegField.symbolic(field, 'x'));
+                            dst = new (FieldSeg.symbolic(field, 'x'));
                             result = true;
                         }
                     }
@@ -131,7 +131,7 @@ namespace Z0
                         }
                         else if(value.Length == 1 && value[0] == 'b')
                         {
-                            dst = new (SegField.symbolic(field, 'b'));
+                            dst = new (FieldSeg.symbolic(field, 'b'));
                             result = true;
                         }
                     }

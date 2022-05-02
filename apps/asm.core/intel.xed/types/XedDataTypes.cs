@@ -66,8 +66,8 @@ namespace Z0
                         type = typeof(ExpressionType);
                     break;
 
-                    case TypeKind.SegField:
-                        type = typeof(SegFieldType);
+                    case TypeKind.FieldSeg:
+                        type = typeof(FieldSegType);
                     break;
 
                     case TypeKind.SegVal:
@@ -282,15 +282,15 @@ namespace Z0
             => new ExpressionType(field,op);
 
         [MethodImpl(Inline), Op]
-        public static SegFieldType seg(FieldType field)
-            => new SegFieldType(field);
+        public static FieldSegType seg(FieldType field)
+            => new FieldSegType(field);
 
         [MethodImpl(Inline), Op]
-        public static SegValType segval(SegField seg, TypeKey type)
+        public static SegValType segval(FieldSeg seg, TypeKey type)
             => new SegValType(seg,type);
 
         [MethodImpl(Inline), Op]
-        public static SegValType segval(SegField seg, CellType type)
+        public static SegValType segval(FieldSeg seg, CellType type)
             => segval(seg,type.Key);
     }
 }

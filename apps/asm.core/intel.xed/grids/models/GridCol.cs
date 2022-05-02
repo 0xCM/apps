@@ -10,9 +10,9 @@ namespace Z0
     partial class XedGrids
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct GridCol
+        public record struct GridCol
         {
-            public const string RenderPattern = "{0,-5} | {1,-24}";
+            public LogicClass Logic;
 
             public ColType Type;
 
@@ -20,16 +20,23 @@ namespace Z0
 
             public FieldKind Field;
 
-            public byte Col;
+            public byte Index;
 
             [MethodImpl(Inline)]
-            public GridCol(byte col, DataSize size, FieldKind field)
+            public GridCol(LogicClass logic, byte index, DataSize size, ColType type, FieldKind field)
             {
-                Type = field;
+                Logic = logic;
+                Type = type;
                 Size = size;
-                Col = col;
                 Field = field;
+                Index = index;
             }
+
+            public string Format()
+                => string.Format("{0,-6} | {1,-3} | {2} | {3,-24}", Logic, Index, Size.Format(2,2,true), XedRender.format(Field));
+
+            public override string ToString()
+                => Format();
         }
     }
 }

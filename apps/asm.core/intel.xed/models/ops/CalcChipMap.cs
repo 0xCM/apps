@@ -53,7 +53,6 @@ namespace Z0.Asm
                         if(chips.TryGetValue(chip, out var entry))
                             entry.Add(isaKinds);
                     }
-
                 }
 
                 var kinds = Symbols.index<ChipCode>().Kinds.ToArray();

@@ -30,7 +30,7 @@ namespace Z0.Asm
 
         public XedPatterns Patterns => Service(Wf.XedPatterns);
 
-        AppDb AppDb => Service(Wf.AppDb);
+        public new XedDb Db => Service(Wf.XedDb);
 
         public XedRules Rules => Service(Wf.XedRules);
 
@@ -42,11 +42,9 @@ namespace Z0.Asm
 
         static MsgPattern<string> ChipCodeNotFound => "Code for chip {0} not found";
 
-        static Index<BroadcastDef> _BroadcastDefs;
-
         static IntelXed()
         {
-            _BroadcastDefs = XedModels.bcastdefs();
+
         }
    }
 }

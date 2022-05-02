@@ -50,7 +50,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public CellValue(SegField src)
+            public CellValue(FieldSeg src)
             {
                 Field = src.Field;
                 Data = (ulong)src.Seg;
@@ -202,8 +202,8 @@ namespace Z0
                 => (SegVar)Data;
 
             [MethodImpl(Inline)]
-            public SegField ToSegField()
-                => new SegField(Field, (SegVar)Data);
+            public FieldSeg ToSegField()
+                => new FieldSeg(Field, (SegVar)Data);
 
             [MethodImpl(Inline)]
             public InstClass ToInstClass()

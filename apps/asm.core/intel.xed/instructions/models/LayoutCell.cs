@@ -29,8 +29,8 @@ namespace Z0
                 => ref @as<uint5>(Data.First);
 
             [MethodImpl(Inline)]
-            public ref readonly SegField AsSegField()
-                => ref @as<SegField>(Data.First);
+            public ref readonly FieldSeg AsSegField()
+                => ref @as<FieldSeg>(Data.First);
 
             [MethodImpl(Inline)]
             public ref readonly Nonterminal AsNonterm()

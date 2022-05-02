@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
-    partial struct GBlocks
+    partial struct Storage
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ref GBlock2<T> load<T>(ReadOnlySpan<T> src, ref GBlock2<T> dst)

@@ -32,7 +32,7 @@ namespace Z0
                         var type = InstSegTypes.type(data);
                         if(type.IsNonEmpty)
                         {
-                            dst = seg(field, type);
+                            dst = XedRules.seg(field, type);
                             return true;
                         }
                         else

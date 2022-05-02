@@ -93,9 +93,9 @@ namespace Z0
                     {
                         var iseg = src.AsInstSeg();
                         if(iseg.IsLiteral)
-                            @as<SegField>(dst.First) = SegField.literal(iseg.Field, iseg.ToLiteral());
+                            @as<FieldSeg>(dst.First) = FieldSeg.literal(iseg.Field, iseg.ToLiteral());
                         else
-                            @as<SegField>(dst.First) = SegField.symbolic(iseg.Field, InstSegTypes.pattern(iseg.Type));
+                            @as<FieldSeg>(dst.First) = FieldSeg.symbolic(iseg.Field, InstSegTypes.pattern(iseg.Type));
                         dst[15] = (byte)SF;
                     }
                     break;

@@ -3,15 +3,19 @@
 // Author : Chris Moore
 // License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    partial class IntelXed
-    {
-        void EmitBroadcastDefs()
-            => TableEmit(BcastDefs().View, BroadcastDef.RenderWidths, AppDb.XedTable<BroadcastDef>());
+    using static core;
 
-        [MethodImpl(Inline), Op]
-        public static Index<BroadcastDef> BcastDefs()
-            => _BroadcastDefs;
+    partial class XedDb
+    {
+        public void EmitRuleSchema()
+        {
+            var src = RuleCells;
+            exec(PllExec,
+                () => EmitRuleMetrics(src),
+                () => EmitTableDefs(src)
+                );
+        }
     }
 }

@@ -9,9 +9,9 @@ namespace Z0
     {
         partial struct CellParser
         {
-            public static bool segfield(string src, out SegField dst)
+            public static bool seg(string src, out FieldSeg dst)
             {
-                dst = SegField.Empty;
+                dst = FieldSeg.Empty;
                 var i = text.index(src, Chars.LBracket);
                 var j = text.index(src, Chars.RBracket);
                 var result = i>0 && j>i;
@@ -24,14 +24,14 @@ namespace Z0
                     {
                         var literal = XedParsers.IsBinaryLiteral(data);
                         if(literal)
-                            dst = SegField.literal(field, data);
+                            dst = FieldSeg.literal(field, data);
                         else
-                            dst = SegField.symbolic(field, data);
+                            dst = FieldSeg.symbolic(field, data);
                     }
                 }
                 else
                 {
-                    dst = SegField.symbolic(src);
+                    dst = FieldSeg.symbolic(src);
                     result = true;
                 }
 

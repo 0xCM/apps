@@ -49,6 +49,7 @@ namespace Z0
             }
             return max;
         }
+
         static Index<CellPrimitive> primitives(in RowSpec src)
         {
             var count = src.ColCount;

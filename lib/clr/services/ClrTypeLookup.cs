@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    using Storage = KeyedValues<CliToken,System.Type>;
     using T = KeyedValue<CliToken,System.Type>;
     using V = System.Type;
     using K = CliToken;
@@ -17,7 +11,7 @@ namespace Z0
     [ApiComplete]
     public readonly struct ClrTypeLookup
     {
-        readonly Storage Data;
+        readonly KeyedValues<K, V> Data;
 
         [MethodImpl(Inline)]
         static K kf(in V t)
@@ -25,10 +19,10 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public ClrTypeLookup(V[] src)
-            => Data = new Storage(kf, src);
+            => Data = new KeyedValues<K, V>(kf, src);
 
         [MethodImpl(Inline)]
-        public ClrTypeLookup(Storage src)
+        public ClrTypeLookup(KeyedValues<K, V> src)
             => Data = src;
 
         public ref V this[in K id]

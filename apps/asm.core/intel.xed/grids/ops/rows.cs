@@ -22,10 +22,10 @@ namespace Z0
                 row.Cols = alloc<GridCol>(cols);
                 for(var j=0; j<cols; j++, k++)
                 {
-                    ref readonly var field = ref src[k];
-                    row.Index = field.Table;
-                    row.Row = field.Row;
-                    row.Cols[j] = new GridCol(field.Col, field.Size, field.Field);
+                    ref readonly var cell = ref src[k];
+                    row.Index = cell.TableIndex;
+                    row.Row = cell.RowIndex;
+                    row.Cols[j] = col(cell);
                 }
             }
             return dst;

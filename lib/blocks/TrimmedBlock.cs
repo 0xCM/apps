@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = StorageBlocks;
+    using api = Storage;
 
     public readonly struct TrimmedBlock<T>
         where T : unmanaged, IStorageBlock<T>

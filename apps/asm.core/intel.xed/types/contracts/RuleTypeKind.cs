@@ -30,9 +30,11 @@ namespace Z0
 
             Expression,
 
-            SegField,
+            FieldSeg,
 
             SegVal,
+
+            SegVar,
 
             Rule,
 

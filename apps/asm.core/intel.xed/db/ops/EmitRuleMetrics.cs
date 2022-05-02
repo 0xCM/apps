@@ -5,12 +5,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    using static core;
+    using static MemDb;
+
+    using static XedRules;
+
+    partial class XedDb
     {
+        public void EmitRuleMetrics(RuleCells src)
+        {
+            var dst = text.emitter();
+            for(var i=0; i<src.TableCount; i++)
+                dst.AppendLine(CalcTableMetrics(src[i]));
+            FileEmit(dst.Emit(), src.TableCount, TargetPath("rules.tables.metrics", FileKind.Txt));
+        }
+
         string CalcTableMetrics(in CellTable table)
         {
             var dst = text.emitter();
-            dst.AppendLine(string.Format("{0,-32} {1}", table.Sig.Format(), XedPaths.CheckedTableDef(table.Sig)));
+            dst.AppendLine(string.Format("{0,-32} {1}", table.Sig.Format(), Paths.CheckedTableDef(table.Sig)));
             dst.AppendLine(RP.PageBreak120);
             dst.AppendLine();
             for(var i=0; i<table.RowCount; i++)
@@ -35,6 +48,7 @@ namespace Z0
                 dst.AppendLine(row.Expression);
             }
 
+            dst.AppendLine();
             dst.AppendLine(RP.PageBreak80);
             dst.Append(XedGrids.grid(table).Format());
 

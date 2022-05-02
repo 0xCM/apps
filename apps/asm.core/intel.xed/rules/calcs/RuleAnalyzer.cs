@@ -104,7 +104,7 @@ namespace Z0
             => FieldBits.Define(FieldKind.INVALID, RuleCellKind.BitLiteral, src);
 
         [MethodImpl(Inline)]
-        RuleField Run(SegField src)
+        RuleField Run(FieldSeg src)
             => RuleField.Empty;
 
         [MethodImpl(Inline)]

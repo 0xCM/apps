@@ -6,6 +6,7 @@ namespace Z0
 {
     using static XedRules;
     using static Datasets;
+    using static core;
 
     partial class XedCmdProvider
     {
@@ -21,6 +22,19 @@ namespace Z0
             ("Nonterm",10),
             ("Expr", 1)
             );
+
+        uint Nonterminals<T>(Index<InstOpDetail> src, ref T dst)
+            where T : unmanaged, IStorageBlock<T>
+        {
+            var j = 0u;
+            var target = dst.Bytes.Recover<RuleName>();
+            for(var i=0; i<src.Length; i++)
+            {
+                if(src[i].IsNonterm)
+                    seek(target,j++) = src[i].NonTerm.Name;
+            }
+            return j;
+        }
 
         void Render(Index<InstOpDetail> ops, ITextEmitter dst)
         {
@@ -54,41 +68,36 @@ namespace Z0
             }
         }
 
-        [CmdOp("xed/emit/opdata")]
-        Outcome CheckOpCodes(CmdArgs args)
+        [CmdOp("xed/emit/layouts/ops")]
+        Outcome EmitLyoutOps(CmdArgs args)
         {
-            var occols = new TableColumns(
+            var cols = new TableColumns(
                 ("PatternId", 10),
                 ("InstClass", 18),
                 ("Index", 8),
-                ("OpCode", 26),
-                ("Id", 8)
+                ("OpCode", 26)
                 );
 
             var counter = 0u;
-            var patterns = Xed.Rules.CalcInstPatterns();
-            var opcodes = XedOpCodes.poc(patterns);
-            var patternLU = patterns.Select(x => ((ushort)x.PatternId,x)).ToDictionary();
+            var opcodes = CalcPatternOpCodes();
+            var patterns = CalcPatterns().Select(x => ((ushort)x.PatternId,x)).ToDictionary();
 
-            var dst = occols.Buffer();
-
-            var path = XedPaths.Targets() + FS.file("xed.inst.opdata", FS.Txt);
+            var dst = cols.Buffer();
+            var path = XedPaths.Target("xed.inst.layouts.ops", FS.Txt);
             var emitting = EmittingFile(path);
             using var writer = path.Emitter();
             dst.EmitHeader(writer);
             for(var i=0; i<opcodes.Count; i++)
             {
                 ref readonly var poc = ref opcodes[i];
-                ref readonly var expr = ref poc.Expr;
 
-                var pattern = patternLU[poc.PatternId];
+                var pattern = patterns[poc.PatternId];
 
                 ref readonly var ops = ref pattern.OpDetails;
                 dst.Write(poc.PatternId);
-                dst.Write(poc.InstClass);
+                dst.Write(poc.InstClass.Classifier);
                 dst.Write(poc.Index);
                 dst.Write(poc.OpCode);
-                dst.Write(poc.OcInstClass());
 
                 writer.AppendLineFormat("{0,-10} | {1}", EmptyString, RP.PageBreak120);
                 counter++;

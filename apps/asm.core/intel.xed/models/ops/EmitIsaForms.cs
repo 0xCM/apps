@@ -23,6 +23,9 @@ namespace Z0.Asm
             return true;
         }
 
+        public void EmitIsaForms(ChipCode chip)
+            => EmitIsaForms(CalcChipMap(),chip);
+
         public void EmitIsaForms()
         {
             var map = CalcChipMap();

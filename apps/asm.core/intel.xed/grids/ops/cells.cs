@@ -22,7 +22,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static GridCell cell(in RuleCell rc)
-            => new GridCell(rc.TableIndex, rc.RowIndex, rc.CellIndex, rc.Field, XedFields.field(rc.Field).Size);
+            => new GridCell(rc.Logic, rc.TableIndex, rc.RowIndex, rc.CellIndex, rc.Field, ColType.field(rc.Field), XedFields.field(rc.Field).Size);
 
         public static Index<GridCell> cells(in CellRow src)
         {

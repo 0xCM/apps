@@ -9,7 +9,6 @@ namespace Z0
 
     using static XedModels;
     using static XedRules;
-    using static XedFields;
     using static XedDisasm;
     using static core;
 
@@ -107,7 +106,7 @@ namespace Z0
 
         static EnumRender<ESRC> EsrcKinds = new();
 
-        static Index<Asm.BroadcastDef> BroadcastDefs = IntelXed.BcastDefs();
+        static Index<Asm.BroadcastDef> BroadcastDefs = XedModels.bcastdefs();
 
         static readonly EnumRender<ModKind> ModIndicators = new();
 
@@ -249,7 +248,7 @@ namespace Z0
         public static string format(RuleTableKind src)
             => RuleTableKinds.Format(src);
 
-        public static string format(SegField src)
+        public static string format(FieldSeg src)
         {
             var dst = EmptyString;
             if(src.Field == 0)

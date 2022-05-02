@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     using B = ByteBlock4;
-    using api = StorageBlocks;
+    using api = Storage;
 
     [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1), DataType("block<n:4,t:u8>")]
     [DataWidth(Width)]

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
     using static cpu;
 
@@ -25,7 +21,7 @@ namespace Z0
 
             BitPack.unpack1x8(src, ref tmp);
             vpack.vinflate8x256x32u(tmp, 0, ref target);
-            return BitSpans32.load(ByteBlocks.span<uint>(ref storage).Recover<Bit32>());
+            return BitSpans32.load(storage.Storage<uint>().Recover<Bit32>());
         }
 
         [MethodImpl(Inline), Op]
@@ -40,7 +36,7 @@ namespace Z0
             BitPack.unpack1x16x8(src, ref tmp);
             vpack.vinflate8x256x32u(tmp, 0, ref target);
             vpack.vinflate8x256x32u(tmp, 1, ref target);
-            return BitSpans32.load(ByteBlocks.span<uint>(ref storage).Recover<Bit32>());
+            return BitSpans32.load(storage.Storage<uint>().Recover<Bit32>());
         }
 
         [MethodImpl(Inline), Op]

@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     using B = ByteBlock64;
-    using api = StorageBlocks;
+    using api = Storage;
 
     /// <summary>
     /// Covers 64 bytes of storage

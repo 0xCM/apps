@@ -41,7 +41,7 @@ namespace Z0
         }
 
         public string Format()
-            => string.Format("{0}:{1}",  Packed, Aligned);
+            => Format(4,4);
 
         public static string digits(byte index, byte n)
             => Chars.LBrace + $"{index}:D{n}" + Chars.RBrace;
