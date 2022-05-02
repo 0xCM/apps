@@ -24,20 +24,20 @@ namespace Z0
 
             public asci16 NativeType;
 
-            public byte NativeWidth;
+            public uint PackedWidth;
 
-            public ushort NativeOffset;
+            public uint AlignedWidth;
 
-            public byte PackedWidth;
+            public uint PackedOffset;
 
-            public ushort PackedOffset;
+            public uint AlignedOffset;
 
             public TextBlock Description;
 
             public DataSize Size
             {
                 [MethodImpl(Inline)]
-                get => new DataSize(NativeWidth, PackedWidth);
+                get => new DataSize(PackedWidth, AlignedWidth);
             }
 
             [MethodImpl(Inline)]
@@ -46,7 +46,7 @@ namespace Z0
 
             public static ReflectedField Empty => default;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,24,16,16,12,12,12,12,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,24,16,16,16,16,16,16,1};
         }
     }
 }

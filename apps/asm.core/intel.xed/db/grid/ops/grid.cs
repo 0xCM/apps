@@ -13,18 +13,21 @@ namespace Z0
         {
             public static RuleGrid grid(in CellTable src)
             {
-                var cols = (byte)src.Rows.Select(row => cells(row).Count).Storage.Max();
-                var dst = alloc<GridCell>(cols*src.RowCount);
+                var kCol = (byte)src.Rows.Select(row => cells(row).Count).Storage.Max();
+                var kRow = src.RowCount;
+                var dst = alloc<GridCell>(kCol*kRow);
                 var k=z8;
-                for(var i=0; i<src.RowCount; i++)
+                for(var i=0; i<kRow; i++)
                 {
-                    var _cells = cells(src[i]);
-                    for(var j=0; j<_cells.Count; j++, k++)
-                        seek(dst, k) = _cells[j];
-                    for(var j=k; j<cols; j++, k++)
+                    var cells = RuleGrids.cells(src[i]);
+
+                    for(var j=0; j<cells.Count; j++, k++)
+                        seek(dst, k) = cells[j];
+
+                    for(var j=k; j<kCol; j++, k++)
                         seek(dst, k) = GridCell.Empty;
                 }
-                return new RuleGrid(src.Sig, (ushort)src.RowCount, cols, dst);
+                return new RuleGrid(src.Sig, (ushort)src.RowCount, kCol, dst);
             }
         }
     }

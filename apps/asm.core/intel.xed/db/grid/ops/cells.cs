@@ -17,9 +17,9 @@ namespace Z0
                     => new LogicCell<T>(key,value);
 
             [MethodImpl(Inline)]
-            public static LogicValue<T> value<T>(LogicDataKind kind, byte width, T data)
+            public static LogicValue<T> value<T>(LogicDataKind kind, DataSize size, T data)
                 where T : unmanaged
-                    => new LogicValue<T>(kind,width,data);
+                    => new LogicValue<T>(kind,size,data);
 
             public static Index<GridCell> cells(CellRow src)
             {

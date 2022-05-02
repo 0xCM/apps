@@ -12,6 +12,8 @@ namespace Z0
     [DataWidth(MetaWidth,MetaWidth)]
     public readonly struct AlignedWidth : IComparable<AlignedWidth>, IEquatable<AlignedWidth>
     {
+        readonly byte Data;
+
         public const uint MetaWidth = 8;
 
         public static AlignedWidth None => new AlignedWidth(3);
@@ -35,16 +37,14 @@ namespace Z0
         public static AlignedWidth W2048 => new AlignedWidth(Log2x64.L11);
 
         [MethodImpl(Inline)]
-        public static AlignedWidth from(NativeTypeWidth src)
-            => (byte)src >= 8 ? new AlignedWidth((Pow2x64)src) : None;
+        public static uint calc(NativeTypeWidth src)
+            => (uint)src >= 8 ? (uint)Pow2.log((Pow2x64)src) : 0u;
 
         [MethodImpl(Inline)]
         public static bit test(ulong src)
             => Pow2.test(src);
 
         const byte StateBit = 7;
-
-        readonly byte Data;
 
         readonly Log2x64 Code
         {

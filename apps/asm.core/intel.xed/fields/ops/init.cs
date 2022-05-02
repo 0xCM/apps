@@ -18,8 +18,8 @@ namespace Z0
             var positioned = ReflectedFields.init();
             var indexed = ReflectedFields.init();
             var types = alloc<Type>(count);
-            var packed = z16;
-            var native = z16;
+            var packed = z32;
+            var aligned = z32;
 
             for(var i=z8; i<count; i++)
             {
@@ -28,7 +28,7 @@ namespace Z0
                 ref var dst = ref positioned[i + 1];
 
                 var tag = field.Tag<RuleFieldAttribute>().Require();
-                var nwidth = width(field.FieldType);
+                var awidth = width(field.FieldType);
                 var pwidth = tag.Width;
                 var index = (byte)tag.Kind;
                 type = tag.EffectiveType;
@@ -37,14 +37,14 @@ namespace Z0
                 dst.Index = index;
                 dst.DataType = type.DisplayName();
                 dst.NativeType = field.FieldType.DisplayName();
-                dst.NativeWidth = (byte)width(field.FieldType);
-                dst.NativeOffset = native;
                 dst.PackedWidth = pwidth;
+                dst.AlignedWidth = awidth;
                 dst.PackedOffset = packed;
+                dst.AlignedOffset = aligned;
                 dst.Description = tag.Description;
                 indexed[index] = dst;
                 packed += pwidth;
-                native += nwidth;
+                aligned += awidth;
             }
 
             EffectiveFieldTypes = types;

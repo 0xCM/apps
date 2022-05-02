@@ -7,14 +7,14 @@ namespace Z0
 {
     partial class XedFields
     {
-        public static ushort width(Type src)
+        public static uint width(Type src)
         {
-            var result = z16;
+            var result = z32;
             var attrib = src.Tag<DataWidthAttribute>();
             if(src.IsEnum)
-                result = (ushort)NativeSizes.convert(PrimalBits.width(Enums.@base(src))).Width;
+                result = MeasuredType.bitwidth(PrimalBits.width(Enums.@base(src)));
             else if(attrib.IsSome())
-                result = attrib.MapRequired(w => w.StorageWidth == 0 ?  (ushort)w.ContentWidth : (ushort)w.StorageWidth);
+                result = attrib.MapRequired(w => w.StorageWidth == 0 ?  (uint)w.ContentWidth : (uint)w.StorageWidth);
 
             if(result != 0)
                 return result;

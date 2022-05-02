@@ -6,15 +6,19 @@ namespace Z0
 {
     public readonly struct MeasuredType : IComparable<MeasuredType>
     {
-        public static AlignedWidth aligned(Type src)
-            => AlignedWidth.from(PrimalBits.width(Enums.@base(src)));
+        public static uint bitwidth(NativeTypeWidth src)
+        {
+            var dst = (uint)src;
+            if(dst == 1)
+                dst = 8;
+            return dst;
+        }
+
+        public static uint aligned(Type src)
+            => bitwidth(PrimalBits.width(Enums.@base(src)));
 
         public static DataSize size(Type src)
-        {
-            var aligned = MeasuredType.aligned(src);
-            var packed = CalcPacked(src);
-            return new DataSize(aligned, packed == 0 ? aligned.Value : packed);
-        }
+            => new DataSize(CalcPacked(src), MeasuredType.aligned(src));
 
         public static Index<MeasuredType> symbolic(Assembly src, string group)
         {
@@ -22,7 +26,7 @@ namespace Z0
             return x.Select(x => new MeasuredType(x.Left, size(x.Left))).Sort();
         }
 
-        static ulong CalcPacked(Type src)
+        static uint CalcPacked(Type src)
             => src.Tag<DataWidthAttribute>().MapValueOrElse(x => x.ContentWidth, () => 0);
 
         public readonly Type Definition;

@@ -9,43 +9,35 @@ namespace Z0
     {
         public const uint StorageWidth = 64;
 
-        const byte AlignedOffset = 56;
-
-        const ulong AlignedMask = 0xFFul << AlignedOffset;
-
-        const ulong PackedMask = ~AlignedMask;
-
         readonly ulong Data;
 
-        [MethodImpl(Inline)]
-        public DataSize(BitWidth width)
+        public DataSize(uint packed, uint aligned)
         {
-            AlignedWidth aligned = (ulong)width;
-            Data = ((ulong)aligned << AlignedOffset) | (ulong)width & PackedMask;
+            Data = Bitfields.join(packed, aligned);
         }
 
-        [MethodImpl(Inline)]
-        public DataSize(AlignedWidth aligned, BitWidth packed)
-        {
-            Data = ((ulong)aligned << AlignedOffset) | (packed == 0 ? aligned.Value : (packed & PackedMask));
-        }
-
-        public ulong Packed
+        public uint Packed
         {
             [MethodImpl(Inline)]
-            get => Data & PackedMask;
+            get => (uint)Data;
         }
 
-        public AlignedWidth Aligned
+        public uint Aligned
         {
             [MethodImpl(Inline)]
-            get => (AlignedWidth)((Data & AlignedMask) >> AlignedOffset);
+            get => (uint)(Data >> 32);
         }
 
-        public bool IsAligned
+        public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Aligned.IsDefined;
+            get => Data == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data != 0;
         }
 
         public string Format()
@@ -60,8 +52,6 @@ namespace Z0
         public int CompareTo(DataSize src)
             => Packed.CompareTo(src);
 
-        [MethodImpl(Inline)]
-        public static implicit operator DataSize(ulong src)
-            => new DataSize(src);
+        public static DataSize Empty => default;
     }
 }

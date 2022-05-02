@@ -20,7 +20,7 @@ namespace Z0
             public readonly asci64 TypeName;
 
             [RenderWidth(12)]
-            public readonly AlignedWidth PrimalWidth;
+            public readonly uint PrimalWidth;
 
             [RenderWidth(12)]
             public readonly byte PackedWidth;
@@ -45,7 +45,7 @@ namespace Z0
             public readonly DataSize Size
             {
                 [MethodImpl(Inline)]
-                get => new (PrimalWidth, PackedWidth);
+                get => new (PackedWidth,PrimalWidth);
             }
 
             [MethodImpl(Inline)]

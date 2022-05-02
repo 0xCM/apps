@@ -34,7 +34,7 @@ namespace Z0
         }
 
         static string format(DataSize src)
-            => string.Format("[{0:D2}:{1:D2}]", src.Aligned.Value, src.Packed);
+            => string.Format("[{0:D2}:{1:D2}]", src.Aligned, src.Packed);
 
         static string format(ByteSize aligned, BitWidth packed)
             => string.Format("[{0:D3}:{1:D3}]", (ulong)aligned, (ulong)packed);

@@ -29,10 +29,10 @@ namespace Z0
                 }
 
                 public uint PackedWidth()
-                    => Cols.Storage.Where(c => c.Field != 0).Select(x => (uint)x.Size.Packed).Sum();
+                    => Cols.Storage.Where(c => c.Field != 0).Select(x => x.Size.Packed).Sum();
 
                 public uint AlignedWidth()
-                    => Cols.Storage.Where(c => c.Field != 0).Select(x => (uint)x.Size.Aligned.Value).Sum();
+                    => Cols.Storage.Where(c => c.Field != 0).Select(x => x.Size.Aligned).Sum();
             }
         }
     }

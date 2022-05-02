@@ -26,17 +26,17 @@ namespace Z0
                 {
                     ref readonly var cell = ref row[j];
                     ref readonly var key = ref cell.Key;
-                    var descriptor = string.Format("{0:D3} {1:D3} {2}", row.RowIndex, key.Col, key.FormatSemantic());
-                    dst.AppendLineFormat("{0} {1,-12} | {2}", descriptor, XedRender.format(cell.Field), cell);
+                    dst.AppendLineFormat("{0} {1,-12} | {2}",
+                        string.Format("{0:D3} {1:D3} {2}", row.RowIndex, key.Col, key.FormatSemantic()),
+                        XedRender.format(cell.Field),
+                        cell);
                 }
 
                 dst.AppendLine(row.Expression);
             }
 
             dst.AppendLine(RP.PageBreak80);
-
-            var grid = RuleGrids.grid(table);
-            dst.Append(grid.Format());
+            dst.Append(RuleGrids.grid(table).Format());
 
             return dst.Emit();
         }

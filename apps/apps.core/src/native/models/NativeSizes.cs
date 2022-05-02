@@ -9,10 +9,6 @@ namespace Z0
     [ApiHost]
     public readonly struct NativeSizes
     {
-        [MethodImpl(Inline), Op]
-        public static NativeSize convert(NativeTypeWidth src)
-            => Sizes.native((uint)src);
-
         [MethodImpl(Inline)]
         public static NativeSegType seg(NativeCellType type, byte count)
             => new NativeSegType(type,count);
