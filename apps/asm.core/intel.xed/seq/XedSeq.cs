@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     using static XedModels;
     using static XedRules;
     using static XedRules.RuleName;
@@ -12,27 +13,34 @@ namespace Z0
     public unsafe partial class XedSeq
     {
         [MethodImpl(Inline), Op]
-        public static SeqDef bind(RuleName[] rules)
-            => new SeqDef(SeqEffect.BIND, rules);
-
-        [MethodImpl(Inline), Op]
         public static SeqDef bind(asci32 name, RuleName[] rules)
-            => new SeqDef(SeqEffect.BIND, rules);
-
-        [MethodImpl(Inline), Op]
-        public static SeqDef emit(RuleName[] rules)
-            => new SeqDef(SeqEffect.EMIT, rules);
+            => new SeqDef(name, SeqEffect.BIND, rules);
 
         [MethodImpl(Inline), Op]
         public static SeqDef emit(asci32 name, RuleName[] rules)
             => new SeqDef(name, SeqEffect.EMIT, rules);
 
+        [MethodImpl(Inline), Op]
+        public static SeqControl control(asci32 name, params SeqDef[] src)
+            => new SeqControl(name, src);
 
-        /*
-        SEQUENCE ISA_ENCODE
-            ISA_BINDINGS    | ISA_BINDINGS()
-            ISA_EMIT        | ISA_EMIT
-        */
+        public static Index<SeqDef> defs()
+        {
+            var src = typeof(XedSeq).StaticMethods().Public().WithArity(0).Where(x => x.ReturnType == typeof(SeqDef));
+            var dst = alloc<SeqDef>(src.Length);
+            for(var i=0; i<src.Length; i++)
+                seek(dst,i) = (SeqDef)skip(src,i).Invoke(null, null);
+            return dst;
+        }
+
+        public static Index<SeqControl> controls()
+        {
+            var src = typeof(XedSeq).StaticMethods().Public().WithArity(0).Where(x => x.ReturnType == typeof(SeqControl));
+            var dst = alloc<SeqControl>(src.Length);
+            for(var i=0; i<src.Length; i++)
+                seek(dst,i) = (SeqControl)skip(src,i).Invoke(null, null);
+            return dst;
+        }
 
         public static SeqDef VMODRM_XMM_EMIT() => emit(nameof(VMODRM_XMM_EMIT), new RuleName[]{
             VSIB_ENC,

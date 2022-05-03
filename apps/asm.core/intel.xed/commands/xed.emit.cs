@@ -8,6 +8,13 @@ namespace Z0
 
     partial class XedCmdProvider
     {
+        [CmdOp("xed/emit/seq")]
+        Outcome EmitSeq(CmdArgs args)
+        {
+            Rules.EmitSeq();
+            return true;
+        }
+
         [CmdOp("xed/emit/patterns")]
         Outcome EmitPatterns(CmdArgs args)
         {

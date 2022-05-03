@@ -33,7 +33,7 @@ namespace Z0
             exec(PllExec,
                 () => EmitCellDetail(CalcRuleCells(src)),
                 () => EmitTableDefReport(src),
-                () => Emit(CellParser.ruleseq()),
+                EmitSeq,
                 () => EmitTableDefs(src)
             );
         }
@@ -41,11 +41,39 @@ namespace Z0
         public void Emit(OpCodeClass @class, ReadOnlySpan<InstGroupSeq> src)
             => TableEmit(src, InstGroupSeq.RenderWidths, XedPaths.Table<InstGroupSeq>(@class.ToString().ToLower()));
 
+        public void EmitSeq()
+        {
+            exec(PllExec,
+                () => Emit(CellParser.ruleseq()),
+                () => Emit(XedSeq.controls(), XedSeq.defs())
+                );
+        }
+
+        public void Emit(Index<SeqControl> controls, Index<SeqDef> defs)
+        {
+            var dst = text.emitter();
+            for(var i=0; i<controls.Count; i++)
+            {
+                if(i != 1)
+                    dst.AppendLine();
+
+                dst.AppendLine(controls[i].Format());
+            }
+
+            for(var i=0; i<defs.Count; i++)
+            {
+                dst.AppendLine();
+                dst.AppendLine(defs[i].Format());
+            }
+
+            FileEmit(dst.Emit(), controls.Count + defs.Count, XedPaths.RuleTarget("seq.reflected", FS.Txt), TextEncodingKind.Asci);
+        }
+
         public void Emit(Index<RuleSeq> src)
         {
             var dst = text.buffer();
             iter(src, x => dst.AppendLine(x.Format()));
-            FileEmit(dst.Emit(), src.Count, XedPaths.Service.DocTarget(XedDocKind.RuleSeq), TextEncodingKind.Asci);
+            FileEmit(dst.Emit(), src.Count, XedPaths.RuleTarget("seq", FS.Txt), TextEncodingKind.Asci);
         }
 
         public void Emit(ReadOnlySpan<MacroMatch> src)
@@ -61,7 +89,7 @@ namespace Z0
             => TableEmit(src, MacroDef.RenderWidths, XedPaths.RuleTable<MacroDef>());
 
         public void Emit(ReadOnlySpan<PointerWidthInfo> src)
-            => TableEmit(src, PointerWidthInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.PointerWidths));
+            => TableEmit(src, PointerWidthInfo.RenderWidths, XedPaths.Table<PointerWidthInfo>());
 
         public void Emit(ReadOnlySpan<PatternOpCode> src)
             => TableEmit(src, PatternOpCode.RenderWidths, XedPaths.Table<PatternOpCode>());
@@ -81,7 +109,7 @@ namespace Z0
             => TableEmit(src, InstPatternRecord.RenderWidths, XedPaths.Table<InstPatternRecord>());
 
         public void Emit(ReadOnlySpan<InstOperandRow> src)
-            => TableEmit(src, InstOperandRow.RenderWidths, XedPaths.DocTarget(XedDocKind.PatternOps));
+            => TableEmit(src, InstOperandRow.RenderWidths, XedPaths.Table<InstOperandRow>());
 
         public void Emit(ReadOnlySpan<InstOpClass> src)
             => TableEmit(src, InstOpClass.RenderWidths, XedPaths.Table<InstOpClass>());

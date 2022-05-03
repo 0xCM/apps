@@ -7,35 +7,33 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct SeqDef
+        public readonly struct SeqControl
         {
             public readonly asci32 SeqName;
 
-            public readonly SeqEffect Effect;
-
-            public readonly Index<RuleName> Rules;
+            public readonly Index<SeqDef> Defs;
 
             [MethodImpl(Inline)]
-            public SeqDef(asci32 name, SeqEffect effect, RuleName[] rules)
+            public SeqControl(asci32 name, SeqDef[] defs)
             {
                 SeqName = name;
-                Effect = effect;
-                Rules = rules;
+                Defs = defs;
             }
 
             public string Format()
             {
                 var dst = text.buffer();
+                var count = Defs.Count;
                 dst.AppendLineFormat("{0}(){{", SeqName);
-                for(var i=0; i<Rules.Count; i++)
-                    dst.IndentLineFormat(4, "{0}_{1}", Rules[i], Effect);
+                for(var i=0; i<count; i++)
+                    dst.IndentLineFormat(4, "{0}", Defs[i].SeqName);
                 dst.AppendLine("}");
-
                 return dst.Emit();
             }
 
             public override string ToString()
                 => Format();
+
         }
     }
 }

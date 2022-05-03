@@ -180,28 +180,6 @@ namespace Z0
                 _ => FS.FileName.Empty
             });
 
-        public FS.FilePath DocTarget(XedDocKind kind)
-            => Targets() + ( kind switch{
-                 XedDocKind.EncInstDef => FS.file("xed.rules.enc", FS.Txt),
-                 XedDocKind.DecInstDef=> FS.file("xed.rules.dec", FS.Txt),
-                 XedDocKind.EncRuleTable => FS.file("xed.rules.enc.tables", FS.Txt),
-                 XedDocKind.DecRuleTable => FS.file("xed.rules.dec.tables", FS.Txt),
-                 XedDocKind.EncDecRuleTable => FS.file("xed.rules.encdec.tables", FS.Txt),
-                 XedDocKind.Widths => FS.file("xed.rules.widths", FS.Csv),
-                 XedDocKind.PointerWidths => Tables.filename<PointerWidthInfo>(),
-                 XedDocKind.RulePatterns => FS.file("xed.rules.patterns", FS.Csv),
-                 XedDocKind.DecRulePatterns => FS.file("xed.rules.dec.patterns", FS.Csv),
-                 XedDocKind.OpCodeKinds => Tables.filename<OcMapKind>(),
-                 XedDocKind.PatternInfo => Tables.filename<InstPatternRecord>(),
-                 XedDocKind.RuleSeq => FS.file("xed.rules.seq", FS.Txt),
-                 XedDocKind.MacroDefs => FS.file("xed.rules.macros", FS.Csv),
-                 XedDocKind.PatternDetail => FS.file("xed.inst.patterns.detail", FS.Txt),
-                 XedDocKind.PatternOps => Tables.filename<InstOperandRow>(),
-                 XedDocKind.RuleSigs => FS.file("rules.tables.sigs", FileKind.Csv.Ext()),
-                 _ => FS.FileName.Empty
-            });
-
-
         XedPaths()
         {
             var data = AppData.get();
