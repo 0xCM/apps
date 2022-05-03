@@ -1,57 +1,15 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using static XedModels;
+    using static core;
 
-    public class XedWidths
+    partial class XedOperands
     {
-        [MethodImpl(Inline)]
-        public static OpWidthInfo describe(OpWidthCode code)
-            => code == 0 ? OpWidthInfo.Empty : Lookup[code];
-
-        public static ref readonly Index<OpWidthInfo> Records
-        {
-            [MethodImpl(Inline)]
-            get => ref Index;
-        }
-
-        public static OpWidth width(MachineMode mode, OpWidthCode code)
-        {
-            var dst = OpWidth.Empty;
-            if(code == 0)
-                return dst;
-            else if(Lookup.Find(code, out var info))
-            {
-                switch(mode.Class)
-                {
-                    case ModeClass.Mode16:
-                        dst = new OpWidth(code, info.Width16);
-                    break;
-                    case ModeClass.Not64:
-                    case ModeClass.Mode32:
-                        dst = new OpWidth(code, info.Width32);
-                    break;
-
-                    default:
-                        dst = new OpWidth(code, info.Width64);
-                    break;
-                }
-            }
-            else
-                Errors.Throw(code.ToString());
-            return dst;
-        }
-
-        static XedPaths XedPaths => XedPaths.Service;
-
-        static Index<OpWidthInfo> Index;
-
-        static ConstLookup<OpWidthCode,OpWidthInfo> Lookup;
-
         static Outcome ParseWidthValue(string src, out ushort bits)
         {
             var result = Outcome.Success;
@@ -68,13 +26,7 @@ namespace Z0
             return result;
         }
 
-        static XedWidths()
-        {
-            Index = load();
-            Lookup = Index.Select(x => (x.Code,x)).ToDictionary();
-        }
-
-        static Index<OpWidthInfo> load()
+        static Index<OpWidthInfo> CalcOpWidths()
         {
             var buffer = dict<OpWidthCode,OpWidthInfo>();
             var symbols = Symbols.index<OpWidthCode>();
@@ -123,7 +75,7 @@ namespace Z0
                     break;
                 }
 
-                dst.CellWidth = OpWidthSpec.bitwidth(dst.Code, dst.ElementType);
+                dst.CellWidth = bitwidth(dst.Code, dst.ElementType);
 
                 result = ParseWidthValue(wdefault, out dst.Width16);
                 if(result.Fail)
@@ -155,9 +107,8 @@ namespace Z0
                     break;
                 }
 
-                dst.SegType = BitSegType.define(OpWidthSpec.@class(dst.Code), dst.Width64, dst.CellWidth);
+                dst.SegType = BitSegType.define(nclass(dst.Code), dst.Width64, dst.CellWidth);
                 buffer.TryAdd(dst.Code, dst);
-
             }
 
             if(result.Fail)

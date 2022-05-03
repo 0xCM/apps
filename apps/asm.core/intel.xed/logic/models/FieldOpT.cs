@@ -7,19 +7,20 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly record struct RuleOperand<T> : ILogicOperand<T>
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
+        public readonly record struct FieldOp<T> : ILogicOperand<T>
             where T : unmanaged, ILogicValue<T>
         {
-            public readonly Nonterminal Rule;
+            public readonly FieldKind Field;
 
             public readonly RuleOperator Operator;
 
             public readonly T Value;
 
             [MethodImpl(Inline)]
-            public RuleOperand(RuleName rule, RuleOperator op, T value)
+            public FieldOp(FieldKind field, RuleOperator op, T value)
             {
-                Rule = rule;
+                Field = field;
                 Operator = op;
                 Value = value;
             }
@@ -31,8 +32,8 @@ namespace Z0
                 => Operator;
 
             [MethodImpl(Inline)]
-            public static implicit operator RuleOperand(RuleOperand<T> src)
-                =>  new RuleOperand(src.Rule, src.Operator, LogicValue.untype(src.Value));
+            public static implicit operator FieldOp(FieldOp<T> src)
+                => new FieldOp(src.Field, src.Operator, LogicValue.untype(src.Value));
         }
     }
 }

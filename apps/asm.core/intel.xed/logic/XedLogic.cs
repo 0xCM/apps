@@ -8,16 +8,16 @@ namespace Z0
     using static XedModels;
     using static XedRules;
 
-    partial class XedFields
+    public readonly struct XedLogic
     {
         [MethodImpl(Inline)]
-        public static FieldOperand<T> operand<T>(FieldKind field, RuleOperator op, T value)
+        public static FieldOp<T> operand<T>(FieldKind field, RuleOperator op, T value)
             where T : unmanaged, ILogicValue<T>
-                => new FieldOperand<T>(field, op, value);
+                => new FieldOp<T>(field, op, value);
 
         [MethodImpl(Inline)]
-        public static RuleOperand<T> operand<T>(Nonterminal rule, RuleOperator op, T value)
+        public static RuleOp<T> operand<T>(Nonterminal rule, RuleOperator op, T value)
             where T : unmanaged, ILogicValue<T>
-                => new RuleOperand<T>(rule, op, value);
+                => new RuleOp<T>(rule, op, value);
     }
 }

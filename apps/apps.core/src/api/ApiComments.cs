@@ -115,7 +115,6 @@ namespace Z0
             return src;
         }
 
-
         public static ApiComment comment2(ApiCommentTarget target, string name, string value)
         {
             var content = text.trim(text.unfence(value, RenderFence.define("<summary>", "</summary>")));

@@ -15,11 +15,11 @@ namespace Z0
             var rules = RuleTables.Empty;
             var patterns = Index<InstPattern>.Empty;
             exec(PllExec,
-                EmitOpCodeKinds,
+                () => TableEmit(OpCodeKinds.Instance.Records, OcMapKind.RenderWidths, XedPaths.Table<OcMapKind>()),
                 EmitOpWidths,
-                EmitPointerWidths,
-                () => Emit(CalcMacroMatches()),
-                EmitMacroDefs,
+                () => Emit(CalcPointerWidths().View),
+                () => Emit(mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i))),
+                () => Emit(CalcMacroDefs().View),
                 () => Emit(XedFields.ByPosition.Valid),
                 EmitSymbolicFields,
                 () => Emit(ImportFieldDefs()),
@@ -30,25 +30,13 @@ namespace Z0
             Emit(patterns,rules);
         }
 
-        Index<MacroMatch> CalcMacroMatches()
-            => mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i));
-
-        void EmitMacroDefs()
-            => Emit(CalcMacroDefs().View);
-
         void EmitSymbolicFields()
             => ApiMetadataService.create(Wf).EmitTokenSet(XedFields.EffectiveFields.create(), AppDb.XedPath("xed.fields.symbolic", FileKind.Csv));
 
-        void EmitOpCodeKinds()
-            => TableEmit(OpCodeKinds.Instance.Records, OcMapKind.RenderWidths, XedPaths.Table<OcMapKind>());
-
-        void EmitOpWidths()
-            => TableEmit(XedWidths.Records.View, OpWidthInfo.RenderWidths, XedPaths.Table<OpWidthInfo>());
+        public void EmitOpWidths()
+            => Emit(XedOperands.Views.OpWidths);
 
         Index<PointerWidthInfo> CalcPointerWidths()
             => Data(nameof(CalcPointerWidths), () => mapi(PointerWidths.Where(x => x.Kind != 0), (i,w) => w.ToRecord((byte)i)));
-
-        void EmitPointerWidths()
-            => Emit(CalcPointerWidths().View);
     }
 }

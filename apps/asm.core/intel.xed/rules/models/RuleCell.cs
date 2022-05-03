@@ -79,6 +79,18 @@ namespace Z0
                 get => Value.IsNontermCall;
             }
 
+            public bool IsNontermExpr
+            {
+                [MethodImpl(Inline)]
+                get => Value.IsNontermExpr;
+            }
+
+            public bool IsNonterm
+            {
+                [MethodImpl(Inline)]
+                get => Value.IsNonterm;
+            }
+
             public byte CellIndex
             {
                 [MethodImpl(Inline)]

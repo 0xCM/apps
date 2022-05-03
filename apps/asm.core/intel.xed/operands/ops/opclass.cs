@@ -12,8 +12,8 @@ namespace Z0
     {
         public static InstOpClass opclass(in InstOpDetail src)
         {
-            var info = XedWidths.describe(src.WidthCode);
-            var bitwidth = XedWidths.width(src.Mode, src.WidthCode).Bits;
+            var info = describe(src.WidthCode);
+            var bitwidth = width(src.Mode, src.WidthCode).Bits;
             var dst = InstOpClass.Empty;
             dst.Kind = src.Kind;
             dst.BitWidth = src.BitWidth;

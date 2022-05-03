@@ -65,6 +65,15 @@ namespace Z0
                 get => TableKind != 0 && TableName != 0;
             }
 
+            [MethodImpl(Inline)]
+            public NontermCall<T> CallFrom<T>(T src)
+                where T : unmanaged, IComparable<T>
+                    => call(src,this);
+
+            [MethodImpl(Inline)]
+            public NontermCall CallTo(RuleSig dst)
+                => call(this,dst);
+
             public override int GetHashCode()
                 => Data;
 

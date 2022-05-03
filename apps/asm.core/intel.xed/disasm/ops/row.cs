@@ -80,7 +80,7 @@ namespace Z0
                     Errors.Throw(result.Message);
 
                 var opclass = operand.OpInfo;
-                var winfo = XedWidths.describe(opclass.WidthCode);
+                var winfo = XedOperands.describe(opclass.WidthCode);
                 operand.OpWidth = winfo;
                 operand.OpName = opclass.Name;
                 var optxt = EmptyString;

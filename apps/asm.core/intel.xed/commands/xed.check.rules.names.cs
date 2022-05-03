@@ -6,6 +6,7 @@ namespace Z0
 {
     using static XedRules;
     using static XedGrids;
+    using static Markdown;
     using static core;
 
     partial class XedCmdProvider
@@ -39,6 +40,7 @@ namespace Z0
             var grids = alloc<RuleGrid>(kGrid);
             var gt=0u;
             var gr=0u;
+            var calls = hashset<NontermCall>();
             for(var i=0; i<kGrid; i++)
             {
                 ref readonly var cTable = ref src[i];
@@ -57,11 +59,25 @@ namespace Z0
 
                     for(var k=0; k<cRow.CellCount; k++, gc++)
                     {
-                        gCells[gc] = gcell(cRow[k]);
+                        ref readonly var cell = ref cRow[k];
+                        gCells[gc] = gcell(cell);
                         gRowCols[j][k] = col(gCells[gc]);
+
+                        if(cell.IsNonterm)
+                        {
+                            var nt = Nonterminal.Empty;
+                            if(cell.IsNontermCall)
+                                nt = cell.Value.AsNonterm();
+                            else if(cell.IsNontermExpr)
+                                nt = cell.Value.ToCellExpr().Value.ToNonterm();
+                            calls.Add(call(sig, new RuleSig(sig.TableKind, nt.Name)));
+                        }
                     }
                 }
             }
+
+            Emit(calls.Array().Index().Sort());
+
 
             var dst = text.emitter();
             var counter = 0u;
@@ -80,6 +96,7 @@ namespace Z0
                         ref readonly var cell = ref cells[gc];
                         if(cell.IsEmpty)
                             continue;
+
                         dst.WriteLine(cell.Format());
                     }
 
@@ -87,6 +104,40 @@ namespace Z0
             }
             FileEmit(dst.Emit(), counter, XedDb.TargetPath("rules.tables.test", FileKind.Txt));
             return true;
+        }
+
+        AbsoluteLink link(NontermCall call)
+            => Markdown.link(string.Format("{0}::{1}()",call.Target.TableKind, call.Target.TableName), XedPaths.TableDef(call.Target));
+
+        static SectionHeader SourceHeader(RuleSig sig)
+            => new(3, sig.Format());
+
+        void Emit(Index<NontermCall> calls)
+        {
+            var dst = text.buffer();
+            var source = RuleSig.Empty;
+            for(var i=0; i<calls.Count; i++)
+            {
+                ref readonly var call = ref calls[i];
+                if(source.IsEmpty)
+                {
+                    source = call.Source;
+                    dst.AppendLine(SourceHeader(source));
+                    dst.AppendLine();
+                }
+
+                if(source != call.Source)
+                {
+                    dst.AppendLine();
+                    source = call.Source;
+                    dst.AppendLine(SourceHeader(source));
+                    dst.AppendLine();
+                }
+
+                dst.AppendLine(link(call));
+            }
+
+            FileEmit(dst.Emit(), calls.Count, XedDb.TargetPath("rules.tables.deps", FileKind.Md));
         }
 
         [CmdOp("xed/check/rules/names")]

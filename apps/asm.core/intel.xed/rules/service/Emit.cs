@@ -119,5 +119,8 @@ namespace Z0
 
         public void Emit(ReadOnlySpan<XedFieldDef> src)
             => TableEmit(src, XedFieldDef.RenderWidths, XedPaths.Table<XedFieldDef>());
+
+        public void Emit(ReadOnlySpan<OpWidthInfo> src)
+            => TableEmit(src, OpWidthInfo.RenderWidths, XedPaths.Table<OpWidthInfo>());
     }
 }

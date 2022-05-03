@@ -184,6 +184,12 @@ namespace Z0
                 get => CellKind == RuleCellKind.NontermExpr;
             }
 
+            public bool IsNonterm
+            {
+                [MethodImpl(Inline)]
+                get => IsNontermCall || IsNontermExpr;
+            }
+
             public ref readonly byte Position
             {
                 [MethodImpl(Inline)]

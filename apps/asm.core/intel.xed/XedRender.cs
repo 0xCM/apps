@@ -10,6 +10,7 @@ namespace Z0
     using static XedModels;
     using static XedRules;
     using static XedDisasm;
+    using static Markdown;
     using static core;
 
     using OC = XedRules.OpAttribClass;
@@ -115,6 +116,8 @@ namespace Z0
         static EnumRender<RuleName> RuleNames = new();
 
         static EnumRender<RuleCellKind> RuleCellKinds = new();
+
+        static XedPaths XedPaths => XedPaths.Service;
 
         public static string format(Nonterminal src)
             => src.IsEmpty ? EmptyString : string.Format("{0}()", XedRender.format(src.Name));
