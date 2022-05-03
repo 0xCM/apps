@@ -13,6 +13,16 @@ namespace Z0
 
 
         [MethodImpl(Inline), Factory, Closures(Closure)]
+        public static T inc<T>(T src)
+            where T : unmanaged
+                => gmath.inc(src);
+
+        [MethodImpl(Inline), Factory, Closures(Closure)]
+        public static T dec<T>(T src)
+            where T : unmanaged
+                => gmath.dec(src);
+
+        [MethodImpl(Inline), Factory, Closures(Closure)]
         public static num<T> generic<T>(T value)
             where T : unmanaged
                 => new num<T>(value);

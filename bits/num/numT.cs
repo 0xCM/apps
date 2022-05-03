@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct num<T> : IScalarValue<T>
+    public struct num<T> : IScalarValue<T>, IComparable<num<T>>, IEquatable<num<T>>
         where T : unmanaged
     {
         public T Value;
@@ -19,6 +19,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public bool Equals(num<T> src)
             => num.eq(this, src);
+
+        [MethodImpl(Inline)]
+        public int CompareTo(num<T> src)
+            => gmath.cmp(Value,src.Value);
 
         public override int GetHashCode()
             => Value.GetHashCode();
@@ -106,6 +110,14 @@ namespace Z0
         [MethodImpl(Inline)]
         public static num<T> operator ~(num<T> a)
             => num.not(a);
+
+        [MethodImpl(Inline)]
+        public static num<T> operator ++(num<T> a)
+            => num.inc(a);
+
+        [MethodImpl(Inline)]
+        public static num<T> operator --(num<T> a)
+            => num.dec(a);
 
         [MethodImpl(Inline)]
         public static implicit operator T(num<T> src)

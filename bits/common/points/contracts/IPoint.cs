@@ -4,19 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class MemDb
+    public interface IPoint<T>
+        where T : unmanaged
     {
-        public enum ObjectKind : byte
-        {
-            None,
+        T X {get;}
 
-            TypeTableField,
+        T Y {get;}
+    }
 
-            TypeTable,
+    public interface IPoint<F,T> : IPoint<T>, IEquatable<F>, IComparable<F>
+        where T : unmanaged
+        where F : IPoint<F,T>
+    {
 
-            DataType,
-
-            Grid,
-        }
     }
 }
