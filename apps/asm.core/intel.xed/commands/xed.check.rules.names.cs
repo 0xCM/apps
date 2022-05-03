@@ -9,6 +9,30 @@ namespace Z0
     using static Markdown;
     using static core;
 
+    public class RuleCalls
+    {
+        ConcurrentDictionary<RuleCaller, HashSet<RuleSig>> Data;
+
+        public static RuleCalls init(RuleCells cells)
+            => new RuleCalls(cells);
+
+        RuleCalls(RuleCells cells)
+        {
+            Data = new();
+            ref readonly var sigs = ref cells.Sigs;
+            for(var i=0; i<sigs.Count; i++)
+                Data[sigs[i]] = new();
+        }
+
+        public void Include(RuleCaller src, RuleSig dst)
+        {
+            Data.AddOrUpdate(src, c => hashset<RuleSig>(), (k,v) =>  {
+                v.Add(dst);
+                return v;
+            });
+        }
+    }
+
     partial class XedCmdProvider
     {
         [MethodImpl(Inline)]
@@ -31,6 +55,7 @@ namespace Z0
 
             return new GridCell(src.Key, type, src.Size, src.Value);
         }
+
 
         [CmdOp("xed/check/rules")]
         Outcome CheckRules(CmdArgs args)
@@ -106,23 +131,29 @@ namespace Z0
             return true;
         }
 
-        AbsoluteLink link(NontermCall call)
-            => Markdown.link(string.Format("{0}::{1}()",call.Target.TableKind, call.Target.TableName), XedPaths.TableDef(call.Target));
 
-        static SectionHeader SourceHeader(RuleSig sig)
-            => new(3, sig.Format());
+        AbsoluteLink link(RuleSig target)
+        {
+            return Markdown.link(string.Format("{0}::{1}()", target.TableKind, target.TableName), XedPaths.TableDef(target));
+        }
+
+        SectionHeader header(RuleCaller target)
+        {
+            var rule = target.ToRule();
+            return new(3,rule.Format());
+        }
 
         void Emit(Index<NontermCall> calls)
         {
             var dst = text.buffer();
-            var source = RuleSig.Empty;
+            var source = RuleCaller.Empty;
             for(var i=0; i<calls.Count; i++)
             {
                 ref readonly var call = ref calls[i];
                 if(source.IsEmpty)
                 {
                     source = call.Source;
-                    dst.AppendLine(SourceHeader(source));
+                    dst.AppendLine(header(source));
                     dst.AppendLine();
                 }
 
@@ -130,11 +161,11 @@ namespace Z0
                 {
                     dst.AppendLine();
                     source = call.Source;
-                    dst.AppendLine(SourceHeader(source));
+                    dst.AppendLine(header(source));
                     dst.AppendLine();
                 }
 
-                dst.AppendLine(link(call));
+                dst.AppendLine(link(call.Target));
             }
 
             FileEmit(dst.Emit(), calls.Count, XedDb.TargetPath("rules.tables.deps", FileKind.Md));

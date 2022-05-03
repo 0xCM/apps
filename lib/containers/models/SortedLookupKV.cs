@@ -22,43 +22,43 @@ namespace Z0
 
         public class Builder
         {
-            readonly ConcurrentDictionary<K,V> Storage;
+            readonly ConcurrentDictionary<K,V> Data;
 
             public bool Contains(K key)
-                => Storage.ContainsKey(key);
+                => Data.ContainsKey(key);
 
             [MethodImpl(Inline)]
             public bool TryAdd(K key, Func<V> src)
-                => Storage.TryAdd(key, src());
+                => Data.TryAdd(key, src());
 
             [MethodImpl(Inline)]
             public V AddOrUpdate(K key, Func<K,V> src)
-                => Storage.AddOrUpdate(key, src, (k,v) => src(k));
+                => Data.AddOrUpdate(key, src, (k,v) => src(k));
 
             [MethodImpl(Inline)]
             public bool TryAdd(K key, Func<Paired<K,V>> src)
-                => Storage.TryAdd(key, src().Right);
+                => Data.TryAdd(key, src().Right);
 
             [MethodImpl(Inline)]
             public void Add(K key, V value)
             {
-                if(!Storage.TryAdd(key, value))
+                if(!Data.TryAdd(key, value))
                     Errors.Throw(string.Format("Duplicate entry:({0},{1})", key, value));
             }
 
             public Builder()
             {
-                Storage = new();
+                Data = new();
             }
 
             public Builder(ConcurrentDictionary<K,V> src)
             {
-                Storage = src;
+                Data = src;
             }
 
             public SortedLookup<K,V> Create()
             {
-                var storage = this.Storage;
+                var storage = this.Data;
                 var keys = storage.Keys.Array().Sort();
                 var values = storage.Values.Array();
                 var entries = storage.Map(x => new SortedLookupEntry<K,V>(x.Key,x.Value)).Sort();

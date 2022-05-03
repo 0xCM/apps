@@ -7,8 +7,11 @@ namespace Z0
 {
     partial class XedRules
     {
+        [DataWidth(16,16)]
         public readonly record struct RuleSig : IComparable<RuleSig>
         {
+            public static DataSize DataSize => new (16,16);
+
             const ushort KindMask = 0xF000;
 
             const ushort NameMask = 0x0FFF;

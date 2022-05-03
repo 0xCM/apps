@@ -9,7 +9,7 @@ namespace Z0
     {
         public readonly record struct NontermCall : IComparable<NontermCall>
         {
-            public readonly RuleSig Source;
+            public readonly RuleCaller Source;
 
             public readonly RuleSig Target;
 
@@ -29,7 +29,7 @@ namespace Z0
             }
 
             public string Format()
-                => string.Format("{0} -> {1}", Source.TableName, Target.TableName);
+                => string.Format("{0} -> {1}", Source.ToRule().TableName, Target.TableName);
 
             public override string ToString()
                 => Format();
@@ -42,7 +42,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator NontermCall<RuleSig>(NontermCall src)
-                => new NontermCall<RuleSig>(src.Source, src.Target);
+                => new NontermCall<RuleSig>(src.Source.ToRule(), src.Target);
 
             [MethodImpl(Inline)]
             public static implicit operator NontermCall(NontermCall<RuleSig> src)

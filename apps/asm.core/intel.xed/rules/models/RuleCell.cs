@@ -27,6 +27,7 @@ namespace Z0
             }
             return dst;
         }
+
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct RuleCell : IComparable<RuleCell>
         {
