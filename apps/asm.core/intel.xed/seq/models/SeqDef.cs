@@ -13,24 +13,36 @@ namespace Z0
 
             public readonly SeqEffect Effect;
 
-            public readonly Index<RuleName> Rules;
+            public readonly Index<RuleSig> Rules;
 
             [MethodImpl(Inline)]
-            public SeqDef(asci32 name, SeqEffect effect, RuleName[] rules)
+            public SeqDef(asci32 name, SeqEffect effect, RuleName[] rules, RuleTableKind kind = RuleTableKind.ENC)
             {
                 SeqName = name;
                 Effect = effect;
-                Rules = rules;
+                Rules = rules.Map(r => new RuleSig(kind,r));
             }
+
+            FS.FileUri Uri(RuleSig src)
+                => XedPaths.Service.TableDef(src);
 
             public string Format()
             {
                 var dst = text.buffer();
                 dst.AppendLineFormat("{0}(){{", SeqName);
-                for(var i=0; i<Rules.Count; i++)
-                    dst.IndentLineFormat(4, "{0}_{1}", Rules[i], Effect);
+                if(Effect == 0)
+                    for(var i=0; i<Rules.Count; i++)
+                        dst.IndentLineFormat(4, "{0,-42} {1}",
+                            Rules[i].TableName,
+                            Uri(Rules[i])
+                            );
+                else
+                    for(var i=0; i<Rules.Count; i++)
+                        dst.IndentLineFormat(4, "{0,-42} {1}",
+                            string.Format("{0}_{1}", Rules[i].TableName, Effect),
+                            Uri(Rules[i])
+                            );
                 dst.AppendLine("}");
-
                 return dst.Emit();
             }
 

@@ -6,19 +6,21 @@
 namespace Z0
 {
     using static core;
-    using static XedModels;
     using static XedRules;
-    using static XedRules.RuleName;
 
     public unsafe partial class XedSeq
     {
         [MethodImpl(Inline), Op]
         public static SeqDef bind(asci32 name, RuleName[] rules)
-            => new SeqDef(name, SeqEffect.BIND, rules);
+            => new SeqDef(name, SeqEffect.BIND, rules, RuleTableKind.ENC);
 
         [MethodImpl(Inline), Op]
         public static SeqDef emit(asci32 name, RuleName[] rules)
-            => new SeqDef(name, SeqEffect.EMIT, rules);
+            => new SeqDef(name, SeqEffect.EMIT, rules, RuleTableKind.ENC);
+
+        [MethodImpl(Inline), Op]
+        public static SeqDef def(asci32 name, RuleTableKind kind, params RuleName[] rules)
+            => new SeqDef(name, SeqEffect.None, rules, kind);
 
         [MethodImpl(Inline), Op]
         public static SeqControl control(asci32 name, params SeqDef[] src)
@@ -42,89 +44,8 @@ namespace Z0
             return dst;
         }
 
-        public static SeqDef VMODRM_XMM_EMIT() => emit(nameof(VMODRM_XMM_EMIT), new RuleName[]{
-            VSIB_ENC,
-            DISP_NT,
-            });
-
-        public static SeqDef VMODRM_YMM_EMIT() => emit(nameof(VMODRM_YMM_EMIT), new RuleName[]{
-            VSIB_ENC,
-            DISP_NT,
-            });
-
-        public static SeqDef UISA_VMODRM_XMM_EMIT() => emit(nameof(UISA_VMODRM_XMM_EMIT), new RuleName[]{
-            VSIB_ENC,
-            DISP_NT,
-            });
-
-        public static SeqDef UISA_VMODRM_ZMM_EMIT() => emit(nameof(UISA_VMODRM_ZMM_EMIT), new RuleName[]{
-                VSIB_ENC,
-                DISP_NT,
-            });
 
         /*
-        SEQUENCE UISA_VMODRM_XMM_BIND
-            VMODRM_MOD_ENCODE_BIND()
-            VSIB_ENC_BASE_BIND()
-            UISA_ENC_INDEX_XMM_BIND()
-            VSIB_ENC_SCALE_BIND()
-            VSIB_ENC_BIND()
-            SEGMENT_DEFAULT_ENCODE_BIND()
-            SEGMENT_ENCODE_BIND()
-            DISP_NT_BIND()
-        */
-
-        public static SeqDef UISA_VMODRM_XMM_BIND() => bind(nameof(UISA_VMODRM_XMM_BIND), new RuleName[]{
-            VMODRM_MOD_ENCODE,
-            VSIB_ENC_BASE,
-            //UISA_ENC_INDEX_XMM,
-            VSIB_ENC_SCALE,
-            VSIB_ENC,
-            SEGMENT_DEFAULT_ENCODE,
-            SEGMENT_ENCODE,
-            DISP_NT,
-            });
-
-        // public static SeqDef VMODRM_YMM_EMIT() => emit(nameof(VMODRM_YMM_EMIT), new RuleName[]{
-        //     VSIB_ENC,
-        //     DISP_NT,
-        //     });
-
-
-        // public static SeqDef VMODRM_XMM_EMIT() => emit(nameof(VMODRM_XMM_EMIT), new RuleName[]{
-        //     VSIB_ENC,
-        //     DISP_NT,
-        //     });
-
-        // public static SeqDef VMODRM_YMM_EMIT() => emit(nameof(VMODRM_YMM_EMIT), new RuleName[]{
-        //     VSIB_ENC,
-        //     DISP_NT,
-        //     });
-
-        /*
-
-
-
-
-        /*
-            SEQUENCE UISA_VMODRM_ZMM_EMIT
-                VSIB_ENC_EMIT()
-                DISP_NT_EMIT()
-        */
-
-        /*
-        SEQUENCE VMODRM_YMM_EMIT
-            VSIB_ENC_EMIT()
-            DISP_NT_EMIT()
-        */
-
-
-
-        /*
-        SEQUENCE UISA_VMODRM_XMM_EMIT
-            VSIB_ENC_EMIT()
-            DISP_NT_EMIT()
-        */
 
 
         /*
@@ -135,7 +56,6 @@ namespace Z0
             XOP_MAP_ENC_BIND
             VEX_REG_ENC_BIND
             VEX_ESCVL_ENC_BIND
-
         */
 
         /*
@@ -148,7 +68,6 @@ namespace Z0
             VEX_ESCVL_ENC_EMIT
 
         */
-
 
 /* DISP_NT()::
 	DISP_WIDTH=8 DISP[dddddddd]=*  ->	emit dddddddd emit_type=letters nbits=8
