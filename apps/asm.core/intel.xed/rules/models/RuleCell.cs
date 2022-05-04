@@ -25,14 +25,6 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public RuleCell(CellKey key, CellValue value)
-            {
-                Key = key;
-                Value = value;
-                Size = XedFields.size(key.Field, key.CellType);
-            }
-
-            [MethodImpl(Inline)]
             public RuleOperator Operator()
             {
                 var dst = RuleOperator.None;

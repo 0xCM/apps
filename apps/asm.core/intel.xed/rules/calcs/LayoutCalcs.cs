@@ -14,7 +14,29 @@ namespace Z0
     {
         public readonly struct LayoutCalcs
         {
-            public static Index<InstLayout> layouts(Index<InstPattern> src)
+            public static Index<InstLayoutRecord> records(Index<InstPattern> src)
+            {
+                var count = src.Count;
+                var dst = alloc<InstLayoutRecord>(count);
+                for(var i=0; i<src.Count; i++)
+                    seek(dst,i) = record(src[i]);
+                return dst;
+            }
+
+            public static InstLayoutRecord record(InstPattern src)
+            {
+                var dst = InstLayoutRecord.Empty;
+                ref readonly var fields = ref src.Layout;
+                dst.PatternId = (ushort)src.PatternId;
+                dst.Instruction = src.InstClass;
+                dst.OpCode = src.OpCode;
+                dst.Count = Demand.lteq(fields.Count,InstLayoutRecord.CellCount);
+                for(var j=z8; j<fields.Count; j++)
+                    layout(j, fields[j], ref dst);
+                return dst;
+            }
+
+            public static InstLayouts layouts(Index<InstPattern> src)
             {
                 var count = src.Count;
                 var dst = alloc<InstLayout>(count);
@@ -30,13 +52,13 @@ namespace Z0
                 dst.PatternId = (ushort)src.PatternId;
                 dst.Instruction = src.InstClass;
                 dst.OpCode = src.OpCode;
-                dst.Count = Demand.lteq(fields.Count,InstLayout.CellCount);
+                dst.Count = Demand.lteq(fields.Count, InstLayoutRecord.CellCount);
                 for(var j=z8; j<fields.Count; j++)
-                    layout(j, fields[j], ref dst);
+                    dst[j] = layout(fields[j]);
                 return dst;
             }
 
-            static void layout(byte index, CellValue src, ref InstLayout dst)
+            static void layout(byte index, in CellValue src, ref InstLayoutRecord dst)
             {
                 switch(index)
                 {

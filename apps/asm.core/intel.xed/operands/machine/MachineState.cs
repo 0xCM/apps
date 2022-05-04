@@ -95,7 +95,7 @@ namespace Z0
 
             }
 
-            void Load(in InstLayout src)
+            void Load(in InstLayoutRecord src)
             {
                 for(var i=z8; i<src.Count; i++)
                     Load(src[i]);

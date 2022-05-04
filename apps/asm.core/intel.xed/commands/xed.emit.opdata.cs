@@ -93,7 +93,7 @@ namespace Z0
                 ref readonly var pattern = ref patterns[i];
                 ref readonly var ops = ref pattern.Ops;
                 dst.AppendLineFormat(InstRender.LabelPattern, "Pattern", string.Format("{0,-10} | {1,-18} | {2,-26}", pattern.PatternId, pattern.InstClass.Classifier, pattern.OpCode));
-                dst.AppendLineFormat(InstRender.LabelPattern, "Layout", LayoutCalcs.layout(pattern));
+                dst.AppendLineFormat(InstRender.LabelPattern, "Layout", LayoutCalcs.record(pattern));
                 k = InstRender.fields(pattern,buffer);
                 for(var j=0; j<k; j++)
                     dst.AppendLine(skip(buffer,j));
@@ -106,9 +106,6 @@ namespace Z0
                     var desc = OpDescriptor.calc(pattern.Mode, op);
                     dst.AppendLine(desc);
                 }
-                // k = InstRender.operands(pattern,buffer);
-                // for(var j=0; j<k; j++)
-                //     dst.AppendLine(skip(buffer,j));
 
                 dst.AppendLine();
 

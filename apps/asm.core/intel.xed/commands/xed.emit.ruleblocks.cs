@@ -9,6 +9,14 @@ namespace Z0
 
     partial class XedCmdProvider
     {
+        [CmdOp("xed/emit/layoutblocks")]
+        Outcome EmitLayoutBlocks(CmdArgs args)
+        {
+            var src = LayoutCalcs.layouts(CalcPatterns());
+            FileEmit(src.Format(), 0, XedPaths.Target("xed.inst.layouts.test", FS.Txt));
+            return true;
+        }
+
         [CmdOp("xed/emit/ruleblocks")]
         Outcome EmitRuleBlocks(CmdArgs args)
         {

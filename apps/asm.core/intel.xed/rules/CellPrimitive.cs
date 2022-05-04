@@ -10,6 +10,15 @@ namespace Z0
     {
         public struct CellPrimitive
         {
+            public static Index<CellPrimitive> primitives(in RowSpec src)
+            {
+                var count = src.ColCount;
+                var dst = alloc<CellPrimitive>(count);
+                for(var i=z8; i<count; i++)
+                    seek(dst,i) = CellPrimitive.from(src[i]);
+                return dst;
+            }
+
             public static CellPrimitive from(in CellInfo src)
             {
                 var dst = default(CellPrimitive);
@@ -53,39 +62,37 @@ namespace Z0
                 return dst;
             }
 
-            public FieldKind Field;
-
-            public RuleOperator Operator;
-
-            public byte ValueSize
+            public static string format(Index<CellPrimitive> src)
             {
-                [MethodImpl(Inline)]
-                get => (byte)_ExprValue.Length;
+                var dst = text.emitter();
+                var count = src.Count;
+                for(var i=z8; i<count; i++)
+                {
+                    ref readonly var cell = ref src[i];
+                    if(cell.IsOperator && i == count - 1)
+                        break;
+
+                    if(i !=0)
+                        dst.Append(Chars.Space);
+
+                    dst.Append(cell.Format());
+                }
+                return dst.Emit();
             }
 
-            LiteralBits _BitLit;
+            public readonly FieldKind Field;
 
-            asci32 _ExprValue;
+            public readonly asci32 Value;
 
-            Hex8 _HexLit;
-
-            RuleKeyword _Keyword;
-
-            SegVar _SegData;
-
-            Nonterminal _NTC;
-
-            SegVar _AssembledSeg;
-
-            Kind _Kind;
+            public readonly Kind Sort;
 
             public bool IsOperator
             {
                 [MethodImpl(Inline)]
-                get => _Kind == Kind.Op;
+                get => Sort == Kind.Op;
             }
 
-            enum Kind : byte
+            public enum Kind : byte
             {
                 None,
 
@@ -106,99 +113,65 @@ namespace Z0
                 KW,
             }
 
-            internal CellPrimitive(FieldKind field, RuleOperator op, asci32 value)
-                : this()
+            internal CellPrimitive(FieldKind field, RuleOperator op, asci32 src)
             {
                 Field = field;
-                Operator = op;
-                _ExprValue = value;
-                _Kind = Kind.Expr;
+                Sort = Kind.Expr;
+                Value = string.Format("{0}{1}{2}", field,op, src);
 
             }
 
-            internal CellPrimitive(FieldKind field, SegVar data)
-                : this()
+            internal CellPrimitive(FieldKind field, SegVar src)
             {
                 Field = field;
-                _SegData = data;
-                _Kind = Kind.SegField;
+                Sort = Kind.SegField;
+                Value = string.Format("{0}[{1}]", XedRender.format(field), src);
             }
 
-            internal CellPrimitive(SegVar assembled)
-                : this()
+            internal CellPrimitive(SegVar src)
             {
-                _AssembledSeg = assembled;
-                _Kind = Kind.SegAssemly;
+                Field = FieldKind.INVALID;
+                Sort = Kind.SegAssemly;
+                Value = XedRender.format(src);
             }
 
-            internal CellPrimitive(RuleOperator op)
-                : this()
+            internal CellPrimitive(RuleOperator src)
             {
-                Operator = op;
-                _Kind = Kind.Op;
+                Field = FieldKind.INVALID;
+                Sort = Kind.Op;
+                Value = XedRender.format(src);
             }
 
-            internal CellPrimitive(LiteralBits bits)
-                : this()
+            internal CellPrimitive(LiteralBits src)
             {
-                _BitLit = bits;
-                _Kind = Kind.BitLit;
+                Field = FieldKind.INVALID;
+                Sort = Kind.BitLit;
+                Value = src.Format();
             }
 
-            internal CellPrimitive(Hex8 hex)
-                : this()
+            internal CellPrimitive(Hex8 src)
             {
-                _HexLit = hex;
-                _Kind = Kind.HexLit;
+                Field = FieldKind.INVALID;
+                Sort = Kind.HexLit;
+                Value = XedRender.format(src);
             }
 
-            internal CellPrimitive(RuleKeyword kw)
-                : this()
+            internal CellPrimitive(RuleKeyword src)
             {
-                _Keyword = kw;
-                _Kind = Kind.KW;
+                Field = FieldKind.INVALID;
+                Sort = Kind.KW;
+                Value = XedRender.format(src);
             }
 
-            internal CellPrimitive(Nonterminal nt)
-                : this()
+            internal CellPrimitive(Nonterminal src)
             {
-                _NTC = nt;
-                _Kind = Kind.NT;
+                Field = FieldKind.INVALID;
+                Sort = Kind.NT;
+                Value = XedRender.format(src);
             }
 
             public string Format()
-            {
-                var dst = EmptyString;
-                switch(_Kind)
-                {
-                    case Kind.Expr:
-                        dst = string.Format("{0}{1}{2}", XedRender.format(Field), XedRender.format(Operator), _ExprValue);
-                    break;
-                    case Kind.Op:
-                        dst = XedRender.format(Operator);
-                    break;
-                    case Kind.SegField:
-                        dst = string.Format("{0}[{1}]", XedRender.format(Field), _SegData);
-                    break;
-                    case Kind.SegAssemly:
-                        dst = _AssembledSeg.Format();
-                    break;
-                    case Kind.BitLit:
-                        dst = _BitLit.Format();
-                    break;
-                    case Kind.HexLit:
-                        dst = XedRender.format(_HexLit);
-                    break;
-                    case Kind.NT:
-                        dst = XedRender.format(_NTC);
-                    break;
-                    case Kind.KW:
-                        dst = XedRender.format(_Keyword);
-                    break;
-                }
-
-                return dst;
-            }
+                => Value.Format();
 
             public override string ToString()
                 => Format();

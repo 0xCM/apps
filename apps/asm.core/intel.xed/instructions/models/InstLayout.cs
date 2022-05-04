@@ -4,21 +4,35 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class XedRules
     {
-        [Record(TableName), StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct InstLayout : IComparable<InstLayout>
+        [StructLayout(LayoutKind.Sequential,Pack=1,Size=12*16)]
+        public struct InstLayoutBlock
         {
-            public const string TableName = "xed.inst.layouts";
+            public Span<LayoutCell> Cells
+            {
+                [MethodImpl(Inline)]
+                get => recover<LayoutCell>(bytes(this));
+            }
 
-            public const byte CellCount = 11;
+            public ref LayoutCell this[int i]
+            {
+                [MethodImpl(Inline)]
+                get => ref  seek(Cells,i);
+            }
 
-            const byte HeaderCount = 4;
+            public ref LayoutCell this[uint i]
+            {
+                [MethodImpl(Inline)]
+                get => ref  seek(Cells,i);
+            }
+        }
 
-            const byte TotalCount = HeaderCount + CellCount;
-
-            public const byte CellWidth = 22;
-
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
+        public struct InstLayout
+        {
             public ushort PatternId;
 
             public InstClass Instruction;
@@ -27,110 +41,65 @@ namespace Z0
 
             public byte Count;
 
-            public LayoutCell Cell0;
+            public InstLayoutBlock Block;
 
-            public LayoutCell Cell1;
-
-            public LayoutCell Cell2;
-
-            public LayoutCell Cell3;
-
-            public LayoutCell Cell4;
-
-            public LayoutCell Cell5;
-
-            public LayoutCell Cell6;
-
-            public LayoutCell Cell7;
-
-            public LayoutCell Cell8;
-
-            public LayoutCell Cell9;
-
-            public LayoutCell Cell10;
-
-            public LayoutCell this[byte i]
+            [MethodImpl(Inline)]
+            public InstLayout(ushort pid, InstClass inst, XedOpCode oc, byte count)
             {
-                get
-                {
-                    var dst = LayoutCell.Empty;
-                    switch(i)
-                    {
-                        case 0:
-                            dst = Cell0;
-                        break;
-                        case 1:
-                            dst = Cell1;
-                        break;
+                PatternId = pid;
+                Instruction = inst;
+                OpCode = oc;
+                Count = count;
+                Block = default;
+            }
 
-                        case 2:
-                            dst = Cell2;
-                        break;
+            public InstLayout(ushort pid, InstClass inst, XedOpCode oc, byte count, InstLayoutBlock block)
+            {
+                PatternId = pid;
+                Instruction = inst;
+                OpCode = oc;
+                Count = count;
+                Block = block;
+            }
 
-                        case 3:
-                            dst = Cell3;
-                        break;
+            public Span<LayoutCell> Cells
+            {
+                [MethodImpl(Inline)]
+                get => Block.Cells;
+            }
 
-                        case 4:
-                            dst = Cell4;
-                        break;
+            public ref LayoutCell this[int i]
+            {
+                [MethodImpl(Inline)]
+                get => ref Block[i];
+            }
 
-                        case 5:
-                            dst = Cell5;
-                        break;
-
-                        case 6:
-                            dst = Cell6;
-                        break;
-
-                        case 7:
-                            dst = Cell7;
-                        break;
-
-                        case 8:
-                            dst = Cell8;
-                        break;
-
-                        case 9:
-                            dst = Cell9;
-                        break;
-
-                        case 10:
-                            dst = Cell10;
-                        break;
-                    };
-
-                    return dst;
-                }
+            public ref LayoutCell this[uint i]
+            {
+                [MethodImpl(Inline)]
+                get => ref Block[i];
             }
 
             public string Format()
             {
                 var dst = text.emitter();
-                cells(this, dst);
+                dst.Append(Chars.LBracket);
+                for(var i=0; i<Count; i++)
+                {
+                    dst.Append(this[i]);
+                    if(i != Count - 1)
+                        dst.Append(" | ");
+                }
+                dst.Append(Chars.RBracket);
                 return dst.Emit();
             }
+
 
             public override string ToString()
                 => Format();
 
-            static void cells(in InstLayout src, ITextEmitter dst)
-            {
-                for(var i=z8; i<src.Count; i++)
-                    dst.AppendFormat("{0} ", src[i]);
-            }
-
-            public int CompareTo(InstLayout src)
-                => PatternId.CompareTo(src.PatternId);
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[TotalCount]{
-                12,18,18,6,
-                CellWidth,CellWidth,CellWidth,CellWidth,
-                CellWidth,CellWidth,CellWidth,CellWidth,
-                CellWidth,CellWidth,CellWidth,
-                };
-
             public static InstLayout Empty => default;
+
         }
     }
 }

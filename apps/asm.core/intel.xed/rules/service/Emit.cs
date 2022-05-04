@@ -114,8 +114,8 @@ namespace Z0
         public void Emit(ReadOnlySpan<InstOpClass> src)
             => TableEmit(src, InstOpClass.RenderWidths, XedPaths.Table<InstOpClass>());
 
-        public void Emit(ReadOnlySpan<InstLayout> src)
-            => TableEmit(src, InstLayout.RenderWidths, XedPaths.Table<InstLayout>());
+        public void Emit(ReadOnlySpan<InstLayoutRecord> src)
+            => TableEmit(src, InstLayoutRecord.RenderWidths, XedPaths.Table<InstLayoutRecord>());
 
         public void Emit(ReadOnlySpan<XedFieldDef> src)
             => TableEmit(src, XedFieldDef.RenderWidths, XedPaths.Table<XedFieldDef>());

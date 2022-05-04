@@ -11,6 +11,21 @@ namespace Z0
     {
         public partial class RuleTables
         {
+            public static Index<RuleCell> linearize(Pairings<RuleSig,Index<RuleCell>> src)
+                => src.Array().SelectMany(x => x.Right).Sort();
+
+            [MethodImpl(Inline)]
+            public static RuleCell cell(CellMetrics metrics, CellValue value)
+                => new (metrics,value);
+
+            [MethodImpl(Inline)]
+            public static RuleCell cell(CellMetrics metrics, RuleOperator op)
+                => new (metrics, new CellValue(op));
+
+            [MethodImpl(Inline)]
+            public static CellMetrics metrics(CellKey key)
+                => new CellMetrics(key, XedFields.size(key.Field,key.CellType));
+
             internal class Buffers
             {
                 public readonly ConcurrentDictionary<RuleTableKind,Index<TableCriteria>> Criteria = new();

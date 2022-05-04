@@ -25,7 +25,7 @@ namespace Z0
 
             internal RuleCells(Pairings<RuleSig,Index<RuleCell>> cells, CellTable[] tables, RuleCellRecord[] records, string desc)
             {
-                Values = RuleTables.flat(cells);
+                Values = RuleTables.linearize(cells);
                 TableCells = cells;
                 Sigs = tables.Select(x => x.Sig).Sort();
                 Tables = tables;

@@ -29,10 +29,10 @@ namespace Z0
             }
 
             public readonly InstClass Classifier
-                => this;//IsEmpty ? Empty : XedPatterns.normalize(this);
+                => this;
 
             public Identifier Name
-                => IsEmpty ? EmptyString : Kind.ToString(); //IsEmpty ? EmptyString : Kind.ToString();
+                => IsEmpty ? EmptyString : Kind.ToString();
 
             public bool IsEmpty
             {
@@ -91,7 +91,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static explicit operator InstClass(ushort src)
-                =>new InstClass((IClass)src);
+                => new InstClass((IClass)src);
 
            public static InstClass Empty => default;
         }

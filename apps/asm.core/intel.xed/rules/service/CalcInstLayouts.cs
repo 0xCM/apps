@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public Index<InstLayout> CalcInstLayouts(Index<InstPattern> src)
-            => Data(nameof(CalcInstLayouts), () => LayoutCalcs.layouts(src));
+        public Index<InstLayoutRecord> CalcInstLayouts(Index<InstPattern> src)
+            => Data(nameof(CalcInstLayouts), () => LayoutCalcs.records(src));
     }
 }
