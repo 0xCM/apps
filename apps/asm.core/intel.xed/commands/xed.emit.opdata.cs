@@ -8,6 +8,21 @@ namespace Z0
     using static Datasets;
     using static core;
 
+    partial class XTend
+    {
+        public static void AppendLines<T>(this ITextEmitter dst, ReadOnlySpan<T> src)
+        {
+            for(var i=0; i<src.Length; i++)
+                dst.AppendLine(skip(src,i));
+        }
+
+        public static void AppendLines<T>(this ITextEmitter dst, Span<T> src)
+        {
+            for(var i=0; i<src.Length; i++)
+                dst.AppendLine(skip(src,i));
+        }
+
+    }
     partial class XedCmdProvider
     {
         TableColumns OperandCols = new TableColumns(
@@ -39,10 +54,8 @@ namespace Z0
         void Render(Index<InstOpDetail> ops, ITextEmitter dst)
         {
             var buffer = OperandCols.Buffer();
-
             var iv = BitVector64.Zero;
             var kv = BitVector64.Zero;
-
             for(var j=0; j<ops.Count; j++)
             {
                 ref readonly var op = ref ops[j];
@@ -66,63 +79,45 @@ namespace Z0
                 buffer.Write(op.SourceExpr);
                 buffer.EmitLine(dst);
             }
-
-            var storage = ByteBlock32.Empty;
-            var ntcount = nonterms(ops, ref storage);
-            if(ntcount != 0)
-            {
-                var rules = slice(storage.Storage<Nonterminal>(),0,ntcount);
-
-            }
         }
 
-        [CmdOp("xed/emit/layouts/ops")]
-        Outcome EmitLyoutOps(CmdArgs args)
+        [CmdOp("xed/emit/opvecs")]
+        Outcome EmitOpVectors(CmdArgs args)
         {
-            var cols = new TableColumns(
-                ("PatternId", 10),
-                ("InstClass", 18),
-                ("Index", 8),
-                ("OpCode", 26)
-                );
-
-            var counter = 0u;
-            var opcodes = CalcPatternOpCodes();
-            var patterns = CalcPatterns().Select(x => ((ushort)x.PatternId,x)).ToDictionary();
-
-            var dst = cols.Buffer();
-            var path = XedPaths.Target("xed.inst.layouts.ops", FS.Txt);
-            var emitting = EmittingFile(path);
-            using var writer = path.Emitter();
-            dst.EmitHeader(writer);
-            for(var i=0; i<opcodes.Count; i++)
+            var dst = text.emitter();
+            Span<string> buffer = alloc<string>(256);
+            var patterns = CalcPatterns();
+            var k=z8;
+            for(var i=0; i<patterns.Count; i++)
             {
-                ref readonly var poc = ref opcodes[i];
-
-                var pattern = patterns[poc.PatternId];
-
-                ref readonly var ops = ref pattern.OpDetails;
-                dst.Write(poc.PatternId);
-                dst.Write(poc.InstClass.Classifier);
-                dst.Write(poc.Index);
-                dst.Write(poc.OpCode);
-
-                writer.AppendLineFormat("{0,-10} | {1}", EmptyString, RP.PageBreak120);
-                counter++;
-                dst.EmitLine(writer);
-                counter++;
-
-                writer.AppendLineFormat("{0,-10} | {1}", EmptyString, LayoutCalcs.layout(pattern));
-
-                counter++;
-                writer.AppendLineFormat("{0,-10} | {1}", EmptyString, RP.PageBreak120);
-                counter++;
+                ref readonly var pattern = ref patterns[i];
+                ref readonly var ops = ref pattern.Ops;
+                dst.AppendLineFormat(InstRender.LabelPattern, "Pattern", string.Format("{0,-10} | {1,-18} | {2,-26}", pattern.PatternId, pattern.InstClass.Classifier, pattern.OpCode));
+                dst.AppendLineFormat(InstRender.LabelPattern, "Layout", LayoutCalcs.layout(pattern));
+                k = InstRender.fields(pattern,buffer);
+                for(var j=0; j<k; j++)
+                    dst.AppendLine(skip(buffer,j));
 
 
-                Render(pattern.OpDetails,writer);
+                dst.AppendLine(InstRender.OpsHeader);
+                for(var j=0; j<ops.Count; j++)
+                {
+                    ref readonly var op = ref ops[j];
+                    var desc = OpDescriptor.calc(pattern.Mode, op);
+                    dst.AppendLine(desc);
+                }
+                // k = InstRender.operands(pattern,buffer);
+                // for(var j=0; j<k; j++)
+                //     dst.AppendLine(skip(buffer,j));
+
+                dst.AppendLine();
+
+                dst.AppendLine(RP.PageBreak180);
+
             }
 
-            EmittedFile(emitting,counter);
+
+            FileEmit(dst.Emit(), patterns.Count, XedPaths.Target("xed.inst.layouts.ops", FS.Txt));
 
             return true;
         }

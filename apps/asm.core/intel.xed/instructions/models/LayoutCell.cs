@@ -42,6 +42,12 @@ namespace Z0
                 get => ref @as<LayoutCellKind>(Data[15]);
             }
 
+            public bool IsRule
+            {
+                [MethodImpl(Inline)]
+                get => Kind == LayoutCellKind.NT;
+            }
+
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]

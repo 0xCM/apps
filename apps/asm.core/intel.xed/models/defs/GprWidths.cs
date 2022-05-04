@@ -21,16 +21,16 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public static GprWidth define(byte o16, byte o32, byte o64)
+            static GprWidth define(byte o16, byte o32, byte o64)
                 => new GprWidth(o16, o32, o64);
 
             [MethodImpl(Inline)]
             public static ref readonly GprWidth widths(GprWidthIndex index)
-                => ref core.skip(All,(byte)index);
+                => ref core.skip(All, (byte)index);
 
             public static bool widths(Nonterminal src, out GprWidth dst)
             {
-                dst = GprWidth.Empty;;
+                dst = GprWidth.Empty;
                 var result = true;
                 switch(src.Name)
                 {
@@ -150,13 +150,13 @@ namespace Z0
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Value == uint6.Max;
+                get => Value == uint6.MaxValue;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Value != uint6.Max;
+                get => Value != uint6.MaxValue;
             }
 
             public NativeSize this[W16 w]

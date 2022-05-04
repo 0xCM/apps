@@ -25,7 +25,7 @@ namespace Z0
                 var indicator = EmptyString;
                 if(et.Indicator != 0)
                     indicator = ((char)et.Indicator).ToString();
-                seg = string.Format("{0}x{1}{2}x{3}n", wi.SegType.DataWidth,  wi.SegType.CellWidth, indicator, wi.SegType.CellCount);
+                seg = string.Format("{0}x{1}{2}x{3}n", wi.SegType.DataWidth, wi.SegType.CellWidth, indicator, wi.SegType.CellCount);
             }
 
             var _bw = bw.ToString();
