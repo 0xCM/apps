@@ -21,7 +21,7 @@ namespace Z0
 
             public readonly FieldKind Field;
 
-            public readonly RuleCellType DataType;
+            public readonly RuleCellType CellType;
 
             public readonly RuleSig Rule;
 
@@ -40,7 +40,7 @@ namespace Z0
                 Row = row;
                 Col = col;
                 Logic = logic;
-                DataType = type;
+                CellType = type;
                 Field = field;
                 Keyword = keyword;
                 Pad1 = 0;

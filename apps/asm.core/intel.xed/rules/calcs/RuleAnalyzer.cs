@@ -47,7 +47,7 @@ namespace Z0
             LeftFields = alloc<FieldKind>(24);
             RightFields = alloc<FieldKind>(24);
             FieldUsage = alloc<FieldKind>(24);
-            Render = FieldRender.create();
+            Render = XedFields.render();
             FieldBits = RuleFieldBits.create();
             Counter = 0;
         }
@@ -192,7 +192,7 @@ namespace Z0
                 dst = Run(src.Key, src.Value.ToCellExpr());
             else
             {
-                switch(src.Key.DataType.Kind)
+                switch(src.Key.CellType.Kind)
                 {
                     case CK.BitLiteral:
                         dst = Run(src.Value.AsBitLit());

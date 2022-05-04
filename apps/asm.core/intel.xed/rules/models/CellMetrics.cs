@@ -7,27 +7,56 @@ namespace Z0
 {
     partial class XedRules
     {
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct CellMetrics
         {
-            /// <summary>
-            /// Specifies the number of indexed tables
-            /// </summary>
-            public ushort TableCount;
+            public readonly CellKey Key;
 
-            /// <summary>
-            /// Specifies the number of indexed rows
-            /// </summary>
-            public uint RowCount;
+            public readonly DataSize Size;
 
-            /// <summary>
-            /// Specifies the number of indexed cells
-            /// </summary>
-            public uint CellCount;
+            [MethodImpl(Inline)]
+            public CellMetrics(CellKey key, DataSize size)
+            {
+                Key = key;
+                Size = size;
+            }
 
-            /// <summary>
-            /// Specifies the number of rows for each index-identified table
-            /// </summary>
-            public Index<ushort> RowCounts;
+            public LogicClass Logic
+            {
+                [MethodImpl(Inline)]
+                get => Key.Logic;
+            }
+
+            public Coordinate Location
+            {
+                [MethodImpl(Inline)]
+                get => new Coordinate(Key.Table, Key.Row, Key.Col);
+            }
+
+            public FieldKind Field
+            {
+                [MethodImpl(Inline)]
+                get => Key.Field;
+            }
+
+            public RuleCellType CellType
+            {
+                [MethodImpl(Inline)]
+                get => Key.CellType;
+            }
+
+            public RuleCellKind CellKind
+            {
+                [MethodImpl(Inline)]
+                get => CellType.Kind;
+            }
+
+            public KeywordKind Keyword
+            {
+                [MethodImpl(Inline)]
+                get => Key.Keyword;
+            }
+
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Z0
             {
                 Path = dst;
                 Exclusions = hashset<FieldKind>(K.TZCNT,K.LZCNT);
-                Render = XedFields.FieldRender.create();
+                Render = XedFields.render();
             }
 
             const string RenderPattern = DisasmRender.Columns;

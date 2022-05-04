@@ -5,44 +5,31 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-    using CK = XedRules.RuleCellKind;
-
     partial class XedRules
     {
-        public static DataSize size(FieldKind field, RuleCellKind kind)
-        {
-            var dst = XedFields.field(field).Size;
-            switch(kind)
-            {
-                case CK.Keyword:
-                    dst = RuleKeyword.DataSize;
-                break;
-                case CK.NontermCall:
-                    dst = Nonterminal.DataSize;
-                break;
-                case CK.Operator:
-                    dst = RuleOperator.DataSize;
-                break;
-            }
-            return dst;
-        }
-
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct RuleCell : IComparable<RuleCell>
         {
             public readonly CellKey Key;
 
+            public readonly DataSize Size;
+
             public readonly CellValue Value;
 
-            public readonly DataSize Size;
+            [MethodImpl(Inline)]
+            public RuleCell(CellMetrics metrics, CellValue value)
+            {
+                Key = metrics.Key;
+                Size = metrics.Size;
+                Value = value;
+            }
 
             [MethodImpl(Inline)]
             public RuleCell(CellKey key, CellValue value)
             {
                 Key = key;
                 Value = value;
-                Size = size(key.Field, key.DataType);
+                Size = XedFields.size(key.Field, key.CellType);
             }
 
             [MethodImpl(Inline)]
@@ -59,13 +46,13 @@ namespace Z0
             public RuleCellType CellType
             {
                 [MethodImpl(Inline)]
-                get => Key.DataType;
+                get => Key.CellType;
             }
 
             public RuleCellKind CellKind
             {
                 [MethodImpl(Inline)]
-                get => Key.DataType;
+                get => Key.CellType;
             }
 
             public FieldKind Field

@@ -160,7 +160,7 @@ namespace Z0
             {
                 var data = tables(src.ToConcurrentDictionary());
                 var sigcells = core.pairings(src.Map(x => core.paired(x.Key,x.Value)));
-                return new RuleCells(sigcells, data, metrics(data), records(data), desc);
+                return new RuleCells(sigcells, data, records(data), desc);
             }
 
             static string SemanticHeader
@@ -168,16 +168,6 @@ namespace Z0
 
             static string format(in RuleCell cell)
                 => string.Format("{0:D5} | {1:D5} | {2,-48} | {3}", cell.Key.Index, cell.Key.Index, cell.Key.FormatSemantic(), cell.Format());
-
-            static CellMetrics metrics(Index<CellTable> src)
-            {
-                var metrics = new CellMetrics();
-                metrics.TableCount = (ushort)src.Count;
-                metrics.CellCount = src.Select(x => x.CellCount()).Storage.Sum();
-                metrics.RowCounts = src.Select(x => (ushort)x.RowCount);
-                metrics.RowCount = src.Select(x => x.RowCount).Storage.Sum();
-                return metrics;
-            }
 
             static Index<RuleCellRecord> records(Index<CellTable> src)
             {

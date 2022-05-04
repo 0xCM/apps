@@ -35,23 +35,23 @@ namespace Z0
                     dst.AppendLine();
 
                 dst.AppendLineFormat("{0:D3}", row.RowIndex);
-                dst.AppendLine(RP.PageBreak80);
+                dst.AppendLine(RP.PageBreak120);
                 for(var j=0; j<row.CellCount; j++)
                 {
                     ref readonly var cell = ref row[j];
                     ref readonly var key = ref cell.Key;
                     dst.AppendLineFormat("{0} {1,-12} | {2}",
-                        string.Format("{0:D3} {1:D3} {2}", row.RowIndex, key.Col, key.FormatSemantic()),
+                        string.Format("{0:D3} {1:D3} {2,-48}", row.RowIndex, key.Col, key.FormatSemantic()),
                         XedRender.format(cell.Field),
                         cell);
                 }
 
+                dst.AppendLine(RP.PageBreak80);
                 dst.AppendLine(row.Expression);
             }
 
             dst.AppendLine();
-            dst.AppendLine(RP.PageBreak80);
-            //dst.Append(XedGrids.grid(table).Format());
+            dst.AppendLine(RP.PageBreak120);
 
             return dst.Emit();
         }

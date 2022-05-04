@@ -17,9 +17,6 @@ namespace Z0
     {
         public class FieldRender
         {
-            public static FieldRender create()
-                => new FieldRender();
-
             public const byte Count = 128;
 
             readonly Index<FieldKind,Func<ushort,string>> Functions;

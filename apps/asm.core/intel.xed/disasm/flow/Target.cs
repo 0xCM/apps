@@ -41,7 +41,7 @@ namespace Z0
                 FieldsComputed += Nothing;
                 ComputingInst += Nothing;
                 ComputedInst += Nothing;
-                _Render = XedFields.FieldRender.create();
+                _Render = XedFields.render();
             }
 
             protected event DisasmReceiver<Instruction> ComputingInst;

@@ -13,8 +13,6 @@ namespace Z0
 
             public readonly Index<CellTable> Tables;
 
-            public readonly CellMetrics Metrics;
-
             public readonly Index<RuleCellRecord> Records;
 
             public readonly string Description;
@@ -25,13 +23,12 @@ namespace Z0
 
             public readonly uint RowCount;
 
-            internal RuleCells(Pairings<RuleSig,Index<RuleCell>> cells, CellTable[] tables, CellMetrics metrics, RuleCellRecord[] records, string desc)
+            internal RuleCells(Pairings<RuleSig,Index<RuleCell>> cells, CellTable[] tables, RuleCellRecord[] records, string desc)
             {
                 Values = RuleTables.flat(cells);
                 TableCells = cells;
                 Sigs = tables.Select(x => x.Sig).Sort();
                 Tables = tables;
-                Metrics = metrics;
                 Description = desc;
                 Records = records;
                 RowCount = tables.Select(t => t.RowCount).Sum();
