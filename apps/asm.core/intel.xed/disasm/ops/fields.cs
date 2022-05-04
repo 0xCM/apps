@@ -7,6 +7,7 @@ namespace Z0
     using static core;
     using static XedRules;
     using static XedModels;
+    using static XedOperands;
 
     partial class XedDisasm
     {
@@ -24,7 +25,7 @@ namespace Z0
             dst.Detail = src.DetailRow;
             dst.Summary = lines.Row;
             dst.FieldSelection = dst.Fields.MemberKinds();
-            XedState.update(dst.Fields, dst.FieldSelection, ref dst.State);
+            XedOperands.update(dst.Fields, dst.FieldSelection, ref dst.State);
             dst.Encoding = XedState.Code.encoding(dst.State, lines.Row.Encoded);
             return ref dst;
         }
@@ -47,7 +48,7 @@ namespace Z0
 
                 result = XedParsers.parse(name, out FieldKind kind);
                 result.Require();
-                dst.Update(pack(value, kind));
+                dst.Update(FieldParser.pack(value, kind));
                 counter++;
             }
             return counter;

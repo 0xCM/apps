@@ -75,7 +75,7 @@ namespace Z0
                 dst.Computed(seq, ops);
 
                 var state = OperandState.Empty;
-                XedState.update(fields, kinds, ref state);
+                XedOperands.update(fields, kinds, ref state);
                 dst.Computed(seq, state);
 
                 var encoding = XedState.Code.encoding(state, asmhex);

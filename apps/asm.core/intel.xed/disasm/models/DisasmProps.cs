@@ -11,20 +11,6 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public readonly struct DisasmProp
-        {
-            public readonly string Name;
-
-            public readonly string Value;
-
-            [MethodImpl(Inline)]
-            public DisasmProp(string name, string value)
-            {
-                Name = name;
-                Value = value;
-            }
-        }
-
         public class DisasmProps : Dictionary<string,string>
         {
             public readonly InstClass Instruction;
