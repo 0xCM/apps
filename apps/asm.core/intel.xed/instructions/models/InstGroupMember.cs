@@ -31,10 +31,10 @@ namespace Z0
                 get => ref Pattern.InstForm;
             }
 
-            public ref readonly InstFields Fields
+            public ref readonly InstCells Fields
             {
                 [MethodImpl(Inline)]
-                get => ref Pattern.Fields;
+                get => ref Pattern.Cells;
             }
 
             public ref readonly byte Index

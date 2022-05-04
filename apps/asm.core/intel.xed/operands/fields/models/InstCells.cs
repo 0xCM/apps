@@ -10,10 +10,10 @@ namespace Z0
 
     partial class XedRules
     {
-        public readonly struct InstFields : IIndex<CellValue>
+        public readonly struct InstCells : IIndex<CellValue>
         {
             [MethodImpl(Inline), Op]
-            public static InstFields sort(in InstFields src)
+            public static InstCells sort(in InstCells src)
             {
                 var data = src.Data;
                 var count = (byte)data.Count;
@@ -39,10 +39,10 @@ namespace Z0
                         field = field.WithPosition(lIx++);
                 }
 
-                return new InstFields(data.Sort(), lCount);
+                return new InstCells(data.Sort(), lCount);
             }
 
-            public static VexClass vex(in InstFields src)
+            public static VexClass vex(in InstCells src)
             {
                 var result = VexClass.None;
                 if(src.Count != 0)
@@ -62,7 +62,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline), Op]
-            public static FieldSet usage(in InstFields src)
+            public static FieldSet usage(in InstCells src)
             {
                 var dst = FieldSet.create();
                 for(var j=0; j<src.Count; j++)
@@ -71,15 +71,15 @@ namespace Z0
             }
 
             [MethodImpl(Inline), Op]
-            public static XedOpCode opcode(in InstFields src)
+            public static XedOpCode opcode(in InstCells src)
                 => XedOpCodes.opcode(src);
 
             [MethodImpl(Inline), Op]
-            public static LockIndicator @lock(in InstFields src)
+            public static LockIndicator @lock(in InstCells src)
                 => new (lockable(src), locked(src));
 
             [MethodImpl(Inline), Op]
-            public static ChipCode chip(in InstFields src)
+            public static ChipCode chip(in InstCells src)
             {
                 var dst = ChipCode.INVALID;
                 for(var i=0; i<src.Count; i++)
@@ -96,7 +96,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline), Op]
-            public static bit lockable(in InstFields src)
+            public static bit lockable(in InstCells src)
             {
                 var result = bit.Off;
                 for(var i=0; i<src.Count; i++)
@@ -110,7 +110,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline), Op]
-            public static bit @locked(in InstFields src)
+            public static bit @locked(in InstCells src)
             {
                 var result = bit.Off;
                 for(var i=0; i<src.Count; i++)
@@ -126,7 +126,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline), Op]
-            public static BitIndicator rexr(in InstFields src)
+            public static BitIndicator rexr(in InstCells src)
             {
                 var dst = BitIndicator.Empty;
                 for(var i=0; i<src.Count; i++)
@@ -142,7 +142,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline), Op]
-            public static BitIndicator rexb(in InstFields src)
+            public static BitIndicator rexb(in InstCells src)
             {
                 var dst = BitIndicator.Empty;
                 for(var i=0; i<src.Count; i++)
@@ -158,7 +158,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline), Op]
-            public static BitIndicator rexx(in InstFields src)
+            public static BitIndicator rexx(in InstCells src)
             {
                 var dst = BitIndicator.Empty;
                 for(var i=0; i<src.Count; i++)
@@ -174,7 +174,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline), Op]
-            public static ModIndicator mod(in InstFields src)
+            public static ModIndicator mod(in InstCells src)
             {
                 var result = false;
                 var dst = ModIndicator.Empty;
@@ -202,7 +202,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline), Op]
-            public static BitIndicator rexw(in InstFields src)
+            public static BitIndicator rexw(in InstCells src)
             {
                 var dst = BitIndicator.Empty;
                 for(var i=0; i<src.Count; i++)
@@ -218,7 +218,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline), Op]
-            public static RepIndicator @rep(in InstFields src)
+            public static RepIndicator @rep(in InstCells src)
             {
                 var dst = RepIndicator.Empty;
                 for(var i=0; i<src.Count; i++)
@@ -234,7 +234,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline), Op]
-            public static MachineMode mode(in InstFields src)
+            public static MachineMode mode(in InstCells src)
             {
                 var result = ModeClass.Default;
                 for(var i=0; i<src.Count; i++)
@@ -251,7 +251,7 @@ namespace Z0
             public readonly byte LayoutCount;
 
             [MethodImpl(Inline)]
-            public InstFields(CellValue[] src, byte lCount)
+            public InstCells(CellValue[] src, byte lCount)
             {
                 Data = src;
                 LayoutCount = lCount;

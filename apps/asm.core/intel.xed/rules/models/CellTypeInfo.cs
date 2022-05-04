@@ -16,7 +16,7 @@ namespace Z0
 
             public readonly FieldKind Field;
 
-            public readonly RuleCellType Class;
+            public readonly RuleCellType Type;
 
             public readonly RuleOperator Operator;
 
@@ -28,7 +28,7 @@ namespace Z0
             public CellTypeInfo(FieldKind field, RuleCellType @class, RuleOperator op, asci16 type, DataSize size)
             {
                 Field = field;
-                Class = @class;
+                Type = @class;
                 Operator = op;
                 Size = size;
                 TypeName = type;
@@ -37,13 +37,13 @@ namespace Z0
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Class.IsNonEmpty;
+                get => Type.IsNonEmpty;
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Class.IsEmpty;
+                get => Type.IsEmpty;
             }
 
             public string Format()
@@ -54,7 +54,7 @@ namespace Z0
 
             public int CompareTo(CellTypeInfo src)
             {
-                var result = Class.CompareTo(src.Class);
+                var result = Type.CompareTo(src.Type);
                 if(result == 0)
                 {
                     result = XedRules.cmp(Field,src.Field);

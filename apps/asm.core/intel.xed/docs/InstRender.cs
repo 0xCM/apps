@@ -72,9 +72,9 @@ namespace Z0
                 if(title)
                     seek(dst,k++) = FieldsHeader;
 
-                for(var j=0; j<src.Fields.Count; j++)
+                for(var j=0; j<src.Cells.Count; j++)
                 {
-                    ref readonly var field = ref src.Fields[j];
+                    ref readonly var field = ref src.Cells[j];
                     var fk = XedRender.format(field.Field);
                     if(field.IsLiteral)
                         seek(dst,k++) = string.Format(Pattern, j, "Literal", field.Format());
@@ -100,8 +100,8 @@ namespace Z0
 
                             }
                             break;
-                            case RuleCellKind.SegField:
-                                seek(dst,k++) = string.Format(Pattern, j, fk, field.ToSegField());
+                            case RuleCellKind.FieldSeg:
+                                seek(dst,k++) = string.Format(Pattern, j, fk, field.ToFieldSeg());
                             break;
                             case RuleCellKind.InstSeg:
                                 seek(dst,k++) = string.Format(Pattern, j, fk, field.AsInstSeg());

@@ -171,6 +171,12 @@ namespace Z0
             FileEmit(dst.Emit(), calls.Count, XedDb.TargetPath("rules.tables.deps", FileKind.Md));
         }
 
+        Outcome EmitTerminals(CmdArgs args)
+        {
+            var rules = CalcRules();
+
+            return true;
+        }
         [CmdOp("xed/check/rules/names")]
         Outcome CheckRuleNames(CmdArgs args)
         {

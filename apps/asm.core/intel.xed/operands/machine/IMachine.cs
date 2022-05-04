@@ -10,7 +10,7 @@ namespace Z0
     {
         public interface IMachine
         {
-            void LoadPattern(InstPattern src);
+            void Load(InstPattern src);
 
             void Reset();
         }

@@ -59,11 +59,11 @@ namespace Z0
             dst.PatternId = (ushort)src.PatternId;
             dst.OpCode = src.OpCode;
             dst.InstClass = src.InstClass.Classifier;
-            dst.Mode = InstFields.mode(src.Fields);
-            dst.Lock = InstFields.@lock(src.Fields);
-            dst.Mod = InstFields.mod(src.Fields);
-            dst.RexW = InstFields.rexw(src.Fields);
-            dst.Rep = InstFields.rep(src.Fields);
+            dst.Mode = InstCells.mode(src.Cells);
+            dst.Lock = InstCells.@lock(src.Cells);
+            dst.Mod = InstCells.mod(src.Cells);
+            dst.RexW = InstCells.rexw(src.Cells);
+            dst.Rep = InstCells.rep(src.Cells);
             dst.Layout = src.Layout;
             dst.Expr = src.Expr;
         }

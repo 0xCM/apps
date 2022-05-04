@@ -27,28 +27,35 @@ namespace Z0
                     {
                         var rix = j;
                         ref readonly var row = ref table[j];
-                        var left = row.Antecedant.Select(x => XedRules.cellinfo(x.Type, LogicKind.Antecedant, x.Data));
-                        var right = row.Consequent.Select(x => XedRules.cellinfo(x.Type, LogicKind.Consequent, x.Data));
+                        var left = row.Antecedant.Select(x => XedRules.cellinfo(x.TypeInfo, LogicKind.Antecedant, x.Data));
+                        var right = row.Consequent.Select(x => XedRules.cellinfo(x.TypeInfo, LogicKind.Consequent, x.Data));
                         var count = left.Count + 1 + right.Count;
                         var keys = alloc<CellKey>(count);
                         var cells = alloc<CellInfo>(count);
                         var m=z8;
+                        var kw = RuleKeyword.Empty;
                         for(var k=0; k<left.Count; k++,m++)
                         {
-                            seek(keys,m) = new CellKey(seq++, tix, rix, m, LogicKind.Antecedant, left[k].Kind, tk, sig.TableName, left[k].Field);
-                            seek(cells, m) = left[k];
+                            ref readonly var ci = ref left[k];
+                            if(ci.IsKeyword)
+                                XedParsers.parse(ci.Data, out kw);
+                            seek(keys,m) = new CellKey(seq++, tix, rix, m, LogicKind.Antecedant, left[k].Kind, tk, sig.TableName, left[k].Field, kw.KeywordKind);
+                            seek(cells, m) = ci;
                         }
 
                         {
-                            seek(keys,m) = new CellKey(seq++, tix, rix, m, LogicKind.Operator, RuleCellKind.Operator, tk, sig.TableName, FieldKind.INVALID);
+                            seek(keys,m) = new CellKey(seq++, tix, rix, m, LogicKind.Operator, RuleCellKind.Operator, tk, sig.TableName, FieldKind.INVALID, KeywordKind.None);
                             seek(cells, m) = XedRules.cellinfo(OperatorKind.Impl);
                             m++;
                         }
 
                         for(var k=0; k<right.Count; k++,m++)
                         {
-                            seek(keys,m) = new CellKey(seq++, tix, rix, m, LogicKind.Consequent, right[k].Kind, tk, sig.TableName, right[k].Field);
-                            seek(cells, m) = right[k];
+                            ref readonly var ci = ref right[k];
+                            if(ci.IsKeyword)
+                                XedParsers.parse(ci.Data, out kw);
+                            seek(keys,m) = new CellKey(seq++, tix, rix, m, LogicKind.Consequent, right[k].Kind, tk, sig.TableName, right[k].Field, kw.KeywordKind);
+                            seek(cells, m) = ci;
                         }
                         seek(rows,j) = new RowSpec(sig, tix, rix, keys, cells);
                     }

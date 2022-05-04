@@ -12,7 +12,7 @@ namespace Z0
 
     partial class XedOpCodes
     {
-        public static AsmOcValue ocvalue(in InstFields src)
+        public static AsmOcValue ocvalue(in InstCells src)
         {
             var count = src.Count;
             var storage = ByteBlock4.Empty;

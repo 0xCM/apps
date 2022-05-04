@@ -11,8 +11,8 @@ namespace Z0
     {
         public ref struct FieldBuffer
         {
-            public static FieldBuffer init()
-                => new FieldBuffer(XedOperands.fields());
+            public static FieldBuffer allocate()
+                => new FieldBuffer(Fields.allocate());
 
             [MethodImpl(Inline)]
             FieldBuffer(Fields fields)

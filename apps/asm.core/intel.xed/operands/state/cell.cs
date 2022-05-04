@@ -14,8 +14,7 @@ namespace Z0
         [Op]
         public static FieldValue cell(in OperandState src, FieldKind kind)
         {
-            var result = Outcome.Success;
-            var dst = new FieldValue(kind, 0ul);
+            var dst = FieldValue.Empty;
             switch(kind)
             {
                 case K.AMD3DNOW:

@@ -9,16 +9,19 @@ namespace Z0
 
     partial class XedRules
     {
-        public ref struct Fields
+        public readonly struct Fields
         {
+            public static Fields allocate()
+                => new Fields(core.alloc<Field>(Fields.MaxCount));
+
             [MethodImpl(Inline), Op]
             public static Field field<T>(FieldKind kind, T value)
                 where T : unmanaged
                     => Field.init(kind, bw16(value));
 
-            Index<Field> Data;
+            readonly Index<Field> Data;
 
-            Index<FieldKind> Kinds;
+            readonly Index<FieldKind> Kinds;
 
             public const byte MaxCount = 128;
 

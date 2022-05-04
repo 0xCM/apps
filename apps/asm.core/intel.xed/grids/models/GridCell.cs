@@ -69,13 +69,13 @@ namespace Z0
             public string Format()
                 => IsEmpty ? EmptyString : string.Format("{0:D3} | {1,-3} | {2,-32} | {3:D2} | {4:D2} | {5} | {6,-6} | {7,-26} | {8}",
                     Key.Table,
-                    Key.Rule.TableKind,
-                    Key.Rule.TableName,
+                    XedRender.format(Key.Rule.TableKind),
+                    XedRender.format(Key.Rule.TableName),
                     RowIndex,
                     ColIndex,
                     Size.Format(2,2,true),
-                    Logic,
-                    Field,
+                    XedRender.format(Logic),
+                    XedRender.format(Field),
                     Value
                     );
 

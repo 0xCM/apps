@@ -110,7 +110,6 @@ namespace Z0
             return true;
         }
 
-
         [CmdOp("xed/emit/isa")]
         Outcome XedIsa(CmdArgs args)
             => Xed.EmitIsaForms(arg(args,0).Value);

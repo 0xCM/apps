@@ -36,6 +36,8 @@ namespace Z0
 
         RuleFieldBits FieldBits;
 
+        uint Counter;
+
         public RuleAnalyzer(IAppService app, Action<string,Count,FS.FilePath> emitter)
         {
             App = app;
@@ -47,6 +49,7 @@ namespace Z0
             FieldUsage = alloc<FieldKind>(24);
             Render = FieldRender.create();
             FieldBits = RuleFieldBits.create();
+            Counter = 0;
         }
 
         RuleField Run(LogicKind logic, FieldKind field, RuleOperator op, FieldValue value)
@@ -97,29 +100,29 @@ namespace Z0
 
         [MethodImpl(Inline)]
         RuleField Run(RuleKeyword src)
-            => FieldBits.Define(FieldKind.INVALID, RuleCellKind.Keyword, src);
+            => FieldBits.Define(FieldKind.INVALID, CK.Keyword, src);
 
         [MethodImpl(Inline)]
         RuleField Run(uint5 src)
-            => FieldBits.Define(FieldKind.INVALID, RuleCellKind.BitLiteral, src);
+            => FieldBits.Define(FieldKind.INVALID, CK.BitLiteral, src);
 
         [MethodImpl(Inline)]
         RuleField Run(FieldSeg src)
-            => RuleField.Empty;
+            => FieldBits.Define(src.Field, CK.FieldSeg, src);
 
         [MethodImpl(Inline)]
         RuleField Run(SegVar src)
-            => RuleField.Empty;
+            => FieldBits.Define(FieldKind.INVALID, CK.SegVar, src);
 
         [MethodImpl(Inline)]
         RuleField Run(Nonterminal src)
-            => FieldBits.Define(FieldKind.INVALID, RuleCellKind.NontermCall, src);
+            => FieldBits.Define(FieldKind.INVALID, CK.NontermCall, src);
 
         [MethodImpl(Inline)]
         RuleField Run(Hex8 src)
-            => FieldBits.Define(FieldKind.INVALID, RuleCellKind.HexLiteral, src);
+            => FieldBits.Define(FieldKind.INVALID, CK.HexLiteral, src);
 
-        void UsageCollect(in CellKey key)
+        void CollectFieldUsage(in CellKey key)
         {
             ref readonly var field = ref key.Field;
             if(field  != 0)
@@ -159,13 +162,16 @@ namespace Z0
                 usage.Append(XedRender.format(LeftFields[i]));
             }
 
-            usage.Append(Chars.Colon);
-
-            for(var i=0; i<RightFieldCount; i++)
+            if(RightFieldCount != 0)
             {
-                if(i != 0)
-                    usage.Append(Chars.Comma);
-                usage.Append(XedRender.format(RightFields[i]));
+                usage.Append(Chars.Colon);
+
+                for(var i=0; i<RightFieldCount; i++)
+                {
+                    if(i != 0)
+                        usage.Append(Chars.Comma);
+                    usage.Append(XedRender.format(RightFields[i]));
+                }
             }
 
             usage.Append(Chars.RParen);
@@ -175,21 +181,10 @@ namespace Z0
             return usage.Emit();
         }
 
-        LogicValue Value(in RuleCell src)
-        {
-            var dst = LogicValue.Empty;
-            if(src.IsOperator)
-            {
-
-            }
-
-            return dst;
-        }
-
         RuleField Run(in RuleCell src)
         {
             var dst = RuleField.Empty;
-            UsageCollect(src.Key);
+            CollectFieldUsage(src.Key);
 
             if(src.IsOperator)
                 dst = FieldBits.Define(FieldKind.INVALID, src.Operator(), RuleCellKind.Operator, src.Operator());
@@ -214,9 +209,9 @@ namespace Z0
                     case CK.SegVar:
                         dst = Run(src.Value.AsSegVar());
                     break;
-                    case CK.SegField:
+                    case CK.FieldSeg:
                     case CK.InstSeg:
-                        dst = Run(src.Value.ToSegField());
+                        dst = Run(src.Value.ToFieldSeg());
                     break;
                     default:
                         term.error("Unhandled ");
@@ -228,12 +223,74 @@ namespace Z0
 
         void Run(in CellRow src)
         {
-            for(var k=0; k<src.CellCount; k++)
+            Span<RuleField> fields = stackalloc RuleField[32];
+            var count = Demand.lteq(src.CellCount, 32u);
+
+            var bitfield = text.buffer();
+            for(var k=0; k<count; k++)
             {
                 var field = Run(src[k]);
+                bitfield.AppendFormat(" | {0:X8}", (uint)field);
+                ref readonly var cell = ref src[k];
+                seek(fields,k) = field;
+                var fk = FieldBits.FieldKind(field);
+                var cv = FieldBits.CellValue(field);
+                var type = cell.CellType;
+                var ck = type.Kind;
+                if(type.IsExpr)
+                {
+                    switch(ck)
+                    {
+                        case CK.EqExpr:
+                            Counter++;
+                        break;
+                        case CK.NeqExpr:
+                            Counter++;
+                        break;
+                        case CK.NontermExpr:
+                            var rule = (RuleName)cv;
+                            Counter++;
+                        break;
+                    }
+                }
+                else
+                {
+                    switch(ck)
+                    {
+                        case CK.BitLiteral:
+                            var bits = (uint5)cv;
+                            Counter++;
+                        break;
+                        case CK.HexVal:
+                        case CK.HexLiteral:
+                            var hex = (Hex8)cv;
+                            Counter++;
+                        break;
+                        case CK.IntVal:
+                            var @int = cv;
+                            Counter++;
+                        break;
+                        case CK.Keyword:
+                            var kw = (KeywordKind)cv;
+                            Counter++;
+                        break;
+                        case CK.NontermCall:
+                            var rule = (RuleName)cv;
+                            Counter++;
+                        break;
+                        case CK.SegVar:
+                            Counter++;
+                        break;
+                        case CK.FieldSeg:
+                        break;
+                        case CK.InstSeg:
+                            Counter++;
+                        break;
+                    }
+                }
             }
 
-            Dst.AppendLineFormat("{0:D4} | {1:D3} | {2:D3} | {3,-6} | {4,-32} | {5,-82} | {6} ",
+            Dst.AppendFormat("{0:D4} | {1:D3} | {2:D3} | {3,-6} | {4,-32} | {5,-82} | {6,-48} ",
                 RowSeq++,
                 src.TableIndex,
                 src.RowIndex,
@@ -241,28 +298,25 @@ namespace Z0
                 src.TableSig.TableName,
                 src.Expression,
                 UsageEmit());
+            Dst.AppendLine(bitfield.Emit());
         }
 
         void Run(in CellTable src)
         {
             for(var j=0; j<src.RowCount; j++)
-            {
                 Run(src[j]);
-            }
         }
 
         void Run(Index<CellTable> src)
         {
             for(var i=0; i<src.Count; i++)
-            {
                 Run(src[i]);
-            }
         }
 
         public void Run(RuleCells src)
         {
             Run(src.Tables);
-            FileEmitter(Dst.Emit(), src.TableCount, Paths.RuleTarget("analysis", FS.Csv));
+            FileEmitter(Dst.Emit(), Counter, Paths.RuleTarget("analysis", FS.Csv));
         }
     }
 }

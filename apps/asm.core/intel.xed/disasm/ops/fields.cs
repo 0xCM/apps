@@ -12,7 +12,7 @@ namespace Z0
     partial class XedDisasm
     {
         public static FieldBuffer fields()
-            => FieldBuffer.init();
+            => FieldBuffer.allocate();
 
         public static ref FieldBuffer fields(in DetailBlock src, ref FieldBuffer dst)
         {

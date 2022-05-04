@@ -7,6 +7,8 @@ namespace Z0
 {
     using static core;
 
+    using CK = XedRules.RuleCellKind;
+
     partial class XedRules
     {
         public struct CellValue : IEquatable<CellValue>, IComparable<CellValue>
@@ -26,7 +28,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data.First = src;
-                data[ClassIndex] = (byte)RuleCellKind.IntVal;
+                data[ClassIndex] = (byte)CK.IntVal;
                 Data = data;
             }
 
@@ -35,7 +37,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data.First = src;
-                data[ClassIndex] = (byte)RuleCellKind.BitLiteral;
+                data[ClassIndex] = (byte)CK.BitLiteral;
                 Data = data;
             }
 
@@ -44,7 +46,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data[0] = src;
-                data[ClassIndex] = (byte)RuleCellKind.HexLiteral;
+                data[ClassIndex] = (byte)CK.HexLiteral;
                 Data = data;
             }
 
@@ -53,7 +55,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data[0] = (byte)src.KeywordKind;
-                data[ClassIndex] = (byte)RuleCellKind.Keyword;
+                data[ClassIndex] = (byte)CK.Keyword;
                 Data = data;
             }
 
@@ -62,7 +64,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data[0] = (byte)src.Kind;
-                data[ClassIndex] = (byte)RuleCellKind.Operator;
+                data[ClassIndex] = (byte)CK.Operator;
                 Data = data;
             }
 
@@ -72,7 +74,7 @@ namespace Z0
                 var data = ByteBlock16.Empty;
                 core.@as<InstSeg>(data.First) = src;
                 data[FieldIndex] = (byte)src.Field;
-                data[ClassIndex] = (byte)RuleCellKind.InstSeg;
+                data[ClassIndex] = (byte)CK.InstSeg;
                 Data = data;
             }
 
@@ -81,7 +83,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data.A = (ulong)src;
-                data[ClassIndex] = (byte)RuleCellKind.SegVar;
+                data[ClassIndex] = (byte)CK.SegVar;
                 Data = data;
             }
 
@@ -91,7 +93,7 @@ namespace Z0
                 var data = ByteBlock16.Empty;
                 data.A = (ulong)src.Seg;
                 data[FieldIndex] = (byte)src.Field;
-                data[ClassIndex] = (byte)RuleCellKind.SegField;
+                data[ClassIndex] = (byte)CK.FieldSeg;
                 Data = data;
             }
 
@@ -102,7 +104,7 @@ namespace Z0
                 if(src.IsNonterm)
                 {
                     @as<RuleName>(dst.First) = src.Value.ToRuleName();
-                    dst[ClassIndex] = (byte)RuleCellKind.NontermExpr;
+                    dst[ClassIndex] = (byte)CK.NontermExpr;
                     dst[OpIndex] = (byte)src.Operator;
                     dst[FieldIndex] = (byte)src.Field;
                 }
@@ -114,13 +116,13 @@ namespace Z0
                     switch(src.Operator.Kind)
                     {
                         case OperatorKind.Eq:
-                            dst[ClassIndex] = (byte)RuleCellKind.EqExpr;
+                            dst[ClassIndex] = (byte)CK.EqExpr;
                         break;
                         case OperatorKind.Ne:
-                            dst[ClassIndex] = (byte)RuleCellKind.NeqExpr;
+                            dst[ClassIndex] = (byte)CK.NeqExpr;
                         break;
                         case OperatorKind.Impl:
-                            dst[ClassIndex] = (byte)RuleCellKind.Operator;
+                            dst[ClassIndex] = (byte)CK.Operator;
                         break;
                     }
                 }
@@ -132,7 +134,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data = (uint)src;
-                data[ClassIndex] = (byte)RuleCellKind.NontermCall;
+                data[ClassIndex] = (byte)CK.NontermCall;
                 Data = data;
             }
 
@@ -142,10 +144,16 @@ namespace Z0
                 Data = data;
             }
 
-            public ref readonly RuleCellKind CellKind
+            public ref readonly CK CellKind
             {
                 [MethodImpl(Inline)]
-                get => ref @as<RuleCellKind>(Data[ClassIndex]);
+                get => ref @as<CK>(Data[ClassIndex]);
+            }
+
+            public ref readonly RuleCellType CellType
+            {
+                [MethodImpl(Inline)]
+                get => ref @as<RuleCellType>(Data[ClassIndex]);
             }
 
             public ref readonly FieldKind Field
@@ -154,40 +162,52 @@ namespace Z0
                 get => ref @as<FieldKind>(Data[FieldIndex]);
             }
 
-            public bool IsExpr
+            public bit IsExpr
             {
                 [MethodImpl(Inline)]
-                get => CellKind == RuleCellKind.EqExpr || CellKind == RuleCellKind.NeqExpr || CellKind == RuleCellKind.NontermExpr;
+                get => CellType.IsExpr;
             }
 
-            public bool IsOperator
+            public bit IsOperator
             {
                 [MethodImpl(Inline)]
-                get => CellKind == RuleCellKind.Operator;
+                get => CellType.IsOperator;
             }
 
-            public bool IsLiteral
+            public bit IsLiteral
             {
                 [MethodImpl(Inline)]
-                get => CellKind == RuleCellKind.BitLiteral || CellKind == RuleCellKind.HexLiteral || CellKind == RuleCellKind.IntVal;
+                get => CellType.IsLiteral;
             }
 
-            public bool IsNontermCall
+            public bit IsBitLit
             {
                 [MethodImpl(Inline)]
-                get => CellKind == RuleCellKind.NontermCall;
+                get => CellType.IsBitLit;
             }
 
-            public bool IsNontermExpr
+            public bit IsHexLit
             {
                 [MethodImpl(Inline)]
-                get => CellKind == RuleCellKind.NontermExpr;
+                get => CellType.IsHexLit;
             }
 
-            public bool IsNonterm
+            public bit IsNontermCall
             {
                 [MethodImpl(Inline)]
-                get => IsNontermCall || IsNontermExpr;
+                get => CellType.IsNontermCall;
+            }
+
+            public bit IsNontermExpr
+            {
+                [MethodImpl(Inline)]
+                get => CellType.IsNontermExpr;
+            }
+
+            public bit IsNonterm
+            {
+                [MethodImpl(Inline)]
+                get => CellType.IsNonterm;
             }
 
             public ref readonly byte Position
@@ -240,6 +260,10 @@ namespace Z0
                 => ref @as<uint5>(Data.First);
 
             [MethodImpl(Inline)]
+            public ref readonly Hex16 AsHex16()
+                => ref @as<Hex16>(Data.First);
+
+            [MethodImpl(Inline)]
             public ref readonly RuleOperator AsOperator()
                 => ref @as<RuleOperator>(Data.First);
 
@@ -252,7 +276,7 @@ namespace Z0
                 => ref @as<InstSeg>(Data.First);
 
             [MethodImpl(Inline)]
-            public FieldSeg ToSegField()
+            public FieldSeg ToFieldSeg()
                 => new FieldSeg(SegVar.parse(AsInstSeg().Type.Format()), Field);
 
             public string Format()

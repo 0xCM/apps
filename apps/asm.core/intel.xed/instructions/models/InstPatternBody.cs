@@ -22,66 +22,66 @@ namespace Z0
                 return buffer.Emit();
             }
 
-            public readonly InstFields Fields;
+            public readonly InstCells Cells;
 
             [MethodImpl(Inline)]
             public InstPatternBody(CellValue[] src)
             {
-                Fields = new InstFields(src,0);
+                Cells = new InstCells(src,0);
             }
 
             [MethodImpl(Inline)]
-            public InstPatternBody(InstFields fields)
+            public InstPatternBody(InstCells fields)
             {
-                Fields = fields;
+                Cells = fields;
             }
 
             public CellValue[] Storage
             {
                 [MethodImpl(Inline)]
-                get => Fields.Storage;
+                get => Cells.Storage;
             }
 
-            public uint FieldCount
+            public uint CellCount
             {
                 [MethodImpl(Inline)]
-                get => Fields.Count;
+                get => Cells.Count;
             }
 
             public byte ExprCount
             {
                 [MethodImpl(Inline)]
-                get => Fields.ExprCount;
+                get => Cells.ExprCount;
             }
 
             public byte LayoutCount
             {
                 [MethodImpl(Inline)]
-                get => Fields.LayoutCount;
+                get => Cells.LayoutCount;
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Fields.IsEmpty;
+                get => Cells.IsEmpty;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Fields.IsNonEmpty;
+                get => Cells.IsNonEmpty;
             }
 
             public ref CellValue this[int i]
             {
                 [MethodImpl(Inline)]
-                get => ref Fields[i];
+                get => ref Cells[i];
             }
 
             public ref CellValue this[uint i]
             {
                 [MethodImpl(Inline)]
-                get => ref Fields[i];
+                get => ref Cells[i];
             }
 
             public string Format()

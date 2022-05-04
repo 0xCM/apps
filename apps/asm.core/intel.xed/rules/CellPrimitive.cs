@@ -17,7 +17,7 @@ namespace Z0
                     dst = new (src.Field, src.Operator, CellRender.value(src));
                 else if(src.IsOperator)
                     dst = new (src.Operator);
-                else if(src.IsBinLit)
+                else if(src.IsBitLit)
                 {
                     LiteralBits.parse(src.Data, out var b).Require();
                     dst = new (b);

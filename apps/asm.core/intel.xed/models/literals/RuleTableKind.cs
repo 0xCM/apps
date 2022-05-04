@@ -12,10 +12,10 @@ namespace Z0
         {
             None = 0,
 
-            [Symbol("enc")]
+            [Symbol("ENC")]
             ENC = 1,
 
-            [Symbol("dec")]
+            [Symbol("DEC")]
             DEC = 2,
         }
     }

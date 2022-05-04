@@ -6,11 +6,10 @@
 namespace Z0
 {
     using Asm;
+
     using static XedModels;
     using static XedModels.BCastKind;
     using static Asm.BroadcastClass;
-    using static XedRules;
-    using static core;
 
     partial class XedOperands
     {
@@ -22,17 +21,6 @@ namespace Z0
                 if(XedParsers.parse(src.SourceExpr, out dst))
                     return true;
             return false;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static ref readonly BCastKind broadcast(in OperandState src)
-            => ref @as<BCastKind>(src.BCAST);
-
-        partial struct Edit
-        {
-            [MethodImpl(Inline), Op]
-            public static ref BCastKind broadcast(ref OperandState src)
-                => ref @as<BCastKind>(src.BCAST);
         }
 
         [Op]

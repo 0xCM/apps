@@ -31,9 +31,9 @@ namespace Z0
 
             static InstPattern load(ref InstPatternSpec spec)
             {
-                var fields = InstFields.sort(spec.Body.Fields);
+                var fields = InstCells.sort(spec.Body.Cells);
                 spec.Body = new (fields);
-                return new InstPattern(spec, InstFields.usage(fields));
+                return new InstPattern(spec, InstCells.usage(fields));
             }
 
             public readonly InstPatternSpec Spec;
@@ -46,25 +46,25 @@ namespace Z0
 
             public readonly Index<InstOpDetail> OpDetails;
 
-            public readonly InstFields Layout;
+            public readonly InstCells Layout;
 
-            public readonly InstFields Expr;
+            public readonly InstCells Expr;
 
             public readonly bit Scalable;
 
             public InstPattern(in InstPatternSpec spec, FieldSet deps)
             {
-                ref readonly var fields = ref spec.Body.Fields;
+                ref readonly var fields = ref spec.Body.Cells;
                 var layout = fields.Layout;
                 var expr = fields.Expr;
                 Spec = spec;
                 OpNames = spec.Ops.Names;
                 FieldDeps = deps;
-                Lock = InstFields.@lock(fields);
+                Lock = InstCells.@lock(fields);
                 OpDetails = XedOperands.opdetails(this);
                 Scalable = OpDetails.Any(x => x.Scalable);
-                Layout = new InstFields(layout.ToArray(), (byte)layout.Length);
-                Expr  = new InstFields(expr.ToArray(), 0);
+                Layout = new InstCells(layout.ToArray(), (byte)layout.Length);
+                Expr  = new InstCells(expr.ToArray(), 0);
             }
 
             public ref readonly InstPatternBody Body
@@ -73,10 +73,10 @@ namespace Z0
                 get => ref Spec.Body;
             }
 
-            public ref readonly InstFields Fields
+            public ref readonly InstCells Cells
             {
                 [MethodImpl(Inline)]
-                get => ref Body.Fields;
+                get => ref Body.Cells;
             }
 
             public ref readonly MachineMode Mode

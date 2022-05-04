@@ -500,7 +500,7 @@ namespace Z0
                 => assign(M.default_ss, K.DEFAULT_SEG, D.DefaultSS);
 
             [MethodImpl(Inline), Op]
-            static MacroSpec default_3s()
+            static MacroSpec default_es()
                 => assign(M.default_es, K.DEFAULT_SEG, D.DefaultES);
 
             [MethodImpl(Inline), Op]

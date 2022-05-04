@@ -9,6 +9,7 @@ namespace Z0
 
     using static core;
     using static XedModels;
+    using static XedOperands;
 
     partial class XedDisasm
     {
@@ -126,11 +127,11 @@ namespace Z0
             }
 
             if(state.REX)
-                dst.Rex = XedState.rex(state);
+                dst.Rex = View.rex(state);
 
             if(state.HAS_MODRM)
             {
-                var modrm = XedOperands.modrm(state);
+                var modrm = View.modrm(state);
                 dst.ModRm = modrm;
                 if(modrm != code[state.POS_MODRM])
                 {
@@ -141,7 +142,7 @@ namespace Z0
 
             if(state.HAS_SIB)
             {
-                var sib = XedOperands.sib(state);
+                var sib = View.sib(state);
                 dst.Sib = sib;
                 var sibenc = Sib.init(code[state.POS_SIB]);
                 if(sibenc.Value() != sib)

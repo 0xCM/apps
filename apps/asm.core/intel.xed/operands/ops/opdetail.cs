@@ -23,7 +23,7 @@ namespace Z0
 
         public static InstOpDetail opdetail(InstPattern pattern, byte opcount, in PatternOp op)
         {
-            ref readonly var fields = ref pattern.Fields;
+            ref readonly var fields = ref pattern.Cells;
             var info = opinfo(pattern.Mode,op);
             var wcode = info.WidthCode;
             var dst = InstOpDetail.Empty;
@@ -32,10 +32,10 @@ namespace Z0
             dst.InstClass = pattern.InstClass;
             dst.OpCode = pattern.OpCode;
             dst.Mode = pattern.Mode;
-            dst.Lock = InstFields.@lock(fields);
-            dst.Mod = InstFields.mod(fields);
-            dst.RexW = InstFields.rexw(fields);
-            dst.Rep = InstFields.rep(fields);
+            dst.Lock = InstCells.@lock(fields);
+            dst.Mod = InstCells.mod(fields);
+            dst.RexW = InstCells.rexw(fields);
+            dst.Rep = InstCells.rep(fields);
             dst.Attribs = op.Attribs;
             dst.OpCount = opcount;
             dst.Index = info.Index;

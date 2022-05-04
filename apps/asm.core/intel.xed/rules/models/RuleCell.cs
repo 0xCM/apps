@@ -56,6 +56,18 @@ namespace Z0
                 return dst;
             }
 
+            public RuleCellType CellType
+            {
+                [MethodImpl(Inline)]
+                get => Key.DataType;
+            }
+
+            public RuleCellKind CellKind
+            {
+                [MethodImpl(Inline)]
+                get => Key.DataType;
+            }
+
             public FieldKind Field
             {
                 [MethodImpl(Inline)]
@@ -66,6 +78,12 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => Key.Logic;
+            }
+
+            public bool IsKeyword
+            {
+                [MethodImpl(Inline)]
+                get => CellType.IsKeyword;
             }
 
             public bool IsOperator

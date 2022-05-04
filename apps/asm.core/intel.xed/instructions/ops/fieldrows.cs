@@ -17,7 +17,7 @@ namespace Z0
             {
                 ref readonly var pattern = ref src[i];
                 ref readonly var body = ref pattern.Body;
-                ref readonly var fields = ref body.Fields;
+                ref readonly var fields = ref body.Cells;
                 for(var k=z8; k<fields.Count; k++)
                     dst.Add(fieldrow(pattern, fields[k], k));
             }
@@ -30,7 +30,7 @@ namespace Z0
             var dst = InstFieldRow.Empty;
             dst.PatternId = pattern.PatternId;
             dst.Mode = pattern.Mode;
-            dst.Lock = InstFields.@lock(pattern.Fields);
+            dst.Lock = InstCells.@lock(pattern.Cells);
             dst.Index = Require.equal(index,src.Position);
             dst.FieldClass = src.CellKind;
             dst.FieldKind = src.Field;
@@ -41,8 +41,8 @@ namespace Z0
                 case RuleCellKind.InstSeg:
                     dst.Seg = src.AsInstSeg();
                 break;
-                case RuleCellKind.SegField:
-                    dst.SegField = src.ToSegField();
+                case RuleCellKind.FieldSeg:
+                    dst.SegField = src.ToFieldSeg();
                 break;
                 case RuleCellKind.SegVar:
                     dst.SegVar = src.AsSegVar();

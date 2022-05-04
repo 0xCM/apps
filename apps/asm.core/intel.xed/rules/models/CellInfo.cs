@@ -5,14 +5,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using CK = XedRules.RuleCellKind;
-
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct CellInfo
         {
-            public readonly CellTypeInfo Type;
+            public readonly CellTypeInfo TypeInfo;
 
             public readonly LogicClass Logic;
 
@@ -20,7 +18,7 @@ namespace Z0
 
             public CellInfo(in CellTypeInfo type, LogicClass logic, string data)
             {
-                Type = type;
+                TypeInfo = type;
                 Data = text.ifempty(data, EmptyString);
                 Logic = logic;
             }
@@ -28,45 +26,51 @@ namespace Z0
             [MethodImpl(Inline)]
             public CellInfo(RuleOperator op)
             {
-                Type = CellTypeInfo.@operator(op);
+                TypeInfo = CellTypeInfo.@operator(op);
                 Data = EmptyString;
                 Logic = LogicKind.Operator;
+            }
+
+            public RuleCellType Type
+            {
+                [MethodImpl(Inline)]
+                get => TypeInfo.Type;
             }
 
             public RuleCellKind Kind
             {
                 [MethodImpl(Inline)]
-                get => Type.Class.Kind;
+                get => TypeInfo.Type.Kind;
             }
 
             public bool IsKeyword
             {
                 [MethodImpl(Inline)]
-                get => Kind == CK.Keyword;
+                get => Type.IsKeyword;
             }
 
-            public bool IsBinLit
+            public bool IsBitLit
             {
                 [MethodImpl(Inline)]
-                get => Kind == CK.BitLiteral;
+                get => Type.IsBitLit;
             }
 
             public bool IsHexLit
             {
                 [MethodImpl(Inline)]
-                get => Kind == CK.HexLiteral;
+                get => Type.IsHexLit;
             }
 
             public readonly FieldKind Field
             {
                 [MethodImpl(Inline)]
-                get => Type.Field;
+                get => TypeInfo.Field;
             }
 
             public readonly RuleOperator Operator
             {
                 [MethodImpl(Inline)]
-                get => Type.Operator;
+                get => TypeInfo.Operator;
             }
 
             public bool IsOperator

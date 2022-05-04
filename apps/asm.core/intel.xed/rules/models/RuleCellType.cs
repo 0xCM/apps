@@ -32,22 +32,76 @@ namespace Z0
                 get => Kind != 0;
             }
 
-            public bool IsKeyword
+            public bit IsKeyword
             {
                 [MethodImpl(Inline)]
                 get => Kind == CK.Keyword;
             }
 
-            public bool IsBinLit
+            public bit IsBitLit
             {
                 [MethodImpl(Inline)]
                 get => Kind == CK.BitLiteral;
             }
 
-            public bool IsHexLit
+            public bit IsHexLit
             {
                 [MethodImpl(Inline)]
                 get => Kind == CK.HexLiteral;
+            }
+
+            public bit IsIntVal
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.IntVal;
+            }
+
+            public bit IsLiteral
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.BitLiteral || Kind == CK.HexLiteral || Kind == CK.IntVal;
+            }
+
+            public bit IsExpr
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.EqExpr || Kind == CK.NeqExpr || Kind == CK.NontermExpr;
+            }
+
+            public bit IsOperator
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.Operator;
+            }
+
+            public bit IsNontermCall
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.NontermCall;
+            }
+
+            public bit IsNontermExpr
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.NontermExpr;
+            }
+
+            public bit IsNonterm
+            {
+                [MethodImpl(Inline)]
+                get => IsNontermCall || IsNontermExpr;
+            }
+
+            public bit IsInstSeg
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.InstSeg;
+            }
+
+            public bit IsFieldSeg
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.FieldSeg;
             }
 
             [MethodImpl(Inline)]

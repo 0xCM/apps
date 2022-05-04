@@ -54,7 +54,7 @@ namespace Z0
             {
                 Field = src.Field;
                 Data = (ulong)src.Seg;
-                CellKind = RuleCellKind.SegField;
+                CellKind = RuleCellKind.FieldSeg;
             }
 
             [MethodImpl(Inline)]

@@ -62,7 +62,7 @@ namespace Z0
             for(var i=0u; i<count; i++)
             {
                 ref readonly var pattern = ref src[i];
-                ref readonly var fields = ref pattern.Fields;
+                ref readonly var fields = ref pattern.Cells;
 
                 if(i==0)
                     opcode = pattern.OpCode;
@@ -81,9 +81,9 @@ namespace Z0
                     OpCode = opcode,
                     OpCodeBytes = opcode.Value,
                     Mode = pattern.Mode,
-                    Mod = InstFields.mod(fields),
-                    RexW = InstFields.rexw(fields),
-                    Rep = InstFields.rep(fields),
+                    Mod = InstCells.mod(fields),
+                    RexW = InstCells.rexw(fields),
+                    Rep = InstCells.rep(fields),
                     Form = pattern.InstForm,
                     };
 

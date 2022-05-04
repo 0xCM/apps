@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedOpCodes
     {
-        public static XedOpCode opcode(in InstFields src)
+        public static XedOpCode opcode(in InstCells src)
         {
             var vc = VexClass.None;
             var number = z8;
@@ -42,7 +42,7 @@ namespace Z0
                 break;
             }
 
-            return new XedOpCode(InstFields.mode(src), ock, ocv);
+            return new XedOpCode(InstCells.mode(src), ock, ocv);
         }
     }
 }

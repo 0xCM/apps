@@ -36,9 +36,9 @@ namespace Z0
 
             public RepIndicator Rep;
 
-            public InstFields Layout;
+            public InstCells Layout;
 
-            public InstFields Expr;
+            public InstCells Expr;
 
             public Hex8 PrimaryByte
             {

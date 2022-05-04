@@ -32,44 +32,44 @@ namespace Z0
             [MethodImpl(Inline)]
             public PatternSort(InstPattern src, bool ocfirst = false)
             {
-                ref readonly var fields = ref src.Fields;
+                ref readonly var fields = ref src.Cells;
                 InstClass = src.InstClass;
                 OpCode = src.OpCode;
                 Mode = src.Mode;
                 Lock = src.Lock;
-                Mod = InstFields.mod(fields);
-                RexW = InstFields.rexw(fields);
-                Rep = InstFields.rep(fields);
+                Mod = InstCells.mod(fields);
+                RexW = InstCells.rexw(fields);
+                Rep = InstCells.rep(fields);
                 OpCodeFirst = ocfirst;
             }
 
             [MethodImpl(Inline)]
             public PatternSort(in InstPatternRecord src, bool ocfirst = false)
             {
-                ref readonly var fields = ref src.Body.Fields;
+                ref readonly var fields = ref src.Body.Cells;
                 InstClass = src.InstClass;
                 OpCode = src.OpCode;
                 Mode = src.Mode;
                 Lock = src.Lock;
-                Mod = InstFields.mod(fields);
-                RexW = InstFields.rexw(fields);
+                Mod = InstCells.mod(fields);
+                RexW = InstCells.rexw(fields);
                 Rep = RepIndicator.Empty;
-                Rep = InstFields.rep(fields);
+                Rep = InstCells.rep(fields);
                 OpCodeFirst = ocfirst;
             }
 
             [MethodImpl(Inline)]
             public PatternSort(in InstPatternSpec src, bool ocfirst = false)
             {
-                ref readonly var fields = ref src.Body.Fields;
+                ref readonly var fields = ref src.Body.Cells;
                 InstClass = src.InstClass;
                 OpCode = src.OpCode;
                 Mode = src.Mode;
-                Lock = InstFields.@lock(fields);
-                Mod = InstFields.mod(fields);
-                RexW = InstFields.rexw(fields);
+                Lock = InstCells.@lock(fields);
+                Mod = InstCells.mod(fields);
+                RexW = InstCells.rexw(fields);
                 Rep = RepIndicator.Empty;
-                Rep = InstFields.rep(fields);
+                Rep = InstCells.rep(fields);
                 OpCodeFirst = ocfirst;
            }
 

@@ -35,10 +35,13 @@ namespace Z0
                         ref readonly var cells = ref row.Cells;
                         for(var k=z8; k<cells.Count; k++)
                         {
+                            var kw = RuleKeyword.Empty;
                             ref readonly var info = ref cells[k];
                             ref readonly var data = ref info.Data;
                             ref readonly var logic = ref info.Logic;
-                            var key = new CellKey(lix++, tid, rix, k, logic, info.Kind, sig.TableKind, sig.TableName, info.Field);
+                            if(info.IsKeyword)
+                                XedParsers.parse(data, out kw);
+                            var key = new CellKey(lix++, tid, rix, k, logic, info.Kind, sig.TableKind, sig.TableName, info.Field, kw.KeywordKind);
                             var result = false;
                             var field = CellValue.Empty;
                             var cell = RuleCell.Empty;
@@ -109,7 +112,7 @@ namespace Z0
                                 }
                                 break;
 
-                                case CK.SegField:
+                                case CK.FieldSeg:
                                 {
                                     result = CellParser.seg(data, out FieldSeg value);
                                     field = value;

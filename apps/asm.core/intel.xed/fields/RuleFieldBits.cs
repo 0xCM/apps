@@ -5,6 +5,26 @@
 namespace Z0
 {
     using static XedFields;
+    using static XedRules;
+
+    partial class XTend
+    {
+        [MethodImpl(Inline)]
+        public static RuleCellKind CellKind(this RuleFieldBits src, RuleField field)
+            => src.DataKind(field);
+
+        [MethodImpl(Inline)]
+        public static FieldKind FieldKind(this RuleFieldBits src, RuleField field)
+            => src.Field(field);
+
+        [MethodImpl(Inline)]
+        public static RuleOperator Operator(this RuleFieldBits src, RuleField field)
+            => src.Operator(field);
+
+        [MethodImpl(Inline)]
+        public static ushort CellValue(this RuleFieldBits src, RuleField field)
+            => src.Value(w16,field);
+    }
 
     partial class XedRules
     {

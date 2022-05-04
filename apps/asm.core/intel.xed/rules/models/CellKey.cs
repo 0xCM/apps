@@ -25,14 +25,14 @@ namespace Z0
 
             public readonly RuleSig Rule;
 
-            readonly byte Pad0;
+            public readonly KeywordKind Keyword;
 
             readonly byte Pad1;
 
             readonly byte Pad2;
 
             [MethodImpl(Inline)]
-            public CellKey(ushort index, ushort table, ushort row, byte col, LogicClass logic, RuleCellType type, RuleTableKind kind, Nonterminal rule, FieldKind field)
+            public CellKey(ushort index, ushort table, ushort row, byte col, LogicClass logic, RuleCellType type, RuleTableKind kind, Nonterminal rule, FieldKind field, KeywordKind keyword)
             {
                 Index = index;
                 Table = table;
@@ -42,7 +42,7 @@ namespace Z0
                 Logic = logic;
                 DataType = type;
                 Field = field;
-                Pad0 = 0;
+                Keyword = keyword;
                 Pad1 = 0;
                 Pad2 = 0;
             }
@@ -74,7 +74,6 @@ namespace Z0
                 result &= Col == src.Col;
                 result &= Logic == src.Logic;
                 result &= Rule == src.Rule;
-
                 return result;
             }
 
@@ -91,7 +90,7 @@ namespace Z0
                 => Hash;
 
             public string FormatSemantic()
-                => string.Format("{0}[{1:D2}:{2:D2}].{3}", Rule, Row, Col, Logic);
+                => string.Format("{0}[{1:D2}:{2:D2}].{3}", Rule, Row, Col, Logic) + (Keyword != 0 ? ( "." + XedRender.format(Keyword) ) : EmptyString);
 
             public string Format()
                 => core.bytes(this).FormatHex();

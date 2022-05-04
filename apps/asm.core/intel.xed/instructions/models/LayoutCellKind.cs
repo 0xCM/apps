@@ -19,7 +19,7 @@ namespace Z0
 
             SV = K.SegVar,
 
-            SF = K.SegField,
+            SF = K.FieldSeg,
 
             NT = K.NontermCall,
         }

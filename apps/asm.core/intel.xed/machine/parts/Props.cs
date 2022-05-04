@@ -41,9 +41,9 @@ namespace Z0
         }
 
         /// <summary>
-        /// Specifies the expression-related <see cref='R.InstFields'/>  of the current <see cref='P'/>
+        /// Specifies the expression-related <see cref='R.InstCells'/>  of the current <see cref='P'/>
         /// </summary>
-        public ref readonly InstFields InstExpr
+        public ref readonly InstCells InstExpr
         {
             [MethodImpl(Inline)]
             get => ref Pattern.Expr;
@@ -95,9 +95,9 @@ namespace Z0
         }
 
         /// <summary>
-        /// Specifies layout <see cref='R.InstFields'/> associated with the current <see cref='P'/>
+        /// Specifies layout <see cref='R.InstCells'/> associated with the current <see cref='P'/>
         /// </summary>
-        public ref readonly InstFields LayoutFields
+        public ref readonly InstCells LayoutFields
         {
             [MethodImpl(Inline)]
             get => ref Pattern.Layout;

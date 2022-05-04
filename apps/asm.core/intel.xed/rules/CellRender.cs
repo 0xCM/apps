@@ -25,7 +25,7 @@ namespace Z0
                     dst = string.Format("{0}{1}{2}", XedRender.format(src.Field), XedRender.format(src.Operator), value(src));
                 else if(src.IsOperator)
                     dst = XedRender.format(src.Operator);
-                else if(src.IsBinLit)
+                else if(src.IsBitLit)
                 {
                     var result = LiteralBits.parse(src.Data, out var b);
                     if(result.Fail)
@@ -122,8 +122,8 @@ namespace Z0
 
             public static string format(in CellTypeInfo src)
             {
-                var dst = XedRender.format(src.Class.Kind);
-                switch(src.Class.Kind)
+                var dst = XedRender.format(src.Type.Kind);
+                switch(src.Type.Kind)
                 {
                     case CK.InstSeg:
                     case CK.NeqExpr:

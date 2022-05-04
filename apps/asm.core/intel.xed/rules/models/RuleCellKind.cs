@@ -31,7 +31,7 @@ namespace Z0
             SegVar,
 
             [Symbol("SegF")]
-            SegField,
+            FieldSeg,
 
             [Symbol("Kw")]
             Keyword,
@@ -53,6 +53,9 @@ namespace Z0
 
             [Symbol("NtX")]
             NontermExpr,
+
+            [Symbol("L(T)")]
+            TypedLit,
         }
    }
 }

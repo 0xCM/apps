@@ -41,7 +41,7 @@ namespace Z0
             public dynamic Value;
 
             public CellKey Key
-                => new CellKey(Index, Table, Row, Col, Logic, Type, Kind, Rule, Field);
+                => new CellKey(Index, Table, Row, Col, Logic, Type, Kind, Rule, Field, KeywordKind.None);
 
             public int CompareTo(RuleCellRecord src)
                 => Key.CompareTo(src.Key);

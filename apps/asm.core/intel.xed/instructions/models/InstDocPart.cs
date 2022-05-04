@@ -54,13 +54,13 @@ namespace Z0
                 get => ref Inst.PatternId;
             }
 
-            public ref readonly InstFields Layout
+            public ref readonly InstCells Layout
             {
                 [MethodImpl(Inline)]
                 get => ref Inst.Layout;
             }
 
-            public ref readonly InstFields Expr
+            public ref readonly InstCells Expr
             {
                 [MethodImpl(Inline)]
                 get => ref Inst.Expr;

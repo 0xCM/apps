@@ -621,7 +621,7 @@ namespace Z0
                 return format(src.ToKeyword());
             else if(src.CellKind == RuleCellKind.InstSeg)
                 return format(src.ToInstSeg());
-            else if(src.CellKind == RuleCellKind.SegField)
+            else if(src.CellKind == RuleCellKind.FieldSeg)
                 return format(src.ToSegField());
             else
                 return CellRender._format(src);
@@ -677,8 +677,8 @@ namespace Z0
                 case RuleCellKind.Keyword:
                     dst = format(src.ToKeyword());
                 break;
-                case RuleCellKind.SegField:
-                    dst = format(src.ToSegField());
+                case RuleCellKind.FieldSeg:
+                    dst = format(src.ToFieldSeg());
                 break;
                 case RuleCellKind.SegVar:
                     dst = src.AsSegVar().Format();
