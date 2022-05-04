@@ -244,14 +244,6 @@ namespace Z0
                 => assign(M.eosz64, K.EOSZ, EOSZ64);
 
             [MethodImpl(Inline), Op]
-            static MacroSpec not_eosz16()
-                => assign(M.not_eosz16, K.EOSZ, EOSZNot16);
-
-            [MethodImpl(Inline), Op]
-            static MacroSpec eosznot64()
-                => assign(M.eosznot64, K.EOSZ, EOSZNot64);
-
-            [MethodImpl(Inline), Op]
             static MacroSpec nrmw()
                 => assign(M.nrmw, K.DF64, Off);
 

@@ -40,7 +40,7 @@ namespace Z0
                 dst.GprWidth = GprWidth.Empty;
 
             if(src.RegLiteral(out dst.RegLit))
-                dst.BitWidth = bitwidth(dst.RegLit);
+                dst.BitWidth = width(dst.RegLit);
 
             if(dst.BitWidth == 0 && gpr.IsNonEmpty && gpr.IsInvariant)
                 dst.BitWidth = (ushort)gpr.InvariantWidth.Width;

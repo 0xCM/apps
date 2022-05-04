@@ -171,7 +171,7 @@ namespace Z0
             if(state.IMM0)
                 dst.Imm = asm.imm(code, state.POS_IMM, state.IMM0SIGNED, Sizes.native(state.IMM_WIDTH));
 
-            dst.EASZ = Sizes.native(XedOperands.bitwidth((EASZ)state.EASZ));
+            dst.EASZ = Sizes.native(XedOperands.width((EASZ)state.EASZ));
             dst.EOSZ = Sizes.native(XedOperands.bitwidth((EOSZ)state.EOSZ));
             return dst;
         }

@@ -228,7 +228,7 @@ namespace Z0
                 break;
 
                 case K.MASK:
-                    dst.MASK = src.ToByte();
+                    dst.MASK = src.ToBit();
                 break;
 
                 case K.MAX_BYTES:

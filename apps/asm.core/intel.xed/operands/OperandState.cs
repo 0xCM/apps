@@ -174,7 +174,10 @@ namespace Z0
             [RuleField(K.OUT_OF_BYTES, 1, typeof(bit))]
             public bit OUT_OF_BYTES;
 
-            [RuleField(K.MODE, 2, typeof(M.MachineMode), "Specifies one of {Mode16,Mode32,Mode64,Not64} if applicable")]
+            [RuleField(K.MASK, 1, typeof(bit))]
+            public bit MASK;
+
+            [RuleField(K.MODE, 2, typeof(M.ModeClass), "Specifies one of {Mode16,Mode32,Mode64,Not64} if applicable")]
             public byte MODE;
 
             [RuleField(K.SMODE, 2, typeof(M.SMODE), "Specifies one of {SMode16,SMode32,SMode64} if applicable")]
@@ -314,9 +317,6 @@ namespace Z0
 
             [RuleField(K.VEXDEST210, 3, typeof(uint3))]
             public byte VEXDEST210;
-
-            [RuleField(K.MASK, 3, typeof(MaskReg))]
-            public byte MASK;
 
             [RuleField(K.ROUNDC, 3, typeof(RoundingKind))]
             public byte ROUNDC;

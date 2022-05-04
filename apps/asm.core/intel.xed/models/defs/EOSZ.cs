@@ -21,12 +21,6 @@ namespace Z0
 
             [Symbol("64", "EOSZ=3")]
             EOSZ64 = 3,
-
-            [Symbol("8/32/64", "EOSZ!=1")]
-            EOSZNot16 = 5,
-
-            [Symbol("8/16/32", "EOSZ!=3")]
-            EOSZNot64 = 6
         }
     }
 }

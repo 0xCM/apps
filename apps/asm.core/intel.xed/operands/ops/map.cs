@@ -12,14 +12,13 @@ namespace Z0
     partial class XedOperands
     {
         [MethodImpl(Inline), Op]
-        public static ref readonly bit mask(in OperandState src)
-            => ref src.MASK;
+        public static ref readonly MAP map(in OperandState src)
+            => ref @as<MAP>(src.MAP);
 
         partial struct Edit
         {
-            [MethodImpl(Inline), Op]
-            public static ref bit mask(ref OperandState src)
-                => ref src.MASK;
+            public static ref MAP map(ref OperandState src)
+                => ref @as<MAP>(src.MAP);
         }
     }
 }

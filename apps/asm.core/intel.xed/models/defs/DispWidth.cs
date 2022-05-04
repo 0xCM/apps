@@ -7,23 +7,23 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed), DataWidth(3)]
+        [SymSource(xed)]
         public enum DispWidth : byte
         {
             [Symbol("0")]
             None = 0,
 
             [Symbol("8")]
-            W8 = 1,
+            DW8 = 8,
 
             [Symbol("16")]
-            W16 = 2,
+            DW16 = 16,
 
             [Symbol("32")]
-            W32 = 3,
+            DW32 = 32,
 
             [Symbol("64")]
-            W64 = 4,
+            DW64 = 64,
         }
     }
 }

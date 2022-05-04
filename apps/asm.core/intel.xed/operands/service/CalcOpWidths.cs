@@ -75,7 +75,7 @@ namespace Z0
                     break;
                 }
 
-                dst.CellWidth = bitwidth(dst.Code, dst.ElementType);
+                dst.CellWidth = width(dst.Code, dst.ElementType);
 
                 result = ParseWidthValue(wdefault, out dst.Width16);
                 if(result.Fail)

@@ -5,21 +5,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
+    using Asm;
     using static XedModels;
     using static core;
 
     partial class XedOperands
     {
-        [MethodImpl(Inline), Op]
-        public static ref readonly bit mask(in OperandState src)
-            => ref src.MASK;
-
-        partial struct Edit
+        static Index<BroadcastDef> CalcBroadcasts()
         {
-            [MethodImpl(Inline), Op]
-            public static ref bit mask(ref OperandState src)
-                => ref src.MASK;
+            var kinds = Symbols.index<BCastKind>().Kinds;
+            var count = kinds.Length;
+            var defs = alloc<BroadcastDef>(count);
+            for(var j=0; j<kinds.Length; j++)
+                seek(defs,j) = broadcast(skip(kinds,j));
+            return defs;
         }
     }
 }

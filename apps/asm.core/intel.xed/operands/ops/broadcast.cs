@@ -6,25 +6,37 @@
 namespace Z0
 {
     using Asm;
-
+    using static XedModels;
     using static XedModels.BCastKind;
     using static Asm.BroadcastClass;
+    using static XedRules;
     using static core;
 
-    partial struct XedModels
+    partial class XedOperands
     {
-        public static Index<BroadcastDef> bcastdefs()
+        [MethodImpl(Inline), Op]
+        public static bool broadcast(in PatternOp src, out BCastKind dst)
         {
-            var kinds = Symbols.index<BCastKind>().Kinds;
-            var count = kinds.Length;
-            var defs = alloc<BroadcastDef>(count);
-            for(var j=0; j<kinds.Length; j++)
-                seek(defs,j) = bcastdef(skip(kinds,j));
-            return defs;
+            dst = 0;
+            if(src.Kind == OpKind.Bcast)
+                if(XedParsers.parse(src.SourceExpr, out dst))
+                    return true;
+            return false;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ref readonly BCastKind broadcast(in OperandState src)
+            => ref @as<BCastKind>(src.BCAST);
+
+        partial struct Edit
+        {
+            [MethodImpl(Inline), Op]
+            public static ref BCastKind broadcast(ref OperandState src)
+                => ref @as<BCastKind>(src.BCAST);
         }
 
         [Op]
-        public static BroadcastDef bcastdef(BCastKind kind)
+        public static BroadcastDef broadcast(BCastKind kind)
         {
             var dst = BroadcastDef.Empty;
             var id = (uint5)(byte)kind;

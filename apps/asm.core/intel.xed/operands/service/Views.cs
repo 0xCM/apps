@@ -8,30 +8,40 @@ namespace Z0
     using static XedModels;
     using static XedRules;
     using static core;
-
+    using Asm;
     using M = XedModels;
     using R = XedRules;
+
+    using B = System.ReadOnlySpan<bit>;
+    using U2 = System.ReadOnlySpan<uint2>;
+    using U3 = System.ReadOnlySpan<uint3>;
 
     partial class XedOperands
     {
         public readonly partial struct Views
         {
+            public const M.ASZ MaxASZ = M.ASZ.a64;
+
+            public const M.SegPrefixKind MaxSegPrefixKind = M.SegPrefixKind.SS;
+
+            public const M.InstAttribKind MaxInstAttribKind = M.InstAttribKind.XMM_STATE_W;
+
+            public static ReadOnlySpan<BroadcastDef> BroadcastDefs
+            {
+                [MethodImpl(Inline), Op]
+                get => Broadcasts;
+            }
+
             public static ReadOnlySpan<OpWidthInfo> OpWidths
             {
                 [MethodImpl(Inline), Op]
                 get => _Widths;
             }
 
-            public static ReadOnlySpan<M.EASZ> EASZ
-            {
-                [MethodImpl(Inline), Op]
-                get => Bytes.sequential<M.EASZ>(0, (byte)M.EASZ.EASZNot16);
-            }
-
             public static ReadOnlySpan<M.ASZ> ASZ
             {
                 [MethodImpl(Inline), Op]
-                get => Bytes.sequential<M.ASZ>(0, (byte)M.ASZ.a64);
+                get => Bytes.sequential<M.ASZ>(0, (byte)MaxASZ);
             }
 
             public static ReadOnlySpan<M.BaseMapKind> BaseMapKind
@@ -49,19 +59,13 @@ namespace Z0
             public static ReadOnlySpan<InstAttrib> InstAttrib
             {
                 [MethodImpl(Inline), Op]
-                get => Bytes.sequential<InstAttrib>(0, (byte)InstAttribKind.XMM_STATE_W);
+                get => Bytes.sequential<InstAttrib>(0, (byte)MaxInstAttribKind);
             }
 
             public static ReadOnlySpan<M.InstIsa> InstIsa
             {
                 [MethodImpl(Inline), Op]
                 get => Bytes.sequential<M.InstIsa>(0, (byte)M.IsaKind.XSAVES);
-            }
-
-            public static ReadOnlySpan<M.LLRC> LLRC
-            {
-                [MethodImpl(Inline), Op]
-                get => Bytes.sequential<M.LLRC>(0, (byte)M.LLRC.LLRC3);
             }
 
             public static ReadOnlySpan<M.MaskReg> MaskReg
@@ -79,19 +83,7 @@ namespace Z0
             public static ReadOnlySpan<M.SegPrefixKind> SegPrefixKind
             {
                 [MethodImpl(Inline), Op]
-                get => Bytes.sequential<M.SegPrefixKind>(0, (byte)M.SegPrefixKind.SS);
-            }
-
-            public static ReadOnlySpan<M.RoundingKind> RoundingKind
-            {
-                [MethodImpl(Inline), Op]
-                get => Bytes.sequential<M.RoundingKind>(0, (byte)M.RoundingKind.RzSae);
-            }
-
-            public static ReadOnlySpan<M.SMODE> SMODE
-            {
-                [MethodImpl(Inline), Op]
-                get => Bytes.sequential<M.SMODE>(0, (byte)M.SMODE.SMode64);
+                get => Bytes.sequential<M.SegPrefixKind>(0, (byte)MaxSegPrefixKind);
             }
 
             public static ReadOnlySpan<R.RuleName> RuleNames

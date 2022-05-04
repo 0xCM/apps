@@ -17,7 +17,7 @@ namespace Z0
             var bw = XedOperands.width(mode,w).Bits;
             var wi = describe(w);
             if(XedOperands.reglit(src, out Register reg))
-                bw = XedOperands.bitwidth(reg);
+                bw = XedOperands.width(reg);
 
             var seg = EmptyString;
             if(wi.SegType.CellCount > 1)

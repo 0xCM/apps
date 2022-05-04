@@ -87,7 +87,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public bool Broadcast(out BCastKind dst)
-                => XedOperands.bcast(this, out dst);
+                => XedOperands.broadcast(this, out dst);
 
             public string Format()
                 => XedRender.format(this);

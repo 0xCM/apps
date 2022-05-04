@@ -41,7 +41,7 @@ namespace Z0
                         if(DataParser.eparse(part, out EMX_BROADCAST_KIND bck))
                         {
                             spec.Kind = OpKind.Bcast;
-                            spec.SourceExpr = bcastdef((BCastKind)bck).Symbol.Format();
+                            spec.SourceExpr = XedOperands.broadcast((BCastKind)bck).Symbol.Format();
                         }
                         else
                             Errors.Throw(AppMsg.ParseFailure.Format(part, nameof(PatternOp)));

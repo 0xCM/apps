@@ -223,7 +223,7 @@ namespace Z0
                     writer.AppendLineFormat(RenderPattern, nameof(state.NELEM), state.NELEM);
 
                 if(state.BCAST != 0)
-                    writer.AppendLineFormat(RenderPattern, nameof(state.BCAST), XedOperands.bcast(state));
+                    writer.AppendLineFormat(RenderPattern, nameof(state.BCAST), XedOperands.broadcast(state));
 
                 if(state.REXRR)
                     writer.AppendLineFormat(RenderPattern, nameof(state.REXRR), state.REXRR);

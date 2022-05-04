@@ -8,6 +8,6 @@ namespace Z0.Asm
     partial class IntelXed
     {
         public void EmitBroadcastDefs()
-            => TableEmit(XedModels.bcastdefs().View, BroadcastDef.RenderWidths, XedPaths.Table<BroadcastDef>());
+            => TableEmit(XedOperands.Views.BroadcastDefs, BroadcastDef.RenderWidths, XedPaths.Table<BroadcastDef>());
     }
 }

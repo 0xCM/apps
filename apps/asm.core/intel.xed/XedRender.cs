@@ -107,8 +107,6 @@ namespace Z0
 
         static EnumRender<ESRC> EsrcKinds = new();
 
-        static Index<Asm.BroadcastDef> BroadcastDefs = XedModels.bcastdefs();
-
         static readonly EnumRender<ModKind> ModIndicators = new();
 
         static EnumRender<XedRegId> XedRegs = new();
@@ -219,7 +217,7 @@ namespace Z0
             => format(RepPrexixKinds, src, fc);
 
         public static string format(VexLength src, FormatCode fc = FormatCode.Expr)
-            => fc == FormatCode.BitWidth ? XedOperands.bitwidth(src).ToString() : format(VexLengthKinds,src,fc);
+            => fc == FormatCode.BitWidth ? XedOperands.width(src).ToString() : format(VexLengthKinds,src,fc);
 
         public static string format(ASZ src)
             => AszKinds.Format(src);
@@ -228,7 +226,7 @@ namespace Z0
             => ElementSizes.Format(src);
 
         public static string format(OSZ src, FormatCode fc = FormatCode.BitWidth)
-            => fc == FormatCode.BitWidth ? XedOperands.bitwidth(src).ToString() :format(OszKinds, src, fc);
+            => fc == FormatCode.BitWidth ? XedOperands.width(src).ToString() :format(OszKinds, src, fc);
 
         public static string format(DispWidth src)
             => DispWidthKinds.Format(src);
@@ -433,7 +431,7 @@ namespace Z0
             if(src.Kind == OpKind.Bcast)
             {
                 src.Broadcast(out var kind);
-                var def = bcastdef(kind);
+                var def = XedOperands.broadcast(kind);
                 return def.Symbol.Format();
             }
             else
@@ -571,9 +569,10 @@ namespace Z0
             if(src == 0)
                 return EmptyString;
 
+            var bcasts = XedOperands.Views.BroadcastDefs;
             var index = (byte)src;
-            if(index < BroadcastDefs.Count)
-                return BroadcastDefs[index].Symbol.Format();
+            if(index < bcasts.Length)
+                return skip(bcasts,index).Symbol.Format();
             else
                 return RP.Error;
         }
