@@ -10,6 +10,25 @@ namespace Z0
 
     partial class XedFields
     {
+        static uint width(Type src)
+        {
+            var result = z32;
+            var attrib = src.Tag<DataWidthAttribute>();
+            if(src.IsEnum)
+                result = MeasuredType.bitwidth(PrimalBits.width(Enums.@base(src)));
+            else if(attrib.IsSome())
+                result = attrib.MapRequired(w => w.StorageWidth == 0 ?  (uint)w.ContentWidth : (uint)w.StorageWidth);
+
+            if(result != 0)
+                return result;
+
+            if(src == typeof(bit) || src == typeof(byte))
+                result = 8;
+            else if(src == typeof(ushort))
+                result = 16;
+            return result;
+        }
+
         static void TypeInit()
         {
             var fields = typeof(OperandState).InstanceFields().Tagged<RuleFieldAttribute>();

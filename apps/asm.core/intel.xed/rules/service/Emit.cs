@@ -79,8 +79,8 @@ namespace Z0
         public void Emit(ReadOnlySpan<MacroMatch> src)
             => TableEmit(src, MacroMatch.RenderWidths, XedPaths.RuleTable<MacroMatch>());
 
-        public void Emit(ReadOnlySpan<ReflectedField> src)
-            => TableEmit(src, ReflectedField.RenderWidths, XedPaths.Table<ReflectedField>());
+        public void Emit(ReadOnlySpan<FieldDef> src)
+            => TableEmit(src, FieldDef.RenderWidths, XedPaths.Table<FieldDef>());
 
         public void Emit(ReadOnlySpan<RuleCellRecord> src)
             => TableEmit(src, RuleCellRecord.RenderWidths, XedPaths.RuleTable<RuleCellRecord>());

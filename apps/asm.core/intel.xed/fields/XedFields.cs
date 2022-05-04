@@ -28,7 +28,7 @@ namespace Z0
         static Index<FieldKind,Type> EffectiveFieldTypes;
 
         [MethodImpl(Inline)]
-        public static ref readonly ReflectedField field(FieldKind kind)
+        public static ref readonly FieldDef field(FieldKind kind)
             => ref _ReflectedByIndex[kind];
 
         public static ref readonly ReflectedFields ByPosition

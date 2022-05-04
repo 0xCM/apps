@@ -41,6 +41,41 @@ namespace Z0
             public static Field init(FieldKind kind, InstClass value)
                 => new Field((ushort)value, kind, FieldDataKind.InstClass);
 
+            [MethodImpl(Inline), Op]
+            public static ref InstClass value(Field src, out InstClass dst)
+            {
+                dst = src;
+                return ref dst;
+            }
+
+            [MethodImpl(Inline), Op]
+            public static ref Register value(Field src, out Register dst)
+            {
+                dst = src;
+                return ref dst;
+            }
+
+            [MethodImpl(Inline), Op]
+            public static ref bit value(Field src, out bit dst)
+            {
+                dst = src;
+                return ref dst;
+            }
+
+            [MethodImpl(Inline), Op]
+            public static ref byte value(Field src, out byte dst)
+            {
+                dst = src;
+                return ref dst;
+            }
+
+            [MethodImpl(Inline), Op]
+            public static ref ushort value(Field src, out ushort dst)
+            {
+                dst = src;
+                return ref dst;
+            }
+
             readonly ushort Data;
 
             public readonly FieldKind Kind;

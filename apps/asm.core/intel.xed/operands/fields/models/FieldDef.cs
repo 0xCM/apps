@@ -8,9 +8,9 @@ namespace Z0
     partial class XedRules
     {
         [Record(TableName), StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct ReflectedField : IComparable<ReflectedField>
+        public struct FieldDef : IComparable<FieldDef>
         {
-            public const string TableName = "xed.fields.positioned";
+            public const string TableName = "xed.fields.defs";
 
             public const byte FieldCount = 10;
 
@@ -41,10 +41,10 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public int CompareTo(ReflectedField src)
+            public int CompareTo(FieldDef src)
                 => Index.CompareTo(src.Index);
 
-            public static ReflectedField Empty => default;
+            public static FieldDef Empty => default;
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,24,16,16,16,16,16,16,1};
         }

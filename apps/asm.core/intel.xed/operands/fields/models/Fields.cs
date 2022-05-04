@@ -16,25 +16,17 @@ namespace Z0
                 where T : unmanaged
                     => Field.init(kind, bw16(value));
 
-            Span<Field> Data;
+            Index<Field> Data;
 
-            Span<FieldKind> Kinds;
+            Index<FieldKind> Kinds;
 
             public const byte MaxCount = 128;
 
             [MethodImpl(Inline)]
-            public Fields(Span<Field> src)
+            public Fields(Field[] src)
             {
                 Data = src;
                 Kinds = alloc<FieldKind>(src.Length);
-            }
-
-            [MethodImpl(Inline)]
-            public Fields(Span<Field> src, Span<FieldKind> kinds)
-            {
-                Data = src;
-                Kinds = kinds;
-                Require.equal(src.Length,kinds.Length);
             }
 
             public uint Count
@@ -67,19 +59,19 @@ namespace Z0
             public ReadOnlySpan<FieldKind> MemberKinds()
             {
                 var count = Members().Members(Kinds);
-                return slice(Kinds,0, count);
+                return slice(Kinds.View,0, count);
             }
 
             public ref Field this[uint index]
             {
                 [MethodImpl(Inline)]
-                get => ref seek(Data,index);
+                get => ref Data[index];
             }
 
             public ref Field this[int index]
             {
                 [MethodImpl(Inline)]
-                get => ref seek(Data,index);
+                get => ref Data[index];
             }
 
             [MethodImpl(Inline)]
@@ -93,7 +85,7 @@ namespace Z0
             public ref Field this[FieldKind kind]
             {
                 [MethodImpl(Inline)]
-                get => ref seek(Data,(byte)kind);
+                get => ref Data[(byte)kind];
             }
 
             public static Fields Empty => new Fields(sys.empty<Field>());

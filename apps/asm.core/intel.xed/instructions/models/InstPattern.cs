@@ -5,12 +5,37 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     using static XedModels;
 
     partial class XedRules
     {
         public class InstPattern : IComparable<InstPattern>
         {
+            public static Index<InstPattern> load(Index<InstDef> defs)
+            {
+                var count = 0u;
+                iter(defs, def => count += def.PatternSpecs.Count);
+                var dst = alloc<InstPattern>(count);
+                var k=0u;
+                for(var i=0; i<defs.Count; i++)
+                {
+                    ref readonly var def = ref defs[i];
+                    var specs = def.PatternSpecs;
+
+                    for(var j=0; j<specs.Count; j++, k++)
+                        seek(dst,k) = load(ref specs[j]);
+                }
+                return dst.Sort();
+            }
+
+            static InstPattern load(ref InstPatternSpec spec)
+            {
+                var fields = InstFields.sort(spec.Body.Fields);
+                spec.Body = new (fields);
+                return new InstPattern(spec, InstFields.usage(fields));
+            }
+
             public readonly InstPatternSpec Spec;
 
             public readonly Index<OpName> OpNames;

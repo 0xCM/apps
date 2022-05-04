@@ -13,6 +13,64 @@ namespace Z0
         public readonly struct InstFields : IIndex<CellValue>
         {
             [MethodImpl(Inline), Op]
+            public static InstFields sort(in InstFields src)
+            {
+                var data = src.Data;
+                var count = (byte)data.Count;
+                var eCount = z8;
+                var lCount = z8;
+                for(var i=z8; i<count; i++)
+                {
+                    ref var field = ref data[i];
+                    if(field.IsExpr)
+                        eCount++;
+                    else
+                        lCount++;
+                }
+
+                var lIx = z8;
+                var eIx = lCount;
+                for(var i=z8; i<count; i++)
+                {
+                    ref var field = ref data[i];
+                    if(field.IsExpr)
+                        field = field.WithPosition(eIx++);
+                    else
+                        field = field.WithPosition(lIx++);
+                }
+
+                return new InstFields(data.Sort(), lCount);
+            }
+
+            public static VexClass vex(in InstFields src)
+            {
+                var result = VexClass.None;
+                if(src.Count != 0)
+                {
+                    var k = (VexClass)src.First.AsIntLit();
+                    switch(k)
+                    {
+                        case VexClass.VV1:
+                        case VexClass.EVV:
+                        case VexClass.XOPV:
+                        case VexClass.KVV:
+                            result = k;
+                        break;
+                    }
+                }
+                return result;
+            }
+
+            [MethodImpl(Inline), Op]
+            public static FieldSet usage(in InstFields src)
+            {
+                var dst = FieldSet.create();
+                for(var j=0; j<src.Count; j++)
+                    dst = dst.Include(src[j].Field);
+                return dst;
+            }
+
+            [MethodImpl(Inline), Op]
             public static XedOpCode opcode(in InstFields src)
                 => XedOpCodes.opcode(src);
 

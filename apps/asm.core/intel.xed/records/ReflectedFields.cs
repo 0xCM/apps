@@ -14,12 +14,12 @@ namespace Z0
             public const byte FieldCount = 128;
 
             public static ReflectedFields init()
-                => new ReflectedFields(sys.alloc<ReflectedField>(FieldCount));
+                => new ReflectedFields(sys.alloc<FieldDef>(FieldCount));
 
-            readonly Index<FieldKind,ReflectedField> Data;
+            readonly Index<FieldKind,FieldDef> Data;
 
             [MethodImpl(Inline)]
-            ReflectedFields(Index<FieldKind,ReflectedField> src)
+            ReflectedFields(Index<FieldKind,FieldDef> src)
             {
                 Data = src;
             }
@@ -30,31 +30,31 @@ namespace Z0
                 get => (byte)Data.Count;
             }
 
-            public ref ReflectedField this[FieldKind kind]
+            public ref FieldDef this[FieldKind kind]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[kind];
             }
 
-            public ref ReflectedField this[uint i]
+            public ref FieldDef this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[(FieldKind)i];
             }
 
-            public ref ReflectedField this[int i]
+            public ref FieldDef this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Data[(FieldKind)i];
             }
 
-            public ReadOnlySpan<ReflectedField> Valid
+            public ReadOnlySpan<FieldDef> Valid
             {
                 [MethodImpl(Inline)]
                 get => core.slice(Data.View,1);
             }
 
-            public ReadOnlySpan<ReflectedField> this[byte pos0, byte pos1]
+            public ReadOnlySpan<FieldDef> this[byte pos0, byte pos1]
             {
                 [MethodImpl(Inline)]
                 get => Segment(pos0,pos1);
@@ -64,11 +64,11 @@ namespace Z0
                 => new ReflectedFields(Data.Storage.Sort());
 
             [MethodImpl(Inline)]
-            public ReadOnlySpan<ReflectedField> Segment(byte pos0, byte pos1)
+            public ReadOnlySpan<FieldDef> Segment(byte pos0, byte pos1)
                 => segment(@readonly(Data.Storage), pos0, pos1);
 
             [MethodImpl(Inline)]
-            public static implicit operator Index<ReflectedField> (ReflectedFields src)
+            public static implicit operator Index<FieldDef> (ReflectedFields src)
                 => src.Data.Storage;
         }
     }

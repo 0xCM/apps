@@ -15,7 +15,7 @@ namespace Z0
             {
                 Require.invariant(data.Length < 48);
                 var kind = FieldParser.kind(data);
-                var field = kind != 0 ? XedFields.field(kind) : ReflectedField.Empty;
+                var field = kind != 0 ? XedFields.field(kind) : FieldDef.Empty;
                 CellParser.ruleop(data, out RuleOperator op);
                 dst = new (kind, CellParser.@class(field.Field, data), op, field.DataType, field.Size);
             }

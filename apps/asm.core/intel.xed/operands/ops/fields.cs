@@ -5,17 +5,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     using static XedRules;
 
-    partial class XedFields
+    partial class XedOperands
     {
-        [MethodImpl(Inline), Op]
-        public static FieldSet usage(in InstFields src)
-        {
-            var dst = FieldSet.create();
-            for(var j=0; j<src.Count; j++)
-                dst = dst.Include(src[j].Field);
-            return dst;
-        }
+        public static Fields fields()
+            => new Fields(core.alloc<Field>(Fields.MaxCount));
     }
 }
