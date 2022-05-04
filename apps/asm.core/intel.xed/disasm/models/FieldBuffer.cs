@@ -12,7 +12,7 @@ namespace Z0
         public ref struct FieldBuffer
         {
             public static FieldBuffer init()
-                => new FieldBuffer(XedFields.fields());
+                => new FieldBuffer(XedOperands.fields());
 
             [MethodImpl(Inline)]
             FieldBuffer(Fields fields)

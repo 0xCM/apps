@@ -8,7 +8,7 @@ namespace Z0
     using static XedModels;
     using static XedRules;
 
-    partial class XedFields
+    partial class XedOperands
     {
         [MethodImpl(Inline), Op]
         public static ref InstClass value(Field src, out InstClass dst)
@@ -16,7 +16,6 @@ namespace Z0
             dst = src;
             return ref dst;
         }
-
 
         [MethodImpl(Inline), Op]
         public static ref Register value(Field src, out Register dst)
@@ -45,6 +44,5 @@ namespace Z0
             dst = src;
             return ref dst;
         }
-
     }
 }

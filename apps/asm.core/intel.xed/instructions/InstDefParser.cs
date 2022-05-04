@@ -133,9 +133,9 @@ namespace Z0
                                             InstPatternSpec.FixIsa(ref spec);
                                             spec.RawBody = rawbody;
                                             InstParser.parse(RuleMacros.expand(InstPatternBody.normalize(rawbody)), out spec.Body);
-                                            spec.Mode = XedFields.mode(spec.Body.Fields);
+                                            spec.Mode = InstFields.mode(spec.Body.Fields);
                                             PatternOpParser.parse(spec.PatternId, opexpr, out spec.Ops);
-                                            spec.OpCode = XedOpCodes.opcode(spec.Body.Fields);
+                                            spec.OpCode = InstFields.opcode(spec.Body.Fields);
                                             specs.Add(spec);
                                         }
                                         break;

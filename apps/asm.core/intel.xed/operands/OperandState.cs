@@ -258,7 +258,7 @@ namespace Z0
             [RuleField(K.POS_DISP, 4, typeof(num4), "Specifies the 0-based index of the encoded DISP field, if applicable")]
             public byte POS_DISP;
 
-            [RuleField(K.MAP, 4, typeof(num4))]
+            [RuleField(K.MAP, 4, typeof(M.MAP))]
             public byte MAP;
 
             [RuleField(FieldKind.MAX_BYTES, 4, typeof(num4))]

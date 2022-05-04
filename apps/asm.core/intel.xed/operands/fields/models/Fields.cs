@@ -11,6 +11,11 @@ namespace Z0
     {
         public ref struct Fields
         {
+            [MethodImpl(Inline), Op]
+            public static Field field<T>(FieldKind kind, T value)
+                where T : unmanaged
+                    => Field.init(kind, bw16(value));
+
             Span<Field> Data;
 
             Span<FieldKind> Kinds;

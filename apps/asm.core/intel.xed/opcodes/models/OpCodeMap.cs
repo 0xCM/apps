@@ -35,7 +35,7 @@ namespace Z0
             }
 
             public int CompareTo(OpCodeMap src)
-                => XedOpCodes.cmp(Kind, src.Kind);
+                => XedRules.cmp(Kind, src.Kind);
 
             public string Format()
                 => Depictor.Format();

@@ -37,9 +37,9 @@ namespace Z0
                 OpCode = src.OpCode;
                 Mode = src.Mode;
                 Lock = src.Lock;
-                Mod = XedFields.mod(fields);
-                RexW = XedFields.rexw(fields);
-                Rep = XedFields.rep(fields);
+                Mod = InstFields.mod(fields);
+                RexW = InstFields.rexw(fields);
+                Rep = InstFields.rep(fields);
                 OpCodeFirst = ocfirst;
             }
 
@@ -51,10 +51,10 @@ namespace Z0
                 OpCode = src.OpCode;
                 Mode = src.Mode;
                 Lock = src.Lock;
-                Mod = XedFields.mod(fields);
-                RexW = XedFields.rexw(fields);
+                Mod = InstFields.mod(fields);
+                RexW = InstFields.rexw(fields);
                 Rep = RepIndicator.Empty;
-                Rep = XedFields.rep(fields);
+                Rep = InstFields.rep(fields);
                 OpCodeFirst = ocfirst;
             }
 
@@ -65,11 +65,11 @@ namespace Z0
                 InstClass = src.InstClass;
                 OpCode = src.OpCode;
                 Mode = src.Mode;
-                Lock = XedFields.@lock(fields);
-                Mod = XedFields.mod(fields);
-                RexW = XedFields.rexw(fields);
+                Lock = InstFields.@lock(fields);
+                Mod = InstFields.mod(fields);
+                RexW = InstFields.rexw(fields);
                 Rep = RepIndicator.Empty;
-                Rep = XedFields.rep(fields);
+                Rep = InstFields.rep(fields);
                 OpCodeFirst = ocfirst;
            }
 
@@ -117,7 +117,7 @@ namespace Z0
                 var result = 0;
                 if(OpCodeFirst)
                 {
-                    result = XedOpCodes.cmp(OpCode.Kind,src.OpCode.Kind);
+                    result = XedRules.cmp(OpCode.Kind,src.OpCode.Kind);
                     if(result == 0)
                         result = OpCode.Value.CompareTo(src.OpCode.Value);
                     if(result == 0)

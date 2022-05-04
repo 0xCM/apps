@@ -121,7 +121,7 @@ namespace Z0
 
             public int CompareTo(XedOpCode src)
             {
-                var result = XedOpCodes.cmp(Kind, src.Kind);
+                var result = XedRules.cmp(Kind, src.Kind);
                 if(result == 0)
                     result = Value.CompareTo(src.Value);
                 return result;

@@ -14,7 +14,7 @@ namespace Z0
         {
             var vc = VexClass.None;
             var number = z8;
-            var ocv = value(src);
+            var ocv = ocvalue(src);
             var ock = OpCodeKind.None;
             for(var i=0; i<src.Count; i++)
             {
@@ -42,7 +42,7 @@ namespace Z0
                 break;
             }
 
-            return new XedOpCode(XedFields.mode(src), ock, ocv);
+            return new XedOpCode(InstFields.mode(src), ock, ocv);
         }
     }
 }

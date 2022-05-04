@@ -30,7 +30,7 @@ namespace Z0
             var dst = InstFieldRow.Empty;
             dst.PatternId = pattern.PatternId;
             dst.Mode = pattern.Mode;
-            dst.Lock = XedFields.@lock(pattern.Fields);
+            dst.Lock = InstFields.@lock(pattern.Fields);
             dst.Index = Require.equal(index,src.Position);
             dst.FieldClass = src.CellKind;
             dst.FieldKind = src.Field;

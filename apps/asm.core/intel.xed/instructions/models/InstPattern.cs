@@ -35,7 +35,7 @@ namespace Z0
                 Spec = spec;
                 OpNames = spec.Ops.Names;
                 FieldDeps = deps;
-                Lock = XedFields.@lock(fields);
+                Lock = InstFields.@lock(fields);
                 OpDetails = XedOperands.opdetails(this);
                 Scalable = OpDetails.Any(x => x.Scalable);
                 Layout = new InstFields(layout.ToArray(), (byte)layout.Length);

@@ -57,12 +57,6 @@ namespace Z0
                 Output.AppendLineFormat(PaddedSlots, src.Kind, Render[src.Kind](src));
             }
 
-            void RunningFlow(FileRef src)
-                => CurrentFlow = Wf.WfMsg.Running(src);
-
-            ExecToken RanFlow()
-                => Wf.WfMsg.Ran(CurrentFlow);
-
             void Handle(FieldKind kind, in OperandState src)
             {
 

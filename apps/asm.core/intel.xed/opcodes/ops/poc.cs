@@ -59,11 +59,11 @@ namespace Z0
             dst.PatternId = (ushort)src.PatternId;
             dst.OpCode = src.OpCode;
             dst.InstClass = src.InstClass.Classifier;
-            dst.Mode = XedFields.mode(src.Fields);
-            dst.Lock = XedFields.@lock(src.Fields);
-            dst.Mod = XedFields.mod(src.Fields);
-            dst.RexW = XedFields.rexw(src.Fields);
-            dst.Rep = XedFields.rep(src.Fields);
+            dst.Mode = InstFields.mode(src.Fields);
+            dst.Lock = InstFields.@lock(src.Fields);
+            dst.Mod = InstFields.mod(src.Fields);
+            dst.RexW = InstFields.rexw(src.Fields);
+            dst.Rep = InstFields.rep(src.Fields);
             dst.Layout = src.Layout;
             dst.Expr = src.Expr;
         }

@@ -11,34 +11,12 @@ namespace Z0
 
     partial class XedRules
     {
+        /// <summary>
+        /// Specifies the value of a <see cref='OperandState'/> field for a specified <see cref='FieldKind'/>
+        /// </summary>
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct Field
         {
-            public static Field numeric(FieldKind kind, string data)
-            {
-                var field = Field.Empty;
-                if(XedParsers.IsHexLiteral(data))
-                {
-                    if(XedParsers.parse(data, out Hex8 x8))
-                        field = Field.init(kind, x8);
-                    else if(XedParsers.parse(data, out Hex16 x16))
-                        field = Field.init(kind, x16);
-                }
-                else if(XedParsers.IsBinaryLiteral(data))
-                {
-                    if(XedParsers.parse(data, out uint8b b))
-                        field = Field.init(kind, b);
-                }
-                else if(XedParsers.IsInt(data))
-                {
-                    if(XedParsers.parse(data, out byte n8))
-                        field = Field.init(kind, n8);
-                    else if(XedParsers.parse(data, out ushort n16))
-                        field = Field.init(kind, n16);
-                }
-                return field;
-            }
-
             [MethodImpl(Inline)]
             public static Field init(FieldKind kind, bit value)
                 => new Field((ushort)value, kind, FieldDataKind.Bit);
@@ -63,53 +41,52 @@ namespace Z0
             public static Field init(FieldKind kind, InstClass value)
                 => new Field((ushort)value, kind, FieldDataKind.InstClass);
 
-            public readonly ushort Content;
+            readonly ushort Data;
 
             public readonly FieldKind Kind;
 
-            public readonly FieldDataKind Type;
+            readonly FieldDataKind Type;
 
             [MethodImpl(Inline)]
             Field(ushort content, FieldKind kind, FieldDataKind type)
             {
-                Content = content;
+                Data = content;
                 Kind = kind;
                 Type = type;
             }
 
             [MethodImpl(Inline)]
             bit Bit()
-                => (bit)Content;
+                => (bit)Data;
 
 
             [MethodImpl(Inline)]
             byte Byte()
-                => (byte)Content;
+                => (byte)Data;
 
             [MethodImpl(Inline)]
             ushort Word()
-                => Content;
+                => Data;
 
             [MethodImpl(Inline)]
             Register Reg()
-                => (Register)Content;
+                => (Register)Data;
 
             [MethodImpl(Inline)]
             ChipCode Chip()
-                => (ChipCode)Content;
+                => (ChipCode)Data;
 
             [MethodImpl(Inline)]
             InstClass Inst()
-                => (InstClass)Content;
+                => (InstClass)Data;
 
             [MethodImpl(Inline)]
             BCastKind BCast()
-                => (BCastKind)Content;
+                => (BCastKind)Data;
 
             [MethodImpl(Inline)]
             RuleOperator Operator()
-                => (OperatorKind)Content;
-
+                => (OperatorKind)Data;
 
             public bool IsEmpty
             {

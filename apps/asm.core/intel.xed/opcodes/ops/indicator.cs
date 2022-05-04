@@ -6,9 +6,6 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedModels.OpCodeKind;
-
-    using S = XedPatterns.OpCodeSymbols;
 
     partial class XedOpCodes
     {

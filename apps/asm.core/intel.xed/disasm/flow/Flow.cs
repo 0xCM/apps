@@ -65,7 +65,7 @@ namespace Z0
                 XedDisasm.parse(lines, out props);
                 dst.Computed(seq, props);
 
-                var fields = XedFields.fields();
+                var fields = XedOperands.fields();
                 XedDisasm.fields(props, fields, false);
                 dst.Computed(seq, fields);
 

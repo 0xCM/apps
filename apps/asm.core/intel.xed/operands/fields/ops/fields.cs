@@ -8,7 +8,7 @@ namespace Z0
     using static core;
     using static XedRules;
 
-    partial class XedFields
+    partial class XedOperands
     {
         public static Fields fields()
             => new Fields(core.alloc<Field>(Fields.MaxCount));

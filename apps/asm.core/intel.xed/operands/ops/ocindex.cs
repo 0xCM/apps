@@ -19,7 +19,8 @@ namespace Z0
             [MethodImpl(Inline), Op]
             public static ref OperandState set(OpCodeIndex src, ref OperandState dst)
             {
-                XedOpCodes.mapnum(src, out dst.MAP);
+                XedOpCodes.map(src, out var map);
+                dst.MAP = (byte)map;
                 dst.VEXVALID = (byte)XedOpCodes.vexclass(src);
                 return ref dst;
             }
