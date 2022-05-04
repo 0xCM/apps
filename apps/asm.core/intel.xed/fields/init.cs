@@ -10,6 +10,8 @@ namespace Z0
 
     partial class XedFields
     {
+        public const byte FieldCount = 128;
+
         static uint width(Type src)
         {
             var result = z32;
@@ -29,46 +31,45 @@ namespace Z0
             return result;
         }
 
-        static void TypeInit()
+        static Type[] CalcEffectiveTypes()
+            => typeof(OperandState).InstanceFields().Tagged<RuleFieldAttribute>().Select(x => x.Tag<RuleFieldAttribute>().Value.EffectiveType);
+
+        static FieldDefs CalcFieldDefs()
         {
             var fields = typeof(OperandState).InstanceFields().Tagged<RuleFieldAttribute>();
             var count = fields.Length;
-
-            var positioned = ReflectedFields.init();
-            var indexed = ReflectedFields.init();
-            var types = alloc<Type>(count);
+            var defs = new FieldDefs(sys.alloc<FieldDef>(FieldCount), sys.alloc<FieldDef>(FieldCount));
+            var positioned = defs.ByPos;
+            var indexed = defs.Indexed;
             var packed = z32;
             var aligned = z32;
 
             for(var i=z8; i<count; i++)
             {
                 ref readonly var field = ref skip(fields,i);
-                ref var type = ref seek(types,i);
                 ref var dst = ref positioned[i + 1];
 
                 var tag = field.Tag<RuleFieldAttribute>().Require();
                 var awidth = width(field.FieldType);
                 var pwidth = tag.Width;
                 var index = (byte)tag.Kind;
-                type = tag.EffectiveType;
                 dst.Pos = i;
                 dst.Field = tag.Kind;
                 dst.Index = index;
-                dst.DataType = type.DisplayName();
+                dst.DataType = tag.EffectiveType.DisplayName();
                 dst.NativeType = field.FieldType.DisplayName();
                 dst.PackedWidth = pwidth;
                 dst.AlignedWidth = awidth;
                 dst.PackedOffset = packed;
                 dst.AlignedOffset = aligned;
                 dst.Description = tag.Description;
-                indexed[index] = dst;
+                indexed[(FieldKind)index] = dst;
                 packed += pwidth;
                 aligned += awidth;
             }
 
-            EffectiveFieldTypes = types;
-            _ReflectedByPos = positioned;
-            _ReflectedByIndex = indexed.IndexSort();
+            defs.SortIndex();
+            return defs;
         }
     }
 }

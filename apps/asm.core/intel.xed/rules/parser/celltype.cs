@@ -11,13 +11,15 @@ namespace Z0
     {
         partial struct CellParser
         {
-            public static void parse(string data, out CellTypeInfo dst)
+            public static bool parse(string data, out CellTypeInfo dst)
             {
+                Require.nonempty(data);
                 Require.invariant(data.Length < 48);
                 var kind = FieldParser.kind(data);
                 var field = kind != 0 ? XedFields.field(kind) : FieldDef.Empty;
                 CellParser.ruleop(data, out RuleOperator op);
                 dst = new (kind, CellParser.@class(field.Field, data), op, field.DataType, field.Size);
+                return true;
             }
         }
     }

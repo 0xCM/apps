@@ -6,12 +6,14 @@
 namespace Z0.Asm
 {
     using static core;
+    using static XedRules;
 
     partial class IntelXed
     {
         public void EmitCatalog()
         {
             XedPaths.Targets().Delete();
+            Emit(XedFields.Defs.Positioned);
             exec(PllExec,
                 EmitChipMap,
                 ImportForms,
@@ -21,5 +23,8 @@ namespace Z0.Asm
                 );
             Db.EmitArtifacts();
         }
+
+        public void Emit(ReadOnlySpan<FieldDef> src)
+            => TableEmit(src, FieldDef.RenderWidths, XedPaths.Table<FieldDef>());
     }
 }

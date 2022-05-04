@@ -20,7 +20,7 @@ namespace Z0
                 () => Emit(CalcPointerWidths().View),
                 () => Emit(mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i))),
                 () => Emit(CalcMacroDefs().View),
-                () => Emit(XedFields.ByPosition.Valid),
+                () => Emit(XedFields.Defs.Positioned),
                 EmitSymbolicFields,
                 () => Emit(ImportFieldDefs()),
                 () => rules = CalcRuleTables(),
