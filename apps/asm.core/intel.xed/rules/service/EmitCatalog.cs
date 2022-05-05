@@ -30,6 +30,22 @@ namespace Z0
             Emit(patterns,rules);
         }
 
+        public void EmitCatalog(Index<InstPattern> patterns, RuleTables rules)
+        {
+            exec(PllExec,
+                () => TableEmit(OpCodeKinds.Instance.Records, OcMapKind.RenderWidths, XedPaths.Table<OcMapKind>()),
+                EmitOpWidths,
+                () => Emit(CalcPointerWidths().View),
+                () => Emit(mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i))),
+                () => Emit(CalcMacroDefs().View),
+                () => Emit(XedFields.Defs.Positioned),
+                EmitSymbolicFields,
+                () => Emit(ImportFieldDefs())
+            );
+
+            Emit(patterns,rules);
+        }
+
         void EmitSymbolicFields()
             => ApiMetadataService.create(Wf).EmitTokenSet(XedFields.EffectiveFields.create(), AppDb.XedPath("xed.fields.symbolic", FileKind.Csv));
 

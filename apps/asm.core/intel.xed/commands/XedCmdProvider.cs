@@ -11,19 +11,15 @@ namespace Z0
 
     public partial class XedCmdProvider : AppCmdService<XedCmdProvider,CmdShellState>, IProjectConsumer<XedCmdProvider>
     {
-        IntelXed Xed => Service(Wf.IntelXed);
+        IntelXed Xed => XedRuntime.Main;
 
-        XedForms XedForms => Service(Wf.XedForms);
-
-        XedDisasmSvc Disasm => Service(Wf.XedDisasm);
-
-        XedDocs XedDocs => Service(Wf.XedDocs);
+        XedDocs XedDocs => XedRuntime.Docs;
 
         WsProjects Projects => Service(Wf.WsProjects);
 
-        XedPaths XedPaths => Service(Wf.XedPaths);
+        XedPaths XedPaths => XedRuntime.Paths;
 
-        XedRules Rules => Service(Wf.XedRules);
+        XedRules Rules => XedRuntime.Rules;
 
         RuleTables CalcRules() => Rules.CalcRuleTables();
 
@@ -46,13 +42,14 @@ namespace Z0
         IProjectWs _Project;
 
         XedRuntime _Xed;
+
         IProjectProvider _ProjectProvider;
 
         [MethodImpl(Inline)]
         IProjectProvider ProjectProvider()
             => _ProjectProvider;
 
-        public XedRuntime XedRumtime
+        public XedRuntime XedRuntime
         {
             [MethodImpl(Inline)]
             get => _Xed;

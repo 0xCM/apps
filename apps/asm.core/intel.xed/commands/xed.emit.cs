@@ -8,6 +8,13 @@ namespace Z0
 
     partial class XedCmdProvider
     {
+        [CmdOp("xed/run")]
+        Outcome RunXed(CmdArgs args)
+        {
+            XedRuntime.Start();
+            return true;
+        }
+
         [CmdOp("xed/emit/seq")]
         Outcome EmitSeq(CmdArgs args)
         {
@@ -99,7 +106,7 @@ namespace Z0
         [CmdOp("xed/emit/catalog")]
         Outcome EmitXedCat(CmdArgs args)
         {
-            Xed.EmitCatalog();
+            XedRuntime.EmitCatalog();
             return true;
         }
 
