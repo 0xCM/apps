@@ -12,12 +12,15 @@ namespace Z0
         {
             public const uint MetaWidth = 8 + SegVar.MetaWidth;
 
+            [MethodImpl(Inline)]
             public static FieldSeg literal(FieldKind field, byte n, byte value)
                 => new FieldSeg(field, SegVar.literal(n,value));
 
+            [MethodImpl(Inline)]
             public static FieldSeg literal(FieldKind field, BitNumber<byte> value)
                 => new FieldSeg(field, SegVar.literal(value));
 
+            [MethodImpl(Inline)]
             public static FieldSeg symbolic(FieldKind field, string spec)
                 => new FieldSeg(field, SegVar.parse(spec));
 
@@ -29,6 +32,7 @@ namespace Z0
             public static FieldSeg symbolic(FieldKind field, char c0, char c1)
                 => new FieldSeg(field, new SegVar(c0, c1));
 
+            [MethodImpl(Inline)]
             public static FieldSeg symbolic(string spec)
                 => new FieldSeg(0, SegVar.parse(spec));
 

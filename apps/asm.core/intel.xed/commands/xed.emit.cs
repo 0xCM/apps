@@ -103,7 +103,7 @@ namespace Z0
             }
 
             var formatter = CellRender.functions();
-            const string RenderPattern = "{0,-4} | {1,-4} | {2,-2} | {3,-12}";
+            const string RenderPattern = "{0,-4} | {1,-4} | {2,-2} | {3,-32} | 0x{4,-8:X4} | {5,-22}";
             var output = text.emitter();
             var k=0u;
             for(var i = 0; i<keys.Count; i++)
@@ -118,8 +118,7 @@ namespace Z0
                         for(var j=0; j<data.Length; j++, k++)
                         {
                             ref readonly var value = ref data[j];
-
-                            output.AppendLineFormat(RenderPattern, k, j, key, formatter.Format((RuleCellKind)key, value));
+                            output.AppendLineFormat(RenderPattern, k, j, key, formatter.Format((RuleCellKind)key, value), (byte)value, EmptyString);
                         }
                     }
                     break;
@@ -129,7 +128,7 @@ namespace Z0
                         for(var j=0; j<data.Length; j++, k++)
                         {
                             ref readonly var value = ref data[j];
-                            output.AppendLineFormat(RenderPattern, k, j, key, formatter.Format((RuleCellKind)key, value));
+                            output.AppendLineFormat(RenderPattern, k, j, key, formatter.Format((RuleCellKind)key, value), (byte)value, EmptyString);
                         }
                     }
                     break;
@@ -139,7 +138,7 @@ namespace Z0
                         for(var j=0; j<data.Length; j++, k++)
                         {
                             ref readonly var value = ref data[j];
-                            output.AppendLineFormat(RenderPattern, k, j, key, formatter.Format((RuleCellKind)key, value));
+                            output.AppendLineFormat(RenderPattern, k, j, key, formatter.Format((RuleCellKind)key, value), (ushort)value, EmptyString);
                         }
                     }
                     break;
@@ -149,7 +148,7 @@ namespace Z0
                         for(var j=0; j<data.Length; j++, k++)
                         {
                             ref readonly var value = ref data[j];
-                            output.AppendLineFormat(RenderPattern, k, j, key, formatter.Format((RuleCellKind)key, value));
+                            output.AppendLineFormat(RenderPattern, k, j, key, formatter.Format((RuleCellKind)key, value), 0, value.Field);
                         }
                     }
                     break;
@@ -159,7 +158,7 @@ namespace Z0
                         for(var j=0; j<data.Length; j++, k++)
                         {
                             ref readonly var value = ref data[j];
-                            output.AppendLineFormat(RenderPattern, k, j, key, formatter.Format((RuleCellKind)key, value));
+                            output.AppendLineFormat(RenderPattern, k, j, key, formatter.Format((RuleCellKind)key, value), 0, EmptyString);
                         }
                     }
                     break;
