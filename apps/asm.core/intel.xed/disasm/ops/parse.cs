@@ -16,14 +16,6 @@ namespace Z0
             var props = block.ParseProps();
             instruction(src.Row.InstructionId, block.Props.Content, props, out dst);
             return true;
-            //var result = Outcome.Success;
-            // dst = Instruction.Empty;
-            // ref readonly var content = ref block.Props.Content;
-            // if(text.nonempty(content))
-            // {
-            //     dst = new Instruction(src.Row.InstructionId, src.Row.Asm.Content, props.InstClass, props.InstForm, props);
-            // }
-            // return result;
         }
 
         public static uint parse(in DisasmBlock src, out InstFieldValues dst)

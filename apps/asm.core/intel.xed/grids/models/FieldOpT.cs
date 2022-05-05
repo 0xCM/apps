@@ -5,29 +5,37 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    using static XedRules;
+
+    partial class XedGrids
     {
-        public readonly record struct RuleOp : ILogicOperand<LogicValue>
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
+        public readonly record struct FieldOp<T> : ILogicOperand<T>
+            where T : unmanaged, ILogicValue<T>
         {
-            public readonly Nonterminal Rule;
+            public readonly FieldKind Field;
 
             public readonly RuleOperator Operator;
 
-            public readonly LogicValue Value;
+            public readonly T Value;
 
             [MethodImpl(Inline)]
-            public RuleOp(RuleName rule, RuleOperator op, LogicValue value)
+            public FieldOp(FieldKind field, RuleOperator op, T value)
             {
-                Rule = rule;
+                Field = field;
                 Operator = op;
                 Value = value;
             }
 
-            LogicValue ILogicOperand<LogicValue>.Value
+            T ILogicOperand<T>.Value
                 => Value;
 
             RuleOperator ILogicOperand.Operator
                 => Operator;
+
+            [MethodImpl(Inline)]
+            public static implicit operator FieldOp(FieldOp<T> src)
+                => new FieldOp(src.Field, src.Operator, LogicValue.untype(src.Value));
         }
     }
 }

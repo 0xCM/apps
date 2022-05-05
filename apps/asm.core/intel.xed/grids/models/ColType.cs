@@ -7,13 +7,52 @@ namespace Z0
 {
     using static core;
     using static XedRules;
-    using static XedDataTypes;
 
     partial class XedGrids
     {
         [StructLayout(LayoutKind.Sequential,Pack=1,Size =4)]
         public readonly record struct ColType
         {
+            [MethodImpl(Inline)]
+            public ColType(KeywordKind src)
+                => this = Bitfields.join((byte)ColKind.Keyword, (ushort)src);
+
+            [MethodImpl(Inline)]
+            public ColType(FieldKind src)
+                => this = Bitfields.join((byte)ColKind.Field, (ushort)src);
+
+            [MethodImpl(Inline)]
+            public ColType(ColKind kind, FieldKind field)
+                => this = Bitfields.join((byte)kind, (ushort)field);
+
+            [MethodImpl(Inline)]
+            public ColType(FieldKind field, OperatorKind op)
+                => this = Bitfields.join((byte)ColKind.Expr, Bitfields.join((byte)field, (byte)op));
+
+            [MethodImpl(Inline)]
+            public ColType(FieldKind field, OperatorKind op, RuleName rule)
+                => this = Bitfields.join((byte)ColKind.RuleExpr, (byte)field, (ushort)num.pack(num.force(op, n3),num.force(rule, n9)));
+
+            [MethodImpl(Inline)]
+            public ColType(FieldKind field, OperatorKind op, byte width)
+                => this = Bitfields.join((byte)ColKind.RuleExpr, (byte)field, (ushort)num.pack(num.force(op, n3), width));
+
+            [MethodImpl(Inline)]
+            public ColType(RuleName src)
+                => this = Bitfields.join((byte)ColKind.Rule, (ushort)src);
+
+            [MethodImpl(Inline)]
+            public ColType(OperatorKind src)
+                => this = Bitfields.join((byte)ColKind.Operator, (ushort)src);
+
+            [MethodImpl(Inline)]
+            public ColType(ColKind k)
+                => this = (ushort)k;
+
+            [MethodImpl(Inline)]
+            public ColType(ColKind k, byte width)
+                => this = Bitfields.join((byte)k,width);
+
             [MethodImpl(Inline)]
             public static ColType field(FieldKind field)
                 => new ColType(ColKind.Field, field);
@@ -54,55 +93,9 @@ namespace Z0
             public static ColType nonterm(RuleName rule)
                 => new ColType(rule);
 
-            /// <summary>
-            /// Defines a rule expression type
-            /// </summary>
-            /// <param name="field">The field</param>
-            /// <param name="op">The operator</param>
-            /// <param name="rule">The rule</param>
             [MethodImpl(Inline)]
             public static ColType expr(FieldKind field, OperatorKind op, RuleName rule)
                 => new ColType(field, op, rule);
-
-            [MethodImpl(Inline)]
-            public ColType(KeywordKind src)
-                => this = Bitfields.join((byte)ColKind.Keyword, (ushort)src);
-
-            [MethodImpl(Inline)]
-            public ColType(FieldKind src)
-                => this = Bitfields.join((byte)ColKind.Field, (ushort)src);
-
-            [MethodImpl(Inline)]
-            public ColType(ColKind kind, FieldKind field)
-                => this = Bitfields.join((byte)kind, (ushort)field);
-
-            [MethodImpl(Inline)]
-            public ColType(FieldKind field, OperatorKind op)
-                => this = Bitfields.join((byte)ColKind.Expr, Bitfields.join((byte)field, (byte)op));
-
-            [MethodImpl(Inline)]
-            public ColType(FieldKind field, OperatorKind op, RuleName rule)
-                => this = Bitfields.join((byte)ColKind.RuleExpr, (byte)field, (ushort)num.pack(num.force(op, n3),num.force(rule, n9)));
-
-            [MethodImpl(Inline)]
-            public ColType(FieldKind field, OperatorKind op, byte width)
-                => this = Bitfields.join((byte)ColKind.RuleExpr, (byte)field, (ushort)num.pack(num.force(op, n3), width));
-
-            [MethodImpl(Inline)]
-            public ColType(RuleName src)
-                => this = Bitfields.join((byte)ColKind.Rule, (ushort)src);
-
-            [MethodImpl(Inline)]
-            public ColType(OperatorKind src)
-                => this = Bitfields.join((byte)ColKind.Operator, (ushort)src);
-
-            [MethodImpl(Inline)]
-            public ColType(ColKind k)
-                => this = (ushort)k;
-
-            [MethodImpl(Inline)]
-            public ColType(ColKind k, byte width)
-                => this = Bitfields.join((byte)k,width);
 
             [MethodImpl(Inline)]
             RuleKeyword Keyword()
@@ -196,64 +189,6 @@ namespace Z0
                 => new (src.KeywordKind);
 
             public static ColType Empty => default;
-
-            // struct Formatter
-            // {
-            //     static void NtExpr(ColType src)
-            //         => Formatter.fx(Formatter.Key.NtExpr) = src => XedRender.format(src.NtCall());
-
-            //     static void NtCall(ColType src)
-            //         => Formatter.fx(Formatter.Key.NtCall) = src => XedRender.format(src.NtCall());
-
-            //     static void Operator()
-            //         => Formatter.fx(Formatter.Key.Operator) = src => XedRender.format(src.Op());
-
-            //     static void keyword()
-            //         => Formatter.fx(Formatter.Key.Keyword) = src => XedRender.format(src.Keyword());
-
-            //     public enum Key
-            //     {
-            //         NtCall,
-
-            //         NtExpr,
-
-            //         Operator,
-
-            //         Keyword
-            //     }
-
-            //     [MethodImpl(Inline)]
-            //     public static ref Formatter formatter(byte key)
-            //         => ref _Formatters[key];
-
-            //     [MethodImpl(Inline)]
-            //     public static ref Formatter formatter(Key key)
-            //         => ref _Formatters[(byte)key];
-
-            //     [MethodImpl(Inline)]
-            //     public static ref Func<ColType,string>  fx(byte key)
-            //         => ref formatter(key).F;
-
-            //     [MethodImpl(Inline)]
-            //     public static ref Func<ColType,string>  fx(Key key)
-            //         => ref formatter(key).F;
-
-            //     static Index<Formatter> _Formatters = new Formatter[24];
-
-            //     public readonly byte KeyValue;
-
-            //     Func<ColType,string> F;
-
-            //     [MethodImpl(Inline)]
-            //     public Formatter(byte key, Func<ColType,string> f)
-            //     {
-            //         KeyValue = key;
-            //         F = f;
-            //     }
-
-            //     public string Format(ColType src)
-            //         => F(src);
-            // }
         }
     }
 }

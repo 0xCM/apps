@@ -8,7 +8,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct Coordinate
+        public readonly record struct Coordinate : IComparable<Coordinate>
         {
             public readonly ushort Table;
 
@@ -38,10 +38,8 @@ namespace Z0
                 return result;
             }
 
-            const string RenderPattern = "{0,-6} | {0, -6} | {0, -6}";
-
             public string Format()
-                => string.Format(RenderPattern, Table, Row, Col);
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

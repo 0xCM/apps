@@ -12,17 +12,28 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct GridCell : IComparable<GridCell>
         {
+            [MethodImpl(Inline)]
+            public static GridCell from(in RuleCell src)
+            {
+                var field = src.Field;
+                var type = ColType.field(field);
+                if(src.IsNontermCall)
+                {
+                    type = ColType.nonterm(src.Value.AsNonterm());
+                }
+                else if(src.IsCellExpr)
+                {
+                    var expr = src.Value.ToCellExpr();
+                    if(expr.IsNonterm)
+                        type = ColType.expr(field, expr.Operator, expr.Value.ToRuleName());
+                    else
+                        type = ColType.expr(field, expr.Operator);
+                }
+
+                return new GridCell(src.Key, type, src.Size, src.Value);
+            }
+
             public readonly CellKey Key;
-
-            public readonly LogicClass Logic;
-
-            public readonly FieldKind Field;
-
-            public readonly ushort TableIndex;
-
-            public readonly ushort RowIndex;
-
-            public readonly byte ColIndex;
 
             public readonly ColType Type;
 
@@ -34,20 +45,45 @@ namespace Z0
             public GridCell(in CellKey key, ColType type, DataSize size, CellValue value)
             {
                 Key = key;
-                Logic = key.Logic;
-                TableIndex = key.Table;
-                RowIndex = key.Row;
-                Field = key.Field;
-                ColIndex = key.Col;
                 Type = type;
                 Size = size;
                 Value = value;
             }
 
-            public GridCol Column
+            public readonly ushort Table
             {
                 [MethodImpl(Inline)]
-                get => col(this);
+                get => Key.Table;
+            }
+
+            public readonly ushort Row
+            {
+                [MethodImpl(Inline)]
+                get => Key.Row;
+            }
+
+            public readonly byte Col
+            {
+                [MethodImpl(Inline)]
+                get => Key.Col;
+            }
+
+            public readonly FieldKind Field
+            {
+                [MethodImpl(Inline)]
+                get => Key.Field;
+            }
+
+            public readonly LogicClass Logic
+            {
+                [MethodImpl(Inline)]
+                get => Key.Logic;
+            }
+
+            public ref readonly GridCol Def
+            {
+                [MethodImpl(Inline)]
+                get => ref core.@as<GridCol>(core.bytes(this));
             }
 
             public bool IsEmpty
@@ -64,15 +100,15 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public int CompareTo(GridCell src)
-                => ColIndex.CompareTo(src.ColIndex);
+                => Col.CompareTo(src.Col);
 
             public string Format()
-                => IsEmpty ? EmptyString : string.Format("{0:D3} | {1,-3} | {2,-32} | {3:D2} | {4:D2} | {5} | {6,-6} | {7,-26} | {8}",
-                    Key.Table,
+                => IsEmpty ? EmptyString :
+                    string.Format("{0:D5} | {1} | {2,-3} | {3,-32} | {4} | {5} | {6,-26} | {7}",
+                    Key.Index,
+                    Key.Location,
                     XedRender.format(Key.Rule.TableKind),
                     XedRender.format(Key.Rule.TableName),
-                    RowIndex,
-                    ColIndex,
                     Size.Format(2,2,true),
                     XedRender.format(Logic),
                     XedRender.format(Field),

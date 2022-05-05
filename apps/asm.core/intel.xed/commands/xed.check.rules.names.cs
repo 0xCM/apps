@@ -9,54 +9,8 @@ namespace Z0
     using static Markdown;
     using static core;
 
-    public class RuleCalls
-    {
-        ConcurrentDictionary<RuleCaller, HashSet<RuleSig>> Data;
-
-        public static RuleCalls init(RuleCells cells)
-            => new RuleCalls(cells);
-
-        RuleCalls(RuleCells cells)
-        {
-            Data = new();
-            ref readonly var sigs = ref cells.Sigs;
-            for(var i=0; i<sigs.Count; i++)
-                Data[sigs[i]] = new();
-        }
-
-        public void Include(RuleCaller src, RuleSig dst)
-        {
-            Data.AddOrUpdate(src, c => hashset<RuleSig>(), (k,v) =>  {
-                v.Add(dst);
-                return v;
-            });
-        }
-    }
-
     partial class XedCmdProvider
     {
-        [MethodImpl(Inline)]
-        public static GridCell gcell(in RuleCell src)
-        {
-            var field = src.Field;
-            var type = ColType.field(field);
-            if(src.IsNontermCall)
-            {
-                type = ColType.nonterm(src.Value.AsNonterm());
-            }
-            else if(src.IsCellExpr)
-            {
-                var expr = src.Value.ToCellExpr();
-                if(expr.IsNonterm)
-                    type = ColType.expr(field, expr.Operator, expr.Value.ToRuleName());
-                else
-                    type = ColType.expr(field, expr.Operator);
-            }
-
-            return new GridCell(src.Key, type, src.Size, src.Value);
-        }
-
-
         [CmdOp("xed/check/rules")]
         Outcome CheckRules(CmdArgs args)
         {
@@ -70,7 +24,7 @@ namespace Z0
             {
                 ref readonly var cTable = ref src[i];
                 ref readonly var sig = ref cTable.Sig;
-                var kCol = gcols(cTable);
+                var kCol = cols(cTable);
                 var kRow = cTable.RowCount;
                 var kCells = kRow*kCol;
                 var gRowCols = alloc<Index<GridCol>>(kRow);
@@ -85,8 +39,8 @@ namespace Z0
                     for(var k=0; k<cRow.CellCount; k++, gc++)
                     {
                         ref readonly var cell = ref cRow[k];
-                        gCells[gc] = gcell(cell);
-                        gRowCols[j][k] = col(gCells[gc]);
+                        gCells[gc] = GridCell.from(cell);
+                        gRowCols[j][k] = gCells[gc].Def;
 
                         if(cell.IsNonterm)
                         {

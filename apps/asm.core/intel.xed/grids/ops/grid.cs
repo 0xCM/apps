@@ -19,16 +19,15 @@ namespace Z0
 
         public static RuleGrid grid(in CellTable src)
         {
-            var kCol = gcols(src);
+            var kCol = cols(src);
             var kRow = src.RowCount;
             var dst = alloc<GridCell>(kCol*kRow);
             var k=z8;
             for(var i=0; i<kRow; i++)
             {
-                var cells = XedGrids.cells(src[i]);
-
-                for(var j=0; j<cells.Count; j++, k++)
-                    seek(dst, k) = cells[j];
+                var gcells = cells(src[i]);
+                for(var j=0; j<gcells.Count; j++, k++)
+                    seek(dst, k) = gcells[j];
 
                 for(var j=k; j<kCol; j++, k++)
                     seek(dst, k) = GridCell.Empty;

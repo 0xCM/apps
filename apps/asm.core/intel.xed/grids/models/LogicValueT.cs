@@ -5,7 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    using static XedRules;
+
+    partial class XedGrids
     {
         public readonly record struct LogicValue<T> : ILogicValue<T>
             where T : unmanaged

@@ -10,7 +10,6 @@ namespace Z0
     using static XedModels;
     using static XedRules;
     using static XedDisasm;
-    using static Markdown;
     using static core;
 
     using OC = XedRules.OpAttribClass;
@@ -164,6 +163,12 @@ namespace Z0
 
         public static string format(ushort src)
             => src.ToString();
+
+        public static string format(LogicClass src)
+            => src.Indicator.ToString();
+
+        public static string format(Coordinate src)
+            => string.Format("({0:D3}, {1:D2}, {2:D2})", src.Table, src.Row, src.Col);
 
         public static string format(FlagEffectKind src)
             => FlagEffects.Format(src);

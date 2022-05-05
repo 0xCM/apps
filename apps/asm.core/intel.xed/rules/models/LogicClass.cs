@@ -43,7 +43,7 @@ namespace Z0
             }
 
             public string Format()
-                => Indicator.ToString();
+                => XedRender.format(this);
 
             public override string ToString()
                 => Format();

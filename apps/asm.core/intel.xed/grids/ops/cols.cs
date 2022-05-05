@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedGrids
     {
-        public static byte gcols(in CellTable src)
+        public static byte cols(in CellTable src)
             => (byte)src.Rows.Select(row => XedGrids.cells(row).Count).Storage.Max();
     }
 }

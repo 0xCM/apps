@@ -31,7 +31,7 @@ namespace Z0
 
                     if(j==0)
                     {
-                        dst.AppendFormat(RowRenderPattern, cell.RowIndex, src.Rule.TableKind, src.Rule.TableName, cell.Column.Format());
+                        dst.AppendFormat(RowRenderPattern, cell.Row, src.Rule.TableKind, src.Rule.TableName, cell.Def.Format());
 
                         continue;
                     }
@@ -40,7 +40,7 @@ namespace Z0
                         continue;
 
                     dst.Append(" | ");
-                    dst.Append(cell.Column.Format());
+                    dst.Append(cell.Def.Format());
                 }
                 dst.AppendLine();
             }

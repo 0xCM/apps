@@ -11,19 +11,19 @@ namespace Z0
     partial class XedGrids
     {
         [MethodImpl(Inline), Op]
-        public static GridRow grow(RuleSig rule, ushort row, GridCol[] cols)
+        public static GridRow row(RuleSig rule, ushort row, GridCol[] cols)
             => new GridRow(rule, row, cols);
 
-        public static Index<GridRow> grows(RuleSig rule, ushort rows, byte cols, Index<GridCell> src)
+        public static Index<GridRow> rows(RuleSig rule, ushort rows, byte cols, Index<GridCell> src)
         {
             var dst = alloc<GridRow>(rows);
             var k=0u;
             for(var i=z16; i<rows; i++)
             {
-                seek(dst,i) = grow(rule,i, alloc<GridCol>(cols));
-                ref readonly var row = ref skip(dst,i);
-                for(var j=z8; j<row.ColCount; j++, k++)
-                    row.Cols[j] = col(src[k]);
+                seek(dst, i) = row(rule, i, alloc<GridCol>(cols));
+                ref readonly var grow = ref skip(dst,i);
+                for(var j=z8; j<grow.ColCount; j++, k++)
+                    grow.Cols[j] = src[k].Def;
             }
             return dst;
         }

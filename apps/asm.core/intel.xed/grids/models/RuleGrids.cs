@@ -40,7 +40,7 @@ namespace Z0
             public Index<GridRow> Rows(uint i)
             {
                 ref readonly var table = ref Tables[i];
-                return grows(table.Rule, table.RowCount, table.ColCount, table.Cells);
+                return rows(table.Rule, table.RowCount, table.ColCount, table.Cells);
             }
 
             public Index<GridRow> Rows(int i)

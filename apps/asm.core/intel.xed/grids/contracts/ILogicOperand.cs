@@ -5,10 +5,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules;
+
     partial class XedGrids
     {
-        [MethodImpl(Inline), Op]
-        public static GridCol col(in GridCell src)
-            => new GridCol(src.Key, src.Type, src.Size);
+        public interface ILogicOperand
+        {
+            RuleOperator Operator {get;}
+        }
+
+        public interface ILogicOperand<T> : ILogicOperand
+            where T : unmanaged, ILogicValue
+        {
+            T Value {get;}
+        }
     }
 }

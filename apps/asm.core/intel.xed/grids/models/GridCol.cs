@@ -18,14 +18,6 @@ namespace Z0
 
             public readonly DataSize Size;
 
-            [MethodImpl(Inline)]
-            public GridCol(CellKey key, ColType type, DataSize size)
-            {
-                Key = key;
-                Type = type;
-                Size = size;
-            }
-
             public LogicClass Logic
             {
                 [MethodImpl(Inline)]
@@ -38,16 +30,16 @@ namespace Z0
                 get => Key.Field;
             }
 
-            public byte Index
-            {
-                [MethodImpl(Inline)]
-                get => Key.Col;
-            }
-
             public ushort Row
             {
                 [MethodImpl(Inline)]
                 get => Key.Row;
+            }
+
+            public byte Index
+            {
+                [MethodImpl(Inline)]
+                get => Key.Col;
             }
 
             public string Format()

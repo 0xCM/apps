@@ -11,7 +11,17 @@ namespace Z0
     partial class XedGrids
     {
         [MethodImpl(Inline)]
-        public static LogicCell<T> logical<T>(CellKey key, T value)
+        public static FieldOp<T> operand<T>(FieldKind field, RuleOperator op, T value)
+            where T : unmanaged, ILogicValue<T>
+                => new FieldOp<T>(field, op, value);
+
+        [MethodImpl(Inline)]
+        public static RuleOp<T> operand<T>(Nonterminal rule, RuleOperator op, T value)
+            where T : unmanaged, ILogicValue<T>
+                => new RuleOp<T>(rule, op, value);
+
+        [MethodImpl(Inline)]
+        public static LogicCell<T> cell<T>(CellKey key, T value)
             where T : unmanaged,  ILogicValue<T>, IEquatable<T>, ILogicOperand<T>
                 => new LogicCell<T>(key,value);
 
