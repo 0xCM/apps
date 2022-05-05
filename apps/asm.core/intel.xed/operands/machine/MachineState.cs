@@ -277,6 +277,9 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => ref Pattern.OpDetails;
             }
+
+            uint IMachine.Id
+                => Id;
         }
     }
 }

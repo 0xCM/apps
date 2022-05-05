@@ -11,7 +11,7 @@ namespace Z0
         [CmdOp("xed/run")]
         Outcome RunXed(CmdArgs args)
         {
-            XedRuntime.Start();
+            //XedRuntime.Start();
             return true;
         }
 
@@ -43,6 +43,14 @@ namespace Z0
             var src = CalcRuleCells();
             var analyzer = new RuleAnalyzer(this, (data,count,path) => FileEmit(data, count,path, TextEncodingKind.Asci));
             analyzer.Run(src);
+            return true;
+        }
+
+        [CmdOp("xed/emit/layouts")]
+        Outcome EmitLayouts(CmdArgs args)
+        {
+            ref readonly var layouts = ref XedRuntime.InstLayouts;
+            //XedRuntime.EmitInstLayouts();
             return true;
         }
 

@@ -67,11 +67,14 @@ namespace Z0
 
             public void Render(ITextEmitter dst)
             {
+                const string RenderPattern = "{0,-10} | {1,-18} | {2,-22} | {3,-6} | {4}";
+                dst.AppendLineFormat(RenderPattern,"PatternId", "Instruction", "OpCode", "Length", "Vector");
                 for(var i=0; i<Count; i++)
-                    dst.AppendLine(this[i]);
+                {
+                    ref readonly var src = ref this[i];
+                    dst.AppendLineFormat(RenderPattern, src.PatternId, src.Instruction, src.OpCode, src.Count, src.Format());
+                }
             }
-
-
 
             public string Format()
             {

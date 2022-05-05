@@ -58,6 +58,7 @@ namespace Z0
         public XedCmdProvider With(XedRuntime xed)
         {
             _Xed = xed;
+             xed.Start();
             return this;
         }
         public XedCmdProvider With(IProjectProvider provider)

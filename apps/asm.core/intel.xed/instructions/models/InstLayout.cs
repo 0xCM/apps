@@ -49,14 +49,13 @@ namespace Z0
             public string Format()
             {
                 var dst = text.emitter();
-                dst.Append(Chars.LBracket);
+                var slot = RP.slot(0,-LayoutCell.RenderWidth);
                 for(var i=0; i<Count; i++)
                 {
-                    dst.Append(this[i]);
-                    if(i != Count - 1)
+                    if(i != 0)
                         dst.Append(" | ");
+                    dst.AppendFormat(slot, this[i]);
                 }
-                dst.Append(Chars.RBracket);
                 return dst.Emit();
             }
 

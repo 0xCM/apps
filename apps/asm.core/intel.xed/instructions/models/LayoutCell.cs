@@ -12,6 +12,8 @@ namespace Z0
     {
         public readonly record struct LayoutCell
         {
+            public const byte RenderWidth = 22;
+
             readonly ByteBlock16 Data;
 
             [MethodImpl(Inline)]

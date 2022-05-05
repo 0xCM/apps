@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-    using static XedRules;
-
     partial class XedOperands
     {
         public static IMachine machine(XedRules rules)

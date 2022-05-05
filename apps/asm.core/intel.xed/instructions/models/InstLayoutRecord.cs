@@ -17,7 +17,7 @@ namespace Z0
 
             const byte TotalCount = HeaderCount + CellCount;
 
-            public const byte CellWidth = 22;
+            public const byte CellWidth = LayoutCell.RenderWidth;
 
             public ushort PatternId;
 

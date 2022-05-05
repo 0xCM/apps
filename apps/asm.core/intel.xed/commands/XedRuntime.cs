@@ -8,6 +8,7 @@ namespace Z0
     using Asm;
 
     using static XedRules;
+    using static XedOperands;
     using static core;
 
     public class XedRuntime : AppService<XedRuntime>
@@ -34,55 +35,69 @@ namespace Z0
 
         public XedDisasmSvc Disasm => Service(Wf.XedDisasm);
 
+        ConcurrentDictionary<uint,IMachine> Machines = new();
+
+        public IMachine Machine()
+        {
+            var m =  machine(Rules);
+            Machines.TryAdd(m.Id,m);
+            return m;
+        }
+
+        public bool Machine(uint id, out IMachine dst)
+            => Machines.TryGetValue(id, out dst);
+
         public new XedDb Db => Service(Wf.XedDb);
-
-        [MethodImpl(Inline)]
-        ref readonly Index<InstPattern> _Patterns()
-        {
-            Start();
-            return ref PatternData;
-        }
-
-        [MethodImpl(Inline)]
-        ref readonly RuleTables _RuleTables()
-        {
-            Start();
-            return ref RuleTableData;
-        }
-
-        Index<InstPattern> PatternData;
-
-        RuleTables RuleTableData;
-
-        InstLayouts LayoutData;
 
         bool Started = false;
 
         object StartLocker = new();
 
-        public ref readonly RuleTables RuleTables
+        enum StoreIndex : byte
         {
-            [MethodImpl(Inline)]
-            get => ref _RuleTables();
+            InstPattern,
+
+            RuleTables,
+
+            InstLayouts,
         }
 
         public ref readonly Index<InstPattern> Patterns
         {
             [MethodImpl(Inline)]
-            get => ref _Patterns();
+            get => ref Load<Index<InstPattern>>(StoreIndex.InstPattern);
+        }
+
+        public ref readonly RuleTables RuleTables
+        {
+            [MethodImpl(Inline)]
+            get => ref Load<RuleTables>(StoreIndex.RuleTables);
         }
 
         public ref readonly InstLayouts InstLayouts
         {
             [MethodImpl(Inline)]
-            get => ref LayoutData;
+            get => ref Load<InstLayouts>(StoreIndex.InstLayouts);
         }
+
+        Index<object> DataStores = alloc<object>(24);
+
+        [MethodImpl(Inline)]
+        ref readonly T Load<T>(StoreIndex index)
+            => ref core.@as<object,T>(DataStores[(byte)index]);
+
+        [MethodImpl(Inline)]
+        void Store<T>(StoreIndex index, Func<T> f)
+            => core.@as<object,T>(DataStores[(byte)index]) = f();
+
+        InstLayouts CalcLayouts(Index<InstPattern> patterns) => Data(nameof(CalcLayouts), () => LayoutCalcs.layouts(patterns));
 
         void StartDirect()
         {
-            PatternData = Rules.CalcPatterns();
-            LayoutData = LayoutCalcs.layouts(PatternData);
-            RuleTableData = Rules.CalcRuleTables();
+            var patterns = Rules.CalcPatterns();
+            Store(StoreIndex.InstPattern,Rules.CalcPatterns);
+            Store(StoreIndex.RuleTables,Rules.CalcRuleTables);
+            Store(StoreIndex.InstLayouts, () => CalcLayouts(patterns));
             Started = true;
         }
 
@@ -98,7 +113,6 @@ namespace Z0
 
         public void EmitCatalog()
         {
-            Start();
             Paths.Targets().Delete();
             Main.Emit(XedFields.Defs.Positioned);
             exec(PllExec,
@@ -107,7 +121,7 @@ namespace Z0
                 () => Main.EmitRegmaps(),
                 () => Main.EmitBroadcastDefs(),
                 () => Rules.EmitCatalog(Patterns,RuleTables),
-                () => EmitInstLayouts()
+                () => Emit(InstLayouts)
                 );
 
             Db.EmitArtifacts();
@@ -115,18 +129,13 @@ namespace Z0
 
         void Emit(in InstLayouts src)
         {
-            FileEmit(src.Format(), 0, Paths.Target("xed.inst.layouts.test", FS.Txt));
+            FileEmit(src.Format(), 0, Paths.Target("xed.inst.layouts.vectors", FS.Csv));
             TableEmit(src.Records.View, InstLayoutRecord.RenderWidths, Paths.Table<InstLayoutRecord>());
-        }
-
-        public void EmitInstLayouts()
-        {
-            Emit(InstLayouts);
         }
 
         protected override void Disposing()
         {
-            LayoutData?.Dispose();
+            InstLayouts?.Dispose();
         }
     }
 }
