@@ -18,6 +18,9 @@ namespace Z0
     {
         public readonly partial struct CellRender
         {
+            public static CellRenderFunctions functions()
+                => CellRenderFunctions.Service;
+
             public static string format(in CellInfo src)
             {
                 var dst = EmptyString;

@@ -31,8 +31,12 @@ namespace Z0
                 => ref @as<uint5>(Data.First);
 
             [MethodImpl(Inline)]
-            public ref readonly FieldSeg AsSegField()
+            public ref readonly FieldSeg AsFieldSeg()
                 => ref @as<FieldSeg>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly SegVar AsSegVar()
+                => ref @as<SegVar>(Data.First);
 
             [MethodImpl(Inline)]
             public ref readonly Nonterminal AsNonterm()
@@ -76,8 +80,8 @@ namespace Z0
                     case XL:
                         dst = XedRender.format(AsHexLit());
                     break;
-                    case SF:
-                        dst = XedRender.format(AsSegField());
+                    case LayoutCellKind.FS:
+                        dst = XedRender.format(AsFieldSeg());
                     break;
                     case NT:
                         dst = XedRender.format(AsNonterm());

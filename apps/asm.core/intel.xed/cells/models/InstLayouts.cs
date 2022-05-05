@@ -29,6 +29,13 @@ namespace Z0
             public ref InstLayoutRecord Record(int i)
                 => ref Records[i];
 
+            [MethodImpl(Inline)]
+            ref readonly InstLayoutBlock Block(int i)
+            {
+                ref readonly var block = ref Blocks[i];
+                return ref block.Content;
+            }
+
             public uint Count
             {
                 [MethodImpl(Inline)]
@@ -90,7 +97,6 @@ namespace Z0
             {
                 Blocks.Dispose();
             }
-
         }
     }
 }

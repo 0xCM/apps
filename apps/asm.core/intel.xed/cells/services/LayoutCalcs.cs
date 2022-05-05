@@ -116,7 +116,7 @@ namespace Z0
                             @as<FieldSeg>(dst.First) = FieldSeg.literal(iseg.Field, iseg.ToLiteral());
                         else
                             @as<FieldSeg>(dst.First) = FieldSeg.symbolic(iseg.Field, InstSegTypes.pattern(iseg.Type));
-                        dst[15] = (byte)SF;
+                        dst[15] = (byte)LayoutCellKind.FS;
                     }
                     break;
                     case K.NontermCall:
