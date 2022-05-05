@@ -19,6 +19,8 @@ namespace Z0
         {
             public const string Columns = "{0,-24} | {1}";
 
+            public const sbyte ColWidth = 24;
+
             public const byte Count = 128;
 
             readonly Index<FieldKind,Func<ushort,string>> Functions;

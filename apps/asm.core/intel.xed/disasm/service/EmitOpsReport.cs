@@ -26,11 +26,11 @@ namespace Z0
                 ref readonly var detail = ref row.DetailRow;
                 var inst = detail.Instruction;
                 dst.AppendLine(RP.PageBreak80);
-                XedRender.describe(detail, -24, dst);
+                XedRender.describe(detail, dst);
                 ref readonly var ops = ref detail.Ops;
                 dst.AppendLine("Operands");
                 for(var j=z8; j<ops.Count; j++)
-                    dst.AppendLine(XedRender.format(j, -24, ops[j]));
+                    dst.AppendLine(XedRender.format(j, ops[j]));
 
                 dst.WriteLine();
             }

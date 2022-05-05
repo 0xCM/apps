@@ -7,7 +7,6 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
-    using static XedFields;
 
     partial class XedOperands
     {
@@ -21,7 +20,7 @@ namespace Z0
                         ElementType = desc.ElementType,
                         IsRegLit = IsRegLit(spec.OpType),
                         IsRule = IsRule(spec.OpType),
-                        ElementCount = desc.CellCount,
+                        ElementCount = desc.ElementCount,
                         OpWidth = new OpWidth(spec.WidthCode, width.Bits)
                     };
 

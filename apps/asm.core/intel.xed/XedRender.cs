@@ -343,10 +343,10 @@ namespace Z0
                 _ => '\0',
             };
 
-        public static void describe(in DetailBlockRow src, sbyte pad, ITextEmitter dst)
+        public static void describe(in DetailBlockRow src, ITextEmitter dst)
         {
-            const string RenderPattern = "{0,-24} | {1}";
-            var pattern = RP.slot(0,pad) + " | " + RP.slot(1);
+            const sbyte Pad = -XedFields.FieldRender.ColWidth;
+            var pattern = RP.slot(0,Pad) + " | " + RP.slot(1);
 
             dst.AppendLineFormat(pattern, nameof(src.InstructionId), src.InstructionId);
             dst.AppendLineFormat(pattern, nameof(src.Asm), src.Asm);
@@ -358,8 +358,7 @@ namespace Z0
 
         public static void describe(in DisasmFieldBuffer src, ITextBuffer dst)
         {
-            const string RenderPattern = "{0,-24} | {1}";
-
+            const string RenderPattern = XedFields.FieldRender.Columns;
             dst.AppendLineFormat(RenderPattern, nameof(src.Summary.InstructionId), src.Summary.InstructionId);
             dst.AppendLineFormat(RenderPattern, nameof(src.Asm.Asm), src.Asm.Asm);
             dst.AppendLineFormat(RenderPattern, nameof(src.Props.InstClass), src.Props.InstClass);
@@ -814,11 +813,50 @@ namespace Z0
             return new asci8(storage);
         }
 
-        public static string format(byte index, sbyte pad, in OpDetail src)
+        public static string format(byte index, in OpSpec src)
         {
             const string OpSepSlot = "/{0}";
+            const sbyte Pad = -XedFields.FieldRender.ColWidth;
+
             var dst = text.buffer();
-            dst.AppendFormat(RP.slot(0,pad), index);
+            dst.AppendFormat(RP.slot(0, Pad), index);
+            dst.Append(" | ");
+            dst.AppendFormat("{0,-4}", XedRender.format(src.Name));
+            var kind = XedOperands.opkind(src.Name);
+            switch(kind)
+            {
+                case OpKind.Reg:
+                case OpKind.Base:
+                case OpKind.Index:
+                    if(src.Selector.IsNonEmpty)
+                    {
+                        dst.AppendFormat(" {0}", src.Selector);
+                        dst.AppendFormat(OpSepSlot, XedRender.format(src.Action));
+                    }
+                break;
+                default:
+                    dst.AppendFormat(" {0}", XedRender.format(src.Action));
+                break;
+            }
+
+            dst.AppendFormat(OpSepSlot, XedRender.format(src.WidthCode));
+            if(src.ElementType.IsNumber)
+                dst.AppendFormat(OpSepSlot, src.ElementType);
+            if(!src.Visibility.IsExplicit)
+                dst.AppendFormat(OpSepSlot, src.Visibility);
+            if(src.OpType != 0)
+                dst.AppendFormat(OpSepSlot, src.OpType);
+
+            return dst.Emit();
+        }
+
+        public static string format(byte index, in OpDetail src)
+        {
+            const string OpSepSlot = "/{0}";
+            const sbyte Pad = -XedFields.FieldRender.ColWidth;
+
+            var dst = text.buffer();
+            dst.AppendFormat(RP.slot(0, Pad), index);
             dst.Append(" | ");
             dst.AppendFormat("{0,-4}", XedRender.format(src.OpName));
             var kind = XedOperands.opkind(src.OpName);

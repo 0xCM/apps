@@ -45,8 +45,8 @@ namespace Z0
                 if(options.EmitApiClasses)
                     catalogs.EmitApiClasses();
 
-                if(options.EmitXedCatalogs)
-                    Wf.IntelXed().EmitCatalog();
+                // if(options.EmitXedCatalogs)
+                //     Wf.IntelXed().EmitCatalog();
 
                 if(options.EmitIntrinsicsInfo)
                     Wf.IntelIntrinsics().Emit();

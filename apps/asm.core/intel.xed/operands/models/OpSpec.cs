@@ -14,15 +14,25 @@ namespace Z0
         {
             public byte Index;
 
-            public OpKind Kind;
-
             public OpName Name;
+
+            public OpKind Kind;
 
             public OpAction Action;
 
             public Visibility Visibility;
 
             public OpWidthCode WidthCode;
+
+            public ushort BitWidth;
+
+            public ElementType ElementType;
+
+            public ushort ElementWidth;
+
+            public byte ElementCount;
+
+            public BitSegType SegType;
 
             public OpType OpType;
 
@@ -48,7 +58,7 @@ namespace Z0
             }
 
             public override string ToString()
-                => Format();
+                => XedRender.format(Index,this);
         }
     }
 }

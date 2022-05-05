@@ -31,12 +31,6 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => Key.Index;
             }
-
-            public Coordinate Location
-            {
-                [MethodImpl(Inline)]
-                get => Key.Location;
-            }
         }
     }
 }

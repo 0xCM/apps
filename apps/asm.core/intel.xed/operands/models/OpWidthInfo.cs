@@ -20,7 +20,7 @@ namespace Z0
 
             public ElementType ElementType;
 
-            public ushort CellWidth;
+            public ushort ElementWidth;
 
             public BitSegType SegType;
 
@@ -30,7 +30,7 @@ namespace Z0
 
             public ushort Width16;
 
-            public byte CellCount
+            public byte ElementCount
             {
                 [MethodImpl(Inline)]
                 get => SegType.CellCount;

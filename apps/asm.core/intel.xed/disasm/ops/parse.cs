@@ -97,6 +97,13 @@ namespace Z0
             if(result.Fail)
                 return result;
 
+            var width = XedOperands.describe(dst.WidthCode);
+            dst.BitWidth = width.Width64;
+            dst.ElementType = width.ElementType;
+            dst.ElementWidth = width.ElementWidth;
+            dst.ElementCount = width.ElementCount;
+            dst.SegType = width.SegType;
+
             result = XedParsers.parse(skip(parts,i++), out dst.Visibility);
             if(result.Fail)
                 return result;

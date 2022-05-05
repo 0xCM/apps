@@ -77,11 +77,9 @@ namespace Z0
                 return result;
             }
 
-            public Coordinate Location
-            {
-                [MethodImpl(Inline)]
-                get => new Coordinate(Table, Row, Col);
-            }
+            public ref readonly Coordinate Location
+                =>  ref core.@as<Coordinate>(core.seek(core.bytes(this),2));
+
 
             public override bool Equals(object src)
                 => src is CellKey k && Equals(k);

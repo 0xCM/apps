@@ -25,13 +25,13 @@ namespace Z0
 
             public GprWidth GprWidth;
 
-            public ElementType CellType;
+            public ElementType ElementType;
 
             public BitSegType SegType;
 
             public ushort BitWidth;
 
-            public ushort CellWidth;
+            public ushort ElementWidth;
 
             public Register RegLit;
 

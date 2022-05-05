@@ -75,7 +75,7 @@ namespace Z0
                     break;
                 }
 
-                dst.CellWidth = width(dst.Code, dst.ElementType);
+                dst.ElementWidth = width(dst.Code, dst.ElementType);
 
                 result = ParseWidthValue(wdefault, out dst.Width16);
                 if(result.Fail)
@@ -107,7 +107,7 @@ namespace Z0
                     break;
                 }
 
-                dst.SegType = BitSegType.define(nclass(dst.Code), dst.Width64, dst.CellWidth);
+                dst.SegType = BitSegType.define(nclass(dst.Code), dst.Width64, dst.ElementWidth);
                 buffer.TryAdd(dst.Code, dst);
             }
 

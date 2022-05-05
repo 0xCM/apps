@@ -30,8 +30,8 @@ namespace Z0
                 dst.BitWidth = w.Bits;
                 var wi = describe(wc);
                 dst.SegType = wi.SegType;
-                dst.CellType = wi.ElementType;
-                dst.CellWidth = wi.CellWidth;
+                dst.ElementType = wi.ElementType;
+                dst.ElementWidth = wi.ElementWidth;
             }
 
             var gpr = GprWidth.Empty;

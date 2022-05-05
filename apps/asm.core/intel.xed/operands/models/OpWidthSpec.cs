@@ -28,9 +28,9 @@ namespace Z0
                 for(var i=0; i<src.Count; i++)
                 {
                     ref readonly var info = ref src[i];
-                    seek(dst,k++) = new OpWidthSpec(info.Code, ModeClass.Mode16, info.Name, info.SegType, 1, info.ElementType, info.CellWidth, info.Width16);
-                    seek(dst,k++) = new OpWidthSpec(info.Code, ModeClass.Mode32, info.Name, info.SegType, 1, info.ElementType, info.CellWidth, info.Width32);
-                    seek(dst,k++) = new OpWidthSpec(info.Code, ModeClass.Mode64, info.Name, info.SegType, 1, info.ElementType, info.CellWidth, info.Width64);
+                    seek(dst,k++) = new OpWidthSpec(info.Code, ModeClass.Mode16, info.Name, info.SegType, 1, info.ElementType, info.ElementWidth, info.Width16);
+                    seek(dst,k++) = new OpWidthSpec(info.Code, ModeClass.Mode32, info.Name, info.SegType, 1, info.ElementType, info.ElementWidth, info.Width32);
+                    seek(dst,k++) = new OpWidthSpec(info.Code, ModeClass.Mode64, info.Name, info.SegType, 1, info.ElementType, info.ElementWidth, info.Width64);
                 }
                 return new OpWidthSpecs(dst);
             }
