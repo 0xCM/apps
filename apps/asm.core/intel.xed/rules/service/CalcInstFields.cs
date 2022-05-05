@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public Index<InstPattern> CalcPatterns()
-            => CalcInstPatterns(CalcInstDefs());
+        public Index<InstFieldRow> CalcInstFields(Index<InstPattern> src)
+            => Data(nameof(CalcInstFields), () => XedPatterns.fieldrows(src));
     }
 }

@@ -11,20 +11,24 @@ namespace Z0
     {
         readonly GCHandle StorageHandle;
 
-        public T[] Storage {get;}
+        public readonly T[] Storage;
 
         readonly T* pData;
 
-        public uint Count {get;}
+        public readonly uint Count;
 
         [MethodImpl(Inline)]
-        public PinnedIndex(T[] content)
+        public PinnedIndex(T[] data)
         {
-            StorageHandle = GCHandle.Alloc(content, GCHandleType.Pinned);
+            StorageHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
             pData = (T*)StorageHandle.AddrOfPinnedObject().ToPointer();
-            Storage = content;
-            Count = (uint)content.Length;
+            Storage = data;
+            Count = (uint)data.Length;
         }
+
+        [MethodImpl(Inline)]
+        public Ptr<T> Pointer()
+            => new Ptr<T>(pData);
 
         public MemoryAddress BaseAddress
         {
@@ -67,7 +71,17 @@ namespace Z0
             [MethodImpl(Inline)]
             get => ref seek(pData,0);
         }
+
+        T[] IIndex<T>.Storage
+            => Storage;
+
         public ref T this[uint index]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(pData, index);
+        }
+
+        public ref T this[int index]
         {
             [MethodImpl(Inline)]
             get => ref seek(pData, index);

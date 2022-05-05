@@ -16,22 +16,25 @@ namespace Z0
                 () => Emit(patterns),
                 () => Emit(rules)
             );
-
-            EmitDocs(patterns,rules);
         }
 
-        public void EmitDocs(Index<InstPattern> patterns, RuleTables rules)
+        public Index<InstPattern> Emit(Index<InstPattern> src)
         {
             exec(PllExec,
-                () => Docs.EmitDocs(patterns),
-                () => Docs.EmitDocs(rules)
-            );
+                () => Emit(CalcPatternRecords(src)),
+                () => EmitFlagEffects(src),
+                () => EmitInstAttribs(src),
+                () => Emit(CalcInstFields(src)),
+                () => Emit(CalcInstGroups(src)),
+                () => Emit(CalcInstOpDetails(src)),
+                () => Emit(CalcPoc(src))
+                );
+            return src;
         }
-
         public void Emit(RuleTables src)
         {
             exec(PllExec,
-                () => EmitCellDetail(CalcRuleCells(src)),
+                () => Emit(CalcRuleCells(src)),
                 () => EmitTableDefReport(src),
                 EmitSeq,
                 () => EmitTableDefs(src)
@@ -100,6 +103,22 @@ namespace Z0
             () => Emit(CalcInstOpRows(src)),
             () => Emit(CalcOpClasses(src))
             );
+        }
+
+        public void Emit(RuleCells src)
+        {
+            exec(PllExec,
+                () => EmitRaw(src),
+                () => Emit(src.Records.View)
+                );
+        }
+
+        void EmitRaw(RuleCells src)
+        {
+            var dst = text.emitter();
+            var count = CellRender.Tables.render(src.Values, dst);
+            var data = Require.equal(dst.Emit(), src.Description);
+            FileEmit(data, count, XedPaths.RuleTarget("cells.raw", FS.Csv), TextEncodingKind.Asci);
         }
 
         public void Emit(ReadOnlySpan<InstFieldRow> src)

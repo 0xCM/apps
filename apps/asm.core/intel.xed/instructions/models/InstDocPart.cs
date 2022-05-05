@@ -9,13 +9,13 @@ namespace Z0
 
     partial class XedDocs
     {
-        public class InstDocPart
+        public class InstDocPart : IComparable<InstDocPart>
         {
             readonly InstPattern Inst;
 
             public InstDocPart(InstPattern src)
             {
-                Inst = src;
+                Inst = Require.notnull(src);
             }
 
             public ref readonly Index<OpName> OpNames
@@ -71,6 +71,10 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => ref Inst.Mode;
             }
+
+            [MethodImpl(Inline)]
+            public int CompareTo(InstDocPart src)
+                => Inst.CompareTo(src.Inst);
         }
     }
 }

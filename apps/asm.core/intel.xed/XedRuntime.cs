@@ -9,9 +9,10 @@ namespace Z0
 
     using static XedRules;
     using static XedOperands;
+    using static XedModels;
     using static core;
 
-    public class XedRuntime : AppService<XedRuntime>
+    public partial class XedRuntime : AppService<XedRuntime>
     {
         static AppData AppData
         {
@@ -37,13 +38,6 @@ namespace Z0
 
         ConcurrentDictionary<uint,IMachine> Machines = new();
 
-        public IMachine Machine()
-        {
-            var m =  machine(Rules);
-            Machines.TryAdd(m.Id,m);
-            return m;
-        }
-
         public bool Machine(uint id, out IMachine dst)
             => Machines.TryGetValue(id, out dst);
 
@@ -62,24 +56,6 @@ namespace Z0
             InstLayouts,
         }
 
-        public ref readonly Index<InstPattern> Patterns
-        {
-            [MethodImpl(Inline)]
-            get => ref Load<Index<InstPattern>>(StoreIndex.InstPattern);
-        }
-
-        public ref readonly RuleTables RuleTables
-        {
-            [MethodImpl(Inline)]
-            get => ref Load<RuleTables>(StoreIndex.RuleTables);
-        }
-
-        public ref readonly InstLayouts InstLayouts
-        {
-            [MethodImpl(Inline)]
-            get => ref Load<InstLayouts>(StoreIndex.InstLayouts);
-        }
-
         Index<object> DataStores = alloc<object>(24);
 
         [MethodImpl(Inline)]
@@ -95,8 +71,8 @@ namespace Z0
         void StartDirect()
         {
             var patterns = Rules.CalcPatterns();
-            Store(StoreIndex.InstPattern,Rules.CalcPatterns);
-            Store(StoreIndex.RuleTables,Rules.CalcRuleTables);
+            Store(StoreIndex.InstPattern, Rules.CalcPatterns);
+            Store(StoreIndex.RuleTables, Rules.CalcRuleTables);
             Store(StoreIndex.InstLayouts, () => CalcLayouts(patterns));
             Started = true;
         }
@@ -109,28 +85,6 @@ namespace Z0
                 if(!Started)
                     StartDirect();
             }
-        }
-
-        public void EmitCatalog()
-        {
-            Paths.Targets().Delete();
-            Main.Emit(XedFields.Defs.Positioned);
-            exec(PllExec,
-                () => Main.EmitChipMap(),
-                () => Main.ImportForms(),
-                () => Main.EmitRegmaps(),
-                () => Main.EmitBroadcastDefs(),
-                () => Rules.EmitCatalog(Patterns,RuleTables),
-                () => Emit(InstLayouts)
-                );
-
-            Db.EmitArtifacts();
-        }
-
-        void Emit(in InstLayouts src)
-        {
-            FileEmit(src.Format(), 0, Paths.Target("xed.inst.layouts.vectors", FS.Csv));
-            TableEmit(src.Records.View, InstLayoutRecord.RenderWidths, Paths.Table<InstLayoutRecord>());
         }
 
         protected override void Disposing()

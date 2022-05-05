@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     public unsafe readonly struct PinnedPtr<T> : IDisposable
         where T : unmanaged
     {
@@ -17,7 +11,7 @@ namespace Z0
 
         readonly GCHandle Handle;
 
-        readonly T* Pointer;
+        public readonly T* Pointer;
 
         [MethodImpl(Inline)]
         internal PinnedPtr(object origin, GCHandle handle, T* ptr)

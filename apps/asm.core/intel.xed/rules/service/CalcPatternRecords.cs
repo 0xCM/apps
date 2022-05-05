@@ -5,11 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class XedRules
     {
-        public Index<InstPattern> CalcPatterns()
-            => CalcInstPatterns(CalcInstDefs());
+        public Index<InstPatternRecord> CalcPatternRecords(Index<InstPattern> src)
+            => Data(nameof(CalcPatternRecords), () => XedPatterns.describe(src));
     }
 }

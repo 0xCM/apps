@@ -4,13 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class XTend
     {
+        public static PinnedIndex<T> Pin<T>(this Index<T> src)
+            where T : unmanaged
+                => new PinnedIndex<T>(src.Storage);
+
+        public static PinnedArray<T> Pin<T>(this T[] src)
+            where T : unmanaged
+                => new PinnedArray<T>(src);
+
         /// <summary>
         /// Applies a function to an input sequence to yield a transformed output sequence
         /// </summary>

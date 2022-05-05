@@ -5,6 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
+
     partial class XedRules
     {
         public readonly struct TableCriteria : IComparable<TableCriteria>
@@ -101,6 +104,14 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => Sig.IsNonEmpty;
+            }
+
+            public uint RenderLines(ITextEmitter dst)
+            {
+                var src = Lines();
+                for(var i=0; i<src.Length; i++)
+                    dst.AppendLineFormat("# {0}", skip(src,i).Content);
+                return (uint)src.Length;
             }
 
             public TableCriteria Merge(in TableCriteria src)

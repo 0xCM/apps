@@ -207,8 +207,7 @@ namespace Z0
         [CmdOp("xed/emit/docs")]
         Outcome EmitDocs(CmdArgs args)
         {
-            XedDocs.EmitDocs(CalcRules());
-            XedDocs.EmitDocs(CalcPatterns());
+            XedDocs.Emit(CalcPatterns(), CalcRules());
             return true;
         }
 

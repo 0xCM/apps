@@ -6,50 +6,59 @@ namespace Z0
 {
     using static core;
     using static XedRules;
-    using static XedModels;
     using static XedPatterns;
 
     public partial class XedDocs : AppService<XedDocs>
     {
         static XedPaths XedPaths => XedPaths.Service;
 
-        static AppData AppData => AppData.get();
-
-        static bool PllExec => AppData.PllExec();
-
         XedRules Rules => Service(Wf.XedRules);
 
-        public void EmitDocs(Index<InstPattern> src)
+        static AppData AppData
         {
-            var inst = new InstDoc(src.Map(x => new InstDocPart(x)));
-            FileEmit(inst.Format(), inst.Parts.Count, XedPaths.Target("xed.instructions", FS.Md), TextEncodingKind.Asci);
-            EmitDocs(src, XedPaths.Target("xed.inst.patterns.detail", FS.Txt));
+            [MethodImpl(Inline)]
+            get => AppData.get();
         }
 
-        public void EmitDocs(RuleTables src)
-            => FileEmit(RuleDocFormatter.create(Rules.CalcRuleCells(src)).Format(), 1, XedPaths.Target("xed.rules", FS.Md), TextEncodingKind.Asci);
-
-        void EmitDocs(Index<InstPattern> src, FS.FilePath dst)
+        bool PllExec
         {
-            src.Sort();
+            [MethodImpl(Inline)]
+            get => AppData.PllExec();
+        }
+
+        public void Emit(Index<InstPattern> patterns, RuleTables rules)
+        {
+            exec(PllExec,
+                () => EmitPatternDocs(patterns),
+                () => EmitRuleDocs(rules)
+            );
+        }
+
+        void EmitPatternDocs(Index<InstPattern> src)
+        {
+            EmitDetails(src);
+            EmitSummary(src);
+        }
+
+        void EmitSummary(Index<InstPattern> src)
+        {
+            var dst = XedPaths.DocTarget("instructions", FileKind.Md);
+            var inst = new InstDoc(src.Map(x => new InstDocPart(x)));
+            FileEmit(inst.Format(), inst.Parts.Count, dst, TextEncodingKind.Asci);
+        }
+
+        void EmitDetails(Index<InstPattern> src)
+        {
+            var dst = XedPaths.DocTarget("instructions.detail", FileKind.Txt);
             var formatter = InstPageFormatter.create();
-
-            XedPaths.InstIsaRoot().Delete();
-            iter(formatter.GroupFormats(src), EmitIsaGroup, PllExec);
-
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             for(var j=0; j<src.Count; j++)
                 writer.Write(formatter.Format(src[j]));
-
             EmittedFile(emitting, src.Count);
         }
 
-        void EmitIsaGroup(InstIsaFormat src)
-        {
-            var dst = XedPaths.InstIsaPath(src.Isa);
-            Require.invariant(!dst.Exists);
-            FileEmit(src.Content, src.LineCount, dst, TextEncodingKind.Asci);
-        }
+        void EmitRuleDocs(RuleTables src)
+            => FileEmit(RuleDocFormatter.create(Rules.CalcRuleCells(src)).Format(), 1, XedPaths.DocTarget("rules", FileKind.Md), TextEncodingKind.Asci);
     }
 }

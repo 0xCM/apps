@@ -3,11 +3,13 @@
 // Author : Chris Moore
 // License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    partial class IntelXed
+    using static core;
+
+    partial class XedRules
     {
-        public void EmitBroadcastDefs()
-            => TableEmit(XedOperands.Views.BroadcastDefs, BroadcastDef.RenderWidths, XedPaths.Table<BroadcastDef>());
+        public Index<InstGroup> CalcInstGroups(Index<InstPattern> src)
+            => Data(nameof(CalcInstGroups),() => XedPatterns.groups(src).Values.ToArray().Sort());
     }
 }

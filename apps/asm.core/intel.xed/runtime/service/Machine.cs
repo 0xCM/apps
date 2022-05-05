@@ -3,16 +3,22 @@
 // Author : Chris Moore
 // License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    using static XedModels;
+    using Asm;
 
-    partial class IntelXed
+    using static XedRules;
+    using static XedOperands;
+    using static XedModels;
+    using static core;
+
+    partial class XedRuntime
     {
-        public void EmitRegmaps()
+        public IMachine Machine()
         {
-            TableEmit(XedRegMap.Service.REntries, RegMapEntry.RenderWidths, XedPaths.Table<RegMapEntry>("rmap"));
-            TableEmit(XedRegMap.Service.XEntries, RegMapEntry.RenderWidths, XedPaths.Table<RegMapEntry>("xmap"));
+            var m =  machine(Rules);
+            Machines.TryAdd(m.Id,m);
+            return m;
         }
     }
 }

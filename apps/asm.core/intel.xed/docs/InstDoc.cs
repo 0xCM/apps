@@ -12,7 +12,7 @@ namespace Z0
 
             public InstDoc(InstDocPart[] src)
             {
-                Parts = src;
+                Parts = src.Sort();
             }
 
             public ref InstDocPart this[int i]

@@ -148,6 +148,12 @@ namespace Z0
         public FS.FilePath Target(string name, FS.FileExt ext)
             => Targets() + FS.file(name, ext);
 
+        public FS.FolderPath DocTargets()
+            => Targets() + FS.folder("docs");
+
+        public FS.FilePath DocTarget(string name, FileKind kind)
+            => DocTargets() + FS.file(string.Format("xed.docs.{0}", name), kind.Ext());
+
         public static XedDocKind srckind(FS.FileName src)
         {
             if(src == EncInstDef)
