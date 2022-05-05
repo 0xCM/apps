@@ -24,7 +24,7 @@ namespace Z0
 
             AsmInfo _AsmInfo;
 
-            DisasmProps _Props;
+            InstFieldValues _Props;
 
             public ref readonly FileRef Source
             {
@@ -49,7 +49,7 @@ namespace Z0
                 => ref _AsmInfo;
 
             [MethodImpl(Inline)]
-            public ref DisasmProps Props()
+            public ref InstFieldValues Props()
                 => ref _Props;
 
             [MethodImpl(Inline)]
@@ -90,7 +90,7 @@ namespace Z0
                 _Block = DetailBlock.Empty;
                 _Summary = XedDisasm.Summary.Empty;
                 _AsmInfo = XedRules.AsmInfo.Empty;
-                _Props = DisasmProps.Empty;
+                _Props = InstFieldValues.Empty;
                 _Encoding = EncodingExtract.Empty;
             }
         }

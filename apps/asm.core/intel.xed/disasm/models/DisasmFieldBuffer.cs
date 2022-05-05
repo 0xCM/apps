@@ -9,22 +9,22 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public ref struct FieldBuffer
+        public ref struct DisasmFieldBuffer
         {
-            public static FieldBuffer allocate()
-                => new FieldBuffer(Fields.allocate());
+            public static DisasmFieldBuffer allocate()
+                => new DisasmFieldBuffer(Fields.allocate());
 
             [MethodImpl(Inline)]
-            FieldBuffer(Fields fields)
+            DisasmFieldBuffer(Fields fields)
             {
                 Fields = fields;
                 State = OperandState.Empty;
                 Summary = SummaryRow.Empty;
                 Lines = DisasmBlock.Empty;
-                AsmInfo = AsmInfo.Empty;
-                Props = DisasmProps.Empty;
+                Asm = AsmInfo.Empty;
+                Props = InstFieldValues.Empty;
                 Encoding = EncodingExtract.Empty;
-                FieldSelection = default;
+                Selected = default;
                 Detail = DetailBlockRow.Empty;
             }
 
@@ -34,10 +34,10 @@ namespace Z0
                 State = OperandState.Empty;
                 Summary = SummaryRow.Empty;
                 Lines = DisasmBlock.Empty;
-                AsmInfo = AsmInfo.Empty;
-                Props = DisasmProps.Empty;
+                Asm = AsmInfo.Empty;
+                Props = InstFieldValues.Empty;
                 Encoding = EncodingExtract.Empty;
-                FieldSelection = default;
+                Selected = default;
                 Detail = DetailBlockRow.Empty;
             }
 
@@ -49,15 +49,15 @@ namespace Z0
 
             public SummaryRow Summary;
 
-            public AsmInfo AsmInfo;
+            public AsmInfo Asm;
 
-            public DisasmProps Props;
+            public InstFieldValues Props;
 
             public OperandState State;
 
             public EncodingExtract Encoding;
 
-            public ReadOnlySpan<FieldKind> FieldSelection;
+            public ReadOnlySpan<FieldKind> Selected;
         }
     }
 }

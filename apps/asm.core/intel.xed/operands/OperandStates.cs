@@ -18,6 +18,8 @@ namespace Z0
 
                 public AsmInfo Asm;
 
+                public Index<FieldValue> Fields;
+
                 [MethodImpl(Inline)]
                 public int CompareTo(Entry src)
                     => Asm.IP.CompareTo(src.Asm.IP);

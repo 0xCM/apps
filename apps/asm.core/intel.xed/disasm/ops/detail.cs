@@ -6,6 +6,8 @@ namespace Z0
 {
     using static core;
 
+    using static XedRules;
+
     partial class XedDisasm
     {
         public static Detail detail(WsContext context, in FileRef src)

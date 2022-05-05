@@ -22,6 +22,8 @@ namespace Z0
 
             MachineMode MachineMode;
 
+            InstForm Form;
+
             Fields Expressions;
 
             readonly XedRules Rules;
@@ -43,6 +45,7 @@ namespace Z0
                 OpState = OperandState.Empty;
                 Pattern = XedRules.InstPattern.Empty;
                 MachineMode = default;
+                Form = InstForm.Empty;
                 Expressions.Clear();
             }
 
@@ -67,6 +70,7 @@ namespace Z0
             {
 
             }
+
             void Load(in InstCells src)
             {
                 for(var i=z8; i<src.Count; i++)
@@ -112,9 +116,16 @@ namespace Z0
                     Load(src[i]);
             }
 
+            public void Load(in FieldBuffer src)
+            {
+                OpState = src.State;
+                Form = src.Form;
+            }
+
             public void Load(InstPattern src)
             {
                 Reset();
+                Form = src.InstForm;
                 //Load(LayoutCalcs.layout(src));
                 //Load(src.Expr);
                 Load(src.Cells);
@@ -164,7 +175,7 @@ namespace Z0
             public ref readonly InstForm InstForm
             {
                 [MethodImpl(Inline)]
-                get => ref Pattern.InstForm;
+                get => ref Form;
             }
 
             public ref readonly InstClass InstClass

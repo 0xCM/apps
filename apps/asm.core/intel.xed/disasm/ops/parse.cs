@@ -13,26 +13,20 @@ namespace Z0
         public static Outcome parse(in SummaryLines src, out Instruction dst)
         {
             ref readonly var block = ref src.Block;
-            var result = Outcome.Success;
-            dst = default(Instruction);
-            ref readonly var content = ref block.Props.Content;
-            if(text.nonempty(content))
-            {
-                result = DisasmParse.parse(block, out InstClass @class);
-                if(result.Fail)
-                    return result;
-
-                result = DisasmParse.parse(block, out InstForm form);
-                if(result.Fail)
-                    return result;
-
-                parse(block, out DisasmProps props);
-                dst = new Instruction(src.Row.InstructionId, src.Row.Asm.Content, @class, form, props);
-            }
-            return result;
+            var props = block.ParseProps();
+            instruction(src.Row.InstructionId, block.Props.Content, props, out dst);
+            return true;
+            //var result = Outcome.Success;
+            // dst = Instruction.Empty;
+            // ref readonly var content = ref block.Props.Content;
+            // if(text.nonempty(content))
+            // {
+            //     dst = new Instruction(src.Row.InstructionId, src.Row.Asm.Content, props.InstClass, props.InstForm, props);
+            // }
+            // return result;
         }
 
-        public static uint parse(in DisasmBlock src, out DisasmProps dst)
+        public static uint parse(in DisasmBlock src, out InstFieldValues dst)
         {
             var content = text.trim(text.despace(src.Props.Content));
             var i = text.index(content,Chars.Space);

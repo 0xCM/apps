@@ -13,7 +13,7 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public const string RenderCol2 = DisasmRender.Columns;
+        public const string RenderCol2 = FieldRender.Columns;
 
         public readonly struct FieldEmitter
         {
@@ -49,7 +49,7 @@ namespace Z0
                     XedRender.describe(buffer, dst);
                     dst.AppendLine(RP.PageBreak100);
 
-                    var kinds = buffer.FieldSelection;
+                    var kinds = buffer.Selected;
                     for(var k=0; k<kinds.Length; k++)
                     {
                         ref readonly var kind = ref skip(kinds,k);
@@ -60,7 +60,7 @@ namespace Z0
                         counter++;
                     }
 
-                    DisasmRender.RenderOps(block.DetailRow.Ops, dst);
+                    XedOperands.render(block.Ops.Map(o => o.Spec), dst);
                     dst.AppendLine();
                 }
 

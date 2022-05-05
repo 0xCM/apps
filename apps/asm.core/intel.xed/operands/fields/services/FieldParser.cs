@@ -16,6 +16,27 @@ namespace Z0
     {
         public class FieldParser
         {
+            public static uint parse(InstFieldValues src, Fields dst, bool clear = true)
+            {
+                if(clear)
+                    dst.Clear();
+
+                var result = Outcome.Success;
+                var counter = 0u;
+                var count = src.Count;
+                var keys = src.Keys.Array();
+                for(var i=0; i<count; i++)
+                {
+                    var name = skip(keys,i);
+                    var value = src[name];
+                    result = XedParsers.parse(name, out FieldKind kind);
+                    result.Require();
+                    dst.Update(FieldParser.pack(value, kind));
+                    counter++;
+                }
+                return counter;
+            }
+
             public static Index<FieldKind> parse(IReadOnlyDictionary<string,string> src, Fields fields, out OperandState state)
             {
                 state = parse(src, out Index<FieldKind> parsed);

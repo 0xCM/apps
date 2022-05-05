@@ -45,7 +45,7 @@ namespace Z0
                 DispWidth = 32;
             }
 
-            public DisasmState Parse(DisasmProps src)
+            public DisasmState Parse(InstFieldValues src)
             {
                 Clear();
                 var count = src.Count;

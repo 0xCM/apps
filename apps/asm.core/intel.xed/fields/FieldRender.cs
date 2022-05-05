@@ -17,6 +17,8 @@ namespace Z0
     {
         public class FieldRender
         {
+            public const string Columns = "{0,-24} | {1}";
+
             public const byte Count = 128;
 
             readonly Index<FieldKind,Func<ushort,string>> Functions;

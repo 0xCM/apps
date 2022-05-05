@@ -29,7 +29,7 @@ namespace Z0
 
             ref EncodingExtract Encoding();
 
-            ref DisasmProps Props();
+            ref InstFieldValues Props();
 
             uint FieldCount {get;}
 

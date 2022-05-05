@@ -65,7 +65,7 @@ namespace Z0
             void Handle(uint seq, in OpDetails src)
             {
                 Output.AppendLine("Operands");
-                DisasmRender.RenderOps(src, Output);
+                DisasmRender.render(src, Output);
             }
 
             void Handle(uint seq, in OperandState state, ReadOnlySpan<FieldKind> fields)

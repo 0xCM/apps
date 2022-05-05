@@ -29,7 +29,7 @@ namespace Z0
 
             void Computed(uint seq, in EncodingExtract src);
 
-            void Computed(uint seq, in DisasmProps src);
+            void Computed(uint seq, in InstFieldValues src);
 
             void Computed(uint seq, in Instruction src);
         }

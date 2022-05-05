@@ -11,22 +11,22 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public static DisasmProps props(in DisasmBlock src)
+        public static InstFieldValues props(in DisasmBlock src)
         {
-            parse(src, out DisasmProps dst);
+            parse(src, out InstFieldValues dst);
             return dst;
         }
 
-        public static Index<DisasmProps> props(ReadOnlySpan<DisasmBlock> src)
+        public static Index<InstFieldValues> props(ReadOnlySpan<DisasmBlock> src)
         {
             var count = src.Length;
-            var dst = alloc<DisasmProps>(count);
+            var dst = alloc<InstFieldValues>(count);
             for(var i=0; i<count; i++)
                 seek(dst,i) = props(skip(src,i));
             return dst;
         }
 
-        public static DisasmProps props(InstClass @class, InstForm form, Index<Facet<string>> src)
+        public static InstFieldValues props(InstClass @class, InstForm form, Index<Facet<string>> src)
         {
             var dst = dict<string,string>();
             for(var i=0; i<src.Count; i++)
@@ -34,7 +34,7 @@ namespace Z0
                 ref readonly var kvp = ref src[i];
                 dst.Add(kvp.Key, kvp.Value);
             }
-            return new DisasmProps(@class,form,dst);
+            return new InstFieldValues(@class,form,dst);
         }
     }
 }

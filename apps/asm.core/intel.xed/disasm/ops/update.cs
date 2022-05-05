@@ -20,7 +20,7 @@ namespace Z0
 
         static Index<FieldValue> values(in DisasmBlock src)
         {
-            parse(src, out DisasmProps props);
+            parse(src, out InstFieldValues props);
             var state = OperandState.Empty;
             var names = props.Keys.Array();
             var count = names.Length;

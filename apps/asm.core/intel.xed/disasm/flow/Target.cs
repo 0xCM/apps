@@ -60,7 +60,7 @@ namespace Z0
 
             protected event DisasmReceiver<EncodingExtract> ExtractComputed;
 
-            protected event DisasmReceiver<DisasmProps> PropsComputed;
+            protected event DisasmReceiver<InstFieldValues> PropsComputed;
 
             protected event FieldReceiver FieldsComputed;
 
@@ -112,7 +112,7 @@ namespace Z0
                 ExtractComputed(seq,src);
             }
 
-            void ITarget.Computed(uint seq, in DisasmProps src)
+            void ITarget.Computed(uint seq, in InstFieldValues src)
             {
                 Buffer.Props() = src;
                 PropsComputed(seq,src);

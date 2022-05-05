@@ -8,8 +8,11 @@ namespace Z0
     using static XedModels;
     using static XedRules;
 
-    partial class XedDisasm
+    partial class XedRules
     {
+        public static void instruction(InstructionId id, string expr, InstFieldValues props, out Instruction dst)
+            => dst = new Instruction(id, expr, props.InstClass, props.InstForm, props);
+
         public readonly record struct Instruction
         {
             public readonly InstructionId Id;
@@ -20,10 +23,10 @@ namespace Z0
 
             public readonly InstForm Form;
 
-            public readonly DisasmProps Props;
+            public readonly InstFieldValues Props;
 
             [MethodImpl(Inline)]
-            public Instruction(InstructionId id, asci64 asm, InstClass @class, InstForm form, DisasmProps props)
+            public Instruction(InstructionId id, asci64 asm, InstClass @class, InstForm form, InstFieldValues props)
             {
                 Id = id;
                 Asm = asm;
@@ -32,7 +35,7 @@ namespace Z0
                 Props = props;
             }
 
-            public static Instruction Empty => new Instruction(InstructionId.Empty, asci64.Null, InstClass.Empty, InstForm.Empty, DisasmProps.Empty);
+            public static Instruction Empty => new Instruction(InstructionId.Empty, asci64.Null, InstClass.Empty, InstForm.Empty, InstFieldValues.Empty);
         }
     }
 }

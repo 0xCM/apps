@@ -34,7 +34,7 @@ namespace Z0
                 buffer.Clear();
 
                 ref readonly var detail = ref doc[j].DetailRow;
-                ref readonly var ops = ref detail.Ops;
+                ref readonly var ops = ref doc[j].Ops;
                 ref readonly var block = ref doc[j].SummaryLines;
                 ref readonly var summary = ref block.Row;
                 ref readonly var lines = ref block.Block;
@@ -236,7 +236,7 @@ namespace Z0
                     dst.AppendLineFormat(RenderPattern, nameof(state.OUTREG), XedRegMap.map(state.OUTREG));
                 }
 
-                DisasmRender.RenderOps(ops,buffer);
+                DisasmRender.render(ops,buffer);
                 dst.WriteLine(buffer.Emit());
             }
 

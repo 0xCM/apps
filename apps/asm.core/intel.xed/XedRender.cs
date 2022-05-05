@@ -351,16 +351,16 @@ namespace Z0
             dst.AppendLineFormat(pattern, nameof(src.OpCode), src.OpCode);
         }
 
-        public static void describe(in FieldBuffer src, ITextBuffer dst)
+        public static void describe(in DisasmFieldBuffer src, ITextBuffer dst)
         {
             const string RenderPattern = "{0,-24} | {1}";
 
             dst.AppendLineFormat(RenderPattern, nameof(src.Summary.InstructionId), src.Summary.InstructionId);
-            dst.AppendLineFormat(RenderPattern, nameof(src.AsmInfo.Asm), src.AsmInfo.Asm);
-            dst.AppendLineFormat(RenderPattern, nameof(src.Props.Instruction), src.Props.Instruction);
-            dst.AppendLineFormat(RenderPattern, nameof(src.Props.Form), src.Props.Form);
-            dst.AppendLineFormat(RenderPattern, nameof(src.AsmInfo.Category), src.AsmInfo.Category);
-            dst.AppendLineFormat(RenderPattern, nameof(src.AsmInfo.Extension), src.AsmInfo.Extension);
+            dst.AppendLineFormat(RenderPattern, nameof(src.Asm.Asm), src.Asm.Asm);
+            dst.AppendLineFormat(RenderPattern, nameof(src.Props.InstClass), src.Props.InstClass);
+            dst.AppendLineFormat(RenderPattern, nameof(src.Props.InstForm), src.Props.InstForm);
+            dst.AppendLineFormat(RenderPattern, nameof(src.Asm.Category), src.Asm.Category);
+            dst.AppendLineFormat(RenderPattern, nameof(src.Asm.Extension), src.Asm.Extension);
             dst.AppendLineFormat(RenderPattern, nameof(src.Encoding.Offsets), src.Encoding.Offsets.Format());
             dst.AppendLineFormat(RenderPattern, nameof(src.Encoding.OpCode), XedRender.format(src.Encoding.OpCode));
             if(src.Encoding.ModRm.IsNonZero)

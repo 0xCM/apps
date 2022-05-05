@@ -12,7 +12,7 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public static OperandStates states(in DataFile src, bool pll)
+        public static OperandStates states(in DataFile src, bool pll = true)
         {
             if(pll)
             {
@@ -22,23 +22,10 @@ namespace Z0
             }
             else
             {
-                var pcount = 0u;
-                var vcount = 0u;
                 ref readonly var blocks = ref src.Blocks;
                 var buffer = alloc<Entry>(blocks.Count);
                 for(var i=0u; i<blocks.Count; i++ )
-                {
-                    ref var entry = ref seek(buffer,i);
-                    ref readonly var block = ref blocks[i];
-                    entry.Ops = XedDisasm.ops(block);
-                    entry.Asm = asminfo(block);
-                    var props = XedDisasm.props(block);
-                    pcount += (uint)props.Count;
-                    var values = FieldParser.parse(props, out seek(buffer,i).State);
-                    vcount += values.Count;
-                }
-
-                Require.equal(pcount,vcount);
+                    seek(buffer,i) = state(blocks[i]);
                 return new OperandStates(buffer);
             }
         }
@@ -46,9 +33,9 @@ namespace Z0
         public static Entry state(in DisasmBlock block)
         {
             var dst = Entry.Empty;
-            dst.Ops = XedDisasm.ops(block);
-            dst.Asm = asminfo(block);
-            FieldParser.parse(XedDisasm.props(block), out dst.State);
+            dst.Asm = block.ParseAsm();
+            dst.Ops = block.ParseOps();
+            dst.Fields = block.ParseProps().ParseFields(out dst.State);
             return dst;
         }
     }

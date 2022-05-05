@@ -7,6 +7,7 @@ namespace Z0
 {
     using static core;
     using static XedRules;
+    using static XedOperands;
 
     partial class XedDisasm
     {
@@ -61,12 +62,12 @@ namespace Z0
                 var xdis = asminfo(lines);
                 dst.Computed(seq, xdis);
 
-                var props = DisasmProps.Empty;
+                var props = InstFieldValues.Empty;
                 XedDisasm.parse(lines, out props);
                 dst.Computed(seq, props);
 
                 var fields = Fields.allocate();
-                XedDisasm.fields(props, fields, false);
+                FieldParser.parse(props, fields, false);
                 dst.Computed(seq, fields);
 
                 var kinds = fields.MemberKinds();

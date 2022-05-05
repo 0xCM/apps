@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static core;
+    using static XedRules;
 
     partial class XedDisasm
     {
@@ -86,6 +87,18 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get  => ref Lines.Last;
             }
+
+            public Index<OpSpec> ParseOps()
+                => ops(this);
+
+            public uint ParseOps(Span<OpSpec> dst)
+                => ops(this, dst);
+
+            public AsmInfo ParseAsm()
+                => asminfo(this);
+
+            public InstFieldValues ParseProps()
+                => XedDisasm.props(this);
 
             public string Format()
                 => DisasmRender.format(this);
