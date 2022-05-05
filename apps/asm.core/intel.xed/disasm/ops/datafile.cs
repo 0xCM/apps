@@ -36,7 +36,7 @@ namespace Z0
                             if(l.StartsWith(DisasmParse.XDIS))
                                 break;
                         }
-                        dst.Add(blocklines.ToArray());
+                        dst.Add(block(blocklines.ToArray()));
                     }
                 }
             }

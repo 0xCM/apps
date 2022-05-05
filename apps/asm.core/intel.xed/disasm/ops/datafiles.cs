@@ -4,14 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
+    using static core;
 
     partial class XedDisasm
     {
-        public static AsmInfo asminfo(in DisasmBlock src)
+        public static Index<DataFile> datafiles(WsContext context, bool pll = true)
         {
-            DisasmParse.parse(src.XDis.Content, out AsmInfo dst).Require();
-            return dst;
+            var src = sources(context);
+            var dst = bag<DataFile>();
+            iter(src, file => dst.Add(datafile(context,file)), pll);
+            return dst.Index().Sort();
         }
     }
 }

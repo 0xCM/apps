@@ -530,13 +530,20 @@ namespace Z0
 
         public static bool parse(string src, out FieldKind dst)
         {
+            var result = true;
             if(empty(src))
             {
                 dst = 0;
                 return true;
             }
             else
-                return FieldKinds.Parse(src, out dst);
+            {
+                if(src == nameof(InstForm))
+                    dst = FieldKind.ICLASS;
+                else
+                    result = FieldKinds.Parse(src, out dst);
+            }
+            return result;
         }
 
         public static bool parse(string src, out OpWidthCode dst)

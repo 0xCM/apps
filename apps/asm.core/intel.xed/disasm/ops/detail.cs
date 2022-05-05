@@ -21,10 +21,10 @@ namespace Z0
             return new Detail(summary.DataFile, resequence(dst.ToArray()));
         }
 
-        static DetailBlock block(in SummaryLines lines)
+        static DetailBlock block(in SummaryLines src)
         {
-            parse(lines, out Instruction inst).Require();
-            return new DetailBlock(row(lines), lines, inst);
+            parse(src, out Instruction inst).Require();
+            return new DetailBlock(row(src), src, inst);
         }
     }
 }

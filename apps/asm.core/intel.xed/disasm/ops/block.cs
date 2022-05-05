@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
+    using static core;
 
     partial class XedDisasm
     {
-        public static AsmInfo asminfo(in DisasmBlock src)
-        {
-            DisasmParse.parse(src.XDis.Content, out AsmInfo dst).Require();
-            return dst;
-        }
+        [MethodImpl(Inline)]
+        public static DisasmBlock block(TextLine[] src)
+            => new DisasmBlock(src);
     }
 }

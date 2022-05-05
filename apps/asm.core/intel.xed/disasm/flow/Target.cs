@@ -140,7 +140,7 @@ namespace Z0
                     if(Exclusions.Contains(kind))
                         continue;
 
-                    var cell = XedOperands.cell(state, skip(fields,i));
+                    var cell = XedOperands.extract(state, skip(fields,i));
                     inc(ref Counter);
                 }
             }

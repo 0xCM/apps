@@ -7,10 +7,11 @@ namespace Z0
     using static core;
     using static XedRules;
     using static XedModels;
+    using static XedOperands;
 
     partial class XedDisasm
     {
-        public static InstOpClass opclass(MachineMode mode, in OpInfo src)
+        public static InstOpClass opclass(MachineMode mode, in OpSpec src)
         {
             var info = XedOperands.describe(src.WidthCode);
             var bitwidth = XedOperands.width(mode, src.WidthCode).Bits;

@@ -6,12 +6,11 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedRules;
 
-    partial class XedDisasm
+    partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public record struct OpInfo
+        public record struct OpSpec
         {
             public byte Index;
 

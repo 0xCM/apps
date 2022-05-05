@@ -9,6 +9,9 @@ namespace Z0
     {
         public readonly record struct DataFile : IComparable<DataFile>
         {
+            public static DataFile load(WsContext context, in FileRef src)
+                => datafile(context,src);
+
             public readonly FileRef Origin;
 
             public readonly FileRef Source;

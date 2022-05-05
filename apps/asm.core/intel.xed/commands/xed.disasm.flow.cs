@@ -6,6 +6,8 @@ namespace Z0
 {
     using static core;
     using static XedDisasm;
+    using static XedOperands;
+    using static XedRules;
 
     partial class XedCmdProvider
     {
@@ -23,6 +25,23 @@ namespace Z0
             }, true);
 
             return true;
+        }
+
+        [CmdOp("xed/disasm/check")]
+        Outcome DisasmCheck(CmdArgs args)
+        {
+            var context = Context();
+            var files = XedDisasm.datafiles(context);
+            iter(files, file => Write($"Loaded {file.Source}"));
+            iter(files, file => Check(file),true);
+
+            return true;
+        }
+
+        void Check(in DataFile src)
+        {
+            var states = XedDisasm.states(src,true);
+            Write($"Parsed {states.Count} instructions from {src.Source}");
         }
     }
 }

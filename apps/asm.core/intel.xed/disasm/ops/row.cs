@@ -63,8 +63,7 @@ namespace Z0
             ref readonly var state = ref dstate.RuleState;
             dst.Offsets = XedState.Code.offsets(state);
             dst.OpCode = state.NOMINAL_OPCODE;
-
-            dst.Ops = alloc<OpDetail>(src.Block.OpCount);
+            dst.Ops = new OpDetails(alloc<OpDetail>(src.Block.OpCount));
             var ocpos = state.POS_NOMINAL_OPCODE;
             var opcode = state.NOMINAL_OPCODE;
             var ocsrm = math.and((byte)state.SRM, opcode);
@@ -76,7 +75,7 @@ namespace Z0
             for(var k=0; k<lines.OpCount; k++)
             {
                 ref var operand = ref dst.Ops[k];
-                result = opinfo(skip(lines.Ops, k).Content, out operand.OpInfo);
+                result = parse(skip(lines.Ops, k).Content, out operand.OpInfo);
                 if(result.Fail)
                     Errors.Throw(result.Message);
 

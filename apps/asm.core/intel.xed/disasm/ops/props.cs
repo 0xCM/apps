@@ -17,6 +17,15 @@ namespace Z0
             return dst;
         }
 
+        public static Index<DisasmProps> props(ReadOnlySpan<DisasmBlock> src)
+        {
+            var count = src.Length;
+            var dst = alloc<DisasmProps>(count);
+            for(var i=0; i<count; i++)
+                seek(dst,i) = props(skip(src,i));
+            return dst;
+        }
+
         public static DisasmProps props(InstClass @class, InstForm form, Index<Facet<string>> src)
         {
             var dst = dict<string,string>();

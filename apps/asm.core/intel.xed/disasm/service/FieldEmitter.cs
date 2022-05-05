@@ -15,7 +15,7 @@ namespace Z0
     {
         public const string RenderCol2 = DisasmRender.Columns;
 
-        public struct FieldEmitter
+        public readonly struct FieldEmitter
         {
             readonly HashSet<FieldKind> Exclusions;
 

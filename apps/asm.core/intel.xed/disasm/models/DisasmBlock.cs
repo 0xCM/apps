@@ -26,7 +26,6 @@ namespace Z0
             YDIS: vpmuldq zmm30, zmm29, zmmword ptr [rcx]
             XDIS 12: AVX512    AVX512EVEX 626295402831             vpmuldq zmm30, zmm29, zmmword ptr [rcx]
         */
-
         /// <summary>
         /// Represents the content of a verbose xed instruction disassembly
         /// </summary>
@@ -93,10 +92,6 @@ namespace Z0
 
             public override string ToString()
                 => Format();
-
-            [MethodImpl(Inline)]
-            public static implicit operator DisasmBlock(TextLine[] src)
-                => new DisasmBlock(src);
 
             public static DisasmBlock Empty => new DisasmBlock(sys.empty<TextLine>());
         }

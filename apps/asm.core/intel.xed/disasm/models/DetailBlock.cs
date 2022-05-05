@@ -92,18 +92,6 @@ namespace Z0
                 get => ref Lines.Props;
             }
 
-            public ref readonly TextLine YDisLine
-            {
-                [MethodImpl(Inline)]
-                get  => ref Lines.YDis;
-            }
-
-            public ref readonly TextLine XDisLine
-            {
-                [MethodImpl(Inline)]
-                get  => ref Lines.XDis;
-            }
-
             public ref readonly FS.FileUri SourceFile
             {
                 [MethodImpl(Inline)]

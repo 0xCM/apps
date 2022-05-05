@@ -75,10 +75,6 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator OpDetails(OpDetail[] src)
-                => new OpDetails(src);
-
-            [MethodImpl(Inline)]
             public static implicit operator OpDetail[](OpDetails src)
                 => src.Storage;
 

@@ -16,6 +16,58 @@ namespace Z0
     {
         public class FieldParser
         {
+            public static Index<FieldKind> parse(IReadOnlyDictionary<string,string> src, Fields fields, out OperandState state)
+            {
+                state = parse(src, out Index<FieldKind> parsed);
+                for(var i=0; i<parsed.Count; i++)
+                {
+                    var field = extract(state, parsed[i]);
+                    convert(field, out fields[field.Field]);
+                }
+                return parsed;
+            }
+
+            public static void convert(in FieldValue src, out Field dst)
+            {
+                dst = Field.Empty;
+                var kind = src.Field;
+                var size = XedFields.size(kind, src.CellKind);
+                if(size.Packed == 1)
+                    dst = Field.init(kind, (bit)src.Data);
+                else if(size.Aligned == 1)
+                    dst = Field.init(kind, (byte)src.Data);
+                else if(size.Aligned == 2)
+                    dst = Field.init(kind, (ushort)src.Data);
+                else
+                    Errors.Throw($"Unsupported size {size}");
+            }
+
+            public static uint parse(IReadOnlyDictionary<string,string> src, Span<FieldValue> fields, out OperandState state)
+            {
+                state = FieldParser.parse(src, out Index<FieldKind> _);
+                var names = src.Keys.Array();
+                var count = names.Length;
+                for(var i=0; i<count; i++)
+                {
+                    var name = skip(names,i);
+                    if(XedParsers.parse(name, out FieldKind kind))
+                        seek(fields,i) = FieldParser.parse(src[name], kind, ref state);
+                    else
+                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), name));
+                }
+
+                update(fields, ref state);
+                return (uint)count;
+            }
+
+            public static Index<FieldValue> parse(IReadOnlyDictionary<string,string> src, out OperandState dst)
+            {
+                var count = (uint)src.Count;
+                var fields = alloc<FieldValue>(count);
+                parse(src,fields, out dst);
+                return fields;
+            }
+
             public static FieldKind kind(string src)
             {
                 var i = text.index(src, Chars.Eq);
@@ -54,25 +106,6 @@ namespace Z0
                 return result;
             }
 
-            public static Index<FieldValue> parse(IReadOnlyDictionary<string,string> src, out OperandState dst)
-            {
-                dst = FieldParser.parse(src);
-                var names = src.Keys.Array();
-                var count = names.Length;
-                var fields = alloc<FieldValue>(count);
-                for(var i=0; i<count; i++)
-                {
-                    var name = skip(names,i);
-                    if(XedParsers.parse(name, out FieldKind kind))
-                        seek(fields,i) = FieldParser.parse(src[name], kind, ref dst);
-                    else
-                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), name));
-                }
-
-                var result = update(fields, ref dst);
-                return fields;
-            }
-
             public static uint parse(IReadOnlyDictionary<string,string> src, Fields dst, bool clear)
             {
                 if(clear)
@@ -88,13 +121,13 @@ namespace Z0
                     var value = src[name];
                     result = XedParsers.parse(name, out FieldKind kind);
                     result.Require();
-                    dst.Update(FieldParser.pack(value, kind));
+                    dst.Update(pack(value, kind));
                     counter++;
                 }
                 return counter;
             }
 
-            public static OperandState parse(IReadOnlyDictionary<string,string> src)
+            public static OperandState parse(IReadOnlyDictionary<string,string> src, out Index<FieldKind> fields)
             {
                 var parsed = list<FieldKind>();
                 var failed = dict<FieldKind,string>();
@@ -114,7 +147,7 @@ namespace Z0
                             failed.Add(kind, src[name]);
                     }
                 }
-
+                fields = parsed.ToArray();
                 return dst;
             }
 
@@ -1236,7 +1269,6 @@ namespace Z0
 
                 return dst;
             }
-
        }
     }
 }
