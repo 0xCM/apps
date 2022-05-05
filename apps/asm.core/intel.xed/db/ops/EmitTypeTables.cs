@@ -19,7 +19,7 @@ namespace Z0
             var count = objects.ObjectCount(ObjectKind.TypeTable);
             for(var i=0; i<count; i++)
                 dst.Append(objects.TypeTable(i).Format());
-            FileEmit(dst.Emit(), count, TargetPath("typetables", FileKind.Csv), TextEncodingKind.Asci);
+            FileEmit(dst.Emit(), count, Paths.DbTarget("typetables", FileKind.Csv), TextEncodingKind.Asci);
         }
     }
 }

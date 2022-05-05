@@ -11,84 +11,17 @@ namespace Z0
 
     partial class XedCmdProvider
     {
-        [CmdOp("xed/check/rules")]
-        Outcome CheckRules(CmdArgs args)
+        [CmdOp("xed/emit/grids")]
+        Outcome EmitGrids(CmdArgs args)
         {
-            var src = CalcRuleCells();
-            var kGrid = src.TableCount;
-            var grids = alloc<RuleGrid>(kGrid);
-            var gt=0u;
-            var gr=0u;
-            var calls = hashset<NontermCall>();
-            for(var i=0; i<kGrid; i++)
-            {
-                ref readonly var cTable = ref src[i];
-                ref readonly var sig = ref cTable.Sig;
-                var kCol = cols(cTable);
-                var kRow = cTable.RowCount;
-                var kCells = kRow*kCol;
-                var gRowCols = alloc<Index<GridCol>>(kRow);
-                seek(grids,i) = grid(sig, (ushort)kRow, (byte)kCol, alloc<GridCell>(kCells));
-                ref readonly var gCells = ref skip(grids,i).Cells;
-
-                for(ushort j=0,gc=0; j<kRow; j++)
-                {
-                    ref readonly var cRow = ref cTable[j];
-                    seek(gRowCols, j) = alloc<GridCol>(cRow.CellCount);
-
-                    for(var k=0; k<cRow.CellCount; k++, gc++)
-                    {
-                        ref readonly var cell = ref cRow[k];
-                        gCells[gc] = GridCell.from(cell);
-                        gRowCols[j][k] = gCells[gc].Def;
-
-                        if(cell.IsNonterm)
-                        {
-                            var nt = Nonterminal.Empty;
-                            if(cell.IsNontermCall)
-                                nt = cell.Value.AsNonterm();
-                            else if(cell.IsNontermExpr)
-                                nt = cell.Value.ToCellExpr().Value.ToNonterm();
-                            calls.Add(call(sig, new RuleSig(sig.TableKind, nt.Name)));
-                        }
-                    }
-                }
-            }
-
-            Emit(calls.Array().Index().Sort());
-
-
-            var dst = text.emitter();
-            var counter = 0u;
-            for(var i=0; i<kGrid; i++)
-            {
-                ref readonly var grid = ref skip(grids,i);
-                ref readonly var kRows = ref grid.RowCount;
-                ref readonly var kCols = ref grid.ColCount;
-                ref readonly var kCells = ref grid.CellCount;
-                ref readonly var cells = ref grid.Cells;
-                var gc = 0;
-                for(var j=0; j<kRows; j++)
-                {
-                    for(var k=0; k<kCols; k++,gc++, counter++)
-                    {
-                        ref readonly var cell = ref cells[gc];
-                        if(cell.IsEmpty)
-                            continue;
-
-                        dst.WriteLine(cell.Format());
-                    }
-
-                }
-            }
-            FileEmit(dst.Emit(), counter, XedPaths.RuleTarget("test", FS.Txt));
+            XedDb.EmitGrids(CalcRuleCells());
             return true;
         }
 
-
-        AbsoluteLink link(RuleSig target)
+        [CmdOp("xed/check/rules")]
+        Outcome CheckRules(CmdArgs args)
         {
-            return Markdown.link(string.Format("{0}::{1}()", target.TableKind, target.TableName), XedPaths.RulePage(target));
+            return true;
         }
 
         SectionHeader header(RuleCaller target)
@@ -119,10 +52,10 @@ namespace Z0
                     dst.AppendLine();
                 }
 
-                dst.AppendLine(link(call.Target));
+                dst.AppendLine(XedPaths.MarkdownLink(call.Target));
             }
 
-            FileEmit(dst.Emit(), calls.Count, XedDb.TargetPath("rules.tables.deps", FileKind.Md));
+            FileEmit(dst.Emit(), calls.Count, XedPaths.DbTarget("rules.tables.deps", FileKind.Md));
         }
 
         [CmdOp("xed/check/rules/names")]

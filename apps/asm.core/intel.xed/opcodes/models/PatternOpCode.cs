@@ -12,7 +12,7 @@ namespace Z0
         [Record(TableId)]
         public record struct PatternOpCode : IComparable<PatternOpCode>
         {
-            public const string TableId = "xed.opcodes";
+            public const string TableId = "xed.inst.opcodes";
 
             public const byte FieldCount = 12;
 

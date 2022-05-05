@@ -813,45 +813,6 @@ namespace Z0
             return new asci8(storage);
         }
 
-        // public static string format(byte index, in OpDetail src)
-        // {
-        //     const string OpSepSlot = "/{0}";
-        //     const sbyte Pad = -XedFields.FieldRender.ColWidth;
-
-        //     var dst = text.buffer();
-        //     dst.AppendFormat(RP.slot(0, Pad), index);
-        //     dst.Append(" | ");
-        //     dst.AppendFormat("{0,-4}", XedRender.format(src.OpName));
-        //     var kind = XedOperands.opkind(src.OpName);
-        //     ref readonly var opinfo = ref src.Spec;
-        //     switch(kind)
-        //     {
-        //         case OpKind.Reg:
-        //         case OpKind.Base:
-        //         case OpKind.Index:
-        //             if(opinfo.Selector.IsNonEmpty)
-        //             {
-        //                 dst.AppendFormat(" {0}", opinfo.Selector);
-        //                 dst.AppendFormat(OpSepSlot, XedRender.format(src.Action));
-        //             }
-        //         break;
-        //         default:
-        //             dst.AppendFormat(" {0}", XedRender.format(src.Action));
-        //         break;
-        //     }
-
-        //     ref readonly var width = ref src.OpWidth;
-        //     dst.AppendFormat(OpSepSlot, XedRender.format(width.Code));
-        //     if(width.ElementType.IsNumber)
-        //         dst.AppendFormat(OpSepSlot, src.OpWidth.ElementType);
-        //     if(!opinfo.Visibility.IsExplicit)
-        //         dst.AppendFormat(OpSepSlot, opinfo.Visibility);
-        //     if(opinfo.OpType != 0)
-        //         dst.AppendFormat(OpSepSlot, opinfo.OpType);
-
-        //     return dst.Emit();
-        // }
-
         public static string format(in EncodingExtract src)
         {
             const string RP0 = "{0,-8} | {1,-5} | {2,-5} | {3,-12} | {4,-12}";

@@ -50,7 +50,7 @@ namespace Z0
                 seek(stats,i) = new TableStats(i, rule, new DataSize(pw, aw), new DataSize(mpw,maw),(ushort)rows.Count, cc, (byte)mcc);
             }
 
-            TableEmit(@readonly(stats), TableStats.RenderWidths, Table<TableStats>());
+            TableEmit(@readonly(stats), TableStats.RenderWidths, Paths.DbTable<TableStats>());
         }
     }
 }

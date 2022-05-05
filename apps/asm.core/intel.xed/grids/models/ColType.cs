@@ -113,10 +113,6 @@ namespace Z0
             RuleOperator Op()
                 => (RuleOperator)Upper;
 
-            [MethodImpl(Inline)]
-            Nonterminal NtCall()
-                 => (RuleName)Upper;
-
             public ColKind Kind
             {
                 [MethodImpl(Inline)]
@@ -127,6 +123,24 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => Kind == ColKind.FieldSeg;
+            }
+
+            public bool IsNontermCall
+            {
+                [MethodImpl(Inline)]
+                get => Kind == ColKind.Rule;
+            }
+
+            public bool IsNontermExpr
+            {
+                [MethodImpl(Inline)]
+                get => Kind == ColKind.RuleExpr;
+            }
+
+            public bool IsNonterm
+            {
+                [MethodImpl(Inline)]
+                get => IsNontermCall || IsNontermExpr;
             }
 
             [MethodImpl(Inline)]

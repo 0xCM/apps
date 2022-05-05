@@ -44,58 +44,10 @@ namespace Z0
                 get => ref SummaryLines.Row;
             }
 
-            public ref readonly Hex32 OriginId
-            {
-                [MethodImpl(Inline)]
-                get => ref SummaryRow.OriginId;
-            }
-
-            public ref readonly @string OriginName
-            {
-                [MethodImpl(Inline)]
-                get => ref SummaryRow.OriginName;
-            }
-
-            public ref readonly uint Seq
-            {
-                [MethodImpl(Inline)]
-                get => ref SummaryRow.Seq;
-            }
-
-            public ref readonly uint DocSeq
-            {
-                [MethodImpl(Inline)]
-                get => ref SummaryRow.DocSeq;
-            }
-
-            public ref readonly InstructionId InstId
-            {
-                [MethodImpl(Inline)]
-                get => ref SummaryRow.InstructionId;
-            }
-
             public ref readonly DisasmBlock Lines
             {
                 [MethodImpl(Inline)]
                 get => ref SummaryLines.Block;
-            }
-
-            public ReadOnlySpan<TextLine> OpLines
-            {
-                [MethodImpl(Inline)]
-                get => Lines.Ops;
-            }
-
-            public ref readonly TextLine PropsLine
-            {
-                [MethodImpl(Inline)]
-                get => ref Lines.Props;
-            }
-
-            public ref readonly FS.FileUri SourceFile
-            {
-                [MethodImpl(Inline)]
-                get => ref SummaryRow.Source;
             }
 
             public SizeOverride SZOV

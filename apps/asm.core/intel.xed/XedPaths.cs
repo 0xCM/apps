@@ -7,6 +7,7 @@ namespace Z0
 {
     using static XedModels;
     using static XedRules;
+    using static Markdown;
 
     public class XedPaths //: GlobalService<XedPaths, XedPaths.SvcState>
     {
@@ -73,6 +74,19 @@ namespace Z0
         static FS.FileName DecRuleTable = FS.file("all-dec-patterns", FS.Txt);
 
         static FS.FileName EncDecRuleTable = FS.file("all-enc-dec-patterns", FS.Txt);
+
+        public FS.FolderPath DbTargets()
+            => Targets() + FS.folder("db");
+
+        public FS.FilePath DbTable<T>()
+            where T : struct
+                 => DbTargets() + Tables.filename<T>("xed.db");
+
+        public FS.FilePath DbTarget(string name, FileKind kind)
+            => DbTargets() + FS.file(string.Format("xed.db.{0}",name), kind.Ext());
+
+        public AbsoluteLink MarkdownLink(RuleSig sig)
+            => Markdown.link(string.Format("{0}::{1}()", sig.TableKind, sig.TableName), RulePage(sig));
 
         public static RuleTableKind tablekind(FS.FileName src)
         {

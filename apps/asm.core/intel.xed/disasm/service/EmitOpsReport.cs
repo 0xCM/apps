@@ -34,10 +34,6 @@ namespace Z0
                 var specs = ops.Map(x => x.Spec);
                 for(var j=0; j<specs.Length; j++)
                     dst.AppendLine(OpSpec.specifier(skip(specs,j)));
-
-                //for(var j=z8; j<ops.Count; j++)
-                    //dst.AppendLine(XedRender.format(j, ops[j]));
-
                 dst.WriteLine();
             }
 

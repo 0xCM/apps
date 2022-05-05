@@ -40,14 +40,5 @@ namespace Z0
         public DbRender Render => DbServices.ObjRender;
 
         public DbSchema Schema => DbServices.Schema;
-
-        public FS.FolderPath Location => Paths.Targets() + FS.folder("db");
-
-        public FS.FilePath Table<T>()
-            where T : struct
-                 => Location + Tables.filename<T>("xed.db");
-
-        public FS.FilePath TargetPath(string name, FileKind kind)
-            => Location + FS.file(string.Format("xed.db.{0}",name), kind.Ext());
     }
 }

@@ -8,6 +8,7 @@ namespace Z0
     using static XedDisasm;
     using static XedOperands;
     using static XedRules;
+    using static XedFields;
 
     partial class XedCmdProvider
     {
@@ -26,11 +27,19 @@ namespace Z0
         {
             var context = Context();
             var project = context.Project;
-            var states = XedDisasm.states(src);
+            var states = src.ParseStates();
+            var render = FieldRender.create();
             Write($"Parsed {states.Count} instructions from {src.Source}");
-            var path = XedPaths.DisasmTarget(project, src.Origin.Path.FileName.WithoutExtension.Format(), FS.ext("states.csv"));
-            //TableEmit(states.Entries.Select(x => x.State).View, path);
+            for(var i=0; i<states.Count; i++)
+            {
+                ref readonly var state = ref states[i];
+                var kind = FieldKind.MODE;
+                if(state.Field(kind, out var value))
+                {
+                    Write(string.Format("{0}:{1}", kind, render[kind]((ushort)value.Data)));
+                    break;
+                }
+            }
         }
-
     }
 }

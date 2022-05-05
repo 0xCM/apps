@@ -26,7 +26,7 @@ namespace Z0
             public FieldEmitter(FS.FilePath dst)
             {
                 Path = dst;
-                Exclusions = hashset<FieldKind>(K.TZCNT,K.LZCNT);
+                Exclusions = hashset<FieldKind>(K.TZCNT,K.LZCNT,K.MAX_BYTES);
                 Render = XedFields.render();
             }
 

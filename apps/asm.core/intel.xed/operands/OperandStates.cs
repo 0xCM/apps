@@ -21,6 +21,22 @@ namespace Z0
                 public Index<FieldValue> Fields;
 
                 [MethodImpl(Inline)]
+                public bool Field(FieldKind kind, out FieldValue dst)
+                {
+                    dst = FieldValue.Empty;
+                    for(var i=0; i<Fields.Count; i++)
+                    {
+                        ref readonly var f = ref Fields[i];
+                        if(f.Field == kind)
+                        {
+                            dst = f;
+                            break;
+                        }
+                    }
+                    return dst.IsNonEmpty;
+                }
+
+                [MethodImpl(Inline)]
                 public int CompareTo(Entry src)
                     => Asm.IP.CompareTo(src.Asm.IP);
 
@@ -29,11 +45,13 @@ namespace Z0
 
             readonly Index<Entry> Data;
 
-            public ref readonly Index<Entry> Entries
-            {
-                [MethodImpl(Inline)]
-                get => ref Data;
-            }
+            [MethodImpl(Inline)]
+            public ref readonly Index<Entry> Entries()
+                => ref Data;
+
+            [MethodImpl(Inline)]
+            public bool Field(uint i, FieldKind kind, out FieldValue dst)
+                => Data[i].Field(kind, out dst);
 
             public OperandStates(Entry[] src)
             {
@@ -59,7 +77,7 @@ namespace Z0
             }
 
             Entry[] IIndex<Entry>.Storage
-                => Entries;
+                => Data;
         }
     }
 }

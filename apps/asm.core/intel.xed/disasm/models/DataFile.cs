@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules;
+
     partial class XedDisasm
     {
         public readonly record struct DataFile : IComparable<DataFile>
@@ -55,6 +57,9 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => ref Blocks[i];
             }
+
+            public OperandStates ParseStates()
+                => states(this);
 
             public int CompareTo(DataFile src)
                 => Seq.CompareTo(src.Seq);

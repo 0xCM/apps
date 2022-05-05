@@ -9,7 +9,7 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableId)]
         public record struct TableStats : IComparable<TableStats>
         {
-            public const string TableId = "rules.tables.stats";
+            public const string TableId = "rules.stats";
 
             public const byte FieldCount = 10;
 

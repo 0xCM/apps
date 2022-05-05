@@ -10,6 +10,19 @@ namespace Z0
 
     partial class XedOperands
     {
+        public static InstOpClass opclass(in OpSpec src)
+        {
+            var dst = InstOpClass.Empty;
+            dst.Kind = src.Kind;
+            dst.BitWidth = src.BitWidth;
+            dst.ElementType = src.ElementType;
+            dst.ElementCount = src.ElementCount;
+            dst.IsRegLit = src.Reg.IsNonEmpty;
+            dst.IsRule = src.Rule.IsNonEmpty;
+            dst.OpWidth = new OpWidth(src.WidthCode, src.BitWidth);
+            return dst;
+        }
+
         public static InstOpClass opclass(MachineMode mode, in OpSpec spec)
         {
             var desc = describe(spec.WidthCode);

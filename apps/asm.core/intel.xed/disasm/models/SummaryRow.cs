@@ -37,12 +37,6 @@ namespace Z0
 
             public FS.FileUri Source;
 
-            public AsmRowKey RowKey
-            {
-                [MethodImpl(Inline)]
-                get => (Seq,DocSeq,OriginId);
-            }
-
             public int CompareTo(SummaryRow src)
             {
                 var result = OriginName.CompareTo(src.OriginName);

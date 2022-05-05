@@ -6,8 +6,6 @@ namespace Z0
 {
     using static core;
     using static XedRules;
-    using static XedModels;
-    using static XedOperands;
     using static XedRules.OperandStates;
 
     partial class XedDisasm

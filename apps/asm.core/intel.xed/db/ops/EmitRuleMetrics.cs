@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static MemDb;
 
     using static XedRules;
 
@@ -17,7 +15,7 @@ namespace Z0
             var dst = text.emitter();
             for(var i=0; i<src.TableCount; i++)
                 dst.AppendLine(CalcTableMetrics(src[i]));
-            FileEmit(dst.Emit(), src.TableCount, TargetPath("rules.tables.metrics", FileKind.Txt));
+            FileEmit(dst.Emit(), src.TableCount, Paths.DbTarget("rules.metrics", FileKind.Txt));
         }
 
         string CalcTableMetrics(in CellTable table)

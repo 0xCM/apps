@@ -35,14 +35,14 @@ namespace Z0
         public Index<InstFieldRow> EmitInstFields(Index<InstPattern> src)
         {
             var data = CalcInstFields(src);
-            Emit(data);
+            TableEmit(data.View, InstFieldRow.RenderWidths, XedPaths.InstTable<InstFieldRow>());
             return data;
         }
 
         public Index<InstPatternRecord> EmitPatternRecords(Index<InstPattern> src)
         {
             var data = CalcPatternRecords(src);
-            Emit(data);
+            TableEmit(data.View, InstPatternRecord.RenderWidths, XedPaths.InstTable<InstPatternRecord>());
             return data;
         }
 
@@ -155,22 +155,13 @@ namespace Z0
             => TableEmit(src, PointerWidthInfo.RenderWidths, XedPaths.Table<PointerWidthInfo>());
 
         void Emit(ReadOnlySpan<PatternOpCode> src)
-            => TableEmit(src, PatternOpCode.RenderWidths, XedPaths.Table<PatternOpCode>());
-
-        void Emit(ReadOnlySpan<InstFieldRow> src)
-            => TableEmit(src, InstFieldRow.RenderWidths, XedPaths.Table<InstFieldRow>());
-
-        void Emit(ReadOnlySpan<InstPatternRecord> src)
-            => TableEmit(src, InstPatternRecord.RenderWidths, XedPaths.Table<InstPatternRecord>());
+            => TableEmit(src, PatternOpCode.RenderWidths, XedPaths.InstTable<PatternOpCode>());
 
         void Emit(ReadOnlySpan<InstOperandRow> src)
-            => TableEmit(src, InstOperandRow.RenderWidths, XedPaths.Table<InstOperandRow>());
+            => TableEmit(src, InstOperandRow.RenderWidths, XedPaths.InstTable<InstOperandRow>());
 
-        public void Emit(ReadOnlySpan<InstOpClass> src)
+        void Emit(ReadOnlySpan<InstOpClass> src)
             => TableEmit(src, InstOpClass.RenderWidths, XedPaths.Table<InstOpClass>());
-
-        void Emit(ReadOnlySpan<InstLayoutRecord> src)
-            => TableEmit(src, InstLayoutRecord.RenderWidths, XedPaths.Table<InstLayoutRecord>());
 
         void Emit(ReadOnlySpan<XedFieldDef> src)
             => TableEmit(src, XedFieldDef.RenderWidths, XedPaths.Table<XedFieldDef>());
