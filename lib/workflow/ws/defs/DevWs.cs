@@ -8,6 +8,9 @@ namespace Z0
 
     public sealed class DevWs : IWorkspace<DevWs>
     {
+        public static DevWs create()
+            => create(Env.load().DevWs.Value);
+
         [MethodImpl(Inline)]
         public static DevWs create(FS.FolderPath root)
             => new DevWs(root);

@@ -84,6 +84,12 @@ namespace Z0
             };
         }
 
+        public FS.FolderPath DisasmTargets(IProjectWs project)
+            => Ws.ProjectData(project, "xed.disasm");
+
+        public FS.FilePath DisasmTarget(IProjectWs project, string name, FS.FileExt ext)
+            => DisasmTargets(project) + FS.file(string.Format("{0}.xed.disasm", name), ext);
+
         public FS.FolderPath RulePages()
             => RuleTargets() + FS.folder("pages");
 
@@ -201,11 +207,14 @@ namespace Z0
                 _ => FS.FileName.Empty
             });
 
+        WsUnserviced Ws;
+
         XedPaths()
         {
             var data = AppData.get();
             var db = data.ProjectDb;
             State = new (db.Sources("intel/xed.primary"), db.Subdir("xed"));
+            Ws = WsUnserviced.create();
         }
 
         static XedPaths Instance = new();

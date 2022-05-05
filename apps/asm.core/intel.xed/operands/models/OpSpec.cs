@@ -26,9 +26,29 @@ namespace Z0
 
             public OpType OpType;
 
-            public Nonterminal Selector;
+            public Nonterminal Rule;
 
-            public asci16 SelectorName;
+            public asci16 Selector;
+
+            public const string RenderPattern = "{0} | {1,-6} | {2,-4} | {3,-4} | {4,-4} | {5,-16} | {6}";
+
+            public string Format()
+            {
+                return string.Format(RenderPattern,
+                        Index,
+                        XedRender.format(Name),
+                        XedRender.format(Action),
+                        XedRender.format(WidthCode),
+                        Visibility.Code(),
+                        XedRender.format(OpType),
+                        Rule.IsNonEmpty
+                        ? string.Format("{0} => {1}", Rule, XedPaths.Service.RulePage(new RuleSig(RuleTableKind.DEC, Rule.Name)))
+                        : Selector
+                    );
+            }
+
+            public override string ToString()
+                => Format();
         }
     }
 }

@@ -817,15 +817,15 @@ namespace Z0
             dst.Append(" | ");
             dst.AppendFormat("{0,-4}", XedRender.format(src.OpName));
             var kind = XedOperands.opkind(src.OpName);
-            ref readonly var opinfo = ref src.OpInfo;
+            ref readonly var opinfo = ref src.Spec;
             switch(kind)
             {
                 case OpKind.Reg:
                 case OpKind.Base:
                 case OpKind.Index:
-                    if(opinfo.SelectorName.IsNonEmpty)
+                    if(opinfo.Selector.IsNonEmpty)
                     {
-                        dst.AppendFormat(" {0}", opinfo.SelectorName);
+                        dst.AppendFormat(" {0}", opinfo.Selector);
                         dst.AppendFormat(OpSepSlot, XedRender.format(src.Action));
                     }
                 break;

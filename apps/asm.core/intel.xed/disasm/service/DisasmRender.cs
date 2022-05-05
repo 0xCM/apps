@@ -74,21 +74,7 @@ namespace Z0
                 for(var i=0; i<ops.Count; i++)
                 {
                     ref readonly var op =ref ops[i];
-                    var uri = FS.FileUri.Empty;
-                    var nonterm = op.OpInfo.Selector;
-
-                    if(nonterm.IsNonEmpty)
-                        uri = XedPaths.Service.CheckedTableDef(nonterm, true, out var sig);
-
-                    dst.AppendLine(string.Format("{0} | {1,-6} | {2,-4} | {3,-4} | {4,-4} | {5,-16} | {6}",
-                        i,
-                        XedRender.format(op.OpName),
-                        XedRender.format(op.OpInfo.Action),
-                        XedRender.format(op.OpInfo.WidthCode),
-                        op.OpInfo.Visibility.Code(),
-                        XedRender.format(op.OpInfo.OpType),
-                        nonterm.IsNonEmpty ? string.Format("{0} => {1}", nonterm, uri) : op.OpInfo.SelectorName
-                    ));
+                    dst.AppendLine(op.Spec.Format());
                 }
             }
         }

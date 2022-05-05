@@ -27,21 +27,5 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("xed/disasm/check")]
-        Outcome DisasmCheck(CmdArgs args)
-        {
-            var context = Context();
-            var files = XedDisasm.datafiles(context);
-            iter(files, file => Write($"Loaded {file.Source}"));
-            iter(files, file => Check(file),true);
-
-            return true;
-        }
-
-        void Check(in DataFile src)
-        {
-            var states = XedDisasm.states(src,true);
-            Write($"Parsed {states.Count} instructions from {src.Source}");
-        }
     }
 }

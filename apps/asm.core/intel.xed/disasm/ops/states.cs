@@ -30,7 +30,7 @@ namespace Z0
                 {
                     ref var entry = ref seek(buffer,i);
                     ref readonly var block = ref blocks[i];
-                    entry.OpSpecs = XedDisasm.ops(block);
+                    entry.Ops = XedDisasm.ops(block);
                     entry.Asm = asminfo(block);
                     var props = XedDisasm.props(block);
                     pcount += (uint)props.Count;
@@ -46,7 +46,7 @@ namespace Z0
         public static Entry state(in DisasmBlock block)
         {
             var dst = Entry.Empty;
-            dst.OpSpecs = XedDisasm.ops(block);
+            dst.Ops = XedDisasm.ops(block);
             dst.Asm = asminfo(block);
             FieldParser.parse(XedDisasm.props(block), out dst.State);
             return dst;

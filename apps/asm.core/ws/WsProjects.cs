@@ -12,6 +12,8 @@ namespace Z0
 
     public class WsProjects : AppService<WsProjects>
     {
+        WsUnserviced Unserviced;
+
         public WsProjects()
         {
             var symbols = Symbols.index<FileKind>();
@@ -19,15 +21,20 @@ namespace Z0
             FileKindMatch = symbols.View.Map(s => ("." + s.Expr.Format().ToLower(), s.Kind)).ToSortedDictionary(TextLengthComparer.create(true));
         }
 
+        protected override void Initialized()
+        {
+            Unserviced = WsUnserviced.create(Ws);
+        }
+
         [MethodImpl(Inline)]
         public IProjectWs Project(ProjectId id)
-            => Ws.Project(id);
+            => Unserviced.Project(id);
 
         public FS.FolderPath ProjectData()
-            => Ws.ProjectDb().Root;
+            => Unserviced.ProjectData();
 
         public IProjectWs Project(FS.FolderPath root, ProjectId id)
-            => ProjectWs.create(root, id);
+            => Unserviced.Project(root, id);
 
         public Outcome<Index<ToolCmdFlow>> BuildAsm(IProjectWs project)
             => RunBuildScripts(project, "build", "asm", false);
@@ -51,21 +58,21 @@ namespace Z0
             return RunBuildScripts(project, scriptid, EmptyString,runexe);
         }
 
-        FS.FolderPath ProjectData(IProjectWs project)
-            => ProjectDb.ProjectData() + FS.folder(project.Name.Format());
+        // FS.FolderPath ProjectData(IProjectWs project)
+        //     => ProjectDb.ProjectData() + FS.folder(project.Name.Format());
 
-        FS.FolderPath ProjectData(IProjectWs project, string scope)
-            => ProjectData(project) + FS.folder(scope);
+        // FS.FolderPath ProjectData(IProjectWs project, string scope)
+        //     => Unserviced.ProjectData(project) + FS.folder(scope);
 
-        FS.FilePath ProjectDataFile(IProjectWs project, FileKind kind)
-            => ProjectData(project) + FS.file(project.Name.Format(), kind.Ext());
+        // FS.FilePath ProjectDataFile(IProjectWs project, FileKind kind)
+        //     => Unserviced.ProjectData(project) + FS.file(project.Name.Format(), kind.Ext());
 
-        FS.FilePath ScriptFlowPath(IProjectWs project, ScriptId scriptid)
-            => ProjectData(project) + Tables.filename<ToolCmdFlow>(scriptid);
+        // FS.FilePath ScriptFlowPath(IProjectWs project, ScriptId scriptid)
+        //     => Unserviced.ProjectData(project) + Tables.filename<ToolCmdFlow>(scriptid);
 
         public FS.FilePath Table<T>(IProjectWs project)
             where T : struct
-                => ProjectDb.ProjectData() + FS.folder(project.Name.Format()) + FS.file(string.Format("{0}.{1}", project.Name, TableId.identify<T>()),FS.Csv);
+                => Unserviced.Table<T>(project);
 
         public FS.Files XedDisasmSources(IProjectWs project)
             => project.OutFiles(FileKind.XedRawDisasm);
@@ -77,40 +84,40 @@ namespace Z0
             => project.OutFiles(FileKind.McAsm);
 
         public FS.FolderPath ObjHexDir(IProjectWs project)
-            => ProjectData(project, "obj.hex");
+            => Unserviced.ProjectData(project, "obj.hex");
 
         public FS.FilePath AsmSyntaxTable(IProjectWs project)
-            => Table<AsmSyntaxRow>(project);
+            => Unserviced.Table<AsmSyntaxRow>(project);
 
         public FS.FilePath AsmInstructionTable(IProjectWs project)
-            => Table<AsmInstructionRow>(project);
+            => Unserviced.Table<AsmInstructionRow>(project);
 
         public FS.FilePath AsmEncodingTable(IProjectWs project)
-            => Table<SummaryRow>(project);
+            => Unserviced.Table<SummaryRow>(project);
 
         public FS.FolderPath AsmCodeDir(IProjectWs project)
-            => ProjectData(project, "asm.code");
+            => Unserviced.ProjectData(project, "asm.code");
 
         public FS.FilePath AsmCodePath(IProjectWs project, string origin)
             => AsmCodeDir(project) + FS.file(string.Format("{0}.code", origin), FS.Csv);
 
         public FS.FilePath ObjBlockPath(IProjectWs project)
-            => Table<ObjBlock>(project);
+            => Unserviced.Table<ObjBlock>(project);
 
         public FS.FilePath XedDisasmSummary(IProjectWs project)
-            => ProjectDataFile(project, FileKind.XedSummaryDisasm);
+            => Unserviced.ProjectDataFile(project, FileKind.XedSummaryDisasm);
 
         public FS.FolderPath XedDisasmDir(IProjectWs project)
-            => ProjectData(project, "xed.disasm");
+            => Unserviced.XedDisasmDir(project);
 
         public FS.FilePath BuildFlowPath(IProjectWs project)
-            => ProjectData(project) + FS.file(string.Format("{0}.build.flows", project.Name), FS.Csv);
+            => Unserviced.ProjectData(project) + FS.file(string.Format("{0}.build.flows", project.Name), FS.Csv);
 
         public FS.FolderPath RecodedSrcDir(IProjectWs project)
             => Ws.Project(ProjectNames.McRecoded).SrcDir(project.Project.Format());
 
         public FS.FilePath CoffSymPath(IProjectWs project)
-            => Table<CoffSymRecord>(project);
+            => Unserviced.Table<CoffSymRecord>(project);
 
         SortedDictionary<string,FileKind> FileKindMatch;
 
@@ -285,7 +292,7 @@ namespace Z0
                     }
 
 
-                    TableEmit(@readonly(data), ToolCmdFlow.RenderWidths, ScriptFlowPath(project,scriptid));
+                    TableEmit(@readonly(data), ToolCmdFlow.RenderWidths, Unserviced.ScriptFlowPath(project,scriptid));
 
                     if(runexe && exeflow != null)
                         RunExe(exeflow.Value);

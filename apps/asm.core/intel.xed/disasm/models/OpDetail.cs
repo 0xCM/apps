@@ -13,7 +13,7 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public record struct OpDetail
         {
-            public OpSpec OpInfo;
+            public OpSpec Spec;
 
             public OpWidthInfo OpWidth;
 
@@ -28,7 +28,7 @@ namespace Z0
             public OpAction Action
             {
                 [MethodImpl(Inline)]
-                get => OpInfo.Action;
+                get => Spec.Action;
             }
 
             public string Format()

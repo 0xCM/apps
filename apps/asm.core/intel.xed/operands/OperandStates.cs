@@ -7,14 +7,14 @@ namespace Z0
 {
     partial class XedRules
     {
-        public class OperandStates
+        public class OperandStates : IIndex<OperandStates.Entry>
         {
             [StructLayout(LayoutKind.Sequential,Pack=1)]
             public record struct Entry : IComparable<Entry>
             {
                 public OperandState State;
 
-                public Index<OpSpec> OpSpecs;
+                public Index<OpSpec> Ops;
 
                 public AsmInfo Asm;
 
@@ -26,6 +26,12 @@ namespace Z0
             }
 
             readonly Index<Entry> Data;
+
+            public ref readonly Index<Entry> Entries
+            {
+                [MethodImpl(Inline)]
+                get => ref Data;
+            }
 
             public OperandStates(Entry[] src)
             {
@@ -49,6 +55,9 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => Data.Count;
             }
+
+            Entry[] IIndex<Entry>.Storage
+                => Entries;
         }
     }
 }

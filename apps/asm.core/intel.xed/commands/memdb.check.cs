@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+
     partial class XedCmdProvider
     {
         void CheckMemDb(Dim2<uint> shape)
@@ -54,9 +55,6 @@ namespace Z0
             CheckMemDb((12,12));
             CheckMemDb((8,8));
             CheckMemDb((256,256));
-
-
-
             return true;
         }
     }

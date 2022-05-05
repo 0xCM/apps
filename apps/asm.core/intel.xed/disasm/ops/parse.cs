@@ -120,8 +120,8 @@ namespace Z0
                 return result;
 
             var selector = text.trim(skip(parts,i++));
-            dst.SelectorName = selector;
-            XedParsers.parse(selector, out dst.Selector);
+            dst.Selector = selector;
+            XedParsers.parse(selector, out dst.Rule);
             return result;
         }
     }
