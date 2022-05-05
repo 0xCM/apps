@@ -80,12 +80,12 @@ namespace Z0
                 if(result.Fail)
                     Errors.Throw(result.Message);
 
-                var opclass = operand.Spec;
-                var winfo = XedOperands.describe(opclass.WidthCode);
+                var spec = operand.Spec;
+                var winfo = XedOperands.describe(spec.WidthCode);
                 operand.OpWidth = winfo;
-                operand.OpName = opclass.Name;
+                operand.OpName = spec.Name;
                 var optxt = EmptyString;
-                if(opsLU.TryGetValue(opclass.Name, out var opval))
+                if(opsLU.TryGetValue(spec.Name, out var opval))
                 {
                     operand.Def = opval;
                     optxt = opval.Format();
@@ -94,13 +94,13 @@ namespace Z0
 
                 operand.DefDescription = string.Format(DisasmRender.OpDetailPattern,
                     string.Format("Op{0}", k),
-                    opclass.Name,
+                    spec.Name,
                     optxt,
-                    opclass.Action,
-                    opclass.Visibility,
+                    spec.Action,
+                    spec.Visibility,
                     winfo.Width64,
                     winfo.Name,
-                    opclass.Selector
+                    OpSpec.specifier(spec)
                     );
             }
 

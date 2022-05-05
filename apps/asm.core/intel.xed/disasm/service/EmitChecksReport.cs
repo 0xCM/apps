@@ -236,7 +236,7 @@ namespace Z0
                     dst.AppendLineFormat(RenderPattern, nameof(state.OUTREG), XedRegMap.map(state.OUTREG));
                 }
 
-                DisasmRender.render(ops,buffer);
+                DisasmRender.render(ops, buffer);
                 dst.WriteLine(buffer.Emit());
             }
 

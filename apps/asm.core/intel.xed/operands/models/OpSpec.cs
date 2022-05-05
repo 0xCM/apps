@@ -12,6 +12,27 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public record struct OpSpec
         {
+            public static string specifier(in OpSpec src)
+            {
+                const string OpSepSlot = "/{0}";
+                const sbyte Pad = -XedFields.FieldRender.ColWidth;
+
+                var dst = text.buffer();
+                dst.AppendFormat(RP.slot(0, Pad), src.Index);
+                dst.Append(" | ");
+                dst.AppendFormat("{0,-4}", XedRender.format(src.Name));
+                dst.AppendFormat(OpSepSlot, XedRender.format(src.Action));
+                dst.AppendFormat(OpSepSlot, XedRender.format(src.WidthCode));
+                dst.AppendFormat(OpSepSlot, XedRender.format(src.Visibility));
+                dst.AppendFormat(OpSepSlot, XedRender.format(src.OpType));
+                if(src.Rule.IsNonEmpty)
+                    dst.AppendFormat(OpSepSlot, src.Rule.Name.ToString().ToUpper());
+                else if(src.ElementType.IsNumber)
+                    dst.AppendFormat(OpSepSlot, src.ElementType);
+
+                return dst.Emit();
+            }
+
             public byte Index;
 
             public OpName Name;
@@ -38,7 +59,7 @@ namespace Z0
 
             public Nonterminal Rule;
 
-            public asci16 Selector;
+            public Register Reg;
 
             public const string RenderPattern = "{0} | {1,-6} | {2,-4} | {3,-4} | {4,-4} | {5,-16} | {6}";
 
@@ -53,12 +74,14 @@ namespace Z0
                         XedRender.format(OpType),
                         Rule.IsNonEmpty
                         ? string.Format("{0} => {1}", Rule, XedPaths.Service.RulePage(new RuleSig(RuleTableKind.DEC, Rule.Name)))
-                        : Selector
+                        : OpType == OpType.IMM_CONST ? "1"
+                        : Reg.IsNonEmpty ? Reg.Format()
+                        : EmptyString
                     );
             }
 
             public override string ToString()
-                => XedRender.format(Index,this);
+                => Format();
         }
     }
 }

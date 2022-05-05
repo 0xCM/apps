@@ -813,81 +813,44 @@ namespace Z0
             return new asci8(storage);
         }
 
-        public static string format(byte index, in OpSpec src)
-        {
-            const string OpSepSlot = "/{0}";
-            const sbyte Pad = -XedFields.FieldRender.ColWidth;
+        // public static string format(byte index, in OpDetail src)
+        // {
+        //     const string OpSepSlot = "/{0}";
+        //     const sbyte Pad = -XedFields.FieldRender.ColWidth;
 
-            var dst = text.buffer();
-            dst.AppendFormat(RP.slot(0, Pad), index);
-            dst.Append(" | ");
-            dst.AppendFormat("{0,-4}", XedRender.format(src.Name));
-            var kind = XedOperands.opkind(src.Name);
-            switch(kind)
-            {
-                case OpKind.Reg:
-                case OpKind.Base:
-                case OpKind.Index:
-                    if(src.Selector.IsNonEmpty)
-                    {
-                        dst.AppendFormat(" {0}", src.Selector);
-                        dst.AppendFormat(OpSepSlot, XedRender.format(src.Action));
-                    }
-                break;
-                default:
-                    dst.AppendFormat(" {0}", XedRender.format(src.Action));
-                break;
-            }
+        //     var dst = text.buffer();
+        //     dst.AppendFormat(RP.slot(0, Pad), index);
+        //     dst.Append(" | ");
+        //     dst.AppendFormat("{0,-4}", XedRender.format(src.OpName));
+        //     var kind = XedOperands.opkind(src.OpName);
+        //     ref readonly var opinfo = ref src.Spec;
+        //     switch(kind)
+        //     {
+        //         case OpKind.Reg:
+        //         case OpKind.Base:
+        //         case OpKind.Index:
+        //             if(opinfo.Selector.IsNonEmpty)
+        //             {
+        //                 dst.AppendFormat(" {0}", opinfo.Selector);
+        //                 dst.AppendFormat(OpSepSlot, XedRender.format(src.Action));
+        //             }
+        //         break;
+        //         default:
+        //             dst.AppendFormat(" {0}", XedRender.format(src.Action));
+        //         break;
+        //     }
 
-            dst.AppendFormat(OpSepSlot, XedRender.format(src.WidthCode));
-            if(src.ElementType.IsNumber)
-                dst.AppendFormat(OpSepSlot, src.ElementType);
-            if(!src.Visibility.IsExplicit)
-                dst.AppendFormat(OpSepSlot, src.Visibility);
-            if(src.OpType != 0)
-                dst.AppendFormat(OpSepSlot, src.OpType);
+        //     ref readonly var width = ref src.OpWidth;
+        //     dst.AppendFormat(OpSepSlot, XedRender.format(width.Code));
+        //     if(width.ElementType.IsNumber)
+        //         dst.AppendFormat(OpSepSlot, src.OpWidth.ElementType);
+        //     if(!opinfo.Visibility.IsExplicit)
+        //         dst.AppendFormat(OpSepSlot, opinfo.Visibility);
+        //     if(opinfo.OpType != 0)
+        //         dst.AppendFormat(OpSepSlot, opinfo.OpType);
 
-            return dst.Emit();
-        }
-
-        public static string format(byte index, in OpDetail src)
-        {
-            const string OpSepSlot = "/{0}";
-            const sbyte Pad = -XedFields.FieldRender.ColWidth;
-
-            var dst = text.buffer();
-            dst.AppendFormat(RP.slot(0, Pad), index);
-            dst.Append(" | ");
-            dst.AppendFormat("{0,-4}", XedRender.format(src.OpName));
-            var kind = XedOperands.opkind(src.OpName);
-            ref readonly var opinfo = ref src.Spec;
-            switch(kind)
-            {
-                case OpKind.Reg:
-                case OpKind.Base:
-                case OpKind.Index:
-                    if(opinfo.Selector.IsNonEmpty)
-                    {
-                        dst.AppendFormat(" {0}", opinfo.Selector);
-                        dst.AppendFormat(OpSepSlot, XedRender.format(src.Action));
-                    }
-                break;
-                default:
-                    dst.AppendFormat(" {0}", XedRender.format(src.Action));
-                break;
-            }
-
-            ref readonly var width = ref src.OpWidth;
-            dst.AppendFormat(OpSepSlot, XedRender.format(width.Code));
-            if(width.ElementType.IsNumber)
-                dst.AppendFormat(OpSepSlot, src.OpWidth.ElementType);
-            if(!opinfo.Visibility.IsExplicit)
-                dst.AppendFormat(OpSepSlot, opinfo.Visibility);
-            if(opinfo.OpType != 0)
-                dst.AppendFormat(OpSepSlot, opinfo.OpType);
-
-            return dst.Emit();
-        }
+        //     return dst.Emit();
+        // }
 
         public static string format(in EncodingExtract src)
         {

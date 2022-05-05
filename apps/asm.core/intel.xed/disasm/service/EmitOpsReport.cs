@@ -6,6 +6,8 @@
 namespace Z0
 {
     using static XedDisasm;
+    using static XedRules;
+    using static core;
 
     partial class XedDisasmSvc
     {
@@ -29,8 +31,12 @@ namespace Z0
                 XedRender.describe(detail, dst);
                 ref readonly var ops = ref detail.Ops;
                 dst.AppendLine("Operands");
-                for(var j=z8; j<ops.Count; j++)
-                    dst.AppendLine(XedRender.format(j, ops[j]));
+                var specs = ops.Map(x => x.Spec);
+                for(var j=0; j<specs.Length; j++)
+                    dst.AppendLine(OpSpec.specifier(skip(specs,j)));
+
+                //for(var j=z8; j<ops.Count; j++)
+                    //dst.AppendLine(XedRender.format(j, ops[j]));
 
                 dst.WriteLine();
             }
