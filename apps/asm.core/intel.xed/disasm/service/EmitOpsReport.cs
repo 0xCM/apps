@@ -14,9 +14,10 @@ namespace Z0
 
         void EmitOpsReport(WsContext context, Detail doc)
         {
-            var dst = DisasmOpsPath(context,doc.DataFile.Source);
-            var emitting = EmittingFile(dst);
-            using var emitter = dst.AsciEmitter();
+            var outpath = DisasmOpsPath(context,doc.DataFile.Source);
+            var emitting = EmittingFile(outpath);
+            using var dst = outpath.AsciEmitter();
+            dst.AppendLineFormat(RenderCol2, "DataSource", doc.Source.Path.ToUri().Format());
             var counter = 0u;
             var count = doc.Count;
             for(var i=0; i<count;i++)
@@ -24,14 +25,14 @@ namespace Z0
                 ref readonly var row = ref doc[i];
                 ref readonly var detail = ref row.DetailRow;
                 var inst = detail.Instruction;
-                emitter.AppendLine(RP.PageBreak80);
-                XedRender.describe(detail, -24, emitter);
+                dst.AppendLine(RP.PageBreak80);
+                XedRender.describe(detail, -24, dst);
                 ref readonly var ops = ref detail.Ops;
-                emitter.AppendLine("Operands");
+                dst.AppendLine("Operands");
                 for(var j=z8; j<ops.Count; j++)
-                    emitter.AppendLine(XedRender.format(j, -24, ops[j]));
+                    dst.AppendLine(XedRender.format(j, -24, ops[j]));
 
-                emitter.WriteLine();
+                dst.WriteLine();
             }
 
             EmittedFile(emitting,counter);

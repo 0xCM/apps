@@ -13,7 +13,9 @@ namespace Z0
 
     partial class XedDisasm
     {
-        public ref struct FieldEmitter
+        public const string RenderCol2 = DisasmRender.Columns;
+
+        public struct FieldEmitter
         {
             readonly HashSet<FieldKind> Exclusions;
 
@@ -28,13 +30,12 @@ namespace Z0
                 Render = XedFields.render();
             }
 
-            const string RenderPattern = DisasmRender.Columns;
-
             public uint EmitFields(Detail doc)
             {
                 var buffer = fields();
                 var dst = text.buffer();
                 ref readonly var data = ref doc.DataFile;
+                dst.AppendLineFormat(RenderCol2, "DataSource", doc.Source.Path.ToUri().Format());
                 var counter = 0u;
                 for(var i=0u; i<data.LineCount; i++)
                 {
@@ -55,7 +56,7 @@ namespace Z0
                         if(Exclusions.Contains(kind))
                             continue;
 
-                        dst.AppendLineFormat(RenderPattern, kind, Render[kind](buffer.Fields[kind]));
+                        dst.AppendLineFormat(RenderCol2, kind, Render[kind](buffer.Fields[kind]));
                         counter++;
                     }
 

@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedDisasm
     {
-        public class Document : IPaired<Summary,Detail>
+        public class Document
         {
             public readonly Summary Summary;
 
@@ -20,11 +20,17 @@ namespace Z0
                 Detail = detail;
             }
 
-            Summary IPaired<Summary, Detail>.Left
-                => Summary;
+            public ref readonly FileRef Origin
+            {
+                [MethodImpl(Inline)]
+                get => ref Summary.Origin;
+            }
 
-            Detail IPaired<Summary, Detail>.Right
-                => Detail;
+            public ref readonly FileRef DataSource
+            {
+                [MethodImpl(Inline)]
+                get => ref Summary.DataFile.Source;
+            }
 
             [MethodImpl(Inline)]
             public void Deconstruct(out Summary s, out Detail d)

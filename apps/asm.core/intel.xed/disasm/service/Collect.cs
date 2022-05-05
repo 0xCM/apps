@@ -6,8 +6,6 @@
 namespace Z0
 {
     using static core;
-    using static XedDisasm;
-    using static XedRules;
 
     partial class XedDisasmSvc
     {
@@ -20,6 +18,5 @@ namespace Z0
                 () => EmitBreakdowns(context,docs)
                 );
         }
-
     }
 }

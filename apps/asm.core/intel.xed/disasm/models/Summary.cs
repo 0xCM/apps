@@ -27,6 +27,12 @@ namespace Z0
                 RowCount = Rows.Count;
             }
 
+            public FileRef DataSource
+            {
+                [MethodImpl(Inline)]
+                get => DataFile.Source;
+            }
+
             public ref SummaryRow this[int i]
             {
                 [MethodImpl(Inline)]
