@@ -6,13 +6,16 @@ namespace Z0
 {
     partial class XedRules
     {
-        public class InstLayouts
+        public class InstLayouts : IDisposable
         {
+            readonly NativeCells<InstLayoutBlock> Blocks;
+
             readonly Index<InstLayout> Data;
 
-            public InstLayouts(InstLayout[] src)
+            public InstLayouts(InstLayout[] src, NativeCells<InstLayoutBlock> blocks)
             {
                 Data = src;
+                Blocks = blocks;
             }
 
             public uint Count
@@ -67,11 +70,11 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static implicit operator InstLayouts(InstLayout[] src)
-                => new InstLayouts(src);
+            public void Dispose()
+            {
+                Blocks.Dispose();
+            }
 
-            public static implicit operator InstLayouts(Index<InstLayout> src)
-                => new InstLayouts(src);
         }
     }
 }

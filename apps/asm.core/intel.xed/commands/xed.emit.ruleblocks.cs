@@ -12,7 +12,7 @@ namespace Z0
         [CmdOp("xed/emit/layoutblocks")]
         Outcome EmitLayoutBlocks(CmdArgs args)
         {
-            var src = LayoutCalcs.layouts(CalcPatterns());
+            using var src = LayoutCalcs.layouts(CalcPatterns());
             FileEmit(src.Format(), 0, XedPaths.Target("xed.inst.layouts.test", FS.Txt));
             return true;
         }

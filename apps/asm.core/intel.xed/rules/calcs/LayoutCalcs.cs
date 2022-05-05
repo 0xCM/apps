@@ -30,7 +30,7 @@ namespace Z0
                 dst.PatternId = (ushort)src.PatternId;
                 dst.Instruction = src.InstClass;
                 dst.OpCode = src.OpCode;
-                dst.Count = Demand.lteq(fields.Count,InstLayoutRecord.CellCount);
+                dst.Count = Demand.lteq(fields.Count, InstLayoutRecord.CellCount);
                 for(var j=z8; j<fields.Count; j++)
                     layout(j, fields[j], ref dst);
                 return dst;
@@ -39,23 +39,27 @@ namespace Z0
             public static InstLayouts layouts(Index<InstPattern> src)
             {
                 var count = src.Count;
-                var dst = alloc<InstLayout>(count);
-                for(var i=0; i<src.Count; i++)
-                    seek(dst,i) = layout(src[i]);
-                return dst;
+                var blocks = LayoutCalcs.blocks(count);
+                var size = InstLayoutBlock.Size;
+                Index<InstLayout> dst = alloc<InstLayout>(count);
+                for(var i=0; i<count; i++)
+                {
+                    var segref = new SegRef<LayoutCell>(blocks[i].Location, size);
+                    layout(src[i], segref, out dst[i]);
+                }
+                return new InstLayouts(dst, blocks);
             }
 
-            public static InstLayout layout(InstPattern src)
+            public static NativeCells<InstLayoutBlock> blocks(uint count)
+                => NativeCells.alloc<InstLayoutBlock>(count, out var id);
+
+            public static void layout(InstPattern src, SegRef<LayoutCell> block, out InstLayout dst)
             {
-                var dst = InstLayout.Empty;
                 ref readonly var fields = ref src.Layout;
-                dst.PatternId = (ushort)src.PatternId;
-                dst.Instruction = src.InstClass;
-                dst.OpCode = src.OpCode;
-                dst.Count = Demand.lteq(fields.Count, InstLayoutRecord.CellCount);
+                var count = Demand.lteq(fields.Count, InstLayoutRecord.CellCount);
+                dst = new InstLayout((ushort)src.PatternId, src.InstClass, src.OpCode, count, block);
                 for(var j=z8; j<fields.Count; j++)
                     dst[j] = layout(fields[j]);
-                return dst;
             }
 
             static void layout(byte index, in CellValue src, ref InstLayoutRecord dst)

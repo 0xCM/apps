@@ -4,56 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1,Size=12*16)]
-        public struct InstLayoutBlock
-        {
-            public Span<LayoutCell> Cells
-            {
-                [MethodImpl(Inline)]
-                get => recover<LayoutCell>(bytes(this));
-            }
-
-            public ref LayoutCell this[int i]
-            {
-                [MethodImpl(Inline)]
-                get => ref  seek(Cells,i);
-            }
-
-            public ref LayoutCell this[uint i]
-            {
-                [MethodImpl(Inline)]
-                get => ref  seek(Cells,i);
-            }
-        }
-
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct InstLayout
+        public readonly struct InstLayout
         {
-            public ushort PatternId;
+            public readonly ushort PatternId;
 
-            public InstClass Instruction;
+            public readonly InstClass Instruction;
 
-            public XedOpCode OpCode;
+            public readonly XedOpCode OpCode;
 
-            public byte Count;
+            public readonly byte Count;
 
-            public InstLayoutBlock Block;
+            public readonly SegRef<LayoutCell> Block;
 
-            [MethodImpl(Inline)]
-            public InstLayout(ushort pid, InstClass inst, XedOpCode oc, byte count)
-            {
-                PatternId = pid;
-                Instruction = inst;
-                OpCode = oc;
-                Count = count;
-                Block = default;
-            }
-
-            public InstLayout(ushort pid, InstClass inst, XedOpCode oc, byte count, InstLayoutBlock block)
+            public InstLayout(ushort pid, InstClass inst, XedOpCode oc, byte count, SegRef<LayoutCell> block)
             {
                 PatternId = pid;
                 Instruction = inst;
@@ -65,7 +31,7 @@ namespace Z0
             public Span<LayoutCell> Cells
             {
                 [MethodImpl(Inline)]
-                get => Block.Cells;
+                get => Block.Data;
             }
 
             public ref LayoutCell this[int i]
@@ -77,7 +43,7 @@ namespace Z0
             public ref LayoutCell this[uint i]
             {
                 [MethodImpl(Inline)]
-                get => ref Block[i];
+                get => ref Block[(int)i];
             }
 
             public string Format()

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
@@ -16,9 +12,9 @@ namespace Z0
     [DataType("segref")]
     public readonly struct SegRef : ISegRef<byte>
     {
-        public MemoryAddress Address {get;}
+        public readonly MemoryAddress Address;
 
-        public ByteSize Size {get;}
+        public readonly ByteSize Size;
 
         [MethodImpl(Inline)]
         public SegRef(MemoryAddress src, ByteSize size)

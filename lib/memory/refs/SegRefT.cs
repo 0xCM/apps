@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
@@ -86,7 +82,17 @@ namespace Z0
         public unsafe ref T Cell(int index)
             => ref @ref<T>((void*)(BaseAddress + (ulong)index*CellSize));
 
+        [MethodImpl(Inline)]
+        public unsafe ref T Cell(uint index)
+            => ref Cell((int)index);
+
         public ref T this[int index]
+        {
+            [MethodImpl(Inline)]
+            get => ref Cell(index);
+        }
+
+        public ref T this[uint index]
         {
             [MethodImpl(Inline)]
             get => ref Cell(index);
