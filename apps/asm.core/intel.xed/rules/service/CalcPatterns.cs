@@ -24,7 +24,7 @@ namespace Z0
         public Index<InstPattern> Emit(Index<InstPattern> src)
         {
             exec(PllExec,
-                () => Emit(CalcInstLayouts(src)),
+                //() => Emit(CalcInstLayouts(src)),
                 () => Emit(CalcPatternRecords(src)),
                 () => EmitFlagEffects(src),
                 () => EmitInstAttribs(src),

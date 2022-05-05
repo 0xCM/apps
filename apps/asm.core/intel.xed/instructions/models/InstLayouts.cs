@@ -12,11 +12,22 @@ namespace Z0
 
             readonly Index<InstLayout> Data;
 
+            public readonly Index<InstLayoutRecord> Records;
+
             public InstLayouts(InstLayout[] src, NativeCells<InstLayoutBlock> blocks)
             {
                 Data = src;
                 Blocks = blocks;
+                Records = core.alloc<InstLayoutRecord>(src.Length);;
             }
+
+            [MethodImpl(Inline)]
+            public ref InstLayoutRecord Record(uint i)
+                => ref Records[i];
+
+            [MethodImpl(Inline)]
+            public ref InstLayoutRecord Record(int i)
+                => ref Records[i];
 
             public uint Count
             {
@@ -59,6 +70,8 @@ namespace Z0
                 for(var i=0; i<Count; i++)
                     dst.AppendLine(this[i]);
             }
+
+
 
             public string Format()
             {

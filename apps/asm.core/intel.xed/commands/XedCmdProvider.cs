@@ -45,12 +45,24 @@ namespace Z0
 
         IProjectWs _Project;
 
+        XedRuntime _Xed;
         IProjectProvider _ProjectProvider;
 
         [MethodImpl(Inline)]
         IProjectProvider ProjectProvider()
             => _ProjectProvider;
 
+        public XedRuntime XedRumtime
+        {
+            [MethodImpl(Inline)]
+            get => _Xed;
+        }
+
+        public XedCmdProvider With(XedRuntime xed)
+        {
+            _Xed = xed;
+            return this;
+        }
         public XedCmdProvider With(IProjectProvider provider)
         {
             _ProjectProvider = provider;

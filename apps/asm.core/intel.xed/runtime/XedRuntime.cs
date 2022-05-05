@@ -5,9 +5,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    using static core;
+
+
+    public class XedRuntime : AppService<XedRuntime>
     {
-        public Index<InstLayoutRecord> CalcInstLayouts(Index<InstPattern> src)
-            => Data(nameof(CalcInstLayouts), () => LayoutCalcs.records(src));
+
+
+
     }
 }

@@ -39,13 +39,6 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("xed/emit/layouts")]
-        Outcome EmitLayouts(CmdArgs args)
-        {
-            Rules.Emit(Rules.CalcInstLayouts(CalcPatterns()));
-            return true;
-        }
-
         [CmdOp("xed/emit/rulerecs")]
         Outcome EmitRuleRecords(CmdArgs args)
         {

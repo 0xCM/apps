@@ -12,14 +12,26 @@ namespace Z0
     {
         IAppCmdService CmdService;
 
+        XedRuntime XedRt;
+
         protected override void Initialized()
         {
-            CmdService = XedCmdProvider.create(Wf);
+            var commands = XedCmdProvider.create(Wf);
+            XedRt = XedRuntime.create(Wf);
+            commands.With(XedRt);
+            CmdService = commands;
+        }
+
+        public XedRuntime Xed
+        {
+            [MethodImpl(Inline)]
+            get => XedRt;
         }
 
         protected override void Disposing()
         {
             CmdService?.Dispose();
+            XedRt?.Dispose();
         }
 
         protected override void Run()

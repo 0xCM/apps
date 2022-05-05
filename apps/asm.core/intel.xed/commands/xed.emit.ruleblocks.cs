@@ -9,11 +9,12 @@ namespace Z0
 
     partial class XedCmdProvider
     {
-        [CmdOp("xed/emit/layoutblocks")]
-        Outcome EmitLayoutBlocks(CmdArgs args)
+        [CmdOp("xed/emit/layouts")]
+        Outcome EmitLayouts(CmdArgs args)
         {
             using var src = LayoutCalcs.layouts(CalcPatterns());
             FileEmit(src.Format(), 0, XedPaths.Target("xed.inst.layouts.test", FS.Txt));
+            TableEmit(src.Records.View, InstLayoutRecord.RenderWidths, XedPaths.Table<InstLayoutRecord>());
             return true;
         }
 

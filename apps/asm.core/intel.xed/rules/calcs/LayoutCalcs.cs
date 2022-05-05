@@ -14,44 +14,21 @@ namespace Z0
     {
         public readonly struct LayoutCalcs
         {
-            public static Index<InstLayoutRecord> records(Index<InstPattern> src)
-            {
-                var count = src.Count;
-                var dst = alloc<InstLayoutRecord>(count);
-                for(var i=0; i<src.Count; i++)
-                    seek(dst,i) = record(src[i]);
-                return dst;
-            }
-
-            public static InstLayoutRecord record(InstPattern src)
-            {
-                var dst = InstLayoutRecord.Empty;
-                ref readonly var fields = ref src.Layout;
-                dst.PatternId = (ushort)src.PatternId;
-                dst.Instruction = src.InstClass;
-                dst.OpCode = src.OpCode;
-                dst.Count = Demand.lteq(fields.Count, InstLayoutRecord.CellCount);
-                for(var j=z8; j<fields.Count; j++)
-                    layout(j, fields[j], ref dst);
-                return dst;
-            }
-
             public static InstLayouts layouts(Index<InstPattern> src)
             {
                 var count = src.Count;
                 var blocks = LayoutCalcs.blocks(count);
                 var size = InstLayoutBlock.Size;
                 Index<InstLayout> dst = alloc<InstLayout>(count);
+                var layouts = new InstLayouts(dst, blocks);
                 for(var i=0; i<count; i++)
                 {
                     var segref = new SegRef<LayoutCell>(blocks[i].Location, size);
                     layout(src[i], segref, out dst[i]);
+                    layouts.Record(i) = record(dst[i]);
                 }
-                return new InstLayouts(dst, blocks);
+                return layouts;
             }
-
-            public static NativeCells<InstLayoutBlock> blocks(uint count)
-                => NativeCells.alloc<InstLayoutBlock>(count, out var id);
 
             public static void layout(InstPattern src, SegRef<LayoutCell> block, out InstLayout dst)
             {
@@ -62,42 +39,59 @@ namespace Z0
                     dst[j] = layout(fields[j]);
             }
 
-            static void layout(byte index, in CellValue src, ref InstLayoutRecord dst)
+            public static InstLayoutRecord record(in InstLayout src)
+            {
+                var dst = InstLayoutRecord.Empty;
+                dst.PatternId = (ushort)src.PatternId;
+                dst.Instruction = src.Instruction;
+                dst.OpCode = src.OpCode;
+                dst.Count = Demand.lteq(src.Count, InstLayoutRecord.CellCount);
+                for(var j=z8; j<src.Count; j++)
+                {
+                    assign(j, src[j], ref dst);
+                }
+                return dst;
+            }
+
+            public static NativeCells<InstLayoutBlock> blocks(uint count)
+                => NativeCells.alloc<InstLayoutBlock>(count, out var id);
+
+            static void assign(byte index, in LayoutCell src, ref InstLayoutRecord dst)
             {
                 switch(index)
                 {
                     case 0:
-                        dst.Cell0 = layout(src);
+                        dst.Cell0 = src;
                     break;
                     case 1:
-                        dst.Cell1 = layout(src);
+                        dst.Cell1 = src;
                     break;
                     case 2:
-                        dst.Cell2 = layout(src);
+                        dst.Cell2 = src;
                     break;
                     case 3:
-                        dst.Cell3 = layout(src);
+                        dst.Cell3 = src;
                     break;
                     case 4:
-                        dst.Cell4 = layout(src);
+                        dst.Cell4 = src;
                     break;
                     case 5:
-                        dst.Cell5 = layout(src);
+                        dst.Cell5 = src;
                     break;
                     case 6:
-                        dst.Cell6 = layout(src);
+                        dst.Cell6 = src;
                     break;
                     case 7:
-                        dst.Cell7 = layout(src);
+                        dst.Cell7 = src;
                     break;
                     case 8:
-                        dst.Cell8 = layout(src);
+                        dst.Cell8 = src;
                     break;
                     case 9:
-                        dst.Cell9 = layout(src);
+                        dst.Cell9 = src;
                     break;
                     case 10:
-                        dst.Cell10 = layout(src);
+                        dst.Cell10 = src;
                     break;
                 }
             }
