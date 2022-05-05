@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public void Emit(Index<InstGroup> src)
+        public void EmitInstGroups(Index<InstGroup> src)
         {
             iter(CalcInstGroupLookup(src,PllExec), kvp => Emit(kvp.Key, kvp.Value), PllExec);
 
@@ -54,7 +54,7 @@ namespace Z0
 
                 dst.AppendLine();
             }
-            FileEmit(dst.Emit(), counter, XedPaths.Targets() + FS.file("xed.inst.groups", FS.Csv), TextEncodingKind.Asci);
+            FileEmit(dst.Emit(), counter, XedPaths.InstTarget("xed.inst.groups", FileKind.Csv), TextEncodingKind.Asci);
         }
     }
 }

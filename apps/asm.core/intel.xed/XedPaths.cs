@@ -37,10 +37,7 @@ namespace Z0
             => Targets() + FS.folder(scope);
 
         public FS.FolderPath RuleTargets()
-            => Targets("rules.tables");
-
-        public FS.FolderPath RuleTableDefs()
-            => RuleTargets() + FS.folder("defs");
+            => Targets("rules");
 
         public FS.FilePath Table<T>()
             where T : struct
@@ -48,7 +45,11 @@ namespace Z0
 
         public FS.FilePath Table<T>(string suffix)
             where T : struct
-                => Targets() + Tables.filename<T>().ChangeExtension(FS.ext(string.Format("{0}.{1}", suffix, FS.Csv)));
+                => Targets() + Suffixed<T>(suffix);
+
+        FS.FileName Suffixed<T>(string suffix)
+            where T : struct
+                => Tables.filename<T>().ChangeExtension(FS.ext(string.Format("{0}.{1}", suffix, FS.Csv)));
 
         public FS.FilePath RuleTable<T>()
             where T : struct
@@ -83,15 +84,15 @@ namespace Z0
             };
         }
 
-        public FS.FileUri TableDef(RuleTableKind kind, Nonterminal nt)
-            => RuleTargets() + FS.folder("defs") + FS.file(string.Format("{0}.{1}", nt.Name, kind), FS.Csv);
+        public FS.FolderPath RulePages()
+            => RuleTargets() + FS.folder("pages");
 
-        public FS.FileUri TableDef(RuleSig sig)
-            => RuleTargets() + FS.folder("defs") + FS.file(sig.Format(), FS.Csv);
+        public FS.FileUri RulePage(RuleSig sig)
+            => RulePages() + FS.file(sig.Format(), FS.Csv);
 
-        public FS.FileUri CheckedTableDef(RuleSig sig)
+        public FS.FileUri CheckedRulePage(RuleSig sig)
         {
-            var uri = TableDef(sig);
+            var uri = RulePage(sig);
             return uri.Path.Exists ? uri : FS.FileUri.Empty;
         }
 
@@ -101,21 +102,21 @@ namespace Z0
             if(decfirst)
             {
                 sig = new RuleSig(RuleTableKind.DEC, rule);
-                dst = CheckedTableDef(sig);
+                dst = CheckedRulePage(sig);
                 if(dst.IsEmpty)
                 {
                     sig = new RuleSig(RuleTableKind.ENC,rule);
-                    dst = CheckedTableDef(sig);
+                    dst = CheckedRulePage(sig);
                 }
             }
             else
             {
                 sig = new RuleSig(RuleTableKind.ENC,rule);
-                dst = CheckedTableDef(sig);
+                dst = CheckedRulePage(sig);
                 if(dst.IsEmpty)
                 {
                     sig = new RuleSig(RuleTableKind.DEC,rule);
-                    dst = CheckedTableDef(sig);
+                    dst = CheckedRulePage(sig);
                 }
             }
             return dst;
@@ -124,11 +125,25 @@ namespace Z0
         public FS.FilePath RuleSpecs()
             => RuleTargets() + FS.file("xed.rules.specs", FS.Csv);
 
-        public FS.FolderPath InstIsaRoot()
-            => Targets("instructions");
+        public FS.FolderPath InstTargets()
+            => Targets() + FS.folder("instructions");
 
-        public FS.FilePath InstIsaPath(InstIsa isa)
-            => InstIsaRoot() + FS.file(text.ifempty(isa.Format(), "UNKNOWN"), FS.Txt);
+        public FS.FilePath InstTable<T>()
+            where T : struct
+                => InstTargets() + Tables.filename<T>();
+
+        public FS.FilePath InstTable<T>(string suffix)
+            where T : struct
+                => InstTargets() + Suffixed<T>(suffix);
+
+        public FS.FilePath InstTarget(string name, FileKind kind)
+            => InstTargets() + FS.file(string.Format("xed.inst.{0}", name), kind.Ext());
+
+        public FS.FolderPath InstPageRoot()
+            => InstTargets() + FS.folder("pages");
+
+        public FS.FilePath InstPagePath(InstIsa src)
+            => InstPageRoot() + FS.file(text.ifempty(src.Format(), "UNKNOWN"), FS.Txt);
 
         public FS.FilePath RuleSource(RuleTableKind kind)
         {

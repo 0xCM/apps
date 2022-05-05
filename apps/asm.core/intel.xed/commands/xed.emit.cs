@@ -27,7 +27,7 @@ namespace Z0
         Outcome EmitPatterns(CmdArgs args)
         {
             var patterns = Rules.CalcPatterns();
-            Rules.Emit(patterns);
+            Rules.EmitPatternData(patterns);
             return true;
         }
 
@@ -184,7 +184,7 @@ namespace Z0
         {
             var rules = CalcRules();
             Write("Emitting rules");
-            Rules.Emit(rules);
+            Rules.EmitRuleData(rules);
             return true;
         }
 
@@ -192,7 +192,7 @@ namespace Z0
         Outcome EmitTableDefs(CmdArgs args)
         {
             var rules = CalcRules();
-            Rules.EmitTableDefs(rules);
+            Rules.EmitRulePages(rules);
             return true;
         }
 
@@ -223,7 +223,7 @@ namespace Z0
         {
             var patterns = CalcPatterns();
             var groups = Rules.CalcInstGroups(patterns);
-            Rules.Emit(groups);
+            Rules.EmitInstGroups(groups);
            return true;
         }
 

@@ -32,7 +32,7 @@ namespace Z0
                 ColCount = cols;
                 Cells = cells;
                 CellCount = Require.equal((ushort)(rows*cols), (ushort)cells.Count);
-                TablePath = XedPaths.Service.CheckedTableDef(sig);
+                TablePath = XedPaths.Service.CheckedRulePage(sig);
             }
 
             public string Format()

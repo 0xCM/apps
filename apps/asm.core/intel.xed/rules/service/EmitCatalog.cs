@@ -10,26 +10,6 @@ namespace Z0
 
     partial class XedRules
     {
-        // public void EmitCatalog()
-        // {
-        //     var rules = RuleTables.Empty;
-        //     var patterns = Index<InstPattern>.Empty;
-        //     exec(PllExec,
-        //         () => TableEmit(OpCodeKinds.Instance.Records, OcMapKind.RenderWidths, XedPaths.Table<OcMapKind>()),
-        //         EmitOpWidths,
-        //         () => Emit(CalcPointerWidths().View),
-        //         () => Emit(mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i))),
-        //         () => Emit(CalcMacroDefs().View),
-        //         () => Emit(XedFields.Defs.Positioned),
-        //         EmitSymbolicFields,
-        //         () => Emit(ImportFieldDefs()),
-        //         () => rules = CalcRuleTables(),
-        //         () => patterns = CalcPatterns()
-        //     );
-
-        //     Emit(patterns,rules);
-        // }
-
         public void EmitCatalog(Index<InstPattern> patterns, RuleTables rules)
         {
             exec(PllExec,
@@ -43,7 +23,7 @@ namespace Z0
                 () => Emit(ImportFieldDefs())
             );
 
-            Emit(patterns,rules);
+            Emit(patterns, rules);
         }
 
         void EmitSymbolicFields()

@@ -36,30 +36,20 @@ namespace Z0
         public void EmitDocs(Index<InstPattern> src, RuleTables rules)
             => Docs.Emit(src,rules);
 
-        RuleCells CalcRuleCells(RuleTables src) => Rules.CalcRuleCells(src);
-
         public void EmitInstPages(Index<InstPattern> src)
         {
             src.Sort();
             var formatter = InstPageFormatter.create();
-            Paths.InstIsaRoot().Delete();
+            Paths.InstPageRoot().Delete();
             iter(formatter.GroupFormats(src), x =>  Emit(x), PllExec);
         }
 
         public void Emit(in InstIsaFormat src)
         {
-            var dst = Paths.InstIsaPath(src.Isa);
+            var dst = Paths.InstPagePath(src.Isa);
             Require.invariant(!dst.Exists);
             FileEmit(src.Content, src.LineCount, dst, TextEncodingKind.Asci);
         }
-
-        // public void EmitDocs(Index<InstPattern> patterns, RuleTables rules)
-        // {
-        //     exec(PllExec,
-        //         () => Docs.EmitDocs(patterns),
-        //         () => Docs.EmitDocs(rules)
-        //     );
-        // }
 
         public void EmitBroadcastDefs()
             => TableEmit(XedOperands.Views.BroadcastDefs, BroadcastDef.RenderWidths, Paths.Table<BroadcastDef>());
@@ -75,8 +65,8 @@ namespace Z0
 
         void Emit(InstLayouts src)
         {
-            FileEmit(src.Format(), 0, Paths.Target("xed.inst.layouts.vectors", FS.Csv));
-            TableEmit(src.Records.View, InstLayoutRecord.RenderWidths, Paths.Table<InstLayoutRecord>());
+            FileEmit(src.Format(), 0, Paths.InstTarget("layouts.vectors", FileKind.Csv));
+            TableEmit(src.Records.View, InstLayoutRecord.RenderWidths, Paths.InstTable<InstLayoutRecord>());
         }
     }
 }

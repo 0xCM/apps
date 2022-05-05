@@ -127,14 +127,14 @@ namespace Z0
 
                 }
             }
-            FileEmit(dst.Emit(), counter, XedDb.TargetPath("rules.tables.test", FileKind.Txt));
+            FileEmit(dst.Emit(), counter, XedPaths.RuleTarget("test", FS.Txt));
             return true;
         }
 
 
         AbsoluteLink link(RuleSig target)
         {
-            return Markdown.link(string.Format("{0}::{1}()", target.TableKind, target.TableName), XedPaths.TableDef(target));
+            return Markdown.link(string.Format("{0}::{1}()", target.TableKind, target.TableName), XedPaths.RulePage(target));
         }
 
         SectionHeader header(RuleCaller target)

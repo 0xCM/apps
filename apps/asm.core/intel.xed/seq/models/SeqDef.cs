@@ -24,7 +24,7 @@ namespace Z0
             }
 
             FS.FileUri Uri(RuleSig src)
-                => XedPaths.Service.TableDef(src);
+                => XedPaths.Service.RulePage(src);
 
             public string Format()
             {

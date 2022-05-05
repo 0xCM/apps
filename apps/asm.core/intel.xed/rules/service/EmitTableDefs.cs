@@ -9,10 +9,10 @@ namespace Z0
 
     partial class XedRules
     {
-        void EmitTableDef(in TableCriteria table)
+        void EmitRulePage(in TableCriteria table)
         {
             var formatter = Tables.formatter<TableDefRow>(TableDefRow.RenderWidths);
-            using var emitter = XedPaths.Service.TableDef(table.Sig).Path.AsciEmitter();
+            using var emitter = XedPaths.Service.RulePage(table.Sig).Path.AsciEmitter();
             emitter.AppendLine(formatter.FormatHeader());
             var k=0u;
             for(var j=0u; j<table.RowCount; j++, k++)
@@ -34,10 +34,10 @@ namespace Z0
             table.RenderLines(emitter);
         }
 
-        public void EmitTableDefs(RuleTables src)
+        public void EmitRulePages(RuleTables src)
         {
             ref readonly var tables = ref src.Criteria();
-            iter(tables, table => EmitTableDef(table), PllExec);
+            iter(tables, table => EmitRulePage(table), PllExec);
         }
     }
 }

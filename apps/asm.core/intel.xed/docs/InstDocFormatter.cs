@@ -39,7 +39,7 @@ namespace Z0
                 => new(3, part.Classifier.Format());
 
             AbsoluteLink Link(RuleSig key)
-                => Markdown.link(key.TableName.ToString() + "()", XedPaths.CheckedTableDef(key));
+                => Markdown.link(key.TableName.ToString() + "()", XedPaths.CheckedRulePage(key));
 
             static void RenderSigHeader(in InstDocPart part, ITextBuffer dst)
             {

@@ -24,7 +24,7 @@ namespace Z0
         {
             var dst = text.emitter();
 
-            dst.AppendLine(string.Format("{0,-32} {1}", table.Sig.Format(), Paths.CheckedTableDef(table.Sig)));
+            dst.AppendLine(string.Format("{0,-32} {1}", table.Sig.Format(), Paths.CheckedRulePage(table.Sig)));
             dst.AppendLine(RP.PageBreak120);
             dst.AppendLine();
             for(var i=0; i<table.RowCount; i++)
