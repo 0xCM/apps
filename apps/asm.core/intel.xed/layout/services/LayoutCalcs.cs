@@ -6,14 +6,17 @@
 namespace Z0
 {
     using static core;
-    using static XedRules.LayoutCellKind;
-
-    using K = XedRules.RuleCellKind;
 
     partial class XedRules
     {
         public readonly struct LayoutCalcs
         {
+            public static NativeCells<InstLayoutBlock> blocks(uint count)
+                => NativeCells.alloc<InstLayoutBlock>(count, out var id);
+
+            public static NativeCells<LayoutComponent> components(uint count)
+                => NativeCells.alloc<LayoutComponent>(count, out var id);
+
             public static InstLayouts layouts(Index<InstPattern> src)
             {
                 var count = src.Count;
@@ -21,22 +24,51 @@ namespace Z0
                 var size = InstLayoutBlock.Size;
                 Index<InstLayout> dst = alloc<InstLayout>(count);
                 var layouts = new InstLayouts(dst, blocks);
+                var counter = 0u;
                 for(var i=0; i<count; i++)
                 {
                     var segref = new SegRef<LayoutCell>(blocks[i].Location, size);
-                    layout(src[i], segref, out dst[i]);
+                    counter += layout(src[i], segref, out dst[i]);
                     layouts.Record(i) = record(dst[i]);
                 }
+
                 return layouts;
             }
 
-            public static void layout(InstPattern src, SegRef<LayoutCell> block, out InstLayout dst)
+            [MethodImpl(Inline)]
+            public static LayoutComponent component(FieldKind field, LayoutCellKind kind, ushort data)
+                => new LayoutComponent(field,kind,data);
+
+            public static LayoutVectors vectors(InstLayouts src)
+            {
+                var counts = (uint)src.View.Select(x => x.Cells.Length).Sum();
+                var count = (uint)src.View.Length;
+                var comps = components(counts);
+                var k = 0u;
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var layout = ref src[i];
+                    var buffer = comps.Cells(k, layout.Count);
+                    for(var j=0; j<layout.Count; j++, k++)
+                    {
+                        ref readonly var cell = ref layout[j];
+                        var address = comps[k].Location;
+                        seek(buffer,j) = component(cell.Field, cell.Kind, 0);
+                    }
+                }
+
+                return new LayoutVectors(default);
+            }
+
+            public static uint layout(InstPattern src, SegRef<LayoutCell> block, out InstLayout dst)
             {
                 ref readonly var fields = ref src.Layout;
                 var count = Demand.lteq(fields.Count, InstLayoutRecord.CellCount);
                 dst = new InstLayout((ushort)src.PatternId, src.InstClass, src.OpCode, count, block);
                 for(var j=z8; j<fields.Count; j++)
-                    dst[j] = layout(fields[j]);
+                    dst[j] = LayoutCell.from(fields[j]);
+
+                return fields.Count;
             }
 
             public static InstLayoutRecord record(in InstLayout src)
@@ -47,14 +79,9 @@ namespace Z0
                 dst.OpCode = src.OpCode;
                 dst.Count = Demand.lteq(src.Count, InstLayoutRecord.CellCount);
                 for(var j=z8; j<src.Count; j++)
-                {
                     assign(j, src[j], ref dst);
-                }
                 return dst;
             }
-
-            public static NativeCells<InstLayoutBlock> blocks(uint count)
-                => NativeCells.alloc<InstLayoutBlock>(count, out var id);
 
             static void assign(byte index, in LayoutCell src, ref InstLayoutRecord dst)
             {
@@ -94,41 +121,6 @@ namespace Z0
                         dst.Cell10 = src;
                     break;
                 }
-            }
-
-            static LayoutCell layout(CellValue src)
-            {
-                var dst = ByteBlock16.Empty;
-                switch(src.CellKind)
-                {
-                    case K.BitLiteral:
-                        dst[0] = src.AsBitLit();
-                        dst[15] = (byte)BL;
-                    break;
-                    case K.HexLiteral:
-                        dst[0] = src.AsHexLit();
-                        dst[15] = (byte)XL;
-                    break;
-                    case K.InstSeg:
-                    {
-                        var iseg = src.AsInstSeg();
-                        if(iseg.IsLiteral)
-                            @as<FieldSeg>(dst.First) = FieldSeg.literal(iseg.Field, iseg.ToLiteral());
-                        else
-                            @as<FieldSeg>(dst.First) = FieldSeg.symbolic(iseg.Field, InstSegTypes.pattern(iseg.Type));
-                        dst[15] = (byte)LayoutCellKind.FS;
-                    }
-                    break;
-                    case K.NontermCall:
-                        @as<Nonterminal>(dst.First) = src.AsNonterm();
-                        dst[15] = (byte)NT;
-                    break;
-                    default:
-                        Errors.Throw(AppMsg.UnhandledCase.Format(src.CellKind));
-                    break;
-
-                }
-                return new LayoutCell(dst);
             }
         }
     }
