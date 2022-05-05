@@ -29,8 +29,7 @@ namespace Z0
             var states = XedDisasm.states(src,true);
             Write($"Parsed {states.Count} instructions from {src.Source}");
             var path = XedPaths.DisasmTarget(project, src.Origin.Path.FileName.WithoutExtension.Format(), FS.ext("states.csv"));
-
-            TableEmit(states.Entries.Select(x => x.State).View, path);
+            //TableEmit(states.Entries.Select(x => x.State).View, path);
         }
 
     }
