@@ -4,21 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
     public interface ISequential
     {
-        uint Seq {get;}
+        uint Seq {get; set;}
     }
 
     [Free]
     public interface ISequential<T> : ISequential
-        where T : unmanaged
+        where T : ISequential<T>
     {
-        new T Seq {get;}
 
-        uint ISequential.Seq
-            => core.bw32(Seq);
     }
 }

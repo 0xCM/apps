@@ -10,7 +10,6 @@ namespace Z0.Asm
     /// <summary>
     /// Defines a 32-bit immediate value
     /// </summary>
-    [DataType(TypeSyntax.Imm32)]
     [DataWidth(Width,Width)]
     public readonly struct imm32 : IImm<I,uint>
     {

@@ -12,7 +12,6 @@ namespace Z0
     /// <summary>
     /// Defines a 64-bit immediate value
     /// </summary>
-    [DataType(TypeSyntax.Imm64)]
     [DataWidth(Width,Width)]
     public readonly struct imm64 : IImm<imm64,ulong>
     {

@@ -12,7 +12,6 @@ namespace Z0
     /// <summary>
     /// Describes an 8-bit immediate that is potentially refined
     /// </summary>
-    [DataType("imm8r", Kind, Width, Width)]
     [DataWidth(Width,Width)]
     public readonly struct imm8R : IImm<imm8R,byte>
     {

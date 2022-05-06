@@ -7,7 +7,6 @@ namespace Z0.Asm
     /// <summary>
     /// Defines a signed 32-bit displacement
     /// </summary>
-    [DataType(TypeSyntax.Disp32)]
     [DataWidth(32,32)]
     public readonly struct Disp32 : IDisplacement<Disp32,int>
     {

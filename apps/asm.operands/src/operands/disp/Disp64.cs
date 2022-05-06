@@ -7,7 +7,6 @@ namespace Z0.Asm
     /// <summary>
     /// Defines a signed 64-bit displacement
     /// </summary>
-    [DataType(TypeSyntax.Disp64)]
     [DataWidth(64,64)]
     public readonly struct Disp64 : IDisplacement<Disp64,long>
     {

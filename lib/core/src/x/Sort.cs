@@ -8,6 +8,7 @@ namespace Z0
 
     partial class XTend
     {
+
         public static IEnumerable<T> Sort<T>(this IEnumerable<T> src)
             where T : IComparable<T>
                 => src.OrderBy(x => x);

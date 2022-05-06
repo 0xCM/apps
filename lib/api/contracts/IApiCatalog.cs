@@ -29,8 +29,6 @@ namespace Z0
 
         IApiHost[] ApiHosts {get;}
 
-        ReadOnlySpan<ApiDataType> ApiDataTypes {get;}
-
         ReadOnlySpan<MethodInfo> Methods {get;}
 
         ReadOnlySpan<TableDef> TableDefs {get;}

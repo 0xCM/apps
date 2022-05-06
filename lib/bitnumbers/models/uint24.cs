@@ -19,7 +19,7 @@ namespace Z0
     /// <summary>
     /// Represents the value of an unsigned integer of bit-width 24
     /// </summary>
-    [DataType("u<w:24>", Width, 24), StructLayout(LayoutKind.Sequential,Pack=1)]
+    [DataWidth(PackedWidth,NativeWidth), StructLayout(LayoutKind.Sequential,Pack=1)]
     public struct uint24 : IBitNumber<U,W,K,T>
     {
         byte B0;
@@ -80,7 +80,7 @@ namespace Z0
             => Value;
 
         byte IBits.Width
-            => Width;
+            => PackedWidth;
 
         /// <summary>
         /// Queries the state of an index-identified bit
@@ -481,7 +481,9 @@ namespace Z0
 
         public const T Mask = (T)MaxValue;
 
-        public const byte Width = 24;
+        public const byte PackedWidth = 24;
+
+        public const byte NativeWidth = 24;
 
         public const byte Size = 3;
 

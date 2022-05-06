@@ -4,15 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static System.Runtime.CompilerServices.Unsafe;
     using static System.Runtime.InteropServices.MemoryMarshal;
-    using static Root;
 
     partial struct core
     {
+
         /// <summary>
         /// Presents a T-reference as a byte reference and effects mov rax,rdx for all T
         /// </summary>

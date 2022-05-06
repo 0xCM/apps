@@ -47,7 +47,7 @@ namespace Z0
             => ApiCatalogs.EmitTableDefs();
 
         void EmitApiDataTypes()
-            => TableEmit(ApiRuntimeCatalog.ApiDataTypes, ApiDataType.RenderWidths, ProjectDb.ApiTablePath<ApiDataType>());
+            => TableEmit(DataTypes.records(ApiRuntimeCatalog.Components).View, DataTypeRecord.RenderWidths, Ws.Api().TablePath<DataTypeRecord>());
 
         void EmitApiComments()
 

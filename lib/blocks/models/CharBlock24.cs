@@ -12,8 +12,7 @@ namespace Z0
     /// <summary>
     /// Defines a character block b with capacity(b) = 24x16u
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack=2, Size=(int)Size), DataType("block<n:24,t:c16>")]
-    [DataWidth(Size*8,Size*8)]
+    [StructLayout(LayoutKind.Sequential, Pack=2), DataWidth(Size*8,Size*8)]
     public struct CharBlock24  : ICharBlock<B>
     {
         /// <summary>

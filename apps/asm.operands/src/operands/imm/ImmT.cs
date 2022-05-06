@@ -4,11 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Numeric;
-    using static core;
     using Z0.Asm;
 
-    [DataType("imm<t:{0}>")]
+    using static Numeric;
+    using static core;
+
     public readonly struct Imm<T> : IImm<Imm<T>,T>
         where T : unmanaged
     {

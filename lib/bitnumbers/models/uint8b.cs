@@ -15,7 +15,7 @@ namespace Z0
     /// <summary>
     /// Represents the value of a type-level octet and thus is an integer in the range [0,255]
     /// </summary>
-    [DataType("u<w:8>", Width, 8)]
+    [DataWidth(Width,8)]
     public readonly struct uint8b : IBitNumber<U,W,K,T>
     {
         public const byte BitCount = 8;

@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct AsmInstructionRow : ISequential, IComparable<AsmInstructionRow>
+    public struct AsmInstructionRow : ISequential<AsmInstructionRow>, IComparable<AsmInstructionRow>
     {
         public const string TableId = "asm.instruction";
 
@@ -32,9 +32,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => (Seq,DocSeq,OriginId);
         }
-
-        uint ISequential.Seq
-            => Seq;
 
         public bool IsEmpty
         {
@@ -61,5 +58,11 @@ namespace Z0
             };
 
         public static AsmInstructionRow Empty => default;
+
+        uint ISequential.Seq
+        {
+            get => Seq;
+            set => Seq = value;
+        }
     }
 }

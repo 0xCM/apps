@@ -6,10 +6,14 @@ namespace Z0
 {
     using Asm;
 
-    [DataType("imm"), StructLayout(LayoutKind.Sequential, Pack=1)]
-    [DataWidth(72)]
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    [DataWidth(PackedWidth,NativeWidth)]
     public readonly struct Imm : IImm<Imm,ulong>
     {
+        public const byte PackedWidth = 72;
+
+        public const byte NativeWidth = 72;
+
         public static Imm inc(Imm src)
         {
             switch(src.ImmKind)

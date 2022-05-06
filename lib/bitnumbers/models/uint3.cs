@@ -15,7 +15,7 @@ namespace Z0
     /// <summary>
     /// Represents a value in the range [<see cef='MinLiteral'/>, <see cref='MaxValue'/>]
     /// </summary>
-    [DataType("u<w:3>", Width, 8)]
+    [DataWidth(Width,8)]
     public readonly struct uint3 : IBitNumber<U,W,K,T>
     {
         internal readonly T Value;

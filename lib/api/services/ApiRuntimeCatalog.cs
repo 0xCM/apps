@@ -42,11 +42,7 @@ namespace Z0
 
         Index<string> _ComponentNames;
 
-        Index<ApiDataType> _DataTypes;
-
         Index<TableDef> _TableDefs;
-
-        Index<SpanResAccessor> _SpanResAccessors;
 
         object locker;
 
@@ -59,9 +55,7 @@ namespace Z0
             _PartIdentities = partIds;
             _Operations = ops;
             _ComponentNames = components.Select(x => x.GetName().Name);
-            _DataTypes = ApiDataType.discover(components);
             _TableDefs = sys.empty<TableDef>();
-            _SpanResAccessors = sys.empty<SpanResAccessor>();
             locker = new();
         }
 
@@ -141,11 +135,6 @@ namespace Z0
             get => _Operations;
         }
 
-        public ReadOnlySpan<ApiDataType> ApiDataTypes
-        {
-            [MethodImpl(Inline)]
-            get => _DataTypes;
-        }
 
         public bool FindPart(PartId id, out IPart dst)
         {

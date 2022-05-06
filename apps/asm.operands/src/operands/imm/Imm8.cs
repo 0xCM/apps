@@ -12,7 +12,6 @@ namespace Z0.Asm
     /// <summary>
     /// Defines an 8-bit immediate value
     /// </summary>
-    [DataType(TypeSyntax.Imm8)]
     [DataWidth(Width,Width)]
     public readonly struct imm8 : IImm<I,byte>
     {

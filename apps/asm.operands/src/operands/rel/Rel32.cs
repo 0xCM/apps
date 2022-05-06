@@ -12,7 +12,7 @@ namespace Z0.Asm
     /// <summary>
     /// Defines a 32-bit immediate value
     /// </summary>
-    [DataType("rel<w:32>", Kind, Width, Width)]
+    [DataWidth(Width, Width)]
     public readonly struct Rel32 : IRelOp<uint>
     {
         public const AsmRelKind Kind = AsmRelKind.Rel32;

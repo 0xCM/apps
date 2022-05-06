@@ -9,8 +9,7 @@ namespace Z0
     using B = ByteBlock8;
     using api = Storage;
 
-    [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1), DataType("block<n:8,t:u8>")]
-    [DataWidth(Size*8,Size*8)]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataWidth(Size*8,Size*8)]
     public struct ByteBlock8 : IStorageBlock<B>
     {
         public const ushort Size = 8;

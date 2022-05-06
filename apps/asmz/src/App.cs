@@ -133,11 +133,12 @@ namespace Z0.Asm
             clrmd.ParseDump();
         }
 
-        void EmitAsmAsssetCatalog()
-        {
-            var catalogs = Wf.Assets();
-            catalogs.EmitIndex(AsmData.Assets, Db.Root);
-        }
+        // void EmitAsmAsssetCatalog()
+        // {
+
+        //     var catalogs = Wf.Assets();
+        //     catalogs.EmitIndex(AsmData.Assets, Db.Root);
+        // }
 
         void ShowMemory()
         {

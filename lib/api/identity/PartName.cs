@@ -4,20 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly struct PartName : ILexical<PartName>
+    public readonly struct PartName : ILexical<PartName>, IComparable<PartName>
     {
         [MethodImpl(Inline)]
         public static PartName from(Type src)
             => new PartName(src.Assembly.Id());
 
-        public PartId Part {get;}
+        public readonly PartId Part {get;}
 
-        public string Name {get;}
+        public readonly string Name {get;}
 
         [MethodImpl(Inline)]
         public PartName(PartId id)
@@ -45,6 +40,8 @@ namespace Z0
             get => Part != 0;
         }
 
+        public int CompareTo(PartName src)
+            => Name.CompareTo(src.Name);
 
         [MethodImpl(Inline)]
         public string Format()

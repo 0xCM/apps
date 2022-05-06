@@ -119,7 +119,7 @@ namespace Z0
         /// <typeparam name="W">The defining denum</typeparam>
         public static Index<byte> widths<W>()
             where W : unmanaged, Enum
-                => Symbols.index<W>().Kinds.Map(x => bw8(x)).ToArray();
+                => Symbols.index<W>().Kinds.Map(x => bw8(x));
 
         /// <summary>
         /// Computes a sequence of bitfield offsets given a sequence of field widths

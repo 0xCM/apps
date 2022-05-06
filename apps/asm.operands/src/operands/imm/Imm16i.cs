@@ -10,7 +10,6 @@ namespace Z0.Asm
     /// <summary>
     /// Defines a 16-bit immediate value
     /// </summary>
-    [DataType(TypeSyntax.Imm16)]
     [DataWidth(Width,Width)]
     public readonly struct imm16i : IImm<I,short>
     {

@@ -16,10 +16,10 @@ namespace Z0
         /// <typeparam name="S">The source type</typeparam>
         /// <typeparam name="T">The target type</typeparam>
         [MethodImpl(Inline)]
-        public static Span<T> Map<S,T>(this ReadOnlySpan<S> src, Func<S,T> f)
+        public static T[] Map<S,T>(this ReadOnlySpan<S> src, Func<S,T> f)
         {
             var count = (uint)src.Length;
-            var dst = span<T>(count);
+            var dst = alloc<T>(count);
             ref readonly var current = ref first(src);
             ref var target = ref first(dst);
             for(var i= 0u; i<count; i++)
@@ -28,11 +28,11 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public static Span<T> Map<S,I,T>(this ReadOnlySpan<S> src, Func<I,S,T> f, I rep = default)
+        public static T[] Map<S,I,T>(this ReadOnlySpan<S> src, Func<I,S,T> f, I rep = default)
             where I : unmanaged
         {
             var count = (uint)src.Length;
-            var dst = span<T>(count);
+            var dst = alloc<T>(count);
             ref readonly var source = ref first(src);
             ref var target = ref first(dst);
             for(var i= 0ul; i<count; i++)
@@ -69,11 +69,11 @@ namespace Z0
         /// <typeparam name="S">The source type</typeparam>
         /// <typeparam name="T">The target type</typeparam>
         [MethodImpl(Inline)]
-        public static Span<T> Map<S,T>(this Span<S> src, Func<S,T> f)
+        public static T[] Map<S,T>(this Span<S> src, Func<S,T> f)
             => src.ReadOnly().Map(f);
 
         [MethodImpl(Inline)]
-        public static Span<T> Select<S,T>(this Span<S> src, Func<S,T> f)
+        public static T[] Select<S,T>(this Span<S> src, Func<S,T> f)
             => src.ReadOnly().Map(f);
     }
 }

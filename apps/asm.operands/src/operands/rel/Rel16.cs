@@ -10,7 +10,7 @@ namespace Z0.Asm
     /// <summary>
     /// Defines a 32-bit immediate value
     /// </summary>
-    [DataType("rel<w:16>", Kind, Width, Width)]
+    [DataWidth(Width, Width)]
     public readonly struct Rel16 : IRelOp<ushort>
     {
         public const AsmRelKind Kind = AsmRelKind.Rel16;

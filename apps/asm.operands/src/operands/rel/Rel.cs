@@ -9,7 +9,6 @@ namespace Z0.Asm
     /// <summary>
     /// Defines a 32-bit immediate value
     /// </summary>
-    [DataType("rel<w:32>")]
     public readonly struct Rel : IRelOp<uint>
     {
         public uint Value {get;}

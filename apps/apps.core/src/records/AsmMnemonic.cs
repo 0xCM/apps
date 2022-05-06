@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    [DataType("asm.mnemonic",31*8,32*8)]
+    [DataWidth(31*8,32*8)]
     public readonly struct AsmMnemonic : IAsmSourcePart, IComparable<AsmMnemonic>
     {
         public static AsmMnemonic parse(string src, out int i)

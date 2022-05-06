@@ -4,17 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     partial struct FS
     {
-        [DataType("drive", ObjectKind.Drive)]
+        [DataWidth(16,16)]
         public readonly struct Drive : IFsEntry<Drive>
         {
-            public DriveLetter Name {get;}
+            public readonly DriveLetter Name;
 
             PathPart IFsEntry.Name
                 => new PathPart(Name.ToString());
