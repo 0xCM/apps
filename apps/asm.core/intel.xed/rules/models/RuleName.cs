@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using K = XedRules.RuleKind;
+
     partial class XedRules
     {
         public enum RuleName : ushort
@@ -15,36 +17,52 @@ namespace Z0
 
             A_GPR_R = 2,
 
+            [RuleKind(K.EASZ)]
             Ar10 = 3,
 
+            [RuleKind(K.EASZ)]
             Ar11 = 4,
 
+            [RuleKind(K.EASZ)]
             Ar12 = 5,
 
+            [RuleKind(K.EASZ)]
             Ar13 = 6,
 
+            [RuleKind(K.EASZ)]
             Ar14 = 7,
 
+            [RuleKind(K.EASZ)]
             Ar15 = 8,
 
+            [RuleKind(K.EASZ)]
             Ar8 = 9,
 
+            [RuleKind(K.EASZ)]
             Ar9 = 10,
 
+            [RuleKind(K.EASZ)]
             ArAX = 11,
 
+            [RuleKind(K.EASZ)]
             ArBP = 12,
 
+            [RuleKind(K.EASZ)]
             ArBX = 13,
 
+            [RuleKind(K.EASZ)]
             ArCX = 14,
 
+            [RuleKind(K.EASZ)]
             ArDI = 15,
 
+            [RuleKind(K.EASZ)]
             ArDX = 16,
 
+            [RuleKind(K.EASZ)]
             ArSI = 17,
 
+            [RuleKind(K.EASZ)]
             ArSP = 18,
 
             ASZ_NONTERM = 19,
@@ -81,44 +99,60 @@ namespace Z0
 
             CR_R = 35,
 
+            [RuleKind(K.MODE)]
             CR_WIDTH = 36,
 
             DF64 = 37,
 
             DISP_NT = 38,
 
+            [RuleKind(K.DISP_WIDTH)]
             DISP_WIDTH_0 = 39,
 
+            [RuleKind(K.DISP_WIDTH)]
             DISP_WIDTH_0_8_16 = 40,
 
+            [RuleKind(K.DISP_WIDTH)]
             DISP_WIDTH_0_8_32 = 41,
 
+            [RuleKind(K.DISP_WIDTH)]
             DISP_WIDTH_16 = 42,
 
+            [RuleKind(K.DISP_WIDTH)]
             DISP_WIDTH_32 = 43,
 
+            [RuleKind(K.DISP_WIDTH)]
             DISP_WIDTH_8 = 44,
 
+            [RuleKind(K.DISP_WIDTH)]
             DISP_WIDTH_8_32 = 45,
 
             DR_R = 46,
 
             ERROR = 47,
 
+            [RuleKind(K.REX)]
             ESIZE_1_BITS = 48,
 
+            [RuleKind(K.REX)]
             ESIZE_128_BITS = 49,
 
+            [RuleKind(K.REX)]
             ESIZE_16_BITS = 50,
 
+            [RuleKind(K.REX)]
             ESIZE_2_BITS = 51,
 
+            [RuleKind(K.REX)]
             ESIZE_32_BITS = 52,
 
+            [RuleKind(K.REX)]
             ESIZE_4_BITS = 53,
 
+            [RuleKind(K.REX)]
             ESIZE_64_BITS = 54,
 
+            [RuleKind(K.REX)]
             ESIZE_8_BITS = 55,
 
             EVEX_62_REXR_ENC = 56,

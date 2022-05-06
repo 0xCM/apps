@@ -5,18 +5,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules;
     using static core;
 
     partial class XedDb
     {
-        public void EmitRuleSchema()
-        {
-            var src = RuleCells;
-            exec(PllExec,
-                () => EmitRuleMetrics(src),
-                () => EmitTableStats(src),
-                () => EmitGrids(src)
-                );
-        }
+        public Index<LocatedField> CalcLocatedFields(RuleCells src)
+            => Data(nameof(CalcLocatedFields), () => XedRules.CalcLocatedFields(src));
     }
 }

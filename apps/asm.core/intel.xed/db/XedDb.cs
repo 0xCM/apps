@@ -15,14 +15,6 @@ namespace Z0
         public static DbSvc services(IWfRuntime wf)
             => service(DbSvc.create);
 
-        public void EmitArtifacts()
-        {
-            exec(PllExec,
-                EmitRuleSchema,
-                EmitTypeTables
-            );
-        }
-
         new XedPaths Paths => Service(Wf.XedPaths);
 
         public DbSvc DbServices => Service(() => services(Wf));

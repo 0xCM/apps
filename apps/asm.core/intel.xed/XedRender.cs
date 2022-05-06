@@ -168,7 +168,7 @@ namespace Z0
             => src.Indicator.ToString();
 
         public static string format(Coordinate src)
-            => string.Format("({0:D3}, {1:D2}, {2:D2})", src.Table, src.Row, src.Col);
+            => string.Format("({0,-3}, {1:D3}, {2:D2}, {3:D2})", XedRender.format(src.Kind), src.Table, src.Row, src.Col);
 
         public static string format(FlagEffectKind src)
             => FlagEffects.Format(src);

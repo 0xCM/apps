@@ -39,10 +39,10 @@ namespace Z0
             }
 
             public uint PackedWidth()
-                => Cols.Storage.Where(c => c.Field != 0).Select(x => x.Size.Packed).Sum();
+                => Cols.Storage.Where(c => c.Field != 0).Select(x => x.Size.PackedWidth).Sum();
 
             public uint AlignedWidth()
-                => Cols.Storage.Where(c => c.Field != 0).Select(x => x.Size.Aligned).Sum();
+                => Cols.Storage.Where(c => c.Field != 0).Select(x => x.Size.NativeWidth).Sum();
 
             public DataSize Size()
                 => new DataSize(PackedWidth(), AlignedWidth());

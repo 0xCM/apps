@@ -10,7 +10,7 @@ namespace Z0
     using D = System.Byte;
     using N = N3;
 
-    [DataWidth(Width, 8), ApiHost]
+    [DataWidth(PackedWidth, NativeWidth), ApiComplete]
     public readonly struct num3 : inum<T>
     {
         public readonly D Value;
@@ -23,7 +23,9 @@ namespace Z0
         num3(uint src)
             => Value = (byte)src;
 
-        public const byte Width = 3;
+        public const byte PackedWidth = 3;
+
+        public const byte NativeWidth = 8;
 
         public const D MaxValue = Pow2.T03m1;
 
@@ -57,7 +59,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static T set(T src, byte pos, bit state)
-            => math.lt(pos, Width) ? wrap(bit.set(src.Value, pos, state)) : src;
+            => math.lt(pos, PackedWidth) ? wrap(bit.set(src.Value, pos, state)) : src;
 
         [MethodImpl(Inline), Op]
         public static T negate(T src)
@@ -160,7 +162,7 @@ namespace Z0
             => Value == src.Value;
 
         byte inum.Width
-            => Width;
+            => PackedWidth;
 
         ulong inum.Value
             => Value;

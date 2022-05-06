@@ -6,30 +6,36 @@ namespace Z0
 {
     using static core;
 
-    using T = num4;
-    using D = System.Byte;
-    using N = N4;
+    using T = num16;
+    using D = System.UInt16;
+    using N = N16;
 
     [DataWidth(PackedWidth, NativeWidth), ApiComplete]
-    public readonly struct num4 : inum<T>
+    public readonly struct num16 : inum<T>
     {
         public readonly D Value;
 
         [MethodImpl(Inline)]
-        public num4(D src)
+        public num16(D src)
             => Value = crop(src);
 
         [MethodImpl(Inline)]
-        num4(ulong src)
+        num16(ulong src)
             => Value = (D)src;
 
-        public const byte PackedWidth = 4;
+        byte inum.Width
+            => PackedWidth;
 
-        public const byte NativeWidth = 8;
+        ulong inum.Value
+            => Value;
 
-        public const D MaxValue = Pow2.T04m1;
+        public const byte PackedWidth = 16;
 
-        public const D Mod = (D)MaxValue + 1;
+        public const byte NativeWidth = 16;
+
+        public const D MaxValue = Pow2.T16m1;
+
+        public const uint Mod = (D)MaxValue + 1;
 
         public static T Zero => default;
 
@@ -46,6 +52,10 @@ namespace Z0
             => (D)(MaxValue & src);
 
         [MethodImpl(Inline)]
+        public static T create(D src)
+            => new T(src);
+
+        [MethodImpl(Inline)]
         public static T create(ulong src)
             => new T((D)src);
 
@@ -60,6 +70,30 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static T set(T src, byte pos, bit state)
             => math.lt(pos, PackedWidth) ? wrap(bit.set(src.Value, pos, state)) : src;
+
+        [MethodImpl(Inline)]
+        public static bit eq(T a, T b)
+            => a.Value == b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit ne(T a, T b)
+            => a.Value != b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit gt(T a, T b)
+            => a.Value > b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit ge(T a, T b)
+            => a.Value >= b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit lt(T a, T b)
+            => a.Value < b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit le(T a, T b)
+            => a.Value <= b.Value;
 
         [MethodImpl(Inline), Op]
         public static T negate(T src)
@@ -99,20 +133,20 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static T reduce(T src)
-            => wrap(math.mod(src.Value, Mod));
+            => wrap((ushort)(math.mod(src.Value, Mod)));
 
         [MethodImpl(Inline), Op]
         public static T add(T a, T b)
         {
             var c = math.add(a.Value, b.Value);
-            return wrap(math.gteq(c, Mod) ? math.sub(c, Mod) : c);
+            return wrap((ushort)(math.gteq(c, Mod) ? math.sub(c, Mod) : c));
         }
 
         [MethodImpl(Inline), Op]
         public static T sub(T a, T b)
         {
             var c = math.sub((int)a.Value, (int)b.Value);
-            return wrap(c < 0 ? math.add((D)c, Mod) : (D)c);
+            return wrap((ushort)(c < 0 ? math.add((D)c, Mod) : (D)c));
         }
 
         [MethodImpl(Inline), Op]
@@ -127,14 +161,10 @@ namespace Z0
         public static T mod(T a, T b)
             => wrap(math.mod(a.Value, b.Value));
 
-        [MethodImpl(Inline)]
-        public static string bitstring(T src)
-            => BitRender.format(N, src.Value);
-
         [Parser]
         public static bool parse(string src, out T dst)
         {
-            var outcome = byte.TryParse(src, out D x);
+            var outcome = D.TryParse(src, out D x);
             dst = new T((D)(x & MaxValue));
             return outcome;
         }
@@ -142,7 +172,7 @@ namespace Z0
         [Parser]
         public static bool parse(ReadOnlySpan<char> src, out T dst)
         {
-            var result = byte.TryParse(src, out D x);
+            var result = D.TryParse(src, out D x);
             dst = new T((D)(x & MaxValue));
             return result;
         }
@@ -150,21 +180,16 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref Span<bit> bits(T src, out Span<bit> dst)
         {
-            var storage = 0u;
-            dst = recover<bit>(@bytes(storage));
-            Bitfields.unpack4x1(src,dst);
+            var storage = ByteBlock16.Empty;
+            dst = recover<bit>(storage.Bytes);
+            Bitfields.unpack16x1(src, dst);
+            dst = slice(dst, 0, PackedWidth);
             return ref dst;
         }
 
         [MethodImpl(Inline)]
         public bool Equals(T src)
-            => Value == src.Value;
-
-        byte inum.Width
-            => PackedWidth;
-
-        ulong inum.Value
-            => Value;
+            => eq(this, src);
 
         public bit IsZero
         {
@@ -202,12 +227,16 @@ namespace Z0
             => src is T t && Equals(t);
 
         [MethodImpl(Inline)]
-        public static implicit operator T(D src)
-            => new T(src);
+        public static implicit operator T(byte src)
+            => create(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator D(T src)
-            => src.Value;
+        public static explicit operator byte(T src)
+            => (byte)src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(sbyte src)
+            => create((ushort)src);
 
         [MethodImpl(Inline)]
         public static explicit operator sbyte(T src)
@@ -218,24 +247,28 @@ namespace Z0
             => src.Value;
 
         [MethodImpl(Inline)]
+        public static implicit operator T(ushort src)
+            => new T(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(short src)
+            => wrap((ushort)src);
+
+        [MethodImpl(Inline)]
         public static implicit operator uint(T src)
             => src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator T(uint src)
+            => create(src);
 
         [MethodImpl(Inline)]
         public static implicit operator ulong(T src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static explicit operator T(ushort src)
-            => create((byte)src);
-
-        [MethodImpl(Inline)]
-        public static explicit operator T(uint src)
-            => create((byte)src);
-
-        [MethodImpl(Inline)]
         public static explicit operator T(ulong src)
-            => create((byte)src);
+            => create((ushort)src);
 
         [MethodImpl(Inline)]
         public static T operator + (T x, T y)
@@ -295,26 +328,26 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static bit operator ==(T a, T b)
-            => a.Value == b.Value;
+            => eq(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator !=(T a, T b)
-            => a.Value != b.Value;
+            => ne(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator < (T a, T b)
-            => a.Value < b.Value;
+            => lt(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator <= (T a, T b)
-            => a.Value <= b.Value;
+            => le(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator > (T a, T b)
-            => a.Value > b.Value;
+            => gt(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator >= (T a, T b)
-            => a.Value >= b.Value;
+            => ge(a,b);
     }
 }

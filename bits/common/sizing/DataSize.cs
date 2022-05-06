@@ -4,25 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(StorageWidth)]
+    [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(64)]
     public readonly record struct DataSize : IComparable<DataSize>
     {
-        public const uint StorageWidth = 64;
-
         readonly ulong Data;
 
+        [MethodImpl(Inline)]
         public DataSize(uint packed, uint aligned)
-        {
-            Data = Bitfields.join(packed, aligned);
-        }
+            => Data = Bitfields.join(packed, aligned);
 
-        public uint Packed
+        public uint PackedWidth
         {
             [MethodImpl(Inline)]
             get => (uint)Data;
         }
 
-        public uint Aligned
+        public uint NativeWidth
         {
             [MethodImpl(Inline)]
             get => (uint)(Data >> 32);
@@ -40,6 +37,13 @@ namespace Z0
             get => Data != 0;
         }
 
+        [MethodImpl(Inline)]
+        public void Deconstruct(out byte packed, out byte native)
+        {
+            packed = (byte)PackedWidth;
+            native = (byte)NativeWidth;
+        }
+
         public string Format()
             => Format(4,4);
 
@@ -47,7 +51,7 @@ namespace Z0
             => Chars.LBrace + $"{index}:D{n}" + Chars.RBrace;
 
         public string Format(byte pN, byte aN)
-            => string.Format(string.Format("{0}:{1}", digits(0,pN), digits(1, aN)), Packed, Aligned);
+            => string.Format(string.Format("{0}:{1}", digits(0,pN), digits(1, aN)), PackedWidth, NativeWidth);
 
         public string Format(byte pN, byte aN, bool bracket)
             => bracket ? text.bracket(Format(pN, aN)) : Format(pN, aN);
@@ -58,8 +62,13 @@ namespace Z0
         public override string ToString()
             => Format();
 
+        [MethodImpl(Inline)]
         public int CompareTo(DataSize src)
-            => Packed.CompareTo(src.Packed);
+            => PackedWidth.CompareTo(src.PackedWidth);
+
+        [MethodImpl(Inline)]
+        public static implicit operator DataSize((uint packed, uint native) src)
+            => new DataSize(src.packed, src.native);
 
         public static DataSize Empty => default;
     }

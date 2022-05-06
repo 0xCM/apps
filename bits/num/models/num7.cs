@@ -10,7 +10,7 @@ namespace Z0
     using D = System.Byte;
     using N = N7;
 
-    [DataWidth(Width, 8), ApiHost]
+    [DataWidth(PackedWidth, NativeWidth), ApiComplete]
     public readonly struct num7 : inum<T>
     {
         public readonly D Value;
@@ -23,7 +23,9 @@ namespace Z0
         num7(ulong src)
             => Value = (D)src;
 
-        public const byte Width = 7;
+        public const byte PackedWidth = 7;
+
+        public const byte NativeWidth = 8;
 
         public const D MaxValue = Pow2.T07m1;
 
@@ -51,13 +53,13 @@ namespace Z0
         public static T wrap(D src)
             => new T((uint)src);
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline)]
         public static bit test(T src, byte pos)
             => bit.test(src.Value, pos);
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline)]
         public static T set(T src, byte pos, bit state)
-            => math.lt(pos, Width) ? wrap(bit.set(src.Value, pos, state)) : src;
+            => math.lt(pos, PackedWidth) ? wrap(bit.set(src.Value, pos, state)) : src;
 
         [MethodImpl(Inline)]
         public static bit eq(T a, T b)
@@ -83,7 +85,7 @@ namespace Z0
         public static bit le(T a, T b)
             => a.Value <= b.Value;
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline)]
         public static T negate(T src)
             => create(math.negate(src.Value));
 
@@ -91,57 +93,57 @@ namespace Z0
         public static T invert(T src)
            => wrap((D)(math.and(math.not(src.Value), MaxValue)));
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline)]
         public static T or(T a, T b)
             => wrap((D)(a.Value | b.Value));
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline)]
         public static T and(T a, T b)
             => wrap((D)(a.Value & b.Value));
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline)]
         public static T xor(T a, T b)
             => wrap((D)(a.Value ^ b.Value));
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline)]
         public static T srl(T src, byte count)
             => wrap((D)(src.Value >> count));
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline)]
         public static T sll(T src, byte count)
             => wrap((D)(src.Value << count));
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline)]
         public static T inc(T src)
             => src.Value != MaxValue ? wrap(math.inc(src.Value)) : Min;
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline)]
         public static T dec(T src)
             => src.Value != 0 ? wrap(math.dec(src.Value)) : Max;
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline)]
         public static T reduce(T src)
             => wrap(math.mod(src.Value, Mod));
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline)]
         public static T add(T a, T b)
         {
             var c = math.add(a.Value, b.Value);
             return wrap(math.gteq(c, Mod) ? math.sub(c, Mod) : c);
         }
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline)]
         public static T sub(T a, T b)
         {
             var c = math.sub((int)a.Value, (int)b.Value);
             return wrap(c < 0 ? math.add((D)c, Mod) : (D)c);
         }
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline)]
         public static T mul(T a, T b)
             => reduce(math.mul(a.Value, b.Value));
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline)]
         public static T div(T a, T b)
             => wrap(math.div(a.Value, b.Value));
 
@@ -169,18 +171,18 @@ namespace Z0
             return result;
         }
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline)]
         public static ref Span<bit> bits(T src, out Span<bit> dst)
         {
             var storage = 0ul;
             dst = recover<bit>(@bytes(storage));
             Bitfields.unpack8x1(src,dst);
-            dst = slice(dst, 0, Width);
+            dst = slice(dst, 0, PackedWidth);
             return ref dst;
         }
 
         byte inum.Width
-            => Width;
+            => PackedWidth;
 
         ulong inum.Value
             => Value;

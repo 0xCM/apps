@@ -35,6 +35,12 @@ namespace Z0
                 return dst;
             }
 
+            public Coordinate Location
+            {
+                [MethodImpl(Inline)]
+                get => Key.Location;
+            }
+
             public RuleCellType CellType
             {
                 [MethodImpl(Inline)]

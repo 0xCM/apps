@@ -7,16 +7,15 @@ namespace Z0
 {
     partial class XedRules
     {
-        [DataWidth(num2.PackedWidth)]
-        public enum RuleTableKind : byte
+        public class RuleKindAttribute : Attribute
         {
-            None = 0,
+            public RuleKindAttribute(RuleKind kind)
+            {
+                Kind = kind;
+            }
 
-            [Symbol("ENC")]
-            ENC = 1,
+            public RuleKind Kind {get;}
 
-            [Symbol("DEC")]
-            DEC = 2,
         }
     }
 }

@@ -36,8 +36,8 @@ namespace Z0
             {
                 TypeKey = key;
                 TypeName = name;
-                PrimalWidth = size.Aligned;
-                PackedWidth = (byte)size.Packed;
+                PrimalWidth = size.NativeWidth;
+                PackedWidth = (byte)size.PackedWidth;
                 RowCount = (ushort)rows.Length;
                 Fields = rows;
             }

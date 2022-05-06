@@ -29,7 +29,7 @@ namespace Z0
         /// Returns a mutable reference to an index-identified sequence element
         /// </summary>
         /// <param name="index">The zero-based sequence index</param>
-        public ref Paired<S,T> this[long index]
+        public ref Paired<S,T> this[int index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
@@ -39,7 +39,7 @@ namespace Z0
         /// Returns a mutable reference to an index-identified sequence element
         /// </summary>
         /// <param name="index">The zero-based sequence index</param>
-        public ref Paired<S,T> this[ulong index]
+        public ref Paired<S,T> this[uint index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
@@ -48,10 +48,10 @@ namespace Z0
         /// <summary>
         /// Specifies the number of elements in the sequence
         /// </summary>
-        public int Count
+        public uint Count
         {
             [MethodImpl(Inline)]
-            get => Data.Length;
+            get => Data.Count;
         }
 
         [MethodImpl(Inline)]

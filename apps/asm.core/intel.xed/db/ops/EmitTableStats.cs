@@ -37,13 +37,13 @@ namespace Z0
 
                     if(row.ColCount > mcc)
                         mcc = row.ColCount;
-                    if(width.Packed > mpw)
-                        mpw = width.Packed;
-                    if(width.Aligned> maw)
-                        maw = width.Aligned;
+                    if(width.PackedWidth > mpw)
+                        mpw = width.PackedWidth;
+                    if(width.NativeWidth> maw)
+                        maw = width.NativeWidth;
 
-                    pw += width.Packed;
-                    aw += width.Aligned;
+                    pw += width.PackedWidth;
+                    aw += width.NativeWidth;
                     cc += row.ColCount;
                 }
 

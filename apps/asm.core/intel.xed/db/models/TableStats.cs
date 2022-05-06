@@ -44,7 +44,7 @@ namespace Z0
                 TableSize = tsz;
                 MaxRowSize = mrsz;
                 MaxCols = maxcc;
-                UniformSize = new DataSize(mrsz.Packed*rows, mrsz.Aligned*rows);
+                UniformSize = new DataSize(mrsz.PackedWidth*rows, mrsz.NativeWidth*rows);
                 Homogenous = TableSize == UniformSize;
             }
 

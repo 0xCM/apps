@@ -30,7 +30,7 @@ namespace Z0
             public Coordinate Location
             {
                 [MethodImpl(Inline)]
-                get => new Coordinate(Key.Table, Key.Row, Key.Col);
+                get => new Coordinate(Key.Rule.TableKind, Key.Table, Key.Row, Key.Col);
             }
 
             public FieldKind Field

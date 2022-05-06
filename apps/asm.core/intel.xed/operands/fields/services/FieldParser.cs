@@ -53,11 +53,11 @@ namespace Z0
                 dst = Field.Empty;
                 var kind = src.Field;
                 var size = XedFields.size(kind, src.CellKind);
-                if(size.Packed == 1)
+                if(size.PackedWidth == 1)
                     dst = Field.init(kind, (bit)src.Data);
-                else if(size.Aligned == 1)
+                else if(size.NativeWidth == 1)
                     dst = Field.init(kind, (byte)src.Data);
-                else if(size.Aligned == 2)
+                else if(size.NativeWidth == 2)
                     dst = Field.init(kind, (ushort)src.Data);
                 else
                     Errors.Throw($"Unsupported size {size}");

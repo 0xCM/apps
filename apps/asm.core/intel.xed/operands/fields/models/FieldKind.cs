@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        [SymSource("xed"), DataWidth(8)]
+        [SymSource("xed"), DataWidth(num7.PackedWidth)]
         public enum FieldKind : byte
         {
             INVALID,

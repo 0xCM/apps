@@ -9,6 +9,10 @@ namespace Z0
     using static Markdown;
     using static core;
 
+    partial class XedDb
+    {
+    }
+
     partial class XedCmdProvider
     {
         [CmdOp("xed/emit/grids")]
@@ -21,6 +25,51 @@ namespace Z0
         [CmdOp("xed/check/rules")]
         Outcome CheckRules(CmdArgs args)
         {
+            var rules = CalcRuleCells();
+            var dst = dict<Coordinate,FieldKind>();
+            var tables = rules.Tables;
+            for(var i=0; i<tables.Count; i++)
+            {
+                ref readonly var table = ref rules[i];
+                var rows = table.Rows;
+                for(var j=0; j<rows.Count; j++)
+                {
+                    ref readonly var row = ref table[j];
+                    var cells = row.Cells;
+                    for(var k=0; k<cells.Count; k++)
+                    {
+                        ref readonly var cell = ref cells[k];
+                        dst.Add(cell.Location, cell.Field);
+                    }
+                }
+            }
+
+            var pairs = dst.Pairings();
+            var count = pairs.Count;
+            var located = alloc<LocatedField>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var pair = ref pairs[i];
+                ref readonly var c = ref pair.Left;
+                ref readonly var f = ref pair.Right;
+                seek(located, i) = pair;
+            }
+
+            var path = XedPaths.DbTarget("rules.fields.points", FileKind.Csv);
+
+            const string RenderPattern = "{0,-6} | {1,-18} | {2,-4} | {3,-26}";
+            var header = string.Format(RenderPattern, "Seq", "Point",  "Code", "Field");
+            var emitter = text.emitter();
+            emitter.AppendLine(header);
+            for(var i=0;i<located.Length; i++)
+            {
+                ref readonly var point = ref skip(located,i);
+                emitter.AppendLineFormat("{0,-6} | {1}", i, point.Format());
+            }
+
+            FileEmit(emitter.Emit(), located.Length, path, TextEncodingKind.Asci);
+
+
             return true;
         }
 

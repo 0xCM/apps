@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Collections.Concurrent;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     public class Lookup<K,V>
     {

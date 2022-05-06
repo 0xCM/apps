@@ -6,30 +6,30 @@ namespace Z0
 {
     using static core;
 
-    using T = num4;
+    using T = num8;
     using D = System.Byte;
-    using N = N4;
+    using N = N8;
 
-    [DataWidth(PackedWidth, NativeWidth), ApiComplete]
-    public readonly struct num4 : inum<T>
+    [DataWidth(PackedWidth, NativeWidth), ApiHost]
+    public readonly struct num8 : inum<T>
     {
         public readonly D Value;
 
         [MethodImpl(Inline)]
-        public num4(D src)
+        public num8(D src)
             => Value = crop(src);
 
         [MethodImpl(Inline)]
-        num4(ulong src)
+        num8(ulong src)
             => Value = (D)src;
 
-        public const byte PackedWidth = 4;
+        public const byte PackedWidth = 8;
 
         public const byte NativeWidth = 8;
 
-        public const D MaxValue = Pow2.T04m1;
+        public const D MaxValue = Pow2.T08m1;
 
-        public const D Mod = (D)MaxValue + 1;
+        public const ushort Mod = (D)MaxValue + 1;
 
         public static T Zero => default;
 
@@ -60,6 +60,30 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static T set(T src, byte pos, bit state)
             => math.lt(pos, PackedWidth) ? wrap(bit.set(src.Value, pos, state)) : src;
+
+        [MethodImpl(Inline)]
+        public static bit eq(T a, T b)
+            => a.Value == b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit ne(T a, T b)
+            => a.Value != b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit gt(T a, T b)
+            => a.Value > b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit ge(T a, T b)
+            => a.Value >= b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit lt(T a, T b)
+            => a.Value < b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit le(T a, T b)
+            => a.Value <= b.Value;
 
         [MethodImpl(Inline), Op]
         public static T negate(T src)
@@ -99,20 +123,20 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static T reduce(T src)
-            => wrap(math.mod(src.Value, Mod));
+            => wrap((byte)math.mod(src.Value, Mod));
 
         [MethodImpl(Inline), Op]
         public static T add(T a, T b)
         {
             var c = math.add(a.Value, b.Value);
-            return wrap(math.gteq(c, Mod) ? math.sub(c, Mod) : c);
+            return wrap((byte)(math.gteq(c, Mod) ? math.sub(c, Mod) : c));
         }
 
         [MethodImpl(Inline), Op]
         public static T sub(T a, T b)
         {
             var c = math.sub((int)a.Value, (int)b.Value);
-            return wrap(c < 0 ? math.add((D)c, Mod) : (D)c);
+            return wrap((byte)(c < 0 ? math.add((D)c, Mod) : (D)c));
         }
 
         [MethodImpl(Inline), Op]
@@ -150,21 +174,22 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref Span<bit> bits(T src, out Span<bit> dst)
         {
-            var storage = 0u;
+            var storage = 0ul;
             dst = recover<bit>(@bytes(storage));
-            Bitfields.unpack4x1(src,dst);
+            Bitfields.unpack8x1(src,dst);
+            dst = slice(dst, 0, PackedWidth);
             return ref dst;
         }
-
-        [MethodImpl(Inline)]
-        public bool Equals(T src)
-            => Value == src.Value;
 
         byte inum.Width
             => PackedWidth;
 
         ulong inum.Value
             => Value;
+
+        [MethodImpl(Inline)]
+        public bool Equals(T src)
+            => Value == src.Value;
 
         public bit IsZero
         {
@@ -295,26 +320,26 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static bit operator ==(T a, T b)
-            => a.Value == b.Value;
+            => eq(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator !=(T a, T b)
-            => a.Value != b.Value;
+            => ne(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator < (T a, T b)
-            => a.Value < b.Value;
+            => lt(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator <= (T a, T b)
-            => a.Value <= b.Value;
+            => le(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator > (T a, T b)
-            => a.Value > b.Value;
+            => gt(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator >= (T a, T b)
-            => a.Value >= b.Value;
+            => ge(a,b);
     }
 }

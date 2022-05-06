@@ -11,9 +11,11 @@ namespace Z0
         {
             public readonly ushort Index;
 
+            public readonly RuleTableKind Kind;
+
             public readonly ushort Table;
 
-            public readonly ushort Row;
+            public readonly byte Row;
 
             public readonly byte Col;
 
@@ -27,9 +29,9 @@ namespace Z0
 
             public readonly KeywordKind Keyword;
 
-            readonly byte Pad1;
-
             readonly byte Pad2;
+
+            readonly byte Pad1;
 
             [MethodImpl(Inline)]
             public CellKey(ushort index, ushort table, ushort row, byte col, LogicClass logic, RuleCellType type, RuleTableKind kind, Nonterminal rule, FieldKind field, KeywordKind keyword)
@@ -37,14 +39,15 @@ namespace Z0
                 Index = index;
                 Table = table;
                 Rule = new (kind,rule.Name);
-                Row = row;
+                Row = (byte)row;
                 Col = col;
                 Logic = logic;
                 CellType = type;
                 Field = field;
                 Keyword = keyword;
-                Pad1 = 0;
+                Kind = kind;
                 Pad2 = 0;
+                Pad1 = 0;
             }
 
             public bool IsEmpty
