@@ -12,7 +12,7 @@ namespace Z0.Asm
 
             public string varname;
 
-            public DataType type;
+            public @string type;
 
             public string etype;
 

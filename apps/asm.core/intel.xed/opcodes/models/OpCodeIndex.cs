@@ -9,7 +9,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        [SymSource(xed)]
+        [SymSource(xed), DataWidth(num4.PackedWidth)]
         public enum OpCodeIndex : sbyte
         {
             [Symbol(S.B0)]

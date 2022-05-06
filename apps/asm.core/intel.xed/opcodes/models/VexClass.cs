@@ -9,7 +9,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        [SymSource(xed), DataWidth(3)]
+        [SymSource(xed), DataWidth(num3.PackedWidth)]
         public enum VexClass : byte
         {
             [Symbol("", "VEXVALID=0")]

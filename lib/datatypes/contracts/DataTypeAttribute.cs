@@ -13,40 +13,40 @@ namespace Z0
         public DataTypeAttribute()
             : base(0)
         {
-            NameSyntax = EmptyString;
+            Name = EmptyString;
             Kind = 0ul;
         }
 
         public DataTypeAttribute(string name)
             : base(0)
         {
-            NameSyntax = name;
+            Name = name;
             Kind = 0ul;
         }
 
         public DataTypeAttribute(string name, bool @virtual)
             : base(0)
         {
-            NameSyntax = name;
+            Name = name;
             Kind = 0ul;
             Virtual = @virtual;
         }
 
-        public DataTypeAttribute(string name, uint content, uint storage = 0)
-            : base(content,storage)
+        public DataTypeAttribute(string name, uint packed, uint native = 0)
+            : base(packed, native)
         {
-            NameSyntax = name;
+            Name = name;
             Kind = 0ul;
         }
 
-        public DataTypeAttribute(string name, object kind, uint content = 0, uint storage = 0)
-            : base(content,storage)
+        public DataTypeAttribute(string name, object kind, uint packed = 0, uint native = 0)
+            : base(packed, native)
         {
-            NameSyntax = name;
+            Name = name;
             Kind = kind;
         }
 
-        public string NameSyntax {get;}
+        public string Name {get;}
 
         public object Kind {get;}
 

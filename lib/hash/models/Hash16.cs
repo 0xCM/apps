@@ -17,8 +17,7 @@ namespace Z0
             return result;
         }
 
-
-        public ushort Value {get;}
+        public readonly ushort Value;
 
         [MethodImpl(Inline)]
         public Hash16(ushort value)
@@ -30,6 +29,9 @@ namespace Z0
            get => Value;
         }
 
+        ushort IHashCode<ushort>.Value
+            => Value;
+
         [MethodImpl(Inline)]
         public string Format()
             => Value.FormatHex(zpad:true, specifier:true, uppercase:true);
@@ -40,5 +42,17 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Hash16(ushort src)
             => new Hash16(src);
+
+        [MethodImpl(Inline)]
+        public static Hash32 operator | (Hash16 a, Hash16 b)
+            => (uint)a.Value | ((uint)b.Value << 16);
+
+        [MethodImpl(Inline)]
+        public static Hash16 operator ^ (Hash16 a, Hash16 b)
+            => (ushort)((uint)a.Value ^ (uint)b.Value);
+
+        [MethodImpl(Inline)]
+        public static Hash16 operator & (Hash16 a, Hash16 b)
+            => (ushort)((uint)a.Value & (uint)b.Value);
     }
 }

@@ -4,26 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct HashCode<S> : ITextual
     {
-        public S Source {get;}
+        public readonly S Source;
 
-        public uint Hash {get;}
+        public readonly Hash32 Hash;
 
         [MethodImpl(Inline)]
-        public HashCode(S src, uint hash)
+        public HashCode(S src, Hash32 hash)
         {
             Source = src;
             Hash = hash;
         }
 
         public string Format()
-            => string.Format("{0}: {1}", Hash.FormatHex(specifier:false), Source);
+            => string.Format("{0}: {1}", Hash, Source);
 
         public override string ToString()
             => Format();

@@ -9,7 +9,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        [SymSource(xed)]
+        [SymSource(xed), DataWidth(num5.PackedWidth)]
         public enum BCast64Kind : byte
         {
             [Symbol("{1to8}", "BCAST=5;VL=512")]

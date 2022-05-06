@@ -59,7 +59,7 @@ namespace Z0
             _PartIdentities = partIds;
             _Operations = ops;
             _ComponentNames = components.Select(x => x.GetName().Name);
-            _DataTypes = ApiQuery.datatypes(components);
+            _DataTypes = ApiDataType.discover(components);
             _TableDefs = sys.empty<TableDef>();
             _SpanResAccessors = sys.empty<SpanResAccessor>();
             locker = new();

@@ -5,11 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using N = XedNames;
-
     partial struct XedModels
     {
-        [SymSource("xed")]
+        [SymSource("xed"), DataWidth(num5.PackedWidth)]
         public enum BCast16Kind : byte
         {
             [Symbol("{1to8}", "BCAST=14;VL=128")]

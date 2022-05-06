@@ -8,6 +8,9 @@ namespace Z0
     using D = System.UInt16;
     using N = N10;
 
+    /// <summary>
+    /// Defines a 10-bit number
+    /// </summary>
     [DataWidth(PackedWidth, NativeWidth), ApiComplete]
     public readonly struct num10 : inum<T>
     {
@@ -169,7 +172,7 @@ namespace Z0
             return result;
         }
 
-        byte inum.Width
+        byte inum.PackedWidth
             => PackedWidth;
 
         ulong inum.Value

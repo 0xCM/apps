@@ -4,16 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
+    using static core;
 
     [DataType("hash<t:{0},w:32>")]
     public readonly struct Hash32<T> : IHashCode<T,uint>
         where T : unmanaged
     {
-        public T Value {get;}
+        public readonly T Value;
 
         [MethodImpl(Inline)]
         public Hash32(T value)
@@ -22,11 +19,14 @@ namespace Z0
         public uint Primitive
         {
             [MethodImpl(Inline)]
-            get => core.u32(Value);
+            get => u32(Value);
         }
 
+        T IHashCode<T>.Value
+            => Value;
+
         public string Format()
-            => Primitive.ToString("X");
+            => uint32(Value).ToString("X");
 
         public override string ToString()
             => Format();

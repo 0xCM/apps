@@ -181,7 +181,7 @@ namespace Z0
             return ref dst;
         }
 
-        byte inum.Width
+        byte inum.PackedWidth
             => PackedWidth;
 
         ulong inum.Value

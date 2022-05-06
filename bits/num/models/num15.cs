@@ -21,7 +21,7 @@ namespace Z0
         num15(ulong src)
             => Value = (D)src;
 
-        byte inum.Width
+        byte inum.PackedWidth
             => PackedWidth;
 
         ulong inum.Value

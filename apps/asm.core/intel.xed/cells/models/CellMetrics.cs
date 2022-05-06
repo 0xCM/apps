@@ -27,12 +27,6 @@ namespace Z0
                 get => Key.Logic;
             }
 
-            public Coordinate Location
-            {
-                [MethodImpl(Inline)]
-                get => new Coordinate(Key.Rule.TableKind, Key.Table, Key.Row, Key.Col);
-            }
-
             public FieldKind Field
             {
                 [MethodImpl(Inline)]

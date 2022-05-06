@@ -4,11 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    partial class ApiQuery
+    public interface IDataType
     {
-        public static Index<ApiDataType> datatypes(Assembly[] src)
-            => ApiDataType.discover(src);
+        asci64 Name {get;}
+
+        DataSize Size {get;}
+
+        Hash32 Hash
+            => GetHashCode();
+    }
+
+    public interface IDataType<T> : IDataType, IEquatable<T>
+        where T : IDataType<T>
+    {
+
     }
 }

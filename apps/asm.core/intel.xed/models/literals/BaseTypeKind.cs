@@ -7,8 +7,8 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed)]
-        public enum BaseTypeKind
+        [SymSource(xed), DataWidth(num5.PackedWidth)]
+        public enum BaseTypeKind : byte
         {
             INVALID,
 

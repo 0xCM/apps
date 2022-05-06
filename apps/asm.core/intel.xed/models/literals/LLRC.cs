@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed), DataWidth(2)]
+        [SymSource(xed), DataWidth(num2.PackedWidth)]
         public enum LLRC : byte
         {
             [Symbol("0", "LLRC=0")]

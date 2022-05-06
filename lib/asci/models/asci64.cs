@@ -170,12 +170,18 @@ namespace Z0
         public override string ToString()
             => Format();
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => Storage.GetHashCode();
+        }
+
         [MethodImpl(Inline)]
         public bool Equals(A src)
             => Storage.Equals(src.Storage);
 
          public override int GetHashCode()
-            => Storage.GetHashCode();
+            => Hash;
 
         public override bool Equals(object src)
             => src is A j && Equals(j);

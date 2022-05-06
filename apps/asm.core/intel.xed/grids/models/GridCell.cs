@@ -56,7 +56,7 @@ namespace Z0
                 get => Key.Table;
             }
 
-            public readonly ushort Row
+            public readonly byte Row
             {
                 [MethodImpl(Inline)]
                 get => Key.Row;

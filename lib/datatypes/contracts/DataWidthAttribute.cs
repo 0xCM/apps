@@ -9,14 +9,20 @@ namespace Z0
     [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Enum | AttributeTargets.Class)]
     public class DataWidthAttribute : Attribute
     {
-        public DataWidthAttribute(uint content, uint storage = 0)
+        public DataWidthAttribute(uint packed, uint native = 0)
         {
-            ContentWidth = content;
-            StorageWidth = storage;
+            PackedWidth = packed;
+            NativeWidth = native;
         }
 
-        public BitWidth ContentWidth {get;}
+        public uint PackedWidth {get;}
 
-        public BitWidth StorageWidth {get;}
+        public uint NativeWidth {get;}
+
+        public DataSize DataSize
+        {
+            [MethodImpl(Inline)]
+            get => (PackedWidth,NativeWidth);
+        }
     }
 }

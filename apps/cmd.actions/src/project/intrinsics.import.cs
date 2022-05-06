@@ -14,7 +14,7 @@ namespace Z0
         Outcome ImportIntrinsics(CmdArgs args)
         {
             var intrinsics = IntelIntrinsics.Emit();
-            var types = intrinsics.SelectMany(x => x.parameters).Select(x => x.type.Name.Remove("*").Remove("const").Trim()).Distinct().Sort();
+            var types = intrinsics.SelectMany(x => x.parameters).Select(x => x.type.Format().Remove("*").Remove("const").Trim()).Distinct().Sort();
             iter(types, t => Write(t));
 
             return true;

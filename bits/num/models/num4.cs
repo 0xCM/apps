@@ -160,7 +160,7 @@ namespace Z0
         public bool Equals(T src)
             => Value == src.Value;
 
-        byte inum.Width
+        byte inum.PackedWidth
             => PackedWidth;
 
         ulong inum.Value

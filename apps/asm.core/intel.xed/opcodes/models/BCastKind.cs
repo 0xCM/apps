@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [DataWidth(5)]
+        [DataWidth(num5.PackedWidth)]
         public enum BCastKind : byte
         {
             None = 0,

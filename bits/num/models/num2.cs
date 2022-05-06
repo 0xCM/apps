@@ -204,7 +204,7 @@ namespace Z0
             get => Value == MaxValue;
         }
 
-        byte inum.Width
+        byte inum.PackedWidth
             => PackedWidth;
 
         ulong inum.Value

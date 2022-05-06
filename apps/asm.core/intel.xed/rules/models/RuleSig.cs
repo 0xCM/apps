@@ -7,10 +7,14 @@ namespace Z0
 {
     partial class XedRules
     {
-        [DataWidth(16,16)]
+        [DataWidth(PackedWidth,NativeWidth)]
         public readonly record struct RuleSig : IComparable<RuleSig>
         {
-            public static DataSize DataSize => new (16,16);
+            public const byte PackedWidth = num2.PackedWidth + num9.PackedWidth;
+
+            public const byte NativeWidth = num11.NativeWidth;
+
+            public static DataSize DataSize => (PackedWidth,NativeWidth);
 
             const ushort KindMask = 0xF000;
 

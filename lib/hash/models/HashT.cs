@@ -4,26 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct Hash<T>
         where T : unmanaged, IHashCode<T,T>
     {
-        T HashCode {get;}
+        public readonly T Value;
 
         [MethodImpl(Inline)]
         public Hash(T src)
         {
-            HashCode = src;
-        }
-
-        public T Value
-        {
-            [MethodImpl(Inline)]
-            get => HashCode.Value;
+            Value = src;
         }
 
         [MethodImpl(Inline)]

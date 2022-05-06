@@ -14,7 +14,7 @@ namespace Z0
     public readonly struct Hash64<T> : IHashCode<T,ulong>
         where T : unmanaged
     {
-        public T Value {get;}
+        public readonly T Value;
 
         [MethodImpl(Inline)]
         public Hash64(T value)
@@ -26,8 +26,11 @@ namespace Z0
             get => u64(Value);
         }
 
+        T IHashCode<T>.Value
+            => Value;
+
         public string Format()
-            => Primitive.ToString("X");
+            => uint64(Value).ToString("X");
 
         public override string ToString()
             => Format();

@@ -4,17 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     [DataType("hash<t:{0},w:8>")]
     public readonly struct Hash8<T> : IHashCode<T,byte>
         where T : unmanaged
     {
-        public T Value {get;}
+        public readonly T Value;
 
         [MethodImpl(Inline)]
         public Hash8(T value)
@@ -26,8 +22,11 @@ namespace Z0
             get => u8(Value);
         }
 
+        T IHashCode<T>.Value
+            => Value;
+
         public string Format()
-            => Primitive.ToString("X");
+            => u8(Value).ToString("X");
 
         public override string ToString()
             => Format();

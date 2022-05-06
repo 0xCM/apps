@@ -165,7 +165,16 @@ namespace Z0
             => src.ToString();
 
         public static string format(LogicClass src)
-            => src.Indicator.ToString();
+        {
+            var dst = EmptyString;
+            if(src.Kind == LogicKind.Antecedant)
+                dst = "A";
+            else if(src.Kind == LogicKind.Consequent)
+                dst = "C";
+            else if(src.Kind == LogicKind.Operator)
+                dst = "B";
+            return dst;
+        }
 
         public static string format(Coordinate src)
             => string.Format("({0,-3}, {1:D3}, {2:D2}, {3:D2})", XedRender.format(src.Kind), src.Table, src.Row, src.Col);

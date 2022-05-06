@@ -17,7 +17,7 @@ namespace Z0
             return result;
         }
 
-        public ulong Value {get;}
+        public readonly ulong Value;
 
         [MethodImpl(Inline)]
         public Hash64(ulong value)
@@ -29,6 +29,8 @@ namespace Z0
             get => Value;
         }
 
+        ulong IHashCode<ulong>.Value
+            => Value;
         public string Format()
             => Value.FormatHex(zpad:true, specifier:true, uppercase:true);
 

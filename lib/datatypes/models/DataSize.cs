@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(64)]
+    [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(64,64)]
     public readonly record struct DataSize : IComparable<DataSize>
     {
         readonly ulong Data;
 
         [MethodImpl(Inline)]
-        public DataSize(uint packed, uint aligned)
-            => Data = Bitfields.join(packed, aligned);
+        public DataSize(uint packed, uint native)
+            => Data = ((ulong)packed | (ulong)native << 32);
 
         public uint PackedWidth
         {
@@ -44,6 +44,14 @@ namespace Z0
             native = (byte)NativeWidth;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => (uint)Data | (uint)(Data >> 48);
+        }
+
+        public override int GetHashCode()
+            => Hash;
         public string Format()
             => Format(4,4);
 

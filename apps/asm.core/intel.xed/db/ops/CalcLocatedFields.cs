@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedDb
     {
-        public Index<LocatedField> CalcLocatedFields(RuleCells src)
+        Index<LocatedField> CalcLocatedFields(RuleCells src)
             => Data(nameof(CalcLocatedFields), () => XedRules.CalcLocatedFields(src));
     }
 }

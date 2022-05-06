@@ -7,9 +7,15 @@ namespace Z0
 {
     partial class XedRules
     {
-        [DataWidth(8)]
-        public readonly struct LogicClass : IComparable<LogicClass>
+        [DataWidth(PackedWidth,NativeWidth)]
+        public readonly record struct LogicClass : IComparable<LogicClass>
         {
+            public const byte PackedWidth = num2.PackedWidth;
+
+            public const byte NativeWidth = num2.NativeWidth;
+
+            public static DataSize DataSize => (PackedWidth, NativeWidth);
+
             public readonly LogicKind Kind;
 
             [MethodImpl(Inline)]
@@ -19,28 +25,11 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public LogicClass(char src)
-            {
-                Kind = (LogicKind)src;
-            }
+            public bool Equals(LogicClass src)
+                => Kind == src.Kind;
 
-            public bool IsAntecedant
-            {
-                [MethodImpl(Inline)]
-                get => Kind == LogicKind.Antecedant;
-            }
-
-            public bool IsConsequent
-            {
-                [MethodImpl(Inline)]
-                get => Kind == LogicKind.Consequent;
-            }
-
-            public char Indicator
-            {
-                [MethodImpl(Inline)]
-                get => (char)Kind;
-            }
+            public override int GetHashCode()
+                => (byte)this;
 
             public string Format()
                 => XedRender.format(this);
@@ -65,12 +54,8 @@ namespace Z0
                 => (byte)src.Kind;
 
             [MethodImpl(Inline)]
-            public static implicit operator LogicClass(char src)
-                => new LogicClass(src);
-
-            [MethodImpl(Inline)]
-            public static implicit operator char(LogicClass src)
-                => src.Indicator;
+            public static explicit operator LogicClass(byte src)
+                => new LogicClass((LogicKind)src);
         }
     }
 }

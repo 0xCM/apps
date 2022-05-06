@@ -11,12 +11,12 @@ namespace Z0
         {
             public readonly ushort Id;
 
-            public readonly DataType Type;
+            public readonly DbDataType Type;
 
             public readonly asci32 Name;
 
             [MethodImpl(Inline)]
-            public ColSpec(ushort id, DataType type, asci32 name)
+            public ColSpec(ushort id, DbDataType type, asci32 name)
             {
                 Id = id;
                 Type = type;

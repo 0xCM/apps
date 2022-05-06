@@ -8,6 +8,9 @@ namespace Z0
     using D = System.UInt16;
     using N = N13;
 
+    /// <summary>
+    /// Defines a 13-bit number
+    /// </summary>
     [DataWidth(PackedWidth, NativeWidth), ApiComplete]
     public readonly struct num13 : inum<T>
     {
@@ -21,7 +24,7 @@ namespace Z0
         num13(ulong src)
             => Value = (D)src;
 
-        byte inum.Width
+        byte inum.PackedWidth
             => PackedWidth;
 
         ulong inum.Value
@@ -31,6 +34,9 @@ namespace Z0
 
         public const byte NativeWidth = 16;
 
+        /// <summary>
+        /// Specifies the maximum value of a <see cref='N'/>-bit number, <see cref='Pow2.T13m1'/>
+        /// </summary>
         public const D MaxValue = Pow2.T13m1;
 
         public const D Mod = (D)MaxValue + 1;

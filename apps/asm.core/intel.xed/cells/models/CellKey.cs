@@ -80,8 +80,11 @@ namespace Z0
                 return result;
             }
 
-            public ref readonly Coordinate Location
-                =>  ref core.@as<Coordinate>(core.seek(core.bytes(this),2));
+            public Coordinate Location
+            {
+                [MethodImpl(Inline)]
+                get => new Coordinate(Rule.TableKind, Table, Row, Col);
+            }
 
 
             public override bool Equals(object src)

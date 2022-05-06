@@ -79,15 +79,6 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public void Deconstruct(out RuleTableKind kind, out ushort table, out byte row, out ushort col)
-            {
-                kind = Kind;
-                table = Table;
-                row = Row;
-                col = Col;
-            }
-
-            [MethodImpl(Inline)]
             public bool Equals(Coordinate src)
                 => pack(this) == pack(src);
 

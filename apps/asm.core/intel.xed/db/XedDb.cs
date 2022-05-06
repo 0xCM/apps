@@ -32,5 +32,11 @@ namespace Z0
         public DbRender Render => DbServices.ObjRender;
 
         public DbSchema Schema => DbServices.Schema;
+
+        public DbViews Views
+        {
+            [MethodImpl(Inline)]
+            get => new DbViews(this);
+        }
     }
 }

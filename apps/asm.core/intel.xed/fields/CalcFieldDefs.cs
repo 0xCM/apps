@@ -19,7 +19,7 @@ namespace Z0
             if(src.IsEnum)
                 result = MeasuredType.bitwidth(PrimalBits.width(Enums.@base(src)));
             else if(attrib.IsSome())
-                result = attrib.MapRequired(w => w.StorageWidth == 0 ?  (uint)w.ContentWidth : (uint)w.StorageWidth);
+                result = attrib.MapRequired(w => w.NativeWidth == 0 ?  (uint)w.PackedWidth: (uint)w.NativeWidth);
 
             if(result != 0)
                 return result;

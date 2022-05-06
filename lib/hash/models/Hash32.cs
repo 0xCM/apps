@@ -17,7 +17,7 @@ namespace Z0
             return result;
         }
 
-        public uint Value {get;}
+        public readonly uint Value;
 
         [MethodImpl(Inline)]
         public Hash32(uint value)
@@ -35,6 +35,9 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Value;
         }
+
+        uint IHashCode<uint>.Value
+            => Value;
 
         [MethodImpl(Inline)]
         public bool Equals(Hash32 src)
@@ -73,5 +76,17 @@ namespace Z0
         [MethodImpl(Inline)]
         public static uint operator %(Hash32 src, uint m)
             => src.Value % m;
+
+        [MethodImpl(Inline)]
+        public static Hash32 operator | (Hash32 a, Hash32 b)
+            => alg.hash.combine(a,b);
+
+        [MethodImpl(Inline)]
+        public static Hash32 operator ^ (Hash32 a, Hash32 b)
+            => a.Value ^ b.Value;
+
+        [MethodImpl(Inline)]
+        public static Hash32 operator & (Hash32 a, Hash32 b)
+            => a.Value & b.Value;
     }
 }

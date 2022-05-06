@@ -42,5 +42,17 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Hash<byte,byte>(Hash8 src)
             => new Hash<byte,byte>(src.Value);
+
+        [MethodImpl(Inline)]
+        public static Hash16 operator | (Hash8 a, Hash8 b)
+            => (ushort)((uint)a.Value | ((uint)b.Value << 8));
+
+        [MethodImpl(Inline)]
+        public static Hash8 operator ^ (Hash8 a, Hash8 b)
+            => (byte)((uint)a.Value ^ (uint)b.Value);
+
+        [MethodImpl(Inline)]
+        public static Hash8 operator & (Hash8 a, Hash8 b)
+            => (byte)((uint)a.Value & (uint)b.Value);
     }
 }

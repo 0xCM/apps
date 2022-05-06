@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct Hash<K,P> : IHashCode<K,P>
         where K : unmanaged
         where P : unmanaged

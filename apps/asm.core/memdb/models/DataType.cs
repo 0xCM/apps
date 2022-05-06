@@ -7,11 +7,11 @@ namespace Z0
     public partial class MemDb
     {
         [MethodImpl(Inline), Op]
-        public static DataType type(uint seq, asci32 name, asci32 primitive, DataSize size, asci32 refinement = default)
-            => new DataType(seq, name, primitive, size, !refinement.IsNull, refinement);
+        public static DbDataType type(uint seq, asci32 name, asci32 primitive, DataSize size, asci32 refinement = default)
+            => new DbDataType(seq, name, primitive, size, !refinement.IsNull, refinement);
 
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct DataType : IType<DataType>
+        public readonly record struct DbDataType : IType<DbDataType>
         {
             /// <summary>
             /// Specifies a surrogate key
@@ -44,7 +44,7 @@ namespace Z0
             public readonly asci32 Refinement;
 
             [MethodImpl(Inline)]
-            public DataType(uint seq, asci32 name, asci32 prim, DataSize size, bit refines, asci32 refinement)
+            public DbDataType(uint seq, asci32 name, asci32 prim, DataSize size, bit refines, asci32 refinement)
             {
                 Key = seq;
                 Primitive = prim;
@@ -64,7 +64,7 @@ namespace Z0
                 => Key;
 
             [MethodImpl(Inline)]
-            public int CompareTo(DataType src)
+            public int CompareTo(DbDataType src)
                 => Key.CompareTo(src.Key);
         }
     }

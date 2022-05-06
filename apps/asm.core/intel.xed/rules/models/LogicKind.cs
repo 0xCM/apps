@@ -7,16 +7,16 @@ namespace Z0
 {
     partial class XedRules
     {
-        [DataWidth(8)]
+        [DataWidth(num2.PackedWidth, num2.NativeWidth)]
         public enum LogicKind : byte
         {
             None = 0,
 
-            Antecedant = (byte)Chars.A,
+            Antecedant = 1,
 
-            Operator = (byte)Chars.B,
+            Operator = 2,
 
-            Consequent = (byte)Chars.C,
+            Consequent = 3,
         }
     }
 }

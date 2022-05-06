@@ -17,17 +17,15 @@ namespace Z0
         public static uint aligned(Type src)
             => bitwidth(PrimalBits.width(Enums.@base(src)));
 
+
         public static DataSize size(Type src)
-            => new DataSize(CalcPacked(src), MeasuredType.aligned(src));
+            => DataTypes.measure(src);
 
         public static Index<MeasuredType> symbolic(Assembly src, string group)
         {
             var x =  src.Enums().TypeTags<SymSourceAttribute>().Storage.Where(x => x.Right.SymGroup == group).ToIndex();
             return x.Select(x => new MeasuredType(x.Left, size(x.Left))).Sort();
         }
-
-        static uint CalcPacked(Type src)
-            => src.Tag<DataWidthAttribute>().MapValueOrElse(x => x.ContentWidth, () => 0);
 
         public readonly Type Definition;
 

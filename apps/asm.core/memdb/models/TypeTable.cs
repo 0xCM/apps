@@ -20,10 +20,10 @@ namespace Z0
             public readonly asci64 TypeName;
 
             [RenderWidth(12)]
-            public readonly uint PrimalWidth;
+            public readonly byte PackedWidth;
 
             [RenderWidth(12)]
-            public readonly byte PackedWidth;
+            public readonly uint NativeWidth;
 
             [RenderWidth(12)]
             public readonly ushort RowCount;
@@ -36,16 +36,10 @@ namespace Z0
             {
                 TypeKey = key;
                 TypeName = name;
-                PrimalWidth = size.NativeWidth;
+                NativeWidth = size.NativeWidth;
                 PackedWidth = (byte)size.PackedWidth;
                 RowCount = (ushort)rows.Length;
                 Fields = rows;
-            }
-
-            public readonly DataSize Size
-            {
-                [MethodImpl(Inline)]
-                get => new (PackedWidth,PrimalWidth);
             }
 
             [MethodImpl(Inline)]
@@ -106,8 +100,8 @@ namespace Z0
                 =>  cols(new ColDef[ColCount]{
                     col(pos++, nameof(TypeKey), RenderWidths),
                     col(pos++, nameof(TypeName), RenderWidths),
-                    col(pos++, nameof(PrimalWidth), RenderWidths),
                     col(pos++, nameof(PackedWidth), RenderWidths),
+                    col(pos++, nameof(NativeWidth), RenderWidths),
                     col(pos++, nameof(RowCount), RenderWidths),
                         });
 

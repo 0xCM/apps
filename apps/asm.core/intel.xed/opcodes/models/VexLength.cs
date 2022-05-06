@@ -7,6 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
+        [SymSource(xed), DataWidth(num2.PackedWidth)]
         public enum VexLength : byte
         {
             [Symbol("128", "Specifies a vector length of 128")]

@@ -25,15 +25,17 @@ namespace Z0.Parts
 {
     public sealed partial class AsmCore : Part<AsmCore>
     {
+        public static AsmCoreAssets Assets = new();
+    }
 
+    public sealed class AsmCoreAssets : Assets<AsmCoreAssets>
+    {
+        public Asset StanfordAsmCatalog() => Asset("stanford-asm-catalog.csv");
     }
 }
 
 namespace Z0
 {
-    using System.IO;
-
-    using static core;
     public static partial class XTend
     {
 
