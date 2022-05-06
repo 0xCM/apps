@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     public readonly struct ToolCmdArgs<K,T> : IIndex<ToolCmdArg<K,T>>
         where K : unmanaged

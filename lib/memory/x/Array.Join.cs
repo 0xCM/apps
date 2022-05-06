@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
     using System.Linq;
 
     partial class XArray
@@ -24,12 +21,12 @@ namespace Z0
         /// <summary>
         /// Defines an array-specific join operator
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="src"></param>
         /// <param name="selector"></param>
         /// <typeparam name="S"></typeparam>
         /// <typeparam name="T"></typeparam>
-        public static T[] SelectMany<S,T>(this S[] source, Func<S,IEnumerable<T>> selector)
-            => Enumerable.SelectMany(source,selector).ToArray();
+        public static T[] SelectMany<S,T>(this S[] src, Func<S,IEnumerable<T>> selector)
+            => Enumerable.SelectMany(src, selector).ToArray();
 
         /// <summary>
         /// Sequentially condenses a sequence of arrays into a single array

@@ -9,6 +9,7 @@ namespace Z0
 
     partial struct XedModels
     {
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct PatternOp : IComparable<PatternOp>
         {
             public uint PatternId;

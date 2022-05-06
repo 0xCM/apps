@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
-    using System.Runtime.CompilerServices;
-
     /// <summary>
     /// Characterizes a type that exhibits a notion of finite length
     /// </summary>

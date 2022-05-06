@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
     public interface ISeq : IMeasured, ITextual
     {
         Type ElementType {get;}
+
         string ITextual.Format()
             => GetType().Name;
     }

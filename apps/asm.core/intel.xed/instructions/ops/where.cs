@@ -12,10 +12,10 @@ namespace Z0
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static uint where(in OpAttribs src, OpAttribClass @class, Span<OpAttrib> dst)
+        public static uint where(in OpAttribs src, OpAttribKind @class, Span<OpAttrib> dst)
         {
             var j=0u;
-            var count = min(src.Count,dst.Length);
+            var count = min(src.Count, dst.Length);
             for(var i=0; i<count; i++)
             {
                 ref readonly var a = ref src[i];
@@ -26,7 +26,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static uint where(PatternOps src, OpAttribClass @class, Span<PatternOp> dst)
+        public static uint where(PatternOps src, OpAttribKind @class, Span<PatternOp> dst)
         {
             var j=0u;
             Span<OpAttrib> buffer = stackalloc OpAttrib[12];

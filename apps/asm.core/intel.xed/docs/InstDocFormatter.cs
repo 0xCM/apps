@@ -87,8 +87,7 @@ namespace Z0
                 for(var k=0; k<ops.Count; k++)
                 {
                     ref readonly var op = ref ops[k];
-                    var attribs = op.Attribs.Sort();;
-
+                    var attribs = op.Attribs;
                     dst.AppendFormat("{0,-2}", op.Index);
                     dst.AppendFormat("{0,-8}", op.Name);
                     if(op.Action(out var action))

@@ -14,7 +14,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bool reglit(in PatternOp src, out Register dst)
         {
-            var result = XedPatterns.first(src.Attribs, OpAttribClass.RegLiteral, out var attrib);
+            var result = XedPatterns.first(src.Attribs, OpAttribKind.RegLiteral, out var attrib);
             if(result)
                 dst = attrib.ToRegLiteral();
             else

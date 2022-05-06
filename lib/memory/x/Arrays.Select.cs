@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
+    using static core;
 
     partial class XArray
     {
@@ -20,23 +17,28 @@ namespace Z0
         /// <param name="f">The mapping function</param>
         public static T[] Select<S,T>(this S[] src, Func<S,T> f)
         {
-            Span<S> source = src;
-            var count = source.Length;
-            var buffer = new T[count];
-            Span<T> target = buffer;
+            var count = src.Length;
+            var dst = new T[count];
             for(var i=0; i<count; i++)
-                target[i] = f(source[i]);
-            return buffer;
+                seek(dst,i) = f(skip(src,i));
+            return dst;
+
+            // Span<S> source = src;
+            // var count = source.Length;
+            // var buffer = new T[count];
+            // Span<T> target = buffer;
+            // for(var i=0; i<count; i++)
+            //     target[i] = f(source[i]);
+            // return buffer;
         }
 
-        public static Span<T> Select<S,T>(this ReadOnlySpan<S> src, Func<S,T> f)
+        public static T[] Select<S,T>(this ReadOnlySpan<S> src, Func<S,T> f)
         {
             var count = src.Length;
-            var buffer = new T[count];
-            Span<T> target = buffer;
+            var dst = new T[count];
             for(var i=0; i<count; i++)
-                target[i] = f(src[i]);
-            return target;
+                seek(dst,i) = f(skip(src,i));
+            return dst;
         }
     }
 }

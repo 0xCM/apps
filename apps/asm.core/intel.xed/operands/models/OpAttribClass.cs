@@ -7,25 +7,26 @@ namespace Z0
 {
     partial class XedRules
     {
-        public enum OpAttribClass : byte
+        [SymSource(xed), DataWidth(num4.PackedWidth)]
+        public enum OpAttribKind : byte
         {
             None,
 
-            Action = 1,
+            Action,
 
-            Width = 2,
+            Width,
 
-            Visibility = 4,
+            Visibility,
 
-            Nonterminal = 8,
+            Nonterminal,
 
-            RegLiteral = 16,
+            RegLiteral,
 
-            Scale = 32,
+            Scale,
 
-            ElementType = 64,
+            ElementType,
 
-            Modifier = 128,
+            Modifier,
         }
     }
 }

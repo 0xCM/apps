@@ -14,7 +14,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bool action(in PatternOp src, out OpAction dst)
         {
-            var result = XedPatterns.first(src.Attribs, OpAttribClass.Action, out var attrib);
+            var result = XedPatterns.first(src.Attribs, OpAttribKind.Action, out var attrib);
             if(result)
                 dst = attrib.ToAction();
             else

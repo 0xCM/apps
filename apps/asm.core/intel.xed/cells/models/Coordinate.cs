@@ -15,6 +15,7 @@ namespace Z0
             {
                 var result = 0u;
                 result |= ((uint)src.Kind << KindOffset);
+                result |= ((uint)src.Logic << LogicOffset);
                 result |= ((uint)src.Table << TableOffset);
                 result |= ((uint)src.Row << RowOffset);
                 result |= ((uint)src.Col << ColOffset);
@@ -25,15 +26,16 @@ namespace Z0
             public static Coordinate unpack(uint src)
             {
                 var kind = (RuleTableKind)((src & KindMask) >> KindOffset);
+                var logic = (LogicKind)((src & LogicMask) >> LogicOffset);
                 var table = (ushort)((src & TableMask) >> TableOffset);
                 var row = (ushort)((src & RowMask) >> RowOffset);
                 var col = (byte)((src & ColMask) >> ColOffset);
-                return new Coordinate(kind,table,row,col);
+                return new Coordinate(kind, logic, table,row,col);
             }
 
-            public const byte PackedWidth = KindWidth + TableWidth + RowWidth + ColWidth;
+            public const byte PackedWidth = KindWidth + LogicWidth + TableWidth + RowWidth + ColWidth;
 
-            public const byte NativeWidth = num2.NativeWidth + num9.NativeWidth + num8.NativeWidth + num4.NativeWidth;
+            public const byte NativeWidth = num2.NativeWidth + LogicClass.NativeWidth + num9.NativeWidth + num8.NativeWidth + num4.NativeWidth;
 
             public static DataSize DataSize => (PackedWidth,NativeWidth);
 
@@ -43,9 +45,15 @@ namespace Z0
 
             const uint KindMask = (uint)num2.MaxValue << KindOffset;
 
+            const byte LogicWidth = LogicClass.PackedWidth;
+
+            const byte LogicOffset = KindOffset + KindWidth;
+
+            const uint LogicMask = num2.MaxValue << LogicOffset;
+
             const byte TableWidth = num9.PackedWidth;
 
-            const byte TableOffset = KindOffset + KindWidth;
+            const byte TableOffset = LogicOffset + LogicWidth;
 
             const uint TableMask = (uint)num9.MaxValue << TableOffset;
 
@@ -63,6 +71,8 @@ namespace Z0
 
             public readonly RuleTableKind Kind;
 
+            public readonly LogicClass Logic;
+
             public readonly ushort Table;
 
             public readonly byte Row;
@@ -70,9 +80,10 @@ namespace Z0
             public readonly byte Col;
 
             [MethodImpl(Inline)]
-            public Coordinate(RuleTableKind kind, ushort table, ushort row, byte col)
+            public Coordinate(RuleTableKind kind, LogicClass logic, ushort table, ushort row, byte col)
             {
                 Kind = kind;
+                Logic = logic;
                 Table = table;
                 Row = (byte)row;
                 Col = col;

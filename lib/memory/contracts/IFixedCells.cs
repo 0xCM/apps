@@ -4,14 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static core;
 
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [Free]
-    public interface IFixedCells
+    public interface ILocatedCells
     {
         MemoryAddress Address {get;}
 
@@ -23,13 +19,13 @@ namespace Z0
     }
 
     [Free]
-    public interface IFixedCells<T> : IFixedCells
+    public interface ILocatedCells<T> : ILocatedCells
         where T : struct
     {
-        ByteSize IFixedCells.CellSize
+        ByteSize ILocatedCells.CellSize
             => size<T>();
 
-        Type IFixedCells.CellType
+        Type ILocatedCells.CellType
             => typeof(T);
 
         Span<T> Edit
@@ -37,17 +33,5 @@ namespace Z0
 
         ReadOnlySpan<T> View
             => cover<T>(Address, CellCount);
-    }
-
-    [Free]
-    public interface IFixedStorage<S>
-        where S : struct
-    {
-        ref S Buffer {get;}
-        Span<T> Edit<T>()
-            => cover<T>(@as<S,T>(Buffer), size<S>()/size<T>());
-
-        ReadOnlySpan<T> View<T>()
-            => Edit<T>();
     }
 }

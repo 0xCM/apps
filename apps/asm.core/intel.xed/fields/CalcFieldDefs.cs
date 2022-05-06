@@ -20,10 +20,8 @@ namespace Z0
                 result = MeasuredType.bitwidth(PrimalBits.width(Enums.@base(src)));
             else if(attrib.IsSome())
                 result = attrib.MapRequired(w => w.NativeWidth == 0 ?  (uint)w.PackedWidth: (uint)w.NativeWidth);
-
             if(result != 0)
                 return result;
-
             if(src == typeof(bit) || src == typeof(byte))
                 result = 8;
             else if(src == typeof(ushort))

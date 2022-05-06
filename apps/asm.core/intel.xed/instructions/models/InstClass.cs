@@ -9,10 +9,10 @@ namespace Z0
 
     partial class XedRules
     {
-        [DataWidth(Width,16)]
+        [DataWidth(Width)]
         public readonly struct InstClass : IComparable<InstClass>, IEquatable<InstClass>
         {
-            public const byte Width = Hex12.Width;
+            public const byte Width = num11.PackedWidth;
 
             public readonly IClass Kind;
 

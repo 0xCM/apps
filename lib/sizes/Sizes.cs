@@ -16,6 +16,33 @@ namespace Z0
 
         const ulong BitsToKbFactor = KbFactor * BitFactor;
 
+
+        readonly struct SizeCalc<T>
+        {
+            [MethodImpl(Inline)]
+            public static uint calc()
+                => (uint)Unsafe.SizeOf<T>();
+        }
+
+        public static uint bitwidth(Type src)
+        {
+            if(src is null || src == typeof(void) || src == typeof(Null))
+                return 0;
+            try
+            {
+                var type = typeof(SizeCalc<>).MakeGenericType(src);
+                var method = first(type.StaticMethods().Public());
+                return ((uint)method.Invoke(null, sys.empty<object>()))*8;
+            }
+            catch(Exception)
+            {
+                return 0;
+            }
+        }
+
+        public static uint bitwidth<T>()
+            => bitwidth(typeof(T));
+
         [MethodImpl(Inline), Op]
         public static NativeSize native(BitWidth src)
         {

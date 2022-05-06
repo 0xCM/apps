@@ -26,14 +26,14 @@ namespace Z0.llvm
         public void EmitRegIdentifiers(RegIdentifiers src)
         {
             var dst = LlvmPaths.Table("llvm.asm.RegId");
-            var list = new LlvmList(dst, src.Values.Select(x => new LlvmListItem(x.Id, x.RegName.Format())).ToArray());
+            var list = new LlvmList(dst, src.Values.Select(x => new LlvmListItem(x.Id, x.RegName.Format())));
             EmitList(list, dst);
         }
 
         public void EmitAsmIdentifiers(AsmIdentifiers src)
         {
             var values = src.Values;
-            var items = values.Select(x => new LlvmListItem(x.Id, x.Instruction.Format())).ToArray();
+            var items = values.Select(x => new LlvmListItem(x.Id, x.Instruction.Format()));
             var dst = LlvmPaths.Table("llvm.asm.AsmId");
             EmitList(new LlvmList(dst, items), dst);
         }

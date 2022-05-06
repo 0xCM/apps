@@ -5,89 +5,111 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class XedRules
     {
-        public readonly struct OpAttribs : IIndex<OpAttrib>
+        public readonly struct OpAttribs : IFixedCells<OpAttrib>
         {
-            readonly Index<OpAttrib> Data;
+            readonly ByteBlock32 Data;
 
-            [MethodImpl(Inline)]
+            public const byte Capacity = 32/3 - 1;
+
             public OpAttribs(OpAttrib[] src)
             {
-                Data = src.Sort();
-            }
+                var storage = ByteBlock32.Empty;
+                src.Sort();
+                var dst = recover<OpAttrib>(storage.Bytes);
+                var count = Demand.lt((uint)src.Length, Capacity);
+                var k=z8;
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var cell = ref skip(src,i);
+                    if(cell.IsEmpty)
+                        continue;
 
-            public bool IsEmpty
-            {
-                [MethodImpl(Inline)]
-                get => Data.IsEmpty;
-            }
-
-            public bool IsNonEmpty
-            {
-                [MethodImpl(Inline)]
-                get => Data.IsNonEmpty;
-            }
-
-            public OpAttrib[] Storage
-            {
-                [MethodImpl(Inline)]
-                get => Data;
+                    seek(dst,k++) = skip(src,i);
+                }
+                storage[31] = k;
+                Data = storage;
             }
 
             public uint Count
             {
                 [MethodImpl(Inline)]
-                get => Data.Count;
+                get => Data[31];
             }
 
-            public ref OpAttrib this[int i]
+            public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => ref Data[i];
+                get => Count == 0;
             }
 
-            public ref OpAttrib this[uint i]
+            public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => ref Data[i];
+                get => Count != 0;
             }
 
-            public OpAttribs Sort()
+            public Span<OpAttrib> Edit
             {
-                Data.Sort();
-                return this;
+                [MethodImpl(Inline)]
+                get => recover<OpAttrib>(Data.Bytes);
             }
 
-            public string Format()
+            public ReadOnlySpan<OpAttrib> View
             {
-                var dst = text.buffer();
-                for(var i=0; i<Data.Count; i++)
-                {
-                    if(i!=0)
-                        dst.Append(Chars.Colon);
-                    dst.Append(this[i].Format());
-                }
-                return dst.Emit();
+                [MethodImpl(Inline)]
+                get => Edit;
             }
+
+            public ByteBlock32 Storage
+            {
+                [MethodImpl(Inline)]
+                get => Data;
+            }
+
+            public ref readonly OpAttrib this[int i]
+            {
+                [MethodImpl(Inline)]
+                get => ref seek(Edit,i);
+            }
+
+            public ref readonly OpAttrib this[uint i]
+            {
+                [MethodImpl(Inline)]
+                get => ref seek(Edit,i);
+            }
+
+            string ICellSeq.Delimiter
+                => ":";
+
+            // public string Format()
+            // {
+            //     var dst = text.buffer();
+            //     var count = Count;
+            //     for(var i=0; i<count; i++)
+            //     {
+            //         if(i!=0)
+            //             dst.Append(Chars.Colon);
+            //         dst.Append(this[i].Format());
+            //     }
+            //     return dst.Emit();
+            // }
 
             public override string ToString()
-                => Format();
+                => (this as ITextual).Format();
 
-            public bool Search(OpAttribClass @class, out OpAttrib dst)
+            uint IFixedCells.Capacity
+                => Capacity;
+
+            public bool Search(OpAttribKind @class, out OpAttrib dst)
                 => XedPatterns.first(this, @class, out dst);
 
             [MethodImpl(Inline)]
             public static implicit operator OpAttribs(OpAttrib[] src)
                 => new OpAttribs(src);
-
-            [MethodImpl(Inline)]
-            public static implicit operator OpAttrib[](OpAttribs src)
-                => src.Data;
-
-            [MethodImpl(Inline)]
-            public static implicit operator Index<OpAttrib>(OpAttribs src)
-                => src.Data;
 
             public static OpAttribs Empty => sys.empty<OpAttrib>();
         }

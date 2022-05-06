@@ -6,24 +6,9 @@ namespace Z0
 {
     using static core;
 
-    using api = DataTypes;
-
     [ApiHost]
     public readonly struct DataTypes
     {
-        static DataTypeRecord record(Type src)
-        {
-            var dst = default(DataTypeRecord);
-            var size = measure(src);
-            dst.Name = src.Name;
-            dst.Part = src.Assembly.PartName();
-            dst.PackedWidth = size.PackedWidth;
-            dst.NativeWidth = size.NativeWidth;
-            dst.PackedSize = size.PackedWidth != 0 ? (size.PackedWidth/8 + (size.PackedWidth % 8 == 0 ? 0 : 1)) : 0;
-            dst.NativeSize = size.NativeWidth/8;
-            return dst;
-        }
-
         public static Index<DataTypeRecord> records(Assembly[] src, bool pll = true)
         {
             var types = src.Types().Concrete().Where(x => x.IsStruct() || x.IsEnum);
@@ -31,7 +16,6 @@ namespace Z0
             iter(types, t => dst.Add(record(t)),pll);
             return resequence(dst.ToArray().Index().Sort());
         }
-
 
         public static Index<T> resequence<T>(Index<T> src)
             where T : ISequential<T>
@@ -75,11 +59,12 @@ namespace Z0
                 {
                     if(tag)
                     {
-                        dst = tag.Value.DataSize;
+
+                        dst = (tag.Value.PackedWidth, Sizes.bitwidth(src));
                     }
                     else
                     {
-                        var width = SizeCalc.width(src);
+                        var width = Sizes.bitwidth(src);
                         dst = (width,width);
                     }
                 }
@@ -102,14 +87,42 @@ namespace Z0
         public static bool test(Type src)
             => src.Tagged<DataWidthAttribute>();
 
-        public static Index<DataType> discover(Assembly src)
-            => src.TaggedTypes<DataWidthAttribute>().Select(x => new DataType(x.Type.Name, x.Tag.DataSize));
+        public static Index<DataType> discover(Assembly src, bool pll = true)
+        {
+            var dst = bag<DataType>();
+            iter(candidates(src), t => dst.Add(new DataType(t.Name, measure(t))),pll);
+            return dst.ToArray().Sort();
+        }
 
-        public static Index<DataType> discover(Assembly[] src)
-            => src.TaggedTypes<DataWidthAttribute>().Select(x => new DataType(x.Type.Name, x.Tag.DataSize));
+        public static Index<DataType> discover(Assembly[] src, bool pll = true)
+        {
+            var dst = bag<DataType>();
+            iter(src, a =>  iter(candidates(a), t => dst.Add(new DataType(t.Name, measure(t))),pll),pll);
+            return dst.Index().Sort();
+        }
 
-        public static Index<DataType> discover(Type[] src)
-            => src.Tagged<DataWidthAttribute>().Select(x => new DataType(x.Name, x.RequiredTag<DataWidthAttribute>().DataSize));
+        public static Index<DataType> discover(Type[] src, bool pll = true)
+        {
+            var dst = bag<DataType>();
+            iter(src, t => dst.Add(new DataType(t.Name, measure(t))),pll);
+            return dst.Index().Sort();
+        }
+
+        static DataTypeRecord record(Type src)
+        {
+            var dst = default(DataTypeRecord);
+            var size = measure(src);
+            dst.Name = src.Name;
+            dst.Part = src.Assembly.PartName();
+            dst.PackedWidth = size.PackedWidth;
+            dst.NativeWidth = size.NativeWidth;
+            dst.PackedSize = size.PackedWidth != 0 ? (size.PackedWidth/8 + (size.PackedWidth % 8 == 0 ? 0 : 1)) : 0;
+            dst.NativeSize = size.NativeWidth/8;
+            return dst;
+        }
+
+        static Type[] candidates(Assembly src)
+            => src.Types().Concrete().Where(x => x.IsStruct() || x.IsEnum);
 
         static uint bitwidth(NativeTypeWidth src)
         {
@@ -118,53 +131,23 @@ namespace Z0
                 dst = 8;
             return dst;
         }
-
-        readonly struct SizeCalc<T>
-        {
-            [MethodImpl(Inline)]
-            public static uint calc()
-                => (uint)Unsafe.SizeOf<T>();
-        }
-
-        readonly struct SizeCalc
-        {
-            public static uint width(Type src)
-            {
-                if(src is null || src == typeof(void) || src == typeof(Null))
-                    return 0;
-
-                try
-                {
-                    var type = typeof(SizeCalc<>).MakeGenericType(src);
-                    var method = first(type.StaticMethods().Public());
-                    return ((uint)method.Invoke(null, sys.empty<object>()))*8;
-                }
-                catch(Exception)
-                {
-                    return 0;
-                }
-            }
-
-            public static uint width<T>()
-                => width(typeof(T));
-        }
     }
 
     partial class XTend
     {
-        public static Index<DataType> DataTypes(this Assembly[] src)
-            => api.discover(src);
+        // public static Index<DataType> DataTypes(this Assembly[] src)
+        //     => api.discover(src);
 
-        public static Index<DataType> DataTypes(this Type[] src)
-            => api.discover(src);
+        // public static Index<DataType> DataTypes(this Type[] src)
+        //     => api.discover(src);
 
-        public static Index<DataType> DataTypes(this Index<Type> src)
-            => api.discover(src);
+        // public static Index<DataType> DataTypes(this Index<Type> src)
+        //     => api.discover(src);
 
-        public static Index<DataType> DataTypes(this Assembly src)
-            => api.discover(src);
+        // public static Index<DataType> DataTypes(this Assembly src)
+        //     => api.discover(src);
 
-        public static Index<DataType> DataTypes(this Index<Assembly> src)
-            => api.discover(src);
+        // public static Index<DataType> DataTypes(this Index<Assembly> src)
+        //     => api.discover(src);
     }
 }

@@ -7,18 +7,21 @@ namespace Z0
 {
     using static XedModels;
 
-    using K = XedRules.OpAttribClass;
+    using K = XedRules.OpAttribKind;
 
     partial class XedRules
     {
-        public readonly struct OpAttrib : IComparable<OpAttrib>, IEquatable<OpAttrib>
+        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(PackedWidth)]
+        public readonly record struct OpAttrib : IComparable<OpAttrib>, IEquatable<OpAttrib>
         {
-            public readonly OpAttribClass Class;
+            public const byte PackedWidth = num4.PackedWidth + num16.PackedWidth;
 
-            readonly uint Data;
+            public readonly OpAttribKind Class;
+
+            readonly ushort Data;
 
             [MethodImpl(Inline)]
-            internal OpAttrib(OpAttribClass kind, uint data)
+            internal OpAttrib(OpAttribKind kind, ushort data)
             {
                 Class = kind;
                 Data = data;
@@ -36,9 +39,18 @@ namespace Z0
                 get => Class != 0 || Data != 0;
             }
 
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => (Hash32)(uint)Class | (Hash32)Data;
+            }
+
             [MethodImpl(Inline)]
             public int CompareTo(OpAttrib src)
                 => ((uint)Class).CompareTo((uint)src.Class);
+
+            public override int GetHashCode()
+                => Hash;
 
             public string Format()
                 => XedRender.format(this);
@@ -88,11 +100,11 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator OpAttrib(OpWidthCode src)
-                => new OpAttrib(K.Width, (uint)src);
+                => new OpAttrib(K.Width, (ushort)src);
 
             [MethodImpl(Inline)]
             public static implicit operator OpAttrib(Nonterminal src)
-                => new OpAttrib(K.Nonterminal, (uint)src);
+                => new OpAttrib(K.Nonterminal, (ushort)src);
 
             [MethodImpl(Inline)]
             public static implicit operator OpAttrib(XedRegId src)
@@ -100,23 +112,23 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator OpAttrib(ElementType src)
-                => new OpAttrib(K.ElementType, (uint)src.Kind);
+                => new OpAttrib(K.ElementType, (ushort)src.Kind);
 
             [MethodImpl(Inline)]
             public static implicit operator OpAttrib(OpVisibility src)
-                => new OpAttrib(K.Visibility, (uint)src);
+                => new OpAttrib(K.Visibility, (ushort)src);
 
             [MethodImpl(Inline)]
             public static implicit operator OpAttrib(OpModKind src)
-                => new OpAttrib(K.Modifier, (uint)src);
+                => new OpAttrib(K.Modifier, (ushort)src);
 
             [MethodImpl(Inline)]
             public static implicit operator OpAttrib(OpModifier src)
-                => new OpAttrib(K.Modifier, (uint)src.Kind);
+                => new OpAttrib(K.Modifier, (ushort)src.Kind);
 
             [MethodImpl(Inline)]
             public static implicit operator OpAttrib(MemoryScale src)
-                => new OpAttrib(K.Scale, (uint)src.Factor);
+                => new OpAttrib(K.Scale, (ushort)src.Factor);
 
             public static OpAttrib Empty => default;
         }

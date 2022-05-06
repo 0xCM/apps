@@ -18,7 +18,7 @@ namespace Z0
             if(count > capacity)
                 return (false, "Insufficient cpacity");
 
-            var distinct = blocks.Map(b => b.BaseAddress).ToArray().ToHashSet();
+            var distinct = blocks.Map(b => b.BaseAddress).ToHashSet();
             if(distinct.Count != count)
                 Warn(string.Format("There should be {0} distinct base addresses and yet there are {1}", count, distinct.Count));
 
@@ -39,7 +39,7 @@ namespace Z0
             Wf.EmittedTable(emitting,emitted);
             var found = 0;
 
-            var hashes = entries.Map(x => x.HashCode).ToArray().ToHashSet();
+            var hashes = entries.Map(x => x.HashCode).ToHashSet();
             if(hashes.Count != count)
                 Warn(string.Format("There should be {0} distinct hash codes and yet there are {1}", count, hashes.Count));
 

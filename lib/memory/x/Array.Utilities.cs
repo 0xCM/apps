@@ -4,15 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
+    using static core;
     //[ApiHost]
     public readonly struct ArrayUtil
     {
         const NumericKind Closure = UnsignedInts;
+
+        [MethodImpl(Inline)]
+        public static uint count<T>(ReadOnlySpan<T> src, Func<T,bool> f)
+        {
+            var k = 0u;
+            for(var i=0; i<src.Length; i++)
+            {
+                if(f(skip(src,i)))
+                    k++;
+            }
+            return k;
+        }
 
         /// <summary>
         /// Allocates and populates a new array by filtering the source array with a specified predicate
@@ -23,16 +31,16 @@ namespace Z0
         [Op, Closures(Closure)]
         public static T[] where<T>(ReadOnlySpan<T> src, Func<T,bool> f)
         {
-            var count = src.Length;
-            Span<T> dst = new T[count];
-            var j = 0;
-            for(var i=0; i<count; i++)
+            var count = ArrayUtil.count(src,f);
+            var dst = alloc<T>(count);
+            var k = 0;
+            for(var i=0; i<src.Length; i++)
             {
-                ref readonly var test = ref src[i];
-                if(f(test))
-                    dst[j++] = test;
+                if(f(skip(src,i)))
+                    seek(dst,k++) = skip(src,i);
             }
-            return dst.Slice(0, (int)j).ToArray();
+            return dst;
+            //return dst.Slice(0, (int)j).ToArray();
         }
 
         [Op, Closures(Closure)]

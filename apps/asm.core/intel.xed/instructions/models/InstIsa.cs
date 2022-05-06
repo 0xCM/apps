@@ -5,12 +5,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     partial struct XedModels
     {
-        [DataWidth(8)]
-        public readonly struct InstIsa : IComparable<InstIsa>, IEquatable<InstIsa>
+        [DataWidth(num8.PackedWidth)]
+        public readonly record struct InstIsa : IComparable<InstIsa>
         {
             public readonly IsaKind Kind;
 
@@ -51,9 +49,6 @@ namespace Z0
             public override int GetHashCode()
                 => (int)Kind;
 
-            public override bool Equals(object o)
-                => o is InstIsa c && Equals(c);
-
             [MethodImpl(Inline)]
             public static implicit operator InstIsa(IsaKind src)
                 => new InstIsa(src);
@@ -61,14 +56,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator IsaKind(InstIsa src)
                 => src.Kind;
-
-            [MethodImpl(Inline)]
-            public static bool operator ==(InstIsa a, InstIsa b)
-                => a.Equals(b);
-
-            [MethodImpl(Inline)]
-            public static bool operator !=(InstIsa a, InstIsa b)
-                => !a.Equals(b);
 
             public static InstIsa Empty => default;
         }

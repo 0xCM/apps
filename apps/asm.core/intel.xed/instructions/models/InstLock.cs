@@ -6,10 +6,10 @@ namespace Z0
 {
     partial class XedRules
     {
-        [DataWidth(Width, 8)]
+        [DataWidth(PackedWidth)]
         public readonly record struct LockIndicator : IComparable<LockIndicator>
         {
-            public const byte Width = uint2.Width;
+            public const byte PackedWidth = num2.PackedWidth;
 
             readonly byte Data;
 

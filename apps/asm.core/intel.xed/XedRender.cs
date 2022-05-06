@@ -12,7 +12,7 @@ namespace Z0
     using static XedDisasm;
     using static core;
 
-    using OC = XedRules.OpAttribClass;
+    using OC = XedRules.OpAttribKind;
 
     public partial class XedRender
     {
@@ -418,7 +418,8 @@ namespace Z0
                 return EmptyString;
 
             var dst = text.buffer();
-            for(var i=0; i<src.Count; i++)
+            var count = src.Count;
+            for(var i=0; i<count; i++)
             {
                 if(i != 0)
                     dst.Append(Chars.Colon);

@@ -12,10 +12,11 @@ namespace Z0
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static bool exists(in OpAttribs src, OpAttribClass @class)
+        public static bool exists(in OpAttribs src, OpAttribKind @class)
         {
             var result = false;
-            for(var i=0; i<src.Count; i++)
+            var count = src.Count;
+            for(var i=0; i<count; i++)
             {
                 ref readonly var a = ref src[i];
                 if(a.Class == @class)
@@ -28,7 +29,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static bool exists(ReadOnlySpan<PatternOp> src, OpAttribClass @class)
+        public static bool exists(ReadOnlySpan<PatternOp> src, OpAttribKind @class)
         {
             var result = false;
             for(var i=0; i<src.Length; i++)

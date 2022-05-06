@@ -13,7 +13,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bool nonterm(in PatternOp src, out Nonterminal dst)
         {
-            var result = XedPatterns.first(src.Attribs, OpAttribClass.Nonterminal, out var attrib);
+            var result = XedPatterns.first(src.Attribs, OpAttribKind.Nonterminal, out var attrib);
             if(result)
                 dst = attrib.ToNonTerm();
             else

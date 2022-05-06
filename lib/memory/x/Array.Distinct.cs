@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Linq;
-    using System.Collections.Generic;
-
     partial class XTend
     {
         public static T[] Distinct<T>(this T[] src)

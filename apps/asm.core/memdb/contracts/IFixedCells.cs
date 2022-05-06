@@ -5,21 +5,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    public interface IFixedCells : ICellSeq
     {
-        [SymSource(xed), DataWidth(num3.PackedWidth)]
-        public enum OpModKind : byte
-        {
-            [Symbol("")]
-            None,
+        uint Capacity {get;}
+    }
 
-            ZEROSTR,
+    public interface IFixedCells<T> : IFixedCells, ICellSeq<T>
+    {
 
-            ROUNDC,
+    }
 
-            SAE,
+    public interface IMutableFixedCells<T> : IFixedCells<T>, IMutableCells<T>
+    {
 
-            BCASTSTR,
-        }
     }
 }

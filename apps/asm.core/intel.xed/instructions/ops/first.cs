@@ -10,11 +10,12 @@ namespace Z0
     partial class XedPatterns
     {
         [MethodImpl(Inline), Op]
-        public static bool first(in OpAttribs src, OpAttribClass @class, out OpAttrib dst)
+        public static bool first(in OpAttribs src, OpAttribKind @class, out OpAttrib dst)
         {
             var result = false;
             dst = OpAttrib.Empty;
-            for(var i=0; i<src.Count; i++)
+            var count = src.Count;
+            for(var i=0; i<count; i++)
             {
                 ref readonly var a = ref src[i];
                 if(a.Class == @class)

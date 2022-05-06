@@ -11,7 +11,7 @@ namespace Z0
     using static XedModels;
     using static XedRules;
 
-    using C = XedRules.OpAttribClass;
+    using C = XedRules.OpAttribKind;
 
     partial class XedPatterns
     {
@@ -54,10 +54,11 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            void TraverseOpAttribs(InstPattern pattern, in PatternOp op, Index<OpAttrib> attribs)
+            void TraverseOpAttribs(InstPattern pattern, in PatternOp op, in OpAttribs attribs)
             {
                 TraversingOpAttribs(pattern, op, attribs);
-                for(var i=0; i<attribs.Count; i++)
+                var count = attribs.Count;
+                for(var i=0; i<count; i++)
                     TraverseOpAttrib(pattern, op, attribs[i]);
                 TraversedOpAttribs(pattern, op, attribs);
             }
@@ -280,9 +281,9 @@ namespace Z0
 
             protected virtual void TraversedOps(InstPattern pattern, Index<PatternOp> ops) {}
 
-            protected virtual void TraversingOpAttribs(InstPattern pattern, in PatternOp op, Index<OpAttrib> attribs) {}
+            protected virtual void TraversingOpAttribs(InstPattern pattern, in PatternOp op, in OpAttribs attribs) {}
 
-            protected virtual void TraversedOpAttribs(InstPattern pattern, in PatternOp op, Index<OpAttrib> attribs) {}
+            protected virtual void TraversedOpAttribs(InstPattern pattern, in PatternOp op, in OpAttribs attribs) {}
 
             protected virtual void TraversingOpAttrib(InstPattern pattern, in PatternOp op, in OpAttrib attrib) { }
 

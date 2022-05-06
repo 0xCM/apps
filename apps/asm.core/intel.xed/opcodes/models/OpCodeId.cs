@@ -86,7 +86,7 @@ namespace Z0
 
                 Rex = RexBit.Width,
 
-                Lock = LockIndicator.Width,
+                Lock = LockIndicator.PackedWidth,
 
                 Mod = ModIndicator.Width,
 

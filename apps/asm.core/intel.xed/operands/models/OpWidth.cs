@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     partial struct XedModels
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]

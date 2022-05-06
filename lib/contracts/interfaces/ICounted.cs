@@ -6,8 +6,6 @@ namespace Z0
 {
     using static core;
 
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     /// <summary>
     /// Characterizes a finite thing that yields a count value that does not require computation/enumeration
     /// to reveal; in other words, the count function for counted things is free, as evinced by
