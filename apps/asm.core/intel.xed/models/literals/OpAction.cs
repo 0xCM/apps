@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed)]
+        [SymSource(xed), DataWidth(num2.PackedWidth)]
         public enum OpAction : byte
         {
             [Symbol("")]

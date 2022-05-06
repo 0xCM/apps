@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource("xed"), DataWidth(9)]
+    [SymSource("xed"), DataWidth(num9.PackedWidth)]
     public enum XedRegId : ushort
     {
         INVALID = 0,

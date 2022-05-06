@@ -9,7 +9,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        [SymSource(xed), DataWidth(2)]
+        [SymSource(xed), DataWidth(num2.PackedWidth)]
         public enum MaskReg : byte
         {
             [Symbol("k0","MASK=0")]

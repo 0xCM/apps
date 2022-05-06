@@ -8,7 +8,20 @@ namespace Z0
 
     partial class XedCmdProvider
     {
-        ApiComments ApiComments => Service(Wf.ApiComments);
+        [CmdOp("api/emit/bitmasks")]
+        Outcome EmitBitMasks(CmdArgs args)
+        {
+            var emitted = ApiBitMasks.Emit();
+
+            return true;
+        }
+
+        [CmdOp("api/emit/types")]
+        Outcome EmitDataTypes(CmdArgs args)
+        {
+            TableEmit(DataTypes.records(ApiRuntimeCatalog.Components).View, DataTypeRecord.RenderWidths, Ws.ProjectDb().Api() + Tables.filename<DataTypeRecord>());
+           return true;
+        }
 
         [CmdOp("api/emit/markdown")]
         Outcome EmitMarkdownDocs(CmdArgs args)

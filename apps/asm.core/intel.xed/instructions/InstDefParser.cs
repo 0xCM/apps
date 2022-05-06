@@ -8,7 +8,6 @@ namespace Z0
     using static core;
     using static XedModels;
     using static XedPatterns;
-    using static XedRules.InstRulePartNames;
 
     using P = XedRules.InstPartKind;
 
@@ -19,6 +18,7 @@ namespace Z0
             public static Index<InstDef> parse(FS.FilePath src)
             {
                 const string LogPattern = "{0,-8} | {1,-8} | {2,-10} | {3}";
+
                 var buffer = list<InstDef>();
                 var reader = src.ReadNumberedLines().Select(cleanse).Where(line => line.IsNonEmpty).Reader();
                 var seq = 0u;
@@ -222,6 +222,27 @@ namespace Z0
                 }
                 return i > 0;
             }
+
+
+            const string ICLASS = nameof(ICLASS);
+
+            const string IFORM = nameof(IFORM);
+
+            const string ATTRIBUTES = nameof(ATTRIBUTES);
+
+            const string CATEGORY = nameof(CATEGORY);
+
+            const string EXTENSION = nameof(EXTENSION);
+
+            const string FLAGS = nameof(FLAGS);
+
+            const string PATTERN = nameof(PATTERN);
+
+            const string OPERANDS = nameof(OPERANDS);
+
+            const string ISA_SET = nameof(ISA_SET);
+
+            const string COMMENT = nameof(COMMENT);
         }
     }
 }

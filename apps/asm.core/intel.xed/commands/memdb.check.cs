@@ -48,24 +48,14 @@ namespace Z0
             FileEmit(cDst.Emit(), m, AppDb.Log(scope, $"{scope}.cols.{suffix}", FileKind.Txt), TextEncodingKind.Asci);
         }
 
-
+        [CmdOp("memdb/check")]
         Outcome CheckMemDb(CmdArgs args)
         {
             CheckMemDb((32,32));
             CheckMemDb((12,12));
             CheckMemDb((8,8));
             CheckMemDb((256,256));
-
-
            return true;
-        }
-
-        [CmdOp("api/emit/types")]
-        Outcome EmitDataTypes(CmdArgs args)
-        {
-            TableEmit(DataTypes.records(ApiRuntimeCatalog.Components).View, DataTypeRecord.RenderWidths, Ws.ProjectDb().Api() + Tables.filename<DataTypeRecord>());
-           return true;
-
         }
     }
 }

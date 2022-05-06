@@ -10,7 +10,6 @@ namespace Z0
         /// <summary>
         /// These identifiers were derived from function declarations in the generated file 'xed-encoder.h'
         /// </summary>
-        [SymSource(xed)]
         public enum GroupName : byte
         {
             INVALID = 0,

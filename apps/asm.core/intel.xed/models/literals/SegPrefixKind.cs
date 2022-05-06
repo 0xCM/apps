@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed), DataWidth(3)]
+        [SymSource(xed), DataWidth(num3.PackedWidth)]
         public enum SegPrefixKind : byte
         {
             [Symbol("no_seg_prefix", "SEG_OVD=0")]

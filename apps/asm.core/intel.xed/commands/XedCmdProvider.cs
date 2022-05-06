@@ -15,6 +15,8 @@ namespace Z0
 
         XedDocs XedDocs => XedRuntime.Docs;
 
+        ApiComments ApiComments => Service(Wf.ApiComments);
+
         WsProjects Projects => Service(Wf.WsProjects);
 
         XedPaths XedPaths => XedRuntime.Paths;

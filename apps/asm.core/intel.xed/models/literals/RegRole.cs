@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed)]
+        [SymSource(xed), DataWidth(num3.PackedWidth)]
         public enum RegRole : byte
         {
             INVALID,
