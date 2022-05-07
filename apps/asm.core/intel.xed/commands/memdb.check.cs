@@ -5,9 +5,24 @@
 namespace Z0
 {
     using static core;
+    using static XedRules;
 
     partial class XedCmdProvider
     {
+        [CmdOp("xed/db/check")]
+        Outcome CheckXedDb(CmdArgs args)
+        {
+            var located = XedDb.CalcLocatedFields(CalcRuleCells());
+            for(var i=0; i<located.Count; i++)
+            {
+                ref readonly var f0 = ref located[i];
+                var a = LocatedField.pack(f0);
+                var b = LocatedField.unpack(a);
+                var f1 = Require.equal(f0,b);
+            }
+
+            return true;
+        }
         void CheckMemDb(Dim2<uint> shape)
         {
             var r = shape.I;

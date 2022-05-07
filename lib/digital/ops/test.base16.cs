@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using D = DecimalDigitFacets;
-    using O = OctalDigitFacets;
-    using B = BinaryDigitFacets;
     using C = AsciCode;
-
-    using static core;
 
     /// <summary>
     /// Defines operations over character digits

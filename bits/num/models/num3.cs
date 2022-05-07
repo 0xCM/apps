@@ -317,5 +317,9 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bit operator >= (T a, T b)
             => a.Value >= b.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator OctalDigitSym(num3 src)
+            => (OctalDigitSym)Digital.@char((OctalDigitValue)src.Value);
     }
 }

@@ -4,13 +4,29 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct Digital
     {
+        [MethodImpl(Inline), Op]
+        public static SymVal<B,AsciCode,byte,N8> symbol<B>(B @base, AsciCode src)
+            where B : unmanaged, INumericBase
+                => new SymVal<B,AsciCode,byte,N8>(src);
+
+        [MethodImpl(Inline), Op]
+        public static SymVal<Base2,AsciCode,byte,N8> bin(AsciCode code)
+            => symbol(base2, code);
+
+        [MethodImpl(Inline), Op]
+        public static SymVal<Base8,AsciCode,byte,N8> oct(AsciCode code)
+            => symbol(base8, code);
+
+        [MethodImpl(Inline), Op]
+        public static SymVal<Base10,AsciCode,byte,N8> dec(AsciCode code)
+            => symbol(base10, code);
+
+        [MethodImpl(Inline), Op]
+        public static SymVal<Base16,AsciCode,byte,N8> hex(AsciCode code)
+            => symbol(base16, code);
+
         [MethodImpl(Inline), Op]
         public static BinaryDigitSym symbol(BinaryDigitValue src)
             => (BinaryDigitSym)(src + (byte)BinarySymFacet.First);

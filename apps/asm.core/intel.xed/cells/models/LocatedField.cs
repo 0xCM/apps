@@ -4,14 +4,45 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(PackedWidth,NativeWidth)]
+        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(PackedWidth)]
         public readonly record struct LocatedField : IComparable<LocatedField>
         {
-            public const byte NativeWidth = Coordinate.NativeWidth + num7.NativeWidth;
+            [MethodImpl(Inline)]
+            public static uint pack(LocatedField src)
+            {
+                var result = 0u;
+                result |= Coordinate.pack(src.Location) << LocationOffset;
+                result |= ((uint)src.Field << FieldOffset);
+                return result;
+            }
+
+            [MethodImpl(Inline)]
+            public static LocatedField unpack(uint src)
+            {
+                var location = Coordinate.unpack(src);
+                var field = (FieldKind)((src & FieldMask) >> FieldOffset);
+                return new LocatedField(location,field);
+            }
+
+            const byte LocationWidth = Coordinate.PackedWidth;
+
+            const byte LocationOffset = 0;
+
+            const uint LocationMask = Coordinate.PackedMask;
+
+            const byte FieldWidth = num7.PackedWidth;
+
+            const byte FieldOffset = LocationOffset + LocationWidth;
+
+            const uint FieldMask =  num7.MaxValue << FieldOffset;
 
             public const byte PackedWidth = Coordinate.PackedWidth + num7.PackedWidth;
+
+            public const uint PackedMask = LocationMask | FieldMask;
 
             public readonly Coordinate Location;
 
@@ -24,6 +55,13 @@ namespace Z0
                 Field = field;
             }
 
+            public static uint encode(LocatedField src, Span<char> dst)
+            {
+                var buffer = recover<num4>(ByteBlock8.Empty.Bytes);
+                num.unpack8x4(pack(src),buffer);
+                return (byte)num.render8x8(buffer, dst);
+            }
+
             public bool Equals(LocatedField src)
                 => Location == src.Location && Field == src.Field;
 
@@ -31,7 +69,22 @@ namespace Z0
                 => Location.GetHashCode() | ((int)Field << 24);
 
             public string Format()
-                => string.Format("{0} | 0x{1:X2} | {2}", Location, (byte)Field, Field == 0 ? 0.ToString() : Field.ToString());
+            {
+                var left = string.Format("{0} | 0x{1:X2} | {2,-26}",
+                    Location,
+                    (byte)Field,
+                    Field == 0 ? 0.ToString() : Field.ToString()
+                    );
+
+                var packed = pack(this);
+                var unpacked = unpack(packed);
+                Require.equal(this,unpacked);
+
+                Span<char> encoded = stackalloc char[24];
+                var count = encode(this,encoded);
+                var last = text.format(slice(encoded,0,count));
+                return string.Format("{0} | {1}", left, last);
+            }
 
             public override string ToString()
                 => Format();
@@ -54,7 +107,6 @@ namespace Z0
                 => new LocatedField(src.Left, src.Right);
 
             public static LocatedField Empty => default;
-
         }
     }
 }

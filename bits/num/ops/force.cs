@@ -8,7 +8,6 @@ namespace Z0
 
     partial struct num
     {
-
         [MethodImpl(Inline), Factory, Closures(Closure)]
         public static num2 force<T>(T src, N2 dst)
             where T : unmanaged

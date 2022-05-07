@@ -35,6 +35,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ushort pack(num9 a, num7 b)
             => (ushort)((uint)a |((uint)b << num9.PackedWidth));
-
     }
 }

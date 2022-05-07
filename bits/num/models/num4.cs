@@ -238,6 +238,18 @@ namespace Z0
             => create((byte)src);
 
         [MethodImpl(Inline)]
+        public static explicit operator bit(T src)
+            => (bit)(src.Value);
+
+        [MethodImpl(Inline)]
+        public static explicit operator num2(T src)
+            => (num2)(src.Value);
+
+        [MethodImpl(Inline)]
+        public static explicit operator num3(T src)
+            => (num3)(src.Value);
+
+        [MethodImpl(Inline)]
         public static T operator + (T x, T y)
             => add(x,y);
 
@@ -316,5 +328,17 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bit operator >= (T a, T b)
             => a.Value >= b.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator char(num4 src)
+            => (char)Hex.upper(src.Value);
+
+        [MethodImpl(Inline)]
+        public static explicit operator HexUpperSym(num4 src)
+            => (HexUpperSym)Hex.upper(src.Value);
+
+        [MethodImpl(Inline)]
+        public static explicit operator HexLowerSym(num4 src)
+            => (HexLowerSym)Hex.lower(src.Value);
     }
 }

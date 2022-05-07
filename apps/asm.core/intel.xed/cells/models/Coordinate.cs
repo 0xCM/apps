@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(PackedWidth,NativeWidth)]
+        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(PackedWidth)]
         public readonly record struct Coordinate : IComparable<Coordinate>
         {
             [MethodImpl(Inline)]
@@ -15,7 +15,6 @@ namespace Z0
             {
                 var result = 0u;
                 result |= ((uint)src.Kind << KindOffset);
-                result |= ((uint)src.Logic << LogicOffset);
                 result |= ((uint)src.Table << TableOffset);
                 result |= ((uint)src.Row << RowOffset);
                 result |= ((uint)src.Col << ColOffset);
@@ -26,18 +25,17 @@ namespace Z0
             public static Coordinate unpack(uint src)
             {
                 var kind = (RuleTableKind)((src & KindMask) >> KindOffset);
-                var logic = (LogicKind)((src & LogicMask) >> LogicOffset);
-                var table = (ushort)((src & TableMask) >> TableOffset);
+                var rule = (RuleName)((src & TableMask) >> TableOffset);
                 var row = (ushort)((src & RowMask) >> RowOffset);
                 var col = (byte)((src & ColMask) >> ColOffset);
-                return new Coordinate(kind, logic, table,row,col);
+                return new Coordinate(new RuleSig(kind,rule), row,col);
             }
 
-            public const byte PackedWidth = KindWidth + LogicWidth + TableWidth + RowWidth + ColWidth;
+            public const byte PackedWidth = KindWidth + TableWidth + RowWidth + ColWidth;
 
-            public const byte NativeWidth = num2.NativeWidth + LogicClass.NativeWidth + num9.NativeWidth + num8.NativeWidth + num4.NativeWidth;
+            public const uint PackedMask = KindMask | TableMask | RowMask | ColMask;
 
-            public static DataSize DataSize => (PackedWidth,NativeWidth);
+            public const string RenderPatern = "{0,-32} | ({1}, {2:X3}, {3:X2}, {4:X2})";
 
             const byte KindWidth = num2.PackedWidth;
 
@@ -45,15 +43,9 @@ namespace Z0
 
             const uint KindMask = (uint)num2.MaxValue << KindOffset;
 
-            const byte LogicWidth = LogicClass.PackedWidth;
-
-            const byte LogicOffset = KindOffset + KindWidth;
-
-            const uint LogicMask = num2.MaxValue << LogicOffset;
-
             const byte TableWidth = num9.PackedWidth;
 
-            const byte TableOffset = LogicOffset + LogicWidth;
+            const byte TableOffset = KindOffset + KindWidth;
 
             const uint TableMask = (uint)num9.MaxValue << TableOffset;
 
@@ -71,20 +63,17 @@ namespace Z0
 
             public readonly RuleTableKind Kind;
 
-            public readonly LogicClass Logic;
-
-            public readonly ushort Table;
+            public readonly RuleName Table;
 
             public readonly byte Row;
 
             public readonly byte Col;
 
             [MethodImpl(Inline)]
-            public Coordinate(RuleTableKind kind, LogicClass logic, ushort table, ushort row, byte col)
+            public Coordinate(RuleSig rule, ushort row, byte col)
             {
-                Kind = kind;
-                Logic = logic;
-                Table = table;
+                Kind = rule.TableKind;
+                Table = rule.TableName;
                 Row = (byte)row;
                 Col = col;
             }
@@ -102,7 +91,7 @@ namespace Z0
                 var result = cmp(Kind,src.Kind);
                 if(result == 0)
                 {
-                    result = Table.CompareTo(src.Table);
+                    result = XedRules.cmp(Table,src.Table);
                     if(result==0)
                     {
                         result = Row.CompareTo(src.Row);
@@ -115,7 +104,13 @@ namespace Z0
             }
 
             public string Format()
-                => XedRender.format(this);
+             => string.Format(Coordinate.RenderPatern,
+                XedRender.format(Table),
+                XedRender.format(Kind),
+                (ushort)Table,
+                Row,
+                Col
+                );
 
             public override string ToString()
                 => Format();

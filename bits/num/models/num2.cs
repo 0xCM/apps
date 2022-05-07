@@ -85,7 +85,6 @@ namespace Z0
         public static bit le(T a, T b)
             => a.Value <= b.Value;
 
-
         [MethodImpl(Inline), Op]
         public static T negate(T src)
             => create(math.negate(src.Value));
@@ -262,6 +261,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public static explicit operator T(ulong src)
             => create((byte)src);
+
+        [MethodImpl(Inline)]
+        public static explicit operator bit(T src)
+            => (bit)(src.Value);
 
         [MethodImpl(Inline)]
         public static T operator + (T x, T y)

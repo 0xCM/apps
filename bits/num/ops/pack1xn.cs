@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial struct num
     {
         [MethodImpl(Inline), Op]
@@ -39,6 +37,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static num11 pack(bit a, bit b, num9 c)
             => (num11)((uint)a | (uint)b << 1 | (uint)c << 2);
-
     }
 }

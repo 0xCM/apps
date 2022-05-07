@@ -10,6 +10,22 @@ namespace Z0
     partial struct Hex
     {
         [MethodImpl(Inline), Op]
+        public static char hexchar(Hex2 src)
+            => (char)hexchar(UpperCase, src);
+
+        [MethodImpl(Inline), Op]
+        public static char hexchar(Hex3 src)
+            => (char)hexchar(UpperCase, src);
+
+        [MethodImpl(Inline), Op]
+        public static char upper(Hex4 src)
+            => (char)hexchar(UpperCase, src);
+
+        [MethodImpl(Inline), Op]
+        public static char lower(Hex4 src)
+            => hexchar(LowerCase, src);
+
+        [MethodImpl(Inline), Op]
         public static char hexchar(UpperCased @case, Hex1 src)
             => (char)symbol(@case, (Hex3Kind)src.Value);
 

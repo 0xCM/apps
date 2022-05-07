@@ -83,7 +83,7 @@ namespace Z0
             public Coordinate Location
             {
                 [MethodImpl(Inline)]
-                get => new Coordinate(Rule.TableKind, Logic, Table, Row, Col);
+                get => new Coordinate(Rule, Row, Col);
             }
 
 

@@ -9,7 +9,6 @@ namespace Z0
         [BitMask("00000000 11111111")]
         public const ushort Seg16x8x0 = Lo8x8;
 
-
         [BitMask("11111111 00000000")]
         public const ushort Seg16x8x1 = Seg16x8x0 << 8;
 

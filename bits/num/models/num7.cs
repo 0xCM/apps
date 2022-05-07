@@ -263,6 +263,30 @@ namespace Z0
             => create((byte)src);
 
         [MethodImpl(Inline)]
+        public static explicit operator bit(T src)
+            => (bit)(src.Value);
+
+        [MethodImpl(Inline)]
+        public static explicit operator num2(T src)
+            => (num2)(src.Value);
+
+        [MethodImpl(Inline)]
+        public static explicit operator num3(T src)
+            => (num3)(src.Value);
+
+        [MethodImpl(Inline)]
+        public static explicit operator num4(T src)
+            => (num4)(src.Value);
+
+        [MethodImpl(Inline)]
+        public static explicit operator num5(T src)
+            => (num5)(src.Value);
+
+        [MethodImpl(Inline)]
+        public static explicit operator num6(T src)
+            => (num6)(src.Value);
+
+        [MethodImpl(Inline)]
         public static T operator + (T x, T y)
             => add(x,y);
 

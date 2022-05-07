@@ -67,4 +67,17 @@ namespace Z0
     {
 
     }
+
+    public interface ISymbol<H,B,S,T,N> : ISymbol<H,S,T,N>
+        where H : unmanaged, ISymbol<H,B,S,T,N>
+        where S : unmanaged
+        where T : unmanaged
+        where N : unmanaged, ITypeNat
+        where B : unmanaged, INumericBase
+    {
+        new B Base  => default;
+
+        NumericBaseKind ISymVal.Base
+            => Base.Kind;
+    }
 }

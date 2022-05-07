@@ -4,23 +4,29 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [DataType("base<n:16>")]
-    public readonly struct Base16 : INumericBase<Base16>
+    public readonly record struct Base16 : INumericBase<Base16>
     {
         public static Base16 Base => default;
 
-        public NumericBaseKind Modulus
+        public NumericBaseKind Kind
             => NumericBaseKind.Base16;
 
         public NumericBaseIndicator Indicator
             => NumericBaseIndicator.Base16;
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => (byte)Kind;
+        }
+
+
         [MethodImpl(Inline)]
         public static implicit operator int(Base16 src)
-            => (int)src.Modulus;
+            => (int)src.Kind;
 
         [MethodImpl(Inline)]
         public static implicit operator NumericBaseKind(Base16 src)
-            => src.Modulus;
+            => src.Kind;
     }
 }

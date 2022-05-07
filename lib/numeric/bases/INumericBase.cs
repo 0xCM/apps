@@ -6,7 +6,7 @@ namespace Z0
 {
     public interface INumericBase
     {
-        NumericBaseKind Modulus {get;}
+        NumericBaseKind Kind {get;}
 
         NumericBaseIndicator Indicator {get;}
     }
@@ -14,6 +14,6 @@ namespace Z0
     public interface INumericBase<F> : INumericBase
         where F : unmanaged, INumericBase<F>
     {
-        
+
     }
 }
