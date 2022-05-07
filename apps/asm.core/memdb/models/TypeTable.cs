@@ -17,7 +17,7 @@ namespace Z0
             public readonly uint TypeKey;
 
             [RenderWidth(32)]
-            public readonly asci64 TypeName;
+            public readonly Label TypeName;
 
             [RenderWidth(12)]
             public readonly byte PackedWidth;
@@ -32,7 +32,7 @@ namespace Z0
             public readonly Index<TypeTableRow> Rows;
 
             [MethodImpl(Inline)]
-            public TypeTable(uint key, asci64 name, DataSize size, TypeTableRow[] rows)
+            public TypeTable(uint key, Label name, DataSize size, TypeTableRow[] rows)
             {
                 TypeKey = key;
                 TypeName = name;
@@ -46,52 +46,52 @@ namespace Z0
             public int CompareTo(TypeTable src)
                 => TypeName.CompareTo(src.TypeName);
 
-            static string combined()
-            {
-                var s0 = z16;
-                var s1 = z16;
-                var left = Columns(ref s0);
-                var right = TypeTableRow.Columns(ref s1);
-                var joined = resequence(left,right);
-                var names = joined.Select(x => x.ColName.Format());
-                var widths = joined.Select(x => x.RenderWidth);
-                var pattern = joined.Select(x => RP.slot((byte)x.Pos, (sbyte)-x.RenderWidth)).Concat(" | ");
-                return pattern;
-            }
+            // static string combined()
+            // {
+            //     var s0 = z16;
+            //     var s1 = z16;
+            //     var left = Columns(ref s0);
+            //     var right = TypeTableRow.Columns(ref s1);
+            //     var joined = resequence(left,right);
+            //     var names = joined.Select(x => x.ColName.Format());
+            //     var widths = joined.Select(x => x.RenderWidth);
+            //     var pattern = joined.Select(x => RP.slot((byte)x.Pos, (sbyte)-x.RenderWidth)).Concat(" | ");
+            //     return pattern;
+            // }
 
-            public static string header()
-            {
-                var s0 = z16;
-                var s1 = z16;
-                var left = Columns(ref s0);
-                var right = TypeTableRow.Columns(ref s1);
-                var joined = resequence(left,right);
-                var names = joined.Select(x => x.ColName.Format());
-                var widths = joined.Select(x => x.RenderWidth);
-                return string.Format(combined(), names.Storage);
-            }
+            // public static string header()
+            // {
+            //     var s0 = z16;
+            //     var s1 = z16;
+            //     var left = Columns(ref s0);
+            //     var right = TypeTableRow.Columns(ref s1);
+            //     var joined = resequence(left,right);
+            //     var names = joined.Select(x => x.ColName.Format());
+            //     var widths = joined.Select(x => x.RenderWidth);
+            //     return string.Format(combined(), names.Storage);
+            // }
 
-            public string Format()
-            {
-                var pattern = combined();
-                var dst = text.emitter();
-                var left = Tables.dynarow(Tables.fields(typeof(TypeTable)));
-                left.Update(this);
-                var right = Tables.dynarow(Tables.fields(typeof(TypeTableRow)));
+            // public string Format()
+            // {
+            //     var pattern = combined();
+            //     var dst = text.emitter();
+            //     var left = Tables.dynarow(Tables.fields(typeof(TypeTable)));
+            //     left.Update(this);
+            //     var right = Tables.dynarow(Tables.fields(typeof(TypeTableRow)));
 
-                for(var j=0; j<Rows.Count; j++)
-                {
-                    right.Update(Rows[j]);
+            //     for(var j=0; j<Rows.Count; j++)
+            //     {
+            //         right.Update(Rows[j]);
 
-                    var cells =  (left.Cells.Index() + right.Cells.Index()).Storage;
-                    dst.AppendLineFormat(pattern, cells);
-                }
+            //         var cells =  (left.Cells.Index() + right.Cells.Index()).Storage;
+            //         dst.AppendLineFormat(pattern, cells);
+            //     }
 
-                return dst.Emit();
-            }
+            //     return dst.Emit();
+            // }
 
-            public override string ToString()
-                => Format();
+            // public override string ToString()
+            //     => Format();
 
             uint IEntity.Key
                 => TypeKey;

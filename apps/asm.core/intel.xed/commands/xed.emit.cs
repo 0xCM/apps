@@ -33,20 +33,21 @@ namespace Z0
             return true;
         }
 
-        DbSvc MemDbSvc => Service(DbSvc.create);
-            //=> service(DbSvc.create);
 
         [CmdOp("xed/db/emit")]
         Outcome EmitSchema(CmdArgs args)
         {
             XedDb.EmitArtifacts();
 
-            var objects = MemDbSvc.Objects;
+
+            var svc = XedDb.Services;
+            ref readonly var objects = ref svc.Objects;
+
             var maxField = z8;
             var maxType = z8;
             for(var i=0; i<objects.TypeTableCount; i++)
             {
-                ref readonly var table = ref MemDbSvc.Objects.TypeTable(i);
+                ref readonly var table = ref objects.TypeTable(i);
                 var type = table.TypeName.Format().Trim();
                 if(type.Length > maxType)
                     maxType = (byte)type.Length;
@@ -60,7 +61,6 @@ namespace Z0
 
                     Write(string.Format("{0,-16} | {1,-6} {2,-6} | {3,-64} | {4}", table.TypeName, row.Index, row.Value, row.Field, row.Meaning));
                 }
-
             }
 
 

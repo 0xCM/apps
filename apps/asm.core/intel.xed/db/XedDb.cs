@@ -12,12 +12,18 @@ namespace Z0
 
     public partial class XedDb : AppService<XedDb>
     {
-        public static DbSvc services(IWfRuntime wf)
-            => service(DbSvc.create);
+        static MemDb MemDb;
+
+        static XedDb()
+        {
+            MemDb = MemDb.open();
+        }
 
         new XedPaths Paths => Service(Wf.XedPaths);
 
-        public DbSvc DbServices => Service(() => services(Wf));
+        public ref readonly DbSvc Services => ref MemDb.Services;
+
+        ref readonly DbRender Render => ref Services.ObjRender;
 
         RuleTables RuleTables => Rules.CalcRuleTables();
 
@@ -26,12 +32,6 @@ namespace Z0
         bool PllExec => AppData.get().PllExec();
 
         public XedRules Rules => Service(Wf.XedRules);
-
-        public DbObjects Objects => DbServices.Objects;
-
-        public DbRender Render => DbServices.ObjRender;
-
-        public DbSchema Schema => DbServices.Schema;
 
         public DbViews Views
         {

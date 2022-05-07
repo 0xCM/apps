@@ -8,39 +8,41 @@ namespace Z0
     {
         public class DbSvc
         {
-            internal static DbSvc create()
-                => Instance;
+            internal static DbSvc create(MemDb db)
+                => new DbSvc(db);
 
-            internal static DbRender Render
-                => _Render;
+            readonly DbRender _Render;
 
-            internal static DbObjects DbObj
-                => _Objects;
+            readonly DbSchema _Schema;
 
-            static DbObjects _Objects;
+            readonly DbObjects _Objects;
 
-            static DbRender _Render;
+            readonly MemDb Db;
 
-            static DbSchema _Schema;
-
-            public DbObjects Objects => _Objects;
-
-            public DbRender ObjRender => _Render;
-
-            public DbSchema Schema => _Schema;
-
-            static DbSvc Instance;
-
-            DbSvc()
+            DbSvc(MemDb db)
             {
+                Db = db;
+                _Objects = DbObjects.create(db);
+                _Schema = new (_Objects);
+                _Render = new (_Schema);
             }
 
-            static DbSvc()
+            public ref readonly DbObjects Objects
             {
-                _Objects = DbObjects.create();
-                _Render = new (_Objects);
-                _Schema = new (_Objects);
-                Instance = new();
+                [MethodImpl(Inline)]
+                get => ref _Objects;
+            }
+
+            public ref readonly DbRender ObjRender
+            {
+                [MethodImpl(Inline)]
+                get => ref _Render;
+            }
+
+            public ref readonly DbSchema Schema
+            {
+                [MethodImpl(Inline)]
+                get => ref _Schema;
             }
         }
     }

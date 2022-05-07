@@ -20,19 +20,19 @@ namespace Z0
             public readonly ushort Index;
 
             [RenderWidth(64)]
-            public readonly asci64 Field;
+            public readonly Label Field;
 
             [RenderWidth(64)]
-            public readonly asci64 Symbol;
+            public readonly Label Symbol;
 
             [RenderWidth(16)]
             public readonly ulong Value;
 
             [RenderWidth(64)]
-            public readonly asci64 Meaning;
+            public readonly StringRef Meaning;
 
             [MethodImpl(Inline)]
-            public TypeTableRow(uint key, ushort index, asci64 field, ulong value, asci64 symbol, asci64 meaning)
+            public TypeTableRow(uint key, ushort index, Label field, ulong value, Label symbol, StringRef meaning)
             {
                 Key = key;
                 Index =index;
@@ -45,21 +45,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public int CompareTo(TypeTableRow src)
                 => Index.CompareTo(src.Index);
-
-            public string Format()
-            {
-                return string.Format(DbSvc.Render.Pattern(ObjKind),
-                    Key,
-                    Index,
-                    Field,
-                    Symbol,
-                    Value,
-                    Meaning
-                    );
-            }
-
-            public override string ToString()
-                => Format();
 
             uint IEntity.Key
                 => Key;

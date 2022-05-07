@@ -13,12 +13,14 @@ namespace Z0
         public void EmitTypeTables()
         {
             var dst = text.emitter();
-            var objects = Schema.Objects;
-            var render = Render;
-            dst.AppendLine(TypeTable.header());
+            var objects = Services.Objects;
+            dst.AppendLine(Render.TypeTableHeader());
             var count = objects.ObjectCount(ObjectKind.TypeTable);
             for(var i=0; i<count; i++)
-                dst.Append(objects.TypeTable(i).Format());
+            {
+                dst.Append(Render.Format(objects.TypeTable(i)));
+
+            }
             FileEmit(dst.Emit(), count, Paths.DbTarget("typetables", FileKind.Csv), TextEncodingKind.Asci);
         }
     }
