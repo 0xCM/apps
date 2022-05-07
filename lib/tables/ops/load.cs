@@ -8,18 +8,6 @@ namespace Z0
 
     partial struct Tables
     {
-        // [Op, Closures(Closure)]
-        // public static void load<T>(in ClrTableField[] fields, in T src, ref DynamicRow<T> dst)
-        //     where T : struct
-        // {
-        //     var tr = __makeref(edit(src));
-        //     var count = fields.Length;
-        //     var fv = @readonly(fields);
-        //     var target = dst.Edit;
-        //     for(var i=0u; i<count; i++)
-        //         dst[i] = skip(fv, i).Definition.GetValueDirect(tr);
-        // }
-
         [Op, Closures(Closure)]
         public static void load<T>(in T src, ref DynamicRow<T> dst)
             where T : struct

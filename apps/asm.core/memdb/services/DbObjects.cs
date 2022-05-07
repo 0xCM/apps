@@ -23,7 +23,7 @@ namespace Z0
 
             Index<Relation> RelationSource;
 
-            Index<TypeTable> TypeTableSource;
+            Index<TypeTable> _TypeTables;
 
             [MethodImpl(Inline)]
             public ref readonly uint ObjectCount(ObjectKind kind)
@@ -38,16 +38,22 @@ namespace Z0
             public uint TypeTableCount
             {
                 [MethodImpl(Inline)]
-                get => TypeTableSource.Count;
+                get => _TypeTables.Count;
             }
 
             [MethodImpl(Inline)]
             public ref readonly TypeTable TypeTable(uint i)
-                => ref TypeTableSource[i];
+                => ref _TypeTables[i];
 
             [MethodImpl(Inline)]
             public ref readonly TypeTable TypeTable(int i)
-                => ref TypeTableSource[i];
+                => ref _TypeTables[i];
+
+            public ref readonly Index<TypeTable> TypeTables
+            {
+                [MethodImpl(Inline)]
+                get => ref _TypeTables;
+            }
 
             readonly MemDb Db;
 
@@ -60,7 +66,7 @@ namespace Z0
             DbObjects(MemDb db)
             {
                 Db = db;
-                TypeTableSource = CalcTypeTables();
+                _TypeTables = CalcTypeTables();
                 TableSpecSource = sys.empty<Entity>();
                 ColSpecSource = sys.empty<ColSpec>();
                 RelationSource = sys.empty<Relation>();

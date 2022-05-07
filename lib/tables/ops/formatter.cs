@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
+    using static core;
 
     partial struct Tables
     {
@@ -31,7 +31,7 @@ namespace Z0
         /// </summary>
         /// <param name="widths">The column widths</param>
         /// <typeparam name="T">The record type</typeparam>
-        public static IRecordFormatter<T> formatter<T>(byte fieldwidth = DefaultFieldWidth, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
+        public static IRecordFormatter<T> formatter<T>(byte fieldwidth, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
             where T : struct
                 => formatter<T>(rowspec<T>(fieldwidth, rowpad, fk));
     }

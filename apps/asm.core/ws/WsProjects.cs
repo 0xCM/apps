@@ -394,7 +394,7 @@ namespace Z0
         {
             var subdirs = Tools.Root.SubDirs();
             var counter = 0u;
-            var formatter = Tables.formatter<ToolConfig>();
+            var formatter = Tables.formatter<ToolConfig>(16);
             var dst = Tools.Inventory();
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();

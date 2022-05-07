@@ -88,7 +88,7 @@ namespace Z0
             where T : struct
         {
             var count = src.Length;
-            var f = formatter<T>();
+            var f = formatter<T>(16);
             dst.AppendLine(f.FormatHeader());
             for(var i=0; i<count; i++)
                 dst.AppendLine(f.Format(skip(src,i)));

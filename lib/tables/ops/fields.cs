@@ -26,11 +26,23 @@ namespace Z0
         {
             var fields = src.DeclaredPublicInstanceFields().Ignore().Index();
             var count = fields.Count;
-            var buffer = sys.alloc<ClrTableField>(count);
-            ref var dst = ref first(buffer);
+            var dst = alloc<ClrTableField>(count);
             for(var i=z16; i<count; i++)
-                seek(dst, i) = new ClrTableField(i, fields[i]);
-            return buffer;
+            {
+                ref readonly var field = ref fields[i];
+                var render = field.Tag<RenderAttribute>();
+                if(render)
+                {
+                    var spec = render.Require().Spec;
+                    if(spec.Index < 0)
+                        spec = new (i, spec.Width, spec.Style);
+                    seek(dst,i) = new ClrTableField(spec, field);
+                }
+                else
+                    seek(dst, i) = new ClrTableField(i, field);
+
+            }
+            return dst;
         }
     }
 }

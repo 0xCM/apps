@@ -24,7 +24,7 @@ namespace Z0
             var data = BinaryCode.Empty;
             var parsing = false;
             var records = list<HexCsv>();
-            var formatter = Tables.formatter<HexCsv>();
+            var formatter = Tables.formatter<HexCsv>(16);
             using var reader = src.LineReader(TextEncodingKind.Asci);
             while(reader.Next(out var line))
             {

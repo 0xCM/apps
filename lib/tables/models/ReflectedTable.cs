@@ -4,24 +4,45 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     /// <summary>
     /// Describes an extant table
     /// </summary>
     public class ReflectedTable
     {
-        public Type Type {get;}
+        [Op]
+        public static ReflectedTable load(Type type)
+        {
+            var layout = type.Tag<StructLayoutAttribute>();
+            var id = TableId.identify(type);
+            LayoutKind? kind = null;
+            CharSet? charset = null;
+            byte? pack = null;
+            uint? size = null;
+            layout.OnSome(a =>{
+                kind = a.Value;
+                charset = a.CharSet;
+                pack = (byte)a.Pack;
+                size = (uint)a.Size;
+            });
 
-        public TableId Id {get;}
+            return new ReflectedTable(type, id, Tables.fields(type), kind, charset, pack,size);
+        }
 
-        public ClrTableField[] Fields {get;}
+        public readonly Type Type;
 
-        public LayoutKind? Layout {get;}
+        public readonly TableId Id;
 
-        public CharSet? CharSet {get;}
+        public readonly ClrTableField[] Fields;
 
-        public byte? Pack {get;}
+        public readonly LayoutKind? Layout;
 
-        public uint? Size {get;}
+        public readonly CharSet? CharSet;
+
+        public readonly byte? Pack;
+
+        public readonly uint? Size;
 
         [MethodImpl(Inline)]
         public ReflectedTable(Type type, TableId id, ClrTableField[] fields, LayoutKind? layout = null, CharSet? charset = null, byte? pack = null, uint? size = null)

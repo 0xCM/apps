@@ -16,7 +16,7 @@ namespace Z0
             TableId = Tables.identify<T>();
             Fields = Tables.fields<T>();
             FieldCount = Fields.Count;
-            Formatter = Tables.formatter<T>();
+            Formatter = Tables.formatter<T>(16);
         }
 
         protected char FieldDelimiter {get;}

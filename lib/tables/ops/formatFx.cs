@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct Tables
     {
         public static Func<T,string> formatFx<T>(byte? fieldwidth = null, ushort rowpad = 0)

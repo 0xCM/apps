@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct RenderWidth : ITextual
     {
-        public ushort Value {get;}
+        public readonly ushort Value;
 
         [MethodImpl(Inline)]
         public RenderWidth(ushort value)
@@ -31,6 +26,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator RenderWidth(ushort src)
             => new RenderWidth(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator RenderWidth(uint src)
+            => new RenderWidth((ushort)src);
 
         [MethodImpl(Inline)]
         public static explicit operator short(RenderWidth src)

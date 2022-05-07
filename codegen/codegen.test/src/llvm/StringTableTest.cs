@@ -52,7 +52,7 @@ namespace Z0.llvm
             var runtime = strings.memory(AVX512ST.Offsets, AVX512ST.Data);
             var offsets = runtime.Offsets;
             var count = runtime.EntryCount;
-            var formatter = Tables.formatter<MemoryStrings>();
+            var formatter = Tables.formatter<MemoryStrings>(16);
             var symbols = Symbols.index<AVX512Kind>();
             for(var i=0; i<offsets.Length; i++)
             {

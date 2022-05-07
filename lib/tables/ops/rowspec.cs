@@ -15,20 +15,6 @@ namespace Z0
         public static RowFormatSpec rowspec(RowHeader header, CellFormatSpec[] cells, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
             => new RowFormatSpec(header, cells, pattern(cells, header.Delimiter), rowpad, Chars.Pipe, fk);
 
-        [Op, Closures(Closure)]
-        public static RowFormatSpec rowspec(Type record, ReadOnlySpan<byte> widths, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
-        {
-            var _header = header(record, widths);
-            return rowspec(_header, _header.Cells.Select(x => x.CellFormat), rowpad, fk);
-        }
-
-        [Op, Closures(Closure)]
-        public static RowFormatSpec rowspec(Type record, byte width = DefaultFieldWidth, ushort rowpad = 0, RecordFormatKind fk = RecordFormatKind.Tablular)
-        {
-            var _header = header(record, width);
-            return rowspec(_header, _header.Cells.Select(x => x.CellFormat), rowpad, fk);
-        }
-
         /// <summary>
         /// Defines a <see cref='RowFormatSpec'/>
         /// </summary>

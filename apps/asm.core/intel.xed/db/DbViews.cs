@@ -7,6 +7,7 @@ namespace Z0
 {
     using static XedRules;
     using static XedGrids;
+    using static MemDb;
 
     partial class XedDb
     {
@@ -25,6 +26,12 @@ namespace Z0
 
             public ReadOnlySpan<RuleGrid> Grids
                 => Db.CalcGrids(Db.RuleCells);
+
+            public ref readonly Index<TypeTable> TypeTables
+            {
+                [MethodImpl(Inline)]
+                get => ref Db.Services.Objects.TypeTables;
+            }
         }
     }
 }

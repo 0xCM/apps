@@ -16,7 +16,7 @@ namespace Z0.Asm
             var current = packs.Last;
             var archive = ApiPacks.Archive(current.Root);
             var entries = ApiCatalogs.LoadApiCatalog(archive.ContextRoot());
-            var formatter = Z0.Tables.formatter<ApiCatalogEntry>();
+            var formatter = Z0.Tables.formatter<ApiCatalogEntry>(16);
             iter(entries, entry => Wf.Row(formatter.Format(entry)));
             return true;
         }

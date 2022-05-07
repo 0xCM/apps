@@ -24,10 +24,33 @@ namespace Z0
         /// </summary>
         public readonly Name FieldName;
 
+        /// <summary>
+        /// A render specification, if any
+        /// </summary>
+        public readonly RenderSpec RenderSpec;
+
+        /// <summary>
+        /// The field width, if available
+        /// </summary>
+        public readonly ushort FieldWidth;
+
         [MethodImpl(Inline)]
         public ClrTableField(ushort index, FieldInfo def)
         {
+            RenderSpec = RenderSpec.Empty;
             FieldIndex = index;
+            Definition = def;
+            FieldName = Tables.name(def);
+            FieldWidth = 0;
+        }
+
+        [MethodImpl(Inline)]
+        public ClrTableField(RenderSpec spec, FieldInfo def)
+        {
+            RenderSpec = spec;
+            Require.invariant(spec.Width > 0);
+            FieldWidth = (ushort)spec.Width;
+            FieldIndex = (ushort)spec.Index;
             Definition = def;
             FieldName = Tables.name(def);
         }

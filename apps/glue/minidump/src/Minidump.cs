@@ -38,7 +38,7 @@ namespace Z0
             var src = Wf.Db().DumpPath("capture");
             if(src.Exists)
             {
-                var formatter = Tables.formatter<DumpFileHeader>();
+                var formatter = Tables.formatter<DumpFileHeader>(16);
                 using var md = Minidump.open(Wf, src);
                 var header = formatter.Format(md.Header, RecordFormatKind.KeyValuePairs);
                 Wf.Row(header);

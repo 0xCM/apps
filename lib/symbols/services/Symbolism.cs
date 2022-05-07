@@ -75,7 +75,7 @@ namespace Z0
             using var writer = dst.Writer();
             writer.WriteLine(formatter.FormatHeader());
             for(var i=0; i<count; i++)
-                writer.WriteLine(formatter.Format(skip(rows,i)));
+                writer.WriteLine(formatter.Format(rows[i]));
             EmittedTable<SymLiteralRow>(flow, count);
             return rows;
         }

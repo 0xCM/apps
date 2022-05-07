@@ -19,7 +19,7 @@ namespace Z0
         [Op, Closures(Closure)]
         public static string format<T>(in T src)
             where T : struct
-                => formatter<T>().Format(src);
+                => formatter<T>(DefaultFieldWidth).Format(src);
 
         [Op, Closures(Closure)]
         public static string format<T>(ref RecordFormatter<T> formatter, in T src, RecordFormatKind kind)
@@ -31,7 +31,6 @@ namespace Z0
             else
                 return pairs(formatter.FormatSpec, formatter.Adapter);
         }
-
 
         [Op, Closures(Closure)]
         public static string format<T>(in RowFormatSpec rowspec, in DynamicRow<T> src)
@@ -58,7 +57,7 @@ namespace Z0
         {
             var records = src.View;
             var count = records.Length;
-            var formatter = Tables.formatter<ListedFile>();
+            var formatter = Tables.formatter<ListedFile>(DefaultFieldWidth);
             dst.AppendLine(formatter.FormatHeader());
             for(var i=0u; i<count; i++)
             {
@@ -72,7 +71,7 @@ namespace Z0
         {
             var count = src.Count;
             var listed = src.View;
-            var formatter = Tables.formatter<ListedFile>();
+            var formatter = Tables.formatter<ListedFile>(16);
             ref readonly var file = ref src[0];
             ref var formatted = ref first(dst);
 

@@ -12,30 +12,6 @@ namespace Z0
 
     partial struct Asci
     {
-        // [MethodImpl(Inline), Op]
-        // public static uint encode(ReadOnlySpan<char> src, uint offset, Span<byte> dst)
-        // {
-        //     var count = 0u;
-        //     var j=offset;
-        //     for(var i=0; i<src.Length && j<dst.Length; i++,j++)
-        //     {
-        //         ref readonly var c = ref skip(src,i);
-        //         if(c !=0)
-        //         {
-        //             seek(dst,j) = (byte)c;
-        //             count++;
-        //         }
-        //         else
-        //             break;
-        //     }
-        //     return count;
-        // }
-
-        // [MethodImpl(Inline), Op]
-        // public static uint encode(ReadOnlySpan<char> src, Span<byte> dst)
-        //     => encode(src,0u,dst);
-
-
         [MethodImpl(Inline), Op]
         public static void decode(N48 n, ReadOnlySpan<byte> src, Span<char> dst)
         {

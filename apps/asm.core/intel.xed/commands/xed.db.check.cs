@@ -6,22 +6,43 @@ namespace Z0
 {
     using static core;
     using static XedRules;
+    using static MemDb;
 
     partial class XedCmdProvider
     {
         [CmdOp("xed/db/check")]
         Outcome CheckXedDb(CmdArgs args)
         {
+            CheckLocatedFields();
+
+            var formatter = RecordFormatter.create(typeof(TypeTableRow));
+            var types = XedDb.Views.TypeTables;
+
+            Write(formatter.FormatHeader());
+            for(var i=0; i<types.Count; i++)
+            {
+                ref readonly var type = ref types[i];
+                ref readonly var rows = ref type.Rows;
+                for(var j=0; j<rows.Count; j++)
+                {
+                    ref readonly var row = ref rows[j];
+                    Write(formatter.Format(row));
+                }
+            }
+
+
+            return true;
+        }
+
+        void CheckLocatedFields()
+        {
             var located = XedDb.CalcLocatedFields(CalcRuleCells());
             for(var i=0; i<located.Count; i++)
             {
                 ref readonly var f0 = ref located[i];
                 var a = LocatedField.pack(f0);
-                var b = LocatedField.unpack(a);
-                var f1 = Require.equal(f0,b);
+                Require.equal(f0,LocatedField.unpack(a));
             }
-
-            return true;
         }
         void CheckMemDb(Dim2<uint> shape)
         {

@@ -13,22 +13,22 @@ namespace Z0
 
             public const byte ColCount = 6;
 
-            [RenderWidth(8)]
+            [Render(8)]
             public readonly uint Key;
 
-            [RenderWidth(8)]
+            [Render(8)]
             public readonly ushort Index;
 
-            [RenderWidth(64)]
+            [Render(64)]
             public readonly Label Field;
 
-            [RenderWidth(64)]
+            [Render(64)]
             public readonly Label Symbol;
 
-            [RenderWidth(16)]
+            [Render(16)]
             public readonly ulong Value;
 
-            [RenderWidth(64)]
+            [Render(64)]
             public readonly StringRef Meaning;
 
             [MethodImpl(Inline)]

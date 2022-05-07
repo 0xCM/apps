@@ -24,5 +24,6 @@ namespace Z0
         public static RowAdapter<T> adapter<T>()
             where T : struct
                 => adapter<T>(fields<T>());
+
     }
 }

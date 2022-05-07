@@ -352,7 +352,7 @@ namespace Z0
             var result = Outcome.Success;
             var ext = FS.ext("env") + FS.Log;
             var paths = Ws.Tools().AdminFiles(ext);
-            var formatter = Tables.formatter<EnvVarSet>();
+            var formatter = Tables.formatter<EnvVarSet>(16);
             foreach(var path in paths)
             {
                 result = EnvVarSet.parse(path, out var dst);

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
     using System.Reflection.Metadata.Ecma335;
 
     using static core;
@@ -18,7 +16,7 @@ namespace Z0
             var entries = list<CliRowStats>();
             var seq = 0u;
             var flow = Wf.EmittingTable<CliRowStats>(dst);
-            var formatter = Tables.formatter<CliRowStats>();
+            var formatter = Tables.formatter<CliRowStats>(16);
             using var writer = dst.Writer();
             writer.WriteLine(formatter.FormatHeader());
 

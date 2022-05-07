@@ -13,19 +13,19 @@ namespace Z0
 
             public const ObjectKind ObjKind = ObjectKind.TypeTable;
 
-            [RenderWidth(8)]
+            [Render(8)]
             public readonly uint TypeKey;
 
-            [RenderWidth(32)]
+            [Render(32)]
             public readonly Label TypeName;
 
-            [RenderWidth(12)]
+            [Render(12)]
             public readonly byte PackedWidth;
 
-            [RenderWidth(12)]
+            [Render(12)]
             public readonly uint NativeWidth;
 
-            [RenderWidth(12)]
+            [Render(12)]
             public readonly ushort RowCount;
 
             [Ignore]
@@ -45,53 +45,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public int CompareTo(TypeTable src)
                 => TypeName.CompareTo(src.TypeName);
-
-            // static string combined()
-            // {
-            //     var s0 = z16;
-            //     var s1 = z16;
-            //     var left = Columns(ref s0);
-            //     var right = TypeTableRow.Columns(ref s1);
-            //     var joined = resequence(left,right);
-            //     var names = joined.Select(x => x.ColName.Format());
-            //     var widths = joined.Select(x => x.RenderWidth);
-            //     var pattern = joined.Select(x => RP.slot((byte)x.Pos, (sbyte)-x.RenderWidth)).Concat(" | ");
-            //     return pattern;
-            // }
-
-            // public static string header()
-            // {
-            //     var s0 = z16;
-            //     var s1 = z16;
-            //     var left = Columns(ref s0);
-            //     var right = TypeTableRow.Columns(ref s1);
-            //     var joined = resequence(left,right);
-            //     var names = joined.Select(x => x.ColName.Format());
-            //     var widths = joined.Select(x => x.RenderWidth);
-            //     return string.Format(combined(), names.Storage);
-            // }
-
-            // public string Format()
-            // {
-            //     var pattern = combined();
-            //     var dst = text.emitter();
-            //     var left = Tables.dynarow(Tables.fields(typeof(TypeTable)));
-            //     left.Update(this);
-            //     var right = Tables.dynarow(Tables.fields(typeof(TypeTableRow)));
-
-            //     for(var j=0; j<Rows.Count; j++)
-            //     {
-            //         right.Update(Rows[j]);
-
-            //         var cells =  (left.Cells.Index() + right.Cells.Index()).Storage;
-            //         dst.AppendLineFormat(pattern, cells);
-            //     }
-
-            //     return dst.Emit();
-            // }
-
-            // public override string ToString()
-            //     => Format();
 
             uint IEntity.Key
                 => TypeKey;
