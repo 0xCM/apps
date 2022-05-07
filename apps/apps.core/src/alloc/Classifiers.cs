@@ -8,6 +8,8 @@ namespace Z0
 
     public readonly struct Classifiers
     {
+        public static ClassChecks Checks(IWfRuntime wf) => ClassChecks.create(wf);
+
         public class ClassChecks : Checker<ClassChecks>
         {
             public Outcome CheckSymNames()
@@ -24,7 +26,7 @@ namespace Z0
                     Z0.Require.equal(c.Ordinal, i);
                     Z0.Require.equal(s.Key.Value, c.Ordinal);
                     Z0.Require.equal(s.Expr.Format(), c.Symbol.Format());
-                    Z0.Require.equal(s.Name, c.ClassName.Format());
+                    Z0.Require.equal(s.Name, c.Identifier.Format());
                 }
 
                 return result;

@@ -24,5 +24,4 @@ namespace Z0
             DispensedKind = kind;
         }
     }
-
 }

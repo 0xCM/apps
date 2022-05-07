@@ -5,7 +5,7 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct ValueClass<T>
+    public readonly record struct ValueClass<T>
     {
         public readonly uint Ordinal;
 

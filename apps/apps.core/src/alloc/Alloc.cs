@@ -19,7 +19,6 @@ namespace Z0
             var total = 0u;
             for(var i=0; i<count; i++)
                 total += (uint)skip(src,i).Length;
-
             var storage  = StringBuffers.buffer(total);
             var alloc = LabelAllocator.alloc(storage);
             var labels = core.alloc<Label>(count);

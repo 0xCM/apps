@@ -8,7 +8,7 @@ namespace Z0
     /// Defines a classification
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct ValueClass<K,T>
+    public readonly record struct ValueClass<K,T>
         where K : unmanaged
     {
         public readonly uint Ordinal;
