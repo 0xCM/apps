@@ -26,6 +26,19 @@ namespace Z0
 
         public static XedRegMap Service => Instance;
 
+        static Dictionary<RegKind,XedRegId> RX = new Pairings<RegKind, XedRegId>(new Paired<RegKind,XedRegId>[]{
+            (RegKind.MM0,XedRegId.MMX0),
+            (RegKind.MM1,XedRegId.MMX1),
+            (RegKind.MM2,XedRegId.MMX2),
+            (RegKind.MM3,XedRegId.MMX3),
+            (RegKind.MM4,XedRegId.MMX4),
+            (RegKind.MM5,XedRegId.MMX5),
+            (RegKind.MM6,XedRegId.MMX6),
+            (RegKind.MM7,XedRegId.MMX7),
+        }).Storage.ToDictionary();
+
+        static Dictionary<XedRegId,RegKind> XR = core.map(RX, x => paired(x.Value, x.Key)).ToDictionary();
+
         static XedRegMap create()
         {
             var xsyms = Symbols.index<XedRegId>().View;
@@ -42,6 +55,14 @@ namespace Z0
                 {
                     rlu[xedreg.Kind] = kind;
                     xlu[kind] = xedreg;
+                }
+                else
+                {
+                    if(XR.TryGetValue(xedreg, out var rk))
+                    {
+                        rlu[xedreg.Kind] = rk;
+                        xlu[rk] = xedreg;
+                    }
                 }
             }
 

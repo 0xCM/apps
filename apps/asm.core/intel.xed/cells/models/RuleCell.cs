@@ -22,7 +22,10 @@ namespace Z0
                 Key = metrics.Key;
                 Size = metrics.Size;
                 Value = value;
-                Require.equal((byte)metrics.Key.Field, (byte)value.Field);
+                if(metrics.Key.Field != value.Field)
+                    term.warn($"{metrics.Key.Field} != {value.Field}");
+
+                //Require.equal((byte)metrics.Key.Field, (byte)value.Field);
             }
 
             [MethodImpl(Inline)]

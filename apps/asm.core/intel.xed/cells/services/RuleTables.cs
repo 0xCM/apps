@@ -14,9 +14,9 @@ namespace Z0
             public static Index<RuleCell> linearize(Pairings<RuleSig,Index<RuleCell>> src)
                 => src.Array().SelectMany(x => x.Right).Sort();
 
-            [MethodImpl(Inline)]
+            //[MethodImpl(Inline)]
             public static RuleCell cell(CellMetrics metrics, CellValue value)
-                => new (metrics, value);
+                => new (metrics,value);
 
             [MethodImpl(Inline)]
             public static RuleCell cell(CellMetrics metrics, RuleOperator op)
