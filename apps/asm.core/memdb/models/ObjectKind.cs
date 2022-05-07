@@ -10,7 +10,7 @@ namespace Z0
         {
             None,
 
-            TypeTableField,
+            TypeTableRow,
 
             TypeTable,
 

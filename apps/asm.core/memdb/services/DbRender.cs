@@ -54,7 +54,7 @@ namespace Z0
                             Cols[kind] = map(cols, col => col.ColName);
                             Patterns[kind] = cols.Select(x => RP.slot((byte)x.Pos, (sbyte)-x.RenderWidth)).Concat(" | ");
                         break;
-                        case ObjectKind.TypeTableField:
+                        case ObjectKind.TypeTableRow:
                             Cols[kind] = map(cols, col => col.ColName);
                             Patterns[kind] = cols.Select(x => RP.slot((byte)x.Pos, (sbyte)-x.RenderWidth)).Concat(" | ");
                         break;

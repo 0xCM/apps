@@ -5,7 +5,7 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential,Pack=1)]
-    public readonly struct NativeSegType : INativeType<NativeSegType>
+    public readonly record struct NativeSegType : INativeType<NativeSegType>
     {
         public readonly NativeCellType CellType;
 
@@ -45,6 +45,9 @@ namespace Z0
         [MethodImpl(Inline)]
         public bool Equals(NativeSegType src)
             => CellType.Equals(src.CellType) && CellCount == src.CellCount;
+
+        public override int GetHashCode()
+            => (int)alg.hash.combine(CellType.GetHashCode(), CellCount);
 
         public string Format()
             => NativeTypes.format(this);

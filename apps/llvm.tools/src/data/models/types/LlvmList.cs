@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     public readonly struct LlvmList : IIndex<LlvmListItem>
@@ -79,11 +75,6 @@ namespace Z0.llvm
                 seek(dst,i) = skip(items,i).Value;
             return dst;
         }
-
-        // public string Name
-        // {
-        //     get => Path.FileName.WithoutExtension.Format().Remove("llvm.lists.");
-        // }
 
         public ItemList<string> ToItemList()
         {

@@ -6,10 +6,8 @@ namespace Z0
 {
     using static core;
 
-
     public readonly struct Classifiers
     {
-
         public class ClassChecks : Checker<ClassChecks>
         {
             public Outcome CheckSymNames()

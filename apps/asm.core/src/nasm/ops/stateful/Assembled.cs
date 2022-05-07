@@ -15,7 +15,7 @@ namespace Z0
         public ref AssembledAsm Assembled(in NasmEncoding src, out AssembledAsm dst)
         {
             dst.Bitstring = FormatBitstring(src.Encoded);
-            dst.Id = AsmBytes.encid(src.Offset, src.Encoded);
+            dst.Id = EncodingId.from(src.Offset, src.Encoded);
             dst.IP = src.Offset;
             dst.Encoded = src.Encoded;
             AsmParser.expression(src.SourceText, out dst.Asm);

@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-
     public partial class MemDb : AppService<MemDb>
     {
 

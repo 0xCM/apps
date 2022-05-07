@@ -6,24 +6,22 @@ namespace Z0
 {
     partial struct Rules
     {
-    public class LiteralRule<T> : RuleExpr<T>, ILiteralRule<T>
-    {
-        public LiteralRule(T src)
-            : base(src)
+        public class LiteralRule<T> : RuleExpr<T>, ILiteralRule<T>
         {
+            public LiteralRule(T src)
+                : base(src)
+            {
 
+            }
+
+            public override string Format()
+                => Content.ToString();
+
+            public override bool IsTerminal
+                => true;
+
+            public static implicit operator LiteralRule<T>(T src)
+                => new LiteralRule<T>(src);
         }
-
-        public override string Format()
-            => Content.ToString();
-
-        public override bool IsTerminal
-            => true;
-
-        public static implicit operator LiteralRule<T>(T src)
-            => new LiteralRule<T>(src);
     }
-    }
-
-
 }

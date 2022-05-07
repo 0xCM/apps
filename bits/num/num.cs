@@ -10,6 +10,37 @@ namespace Z0
     public readonly partial struct num
     {
         const NumericKind Closure = AllNumeric;
+
+        /// <summary>
+        /// Specifes the number of values covered by an <typeparamref name='N'>-bit number
+        /// </summary>
+        /// <param name="n">The natural bit width</param>
+        /// <typeparam name="N">The natural with type</typeparam>
+        [MethodImpl(Inline)]
+        public static uint count<N>(N n)
+            where N : unmanaged, ITypeNat
+                => (uint)Pow2.pow((byte)n.NatValue);
+
+        /// <summary>
+        /// Allocates and populates a character span, comprising each value covered by an <typeparamref name='N'>-bit number, expressed as a bitstring of length <typeparamref name='N'>
+        /// </summary>
+        /// <param name="n">The natural bit width</param>
+        /// <typeparam name="N">The natural with type</typeparam>
+        public static Span<char> bitstrings<N>(N n)
+            where N : unmanaged, ITypeNat
+        {
+            var width = (uint)n.NatValue;
+            var count = num.count(n);
+            var buffer = span<char>(count*width);
+            for(var i=0; i<count; i++)
+            {
+                ref var c = ref seek(buffer,i*width);
+                for(byte j=0; j<width; j++)
+                    seek(c,width-1-j) = bit.test(i,(byte)j).ToChar();
+            }
+            return buffer;
+        }
+
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static T inc<T>(T src)
             where T : unmanaged

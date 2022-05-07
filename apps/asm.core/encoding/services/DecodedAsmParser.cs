@@ -65,7 +65,7 @@ namespace Z0.Asm
             dst.Encoded = encoding;
             dst.Decoded = text.trim(text.left(src,i));
             dst.IP = offset;
-            dst.EncodingId = AsmBytes.encid(dst.IP, dst.Encoded);
+            dst.EncodingId = EncodingId.from(dst.IP, dst.Encoded);
             return result;
         }
 

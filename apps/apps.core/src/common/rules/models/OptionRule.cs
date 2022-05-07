@@ -6,15 +6,13 @@ namespace Z0
 {
     partial struct Rules
     {
-    public class OptionRule : OptionRule<IRuleExpr>
-    {
-        public OptionRule(IRuleExpr src)
-            : base(src)
+        public class Optional : Optional<IRuleExpr>
         {
+            public Optional(IRuleExpr src)
+                : base(src)
+            {
 
+            }
         }
     }
-    }
-
-
 }

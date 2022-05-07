@@ -4,11 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     [ApiHost]
     public readonly partial struct Symbols
     {
         const NumericKind Closure = UnsignedInts;
-   }
+    }
 }

@@ -59,10 +59,10 @@ namespace Z0
                 get => ref ObjSeqSource;
             }
 
-            public ref readonly Index<TypeTable> TypeTables
+            public uint TypeTableCount
             {
                 [MethodImpl(Inline)]
-                get => ref TypeTableSource;
+                get => TypeTableSource.Count;
             }
 
             [MethodImpl(Inline)]
@@ -100,8 +100,8 @@ namespace Z0
                     var seq=z16;
                     switch(kind)
                     {
-                        case ObjectKind.TypeTableField:
-                            dst[kind] = MemDb.TypeTableField.Columns(ref seq);
+                        case ObjectKind.TypeTableRow:
+                            dst[kind] = MemDb.TypeTableRow.Columns(ref seq);
                         break;
                         case ObjectKind.TypeTable:
                             dst[kind] = MemDb.TypeTable.Columns(ref seq);
@@ -127,11 +127,11 @@ namespace Z0
             static TypeTable CalcTypeTable(MeasuredType type)
             {
                     var symbols = Symbols.syminfo(type.Definition);
-                    Index<TypeTableField> rows = alloc<TypeTableField>(symbols.Count);
+                    Index<TypeTableRow> rows = alloc<TypeTableRow>(symbols.Count);
                     for(var j=0; j<symbols.Count; j++)
                     {
                         ref readonly var sym = ref symbols[j];
-                        rows[j] = new TypeTableField(NextSeq(ObjectKind.TypeTableField), (ushort)sym.Index, sym.Name.Text, sym.Value, sym.Expr.Text, sym.Description);
+                        rows[j] = new TypeTableRow(NextSeq(ObjectKind.TypeTableRow), (ushort)sym.Index, sym.Name.Text, sym.Value, sym.Expr.Text, sym.Description);
                     }
 
                 return new TypeTable(NextSeq(ObjectKind.TypeTable), type.Definition.Name, type.Size, rows);

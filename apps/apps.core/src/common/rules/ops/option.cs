@@ -4,15 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
     partial struct Rules
     {
-        public static OptionRule<RuleValue<T>> option<T>(T src)
-            => new OptionRule<RuleValue<T>>(src);
+        public static Optional<RuleValue<T>> option<T>(T src)
+            => new Optional<RuleValue<T>>(src);
     }
 }

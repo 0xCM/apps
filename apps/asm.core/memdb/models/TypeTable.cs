@@ -29,17 +29,17 @@ namespace Z0
             public readonly ushort RowCount;
 
             [Ignore]
-            public readonly Index<TypeTableField> Fields;
+            public readonly Index<TypeTableRow> Rows;
 
             [MethodImpl(Inline)]
-            public TypeTable(uint key, asci64 name, DataSize size, TypeTableField[] rows)
+            public TypeTable(uint key, asci64 name, DataSize size, TypeTableRow[] rows)
             {
                 TypeKey = key;
                 TypeName = name;
                 NativeWidth = size.NativeWidth;
                 PackedWidth = (byte)size.PackedWidth;
                 RowCount = (ushort)rows.Length;
-                Fields = rows;
+                Rows = rows;
             }
 
             [MethodImpl(Inline)]
@@ -51,7 +51,7 @@ namespace Z0
                 var s0 = z16;
                 var s1 = z16;
                 var left = Columns(ref s0);
-                var right = TypeTableField.Columns(ref s1);
+                var right = TypeTableRow.Columns(ref s1);
                 var joined = resequence(left,right);
                 var names = joined.Select(x => x.ColName.Format());
                 var widths = joined.Select(x => x.RenderWidth);
@@ -64,7 +64,7 @@ namespace Z0
                 var s0 = z16;
                 var s1 = z16;
                 var left = Columns(ref s0);
-                var right = TypeTableField.Columns(ref s1);
+                var right = TypeTableRow.Columns(ref s1);
                 var joined = resequence(left,right);
                 var names = joined.Select(x => x.ColName.Format());
                 var widths = joined.Select(x => x.RenderWidth);
@@ -77,11 +77,11 @@ namespace Z0
                 var dst = text.emitter();
                 var left = Tables.dynarow(Tables.fields(typeof(TypeTable)));
                 left.Update(this);
-                var right = Tables.dynarow(Tables.fields(typeof(TypeTableField)));
+                var right = Tables.dynarow(Tables.fields(typeof(TypeTableRow)));
 
-                for(var j=0; j<Fields.Count; j++)
+                for(var j=0; j<Rows.Count; j++)
                 {
-                    right.Update(Fields[j]);
+                    right.Update(Rows[j]);
 
                     var cells =  (left.Cells.Index() + right.Cells.Index()).Storage;
                     dst.AppendLineFormat(pattern, cells);

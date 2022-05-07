@@ -94,7 +94,7 @@ namespace Z0
             {
                 result = expression(text.unfence(src, OptionFence), out IRuleExpr expr);
                 if(result)
-                    dst = new OptionRule<IRuleExpr>(expr);
+                    dst = new Optional<IRuleExpr>(expr);
             }
             else
             {

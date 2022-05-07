@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct Rules
@@ -50,9 +46,7 @@ namespace Z0
                 return new ListProduction(RuleText.value(text.trim(src)), new SeqExpr(terms));
             }
             else
-            {
                 return new Production(RuleText.value(text.trim(src)), RuleText.value(text.trim(dst)));
-            }
         }
     }
 }

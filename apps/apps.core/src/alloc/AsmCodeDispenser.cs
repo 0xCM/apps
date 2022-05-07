@@ -81,7 +81,7 @@ namespace Z0
             var hexdst = hex.Edit;
             for(var j=0; j<size; j++)
                 seek(hexdst,j) = skip(hexsrc,j);
-            return new AsmCode(AsmBytes.encid(src.IP, code), src.Seq, src.DocSeq, src.OriginId, DispenseSource(src.Asm.Format()), src.IP, hex);
+            return new AsmCode(EncodingId.from(src.IP, code), src.Seq, src.DocSeq, src.OriginId, DispenseSource(src.Asm.Format()), src.IP, hex);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace Z0
 {
     using static core;
     using static XedRules;
+    using static MemDb;
+    using System.Linq;
 
     partial class XedCmdProvider
     {
@@ -31,10 +33,37 @@ namespace Z0
             return true;
         }
 
+        DbSvc MemDbSvc => Service(DbSvc.create);
+            //=> service(DbSvc.create);
+
         [CmdOp("xed/db/emit")]
         Outcome EmitSchema(CmdArgs args)
         {
             XedDb.EmitArtifacts();
+
+            var objects = MemDbSvc.Objects;
+            var maxField = z8;
+            var maxType = z8;
+            for(var i=0; i<objects.TypeTableCount; i++)
+            {
+                ref readonly var table = ref MemDbSvc.Objects.TypeTable(i);
+                var type = table.TypeName.Format().Trim();
+                if(type.Length > maxType)
+                    maxType = (byte)type.Length;
+                var rows = table.Rows;
+                for(var j=0; j<rows.Count; j++)
+                {
+                    ref readonly var row = ref rows[j];
+                    var field = row.Field.Format().Trim();
+                    if(field.Length > maxField)
+                        maxField = (byte)field.Length;
+
+                    Write(string.Format("{0,-16} | {1,-6} {2,-6} | {3,-64} | {4}", table.TypeName, row.Index, row.Value, row.Field, row.Meaning));
+                }
+
+            }
+
+
             return true;
         }
 

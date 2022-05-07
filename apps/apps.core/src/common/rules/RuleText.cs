@@ -4,8 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly partial struct RuleText
-    {
+    using static core;
+    using static Rules;
 
+    public readonly struct RuleText
+    {
+        public static RuleValue value(string src, bool terminal = false)
+            => new RuleValue(src, terminal);
     }
 }

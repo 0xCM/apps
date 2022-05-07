@@ -45,26 +45,6 @@ namespace Z0.Asm
         }
 
 
-        [CmdOp(".test-native-cells")]
-        unsafe Outcome TestNativeCells(CmdArgs args)
-        {
-            var count = 256u;
-            byte length = 8;
-            var result = Outcome.Success;
-            using var native = NativeCells.alloc<string>(count, out var id);
-            var bits = GenBitStrings8(count);
-            for(var i=0u; i<count; i++)
-            {
-                var offset = i*length;
-                native.Content(i) = new string(slice(bits, offset, length));
-            }
-
-            for(var i=0u; i<count; i++)
-                Write(native.Content(i));
-
-            return result;
-        }
-
         Span<char> GenBitStrings8(uint count)
         {
             // var count = 256;

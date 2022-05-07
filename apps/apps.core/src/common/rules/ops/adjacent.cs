@@ -4,16 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct Rules
     {
         [Op, Closures(Closure)]
-        public static uint evaluate<T>(AdjacentRule<T> rule, ReadOnlySpan<T> src, Span<uint> dst)
+        public static uint evaluate<T>(Adjacent<T> rule, ReadOnlySpan<T> src, Span<uint> dst)
             where T : IEquatable<T>
         {
             var terms = Math.Min(src.Length - 1, dst.Length);
@@ -29,8 +25,8 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static AdjacentRule<T> adjacent<T>(T a, T b)
-            => new AdjacentRule<T>(a, b);
+        public static Adjacent<T> adjacent<T>(T a, T b)
+            => new Adjacent<T>(a, b);
 
         public static LiteralRule<T> literal<T>(T value)
             => new LiteralRule<T>(value);

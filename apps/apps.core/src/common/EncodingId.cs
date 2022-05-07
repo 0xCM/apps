@@ -4,8 +4,42 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     public readonly struct EncodingId : IEquatable<EncodingId>
     {
+        [Op]
+        public static EncodingId from(MemoryAddress ip, ReadOnlySpan<byte> encoding)
+        {
+            var storage = ByteBlock8.Empty;
+            var dst = storage.Bytes;
+            var ipbytes = bytes((uint)ip);
+            var size = (byte)encoding.Length;
+            var k=7;
+            seek(dst,k--) = size;
+            seek(dst,k--) = skip(ipbytes,0);
+            seek(dst,k--) = skip(ipbytes,1);
+
+            if(skip(ipbytes,2) != 0)
+                seek(dst,k--) = skip(ipbytes,2);
+            if(skip(ipbytes,3) != 0)
+                seek(dst,k--) = skip(ipbytes,3);
+
+            var j = size - 1;
+            if(j>=0 && k>=0 && skip(encoding,j) != 0)
+                seek(dst,k--) = skip(encoding,j--);
+            if(j>=0 && k>=0 && skip(encoding,j) != 0)
+                seek(dst,k--) = skip(encoding,j--);
+            if(j>=0 && k>=0 && skip(encoding,j) != 0)
+                seek(dst,k--) = skip(encoding,j--);
+            if(j>=0 && k>=0 && skip(encoding,j) != 0)
+                seek(dst,k--) = skip(encoding,j--);
+            if(j>=0 && k>=0 && skip(encoding,j) != 0)
+                seek(dst,k--) = skip(encoding,j--);
+
+            return (ulong)storage;
+        }
+
         readonly Hex64 Value;
 
         [MethodImpl(Inline)]

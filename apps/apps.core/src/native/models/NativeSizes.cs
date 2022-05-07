@@ -29,6 +29,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static NativeSegType seg(NativeSegKind kind)
             => @as<NativeSegKind,NativeSegType>(kind);
-
     }
 }
