@@ -51,7 +51,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static CellExpr Empty => new CellExpr(0, FieldValue.Empty);
+            public static CellExpr Empty => default;
         }
     }
 }

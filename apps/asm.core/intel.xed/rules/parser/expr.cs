@@ -43,7 +43,9 @@ namespace Z0
                     var ft = text.inside(left, k, q);
                     left = text.left(left, k);
                     XedParsers.parse(left, out fk);
-                    Require.nonzero(fk);
+                    if(fk == 0)
+                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), left));
+
                     var type = InstSegTypes.type(ft);
                     if(type.IsEmpty)
                         Errors.Throw(AppMsg.ParseFailure.Format(nameof(InstSegType), ft));
@@ -53,20 +55,27 @@ namespace Z0
                 else if(XedParsers.IsNonterm(right))
                 {
                     XedParsers.parse(left, out fk);
+                    if(fk == 0)
+                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), left));
+
                     var k = text.index(right, Chars.LParen);
-                    var name = text.left(right,k);
+                    var name = text.left(right, k);
                     var result = Enum.TryParse(name, out RuleName rule);
                     if(!result)
                         Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleName), name));
+
                     dst = new CellExpr(op, new FieldValue(fk, rule));
                 }
                 else
                 {
                     XedParsers.parse(left, out fk);
-                    Require.nonzero(fk);
+                    if(fk == 0)
+                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), left));
+
                     var result = cellvalue(fk, right, out fv);
                     if(!result)
                         Errors.Throw(AppMsg.ParseFailure.Format(nameof(CellExpr), src));
+
                     dst = new CellExpr(op, fv);
                 }
 

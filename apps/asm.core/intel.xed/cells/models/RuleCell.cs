@@ -22,6 +22,7 @@ namespace Z0
                 Key = metrics.Key;
                 Size = metrics.Size;
                 Value = value;
+                Require.equal((byte)metrics.Key.Field, (byte)value.Field);
             }
 
             [MethodImpl(Inline)]
@@ -56,7 +57,7 @@ namespace Z0
             public FieldKind Field
             {
                 [MethodImpl(Inline)]
-                get => Value.Field;
+                get => Key.Field;
             }
 
             public LogicClass Logic

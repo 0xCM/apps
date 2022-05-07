@@ -133,6 +133,9 @@ namespace Z0
                                 case CK.NeqExpr:
                                 {
                                     result = CellParser.expr(data, out CellExpr value);
+                                    if(value.Field == 0)
+                                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), data));
+
                                     field = value;
                                     cell = RuleTables.cell(metrics, field);
                                 }

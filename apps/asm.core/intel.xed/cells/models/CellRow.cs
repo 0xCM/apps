@@ -26,6 +26,49 @@ namespace Z0
                 Cells = src;
             }
 
+            byte AntecedantCount
+            {
+                [MethodImpl(Inline)]
+                get
+                {
+                    var result = z8;
+                    for(var i=0; i<Cells.Count; i++)
+                    {
+                        if(Cells[i].Logic != LogicKind.Antecedant)
+                            break;
+                        result++;
+                    }
+                    return result;
+                }
+            }
+
+            byte ConsequentOffset
+            {
+                [MethodImpl(Inline)]
+                get
+                {
+                    var result = z8;
+                    for(var i=z8; i<Cells.Count; i++)
+                    {
+                        if(Cells[i].Logic != LogicKind.Consequent)
+                            continue;
+
+                        result = i;
+                        break;
+                    }
+
+                    return result;
+                }
+            }
+
+            [MethodImpl(Inline)]
+            public ReadOnlySpan<RuleCell> Antecedants()
+                => core.slice(Cells.View,0,AntecedantCount);
+
+            [MethodImpl(Inline)]
+            public ReadOnlySpan<RuleCell> Consequents()
+                => core.slice(Cells.View,ConsequentOffset);
+
             public bool HasConsequent
             {
                 [MethodImpl(Inline)]

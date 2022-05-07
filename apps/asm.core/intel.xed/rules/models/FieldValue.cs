@@ -42,14 +42,6 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public FieldValue(SegVar src)
-            {
-                Field = FieldKind.INVALID;
-                Data = (ulong)src;
-                CellKind = RuleCellKind.SegVar;
-            }
-
-            [MethodImpl(Inline)]
             public FieldValue(FieldSeg src)
             {
                 Field = src.Field;

@@ -16,7 +16,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static RuleCell cell(CellMetrics metrics, CellValue value)
-                => new (metrics,value);
+                => new (metrics, value);
 
             [MethodImpl(Inline)]
             public static RuleCell cell(CellMetrics metrics, RuleOperator op)

@@ -19,10 +19,79 @@ namespace Z0
             return true;
         }
 
+        static void collect(in CellTable src, out HashSet<FieldKind> left, out HashSet<FieldKind> right)
+        {
+            ref readonly var rows = ref src.Rows;
+            left = new();
+            right = new();
+            for(var i=0; i<rows.Count; i++)
+            {
+                ref readonly var row = ref rows[i];
+
+                var antecedants = row.Antecedants();
+                for(var j=0; j<antecedants.Length; j++)
+                {
+                    ref readonly var antecedant = ref skip(antecedants,j);
+                    if(antecedant.Field != 0)
+                        left.Include(antecedant.Field);
+                }
+
+                var consequents = row.Consequents();
+                for(var j=0; j<consequents.Length; j++)
+                {
+                    ref readonly var consequent = ref skip(consequents,j);
+                    if(consequent.Field != 0)
+                        right.Include(consequent.Field);
+                }
+            }
+
+        }
         [CmdOp("xed/check/rules")]
         Outcome CheckRules(CmdArgs args)
         {
+            var src = CalcRuleCells();
+            var tables = src.Tables;
+            var count = tables.Count;
+            var left = alloc<HashSet<FieldKind>>(count);
+            var right = alloc<HashSet<FieldKind>>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var table = ref src[i];
+                collect(table, out seek(left,i), out seek(right,i));
+            }
 
+            var dst = text.emitter();
+            for(var i=0; i<count; i++)
+            {
+                var q=0;
+                ref readonly var table =ref src[i];
+                dst.AppendFormat("{0,-4} | {1,-32}", table.Kind, table.Name);
+                ref readonly var fLeft = ref skip(left,i);
+                foreach(var f in fLeft)
+                {
+                    if(q != 0)
+                        dst.Append(Chars.Comma);
+                    else
+                        q = 1;
+
+                    dst.Append(f.ToString());
+                }
+
+                ref readonly var fRight = ref skip(right,i);
+                foreach(var f in fRight)
+                {
+                    if(q != 0)
+                        dst.Append(Chars.Comma);
+                    else
+                        q = 1;
+
+                    dst.Append(f.ToString());
+                }
+
+                dst.AppendLine();
+            }
+
+            Write(dst.Emit());
             return true;
         }
 
