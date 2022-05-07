@@ -25,6 +25,7 @@ namespace Z0.Asm
     using MM = MmxRegKind;
     using TR = TestRegKind;
     using SPTR = SysPtrRegKind;
+    using TMM = TmmRegKind;
 
     [SymSource("asm.regs.bits", Base16)]
     public enum RegKind : ushort
@@ -776,5 +777,33 @@ namespace Z0.Asm
 
         [Symbol("xcr0")]
         XCR0 = XCR.XCR0,
+
+        // ~ TMM registers
+        // ~ ------------------------------------------------------------------
+
+        [Symbol("tmm0")]
+        TMM0 = TMM.TMM0,
+
+        [Symbol("tmm1")]
+        TMM1 = TMM.TMM1,
+
+        [Symbol("tmm2")]
+        TMM2 = TMM.TMM2,
+
+        [Symbol("tmm3")]
+        TMM3 = TMM.TMM3,
+
+        [Symbol("tmm4")]
+        TMM4 = TMM.TMM4,
+
+        [Symbol("tmm5")]
+        TMM5 = TMM.TMM5,
+
+        [Symbol("tmm6")]
+        TMM6 = TMM.TMM6,
+
+        [Symbol("tmm7")]
+        TMM7 = TMM.TMM7,
+
     }
 }

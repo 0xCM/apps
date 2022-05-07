@@ -15,7 +15,7 @@ namespace Z0.Asm
         /// <summary>
         /// The number of register classes
         /// </summary>
-        public const byte ClassCount = 17;
+        public const byte ClassCount = 18;
 
         /// <summary>
         /// The number of register withs
@@ -36,6 +36,11 @@ namespace Z0.Asm
         /// The position of the first bit in the width segment
         /// </summary>
         public const byte WidthField = 11;
+
+        /// <summary>
+        /// The width of the <see cref='RegClassCode'/> segment;
+        /// </summary>
+        public const byte ClassFieldWidth = WidthField - ClassField;
 
         /// <summary>
         /// The number of available BND registers
@@ -137,6 +142,11 @@ namespace Z0.Asm
         /// </summary>
         public const byte MmxRegCount = 8;
 
+        /// <summary>
+        /// The number of available <see cref='TmmRegKind' registers
+        /// </summary>
+        public const byte TmmRegCount = 8;
+
         public const NativeSizeCode Gp8RegSize = NativeSizeCode.W8;
 
         public const NativeSizeCode Gp16RegSize = NativeSizeCode.W16;
@@ -184,6 +194,8 @@ namespace Z0.Asm
         public const RegClassCode CrRegClass = RegClassCode.CR;
 
         public const RegClassCode BndRegClass = RegClassCode.BND;
+
+        public const RegClassCode TmmRegClass = RegClassCode.TMM;
 
     }
 }

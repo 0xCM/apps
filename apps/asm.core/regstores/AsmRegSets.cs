@@ -327,6 +327,20 @@ namespace Z0.Asm
             }
         }
 
+        public RegOpSeq TmmRegs()
+        {
+            return Data(nameof(TmmRegs), Load);
+
+            RegOpSeq Load()
+            {
+                const byte Count = TmmRegCount;
+                var dst = alloc<RegOp>(Count);
+                for(var i=0; i<Count; i++)
+                    seek(dst,i) = AsmRegs.reg(MmxRegSize, TmmRegClass, (RegIndexCode)i);
+                return dst;
+            }
+        }
+
         public RegOpSeq BndRegs()
         {
             return Data(nameof(BndRegs), Load);

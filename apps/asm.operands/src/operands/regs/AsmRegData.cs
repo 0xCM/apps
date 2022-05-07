@@ -61,14 +61,14 @@ namespace Z0.Asm
                 4,      // BND
                 3,      // SPTR
                 3,      // IPTR
-                4,       // GP8HI
-                8
+                4,      // GP8HI
+                8,      // TR
+                8,      // TMM
             };
 
         internal static ReadOnlySpan<RegClassCode> RegClasses
             => new RegClassCode[ClassCount]
                 {
-                    0,
                     GP,
                     MASK,
                     XMM,
@@ -84,7 +84,9 @@ namespace Z0.Asm
                     BND,
                     SPTR,
                     IPTR,
-                    GP8HI
+                    GP8HI,
+                    TR,
+                    TMM
                 };
 
         internal static ReadOnlySpan<NativeSizeCode> RegWidthCodes

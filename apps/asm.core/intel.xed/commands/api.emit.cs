@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static core;
 
     partial class XedCmdProvider
@@ -29,5 +31,15 @@ namespace Z0
             ApiComments.EmitMarkdownDocs(array(nameof(vpack),nameof(vmask)));
             return true;
         }
+
+        AsmDocs AsmDocs => Service(Wf.AsmDocs);
+
+        [CmdOp("api/emit/asmdocs")]
+        Outcome EmitAsmDocs(CmdArgs args)
+        {
+            AsmDocs.Emit();
+            return true;
+        }
+
     }
 }

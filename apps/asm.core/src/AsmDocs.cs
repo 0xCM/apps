@@ -34,6 +34,7 @@ namespace Z0.Asm
             writer.WriteLine(Regs.Gp64Regs().ToNameArray("Gp64Regs"));
             writer.WriteLine(Regs.XmmRegs().ToNameArray("XmmRegs"));
             writer.WriteLine(Regs.YmmRegs().ToNameArray("YmmRegs"));
+            writer.WriteLine(Regs.TmmRegs().ToNameArray("TmmRegs"));
             writer.WriteLine(Regs.ZmmRegs().ToNameArray("ZmmRegs"));
             writer.WriteLine(Regs.MmxRegs().ToNameArray("MmxRegs"));
             writer.WriteLine(Regs.MaskRegs().ToNameArray("MaskRegs"));

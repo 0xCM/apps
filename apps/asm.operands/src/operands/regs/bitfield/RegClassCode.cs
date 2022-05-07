@@ -10,7 +10,7 @@ namespace Z0.Asm
     /// <summary>
     /// Defines an equivalence class that partitions the set of x86-64 registers
     /// </summary>
-    [SymSource("asm.regs.bits", Base16)]
+    [SymSource("asm.regs.bits", Base16), DataWidth(num6.PackedWidth)]
     public enum RegClassCode : byte
     {
         /// <summary>
@@ -114,5 +114,11 @@ namespace Z0.Asm
         /// </summary>
         [Symbol("tr", "A test register")]
         TR = 16,
+
+        /// <summary>
+        /// Classifies tile maxtrix multiplication registers
+        /// </summary>
+        [Symbol("tmm", "An amx register")]
+        TMM = 17,
     }
 }
