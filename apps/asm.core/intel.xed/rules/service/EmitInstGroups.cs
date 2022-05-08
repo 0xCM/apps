@@ -54,7 +54,7 @@ namespace Z0
 
                 dst.AppendLine();
             }
-            FileEmit(dst.Emit(), counter, XedPaths.InstTarget("xed.inst.groups", FileKind.Csv), TextEncodingKind.Asci);
+            AppSvc.FileEmit(dst.Emit(), counter, XedPaths.InstTarget("xed.inst.groups", FileKind.Csv));
         }
     }
 }

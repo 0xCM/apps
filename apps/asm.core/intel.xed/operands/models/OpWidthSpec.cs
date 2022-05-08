@@ -20,7 +20,7 @@ namespace Z0
                 return new OpWidthSpec(0, ModeClass.Default, gpr, ElementType.Empty, 1);
             }
 
-            public static OpWidthSpecs specs(Index<OpWidthInfo> src)
+            public static OpWidthSpecs specs(Index<OpWidthRecord> src)
             {
                 var count = src.Count*3;
                 var dst = alloc<OpWidthSpec>(count);

@@ -91,7 +91,7 @@ namespace Z0
         public ref readonly ushort PatternId
         {
             [MethodImpl(Inline)]
-            get => ref @as<uint,ushort>(Pattern.PatternId);
+            get => ref @as<uint,ushort>(Pattern.Seq);
         }
 
         /// <summary>

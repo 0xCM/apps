@@ -56,7 +56,7 @@ namespace Z0
         {
             dst.Seq = 0u;
             dst.Index = z8;
-            dst.PatternId = (ushort)src.PatternId;
+            dst.PatternId = (ushort)src.Seq;
             dst.OpCode = src.OpCode;
             dst.InstClass = src.InstClass.Classifier;
             dst.Mode = InstCells.mode(src.Cells);

@@ -56,7 +56,7 @@ namespace Z0
                 Demand.lteq(acount, AttribCount);
 
                 var m=0;
-                seek(cells,m++) = pattern.PatternId;
+                seek(cells,m++) = pattern.Seq;
                 seek(cells,m++) = pattern.InstClass;
                 seek(cells,m++) = pattern.OpCode;
                 seek(cells,m++) = acount;

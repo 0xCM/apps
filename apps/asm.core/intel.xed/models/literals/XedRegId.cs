@@ -236,28 +236,20 @@ namespace Z0
 
         K7,
 
-        //[Symbol("MM0")]
         MMX0,
 
-        //[Symbol("MM1")]
         MMX1,
 
-        //[Symbol("MM2")]
         MMX2,
 
-        //[Symbol("MM3")]
         MMX3,
 
-        //[Symbol("MM4")]
         MMX4,
 
-        //[Symbol("MM5")]
         MMX5,
 
-        //[Symbol("MM6")]
         MMX6,
 
-        //[Symbol("MM7")]
         MMX7,
 
         SSP,

@@ -34,6 +34,9 @@ namespace Z0
         public static XedTool XedTool(this IWfRuntime wf)
             => Z0.XedTool.create(wf);
 
+        public static XedTables XedTables(this IWfRuntime wf)
+            => Z0.XedTables.create(wf);
+
         [Op]
         public static XedPaths XedPaths(this IWfRuntime wf)
             => Z0.XedPaths.Service;

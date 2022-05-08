@@ -14,5 +14,7 @@ namespace Z0
 
             return this;
         }
+
+        XedPaths XedPaths => Xed.Paths;
     }
 }

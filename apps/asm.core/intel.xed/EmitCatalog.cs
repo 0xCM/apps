@@ -8,7 +8,6 @@ namespace Z0
     using Asm;
 
     using static XedRules;
-    using static XedOperands;
     using static XedPatterns;
     using static XedModels;
     using static core;
@@ -24,8 +23,7 @@ namespace Z0
                 () => Main.ImportForms(),
                 () => EmitRegmaps(),
                 () => EmitBroadcastDefs(),
-                () => Rules.EmitCatalog(Patterns,RuleTables),
-                () => Emit(InstLayouts)
+                () => Rules.EmitCatalog(Patterns,RuleTables)
                 );
 
             EmitInstPages(Patterns);
@@ -63,10 +61,16 @@ namespace Z0
             TableEmit(XedRegMap.Service.XEntries, RegMapEntry.RenderWidths, Paths.Table<RegMapEntry>("xmap"));
         }
 
-        void Emit(InstLayouts src)
+        ref readonly Index<InstPattern> Patterns
         {
-            FileEmit(src.Format(), 0, Paths.InstTarget("layouts.vectors", FileKind.Csv));
-            TableEmit(src.Records.View, InstLayoutRecord.RenderWidths, Paths.InstTable<InstLayoutRecord>());
+            [MethodImpl(Inline)]
+            get => ref Load<Index<InstPattern>>(StoreIndex.InstPattern);
+        }
+
+        ref readonly RuleTables RuleTables
+        {
+            [MethodImpl(Inline)]
+            get => ref Load<RuleTables>(StoreIndex.RuleTables);
         }
     }
 }

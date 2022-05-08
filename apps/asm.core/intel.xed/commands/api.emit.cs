@@ -14,7 +14,6 @@ namespace Z0
         Outcome EmitBitMasks(CmdArgs args)
         {
             var emitted = ApiBitMasks.Emit();
-
             return true;
         }
 
@@ -32,14 +31,11 @@ namespace Z0
             return true;
         }
 
-        AsmDocs AsmDocs => Service(Wf.AsmDocs);
-
         [CmdOp("api/emit/asmdocs")]
         Outcome EmitAsmDocs(CmdArgs args)
         {
             AsmDocs.Emit();
             return true;
         }
-
     }
 }

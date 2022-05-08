@@ -14,41 +14,53 @@ namespace Z0
         {
             public const string TableId = "xed.inst.patterns.fields";
 
-            public const byte FieldCount = 16;
-
+            [Render(12)]
             public uint PatternId;
 
+            [Render(18)]
             public InstClass InstClass;
 
+            [Render(26)]
             public XedOpCode OpCode;
 
+            [Render(8)]
             public MachineMode Mode;
 
+            [Render(8)]
             public LockIndicator Lock;
 
+            [Render(8)]
             public byte Index;
 
+            [Render(12)]
             public RuleCellType FieldClass;
 
+            [Render(26)]
             public EmptyZero<FieldKind> FieldKind;
 
+            [Render(16)]
             public CellExpr FieldExpr;
 
+            [Render(16)]
             public InstSeg Seg;
 
+            [Render(16)]
             public FieldSeg SegField;
 
+            [Render(16)]
             public SegVar SegVar;
 
+            [Render(22)]
             public Nonterminal Nonterminal;
 
+            [Render(22)]
             public EmptyZero<byte> IntLiteral;
 
+            [Render(12)]
             public EmptyZero<Hex8> HexLiteral;
 
+            [Render(12)]
             public EmptyZero<uint5> BitLiteral;
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,26,8,8,12,12,26,16,16,16,16,22,22,12,12,};
 
             public static InstFieldRow Empty => default;
         }

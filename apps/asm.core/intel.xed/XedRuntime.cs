@@ -13,6 +13,10 @@ namespace Z0
 
     public partial class XedRuntime : AppService<XedRuntime>
     {
+        bool Started = false;
+
+        object StartLocker = new();
+
         public bool PllExec
         {
             [MethodImpl(Inline)]
@@ -20,6 +24,8 @@ namespace Z0
         }
 
         public IAllocProvider Allocator => _Alloc;
+
+        public WsProjects Projects => Service(Wf.WsProjects);
 
         public new XedPaths Paths => Service(Wf.XedPaths);
 
@@ -42,9 +48,18 @@ namespace Z0
         public bool Machine(uint id, out IMachine dst)
             => Machines.TryGetValue(id, out dst);
 
-        bool Started = false;
+        public IMachine Machine()
+        {
+            var m =  machine(Rules);
+            Machines.TryAdd(m.Id,m);
+            return m;
+        }
 
-        object StartLocker = new();
+        protected override void Initialized()
+        {
+
+        }
+
 
         enum StoreIndex : byte
         {
@@ -65,7 +80,7 @@ namespace Z0
         void Store<T>(StoreIndex index, Func<T> f)
             => core.@as<object,T>(DataStores[(byte)index]) = f();
 
-        InstLayouts CalcLayouts(Index<InstPattern> patterns) => Data(nameof(CalcLayouts), () => LayoutCalcs.layouts(patterns));
+        //InstLayouts CalcLayouts(Index<InstPattern> patterns) => Data(nameof(CalcLayouts), () => LayoutCalcs.layouts(patterns));
 
         Alloc _Alloc;
 
@@ -79,7 +94,6 @@ namespace Z0
             var patterns = Rules.CalcPatterns();
             Store(StoreIndex.InstPattern, Rules.CalcPatterns);
             Store(StoreIndex.RuleTables, Rules.CalcRuleTables);
-            Store(StoreIndex.InstLayouts, () => CalcLayouts(patterns));
             Started = true;
         }
 
@@ -95,7 +109,6 @@ namespace Z0
 
         protected override void Disposing()
         {
-            InstLayouts?.Dispose();
             _Alloc?.Dispose();
         }
 

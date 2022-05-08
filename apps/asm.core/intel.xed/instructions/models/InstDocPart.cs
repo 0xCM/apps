@@ -51,7 +51,7 @@ namespace Z0
             public ref readonly uint PatternId
             {
                 [MethodImpl(Inline)]
-                get => ref Inst.PatternId;
+                get => ref Inst.Seq;
             }
 
             public ref readonly InstCells Layout

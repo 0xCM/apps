@@ -5,20 +5,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
+    using X = XedRegId;
 
-    using static XedRules;
-    using static XedOperands;
-    using static XedModels;
-    using static core;
-
-    partial class XedRuntime
+    [SymSource("xed"), DataWidth(num9.PackedWidth)]
+    public enum MmxRegId : ushort
     {
-        public IMachine Machine()
-        {
-            var m =  machine(Rules);
-            Machines.TryAdd(m.Id,m);
-            return m;
-        }
+        MM0 = X.MMX0,
+
+        MM1 = X.MMX1,
+
+        MM2 = X.MMX2,
+
+        MM3 = X.MMX3,
+
+        MM4 = X.MMX4,
+
+        MM5 = X.MMX5,
+
+        MM6 = X.MMX6,
+
+        MM7 = X.MMX7,
     }
 }

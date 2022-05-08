@@ -13,13 +13,13 @@ namespace Z0
     {
         static XedPaths XedPaths => XedPaths.Service;
 
-        static Index<OpWidthInfo> _Widths;
+        static Index<OpWidthRecord> _Widths;
 
         static Index<XedRegId> Regs;
 
         static Index<BroadcastDef> Broadcasts;
 
-        static ConstLookup<OpWidthCode,OpWidthInfo> _WidthLookup;
+        static ConstLookup<OpWidthCode,OpWidthRecord> _WidthLookup;
 
         static XedOperands()
         {

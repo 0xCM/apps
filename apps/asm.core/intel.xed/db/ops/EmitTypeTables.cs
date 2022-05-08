@@ -12,9 +12,8 @@ namespace Z0
     {
         public void EmitTypeTables()
         {
-            var formatter = RecordFormatter.create(typeof(TypeTableRow));
             var rows = Rules.CalcTypeTables().SelectMany(x => x.Rows).Sort().Resequence();
-            AppServices.TableEmit(rows, Paths.DbTable<TypeTableRow>());
+            AppSvc.TableEmit(rows, Paths.DbTable<TypeTableRow>());
         }
     }
 }

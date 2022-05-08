@@ -15,7 +15,7 @@ namespace Z0
         {
             public OpSpec Spec;
 
-            public OpWidthInfo OpWidth;
+            public OpWidthRecord OpWidth;
 
             public OpName OpName;
 

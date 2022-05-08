@@ -20,16 +20,20 @@ namespace Z0
 
         public class LayoutVectors : IDisposable
         {
-            readonly NativeCells<LayoutVector> Data;
+            readonly NativeCells<LayoutComponent> Components;
 
-            public LayoutVectors(NativeCells<LayoutVector> src)
+            readonly Index<LayoutVector> Vectors;
+
+            public LayoutVectors(NativeCells<LayoutComponent> components, Index<LayoutVector> vectors)
             {
-                Data = src;
+                Components = components;
+                Vectors = vectors;
             }
+
 
             public void Dispose()
             {
-
+                Components.Dispose();
             }
         }
     }

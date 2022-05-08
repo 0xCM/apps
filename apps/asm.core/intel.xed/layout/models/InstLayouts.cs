@@ -10,15 +10,22 @@ namespace Z0
         {
             readonly NativeCells<InstLayoutBlock> Blocks;
 
-            readonly Index<InstLayout> Data;
+            readonly Index<InstLayout> Layouts;
 
             public readonly Index<InstLayoutRecord> Records;
 
             public InstLayouts(InstLayout[] src, NativeCells<InstLayoutBlock> blocks)
             {
-                Data = src;
+                Layouts = src;
                 Blocks = blocks;
                 Records = core.alloc<InstLayoutRecord>(src.Length);;
+            }
+
+
+            public uint BlockCount
+            {
+                [MethodImpl(Inline)]
+                get => Blocks.CellCount;
             }
 
             [MethodImpl(Inline)]
@@ -30,53 +37,60 @@ namespace Z0
                 => ref Records[i];
 
             [MethodImpl(Inline)]
-            ref readonly InstLayoutBlock Block(int i)
+            public ref readonly InstLayoutBlock Block(int i)
             {
                 ref readonly var block = ref Blocks[i];
                 return ref block.Content;
             }
 
-            public uint Count
+            [MethodImpl(Inline)]
+            public ref readonly InstLayoutBlock Block(uint i)
+            {
+                ref readonly var block = ref Blocks[i];
+                return ref block.Content;
+            }
+
+            public uint LayoutCount
             {
                 [MethodImpl(Inline)]
-                get => Data.Count;
+                get => Layouts.Count;
             }
 
             public ref InstLayout this[uint i]
             {
                 [MethodImpl(Inline)]
-                get => ref Data[i];
+                get => ref Layouts[i];
             }
 
             public ref InstLayout this[int i]
             {
                 [MethodImpl(Inline)]
-                get => ref Data[i];
+                get => ref Layouts[i];
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Data.IsEmpty;
+                get => Layouts.IsEmpty;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Data.IsNonEmpty;
+                get => Layouts.IsNonEmpty;
             }
 
             public ReadOnlySpan<InstLayout> View
             {
                 [MethodImpl(Inline)]
-                get => Data;
+                get => Layouts;
             }
 
             public void Render(ITextEmitter dst)
             {
                 const string RenderPattern = "{0,-10} | {1,-18} | {2,-22} | {3,-6} | {4}";
                 dst.AppendLineFormat(RenderPattern,"PatternId", "Instruction", "OpCode", "Length", "Vector");
-                for(var i=0; i<Count; i++)
+                for(var i=0; i<LayoutCount; i++)
                 {
                     ref readonly var src = ref this[i];
                     dst.AppendLineFormat(RenderPattern, src.PatternId, src.Instruction, src.OpCode, src.Count, src.Format());

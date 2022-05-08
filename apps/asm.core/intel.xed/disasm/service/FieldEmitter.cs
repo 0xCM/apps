@@ -21,51 +21,46 @@ namespace Z0
 
             readonly FieldRender Render;
 
-            readonly FS.FilePath Path;
-
-            public FieldEmitter(FS.FilePath dst)
+            public FieldEmitter()
             {
-                Path = dst;
                 Exclusions = hashset<FieldKind>(K.TZCNT,K.LZCNT,K.MAX_BYTES);
                 Render = XedFields.render();
             }
 
-            public uint EmitFields(Detail doc)
+            public uint EmitFields(Detail src, ITextEmitter dst)
             {
-                var buffer = fields();
-                var dst = text.buffer();
-                ref readonly var data = ref doc.DataFile;
-                dst.AppendLineFormat(RenderCol2, "DataSource", doc.Source.Path.ToUri().Format());
+                var fields = XedDisasm.fields();
+                ref readonly var data = ref src.DataFile;
+                dst.AppendLineFormat(RenderCol2, "DataSource", src.Source.Path.ToUri().Format());
                 var counter = 0u;
                 for(var i=0u; i<data.LineCount; i++)
                 {
-                    ref readonly var block = ref doc[i];
-                    fields(block, ref buffer);
+                    ref readonly var block = ref src[i];
+                    XedDisasm.fields(block, ref fields);
 
                     dst.AppendLine(RP.PageBreak240);
                     dst.AppendLine(block.Lines.Format());
                     dst.AppendLine(RP.PageBreak100);
 
-                    XedRender.describe(buffer, dst);
+                    XedRender.describe(fields, dst);
                     dst.AppendLine(RP.PageBreak100);
 
-                    var kinds = buffer.Selected;
+                    var kinds = fields.Selected;
                     for(var k=0; k<kinds.Length; k++)
                     {
                         ref readonly var kind = ref skip(kinds,k);
                         if(Exclusions.Contains(kind))
                             continue;
 
-                        dst.AppendLineFormat(RenderCol2, kind, Render[kind](buffer.Fields[kind]));
+                        dst.AppendLineFormat(RenderCol2, kind, Render[kind](fields.Fields[kind]));
                         counter++;
                     }
 
                     XedOperands.render(block.Ops.Map(o => o.Spec), dst);
-                    dst.AppendLine();
+                    if(i!=data.LineCount -1)
+                        dst.AppendLine();
                 }
 
-                using var emitter = Path.AsciEmitter();
-                emitter.Write(dst.Emit());
                 return counter;
             }
         }

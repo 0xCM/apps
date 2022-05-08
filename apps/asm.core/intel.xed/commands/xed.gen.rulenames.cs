@@ -83,11 +83,11 @@ namespace Z0
 
             void PatternTraversal(InstPattern pattern)
             {
-                Require.invariant(patterns.TryAdd(pattern.PatternId,pattern));
+                Require.invariant(patterns.TryAdd(pattern.Seq,pattern));
                 ref readonly var ops = ref pattern.Ops;
                 var dst = alloc<string>(2 + ops.Count);
                 _format(pattern, dst);
-                blocks.TryAdd(pattern.PatternId, dst);
+                blocks.TryAdd(pattern.Seq, dst);
                 if(pattern.InstForm.IsNonEmpty)
                     forms.TryRemove(pattern.InstForm);
             }
@@ -108,7 +108,7 @@ namespace Z0
                     opcode = pattern.OpCode;
                 }
 
-                var lines = blocks[pattern.PatternId];
+                var lines = blocks[pattern.Seq];
                 for(var j=0; j<lines.Length; j++, counter++)
                     writer.WriteLine(skip(lines,j));
             }

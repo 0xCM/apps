@@ -123,7 +123,7 @@ namespace Z0
 
                                             var opexpr = text.trim(text.remove(value,"OPERANDS"));
                                             var spec = InstPatternSpec.Empty;
-                                            spec.PatternId = seq;
+                                            spec.Seq = seq;
                                             spec.InstClass = @class;
                                             spec.Attributes = attribs;
                                             spec.Effects = effects;
@@ -134,7 +134,7 @@ namespace Z0
                                             spec.RawBody = rawbody;
                                             InstParser.parse(RuleMacros.expand(InstPatternBody.normalize(rawbody)), out spec.Body);
                                             spec.Mode = InstCells.mode(spec.Body.Cells);
-                                            PatternOpParser.parse(spec.PatternId, opexpr, out spec.Ops);
+                                            PatternOpParser.parse(spec.Seq, opexpr, out spec.Ops);
                                             spec.OpCode = InstCells.opcode(spec.Body.Cells);
                                             specs.Add(spec);
                                         }
@@ -164,8 +164,8 @@ namespace Z0
                     for(var j=0; j<specs.Count; j++, pid++)
                     {
                         ref var spec = ref specs[j];
-                        forms.TryGetValue(spec.PatternId, out spec.InstForm);
-                        spec.PatternId = pid;
+                        forms.TryGetValue(spec.Seq, out spec.InstForm);
+                        spec.Seq = pid;
                         spec.Ops = new (pid, spec.Ops);
                         for(var k=0; k<spec.Ops.Count; k++)
                             spec.Ops[k].PatternId = pid;

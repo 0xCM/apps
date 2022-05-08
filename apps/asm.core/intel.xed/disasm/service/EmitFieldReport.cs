@@ -13,11 +13,10 @@ namespace Z0
 
         void EmitFieldReport(WsContext context, Detail src)
         {
-            var dst = DisasmFieldsPath(context, src.Source);
-            var emitting = EmittingFile(dst);
-            var emitter = new FieldEmitter(dst);
-            var count = emitter.EmitFields(src);
-            EmittedFile(emitting,count);
+            var emitter = new FieldEmitter();
+            var dst = text.emitter();
+            var count = emitter.EmitFields(src, dst);
+            AppSvc.FileEmit(dst.Emit(), count, DisasmFieldsPath(context, src.Source));
         }
     }
 }

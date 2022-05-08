@@ -19,6 +19,7 @@ namespace Z0
             var commands = XedCmdProvider.create(Wf);
             XedRt = XedRuntime.create(Wf);
             commands.With(XedRt);
+            XedRt.Start();
             CmdService = commands;
         }
 

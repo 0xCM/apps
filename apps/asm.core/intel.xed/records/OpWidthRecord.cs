@@ -8,26 +8,34 @@ namespace Z0
     partial struct XedModels
     {
         [Record(TableId)]
-        public struct OpWidthInfo : IComparable<OpWidthInfo>
+        public struct OpWidthRecord : IComparable<OpWidthRecord>
         {
             public const string TableId = "xed.widths.ops";
 
             public const byte FieldCount = 8;
 
+            [Render(12)]
             public OpWidthCode Code;
 
+            [Render(12)]
             public text15 Name;
 
+            [Render(12)]
             public ElementType ElementType;
 
+            [Render(12)]
             public ushort ElementWidth;
 
+            [Render(12)]
             public BitSegType SegType;
 
+            [Render(12)]
             public ushort Width64;
 
+            [Render(12)]
             public ushort Width32;
 
+            [Render(12)]
             public ushort Width16;
 
             public byte ElementCount
@@ -54,10 +62,10 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public int CompareTo(OpWidthInfo src)
+            public int CompareTo(OpWidthRecord src)
                 => Name.CompareTo(src.Name);
 
-            public static OpWidthInfo Empty => default;
+            public static OpWidthRecord Empty => default;
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,12,12,12,12,12,12};
         }

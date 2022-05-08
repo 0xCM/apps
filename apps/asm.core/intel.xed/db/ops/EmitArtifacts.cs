@@ -13,7 +13,8 @@ namespace Z0
         {
             exec(PllExec,
                 EmitRuleSchema,
-                EmitTypeTables
+                EmitTypeTables,
+                EmitLayouts
             );
         }
 

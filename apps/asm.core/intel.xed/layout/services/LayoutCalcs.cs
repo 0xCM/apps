@@ -11,16 +11,10 @@ namespace Z0
     {
         public readonly struct LayoutCalcs
         {
-            public static NativeCells<InstLayoutBlock> blocks(uint count)
-                => NativeCells.alloc<InstLayoutBlock>(count, out var id);
-
-            public static NativeCells<LayoutComponent> components(uint count)
-                => NativeCells.alloc<LayoutComponent>(count, out var id);
-
             public static InstLayouts layouts(Index<InstPattern> src)
             {
                 var count = src.Count;
-                var blocks = LayoutCalcs.blocks(count);
+                var blocks = NativeCells.alloc<InstLayoutBlock>(count, out var id);
                 var size = InstLayoutBlock.Size;
                 Index<InstLayout> dst = alloc<InstLayout>(count);
                 var layouts = new InstLayouts(dst, blocks);
@@ -35,36 +29,37 @@ namespace Z0
                 return layouts;
             }
 
-            [MethodImpl(Inline)]
-            public static LayoutComponent component(FieldKind field, LayoutCellKind kind, ushort data)
-                => new LayoutComponent(field,kind,data);
-
             public static LayoutVectors vectors(InstLayouts src)
             {
                 var counts = (uint)src.View.Select(x => x.Cells.Length).Sum();
                 var count = (uint)src.View.Length;
-                var comps = components(counts);
+                var comps = NativeCells.alloc<LayoutComponent>(counts, out var id);
+                var vectors = alloc<LayoutVector>(count);
                 var k = 0u;
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var layout = ref src[i];
+                    if(layout.Count == 0)
+                        continue;
+
                     var buffer = comps.Cells(k, layout.Count);
                     for(var j=0; j<layout.Count; j++, k++)
                     {
                         ref readonly var cell = ref layout[j];
                         var address = comps[k].Location;
-                        seek(buffer,j) = component(cell.Field, cell.Kind, 0);
+                        seek(buffer,j) = new LayoutComponent(cell.Field, cell.Kind, (ulong)cell);
                     }
+                    seek(vectors,k) = new LayoutVector(MemorySegs.segref(first(buffer), layout.Count));
                 }
 
-                return new LayoutVectors(default);
+                return new LayoutVectors(comps,vectors);
             }
 
             public static uint layout(InstPattern src, SegRef<LayoutCell> block, out InstLayout dst)
             {
                 ref readonly var fields = ref src.Layout;
                 var count = Demand.lteq(fields.Count, InstLayoutRecord.CellCount);
-                dst = new InstLayout((ushort)src.PatternId, src.InstClass, src.OpCode, count, block);
+                dst = new InstLayout((ushort)src.Seq, src.InstClass, src.OpCode, count, block);
                 for(var j=z8; j<fields.Count; j++)
                     dst[j] = LayoutCell.from(fields[j]);
 

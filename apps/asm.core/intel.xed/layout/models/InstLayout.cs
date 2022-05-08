@@ -28,6 +28,12 @@ namespace Z0
                 Block = block;
             }
 
+            public MemoryAddress BaseAddress
+            {
+                [MethodImpl(Inline)]
+                get => Block.BaseAddress;
+            }
+
             public Span<LayoutCell> Cells
             {
                 [MethodImpl(Inline)]

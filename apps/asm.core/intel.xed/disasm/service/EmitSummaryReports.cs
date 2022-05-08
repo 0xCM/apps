@@ -16,8 +16,7 @@ namespace Z0
             ref readonly var summary = ref doc.Summary;
             ref readonly var origin = ref summary.Origin;
             var target = outdir + origin.Path.FileName.WithoutExtension + FS.ext("xed.disasm.summary.csv");
-            TableEmit(summary.Rows.View, SummaryRow.RenderWidths, TextEncodingKind.Asci, target);
+            AppSvc.TableEmit(summary.Rows, target);
         }
-
     }
 }

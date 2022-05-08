@@ -19,6 +19,8 @@ namespace Z0
 
         static readonly EnumParser<OpAction> OpActions = new();
 
+        static readonly EnumParser<MmxRegId> MmxRegs = new();
+
         static readonly EnumParser<OpType> OpTypes = new();
 
         static readonly EnumParser<PointerWidthKind> PointerWidths = new();
@@ -587,9 +589,15 @@ namespace Z0
             var result = Regs.Parse(input, out dst);
             if(!result)
             {
-                result = FpuRegs.Parse(src, out FpuRegId fpu);
+                result = MmxRegs.Parse(input, out MmxRegId mmx);
                 if(result)
-                    dst = (XedRegId)fpu;
+                    dst = (XedRegId)mmx;
+                else
+                {
+                    result = FpuRegs.Parse(src, out FpuRegId fpu);
+                    if(result)
+                        dst = (XedRegId)fpu;
+                }
             }
             return result;
         }

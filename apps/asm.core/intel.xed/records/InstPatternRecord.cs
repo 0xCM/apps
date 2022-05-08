@@ -14,22 +14,28 @@ namespace Z0
         {
             public const string TableId = "xed.inst.patterns";
 
-            public const byte FieldCount = 8;
+            [Render(8)]
+            public uint Seq;
 
-            public uint PatternId;
-
+            [Render(18)]
             public InstClass InstClass;
 
+            [Render(26)]
             public XedOpCode OpCode;
 
+            [Render(8)]
             public MachineMode Mode;
 
+            [Render(8)]
             public LockIndicator Lock;
 
+            [Render(8)]
             public EmptyZero<bit> Scalable;
 
+            [Render(52)]
             public InstForm InstForm;
 
+            [Render(1)]
             public InstPatternBody Body;
 
             public int CompareTo(InstPatternRecord src)
@@ -39,7 +45,7 @@ namespace Z0
             public PatternSort Sort()
                 => new PatternSort(this);
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,18,26,8,8,8,52,1};
+            //public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{18,26,8,8,8,52,1};
 
             public static InstPatternRecord Empty => default;
         }

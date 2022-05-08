@@ -98,6 +98,10 @@ namespace Z0
                 get => Kind == LayoutCellKind.NT;
             }
 
+            [MethodImpl(Inline)]
+            public static explicit operator ulong(LayoutCell src)
+                => src.Data.A;
+
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]

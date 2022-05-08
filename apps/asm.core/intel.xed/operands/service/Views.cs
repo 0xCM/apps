@@ -32,7 +32,7 @@ namespace Z0
                 get => Broadcasts;
             }
 
-            public static ReadOnlySpan<OpWidthInfo> OpWidths
+            public static ReadOnlySpan<OpWidthRecord> OpWidths
             {
                 [MethodImpl(Inline), Op]
                 get => _Widths;

@@ -45,8 +45,8 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public static OpWidthInfo describe(OpWidthCode code)
-            => code == 0 ? OpWidthInfo.Empty : _WidthLookup[code];
+        public static OpWidthRecord describe(OpWidthCode code)
+            => code == 0 ? OpWidthRecord.Empty : _WidthLookup[code];
 
         public static ushort width(OpWidthCode code, ElementKind ekind)
         {

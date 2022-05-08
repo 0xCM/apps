@@ -17,30 +17,34 @@ namespace Z0
         {
             public const string TableId = "xed.inst.ops.classes";
 
-            public const byte FieldCount = 8;
-
+            [Render(8)]
             public uint Seq;
 
+            [Render(12)]
             public OpKind Kind;
 
+            [Render(12)]
             public ushort BitWidth;
 
+            [Render(12)]
             public OpWidth OpWidth;
 
+            [Render(12)]
             public ElementType ElementType;
 
+            [Render(12)]
             public byte ElementCount;
 
+            [Render(12)]
             public bit IsRegLit;
 
+            [Render(12)]
             public bit IsRule;
 
             public int CompareTo(InstOpClass src)
                 => XedRules.cmp(this,src);
 
             public static InstOpClass Empty => default;
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,12,12,12,12,12,12};
         }
     }
 }

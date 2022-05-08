@@ -26,9 +26,9 @@ namespace Z0
             return result;
         }
 
-        static Index<OpWidthInfo> CalcOpWidths()
+        static Index<OpWidthRecord> CalcOpWidths()
         {
-            var buffer = dict<OpWidthCode,OpWidthInfo>();
+            var buffer = dict<OpWidthCode,OpWidthRecord>();
             var symbols = Symbols.index<OpWidthCode>();
             var src = XedPaths.DocSource(XedDocKind.Widths);
             using var reader = src.Utf8LineReader();
@@ -54,7 +54,7 @@ namespace Z0
                 ref readonly var xtype = ref skip(cells,1);
                 ref readonly var wdefault = ref skip(cells,2);
 
-                var dst = OpWidthInfo.Empty;
+                var dst = OpWidthRecord.Empty;
                 result = XedParsers.parse(code, out dst.Code);
 
                 if(result.Fail)

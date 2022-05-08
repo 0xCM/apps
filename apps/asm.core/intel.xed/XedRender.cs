@@ -365,7 +365,7 @@ namespace Z0
             dst.AppendLineFormat(pattern, nameof(src.OpCode), src.OpCode);
         }
 
-        public static void describe(in DisasmFieldBuffer src, ITextBuffer dst)
+        public static void describe(in DisasmFieldBuffer src, ITextEmitter dst)
         {
             const string RenderPattern = XedFields.FieldRender.Columns;
             dst.AppendLineFormat(RenderPattern, nameof(src.Summary.InstructionId), src.Summary.InstructionId);

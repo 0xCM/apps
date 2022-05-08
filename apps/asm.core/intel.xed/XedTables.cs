@@ -11,13 +11,5 @@ namespace Z0
             state = new();
             return this;
         }
-
-    }
-
-    partial class XTend
-    {
-        public static XedTables XedTables(this IWfRuntime wf)
-            => Z0.XedTables.create(wf);
-
     }
 }

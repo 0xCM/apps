@@ -14,22 +14,22 @@ namespace Z0
         {
             public const string TableId = "xed.fields.imported";
 
-            public const byte FieldCount = 4;
-
+            [Render(32)]
             public text31 Name;
 
+            [Render(32)]
             public EnumFormat<XedFieldType> FieldType;
 
+            [Render(8)]
             public byte Width;
 
+            [Render(1)]
             public VisibilityKind Visibility;
 
             public int CompareTo(XedFieldDef src)
                 => Name.CompareTo(src.Name);
 
             public static XedFieldDef Empty => default;
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{32,32,8,1};
         }
     }
 }

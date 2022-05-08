@@ -54,8 +54,8 @@ namespace Z0
         Outcome EmitLayouts(CmdArgs args)
         {
             var dst = hashset<LayoutCell>();
-            ref readonly var layouts = ref Xed.InstLayouts;
-            for(var i=0; i<layouts.Count; i++)
+            var layouts = XedDb.CalcLayouts(CalcPatterns());
+            for(var i=0; i<layouts.LayoutCount; i++)
             {
                 ref readonly var layout = ref layouts[i];
                 for(var j=0; j<layout.Count; j++)

@@ -5,9 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static MemDb;
-
     using static XedRules;
 
     public partial class XedDb : AppService<XedDb>
@@ -22,7 +19,22 @@ namespace Z0
             return this;
         }
 
-        AppServices AppServices => Service(Wf.AppServices);
+        public void EmitLayouts()
+            => Emit(CalcLayouts(Rules.CalcInstPatterns()));
+
+        void Emit(InstLayouts src)
+        {
+            AppSvc.FileEmit(src.Format(), 0, Paths.InstTarget("layouts.vectors", FileKind.Csv));
+            AppSvc.TableEmit(src.Records.View, InstLayoutRecord.RenderWidths, Paths.InstTable<InstLayoutRecord>());
+        }
+
+        public InstLayouts CalcLayouts(Index<InstPattern> src)
+            => Data(nameof(CalcLayouts), () => LayoutCalcs.layouts(src));
+
+        public LayoutVectors CalcLayoutVectors(InstLayouts src)
+            => Data(nameof(CalcLayoutVectors), () => LayoutCalcs.vectors(src));
+
+        AppServices AppSvc => Service(Wf.AppServices);
 
         RuleCells RuleCells => Rules.CalcRuleCells(RuleTables);
 
@@ -31,11 +43,5 @@ namespace Z0
         public XedRules Rules => Xed.Rules;
 
         RuleTables RuleTables => Rules.CalcRuleTables();
-
-        public DbViews Views
-        {
-            [MethodImpl(Inline)]
-            get => new DbViews(this);
-        }
     }
 }
