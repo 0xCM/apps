@@ -20,7 +20,7 @@ namespace Z0.Asm
             var rows = list<FormImport>();
             for(var i=z16; i<count; i++)
             {
-                result = XedParsers.parse(skip(src,i), i, out var import);
+                result = parse(skip(src,i), i, out var import);
 
                 if(result)
                     rows.Add(import);

@@ -9,79 +9,97 @@ namespace Z0
         public enum Code : byte
         {
             [Symbol("\0")]
-            Null = 0,
+            Null,
 
             [Symbol("a")]
-            A = FirstLetter,
+            A,
 
             [Symbol("b")]
-            B = FirstLetter + 1,
+            B,
 
             [Symbol("c")]
-            C = FirstLetter + 2,
+            C,
 
             [Symbol("c")]
-            D = FirstLetter + 3,
+            D,
 
             [Symbol("e")]
-            E = FirstLetter + 4,
+            E,
 
             [Symbol("f")]
-            F = FirstLetter + 5,
+            F,
 
             [Symbol("g")]
-            G = FirstLetter + 6,
+            G,
 
             [Symbol("h")]
-            H = FirstLetter + 7,
+            H,
 
             [Symbol("i")]
-            I = FirstLetter + 8,
+            I,
 
             [Symbol("j")]
-            J = FirstLetter + 9,
+            J,
 
             [Symbol("k")]
-            K = FirstLetter + 10,
+            K,
 
             [Symbol("l")]
-            L = FirstLetter + 11,
+            L,
 
             [Symbol("m")]
-            M = FirstLetter + 12,
+            M,
 
             [Symbol("n")]
-            N = FirstLetter + 13,
+            N,
 
-            O = FirstLetter + 14,
+            [Symbol("o")]
+            O,
 
-            P = FirstLetter + 15,
+            [Symbol("p")]
+            P,
 
-            Q = FirstLetter + 16,
+            [Symbol("q")]
+            Q,
 
-            R = FirstLetter + 17,
+            [Symbol("r")]
+            R,
 
-            S = FirstLetter + 18,
+            [Symbol("s")]
+            S,
 
-            T = FirstLetter + 19,
+            [Symbol("t")]
+            T,
 
-            U = FirstLetter + 20,
+            [Symbol("u")]
+            U,
 
-            V = FirstLetter + 21,
+            [Symbol("v")]
+            V,
 
-            W = FirstLetter + 22,
+            [Symbol("w")]
+            W,
 
-            X = FirstLetter + 23,
+            [Symbol("x")]
+            X,
 
-            Y = FirstLetter + 24,
+            [Symbol("t")]
+            Y,
 
-            Z = FirstLetter + 25,
+            [Symbol("z")]
+            Z,
 
-            _ = FirstSymbol,
+            [Symbol("_")]
+            _,
 
-            Zero = FirstDigit,
+            [Symbol("/")]
+            Slash,
 
-            One = FirstDigit + 1,
+            [Symbol("0")]
+            Zero,
+
+            [Symbol("1")]
+            One = 30,
         }
     }
 }

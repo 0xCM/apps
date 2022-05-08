@@ -17,15 +17,19 @@ namespace Z0
             public readonly CellValue Value;
 
             [MethodImpl(Inline)]
-            public RuleCell(CellMetrics metrics, CellValue value)
+            public RuleCell(CellKey key, CellValue value, DataSize size)
             {
-                Key = metrics.Key;
-                Size = metrics.Size;
+                Key = key;
+                Size = size;
                 Value = value;
-                if(metrics.Key.Field != value.Field)
-                    term.warn($"{metrics.Key.Field} != {value.Field}");
+            }
 
-                //Require.equal((byte)metrics.Key.Field, (byte)value.Field);
+            [MethodImpl(Inline)]
+            public RuleCell(CellKey key, RuleOperator value, DataSize size)
+            {
+                Key = key;
+                Size = size;
+                Value = value;
             }
 
             [MethodImpl(Inline)]

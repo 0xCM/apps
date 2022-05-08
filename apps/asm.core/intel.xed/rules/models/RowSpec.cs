@@ -17,7 +17,7 @@ namespace Z0
 
             public readonly Index<CellKey> Keys;
 
-            public readonly Index<CellInfo> Cells;
+            public readonly Index<CellInfo> CellInfo;
 
             public readonly ushort ColCount;
 
@@ -28,25 +28,13 @@ namespace Z0
                 TableId = tid;
                 RowIndex = rix;
                 Keys = keys;
-                Cells = cells;
+                CellInfo = cells;
                 ColCount = (ushort)Require.equal(keys.Length, cells.Length);
-            }
-
-            public ref readonly CellInfo this[int i]
-            {
-                [MethodImpl(Inline)]
-                get => ref Cells[i];
-            }
-
-            public ref readonly CellInfo this[uint i]
-            {
-                [MethodImpl(Inline)]
-                get => ref Cells[i];
             }
 
             [MethodImpl(Inline)]
             public ref readonly CellInfo Cell(ushort i)
-                => ref Cells[i];
+                => ref CellInfo[i];
 
             [MethodImpl(Inline)]
             public ref readonly CellKey Key(ushort i)

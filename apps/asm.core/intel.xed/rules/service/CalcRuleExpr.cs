@@ -11,6 +11,7 @@ namespace Z0
         public Index<RuleExpr> CalcRuleExpr(TableSpecs src)
         {
             return Data(nameof(CalcRuleExpr), Calc);
+
             Index<RuleExpr> Calc()
             {
                 var dst = core.alloc<RuleExpr>(src.RowCount);

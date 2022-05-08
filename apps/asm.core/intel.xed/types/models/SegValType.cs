@@ -8,11 +8,9 @@ namespace Z0
 
     partial class XedDataTypes
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(MetaWidth,MetaWidth)]
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly struct SegValType : IFieldType<SegValType>
         {
-            public const uint MetaWidth = FieldSeg.MetaWidth + TypeKey.MetaWidth;
-
             public const TypeKind Kind = TypeKind.SegVal;
 
             public readonly FieldSeg Seg;

@@ -13,22 +13,17 @@ namespace Z0
         {
             var dst = Char5.Empty;
             if(letter(c))
-                dst = from((Code)(c - Base));
-            else if(symbol(c))
-                dst = from(Code._);
-            else
-            {
-                if((Code)c == Code.Zero)
-                    dst = from(Code.Zero);
-                else if((Code)c == Code.One)
-                    dst = from(Code.One);
-            }
+                dst = (Code)(c - Base);
+            else if(c == '0')
+                dst = new(Code.Zero);
+            else if(c == '1')
+                dst = Code.One;
+            else if(c == '/')
+                dst = Code.Slash;
+            else if(c == '_')
+                dst = Code._;
             return dst;
         }
-
-        [MethodImpl(Inline)]
-        public static Char5 from(Code code)
-            => new Char5(code);
 
         [MethodImpl(Inline)]
         public static bool letter(char c)
@@ -36,7 +31,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static bool symbol(char c)
-            => c == '_';
+            => c == '_' || c == '/';
 
         [MethodImpl(Inline)]
         public static bool digit(char c)
@@ -48,7 +43,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static bool symbol(Code c)
-            => c == Code._;
+            => c == Code._ || c == Code.Slash;
 
         [MethodImpl(Inline)]
         public static bool digit(Code c)
@@ -59,17 +54,10 @@ namespace Z0
             => symbol(c) || letter(c) || digit(c);
 
         [MethodImpl(Inline)]
-        public static bool valid(Code c)
-            => symbol(c) || letter(c) || digit(c);
+        public static bool valid(AsciCode src)
+            => valid((char)src);
 
         readonly byte Index;
-
-
-        [MethodImpl(Inline)]
-        Char5(byte index)
-        {
-            Index = index;
-        }
 
         [MethodImpl(Inline)]
         public Char5(Code code)
@@ -78,19 +66,12 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public Char5(char c)
+        public Char5(AsciCode c)
         {
             if(valid(c))
-                Index = (byte)(c - Base);
+                Index = (byte)c;
             else
                 Index = 0;
-        }
-
-        [MethodImpl(Inline)]
-        public Char5(AsciCode c)
-            : this((char)c)
-        {
-
         }
 
         public bool IsEmpty
@@ -152,7 +133,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator Char5(char c)
-            => new Char5(c);
+            => parse(c);
 
         [MethodImpl(Inline)]
         public static implicit operator Char5(AsciCode c)

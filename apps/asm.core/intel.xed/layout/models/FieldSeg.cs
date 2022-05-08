@@ -7,11 +7,9 @@ namespace Z0
 {
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(MetaWidth,MetaWidth)]
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct FieldSeg
         {
-            public const uint MetaWidth = 8 + SegVar.MetaWidth;
-
             [MethodImpl(Inline)]
             public static FieldSeg literal(FieldKind field, byte n, byte value)
                 => new FieldSeg(field, SegVar.literal(n,value));
@@ -27,10 +25,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static FieldSeg symbolic(FieldKind field, char c0)
                 => new FieldSeg(field, c0);
-
-            [MethodImpl(Inline)]
-            public static FieldSeg symbolic(FieldKind field, char c0, char c1)
-                => new FieldSeg(field, new SegVar(c0, c1));
 
             [MethodImpl(Inline)]
             public static FieldSeg symbolic(string spec)

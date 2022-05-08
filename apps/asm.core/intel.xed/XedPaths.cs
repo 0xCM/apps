@@ -56,6 +56,10 @@ namespace Z0
             where T : struct
                 => RuleTargets() + Tables.filename<T>();
 
+        public FS.FilePath RuleTable<T>(string suffix)
+            where T : struct
+                => RuleTargets() + Suffixed<T>(suffix);
+
         public FS.FilePath IsaFormsPath(ChipCode chip)
             => Targets("isaforms") + FS.file(string.Format("xed.isa.{0}", chip), FS.Csv);
 

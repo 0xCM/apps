@@ -30,14 +30,14 @@ namespace Z0
                     for(var j=z16; j<rows.Count; j++)
                     {
                         ref readonly var row = ref rows[j];
-                        ref readonly var cells = ref row.Cells;
                         ref readonly var keys = ref row.Keys;
-                        for(var k=z8; k<cells.Count; k++)
+                        for(var k=z8; k<row.CellInfo.Count; k++)
                         {
-                            ref readonly var info = ref cells[k];
+                            ref readonly var info = ref row.CellInfo[k];
                             ref readonly var data = ref info.Data;
                             ref readonly var logic = ref info.Logic;
-                            var metrics = RuleTables.metrics(keys[k]);
+                            ref readonly var key = ref keys[k];
+                            var size = XedFields.size(key.Field, key.CellType);
                             var result = false;
                             var field = CellValue.Empty;
                             var cell = RuleCell.Empty;
@@ -48,7 +48,7 @@ namespace Z0
                                 {
                                     result = XedParsers.parse(data, out uint5 value);
                                     field = value;
-                                    cell = RuleTables.cell(metrics, field);
+                                    cell = new RuleCell(key, value, size);
                                 }
                                 break;
 
@@ -56,7 +56,7 @@ namespace Z0
                                 {
                                     result = XedParsers.parse(data, out byte value);
                                     field = value;
-                                    cell = RuleTables.cell(metrics, field);
+                                    cell = new RuleCell(key, value, size);
                                 }
                                 break;
 
@@ -64,7 +64,7 @@ namespace Z0
                                 {
                                     result = XedParsers.parse(data, out Hex8 value);
                                     field = value;
-                                    cell = RuleTables.cell(metrics, field);
+                                    cell = new RuleCell(key, value, size);
                                 }
                                 break;
 
@@ -72,7 +72,7 @@ namespace Z0
                                 {
                                     result = XedParsers.parse(data, out RuleKeyword value);
                                     field = value;
-                                    cell = RuleTables.cell(metrics, field);
+                                    cell = new RuleCell(key, value, size);
                                 }
                                 break;
 
@@ -80,7 +80,7 @@ namespace Z0
                                 {
                                     result = XedParsers.parse(data, out SegVar value);
                                     field = value;
-                                    cell = RuleTables.cell(metrics, field);
+                                    cell = new RuleCell(key, value, size);
                                 }
                                 break;
 
@@ -88,7 +88,7 @@ namespace Z0
                                 {
                                     result = XedParsers.parse(data, out Nonterminal value);
                                     field = value;
-                                    cell = RuleTables.cell(metrics, field);
+                                    cell = new RuleCell(key, value, size);
                                 }
                                 break;
 
@@ -96,14 +96,14 @@ namespace Z0
                                 {
                                     if(info.Operator.IsNonEmpty && info.Field == 0)
                                     {
-                                        cell = RuleTables.cell(metrics, OperatorKind.Impl);
                                         result = true;
+                                        cell = new RuleCell(key, OperatorKind.Impl, size);
                                     }
                                     else
                                     {
                                         result = CellParser.ruleop(data, out RuleOperator value);
                                         field = value;
-                                        cell = RuleTables.cell(metrics, field);
+                                        cell = new RuleCell(key, value, size);
                                     }
                                 }
                                 break;
@@ -112,14 +112,14 @@ namespace Z0
                                 {
                                     result = CellParser.seg(data, out FieldSeg value);
                                     field = value;
-                                    cell = RuleTables.cell(metrics, field);
+                                    cell = new RuleCell(key, value, size);
                                 }
                                 break;
                                 case CK.InstSeg:
                                 {
                                     result = CellParser.parse(data, out InstSeg value);
                                     field = value;
-                                    cell = RuleTables.cell(metrics, field);
+                                    cell = new RuleCell(key, value, size);
                                 }
                                 break;
 
@@ -129,13 +129,10 @@ namespace Z0
                                 {
                                     result = CellParser.expr(data, out CellExpr value);
                                     if(value.Field == 0)
-                                    {
                                         term.warn(AppMsg.ParseFailure.Format(nameof(FieldKind), data));
-                                        //Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), data));
-                                    }
 
                                     field = value;
-                                    cell = RuleTables.cell(metrics, field);
+                                    cell = new RuleCell(key, value, size);
                                 }
                                 break;
 
