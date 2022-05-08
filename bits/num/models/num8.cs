@@ -25,6 +25,9 @@ namespace Z0
 
         public const byte Width = 8;
 
+        /// <summary>
+        /// 255
+        /// </summary>
         public const D MaxValue = Pow2.T08m1;
 
         public const ushort Mod = (D)MaxValue + 1;

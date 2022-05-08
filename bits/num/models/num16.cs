@@ -29,6 +29,9 @@ namespace Z0
         ulong inum.Value
             => Value;
 
+        /// <summary>
+        /// 65,535
+        /// </summary>
         public const byte Width = 16;
 
         public const D MaxValue = Pow2.T16m1;

@@ -29,8 +29,9 @@ namespace Z0
 
         public const byte Width = 14;
 
-        public const byte NativeWidth = 16;
-
+        /// <summary>
+        /// 16,383
+        /// </summary>
         public const D MaxValue = Pow2.T14m1;
 
         public const D Mod = (D)MaxValue + 1;

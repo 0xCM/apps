@@ -25,7 +25,7 @@ namespace Z0
 
         XedDb XedDb => Xed.XedDb;
 
-        AppServices AppServices => Xed.AppServices;
+        AppServices AppSvc => Xed.AppServices;
 
         AppDb AppDb => Xed.AppDb;
 
@@ -35,10 +35,17 @@ namespace Z0
 
         AsmDocs AsmDocs => Service(Wf.AsmDocs);
 
+        [MethodImpl(Inline)]
+        StringRef Ref(string src)
+            => Xed.Allocator.String(src);
+
+        [MethodImpl(Inline)]
+        Label Label(string src)
+            => Xed.Allocator.Label(src);
+
         public XedCmdProvider With(XedRuntime runtime)
         {
             Xed = runtime;
-            //runtime.Start();
             return this;
         }
 

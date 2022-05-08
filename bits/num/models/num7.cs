@@ -23,9 +23,10 @@ namespace Z0
         num7(ulong src)
             => Value = (D)src;
 
+        /// <summary>
+        /// 127
+        /// </summary>
         public const byte Width = 7;
-
-        public const byte NativeWidth = 8;
 
         public const D MaxValue = Pow2.T07m1;
 

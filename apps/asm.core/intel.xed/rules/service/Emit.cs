@@ -71,7 +71,8 @@ namespace Z0
         {
             exec(PllExec,
                 () => Emit(CalcRuleCells(src)),
-                () => EmitTableDefReport(src),
+                () => EmitRuleExpr(src),
+                () => EmitTableSpecs(src),
                 EmitSeq,
                 () => EmitRulePages(src)
             );
@@ -168,5 +169,9 @@ namespace Z0
 
         void Emit(ReadOnlySpan<OpWidthRecord> src)
             => AppSvc.TableEmit(src, XedPaths.RefTable<OpWidthRecord>());
+
+        void Emit(ReadOnlySpan<RuleExpr> src)
+            => AppSvc.TableEmit(src, XedPaths.RuleTable<RuleExpr>());
+
     }
 }

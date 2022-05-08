@@ -103,6 +103,10 @@ namespace Z0
             public static explicit operator RuleSig(ushort src)
                 => new RuleSig(src);
 
+            [MethodImpl(Inline)]
+            public static implicit operator RuleSig((RuleTableKind kind, RuleName name) src)
+                => new RuleSig(src.kind,src.name);
+
             public static RuleSig Empty => default;
         }
     }

@@ -202,7 +202,7 @@ namespace Z0
         Outcome EmitTableCells(CmdArgs args)
         {
             var rules = CalcRules();
-            Rules.EmitTableDefReport(rules);
+            Rules.EmitTableSpecs(rules);
             return true;
         }
 

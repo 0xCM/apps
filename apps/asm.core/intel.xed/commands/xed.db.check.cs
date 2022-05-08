@@ -17,20 +17,7 @@ namespace Z0
 
             var formatter = RecordFormatter.create(typeof(TypeTableRow));
             var rows = Rules.CalcTypeTables().SelectMany(x => x.Rows).Sort().Resequence();
-            AppServices.TableEmit(rows, XedPaths.DbTable<TypeTableRow>());
-
-            // Write(formatter.FormatHeader());
-            // for(var i=0; i<types.Count; i++)
-            // {
-            //     ref readonly var type = ref types[i];
-            //     ref readonly var rows = ref type.Rows;
-            //     for(var j=0; j<rows.Count; j++)
-            //     {
-            //         ref readonly var row = ref rows[j];
-            //         Write(formatter.Format(row));
-            //     }
-            // }
-
+            AppSvc.TableEmit(rows, XedPaths.DbTable<TypeTableRow>());
 
             return true;
         }

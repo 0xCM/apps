@@ -9,23 +9,15 @@ namespace Z0
     {
         public class TableSpecs : SortedLookup<RuleSig,TableSpec>
         {
-            // public static TableColumns Columns = new TableColumns(
-            //     ("TableId", 10),
-            //     ("TableKind", 10),
-            //     ("TableName", 32),
-            //     ("RowIndex", 10),
-            //     ("CellIndex", 10),
-            //     ("Type", 24),
-            //     ("Field", 22),
-            //     ("Op", 4),
-            //     ("Value", 16)
-            //     );
+            public readonly uint TableCount;
+
+            public readonly uint RowCount;
 
             public TableSpecs(Dictionary<RuleSig,TableSpec> src)
                 : base(src)
             {
-
-
+                TableCount = (uint)src.Count;
+                RowCount = src.Values.Map(x => x.RowCount).Sum();
             }
 
             public static implicit operator TableSpecs(Dictionary<RuleSig,TableSpec> src)

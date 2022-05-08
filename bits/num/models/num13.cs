@@ -33,7 +33,7 @@ namespace Z0
         public const byte Width = 13;
 
         /// <summary>
-        /// Specifies the maximum value of a <see cref='N'/>-bit number, <see cref='Pow2.T13m1'/>
+        /// 8,191
         /// </summary>
         public const D MaxValue = Pow2.T13m1;
 
