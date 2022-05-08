@@ -15,23 +15,33 @@ namespace Z0
 
         const NumericKind Closure = UnsignedInts;
 
+        XedRuntime Xed;
+
         Index<PointerWidth> PointerWidths;
 
         Symbols<VisibilityKind> Visibilities;
 
         Symbols<XedFieldType> FieldTypes;
 
-        static AppData AppData
-        {
-            [MethodImpl(Inline)]
-            get => AppData.get();
-        }
-
         bool PllExec
         {
             [MethodImpl(Inline)]
-            get => AppData.PllExec();
+            get => Xed.PllExec;
         }
+
+        public XedRules With(XedRuntime xed)
+        {
+            Xed = xed ;
+            return this;
+        }
+
+        [MethodImpl(Inline)]
+        Label Label(string src)
+            => Xed.Allocator.Label(src);
+
+        [MethodImpl(Inline)]
+        StringRef String(string src)
+            => Xed.Allocator.String(src);
 
         public XedRules()
         {
@@ -40,18 +50,16 @@ namespace Z0
             FieldTypes = Symbols.index<XedFieldType>();
         }
 
-        XedPaths XedPaths => Service(Wf.XedPaths);
+        XedPaths XedPaths => Xed.Paths;
 
         AppDb AppDb => Service(Wf.AppDb);
-
-        XedDocs Docs => Service(Wf.XedDocs);
 
         static Symbols<PointerWidthKind> PointerWidthKinds;
 
         static XedRules()
         {
             PointerWidthKinds = Symbols.index<PointerWidthKind>();
-       }
+        }
 
         static MsgPattern<string> StepParseFailed => "Failed to parse step from '{0}'";
     }

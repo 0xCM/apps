@@ -13,7 +13,7 @@ namespace Z0
     {
         void LoadLookups()
         {
-            var rules = XedRules;
+            var rules = Rules;
             var patterns = rules.CalcInstPatterns();
             var groups = rules.CalcInstGroups(patterns);
             var members = groups.SelectMany(x => x.Members);

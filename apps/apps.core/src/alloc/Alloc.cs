@@ -8,7 +8,8 @@ namespace Z0
 
     using static core;
 
-    public class Alloc : IDisposable
+
+    public class Alloc : IDisposable, IAllocProvider
     {
         public static Alloc allocate()
             => new Alloc();
@@ -133,7 +134,7 @@ namespace Z0
             iter(Data.Keys, k => Data[k].Dispose());
         }
 
-        public Label Label(@string content)
+        public Label Label(string content)
             => Labels().Label(content);
 
         public MemorySeg Memory(ByteSize size)
@@ -154,13 +155,13 @@ namespace Z0
         public SourceText Source(Identifier name, ReadOnlySpan<string> src)
             => Sources().Source(src);
 
-        public StringRef String(@string content)
+        public StringRef String(string content)
             => Strings().String(content);
 
-        public LocatedSymbol Symbol(MemoryAddress location, @string name)
+        public LocatedSymbol Symbol(MemoryAddress location, string name)
             => Symbols().DispenseSymbol(location,name);
 
-        public LocatedSymbol Symbol(SymAddress location, @string name)
+        public LocatedSymbol Symbol(SymAddress location, string name)
             => Symbols().DispenseSymbol(location,name);
 
         public AsmHexRef AsmEncoding(ByteSize size)

@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     public readonly struct ClientFactory<C>
         where C : AppServiceClient<C>, new()
     {
@@ -38,7 +40,7 @@ namespace Z0
                 => new ClientFactory<C>();
     }
 
-    public class AppServiceClient<C> : AppServiceClient
+    public class AppServiceClient<C> : AppServiceClient, IWfTableOps
         where C : AppServiceClient<C>, new()
     {
         protected virtual void Initialized()
@@ -67,19 +69,19 @@ namespace Z0
             get => AppSvc.WfMsg;
         }
 
-        protected WsContext Context
+        public WsContext Context
         {
             [MethodImpl(Inline)]
             get => WsContext;
         }
 
-        protected IWfTableOps TableOps
+        public IWfTableOps TableOps
         {
             [MethodImpl(Inline)]
             get => AppSvc.TableOps;
         }
 
-        protected void Babble<T>(T content)
+        public void Babble<T>(T content)
             => WfMsg.Babble(content);
 
         protected void Babble(string pattern, params object[] args)
@@ -88,79 +90,112 @@ namespace Z0
         protected void Status<T>(T content)
             => WfMsg.Status(content);
 
-        protected void Status(ReadOnlySpan<char> src)
+        public void Status(ReadOnlySpan<char> src)
             => WfMsg.Status(src);
 
-        protected void Status(string pattern, params object[] args)
+        public void Status(string pattern, params object[] args)
             => WfMsg.Status(pattern, args);
 
-        protected void Warn<T>(T content)
+        public void Warn<T>(T content)
             => WfMsg.Warn(content);
 
-        protected void Warn(string pattern, params object[] args)
+        public void Warn(string pattern, params object[] args)
             => WfMsg.Warn(pattern, args);
 
-        protected virtual void Error<T>(T content)
+        public virtual void Error<T>(T content)
             => WfMsg.Error(content);
 
-        protected void Write<T>(T content)
+        public void Write<T>(T content)
             => WfMsg.Write(content);
 
-        protected void Write<T>(T content, FlairKind flair)
+        public void Write<T>(T content, FlairKind flair)
             => WfMsg.Write(content, flair);
 
-        protected void Write<T>(string name, T value, FlairKind? flair = null)
+        public void Write<T>(string name, T value, FlairKind? flair = null)
             => WfMsg.Write(name, value, flair);
 
-        protected WfExecFlow<T> Running<T>(T msg)
+        public WfExecFlow<T> Running<T>(T msg)
             => WfMsg.Running(msg);
 
-        protected WfExecFlow<string> Running([CallerName] string msg = null)
+        public WfExecFlow<string> Running([CallerName] string msg = null)
             => WfMsg.Running(msg);
 
-        protected ExecToken Ran<T>(WfExecFlow<T> flow, [CallerName] string msg = null)
+        public ExecToken Ran<T>(WfExecFlow<T> flow, [CallerName] string msg = null)
             => WfMsg.Ran(flow,msg);
 
-        protected ExecToken Ran<T>(WfExecFlow<T> flow, string msg, FlairKind flair = FlairKind.Ran)
+        public ExecToken Ran<T>(WfExecFlow<T> flow, string msg, FlairKind flair = FlairKind.Ran)
             => WfMsg.Ran(flow, msg, flair);
 
-        protected WfFileWritten EmittingFile(FS.FilePath dst)
+        public WfFileWritten EmittingFile(FS.FilePath dst)
             => WfMsg.EmittingFile(dst);
 
         public ExecToken EmittedFile(WfFileWritten flow, Count count)
             => WfMsg.EmittedFile(flow,count);
 
-        protected WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)
+        public WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)
             where T : struct
                 => WfMsg.EmittingTable<T>(dst);
 
-        protected ExecToken EmittedTable<T>(WfTableFlow<T> flow, Count count, FS.FilePath? dst = null)
+        public ExecToken EmittedTable<T>(WfTableFlow<T> flow, Count count, FS.FilePath? dst = null)
             where T : struct
                 => WfMsg.EmittedTable(flow,count, dst);
 
-        protected void TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+        public void TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
             where T : struct
                 => TableOps.TableEmit(src, widths, encoding, dst);
 
-        protected void FileEmit<T>(T src, Count count, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+        public void FileEmit<T>(T src, Count count, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
             => TableOps.FileEmit(src.ToString(), count, dst, encoding);
 
-        protected T Service<T>(Func<T> factory)
+        public void TableEmit<T>(ReadOnlySpan<T> rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+            where T : struct
+        {
+            var emitting = EmittingTable<T>(dst);
+            var formatter = RecordFormatter.create(typeof(T));
+            using var emitter = dst.Emitter(encoding);
+            emitter.WriteLine(formatter.FormatHeader());
+            for(var i=0; i<rows.Length; i++)
+                emitter.WriteLine(formatter.Format(skip(rows,i)));
+            EmittedTable(emitting, rows.Length, dst);
+        }
+
+        public void TableEmit<T>(Index<T> rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+            where T : struct
+                => TableEmit(rows.View, dst, encoding);
+
+        public void TableEmit<T>(T[] rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+            where T : struct
+                => TableEmit(@readonly(rows), dst, encoding);
+
+        public void TableEmit<T>(Span<T> rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+            where T : struct
+                => TableEmit(@readonly(rows), dst, encoding);
+
+        public T Service<T>(Func<T> factory)
             => AppSvc.Service(factory);
 
-        protected AppDb AppDb => Service(Wf.AppDb);
+        public void Dispose()
+        {
+            TableOps.Dispose();
+        }
+
+        public AppDb AppDb => Service(Wf.AppDb);
 
 
-        protected static AppData AppData
+        public static AppData AppData
         {
             [MethodImpl(Inline)]
             get => AppData.get();
         }
 
-        protected bool PllExec
+        public bool PllExec
         {
             [MethodImpl(Inline)]
             get => AppData.PllExec();
         }
+
+        IWfRuntime IWfMessaging.Wf => TableOps.Wf;
+
+        public EnvData Env => TableOps.Env;
     }
 }

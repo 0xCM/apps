@@ -6,35 +6,41 @@ namespace Z0
 {
     using static XedRules;
     using static XedModels;
-    using static XedMachine;
     using static core;
 
     partial class XedMachine
     {
         public class Host : AppService<Host>
         {
+            XedRuntime Xed;
+
             uint6 Current = 0;
 
             int Counter = 0;
 
-            ConcurrentDictionary<uint,XedMachine> Allocated = new();
-
-            XedRules Rules => Service(Wf.XedRules);
+            ConcurrentDictionary<uint,XedMachine> Allocations = new();
 
             const byte Capacity = uint6.MaxValue + 1;
 
-            protected override void Initialized()
+            bool Allocated = false;
+
+            void Allocate()
             {
-                for(var i=0; i<Capacity; i++)
+                if(!Allocated)
                 {
-                    var machine = allocate(this);
-                    Allocated[machine.Id] = machine;
+                    for(var i=0; i<Capacity; i++)
+                    {
+                        var machine = allocate(Xed);
+                        Allocations[machine.Id] = machine;
+                    }
+                    Allocated = true;
                 }
+
             }
 
             protected override void Disposing()
             {
-                iter(Allocated.Values, machine => machine.Dispose());
+                iter(Allocations.Values, machine => machine.Dispose());
             }
 
             static void EmitClassGroups(XedMachine machine, Index<InstPattern> src)
@@ -56,17 +62,19 @@ namespace Z0
             static void transition(XedMachine machine, InstPattern src, Action f)
                 => machine.Transition(src,f);
 
-            public void Run()
+            public void Run(XedRuntime xed)
             {
-                var patterns = Rules.CalcInstPatterns();
+                Xed = xed;
+                Allocate();
+                var patterns = xed.Rules.CalcInstPatterns();
                 var selected = patterns.Where(x => x.Classifier == IClass.AND);
-                using var machine = XedMachine.allocate(this);
+                using var machine = XedMachine.allocate(xed);
                 EmitClassGroups(machine, selected);
             }
 
             public void Reset()
             {
-                iter(Allocated.Values, machine => machine.Reset());
+                iter(Allocations.Values, machine => machine.Reset());
             }
 
             public void Run(bool rent, Action<XedMachine> f)
@@ -75,12 +83,12 @@ namespace Z0
                 if(rent)
                 {
                     Current = (byte)inc(ref Counter);
-                    machine = Allocated[Current];
+                    machine = Allocations[Current];
                     if(Counter > Capacity)
                         machine.Reset();
                 }
                 else
-                    machine = allocate(this);
+                    machine = allocate(Xed);
                 f(machine);
             }
         }

@@ -6,60 +6,54 @@ namespace Z0
 {
     partial class MemDb
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct TypeTableRow : IRow<TypeTableRow>
+        [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableId)]
+        public record struct TypeTableRow : IRow<TypeTableRow>
         {
             public const ObjectKind ObjKind = ObjectKind.TypeTableRow;
 
-            public const byte ColCount = 6;
+            public const string TableId = "typetables";
 
             [Render(8)]
-            public readonly uint Key;
+            public uint Seq;
+
+            [Render(32)]
+            public Label TypeName;
+
+            [Render(64)]
+            public Label LiteralName;
 
             [Render(8)]
-            public readonly ushort Index;
+            public ushort Position;
 
-            [Render(64)]
-            public readonly Label Field;
+            [Render(12)]
+            public byte PackedWidth;
 
-            [Render(64)]
-            public readonly Label Symbol;
+            [Render(12)]
+            public uint NativeWidth;
 
             [Render(16)]
-            public readonly ulong Value;
+            public ulong LiteralValue;
 
             [Render(64)]
-            public readonly StringRef Meaning;
+            public Label Symbol;
 
-            [MethodImpl(Inline)]
-            public TypeTableRow(uint key, ushort index, Label field, ulong value, Label symbol, StringRef meaning)
-            {
-                Key = key;
-                Index =index;
-                Field = field;
-                Value = value;
-                Symbol = symbol;
-                Meaning = meaning;
-            }
+            [Render(64)]
+            public StringRef Description;
 
             [MethodImpl(Inline)]
             public int CompareTo(TypeTableRow src)
-                => Index.CompareTo(src.Index);
+            {
+                var result = TypeName.CompareTo(src.TypeName);
+                if(result == 0)
+                    result = Position.CompareTo(src.Position);
+                return result;
+            }
 
-            uint IEntity.Key
-                => Key;
-
-            public static Index<ColDef> Columns(ref ushort seq)
-                => cols(new ColDef[ColCount]{
-                col(seq++, nameof(Key), RenderWidths),
-                col(seq++, nameof(Index), RenderWidths),
-                col(seq++, nameof(Field), RenderWidths),
-                col(seq++, nameof(Symbol), RenderWidths),
-                col(seq++, nameof(Value), RenderWidths),
-                col(seq++, nameof(Meaning), RenderWidths),
-                });
-
-            static ReadOnlySpan<byte> RenderWidths => new byte[ColCount]{8,8,64,64,16,64};
+            uint ISequential.Seq
+            {
+                get => Seq;
+                set => Seq = value;
+            }
         }
     }
 }

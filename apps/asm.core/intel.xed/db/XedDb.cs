@@ -12,26 +12,25 @@ namespace Z0
 
     public partial class XedDb : AppService<XedDb>
     {
-        static MemDb MemDb;
+        new XedPaths Paths => Xed.Paths;
 
-        static XedDb()
+        XedRuntime Xed;
+
+        public XedDb With(XedRuntime xed)
         {
-            MemDb = MemDb.open();
+            Xed = xed;
+            return this;
         }
 
-        new XedPaths Paths => Service(Wf.XedPaths);
-
-        public ref readonly DbSvc Services => ref MemDb.Services;
-
-        ref readonly DbRender Render => ref Services.ObjRender;
-
-        RuleTables RuleTables => Rules.CalcRuleTables();
+        AppServices AppServices => Service(Wf.AppServices);
 
         RuleCells RuleCells => Rules.CalcRuleCells(RuleTables);
 
-        bool PllExec => AppData.get().PllExec();
+        bool PllExec => true;
 
-        public XedRules Rules => Service(Wf.XedRules);
+        public XedRules Rules => Xed.Rules;
+
+        RuleTables RuleTables => Rules.CalcRuleTables();
 
         public DbViews Views
         {

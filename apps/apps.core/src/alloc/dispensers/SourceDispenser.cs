@@ -29,16 +29,16 @@ namespace Z0
         public AllocationKind DispensedKind
             => AllocationKind.Source;
 
-        public SourceText DispenseSource(@string src)
+        public SourceText DispenseSource(string src)
         {
             var dst = SourceText.Empty;
             lock(locker)
             {
                 var alloc = Allocators[Seq];
-                if(!alloc.Alloc(src.Value, out dst))
+                if(!alloc.Alloc(src, out dst))
                 {
                     alloc = SourceAllocator.alloc(Capacity);
-                    alloc.Alloc(src.Value, out dst);
+                    alloc.Alloc(src, out dst);
                     Allocators[next()] = alloc;
                 }
             }

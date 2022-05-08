@@ -9,6 +9,35 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
+        [Op]
+        public static XedRules XedRules(this IWfRuntime wf)
+            => Z0.XedRules.create(wf);
+
+        [Op]
+        public static XedDb XedDb(this IWfRuntime wf)
+            => Z0.XedDb.create(wf);
+
+        public static XedDataTypes XedDataTypes(this IWfRuntime wf)
+            => Z0.XedDataTypes.create(wf);
+
+        [Op]
+        public static IntelXed IntelXed(this IWfRuntime wf)
+            => Asm.IntelXed.create(wf);
+
+        public static XedDisasmSvc XedDisasm(this IWfRuntime wf)
+            => Z0.XedDisasmSvc.create(wf);
+
+        public static XedDocs XedDocs(this IWfRuntime wf)
+            => Z0.XedDocs.create(wf);
+
+        [Op]
+        public static XedTool XedTool(this IWfRuntime wf)
+            => Z0.XedTool.create(wf);
+
+        [Op]
+        public static XedPaths XedPaths(this IWfRuntime wf)
+            => Z0.XedPaths.Service;
+
         public static BinaryCode Compact(this HexDataRow[] src)
             => CoffObjects.compact(src);
 
@@ -79,28 +108,6 @@ namespace Z0
             => Asm.IntelIntrinsicSvc.create(wf);
 
         [Op]
-        public static XedRules XedRules(this IWfRuntime wf)
-            => Z0.XedRules.create(wf);
-
-        [Op]
-        public static IntelXed IntelXed(this IWfRuntime wf)
-            => Asm.IntelXed.create(wf);
-
-        public static XedDisasmSvc XedDisasm(this IWfRuntime wf)
-            => Z0.XedDisasmSvc.create(wf);
-
-        public static XedDocs XedDocs(this IWfRuntime wf)
-            => Z0.XedDocs.create(wf);
-
-        [Op]
-        public static XedTool XedTool(this IWfRuntime wf)
-            => Z0.XedTool.create(wf);
-
-        [Op]
-        public static XedPaths XedPaths(this IWfRuntime wf)
-            => Z0.XedPaths.Service;
-
-        [Op]
         public static IntelSdmPaths SdmPaths(this IWfRuntime wf)
             => Asm.IntelSdmPaths.create(wf);
 
@@ -138,10 +145,5 @@ namespace Z0
         public static Parsers Parsers(this IWfRuntime wf)
             => Z0.Parsers.create(wf);
 
-        public static XedDb XedDb(this IWfRuntime wf)
-            => Z0.XedDb.create(wf);
-
-        public static XedDataTypes XedDataTypes(this IWfRuntime wf)
-            => Z0.XedDataTypes.create(wf);
    }
 }

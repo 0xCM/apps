@@ -6,8 +6,6 @@ namespace Z0
 {
     using static core;
     using static XedDisasm;
-    using static XedOperands;
-    using static XedRules;
 
     partial class XedCmdProvider
     {

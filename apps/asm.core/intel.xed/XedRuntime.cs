@@ -9,39 +9,38 @@ namespace Z0
 
     using static XedRules;
     using static XedOperands;
-    using static XedModels;
     using static core;
 
     public partial class XedRuntime : AppService<XedRuntime>
     {
-        static AppData AppData
-        {
-            [MethodImpl(Inline)]
-            get => AppData.get();
-        }
-
-        bool PllExec
+        public bool PllExec
         {
             [MethodImpl(Inline)]
             get => AppData.PllExec();
         }
 
-        public IntelXed Main => Service(Wf.IntelXed);
-
-        public XedDocs Docs => Service(Wf.XedDocs);
+        public IAllocProvider Allocator => _Alloc;
 
         public new XedPaths Paths => Service(Wf.XedPaths);
 
-        public XedRules Rules => Service(Wf.XedRules);
+        public IntelXed Main => Service(() => Wf.IntelXed().With(this));
 
-        public XedDisasmSvc Disasm => Service(Wf.XedDisasm);
+        public XedDocs Docs => Service(() => Wf.XedDocs().With(this));
+
+        public XedDb XedDb => Service(() => Wf.XedDb().With(this));
+
+        public XedRules Rules => Service(() => Wf.XedRules().With(this));
+
+        public XedDisasmSvc XedDisasm => Service(() => Wf.XedDisasm().With(this));
+
+        public AppDb AppDb => Service(Wf.AppDb);
+
+        public AppServices AppServices => Service(Wf.AppServices);
 
         ConcurrentDictionary<uint,IMachine> Machines = new();
 
         public bool Machine(uint id, out IMachine dst)
             => Machines.TryGetValue(id, out dst);
-
-        public new XedDb Db => Service(Wf.XedDb);
 
         bool Started = false;
 
@@ -68,6 +67,13 @@ namespace Z0
 
         InstLayouts CalcLayouts(Index<InstPattern> patterns) => Data(nameof(CalcLayouts), () => LayoutCalcs.layouts(patterns));
 
+        Alloc _Alloc;
+
+        public XedRuntime()
+        {
+            _Alloc = Alloc.allocate();
+        }
+
         void StartDirect()
         {
             var patterns = Rules.CalcPatterns();
@@ -90,6 +96,13 @@ namespace Z0
         protected override void Disposing()
         {
             InstLayouts?.Dispose();
+            _Alloc?.Dispose();
+        }
+
+        static AppData AppData
+        {
+            [MethodImpl(Inline)]
+            get => AppData.get();
         }
     }
 }

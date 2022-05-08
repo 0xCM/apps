@@ -10,29 +10,24 @@ namespace Z0.Asm
     [ApiHost]
     public sealed partial class IntelXed : AppService<IntelXed>
     {
-        bool Verbose {get;} = false;
+        XedRuntime Xed;
 
-        static AppData AppData
-        {
-            [MethodImpl(Inline)]
-            get => AppData.get();
-        }
+
+        bool Verbose {get;} = false;
 
         bool PllExec
         {
             [MethodImpl(Inline)]
-            get => AppData.PllExec();
+            get => Xed.PllExec;
         }
 
-        ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
+        XedPaths XedPaths => Xed.Paths;
 
-        public XedPaths XedPaths => Service(Wf.XedPaths);
-
-        public XedPatterns Patterns => Service(Wf.XedPatterns);
-
-        public new XedDb Db => Service(Wf.XedDb);
-
-        public XedRules Rules => Service(Wf.XedRules);
+        public IntelXed With(XedRuntime xed)
+        {
+            Xed = xed;
+            return this;
+        }
 
         const char CommentMarker = Chars.Hash;
 

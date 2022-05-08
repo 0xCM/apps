@@ -6,7 +6,6 @@ namespace Z0
 {
     using static core;
     using static XedRules;
-    using static XedModels;
     using static XedMachine;
 
     partial class XTend
@@ -17,16 +16,16 @@ namespace Z0
 
     public partial class XedMachine : IDisposable
     {
-        public static XedMachine allocate(IAppService svc)
-            => new XedMachine(svc);
+        public static XedMachine allocate(XedRuntime xed)
+            => new XedMachine(xed);
+
+        XedRuntime Xed;
 
         MachineState RuntimeState;
 
         readonly RuleTables RuleTables;
 
         readonly IProjectWs Ws;
-
-        readonly IAppService AppService;
 
         readonly Emitter _Emitter;
 
@@ -39,14 +38,14 @@ namespace Z0
 
         const string Identifier = "xed.machine";
 
-        XedMachine(IAppService svc)
+        XedMachine(XedRuntime xed)
         {
-            AppService = svc;
-            Wf = svc.Wf;
+            Xed = xed;
+            Wf = xed.Wf;
             var projects = Projects;
             Ws = projects.Project(projects.ProjectData(), Identifier);
             RuntimeState = new(NextId());
-            RuleTables = XedRules.CalcRuleTables();
+            RuleTables = Rules.CalcRuleTables();
             _Emitter = Emitter.create(this, StatusWriter);
 
             LoadLookups();
@@ -57,6 +56,6 @@ namespace Z0
 
         WsProjects Projects => Service(Wf.WsProjects);
 
-        XedRules XedRules => Service(Wf.XedRules);
+        XedRules Rules => Xed.Rules;
     }
 }

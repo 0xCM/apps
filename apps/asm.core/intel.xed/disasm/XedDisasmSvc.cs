@@ -9,18 +9,19 @@ namespace Z0
     {
         WsProjects Projects => Service(Wf.WsProjects);
 
-        XedPaths XedPaths => Service(Wf.XedPaths);
+        XedRuntime Xed;
 
-        static AppData AppData
+        public XedDisasmSvc With(XedRuntime xed)
         {
-            [MethodImpl(Inline)]
-            get => AppData.get();
+            Xed = xed;
+
+            return this;
         }
 
         bool PllExec
         {
             [MethodImpl(Inline)]
-            get => AppData.PllExec();
+            get => Xed.PllExec;
         }
 
         public FS.FolderPath DisasmTargets(WsContext context)

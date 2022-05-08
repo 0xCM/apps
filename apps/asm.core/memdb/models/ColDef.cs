@@ -7,7 +7,7 @@ namespace Z0
     partial class MemDb
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct ColDef : ISequential<ColDef>
+        public readonly record struct ColDef : IEntity<ColDef>
         {
             public readonly ushort Pos;
 
@@ -31,7 +31,7 @@ namespace Z0
             public ColDef Reposition(ushort pos)
                 => new ColDef(pos, ColName, RenderWidth);
 
-            uint ISequential.Seq
+            uint IEntity.Key
                 => Pos;
         }
     }

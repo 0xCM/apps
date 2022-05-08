@@ -20,18 +20,6 @@ namespace Z0
             {
                 Db = src;
             }
-
-            public ReadOnlySpan<LocatedField> LocatedFields
-                => Db.CalcLocatedFields(Db.RuleCells);
-
-            public ReadOnlySpan<RuleGrid> Grids
-                => Db.CalcGrids(Db.RuleCells);
-
-            public ref readonly Index<TypeTable> TypeTables
-            {
-                [MethodImpl(Inline)]
-                get => ref Db.Services.Objects.TypeTables;
-            }
         }
     }
 }

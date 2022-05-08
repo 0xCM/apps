@@ -30,7 +30,7 @@ namespace Z0
 
             EmitInstPages(Patterns);
             EmitDocs(Patterns,RuleTables);
-            Db.EmitArtifacts();
+            XedDb.EmitArtifacts();
         }
 
         public void EmitDocs(Index<InstPattern> src, RuleTables rules)

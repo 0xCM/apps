@@ -6,15 +6,13 @@ namespace Z0
 {
     using static core;
     using static XedRules;
-    using static MemDb;
-    using System.Linq;
 
     partial class XedCmdProvider
     {
         [CmdOp("xed/run")]
         Outcome RunXed(CmdArgs args)
         {
-            XedRuntime.Start();
+            Xed.Start();
             return true;
         }
 
@@ -40,30 +38,6 @@ namespace Z0
             XedDb.EmitArtifacts();
 
 
-            var svc = XedDb.Services;
-            ref readonly var objects = ref svc.Objects;
-
-            var maxField = z8;
-            var maxType = z8;
-            for(var i=0; i<objects.TypeTableCount; i++)
-            {
-                ref readonly var table = ref objects.TypeTable(i);
-                var type = table.TypeName.Format().Trim();
-                if(type.Length > maxType)
-                    maxType = (byte)type.Length;
-                var rows = table.Rows;
-                for(var j=0; j<rows.Count; j++)
-                {
-                    ref readonly var row = ref rows[j];
-                    var field = row.Field.Format().Trim();
-                    if(field.Length > maxField)
-                        maxField = (byte)field.Length;
-
-                    Write(string.Format("{0,-16} | {1,-6} {2,-6} | {3,-64} | {4}", table.TypeName, row.Index, row.Value, row.Field, row.Meaning));
-                }
-            }
-
-
             return true;
         }
 
@@ -80,7 +54,7 @@ namespace Z0
         Outcome EmitLayouts(CmdArgs args)
         {
             var dst = hashset<LayoutCell>();
-            ref readonly var layouts = ref XedRuntime.InstLayouts;
+            ref readonly var layouts = ref Xed.InstLayouts;
             for(var i=0; i<layouts.Count; i++)
             {
                 ref readonly var layout = ref layouts[i];
@@ -259,12 +233,12 @@ namespace Z0
         [CmdOp("xed/emit/catalog")]
         Outcome EmitXedCat(CmdArgs args)
         {
-            XedRuntime.EmitCatalog();
+            Xed.EmitCatalog();
             return true;
         }
 
         [CmdOp("xed/emit/isa")]
         Outcome XedIsa(CmdArgs args)
-            => Xed.EmitIsaForms(arg(args,0).Value);
+            => Main.EmitIsaForms(arg(args,0).Value);
    }
 }

@@ -11,17 +11,46 @@ namespace Z0
 
     public partial class XedCmdProvider : AppCmdService<XedCmdProvider,CmdShellState>, IProjectConsumer<XedCmdProvider>
     {
-        IntelXed Xed => XedRuntime.Main;
+        AppCmdRunner _AppCmdRunner;
 
-        XedDocs XedDocs => XedRuntime.Docs;
+        IProjectProvider ProjectProvider;
+
+        XedRuntime Xed;
+
+        IntelXed Main => Xed.Main;
+
+        XedDocs XedDocs => Xed.Docs;
+
+        XedPaths XedPaths => Xed.Paths;
+
+        XedRules Rules => Xed.Rules;
+
+        XedDisasmSvc Disasm => Xed.XedDisasm;
+
+        XedDb XedDb => Xed.XedDb;
+
+        AppServices AppServices => Xed.AppServices;
+
+        AppDb AppDb => Xed.AppDb;
+
+        BitMaskServices ApiBitMasks => Service(Wf.ApiBitMasks);
 
         ApiComments ApiComments => Service(Wf.ApiComments);
 
         WsProjects Projects => Service(Wf.WsProjects);
 
-        XedPaths XedPaths => XedRuntime.Paths;
+        public XedCmdProvider With(XedRuntime runtime)
+        {
+            Xed = runtime;
+            runtime.Start();
+            return this;
+        }
 
-        XedRules Rules => XedRuntime.Rules;
+        public XedCmdProvider With(IProjectProvider provider)
+            => throw new NotSupportedException();
+
+        WsContext Context()
+            => Projects.Context(ProjectProvider);
 
         RuleTables CalcRules() => Rules.CalcRuleTables();
 
@@ -30,57 +59,6 @@ namespace Z0
         Index<PatternOpCode> CalcPatternOpCodes() => XedOpCodes.poc(CalcPatterns());
 
         RuleCells CalcRuleCells() => Rules.CalcRuleCells(CalcRules());
-
-        XedDisasmSvc XedDisasmSvc => Service(Wf.XedDisasm);
-
-        BitMaskServices ApiBitMasks => Service(Wf.ApiBitMasks);
-
-        XedDb XedDb => Service(Wf.XedDb);
-
-        AppDb AppDb => Service(Wf.AppDb);
-
-        AppCmdRunner _AppCmdRunner;
-
-        IProjectWs _Project;
-
-        XedRuntime _Xed;
-
-        IProjectProvider _ProjectProvider;
-
-        [MethodImpl(Inline)]
-        IProjectProvider ProjectProvider()
-            => _ProjectProvider;
-
-        public XedRuntime XedRuntime
-        {
-            [MethodImpl(Inline)]
-            get => _Xed;
-        }
-
-        public XedCmdProvider With(XedRuntime xed)
-        {
-            _Xed = xed;
-             xed.Start();
-            return this;
-        }
-        public XedCmdProvider With(IProjectProvider provider)
-        {
-            _ProjectProvider = provider;
-            return this;
-        }
-
-        IProjectWs Project()
-            => ProjectProvider().Project();
-
-        WsContext Context()
-            => Projects.Context(ProjectProvider(), Project());
-
-        [MethodImpl(Inline)]
-        public IProjectWs Project(ProjectId id)
-        {
-            _Project = Ws.Project(id);
-            return Project();
-        }
 
         void RunCmd(string name, CmdArgs args)
             => Dispatcher.Dispatch(name, args);
@@ -91,7 +69,7 @@ namespace Z0
         protected override void Initialized()
         {
             _AppCmdRunner = AppCmdRunner.create(Wf);
-            _ProjectProvider = _AppCmdRunner;
+            ProjectProvider = _AppCmdRunner;
             LoadProject("canonical");
         }
 

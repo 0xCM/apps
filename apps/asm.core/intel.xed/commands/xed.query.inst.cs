@@ -9,7 +9,7 @@ namespace Z0
         [CmdOp("xed/query/inst")]
         Outcome XedQuery(CmdArgs args)
         {
-            Xed.QueryCatalog(arg(args,0));
+            Main.QueryCatalog(arg(args,0));
             return true;
         }
     }

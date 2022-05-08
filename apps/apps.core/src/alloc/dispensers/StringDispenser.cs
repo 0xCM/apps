@@ -30,16 +30,16 @@ namespace Z0
         public AllocationKind DispensedKind
             => AllocationKind.String;
 
-        public StringRef String(@string content)
+        public StringRef String(string content)
         {
             var dst = StringRef.Empty;
             lock(locker)
             {
                 var alloc = Allocators[Seq];
-                if(!alloc.Alloc(content.Value, out dst))
+                if(!alloc.Alloc(content, out dst))
                 {
                     alloc = StringAllocator.alloc(Capacity);
-                    alloc.Alloc(content.Value, out dst);
+                    alloc.Alloc(content, out dst);
                     Allocators[next()] = alloc;
                 }
             }

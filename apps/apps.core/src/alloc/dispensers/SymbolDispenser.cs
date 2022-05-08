@@ -29,26 +29,26 @@ namespace Z0
         public AllocationKind DispensedKind
             => AllocationKind.Symbol;
 
-        Label DispenseLabel(@string content)
+        Label DispenseLabel(string content)
         {
             var label = Label.Empty;
             lock(locker)
             {
                 var allocator = Allocators[Seq];
-                if(!allocator.Alloc(content.Value, out label))
+                if(!allocator.Alloc(content, out label))
                 {
                     allocator = LabelAllocator.alloc(Capacity);
-                    allocator.Alloc(content.Value, out label);
+                    allocator.Alloc(content, out label);
                     Allocators[next()] = allocator;
                 }
             }
             return label;
         }
 
-        public LocatedSymbol DispenseSymbol(MemoryAddress location, @string name)
+        public LocatedSymbol DispenseSymbol(MemoryAddress location, string name)
             => DispenseSymbol(SymAddress.define(location), name);
 
-        public LocatedSymbol DispenseSymbol(SymAddress location, @string name)
+        public LocatedSymbol DispenseSymbol(SymAddress location, string name)
             => new LocatedSymbol(location, DispenseLabel(name));
 
         static long Seq;

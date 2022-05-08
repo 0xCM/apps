@@ -10,7 +10,6 @@ namespace Z0
 
     partial class XedDb
     {
-
         public readonly partial struct Query
         {
             public struct GPR32_B1

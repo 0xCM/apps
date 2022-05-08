@@ -10,20 +10,22 @@ namespace Z0
 
     public partial class XedDocs : AppService<XedDocs>
     {
-        static XedPaths XedPaths => XedPaths.Service;
+        XedRuntime Xed;
 
-        XedRules Rules => Service(Wf.XedRules);
-
-        static AppData AppData
+        public XedDocs With(XedRuntime xed)
         {
-            [MethodImpl(Inline)]
-            get => AppData.get();
+            Xed = xed;
+            return this;
         }
+
+        XedPaths XedPaths => Xed.Paths;
+
+        XedRules Rules => Xed.Rules;
 
         bool PllExec
         {
             [MethodImpl(Inline)]
-            get => AppData.PllExec();
+            get => Xed.PllExec;
         }
 
         public void Emit(Index<InstPattern> patterns, RuleTables rules)

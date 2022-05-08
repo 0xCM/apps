@@ -12,13 +12,9 @@ namespace Z0
     {
         public void EmitTypeTables()
         {
-            var dst = text.emitter();
-            var objects = Services.Objects;
-            dst.AppendLine(Render.TypeTableHeader());
-            var count = objects.ObjectCount(ObjectKind.TypeTable);
-            for(var i=0; i<count; i++)
-                dst.Append(Render.Format(objects.TypeTable(i)));
-            FileEmit(dst.Emit(), count, Paths.DbTarget("typetables", FileKind.Csv), TextEncodingKind.Asci);
+            var formatter = RecordFormatter.create(typeof(TypeTableRow));
+            var rows = Rules.CalcTypeTables().SelectMany(x => x.Rows).Sort().Resequence();
+            AppServices.TableEmit(rows, Paths.DbTable<TypeTableRow>());
         }
     }
 }

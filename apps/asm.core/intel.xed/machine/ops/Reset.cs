@@ -8,11 +8,11 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         T Service<T>(Func<T> factory)
-            => AppService.Service(factory);
+            => Xed.Service(factory);
 
         [MethodImpl(Inline)]
         void StatusWriter(object message)
-            => AppService.Wf.Row(message,FlairKind.StatusData);
+            => Xed.Wf.Row(message,FlairKind.StatusData);
 
         public void Reset()
         {

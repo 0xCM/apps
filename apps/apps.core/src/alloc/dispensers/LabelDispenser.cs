@@ -24,16 +24,16 @@ namespace Z0
         public AllocationKind DispensedKind
             => AllocationKind.Label;
 
-        public Label Label(@string content)
+        public Label Label(string content)
         {
             var label = Z0.Label.Empty;
             lock(locker)
             {
                 var alloc = Allocators[Seq];
-                if(!alloc.Alloc(content.Value, out label))
+                if(!alloc.Alloc(content, out label))
                 {
                     alloc = LabelAllocator.alloc(Capacity);
-                    alloc.Alloc(content.Value, out label);
+                    alloc.Alloc(content, out label);
                     Allocators[next()] = alloc;
                 }
             }
