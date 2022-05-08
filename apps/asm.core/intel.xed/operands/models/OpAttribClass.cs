@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        [SymSource(xed), DataWidth(num4.PackedWidth)]
+        [SymSource(xed), DataWidth(num4.Width)]
         public enum OpAttribKind : byte
         {
             None,

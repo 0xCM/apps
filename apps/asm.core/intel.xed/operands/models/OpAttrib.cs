@@ -11,10 +11,10 @@ namespace Z0
 
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(PackedWidth)]
+        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(Width)]
         public readonly record struct OpAttrib : IComparable<OpAttrib>, IEquatable<OpAttrib>
         {
-            public const byte PackedWidth = num4.PackedWidth + num16.PackedWidth;
+            public const byte Width = num4.Width + num16.Width;
 
             public readonly OpAttribKind Class;
 

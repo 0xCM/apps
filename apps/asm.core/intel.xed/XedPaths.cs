@@ -101,6 +101,13 @@ namespace Z0
         public FS.FolderPath DisasmTargets(IProjectWs project)
             => Ws.ProjectData(project, "xed.disasm");
 
+        public FS.FolderPath RefTargets()
+            => Targets() + FS.folder("refs");
+
+        public FS.FilePath RefTable<T>()
+            where T : struct
+                => RefTargets() + Tables.filename<T>("xed.refs");
+
         public FS.FilePath DisasmTarget(IProjectWs project, string name, FS.FileExt ext)
             => DisasmTargets(project) + FS.file(string.Format("{0}.xed.disasm", name), ext);
 
@@ -115,6 +122,7 @@ namespace Z0
             var uri = RulePage(sig);
             return uri.Path.Exists ? uri : FS.FileUri.Empty;
         }
+
 
         public FS.FileUri CheckedTableDef(RuleName rule, bit decfirst, out RuleSig sig)
         {

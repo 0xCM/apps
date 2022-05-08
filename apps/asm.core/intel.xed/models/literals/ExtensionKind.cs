@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed),DataWidth(num7.PackedWidth)]
+        [SymSource(xed), DataWidth(num7.Width)]
         public enum ExtensionKind : byte
         {
             INVALID = 0,

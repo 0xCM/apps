@@ -12,7 +12,7 @@ namespace Z0
         [DataWidth(Width)]
         public readonly struct InstClass : IComparable<InstClass>, IEquatable<InstClass>
         {
-            public const byte Width = num11.PackedWidth;
+            public const byte Width = num11.Width;
 
             public readonly IClass Kind;
 

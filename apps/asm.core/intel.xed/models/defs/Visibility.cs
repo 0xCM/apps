@@ -7,12 +7,10 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [DataWidth(PackedWidth,NativeWidth), StructLayout(LayoutKind.Sequential,Pack=1)]
+        [DataWidth(Width), StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct Visibility : IComparable<Visibility>
         {
-            public const byte PackedWidth = num3.PackedWidth + num3.PackedWidth;
-
-            public const byte NativeWidth = num3.NativeWidth + num3.NativeWidth;
+            public const byte Width = num3.Width + num3.Width;
 
             public static Visibility Hidden
                 => new (OpVisibility.Suppressed);

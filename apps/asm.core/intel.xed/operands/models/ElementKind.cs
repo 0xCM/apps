@@ -10,7 +10,7 @@ namespace Z0
         /// <summary>
         ///  all-element-types.txt
         /// </summary>
-        [SymSource(xed), DataWidth(num5.PackedWidth)]
+        [SymSource(xed), DataWidth(num5.Width)]
         public enum ElementKind : byte
         {
             INVALID = 0,

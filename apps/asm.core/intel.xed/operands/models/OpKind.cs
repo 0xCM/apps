@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed)]
+        [SymSource(xed), DataWidth(num4.Width)]
         public enum OpKind : byte
         {
             None = 0,

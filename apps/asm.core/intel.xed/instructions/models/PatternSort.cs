@@ -100,7 +100,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public PatternSort(in PatternOpCode src, bool ocfirst = false)
+            public PatternSort(in InstOpCode src, bool ocfirst = false)
             {
                 InstClass = src.InstClass;
                 OpCode = src.OpCode;

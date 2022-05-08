@@ -9,10 +9,10 @@ namespace Z0
 
     partial struct XedModels
     {
-        [DataWidth(PackedWidth)]
+        [DataWidth(Width)]
         public readonly record struct ElementType : IComparable<ElementType>
         {
-            public const byte PackedWidth = num5.PackedWidth;
+            public const byte Width = num5.Width;
 
             public readonly ElementKind Kind;
 

@@ -16,7 +16,7 @@ namespace Z0
     {
         public class OpCodeIdentity
         {
-            public static Index<OpCodeId> identify(ReadOnlySpan<PatternOpCode> src)
+            public static Index<OpCodeId> identify(ReadOnlySpan<InstOpCode> src)
             {
                 var bitfield = Bitfields.dataset<FK,FW,uint>();
                 var count = src.Length;
@@ -26,7 +26,7 @@ namespace Z0
                 return dst.Sort();
             }
 
-            public static OpCodeId define(BitfieldDataset<FK,uint> bitfield, PatternOpCode oc)
+            public static OpCodeId define(BitfieldDataset<FK,uint> bitfield, InstOpCode oc)
             {
                 var data = math.or(
                     (uint)oc.InstClass << bitfield.Offset(FK.Class),

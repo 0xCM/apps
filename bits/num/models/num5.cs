@@ -10,7 +10,7 @@ namespace Z0
     using D = System.Byte;
     using N = N5;
 
-    [DataWidth(PackedWidth, NativeWidth), ApiComplete]
+    [DataWidth(Width), ApiComplete]
     public readonly struct num5 : inum<T>
     {
         public readonly D Value;
@@ -23,9 +23,7 @@ namespace Z0
         num5(ulong src)
             => Value = (D)src;
 
-        public const byte PackedWidth = 5;
-
-        public const byte NativeWidth = 8;
+        public const byte Width = 5;
 
         public const D MaxValue = Pow2.T05m1;
 
@@ -59,7 +57,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static T set(T src, byte pos, bit state)
-            => math.lt(pos, PackedWidth) ? wrap(bit.set(src.Value, pos, state)) : src;
+            => math.lt(pos, Width) ? wrap(bit.set(src.Value, pos, state)) : src;
 
         [MethodImpl(Inline), Op]
         public static T negate(T src)
@@ -153,7 +151,7 @@ namespace Z0
             var storage = 0ul;
             dst = recover<bit>(@bytes(storage));
             Bitfields.unpack8x1(src,dst);
-            dst = slice(dst, 0, PackedWidth);
+            dst = slice(dst, 0, Width);
             return ref dst;
         }
 
@@ -162,7 +160,7 @@ namespace Z0
             => Value == src.Value;
 
         byte inum.PackedWidth
-            => PackedWidth;
+            => Width;
 
         ulong inum.Value
             => Value;

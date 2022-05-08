@@ -99,7 +99,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static int cmp(OpNameKind a, OpNameKind b)
+        public static int cmp(OpWidthCode a, OpWidthCode b)
             => ((byte)a).CompareTo((byte)b);
 
         public static int cmp(InstOpClass a, InstOpClass b)
@@ -116,12 +116,12 @@ namespace Z0
             if(result == 0)
                 result = a.ElementType.CompareTo(b.ElementType);
             if(result == 0)
-                result = a.OpWidth.CompareTo(b.OpWidth);
+                result = cmp(a.WidthCode, b.WidthCode);
             return result;
         }
 
         [MethodImpl(Inline)]
-        public static int cmp(in PatternOpCode a, in PatternOpCode b)
+        public static int cmp(in InstOpCode a, in InstOpCode b)
             => new PatternOrder().Compare(a,b);
 
         static ReadOnlySpan<byte> OpKindOrder => new byte[(byte)K.Seg + 1]{

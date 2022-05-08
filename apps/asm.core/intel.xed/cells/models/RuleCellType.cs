@@ -9,14 +9,10 @@ namespace Z0
 
     partial class XedRules
     {
-        [DataWidth(PackedWidth,NativeWidth)]
+        [DataWidth(Width)]
         public readonly record struct RuleCellType : IComparable<RuleCellType>
         {
-            public const byte PackedWidth = num4.PackedWidth;
-
-            public const byte NativeWidth = num4.NativeWidth;
-
-            public static DataSize DataSize => (PackedWidth,NativeWidth);
+            public const byte Width = num4.Width;
 
             public readonly RuleCellKind Kind;
 

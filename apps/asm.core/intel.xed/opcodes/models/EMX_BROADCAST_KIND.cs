@@ -9,7 +9,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        [DataWidth(num5.PackedWidth)]
+        [DataWidth(num5.Width)]
         public enum EMX_BROADCAST_KIND : byte
         {
             EMX_BROADCAST_1TO4_32 = BK.BCast_1TO4_32,

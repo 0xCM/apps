@@ -10,10 +10,10 @@ namespace Z0
 
     partial class XedOpCodes
     {
-        public static Index<PatternOpCode> poc(Index<InstPattern> src)
+        public static Index<InstOpCode> poc(Index<InstPattern> src)
         {
             var count = src.Count;
-            var buffer = alloc<PatternOpCode>(count);
+            var buffer = alloc<InstOpCode>(count);
 
             for(var i=0u; i<count; i++)
             {
@@ -52,7 +52,7 @@ namespace Z0
             return buffer;
         }
 
-        public static void poc(InstPattern src, out PatternOpCode dst)
+        public static void poc(InstPattern src, out InstOpCode dst)
         {
             dst.Seq = 0u;
             dst.Index = z8;

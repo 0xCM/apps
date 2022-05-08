@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(PackedWidth)]
+        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(Width)]
         public readonly record struct Coordinate : IComparable<Coordinate>
         {
             [MethodImpl(Inline)]
@@ -31,31 +31,31 @@ namespace Z0
                 return new Coordinate(new RuleSig(kind,rule), row,col);
             }
 
-            public const byte PackedWidth = KindWidth + TableWidth + RowWidth + ColWidth;
+            public const byte Width = KindWidth + TableWidth + RowWidth + ColWidth;
 
-            public const uint PackedMask = KindMask | TableMask | RowMask | ColMask;
+            public const uint Mask = KindMask | TableMask | RowMask | ColMask;
 
             public const string RenderPatern = "{0,-32} | ({1}, {2:X3}, {3:X2}, {4:X2})";
 
-            const byte KindWidth = num2.PackedWidth;
+            const byte KindWidth = num2.Width;
 
             const byte KindOffset = 0;
 
             const uint KindMask = (uint)num2.MaxValue << KindOffset;
 
-            const byte TableWidth = num9.PackedWidth;
+            const byte TableWidth = num9.Width;
 
             const byte TableOffset = KindOffset + KindWidth;
 
             const uint TableMask = (uint)num9.MaxValue << TableOffset;
 
-            const byte RowWidth = num8.PackedWidth;
+            const byte RowWidth = num8.Width;
 
             const byte RowOffset = TableOffset + TableWidth;
 
             const uint RowMask = (uint)num8.MaxValue << RowOffset;
 
-            const byte ColWidth = num4.PackedWidth;
+            const byte ColWidth = num4.Width;
 
             const byte ColOffset = RowOffset + RowWidth;
 

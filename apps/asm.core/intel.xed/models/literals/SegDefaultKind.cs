@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed), DataWidth(num2.PackedWidth)]
+        [SymSource(xed), DataWidth(num2.Width)]
         public enum SegDefaultKind : byte
         {
             [Symbol("default_ds", "DEFAULT_SEG=0")]

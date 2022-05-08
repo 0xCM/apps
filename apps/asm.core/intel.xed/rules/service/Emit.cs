@@ -25,7 +25,7 @@ namespace Z0
             return dst;
         }
 
-        public Index<PatternOpCode> EmitPoc(Index<InstPattern> src)
+        public Index<InstOpCode> EmitPoc(Index<InstPattern> src)
         {
             var data = CalcPoc(src);
             Emit(data);
@@ -154,8 +154,8 @@ namespace Z0
         void Emit(ReadOnlySpan<PointerWidthInfo> src)
             => AppSvc.TableEmit(src, PointerWidthInfo.RenderWidths, XedPaths.Table<PointerWidthInfo>());
 
-        void Emit(ReadOnlySpan<PatternOpCode> src)
-            => AppSvc.TableEmit(src, PatternOpCode.RenderWidths, XedPaths.InstTable<PatternOpCode>());
+        void Emit(ReadOnlySpan<InstOpCode> src)
+            => AppSvc.TableEmit(src, XedPaths.InstTable<InstOpCode>());
 
         void Emit(ReadOnlySpan<InstOperandRow> src)
             => AppSvc.TableEmit(src, InstOperandRow.RenderWidths, XedPaths.InstTable<InstOperandRow>());
@@ -164,9 +164,9 @@ namespace Z0
             => AppSvc.TableEmit(src, XedPaths.Table<InstOpClass>());
 
         void Emit(ReadOnlySpan<XedFieldDef> src)
-            => AppSvc.TableEmit(src, XedPaths.Table<XedFieldDef>());
+            => AppSvc.TableEmit(src, XedPaths.RefTable<XedFieldDef>());
 
         void Emit(ReadOnlySpan<OpWidthRecord> src)
-            => AppSvc.TableEmit(src, XedPaths.Table<OpWidthRecord>());
+            => AppSvc.TableEmit(src, XedPaths.RefTable<OpWidthRecord>());
     }
 }

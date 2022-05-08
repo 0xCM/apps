@@ -6,7 +6,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed), DataWidth(num4.PackedWidth)]
+        [SymSource(xed), DataWidth(num4.Width)]
         public enum MAP : byte
         {
             [Symbol("0")]

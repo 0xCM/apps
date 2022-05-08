@@ -7,7 +7,7 @@ namespace Z0
 {
     using X = XedRegId;
 
-    [SymSource("xed"), DataWidth(num9.PackedWidth)]
+    [SymSource("xed"), DataWidth(num9.Width)]
     public enum MmxRegId : ushort
     {
         MM0 = X.MMX0,

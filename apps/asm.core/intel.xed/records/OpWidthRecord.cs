@@ -10,9 +10,7 @@ namespace Z0
         [Record(TableId)]
         public struct OpWidthRecord : IComparable<OpWidthRecord>
         {
-            public const string TableId = "xed.widths.ops";
-
-            public const byte FieldCount = 8;
+            public const string TableId = "widths";
 
             [Render(12)]
             public OpWidthCode Code;
@@ -66,8 +64,6 @@ namespace Z0
                 => Name.CompareTo(src.Name);
 
             public static OpWidthRecord Empty => default;
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,12,12,12,12,12,12};
         }
     }
 }

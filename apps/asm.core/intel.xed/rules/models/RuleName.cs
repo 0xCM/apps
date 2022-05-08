@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        [DataWidth(num9.PackedWidth, num9.NativeWidth)]
+        [DataWidth(num9.Width)]
         public enum RuleName : ushort
         {
             None = 0,

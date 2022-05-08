@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct PatternOrder : IComparer<PatternOpCode>, IComparer<InstOpDetail>, IComparer<InstGroupSeq>
+        public readonly struct PatternOrder : IComparer<InstOpCode>, IComparer<InstOpDetail>, IComparer<InstGroupSeq>
         {
             public readonly bit OpCodeFirst;
 
@@ -46,7 +46,7 @@ namespace Z0
                 return result;
             }
 
-            public int Compare(PatternOpCode x, PatternOpCode y)
+            public int Compare(InstOpCode x, InstOpCode y)
                 => new PatternSort(x, OpCodeFirst).CompareTo(new PatternSort(y, OpCodeFirst));
         }
     }

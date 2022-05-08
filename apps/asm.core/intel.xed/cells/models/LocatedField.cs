@@ -8,7 +8,7 @@ namespace Z0
 
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(PackedWidth)]
+        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(Width)]
         public readonly record struct LocatedField : IComparable<LocatedField>
         {
             [MethodImpl(Inline)]
@@ -28,21 +28,21 @@ namespace Z0
                 return new LocatedField(location,field);
             }
 
-            const byte LocationWidth = Coordinate.PackedWidth;
+            const byte LocationWidth = Coordinate.Width;
 
             const byte LocationOffset = 0;
 
-            const uint LocationMask = Coordinate.PackedMask;
+            const uint LocationMask = Coordinate.Mask;
 
-            const byte FieldWidth = num7.PackedWidth;
+            const byte FieldWidth = num7.Width;
 
             const byte FieldOffset = LocationOffset + LocationWidth;
 
             const uint FieldMask =  num7.MaxValue << FieldOffset;
 
-            public const byte PackedWidth = Coordinate.PackedWidth + num7.PackedWidth;
+            public const byte Width = Coordinate.Width + num7.Width;
 
-            public const uint PackedMask = LocationMask | FieldMask;
+            public const uint Mask = LocationMask | FieldMask;
 
             public readonly Coordinate Location;
 

@@ -11,7 +11,7 @@ namespace Z0
         /// Defines 3-bit emission codes for vex map specification as determined by the presence
         /// of a <see cref='VexLength'/> value and a <see cref='VexKind'/> value
         /// </summary>
-        [SymSource(xed,NumericBaseKind.Base2), DataWidth(num3.PackedWidth)]
+        [SymSource(xed,NumericBaseKind.Base2), DataWidth(num3.Width)]
         public enum VexRXB : byte
         {
             /// <summary>

@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public Index<PatternOpCode> CalcPoc(Index<InstPattern> src)
+        public Index<InstOpCode> CalcPoc(Index<InstPattern> src)
             => Data(nameof(CalcPoc), () => XedOpCodes.poc(src));
     }
 }

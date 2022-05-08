@@ -7,7 +7,8 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public readonly struct OpIndicator
+        [DataWidth(num8.Width)]
+        public readonly record struct OpIndicator : IComparable<OpIndicator>
         {
             readonly asci8 Data;
 
@@ -21,6 +22,9 @@ namespace Z0
             public string Format()
                 => Data.Format();
 
+            public int CompareTo(OpIndicator src)
+                => Data.CompareTo(src.Data);
+
             public override string ToString()
                 => Format();
 
@@ -30,17 +34,6 @@ namespace Z0
 
             public override int GetHashCode()
                 => Data.GetHashCode();
-
-            public override bool Equals(object src)
-                => src is OpIndicator x && Equals(x);
-
-            [MethodImpl(Inline)]
-            public static bool operator ==(OpIndicator a, OpIndicator b)
-                => a.Equals(b);
-
-            [MethodImpl(Inline)]
-            public static bool operator !=(OpIndicator a, OpIndicator b)
-                => !a.Equals(b);
 
             public static OpIndicator Empty => new OpIndicator(EmptyString);
         }

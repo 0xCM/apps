@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed), DataWidth(num3.PackedWidth)]
+        [SymSource(xed), DataWidth(num3.Width)]
         public enum OpVisibility : byte
         {
             [Symbol("")]
@@ -26,7 +26,7 @@ namespace Z0
             Conditional,
         }
 
-        [SymSource(xed), DataWidth(num3.PackedWidth)]
+        [SymSource(xed), DataWidth(num3.Width)]
         public enum VisibilityKind : byte
         {
             [Symbol("")]

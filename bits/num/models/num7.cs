@@ -10,7 +10,7 @@ namespace Z0
     using D = System.Byte;
     using N = N7;
 
-    [DataWidth(PackedWidth, NativeWidth), ApiComplete]
+    [DataWidth(Width), ApiComplete]
     public readonly struct num7 : inum<T>
     {
         public readonly D Value;
@@ -23,7 +23,7 @@ namespace Z0
         num7(ulong src)
             => Value = (D)src;
 
-        public const byte PackedWidth = 7;
+        public const byte Width = 7;
 
         public const byte NativeWidth = 8;
 
@@ -59,7 +59,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static T set(T src, byte pos, bit state)
-            => math.lt(pos, PackedWidth) ? wrap(bit.set(src.Value, pos, state)) : src;
+            => math.lt(pos, Width) ? wrap(bit.set(src.Value, pos, state)) : src;
 
         [MethodImpl(Inline)]
         public static bit eq(T a, T b)
@@ -177,12 +177,12 @@ namespace Z0
             var storage = 0ul;
             dst = recover<bit>(@bytes(storage));
             Bitfields.unpack8x1(src,dst);
-            dst = slice(dst, 0, PackedWidth);
+            dst = slice(dst, 0, Width);
             return ref dst;
         }
 
         byte inum.PackedWidth
-            => PackedWidth;
+            => Width;
 
         ulong inum.Value
             => Value;

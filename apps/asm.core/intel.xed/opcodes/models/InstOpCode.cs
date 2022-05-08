@@ -10,34 +10,44 @@ namespace Z0
     partial class XedRules
     {
         [Record(TableId)]
-        public record struct PatternOpCode : IComparable<PatternOpCode>
+        public record struct InstOpCode : IComparable<InstOpCode>
         {
             public const string TableId = "xed.inst.opcodes";
 
-            public const byte FieldCount = 12;
-
+            [Render(8)]
             public uint Seq;
 
+            [Render(12)]
             public ushort PatternId;
 
+            [Render(18)]
             public InstClass InstClass;
 
+            [Render(8)]
             public byte Index;
 
+            [Render(26)]
             public XedOpCode OpCode;
 
+            [Render(6)]
             public MachineMode Mode;
 
+            [Render(6)]
             public LockIndicator Lock;
 
+            [Render(6)]
             public ModIndicator Mod;
 
+            [Render(6)]
             public BitIndicator RexW;
 
+            [Render(6)]
             public RepIndicator Rep;
 
+            [Render(112)]
             public InstCells Layout;
 
+            [Render(1)]
             public InstCells Expr;
 
             public Hex8 PrimaryByte
@@ -47,14 +57,8 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public OcInstClass OcInstClass()
-                => XedOpCodes.instclass(InstClass, OpCode, Index);
-
-            [MethodImpl(Inline)]
-            public int CompareTo(PatternOpCode src)
+            public int CompareTo(InstOpCode src)
                 => XedRules.cmp(this, src);
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,10,18,8,26,6,6,6,6,6,112,1};
         }
     }
 }

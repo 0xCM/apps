@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed), DataWidth(num11.PackedWidth)]
+        [SymSource(xed), DataWidth(num11.Width)]
         public enum IClass : ushort
         {
             [Symbol("")]

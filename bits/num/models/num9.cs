@@ -8,7 +8,7 @@ namespace Z0
     using D = System.UInt16;
     using N = N9;
 
-    [DataWidth(PackedWidth, NativeWidth), ApiComplete]
+    [DataWidth(Width), ApiComplete]
     public readonly struct num9 : inum<T>
     {
         public readonly D Value;
@@ -21,9 +21,7 @@ namespace Z0
         num9(ulong src)
             => Value = (D)src;
 
-        public const byte PackedWidth = 9;
-
-        public const byte NativeWidth = 16;
+        public const byte Width = 9;
 
         public const D MaxValue = Pow2.T09m1;
 
@@ -61,7 +59,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static T set(T src, byte pos, bit state)
-            => math.lt(pos, PackedWidth) ? wrap(bit.set(src.Value, pos, state)) : src;
+            => math.lt(pos, Width) ? wrap(bit.set(src.Value, pos, state)) : src;
 
         [MethodImpl(Inline)]
         public static bit eq(T a, T b)
@@ -170,7 +168,7 @@ namespace Z0
         }
 
         byte inum.PackedWidth
-            => PackedWidth;
+            => Width;
 
         ulong inum.Value
             => Value;

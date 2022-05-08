@@ -10,7 +10,7 @@ namespace Z0
         void EmitFlagEffects(Index<InstPattern> src)
         {
             const string RenderPattern = "{0,-16} | {1,-4} | {2, -4}";
-            var path = XedPaths.Targets() + FS.file("xed.inst.flags", FS.Csv);
+            var path = XedPaths.RuleTarget("flags", FS.Csv);
             var emitting = EmittingFile(path);
             using var writer = path.AsciWriter();
             writer.AppendLineFormat(RenderPattern, "Instruction",  "F", "E");

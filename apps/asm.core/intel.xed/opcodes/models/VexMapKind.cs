@@ -9,7 +9,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        [SymSource(xed), DataWidth(num2.PackedWidth)]
+        [SymSource(xed), DataWidth(num2.Width)]
         public enum VexMapKind : byte
         {
             [Symbol(S.V1, "MAP=1")]

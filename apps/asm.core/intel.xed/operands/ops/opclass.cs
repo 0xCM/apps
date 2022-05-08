@@ -19,7 +19,7 @@ namespace Z0
             dst.ElementCount = src.ElementCount;
             dst.IsRegLit = src.Reg.IsNonEmpty;
             dst.IsRule = src.Rule.IsNonEmpty;
-            dst.OpWidth = new OpWidth(src.WidthCode, src.BitWidth);
+            dst.WidthCode = src.WidthCode;
             return dst;
         }
 
@@ -34,7 +34,7 @@ namespace Z0
                         IsRegLit = IsRegLit(spec.OpType),
                         IsRule = IsRule(spec.OpType),
                         ElementCount = desc.ElementCount,
-                        OpWidth = new OpWidth(spec.WidthCode, width.Bits)
+                        WidthCode = spec.WidthCode,
                     };
 
             return dst;
@@ -49,7 +49,7 @@ namespace Z0
             dst.ElementCount = src.SegInfo.CellCount;
             dst.IsRegLit = src.IsRegLit;
             dst.IsRule = src.IsNonterm;
-            dst.OpWidth = new OpWidth(src.WidthCode, src.BitWidth);
+            dst.WidthCode = src.WidthCode;
             return dst;
         }
     }

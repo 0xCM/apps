@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        [DataWidth(num2.PackedWidth, num2.NativeWidth)]
+        [DataWidth(num2.Width)]
         public enum RuleTableKind : byte
         {
             None = 0,

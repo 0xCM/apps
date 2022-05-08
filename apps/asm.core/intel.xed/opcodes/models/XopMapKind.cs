@@ -9,7 +9,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        [SymSource(xed), DataWidth(num4.PackedWidth)]
+        [SymSource(xed), DataWidth(num4.Width)]
         public enum XopMapKind : byte
         {
             [Symbol(N.XopMap8Name)]

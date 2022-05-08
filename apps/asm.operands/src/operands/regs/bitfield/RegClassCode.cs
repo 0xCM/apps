@@ -10,7 +10,7 @@ namespace Z0.Asm
     /// <summary>
     /// Defines an equivalence class that partitions the set of x86-64 registers
     /// </summary>
-    [SymSource("asm.regs.bits", Base16), DataWidth(num6.PackedWidth)]
+    [SymSource("asm.regs.bits", Base16), DataWidth(num6.Width)]
     public enum RegClassCode : byte
     {
         /// <summary>

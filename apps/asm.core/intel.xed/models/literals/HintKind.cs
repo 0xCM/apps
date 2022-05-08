@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed), DataWidth(num3.PackedWidth)]
+        [SymSource(xed), DataWidth(num3.Width)]
         public enum HintKind : byte
         {
             [Symbol("", "No hint")]
