@@ -612,6 +612,9 @@ namespace Z0
             return result;
         }
 
+        public static bool parse(string src, out RuleKeyword dst)
+            => RuleKeyword.parse(src, out dst);
+
         public static bool reg(FieldKind field, string value, out FieldValue dst)
         {
             var result = false;
@@ -626,7 +629,7 @@ namespace Z0
                 dst = new (field, reg);
                 result = true;
             }
-            else if(parse(value, out RuleKeyword kw))
+            else if(XedParsers.parse(value, out RuleKeyword kw))
             {
                 dst = new(kw);
                 result = true;

@@ -12,9 +12,9 @@ namespace Z0
         partial struct CellParser
         {
             public static Index<TableCriteria> criteria(RuleTableKind kind)
-                => criteria(XedPaths.Service.RuleSource(kind));
+                => parse(XedPaths.Service.RuleSource(kind));
 
-            public static Index<TableCriteria> criteria(FS.FilePath src)
+            public static Index<TableCriteria> parse(FS.FilePath src)
             {
                 var skip = hashset("XED_RESET");
                 using var reader = src.Utf8LineReader();

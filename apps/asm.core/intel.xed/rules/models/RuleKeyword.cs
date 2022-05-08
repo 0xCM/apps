@@ -28,15 +28,47 @@ namespace Z0
                     _ => RuleKeyword.Empty
                 };
 
+            public static bool parse(string src, out RuleKeyword dst)
+            {
+                var result = false;
+                var input = text.trim(src);
+                dst = RuleKeyword.Empty;
+                switch(input)
+                {
+                    case "default":
+                        dst = RuleKeyword.Default;
+                        result = true;
+                        break;
+                    case "otherwise":
+                        dst = RuleKeyword.Else;
+                        result = true;
+                    break;
+                    case "nothing":
+                        dst = RuleKeyword.Null;
+                        result = true;
+                    break;
+                    case "error":
+                        dst = RuleKeyword.Error;
+                        result = true;
+                    break;
+                    case "@":
+                        dst = RuleKeyword.Wildcard;
+                        result = true;
+                    break;
+                }
+
+                return result;
+            }
+
             public static RuleKeyword Wildcard => new RuleKeyword(KW.Wildcard, "@");
 
-            public static RuleKeyword Null => new RuleKeyword(KW.Null, "NULL");
+            public static RuleKeyword Null => new RuleKeyword(KW.Null, "null");
 
-            public static RuleKeyword Default => new RuleKeyword(KW.Default, "DEFAULT");
+            public static RuleKeyword Default => new RuleKeyword(KW.Default, "default");
 
-            public static RuleKeyword Else => new RuleKeyword(KW.Else, "ELSE");
+            public static RuleKeyword Else => new RuleKeyword(KW.Else, "else");
 
-            public static RuleKeyword Error => new RuleKeyword(KW.Error, "ERROR");
+            public static RuleKeyword Error => new RuleKeyword(KW.Error, "error");
 
             readonly ByteBlock16 Data;
 
@@ -90,6 +122,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator RuleKeyword(KeywordKind src)
                 => from(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator KeywordKind(RuleKeyword src)
+                => src.KeywordKind;
 
             [MethodImpl(Inline)]
             public static explicit operator asci8(RuleKeyword src)

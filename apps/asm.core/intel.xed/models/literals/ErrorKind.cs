@@ -51,17 +51,23 @@ namespace Z0
             [Symbol("NO_OUTPUT_POINTER","The output pointer for xed_agen was zero")]
             NO_OUTPUT_POINTER,
 
-            NO_AGEN_CALL_BACK_REGISTERED, /// One or both of the callbacks for xed_agen were missing.
+            [Symbol("NO_AGEN_CALL_BACK_REGISTERED","One or both of the callbacks for xed_agen were missing")]
+            NO_AGEN_CALL_BACK_REGISTERED,
 
-            BAD_MEMOP_INDEX, /// Memop indices must be 0 or 1.
+            [Symbol("BAD_MEMOP_INDEX", "Memop indices must be 0 or 1")]
+            BAD_MEMOP_INDEX,
 
-            CALLBACK_PROBLEM, /// The register or segment callback for xed_agen experienced a problem
+            [Symbol("CALLBACK_PROBLEM", "The register or segment callback for xed_agen experienced a problem")]
+            CALLBACK_PROBLEM,
 
-            GATHER_REGS, /// The index, dest and mask regs for AVX2 gathers must be different.
+            [Symbol("GATHER_REGS", "The index, dest and mask regs for AVX2 gathers must be different")]
+            GATHER_REGS,
 
-            INSTR_TOO_LONG, /// Full decode of instruction would exeed 15B.
+            [Symbol("INSTR_TOO_LONG", "Full decode of instruction would exeed 15B")]
+            INSTR_TOO_LONG,
 
-            INVALID_MODE, /// The instruction was not valid for the specified mode
+            [Symbol("INVALID_MODE", "The instruction was not valid for the specified mode")]
+            INVALID_MODE,
 
             [Symbol("BAD_EVEX_LL","EVEX.LL must not ==3 unless using embedded rounding")]
             BAD_EVEX_LL,

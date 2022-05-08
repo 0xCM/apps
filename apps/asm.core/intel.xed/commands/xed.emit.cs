@@ -33,10 +33,9 @@ namespace Z0
 
 
         [CmdOp("xed/db/emit")]
-        Outcome EmitSchema(CmdArgs args)
+        Outcome DbEmit(CmdArgs args)
         {
             XedDb.EmitArtifacts();
-
 
             return true;
         }

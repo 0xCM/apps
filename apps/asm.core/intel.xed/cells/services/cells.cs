@@ -13,12 +13,12 @@ namespace Z0
     {
         partial class RuleTables
         {
-            public static RuleCells cells(RuleTables rules)
+            public static RuleCells cells(RuleTables tables)
             {
                 var lix = z16;
                 var emitter = text.emitter();
                 emitter.AppendLine(SemanticHeader);
-                ref readonly var src = ref rules.Specs();
+                ref readonly var src = ref tables.Specs();
                 var sigs = src.Keys;
                 var dst = dict<RuleSig,Index<RuleCell>>();
                 for(var i=z16; i<sigs.Length; i++)
@@ -26,23 +26,18 @@ namespace Z0
                     ref readonly var sig = ref skip(sigs,i);
                     var kcells = list<RuleCell>();
                     var table = src[sig];
-                    ref readonly var tid = ref table.TableId;
                     ref readonly var rows = ref table.Rows;
                     for(var j=z16; j<rows.Count; j++)
                     {
                         ref readonly var row = ref rows[j];
-                        ref readonly var rix = ref row.RowIndex;
                         ref readonly var cells = ref row.Cells;
+                        ref readonly var keys = ref row.Keys;
                         for(var k=z8; k<cells.Count; k++)
                         {
-                            var kw = RuleKeyword.Empty;
                             ref readonly var info = ref cells[k];
                             ref readonly var data = ref info.Data;
                             ref readonly var logic = ref info.Logic;
-                            if(info.IsKeyword)
-                                XedParsers.parse(data, out kw);
-                            var key = new CellKey(lix++, tid, rix, k, logic, info.Kind, sig.TableKind, sig.TableName, info.Field, kw.KeywordKind);
-                            var metrics = RuleTables.metrics(key);
+                            var metrics = RuleTables.metrics(keys[k]);
                             var result = false;
                             var field = CellValue.Empty;
                             var cell = RuleCell.Empty;
@@ -150,7 +145,7 @@ namespace Z0
                             }
 
                             if(!result)
-                                Errors.Throw(info.Field.ToString() + ":="  + key.FormatSemantic() + $":{info.Kind}" + "='" + data + "'");
+                                Errors.Throw(info.Field.ToString() + ":="  + keys[k].FormatSemantic() + $":{info.Kind}" + "='" + data + "'");
 
                             emitter.AppendLineFormat(format(cell));
                             kcells.Add(cell);

@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class XedRules
     {
         public partial class RuleTables
@@ -14,7 +12,6 @@ namespace Z0
             public static Index<RuleCell> linearize(Pairings<RuleSig,Index<RuleCell>> src)
                 => src.Array().SelectMany(x => x.Right).Sort();
 
-            //[MethodImpl(Inline)]
             public static RuleCell cell(CellMetrics metrics, CellValue value)
                 => new (metrics,value);
 

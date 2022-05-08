@@ -50,6 +50,10 @@ namespace Z0
                 Pad1 = 0;
             }
 
+            [MethodImpl(Inline)]
+            public CellKey WithKeyword(KeywordKind kw)
+                => new CellKey(Index, Table, Row, Col, Logic, CellType, Rule.TableKind, Rule.TableName, Field,kw);
+
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]

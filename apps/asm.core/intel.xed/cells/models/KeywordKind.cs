@@ -16,16 +16,16 @@ namespace Z0
             [Symbol("@")]
             Wildcard,
 
-            [Symbol("NULL")]
+            [Symbol("null")]
             Null,
 
-            [Symbol("DEFAULT")]
+            [Symbol("default")]
             Default,
 
-            [Symbol("ELSE")]
+            [Symbol("else")]
             Else,
 
-            [Symbol("ERROR")]
+            [Symbol("error")]
             Error,
         }
     }

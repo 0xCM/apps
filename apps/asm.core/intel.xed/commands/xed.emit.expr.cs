@@ -23,8 +23,8 @@ namespace Z0
                 for(var j=0; j<table.RowCount; j++)
                 {
                     ref readonly var row = ref table[j];
-                    var primal = CellPrimitive.primitives(row);
-                    dst.AppendLineFormat(Pattern, table.Sig.TableName, table.Sig.TableKind, row.RowIndex, CellPrimitive.format(primal));
+
+                    dst.AppendLineFormat(Pattern, table.Sig.TableName, table.Sig.TableKind, row.RowIndex, row.Format());
                 }
             }
 
