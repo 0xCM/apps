@@ -11,7 +11,7 @@ namespace Z0
     {
         partial struct CellParser
         {
-            static Index<TableCriteria> merge(Index<TableCriteria> src)
+            public static Index<TableCriteria> merge(Index<TableCriteria> src)
             {
                 var dst = dict<RuleSig,TableCriteria>(src.Count);
                 for(var i=0u; i<src.Count; i++)

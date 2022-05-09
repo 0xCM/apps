@@ -7,7 +7,6 @@ namespace Z0
 {
     using static core;
 
-
     partial class XedRules
     {
         public readonly struct TableCriteria : IComparable<TableCriteria>
@@ -64,31 +63,19 @@ namespace Z0
                 get => SigKey.TableName;
             }
 
-            public bool IsEncTable
-            {
-                [MethodImpl(Inline)]
-                get => Sig.IsEncTable;
-            }
-
-            public bool IsDecTable
-            {
-                [MethodImpl(Inline)]
-                get => Sig.IsDecTable;
-            }
-
             public uint RowCount
             {
                 [MethodImpl(Inline)]
                 get => Rows.Count;
             }
 
-            public ref RowCriteria this[int i]
+            public ref readonly RowCriteria this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Rows[i];
             }
 
-            public ref RowCriteria this[uint i]
+            public ref readonly RowCriteria this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Rows[i];

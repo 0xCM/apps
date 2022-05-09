@@ -29,7 +29,7 @@ namespace Z0
                 dst.AppendLine(TableHeader(sig));
                 dst.AppendLine();
                 dst.AppendLineFormat("{0}(){{", sig.TableName);
-                var rix = z16;
+                var row = z16;
                 var count = src.Count;
                 for(var i=0; i<count; i++)
                 {
@@ -38,10 +38,10 @@ namespace Z0
                     if(i==0)
                         dst.Append("    ");
 
-                    if(key.Row != rix)
+                    if(key.Row != row)
                     {
                         dst.AppendLine();
-                        rix = key.Row;
+                        row = key.Row;
                         dst.Append("    ");
                     }
                     else

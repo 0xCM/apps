@@ -8,6 +8,6 @@ namespace Z0
     partial class XedRules
     {
         public Index<TableCriteria> CalcRuleCriteria(RuleTableKind kind)
-            => Data(nameof(CalcRuleCriteria) + kind.ToString(), () => CellParser.criteria(kind));
+            => Data(nameof(CalcRuleCriteria) + kind.ToString(), () => RuleSpecs.criteria(kind));
     }
 }

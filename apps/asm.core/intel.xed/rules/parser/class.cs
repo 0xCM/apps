@@ -14,7 +14,7 @@ namespace Z0
             static RuleCellType @class(FieldKind field, string data)
             {
                 var result = false;
-                var input = normalize(data);
+                var input = RuleSpecs.normalize(data);
                 var dst = RuleCellType.Empty;
                 var isNonTerm = text.contains(input, "()");
 

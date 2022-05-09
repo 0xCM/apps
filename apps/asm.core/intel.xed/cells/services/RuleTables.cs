@@ -83,7 +83,7 @@ namespace Z0
             {
                 Data = src;
                 var criteria = sort(src.Criteria);
-                _Specs = CellParser.specs(criteria);
+                _Specs = RuleSpecs.tables(criteria);
                 _Criteria = criteria;
             }
 
