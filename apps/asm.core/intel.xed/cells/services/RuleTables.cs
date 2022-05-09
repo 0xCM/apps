@@ -97,6 +97,35 @@ namespace Z0
                 return specs;
             }
 
+            static bool seg(string src, out FieldSeg dst)
+            {
+                dst = FieldSeg.Empty;
+                var i = text.index(src, Chars.LBracket);
+                var j = text.index(src, Chars.RBracket);
+                var result = i>0 && j>i;
+                if(result)
+                {
+                    XedParsers.parse(text.left(src,i), out FieldKind field);
+                    XedParsers.segdata(src, out var data);
+                    result = field != 0 && text.nonempty(data);
+                    if(result)
+                    {
+                        var literal = XedParsers.IsBinaryLiteral(data);
+                        if(literal)
+                            dst = FieldSeg.literal(field, data);
+                        else
+                            dst = FieldSeg.symbolic(field, data);
+                    }
+                }
+                else
+                {
+                    dst = FieldSeg.symbolic(src);
+                    result = true;
+                }
+
+                return result;
+            }
+
             public static CellDatasets datasets(RuleTables tables)
             {
                 var lix = z16;
@@ -194,7 +223,7 @@ namespace Z0
 
                                 case CK.FieldSeg:
                                 {
-                                    result = CellParser.seg(data, out FieldSeg value);
+                                    result = seg(data, out FieldSeg value);
                                     field = value;
                                     cell = new RuleCell(key, value, size);
                                 }
@@ -236,14 +265,11 @@ namespace Z0
                     dst.Add(sig, kcells.ToIndex());
                 }
 
-
                 return CellDatasets.create(dst, emitter.Emit());
             }
 
             static string format(in RuleCell cell)
                 => string.Format("{0:D5} | {1:D5} | {2,-48} | {3}", cell.Key.Index, cell.Key.Index, cell.Key.Format(), cell.Format());
-
-            public static RuleTables Empty => new();
         }
     }
 }

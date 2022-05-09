@@ -190,7 +190,7 @@ namespace Z0
                 }
             }
 
-            static bool ruleop(string src, out OperatorKind dst)
+            public static bool ruleop(string src, out OperatorKind dst)
             {
                 if(XedParsers.IsNe(src))
                 {

@@ -72,7 +72,7 @@ namespace Z0
                     if(fk == 0)
                         Errors.Throw(AppMsg.ParseFailure.Format(nameof(FieldKind), left));
 
-                    var result = cellvalue(fk, right, out fv);
+                    var result = XedOperands.parse(fk, right, out fv);
                     if(!result)
                         Errors.Throw(AppMsg.ParseFailure.Format(nameof(CellExpr), src));
 
