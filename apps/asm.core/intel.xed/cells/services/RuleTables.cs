@@ -185,7 +185,7 @@ namespace Z0
                                     }
                                     else
                                     {
-                                        result = CellParser.ruleop(data, out RuleOperator value);
+                                        result = RuleSpecs.ruleop(data, out RuleOperator value);
                                         field = value;
                                         cell = new RuleCell(key, value, size);
                                     }

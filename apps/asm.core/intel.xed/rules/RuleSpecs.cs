@@ -7,16 +7,20 @@ namespace Z0
 {
     using static core;
 
+    using static XedOperands;
+
+    using CK = XedRules.RuleCellKind;
+
     partial class XedRules
     {
         public readonly struct RuleSpecs
         {
             [MethodImpl(Inline)]
-            public static CellInfo cellinfo(in CellTypeInfo type, LogicClass logic, string data)
+            static CellInfo cellinfo(in CellTypeInfo type, LogicClass logic, string data)
                 => new CellInfo(type, logic, data);
 
             [MethodImpl(Inline)]
-            public static CellInfo cellinfo(RuleOperator op)
+            static CellInfo cellinfo(RuleOperator op)
                 => new CellInfo(op);
 
             public static Index<TableCriteria> criteria(RuleTableKind kind)
@@ -75,7 +79,31 @@ namespace Z0
                     }
                 }
 
-                return CellParser.merge(dst.ToArray());
+                return merge(dst.ToArray());
+            }
+
+            public static Index<TableCriteria> merge(Index<TableCriteria> src)
+            {
+                var dst = dict<RuleSig,TableCriteria>(src.Count);
+                for(var i=0u; i<src.Count; i++)
+                {
+                    ref readonly var table = ref src[i];
+                    if(table.SigKey.IsEmpty)
+                        continue;
+
+                    if(dst.TryGetValue(table.SigKey, out var t))
+                        dst[table.SigKey] = t.Merge(table);
+                    else
+                    {
+                        if(!dst.TryAdd(table.SigKey,table))
+                            Errors.Throw(string.Format("Duplicate sig {0}", table.SigKey));
+                    }
+                }
+
+                var specs = dst.Values.Array().Sort();
+                for(var i=0u; i<specs.Length; i++)
+                    seek(specs,i)= seek(specs,i).WithId(i);
+                return specs;
             }
 
             public static bool criteria(string src, out RowCriteria dst)
@@ -136,9 +164,60 @@ namespace Z0
                 return cells.Map(cellinfo);
             }
 
+
+            public static bool parse(string data, out CellTypeInfo dst)
+            {
+                Require.nonempty(data);
+                Require.invariant(data.Length < 48);
+                var kind = FieldParser.kind(data);
+                var field = kind != 0 ? XedFields.field(kind) : FieldDef.Empty;
+                ruleop(data, out RuleOperator op);
+                dst = new (kind, @class(field.Field, data), op, field.DataType, field.Size);
+                return true;
+            }
+
+            public static bool ruleop(string src, out RuleOperator dst)
+            {
+                if(ruleop(src, out OperatorKind k))
+                {
+                    dst = k;
+                    return true;
+                }
+                else
+                {
+                    dst = default;
+                    return false;
+                }
+            }
+
+            static bool ruleop(string src, out OperatorKind dst)
+            {
+                if(XedParsers.IsNe(src))
+                {
+                    dst = OperatorKind.Ne;
+                    return true;
+                }
+                else if(XedParsers.IsEq(src))
+                {
+                    dst = OperatorKind.Eq;
+                    return true;
+                }
+                else if(XedParsers.IsImpl(src))
+                {
+                    dst = OperatorKind.Impl;
+                    return true;
+                }
+                else
+                {
+                    dst = 0;
+                    return false;
+                }
+            }
+
+
             static CellInfo cellinfo(string src)
             {
-                CellParser.parse(src, out CellTypeInfo t);
+                parse(src, out CellTypeInfo t);
                 return RuleSpecs.cellinfo(t, LogicKind.None, src);
             }
 
@@ -170,8 +249,8 @@ namespace Z0
                     {
                         var rix = j;
                         ref readonly var row = ref table[j];
-                        var left = row.Antecedant.Select(x => RuleSpecs.cellinfo(x.TypeInfo, LogicKind.Antecedant, x.Data));
-                        var right = row.Consequent.Select(x => RuleSpecs.cellinfo(x.TypeInfo, LogicKind.Consequent, x.Data));
+                        var left = row.Antecedant.Select(x => cellinfo(x.TypeInfo, LogicKind.Antecedant, x.Data));
+                        var right = row.Consequent.Select(x => cellinfo(x.TypeInfo, LogicKind.Consequent, x.Data));
                         var count = left.Count + 1 + right.Count;
                         var keys = alloc<CellKey>(count);
                         var cells = alloc<CellInfo>(count);
@@ -188,7 +267,7 @@ namespace Z0
 
                         {
                             seek(keys,m) = new CellKey(seq++, tix, rix, m, LogicKind.Operator, RuleCellKind.Operator, tk, sig.TableName, FieldKind.INVALID, KeywordKind.None);
-                            seek(cells, m) = RuleSpecs.cellinfo(OperatorKind.Impl);
+                            seek(cells, m) = cellinfo(OperatorKind.Impl);
                             m++;
                         }
 
@@ -210,6 +289,64 @@ namespace Z0
                 return specs.Select(x => (x.Sig,x)).ToDictionary();
             }
 
+            static RuleCellType @class(FieldKind field, string data)
+            {
+                var result = false;
+                var input = RuleSpecs.normalize(data);
+                var dst = RuleCellType.Empty;
+                var isNonTerm = text.contains(input, "()");
+
+                if(XedParsers.IsExpr(input))
+                {
+                    result = ruleop(input, out RuleOperator op);
+                    if(!result)
+                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleOperator), input));
+
+                    switch(op.Kind)
+                    {
+                        case OperatorKind.Eq:
+                            if(isNonTerm)
+                                dst = CK.NontermExpr;
+                            else
+                                dst = CK.EqExpr;
+                        break;
+                        case OperatorKind.Ne:
+                            dst = CK.NeqExpr;
+                        break;
+                        case OperatorKind.And:
+                        case OperatorKind.Impl:
+                            dst = CK.Operator;
+                        break;
+                    }
+                }
+                else
+                {
+                    if(isNonTerm)
+                        dst = CK.NontermCall;
+                    else if(XedParsers.IsInt(data))
+                        dst = CK.IntVal;
+                    else if(XedParsers.IsHexLiteral(data))
+                        dst = CK.HexLiteral;
+                    else if(XedParsers.IsBinaryLiteral(data))
+                        dst = CK.BitLiteral;
+                    else if(XedParsers.IsImpl(input))
+                        dst = CK.Operator;
+                    else if(XedParsers.IsSeg(input))
+                    {
+                        if(field != 0)
+                            dst = CK.InstSeg;
+                        else
+                            Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCellType), input));
+                    }
+                    else if(XedParsers.parse(input, out RuleKeyword keyword))
+                        dst = CK.Keyword;
+                    else
+                        dst = CK.SegVar;
+                }
+
+                Require.invariant(dst.IsNonEmpty);
+                return dst;
+            }
         }
     }
 }
