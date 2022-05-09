@@ -15,19 +15,20 @@ namespace Z0
         [CmdOp("xed/gen")]
         Outcome CheckRules(CmdArgs args)
         {
-            var rules = CalcRules();
-            var dst = CsLang.emitter();
-            var indent = 4u;
-            var src = Rules.CalcSpecExpr(rules.Specs());
-            for(var i=0; i<src.Count; i++)
-            {
-                ref readonly var expr = ref src[i];
-                dst.LineComment(indent, string.Format("{0} {1:D2} {2}", expr.Sig, expr.Row, expr.Body));
-            }
+            // var rules = CalcRules();
+            // var dst = CsLang.emitter();
+            // var indent = 4u;
+            // var src = Rules.CalcSpecExpr(rules.Specs());
+            // for(var i=0; i<src.Count; i++)
+            // {
+            //     ref readonly var expr = ref src[i];
+            //     dst.LineComment(indent, string.Format("{0} {1:D2} {2}", expr.Sig, expr.Row, expr.Body));
+            // }
 
-            var lines = dst.Emit();
-            var path = AppDb.CgStage("xed") + FS.file("rules.tables", FileKind.Cs.Ext());
-            AppSvc.FileEmit(lines, path);
+            // var lines = dst.Emit();
+            // var path = AppDb.CgStage("xed") + FS.file("rules.tables", FileKind.Cs.Ext());
+            // AppSvc.FileEmit(lines, path);
+            Gen();
             return true;
         }
 
@@ -35,14 +36,11 @@ namespace Z0
         void Gen()
         {
             var dst = CsLang.emitter();
-            var rules = CalcRules();
-            ref readonly var specs = ref rules.Specs();
-            var cells = Rules.CalcRuleCells(rules);
-            var srcA = Rules.CalcSpecExpr(specs);
-            var srcB = Rules.CalcCellExpr(cells.CellTables);
-
-
-
+            var src = RuleExpr;
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var e = ref src[i];
+            }
 
         }
 

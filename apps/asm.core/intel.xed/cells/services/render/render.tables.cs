@@ -40,7 +40,7 @@ namespace Z0
                     for(var i=z16; i<cells.Count; i++)
                     {
                         ref readonly var cell = ref cells[i];
-                        dst.AppendLineFormat("{0:D5} | {1:D5} | {2,-48} | {3}", i, cell.Key.Index, cell.Key, cell);
+                        dst.AppendLineFormat("{0:D5} | {1:D5} | {2,-48} | {3}", i, cell.Key.Index, cell.Key, cell.Format());
                     }
                     return cells.Count;
                 }

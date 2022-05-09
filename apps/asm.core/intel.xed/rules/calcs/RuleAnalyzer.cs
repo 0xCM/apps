@@ -307,15 +307,11 @@ namespace Z0
                 Run(src[j]);
         }
 
-        void Run(CellTables src)
+        public void Run(CellTables src)
         {
             for(var i=0; i<src.Count; i++)
                 Run(src[i]);
-        }
 
-        public void Run(RuleCells src)
-        {
-            Run(src.CellTables);
             FileEmitter(Dst.Emit(), Counter, Paths.RuleTarget("analysis", FS.Csv));
         }
     }

@@ -31,6 +31,12 @@ namespace Z0
             return true;
         }
 
+        [CmdOp("xed/emit/expr")]
+        Outcome EmitRuleExpr(CmdArgs args)
+        {
+            Rules.Emit(RuleExpr);
+            return true;
+        }
 
         [CmdOp("xed/db/emit")]
         Outcome DbEmit(CmdArgs args)
@@ -43,9 +49,8 @@ namespace Z0
         [CmdOp("xed/emit/analysis")]
         Outcome EmitAnalysis(CmdArgs args)
         {
-            var src = CalcRuleCells();
             var analyzer = new RuleAnalyzer(this, (data,count,path) => FileEmit(data, count,path, TextEncodingKind.Asci));
-            analyzer.Run(src);
+            analyzer.Run(CellTables);
             return true;
         }
 
@@ -53,7 +58,7 @@ namespace Z0
         Outcome EmitLayouts(CmdArgs args)
         {
             var dst = hashset<LayoutCell>();
-            var layouts = XedDb.CalcLayouts(CalcPatterns());
+            var layouts = XedDb.CalcLayouts(Patterns);
             for(var i=0; i<layouts.LayoutCount; i++)
             {
                 ref readonly var layout = ref layouts[i];
@@ -173,58 +178,52 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("xed/emit/rulerecs")]
+        [CmdOp("xed/emit/rules/cells")]
         Outcome EmitRuleRecords(CmdArgs args)
         {
-            var cells = CalcRuleCells();
-            TableEmit(cells.CellTables.View, RuleCellRecord.RenderWidths, XedPaths.RuleTable<RuleCellRecord>());
             return true;
         }
 
-        [CmdOp("xed/emit/rules")]
+        [CmdOp("xed/emit/rules/tables")]
         Outcome EmitRuleTables(CmdArgs args)
         {
-            var rules = CalcRules();
             Write("Emitting rules");
-            Rules.EmitRuleData(rules);
+            Rules.EmitRuleData(RuleTables);
             return true;
         }
 
-        [CmdOp("xed/emit/tabledefs")]
+        [CmdOp("xed/emit/rules/pages")]
         Outcome EmitTableDefs(CmdArgs args)
         {
-            var rules = CalcRules();
-            Rules.EmitRulePages(rules);
+            Rules.EmitRulePages(RuleTables);
             return true;
         }
 
-        [CmdOp("xed/emit/cells")]
+        [CmdOp("xed/emit/rules/specs")]
         Outcome EmitTableCells(CmdArgs args)
         {
-            var rules = CalcRules();
-            Rules.EmitTableSpecs(rules);
+            Rules.EmitTableSpecs(RuleTables);
             return true;
         }
 
         [CmdOp("xed/emit/docs")]
         Outcome EmitDocs(CmdArgs args)
         {
-            XedDocs.Emit(CalcPatterns(), CalcRules());
+            XedDocs.Emit();
             return true;
         }
 
         [CmdOp("xed/emit/attribs")]
         Outcome CheckOps(CmdArgs args)
         {
-            Rules.EmitInstAttribs(CalcPatterns());
+            Rules.EmitInstAttribs(Patterns);
             return true;
         }
 
         [CmdOp("xed/emit/groups")]
         Outcome EmitInstGroups(CmdArgs args)
         {
-            var patterns = CalcPatterns();
-            var groups = Rules.CalcInstGroups(patterns);
+            var groups = Rules.CalcInstGroups(Patterns);
             Rules.EmitInstGroups(groups);
            return true;
         }

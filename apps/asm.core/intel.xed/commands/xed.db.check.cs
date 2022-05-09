@@ -13,7 +13,7 @@ namespace Z0
         [CmdOp("xed/db/check")]
         Outcome CheckXedDb(CmdArgs args)
         {
-            CheckLocatedFields();
+            //CheckLocatedFields();
 
             var formatter = RecordFormatter.create(typeof(TypeTableRow));
             var rows = Rules.CalcTypeTables().SelectMany(x => x.Rows).Sort().Resequence();
@@ -23,16 +23,16 @@ namespace Z0
         }
 
 
-        void CheckLocatedFields()
-        {
-            var located = XedDb.CalcLocatedFields(CalcRuleCells());
-            for(var i=0; i<located.Count; i++)
-            {
-                ref readonly var f0 = ref located[i];
-                var a = LocatedField.pack(f0);
-                Require.equal(f0,LocatedField.unpack(a));
-            }
-        }
+        // void CheckLocatedFields()
+        // {
+        //     var located = XedDb.CalcLocatedFields(CalcRuleCells());
+        //     for(var i=0; i<located.Count; i++)
+        //     {
+        //         ref readonly var f0 = ref located[i];
+        //         var a = LocatedField.pack(f0);
+        //         Require.equal(f0,LocatedField.unpack(a));
+        //     }
+        // }
         void CheckMemDb(Dim2<uint> shape)
         {
             var r = shape.I;

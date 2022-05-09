@@ -9,30 +9,17 @@ namespace Z0
     {
         public readonly struct RowExpr
         {
-            readonly Index<RuleCell> Cells;
+            public readonly Index<RuleCell> Cells;
 
             public RowExpr(Index<RuleCell> src)
             {
-                Cells = src;
+                Cells = Require.notnull(src);
             }
 
             public string Format()
             {
                 var dst = text.emitter();
-                var count = Cells.Count;
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var cell = ref Cells[i];
-
-                    if(i != 0)
-                        dst.Append(Chars.Space);
-
-                    if(i == count - 1 && cell.IsOperator)
-                        break;
-
-                    dst.Append(XedRender.format(cell.Value));
-                }
-
+                CellRender.render(this, dst);
                 return dst.Emit();
             }
 

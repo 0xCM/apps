@@ -78,28 +78,31 @@ namespace Z0
         void RunCalcs()
         {
             var patterns = Rules.CalcPatterns();
-            var tables = Rules.CalcRuleTables();
-
+            var rules = Rules.CalcRuleTables();
             exec(PllExec,
-                () => tables = Rules.CalcRuleTables(),
+                () => rules = Rules.CalcRuleTables(),
                 () => patterns = Rules.CalcPatterns()
                 );
 
             Views.Store(XedViewIndex.InstPattern, () => patterns);
-            Views.Store(XedViewIndex.RuleTables, () => tables);
+            Views.Store(XedViewIndex.RuleTables, () => rules);
 
-            var cells = RuleCells.Empty;
+            var datasets = RuleTables.datasets(rules);
+            Views.Store(XedViewIndex.CellDatasets, () => datasets);
+
+            var tables = CellTables.from(datasets);
+            Views.Store(XedViewIndex.CellTables, () => tables);
+
             Index<RuleExpr> expr = sys.empty<RuleExpr>();
             Index<InstFieldRow> fields = sys.empty<InstFieldRow>();
             exec(PllExec,
-                () => cells = Rules.CalcRuleCells(tables),
-                () => fields = Rules.CalcInstFields(patterns),
-                () => expr = Rules.CalcSpecExpr(tables.Specs())
+                () => fields = Rules.CalcInstFields(patterns)
             );
 
+            exec(PllExec, () => expr = Rules.CalcRuleExpr(tables));
+
             Views.Store(XedViewIndex.InstFields, () => fields);
-            Views.Store(XedViewIndex.SpecExpr, () => expr);
-            Views.Store(XedViewIndex.CellTables, () => cells.CellTables);
+            Views.Store(XedViewIndex.RuleExpr, () => expr);
 
             Started = true;
         }
@@ -122,22 +125,26 @@ namespace Z0
         public void EmitCatalog()
         {
             Paths.Targets().Delete();
+            var tables = Views.RuleTables;
+            var patterns = Views.Patterns;
             Emit(XedFields.Defs.Positioned);
             exec(PllExec,
                 () => Main.EmitChipMap(),
                 () => Main.ImportForms(),
                 () => EmitRegmaps(),
                 () => EmitBroadcastDefs(),
-                () => Rules.EmitCatalog(Views.Patterns, Views.RuleTables)
+                () => Rules.EmitCatalog(patterns, tables)
                 );
 
-            EmitInstPages(Views.Patterns);
-            EmitDocs(Views.Patterns,Views.RuleTables);
+        // Rules.CalcRuleCells(RuleTables)
+
+            EmitInstPages(patterns);
+            EmitDocs();
             XedDb.EmitArtifacts();
         }
 
-        void EmitDocs(Index<InstPattern> src, RuleTables rules)
-            => Docs.Emit(src,rules);
+        void EmitDocs()
+            => Docs.Emit();
 
         void EmitInstPages(Index<InstPattern> src)
         {

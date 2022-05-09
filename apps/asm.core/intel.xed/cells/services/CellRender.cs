@@ -21,6 +21,23 @@ namespace Z0
             public static CellRenderFunctions functions()
                 => CellRenderFunctions.Service;
 
+            public static void render(RowExpr src, ITextEmitter dst)
+            {
+                var count = src.Cells.Count;
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var cell = ref src.Cells[i];
+
+                    if(i != 0)
+                        dst.Append(Chars.Space);
+
+                    if(i == count - 1 && cell.IsOperator)
+                        break;
+
+                    dst.Append(XedRender.format(cell.Value));
+                }
+            }
+
             public static string format(in CellInfo src)
             {
                 var dst = EmptyString;

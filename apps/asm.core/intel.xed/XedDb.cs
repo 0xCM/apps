@@ -19,8 +19,12 @@ namespace Z0
             return this;
         }
 
+        ref readonly CellTables CellTables => ref Xed.Views.CellTables;
+
+        ref readonly Index<InstPattern> Patterns => ref Xed.Views.Patterns;
+
         public void EmitLayouts()
-            => Emit(CalcLayouts(Rules.CalcInstPatterns()));
+            => Emit(CalcLayouts(Patterns));
 
         void Emit(InstLayouts src)
         {
@@ -36,12 +40,8 @@ namespace Z0
 
         AppServices AppSvc => Service(Wf.AppServices);
 
-        RuleCells RuleCells => Rules.CalcRuleCells(RuleTables);
-
         bool PllExec => true;
 
         public XedRules Rules => Xed.Rules;
-
-        RuleTables RuleTables => Rules.CalcRuleTables();
     }
 }

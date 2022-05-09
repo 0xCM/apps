@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedDb
     {
-        public void EmitGrids(RuleCells src)
+        public void EmitGrids(CellTables src)
             => EmitGrids(CalcGrids(src));
 
         public void EmitGrids(Index<RuleGrid> src)

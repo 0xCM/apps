@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedDb
     {
-        public void EmitRuleMetrics(RuleCells src)
+        public void EmitRuleMetrics(CellTables src)
         {
             var dst = text.emitter();
             for(var i=0; i<src.TableCount; i++)

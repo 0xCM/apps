@@ -11,7 +11,7 @@ namespace Z0
 
     partial class XedDb
     {
-        public void EmitTableStats(RuleCells src)
+        public void EmitTableStats(CellTables src)
         {
             const string RulePattern = "{0:D2} | {1,-12} | {2,-8} | {3,-32} | ";
             const string FieldPattern = "{0,-12} {1,-24}";

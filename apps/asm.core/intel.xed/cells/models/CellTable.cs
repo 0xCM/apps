@@ -15,12 +15,18 @@ namespace Z0
 
             public readonly Index<CellRow> Rows;
 
+            public readonly uint CellCount;
+
+            public readonly uint RowCount;
+
             [MethodImpl(Inline)]
-            public CellTable(RuleSig sig, ushort tix, CellRow[] src)
+            public CellTable(RuleSig sig, ushort index, CellRow[] src)
             {
                 Sig = sig;
-                TableIndex = tix;
-                Rows = src;
+                TableIndex = index;
+                Rows = Require.notnull(src);
+                RowCount = (ushort)src.Length;
+                CellCount = src.Select(x => (uint)x.CellCount).Sum();
             }
 
             public RuleTableKind Kind
@@ -58,15 +64,6 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => Rows.IsNonEmpty;
             }
-
-            public uint RowCount
-            {
-                [MethodImpl(Inline)]
-                get => Rows.Count;
-            }
-
-            public uint CellCount()
-                => Rows.Select(x => x.CellCount).Storage.Sum();
 
             public string Format()
                 => CellRender.Tables.format(this);

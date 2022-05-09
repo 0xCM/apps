@@ -11,10 +11,12 @@ namespace Z0
 
         RuleTables,
 
-        SpecExpr,
-
         InstFields,
 
         CellTables,
+
+        RuleExpr,
+
+        CellDatasets,
     }
 }

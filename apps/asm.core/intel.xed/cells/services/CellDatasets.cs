@@ -13,22 +13,18 @@ namespace Z0
     {
         public class CellDatasets
         {
-            public static RuleCells load(Dictionary<RuleSig,Index<RuleCell>> src, string desc)
-            {
-                return new RuleCells(CellTables.from(CellDatasets.create(src)), desc);
-            }
-
-            public static CellDatasets create(Dictionary<RuleSig,Index<RuleCell>> src)
+            public static CellDatasets create(Dictionary<RuleSig,Index<RuleCell>> src, string desc)
             {
                 var dst = new CellDatasets();
-                var cdict = src.ToConcurrentDictionary();
-                var data = cdict.Keys.Select(sig => table(cdict,sig)).Array();
-                dst.TableCount = (ushort)data.Length;
-                dst.RowCount = (ushort)data.Select(x => x.RowCount).Sum();
-                dst.CellCount = (ushort)data.Select(x => x.CellCount()).Sum();
-                dst._Tables = data.Sort();
-                dst._Cells = data.SelectMany(x => x.Rows.SelectMany(x => x.Cells)).Sort();
-                dst._Sigs = data.Select(x => x.Sig).Sort();
+                var keys = src.Keys;
+                var tables = keys.Select(sig => table(src.ToConcurrentDictionary(), sig)).Array();
+                dst._RawFormat = desc;
+                dst.TableCount = (uint)tables.Length;
+                dst.RowCount = tables.Select(x => x.RowCount).Sum();
+                dst.CellCount = tables.Select(x => x.CellCount).Sum();
+                dst._Tables = tables.Sort();
+                dst._Cells = tables.SelectMany(x => x.Rows.SelectMany(x => x.Cells)).Sort();
+                dst._Sigs = tables.Select(x => x.Sig).Sort();
                 dst._TableCells = core.pairings(src.Map(x => paired(x.Key,x.Value)));
                 return dst;
             }
@@ -53,7 +49,6 @@ namespace Z0
             {
             }
 
-
             Index<CellTable> _Tables;
 
             Index<RuleCell> _Cells;
@@ -62,11 +57,19 @@ namespace Z0
 
             Pairings<RuleSig,Index<RuleCell>> _TableCells;
 
-            public ushort TableCount;
+            string _RawFormat;
 
-            public ushort RowCount;
+            public uint TableCount;
 
-            public ushort CellCount;
+            public uint RowCount;
+
+            public uint CellCount;
+
+            public ref readonly string RawFormat
+            {
+                [MethodImpl(Inline)]
+                get => ref _RawFormat;
+            }
 
             [MethodImpl(Inline)]
             public ref readonly Index<CellTable> Tables()

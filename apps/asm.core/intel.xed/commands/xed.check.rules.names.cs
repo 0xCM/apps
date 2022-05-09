@@ -15,7 +15,7 @@ namespace Z0
         [CmdOp("xed/emit/grids")]
         Outcome EmitGrids(CmdArgs args)
         {
-            XedDb.EmitGrids(CalcRuleCells());
+            //XedDb.EmitGrids(CalcRuleCells());
             return true;
         }
 
@@ -45,11 +45,11 @@ namespace Z0
                 }
             }
         }
+
         void CalcRuleDeps()
         {
-            var src = CalcRuleCells();
-            var tables = src.CellTables;
-            var count = tables.Count;
+            var src = CellTables;
+            var count = src.Count;
             var left = alloc<HashSet<FieldKind>>(count);
             var right = alloc<HashSet<FieldKind>>(count);
             for(var i=0; i<count; i++)

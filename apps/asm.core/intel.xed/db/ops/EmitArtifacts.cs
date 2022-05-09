@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static core;
+    using static XedRules;
 
     partial class XedDb
     {
@@ -20,11 +21,10 @@ namespace Z0
 
         public void EmitRuleSchema()
         {
-            var src = RuleCells;
             exec(PllExec,
-                () => EmitRuleMetrics(src),
-                () => EmitTableStats(src),
-                () => EmitGrids(src)
+                () => EmitRuleMetrics(CellTables),
+                () => EmitTableStats(CellTables),
+                () => EmitGrids(CellTables)
                 );
         }
     }

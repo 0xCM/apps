@@ -86,14 +86,13 @@ namespace Z0
         {
             var dst = text.emitter();
             Span<string> buffer = alloc<string>(256);
-            var patterns = CalcPatterns();
+            var patterns = Patterns;
             var k=z8;
             for(var i=0; i<patterns.Count; i++)
             {
                 ref readonly var pattern = ref patterns[i];
                 ref readonly var ops = ref pattern.Ops;
                 dst.AppendLineFormat(InstRender.LabelPattern, "Pattern", string.Format("{0,-10} | {1,-18} | {2,-26}", pattern.Seq, pattern.InstClass.Classifier, pattern.OpCode));
-                //dst.AppendLineFormat(InstRender.LabelPattern, "Layout", LayoutCalcs.record(pattern));
                 k = InstRender.fields(pattern,buffer);
                 for(var j=0; j<k; j++)
                     dst.AppendLine(skip(buffer,j));

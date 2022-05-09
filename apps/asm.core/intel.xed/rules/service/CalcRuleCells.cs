@@ -7,7 +7,10 @@ namespace Z0
 {
     partial class XedRules
     {
-        public RuleCells CalcRuleCells(RuleTables src)
-            => Data(nameof(CalcRuleCells), () => RuleTables.cells(src));
+        // public CellDatasets CalcCellDatasets(RuleTables src)
+        //     => Data(nameof(CalcCellDatasets), () => RuleTables.datasets(src));
+
+        // public CellTables CalcCellTables(RuleTables src)
+        //     => Data(nameof(CalcCellTables), () => CellTables.from(CalcCellDatasets(src)));
     }
 }

@@ -27,13 +27,13 @@ namespace Z0
             public readonly StringRef Body;
 
             [MethodImpl(Inline)]
-            public RuleExpr(ushort seq, RuleSig sig, byte row, StringRef expr)
+            public RuleExpr(ushort seq, RuleSig sig, byte row, StringRef body)
             {
                 Seq = seq;
                 Name = sig.TableName;
                 Kind = sig.TableKind;
                 Row = row;
-                Body = expr;
+                Body = body;
             }
 
             public RuleSig Sig

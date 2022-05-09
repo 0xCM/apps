@@ -12,7 +12,7 @@ namespace Z0
 
     partial class XedDb
     {
-        public Index<RuleGrid> CalcGrids(RuleCells src)
+        public Index<RuleGrid> CalcGrids(CellTables src)
         {
             return Data(nameof(CalcGrids), Calc);
 

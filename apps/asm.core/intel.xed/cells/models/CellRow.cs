@@ -15,7 +15,11 @@ namespace Z0
 
             public readonly ushort RowIndex;
 
+            public readonly uint CellCount;
+
             public readonly Index<RuleCell> Cells;
+
+            public readonly RowExpr Expression;
 
             [MethodImpl(Inline)]
             public CellRow(RuleSig sig, ushort table, ushort row, RuleCell[] src)
@@ -23,7 +27,9 @@ namespace Z0
                 TableIndex = table;
                 RowIndex = row;
                 TableSig = sig;
-                Cells = src;
+                Cells = Require.notnull(src);
+                CellCount = (uint)src.Length;
+                Expression = expr(src);
             }
 
             byte AntecedantCount
@@ -75,16 +81,7 @@ namespace Z0
                 get => Cells.IsNonEmpty && Cells.Last.IsOperator;
             }
 
-            public RowExpr Expression
-                => expr(Cells);
-
             public readonly uint Count
-            {
-                [MethodImpl(Inline)]
-                get => Cells.Count;
-            }
-
-            public uint CellCount
             {
                 [MethodImpl(Inline)]
                 get => Cells.Count;

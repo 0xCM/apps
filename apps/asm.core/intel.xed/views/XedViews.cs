@@ -52,10 +52,17 @@ namespace Z0
             get => ref Load<CellTables>(XedViewIndex.CellTables);
         }
 
-        public ref readonly Index<RuleExpr> SpecExpr
+        public ref readonly Index<RuleExpr> RuleExpr
         {
             [MethodImpl(Inline)]
-            get => ref Load<Index<RuleExpr>>(XedViewIndex.SpecExpr);
+            get => ref Load<Index<RuleExpr>>(XedViewIndex.RuleExpr);
         }
+
+        public ref readonly CellDatasets CellDatasets
+        {
+            [MethodImpl(Inline)]
+            get => ref Load<CellDatasets>(XedViewIndex.CellDatasets);
+        }
+
     }
 }

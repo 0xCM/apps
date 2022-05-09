@@ -12,13 +12,13 @@ namespace Z0
         {
             ConcurrentDictionary<RuleCaller, HashSet<RuleSig>> Data;
 
-            public static RuleCalls init(RuleCells cells)
+            public static RuleCalls init(CellTables cells)
                 => new RuleCalls(cells);
 
-            RuleCalls(RuleCells cells)
+            RuleCalls(CellTables cells)
             {
                 Data = new();
-                ref readonly var sigs = ref cells.CellTables.Sigs;
+                ref readonly var sigs = ref cells.Sigs;
                 for(var i=0; i<sigs.Count; i++)
                     Data[sigs[i]] = new();
             }

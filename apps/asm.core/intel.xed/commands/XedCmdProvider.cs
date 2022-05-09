@@ -49,11 +49,13 @@ namespace Z0
             return this;
         }
 
-        RuleTables CalcRules() => Rules.CalcRuleTables();
+        ref readonly RuleTables RuleTables => ref Xed.Views.RuleTables;
 
-        Index<InstPattern> CalcPatterns() => Rules.CalcPatterns();
+        ref readonly Index<InstPattern> Patterns => ref Xed.Views.Patterns;
 
-        RuleCells CalcRuleCells() => Rules.CalcRuleCells(CalcRules());
+        ref readonly CellTables CellTables => ref Xed.Views.CellTables;
+
+        ref readonly Index<RuleExpr> RuleExpr => ref Xed.Views.RuleExpr;
 
         AppCmdRunner _AppCmdRunner;
 

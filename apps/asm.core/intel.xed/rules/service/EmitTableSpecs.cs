@@ -7,8 +7,8 @@ namespace Z0
 {
     partial class XedRules
     {
-        void EmitRuleExpr(RuleTables src)
-            => Emit(CalcSpecExpr(src.Specs()));
+        void EmitRuleExpr(CellTables src)
+            => Emit(CalcRuleExpr(src));
 
         public void EmitTableSpecs(RuleTables src)
         {
@@ -21,28 +21,28 @@ namespace Z0
             var count = Require.equal(specs.TableCount,criteria.Count);
             for(var i=0; i<count; i++)
             {
-                ref readonly var table = ref specs[i];
-                ref readonly var cTable = ref criteria[i];
-                if(table.IsNonEmpty)
+                ref readonly var spec = ref specs[i];
+                ref readonly var table = ref criteria[i];
+                if(spec.IsNonEmpty)
                 {
                     emitter.AppendLine();
-                    var kRows = Require.equal(cTable.RowCount, table.RowCount);
+                    var kRows = Require.equal(table.RowCount, spec.RowCount);
                     for(var j=0u; j<kRows; j++, k++)
                     {
-                        ref readonly var row = ref table[j];
+                        ref readonly var row = ref spec[j];
                         var dst = TableDefRow.Empty;
                         dst.Seq = k;
-                        dst.TableId = table.TableId;
+                        dst.TableId = spec.TableId;
                         dst.Index = j;
-                        dst.Kind = table.TableKind;
-                        dst.Name = table.Name;
+                        dst.Kind = spec.TableKind;
+                        dst.Name = spec.Name;
                         dst.Statement = row.Format();
                         emitter.AppendLine(formatter.Format(dst));
                     }
 
                     emitter.AppendLine();
                     emitter.AppendLine();
-                    cTable.RenderLines(emitter);
+                    table.RenderLines(emitter);
                 }
             }
         }

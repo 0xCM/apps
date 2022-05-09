@@ -601,8 +601,9 @@ namespace Z0
             var dst = text.buffer();
             dst.AppendLine(string.Format("{0}()", src.SigKey.TableName));
             dst.AppendLine(Chars.LBrace);
-            for(var i=0; i<src.Rows.Count; i++)
-                dst.IndentLine(4, src.Rows[i]);
+            var rows = src.Rows;
+            for(var i=0; i<rows.Count; i++)
+                dst.IndentLine(4, rows[i]);
             dst.AppendLine(Chars.RBrace);
             return dst.Emit();
         }

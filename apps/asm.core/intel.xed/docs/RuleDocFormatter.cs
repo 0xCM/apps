@@ -11,14 +11,14 @@ namespace Z0
     {
         public class RuleDocFormatter
         {
-            public static RuleDocFormatter create(RuleCells src)
+            public static RuleDocFormatter create(CellTables src)
                 => new RuleDocFormatter(src);
 
-            readonly RuleCells Data;
+            readonly CellTables Data;
 
             XedPaths XedPaths;
 
-            public RuleDocFormatter(RuleCells src)
+            public RuleDocFormatter(CellTables src)
             {
                 Data = src;
                 XedPaths = XedPaths.Service;
@@ -63,7 +63,7 @@ namespace Z0
                 var dst = text.emitter();
                 for(var i=0u; i<Data.TableCount; i++)
                 {
-                    ref readonly var cells = ref Data.CellTables.TableCells(i);
+                    ref readonly var cells = ref Data.TableCells(i);
                     Render(cells.Left, cells.Right, dst);
 
                 }

@@ -70,11 +70,12 @@ namespace Z0
         public void EmitRuleData(RuleTables src)
         {
             exec(PllExec,
-                () => Emit(CalcRuleCells(src)),
-                () => EmitRuleExpr(src),
-                () => EmitTableSpecs(src),
+                () => Emit(Xed.Views.CellDatasets),
+                () => EmitRuleExpr(Xed.Views.CellTables),
+                () => Emit(RuleTables.records(Xed.Views.CellTables)),
+                () => EmitTableSpecs(Xed.Views.RuleTables),
                 EmitSeq,
-                () => EmitRulePages(src)
+                () => EmitRulePages(Xed.Views.RuleTables)
             );
         }
 
@@ -124,20 +125,20 @@ namespace Z0
             );
         }
 
-        public void Emit(RuleCells src)
+        public void Emit(CellDatasets src)
         {
             exec(PllExec,
-                () => EmitRaw(src),
-                () => Emit(RuleTables.records(src.CellTables))
+                () => EmitRaw(src)
+
                 );
         }
 
-        void EmitRaw(RuleCells src)
+        void EmitRaw(CellDatasets src)
         {
             var dst = text.emitter();
-            var count = CellRender.Tables.render(src.CellTables.Cells(), dst);
-            var data = Require.equal(dst.Emit(), src.Description);
-            AppSvc.FileEmit(data, count, XedPaths.RuleTarget("cells.raw", FS.Csv), TextEncodingKind.Asci);
+            var count = CellRender.Tables.render(Xed.Views.CellTables.Cells(), dst);
+            var data = Require.equal(dst.Emit(), src.RawFormat);
+            AppSvc.FileEmit(data, src.TableCount, XedPaths.RuleTarget("cells.raw", FS.Csv));
         }
 
         public void Emit(ReadOnlySpan<MacroMatch> src)
@@ -147,7 +148,7 @@ namespace Z0
             => AppSvc.TableEmit(src, FieldDef.RenderWidths, XedPaths.Table<FieldDef>());
 
         public void Emit(ReadOnlySpan<RuleCellRecord> src)
-            => AppSvc.TableEmit(src, RuleCellRecord.RenderWidths, XedPaths.RuleTable<RuleCellRecord>());
+            => AppSvc.TableEmit(src, XedPaths.RuleTable<RuleCellRecord>());
 
         public void Emit(ReadOnlySpan<MacroDef> src)
             => AppSvc.TableEmit(src, MacroDef.RenderWidths, XedPaths.RuleTable<MacroDef>());
@@ -172,6 +173,5 @@ namespace Z0
 
         public void Emit(ReadOnlySpan<RuleExpr> src)
             => AppSvc.TableEmit(src, XedPaths.RuleTable<RuleExpr>());
-
     }
 }

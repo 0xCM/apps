@@ -14,8 +14,8 @@ namespace Z0
         public static RuleGrid grid(RuleSig sig, ushort rows, byte cols, GridCell[] cells)
             => new RuleGrid(sig, rows, cols, cells);
 
-        public static RuleGrids grids(RuleCells src)
-            => src.CellTables.View.Select(table => grid(table));
+        public static RuleGrids grids(CellTables src)
+            => src.View.Select(table => grid(table));
 
         public static RuleGrid grid(in CellTable src)
         {
