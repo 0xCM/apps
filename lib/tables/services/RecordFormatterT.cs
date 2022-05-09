@@ -9,7 +9,7 @@ namespace Z0
     public struct RecordFormatter<T> : IRecordFormatter<T>
         where T : struct
     {
-        public RowFormatSpec FormatSpec {get;}
+        public readonly RowFormatSpec FormatSpec;
 
         internal RowAdapter<T> Adapter;
 
@@ -22,6 +22,9 @@ namespace Z0
             Adapter = adapter;
             Buffer = text.buffer();
         }
+
+        RowFormatSpec IRecordFormatter.FormatSpec
+            => FormatSpec;
 
         public string Format(in T src)
             => FormatRecord(src, FormatSpec.FormatKind);

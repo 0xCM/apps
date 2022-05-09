@@ -4,10 +4,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial struct Tables
     {
+        /// <summary>
+        /// Creates a <see cref='IRecordFormatter{T}'> instance for a specified record type
+        /// </summary>
+        /// <typeparam name="T">The record type</typeparam>
+        public static IRecordFormatter<T> formatter<T>()
+            where T : struct
+                => RecordFormatter.create<T>();
+
+        /// <summary>
+        /// Creates a <see cref='IRecordFormatter'> instance for a specified record type
+        /// </summary>
+        /// <param name="record">The record type</param>
+        /// <param name="delimiter">The field delimiter</param>
+        public static IRecordFormatter formatter(Type record, string delimiter = DefaultDelimiter)
+            => RecordFormatter.create(record, delimiter:delimiter);
+
         /// <summary>
         /// Defines a <typeparamref name='T'/> record formatter
         /// </summary>
