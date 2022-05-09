@@ -5,39 +5,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Linq;
-
     using static core;
 
     partial class XedRules
     {
         partial class RuleTables
         {
-            static RuleCells dataset(Dictionary<RuleSig,Index<RuleCell>> src, string desc)
-            {
-                var cdict = src.ToConcurrentDictionary();
-                var tables = CellTables.calc(cdict.Keys.Select(sig => table(cdict,sig)).Array());
-                var sigcells = core.pairings(src.Map(x => core.paired(x.Key,x.Value)));
-                return new RuleCells(sigcells, tables, records(tables), desc);
-            }
-
-            static CellTable table(ConcurrentDictionary<RuleSig,Index<RuleCell>> src, RuleSig rule)
-            {
-                var dst = CellTable.Empty;
-                if(src.TryGetValue(rule, out var cells))
-                {
-                    var i = z16;
-                    if(cells.Count !=0)
-                    {
-                        i = cells.First.TableIndex;
-                        var rows = cells.GroupBy(x => x.RowIndex).Select(x => (new CellRow(rule, i, x.Key, x.ToIndex()))).ToIndex();
-                        dst = new CellTable(rule, i, rows);
-                    }
-                }
-                return dst;
-            }
-
-            static Index<RuleCellRecord> records(CellTables src)
+            public static Index<RuleCellRecord> records(CellTables src)
             {
                 var seq = z16;
                 var dst = alloc<RuleCellRecord>(src.CellCount);

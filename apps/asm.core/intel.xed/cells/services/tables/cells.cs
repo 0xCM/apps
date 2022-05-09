@@ -152,7 +152,7 @@ namespace Z0
                     dst.Add(sig, kcells.ToIndex());
                 }
 
-                return dataset(dst, emitter.Emit());
+                return CellDatasets.load(dst, emitter.Emit());
             }
 
             static string SemanticHeader

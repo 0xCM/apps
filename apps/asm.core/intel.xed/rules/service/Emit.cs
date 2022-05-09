@@ -128,7 +128,7 @@ namespace Z0
         {
             exec(PllExec,
                 () => EmitRaw(src),
-                () => Emit(src.Records.View)
+                () => Emit(RuleTables.records(src.CellTables))
                 );
         }
 

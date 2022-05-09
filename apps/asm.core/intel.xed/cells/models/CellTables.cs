@@ -9,23 +9,24 @@ namespace Z0
     {
         public class CellTables
         {
-            public static CellTables calc(CellTable[] src)
-            {
-                var kTables = (uint)src.Length;
-                var kRows = src.Select(x => x.RowCount).Sum();
-                var kCells = src.Select(x => x.CellCount()).Sum();
-                var dst = new CellTables(kTables, kRows, kCells);
-                dst._Tables = src.Sort();
-                dst._Cells = src.SelectMany(x => x.Rows.SelectMany(x => x.Cells)).Sort();
-                dst._Sigs = src.Select(x => x.Sig).Sort();
-                return dst;
-            }
-
             Index<CellTable> _Tables;
 
             Index<RuleCell> _Cells;
 
             Index<RuleSig> _Sigs;
+
+            public static CellTables from(CellDatasets src)
+                => new CellTables(src);
+
+            public CellTables(CellDatasets src)
+            {
+                TableCount = src.TableCount;
+                RowCount = src.RowCount;
+                CellCount = src.CellCount;
+                _Tables = src.Tables();
+                _Cells = src.Cells();
+                _Sigs = src.Sigs();
+            }
 
             /// <summary>
             /// Specifies the number of defined tables
@@ -41,14 +42,6 @@ namespace Z0
             /// Specifies the aggregate number of row-defind cells
             /// </summary>
             public readonly uint CellCount;
-
-            [MethodImpl(Inline)]
-            CellTables(uint tables, uint rows, uint cells)
-            {
-                TableCount = tables;
-                RowCount = rows;
-                CellCount = cells;
-            }
 
             public ReadOnlySpan<CellTable> View
             {

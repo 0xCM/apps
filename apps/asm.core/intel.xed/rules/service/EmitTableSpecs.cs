@@ -5,14 +5,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class XedRules
     {
         void EmitRuleExpr(RuleTables src)
-        {
-            Emit(CalcSpecExpr(src.Specs()));
-        }
+            => Emit(CalcSpecExpr(src.Specs()));
 
         public void EmitTableSpecs(RuleTables src)
         {
@@ -30,7 +26,6 @@ namespace Z0
                 if(table.IsNonEmpty)
                 {
                     emitter.AppendLine();
-
                     var kRows = Require.equal(cTable.RowCount, table.RowCount);
                     for(var j=0u; j<kRows; j++, k++)
                     {
@@ -48,7 +43,6 @@ namespace Z0
                     emitter.AppendLine();
                     emitter.AppendLine();
                     cTable.RenderLines(emitter);
-                    //table.RenderLines(emitter);
                 }
             }
         }

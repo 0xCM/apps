@@ -13,18 +13,15 @@ namespace Z0
         {
             public readonly CellTables CellTables;
 
-            public readonly Index<RuleCellRecord> Records;
-
             public readonly string Description;
 
             public readonly Pairings<RuleSig,Index<RuleCell>> TableCells;
 
-            internal RuleCells(Pairings<RuleSig,Index<RuleCell>> cells, CellTables tables, RuleCellRecord[] records, string desc)
+            internal RuleCells(Pairings<RuleSig,Index<RuleCell>> cells, CellTables tables, string desc)
             {
                 TableCells = cells;
                 CellTables = tables;
                 Description = desc;
-                Records = records;
             }
 
             RuleCells()
@@ -32,7 +29,6 @@ namespace Z0
                 TableCells = new();
                 CellTables = null;
                 Description = EmptyString;
-                Records = sys.empty<RuleCellRecord>();
             }
 
             public ref readonly Index<RuleSig> Sigs
@@ -46,17 +42,6 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => ref CellTables.Cells();
             }
-
-            // public ReadOnlySpan<CellTable> Tables(params RuleSig[] src)
-            // {
-            //     var count = src.Length;
-            //     var dst = span<CellTable>(count);
-            //     var k=0;
-            //     for(var i=0; i<src.Length; i++)
-            //         if(TableLookup.Find(skip(src,i), out seek(dst,k)))
-            //             k++;
-            //     return slice(dst,0,k);
-            // }
 
             public uint TableCount
             {
