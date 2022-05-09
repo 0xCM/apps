@@ -12,8 +12,6 @@ namespace Z0
         {
             public const string TableName = "xed.rules.tables";
 
-            public const byte FieldCount = 6;
-
             [Render(8)]
             public uint Seq;
 
@@ -33,8 +31,6 @@ namespace Z0
             public TextBlock Statement;
 
             public static TableDefRow Empty => default;
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,8,32,1};
        }
     }
 }

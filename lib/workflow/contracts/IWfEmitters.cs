@@ -6,17 +6,43 @@ namespace Z0
 {
     using System.IO;
 
-    public interface IWfTableOps : IWfMessaging
+    using static core;
+
+    public interface IWfEmitters : IWfMsg
     {
-        uint TableEmit<T>(ReadOnlySpan<T> src, FS.FilePath dst)
+         ExecToken TableEmit<T>(ReadOnlySpan<T> rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
             where T : struct
         {
-            var flow = Wf.EmittingTable<T>(HostType,dst);
-            var spec = Tables.rowspec<T>();
-            var count = Tables.emit(src, spec, dst);
-            Wf.EmittedTable(HostType,flow,count);
-            return count;
+            var emitting = EmittingTable<T>(dst);
+            var formatter = RecordFormatter.create(typeof(T));
+            using var writer = dst.Emitter(encoding);
+            writer.WriteLine(formatter.FormatHeader());
+            for(var i=0; i<rows.Length; i++)
+                writer.WriteLine(formatter.Format(skip(rows,i)));
+            return EmittedTable(emitting, rows.Length, dst);
         }
+
+        ExecToken TableEmit<T>(Index<T> rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+            where T : struct
+                => TableEmit(rows.View, dst, encoding);
+
+        ExecToken TableEmit<T>(T[] rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+            where T : struct
+                => TableEmit(@readonly(rows), dst, encoding);
+
+        ExecToken TableEmit<T>(Span<T> rows, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+            where T : struct
+                => TableEmit(@readonly(rows), dst, encoding);
+
+        // uint TableEmit<T>(ReadOnlySpan<T> src, FS.FilePath dst)
+        //     where T : struct
+        // {
+        //     var flow = Wf.EmittingTable<T>(HostType,dst);
+        //     var spec = Tables.rowspec<T>();
+        //     var count = Tables.emit(src, spec, dst);
+        //     Wf.EmittedTable(HostType,flow,count);
+        //     return count;
+        // }
 
         uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, FS.FilePath dst)
             where T : struct

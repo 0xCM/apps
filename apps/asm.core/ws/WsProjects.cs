@@ -389,7 +389,7 @@ namespace Z0
         {
             var records = Symbols.syminfo(src.Types());
             var dst = project.TablePath<SymInfo>("tokens", src.Name);
-            TableEmit(records.View, SymInfo.RenderWidths, dst);
+            WfEmit.TableEmit(records.View, dst);
             return records;
         }
 

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    readonly struct WfMessaging : IWfMessaging
+    readonly struct WfMessaging : IWfMsg
     {
         public IWfRuntime Wf {get;}
 

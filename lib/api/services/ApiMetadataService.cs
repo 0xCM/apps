@@ -133,7 +133,7 @@ namespace Z0
         public FS.FilePath EmitApiTokens(string name, ReadOnlySpan<SymInfo> src)
         {
             var dst = ProjectDb.TablePath<SymInfo>(ApiTokenScope, name);
-            TableEmit(src, SymInfo.RenderWidths, dst);
+            WfEmit.TableEmit(src, dst);
             return dst;
         }
 
@@ -158,7 +158,7 @@ namespace Z0
         {
             var src = Symbols.syminfo<E>();
             var dst = ProjectDb.TablePath<SymInfo>(scope, typeof(E).Name);
-            TableEmit(src.View, SymInfo.RenderWidths, dst);
+            WfEmit.TableEmit(src.View, dst);
             return src;
         }
 
@@ -167,11 +167,11 @@ namespace Z0
         {
             var src = Symbols.syminfo<E>();
             var dst = ProjectDb.TablePath<SymInfo>(scope, prefix, typeof(E).Name);
-            TableEmit(src.View, SymInfo.RenderWidths, dst);
+            WfEmit.TableEmit(src.View, dst);
             return src;
         }
 
-        public uint EmitTokens(Type src, string scope)
+        public ExecToken EmitTokens(Type src, string scope)
         {
             var name = src.Name;
             if(src.Namespace != "Z0")
@@ -181,23 +181,21 @@ namespace Z0
                 else
                     name = src.Namespace.Remove("Z0.") + "." +  src.Name;
             }
-            var dst = ProjectDb.TablePath<SymInfo>(scope, name);
-            return TableEmit(Symbols.syminfo(src).View, SymInfo.RenderWidths, dst);
+            return WfEmit.TableEmit(Symbols.syminfo(src).View, ProjectDb.TablePath<SymInfo>(scope, name));
         }
 
-        public uint EmitTokenSet(ITokenSet src, string scope)
+        public ExecToken EmitTokenSet(ITokenSet src, string scope)
             => EmitTokenSet(src, ProjectDb.TablePath<SymInfo>(scope, src.Name));
 
-        public uint EmitTokenSet(ITokenSet src, FS.FilePath dst)
-            => TableEmit(Symbols.syminfo(src.Types()).View, SymInfo.RenderWidths, dst);
+        public ExecToken EmitTokenSet(ITokenSet src, FS.FilePath dst)
+            => WfEmit.TableEmit(Symbols.syminfo(src.Types()).View, dst);
 
-        public uint EmitTokenSet<K>(ITokenSet<K> src, string scope)
+        public ExecToken EmitTokenSet<K>(ITokenSet<K> src, string scope)
             where K : unmanaged
                 => EmitTokenSet(src, ProjectDb.TablePath<SymInfo>(scope, src.Name));
 
-        public uint EmitTokenSet<K>(ITokenSet<K> src, FS.FilePath dst)
+        public ExecToken EmitTokenSet<K>(ITokenSet<K> src, FS.FilePath dst)
             where K : unmanaged
-                => TableEmit(Symbols.syminfo<K>(src.Types()).View, SymInfo.RenderWidths, dst);
-
+                => WfEmit.TableEmit(Symbols.syminfo<K>(src.Types()).View, dst);
     }
 }

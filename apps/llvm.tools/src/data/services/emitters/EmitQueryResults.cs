@@ -27,13 +27,11 @@ namespace Z0.llvm
             return count;
         }
 
-        public uint EmitQueryTable<T>(string query, string args, ReadOnlySpan<T> results)
+        public ExecToken EmitQueryTable<T>(string query, string args, ReadOnlySpan<T> src)
             where T : struct
         {
-            var count = (uint)results.Length;
             var tag = text.empty(args) ? string.Empty : "-" + args;
-            var dst = LlvmPaths.QueryTable<T>(tag);
-            return TableEmit(results, dst);
+            return TableEmit(src, LlvmPaths.QueryTable<T>(tag));
         }
     }
 }

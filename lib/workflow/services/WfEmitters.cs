@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    readonly struct WfTableOps : IWfTableOps
+    readonly struct WfEmitters : IWfEmitters
     {
         public IWfRuntime Wf {get;}
 
         public EnvData Env {get;}
 
-        public WfTableOps(IWfRuntime wf, EnvData env)
+        public WfEmitters(IWfRuntime wf, EnvData env)
         {
             Wf = wf;
             Env = env;

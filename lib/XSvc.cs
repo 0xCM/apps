@@ -64,9 +64,9 @@ namespace Z0
         public static SymServices SymServices(this IWfRuntime wf)
             => Z0.SymServices.create(wf);
 
-        [Op]
-        public static TableEmitters TableEmitters(this IWfRuntime context)
-            => Z0.TableEmitters.create(context);
+        // [Op]
+        // public static DataEmitters TableEmitters(this IWfRuntime context)
+        //     => Z0.DataEmitters.create(context);
 
         [Op]
         public static ApiResProvider ApiResProvider(this IWfRuntime wf)

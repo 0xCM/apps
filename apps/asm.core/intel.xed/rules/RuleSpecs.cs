@@ -214,7 +214,6 @@ namespace Z0
                 }
             }
 
-
             static CellInfo cellinfo(string src)
             {
                 parse(src, out CellTypeInfo t);

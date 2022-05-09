@@ -9,35 +9,31 @@ namespace Z0
 
     partial class XedRules
     {
-        void EmitRulePage(in TableCriteria table)
+        static void EmitRulePage(in TableCriteria src)
         {
-            var formatter = Tables.formatter<TableDefRow>(TableDefRow.RenderWidths);
-            using var emitter = XedPaths.Service.RulePage(table.Sig).Path.AsciEmitter();
+            var formatter = Tables.formatter<TableDefRow>();
+            using var emitter = XedPaths.Service.RulePage(src.Sig).Path.AsciEmitter();
             emitter.AppendLine(formatter.FormatHeader());
             var k=0u;
-            for(var j=0u; j<table.RowCount; j++, k++)
+            for(var j=0u; j<src.RowCount; j++, k++)
             {
-                ref readonly var spec = ref table[j];
+                ref readonly var spec = ref src[j];
                 var specFormat = spec.Format();
                 var row = TableDefRow.Empty;
                 row.Seq = k;
-                row.TableId = table.TableId;
+                row.TableId = src.TableId;
                 row.Index = j;
-                row.Kind = table.TableKind;
-                row.Name = table.TableName;
+                row.Kind = src.TableKind;
+                row.Name = src.TableName;
                 row.Statement = specFormat;
                 emitter.AppendLine(formatter.Format(row));
-
             }
             emitter.AppendLine();
             emitter.AppendLine();
-            table.RenderLines(emitter);
+            src.RenderLines(emitter);
         }
 
         public void EmitRulePages(RuleTables src)
-        {
-            ref readonly var tables = ref src.Criteria();
-            iter(tables, table => EmitRulePage(table), PllExec);
-        }
+            => iter(src.Criteria(), table => EmitRulePage(table), PllExec);
     }
 }

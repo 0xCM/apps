@@ -45,7 +45,7 @@ namespace Z0
 
         public AppDb AppDb => Service(Wf.AppDb);
 
-        public AppServices AppServices => Service(Wf.AppServices);
+        AppServices AppSvc => Service(Wf.AppServices);
 
         ConcurrentDictionary<uint,IMachine> Machines = new();
 
@@ -78,16 +78,13 @@ namespace Z0
 
         static RuleTables CalcRuleTables()
         {
-            var dst = new RuleTables();
-            var buffers = dst.CreateBuffers();
-            var pll = AppData.get().PllExec();
-            exec(pll,
-                () => buffers.Criteria.TryAdd(RuleTableKind.ENC, RuleSpecs.criteria(RuleTableKind.ENC)),
-                () => buffers.Criteria.TryAdd(RuleTableKind.DEC, RuleSpecs.criteria(RuleTableKind.DEC))
+            var tables = new RuleTables();
+            var dst = new RuleBuffers();
+            exec(AppData.get().PllExec(),
+                () => dst.Target.TryAdd(RuleTableKind.ENC, RuleSpecs.criteria(RuleTableKind.ENC)),
+                () => dst.Target.TryAdd(RuleTableKind.DEC, RuleSpecs.criteria(RuleTableKind.DEC))
                 );
-
-            dst.Seal(buffers, pll);
-            return dst;
+            return XedRules.tables(dst);
         }
 
         void RunCalcs()
@@ -162,12 +159,12 @@ namespace Z0
             => TableEmit(XedOperands.Views.BroadcastDefs, BroadcastDef.RenderWidths, Paths.Table<BroadcastDef>());
 
         void Emit(ReadOnlySpan<FieldDef> src)
-            => TableEmit(src, FieldDef.RenderWidths, Paths.Table<FieldDef>());
+            => AppSvc.TableEmit(src, Paths.Table<FieldDef>());
 
         void EmitRegmaps()
         {
-            TableEmit(XedRegMap.Service.REntries, RegMapEntry.RenderWidths, Paths.Table<RegMapEntry>("rmap"));
-            TableEmit(XedRegMap.Service.XEntries, RegMapEntry.RenderWidths, Paths.Table<RegMapEntry>("xmap"));
+            AppSvc.TableEmit(XedRegMap.Service.REntries, Paths.Table<RegMapEntry>("rmap"));
+            AppSvc.TableEmit(XedRegMap.Service.XEntries, Paths.Table<RegMapEntry>("xmap"));
         }
     }
 }

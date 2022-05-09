@@ -70,10 +70,10 @@ namespace Z0
 
         public void TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
             where T : struct
-                => TableOps.TableEmit(src, widths, encoding, dst);
+                => WfEmit.TableEmit(src, widths, encoding, dst);
 
         public void FileEmit<T>(T src, Count count, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
-            => TableOps.FileEmit(src.ToString(), count, dst, encoding);
+            => WfEmit.FileEmit(src.ToString(), count, dst, encoding);
 
         public ExecToken FileEmit<T>(ReadOnlySpan<T> lines, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
         {

@@ -9,7 +9,6 @@ namespace Z0
     using SQ = SymbolicQuery;
     using C = AsciCode;
 
-
     [ApiHost]
     public readonly struct SymbolicParse
     {

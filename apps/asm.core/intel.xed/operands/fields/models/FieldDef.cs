@@ -12,26 +12,34 @@ namespace Z0
         {
             public const string TableName = "xed.fields.defs";
 
-            public const byte FieldCount = 10;
-
+            [Render(8)]
             public byte Pos;
 
+            [Render(8)]
             public byte Index;
 
+            [Render(24)]
             public FieldKind Field;
 
+            [Render(16)]
             public asci16 DataType;
 
+            [Render(16)]
             public asci16 NativeType;
 
+            [Render(16)]
             public uint PackedWidth;
 
+            [Render(16)]
             public uint AlignedWidth;
 
+            [Render(16)]
             public uint PackedOffset;
 
+            [Render(16)]
             public uint AlignedOffset;
 
+            [Render(1)]
             public TextBlock Description;
 
             public DataSize Size
@@ -45,8 +53,6 @@ namespace Z0
                 => Index.CompareTo(src.Index);
 
             public static FieldDef Empty => default;
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,24,16,16,16,16,16,16,1};
         }
     }
 }

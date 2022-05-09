@@ -6,7 +6,6 @@ namespace Z0
 {
     using System;
     using System.Reflection;
-    using System.IO;
 
     using static core;
 
@@ -115,7 +114,7 @@ namespace Z0
         {
             var dst = ProjectDb.ApiTablePath<SymInfo>("tokens", src.Name.ToLower());
             var tokens = Symbols.syminfo(src);
-            TableEmit(tokens.View, SymInfo.RenderWidths, dst);
+            WfEmit.TableEmit(tokens, dst);
             return tokens;
         }
 

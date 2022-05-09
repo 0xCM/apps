@@ -6,24 +6,25 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableName)]
+        [StructLayout(StructLayout, Pack=1), Record(TableId)]
         public struct RegMapEntry
         {
-            public const byte FieldCount = 5;
+            public const string TableId = "xed.regs.map";
 
-            public const string TableName = "xed.regs.map";
-
+            [Render(8)]
             public ushort XedRegId;
 
+            [Render(8)]
             public Asm.RegClass RegClass;
 
+            [Render(8)]
             public NativeSize RegSize;
 
+            [Render(8)]
             public text7 RegName;
 
+            [Render(8)]
             public byte RegIndex;
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,8,8};
         }
     }
 }

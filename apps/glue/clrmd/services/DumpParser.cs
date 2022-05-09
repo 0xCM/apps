@@ -41,8 +41,8 @@ namespace Z0
         uint Emit(ProcDumpIdentity id, ReadOnlySpan<DR.ModuleInfo> src, FS.FolderPath dir)
             => TableEmit(src, DR.ModuleInfo.RenderWidths, Db.Table<DR.ModuleInfo>(dir));
 
-        uint Emit(ProcDumpIdentity id, ReadOnlySpan<DR.MethodTableToken> src, FS.FolderPath dir)
-            => TableEmit(src, Db.Table<DR.MethodTableToken>(dir));
+        ExecToken Emit(ProcDumpIdentity id, ReadOnlySpan<DR.MethodTableToken> src, FS.FolderPath dir)
+            => WfEmit.TableEmit(src, Db.Table<DR.MethodTableToken>(dir));
 
         void Emit(ProcDumpIdentity id, DP.ModuleProcessPresult src)
         {

@@ -16,8 +16,6 @@ namespace Z0
         {
             public const string TableId = "xed.query.result";
 
-            public const string DisplayPattern = "class:{0,-24} form:{1,-32} category:{2,-16} isa:{3,-16} ext:{4,-16} attribs:{5}";
-
             public const byte FieldCount = 6;
 
             public string SearchPattern;

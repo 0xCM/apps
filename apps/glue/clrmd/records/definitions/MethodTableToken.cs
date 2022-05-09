@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Diagnostics.CodeAnalysis;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     partial struct ClrMdRecords
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential)]
@@ -17,8 +11,10 @@ namespace Z0
         {
             public const string TableId = "diagnostic.method-table";
 
+            [Render(16)]
             public MemoryAddress Table;
 
+            [Render(12)]
             public CliToken Method;
 
             [MethodImpl(Inline)]

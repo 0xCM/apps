@@ -26,7 +26,7 @@ namespace Z0
         }
 
         void EmitSymbolicFields()
-            => ApiMetadataService.create(Wf).EmitTokenSet(XedFields.EffectiveFields.create(), AppDb.XedPath("xed.fields.symbolic", FileKind.Csv));
+            => ApiMd.EmitTokenSet(XedFields.EffectiveFields.create(), XedPaths.Target("xed.fields.symbolic", FS.Csv));
 
         public void EmitOpWidths()
             => Emit(XedOperands.Views.OpWidths);

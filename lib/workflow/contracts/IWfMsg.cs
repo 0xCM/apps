@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IWfMessaging : IService, IDisposable
+    public interface IWfMsg : IService, IDisposable
     {
         IWfRuntime Wf {get;}
 

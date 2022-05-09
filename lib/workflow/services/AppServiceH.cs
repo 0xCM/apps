@@ -82,13 +82,11 @@ namespace Z0
 
         protected IProjectDb ProjectDb;
 
-        ITextBuffer _TextBuffer;
-
         public EnvData Env => Wf.Env;
 
         protected IEnvPaths Paths => Wf.EnvPaths;
 
-        protected TableEmitters TableEmitters => Service(Wf.TableEmitters);
+        public IWfEmitters WfEmit => _TableOps;
 
         protected AppSettings AppSettings => Service(Wf.AppSettings);
 
@@ -113,26 +111,22 @@ namespace Z0
 
         DevWs _Ws;
 
+        FS.Files _Files;
+
+        WfMessaging _WfMsg;
+
+        WfEmitters _TableOps;
+
         public DevWs Ws
         {
             [MethodImpl(Inline)]
             get => _Ws;
         }
 
-        WfMessaging _WfMsg;
-
-        public IWfMessaging WfMsg
+        public IWfMsg WfMsg
         {
             [MethodImpl(Inline)]
             get => _WfMsg;
-        }
-
-        WfTableOps _TableOps;
-
-        public IWfTableOps TableOps
-        {
-            [MethodImpl(Inline)]
-            get => _TableOps;
         }
 
         public void Init(IWfRuntime wf)
@@ -141,7 +135,7 @@ namespace Z0
             Host = new WfSelfHost(typeof(H));
             Wf = wf;
             _WfMsg = new WfMessaging(wf, Env);
-            _TableOps = new WfTableOps(wf,Env);
+            _TableOps = new WfEmitters(wf,Env);
             Db = new WfDb(wf, wf.Env.Db);
             _Ws = DevWs.create(wf.Env.DevWs);
             ProjectDb = Ws.ProjectDb();
@@ -153,7 +147,6 @@ namespace Z0
         protected AppService()
         {
             HostName = GetType().Name;
-            _TextBuffer = text.buffer();
         }
 
         protected AppService(IWfRuntime wf)
@@ -162,9 +155,6 @@ namespace Z0
             Host = new WfSelfHost(HostName);
             Wf = wf;
         }
-
-
-        FS.Files _Files;
 
         protected FS.Files Files()
             => _Files;
@@ -274,28 +264,28 @@ namespace Z0
             }
         }
 
-        protected uint TableEmit<T>(ReadOnlySpan<T> src, FS.FilePath dst)
+        protected ExecToken TableEmit<T>(ReadOnlySpan<T> src, FS.FilePath dst)
             where T : struct
-                => TableOps.TableEmit(src,dst);
+                => WfEmit.TableEmit(src,dst);
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, FS.FilePath dst)
             where T : struct
-                => TableOps.TableEmit(src, widths, dst);
+                => WfEmit.TableEmit(src, widths, dst);
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, TextEncodingKind encoding, FS.FilePath dst)
             where T : struct
-                => TableOps.TableEmit(src, widths, encoding, dst);
+                => WfEmit.TableEmit(src, widths, encoding, dst);
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, StreamWriter writer, FS.FilePath dst)
             where T : struct
-                => TableOps.TableEmit(src, widths, writer, dst);
+                => WfEmit.TableEmit(src, widths, writer, dst);
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, ushort rowpad, TextEncodingKind encoding, FS.FilePath dst)
             where T : struct
-                => TableOps.TableEmit(src, widths, rowpad, encoding, dst);
+                => WfEmit.TableEmit(src, widths, rowpad, encoding, dst);
 
         protected void FileEmit(string src, Count count, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Utf8)
-            => TableOps.FileEmit(src, count, dst, encoding);
+            => WfEmit.FileEmit(src, count, dst, encoding);
 
         protected Outcome<uint> EmitLines(ReadOnlySpan<TextLine> src, FS.FilePath dst, TextEncodingKind encoding)
         {

@@ -145,7 +145,7 @@ namespace Z0
             => AppSvc.TableEmit(src, MacroMatch.RenderWidths, XedPaths.RuleTable<MacroMatch>());
 
         public void Emit(ReadOnlySpan<FieldDef> src)
-            => AppSvc.TableEmit(src, FieldDef.RenderWidths, XedPaths.Table<FieldDef>());
+            => AppSvc.TableEmit(src, XedPaths.Table<FieldDef>());
 
         public void Emit(ReadOnlySpan<RuleCellRecord> src)
             => AppSvc.TableEmit(src, XedPaths.RuleTable<RuleCellRecord>());

@@ -25,7 +25,7 @@ namespace Z0
 
         XedDb XedDb => Xed.XedDb;
 
-        AppServices AppSvc => Xed.AppServices;
+        AppServices AppSvc => Service(Wf.AppServices);
 
         AppDb AppDb => Xed.AppDb;
 

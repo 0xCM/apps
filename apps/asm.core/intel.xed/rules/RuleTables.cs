@@ -11,53 +11,45 @@ namespace Z0
 
     partial class XedRules
     {
+        internal class RuleBuffers
+        {
+            public readonly ConcurrentDictionary<RuleTableKind,Index<TableCriteria>> Target = new();
+        }
+
+        internal static RuleTables tables(RuleBuffers buffers)
+        {
+            ref readonly var src = ref buffers.Target;
+            var enc = src[RuleTableKind.ENC];
+            var dec = src[RuleTableKind.DEC];
+            var dst = enc.Append(dec).Where(x => x.IsNonEmpty).Sort();
+            for(var i=0u; i<dst.Count; i++)
+                dst[i] = dst[i].WithId(i);
+            return new RuleTables(dst, RuleSpecs.tables(dst));
+        }
+
         public partial class RuleTables
         {
-            internal class Buffers
-            {
-                public readonly ConcurrentDictionary<RuleTableKind,Index<TableCriteria>> Criteria = new();
-
-                public static Buffers Empty => new();
-            }
-
             Index<TableCriteria> _Criteria;
 
             TableSpecs _Specs;
 
             [MethodImpl(Inline)]
-            public ref readonly Index<TableCriteria> Criteria()
+            internal ref readonly Index<TableCriteria> Criteria()
                 => ref _Criteria;
 
             [MethodImpl(Inline)]
             public ref readonly TableSpecs Specs()
                 => ref _Specs;
 
-            Buffers Data = Buffers.Empty;
-
             public RuleTables()
             {
 
             }
 
-            internal Buffers CreateBuffers()
-                => new();
-
-            internal void Seal(Buffers src, bool pll)
+            public RuleTables(Index<TableCriteria> criteria, TableSpecs specs)
             {
-                Data = src;
-                var criteria = sort(src.Criteria);
-                _Specs = RuleSpecs.tables(criteria);
                 _Criteria = criteria;
-            }
-
-            static Index<TableCriteria> sort(ConcurrentDictionary<RuleTableKind,Index<TableCriteria>> src)
-            {
-                var enc = src[RuleTableKind.ENC];
-                var dec = src[RuleTableKind.DEC];
-                var specs = enc.Append(dec).Where(x => x.IsNonEmpty).Sort();
-                for(var i=0u; i<specs.Count; i++)
-                    specs[i] = specs[i].WithId(i);
-                return specs;
+                _Specs = specs;
             }
 
             static bool seg(string src, out FieldSeg dst)

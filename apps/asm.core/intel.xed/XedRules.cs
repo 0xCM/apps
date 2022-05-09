@@ -54,6 +54,8 @@ namespace Z0
 
         XedPaths XedPaths => Xed.Paths;
 
+        ApiMetadataService ApiMd => Service(Wf.ApiMetadata);
+
         AppDb AppDb => Service(Wf.AppDb);
 
         static Symbols<PointerWidthKind> PointerWidthKinds;

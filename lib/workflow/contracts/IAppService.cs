@@ -15,9 +15,9 @@ namespace Z0
 
         OmniScript OmniScript {get;}
 
-        IWfMessaging WfMsg {get;}
+        IWfMsg WfMsg {get;}
 
-        IWfTableOps TableOps {get;}
+        IWfEmitters WfEmit {get;}
 
         IWfDb Db
             => Wf.Db();
