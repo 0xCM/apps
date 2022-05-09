@@ -26,8 +26,7 @@ namespace Z0
         [CmdOp("xed/emit/patterns")]
         Outcome EmitPatterns(CmdArgs args)
         {
-            var patterns = Rules.CalcPatterns();
-            Rules.EmitPatternData(patterns);
+            Rules.EmitPatternData(Patterns);
             return true;
         }
 
@@ -109,7 +108,7 @@ namespace Z0
                 }
             }
 
-            var formatter = CellRender.functions();
+            var formatter = CellRender.RenderFunctions;
             const string RenderPattern = "{0,-4} | {1,-4} | {2,-2} | {3,-32} | 0x{4,-8:X4} | {5,-22}";
             var output = text.emitter();
             var k=0u;

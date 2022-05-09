@@ -66,7 +66,7 @@ namespace Z0
             {
                 Xed = xed;
                 Allocate();
-                var patterns = xed.Rules.CalcInstPatterns();
+                var patterns = xed.Views.Patterns;
                 var selected = patterns.Where(x => x.Classifier == IClass.AND);
                 using var machine = XedMachine.allocate(xed);
                 EmitClassGroups(machine, selected);

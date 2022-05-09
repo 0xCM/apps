@@ -18,8 +18,8 @@ namespace Z0
     {
         public readonly partial struct CellRender
         {
-            public static CellRenderFunctions functions()
-                => CellRenderFunctions.Service;
+            public static Functions RenderFunctions
+                => Functions.Service;
 
             public static void render(RowExpr src, ITextEmitter dst)
             {

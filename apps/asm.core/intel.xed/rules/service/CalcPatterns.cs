@@ -45,8 +45,5 @@ namespace Z0
                 rows
                 );
         }
-
-        public Index<InstPattern> CalcPatterns()
-            => CalcInstPatterns(CalcInstDefs());
     }
 }

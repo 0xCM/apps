@@ -12,11 +12,11 @@ namespace Z0
     {
         partial struct CellRender
         {
-            public class CellRenderFunctions
+            public class Functions
             {
-                public static CellRenderFunctions Service => Instance;
+                public static Functions Service => Instance;
 
-                static CellRenderFunctions Instance;
+                static Functions Instance;
 
                 static Index<RuleCellKind,IFormatter> Lookup;
 
@@ -92,7 +92,7 @@ namespace Z0
                 static RenderFunction render(Func<string> f)
                     => new RenderFunction(f);
 
-                CellRenderFunctions()
+                Functions()
                 {
                     var kinds = Symbols.index<RuleCellKind>().Kinds;
                     Lookup = alloc<IFormatter>(kinds.Length);
@@ -150,7 +150,7 @@ namespace Z0
                     }
                 }
 
-                static CellRenderFunctions()
+                static Functions()
                 {
                     Instance = new();
                 }

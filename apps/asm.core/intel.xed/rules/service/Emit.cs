@@ -34,7 +34,7 @@ namespace Z0
 
         public Index<InstFieldRow> EmitInstFields(Index<InstPattern> src)
         {
-            var data = CalcInstFields(src);
+            var data = Xed.Views.InstFields;
             AppSvc.TableEmit(data, XedPaths.InstTable<InstFieldRow>());
             return data;
         }

@@ -9,17 +9,17 @@ namespace Z0
 
     partial class XedRules
     {
-        public RuleTables CalcRuleTables()
-        {
-            var dst = new RuleTables();
-            var buffers = dst.CreateBuffers();
-            exec(PllExec,
-                () => buffers.Criteria.TryAdd(RuleTableKind.ENC, CalcRuleCriteria(RuleTableKind.ENC)),
-                () => buffers.Criteria.TryAdd(RuleTableKind.DEC, CalcRuleCriteria(RuleTableKind.DEC))
-                );
+        // public RuleTables CalcRuleTables()
+        // {
+        //     var dst = new RuleTables();
+        //     var buffers = dst.CreateBuffers();
+        //     exec(PllExec,
+        //         () => buffers.Criteria.TryAdd(RuleTableKind.ENC, RuleSpecs.criteria(RuleTableKind.ENC)),
+        //         () => buffers.Criteria.TryAdd(RuleTableKind.DEC, RuleSpecs.criteria(RuleTableKind.DEC))
+        //         );
 
-            dst.Seal(buffers, PllExec);
-            return dst;
-        }
+        //     dst.Seal(buffers, PllExec);
+        //     return dst;
+        // }
    }
 }

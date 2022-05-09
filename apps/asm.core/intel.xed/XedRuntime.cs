@@ -12,12 +12,14 @@ namespace Z0
     using static XedModels;
     using static core;
     using static XedOperands;
+    using I = XedViewIndex;
 
     public partial class XedRuntime : AppService<XedRuntime>
     {
         bool Started = false;
 
         object StartLocker = new();
+
 
         public bool PllExec
         {
@@ -62,7 +64,6 @@ namespace Z0
 
         XedViews _Views;
 
-
         public ref readonly XedViews Views
         {
             [MethodImpl(Inline)]
@@ -75,35 +76,33 @@ namespace Z0
             _Views = new(this);
         }
 
-        void RunCalcs()
+        static RuleTables CalcRuleTables()
         {
-            var patterns = Rules.CalcPatterns();
-            var rules = Rules.CalcRuleTables();
-            exec(PllExec,
-                () => rules = Rules.CalcRuleTables(),
-                () => patterns = Rules.CalcPatterns()
+            var dst = new RuleTables();
+            var buffers = dst.CreateBuffers();
+            var pll = AppData.get().PllExec();
+            exec(pll,
+                () => buffers.Criteria.TryAdd(RuleTableKind.ENC, RuleSpecs.criteria(RuleTableKind.ENC)),
+                () => buffers.Criteria.TryAdd(RuleTableKind.DEC, RuleSpecs.criteria(RuleTableKind.DEC))
                 );
 
-            Views.Store(XedViewIndex.InstPattern, () => patterns);
-            Views.Store(XedViewIndex.RuleTables, () => rules);
+            dst.Seal(buffers, pll);
+            return dst;
+        }
 
-            var datasets = RuleTables.datasets(rules);
-            Views.Store(XedViewIndex.CellDatasets, () => datasets);
+        void RunCalcs()
+        {
+            Views.Store(I.InstDefs,InstDefParser.parse(Paths.DocSource(XedDocKind.EncInstDef)));
 
-            var tables = CellTables.from(datasets);
-            Views.Store(XedViewIndex.CellTables, () => tables);
-
-            Index<RuleExpr> expr = sys.empty<RuleExpr>();
-            Index<InstFieldRow> fields = sys.empty<InstFieldRow>();
             exec(PllExec,
-                () => fields = Rules.CalcInstFields(patterns)
-            );
+                () => Views.Store(I.RuleTables, CalcRuleTables()),
+                () => Views.Store(I.InstPattern, InstPattern.load(Views.InstDefs))
+                );
 
-            exec(PllExec, () => expr = Rules.CalcRuleExpr(tables));
-
-            Views.Store(XedViewIndex.InstFields, () => fields);
-            Views.Store(XedViewIndex.RuleExpr, () => expr);
-
+            Views.Store(I.CellDatasets, RuleTables.datasets(Views.RuleTables));
+            Views.Store(I.CellTables, CellTables.from(Views.CellDatasets));
+            Views.Store(I.RuleExpr, Rules.CalcRuleExpr(Views.CellTables));
+            Views.Store(I.InstFields, XedPatterns.fieldrows(Views.Patterns));
             Started = true;
         }
 
@@ -135,8 +134,6 @@ namespace Z0
                 () => EmitBroadcastDefs(),
                 () => Rules.EmitCatalog(patterns, tables)
                 );
-
-        // Rules.CalcRuleCells(RuleTables)
 
             EmitInstPages(patterns);
             EmitDocs();

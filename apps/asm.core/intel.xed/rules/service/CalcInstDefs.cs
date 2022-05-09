@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public Index<InstDef> CalcInstDefs()
-            => Data(nameof(InstDef), () => InstDefParser.parse(XedPaths.DocSource(XedDocKind.EncInstDef)));
+        // public Index<InstDef> CalcInstDefs()
+        //     => Data(nameof(InstDef), () => InstDefParser.parse(XedPaths.DocSource(XedDocKind.EncInstDef)));
     }
 }

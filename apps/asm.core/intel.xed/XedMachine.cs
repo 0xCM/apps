@@ -45,7 +45,7 @@ namespace Z0
             var projects = Projects;
             Ws = projects.Project(projects.ProjectData(), Identifier);
             RuntimeState = new(NextId());
-            RuleTables = Rules.CalcRuleTables();
+            RuleTables = Xed.Views.RuleTables;
             _Emitter = Emitter.create(this, StatusWriter);
 
             LoadLookups();

@@ -14,16 +14,22 @@ namespace Z0
 
             public const byte FieldCount = 6;
 
+            [Render(8)]
             public uint Seq;
 
+            [Render(8)]
             public uint TableId;
 
+            [Render(8)]
             public uint Index;
 
+            [Render(8)]
             public RuleTableKind Kind;
 
+            [Render(32)]
             public RuleName Name;
 
+            [Render(1)]
             public TextBlock Statement;
 
             public static TableDefRow Empty => default;

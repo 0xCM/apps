@@ -14,7 +14,7 @@ namespace Z0
         void LoadLookups()
         {
             var rules = Rules;
-            var patterns = rules.CalcInstPatterns();
+            var patterns = Xed.Views.Patterns;
             var groups = rules.CalcInstGroups(patterns);
             var members = groups.SelectMany(x => x.Members);
             _GroupMemberLookup = members.Select(x => (x.PatternId,x)).ToDictionary();

@@ -18,6 +18,10 @@ namespace Z0
         internal void Store<T>(XedViewIndex index, Func<T> f)
             => core.@as<object,T>(DataStores[(byte)index]) = f();
 
+        [MethodImpl(Inline)]
+        internal void Store<T>(XedViewIndex index, T data)
+            => core.@as<object,T>(DataStores[(byte)index]) = data;
+
         readonly Index<object> DataStores;
 
         readonly XedRuntime Xed;
@@ -64,5 +68,10 @@ namespace Z0
             get => ref Load<CellDatasets>(XedViewIndex.CellDatasets);
         }
 
+        public ref readonly Index<InstDef> InstDefs
+        {
+            [MethodImpl(Inline)]
+            get => ref Load<Index<InstDef>>(XedViewIndex.InstDefs);
+        }
     }
 }

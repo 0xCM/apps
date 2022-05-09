@@ -18,5 +18,7 @@ namespace Z0
         RuleExpr,
 
         CellDatasets,
+
+        InstDefs,
     }
 }

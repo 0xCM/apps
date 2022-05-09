@@ -16,7 +16,7 @@ namespace Z0
             var assets = AsmCaseAssets.create();
             var header = assets.XedFileHeader().Utf8();
             var path = FS.path(@"J:\z0\apps\asm.core\intel.xed\rules\models\RuleName.cs");
-            var rules = Xed.Rules.CalcRuleTables();
+            var rules = Xed.Views.RuleTables;
             ref readonly var specs = ref rules.Specs();
             var rulenames = specs.Keys.Select(x => x.TableName.ToString()).ToHashSet();
             var names = rulenames.Index().Sort();
@@ -79,7 +79,7 @@ namespace Z0
             var traversals = XedPatterns.traversals()
                                         .WithPreHandler(PatternTraversal);
 
-            XedPatterns.traverser(traversals).TraversePatterns(Xed.Rules.CalcInstPatterns());
+            XedPatterns.traverser(traversals).TraversePatterns(Xed.Views.Patterns);
 
             void PatternTraversal(InstPattern pattern)
             {
