@@ -13,7 +13,7 @@ namespace Z0
         public static Index<LocatedField> CalcLocatedFields(RuleCells src)
         {
             var dst = list<LocatedField>();
-            var tables = src.Tables;
+            var tables = src.CellTables;
             for(var i=0; i<tables.Count; i++)
             {
                 ref readonly var table = ref src[i];

@@ -8,7 +8,7 @@ namespace Z0
 
     partial class StringTables
     {
-        public static StringTable define<K>(StringTableSyntax syntax, Symbols<K> src)
+        public static StringTable define<K>(in StringTableSyntax syntax, Symbols<K> src)
             where K : unmanaged
         {
             var count = src.Length;
@@ -21,7 +21,7 @@ namespace Z0
             return define(syntax, (syntax.TableName, items));
         }
 
-        public static StringTable define(StringTableSyntax syntax, ItemList<string> src)
+        public static StringTable define(in StringTableSyntax syntax, ItemList<string> src)
         {
             var count = src.Length;
             var strings = span<string>(count);
@@ -45,7 +45,7 @@ namespace Z0
             return new StringTable(syntax, new string(chars), offsets, src.Map(x => new Identifier(x.Value)).Array());
         }
 
-        public static StringTable define(StringTableSyntax syntax, Identifier[] names, ReadOnlySpan<string> values)
+        public static StringTable define(in StringTableSyntax syntax, Identifier[] names, ReadOnlySpan<string> values)
         {
             var count = Require.equal(names.Length, values.Length);
             var offset = 0u;
@@ -61,7 +61,7 @@ namespace Z0
             return new StringTable(syntax, new string(chars), offsets, names);
         }
 
-        public static StringTable define(StringTableSyntax syntax, ReadOnlySpan<string> values)
+        public static StringTable define(in StringTableSyntax syntax, ReadOnlySpan<string> values)
         {
             var count = values.Length;
             var offset = 0u;

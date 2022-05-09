@@ -55,19 +55,17 @@ namespace Z0
             return m;
         }
 
-        protected override void Initialized()
-        {
-
-        }
-
-
         enum StoreIndex : byte
         {
             InstPattern,
 
             RuleTables,
 
-            InstLayouts,
+            RuleCells,
+
+            RuleExpr,
+
+            InstFields,
         }
 
         Index<object> DataStores = alloc<object>(24);
@@ -92,8 +90,29 @@ namespace Z0
         void StartDirect()
         {
             var patterns = Rules.CalcPatterns();
-            Store(StoreIndex.InstPattern, Rules.CalcPatterns);
-            Store(StoreIndex.RuleTables, Rules.CalcRuleTables);
+            var tables = Rules.CalcRuleTables();
+
+            exec(PllExec,
+                () => tables = Rules.CalcRuleTables(),
+                () => patterns = Rules.CalcPatterns()
+                );
+
+            Store(StoreIndex.InstPattern, () => patterns);
+            Store(StoreIndex.RuleTables, () => tables);
+
+            var cells = RuleCells.Empty;
+            var expr = sys.empty<RuleExpr>();
+            var fields = sys.empty<InstFieldRow>();
+            exec(PllExec,
+                () => cells = Rules.CalcRuleCells(tables),
+                () => fields = Rules.CalcInstFields(patterns),
+                () => expr = Rules.CalcRuleExpr(tables.Specs())
+            );
+
+            Store(StoreIndex.InstFields, () => fields);
+            Store(StoreIndex.RuleCells, () => cells);
+            Store(StoreIndex.InstFields, () => fields);
+
             Started = true;
         }
 

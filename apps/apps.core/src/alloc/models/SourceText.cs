@@ -58,6 +58,7 @@ namespace Z0
 
         public int CompareTo(SourceText src)
             => Cells.CompareTo(src.Cells, StringComparison.InvariantCulture);
+
         public string Format()
             => new string(Cells);
 

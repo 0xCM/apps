@@ -4,16 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IProjectProvider
+    [Free]
+    public interface IDataEmitter
     {
-        IProjectWs Project();
-
-        IProjectWs Project(ProjectId id);
-
+        object Emit();
     }
 
-    public interface IProjectConsumer : IProjectProvider
+    [Free]
+    public interface IDataEmitter<T> : IDataEmitter
     {
+        new T Emit();
 
+        object IDataEmitter.Emit()
+            => Emit();
     }
 }

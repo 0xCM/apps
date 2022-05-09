@@ -10,7 +10,7 @@ namespace Z0
 
     partial class StringTables
     {
-        public static uint csharp(StringTableSyntax syntax, ItemList<string> entries, StreamWriter dst)
+        public static uint csharp(in StringTableSyntax syntax, ItemList<string> entries, StreamWriter dst)
         {
             dst.WriteLine(string.Format("namespace {0}", syntax.TableNs));
             dst.WriteLine(Open());
@@ -23,7 +23,7 @@ namespace Z0
             return (uint)entries.Length;
         }
 
-        public static uint csharp(StringTableSyntax syntax, ReadOnlySpan<string> values, StreamWriter dst)
+        public static uint csharp(in StringTableSyntax syntax, ReadOnlySpan<string> values, StreamWriter dst)
         {
             dst.WriteLine(string.Format("namespace {0}", syntax.TableNs));
             dst.WriteLine(Open());

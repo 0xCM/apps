@@ -4,16 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IProjectProvider
+    [Free]
+    public interface ISeqEmitter<T>
     {
-        IProjectWs Project();
-
-        IProjectWs Project(ProjectId id);
-
-    }
-
-    public interface IProjectConsumer : IProjectProvider
-    {
-
+        ReadOnlySpan<T> Emit();
     }
 }

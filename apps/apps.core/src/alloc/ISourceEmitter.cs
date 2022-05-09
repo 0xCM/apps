@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct CsModels
+    [Free]
+    public interface ISourceEmitter : IDataEmitter<SourceText>
     {
-        [Op]
-        public static CsComment comment(string content)
-            => new CsComment(content);
+
     }
 }

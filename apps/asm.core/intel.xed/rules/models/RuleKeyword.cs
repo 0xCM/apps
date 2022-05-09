@@ -17,6 +17,19 @@ namespace Z0
 
             public static DataSize DataSize => new (PackedWidth, AlignedWidth);
 
+            public const XedRegId WildcardReg = (XedRegId)(XedRegId.ZMM31 + 1);
+
+            [MethodImpl(Inline)]
+            public static bool IsWildcard(XedRegId src)
+                => src == WildcardReg;
+
+            [MethodImpl(Inline)]
+            public static bool IsWildcard(string src)
+                => src == "@";
+
+            public static RuleKeyword keyword(XedRegId src)
+                => IsWildcard(src) ? RuleKeyword.Wildcard : Empty;
+
             public static RuleKeyword from(KeywordKind kind)
                 => kind switch
                 {

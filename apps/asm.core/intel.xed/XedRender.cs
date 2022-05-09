@@ -314,7 +314,12 @@ namespace Z0
             => RoundingKinds.Format(src);
 
         public static string format(XedRegId src)
-            => XedRegs.Format(src);
+        {
+            if(RuleKeyword.IsWildcard(src))
+                return RuleKeyword.Wildcard.Format();
+            else
+                return XedRegs.Format(src);
+        }
 
         public static string format(OpAction src)
             => OpActions.Format(src);

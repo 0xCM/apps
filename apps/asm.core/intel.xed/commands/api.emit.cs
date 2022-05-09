@@ -10,31 +10,60 @@ namespace Z0
 
     partial class XedCmdProvider
     {
+        void EmitBitMasks()
+            => ApiBitMasks.Emit();
+
+        void EmitDataTypes()
+            => TableEmit(DataTypes.records(ApiRuntimeCatalog.Components).View, DataTypeRecord.RenderWidths, Ws.ProjectDb().Api() + Tables.filename<DataTypeRecord>());
+
+        void EmitApiComments()
+            => ApiComments.EmitMarkdownDocs(new string[]{
+                nameof(vpack),
+                nameof(vmask),
+                nameof(cpu),
+                nameof(gcpu),
+                nameof(BitMasks),
+                nameof(BitMaskLiterals),
+                });
+
+        void EmitAsmDocs()
+            => AsmDocs.Emit();
+
+        [CmdOp("api/emit")]
+        Outcome ApiEmit(CmdArgs args)
+        {
+            EmitBitMasks();
+            EmitDataTypes();
+            EmitApiComments();
+            EmitAsmDocs();
+            return true;
+        }
+
         [CmdOp("api/emit/bitmasks")]
         Outcome EmitBitMasks(CmdArgs args)
         {
-            var emitted = ApiBitMasks.Emit();
+            EmitBitMasks();
             return true;
         }
 
         [CmdOp("api/emit/types")]
         Outcome EmitDataTypes(CmdArgs args)
         {
-            TableEmit(DataTypes.records(ApiRuntimeCatalog.Components).View, DataTypeRecord.RenderWidths, Ws.ProjectDb().Api() + Tables.filename<DataTypeRecord>());
+            EmitDataTypes();
            return true;
         }
 
-        [CmdOp("api/emit/markdown")]
+        [CmdOp("api/emit/comments")]
         Outcome EmitMarkdownDocs(CmdArgs args)
         {
-            ApiComments.EmitMarkdownDocs(array(nameof(vpack),nameof(vmask)));
+            EmitApiComments();
             return true;
         }
 
         [CmdOp("api/emit/asmdocs")]
         Outcome EmitAsmDocs(CmdArgs args)
         {
-            AsmDocs.Emit();
+            EmitAsmDocs();
             return true;
         }
     }

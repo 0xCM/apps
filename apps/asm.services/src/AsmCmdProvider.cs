@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
     using llvm;
 
-    public sealed partial class AsmCmdProvider : AppCmdProvider<AsmCmdProvider>, IProjectConsumer<AsmCmdProvider>, IProjectProvider
+    public sealed partial class AsmCmdProvider : AppCmdProvider<AsmCmdProvider>, IProjectProvider
     {
         AsmRegSets Regs => Service(AsmRegSets.create);
 

@@ -315,7 +315,7 @@ namespace Z0
 
         public void Run(RuleCells src)
         {
-            Run(src.Tables);
+            Run(src.CellTables);
             FileEmitter(Dst.Emit(), Counter, Paths.RuleTarget("analysis", FS.Csv));
         }
     }

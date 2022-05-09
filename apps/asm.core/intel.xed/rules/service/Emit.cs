@@ -140,37 +140,37 @@ namespace Z0
             AppSvc.FileEmit(data, count, XedPaths.RuleTarget("cells.raw", FS.Csv), TextEncodingKind.Asci);
         }
 
-        void Emit(ReadOnlySpan<MacroMatch> src)
+        public void Emit(ReadOnlySpan<MacroMatch> src)
             => AppSvc.TableEmit(src, MacroMatch.RenderWidths, XedPaths.RuleTable<MacroMatch>());
 
-        void Emit(ReadOnlySpan<FieldDef> src)
+        public void Emit(ReadOnlySpan<FieldDef> src)
             => AppSvc.TableEmit(src, FieldDef.RenderWidths, XedPaths.Table<FieldDef>());
 
-        void Emit(ReadOnlySpan<RuleCellRecord> src)
+        public void Emit(ReadOnlySpan<RuleCellRecord> src)
             => AppSvc.TableEmit(src, RuleCellRecord.RenderWidths, XedPaths.RuleTable<RuleCellRecord>());
 
-        void Emit(ReadOnlySpan<MacroDef> src)
+        public void Emit(ReadOnlySpan<MacroDef> src)
             => AppSvc.TableEmit(src, MacroDef.RenderWidths, XedPaths.RuleTable<MacroDef>());
 
-        void Emit(ReadOnlySpan<PointerWidthInfo> src)
+        public void Emit(ReadOnlySpan<PointerWidthInfo> src)
             => AppSvc.TableEmit(src, PointerWidthInfo.RenderWidths, XedPaths.Table<PointerWidthInfo>());
 
-        void Emit(ReadOnlySpan<InstOpCode> src)
+        public void Emit(ReadOnlySpan<InstOpCode> src)
             => AppSvc.TableEmit(src, XedPaths.InstTable<InstOpCode>());
 
-        void Emit(ReadOnlySpan<InstOperandRow> src)
-            => AppSvc.TableEmit(src, InstOperandRow.RenderWidths, XedPaths.InstTable<InstOperandRow>());
+        public void Emit(ReadOnlySpan<InstOperandRow> src)
+            => AppSvc.TableEmit(src, XedPaths.InstTable<InstOperandRow>());
 
-        void Emit(ReadOnlySpan<InstOpClass> src)
+        public void Emit(ReadOnlySpan<InstOpClass> src)
             => AppSvc.TableEmit(src, XedPaths.Table<InstOpClass>());
 
-        void Emit(ReadOnlySpan<XedFieldDef> src)
+        public void Emit(ReadOnlySpan<XedFieldDef> src)
             => AppSvc.TableEmit(src, XedPaths.RefTable<XedFieldDef>());
 
-        void Emit(ReadOnlySpan<OpWidthRecord> src)
+        public void Emit(ReadOnlySpan<OpWidthRecord> src)
             => AppSvc.TableEmit(src, XedPaths.RefTable<OpWidthRecord>());
 
-        void Emit(ReadOnlySpan<RuleExpr> src)
+        public void Emit(ReadOnlySpan<RuleExpr> src)
             => AppSvc.TableEmit(src, XedPaths.RuleTable<RuleExpr>());
 
     }

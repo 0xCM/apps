@@ -4,16 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IProjectProvider
+    public readonly partial struct CsModels
     {
-        IProjectWs Project();
-
-        IProjectWs Project(ProjectId id);
-
-    }
-
-    public interface IProjectConsumer : IProjectProvider
-    {
-
+        [Op]
+        public static SummaryComment comment(string content)
+            => new SummaryComment(content);
     }
 }

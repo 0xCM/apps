@@ -177,7 +177,7 @@ namespace Z0
         Outcome EmitRuleRecords(CmdArgs args)
         {
             var cells = CalcRuleCells();
-            TableEmit(cells.Tables.View, RuleCellRecord.RenderWidths, XedPaths.RuleTable<RuleCellRecord>());
+            TableEmit(cells.CellTables.View, RuleCellRecord.RenderWidths, XedPaths.RuleTable<RuleCellRecord>());
             return true;
         }
 

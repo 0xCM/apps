@@ -6,17 +6,17 @@ namespace Z0
 {
     public readonly struct StringTableSyntax
     {
-        public Identifier TableNs {get;}
+        public readonly Identifier TableNs;
 
-        public Identifier TableName {get;}
+        public readonly Identifier TableName;
 
-        public Identifier EnumName {get;}
+        public readonly Identifier EnumName;
 
-        public ClrEnumKind EnumKind {get;}
+        public readonly ClrEnumKind EnumKind;
 
-        public Identifier EnumNs {get;}
+        public readonly Identifier EnumNs;
 
-        public bool Parametric {get;}
+        public readonly bool Parametric;
 
         public StringTableSyntax(Identifier ns, Identifier table, Identifier @enum, ClrEnumKind kind, Identifier indexns, bool parametric = false)
         {

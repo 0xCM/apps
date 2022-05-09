@@ -3,6 +3,8 @@
     [LiteralProvider]
     public readonly struct AsmMnemonicNames
     {
+        public const string aaa = "aaa";
+        public const string aad = "aad";
         public const string adc = "adc";
         public const string adcx = "adcx";
         public const string add = "add";

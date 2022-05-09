@@ -58,17 +58,17 @@ namespace Z0
             return RunBuildScripts(project, scriptid, EmptyString,runexe);
         }
 
-        // FS.FolderPath ProjectData(IProjectWs project)
-        //     => ProjectDb.ProjectData() + FS.folder(project.Name.Format());
+        FS.FolderPath ProjectData(IProjectWs project)
+            => ProjectDb.ProjectData() + FS.folder(project.Name.Format());
 
-        // FS.FolderPath ProjectData(IProjectWs project, string scope)
-        //     => Unserviced.ProjectData(project) + FS.folder(scope);
+        FS.FolderPath ProjectData(IProjectWs project, string scope)
+            => Unserviced.ProjectData(project) + FS.folder(scope);
 
-        // FS.FilePath ProjectDataFile(IProjectWs project, FileKind kind)
-        //     => Unserviced.ProjectData(project) + FS.file(project.Name.Format(), kind.Ext());
+        FS.FilePath ProjectDataFile(IProjectWs project, FileKind kind)
+            => Unserviced.ProjectData(project) + FS.file(project.Name.Format(), kind.Ext());
 
-        // FS.FilePath ScriptFlowPath(IProjectWs project, ScriptId scriptid)
-        //     => Unserviced.ProjectData(project) + Tables.filename<ToolCmdFlow>(scriptid);
+        FS.FilePath ScriptFlowPath(IProjectWs project, ScriptId scriptid)
+            => Unserviced.ProjectData(project) + Tables.filename<ToolCmdFlow>(scriptid);
 
         public FS.FilePath Table<T>(IProjectWs project)
             where T : struct
@@ -145,6 +145,9 @@ namespace Z0
 
         public WsContext Context(IProjectProvider provider)
             => WsContext.create(provider, provider.Project(), LoadBuildFlowIndex(provider.Project()));
+
+        public WsContext Context(IProjectProvider provider, IProjectWs project)
+            => WsContext.create(provider, project, LoadBuildFlowIndex(project));
 
         public Outcome<Index<ToolCmdFlow>> BuildScoped(IProjectWs project, ScriptId script, string scope)
             => RunBuildScripts(project, script, scope, false);

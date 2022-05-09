@@ -13,8 +13,6 @@ namespace Z0
     {
         ConstLookup<CgTarget,string> TargetExpressions;
 
-        AppDb AppDb => Service(Wf.AppDb);
-
         public CgSvc()
         {
             var symbols = Symbols.index<CgTarget>();
@@ -31,8 +29,8 @@ namespace Z0
         public StringLiteralGen StringLiterals()
             => Service(() => StringLiteralGen.create(Wf));
 
-        public EnumGen EnumGen()
-            => Service(() => new EnumGen());
+        // public EnumGen EnumGen()
+        //     => Service(() => new EnumGen());
 
         public ShellGen Shells()
             => Service(() => ShellGen.create(Wf));
@@ -264,44 +262,44 @@ namespace Z0
             var buffer = text.buffer();
             var name = "EnumDefs";
             foreach(var ns in keys)
-                counter += EmitEnumReplicants(ns, name, types[ns], buffer);
+                counter += CsRender.enums(ns, name, types[ns], buffer);
             FileEmit(buffer.Emit(), counter, dst);
         }
 
-        uint EmitEnumReplicants(string ns, string name, ReadOnlySpan<Type> types, ITextBuffer buffer)
-        {
-            var g = EnumGen();
-            var margin = 0u;
-            var counter = 0u;
-            buffer.IndentLineFormat(margin, "namespace {0}", ns);
-            buffer.IndentLine(margin, Chars.LBrace);
-            margin += 4;
-            buffer.IndentLineFormat(margin, "public readonly struct {0}", name);
-            buffer.IndentLine(margin, Chars.LBrace);
-            margin += 4;
-            var enumBuffer = text.buffer();
+        // uint EmitEnumReplicants(string ns, string name, ReadOnlySpan<Type> types, ITextBuffer buffer)
+        // {
+        //     //var g = EnumGen();
+        //     var margin = 0u;
+        //     var counter = 0u;
+        //     buffer.IndentLineFormat(margin, "namespace {0}", ns);
+        //     buffer.IndentLine(margin, Chars.LBrace);
+        //     margin += 4;
+        //     buffer.IndentLineFormat(margin, "public readonly struct {0}", name);
+        //     buffer.IndentLine(margin, Chars.LBrace);
+        //     margin += 4;
+        //     var enumBuffer = text.buffer();
 
-            for(var i=0; i<types.Length; i++, counter++)
-            {
-                ref readonly var type = ref types[i];
-                var spec = Symbols.set(type);
-                g.Emit(margin,spec,enumBuffer);
+        //     for(var i=0; i<types.Length; i++, counter++)
+        //     {
+        //         ref readonly var type = ref types[i];
+        //         var spec = Symbols.set(type);
+        //         CsRender.@enum(margin,spec,enumBuffer);
 
-                buffer.IndentLine(margin,enumBuffer.Emit());
+        //         buffer.IndentLine(margin,enumBuffer.Emit());
 
-                if(counter != 0 && counter % 100 == 0)
-                {
-                    Babble(string.Format("Generated code for {0} enums", counter));
-                    counter = 0;
-                }
-            }
+        //         if(counter != 0 && counter % 100 == 0)
+        //         {
+        //             Babble(string.Format("Generated code for {0} enums", counter));
+        //             counter = 0;
+        //         }
+        //     }
 
-            margin -= 4;
-            buffer.IndentLine(margin, Chars.RBrace);
+        //     margin -= 4;
+        //     buffer.IndentLine(margin, Chars.RBrace);
 
-            margin -= 4;
-            buffer.IndentLine(margin, Chars.RBrace);
-            return counter;
-        }
+        //     margin -= 4;
+        //     buffer.IndentLine(margin, Chars.RBrace);
+        //     return counter;
+        // }
     }
 }

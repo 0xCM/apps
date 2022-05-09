@@ -8,7 +8,7 @@ namespace Z0
 
     public class StringTable
     {
-        public StringTableSyntax Syntax {get;}
+        public readonly StringTableSyntax Syntax;
 
         public readonly string Content;
 
@@ -16,7 +16,7 @@ namespace Z0
 
         readonly Index<Identifier> _Identifiers;
 
-        public bool EmitIdentifiers {get;}
+        public readonly bool EmitIdentifiers;
 
         [MethodImpl(Inline)]
         public StringTable(StringTableSyntax syntax, string src, Index<uint> offsets, Identifier[] identifiers)

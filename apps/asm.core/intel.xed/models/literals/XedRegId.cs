@@ -348,28 +348,20 @@ namespace Z0
 
         TMP15,
 
-        [Symbol("TR0")]
         TMM0,
 
-        [Symbol("TR1")]
         TMM1,
 
-        [Symbol("TR2")]
         TMM2,
 
-        [Symbol("TR3")]
         TMM3,
 
-        [Symbol("TR4")]
         TMM4,
 
-        [Symbol("TR5")]
         TMM5,
 
-        [Symbol("TR6")]
         TMM6,
 
-        [Symbol("TR7")]
         TMM7,
 
         UIF,

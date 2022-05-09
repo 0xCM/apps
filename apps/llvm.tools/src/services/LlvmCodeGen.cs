@@ -31,14 +31,13 @@ namespace Z0.llvm
             var name = "AsmId";
             ItemList<string> items = (name, asmids.Map(x => new ListItem<string>(x.Key, x.Value.Format())));
             CodeGen.GenStringTable(TargetNs, ClrEnumKind.U16, items, CgTarget.Llvm);
-            var gen = CodeGen.EnumGen();
             var literals = @readonly(map(DataProvider.SelectAsmIdentifiers().Entries,e => Literals.define(e.Key, e.Value.Id)));
             var buffer = text.buffer();
             var offset = 0u;
             buffer.IndentLineFormat(offset, "namespace {0}", "Z0");
             buffer.IndentLine(offset, Chars.LBrace);
             offset+=4;
-            gen.Emit(offset, name, literals, buffer);
+            CsRender.@enum(offset, name, literals, buffer);
             offset-=4;
             buffer.IndentLine(offset, Chars.RBrace);
 

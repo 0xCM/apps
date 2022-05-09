@@ -586,6 +586,12 @@ namespace Z0
         public static bool parse(string src, out XedRegId dst)
         {
             var input = text.remove(text.trim(src), "XED_REG_");
+            if(RuleKeyword.IsWildcard(input))
+            {
+                dst = RuleKeyword.WildcardReg;
+                return true;
+            }
+
             var result = Regs.Parse(input, out dst);
             if(!result)
             {

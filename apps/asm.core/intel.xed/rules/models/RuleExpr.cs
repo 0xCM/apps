@@ -24,7 +24,7 @@ namespace Z0
             public readonly RuleName Name;
 
             [Render(1)]
-            public readonly StringRef Expr;
+            public readonly StringRef Body;
 
             [MethodImpl(Inline)]
             public RuleExpr(ushort seq, RuleSig sig, byte row, StringRef expr)
@@ -33,7 +33,7 @@ namespace Z0
                 Name = sig.TableName;
                 Kind = sig.TableKind;
                 Row = row;
-                Expr = expr;
+                Body = expr;
             }
 
             public RuleSig Sig

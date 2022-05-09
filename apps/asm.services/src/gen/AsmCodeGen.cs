@@ -66,7 +66,6 @@ namespace Z0.Asm
 
         public void GenFormKinds()
         {
-            var g = CodeGen.EnumGen();
             var descriptors = Sdm.CalcFormDescriptors();
             var src = descriptors.CalcSymbols();
             var dst = text.buffer();
@@ -74,7 +73,7 @@ namespace Z0.Asm
             dst.IndentLineFormat(margin, "namespace {0}", TargetNamespace);
             dst.IndentLine(margin, Chars.LBrace);
             margin += 4;
-            g.Emit(margin, src, dst);
+            CsRender.@enum(margin, src, dst);
             margin -=4;
             dst.IndentLine(margin, Chars.RBrace);
             CodeGen.EmitFile(dst.Emit(), AsmFormDescriptors.FormKindName, CgTarget.Intel);

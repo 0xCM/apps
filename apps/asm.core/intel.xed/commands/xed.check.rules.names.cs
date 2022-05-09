@@ -44,13 +44,11 @@ namespace Z0
                         right.Include(consequent.Field);
                 }
             }
-
         }
-        [CmdOp("xed/check/rules")]
-        Outcome CheckRules(CmdArgs args)
+        void CalcRuleDeps()
         {
             var src = CalcRuleCells();
-            var tables = src.Tables;
+            var tables = src.CellTables;
             var count = tables.Count;
             var left = alloc<HashSet<FieldKind>>(count);
             var right = alloc<HashSet<FieldKind>>(count);
@@ -92,8 +90,34 @@ namespace Z0
             }
 
             Write(dst.Emit());
+
+        }
+        [CmdOp("xed/check/rules")]
+        Outcome CheckRules(CmdArgs args)
+        {
+            var rules = CalcRules();
+            var dst = CsLang.emitter();
+            var indent = 4u;
+            var src = Rules.CalcRuleExpr(rules.Specs());
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var expr = ref src[i];
+                dst.AppendLineComment(indent, string.Format("{0} {1:D2} {2}", expr.Sig, expr.Row, expr.Body));
+            }
+
+            var lines = dst.Emit();
+            var path = AppDb.CgStage("xed") + FS.file("rules.tables", FileKind.Cs.Ext());
+            AppSvc.FileEmit(lines, path);
             return true;
         }
+
+
+        void Gen()
+        {
+            var dst = CsLang.emitter();
+
+        }
+
 
         SectionHeader header(RuleCaller target)
         {
