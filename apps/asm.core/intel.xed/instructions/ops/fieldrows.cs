@@ -28,7 +28,7 @@ namespace Z0
         static InstFieldRow fieldrow(InstPattern pattern, in CellValue src, byte index)
         {
             var dst = InstFieldRow.Empty;
-            dst.PatternId = pattern.Seq;
+            dst.PatternId = pattern.PatternId;
             dst.Mode = pattern.Mode;
             dst.Lock = InstCells.@lock(pattern.Cells);
             dst.Index = Require.equal(index,src.Position);

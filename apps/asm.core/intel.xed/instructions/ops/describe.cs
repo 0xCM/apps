@@ -10,27 +10,26 @@ namespace Z0
 
     partial class XedPatterns
     {
-        public static Index<InstPatternRecord> describe(Index<InstPattern> src, bool pll = true)
+        public static Index<InstPatternRecord> records(Index<InstPattern> src, bool pll = true)
         {
             var count = src.Count;
             var dst = bag<InstPatternRecord>();
-            iter(src, p => dst.Add(describe(p)), pll);
+            iter(src, p => dst.Add(record(p)), pll);
             var sorted = dst.Array().Sort(PatternSort.comparer());
-            return sorted;
+            return sorted.Resequence();
         }
 
-        public static InstPatternRecord describe(in InstPattern src)
+        static InstPatternRecord record(in InstPattern src)
         {
             ref readonly var body = ref src.Body;
             var dst = InstPatternRecord.Empty;
-            //dst.PatternId = src.PatternId;
-            dst.Seq = src.Seq;
+            dst.PatternId = src.PatternId;
             dst.OpCode = src.OpCode;
             dst.Mode = src.Mode;
             dst.Lock = src.Lock;
             dst.Scalable = src.Scalable;
             Require.invariant(src.InstClass.Kind != 0);
-            dst.InstClass = src.InstClass;
+            dst.InstClass = classifier(src.InstClass);
             dst.InstForm = src.InstForm;
             dst.Body = body;
             return dst;

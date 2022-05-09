@@ -6,7 +6,7 @@ namespace Z0
 {
     partial class XedOperands
     {
-        public static IMachine machine(XedRules rules)
-            => new MachineState(rules);
+        public static IMachine machine(XedRuntime xed)
+            => new MachineState(xed);
     }
 }

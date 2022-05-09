@@ -119,10 +119,10 @@ namespace Z0
                 get => ref Op(index);
             }
 
-            public ref readonly uint Seq
+            public ref readonly ushort PatternId
             {
                 [MethodImpl(Inline)]
-                get => ref Spec.Seq;
+                get => ref @as<ushort>(Spec.Seq);
             }
 
             public ref readonly InstClass InstClass

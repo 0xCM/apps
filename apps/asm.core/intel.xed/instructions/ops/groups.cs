@@ -76,7 +76,7 @@ namespace Z0
                 seq = seq with {
                     Seq = i,
                     Index=k++,
-                    PatternId = (ushort)pattern.Seq,
+                    PatternId = (ushort)pattern.PatternId,
                     Lock = pattern.Lock,
                     OpCode = opcode,
                     OpCodeBytes = opcode.Value,

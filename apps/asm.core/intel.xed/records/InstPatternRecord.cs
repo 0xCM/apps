@@ -10,12 +10,15 @@ namespace Z0
     partial class XedRules
     {
         [Record(TableId),StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct InstPatternRecord : IComparable<InstPatternRecord>
+        public struct InstPatternRecord : IComparable<InstPatternRecord>, ISequential<InstPatternRecord>
         {
             public const string TableId = "xed.inst.patterns";
 
             [Render(8)]
             public uint Seq;
+
+            [Render(12)]
+            public ushort PatternId;
 
             [Render(18)]
             public InstClass InstClass;
@@ -45,9 +48,13 @@ namespace Z0
             public PatternSort Sort()
                 => new PatternSort(this);
 
-            //public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{18,26,8,8,8,52,1};
-
             public static InstPatternRecord Empty => default;
+
+            uint ISequential.Seq
+            {
+                get => Seq;
+                set => Seq = value;
+            }
         }
     }
 }

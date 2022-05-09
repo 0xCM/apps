@@ -18,40 +18,20 @@ namespace Z0
             );
         }
 
-        public Index<InstGroup> EmitInstGroups(Index<InstPattern> src)
-        {
-            var dst = CalcInstGroups(src);
-            EmitInstGroups(dst);
-            return dst;
-        }
+        public void EmitInstGroups(Index<InstPattern> src)
+            => EmitInstGroups(CalcInstGroups(src));
 
-        public Index<InstOpCode> EmitPoc(Index<InstPattern> src)
-        {
-            var data = CalcPoc(src);
-            Emit(data);
-            return data;
-        }
+        public void EmitOpcodes(Index<InstPattern> src)
+            => Emit(Xed.Views.OpCodes);
 
-        public Index<InstFieldRow> EmitInstFields(Index<InstPattern> src)
-        {
-            var data = Xed.Views.InstFields;
-            AppSvc.TableEmit(data, XedPaths.InstTable<InstFieldRow>());
-            return data;
-        }
+        public void EmitInstFields(Index<InstPattern> src)
+            => AppSvc.TableEmit(Xed.Views.InstFields, XedPaths.InstTable<InstFieldRow>());
 
-        public Index<InstPatternRecord> EmitPatternRecords(Index<InstPattern> src)
-        {
-            var data = CalcPatternRecords(src);
-            AppSvc.TableEmit(data, XedPaths.InstTable<InstPatternRecord>());
-            return data;
-        }
+        public void EmitPatternRecords(Index<InstPattern> src)
+            => AppSvc.TableEmit(CalcPatternRecords(src), XedPaths.InstTable<InstPatternRecord>());
 
-        public Index<InstOpDetail> EmitOpDetails(Index<InstPattern> src)
-        {
-            var data = CalcInstOpDetails(src);
-            Emit(data);
-            return data;
-        }
+        public void EmitOpDetails(Index<InstPattern> src)
+            => Emit(CalcInstOpDetails(src));
 
         public Index<InstPattern> EmitPatternData(Index<InstPattern> src)
         {
@@ -62,7 +42,7 @@ namespace Z0
                 () => EmitInstFields(src),
                 () => EmitInstGroups(src),
                 () => EmitOpDetails(src),
-                () => EmitPoc(src)
+                () => EmitOpcodes(src)
                 );
             return src;
         }
@@ -80,7 +60,7 @@ namespace Z0
         }
 
         void Emit(OpCodeClass @class, ReadOnlySpan<InstGroupSeq> src)
-            => TableEmit(src, InstGroupSeq.RenderWidths, XedPaths.InstTable<InstGroupSeq>(@class.ToString().ToLower()));
+            => TableEmit(src, XedPaths.InstTable<InstGroupSeq>(@class.ToString().ToLower()));
 
         public void EmitSeq()
         {

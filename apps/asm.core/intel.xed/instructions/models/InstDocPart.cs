@@ -48,10 +48,10 @@ namespace Z0
                 get => ref Inst.OpCode;
             }
 
-            public ref readonly uint PatternId
+            public ref readonly ushort PatternId
             {
                 [MethodImpl(Inline)]
-                get => ref Inst.Seq;
+                get => ref Inst.PatternId;
             }
 
             public ref readonly InstCells Layout

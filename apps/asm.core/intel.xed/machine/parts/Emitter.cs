@@ -4,17 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static Datasets;
-
     partial class XedMachine
     {
-        public Emitter Emissions
-        {
-            [MethodImpl(Inline)]
-            get => _Emitter;
-        }
-
         public class Emitter : IDisposable
         {
             public static Emitter create(XedMachine machine, Action<object> status)
@@ -69,65 +60,6 @@ namespace Z0
                 }
             }
 
-            public void EmitClassForms()
-            {
-                var section = nameof(Machine.ClassForms);
-                var cols = new TableColumns(
-                    section,
-                    ("Section",16),
-                    ("InstClass",18),
-                    ("OpCode", 26),
-                    ("Form", 1)
-                    );
-
-                var src = Machine.ClassForms.Sort();
-                var rows = map(src, item =>
-                    new{
-                        section,
-                        Machine.InstClass.Classifier,
-                        Machine.OpCode,
-                        item
-                });
-
-                TableEmitOld(cols, rows);
-            }
-
-            public void EmitClassGroups()
-            {
-                var section = nameof(Machine.ClassGroups);
-                var cols = new TableColumns(
-                    section,
-                    ("Section",16),
-                    ("Mode",8),
-                    ("InstClass", 18),
-                    ("Index", 8),
-                    ("OpCode", 26)
-                    );
-
-                var src = Machine.ClassGroups;
-                var rows = map(src, member =>
-                    new {
-                        section,
-                        member.Mode,
-                        member.Class,
-                        member.Index,
-                        member.OpCode
-                    }
-                );
-
-                TableEmitOld(cols, rows);
-            }
-
-            void TableEmitOld<T>(TableColumns cols, T[] rows, bool status = false)
-            {
-                if(rows.Length != 0)
-                {
-                    var dst = Log.TableEmit(cols, rows);
-
-                    // if(status)
-                    //     Status(string.Format($"Emittited {dst.count} rows to {dst.path}"));
-                }
-            }
         }
     }
 }

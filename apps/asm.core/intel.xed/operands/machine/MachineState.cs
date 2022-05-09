@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+    using Asm;
     using static XedModels;
     using static XedRules;
 
@@ -16,27 +17,52 @@ namespace Z0
     {
         class MachineState : IMachine
         {
+            public static MachineState allocate(XedRuntime xed)
+                => new MachineState(xed);
+
             InstPattern Pattern;
 
             OperandState OpState;
 
             MachineMode MachineMode;
 
+            ConcurrentDictionary<uint,MachineState> Allocations = new();
+
+            bool Allocated = false;
+
+            const byte Capacity = uint6.MaxValue + 1;
+
+            void Allocate()
+            {
+                if(!Allocated)
+                {
+                    for(var i=0; i<Capacity; i++)
+                    {
+                        var machine = allocate(Xed);
+                        Allocations[machine.Id] = machine;
+                    }
+                    Allocated = true;
+                }
+            }
+
             InstForm Form;
 
             Fields Expressions;
 
-            readonly XedRules Rules;
+            AsmInfo Asm;
+
+            readonly XedRuntime Xed;
 
             readonly uint Id;
 
             static uint Seq;
 
-            public MachineState(XedRules rules)
+            public MachineState(XedRuntime xed)
             {
                 Id = core.inc(ref Seq);
                 Expressions = Fields.allocate();
-                Rules = rules;
+                Xed = xed;
+                LoadLookups();
                 Reset();
             }
 
@@ -47,13 +73,29 @@ namespace Z0
                 MachineMode = default;
                 Form = InstForm.Empty;
                 Expressions.Clear();
+                Asm = AsmInfo.Empty;
             }
+
+            public void Dispose()
+            {
+
+            }
+
 
             void Load(in CellValue src)
             {
                 ref readonly var fk = ref src.Field;
                 ref readonly var ck = ref src.CellKind;
 
+            }
+
+            /// <summary>
+            /// Specifies the encoding of the current instruction
+            /// </summary>
+            public ref readonly AsmHexCode Encoding
+            {
+                [MethodImpl(Inline)]
+                get => ref Asm.Encoded;
             }
 
             void Load(in InstSeg src)
@@ -259,7 +301,7 @@ namespace Z0
             public ref readonly ushort PatternId
             {
                 [MethodImpl(Inline)]
-                get => ref @as<uint,ushort>(Pattern.Seq);
+                get => ref Pattern.PatternId;
             }
 
             /// <summary>
@@ -281,6 +323,24 @@ namespace Z0
             }
 
             /// <summary>
+            /// Specifies the asm source text of the current instruction
+            /// </summary>
+            public ref readonly asci64 AsmText
+            {
+                [MethodImpl(Inline)]
+                get => ref Asm.Asm;
+            }
+
+            /// <summary>
+            /// Specifies the IP of the current instruction
+            /// </summary>
+            public ref readonly MemoryAddress IP
+            {
+                [MethodImpl(Inline)]
+                get => ref Asm.IP;
+            }
+
+            /// <summary>
             /// Specifies <see cref='R.InstOpDetail'/> associated with the current <see cref='P'/>
             /// </summary>
             public ref readonly Index<InstOpDetail> OpDetail
@@ -289,8 +349,52 @@ namespace Z0
                 get => ref Pattern.OpDetails;
             }
 
+            /// <summary>
+            /// Specifies <see cref='InstGroupMember'/> associated with the current <see cref='LoadPattern'/>
+            /// </summary>
+            public InstGroupMember PatternGroup
+                => _GroupMemberLookup.Find(PatternId, out var dst) ? dst : InstGroupMember.Empty;
+
+            /// <summary>
+            /// Specifies <see cref='InstForm'/> associated with the current <see cref='InstClass'/>
+            /// </summary>
+            public Index<InstForm> ClassForms
+                => _ClassFormLookup.Find(InstClass, out var dst) ? dst : sys.empty<InstForm>();
+
+            /// <summary>
+            /// Specifies <see cref='InstGroupMember'> associated with the current <see cref='InstClass'/>
+            /// </summary>
+            public Index<InstGroupMember> ClassGroups
+                => _ClassGroupLookup.Find(InstClass, out var dst) ? dst : sys.empty<InstGroupMember>();
+
+            /// <summary>
+            /// Specifies <see cref='LoadPattern'/> associated with the current <see cref='InstClass'/>
+            /// </summary>
+            public Index<InstPattern> ClassPatterns
+                => _ClassPatternLookup.Find(InstClass, out var x) ? x : sys.empty<InstPattern>();
+
             uint IMachine.Id
                 => Id;
+
+            void LoadLookups()
+            {
+                var rules = Xed.Rules;
+                var patterns = Xed.Views.Patterns;
+                var groups = rules.CalcInstGroups(patterns);
+                var members = groups.SelectMany(x => x.Members);
+                _GroupMemberLookup = members.Select(x => (x.PatternId,x)).ToDictionary();
+                _ClassPatternLookup = patterns.ClassPatterns();
+                _ClassFormLookup = patterns.ClassForms();
+                _ClassGroupLookup = groups.ClassGroups();
+            }
+
+            ConstLookup<ushort,InstGroupMember> _GroupMemberLookup;
+
+            SortedLookup<InstClass,Index<InstGroupMember>> _ClassGroupLookup;
+
+            SortedLookup<InstClass,Index<InstPattern>> _ClassPatternLookup;
+
+            SortedLookup<InstClass,Index<InstForm>> _ClassFormLookup;
         }
     }
 }

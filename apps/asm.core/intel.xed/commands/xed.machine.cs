@@ -9,7 +9,6 @@ namespace Z0
         [CmdOp("xed/machine")]
         Outcome RunMachine(CmdArgs args)
         {
-            Wf.XedMachinHost().Run(Xed);
             return true;
         }
     }

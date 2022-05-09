@@ -20,5 +20,7 @@ namespace Z0
         CellDatasets,
 
         InstDefs,
+
+        OpCodes,
     }
 }

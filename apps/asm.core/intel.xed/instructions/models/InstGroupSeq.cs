@@ -16,30 +16,40 @@ namespace Z0
         {
             public const string TableId = "xed.inst.groups";
 
-            public const byte FieldCount = 12;
-
+            [Render(8)]
             public uint Seq;
 
+            [Render(12)]
             public ushort PatternId;
 
+            [Render(18)]
             public InstClass Instruction;
 
+            [Render(6)]
             public ModIndicator Mod;
 
+            [Render(6)]
             public LockIndicator Lock;
 
+            [Render(6)]
             public MachineMode Mode;
 
+            [Render(6)]
             public BitIndicator RexW;
 
+            [Render(6)]
             public RepIndicator Rep;
 
+            [Render(6)]
             public byte Index;
 
+            [Render(26)]
             public XedOpCode OpCode;
 
+            [Render(22)]
             public AsmOcValue OpCodeBytes;
 
+            [Render(1)]
             public InstForm Form;
 
             public OpCodeClass OpCodeClass
@@ -58,9 +68,6 @@ namespace Z0
                 => (int)PatternId | (int)Index << 16;
 
             public static InstGroupSeq Empty => default;
-
-            public static ReadOnlySpan<byte> RenderWidths
-                => new byte[FieldCount]{8,12,18,6, 6, 6, 6, 6, 6, 26, 22, 1};
         }
     }
 }

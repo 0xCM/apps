@@ -73,5 +73,11 @@ namespace Z0
             [MethodImpl(Inline)]
             get => ref Load<Index<InstDef>>(XedViewIndex.InstDefs);
         }
+
+        public ref readonly Index<InstOpCode> OpCodes
+        {
+            [MethodImpl(Inline)]
+            get => ref Load<Index<InstOpCode>>(XedViewIndex.OpCodes);
+        }
     }
 }

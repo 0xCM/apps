@@ -8,7 +8,7 @@ namespace Z0
 
     partial class XedOperands
     {
-        public interface IMachine
+        public interface IMachine : IDisposable
         {
             uint Id {get;}
 

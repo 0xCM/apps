@@ -22,17 +22,6 @@ namespace Z0
             return true;
         }
 
-
-        // void CheckLocatedFields()
-        // {
-        //     var located = XedDb.CalcLocatedFields(CalcRuleCells());
-        //     for(var i=0; i<located.Count; i++)
-        //     {
-        //         ref readonly var f0 = ref located[i];
-        //         var a = LocatedField.pack(f0);
-        //         Require.equal(f0,LocatedField.unpack(a));
-        //     }
-        // }
         void CheckMemDb(Dim2<uint> shape)
         {
             var r = shape.I;

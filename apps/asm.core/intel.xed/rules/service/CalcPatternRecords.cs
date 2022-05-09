@@ -8,6 +8,6 @@ namespace Z0
     partial class XedRules
     {
         public Index<InstPatternRecord> CalcPatternRecords(Index<InstPattern> src)
-            => Data(nameof(CalcPatternRecords), () => XedPatterns.describe(src));
+            => Data(nameof(CalcPatternRecords), () => XedPatterns.records(src));
     }
 }

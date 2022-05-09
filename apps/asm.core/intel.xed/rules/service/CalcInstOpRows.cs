@@ -23,7 +23,7 @@ namespace Z0
                     ref var dst = ref rows[i];
                     Require.invariant(src.InstClass.Kind != 0);
                     dst.PatternId = src.PatternId;
-                    dst.InstClass = src.InstClass;
+                    dst.InstClass = classifier(src.InstClass);
                     dst.OpCode = src.OpCode;
                     dst.Mode = src.Mode;
                     dst.Lock = src.Lock;

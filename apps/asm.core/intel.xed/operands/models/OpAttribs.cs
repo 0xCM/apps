@@ -85,19 +85,6 @@ namespace Z0
             string ICellSeq.Delimiter
                 => ":";
 
-            // public string Format()
-            // {
-            //     var dst = text.buffer();
-            //     var count = Count;
-            //     for(var i=0; i<count; i++)
-            //     {
-            //         if(i!=0)
-            //             dst.Append(Chars.Colon);
-            //         dst.Append(this[i].Format());
-            //     }
-            //     return dst.Emit();
-            // }
-
             public override string ToString()
                 => (this as ITextual).Format();
 

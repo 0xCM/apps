@@ -7,9 +7,10 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [DataWidth(num8.Width)]
+        [DataWidth(Width)]
         public readonly record struct OpIndicator : IComparable<OpIndicator>
         {
+            public const byte Width = num8.Width;
             readonly asci8 Data;
 
             [MethodImpl(Inline)]

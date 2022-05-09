@@ -30,7 +30,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public RuleCaller(InstPattern src)
-                => this = Bitfields.join((ushort)Kind.Rule, (ushort)src.Seq);
+                => this = Bitfields.join((ushort)Kind.Rule, (ushort)src.PatternId);
 
             public string Format()
             {

@@ -20,7 +20,6 @@ namespace Z0
 
         object StartLocker = new();
 
-
         public bool PllExec
         {
             [MethodImpl(Inline)]
@@ -54,11 +53,10 @@ namespace Z0
 
         public IMachine Machine()
         {
-            var m =  machine(Rules);
+            var m =  XedOperands.machine(this);
             Machines.TryAdd(m.Id,m);
             return m;
         }
-
 
         Alloc _Alloc;
 
@@ -96,10 +94,14 @@ namespace Z0
                 () => Views.Store(I.InstPattern, InstPattern.load(Views.InstDefs))
                 );
 
+            exec(PllExec,
+                () => Views.Store(I.OpCodes, XedOpCodes.poc(Views.Patterns)),
+                () => Views.Store(I.InstFields, XedPatterns.fieldrows(Views.Patterns))
+                );
+
             Views.Store(I.CellDatasets, RuleTables.datasets(Views.RuleTables));
             Views.Store(I.CellTables, CellTables.from(Views.CellDatasets));
             Views.Store(I.RuleExpr, Rules.CalcRuleExpr(Views.CellTables));
-            Views.Store(I.InstFields, XedPatterns.fieldrows(Views.Patterns));
             Started = true;
         }
 

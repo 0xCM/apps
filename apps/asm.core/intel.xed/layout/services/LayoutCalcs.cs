@@ -59,7 +59,7 @@ namespace Z0
             {
                 ref readonly var fields = ref src.Layout;
                 var count = Demand.lteq(fields.Count, InstLayoutRecord.CellCount);
-                dst = new InstLayout((ushort)src.Seq, src.InstClass, src.OpCode, count, block);
+                dst = new InstLayout((ushort)src.PatternId, src.InstClass, src.OpCode, count, block);
                 for(var j=z8; j<fields.Count; j++)
                     dst[j] = LayoutCell.from(fields[j]);
 

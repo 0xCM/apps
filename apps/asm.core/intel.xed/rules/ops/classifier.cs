@@ -7,7 +7,13 @@ namespace Z0
 {
     partial class XedRules
     {
-        // public Index<InstOpCode> CalcPoc(Index<InstPattern> src)
-        //     => Data(nameof(CalcPoc), () => XedOpCodes.poc(src));
+        public static InstClass classifier(InstClass src)
+        {
+            var dst = src;
+            var name = src.Format();
+            if(name.EndsWith("_LOCK"))
+                XedParsers.parse(name.Remove("_LOCK"), out dst);
+            return dst;
+        }
     }
 }

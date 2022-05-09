@@ -8,8 +8,6 @@ namespace Z0
     using static core;
     using static XedModels;
 
-    using K = XedModels.OpNameKind;
-
     partial class XedOperands
     {
         [MethodImpl(Inline), Op]
@@ -24,95 +22,41 @@ namespace Z0
         public static bit IsRule(OpType src)
             => src == OpType.NT_LOOKUP_FN || src == OpType.NT_LOOKUP_FN2 || src == OpType.NT_LOOKUP_FN4;
 
-        public static OpIndicator indicator(OpNameKind src)
-        {
-            var dst = OpIndicator.Empty;
-            switch(src)
-            {
-                case K.None:
-                    dst = new(EmptyString);
-                break;
-                case K.REG0:
-                    dst = new("r0");
-                break;
-                case K.REG1:
-                    dst = new("r1");
-                break;
-                case K.REG2:
-                    dst = new("r2");
-                break;
-                case K.REG3:
-                    dst = new("r3");
-                break;
-                case K.REG4:
-                    dst = new("r4");
-                break;
-                case K.REG5:
-                    dst = new("r5");
-                break;
-                case K.REG6:
-                    dst = new("r6");
-                break;
-                case K.REG7:
-                    dst = new("r7");
-                break;
-                case K.REG8:
-                    dst = new("r8");
-                break;
-                case K.REG9:
-                    dst = new("r9");
-                break;
-                case K.MEM0:
-                    dst = new("m0");
-                break;
-                case K.MEM1:
-                    dst = new("m1");
-                break;
-                case K.IMM0:
-                    dst = new("imm0");
-                break;
-                case K.IMM1:
-                    dst = new("imm1");
-                break;
-                case K.IMM2:
-                    dst = new("imm2");
-                break;
-                case K.RELBR:
-                    dst = new("relbr");
-                break;
-                case K.BASE0:
-                    dst = new("base0");
-                break;
-                case K.BASE1:
-                    dst = new("base1");
-                break;
-                case K.SEG0:
-                    dst = new("seg0");
-                break;
-                case K.SEG1:
-                    dst = new("seg1");
-                break;
-                case K.AGEN:
-                    dst = new("agen");
-                break;
-                case K.PTR:
-                    dst = new("ptr");
-                break;
-                case K.INDEX:
-                    dst = new("index");
-                break;
-                case K.SCALE:
-                    dst = new("scale");
-                break;
-                case K.DISP:
-                    dst = new("disp");
-                break;
-                default:
-                    Errors.Throw($"Unhandled case {src}");
-                break;
-            }
+        [MethodImpl(Inline), Op]
+        static OpIndicator i(string src)
+            => new OpIndicator(src);
 
-            return dst;
-        }
+        static Index<OpNameKind,OpIndicator> _Indicators = new OpIndicator[]{
+            i(""),
+            i("r0"),
+            i("r1"),
+            i("r2"),
+            i("r3"),
+            i("r4"),
+            i("r5"),
+            i("r6"),
+            i("r7"),
+            i("r8"),
+            i("r9"),
+            i("m0"),
+            i("m1"),
+            i("imm0"),
+            i("imm1"),
+            i("imm2"),
+            i("relbr"),
+            i("base0"),
+            i("base1"),
+            i("seg0"),
+            i("seg1"),
+            i("agen"),
+            i("ptr"),
+            i("index"),
+            i("scale"),
+            i("disp"),
+        };
+
+        [MethodImpl(Inline), Op]
+        public static OpIndicator indicator(OpNameKind src)
+            => _Indicators[src];
     }
 }

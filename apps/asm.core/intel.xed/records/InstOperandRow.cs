@@ -12,8 +12,6 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableName)]
         public record struct InstOperandRow
         {
-            //public const byte FieldCount = 24;
-
             public const string TableName = "xed.inst.operands";
 
             [Render(12)]
@@ -22,7 +20,7 @@ namespace Z0
             [Render(18)]
             public InstClass InstClass;
 
-            [Render(6)]
+            [Render(26)]
             public XedOpCode OpCode;
 
             [Render(6)]

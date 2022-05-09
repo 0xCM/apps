@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     public static class XSvc
     {
         [Op]
@@ -12,6 +13,22 @@ namespace Z0
 
         public static CsLang CsLang(this IWfRuntime wf)
             => Z0.CsLang.create(wf);
+    }
+
+    partial class XTend
+    {
+        public static void AppendLines<T>(this ITextEmitter dst, ReadOnlySpan<T> src)
+        {
+            for(var i=0; i<src.Length; i++)
+                dst.AppendLine(skip(src,i));
+        }
+
+        public static void AppendLines<T>(this ITextEmitter dst, Span<T> src)
+        {
+            for(var i=0; i<src.Length; i++)
+                dst.AppendLine(skip(src,i));
+        }
+
     }
 }
 

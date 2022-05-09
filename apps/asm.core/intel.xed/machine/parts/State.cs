@@ -25,8 +25,6 @@ namespace Z0
 
             Addressing _AddressingMode;
 
-            AsmInfo _Asm;
-
             uint _Id;
 
             public MachineState(uint id)
@@ -43,7 +41,6 @@ namespace Z0
                 _Form = InstForm.Empty;
                 _Class = InstClass.Empty;
                 _Membership = InstGroupMember.Empty;
-                _Asm = AsmInfo.Empty;
             }
 
             public ref readonly uint Id
@@ -59,30 +56,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public ref MachineMode Mode()
                 => ref _Mode;
-
-            [MethodImpl(Inline)]
-            public ref InstPattern Pattern()
-                => ref _Pattern;
-
-            [MethodImpl(Inline)]
-            public ref InstForm Form()
-                => ref _Form;
-
-            [MethodImpl(Inline)]
-            public ref InstClass Class()
-                => ref _Class;
-
-            [MethodImpl(Inline)]
-            public ref InstGroupMember Group()
-                => ref _Membership;
-
-            [MethodImpl(Inline)]
-            public ref OperandState Rules()
-                => ref _RuleState;
-
-            [MethodImpl(Inline)]
-            public ref AsmInfo Asm()
-                => ref _Asm;
         }
     }
 }
