@@ -9,7 +9,7 @@ namespace Z0
 
     using api = Tables;
 
-    public struct RecordFormatter : IRecordFormatter
+    public class RecordFormatter : IRecordFormatter
     {
         public static RecordFormatter<T> create<T>()
             where T : struct
@@ -58,15 +58,7 @@ namespace Z0
         {
             adapt<T>(src, ref Adapter);
             return format(FormatSpec, Adapter.Adapted);
-            //return format(ref this, src);
         }
-
-        // static string format<T>(ref RecordFormatter formatter, in T src)
-        //     where T : struct
-        // {
-        //     adapt<T>(src, ref formatter.Adapter);
-        //     return format(formatter.FormatSpec, formatter.Adapter.Adapted);
-        // }
 
         public string FormatHeader()
         {
