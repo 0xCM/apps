@@ -9,6 +9,55 @@ namespace Z0
     [ApiHost]
     public readonly struct DataTypes
     {
+        [MethodImpl(Inline), Op]
+        public static DataSize sum(ReadOnlySpan<DataSize> src)
+        {
+            var dst = DataSize.Zero;
+            for(var i=0; i<src.Length; i++)
+                dst += skip(src,i);
+            return dst;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static DataSize max(ReadOnlySpan<DataSize> src)
+        {
+            var dst = DataSize.Zero;
+            for(var i=0; i<src.Length; i++)
+            {
+                ref readonly var x = ref skip(src,i);
+                if(x > dst)
+                    dst = x;
+            }
+            return dst;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static DataSize min(ReadOnlySpan<DataSize> src)
+        {
+            var dst = DataSize.Zero;
+            var count = src.Length;
+            if(count == 0)
+                return dst;
+
+            dst = first(src);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var x = ref skip(src,i);
+                if(x < dst)
+                    dst = x;
+            }
+            return dst;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static DataSize sum(params DataSize[] src)
+            => sum(@readonly(src));
+
+
+        [MethodImpl(Inline), Op]
+        public static DataSize max(params DataSize[] src)
+            => max(@readonly(src));
+
         public static Index<DataTypeRecord> records(Assembly[] src, bool pll = true)
         {
             var types = src.Types().Concrete().Where(x => x.IsStruct() || x.IsEnum);
@@ -114,10 +163,10 @@ namespace Z0
             var size = measure(src);
             dst.Name = src.Name;
             dst.Part = src.Assembly.PartName();
-            dst.PackedWidth = size.PackedWidth;
-            dst.NativeWidth = size.NativeWidth;
-            dst.PackedSize = size.PackedWidth != 0 ? (size.PackedWidth/8 + (size.PackedWidth % 8 == 0 ? 0 : 1)) : 0;
-            dst.NativeSize = size.NativeWidth/8;
+            dst.PackedWidth = size.Packed;
+            dst.NativeWidth = size.Native;
+            dst.PackedSize = size.Packed != 0 ? (size.Packed/8 + (size.Packed % 8 == 0 ? 0 : 1)) : 0;
+            dst.NativeSize = size.Native/8;
             return dst;
         }
 
@@ -131,23 +180,5 @@ namespace Z0
                 dst = 8;
             return dst;
         }
-    }
-
-    partial class XTend
-    {
-        // public static Index<DataType> DataTypes(this Assembly[] src)
-        //     => api.discover(src);
-
-        // public static Index<DataType> DataTypes(this Type[] src)
-        //     => api.discover(src);
-
-        // public static Index<DataType> DataTypes(this Index<Type> src)
-        //     => api.discover(src);
-
-        // public static Index<DataType> DataTypes(this Assembly src)
-        //     => api.discover(src);
-
-        // public static Index<DataType> DataTypes(this Index<Assembly> src)
-        //     => api.discover(src);
     }
 }

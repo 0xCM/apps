@@ -43,7 +43,7 @@ namespace Z0
             }
 
             public string Format()
-                => string.Format("{2,-24} | {0,-2} | {1,-3} | {3}", XedRender.format(Field), Index, Logic, Size.Format(2,2,true));
+                => string.Format("{2,-24} | {0,-2} | {1,-3} | {3}", XedRender.format(Field), Index, Logic, Size.Format(2,2));
 
             public override string ToString()
                 => Format();

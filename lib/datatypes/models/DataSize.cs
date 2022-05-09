@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(64,64)]
     public readonly record struct DataSize : IComparable<DataSize>
     {
@@ -25,7 +27,25 @@ namespace Z0
             get => (uint)(Data >> 32);
         }
 
+        public uint Packed
+        {
+            [MethodImpl(Inline)]
+            get => (uint)Data;
+        }
+
+        public uint Native
+        {
+            [MethodImpl(Inline)]
+            get => (uint)(Data >> 32);
+        }
+
         public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data == 0;
+        }
+
+        public bool IsZero
         {
             [MethodImpl(Inline)]
             get => Data == 0;
@@ -37,11 +57,17 @@ namespace Z0
             get => Data != 0;
         }
 
+        public bool IsNonZero
+        {
+            [MethodImpl(Inline)]
+           get => Data != 0;
+        }
+
         [MethodImpl(Inline)]
         public void Deconstruct(out byte packed, out byte native)
         {
-            packed = (byte)PackedWidth;
-            native = (byte)NativeWidth;
+            packed = (byte)Packed;
+            native = (byte)Native;
         }
 
         public Hash32 Hash
@@ -52,32 +78,67 @@ namespace Z0
 
         public override int GetHashCode()
             => Hash;
+
+        public string Format(byte pN, byte aN)
+            => string.Format(string.Format("{0} {1}", RP.digits(0,pN), RP.digits(1, aN)), Packed, Native);
+
         public string Format()
             => Format(4,4);
 
-        public static string digits(byte index, byte n)
-            => Chars.LBrace + $"{index}:D{n}" + Chars.RBrace;
-
-        public string Format(byte pN, byte aN)
-            => string.Format(string.Format("{0}:{1}", digits(0,pN), digits(1, aN)), PackedWidth, NativeWidth);
-
-        public string Format(byte pN, byte aN, bool bracket)
-            => bracket ? text.bracket(Format(pN, aN)) : Format(pN, aN);
-
-        public string Format(bool bracket)
-            => bracket ? text.bracket(Format()) : Format();
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
+        public bool Equals(DataSize src)
+            => Packed == src.Packed && Native == src.Native;
+
+        [MethodImpl(Inline)]
         public int CompareTo(DataSize src)
-            => PackedWidth.CompareTo(src.PackedWidth);
+            => Packed.CompareTo(src.Packed);
 
         [MethodImpl(Inline)]
         public static implicit operator DataSize((uint packed, uint native) src)
             => new DataSize(src.packed, src.native);
 
+        [MethodImpl(Inline)]
+        public static DataSize operator +(DataSize a, DataSize b)
+            => new DataSize(a.Packed + b.Packed, a.Native + b.Native);
+
+        [MethodImpl(Inline)]
+        public static DataSize operator -(DataSize a, DataSize b)
+            => new DataSize(a.Packed - b.Packed, a.Native - b.Native);
+
+        [MethodImpl(Inline)]
+        public static bit operator <(DataSize a, DataSize b)
+            => a.Packed < b.Packed;
+
+        [MethodImpl(Inline)]
+        public static bit operator >(DataSize a, DataSize b)
+            => a.Packed > b.Packed;
+
+        [MethodImpl(Inline)]
+        public static bit operator <=(DataSize a, DataSize b)
+            => a.Packed <= b.Packed;
+
+        [MethodImpl(Inline)]
+        public static bit operator >=(DataSize a, DataSize b)
+            => a.Packed >= b.Packed;
+
+        [MethodImpl(Inline)]
+        public static bool operator true(DataSize src)
+            => src.IsNonEmpty;
+
+        [MethodImpl(Inline)]
+        public static bool operator false(DataSize src)
+            => src.IsZero;
+
+        [MethodImpl(Inline)]
+        public static explicit operator bool(DataSize src)
+            => src.IsNonZero;
+
         public static DataSize Empty => default;
+
+        public static DataSize Zero => default;
     }
 }

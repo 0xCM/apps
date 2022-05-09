@@ -20,8 +20,7 @@ namespace Z0
         string CalcTableMetrics(in CellTable table)
         {
             var dst = text.emitter();
-
-            dst.AppendLine(string.Format("{0,-32} {1}", table.Sig.Format(), Paths.CheckedRulePage(table.Sig)));
+            dst.AppendLine(string.Format("{0,-32} {1}", table.Sig, Paths.CheckedRulePage(table.Sig)));
             dst.AppendLine(RP.PageBreak120);
             dst.AppendLine();
             for(var i=0; i<table.RowCount; i++)
@@ -31,19 +30,16 @@ namespace Z0
                 if(i != 0)
                     dst.AppendLine();
 
-                dst.AppendLineFormat("{0:D3}", row.RowIndex);
+                var size = DataSize.Empty;
                 dst.AppendLine(RP.PageBreak120);
                 for(var j=0; j<row.CellCount; j++)
                 {
                     ref readonly var cell = ref row[j];
                     ref readonly var key = ref cell.Key;
-                    dst.AppendLineFormat("{0} {1,-12} | {2}",
-                        string.Format("{0:D3} {1:D3} {2,-48}", row.RowIndex, key.Col, key.FormatSemantic()),
-                        XedRender.format(cell.Field),
-                        cell);
+                    dst.AppendLineFormat("{0} | {1} | {2,-26} | {3}", key, cell.Size.Format(2,2), XedRender.format(cell.Field), cell);
                 }
 
-                dst.AppendLine(RP.PageBreak80);
+                dst.AppendLine(RP.PageBreak120);
                 dst.AppendLine(row.Expression);
             }
 

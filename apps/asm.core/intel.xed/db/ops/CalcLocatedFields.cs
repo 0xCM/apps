@@ -11,6 +11,31 @@ namespace Z0
     partial class XedDb
     {
         public Index<LocatedField> CalcLocatedFields(RuleCells src)
-            => Data(nameof(CalcLocatedFields), () => XedRules.CalcLocatedFields(src));
+        {
+            return Data(nameof(CalcLocatedFields), Calc);
+
+            Index<LocatedField> Calc()
+            {
+                var dst = list<LocatedField>();
+                var tables = src.CellTables;
+                for(var i=0; i<tables.TableCount; i++)
+                {
+                    ref readonly var table = ref src[i];
+                    var rows = table.Rows;
+                    for(var j=0; j<rows.Count; j++)
+                    {
+                        ref readonly var row = ref table[j];
+                        var cells = row.Cells;
+                        for(var k=0; k<cells.Count; k++)
+                        {
+                            ref readonly var cell = ref cells[k];
+                            dst.Add(new (cell.Location, cell.Field));
+                        }
+                    }
+                }
+
+                return dst.ToIndex().Sort();
+            }
+        }
     }
 }

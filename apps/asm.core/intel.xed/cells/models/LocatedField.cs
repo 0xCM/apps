@@ -98,14 +98,6 @@ namespace Z0
                 return result;
             }
 
-            // [MethodImpl(Inline)]
-            // public static implicit operator LocatedField((Coordinate c, FieldKind f) src)
-            //     => new LocatedField(src.c,src.f);
-
-            // [MethodImpl(Inline)]
-            // public static implicit operator LocatedField(Paired<Coordinate,FieldKind> src)
-            //     => new LocatedField(src.Left, src.Right);
-
             public static LocatedField Empty => default;
         }
     }

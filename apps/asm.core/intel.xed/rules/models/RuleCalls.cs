@@ -18,7 +18,7 @@ namespace Z0
             RuleCalls(RuleCells cells)
             {
                 Data = new();
-                ref readonly var sigs = ref cells.Sigs;
+                ref readonly var sigs = ref cells.CellTables.Sigs;
                 for(var i=0; i<sigs.Count; i++)
                     Data[sigs[i]] = new();
             }

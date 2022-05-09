@@ -135,7 +135,7 @@ namespace Z0
         void EmitRaw(RuleCells src)
         {
             var dst = text.emitter();
-            var count = CellRender.Tables.render(src.Values, dst);
+            var count = CellRender.Tables.render(src.CellTables.Cells(), dst);
             var data = Require.equal(dst.Emit(), src.Description);
             AppSvc.FileEmit(data, count, XedPaths.RuleTarget("cells.raw", FS.Csv), TextEncodingKind.Asci);
         }

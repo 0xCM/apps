@@ -26,7 +26,7 @@ namespace Z0
             {
                 var kind = (RuleTableKind)((src & KindMask) >> KindOffset);
                 var rule = (RuleName)((src & TableMask) >> TableOffset);
-                var row = (ushort)((src & RowMask) >> RowOffset);
+                var row = (byte)((src & RowMask) >> RowOffset);
                 var col = (byte)((src & ColMask) >> ColOffset);
                 return new Coordinate(new RuleSig(kind,rule), row,col);
             }
@@ -34,8 +34,6 @@ namespace Z0
             public const byte Width = KindWidth + TableWidth + RowWidth + ColWidth;
 
             public const uint Mask = KindMask | TableMask | RowMask | ColMask;
-
-            public const string RenderPatern = "{0,-32} | ({1}, {2:X3}, {3:X2}, {4:X2})";
 
             const byte KindWidth = num2.Width;
 
@@ -103,14 +101,10 @@ namespace Z0
                 return result;
             }
 
+            public const string RenderPatern = "{0:D2} {1:D2}";
+
             public string Format()
-             => string.Format(Coordinate.RenderPatern,
-                XedRender.format(Table),
-                XedRender.format(Kind),
-                (ushort)Table,
-                Row,
-                Col
-                );
+                => string.Format(Coordinate.RenderPatern, Row, Col);
 
             public override string ToString()
                 => Format();

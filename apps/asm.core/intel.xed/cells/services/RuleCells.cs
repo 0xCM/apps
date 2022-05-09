@@ -15,32 +15,16 @@ namespace Z0
 
             public readonly string Description;
 
-            public readonly Pairings<RuleSig,Index<RuleCell>> TableCells;
-
-            internal RuleCells(Pairings<RuleSig,Index<RuleCell>> cells, CellTables tables, string desc)
+            internal RuleCells(CellTables tables, string desc)
             {
-                TableCells = cells;
                 CellTables = tables;
                 Description = desc;
             }
 
             RuleCells()
             {
-                TableCells = new();
                 CellTables = null;
                 Description = EmptyString;
-            }
-
-            public ref readonly Index<RuleSig> Sigs
-            {
-                [MethodImpl(Inline)]
-                get => ref CellTables.Sigs;
-            }
-
-            public ref readonly Index<RuleCell> Values
-            {
-                [MethodImpl(Inline)]
-                get => ref CellTables.Cells();
             }
 
             public uint TableCount

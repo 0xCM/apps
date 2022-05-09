@@ -12,5 +12,6 @@ namespace Z0
 
         public static string digits(byte index, byte n)
             => Chars.LBrace + $"{index}:D{n}" + Chars.RBrace;
+
     }
 }

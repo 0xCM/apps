@@ -15,9 +15,7 @@ namespace Z0
         {
             public static RuleCells load(Dictionary<RuleSig,Index<RuleCell>> src, string desc)
             {
-                var ds = CellDatasets.create(src);
-                var tables = CellTables.from(ds);
-                return new RuleCells(ds.RuleCells(), tables, desc);
+                return new RuleCells(CellTables.from(CellDatasets.create(src)), desc);
             }
 
             public static CellDatasets create(Dictionary<RuleSig,Index<RuleCell>> src)
@@ -31,7 +29,7 @@ namespace Z0
                 dst._Tables = data.Sort();
                 dst._Cells = data.SelectMany(x => x.Rows.SelectMany(x => x.Cells)).Sort();
                 dst._Sigs = data.Select(x => x.Sig).Sort();
-                dst._RuleCells = core.pairings(src.Map(x => paired(x.Key,x.Value)));
+                dst._TableCells = core.pairings(src.Map(x => paired(x.Key,x.Value)));
                 return dst;
             }
 
@@ -62,7 +60,7 @@ namespace Z0
 
             Index<RuleSig> _Sigs;
 
-            Pairings<RuleSig,Index<RuleCell>> _RuleCells;
+            Pairings<RuleSig,Index<RuleCell>> _TableCells;
 
             public ushort TableCount;
 
@@ -83,8 +81,8 @@ namespace Z0
                 => ref _Cells;
 
             [MethodImpl(Inline)]
-            public ref readonly Pairings<RuleSig,Index<RuleCell>> RuleCells()
-                => ref _RuleCells;
+            public ref readonly Pairings<RuleSig,Index<RuleCell>> TableCells()
+                => ref _TableCells;
         }
     }
 }

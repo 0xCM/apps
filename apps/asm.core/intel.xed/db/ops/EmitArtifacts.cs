@@ -24,7 +24,6 @@ namespace Z0
             exec(PllExec,
                 () => EmitRuleMetrics(src),
                 () => EmitTableStats(src),
-                () => EmitLocatedFields(src),
                 () => EmitGrids(src)
                 );
         }

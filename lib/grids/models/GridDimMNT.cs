@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
     /// Encapsulates metrics that characterize a grid of natural rectangular dimensions
     /// </summary>
-    [DataType("dim<m:{0},n:{1},t:{2}>")]
     public readonly struct GridDim<M,N,T>
         where M : unmanaged, ITypeNat
         where N : unmanaged, ITypeNat

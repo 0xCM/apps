@@ -39,7 +39,9 @@ namespace Z0
             ref readonly var specs = ref rules.Specs();
             var cells = Rules.CalcRuleCells(rules);
             var srcA = Rules.CalcSpecExpr(specs);
-            //var srcB = Rules.CalcCellExpr(cells);
+            var srcB = Rules.CalcCellExpr(cells.CellTables);
+
+
 
 
         }

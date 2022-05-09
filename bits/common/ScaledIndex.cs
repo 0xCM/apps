@@ -7,9 +7,13 @@ namespace Z0
     /// <summary>
     /// Defines a linear relationship between two address spaces
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(StructLayout,Pack=1)]
     public readonly struct ScaledIndex
     {
+        [MethodImpl(Inline), Op]
+        public static ScaledIndex define(ushort cell, sbyte dx, uint i)
+            => new ScaledIndex(cell, dx, i);
+
         /// <summary>
         /// The displacement of the index from the source base address
         /// </summary>
@@ -53,7 +57,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Scale;
         }
-
 
         public string Format()
         {

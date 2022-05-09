@@ -4,31 +4,27 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
     using static CharText;
 
-    [DataType("grid.segment<t:{0}>")]
+    [StructLayout(StructLayout, Pack=1)]
     public readonly struct GridSegment<T>
         where T : unmanaged
     {
         /// <summary>
         /// The grid dimension
         /// </summary>
-        public GridDim Dim {get;}
+        public readonly GridDim Dim;
 
         /// <summary>
         /// The bit-width of a grid cell
         /// </summary>
-        public uint CellWidth {get;}
+        public readonly uint CellWidth;
 
         /// <summary>
         /// The bit-width of a segment that covers one or more cells
         /// </summary>
-        public uint SegWidth {get;}
+        public readonly uint SegWidth;
 
         [MethodImpl(Inline)]
         public GridSegment(GridDim dim, uint segwidth)

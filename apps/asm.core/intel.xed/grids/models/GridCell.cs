@@ -109,7 +109,7 @@ namespace Z0
                     Key.Location,
                     XedRender.format(Key.Rule.TableKind),
                     XedRender.format(Key.Rule.TableName),
-                    Size.Format(2,2,true),
+                    Size.Format(2,2),
                     XedRender.format(Logic),
                     XedRender.format(Field),
                     Value

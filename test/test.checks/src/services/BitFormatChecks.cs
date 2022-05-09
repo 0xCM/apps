@@ -51,7 +51,7 @@ namespace Z0
             var bits = BitRender.render8x8(bytes);
             Log.AppendLine(text.format(bits));
 
-            var nibbles = NibbleSpan.from(bytes);
+            var nibbles = Nibbles.from(bytes);
             var count = nibbles.Count;
             Log.AppendLine(string.Format("{0}:{1}", "Count", count));
             if(count != 32)
@@ -69,7 +69,7 @@ namespace Z0
             var c256 = Cells.join(c0,c1,c2,c3);
             Log.AppendLine(c256);
             var bytes = c256.Bytes;
-            var nibbles = NibbleSpan.from(bytes);
+            var nibbles = Nibbles.from(bytes);
             Log.AppendLine(nibbles.Format());
         }
 

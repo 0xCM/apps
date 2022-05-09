@@ -84,6 +84,7 @@ namespace Z0
                 return result;
             }
 
+
             public Coordinate Location
             {
                 [MethodImpl(Inline)]
@@ -97,11 +98,8 @@ namespace Z0
             public override int GetHashCode()
                 => Hash;
 
-            public string FormatSemantic()
-                => string.Format("{0}[{1:D2}:{2:D2}].{3}", Rule, Row, Col, Logic) + (Keyword != 0 ? ( "." + XedRender.format(Keyword) ) : EmptyString);
-
             public string Format()
-                => core.bytes(this).FormatHex();
+                => string.Format("{0:D3} {1:D2} {2:D2} {3} {4}", Table, Row, Col, Rule.TableKind, Rule.TableName);
 
             public override string ToString()
                 => Format();

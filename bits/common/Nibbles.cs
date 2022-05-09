@@ -9,31 +9,32 @@ namespace Z0
 
     using api = BitNumbers;
 
+
     [ApiComplete]
-    public readonly ref struct NibbleSpan
+    public readonly ref struct Nibbles
     {
         [MethodImpl(Inline)]
-        public static NibbleSpan from(Span<byte> src)
-            => new NibbleSpan(src);
+        public static Nibbles from(Span<byte> src)
+            => new Nibbles(src);
 
         [MethodImpl(Inline)]
-        public static uint count(in NibbleSpan src)
+        public static uint count(in Nibbles src)
             => src.Width/4;
 
         [MethodImpl(Inline)]
-        public static uint4 read(in NibbleSpan src, uint index)
+        public static uint4 read(in Nibbles src, uint index)
         {
-            var cell = memory.scaled(4, -2, index);
+            var cell = ScaledIndex.define(4, -2, index);
             ref readonly var c = ref skip(src.Bytes, cell.Offset);
             return cell.Aligned ? api.uint4(c) : api.uint4(srl(c , (byte)cell.CellWidth));
         }
 
         [MethodImpl(Inline)]
-        public static void write(uint4 src, uint index, in NibbleSpan dst)
+        public static void write(uint4 src, uint index, in Nibbles dst)
         {
             const byte UpperMask = 0xF0;
             const byte LowerMask = 0x0F;
-            var cell = memory.scaled(4, -2, index);
+            var cell = ScaledIndex.define(4, -2, index);
             ref var c = ref seek(dst.Bytes, cell.Offset);
             if(cell.Aligned)
                 c = or(and(c, UpperMask), src);
@@ -44,7 +45,7 @@ namespace Z0
         readonly Span<byte> Data;
 
         [MethodImpl(Inline)]
-        internal NibbleSpan(Span<byte> data)
+        internal Nibbles(Span<byte> data)
         {
             Data = data;
         }

@@ -44,4 +44,8 @@
     <CgCommonName>z0.codegen.common</CgCommonName>
     <CgCommonPath>$(BuildRootDir)bin\$(CgCommonName)\$(Configuration)\$(TargetFramework)\$(CgCommonName).dll</CgCommonPath>
   </PropertyGroup>
+
+
+  <Import Project="projects.props"/>
+
 </Project>

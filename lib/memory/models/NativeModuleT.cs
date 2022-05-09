@@ -4,18 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using Windows;
 
-    using static Root;
-
-    public readonly struct NativeModule<T> : INativeModule
+    public readonly struct NativeModule<T> : INativeModule<T>
         where T : unmanaged
     {
-        public string Name {get;}
+        public readonly string Name {get;}
 
-        public IntPtr Handle {get;}
+        public readonly IntPtr Handle {get;}
 
         [MethodImpl(Inline)]
         public NativeModule(string name, IntPtr handle)
@@ -47,6 +43,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator NativeModule(NativeModule<T> src)
             => new NativeModule(src.Name, src.Handle);
-
     }
 }

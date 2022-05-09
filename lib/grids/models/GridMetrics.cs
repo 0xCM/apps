@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
-    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("grid.metrics")]
+    [StructLayout(StructLayout, Pack=1)]
     public readonly struct GridMetrics
     {
         /// <summary>

@@ -6,9 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="assets/**/*.*" />
+    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
+    <ProjectReference Include="../../bits/z0.bits.csproj" />
   </ItemGroup>
 
-  <Import Project="../imports.props"/>
+
+  <ItemGroup>
+    <EmbeddedResource Include="assets/**/*.*" />
+  </ItemGroup>
 
 </Project>

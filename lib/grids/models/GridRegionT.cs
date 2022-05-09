@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [DataType("grid.region<t:{0}>")]
+    [StructLayout(StructLayout, Pack=1)]
     public readonly struct GridRegion<T>
         where T : unmanaged
     {

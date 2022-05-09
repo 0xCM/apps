@@ -63,12 +63,11 @@ namespace Z0
         /// </summary>
         public const CC ThisCall = CC.ThisCall;
 
-        const string TestSuffix = ".test";
-
-        const string SvcSuffix = ".svc";
-
-        const string BaseSuffix = "";
-
+        /// <summary>
+        /// The one, the only
+        /// </summary>
         public const string EmptyString = "";
+
+        public const LayoutKind StructLayout = LayoutKind.Sequential;
     }
 }

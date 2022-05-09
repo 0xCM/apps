@@ -1,0 +1,61 @@
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0
+{
+    using static core;
+    using static DataTypes;
+
+    public static class DataTypesX
+    {
+        [MethodImpl(Inline), Op]
+        public static DataSize Sum(this ReadOnlySpan<DataSize> src)
+            => sum(src);
+
+        [MethodImpl(Inline), Op]
+        public static DataSize Sum(this DataSize[] src)
+            => sum(src);
+
+        [MethodImpl(Inline), Op]
+        public static DataSize Sum(this Index<DataSize> src)
+            => sum(src);
+
+        [MethodImpl(Inline), Op]
+        public static DataSize Sum(this Span<DataSize> src)
+            => sum(src);
+
+        [MethodImpl(Inline), Op]
+        public static DataSize Max(this ReadOnlySpan<DataSize> src)
+            => max(src);
+
+        [MethodImpl(Inline), Op]
+        public static DataSize Max(this DataSize[] src)
+            => max(src);
+
+        [MethodImpl(Inline), Op]
+        public static DataSize Max(this Index<DataSize> src)
+            => max(src);
+
+        [MethodImpl(Inline), Op]
+        public static DataSize Max(this Span<DataSize> src)
+            => max(src);
+
+        [MethodImpl(Inline), Op]
+        public static DataSize Min(this ReadOnlySpan<DataSize> src)
+            => min(src);
+
+        [MethodImpl(Inline), Op]
+        public static DataSize Min(this DataSize[] src)
+            => min(src);
+
+        [MethodImpl(Inline), Op]
+        public static DataSize Min(this Index<DataSize> src)
+            => min(src);
+
+        [MethodImpl(Inline), Op]
+        public static DataSize Min(this Span<DataSize> src)
+            => min(src);
+    }
+
+}

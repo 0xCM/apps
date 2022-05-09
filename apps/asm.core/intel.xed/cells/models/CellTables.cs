@@ -15,6 +15,8 @@ namespace Z0
 
             Index<RuleSig> _Sigs;
 
+            Pairings<RuleSig,Index<RuleCell>> _TableCells;
+
             public static CellTables from(CellDatasets src)
                 => new CellTables(src);
 
@@ -26,6 +28,7 @@ namespace Z0
                 _Tables = src.Tables();
                 _Cells = src.Cells();
                 _Sigs = src.Sigs();
+                _TableCells = src.TableCells();
             }
 
             /// <summary>
@@ -94,6 +97,27 @@ namespace Z0
             [MethodImpl(Inline)]
             public ref readonly Index<RuleCell> Cells()
                 => ref _Cells;
+
+            /// <summary>
+            /// Returns <see cref='RuleCell'/> values in a <see cref='CellTable'/> paired with the identifying and index-defined <see cref='RuleSig'>
+            /// </summary>
+            [MethodImpl(Inline)]
+            public ref readonly Pairings<RuleSig,Index<RuleCell>> TableCells()
+                => ref _TableCells;
+
+            /// <summary>
+            /// Returns <see cref='RuleCell'/> values in an index-identified <see cref='CellTable'/> paired with the identifying and index-defined <see cref='RuleSig'>
+            /// </summary>
+            [MethodImpl(Inline)]
+            public ref readonly Paired<RuleSig,Index<RuleCell>> TableCells(int i)
+                => ref _TableCells[i];
+
+            /// <summary>
+            /// Returns <see cref='RuleCell'/> values in an index-identified <see cref='CellTable'/> paired with the identifying and index-defined <see cref='RuleSig'>
+            /// </summary>
+            [MethodImpl(Inline)]
+            public ref readonly Paired<RuleSig,Index<RuleCell>> TableCells(uint i)
+                => ref _TableCells[i];
 
             /// <summary>
             /// Returns the see <cref='RuleSig'/> that is a logical identifier for an index-identified <see cref='CellTable'/>

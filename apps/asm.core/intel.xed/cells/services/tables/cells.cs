@@ -142,7 +142,7 @@ namespace Z0
                             }
 
                             if(!result)
-                                Errors.Throw(info.Field.ToString() + ":="  + keys[k].FormatSemantic() + $":{info.Kind}" + "='" + data + "'");
+                                Errors.Throw(info.Field.ToString() + ":="  + keys[k].Format() + $":{info.Kind}" + "='" + data + "'");
 
                             emitter.AppendLineFormat(format(cell));
                             kcells.Add(cell);
@@ -159,7 +159,7 @@ namespace Z0
                 => string.Format("{0,-5} | {1,-5} | {2,-48} | {3}", "Seq", "Lix", "Key", "Value");
 
             static string format(in RuleCell cell)
-                => string.Format("{0:D5} | {1:D5} | {2,-48} | {3}", cell.Key.Index, cell.Key.Index, cell.Key.FormatSemantic(), cell.Format());
+                => string.Format("{0:D5} | {1:D5} | {2,-48} | {3}", cell.Key.Index, cell.Key.Index, cell.Key.Format(), cell.Format());
         }
     }
 }

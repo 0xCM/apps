@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines a generic digit representation relative to a natural base
     /// </summary>
@@ -25,7 +20,7 @@ namespace Z0
             => value = src;
 
         public uint ToUInt()
-            => (uint)Convert.ChangeType(value, typeof(uint));
+            => core.bw32(value);
 
         [MethodImpl(Inline)]
         public string format()

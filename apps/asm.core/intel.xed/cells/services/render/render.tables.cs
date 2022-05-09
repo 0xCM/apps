@@ -40,7 +40,7 @@ namespace Z0
                     for(var i=z16; i<cells.Count; i++)
                     {
                         ref readonly var cell = ref cells[i];
-                        dst.AppendLineFormat("{0:D5} | {1:D5} | {2,-48} | {3}", i, cell.Key.Index, cell.Key.FormatSemantic(), cell.Format());
+                        dst.AppendLineFormat("{0:D5} | {1:D5} | {2,-48} | {3}", i, cell.Key.Index, cell.Key, cell);
                     }
                     return cells.Count;
                 }
@@ -65,7 +65,7 @@ namespace Z0
                     for(var i=0; i<src.Count; i++, seq++)
                     {
                         ref readonly var cell = ref src[i];
-                        dst.AppendLineFormat("{0:D5} | {1,-48} | {2}", cell.Key.Index, cell.Key.FormatSemantic(), cell.Format());
+                        dst.AppendLineFormat("{0:D5} | {1,-48} | {2}", cell.Key.Index, cell.Key, cell);
                     }
                 }
 

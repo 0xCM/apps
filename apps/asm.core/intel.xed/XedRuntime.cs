@@ -8,8 +8,10 @@ namespace Z0
     using Asm;
 
     using static XedRules;
-    using static XedOperands;
+    using static XedPatterns;
+    using static XedModels;
     using static core;
+    using static XedOperands;
 
     public partial class XedRuntime : AppService<XedRuntime>
     {
@@ -20,7 +22,7 @@ namespace Z0
         public bool PllExec
         {
             [MethodImpl(Inline)]
-            get => AppData.PllExec();
+            get => AppData.get().PllExec();
         }
 
         public IAllocProvider Allocator => _Alloc;
@@ -55,39 +57,25 @@ namespace Z0
             return m;
         }
 
-        enum StoreIndex : byte
-        {
-            InstPattern,
-
-            RuleTables,
-
-            RuleCells,
-
-            RuleExpr,
-
-            InstFields,
-        }
-
-        Index<object> DataStores = alloc<object>(24);
-
-        [MethodImpl(Inline)]
-        ref readonly T Load<T>(StoreIndex index)
-            => ref core.@as<object,T>(DataStores[(byte)index]);
-
-        [MethodImpl(Inline)]
-        void Store<T>(StoreIndex index, Func<T> f)
-            => core.@as<object,T>(DataStores[(byte)index]) = f();
-
-        //InstLayouts CalcLayouts(Index<InstPattern> patterns) => Data(nameof(CalcLayouts), () => LayoutCalcs.layouts(patterns));
 
         Alloc _Alloc;
+
+        XedViews _Views;
+
+
+        public ref readonly XedViews Views
+        {
+            [MethodImpl(Inline)]
+            get => ref _Views;
+        }
 
         public XedRuntime()
         {
             _Alloc = Alloc.allocate();
+            _Views = new(this);
         }
 
-        void StartDirect()
+        void RunCalcs()
         {
             var patterns = Rules.CalcPatterns();
             var tables = Rules.CalcRuleTables();
@@ -97,21 +85,21 @@ namespace Z0
                 () => patterns = Rules.CalcPatterns()
                 );
 
-            Store(StoreIndex.InstPattern, () => patterns);
-            Store(StoreIndex.RuleTables, () => tables);
+            Views.Store(XedViewIndex.InstPattern, () => patterns);
+            Views.Store(XedViewIndex.RuleTables, () => tables);
 
             var cells = RuleCells.Empty;
-            var expr = sys.empty<RuleExpr>();
-            var fields = sys.empty<InstFieldRow>();
+            Index<RuleExpr> expr = sys.empty<RuleExpr>();
+            Index<InstFieldRow> fields = sys.empty<InstFieldRow>();
             exec(PllExec,
                 () => cells = Rules.CalcRuleCells(tables),
                 () => fields = Rules.CalcInstFields(patterns),
                 () => expr = Rules.CalcSpecExpr(tables.Specs())
             );
 
-            Store(StoreIndex.InstFields, () => fields);
-            Store(StoreIndex.RuleCells, () => cells);
-            Store(StoreIndex.InstFields, () => fields);
+            Views.Store(XedViewIndex.InstFields, () => fields);
+            Views.Store(XedViewIndex.SpecExpr, () => expr);
+            Views.Store(XedViewIndex.CellTables, () => cells.CellTables);
 
             Started = true;
         }
@@ -122,7 +110,7 @@ namespace Z0
             lock(StartLocker)
             {
                 if(!Started)
-                    StartDirect();
+                    RunCalcs();
             }
         }
 
@@ -131,10 +119,51 @@ namespace Z0
             _Alloc?.Dispose();
         }
 
-        static AppData AppData
+        public void EmitCatalog()
         {
-            [MethodImpl(Inline)]
-            get => AppData.get();
+            Paths.Targets().Delete();
+            Emit(XedFields.Defs.Positioned);
+            exec(PllExec,
+                () => Main.EmitChipMap(),
+                () => Main.ImportForms(),
+                () => EmitRegmaps(),
+                () => EmitBroadcastDefs(),
+                () => Rules.EmitCatalog(Views.Patterns, Views.RuleTables)
+                );
+
+            EmitInstPages(Views.Patterns);
+            EmitDocs(Views.Patterns,Views.RuleTables);
+            XedDb.EmitArtifacts();
+        }
+
+        void EmitDocs(Index<InstPattern> src, RuleTables rules)
+            => Docs.Emit(src,rules);
+
+        void EmitInstPages(Index<InstPattern> src)
+        {
+            src.Sort();
+            var formatter = InstPageFormatter.create();
+            Paths.InstPageRoot().Delete();
+            iter(formatter.GroupFormats(src), x =>  Emit(x), PllExec);
+        }
+
+        void Emit(in InstIsaFormat src)
+        {
+            var dst = Paths.InstPagePath(src.Isa);
+            Require.invariant(!dst.Exists);
+            FileEmit(src.Content, src.LineCount, dst, TextEncodingKind.Asci);
+        }
+
+        void EmitBroadcastDefs()
+            => TableEmit(XedOperands.Views.BroadcastDefs, BroadcastDef.RenderWidths, Paths.Table<BroadcastDef>());
+
+        void Emit(ReadOnlySpan<FieldDef> src)
+            => TableEmit(src, FieldDef.RenderWidths, Paths.Table<FieldDef>());
+
+        void EmitRegmaps()
+        {
+            TableEmit(XedRegMap.Service.REntries, RegMapEntry.RenderWidths, Paths.Table<RegMapEntry>("rmap"));
+            TableEmit(XedRegMap.Service.XEntries, RegMapEntry.RenderWidths, Paths.Table<RegMapEntry>("xmap"));
         }
     }
 }

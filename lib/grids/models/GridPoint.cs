@@ -4,25 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     /// <summary>
     /// Locates a cell within a grid
     /// </summary>
-     [DataType("grid.point")]
-     public struct GridPoint : IGridPoint<GridPoint>
-     {
+    [StructLayout(StructLayout, Pack=1)]
+    public readonly record struct GridPoint : IGridPoint<GridPoint>
+    {
         internal const string RenderPattern = "({0},{1})";
 
         /// <summary>
         /// The cell row
         /// </summary>
-        public uint Row {get; private set;}
+        public readonly uint Row;
 
         /// <summary>
         /// The cell column
         /// </summary>
-        public uint Col {get; private set;}
+        public readonly uint Col;
 
         [MethodImpl(Inline)]
         public GridPoint(uint row, uint col)
@@ -33,31 +31,25 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public GridPoint IncRow()
-        {
-            Row = add(Row,1);
-            return this;
-        }
+            => new (Row+1,Col);
 
         [MethodImpl(Inline)]
         public GridPoint DecRow()
-        {
-            Row = sub(Row,1);
-            return this;
-        }
+            => new (Row-1,Col);
 
         [MethodImpl(Inline)]
         public GridPoint IncCol()
-        {
-            Col = add(Col,1);
-            return this;
-        }
+            => new (Row,Col+1);
 
         [MethodImpl(Inline)]
         public GridPoint DecCol()
-        {
-            Col = sub(Col,1);
-            return this;
-        }
+            => new (Row,Col-1);
+
+        uint IGridPoint.Row
+            => Row;
+
+        uint IGridPoint.Col
+            => Col;
 
         [MethodImpl(Inline)]
         public bool Equals(GridPoint src)
@@ -65,9 +57,6 @@ namespace Z0
 
         public override int GetHashCode()
             => (int)alg.hash.combine(Row,Col);
-
-        public override bool Equals(object src)
-            => src is GridPoint x && Equals(x);
 
         public string Format()
             => string.Format(RenderPattern, Row, Col);

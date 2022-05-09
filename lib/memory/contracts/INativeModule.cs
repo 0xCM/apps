@@ -4,22 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [Free]
-    public interface INativeFunction : IAddressable
+    public interface INativeModule : IDisposable
     {
         string Name {get;}
 
-        NativeModule Source {get;}
+        IntPtr Handle {get;}
     }
 
     [Free]
-    public interface INativeFunction<D> : INativeFunction
-        where D : Delegate
+    public interface INativeModule<T> : INativeModule
+        where T : unmanaged
     {
-        D Delegate {get;}
+
     }
 }
