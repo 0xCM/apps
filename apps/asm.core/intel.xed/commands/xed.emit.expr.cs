@@ -31,7 +31,7 @@ namespace Z0
         Outcome EmitRuleExpr(CmdArgs args)
         {
             var tables = CalcRules();
-            var expr = Rules.CalcRuleExpr(tables.Specs());
+            var expr = Rules.CalcSpecExpr(tables.Specs());
             Rules.Emit(expr);
             return true;
         }

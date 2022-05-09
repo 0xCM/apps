@@ -60,12 +60,12 @@ namespace Z0
 
             public string Format()
             {
-                var dst = text.buffer();
-                var count = Require.equal(Data.TableCount, (uint)Data.TableCells.Count);
-                for(var i=0; i<Data.TableCount; i++)
+                var dst = text.emitter();
+                for(var i=0u; i<Data.TableCount; i++)
                 {
                     ref readonly var cells = ref Data.TableCells[i];
                     Render(cells.Left, cells.Right, dst);
+
                 }
                 return dst.Emit();
             }

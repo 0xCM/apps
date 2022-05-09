@@ -307,7 +307,7 @@ namespace Z0
                 Run(src[j]);
         }
 
-        void Run(Index<CellTable> src)
+        void Run(CellTables src)
         {
             for(var i=0; i<src.Count; i++)
                 Run(src[i]);

@@ -9,9 +9,6 @@ namespace Z0
     {
         public partial class RuleTables
         {
-            public static Index<RuleCell> linearize(Pairings<RuleSig,Index<RuleCell>> src)
-                => src.Array().SelectMany(x => x.Right).Sort();
-
             internal class Buffers
             {
                 public readonly ConcurrentDictionary<RuleTableKind,Index<TableCriteria>> Criteria = new();

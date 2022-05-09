@@ -106,7 +106,7 @@ namespace Z0
             exec(PllExec,
                 () => cells = Rules.CalcRuleCells(tables),
                 () => fields = Rules.CalcInstFields(patterns),
-                () => expr = Rules.CalcRuleExpr(tables.Specs())
+                () => expr = Rules.CalcSpecExpr(tables.Specs())
             );
 
             Store(StoreIndex.InstFields, () => fields);

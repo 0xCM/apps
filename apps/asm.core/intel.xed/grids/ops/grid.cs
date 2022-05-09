@@ -15,7 +15,7 @@ namespace Z0
             => new RuleGrid(sig, rows, cols, cells);
 
         public static RuleGrids grids(RuleCells src)
-            => src.CellTables.Select(table => grid(table));
+            => src.CellTables.View.Select(table => grid(table));
 
         public static RuleGrid grid(in CellTable src)
         {

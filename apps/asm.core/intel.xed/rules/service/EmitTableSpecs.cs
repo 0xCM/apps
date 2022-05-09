@@ -11,7 +11,7 @@ namespace Z0
     {
         void EmitRuleExpr(RuleTables src)
         {
-            Emit(CalcRuleExpr(src.Specs()));
+            Emit(CalcSpecExpr(src.Specs()));
         }
 
         public void EmitTableSpecs(RuleTables src)

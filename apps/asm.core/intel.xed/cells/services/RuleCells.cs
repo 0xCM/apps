@@ -11,9 +11,7 @@ namespace Z0
     {
         public class RuleCells
         {
-            public readonly Index<RuleSig> Sigs;
-
-            public readonly Index<CellTable> CellTables;
+            public readonly CellTables CellTables;
 
             public readonly Index<RuleCellRecord> Records;
 
@@ -21,57 +19,49 @@ namespace Z0
 
             public readonly Pairings<RuleSig,Index<RuleCell>> TableCells;
 
-            public readonly Index<RuleCell> Values;
-
-            public readonly uint RowCount;
-
-            readonly ConstLookup<RuleSig,CellTable> TableLookup;
-
-            internal RuleCells(Pairings<RuleSig,Index<RuleCell>> cells, CellTable[] tables, RuleCellRecord[] records, string desc)
+            internal RuleCells(Pairings<RuleSig,Index<RuleCell>> cells, CellTables tables, RuleCellRecord[] records, string desc)
             {
-                Values = RuleTables.linearize(cells);
                 TableCells = cells;
-                Sigs = tables.Select(x => x.Sig).Sort();
                 CellTables = tables;
                 Description = desc;
                 Records = records;
-                RowCount = tables.Select(t => t.RowCount).Sum();
-                TableLookup = RuleTables.lookup(tables);
             }
 
             RuleCells()
             {
-                Values = sys.empty<RuleCell>();
                 TableCells = new();
-                Sigs = sys.empty<RuleSig>();
-                CellTables = sys.empty<CellTable>();
+                CellTables = null;
                 Description = EmptyString;
                 Records = sys.empty<RuleCellRecord>();
-                RowCount = 0;
-                TableLookup = dict<RuleSig,CellTable>();
             }
 
-            public ReadOnlySpan<CellTable> Tables(params RuleSig[] src)
-            {
-                var count = src.Length;
-                var dst = span<CellTable>(count);
-                var k=0;
-                for(var i=0; i<src.Length; i++)
-                    if(TableLookup.Find(skip(src,i), out seek(dst,k)))
-                        k++;
-                return slice(dst,0,k);
-            }
-
-            public uint CellCount
+            public ref readonly Index<RuleSig> Sigs
             {
                 [MethodImpl(Inline)]
-                get => Values.Count;
+                get => ref CellTables.Sigs;
             }
+
+            public ref readonly Index<RuleCell> Values
+            {
+                [MethodImpl(Inline)]
+                get => ref CellTables.Cells();
+            }
+
+            // public ReadOnlySpan<CellTable> Tables(params RuleSig[] src)
+            // {
+            //     var count = src.Length;
+            //     var dst = span<CellTable>(count);
+            //     var k=0;
+            //     for(var i=0; i<src.Length; i++)
+            //         if(TableLookup.Find(skip(src,i), out seek(dst,k)))
+            //             k++;
+            //     return slice(dst,0,k);
+            // }
 
             public uint TableCount
             {
                 [MethodImpl(Inline)]
-                get => CellTables.Count;
+                get => CellTables.TableCount;
             }
 
             public ref readonly CellTable this[uint i]
@@ -91,7 +81,6 @@ namespace Z0
 
             public override string ToString()
                 => Format();
-
 
             public static RuleCells Empty => new();
         }
