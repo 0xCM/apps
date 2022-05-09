@@ -42,7 +42,7 @@ namespace Z0
         public readonly TableId TableId;
 
         [MethodImpl(Inline)]
-        internal RecordFormatter(Type record, RowFormatSpec spec, RowAdapter adapter)
+        RecordFormatter(Type record, RowFormatSpec spec, RowAdapter adapter)
         {
             TableId = Tables.identify(record);
             FormatSpec = spec;
@@ -55,7 +55,18 @@ namespace Z0
 
         public string Format<T>(in T src)
             where T : struct
-                => format(ref this, src);
+        {
+            adapt<T>(src, ref Adapter);
+            return format(FormatSpec, Adapter.Adapted);
+            //return format(ref this, src);
+        }
+
+        // static string format<T>(ref RecordFormatter formatter, in T src)
+        //     where T : struct
+        // {
+        //     adapt<T>(src, ref formatter.Adapter);
+        //     return format(formatter.FormatSpec, formatter.Adapter.Adapted);
+        // }
 
         public string FormatHeader()
         {
@@ -78,7 +89,7 @@ namespace Z0
         /// Defines a row over a specified record type
         /// </summary>
         /// <typeparam name="T">The record type</typeparam>
-        public struct RowAdapter
+        struct RowAdapter
         {
             internal uint Index;
 
@@ -125,13 +136,6 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => Fields.Count;
             }
-        }
-
-        static string format<T>(ref RecordFormatter formatter, in T src)
-            where T : struct
-        {
-            adapt<T>(src, ref formatter.Adapter);
-            return format(formatter.FormatSpec, formatter.Adapter.Adapted);
         }
 
         [MethodImpl(Inline)]
