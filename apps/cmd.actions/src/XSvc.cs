@@ -14,9 +14,6 @@ namespace Z0
         public static CheckCmdProvider CheckCommands(this IWfRuntime wf)
             => CheckCmdProvider.create(wf);
 
-        public static CodeGenProvider CodeGenCommands(this IWfRuntime wf)
-            => CodeGenProvider.create(wf);
-
         public static ProjectCmdProvider ProjectCommands(this IWfRuntime wf)
             => ProjectCmdProvider.create(wf);
     }

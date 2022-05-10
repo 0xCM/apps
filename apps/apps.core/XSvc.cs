@@ -5,7 +5,8 @@
 namespace Z0
 {
     using static core;
-    public static class XSvc
+
+    public static partial class XSvc
     {
         [Op]
         public static ApiComments ApiComments(this IWfRuntime wf)
@@ -13,6 +14,10 @@ namespace Z0
 
         public static CsLang CsLang(this IWfRuntime wf)
             => Z0.CsLang.create(wf);
+
+        public static Parsers Parsers(this IWfRuntime wf)
+            => Z0.Parsers.create(wf);
+
     }
 
     partial class XTend
@@ -28,7 +33,5 @@ namespace Z0
             for(var i=0; i<src.Length; i++)
                 dst.AppendLine(skip(src,i));
         }
-
     }
 }
-

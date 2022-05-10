@@ -6,6 +6,11 @@ namespace Z0
 {
     using static core;
 
+    partial class CsLang
+    {
+
+    }
+
     public class CsEmitter : ISeqEmitter<string>
     {
         static string pad(uint width)

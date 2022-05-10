@@ -14,12 +14,13 @@ namespace Z0
     {
         public const string TableId = "strings.match.groups";
 
-        public const byte FieldCount = 3;
-
+        [Render(12)]
         public CharGroup Group;
 
+        [Render(12)]
         public uint MinSeq;
 
+        [Render(12)]
         public uint MaxSeq;
 
         [MethodImpl(Inline)]
@@ -41,7 +42,5 @@ namespace Z0
 
         public override string ToString()
             => Format();
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,12};
     }
 }

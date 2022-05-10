@@ -26,7 +26,7 @@ namespace Z0.Asm
                 seek(dst,i++) = Chars.Space;
 
             operands(src, ref i, dst);
-            return storage.Format();
+            return storage.Format().Trim();
         }
 
         public static string format(in AsmSig src)
@@ -44,7 +44,7 @@ namespace Z0.Asm
                 else
                     dst.Append(Chars.Space);
 
-                dst.Append(expression(src[i]).Format());
+                dst.Append(expression(src[i]).Format().Trim());
             }
             return dst.Emit();
         }

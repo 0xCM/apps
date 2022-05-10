@@ -9,7 +9,7 @@ namespace Z0
     /// </summary>
     public readonly struct Constant<T> : IConstExpr<Constant<T>,T>
     {
-        public T Value {get;}
+        public readonly T Value;
 
         [MethodImpl(Inline)]
         public Constant(T value)
@@ -18,6 +18,9 @@ namespace Z0
         }
 
         public bool IsEmpty => false;
+
+        T IValue<T>.Value
+            => Value;
 
         public string Format()
         {

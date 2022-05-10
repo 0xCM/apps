@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     partial class AsmCoreCmd
     {
         [CmdOp("bytes/emit")]
@@ -12,7 +14,7 @@ namespace Z0
             var dst = text.emitter();
             var offset = 8u;
             Bytes.RenderByteSpan<ushort>(0, Pow2.T11m1, offset, dst);
-            FileEmit(dst.Emit(), 4, AppDb.CgStage() + FS.file("UnpackedBytes", FS.Cs));
+            FileEmit(dst.Emit(), 4, AppDb.CgStage().Path("UnpackedBytes", FileKind.Cs));
             return true;
         }
     }

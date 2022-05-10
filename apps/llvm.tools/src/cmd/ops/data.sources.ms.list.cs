@@ -22,11 +22,13 @@ namespace Z0.llvm
             {
                 var items = new ItemList<Constant<string>>("CsKeywordList", mapi(src.ReadLines(), (i,line) => new ListItem<Constant<string>>((uint)i,text.trim(line))));
                 var dst = text.buffer();
-                Generators.EmitArrayInitializer(items,dst);
+                CsLang.EmitArrayInitializer(items,dst);
                 Write(dst.Emit());
 
             }
             return true;
         }
+
+        CsLang CsLang => Service(Wf.CsLang);
     }
 }

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using L = ApiLiterals;
+    using L = LiteralProvider;
 
     partial class ApiCmdProvider
     {
@@ -15,7 +15,7 @@ namespace Z0
         Outcome EmitApiLiterals(CmdArgs args)
         {
             var result = Outcome.Success;
-            EmitApiLiterals();
+            ApiEmitters.EmitApiLiterals();
             return result;
         }
     }

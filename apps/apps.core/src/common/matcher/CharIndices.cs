@@ -10,7 +10,7 @@ namespace Z0
     {
         public readonly struct CharIndices : IIndex<CharIndex>
         {
-            public static CharIndices compute(ReadOnlySpan<char> src)
+            public static CharIndices calc(ReadOnlySpan<char> src)
             {
                 var count = src.Length;
                 var dst = alloc<CharIndex>(count);

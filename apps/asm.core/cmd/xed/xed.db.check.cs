@@ -7,6 +7,7 @@ namespace Z0
     using static core;
     using static XedRules;
     using static MemDb;
+    using Asm;
 
     partial class AsmCoreCmd
     {
@@ -57,9 +58,9 @@ namespace Z0
 
             var scope = "memdb";
             var suffix = $"{r}x{c}";
-            FileEmit(lDst.Emit(), linear.Count, AppDb.Log(scope, $"{scope}.linear.{suffix}", FileKind.Csv));
-            FileEmit(rDst.Emit(), m, AppDb.Log(scope, $"{scope}.rows.{suffix}", FileKind.Txt), TextEncodingKind.Asci);
-            FileEmit(cDst.Emit(), m, AppDb.Log(scope, $"{scope}.cols.{suffix}", FileKind.Txt), TextEncodingKind.Asci);
+            FileEmit(lDst.Emit(), linear.Count, AppDb.Logs().Scoped(scope).Path($"{scope}.linear.{suffix}", FileKind.Csv));
+            FileEmit(rDst.Emit(), m, AppDb.Logs().Scoped(scope).Path($"{scope}.rows.{suffix}", FileKind.Txt), TextEncodingKind.Asci);
+            FileEmit(cDst.Emit(), m, AppDb.Logs().Scoped(scope).Path($"{scope}.cols.{suffix}", FileKind.Txt), TextEncodingKind.Asci);
         }
 
         [CmdOp("memdb/check")]

@@ -33,7 +33,6 @@ namespace Z0.Asm
             ClearCache();
         }
 
-
         public Outcome Import()
         {
             var result = Outcome.Success;

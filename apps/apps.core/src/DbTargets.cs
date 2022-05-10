@@ -17,6 +17,10 @@ namespace Z0
             Scope = scope;
         }
 
+        [MethodImpl(Inline)]
+        public DbTargets Scoped(string scope)
+            => new DbTargets(Targets(), scope);
+
         public FS.FolderPath Targets()
             => Root + FS.folder(Scope);
 
@@ -38,5 +42,9 @@ namespace Z0
         public FS.FilePath Table<T>()
             where T : struct
                 => Targets() + Tables.filename<T>();
+
+        public static implicit operator FS.FolderPath(DbTargets src)
+            => src.Targets();
+
     }
 }

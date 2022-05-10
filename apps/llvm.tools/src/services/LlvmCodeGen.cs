@@ -14,7 +14,7 @@ namespace Z0.llvm
 
         LlvmDataProvider DataProvider => Service(Wf.LlvmDataProvider);
 
-        CgSvc CodeGen => Service(Wf.CodeGen);
+        CsLang CsLang => Service(Wf.CsLang);
 
         const string TargetNs = "Z0.llvm";
 
@@ -30,7 +30,7 @@ namespace Z0.llvm
             var asmids = DataProvider.SelectAsmIdentifiers().ToItemList();
             var name = "AsmId";
             ItemList<string> items = (name, asmids.Map(x => new ListItem<string>(x.Key, x.Value.Format())));
-            CodeGen.GenStringTable(TargetNs, ClrEnumKind.U16, items, CgTarget.Llvm);
+            CsLang.GenStringTable(TargetNs, ClrEnumKind.U16, items, CgTarget.Llvm);
             var literals = @readonly(map(DataProvider.SelectAsmIdentifiers().Entries,e => Literals.define(e.Key, e.Value.Id)));
             var buffer = text.buffer();
             var offset = 0u;
@@ -49,7 +49,7 @@ namespace Z0.llvm
         public void EmitStringTable(LlvmList list)
         {
             var path = LlvmPaths.ListImportPath(list.Name);
-            CodeGen.GenStringTable(TargetNs, ClrEnumKind.U32, list.ToItemList(), CgTarget.Llvm);
+            CsLang.GenStringTable(TargetNs, ClrEnumKind.U32, list.ToItemList(), CgTarget.Llvm);
         }
 
         public void EmitStringTables()

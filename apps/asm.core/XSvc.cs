@@ -9,6 +9,12 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
+        public static AsmCodeGen AsmCodeGen(this IWfRuntime wf)
+            => Asm.AsmCodeGen.create(wf);
+
+        public static AppCmdRunner AppCmdRunner(this IWfRuntime wf)
+            => Z0.AppCmdRunner.create(wf);
+
         [Op]
         public static XedRules XedRules(this IWfRuntime wf)
             => Z0.XedRules.create(wf);
@@ -40,7 +46,6 @@ namespace Z0
         [Op]
         public static XedPaths XedPaths(this IWfRuntime wf)
             => Z0.XedPaths.Service;
-
 
         [Op]
         public static ApiResPackEmitter ResPackEmitter(this IWfRuntime wf)
@@ -139,9 +144,6 @@ namespace Z0
 
         public static EncodingCollector EncodingCollector(this IWfRuntime wf)
             => Z0.EncodingCollector.create(wf);
-
-        public static Parsers Parsers(this IWfRuntime wf)
-            => Z0.Parsers.create(wf);
 
    }
 }

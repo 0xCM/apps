@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
     using static XedRules;
-    using static core;
 
     partial class AsmCoreCmd
     {
@@ -19,6 +17,5 @@ namespace Z0
             AppSvc.FileEmit(dst.Emit(), Patterns.Count, XedPaths.InstTarget("patterns.sigs", FileKind.Csv));
             return true;
         }
-
     }
 }

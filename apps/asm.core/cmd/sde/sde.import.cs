@@ -14,8 +14,8 @@ namespace Z0
             var result = Outcome.Success;
             var src = AsmTables.ImportCpuIdData(
                 AppDb.CpuIdSources(),
-                AppDb.SdeTarget("cpuid.records", FileKind.Csv),
-                AppDb.SdeTarget("cpuid.bits", FileKind.Csv)
+                AppDb.SdeTargets().Path("cpuid.records", FileKind.Csv),
+                AppDb.SdeTargets().Path("cpuid.bits", FileKind.Csv)
                 );
 
             return result;
@@ -24,10 +24,9 @@ namespace Z0
         [CmdOp("cil/emit/opcodes")]
         Outcome EmitCilOpCodes(CmdArgs args)
         {
-            var dst = AppDb.LangTarget("cil", "opcodes", FileKind.Csv);
+            var dst = AppDb.LangTargets().Path("cil", "opcodes", FileKind.Csv);
             TableEmit(Cil.opcodes(), dst);
             return true;
         }
-
     }
 }

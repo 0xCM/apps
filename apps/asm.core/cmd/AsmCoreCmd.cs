@@ -6,28 +6,17 @@ namespace Z0
 {
     using Asm;
 
-    using static XedRules;
-    using static core;
-
-    public partial class AsmCoreCmd : AppCmdService<AsmCoreCmd,CmdShellState>
+    public partial class AsmCoreCmd : WsCmdService<AsmCoreCmd>
     {
-        XedRuntime Xed;
+        protected override AppDb AppDb
+            => Xed.AppDb;
 
-        IntelXed Main => Xed.Main;
+        protected override WsProjects Projects
+            => Xed.Projects;
 
-        XedDocs XedDocs => Xed.Docs;
+        AsmOpCodes OpCodes => Service(Wf.AsmOpCodes);
 
-        XedPaths XedPaths => Xed.Paths;
-
-        XedRules Rules => Xed.Rules;
-
-        XedDisasmSvc Disasm => Xed.XedDisasm;
-
-        XedDb XedDb => Xed.XedDb;
-
-        AppServices AppSvc => Service(Wf.AppServices);
-
-        AppDb AppDb => Xed.AppDb;
+        CsLang CsLang => Service(Wf.CsLang);
 
         BitMaskServices ApiBitMasks => Service(Wf.ApiBitMasks);
 
@@ -37,51 +26,26 @@ namespace Z0
 
         AsmTables AsmTables => Service(Wf.AsmTables);
 
-        [MethodImpl(Inline)]
-        StringRef Ref(string src)
-            => Xed.Allocator.String(src);
+        AsmCodeGen AsmCodeGen => Service(Wf.AsmCodeGen);
 
-        [MethodImpl(Inline)]
-        Label Label(string src)
-            => Xed.Allocator.Label(src);
+        X86Dispatcher Jumps => Service(() => X86Dispatcher.create(Wf));
 
-        public AsmCoreCmd With(XedRuntime runtime)
-        {
-            Xed = runtime;
-            return this;
-        }
+        IntelSdm Sdm => Service(Wf.IntelSdm);
 
-        ref readonly RuleTables RuleTables => ref Xed.Views.RuleTables;
+        ApiCodeBanks ApiCodeBanks => Service(Wf.ApiCodeBanks);
 
-        ref readonly Index<InstPattern> Patterns => ref Xed.Views.Patterns;
+        ApiDataPaths ApiDataPaths => Service(Wf.ApiDataPaths);
 
-        ref readonly CellTables CellTables => ref Xed.Views.CellTables;
+        EncodingCollector CodeCollector => Service(Wf.EncodingCollector);
 
-        ref readonly Index<RuleExpr> RuleExpr => ref Xed.Views.RuleExpr;
+        AsmObjects AsmObjects => Service(Wf.AsmObjects);
 
-        AppCmdRunner _AppCmdRunner;
+        CoffServices CoffServices => Service(Wf.CoffServices);
 
-        IProjectProvider _ProjectProvider;
-
-        WsProjects Projects => Xed.Projects;
-
-        WsContext Context()
-            => Projects.Context(_ProjectProvider);
-
-        [CmdOp("project")]
-        Outcome LoadProject(CmdArgs args)
-            => _AppCmdRunner.LoadProject(args);
-
-        void RunCmd(string name, CmdArgs args)
-            => Dispatcher.Dispatch(name, args);
-
-        void LoadProject(string name)
-            => RunCmd("project", new CmdArg[]{new CmdArg(EmptyString, name)});
+        AsmRegSets Regs => Service(AsmRegSets.create);
 
         protected override void Initialized()
         {
-            _AppCmdRunner = AppCmdRunner.create(Wf);
-            _ProjectProvider = _AppCmdRunner;
             LoadProject("canonical");
         }
     }

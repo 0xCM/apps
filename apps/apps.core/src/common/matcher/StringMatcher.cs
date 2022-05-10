@@ -8,7 +8,7 @@ namespace Z0
 
     public partial class StringMatcher
     {
-        public static StringMatcher build(ReadOnlySpan<string> src)
+        public static StringMatcher create(ReadOnlySpan<string> src)
         {
             var count = src.Length;
             var expressions = alloc<string>(count);
@@ -21,7 +21,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var expr = ref skip(expressions,i);
-                seek(indices, i) = CharIndices.compute(expr);
+                seek(indices, i) = CharIndices.calc(expr);
                 seek(lengths, i) = (ushort)expr.Length;
             }
 
@@ -40,15 +40,15 @@ namespace Z0
 
         readonly Index<CharGroupMembers> GroupMemberData;
 
-        public uint EntryCount {get;}
+        public readonly uint EntryCount;
 
-        public ushort MinLength {get;}
+        public readonly ushort MinLength;
 
-        public ushort MaxLength {get;}
+        public readonly ushort MaxLength;
 
-        public CharCounts Counts {get;}
+        public readonly CharCounts Counts;
 
-        public CharPositions Positions {get;}
+        public readonly CharPositions Positions;
 
         public StringMatcher(string[] targets, CharIndices[] indices, ushort[] lengths)
         {
@@ -71,7 +71,7 @@ namespace Z0
             }
             MinLength = min;
             MaxLength = max;
-            Counts = CharCounts.compute(targets);
+            Counts = CharCounts.calc(targets);
             Positions = CharPositions.compute(targets);
             RowData = BuildTable();
             GroupMemberData = groups(RowData);

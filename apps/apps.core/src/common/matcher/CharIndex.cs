@@ -9,8 +9,8 @@ namespace Z0
         /// <summary>
         /// Within the context of a string, pairs a character with its relative index
         /// </summary>
-        [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public readonly struct CharIndex
+        [StructLayout(StructLayout, Pack=1)]
+        public readonly record struct CharIndex
         {
             public readonly ushort Index;
 
@@ -23,7 +23,7 @@ namespace Z0
                 Index = i;
             }
 
-            public uint Hash
+            public Hash32 Hash
             {
                 [MethodImpl(Inline)]
                 get => (uint)Index | ((uint)Char) << 16;
@@ -35,9 +35,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public bool Equals(CharIndex src)
                 => Hash == src.Hash;
-
-            public override bool Equals(object src)
-                => src is CharIndex x && Equals(x);
 
             public string Format()
                 => string.Format("('{0}', {1})", Char, Index);

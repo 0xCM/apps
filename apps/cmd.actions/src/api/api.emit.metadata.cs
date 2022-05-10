@@ -9,6 +9,7 @@ namespace Z0
 
     using System;
 
+
     partial class ApiCmdProvider
     {
         [CmdOp("api/emit/metadata")]
@@ -16,7 +17,7 @@ namespace Z0
         {
             var result = Outcome.Success;
             EmitCliMetadata();
-            EmitApiComments();
+            ApiEmitters.EmitApiComments();
             EmitApiInfo();
             return result;
         }
@@ -28,20 +29,20 @@ namespace Z0
             return true;
         }
 
+        ApiEmitters ApiEmitters => Service(Wf.ApiEmitters);
+
         void EmitApiInfo()
         {
             EmitTableReport();
             EmitApiDataTypes();
             EmitApiClasses();
             EmitBitmasks();
-            EmitSymHeap();
+            ApiEmitters.EmitSymHeap();
             EmitApiTokens();
-            EmitApiLiterals();
+            ApiEmitters.EmitApiLiterals();
             EmitApiCommands();
-            EmitDataFlowSpecs();
+            ApiEmitters.EmitDataFlowSpecs();
         }
-
-        ApiAssets ApiAssets => Service(Wf.ApiAssets);
 
         void EmitTableReport()
             => ApiCatalogs.EmitTableDefs();
@@ -50,7 +51,6 @@ namespace Z0
             => TableEmit(DataTypes.records(ApiRuntimeCatalog.Components).View, DataTypeRecord.RenderWidths, Ws.Api().TablePath<DataTypeRecord>());
 
         void EmitApiComments()
-
             => ApiComments.Collect();
 
         void EmitApiClasses()
@@ -62,14 +62,8 @@ namespace Z0
         void EmitCliMetadata()
             => CliEmitter.EmitMetadaSets(WorkflowOptions.@default());
 
-        void EmitSymHeap()
-            => Symbolism.EmitSymHeap();
-
         void EmitApiTokens()
             => ApiMetadata.EmitApiTokens();
-
-        void EmitApiLiterals()
-            => TableEmit(ApiLiterals().View, ProjectDb.ApiTablePath<CompilationLiteral>());
 
         void EmitApiCommands()
         {

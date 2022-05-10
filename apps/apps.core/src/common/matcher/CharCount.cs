@@ -5,7 +5,7 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct CharCount
+    public readonly record struct CharCount
     {
         public readonly char Char;
 
@@ -18,19 +18,11 @@ namespace Z0
             Count = count;
         }
 
-        public uint Hash
+        public Hash32 Hash
         {
             [MethodImpl(Inline)]
             get => (Count & 0xFFFF)| ((uint)Char) << 16;
         }
-
-        [MethodImpl(Inline)]
-        public static implicit operator CharCount((char c, int i) src)
-            => new CharCount(src.c, (uint)src.i);
-
-        [MethodImpl(Inline)]
-        public static implicit operator CharCount((char c, uint i) src)
-            => new CharCount(src.c, src.i);
 
         public override int GetHashCode()
             => (int)Hash;
@@ -39,13 +31,18 @@ namespace Z0
         public bool Equals(CharCount src)
             => Hash == src.Hash;
 
-        public override bool Equals(object src)
-            => src is CharCount x && Equals(x);
-
         public string Format()
             => string.Format("('{0}', {1})", Char, Count);
 
         public override string ToString()
             => Format();
+
+        [MethodImpl(Inline)]
+        public static implicit operator CharCount((char c, int i) src)
+            => new CharCount(src.c, (uint)src.i);
+
+        [MethodImpl(Inline)]
+        public static implicit operator CharCount((char c, uint i) src)
+            => new CharCount(src.c, src.i);
     }
 }

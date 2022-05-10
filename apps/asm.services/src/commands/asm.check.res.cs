@@ -41,7 +41,6 @@ namespace Z0
                 => math.sub(a,b);
         }
 
-
         [CmdOp("asm/check/res")]
         Outcome CaptureResources(CmdArgs args)
         {

@@ -69,7 +69,7 @@ namespace Z0
             RunCmd("project", args);
         }
 
-        public void _runJobs(string match)
+        public void runJobs(string match)
         {
             var paths = ProjectDb.JobSpecs();
             var count = paths.Length;
@@ -87,22 +87,14 @@ namespace Z0
             }
 
             if(counter == 0)
-            {
                 Warn(string.Format("No jobs identified by '{0}'", match));
-            }
-
         }
 
         public void RunJobs(string match)
-            => _runJobs(match);
+            => runJobs(match);
 
         static ProjectCmdProvider inject(ICmdRunner src, ProjectCmdProvider dst)
             => dst.With(src);
-
-        // [MethodImpl(Inline)]
-        // public static T inject<T>(IProjectProvider src, T dst)
-        //     where T : IProjectConsumer<T>
-        //         => dst.With(src);
 
         protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
         {
@@ -111,13 +103,10 @@ namespace Z0
                 this,
                 projects,
                 wf.XedCommands(),
-                //inject(projects,wf.XedCommands()),
                 wf.ApiCommands(),
                 wf.LlvmCommands(),
-                wf.CodeGenCommands(),
                 wf.CheckCommands(),
                 wf.AsmCommands()
-                //inject(projects, wf.AsmCommands())
                 );
         }
 

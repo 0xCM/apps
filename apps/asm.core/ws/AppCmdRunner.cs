@@ -4,15 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class AppCmdRunner : AppCmdService<AppCmdRunner,CmdShellState>,ICmdRunner, IProjectProvider
+    public class AppCmdRunner : AppCmdService<AppCmdRunner,CmdShellState>, ICmdRunner, IProjectProvider
     {
-        WsProjects Projects => Service(Wf.WsProjects);
-
-        protected override void Initialized()
-        {
-            //RunCmd("project", new CmdArg[]{new CmdArg(EmptyString, "canonical")});
-        }
-
         public void RunCmd(string name)
         {
             var result = Dispatcher.Dispatch(name);
@@ -67,10 +60,6 @@ namespace Z0
             return Project();
         }
 
-        public void LoadProject(string name)
-            => RunCmd("project", new CmdArg[]{new CmdArg(EmptyString, name)});
-
-        //[CmdOp("project")]
         public Outcome LoadProject(CmdArgs args)
         {
             var result = Outcome.Success;

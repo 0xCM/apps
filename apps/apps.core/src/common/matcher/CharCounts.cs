@@ -10,7 +10,7 @@ namespace Z0
     {
         public class CharCounts : ConstLookup<char,CharCount>
         {
-            public static CharCounts compute(ReadOnlySpan<string> src)
+            public static CharCounts calc(ReadOnlySpan<string> src)
             {
                 var count = src.Length;
                 var dst = dict<char,uint>();
@@ -40,6 +40,7 @@ namespace Z0
 
             public ReadOnlySpan<char> Chars
             {
+                [MethodImpl(Inline)]
                 get => Keys;
             }
         }

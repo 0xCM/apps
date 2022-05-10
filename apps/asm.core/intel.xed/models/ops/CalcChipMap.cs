@@ -18,7 +18,7 @@ namespace Z0.Asm
 
             XedChipMap Calc()
             {
-                var src = XedPaths.DocSource(XedDocKind.ChipData);
+                var src = XedPaths.ChipMapSource();
                 var flow = Running(string.Format("Parsing {0}", src.ToUri()));
                 var chip = ChipCode.INVALID;
                 var chips = dict<ChipCode,ChipIsaKinds>();

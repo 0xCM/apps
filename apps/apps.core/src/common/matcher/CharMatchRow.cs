@@ -13,18 +13,25 @@ namespace Z0
 
         public const byte FieldCount = 7;
 
+        [Render(6)]
         public uint Seq;
 
+        [Render(10)]
         public CharGroup Group;
 
+        [Render(6)]
         public Constant<char> Char;
 
+        [Render(6)]
         public ushort Pos;
 
+        [Render(14)]
         public ushort TargetLength;
 
+        [Render(14)]
         public uint TargetId;
 
+        [Render(1)]
         public Constant<string> Target;
 
         public int CompareTo(CharMatchRow src)
@@ -36,7 +43,5 @@ namespace Z0
                 i = Char.Value.CompareTo(src.Char.Value);
             return i;
         }
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,10,6,6,14,14,1};
     }
 }

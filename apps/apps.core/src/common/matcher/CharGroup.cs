@@ -9,7 +9,7 @@ namespace Z0
         /// <summary>
         /// Defines an equivalence class over a set of strings predicated on a string length and an index within the string
         /// </summary>
-        [StructLayout(LayoutKind.Sequential, Pack=1)]
+        [StructLayout(StructLayout, Pack=1)]
         public readonly struct CharGroup : IEquatable<CharGroup>, INullity
         {
             public readonly ushort Length;

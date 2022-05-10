@@ -64,10 +64,10 @@ namespace Z0
             => Targets("isaforms") + FS.file(string.Format("xed.isa.{0}", chip), FS.Csv);
 
         public FS.FilePath ChipMapTarget()
-            => Targets() + FS.file("xed.chipmap", FS.Csv);
+            => RefTargets() + FS.file("xed.chipmap", FS.Csv);
 
         public FS.FilePath FormCatalogPath()
-            => Targets() + FS.file(Tables.identify<FormImport>().Format(), FS.Csv);
+            => RefTargets() + FS.file(Tables.identify<FormImport>().Format(), FS.Csv);
 
         static FS.FileName EncInstDef = FS.file("all-enc-instructions", FS.Txt);
 
@@ -126,7 +126,6 @@ namespace Z0
             var uri = RulePage(sig);
             return uri.Path.Exists ? uri : FS.FileUri.Empty;
         }
-
 
         public FS.FileUri CheckedTableDef(RuleName rule, bit decfirst, out RuleSig sig)
         {
@@ -216,6 +215,25 @@ namespace Z0
             else
                 return 0;
         }
+
+
+        public FS.FilePath SourcePath(string name, FileKind kind)
+            => Sources() + FS.file(name,kind.Ext());
+
+        public FS.FilePath CpuIdSource()
+            => SourcePath("all-cpuid", FileKind.Txt);
+
+        public FS.FilePath ChipModelSource()
+            => SourcePath("all-chip-models", FileKind.Txt);
+
+        public FS.FilePath ConversionSource()
+            => SourcePath("all-conversion-table", FileKind.Txt);
+
+        public FS.FilePath ChipMapSource()
+            => SourcePath("xed-cdata", FileKind.Txt);
+
+        public FS.FilePath FormSource()
+            => SourcePath("xed-idata", FileKind.Txt);
 
         public FS.FilePath DocSource(XedDocKind kind)
             => Sources() + (kind switch{

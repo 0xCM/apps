@@ -12,7 +12,6 @@ namespace Z0.Asm
     {
         XedRuntime Xed;
 
-
         bool Verbose {get;} = false;
 
         bool PllExec

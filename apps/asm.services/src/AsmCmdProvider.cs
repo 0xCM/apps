@@ -5,35 +5,20 @@
 namespace Z0
 {
     using Asm;
-    using llvm;
 
     public sealed partial class AsmCmdProvider : AppCmdProvider<AsmCmdProvider>, IProjectProvider
     {
         AsmRegSets Regs => Service(AsmRegSets.create);
 
-        IntelSdm Sdm => Service(Wf.IntelSdm);
-
-        AsmGen AsmGen => Service(AsmGen.generator);
-
         AsmDocs AsmDocs => Service(Wf.AsmDocs);
 
         AsmOpCodes OpCodes => Service(Wf.AsmOpCodes);
-
-        AsmCodeGen AsmCodeGen => Service(Wf.AsmCodeGen);
-
-        X86Dispatcher JmpStubs => Service(() => X86Dispatcher.create(Wf));
 
         ApiCodeBanks ApiCodeBanks => Service(Wf.ApiCodeBanks);
 
         EncodingCollector CodeCollector => Service(Wf.EncodingCollector);
 
-        LlvmMcSvc LlvmMc => Service(Wf.LlvmMc);
-
-        LlvmObjDumpSvc ObjDump => Service(Wf.LlvmObjDump);
-
         WsProjects Projects => Service(Wf.WsProjects);
-
-        AsmObjects AsmObjects => Service(Wf.AsmObjects);
 
         CoffServices CoffServices => Service(Wf.CoffServices);
 
@@ -48,13 +33,7 @@ namespace Z0
         public IProjectWs Project()
             => _ProjectProvider.Project();
 
-        // IProjectWs IProjectProvider.Project()
-        // {
-        //     throw new NotImplementedException();
-        // }
-
         public IProjectWs Project(ProjectId id)
             => _ProjectProvider.Project(id);
-
     }
 }

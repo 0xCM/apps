@@ -92,7 +92,7 @@ namespace Z0
                     forms.TryRemove(pattern.InstForm);
             }
 
-            var path = AppDb.Api() + FS.file("xed.inst.patterns.opinfo", FS.Csv);
+            var path = AppDb.Api().Path("xed.inst.patterns.opinfo", FileKind.Csv);
             var emitting = EmittingFile(path);
             using var writer = path.AsciWriter();
             var counter = 0u;

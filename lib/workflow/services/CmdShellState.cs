@@ -26,7 +26,7 @@ namespace Z0
 
         IProjectWs _Project;
 
-        Index<CompilationLiteral> _ApiLiterals;
+        //Index<CompilationLiteral> _ApiLiterals;
 
         Index<Assembly> _ApiComponents;
 
@@ -39,7 +39,7 @@ namespace Z0
             _CurrentDir = FS.FolderPath.Empty;
             _Files = array<FS.FilePath>();
             _Api = ApiPath.Empty;
-            _ApiLiterals = array<CompilationLiteral>();
+            //_ApiLiterals = array<CompilationLiteral>();
             _ApiComponents = array<Assembly>();
 
         }
@@ -129,12 +129,12 @@ namespace Z0
             return Files();
         }
 
-        public ReadOnlySpan<CompilationLiteral> ApiLiterals(Func<Index<CompilationLiteral>> loader)
-        {
-            if(_ApiLiterals.IsEmpty)
-                _ApiLiterals = loader();
-            return _ApiLiterals;
-        }
+        // public ReadOnlySpan<CompilationLiteral> ApiLiterals(Func<Index<CompilationLiteral>> loader)
+        // {
+        //     if(_ApiLiterals.IsEmpty)
+        //         _ApiLiterals = loader();
+        //     return _ApiLiterals;
+        // }
 
         public ReadOnlySpan<Assembly> ApiComponents()
         {
