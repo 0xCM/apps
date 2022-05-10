@@ -4,12 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     [ApiHost]
     public readonly partial struct Asci
     {
         static AsciSymbols AsciStrings => default;
+
         [MethodImpl(Inline)]
         static int IndexLength(int i, int max)
             => found(i) ? i : max;
+
     }
 }

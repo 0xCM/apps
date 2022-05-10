@@ -14,6 +14,39 @@ namespace Z0
 
         }
 
+        public FS.FolderPath SdeTargets()
+            => Root + FS.folder("sde");
+
+        public FS.FileName SdeFile(string name, FileKind kind)
+            => FS.file(string.Format("sde.{0}", name), kind.Ext());
+
+        public FS.FilePath SdeTarget(string name, FileKind kind)
+            => SdeTargets() + SdeFile(name, kind);
+
+        public FS.FolderPath Sources()
+            => Root + FS.folder("sources");
+
+        public FS.FolderPath Sources(string scope)
+            => Sources() + FS.folder(scope);
+
+        public FS.FolderPath IntelSources()
+            => Sources("intel");
+
+        public FS.FolderPath IntelSources(string scope)
+            => IntelSources() + FS.folder(scope);
+
+        public FS.FolderPath CpuIdSources()
+            => IntelSources("sde.cpuid");
+
+        public FS.FolderPath IntelNotationDocs()
+            => IntelSources("notation");
+
+        public FS.FolderPath IntelEncodingDocs()
+            => IntelSources("encoding");
+
+        public FS.FolderPath MsSources()
+            => Sources("ms");
+
         public FS.FolderPath Api()
             => Root + FS.folder("api");
 

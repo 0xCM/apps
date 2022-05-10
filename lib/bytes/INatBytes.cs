@@ -5,16 +5,13 @@
 namespace Z0
 {
     [Free]
-    public interface IBytes<F> : IByteSeq
-        where F : struct, IBytes<F>
-    {
-    }
-
-    [Free]
-    public interface IBytes<F,N> : IBytes<F>, IEquatable<F>, INullary<F>
+    public interface INatBytes<F,N> : IByteSeq<F>, IEquatable<F>, INullary<F>
         where N : unmanaged, ITypeNat
-        where F : struct, IBytes<F,N>
+        where F : struct, INatBytes<F,N>
     {
+        F IContented<F>.Content
+            => (F)this;
+
         int IByteSeq.Capacity
             => Length;
 

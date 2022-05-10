@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules;
+
     partial struct XedModels
     {
         [DataWidth(num5.Width)]
@@ -18,8 +20,8 @@ namespace Z0
                 Kind = src;
             }
 
-            public OpIndicator Indicator
-                => XedOperands.indicator(Kind);
+            public InstSigs.OpIndicator Indicator
+                => InstSigs.indicator(Kind);
 
             public bool IsEmpty
             {

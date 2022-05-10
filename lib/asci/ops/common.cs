@@ -168,6 +168,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bool letter(char c)
             => letter(UpperCase, c) || letter(LowerCase, c);
+
         /// <summary>
         /// Presents the input  as a byte
         /// </summary>

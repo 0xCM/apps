@@ -1,1 +1,0 @@
-dotnet build %~dp0..\z0.records.csproj -c Release

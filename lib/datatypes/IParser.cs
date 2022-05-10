@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     public delegate Outcome ParserDelegate(string src, out dynamic dst);
 
     public delegate Outcome ParserDelegate<T>(string src, out T dst);

@@ -18,7 +18,7 @@ namespace Z0.Asm
                 return src;
         }
 
-        public text31 Name {get;}
+        public readonly text31 Name;
 
         [MethodImpl(Inline)]
         public AsmMnemonic(string src)

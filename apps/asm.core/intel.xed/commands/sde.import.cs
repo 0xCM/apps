@@ -2,19 +2,22 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    partial class AsmCmdService
+    using Asm;
+
+    partial class XedCmdProvider
     {
-        [CmdOp(".cpuid-rows")]
+        [CmdOp("sde/import")]
         Outcome LoadCpuidRows(CmdArgs args)
         {
             var result = Outcome.Success;
-            // result = CpuIdDefs.LoadCpuIdImports(Ws.Tables(), out var rows);
-            // if(result.Fail)
-            //     return result;
+            var src = AsmTables.ImportCpuIdData(
+                AppDb.CpuIdSources(),
+                AppDb.SdeTarget("cpuid.records", FileKind.Csv),
+                AppDb.SdeTarget("cpuid.bits", FileKind.Csv)
+                );
 
-            // Write(rows, CpuIdRow.RenderWidths);
             return result;
         }
     }

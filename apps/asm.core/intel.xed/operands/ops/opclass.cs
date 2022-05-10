@@ -10,6 +10,18 @@ namespace Z0
 
     partial class XedOperands
     {
+        [MethodImpl(Inline), Op]
+        public static bit IsRegLit(OpType src)
+            => src == OpType.REG;
+
+        [MethodImpl(Inline), Op]
+        public static bit IsImmLit(OpType src)
+            => src == OpType.IMM;
+
+        [MethodImpl(Inline), Op]
+        public static bit IsRule(OpType src)
+            => src == OpType.NT_LOOKUP_FN || src == OpType.NT_LOOKUP_FN2 || src == OpType.NT_LOOKUP_FN4;
+
         public static InstOpClass opclass(in OpSpec src)
         {
             var dst = InstOpClass.Empty;

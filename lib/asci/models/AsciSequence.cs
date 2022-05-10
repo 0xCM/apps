@@ -48,13 +48,19 @@ namespace Z0
 
         readonly BinaryCode Data;
 
-        public int Length  {get;}
+        public readonly int Length;
 
         [MethodImpl(Inline)]
         public AsciSequence(BinaryCode src)
         {
             Data = src;
             Length = length(src.View);
+        }
+
+        public uint Size
+        {
+            [MethodImpl(Inline)]
+            get => Data.Size;
         }
 
         public int Capacity
@@ -69,10 +75,22 @@ namespace Z0
             get => Data.Storage;
         }
 
-        public ReadOnlySpan<AsciCode> Codes
+        public Span<AsciCode> Codes
         {
             [MethodImpl(Inline)]
-            get => recover<byte,AsciCode>(View);
+            get => recover<byte,AsciCode>(Data.Edit);
+        }
+
+        public Span<AsciSymbol> Symbols
+        {
+            [MethodImpl(Inline)]
+            get => recover<byte,AsciSymbol>(Data.Edit);
+        }
+
+        public Span<byte> Edit
+        {
+            [MethodImpl(Inline)]
+            get => Data.Edit;
         }
 
         public ReadOnlySpan<byte> View
@@ -92,6 +110,9 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Format();
         }
+
+        int IByteSeq.Length
+            => Length;
 
         public string Format()
             => format(this);

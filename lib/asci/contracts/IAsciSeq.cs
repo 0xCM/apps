@@ -11,17 +11,20 @@ namespace Z0
     }
 
     [Free]
-    public interface IAsciSeq<S> : IAsciSeq, IBytes<S>, IComparable<S>, IEquatable<S>
+    public interface IAsciSeq<S> : IAsciSeq, IByteSeq<S>, IComparable<S>, IEquatable<S>
         where S : struct, IAsciSeq<S>
     {
+        S IContented<S>.Content
+            => (S)this;
 
     }
 
     [Free]
-    public interface IAsciSeq<S,N> : IAsciSeq<S>, IBytes<S,N>
+    public interface IAsciSeq<S,N> : IAsciSeq<S>, INatBytes<S,N>
         where N : unmanaged, ITypeNat
         where S : struct, IAsciSeq<S,N>
     {
-
+        S IContented<S>.Content
+            => (S)this;
     }
 }

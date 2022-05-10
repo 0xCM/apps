@@ -35,6 +35,8 @@ namespace Z0
 
         AsmDocs AsmDocs => Service(Wf.AsmDocs);
 
+        AsmTables AsmTables => Service(Wf.AsmTables);
+
         [MethodImpl(Inline)]
         StringRef Ref(string src)
             => Xed.Allocator.String(src);

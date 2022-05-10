@@ -9,10 +9,10 @@ namespace Z0
     {
         readonly AsciSequence _Data;
 
-        public ushort RowWidth {get;}
+        public readonly uint RowWidth;
 
         [MethodImpl(Inline)]
-        public AsciGrid(AsciSequence src, ushort rows)
+        public AsciGrid(AsciSequence src, uint rows)
         {
             _Data = src;
             RowWidth = rows;
@@ -24,15 +24,15 @@ namespace Z0
             get => _Data.View;
         }
 
-        public ushort RowCount
+        public uint RowCount
         {
             [MethodImpl(Inline)]
-            get => (ushort)(_Data.Length/RowWidth);
+            get => (uint)(_Data.Length/RowWidth);
         }
 
         [MethodImpl(Inline)]
-        public ReadOnlySpan<byte> Row(ushort index)
-            => AsciGrid.row(this, index);
+        public ReadOnlySpan<byte> Row(uint index)
+            => AsciG.row(this, index);
 
         public string Format()
             => _Data.Format();

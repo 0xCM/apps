@@ -6,12 +6,10 @@ namespace Z0
 {
     using static core;
 
-    partial struct Symbols
+    [Free]
+    public interface IBytes<F> : IByteSeq
+        where F : IBytes<F>, new()
     {
-        [MethodImpl(Inline)]
-        public static SymGrid<R,C> grid<R,C>(Symbols<R> rows, Symbols<C> cols)
-            where R : unmanaged
-            where C : unmanaged
-                => new SymGrid<R,C>(rows, cols);
+
     }
 }

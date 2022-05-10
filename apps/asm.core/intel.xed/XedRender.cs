@@ -417,34 +417,6 @@ namespace Z0
         public static string format(in XedFlagEffect src)
             => string.Format("{0}-{1}", format(src.Flag), format(src.Effect));
 
-        public static string format(in OpVector src)
-        {
-            var dst = text.buffer();
-            if(src.N > 0)
-            {
-                dst.Append(Chars.Lt);
-                for(var i=z8; i<src.N; i++)
-                {
-                    if(i !=0)
-                    {
-                        dst.Append(Chars.Comma);
-                        dst.Append(Chars.Space);
-                    }
-
-                    ref readonly var c = ref src[i];
-                    dst.Append(c.Indicator.Format());
-                    if(c.Bits != 0)
-                    {
-                        dst.AppendFormat(":w{0}", c.Bits);
-                    }
-
-                }
-                dst.Append(Chars.Gt);
-            }
-
-            return dst.Emit();
-        }
-
         public static string format(in OpAttribs src)
         {
             if(src.IsEmpty)

@@ -4,54 +4,34 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public readonly struct AsciGrid
     {
-        [Op, Closures(UInt8k)]
-        public static ReadOnlySpan<byte> row<T>(in AsciGrid<T> src, ushort index)
-            where T : unmanaged
-        {
-            var offset = index*src.RowWidth;
-            return slice(src.Rows, offset, src.RowWidth);
-        }
+        readonly AsciSequence Data;
 
-        [Op, Closures(UInt8k)]
-        public static ReadOnlySpan<byte> row(in AsciGrid src, ushort index)
-        {
-            var offset = index*src.RowWidth;
-            return slice(src.Rows, offset, src.RowWidth);
-        }
+        public readonly uint RowWidth;
 
-        readonly AsciSequence _Data;
-
-        public ushort RowWidth {get;}
-
-        public ushort RowCount
-        {
-            [MethodImpl(Inline)]
-            get => (ushort)(_Data.Length/RowWidth);
-        }
+        public readonly uint RowCount;
 
         [MethodImpl(Inline)]
-        public AsciGrid(AsciSequence src, ushort width)
+        public AsciGrid(AsciSequence src, uint width)
         {
-            _Data = src;
+            RowCount = (uint)src.Length/width;
             RowWidth = width;
+            Data = src;
         }
 
         public ReadOnlySpan<byte> Rows
         {
             [MethodImpl(Inline)]
-            get => _Data.View;
+            get => Data.View;
         }
 
         [MethodImpl(Inline)]
-        public ReadOnlySpan<byte> Row(ushort index)
-            => row(this, index);
+        public ReadOnlySpan<byte> Row(uint index)
+            => AsciG.row(this, index);
 
         public string Format()
-            => _Data.Format();
+            => Data.Format();
 
         public override string ToString()
             => Format();

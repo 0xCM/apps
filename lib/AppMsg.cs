@@ -39,6 +39,11 @@ namespace Z0
         public static RenderPattern<object> UnhandledCase
             => "Unhandled Case: {0}";
 
+        public static MsgCapture CapacityExceeded<S,T>(S input, T capacity)
+        {
+            MsgPattern<S,T> msg = "Input data {0} exceeds the target cpacity of {1}";
+            return msg.Capture(input,capacity);
+        }
 
         public static RenderPattern<Count,FS.FileUri> EmittedFileLines
             => "Emitted <{0}> lines to {1}";

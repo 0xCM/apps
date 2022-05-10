@@ -19,6 +19,11 @@ namespace Z0
             return true;
         }
 
+        public static Outcome asci<S,N>(string src, N n, out S dst)
+            where S : struct, IAsciSeq<S,N>
+            where N : unmanaged, ITypeNat
+                => AsciG.parse(src, n, out dst);
+
         public static bool parse(string src, out uint1 dst)
             => BitNumbers.parse(src, out dst);
 

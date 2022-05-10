@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public struct UnicodeLine : IComparable<UnicodeLine>
     {
-        public LineNumber LineNumber {get;}
+        public readonly LineNumber LineNumber;
 
-        public string Content {get;}
+        public readonly string Content;
 
         [MethodImpl(Inline)]
         public UnicodeLine(uint number, uint start, string src)
