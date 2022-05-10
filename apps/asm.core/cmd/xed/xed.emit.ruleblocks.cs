@@ -7,7 +7,7 @@ namespace Z0
     using static XedRules;
     using static core;
 
-    partial class XedCmdProvider
+    partial class AsmCoreCmd
     {
         public static Index<RuleTableBlock> blocks()
             => (blocks(RuleTableKind.ENC) + blocks(RuleTableKind.DEC)).Sort();

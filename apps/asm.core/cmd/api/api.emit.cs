@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    partial class XedCmdProvider
+    partial class AsmCoreCmd
     {
         void EmitBitMasks()
             => ApiBitMasks.Emit();

@@ -7,7 +7,7 @@ namespace Z0
     using static core;
     using static XedDisasm;
 
-    partial class XedCmdProvider
+    partial class AsmCoreCmd
     {
         [CmdOp("xed/disasm/flow")]
         Outcome RunDisasmFlow(CmdArgs args)

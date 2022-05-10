@@ -10,7 +10,7 @@ namespace Z0
     using static XedRules;
     using static XedFields;
 
-    partial class XedCmdProvider
+    partial class AsmCoreCmd
     {
         [CmdOp("xed/disasm/check")]
         Outcome DisasmCheck(CmdArgs args)

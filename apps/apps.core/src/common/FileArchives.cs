@@ -147,28 +147,5 @@ namespace Z0
             }
         }
 
-        /// <summary>
-        /// Creates an archive that contains csv-formatted image files
-        /// </summary>
-        /// <param name="wf">The workflow source</param>
-        [Op]
-        public static IFileArchive tables(IEnvPaths paths)
-            => new FileArchive(paths.TableDir<HexCsv>());
-
-        /// <summary>
-        /// Creates an archive over the runtime directory
-        /// </summary>
-        /// <param name="wf">The workflow source</param>
-        [Op]
-        public static IFileArchive runtime(IEnvPaths paths)
-            => new FileArchive(paths.RuntimeRoot());
-
-        /// <summary>
-        /// Creates an archive that contains build image artifacts
-        /// </summary>
-        /// <param name="wf">The workflow source</param>
-        [Op]
-        public static IFileArchive build(IEnvPaths paths)
-            => new FileArchive(paths.BuildArchiveRoot());
     }
 }

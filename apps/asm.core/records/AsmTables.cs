@@ -11,6 +11,11 @@ namespace Z0.Asm
 
     public class AsmTables : AppService<AsmTables>
     {
+
+        [MethodImpl(Inline)]
+        public static CorrelationToken token(uint docid, MemoryAddress ip)
+            => math.or(math.sll(docid, 24),  (uint)ip);
+
         public static MsgPattern<Count> ParsingDocs => "Parsing {0} documents";
 
         public static MsgPattern<FS.FileUri,string> FileParseError => "Error parsing {0}:{1}";

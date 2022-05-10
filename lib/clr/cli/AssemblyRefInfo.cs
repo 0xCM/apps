@@ -4,13 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Reflection;
-    using System.Runtime.InteropServices;
-
     /// <summary>
     /// Captures a dependency relationship between two assemblies
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), Record(TableId)]
+    [StructLayout(StructLayout), Record(TableId)]
     public struct AssemblyRefInfo : IComparableRecord<AssemblyRefInfo>
     {
         public const string TableId = "clr.assembly-refs";

@@ -7,7 +7,7 @@ namespace Z0
     using static core;
     using static XedRules;
 
-    partial class XedCmdProvider
+    partial class AsmCoreCmd
     {
         [CmdOp("xed/run")]
         Outcome RunXed(CmdArgs args)

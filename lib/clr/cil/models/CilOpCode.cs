@@ -3,39 +3,42 @@
 // See the LICENSE file in the project root for more information.
 namespace Z0
 {
-    using System;
-    using System.Reflection.Metadata;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
     using static Cil;
 
-    [Record(TableId), StructLayout(LayoutKind.Sequential)]
+    [Record(TableId), StructLayout(StructLayout,Pack=1)]
     public struct CilOpCode : IRecord<CilOpCode>
     {
         public const string TableId ="cil.opcodes";
 
-        public const byte FieldCount = 7;
-
+        [Render(16)]
         public ILOpCode OpCode;
 
-        public StringAddress Name;
+        [Render(10)]
+        public Hex16 CodeValue;
 
+        [Render(16)]
+        public asci16 Name;
+
+        [Render(12)]
         public OpCodeType CodeType;
 
+        [Render(24)]
         public OperandType ArgType;
 
+        [Render(10)]
         public byte ArgCount;
 
+        [Render(16)]
         public StackBehaviour Sb1;
 
+        [Render(16)]
         public StackBehaviour Sb2;
 
         [MethodImpl(Inline)]
-        public CilOpCode(ILOpCode id, StringAddress name, OpCodeType type, OperandType optype, byte opcount, StackBehaviour sb1, StackBehaviour sb2)
+        public CilOpCode(ILOpCode id, Hex16 value, asci16 name, OpCodeType type, OperandType optype, byte opcount, StackBehaviour sb1, StackBehaviour sb2)
         {
             OpCode = id;
+            CodeValue = value;
             Name = name;
             CodeType = type;
             ArgType =  optype;

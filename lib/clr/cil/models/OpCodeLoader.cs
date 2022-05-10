@@ -3,14 +3,9 @@
 // See the LICENSE file in the project root for more information.
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using C = System.Reflection.Metadata.ILOpCode;
-
     using CT = Cil.OpCodeType;
     using OT = Cil.OperandType;
     using SB = Cil.StackBehaviour;
@@ -20,8 +15,8 @@ namespace Z0
         public readonly struct OpCodeLoader
         {
             [MethodImpl(Inline), Op]
-            public static CilOpCode pack(C id, string name, OpCodeType type, OperandType optype, byte opcount, ushort code, StackBehaviour sb1, StackBehaviour sb2)
-                => new CilOpCode(id, strings.address(name), type, optype, opcount, sb1, sb2);
+            public static CilOpCode pack(C id, string name, OpCodeType type, OperandType optype, byte opcount, ushort value, StackBehaviour sb1, StackBehaviour sb2)
+                => new CilOpCode(id, value, name, type, optype, opcount, sb1, sb2);
 
             /// <summary>
             /// Populates an opcode dataset

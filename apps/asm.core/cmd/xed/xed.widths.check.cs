@@ -8,7 +8,7 @@ namespace Z0
     using static XedRules.WidthVar;
     using static core;
 
-    partial class XedCmdProvider
+    partial class AsmCoreCmd
     {
         [CmdOp("xed/check/widths")]
         Outcome CheckWidths(CmdArgs args)

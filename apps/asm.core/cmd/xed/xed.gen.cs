@@ -10,7 +10,7 @@ namespace Z0
     using static core;
 
 
-    partial class XedCmdProvider
+    partial class AsmCoreCmd
     {
         [CmdOp("xed/gen")]
         Outcome CheckRules(CmdArgs args)

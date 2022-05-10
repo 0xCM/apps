@@ -4,18 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-    using static core;
-
-    partial class XedCmdProvider
+    partial class AsmCoreCmd
     {
-        [CmdOp("xed/check/bitfields")]
-        Outcome CheckBitfields(CmdArgs args)
+        [CmdOp("xed/collect")]
+        Outcome XedCollect(CmdArgs args)
         {
-            var bf = RuleFieldBits.create();
-            Write(bf.Dataset.Intervals.Format());
+            Disasm.Collect(Context());
             return true;
         }
-
     }
 }

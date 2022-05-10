@@ -20,9 +20,11 @@ namespace Z0
             Wf.Ran(flow, $"Cleared <{dst.Count}> files from <{dir}>");
         }
 
-        FS.FolderPath ImageHexDir => ProjectDb.Subdir(ImageHexScope);
+        FS.FolderPath ImageHexDir
+            => ProjectDb.Subdir(ImageHexScope);
 
-        FS.FilePath ImageHexPath(string id) => ProjectDb.TablePath<HexCsv>(ImageHexScope, id);
+        FS.FilePath ImageHexPath(string id)
+            => ProjectDb.TablePath<HexCsv>(ImageHexScope, id);
 
         public void EmitImageContent()
         {
@@ -32,11 +34,8 @@ namespace Z0
             Ran(flow);
         }
 
-
         public void LoadImageContent(FS.FilePath src)
-        {
-            HexCsvReader.create(Wf).Load(src);
-        }
+            => HexCsvReader.create(Wf).Load(src);
 
         [Op]
         public MemoryRange EmitImageContent(Assembly src)

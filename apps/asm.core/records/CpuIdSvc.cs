@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.IO;
-
     using static core;
 
     public readonly struct CpuIdSvc

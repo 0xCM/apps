@@ -8,7 +8,7 @@ namespace Z0
     using static XedRules;
     using static MemDb;
 
-    partial class XedCmdProvider
+    partial class AsmCoreCmd
     {
         [CmdOp("xed/db/check")]
         Outcome CheckXedDb(CmdArgs args)

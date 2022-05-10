@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct HexCsv
+    partial class AsmCoreCmd
     {
-        public const string TableId = "hex.csv";
-
-        public const byte RowDataSize = 64;
-
-        public MemoryAddress Address;
-
-        public BinaryCode Data;
+        [CmdOp("xed/query/inst")]
+        Outcome XedQuery(CmdArgs args)
+        {
+            Main.QueryCatalog(arg(args,0));
+            return true;
+        }
     }
 }

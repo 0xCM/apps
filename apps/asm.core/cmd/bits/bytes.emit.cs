@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedCmdProvider
+    partial class AsmCoreCmd
     {
         [CmdOp("bytes/emit")]
         Outcome BytesEmit(CmdArgs args)

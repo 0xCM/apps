@@ -6,7 +6,7 @@ namespace Z0
 {
     using Asm;
 
-    partial class XedCmdProvider
+    partial class AsmCoreCmd
     {
         [CmdOp("sde/import")]
         Outcome LoadCpuidRows(CmdArgs args)
@@ -20,5 +20,14 @@ namespace Z0
 
             return result;
         }
+
+        [CmdOp("cil/emit/opcodes")]
+        Outcome EmitCilOpCodes(CmdArgs args)
+        {
+            var dst = AppDb.LangTarget("cil", "opcodes", FileKind.Csv);
+            TableEmit(Cil.opcodes(), dst);
+            return true;
+        }
+
     }
 }

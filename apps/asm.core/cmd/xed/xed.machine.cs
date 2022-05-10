@@ -4,13 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ProjectCmdProvider
+    partial class AsmCoreCmd
     {
-        [CmdOp("cil/emit/opcodes")]
-        Outcome EmitCilOpCodes(CmdArgs args)
+        [CmdOp("xed/machine")]
+        Outcome RunMachine(CmdArgs args)
         {
-            var dst = ProjectDb.ApiTablePath<CilOpCode>();
-            TableEmit(Cil.opcodes(), dst);
             return true;
         }
     }

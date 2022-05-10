@@ -6,6 +6,7 @@ namespace Z0
 {
     partial struct Cil
     {
+        [DataWidth(5)]
         public enum OperandType : byte
         {
             InlineBrTarget = 0,
@@ -44,6 +45,5 @@ namespace Z0
 
             ShortInlineVar = 18,
         }
-
     }
 }

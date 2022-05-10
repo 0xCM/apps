@@ -41,11 +41,6 @@ namespace Z0
         public static XedPaths XedPaths(this IWfRuntime wf)
             => Z0.XedPaths.Service;
 
-        public static BinaryCode Compact(this HexDataRow[] src)
-            => CoffObjects.compact(src);
-
-        public static BinaryCode Compact(this Index<HexDataRow> src)
-            => src.Storage.Compact();
 
         [Op]
         public static ApiResPackEmitter ResPackEmitter(this IWfRuntime wf)
@@ -60,8 +55,8 @@ namespace Z0
             => Z0.XedForms.create(wf);
 
         [Op]
-        public static XedCmdProvider XedCommands(this IWfRuntime wf)
-            => XedCmdProvider.create(wf);
+        public static AsmCoreCmd XedCommands(this IWfRuntime wf)
+            => AsmCoreCmd.create(wf);
 
         [Op]
         public static AsmDocs AsmDocs(this IWfRuntime wf)

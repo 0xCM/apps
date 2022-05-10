@@ -8,6 +8,26 @@ namespace Z0
 
     public class HexEmitter : AppService<HexEmitter>
     {
+        public static BinaryCode compact(HexDataRow[] src)
+        {
+            var count = src.Length;
+            if(count == 0)
+                return BinaryCode.Empty;
+
+            var size = src.TotalSize();
+            var buffer = alloc<byte>(size);
+            var dst = span(buffer);
+            var offset = 0u;
+            for(var i=0; i<count; i++)
+            {
+                var data = skip(src,i).Data.View;
+                for(var j=0; j<data.Length; j++)
+                    seek(dst,offset++) = skip(data,j);
+
+            }
+            return buffer;
+        }
+
         public ByteSize EmitBasedRows(ReadOnlySpan<byte> src, ushort rowsize, FS.FilePath dst)
         {
             const char Delimiter = Chars.Pipe;

@@ -8,7 +8,7 @@ namespace Z0
     using static XedModels;
     using static core;
 
-    partial class XedCmdProvider
+    partial class AsmCoreCmd
     {
         [CmdOp("xed/gen/rulenames")]
         Outcome ChecSeq(CmdArgs args)

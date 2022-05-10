@@ -7,7 +7,7 @@ namespace Z0
     using static XedRules;
     using static core;
 
-    partial class XedCmdProvider
+    partial class AsmCoreCmd
     {
         [CmdOp("xed/check/types")]
         Outcome CheckTypes(CmdArgs args)

@@ -14,6 +14,25 @@ namespace Z0
 
         }
 
+        [MethodImpl(Inline)]
+        static DbTargets target(FS.FolderPath root, string scope)
+            => new DbTargets(root,scope);
+
+        public DbTargets LangTargets()
+            => target(Root, "lang");
+
+        public FS.FolderPath LangTargets(string scope)
+            => LangTargets().Targets(scope);
+
+        public FS.FileName LangFile(string name, FileKind kind)
+            => LangTargets().File(name,kind);
+
+        public FS.FilePath LangTarget(string name, FileKind kind)
+            => LangTargets().Path(name,kind);
+
+        public FS.FilePath LangTarget(string scope, string name, FileKind kind)
+            => LangTargets().Path(scope, name,kind);
+
         public FS.FolderPath SdeTargets()
             => Root + FS.folder("sde");
 

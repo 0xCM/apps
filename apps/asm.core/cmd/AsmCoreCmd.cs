@@ -9,7 +9,7 @@ namespace Z0
     using static XedRules;
     using static core;
 
-    public partial class XedCmdProvider : AppCmdService<XedCmdProvider,CmdShellState>
+    public partial class AsmCoreCmd : AppCmdService<AsmCoreCmd,CmdShellState>
     {
         XedRuntime Xed;
 
@@ -45,7 +45,7 @@ namespace Z0
         Label Label(string src)
             => Xed.Allocator.Label(src);
 
-        public XedCmdProvider With(XedRuntime runtime)
+        public AsmCoreCmd With(XedRuntime runtime)
         {
             Xed = runtime;
             return this;

@@ -6,6 +6,7 @@ namespace Z0
 {
     partial struct Cil
     {
+        [DataWidth(3)]
         public enum StackBehaviour : byte
         {
             Pop0 = 0,

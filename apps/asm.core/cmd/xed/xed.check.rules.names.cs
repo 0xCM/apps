@@ -10,7 +10,7 @@ namespace Z0
     using static core;
 
 
-    partial class XedCmdProvider
+    partial class AsmCoreCmd
     {
         [CmdOp("xed/emit/grids")]
         Outcome EmitGrids(CmdArgs args)

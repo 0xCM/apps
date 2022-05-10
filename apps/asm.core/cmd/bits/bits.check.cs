@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedCmdProvider
+    partial class AsmCoreCmd
     {
-        [CmdOp("xed/collect")]
-        Outcome XedCollect(CmdArgs args)
+        [CmdOp("bits/check")]
+        Outcome CheckBits(CmdArgs args)
         {
-            Disasm.Collect(Context());
+            BitCheckers.run();
             return true;
         }
     }

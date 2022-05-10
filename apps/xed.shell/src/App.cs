@@ -15,7 +15,7 @@ namespace Z0
 
         protected override void Initialized()
         {
-            var commands = XedCmdProvider.create(Wf);
+            var commands = AsmCoreCmd.create(Wf);
             XedRt = XedRuntime.create(Wf);
             commands.With(XedRt);
             XedRt.Start();
