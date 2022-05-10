@@ -9,18 +9,18 @@ namespace Z0.Asm
     partial struct SdmOps
     {
         [Op]
-        public static Outcome<uint> rows(ReadOnlySpan<TextLine> src, Span<SdmOpCodeDetail> dst)
+        public static uint rows(ReadOnlySpan<TextLine> src, Span<SdmOpCodeDetail> dst)
         {
             var counter = 0u;
             var result = Outcome.Success;
-            var count = min(src.Length, dst.Length);
+            var count = (uint)min(src.Length, dst.Length);
             for(var i=0; i<count; i++)
             {
                 result = detail(skip(src,i), out seek(dst, i));
                 if(result.Fail)
-                      term.warn(result.Message);
+                      Errors.Throw(result.Message);
             }
-            return (true,counter);
+            return count;
         }
     }
 }

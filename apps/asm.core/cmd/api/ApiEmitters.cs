@@ -22,6 +22,29 @@ namespace Z0
 
         ApiComments ApiComments => Service(Wf.ApiComments);
 
+        BitMaskServices ApiBitMasks => Service(Wf.ApiBitMasks);
+
+        AsmDocs AsmDocs => Service(Wf.AsmDocs);
+
+        public void EmitDataTypes()
+            => TableEmit(DataTypes.records(ApiRuntimeCatalog.Components).View, DataTypeRecord.RenderWidths, Ws.ProjectDb().Api() + Tables.filename<DataTypeRecord>());
+
+        public void EmitApiMd()
+            => ApiComments.EmitMarkdownDocs(new string[]{
+                nameof(vpack),
+                nameof(vmask),
+                nameof(cpu),
+                nameof(gcpu),
+                nameof(BitMasks),
+                nameof(BitMaskLiterals),
+                });
+
+        public void EmitAsmDocs()
+            => AsmDocs.Emit();
+
+        public void EmitBitMasks()
+            => ApiBitMasks.Emit();
+
         public void EmitApiComments()
             => ApiComments.Collect();
 
@@ -49,26 +72,20 @@ namespace Z0
             TableEmit(@readonly(buffer.Sort()), ApiFlowSpec.RenderWidths, ProjectDb.ApiTablePath<ApiFlowSpec>());
         }
 
-        public FS.FilePath EmitApiEnums()
+        public FS.FilePath EmitEnumList()
         {
             var dst = AppDb.Api().Path("api.enums.types", FileKind.List);
-            var src = ApiRuntimeCatalog.Components.Where(x => !x.FullName.Contains("codegen.")).Storage.Enums().Where(x => x.ContainsGenericParameters == false && nonempty(x.Namespace));
+            var src = ApiRuntimeCatalog.Components
+                .Where(x => !x.FullName.Contains("codegen."))
+                .Storage.Enums()
+                .Where(x => x.ContainsGenericParameters == false && nonempty(x.Namespace));
             var emitting = EmittingFile(dst);
             var count = src.Length;
             using var writer = dst.Utf8Writer();
             for(var i=0; i<count; i++)
-            {
-                ref readonly var type = ref skip(src,i);
-                writer.WriteLine(type.AssemblyQualifiedName);
-            }
+                writer.WriteLine(skip(src,i).AssemblyQualifiedName);
             EmittedFile(emitting,count);
             return dst;
         }
-    }
-
-    partial class XTend
-    {
-        public static ApiEmitters ApiEmitters(this IWfRuntime wf)
-            => Z0.ApiEmitters.create(wf);
     }
 }

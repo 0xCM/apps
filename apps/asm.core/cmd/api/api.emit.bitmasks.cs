@@ -9,7 +9,7 @@ namespace Z0
         [CmdOp("api/emit/bitmasks")]
         Outcome EmitBitMasks(CmdArgs args)
         {
-            EmitBitMasks();
+            ApiEmitters.EmitBitMasks();
             return true;
         }
     }

@@ -11,33 +11,38 @@ namespace Z0.Asm
 
         public const byte FieldCount = 11;
 
+        [Render(12)]
         public uint OpCodeKey;
 
+        [Render(12)]
         public AsmMnemonic Mnemonic;
 
+        [Render(36)]
         public CharBlock36 OpCodeText;
 
+        [Render(36)]
         public AsmOcValue OpCodeValue;
 
+        [Render(64)]
         public CharBlock64 SigText;
 
+        [Render(8)]
         public CharBlock8 EncXRef;
 
+        [Render(8)]
         public CharBlock8 Mode64;
 
+        [Render(8)]
         public CharBlock8 Mode32;
 
+        [Render(12)]
         public CharBlock8 Mode64x32;
 
+        [Render(16)]
         public CharBlock16 CpuIdExpr;
 
+        [Render(254)]
         public CharBlock254 Description;
-
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{
-                12,16,36,20,64,
-                10,10,10,10,
-                16,254};
 
         public int CompareTo(SdmOpCodeDetail src)
         {

@@ -17,6 +17,7 @@ namespace Z0
             {
                 if(line.IsEmpty)
                     continue;
+
                 var i = line.Index(Sep);
                 if(i == NotFound)
                     continue;
@@ -24,13 +25,9 @@ namespace Z0
                 var source = text.left(line.Content,i);
                 var target = text.right(line.Content,i + Sep.Length - 1);
                 if(text.fenced(target, RenderFence.SQuote))
-                {
                     dst[source] = text.unfence(target, RenderFence.SQuote);
-                }
                 else
-                {
                     dst[source] = target;
-                }
             }
             return new TextReplace(dst);
         }

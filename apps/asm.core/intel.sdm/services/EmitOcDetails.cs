@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     partial class IntelSdm
     {
-        void EmitOcDetails(Index<SdmOpCodeDetail> src)
+        void CheckModes(Index<SdmOpCodeDetail> src)
         {
             for(var i=0; i<src.Count; i++)
             {
@@ -18,10 +18,12 @@ namespace Z0.Asm
                 if(!(m32 == "Valid" || m32 == "Invalid"))
                     Warn(string.Format("Invalid 32-bit mode specifier for {0}", detail.SigText.Format().Trim()));
             }
+        }
 
-            var dst = SdmPaths.ImportTable<SdmOpCodeDetail>();
-            using var writer = dst.UnicodeWriter();
-            TableEmit(src.View, SdmOpCodeDetail.RenderWidths, writer, dst);
+        public void Emit(Index<SdmOpCodeDetail> src)
+        {
+            CheckModes(src);
+            AppSvc.TableEmit(src, SdmPaths.ImportTable<SdmOpCodeDetail>(), TextEncodingKind.Unicode);
         }
     }
 }

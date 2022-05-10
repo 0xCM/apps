@@ -22,23 +22,23 @@ namespace Z0
         {
             const byte count = 32;
             const byte Target = 0x48;
-            var mask = cpu.vindices(cpu.vload(w256,x7ffaa76f0ae0), Target);
+            var input = cpu.vload(w256,x7ffaa76f0ae0);
+            var mask = cpu.vindices(input, Target);
             var bits = recover<bit>(Cells.alloc(w256).Bytes);
-            var buffer = Cells.alloc(w256).Bytes;
             BitPack.unpack1x32x8(mask, bits);
+            var buffer = ByteBlock32.Empty;
             var j=z8;
             for(byte i=0; i<count; i++)
             {
                 if(skip(bits,i))
-                    seek(buffer,j++) = i;
+                    buffer[j++] = i;
             }
 
-            var indices = slice(buffer,0,j);
-            Require.equal(skip(indices,0),5);
-            Require.equal(skip(indices,1),8);
-            Require.equal(skip(indices,2),18);
-            Require.equal(skip(indices,3),28);
-
+            var indices = slice(buffer.Bytes, 0, j);
+            Require.equal(skip(indices,0), 5);
+            Require.equal(skip(indices,1), 8);
+            Require.equal(skip(indices,2), 18);
+            Require.equal(skip(indices,3), 28);
             return true;
         }
 
@@ -53,7 +53,6 @@ namespace Z0
             return true;
         }
 
-
         [CmdOp("check/sigs")]
         Outcome CheckSigs(CmdArgs args)
         {
@@ -64,40 +63,37 @@ namespace Z0
             seek(specs,2) = NativeSigs.@out("op2", NativeTypes.u32());
             var sig = dispenser.Sig("funcs","f2", NativeTypes.i32(), specs);
             Write(sig.Format(SigFormatStyle.C));
-            return true;
-        }
 
-        [CmdOp("inx/check/sigs")]
-        Outcome CheckIntrinsicSigs(CmdArgs args)
-        {
-            using var dispenser = Alloc.allocate();
-            var sigs = new IntrinsicSigs();
+            var intrinsics = new IntrinsicSigs();
 
-            var f0 = sigs._mm_add_epi8();
+            var f0 = intrinsics._mm_add_epi8();
             Write(f0.Format(SigFormatStyle.C));
 
             var f0x = dispenser.Sig(f0);
             Write(f0x.Format(SigFormatStyle.C));
 
-            var f1 = sigs._mm_add_epi16();
+            var f1 = intrinsics._mm_add_epi16();
             Write(f1.Format(SigFormatStyle.C));
 
             var f1x = dispenser.Sig(f1);
             Write(f1x.Format(SigFormatStyle.C));
 
-            var f2 = sigs._mm_add_epi32();
+            var f2 = intrinsics._mm_add_epi32();
             Write(f2.Format(SigFormatStyle.C));
 
             var f2x = dispenser.Sig(f2);
             Write(f2x.Format(SigFormatStyle.C));
 
-            var f3 = sigs._mm_add_epi64();
+            var f3 = intrinsics._mm_add_epi64();
             Write(f3.Format(SigFormatStyle.C));
 
             var f3x = dispenser.Sig(f3);
             Write(f3x.Format(SigFormatStyle.C));
+
+
             return true;
         }
+
 
         [CmdOp("check/strings/buffers")]
         Outcome CheckStringBuffers(CmdArgs args)
@@ -216,7 +212,6 @@ namespace Z0
             return result;
         }
 
-
         void CheckSig1()
         {
             using var dispenser = Alloc.allocate();
@@ -329,7 +324,6 @@ namespace Z0
             public uint N;
         }
 
-
         [CmdOp("check/block/size")]
         Outcome CheckBlockSize(CmdArgs args)
         {
@@ -348,13 +342,11 @@ namespace Z0
 
             ByteBlock4 block0 =  0x0;
             Write(Storage.trim(block0).Format());
-
-
             return true;
         }
 
-        [CmdOp("check/data/tables")]
-        unsafe Outcome TestDataTables(CmdArgs args)
+        [CmdOp("check/md/arrays")]
+        unsafe Outcome CheckMdArrays(CmdArgs args)
         {
             var m = 0xF;
             var n = 0xA;
@@ -469,33 +461,36 @@ namespace Z0
 
             return true;
         }
+
         [CmdOp("check/range")]
         Outcome CheckRange(CmdArgs args)
         {
-            var dst = text.buffer();
-            Render(new BitRange(0, 2),dst);
-            Write(dst.Emit());
-            Render(new BitRange(3, 5),dst);
-            Write(dst.Emit());
-            Render(new BitRange(6, 7),dst);
-            Write(dst.Emit());
+            Span<byte> buffer = stackalloc byte[32];
+            var emitter = text.buffer();
+            points(new BitRange(0, 2), buffer,emitter);
+            Write(emitter.Emit());
+            points(new BitRange(5, 3), buffer,emitter);
+            Write(emitter.Emit());
+            points(new BitRange(6, 7), buffer,emitter);
+            Write(emitter.Emit());
+            points(new BitRange(1, 4), buffer,emitter);
+            Write(emitter.Emit());
             return true;
         }
 
-        void Render(BitRange src, ITextBuffer dst)
+        static BitRange points(BitRange src, Span<byte> dst, ITextEmitter emitter)
         {
-            var values = span<byte>(256);
-            var count = src.Values(values,true);
-            dst.Append(src.Format());
-            dst.Append(Chars.LBrace);
+            var count = src.Values(dst,true);
+            emitter.Append(src.Format());
+            emitter.Append(Chars.LBrace);
             for(var i=0;i<count; i++)
             {
                 if(i != 0)
-                    dst.Append(Chars.Comma);
-                dst.Append(skip(values,i).ToString());
+                    emitter.Append(Chars.Comma);
+                emitter.Append(skip(dst,i).ToString());
             }
-            dst.Append(Chars.RBrace);
+            emitter.Append(Chars.RBrace);
+            return src;
         }
-
     }
 }

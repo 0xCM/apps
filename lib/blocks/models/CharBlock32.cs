@@ -12,8 +12,8 @@ namespace Z0
     /// <summary>
     /// Defines a character block b with capacity(b) = 32x16u
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack=2), DataWidth(Size*8,Size*8)]
-    public struct CharBlock32  : ICharBlock<B>
+    [StructLayout(LayoutKind.Sequential, Pack=2)]
+    public struct CharBlock32 : ICharBlock<B>
     {
         /// <summary>
         /// The block capacity
@@ -29,9 +29,6 @@ namespace Z0
 
         CharBlock16 Hi;
 
-        /// <summary>
-        /// The block content presented as an editable buffer
-        /// </summary>
         public Span<char> Data
         {
             [MethodImpl(Inline)]
@@ -39,8 +36,7 @@ namespace Z0
         }
 
         /// <summary>
-        /// If the block contains no null-terminators, returns a readonly view of the data source; otherwise
-        /// returns the content preceding the first null-terminator
+        /// If the block contains no null-terminators, returns a readonly view of the data source; otherwise returns the content preceding the first null-terminator
         /// </summary>
         public ReadOnlySpan<char> String
         {

@@ -9,6 +9,9 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
+        public static ApiEmitters ApiEmitters(this IWfRuntime wf)
+            => Z0.ApiEmitters.create(wf);
+
         public static AsmCodeGen AsmCodeGen(this IWfRuntime wf)
             => Asm.AsmCodeGen.create(wf);
 

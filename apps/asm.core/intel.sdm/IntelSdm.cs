@@ -11,6 +11,8 @@ namespace Z0.Asm
     {
         CharMapper CharMapper => Service(Wf.CharMapper);
 
+        AppServices AppSvc => Service(Wf.AppServices);
+
         IntelSdmPaths SdmPaths;
 
         protected override void OnInit()
@@ -75,7 +77,7 @@ namespace Z0.Asm
 
                 EmitTokens();
                 var details = CalcOcDetails();
-                EmitOcDetails(details);
+                Emit(details);
                 EmitSigOps(EmitForms(details));
 
             }

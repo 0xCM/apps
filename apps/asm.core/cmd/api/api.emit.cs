@@ -19,33 +19,7 @@ namespace Z0
         Index<CompilationLiteral> ApiLiterals()
             => Data(nameof(ApiLiterals), () => L.CompilationLiterals(ApiRuntimeCatalog.Components));
 
-        void EmitApiLiterals()
-            => TableEmit(ApiLiterals().View, ProjectDb.ApiTablePath<CompilationLiteral>());
-
-        void EmitDataTypes()
-            => TableEmit(DataTypes.records(ApiRuntimeCatalog.Components).View, DataTypeRecord.RenderWidths, Ws.ProjectDb().Api() + Tables.filename<DataTypeRecord>());
-
-        void EmitApiComments()
-            => ApiEmitters.EmitApiComments();
-
-        void EmitApiMd()
-            => ApiComments.EmitMarkdownDocs(new string[]{
-                nameof(vpack),
-                nameof(vmask),
-                nameof(cpu),
-                nameof(gcpu),
-                nameof(BitMasks),
-                nameof(BitMaskLiterals),
-                });
-
-        void EmitAsmDocs()
-            => AsmDocs.Emit();
-
-        void EmitBitMasks()
-            => ApiBitMasks.Emit();
-
-
-        [CmdOp("api/emit/flowspecs")]
+        [CmdOp("api/emit/flows")]
         Outcome EmitDataFlowSpecs(CmdArgs args)
         {
             ApiEmitters.EmitDataFlowSpecs();
@@ -56,7 +30,7 @@ namespace Z0
         Outcome EmitApiLiterals(CmdArgs args)
         {
             var result = Outcome.Success;
-            EmitApiLiterals();
+            ApiEmitters.EmitApiLiterals();
             return result;
         }
 
@@ -74,53 +48,43 @@ namespace Z0
         [CmdOp("api/emit/enum")]
         Outcome EmitApiEnums(CmdArgs args)
         {
-            ApiEmitters.EmitApiEnums();
+            ApiEmitters.EmitEnumList();
             return true;
         }
 
         [CmdOp("api/emit")]
         Outcome ApiEmit(CmdArgs args)
         {
-            EmitBitMasks();
-            EmitDataTypes();
-            EmitApiMd();
-            EmitAsmDocs();
+            ApiEmitters.EmitBitMasks();
+            ApiEmitters.EmitDataTypes();
+            ApiEmitters.EmitEnumList();
+            ApiEmitters.EmitApiMd();
+            ApiEmitters.EmitAsmDocs();
+            ApiEmitters.EmitDataFlowSpecs();
+            ApiEmitters.EmitApiLiterals();
+            ApiEmitters.EmitApiComments();
             return true;
         }
 
         [CmdOp("api/emit/types")]
         Outcome EmitDataTypes(CmdArgs args)
         {
-            EmitDataTypes();
+            ApiEmitters.EmitDataTypes();
            return true;
         }
 
         [CmdOp("api/emit/comments")]
         Outcome EmitMarkdownDocs(CmdArgs args)
         {
-            EmitApiMd();
+            ApiEmitters.EmitApiMd();
             return true;
         }
 
         [CmdOp("api/emit/asmdocs")]
         Outcome EmitAsmDocs(CmdArgs args)
         {
-            EmitAsmDocs();
+            ApiEmitters.EmitAsmDocs();
             return true;
         }
-
-        [CmdOp("api/check/classifiers")]
-        Outcome CheckClassifiers(CmdArgs args)
-        {
-            var classifier = Classifiers.classifier<AsmSigTokens.GpRmToken,byte>();
-            var count = classifier.ClassCount;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var c = ref classifier[i];
-                Write(string.Format("{0,-4} | {1,-16} | {2,-16} | {3, -16} | {4}", c.Ordinal, c.ClassName, c.Identifier, c.Symbol, c.Value));
-            }
-
-            return true;
-        }
-    }
+   }
 }

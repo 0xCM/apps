@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static core;
-
     partial class IntelSdm
     {
         public void EmitTokens()
-        {
-            var tokens = AsmTokens.data();
-            TableEmit(tokens.View, AsmToken.RenderWidths, SdmPaths.Tokens());
-        }
+            => Emit(AsmTokens.data());
+
+        public void Emit(AsmTokens src)
+            => AppSvc.TableEmit(src.View, SdmPaths.Tokens());
     }
 }

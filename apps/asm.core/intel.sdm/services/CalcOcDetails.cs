@@ -58,7 +58,6 @@ namespace Z0.Asm
                 return src;
         }
 
-
         [Op]
         uint Convert(Table src, Span<SdmOpCodeDetail> dst)
         {
@@ -92,10 +91,18 @@ namespace Z0.Asm
                     switch(name)
                     {
                         case "Opcode":
-                        var oc = FixupOpCode(content);
-                        target.OpCodeText = oc;
-                        if(empty(oc))
+                        //var oc = FixupOpCode(content);
+                        var octext = text.despace(ocfixups.Apply(text.trim(content)));
+                        var oc = AsmOpCode.Empty;
+                        target.OpCodeText = octext;
+                        if(empty(octext))
                             valid = false;
+                        else
+                        {
+                            Write(target.OpCodeText);
+                            AsmOpCodes.parse(octext, out oc).Require();
+                            target.OpCodeValue = oc.OcValue();
+                        }
                         break;
 
                         case "Instruction":
@@ -184,8 +191,8 @@ namespace Z0.Asm
 
                 if(valid)
                 {
-                    AsmOpCodes.parse(target.OpCodeText, out var oc).Require();
-                    target.OpCodeValue = oc.OcValue();
+                    //AsmOpCodes.parse(target.OpCodeText, out var oc).Require();
+                    //target.OpCodeValue = oc.OcValue();
                     seek(dst, counter++) = target;
                 }
             }
