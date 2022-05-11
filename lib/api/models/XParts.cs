@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Reflection;
-
     partial class XTend
     {
         [MethodImpl(Inline), Op]

@@ -47,7 +47,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public string Format()
             => SegmentCount != 0
-            ? text.format(EventId, Payload, SegmentCount, AppMsg.EmittedFile.Capture(Target))
-            : text.format(EventId, Payload, AppMsg.EmittedFile.Capture(Target));
+            ? RP.format(EventId, Payload, SegmentCount, AppMsg.EmittedFile.Capture(Target))
+            : RP.format(EventId, Payload, AppMsg.EmittedFile.Capture(Target));
     }
 }

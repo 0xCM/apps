@@ -4,29 +4,32 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct Point<X0,X1,X2,T>
-        where X0 : unmanaged, ITypeNat
-        where X1 : unmanaged, ITypeNat
-        where X2 : unmanaged, ITypeNat
-        where T : unmanaged
+    partial class TypeNats
     {
-        public readonly T Value;
-
-        [MethodImpl(Inline)]
-        public Point(T value)
+        public readonly struct Point<X0,X1,X2,T>
+            where X0 : unmanaged, ITypeNat
+            where X1 : unmanaged, ITypeNat
+            where X2 : unmanaged, ITypeNat
+            where T : unmanaged
         {
-            Value = value;
+            public readonly T Value;
+
+            [MethodImpl(Inline)]
+            public Point(T value)
+            {
+                Value = value;
+            }
+
+            public Dim<X0,X1,X2,T> Dim => default;
+
+
+            [MethodImpl(Inline)]
+            public static implicit operator Point<X0,X1,X2,T>(T src)
+                => new (src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator T(Point<X0,X1,X2,T> src)
+                => src.Value;
         }
-
-        public Dim<X0,X1,X2,T> Dim => default;
-
-
-        [MethodImpl(Inline)]
-        public static implicit operator Point<X0,X1,X2,T>(T src)
-            => new (src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator T(Point<X0,X1,X2,T> src)
-            => src.Value;
     }
 }

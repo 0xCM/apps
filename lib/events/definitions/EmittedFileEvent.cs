@@ -35,7 +35,7 @@ namespace Z0
 
         public string Format()
             => LineCount != 0
-            ? text.format(EventId, AppMsg.EmittedFileLines.Capture(LineCount,Path))
-            : text.format(EventId, AppMsg.EmittedFile.Capture(Path));
+            ? RP.format(EventId, AppMsg.EmittedFileLines.Capture(LineCount,Path))
+            : RP.format(EventId, AppMsg.EmittedFile.Capture(Path));
     }
 }

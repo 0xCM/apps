@@ -31,6 +31,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => text.format(EventId, AppMsg.EmittingFile.Capture(Target));
+            => RP.format(EventId, AppMsg.EmittingFile.Capture(Target));
     }
 }

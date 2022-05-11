@@ -14,14 +14,19 @@ namespace Z0
         [CmdOp("xed/db/check")]
         Outcome CheckXedDb(CmdArgs args)
         {
-            //CheckLocatedFields();
-
             var formatter = RecordFormatter.create(typeof(TypeTableRow));
             var rows = Rules.CalcTypeTables().SelectMany(x => x.Rows).Sort().Resequence();
             AppSvc.TableEmit(rows, XedPaths.DbTable<TypeTableRow>());
+            var points = Rules.CalcPoints();
+            for(var i=0; i<points.Count; i++)
+            {
+                ref readonly var point = ref points[i];
+                Write(string.Format("{0:D5} {1}", point.Seq, point.Format()));
+            }
 
             return true;
         }
+
 
         void CheckMemDb(Dim2<uint> shape)
         {

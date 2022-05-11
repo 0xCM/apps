@@ -12,12 +12,20 @@ namespace Z0
     {
         public const byte FieldCount = 128;
 
+        static uint bitwidth(NativeTypeWidth src)
+        {
+            var dst = (uint)src;
+            if(dst == 1)
+                dst = 8;
+            return dst;
+        }
+
         static uint width(Type src)
         {
             var result = z32;
             var attrib = src.Tag<DataWidthAttribute>();
             if(src.IsEnum)
-                result = MeasuredType.bitwidth(PrimalBits.width(Enums.@base(src)));
+                result = bitwidth(PrimalBits.width(Enums.@base(src)));
             else if(attrib.IsSome())
                 result = attrib.MapRequired(w => w.NativeWidth == 0 ?  (uint)w.PackedWidth: (uint)w.NativeWidth);
             if(result != 0)

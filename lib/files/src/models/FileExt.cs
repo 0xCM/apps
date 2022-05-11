@@ -36,7 +36,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static FileExt operator + (FileExt a, FileExt b)
-                => ext(Z0.text.format("{0}.{1}", a.Name, b.Name));
+                => ext(Z0.RP.format("{0}.{1}", a.Name, b.Name));
 
             [MethodImpl(Inline)]
             public static bool operator ==(FileExt a, FileExt b)

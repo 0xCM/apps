@@ -6,25 +6,10 @@ namespace Z0
 {
     public readonly struct MeasuredType : IComparable<MeasuredType>
     {
-        public static uint bitwidth(NativeTypeWidth src)
-        {
-            var dst = (uint)src;
-            if(dst == 1)
-                dst = 8;
-            return dst;
-        }
-
-        public static uint aligned(Type src)
-            => bitwidth(PrimalBits.width(Enums.@base(src)));
-
-
-        public static DataSize size(Type src)
-            => DataTypes.measure(src);
-
         public static Index<MeasuredType> symbolic(Assembly src, string group)
         {
-            var x =  src.Enums().TypeTags<SymSourceAttribute>().Storage.Where(x => x.Right.SymGroup == group).ToIndex();
-            return x.Select(x => new MeasuredType(x.Left, size(x.Left))).Sort();
+            var x = src.Enums().TypeTags<SymSourceAttribute>().Storage.Where(x => x.Right.SymGroup == group).ToIndex();
+            return x.Select(x => new MeasuredType(x.Left, DataTypes.measure(x.Left))).Sort();
         }
 
         public readonly Type Definition;

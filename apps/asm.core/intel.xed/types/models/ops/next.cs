@@ -4,19 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules;
+
     partial class XedDataTypes
     {
-        [Free]
-        public interface IRulePrimitive : IRuleType
+        static object KeyLocker = new();
+
+        static TypeKey NextKey(TypeKind kind)
         {
-
-        }
-
-        [Free]
-        public interface IRulePrimitive<T> : IRulePrimitive
-            where T : unmanaged, IRulePrimitive<T>
-        {
-
+            lock(KeyLocker)
+            {
+                ref var key = ref _Keys[kind];
+                key++;
+                return key;
+            }
         }
     }
 }

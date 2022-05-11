@@ -30,6 +30,6 @@ namespace Z0
         }
 
         public string Format()
-            => text.format(EventId, Content);
+            => RP.format(EventId, Content);
     }
 }

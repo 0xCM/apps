@@ -8,11 +8,9 @@ namespace Z0
 
     public partial class XedDataTypes
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(MetaWidth,MetaWidth)]
-        public readonly struct OperatorType : IRuleType<OperatorType>
+        [StructLayout(StructLayout,Pack=1)]
+        public readonly struct OperatorType : IDataType<OperatorType>
         {
-            public const uint MetaWidth = RuleOperator.AlignedWidth + asci4.Size*8;
-
             public const TypeKind Kind = TypeKind.Operator;
 
             public readonly RuleOperator Operator;
@@ -26,10 +24,10 @@ namespace Z0
                 Symbol = op.Symbol;
             }
 
-            TypeKind IRuleType.TypeKind
+            TypeKind IDataType.Kind
                 => Kind;
 
-            asci32 IRuleType.TypeName
+            asci32 IDataType.Name
                 => Operator.Kind.ToString();
         }
     }

@@ -65,5 +65,9 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ulong join(uint a0, uint a1)
             => (ulong)a0 | ((ulong)a1 << 32);
+
+        [MethodImpl(Inline), Op]
+        public static uint pack(ushort a0, byte a1, byte a2)
+            => (uint)a0 | ((uint)a1 << 16) | ((uint)a2 << 24);
     }
 }

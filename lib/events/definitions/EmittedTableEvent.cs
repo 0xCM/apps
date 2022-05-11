@@ -53,7 +53,7 @@ namespace Z0
         }
 
         public string Format()
-            => text.format(EventId, AppMsg.EmittedTable.Capture(TableId, RowCount, Target));
+            => RP.format(EventId, AppMsg.EmittedTable.Capture(TableId, RowCount, Target));
 
         public override string ToString()
             => Format();

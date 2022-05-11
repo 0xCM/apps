@@ -37,7 +37,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => text.format("{0,-10} | {1}", Index, Path);
+            => RP.format("{0,-10} | {1}", Index, Path);
 
         public override string ToString()
             => Format();

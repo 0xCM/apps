@@ -77,7 +77,7 @@ namespace Z0
             if(this is ErrorEvent<Exception> e)
                  format(e, buffer);
             else
-                buffer.Append(text.format(RP.PSx3, EventId, Source, Summary));
+                buffer.Append(RP.format(RP.PSx3, EventId, Source, Summary));
             return buffer.Emit();
 
         }

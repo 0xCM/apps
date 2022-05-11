@@ -4,13 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class XedDataTypes
+    partial class XedDataTypes
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(MetaWidth,MetaWidth)]
+        [StructLayout(StructLayout,Pack=1)]
         public readonly struct LiteralValue
         {
-            public const uint MetaWidth = TypeKey.MetaWidth + PrimalType.W64;
-
             public readonly TypeKey Type;
 
             public readonly ulong Value;

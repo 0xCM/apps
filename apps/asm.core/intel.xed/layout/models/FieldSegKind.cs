@@ -10,29 +10,17 @@ namespace Z0
         {
             None,
 
-            [Symbol("0b")]
-            ModLit,
-
             [Symbol("mm")]
-            ModVar,
-
-            [Symbol("0b")]
-            RegLit,
+            Mod,
 
             [Symbol("rrr")]
-            RegVar,
-
-            [Symbol("0b")]
-            RmLit,
+            Reg,
 
             [Symbol("nnn")]
-            RmVar,
-
-            [Symbol("0b")]
-            SrmLit,
+            Rm,
 
             [Symbol("rrr")]
-            SrmVar
+            Srm
         }
     }
 }

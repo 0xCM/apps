@@ -9,16 +9,15 @@ namespace Z0
     partial class XedDataTypes
     {
         [Free]
-        public interface IFieldType : IRuleType
+        public interface IFieldType : IDataType
         {
             FieldKind Field {get;}
         }
 
         [Free]
-        public interface IFieldType<T> : IFieldType, IRuleType<T>
+        public interface IFieldType<T> : IFieldType, IDataType<T>
             where T : unmanaged, IFieldType<T>
         {
         }
-
     }
 }

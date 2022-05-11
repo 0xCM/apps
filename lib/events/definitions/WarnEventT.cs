@@ -35,6 +35,6 @@ namespace Z0
         }
 
         public string Format()
-            => text.format(EventId, StepId, Payload);
+            => RP.format(EventId, StepId, Payload);
     }
 }

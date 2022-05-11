@@ -8,11 +8,9 @@ namespace Z0
 
     partial class XedDataTypes
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(MetaWidth,MetaWidth)]
+        [StructLayout(StructLayout,Pack=1)]
         public readonly struct FieldType : IFieldType<FieldType>
         {
-            public const uint MetaWidth = PrimalType.W8 + CellType.MetaWidth;
-
             public const TypeKind Kind = TypeKind.Field;
 
             public readonly FieldKind Field;
@@ -26,13 +24,13 @@ namespace Z0
                 DataType = cell;
             }
 
-            TypeKind IRuleType.TypeKind
+            TypeKind IDataType.Kind
                 => Kind;
 
             FieldKind IFieldType.Field
                 => Field;
 
-            asci32 IRuleType.TypeName
+            asci32 IDataType.Name
                 => DataType.TypeName;
         }
     }

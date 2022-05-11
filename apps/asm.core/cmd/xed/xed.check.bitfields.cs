@@ -16,6 +16,5 @@ namespace Z0
             Write(bf.Dataset.Intervals.Format());
             return true;
         }
-
     }
 }

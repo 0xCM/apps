@@ -84,14 +84,6 @@ namespace Z0
                 return result;
             }
 
-
-            public Coordinate Location
-            {
-                [MethodImpl(Inline)]
-                get => new Coordinate(Rule, Row, Col);
-            }
-
-
             public override bool Equals(object src)
                 => src is CellKey k && Equals(k);
 

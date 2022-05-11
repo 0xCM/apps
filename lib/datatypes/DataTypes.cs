@@ -107,10 +107,7 @@ namespace Z0
                 else
                 {
                     if(tag)
-                    {
-
                         dst = (tag.Value.PackedWidth, Sizes.bitwidth(src));
-                    }
                     else
                     {
                         var width = Sizes.bitwidth(src);

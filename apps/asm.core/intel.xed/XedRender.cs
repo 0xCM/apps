@@ -176,9 +176,6 @@ namespace Z0
             return dst;
         }
 
-        public static string format(Coordinate src)
-            => src.Format();
-
         public static string format(FlagEffectKind src)
             => FlagEffects.Format(src);
 

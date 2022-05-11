@@ -6,33 +6,37 @@ namespace Z0
 {
     using static XedRules;
 
-    partial class XedDataTypes
+    public partial class XedDataTypes
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(MetaWidth,MetaWidth)]
-        public readonly struct ExpressionType :  IFieldType<ExpressionType>
+        [StructLayout(StructLayout,Pack=1)]
+        public readonly struct FieldSegType : IFieldType<FieldSegType>
         {
-            public const uint MetaWidth = FieldType.MetaWidth + OperatorType.MetaWidth;
-
-            public const TypeKind Kind = TypeKind.Expression;
+            public const TypeKind Kind = TypeKind.FieldSeg;
 
             public readonly FieldType Field;
 
-            public readonly OperatorType Operator;
+            public readonly DataSize Size;
 
             [MethodImpl(Inline)]
-            public ExpressionType(FieldType field, OperatorType op)
+            public FieldSegType(FieldType field, DataSize size)
             {
                 Field = field;
-                Operator = op;
+                Size = size;
             }
 
-            TypeKind IRuleType.TypeKind
+            TypeKind IDataType.Kind
                 => Kind;
+
+            public readonly CellType FieldType
+            {
+                [MethodImpl(Inline)]
+                get => Field.DataType;
+            }
 
             FieldKind IFieldType.Field
                 => Field.Field;
 
-            asci32 IRuleType.TypeName
+            asci32 IDataType.Name
                 => Field.DataType.TypeName;
         }
     }

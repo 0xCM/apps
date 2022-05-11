@@ -8,7 +8,7 @@ namespace Z0
 
     partial class XedDataTypes
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1)]
+        [StructLayout(StructLayout,Pack=1)]
         public readonly struct SegValType : IFieldType<SegValType>
         {
             public const TypeKind Kind = TypeKind.SegVal;
@@ -24,13 +24,13 @@ namespace Z0
                 DataType = type;
             }
 
-            TypeKind IRuleType.TypeKind
+            TypeKind IDataType.Kind
                 => Kind;
 
             FieldKind IFieldType.Field
                 => Seg.Field;
 
-            asci32 IRuleType.TypeName
+            asci32 IDataType.Name
                 => XedRender.format(Seg.Field);
         }
     }

@@ -6,11 +6,23 @@ namespace Z0
 {
     using static core;
 
-
     [ApiHost]
     public readonly partial struct Points
     {
         const NumericKind Closure = UnsignedInts;
+
+        [MethodImpl(Inline)]
+        public static Point<A,B> point<A,B>(A a, B b)
+            where A : unmanaged
+            where B : unmanaged
+                => new (a,b);
+
+        [MethodImpl(Inline)]
+        public static Point<A,B,C> point<A,B,C>(A a, B b, C c)
+            where A : unmanaged
+            where B : unmanaged
+            where C : unmanaged
+                => new (a,b,c);
 
         public static MultiLinear<T> multilinear<T>(Dim2<T> shape)
             where T : unmanaged

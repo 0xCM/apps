@@ -4,21 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class XedDataTypes
     {
-        [StructLayout(LayoutKind.Sequential,Size=4), DataWidth(MetaWidth)]
+        [StructLayout(StructLayout,Pack=1)]
         public readonly record struct TypeKey : IComparable<TypeKey>
         {
-            public const uint MetaWidth = 32;
-
             public const byte FirstKey = 0;
-
-            public static TypeKey Zero => FirstKey;
 
             public uint Value
             {
                 [MethodImpl(Inline)]
-                get => core.@as<TypeKey,uint>(this);
+                get => @as<TypeKey,uint>(this);
             }
 
             public bool IsNonEmpty
@@ -31,6 +29,12 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => ((int)this) == -1;
+            }
+
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => (uint)this;
             }
 
             [MethodImpl(Inline)]
@@ -48,7 +52,7 @@ namespace Z0
                 => Format();
 
             public override int GetHashCode()
-                => (int)this;
+                => Hash;
 
             [MethodImpl(Inline)]
             public int CompareTo(TypeKey src)
@@ -56,7 +60,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator TypeKey(uint src)
-                => core.@as<uint,TypeKey>(src);
+                => @as<uint,TypeKey>(src);
 
             [MethodImpl(Inline)]
             public static implicit operator uint(TypeKey src)
@@ -64,11 +68,11 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static explicit operator int(TypeKey src)
-                => core.@as<TypeKey,int>(src);
+                => @as<TypeKey,int>(src);
 
             [MethodImpl(Inline)]
             public static explicit operator TypeKey(int src)
-                => core.@as<int,TypeKey>(src);
+                => @as<int,TypeKey>(src);
 
             [MethodImpl(Inline)]
             public static TypeKey operator +(TypeKey a, TypeKey b)
@@ -104,6 +108,7 @@ namespace Z0
 
             public static TypeKey Empty => (TypeKey)(-1);
 
+            public static TypeKey Zero => FirstKey;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Z0
 {
     partial class XedDataTypes
     {
-        [DataWidth(4,8)]
+        [DataWidth(num5.Width)]
         public enum TypeKind : byte
         {
             None,
@@ -20,7 +20,7 @@ namespace Z0
             Cell,
 
             /// <summary>
-            /// Characterizes a named literal
+            /// Classifies a named literal
             /// </summary>
             TypedLiteral,
 

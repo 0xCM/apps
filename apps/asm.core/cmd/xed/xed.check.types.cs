@@ -12,8 +12,12 @@ namespace Z0
         [CmdOp("xed/check/types")]
         Outcome CheckTypes(CmdArgs args)
         {
-            Write(nameof(XedDataTypes.IntrinsicNumeric));
-            iter(XedDataTypes.IntrinsicNumeric, t => Write(string.Format("{0,-8} | {1,-8} | {2}", t.Key, t.Format(), t.Width)));
+            Write(nameof(XedDataTypes.Numeric));
+            iter(XedDataTypes.Numeric, t => Write(string.Format("{0,-8} | {1,-8} | {2}", t.Key, t.Format(), t.Size)));
+
+            Write(nameof(XedDataTypes.Primitives));
+            iter(XedDataTypes.Primitives, t => Write(string.Format("{0,-8} | {1,-8} | {2}", t.PrimalKind, t.Format(), t.Size)));
+
             return true;
         }
     }

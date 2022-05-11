@@ -7,117 +7,67 @@ namespace Z0
 {
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(Width)]
+        [StructLayout(StructLayout,Pack=1)]
         public readonly record struct Coordinate : IComparable<Coordinate>
         {
-            [MethodImpl(Inline)]
-            public static uint pack(Coordinate src)
-            {
-                var result = 0u;
-                result |= ((uint)src.Kind << KindOffset);
-                result |= ((uint)src.Table << TableOffset);
-                result |= ((uint)src.Row << RowOffset);
-                result |= ((uint)src.Col << ColOffset);
-                return result;
-            }
+            public readonly ushort Seq;
 
-            [MethodImpl(Inline)]
-            public static Coordinate unpack(uint src)
-            {
-                var kind = (RuleTableKind)((src & KindMask) >> KindOffset);
-                var rule = (RuleName)((src & TableMask) >> TableOffset);
-                var row = (byte)((src & RowMask) >> RowOffset);
-                var col = (byte)((src & ColMask) >> ColOffset);
-                return new Coordinate(new RuleSig(kind,rule), row,col);
-            }
+            public readonly num9 Table;
 
-            public const byte Width = KindWidth + TableWidth + RowWidth + ColWidth;
+            public readonly num8 Row;
 
-            public const uint Mask = KindMask | TableMask | RowMask | ColMask;
-
-            const byte KindWidth = num2.Width;
-
-            const byte KindOffset = 0;
-
-            const uint KindMask = (uint)num2.MaxValue << KindOffset;
-
-            const byte TableWidth = num9.Width;
-
-            const byte TableOffset = KindOffset + KindWidth;
-
-            const uint TableMask = (uint)num9.MaxValue << TableOffset;
-
-            const byte RowWidth = num8.Width;
-
-            const byte RowOffset = TableOffset + TableWidth;
-
-            const uint RowMask = (uint)num8.MaxValue << RowOffset;
-
-            const byte ColWidth = num4.Width;
-
-            const byte ColOffset = RowOffset + RowWidth;
-
-            const uint ColMask = (uint)num4.MaxValue << ColOffset;
+            public readonly num4 Col;
 
             public readonly RuleTableKind Kind;
 
-            public readonly RuleName Table;
-
-            public readonly byte Row;
-
-            public readonly byte Col;
+            public readonly RuleName Name;
 
             [MethodImpl(Inline)]
-            public Coordinate(RuleSig rule, ushort row, byte col)
+            public Coordinate(ushort index, num9 table, num8 row, num4 col, RuleTableKind kind, RuleName name)
             {
-                Kind = rule.TableKind;
-                Table = rule.TableName;
-                Row = (byte)row;
+                Seq = index;
+                Table = table;
+                Row = row;
                 Col = col;
+                Kind = kind;
+                Name = name;
             }
 
-            [MethodImpl(Inline)]
-            public bool Equals(Coordinate src)
-                => pack(this) == pack(src);
-
-            public override int GetHashCode()
-                => (int)pack(this);
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => Bitfields.pack(Table, Row, Col);
+            }
 
             [MethodImpl(Inline)]
             public int CompareTo(Coordinate src)
             {
-                var result = cmp(Kind,src.Kind);
-                if(result == 0)
+                var result = Table.CompareTo(src.Table);
+                if(result==0)
                 {
-                    result = XedRules.cmp(Table,src.Table);
+                    result = Row.CompareTo(src.Row);
                     if(result==0)
-                    {
-                        result = Row.CompareTo(src.Row);
-                        if(result == 0)
-                            result = Col.CompareTo(src.Col);
-                    }
-
+                        result = Col.CompareTo(src.Col);
                 }
                 return result;
             }
 
-            public const string RenderPatern = "{0:D2} {1:D2}";
+            public bool Equals(Coordinate src)
+            {
+                var result = Table == src.Table;
+                result &= Row == src.Row;
+                result &= Col == src.Col;
+                return result;
+            }
+
+            public override int GetHashCode()
+                => Hash;
 
             public string Format()
-                => string.Format(Coordinate.RenderPatern, Row, Col);
+                => string.Format("{0:D3} {1:D2} {2:D2}", (ushort)Table, (byte)Row, (byte)Col);
 
             public override string ToString()
                 => Format();
-
-            [MethodImpl(Inline)]
-            public static explicit operator Coordinate(uint src)
-                => unpack(src);
-
-            [MethodImpl(Inline)]
-            public static explicit operator uint(Coordinate src)
-                => pack(src);
-
-            public static Coordinate Empty => default;
         }
-    }
+   }
 }

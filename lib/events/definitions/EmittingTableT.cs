@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-    using System;
-
-    using static Root;
-
     [Event(Kind)]
     public readonly struct EmittingTableEvent<T> : IInitialEvent<EmittingTableEvent<T>>
         where  T : struct
@@ -35,7 +30,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => text.format(EventId, AppMsg.EmittingTable.Capture(Table, Target));
+            => RP.format(EventId, AppMsg.EmittingTable.Capture(Table, Target));
 
         public override string ToString()
             => Format();

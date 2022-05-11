@@ -34,8 +34,8 @@ namespace Z0
 
         public string Format()
         {
-            var k = text.format("{0}", Key);
-            var v = text.format("{0}", Value);
+            var k = RP.format("{0}", Key);
+            var v = RP.format("{0}", Value);
             if(text.nonempty(v))
                 return RP.facet(k, v);
             else

@@ -40,11 +40,11 @@ namespace Z0
 
         public static T Zero => default;
 
-        public static T One => wrap(1);
+        public static T One => cover(1);
 
-        public static T Min => wrap(0);
+        public static T Min => cover(0);
 
-        public static T Max => wrap(MaxValue);
+        public static T Max => cover(MaxValue);
 
         public static N N => default;
 
@@ -61,7 +61,7 @@ namespace Z0
             => new T((D)src);
 
         [MethodImpl(Inline)]
-        public static T wrap(D src)
+        public static T cover(D src)
             => new T((uint)src);
 
         [MethodImpl(Inline), Op]
@@ -70,7 +70,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static T set(T src, byte pos, bit state)
-            => math.lt(pos, Width) ? wrap(bit.set(src.Value, pos, state)) : src;
+            => math.lt(pos, Width) ? cover(bit.set(src.Value, pos, state)) : src;
 
         [MethodImpl(Inline)]
         public static bit eq(T a, T b)
@@ -102,52 +102,52 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static T invert(T src)
-           => wrap((D)(math.and(math.not(src.Value), MaxValue)));
+           => cover((D)(math.and(math.not(src.Value), MaxValue)));
 
         [MethodImpl(Inline), Op]
         public static T or(T a, T b)
-            => wrap((D)(a.Value | b.Value));
+            => cover((D)(a.Value | b.Value));
 
         [MethodImpl(Inline), Op]
         public static T and(T a, T b)
-            => wrap((D)(a.Value & b.Value));
+            => cover((D)(a.Value & b.Value));
 
         [MethodImpl(Inline), Op]
         public static T xor(T a, T b)
-            => wrap((D)(a.Value ^ b.Value));
+            => cover((D)(a.Value ^ b.Value));
 
         [MethodImpl(Inline), Op]
         public static T srl(T src, byte count)
-            => wrap((D)(src.Value >> count));
+            => cover((D)(src.Value >> count));
 
         [MethodImpl(Inline), Op]
         public static T sll(T src, byte count)
-            => wrap((D)(src.Value << count));
+            => cover((D)(src.Value << count));
 
         [MethodImpl(Inline), Op]
         public static T inc(T src)
-            => src.Value != MaxValue ? wrap(math.inc(src.Value)) : Min;
+            => src.Value != MaxValue ? cover(math.inc(src.Value)) : Min;
 
         [MethodImpl(Inline), Op]
         public static T dec(T src)
-            => src.Value != 0 ? wrap(math.dec(src.Value)) : Max;
+            => src.Value != 0 ? cover(math.dec(src.Value)) : Max;
 
         [MethodImpl(Inline), Op]
         public static T reduce(T src)
-            => wrap((ushort)(math.mod(src.Value, Mod)));
+            => cover((ushort)(math.mod(src.Value, Mod)));
 
         [MethodImpl(Inline), Op]
         public static T add(T a, T b)
         {
             var c = math.add(a.Value, b.Value);
-            return wrap((ushort)(math.gteq(c, Mod) ? math.sub(c, Mod) : c));
+            return cover((ushort)(math.gteq(c, Mod) ? math.sub(c, Mod) : c));
         }
 
         [MethodImpl(Inline), Op]
         public static T sub(T a, T b)
         {
             var c = math.sub((int)a.Value, (int)b.Value);
-            return wrap((ushort)(c < 0 ? math.add((D)c, Mod) : (D)c));
+            return cover((ushort)(c < 0 ? math.add((D)c, Mod) : (D)c));
         }
 
         [MethodImpl(Inline), Op]
@@ -156,11 +156,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static T div(T a, T b)
-            => wrap(math.div(a.Value, b.Value));
+            => cover(math.div(a.Value, b.Value));
 
         [MethodImpl(Inline)]
         public static T mod(T a, T b)
-            => wrap(math.mod(a.Value, b.Value));
+            => cover(math.mod(a.Value, b.Value));
 
         [Parser]
         public static bool parse(string src, out T dst)
@@ -253,7 +253,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator T(short src)
-            => wrap((ushort)src);
+            => cover((ushort)src);
 
         [MethodImpl(Inline)]
         public static implicit operator uint(T src)
@@ -270,6 +270,126 @@ namespace Z0
         [MethodImpl(Inline)]
         public static explicit operator T(ulong src)
             => create((ushort)src);
+
+        [MethodImpl(Inline)]
+        public static explicit operator bit(T src)
+            => (bit)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num2(T src)
+            => (num2)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num3(T src)
+            => (num3)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num4(T src)
+            => (num4)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num5(T src)
+            => (num5)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num6(T src)
+            => (num6)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num7(T src)
+            => (num7)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num8(T src)
+            => (num8)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num9(T src)
+            => (num9)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num10(T src)
+            => (num10)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num11(T src)
+            => (num11)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num12(T src)
+            => (num12)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num13(T src)
+            => (num13)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num14(T src)
+            => (num14)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num15(T src)
+            => (num15)src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(bit src)
+            => (ushort)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num2 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num3 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num4 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num5 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num6 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num7 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num8 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num9 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num10 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num11 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num12 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num13 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num14 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num15 src)
+            => src.Value;
 
         [MethodImpl(Inline)]
         public static T operator + (T x, T y)

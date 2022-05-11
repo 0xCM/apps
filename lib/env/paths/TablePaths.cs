@@ -67,7 +67,7 @@ namespace Z0
         }
 
         FS.FilePath Table<S>(string id, S subject)
-            => DbTableRoot()+ FS.folder(id) + FS.file(text.format(EnvFolders.qualified, id, subject), DefaultTableExt);
+            => DbTableRoot()+ FS.folder(id) + FS.file(RP.format(EnvFolders.qualified, id, subject), DefaultTableExt);
 
         FS.FilePath Table<S>(FS.FolderPath dir, S subject)
             => dir + FS.file(subject.ToString(), DefaultTableExt);

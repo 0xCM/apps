@@ -34,11 +34,11 @@ namespace Z0
 
         public static T Zero => default;
 
-        public static T One => wrap(1);
+        public static T One => cover(1);
 
-        public static T Min => wrap(0);
+        public static T Min => cover(0);
 
-        public static T Max => wrap(MaxValue);
+        public static T Max => cover(MaxValue);
 
         public static N N => default;
 
@@ -55,7 +55,7 @@ namespace Z0
             => new T((D)src);
 
         [MethodImpl(Inline)]
-        public static T wrap(D src)
+        public static T cover(D src)
             => new T((uint)src);
 
         [MethodImpl(Inline), Op]
@@ -64,7 +64,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static T set(T src, byte pos, bit state)
-            => math.lt(pos, Width) ? wrap(bit.set(src.Value, pos, state)) : src;
+            => math.lt(pos, Width) ? cover(bit.set(src.Value, pos, state)) : src;
 
         [MethodImpl(Inline)]
         public static bit eq(T a, T b)
@@ -96,52 +96,52 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static T invert(T src)
-           => wrap((D)(math.and(math.not(src.Value), MaxValue)));
+           => cover((D)(math.and(math.not(src.Value), MaxValue)));
 
         [MethodImpl(Inline), Op]
         public static T or(T a, T b)
-            => wrap((D)(a.Value | b.Value));
+            => cover((D)(a.Value | b.Value));
 
         [MethodImpl(Inline), Op]
         public static T and(T a, T b)
-            => wrap((D)(a.Value & b.Value));
+            => cover((D)(a.Value & b.Value));
 
         [MethodImpl(Inline), Op]
         public static T xor(T a, T b)
-            => wrap((D)(a.Value ^ b.Value));
+            => cover((D)(a.Value ^ b.Value));
 
         [MethodImpl(Inline), Op]
         public static T srl(T src, byte count)
-            => wrap((D)(src.Value >> count));
+            => cover((D)(src.Value >> count));
 
         [MethodImpl(Inline), Op]
         public static T sll(T src, byte count)
-            => wrap((D)(src.Value << count));
+            => cover((D)(src.Value << count));
 
         [MethodImpl(Inline), Op]
         public static T inc(T src)
-            => src.Value != MaxValue ? wrap(math.inc(src.Value)) : Min;
+            => src.Value != MaxValue ? cover(math.inc(src.Value)) : Min;
 
         [MethodImpl(Inline), Op]
         public static T dec(T src)
-            => src.Value != 0 ? wrap(math.dec(src.Value)) : Max;
+            => src.Value != 0 ? cover(math.dec(src.Value)) : Max;
 
         [MethodImpl(Inline), Op]
         public static T reduce(T src)
-            => wrap(math.mod(src.Value, Mod));
+            => cover(math.mod(src.Value, Mod));
 
         [MethodImpl(Inline), Op]
         public static T add(T a, T b)
         {
             var c = math.add(a.Value, b.Value);
-            return wrap(math.gteq(c, Mod) ? math.sub(c, Mod) : c);
+            return cover(math.gteq(c, Mod) ? math.sub(c, Mod) : c);
         }
 
         [MethodImpl(Inline), Op]
         public static T sub(T a, T b)
         {
             var c = math.sub((int)a.Value, (int)b.Value);
-            return wrap(c < 0 ? math.add((D)c, Mod) : (D)c);
+            return cover(c < 0 ? math.add((D)c, Mod) : (D)c);
         }
 
         [MethodImpl(Inline), Op]
@@ -150,11 +150,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static T div(T a, T b)
-            => wrap(math.div(a.Value, b.Value));
+            => cover(math.div(a.Value, b.Value));
 
         [MethodImpl(Inline)]
         public static T mod(T a, T b)
-            => wrap(math.mod(a.Value, b.Value));
+            => cover(math.mod(a.Value, b.Value));
 
         [Parser]
         public static bool parse(string src, out T dst)
@@ -243,7 +243,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator T(short src)
-            => wrap((ushort)src);
+            => cover((ushort)src);
 
         [MethodImpl(Inline)]
         public static implicit operator uint(T src)

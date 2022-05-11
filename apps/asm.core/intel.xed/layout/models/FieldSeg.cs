@@ -7,6 +7,9 @@ namespace Z0
 {
     partial class XedRules
     {
+        /// <summary>
+        /// Defines the content of a <see cref='FieldKind'/> int the context of a bitfield
+        /// </summary>
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct FieldSeg
         {
@@ -36,8 +39,14 @@ namespace Z0
                 return literal(field, n, value);
             }
 
+            /// <summary>
+            /// The field for which which the segment is defined
+            /// </summary>
             public readonly FieldKind Field;
 
+            /// <summary>
+            /// The segment value, either literal or symbolic
+            /// </summary>
             public readonly SegVar Seg;
 
             [MethodImpl(Inline)]
@@ -57,6 +66,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public bool IsLiteral()
                 => Seg.IsLiteral();
+
+            [MethodImpl(Inline)]
+            public bool IsSymbolic()
+                => !Seg.IsLiteral();
 
             public string Format()
                 => XedRender.format(this);

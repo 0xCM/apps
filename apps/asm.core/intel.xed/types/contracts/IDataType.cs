@@ -6,27 +6,20 @@ namespace Z0
 {
     partial class XedDataTypes
     {
-        public enum NumericTypeKind : byte
+        [Free]
+        public interface IDataType
         {
-            None,
+            asci32 Name {get;}
 
-            U1,
+            TypeKind Kind {get;}
 
-            U8,
+            DataSize Size => default;
+        }
 
-            U16,
-
-            U32,
-
-            U64,
-
-            U2,
-
-            U3,
-
-            U4,
-
-            U5,
+        [Free]
+        public interface IDataType<T> : IDataType
+            where T : unmanaged, IDataType<T>
+        {
         }
     }
 }

@@ -104,9 +104,10 @@ namespace Z0
 
             public string Format()
                 => IsEmpty ? EmptyString :
-                    string.Format("{0:D5} | {1} | {2,-3} | {3,-32} | {4} | {5} | {6,-26} | {7}",
+                    string.Format("{0:D5} | {1:D2} | {2:D2} | {3,-3} | {4,-32} | {5} | {6} | {7,-26} | {8}",
                     Key.Index,
-                    Key.Location,
+                    Key.Row,
+                    Key.Col,
                     XedRender.format(Key.Rule.TableKind),
                     XedRender.format(Key.Rule.TableName),
                     Size.Format(2,2),

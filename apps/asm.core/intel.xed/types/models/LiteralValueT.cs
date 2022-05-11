@@ -6,12 +6,10 @@ namespace Z0
 {
     public partial class XedDataTypes
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1)]
+        [StructLayout(StructLayout,Pack=1)]
         public readonly struct LiteralValue<T>
             where T : unmanaged
         {
-            public static uint MetaWidth => core.width<T>() + TypeKey.MetaWidth;
-
             public readonly TypeKey Type;
 
             public readonly T Value;

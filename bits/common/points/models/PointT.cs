@@ -20,7 +20,6 @@ namespace Z0
             Y = y;
         }
 
-
         public string Format()
             => string.Format("({0}, {1})", X, Y);
 
@@ -30,7 +29,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public bool Equals(Point<T> src)
             => X == src.X && Y == src.Y;
-
 
         public override int GetHashCode()
             => (int)alg.hash.combine(u32(X), u32(Y));

@@ -65,23 +65,23 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static RelativePath operator +(RelativePath a, RelativePath b)
-                => relative(Z0.text.format("{0}/{1}", a.Name, b.Name));
+                => relative(Z0.RP.format("{0}/{1}", a.Name, b.Name));
 
             [MethodImpl(Inline)]
             public static RelativePath operator +(RelativePath a, FolderName b)
-                => relative(Z0.text.format("{0}/{1}", a.Name, b.Name));
+                => relative(Z0.RP.format("{0}/{1}", a.Name, b.Name));
 
             [MethodImpl(Inline)]
             public static RelativePath operator +(FolderName a, RelativePath b)
-                => relative(Z0.text.format("{0}/{1}", a.Name, b.Name));
+                => relative(Z0.RP.format("{0}/{1}", a.Name, b.Name));
 
             [MethodImpl(Inline)]
             public static FS.FolderPath operator +(FolderPath a, RelativePath b)
-                => FS.dir(Z0.text.format("{0}/{1}", a.Name, b.Name));
+                => FS.dir(Z0.RP.format("{0}/{1}", a.Name, b.Name));
 
             [MethodImpl(Inline)]
             public static RelativeFilePath operator +(RelativePath a, FileName b)
-                => new RelativeFilePath(relative(Z0.text.format("{0}/{1}", a.Name, b.Name)));
+                => new RelativeFilePath(relative(Z0.RP.format("{0}/{1}", a.Name, b.Name)));
 
             public static RelativePath Empty
             {

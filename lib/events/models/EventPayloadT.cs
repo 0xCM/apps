@@ -43,7 +43,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => text.format(Data);
+            => RP.format(Data);
 
         public override string ToString()
             => Format();

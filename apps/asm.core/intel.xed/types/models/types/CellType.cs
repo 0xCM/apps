@@ -6,11 +6,9 @@ namespace Z0
 {
     partial class XedDataTypes
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1), DataWidth(MetaWidth,MetaWidth)]
-        public readonly struct CellType : IRuleType<CellType>
+        [StructLayout(StructLayout,Pack=1)]
+        public readonly struct CellType : IDataType<CellType>
         {
-            public const uint MetaWidth = TypeKey.MetaWidth + asci16.Size*8 + TypeKey.MetaWidth + PrimalType.W8;
-
             public const TypeKind Kind = TypeKind.Cell;
 
             public readonly TypeKey Key;
@@ -19,21 +17,21 @@ namespace Z0
 
             public readonly TypeKey Base;
 
-            public readonly byte PackedWidth;
+            public readonly DataSize Size;
 
             [MethodImpl(Inline)]
-            public CellType(TypeKey key, asci16 type, TypeKey @base, byte packed)
+            public CellType(TypeKey key, asci16 type, TypeKey @base, DataSize size)
             {
                 Key = key;
                 TypeName = type;
                 Base = @base;
-                PackedWidth = packed;
+                Size = size;
             }
 
-            TypeKind IRuleType.TypeKind
+            TypeKind IDataType.Kind
                 => Kind;
 
-            asci32 IRuleType.TypeName
+            asci32 IDataType.Name
                 => TypeName;
         }
     }

@@ -34,6 +34,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => text.format(EventId, SourcePath.ToUri());
+            => RP.format(EventId, SourcePath.ToUri());
     }
 }
