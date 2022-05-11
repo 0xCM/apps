@@ -108,6 +108,9 @@ namespace Z0
         public FS.FolderPath RefTargets()
             => Targets() + FS.folder("refs");
 
+        public FS.FilePath RefTarget(string name, FileKind kind)
+            => RefTargets() + FS.file(string.Format("xed.refs.{0}", name), kind.Ext());
+
         public FS.FilePath RefTable<T>()
             where T : struct
                 => RefTargets() + Tables.filename<T>("xed.refs");
