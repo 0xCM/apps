@@ -6,6 +6,11 @@ namespace Z0
 {
     using static core;
 
+    public interface IRenderRegister
+    {
+        void RegisterFomatters();
+    }
+
     [ApiHost]
     public readonly partial struct num
     {

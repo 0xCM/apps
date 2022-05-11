@@ -34,7 +34,7 @@ namespace Z0
                 if(render)
                 {
                     var tag = render.Require();
-                    seek(dst,i) = new ClrTableField(new RenderSpec(i, tag.Width, tag.Selector, text.Formatter(field.FieldType, tag.Selector)), field);
+                    seek(dst,i) = new ClrTableField(new RenderSpec(i, tag.Width, tag.Style, text.Formatter(field.FieldType, (ushort)tag.Style)), field);
                 }
                 else
                     seek(dst, i) = new ClrTableField(i, field);

@@ -6,10 +6,10 @@ namespace Z0
 {
     public readonly struct FormatFunction<T> : IFormatter<T>
     {
-        readonly FormatterDelegate<T> F;
+        readonly RenderDelegate<T> F;
 
         [MethodImpl(Inline),Op]
-        public FormatFunction(FormatterDelegate<T> f)
+        public FormatFunction(RenderDelegate<T> f)
         {
             F = f;
         }
@@ -19,7 +19,7 @@ namespace Z0
             => F(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator FormatFunction<T>(FormatterDelegate<T> src)
+        public static implicit operator FormatFunction<T>(RenderDelegate<T> src)
             => new FormatFunction<T>(src);
     }
 }

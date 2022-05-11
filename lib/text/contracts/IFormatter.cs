@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public delegate string FormatterDelegate<T>(T src);
+    public delegate string RenderDelegate<T>(T src);
 
     [Free]
     public delegate string FormatterDelegate(dynamic src);
@@ -25,7 +25,7 @@ namespace Z0
     {
         string Format(T src);
 
-        new FormatterDelegate<T> Delegate => Format;
+        new RenderDelegate<T> Delegate => Format;
 
         FormatterDelegate IFormatter.Delegate
             => x => Format((T)x);

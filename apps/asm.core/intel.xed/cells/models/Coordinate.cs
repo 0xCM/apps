@@ -5,6 +5,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static RenderStyle;
+
+    using S = RenderStyle;
+
     partial class XedRules
     {
         [StructLayout(StructLayout,Pack=1)]
@@ -13,13 +17,13 @@ namespace Z0
             [Render(6)]
             public readonly ushort Seq;
 
-            [Render(6)]
+            [Render<S>(6,Fixed)]
             public readonly num9 Table;
 
-            [Render(6)]
+            [Render<S>(6,Fixed)]
             public readonly num8 Row;
 
-            [Render(6)]
+            [Render<S>(6,Fixed)]
             public readonly num4 Col;
 
             [Render(6)]

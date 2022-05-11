@@ -21,21 +21,6 @@ namespace Z0
             return true;
         }
 
-        static string f9(num9 src)
-            => string.Format("{0:D3}", (byte)src);
-
-        static string f8(num8 src)
-            => string.Format("{0:D2}", (byte)src);
-
-        static string f4(num4 src)
-            => string.Format("{0:D2}", (byte)src);
-
-        static void RegisterFomatters()
-        {
-            text.RegisterFormatter<num9>(f9);
-            text.RegisterFormatter<num8>(f8);
-            text.RegisterFormatter<num4>(f4);
-        }
 
         [MethodImpl(Inline)]
         static ulong key(Type type, ushort selector)
@@ -48,8 +33,6 @@ namespace Z0
         void CheckRender()
         {
             var k0 = key(typeof(num4),z16);
-            RegisterFomatters();
-
             var points = Rules.CalcPoints();
             var f2 = Tables.formatter<Coordinate>();
             for(var i=0; i<points.Count; i++)

@@ -55,10 +55,10 @@ namespace Z0
 
             public static IFormatter Default => new FormatterImpl(@default);
 
-            public FormatterDelegate<object> Delegate {get;}
+            public RenderDelegate<object> Delegate {get;}
 
             [MethodImpl(Inline)]
-            public FormatterImpl(FormatterDelegate<object> f)
+            public FormatterImpl(RenderDelegate<object> f)
             {
                 Delegate = f;
             }

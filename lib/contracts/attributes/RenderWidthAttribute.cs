@@ -22,19 +22,29 @@ namespace Z0
             Style = 0;
         }
 
-        public RenderAttribute(uint width, ushort selector)
+        public RenderAttribute(uint width, ulong style)
         {
             Width = width;
-            Style = selector;
+            Style = style;
         }
 
         public readonly uint Width;
 
-        readonly ulong Style;
+        public readonly ulong Style;
+    }
 
-        public ushort Selector
+    public class RenderAttribute<T> : RenderAttribute
+        where T : unmanaged
+    {
+        public RenderAttribute(uint width)
+            : base(width,0)
         {
-            get => (ushort)Style;
+        }
+
+        public RenderAttribute(uint width, T style)
+            : base(width, core.bw64(style))
+        {
+
         }
     }
 }

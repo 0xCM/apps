@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     [ApiHost]
     public static partial class text
     {
@@ -24,48 +26,54 @@ namespace Z0
             => Formatters.Service.Format(src);
 
         [MethodImpl(Inline)]
-        public static string format<T>(T src, ushort selector)
-            => Formatters.Service.Format(src, selector);
+        public static string format<T,K>(T src, K selector)
+            where K : unmanaged
+                => Formatters.Service.Format(src, selector);
 
         [MethodImpl(Inline)]
         public static IFormatter Formatter(Type type)
             => Formatters.Service.FirstOrDefault(type);
 
         [MethodImpl(Inline)]
-        public static IFormatter Formatter(Type type, ushort selector)
-            => Formatters.Service.RefinedOrDefault(type, selector);
+        public static IFormatter Formatter<K>(Type type, K selector)
+            where K : unmanaged
+                => Formatters.Service.RefinedOrDefault(type, selector);
 
         [MethodImpl(Inline)]
         public static bool RegisterFormatter<T>(IFormatter<T> src)
             => Formatters.Service.Register(z16, src);
 
         [MethodImpl(Inline)]
-        public static bool RegisterFormatter<T>(IFormatter<T> src, ushort selector)
-            => Formatters.Service.Register(selector, src);
+        public static bool RegisterFormatter<K,T>(IFormatter<T> src, K selector)
+            where K : unmanaged
+                => Formatters.Service.Register(selector, src);
 
         [MethodImpl(Inline)]
         public static bool RegisterFormatter(IFormatter<object> src)
             => Formatters.Service.Register(z16, src);
 
         [MethodImpl(Inline)]
-        public static bool RegisterFormatter(IFormatter<object> src, ushort selector)
-            => Formatters.Service.Register(selector, src);
+        public static bool RegisterFormatter<K>(IFormatter<object> src, K selector)
+            where K : unmanaged
+                => Formatters.Service.Register(selector, src);
 
         [MethodImpl(Inline)]
-        public static bool RegisterFormatter<T>(FormatterDelegate<T> src)
+        public static bool RegisterFormatter<T>(RenderDelegate<T> src)
             => Formatters.Service.Register(z16, src);
 
         [MethodImpl(Inline)]
-        public static bool RegisterFormatter<T>(FormatterDelegate<T> src, ushort selector)
-            => Formatters.Service.Register(selector, src);
+        public static bool RegisterFormatter<K,T>(RenderDelegate<T> src, K selector)
+            where K : unmanaged
+                => Formatters.Service.Register(selector, src);
 
         [MethodImpl(Inline)]
-        public static bool RegisterFormatter(Type type, FormatterDelegate<object> src)
+        public static bool RegisterFormatter(Type type, RenderDelegate<object> src)
             => Formatters.Service.Register(type, z16, src);
 
         [MethodImpl(Inline)]
-        public static bool RegisterFormatter(Type type, ushort selector, FormatterDelegate<object> src)
-            => Formatters.Service.Register(type, selector, src);
+        public static bool RegisterFormatter<K>(Type type, K selector, RenderDelegate<object> src)
+            where K : unmanaged
+                => Formatters.Service.Register(type, selector, src);
 
         class Formatters
         {
@@ -73,10 +81,10 @@ namespace Z0
 
             readonly struct Formatter : IFormatter<object>
             {
-                public FormatterDelegate<object> Delegate {get;}
+                public RenderDelegate<object> Delegate {get;}
 
                 [MethodImpl(Inline)]
-                public Formatter(FormatterDelegate<object> f)
+                public Formatter(RenderDelegate<object> f)
                 {
                     Delegate = f;
                 }
@@ -88,10 +96,10 @@ namespace Z0
 
             readonly struct Formatter<T> : IFormatter<T>
             {
-                public FormatterDelegate<T> Delegate {get;}
+                public RenderDelegate<T> Delegate {get;}
 
                 [MethodImpl(Inline)]
-                public Formatter(FormatterDelegate<T> f)
+                public Formatter(RenderDelegate<T> f)
                 {
                     Delegate = f;
                 }
@@ -106,33 +114,28 @@ namespace Z0
                 => FirstOrDefault(typeof(T)).Format(src);
 
             [MethodImpl(Inline)]
-            public string Format<T>(T src, ushort selector)
-                => RefinedOrDefault(typeof(T), selector).Format(src);
+            public string Format<K,T>(T src, K selector)
+                where K : unmanaged
+                    => RefinedOrDefault(typeof(T), selector).Format(src);
 
             [MethodImpl(Inline)]
-            static ulong key(Type type, ushort selector)
+            static ulong key<K>(Type type, K selector)
+                where K : unmanaged
             {
                 var token = (uint)type.MetadataToken;
                 var part = type.Assembly.Id();
-                return (ulong)token | ((ulong)part << 32) | ((ulong)selector << 38);
+                return (ulong)token | ((ulong)part << 32) | ((ulong)bw16(selector) << 38);
             }
 
             [MethodImpl(Inline)]
             static string @default(object src)
                 => src?.ToString();
 
-            // [MethodImpl(Inline)]
-            // public bool Match(Type type, out IFormatter f)
-            //     => Lookup.TryGetValue(key(type,z16), out f);
-
-            // [MethodImpl(Inline)]
-            // public bool Match(Type type, ushort selector, out IFormatter f)
-            //     => Lookup.TryGetValue(key(type, selector), out f);
-
             [MethodImpl(Inline)]
-            public IFormatter RefinedOrDefault(Type type, ushort selector)
+            public IFormatter RefinedOrDefault<K>(Type type, K selector)
+                where K : unmanaged
             {
-                if(Lookup2.TryGetValue(type, out var dst))
+                if(Lookup.TryGetValue(key(type,selector), out var dst))
                     return dst;
                 else
                     return new Formatter(@default);
@@ -141,36 +144,32 @@ namespace Z0
             [MethodImpl(Inline)]
             public IFormatter FirstOrDefault(Type type)
             {
-                if(Lookup2.TryGetValue(type, out var dst))
+                if(Lookup.TryGetValue(key(type,z16), out var dst))
                     return dst;
                 else
                     return new Formatter(@default);
             }
 
             [MethodImpl(Inline)]
-            public bool Register<T>(ushort selector, IFormatter<T> formatter)
-                => Lookup2.TryAdd(typeof(T), formatter);
+            public bool Register<K,T>(K selector, IFormatter<T> formatter)
+                where K : unmanaged
+                => Lookup.TryAdd(key(typeof(T),selector), formatter);
 
             [MethodImpl(Inline)]
-            public bool Register(Type type, ushort selector, IFormatter<object> formatter)
-                => Lookup2.TryAdd(type, formatter);
+            public bool Register<K,T>(K selector, RenderDelegate<T> formatter)
+                where K : unmanaged
+                    => Lookup.TryAdd(key(typeof(T),selector), new Formatter<T>(formatter));
 
             [MethodImpl(Inline)]
-            public bool Register<T>(ushort selector, FormatterDelegate<T> formatter)
-                => Lookup2.TryAdd(typeof(T), new Formatter<T>(formatter));
+            public bool Register<K>(Type type, K selector, RenderDelegate<object> formatter)
+                where K : unmanaged
+                    => Lookup.TryAdd(key(type,selector), new Formatter(formatter));
 
-            [MethodImpl(Inline)]
-            public bool Register(Type type, ushort selector, FormatterDelegate<object> formatter)
-                => Lookup2.TryAdd(type,new Formatter(formatter));
-
-            //ConcurrentDictionary<ulong, IFormatter> Lookup;
-
-            ConcurrentDictionary<Type, IFormatter> Lookup2;
+            ConcurrentDictionary<ulong, IFormatter> Lookup;
 
             Formatters()
             {
-                //Lookup = new();
-                Lookup2 = new();
+                Lookup = new();
             }
 
             static Formatters Instance;

@@ -24,8 +24,8 @@ namespace Z0.Parts
         [ModuleInitializer]
         internal static void Init()
         {
+            NumRender.Service.RegisterFomatters();
             AppData.init();
         }
-
     }
 }
