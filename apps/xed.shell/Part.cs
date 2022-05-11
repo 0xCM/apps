@@ -17,6 +17,8 @@ global using SQ = Z0.SymbolicQuery;
 
 namespace Z0.Parts
 {
+    using static core;
+
     public sealed class XedShell : Part<XedShell>
     {
         [ModuleInitializer]
@@ -24,5 +26,6 @@ namespace Z0.Parts
         {
             AppData.init();
         }
+
     }
 }

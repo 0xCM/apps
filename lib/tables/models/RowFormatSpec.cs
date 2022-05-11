@@ -34,5 +34,11 @@ namespace Z0
             Delimiter = sep;
             FormatKind = fk;
         }
+
+        public uint CellCount
+        {
+            [MethodImpl(Inline)]
+            get => Cells.Count;
+        }
     }
 }

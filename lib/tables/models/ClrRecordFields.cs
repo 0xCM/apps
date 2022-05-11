@@ -12,6 +12,10 @@ namespace Z0
         public ClrRecordFields(ClrTableField[] src)
             => Data = src;
 
+        [MethodImpl(Inline)]
+        public string FormatFieldValue<T>(int index, T value)
+            => Data[index].Format(value);
+
         public uint Count
         {
             [MethodImpl(Inline)]

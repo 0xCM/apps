@@ -73,14 +73,14 @@ namespace Z0
 
         [MethodImpl(Inline)]
         static string format(FieldOffset src)
-            => text.format(OffsetPatternText, src.Name, src.Value);
+            => RP.format(OffsetPatternText, src.Name, src.Value);
 
         [Op]
         public static void save(ReadOnlySpan<FieldOffset> src, FS.FilePath dst)
         {
             using var writer = dst.Writer();
             var l = labels(default(FieldOffset));
-            writer.WriteLine(text.format(OffsetPatternText, l[0], l[1]));
+            writer.WriteLine(RP.format(OffsetPatternText, l[0], l[1]));
             for(var i=0u; i<src.Length; i++)
                 writer.WriteLine(format(skip(src,i)));
         }

@@ -29,12 +29,19 @@ namespace Z0
             Cells = cells;
         }
 
-        public void Update<T>(in T src)
-            where T : struct
+        // public void Update<T>(in T src)
+        //     where T : struct
+        // {
+        //     var tr = __makeref(edit(src));
+        //     for(var i=0u; i<FieldCount; i++)
+        //         this[i] = Fields[i].Definition.GetValueDirect(tr);
+        // }
+
+        public string Format(string pattern, object[] buffer)
         {
-            var tr = __makeref(edit(src));
-            for(var i=0u; i<FieldCount; i++)
-                this[i] = Fields[i].Definition.GetValueDirect(tr);
+            for(var i=0; i<CellCount; i++)
+                seek(buffer,i) = Fields.FormatFieldValue(i, this[i]);
+            return string.Format(pattern, buffer);
         }
 
         public uint FieldCount

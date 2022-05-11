@@ -37,7 +37,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public ClrTableField(ushort index, FieldInfo def)
         {
-            RenderSpec = RenderSpec.Empty;
+            RenderSpec = RenderSpec.Default(index);
             FieldIndex = index;
             Definition = def;
             FieldName = Tables.name(def);
@@ -84,6 +84,10 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Definition?.FieldType ?? typeof(void);
         }
+
+        [MethodImpl(Inline)]
+        public string Format<T>(T src)
+            => RenderSpec.Format(src);
 
         public string Format()
             => string.Format("{0:D2} {1}", FieldIndex, FieldName);

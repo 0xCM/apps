@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [Free]
     public delegate string FormatterDelegate<T>(T src);
 
@@ -21,12 +17,18 @@ namespace Z0
 
         Type SourceType {get;}
 
+        FormatterDelegate Delegate => Format;
     }
 
     [Free]
     public interface IFormatter<T> : IFormatter
     {
         string Format(T src);
+
+        new FormatterDelegate<T> Delegate => Format;
+
+        FormatterDelegate IFormatter.Delegate
+            => x => Format((T)x);
 
         string IFormatter.Format(dynamic src)
             => Format((T)src);

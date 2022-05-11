@@ -78,7 +78,7 @@ namespace Z0.Asm
                 {
                     ref readonly var col = ref skip(cols,k);
                     ref readonly var cell = ref skip(cells,k);
-                    var content = text.format(cell.Content).Trim().Remove("*");
+                    var content = cell.Content?.ToString().Trim().Remove("*");
                     var name = text.trim(col.Name);
                     if(empty(content))
                         continue;

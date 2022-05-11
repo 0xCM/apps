@@ -11,7 +11,44 @@ namespace Z0
 
     public class RecordFormatter : IRecordFormatter
     {
-        public static RecordFormatter<T> create<T>()
+        class Formatter2<T> : IRecordFormatter<T>
+            where T : struct
+        {
+            object[] CellBuffer;
+
+            public Formatter2(RowFormatSpec spec, RowAdapter adapter)
+            {
+                CellBuffer = new object[spec.CellCount];
+                FormatSpec = spec;
+                Adapter = adapter;
+            }
+
+            public RowFormatSpec FormatSpec {get;}
+
+            RowAdapter Adapter;
+
+            public string Format(in T src)
+            {
+                adapt(src, ref Adapter);
+                return format(FormatSpec, CellBuffer, Adapter.Adapted);
+            }
+
+            public string Format(in T src, RecordFormatKind kind)
+                => throw new NotImplementedException();
+
+            public string FormatHeader()
+            {
+                if(FormatSpec.FormatKind == RecordFormatKind.Tablular)
+                    return FormatSpec.Header.Format();
+                else
+                {
+                    Errors.Throw("Unsupported");
+                    return EmptyString;
+                }
+            }
+        }
+
+        public static IRecordFormatter<T> create<T>()
             where T : struct
         {
             var record = typeof(T);
@@ -21,8 +58,23 @@ namespace Z0
             for(var i=0u; i<count; i++)
                 seek(buffer, i) = new HeaderCell(fields[i].FieldIndex, fields[i].FieldName, fields[i].FieldWidth);
             var header = new RowHeader(buffer, DefaultDelimiter);
-            return new RecordFormatter<T>(rowspec(header, header.Cells.Select(x => x.CellFormat), 0, RecordFormatKind.Tablular), adapter<T>(fields));
+            var spec = rowspec(header, header.Cells.Select(x => x.CellFormat), 0, RecordFormatKind.Tablular);
+            return new Formatter2<T>(spec, adapter(record));
         }
+
+        // public static RecordFormatter<T> create<T>()
+        //     where T : struct
+        // {
+        //     var record = typeof(T);
+        //     var fields = api.fields(record).Index();
+        //     var count = fields.Length;
+        //     var buffer = alloc<HeaderCell>(count);
+        //     for(var i=0u; i<count; i++)
+        //         seek(buffer, i) = new HeaderCell(fields[i].FieldIndex, fields[i].FieldName, fields[i].FieldWidth);
+        //     var header = new RowHeader(buffer, DefaultDelimiter);
+        //     var spec = rowspec(header, header.Cells.Select(x => x.CellFormat), 0, RecordFormatKind.Tablular);
+        //     return new RecordFormatter<T>(spec, adapter<T>(fields));
+        // }
 
         public static RecordFormatter create(Type record, RecordFormatKind fk = RecordFormatKind.Tablular, string delimiter = DefaultDelimiter)
         {
@@ -32,7 +84,8 @@ namespace Z0
             for(var i=0u; i<count; i++)
                 seek(buffer, i) = new HeaderCell(fields[i].FieldIndex, fields[i].FieldName, fields[i].FieldWidth);
             var header = new RowHeader(buffer, delimiter);
-            return new RecordFormatter(record, rowspec(header, header.Cells.Select(x => x.CellFormat), 0, fk), adapter(record));
+            var spec = rowspec(header, header.Cells.Select(x => x.CellFormat), 0, fk);
+            return new RecordFormatter(record, spec, adapter(record));
         }
 
         RowAdapter Adapter;
@@ -41,12 +94,15 @@ namespace Z0
 
         public readonly TableId TableId;
 
+        object[] CellBuffer;
+
         [MethodImpl(Inline)]
         RecordFormatter(Type record, RowFormatSpec spec, RowAdapter adapter)
         {
             TableId = Tables.identify(record);
             FormatSpec = spec;
             Adapter = adapter;
+            CellBuffer = new object[FormatSpec.CellCount];
         }
 
         public void RenderLine<T>(in T src, ITextEmitter dst)
@@ -57,7 +113,17 @@ namespace Z0
             where T : struct
         {
             adapt<T>(src, ref Adapter);
-            return format(FormatSpec, Adapter.Adapted);
+            return format(FormatSpec, CellBuffer, Adapter.Adapted);
+        }
+
+        internal static string format(in RowFormatSpec spec, object[] buffer, in DynamicRow src)
+        {
+            var content = src.Format(spec.Pattern,buffer);
+            var pad = spec.RowPad;
+            if(pad == 0)
+                return content;
+            else
+                return content.PadRight(pad);
         }
 
         public string FormatHeader()
@@ -81,7 +147,7 @@ namespace Z0
         /// Defines a row over a specified record type
         /// </summary>
         /// <typeparam name="T">The record type</typeparam>
-        struct RowAdapter
+        internal struct RowAdapter
         {
             internal uint Index;
 
@@ -100,38 +166,15 @@ namespace Z0
                 Row = api.dynarow(fields);
             }
 
-            public readonly ClrRecordFields Fields
-            {
-                [MethodImpl(Inline)]
-                get => Row.Fields;
-            }
-
-            [MethodImpl(Inline)]
-            public RowAdapter Adapt<T>(in T src)
-                where T : struct
-                    => adapt<T>(src, ref this);
-
             public readonly DynamicRow Adapted
             {
                 [MethodImpl(Inline)]
                 get => Row;
             }
-
-            public readonly Span<dynamic> Cells
-            {
-                [MethodImpl(Inline)]
-                get => Row.Cells;
-            }
-
-            public readonly uint ColumnCount
-            {
-                [MethodImpl(Inline)]
-                get => Fields.Count;
-            }
         }
 
         [MethodImpl(Inline)]
-        static ref RowAdapter adapt<T>(in T src, ref RowAdapter adapter)
+        internal static ref RowAdapter adapt<T>(in T src, ref RowAdapter adapter)
             where T : struct
         {
             adapter.Source = src;
@@ -140,24 +183,14 @@ namespace Z0
             return ref adapter;
         }
 
-        static RowAdapter<T> adapter<T>(in ClrTableField[] fields)
+        internal static RowAdapter<T> adapter<T>(in ClrTableField[] fields)
             where T : struct
                 => new RowAdapter<T>(fields);
 
-        static RowAdapter adapter(Type src)
+        internal static RowAdapter adapter(Type src)
             => new RowAdapter(src, Tables.fields(src));
 
-        static string format(in RowFormatSpec spec, in DynamicRow src)
-        {
-            var content = string.Format(spec.Pattern, src.Cells);
-            var pad = spec.RowPad;
-            if(pad == 0)
-                return content;
-            else
-                return content.PadRight(pad);
-        }
-
-        static void load<T>(T src, ref DynamicRow dst)
+        internal static void load<T>(T src, ref DynamicRow dst)
             where T : struct
         {
             var tr = __makeref(edit(src));

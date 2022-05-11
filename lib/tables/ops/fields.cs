@@ -33,10 +33,8 @@ namespace Z0
                 var render = field.Tag<RenderAttribute>();
                 if(render)
                 {
-                    var spec = render.Require().Spec;
-                    if(spec.Index < 0)
-                        spec = new (i, spec.Width, spec.Style);
-                    seek(dst,i) = new ClrTableField(spec, field);
+                    var tag = render.Require();
+                    seek(dst,i) = new ClrTableField(new RenderSpec(i, tag.Width, tag.Selector, text.Formatter(field.FieldType, tag.Selector)), field);
                 }
                 else
                     seek(dst, i) = new ClrTableField(i, field);

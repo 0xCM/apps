@@ -10,16 +10,22 @@ namespace Z0
         [StructLayout(StructLayout,Pack=1)]
         public readonly record struct Coordinate : IComparable<Coordinate>
         {
+            [Render(6)]
             public readonly ushort Seq;
 
+            [Render(6)]
             public readonly num9 Table;
 
+            [Render(6)]
             public readonly num8 Row;
 
+            [Render(6)]
             public readonly num4 Col;
 
+            [Render(6)]
             public readonly RuleTableKind Kind;
 
+            [Render(1)]
             public readonly RuleName Name;
 
             [MethodImpl(Inline)]

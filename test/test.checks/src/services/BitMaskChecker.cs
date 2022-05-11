@@ -252,8 +252,8 @@ namespace Z0
                 var title = ok ? "Success" : "Failure";
                 var normalized = BitStrings.normalize(m.Text);
                 var bs = BitStrings.scalar(m.Data);
-                var expr = text.format("{0} {1} {2}", normalized, sym, bs);
-                var description = text.format("{0,-12} | {1,-14} | {2}", title, m.Name, expr);
+                var expr = RP.format("{0} {1} {2}", normalized, sym, bs);
+                var description = RP.format("{0,-12} | {1,-14} | {2}", title, m.Name, expr);
                 Log.AppendLine(description);
             }
         }

@@ -17,16 +17,47 @@ namespace Z0
             var formatter = RecordFormatter.create(typeof(TypeTableRow));
             var rows = Rules.CalcTypeTables().SelectMany(x => x.Rows).Sort().Resequence();
             AppSvc.TableEmit(rows, XedPaths.DbTable<TypeTableRow>());
-            var points = Rules.CalcPoints();
-            for(var i=0; i<points.Count; i++)
-            {
-                ref readonly var point = ref points[i];
-                Write(string.Format("{0:D5} {1}", point.Seq, point.Format()));
-            }
-
+            CheckRender();
             return true;
         }
 
+        static string f9(num9 src)
+            => string.Format("{0:D3}", (byte)src);
+
+        static string f8(num8 src)
+            => string.Format("{0:D2}", (byte)src);
+
+        static string f4(num4 src)
+            => string.Format("{0:D2}", (byte)src);
+
+        static void RegisterFomatters()
+        {
+            text.RegisterFormatter<num9>(f9);
+            text.RegisterFormatter<num8>(f8);
+            text.RegisterFormatter<num4>(f4);
+        }
+
+        [MethodImpl(Inline)]
+        static ulong key(Type type, ushort selector)
+        {
+            var token = (uint)type.MetadataToken;
+            var part = type.Assembly.Id();
+            return (ulong)token | ((ulong)part << 32) | ((ulong)selector << 38);
+        }
+
+        void CheckRender()
+        {
+            var k0 = key(typeof(num4),z16);
+            RegisterFomatters();
+
+            var points = Rules.CalcPoints();
+            var f2 = Tables.formatter<Coordinate>();
+            for(var i=0; i<points.Count; i++)
+            {
+                ref readonly var point = ref points[i];
+                Write(f2.Format(point));
+            }
+        }
 
         void CheckMemDb(Dim2<uint> shape)
         {
