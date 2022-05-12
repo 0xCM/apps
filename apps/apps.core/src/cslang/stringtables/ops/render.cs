@@ -49,9 +49,9 @@ namespace Z0
                 dst.IndentLine(margin, StaticLambdaProp(nameof(MemoryStrings), StringsProp, Call("strings.memory", OffsetsProp, DataProp)));
             dst.AppendLine();
 
-            dst.IndentLine(margin, SpanResGen.format(SpanRes.bytespan(OffsetsProp, src.OffsetStorage)));
+            dst.IndentLine(margin, GSpanRes.format(SpanRes.bytespan(OffsetsProp, src.OffsetStorage)));
             dst.AppendLine();
-            dst.IndentLine(margin, SpanResGen.format(SpanRes.charspan(DataProp, src.Content)));
+            dst.IndentLine(margin, GSpanRes.format(SpanRes.charspan(DataProp, src.Content)));
             margin-=4;
             dst.IndentLine(margin, Close());
         }

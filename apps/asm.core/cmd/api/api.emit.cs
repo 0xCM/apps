@@ -6,24 +6,14 @@ namespace Z0
 {
     using Asm;
 
-    using static core;
-
-    using L = LiteralProvider;
-
-
     partial class AsmCoreCmd
     {
-        ApiEmitters ApiEmitters => Service(Wf.ApiEmitters);
-
-        ApiAssets ApiAssets => Service(Wf.ApiAssets);
-
-        Index<CompilationLiteral> ApiLiterals()
-            => Data(nameof(ApiLiterals), () => L.CompilationLiterals(ApiRuntimeCatalog.Components));
+        ApiServices ApiSvc => Service(Wf.ApiServices);
 
         [CmdOp("api/emit/flows")]
         Outcome EmitDataFlowSpecs(CmdArgs args)
         {
-            ApiEmitters.EmitDataFlowSpecs();
+            ApiSvc.EmitDataFlows();
             return true;
         }
 
@@ -31,7 +21,7 @@ namespace Z0
         Outcome EmitApiLiterals(CmdArgs args)
         {
             var result = Outcome.Success;
-            ApiEmitters.EmitApiLiterals();
+            ApiSvc.EmitApiLiterals();
             return result;
         }
 
@@ -49,43 +39,37 @@ namespace Z0
         [CmdOp("api/emit/enum")]
         Outcome EmitApiEnums(CmdArgs args)
         {
-            ApiEmitters.EmitEnumList();
+            ApiSvc.EmitEnumList();
             return true;
         }
 
         [CmdOp("api/emit")]
         Outcome ApiEmit(CmdArgs args)
         {
-            ApiEmitters.EmitBitMasks();
-            ApiEmitters.EmitDataTypes();
-            ApiEmitters.EmitEnumList();
-            ApiEmitters.EmitApiMd();
-            ApiEmitters.EmitAsmDocs();
-            ApiEmitters.EmitDataFlowSpecs();
-            ApiEmitters.EmitApiLiterals();
-            ApiEmitters.EmitApiComments();
+            ApiSvc.EmitBitMasks();
+            ApiSvc.EmitDataTypes();
+            ApiSvc.EmitEnumList();
+            ApiSvc.EmitApiMd();
+            //EmitAsmDocs();
+            ApiSvc.EmitDataFlows();
+            ApiSvc.EmitApiLiterals();
+            ApiSvc.EmitComments();
             return true;
         }
 
         [CmdOp("api/emit/types")]
         Outcome EmitDataTypes(CmdArgs args)
         {
-            ApiEmitters.EmitDataTypes();
+            ApiSvc.EmitDataTypes();
            return true;
         }
 
         [CmdOp("api/emit/comments")]
         Outcome EmitMarkdownDocs(CmdArgs args)
         {
-            ApiEmitters.EmitApiMd();
+            ApiSvc.EmitApiMd();
             return true;
         }
 
-        [CmdOp("api/emit/asmdocs")]
-        Outcome EmitAsmDocs(CmdArgs args)
-        {
-            ApiEmitters.EmitAsmDocs();
-            return true;
-        }
    }
 }

@@ -13,10 +13,6 @@ namespace Z0
         public static WsProjects WsProjects(this IWfRuntime wf)
             => Z0.WsProjects.create(wf);
 
-
-        public static ApiEmitters ApiEmitters(this IWfRuntime wf)
-            => Z0.ApiEmitters.create(wf);
-
         public static AsmCodeGen AsmCodeGen(this IWfRuntime wf)
             => Asm.AsmCodeGen.create(wf);
 
@@ -98,10 +94,6 @@ namespace Z0
 
         public static ProcessAsmBuffers ProcessAsmBuffers(this IWfRuntime wf)
             => Asm.ProcessAsmBuffers.create(wf);
-
-        [Op]
-        public static ApiAssets ApiAssets(this IWfRuntime wf)
-            => Z0.ApiAssets.create(wf);
 
         [Op]
         public static IntelSdm IntelSdm(this IWfRuntime wf)

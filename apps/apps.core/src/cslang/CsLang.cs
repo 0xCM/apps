@@ -12,8 +12,8 @@ namespace Z0
 
     partial class XSvc
     {
-        public static StringLiteralGen GenLiterals(this IWfRuntime wf)
-            => StringLiteralGen.create(wf);
+        public static GStringLits GenLiterals(this IWfRuntime wf)
+            => GStringLits.create(wf);
 
         public static GAsciLookup GenAsciLookups(this IWfRuntime wf)
             => GAsciLookup.create(wf);
@@ -73,11 +73,11 @@ namespace Z0
             where E : unmanaged, Enum
         {
             var buffer = text.buffer();
-            SpanResGen.symrender<E>(container, buffer);
+            GSpanRes.symrender<E>(container, buffer);
             dst.WriteLine(buffer.Emit());
         }
 
-        public StringLiteralGen StringLiterals()
+        public GStringLits StringLiterals()
             => Service(Wf.GenLiterals);
 
         public GAsciLookup AsciLookups()
@@ -98,11 +98,11 @@ namespace Z0
         public GHexStrings HexStrings()
             => Service(() => GHexStrings.create(Wf));
 
-        public SwitchMapGen SwitchMap()
-            => Service(()=> SwitchMapGen.create(Wf));
+        public GSwitchMap SwitchMap()
+            => Service(()=> GSwitchMap.create(Wf));
 
-        public SpanResGen SpanRes()
-            => Service(() => SpanResGen.create(Wf));
+        public GSpanRes SpanRes()
+            => Service(() => GSpanRes.create(Wf));
 
         public void EmitArrayInitializer<T>(ItemList<Constant<T>> src, ITextBuffer dst)
         {

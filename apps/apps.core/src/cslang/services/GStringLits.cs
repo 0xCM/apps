@@ -10,7 +10,7 @@ namespace Z0
 
     partial class CsLang
     {
-        public class StringLiteralGen : AppService<StringLiteralGen>
+        public class GStringLits : AppService<GStringLits>
         {
             public void Emit(string name, ReadOnlySpan<char> src, FS.FilePath dst)
             {

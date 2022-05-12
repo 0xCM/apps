@@ -4,16 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using L = LiteralProvider;
+    using Asm;
 
-    partial class ApiCmdProvider
+    partial class AsmCoreCmd
     {
-        [CmdOp("api/emit/literals")]
-        Outcome EmitApiLiterals(CmdArgs args)
+        public void EmitAsmDocs()
+            => AsmDocs.Emit();
+
+        [CmdOp("asm/docs/emit")]
+        Outcome EmitAsmDocs(CmdArgs args)
         {
-            var result = Outcome.Success;
-            ApiSvc.EmitApiLiterals();
-            return result;
+            EmitAsmDocs();
+            return true;
         }
     }
 }

@@ -5,17 +5,11 @@
 namespace Z0
 {
     using System.IO;
-
     using static core;
     using static CsPatterns;
     using static CsModels;
 
-    partial class CsLang
-    {
-
-    }
-
-    public class SpanResGen : AppService<SpanResGen>
+    public class GSpanRes : AppService<GSpanRes>
     {
         const char semi = Chars.Semicolon;
 

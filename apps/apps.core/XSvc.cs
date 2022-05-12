@@ -9,6 +9,10 @@ namespace Z0
     public static partial class XSvc
     {
         [Op]
+        public static ApiAssets ApiAssets(this IWfRuntime wf)
+            => Z0.ApiAssets.create(wf);
+
+        [Op]
         public static ApiComments ApiComments(this IWfRuntime wf)
             => Z0.ApiComments.create(wf);
 

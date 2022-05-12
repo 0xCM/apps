@@ -17,7 +17,7 @@ namespace Z0
         {
             var result = Outcome.Success;
             EmitCliMetadata();
-            ApiEmitters.EmitApiComments();
+            ApiSvc.EmitComments();
             EmitApiInfo();
             return result;
         }
@@ -29,19 +29,17 @@ namespace Z0
             return true;
         }
 
-        ApiEmitters ApiEmitters => Service(Wf.ApiEmitters);
-
         void EmitApiInfo()
         {
             EmitTableReport();
             EmitApiDataTypes();
             EmitApiClasses();
-            EmitBitmasks();
-            ApiEmitters.EmitSymHeap();
+            ApiSvc.EmitBitMasks();
+            ApiSvc.EmitSymHeap();
             EmitApiTokens();
-            ApiEmitters.EmitApiLiterals();
+            ApiSvc.EmitApiLiterals();
             EmitApiCommands();
-            ApiEmitters.EmitDataFlowSpecs();
+            ApiSvc.EmitDataFlows();
         }
 
         void EmitTableReport()

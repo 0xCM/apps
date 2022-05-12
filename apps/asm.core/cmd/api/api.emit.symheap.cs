@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ApiCmdProvider
+    partial class AsmCoreCmd
     {
         [CmdOp("api/emit/symheap")]
         Outcome EmitSymHeap(CmdArgs args)
         {
-            ApiEmitters.EmitSymHeap();
+            ApiSvc.EmitSymHeap();
             return true;
         }
     }
