@@ -13,12 +13,16 @@ namespace Z0
 
         public const byte FieldCount = 4;
 
+        [Render(16)]
         public string Actor;
 
+        [Render(16)]
         public string Source;
 
+        [Render(16)]
         public string Target;
 
+        [Render(1)]
         public string Description;
 
         public int CompareTo(ApiFlowSpec src)

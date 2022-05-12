@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-
     using static core;
 
     public sealed class Symbolism : AppService<Symbolism>

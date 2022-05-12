@@ -72,7 +72,6 @@ namespace Z0
         public static SymHeap define(ReadOnlySpan<SymLiteralRow> src)
         {
             var dst = new SymHeap();
-
             var kSym = (uint)src.Length;
             var kEntry = (uint)bits.next((Pow2x32)bits.xmsb(kSym));
             dst.SymbolCount = kSym;
@@ -83,7 +82,6 @@ namespace Z0
             dst.Expressions = alloc<char>(charcount(src));
             dst.Offsets = alloc<uint>(kEntry);
             dst.Sources = alloc<Identifier>(kEntry);
-
             ref var widths = ref dst.Widths.First;
             ref var values = ref dst.Values.First;
             ref var symdst = ref dst.Expressions.First;
@@ -102,7 +100,6 @@ namespace Z0
                 seek(offsets,i) = offset;
                 seek(sources,i) = literal.Type;
                 symsrc.CopyTo(cover(seek(symdst, offset), width));
-
                 offset += width;
             }
 

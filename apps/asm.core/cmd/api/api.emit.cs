@@ -10,21 +10,6 @@ namespace Z0
     {
         ApiServices ApiSvc => Service(Wf.ApiServices);
 
-        [CmdOp("api/emit/flows")]
-        Outcome EmitDataFlowSpecs(CmdArgs args)
-        {
-            ApiSvc.EmitDataFlows();
-            return true;
-        }
-
-        [CmdOp("api/emit/literals")]
-        Outcome EmitApiLiterals(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            ApiSvc.EmitApiLiterals();
-            return result;
-        }
-
         [CmdOp("api/parsers")]
         Outcome RevealParsers(CmdArgs args)
         {
@@ -36,40 +21,23 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("api/emit/enum")]
-        Outcome EmitApiEnums(CmdArgs args)
-        {
-            ApiSvc.EmitEnumList();
-            return true;
-        }
-
         [CmdOp("api/emit")]
         Outcome ApiEmit(CmdArgs args)
         {
             ApiSvc.EmitBitMasks();
-            ApiSvc.EmitDataTypes();
+            ApiSvc.Emit(ApiSvc.CalcDataTypes());
+            var lits = ApiSvc.CalcSymLits();
+            ApiSvc.Emit(lits);
+
+            var heap = ApiSvc.CalcSymHeap(lits);
+            ApiSvc.Emit(heap);
+
             ApiSvc.EmitEnumList();
             ApiSvc.EmitApiMd();
-            //EmitAsmDocs();
-            ApiSvc.EmitDataFlows();
-            ApiSvc.EmitApiLiterals();
+            ApiSvc.Emit(ApiSvc.CalcDataFlows());
+            ApiSvc.Emit(ApiSvc.CalcCompilationLits());
             ApiSvc.EmitComments();
             return true;
         }
-
-        [CmdOp("api/emit/types")]
-        Outcome EmitDataTypes(CmdArgs args)
-        {
-            ApiSvc.EmitDataTypes();
-           return true;
-        }
-
-        [CmdOp("api/emit/comments")]
-        Outcome EmitMarkdownDocs(CmdArgs args)
-        {
-            ApiSvc.EmitApiMd();
-            return true;
-        }
-
    }
 }

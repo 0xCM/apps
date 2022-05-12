@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
     public record struct DataTypeRecord : IComparable<DataTypeRecord>, ISequential<DataTypeRecord>
     {
@@ -13,18 +11,25 @@ namespace Z0
 
         public const byte FieldCount = 7;
 
+        [Render(6)]
         public uint Seq;
 
+        [Render(32)]
         public PartName Part;
 
+        [Render(32)]
         public asci64 Name;
 
+        [Render(12)]
         public BitWidth PackedWidth;
 
+        [Render(12)]
         public BitWidth NativeWidth;
 
+        [Render(12)]
         public ByteSize PackedSize;
 
+        [Render(12)]
         public ByteSize NativeSize;
 
         public int CompareTo(DataTypeRecord src)

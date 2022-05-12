@@ -8,8 +8,16 @@ namespace Z0
 
     public class ApiServices : AppService<ApiServices>
     {
-        AppDb AppDb
-            => Service(Wf.AppDb);
+        AppDb AppDb => Service(Wf.AppDb);
+
+        AppServices AppSvc => Service(Wf.AppServices);
+
+        Index<Assembly> _ApiParts;
+
+        protected override void Initialized()
+        {
+            _ApiParts = ApiRuntimeCatalog.Components;
+        }
 
         public ApiComments Comments => Service(Wf.ApiComments);
 
@@ -19,37 +27,27 @@ namespace Z0
 
         public Symbolism Symbolism => Service(Wf.Symbolism);
 
-        public Index<CompilationLiteral> ApiLiterals()
-            => Data(nameof(ApiLiterals), () => LiteralProvider.CompilationLiterals(ApiRuntimeCatalog.Components));
-
-        public void EmitSymHeap()
-            => Symbolism.EmitSymHeap();
-
-        public void EmitBitMasks()
-            => ApiBitMasks.Emit();
-
-        public void EmitComments()
-            => Comments.Collect();
-
-        public void EmitApiLiterals()
-            => TableEmit(ApiLiterals().View, ProjectDb.ApiTablePath<CompilationLiteral>());
-
-        public void EmitApiMd()
-            => Comments.EmitMarkdownDocs(new string[]{
-                nameof(vpack),
-                nameof(vmask),
-                nameof(cpu),
-                nameof(gcpu),
-                nameof(BitMasks),
-                nameof(BitMaskLiterals),
-                });
-
-        public void EmitDataTypes()
-            => TableEmit(DataTypes.records(ApiRuntimeCatalog.Components).View, DataTypeRecord.RenderWidths, Ws.ProjectDb().Api() + Tables.filename<DataTypeRecord>());
-
-        public void EmitDataFlows()
+        public ref readonly Index<Assembly> ApiParts
         {
-            var src = ApiDataFlow.discover(ApiRuntimeCatalog.Components);
+            [MethodImpl(Inline)]
+            get => ref _ApiParts;
+        }
+
+        public Index<SymLiteralRow> CalcSymLits()
+            => Data(nameof(CalcSymLits), ()=> Symbols.literals(ApiParts));
+
+        public SymHeap CalcSymHeap(Index<SymLiteralRow> src)
+            => SymHeaps.define(src);
+
+        public Index<CompilationLiteral> CalcCompilationLits()
+            => Data(nameof(CalcCompilationLits), () => LiteralProvider.CompilationLiterals(ApiParts));
+
+        public Index<DataTypeRecord> CalcDataTypes()
+            => DataTypes.records(ApiParts);
+
+        public Index<ApiFlowSpec> CalcDataFlows()
+        {
+            var src = ApiDataFlow.discover(ApiParts);
             var count = src.Length;
             var buffer = alloc<ApiFlowSpec>(count);
             for(var i=0; i<count; i++)
@@ -61,14 +59,53 @@ namespace Z0
                 dst.Target = flow.Target?.ToString() ?? EmptyString;
                 dst.Description = flow.Format();
             }
-
-            TableEmit(@readonly(buffer.Sort()), ApiFlowSpec.RenderWidths, ProjectDb.ApiTablePath<ApiFlowSpec>());
+            return buffer.Sort();
         }
+
+        public Index<SymHeapEntry> CalcHeapEntries(SymHeap src)
+            => SymHeaps.entries(src);
+
+        public void Emit(SymHeap src)
+            => AppSvc.TableEmit(CalcHeapEntries(src), AppDb.Api().Table<SymHeapEntry>());
+
+        public void EmitBitMasks()
+            => ApiBitMasks.Emit();
+
+        public void EmitComments()
+            => Comments.Collect();
+
+        public void EmitApiMd()
+            => Comments.EmitMarkdownDocs(new string[]{
+                nameof(vpack),
+                nameof(vmask),
+                nameof(cpu),
+                nameof(gcpu),
+                nameof(BitMasks),
+                nameof(BitMaskLiterals),
+                });
+
+        public void Emit(ReadOnlySpan<SymLiteralRow> src)
+            => AppSvc.TableEmit(src, AppDb.Api().Table<SymLiteralRow>());
+
+        public void Emit(ReadOnlySpan<CompilationLiteral> src)
+            => AppSvc.TableEmit(src, AppDb.Api().Table<CompilationLiteral>());
+
+        public void Emit(ReadOnlySpan<DataTypeRecord> src)
+            => AppSvc.TableEmit(src, AppDb.Api().Table<DataTypeRecord>());
+
+        public void Emit(ReadOnlySpan<ApiFlowSpec> src)
+            => AppSvc.TableEmit(src, AppDb.Api().Table<ApiFlowSpec>());
+
+        Index<ClrEnumRecord> CalcEnumRecords(Assembly src)
+            => Enums.records(src);
+
+        void Emit(ReadOnlySpan<ClrEnumRecord> src)
+            => TableEmit(src, AppDb.Api().Table<ClrEnumRecord>());
 
         public FS.FilePath EmitEnumList()
         {
             var dst = AppDb.Api().Path("api.enums.types", FileKind.List);
-            var src = ApiRuntimeCatalog.Components
+            var src = ApiParts
                 .Where(x => !x.FullName.Contains("codegen."))
                 .Storage.Enums()
                 .Where(x => x.ContainsGenericParameters == false && nonempty(x.Namespace));

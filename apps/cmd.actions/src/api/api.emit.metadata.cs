@@ -17,7 +17,6 @@ namespace Z0
         {
             var result = Outcome.Success;
             EmitCliMetadata();
-            ApiSvc.EmitComments();
             EmitApiInfo();
             return result;
         }
@@ -34,12 +33,8 @@ namespace Z0
             EmitTableReport();
             EmitApiDataTypes();
             EmitApiClasses();
-            ApiSvc.EmitBitMasks();
-            ApiSvc.EmitSymHeap();
             EmitApiTokens();
-            ApiSvc.EmitApiLiterals();
             EmitApiCommands();
-            ApiSvc.EmitDataFlows();
         }
 
         void EmitTableReport()
