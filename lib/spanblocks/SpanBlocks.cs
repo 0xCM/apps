@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [ApiHost]
     public readonly partial struct SpanBlocks

@@ -28,7 +28,7 @@ namespace Z0
             => Targets() + FS.folder(scope);
 
         public FS.FileName File(string name, FileKind kind)
-            => FS.file(string.Format("{0}.{1}", Scope, name), kind.Ext());
+            => FS.file(name, kind.Ext());
 
         public FS.FileName File(string scope, string name, FileKind kind)
             => FS.file(string.Format("{0}.{1}.{2}", Scope, scope, name), kind.Ext());

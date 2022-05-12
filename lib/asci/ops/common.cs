@@ -144,7 +144,6 @@ namespace Z0
         public static ReadOnlySpan<byte> bytes(byte offset, byte count)
             => slice(CharBytes, offset, count);
 
-
         /// <summary>
         /// Tests whether a character is an uppercase asci letter character
         /// </summary>

@@ -132,7 +132,6 @@ namespace Z0
         public static unsafe void copy(in asci16 src, Span<byte> dst)
             => cpu.vstore(src.Storage, dst);
 
-
         [MethodImpl(Inline), Op]
         public static void store(in asci16 src, Span<char> dst)
             => decode(src, ref first(dst));

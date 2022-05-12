@@ -145,12 +145,16 @@ namespace Z0
         public ref T Cell(int block, int segment)
             => ref add(First, BlockLength*block + segment);
 
+        [MethodImpl(Inline)]
+        public Span<T> CellBlock(int block)
+            => Block(block);
+
         /// <summary>
         /// Retrieves an index-identified data block
         /// </summary>
         /// <param name="block">The block index</param>
         [MethodImpl(Inline)]
-        public Span<T> CellBlock(int block)
+        public Span<T> Block(int block)
             => slice(Data, block * BlockLength, BlockLength);
 
         /// <summary>
@@ -158,8 +162,9 @@ namespace Z0
         /// </summary>
         /// <param name="block">The block index</param>
         [MethodImpl(Inline)]
-        public Span<T> CellBlock(uint block)
+        public Span<T> Block(uint block)
             => slice(Data, block * BlockLength, BlockLength);
+
 
         [MethodImpl(Inline)]
         public ref T BlockLead(int index)

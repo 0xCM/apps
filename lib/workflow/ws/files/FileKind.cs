@@ -107,6 +107,9 @@ namespace Z0
         [Symbol(log,"Text-formatted log data")]
         Log,
 
+        [Symbol("map","A configuration file that correlates line-ranges and records/entities")]
+        Map,
+
         [Symbol(mcasm, "An asm file produced by the llvm-mc tool")]
         McAsm,
 

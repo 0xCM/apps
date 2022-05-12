@@ -34,6 +34,9 @@ namespace Z0
         public FS.FolderPath Targets()
             => State.XedTargets;
 
+        public DbTargets Imports()
+            => new DbTargets(Targets(), "imports");
+
         public FS.FolderPath Targets(string scope)
             => Targets() + FS.folder(scope);
 

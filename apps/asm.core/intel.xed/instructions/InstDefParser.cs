@@ -23,14 +23,12 @@ namespace Z0
                 var reader = src.ReadNumberedLines().Select(cleanse).Where(line => line.IsNonEmpty).Reader();
                 var seq = 0u;
                 var forms = dict<uint,InstForm>();
-                //var logdst = XedPaths.Service.Targets() + FS.file("xed.inst.patterns.log", FS.Csv);
                 var @class = InstClass.Empty;
                 var category = InstCategory.Empty;
                 var isa = InstIsa.Empty;
                 var ext = Extension.Empty;
                 var attribs = InstAttribs.Empty;
                 var effects = Index<XedFlagEffect>.Empty;
-                //using var log = logdst.AsciWriter();
                 while(reader.Next(out var line))
                 {
                     if(line.StartsWith(Chars.Hash) || line.EndsWith("::"))
@@ -50,7 +48,6 @@ namespace Z0
 
                                 if(parse(name, out InstPartKind part))
                                 {
-                                    //log.AppendLine(string.Format(LogPattern, line.LineNumber, seq, part, value));
 
                                     switch(part)
                                     {
@@ -108,13 +105,11 @@ namespace Z0
                                                     if(j > 0)
                                                     {
                                                         var y = text.left(x.Content,j).Trim();
-                                                        //log.AppendLine(string.Format(LogPattern, x.LineNumber, seq, part, y));
                                                         result = string.Format("{0} {1}", result, y);
                                                     }
                                                     else
                                                     {
                                                         var y = x.Content.Trim();
-                                                        //log.AppendLine(string.Format(LogPattern, x.LineNumber, seq, part, y));
                                                         value = string.Format("{0} {1}", result, y);
                                                         break;
                                                     }

@@ -28,16 +28,16 @@ namespace Z0
             => Sources() + FS.folder(scope);
 
         public FS.FileName File(string name, FileKind kind)
-            => FS.file(string.Format("{0}.{1}", Scope, name), kind.Ext());
+            => FS.file(name, kind.Ext());
 
-        public FS.FileName File(string scope, string name, FileKind kind)
-            => FS.file(string.Format("{0}.{1}.{2}", Scope, scope, name), kind.Ext());
+        public FS.FileName File(string @class, string name, FileKind kind)
+            => FS.file(string.Format("{0}.{1}", @class, name), kind.Ext());
 
         public FS.FilePath Path(string name, FileKind kind)
-            => Sources() + File(name,kind);
+            => Sources() + File(name, kind);
 
-        public FS.FilePath Path(string scope, string name, FileKind kind)
-            => Sources(scope) + File(scope, name,kind);
+        public FS.FilePath Path(string @class, string name, FileKind kind)
+            => Sources(@class) + File(@class, name,kind);
 
         public FS.FilePath Table<T>()
             where T : struct
