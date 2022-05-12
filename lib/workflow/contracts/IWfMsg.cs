@@ -14,14 +14,17 @@ namespace Z0
         void Babble(string pattern, params object[] args)
             => Wf.Babble(HostType, string.Format(pattern,args));
 
-        void Status<T>(T content)
-            => Wf.Status(HostType, content);
+        void Status<T>(T content, FlairKind flair = FlairKind.Status)
+            => Wf.Status(HostType, content, flair);
 
-        void Status(ReadOnlySpan<char> src)
-            => Wf.Status(HostType, new string(src));
+        void Status(ReadOnlySpan<char> src, FlairKind flair = FlairKind.Status)
+            => Wf.Status(HostType, new string(src), flair);
 
         void Status(string pattern, params object[] args)
             => Wf.Status(HostType, string.Format(pattern, args));
+
+        void Status(string pattern, FlairKind flair, params object[] args)
+            => Wf.Status(HostType, string.Format(pattern, args), flair);
 
         void Warn<T>(T content)
             => Wf.Warn(HostType, content);

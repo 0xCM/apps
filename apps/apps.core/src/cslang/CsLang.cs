@@ -5,22 +5,24 @@
 namespace Z0
 {
     using System.Linq;
+    using System.IO;
     using static core;
     using static CsPatterns;
+    using static CsLang;
 
     partial class XSvc
     {
         public static StringLiteralGen GenLiterals(this IWfRuntime wf)
             => StringLiteralGen.create(wf);
 
-        public static AsciLookupGen GenAsciLookups(this IWfRuntime wf)
-            => AsciLookupGen.create(wf);
+        public static GAsciLookup GenAsciLookups(this IWfRuntime wf)
+            => GAsciLookup.create(wf);
 
-        public static RecordGen GenRecords(this IWfRuntime wf)
-            => RecordGen.create(wf);
+        public static GRecord GenRecords(this IWfRuntime wf)
+            => GRecord.create(wf);
 
-        public static LiteralProviderGen GenLiteralProviders(this IWfRuntime wf)
-            => LiteralProviderGen.create(wf);
+        public static GLiteralProvider GenLiteralProviders(this IWfRuntime wf)
+            => GLiteralProvider.create(wf);
     }
 
     public partial class CsLang : AppService<CsLang>
@@ -57,27 +59,44 @@ namespace Z0
             AppSvc.FileEmit(buffer.Emit(), counter, dst);
         }
 
+        public void EmitSymSpan<E>(FS.FilePath dst)
+            where E : unmanaged, Enum
+        {
+            var result = Outcome.Success;
+            var emitting = EmittingFile(dst);
+            var container = string.Format("{0}Data", typeof(E).Name);
+            using var writer = dst.AsciWriter();
+            EmitSymSpan<E>(container, writer);
+        }
+
+        void EmitSymSpan<E>(Identifier container, StreamWriter dst)
+            where E : unmanaged, Enum
+        {
+            var buffer = text.buffer();
+            SpanResGen.symrender<E>(container, buffer);
+            dst.WriteLine(buffer.Emit());
+        }
+
         public StringLiteralGen StringLiterals()
             => Service(Wf.GenLiterals);
 
-        public AsciLookupGen AsciLookups()
+        public GAsciLookup AsciLookups()
             => Service(Wf.GenAsciLookups);
 
-        public RecordGen Records()
+        public GRecord Records()
             => Service(Wf.GenRecords);
 
-        public InterfaceGen Interfaces()
-            => Service(() => InterfaceGen.create(Wf));
+        public GInterface Interfaces()
+            => Service(() => GInterface.create(Wf));
 
+        public GBinaryKind BinaryKinds(uint max = 0xFF)
+            => new GBinaryKind(max);
 
-        public BinaryKindGen BinaryKinds(uint max = 0xFF)
-            => new BinaryKindGen(max);
-
-        public LiteralProviderGen LiteralProviders()
+        public GLiteralProvider LiteralProviders()
             => Service(Wf.GenLiteralProviders);
 
-        public HexStringGen HexStrings()
-            => Service(() => HexStringGen.create(Wf));
+        public GHexStrings HexStrings()
+            => Service(() => GHexStrings.create(Wf));
 
         public SwitchMapGen SwitchMap()
             => Service(()=> SwitchMapGen.create(Wf));

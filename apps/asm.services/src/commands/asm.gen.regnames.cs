@@ -16,21 +16,22 @@ namespace Z0
         Outcome EmitSymSpan(CmdArgs srgs)
         {
             var result = Outcome.Success;
-            var dst = ProjectDb.Logs() + FS.folder("cs") + FS.file("symspan", FS.Cs);
-            var emitting = EmittingFile(dst);
-            using var writer = dst.AsciWriter();
-            EmitSymSpan<AsciLetterLoSym>("AsciLetterLoSym", writer);
-            EmittedFile(emitting, 1);
+            CsLang.EmitSymSpan<AsciLetterLoSym>(AppDb.CgStage().Path("symspan", FileKind.Cs));
+            // var dst = ProjectDb.Logs() + FS.folder("cs") + FS.file("symspan", FS.Cs);
+            // var emitting = EmittingFile(dst);
+            // using var writer = dst.AsciWriter();
+            // EmitSymSpan<AsciLetterLoSym>("AsciLetterLoSym", writer);
+            // EmittedFile(emitting, 1);
             return result;
         }
 
-        void EmitSymSpan<E>(Identifier container, StreamWriter dst)
-            where E : unmanaged, Enum
-        {
-            var buffer = text.buffer();
-            SpanResGen.symrender<E>(container, buffer);
-            dst.WriteLine(buffer.Emit());
-        }
+        // void EmitSymSpan<E>(Identifier container, StreamWriter dst)
+        //     where E : unmanaged, Enum
+        // {
+        //     var buffer = text.buffer();
+        //     SpanResGen.symrender<E>(container, buffer);
+        //     dst.WriteLine(buffer.Emit());
+        // }
 
         [CmdOp("asm/gen/regnames")]
         Outcome EmitRegNames(CmdArgs args)

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
     using System.Threading.Tasks;
 
     using static WfEvents;
@@ -157,11 +155,11 @@ namespace Z0
         void Babble<T>(WfHost host, T data)
             => signal(this, host).Babble(data);
 
-        void Status<T>(T data)
-            => signal(this).Status(data);
+        void Status<T>(T data, FlairKind flair = FlairKind.Status)
+            => signal(this).Status(data, flair);
 
-        void Status<T>(WfHost host,T data)
-            => signal(this, host).Status(data);
+        void Status<T>(WfHost host,T data, FlairKind flair = FlairKind.Status)
+            => signal(this, host).Status(data, flair);
 
         void Warn<T>(T content)
             => signal(this).Warn(content);

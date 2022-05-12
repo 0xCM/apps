@@ -5,15 +5,10 @@
 namespace Z0
 {
     [Free]
-    public interface IEventSink<E> : ISink<E>
-        where E : IWfEvent
+    public interface IWorkerLog : IDisposable
     {
+        void LogStatus(string content);
 
-    }
-
-    [Free]
-    public interface IEventSink : IEventSink<IWfEvent>, IDisposable
-    {
-
+        void LogError(string content);
     }
 }

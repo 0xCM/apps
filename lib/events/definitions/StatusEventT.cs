@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [Event(Kind)]
     public readonly struct StatusEvent<T> : ILevelEvent<StatusEvent<T>,T>
     {
@@ -22,11 +17,12 @@ namespace Z0
 
         public EventPayload<T> Payload {get;}
 
-        public FlairKind Flair => FlairKind.Status;
+        public FlairKind Flair {get;}
 
         [MethodImpl(Inline)]
-        public StatusEvent(WfStepId step, T data, PartToken ct = default)
+        public StatusEvent(WfStepId step, T data, FlairKind flair)
         {
+            Flair = flair;
             EventId = EventId.define(EventName, step);
             Payload = data;
         }

@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static CsPatterns;
+    using static CsLang;
 
     partial class StringTables
     {

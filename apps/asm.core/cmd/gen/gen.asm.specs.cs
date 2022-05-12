@@ -10,7 +10,6 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-
         [CmdOp("gen/asm/specs")]
         Outcome GenInstData(CmdArgs args)
         {

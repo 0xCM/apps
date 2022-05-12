@@ -5,12 +5,30 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static MemDb;
-
-    partial class XedDb
+    public enum XedViewKind : byte
     {
-        public void EmitTypeTables()
-            => AppSvc.TableEmit(Xed.Views.TypeTableRows, Paths.DbTable<TypeTableRow>());
+        InstPattern,
+
+        RuleTables,
+
+        InstFields,
+
+        CellTables,
+
+        RuleExpr,
+
+        CellDatasets,
+
+        InstDefs,
+
+        OpCodes,
+
+        IsaImport,
+
+        CpuIdImport,
+
+        TypeTables,
+
+        TypeTableRows,
     }
 }

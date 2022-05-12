@@ -113,7 +113,7 @@ namespace Z0
 
         FS.Files _Files;
 
-        WfMessaging _WfMsg;
+        WfMsgSvc _WfMsg;
 
         WfEmitters _TableOps;
 
@@ -134,7 +134,7 @@ namespace Z0
             var flow = wf.Creating(typeof(H).Name);
             Host = new WfSelfHost(typeof(H));
             Wf = wf;
-            _WfMsg = new WfMessaging(wf, Env);
+            _WfMsg = new WfMsgSvc(wf, Env);
             _TableOps = new WfEmitters(wf,Env);
             Db = new WfDb(wf, wf.Env.Db);
             _Ws = DevWs.create(wf.Env.DevWs);
@@ -193,14 +193,18 @@ namespace Z0
         protected void Babble(string pattern, params object[] args)
             => WfMsg.Babble(pattern, args);
 
-        protected void Status<T>(T content)
-            => WfMsg.Status(content);
+        protected void Status<T>(T content, FlairKind flair = FlairKind.Status)
+            => WfMsg.Status(content, flair);
 
-        protected void Status(ReadOnlySpan<char> src)
-            => WfMsg.Status(src);
+
+        public void Status(ReadOnlySpan<char> src, FlairKind flair = FlairKind.Status)
+            => WfMsg.Status(src, flair);
 
         protected void Status(string pattern, params object[] args)
             => WfMsg.Status(pattern, args);
+
+        public void Status(FlairKind flair, string pattern, params object[] args)
+            => WfMsg.Status(pattern, flair, args);
 
         protected void Warn<T>(T content)
             => WfMsg.Warn(content);

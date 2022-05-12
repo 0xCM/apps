@@ -15,11 +15,14 @@ namespace Z0
         protected new void Babble(string pattern, params object[] args)
             => WfMsg.Babble(pattern, args);
 
-        protected new void Status<T>(T content)
-            => WfMsg.Status(content);
+        protected new void Status<T>(T content, FlairKind flair = FlairKind.Status)
+            => WfMsg.Status(content, flair);
 
-        public new void Status(ReadOnlySpan<char> src)
-            => WfMsg.Status(src);
+        public new void Status(ReadOnlySpan<char> src, FlairKind flair = FlairKind.Status)
+            => WfMsg.Status(src, flair);
+
+        public new void Status(FlairKind flair, string pattern, params object[] args)
+            => WfMsg.Status(pattern, flair, args);
 
         public new void Status(string pattern, params object[] args)
             => WfMsg.Status(pattern, args);

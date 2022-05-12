@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IEventSink<E> : ISink<E>
-        where E : IWfEvent
+
+    public class ApiServices : AppService<ApiServices>
     {
 
-    }
-
-    [Free]
-    public interface IEventSink : IEventSink<IWfEvent>, IDisposable
-    {
+        public ApiComments Comments => Service(Wf.ApiComments);
 
     }
 }

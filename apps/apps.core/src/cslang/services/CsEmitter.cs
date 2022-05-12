@@ -39,10 +39,10 @@ namespace Z0
         public ReadOnlySpan<string> Emit()
             => Dst.ViewDeposited();
 
-        void IndentLine<T>(uint offset, T src)
+        public void IndentLine<T>(uint offset, T src)
             => Dst.Add(indent(offset,src));
 
-        void IndentLineFormat(uint offset, string pattern, params object[] args)
+        public void IndentLineFormat(uint offset, string pattern, params object[] args)
             => Dst.Add(IndentFormat(offset, pattern, args));
 
         public void OpenNamespace(uint offset, string name)
@@ -75,12 +75,22 @@ namespace Z0
                     pattern = P3;
                 break;
             }
+            IndentLineFormat(offset, pattern, name);
+            IndentLine(offset, "{");
         }
 
         public void Close(uint offset)
         {
             IndentLine(offset, "}");
         }
+
+
+        public void CloseStruct(uint offset)
+            => Close(offset);
+
+
+        public void CloseNamespace(uint offset)
+            => Close(offset);
 
         public void LineComment<T>(uint offset, T src)
             => IndentLineFormat(offset, "// {0}", src);

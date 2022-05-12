@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [ApiHost]
     public partial class WfRuntime : IWfRuntime
     {
@@ -17,8 +12,6 @@ namespace Z0
         public PartId Id {get;}
 
         public IApiParts ApiParts {get;}
-
-        public IEventSink EventSink {get;}
 
         public IEventBroker EventBroker {get;}
 
@@ -58,8 +51,8 @@ namespace Z0
             Context = config.Shell;
             Id = config.ControlId;
             Ct = PartToken.create(config.ControlId);
-            EventSink = Loggers.events(config.LogConfig);
-            EventBroker = new WfBroker(EventSink, Ct);
+            //EventSink = Loggers.events(config.LogConfig);
+            EventBroker = WfBroker.create(config.LogConfig);
             Host = new WfHost(typeof(WfRuntime), typeof(WfRuntime));
             Polysource = default;
             Verbosity = LogLevel.Status;
@@ -72,6 +65,12 @@ namespace Z0
             AppName = config.Shell.AppName;
             Router = new WfCmdRouter(this);
             Emissions = Loggers.emission(config.LogConfig.LogId, Env);
+        }
+
+        public IEventSink EventSink
+        {
+            [MethodImpl(Inline)]
+            get => EventBroker.Sink;
         }
 
         public void RedirectEmissions(IWfEmissionLog dst)
@@ -100,7 +99,7 @@ namespace Z0
         public void Dispose()
         {
             EventBroker.Dispose();
-            EventSink.Dispose();
+            //EventSink.Dispose();
             Emissions?.Dispose();
         }
         string ITextual.Format()

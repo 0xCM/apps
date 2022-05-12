@@ -10,13 +10,27 @@ namespace Z0
 
     partial class XedRules
     {
+        static D Data<D>(XedViewKind index, Func<D> f)
+            => data<D>(index.ToString(), f);
+
         public Index<TypeTable> CalcTypeTables()
         {
-            var types = MeasuredType.symbolic(typeof(XedDb).Assembly, "xed");
-            Index<TypeTable> tables = alloc<TypeTable>(types.Count);
-            for(var i=0; i<types.Count; i++)
-                tables[i] = CalcTypeTable(types[i]);
-            return tables.Sort();
+            return Data(XedViewKind.TypeTables, Calc);
+            Index<TypeTable> Calc()
+            {
+                var types = MeasuredType.symbolic(typeof(XedDb).Assembly, "xed");
+                Index<TypeTable> tables = alloc<TypeTable>(types.Count);
+                for(var i=0; i<types.Count; i++)
+                    tables[i] = CalcTypeTable(types[i]);
+                return tables.Sort();
+            }
+        }
+
+        public Index<TypeTableRow> CalcTypeTableRows(Index<TypeTable> src)
+        {
+            return Data(XedViewKind.TypeTableRows, Calc);
+            Index<TypeTableRow> Calc()
+                => src.SelectMany(x => x.Rows).Sort().Resequence();
         }
 
         TypeTable CalcTypeTable(MeasuredType type)

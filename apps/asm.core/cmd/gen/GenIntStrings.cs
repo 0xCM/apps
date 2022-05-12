@@ -39,20 +39,24 @@ namespace Z0
         [CmdOp("gen/hex/strings")]
         Outcome GenHexStrings(CmdArgs args)
         {
-            var g = CsLang.HexStrings();
             var name = "HexStringArrays";
             var ns = "Z0";
-            var content = text.buffer();
-            var margin = 0u;
-            content.IndentLineFormat(margin,"public readonly struct {0}", name);
-            content.IndentLine(margin, Chars.LBrace);
-            margin +=4;
-            content.IndentLine(margin, g.GenArray("Hex8Strings", byte.MinValue, byte.MaxValue, LetterCaseKind.Upper));
-            margin -= 4;
-            content.IndentLine(margin,Chars.RBrace);
+            var dst = CsLang.emitter();
+            var offset = 0u;
+            dst.OpenNamespace(offset, ns);
+            offset += 4;
+            dst.OpenStruct(offset, name);
+            offset +=4;
 
-            var spec = CgSpecs.define(ns).WithContent(content.Emit());
-            CsLang.EmitFile(spec, name, CgTarget.Common);
+            var content = CsLang.HexStrings().GenArray("Hex8Strings", byte.MinValue, byte.MaxValue, LetterCaseKind.Upper);
+            dst.IndentLine(offset,content);
+            offset -= 4;
+            dst.CloseStruct(offset);
+            offset -= 4;
+            dst.CloseNamespace(offset);
+
+            AppSvc.FileEmit(dst.Emit(), AppDb.CgStage().Path(name,FileKind.Cs));
+
             return true;
         }
 

@@ -26,11 +26,5 @@ namespace Z0
         public static MsgPattern<string> NotFound => "'{0}' not found";
 
         public static MsgPattern<Fence<char>> OpCodeFenceNotFound => "Op code fence {0} not found";
-
-        public static MsgPattern<ProjectId> ProjectUndefined
-            => "Project {0} undefined";
-
-        public static MsgPattern<ProjectId> LoadingSources
-            => "Loading {0} sources";
     }
 }

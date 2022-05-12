@@ -5,7 +5,6 @@
 namespace Z0
 {
     using llvm;
-
     using static core;
     using static llvm.SubtargetKind;
     using static XedDisasm;

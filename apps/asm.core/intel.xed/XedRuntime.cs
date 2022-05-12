@@ -12,7 +12,7 @@ namespace Z0
     using static XedModels;
     using static core;
     using static XedOperands;
-    using I = XedViewIndex;
+    using I = XedViewKind;
 
     public partial class XedRuntime : AppService<XedRuntime>
     {
@@ -68,18 +68,22 @@ namespace Z0
             get => ref _Views;
         }
 
+        protected override void Initialized()
+        {
+            _Views = new(this, Wf.AppServices);
+        }
+
         public XedRuntime()
         {
             _Alloc = Alloc.allocate();
-            _Views = new(this);
         }
 
         void CalcCpuIdImports()
         {
             var path = Paths.CpuIdSource();
-            var data = path.ReadLines(true);
+            var data = path.ReadLines();
             var parser = new CpuidParser();
-            parser.Run(data);
+            parser.Run(data.Where(text.nonempty));
             Views.Store(I.CpuIdImport, parser.Parsed.CpuIdRecords);
             Views.Store(I.IsaImport, parser.Parsed.IsaRecords);
         }
@@ -98,9 +102,16 @@ namespace Z0
         void CalcInstDefs()
             => Views.Store(I.InstDefs, InstDefParser.parse(Paths.DocSource(XedDocKind.EncInstDef)));
 
+        void CalcTypeTables()
+        {
+            Views.Store(I.TypeTables, Rules.CalcTypeTables());
+            Views.Store(I.TypeTableRows, Rules.CalcTypeTableRows(Views.TypeTables));
+        }
+
         void RunCalcs()
         {
             exec(PllExec,
+                CalcTypeTables,
                 CalcCpuIdImports,
                 CalcInstDefs
                 );

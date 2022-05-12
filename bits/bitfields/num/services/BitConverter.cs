@@ -60,14 +60,6 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public ref readonly asci8 Chars(Base8 @base, ushort value)
-        {
-            ref readonly var entry = ref Data[value];
-            ref readonly var seg = ref @as<asci8>(slice(entry.View, HexValOffset, HexValLength));
-            return ref seg;
-        }
-
-        [MethodImpl(Inline)]
         public ref readonly asci16 Chars(Base2 @base, ushort value)
         {
             ref readonly var entry = ref Entry(value);

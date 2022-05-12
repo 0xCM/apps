@@ -9,14 +9,16 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
+        [Op]
+        public static WsProjects WsProjects(this IWfRuntime wf)
+            => Z0.WsProjects.create(wf);
+
+
         public static ApiEmitters ApiEmitters(this IWfRuntime wf)
             => Z0.ApiEmitters.create(wf);
 
         public static AsmCodeGen AsmCodeGen(this IWfRuntime wf)
             => Asm.AsmCodeGen.create(wf);
-
-        public static AppCmdRunner AppCmdRunner(this IWfRuntime wf)
-            => Z0.AppCmdRunner.create(wf);
 
         [Op]
         public static XedRules XedRules(this IWfRuntime wf)
@@ -100,10 +102,6 @@ namespace Z0
         [Op]
         public static ApiAssets ApiAssets(this IWfRuntime wf)
             => Z0.ApiAssets.create(wf);
-
-        [Op]
-        public static WsProjects WsProjects(this IWfRuntime wf)
-            => Z0.WsProjects.create(wf);
 
         [Op]
         public static IntelSdm IntelSdm(this IWfRuntime wf)

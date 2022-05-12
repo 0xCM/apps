@@ -9,7 +9,7 @@ namespace Z0
     public readonly struct BitConverters
     {
         // 65472 0xFFC0 0b1111111111000000
-        const string RenderPattern = "{0:D5} 0x{1:X4} 0b{2} o{3}";
+        const string RenderPattern = "{0:D5} 0x{0:X4} 0b{1}";
 
         public static N16 MaxWidth => default;
 

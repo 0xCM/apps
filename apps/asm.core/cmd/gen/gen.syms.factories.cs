@@ -14,10 +14,24 @@ namespace Z0
         Outcome GenSymFactories(CmdArgs args)
         {
             var name = "AsmRegTokens";
-            var dst = ProjectDb.Subdir("logs") + FS.file("regtokens", FS.Cs);
+            var dst = AppDb.CgStage().Path(name, FileKind.Cs);
             var src = typeof(AsmRegTokens).GetNestedTypes().Where(x => x.Tagged<SymSourceAttribute>());
             CsLang.GenSymFactories("Z0.Asm", name, src, dst);
             return true;
         }
+
+        [CmdOp("gen/symspan")]
+        Outcome EmitSymSpan(CmdArgs srgs)
+        {
+            var result = Outcome.Success;
+            CsLang.EmitSymSpan<AsciLetterLoSym>(AppDb.CgStage().Path("symspan", FileKind.Cs));
+            // var dst = ProjectDb.Logs() + FS.folder("cs") + FS.file("symspan", FS.Cs);
+            // var emitting = EmittingFile(dst);
+            // using var writer = dst.AsciWriter();
+            // EmitSymSpan<AsciLetterLoSym>("AsciLetterLoSym", writer);
+            // EmittedFile(emitting, 1);
+            return result;
+        }
+
     }
 }

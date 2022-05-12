@@ -24,6 +24,10 @@ namespace Z0
 
         IProjectProvider _ProjectProvider;
 
+        CsLang CsLang => Service(Wf.CsLang);
+
+        AppDb AppDb => Service(Wf.AppDb);
+
         public AsmCmdProvider With(IProjectProvider provider)
         {
             _ProjectProvider = provider;

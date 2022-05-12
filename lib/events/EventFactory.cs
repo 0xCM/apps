@@ -4,15 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
-    using File = System.Runtime.CompilerServices.CallerFilePathAttribute;
-    using Line = System.Runtime.CompilerServices.CallerLineNumberAttribute;
-
-    using static Root;
-
     [ApiHost]
     public readonly struct EventFactory
     {
@@ -39,19 +30,19 @@ namespace Z0
         /// <param name="ct">The correlation token</param>
         /// <typeparam name="T">The content type</typeparam>
         [Op, Closures(Closure)]
-        public static StatusEvent<T> status<T>(WfStepId step, T content)
-            => new StatusEvent<T>(step, content);
+        public static StatusEvent<T> status<T>(WfStepId step, T content, FlairKind flair)
+            => new StatusEvent<T>(step, content,flair);
 
         [Op, Closures(Closure)]
-        public static StatusEvent<T> status<T>(Type host, T content)
-            => new StatusEvent<T>(host, content);
+        public static StatusEvent<T> status<T>(Type host, T content, FlairKind flair)
+            => new StatusEvent<T>(host, content, flair);
 
         [Op, Closures(Closure)]
         public static WarnEvent<T> warn<T>(WfStepId step, T body)
             => new WarnEvent<T>(step, body);
 
         [Op, Closures(Closure)]
-        public static ErrorEvent<T> error<T>(string label, T data, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static ErrorEvent<T> error<T>(string label, T data, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => new ErrorEvent<T>(label, data, originate(caller, caller,file, line ?? 0));
 
         [Op, Closures(UInt64k)]
@@ -78,7 +69,7 @@ namespace Z0
         /// <param name="file">The file in which the calling member is defined</param>
         /// <param name="line">The invocation line number</param>
         [Op]
-        public static EventOrigin originate(string name, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static EventOrigin originate(string name, [CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => new EventOrigin(name, new CallingMember(caller, file, line ?? 0));
 
         /// <summary>
@@ -90,7 +81,7 @@ namespace Z0
         /// <param name="line">The invocation line number</param>
         /// <typeparam name="T">The orgin type</typeparam>
         [Op]
-        public static EventOrigin originate(Type type,[Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static EventOrigin originate(Type type,[CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => originate(type.Name, caller, file, line);
 
         /// <summary>
@@ -101,7 +92,7 @@ namespace Z0
         /// <param name="line">The invocation line number</param>
         /// <typeparam name="T">The orgin type</typeparam>
         [Op]
-        public static EventOrigin originate<T>([Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static EventOrigin originate<T>([CallerName] string caller = null, [CallerFile] string file = null, [CallerLine] int? line = null)
             => originate(typeof(T), caller, file, line);
 
         [Op, Closures(Closure)]

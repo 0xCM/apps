@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static EventFactory;
-    using static Root;
 
     public class EventSignal
     {
@@ -194,16 +190,16 @@ namespace Z0
             return e;
         }
 
-        public StatusEvent<T> Status<T>(WfStepId step, T data)
+        public StatusEvent<T> Status<T>(WfStepId step, T data, FlairKind flair = FlairKind.Status)
         {
-            var e = status(step, data);
+            var e = status(step, data, flair);
             Raise(e);
             return e;
         }
 
-        public StatusEvent<T> Status<T>(T data)
+        public StatusEvent<T> Status<T>(T data, FlairKind flair = FlairKind.Status)
         {
-            var e = status(Source, data);
+            var e = status(Source, data, flair);
             Raise(e);
             return e;
         }
