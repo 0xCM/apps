@@ -127,7 +127,7 @@ namespace Z0
                                             spec.Isa = isa;
                                             InstPatternSpec.FixIsa(ref spec);
                                             spec.RawBody = rawbody;
-                                            InstParser.parse(RuleMacros.expand(InstPatternBody.normalize(rawbody)), out spec.Body);
+                                            InstParser.parse(rawbody, out spec.Body);
                                             spec.Mode = InstCells.mode(spec.Body.Cells);
                                             PatternOpParser.parse(spec.Seq, opexpr, out spec.Ops);
                                             spec.OpCode = InstCells.opcode(spec.Body.Cells);

@@ -12,7 +12,10 @@ namespace Z0
     {
         public readonly struct InstParser
         {
-            public static Outcome field(string src, out CellValue dst)
+            public static void parse(string src, out InstPatternBody dst)
+                => inner(RuleMacros.expand(normalize(src)), out dst);
+
+            static Outcome field(string src, out CellValue dst)
             {
                 dst = CellValue.Empty;
                 Outcome result = (false, string.Format("Unrecognized segment '{0}'", src));
@@ -64,7 +67,20 @@ namespace Z0
                 return result;
             }
 
-            public static void parse(string src, out InstPatternBody dst)
+            static string normalize(string rawbody)
+            {
+                var buffer = text.buffer();
+                var parts = text.split(text.despace(rawbody), Chars.Space);
+                for(var i=0; i<parts.Length; i++)
+                {
+                    if(i != 0)
+                        buffer.Append(Chars.Space);
+                    buffer.Append(core.skip(parts,i));
+                }
+                return buffer.Emit();
+            }
+
+            static void inner(string src, out InstPatternBody dst)
             {
                 var result = Outcome.Success;
                 var parts = text.trim(text.split(text.despace(src), Chars.Space));
