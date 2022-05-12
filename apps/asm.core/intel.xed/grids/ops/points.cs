@@ -10,22 +10,25 @@ namespace Z0
 
     partial class XedGrids
     {
-        [MethodImpl(Inline), Op]
-        public static ushort points(CellTables src, Span<Coordinate> dst)
-        {
-            var m = z16;
-            for(var i=z16; i<src.TableCount; i++)
-            {
-                for(var j=z8; j<src[i].RowCount; j++)
-                {
-                    for(var k=z8; k<src[i][j].CellCount; k++,m++)
-                    {
-                        ref readonly var cell = ref src[i][j][k];
-                        seek(dst,m) = new (m,i,j,k, cell.TableKind, cell.Rule.TableName);
-                    }
-                }
-            }
-            return m;
-        }
+        // [MethodImpl(Inline), Op]
+        // public static Grid<ByteBlock32> points(in CellTable src)
+        // {
+        //     var count = src.CellCount;
+        //     var m=0u;
+        //     var points = alloc<Point<byte>>(count);
+        //     var cells = alloc<RuleCell>(count);
+        //     var dst = ByteBlock32.Empty;
+        //     for(var j=z8; j<src.RowCount; j++)
+        //     {
+        //         for(var k=z8; k<src[j].CellCount; k++,m++)
+        //         {
+        //             ref readonly var cell = ref src[j][k];
+        //             seek(points,m) = new (j,k);
+        //             seek(cells,m) = src[j][k];
+        //         }
+        //     }
+
+        //     return new Grid<ByteBlock32>((byte)src.RowCount, (byte)src.RowCount, dst);
+        // }
     }
 }

@@ -9,28 +9,32 @@ namespace Z0
 
     partial class XedGrids
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct LogicCell
+        public readonly record struct Cell<T> : IComparable<Cell<T>>
+            where T : unmanaged,  IValue<T>, IEquatable<T>, ILogicOperand<T>
         {
             public readonly CellKey Key;
 
-            public readonly RuleOperator Operator;
-
-            public readonly LogicValue Value;
+            public readonly T Value;
 
             [MethodImpl(Inline)]
-            public LogicCell(CellKey key, RuleOperator op, LogicValue value)
+            public Cell(CellKey key, T value)
             {
                 Key = key;
-                Operator = op;
                 Value = value;
             }
+
+            public int CompareTo(Cell<T> src)
+                => Key.CompareTo(src.Key);
 
             public uint Index
             {
                 [MethodImpl(Inline)]
                 get => Key.Index;
             }
+
+            [MethodImpl(Inline)]
+            public static implicit operator Cell(Cell<T> src)
+                => new Cell(src.Key, src.Value.Operator, XedGrids.Value.untype(src.Value));
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Z0
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct FieldOp<T> : ILogicOperand<T>
-            where T : unmanaged, ILogicValue<T>
+            where T : unmanaged, IValue<T>
         {
             public readonly FieldKind Field;
 
@@ -35,7 +35,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator FieldOp(FieldOp<T> src)
-                => new FieldOp(src.Field, src.Operator, LogicValue.untype(src.Value));
+                => new FieldOp(src.Field, src.Operator, XedGrids.Value.untype(src.Value));
         }
     }
 }

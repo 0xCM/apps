@@ -52,7 +52,6 @@ namespace Z0.Asm
             return content;
         }
 
-
         void EmitRuntimeMembers()
         {
             var service = ApiRuntime.create(Wf);
@@ -68,7 +67,6 @@ namespace Z0.Asm
         {
             Wf.ApiJit().JitCatalog();
         }
-
 
         void CaptureSelf()
         {

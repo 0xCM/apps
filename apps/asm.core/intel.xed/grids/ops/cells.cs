@@ -12,23 +12,23 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         public static FieldOp<T> operand<T>(FieldKind field, RuleOperator op, T value)
-            where T : unmanaged, ILogicValue<T>
+            where T : unmanaged, IValue<T>
                 => new FieldOp<T>(field, op, value);
 
         [MethodImpl(Inline)]
         public static RuleOp<T> operand<T>(Nonterminal rule, RuleOperator op, T value)
-            where T : unmanaged, ILogicValue<T>
+            where T : unmanaged, IValue<T>
                 => new RuleOp<T>(rule, op, value);
 
         [MethodImpl(Inline)]
-        public static LogicCell<T> cell<T>(CellKey key, T value)
-            where T : unmanaged,  ILogicValue<T>, IEquatable<T>, ILogicOperand<T>
-                => new LogicCell<T>(key,value);
+        public static Cell<T> cell<T>(CellKey key, T value)
+            where T : unmanaged,  IValue<T>, IEquatable<T>, ILogicOperand<T>
+                => new Cell<T>(key,value);
 
         [MethodImpl(Inline)]
-        public static LogicValue<T> value<T>(LogicDataKind kind, DataSize size, T data)
+        public static Value<T> value<T>(T data)
             where T : unmanaged
-                => new LogicValue<T>(kind,size,data);
+                => new Value<T>(data);
 
         [MethodImpl(Inline)]
         public static GridCell cell(in RuleCell src)

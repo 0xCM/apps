@@ -10,7 +10,7 @@ namespace Z0
     partial class XedGrids
     {
         public readonly record struct RuleOp<T> : ILogicOperand<T>
-            where T : unmanaged, ILogicValue<T>
+            where T : unmanaged, IValue<T>
         {
             public readonly Nonterminal Rule;
 
@@ -34,7 +34,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator RuleOp(RuleOp<T> src)
-                =>  new RuleOp(src.Rule, src.Operator, LogicValue.untype(src.Value));
+                =>  new RuleOp(src.Rule, src.Operator, XedGrids.Value.untype(src.Value));
         }
     }
 }

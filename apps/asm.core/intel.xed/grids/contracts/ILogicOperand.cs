@@ -15,7 +15,7 @@ namespace Z0
         }
 
         public interface ILogicOperand<T> : ILogicOperand
-            where T : unmanaged, ILogicValue
+            where T : unmanaged, IValue
         {
             T Value {get;}
         }

@@ -154,6 +154,5 @@ namespace Z0
             offset -= 4;
             dst.IndentLine(offset,"}");
         }
-
     }
 }

@@ -15,7 +15,7 @@ namespace Z0
             var formatter = RecordFormatter.create(typeof(TypeTableRow));
             var rows = Xed.Views.TypeTables.SelectMany(x => x.Rows).Sort().Resequence();
             AppSvc.TableEmit(rows, XedPaths.DbTable<TypeTableRow>());
-            CheckRender();
+            //CheckRender();
             return true;
         }
 
@@ -27,17 +27,17 @@ namespace Z0
             return (ulong)token | ((ulong)part << 32) | ((ulong)selector << 38);
         }
 
-        void CheckRender()
-        {
-            var k0 = key(typeof(num4),z16);
-            var points = Rules.CalcPoints();
-            var f2 = Tables.formatter<Coordinate>();
-            for(var i=0; i<points.Count; i++)
-            {
-                ref readonly var point = ref points[i];
-                Write(f2.Format(point));
-            }
-        }
+        // void CheckRender()
+        // {
+        //     var k0 = key(typeof(num4),z16);
+        //     var points = Rules.CalcPoints();
+        //     var f2 = Tables.formatter<Coordinate>();
+        //     for(var i=0; i<points.Count; i++)
+        //     {
+        //         ref readonly var point = ref points[i];
+        //         Write(f2.Format(point));
+        //     }
+        // }
 
         void CheckMemDb(Dim2<uint> shape)
         {

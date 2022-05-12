@@ -5,12 +5,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-
     partial class XedGrids
     {
         [Flags]
-        public enum LogicDataKind : byte
+        public enum ValueKind : byte
         {
             None = 0,
 

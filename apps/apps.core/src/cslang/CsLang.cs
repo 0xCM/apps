@@ -6,24 +6,9 @@ namespace Z0
 {
     using System.Linq;
     using System.IO;
+
     using static core;
     using static CsPatterns;
-    using static CsLang;
-
-    partial class XSvc
-    {
-        public static GStringLits GenLiterals(this IWfRuntime wf)
-            => GStringLits.create(wf);
-
-        public static GAsciLookup GenAsciLookups(this IWfRuntime wf)
-            => GAsciLookup.create(wf);
-
-        public static GRecord GenRecords(this IWfRuntime wf)
-            => GRecord.create(wf);
-
-        public static GLiteralProvider GenLiteralProviders(this IWfRuntime wf)
-            => GLiteralProvider.create(wf);
-    }
 
     public partial class CsLang : AppService<CsLang>
     {
@@ -166,7 +151,6 @@ namespace Z0
             return counter;
         }
 
-
         public void GenEnumReplicants(Type[] enums, FS.FilePath dst)
         {
             var types = enums.GroupBy(x => x.Namespace).Map(x => (x.Key, x.ToArray())).ToDictionary();
@@ -219,7 +203,6 @@ namespace Z0
 
         public FS.FilePath SourceFile(string name, string scope, CgTarget target)
             => SourceRoot(target) + FS.folder(scope) + FS.file(name, FS.Cs);
-
 
         public FS.FilePath DataFile(string name, CgTarget target)
             => SourceRoot(target) + FS.file(name, FS.Csv);

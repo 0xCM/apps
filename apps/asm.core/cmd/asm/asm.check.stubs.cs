@@ -5,19 +5,36 @@
 namespace Z0
 {
     using Asm;
-    using static core;
 
+    using static core;
     using static Asm.AsmChecks;
+    using static Asm.AsmRegTokens;
 
     using K = Asm.AsmOcTokenKind;
     using P = Pow2x32;
 
     partial class AsmCoreCmd
     {
+        [CmdOp("asm/check/ccv")]
+        Outcome CheckCcv(CmdArgs args)
+        {
+            var r0 = Win64Ccv.reg(w64,0);
+            Require.invariant(r0 == Gp64Reg.rcx);
+            var r1 = Win64Ccv.reg(w64,1);
+            Require.invariant(r1 == Gp64Reg.rdx);
+            var r2 = Win64Ccv.reg(w64,2);
+            Require.invariant(r2 == Gp64Reg.r8);
+            var r3 = Win64Ccv.reg(w64,3);
+            Require.invariant(r3 == Gp64Reg.r9);
+
+            Write(string.Format("{0} | {1} | {2} | {3}", r0, r1, r2, r3));
+            return true;
+        }
+
        static ReadOnlySpan<byte> x7ffaa76f0ae0
             => new byte[32]{0x0f,0x1f,0x44,0x00,0x00,0x48,0x8b,0xd1,0x48,0xb9,0x50,0x0f,0x24,0xa5,0xfa,0x7f,0x00,0x00,0x48,0xb8,0x30,0xdd,0x99,0xa6,0xfa,0x7f,0x00,0x00,0x48,0xff,0xe0,0};
 
-        [CmdOp("check/vfind")]
+        [CmdOp("asmcheck/vfind")]
         Outcome CheckV(CmdArgs args)
         {
             const byte count = 32;

@@ -9,23 +9,23 @@ namespace Z0
 
     partial class XedGrids
     {
-        public readonly record struct RuleOp : ILogicOperand<LogicValue>
+        public readonly record struct RuleOp : ILogicOperand<Value>
         {
             public readonly Nonterminal Rule;
 
             public readonly RuleOperator Operator;
 
-            public readonly LogicValue Value;
+            public readonly Value Value;
 
             [MethodImpl(Inline)]
-            public RuleOp(RuleName rule, RuleOperator op, LogicValue value)
+            public RuleOp(RuleName rule, RuleOperator op, Value value)
             {
                 Rule = rule;
                 Operator = op;
                 Value = value;
             }
 
-            LogicValue ILogicOperand<LogicValue>.Value
+            Value ILogicOperand<Value>.Value
                 => Value;
 
             RuleOperator ILogicOperand.Operator

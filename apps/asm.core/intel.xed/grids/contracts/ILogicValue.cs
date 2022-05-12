@@ -5,18 +5,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-
     partial class XedGrids
     {
-        public interface ILogicValue
+        public interface IValue
         {
-            LogicDataKind DataKind {get;}
-
-            DataSize Size {get;}
         }
 
-        public interface ILogicValue<T> : ILogicValue
+        public interface IValue<T> : IValue
             where T : unmanaged
         {
             T Storage {get;}

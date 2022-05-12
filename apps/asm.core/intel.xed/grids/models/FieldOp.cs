@@ -10,16 +10,16 @@ namespace Z0
     partial class XedGrids
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly record struct FieldOp : ILogicOperand<LogicValue>
+        public readonly record struct FieldOp : ILogicOperand<Value>
         {
             public readonly FieldKind Field;
 
             public readonly RuleOperator Operator;
 
-            public readonly LogicValue Value;
+            public readonly Value Value;
 
             [MethodImpl(Inline)]
-            public FieldOp(FieldKind field, RuleOperator op, LogicValue value)
+            public FieldOp(FieldKind field, RuleOperator op, Value value)
             {
                 Field = field;
                 Operator = op;
@@ -29,7 +29,7 @@ namespace Z0
             RuleOperator ILogicOperand.Operator
                 => Operator;
 
-            LogicValue ILogicOperand<LogicValue>.Value
+            Value ILogicOperand<Value>.Value
                 => Value;
         }
     }

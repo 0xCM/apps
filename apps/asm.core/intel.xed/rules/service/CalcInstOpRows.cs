@@ -9,17 +9,17 @@ namespace Z0
 
     partial class XedRules
     {
-        public Index<Coordinate> CalcPoints()
-        {
-            return Calc();
-            Index<Coordinate> Calc()
-            {
-                ref readonly var src = ref Xed.Views.CellTables;
-                var dst = alloc<Coordinate>(src.CellCount);
-                XedGrids.points(src,dst);
-                return dst;
-            }
-        }
+        // public Index<Coordinate> CalcPoints()
+        // {
+        //     return Calc();
+        //     Index<Coordinate> Calc()
+        //     {
+        //         ref readonly var src = ref Xed.Views.CellTables;
+        //         var dst = alloc<Coordinate>(src.CellCount);
+        //         XedGrids.points(src,dst);
+        //         return dst;
+        //     }
+        // }
 
         public Index<InstOperandRow> CalcInstOpRows(Index<InstOpDetail> details)
         {

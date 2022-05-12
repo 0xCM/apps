@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
     using System.Diagnostics.Tracing;
 
     using Level = System.Diagnostics.Tracing.EventLevel;

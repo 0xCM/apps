@@ -32,7 +32,7 @@ namespace Z0
 
         [Op]
         public static CultProcessor CultProcessor(this IWfRuntime wf)
-            => Toolz.CultProcessor.create(wf);
+            => Z0.CultProcessor.create(wf);
 
         [Op]
         public static BdDisasm BdDisasm(this IWfRuntime wf)

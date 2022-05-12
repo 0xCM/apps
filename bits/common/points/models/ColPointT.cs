@@ -20,7 +20,6 @@ namespace Z0
             Y = y;
         }
 
-
         public string Format()
             => string.Format("({0}, {1})", X, Y);
 

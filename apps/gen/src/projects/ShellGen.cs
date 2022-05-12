@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    //using Gen;
-
     using Gen;
 
     public class ShellGen : AppService<ShellGen>
@@ -21,7 +19,6 @@ namespace Z0
             writer.WriteLine(project.Format());
             EmittedFile(emitting,1);
         }
-
     }
 
     public struct ShellSpec
