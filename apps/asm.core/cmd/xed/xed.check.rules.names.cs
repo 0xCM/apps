@@ -19,6 +19,21 @@ namespace Z0
             return true;
         }
 
+        void CheckInstDefs()
+        {
+            var a = "0x83 MOD[mm] MOD!=3 REG[0b010] RM[nnn] MODRM() SIMM8() LOCK=0";
+            InstParser.parse(a, out var body);
+            var dst = text.emitter();
+            for(var i=0; i<body.CellCount; i++)
+            {
+                ref readonly var cell = ref body[i];
+                if(i != 0)
+                    dst.Append(Chars.Space);
+                dst.Append(cell.Format());
+            }
+            Write(dst.Emit());
+        }
+
         static void collect(in CellTable src, out HashSet<FieldKind> left, out HashSet<FieldKind> right)
         {
             ref readonly var rows = ref src.Rows;

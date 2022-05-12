@@ -42,13 +42,14 @@ namespace Z0
             {
                 var name = names[i];
                 var i0 = offsets[i];
+                ref var target = ref seek(dst,i);
                 if(i < names.Count - 1)
                 {
                     var i1 = offsets[i+1];
-                    seek(dst,i) = new RuleTableBlock(kind, name, i0, core.segment(view, i0, i1 - 1).ToArray());
+                    target = new RuleTableBlock(kind, name, i0, core.segment(view, i0, i1 - 1).ToArray());
                 }
                 else
-                    seek(dst,i) = new RuleTableBlock(kind, name, i0, core.slice(view, i0).ToArray());
+                    target = new RuleTableBlock(kind, name, i0, core.slice(view, i0).ToArray());
             }
 
             return dst.Sort();

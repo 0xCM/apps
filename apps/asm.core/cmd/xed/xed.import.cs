@@ -5,6 +5,8 @@
 namespace Z0
 {
     using static XedRules;
+    using static XedDumpImporter;
+
     using static core;
 
     partial class AsmCoreCmd
@@ -12,7 +14,6 @@ namespace Z0
         [CmdOp("xed/import")]
         Outcome RunImport(CmdArgs args)
         {
-
             ImportXedDump();
             return true;
         }
@@ -20,8 +21,7 @@ namespace Z0
         void ImportXedDump()
         {
             var src = AppDb.Sources("intel").Path("xed-dump",FileKind.Txt);
-            EmitLineMap();
-            EmitStats();
+            XedDumpImporter.blocks(src, new DumpBlockReceiver(AppSvc));
 
             void EmitLineMap()
             {
