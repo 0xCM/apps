@@ -46,6 +46,12 @@ namespace Z0
             /// </summary>
             [Symbol("NT", "Specifies a NontermCall")]
             NT = K.NontermCall,
+
+            /// <summary>
+            ///  Specifies a <see cref='K.WidthVar'/> kind
+            /// </summary>
+            [Symbol("WV", "Specifies a width variable")]
+            WV = K.WidthVar,
         }
     }
 }

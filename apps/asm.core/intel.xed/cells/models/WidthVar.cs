@@ -10,93 +10,118 @@ namespace Z0
         [DataWidth(4)]
         public readonly record struct WidthVar
         {
-            public static bool parse(string src, out FieldKind field, out WidthVar v)
+            static string inside(string src)
             {
-                field = 0;
-                v = Empty;
                 var i = text.index(src,Chars.LBracket);
                 var j = text.index(src,Chars.RBracket);
+
+                if(i > 0 && j > i)
+                    return text.inside(src,i,j);
+                else
+                    return EmptyString;
+            }
+
+            public static bool test(string src)
+                => parse(src, out WidthVar _);
+
+            static bool parse(string src, out Label name)
+            {
+                var i = text.index(src,Chars.LBracket);
+                var j = text.index(src,Chars.RBracket);
+                name = 0;
                 if(i > 0 && j > i)
                 {
-                    XedParsers.parse(text.left(src,i), out field);
-                    parse(text.inside(src,i,j), out v);
+                    switch(text.left(src,i))
+                    {
+                        case "DISP":
+                            name = Label.DISP;
+                        break;
+                        case "UIMM0":
+                            name = Label.UIMM1;
+                        break;
+                        case "UIMM1":
+                            name = Label.UIMM0;
+                        break;
+                    }
                 }
-                return field != 0 && v.IsNonEmpty;
+                return name != 0;
             }
 
-            public static bool parse(string src, out WidthVar dst)
+            public static bool parse(string src, out WidthVar w)
             {
-                const byte DK = (byte)Kind.Disp;
-                const byte AD = (byte)Kind.MemDisp;
-                const byte IM = (byte)Kind.Imm;
-                dst = Empty;
-                switch(src)
+                const Kind DK = Kind.Disp;
+                const Kind AD = Kind.MemDisp;
+                const Kind IM = Kind.Imm;
+                parse(src, out Label name);
+                var content = text.ifempty(inside(src), src);
+                w = Empty;
+                switch(content)
                 {
                     case "d/8":
-                        dst = new (DK,0);
+                        w = new (name, DK, Width.W8);
                         break;
                     case "d/16":
-                        dst = new (DK,1);
+                        w = new (name, DK, Width.W16);
                         break;
                     case "d/32":
-                        dst = new (DK,2);
+                        w = new (name, DK, Width.W32);
                         break;
                     case "d/64":
-                        dst = new (DK,3);
+                        w = new (name, DK, Width.W64);
                         break;
                     case "a/8":
-                        dst = new (AD,0);
+                        w = new (name, AD, Width.W8);
                     break;
                     case "a/16":
-                        dst = new (AD,1);
+                        w = new (name, AD , Width.W16);
                     break;
                     case "a/32":
-                        dst = new (AD,2);
+                        w = new (name, AD, Width.W32);
                     break;
                     case "a/64":
-                        dst = new (AD,3);
+                        w = new (name, AD, Width.W64);
                     break;
                     case "i/8":
-                        dst = new (IM,0);
+                        w = new (name, IM, Width.W8);
                     break;
                     case "i/16":
-                        dst = new (IM,1);
+                        w = new (name, IM , Width.W16);
                     break;
                     case "i/32":
-                        dst = new (IM,2);
+                        w = new (name, IM, Width.W32);
                     break;
                     case "i/64":
-                        dst = new (IM,3);
+                        w = new (name, IM, Width.W64);
                     break;
                 }
 
-                return dst.IsNonEmpty;
+                return w.IsNonEmpty;
             }
 
-            readonly num4 Data;
+            readonly num6 Data;
 
             [MethodImpl(Inline)]
-            WidthVar(num2 kind, num2 width)
+            WidthVar(num6 src)
             {
-                Data = num.pack(kind,width);
+                Data = src;
             }
 
             [MethodImpl(Inline)]
-            public WidthVar(Kind kind, Width width)
+            public WidthVar(Label name, Kind kind, Width width)
             {
-                Data = num.pack((num2)(byte)kind, (num2)Pow2.log((byte)((byte)width/8)));
+                Data = num.pack((num2)(byte)kind, convert(width, out _), (num2)(byte)name);
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => Data == 0;
+                get => Data == z8;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => Data != 0;
+                get => Data != z8;
             }
 
             public Kind Sort
@@ -105,10 +130,22 @@ namespace Z0
                 get => (Kind)(byte)(num2)Data;
             }
 
+            static Width convert(num2 src, out Width dst)
+                => dst = (Width)(math.mul(Pow2.pow(src), (byte)8));
+
+            static num2 convert(Width src, out num2 dst)
+                => dst = (num2)(Pow2.log(math.div((byte)src, (byte)8)));
+
             public Width Value
             {
                 [MethodImpl(Inline)]
-                get => (Width)(Pow2.pow(Data >> 2) *8);
+                get => convert(((num2)(Data >> 2)), out _);
+            }
+
+            public Label Name
+            {
+                [MethodImpl(Inline)]
+                get => (Label)(byte)((Data >> 4) & num2.MaxValue);
             }
 
             public override int GetHashCode()
@@ -120,23 +157,25 @@ namespace Z0
 
             public string Format()
             {
-                var dst = EmptyString;
-                switch(Sort)
+                var content = EmptyString;
+                var name = Name;
+                var kind = Sort;
+                switch(kind)
                 {
                     case Kind.Disp:
                         switch(Value)
                         {
                             case Width.W8:
-                                dst = "d/8";
+                                content = "d/8";
                             break;
                             case Width.W16:
-                                dst = "d/16";
+                                content = "d/16";
                             break;
                             case Width.W32:
-                                dst = "d/32";
+                                content = "d/32";
                             break;
                             case Width.W64:
-                                dst = "d/64";
+                                content = "d/64";
                             break;
                         }
                     break;
@@ -144,16 +183,16 @@ namespace Z0
                         switch(Value)
                         {
                             case Width.W8:
-                                dst = "a/8";
+                                content = "a/8";
                             break;
                             case Width.W16:
-                                dst = "a/16";
+                                content = "a/16";
                             break;
                             case Width.W32:
-                                dst = "a/32";
+                                content = "a/32";
                             break;
                             case Width.W64:
-                                dst = "a/64";
+                                content = "a/64";
                             break;
                         }
                     break;
@@ -161,21 +200,23 @@ namespace Z0
                         switch(Value)
                         {
                             case Width.W8:
-                                dst = "i/8";
+                                content = "i/8";
                             break;
                             case Width.W16:
-                                dst = "i/16";
+                                content = "i/16";
                             break;
                             case Width.W32:
-                                dst = "i/32";
+                                content = "i/32";
                             break;
                             case Width.W64:
-                                dst = "i/64";
+                                content = "i/64";
                             break;
                         }
                     break;
                 }
-                return dst;
+
+                var result = name != 0 ?string.Format("{0}[{1}]", name, content) : content;
+                return result;
             }
 
             public override string ToString()
@@ -183,6 +224,13 @@ namespace Z0
 
             public static WidthVar Empty => default;
 
+            [MethodImpl(Inline)]
+            public static explicit operator byte(WidthVar src)
+                => src.Data;
+
+            [MethodImpl(Inline)]
+            public static explicit operator WidthVar(byte src)
+                => new WidthVar((num6)src);
 
             [DataWidth(num2.Width)]
             public enum Kind : byte
@@ -190,19 +238,44 @@ namespace Z0
                 None = 0,
 
                 /// <summary>
-                /// d/8, d/16, d/32, d/64
+                /// DISP[d/8]  | d/8
+                /// DISP[d/16] | d/16
+                /// DISP[d/32] | d/32
+                /// DISP[d/64] | d/64
                 /// </summary>
                 Disp,
 
                 /// <summary>
-                /// a/8, a/16, a/32, a/64
+                /// DISP[a/8]  | a/8
+                /// DISP[a/16] | a/16
+                /// DISP[a/32] | a/32
+                /// DISP[a/64] | a/64
                 /// </summary>
                 MemDisp,
 
                 /// <summary>
-                /// i/8, i/16, i/32, i/64
+                /// UIMM0[i/8]  | i/8
+                /// UIMM0[i/16] | i/16
+                /// UIMM0[i/32] | i/32
+                /// UIMM0[i/64] | i/64
+                /// UIMM1[i/8]  | i/8
+                /// UIMM1[i/16] | i/16
+                /// UIMM1[i/32] | i/32
+                /// UIMM1[i/64] | i/64
                 /// </summary>
                 Imm,
+            }
+
+            [DataWidth(num2.Width)]
+            public enum Label : byte
+            {
+                None = 0,
+
+                DISP,
+
+                UIMM0,
+
+                UIMM1
             }
 
             [DataWidth(num2.Width)]

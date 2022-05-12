@@ -121,6 +121,7 @@ namespace Z0
         public static bool IsExpr(string src)
             => IsEq(src) || IsNe(src);
 
+
         public static bool IsSeg(string src)
         {
             var i = text.index(src, Chars.LBracket);
@@ -397,6 +398,9 @@ namespace Z0
             dst = SegVar.parse(src);
             return true;
         }
+
+        public static bool parse(string src, out WidthVar v)
+            => WidthVar.parse(src, out v);
 
         public static bool parse(string src, out Hex16 dst)
         {

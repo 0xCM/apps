@@ -66,6 +66,14 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
+            public FieldValue(WidthVar src)
+            {
+                Field = 0;
+                Data = (byte)src;
+                CellKind = RuleCellKind.WidthVar;
+            }
+
+            [MethodImpl(Inline)]
             public FieldValue(FieldKind kind, ulong data, RuleCellKind ck = 0)
             {
                 Field = kind;
@@ -192,6 +200,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public SegVar ToSegVar()
                 => (SegVar)Data;
+
+            [MethodImpl(Inline)]
+            public WidthVar ToWidthVar()
+                => (WidthVar)Data;
 
             [MethodImpl(Inline)]
             public FieldSeg ToSegField()

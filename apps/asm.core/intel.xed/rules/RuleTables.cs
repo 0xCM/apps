@@ -107,7 +107,7 @@ namespace Z0
                             ref readonly var key = ref keys[k];
                             var size = XedFields.size(key.Field, key.CellType);
                             var result = false;
-                            var field = CellValue.Empty;
+                            //var field = CellValue.Empty;
                             var cell = RuleCell.Empty;
 
                             switch(info.Kind)
@@ -115,7 +115,7 @@ namespace Z0
                                 case CK.BitLiteral:
                                 {
                                     result = XedParsers.parse(data, out uint5 value);
-                                    field = value;
+                                    //field = value;
                                     cell = new RuleCell(key, value, size);
                                 }
                                 break;
@@ -123,7 +123,7 @@ namespace Z0
                                 case CK.IntVal:
                                 {
                                     result = XedParsers.parse(data, out byte value);
-                                    field = value;
+                                    // field = value;
                                     cell = new RuleCell(key, value, size);
                                 }
                                 break;
@@ -131,7 +131,7 @@ namespace Z0
                                 case CK.HexLiteral:
                                 {
                                     result = XedParsers.parse(data, out Hex8 value);
-                                    field = value;
+                                    //field = value;
                                     cell = new RuleCell(key, value, size);
                                 }
                                 break;
@@ -139,7 +139,7 @@ namespace Z0
                                 case CK.Keyword:
                                 {
                                     result = XedParsers.parse(data, out RuleKeyword value);
-                                    field = value;
+                                    // field = value;
                                     cell = new RuleCell(key, value, size);
                                 }
                                 break;
@@ -147,15 +147,21 @@ namespace Z0
                                 case CK.SegVar:
                                 {
                                     result = XedParsers.parse(data, out SegVar value);
-                                    field = value;
+                                    // field = value;
                                     cell = new RuleCell(key, value, size);
+                                }
+                                break;
+
+                                case CK.WidthVar:
+                                {
+                                    result = XedParsers.parse(data, out WidthVar wv);
+                                    cell = new RuleCell(key, wv, size);
                                 }
                                 break;
 
                                 case CK.NontermCall:
                                 {
                                     result = XedParsers.parse(data, out Nonterminal value);
-                                    field = value;
                                     cell = new RuleCell(key, value, size);
                                 }
                                 break;
@@ -170,7 +176,6 @@ namespace Z0
                                     else
                                     {
                                         result = RuleSpecs.ruleop(data, out RuleOperator value);
-                                        field = value;
                                         cell = new RuleCell(key, value, size);
                                     }
                                 }
@@ -179,14 +184,14 @@ namespace Z0
                                 case CK.FieldSeg:
                                 {
                                     result = seg(data, out FieldSeg value);
-                                    field = value;
+                                    //field = value;
                                     cell = new RuleCell(key, value, size);
                                 }
                                 break;
                                 case CK.InstSeg:
                                 {
                                     result = CellParser.parse(data, out InstSeg value);
-                                    field = value;
+                                    //field = value;
                                     cell = new RuleCell(key, value, size);
                                 }
                                 break;
@@ -198,8 +203,6 @@ namespace Z0
                                     result = CellParser.expr(data, out CellExpr value);
                                     if(value.Field == 0)
                                         term.warn(AppMsg.ParseFailure.Format(nameof(FieldKind), data));
-
-                                    field = value;
                                     cell = new RuleCell(key, value, size);
                                 }
                                 break;

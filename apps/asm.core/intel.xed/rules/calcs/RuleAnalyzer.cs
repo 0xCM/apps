@@ -115,6 +115,10 @@ namespace Z0
             => FieldBits.Define(FieldKind.INVALID, CK.SegVar, src);
 
         [MethodImpl(Inline)]
+        RuleField Run(WidthVar src)
+            => FieldBits.Define(FieldKind.INVALID, CK.WidthVar, src);
+
+        [MethodImpl(Inline)]
         RuleField Run(Nonterminal src)
             => FieldBits.Define(FieldKind.INVALID, CK.NontermCall, src);
 
@@ -208,6 +212,9 @@ namespace Z0
                     break;
                     case CK.SegVar:
                         dst = Run(src.Value.AsSegVar());
+                    break;
+                    case CK.WidthVar:
+                        dst = Run(src.Value.AsWidthVar());
                     break;
                     case CK.FieldSeg:
                     case CK.InstSeg:

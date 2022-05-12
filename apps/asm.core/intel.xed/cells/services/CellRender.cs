@@ -74,6 +74,11 @@ namespace Z0
                     XedParsers.parse(src.Data, out Nonterminal x);
                     dst = XedRender.format(x);
                 }
+                else if(src.IsWidthVar)
+                {
+                    XedParsers.parse(src.Data, out WidthVar v);
+                    dst = v.Format();
+                }
                 else
                 {
                     XedParsers.parse(src.Data, out SegVar x);

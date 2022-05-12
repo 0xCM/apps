@@ -54,8 +54,8 @@ namespace Z0
             [Symbol("NtX")]
             NontermExpr,
 
-            [Symbol("L(T)")]
-            TypedLit,
+            [Symbol("vW")]
+            WidthVar,
         }
    }
 }

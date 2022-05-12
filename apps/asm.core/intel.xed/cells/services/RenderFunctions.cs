@@ -120,6 +120,9 @@ namespace Z0
                             case CK.SegVar:
                                 Lookup[kind] = render<SegVar>(x => XedRender.format((SegVar)x));
                                 break;
+                            case CK.WidthVar:
+                                Lookup[kind] = render<WidthVar>(x => XedRender.format((WidthVar)x));
+                                break;
                             case CK.FieldSeg:
                                 Lookup[kind] = render<FieldSeg>(x => XedRender.format((FieldSeg)x));
                                 break;

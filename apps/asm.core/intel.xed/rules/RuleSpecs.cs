@@ -172,7 +172,7 @@ namespace Z0
                 var kind = FieldParser.kind(data);
                 var field = kind != 0 ? XedFields.field(kind) : FieldDef.Empty;
                 ruleop(data, out RuleOperator op);
-                dst = new (kind, @class(field.Field, data), op, field.DataType, field.Size);
+                dst = new (kind, celltype(field.Field, data), op, field.DataType, field.Size);
                 return true;
             }
 
@@ -288,13 +288,12 @@ namespace Z0
                 return specs.Select(x => (x.Sig,x)).ToDictionary();
             }
 
-            static RuleCellType @class(FieldKind field, string data)
+            static RuleCellType celltype(FieldKind field, string data)
             {
                 var result = false;
                 var input = RuleSpecs.normalize(data);
                 var dst = RuleCellType.Empty;
                 var isNonTerm = text.contains(input, "()");
-
                 if(XedParsers.IsExpr(input))
                 {
                     result = ruleop(input, out RuleOperator op);
@@ -330,10 +329,17 @@ namespace Z0
                         dst = CK.BitLiteral;
                     else if(XedParsers.IsImpl(input))
                         dst = CK.Operator;
+                    else if(XedParsers.parse(input, out WidthVar wv))
+                        dst = CK.WidthVar;
                     else if(XedParsers.IsSeg(input))
                     {
                         if(field != 0)
-                            dst = CK.InstSeg;
+                        {
+                            if(WidthVar.test(input))
+                                dst = CK.WidthVar;
+                            else
+                                dst = CK.InstSeg;
+                        }
                         else
                             Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCellType), input));
                     }

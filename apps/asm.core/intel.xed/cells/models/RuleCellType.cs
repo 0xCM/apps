@@ -46,6 +46,12 @@ namespace Z0
                 get => Kind == CK.BitLiteral;
             }
 
+            public bit IsWidthVar
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CK.WidthVar;
+            }
+
             public bit IsHexLit
             {
                 [MethodImpl(Inline)]

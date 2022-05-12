@@ -55,6 +55,12 @@ namespace Z0
                 get => Type.IsBitLit;
             }
 
+            public bool IsWidthVar
+            {
+                [MethodImpl(Inline)]
+                get => Type.IsWidthVar;
+            }
+
             public bool IsHexLit
             {
                 [MethodImpl(Inline)]

@@ -634,6 +634,8 @@ namespace Z0
                 return format(src.ToNonterm());
             else if(src.CellKind == RuleCellKind.SegVar)
                 return src.ToSegVar().Format();
+            else if(src.CellKind == RuleCellKind.WidthVar)
+                return src.ToWidthVar().Format();
             else if(src.CellKind == RuleCellKind.Keyword)
                 return format(src.ToKeyword());
             else if(src.CellKind == RuleCellKind.InstSeg)
@@ -643,7 +645,6 @@ namespace Z0
             else
                 return CellRender._format(src);
         }
-
 
         public static string format(in CellExpr src)
         {
@@ -663,6 +664,12 @@ namespace Z0
             }
             return dst;
         }
+
+        public static string format(SegVar src)
+            => src.Format();
+
+        public static string format(WidthVar src)
+            => src.Format();
 
         static string atomic(in CellValue src)
         {
@@ -699,6 +706,9 @@ namespace Z0
                 break;
                 case RuleCellKind.SegVar:
                     dst = src.AsSegVar().Format();
+                break;
+                case RuleCellKind.WidthVar:
+                    dst = src.AsWidthVar().Format();
                 break;
                 default:
                     Errors.Throw(AppMsg.UnhandledCase.Format(@class.ToString()));

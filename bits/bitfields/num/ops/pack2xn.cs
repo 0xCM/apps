@@ -15,6 +15,10 @@ namespace Z0
             => (num4)((uint)a | (uint)b << num2.Width);
 
         [MethodImpl(Inline), Op]
+        public static num6 pack(num2 a, num2 b, num2 c)
+            => (num6)((uint)a | (uint)b << num2.Width | (uint)c << num4.Width);
+
+        [MethodImpl(Inline), Op]
         public static num5 pack(num2 a, num3 b)
             => (num5)((uint)a | (uint)b << num2.Width);
 

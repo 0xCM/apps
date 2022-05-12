@@ -88,6 +88,15 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
+            public CellValue(WidthVar src)
+            {
+                var data = ByteBlock16.Empty;
+                data.A = (ulong)src;
+                data[ClassIndex] = (byte)CK.WidthVar;
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
             public CellValue(FieldSeg src)
             {
                 var data = ByteBlock16.Empty;
@@ -244,6 +253,10 @@ namespace Z0
                 => ref @as<SegVar>(Data.First);
 
             [MethodImpl(Inline)]
+            public ref readonly WidthVar AsWidthVar()
+                => ref @as<WidthVar>(Data.First);
+
+            [MethodImpl(Inline)]
             public ref readonly byte AsIntLit()
                 => ref @as<byte>(Data.First);
 
@@ -323,6 +336,10 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator CellValue(SegVar src)
+                => new CellValue(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator CellValue(WidthVar src)
                 => new CellValue(src);
 
             [MethodImpl(Inline)]

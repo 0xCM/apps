@@ -280,6 +280,26 @@ namespace Z0
             => (num5)(src.Value);
 
         [MethodImpl(Inline)]
+        public static implicit operator T(num1 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num2 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num3 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num4 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num5 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
         public static T operator + (T x, T y)
             => add(x,y);
 

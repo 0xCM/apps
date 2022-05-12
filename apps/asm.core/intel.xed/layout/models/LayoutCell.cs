@@ -27,6 +27,11 @@ namespace Z0
                         dst[0] = src.AsHexLit();
                         dst[15] = (byte)XL;
                     break;
+                    case K.WidthVar:
+                        dst[0] = (byte)src.AsWidthVar();
+                        dst[15] = (byte)WV;
+                    break;
+
                     case K.InstSeg:
                     {
                         var iseg = src.AsInstSeg();
@@ -73,6 +78,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public ref readonly uint5 AsBitLit()
                 => ref @as<uint5>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly WidthVar AsWidthVar()
+                => ref @as<WidthVar>(Data.First);
 
             [MethodImpl(Inline)]
             public ref readonly FieldSeg AsFieldSeg()
