@@ -74,6 +74,16 @@ namespace Z0
             _Views = new(this);
         }
 
+        void CalcCpuIdImports()
+        {
+            var path = Paths.CpuIdSource();
+            var data = path.ReadLines(true);
+            var parser = new CpuidParser();
+            parser.Run(data);
+            Views.Store(I.CpuIdImport, parser.Parsed.CpuIdRecords);
+            Views.Store(I.IsaImport, parser.Parsed.IsaRecords);
+        }
+
         static RuleTables CalcRuleTables()
         {
             var tables = new RuleTables();
@@ -85,9 +95,15 @@ namespace Z0
             return XedRules.tables(dst);
         }
 
+        void CalcInstDefs()
+            => Views.Store(I.InstDefs, InstDefParser.parse(Paths.DocSource(XedDocKind.EncInstDef)));
+
         void RunCalcs()
         {
-            Views.Store(I.InstDefs,InstDefParser.parse(Paths.DocSource(XedDocKind.EncInstDef)));
+            exec(PllExec,
+                CalcCpuIdImports,
+                CalcInstDefs
+                );
 
             exec(PllExec,
                 () => Views.Store(I.RuleTables, CalcRuleTables()),
@@ -120,17 +136,27 @@ namespace Z0
             _Alloc?.Dispose();
         }
 
+        public void ImportDatasets()
+        {
+            exec(PllExec,
+                () => Main.EmitChipMap(),
+                () => Main.ImportForms(),
+                () => Rules.Emit(Views.IsaImport),
+                () => Rules.Emit(Views.CpuIdImport),
+                () => EmitBroadcastDefs()
+            );
+        }
+
         public void EmitCatalog()
         {
             Paths.Targets().Delete();
+
             var tables = Views.RuleTables;
             var patterns = Views.Patterns;
             Emit(XedFields.Defs.Positioned);
             exec(PllExec,
-                () => Main.EmitChipMap(),
-                () => Main.ImportForms(),
+                ImportDatasets,
                 () => EmitRegmaps(),
-                () => EmitBroadcastDefs(),
                 () => Rules.EmitCatalog(patterns, tables)
                 );
 

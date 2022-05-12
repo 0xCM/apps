@@ -4,23 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    using T = num16;
-    using D = System.UInt16;
-    using N = N16;
+    using T = num17;
+    using D = System.UInt32;
+    using N = N17;
 
     [DataWidth(Width), ApiComplete]
-    public readonly struct num16 : inum<T>
+    public readonly struct num17 : inum<T>
     {
         public readonly D Value;
 
         [MethodImpl(Inline)]
-        public num16(D src)
+        public num17(D src)
             => Value = crop(src);
 
         [MethodImpl(Inline)]
-        num16(ulong src)
+        num17(ulong src)
             => Value = (D)src;
 
         byte inum.PackedWidth
@@ -30,13 +28,13 @@ namespace Z0
             => Value;
 
         /// <summary>
-        /// 65,535
+        /// 131,071
         /// </summary>
-        public const byte Width = 16;
+        public const byte Width = 17;
 
-        public const D MaxValue = Pow2.T16m1;
+        public const D MaxValue = Pow2.T17m1;
 
-        public const uint Mod = (D)MaxValue + 1;
+        public const D Mod = (D)MaxValue + 1;
 
         public static T Zero => default;
 
@@ -106,19 +104,19 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static T or(T a, T b)
-            => cover((D)(a.Value | b.Value));
+            => cover((D)((ulong)a.Value | (ulong)b.Value));
 
         [MethodImpl(Inline), Op]
         public static T and(T a, T b)
-            => cover((D)(a.Value & b.Value));
+            => cover((D)((ulong)a.Value & (ulong)b.Value));
 
         [MethodImpl(Inline), Op]
         public static T xor(T a, T b)
-            => cover((D)(a.Value ^ b.Value));
+            => cover((D)((ulong)a.Value ^ (ulong)b.Value));
 
         [MethodImpl(Inline), Op]
         public static T srl(T src, byte count)
-            => cover((D)(src.Value >> count));
+            => cover((D)((ulong)src.Value >> count));
 
         [MethodImpl(Inline), Op]
         public static T sll(T src, byte count)
@@ -133,34 +131,34 @@ namespace Z0
             => src.Value != 0 ? cover(math.dec(src.Value)) : Max;
 
         [MethodImpl(Inline), Op]
-        public static T reduce(T src)
-            => cover((ushort)(math.mod(src.Value, Mod)));
+        public static T reduce(D src)
+            => cover(math.mod(src, Mod));
 
         [MethodImpl(Inline), Op]
         public static T add(T a, T b)
         {
             var c = math.add(a.Value, b.Value);
-            return cover((ushort)(math.gteq(c, Mod) ? math.sub(c, Mod) : c));
+            return cover(math.gteq(c, Mod) ? math.sub(c, Mod) : c);
         }
 
         [MethodImpl(Inline), Op]
         public static T sub(T a, T b)
         {
             var c = math.sub((int)a.Value, (int)b.Value);
-            return cover((ushort)(c < 0 ? math.add((D)c, Mod) : (D)c));
+            return cover(c < 0 ? math.add((D)c, Mod) : (D)c);
         }
 
         [MethodImpl(Inline), Op]
         public static T mul(T a, T b)
-            => reduce(math.mul(a.Value, b.Value));
+            => reduce((D)math.mul((ulong)a.Value, (ulong)b.Value));
 
         [MethodImpl(Inline), Op]
         public static T div(T a, T b)
-            => cover(math.div(a.Value, b.Value));
+            => cover((D)math.div((ulong)a.Value, (ulong)b.Value));
 
         [MethodImpl(Inline)]
         public static T mod(T a, T b)
-            => cover(math.mod(a.Value, b.Value));
+            => cover((D)math.mod((ulong)a.Value, (ulong)b.Value));
 
         [Parser]
         public static bool parse(string src, out T dst)
@@ -176,16 +174,6 @@ namespace Z0
             var result = D.TryParse(src, out D x);
             dst = new T((D)(x & MaxValue));
             return result;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static ref Span<bit> bits(T src, out Span<bit> dst)
-        {
-            var storage = ByteBlock16.Empty;
-            dst = recover<bit>(storage.Bytes);
-            Bitfields.unpack16x1(src, dst);
-            dst = slice(dst, 0, Width);
-            return ref dst;
         }
 
         [MethodImpl(Inline)]
@@ -210,6 +198,12 @@ namespace Z0
             get => Value == MaxValue;
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => (uint)Value;
+        }
+
         [MethodImpl(Inline)]
         public string Format()
             => Value.ToString();
@@ -222,7 +216,7 @@ namespace Z0
             => Value.CompareTo(src.Value);
 
         public override int GetHashCode()
-            => (int)Value;
+            => Hash;
 
         public override bool Equals(object src)
             => src is T t && Equals(t);
@@ -237,15 +231,15 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator T(sbyte src)
-            => create((ushort)src);
+            => create((D)src);
 
         [MethodImpl(Inline)]
         public static explicit operator sbyte(T src)
             => (sbyte)src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator ushort(T src)
-            => src.Value;
+        public static explicit operator ushort(T src)
+            => (ushort)src.Value;
 
         [MethodImpl(Inline)]
         public static implicit operator T(ushort src)
@@ -253,14 +247,14 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator T(short src)
-            => cover((ushort)src);
+            => cover((D)src);
 
         [MethodImpl(Inline)]
         public static implicit operator uint(T src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static explicit operator T(uint src)
+        public static implicit operator T(uint src)
             => create(src);
 
         [MethodImpl(Inline)]
@@ -269,11 +263,15 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static explicit operator T(ulong src)
-            => create((ushort)src);
+            => create((D)src);
 
         [MethodImpl(Inline)]
         public static explicit operator bit(T src)
             => (bit)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num1(T src)
+            => (num1)src.Value;
 
         [MethodImpl(Inline)]
         public static explicit operator num2(T src)
@@ -332,8 +330,16 @@ namespace Z0
             => (num15)src.Value;
 
         [MethodImpl(Inline)]
+        public static explicit operator num16(T src)
+            => (num16)src.Value;
+
+        [MethodImpl(Inline)]
         public static implicit operator T(bit src)
             => (ushort)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num1 src)
+            => src.Value;
 
         [MethodImpl(Inline)]
         public static implicit operator T(num2 src)
@@ -389,6 +395,10 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator T(num15 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num16 src)
             => src.Value;
 
         [MethodImpl(Inline)]

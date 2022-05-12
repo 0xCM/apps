@@ -79,5 +79,17 @@ namespace Z0
             [MethodImpl(Inline)]
             get => ref Load<Index<InstOpCode>>(XedViewIndex.OpCodes);
         }
+
+        public ref readonly Index<IsaImport> IsaImport
+        {
+            [MethodImpl(Inline)]
+            get => ref Load<Index<IsaImport>>(XedViewIndex.IsaImport);
+        }
+
+        public ref readonly Index<CpuIdImport> CpuIdImport
+        {
+            [MethodImpl(Inline)]
+            get => ref Load<Index<CpuIdImport>>(XedViewIndex.CpuIdImport);
+        }
     }
 }

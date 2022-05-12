@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct NumRender : IRenderRegister
+    public readonly struct NumRender : IRenderRegistrar
     {
-        public static IRenderRegister Service => new NumRender();
+        public static IRenderRegistrar Service => new NumRender();
 
         public void RegisterFomatters()
         {

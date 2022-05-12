@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    /// <summary>
-    /// Identifies a bitfield specification
-    /// </summary>
-    public class BitFieldAttribute : Attribute
+    public interface IRenderRegistrar
     {
-
+        void RegisterFomatters();
     }
 }

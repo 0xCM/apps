@@ -47,12 +47,6 @@ namespace Z0
             Data = data;
         }
 
-        public ushort EntryCount
-        {
-            [MethodImpl(Inline)]
-            get => (ushort)Data.Count;
-        }
-
         [MethodImpl(Inline)]
         ref readonly asci32 Entry(ushort value)
             => ref Data[value];
@@ -62,6 +56,14 @@ namespace Z0
         {
             ref readonly var entry = ref Data[value];
             ref readonly var seg = ref @as<asci4>(slice(entry.View, HexValOffset, HexValLength));
+            return ref seg;
+        }
+
+        [MethodImpl(Inline)]
+        public ref readonly asci8 Chars(Base8 @base, ushort value)
+        {
+            ref readonly var entry = ref Data[value];
+            ref readonly var seg = ref @as<asci8>(slice(entry.View, HexValOffset, HexValLength));
             return ref seg;
         }
 

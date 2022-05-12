@@ -18,6 +18,12 @@ namespace Z0
             );
         }
 
+        public void Emit(Index<IsaImport> src)
+            => AppSvc.TableEmit(src, XedPaths.RefTable<IsaImport>());
+
+        public void Emit(Index<CpuIdImport> src)
+            => AppSvc.TableEmit(src, XedPaths.RefTable<CpuIdImport>());
+
         public void EmitInstGroups(Index<InstPattern> src)
             => EmitInstGroups(CalcInstGroups(src));
 

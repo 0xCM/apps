@@ -22,5 +22,9 @@ namespace Z0
         InstDefs,
 
         OpCodes,
+
+        IsaImport,
+
+        CpuIdImport
     }
 }
