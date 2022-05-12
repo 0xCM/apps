@@ -5,16 +5,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-    using static XedRules;
-    using static core;
     using Asm;
+
+    using static XedModels;
+
     using M = XedModels;
     using R = XedRules;
-
-    using B = System.ReadOnlySpan<bit>;
-    using U2 = System.ReadOnlySpan<uint2>;
-    using U3 = System.ReadOnlySpan<uint3>;
 
     partial class XedOperands
     {
@@ -65,7 +61,7 @@ namespace Z0
             public static ReadOnlySpan<M.InstIsa> InstIsa
             {
                 [MethodImpl(Inline), Op]
-                get => Bytes.sequential<M.InstIsa>(0, (byte)M.IsaKind.XSAVES);
+                get => Bytes.sequential<M.InstIsa>(0, (byte)M.InstIsaKind.XSAVES);
             }
 
             public static ReadOnlySpan<M.MaskReg> MaskReg

@@ -18,16 +18,22 @@ namespace Z0
 
             public const byte FieldCount = 6;
 
+            [Render(18)]
             public string SearchPattern;
 
+            [Render(18)]
             public InstClass InstClass;
 
+            [Render(64)]
             public InstForm InstForm;
 
-            public IsaKind Isa;
+            [Render(16)]
+            public InstIsaKind Isa;
 
+            [Render(16)]
             public ExtensionKind Extension;
 
+            [Render(1)]
             public InstAttribs Attributes;
 
             public static QueryResult Empty => default;

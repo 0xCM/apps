@@ -98,7 +98,7 @@ namespace Z0
 
         static EnumRender<CategoryKind> CategoryKinds = new();
 
-        static EnumRender<IsaKind> IsaKinds = new();
+        static EnumRender<InstIsaKind> IsaKinds = new();
 
         static EnumRender<OpType> OpTypes = new();
 
@@ -182,7 +182,7 @@ namespace Z0
         public static string format(XedRegFlag src)
             => RegFlags.Format(src);
 
-        public static string format(IsaKind src)
+        public static string format(InstIsaKind src)
             => src == 0 ? EmptyString : IsaKinds.Format(src);
 
         public static string format(ESRC src)

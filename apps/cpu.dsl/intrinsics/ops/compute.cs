@@ -5,7 +5,8 @@
 namespace Z0.Vdsl
 {
     using static core;
-    using static IntelDataTypes;
+
+    using static intel;
     using K = IntrinsicKind;
 
     partial struct Intrinsics

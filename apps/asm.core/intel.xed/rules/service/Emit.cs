@@ -33,6 +33,9 @@ namespace Z0
         public void EmitInstFields(Index<InstPattern> src)
             => AppSvc.TableEmit(Xed.Views.InstFields, XedPaths.InstTable<InstFieldRow>());
 
+        public void Emit(ReadOnlySpan<FormImport> src)
+            => AppSvc.TableEmit(src, XedPaths.FormCatalogPath());
+
         public void EmitPatternRecords(Index<InstPattern> src)
             => AppSvc.TableEmit(CalcPatternRecords(src), XedPaths.InstTable<InstPatternRecord>());
 

@@ -10,31 +10,39 @@ namespace Z0
     partial struct XedModels
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct FormImport : IComparable<FormImport>
+        public struct FormImport : IComparable<FormImport>, ISequential<FormImport>
         {
             public const string TableId = "xed.iform";
 
-            public const byte FieldCount = 7;
+            [Render(8)]
+            public ushort Seq;
 
-            public ushort Index;
-
+            [Render(60)]
             public InstForm InstForm;
 
+            [Render(20)]
             public InstClass InstClass;
 
+            [Render(16)]
             public CategoryKind Category;
 
-            public IsaKind IsaKind;
+            [Render(16)]
+            public InstIsaKind IsaKind;
 
+            [Render(16)]
             public ExtensionKind Extension;
 
+            [Render(1)]
             public InstAttribs Attributes;
 
-            public int CompareTo(FormImport src)
-                => Index.CompareTo(src.Index);
+            uint ISequential.Seq
+            {
+                get => Seq;
+                set => Seq = (ushort)value;
+            }
 
-            public static ReadOnlySpan<byte> RenderWidths
-                => new byte[FieldCount]{8,60,20,16,16,16,1};
+            public int CompareTo(FormImport src)
+                => Seq.CompareTo(src.Seq);
 
             public static FormImport Empty => default;
         }

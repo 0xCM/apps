@@ -13,6 +13,7 @@ namespace Z0
 
             public readonly IsaKinds Kinds;
 
+            [MethodImpl(Inline)]
             public ChipIsaKinds(ChipCode chip, IsaKinds kinds)
             {
                 Chip = chip;
@@ -25,12 +26,12 @@ namespace Z0
                 Kinds = new();
             }
 
-            public void Add(IsaKind kind)
+            public void Add(InstIsaKind kind)
             {
                 Kinds.Add(kind);
             }
 
-            public void Add(IsaKind[] kinds)
+            public void Add(InstIsaKind[] kinds)
             {
                 foreach(var k in kinds)
                     Kinds.Add(k);

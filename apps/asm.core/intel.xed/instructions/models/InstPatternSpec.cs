@@ -45,85 +45,85 @@ namespace Z0
                     switch(src.Extension.Kind)
                     {
                         case ExtensionKind._3DNOW:
-                            src.Isa = IsaKind._3DNOW;
+                            src.Isa = InstIsaKind._3DNOW;
                         break;
                         case ExtensionKind.INVPCID:
-                            src.Isa = IsaKind.INVPCID;
+                            src.Isa = InstIsaKind.INVPCID;
                         break;
                         case ExtensionKind.PCLMULQDQ:
-                            src.Isa = IsaKind.PCLMULQDQ;
+                            src.Isa = InstIsaKind.PCLMULQDQ;
                         break;
                         case ExtensionKind.FMA4:
-                            src.Isa = IsaKind.FMA4;
+                            src.Isa = InstIsaKind.FMA4;
                         break;
                         case ExtensionKind.F16C:
-                            src.Isa = IsaKind.F16C;
+                            src.Isa = InstIsaKind.F16C;
                         break;
                         case ExtensionKind.X87:
-                            src.Isa = IsaKind.X87;
+                            src.Isa = InstIsaKind.X87;
                         break;
                         case ExtensionKind.AES:
-                            src.Isa = IsaKind.AES;
+                            src.Isa = InstIsaKind.AES;
                         break;
                         case ExtensionKind.AVX:
-                            src.Isa = IsaKind.AVX;
+                            src.Isa = InstIsaKind.AVX;
                         break;
                         case ExtensionKind.AVX2:
-                            src.Isa = IsaKind.AVX2;
+                            src.Isa = InstIsaKind.AVX2;
                         break;
                         case ExtensionKind.BMI1:
-                            src.Isa = IsaKind.BMI1;
+                            src.Isa = InstIsaKind.BMI1;
                         break;
                         case ExtensionKind.BMI2:
-                            src.Isa = IsaKind.BMI2;
+                            src.Isa = InstIsaKind.BMI2;
                         break;
                         case ExtensionKind.LONGMODE:
-                            src.Isa = IsaKind.LONGMODE;
+                            src.Isa = InstIsaKind.LONGMODE;
                         break;
                         case ExtensionKind.CLZERO:
-                            src.Isa = IsaKind.CLZERO;
+                            src.Isa = InstIsaKind.CLZERO;
                         break;
                         case ExtensionKind.FMA:
-                            src.Isa = IsaKind.FMA;
+                            src.Isa = InstIsaKind.FMA;
                         break;
                         case ExtensionKind.LZCNT:
-                            src.Isa = IsaKind.LZCNT;
+                            src.Isa = InstIsaKind.LZCNT;
                             break;
                         case ExtensionKind.SSE:
-                            src.Isa = IsaKind.SSE;
+                            src.Isa = InstIsaKind.SSE;
                         break;
                         case ExtensionKind.SSE2:
-                            src.Isa = IsaKind.SSE2;
+                            src.Isa = InstIsaKind.SSE2;
                         break;
                         case ExtensionKind.SSE3:
-                            src.Isa = IsaKind.SSE3;
+                            src.Isa = InstIsaKind.SSE3;
                         break;
                         case ExtensionKind.SSE4:
-                            src.Isa = IsaKind.SSE4;
+                            src.Isa = InstIsaKind.SSE4;
                         break;
                         case ExtensionKind.VTX:
-                            src.Isa = IsaKind.VTX;
+                            src.Isa = InstIsaKind.VTX;
                         break;
                         case ExtensionKind.SSE4A:
-                            src.Isa = IsaKind.SSE4A;
+                            src.Isa = InstIsaKind.SSE4A;
                         break;
                         case ExtensionKind.SSSE3:
-                            src.Isa = IsaKind.SSSE3;
+                            src.Isa = InstIsaKind.SSSE3;
                         break;
                         case ExtensionKind.TBM:
-                            src.Isa = IsaKind.TBM;
+                            src.Isa = InstIsaKind.TBM;
                         break;
                         case ExtensionKind.XSAVE:
-                            src.Isa = IsaKind.XSAVE;
+                            src.Isa = InstIsaKind.XSAVE;
                         break;
                         case ExtensionKind.XSAVEC:
-                            src.Isa = IsaKind.XSAVEC;
+                            src.Isa = InstIsaKind.XSAVEC;
                         break;
                         case ExtensionKind.XSAVEOPT:
-                            src.Isa = IsaKind.XSAVEOPT;
+                            src.Isa = InstIsaKind.XSAVEOPT;
                         break;
                         case ExtensionKind.XSAVES:
-                            src.Isa = IsaKind.XSAVES;
+                            src.Isa = InstIsaKind.XSAVES;
                         break;
                         default:
                         {

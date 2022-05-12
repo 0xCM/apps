@@ -27,10 +27,6 @@ namespace Z0
         public static XedDataTypes XedDataTypes(this IWfRuntime wf)
             => Z0.XedDataTypes.create(wf);
 
-        [Op]
-        public static IntelXed IntelXed(this IWfRuntime wf)
-            => Asm.IntelXed.create(wf);
-
         public static XedDisasmSvc XedDisasm(this IWfRuntime wf)
             => Z0.XedDisasmSvc.create(wf);
 

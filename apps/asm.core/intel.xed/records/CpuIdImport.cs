@@ -15,17 +15,17 @@ namespace Z0
             public ushort Seq;
 
             [Render(64)]
-            public asci64 Definition;
+            public asci64 Spec;
 
             [Render(32)]
-            public asci32 Isa;
+            public asci32 IsaName;
 
             [MethodImpl(Inline)]
-            public CpuIdImport(asci32 isa, uint key, asci64 spec)
+            public CpuIdImport(ushort seq, asci64 spec, asci32 isa)
             {
-                Seq = 0;
-                Definition = spec;
-                Isa = isa;
+                Seq = seq;
+                Spec = spec;
+                IsaName = isa;
             }
 
             uint ISequential.Seq
@@ -36,7 +36,9 @@ namespace Z0
 
             public int CompareTo(CpuIdImport src)
             {
-                var result = Definition.CompareTo(src.Definition);
+                var result = Spec.CompareTo(src.Spec);
+                if(result == 0)
+                    result = IsaName.CompareTo(src.IsaName);
                 return result;
             }
         }

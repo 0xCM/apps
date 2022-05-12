@@ -13,6 +13,6 @@ namespace Z0
         /// <param name="substring">The substring to remove</param>
         [TextUtility]
         public static string Remove(this string s, string substring)
-            => s.Replace(substring, EmptyString);
+            => s?.Replace(substring, EmptyString) ?? EmptyString;
     }
 }

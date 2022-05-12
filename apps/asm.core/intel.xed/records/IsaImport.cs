@@ -26,6 +26,15 @@ namespace Z0
                 set => Seq = (byte)value;
             }
 
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => Seq;
+            }
+
+            public override int GetHashCode()
+                => Hash;
+
             public int CompareTo(IsaImport src)
                 => IsaName.CompareTo(src.IsaName);
         }

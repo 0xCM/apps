@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static XedRules;
+    using static XedModels;
     using static MemDb;
     using static core;
 
@@ -14,10 +15,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public ref readonly T Load<T>(XedViewKind index)
             => ref core.@as<object,T>(DataStores[(byte)index]);
-
-        // [MethodImpl(Inline)]
-        // internal void Store<T>(XedViewKind index, Func<T> f)
-        //     => core.@as<object,T>(DataStores[(byte)index]) = f();
 
         [MethodImpl(Inline)]
         internal void Store<T>(XedViewKind kind, T data)
@@ -37,7 +34,6 @@ namespace Z0
         internal XedViews(XedRuntime xed, Func<AppServices> svc)
         {
             _AppSvc = svc;
-            //Status = status;
             AppSvc = svc();
             Xed = xed;
             DataStores =  alloc<object>(32);
@@ -113,6 +109,18 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => ref Load<Index<TypeTableRow>>(XedViewKind.TypeTableRows);
+        }
+
+        public ref readonly ChipMap ChipMap
+        {
+            [MethodImpl(Inline)]
+            get => ref Load<ChipMap>(XedViewKind.ChipMap);
+        }
+
+        public ref readonly Index<FormImport> FormImports
+        {
+            [MethodImpl(Inline)]
+            get => ref Load<Index<FormImport>>(XedViewKind.FormImports);
         }
     }
 }

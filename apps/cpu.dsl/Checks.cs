@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Vdsl
 {
-    using static IntelDataTypes;
+
+    using static intel;
 
     using static core;
     using Expr;
@@ -27,11 +28,6 @@ namespace Z0.Vdsl
         [ApiHost("intrinsics.checks")]
         public partial class Checks : Service<Checks>
         {
-            [MethodImpl(Inline)]
-            public static CmpPred128<T> eq<T>(__m128i<T> a, __m128i<T> b)
-                where T : unmanaged
-                    => new CmpPred128<T>(CmpPredKind.EQ,a,b);
-
             readonly PageBank16x4x4 Buffer;
 
             readonly IPolyrand Random;
@@ -126,10 +122,7 @@ namespace Z0.Vdsl
                 var loops = recover<int,v3<int>>(src);
                 var count = mm256_cvtepi16_epi8_loop(loops);
                 for(var i=0; i<count; i++)
-                {
-                    ref readonly var loop = ref skip(loops,i);
-                    Write(loop.Format());
-                }
+                    Write(skip(loops,i).Format());
             }
 
             [Op]
@@ -140,18 +133,12 @@ namespace Z0.Vdsl
                 var block2 = Cells<int>(n2);
                 Random.Fill(block0);
                 block1.Clear();
-
                 var src = recover<__m256i<ushort>>(block0);
                 var dst = recover<__m128i<byte>>(block1);
                 var count = _mm256_cvtepi16_epi8_seq(src,dst);
                 var op = nameof(_mm256_cvtepi16_epi8_seq);
                 for(var i=0; i<count; i++)
-                {
-                    ref readonly var a = ref skip(src,i);
-                    ref readonly var x = ref skip(dst,i);
-                    var expr = string.Format("{0}:{1} -> {2}", op, a , x);
-                    Write(expr);
-                }
+                    Write(string.Format("{0}:{1} -> {2}", op, skip(src,i), skip(dst,i)));
             }
 
             public void Run()

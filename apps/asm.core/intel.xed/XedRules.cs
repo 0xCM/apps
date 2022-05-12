@@ -39,11 +39,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         Label Label(string src)
-            => Xed.Allocator.Label(src);
+            => Xed.Alloc.Label(src);
 
         [MethodImpl(Inline)]
         StringRef String(string src)
-            => Xed.Allocator.String(src);
+            => Xed.Alloc.String(src);
 
         public XedRules()
         {

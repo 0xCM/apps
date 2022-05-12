@@ -5,24 +5,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
-    [StructLayout(LayoutKind.Sequential, Pack=1), DataWidth(16)]
-    public readonly struct XedChipIsa
+    partial struct XedModels
     {
-        public readonly ChipCode Chip;
-
-        public readonly IsaKind Isa;
-
-        [MethodImpl(Inline)]
-        public XedChipIsa(ChipCode chip, IsaKind isa)
+        [StructLayout(LayoutKind.Sequential, Pack=1), DataWidth(16)]
+        public readonly struct ChipIsa
         {
-            Chip = chip;
-            Isa = isa;
-        }
+            public readonly ChipCode Chip;
 
-        [MethodImpl(Inline)]
-        public static implicit operator XedChipIsa((ChipCode chip, IsaKind isa) src)
-            => new XedChipIsa(src.chip, src.isa);
+            public readonly InstIsaKind Isa;
+
+            [MethodImpl(Inline)]
+            public ChipIsa(ChipCode chip, InstIsaKind isa)
+            {
+                Chip = chip;
+                Isa = isa;
+            }
+
+            [MethodImpl(Inline)]
+            public static implicit operator ChipIsa((ChipCode chip, InstIsaKind isa) src)
+                => new ChipIsa(src.chip, src.isa);
+        }
     }
 }

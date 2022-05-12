@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Vdsl
 {
-    using static IntelDataTypes;
     using Expr;
 
     using static core;
+    using static intel;
 
     partial struct Intrinsics
     {

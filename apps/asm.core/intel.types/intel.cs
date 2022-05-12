@@ -2,12 +2,18 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Vdsl
+namespace Z0
 {
-    using static IntelDataTypes;
-
-    partial struct Intrinsics
+    [ApiHost]
+    public partial class intel
     {
+        const NumericKind Closure = NumericKind.UnsignedInts;
+
+        [MethodImpl(Inline)]
+        public static CmpPred128<T> eq<T>(__m128i<T> a, __m128i<T> b)
+            where T : unmanaged
+                => new CmpPred128<T>(CmpPredKind.EQ,a,b);
+
         [MethodImpl(Inline), Closures(Closure)]
         public static __m128i<T> m128i<T>()
             where T : unmanaged
@@ -43,5 +49,5 @@ namespace Z0.Vdsl
 
         public static __m512i<byte> z512i(W8 w)
             => default;
-     }
+    }
 }

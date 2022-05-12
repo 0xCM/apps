@@ -11,8 +11,6 @@ namespace Z0
     {
         XedRuntime Xed;
 
-        IntelXed Main => Xed.Main;
-
         XedDocs XedDocs => Xed.Docs;
 
         XedPaths XedPaths => Xed.Paths;
@@ -25,11 +23,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         StringRef Ref(string src)
-            => Xed.Allocator.String(src);
+            => Xed.Alloc.String(src);
 
         [MethodImpl(Inline)]
         Label Label(string src)
-            => Xed.Allocator.Label(src);
+            => Xed.Alloc.Label(src);
 
         ref readonly RuleTables RuleTables
             => ref Xed.Views.RuleTables;

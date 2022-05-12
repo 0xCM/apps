@@ -6,8 +6,8 @@ namespace Z0.Vdsl
 {
     using Asm;
 
-    using static IntelDataTypes;
     using static BitNumbers;
+    using static intel;
 
     partial struct Intrinsics
     {

@@ -30,5 +30,9 @@ namespace Z0
         TypeTables,
 
         TypeTableRows,
+
+        ChipMap,
+
+        FormImports,
     }
 }

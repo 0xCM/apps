@@ -3,29 +3,28 @@
 // Author : Chris Moore
 // License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using System;
 
     using static core;
     using static XedModels;
 
-    partial class IntelXed
+    partial class XedMachines
     {
-        public ReadOnlySpan<QueryResult> QueryCatalog(string monic, bool emit = true)
+        public ReadOnlySpan<QueryResult> QueryForms(Index<FormImport> src, string monic, bool emit = true)
         {
             const string RenderPattern = "class:{0,-24} form:{1,-32} category:{2,-16} isa:{3,-16} ext:{4,-16} attribs:{5}";
-            var src = LoadFormImports();
             var types = Symbols.index<IFormType>();
             var cats = Symbols.index<CategoryKind>();
-            var _isa = Symbols.index<IsaKind>();
+            var _isa = Symbols.index<InstIsaKind>();
             var classes = Symbols.index<IClass>();
             var extensions = Symbols.index<ExtensionKind>();
             var count = src.Length;
             var dst = list<QueryResult>();
             for(var i=0; i<count; i++)
             {
-                ref readonly var form = ref skip(src,i);
+                ref readonly var form = ref src[i];
                 if(form.InstForm.IsNonEmpty)
                     continue;
 
@@ -45,10 +44,11 @@ namespace Z0.Asm
                     dst.Add(result);
                 }
             }
-            var path = ProjectDb.Subdir("xed/queries") + FS.file(monic, FS.Csv);
+
+            var path = XedPaths.Service.DbTargets() + FS.file(monic, FS.Csv);
             var records = dst.ViewDeposited();
             if(emit)
-                TableEmit(records, QueryResult.RenderWidths, path);
+                TableEmit(records, path);
             return records;
         }
     }

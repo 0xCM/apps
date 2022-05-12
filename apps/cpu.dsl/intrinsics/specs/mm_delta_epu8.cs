@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Vdsl
 {
-     using static IntelDataTypes;
+    using static intel;
 
     partial struct Intrinsics
     {

@@ -3,32 +3,16 @@
 // Author : Chris Moore
 // License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    using System.Linq;
-
     using static core;
     using static XedModels;
     using static XedModels.ChipCode;
 
-    partial class IntelXed
+    partial class XedRules
     {
-        public Outcome EmitIsaForms(string chip)
-        {
-            var codes = Symbols.index<ChipCode>();
-            var map = CalcChipMap();
-            if(!codes.Lookup(chip, out var code))
-                return (false, string.Format("Chip '{0}' not found", chip));
-            EmitIsaForms(map,code);
-            return true;
-        }
-
-        public void EmitIsaForms(ChipCode chip)
-            => EmitIsaForms(CalcChipMap(),chip);
-
         public void EmitIsaForms()
         {
-            var map = CalcChipMap();
             var codes = new ChipCode[]{
                 I86,
                 I186,
@@ -52,23 +36,29 @@ namespace Z0.Asm
                 SAPPHIRE_RAPIDS
                 };
 
-            iter(codes, code => EmitIsaForms(map,code), PllExec);
+            EmitIsaForms(codes);
         }
 
-        void EmitIsaForms(XedChipMap map, ChipCode code)
+        public void EmitIsaForms(ReadOnlySpan<ChipCode> codes)
         {
+            var map = Xed.Views.ChipMap;
+            iter(codes, code => EmitIsaForms(map, code), PllExec);
+        }
+
+        void EmitIsaForms(ChipMap map, ChipCode code)
+        {
+            var forms = Xed.Views.FormImports;
             var kinds = map[code].ToHashSet();
             var matches = list<FormImport>();
-            var forms = LoadFormImports();
-            var count = forms.Length;
+            var count = forms.Count;
             for(var i=0; i<count; i++)
             {
-                ref readonly var form = ref skip(forms,i);
+                ref readonly var form = ref forms[i];
                 if(kinds.Contains(form.IsaKind))
                     matches.Add(form);
             }
 
-            TableEmit(matches.ViewDeposited(), FormImport.RenderWidths, XedPaths.IsaFormsPath(code));
+            AppSvc.TableEmit(matches.ToArray().Sort().Resequence(), XedPaths.Service.IsaFormsPath(code));
         }
     }
 }

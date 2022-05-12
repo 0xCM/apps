@@ -35,6 +35,11 @@ namespace Z0
         /// <param name="match">The string to remove</param>
         [MethodImpl(Inline), Op]
         public static string remove(string src, string match)
-            => src.Replace(match, EmptyString);
+        {
+            if(src == null || match == null)
+                return src ?? EmptyString;
+            else
+                return src.Replace(match, EmptyString);
+        }
     }
 }

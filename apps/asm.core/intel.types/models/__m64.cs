@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial struct IntelDataTypes
+    partial class intel
     {
         public struct __m64<T>
             where T : unmanaged

@@ -10,10 +10,10 @@ namespace Z0
         [DataWidth(num8.Width)]
         public readonly record struct InstIsa : IComparable<InstIsa>
         {
-            public readonly IsaKind Kind;
+            public readonly InstIsaKind Kind;
 
             [MethodImpl(Inline)]
-            public InstIsa(IsaKind mode)
+            public InstIsa(InstIsaKind mode)
             {
                 Kind = mode;
             }
@@ -50,11 +50,11 @@ namespace Z0
                 => (int)Kind;
 
             [MethodImpl(Inline)]
-            public static implicit operator InstIsa(IsaKind src)
+            public static implicit operator InstIsa(InstIsaKind src)
                 => new InstIsa(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator IsaKind(InstIsa src)
+            public static implicit operator InstIsaKind(InstIsa src)
                 => src.Kind;
 
             public static InstIsa Empty => default;

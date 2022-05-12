@@ -5,9 +5,9 @@
 namespace Z0
 {
     using P = System.UInt64;
-    using D = IntelDataTypes.__uint64;
+    using D = intel.__uint64;
 
-    partial struct IntelDataTypes
+    partial class intel
     {
         public struct __uint64 : IEquatable<D>, IComparable<D>
         {

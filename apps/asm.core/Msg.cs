@@ -4,9 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+
     [ApiComplete]
     struct Msg
     {
+        public static MsgPattern<ChipCode> DuplicateChipCode => "Duplicate chip code {0}";
+
+        public static MsgPattern<string> ChipCodeNotFound => "Code for chip {0} not found";
+
         public static MsgPattern<ApiHostUri> ParsingHostMembers => "Parsing {0} members";
 
         public static MsgPattern<Count,ApiHostUri> ParsedHostMembers => "Parsed {0} {1} members";

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct IntelDataTypes
+    partial class intel
     {
         /// <summary>
         /// Constants for permute/shuffle.

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct IntelDataTypes
+    partial class intel
     {
         public struct __m256i<T>
             where T : unmanaged

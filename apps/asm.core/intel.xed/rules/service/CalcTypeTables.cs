@@ -13,48 +13,40 @@ namespace Z0
         static D Data<D>(XedViewKind index, Func<D> f)
             => data<D>(index.ToString(), f);
 
-        public Index<TypeTable> CalcTypeTables()
+        public static Index<TypeTableRow> CalcTypeTableRows(Index<TypeTable> src)
+            => src.SelectMany(x => x.Rows).Sort().Resequence();
+
+        public static Index<TypeTable> CalcTypeTables(IStringAllocProvider alloc)
         {
-            return Data(XedViewKind.TypeTables, Calc);
-            Index<TypeTable> Calc()
-            {
-                var types = MeasuredType.symbolic(typeof(XedDb).Assembly, "xed");
-                Index<TypeTable> tables = alloc<TypeTable>(types.Count);
-                for(var i=0; i<types.Count; i++)
-                    tables[i] = CalcTypeTable(types[i]);
-                return tables.Sort();
-            }
+            var types = MeasuredType.symbolic(typeof(XedDb).Assembly, "xed");
+            Index<TypeTable> tables = core.alloc<TypeTable>(types.Count);
+            for(var i=0; i<types.Count; i++)
+                tables[i] = CalcTypeTable(alloc, types[i]);
+            return tables.Sort();
         }
 
-        public Index<TypeTableRow> CalcTypeTableRows(Index<TypeTable> src)
-        {
-            return Data(XedViewKind.TypeTableRows, Calc);
-            Index<TypeTableRow> Calc()
-                => src.SelectMany(x => x.Rows).Sort().Resequence();
-        }
-
-        TypeTable CalcTypeTable(MeasuredType type)
+        static TypeTable CalcTypeTable(IStringAllocProvider alloc, MeasuredType type)
         {
             var symbols = Symbols.syminfo(type.Definition);
-            Index<TypeTableRow> rows = alloc<TypeTableRow>(symbols.Count);
+            Index<TypeTableRow> rows = core.alloc<TypeTableRow>(symbols.Count);
             for(var j=0; j<symbols.Count; j++)
             {
                 ref readonly var sym = ref symbols[j];
                 ref var row = ref rows[j];
                 row.Seq = DbObjects.NextSeq(ObjectKind.TypeTableRow);
-                row.TypeName = Label(type.Definition.Name);
-                row.LiteralName = Label(sym.Name.Text);
+                row.TypeName = alloc.Label(type.Definition.Name);
+                row.LiteralName = alloc.Label(sym.Name.Text);
                 row.Position = (ushort)sym.Index;
                 row.PackedWidth = (byte)type.Size.PackedWidth;
                 row.NativeWidth = (byte)type.Size.NativeWidth;
                 row.LiteralValue = sym.Value;
-                row.Symbol = Label(sym.Expr.Text);
-                row.Description = String(sym.Description.Text);
+                row.Symbol = alloc.Label(sym.Expr.Text);
+                row.Description = alloc.String(sym.Description.Text);
             }
 
             return new TypeTable(
                 DbObjects.NextSeq(ObjectKind.TypeTable),
-                Label(type.Definition.Name),
+                alloc.Label(type.Definition.Name),
                 type.Size,
                 rows
                 );

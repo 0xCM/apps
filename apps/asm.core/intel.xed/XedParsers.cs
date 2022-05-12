@@ -53,7 +53,7 @@ namespace Z0
 
         static readonly EnumParser<XedRegFlag> RegFlags = new();
 
-        static readonly EnumParser<IsaKind> IsaKinds = new();
+        static readonly EnumParser<InstIsaKind> IsaKinds = new();
 
         static readonly EnumParser<CategoryKind> CategoryKinds = new();
 
@@ -485,12 +485,12 @@ namespace Z0
             }
         }
 
-        public static bool parse(string src, out IsaKind dst)
+        public static bool parse(string src, out InstIsaKind dst)
             => IsaKinds.Parse(src, out dst);
 
         public static bool parse(string src, out InstIsa dst)
         {
-            if(parse(src, out IsaKind isa))
+            if(parse(src, out InstIsaKind isa))
             {
                 dst = isa;
                 return true;

@@ -26,13 +26,11 @@ namespace Z0
             get => AppData.get().PllExec();
         }
 
-        public IAllocProvider Allocator => _Alloc;
+        public IAllocProvider Alloc => _Alloc;
 
         public WsProjects Projects => Service(Wf.WsProjects);
 
         public new XedPaths Paths => Service(Wf.XedPaths);
-
-        public IntelXed Main => Service(() => Wf.IntelXed().With(this));
 
         public XedDocs Docs => Service(() => Wf.XedDocs().With(this));
 
@@ -75,15 +73,13 @@ namespace Z0
 
         public XedRuntime()
         {
-            _Alloc = Alloc.allocate();
+            _Alloc = Z0.Alloc.allocate();
         }
 
         void CalcCpuIdImports()
         {
-            var path = Paths.CpuIdSource();
-            var data = path.ReadLines();
-            var parser = new CpuidParser();
-            parser.Run(data.Where(text.nonempty));
+            var parser = new CpuIdImports();
+            parser.Run(Paths.CpuIdSource().ReadLines().Where(text.nonempty));
             Views.Store(I.CpuIdImport, parser.Parsed.CpuIdRecords);
             Views.Store(I.IsaImport, parser.Parsed.IsaRecords);
         }
@@ -104,8 +100,8 @@ namespace Z0
 
         void CalcTypeTables()
         {
-            Views.Store(I.TypeTables, Rules.CalcTypeTables());
-            Views.Store(I.TypeTableRows, Rules.CalcTypeTableRows(Views.TypeTables));
+            Views.Store(I.TypeTables, XedRules.CalcTypeTables(Alloc));
+            Views.Store(I.TypeTableRows, XedRules.CalcTypeTableRows(Views.TypeTables));
         }
 
         void RunCalcs()
@@ -113,7 +109,9 @@ namespace Z0
             exec(PllExec,
                 CalcTypeTables,
                 CalcCpuIdImports,
-                CalcInstDefs
+                CalcInstDefs,
+                () => Views.Store(I.FormImports, XedRules.FormImports.Calc()),
+                () => Views.Store(I.ChipMap, XedRules.CalcChipMap())
                 );
 
             exec(PllExec,
@@ -150,8 +148,9 @@ namespace Z0
         public void ImportDatasets()
         {
             exec(PllExec,
-                () => Main.EmitChipMap(),
-                () => Main.ImportForms(),
+                () => Rules.EmitChipMap(),
+                () => Rules.Emit(Views.FormImports),
+                () => Rules.EmitIsaForms(),
                 () => Rules.Emit(Views.IsaImport),
                 () => Rules.Emit(Views.CpuIdImport),
                 () => EmitBroadcastDefs()
@@ -184,7 +183,7 @@ namespace Z0
             src.Sort();
             var formatter = InstPageFormatter.create();
             Paths.InstPageRoot().Delete();
-            iter(formatter.GroupFormats(src), x =>  Emit(x), PllExec);
+            iter(formatter.GroupFormats(src), x => Emit(x), PllExec);
         }
 
         void Emit(in InstIsaFormat src)

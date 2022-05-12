@@ -233,9 +233,5 @@ namespace Z0
             Xed.EmitCatalog();
             return true;
         }
-
-        [CmdOp("xed/emit/isa")]
-        Outcome XedIsa(CmdArgs args)
-            => Main.EmitIsaForms(arg(args,0).Value);
    }
 }

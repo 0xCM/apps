@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static XedModels;
+
     partial class XedRules
     {
         public readonly struct InstIsaFormat : IComparable<InstIsaFormat>

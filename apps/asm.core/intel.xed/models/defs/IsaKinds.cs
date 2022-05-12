@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public class IsaKinds : HashSet<IsaKind>
+        public class IsaKinds : HashSet<InstIsaKind>
         {
             public static IsaKinds Empty => new();
         }

@@ -15,21 +15,23 @@ namespace Z0
         {
             public const string TableId = "xed.idata";
 
-            public const byte FieldCount = 6;
-
+            [Render(16)]
             public string Class;
 
+            [Render(16)]
             public string Extension;
 
+            [Render(24)]
             public string Category;
 
+            [Render(80)]
             public string Form;
 
+            [Render(24)]
             public string IsaSet;
 
+            [Render(1)]
             public string Attributes;
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{16,16,24,80,24,120};
         }
     }
 }

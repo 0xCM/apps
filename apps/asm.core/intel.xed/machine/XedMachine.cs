@@ -85,7 +85,7 @@ namespace Z0
         public ref Addressing Addressing()
             => ref State().Addressing();
 
-        XedMachine(XedRuntime xed)
+        internal XedMachine(XedRuntime xed)
         {
             Xed = xed;
             Wf = xed.Wf;
