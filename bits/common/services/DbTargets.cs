@@ -10,13 +10,19 @@ namespace Z0
 
         readonly string Scope;
 
-        [MethodImpl(Inline)]
         public DbTargets(FS.FolderPath root, string scope)
         {
-            Root = root;
-            Scope = scope;
+            if(text.empty(scope))
+            {
+                Scope = root.FolderName.Format();
+                Root = FS.dir(root.Format(PathSeparator.FS).Replace($"/{Scope}", EmptyString));
+            }
+            else
+            {
+                Root = root;
+                Scope = scope;
+            }
         }
-
 
         [MethodImpl(Inline)]
         public DbTargets Scoped(string scope)

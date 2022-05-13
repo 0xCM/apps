@@ -24,7 +24,7 @@ namespace Z0
         [CmdOp("cil/emit/opcodes")]
         Outcome EmitCilOpCodes(CmdArgs args)
         {
-            var dst = AppDb.LangTargets().Path("cil", "opcodes", FileKind.Csv);
+            var dst = AppDb.Targets("lang").Path("cil", "opcodes", FileKind.Csv);
             TableEmit(Cil.opcodes(), dst);
             return true;
         }

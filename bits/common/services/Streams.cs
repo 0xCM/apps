@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-     using System.IO;
+    using System.IO;
 
     using static core;
 

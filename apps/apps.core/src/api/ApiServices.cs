@@ -66,7 +66,7 @@ namespace Z0
             => SymHeaps.entries(src);
 
         public void Emit(SymHeap src)
-            => AppSvc.TableEmit(CalcHeapEntries(src), AppDb.Api().Table<SymHeapEntry>());
+            => AppSvc.TableEmit(CalcHeapEntries(src), AppDb.ApiTargets().Table<SymHeapEntry>());
 
         public void EmitBitMasks()
             => ApiBitMasks.Emit();
@@ -85,26 +85,26 @@ namespace Z0
                 });
 
         public void Emit(ReadOnlySpan<SymLiteralRow> src)
-            => AppSvc.TableEmit(src, AppDb.Api().Table<SymLiteralRow>());
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<SymLiteralRow>());
 
         public void Emit(ReadOnlySpan<CompilationLiteral> src)
-            => AppSvc.TableEmit(src, AppDb.Api().Table<CompilationLiteral>());
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<CompilationLiteral>());
 
         public void Emit(ReadOnlySpan<DataTypeRecord> src)
-            => AppSvc.TableEmit(src, AppDb.Api().Table<DataTypeRecord>());
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<DataTypeRecord>());
 
         public void Emit(ReadOnlySpan<ApiFlowSpec> src)
-            => AppSvc.TableEmit(src, AppDb.Api().Table<ApiFlowSpec>());
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ApiFlowSpec>());
 
         Index<ClrEnumRecord> CalcEnumRecords(Assembly src)
             => Enums.records(src);
 
         void Emit(ReadOnlySpan<ClrEnumRecord> src)
-            => TableEmit(src, AppDb.Api().Table<ClrEnumRecord>());
+            => TableEmit(src, AppDb.ApiTargets().Table<ClrEnumRecord>());
 
         public FS.FilePath EmitEnumList()
         {
-            var dst = AppDb.Api().Path("api.enums.types", FileKind.List);
+            var dst = AppDb.ApiTargets().Path("api.enums.types", FileKind.List);
             var src = ApiParts
                 .Where(x => !x.FullName.Contains("codegen."))
                 .Storage.Enums()

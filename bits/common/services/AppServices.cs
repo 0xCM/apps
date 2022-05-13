@@ -7,6 +7,28 @@ namespace Z0
 {
     using static core;
 
+    partial class XTend
+    {
+        public static void AppendLines<T>(this ITextEmitter dst, ReadOnlySpan<T> src)
+        {
+            for(var i=0; i<src.Length; i++)
+                dst.AppendLine(skip(src,i));
+        }
+
+        public static void AppendLines<T>(this ITextEmitter dst, Span<T> src)
+        {
+            for(var i=0; i<src.Length; i++)
+                dst.AppendLine(skip(src,i));
+        }
+    }
+
+    partial class XTend
+    {
+        public static AppServices AppServices(this IWfRuntime wf)
+            => Z0.AppServices.create(wf);
+
+    }
+
     public class AppServices : AppService<AppServices>
     {
         public new void Babble<T>(T content)
@@ -91,8 +113,6 @@ namespace Z0
             Write(string.Format("{0,-12} | {1}", "Emitted", dst.ToUri()), FlairKind.Ran);
             Write(string.Format("{0,-12} | {1}", "Description", msg), FlairKind.Ran);
         }
-
-            //=> WfEmit.FileEmit(src.ToString(), count, dst, encoding);
 
         public ExecToken FileEmit<T>(ReadOnlySpan<T> lines, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
         {

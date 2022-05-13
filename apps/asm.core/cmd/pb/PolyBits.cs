@@ -49,7 +49,6 @@ namespace Z0
             dst.WriteLine(Bitfields.bitstring(sib, data));
         }
 
-
         void CheckBitConverters()
         {
             var n = n8;

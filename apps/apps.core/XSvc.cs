@@ -21,21 +21,5 @@ namespace Z0
 
         public static Parsers Parsers(this IWfRuntime wf)
             => Z0.Parsers.create(wf);
-
-    }
-
-    partial class XTend
-    {
-        public static void AppendLines<T>(this ITextEmitter dst, ReadOnlySpan<T> src)
-        {
-            for(var i=0; i<src.Length; i++)
-                dst.AppendLine(skip(src,i));
-        }
-
-        public static void AppendLines<T>(this ITextEmitter dst, Span<T> src)
-        {
-            for(var i=0; i<src.Length; i++)
-                dst.AppendLine(skip(src,i));
-        }
     }
 }

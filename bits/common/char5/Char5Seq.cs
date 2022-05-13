@@ -172,5 +172,15 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Char5Seq(char c)
             => new Char5Seq(Char5.parse(c));
+
+        [MethodImpl(Inline)]
+        public static implicit operator Char5Seq(ReadOnlySpan<Char5> src)
+            => new Char5Seq(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Char5Seq(Span<Char5> src)
+            => new Char5Seq(src);
+
+        public static Char5Seq Empty => default;
     }
 }

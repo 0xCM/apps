@@ -23,7 +23,6 @@ namespace Z0
         public static C code(in asci64 src, Hex6Kind index)
             => (C)skip(bytes(src), (byte)index);
 
-
         /// <summary>
         /// Presents the source content as a bytespan
         /// </summary>
@@ -147,6 +146,5 @@ namespace Z0
             decode(src.Lo, ref dst);
             decode(src.Hi, ref seek(dst, 32));
         }
-
     }
 }

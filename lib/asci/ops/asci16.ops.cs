@@ -160,5 +160,23 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref byte @byte(in asci16 src)
             => ref @as<asci16,byte>(src);
+
+        /// <summary>
+        /// Counts the number of source characters that match the target
+        /// </summary>
+        /// <param name="src">The data source</param>
+        /// <param name="match">The character to match</param>
+        [MethodImpl(Inline), Op]
+        public static byte count(in asci16 src, AsciSymbol match)
+        {
+            var data = src.View;
+            var counter = z8;
+            for(var i=0; i< asci16.Size; i++)
+            {
+                if(skip(data,i) == match)
+                    counter++;
+            }
+            return counter;
+        }
     }
 }
