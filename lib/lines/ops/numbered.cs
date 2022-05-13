@@ -6,8 +6,6 @@ namespace Z0
 {
     using static core;
 
-    using SQ = SymbolicQuery;
-
     partial struct Lines
     {
         [MethodImpl(Inline), Op]

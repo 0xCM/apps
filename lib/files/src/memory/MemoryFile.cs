@@ -11,72 +11,65 @@ namespace Z0
 
     using api = MemoryFiles;
 
-    public unsafe readonly struct MemoryFile : IMemoryFile<MemoryFile>
+    public unsafe class MemoryFile : IMemoryFile<MemoryFile>
     {
-        readonly byte* Base;
+        byte* Base;
 
         readonly MemoryMappedFile File;
 
         readonly MemoryMappedViewAccessor Accessor;
 
+        readonly MemoryMappedViewStream ViewStream;
+
+        public readonly MemoryAddress BaseAddress;
+
         public FS.FilePath Path {get;}
 
-        public ByteSize Size {get;}
+        public readonly ulong Size;
 
-        internal MemoryFile(FS.FilePath path)
+        public readonly MemoryFileInfo Description;
+
+        internal MemoryFile(FS.FilePath path, bool stream = false)
         {
+            Require.invariant(path.IsNonEmpty);
             Path = path;
-            if(Path.IsNonEmpty)
-            {
-                File = MemoryMappedFile.CreateFromFile(path.Name, FileMode.Open, null, 0);
-                Accessor = File.CreateViewAccessor(0, 0);
-                var @base = default(byte*);
-                Accessor.SafeMemoryMappedViewHandle.AcquirePointer(ref @base);
-                Base = @base;
-                Size = (ulong)Path.Info.Length;
-            }
+            Size = (ulong)Path.Info.Length;
+            File = MemoryMappedFile.CreateFromFile(path.Name);
+            Accessor = File.CreateViewAccessor(0, Path.Info.Length);
+            Accessor.SafeMemoryMappedViewHandle.AcquirePointer(ref Base);
+            BaseAddress = Base;
+            Description = api.describe(this);
+            if(stream)
+                ViewStream = File.CreateViewStream();
             else
-            {
-                File = default;
-                Accessor = default;
-                Size = 0;
-                Base = null;
-            }
+                ViewStream = null;
         }
 
         public void Dispose()
         {
-            if(IsNonEmpty)
-            {
-                Accessor?.Dispose();
-                File?.Dispose();
-            }
+            Accessor?.Dispose();
+            File?.Dispose();
+            Stream?.Dispose();
         }
 
-        public MemoryAddress BaseAddress
+        public ref readonly MemoryMappedViewStream Stream
         {
             [MethodImpl(Inline)]
-            get => Base;
+            get => ref ViewStream;
         }
 
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline), Op]
-            get => Base == null;
-        }
+        MemoryFileInfo IMemoryFile.Description
+            => Description;
 
-        public bool IsNonEmpty
-        {
-            [MethodImpl(Inline), Op]
-            get => Base != null;
-        }
+        MemoryAddress IMemoryFile.BaseAddress
+            => BaseAddress;
+
+        ByteSize IMemoryFile.Size
+            => Size;
 
         [MethodImpl(Inline)]
         public MemorySeg Segment()
             => new MemorySeg(Base,Size);
-
-        public MemoryFileInfo Description
-            => api.describe(this);
 
         [MethodImpl(Inline)]
         public ReadOnlySpan<byte> View(ulong offset, ByteSize size)
@@ -120,22 +113,9 @@ namespace Z0
         public ReadOnlySpan<T> View<T>(uint tOffset, uint tCount)
             => api.view<T>(this,tOffset, tCount);
 
-        [MethodImpl(Inline), Op]
-        MemoryMappedViewStream Stream()
-            => File.CreateViewStream();
-
-        [MethodImpl(Inline), Op]
-        MemoryMappedViewStream Stream(MemoryAddress src, ByteSize size)
-            => File.CreateViewStream(src, (int)size);
 
         [MethodImpl(Inline)]
         public int CompareTo(MemoryFile src)
             => BaseAddress.CompareTo(src.BaseAddress);
-
-        public static MemoryFile Empty
-        {
-            [MethodImpl(Inline)]
-            get => new MemoryFile(FS.FilePath.Empty);
-        }
     }
 }

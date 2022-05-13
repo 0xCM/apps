@@ -4,16 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial class XTend
     {
-        public static MemoryFile MemoryMap(this FS.FilePath src)
-            => MemoryFiles.map(src);
+        public static MemoryFile MemoryMap(this FS.FilePath src, bool stream = false)
+            => MemoryFiles.map(src, stream);
     }
 
     [ApiHost]
@@ -43,7 +39,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static MemoryFile map(FS.FilePath path)
-            => new MemoryFile(path);
+            => new MemoryFile(path,false);
+
+        [MethodImpl(Inline), Op]
+        public static MemoryFile map(FS.FilePath path, bool stream)
+            => new MemoryFile(path, stream);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static unsafe ReadOnlySpan<T> view<T>(in MemoryFile file, MemoryAddress start, uint count)

@@ -4,10 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Lines
+    public struct TextDocStats
     {
-        [MethodImpl(Inline), Op]
-        public static LineRange range(uint min, uint max, TextLine[] data)
-            => new LineRange(min, max, data);
+        public long InputSize;
+
+        public long OutputSize;
+
+        public uint LineCount;
     }
 }

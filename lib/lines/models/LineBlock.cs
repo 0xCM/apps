@@ -4,15 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct LineBlock
     {
-        public TextArea Area {get;}
+        public readonly TextArea Area {get;}
 
-        public Index<TextLine> Lines {get;}
+        public readonly Index<TextLine> Lines;
 
         [MethodImpl(Inline)]
         public LineBlock(TextArea area, TextLine[] lines)

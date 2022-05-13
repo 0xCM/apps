@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    [DataType("line.number")]
     public readonly struct LineNumber : IComparable<LineNumber>, IEquatable<LineNumber>
     {
         [Parser]
@@ -26,7 +20,7 @@ namespace Z0
 
         public const string RenderPattern = "{0:D8}:";
 
-        public uint Value {get;}
+        public readonly uint Value;
 
         [MethodImpl(Inline)]
         public LineNumber(uint value)

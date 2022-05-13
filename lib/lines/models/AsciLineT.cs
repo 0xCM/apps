@@ -4,15 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct AsciLine<T>
         where T : unmanaged
     {
-        public LineNumber LineNumber {get;}
+        public readonly LineNumber LineNumber;
 
         readonly Index<T> Data;
 

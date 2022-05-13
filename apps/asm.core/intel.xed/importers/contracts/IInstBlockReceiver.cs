@@ -4,10 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Lines
+    partial class XedImport
     {
-        [MethodImpl(Inline), Op]
-        public static LineRange range(uint min, uint max, TextLine[] data)
-            => new LineRange(min, max, data);
+        [Free]
+        public interface IInstBlockReceiver
+        {
+            void Accept(in InstDataBlock block);
+        }
     }
 }

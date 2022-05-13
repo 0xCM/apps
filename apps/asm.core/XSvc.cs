@@ -17,6 +17,10 @@ namespace Z0
             => Asm.AsmCodeGen.create(wf);
 
         [Op]
+        public static XedImport XedImport(this IWfRuntime wf)
+            => Z0.XedImport.create(wf);
+
+        [Op]
         public static XedRules XedRules(this IWfRuntime wf)
             => Z0.XedRules.create(wf);
 

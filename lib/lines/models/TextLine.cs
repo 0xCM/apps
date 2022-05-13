@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Represents a line of text in the context of a line-oriented text data source
     /// </summary>
-    [DataType("line")]
+    [StructLayout(StructLayout,Pack=1)]
     public readonly struct TextLine : IComparable<TextLine>
     {
         /// <summary>
@@ -18,7 +18,7 @@ namespace Z0
         /// <summary>
         /// The line number of the data source from which the line was extracted
         /// </summary>
-        public LineNumber LineNumber {get;}
+        public readonly LineNumber LineNumber;
 
         /// <summary>
         /// The line content

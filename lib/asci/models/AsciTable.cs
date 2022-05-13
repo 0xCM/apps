@@ -27,9 +27,9 @@ namespace Z0
         public static ReadOnlySpan<AsciCode> codes(sbyte offset, sbyte count)
             => recover<AsciCode>(slice(AsciChars.CodeBytes, offset, count));
 
-        public AsciTableKind Kind {get;}
+        public readonly AsciTableKind Kind;
 
-        public sbyte Count {get;}
+        public readonly sbyte Count;
 
         readonly sbyte Min {get;}
 

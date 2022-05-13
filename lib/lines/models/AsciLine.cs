@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     public ref struct AsciLine
@@ -15,7 +11,7 @@ namespace Z0
         /// <summary>
         /// The 1-based document-relative line number
         /// </summary>
-        public LineNumber LineNumber {get;}
+        public readonly LineNumber LineNumber;
 
         /// <summary>
         /// The line content
