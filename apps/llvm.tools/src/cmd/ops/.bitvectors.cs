@@ -14,12 +14,22 @@ namespace Z0.llvm
         [CmdOp(".bitvectors")]
         Outcome EmitBitVectors(CmdArgs args)
         {
-            var result = Outcome.Success;
-            var dir = LlvmData.Tables(lists);
-            var src = @readonly(dir.Files(FS.Csv));
-            var dst = LlvmData.Subdir("bitvectors");
-            Wf.Bitfields().EmitBitVectors(src, dst);
-            return result;
+            // var result = Outcome.Success;
+            // var dir = LlvmData.Tables(lists);
+            // var src = @readonly(dir.Files(FS.Csv));
+            // var dst = LlvmData.Subdir("bitvectors");
+            GenBitVectors();
+            return true;
+        }
+
+        BitfieldServices Bitfields => Service(Wf.Bitfields);
+
+        void GenBitVectors()
+        {
+
+            // var src = AppDb.LlvmSources().Scoped("tables").Files(FileKind.Csv).Where(f => f.FileName.StartsWith("llvm.lists"));
+            // var dst = AppDb.LlvmTargets().Scoped("emitted").Targets("bitvectors");
+            // var models = Bitfields.EmitBitVectors(src, dst);
         }
     }
 }

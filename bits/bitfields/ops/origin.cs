@@ -4,10 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial struct Bitfields
     {
-        [MethodImpl(Inline), Op]
-        public static BitfieldModel model(BfOrigin origin, string name, Index<BitfieldSegModel> segs)
-            => new BitfieldModel(origin, name, segs, Bitfields.totalwidth(segs));
+        [MethodImpl(Inline)]
+        public static BfOrigin<T> origin<T>(T src)
+            => src;
     }
 }

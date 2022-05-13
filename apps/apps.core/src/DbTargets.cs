@@ -17,6 +17,7 @@ namespace Z0
             Scope = scope;
         }
 
+
         [MethodImpl(Inline)]
         public DbTargets Scoped(string scope)
             => new DbTargets(Targets(), scope);

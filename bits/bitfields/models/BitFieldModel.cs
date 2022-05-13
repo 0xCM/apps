@@ -9,9 +9,14 @@ namespace Z0
     public readonly struct BitfieldModel
     {
         /// <summary>
-        /// The bitfield name
+        /// Specifies the source of the model definition
         /// </summary>
-        public readonly text31 Name;
+        public readonly BfOrigin Origin;
+
+        /// <summary>
+        /// The model name
+        /// </summary>
+        public readonly string Name;
 
         /// <summary>
         /// The number of defined segments
@@ -26,8 +31,9 @@ namespace Z0
         readonly Index<BitfieldSegModel> Data;
 
         [MethodImpl(Inline)]
-        public BitfieldModel(text31 name, Index<BitfieldSegModel> segs, uint width)
+        public BitfieldModel(BfOrigin origin, string name, Index<BitfieldSegModel> segs, uint width)
         {
+            Origin = origin;
             Name = name;
             SegCount = segs.Count;
             TotalWidth = width;

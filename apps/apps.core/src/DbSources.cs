@@ -24,6 +24,19 @@ namespace Z0
         public FS.FolderPath Sources()
             => Root + FS.folder(Scope);
 
+        /// <summary>
+        /// Returns all files provided by the source
+        /// </summary>
+        public FS.Files Files()
+            => Sources().Files(true);
+
+        /// <summary>
+        /// Returns all source-provided files of specified kind
+        /// </summary>
+        /// <param name="kind">The kind</param>
+        public FS.Files Files(FileKind kind)
+            => Sources().Files(kind.Ext(), true);
+
         public FS.FolderPath Sources(string scope)
             => Sources() + FS.folder(scope);
 

@@ -20,6 +20,8 @@ namespace Z0.llvm
 
         LlvmDataEmitter DataEmitter => Service(Wf.LlvmDataEmitter);
 
+        AppDb AppDb => Service(Wf.AppDb);
+
         IProjectWs Data;
 
         ToolId SelectedTool;

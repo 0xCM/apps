@@ -76,7 +76,23 @@ namespace Z0
                 => WfEmit.TableEmit(src, widths, encoding, dst);
 
         public void FileEmit<T>(T src, Count count, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
-            => WfEmit.FileEmit(src.ToString(), count, dst, encoding);
+        {
+            var emitting = EmittingFile(dst);
+            using var emitter = dst.Writer(encoding);
+            emitter.Write(src.ToString());
+            EmittedFile(emitting, count);
+        }
+
+        public void FileEmit<T>(T src, string msg, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
+        {
+            Write(string.Format("{0,-12} | {1}", "Emitting", dst.ToUri()), FlairKind.Running);
+            using var emitter = dst.Writer(encoding);
+            emitter.Write(src.ToString());
+            Write(string.Format("{0,-12} | {1}", "Emitted", dst.ToUri()), FlairKind.Ran);
+            Write(string.Format("{0,-12} | {1}", "Description", msg), FlairKind.Ran);
+        }
+
+            //=> WfEmit.FileEmit(src.ToString(), count, dst, encoding);
 
         public ExecToken FileEmit<T>(ReadOnlySpan<T> lines, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Asci)
         {

@@ -49,7 +49,7 @@ namespace Z0
                 ref readonly var seg = ref segs[i];
                 var mask = seg.Mask;
                 var width = seg.SegWidth;
-                var bits = math.srl(seg.Mask.Apply(data), seg.MinIndex);
+                var bits = math.srl(seg.Mask.Apply(data), (byte)seg.MinIndex);
                 BitRender.render(bits, ref j, width, buffer);
                 seek(buffer, j++) = Chars.Space;
             }

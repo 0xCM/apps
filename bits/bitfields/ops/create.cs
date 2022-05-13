@@ -50,12 +50,12 @@ namespace Z0
                 => new Bitfield<T>(model,state);
 
         [MethodImpl(Inline)]
-        public static Bitfield<T,K> create<T,K>(text31 name, BitfieldSegModel<K>[] segs, T state)
+        public static Bitfield<T,K> create<T,K>(BfOrigin origin, string name, BitfieldSegModel<K>[] segs, T state)
             where T : unmanaged
             where K : unmanaged
         {
             var w = totalwidth(@readonly(segs));
-            var m = new BitfieldModel<K>(name, segs, w);
+            var m = new BitfieldModel<K>(origin, name, segs, w);
             return new Bitfield<T,K>(m,state);
         }
 

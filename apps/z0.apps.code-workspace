@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "..\\bits"
+		},
+		{
+			"path": "..\\test"
 		}
 	],
 	"settings": {}

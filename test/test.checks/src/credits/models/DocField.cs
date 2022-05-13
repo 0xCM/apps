@@ -13,7 +13,7 @@ namespace Z0
         /// <summary>
         /// Defines literals that isolate reference components
         /// </summary>
-        [BitField(0,47)]
+        [DataWidth(47)]
         public enum DocField : ulong
         {
             /// <summary>

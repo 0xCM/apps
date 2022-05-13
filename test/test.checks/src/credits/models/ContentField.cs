@@ -13,7 +13,7 @@ namespace Z0
         /// <summary>
         /// Defines literals that isolate content reference components
         /// </summary>
-        [BitField(0,15)]
+        [DataWidth(16)]
         public enum ContentField : ushort
         {
             /// <summary>

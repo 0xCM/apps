@@ -24,11 +24,8 @@ namespace Z0
         public DbTargets Targets(string scope)
             => new DbTargets(Root, scope);
 
-        public DbSources Sources()
-            => new DbSources(Root, "sources");
-
         public DbSources Sources(string scope)
-            => Sources().Scoped(scope);
+            => new DbSources(Root, scope);
 
         public DbTargets LangTargets()
             => Targets("lang");
@@ -53,6 +50,12 @@ namespace Z0
 
         public DbTargets Api()
             => Targets("api");
+
+        public DbTargets LlvmTargets()
+            => Targets("llvm");
+
+        public DbSources LlvmSources()
+            => Sources("llvm");
 
         public DbTargets Logs()
             => Targets("logs");

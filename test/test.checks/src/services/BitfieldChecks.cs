@@ -33,7 +33,7 @@ namespace Z0
                 );
 
             var s0 = (byte)0b01_11_10_11;
-            var field = Bitfields.create("test",segs,s0);
+            var field = Bitfields.create(Bitfields.origin(typeof(BF_A)), "test",segs,s0);
             var specs = field.SegSpecs;
             var count = specs.Length;
             var buffer = text.buffer();

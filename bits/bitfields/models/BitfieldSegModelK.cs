@@ -18,12 +18,12 @@ namespace Z0
         /// <summary>
         /// The index of the first bit in the segment
         /// </summary>
-        public readonly byte MinIndex;
+        public readonly uint MinIndex;
 
         /// <summary>
         /// The index of the last bit in the segment
         /// </summary>
-        public readonly byte MaxIndex;
+        public readonly uint MaxIndex;
 
         /// <summary>
         /// The segment width
@@ -36,12 +36,12 @@ namespace Z0
         public readonly BitMask Mask;
 
         [MethodImpl(Inline)]
-        public BitfieldSegModel(text31 name, byte min, byte max, BitMask mask)
+        public BitfieldSegModel(text31 name, uint min, uint max, BitMask mask)
         {
             SegName = name;
             MinIndex = min;
             MaxIndex = max;
-            SegWidth = bits.segwidth(MinIndex,MaxIndex);
+            SegWidth = (byte)bits.segwidth(MinIndex,MaxIndex);
             Mask = mask;
         }
 
