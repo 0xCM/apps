@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static BitfieldPatterns;
+    using static BfPatterns;
 
     public class BitfieldPattern
     {

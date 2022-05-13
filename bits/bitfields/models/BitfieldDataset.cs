@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = BitfieldDatasets;
+    using api = BfDatasets;
 
     public class BitfieldDataset
     {

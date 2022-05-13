@@ -6,7 +6,7 @@ namespace Z0
 {
     public interface IDataPattern
     {
-        MatchKind MatchKind {get;}
+
     }
 
     public interface IDataPattern<T> : IDataPattern

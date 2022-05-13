@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+    using Asm;
 
     partial class XTend
     {
@@ -20,6 +21,34 @@ namespace Z0
 
             CheckBitConverters();
         }
+
+        void CheckPatterns()
+        {
+
+        }
+
+
+        static void GenBitfield(ITextEmitter dst)
+        {
+            var modrm = Bitfields.pattern(ModRm.BitPattern);
+            dst.WriteLine(modrm.Descriptor);
+
+            var rex = Bitfields.pattern(RexPrefix.BitPattern);
+            dst.WriteLine(rex.Descriptor);
+
+            var vexC4 = Bitfields.pattern(VexPrefixC4.BitPattern);
+            dst.WriteLine(vexC4.Descriptor);
+
+            var vexC5 = Bitfields.pattern(VexPrefixC5.BitPattern);
+            dst.WriteLine(vexC5.Descriptor);
+
+            var sib = Bitfields.pattern(Sib.BitPattern);
+            dst.WriteLine(sib.Descriptor);
+
+            byte data = 0b10_110_011;
+            dst.WriteLine(Bitfields.bitstring(sib, data));
+        }
+
 
         void CheckBitConverters()
         {

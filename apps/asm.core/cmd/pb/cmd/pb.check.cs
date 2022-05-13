@@ -4,6 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
+    using static core;
     partial class AsmCoreCmd
     {
         PolyBits PolyBits => Service(Wf.PolyBits);
@@ -15,5 +18,7 @@ namespace Z0
             PolyBits.RunChecks();
             return true;
         }
+
+
     }
 }

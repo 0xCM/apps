@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [ApiHost]
-    public readonly struct BitfieldPatterns
+    public readonly struct BfPatterns
     {
         public static string name(string src)
             => text.replace(src, Chars.Space, Chars.Underscore);
@@ -38,27 +38,9 @@ namespace Z0
             return buffer;
         }
 
-        public static string bitstring(BitfieldPattern pattern, byte data)
-        {
-            var segs = pattern.Segments.Reverse();
-            var count = segs.Count;
-            Span<char> buffer = stackalloc char[pattern.Content.Length];
-            var j=0u;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var seg = ref segs[i];
-                var mask = seg.Mask;
-                var width = seg.SegWidth;
-                var bits = math.srl(seg.Mask.Apply(data), (byte)seg.MinIndex);
-                BitRender.render(bits, ref j, width, buffer);
-                seek(buffer, j++) = Chars.Space;
-            }
-            return new string(buffer);
-        }
-
         public static Index<BitMask> masks(BitfieldPattern src)
         {
-            var size = minsize(src.Content);
+            var size = BfPatterns.minsize(src.Content);
             var segs = src.Segments;
             var count = segs.Length;
             var dst = alloc<BitMask>(count);

@@ -12,7 +12,7 @@ namespace Z0
             where F : unmanaged, Enum
             where W : unmanaged, Enum
             where T : unmanaged
-                => new BitfieldDataset<F,T>(Symbols.index<F>().Kinds.ToArray(), BitfieldDatasets.widths<W>());
+                => new BitfieldDataset<F,T>(Symbols.index<F>().Kinds.ToArray(), BfDatasets.widths<W>());
 
         public static BitfieldDataset dataset(params byte[] widths)
             => new BitfieldDataset(widths, Chars.Space);

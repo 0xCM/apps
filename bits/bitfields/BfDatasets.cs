@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public readonly struct BitfieldDatasets
+    public readonly struct BfDatasets
     {
         public static BitfieldDataset<F,T> create<F,W,T>()
             where F : unmanaged, Enum

@@ -16,7 +16,7 @@ namespace Z0
             CheckRunner.run(pll,
                 (nameof(CheckBitNumbers), CheckBitNumbers),
                 (nameof(CheckBitReplication), CheckBitReplication),
-                (nameof(GenBitfield), GenBitfield),
+                //(nameof(GenBitfield), GenBitfield),
                 (nameof(CheckSegVars), CheckSegVars),
                 (nameof(CheckBv256), CheckBv256),
                 (nameof(CheckPack64x1), CheckPack64x1),
@@ -49,26 +49,26 @@ namespace Z0
             }
         }
 
-        static void GenBitfield(ITextEmitter log)
-        {
-            var modrm = BitfieldPatterns.infer(ModRm.BitPattern);
-            log.WriteLine(modrm.Descriptor);
+        // static void GenBitfield(ITextEmitter log)
+        // {
+        //     var modrm = BitfieldPatterns.infer(ModRm.BitPattern);
+        //     log.WriteLine(modrm.Descriptor);
 
-            var rex = BitfieldPatterns.infer(RexPrefix.BitPattern);
-            log.WriteLine(rex.Descriptor);
+        //     var rex = BitfieldPatterns.infer(RexPrefix.BitPattern);
+        //     log.WriteLine(rex.Descriptor);
 
-            var vexC4 = BitfieldPatterns.infer(VexPrefixC4.BitPattern);
-            log.WriteLine(vexC4.Descriptor);
+        //     var vexC4 = BitfieldPatterns.infer(VexPrefixC4.BitPattern);
+        //     log.WriteLine(vexC4.Descriptor);
 
-            var vexC5 = BitfieldPatterns.infer(VexPrefixC5.BitPattern);
-            log.WriteLine(vexC5.Descriptor);
+        //     var vexC5 = BitfieldPatterns.infer(VexPrefixC5.BitPattern);
+        //     log.WriteLine(vexC5.Descriptor);
 
-            var sib = BitfieldPatterns.infer(Sib.BitPattern);
-            log.WriteLine(sib.Descriptor);
+        //     var sib = BitfieldPatterns.infer(Sib.BitPattern);
+        //     log.WriteLine(sib.Descriptor);
 
-            byte data = 0b10_110_011;
-            log.WriteLine(BitfieldPatterns.bitstring(sib, data));
-        }
+        //     byte data = 0b10_110_011;
+        //     log.WriteLine(BitfieldPatterns.bitstring(sib, data));
+        // }
 
         static void CheckBitReplication(ITextEmitter log)
         {
