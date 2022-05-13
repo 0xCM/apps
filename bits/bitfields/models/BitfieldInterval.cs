@@ -10,7 +10,7 @@ namespace Z0
         /// <summary>
         /// The index of the first bit in the segment
         /// </summary>
-        public readonly byte Min;
+        public readonly uint Offset;
 
         /// <summary>
         /// The segment width
@@ -18,9 +18,9 @@ namespace Z0
         public readonly byte Width;
 
         [MethodImpl(Inline)]
-        public BitfieldInterval(byte offset, byte width)
+        public BitfieldInterval(uint offset, byte width)
         {
-            Min = offset;
+            Offset = offset;
             Width = width;
         }
 
@@ -30,11 +30,11 @@ namespace Z0
         public readonly byte Max
         {
             [MethodImpl(Inline)]
-            get => (byte)Bitfields.endpos(Min,Width);
+            get => (byte)Bitfields.endpos(Offset,Width);
         }
 
         public int CompareTo(BitfieldInterval src)
-            => Min.CompareTo(src.Min);
+            => Offset.CompareTo(src.Offset);
 
         public string Format()
             => Bitfields.format(this);

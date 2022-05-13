@@ -64,7 +64,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public readonly T Extract(byte min, byte max)
-            => api.extract(this, min, max);
+            => api.seg(this, min, max);
 
         [MethodImpl(Inline)]
         public void Store(T src, byte min, byte max)

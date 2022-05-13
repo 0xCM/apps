@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedImport
-    {
-        [Free]
-        public interface IInstBlockReceiver
-        {
-            void Accept(InstDataBlock block);
+    using static XedModels;
+    using static core;
 
-            void Emit();
-        }
+    public partial class XedRecords
+    {
+
+
     }
 }

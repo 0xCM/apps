@@ -5,8 +5,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules;
+    using static XedModels;
+
     public partial class XedOpCodes : AppService<XedOpCodes>
     {
+        XedRuntime Xed;
+
         static AppData AppData
         {
             [MethodImpl(Inline)]
@@ -17,6 +22,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => AppData.PllExec();
+        }
+
+        public XedOpCodes With(XedRuntime xed)
+        {
+            Xed = xed;
+            return this;
         }
     }
 }

@@ -26,16 +26,9 @@ namespace Z0.Asm
 
         WsProjects WsProjects => Service(Wf.WsProjects);
 
-        CliMemoryMap ResPack;
-
         IPolyrand Random;
 
         IWorkspace OutWs;
-
-        public AsmCmdService()
-        {
-            ResPack = CliMemoryMap.Empty;
-        }
 
         protected override void Initialized()
         {
@@ -45,21 +38,9 @@ namespace Z0.Asm
             State.Init(Wf, Ws);
         }
 
-        protected override void Disposing()
-        {
-            ResPack.Dispose();
-        }
-
         protected override void Error<T>(T content)
         {
             Write(content, FlairKind.Error);
-        }
-
-        CliMemoryMap OpenResPack()
-        {
-            if(ResPack.IsEmpty)
-                ResPack = CliMemoryMap.create(Db.Package("respack") + FS.file("z0.respack", FS.Dll));
-            return ResPack;
         }
 
         FS.FolderPath OutDir(string id)

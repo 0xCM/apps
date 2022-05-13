@@ -12,7 +12,7 @@ namespace Z0
         public void EmitCatalog(Index<InstPattern> patterns, RuleTables rules)
         {
             exec(PllExec,
-                () => TableEmit(OpCodeKinds.Instance.Records, OcMapKind.RenderWidths, XedPaths.Table<OcMapKind>()),
+                () => AppSvc.TableEmit(OpCodeKinds.Instance.Records, XedPaths.Table<OcMapKind>()),
                 EmitOpWidths,
                 () => Emit(CalcPointerWidths().View),
                 () => Emit(mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i))),

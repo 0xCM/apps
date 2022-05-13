@@ -89,8 +89,7 @@ namespace Z0
                                         }
                                         break;
                                         case P.Isa:
-                                            if(XedParsers.parse(text.despace(value), out InstIsa _isa))
-                                                isa = _isa;
+                                            XedParsers.parse(text.despace(value), out isa);
                                         break;
                                         case P.Operands:
                                         {

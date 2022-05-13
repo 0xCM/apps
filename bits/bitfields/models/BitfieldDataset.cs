@@ -6,57 +6,100 @@ namespace Z0
 {
     using api = BfDatasets;
 
-    public class BitfieldDataset
+    public class BitfieldDataset : IBitfieldDataset
     {
-        public readonly byte FieldCount;
+        public readonly uint FieldCount;
 
-        public readonly Index<byte> Offsets;
+        readonly Index<uint> _Offsets;
 
-        public readonly Index<byte> Widths;
+        readonly Index<byte> _Widths;
 
-        public readonly BitfieldIntervals Intervals;
+        readonly BitfieldIntervals _Intervals;
 
-        public readonly string RenderPattern;
+        readonly Index<BitMask> _Masks;
+
+        public readonly string BitrenderPattern;
 
         public BitfieldDataset(Index<byte> widths, char sep = Chars.Space)
         {
-            Widths = widths;
-            FieldCount = (byte)Widths.Count;
-            Offsets = api.offsets(Widths);
-            Intervals = api.intervals(Offsets,Widths);
-            RenderPattern = api.bitrender(Widths, sep);
+            FieldCount = widths.Count;
+            _Widths = widths;
+            _Offsets = api.offsets(widths);
+            _Intervals = api.intervals(_Offsets, widths);
+            _Masks = api.masks(this);
+            BitrenderPattern = api.bitrender(widths, sep);
         }
 
+        public ref readonly Index<uint> Offsets
+        {
+            [MethodImpl(Inline)]
+            get => ref _Offsets;
+        }
+
+        public ref readonly Index<byte> Widths
+        {
+            [MethodImpl(Inline)]
+            get => ref _Widths;
+        }
+
+        public ref readonly BitfieldIntervals Intervals
+        {
+            [MethodImpl(Inline)]
+            get => ref _Intervals;
+        }
+
+        public ref readonly Index<BitMask> Masks
+        {
+            [MethodImpl(Inline)]
+            get => ref _Masks;
+        }
+
+        uint IBitfieldDataset.FieldCount
+            => FieldCount;
+
+        string IBitfieldDataset.BitrenderPattern
+            => BitrenderPattern;
+
         [MethodImpl(Inline)]
-        public ref readonly byte Width(byte index)
+        public ref readonly byte Width(int index)
             => ref Widths[index];
 
         [MethodImpl(Inline)]
-        public ref readonly byte Offset(byte index)
+        public ref readonly byte Width(uint index)
+            => ref Widths[index];
+
+        [MethodImpl(Inline)]
+        public ref readonly uint Offset(int index)
             => ref Offsets[index];
 
         [MethodImpl(Inline)]
-        public ref readonly BitfieldInterval Interval(byte index)
+        public ref readonly uint Offset(uint index)
+            => ref Offsets[index];
+
+        [MethodImpl(Inline)]
+        public ref readonly BitMask Mask(int index)
+            => ref Masks[index];
+
+        [MethodImpl(Inline)]
+        public ref readonly BitMask Mask(uint index)
+            => ref Masks[index];
+
+        [MethodImpl(Inline)]
+        public ref readonly BitfieldInterval Interval(int index)
+            => ref Intervals[index];
+
+        [MethodImpl(Inline)]
+        public ref readonly BitfieldInterval Interval(uint index)
             => ref Intervals[index];
 
         [MethodImpl(Inline)]
         public T Extract<T>(byte index, T src)
             where T : unmanaged
-                => Bitfields.extract(src, Offset(index), Width(index));
+                => Bitfields.extract(src, (byte)Offset(index), Width(index));
 
         [MethodImpl(Inline)]
-        public Index<BitfieldCell<T>> Cells<T>(T src, Index<BitfieldCell<T>> dst)
+        public Index<BitfieldCell<T>> Store<T>(T src, Index<BitfieldCell<T>> dst)
             where T : unmanaged
-                => api.cells(this, src, dst);
-
-        [MethodImpl(Inline)]
-        public Index<T> Masks<T>(Index<T> dst)
-            where T : unmanaged
-                => api.masks(this, dst);
-
-        [MethodImpl(Inline)]
-        public T Mask<T>(byte index)
-            where T : unmanaged
-                => api.mask<T>(Offset(index), Width(index));
+                => api.store(this, src, dst);
     }
 }

@@ -15,26 +15,37 @@ namespace Z0
 
             public const byte FieldCount = 11;
 
+            [Render(ColWidths.Seq)]
             public uint Seq;
 
+            [Render(ColWidths.DocSeq)]
             public uint DocSeq;
 
+            [Render(ColWidths.OriginId)]
             public Hex32 OriginId;
 
+            [Render(ColWidths.OriginName)]
             public @string OriginName;
 
+            [Render(ColWidths.EncodingId)]
             public EncodingId EncodingId;
 
+            [Render(ColWidths.InstructionId)]
             public InstructionId InstructionId;
 
+            [Render(ColWidths.IP)]
             public MemoryAddress IP;
 
+            [Render(ColWidths.Size)]
             public byte Size;
 
+            [Render(ColWidths.Encoded)]
             public AsmHexCode Encoded;
 
+            [Render(ColWidths.AsmExpr)]
             public AsmExpr Asm;
 
+            [Render(1)]
             public FS.FileUri Source;
 
             public int CompareTo(SummaryRow src)

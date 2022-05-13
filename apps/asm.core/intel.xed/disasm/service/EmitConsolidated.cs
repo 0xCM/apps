@@ -44,9 +44,6 @@ namespace Z0
         }
 
         void EmitConsolidated(WsContext context, Index<SummaryRow> src)
-        {
-            var target = Projects.Table<SummaryRow>(context.Project);
-            TableEmit(resequence(src).View, SummaryRow.RenderWidths, target);
-        }
+            => AppSvc.TableEmit(resequence(src), Projects.Table<SummaryRow>(context.Project));
     }
 }

@@ -52,7 +52,7 @@ namespace Z0
             return buffer;
         }
 
-        public static void poc(InstPattern src, out InstOpCode dst)
+        static void poc(InstPattern src, out InstOpCode dst)
         {
             dst.Seq = 0u;
             dst.Index = z8;

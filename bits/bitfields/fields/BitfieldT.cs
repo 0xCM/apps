@@ -29,7 +29,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public T Extract(byte field)
-            => api.extract(this, field);
+            => api.seg(this, field);
 
         [MethodImpl(Inline)]
         public Bitfield<T> Store(byte field, T src)

@@ -27,41 +27,20 @@ namespace Z0
 
         public CliMemoryMap(FS.FilePath src)
         {
-            if(src.IsNonEmpty)
-            {
-                Source = MemoryFiles.map(src);
-                BasePointer = Source.BaseAddress.Pointer<byte>();
-                PE = new PEReader(BasePointer, (int)Source.Size);
-                ImageSize = Source.Size;
-                MD = PE.GetMetadataReader();
-                MtadataBlock = PE.GetMetadata();
-            }
-            else
-            {
-                Source = MemoryFile.Empty;
-            }
+            Require.invariant(src.IsNonEmpty);
+            Source = MemoryFiles.map(src);
+            BasePointer = Source.BaseAddress.Pointer<byte>();
+            PE = new PEReader(BasePointer, (int)Source.Size);
+            ImageSize = Source.Size;
+            MD = PE.GetMetadataReader();
+            MtadataBlock = PE.GetMetadata();
         }
 
 
         public void Dispose()
         {
-            if(IsNonEmpty)
-            {
-                PE.Dispose();
-                Source.Dispose();
-            }
-        }
-
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Source.IsEmpty;
-        }
-
-        public bool IsNonEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Source.IsNonEmpty;
+            PE.Dispose();
+            Source.Dispose();
         }
 
         public DirectoryEntry ResourceDirectory

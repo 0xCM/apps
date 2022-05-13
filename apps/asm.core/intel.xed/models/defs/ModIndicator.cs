@@ -14,7 +14,7 @@ namespace Z0
             public static ModIndicator mod(uint2 src)
                 => new ModIndicator((ModKind)(byte)src + 1);
 
-            public const byte Width = uint3.Width;
+            public const byte Width = num3.Width;
 
             public readonly ModKind Kind;
 
@@ -49,7 +49,7 @@ namespace Z0
             }
 
             public string Format()
-                => XedRender.format(Kind);
+                => Kind == 0 ? EmptyString : XedRender.format(Kind);
 
             public override string ToString()
                 => Format();
@@ -77,6 +77,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public static explicit operator uint(ModIndicator src)
                 => (uint)src.Kind;
+
+            [MethodImpl(Inline)]
+            public static explicit operator ModIndicator(uint src)
+                => new ModIndicator((ModKind)src);
 
             public static ModIndicator Empty => default;
         }

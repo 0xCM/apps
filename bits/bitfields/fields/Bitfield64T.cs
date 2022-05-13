@@ -28,7 +28,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public readonly T Extract(byte min, byte max)
-            => api.extract(this, min, max);
+            => api.seg(this, min, max);
 
         public Bitfield32<T> Lo
         {

@@ -14,17 +14,20 @@ namespace Z0
         public static BitIndicator defined(bit state)
             => new BitIndicator(state, 1);
 
-        public const byte Width = uint2.Width;
+        public const byte Width = num2.Width;
 
-        readonly byte Data;
+        readonly num2 Data;
+
+        [MethodImpl(Inline)]
+        public BitIndicator(num2 src)
+        {
+            Data = src;
+        }
 
         [MethodImpl(Inline)]
         public BitIndicator(bit state, bit enabled)
         {
-            var data = 0u;
-            data |= (uint)state;
-            data |= (uint)enabled << 1;
-            Data = (byte)data;
+            Data = num.pack(state,enabled);
         }
 
         public bit Value
@@ -62,6 +65,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public static explicit operator byte(BitIndicator src)
             => src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator BitIndicator(byte src)
+            => new BitIndicator(src);
 
         public static BitIndicator Empty => default;
     }

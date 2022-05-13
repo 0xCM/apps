@@ -9,6 +9,7 @@ namespace Z0
 
     public partial class XedForms : AppService<XedForms>
     {
+        XedPaths XedPaths => Service(() => XedPaths.Service);
 
         public static ref readonly Index<FormToken> tokens()
             => ref TokenData.TokenIndex;
@@ -24,8 +25,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public ref readonly Index<FormTokenKind> tokenkinds()
             => ref TokenData.Kinds;
-
-        XedPaths XedPaths => Service(() => XedPaths.Service);
 
         public void EmitTokens()
         {

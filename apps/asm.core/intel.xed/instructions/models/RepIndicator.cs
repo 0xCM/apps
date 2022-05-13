@@ -9,23 +9,23 @@ namespace Z0
 
     partial class XedRules
     {
-        [DataWidth(Width, 8)]
+        [DataWidth(Width)]
         public readonly record struct RepIndicator : IComparable<RepIndicator>
         {
-            public const byte Width = uint2.Width;
+            public const byte Width = num2.Width;
 
-            readonly byte Data;
+            readonly num2 Data;
 
             [MethodImpl(Inline)]
             public RepIndicator(RepPrefix src)
             {
-                Data = bit.enable((byte)src, 7);
+                Data = (byte)src;
             }
 
             public RepPrefix Kind
             {
                 [MethodImpl(Inline)]
-                get => (RepPrefix)bit.set(Data, 7, 0);
+                get => (RepPrefix)(byte)Data;
             }
 
             public bool IsEmpty

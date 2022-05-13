@@ -31,17 +31,17 @@ namespace Z0
         public readonly record struct RuleFieldBits
         {
             public static RuleFieldBits create()
-                => new RuleFieldBits(Bitfields.dataset<Segment>(FieldKindWidth, OperatorWidth, DataKindWidth, ValueWidth));
+                => new RuleFieldBits(BfDatasets.create<Segment>(FieldKindWidth, OperatorWidth, DataKindWidth, ValueWidth));
 
             [MethodImpl(Inline)]
             public RuleField Define<T>(FieldKind field, RuleOperator op, RuleCellKind kind, T value)
                 where T : unmanaged
             {
                 var dst = 0u;
-                dst |= (uint)field << Dataset.Offset(Segment.Field);
-                dst |= (uint)op << Dataset.Offset(Segment.Operator);
-                dst |= (uint)kind << Dataset.Offset(Segment.DataKind);
-                dst |= (uint)core.@as<T,ushort>(value) << Dataset.Offset(Segment.Value);
+                dst |= (uint)field << (int)Dataset.Offset(Segment.Field);
+                dst |= (uint)op << (int)Dataset.Offset(Segment.Operator);
+                dst |= (uint)kind << (int)Dataset.Offset(Segment.DataKind);
+                dst |= (uint)core.@as<T,ushort>(value) << (int)Dataset.Offset(Segment.Value);
                 return (RuleField)dst;
             }
 

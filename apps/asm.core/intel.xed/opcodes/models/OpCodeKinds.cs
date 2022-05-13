@@ -48,10 +48,9 @@ namespace Z0
                     ref var dst = ref seek(buffer, counter);
                     dst.Index = counter++;
                     dst.Class = OpCodeClass.Base;
-                    dst.Name = sym.Expr.Format();
+                    dst.Code = sym.Expr.Format();
                     dst.Number = (byte)sym.Kind;
-                    dst.Identity = (OpCodeKind)((ushort)dst.Class | ((ushort)sym.Kind << 8));
-                    dst.Pattern = sym.Description.Format();
+                    dst.Kind = (OpCodeKind)((ushort)dst.Class | ((ushort)sym.Kind << 8));
                 }
 
                 count = xop.Count;
@@ -61,10 +60,9 @@ namespace Z0
                     ref var dst = ref seek(buffer,counter);
                     dst.Index = counter++;
                     dst.Class = OpCodeClass.Xop;
-                    dst.Name = sym.Expr.Format();
+                    dst.Code = sym.Expr.Format();
                     dst.Number = (byte)sym.Kind;
-                    dst.Identity = (OpCodeKind)((ushort)dst.Class | ((ushort)sym.Kind << 8));
-                    dst.Pattern = sym.Description.Format();
+                    dst.Kind = (OpCodeKind)((ushort)dst.Class | ((ushort)sym.Kind << 8));
                 }
 
                 count = vex.Count;
@@ -74,10 +72,9 @@ namespace Z0
                     ref var dst = ref seek(buffer,counter);
                     dst.Index = counter++;
                     dst.Class = OpCodeClass.Vex;
-                    dst.Name = sym.Expr.Format();
+                    dst.Code = sym.Expr.Format();
                     dst.Number = (byte)sym.Kind;
-                    dst.Identity = (OpCodeKind)((ushort)dst.Class | ((ushort)sym.Kind << 8));
-                    dst.Pattern = sym.Description.Format();
+                    dst.Kind = (OpCodeKind)((ushort)dst.Class | ((ushort)sym.Kind << 8));
                 }
 
                 count = evex.Count;
@@ -87,10 +84,9 @@ namespace Z0
                     ref var dst = ref seek(buffer,counter);
                     dst.Index = counter++;
                     dst.Class = OpCodeClass.Evex;
-                    dst.Name = sym.Expr.Format();
+                    dst.Code = sym.Expr.Format();
                     dst.Number = (byte)sym.Kind;
-                    dst.Identity = (OpCodeKind)((ushort)dst.Class | ((ushort)sym.Kind << 8));
-                    dst.Pattern = sym.Description.Format();
+                    dst.Kind = (OpCodeKind)((ushort)dst.Class | ((ushort)sym.Kind << 8));
                 }
 
                 return buffer;

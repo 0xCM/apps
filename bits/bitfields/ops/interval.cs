@@ -9,7 +9,7 @@ namespace Z0
     partial struct Bitfields
     {
         [MethodImpl(Inline)]
-        public static BitfieldInterval interval(byte offset, byte width)
+        public static BitfieldInterval interval(uint offset, byte width)
             => new BitfieldInterval(offset,width);
     }
 }

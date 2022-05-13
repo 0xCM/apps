@@ -169,6 +169,7 @@ namespace Z0
             public TextDocStats Run(IInstBlockReceiver dst)
             {
                 distribute(dst);
+                dst.Emit();
                 return Stats;
             }
 
@@ -176,8 +177,8 @@ namespace Z0
                 => File.Dispose();
 
             [MethodImpl(Inline)]
-            public static InstDataBlock block(uint seq, InstForm form, ReadOnlySpan<string> lines)
-                => new InstDataBlock(seq, form, lines);
+            public static InstDataBlock block(uint seq, InstForm form, uint i0, uint i1, ReadOnlySpan<string> src)
+                => new InstDataBlock(seq, i0, i1, form, segment(src, i0, i1));
 
             void distribute(IInstBlockReceiver dst)
             {
@@ -192,7 +193,7 @@ namespace Z0
                     if(text.begins(line,FirstItemMarker))
                         i0 = i;
                     else if(text.begins(line, LastItemMarker))
-                        dst.Accept(block(seq++, form, segment(lines, i0, i)));
+                        dst.Accept(block(seq++, form, i0, i, lines));
                     else
                     {
                         var j = text.index(line,Marker);

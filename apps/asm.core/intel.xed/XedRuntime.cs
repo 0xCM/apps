@@ -40,6 +40,8 @@ namespace Z0
 
         public XedDisasmSvc XedDisasm => Service(() => Wf.XedDisasm().With(this));
 
+        public XedOpCodes XedOpCodes => Service(() => Wf.XedOpCodes().With(this));
+
         public AppDb AppDb => Service(Wf.AppDb);
 
         AppServices AppSvc => Service(Wf.AppServices);

@@ -87,9 +87,6 @@ namespace Z0
             return default;
         }
 
-        // public static Index<BitfieldMember> members(string src)
-        //     => BitfieldPatterns.segments(src).Select(s => Bitfields.member(BitfieldPatterns.minsize(src), s));
-
         public static Index<byte> segwidths(string src)
         {
             var fields = indicators(src);

@@ -103,8 +103,6 @@ namespace Z0
         public FS.FilePath ObjBlockPath(IProjectWs project)
             => Unserviced.Table<ObjBlock>(project);
 
-        public FS.FilePath XedDisasmSummary(IProjectWs project)
-            => Unserviced.ProjectDataFile(project, FileKind.XedSummaryDisasm);
 
         public FS.FolderPath XedDisasmDir(IProjectWs project)
             => Unserviced.XedDisasmDir(project);

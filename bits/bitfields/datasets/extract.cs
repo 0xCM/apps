@@ -6,11 +6,12 @@ namespace Z0
 {
     using static core;
 
-    partial struct Bitfields
+    partial struct BfDatasets
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static T extract<T>(T src, byte offset, byte width)
+        [MethodImpl(Inline)]
+        public static T extract<F,T>(BitfieldDataset<F,T> bitfield, F field, T src)
+            where F : unmanaged, Enum
             where T : unmanaged
-                => generic<T>(bits.extract(@bw64(src), offset, math.add(offset, width)));
+                => Bitfields.extract(src, (byte)bitfield.Offset(field), bitfield.Width(field));
     }
 }

@@ -6,91 +6,73 @@
 namespace Z0
 {
     using FW = XedModels.OpCodeId.FieldWidth;
-    using FO = XedModels.OpCodeId.FieldOffset;
-    using FK = XedModels.OpCodeId.FieldKind;
 
     using static XedRules;
     using static core;
 
     partial struct XedModels
     {
-        public record struct OpCodeId : IComparable<OpCodeId>
+        [StructLayout(StructLayout,Size=4)]
+        public readonly record struct OpCodeId : IComparable<OpCodeId>
         {
-            public readonly uint PatternId;
-
-            uint Data;
-
-            [MethodImpl(Inline)]
-            internal OpCodeId(ushort pid, uint data)
-            {
-                PatternId = pid;
-                Data = data;
-            }
-
-            public InstClass Class
+            public uint Data
             {
                 [MethodImpl(Inline)]
-                get => Extract<InstClass>(FK.Class);
-            }
-
-            public Hex8 Byte
-            {
-                [MethodImpl(Inline)]
-                get => Extract<Hex8>(FK.Byte);
-            }
-
-            public uint2 Lock
-            {
-                [MethodImpl(Inline)]
-                get => Extract<uint2>(FK.Lock);
-            }
-
-            public ModIndicator Mod
-            {
-                [MethodImpl(Inline)]
-                get => Extract<ModIndicator>(FK.Mod);
+                get => u32(this);
             }
 
             public int CompareTo(OpCodeId src)
                 => Data.CompareTo(src.Data);
 
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => Data;
+            }
+
+            public override int GetHashCode()
+                => Hash;
+
+            [MethodImpl(Inline)]
+            public bool Equals(OpCodeId src)
+                => Data == src.Data;
+
             [MethodImpl(Inline)]
             public static implicit operator uint(OpCodeId src)
                 => src.Data;
 
+            [MethodImpl(Inline)]
+            public static implicit operator OpCodeId(uint src)
+                => @as<uint,OpCodeId>(src);
+
             public static OpCodeId Empty => default;
 
-            [MethodImpl(Inline)]
-            public T Extract<T>(FieldKind field)
-                where T : unmanaged
-                    => core.@as<uint,T>(Bitfields.extract(Data, skip(Offsets, (byte)field), skip(Widths, (byte)field)));
-
-            public enum FieldKind : byte
+            public enum FieldName : byte
             {
-                Rep,
+                Rep = 0,
 
-                Rex,
+                Rex = 1,
 
-                Lock,
+                Lock = 2,
 
-                Mod,
+                Mod = 3,
 
-                Byte,
+                Hex8 = 4,
 
-                Class,
+                Class = 5,
             }
 
             public enum FieldWidth : byte
             {
                 Rep = RepIndicator.Width,
 
-                Rex = RexBit.Width,
+                Rex = BitIndicator.Width,
 
                 Lock = LockIndicator.Width,
 
                 Mod = ModIndicator.Width,
 
-                Byte = Hex8.Width,
+                Hex8 = Z0.Hex8.Width,
 
                 Class = InstClass.Width,
             }
@@ -107,30 +89,8 @@ namespace Z0
 
                 Byte = FW.Mod + Mod,
 
-                Class = FW.Byte + Byte,
+                Hex8 = FW.Hex8 + Byte,
             }
-
-            const byte FieldCount = 6;
-
-            public static ReadOnlySpan<byte> Widths => new byte[FieldCount]
-            {
-                (byte)FW.Rep,
-                (byte)FW.Rex,
-                (byte)FW.Lock,
-                (byte)FW.Mod,
-                (byte)FW.Byte,
-                (byte)FW.Class,
-            };
-
-            public static ReadOnlySpan<byte> Offsets => new byte[FieldCount]
-            {
-                (byte)FO.Rep,
-                (byte)FO.Rex,
-                (byte)FO.Lock,
-                (byte)FO.Mod,
-                (byte)FO.Byte,
-                (byte)FO.Class,
-            };
         }
     }
 }

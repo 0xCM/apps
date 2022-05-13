@@ -25,6 +25,10 @@ namespace Z0
             => Z0.XedRules.create(wf);
 
         [Op]
+        public static XedOpCodes XedOpCodes(this IWfRuntime wf)
+            => Z0.XedOpCodes.create(wf);
+
+        [Op]
         public static XedDb XedDb(this IWfRuntime wf)
             => Z0.XedDb.create(wf);
 

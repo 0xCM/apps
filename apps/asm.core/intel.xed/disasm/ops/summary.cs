@@ -29,25 +29,25 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var line = ref lines[i];
-                var summary = new SummaryRow();
-                result = DisasmParse.parse(line.Content, out summary.Encoded);
+                var record = new SummaryRow();
+                result = DisasmParse.parse(line.Content, out record.Encoded);
                 if(result.Fail)
                     return result;
 
-                summary.DocSeq = seq++;
-                summary.OriginId = origin.DocId;
-                summary.OriginName = origin.DocName;
-                result = DisasmParse.parse(line.Content, out summary.IP);
+                record.DocSeq = seq++;
+                record.OriginId = origin.DocId;
+                record.OriginName = origin.DocName;
+                result = DisasmParse.parse(line.Content, out record.IP);
                 if(result.Fail)
                     break;
 
-                summary.InstructionId = AsmBytes.instid(summary.OriginId, summary.IP, summary.Encoded.Bytes);
-                summary.EncodingId = summary.InstructionId.EncodingId;
-                summary.Asm = expr[i];
-                summary.Source = src.Path;
-                summary.Source = summary.Source.LineRef(line.LineNumber);
-                summary.Size = summary.Encoded.Size;
-                dst.Add(new (blocks[i], summary));
+                record.InstructionId = AsmBytes.instid(record.OriginId, record.IP, record.Encoded.Bytes);
+                record.EncodingId = record.InstructionId.EncodingId;
+                record.Asm = expr[i];
+                record.Source = src.Path;
+                record.Source = record.Source.LineRef(line.LineNumber);
+                record.Size = record.Encoded.Size;
+                dst.Add(new (blocks[i], record));
             }
 
             return result;

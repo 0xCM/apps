@@ -8,12 +8,12 @@ namespace Z0
 
     partial struct Bitfields
     {
-        public static string format<T>(BitfieldCell<T> src)
+        public static string format<T>(BitfieldCell<T> src, BitfieldInterval interval)
             where T : unmanaged
         {
             var dw = core.width<T>();
             var bits = EmptyString;
-            var offset = dw - src.Interval.Width;
+            var offset = dw - interval.Width;
             if(dw == 8)
                 bits = bw8(src.Value).FormatBits();
             if(dw == 16)
@@ -22,16 +22,15 @@ namespace Z0
                 bits = bw32(src.Value).FormatBits();
             else if(dw == 64)
                 bits = bw64(src.Value).FormatBits();
-
             return text.format(slice(span(bits), offset));
         }
 
         public static string format(BitfieldInterval src)
-            => string.Format("[{0}:{1}]", src.Max, src.Min);
+            => string.Format("[{0}:{1}]", src.Max, src.Offset);
 
         public static string format<F>(BitfieldInterval<F> src)
             where F : unmanaged
-                => string.Format("{0}:[{1}:{2}]", src.Field, src.Max, src.Min);
+                => string.Format("{0}:[{1}:{2}]", src.Field, src.Max, src.Offset);
 
         public static string format(ReadOnlySpan<BitfieldInterval> src)
         {

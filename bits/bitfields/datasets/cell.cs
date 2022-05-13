@@ -6,11 +6,11 @@ namespace Z0
 {
     using static core;
 
-    partial struct Bitfields
+    partial struct BfDatasets
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static T extract<T>(T src, byte offset, byte width)
+        [MethodImpl(Inline), Op, Closures(UnsignedInts)]
+        public static BitfieldCell<T> cell<T>(T src, uint offset, byte width)
             where T : unmanaged
-                => generic<T>(bits.extract(@bw64(src), offset, math.add(offset, width)));
+                => new BitfieldCell<T>(segment(src, offset, width));
     }
 }

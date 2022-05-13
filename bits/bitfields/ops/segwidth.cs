@@ -8,6 +8,10 @@ namespace Z0
 
     partial struct Bitfields
     {
+        [MethodImpl(Inline), Op]
+        public static byte segwidth(uint i0, uint i1)
+            => (byte)(i1 - i0 + 1);
+
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static byte segwidth<T>(in Bitfield256<T> src, byte index)
             where T : unmanaged

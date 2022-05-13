@@ -7,10 +7,13 @@ namespace Z0
     using static XedRules;
     using static XedRules.WidthVar;
     using static core;
+
     using L = XedRules.WidthVar.Label;
 
     partial class AsmCoreCmd
     {
+        XedImport XedImport => Service(Wf.XedImport);
+
         [CmdOp("xed/check/widths")]
         Outcome CheckWidths(CmdArgs args)
         {

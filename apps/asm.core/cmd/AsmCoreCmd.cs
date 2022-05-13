@@ -54,7 +54,7 @@ namespace Z0
         protected override WsProjects Projects
             => Xed.Projects;
 
-        AsmOpCodes OpCodes => Service(Wf.AsmOpCodes);
+        XedOpCodes OpCodes => Service(Wf.XedOpCodes);
 
         CsLang CsLang => Service(Wf.CsLang);
 

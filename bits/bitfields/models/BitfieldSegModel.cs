@@ -17,8 +17,8 @@ namespace Z0
         /// <summary>
         /// The segment name
         /// </summary>
-        [Render(12), Doc("The segment name")]
-        public text31 SegName;
+        [Render(16), Doc("The segment name")]
+        public asci32 SegName;
 
         /// <summary>
         /// The index of the first bit in the segment
@@ -45,7 +45,7 @@ namespace Z0
         public BitMask Mask;
 
         [MethodImpl(Inline)]
-        public BitfieldSegModel(text31 name, uint min, uint max, BitMask mask = default)
+        public BitfieldSegModel(asci32 name, uint min, uint max, BitMask mask = default)
         {
             SegName = name;
             MinPos = min;

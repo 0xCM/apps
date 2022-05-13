@@ -8,6 +8,10 @@ namespace Z0
     public struct BitMask
     {
         [MethodImpl(Inline), Op]
+        public static BitMask one(byte pos)
+            => bit.enable(0ul,pos);
+
+        [MethodImpl(Inline), Op]
         public static BitMask mask(ulong value)
             => new BitMask(value);
 

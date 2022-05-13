@@ -8,21 +8,16 @@ namespace Z0
     public record struct BitfieldCell<T>
         where T : unmanaged
     {
-        public readonly BitfieldInterval Interval;
-
         public T Value;
 
         [MethodImpl(Inline)]
-        public BitfieldCell(BitfieldInterval a, T value)
+        public BitfieldCell(T value)
         {
-            Interval = a;
             Value = value;
         }
 
-        public string Format()
-            => Bitfields.format(this);
-
-        public override string ToString()
-            => Format();
+        [MethodImpl(Inline)]
+        public static implicit operator BitfieldCell<T>(T src)
+            => new BitfieldCell<T>(src);
     }
 }

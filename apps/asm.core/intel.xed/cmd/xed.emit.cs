@@ -9,6 +9,22 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
+        [CmdOp("xed/emit/opcodes")]
+        Outcome EmitOpCodes(CmdArgs args)
+        {
+            var bitfield = XedOpCodes.bitfield();
+            var src = XedOpCodes.pack(bitfield, Xed.Views.OpCodes);
+            var formatter = XedOpCodes.formatter(bitfield);
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var ocid = ref src[i];
+                var text = formatter.Invoke(ocid);
+                Write(text);
+
+            }
+            return true;
+        }
+
         [CmdOp("xed/run")]
         Outcome RunXed(CmdArgs args)
         {

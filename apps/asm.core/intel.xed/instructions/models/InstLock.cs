@@ -11,13 +11,18 @@ namespace Z0
         {
             public const byte Width = num2.Width;
 
-            readonly byte Data;
+            readonly num2 Data;
+
+            [MethodImpl(Inline)]
+            public LockIndicator(num2 data)
+            {
+                Data = data;
+            }
 
             [MethodImpl(Inline)]
             public LockIndicator(bit lockable, bit locked)
             {
-                Data = (byte)lockable;
-                Data = bit.set(Data, 1, locked);
+                Data = num.pack(lockable,locked);
             }
 
             public bit Lockable
@@ -57,12 +62,21 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static explicit operator uint2(LockIndicator src)
-                => (uint2)src.Data;
+            public static explicit operator uint(LockIndicator src)
+                => src.Data;
 
             [MethodImpl(Inline)]
-            public static explicit operator uint(LockIndicator src)
-                => (uint)src.Data;
+            public static explicit operator LockIndicator(uint src)
+                => new LockIndicator((num2)src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator LockIndicator(num2 src)
+                => new LockIndicator(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator num2(LockIndicator src)
+                => src.Data;
+
         }
     }
 }

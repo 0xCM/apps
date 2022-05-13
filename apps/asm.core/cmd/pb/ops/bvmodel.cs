@@ -18,11 +18,7 @@ namespace Z0
             var count = src.Length;
             var segs = alloc<BitfieldSegModel>(count);
             for(var i=0u; i<count; i++)
-            {
-                ref readonly var item = ref skip(src,i);
-                seek(segs,i) = Bitfields.segmodel(item.Value.Format(), i, i);
-            }
-
+                seek(segs,i) = Bitfields.segmodel(skip(src,i).Value.Format(), i, i, i >= 64 ? BitMask.one(63) : BitMask.one((byte)i));
             return Bitfields.model(origin, name, segs);
         }
     }

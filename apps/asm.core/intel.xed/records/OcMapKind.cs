@@ -10,26 +10,25 @@ namespace Z0
 
     partial class XedRules
     {
-        [Record(TableId)]
+        [StructLayout(StructLayout,Pack=1), Record(TableId)]
         public struct OcMapKind
         {
             public const string TableId = "xed.opcode.kind";
 
-            public const byte FieldCount = 6;
-
+            [Render(6)]
             public byte Index;
 
+            [Render(12)]
             public OpCodeClass Class;
 
-            public text15 Name;
+            [Render(6)]
+            public asci2 Code;
 
+            [Render(6)]
             public byte Number;
 
-            public OpCodeKind Identity;
-
-            public text15 Pattern;
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,12,16,12,16,1};
+            [Render(16)]
+            public OpCodeKind Kind;
         }
     }
 }
