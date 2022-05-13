@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static core;
 
     [ApiHost]
@@ -22,8 +19,8 @@ namespace Z0
         {
             const string Pattern = "{0} -b {1} -p intel {2} > {3}";
             var id = src.FileName.WithoutExtension.Format();
-            var body = Cmd.expr(string.Format(Pattern, (byte)mode, "ndisasm", src.Format(PathSeparator.BS), dst.Format(PathSeparator.BS)));
-            return Cmd.script(id, body);
+            var body = CmdScript.expr(string.Format(Pattern, (byte)mode, "ndisasm", src.Format(PathSeparator.BS), dst.Format(PathSeparator.BS)));
+            return CmdScript.create(id, body);
         }
 
         public FS.FilePath Job(Bitness mode, FS.FolderPath input, FS.FolderPath output)

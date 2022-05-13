@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public class TextVar<K> : ITextVar<K>
         where K : ITextVarExpr
     {

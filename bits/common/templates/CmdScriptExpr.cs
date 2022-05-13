@@ -4,13 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct CmdScriptExpr
     {
+        [MethodImpl(Inline), Op]
+        public static CmdScriptExpr create(CmdScriptPattern pattern)
+            => new CmdScriptExpr(pattern);
+
+        [MethodImpl(Inline), Op]
+        public static CmdScriptExpr create(CmdScriptPattern pattern, CmdVars vars)
+            => new CmdScriptExpr(pattern, vars);
+
         public CmdScriptPattern Pattern {get;}
 
         public CmdVars Variables {get;}

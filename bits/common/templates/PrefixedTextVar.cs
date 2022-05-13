@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-
     public class PrefixedTextVar : ITextVar
     {
         public string Value;

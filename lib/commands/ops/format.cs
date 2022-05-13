@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct Cmd
@@ -28,14 +24,14 @@ namespace Z0
             }
         }
 
-        [Op]
-        public static CmdScriptExpr format(in CmdScriptPattern pattern, params CmdVar[] args)
-            => string.Format(pattern.Pattern, args.Select(a => a.Format()));
+        // [Op]
+        // public static CmdScriptExpr format(in CmdScriptPattern pattern, params CmdVar[] args)
+        //     => string.Format(pattern.Pattern, args.Select(a => a.Format()));
 
-        [Op, Closures(Closure)]
-        public static CmdScriptExpr format<K>(in CmdScriptPattern pattern, params CmdVar<K>[] args)
-            where K : unmanaged
-                => string.Format(pattern.Pattern, args.Select(a => a.Format()));
+        // [Op, Closures(Closure)]
+        // public static CmdScriptExpr format<K>(in CmdScriptPattern pattern, params CmdVar<K>[] args)
+        //     where K : unmanaged
+        //         => string.Format(pattern.Pattern, args.Select(a => a.Format()));
 
         public static string format<K,T>(in ToolCmdArgs<K,T> src)
             where K : unmanaged

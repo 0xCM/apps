@@ -4,13 +4,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     public class CmdScriptPattern : TextTemplate
     {
+        public static CmdScriptExpr format(in CmdScriptPattern pattern, params CmdVar[] args)
+            => string.Format(pattern.Pattern, args.Select(a => a.Format()));
+
+        public static CmdScriptExpr format<K>(in CmdScriptPattern pattern, params CmdVar<K>[] args)
+            where K : unmanaged
+                => string.Format(pattern.Pattern, args.Select(a => a.Format()));
+
+        /// <summary>
+        /// Creates a <see cref='ToolCmdArgs'/> collection from an array
+        /// </summary>
+        /// <param name="src">The source array</param>
+        [MethodImpl(Inline), Op]
+        public static CmdScriptPattern create(string name, string content)
+            => new CmdScriptPattern(name, content);
+
         public Name Name {get;}
 
         [MethodImpl(Inline)]

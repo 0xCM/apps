@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public class TextTemplateExpr : TextExpr
+   public class TextTemplateExpr : TextExpr
     {
         [MethodImpl(Inline), Op]
         public static TextTemplateExpr init(string body)

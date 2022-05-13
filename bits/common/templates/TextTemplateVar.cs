@@ -4,21 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public class TextTemplateVar : ITextVar
     {
+        public static TextTemplateVar define(string name)
+            => new TextTemplateVar(name);
+
         public static VarKind Kind = new VarKind();
 
         public sealed class VarKind : TextVarExpr<VarKind>
         {
-            public override Fence<char> Fence => ((char)SymNotKind.Lt, (char)SymNotKind.Gt);
+            public override Fence<char> Fence
+                => ((char)SymNotKind.Lt, (char)SymNotKind.Gt);
         }
-
-        public static TextTemplateVar define(string name)
-            => new TextTemplateVar(name);
 
         public readonly VarSymbol Name;
 
