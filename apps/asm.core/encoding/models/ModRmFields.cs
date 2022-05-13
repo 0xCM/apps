@@ -7,7 +7,7 @@ namespace Z0.Asm
     [LiteralProvider]
     public readonly struct ModRmFields
     {
-        public const string BitPattern = "mm rrr nnn";
+        public const string PatternSpec = "mm rrr nnn";
 
         public const byte RenderWidth = 10;
 

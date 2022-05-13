@@ -4,13 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class PbCmd
+    public partial class PbCmd : WsCmdService<PbCmd>
     {
-        [CmdOp("pb/check")]
-        Outcome CheckBits(CmdArgs args)
-        {
-            PolyBits.RunChecks();
-            return true;
-        }
+        PolyBits PolyBits => Service(Wf.PolyBits);
     }
 }

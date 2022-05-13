@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [ApiHost]
-    public readonly struct BfPatterns
+    public readonly struct BitPatterns
     {
         public static Char5Seq seg<S>(in S src, byte offset)
             where S : struct, IAsciSeq<S>
@@ -32,8 +32,8 @@ namespace Z0
         public static string name(string src)
             => text.replace(src, Chars.Space, Chars.Underscore);
 
-        public static BitfieldPattern infer(string src)
-            => new BitfieldPattern(src);
+        public static BitPattern infer(BfOrigin origin, string src)
+            => new BitPattern(origin, src);
 
         public static Index<string> indicators(string src)
             => text.split(src, Chars.Space).Reverse();
@@ -58,9 +58,9 @@ namespace Z0
             return buffer;
         }
 
-        public static Index<BitMask> masks(BitfieldPattern src)
+        public static Index<BitMask> masks(BitPattern src)
         {
-            var size = BfPatterns.minsize(src.Content);
+            var size = BitPatterns.minsize(src.Content);
             var segs = src.Segments;
             var count = segs.Length;
             var dst = alloc<BitMask>(count);
@@ -125,6 +125,6 @@ namespace Z0
         }
 
         public static string descriptor(string src)
-            => string.Format("{0}:{1} := {2}", name(src), datatype(src).DisplayName(), text.intersperse(segments(src).Reverse().Select(x => x.Format()), Chars.Space));
+            => text.intersperse(segments(src).Reverse().Select(x => x.Format()), Chars.Space);
     }
 }

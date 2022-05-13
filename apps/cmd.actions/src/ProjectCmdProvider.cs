@@ -9,6 +9,9 @@ namespace Z0
 
     public partial class ProjectCmdProvider : AppCmdProvider<ProjectCmdProvider>, IProjectProvider
     {
+        public static ProjectCmdProvider inject(ICmdRunner src, ProjectCmdProvider dst)
+            => dst.With(src);
+
         AppDb AppDb => Service(Wf.AppDb);
 
         public ProjectCmdProvider()

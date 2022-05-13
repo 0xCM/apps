@@ -118,20 +118,20 @@ namespace Z0
 
         public static string format(in BitfieldSegModel src)
         {
-            if(src.SegWidth == 1)
+            if(src.Width == 1)
             {
                 return string.Format("{0}[{1}]:{2}",
                     src.SegName,
-                    src.MinIndex,
-                    src.SegWidth
+                    src.MinPos,
+                    src.Width
                     );
             }
             else
                 return string.Format("{0}[{1}:{2}]:{3}",
                     src.SegName,
-                    Bitfields.endpos(src.MinIndex, src.SegWidth),
-                    src.MinIndex,
-                    src.SegWidth
+                    Bitfields.endpos(src.MinPos, src.Width),
+                    src.MinPos,
+                    src.Width
                     );
         }
 

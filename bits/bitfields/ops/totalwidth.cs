@@ -22,7 +22,7 @@ namespace Z0
             var count = src.Length;
             var w = 0u;
             for(var i=0; i<count; i++)
-                w += skip(src,i).SegWidth;
+                w += skip(src,i).Width;
             return w;
         }
 

@@ -6,6 +6,7 @@ namespace Z0
 {
     using api = Bitfields;
 
+    [StructLayout(StructLayout,Pack=1), Doc("Describes a bitfield")]
     public readonly struct BitfieldModel
     {
         /// <summary>
@@ -64,15 +65,15 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public uint SegWidth(uint i)
-            => Seg(i).SegWidth;
+            => Seg(i).Width;
 
         [MethodImpl(Inline)]
         public uint SegStart(uint i)
-            => Seg(i).MinIndex;
+            => Seg(i).MinPos;
 
         [MethodImpl(Inline)]
         public uint SegEnd(uint i)
-            => Seg(i).SegWidth;
+            => Seg(i).Width;
 
         public string Format()
             => api.format(this);

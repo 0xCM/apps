@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class AsmCoreCmd
+    partial class PbCmd
     {
         [CmdOp("pb/bv/emit")]
         Outcome GenBitVectors(CmdArgs args)
@@ -17,6 +17,14 @@ namespace Z0
             dst.Clear();
             PolyBits.BvEmit(sources, filter, dst);
             return result;
+        }
+
+        [CmdOp("pb/emit")]
+        Outcome Emit(CmdArgs args)
+        {
+            PolyBits.EmitBitPatters();
+
+            return true;
         }
     }
 }

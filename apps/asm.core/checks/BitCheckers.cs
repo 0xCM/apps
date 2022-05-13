@@ -49,26 +49,6 @@ namespace Z0
             }
         }
 
-        // static void GenBitfield(ITextEmitter log)
-        // {
-        //     var modrm = BitfieldPatterns.infer(ModRm.BitPattern);
-        //     log.WriteLine(modrm.Descriptor);
-
-        //     var rex = BitfieldPatterns.infer(RexPrefix.BitPattern);
-        //     log.WriteLine(rex.Descriptor);
-
-        //     var vexC4 = BitfieldPatterns.infer(VexPrefixC4.BitPattern);
-        //     log.WriteLine(vexC4.Descriptor);
-
-        //     var vexC5 = BitfieldPatterns.infer(VexPrefixC5.BitPattern);
-        //     log.WriteLine(vexC5.Descriptor);
-
-        //     var sib = BitfieldPatterns.infer(Sib.BitPattern);
-        //     log.WriteLine(sib.Descriptor);
-
-        //     byte data = 0b10_110_011;
-        //     log.WriteLine(BitfieldPatterns.bitstring(sib, data));
-        // }
 
         static void CheckBitReplication(ITextEmitter log)
         {

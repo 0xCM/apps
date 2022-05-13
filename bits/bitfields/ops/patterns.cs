@@ -8,19 +8,19 @@ namespace Z0
 
     partial struct Bitfields
     {
-        public static BitfieldPattern pattern(string src)
-            => BfPatterns.infer(src);
+        public static BitPattern pattern(BfOrigin origin, string src)
+            => BitPatterns.infer(origin, src);
 
-        public static Index<BitfieldPattern> patterns(ReadOnlySpan<string> src)
+        public static Index<BitPattern> patterns(BfOrigin origin, ReadOnlySpan<string> src)
         {
             var count = src.Length;
-            var dst = alloc<BitfieldPattern>(count);
+            var dst = alloc<BitPattern>(count);
             for(var i=0; i<count; i++)
-                seek(dst,i) = pattern(skip(src,i));
+                seek(dst,i) = pattern(origin, skip(src,i));
             return dst;
         }
 
-        public static string bitstring(BitfieldPattern pattern, byte data)
+        public static string bitstring(BitPattern pattern, byte data)
         {
             var segs = pattern.Segments.Reverse();
             var count = segs.Count;
@@ -30,8 +30,8 @@ namespace Z0
             {
                 ref readonly var seg = ref segs[i];
                 var mask = seg.Mask;
-                var width = seg.SegWidth;
-                var bits = math.srl(seg.Mask.Apply(data), (byte)seg.MinIndex);
+                var width = seg.Width;
+                var bits = math.srl(seg.Mask.Apply(data), (byte)seg.MinPos);
                 BitRender.render(bits, ref j, width, buffer);
                 seek(buffer, j++) = Chars.Space;
             }

@@ -7,7 +7,7 @@ namespace Z0.Asm
     [LiteralProvider]
     public readonly struct SibFields
     {
-        public const string BitPattern = "ss iii bbb";
+        public const string PatternSpec = "ss iii bbb";
 
         public const byte RenderWidth = 10;
 

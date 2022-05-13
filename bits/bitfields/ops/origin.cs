@@ -11,5 +11,9 @@ namespace Z0
         [MethodImpl(Inline)]
         public static BfOrigin<T> origin<T>(T src)
             => src;
+
+        [MethodImpl(Inline)]
+        public static BfOrigin<ClrTypeName> origin<T>()
+            => new BfOrigin<ClrTypeName>(typeof(T), x => x.AssemblyQualifiedName.Format());
     }
 }

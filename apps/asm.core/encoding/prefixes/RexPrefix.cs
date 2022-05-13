@@ -41,7 +41,7 @@ namespace Z0.Asm
             return (uint)count;
         }
 
-        public const string BitPattern = RexFields.BitPattern;
+        public const string PatternSpec = RexFields.PatternSpec;
 
         [MethodImpl(Inline)]
         public static RexPrefix init()

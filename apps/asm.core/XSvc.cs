@@ -57,8 +57,12 @@ namespace Z0
             => Z0.XedForms.create(wf);
 
         [Op]
-        public static AsmCoreCmd XedCommands(this IWfRuntime wf)
-            => AsmCoreCmd.create(wf);
+        public static AsmCoreCmd AsmCoreCmd(this IWfRuntime wf)
+            => Z0.AsmCoreCmd.create(wf);
+
+        [Op]
+        public static PbCmd PbCmd(this IWfRuntime wf)
+            => Z0.PbCmd.create(wf);
 
         [Op]
         public static AsmDocs AsmDocs(this IWfRuntime wf)

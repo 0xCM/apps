@@ -4,10 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static BfPatterns;
+    using static BitPatterns;
 
-    public class BitfieldPattern
+    public class BitPattern
     {
+        /// <summary>
+        /// The pattern source
+        /// </summary>
+        public readonly BfOrigin Origin;
+
         /// <summary>
         /// The pattern specification
         /// </summary>
@@ -38,14 +43,15 @@ namespace Z0
         /// </summary>
         public readonly Type DataType;
 
-        public Index<BitfieldSegModel> Segments {get;}
+        public readonly Index<BitfieldSegModel> Segments;
 
         public readonly Index<byte> SegWidths;
 
-        public string Descriptor {get;}
+        public readonly string Descriptor;
 
-        public BitfieldPattern(string pattern)
+        public BitPattern(BfOrigin orign, string pattern)
         {
+            Origin = orign;
             Content = text.despace(pattern);
             Name = name(Content);
             Indicators = indicators(Content);
@@ -69,6 +75,6 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public static BitfieldPattern Empty => new BitfieldPattern(EmptyString);
+        public static BitPattern Empty => new BitPattern(BfOrigin.Empty, EmptyString);
     }
 }
