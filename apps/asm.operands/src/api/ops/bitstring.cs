@@ -9,7 +9,7 @@ namespace Z0.Asm
     partial struct asm
     {
         [Op]
-        public static AsmBitstring bitstring(in AsmHexCode src)
+        public static string bitstring(in AsmHexCode src)
         {
             if(src.IsEmpty)
                 return default;
@@ -18,9 +18,9 @@ namespace Z0.Asm
             var dst = block.Data;
             var count = AsmRender.bitstring(src, dst);
             if(count == 0)
-                return AsmBitstring.Empty;
+                return EmptyString;
 
-            return new AsmBitstring(text.format(slice(dst, 0, count)));
+            return text.format(slice(dst, 0, count));
         }
     }
 }

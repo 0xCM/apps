@@ -6,20 +6,19 @@ namespace Z0
 {
     using api = Sizes;
 
-    [DataType("kb")]
     public readonly struct Kb
     {
-        const string UOM = " kb";
+        public const string UOM = "kb";
 
         /// <summary>
         /// Specifies a kilobyte count
         /// </summary>
-        public uint Count {get;}
+        public readonly uint Count;
 
         /// <summary>
         /// Specifies the remaining bit count
         /// </summary>
-        public uint Rem {get;}
+        public readonly uint Rem;
 
         [MethodImpl(Inline)]
         public Kb(uint count, uint rem)
@@ -28,13 +27,13 @@ namespace Z0
             Rem = rem;
         }
 
-        public ByteSize Bytes
+        public ByteSize Size
         {
             [MethodImpl(Inline)]
-            get => api.bytes(this);
+            get => api.size(this);
         }
 
-        public BitWidth Bits
+        public BitWidth Width
         {
             [MethodImpl(Inline)]
             get => api.bits(this);
@@ -47,7 +46,7 @@ namespace Z0
         }
 
         public string Format()
-            => (Count != 0 ? Count.ToString("#,#") : "0") + UOM;
+            => string.Format("{0} {1}", Count != 0 ? Count.ToString("#,#") : "0", UOM);
 
 
         public override string ToString()
@@ -65,7 +64,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static explicit operator ByteSize(Kb src)
-            => api.bytes(src);
+            => api.size(src);
 
         [MethodImpl(Inline)]
         public static explicit operator BitWidth(Kb src)

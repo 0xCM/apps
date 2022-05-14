@@ -48,7 +48,7 @@ namespace Z0
 
         public AsmOpCodeString OpCode;
 
-        public AsmBitstring Bitstring;
+        public string Bitstring;
 
         public OpUri OpUri;
 

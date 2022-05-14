@@ -63,7 +63,6 @@ namespace Z0
         /// </summary>
         public const ushort T10 = 1024;
 
-
         /// <summary>
         /// 2^11 = 2048
         /// </summary>
@@ -115,7 +114,7 @@ namespace Z0
         public const uint T20 = 1_048_576;
 
         /// <summary>
-        /// 2^21 = 2_097_152
+        /// 2^21 = 2,097,152
         /// </summary>
         public const uint T21 = 2_097_152;
 

@@ -316,7 +316,7 @@ namespace Z0.Asm
                 target.BlockOffset = record.BlockOffset;
                 target.Expression = Expression.Format();
                 target.Encoded = record.Encoded.Format();
-                target.Bitstring = record.Bitstring.Format();
+                target.Bitstring = record.Bitstring;
                 target.Sig = record.Sig.Format();
                 target.OpCode = record.OpCode.Format();
             }

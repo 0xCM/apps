@@ -168,6 +168,15 @@ namespace Z0
         public static V operator ~(V src)
             => BitVectors.not(src);
 
+
+        [MethodImpl(Inline)]
+        public static V operator >>(V x, int shift)
+            => BitVectors.srl(x,(byte)shift);
+
+        [MethodImpl(Inline)]
+        public static V operator <<(V x, int shift)
+            => BitVectors.sll(x,(byte)shift);
+
         /// <summary>
         /// Computes the arithmetic sum of the source operands.
         /// </summary>
@@ -208,14 +217,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static V operator - (V x, V y)
             => BitVectors.sub(x,y);
-
-        [MethodImpl(Inline)]
-        public static V operator >>(V x, int shift)
-            => BitVectors.srl(x,(byte)shift);
-
-        [MethodImpl(Inline)]
-        public static V operator <<(V x, int shift)
-            => BitVectors.sll(x,(byte)shift);
 
         /// <summary>
         /// Determines whether operand content is identical

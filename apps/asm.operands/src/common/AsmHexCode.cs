@@ -68,7 +68,7 @@ namespace Z0.Asm
             => (uint)Data.Lo;
 
         public string BitString
-            => asm.bitstring(this).Format();
+            => asm.bitstring(this);
 
         public override int GetHashCode()
             => hash(this);

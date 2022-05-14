@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
     using System.IO.MemoryMappedFiles;
 
     using static core;
@@ -23,12 +22,30 @@ namespace Z0
 
         public readonly MemoryAddress BaseAddress;
 
-        public FS.FilePath Path {get;}
+        public readonly FS.FilePath Path;
 
         public readonly ulong Size;
 
         public readonly MemoryFileInfo Description;
 
+        readonly MemoryFileSpec Spec;
+
+        public MemoryFile(MemoryFileSpec spec)
+        {
+            Spec = spec;
+            Path = spec.Path;
+            File = MemoryMappedFile.CreateFromFile(spec.Path.Name, spec.Mode, spec.MapName, spec.Capacity, spec.Access);
+            Size = (ulong)Path.Info.Length;
+            Accessor = File.CreateViewAccessor(0, (long)Size);
+            Accessor.SafeMemoryMappedViewHandle.AcquirePointer(ref Base);
+            BaseAddress = Base;
+            Description = api.describe(this);
+            if(spec.Stream)
+                ViewStream = File.CreateViewStream();
+            else
+                ViewStream = null;
+
+        }
         internal MemoryFile(FS.FilePath path, bool stream = false)
         {
             Require.invariant(path.IsNonEmpty);
@@ -57,15 +74,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => ref ViewStream;
         }
-
-        MemoryFileInfo IMemoryFile.Description
-            => Description;
-
-        MemoryAddress IMemoryFile.BaseAddress
-            => BaseAddress;
-
-        ByteSize IMemoryFile.Size
-            => Size;
 
         [MethodImpl(Inline)]
         public MemorySeg Segment()
@@ -103,19 +111,39 @@ namespace Z0
         /// Presents file content segment as a readonly sequence of <typeparamref name='T'/> cells beginning
         /// at a <typeparamref name='T'/> measured offset and continuing to the end of the file
         /// </summary>
-        /// <param name="tOffset">The number of cells to advance from the base address</param>
+        /// <param name="index">The number of cells to advance from the base address</param>
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline)]
-        public ReadOnlySpan<T> View<T>(uint tOffset)
-            => api.view<T>(this, tOffset);
+        public ReadOnlySpan<T> View<T>(uint index)
+            => api.view<T>(this, index);
 
+        /// <summary>
+        /// Presents file content segment as a readonly sequence of <typeparamref name='T'/> cells beginning
+        /// at a <typeparamref name='T'/> measured offset and continuing to the end of the file
+        /// </summary>
+        /// <param name="index">The number of cells to advance from the base address</param>
+        /// <param name="count">The number of cells to present</param>
+        /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline)]
-        public ReadOnlySpan<T> View<T>(uint tOffset, uint tCount)
-            => api.view<T>(this,tOffset, tCount);
-
+        public ReadOnlySpan<T> View<T>(uint index, uint count)
+            => api.view<T>(this,index, count);
 
         [MethodImpl(Inline)]
         public int CompareTo(MemoryFile src)
             => BaseAddress.CompareTo(src.BaseAddress);
+
+        MemoryFileInfo IMemoryFile.Description
+            => Description;
+
+        MemoryAddress IMemoryFile.BaseAddress
+            => BaseAddress;
+
+        ByteSize IMemoryFile.Size
+            => Size;
+
+        FS.FilePath IMemoryFile.Path
+            => Path;
+
+
     }
 }

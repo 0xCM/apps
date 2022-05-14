@@ -6,8 +6,8 @@ namespace Z0
 {
     using System.IO;
 
-    [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct MemoryFileInfo : IRecord<MemoryFileInfo>
+    [Record(TableId), StructLayout(StructLayout)]
+    public record struct MemoryFileInfo : IRecord<MemoryFileInfo>
     {
         public const string TableId = "memoryfiles";
 

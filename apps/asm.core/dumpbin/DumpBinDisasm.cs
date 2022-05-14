@@ -44,10 +44,10 @@ namespace Z0.Asm
 
         public AsmHexCode Code;
 
-        public AsmBitstring Bitstring;
+        public string Bitstring;
 
         [MethodImpl(Inline)]
-        public DumpBinDisasm(MemoryAddress offset, AsmExpr expr, AsmHexCode code, AsmBitstring bs)
+        public DumpBinDisasm(MemoryAddress offset, AsmExpr expr, AsmHexCode code, string bs)
         {
             Offset = offset;
             Statement = expr;
@@ -61,7 +61,7 @@ namespace Z0.Asm
             Offset = offset;
             Statement = expr;
             Code = AsmHexCode.Empty;
-            Bitstring = AsmBitstring.Empty;
+            Bitstring = EmptyString;
         }
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,64,32,32};

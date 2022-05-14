@@ -2,10 +2,10 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Examples
+namespace Z0
 {
-    public readonly partial struct vExamples
+    public interface IMemDb
     {
-
+        MemoryFileInfo Description {get;}
     }
 }

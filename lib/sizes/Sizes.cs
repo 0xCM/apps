@@ -10,12 +10,19 @@ namespace Z0
     [ApiHost]
     public readonly struct Sizes
     {
-        const ulong KbFactor = 1024;
+        public const ulong BytesPerKb = 1024;
 
-        const ulong BitFactor = 8;
+        public const ulong BytesPerMb = 1000*BytesPerKb;
 
-        const ulong BitsToKbFactor = KbFactor * BitFactor;
+        public const ulong BytesPerGb = 1073741824;
 
+        const ulong BitsPerByte = 8;
+
+        public const ulong BitsPerKb = BytesPerKb*BitsPerByte;
+
+        public const ulong BitsPerMb = 1000*BitsPerKb;
+
+        public const ulong BitsPerGb = 1000*BitsPerMb;
 
         readonly struct SizeCalc<T>
         {
@@ -38,6 +45,46 @@ namespace Z0
             {
                 return 0;
             }
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ByteSize size(Mb mb)
+            => mb.Count * BytesPerMb;
+
+        [MethodImpl(Inline), Op]
+        public static ByteSize size(Gb gb)
+            => gb.Count * BytesPerGb;
+
+        [MethodImpl(Inline), Op]
+        public static Kb kb(ByteSize src)
+            => kb(src.Bits);
+
+        [MethodImpl(Inline), Op]
+        public static ByteSize size(Kb src)
+            => new ByteSize((uint64(src.Count) * BytesPerKb) + uint64(src.Rem)/BitsPerByte);
+
+        [MethodImpl(Inline), Op]
+        public static Kb kb(BitWidth src)
+        {
+            var kb = uint32(src.Content/BitsPerKb);
+            var rem = uint32(src.Content % BitsPerKb);
+            return new Kb(kb, rem);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static Mb mb(Kb src)
+            => new Mb(src.Count/(uint)BytesPerKb);
+
+        [MethodImpl(Inline), Op]
+        public static Mb mb(Gb src)
+            => new Mb(src.Count/(uint)BytesPerGb);
+
+        [MethodImpl(Inline), Op]
+        public static BitWidth bits(Kb src)
+        {
+            var bits = (ulong)size(src).Bits;
+            var rem = (ulong)src.Rem;
+            return new BitWidth(bits + rem);
         }
 
         public static uint bitwidth<T>()
@@ -123,36 +170,9 @@ namespace Z0
             => src + (src % factor);
 
         [MethodImpl(Inline), Op]
-        public static Kb kb(BitWidth src)
-        {
-            var kb = uint32(src.Content/BitsToKbFactor);
-            var rem = uint32(src.Content % BitsToKbFactor);
-            return new Kb(kb, rem);
-        }
-
-        [MethodImpl(Inline), Op]
-        public static Mb mb(Kb src)
-            => new Mb(src.Count/(uint)KbFactor);
-
-        [MethodImpl(Inline), Op]
-        public static BitWidth bits(Kb src)
-        {
-            var bits = (ulong)bytes(src).Bits;
-            var rem = (ulong)src.Rem;
-            return new BitWidth(bits + rem);
-        }
-
-        [MethodImpl(Inline), Op]
         public static uint hash(Kb src)
             => src.Count | src.Rem;
 
-        [MethodImpl(Inline), Op]
-        public static Kb kb(ByteSize src)
-            => kb(src.Bits);
-
-        [MethodImpl(Inline), Op]
-        public static ByteSize bytes(Kb src)
-            => new ByteSize((uint64(src.Count) * KbFactor) + uint64(src.Rem)/BitFactor);
 
         [MethodImpl(Inline), Op]
         public static bool eq(Kb a, Kb b)

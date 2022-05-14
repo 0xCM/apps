@@ -232,7 +232,7 @@ namespace Z0.Asm
             => new InstructionId(docid, EncodingId.from(ip, encoding));
 
         [Op]
-        public static AsmBitstring bitstring(in AsmHexCode src)
+        public static string bitstring(in AsmHexCode src)
             => asm.bitstring(src);
 
         [MethodImpl(Inline), Op]

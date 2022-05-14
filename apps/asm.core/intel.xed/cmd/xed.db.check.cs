@@ -27,18 +27,6 @@ namespace Z0
             return (ulong)token | ((ulong)part << 32) | ((ulong)selector << 38);
         }
 
-        // void CheckRender()
-        // {
-        //     var k0 = key(typeof(num4),z16);
-        //     var points = Rules.CalcPoints();
-        //     var f2 = Tables.formatter<Coordinate>();
-        //     for(var i=0; i<points.Count; i++)
-        //     {
-        //         ref readonly var point = ref points[i];
-        //         Write(f2.Format(point));
-        //     }
-        // }
-
         void CheckMemDb(Dim2<uint> shape)
         {
             var r = shape.I;
@@ -86,11 +74,16 @@ namespace Z0
             CheckMemDb((12,12));
             CheckMemDb((8,8));
             CheckMemDb((256,256));
+
+            var size = 1073741824ul;
+            var mb = size/1024;
+
+            var storage = AppDb.Targets("memdb").Path("dbtest", FileKind.Bin);
+            var db = MemDb.open(storage, new Gb(1));
+            var info = db.Description;
+            Write(info);
+
            return true;
         }
-
     }
-
-
-
 }

@@ -50,6 +50,9 @@ namespace Z0
             where T : struct
                 => cover<T>(start + file.BaseAddress, count);
 
+        public static MemoryFile map(MemoryFileSpec spec)
+            => new MemoryFile(spec);
+
         /// <summary>
         /// Creates a <see cref='MappedFiles'/> that covers the first level of a specified directory
         /// </summary>

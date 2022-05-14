@@ -5,25 +5,31 @@
 namespace Z0
 {
     using System.IO;
-    using System.Runtime.InteropServices;
 
-    [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct MemoryFileRecord : IRecord<MemoryFileRecord>
+    [Record(TableId), StructLayout(StructLayout)]
+    public record struct MemoryFileRecord : IRecord<MemoryFileRecord>
     {
         public const string TableId = "memoryfile";
 
+        [Render(16)]
         public MemoryAddress BaseAddress;
 
+        [Render(16)]
         public ByteSize Size;
 
+        [Render(16)]
         public MemoryAddress EndAddress;
 
-        public FS.FilePath Path;
-
+        [Render(16)]
         public Timestamp CreateTS;
 
+        [Render(16)]
         public Timestamp UpdateTS;
 
+        [Render(24)]
         public FileAttributes Attributes;
+
+        [Render(1)]
+        public FS.FilePath Path;
     }
 }
