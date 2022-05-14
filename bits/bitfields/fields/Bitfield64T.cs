@@ -20,7 +20,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public Bitfield64(T state)
-            => _State = uint64(state);
+            => _State = bw64(state);
 
         [MethodImpl(Inline)]
         public Bitfield64(S state)

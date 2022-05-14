@@ -4,19 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Pairs a symbol with it's hash
     /// </summary>
     public readonly struct SymbolHash
     {
-        public StringRef Symbol {get;}
+        public readonly StringRef Symbol;
 
-        public Hash32 HashCode {get;}
+        public readonly Hash32 HashCode;
 
         [MethodImpl(Inline)]
         internal SymbolHash(StringRef symbol, Hash32 hash)

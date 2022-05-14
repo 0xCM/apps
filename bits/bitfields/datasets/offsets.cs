@@ -9,6 +9,14 @@ namespace Z0
     partial struct BfDatasets
     {
         /// <summary>
+        /// Computes a sequence of bitfield offsets predicated on enum with literals that specify segment widths
+        /// </summary>
+        /// <typeparam name="W">The enum type</typeparam>
+        public static Index<uint> offsets<W>()
+            where W : unmanaged, Enum
+                => offsets(widths<W>());
+
+        /// <summary>
         /// Computes a sequence of bitfield offsets given a sequence of field widths
         /// </summary>
         /// <param name="widths">The 0-based offset of each segment in the field</param>

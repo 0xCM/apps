@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-
     public static class ClrInternals
     {
         public static void Introspect(Type src)

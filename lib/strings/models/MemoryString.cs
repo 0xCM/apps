@@ -9,11 +9,11 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct MemoryString : IMemoryString<uint,char>
     {
-        public uint Index {get;}
+        public readonly uint Index {get;}
 
-        public MemoryAddress Address {get;}
+        public readonly MemoryAddress Address {get;}
 
-        public int Length {get;}
+        public readonly int Length {get;}
 
         [MethodImpl(Inline)]
         public MemoryString(uint index, MemoryAddress address, int length)
@@ -32,7 +32,7 @@ namespace Z0
         public unsafe ReadOnlySpan<char> Cells
         {
             [MethodImpl(Inline)]
-            get => core.cover(Address.Pointer<char>(), Length);
+            get => cover(Address.Pointer<char>(), Length);
         }
 
         public ReadOnlySpan<byte> Bytes

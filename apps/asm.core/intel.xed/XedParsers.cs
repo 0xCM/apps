@@ -9,12 +9,16 @@ namespace Z0
 
     using static XedModels;
     using static XedRules;
+    using static XedImport;
+
     using static core;
 
     using R = XedRules;
 
     public partial class XedParsers
     {
+        static readonly EnumParser<BlockField> BlockFields = new();
+
         static readonly EnumParser<OpWidthCode> OpWidthParser = new();
 
         static readonly EnumParser<OpAction> OpActions = new();
@@ -147,6 +151,9 @@ namespace Z0
 
         public static bool parse(string src, out OpType dst)
             => OpTypes.Parse(src, out dst);
+
+        public static bool parse(string src, out BlockField dst)
+            => BlockFields.Parse(src, out dst);
 
         public static void parse(string src, out Index<XedFlagEffect> dst)
         {

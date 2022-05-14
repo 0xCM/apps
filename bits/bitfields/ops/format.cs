@@ -8,6 +8,17 @@ namespace Z0
 
     partial struct Bitfields
     {
+        public static string format<E>(BitVector64<E> src)
+            where E : unmanaged, Enum
+        {
+            var symbols = Symbols.index<E>();
+            var count = min(symbols.Length, 64);
+            var dst = text.emitter();
+            for(var i=z8; i<count; i++)
+                dst.AppendLineFormat("{0,-16}: {1}", symbols[i].Name, src[i]);
+            return dst.Emit();
+        }
+
         public static string format<T>(BitfieldCell<T> src, BitfieldInterval interval)
             where T : unmanaged
         {

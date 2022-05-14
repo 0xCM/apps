@@ -19,12 +19,25 @@ namespace Z0
             ImportInstBlocks();
         }
 
+        public static ref readonly Index<BlockField> BlockFields
+        {
+            [MethodImpl(Inline)]
+            get => ref _BlockFields;
+        }
+
         public void ImportInstBlocks()
         {
             var src = AppDb.Sources("sources").Scoped("intel").Path("xed-dump",FileKind.Txt);
             var dst = new InstBlockReceiver(AppSvc);
             using var importer = new InstBlockImporter(src);
             importer.Run(dst);
+        }
+
+        static Index<BlockField> _BlockFields;
+
+        static XedImport()
+        {
+            _BlockFields = Symbols.index<BlockField>().Kinds.ToArray();
         }
     }
 }

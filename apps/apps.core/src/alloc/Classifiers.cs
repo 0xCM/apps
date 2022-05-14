@@ -126,7 +126,7 @@ namespace Z0
             var count = index.Count;
             var classes = alloc<ValueClass<K,T>>(count);
             for(var i=0u; i<count; i++)
-                seek(classes,i) =new ValueClass<K,T>(i, name, names[i], skip(symbols,i).Expr.Text, skip(kinds,i), values[i].Value);
+                seek(classes,i) = new ValueClass<K,T>(i, name, names[i], skip(symbols,i).Expr.Text, skip(kinds,i), values[i].Value);
             return new ValueClassifier<K,T>(name, kinds, names, symbols, values, classes);
         }
     }

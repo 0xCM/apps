@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Text;
     using System.Globalization;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     public readonly struct JsonText : ITextual, IContented<string>
     {

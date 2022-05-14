@@ -12,8 +12,37 @@ namespace Z0
     {
         public readonly struct InstParser
         {
-            public static void parse(string src, out InstPatternBody dst)
+            public static bool parse(ReadOnlySpan<char> src, out InstPatternBody dst)
                 => inner(RuleMacros.expand(normalize(src)), out dst);
+
+            static string normalize(ReadOnlySpan<char> body)
+            {
+                var buffer = text.buffer();
+                var parts = text.split(text.despace(body), Chars.Space);
+                for(var i=0; i<parts.Length; i++)
+                {
+                    if(i != 0)
+                        buffer.Append(Chars.Space);
+                    buffer.Append(core.skip(parts,i));
+                }
+                return buffer.Emit();
+            }
+
+            static bool inner(string src, out InstPatternBody dst)
+            {
+                var result = Outcome.Success;
+                var parts = text.trim(text.split(text.despace(src), Chars.Space));
+                var count = parts.Length;
+                dst = alloc<CellValue>(count);
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var part = ref skip(parts,i);
+                    result = field(part, out dst[i]);
+                    if(result.Fail)
+                        Errors.Throw(result.Message);
+                }
+                return true;
+            }
 
             static Outcome field(string src, out CellValue dst)
             {
@@ -65,34 +94,6 @@ namespace Z0
                 }
 
                 return result;
-            }
-
-            static string normalize(string rawbody)
-            {
-                var buffer = text.buffer();
-                var parts = text.split(text.despace(rawbody), Chars.Space);
-                for(var i=0; i<parts.Length; i++)
-                {
-                    if(i != 0)
-                        buffer.Append(Chars.Space);
-                    buffer.Append(core.skip(parts,i));
-                }
-                return buffer.Emit();
-            }
-
-            static void inner(string src, out InstPatternBody dst)
-            {
-                var result = Outcome.Success;
-                var parts = text.trim(text.split(text.despace(src), Chars.Space));
-                var count = parts.Length;
-                dst = alloc<CellValue>(count);
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var part = ref skip(parts,i);
-                    result = field(part, out dst[i]);
-                    if(result.Fail)
-                        Errors.Throw(result.Message);
-                }
             }
         }
     }

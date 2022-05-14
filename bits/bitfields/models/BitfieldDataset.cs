@@ -25,7 +25,7 @@ namespace Z0
             FieldCount = widths.Count;
             _Widths = widths;
             _Offsets = api.offsets(widths);
-            _Intervals = api.intervals(_Offsets, widths);
+            _Intervals = Bitfields.intervals(_Offsets, widths);
             _Masks = api.masks(this);
             BitrenderPattern = api.bitrender(widths, sep);
         }

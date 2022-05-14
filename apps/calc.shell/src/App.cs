@@ -72,10 +72,7 @@ namespace Z0
             var src = table.Symbols;
             var count = src.Length;
             for(var i=0; i<count; i++)
-            {
-                ref readonly var entry = ref skip(src,i);
-                Log.WriteLine(entry.Format());
-            }
+                Log.WriteLine(skip(src,i).Format());
         }
 
         void Run(N3 n)

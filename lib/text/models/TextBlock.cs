@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [DataType("textblock")]
     public readonly struct TextBlock : IComparable<TextBlock>, IEquatable<TextBlock>, IText
     {

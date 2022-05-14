@@ -4,13 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
-    [DataType("string<k:{0}>")]
     public readonly struct @string<K> : IString<K,string>, IComparable<@string<K>>, IEquatable<@string<K>>
         where K : unmanaged
     {

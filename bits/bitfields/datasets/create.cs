@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial struct BfDatasets
     {
         public static BitfieldDataset<F,T> create<F,W,T>()

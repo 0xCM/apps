@@ -9,7 +9,7 @@ namespace Z0
         [Free]
         public interface IInstBlockReceiver
         {
-            void Accept(InstDataBlock block);
+            void Accept(InstBlock block);
 
             void Emit();
         }

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public struct Evaluation : IEvaluation
     {
         public dynamic Input {get;}

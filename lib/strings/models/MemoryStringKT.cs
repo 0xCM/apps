@@ -11,11 +11,11 @@ namespace Z0
         where K : unmanaged
         where T : unmanaged
     {
-        public K Index {get;}
+        public readonly K Index {get;}
 
-        public MemoryAddress Address {get;}
+        public readonly MemoryAddress Address {get;}
 
-        public int Length {get;}
+        public readonly int Length {get;}
 
         [MethodImpl(Inline)]
         public MemoryString(K index, MemoryAddress address, int length)

@@ -70,7 +70,6 @@ namespace Z0
                 => Format();
 
             public static InstLayout Empty => default;
-
         }
     }
 }

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using api = TokenStrings;
 
     /// <summary>
@@ -16,7 +11,7 @@ namespace Z0
     /// </summary>
     public readonly struct TokenString
     {
-        public Index<char> Content {get;}
+        public readonly Index<char> Content;
 
         public TokenString(char[] src)
         {

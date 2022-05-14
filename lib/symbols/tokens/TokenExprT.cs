@@ -4,19 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct TokenExpr<T>
         where T : unmanaged, ICharBlock<T>
     {
-        public uint Id {get;}
+        public readonly uint Id;
 
-        public T Content {get;}
+        public readonly T Content;
 
-        public int Length {get;}
+        public readonly int Length;
 
         [MethodImpl(Inline)]
         public TokenExpr(uint id, T src)
