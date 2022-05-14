@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
     using System.Linq;
 
     using static Root;
@@ -60,26 +57,6 @@ namespace Z0
             return true;
         }
 
-        [MethodImpl(Inline)]
-        public static bool equals<T,C>(ReadOnlySpan<T> src, ReadOnlySpan<T> dst, C comparer)
-            where C : IEqualityComparer<T>
-        {
-            var count = src.Length;
-            if(count != dst.Length)
-                return false;
-
-            if(count == 0)
-                return true;
-
-            ref readonly var a = ref first(src);
-            ref readonly var b = ref first(dst);
-            for(var i=0; i<count; i++)
-                if(!comparer.Equals(skip(a,i),skip(b,i)))
-                    return false;
-
-            return true;
-        }
-
         [Op,Closures(Closure)]
         public static T[] filter<T>(T[] src, Func<T,bool> predicate)
             => from x in src where predicate(x) select x;
@@ -128,24 +105,6 @@ namespace Z0
         {
             Array.Reverse(src);
             return src;
-        }
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static bool search<T>(T[] src, Func<T,bool> predicate, out T found)
-        {
-            var view = @readonly(src);
-            var count = view.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var candidate = ref skip(view,i);
-                if(predicate(candidate))
-                {
-                    found = candidate;
-                    return true;
-                }
-            }
-            found = default;
-            return false;
         }
     }
 }

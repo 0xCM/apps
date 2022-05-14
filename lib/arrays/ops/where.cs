@@ -4,13 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct Arrays
     {
+        public static Array<N,Y> map<N,T,Y>(Array<N,T> src, Func<T,Y> project)
+            where N : unmanaged, ITypeNat
+        {
+            var dst = array<N,Y>();
+            for(var i=0; i<src.Count; i++)
+                dst[i] = project(src[i]);
+            return dst;
+        }
+
         /// <summary>
         /// Allocates and populates a new array by filtering the source array with a specified predicate
         /// </summary>

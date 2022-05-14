@@ -10,8 +10,6 @@ namespace Z0.Asm
     [ApiComplete, DataWidth(8)]
     public struct ModRm : IAsmByte<ModRm>
     {
-        public const string PatternSpec = ModRmFields.PatternSpec;
-
         public static ModRm init(byte src = 0)
             => new ModRm(src);
 

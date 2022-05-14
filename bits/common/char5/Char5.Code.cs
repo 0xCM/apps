@@ -6,6 +6,18 @@ namespace Z0
 {
     partial struct Char5
     {
+        const byte Base = 'a' - 1;
+
+        const byte Capacity = 32;
+
+        static ReadOnlySpan<byte> AsciCodes
+            => new byte[Capacity]{
+                (byte)'\0', (byte)'a', (byte)'b', (byte)'c', (byte)'d', (byte)'e', (byte)'f', (byte)'g',
+                (byte)'h', (byte)'i', (byte)'j', (byte)'k', (byte)'l', (byte)'m', (byte)'n', (byte)'o',
+                (byte)'p', (byte)'q', (byte)'r', (byte)'s', (byte)'t',
+                (byte)'u', (byte)'v', (byte)'w', (byte)'x', (byte)'y', (byte)'z', (byte)'_', (byte)' ', (byte)'0', (byte)'1', 0,
+                };
+
         public enum Code : byte
         {
             [Symbol("\0")]
@@ -90,10 +102,10 @@ namespace Z0
             Z,
 
             [Symbol("_")]
-            _,
+            Underscore,
 
-            [Symbol("/")]
-            Slash,
+            [Symbol(" ")]
+            Space,
 
             [Symbol("0")]
             Zero,

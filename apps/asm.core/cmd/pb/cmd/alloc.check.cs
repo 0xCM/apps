@@ -9,14 +9,7 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-        [CmdOp("alloc/check")]
-        unsafe Outcome TestNativeCells(CmdArgs args)
-        {
-            CheckNativeCells();
-            return true;
-        }
-
-        void CheckNativeCells()
+        void CheckCellAlloc()
         {
             var n = n16;
             var count = num.count(n);

@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
     using System.Linq;
 
-    using static Root;
     using static core;
 
     partial struct Arrays
@@ -76,9 +72,9 @@ namespace Z0
         [Op, Closures(Closure)]
         public static T[] concat<T>(T[][] src)
         {
-            var totalLen = src.Sum(x => x.Length);
-            var buffer = new T[totalLen];
-            ref var dst = ref first(buffer);
+            var total = src.Sum(x => x.Length);
+            var buffer = new T[total];
+            ref var dst = ref core.first(buffer);
             var counter = 0;
             for(var i=0; i< src.Length; i++)
             {

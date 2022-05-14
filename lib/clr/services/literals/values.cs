@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
     using static core;
 
     partial struct ClrLiterals
@@ -50,9 +45,9 @@ namespace Z0
         }
 
         [Op, Closures(Closure)]
-        public static Paired<FieldInfo,T>[] values<T>(Type src)
+        public static Pairings<FieldInfo,T> values<T>(Type src)
         {
-            var fields = @readonly(search<T>(src));
+            var fields = search<T>(src);
             var buffer = alloc<Paired<FieldInfo,T>>(fields.Length);
             var dst = span(buffer);
             ref var target = ref first(dst);

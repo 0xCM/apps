@@ -4,34 +4,29 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Represents an identified string resource
     /// </summary>
-    public readonly struct StringRes<E> : ITextual
+    public readonly struct StringRes<E>
         where E : unmanaged
     {
         /// <summary>
         /// The resource identifier
         /// </summary>
-        public E Identifier {get;}
+        public readonly E Identifier;
 
         /// <summary>
         /// The resource address
         /// </summary>
-        public StringAddress Address {get;}
+        public readonly StringAddress Address;
 
         /// <summary>
         /// The Size of the resource, in bytes
         /// </summary>
-        public ByteSize Size {get;}
+        public readonly uint Size;
 
         [MethodImpl(Inline)]
-        public StringRes(E id, StringAddress address, ByteSize size)
+        public StringRes(E id, StringAddress address, uint size)
         {
             Identifier = id;
             Address = address;

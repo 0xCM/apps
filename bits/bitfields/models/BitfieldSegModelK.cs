@@ -13,7 +13,7 @@ namespace Z0
         /// <summary>
         /// The segment name
         /// </summary>
-        public readonly asci32 SegName;
+        public readonly asci64 SegName;
 
         /// <summary>
         /// The index of the first bit in the segment
@@ -36,7 +36,7 @@ namespace Z0
         public readonly BitMask Mask;
 
         [MethodImpl(Inline)]
-        public BitfieldSegModel(asci32 name, uint min, uint max, BitMask mask)
+        public BitfieldSegModel(asci64 name, uint min, uint max, BitMask mask)
         {
             SegName = name;
             MinIndex = min;

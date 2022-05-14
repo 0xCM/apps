@@ -32,7 +32,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var s = ref skip(symbols, i);
-                seek(dst,i) = define<E>(name(s,ns), s.Kind);
+                seek(dst,i) = define<E>(name(s, ns), s.Kind);
             }
             return new LiteralSeq<E>(typeof(E).Name, dst);
         }

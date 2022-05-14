@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
     using System.Linq;
-
-    using static Root;
 
     partial struct Arrays
     {
@@ -23,13 +18,12 @@ namespace Z0
         [MethodImpl(Inline)]
         public static T[] map<S,T>(IEnumerable<S> src, Func<S,T> f)
         {
-            Span<S> source = src.ToArray();
+            var source = src.ToArray();
             var count = source.Length;
-            var buffer = new T[count];
-            Span<T> target = buffer;
+            var dst = new T[count];
             for(var i=0; i<count; i++)
-                target[i] = f(source[i]);
-            return buffer;
+                core.seek(dst,i) = f(core.skip(source,i));
+            return dst;
         }
     }
 }

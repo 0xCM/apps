@@ -187,12 +187,10 @@ namespace Z0.Asm
             return new string(core.slice(dst,0,i));
         }
 
-        public const string PatternSpec = "cccccccc R vvvv L pp";
-
         const string SemanticFormat = "{0}\n{1}\n{2}";
 
         public string FormatSemantic()
-            => string.Format(SemanticFormat, Format(), PatternSpec, ToBitstring());
+            => string.Format(SemanticFormat, Format(), AsmBitPatterns.VexC5, ToBitstring());
 
         public string Format()
         {

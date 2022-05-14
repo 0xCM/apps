@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct RuntimeLiteralValue<T> : ITextual
+    public readonly struct RuntimeLiteralValue<T>
         where T : IEquatable<T>
     {
         public readonly T Data;

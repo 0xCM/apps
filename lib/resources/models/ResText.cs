@@ -19,23 +19,23 @@ namespace Z0
 
         public static string format(ResText src)
         {
-            Span<char> dst = stackalloc char[(int)src.Source.Length];
+            Span<char> dst = stackalloc char[(int)src.Address.Length];
             var i=0u;
             var count = src.Render(ref i, dst);
             return text.format(slice(dst,0,count));
         }
 
-        public StringAddress Source {get;}
+        public readonly StringAddress Address;
 
         [MethodImpl(Inline)]
         public ResText(StringAddress src)
         {
-            Source = src;
+            Address = src;
         }
 
         [MethodImpl(Inline)]
         public uint Render(ref uint i, Span<char> dst)
-            => Source.Render(ref i, dst);
+            => Address.Render(ref i, dst);
 
         public string Format()
             => format(this);

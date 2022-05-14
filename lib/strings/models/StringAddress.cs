@@ -6,6 +6,9 @@ namespace Z0
 {
     using static core;
 
+    /// <summary>
+    /// Specifies an address for a null-terminated unicode string
+    /// </summary>
     public unsafe readonly struct StringAddress : IAddressable
     {
         [MethodImpl(Inline)]
@@ -18,7 +21,7 @@ namespace Z0
                 return default;
         }
 
-        public MemoryAddress Address {get;}
+        public readonly MemoryAddress Address;
 
         [MethodImpl(Inline)]
         public StringAddress(MemoryAddress location)
@@ -59,6 +62,9 @@ namespace Z0
         public bool Equals(StringAddress src)
             => Address.Equals(src.Address);
 
+        MemoryAddress IAddressable.Address
+            => Address;
+
         [MethodImpl(Inline)]
         public static implicit operator MemoryAddress(StringAddress src)
             => src.Address;
@@ -88,5 +94,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => new StringAddress(0);
         }
+
     }
 }

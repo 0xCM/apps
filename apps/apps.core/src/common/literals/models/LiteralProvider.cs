@@ -67,6 +67,10 @@ namespace Z0
         public static LiteralProvider provider(string name, Type def)
             => new LiteralProvider(name, def);
 
+        [MethodImpl(Inline), Op]
+        public static LiteralProvider provider(Type def)
+            => new LiteralProvider(def.Name, def);
+
         public static Index<RuntimeLiteral> literals(Type def)
         {
             var tag = def.Tag<LiteralProviderAttribute>();

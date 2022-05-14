@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static BitPatterns;
+    using api = BitPatterns;
 
     public class BitPattern
     {
@@ -24,11 +24,6 @@ namespace Z0
         public readonly string Name;
 
         /// <summary>
-        /// Segment indicators/specifiers
-        /// </summary>
-        public readonly Index<string> Indicators;
-
-        /// <summary>
         /// The width of the data represented by the pattern
         /// </summary>
         public readonly byte DataWidth;
@@ -43,30 +38,26 @@ namespace Z0
         /// </summary>
         public readonly Type DataType;
 
+        /// <summary>
+        /// The segments in the field
+        /// </summary>
         public readonly Index<BitfieldSegModel> Segments;
 
-        public readonly Index<byte> SegWidths;
-
+        /// <summary>
+        /// A semantic identifier
+        /// </summary>
         public readonly string Descriptor;
 
-        public BitPattern(BfOrigin orign, string pattern)
+        internal BitPattern(BfOrigin orign, string content, string name, byte width, Type datatype, NativeSize minsize, Index<BitfieldSegModel> segments, string descriptor)
         {
             Origin = orign;
-            Content = text.despace(pattern);
-            Name = name(Content);
-            Indicators = indicators(Content);
-            DataWidth = datawidth(Content);
-            DataType = datatype(Content);
-            MinSize = minsize(Content);
-            SegWidths = segwidths(Content);
-            Segments = segments(Content);
-            Descriptor = descriptor(Content);
-        }
-
-        public uint SegCount
-        {
-            [MethodImpl(Inline)]
-            get => Indicators.Count;
+            Content = content;
+            Name = name;
+            DataWidth = width;
+            DataType = datatype;
+            MinSize = minsize;
+            Segments = segments;
+            Descriptor = descriptor;
         }
 
         public string Format()
@@ -75,6 +66,10 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public static BitPattern Empty => new BitPattern(BfOrigin.Empty, EmptyString);
+        public static implicit operator BitPattern(string src)
+            =>  api.originate(src);
+
+        public static BitPattern operator +(BitPattern a, BitPattern b)
+            => api.concat(a,b);
     }
 }

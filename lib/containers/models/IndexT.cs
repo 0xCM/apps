@@ -123,7 +123,7 @@ namespace Z0
 
         public bool Equals<C>(Index<T> src, C comparer)
             where C : IEqualityComparer<T>
-                => Index.equals(View, src.View, comparer);
+                => Spans.equal(View, src.View, comparer);
         public string Format()
             => IsNonEmpty ? string.Join(Chars.Comma, Data) : EmptyString;
 
@@ -142,7 +142,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public bool Search(Func<T,bool> predicate, out T found)
-            => Index.search(this, predicate, out found);
+            => Arrays.first(this, predicate, out found);
 
         public Index<Y> Cast<Y>()
             => new Index<Y>(Data.Select(x => cast<Y>(x)));

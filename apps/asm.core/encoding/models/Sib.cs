@@ -17,8 +17,6 @@ namespace Z0.Asm
         public static ScaleFactor factor(Sib src)
             => (ScaleFactor)Pow2.pow8u(src.Scale);
 
-        public const string PatternSpec = SibFields.PatternSpec;
-
         [MethodImpl(Inline)]
         public static Sib init(byte src = 0)
             => new Sib(src);

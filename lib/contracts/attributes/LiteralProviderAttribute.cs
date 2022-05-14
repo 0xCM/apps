@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static Root;
     /// <summary>
     /// Applied to a structural artifact or member field, method or property to indicate that the target provides some sort of literal data
     /// </summary>

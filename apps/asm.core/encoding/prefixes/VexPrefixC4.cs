@@ -9,8 +9,6 @@ namespace Z0.Asm
     [DataWidth(24), ApiComplete]
     public struct VexPrefixC4
     {
-        public const string PatternSpec = "cccccccc RXB mmmmm W vvvv L pp";
-
         // ~ RXB
         const byte RXB_Mask = 0b1110_0000;
 
@@ -371,9 +369,7 @@ namespace Z0.Asm
         }
 
         public string FormatSemantic()
-        {
-            return string.Format(SemanticFormat, Format(), PatternSpec, ToBitstring());
-        }
+            => string.Format(SemanticFormat, Format(), AsmBitPatterns.VexC4, ToBitstring());
 
         public string Format()
         {

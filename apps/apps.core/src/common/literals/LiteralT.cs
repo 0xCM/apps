@@ -7,12 +7,12 @@ namespace Z0
     /// <summary>
     /// Defines a literal value which, by definition, is a named constant
     /// </summary>
-    [StructLayout(LayoutKind.Sequential), DataType(TypeSyntax.Literal)]
+    [StructLayout(LayoutKind.Sequential)]
     public readonly struct Literal<T> : ILiteralExpr<T>
     {
-        public Identifier Name {get;}
+        public readonly Identifier Name;
 
-        public Constant<T> Value {get;}
+        public readonly Constant<T> Value;
 
         [MethodImpl(Inline)]
         public Literal(Identifier name, Constant<T> value)
@@ -20,6 +20,12 @@ namespace Z0
             Name = name;
             Value = value;
         }
+
+        Identifier ILiteralExpr<T>.Name
+            => Name;
+
+        Constant<T> ILiteralExpr<T>.Value
+            => Value;
 
         public string Format()
             => string.Format("{0} = {1}", Name, Value.Format());

@@ -18,10 +18,10 @@ namespace Z0
                 dst = new(Code.Zero);
             else if(c == '1')
                 dst = Code.One;
-            else if(c == '/')
-                dst = Code.Slash;
+            else if(c == ' ')
+                dst = Code.Space;
             else if(c == '_')
-                dst = Code._;
+                dst = Code.Underscore;
             return dst;
         }
 
@@ -43,7 +43,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static bool symbol(Code c)
-            => c == Code._ || c == Code.Slash;
+            => c == Code.Underscore || c == Code.Space;
 
         [MethodImpl(Inline)]
         public static bool digit(Code c)

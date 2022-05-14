@@ -41,8 +41,6 @@ namespace Z0.Asm
             return (uint)count;
         }
 
-        public const string PatternSpec = RexFields.PatternSpec;
-
         [MethodImpl(Inline)]
         public static RexPrefix init()
             => new RexPrefix(0x40);

@@ -7,8 +7,6 @@ namespace Z0.Asm
     [LiteralProvider]
     public readonly struct RexFields
     {
-        public const string PatternSpec = "aaaa w r x b";
-
         public const byte RenderWidth = 12;
 
         public const byte B_Mask = 0b000_0_0_0_1;

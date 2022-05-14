@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct ResSeg
     {
-        public Identifier Name {get;}
+        public readonly Identifier Name;
 
-        public MemorySeg Segment {get;}
+        public readonly MemorySeg Segment;
 
         [MethodImpl(Inline)]
         public ResSeg(Identifier name, in MemorySeg segment)

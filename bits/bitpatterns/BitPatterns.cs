@@ -4,11 +4,58 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.Diagnostics;
     using static core;
+
 
     [ApiHost]
     public readonly struct BitPatterns
     {
+        public static BitPattern infer(BfOrigin origin, string src)
+        {
+            var content = text.despace(src);
+            return new BitPattern(
+                origin,
+                content,
+                name(content),
+                datawidth(content),
+                datatype(content),
+                minsize(content),
+                segments(content),
+                descriptor(content)
+            );
+        }
+
+        public static BitPattern originate(string src)
+            => BitPatterns.infer(Bitfields.origin(new StackTrace().GetFrame(1).GetMethod().DeclaringType), src);
+
+        public static Index<BitPattern> patterns(BfOrigin origin, ReadOnlySpan<string> src)
+        {
+            var count = src.Length;
+            var dst = alloc<BitPattern>(count);
+            for(var i=0; i<count; i++)
+                seek(dst,i) = infer(origin, skip(src,i));
+            return dst;
+        }
+
+        public static string bitstring(BitPattern pattern, byte data)
+        {
+            var segs = pattern.Segments.Reverse();
+            var count = segs.Count;
+            Span<char> buffer = stackalloc char[pattern.Content.Length];
+            var j=0u;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var seg = ref segs[i];
+                var mask = seg.Mask;
+                var width = seg.Width;
+                var bits = math.srl(seg.Mask.Apply(data), (byte)seg.MinPos);
+                BitRender.render(bits, ref j, width, buffer);
+                seek(buffer, j++) = Chars.Space;
+            }
+            return new string(buffer);
+        }
+
         public static Char5Seq seg<S>(in S src, byte offset)
             where S : struct, IAsciSeq<S>
         {
@@ -32,8 +79,8 @@ namespace Z0
         public static string name(string src)
             => text.replace(src, Chars.Space, Chars.Underscore);
 
-        public static BitPattern infer(BfOrigin origin, string src)
-            => new BitPattern(origin, src);
+        public static BitPattern concat(BitPattern a, BitPattern b)
+            => infer(a.Origin, string.Format("{0} {1}", a.Content, b.Content));
 
         public static Index<string> indicators(string src)
             => text.split(src, Chars.Space).Reverse();
@@ -58,17 +105,6 @@ namespace Z0
             return buffer;
         }
 
-        public static Index<BitMask> masks(BitPattern src)
-        {
-            var size = BitPatterns.minsize(src.Content);
-            var segs = src.Segments;
-            var count = segs.Length;
-            var dst = alloc<BitMask>(count);
-            for(var i=0; i<count; i++)
-                seek(dst,i) = segs[i].Mask;
-            return dst;
-        }
-
         [MethodImpl(Inline), Op]
         public static NativeSize minsize(string src)
         {
@@ -81,6 +117,8 @@ namespace Z0
                 return NativeSizeCode.W32;
             else if(width <= 64)
                 return NativeSizeCode.W64;
+            else if(width <= 128)
+                return NativeSizeCode.W128;
             else
                 Throw.message("Width unsupported");
 
@@ -115,6 +153,8 @@ namespace Z0
                 dst = typeof(uint);
             else if(width <= 64)
                 dst = typeof(ulong);
+            else if(width <= 128)
+                dst = typeof(BitVector128<ulong>);
             else
                 Throw.message("Width unsupported");
 

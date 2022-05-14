@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial struct Bitfields
     {
         [MethodImpl(Inline)]
@@ -13,7 +11,24 @@ namespace Z0
             => src;
 
         [MethodImpl(Inline)]
+        public static BfOrigin<ClrTypeName> origin(Type src)
+            => new BfOrigin<ClrTypeName>(src, x => x.AssemblyQualifiedName.Format());
+
+        [MethodImpl(Inline)]
         public static BfOrigin<ClrTypeName> origin<T>()
-            => new BfOrigin<ClrTypeName>(typeof(T), x => x.AssemblyQualifiedName.Format());
+            => origin(typeof(T));
+
+        [MethodImpl(Inline)]
+        public static BfOrigin<string> origin(FieldInfo src)
+            => string.Format("[{0}/{1}/{2}:{3}]",
+                    src.DeclaringType.Assembly.PartName(),
+                    src.DeclaringType.Namespace,
+                    src.DeclaringType.DisplayName(),
+                    src.Name
+                    );
+
+        [MethodImpl(Inline)]
+        public static BfOrigin<Pair<BfOrigin>> origin(BfOrigin a, BfOrigin b)
+            => core.pair(a,b);
     }
 }

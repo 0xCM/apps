@@ -16,7 +16,6 @@ namespace Z0
             CheckRunner.run(pll,
                 (nameof(CheckBitNumbers), CheckBitNumbers),
                 (nameof(CheckBitReplication), CheckBitReplication),
-                //(nameof(GenBitfield), GenBitfield),
                 (nameof(CheckSegVars), CheckSegVars),
                 (nameof(CheckBv256), CheckBv256),
                 (nameof(CheckPack64x1), CheckPack64x1),
@@ -104,7 +103,7 @@ namespace Z0
             var a = Code.A;
             var b = Code.B;
             var c = Code.C;
-            var _ = Code._;
+            var _ = Code.Underscore;
             var d = Code.D;
 
             var v0 = new SegVar(a, b, c, _, d);
