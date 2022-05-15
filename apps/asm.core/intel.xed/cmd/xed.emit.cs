@@ -13,15 +13,24 @@ namespace Z0
         Outcome EmitOpCodes(CmdArgs args)
         {
             var bitfield = XedOpCodes.bitfield();
-            var src = XedOpCodes.pack(bitfield, Xed.Views.OpCodes);
-            var formatter = XedOpCodes.formatter(bitfield);
-            for(var i=0; i<src.Count; i++)
+            var segs = Bitfields.segmodels(bitfield);
+            var formatter = Tables.formatter<BfSegModel>();
+            Write(formatter.FormatHeader());
+            iter(segs, seg => Write(formatter.Format(seg)));
+            var intervals = bitfield.Intervals;
+            for(var i=0; i<intervals.Count; i++)
             {
-                ref readonly var ocid = ref src[i];
-                var text = formatter.Invoke(ocid);
-                Write(text);
-
+                Write(intervals[i]);
             }
+            // var src = XedOpCodes.pack(bitfield, Xed.Views.OpCodes);
+            // var formatter = XedOpCodes.formatter(bitfield);
+            // for(var i=0; i<src.Count; i++)
+            // {
+            //     ref readonly var ocid = ref src[i];
+            //     var text = formatter.Invoke(ocid);
+            //     Write(text);
+
+            // }
             return true;
         }
 

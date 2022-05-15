@@ -41,14 +41,14 @@ namespace Z0
         /// <summary>
         /// The segments in the field
         /// </summary>
-        public readonly Index<BitfieldSegModel> Segments;
+        public readonly Index<BfSegModel> Segments;
 
         /// <summary>
         /// A semantic identifier
         /// </summary>
         public readonly string Descriptor;
 
-        internal BitPattern(BfOrigin orign, string content, string name, byte width, Type datatype, NativeSize minsize, Index<BitfieldSegModel> segments, string descriptor)
+        internal BitPattern(BfOrigin orign, string content, string name, byte width, Type datatype, NativeSize minsize, Index<BfSegModel> segments, string descriptor)
         {
             Origin = orign;
             Content = content;

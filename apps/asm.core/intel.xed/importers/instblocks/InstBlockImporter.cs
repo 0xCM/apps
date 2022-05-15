@@ -4,13 +4,73 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static XedRules;
     using static XedModels;
+    using static core;
 
     partial class XedImport
     {
-        public unsafe class InstBlockImporter : IDisposable
+        public class InstBlockImporter : IDisposable
         {
+            void Process(LineMap<FormFields> map, ReadOnlySpan<string> lines)
+            {
+                var emitter = text.emitter();
+                var k=0u;
+                for(var i=0u; i<map.IntervalCount; i++)
+                {
+                    ref readonly var range = ref map[i];
+                    Received.TryAdd(range.Id.Form, range);
+                    var spec = range.Id;
+                    var form = spec.Form;
+                    var import = InstBlockImport.Empty;
+                    var name = EmptyString;
+                    var value = EmptyString;
+                    var bf = BlockField.amd_3dnow_opcode;
+                    import.Form = form;
+                    import.Seq = i;
+                    for(var m =0; m<range.LineCount; m++)
+                    {
+                        ref readonly var line = ref skip(lines,k++);
+                        emitter.AppendLine(line);
+
+                        split(line, out name, out value);
+                        XedParsers.parse(name, out bf);
+
+                        if(bf == BlockField.iclass)
+                            XedParsers.parse(value, out import.Class);
+                        else if(bf == BlockField.pattern)
+                        {
+                            split(line, out _, out value);
+                            try
+                            {
+                                InstParser.parse(value, out import.Pattern);
+                            }
+                            catch(Exception e)
+                            {
+                                AppSvc.Warn(e.Message);
+                            }
+                        }
+                    }
+                    Imports.Add(import);
+                    Data.TryAdd(form, emitter.Emit());
+                }
+            }
+
+            ConcurrentDictionary<InstForm,LineInterval<FormFields>> Received = new();
+
+            ConcurrentDictionary<InstForm,string> Data = new();
+
+            SortedLookup<InstForm,uint> FormSeq;
+
+            ConcurrentBag<InstBlockImport> Imports = new();
+            ConcurrentDictionary<InstForm,string> Descriptions = new();
+
+            ConcurrentDictionary<InstForm,string> Headers = new();
+
+            readonly AppServices AppSvc;
+
+            XedPaths XedPaths;
+
             MemoryFile File;
 
             const uint Partition = 128;
@@ -31,10 +91,12 @@ namespace Z0
 
             static W256 w => default;
 
-            public InstBlockImporter(FS.FilePath src)
+            public InstBlockImporter(AppServices svc)
             {
+                AppSvc = svc;
+                XedPaths = XedPaths.Service;
+                File = XedPaths.InstDumpSource().MemoryMap(true);
                 BlockSize = (uint)w.DataWidth/8;
-                File = src.MemoryMap(true);
                 FileSize = (uint)File.Size;
                 BlockCount = FileSize/BlockSize;
                 Remainder = FileSize%BlockSize;
@@ -43,27 +105,80 @@ namespace Z0
                 PartRemainder = BlockCount%Partition;
             }
 
-            public void Run(IInstBlockReceiver dst)
+            void Process(InstForm form)
             {
-                process(File,dst);
-                dst.Emit();
+                if(form.IsNonEmpty)
+                {
+                    var dst = InstBlockImport.Empty;
+                    var range = Received[form];
+                    var content = Data[form];
+                    var seq = FormSeq[form];
+                    Descriptions[form] = content;
+                    Headers[form] = string.Format("{0,-64} | {1:D5} | {2:D2} | {3:D6} | {4:D6}", form, seq, range.LineCount, (uint)range.MinLine, (uint)range.MaxLine);
+                }
             }
 
-            void IDisposable.Dispose()
-                => File.Dispose();
-
-            public void Emit(LineMap<InstForm> data, FS.FilePath dst)
+            Index<InstForm> CalcFormSeq()
             {
-                const string Pattern = "{0,-6} | {1,-6} | {2,-6} | {3,-6} | {4,-64}";
+                var keys = Data.Keys.Index().Sort();
+                var dst = dict<InstForm,uint>();
+                for(var i=0u; i<keys.Count; i++)
+                    dst[keys[i]] = i;
+                FormSeq = dst;
+                return keys;
+            }
+
+            public void Run()
+            {
+                var src = XedImport.lines(File);
+                var map = linemap(src);
+                Process(map,src);
+                Emit();
+                EmitLineMap(map, XedPaths.Imports().Path("instblocks.linemap", FileKind.Csv));
+            }
+
+            public void Emit()
+            {
+                var forms = CalcFormSeq();
+                iter(forms,Process,true);
+                var dst = XedPaths.Imports().Path("instblocks", FileKind.Txt);
+                using var writer = dst.AsciWriter();
+                var emitting = AppSvc.EmittingFile(dst);
+                for(var i=0u; i<forms.Count; i++)
+                {
+                    ref readonly var key = ref forms[i];
+                    if(key.IsEmpty)
+                        continue;
+
+                    writer.AppendLine(Headers[key]);
+                    writer.WriteLine(RP.PageBreak120);
+                    writer.AppendLine(Descriptions[key]);
+                    writer.WriteLine();
+                }
+
+                AppSvc.EmittedFile(emitting, forms.Count);
+
+                var records = Imports.Index().Sort().Resequence();
+                AppSvc.TableEmit(records, XedPaths.Imports().Table<InstBlockImport>());
+            }
+
+            public void EmitLineMap(LineMap<FormFields> data, FS.FilePath dst)
+            {
+                const string Pattern = "{0,-6} | {1,-12} | {2,-12} | {3,-6} | {4,-64} | {5}";
                 var seq = 0u;
 
                 using var writer = dst.AsciWriter();
-                writer.AppendLineFormat(Pattern,"Seq", "Min", "Max", "Lines", "Form");
+                writer.AppendLineFormat(Pattern,"Seq", "Min", "Max", "Lines", "Form", "Fields");
                 for(var i=0u; i<data.IntervalCount; i++)
                 {
                     ref readonly var seg = ref data[i];
-                    writer.AppendLineFormat(Pattern, seq++, seg.MinLine, seg.MaxLine, seg.LineCount, seg.Id);
+                    writer.AppendLineFormat(Pattern, seq++, seg.MinLine, seg.MaxLine, seg.LineCount, seg.Id.Form, seg.Id.Fields);
                 }
+            }
+
+            public void Dispose()
+            {
+                File.Dispose();
             }
         }
     }

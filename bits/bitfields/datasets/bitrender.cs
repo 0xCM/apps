@@ -30,7 +30,7 @@ namespace Z0
         /// <param name="src"></param>
         /// <typeparam name="F"></typeparam>
         /// <typeparam name="T"></typeparam>
-        public static string bitrender<F,T>(BitfieldDataset<F,T> src)
+        public static string bitrender<F,T>(BfDataset<F,T> src)
             where F : unmanaged, Enum
             where T : unmanaged
         {

@@ -33,7 +33,7 @@ namespace Z0
             return dst;
         }
 
-        public static Index<uint> offsets<F,T>(BitfieldDataset<F,T> src)
+        public static Index<uint> offsets<F,T>(BfDataset<F,T> src)
             where F : unmanaged, Enum
             where T : unmanaged
         {

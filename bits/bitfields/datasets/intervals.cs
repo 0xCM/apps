@@ -8,13 +8,13 @@ namespace Z0
 
     partial struct BfDatasets
     {
-        public static Index<BitfieldInterval<F>> intervals<F>(BitfieldDataset<F> src)
+        public static Index<BfInterval<F>> intervals<F>(BfdDataset<F> src)
             where F : unmanaged, Enum
-                => map(src.Fields, field => new BitfieldInterval<F>(src.Offset(field), src.Width(field),field));
+                => map(src.Fields, field => new BfInterval<F>(field, src.Offset(field), src.Width(field)));
 
-        public static Index<BitfieldInterval<F>> intervals<F,T>(BitfieldDataset<F,T> src)
+        public static Index<BfInterval<F>> intervals<F,T>(BfDataset<F,T> src)
             where F : unmanaged, Enum
             where T : unmanaged
-                => map(src.Fields, field => new BitfieldInterval<F>(src.Offset(field), src.Width(field), field));
+                => map(src.Fields, field => new BfInterval<F>(field, src.Offset(field), src.Width(field)));
     }
 }

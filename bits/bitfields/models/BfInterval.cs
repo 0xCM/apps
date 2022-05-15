@@ -5,8 +5,7 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential,Pack=1)]
-    public readonly record struct BitfieldInterval<F> : IComparable<BitfieldInterval>
-        where F : unmanaged
+    public readonly record struct BfInterval : IComparable<BfInterval>
     {
         /// <summary>
         /// The index of the first bit in the segment
@@ -18,12 +17,9 @@ namespace Z0
         /// </summary>
         public readonly byte Width;
 
-        public readonly F Field;
-
         [MethodImpl(Inline)]
-        public BitfieldInterval(uint offset, byte width, F field)
+        public BfInterval(uint offset, byte width)
         {
-            Field = field;
             Offset = offset;
             Width = width;
         }
@@ -31,13 +27,13 @@ namespace Z0
         /// <summary>
         /// The index of the last bit in the segment
         /// </summary>
-        public readonly byte Max
+        public readonly byte MaxPos
         {
             [MethodImpl(Inline)]
             get => (byte)Bitfields.endpos(Offset,Width);
         }
 
-        public int CompareTo(BitfieldInterval src)
+        public int CompareTo(BfInterval src)
             => Offset.CompareTo(src.Offset);
 
         public string Format()
@@ -45,9 +41,5 @@ namespace Z0
 
         public override string ToString()
             => Format();
-
-        [MethodImpl(Inline)]
-        public static implicit operator BitfieldInterval(BitfieldInterval<F> src)
-            => new BitfieldInterval(src.Offset,src.Width);
     }
 }

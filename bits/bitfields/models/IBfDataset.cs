@@ -4,8 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IBitfieldDataset
+    public interface IBfDataset
     {
+        asci64 Name {get;}
+
         uint FieldCount {get;}
 
         string BitrenderPattern {get;}
@@ -14,7 +16,7 @@ namespace Z0
 
         ref readonly Index<byte> Widths {get;}
 
-        ref readonly BitfieldIntervals Intervals {get;}
+        ref readonly BfIntervals Intervals {get;}
 
         ref readonly Index<BitMask> Masks {get;}
 
@@ -35,20 +37,22 @@ namespace Z0
         ref readonly BitMask Mask(uint index)
             => ref Masks[index];
 
-        ref readonly BitfieldInterval Interval(int index)
+        ref readonly BfInterval Interval(int index)
             => ref Intervals[index];
 
-        ref readonly BitfieldInterval Interval(uint index)
+        ref readonly BfInterval Interval(uint index)
             => ref Intervals[index];
     }
 
-    public interface IBitfieldDataset<F> : IBitfieldDataset
+    public interface IBfDataset<F> : IBfDataset
         where F : unmanaged, Enum
     {
         ref readonly Index<F> Fields {get;}
 
-        new ref readonly BitfieldIntervals<F> Intervals {get;}
+        uint Index(F field);
 
-        ref readonly BitfieldInterval<F> Interval(F field);
+        new ref readonly BfIntervals<F> Intervals {get;}
+
+        ref readonly BfInterval<F> Interval(F field);
     }
 }

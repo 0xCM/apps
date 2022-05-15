@@ -6,8 +6,8 @@ namespace Z0
 {
     using api = Bitfields;
 
-    [StructLayout(LayoutKind.Sequential)]
-    public readonly struct BitfieldSegModel<K>
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    public readonly struct BfSegModel<K>
         where K : unmanaged
     {
         /// <summary>
@@ -36,7 +36,7 @@ namespace Z0
         public readonly BitMask Mask;
 
         [MethodImpl(Inline)]
-        public BitfieldSegModel(asci64 name, uint min, uint max, BitMask mask)
+        public BfSegModel(asci64 name, uint min, uint max, BitMask mask)
         {
             SegName = name;
             MinIndex = min;
@@ -51,5 +51,9 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        [MethodImpl(Inline)]
+        public static implicit operator BfSegModel(BfSegModel<K> src)
+            => new (src.SegName, src.MinIndex, src.MaxIndex, src.Mask);
     }
 }

@@ -6,28 +6,35 @@ namespace Z0
 {
     using api = BfDatasets;
 
-    public class BitfieldDataset : IBitfieldDataset
+    public class BfDataset : IBfDataset
     {
+        public readonly asci64 Name;
+
         public readonly uint FieldCount;
+
+        readonly Index<string> _Fields;
+
+        readonly Dictionary<string,uint> _Indices;
 
         readonly Index<uint> _Offsets;
 
         readonly Index<byte> _Widths;
 
-        readonly BitfieldIntervals _Intervals;
+        readonly BfIntervals _Intervals;
 
         readonly Index<BitMask> _Masks;
 
         public readonly string BitrenderPattern;
 
-        public BitfieldDataset(Index<byte> widths, char sep = Chars.Space)
+        public BfDataset(asci64 name, Index<string> fields, Dictionary<string,uint> indices, Index<byte> widths)
         {
             FieldCount = widths.Count;
+            _Indices = indices;
             _Widths = widths;
             _Offsets = api.offsets(widths);
             _Intervals = Bitfields.intervals(_Offsets, widths);
             _Masks = api.masks(this);
-            BitrenderPattern = api.bitrender(widths, sep);
+            BitrenderPattern = api.bitrender(widths, Chars.Space);
         }
 
         public ref readonly Index<uint> Offsets
@@ -42,10 +49,16 @@ namespace Z0
             get => ref _Widths;
         }
 
-        public ref readonly BitfieldIntervals Intervals
+        public ref readonly BfIntervals Intervals
         {
             [MethodImpl(Inline)]
             get => ref _Intervals;
+        }
+
+        public ref readonly Index<string> Fields
+        {
+            [MethodImpl(Inline)]
+            get => ref _Fields;
         }
 
         public ref readonly Index<BitMask> Masks
@@ -54,11 +67,18 @@ namespace Z0
             get => ref _Masks;
         }
 
-        uint IBitfieldDataset.FieldCount
+        uint IBfDataset.FieldCount
             => FieldCount;
 
-        string IBitfieldDataset.BitrenderPattern
+        string IBfDataset.BitrenderPattern
             => BitrenderPattern;
+
+        asci64 IBfDataset.Name
+            => Name;
+
+        [MethodImpl(Inline)]
+        public uint Index(asci64 field)
+            => _Indices[field];
 
         [MethodImpl(Inline)]
         public ref readonly byte Width(int index)
@@ -85,21 +105,16 @@ namespace Z0
             => ref Masks[index];
 
         [MethodImpl(Inline)]
-        public ref readonly BitfieldInterval Interval(int index)
+        public ref readonly BfInterval Interval(int index)
             => ref Intervals[index];
 
         [MethodImpl(Inline)]
-        public ref readonly BitfieldInterval Interval(uint index)
+        public ref readonly BfInterval Interval(uint index)
             => ref Intervals[index];
 
         [MethodImpl(Inline)]
-        public T Extract<T>(byte index, T src)
+        public T Extract<T>(uint index, T src)
             where T : unmanaged
                 => Bitfields.extract(src, (byte)Offset(index), Width(index));
-
-        [MethodImpl(Inline)]
-        public Index<BitfieldCell<T>> Store<T>(T src, Index<BitfieldCell<T>> dst)
-            where T : unmanaged
-                => api.store(this, src, dst);
     }
 }

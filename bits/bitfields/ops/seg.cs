@@ -49,7 +49,7 @@ namespace Z0
             where T : unmanaged
         {
             ref readonly var spec = ref skip(src.SegSpecs,index);
-            return gbits.extract(src.State, (byte)spec.MinPos, (byte)spec.MaxPos);
+            return gbits.extract(src.State, (byte)spec.Offset, (byte)spec.MaxPos);
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]

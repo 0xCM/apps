@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct BitfieldIntervals<F>
+    public readonly struct BfIntervals<F>
         where F : unmanaged
     {
-        readonly Index<BitfieldInterval<F>> Data;
+        readonly Index<BfInterval<F>> Data;
 
         [MethodImpl(Inline)]
-        public BitfieldIntervals(BitfieldInterval<F>[] src)
+        public BfIntervals(BfInterval<F>[] src)
         {
             Data = src;
         }
@@ -21,31 +21,31 @@ namespace Z0
             get => Data.Count;
         }
 
-        public ref BitfieldInterval<F> this[int i]
+        public ref BfInterval<F> this[int i]
         {
             [MethodImpl(Inline)]
             get => ref Data[i];
         }
 
-        public ref BitfieldInterval<F> this[uint i]
+        public ref BfInterval<F> this[uint i]
         {
             [MethodImpl(Inline)]
             get => ref Data[i];
         }
 
-        public BitfieldInterval<F>[] Storage
+        public BfInterval<F>[] Storage
         {
             [MethodImpl(Inline)]
             get => Data;
         }
 
-        public ReadOnlySpan<BitfieldInterval<F>> View
+        public ReadOnlySpan<BfInterval<F>> View
         {
             [MethodImpl(Inline)]
             get => Data.View;
         }
 
-        public ReadOnlySpan<BitfieldInterval<F>> Edit
+        public ReadOnlySpan<BfInterval<F>> Edit
         {
             [MethodImpl(Inline)]
             get => Data.Edit;
@@ -58,15 +58,15 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator BitfieldIntervals<F>(BitfieldInterval<F>[] src)
-            => new BitfieldIntervals<F>(src);
+        public static implicit operator BfIntervals<F>(BfInterval<F>[] src)
+            => new BfIntervals<F>(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator BitfieldIntervals<F>(Index<BitfieldInterval<F>> src)
-            => new BitfieldIntervals<F>(src.Storage);
+        public static implicit operator BfIntervals<F>(Index<BfInterval<F>> src)
+            => new BfIntervals<F>(src.Storage);
 
         [MethodImpl(Inline)]
-        public static implicit operator BitfieldInterval<F>[](BitfieldIntervals<F> src)
+        public static implicit operator BfInterval<F>[](BfIntervals<F> src)
             => src.Storage;
     }
 }

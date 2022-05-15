@@ -10,7 +10,7 @@ namespace Z0
     /// Defines an identified, contiguous bitsequence, represented symbolically as {Identifier}:[Min,Max]
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId), Doc("Describes a segment in a bitfield")]
-    public struct BitfieldSegModel
+    public struct BfSegModel
     {
         public const string TableId = "bitfields.models.segments";
 
@@ -24,7 +24,7 @@ namespace Z0
         /// The index of the first bit in the segment
         /// </summary>
         [Render(6), Doc("The index of the first bit in the segment")]
-        public uint MinPos;
+        public uint Offset;
 
         /// <summary>
         /// The index of the last bit in the segment
@@ -45,10 +45,10 @@ namespace Z0
         public BitMask Mask;
 
         [MethodImpl(Inline)]
-        public BitfieldSegModel(asci64 name, uint min, uint max, BitMask mask = default)
+        public BfSegModel(asci64 name, uint min, uint max, BitMask mask)
         {
             SegName = name;
-            MinPos = min;
+            Offset = min;
             MaxPos = max;
             Width = (byte)bits.segwidth(min,max);
             Mask = mask;

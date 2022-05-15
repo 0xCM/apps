@@ -69,19 +69,38 @@ namespace Z0
             */
 
         [StructLayout(StructLayout,Pack=1), Record(TableId)]
-        public struct InstBlockImport
+        public struct InstBlockImport : ISequential<InstBlockImport>, IComparable<InstBlockImport>
         {
             public const string TableId = "xed.instblock.import";
 
+            [Render(6)]
             public uint Seq;
 
+            [Render(18)]
             public InstClass Class;
 
+            [Render(62)]
             public InstForm Form;
 
+            [Render(1)]
             public InstPatternBody Pattern;
 
             public static InstBlockImport Empty => default;
+
+            public override int GetHashCode()
+                => (int)Seq;
+
+            [MethodImpl(Inline)]
+            public bool Equals(InstBlockImport src)
+                => Seq == src.Seq;
+
+            uint ISequential.Seq
+            {
+                 get => Seq;
+                 set => Seq = value; }
+
+            public int CompareTo(InstBlockImport other)
+                => Form.Format().CompareTo(other.Form.Format());
         }
     }
 }

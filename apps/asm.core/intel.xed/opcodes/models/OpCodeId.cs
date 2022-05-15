@@ -5,10 +5,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using FW = XedModels.OpCodeId.FieldWidth;
-
     using static XedRules;
     using static core;
+
+    using FW = XedModels.OpCodeId.FieldWidth;
 
     partial struct XedModels
     {

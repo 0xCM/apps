@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = Bitfields;
+    using static core;
 
-    [StructLayout(StructLayout,Pack=1), Doc("Describes a bitfield")]
-    public readonly struct BitfieldModel
+    public readonly struct BfModel<T>
+        where T : unmanaged
     {
         /// <summary>
         /// Specifies the source of the model definition
@@ -29,56 +29,40 @@ namespace Z0
         /// </summary>
         public readonly uint TotalWidth;
 
-        readonly Index<BitfieldSegModel> Data;
+        readonly Index<BfSegModel<T>> Data;
 
         [MethodImpl(Inline)]
-        public BitfieldModel(BfOrigin origin, string name, Index<BitfieldSegModel> segs, uint width)
+        public BfModel(BfOrigin origin, string name, Index<BfSegModel<T>> segments, uint width)
         {
             Origin = origin;
             Name = name;
-            SegCount = segs.Count;
+            SegCount = segments.Count;
+            Data = segments;
             TotalWidth = width;
-            Data = segs;
         }
 
-        public bool IsBitvector
+        public ref BfSegModel<T> this[uint i]
         {
             [MethodImpl(Inline)]
-            get => SegCount == TotalWidth;
+            get => ref Data[i];
         }
 
-        public Span<BitfieldSegModel> Segments
+        public Span<BfSegModel<T>> Segments
         {
             [MethodImpl(Inline)]
             get => Data.Edit;
         }
 
         [MethodImpl(Inline)]
-        public ref BitfieldSegModel Seg(uint i)
-            => ref Data[i];
-
-        public ref BitfieldSegModel this[uint i]
-        {
-            [MethodImpl(Inline)]
-            get => ref Seg(i);
-        }
+        public uint Width(int index)
+            => Seg(index).SegWidth;
 
         [MethodImpl(Inline)]
-        public uint SegWidth(uint i)
-            => Seg(i).Width;
+        public uint Position(int index)
+            => bw32(Seg(index).MinIndex);
 
         [MethodImpl(Inline)]
-        public uint SegStart(uint i)
-            => Seg(i).MinPos;
-
-        [MethodImpl(Inline)]
-        public uint SegEnd(uint i)
-            => Seg(i).Width;
-
-        public string Format()
-            => api.format(this);
-
-        public override string ToString()
-            => Format();
+        public ref BfSegModel<T> Seg(int index)
+            => ref Data[index];
     }
 }

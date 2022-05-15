@@ -49,7 +49,7 @@ namespace Z0
                 ref readonly var seg = ref segs[i];
                 var mask = seg.Mask;
                 var width = seg.Width;
-                var bits = math.srl(seg.Mask.Apply(data), (byte)seg.MinPos);
+                var bits = math.srl(seg.Mask.Apply(data), (byte)seg.Offset);
                 BitRender.render(bits, ref j, width, buffer);
                 seek(buffer, j++) = Chars.Space;
             }
@@ -85,11 +85,11 @@ namespace Z0
         public static Index<string> indicators(string src)
             => text.split(src, Chars.Space).Reverse();
 
-        public static Index<BitfieldSegModel> segments(string src)
+        public static Index<BfSegModel> segments(string src)
         {
             var names = indicators(src);
             var count = names.Length;
-            var buffer = alloc<BitfieldSegModel>(count);
+            var buffer = alloc<BfSegModel>(count);
             var offset = z8;
             var size = minsize(src);
             for(var i=0; i<count; i++)

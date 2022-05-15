@@ -45,17 +45,17 @@ namespace Z0
                 => new Bitfield64<T>(state);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Bitfield<T> create<T>(BitfieldModel model, T state)
+        public static Bitfield<T> create<T>(BfModel model, T state)
             where T : unmanaged
                 => new Bitfield<T>(model,state);
 
         [MethodImpl(Inline)]
-        public static Bitfield<T,K> create<T,K>(BfOrigin origin, string name, BitfieldSegModel<K>[] segs, T state)
+        public static Bitfield<T,K> create<T,K>(BfOrigin origin, string name, BfSegModel<K>[] segs, T state)
             where T : unmanaged
             where K : unmanaged
         {
             var w = totalwidth(@readonly(segs));
-            var m = new BitfieldModel<K>(origin, name, segs, w);
+            var m = new BfModel<K>(origin, name, segs, w);
             return new Bitfield<T,K>(m,state);
         }
 

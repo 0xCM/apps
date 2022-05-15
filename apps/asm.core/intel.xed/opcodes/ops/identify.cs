@@ -14,10 +14,10 @@ namespace Z0
 
     partial class XedOpCodes
     {
-        public static BitfieldDataset<FK,OpCodeId> bitfield()
-            => BfDatasets.create<FK,FW,OpCodeId>();
+        public static BfDataset<FK,OpCodeId> bitfield()
+            => BfDatasets.create<FK,FW,OpCodeId>("OpCodes");
 
-        public static Index<OpCodeId> pack(BitfieldDataset<FK,OpCodeId> spec, ReadOnlySpan<InstOpCode> src, bool pll = true)
+        public static Index<OpCodeId> pack(BfDataset<FK,OpCodeId> spec, ReadOnlySpan<InstOpCode> src, bool pll = true)
         {
             var dst = bag<OpCodeId>();
             iter(src,opcode => dst.Add(pack(spec,opcode)), pll);
@@ -25,7 +25,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public static OpCodeId pack(BitfieldDataset<FK,OpCodeId> spec, InstOpCode oc)
+        public static OpCodeId pack(BfDataset<FK,OpCodeId> spec, InstOpCode oc)
             => math.or(
                 (uint)oc.InstClass << (int)spec.Offset(FK.Class),
                 (uint)oc.PrimaryByte << (int)spec.Offset(FK.Hex8),
@@ -35,12 +35,13 @@ namespace Z0
                 (uint)oc.Rep << (int)spec.Offset(FK.Rep)
                 );
 
-        public static Func<OpCodeId,string> formatter(BitfieldDataset<FK,OpCodeId> spec)
-            => src => string.Format("{0,-18} | 0x{1} | {2,-6} | {3,-6}",
+        public static Func<OpCodeId,string> formatter(BfDataset<FK,OpCodeId> spec)
+            => src => string.Format("{0,-18} | 0x{1} | {2,-6} | {3,-6} | {4,-6}",
                     spec.Extract<InstClass>(FK.Class, src),
                     spec.Extract<Hex8>(FK.Hex8, src),
                     spec.Extract<LockIndicator>(FK.Lock, src),
-                    spec.Extract<BitIndicator>(FK.Rex, src)
+                    spec.Extract<BitIndicator>(FK.Rex, src),
+                    spec.Extract<ModIndicator>(FK.Mod, src)
                     );
     }
 }

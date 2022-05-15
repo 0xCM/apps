@@ -31,7 +31,7 @@ namespace Z0
         public readonly record struct RuleFieldBits
         {
             public static RuleFieldBits create()
-                => new RuleFieldBits(BfDatasets.create<Segment>(FieldKindWidth, OperatorWidth, DataKindWidth, ValueWidth));
+                => new RuleFieldBits(BfDatasets.create<Segment>("Rules", FieldKindWidth, OperatorWidth, DataKindWidth, ValueWidth));
 
             [MethodImpl(Inline)]
             public RuleField Define<T>(FieldKind field, RuleOperator op, RuleCellKind kind, T value)
@@ -50,10 +50,10 @@ namespace Z0
                 where T : unmanaged
                     => Define(field, OperatorKind.None, kind, value);
 
-            public readonly BitfieldDataset<Segment> Dataset;
+            public readonly BfdDataset<Segment> Dataset;
 
             [MethodImpl(Inline)]
-            RuleFieldBits(BitfieldDataset<Segment> src)
+            RuleFieldBits(BfdDataset<Segment> src)
             {
                 Dataset = src;
             }

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     public readonly struct LineInterval
@@ -83,5 +79,4 @@ namespace Z0
 
         public static LineInterval Empty => default;
     }
-
 }

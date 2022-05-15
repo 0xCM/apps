@@ -33,13 +33,13 @@ namespace Z0
             checks.Run();
         }
 
-        public Index<BitfieldModel> BvEmit(DbSources sources, string filter, FS.FolderPath dst)
+        public Index<BfModel> BvEmit(DbSources sources, string filter, FS.FolderPath dst)
             => BvEmit(BvCalc(sources.Files(FileKind.Csv).Where(f => f.FileName.StartsWith(filter))), dst);
 
-        public Index<BitfieldModel> BvCalc(FS.Files lists)
+        public Index<BfModel> BvCalc(FS.Files lists)
             => bvmodels(lists);
 
-        public Index<BitfieldModel> BvEmit(Index<BitfieldModel> src, FS.FolderPath dst)
+        public Index<BfModel> BvEmit(Index<BfModel> src, FS.FolderPath dst)
         {
             dst.Clear();
             var count = src.Count;
@@ -47,7 +47,7 @@ namespace Z0
             {
                 ref readonly var bv = ref src[i];
                 ref readonly var name = ref bv.Name;
-                var target = dst + FS.file(name, FS.ext("bv"));
+                var target = dst + FS.file(name.Format(), FS.ext("bv"));
                 var msg = string.Format("{0} -> {1}", bv.Origin, target.ToUri());
                 AppSvc.FileEmit(bv, msg, target);
             }

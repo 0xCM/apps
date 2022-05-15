@@ -24,7 +24,7 @@ namespace Z0
         /// </summary>
         /// <param name="widths">The 0-based offset of each segment in the field</param>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static void masks(BitfieldDataset spec, Span<BitMask> dst)
+        public static void masks(BfDataset spec, Span<BitMask> dst)
         {
             var count = dst.Length;
             for(var i=z8; i<count; i++)
@@ -36,7 +36,7 @@ namespace Z0
         /// </summary>
         /// <param name="widths">The 0-based offset of each segment in the field</param>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static void masks<T>(BitfieldDataset spec, Span<T> dst)
+        public static void masks<T>(BfDataset spec, Span<T> dst)
             where T : unmanaged
         {
             var count = dst.Length;
@@ -48,7 +48,7 @@ namespace Z0
         /// Computes a sequence of segment masks given a paired offset/width seqence
         /// </summary>
         /// <param name="widths">The 0-based offset of each segment in the field</param>
-        public static Index<BitMask> masks(BitfieldDataset spec)
+        public static Index<BitMask> masks(BfDataset spec)
         {
             var dst = alloc<BitMask>(spec.FieldCount);
             for(var i=z8; i<spec.FieldCount; i++)
@@ -60,7 +60,7 @@ namespace Z0
         /// Computes a sequence of segment masks given a paired offset/width seqence
         /// </summary>
         /// <param name="widths">The 0-based offset of each segment in the field</param>
-        public static Index<BitMask> masks<F>(BitfieldDataset<F> spec)
+        public static Index<BitMask> masks<F>(BfdDataset<F> spec)
             where F : unmanaged, Enum
         {
             var dst = alloc<BitMask>(spec.FieldCount);
@@ -78,7 +78,7 @@ namespace Z0
         /// Computes a sequence of segment masks given a paired offset/width seqence
         /// </summary>
         /// <param name="widths">The 0-based offset of each segment in the field</param>
-        public static Index<T> masks<T>(BitfieldDataset ds)
+        public static Index<T> masks<T>(BfDataset ds)
             where T : unmanaged
         {
             var dst = alloc<T>(ds.FieldCount);
@@ -87,7 +87,7 @@ namespace Z0
             return dst;
         }
 
-        public static Index<BitMask> masks<F,T>(BitfieldDataset<F,T> src)
+        public static Index<BitMask> masks<F,T>(BfDataset<F,T> src)
             where F : unmanaged, Enum
             where T : unmanaged
         {

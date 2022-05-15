@@ -8,12 +8,12 @@ namespace Z0
 
     partial class PolyBits
     {
-        public static Index<BitfieldModel> bvmodels(FS.Files src)
+        public static Index<BfModel> bvmodels(FS.Files src)
         {
             var items = sys.empty<ListItem>();
             var counter = 0u;
             var count = src.Count;
-            var bitfields = alloc<BitfieldModel>(count);
+            var bitfields = alloc<BfModel>(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var source = ref src[i];

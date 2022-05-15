@@ -9,44 +9,25 @@ namespace Z0
 
     partial class XedImport
     {
+        [MethodImpl(Inline)]
+        public static InstBlock block(uint seq, FormFields fields, ReadOnlySpan<string> lines)
+            => new InstBlock(seq,fields,lines);
+
         public ref struct InstBlock
         {
             public readonly uint Seq;
 
-            public readonly BitVector64<BlockField> Fields;
-
-            public readonly LineInterval<InstForm> Range;
-
-            public readonly InstForm Form;
+            public readonly FormFields Fields;
 
             public readonly ReadOnlySpan<string> Lines;
 
             [MethodImpl(Inline)]
-            public InstBlock(uint seq, BitVector64<BlockField> fields,  LineInterval<InstForm> range, ReadOnlySpan<string> lines)
+            public InstBlock(uint seq, FormFields fields, ReadOnlySpan<string> lines)
             {
                 Require.nonzero(lines.Length);
                 Seq = seq;
                 Fields = fields;
-                Range = range;
-                Form = range.Id;
                 Lines = lines;
-            }
-
-            public uint Render(ITextEmitter dst)
-            {
-                var counter = 0u;
-                var offset = Range.MinLine;
-                for(var i=0; i<Lines.Length; i++)
-                {
-                    var line = skip(Lines,i);
-                    if(text.nonempty(line))
-                    {
-                        dst.AppendLine(line);
-                        counter++;
-                    }
-
-                }
-                return counter;
             }
 
             [MethodImpl(Inline)]

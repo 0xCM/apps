@@ -8,9 +8,9 @@ namespace Z0
 
     partial class PolyBits
     {
-        static void render(ReadOnlySpan<BitfieldSegModel> src, ITextEmitter dst, bool header = true)
+        static void render(ReadOnlySpan<BfSegModel> src, ITextEmitter dst, bool header = true)
         {
-            var formatter = Tables.formatter<BitfieldSegModel>();
+            var formatter = Tables.formatter<BfSegModel>();
             if(header)
                 dst.AppendLine(formatter.FormatHeader());
             for(var i=0; i<src.Length; i++)

@@ -9,7 +9,7 @@ namespace Z0
     partial struct BfDatasets
     {
         [MethodImpl(Inline)]
-        public static T extract<F,T>(BitfieldDataset<F,T> bitfield, F field, T src)
+        public static T extract<F,T>(BfDataset<F,T> bitfield, F field, T src)
             where F : unmanaged, Enum
             where T : unmanaged
                 => Bitfields.extract(src, (byte)bitfield.Offset(field), bitfield.Width(field));

@@ -27,6 +27,5 @@ namespace Z0
             PolyBits.EmitPatterns(nameof(AsmBitPatterns),src);
             return true;
         }
-
     }
 }

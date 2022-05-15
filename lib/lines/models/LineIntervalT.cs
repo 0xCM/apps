@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct LineInterval<T>
     {
         public readonly T Id;
@@ -40,6 +35,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator LineInterval<T>((T id, LineNumber min, LineNumber max) src)
             => new LineInterval<T>(src.id,src.min, src.max);
+
+        [MethodImpl(Inline)]
+        public static implicit operator LineInterval(LineInterval<T> src)
+            => new LineInterval(0, src.MinLine, src.MaxLine);
 
         public static LineInterval<T> Empty => default;
     }

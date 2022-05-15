@@ -13,11 +13,11 @@ namespace Z0
         /// </summary>
         /// <param name="src">The bitfield spec</param>
         [MethodImpl(Inline), Op]
-        public static uint totalwidth(in BitfieldModel src)
+        public static uint totalwidth(in BfModel src)
             => totalwidth(src.Segments);
 
         [MethodImpl(Inline), Op]
-        public static uint totalwidth(ReadOnlySpan<BitfieldSegModel> src)
+        public static uint totalwidth(ReadOnlySpan<BfSegModel> src)
         {
             var count = src.Length;
             var w = 0u;
@@ -27,7 +27,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static uint totalwidth<K>(ReadOnlySpan<BitfieldSegModel<K>> src)
+        public static uint totalwidth<K>(ReadOnlySpan<BfSegModel<K>> src)
             where K : unmanaged
         {
             var count = src.Length;
@@ -42,7 +42,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The bitfield spec</param>
         [MethodImpl(Inline), Op]
-        public static uint totalwidth<T>(in BitfieldModel<T> src)
+        public static uint totalwidth<T>(in BfModel<T> src)
             where T : unmanaged
         {
             var total = 0u;

@@ -6,27 +6,33 @@ namespace Z0
 {
     using api = BfDatasets;
 
-    public class BitfieldDataset<F,T> : IBitfieldDataset<F>
+    public class BfDataset<F,T> : IBfDataset<F>
         where F : unmanaged, Enum
         where T : unmanaged
     {
         public readonly uint FieldCount;
 
+        public readonly asci64 Name;
+
         readonly Index<F> _Fields;
+
+        readonly Dictionary<F,uint> _Indices;
 
         readonly Index<uint> _Offsets;
 
         readonly Index<byte> _Widths;
 
-        readonly BitfieldIntervals<F> _Intervals;
+        readonly BfIntervals<F> _Intervals;
 
         readonly Index<BitMask> _Masks;
 
         readonly string BitrenderPattern;
 
-        public BitfieldDataset(F[] fields, byte[] widths)
+        public BfDataset(F[] fields, Dictionary<F,uint> indices, byte[] widths)
         {
+            Name = typeof(F).Name;
             _Fields = fields;
+            _Indices = indices;
             _Widths = widths;
             FieldCount = (uint)Require.equal(fields.Length, widths.Length);
             _Offsets = api.offsets(this);
@@ -53,7 +59,7 @@ namespace Z0
             get => ref _Widths;
         }
 
-        public ref readonly BitfieldIntervals<F> Intervals
+        public ref readonly BfIntervals<F> Intervals
         {
             [MethodImpl(Inline)]
             get => ref _Intervals;
@@ -65,21 +71,28 @@ namespace Z0
             get => ref _Masks;
         }
 
-        uint IBitfieldDataset.FieldCount
+        asci64 IBfDataset.Name
+            => Name;
+
+        uint IBfDataset.FieldCount
             => FieldCount;
 
-        string IBitfieldDataset.BitrenderPattern
+        string IBfDataset.BitrenderPattern
             => BitrenderPattern;
 
-        ref readonly BitfieldIntervals IBitfieldDataset.Intervals
+        ref readonly BfIntervals IBfDataset.Intervals
             => throw new NotImplementedException();
 
         [MethodImpl(Inline)]
-        public byte Index(F field)
-            => core.bw8(field);
+        public uint Index(F field)
+            => _Indices[field];
 
         [MethodImpl(Inline)]
-        public ref readonly F Field(byte index)
+        public ref readonly F Field(int index)
+            => ref Fields[index];
+
+        [MethodImpl(Inline)]
+        public ref readonly F Field(uint index)
             => ref Fields[index];
 
         [MethodImpl(Inline)]
@@ -95,7 +108,7 @@ namespace Z0
             => ref Masks[Index(field)];
 
         [MethodImpl(Inline)]
-        public ref readonly BitfieldInterval<F> Interval(F field)
+        public ref readonly BfInterval<F> Interval(F field)
             => ref Intervals[Index(field)];
 
         [MethodImpl(Inline)]
@@ -106,9 +119,5 @@ namespace Z0
         public K Extract<K>(F field, T src)
             where K : unmanaged
                 => core.@as<T,K>(api.extract(this, field, src));
-
-        [MethodImpl(Inline)]
-        public void Store(T src, Index<F,BitfieldCell<T>> dst)
-            => api.store(this, src, dst);
     }
 }

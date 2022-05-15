@@ -48,7 +48,6 @@ namespace Z0
             }
         }
 
-
         static void CheckBitReplication(ITextEmitter log)
         {
             const byte PW = 4;
@@ -233,15 +232,6 @@ namespace Z0
             dst.Append(slice(buffer,0,length));
         }
 
-        static void render(ulong src, W8 seg, ITextEmitter dst)
-        {
-            var storage = CharBlock80.Null;
-            var buffer = storage.Data;
-            var i=0u;
-            var length = BitRender.render64x8(Chars.Space, src, ref i, buffer);
-            dst.Append(slice(buffer,0,length));
-        }
-
         static void CheckPack64x1(BitVector64 input)
         {
             var storage = ByteBlock64.Empty;
@@ -271,7 +261,5 @@ namespace Z0
             render(b, w4, dst);
             dst.Append(Eol);
         }
-
-
     }
 }
