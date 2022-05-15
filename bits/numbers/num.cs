@@ -15,22 +15,6 @@ namespace Z0
         public static ulong max(byte width)
             => (ulong)Pow2.m1(width);
 
-        [MethodImpl(Inline), Op]
-        public static byte max(byte bits, N8 n)
-            => (byte)Pow2.m1(bits);
-
-        [MethodImpl(Inline), Op]
-        public static ushort max(byte bits, N16 n)
-            => (ushort)Pow2.m1(bits);
-
-        [MethodImpl(Inline), Op]
-        public static uint max(byte bits, N32 n)
-            => (uint)Pow2.m1(bits);
-
-        [MethodImpl(Inline), Op]
-        public static ulong max(byte bits, N64 n)
-            => (ulong)Pow2.m1(bits);
-
         /// <summary>
         /// Specifes the number of values covered by an <typeparamref name='N'>-bit number
         /// </summary>

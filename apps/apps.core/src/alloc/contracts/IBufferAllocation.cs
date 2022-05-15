@@ -10,5 +10,11 @@ namespace Z0
         where T : unmanaged
     {
         ReadOnlySpan<T> Allocated {get;}
+
+        new uint Size
+            => core.size<T>();
+
+        ByteSize IBufferAllocation.Size
+            => core.size<T>();
     }
 }

@@ -10,7 +10,7 @@ namespace Z0
     {
         const uint Capacity = PageBlock.PageSize*8;
 
-        readonly MemoryDispenser Memory;
+        readonly MemDispenser Memory;
 
         readonly StringDispenser Strings;
 
@@ -32,14 +32,14 @@ namespace Z0
             : base(AllocationKind.Sig)
         {
             locker = new();
-            Memory = new MemoryDispenser(capacity);
+            Memory = new MemDispenser(capacity);
             Strings = new StringDispenser(capacity);
             Labels = new LabelDispenser(capacity);
             Sigs = new();
             OwnsDispensers = true;
         }
 
-        internal SigDispenser(MemoryDispenser mem, StringDispenser strings, LabelDispenser labels)
+        internal SigDispenser(MemDispenser mem, StringDispenser strings, LabelDispenser labels)
             : base(AllocationKind.Sig)
         {
             locker = new();

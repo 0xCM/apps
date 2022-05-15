@@ -17,7 +17,7 @@ namespace Z0
             Data = values;
         }
 
-        public ReadOnlySpan<Literal<T>> Elements
+        public ReadOnlySpan<Literal<T>> View
         {
             [MethodImpl(Inline)]
             get => Data;

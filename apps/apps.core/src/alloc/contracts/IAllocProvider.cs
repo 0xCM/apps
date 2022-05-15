@@ -27,9 +27,7 @@ namespace Z0
     [Free]
     public interface IMemAllocProvider
     {
-        MemorySeg Memory(ByteSize size);
-
-        MemorySeg Page();
+        MemorySeg MemAlloc(ByteSize size);
     }
 
     [Free]

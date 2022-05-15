@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    /// <summary>
-    /// Characterizes a type for which nullity can be adjudicated
-    /// </summary>
-    [Free]
-    public interface INullity
-    {
-        bool IsEmpty {get;}
+    using System.Linq;
 
-        bool IsNonEmpty => !IsEmpty;
+    partial struct Arrays
+    {
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static T[] create<T>(IEnumerable<T> src)
+            => src.ToArray();
     }
 }

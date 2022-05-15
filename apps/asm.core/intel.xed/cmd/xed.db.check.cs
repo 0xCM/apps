@@ -7,6 +7,7 @@ namespace Z0
     using static XedRules;
     using static MemDb;
     using Asm;
+
     partial class AsmCoreCmd
     {
         [CmdOp("xed/db/check")]
@@ -15,16 +16,7 @@ namespace Z0
             var formatter = RecordFormatter.create(typeof(TypeTableRow));
             var rows = Xed.Views.TypeTables.SelectMany(x => x.Rows).Sort().Resequence();
             AppSvc.TableEmit(rows, XedPaths.DbTable<TypeTableRow>());
-            //CheckRender();
             return true;
-        }
-
-        [MethodImpl(Inline)]
-        static ulong key(Type type, ushort selector)
-        {
-            var token = (uint)type.MetadataToken;
-            var part = type.Assembly.Id();
-            return (ulong)token | ((ulong)part << 32) | ((ulong)selector << 38);
         }
 
         void CheckMemDb(Dim2<uint> shape)
@@ -67,6 +59,7 @@ namespace Z0
             FileEmit(cDst.Emit(), m, AppDb.Logs().Scoped(scope).Path($"{scope}.cols.{suffix}", FileKind.Txt), TextEncodingKind.Asci);
         }
 
+
         [CmdOp("memdb/check")]
         Outcome CheckMemDb(CmdArgs args)
         {
@@ -78,12 +71,11 @@ namespace Z0
             var size = 1073741824ul;
             var mb = size/1024;
 
-            var storage = AppDb.Targets("memdb").Path("dbtest", FileKind.Bin);
-            var db = MemDb.open(storage, new Gb(1));
-
+            var db = XedDb.Store;
+            //var db = MemDb.open(AppDb.Targets("memdb").Path("runtime", FileKind.Bin), new Gb(1));
             var path = XedPaths.InstDumpSource();
             var data = path.ReadBytes();
-            db.Store(db.Description.BaseAddress,data);
+            var token = db.Store(data);
 
            return true;
         }

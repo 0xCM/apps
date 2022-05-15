@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAllocationDispenser : IDisposable
+    public interface IAllocDispenser : IDisposable
     {
         AllocationKind DispensedKind {get;}
     }

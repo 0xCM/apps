@@ -6,7 +6,6 @@ namespace Z0
 {
     using static core;
 
-    [DataType(TypeSyntax.SeqN)]
     public readonly struct Seq<N,T> : ISeq<N,T>
         where T : IEquatable<T>
         where N : unmanaged, ITypeNat
@@ -43,7 +42,7 @@ namespace Z0
             get => nat32i<N>();
         }
 
-        public ReadOnlySpan<T> Elements
+        public ReadOnlySpan<T> View
         {
             [MethodImpl(Inline)]
             get => Data;

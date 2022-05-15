@@ -4,9 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     public partial class MemDb : IMemDb
     {
         static readonly ConcurrentDictionary<FS.FilePath, MemDb> Opened = new();
+
+        [MethodImpl(Inline)]
+        static AllocToken token(MemoryAddress @base, uint offset, uint size)
+            => new AllocToken(@base,offset, size);
 
         public static IMemDb open(FS.FilePath store)
             => open(store,0);
@@ -23,9 +29,17 @@ namespace Z0
         public static Index<MemoryFileInfo> Allocated()
             => Opened.Values.Map(x => x.Description);
 
-        readonly MemoryFile DataMap;
+        readonly MemoryFile Map;
 
         public readonly MemoryFileInfo Description;
+
+        uint Offset;
+
+        public ulong Capacity
+        {
+            [MethodImpl(Inline)]
+            get => Map.Size;
+        }
 
         public MemDb(FS.FilePath store)
         {
@@ -33,8 +47,8 @@ namespace Z0
             spec.EnableAccessReadWrite();
             spec.EnableModeOpenOrCreate();
             spec.Stream = true;
-            DataMap = new MemoryFile(spec);
-            Description = DataMap.Description;
+            Map = new MemoryFile(spec);
+            Description = Map.Description;
         }
 
         public MemDb(FS.FilePath store, ByteSize size)
@@ -44,22 +58,32 @@ namespace Z0
             spec.EnableAccessReadWrite();
             spec.EnableModeOpenOrCreate();
             spec.Stream = true;
-            DataMap = new MemoryFile(spec);
-            Description = DataMap.Description;
+            Map = new MemoryFile(spec);
+            Description = Map.Description;
         }
+
+        public AllocToken Store(ReadOnlySpan<byte> src)
+        {
+            var size = (uint)src.Length;
+            var offset = Offset;
+            var next = (uint)(Offset + src.Length);
+            if(next > Capacity)
+                return AllocToken.Empty;
+            Map.Stream.Seek(Offset, System.IO.SeekOrigin.Begin);
+            Map.Stream.Write(src);
+            Offset = next;
+            return token(Map.BaseAddress, offset, size);
+        }
+
+        [MethodImpl(Inline)]
+        public ReadOnlySpan<byte> Load(AllocToken token)
+            => Map.View(token.Offset, token.Size);
+
+        [MethodImpl(Inline)]
+        public Span<byte> Edit(AllocToken token)
+            => Map.Edit(token.Offset, token.Size);
 
         MemoryFileInfo IMemDb.Description
             => Description;
-
-        public void Store(MemoryAddress @base, ReadOnlySpan<byte> src)
-        {
-            DataMap.Stream.Seek(@base - DataMap.BaseAddress, System.IO.SeekOrigin.Begin);
-            DataMap.Stream.Write(src);
-        }
-
-        public void Dispose()
-        {
-
-        }
     }
 }

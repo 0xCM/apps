@@ -22,9 +22,6 @@ namespace Z0
         ReadOnlySpan<T> View
             => Storage;
 
-        Type ISeq.ElementType
-            => typeof(T);
-
         uint ICounted.Count
             => (uint)View.Length;
 

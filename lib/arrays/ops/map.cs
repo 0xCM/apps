@@ -8,6 +8,15 @@ namespace Z0
 
     partial struct Arrays
     {
+        public static Array<N,Y> map<N,T,Y>(Array<N,T> src, Func<T,Y> project)
+            where N : unmanaged, ITypeNat
+        {
+            var dst = array<N,Y>();
+            for(var i=0; i<src.Count; i++)
+                dst[i] = project(src[i]);
+            return dst;
+        }
+
         /// <summary>
         /// Applies a function to an input sequence to yield a transformed output sequence
         /// </summary>

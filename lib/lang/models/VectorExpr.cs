@@ -25,7 +25,7 @@ namespace Z0
             get => Data.IsEmpty;
         }
 
-        public ReadOnlySpan<IExpr> Elements
+        public ReadOnlySpan<IExpr> View
         {
             [MethodImpl(Inline)]
             get => Data;

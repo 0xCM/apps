@@ -8,6 +8,13 @@ namespace Z0
     {
         MemoryFileInfo Description {get;}
 
-        void Store(MemoryAddress @base, ReadOnlySpan<byte> src);
+        ReadOnlySpan<byte> Load(AllocToken token);
+
+        AllocToken Store(ReadOnlySpan<byte> src);
+
+        Span<byte> Edit(AllocToken token);
+
+        ulong Capacity
+            => Description.Size;
     }
 }

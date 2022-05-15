@@ -8,19 +8,19 @@ namespace Z0
 
     using Asm;
 
-    public class AsmCodeDispenser : IAllocationDispenser
+    public class AsmCodeDispenser : IAllocDispenser
     {
         SymbolDispenser Symbols;
 
         SourceDispenser Sources;
 
-        MemoryDispenser Encodings;
+        MemDispenser Encodings;
 
         LabelDispenser Labels;
 
         bool Owner;
 
-        internal AsmCodeDispenser(SymbolDispenser symbols, SourceDispenser source, MemoryDispenser encodings, LabelDispenser labels)
+        internal AsmCodeDispenser(SymbolDispenser symbols, SourceDispenser source, MemDispenser encodings, LabelDispenser labels)
         {
             Symbols = symbols;
             Sources = source;

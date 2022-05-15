@@ -7,6 +7,7 @@ namespace Z0
     /// <summary>
     /// Characterizes a segment reference
     /// </summary>
+    [Free]
     public interface IMemorySegment : INullity, ITextual, IHashed
     {
         MemoryAddress BaseAddress {get;}

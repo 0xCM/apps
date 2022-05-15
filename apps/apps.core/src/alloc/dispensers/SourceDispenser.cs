@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public class SourceDispenser : IAllocationDispenser
+    public class SourceDispenser : IAllocDispenser
     {
         const uint Capacity = PageBlock.PageSize*8;
 

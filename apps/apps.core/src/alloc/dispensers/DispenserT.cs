@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public abstract class Dispenser<T> : IAllocationDispenser
+    public abstract class Dispenser<T> : IAllocDispenser
         where T : Dispenser<T>
     {
         public AllocationKind DispensedKind {get;}

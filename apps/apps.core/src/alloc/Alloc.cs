@@ -8,7 +8,6 @@ namespace Z0
 
     using static core;
 
-
     public class Alloc : IDisposable, IAllocProvider
     {
         public static Alloc allocate()
@@ -68,11 +67,11 @@ namespace Z0
         public static AsmCodeDispenser asm()
             => new AsmCodeDispenser();
 
-        public static MemoryDispenser mem(ByteSize capacity)
-            => new MemoryDispenser(capacity);
+        public static MemDispenser mem(ByteSize capacity)
+            => new MemDispenser(capacity);
 
-        public static MemoryDispenser mem()
-            => new MemoryDispenser();
+        public static MemDispenser mem()
+            => new MemDispenser();
 
         public static SourceDispenser source(ByteSize capacity)
             => new SourceDispenser(capacity);
@@ -98,13 +97,13 @@ namespace Z0
         public static PageDispenser pages(uint count)
             => new PageDispenser(count);
 
-        ConcurrentDictionary<AllocationKind, IAllocationDispenser> Data;
+        ConcurrentDictionary<AllocationKind, IAllocDispenser> Data;
 
         public LabelDispenser Labels()
             => (LabelDispenser)Data.GetOrAdd(AllocationKind.Label, k => Alloc.labels());
 
-        public MemoryDispenser Mem()
-            => (MemoryDispenser)Data.GetOrAdd(AllocationKind.Memory, k => Alloc.mem());
+        public MemDispenser Mem()
+            => (MemDispenser)Data.GetOrAdd(AllocationKind.Memory, k => Alloc.mem());
 
         public PageDispenser Pages()
             => (PageDispenser)Data.GetOrAdd(AllocationKind.Page, k => Alloc.pages());
@@ -137,7 +136,7 @@ namespace Z0
         public Label Label(string content)
             => Labels().Label(content);
 
-        public MemorySeg Memory(ByteSize size)
+        public MemorySeg MemAlloc(ByteSize size)
             => Mem().DispenseMemory(size);
 
         public MemorySeg Page()

@@ -6,7 +6,6 @@ namespace Z0
 {
     using System.Linq;
 
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -36,26 +35,6 @@ namespace Z0
         [Op, Closures(Closure)]
         public static IEnumerator<T> enumerator<T>(ReadOnlySpan<T> src)
             => enumerate(src).GetEnumerator();
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static bool equals<T>(ReadOnlySpan<T> src, ReadOnlySpan<T> dst)
-            where T : IEquatable<T>
-        {
-            var count = src.Length;
-            if(count != dst.Length)
-                return false;
-
-            if(count == 0)
-                return true;
-
-            ref readonly var a = ref first(src);
-            ref readonly var b = ref first(dst);
-            for(var i=0; i<count; i++)
-                if(!skip(a,i).Equals(skip(b,i)))
-                    return false;
-
-            return true;
-        }
 
         [Op,Closures(Closure)]
         public static T[] filter<T>(T[] src, Func<T,bool> predicate)

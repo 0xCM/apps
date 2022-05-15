@@ -6,7 +6,6 @@ namespace Z0
 {
     using static core;
 
-    [DataType("index<t:{0}>")]
     public readonly struct Index<T> : IIndex<T>
     {
         readonly T[] Data;

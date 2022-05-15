@@ -5,34 +5,28 @@
 namespace Z0
 {
     using static core;
+    using static num;
 
     partial class XedImport
     {
-        public static ReadOnlySpan<uint> eol(MemoryFile src)
+        public static ReadOnlySpan<LineStats> stats(MemoryFile src)
         {
-            var dst = list<uint>(400000);
+            var dst = list<LineStats>(400000);
             var data = src.View();
+            var last = 0u;
+            var counter = 0u;
             for(var i=0u; i<data.Length; i++)
             {
                 if(SQ.nl(skip(data,i)))
-                    dst.Add(i);
+                {
+                    var offset = i;
+                    var length = (byte)(offset - last);
+                    dst.Add(new LineStats(counter++, offset, length));
+                    last = offset;
+                }
             }
-            return dst.ViewDeposited();
-        }
 
-        public static TextDocStats stats(MemoryFile src, uint blocks, uint blocksize, uint remainder)
-        {
-            var counter = 0u;
-            var seg = src.Segment();
-            var offset = src.BaseAddress;
-            var dst = new TextDocStats();
-            for(var i=0u; i<blocks; i++)
-            {
-                stats(offset, blocksize, ref dst);
-                offset = offset + blocksize;
-            }
-            stats(offset, remainder, ref dst);
-            return dst;
+            return dst.ViewDeposited();
         }
 
         public static unsafe void stats(MemoryAddress src, uint size, ref TextDocStats dst)

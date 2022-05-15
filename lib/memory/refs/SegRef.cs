@@ -9,7 +9,6 @@ namespace Z0
     /// <summary>
     /// Defines a reference to a memory segment
     /// </summary>
-    [DataType("segref")]
     public readonly struct SegRef : ISegRef<byte>
     {
         public readonly MemoryAddress Address;
@@ -129,5 +128,8 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator SegRef((MemoryAddress src, ByteSize size) src)
             => new SegRef(src.src, src.size);
+
+
+        public static SegRef Empty => default;
     }
 }

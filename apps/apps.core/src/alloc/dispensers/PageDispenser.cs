@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public class PageDispenser : IAllocationDispenser
+    public class PageDispenser : IAllocDispenser
     {
         readonly Dictionary<long,PageAllocator> Allocators;
 

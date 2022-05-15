@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public class MemoryDispenser : IAllocationDispenser
+    public class MemDispenser : IAllocDispenser
     {
         const uint Capacity = PageBlock.PageSize*16;
 
@@ -14,7 +14,7 @@ namespace Z0
 
         object locker;
 
-        internal MemoryDispenser(uint capacity = Capacity)
+        internal MemDispenser(uint capacity = Capacity)
         {
             locker = new();
             Allocators = new();

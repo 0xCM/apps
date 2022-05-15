@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Linq;
-    using static core;
-
     partial struct Arrays
     {
         /// <summary>

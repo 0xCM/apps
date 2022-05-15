@@ -18,7 +18,7 @@ namespace Z0
             Name = name;
         }
 
-        public ReadOnlySpan<T> Elements
+        public ReadOnlySpan<T> View
         {
             [MethodImpl(Inline)]
             get => Data;

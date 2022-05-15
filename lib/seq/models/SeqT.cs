@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [DataType(TypeSyntax.Seq)]
     public readonly struct Seq<T> : ISeq<T>
         where T : IEquatable<T>
     {
@@ -40,7 +39,7 @@ namespace Z0
             get => Data.Length;
         }
 
-        public ReadOnlySpan<T> Elements
+        public ReadOnlySpan<T> View
         {
             [MethodImpl(Inline)]
             get => Data;

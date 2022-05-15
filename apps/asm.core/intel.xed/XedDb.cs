@@ -11,12 +11,22 @@ namespace Z0
     {
         new XedPaths Paths => Xed.Paths;
 
+        IMemDb _Store;
+
+
         XedRuntime Xed;
 
         public XedDb With(XedRuntime xed)
         {
             Xed = xed;
+            _Store = MemDb.open(xed.AppDb.Targets("memdb").Path("runtime", FileKind.Bin), new Gb(1));
             return this;
+        }
+
+        public IMemDb Store
+        {
+            [MethodImpl(Inline)]
+            get => _Store;
         }
 
         ref readonly CellTables CellTables => ref Xed.Views.CellTables;

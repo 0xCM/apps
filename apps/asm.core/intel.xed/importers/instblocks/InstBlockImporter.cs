@@ -202,32 +202,24 @@ namespace Z0
                 var map = linemap(src);
                 Process(map,src);
                 Emit();
-                EmitLineMap(map, XedPaths.Imports().Path("instblocks.linemap", FileKind.Csv));
+                EmitLineMap(map, XedPaths.Imports().Path("xed.instblocks.linemap", FileKind.Csv));
             }
 
             void EmitEol()
             {
-                const string Pattern = "{0,-8} | {1,-8} | {2,-8}";
-                var _eol = eol(File);
                 var dst = text.buffer();
-                dst.AppendLineFormat(Pattern, "Line", "Offset", "Length");
-                var last = 0u;
-                for(var i=0u; i<_eol.Length; i++)
-                {
-                    ref readonly var offset = ref skip(_eol,i);
-                    var length = offset - last;
-                    dst.AppendLineFormat(Pattern, i, offset, length);
-                    last = offset;
-                }
-                //iter(_eol, x => dst.AppendLine(x.ToString("D8")));
-                AppSvc.FileEmit(dst.Emit(), _eol.Length, XedPaths.Imports().Path("instblocks.eol", FileKind.Csv));
+                dst.AppendLine(LineStats.Header);
+                var data = stats(File);
+                for(var i=0; i<data.Length; i++)
+                    dst.AppendLine(skip(data,i).Format());
+                AppSvc.FileEmit(dst.Emit(), data.Length, XedPaths.Imports().Path(LineStats.TableId, FileKind.Csv));
             }
 
             void Emit()
             {
                 var forms = CalcFormSeq();
                 iter(forms,Process,true);
-                var dst = XedPaths.Imports().Path("instblocks", FileKind.Txt);
+                var dst = XedPaths.Imports().Path("xed.instblocks.detail", FileKind.Txt);
                 using var writer = dst.AsciWriter();
                 var emitting = AppSvc.EmittingFile(dst);
                 for(var i=0u; i<forms.Count; i++)

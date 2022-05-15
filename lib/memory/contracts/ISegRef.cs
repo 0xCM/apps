@@ -8,6 +8,7 @@ namespace Z0
     /// Characterizes a content-parametric segment reference
     /// </summary>
     /// <typeparam name="T">The content type</typeparam>
+    [Free]
     public interface ISegRef<T> : IMemorySegment
     {
         Span<S> Data<S>();
@@ -29,6 +30,7 @@ namespace Z0
     /// </summary>
     /// <typeparam name="F">The reifying type</typeparam>
     /// <typeparam name="T">The content type</typeparam>
+    [Free]
     public interface ISegRef<F,T> : ISegRef<T>, INullary<F>, IEquatable<F>
         where F : ISegRef<F,T>, new()
     {

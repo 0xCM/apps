@@ -50,7 +50,7 @@ namespace Z0
 
         public static void @enum<T>(uint offset, LiteralSeq<T> src, ITextEmitter dst)
             where T : IComparable<T>, IEquatable<T>
-                => @enum(offset, src.Name, string.Empty, src.Elements, dst);
+                => @enum(offset, src.Name, string.Empty, src.View, dst);
 
         public static void @enum<T>(uint offset, Identifier name, ReadOnlySpan<Literal<T>> literals, ITextEmitter dst)
             => @enum(offset, name, string.Empty, literals, dst);

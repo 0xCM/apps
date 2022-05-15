@@ -46,6 +46,7 @@ namespace Z0
                 ViewStream = null;
 
         }
+
         internal MemoryFile(FS.FilePath path, bool stream = false)
         {
             Require.invariant(path.IsNonEmpty);
