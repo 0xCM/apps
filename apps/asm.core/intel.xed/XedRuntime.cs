@@ -148,28 +148,14 @@ namespace Z0
             _Alloc?.Dispose();
         }
 
-        public void ImportDatasets()
-        {
-            exec(PllExec,
-                () => Rules.EmitChipMap(),
-                () => Rules.Emit(Views.FormImports),
-                () => Rules.EmitIsaForms(),
-                () => Rules.Emit(Views.IsaImport),
-                () => Rules.Emit(Views.CpuIdImport),
-                () => Import.Run(),
-                () => EmitBroadcastDefs()
-            );
-        }
-
         public void EmitCatalog()
         {
             Paths.Targets().Delete();
-
             var tables = Views.RuleTables;
             var patterns = Views.Patterns;
             Emit(XedFields.Defs.Positioned);
             exec(PllExec,
-                ImportDatasets,
+                () => Import.Run(),
                 () => EmitRegmaps(),
                 () => Rules.EmitCatalog(patterns, tables)
                 );
@@ -196,9 +182,6 @@ namespace Z0
             Require.invariant(!dst.Exists);
             FileEmit(src.Content, src.LineCount, dst, TextEncodingKind.Asci);
         }
-
-        void EmitBroadcastDefs()
-            => TableEmit(XedOperands.Views.BroadcastDefs, BroadcastDef.RenderWidths, Paths.Table<BroadcastDef>());
 
         void Emit(ReadOnlySpan<FieldDef> src)
             => AppSvc.TableEmit(src, Paths.Table<FieldDef>());

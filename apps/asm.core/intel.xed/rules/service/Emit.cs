@@ -18,12 +18,6 @@ namespace Z0
             );
         }
 
-        public void Emit(Index<IsaImport> src)
-            => AppSvc.TableEmit(src, XedPaths.RefTable<IsaImport>());
-
-        public void Emit(Index<CpuIdImport> src)
-            => AppSvc.TableEmit(src, XedPaths.RefTable<CpuIdImport>());
-
         public void EmitInstGroups(Index<InstPattern> src)
             => EmitInstGroups(CalcInstGroups(src));
 
@@ -32,9 +26,6 @@ namespace Z0
 
         public void EmitInstFields(Index<InstPattern> src)
             => AppSvc.TableEmit(Xed.Views.InstFields, XedPaths.InstTable<InstFieldRow>());
-
-        public void Emit(ReadOnlySpan<FormImport> src)
-            => AppSvc.TableEmit(src, XedPaths.FormCatalogPath());
 
         public void EmitPatternRecords(Index<InstPattern> src)
             => AppSvc.TableEmit(CalcPatternRecords(src), XedPaths.InstTable<InstPatternRecord>());
