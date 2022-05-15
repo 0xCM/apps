@@ -102,7 +102,7 @@ namespace Z0
             {
                 Field = kind;
                 Data = (ushort)data;
-                CellKind =  kind != 0 ? RuleCellKind.NontermExpr : RuleCellKind.NontermCall;
+                CellKind =  kind != 0 ? RuleCellKind.NtExpr : RuleCellKind.NtCall;
             }
 
             [MethodImpl(Inline)]
@@ -124,13 +124,13 @@ namespace Z0
             public readonly bit IsNontermCall
             {
                 [MethodImpl(Inline)]
-                get => CellKind == RuleCellKind.NontermCall;
+                get => CellKind == RuleCellKind.NtCall;
             }
 
             public readonly bit IsNontermExpr
             {
                 [MethodImpl(Inline)]
-                get => CellKind == RuleCellKind.NontermExpr;
+                get => CellKind == RuleCellKind.NtExpr;
             }
 
             public readonly bit IsNonterm
@@ -240,6 +240,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public byte ToByte()
                 => (byte)Data;
+
+            [MethodImpl(Inline)]
+            public ushort ToWord()
+                => (ushort)Data;
 
             [MethodImpl(Inline)]
             public Hex8 ToHex8()

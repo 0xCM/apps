@@ -49,6 +49,12 @@ namespace Z0
                 get => Type.IsKeyword;
             }
 
+            public bool IsInt
+            {
+                [MethodImpl(Inline)]
+                get => Type.IsInt;
+            }
+
             public bool IsBitLit
             {
                 [MethodImpl(Inline)]

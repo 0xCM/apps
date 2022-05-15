@@ -19,11 +19,11 @@ namespace Z0
                 var dst = ByteBlock16.Empty;
                 switch(src.CellKind)
                 {
-                    case K.BitLiteral:
+                    case K.BitLit:
                         dst[0] = src.AsBitLit();
                         dst[15] = (byte)BL;
                     break;
-                    case K.HexLiteral:
+                    case K.HexLit:
                         dst[0] = src.AsHexLit();
                         dst[15] = (byte)XL;
                     break;
@@ -43,7 +43,7 @@ namespace Z0
                         dst[15] = (byte)LayoutCellKind.FS;
                     }
                     break;
-                    case K.NontermCall:
+                    case K.NtCall:
                         @as<Nonterminal>(dst.First) = src.AsNonterm();
                         dst[15] = (byte)NT;
                     break;

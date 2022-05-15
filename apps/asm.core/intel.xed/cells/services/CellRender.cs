@@ -27,13 +27,10 @@ namespace Z0
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var cell = ref src.Cells[i];
-
                     if(i != 0)
                         dst.Append(Chars.Space);
-
                     if(i == count - 1 && cell.IsOperator)
                         break;
-
                     dst.Append(XedRender.format(cell.Value));
                 }
             }
@@ -57,7 +54,12 @@ namespace Z0
                     if(XedParsers.parse(src.Data, out Hex8 x))
                         dst = XedRender.format(x);
                     else
-                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCellKind.HexLiteral), src.Data));
+                        Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleCellKind.HexLit), src.Data));
+                }
+                else if(src.IsInt)
+                {
+                    if(XedParsers.parse(src.Data, out ushort x))
+                        dst = XedRender.format(x);
                 }
                 else if(src.IsKeyword)
                 {
@@ -153,14 +155,14 @@ namespace Z0
                     case CK.InstSeg:
                     case CK.NeqExpr:
                     case CK.EqExpr:
-                    case CK.NontermExpr:
+                    case CK.NtExpr:
                         dst = string.Format("{0}:{1}", dst, src.TypeName);
                     break;
                 }
                 return dst;
             }
 
-            public static string _format(in FieldValue src)
+            public static string format(in FieldValue src)
             {
                 var dst = EmptyString;
                 var data = bytes(src.Data);
@@ -476,25 +478,6 @@ namespace Z0
                 return dst;
             }
 
-            // public static string format(in CellValue src)
-            // {
-            //     var dst = EmptyString;
-            //     if(src.IsEmpty)
-            //         return EmptyString;
-            //     else if(src.IsNontermCall)
-            //         return XedRender.format(src.ToNonterm());
-            //     else if(src.CellKind == RuleCellKind.SegVar)
-            //         return src.ToSegVar().Format();
-            //     else if(src.CellKind == RuleCellKind.Keyword)
-            //         return XedRender.format(src.ToKeyword());
-            //     else if(src.CellKind == RuleCellKind.InstSeg)
-            //         return XedRender.format(src.ToInstSeg());
-            //     else if(src.CellKind == RuleCellKind.SegField)
-            //         return XedRender.format(src.ToSegField());
-            //     else
-            //         return CellRender._format(src);
-            // }
-
             static string format(sbyte src)
                 => src.ToString();
 
@@ -611,7 +594,6 @@ namespace Z0
                     break;
 
                     case K.MAP:
-                    case K.NELEM:
                     case K.SCALE:
                         dst = C.U4;
                     break;
@@ -648,6 +630,7 @@ namespace Z0
                     }
                     break;
 
+                    case K.NELEM:
                     case K.ELEMENT_SIZE:
                     case K.MEM_WIDTH:
                     {

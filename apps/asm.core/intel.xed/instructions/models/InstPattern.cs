@@ -22,7 +22,6 @@ namespace Z0
                 {
                     ref readonly var def = ref defs[i];
                     var specs = def.PatternSpecs;
-
                     for(var j=0; j<specs.Count; j++, k++)
                         seek(dst,k) = load(ref specs[j]);
                 }

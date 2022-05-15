@@ -85,8 +85,6 @@ namespace Z0
             [Render(1)]
             public InstPatternBody Pattern;
 
-            public static InstBlockImport Empty => default;
-
             public override int GetHashCode()
                 => (int)Seq;
 
@@ -100,7 +98,15 @@ namespace Z0
                  set => Seq = value; }
 
             public int CompareTo(InstBlockImport other)
-                => Form.Format().CompareTo(other.Form.Format());
+            {
+                var result = Class.CompareTo(other.Class);
+                if(result == 0)
+                    result = Pattern.Format().CompareTo(other.Pattern.Format());
+                return result;
+            }
+
+            public static InstBlockImport Empty => default;
+
         }
     }
 }

@@ -643,7 +643,7 @@ namespace Z0
             else if(src.CellKind == RuleCellKind.FieldSeg)
                 return format(src.ToSegField());
             else
-                return CellRender._format(src);
+                return CellRender.format(src);
         }
 
         public static string format(in CellExpr src)
@@ -680,19 +680,19 @@ namespace Z0
             {
                 case RuleCellKind.Void:
                     break;
-                case RuleCellKind.HexLiteral:
+                case RuleCellKind.HexLit:
                     dst = format(src.AsHexLit());
                 break;
                 case RuleCellKind.IntVal:
-                    dst = format(src.AsIntLit());
+                    dst = format(src.AsWord());
                 break;
                 case RuleCellKind.InstSeg:
                     dst = format(src.AsInstSeg());
                 break;
-                case RuleCellKind.BitLiteral:
+                case RuleCellKind.BitLit:
                     dst = format5(src.AsBitLit());
                 break;
-                case RuleCellKind.NontermCall:
+                case RuleCellKind.NtCall:
                     dst = format(src.AsNonterm());
                 break;
                 case RuleCellKind.Operator:

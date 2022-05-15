@@ -30,7 +30,7 @@ namespace Z0
             [Render(6)]
             public LogicClass Logic;
 
-            [Render(6)]
+            [Render(10)]
             public RuleCellType Type;
 
             [Render(6)]

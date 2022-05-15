@@ -54,8 +54,6 @@ namespace Z0
         protected override WsProjects Projects
             => Xed.Projects;
 
-        XedOpCodes OpCodes => Service(Wf.XedOpCodes);
-
         CsLang CsLang => Service(Wf.CsLang);
 
         BitMaskServices ApiBitMasks => Service(Wf.ApiBitMasks);

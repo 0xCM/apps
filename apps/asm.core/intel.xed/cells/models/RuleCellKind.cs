@@ -9,52 +9,36 @@ namespace Z0
     {
         public enum RuleCellKind : byte
         {
-            [Symbol("<?>")]
             Void = 0,
 
-            [Symbol("bit")]
             BitVal,
 
-            [Symbol("int")]
             IntVal,
 
-            [Symbol("hex")]
             HexVal,
 
-            [Symbol("0b")]
-            BitLiteral,
+            BitLit,
 
-            [Symbol("0x")]
-            HexLiteral,
+            HexLit,
 
-            [Symbol("SegV")]
             SegVar,
 
-            [Symbol("SegF")]
             FieldSeg,
 
-            [Symbol("Kw")]
             Keyword,
 
-            [Symbol("NtC")]
-            NontermCall,
+            NtCall,
 
-            [Symbol("OpX")]
             Operator,
 
-            [Symbol("SegI")]
             InstSeg,
 
-            [Symbol("NeqX")]
             NeqExpr,
 
-            [Symbol("EqX")]
             EqExpr,
 
-            [Symbol("NtX")]
-            NontermExpr,
+            NtExpr,
 
-            [Symbol("vW")]
             WidthVar,
         }
    }

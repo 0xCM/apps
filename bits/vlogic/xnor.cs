@@ -39,12 +39,12 @@ namespace Z0
         [MethodImpl(Inline), Xnor, Closures(Closure)]
         public static void xnor<T>(W128 n, in T a, in T b, ref T z)
             where T : unmanaged
-                => gcpu.vstore(vxnor(n, in a, in b), ref z);
+                => gcpu.vstore(vxnor(n, a, b), ref z);
 
         [MethodImpl(Inline), Xnor, Closures(Closure)]
         public static void xnor<T>(W256 n, in T a, in T b, ref T z)
             where T : unmanaged
-                => gcpu.vstore(vxnor(n, in a, in b), ref z);
+                => gcpu.vstore(vxnor(n, a, b), ref z);
 
         [MethodImpl(Inline), Xnor, Closures(Closure)]
         public static void xnor<T>(W128 n, int vcount, int blocklen, in T a, in T b, ref T z)

@@ -54,7 +54,7 @@ namespace Z0
             public Nonterminal Nonterminal;
 
             [Render(22)]
-            public EmptyZero<byte> IntLiteral;
+            public EmptyZero<ushort> IntVal;
 
             [Render(12)]
             public EmptyZero<Hex8> HexLiteral;

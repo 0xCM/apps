@@ -237,8 +237,8 @@ namespace Z0
             [RuleField(K.SCALE, 4, typeof(MemoryScale), "Specifies the scaling factor applied to an index register, if applicable")]
             public byte SCALE;
 
-            [RuleField(K.NELEM, 4, typeof(num4))]
-            public byte NELEM;
+            [RuleField(K.NELEM, 11, typeof(num11), "Specifies an element bit-width, if applicable")]
+            public ushort NELEM;
 
             [RuleField(K.POS_NOMINAL_OPCODE, 4, typeof(num4), "Specifies the 0-based index of the NOMINAL_OPCODE field, if applicable")]
             public byte POS_NOMINAL_OPCODE;

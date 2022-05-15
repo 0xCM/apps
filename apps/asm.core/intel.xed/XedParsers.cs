@@ -198,10 +198,7 @@ namespace Z0
             => text.begins(src, "0b");
 
         public static bool IsInt(string src)
-            => byte.TryParse(src, out _);
-
-        public static bool IsNumber(string src)
-            => IsHexLiteral(src) || IsBinaryLiteral(src) || IsInt(src);
+            => ushort.TryParse(src, out _);
 
         public static bool number(string src, out byte dst)
         {

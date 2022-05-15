@@ -18,16 +18,16 @@ namespace Z0
             None,
 
             /// <summary>
-            ///  Specifies a <see cref='K.BitLiteral'/> kind
+            ///  Specifies a <see cref='K.BitLit'/> kind
             /// </summary>
             [Symbol("BL", "Specifies a Bit literal")]
-            BL = K.BitLiteral,
+            BL = K.BitLit,
 
             /// <summary>
-            ///  Specifies a <see cref='K.HexLiteral'/> kind
+            ///  Specifies a <see cref='K.HexLit'/> kind
             /// </summary>
             [Symbol("XL", "Specifies a Hex literal")]
-            XL = K.HexLiteral,
+            XL = K.HexLit,
 
             /// <summary>
             ///  Specifies a <see cref='K.SegVar'/> kind
@@ -42,10 +42,10 @@ namespace Z0
             FS = K.FieldSeg,
 
             /// <summary>
-            ///  Specifies a <see cref='K.NontermCall'/> kind
+            ///  Specifies a <see cref='K.NtCall'/> kind
             /// </summary>
             [Symbol("NT", "Specifies a NontermCall")]
-            NT = K.NontermCall,
+            NT = K.NtCall,
 
             /// <summary>
             ///  Specifies a <see cref='K.WidthVar'/> kind

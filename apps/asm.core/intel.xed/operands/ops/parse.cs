@@ -95,9 +95,9 @@ namespace Z0
                 break;
                 case K.REXR:
                 {
-                    if(XedParsers.parse(value, out bit b))
+                    if(XedParsers.parse(value, out bit x))
                     {
-                        dst = new (field,b);
+                        dst = new (field,x);
                         result = true;
                     }
                     else if(value.Length == 1 && value[0] == 'r')
@@ -109,9 +109,9 @@ namespace Z0
                 break;
                 case K.REXX:
                 {
-                    if(XedParsers.parse(value, out bit b))
+                    if(XedParsers.parse(value, out bit x))
                     {
-                        dst = new (field,b);
+                        dst = new (field,x);
                         result = true;
                     }
                     else if(value.Length == 1 && value[0] == 'x')
@@ -123,9 +123,9 @@ namespace Z0
                 break;
                 case K.REXB:
                 {
-                    if(XedParsers.parse(value, out bit b))
+                    if(XedParsers.parse(value, out bit x))
                     {
-                        dst = new (field, b);
+                        dst = new (field, x);
                         result = true;
                     }
                     else if(value.Length == 1 && value[0] == 'b')
@@ -136,12 +136,13 @@ namespace Z0
                 }
                 break;
 
+                case K.NELEM:
                 case K.ELEMENT_SIZE:
                 case K.MEM_WIDTH:
                 {
-                    if(ushort.TryParse(value, out ushort b))
+                    if(ushort.TryParse(value, out ushort x))
                     {
-                        dst = new (field,b);
+                        dst = new (field,x);
                         result = true;
                     }
                 }
@@ -166,7 +167,6 @@ namespace Z0
                 case K.VL:
                 case K.LLRC:
                 case K.MAP:
-                case K.NELEM:
                 case K.SCALE:
                 case K.BRDISP_WIDTH:
                 case K.DISP_WIDTH:

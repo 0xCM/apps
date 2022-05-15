@@ -43,7 +43,7 @@ namespace Z0
             public bit IsBitLit
             {
                 [MethodImpl(Inline)]
-                get => Kind == CK.BitLiteral;
+                get => Kind == CK.BitLit;
             }
 
             public bit IsWidthVar
@@ -55,10 +55,10 @@ namespace Z0
             public bit IsHexLit
             {
                 [MethodImpl(Inline)]
-                get => Kind == CK.HexLiteral;
+                get => Kind == CK.HexLit;
             }
 
-            public bit IsIntVal
+            public bit IsInt
             {
                 [MethodImpl(Inline)]
                 get => Kind == CK.IntVal;
@@ -67,13 +67,13 @@ namespace Z0
             public bit IsLiteral
             {
                 [MethodImpl(Inline)]
-                get => Kind == CK.BitLiteral || Kind == CK.HexLiteral || Kind == CK.IntVal;
+                get => Kind == CK.BitLit || Kind == CK.HexLit || IsInt;
             }
 
             public bit IsExpr
             {
                 [MethodImpl(Inline)]
-                get => Kind == CK.EqExpr || Kind == CK.NeqExpr || Kind == CK.NontermExpr;
+                get => Kind == CK.EqExpr || Kind == CK.NeqExpr || Kind == CK.NtExpr;
             }
 
             public bit IsOperator
@@ -85,13 +85,13 @@ namespace Z0
             public bit IsNontermCall
             {
                 [MethodImpl(Inline)]
-                get => Kind == CK.NontermCall;
+                get => Kind == CK.NtCall;
             }
 
             public bit IsNontermExpr
             {
                 [MethodImpl(Inline)]
-                get => Kind == CK.NontermExpr;
+                get => Kind == CK.NtExpr;
             }
 
             public bit IsNonterm

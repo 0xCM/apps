@@ -47,7 +47,7 @@ namespace Z0
                 var result = VexClass.None;
                 if(src.Count != 0)
                 {
-                    var k = (VexClass)src.First.AsIntLit();
+                    var k = (VexClass)src.First.AsByte();
                     switch(k)
                     {
                         case VexClass.VV1:

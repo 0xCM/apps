@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct InstPatternSpec : IComparable<InstPatternSpec>
+        public struct InstPatternSpec : IComparable<InstPatternSpec>, ISequential<InstPatternSpec>
         {
             public uint Seq;
 
@@ -135,13 +135,21 @@ namespace Z0
             }
 
             public int CompareTo(InstPatternSpec src)
-                => Sort().CompareTo(src.Sort());
-
-            [MethodImpl(Inline)]
-            public PatternSort Sort()
-                => new PatternSort(this);
+            {
+                var result = InstClass.CompareTo(src.InstClass);
+                if(result == 0)
+                    result = RawBody.CompareTo(src.RawBody);
+                return result;
+            }
+                //=> Sort().CompareTo(src.Sort());
 
             public static InstPatternSpec Empty => default;
+
+            uint ISequential.Seq
+            {
+                get => Seq;
+                set => Seq = value;
+            }
         }
     }
 }

@@ -107,31 +107,27 @@ namespace Z0
                             ref readonly var key = ref keys[k];
                             var size = XedFields.size(key.Field, key.CellType);
                             var result = false;
-                            //var field = CellValue.Empty;
                             var cell = RuleCell.Empty;
 
                             switch(info.Kind)
                             {
-                                case CK.BitLiteral:
+                                case CK.BitLit:
                                 {
                                     result = XedParsers.parse(data, out uint5 value);
-                                    //field = value;
                                     cell = new RuleCell(key, value, size);
                                 }
                                 break;
 
                                 case CK.IntVal:
                                 {
-                                    result = XedParsers.parse(data, out byte value);
-                                    // field = value;
+                                    result = XedParsers.parse(data, out ushort value);
                                     cell = new RuleCell(key, value, size);
                                 }
                                 break;
 
-                                case CK.HexLiteral:
+                                case CK.HexLit:
                                 {
                                     result = XedParsers.parse(data, out Hex8 value);
-                                    //field = value;
                                     cell = new RuleCell(key, value, size);
                                 }
                                 break;
@@ -139,7 +135,6 @@ namespace Z0
                                 case CK.Keyword:
                                 {
                                     result = XedParsers.parse(data, out RuleKeyword value);
-                                    // field = value;
                                     cell = new RuleCell(key, value, size);
                                 }
                                 break;
@@ -147,7 +142,6 @@ namespace Z0
                                 case CK.SegVar:
                                 {
                                     result = XedParsers.parse(data, out SegVar value);
-                                    // field = value;
                                     cell = new RuleCell(key, value, size);
                                 }
                                 break;
@@ -159,7 +153,7 @@ namespace Z0
                                 }
                                 break;
 
-                                case CK.NontermCall:
+                                case CK.NtCall:
                                 {
                                     result = XedParsers.parse(data, out Nonterminal value);
                                     cell = new RuleCell(key, value, size);
@@ -184,19 +178,17 @@ namespace Z0
                                 case CK.FieldSeg:
                                 {
                                     result = seg(data, out FieldSeg value);
-                                    //field = value;
                                     cell = new RuleCell(key, value, size);
                                 }
                                 break;
                                 case CK.InstSeg:
                                 {
                                     result = CellParser.parse(data, out InstSeg value);
-                                    //field = value;
                                     cell = new RuleCell(key, value, size);
                                 }
                                 break;
 
-                                case CK.NontermExpr:
+                                case CK.NtExpr:
                                 case CK.EqExpr:
                                 case CK.NeqExpr:
                                 {

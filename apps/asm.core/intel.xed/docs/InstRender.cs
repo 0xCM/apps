@@ -84,10 +84,10 @@ namespace Z0
                         {
                             case RuleCellKind.EqExpr:
                             case RuleCellKind.NeqExpr:
-                            case RuleCellKind.NontermExpr:
+                            case RuleCellKind.NtExpr:
                                 seek(dst,k++) = string.Format(Pattern, j, fk, field.ToCellExpr());
                             break;
-                            case RuleCellKind.NontermCall:
+                            case RuleCellKind.NtCall:
                             {
                                 var rule = field.AsNonterm();
                                 if(rule.IsNonEmpty)

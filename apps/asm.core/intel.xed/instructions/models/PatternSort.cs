@@ -161,7 +161,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public int Compare(InstPatternSpec x, InstPatternSpec y)
-                => x.Sort().CompareTo(y.Sort());
+                => x.CompareTo(y);
 
             [MethodImpl(Inline)]
             public int Compare(InstPattern x, InstPattern y)

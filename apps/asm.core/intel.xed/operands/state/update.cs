@@ -267,7 +267,7 @@ namespace Z0
                 break;
 
                 case K.NELEM:
-                    dst.NELEM = src.ToByte();
+                    dst.NELEM = src.ToWord();
                 break;
 
                 case K.NOMINAL_OPCODE:

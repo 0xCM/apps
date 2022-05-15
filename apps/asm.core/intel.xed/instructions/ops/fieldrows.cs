@@ -47,23 +47,23 @@ namespace Z0
                 case RuleCellKind.SegVar:
                     dst.SegVar = src.AsSegVar();
                 break;
-                case RuleCellKind.BitLiteral:
+                case RuleCellKind.BitLit:
                     dst.BitLiteral = src.AsBitLit();
                 break;
                 case RuleCellKind.NeqExpr:
                 case RuleCellKind.EqExpr:
                     dst.FieldExpr = src.ToCellExpr();
                 break;
-                case RuleCellKind.NontermExpr:
+                case RuleCellKind.NtExpr:
                     dst.Nonterminal = dst.FieldExpr.Value.ToRuleName();
                 break;
-                case RuleCellKind.HexLiteral:
+                case RuleCellKind.HexLit:
                     dst.HexLiteral = src.AsHexLit();
                 break;
                 case RuleCellKind.IntVal:
-                    dst.IntLiteral = src.AsIntLit();
+                    dst.IntVal = src.AsWord();
                 break;
-                case RuleCellKind.NontermCall:
+                case RuleCellKind.NtCall:
                     dst.Nonterminal = src.AsNonterm();
                 break;
             }

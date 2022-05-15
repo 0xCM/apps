@@ -33,11 +33,20 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
+            public CellValue(ushort src)
+            {
+                var data = ByteBlock16.Empty;
+                data.Cell<ushort>(0) = src;
+                data[ClassIndex] = (byte)CK.IntVal;
+                Data = data;
+            }
+
+            [MethodImpl(Inline)]
             public CellValue(uint5 src)
             {
                 var data = ByteBlock16.Empty;
                 data.First = src;
-                data[ClassIndex] = (byte)CK.BitLiteral;
+                data[ClassIndex] = (byte)CK.BitLit;
                 Data = data;
             }
 
@@ -46,7 +55,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data[0] = src;
-                data[ClassIndex] = (byte)CK.HexLiteral;
+                data[ClassIndex] = (byte)CK.HexLit;
                 Data = data;
             }
 
@@ -113,7 +122,7 @@ namespace Z0
                 if(src.IsNonterm)
                 {
                     @as<RuleName>(dst.First) = src.Value.ToRuleName();
-                    dst[ClassIndex] = (byte)CK.NontermExpr;
+                    dst[ClassIndex] = (byte)CK.NtExpr;
                     dst[OpIndex] = (byte)src.Operator;
                     dst[FieldIndex] = (byte)src.Field;
                 }
@@ -143,7 +152,7 @@ namespace Z0
             {
                 var data = ByteBlock16.Empty;
                 data = (uint)src;
-                data[ClassIndex] = (byte)CK.NontermCall;
+                data[ClassIndex] = (byte)CK.NtCall;
                 Data = data;
             }
 
@@ -257,8 +266,12 @@ namespace Z0
                 => ref @as<WidthVar>(Data.First);
 
             [MethodImpl(Inline)]
-            public ref readonly byte AsIntLit()
+            public ref readonly byte AsByte()
                 => ref @as<byte>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly ushort AsWord()
+                => ref @as<ushort>(Data.First);
 
             [MethodImpl(Inline)]
             public ref readonly Nonterminal AsNonterm()
@@ -304,6 +317,10 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static implicit operator CellValue(byte src)
+                => new CellValue(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator CellValue(ushort src)
                 => new CellValue(src);
 
             [MethodImpl(Inline)]

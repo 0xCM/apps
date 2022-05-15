@@ -304,7 +304,7 @@ namespace Z0
                     {
                         case OperatorKind.Eq:
                             if(isNonTerm)
-                                dst = CK.NontermExpr;
+                                dst = CK.NtExpr;
                             else
                                 dst = CK.EqExpr;
                         break;
@@ -320,13 +320,13 @@ namespace Z0
                 else
                 {
                     if(isNonTerm)
-                        dst = CK.NontermCall;
+                        dst = CK.NtCall;
                     else if(XedParsers.IsInt(data))
                         dst = CK.IntVal;
                     else if(XedParsers.IsHexLiteral(data))
-                        dst = CK.HexLiteral;
+                        dst = CK.HexLit;
                     else if(XedParsers.IsBinaryLiteral(data))
-                        dst = CK.BitLiteral;
+                        dst = CK.BitLit;
                     else if(XedParsers.IsImpl(input))
                         dst = CK.Operator;
                     else if(XedParsers.parse(input, out WidthVar wv))

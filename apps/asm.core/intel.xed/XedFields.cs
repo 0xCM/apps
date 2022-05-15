@@ -38,7 +38,7 @@ namespace Z0
                 case CK.Keyword:
                     dst = RuleKeyword.DataSize;
                 break;
-                case CK.NontermCall:
+                case CK.NtCall:
                     dst = Nonterminal.DataSize;
                 break;
                 case CK.Operator:

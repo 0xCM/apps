@@ -61,18 +61,18 @@ namespace Z0
                     dst = FieldBits.Define(field, op, value.CellKind, (bit)value.Data);
                 break;
                 case CK.IntVal:
-                    dst = FieldBits.Define(field, op, value.CellKind, (byte)value.Data);
+                    dst = FieldBits.Define(field, op, value.CellKind, (ushort)value.Data);
                 break;
                 case CK.HexVal:
                     dst = FieldBits.Define(field, op, value.CellKind, (Hex8)value.Data);
                 break;
-                case CK.BitLiteral:
+                case CK.BitLit:
                     dst = FieldBits.Define(field, op, value.CellKind, (uint5)value.Data);
                 break;
-                case CK.HexLiteral:
+                case CK.HexLit:
                     dst = FieldBits.Define(field, op, value.CellKind, (Hex8)value.Data);
                 break;
-                case CK.NontermCall:
+                case CK.NtCall:
                     dst = FieldBits.Define(field, op, value.CellKind, (Nonterminal)value.Data);
                 break;
                 case CK.Keyword:
@@ -84,7 +84,7 @@ namespace Z0
                 case CK.NeqExpr:
                     dst = FieldBits.Define(field, op, value.CellKind, (ushort)value.Data);
                 break;
-                case CK.NontermExpr:
+                case CK.NtExpr:
                     dst = FieldBits.Define(field, op, value.CellKind, (Nonterminal)value.Data);
                 break;
                 default:
@@ -104,7 +104,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         RuleField Run(uint5 src)
-            => FieldBits.Define(FieldKind.INVALID, CK.BitLiteral, src);
+            => FieldBits.Define(FieldKind.INVALID, CK.BitLit, src);
 
         [MethodImpl(Inline)]
         RuleField Run(FieldSeg src)
@@ -120,11 +120,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         RuleField Run(Nonterminal src)
-            => FieldBits.Define(FieldKind.INVALID, CK.NontermCall, src);
+            => FieldBits.Define(FieldKind.INVALID, CK.NtCall, src);
 
         [MethodImpl(Inline)]
         RuleField Run(Hex8 src)
-            => FieldBits.Define(FieldKind.INVALID, CK.HexLiteral, src);
+            => FieldBits.Define(FieldKind.INVALID, CK.HexLit, src);
 
         void CollectFieldUsage(in CellKey key)
         {
@@ -198,16 +198,16 @@ namespace Z0
             {
                 switch(src.Key.CellType.Kind)
                 {
-                    case CK.BitLiteral:
+                    case CK.BitLit:
                         dst = Run(src.Value.AsBitLit());
                     break;
                     case CK.Keyword:
                         dst = Run(src.Value.ToKeyword());
                     break;
-                    case CK.HexLiteral:
+                    case CK.HexLit:
                         dst = Run(src.Value.AsHexLit());
                     break;
-                    case CK.NontermCall:
+                    case CK.NtCall:
                         dst = Run(src.Value.AsNonterm());
                     break;
                     case CK.SegVar:
@@ -254,7 +254,7 @@ namespace Z0
                         case CK.NeqExpr:
                             Counter++;
                         break;
-                        case CK.NontermExpr:
+                        case CK.NtExpr:
                             var rule = (RuleName)cv;
                             Counter++;
                         break;
@@ -264,12 +264,12 @@ namespace Z0
                 {
                     switch(ck)
                     {
-                        case CK.BitLiteral:
+                        case CK.BitLit:
                             var bits = (uint5)cv;
                             Counter++;
                         break;
                         case CK.HexVal:
-                        case CK.HexLiteral:
+                        case CK.HexLit:
                             var hex = (Hex8)cv;
                             Counter++;
                         break;
@@ -281,7 +281,7 @@ namespace Z0
                             var kw = (KeywordKind)cv;
                             Counter++;
                         break;
-                        case CK.NontermCall:
+                        case CK.NtCall:
                             var rule = (RuleName)cv;
                             Counter++;
                         break;

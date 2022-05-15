@@ -107,11 +107,11 @@ namespace Z0
                             case CK.BitVal:
                                 Lookup[kind] = render<bit>(x => ((bit)x).ToString());
                                 break;
-                            case CK.BitLiteral:
+                            case CK.BitLit:
                                 Lookup[kind] = render<uint5>(x => XedRender.format((uint5)x));
                                 Lookup[kind] = render<uint5>(x => XedRender.format((uint5)x));
                                 break;
-                            case CK.HexLiteral:
+                            case CK.HexLit:
                                 Lookup[kind] = render<Hex8>(x => XedRender.format((Hex8)x));
                                 break;
                             case CK.HexVal:
@@ -126,7 +126,7 @@ namespace Z0
                             case CK.FieldSeg:
                                 Lookup[kind] = render<FieldSeg>(x => XedRender.format((FieldSeg)x));
                                 break;
-                            case CK.NontermCall:
+                            case CK.NtCall:
                                 Lookup[kind] = render<Nonterminal>(x => x is Nonterminal nt ? XedRender.format(nt) : XedRender.format((RuleName)x));
                                 break;
                             case CK.IntVal:
@@ -142,7 +142,7 @@ namespace Z0
                                 Lookup[kind] = render<KeywordKind>(x => x is KeywordKind k ? XedRender.format(k) : XedRender.format((RuleKeyword)x));
                                 break;
                             case CK.EqExpr:
-                            case CK.NontermExpr:
+                            case CK.NtExpr:
                             case CK.NeqExpr:
                                 Lookup[kind] = render<CellExpr>(x => XedRender.format((CellExpr)x));
                                 break;
