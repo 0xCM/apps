@@ -62,20 +62,6 @@ namespace Z0
             return new Formatter2<T>(spec, adapter(record));
         }
 
-        // public static RecordFormatter<T> create<T>()
-        //     where T : struct
-        // {
-        //     var record = typeof(T);
-        //     var fields = api.fields(record).Index();
-        //     var count = fields.Length;
-        //     var buffer = alloc<HeaderCell>(count);
-        //     for(var i=0u; i<count; i++)
-        //         seek(buffer, i) = new HeaderCell(fields[i].FieldIndex, fields[i].FieldName, fields[i].FieldWidth);
-        //     var header = new RowHeader(buffer, DefaultDelimiter);
-        //     var spec = rowspec(header, header.Cells.Select(x => x.CellFormat), 0, RecordFormatKind.Tablular);
-        //     return new RecordFormatter<T>(spec, adapter<T>(fields));
-        // }
-
         public static RecordFormatter create(Type record, RecordFormatKind fk = RecordFormatKind.Tablular, string delimiter = DefaultDelimiter)
         {
             var fields = api.fields(record).Index();

@@ -34,16 +34,6 @@ namespace Z0
             where T : struct
                 => TableEmit(@readonly(rows), dst, encoding);
 
-        // uint TableEmit<T>(ReadOnlySpan<T> src, FS.FilePath dst)
-        //     where T : struct
-        // {
-        //     var flow = Wf.EmittingTable<T>(HostType,dst);
-        //     var spec = Tables.rowspec<T>();
-        //     var count = Tables.emit(src, spec, dst);
-        //     Wf.EmittedTable(HostType,flow,count);
-        //     return count;
-        // }
-
         uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, FS.FilePath dst)
             where T : struct
         {

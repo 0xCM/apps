@@ -23,7 +23,7 @@ namespace Z0
             var count = heap.SymbolCount;
             var entries = SymHeaps.entries(heap);
             var dst = ProjectDb.ApiTablePath<SymHeapEntry>();
-            TableEmit(entries.View, SymHeapEntry.RenderWidths, dst);
+            TableEmit(entries.View, dst);
             return entries;
         }
 
@@ -67,7 +67,7 @@ namespace Z0
             var flow = EmittingTable<SymLiteralRow>(dst);
             var rows = Symbols.literals<E>();
             var count = rows.Length;
-            var formatter = Tables.formatter<SymLiteralRow>(SymLiteralRow.RenderWidths);
+            var formatter = Tables.formatter<SymLiteralRow>();
             using var writer = dst.Writer();
             writer.WriteLine(formatter.FormatHeader());
             for(var i=0; i<count; i++)
@@ -79,7 +79,7 @@ namespace Z0
         public Index<SymLiteralRow> EmitLiterals(Assembly[] src, FS.FilePath dst)
         {
             var rows = Symbols.literals(src);
-            TableEmit(rows.View, SymLiteralRow.RenderWidths, dst);
+            TableEmit(rows.View, dst);
             return rows;
         }
 
@@ -146,7 +146,7 @@ namespace Z0
             var header = reader.Header.Split(Chars.Tab);
             if(header.Length != SymLiteralRow.FieldCount)
             {
-                Error(AppMsg.FieldCountMismatch.Format(SymLiteralRow.FieldCount,header.Length));
+                Error(AppMsg.FieldCountMismatch.Format(SymLiteralRow.FieldCount, header.Length));
                 return Index<SymLiteralRow>.Empty;
             }
 

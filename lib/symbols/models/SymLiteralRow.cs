@@ -86,7 +86,5 @@ namespace Z0
         [Render(1)]
         public SymIdentity Identity;
 
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{24, 32, 16, 10, 32, 16, 12, 22, 12, 10, 48, 80};
     }
 }

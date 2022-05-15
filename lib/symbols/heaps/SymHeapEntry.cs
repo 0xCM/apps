@@ -30,7 +30,5 @@ namespace Z0
 
         [Render(1)]
         public SymExpr Expression;
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,32,64,16,1};
     }
 }
