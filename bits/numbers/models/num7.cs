@@ -55,6 +55,11 @@ namespace Z0
             => new T((uint)src);
 
         [MethodImpl(Inline)]
+        public static T force<A>(A src)
+            where A : unmanaged
+                => T.crop(bw8(src));
+
+        [MethodImpl(Inline)]
         public static bit test(T src, byte pos)
             => bit.test(src.Value, pos);
 

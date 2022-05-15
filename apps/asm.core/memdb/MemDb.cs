@@ -20,7 +20,7 @@ namespace Z0
         public static IMemDb open(FS.FilePath store, Mb capacity)
             => Opened.GetOrAdd(store, s =>  new MemDb(s, capacity.Size));
 
-        public static Index<MemoryFileInfo> OpenStores()
+        public static Index<MemoryFileInfo> Allocated()
             => Opened.Values.Map(x => x.Description);
 
         readonly MemoryFile DataMap;
@@ -32,6 +32,7 @@ namespace Z0
             var spec = MemoryFileSpec.init(store.CreateParentIfMissing());
             spec.EnableAccessReadWrite();
             spec.EnableModeOpenOrCreate();
+            spec.Stream = true;
             DataMap = new MemoryFile(spec);
             Description = DataMap.Description;
         }
@@ -42,12 +43,19 @@ namespace Z0
             spec.Capacity = size;
             spec.EnableAccessReadWrite();
             spec.EnableModeOpenOrCreate();
+            spec.Stream = true;
             DataMap = new MemoryFile(spec);
             Description = DataMap.Description;
         }
 
         MemoryFileInfo IMemDb.Description
             => Description;
+
+        public void Store(MemoryAddress @base, ReadOnlySpan<byte> src)
+        {
+            DataMap.Stream.Seek(@base - DataMap.BaseAddress, System.IO.SeekOrigin.Begin);
+            DataMap.Stream.Write(src);
+        }
 
         public void Dispose()
         {

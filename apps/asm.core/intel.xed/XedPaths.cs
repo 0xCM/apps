@@ -105,6 +105,9 @@ namespace Z0
             };
         }
 
+        public FS.FilePath InstDumpSource()
+            => Sources() + FS.folder("intel") + FS.file("xed-dump",FileKind.Txt.Ext());
+
         public FS.FolderPath DisasmTargets(IProjectWs project)
             => Ws.ProjectData(project, "xed.disasm");
 

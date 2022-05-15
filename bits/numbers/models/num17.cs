@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     using T = num17;
     using D = System.UInt32;
     using N = N17;
@@ -61,6 +63,11 @@ namespace Z0
         [MethodImpl(Inline)]
         public static T cover(D src)
             => new T((uint)src);
+
+        [MethodImpl(Inline)]
+        public static T force<A>(A src)
+            where A : unmanaged
+                => T.crop(bw32(src));
 
         [MethodImpl(Inline), Op]
         public static bit test(T src, byte pos)

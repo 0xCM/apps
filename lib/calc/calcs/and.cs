@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static CalcHosts;
     using static SFx;
     using static ApiClassKind;
@@ -84,27 +80,5 @@ namespace Z0
             and<T>(lhs.Data, rhs.Data, dst);
             return dst;
         }
-
-        [MethodImpl(Inline), And, Closures(Closure)]
-        public static void and<T>(in T a, in T b, ref T dst)
-            where T : unmanaged
-        {
-            if(typeof(T) == typeof(byte))
-                and(w64, default(T)).Invoke(a, b, ref dst);
-            else if(typeof(T) == typeof(ushort))
-                and(w256, default(T)).Invoke(a, b, ref dst);
-            else if(typeof(T) == typeof(uint))
-                and(w256, default(T)).Invoke(4, 8, a, b, ref dst);
-            else if(typeof(T) == typeof(ulong))
-                and(w256, default(T)).Invoke(16, 4, a, b, ref dst);
-            else
-                throw no<T>();
-        }
-
-        [MethodImpl(Inline)]
-        public static And<W,T> and<W,T>(W w = default, T t = default)
-            where W : unmanaged, ITypeWidth
-            where T : unmanaged
-                => sfunc(w, sfunc<And<W,T>>(), t);
     }
 }

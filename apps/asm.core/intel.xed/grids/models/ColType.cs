@@ -31,11 +31,11 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public ColType(FieldKind field, OperatorKind op, RuleName rule)
-                => this = Bitfields.join((byte)ColKind.RuleExpr, (byte)field, (ushort)num.pack(num.force(op, n3),num.force(rule, n9)));
+                => this = Bitfields.join((byte)ColKind.RuleExpr, (byte)field, (ushort)num.pack(num3.force(op),num9.force(rule)));
 
             [MethodImpl(Inline)]
             public ColType(FieldKind field, OperatorKind op, byte width)
-                => this = Bitfields.join((byte)ColKind.RuleExpr, (byte)field, (ushort)num.pack(num.force(op, n3), width));
+                => this = Bitfields.join((byte)ColKind.RuleExpr, (byte)field, (ushort)num.pack(num3.force(op), width));
 
             [MethodImpl(Inline)]
             public ColType(RuleName src)

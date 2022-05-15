@@ -80,8 +80,10 @@ namespace Z0
 
             var storage = AppDb.Targets("memdb").Path("dbtest", FileKind.Bin);
             var db = MemDb.open(storage, new Gb(1));
-            var info = db.Description;
-            Write(info);
+
+            var path = XedPaths.InstDumpSource();
+            var data = path.ReadBytes();
+            db.Store(db.Description.BaseAddress,data);
 
            return true;
         }

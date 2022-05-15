@@ -22,7 +22,7 @@ namespace Z0
 
         ReadOnlySpan<T> View<T>(uint tOffset, uint tCount);
 
-        ref readonly T One<T>(uint tOffset);
+        ref readonly T Skip<T>(uint tOffset);
 
 
         MemoryFileInfo Description {get;}

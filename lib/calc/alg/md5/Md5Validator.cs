@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Alg
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static core;
 
     public sealed class Md5Validator : Validator<Md5Validator>

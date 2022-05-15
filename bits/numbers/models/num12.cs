@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     using T = num12;
     using D = System.UInt16;
     using N = N12;
@@ -57,6 +59,11 @@ namespace Z0
         [MethodImpl(Inline)]
         public static T cover(D src)
             => new T((uint)src);
+
+        [MethodImpl(Inline)]
+        public static T force<A>(A src)
+            where A : unmanaged
+                => T.crop(bw16(src));
 
         [MethodImpl(Inline), Op]
         public static bit test(T src, byte pos)
@@ -260,6 +267,102 @@ namespace Z0
         [MethodImpl(Inline)]
         public static explicit operator T(ulong src)
             => create((ushort)src);
+
+        [MethodImpl(Inline)]
+        public static explicit operator bit(T src)
+            => (bit)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num1(T src)
+            => (num1)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num2(T src)
+            => (num2)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num3(T src)
+            => (num3)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num4(T src)
+            => (num4)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num5(T src)
+            => (num5)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num6(T src)
+            => (num6)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num7(T src)
+            => (num7)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num8(T src)
+            => (num8)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num9(T src)
+            => (num9)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num10(T src)
+            => (num10)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num11(T src)
+            => (num11)src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(bit src)
+            => (ushort)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num1 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num2 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num3 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num4 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num5 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num6 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num7 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num8 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num9 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num10 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num11 src)
+            => src.Value;
 
         [MethodImpl(Inline)]
         public static T operator + (T x, T y)

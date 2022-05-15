@@ -55,10 +55,5 @@ namespace Z0
             where T : unmanaged
                 => ref not<T>(w256).Invoke(a, dst);
 
-        [MethodImpl(Inline)]
-        public static Not<W,T> not<W,T>(W w = default, T t = default)
-            where W : unmanaged, ITypeWidth
-            where T : unmanaged
-                => sfunc(w, sfunc<Not<W,T>>(), t);
     }
 }

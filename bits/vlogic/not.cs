@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+    using static SFx;
 
     using BL = ByteLogic;
 
@@ -66,6 +67,41 @@ namespace Z0
         {
             for(int i=0, offset=0; i<count; i++, offset+=step)
                 not(w, skip(src, offset), ref seek(dst, offset));
+        }
+
+        [MethodImpl(Inline)]
+        public static Not<W,T> not<W,T>(W w = default, T t = default)
+            where W : unmanaged, ITypeWidth
+            where T : unmanaged
+                => sfunc(w, sfunc<Not<W,T>>(), t);
+
+        public readonly struct Not<W,T> : IUnarySquare<W,T>
+            where W : unmanaged, ITypeWidth
+            where T : unmanaged
+        {
+            [MethodImpl(Inline)]
+            public void Invoke(in T src, ref T dst)
+            {
+                if(typeof(W) == typeof(W64))
+                    BL.not(in u8(src), ref u8(dst));
+                else if(typeof(W) == typeof(W128))
+                    not(w128, src, ref dst);
+                else if(typeof(W) == typeof(W256))
+                    not(w256, src, ref dst);
+                else
+                    throw no<W>();
+            }
+
+            [MethodImpl(Inline)]
+            public void Invoke(int count, int step, in T src, ref T dst)
+            {
+                if(typeof(W) == typeof(W128))
+                    not(w128, count, step, src, ref dst);
+                else if(typeof(W) == typeof(W256))
+                    not(w256, count, step, src, ref dst);
+                else
+                    throw no<W>();
+            }
         }
     }
 }

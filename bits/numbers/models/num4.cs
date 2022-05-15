@@ -47,6 +47,11 @@ namespace Z0
             => (D)(MaxValue & src);
 
         [MethodImpl(Inline)]
+        public static T force<A>(A src)
+            where A : unmanaged
+                => T.crop(bw8(src));
+
+        [MethodImpl(Inline)]
         public static T create(ulong src)
             => new T((D)src);
 

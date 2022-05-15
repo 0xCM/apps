@@ -4,17 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
     using static core;
     using static SFx;
-
-    using BL = ByteLogic;
-    using LS = vlogic;
-    using K = ApiClasses;
 
     partial struct CalcHosts
     {
@@ -89,34 +80,5 @@ namespace Z0
                 => ref map(src, dst, Calcs.vnot<T>(w256));
         }
 
-
-        public readonly struct Not<W,T> : IUnarySquare<W,T>
-            where W : unmanaged, ITypeWidth
-            where T : unmanaged
-        {
-            [MethodImpl(Inline)]
-            public void Invoke(in T src, ref T dst)
-            {
-                if(typeof(W) == typeof(W64))
-                    BL.not(in u8(src), ref u8(dst));
-                else if(typeof(W) == typeof(W128))
-                    LS.not(w128, src, ref dst);
-                else if(typeof(W) == typeof(W256))
-                    LS.not(w256, src, ref dst);
-                else
-                    throw no<W>();
-            }
-
-            [MethodImpl(Inline)]
-            public void Invoke(int count, int step, in T src, ref T dst)
-            {
-                if(typeof(W) == typeof(W128))
-                    LS.not(w128, count, step, src, ref dst);
-                else if(typeof(W) == typeof(W256))
-                    LS.not(w256, count, step, src, ref dst);
-                else
-                    throw no<W>();
-            }
-        }
     }
 }
