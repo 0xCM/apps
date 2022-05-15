@@ -16,8 +16,8 @@ namespace Z0
 
         internal WorkerLog(WfLogConfig config)
         {
-            config.StatusPath.Delete();
-            config.ErrorPath.Delete();
+            // config.StatusPath.Delete();
+            // config.ErrorPath.Delete();
             StatusPath = config.StatusPath;
             ErrorPath = config.ErrorPath;
             Status = StatusPath.Stream();

@@ -1,4 +1,4 @@
-﻿namespace Z0.llvm.stringtables
+namespace Z0.llvm.stringtables
 {
     using System;
 

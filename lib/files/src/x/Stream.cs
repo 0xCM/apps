@@ -19,7 +19,7 @@ namespace Z0
         public static FileStream Stream(this FS.FilePath path,
             FileMode mode = FileMode.OpenOrCreate,
             FileAccess access = FileAccess.ReadWrite,
-            FileShare share = FileShare.Read)
+            FileShare share = FileShare.ReadWrite)
                 => FS.stream(path, mode, access, share);
     }
 }

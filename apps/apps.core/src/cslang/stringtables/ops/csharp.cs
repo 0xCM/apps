@@ -4,13 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
-
     using static CsPatterns;
 
     partial class StringTables
     {
-        public static uint csharp(in StringTableSyntax syntax, ItemList<string> entries, StreamWriter dst)
+        public static uint csharp(in StringTableSyntax syntax, ItemList<string> src, ITextEmitter dst)
         {
             dst.WriteLine(string.Format("namespace {0}", syntax.TableNs));
             dst.WriteLine(Open());
@@ -18,12 +16,12 @@ namespace Z0
             dst.WriteLine();
             dst.WriteLine(string.Format("    using static {0};", "core"));
             dst.WriteLine();
-            dst.WriteLine(format(4, define(syntax, entries)));
+            dst.WriteLine(format(4, define(syntax, src)));
             dst.WriteLine(Close());
-            return (uint)entries.Length;
+            return (uint)src.Length;
         }
 
-        public static uint csharp(in StringTableSyntax syntax, ReadOnlySpan<string> values, StreamWriter dst)
+        public static uint csharp(in StringTableSyntax syntax, ReadOnlySpan<string> src, ITextEmitter dst)
         {
             dst.WriteLine(string.Format("namespace {0}", syntax.TableNs));
             dst.WriteLine(Open());
@@ -31,9 +29,9 @@ namespace Z0
             dst.WriteLine();
             dst.WriteLine(string.Format("    using static {0};", "core"));
             dst.WriteLine();
-            dst.WriteLine(format(4, define(syntax, values)));
+            dst.WriteLine(format(4, define(syntax, src)));
             dst.WriteLine(Close());
-            return (uint)values.Length;
+            return (uint)src.Length;
         }
     }
 }

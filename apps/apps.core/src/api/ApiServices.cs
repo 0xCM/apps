@@ -37,7 +37,7 @@ namespace Z0
             => Data(nameof(CalcSymLits), ()=> Symbols.literals(ApiParts));
 
         public SymHeap CalcSymHeap(Index<SymLiteralRow> src)
-            => SymHeaps.define(src);
+            => SymHeaps.create(src);
 
         public Index<CompilationLiteral> CalcCompilationLits()
             => Data(nameof(CalcCompilationLits), () => LiteralProvider.CompilationLiterals(ApiParts));

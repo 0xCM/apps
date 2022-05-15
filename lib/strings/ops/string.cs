@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+
     partial struct strings
     {
         [MethodImpl(Inline)]

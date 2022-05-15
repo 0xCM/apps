@@ -82,6 +82,22 @@ namespace Z0
             public void Close(uint offset)
                 => IndentLine(offset, "}");
 
+            public void OpenPublicStaticProp<T>(uint offset, string name, T def)
+            {
+                IndentLineFormat(offset, "public static {0} {1}", name, def);
+                IndentLine(offset, "{");
+            }
+
+            public void PropBody<T>(uint offset, T content, bool inline = true)
+            {
+                if(inline)
+                    IndentLine(offset,"[MethodImpl(Inline)]");
+                IndentLineFormat(offset, "get => {0};", content);
+            }
+
+            public void CloseProp(uint offset)
+                => IndentLine(offset, "}");
+
             public void NumericLit<T>(uint offset, string name, T value)
                 => IndentLineFormat(offset,"public const {0} {1} = {2};", typeof(T).DisplayName(), name, value);
 

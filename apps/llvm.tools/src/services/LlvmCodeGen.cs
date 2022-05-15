@@ -46,10 +46,10 @@ namespace Z0.llvm
             writer.WriteLine(buffer.Emit());
         }
 
-        public void EmitStringTable(LlvmList list)
+        public void EmitStringTable(LlvmList src)
         {
-            var path = LlvmPaths.ListImportPath(list.Name);
-            CsLang.GenStringTable(TargetNs, ClrEnumKind.U32, list.ToItemList(), CgTarget.Llvm);
+            var path = LlvmPaths.ListImportPath(src.Name);
+            CsLang.GenStringTable(TargetNs, ClrEnumKind.U32, src.ToItemList(), CgTarget.Llvm);
         }
 
         public void EmitStringTables()

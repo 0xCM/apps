@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Record(TableId)]
+    [Record(TableId), StructLayout(StructLayout,Pack=1)]
     public struct SymHeapEntry
     {
         public const string TableId = "api.symbols.heap";
 
-        public const byte FieldCount = 6;
-
         [Render(8)]
-        public uint Index;
+        public uint Key;
 
         [Render(12)]
         public Address32 Offset;

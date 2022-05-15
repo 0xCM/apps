@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XTend
-    {
-        public static AppDb AppDb(this IWfRuntime wf)
-            => Z0.AppDb.create(wf);
-
-    }
     public class AppDb : AppService<AppDb>
     {
         FS.FolderPath Root;
@@ -36,6 +30,5 @@ namespace Z0
 
         public DbSources Sources(string scope)
             => new DbSources(Root, scope);
-
     }
 }

@@ -251,13 +251,14 @@ namespace Z0
             return path;
         }
 
-        public void GenStringTable(Identifier targetNs, ClrEnumKind kind, ItemList<string> src, CgTarget dst)
+        public StringTable GenStringTable(Identifier targetNs, ClrEnumKind kind, ItemList<string> src, CgTarget dst)
         {
             var name = src.Name;
             var syntax = StringTables.syntax(targetNs + ".stringtables", name +"ST", name + "Kind", kind, targetNs);
             var table = StringTables.define(syntax, src);
             EmitTableCode(syntax, src, dst);
             EmitTableData(table, dst);
+            return table;
         }
 
         public void GenStringTable(Identifier targetNs, Identifier table, ReadOnlySpan<string> values, CgTarget dst)
@@ -267,30 +268,44 @@ namespace Z0
             EmitTableData(StringTables.define(syntax, values), dst);
         }
 
-        public void GenStringTable(Identifier targetNs, Identifier table, Identifier @enum, ReadOnlySpan<string> values, CgTarget dst)
+        public void GenStringTable(Identifier ns, Identifier table, Identifier @enum, ReadOnlySpan<string> values, CgTarget cgdst)
         {
-            var syntax = StringTables.syntax(targetNs, table, @enum);
-            EmitTableCode(syntax, values, dst);
-            EmitTableData(StringTables.define(syntax, values), dst);
+            var syntax = StringTables.syntax(ns, table, @enum);
+            EmitTableCode(syntax, values, cgdst);
+            EmitTableData(StringTables.define(syntax, values), cgdst);
         }
 
-        FS.FileUri EmitTableCode(StringTableSyntax src, ItemList<string> items, CgTarget target)
+        public void AppendResProp(StringTableSyntax syntax, CsEmitter dst)
         {
-            var dst = SourceFile(src.TableName, "stringtables", target);
-            var emitting = EmittingFile(dst);
-            using var writer = dst.Writer();
-            StringTables.csharp(src, items, writer);
-            EmittedFile(emitting,1);
+            /*
+                public static STRes<ImmTypeKind> STRes
+                {
+                    [MethodImpl(Inline)]
+                    get => new (EntryCount, CharCount, CharBase, OffsetBase, Strings);
+                }
+            */
+            var margin = 0u;
+            var factory = "new (EntryCount, CharCount, CharBase, OffsetBase, Strings);";
+            dst.OpenPublicStaticProp(margin,  $"{nameof(STRes)}<{syntax.EnumName}>", nameof(STRes));
+            dst.PropBody(margin, "new (EntryCount, CharCount, CharBase, OffsetBase, Strings)");
+            dst.CloseProp(margin);
+        }
+
+        FS.FileUri EmitTableCode(StringTableSyntax syntax, ItemList<string> src, CgTarget cgdst)
+        {
+            var dst = SourceFile(syntax.TableName, "stringtables", cgdst);
+            var emitter = text.emitter();
+            StringTables.csharp(syntax, src, emitter);
+            AppSvc.FileEmit(emitter.Emit(), src.Count, dst);
             return dst;
         }
 
-        FS.FileUri EmitTableCode(StringTableSyntax src, ReadOnlySpan<string> values, CgTarget target)
+        FS.FileUri EmitTableCode(StringTableSyntax syntax, ReadOnlySpan<string> src, CgTarget cgdst)
         {
-            var dst = SourceFile(src.TableName, "stringtables", target);
-            var emitting = EmittingFile(dst);
-            using var writer = dst.Writer();
-            StringTables.csharp(src, values, writer);
-            EmittedFile(emitting,1);
+            var dst = SourceFile(syntax.TableName, "stringtables", cgdst);
+            var emitter = text.emitter();
+            StringTables.csharp(syntax, src, emitter);
+            AppSvc.FileEmit(emitter.Emit(), src.Length, dst);
             return dst;
         }
 

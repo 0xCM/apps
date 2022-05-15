@@ -4,8 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [StructLayout(StructLayout,Pack=1, Size=Size)]
     public readonly struct MemoryStrings
     {
+        public const ushort Size = 8 + 16;
+
         public readonly uint EntryCount;
 
         public readonly uint CharCount;

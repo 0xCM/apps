@@ -21,6 +21,9 @@ namespace Z0
             return true;
         }
 
+
+        Symbolism Symbolism => Service(Wf.Symbolism);
+
         [CmdOp("api/emit")]
         Outcome ApiEmit(CmdArgs args)
         {
@@ -37,6 +40,15 @@ namespace Z0
             ApiSvc.Emit(ApiSvc.CalcDataFlows());
             ApiSvc.Emit(ApiSvc.CalcCompilationLits());
             ApiSvc.EmitComments();
+            return true;
+        }
+
+
+        [CmdOp("api/emit/symbols")]
+        Outcome ApiEmitSyms(CmdArgs args)
+        {
+            var heap = Symbolism.EmitSymHeap();
+
             return true;
         }
    }

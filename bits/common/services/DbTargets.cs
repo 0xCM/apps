@@ -50,8 +50,11 @@ namespace Z0
             where T : struct
                 => Targets() + Tables.filename<T>();
 
+        public FS.FilePath Table<T>(string prefix)
+            where T : struct
+                => Targets() + Tables.filename<T>(prefix);
+
         public static implicit operator FS.FolderPath(DbTargets src)
             => src.Targets();
-
     }
 }

@@ -6,9 +6,10 @@ namespace Z0
 {
     using static core;
 
-    [DataType(TypeSyntax.Address)]
     public unsafe readonly struct MemoryAddress : IAddress<MemoryAddress,ulong>
     {
+        public const ushort Size =  8;
+
         public const NativeSizeCode StorageSize = NativeSizeCode.W64;
 
         public ulong Location {get;}

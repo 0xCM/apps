@@ -12,11 +12,11 @@ namespace Z0
 
         internal Index<Identifier> Names;
 
-        internal Index<char> Expressions;
+        internal Index<char> ExprData;
 
-        internal Index<uint> Widths;
+        internal Index<uint> ExprLengths;
 
-        internal Index<uint> Offsets;
+        internal Index<uint> ExprOffsets;
 
         internal Index<SymVal> Values;
 
@@ -30,26 +30,22 @@ namespace Z0
 
         [Op]
         public ref readonly Identifier Name(uint index)
-            => ref api.name(this, index);
+            => ref Names[index];
 
         [MethodImpl(Inline), Op]
         public ref readonly uint Offset(uint index)
-            => ref api.offset(this, index);
+            => ref ExprOffsets[index];
 
         [MethodImpl(Inline), Op]
         public ref readonly uint Width(uint index)
-            => ref api.width(this, index);
+            => ref ExprLengths[index];
 
         [MethodImpl(Inline), Op]
         public ref readonly SymVal Value(uint index)
             => ref Values[index];
 
         [MethodImpl(Inline), Op]
-        public ReadOnlySpan<char> SymChars(uint index)
-            => api.symchars(this, index);
-
-        [Op]
-        public SymExpr Expression(uint index)
-            => api.symexpr(this, index);
+        public ReadOnlySpan<char> Expression(uint index)
+            => api.expr(this, index);
     }
 }

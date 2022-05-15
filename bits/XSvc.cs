@@ -6,6 +6,9 @@ namespace Z0
 {
     public static class XSvc
     {
+        public static AppDb AppDb(this IWfRuntime wf)
+            => Z0.AppDb.create(wf);
+
         [Op]
         public static BitfieldServices Bitfields(this IWfRuntime wf)
             => Z0.BitfieldServices.create(wf);
