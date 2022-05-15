@@ -84,6 +84,10 @@ namespace Z0
                 nameof(BitMaskLiterals),
                 });
 
+        public ReadOnlySpan<SymLiteralRow> EmitSymLiterals<E>(FS.FilePath dst)
+            where E : unmanaged, Enum
+                => Service(Wf.Symbolism).EmitLiterals<E>(dst);
+
         public void Emit(ReadOnlySpan<SymLiteralRow> src)
             => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<SymLiteralRow>());
 

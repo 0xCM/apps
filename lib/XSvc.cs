@@ -50,10 +50,6 @@ namespace Z0
             => Z0.CharMapper.create(context);
 
         [Op]
-        public static Symbolism Symbolism(this IWfRuntime wf)
-            => Z0.Symbolism.create(wf);
-
-        [Op]
         public static AppSettings AppSettings(this IWfRuntime wf)
             => Z0.AppSettings.create(wf);
 
@@ -63,10 +59,6 @@ namespace Z0
         [Op]
         public static SymServices SymServices(this IWfRuntime wf)
             => Z0.SymServices.create(wf);
-
-        // [Op]
-        // public static DataEmitters TableEmitters(this IWfRuntime context)
-        //     => Z0.DataEmitters.create(context);
 
         [Op]
         public static ApiResProvider ApiResProvider(this IWfRuntime wf)

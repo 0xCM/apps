@@ -334,12 +334,6 @@ namespace Z0
             return src[(ushort)index];
         }
 
-        protected ReadOnlySpan<SymLiteralRow> EmitSymLiterals<E>(FS.FilePath dst)
-            where E : unmanaged, Enum
-        {
-            return Service(Wf.Symbolism).EmitLiterals<E>(dst);
-        }
-
         [CmdOp("env/logs")]
         protected Outcome EnvLogs(CmdArgs args)
         {
