@@ -18,6 +18,8 @@ namespace Z0
 
         AppDb AppDb => Service(Wf.AppDb);
 
+        InstBlockImporter BlockImporter => Service(() => new InstBlockImporter(AppSvc));
+
         XedRuntime Xed;
 
         bool PllExec
@@ -46,19 +48,13 @@ namespace Z0
         }
 
         void EmitBroadcastDefs()
-            => TableEmit(XedOperands.Views.BroadcastDefs, BroadcastDef.RenderWidths, XedPaths.Table<BroadcastDef>());
+            => AppSvc.TableEmit(XedOperands.Views.BroadcastDefs, XedPaths.Table<BroadcastDef>());
 
         void EmitIsaImports()
-            => Emit(Xed.Views.IsaImport);
+            => AppSvc.TableEmit(Xed.Views.IsaImport, XedPaths.RefTable<IsaImport>());
 
         void EmitCpuIdImports()
-            => Emit(Xed.Views.CpuIdImport);
-
-        void Emit(Index<CpuIdImport> src)
-            => AppSvc.TableEmit(src, XedPaths.RefTable<CpuIdImport>());
-
-        void Emit(Index<IsaImport> src)
-            => AppSvc.TableEmit(src, XedPaths.RefTable<IsaImport>());
+            => AppSvc.TableEmit(Xed.Views.CpuIdImport, XedPaths.RefTable<CpuIdImport>());
 
         public static ref readonly Index<BlockField> BlockFields
         {
@@ -72,10 +68,10 @@ namespace Z0
         public void Emit(ReadOnlySpan<FormImport> src)
             => AppSvc.TableEmit(src, XedPaths.FormCatalogPath());
 
+
         public void ImportInstBlocks()
         {
-            using var importer = new InstBlockImporter(AppSvc);
-            importer.Run();
+            BlockImporter.Run();
         }
 
         public void EmitChipMap()
@@ -94,7 +90,6 @@ namespace Z0
             }
             AppSvc.FileEmit(dst.Emit(),counter,XedPaths.ChipMapTarget());
         }
-
 
         public void EmitIsaForms()
         {

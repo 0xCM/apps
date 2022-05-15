@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+    using static num;
 
     using T = num12;
     using D = System.UInt16;
@@ -30,7 +31,7 @@ namespace Z0
 
         /// <summary>
         /// 4,095
-        public const D MaxValue = Pow2.T12m1;
+        public const D MaxValue = Limit.Max12u;
 
         public const D Mod = (D)MaxValue + 1;
 

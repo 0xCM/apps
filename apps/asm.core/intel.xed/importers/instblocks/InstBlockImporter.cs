@@ -42,24 +42,30 @@ namespace Z0
                 var name = EmptyString;
                 var value = EmptyString;
                 var field = BlockField.amd_3dnow_opcode;
+                var counter = 0u;
+                var min = 0u;
+                var seq = 0u;
                 for(var i=0u; i<src.Length; i++)
                 {
                     var line = text.trim(skip(src,i));
+                    counter += (uint)line.Length;
                     if(split(line, out name, out value))
                     {
                         if(XedParsers.parse(name, out field))
                             fields.Fields[field] = bit.On;
                     }
-
                     if(text.begins(line,FirstItemMarker))
-                    {
                         fields.MinLine = i;
-                    }
                     else if(text.begins(line, LastItemMarker))
                     {
                         fields.MaxLine = i;
+                        fields.MinChar = min;
+                        fields.MaxChar = counter;
+                        fields.Seq = seq++;
+                        fields.Lines = fields.MaxLine - fields.MinLine + 1;
                         buffer.Add(new LineInterval<FormFields>(fields, fields.MinLine, fields.MaxLine));
                         fields = FormFields.Empty;
+                        min = counter+1;
                     }
                     else
                     {
@@ -123,6 +129,7 @@ namespace Z0
             SortedLookup<InstForm,uint> FormSeq;
 
             ConcurrentBag<InstBlockImport> Imports = new();
+
             ConcurrentDictionary<InstForm,string> Descriptions = new();
 
             ConcurrentDictionary<InstForm,string> Headers = new();
@@ -191,10 +198,29 @@ namespace Z0
             public void Run()
             {
                 var src = Lines.lines(File);
+                EmitEol();
                 var map = linemap(src);
                 Process(map,src);
                 Emit();
                 EmitLineMap(map, XedPaths.Imports().Path("instblocks.linemap", FileKind.Csv));
+            }
+
+            void EmitEol()
+            {
+                const string Pattern = "{0,-8} | {1,-8} | {2,-8}";
+                var _eol = eol(File);
+                var dst = text.buffer();
+                dst.AppendLineFormat(Pattern, "Line", "Offset", "Length");
+                var last = 0u;
+                for(var i=0u; i<_eol.Length; i++)
+                {
+                    ref readonly var offset = ref skip(_eol,i);
+                    var length = offset - last;
+                    dst.AppendLineFormat(Pattern, i, offset, length);
+                    last = offset;
+                }
+                //iter(_eol, x => dst.AppendLine(x.ToString("D8")));
+                AppSvc.FileEmit(dst.Emit(), _eol.Length, XedPaths.Imports().Path("instblocks.eol", FileKind.Csv));
             }
 
             void Emit()
@@ -224,16 +250,18 @@ namespace Z0
 
             public void EmitLineMap(LineMap<FormFields> data, FS.FilePath dst)
             {
-                const string Pattern = "{0,-6} | {1,-12} | {2,-12} | {3,-6} | {4,-64} | {5}";
-                var seq = 0u;
-
+                const string Pattern = "{0,-6} | {1,-12} | {2,-12} | {3,-12} | {4,-12} | {5,-6} | {6,-64} | {7}";
+                var formatter = Tables.formatter<FormFields>();
+                var emitting = AppSvc.EmittingTable<FormFields>(dst);
                 using var writer = dst.AsciWriter();
-                writer.AppendLineFormat(Pattern,"Seq", "Min", "Max", "Lines", "Form", "Fields");
+                writer.WriteLine(formatter.FormatHeader());
                 for(var i=0u; i<data.IntervalCount; i++)
                 {
                     ref readonly var seg = ref data[i];
-                    writer.AppendLineFormat(Pattern, seq++, seg.MinLine, seg.MaxLine, seg.LineCount, seg.Id.Form, seg.Id.Fields);
+                    ref readonly var content = ref seg.Id;
+                    writer.WriteLine(formatter.Format(content));
                 }
+                AppSvc.EmittedTable(emitting, data.IntervalCount);
             }
 
             public void Dispose()

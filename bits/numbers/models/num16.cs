@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+    using static num;
 
     using T = num16;
     using D = System.UInt16;
@@ -34,7 +35,7 @@ namespace Z0
         /// </summary>
         public const byte Width = 16;
 
-        public const D MaxValue = Pow2.T16m1;
+        public const D MaxValue = Limit.Max16u;
 
         public const uint Mod = (D)MaxValue + 1;
 

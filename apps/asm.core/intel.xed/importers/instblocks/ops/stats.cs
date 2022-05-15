@@ -8,7 +8,19 @@ namespace Z0
 
     partial class XedImport
     {
-        public static unsafe TextDocStats stats(MemoryFile src, uint blocks, uint blocksize, uint remainder)
+        public static ReadOnlySpan<uint> eol(MemoryFile src)
+        {
+            var dst = list<uint>(400000);
+            var data = src.View();
+            for(var i=0u; i<data.Length; i++)
+            {
+                if(SQ.nl(skip(data,i)))
+                    dst.Add(i);
+            }
+            return dst.ViewDeposited();
+        }
+
+        public static TextDocStats stats(MemoryFile src, uint blocks, uint blocksize, uint remainder)
         {
             var counter = 0u;
             var seg = src.Segment();

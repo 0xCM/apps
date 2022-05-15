@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+    using static num;
 
     using T = num3;
     using D = System.Byte;
@@ -25,7 +26,7 @@ namespace Z0
 
         public const byte Width = 3;
 
-        public const D MaxValue = Pow2.T03m1;
+        public const D MaxValue = Limit.Max3u;
 
         public const D Mod = (D)MaxValue + 1;
 

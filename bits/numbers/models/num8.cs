@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+    using static num;
 
     using T = num8;
     using D = System.Byte;
@@ -28,7 +29,7 @@ namespace Z0
         /// <summary>
         /// 255
         /// </summary>
-        public const D MaxValue = Pow2.T08m1;
+        public const D MaxValue = Limit.Max8u;
 
         public const ushort Mod = (D)MaxValue + 1;
 

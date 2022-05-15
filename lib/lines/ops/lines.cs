@@ -78,7 +78,7 @@ namespace Z0
 
         public static ReadOnlySpan<string> lines(MemoryFile src)
         {
-            using var reader = new StreamReader(src.Stream);
+            using var reader = new StreamReader(src.Stream, leaveOpen:true);
             return lines(reader.ReadToEnd());
         }
 

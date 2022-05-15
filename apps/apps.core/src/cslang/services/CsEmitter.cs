@@ -36,6 +36,9 @@ namespace Z0
             public ReadOnlySpan<string> Emit()
                 => Dst.ViewDeposited();
 
+            public void AppendLine()
+                => Dst.Add(EmptyString);
+
             public void IndentLine<T>(uint offset, T src)
                 => Dst.Add(indent(offset,src));
 
@@ -77,10 +80,10 @@ namespace Z0
             }
 
             public void Close(uint offset)
-            {
-                IndentLine(offset, "}");
-            }
+                => IndentLine(offset, "}");
 
+            public void NumericLit<T>(uint offset, string name, T value)
+                => IndentLineFormat(offset,"public const {0} {1} = {2};", typeof(T).DisplayName(), name, value);
             public void CloseStruct(uint offset)
                 => Close(offset);
 

@@ -15,10 +15,13 @@ namespace Z0.Asm
 
         public const string TableId = "asm.broadcast.def";
 
+        [Render(8)]
         public byte Id;
 
+        [Render(8)]
         public Ratio<byte> Ratio;
 
+        [Render(8)]
         public text15 Symbol;
 
         [MethodImpl(Inline)]

@@ -71,8 +71,11 @@ namespace Z0
 
         public ref readonly MemoryMappedViewStream Stream
         {
-            [MethodImpl(Inline)]
-            get => ref ViewStream;
+            get
+            {
+                ViewStream.Seek(0, System.IO.SeekOrigin.Begin);
+                return ref ViewStream;
+            }
         }
 
         [MethodImpl(Inline)]
