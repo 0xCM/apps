@@ -17,7 +17,7 @@ namespace Z0
 
             const char FieldDelimiter = Chars.Space;
 
-            public static Index<FormImport> Calc()
+            public static Index<FormImport> calc()
             {
                 var src = CalcFormSources();
                 var count = src.Count;

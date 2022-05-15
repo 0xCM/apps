@@ -38,9 +38,11 @@ namespace Z0
 
         public XedRules Rules => Service(() => Wf.XedRules().With(this));
 
-        public XedDisasmSvc XedDisasm => Service(() => Wf.XedDisasm().With(this));
+        public XedDisasmSvc Disasm => Service(() => Wf.XedDisasm().With(this));
 
         public XedOpCodes XedOpCodes => Service(() => Wf.XedOpCodes().With(this));
+
+        public XedImport Import => Service(() => Wf.XedImport().With(this));
 
         public AppDb AppDb => Service(Wf.AppDb);
 
@@ -80,10 +82,9 @@ namespace Z0
 
         void CalcCpuIdImports()
         {
-            var parser = new CpuIdImports();
-            parser.Run(Paths.CpuIdSource().ReadLines().Where(text.nonempty));
-            Views.Store(I.CpuIdImport, parser.Parsed.CpuIdRecords);
-            Views.Store(I.IsaImport, parser.Parsed.IsaRecords);
+            var parsed = CpuIdImports.calc();
+            Views.Store(I.CpuIdImport, parsed.CpuIdRecords);
+            Views.Store(I.IsaImport, parsed.IsaRecords);
         }
 
         static RuleTables CalcRuleTables()
@@ -112,7 +113,7 @@ namespace Z0
                 CalcTypeTables,
                 CalcCpuIdImports,
                 CalcInstDefs,
-                () => Views.Store(I.FormImports, XedRules.FormImports.Calc()),
+                () => Views.Store(I.FormImports, XedRules.FormImports.calc()),
                 () => Views.Store(I.ChipMap, XedRules.CalcChipMap())
                 );
 
@@ -155,6 +156,7 @@ namespace Z0
                 () => Rules.EmitIsaForms(),
                 () => Rules.Emit(Views.IsaImport),
                 () => Rules.Emit(Views.CpuIdImport),
+                () => Import.Run(),
                 () => EmitBroadcastDefs()
             );
         }

@@ -9,7 +9,7 @@ namespace Z0
         [CmdOp("xed/import")]
         Outcome RunImport(CmdArgs args)
         {
-            XedImport.Run();
+            Xed.Import.Run();
             return true;
         }
     }

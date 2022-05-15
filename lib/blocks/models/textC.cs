@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct text<C> : IComparable<text<C>>, IEquatable<text<C>>, IHashed, ITextual
         where C : unmanaged, ICharBlock<C>
     {
@@ -39,6 +34,12 @@ namespace Z0
         }
 
         public Span<char> Data
+        {
+            [MethodImpl(Inline)]
+            get => Block.Data;
+        }
+
+        public Span<char> Cells
         {
             [MethodImpl(Inline)]
             get => Block.Data;

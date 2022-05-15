@@ -10,6 +10,13 @@ namespace Z0
     {
         public class CpuIdImports
         {
+            public static CpuIdImports.Output calc()
+            {
+                var parser = new CpuIdImports();
+                parser.Run(XedPaths.Service.CpuIdSource().ReadLines().Where(text.nonempty));
+                return parser.Parsed;
+            }
+
             ConcurrentBag<string> IsaBuffer = new();
 
             ConcurrentBag<CpuIdImport> CpuIdBuffer = new();

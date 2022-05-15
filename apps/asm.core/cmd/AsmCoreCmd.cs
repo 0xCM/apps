@@ -18,7 +18,7 @@ namespace Z0
 
         XedRules Rules => Xed.Rules;
 
-        XedDisasmSvc Disasm => Xed.XedDisasm;
+        XedDisasmSvc Disasm => Xed.Disasm;
 
         XedDb XedDb => Xed.XedDb;
 

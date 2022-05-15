@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules;
+
     public partial class XedImport : AppService<XedImport>
     {
         XedPaths XedPaths => Service(Wf.XedPaths);
@@ -11,6 +13,14 @@ namespace Z0
         AppServices AppSvc => Service(Wf.AppServices);
 
         AppDb AppDb => Service(Wf.AppDb);
+
+        XedRuntime Xed;
+
+        public XedImport With(XedRuntime xed)
+        {
+            Xed = xed;
+            return this;
+        }
 
         public void Run()
         {
