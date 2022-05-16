@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial struct num
+    partial struct Numbers
     {
         [MethodImpl(Inline), Op]
         public static uint render8x8(ReadOnlySpan<num4> src, Span<char> dst, char sep = Chars.Space)

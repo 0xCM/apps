@@ -58,7 +58,7 @@ namespace Z0
                 const string P2 = "public readonly partial struct {0}";
                 const string P3 = "public partial struct {0}";
 
-                var options = num.pack(@readonly, partial);
+                var options = Numbers.pack(@readonly, partial);
                 var pattern = EmptyString;
                 switch(options.Value)
                 {

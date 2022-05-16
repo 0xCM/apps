@@ -12,11 +12,11 @@ namespace Z0
         void CheckCellAlloc()
         {
             var n = n16;
-            var count = num.count(n);
+            var count = Numbers.count(n);
             byte length = (byte)n;
             var result = Outcome.Success;
             using var native = NativeCells.alloc<string>(count, out var id);
-            var bits = num.bitstrings(n);
+            var bits = Numbers.bitstrings(n);
             for(var i=0u; i<count; i++)
             {
                 var offset = i*n;

@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static core;
-    partial struct num
+    partial struct Numbers
     {
         [MethodImpl(Inline), Op]
         public static void split(num7 src, out bit a, out num6 b)

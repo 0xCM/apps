@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static core;
-    using static num;
+    using static Numbers;
 
     partial class XedImport
     {

@@ -17,8 +17,8 @@ namespace Z0
             where N : unmanaged, ITypeNat
         {
             var width = (byte)n.NatValue;
-            var count = num.count(n);
-            var src = num.bitstrings(n);
+            var count = Numbers.count(n);
+            var src = Numbers.bitstrings(n);
             var dst = alloc<asci32>(count);
 
             for(var i=0; i<count; i++)

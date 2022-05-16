@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial struct num
+    partial struct Numbers
     {
         [MethodImpl(Inline), Op]
         public static num10 pack(num9 a, bit b)

@@ -10,11 +10,11 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static BitMask mask(byte width, uint offset)
-            => num.max(width) << (int)offset;
+            => Numbers.max(width) << (int)offset;
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static T mask<T>(byte width, uint offset)
-            => generic<T>(num.max(width) << (int)offset);
+            => generic<T>(Numbers.max(width) << (int)offset);
 
         /// <summary>
         /// Computes a sequence of segment masks given a paired offset/width seqence

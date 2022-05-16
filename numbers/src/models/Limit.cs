@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct num
+    partial struct Numbers
     {
         public readonly struct Limit
         {

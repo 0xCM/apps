@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct num
+    partial struct Numbers
     {
         [MethodImpl(Inline), Op]
         public static num8 pack(num6 a, bit b)

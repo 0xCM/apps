@@ -11,7 +11,7 @@ namespace Z0
     using static BitMasks;
 
     [ApiHost]
-    public readonly partial struct num
+    public readonly partial struct Numbers
     {
         const NumericKind Closure = AllNumeric;
 
@@ -100,7 +100,7 @@ namespace Z0
             where N : unmanaged, ITypeNat
         {
             var width = (uint)n.NatValue;
-            var count = num.count(n);
+            var count = Numbers.count(n);
             var buffer = span<char>(count*width);
             for(var i=0; i<count; i++)
             {

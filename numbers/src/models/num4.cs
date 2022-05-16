@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static core;
-    using static num;
+    using static Numbers;
 
     using T = num4;
     using D = System.Byte;

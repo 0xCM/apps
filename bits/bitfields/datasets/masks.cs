@@ -68,7 +68,7 @@ namespace Z0
             for(var i=0; i<spec.FieldCount; i++)
             {
                 ref readonly var field = ref fields[i];
-                var m = num.max(spec.Width(field));
+                var m = Numbers.max(spec.Width(field));
                 seek(dst,i) = m << (int)spec.Offset(field);
             }
             return dst;
@@ -96,7 +96,7 @@ namespace Z0
             for(var i=0; i<src.FieldCount; i++)
             {
                 ref readonly var field = ref fields[i];
-                var m = num.max(src.Width(field));
+                var m = Numbers.max(src.Width(field));
                 seek(dst,i) = m << (int)src.Offset(field);
             }
             return dst;

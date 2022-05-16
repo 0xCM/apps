@@ -20,7 +20,7 @@ namespace Z0
         void CheckBitConverters()
         {
             var n = n8;
-            var count = num.count(n);
+            var count = Numbers.count(n);
             var convert = BitConverters.converter(n);
             for(var i=0; i<count; i++)
             {

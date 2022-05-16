@@ -18,7 +18,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public bool Equals(num<T> src)
-            => num.eq(this, src);
+            => Numbers.eq(this, src);
 
         [MethodImpl(Inline)]
         public int CompareTo(num<T> src)
@@ -41,83 +41,83 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static bool operator ==(num<T> a, num<T> b)
-            => num.eq(a,b);
+            => Numbers.eq(a,b);
 
         [MethodImpl(Inline)]
         public static bool operator !=(num<T> a, num<T> b)
-            => num.neq(a,b);
+            => Numbers.neq(a,b);
 
         [MethodImpl(Inline)]
         public static bool operator <(num<T> a, num<T> b)
-            => num.lt(a,b);
+            => Numbers.lt(a,b);
 
         [MethodImpl(Inline)]
         public static bool operator >(num<T> a, num<T> b)
-            => num.gt(a,b);
+            => Numbers.gt(a,b);
 
         [MethodImpl(Inline)]
         public static bool operator <=(num<T> a, num<T> b)
-            => num.lteq(a,b);
+            => Numbers.lteq(a,b);
 
         [MethodImpl(Inline)]
         public static bool operator >=(num<T> a, num<T> b)
-            => num.gteq(a,b);
+            => Numbers.gteq(a,b);
 
         [MethodImpl(Inline)]
         public static num<T> operator +(num<T> a, num<T> b)
-            => num.add(a,b);
+            => Numbers.add(a,b);
 
         [MethodImpl(Inline)]
         public static num<T> operator -(num<T> a, num<T> b)
-            => num.sub(a,b);
+            => Numbers.sub(a,b);
 
         [MethodImpl(Inline)]
         public static num<T> operator *(num<T> a, num<T> b)
-            => num.mul(a,b);
+            => Numbers.mul(a,b);
 
         [MethodImpl(Inline)]
         public static num<T> operator /(num<T> a, num<T> b)
-            => num.div(a,b);
+            => Numbers.div(a,b);
 
         [MethodImpl(Inline)]
         public static num<T> operator %(num<T> a, num<T> b)
-            => num.mod(a,b);
+            => Numbers.mod(a,b);
 
         [MethodImpl(Inline)]
         public static num<T> operator -(num<T> a)
-            => num.negate(a);
+            => Numbers.negate(a);
 
         [MethodImpl(Inline)]
         public static num<T> operator &(num<T> a, num<T> b)
-            => num.and(a,b);
+            => Numbers.and(a,b);
 
         [MethodImpl(Inline)]
         public static num<T> operator |(num<T> a, num<T> b)
-            => num.or(a,b);
+            => Numbers.or(a,b);
 
         [MethodImpl(Inline)]
         public static num<T> operator ^(num<T> a, num<T> b)
-            => num.xor(a,b);
+            => Numbers.xor(a,b);
 
         [MethodImpl(Inline)]
         public static num<T> operator >>(num<T> a, int offset)
-            => num.srl(a,(byte)offset);
+            => Numbers.srl(a,(byte)offset);
 
         [MethodImpl(Inline)]
         public static num<T> operator <<(num<T> a, int offset)
-            => num.sll(a,(byte)offset);
+            => Numbers.sll(a,(byte)offset);
 
         [MethodImpl(Inline)]
         public static num<T> operator ~(num<T> a)
-            => num.not(a);
+            => Numbers.not(a);
 
         [MethodImpl(Inline)]
         public static num<T> operator ++(num<T> a)
-            => num.inc(a);
+            => Numbers.inc(a);
 
         [MethodImpl(Inline)]
         public static num<T> operator --(num<T> a)
-            => num.dec(a);
+            => Numbers.dec(a);
 
         [MethodImpl(Inline)]
         public static implicit operator T(num<T> src)

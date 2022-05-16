@@ -25,7 +25,7 @@ namespace Z0
             for(var i=1; i<=64; i++)
             {
                 emitter.SummaryComment(offset, string.Format(CommentPattern, i, max));
-                max = num.max((byte)i);
+                max = Numbers.max((byte)i);
                 if(i <= 8)
                     emitter.NumericLit(offset, string.Format(NamePattern,i), (byte)max);
                 else if(i <= 16)
