@@ -197,7 +197,7 @@ namespace Z0
 
             public void Run()
             {
-                var src = Lines.lines(File);
+                var src = AsciLines.lines(File);
                 EmitEol();
                 var map = linemap(src);
                 Process(map,src);
@@ -219,7 +219,7 @@ namespace Z0
             {
                 var forms = CalcFormSeq();
                 iter(forms,Process,true);
-                var dst = XedPaths.Imports().Path("xed.instblocks.detail", FileKind.Txt);
+                var dst = XedPaths.Imports().Path("xed.instblocks.detail", FileKind.Txt).Delete();
                 using var writer = dst.AsciWriter();
                 var emitting = AppSvc.EmittingFile(dst);
                 for(var i=0u; i<forms.Count; i++)

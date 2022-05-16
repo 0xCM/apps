@@ -48,7 +48,7 @@ namespace Z0
                 matches.Add(match);
             }
 
-            SQ.match(n, src, marker, OnMatch);
+            LineMatchers.match(n, src, marker, OnMatch);
             return matches.ViewDeposited();
         }
 
@@ -61,7 +61,7 @@ namespace Z0
                 matches.Add(match);
             }
 
-            SQ.match(n,src,marker,OnMatch);
+            LineMatchers.match(n,src,marker,OnMatch);
             return matches.ViewDeposited();
         }
 

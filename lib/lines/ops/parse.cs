@@ -27,37 +27,5 @@ namespace Z0
             return false;
         }
 
-        [Op]
-        public static Outcome number(ReadOnlySpan<byte> src, out uint j, out LineNumber dst)
-        {
-            j=0;
-            dst = 0;
-            const char Delimiter = Chars.Colon;
-            const byte LastIndex = 8;
-            const byte ContentLength = 9;
-            if(!numbered(src))
-                return false;
-
-            var result = Outcome.Failure;
-            var storage = CharBlock8.Null;
-            var buffer = storage.Data;
-
-            while(j++ <= LastIndex)
-            {
-                ref readonly var c = ref skip(src, j);
-                if(Digital.test(base10, c))
-                    seek(buffer, j) = (char)c;
-                else if(c == Delimiter && j==LastIndex)
-                {
-                    result = uint.TryParse(buffer, out var n);
-                    if(result)
-                        dst = n;
-                    break;
-                }
-                else
-                    break;
-            }
-            return result;
-        }
     }
 }

@@ -70,21 +70,20 @@ public enum PartId : byte
     [Symbol("codegen.intel")]
     CgIntel = 23,
 
-    [Symbol("blocks")]
-    Blocks = 24,
-
     [Symbol("cmd")]
-    Cmd = 25,
+    Cmd = 24,
 
-    [Symbol("asm.data")]
-    AsmData = 26,
+    [Symbol("lines")]
+    Lines = 25,
+
+    [Symbol("numbers")]
+    Numbers = 26,
 
     [Symbol("containers")]
     Containers = 27,
 
     [Symbol("test.runner")]
     TestRunner = 28,
-
 
     [Symbol("blittable")]
     Blittable = 29,

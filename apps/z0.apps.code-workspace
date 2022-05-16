@@ -11,6 +11,12 @@
 		},
 		{
 			"path": "..\\codegen"
+		},
+		{
+			"path": "..\\lines"
+		},
+		{
+			"path": "..\\numbers"
 		}
 	],
 	"settings": {}

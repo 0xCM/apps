@@ -189,7 +189,7 @@ namespace Z0.Asm
         {
             dst = AsmExpr.Empty;
             var outcome = Outcome.Success;
-            var i = SP.SkipWhitespace(src);
+            var i = AsciLines.SkipWhitespace(src);
             if(i == NotFound)
                 return (false,"Input was empty");
 

@@ -10,28 +10,6 @@ namespace Z0
 
     partial struct Digital
     {
-        public static Outcome digits(Base10 @base, in AsciLine src, ref uint i, out ushort dst)
-        {
-            var i0 = i;
-            var result = Outcome.Success;
-            dst = default;
-            var data = slice(src.Codes, i);
-            var length = data.Length;
-            for(; i<length; i++)
-            {
-                ref readonly var c = ref skip(data,i);
-                if(SQ.whitespace(c))
-                    continue;
-
-                if(Digital.test(@base, c))
-                {
-                    result = parse(@base, slice(data,i), out dst);
-                    break;
-                }
-            }
-            return result;
-        }
-
         [Op]
         public static Outcome parse(Base10 @base, ReadOnlySpan<C> src, out ushort dst)
         {

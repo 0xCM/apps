@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.IO;
-    using System.Collections.Generic;
+
     using static core;
 
     partial class XFs
@@ -17,7 +15,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The path to the file</param>
         [Op]
-        public static Outcome<FS.FilePath> Delete(this FS.FilePath src)
+        public static FS.FilePath Delete(this FS.FilePath src)
             => FS.delete(src);
 
         /// <summary>

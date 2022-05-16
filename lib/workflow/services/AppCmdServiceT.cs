@@ -153,22 +153,6 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("tool/config")]
-        protected Outcome ConfigureTool(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            ToolId tool = arg(args,0).Value;
-            var script = Tools.ConfigScript(tool);
-            result = OmniScript.Run(script, out var _);
-            var logpath = Tools.ConfigLog(tool);
-            using var reader = logpath.AsciLineReader();
-            while(reader.Next(out var line))
-            {
-                Write(line.Format());
-            }
-
-            return result;
-        }
 
         [CmdOp("tool/help")]
         protected Outcome ShowToolHelp(CmdArgs args)

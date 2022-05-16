@@ -33,26 +33,10 @@ namespace Z0
         public static StreamReader UnicodeReader(this FS.FilePath src)
             => FS.reader(src, Encoding.Unicode);
 
-        [Op]
-        public static AsciLineReader AsciLineReader(this FS.FilePath src)
-            => new AsciLineReader(src.AsciReader());
-
-        [Op]
-        public static AsciLineReader<byte> AsciLineReader2(this FS.FilePath src)
-            => new AsciLineReader<byte>(src.AsciReader());
-
-        [Op]
-        public static AsciLineReader<T> AsciLineReader2<T>(this FS.FilePath src)
-            where T : unmanaged
-                => new AsciLineReader<T>(src.AsciReader());
 
         [Op]
         public static LineReader Utf8LineReader(this FS.FilePath src)
             => new LineReader(src.Utf8Reader());
-
-        [Op]
-        public static UnicodeLineReader UnicodeLineReader(this FS.FilePath src)
-            => new UnicodeLineReader(src.UnicodeReader());
 
         [MethodImpl(Inline), Op]
         public static LineReader ToLineReader(this StreamReader src)

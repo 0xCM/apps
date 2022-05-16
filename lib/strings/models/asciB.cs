@@ -36,7 +36,6 @@ namespace Z0
             Data = block;
         }
 
-
         public uint Capacity
         {
             [MethodImpl(Inline)]

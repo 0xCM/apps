@@ -109,9 +109,8 @@ namespace Z0
                 {
                     foreach(var file in Data.View)
                     {
-                        var result = FS.delete(file);
-                        if(result)
-                            count++;
+                        FS.delete(file);
+                        count++;
                     }
 
                     Edit.Clear();

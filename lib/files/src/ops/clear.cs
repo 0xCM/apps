@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
     using System.IO;
 
     partial struct FS
@@ -25,8 +22,7 @@ namespace Z0
             if(Directory.Exists(src.Name))
             {
                 foreach(var f in src.Files(recurse))
-                    if(f.Delete())
-                        dst.Add(f);
+                    dst.Add(f.Delete());
             }
             return dst;
         }
@@ -37,10 +33,7 @@ namespace Z0
             foreach(var file in src)
             {
                 if(file.Exists)
-                {
-                    file.Delete();
-                    dst.Add(file);
-                }
+                    dst.Add(file.Delete());
             }
             return dst.ToArray();
         }

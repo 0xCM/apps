@@ -56,25 +56,6 @@ namespace Z0
             return new string(buffer);
         }
 
-        public static Char5Seq seg<S>(in S src, byte offset)
-            where S : struct, IAsciSeq<S>
-        {
-            var storage = 0ul;
-            var dst = recover<Char5>(bytes(storage));
-            var data = slice(recover<AsciSymbol>(src.View), offset);
-            var count = min(Char5Seq.MaxLength, data.Length);
-            var counter = z8;
-            for(var i=z8; i<count; i++)
-            {
-                ref readonly var c = ref skip(data,i);
-                if(c != Chars.Space)
-                    dst[counter++] = (char)c;
-                else
-                    break;
-
-            }
-            return new Char5Seq(slice(dst,0,counter));
-        }
 
         public static string name(string src)
             => text.replace(src, Chars.Space, Chars.Underscore);

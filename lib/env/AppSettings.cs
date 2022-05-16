@@ -30,10 +30,10 @@ namespace Z0
             try
             {
                 var dst = list<Setting>();
-                using var reader = src.AsciLineReader();
+                using var reader = src.LineReader(TextEncodingKind.Asci);
                 while(reader.Next(out var line))
                 {
-                    var content = line.Codes;
+                    var content = span(line.Content);
                     var length = content.Length;
                     if(length != 0)
                     {

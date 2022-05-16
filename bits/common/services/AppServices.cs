@@ -31,6 +31,8 @@ namespace Z0
 
     public class AppServices : AppService<AppServices>
     {
+
+
         public new void Babble<T>(T content)
             => WfMsg.Babble(content);
 

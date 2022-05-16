@@ -28,7 +28,7 @@ namespace Z0
                 => Lines.count(src);
 
             public uint MaxLineLength(ReadOnlySpan<byte> src)
-                => Lines.maxlength(src);
+                => AsciLines.maxlength(src);
 
             Span<char> StatementBuffer()
                 => _LineBuffer.Clear().Edit;
@@ -80,7 +80,7 @@ namespace Z0
                     ref readonly var a1 = ref skip(src, pos + 1);
                     if(SQ.eol(a0,a1))
                     {
-                        var line = Lines.asci(src, number++, counter, length + 1);
+                        var line = AsciLines.asci(src, number++, counter, length + 1);
                         if(!SQ.contains(line.Codes, C.Colon) || number < 4)
                         {
                             pos++;
