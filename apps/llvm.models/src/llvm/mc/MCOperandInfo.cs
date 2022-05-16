@@ -8,7 +8,7 @@ namespace Z0.llvm
     using System.Runtime.InteropServices;
     using System.Runtime.CompilerServices;
 
-    using static Root;
+    using static CNum;
 
     /// <summary>
     /// This holds information about one operand of a machine instruction,

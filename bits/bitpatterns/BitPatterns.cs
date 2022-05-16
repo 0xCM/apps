@@ -7,7 +7,6 @@ namespace Z0
     using System.Diagnostics;
     using static core;
 
-
     [ApiHost]
     public readonly struct BitPatterns
     {

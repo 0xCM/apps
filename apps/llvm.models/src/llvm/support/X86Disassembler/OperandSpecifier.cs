@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------------------//
 namespace Z0.llvm
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
+    using static CNum;
 
     partial struct X86Disassembler
     {

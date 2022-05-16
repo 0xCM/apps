@@ -5,9 +5,6 @@
 namespace Z0
 {
     using static core;
-
-    using static BitMaskLiterals;
-    using static cpu;
     using static BitMasks;
 
     [ApiHost]

@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------------------//
 namespace Z0.llvm.X86
 {
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
+    using static CNum;
 
     /// <summary>
     /// Describe properties that are true of each instruction in the target

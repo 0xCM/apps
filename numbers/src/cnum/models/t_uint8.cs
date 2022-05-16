@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class t_uint8 : UnitTest<t_uint8>
+    using static CNum;
+
+    public sealed class CNumChecks : UnitTest<CNumChecks>
     {
         static new readonly IPolyrand Random = Rng.wyhash64(PolySeed64.Seed00);
 
