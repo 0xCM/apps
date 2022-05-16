@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     public static class MonoidialX
@@ -18,7 +14,7 @@ namespace Z0
         /// <param name="src">The source stream</param>
         /// <typeparam name="T">The stream element type</typeparam>
         [MethodImpl(Inline)]
-        public static T foldA<T>(ReadOnlySpan<T> src)
+        public static T Accumulate<T>(this ReadOnlySpan<T> src)
             where T : struct, IAdditiveMonoid<T>
         {
             var accumulate = default(T).Zero;
@@ -34,7 +30,7 @@ namespace Z0
         /// <param name="src">The source stream</param>
         /// <typeparam name="T">The stream element type</typeparam>
         [MethodImpl(Inline)]
-        public static T foldM<T>(T[] src)
+        public static T Multiply<T>(this ReadOnlySpan<T> src)
             where T : unmanaged, IMultiplicativeMonoid<T>
         {
             var accumulate = default(T).One;

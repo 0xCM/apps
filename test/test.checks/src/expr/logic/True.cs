@@ -3,17 +3,22 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Ops.Logic
+namespace Z0
 {
-    public class True : OpExpr<True,LogicExprKind>, ILogicOp
+    using Z0.Ops;
+
+    partial class LogicOps
     {
-        public override Name OpName
-            => "true";
+        public class True : OpExpr<True,LogicExprKind>, ILogicOp
+        {
+            public override Name OpName
+                => "true";
 
-        public override LogicExprKind Kind
-            => LogicExprKind.True;
+            public override LogicExprKind Kind
+                => LogicExprKind.True;
 
-        public override string Format()
-            => "true";
+            public override string Format()
+                => "true";
+        }
     }
 }

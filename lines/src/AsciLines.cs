@@ -10,6 +10,7 @@ namespace Z0
 
     using C = AsciCode;
 
+    [ApiHost]
     public class AsciLines
     {
         /// <summary>

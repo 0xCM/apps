@@ -39,6 +39,8 @@
     <Lines>$(MSBuildThisFileDirectory)lines/z0.lines.csproj</Lines>
     <Numbers>$(MSBuildThisFileDirectory)numbers/z0.numbers.csproj</Numbers>
 
+    <TestChecks>$(MSBuildThisFileDirectory)test/test.checks/z0.test.checks.csproj</TestChecks>
+
   </PropertyGroup>
 
 </Project>

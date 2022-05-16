@@ -2,34 +2,31 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Ops.Logic
+namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
-    using static Root;
-
-    public readonly struct Except : IExpr
+    partial class LogicOps
     {
-        HashSet<IExpr> _Terms {get;}
-
-        [MethodImpl(Inline)]
-        public Except(IExpr[] choices)
-            => _Terms = core.hashset(choices);
-
-        public IReadOnlyCollection<IExpr> Terms
+        public readonly struct Except : IExpr
         {
+            HashSet<IExpr> _Terms {get;}
+
             [MethodImpl(Inline)]
-            get => _Terms;
+            public Except(IExpr[] choices)
+                => _Terms = core.hashset(choices);
+
+            public IReadOnlyCollection<IExpr> Terms
+            {
+                [MethodImpl(Inline)]
+                get => _Terms;
+            }
+
+            public Label Name => "exclude";
+
+            public string Format()
+                => OpFormatters.format(this);
+
+            public override string ToString()
+                => Format();
         }
-
-        public Label Name => "exclude";
-
-        public string Format()
-            => OpFormatters.format(this);
-
-        public override string ToString()
-            => Format();
     }
 }

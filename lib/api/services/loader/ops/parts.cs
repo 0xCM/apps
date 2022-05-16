@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
     using static core;
 
     partial struct ApiRuntimeLoader
@@ -86,13 +81,9 @@ namespace Z0
                 ref readonly var symbol = ref skip(symbols,i);
                 var id = symbol.Kind;
                 var name = "z0." + symbol.Expr.Format();
-                var dllpath = dir + FS.file(name, FS.Dll);
-                if(dllpath.Exists)
-                    dst.Add((id,dllpath));
+                dst.Add((id, dir + FS.file(name, FS.Dll)));
 
-                var exepath = dir + FS.file(name, FS.Exe);
-                if(exepath.Exists)
-                    dst.Add((id,exepath));
+                dst.Add((id, dir + FS.file(name, FS.Exe)));
             }
             return dst.ViewDeposited();
         }

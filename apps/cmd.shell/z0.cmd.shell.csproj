@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="$(CmdActions)" />
+    <ProjectReference Include="$(TestChecks)" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>

@@ -2,48 +2,46 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Ops.Logic
+namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly struct Sum<T> : ISeqExpr<T>
-        where T : IExpr
+    partial class LogicOps
     {
-        readonly Index<T> Data;
-
-        [MethodImpl(Inline)]
-        public Sum(T[] src)
-            => Data = src;
-
-        public ReadOnlySpan<T> Terms
+        public readonly struct Sum<T> : ISeqExpr<T>
+            where T : IExpr
         {
-            [MethodImpl(Inline)]
-            get => Data.View;
-        }
+            readonly Index<T> Data;
 
-        public ref T First
-        {
             [MethodImpl(Inline)]
-            get => ref Data.First;
-        }
+            public Sum(T[] src)
+                => Data = src;
 
-        public uint Count
-        {
+            public ReadOnlySpan<T> Terms
+            {
+                [MethodImpl(Inline)]
+                get => Data.View;
+            }
+
+            public ref T First
+            {
+                [MethodImpl(Inline)]
+                get => ref Data.First;
+            }
+
+            public uint Count
+            {
+                [MethodImpl(Inline)]
+                get => Data.Count;
+            }
+
+            public T[] Storage
+            {
+                [MethodImpl(Inline)]
+                get => Data.Storage;
+            }
+
             [MethodImpl(Inline)]
-            get => Data.Count;
+            public static implicit operator Sum<T>(T[] src)
+                => new Sum<T>(src);
         }
-
-        public T[] Storage
-        {
-            [MethodImpl(Inline)]
-            get => Data.Storage;
-        }
-
-        [MethodImpl(Inline)]
-        public static implicit operator Sum<T>(T[] src)
-            => new Sum<T>(src);
     }
 }

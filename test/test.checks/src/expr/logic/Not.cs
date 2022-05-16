@@ -2,23 +2,28 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Ops.Logic
+namespace Z0
 {
-    public class Not : UnaryOpExpr<Not,LogicExprKind>, ILogicOp
+    using Z0.Ops;
+
+    partial class LogicOps
     {
-        public Not(IExpr a)
-            : base(a)
+        public class Not : UnaryOpExpr<Not,LogicExprKind>, ILogicOp
         {
+            public Not(IExpr a)
+                : base(a)
+            {
 
+            }
+
+            public override LogicExprKind Kind
+                => LogicExprKind.Not;
+
+            public override Name OpName
+                => "not";
+
+            public override Not Create(IExpr a)
+                => new Not(a);
         }
-
-        public override LogicExprKind Kind
-            => LogicExprKind.Not;
-
-        public override Name OpName
-            => "not";
-
-        public override Not Create(IExpr a)
-            => new Not(a);
     }
 }

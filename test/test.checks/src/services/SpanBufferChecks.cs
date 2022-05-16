@@ -6,6 +6,7 @@ namespace Z0
 {
     using Assert = PrimalClaims;
 
+    [ApiHost]
     public class SpanBufferChecker : Checker<SpanBufferChecker>
     {
         static ICheckNumeric Claim = NumericClaims.Checker;

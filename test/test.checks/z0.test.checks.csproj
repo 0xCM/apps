@@ -10,7 +10,6 @@
     <ProjectReference Include="../../bits/z0.bits.csproj" />
   </ItemGroup>
 
-
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
   </ItemGroup>

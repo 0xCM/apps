@@ -2,23 +2,28 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Ops.Logic
+namespace Z0
 {
-    public class Xor : BinaryOpExpr<Xor,IBooleanExpr,LogicExprKind>, ILogicOp
+     using Z0.Ops;
+
+    partial class LogicOps
     {
-        public Xor(IBooleanExpr a, IBooleanExpr b)
-            : base(a,b)
+        public class Xor : BinaryOpExpr<Xor,IBooleanExpr,LogicExprKind>, ILogicOp
         {
+            public Xor(IBooleanExpr a, IBooleanExpr b)
+                : base(a,b)
+            {
 
+            }
+
+            public override LogicExprKind Kind
+                => LogicExprKind.XOr;
+
+            public override Name OpName
+                => "xor";
+
+            public override Xor Create(IBooleanExpr a, IBooleanExpr b)
+                => new Xor(a,b);
         }
-
-        public override LogicExprKind Kind
-            => LogicExprKind.XOr;
-
-        public override Name OpName
-            => "xor";
-
-        public override Xor Create(IBooleanExpr a, IBooleanExpr b)
-            => new Xor(a,b);
     }
 }

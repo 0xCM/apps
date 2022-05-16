@@ -5,11 +5,16 @@
 namespace Z0
 {
     using static core;
+    using static TmpTables;
 
+    using C = AsciLetterUpCode;
+
+    [ApiHost]
     public class ExprChecks : Checker<ExprChecks>
     {
         static ICheckNumeric Claim = NumericClaims.Checker;
 
+        [Op]
         public void CheckTextExpr()
         {
             var dst = TextTemplateVar.define("dst");
@@ -26,5 +31,71 @@ namespace Z0
             var result = x.Eval();
             Claim.eq("abc, def, hij", result);
         }
+
+        [Op]
+        Outcome TestPointMappers(CmdArgs args)
+        {
+            var result = Outcome.Success;
+            var symbols = Symbols.index<DecimalDigitValue>();
+            var symview = symbols.View;
+            var map = PointFunctions.mapper<DecimalDigitValue,Pow2x16>(symbols, (i,k) => (Pow2x16)Pow2.pow((byte)i));
+            var data = PointFunctions.serialize(map).View;
+            var count = map.PointCount;
+            var indices = slice(data,0, count);
+            var bits = recover<ushort>(slice(data,count,count*size<Pow2x16>()));
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var symbol = ref skip(symview,i);
+                ref readonly var entry = ref map[symbol.Kind];
+                ref readonly var index = ref skip(data,i);
+                Write(string.Format("{0} => {1}", entry, BitRender.format16(skip(bits,i))));
+            }
+
+            return result;
+        }
+
+        [CmdOp("check/points/fx")]
+        unsafe Outcome FT(CmdArgs args)
+        {
+            var src = recover<C,byte>(Source);
+            ref var f = ref PointFunctions.fx<AsciCode>(n8, src, Target, out _);
+
+            byte x = 0;
+
+            x = skip(src,0);
+            Write(f.Map(x));
+
+            x = skip(src,1);
+            Write(f.Map(x));
+
+            x = skip(src,2);
+            Write(f.Map(x));
+
+            x = skip(src,3);
+            Write(f.Map(x));
+
+            x = skip(src,4);
+            Write(f.Map(x));
+
+            return true;
+        }
+
+        public Outcome CheckTypeSyntax()
+        {
+            var result = Outcome.Success;
+            Write(typeof(Span<int>).Spec());
+            return result;
+        }
+    }
+
+    readonly struct TmpTables
+    {
+        const byte PointCount = 5;
+
+        public static ReadOnlySpan<C> Source
+            => new C[PointCount]{C.Y, C.B, C.X, C.R, C.W};
+
+        public static ReadOnlySpan<AsciCode> Target
+            => new AsciCode[PointCount]{AsciCode.Y, AsciCode.B, AsciCode.X, AsciCode.R, AsciCode.W};
     }
 }
