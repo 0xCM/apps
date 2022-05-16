@@ -4,27 +4,133 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Diagnostics;
-
     using static core;
 
     [ApiHost]
     public readonly struct BitPatterns
     {
-        public static BitPattern originate(string data)
+        [MethodImpl(Inline)]
+        public static BitPatternCalcs calcs(in BitPatternDef def)
+            => new (def);
+
+        public static Index<BitPatternCalcs> calcs(ReadOnlySpan<BitPattern> src)
+            => src.Map(p => calcs(p.Def));
+
+        public static uint segs(BitPattern src, ref uint j, Span<BitPatternSeg> dst)
         {
-            var frame = new StackTrace().GetFrame(1);
-            var method = frame.GetMethod();
-            var type = method.DeclaringType;
-            var name = text.remove(method.Name,"get_");
-            return BitPatterns.infer(Bitfields.origin(type), name, data);
+            var i0 = j;
+            for(var i=0u; i<src.Segs.Count; i++, j++)
+            {
+                ref var seg = ref seek(dst,j);
+                ref readonly var model = ref src.Segs[i];
+                seg.Pattern = src.Name;
+                seg.Name = model.SegName;
+                seg.Index = i;
+                seg.MinPos = model.MinPos;
+                seg.MaxPos = model.MaxPos;
+                seg.Width = model.Width;
+                seg.Expr = model.Format();
+                seg.Mask = model.Mask;
+            }
+            return j - i0;
         }
 
-        public static BitPatternDef define(string name, BfOrigin origin, string data)
+        public static Index<BitPatternSeg> segs(ReadOnlySpan<BitPattern> src)
         {
-            Demand.lteq(name.Length, asci32.Size);
-            Demand.lteq(data.Length, asci64.Size);
-            return new BitPatternDef(name,origin,data);
+            var count = 0u;
+            var counter = 0u;
+            iter(src, x => count += x.Segs.Count);
+            var dst = alloc<BitPatternSeg>(count);
+            var j=0u;
+            for(var i=0; i<src.Length; i++)
+            {
+                ref readonly var pattern = ref skip(src,i);
+                segs(pattern, ref j, dst);
+            }
+            return dst.Sort();
+        }
+
+        [MethodImpl(Inline)]
+        public static BitPatternSpec spec(BitPattern src)
+        {
+            var dst = BitPatternSpec.Empty;
+            dst.Origin = src.Origin.Format();
+            dst.Content = src.Content;
+            dst.DataType = src.DataType.DisplayName();
+            dst.Descriptor = src.Descriptor;
+            dst.MinSize = src.MinSize;
+            dst.Name = src.Name;
+            dst.DataWidth = src.DataWidth;
+            return dst;
+        }
+
+        public static Index<string> gridlines(ReadOnlySpan<byte> src, int rowlen, int? maxbits, bool showrow)
+        {
+            const byte Pad = 3;
+            const string Sep = " | ";
+            const char Delimit = Chars.Space;
+            var limit = maxbits ?? src.Length;
+            var remainder = limit%rowlen;
+            var bits = BitRender.render8x8(src);
+            var count = (limit/rowlen) + (remainder == 0 ? 0 : 1);
+            var buffer = alloc<string>(count);
+            var rowidx = 0;
+            var k=0u;
+            for(int i=0; i<limit; i+=rowlen, k++)
+            {
+                var remains = bits.Length - i;
+                var seglen = min(remains, rowlen);
+                var row = slice(bits.View, i, seglen);
+                if(showrow)
+                    seek(buffer, k) = text.concat($"{rowidx.ToString().PadRight(Pad)}{Sep}", text.format(row.Intersperse(Delimit)));
+                else
+                    seek(buffer, k) = text.format(row.Intersperse(Delimit));
+                rowidx++;
+            }
+
+            if(remainder != 0)
+            {
+                var remains = bits.Length - remainder;
+                var seglen = remains;
+                var row = slice(bits.View, seglen, remains);
+                if(showrow)
+                    seek(buffer, k) = text.concat($"{rowidx.ToString().PadRight(Pad)}{Sep}", text.format(row.Intersperse(Delimit)));
+                else
+                    seek(buffer, k) = text.format(row.Intersperse(Delimit));
+            }
+            return buffer;
+        }
+
+        public static BitPattern originate<O>(in asci32 name, in asci64 data)
+            => infer(Bitfields.origin<O>(), name, data);
+
+        public static string bitstring(in BitPatternDef src, ulong value)
+        {
+            var segs = segments(src.Content);
+            var count = segs.Count;
+            Span<char> buffer = stackalloc char[src.Content.Length];
+            var j=0u;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var seg = ref segs[i];
+                var bits = math.srl(seg.Mask.Apply(value), (byte)seg.MinPos);
+                BitRender.render((ushort)bits, ref j, seg.Width, buffer);
+                seek(buffer, j++) = Chars.Space;
+            }
+            return new string(buffer);
+        }
+
+        [MethodImpl(Inline)]
+        public static BitPatternDef def(BfOrigin origin, in asci32 name, in asci64 content)
+            => new BitPatternDef(origin, name, content);
+
+        public static Index<BitPatternDef> defs(ReadOnlySpan<BitPattern> src)
+        {
+            var count = src.Length;
+            var dst = alloc<BitPatternDef>(count);
+            for(var i=0; i<count; i++)
+                seek(dst,i) = skip(src,i).Def;
+            return dst;
         }
 
         public static Index<BitPattern> originated(Type src)
@@ -47,13 +153,10 @@ namespace Z0
             return dst;
         }
 
-        public static BitPattern infer(BfOrigin origin, string data)
+        public static BitPattern infer(BfOrigin origin, in asci32 name, in asci64 content)
         {
-            var content = text.despace(data);
             return new BitPattern(
-                origin,
-                content,
-                name(content),
+                def(origin, name, content),
                 datawidth(content),
                 datatype(content),
                 minsize(content),
@@ -62,55 +165,10 @@ namespace Z0
             );
         }
 
-        public static BitPattern infer(BfOrigin origin, string name, string data)
-        {
-            var content = text.despace(data);
-            return new BitPattern(
-                origin,
-                content,
-                name,
-                datawidth(content),
-                datatype(content),
-                minsize(content),
-                segments(content),
-                descriptor(content)
-            );
-        }
-
-        public static Index<BitPattern> patterns(BfOrigin origin, ReadOnlySpan<string> src)
-        {
-            var count = src.Length;
-            var dst = alloc<BitPattern>(count);
-            for(var i=0; i<count; i++)
-                seek(dst,i) = infer(origin, skip(src,i));
-            return dst;
-        }
-
-        public static string bitstring(BitPattern pattern, byte data)
-        {
-            var segs = pattern.Segments.Reverse();
-            var count = segs.Count;
-            Span<char> buffer = stackalloc char[pattern.Content.Length];
-            var j=0u;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var seg = ref segs[i];
-                var mask = seg.Mask;
-                var width = seg.Width;
-                var bits = math.srl(seg.Mask.Apply(data), (byte)seg.Offset);
-                BitRender.render(bits, ref j, width, buffer);
-                seek(buffer, j++) = Chars.Space;
-            }
-            return new string(buffer);
-        }
-
-        public static string name(string src)
-            => text.replace(src, Chars.Space, Chars.Underscore);
-
-        public static Index<string> indicators(string src)
+        public static Index<string> indicators(in asci64 src)
             => text.split(src, Chars.Space).Reverse();
 
-        public static Index<BfSegModel> segments(string src)
+        public static Index<BfSegModel> segments(in asci64 src)
         {
             var names = indicators(src);
             var count = names.Length;
@@ -131,7 +189,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static NativeSize minsize(string src)
+        public static NativeSize minsize(in asci64 src)
         {
             var width = datawidth(src);
             if(width <= 8)
@@ -150,7 +208,7 @@ namespace Z0
             return default;
         }
 
-        public static Index<byte> segwidths(string src)
+        public static Index<byte> segwidths(in asci64 src)
         {
             var fields = indicators(src);
             var count = fields.Length;
@@ -160,10 +218,10 @@ namespace Z0
             return buffer;
         }
 
-        public static byte datawidth(string src)
+        public static byte datawidth(in asci64 src)
             => (byte)text.remove(src, Chars.Space).Length;
 
-        public static Type datatype(string src)
+        public static Type datatype(in asci64 src)
             => datatype(datawidth(src));
 
         [Op]
@@ -186,7 +244,7 @@ namespace Z0
             return dst;
         }
 
-        public static string descriptor(string src)
+        public static string descriptor(in asci64 src)
             => text.intersperse(segments(src).Reverse().Select(x => x.Format()), Chars.Space);
     }
 }

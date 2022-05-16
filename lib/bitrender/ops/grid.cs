@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static core;
+
+    using C = AsciCode;
 
     partial struct BitRender
     {
@@ -19,7 +19,7 @@ namespace Z0
         /// <param name="showrow">Indicates whether the content of each row shold be preceded by the row index</param>
         public static string grid(ReadOnlySpan<byte> src, int rowlen, int? maxbits, bool showrow)
         {
-            var dst = render8x8(src);
+            var dst = render8x8(src).View;
             var sb = text.buffer();
             var limit = maxbits ?? dst.Length;
             for(int i=0, rowidx=0; i<limit; i+= rowlen, rowidx++)

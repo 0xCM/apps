@@ -8,6 +8,8 @@ namespace Z0
 
     using static core;
 
+    using C = AsciCode;
+
     partial struct BitRender
     {
         [Op, Closures(Closure)]

@@ -4,32 +4,35 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [StructLayout(StructLayout,Pack=1)]
+    [StructLayout(StructLayout,Pack=1), Record(TableId)]
     public readonly struct BitPatternDef
     {
-        const string TableId = "bits.patterns.specs";
-
-        /// <summary>
-        /// The pattern name
-        /// </summary>
-        public readonly asci32 Name;
+        const string TableId = "bits.patterns.defs";
 
         /// <summary>
         /// The name of the pattern source
         /// </summary>
+        [Render(32)]
         public readonly BfOrigin Origin;
+
+        /// <summary>
+        /// The pattern name
+        /// </summary>
+        [Render(32)]
+        public readonly asci32 Name;
 
         /// <summary>
         /// The pattern content
         /// </summary>
-        public readonly asci64 Data;
+        [Render(1)]
+        public readonly asci64 Content;
 
         [MethodImpl(Inline)]
-        internal BitPatternDef(asci32 name, BfOrigin origin, asci64 data)
+        internal BitPatternDef(BfOrigin origin, asci32 name, asci64 content)
         {
-            Name = name;
             Origin = origin;
-            Data = data;
+            Name = name;
+            Content = content;
         }
     }
 }

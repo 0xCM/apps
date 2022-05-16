@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using C = AsciCode;
+
     partial struct BitRender
     {
         [MethodImpl(Inline), Op]

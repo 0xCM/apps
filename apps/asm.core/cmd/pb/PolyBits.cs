@@ -4,29 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     public partial class PolyBits : AppService<PolyBits>
     {
+        const string DbScope = "polybits";
+
         AppServices AppSvc => Service(Wf.AppServices);
 
         AppDb AppDb => Service(Wf.AppDb);
 
+        DbTargets Targets => AppDb.Targets().Scoped(DbScope);
+
         public void RunChecks()
         {
+            Targets.Delete();
             BitCheckers.run();
+            EmitPatterns();
             var dst = text.emitter();
             CheckBitConverters();
-        }
-
-        public void CheckOrigination()
-        {
-            var patterns = BitPatterns.originated(typeof(AsmBitPatterns));
-            var count = patterns.Count;
-            for(var i=0; i<patterns.Count; i++)
-            {
-                ref readonly var pattern = ref patterns[i];
-            }
         }
 
         void CheckBitConverters()

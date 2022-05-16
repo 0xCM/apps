@@ -7,6 +7,8 @@ namespace Z0
     using static core;
     using static bit;
 
+    using C = AsciCode;
+
     partial struct BitRender
     {
         [MethodImpl(Inline), Op]

@@ -9,6 +9,18 @@ namespace Z0
     using K = BitCharKind;
     using D = BitChars.CharData;
 
+    partial class XTend
+    {
+        public static BitChar ToBitChar(this bit src)
+            => BitChars.from(src);
+
+        public static string Format(this ReadOnlySpan<BitChar> src)
+            => BitChars.format(src);
+
+        public static string Format(this Span<BitChar> src)
+            => BitChars.format(src);
+    }
+
     [ApiHost]
     public readonly struct BitChars
     {

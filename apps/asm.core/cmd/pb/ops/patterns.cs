@@ -18,12 +18,11 @@ namespace Z0
             var define = BitPatterns.originated(src);
             var count = strings.Count + define.Count;
             Index<BitPattern> dst = alloc<BitPattern>(count);
-
             var k=0u;
             for(var i=0; i<strings.Length; i++,k++)
             {
                 ref readonly var res = ref strings[i];
-                dst[k] = BitPatterns.infer(Bitfields.origin(res.Source), res.Source.Name, res.Value);
+                dst[k] = BitPatterns.infer(Bitfields.origin(src.Name), res.Source.Name, res.Value);
             }
 
             for(var i=0; i<define.Count; i++, k++)

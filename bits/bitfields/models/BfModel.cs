@@ -70,7 +70,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public uint SegStart(uint i)
-            => Seg(i).Offset;
+            => Seg(i).MinPos;
 
         [MethodImpl(Inline)]
         public uint SegEnd(uint i)

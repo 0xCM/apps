@@ -6,6 +6,8 @@ namespace Z0
 {
     using static core;
 
+    using C = AsciCode;
+
     partial struct BitRender
     {
         [MethodImpl(Inline), Op]
@@ -16,6 +18,10 @@ namespace Z0
             seek(dst, i++) = bitchar(src, 0);
             return i - i0;
         }
+
+        [MethodImpl(Inline), Op]
+        public static uint render(N2 n, byte src, ref uint i, Span<char> dst)
+            => render2(src, ref i,dst);
 
         [MethodImpl(Inline), Op]
         public static ref asci2 render2(byte src, out asci2 dst)
@@ -46,5 +52,18 @@ namespace Z0
             );
             return ref dst;
         }
+
+        [MethodImpl(Inline), Op]
+        public static uint render(N2 n, byte src, ref uint i, Span<C> dst)
+        {
+            var i0  = i;
+            seek(dst, i++) = code(src, 1);
+            seek(dst, i++) = code(src, 0);
+            return i - i0;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static uint render2(byte src, ref uint i, Span<C> dst, N2 n = default)
+            => render(n, src, ref i, dst);
     }
 }

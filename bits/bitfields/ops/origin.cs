@@ -12,7 +12,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static BfOrigin<ClrTypeName> origin(Type src)
-            => new BfOrigin<ClrTypeName>(src, x => x.AssemblyQualifiedName.Format());
+            => new BfOrigin<ClrTypeName>(src, x => x.ShortName.Format());
 
         [MethodImpl(Inline)]
         public static BfOrigin<ClrTypeName> origin<T>()

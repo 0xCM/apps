@@ -5,6 +5,7 @@
 namespace Z0
 {
     using Asm;
+
     partial class PbCmd
     {
         [CmdOp("pb/bv/emit")]
@@ -23,8 +24,7 @@ namespace Z0
         [CmdOp("pb/emit")]
         Outcome Emit(CmdArgs args)
         {
-            var src = PolyBits.CalcBitPatterns(typeof(AsmBitPatterns));
-            PolyBits.EmitPatterns(nameof(AsmBitPatterns),src);
+            PolyBits.EmitPatterns();
             return true;
         }
     }

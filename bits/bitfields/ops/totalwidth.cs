@@ -33,7 +33,7 @@ namespace Z0
             var count = src.Length;
             var w = 0u;
             for(var i=0; i<count; i++)
-                w += skip(src,i).SegWidth;
+                w += skip(src,i).Width;
             return w;
         }
 
@@ -49,7 +49,7 @@ namespace Z0
             var count = src.SegCount;
             var segments = src.Segments;
             for(byte i=0; i<count; i++)
-                total += skip(segments, i).SegWidth;
+                total += skip(segments, i).Width;
             return total;
         }
     }

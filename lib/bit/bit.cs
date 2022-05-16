@@ -79,10 +79,6 @@ namespace Z0
             => State ? AsciCode.d1 : AsciCode.d0;
 
         [MethodImpl(Inline)]
-        public BitChar ToBitChar()
-            => BitChars.from(this);
-
-        [MethodImpl(Inline)]
         public string Format()
             => State ? "1" : "0";
 

@@ -11,9 +11,11 @@ namespace Z0
     partial struct BitRender
     {
         [MethodImpl(Inline), Op]
-        public static uint render8(byte src, ref uint i, Span<char> dst)
+        public static uint render10(ushort src, ref uint i, Span<char> dst)
         {
             var i0  = i;
+            seek(dst, i++) = bitchar(src, 9);
+            seek(dst, i++) = bitchar(src, 8);
             seek(dst, i++) = bitchar(src, 7);
             seek(dst, i++) = bitchar(src, 6);
             seek(dst, i++) = bitchar(src, 5);
@@ -26,28 +28,15 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static uint render8(byte src, uint offset, Span<char> dst)
-        {
-            var i = offset;
-            seek(dst, i++) = bitchar(src, 7);
-            seek(dst, i++) = bitchar(src, 6);
-            seek(dst, i++) = bitchar(src, 5);
-            seek(dst, i++) = bitchar(src, 4);
-            seek(dst, i++) = bitchar(src, 3);
-            seek(dst, i++) = bitchar(src, 2);
-            seek(dst, i++) = bitchar(src, 1);
-            seek(dst, i++) = bitchar(src, 0);
-            return i - offset;
-        }
+        public static uint render(N10 n, ushort src, ref uint i, Span<char> dst)
+            => render10(src, ref i,dst);
 
         [MethodImpl(Inline), Op]
-        public static uint render(N8 n, byte src, ref uint i, Span<char> dst)
-            => render8(src, ref i,dst);
-
-        [MethodImpl(Inline), Op]
-        public static uint render(N8 n, byte src, ref uint i, Span<C> dst)
+        public static uint render(N10 n, ushort src, ref uint i, Span<C> dst)
         {
             var i0  = i;
+            seek(dst, i++) = code(src, 9);
+            seek(dst, i++) = code(src, 8);
             seek(dst, i++) = code(src, 7);
             seek(dst, i++) = code(src, 6);
             seek(dst, i++) = code(src, 5);
@@ -60,7 +49,8 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static uint render8(byte src, ref uint i, Span<C> dst, N8 n = default)
-            => render(n, src, ref i, dst);
+        public static uint render10(ushort src, ref uint i, Span<C> dst)
+            => render(n10,src, ref i, dst);
+
     }
 }

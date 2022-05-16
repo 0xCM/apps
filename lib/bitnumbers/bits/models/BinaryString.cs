@@ -4,17 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines a sequence of binary values
     /// </summary>
     public readonly ref struct BinaryString
     {
-        public ReadOnlySpan<char> Data {get;}
+        public readonly ReadOnlySpan<char> Data;
 
         [MethodImpl(Inline)]
         public BinaryString(ReadOnlySpan<char> src)

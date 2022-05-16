@@ -55,11 +55,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public uint Width(int index)
-            => Seg(index).SegWidth;
+            => Seg(index).Width;
 
         [MethodImpl(Inline)]
         public uint Position(int index)
-            => bw32(Seg(index).MinIndex);
+            => bw32(Seg(index).MinPos);
 
         [MethodImpl(Inline)]
         public ref BfSegModel<T> Seg(int index)

@@ -24,6 +24,18 @@ namespace Z0
             }
         }
 
+        public DbTargets Delete()
+        {
+            Targets().Delete();
+            return this;
+        }
+
+        public DbTargets Clear()
+        {
+            Targets().Clear();
+            return this;
+        }
+
         [MethodImpl(Inline)]
         public DbTargets Scoped(string scope)
             => new DbTargets(Targets(), scope);

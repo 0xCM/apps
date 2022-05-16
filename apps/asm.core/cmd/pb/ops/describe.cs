@@ -21,7 +21,7 @@ namespace Z0
             dst.AppendLineFormat(RenderPattern,  nameof(BitPattern.Descriptor), src.Descriptor);
             dst.AppendLineFormat(RenderPattern, "Segments", EmptyString);
             dst.AppendLine(RP.PageBreak120);
-            render(src.Segments, dst);
+            render(src.Segs, dst);
         }
     }
 }

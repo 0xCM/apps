@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using api = BitChars;
 
     /// <summary>
@@ -16,7 +11,7 @@ namespace Z0
     /// </summary>
     public readonly struct BitChar : IEquatable<BitChar>
     {
-        public BitCharKind Kind {get;}
+        public readonly BitCharKind Kind;
 
         [MethodImpl(Inline)]
         public BitChar(BitCharKind kind)

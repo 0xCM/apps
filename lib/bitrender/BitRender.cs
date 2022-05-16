@@ -6,6 +6,8 @@ namespace Z0
 {
     using static core;
 
+    using C = AsciCode;
+
     [ApiHost]
     public readonly partial struct BitRender
     {

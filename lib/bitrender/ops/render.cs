@@ -6,6 +6,8 @@ namespace Z0
 {
     using static core;
 
+    using C = AsciCode;
+
     partial struct BitRender
     {
         public static void render<T>(uint n, RenderFence fence, char sep, in T src, ITextBuffer dst)
@@ -85,6 +87,43 @@ namespace Z0
                 break;
                 case 8:
                     render8(src, ref i, dst);
+                break;
+            }
+            return i - i0;
+        }
+
+        [Op]
+        public static uint render(ushort src, ref uint i, uint w, Span<char> dst)
+        {
+            var i0 = i;
+            if(w <= 8)
+                return render((byte)src, ref i, w, dst);
+
+            switch(w)
+            {
+                case 9:
+                    render9(src, ref i, dst);
+                break;
+                case 10:
+                    render10(src, ref i, dst);
+                break;
+                case 11:
+                    render11(src, ref i, dst);
+                break;
+                case 12:
+                    render12(src, ref i, dst);
+                break;
+                case 13:
+                    render13(src, ref i, dst);
+                break;
+                case 14:
+                    render14(src, ref i, dst);
+                break;
+                case 15:
+                    render15(src, ref i, dst);
+                break;
+                case 16:
+                    render16(src, ref i, dst);
                 break;
             }
             return i - i0;

@@ -24,7 +24,7 @@ namespace Z0
         /// The index of the first bit in the segment
         /// </summary>
         [Render(6), Doc("The index of the first bit in the segment")]
-        public uint Offset;
+        public uint MinPos;
 
         /// <summary>
         /// The index of the last bit in the segment
@@ -48,14 +48,15 @@ namespace Z0
         public BfSegModel(asci64 name, uint min, uint max, BitMask mask)
         {
             SegName = name;
-            Offset = min;
+            MinPos = min;
             MaxPos = max;
             Width = (byte)bits.segwidth(min,max);
             Mask = mask;
         }
 
+
         public string Format()
-            => api.format(this);
+            => api.expr(this);
 
         public override string ToString()
             => Format();

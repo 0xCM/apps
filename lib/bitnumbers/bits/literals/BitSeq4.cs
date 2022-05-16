@@ -39,7 +39,5 @@ namespace Z0
         public const L b1110 = L.b1110;
 
         public const L b1111 = L.b1111;
-
-
     }
 }

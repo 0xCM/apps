@@ -18,17 +18,17 @@ namespace Z0
         /// <summary>
         /// The index of the first bit in the segment
         /// </summary>
-        public readonly uint MinIndex;
+        public readonly uint MinPos;
 
         /// <summary>
         /// The index of the last bit in the segment
         /// </summary>
-        public readonly uint MaxIndex;
+        public readonly uint MaxPos;
 
         /// <summary>
         /// The segment width
         /// </summary>
-        public readonly byte SegWidth;
+        public readonly byte Width;
 
         /// <summary>
         /// The segment mask
@@ -39,14 +39,14 @@ namespace Z0
         public BfSegModel(asci64 name, uint min, uint max, BitMask mask)
         {
             SegName = name;
-            MinIndex = min;
-            MaxIndex = max;
-            SegWidth = (byte)bits.segwidth(MinIndex,MaxIndex);
+            MinPos = min;
+            MaxPos = max;
+            Width = (byte)bits.segwidth(MinPos,MaxPos);
             Mask = mask;
         }
 
         public string Format()
-            => api.format(this);
+            => api.expr(this);
 
 
         public override string ToString()
@@ -54,6 +54,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator BfSegModel(BfSegModel<K> src)
-            => new (src.SegName, src.MinIndex, src.MaxIndex, src.Mask);
+            => new (src.SegName, src.MinPos, src.MaxPos, src.Mask);
     }
 }

@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
-    [ApiHost]
+    [ApiHost, LiteralProvider]
     public readonly partial struct BitSeq
     {
         [MethodImpl(Inline), Op]

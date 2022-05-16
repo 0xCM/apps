@@ -6,12 +6,13 @@ namespace Z0
 {
     using static core;
 
+    using C = AsciCode;
+
     partial struct BitRender
     {
-        public static Span<char> render8x8(ReadOnlySpan<byte> src)
+        public static Index<char> render8x8(ReadOnlySpan<byte> src)
         {
-            var dst = span<char>(src.Length*8);
-            var input = span(src);
+            var dst = alloc<char>(src.Length*8);
             render8x8(src, dst);
             return dst;
         }

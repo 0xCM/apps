@@ -133,25 +133,6 @@ namespace Z0
             return string.Concat(name, Chars.Colon, formatter.Format(data));
         }
 
-        public static string format(in BfSegModel src)
-        {
-            if(src.Width == 1)
-            {
-                return string.Format("{0}[{1}]:{2}",
-                    src.SegName,
-                    src.Offset,
-                    src.Width
-                    );
-            }
-            else
-                return string.Format("{0}[{1}:{2}]:{3}",
-                    src.SegName,
-                    Bitfields.endpos(src.Offset, src.Width),
-                    src.Offset,
-                    src.Width
-                    );
-        }
-
         public static string format(in BfModel src)
         {
             static string typename(in BfModel src)
@@ -166,23 +147,13 @@ namespace Z0
             for(var i=0; i<src.SegCount; i++)
             {
                 if(i != src.SegCount - 1)
-                    dst.IndentLineFormat(indent, "{0},", format(skip(src.Segments,i)));
+                    dst.IndentLineFormat(indent, "{0},", expr(skip(src.Segments,i)));
                 else
-                    dst.IndentLineFormat(indent, "{0}", format(skip(src.Segments,i)));
+                    dst.IndentLineFormat(indent, "{0}", expr(skip(src.Segments,i)));
             }
             indent -= 2;
             dst.IndentLine(indent,Chars.RBrace);
             return dst.Emit();
-        }
-
-        public static string format<K>(in BfSegModel<K> src)
-            where K : unmanaged
-        {
-            var i = endpos(src.MinIndex,src.SegWidth);
-            if(i == 0)
-                return string.Format("{0}[{1}]", src.SegName, src.MinIndex);
-            else
-                return string.Format("{0}[{1}:{2}]", src.SegName, src.MinIndex, i);
         }
     }
 }

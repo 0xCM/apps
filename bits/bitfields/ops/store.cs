@@ -23,7 +23,7 @@ namespace Z0
             where K : unmanaged
         {
             ref readonly var spec = ref skip(dst.SegSpecs,field);
-            dst.Overwrite(gmath.or(dst.State, gmath.sll(dst.State, u8(spec.SegWidth))));
+            dst.Overwrite(gmath.or(dst.State, gmath.sll(dst.State, u8(spec.Width))));
             return ref dst;
         }
 
