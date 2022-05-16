@@ -62,8 +62,8 @@ namespace Z0.Logix
                 var x = Random.Next<T>();
                 var y = Random.Next<T>();
                 identity.SetVars(x,y);
-                Claim.eq(TL.@true<T>(), LogicEngine.eval(identity));
-                Claim.require(LogicEngine.satisfied(identity, x, y));
+                Claim.eq(TL.@true<T>(), LogixEngine.eval(identity));
+                Claim.require(LogixEngine.satisfied(identity, x, y));
             }
         }
 
@@ -77,8 +77,8 @@ namespace Z0.Logix
                 var y = Random.CpuVector<T>(w);
                 identity.SetVars(x,y);
 
-                Claim.veq(@true,LogicEngine.eval(identity).Value);
-                Claim.require(LogicEngine.satisfied(identity, x,y));
+                Claim.veq(@true,LogixEngine.eval(identity).Value);
+                Claim.require(LogixEngine.satisfied(identity, x,y));
             }
         }
 
@@ -93,8 +93,8 @@ namespace Z0.Logix
 
                 equality.SetVars(x,y);
 
-                Claim.veq(@true, LogicEngine.eval(equality).Value);
-                Claim.require(LogicEngine.satisfied(equality, x,y));
+                Claim.veq(@true, LogixEngine.eval(equality).Value);
+                Claim.require(LogixEngine.satisfied(equality, x,y));
             }
         }
     }

@@ -35,18 +35,18 @@ namespace Z0
             switch(expr)
             {
                 case IArithmeticExpr<T> x: return LogixArithEval.eval(x);
-                default: return LogicEngine.eval(expr);
+                default: return LogixEngine.eval(expr);
             }
         }
 
         [Op, Closures(Closure)]
         static LogixLiteral<Vector128<T>> eval<T>(ILogixExpr<Vector128<T>> expr)
             where T : unmanaged
-                => LogicEngine.eval(expr);
+                => LogixEngine.eval(expr);
 
         [Op, Closures(Closure)]
         static LogixLiteral<Vector256<T>> eval<T>(ILogixExpr<Vector256<T>> expr)
             where T : unmanaged
-                => LogicEngine.eval(expr);
+                => LogixEngine.eval(expr);
     }
 }

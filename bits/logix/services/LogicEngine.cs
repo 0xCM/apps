@@ -4,14 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Collections.Generic;
-    using System.Runtime.Intrinsics;
 
-    using static Root;
     using static core;
 
     [ApiHost]
-    public static class LogicEngine
+    public static class LogixEngine
     {
         const NumericKind Closure = UInt64k;
 
@@ -121,7 +118,7 @@ namespace Z0
         public static bit satisfied(ComparisonExpr expr, bit a, bit b)
         {
             Require.invariant(expr.SetVars(a,b), () => "Unable to set variables");
-            return LogicEngine.eval(expr);
+            return LogixEngine.eval(expr);
         }
 
         /// <summary>
@@ -137,7 +134,7 @@ namespace Z0
         {
             Require.invariant(expr.VarCount >= 2, () => $"The source expression has {expr.VarCount} and the operation requires 2");
             expr.SetVars(a,b);
-            return gmath.eq(LogicEngine.eval(expr).Value, Limits.maxval<T>());
+            return gmath.eq(LogixEngine.eval(expr).Value, Limits.maxval<T>());
         }
 
         /// <summary>
@@ -184,8 +181,8 @@ namespace Z0
             foreach(var vars in BitLogicSpec.bitcombo(count))
             {
                 a.SetVars(vars);
-                var x = LogicEngine.eval(a);
-                var y = LogicEngine.eval(b);
+                var x = LogixEngine.eval(a);
+                var y = LogixEngine.eval(b);
                 if(x != y)
                     return bit.Off;
             }
@@ -202,7 +199,7 @@ namespace Z0
             for(var i=0; i<level0.Length; i++)
             {
                 expr.SetVar(varyix, level0[i]);
-                var result = LogicEngine.eval(expr);
+                var result = LogixEngine.eval(expr);
                 if(gmath.eq(result.Value, ones))
                     sln.Add(result);
             }
@@ -224,7 +221,7 @@ namespace Z0
                 {
                     expr.SetVar(1,level1[j]);
 
-                    var result = LogicEngine.eval(expr);
+                    var result = LogixEngine.eval(expr);
                     if(gmath.eq(result.Value, ones))
                         sln.Add(result);
                 }

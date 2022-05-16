@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Logix
 {
-    using System;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
     using static TypedLogicSpec;
     using static Numeric;
 
@@ -296,7 +292,7 @@ namespace Z0.Logix
             {
                 var a = Random.Next<T>();
                 v1.Set(a);
-                ScalarBits<T> actual = LogicEngine.eval(expr).Value;
+                ScalarBits<T> actual = LogixEngine.eval(expr).Value;
                 ScalarBits<T> expect = NumericLogixHost.eval(kind,a);
                 Claim.eq(actual,expect);
             }
@@ -316,7 +312,7 @@ namespace Z0.Logix
                 v1.Set(a);
                 v2.Set(b);
                 T expect = NumericLogixHost.eval(op,a,b);
-                T result1 = LogicEngine.eval(expr);
+                T result1 = LogixEngine.eval(expr);
                 //T result2 = BitVectorOpApi.eval(op, BitVector.alloc(a),BitVector.alloc(b)).Scalar;
                 var result2 = BitVectorLogix.Service.EvalDirect(op, BitVectors.alloc(a),BitVectors.alloc(b)).State;
                 Claim.eq(expect, result1);
@@ -334,7 +330,7 @@ namespace Z0.Logix
             {
                 var a = Random.CpuVector<T>(n128);
                 v1.Set(a);
-                Vector128<T> actual = LogicEngine.eval(expr);
+                Vector128<T> actual = LogixEngine.eval(expr);
                 Vector128<T> expect = VLogixOps.eval(op,a);
                 Claim.veq(actual,expect);
             }
@@ -350,7 +346,7 @@ namespace Z0.Logix
             {
                 var a = Random.CpuVector<T>(w256);
                 v1.Set(a);
-                Vector256<T> actual = LogicEngine.eval(expr);
+                Vector256<T> actual = LogixEngine.eval(expr);
                 Vector256<T> expect = VLogixOps.eval(op,a);
                 Claim.veq(actual,expect);
             }
@@ -369,7 +365,7 @@ namespace Z0.Logix
                 var b = Random.CpuVector<T>(w);
                 v1.Set(a);
                 v2.Set(b);
-                Vector128<T> actual = LogicEngine.eval(expr);
+                Vector128<T> actual = LogixEngine.eval(expr);
                 Vector128<T> expect = VLogixOps.eval(op,a,b);
                 Claim.veq(actual,expect);
             }
@@ -388,7 +384,7 @@ namespace Z0.Logix
                 var b = Random.CpuVector<T>(w);
                 v1.Set(a);
                 v2.Set(b);
-                Vector256<T> actual = LogicEngine.eval(expr);
+                Vector256<T> actual = LogixEngine.eval(expr);
                 Vector256<T> expect = VLogixOps.eval(op,a,b);
                 Claim.veq(actual,expect);
             }

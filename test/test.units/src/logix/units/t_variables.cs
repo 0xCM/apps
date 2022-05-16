@@ -58,7 +58,7 @@ namespace Z0.Logix
             for(var i=0; i<count; i++)
             {
                 expr.Var0(level[i]);
-                var result = LogicEngine.eval(expr.BaseExpr);
+                var result = LogixEngine.eval(expr.BaseExpr);
                 if(gmath.eq(result.Value, match.Value))
                     dst.Add(result);
             }
@@ -78,7 +78,7 @@ namespace Z0.Logix
                 {
                     expr.Var1(level1[j]);
 
-                    var result = LogicEngine.eval(expr.BaseExpr);
+                    var result = LogixEngine.eval(expr.BaseExpr);
                     if(gmath.eq(result.Value, match.Value))
                         sln.Add(result);
                 }
@@ -122,7 +122,7 @@ namespace Z0.Logix
                 var d = Random.SetNext(v3);
 
                 var expect = op1(op0(a,b), op0(c,d));
-                var actual = LogicEngine.eval(expr).Value;
+                var actual = LogixEngine.eval(expr).Value;
                 Claim.eq(expect,actual);
             }
         }
@@ -148,7 +148,7 @@ namespace Z0.Logix
                 var a = Random.SetNext(v0);
                 var b = Random.SetNext(v1);
                 var expect = op(a, b);
-                var actual = LogicEngine.eval(expr).Value;
+                var actual = LogixEngine.eval(expr).Value;
                 Claim.eq(expect,actual);
             }
         }

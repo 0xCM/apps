@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Logix
 {
-    using static LogicEngine;
+    using static LogixEngine;
 
     using CS = Comparisons;
 

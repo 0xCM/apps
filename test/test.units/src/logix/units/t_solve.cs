@@ -13,7 +13,7 @@ namespace Z0.Logix
         {
             var identity = TypedIdentities.AndOverOr<uint>();
             identity.SetVar(0, 32u);
-            var sln = LogicEngine.solve(identity, (0u,255u),1);
+            var sln = LogixEngine.solve(identity, (0u,255u),1);
             Claim.eq(256,sln.Count);
         }
 
@@ -34,7 +34,7 @@ namespace Z0.Logix
         {
             var count = Numeric.force<T,int>(gmath.add(gmath.sub(max, min), one<T>()));
             var expect = gmath.square(count);
-            var sln = LogicEngine.solve(identity, (min,max));
+            var sln = LogixEngine.solve(identity, (min,max));
             Claim.eq(expect, sln.Count);
         }
     }

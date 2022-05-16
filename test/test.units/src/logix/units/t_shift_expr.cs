@@ -140,7 +140,7 @@ namespace Z0.Logix
             {
                 var a = Random.Next<T>();
                 v1.Set(a);
-                T actual = LogicEngine.eval(expr);
+                T actual = LogixEngine.eval(expr);
                 T expect = NumericLogixHost.eval(op,a,offset);
                 Claim.eq(actual,expect);
             }
@@ -157,7 +157,7 @@ namespace Z0.Logix
             {
                 var a = Random.CpuVector<T>(n256);
                 v1.Set(a);
-                Vector256<T> actual = LogicEngine.eval(expr);
+                Vector256<T> actual = LogixEngine.eval(expr);
                 Vector256<T> expect = VLogixOps.eval(op,a,offset);
                 Claim.veq(actual,expect);
             }
@@ -174,7 +174,7 @@ namespace Z0.Logix
             {
                 var a = Random.CpuVector<T>(n128);
                 v1.Set(a);
-                Vector128<T> actual = LogicEngine.eval(expr);
+                Vector128<T> actual = LogixEngine.eval(expr);
                 Vector128<T> expect = VLogixOps.eval(op,a,offset);
                 Claim.veq(actual,expect);
             }

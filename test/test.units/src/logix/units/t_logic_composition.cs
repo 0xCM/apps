@@ -5,7 +5,7 @@
 namespace Z0.Logix
 {
     using static BitLogicSpec;
-    using static LogicEngine;
+    using static LogixEngine;
 
     public class t_logic_composition : t_logix<t_logic_composition>
     {

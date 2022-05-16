@@ -42,8 +42,8 @@ namespace Z0.Logix
             foreach(var c in bitcombo(count))
             {
                 expr.SetVars(c);
-                Claim.eq(bit.On, LogicEngine.eval(expr));
-                Claim.require(LogicEngine.satisfied(expr, c[0], c[1]));
+                Claim.eq(bit.On, LogixEngine.eval(expr));
+                Claim.require(LogixEngine.satisfied(expr, c[0], c[1]));
             }
         }
 
@@ -70,6 +70,6 @@ namespace Z0.Logix
         }
 
         void evaluator_bench()
-            => identity_bench("identity/evaluator", LogicEngine.satisfied);
+            => identity_bench("identity/evaluator", LogixEngine.satisfied);
     }
 }

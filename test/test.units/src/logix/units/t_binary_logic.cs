@@ -9,7 +9,7 @@ namespace Z0.Logix
 
     using static Root;
     using static BitLogicSpec;
-    using static LogicEngine;
+    using static LogixEngine;
 
     using BLK = BinaryBitLogicKind;
     using BL = BitLogix;
