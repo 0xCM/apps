@@ -4,20 +4,29 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
     using static core;
 
     partial struct ApiRuntimeLoader
     {
-        public static IApiCatalog catalog()
-            => catalog(location());
+        public static IApiCatalog catalog(bool libonly)
+            => catalog(location(), libonly);
 
-        public static IApiCatalog catalog(FS.FolderPath location, PartId[] parts)
-            => catalog(LoadParts(location, parts));
+        public static IApiCatalog catalog(FS.FolderPath dir, bool libonly)
+        {
+            var candidates = assemblies(dir, true, libonly).Where(x => x.Id() != 0);
+            var count = candidates.Length;
+            var parts = list<IPart>();
+            for(var i=0; i<count; i++)
+            {
+                if(TryLoadPart(skip(candidates,i), out var part))
+                    parts.Add(part);
+            }
+
+            return catalog(parts.Array());
+        }
+
+        public static IApiCatalog catalog(FS.FolderPath location, PartId[] parts, bool libonly)
+            => catalog(LoadParts(location, parts, libonly));
 
         public static IApiCatalog catalog(FS.Files paths)
             => catalog(paths.Storage.Select(part).Where(x => x.IsSome()).Select(x => x.Value).OrderBy(x => x.Id));
@@ -43,20 +52,6 @@ namespace Z0
         [Op]
         public static ApiPartCatalog catalog(Assembly src)
             => new ApiPartCatalog(src.Id(), src, complete(src), apihosts(src), SvcHostTypes(src));
-
-        public static IApiCatalog catalog(FS.FolderPath dir)
-        {
-            var candidates = assemblies(dir, true).Where(x => x.Id() != 0);
-            var count = candidates.Length;
-            var parts = list<IPart>();
-            for(var i=0; i<count; i++)
-            {
-                if(TryLoadPart(skip(candidates,i), out var part))
-                    parts.Add(part);
-            }
-
-            return catalog(parts.Array());
-        }
 
         [Op]
         public static IApiCatalog catalog(IPart[] parts)

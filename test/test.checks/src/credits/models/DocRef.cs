@@ -13,6 +13,7 @@ namespace Z0
     /// <summary>
     /// Defines a reference to document content
     /// </summary>
+    [ApiComplete]
     public readonly struct DocRef : ITextual, IEquatable<DocRef>
     {
         readonly S State;

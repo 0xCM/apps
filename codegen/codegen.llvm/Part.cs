@@ -19,7 +19,7 @@ global using CallerFile = System.Runtime.CompilerServices.CallerFilePathAttribut
 global using CallerLine = System.Runtime.CompilerServices.CallerLineNumberAttribute;
 
 
-[assembly: PartId(PartId.LlvmCodeGen)]
+[assembly: PartId(PartId.CgLlvm)]
 
 namespace Z0.Parts
 {

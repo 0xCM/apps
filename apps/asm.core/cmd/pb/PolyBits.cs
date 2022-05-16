@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     public partial class PolyBits : AppService<PolyBits>
     {
         AppServices AppSvc => Service(Wf.AppServices);
@@ -15,6 +17,16 @@ namespace Z0
             BitCheckers.run();
             var dst = text.emitter();
             CheckBitConverters();
+        }
+
+        public void CheckOrigination()
+        {
+            var patterns = BitPatterns.originated(typeof(AsmBitPatterns));
+            var count = patterns.Count;
+            for(var i=0; i<patterns.Count; i++)
+            {
+                ref readonly var pattern = ref patterns[i];
+            }
         }
 
         void CheckBitConverters()

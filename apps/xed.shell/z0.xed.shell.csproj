@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <AssemblyName>xed.shell</AssemblyName>
+    <AssemblyName>z0.xed.shell</AssemblyName>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 

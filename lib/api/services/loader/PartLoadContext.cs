@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Runtime.Loader;
-    using System.Reflection;
     using System.Linq;
 
     public class PartLoadContext : AssemblyLoadContext, IDisposable

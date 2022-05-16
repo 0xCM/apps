@@ -6,9 +6,6 @@ namespace Z0
 {
     using System.Linq;
     using System.IO;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     partial struct FS
     {

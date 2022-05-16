@@ -10,7 +10,13 @@ namespace Z0
     [ApiHost]
     public readonly partial struct Numbers
     {
-        const NumericKind Closure = AllNumeric;
+        internal const NumericKind Closure = UnsignedInts;
+
+        internal const NumericKind Closure8 = NumericKind.U8;
+
+        internal const NumericKind Closure16 = NumericKind.U16;
+
+        internal const NumericKind Closure32 = NumericKind.U32;
 
         /// <summary>
         /// Partitions the source into 8 segments, each of effective width 1

@@ -3,6 +3,8 @@
 // License     :  MIT
 //-----------------------------------------------------------------------------
 
+using Z0;
+
 /// <summary>
 /// Defines identifiers for assemblies that comprise this ... monstrosity?
 /// </summary>
@@ -11,326 +13,221 @@ public enum PartId : byte
     None = 0,
 
     [Symbol("root")]
-    Root = 1,
+    Root,
 
     [Symbol("asm.operands")]
-    AsmOperands = 2,
+    AsmOperands,
 
     [Symbol("part")]
-    Part = 3,
+    Part,
 
     [Symbol("asm.services")]
-    AsmServices = 4,
+    AsmServices,
 
     [Symbol("core")]
-    Core = 5,
+    Core,
 
     [Symbol("generated")]
-    Generated = 6,
+    Generated,
 
     [Symbol("apps.core")]
-    AppCore = 7,
-
-    [Symbol("xed.shell")]
-    XedShell = 9,
-
-    [Symbol("cmd.shell")]
-    CmdShell = 10,
+    AppCore,
 
     [Symbol("cmd.actions")]
-    CmdActions = 11,
-
-    [Symbol("llvm.codegen")]
-    LlvmCodeGen = 12,
-
-    [Symbol("codegen.test")]
-    CodeGenTest = 13,
+    CmdActions,
 
     [Symbol("asm.prototypes")]
-    AsmPrototypes = 15,
-
-    [Symbol("codegen.common")]
-    CgCommon = 16,
+    AsmPrototypes,
 
     [Symbol("polyrand")]
-    Polyrand = 17,
+    Polyrand,
 
     [Symbol("test.checks")]
-    Checks = 19,
+    Checks,
 
     [Symbol("res")]
-    Res = 20,
+    Res,
 
     [Symbol("machines.x86")]
-    X86Machine = 21,
-
-    [Symbol("xed.lib")]
-    XedLib = 22,
-
-    [Symbol("codegen.intel")]
-    CgIntel = 23,
-
-    [Symbol("cmd")]
-    Cmd = 24,
+    X86Machine,
 
     [Symbol("lines")]
-    Lines = 25,
+    Lines,
 
     [Symbol("numbers")]
-    Numbers = 26,
-
-    [Symbol("containers")]
-    Containers = 27,
-
-    [Symbol("test.runner")]
-    TestRunner = 28,
-
-    [Symbol("blittable")]
-    Blittable = 29,
+    Numbers,
 
     [Symbol("ws")]
-    Ws = 30,
+    Ws,
 
     [Symbol("llvm.tools")]
-    LlvmTools = 31,
+    LlvmTools,
 
     [Symbol("llvm.models")]
-    LlvmModels = 32,
-
-    [Symbol("seq")]
-    Seq = 33,
-
-    [Symbol("gmath")]
-    GMath = 34,
-
-    [Symbol("xml")]
-    Xml = 35,
-
-    [Symbol("models.shell")]
-    ModelShell = 36,
+    LlvmModels,
 
     [Symbol("calc")]
-    Calc = 37,
-
-    [Symbol("time")]
-    Time = 38,
+    Calc,
 
     [Symbol("resources")]
-    Resources = 39,
-
-    [Symbol("events")]
-    Events = 40,
+    Resources,
 
     [Symbol("tools")]
-    Tools = 41,
+    Tools,
 
     [Symbol("tooling")]
-    Tooling = 42,
-
-    [Symbol("fsm")]
-    Fsm = 43,
+    Tooling,
 
     [Symbol("apicore")]
-    ApiCore= 44,
+    ApiCore,
 
     [Symbol("interop")]
-    Interop = 45,
+    Interop,
 
     [Symbol("cpu")]
-    Cpu = 46,
-
-    [Symbol("llvm.tool")]
-    LlvmTool = 47,
+    Cpu,
 
     [Symbol("gen")]
-    Gen = 48,
-
-    [Symbol("sfuncs")]
-    SFuncs = 49,
-
-    [Symbol("pipes")]
-    Pipes = 50,
+    Gen,
 
     [Symbol("agents")]
-    Agents = 51,
-
-    [Symbol("relations")]
-    Relations = 52,
-
-    [Symbol("asm.shell")]
-    AsmShell = 53,
-
-    [Symbol("graphs")]
-    Graphs = 54,
-
-    [Symbol("tools.shell")]
-    ToolShell = 55,
-
-    [Symbol("calc.shell")]
-    CalcShell = 56,
+    Agents,
 
     [Symbol("test.units")]
-    TestUnits = 57,
-
-    [Symbol("clr")]
-    Clr = 58,
-
-    [Symbol("cli")]
-    Cli = 59,
-
-    [Symbol("canonical")]
-    Canonical = 60,
-
-    [Symbol("symbolic")]
-    Symbolic = 61,
-
-    [Symbol("tables")]
-    Tables = 62,
-
-    [Symbol("gather")]
-    Gather = 63,
-
-    [Symbol("spanblocks")]
-    SpanBlocks = 64,
-
-    [Symbol("minidump")]
-    Minidump = 65,
+    TestUnits,
 
     [Symbol("bits")]
-    Bits = 66,
-
-    [Symbol("bitfields")]
-    Bitfields = 67,
-
-    [Symbol("symcore")]
-    SymCore = 68,
-
-    [Symbol("cli.shell")]
-    CliShell = 69,
+    Bits,
 
     [Symbol("bitvectors")]
-    BitVectors = 71,
+    BitVectors,
 
     [Symbol("bitspans")]
-    BitSpans = 72,
-
-    [Symbol("bitstrings")]
-    BitStrings = 73,
-
-    [Symbol("bitgrids")]
-    BitGrids = 74,
-
-    [Symbol("bitpack")]
-    BitPack = 75,
+    BitSpans,
 
     [Symbol("settings")]
-    Settings = 78,
+    Settings,
 
     [Symbol("logix")]
-    Logix = 79,
+    Logix,
 
     [Symbol("libm")]
-    LibM = 80,
+    LibM,
 
     [Symbol("glue")]
-    Glue = 81,
-
-    [Symbol("machines")]
-    Machines = 82,
-
-    [Symbol("nats")]
-    Nats = 83,
+    Glue,
 
     [Symbol("mkl")]
-    Mkl = 84,
-
-    [Symbol("stats")]
-    Stats = 85,
-
-    [Symbol("dynamic")]
-    Dynamic = 86,
+    Mkl,
 
     [Symbol("asm")]
-    Asm = 87,
+    Asm,
 
     [Symbol("asm.lang")]
-    AsmLang = 88,
+    AsmLang,
 
     [Symbol("asm.core")]
-    AsmCore = 89,
-
-    [Symbol("asm.run")]
-    AsmRun = 91,
+    AsmCore,
 
     [Symbol("dynamic.linq")]
-    DynamicLinq = 92,
+    DynamicLinq,
 
     [Symbol("capture")]
-    Capture = 93,
+    Capture,
 
     [Symbol("evaluate")]
-    Evaluate = 94,
-
-    [Symbol("extract")]
-    Extract = 95,
-
-    [Symbol("bitnumbers")]
-    BitNumbers = 96,
-
-    [Symbol("expr")]
-    Expr = 97,
-
-    [Symbol("workers")]
-    Workers = 99,
+    Evaluate,
 
     [Symbol("capture.checks")]
-    CaptureChecks = 100,
-
-    [Symbol("grids")]
-    Grids = 101,
+    CaptureChecks,
 
     [Symbol("validity")]
-    Validity = 102,
+    Validity,
 
     [Symbol("cpu.dsl")]
-    CpuDsl = 103,
+    CpuDsl,
 
     [Symbol("bits.test")]
-    BitsTest = 104,
+    BitsTest,
 
     [Symbol("logix.test")]
-    LogixTest = 105,
+    LogixTest,
 
     [Symbol("cpu.test")]
-    CpuTest = 106,
+    CpuTest,
 
     [Symbol("services")]
-    Services = 107,
-
-    [Symbol("run")]
-    Run = 108,
-
-    [Symbol("machine")]
-    Machine = 109,
-
-    [Symbol("contral")]
-    Control = 110,
-
-    [Symbol("gen.shell")]
-    GenApp = 111,
-
-    [Symbol("asmz")]
-    AsmZ = 112,
+    Services,
 
     [Symbol("lib")]
-    Lib = 128,
+    Lib,
 
     [Symbol("test")]
-    LibTest = 127,
+    LibTest,
 
-    // ~ Generated
+    // ~ Generated 64 .. 127
     // ~ -------------------------------------------------------------------------------
 
-    [Symbol("asm.lang.g")]
-    AsmLangG = 200,
+    [Symbol("codegen.common")]
+    CgCommon = Pow2.T06,
+
+    [Symbol("codegen.intel")]
+    CgIntel = CgCommon + 1,
+
+    [Symbol("codegen.llvm")]
+    CgLlvm = CgIntel + 1,
+
+    // ~ Shells : 128 ..
+    // ~ -------------------------------------------------------------------------------
+
+    [Symbol("gen.shell")]
+    CgShell = (byte)Pow2.T07,
+
+    [Symbol("codegen.test")]
+    CgTest = CgShell + 1,
+
+    [Symbol("asm.shell")]
+    AsmShell = CgTest + 1,
+
+    [Symbol("tools.shell")]
+    ToolShell = AsmShell + 1,
+
+    [Symbol("calc.shell")]
+    CalcShell = ToolShell + 1,
+
+    [Symbol("asmz")]
+    AsmZ = CalcShell + 1,
+
+    [Symbol("run")]
+    Run = AsmZ + 1,
+
+    [Symbol("test.runner")]
+    TestRunner = Run + 1,
+
+    [Symbol("xed.shell")]
+    XedShell = TestRunner + 1,
+
+    [Symbol("cmd.shell")]
+    CmdShell = XedShell + 1,
+
+    [Symbol("asm.run")]
+    AsmRun = CmdShell + 1,
+
+    [Symbol("machines")]
+    Machines = AsmRun + 1,
+
+    [Symbol("llvm.tool")]
+    LlvmTool = Machines + 1,
+
+    [Symbol("cmd")]
+    Cmd = LlvmTool + 1,
+
+    [Symbol("contral")]
+    Control = Cmd + 1,
+
+    [Symbol("machine")]
+    Machine = Control + 1,
+
+    [Symbol("workers")]
+    Workers = Machine + 1,
 }

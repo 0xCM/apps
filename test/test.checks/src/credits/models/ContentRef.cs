@@ -15,6 +15,7 @@ namespace Z0
     /// that often, as a flagrant display of idiocy, have numbering schemes that are content-type
     /// independent and even document-location independent
     /// </summary>
+    [ApiComplete]
     public readonly struct ContentRef : ITextual, IEquatable<ContentRef>
     {
         readonly S State;

@@ -14,7 +14,7 @@ global using static Z0.Root;
 global using SQ = Z0.SymbolicQuery;
 
 
-[assembly: PartId(PartId.GenApp)]
+[assembly: PartId(PartId.CgShell)]
 
 namespace Z0.Parts
 {

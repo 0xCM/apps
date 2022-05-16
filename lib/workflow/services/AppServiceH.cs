@@ -196,7 +196,6 @@ namespace Z0
         protected void Status<T>(T content, FlairKind flair = FlairKind.Status)
             => WfMsg.Status(content, flair);
 
-
         public void Status(ReadOnlySpan<char> src, FlairKind flair = FlairKind.Status)
             => WfMsg.Status(src, flair);
 
@@ -489,7 +488,7 @@ namespace Z0
             {
                 if(_ApiCatalog == null)
                 {
-                    _ApiCatalog = ApiRuntimeLoader.catalog();
+                    _ApiCatalog = ApiRuntimeLoader.catalog(true);
                 }
             }
             return _ApiCatalog;

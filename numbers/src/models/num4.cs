@@ -20,10 +20,6 @@ namespace Z0
         public num4(D src)
             => Value = crop(src);
 
-        [MethodImpl(Inline)]
-        num4(ulong src)
-            => Value = (D)src;
-
         public const byte Width = 4;
 
         /// <summary>
@@ -57,8 +53,8 @@ namespace Z0
             => new T((D)src);
 
         [MethodImpl(Inline)]
-        public static T cover(D src)
-            => new T((uint)src);
+        static T cover(D src)
+            => @as<D,T>(src);
 
         [MethodImpl(Inline), Op]
         public static bit test(T src, byte pos)

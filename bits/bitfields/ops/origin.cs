@@ -26,9 +26,5 @@ namespace Z0
                     src.DeclaringType.DisplayName(),
                     src.Name
                     );
-
-        [MethodImpl(Inline)]
-        public static BfOrigin<Pair<BfOrigin>> origin(BfOrigin a, BfOrigin b)
-            => core.pair(a,b);
     }
 }

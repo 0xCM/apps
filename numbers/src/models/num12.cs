@@ -58,8 +58,8 @@ namespace Z0
             => new T((D)src);
 
         [MethodImpl(Inline)]
-        public static T cover(D src)
-            => new T((uint)src);
+        static T cover(D src)
+            => @as<D,T>(src);
 
         [MethodImpl(Inline)]
         public static T force<A>(A src)

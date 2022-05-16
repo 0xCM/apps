@@ -6,6 +6,7 @@ namespace Z0
 {
     partial struct Numbers
     {
+        [LiteralProvider]
         public readonly struct Limit
         {
             /// <summary>

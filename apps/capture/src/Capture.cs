@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using Z0.Asm;
 
-    using static Root;
     using static Msg;
     using static core;
 
@@ -21,7 +17,7 @@ namespace Z0
         {
             var control = controller();
             var dir = FS.path(control.Location).FolderPath;
-            var parts = ApiRuntimeLoader.parts(control, args);
+            var parts = ApiRuntimeLoader.parts(control, args, true);
             var identities = parts.Catalog.PartIdentities;
             using var wf = WfAppLoader.load(parts, args);
             var runner = wf.CaptureRunner();

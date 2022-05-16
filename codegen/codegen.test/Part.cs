@@ -16,7 +16,7 @@ global using SQ = Z0.SymbolicQuery;
 global using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
 
-[assembly: PartId(PartId.CodeGenTest)]
+[assembly: PartId(PartId.CgTest)]
 
 namespace Z0.Parts
 {

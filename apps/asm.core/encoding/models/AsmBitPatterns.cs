@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using static BitPatterns;
 
     [LiteralProvider]
     public readonly struct AsmBitPatterns
@@ -14,17 +15,15 @@ namespace Z0.Asm
         [Ignore]
         const string Sep = " ";
 
-        public static readonly BitPattern Sib = "ss iii bbb";
+        public static readonly BitPattern Sib = originate("ss iii bbb");
 
-        public static readonly BitPattern ModRm = "mm rrr nnn";
+        public static readonly BitPattern ModRm = originate("mm rrr nnn");
 
-        public static readonly BitPattern Rex = "aaaa wrxb";
+        public static readonly BitPattern Rex = originate("aaaa wrxb");
 
-        public static readonly BitPattern VexC4 = "cccccccc RXB mmmmm W vvvv L pp";
+        public static readonly BitPattern VexC4 = originate("cccccccc RXB mmmmm W vvvv L pp");
 
-        public static readonly BitPattern VexC5 = "cccccccc R vvvv L pp";
-
-        public static readonly BitPattern EncodingA = Sib + ModRm;
+        public static readonly BitPattern VexC5 = originate("cccccccc R vvvv L pp");
 
         [Ignore]
         const string Prefix1 = "qqqqqqqq";

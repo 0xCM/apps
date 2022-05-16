@@ -57,7 +57,7 @@ namespace Z0
         {
             try
             {
-                var parts = ApiRuntimeLoader.parts(controller(), array<string>());
+                var parts = ApiRuntimeLoader.parts(controller(), array<string>(), true);
                 using var wf = WfAppLoader.load(parts, args);
                 var app = App.create(wf.WithSource(Rng.@default()));
                 app.Run();

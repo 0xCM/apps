@@ -4,22 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
     using static core;
 
     partial struct ApiRuntimeLoader
     {
-        public static Assembly[] assemblies(bool justParts = true)
-            => assemblies(location(), justParts);
+        public static Assembly[] assemblies(bool justParts, bool libonly)
+            => assemblies(location(), justParts, libonly);
 
-        public static Assembly[] assemblies(FS.FolderPath dir, bool justParts)
+        public static Assembly[] assemblies(FS.FolderPath dir, bool justParts, bool libonly)
         {
             var dst = list<Assembly>();
-            var candidates = managed(dir);
+            var candidates = managed(dir, libonly);
             foreach(var path in candidates)
             {
                 var component = Assembly.LoadFrom(path.Name);

@@ -67,8 +67,8 @@ namespace Z0
                 => T.crop(bw16(src));
 
         [MethodImpl(Inline)]
-        public static T cover(D src)
-            => new T((uint)src);
+        static T cover(D src)
+            => @as<D,T>(src);
 
         [MethodImpl(Inline), Op]
         public static bit test(T src, byte pos)

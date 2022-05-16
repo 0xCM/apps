@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-
     using static core;
-    using static Root;
 
     [ApiComplete]
     public class CmdShellState
@@ -26,8 +21,6 @@ namespace Z0
 
         IProjectWs _Project;
 
-        //Index<CompilationLiteral> _ApiLiterals;
-
         Index<Assembly> _ApiComponents;
 
         protected DevWs Ws;
@@ -39,9 +32,7 @@ namespace Z0
             _CurrentDir = FS.FolderPath.Empty;
             _Files = array<FS.FilePath>();
             _Api = ApiPath.Empty;
-            //_ApiLiterals = array<CompilationLiteral>();
             _ApiComponents = array<Assembly>();
-
         }
 
         public void Init(IWfRuntime wf, DevWs ws)
@@ -129,25 +120,11 @@ namespace Z0
             return Files();
         }
 
-        // public ReadOnlySpan<CompilationLiteral> ApiLiterals(Func<Index<CompilationLiteral>> loader)
-        // {
-        //     if(_ApiLiterals.IsEmpty)
-        //         _ApiLiterals = loader();
-        //     return _ApiLiterals;
-        // }
-
-        public ReadOnlySpan<Assembly> ApiComponents()
+        public ReadOnlySpan<Assembly> ApiComponents(bool justParts, bool libonly)
         {
             if(_ApiComponents.IsEmpty)
-                _ApiComponents = ApiRuntimeLoader.assemblies();
+                _ApiComponents = ApiRuntimeLoader.assemblies(justParts, libonly);
             return _ApiComponents;
         }
-
-        // public IApiCatalog ApiCatalog(Func<IApiCatalog> loader)
-        // {
-        //     if(_ApiCatalog == null)
-        //         _ApiCatalog = loader();
-        //     return _ApiCatalog;
-        // }
     }
 }

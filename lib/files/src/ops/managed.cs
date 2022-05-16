@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
     partial struct FS
     {
         /// <summary>
@@ -23,8 +19,8 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source path</param>
         [Op]
-        public static bool managed(FilePath src, out AssemblyName assname)
-            => name(src, out assname);
+        public static bool managed(FilePath src, out AssemblyName assembly)
+            => name(src, out assembly);
 
         /// <summary>
         /// Searches the source for managed modules
@@ -33,7 +29,16 @@ namespace Z0
         /// <param name="dst">The buffer to populate</param>
         /// <param name="recurse">Specifies whether subdirectories should be searched</param>
         [Op]
-        public static Deferred<FilePath> managed(FolderPath src, bool recurse = false)
-            => files(src, recurse, Dll, Exe).Where(managed);
+        public static Files managed(FolderPath src, bool recurse = false, bool dll = true, bool exe = true)
+        {
+            var dst = Files.Empty;
+            if(dll && exe)
+                dst = files(src, recurse, Dll, Exe).Array().Where(managed);
+            else if(!exe && dll)
+                dst = files(src, recurse, Dll).Array().Where(managed);
+            else if(exe && !dll)
+                dst = files(src, recurse, Exe).Array().Where(managed);
+            return dst;
+        }
     }
 }

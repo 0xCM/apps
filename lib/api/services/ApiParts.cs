@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Linq;
-    using System.Reflection;
-
     public class ApiParts : IApiParts
     {
         /// <summary>
@@ -22,17 +18,17 @@ namespace Z0
         public Index<Assembly> Components
             => Catalog.Components;
 
-        internal ApiParts(Assembly control, PartId[] parts)
+        internal ApiParts(Assembly control, PartId[] parts, bool libonly)
         {
             Source = ApiRuntimeLoader.path(control).FolderPath;
-            ManagedSources = ApiRuntimeLoader.managed(Source);
-            Catalog = ApiRuntimeLoader.catalog(Source, parts);
+            ManagedSources = ApiRuntimeLoader.managed(Source, libonly);
+            Catalog = ApiRuntimeLoader.catalog(Source, parts, libonly);
         }
 
-        internal ApiParts(Assembly control, FS.FolderPath source)
+        internal ApiParts(Assembly control, FS.FolderPath source, bool libonly)
         {
             Source = source;
-            ManagedSources = ApiRuntimeLoader.managed(Source);
+            ManagedSources = ApiRuntimeLoader.managed(Source, libonly);
             Catalog = ApiRuntimeLoader.catalog(ManagedSources);
         }
     }

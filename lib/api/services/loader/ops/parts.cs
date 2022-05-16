@@ -8,27 +8,53 @@ namespace Z0
 
     partial struct ApiRuntimeLoader
     {
-        public static IApiParts parts()
-            => parts(controller(), Environment.GetCommandLineArgs());
+        public static IApiParts parts(bool libonly = true)
+            => parts(controller(), Environment.GetCommandLineArgs(), libonly);
 
-        public static IApiParts parts(Assembly control)
-            => new ApiParts(control, array(control.Id()));
+        public static IApiParts parts(Assembly control, string[] args, bool libonly)
+        {
+            if(args.Length == 0)
+                return new ApiParts(control, assemblies(dir(control), true, libonly).Select(x => x.Id()), libonly);
+
+            var parts = ParseParts(args, libonly);
+            if(parts.Length != 0)
+                return new ApiParts(control, array<PartId>(control.Id()), libonly);
+            else
+                return new ApiParts(control, parts.ToArray(), libonly);
+        }
+
+        public static IApiParts parts(Assembly control, bool libonly)
+            => new ApiParts(control, array(control.Id()), libonly);
 
         /// <summary>
         /// Creates a <see cref='ApiParts'/> predicated an optionally-specified <see cref='PartId'/> sequence
         /// where the entry assembly is assumed to be the locus of control
         /// </summary>
         /// <param name="control">The controlling assembly</param>
-        /// <param name="identifiers">The desired parts to include, or empty to include all known parts</param>
-        public static IApiParts parts(PartId[] identifiers)
-            => parts(controller(), identifiers);
+        /// <param name="names">The desired parts to include, or empty to include all known parts</param>
+        public static IApiParts parts(PartId[] names, bool libonly)
+            => parts(controller(), names, libonly);
+
+        /// <summary>
+        /// Creates a <see cref='ApiParts'/> predicated an optionally-specified <see cref='PartId'/> sequence
+        /// </summary>
+        /// <param name="control">The controlling assembly</param>
+        /// <param name="names">The desired parts to include, or empty to include all known parts</param>
+        [Op]
+        public static IApiParts parts(Assembly control, PartId[] names, bool libonly)
+        {
+            if(names.Length != 0)
+               return new ApiParts(control, names, libonly);
+            else
+                return new ApiParts(control, FS.path(control.Location).FolderPath, libonly);
+        }
 
         [Op]
-        public static ReadOnlySpan<PartId> parts(ReadOnlySpan<string> src)
+        public static ReadOnlySpan<PartId> ParseParts(ReadOnlySpan<string> src, bool libonly)
         {
             var count = src.Length;
             if(count == 0)
-                return default;
+                return sys.empty<PartId>();
 
             var symbols = Symbols.index<PartId>();
             var dst = span<PartId>(count);
@@ -37,38 +63,13 @@ namespace Z0
             {
                 ref readonly var name = ref skip(src,i);
                 if(symbols.Lookup(name, out var sym))
+                {
+                    if(libonly && sym.Kind >= FirstShell)
+                        continue;
                     seek(dst, counter++) = sym.Kind;
+                }
             }
             return slice(dst, 0, counter);
-        }
-
-
-        public static IApiParts parts(Assembly control, string[] args)
-        {
-            if(args.Length != 0)
-            {
-                var identifiers = parts(args);
-                if(identifiers.Length != 0)
-                    return new ApiParts(control, identifiers.ToArray());
-                else
-                    return new ApiParts(control, array<PartId>(control.Id()));
-            }
-            else
-                return new ApiParts(control, assemblies(dir(control), true).Select(x => x.Id()));
-        }
-
-        /// <summary>
-        /// Creates a <see cref='ApiParts'/> predicated an optionally-specified <see cref='PartId'/> sequence
-        /// </summary>
-        /// <param name="control">The controlling assembly</param>
-        /// <param name="identifiers">The desired parts to include, or empty to include all known parts</param>
-        [Op]
-        public static IApiParts parts(Assembly control, PartId[] identifiers)
-        {
-            if(identifiers.Length != 0)
-               return new ApiParts(control, identifiers);
-            else
-                return new ApiParts(control, FS.path(control.Location).FolderPath);
         }
 
         static ReadOnlySpan<Paired<PartId,FS.FilePath>> PartPaths(FS.FolderPath dir)
@@ -88,7 +89,7 @@ namespace Z0
             return dst.ViewDeposited();
         }
 
-        static IPart[] LoadParts(FS.FolderPath dir, ReadOnlySpan<PartId> parts)
+        static IPart[] LoadParts(FS.FolderPath dir, ReadOnlySpan<PartId> parts, bool libonly)
         {
             var count = parts.Length;
             var dst = list<IPart>();
@@ -97,6 +98,9 @@ namespace Z0
             var candidates = PartPaths(dir);
             foreach(var (id,path) in candidates)
             {
+                if(libonly && id >= FirstShell)
+                    continue;
+
                 if(set.Contains(id))
                     part(path).OnSome(part => dst.Add(part));
             }

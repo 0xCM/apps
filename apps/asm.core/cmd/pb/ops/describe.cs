@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class PolyBits
     {
         static void describe(BitPattern src, uint seq, ITextEmitter dst)

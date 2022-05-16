@@ -9,19 +9,9 @@ namespace Z0
     public class BitPattern
     {
         /// <summary>
-        /// The pattern source
+        /// The pattern definition
         /// </summary>
-        public readonly BfOrigin Origin;
-
-        /// <summary>
-        /// The pattern specification
-        /// </summary>
-        public readonly string Content;
-
-        /// <summary>
-        /// The pattern name
-        /// </summary>
-        public readonly string Name;
+        public readonly BitPatternDef Def;
 
         /// <summary>
         /// The width of the data represented by the pattern
@@ -48,11 +38,9 @@ namespace Z0
         /// </summary>
         public readonly string Descriptor;
 
-        internal BitPattern(BfOrigin orign, string content, string name, byte width, Type datatype, NativeSize minsize, Index<BfSegModel> segments, string descriptor)
+        internal BitPattern(BfOrigin origin, asci64 data, asci32 name, byte width, Type datatype, NativeSize minsize, Index<BfSegModel> segments, string descriptor)
         {
-            Origin = orign;
-            Content = content;
-            Name = name;
+            Def = api.define(name, origin, data);
             DataWidth = width;
             DataType = datatype;
             MinSize = minsize;
@@ -60,16 +48,37 @@ namespace Z0
             Descriptor = descriptor;
         }
 
+        /// <summary>
+        /// The pattern source
+        /// </summary>
+        public ref readonly BfOrigin Origin
+        {
+            [MethodImpl(Inline)]
+            get => ref Def.Origin;
+        }
+
+        /// <summary>
+        /// The pattern specification
+        /// </summary>
+        public ref readonly asci64 Content
+        {
+            [MethodImpl(Inline)]
+            get => ref Def.Data;
+        }
+
+        /// <summary>
+        /// The pattern name
+        /// </summary>
+        public ref readonly asci32 Name
+        {
+            [MethodImpl(Inline)]
+            get => ref Def.Name;
+        }
+
         public string Format()
             => Descriptor;
 
         public override string ToString()
             => Format();
-
-        public static implicit operator BitPattern(string src)
-            =>  api.originate(src);
-
-        public static BitPattern operator +(BitPattern a, BitPattern b)
-            => api.concat(a,b);
     }
 }

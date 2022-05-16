@@ -5,14 +5,51 @@
 namespace Z0
 {
     using System.Diagnostics;
+
     using static core;
 
     [ApiHost]
     public readonly struct BitPatterns
     {
-        public static BitPattern infer(BfOrigin origin, string src)
+        public static BitPattern originate(string data)
         {
-            var content = text.despace(src);
+            var frame = new StackTrace().GetFrame(1);
+            var method = frame.GetMethod();
+            var type = method.DeclaringType;
+            var name = text.remove(method.Name,"get_");
+            return BitPatterns.infer(Bitfields.origin(type), name, data);
+        }
+
+        public static BitPatternDef define(string name, BfOrigin origin, string data)
+        {
+            Demand.lteq(name.Length, asci32.Size);
+            Demand.lteq(data.Length, asci64.Size);
+            return new BitPatternDef(name,origin,data);
+        }
+
+        public static Index<BitPattern> originated(Type src)
+        {
+            var target = typeof(BitPattern);
+            var props = src.Properties().Ignore().Static().WithPropertyType(target).Index();
+            var fields = src.Fields().Ignore().Static().Where(x => x.FieldType == target).Index();
+            var methods = src.Methods().Ignore().Public().WithArity(0).Returns(target).Index();
+            var count = props.Count + fields.Count + methods.Count;
+            Index<BitPattern> dst = alloc<BitPattern>(count);
+            var k=0u;
+            for(var i=0; i<props.Count; i++, k++)
+                dst[k] = (BitPattern)props[i].GetValue(null);
+
+            for(var i=0; i<fields.Count; i++, k++)
+                dst[k] = (BitPattern)fields[i].GetValue(null);
+
+            for(var i=0; i<methods.Count; i++, k++)
+                dst[k] = (BitPattern)methods[i].Invoke(null, new object[]{});
+            return dst;
+        }
+
+        public static BitPattern infer(BfOrigin origin, string data)
+        {
+            var content = text.despace(data);
             return new BitPattern(
                 origin,
                 content,
@@ -25,8 +62,20 @@ namespace Z0
             );
         }
 
-        public static BitPattern originate(string src)
-            => BitPatterns.infer(Bitfields.origin(new StackTrace().GetFrame(1).GetMethod().DeclaringType), src);
+        public static BitPattern infer(BfOrigin origin, string name, string data)
+        {
+            var content = text.despace(data);
+            return new BitPattern(
+                origin,
+                content,
+                name,
+                datawidth(content),
+                datatype(content),
+                minsize(content),
+                segments(content),
+                descriptor(content)
+            );
+        }
 
         public static Index<BitPattern> patterns(BfOrigin origin, ReadOnlySpan<string> src)
         {
@@ -57,9 +106,6 @@ namespace Z0
 
         public static string name(string src)
             => text.replace(src, Chars.Space, Chars.Underscore);
-
-        public static BitPattern concat(BitPattern a, BitPattern b)
-            => infer(a.Origin, string.Format("{0} {1}", a.Content, b.Content));
 
         public static Index<string> indicators(string src)
             => text.split(src, Chars.Space).Reverse();

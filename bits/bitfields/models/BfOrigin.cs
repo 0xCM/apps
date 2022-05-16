@@ -24,10 +24,8 @@ namespace Z0
             Render = render;
         }
 
-
         public string Format()
             => Render?.Invoke(Value);
-
 
         public override string ToString()
             => Format();

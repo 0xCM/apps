@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [Free]
-    sealed class CgShell : WfApp<CgShell>
+    sealed class CgTest : WfApp<CgTest>
     {
         IAppCmdService CmdService;
 

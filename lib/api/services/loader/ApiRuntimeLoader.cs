@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-
     public readonly partial struct ApiRuntimeLoader
     {
+        const PartId FirstShell = PartId.CgShell;
+
         public static FS.FilePath path(Assembly src)
             => FS.path(src.Location);
 
@@ -16,7 +15,12 @@ namespace Z0
             => path(src).FolderPath;
 
         [Op]
-        internal static FS.Files managed(FS.FolderPath dir)
-            => dir.Exclude("System.Private.CoreLib").Where(f => FS.managed(f));
+        internal static FS.Files managed(FS.FolderPath dir, bool libonly)
+        {
+            var src = dir.Exclude("System.Private.CoreLib");
+            if(libonly)
+                src = src.Where(x => !x.Format().EndsWith(".exe"));
+            return src.Where(f => FS.managed(f));
+        }
     }
 }
