@@ -4,22 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.Linq;
-
-    using static Root;
 
     using BLK = BinaryBitLogicKind;
     using TLK = TernaryBitLogicKind;
     using ULK = UnaryBitLogicKind;
     using K = ApiClasses;
-
-    [ApiHost]
-    public partial class BitLogixOps
-    {
-
-    }
 
     /// <summary>
     /// Defines logical operations over 1, 2 or 3 bits

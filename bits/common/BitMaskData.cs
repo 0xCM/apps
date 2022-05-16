@@ -6,6 +6,7 @@ namespace Z0
 {
     using NK = NumericKind;
 
+    [ApiHost]
     public readonly struct BitMaskData
     {
         [MethodImpl(Inline), Op]

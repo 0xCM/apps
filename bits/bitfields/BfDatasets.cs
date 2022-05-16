@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [ApiHost]
     public readonly partial struct BfDatasets
     {
         const NumericKind Closure = UnsignedInts;

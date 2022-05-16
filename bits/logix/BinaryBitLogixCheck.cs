@@ -2,13 +2,8 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Logix
+namespace Z0
 {
-    using System;
-    using System.Linq;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     public ref struct BinaryBitLogixCheck
@@ -49,16 +44,6 @@ namespace Z0.Logix
             dst.Service = BitLogix.Service;
             return dst;
         }
-
-        // [Op]
-        // ref BinaryEval<bit> Check(in bit a, in bit b, ref BinaryEval<bit> dst)
-        // {
-        //     var expect = Rule(a, b);
-        //     var actual = Service.Evaluate(Kind, a, b);
-        //     var result = expect == actual;
-        //     dst = new BinaryEval<bit>(a, b, result);
-        //     return ref dst;
-        // }
 
         [Op]
         public SeqEval<bit> Run()

@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     public readonly struct VariedExpr
     {
         public static void Set<T>(IVariedExpr<T> expr, params ILogixExpr<T>[] values)

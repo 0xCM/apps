@@ -12,6 +12,7 @@ namespace Z0
     /// <summary>
     /// Implements reference bitvector operations
     /// </summary>
+    [ApiHost]
     public readonly struct BitVectorLogix : IBitVectorLogix
     {
         public static BitVectorLogix Service => default(BitVectorLogix);

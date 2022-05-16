@@ -2,11 +2,8 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Logix
+namespace Z0
 {
-    using System;
-
-    using static Root;
     using static LogicSig;
 
     using BCK = ApiComparisonClass;
