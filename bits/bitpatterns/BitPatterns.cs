@@ -56,7 +56,6 @@ namespace Z0
             return new string(buffer);
         }
 
-
         public static string name(string src)
             => text.replace(src, Chars.Space, Chars.Underscore);
 
