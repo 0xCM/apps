@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static core;
-    using static Asm.AsmChecks;
 
     using K = Asm.AsmOcTokenKind;
     using P = Pow2x32;
@@ -53,151 +50,6 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("check/sigs")]
-        Outcome CheckSigs(CmdArgs args)
-        {
-            using var dispenser = Alloc.allocate();
-            var specs = new NativeOperandSpec[3];
-            seek(specs,0) = NativeSigs.ptr("op0", NativeTypes.u8());
-            seek(specs,1) = NativeSigs.@const("op1", NativeTypes.i16());
-            seek(specs,2) = NativeSigs.@out("op2", NativeTypes.u32());
-            var sig = dispenser.Sig("funcs","f2", NativeTypes.i32(), specs);
-            Write(sig.Format(SigFormatStyle.C));
-
-            var intrinsics = new IntrinsicSigs();
-
-            var f0 = intrinsics._mm_add_epi8();
-            Write(f0.Format(SigFormatStyle.C));
-
-            var f0x = dispenser.Sig(f0);
-            Write(f0x.Format(SigFormatStyle.C));
-
-            var f1 = intrinsics._mm_add_epi16();
-            Write(f1.Format(SigFormatStyle.C));
-
-            var f1x = dispenser.Sig(f1);
-            Write(f1x.Format(SigFormatStyle.C));
-
-            var f2 = intrinsics._mm_add_epi32();
-            Write(f2.Format(SigFormatStyle.C));
-
-            var f2x = dispenser.Sig(f2);
-            Write(f2x.Format(SigFormatStyle.C));
-
-            var f3 = intrinsics._mm_add_epi64();
-            Write(f3.Format(SigFormatStyle.C));
-
-            var f3x = dispenser.Sig(f3);
-            Write(f3x.Format(SigFormatStyle.C));
-
-
-            return true;
-        }
-
-
-        [CmdOp("check/strings/buffers")]
-        Outcome CheckStringBuffers(CmdArgs args)
-        {
-            var result = Outcome.Success;
-
-            result = CheckStringAllocator();
-            if(result.Fail)
-                return result;
-            else
-                Status(result.Message);
-
-            result = CheckLabelAllocator();
-            if(result.Fail)
-                return result;
-            else
-                Status(result.Message);
-
-
-            return result;
-        }
-
-        Outcome CheckStringAllocator()
-        {
-            var result = Outcome.Success;
-            var count = Pow2.T16;
-            var inputlen = Pow2.T04;
-            var totallen = count*inputlen;
-            var size = totallen*core.size<char>();
-            using var dispenser = Alloc.strings(size);
-            var strings = core.alloc<StringRef>(count);
-            for(var i=0; i<count; i++)
-            {
-                var input = BitRender.format16((ushort)i);
-                ref var @string = ref seek(strings,i);
-                @string = dispenser.String(input);
-                if(!input.Equals(@string.Format()))
-                {
-                    result = (false, string.Format("input:{0} != output:{1}", input, @string.Format()));
-                    break;
-                }
-            }
-            if(result)
-                result = (true, string.Format("Verified string allocator for {0} inputs over a buffer of size {1}", count, size));
-
-            return result;
-        }
-
-        Outcome CheckLabelAllocator()
-        {
-            var count = 256;
-            var result = Outcome.Success;
-            var src = alloc<string>(count);
-            for(uint i=0; i<count; i++)
-                seek(src,i) = BitRender.format8((byte)i);
-
-            using var allocation = Alloc.labels(src);
-            var labels = allocation.Allocated;
-            if(labels.Length != count)
-                result = (false, string.Format("{0} != {1}", labels.Length, count));
-            else
-            {
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var label = ref skip(labels,i);
-                    ref readonly var input = ref skip(src,i);
-                    var same = label.Format() == input;
-                    if(!same)
-                    {
-                        result = (false, string.Format("{0} != {1}", label, input));
-                        break;
-                    }
-                }
-            }
-            if(result)
-                result = (true, string.Format("Verified {0} label allocations", count));
-
-            return result;
-        }
-
-        [CmdOp("check/sym/stores")]
-        Outcome CheckSymStores(CmdArgs args)
-        {
-            var store = SymbolStores.symstore<string>(24);
-            store.Deposit("abc", out var s1);
-            Write(s1);
-            store.Deposit("def", out var s2);
-            Write(s2);
-            store.Deposit("hij", out var s3);
-            Write(s3);
-            store.Deposit("klm", out var s4);
-            Write(s4);
-            store.Deposit("nop", out var s5);
-            Write(s5);
-
-            var e1 = store.Find(s1);
-            var e2 = store.Find(s2);
-            var e3 = store.Find(s3);
-            var e4 = store.Find(s4);
-            var e5 = store.Find(s5);
-            Write(e1 + e2 + e3 + e4 + e5);
-            return true;
-        }
-
         [CmdOp("check/sorters")]
         Outcome RunSorters(CmdArgs args)
         {
@@ -212,28 +64,11 @@ namespace Z0
             return result;
         }
 
-        void CheckSig1()
+        public static Index<ushort> serialize(PointMapper<K,P> src)
         {
-            using var dispenser = Alloc.allocate();
-            var specs = new NativeOperandSpec[3];
-            seek(specs,0) = NativeSigs.op("op0", NativeTypes.u8());
-            seek(specs,1) = NativeSigs.op("op1", NativeTypes.i16());
-            seek(specs,2) = NativeSigs.op("op2", NativeTypes.u32());
-            var sig = dispenser.Sig("funcs","f1", NativeTypes.i32(), specs);
-
-            ref readonly var ret = ref sig.Return;
-            ref readonly var op0 = ref sig[0];
-            ref readonly var op1 = ref sig[1];
-            ref readonly var op2 = ref sig[2];
-            ref readonly var name = ref sig.Name;
-            ref readonly var scope = ref sig.Scope;
-
-            var x0 = string.Format("{0}:{1}", op0.Name, op0.Type);
-            var x1 = string.Format("{0}:{1}", op1.Name, op1.Type);
-            var x2 = string.Format("{0}:{1}", op2.Name, op2.Type);
-            var result = ret.Type.Format();
-            var sigfmt = string.Format("{0}::{1}:{2} -> {3} -> {4} -> {5}", scope, name, x0, x1,x2, result);
-            Write(sigfmt);
+            var dst = alloc<ushort>(src.PointCount);
+            serialize(src,dst);
+            return dst;
         }
 
         [Op]
@@ -252,47 +87,6 @@ namespace Z0
             }
 
             return 0;
-        }
-
-        public static Index<ushort> serialize(PointMapper<K,P> src)
-        {
-            var dst = alloc<ushort>(src.PointCount);
-            serialize(src,dst);
-            return dst;
-        }
-
-        [CmdOp("check/asm/widths")]
-        Outcome TestAsmWidths(CmdArgs args)
-        {
-            var result = bit.On;
-            var pass = bit.Off;
-            var test = default(AsmSizeCheck);
-            var inputs = Symbols.index<NativeSizeCode>().Kinds;
-            var count = inputs.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var input = ref skip(inputs,i);
-                test.Input = input;
-                pass = check(ref test);
-                result &= pass;
-                Write(test, pass ? FlairKind.Status : FlairKind.Error);
-            }
-
-            BitWidth w8 = 8;
-            BitWidth w16 = 16;
-            BitWidth w32 = 32;
-            BitWidth w64 = 64;
-
-            var sz8 = Sizes.native(w8);
-            var sz16 = Sizes.native(w16);
-            var sz32 = Sizes.native(w32);
-            var sz64 = Sizes.native(w64);
-            Write(sz8);
-            Write(sz16);
-            Write(sz32);
-            Write(sz64);
-
-            return (result, result ? "Pass" : "Fail");
         }
 
         [CmdOp("asm/check/stubs")]
@@ -322,27 +116,6 @@ namespace Z0
             public uint M;
 
             public uint N;
-        }
-
-        [CmdOp("check/block/size")]
-        Outcome CheckBlockSize(CmdArgs args)
-        {
-            ByteBlock4 block4 = 0xFF000000;
-            Write(Storage.trim(block4).Format());
-
-
-            ByteBlock4 block3 = 0xFF0000;
-            Write(Storage.trim(block3).Format());
-
-            ByteBlock4 block2 =  0xFF00;
-            Write(Storage.trim(block2).Format());
-
-            ByteBlock4 block1 =  0xFF;
-            Write(Storage.trim(block1).Format());
-
-            ByteBlock4 block0 =  0x0;
-            Write(Storage.trim(block0).Format());
-            return true;
         }
 
         [CmdOp("check/md/arrays")]

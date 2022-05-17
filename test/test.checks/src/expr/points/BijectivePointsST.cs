@@ -2,21 +2,24 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Ops
+namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Represents a bijective correspondence between two sequences
     /// </summary>
     public class BijectivePoints<S,T>
     {
-        public Index<S> Source {get;}
+        [MethodImpl(Inline)]
+        public static BijectivePoints<S,T> bijection(Index<S> src, Index<T> dst)
+        {
+            if(src.Length != dst.Length)
+                Errors.ThrowWithOrigin(string.Format("{0} != {1}", src.Length, dst.Length));
+            return new BijectivePoints<S,T>(src, dst);
+        }
 
-        public Index<T> Target {get;}
+        public readonly Index<S> Source;
+
+        public readonly Index<T> Target;
 
         [MethodImpl(Inline)]
         public BijectivePoints(Index<S> src, Index<T> dst)
@@ -30,5 +33,5 @@ namespace Z0.Ops
             [MethodImpl(Inline)]
             get => (Source[i], Target[i]);
         }
-    }    
+    }
 }
