@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines a cli signature
     /// </summary>
@@ -39,7 +34,7 @@ namespace Z0
         }
 
         public string Format()
-            => Data.Format();
+            => Cil.format(this);
 
         public override string ToString()
             => Format();
