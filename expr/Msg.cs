@@ -2,11 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
+
 namespace Z0
 {
-    partial class PolyBits
+    struct Msg
     {
-        public Index<BitPattern> CalcBitPatterns(Type src)
-            => patterns(src);
+        const NumericKind Closure = Root.UnsignedInts;
+
     }
 }

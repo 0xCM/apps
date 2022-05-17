@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [Free]
     public interface ITernaryOpExpr<F,K,A0,A1,A2> : IOpExpr<K>
         where F : ITernaryOpExpr<F,K,A0,A1,A2>

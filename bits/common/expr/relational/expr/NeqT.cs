@@ -11,9 +11,9 @@ namespace Z0
         public readonly struct Neq<T> : IFreeCmpPred<Neq<T>,T>
             where T : unmanaged
         {
-            public T Left {get;}
+            public readonly T Left;
 
-            public T Right {get;}
+            public readonly T Right;
 
             [MethodImpl(Inline)]
             public Neq(T a, T b)
@@ -21,6 +21,12 @@ namespace Z0
                 Left = a;
                 Right = b;
             }
+
+            T IFreeCmpPred<Neq<T>,T>.Left
+                => Left;
+
+            T IFreeCmpPred<Neq<T>,T>.Right
+                => Right;
 
             public CmpPredKind Kind
                 => CmpPredKind.NEQ;

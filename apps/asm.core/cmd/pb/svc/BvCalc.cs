@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XTend
+    partial class PolyBits
     {
-        public static PolyBits PolyBits(this IWfRuntime wf)
-            => Z0.PolyBits.create(wf);
+        public Index<BfModel> BvCalc(DbSources sources, string filter)
+            => bitvectors(sources.Files(FileKind.Csv).Where(f => f.FileName.StartsWith(filter)));
     }
 }

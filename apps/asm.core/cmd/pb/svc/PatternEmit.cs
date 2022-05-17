@@ -9,11 +9,20 @@ namespace Z0
 
     partial class PolyBits
     {
+        public void PatternEmit()
+        {
+            var type = typeof(AsmBitPatterns);
+            var prefix = "asm";
+            var patterns = BitPatterns.originated(type);
+            EmitDescriptions(patterns, prefix + ".bits.patterns.info");
+            EmitRecords(patterns, prefix);
+        }
+
         void EmitDescriptions(ReadOnlySpan<BitPattern> src, string name)
         {
             var dst = text.emitter();
             for(var i=0u; i<src.Length; i++)
-                describe(skip(src,i), i, dst);
+                PbRender.render(skip(src,i), i, dst);
             AppSvc.FileEmit(dst.Emit(), 12, Targets.Path(name, FileKind.Txt));
         }
 
@@ -33,13 +42,6 @@ namespace Z0
             AppSvc.TableEmit(specs, Targets.Table<BitPatternSpec>(prefix));
         }
 
-        public void EmitPatterns()
-        {
-            var type = typeof(AsmBitPatterns);
-            var prefix = "asm";
-            var patterns = BitPatterns.originated(type);
-            EmitDescriptions(patterns, prefix + ".bits.patterns.info");
-            EmitRecords(patterns, prefix);
-        }
+
     }
 }

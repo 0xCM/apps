@@ -10,9 +10,9 @@ namespace Z0
         public readonly struct Gt<T> : IFreeCmpPred<Gt<T>,T>
             where T : unmanaged
         {
-            public T Left {get;}
+            public readonly T Left;
 
-            public T Right {get;}
+            public readonly T Right;
 
             [MethodImpl(Inline)]
             public Gt(T a, T b)
@@ -20,6 +20,12 @@ namespace Z0
                 Left = a;
                 Right = b;
             }
+
+            T IFreeCmpPred<Gt<T>,T>.Left
+                => Left;
+
+            T IFreeCmpPred<Gt<T>,T>.Right
+                => Right;
 
             public CmpPredKind Kind
                 => CmpPredKind.GT;

@@ -4,27 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Expr
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
     using static core;
     using static expr;
 
-    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("g3x3<t:{0}>")]
-    public struct g3x3<T> : IGrid<g3x3<T>,N3,T>
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("g5x5<t:{0}>")]
+    public struct g5x5<T> : IGrid<g5x5<T>,N2,T>
         where T : unmanaged
     {
-        v3<T> R0;
+        v5<T> R0;
 
-        v3<T> R1;
+        v5<T> R1;
 
-        v3<T> R2;
+        v5<T> R2;
 
-        public uint M => 3;
+        v5<T> R3;
 
-        public uint N => 3;
+        v5<T> R4;
+
+        public uint M => 5;
+
+        public uint N => 5;
 
         public uint MxN => M*N;
 

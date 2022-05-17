@@ -10,8 +10,6 @@ namespace Z0
 
     using Expr;
 
-    using static Root;
-
     readonly struct ExprFormatters
     {
         [Op]

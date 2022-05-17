@@ -13,7 +13,7 @@ namespace Z0
         /// </summary>
         /// <param name="name">The bitvector name</param>
         /// <param name="src">The list items that correspond to bits in the vector</param>
-        public static BfModel bvmodel(BfOrigin origin, string name, ReadOnlySpan<ListItem> src)
+        public static BfModel bitvector(BfOrigin origin, string name, ReadOnlySpan<ListItem> src)
         {
             var count = src.Length;
             var segs = alloc<BfSegModel>(count);

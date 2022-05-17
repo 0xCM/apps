@@ -12,9 +12,9 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential)]
         public readonly struct SourceKey
         {
-            public DomainKey Domain {get;}
+            public readonly DomainKey Domain;
 
-            public uint Id {get;}
+            public readonly uint Id;
 
             [MethodImpl(Inline)]
             public SourceKey(DomainKey d, uint id)
@@ -23,6 +23,5 @@ namespace Z0
                 Id = id;
             }
         }
-
     }
 }

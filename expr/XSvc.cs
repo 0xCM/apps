@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IUnaryOpExpr<F,K,T> : IOpExpr<K>
-        where F : IUnaryOpExpr<F,K,T>
-        where K : unmanaged
+    using System.IO;
+
+    public static class XSvc
     {
-        F Create(T src);
+
     }
 }

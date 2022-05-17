@@ -9,9 +9,9 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential)]
         public readonly struct SourceKey<S>
         {
-            public DomainKey Domain {get;}
+            public readonly DomainKey Domain;
 
-            public S Rep {get;}
+            public readonly S Rep;
 
             [MethodImpl(Inline)]
             public SourceKey(DomainKey d, S rep)

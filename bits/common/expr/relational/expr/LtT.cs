@@ -10,9 +10,9 @@ namespace Z0
         public readonly struct Lt<T> : IFreeCmpPred<Lt<T>,T>
             where T : unmanaged
         {
-            public T Left {get;}
+            public readonly T Left;
 
-            public T Right {get;}
+            public readonly T Right;
 
             [MethodImpl(Inline)]
             public Lt(T a, T b)
@@ -20,6 +20,12 @@ namespace Z0
                 Left = a;
                 Right = b;
             }
+
+            T IFreeCmpPred<Lt<T>,T>.Left
+                => Left;
+
+            T IFreeCmpPred<Lt<T>,T>.Right
+                => Right;
 
             public CmpPredKind Kind
                 => CmpPredKind.LT;

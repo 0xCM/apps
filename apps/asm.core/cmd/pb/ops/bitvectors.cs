@@ -8,7 +8,7 @@ namespace Z0
 
     partial class PolyBits
     {
-        public static Index<BfModel> bvmodels(FS.Files src)
+        public static Index<BfModel> bitvectors(FS.Files src)
         {
             var items = sys.empty<ListItem>();
             var counter = 0u;
@@ -18,7 +18,7 @@ namespace Z0
             {
                 ref readonly var source = ref src[i];
                 Tables.list(source, out items).Require();
-                seek(bitfields, i) = bvmodel(Bitfields.origin(source.ToUri()), source.FileName.WithoutExtension.Format(), items);
+                seek(bitfields, i) = bitvector(Bitfields.origin(source.ToUri()), source.FileName.WithoutExtension.Format(), items);
             }
 
             return bitfields;

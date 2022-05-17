@@ -8,7 +8,7 @@ namespace Z0
     {
         public readonly struct Domain
         {
-            public text31 Name {get;}
+            public readonly text31 Name;
 
             [MethodImpl(Inline)]
             public Domain(text31 name)

@@ -10,15 +10,15 @@ namespace Z0
     {
         public readonly struct CmpPred : IFreeCmpPred<CmpPred>
         {
-            public readonly IFreeExpr Left {get;}
+            public readonly IFreeExpr Left;
 
-            public readonly IFreeExpr Right {get;}
+            public readonly IFreeExpr Right;
 
-            public readonly CmpPredKind Kind {get;}
+            public readonly CmpPredKind Kind;
 
-            public readonly Sym<CmpPredKind> Symbol {get;}
+            public readonly Sym<CmpPredKind> Symbol;
 
-            public readonly uint Size {get;}
+            public readonly uint Size;
 
             [MethodImpl(Inline)]
             public CmpPred(IFreeExpr a, IFreeExpr b, CmpPredKind kind)
@@ -29,6 +29,9 @@ namespace Z0
                 Size = a.Size;
                 Symbol = Relations.symbol(Kind);
             }
+
+            uint IFreeExpr.Size
+                => Size;
 
             public bool Eval()
                 => default;

@@ -38,6 +38,7 @@
     <Bits>$(MSBuildThisFileDirectory)bits/z0.bits.csproj</Bits>
     <Lines>$(MSBuildThisFileDirectory)lines/z0.lines.csproj</Lines>
     <Numbers>$(MSBuildThisFileDirectory)numbers/z0.numbers.csproj</Numbers>
+    <Expr>$(MSBuildThisFileDirectory)expr/z0.expr.csproj</Expr>
 
     <TestChecks>$(MSBuildThisFileDirectory)test/test.checks/z0.test.checks.csproj</TestChecks>
 

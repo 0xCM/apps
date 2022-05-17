@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Expr
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
-    using static expr;
 
     /// <summary>
     /// Represents a finite sequence of 128-bit values

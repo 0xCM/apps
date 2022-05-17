@@ -12,9 +12,9 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential)]
         public readonly struct DomainKey
         {
-            public Domain Domain {get;}
+            public readonly Domain Domain;
 
-            public uint Id {get;}
+            public readonly uint Id;
 
             [MethodImpl(Inline)]
             public DomainKey(Domain domain, uint id)

@@ -9,7 +9,7 @@ namespace Z0
         [CmdOp("pb/check")]
         Outcome CheckBits(CmdArgs args)
         {
-            PolyBits.RunChecks();
+            PolyBits.Check();
             return true;
         }
     }

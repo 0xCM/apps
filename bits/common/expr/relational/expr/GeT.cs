@@ -10,9 +10,9 @@ namespace Z0
         public readonly struct Ge<T> : IFreeCmpPred<Ge<T>,T>
             where T : unmanaged
         {
-            public T Left {get;}
+            public readonly T Left;
 
-            public T Right {get;}
+            public readonly T Right;
 
             [MethodImpl(Inline)]
             public Ge(T a, T b)
@@ -23,6 +23,12 @@ namespace Z0
 
             public CmpPredKind Kind
                 => CmpPredKind.GE;
+
+            T IFreeCmpPred<Ge<T>,T>.Left
+                => Left;
+
+            T IFreeCmpPred<Ge<T>,T>.Right
+                => Right;
 
             [MethodImpl(Inline)]
             public Ge<T> Create(T a0, T a1)

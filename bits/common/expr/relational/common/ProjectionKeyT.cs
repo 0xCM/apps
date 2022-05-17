@@ -12,11 +12,11 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential)]
         public readonly struct ProjectionKey<S,T>
         {
-            public SourceKey<T> Source {get;}
+            public readonly SourceKey<T> Source;
 
-            public TargetKey<T> Target {get;}
+            public readonly TargetKey<T> Target;
 
-            public uint Id {get;}
+            public readonly uint Id;
 
             [MethodImpl(Inline)]
             public ProjectionKey(uint id, SourceKey<T> src, TargetKey<T> dst)

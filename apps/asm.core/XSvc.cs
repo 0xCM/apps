@@ -9,6 +9,9 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
+        public static PolyBits PolyBits(this IWfRuntime wf)
+            => Z0.PolyBits.create(wf);
+
         [Op]
         public static WsProjects WsProjects(this IWfRuntime wf)
             => Z0.WsProjects.create(wf);

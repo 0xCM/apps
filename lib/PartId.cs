@@ -150,9 +150,6 @@ public enum PartId : byte
     [Symbol("bits.test")]
     BitsTest,
 
-    [Symbol("logix.test")]
-    LogixTest,
-
     [Symbol("cpu.test")]
     CpuTest,
 
@@ -164,6 +161,9 @@ public enum PartId : byte
 
     [Symbol("test")]
     LibTest,
+
+    [Symbol("expr")]
+    Expr,
 
     // ~ Generated 64 .. 127
     // ~ -------------------------------------------------------------------------------
