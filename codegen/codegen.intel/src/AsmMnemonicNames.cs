@@ -304,6 +304,7 @@
         public const string prefetcht2 = "prefetcht2";
         public const string pshufb = "pshufb";
         public const string pshufd = "pshufd";
+        public const string pshufhw = "pshufhw";
         public const string pshuflw = "pshuflw";
         public const string pshufw = "pshufw";
         public const string psignb = "psignb";
@@ -590,6 +591,7 @@
         public const string vpscatterqq = "vpscatterqq";
         public const string vpshufb = "vpshufb";
         public const string vpshufd = "vpshufd";
+        public const string vpshufhw = "vpshufhw";
         public const string vpshuflw = "vpshuflw";
         public const string vpsignb = "vpsignb";
         public const string vpsignd = "vpsignd";

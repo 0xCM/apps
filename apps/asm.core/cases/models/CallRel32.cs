@@ -7,7 +7,7 @@ namespace Z0.Asm
     partial class AsmCases
     {
         [ApiHost("cases.callrel32")]
-        public struct CallRel32Case
+        public struct CallRel32
         {
             [Op]
             public static ulong f(int i, byte a, ushort b, uint c, ulong d)
@@ -29,7 +29,7 @@ namespace Z0.Asm
             public static ulong f3(ulong d)
                 => (ulong)(d & 0xF0F0F0F0F0F0F0F0);
 
-            public static string format(in CallRel32Case src)
+            public static string format(in CallRel32 src)
             {
                 const string RenderPattern = "{0,-12}: {1}";
                 var dst = text.buffer();
@@ -62,7 +62,6 @@ namespace Z0.Asm
 
             public string Format()
                 => format(this);
-
 
             public override string ToString()
                 => Format();

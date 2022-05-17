@@ -10,13 +10,6 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-        [CmdOp("gen/asm/code")]
-        Outcome GenIntel(CmdArgs args)
-        {
-            AsmCodeGen.Emit();
-            return true;
-        }
-
         [CmdOp("asm/gen/regnames")]
         Outcome EmitRegNames(CmdArgs args)
         {

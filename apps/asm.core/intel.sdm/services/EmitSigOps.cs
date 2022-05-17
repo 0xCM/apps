@@ -18,7 +18,6 @@ namespace Z0.Asm
             writer.WriteLine(string.Format(RP, "FormSeq", "Mnemonic", "OpSeq", "Sig","OpCode"));
 
             var keys = src.Keys;
-
             var counter = 0u;
             var count = keys.Length;
             for(var i=0; i<count; i++)

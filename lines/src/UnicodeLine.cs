@@ -8,27 +8,9 @@ namespace Z0
 
     public struct UnicodeLine : IComparable<UnicodeLine>
     {
-        [MethodImpl(Inline), Op]
-        public static UnicodeLine define(string src, uint number, uint offset, uint chars)
-            => new UnicodeLine(number, offset, text.slice(src, offset, chars));
-
-
         [Op]
-        public static uint render(in UnicodeLine src, ref uint i, Span<char> dst)
-        {
-            var i0 = i;
-            if(src.IsNonEmpty)
-                text.render(src.Content, ref i, dst);
-            return i - i0;
-        }
-                [Op]
         public static string format(in UnicodeLine src)
-        {
-            Span<char> buffer = stackalloc char[src.RenderLength];
-            var i=0u;
-            render(src, ref i, buffer);
-            return text.format(buffer);
-        }
+            => string.Format("{0}:{1}", src.LineNumber, new string(src.View));
 
         [MethodImpl(Inline), Op]
         public static void convert(in AsciLine src, uint line, Span<char> buffer, out UnicodeLine dst)
@@ -65,7 +47,7 @@ namespace Z0
             var data = span(src);
             if(empty(src,i))
             {
-                dst = new UnicodeLine(++number, i0, EmptyString);
+                dst = new UnicodeLine(++number, EmptyString);
                 i+=2;
             }
             else
@@ -75,7 +57,7 @@ namespace Z0
                     if(SQ.eol(skip(data, i), skip(data, i + 1)))
                     {
                         length = i - i0;
-                        dst = new UnicodeLine(++number, i0, text.slice(src, i0, length));
+                        dst = new UnicodeLine(++number, text.slice(src, i0, length));
                         i+=2;
                         break;
                     }
@@ -89,30 +71,9 @@ namespace Z0
         public readonly string Content;
 
         [MethodImpl(Inline)]
-        public UnicodeLine(uint number, uint start, string src)
+        public UnicodeLine(uint number, string src)
         {
             LineNumber = number;
-            Content = src;
-        }
-
-        // [MethodImpl(Inline)]
-        // public UnicodeLine(uint number, string src)
-        // {
-        //     LineNumber = number;
-        //     Content = src;
-        // }
-
-        [MethodImpl(Inline)]
-        public UnicodeLine(uint start, string src)
-        {
-            LineNumber = 0;
-            Content = src;
-        }
-
-        [MethodImpl(Inline)]
-        public UnicodeLine(string src)
-        {
-            LineNumber = 0;
             Content = src;
         }
 
@@ -131,7 +92,7 @@ namespace Z0
         public int RenderLength
         {
             [MethodImpl(Inline)]
-            get => Content.Length + LineNumber.RenderLength;
+            get => LineNumber.RenderLength + Content.Length;
         }
 
         public bool IsEmpty
@@ -159,7 +120,7 @@ namespace Z0
         public static UnicodeLine Empty
         {
             [MethodImpl(Inline)]
-            get => new UnicodeLine(EmptyString);
+            get => new UnicodeLine(0,EmptyString);
         }
     }
 }

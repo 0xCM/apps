@@ -30,8 +30,7 @@ namespace Z0
                 ref readonly var type = ref types[i];
                 var spec = Symbols.set(type);
                 CsRender.@enum(offset,spec,enumBuffer);
-
-                buffer.IndentLine(offset,enumBuffer.Emit());
+                buffer.Indent(offset, enumBuffer.Emit());
 
                 if(counter != 0 && counter % 100 == 0)
                 {
@@ -44,7 +43,7 @@ namespace Z0
             buffer.IndentLine(offset, Chars.RBrace);
 
             offset -= 4;
-            buffer.IndentLine(offset, Chars.RBrace);
+            buffer.Indent(offset, Chars.RBrace);
             return counter;
         }
 
@@ -101,7 +100,7 @@ namespace Z0
                 Require.equal(count, spec.Descriptions.Length);
 
             if(spec.Description.IsNonEmpty)
-                dst.IndentLine(offset, comment(spec.Description).Format(0).Trim());
+                dst.Append(comment(spec.Description).Format(offset));
 
             if(spec.SymbolKind.IsNonEmpty)
             {
@@ -138,11 +137,12 @@ namespace Z0
                 if(nonempty(description))
                     comment(description).Render(offset, dst);
 
-                var kind = text.ifempty(spec.Kinds[i], description);
                 if(symbol.IsNonEmpty)
                 {
-                    if(nonempty(kind))
-                        dst.IndentLineFormat(offset, "[Symbol(\"{0}\",\"{1}\")]", symbol, kind);
+                    // OpCode
+                    ref readonly var kind = ref spec.Kinds[i];
+                    if(nonempty(description))
+                        dst.IndentLineFormat(offset, "[Symbol(\"{0}\",\"{1}\")]", symbol, description);
                     else
                         dst.IndentLineFormat(offset, "[Symbol(\"{0}\")]", symbol);
                 }

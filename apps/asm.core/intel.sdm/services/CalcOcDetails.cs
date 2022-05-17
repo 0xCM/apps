@@ -32,10 +32,7 @@ namespace Z0.Asm
                     var kind = (SdmTableKind)table.Kind;
                     ref readonly var symbol = ref kinds[kind];
                     if(kind == SdmTableKind.OpCodes)
-                    {
-                        var current = slice(buffer, counter);
-                        counter += Convert(table, current);
-                    }
+                        counter += Convert(table, slice(buffer, counter));
                 }
             }
 
@@ -91,7 +88,6 @@ namespace Z0.Asm
                     switch(name)
                     {
                         case "Opcode":
-                        //var oc = FixupOpCode(content);
                         var octext = text.despace(ocfixups.Apply(text.trim(content)));
                         var oc = AsmOpCode.Empty;
                         target.OpCodeText = octext;
@@ -99,7 +95,6 @@ namespace Z0.Asm
                             valid = false;
                         else
                         {
-                            Write(target.OpCodeText);
                             AsmOpCodes.parse(octext, out oc).Require();
                             target.OpCodeValue = oc.OcValue();
                         }

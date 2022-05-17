@@ -9,10 +9,10 @@ namespace Z0.Asm
     partial class AsmCases
     {
         [Op]
-        public static Index<CallRel32Case> callrel32()
+        public static Index<CallRel32> callrel32()
         {
             var block = CaseSymbols.DispenseSymbol(0x7ffe6818a0e0ul, "callrel32");
-            var cases = alloc<CallRel32Case>(4);
+            var cases = alloc<CallRel32>(4);
             var buffer = span(cases);
             var index = 0u;
             const string Asm0 = "call 7ffe65135260h # 7ffe6818a108h 0028h | e8 53 b1 fa fc";
@@ -26,7 +26,7 @@ namespace Z0.Asm
             return cases;
         }
 
-        static ref CallRel32Case load(LocatedSymbol block, MemoryAddress ip, MemoryAddress rip, MemoryAddress target, AsmHexCode encoding, @string asm, ref CallRel32Case dst)
+        static ref CallRel32 load(LocatedSymbol block, MemoryAddress ip, MemoryAddress rip, MemoryAddress target, AsmHexCode encoding, @string asm, ref CallRel32 dst)
         {
             dst.Block = block;
             dst.IP = ip;

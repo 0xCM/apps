@@ -22,13 +22,13 @@ namespace Z0.Asm
             where T : unmanaged, IMemOp<T>
                 => seek(dst,i++) = src;
 
-        static CaseResult<C> CheckEquality<C,T>(C @case, T expect, T actual)
+        static Result<C> CheckEquality<C,T>(C @case, T expect, T actual)
             where T : IEquatable<T>
         {
             if(!expect.Equals(actual))
-                return new CaseResult<C>(@case, (false, string.Format("Failure: '{0}' != '{1}'", expect, actual)));
+                return new Result<C>(@case, (false, string.Format("Failure: '{0}' != '{1}'", expect, actual)));
             else
-                return new CaseResult<C>(@case, (true, string.Format("Success: '{0}' == '{1}'", expect, actual)));
+                return new Result<C>(@case, (true, string.Format("Success: '{0}' == '{1}'", expect, actual)));
         }
 
         public static Index<MemOpCase> MemOpCases()
@@ -46,10 +46,10 @@ namespace Z0.Asm
             return cases;
         }
 
-        public static Index<CaseResult<MemOpCase>> check(ReadOnlySpan<MemOpCase> src)
+        public static Index<Result<MemOpCase>> check(ReadOnlySpan<MemOpCase> src)
         {
             var count = src.Length;
-            var dst = alloc<CaseResult<MemOpCase>>(count);
+            var dst = alloc<Result<MemOpCase>>(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var @case = ref skip(src,i);

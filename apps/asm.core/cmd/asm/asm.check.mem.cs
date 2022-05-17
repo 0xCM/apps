@@ -6,7 +6,7 @@ namespace Z0
 {
     using Asm;
 
-    partial class AsmCmdProvider
+    partial class AsmCoreCmd
     {
         [CmdOp("asm/check/mem")]
         public Outcome CheckAsmMem(CmdArgs args)
@@ -16,10 +16,8 @@ namespace Z0
             for(var i=0; i<results.Count; i++)
             {
                 ref readonly var r = ref results[i];
-                Show(r.Outcome);
-                if(r.Outcome.Fail)
-                    result = false;
-
+                Write(r.Case);
+                Write(r.Outcome);
             }
 
             return result;

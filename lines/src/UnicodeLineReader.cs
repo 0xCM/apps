@@ -37,9 +37,9 @@ namespace Z0
 
             var data = span(line);
             if(AsciLines.number(data, out var length, out var number))
-                dst = new UnicodeLine(text.slice(line, (int)length));
+                dst = new UnicodeLine(number, text.slice(line, (int)length));
             else
-                dst = new UnicodeLine(line);
+                dst = new UnicodeLine(Consumed, line);
 
             return true;
         }

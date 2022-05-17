@@ -32,7 +32,7 @@ namespace Z0
             return result;
         }
 
-        void DisplayMatches(ReadOnlySpan<UnicodeLine> src, TextMarker marker,  ReadOnlySpan<TextMatch> matches)
+        void DisplayMatches(ReadOnlySpan<UnicodeLine> src, TextMarker marker, ReadOnlySpan<TextMatch> matches)
         {
             foreach(var m in matches)
                 Write(skip(src, m.Match.Line.Value - 1));
@@ -64,6 +64,5 @@ namespace Z0
             LineMatchers.match(n,src,marker,OnMatch);
             return matches.ViewDeposited();
         }
-
     }
 }

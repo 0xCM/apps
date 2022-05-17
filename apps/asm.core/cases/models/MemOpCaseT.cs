@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-
     partial class AsmCases
     {
         public readonly struct MemOpCase<T>

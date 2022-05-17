@@ -75,7 +75,7 @@ namespace Z0.Asm
             margin += 4;
             CsRender.@enum(margin, src, dst);
             margin -=4;
-            dst.IndentLine(margin, Chars.RBrace);
+            dst.Indent(margin, Chars.RBrace);
             CsLang.EmitFile(dst.Emit(), AsmFormDescriptors.FormKindName, CgTarget.Intel);
         }
 
