@@ -33,11 +33,4 @@ namespace Z0
         int IMeasured.Length
             => Cells.Length;
     }
-
-    public interface IMemoryString<K,T> : IMemoryString<T>
-        where T : unmanaged
-        where K : unmanaged
-    {
-        K Index {get;}
-    }
 }

@@ -6,10 +6,41 @@ namespace Z0.Asm
 {
     using static core;
 
-    using SP = SymbolicParse;
-
     public readonly struct AsmParser
     {
+        public static Outcome parse(ReadOnlySpan<char> src, out AsmOpCode dst)
+            => AsmOpCodes.parse(src, out dst);
+
+        public static bool parse(ReadOnlySpan<char> src, out AsmHexCode dst)
+            => asmhex(src, out dst);
+
+        public static bool parse(ReadOnlySpan<char> src, out AsmSig dst)
+            => AsmSigs.parse(src, out dst);
+
+        public static bool parse(ReadOnlySpan<char> src, out EncodingId dst)
+            => encid(src, out dst);
+
+        public static bool parse(ReadOnlySpan<char> src, out InstructionId dst)
+            => instid(src, out dst);
+
+        [Parser]
+        public static bool parse(string src, out AsmMnemonic dst)
+        {
+            dst = src;
+            return true;
+        }
+
+        [Parser]
+        public static Outcome parse(string src, out AsmOcValue dst)
+        {
+            var storage = Cells.alloc(w32);
+            var result = Hex.parse(src, storage.Bytes);
+            dst = AsmOcValue.Empty;
+            if(result)
+                dst = new AsmOcValue(slice(storage.Bytes,0, result.Data));
+            return result;
+        }
+
         public static Outcome encid(ReadOnlySpan<char> src, out EncodingId dst)
         {
             var input = text.trim(src);
@@ -38,24 +69,6 @@ namespace Z0.Asm
 
             dst = new InstructionId(docid, encid);
             return true;
-        }
-
-        [Parser]
-        public static Outcome parse(string src, out AsmMnemonic dst)
-        {
-            dst = src;
-            return true;
-        }
-
-        [Parser]
-        public static Outcome parse(string src, out AsmOcValue dst)
-        {
-            var storage = Cells.alloc(w32);
-            var result = Hex.parse(src, storage.Bytes);
-            dst = AsmOcValue.Empty;
-            if(result)
-                dst = new AsmOcValue(slice(storage.Bytes,0, result.Data));
-            return result;
         }
 
 
@@ -126,7 +139,7 @@ namespace Z0.Asm
             return result;
         }
 
-        public static bool label(string src, out AsmAddressLabel dst)
+        public static bool parse(string src, out AsmAddressLabel dst)
         {
             var input = text.trim(src);
             dst = AsmAddressLabel.Empty;

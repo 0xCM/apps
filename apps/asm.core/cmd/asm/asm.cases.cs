@@ -4,15 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Rules
-    {
-        public class ChoiceRule : ChoiceRule<RuleValue>
-        {
-            public ChoiceRule(Index<RuleValue> src)
-                : base(src)
-            {
+    using Asm;
 
-            }
+    partial class AsmCoreCmd
+    {
+        [CmdOp("asm/cases/emit")]
+        Outcome EmitAsmCases(CmdArgs args)
+        {
+            var src = AsmCases.mov();
+            AppSvc.TableEmit(src, AppDb.ApiTargets().Table<AsmEncodingCase>());
+
+            return true;
         }
     }
 }

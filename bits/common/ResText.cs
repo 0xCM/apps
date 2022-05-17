@@ -7,17 +7,17 @@ namespace Z0
     using static core;
 
     [StructLayout(LayoutKind.Sequential, Size=16, Pack =1), ApiHost]
-    public readonly struct ResText
+    public unsafe readonly struct ResText
     {
         [MethodImpl(Inline), Op]
-        public static ResText from(StringAddress src)
-            => new ResText(src);
+        static ResText from(string src)
+            => new ResText(new (core.address(src), src.Length));
 
         [MethodImpl(Inline), Op]
-        public static ResText from(string src)
-            => new ResText(strings.address(src));
+        static ResText from(ReadOnlySpan<char> src)
+            => new ResText(new (core.address(src), src.Length));
 
-        public static string format(ResText src)
+        static string format(ResText src)
         {
             Span<char> dst = stackalloc char[(int)src.Address.Length];
             var i=0u;
@@ -25,17 +25,17 @@ namespace Z0
             return text.format(slice(dst,0,count));
         }
 
-        public readonly StringAddress Address;
+        public readonly MemoryString Address;
 
         [MethodImpl(Inline)]
-        public ResText(StringAddress src)
+        public ResText(MemoryString src)
         {
             Address = src;
         }
 
         [MethodImpl(Inline)]
         public uint Render(ref uint i, Span<char> dst)
-            => Address.Render(ref i, dst);
+            => text.render(Address.Cells, ref i, dst);
 
         public string Format()
             => format(this);
@@ -45,10 +45,10 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator ResText(ReadOnlySpan<char> src)
-            => new ResText(strings.address(src));
+            => from(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator ResText(ReadOnlySpan<byte> src)
-            => new ResText(strings.address(src));
+        public static implicit operator ResText(string src)
+            => from(src);
     }
 }

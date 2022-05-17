@@ -21,11 +21,11 @@ namespace Z0
         [MethodImpl(Inline)]
         public static MemoryString<K> @string<K>(in MemoryStrings<K> src, K index)
             where K : unmanaged
-                => new MemoryString<K>(index,  src.CharBase + offset(src, index), (int)length(src,index));
+                => new MemoryString<K>(src.CharBase + offset(src, index), (int)length(src,index));
 
         [MethodImpl(Inline)]
         public static MemoryString<K> @string<K>(in MemoryStrings<K> src, uint index)
             where K : unmanaged
-                => new MemoryString<K>(generic<K>(index), src.CharBase + offset(src,index), (int)length(src,index));
+                => new MemoryString<K>(src.CharBase + offset(src,index), (int)length(src,index));
     }
 }

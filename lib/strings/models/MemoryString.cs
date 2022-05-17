@@ -7,26 +7,20 @@ namespace Z0
     using static core;
 
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct MemoryString : IMemoryString<uint,char>
+    public readonly struct MemoryString : IMemoryString<char>
     {
-        public readonly uint Index {get;}
+        public readonly MemoryAddress Address;
 
-        public readonly MemoryAddress Address {get;}
+        public readonly int Length;
 
-        public readonly int Length {get;}
+        public readonly uint Size;
 
         [MethodImpl(Inline)]
-        public MemoryString(uint index, MemoryAddress address, int length)
+        public MemoryString(MemoryAddress address, int length)
         {
-            Index = index;
             Address = address;
             Length = length;
-        }
-
-        public uint Size
-        {
-            [MethodImpl(Inline)]
-            get => (uint)Length*size<char>();
+            Size = (uint)length*size<char>();
         }
 
         public unsafe ReadOnlySpan<char> Cells
@@ -40,6 +34,9 @@ namespace Z0
             [MethodImpl(Inline)]
             get => cover<byte>(Address, Size);
         }
+
+        MemoryAddress IMemoryString.Address
+            => Address;
 
         public string Format(IStringFormatter formatter)
             => formatter.Format(Bytes);

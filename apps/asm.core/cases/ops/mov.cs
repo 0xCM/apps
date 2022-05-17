@@ -4,30 +4,35 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static Root;
+    using static AsmEncodingRes;
     using static core;
-
-    // 7ffa095300e5h 0005h mov rax,1f6d13cb5e4h ; MOV r64, imm64 | REX.W B8+ro io | 48 b8 e4 b5 3c d1 f6 01 00 00
-    // 7ffa09530115h 0005h mov rax,1f6d12f2f4ch ; MOV r64, imm64 | REX.W B8+ro io | 48 b8 4c 2f 2f d1 f6 01 00 00
 
     partial class AsmCases
     {
-        public static AsmEncodingCases mov()
+        public static Index<AsmEncodingCase> mov()
         {
-            var dst = new AsmEncodingCases(alloc<AsmEncodingCase>(2));
-            var counter = 0u;
-            var monic = "mov";
-            dst[0] = AsmEncodingCase.define(monic, counter++,
-                ResText.from("REX.W B8+ro io"),
-                ResText.from("MOV r64,imm64"),
-                ResText.from("mov rax,1f6d13cb5e4h"),
-                ResText.from("48 b8 e4 b5 3c d1 f6 01 00 00")
+            Index<AsmEncodingCase> dst = alloc<AsmEncodingCase>(3);
+            var k = 0u;
+            dst[k++] = @case(k,
+                "mov",
+                "REX.W + B8 +rd io",
+                "MOV r64,imm64",
+                "mov rax,1f6d13cb5e4h",
+                "48 b8 e4 b5 3c d1 f6 01 00 00"
                 );
-            dst[1] = AsmEncodingCase.define(monic, counter++,
-                ResText.from("REX.W B8+ro io"),
-                ResText.from("MOV r64,imm64"),
-                ResText.from("mov rax,1f6d12f2f4ch"),
-                ResText.from("48 b8 4c 2f 2f d1 f6 01 00 00")
+            dst[k++] = @case(k,
+                "mov",
+                "REX.W + B8 +rd io",
+                "MOV r64,imm64",
+                "mov rax,1f6d12f2f4ch",
+                "48 b8 4c 2f 2f d1 f6 01 00 00"
+                );
+            dst[k++] = @case(k,
+                "vmovupd",
+                "VEX.128.66.0F.WIG 10 /r",
+                "vmovupd xmm, m128",
+                "vmovupd xmm0, [rdx]",
+                "c5 f9 10 02"
                 );
             return dst;
         }

@@ -9,6 +9,9 @@ namespace Z0.Asm
 
     partial class AsmOpCodes
     {
+        public static Outcome parse(ReadOnlySpan<char> src, out AsmOpCode dst)
+            => parse(text.format(src), out dst);
+
         public static Outcome parse(string src, out AsmOpCode dst)
         {
             var result = Outcome.Success;

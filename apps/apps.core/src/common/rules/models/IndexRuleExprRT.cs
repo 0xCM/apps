@@ -6,31 +6,29 @@ namespace Z0
 {
     partial struct Rules
     {
-
-    public abstract class IndexRuleExpr<R,T> : RuleExpr<Index<T>>
-        where R : IndexRuleExpr<R,T>
-        where T : IRuleExpr
-    {
-        protected IndexRuleExpr(Index<T> terms)
-            : base(terms)
+        public abstract class IndexRuleExpr<R,T> : RuleExpr<Index<T>>
+            where R : IndexRuleExpr<R,T>
+            where T : IRuleExpr
         {
-            Terms = terms;
-        }
+            protected IndexRuleExpr(Index<T> terms)
+                : base(terms)
+            {
+                Terms = terms;
+            }
 
-        public Index<T> Terms {get;}
+            public Index<T> Terms {get;}
 
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Content.IsEmpty;
-        }
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Content.IsEmpty;
+            }
 
-        public bool IsNonEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Content.IsNonEmpty;
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Content.IsNonEmpty;
+            }
         }
     }
-    }
-
 }

@@ -20,7 +20,6 @@ namespace Z0.Asm
             return cases;
         }
 
-
         static JmpRel32Case jmp32(string statement, string encoding, string source, string target)
         {
             var dst = new JmpRel32Case();

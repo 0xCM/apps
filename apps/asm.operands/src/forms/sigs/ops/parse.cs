@@ -21,6 +21,10 @@ namespace Z0.Asm
         }
 
         [Parser]
+        public static Outcome parse(ReadOnlySpan<char> src, out AsmSig dst)
+            => parse(text.format(src), out dst);
+
+        [Parser]
         public static Outcome parse(string src, out AsmSig dst)
         {
             var result = Outcome.Success;

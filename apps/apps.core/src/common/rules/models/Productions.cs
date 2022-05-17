@@ -6,31 +6,29 @@ namespace Z0
 {
     partial struct Rules
     {
-    public class Productions
-    {
-        ConstLookup<string, IProduction> Data;
-
-        public Productions(Dictionary<string,IProduction> src)
+        public class Productions
         {
-            Data = src;
+            ConstLookup<string, IProduction> Data;
+
+            public Productions(Dictionary<string,IProduction> src)
+            {
+                Data = src;
+            }
+
+            public static implicit operator Productions(Dictionary<string,IProduction> src)
+                => new Productions(src);
+
+            public bool Find(string src, out IProduction dst)
+                => Data.Find(src, out dst);
+
+            public IProduction this[string src]
+                => Data[src];
+
+            public ReadOnlySpan<string> Keys
+                => Data.Keys;
+
+            public ReadOnlySpan<IProduction> Values
+                => Data.Values;
         }
-
-        public static implicit operator Productions(Dictionary<string,IProduction> src)
-            => new Productions(src);
-
-        public bool Find(string src, out IProduction dst)
-            => Data.Find(src, out dst);
-
-        public IProduction this[string src]
-            => Data[src];
-
-        public ReadOnlySpan<string> Keys
-            => Data.Keys;
-
-        public ReadOnlySpan<IProduction> Values
-            => Data.Values;
     }
-    }
-
-
 }

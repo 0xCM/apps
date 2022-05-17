@@ -39,7 +39,6 @@ namespace Z0.Asm
         public ReadOnlySpan<string> Expressions()
             => Datasets.TokenExpressions.Values;
 
-
         readonly static AsmOcDatasets Datasets;
 
         static AsmOpCodes()

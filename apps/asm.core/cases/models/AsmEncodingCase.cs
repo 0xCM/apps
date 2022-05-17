@@ -4,39 +4,29 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public readonly struct AsmEncodingCase : ITextual
+    [StructLayout(StructLayout,Pack=1), Record(TableId)]
+    public struct AsmEncodingCase
     {
-        [MethodImpl(Inline), Op]
-        public static AsmEncodingCase define(AsmMnemonic monic, uint seq, ResText oc, ResText sig, ResText statement, ResText encoding)
-            => new AsmEncodingCase(monic, seq, oc, sig, statement, encoding);
+        public const string TableId = "asm.encoding.cases";
 
-        public uint Id {get;}
+        [Render(6)]
+        public uint Seq;
 
-        public AsmMnemonic Mnemonic {get;}
+        [Render(18)]
+        public AsmMnemonic Mnemonic;
 
-        public ResText OpCode {get;}
+        [Render(32)]
+        public AsmOpCode OpCode;
 
-        public ResText Sig {get;}
+        [Render(64)]
+        public AsmSig Sig;
 
-        public ResText Statement {get;}
+        [Render(64)]
+        public asci64 Asm;
 
-        public ResText Encoding {get;}
+        [Render(1)]
+        public AsmHexCode Encoding;
 
-        [MethodImpl(Inline)]
-        public AsmEncodingCase(AsmMnemonic mnemonic, uint seq, ResText oc, ResText sig, ResText statement, ResText code)
-        {
-            Id= seq;
-            Mnemonic = mnemonic;
-            OpCode = oc;
-            Sig = sig;
-            Statement = statement;
-            Encoding = code;
-        }
-
-        public string Format()
-            => string.Format("{0}[{1:D4}] = <{2}>({3}) {4} => {5}", Mnemonic, Id, OpCode, Sig, Statement, Encoding.Format());
-
-        public override string ToString()
-            => Format();
+        public static AsmEncodingCase Empty => default;
     }
 }
