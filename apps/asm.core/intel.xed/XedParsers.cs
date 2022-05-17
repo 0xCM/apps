@@ -17,7 +17,7 @@ namespace Z0
 
     public partial class XedParsers
     {
-        static readonly EnumParser<BlockField> BlockFields = new();
+        static readonly EnumParser<InstBlockField> BlockFields = new();
 
         static readonly EnumParser<OpWidthCode> OpWidthParser = new();
 
@@ -152,7 +152,7 @@ namespace Z0
         public static bool parse(string src, out OpType dst)
             => OpTypes.Parse(src, out dst);
 
-        public static bool parse(string src, out BlockField dst)
+        public static bool parse(string src, out InstBlockField dst)
             => BlockFields.Parse(src, out dst);
 
         public static void parse(string src, out Index<XedFlagEffect> dst)

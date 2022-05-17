@@ -6,7 +6,8 @@ namespace Z0
 {
     partial class XedImport
     {
-        public enum BlockField : byte
+        [SymSource("xed")]
+        public enum InstBlockField : byte
         {
             amd_3dnow_opcode,
 

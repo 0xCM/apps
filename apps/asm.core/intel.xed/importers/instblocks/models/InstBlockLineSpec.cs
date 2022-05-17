@@ -9,9 +9,9 @@ namespace Z0
     partial class XedImport
     {
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableId)]
-        public struct FormFields
+        public struct InstBlockLineSpec
         {
-            const string TableId = "xed.instblocks.fields";
+            const string TableId = "xed.instblocks.lines";
 
             [Render(6)]
             public uint Seq;
@@ -35,9 +35,9 @@ namespace Z0
             public InstForm Form;
 
             [Render(1)]
-            public BitVector64<BlockField> Fields;
+            public BitVector64<InstBlockField> Fields;
 
-            public static FormFields Empty => default;
+            public static InstBlockLineSpec Empty => default;
         }
     }
 }

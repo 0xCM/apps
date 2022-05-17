@@ -97,16 +97,15 @@ namespace Z0
                  get => Seq;
                  set => Seq = value; }
 
-            public int CompareTo(InstBlockImport other)
+            public int CompareTo(InstBlockImport src)
             {
-                var result = Class.CompareTo(other.Class);
+                var result = Class.CompareTo(src.Class);
                 if(result == 0)
-                    result = Pattern.Format().CompareTo(other.Pattern.Format());
+                    result = Pattern.Format().CompareTo(src.Pattern.Format());
                 return result;
             }
 
             public static InstBlockImport Empty => default;
-
         }
     }
 }

@@ -66,7 +66,7 @@ namespace Z0
         void EmitCpuIdImports()
             => AppSvc.TableEmit(Xed.Views.CpuIdImport, Targets().Table<CpuIdImport>());
 
-        public static ref readonly Index<BlockField> BlockFields
+        public static ref readonly Index<InstBlockField> BlockFields
         {
             [MethodImpl(Inline)]
             get => ref _BlockFields;
@@ -154,11 +154,11 @@ namespace Z0
             AppSvc.TableEmit(matches.ToArray().Sort().Resequence(), IsaTarget(chip));
         }
 
-        static Index<BlockField> _BlockFields;
+        static Index<InstBlockField> _BlockFields;
 
         static XedImport()
         {
-            _BlockFields = Symbols.index<BlockField>().Kinds.ToArray();
+            _BlockFields = Symbols.index<InstBlockField>().Kinds.ToArray();
         }
     }
 }

@@ -10,19 +10,19 @@ namespace Z0
     partial class XedImport
     {
         [MethodImpl(Inline)]
-        public static InstBlock block(uint seq, FormFields fields, ReadOnlySpan<string> lines)
+        public static InstBlock block(uint seq, InstBlockLineSpec fields, ReadOnlySpan<string> lines)
             => new InstBlock(seq,fields,lines);
 
         public ref struct InstBlock
         {
             public readonly uint Seq;
 
-            public readonly FormFields Fields;
+            public readonly InstBlockLineSpec Fields;
 
             public readonly ReadOnlySpan<string> Lines;
 
             [MethodImpl(Inline)]
-            public InstBlock(uint seq, FormFields fields, ReadOnlySpan<string> lines)
+            public InstBlock(uint seq, InstBlockLineSpec fields, ReadOnlySpan<string> lines)
             {
                 Require.nonzero(lines.Length);
                 Seq = seq;
@@ -31,7 +31,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public string Line(BlockField field)
+            public string Line(InstBlockField field)
             {
                 var i = (uint)field;
                 return Line(i);
@@ -51,7 +51,7 @@ namespace Z0
                 return dst;
             }
 
-            public string this[BlockField field]
+            public string this[InstBlockField field]
             {
                 [MethodImpl(Inline)]
                 get => Line(field);

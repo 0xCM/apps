@@ -14,7 +14,7 @@ namespace Z0
             public static FormImportDatasets calc(BlockImportDatasets src, bool pll = true)
             {
                 var dst = new FormImportDatasets();
-                var keys = src.Data.Keys.Index().Sort();
+                var keys = src.FormData.Keys.Index().Sort();
                 var forms = dict<InstForm,uint>();
                 for(var i=0u; i<keys.Count; i++)
                     forms[keys[i]] = i;
@@ -23,22 +23,22 @@ namespace Z0
                 return dst;
             }
 
-            ConcurrentDictionary<InstForm,string> Descriptions = new();
+            public ConcurrentDictionary<InstForm,string> Descriptions = new();
 
-            ConcurrentDictionary<InstForm,string> Headers = new();
+            public ConcurrentDictionary<InstForm,string> Headers = new();
 
-            SortedLookup<InstForm,uint> Sorted;
+            public SortedLookup<InstForm,uint> Sorted;
 
-            void Include(InstForm form,BlockImportDatasets src)
+            void Include(InstForm form, BlockImportDatasets src)
             {
                 if(form.IsNonEmpty)
                 {
+                    var line = src.BlockLines[form];
                     var dst = InstBlockImport.Empty;
-                    var range = src.Received[form];
-                    var content = src.Data[form];
+                    var content = src.FormData[form];
                     var seq = Sorted[form];
                     Descriptions[form] = content;
-                    Headers[form] = string.Format("{0,-64} | {1:D5} | {2:D2} | {3:D6} | {4:D6}", form, seq, range.LineCount, (uint)range.MinLine, (uint)range.MaxLine);
+                    Headers[form] = string.Format("{0,-64} | {1:D5} | {2:D2} | {3:D6} | {4:D6}", form, seq, line.Lines, line.MinLine, line.MaxLine);
                 }
             }
 

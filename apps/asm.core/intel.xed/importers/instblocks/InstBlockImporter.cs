@@ -9,59 +9,42 @@ namespace Z0
 
     partial class XedImport
     {
-        public partial class InstBlockImporter : IDisposable
+        public partial class InstBlockImporter
         {
             readonly AppServices AppSvc;
 
             XedPaths XedPaths;
 
-            MemoryFile File;
-
-            const uint Partition = 128;
-
-            readonly uint FileSize;
-
-            readonly uint BlockSize;
-
-            readonly uint BlockCount;
-
-            readonly uint Remainder;
-
-            readonly uint Contiguous;
-
-            readonly uint Parts;
-
-            readonly uint PartRemainder;
-
-            static W256 w => default;
-
             public InstBlockImporter(AppServices svc)
             {
                 AppSvc = svc;
                 XedPaths = XedPaths.Service;
-                File = XedPaths.InstDumpSource().MemoryMap(true);
-                BlockSize = (uint)w.DataWidth/8;
-                FileSize = (uint)File.Size;
-                BlockCount = FileSize/BlockSize;
-                Remainder = FileSize%BlockSize;
-                Contiguous = BlockCount*BlockSize;
-                Parts = BlockCount/Partition;
-                PartRemainder = BlockCount%Partition;
             }
+
+            MemoryFile InstDumpFile()
+                => data(nameof(InstDumpFile), () => XedPaths.InstDumpSource().MemoryMap(true));
 
             public void Run()
             {
-                var stats = BlockImportDatasets.stats(File);
-                var blocks = BlockImportDatasets.calc(File);
-                var records = EmitRecords(blocks);
-                var forms = CalcFormDatasets(blocks);
+                var src = InstDumpFile();
+                var data = BlockImportDatasets.calc(src);
+                var stats = BlockImportDatasets.stats(src);
+                Emit(data.Imports);
                 Emit(stats);
-                Emit(forms);
-                Emit(blocks.LineMap);
+                EmitBlockDetail(data);
+                Emit(data.LineMap);
+
+                // var datasets = BlockImportDatasets.datasets(src);
+                //var records = CalcRecords(datasets);
+                // var forms = CalcFormDatasets(datasets);
+                // Emit(records);
+                // Emit(stats);
+                // EmitBlockDetail(forms);
+                // Emit(datasets.MappedForms);
             }
 
-            void Emit(LineMap<FormFields> src)
-                => EmitLineMap(src, XedPaths.Imports().Path("xed.instblocks.linemap", FileKind.Csv));
+            void Emit(LineMap<InstBlockLineSpec> src)
+                => EmitLineMap(src, XedPaths.Imports().Table<InstBlockLineSpec>());
 
             void Emit(ReadOnlySpan<LineStats> src)
             {
@@ -72,22 +55,20 @@ namespace Z0
                 AppSvc.FileEmit(dst.Emit(), src.Length, XedPaths.Imports().Path(Z0.LineStats.TableId, FileKind.Csv));
             }
 
-            Index<InstBlockImport> EmitRecords(BlockImportDatasets src)
-            {
-                var records = src.Imports.Index().Sort().Resequence();
-                AppSvc.TableEmit(records, XedPaths.Imports().Table<InstBlockImport>());
-                return records;
-            }
+            void Emit(ReadOnlySpan<InstBlockImport> src)
+                => AppSvc.TableEmit(src, XedPaths.Imports().Table<InstBlockImport>());
+
+            // static Index<InstBlockImport> CalcRecords(BlockImportDatasets src)
+            //     => src.BlockImports.Index().Sort().Resequence();
 
             static FormImportDatasets CalcFormDatasets(BlockImportDatasets src)
                 => data(nameof(FormImportDatasets), ()=> FormImportDatasets.calc(src));
 
-            void Emit(FormImportDatasets src)
+            void EmitBlockDetail(ImportedBlocks src)
             {
-                var dst = XedPaths.Imports().Path("xed.instblocks.detail", FileKind.Txt).Delete();
-                using var writer = dst.AsciWriter();
-                var emitting = AppSvc.EmittingFile(dst);
-                var forms = src.FormSeq().Keys;
+                var path = XedPaths.Imports().Path("xed.instblocks.detail", FileKind.Txt);
+                var emitter = text.emitter();
+                var forms = src.Forms.Keys;
                 var count = forms.Length;
                 for(var i=0; i<count; i++)
                 {
@@ -95,19 +76,19 @@ namespace Z0
                     if(form.IsEmpty)
                         continue;
 
-                    writer.AppendLine(src.Header(form));
-                    writer.WriteLine(RP.PageBreak120);
-                    writer.AppendLine(src.Description(form));
-                    writer.WriteLine();
+                    emitter.AppendLine(src.Header(form));
+                    emitter.WriteLine(RP.PageBreak120);
+                    emitter.AppendLine(src.Description(form));
+                    emitter.WriteLine();
                 }
-                AppSvc.EmittedFile(emitting, count);
+                AppSvc.FileEmit(emitter.Emit(), count, path);
             }
 
-            public void EmitLineMap(LineMap<FormFields> data, FS.FilePath dst)
+            void EmitLineMap(LineMap<InstBlockLineSpec> data, FS.FilePath dst)
             {
                 const string Pattern = "{0,-6} | {1,-12} | {2,-12} | {3,-12} | {4,-12} | {5,-6} | {6,-64} | {7}";
-                var formatter = Tables.formatter<FormFields>();
-                var emitting = AppSvc.EmittingTable<FormFields>(dst);
+                var formatter = Tables.formatter<InstBlockLineSpec>();
+                var emitting = AppSvc.EmittingTable<InstBlockLineSpec>(dst);
                 using var writer = dst.AsciWriter();
                 writer.WriteLine(formatter.FormatHeader());
                 for(var i=0u; i<data.IntervalCount; i++)
@@ -117,11 +98,6 @@ namespace Z0
                     writer.WriteLine(formatter.Format(content));
                 }
                 AppSvc.EmittedTable(emitting, data.IntervalCount);
-            }
-
-            public void Dispose()
-            {
-                File.Dispose();
             }
         }
     }
