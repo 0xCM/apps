@@ -68,7 +68,6 @@ namespace Z0
         public void Emit(ReadOnlySpan<FormImport> src)
             => AppSvc.TableEmit(src, XedPaths.FormCatalogPath());
 
-
         public void ImportInstBlocks()
         {
             BlockImporter.Run();

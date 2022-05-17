@@ -12,6 +12,16 @@ namespace Z0
     {
         class BlockImportDatasets
         {
+
+            public static ReadOnlySpan<LineStats> stats(MemoryFile src)
+                => AsciLines.stats(src.View(),400000);
+
+            public static BlockImportDatasets calc(MemoryFile src)
+            {
+                var lines = AsciLines.lines(src);
+                return calc(blockmap(lines),lines);
+            }
+
             static bool split(string src, out string name, out string value)
             {
                 var result = false;
@@ -30,7 +40,55 @@ namespace Z0
                 return result;
             }
 
-            public static BlockImportDatasets calc(LineMap<FormFields> map, ReadOnlySpan<string> src)
+            static LineMap<FormFields> blockmap(ReadOnlySpan<string> src)
+            {
+                const string FirstItemMarker = "amd_3dnow_opcode:";
+                const string LastItemMarker = "EOSZ_LIST:";
+                const string Pattern = "{0,-6} | {1,-6} | {2,-6} | {3,-6} | {4,-64}";
+                const string Marker = "iform:";
+                var fields = FormFields.Empty;
+                var buffer = list<LineInterval<FormFields>>();
+                var form = InstForm.Empty;
+                var name = EmptyString;
+                var value = EmptyString;
+                var field = BlockField.amd_3dnow_opcode;
+                var counter = 0u;
+                var min = 0u;
+                var seq = 0u;
+                for(var i=0u; i<src.Length; i++)
+                {
+                    var line = text.trim(skip(src,i));
+                    counter += (uint)line.Length;
+                    if(split(line, out name, out value))
+                    {
+                        if(XedParsers.parse(name, out field))
+                            fields.Fields[field] = bit.On;
+                    }
+                    if(text.begins(line,FirstItemMarker))
+                        fields.MinLine = i;
+                    else if(text.begins(line, LastItemMarker))
+                    {
+                        fields.MaxLine = i;
+                        fields.MinChar = min;
+                        fields.MaxChar = counter;
+                        fields.Seq = seq++;
+                        fields.Lines = fields.MaxLine - fields.MinLine + 1;
+                        buffer.Add(new LineInterval<FormFields>(fields, fields.MinLine, fields.MaxLine));
+                        fields = FormFields.Empty;
+                        min = counter+1;
+                    }
+                    else
+                    {
+                        var j = text.index(line,Marker);
+                        if(j >= 0)
+                            XedParsers.parse(value, out fields.Form);
+                    }
+                }
+
+                return buffer.ToArray();
+            }
+
+            static BlockImportDatasets calc(LineMap<FormFields> map, ReadOnlySpan<string> src)
             {
                 var dst = CalcDatasets(map,src);
                 return data(nameof(BlockImportDatasets), () => dst);
@@ -39,6 +97,7 @@ namespace Z0
             static BlockImportDatasets CalcDatasets(LineMap<FormFields> map, ReadOnlySpan<string> src)
             {
                 var dst = new BlockImportDatasets();
+                dst.LineMap = map;
                 var emitter = text.emitter();
                 var k=0u;
                 for(var i=0u; i<map.IntervalCount; i++)
@@ -83,14 +142,13 @@ namespace Z0
                 return dst;
             }
 
+            public LineMap<FormFields> LineMap;
+
             public ConcurrentDictionary<InstForm,LineInterval<FormFields>> Received = new();
 
             public ConcurrentBag<InstBlockImport> Imports = new();
 
             public ConcurrentDictionary<InstForm,string> Data = new();
-
-            // public ICollection<InstForm> Forms()
-            //     => Data.Keys;
         }
     }
 }

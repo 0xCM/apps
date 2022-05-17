@@ -51,36 +51,25 @@ namespace Z0
 
             public void Run()
             {
-                var stats = EmitLineStats(File);
-                var src = AsciLines.lines(File);
-                var map = blockmap(src);
-                var data = BlockImportDatasets.calc(map,src);
-                var records = EmitRecords(data);
-                var forms = CalcFormDatasets(data);
+                var stats = BlockImportDatasets.stats(File);
+                var blocks = BlockImportDatasets.calc(File);
+                var records = EmitRecords(blocks);
+                var forms = CalcFormDatasets(blocks);
+                Emit(stats);
                 Emit(forms);
-                Emit(map);
+                Emit(blocks.LineMap);
             }
-
-            ReadOnlySpan<LineStats> CalcLineStats(MemoryFile src)
-                => AsciLines.stats(src.View());
 
             void Emit(LineMap<FormFields> src)
                 => EmitLineMap(src, XedPaths.Imports().Path("xed.instblocks.linemap", FileKind.Csv));
 
-            ReadOnlySpan<LineStats> EmitLineStats(MemoryFile src)
-            {
-                var stats = CalcLineStats(src);
-                Emit(stats);
-                return stats;
-            }
-
             void Emit(ReadOnlySpan<LineStats> src)
             {
                 var dst = text.buffer();
-                dst.AppendLine(LineStats.Header);
+                dst.AppendLine(Z0.LineStats.Header);
                 for(var i=0; i<src.Length; i++)
                     dst.AppendLine(skip(src,i).Format());
-                AppSvc.FileEmit(dst.Emit(), src.Length, XedPaths.Imports().Path(LineStats.TableId, FileKind.Csv));
+                AppSvc.FileEmit(dst.Emit(), src.Length, XedPaths.Imports().Path(Z0.LineStats.TableId, FileKind.Csv));
             }
 
             Index<InstBlockImport> EmitRecords(BlockImportDatasets src)
