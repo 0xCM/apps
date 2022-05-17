@@ -11,25 +11,13 @@ namespace Z0
     {
         class FormImportDatasets
         {
-            public static FormImportDatasets calc(BlockImportDatasets src, bool pll = true)
-            {
-                var dst = new FormImportDatasets();
-                var keys = src.FormData.Keys.Index().Sort();
-                var forms = dict<InstForm,uint>();
-                for(var i=0u; i<keys.Count; i++)
-                    forms[keys[i]] = i;
-                dst.Sorted = forms;
-                iter(keys, form => dst.Include(form, src), pll);
-                return dst;
-            }
-
             public ConcurrentDictionary<InstForm,string> Descriptions = new();
 
             public ConcurrentDictionary<InstForm,string> Headers = new();
 
             public SortedLookup<InstForm,uint> Sorted;
 
-            void Include(InstForm form, BlockImportDatasets src)
+            public void Include(InstForm form, BlockImportDatasets src)
             {
                 if(form.IsNonEmpty)
                 {

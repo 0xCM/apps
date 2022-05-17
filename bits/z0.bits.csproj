@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
-    <Reference Include="$(CgCommonName)" HintPath="$(CgCommonPath)"/>
     <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
     <ProjectReference Include="$(Numbers)" />
     <ProjectReference Include="$(Expr)" />

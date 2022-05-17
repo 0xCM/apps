@@ -10,32 +10,8 @@ namespace Z0
 
     partial class XedImport
     {
-        public class ImportedBlocks
-        {
-            public SortedLookup<InstForm,uint> Forms;
-
-            public Index<InstBlockImport> Imports;
-
-            public InstBlockLines BlockLines;
-
-            public LineMap<InstBlockLineSpec> LineMap;
-
-            public ConcurrentDictionary<InstForm,string> FormBlocks;
-
-            public ConcurrentDictionary<InstForm,string> FormHeaders;
-
-            public string Description(InstForm form)
-                => FormBlocks[form];
-
-            public string Header(InstForm form)
-                => FormHeaders[form];
-        }
-
         class BlockImportDatasets
         {
-            static FormImportDatasets forms(BlockImportDatasets src)
-                => data(nameof(FormImportDatasets), ()=> FormImportDatasets.calc(src));
-
             public LineMap<InstBlockLineSpec> MappedForms = new();
 
             public InstBlockLines BlockLines = new();
@@ -47,29 +23,36 @@ namespace Z0
             public static ReadOnlySpan<LineStats> stats(MemoryFile src)
                 => AsciLines.stats(src.View(),400000);
 
-            public static ImportedBlocks calc(MemoryFile src)
+            static FormImportDatasets forms(BlockImportDatasets src, bool pll = true)
             {
-                var dst = new ImportedBlocks();
-                var ds = datasets(src);
-                var fds = forms(ds);
-                dst.BlockLines = ds.BlockLines;
-                dst.LineMap = ds.MappedForms;
-                dst.FormBlocks = fds.Descriptions;
-                dst.FormHeaders = fds.Headers;
-                dst.Forms = fds.Sorted;
-                dst.Imports = ds.BlockImports.Index().Sort().Resequence();
+                var dst = new FormImportDatasets();
+                var keys = src.FormData.Keys.Index().Sort();
+                var forms = dict<InstForm,uint>();
+                for(var i=0u; i<keys.Count; i++)
+                    forms[keys[i]] = i;
+                dst.Sorted = forms;
+                iter(keys, form => dst.Include(form, src), pll);
                 return dst;
             }
 
-            public static BlockImportDatasets datasets(MemoryFile src)
+            public static InstImportBlocks calc(MemoryFile src)
             {
-                return data(nameof(BlockImportDatasets), Calc);
-                BlockImportDatasets Calc()
+                return data(nameof(InstImportBlocks),Calc);
+
+                InstImportBlocks Calc()
                 {
-                    var dst = new BlockImportDatasets();
+                    var dst = new InstImportBlocks();
+                    var ds = new BlockImportDatasets();
                     var lines = AsciLines.lines(src);
-                    CalcBlockLines(lines, dst);
-                    CalcDatasets(lines,dst);
+                    CalcBlockLines(lines, ds);
+                    CalcDatasets(lines, ds);
+                    dst.BlockLines = ds.BlockLines;
+                    dst.LineMap = ds.MappedForms;
+                    dst.Imports = ds.BlockImports.Index().Sort().Resequence();
+                    var fds = forms(ds);
+                    dst.FormBlocks = fds.Descriptions;
+                    dst.FormHeaders = fds.Headers;
+                    dst.Forms = fds.Sorted;
                     return dst;
                 }
             }
@@ -149,7 +132,6 @@ namespace Z0
                 for(var i=0u; i<map.IntervalCount; i++)
                 {
                     ref readonly var range = ref map[i];
-                    //dst.FormLines.TryAdd(range.Id.Form, range);
                     var spec = range.Id;
                     var form = spec.Form;
                     var import = InstBlockImport.Empty;

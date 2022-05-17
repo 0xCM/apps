@@ -113,6 +113,7 @@ namespace Z0
                 CalcTypeTables,
                 CalcCpuIdImports,
                 CalcInstDefs,
+                () => Views.Store(I.InstImports, Import.CalcInstImports()),
                 () => Views.Store(I.FormImports, Import.CalcFormImports()),
                 () => Views.Store(I.ChipMap, XedRules.CalcChipMap())
                 );

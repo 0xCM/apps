@@ -7,6 +7,7 @@ namespace Z0
 {
     using static XedRules;
     using static XedModels;
+    using static XedImport;
     using static MemDb;
     using static core;
 
@@ -121,6 +122,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => ref Load<Index<FormImport>>(XedViewKind.FormImports);
+        }
+
+        public ref readonly InstImportBlocks InstImports
+        {
+            [MethodImpl(Inline)]
+            get => ref Load<InstImportBlocks>(XedViewKind.InstImports);
         }
     }
 }

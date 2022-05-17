@@ -24,23 +24,33 @@ namespace Z0
             MemoryFile InstDumpFile()
                 => data(nameof(InstDumpFile), () => XedPaths.InstDumpSource().MemoryMap(true));
 
-            public void Run()
-            {
-                var src = InstDumpFile();
-                var data = BlockImportDatasets.calc(src);
-                var stats = BlockImportDatasets.stats(src);
-                Emit(data.Imports);
-                Emit(stats);
-                EmitBlockDetail(data);
-                Emit(data.LineMap);
+            public InstImportBlocks CalcImports()
+                => CalcImports(InstDumpFile());
 
-                // var datasets = BlockImportDatasets.datasets(src);
-                //var records = CalcRecords(datasets);
-                // var forms = CalcFormDatasets(datasets);
-                // Emit(records);
-                // Emit(stats);
-                // EmitBlockDetail(forms);
-                // Emit(datasets.MappedForms);
+            public InstImportBlocks CalcImports(MemoryFile src)
+                => BlockImportDatasets.calc(src);
+
+            public ReadOnlySpan<LineStats> CalcStats(MemoryFile src)
+                => BlockImportDatasets.stats(src);
+
+            public void EmitStats(ReadOnlySpan<LineStats> src)
+                => Emit(src);
+
+            // public void Run()
+            // {
+            //     var imports = CalcImports(InstDumpFile());
+            //     var stats = BlockImportDatasets.stats(InstDumpFile());
+            //     Emit(imports.Imports);
+            //     Emit(stats);
+            //     EmitBlockDetail(imports);
+            //     Emit(imports.LineMap);
+            // }
+
+            public void Import(InstImportBlocks src)
+            {
+                Emit(src.Imports);
+                EmitBlockDetail(src);
+                Emit(src.LineMap);
             }
 
             void Emit(LineMap<InstBlockLineSpec> src)
@@ -58,13 +68,7 @@ namespace Z0
             void Emit(ReadOnlySpan<InstBlockImport> src)
                 => AppSvc.TableEmit(src, XedPaths.Imports().Table<InstBlockImport>());
 
-            // static Index<InstBlockImport> CalcRecords(BlockImportDatasets src)
-            //     => src.BlockImports.Index().Sort().Resequence();
-
-            static FormImportDatasets CalcFormDatasets(BlockImportDatasets src)
-                => data(nameof(FormImportDatasets), ()=> FormImportDatasets.calc(src));
-
-            void EmitBlockDetail(ImportedBlocks src)
+            void EmitBlockDetail(InstImportBlocks src)
             {
                 var path = XedPaths.Imports().Path("xed.instblocks.detail", FileKind.Txt);
                 var emitter = text.emitter();

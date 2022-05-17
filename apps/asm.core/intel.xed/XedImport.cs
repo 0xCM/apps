@@ -51,6 +51,9 @@ namespace Z0
             );
         }
 
+        public InstImportBlocks CalcInstImports()
+            => BlockImporter.CalcImports();
+
         public CpuIdImporter.Output CalcCpuIdImports()
             => CpuIdImporter.calc();
 
@@ -79,7 +82,7 @@ namespace Z0
             => AppSvc.TableEmit(src, Targets().Table<FormImport>());
 
         public void ImportInstBlocks()
-            => BlockImporter.Run();
+            => BlockImporter.Import(Xed.Views.InstImports);
 
         FS.FilePath ChipMapTarget()
             => Targets().Path(FS.file("xed.chipmap", FS.Csv));

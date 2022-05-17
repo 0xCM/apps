@@ -34,5 +34,7 @@ namespace Z0
         ChipMap,
 
         FormImports,
+
+        InstImports
     }
 }
