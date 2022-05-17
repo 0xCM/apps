@@ -9,7 +9,7 @@ namespace Z0
         [StructLayout(StructLayout,Pack=1), Record(TableId)]
         public record struct IsaImport : ISequential<IsaImport>, IComparable<IsaImport>
         {
-            public const string TableId = "isa.imported";
+            public const string TableId = "xed.isa";
 
             [Render(6)]
             public byte Seq;

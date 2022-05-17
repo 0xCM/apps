@@ -14,8 +14,8 @@ namespace Z0
             var result = Outcome.Success;
             var filter = "llvm.lists";
             var sources = AppDb.LlvmSources().Scoped("tables");
-            var targets = AppDb.LlvmTargets().Scoped("emitted");
-            var dst = targets.Targets("bitvectors");
+            var targets = AppDb.LlvmTargets().Targets("emitted");
+            var dst = targets.OutDir("bitvectors");
             dst.Clear();
             PolyBits.BvEmit(sources, filter, dst);
             return result;

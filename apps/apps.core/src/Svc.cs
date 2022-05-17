@@ -22,7 +22,7 @@ namespace Z0
             => db.Targets("intel");
 
         public static DbTargets SdeTargets(this AppDb db)
-            => db.IntelTargets().Scoped("sde");
+            => db.IntelTargets().Targets("sde");
 
         public static DbTargets LlvmTargets(this AppDb db)
             => db.Targets("llvm");

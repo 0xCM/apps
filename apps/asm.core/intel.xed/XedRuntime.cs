@@ -82,7 +82,7 @@ namespace Z0
 
         void CalcCpuIdImports()
         {
-            var parsed = CpuIdImports.calc();
+            var parsed = Import.CalcCpuIdImports();
             Views.Store(I.CpuIdImport, parsed.CpuIdRecords);
             Views.Store(I.IsaImport, parsed.IsaRecords);
         }
@@ -113,7 +113,7 @@ namespace Z0
                 CalcTypeTables,
                 CalcCpuIdImports,
                 CalcInstDefs,
-                () => Views.Store(I.FormImports, XedRules.FormImports.calc()),
+                () => Views.Store(I.FormImports, Import.CalcFormImports()),
                 () => Views.Store(I.ChipMap, XedRules.CalcChipMap())
                 );
 

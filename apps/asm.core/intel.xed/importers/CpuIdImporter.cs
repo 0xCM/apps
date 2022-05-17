@@ -5,14 +5,15 @@
 namespace Z0
 {
     using static core;
+    using static XedRules;
 
-    partial class XedRules
+    partial class XedImport
     {
-        public class CpuIdImports
+        public class CpuIdImporter
         {
-            public static CpuIdImports.Output calc()
+            public static CpuIdImporter.Output calc()
             {
-                var parser = new CpuIdImports();
+                var parser = new CpuIdImporter();
                 parser.Run(XedPaths.Service.CpuIdSource().ReadLines().Where(text.nonempty));
                 return parser.Parsed;
             }
@@ -118,10 +119,10 @@ namespace Z0
 
             public readonly struct Output
             {
-                readonly CpuIdImports Parser;
+                readonly CpuIdImporter Parser;
 
                 [MethodImpl(Inline)]
-                internal Output(CpuIdImports parser)
+                internal Output(CpuIdImporter parser)
                 {
                     Parser = parser;
                 }

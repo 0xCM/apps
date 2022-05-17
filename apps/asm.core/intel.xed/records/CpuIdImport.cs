@@ -9,7 +9,7 @@ namespace Z0
         [StructLayout(StructLayout,Pack=1),Record(TableId)]
         public record struct CpuIdImport : IComparable<CpuIdImport>, ISequential<CpuIdImport>
         {
-            public const string TableId = "cpuid.imported";
+            public const string TableId = "xed.cpuid";
 
             [Render(6)]
             public ushort Seq;

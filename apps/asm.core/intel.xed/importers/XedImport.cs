@@ -18,6 +18,10 @@ namespace Z0
 
         AppDb AppDb => Service(Wf.AppDb);
 
+        DbTargets Targets() => XedPaths.Imports();
+
+        DbTargets Targets(string scope) => Targets().Targets(scope);
+
         InstBlockImporter BlockImporter => Service(() => new InstBlockImporter(AppSvc));
 
         XedRuntime Xed;
@@ -47,14 +51,20 @@ namespace Z0
             );
         }
 
+        public CpuIdImporter.Output CalcCpuIdImports()
+            => CpuIdImporter.calc();
+
+        public Index<FormImport> CalcFormImports()
+            => FormImporter.calc(XedPaths.DocSource(XedDocKind.FormData));
+
         void EmitBroadcastDefs()
-            => AppSvc.TableEmit(XedOperands.Views.BroadcastDefs, XedPaths.Table<BroadcastDef>());
+            => AppSvc.TableEmit(XedOperands.Views.BroadcastDefs, Targets().Table<BroadcastDef>());
 
         void EmitIsaImports()
-            => AppSvc.TableEmit(Xed.Views.IsaImport, XedPaths.RefTable<IsaImport>());
+            => AppSvc.TableEmit(Xed.Views.IsaImport, Targets().Table<IsaImport>());
 
         void EmitCpuIdImports()
-            => AppSvc.TableEmit(Xed.Views.CpuIdImport, XedPaths.RefTable<CpuIdImport>());
+            => AppSvc.TableEmit(Xed.Views.CpuIdImport, Targets().Table<CpuIdImport>());
 
         public static ref readonly Index<BlockField> BlockFields
         {
@@ -63,15 +73,16 @@ namespace Z0
         }
 
         void EmitFormImports()
-            => AppSvc.TableEmit(Xed.Views.FormImports, XedPaths.FormCatalogPath());
+            => Emit(Xed.Views.FormImports);
 
         public void Emit(ReadOnlySpan<FormImport> src)
-            => AppSvc.TableEmit(src, XedPaths.FormCatalogPath());
+            => AppSvc.TableEmit(src, Targets().Table<FormImport>());
 
         public void ImportInstBlocks()
-        {
-            BlockImporter.Run();
-        }
+            => BlockImporter.Run();
+
+        FS.FilePath ChipMapTarget()
+            => Targets().Path(FS.file("xed.chipmap", FS.Csv));
 
         public void EmitChipMap()
         {
@@ -87,7 +98,7 @@ namespace Z0
                 foreach(var kind in mapped)
                     dst.WriteLine(string.Format(RowFormat, counter++ , code, kind));
             }
-            AppSvc.FileEmit(dst.Emit(),counter,XedPaths.ChipMapTarget());
+            AppSvc.FileEmit(dst.Emit(),counter, ChipMapTarget());
         }
 
         public void EmitIsaForms()
@@ -124,10 +135,13 @@ namespace Z0
             iter(codes, code => EmitIsaForms(map, code), PllExec);
         }
 
-        void EmitIsaForms(ChipMap map, ChipCode code)
+        FS.FilePath IsaTarget(ChipCode chip)
+            => Targets("isaforms").Path(FS.file(string.Format("xed.isa.{0}", chip), FS.Csv));
+
+        void EmitIsaForms(ChipMap map, ChipCode chip)
         {
             var forms = Xed.Views.FormImports;
-            var kinds = map[code].ToHashSet();
+            var kinds = map[chip].ToHashSet();
             var matches = list<FormImport>();
             var count = forms.Count;
             for(var i=0; i<count; i++)
@@ -137,7 +151,7 @@ namespace Z0
                     matches.Add(form);
             }
 
-            AppSvc.TableEmit(matches.ToArray().Sort().Resequence(), XedPaths.Service.IsaFormsPath(code));
+            AppSvc.TableEmit(matches.ToArray().Sort().Resequence(), IsaTarget(chip));
         }
 
         static Index<BlockField> _BlockFields;

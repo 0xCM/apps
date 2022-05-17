@@ -12,6 +12,6 @@ namespace Z0
 
         AppDb AppDb => Service(Wf.AppDb);
 
-        DbTargets Targets => AppDb.Targets().Scoped(DbScope);
+        DbTargets Targets => AppDb.Targets().Targets(DbScope);
     }
 }

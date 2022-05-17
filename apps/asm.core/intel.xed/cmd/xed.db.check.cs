@@ -54,9 +54,9 @@ namespace Z0
 
             var scope = "memdb";
             var suffix = $"{r}x{c}";
-            FileEmit(lDst.Emit(), linear.Count, AppDb.Logs().Scoped(scope).Path($"{scope}.linear.{suffix}", FileKind.Csv));
-            FileEmit(rDst.Emit(), m, AppDb.Logs().Scoped(scope).Path($"{scope}.rows.{suffix}", FileKind.Txt), TextEncodingKind.Asci);
-            FileEmit(cDst.Emit(), m, AppDb.Logs().Scoped(scope).Path($"{scope}.cols.{suffix}", FileKind.Txt), TextEncodingKind.Asci);
+            FileEmit(lDst.Emit(), linear.Count, AppDb.Logs().Targets(scope).Path($"{scope}.linear.{suffix}", FileKind.Csv));
+            FileEmit(rDst.Emit(), m, AppDb.Logs().Targets(scope).Path($"{scope}.rows.{suffix}", FileKind.Txt), TextEncodingKind.Asci);
+            FileEmit(cDst.Emit(), m, AppDb.Logs().Targets(scope).Path($"{scope}.cols.{suffix}", FileKind.Txt), TextEncodingKind.Asci);
         }
 
 

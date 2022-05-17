@@ -26,25 +26,25 @@ namespace Z0
 
         public DbTargets Delete()
         {
-            Targets().Delete();
+            OutDir().Delete();
             return this;
         }
 
         public DbTargets Clear()
         {
-            Targets().Clear();
+            OutDir().Clear();
             return this;
         }
 
         [MethodImpl(Inline)]
-        public DbTargets Scoped(string scope)
-            => new DbTargets(Targets(), scope);
+        public DbTargets Targets(string scope)
+            => new DbTargets(OutDir(), scope);
 
-        public FS.FolderPath Targets()
+        FS.FolderPath OutDir()
             => Root + FS.folder(Scope);
 
-        public FS.FolderPath Targets(string scope)
-            => Targets() + FS.folder(scope);
+        public FS.FolderPath OutDir(string scope)
+            => OutDir() + FS.folder(scope);
 
         public FS.FileName File(string name, FileKind kind)
             => FS.file(name, kind.Ext());
@@ -53,20 +53,23 @@ namespace Z0
             => FS.file(string.Format("{0}.{1}.{2}", Scope, scope, name), kind.Ext());
 
         public FS.FilePath Path(string name, FileKind kind)
-            => Targets() + File(name,kind);
+            => OutDir() + File(name,kind);
+
+        public FS.FilePath Path(FS.FileName file)
+            => OutDir() + file;
 
         public FS.FilePath Path(string scope, string name, FileKind kind)
-            => Targets(scope) + File(scope, name,kind);
+            => OutDir(scope) + File(scope, name,kind);
 
         public FS.FilePath Table<T>()
             where T : struct
-                => Targets() + Tables.filename<T>();
+                => OutDir() + Tables.filename<T>();
 
         public FS.FilePath Table<T>(string prefix)
             where T : struct
-                => Targets() + Tables.filename<T>(prefix);
+                => OutDir() + Tables.filename<T>(prefix);
 
         public static implicit operator FS.FolderPath(DbTargets src)
-            => src.Targets();
+            => src.OutDir();
     }
 }

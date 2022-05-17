@@ -12,7 +12,6 @@ namespace Z0
     {
         class BlockImportDatasets
         {
-
             public static ReadOnlySpan<LineStats> stats(MemoryFile src)
                 => AsciLines.stats(src.View(),400000);
 
@@ -128,6 +127,9 @@ namespace Z0
                             try
                             {
                                 InstParser.parse(value, out import.Pattern);
+                                var fields = InstCells.sort(import.Pattern.Cells);
+                                import.Pattern = new (fields);
+
                             }
                             catch(Exception e)
                             {

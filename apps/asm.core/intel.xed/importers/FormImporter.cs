@@ -7,28 +7,43 @@ namespace Z0
 {
     using static core;
     using static XedModels;
-    using static XedRules;
 
-    partial class XedRules
+    partial class XedImport
     {
-        public readonly struct FormImports
+        public readonly struct FormImporter
         {
             public const byte FormImportFieldCount = 6;
 
             const char FieldDelimiter = Chars.Space;
 
-            public static Index<FormImport> calc()
+            public static Index<FormImport> calc(FS.FilePath path)
             {
-                var src = CalcFormSources();
+                var src = CalcFormSources(path);
                 var count = src.Count;
-                var rows = alloc<FormImport>(count);
-                for(var i=z16; i<count; i++)
-                {
-                    var result = parse(src[i], i, out seek(rows,i));
-                    if(result.Fail)
-                        Errors.Throw(result.Message);
-                }
-                return rows.Sort().Resequence();
+                var dst = alloc<FormImport>(count);
+                parse(src,dst);
+                // for(var i=z16; i<count; i++)
+                //     parse(src[i], i, out seek(rows,i)).Require();
+                return dst.Sort().Resequence();
+            }
+
+            static void parse(ReadOnlySpan<FormSource> src, Span<FormImport> dst)
+            {
+                for(var i=z16; i<src.Length; i++)
+                    parse(src[i], i, out seek(dst,i)).Require();
+            }
+
+            static Outcome parse(in FormSource src, ushort seq, out FormImport dst)
+            {
+                var result = Outcome.Success;
+                result = XedParsers.parse(src.Class, out dst.InstClass);
+                result = DataParser.eparse(src.Extension, out dst.Extension);
+                result = DataParser.eparse(src.Category, out dst.Category);
+                result = XedParsers.parse(src.Form, out dst.InstForm);
+                dst.Seq = (ushort)dst.InstForm.Kind;
+                result = DataParser.eparse(src.IsaSet, out dst.IsaKind);
+                dst.Attributes = XedPatterns.attributes(src.Attributes);
+                return true;
             }
 
             public static ReadOnlySpan<FormImport> LoadImported()
@@ -102,11 +117,9 @@ namespace Z0
                 return result;
             }
 
-
-            static Index<FormSource> CalcFormSources()
+            static Index<FormSource> CalcFormSources(FS.FilePath src)
             {
                 const char CommentMarker = Chars.Hash;
-                var src = XedPaths.Service.DocSource(XedDocKind.FormData);
                 var tableid = Tables.identify<FormSource>();
                 using var reader = src.Utf8Reader();
                 var counter = 0u;
@@ -131,15 +144,15 @@ namespace Z0
                     }
                     else
                     {
-                    var dst = new FormSource();
-                    var outcome = ParseSummary(line, out dst);
-                    if(outcome)
+                        var dst = new FormSource();
+                        var outcome = ParseSummary(line, out dst);
+                        if(outcome)
                             records.Add(dst);
-                    else
-                    {
+                        else
+                        {
                             Errors.Throw(outcome.Message);
                             break;
-                    }
+                        }
                     }
 
                     counter++;
@@ -148,18 +161,6 @@ namespace Z0
                 return records.ToArray();
             }
 
-            static Outcome parse(in FormSource src, ushort seq, out FormImport dst)
-            {
-                var result = Outcome.Success;
-                result = XedParsers.parse(src.Class, out dst.InstClass);
-                result = DataParser.eparse(src.Extension, out dst.Extension);
-                result = DataParser.eparse(src.Category, out dst.Category);
-                result = XedParsers.parse(src.Form, out dst.InstForm);
-                dst.Seq = (ushort)dst.InstForm.Kind;
-                result = DataParser.eparse(src.IsaSet, out dst.IsaKind);
-                dst.Attributes = XedPatterns.attributes(src.Attributes);
-                return true;
-            }
 
             static Outcome ParseSummary(TextLine src, out FormSource dst)
             {

@@ -79,7 +79,7 @@ namespace Z0
                             var ms = MethodCommentSig.from(comment);
                             doc[k] = Markdown.section(k, header(3, ms.Format()), comment.Summary);
                         }
-                        var dst = AppDb.ApiTargets().Scoped("markdown").Path(string.Format("z0.lib.{0}", typename), FileKind.Md);
+                        var dst = AppDb.ApiTargets().Targets("markdown").Path(string.Format("z0.lib.{0}", typename), FileKind.Md);
                         FileEmit(doc.Format(), k, dst);
                     }
 
