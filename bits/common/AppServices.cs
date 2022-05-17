@@ -132,7 +132,7 @@ namespace Z0
         {
             var emitting = EmittingTable<T>(dst);
             var formatter = RecordFormatter.create(typeof(T));
-            using var writer = dst.Emitter(encoding);
+            using var writer = dst.Writer(encoding);
             writer.WriteLine(formatter.FormatHeader());
             for(var i=0; i<rows.Length; i++)
                 writer.WriteLine(formatter.Format(skip(rows,i)));

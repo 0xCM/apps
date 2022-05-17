@@ -13,7 +13,7 @@ namespace Z0
             => dst.Writer(append).Emitter();
 
         public static ITextEmitter Emitter(this FS.FilePath dst, TextEncodingKind encoding, bool append = false)
-            => dst.Writer(encoding,append).Emitter();
+            => dst.Writer(encoding, append).Emitter();
 
         public static ITextEmitter Emitter(this FS.FilePath dst, Encoding encoding, bool append = false)
             => dst.Writer(encoding, append).Emitter();

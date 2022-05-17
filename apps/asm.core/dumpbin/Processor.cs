@@ -72,7 +72,7 @@ namespace Z0
                 Span<char> buffer = alloc<char>(max);
                 var pos = 0u;
                 var length = 0u;
-                var counter = 0u;
+                var offset = 0u;
                 var number = 0u;
                 while(pos++ < size -1)
                 {
@@ -80,12 +80,13 @@ namespace Z0
                     ref readonly var a1 = ref skip(src, pos + 1);
                     if(SQ.eol(a0,a1))
                     {
-                        var line = AsciLines.asci(src, number++, counter, length + 1);
+                        var line = AsciLines.line(src, offset, length + 1);
+                        number++;
                         if(!SQ.contains(line.Codes, C.Colon) || number < 4)
                         {
                             pos++;
                             length = 0;
-                            counter = pos;
+                            offset = pos;
                             continue;
                         }
 
@@ -99,7 +100,7 @@ namespace Z0
                         writer.WriteLine(DumpBinDisasm.format(content,buffer));
                         pos++;
                         length = 0;
-                        counter = pos;
+                        offset = pos;
                     }
                     else
                         length++;

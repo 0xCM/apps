@@ -11,81 +11,8 @@ namespace Z0
     using C = AsciCode;
 
     [ApiHost]
-    public class AsciLines
+    public partial class AsciLines
     {
-        /// <summary>
-        /// Reads a <see cref='AsciLine{bytee}'/> from the data source
-        /// </summary>
-        /// <param name="src">The data source</param>
-        /// <param name="number">The current line count</param>
-        /// <param name="i">The source-relative offset</param>
-        /// <param name="dst">The target</param>
-        [Op]
-        public static uint line(string src, ref uint number, ref uint i, out AsciLine<byte> dst)
-        {
-            var i0 = i;
-            dst = AsciLine<byte>.Empty;
-            var max = src.Length;
-            var length = 0u;
-            var data = span(src);
-            if(empty(src,i))
-            {
-                i+=2;
-            }
-            else
-            {
-                while(i++ < max - 1)
-                {
-                    if(SQ.eol(skip(data, i), skip(data, i + 1)))
-                    {
-                        length = i - i0;
-                        dst = line(++number, text.asci(text.slice(src, i0, length)).Storage);
-                        i+=2;
-                        break;
-                    }
-                }
-            }
-            return length;
-        }
-
-        [MethodImpl(Inline)]
-        public static AsciLine<T> line<T>(uint number, T[] src)
-            where T : unmanaged
-                => new AsciLine<T>(number, src);
-
-        /// <summary>
-        /// Reads a <see cref='AsciLine'/> from the data source
-        /// </summary>
-        /// <param name="src">The data source</param>
-        /// <param name="counter">The current line count</param>
-        /// <param name="pos">The source-relative offset</param>
-        /// <param name="dst">The target</param>
-        [Op]
-        public static uint line(ReadOnlySpan<AsciCode> src, ref uint number, ref uint i, out AsciLine dst)
-        {
-            var i0 = i;
-            dst = default;
-            var max = src.Length;
-            var length = 0u;
-            while(i++ < max - 1)
-            {
-                if(SQ.eol(skip(src, i), skip(src, i + 1)))
-                {
-                    length = i - i0;
-                    dst = new AsciLine(i0, slice(src, i0, length));
-                    ++number;
-                    i+=2;
-                    break;
-                }
-            }
-
-            return length;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static AsciLine asci(ReadOnlySpan<byte> src, uint number, uint offset, uint length)
-            => new AsciLine(offset, recover<AsciSymbol>(slice(src, offset, length)));
-
         [Op]
         public static string format(in AsciLine src)
         {
@@ -146,6 +73,48 @@ namespace Z0
         public static bool empty(ReadOnlySpan<AsciCode> src, uint offset)
             => empty(recover<AsciCode,byte>(src), offset);
 
+        /// <summary>
+        /// Computes the offset, in bytes, of each line and its length
+        /// </summary>
+        /// <param name="src"></param>
+        public static ReadOnlySpan<LineStats> stats(MemoryFile src, uint buffer = 0)
+        {
+            var dst = list<LineStats>(buffer);
+            var data = src.View();
+            var last = 0u;
+            var counter = 0u;
+            for(var i=0u; i<data.Length; i++)
+            {
+                if(SQ.nl(skip(data,i)))
+                {
+                    var offset = i;
+                    var length = (byte)(offset - last);
+                    dst.Add(new LineStats(counter++, offset, length));
+                    last = offset;
+                }
+            }
+
+            return dst.ViewDeposited();
+        }
+
+        public static ReadOnlySpan<LineStats> stats(ReadOnlySpan<byte> data, uint buffer = 0)
+        {
+            var dst = list<LineStats>(buffer);
+            var last = 0u;
+            var counter = 0u;
+            for(var i=0u; i<data.Length; i++)
+            {
+                if(SQ.nl(skip(data,i)))
+                {
+                    var offset = i;
+                    var length = (byte)(offset - last);
+                    dst.Add(new LineStats(counter++, offset, length));
+                    last = offset;
+                }
+            }
+
+            return dst.ViewDeposited();
+        }
 
         public static ReadOnlySpan<string> lines(MemoryFile src)
         {

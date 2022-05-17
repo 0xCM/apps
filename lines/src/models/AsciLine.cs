@@ -14,13 +14,13 @@ namespace Z0
         readonly ReadOnlySpan<byte> Data;
 
         [MethodImpl(Inline)]
-        public AsciLine(uint offset, ReadOnlySpan<AsciSymbol> src)
+        public AsciLine(ReadOnlySpan<AsciSymbol> src)
         {
             Data = recover<AsciSymbol,byte>(src);
         }
 
         [MethodImpl(Inline)]
-        public AsciLine(uint offset, ReadOnlySpan<AsciCode> src)
+        public AsciLine(ReadOnlySpan<AsciCode> src)
         {
             Data = recover<AsciCode,byte>(src);
         }

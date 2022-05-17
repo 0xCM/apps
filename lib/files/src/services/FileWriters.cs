@@ -7,7 +7,6 @@ namespace Z0
     using System.IO;
     using System.Text;
 
-
     public readonly struct FileWriters
     {
         public static StreamWriter writer(FS.FilePath dst, FileWriteMode mode, Encoding encoding)

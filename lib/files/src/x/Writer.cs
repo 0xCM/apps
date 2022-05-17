@@ -28,7 +28,7 @@ namespace Z0
         [Op]
         public static StreamWriter Writer(this FS.FilePath dst, TextEncodingKind encoding, bool append = false)
             => encoding switch {
-                TextEncodingKind.Asci => FileWriters.asci(dst,append ? FileWriteMode.Append : FileWriteMode.Overwrite),
+                TextEncodingKind.Asci => FileWriters.asci(dst, append ? FileWriteMode.Append : FileWriteMode.Overwrite),
                 TextEncodingKind.Utf8 => FileWriters.utf8(dst, append ? FileWriteMode.Append : FileWriteMode.Overwrite),
                 TextEncodingKind.Unicode => FileWriters.unicode(dst, append ? FileWriteMode.Append : FileWriteMode.Overwrite),
                 _ => FileWriters.unicode(dst, append ? FileWriteMode.Append : FileWriteMode.Overwrite)
