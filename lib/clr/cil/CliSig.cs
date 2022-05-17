@@ -4,11 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Msil;
+
     /// <summary>
     /// Defines a cli signature
     /// </summary>
     public readonly struct CliSig : IComparable<CliSig>, IEquatable<CliSig>
     {
+
+        [Op]
+        public static string format(CliSig src)
+            => DefaultMsilFormatProvider.Instance.SigByteArrayToString(src);
+
         public BinaryCode Data {get;}
 
         [MethodImpl(Inline)]
@@ -34,7 +41,7 @@ namespace Z0
         }
 
         public string Format()
-            => Cil.format(this);
+            => format(this);
 
         public override string ToString()
             => Format();

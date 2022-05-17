@@ -8,9 +8,9 @@ namespace Z0
 
     public readonly struct CliBlobHeap : ICliHeap<CliBlobHeap>
     {
-        public MemoryAddress BaseAddress {get;}
+        public readonly MemoryAddress BaseAddress {get;}
 
-        public ByteSize Size {get;}
+        public readonly ByteSize Size {get;}
 
         [MethodImpl(Inline)]
         public CliBlobHeap(MemoryAddress @base, ByteSize size)

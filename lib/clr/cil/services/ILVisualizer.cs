@@ -5,13 +5,10 @@
 namespace System.Reflection.Metadata
 {
     using System.Collections.Immutable;
-    using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
     using System.Text;
     using System.Reflection.Emit;
-    using System.Reflection;
     using System.Reflection.Metadata.Ecma335;
 
     public class ILVisualizer

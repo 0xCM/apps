@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection.Metadata;
-
     using static core;
 
     public sealed class MsilPipe : AppService<MsilPipe>
@@ -25,7 +22,7 @@ namespace Z0
 
         public MsilPipe()
         {
-            IlViz = Cil.visualizer();
+            IlViz = ILVisualizer.service();
         }
 
         public Index<MsilCapture> LoadCaptured()

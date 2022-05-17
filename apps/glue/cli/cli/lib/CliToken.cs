@@ -4,18 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
     using System.Reflection.Metadata;
     using System.Reflection.Metadata.Ecma335;
-
-    using static Root;
 
     /// <summary>
     /// Identifies a metadata element
     /// </summary>
-    [ApiHost]
+    [ApiComplete]
     public readonly struct CliToken : ITextual, IEquatable<CliToken>, INullity, IComparable<CliToken>
     {
         readonly uint Data;
