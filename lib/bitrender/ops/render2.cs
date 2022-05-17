@@ -19,9 +19,6 @@ namespace Z0
             return i - i0;
         }
 
-        [MethodImpl(Inline), Op]
-        public static uint render(N2 n, byte src, ref uint i, Span<char> dst)
-            => render2(src, ref i,dst);
 
         [MethodImpl(Inline), Op]
         public static ref asci2 render2(byte src, out asci2 dst)
@@ -51,15 +48,6 @@ namespace Z0
                 bitchar(src, 0)
             );
             return ref dst;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static uint render(N2 n, byte src, ref uint i, Span<C> dst)
-        {
-            var i0  = i;
-            seek(dst, i++) = code(src, 1);
-            seek(dst, i++) = code(src, 0);
-            return i - i0;
         }
 
         [MethodImpl(Inline), Op]

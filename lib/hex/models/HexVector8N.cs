@@ -4,19 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
     /// Defines a natural sequence of 8-bit cells
     /// </summary>
-    [DataType("vhex<n:{0},w:8>")]
     public readonly struct HexVector8<N>
         where N : unmanaged, ITypeNat
     {
+        static N count => default;
+
         readonly Index<Hex8> Data;
 
         [MethodImpl(Inline)]
@@ -32,7 +29,7 @@ namespace Z0
         public static uint CellCount
         {
             [MethodImpl(Inline)]
-            get => (uint)NatValues.value<N>();
+            get => (uint)count.NatValue;
         }
 
         public static ByteSize VectorSize
@@ -67,7 +64,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public uint Bitstring(uint offset, Span<char> dst)
-            => HexVector.bitstring<N>(this, offset, dst);
+            => HexVector.bitstring(this, offset, dst, count);
 
         public string Format()
             => string.Format("<{0}>", Bytes.FormatHex());

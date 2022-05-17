@@ -24,23 +24,6 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static uint render(N6 n, byte src, ref uint i, Span<char> dst)
-            => render6(src, ref i,dst);
-
-        [MethodImpl(Inline), Op]
-        public static uint render(N6 n, byte src, ref uint i, Span<C> dst)
-        {
-            var i0  = i;
-            seek(dst, i++) = code(src, 5);
-            seek(dst, i++) = code(src, 4);
-            seek(dst, i++) = code(src, 3);
-            seek(dst, i++) = code(src, 2);
-            seek(dst, i++) = code(src, 1);
-            seek(dst, i++) = code(src, 0);
-            return i - i0;
-        }
-
-        [MethodImpl(Inline), Op]
         public static uint render6(byte src, ref uint i, Span<C> dst, N6 n = default)
             => render(n, src, ref i, dst);
     }

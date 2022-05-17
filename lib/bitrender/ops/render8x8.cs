@@ -46,11 +46,11 @@ namespace Z0
             return i - i0;
         }
 
-        public static uint render8x8<N>(ReadOnlySpan<byte> src, uint offset, Span<char> dst)
+        public static uint render8x8<N>(ReadOnlySpan<byte> src, uint offset, Span<char> dst, N k = default)
             where N : unmanaged, ITypeNat
         {
             var counter = 0u;
-            var count = (int)value<N>();
+            var count = (int)k.NatValue;
             seek(dst, counter + offset) = Chars.Lt;
             counter++;
             for(var i=0; i<count; i++)

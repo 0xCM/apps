@@ -46,8 +46,8 @@ namespace Z0
         /// <param name="src">The bit source</param>
         /// <param name="index">The cell-relative bit index from [0,7] </param>
         [MethodImpl(Inline), Op]
-        public static byte pack8x1(ReadOnlySpan<byte> src, byte index = 0)
-            => (byte)pack16x1(vscalar(w128,first(src)),index);
+        public static byte pack8x1(ReadOnlySpan<byte> src)
+            => (byte)pack16x1(cpu.v8u(vscalar(w128,@as<ulong>(src))),0);
 
         /// <summary>
         /// Packs 16 1-bit values taken from an index-identified bit of each source byte
@@ -55,8 +55,8 @@ namespace Z0
         /// <param name="src">The bit source</param>
         /// <param name="index">The cell-relative bit index from [0,7] </param>
         [MethodImpl(Inline), Op]
-        public static ushort pack16x1(ReadOnlySpan<byte> src, byte index = 0)
-            => pack16x1(vload(w128,src),index);
+        public static ushort pack16x1(Cell128 src, byte index)
+            => pack16x1(vload(w128,src.Bytes), index);
 
         /// <summary>
         /// Packs 32 1-bit values taken from an index-identified bit of each source byte
@@ -64,7 +64,7 @@ namespace Z0
         /// <param name="src">The bit source</param>
         /// <param name="index">The cell-relative bit index from [0,7] </param>
         [MethodImpl(Inline), Op]
-        public static uint pack32x1(ReadOnlySpan<byte> src, byte index = 0)
+        public static uint pack32x1(ReadOnlySpan<byte> src, byte index)
             => pack32x1(vload(w256,src),index);
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Z0
         /// <param name="src">The bit source</param>
         /// <param name="index">The cell-relative bit index from [0,7] </param>
         [MethodImpl(Inline), Op]
-        public static ulong pack64x1(ReadOnlySpan<byte> src, byte index = 0)
+        public static ulong pack64x1(ReadOnlySpan<byte> src, byte index)
         {
             var a0 = pack32x1(src, index);
             var b0 = pack32x1(slice(src,16), index);
@@ -117,11 +117,11 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        static ushort pack16x1(Vector128<byte> src, byte index = 0)
+        static ushort pack16x1(Vector128<byte> src, byte index)
             => cpu.vmovemask(src,index);
 
         [MethodImpl(Inline), Op]
-        static uint pack32x1(Vector256<byte> src, byte index = 0)
+        static uint pack32x1(Vector256<byte> src, byte index)
             => cpu.vmovemask(src,index);
     }
 }

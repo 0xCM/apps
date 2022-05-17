@@ -52,7 +52,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static BitChar from(bit src)
-            => new BitChar(src.State ? BitCharKind.On : BitCharKind.Off);
+            => new BitChar(src ? BitCharKind.On : BitCharKind.Off);
 
         [MethodImpl(Inline), Op]
         public static char render(BitChar src)

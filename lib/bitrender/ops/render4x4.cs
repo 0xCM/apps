@@ -19,12 +19,13 @@ namespace Z0
             var k=0u;
             for(var i=0; i<size; i++)
             {
-                ref readonly var b = ref skip(src,j--);
+                ref readonly var b = ref skip(src, j--);
                 if(i != 0)
-                    k+= separate(k, sep, dst);
-                render4(hi(b), ref k, dst);
+                    k += separate(k, sep, dst);
+
+                render(n4,hi(b), ref k, dst);
                 k+= separate(k, sep, dst);
-                render4(lo(b), ref k, dst);
+                render(n4, lo(b), ref k, dst);
             }
             return k;
         }
@@ -37,14 +38,18 @@ namespace Z0
         public static ReadOnlySpan<char> render4x4(char sep, uint n, ReadOnlySpan<byte> data, Span<char> dst)
         {
             var count = render4x4(sep, data, dst);
-            var k = n + (n/4) - 1;
-            var m = count - k;
-            return slice(dst,m, k);
+            var width = n + (n/4) - 1;
+            var offset = count - width;
+            return slice(dst, offset, width);
         }
 
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<char> render4x4<T>(char sep, uint n, in T src, Span<char> dst)
             where T : unmanaged
                 => render4x4(sep, n, bytes(src), dst);
+
+        [MethodImpl(Inline), Op]
+        public static uint render4x4(ReadOnlySpan<byte> src, Span<C> dst, C sep = C.Space)
+            => render(n4,n4, src,dst, sep);
     }
 }
