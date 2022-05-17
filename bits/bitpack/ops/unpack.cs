@@ -8,6 +8,31 @@ namespace Z0
 
     partial struct BitPack
     {
+        public static Span<bit> unpack<T,B>(T src, B dst)
+            where T : unmanaged, IBitNumber
+            where B : unmanaged, IStorageBlock<B>
+        {
+            var buffer = recover<bit>(dst.Bytes);
+            unpack(src, buffer);
+            return slice(buffer, 0, src.Width);
+        }
+
+
+        [MethodImpl(Inline)]
+        static void unpack<T>(T src, Span<bit> dst)
+            where T : unmanaged, IBitNumber
+        {
+            var width = src.Width;
+            if(size<T>() == 8)
+                Bitfields.unpack8x1(u8(src), dst);
+            else if(size<T>() <= 16)
+                Bitfields.unpack16x1(u16(src), dst);
+            else if(size<T>() <= 32)
+                Bitfields.unpack64x1(u32(src), dst);
+            else
+                Bitfields.unpack64x1(u64(src), dst);
+        }
+
         [MethodImpl(Inline), Unpack, Closures(Closure)]
         public static uint unpack<T>(ReadOnlySpan<T> src, Span<bit> dst)
             where T : unmanaged

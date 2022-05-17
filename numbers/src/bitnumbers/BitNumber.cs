@@ -234,30 +234,6 @@ namespace Z0
             return dst;
         }
 
-        [MethodImpl(Inline)]
-        static void unpack<T>(T src, Span<bit> dst)
-            where T : unmanaged, IBitNumber
-        {
-            var width = src.Width;
-            if(size<T>() == 8)
-                Bitfields.unpack8x1(u8(src), dst);
-            else if(size<T>() <= 16)
-                Bitfields.unpack16x1(u16(src), dst);
-            else if(size<T>() <= 32)
-                Bitfields.unpack64x1(u32(src), dst);
-            else
-                Bitfields.unpack64x1(u64(src), dst);
-        }
-
-        public static Span<bit> unpack<T,B>(T src, B dst)
-            where T : unmanaged, IBitNumber
-            where B : unmanaged, IStorageBlock<B>
-        {
-            var buffer = recover<bit>(dst.Bytes);
-            unpack(src, buffer);
-            return slice(buffer, 0, src.Width);
-        }
-
         const byte WidthOffset = 56;
 
         const ulong WidthMask = 0xFF000000_00000000;
@@ -386,9 +362,9 @@ namespace Z0
             get => (byte)Data;
         }
 
-        public void Bits<B>(B dst)
-            where B : unmanaged, IStorageBlock<B>
-                => BitNumber.unpack(this,dst);
+        // public void Bits<B>(B dst)
+        //     where B : unmanaged, IStorageBlock<B>
+        //         => BitNumber.unpack(this,dst);
 
         public bool IsZero
         {

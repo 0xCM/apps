@@ -15,7 +15,6 @@ namespace Z0
 
         const byte SegWidth = 5;
 
-
         public static Char5Seq seg<S>(in S src, byte offset)
             where S : struct, IAsciSeq<S>
         {
