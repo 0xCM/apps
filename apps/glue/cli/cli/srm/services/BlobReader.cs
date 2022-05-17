@@ -617,7 +617,7 @@ namespace Z0
                 if (value == InvalidCompressedInteger || tokenType == 0)
                     return default(EntityHandle);
 
-                return Clr.handle(tokenType | (value >> 2));
+                return CliHandleData.handle(tokenType | (value >> 2));
             }
 
 

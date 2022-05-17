@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.Reflection.Metadata;
+
     using static core;
 
     [StructLayout(LayoutKind.Sequential)]

@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+    using System.Reflection.Metadata;
 
     public readonly struct CliBlobIndex : ICliHeapKey<CliBlobIndex>
     {
