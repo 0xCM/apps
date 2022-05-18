@@ -25,7 +25,7 @@ namespace Z0
         }
 
         [Op]
-        public void CheckBitfield()
+        public void Exec()
         {
             var segs = array(
                 PolyBits.seg(BF_A.Seg0, 0, 1, Bitfields.mask(Bitfields.segwidth(0,1), 0)),

@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-
     using static core;
 
     public readonly struct Checkers
@@ -17,7 +14,7 @@ namespace Z0
         public static ConstLookup<Identifier,ICheckService> discover(IWfRuntime wf, params Assembly[] src)
         {
             var dst = list<ICheckService>();
-            foreach(var type in Checkers.types(src))
+            foreach(var type in types(src))
             {
                 var factories = type.StaticMethods().Where(x => x.Name == "create");
                 if(factories.Length == 1)

@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-
     [Checker]
     public abstract class Checker<T> : AppService<T>, ICheckService
         where T : Checker<T>, new()

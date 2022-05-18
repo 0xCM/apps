@@ -23,7 +23,6 @@ namespace Z0
         {
             Targets.Delete();
             BitCheckers.run();
-            //Classifiers.Checks(Wf).Run();
             var n = n8;
             var count = Numbers.count(n);
             var convert = BitConverters.converter(n);
