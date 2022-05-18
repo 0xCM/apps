@@ -11,7 +11,7 @@ namespace Z0
         void RecodeBlocks(in IProjectWs project, in AsmCodeBlocks src)
         {
             const string intel_syntax = ".intel_syntax noprefix";
-            var asmdir = Projects.RecodedSrcDir(project);
+            var asmdir = RecodedSrcDir(project);
             var asmpath = asmdir + FS.file(src.OriginName.Format().Remove(string.Format(".{0}", FileKind.ObjAsm.Ext().Format())), FileKind.Asm.Ext());
             var emitting = EmittingFile(asmpath);
             var counter = 0u;

@@ -12,41 +12,19 @@ namespace Z0
     {
         XedRuntime Xed;
 
-        XedDocs XedDocs => Xed.Docs;
+        AsmCmdRt CmdRt;
 
-        XedPaths XedPaths => Xed.Paths;
+        XedDocs XedDocs => CmdRt.XedDocs;
 
-        XedRules Rules => Xed.Rules;
+        XedPaths XedPaths => CmdRt.XedPaths;
 
-        XedDisasmSvc Disasm => Xed.Disasm;
+        XedRules Rules => CmdRt.XedRules;
 
-        XedImport XedImport => Xed.Import;
+        XedDisasmSvc Disasm => CmdRt.XedDisasm;
 
-        XedDb XedDb => Xed.XedDb;
+        XedImport XedImport => CmdRt.XedImport;
 
-        ref readonly RuleTables RuleTables
-            => ref Xed.Views.RuleTables;
-
-        ref readonly Index<InstPattern> Patterns
-            => ref Xed.Views.Patterns;
-
-        ref readonly CellTables CellTables
-            => ref Xed.Views.CellTables;
-
-        ref readonly Index<RuleExpr> RuleExpr
-            => ref Xed.Views.RuleExpr;
-
-        public AsmCoreCmd With(XedRuntime xed)
-        {
-            Xed = xed;
-            return this;
-        }
-
-        protected override AppDb AppDb
-            => Xed.AppDb;
-
-        protected override WsProjects Projects
-            => Xed.Projects;
+        XedDb XedDb => CmdRt.XedDb;
 
         CsLang CsLang => Service(Wf.CsLang);
 
@@ -76,6 +54,37 @@ namespace Z0
 
         AsmRegSets Regs => Service(AsmRegSets.create);
 
+        ref readonly RuleTables RuleTables
+            => ref Xed.Views.RuleTables;
+
+        ref readonly Index<InstPattern> Patterns
+            => ref Xed.Views.Patterns;
+
+        ref readonly CellTables CellTables
+            => ref Xed.Views.CellTables;
+
+        ref readonly Index<RuleExpr> RuleExpr
+            => ref Xed.Views.RuleExpr;
+
+        public AsmCoreCmd With(XedRuntime xed)
+        {
+            Xed = xed;
+            return this;
+        }
+
+        public AsmCoreCmd With(AsmCmdRt runtime)
+        {
+            CmdRt = runtime;
+            Xed = runtime.Xed;
+            return this;
+        }
+
+        protected override AppDb AppDb
+            => Xed.AppDb;
+
+        protected override WsProjects Projects
+            => Xed.Projects;
+
         protected override void Initialized()
         {
             LoadProject("canonical");
@@ -86,6 +95,5 @@ namespace Z0
                 this,
                 wf.PbCmd()
             };
-
     }
 }

@@ -8,6 +8,6 @@ namespace Z0
     {
         [CmdOp("project/build/asm")]
         Outcome BuildMc(CmdArgs args)
-            => Projects.BuildAsm(Project());
+            => ProjectData.BuildAsm(Project());
    }
 }

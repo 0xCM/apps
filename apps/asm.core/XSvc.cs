@@ -44,9 +44,6 @@ namespace Z0
         public static XedTool XedTool(this IWfRuntime wf)
             => Z0.XedTool.create(wf);
 
-        public static XedTables XedTables(this IWfRuntime wf)
-            => Z0.XedTables.create(wf);
-
         [Op]
         public static XedPaths XedPaths(this IWfRuntime wf)
             => Z0.XedPaths.Service;
@@ -54,18 +51,6 @@ namespace Z0
         [Op]
         public static ApiResPackEmitter ResPackEmitter(this IWfRuntime wf)
             => Z0.ApiResPackEmitter.create(wf);
-
-        [Op]
-        public static XedPatterns XedPatterns(this IWfRuntime wf)
-            => Z0.XedPatterns.create(wf);
-
-        [Op]
-        public static XedForms XedForms(this IWfRuntime wf)
-            => Z0.XedForms.create(wf);
-
-        [Op]
-        public static AsmCoreCmd AsmCoreCmd(this IWfRuntime wf)
-            => Z0.AsmCoreCmd.create(wf);
 
         [Op]
         public static PbCmd PbCmd(this IWfRuntime wf)

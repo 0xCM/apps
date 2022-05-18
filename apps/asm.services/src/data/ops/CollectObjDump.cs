@@ -14,10 +14,10 @@ namespace Z0
         {
             var rows = ConsolidateObjDumpRows(context);
             var blocks = CalcObjBlocks(rows);
-            TableEmit(blocks.View, ObjBlock.RenderWidths, Projects.ObjBlockPath(context.Project));
+            TableEmit(blocks.View, ObjBlock.RenderWidths, ObjBlockPath(context.Project));
             using var alloc = Alloc.allocate();
             var asmblocks = EmitAsmCodeBlocks(context, alloc);
-            Projects.RecodedSrcDir(context.Project).Clear();
+            RecodedSrcDir(context.Project).Clear();
             for(var i=0; i<asmblocks.Count; i++)
             {
                 ref readonly var block = ref asmblocks[i];
@@ -70,7 +70,7 @@ namespace Z0
 
         public Index<ObjBlock> LoadObjBlocks(IProjectWs project)
         {
-            var path = Projects.ObjBlockPath(project);
+            var path = ObjBlockPath(project);
             var lines = path.ReadLines(true);
             var reader = lines.Reader();
             reader.Next();
@@ -95,7 +95,7 @@ namespace Z0
 
         Index<AsmCodeBlocks> EmitAsmCodeBlocks(WsContext context, Alloc alloc)
         {
-            Projects.AsmCodeDir(context.Project).Clear();
+            AsmCodeDir(context.Project).Clear();
             var files = context.Catalog.Entries(FileKind.ObjAsm);
             var count = files.Count;
             var seq = 0u;
@@ -109,7 +109,7 @@ namespace Z0
 
                 var blocks = AsmObjects.DistillBlocks(context, file, ref seq, records, alloc);
                 dst.Add(blocks);
-                EmitAsmCodeBlocks(context, blocks, Projects.AsmCodePath(context.Project, file.Path.FileName.Format()));
+                EmitAsmCodeBlocks(context, blocks, AsmCodePath(context.Project, file.Path.FileName.Format()));
             }
             return dst.ToArray();
         }

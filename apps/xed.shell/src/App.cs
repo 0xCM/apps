@@ -7,33 +7,20 @@ namespace Z0
     [Free]
     sealed class App : WfApp<App>
     {
-        IAppCmdService CmdService;
-
-        XedRuntime XedRt;
+        AsmCmdRt CmdRt;
 
         protected override void Initialized()
         {
-            var commands = AsmCoreCmd.create(Wf);
-            XedRt = XedRuntime.create(Wf);
-            commands.With(XedRt);
-            XedRt.Start();
-            CmdService = commands;
-        }
-
-        public XedRuntime Xed
-        {
-            [MethodImpl(Inline)]
-            get => XedRt;
+            CmdRt = AsmCmdRt.runtime(Wf);
         }
 
         protected override void Disposing()
         {
-            CmdService?.Dispose();
-            XedRt?.Dispose();
+            CmdRt?.Dispose();
         }
 
         protected override void Run()
-            => CmdService.Run();
+            => CmdRt.Run();
 
         public static void Main(params string[] args)
         {

@@ -64,6 +64,8 @@ namespace Z0
 
         XedViews _Views;
 
+        AsmCmdRt CmdRt;
+
         public ref readonly XedViews Views
         {
             [MethodImpl(Inline)]
@@ -80,6 +82,11 @@ namespace Z0
             _Alloc = Z0.Alloc.allocate();
         }
 
+        public XedRuntime With(AsmCmdRt runtime)
+        {
+            CmdRt = runtime;
+            return this;
+        }
         void CalcCpuIdImports()
         {
             var parsed = Import.CalcCpuIdImports();

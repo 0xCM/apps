@@ -24,7 +24,6 @@ namespace Z0
         protected override void Run()
             => CmdService.Run();
 
-
         public static void Main(params string[] args)
         {
             using var wf = WfAppLoader.load();

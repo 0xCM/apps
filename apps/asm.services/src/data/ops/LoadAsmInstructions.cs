@@ -13,7 +13,7 @@ namespace Z0
         public Index<AsmInstructionRow> LoadAsmInstructions(IProjectWs project)
         {
             const byte FieldCount = AsmInstructionRow.FieldCount;
-            var src = Projects.AsmInstructionTable(project);
+            var src = AsmInstructionTable(project);
             var lines = slice(src.ReadNumberedLines().View,1);
             var count = lines.Length;
             var buffer = alloc<AsmInstructionRow>(count);

@@ -14,7 +14,7 @@ namespace Z0
         {
             var project = context.Project;
             var logs = project.OutFiles(FileTypes.ext(FileKind.SynAsmLog)).View;
-            var dst = Projects.AsmSyntaxTable(project);
+            var dst = AsmSyntaxTable(project);
             var count = logs.Length;
             var buffer = list<AsmSyntaxRow>();
             var seq = 0u;

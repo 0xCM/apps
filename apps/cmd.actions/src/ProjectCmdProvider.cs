@@ -5,41 +5,38 @@
 namespace Z0
 {
     using Asm;
-    using llvm;
 
     public partial class ProjectCmdProvider : AppCmdProvider<ProjectCmdProvider>, IProjectProvider
     {
+        ICmdRunner Commands;
+
+        AsmCmdRt AsmRt;
+
         public static ProjectCmdProvider inject(ICmdRunner src, ProjectCmdProvider dst)
             => dst.With(src);
 
-        AppDb AppDb => Service(Wf.AppDb);
+        public static ProjectCmdProvider inject(AsmCmdRt src, ProjectCmdProvider dst)
+            => dst.With(src);
 
-        public ProjectCmdProvider()
-        {
-
-        }
-
-        XedDisasmSvc XedDisasm => Service(Wf.XedDisasm);
-
-        ProjectDataServices ProjectData => Service(Wf.ProjectData);
+        ProjectDataServices ProjectData => Service(() => Wf.ProjectData().With(AsmRt));
 
         WsProjects Projects => Service(Wf.WsProjects);
 
-        LlvmMcSvc LlvmMc => Service(Wf.LlvmMc);
-
-        LlvmObjDumpSvc LlvmObjDump => Service(Wf.LlvmObjDump);
+        AsmRegSets Regs => Service(AsmRegSets.create);
 
         DumpBin DumpBin => Service(Wf.DumpBin);
 
         CoffServices CoffServices => Service(Wf.CoffServices);
 
-        IntelSdm Sdm => Service(Wf.IntelSdm);
-
         IntelIntrinsicSvc IntelIntrinsics => Service(Wf.IntelIntrinsics);
 
         AsmFlowCommands AsmFlowCommands => Service(Wf.AsmFlowCommands);
 
-        ICmdRunner Commands;
+        public ProjectCmdProvider With(AsmCmdRt rt)
+        {
+            AsmRt = rt;
+            return this;
+        }
 
         public ProjectCmdProvider With(ICmdRunner runner)
         {
@@ -118,7 +115,5 @@ namespace Z0
             _Project = Ws.Project(id);
             return Project();
         }
-
-        AsmRegSets Regs => Service(AsmRegSets.create);
     }
 }

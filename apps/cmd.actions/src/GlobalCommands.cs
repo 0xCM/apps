@@ -93,16 +93,16 @@ namespace Z0
         public void RunJobs(string match)
             => runJobs(match);
 
-        // static ProjectCmdProvider inject(ICmdRunner src, ProjectCmdProvider dst)
-        //     => dst.With(src);
-
         protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
         {
-            var projects = ProjectCmdProvider.inject((ICmdRunner)this, wf.ProjectCommands());
+            var cmd = wf.ProjectCommands();
+            var asmrt = AsmCmdRt.runtime(wf, false);
+            ProjectCmdProvider.inject(asmrt, cmd);
+            var projects = ProjectCmdProvider.inject((ICmdRunner)this, cmd);
             return array<ICmdProvider>(
                 this,
                 projects,
-                wf.AsmCoreCmd(),
+                asmrt.Commands,
                 wf.PbCmd(),
                 wf.ApiCommands(),
                 wf.LlvmCommands(),

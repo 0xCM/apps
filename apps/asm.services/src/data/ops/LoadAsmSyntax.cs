@@ -11,7 +11,7 @@ namespace Z0
     partial class ProjectDataServices
     {
         public Index<AsmSyntaxRow> LoadAsmSyntax(IProjectWs project)
-            => LoadSyntaxRows(Projects.AsmSyntaxTable(project));
+            => LoadSyntaxRows(AsmSyntaxTable(project));
 
         Index<AsmSyntaxRow> LoadSyntaxRows(FS.FilePath src)
         {

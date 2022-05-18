@@ -44,7 +44,7 @@ namespace Z0
             }
 
             var records = buffer.ToArray();
-            TableEmit(@readonly(records), AsmInstructionRow.RenderWidths, Projects.AsmInstructionTable(project));
+            TableEmit(@readonly(records), AsmInstructionRow.RenderWidths, AsmInstructionTable(project));
             return records;
         }
     }

@@ -8,18 +8,18 @@ namespace Z0
     {
         [CmdOp("project/build/c")]
         Outcome BuildC(CmdArgs args)
-            => Projects.BuildC(Project());
+            => ProjectData.BuildC(Project());
 
         [CmdOp("project/build/cpp")]
         Outcome BuildCpp(CmdArgs args)
-            => Projects.BuildCpp(Project());
+            => ProjectData.BuildCpp(Project());
 
         [CmdOp("project/build+run/cpp")]
         Outcome BuildRunCpp(CmdArgs args)
-            => Projects.BuildCpp(Project(), true);
+            => ProjectData.BuildCpp(Project(), true);
 
         [CmdOp("project/build+run/c")]
         Outcome BuildRunC(CmdArgs args)
-            => Projects.BuildC(Project(), true);
+            => ProjectData.BuildC(Project(), true);
     }
 }
