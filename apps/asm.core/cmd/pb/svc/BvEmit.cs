@@ -7,7 +7,7 @@ namespace Z0
     partial class PolyBits
     {
         public Index<BfModel> BvEmit(DbSources sources, string filter, FS.FolderPath dst)
-            => BvEmit(BvCalc(sources, filter), dst);
+            => BvEmit(BfDatasets.bitvectors(sources, filter), dst);
 
         public Index<BfModel> BvEmit(Index<BfModel> src, FS.FolderPath dst)
         {

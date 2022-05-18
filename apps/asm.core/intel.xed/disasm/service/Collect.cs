@@ -11,7 +11,7 @@ namespace Z0
     {
         public void Collect(WsContext context)
         {
-            Projects.XedDisasmDir(context.Project).Clear();
+            Projects.ProjectData(context.Project, scope).Clear();
             var docs = CalcDocs(context);
             exec(PllExec,
                 () => EmitConsolidated(context,docs),

@@ -9,12 +9,10 @@ namespace Z0
     /// <summary>
     /// Defines potential values for machine-aligned data widths
     /// </summary>
-    [DataWidth(MetaWidth)]
+    [DataWidth(8)]
     public readonly struct AlignedWidth : IComparable<AlignedWidth>, IEquatable<AlignedWidth>
     {
         readonly byte Data;
-
-        public const uint MetaWidth = 8;
 
         public static AlignedWidth None => new AlignedWidth(3);
 
@@ -163,6 +161,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => Pow2.pow((byte)Code);
+        }
+
+        public BitWidth Bits
+        {
+            [MethodImpl(Inline)]
+            get => Value;
         }
 
         public ByteSize Size
@@ -332,26 +336,26 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static BitMask operator |(AlignedWidth a, AlignedWidth b)
-            => BitMask.mask(a.Value | b.Value);
+            => BitMask.mask((byte)math.max(a.Bits, b.Bits), a.Value | b.Value);
 
         [MethodImpl(Inline)]
         public static BitMask operator ^(AlignedWidth a, AlignedWidth b)
-            => BitMask.mask(a.Value ^ b.Value);
+            => BitMask.mask((byte)math.max(a.Bits, b.Bits), a.Value ^ b.Value);
 
         [MethodImpl(Inline)]
         public static BitMask operator &(AlignedWidth a, AlignedWidth b)
-            => BitMask.mask(a.Value & b.Value);
+            => BitMask.mask((byte)math.max(a.Bits, b.Bits), a.Value & b.Value);
 
         [MethodImpl(Inline)]
         public static BitMask operator ~(AlignedWidth a)
-            => BitMask.mask(~a.Value);
+            => BitMask.mask((byte)a.Bits, ~a.Value);
 
         [MethodImpl(Inline)]
         public static BitMask operator <<(AlignedWidth a, int count)
-            => BitMask.mask(a.Value << count);
+            => BitMask.mask((byte)a.Bits, a.Value << count);
 
         [MethodImpl(Inline)]
         public static BitMask operator >>(AlignedWidth a, int count)
-            => BitMask.mask(a.Value >> count);
+            => BitMask.mask((byte)a.Bits, a.Value >> count);
     }
 }

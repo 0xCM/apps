@@ -8,8 +8,20 @@ namespace Z0
     public struct BitMask
     {
         [MethodImpl(Inline), Op]
-        public static BitMask one(byte pos)
+        public static BitMask one(byte width, byte pos)
             => bit.enable(0ul,pos);
+
+        [MethodImpl(Inline), Op]
+        public static BitMask mask(byte value)
+            => new BitMask(value);
+
+        [MethodImpl(Inline), Op]
+        public static BitMask mask(ushort value)
+            => new BitMask(value);
+
+        [MethodImpl(Inline), Op]
+        public static BitMask mask(uint value)
+            => new BitMask(value);
 
         [MethodImpl(Inline), Op]
         public static BitMask mask(ulong value)
@@ -48,6 +60,27 @@ namespace Z0
         public readonly byte Width;
 
         public ulong Value;
+
+        [MethodImpl(Inline)]
+        public BitMask(byte value)
+        {
+            Width = 8;
+            Value = value;
+        }
+
+        [MethodImpl(Inline)]
+        public BitMask(ushort value)
+        {
+            Width = 16;
+            Value = value;
+        }
+
+        [MethodImpl(Inline)]
+        public BitMask(uint value)
+        {
+            Width = 32;
+            Value = value;
+        }
 
         [MethodImpl(Inline)]
         public BitMask(ulong value)

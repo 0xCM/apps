@@ -8,6 +8,7 @@ namespace Z0
 
     public class CoffServices : AppService<CoffServices>
     {
+        const string scope = "obj.hex";
         HexDataReader HexReader => Service(Wf.HexDataReader);
 
         HexDataFormatter Formatter => Service(() => HexDataFormatter.create(0,32,true));
@@ -32,7 +33,7 @@ namespace Z0
 
         public Outcome CollectObjHex(WsContext context)
         {
-            var outdir = Projects.ObjHexDir(context.Project);
+            var outdir = Projects.ProjectData(context.Project, scope);
             outdir.Clear();
             var result = Outcome.Success;
             var project = context.Project;
@@ -57,7 +58,7 @@ namespace Z0
 
         public HexFileData LoadObjHex(WsContext context)
         {
-            var src = Projects.ObjHexDir(context.Project).Files(FileKind.HexDat.Ext());
+            var src = Projects.ProjectData(context.Project, scope).Files(FileKind.HexDat.Ext());
             var count = src.Length;
             var dst = dict<FS.FilePath,Index<HexDataRow>>(count);
             for(var i=0; i<count; i++)
@@ -334,7 +335,7 @@ namespace Z0
             var records = buffer.ToArray().Sort();
             for(var i=0u; i<records.Length; i++)
                 seek(records,i).Seq = i;
-            TableEmit(@readonly(records), CoffSymRecord.RenderWidths, Projects.CoffSymPath(context.Project));
+            TableEmit(@readonly(records), CoffSymRecord.RenderWidths, Projects.Table<CoffSymRecord>(context.Project));
             return records;
         }
     }

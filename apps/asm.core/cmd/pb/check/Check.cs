@@ -5,13 +5,11 @@
 namespace Z0
 {
     using static XedRules;
-    using static XedModels;
     using static core;
 
-    using static XedModels.OpCodeId;
+    using static PbChecks.Field32;
 
-    using FK = XedModels.OpCodeId.FieldName;
-    using FW = XedModels.OpCodeId.FieldWidth;
+    using FK = PbChecks.Field32.FieldName;
 
     public partial class PbChecks
     {
@@ -27,36 +25,35 @@ namespace Z0
 
         AppDb AppDb => AppSvc.AppDb;
 
-        static BfDataset<FieldName,OpCodeId> opcodes()
-            => BfDatasets.create<FieldName,FieldWidth,OpCodeId>("xed.opcodes");
+        static BfDataset<FieldName,Field32> opcodes()
+            => BfDatasets.create<FieldName,FieldWidth,Field32>("xed.opcodes");
 
-        public static Index<OpCodeId> pack(BfDataset<FieldName,OpCodeId> spec, ReadOnlySpan<InstOpCode> src, bool pll = true)
+        public static Index<Field32> pack(BfDataset<FieldName,Field32> spec, ReadOnlySpan<Field32Source> src, bool pll = true)
         {
-            var dst = bag<OpCodeId>();
+            var dst = bag<Field32>();
             iter(src,opcode => dst.Add(pack(spec,opcode)), pll);
             return dst.Index().Sort();
         }
 
         [MethodImpl(Inline)]
-        public static OpCodeId pack(BfDataset<FieldName,OpCodeId> spec, InstOpCode oc)
+        public static Field32 pack(BfDataset<FieldName,Field32> spec, Field32Source src)
             => math.or(
-                (uint)oc.InstClass << (int)spec.Offset(FK.Class),
-                (uint)oc.PrimaryByte << (int)spec.Offset(FK.Hex8),
-                (uint)oc.Mod << (int)spec.Offset(FK.Mod),
-                (uint)oc.Lock << (int)spec.Offset(FK.Lock),
-                (uint)oc.RexW << (int)spec.Offset(FK.Rex),
-                (uint)oc.Rep << (int)spec.Offset(FK.Rep)
+                (uint)src.InstClass << (int)spec.Offset(FK.Class),
+                (uint)src.OpCode << (int)spec.Offset(FK.Hex8),
+                (uint)src.Mod << (int)spec.Offset(FK.Mod),
+                (uint)src.Lock << (int)spec.Offset(FK.Lock),
+                (uint)src.RexW << (int)spec.Offset(FK.Rex),
+                (uint)src.Rep << (int)spec.Offset(FK.Rep)
                 );
 
-        public static Func<OpCodeId,string> formatter(BfDataset<FieldName,OpCodeId> spec)
+        public static Func<Field32,string> formatter(BfDataset<FieldName,Field32> spec)
             => src => string.Format("{0,-18} | 0x{1} | {2,-6} | {3,-6} | {4,-6}",
                     spec.Extract<InstClass>(FK.Class, src),
                     spec.Extract<Hex8>(FK.Hex8, src),
-                    spec.Extract<LockIndicator>(FK.Lock, src),
+                    spec.Extract<BitIndicator>(FK.Lock, src),
                     spec.Extract<BitIndicator>(FK.Rex, src),
-                    spec.Extract<ModIndicator>(FK.Mod, src)
+                    spec.Extract<BitIndicator>(FK.Mod, src)
                     );
-
 
         public static PbChecks create(IWfRuntime wf)
             => new PbChecks(wf);
@@ -123,7 +120,7 @@ namespace Z0
         {
             Targets.Delete();
             BitCheckers.run();
-            Classifiers.Checks(Wf).Run();
+            //Classifiers.Checks(Wf).Run();
             var n = n8;
             var count = Numbers.count(n);
             var convert = BitConverters.converter(n);

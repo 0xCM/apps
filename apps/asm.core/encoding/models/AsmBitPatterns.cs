@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static BitPatterns;
+    using static BfDatasets;
 
     using P = AsmBitPatterns;
 
@@ -17,15 +17,15 @@ namespace Z0.Asm
         [Ignore]
         const string Sep = " ";
 
-        public static readonly BitPattern Sib = originate<P>(nameof(Sib), "ss iii bbb");
+        public static readonly BpInfo Sib = pattern<P>(nameof(Sib), "ss iii bbb");
 
-        public static readonly BitPattern ModRm = originate<P>(nameof(ModRm), "mm rrr nnn");
+        public static readonly BpInfo ModRm = pattern<P>(nameof(ModRm), "mm rrr nnn");
 
-        public static readonly BitPattern Rex = originate<P>(nameof(Rex), "WRXB W R X B");
+        public static readonly BpInfo Rex = pattern<P>(nameof(Rex), "WRXB W R X B");
 
-        public static readonly BitPattern VexC4 = originate<P>(nameof(VexC4), "cccccccc R X B mmmmm W vvvv L pp");
+        public static readonly BpInfo VexC4 = pattern<P>(nameof(VexC4), "cccccccc R X B mmmmm W vvvv L pp");
 
-        public static readonly BitPattern VexC5 = originate<P>(nameof(VexC5), "cccccccc R vvvv L pp");
+        public static readonly BpInfo VexC5 = pattern<P>(nameof(VexC5), "cccccccc R vvvv L pp");
 
         [Ignore]
         const string Prefix1 = "qqqqqqqq";

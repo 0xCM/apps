@@ -362,10 +362,6 @@ namespace Z0
             get => (byte)Data;
         }
 
-        // public void Bits<B>(B dst)
-        //     where B : unmanaged, IStorageBlock<B>
-        //         => BitNumber.unpack(this,dst);
-
         public bool IsZero
         {
             [MethodImpl(Inline)]

@@ -6,6 +6,7 @@ namespace Z0
 {
     using Asm;
     using static core;
+    using static BfDatasets;
 
     partial class PolyBits
     {
@@ -13,12 +14,12 @@ namespace Z0
         {
             var type = typeof(AsmBitPatterns);
             var prefix = "asm";
-            var patterns = BitPatterns.originated(type);
+            var patterns = BfDatasets.patterns(type);
             EmitDescriptions(patterns, prefix + ".bits.patterns.info");
             EmitRecords(patterns, prefix);
         }
 
-        void EmitDescriptions(ReadOnlySpan<BitPattern> src, string name)
+        void EmitDescriptions(ReadOnlySpan<BpInfo> src, string name)
         {
             var dst = text.emitter();
             for(var i=0u; i<src.Length; i++)
@@ -26,11 +27,11 @@ namespace Z0
             AppSvc.FileEmit(dst.Emit(), 12, Targets.Path(name, FileKind.Txt));
         }
 
-        void EmitRecords(Index<BitPattern> patterns, string prefix)
+        void EmitRecords(Index<BpInfo> patterns, string prefix)
         {
             var count = patterns.Count;
-            var specs = alloc<BitPatternSpec>(count);
-            var segs = BitPatterns.segs(patterns);
+            var specs = alloc<BpSpec>(count);
+            var segs = BfDatasets.segs(patterns);
             for(var i=0; i<patterns.Count; i++)
             {
                 ref readonly var pattern = ref patterns[i];
@@ -38,10 +39,8 @@ namespace Z0
                 seek(specs,i) = pattern.Spec;
             }
 
-            AppSvc.TableEmit(segs, Targets.Table<BitPatternSeg>(prefix));
-            AppSvc.TableEmit(specs, Targets.Table<BitPatternSpec>(prefix));
+            AppSvc.TableEmit(segs, Targets.Table<BpSeg>(prefix));
+            AppSvc.TableEmit(specs, Targets.Table<BpSpec>(prefix));
         }
-
-
     }
 }

@@ -52,9 +52,6 @@ namespace Z0
         public static ApiServices ApiServices(this IWfRuntime wf)
             => Z0.ApiServices.create(wf);
 
-        public static AppCmdRunner AppCmdRunner(this IWfRuntime wf)
-            => Z0.AppCmdRunner.create(wf);
-
         public static GStringLits GenLiterals(this IWfRuntime wf)
             => GStringLits.create(wf);
 

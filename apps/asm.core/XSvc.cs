@@ -12,10 +12,6 @@ namespace Z0
         public static PolyBits PolyBits(this IWfRuntime wf)
             => Z0.PolyBits.create(wf);
 
-        [Op]
-        public static WsProjects WsProjects(this IWfRuntime wf)
-            => Z0.WsProjects.create(wf);
-
         public static AsmCodeGen AsmCodeGen(this IWfRuntime wf)
             => Asm.AsmCodeGen.create(wf);
 
@@ -82,11 +78,6 @@ namespace Z0
         [Op]
         public static DumpBin DumpBin(this IWfRuntime wf)
             => Z0.DumpBin.create(wf);
-
-        [Op]
-        public static FileCatalog FileCatalog(this IProjectWs src)
-            => Z0.FileCatalog.load(src);
-
         [Op]
         public static ApiDataPaths ApiDataPaths(this IWfRuntime wf)
             => Z0.ApiDataPaths.create(wf);
@@ -148,6 +139,5 @@ namespace Z0
 
         public static EncodingCollector EncodingCollector(this IWfRuntime wf)
             => Z0.EncodingCollector.create(wf);
-
    }
 }

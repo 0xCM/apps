@@ -13,10 +13,6 @@ namespace Z0
 
         public readonly byte Width;
 
-        // public void Bits<B>(B dst)
-        //     where B : unmanaged, IStorageBlock<B>
-        //         => BitNumber.unpack(this,dst);
-
         byte IBits.Width
             => Width;
 

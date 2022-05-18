@@ -15,7 +15,7 @@ namespace Z0
         public Index<SummaryRow> LoadSummary(IProjectWs project)
         {
             const byte FieldCount = SummaryRow.FieldCount;
-            var src = Projects.AsmEncodingTable(project);
+            var src = Projects.Table<SummaryRow>(project);
             var lines = slice(src.ReadNumberedLines().View,1);
             var count = lines.Length;
             var buffer = alloc<SummaryRow>(count);

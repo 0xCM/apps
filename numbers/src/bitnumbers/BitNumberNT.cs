@@ -27,10 +27,6 @@ namespace Z0
         T IBits<T>.Value
             => Value;
 
-        // public void Bits<B>(B dst)
-        //     where B : unmanaged, IStorageBlock<B>
-        //         => BitNumber.unpack(this,dst);
-
         public bool IsZero
         {
             [MethodImpl(Inline)]
