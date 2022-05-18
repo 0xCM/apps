@@ -36,25 +36,18 @@ namespace Z0
             public void EmitStats(ReadOnlySpan<LineStats> src)
                 => Emit(src);
 
-            // public void Run()
-            // {
-            //     var imports = CalcImports(InstDumpFile());
-            //     var stats = BlockImportDatasets.stats(InstDumpFile());
-            //     Emit(imports.Imports);
-            //     Emit(stats);
-            //     EmitBlockDetail(imports);
-            //     Emit(imports.LineMap);
-            // }
-
-            public void Import(InstImportBlocks src)
+            public void Import(InstImportBlocks src, bool pll = true)
             {
-                Emit(src.Imports);
-                EmitBlockDetail(src);
-                Emit(src.LineMap);
+                XedPaths.Imports().Delete();
+                exec(pll,
+                    () => EmitRecords(src),
+                    () => EmitBlockDetail(src),
+                    () => EmitLineMap(src)
+                );
             }
 
-            void Emit(LineMap<InstBlockLineSpec> src)
-                => EmitLineMap(src, XedPaths.Imports().Table<InstBlockLineSpec>());
+            void EmitLineMap(InstImportBlocks src)
+                => EmitLineMap(src.LineMap, XedPaths.Imports().Table<InstBlockLineSpec>());
 
             void Emit(ReadOnlySpan<LineStats> src)
             {
@@ -65,8 +58,12 @@ namespace Z0
                 AppSvc.FileEmit(dst.Emit(), src.Length, XedPaths.Imports().Path(Z0.LineStats.TableId, FileKind.Csv));
             }
 
-            void Emit(ReadOnlySpan<InstBlockImport> src)
-                => AppSvc.TableEmit(src, XedPaths.Imports().Table<InstBlockImport>());
+            void EmitRecords(InstImportBlocks src)
+            {
+                AppSvc.TableEmit(src.Imports, XedPaths.Imports().Table<InstBlockImport>());
+                var file = FS.file($"{Tables.filename<InstBlockImport>().WithoutExtension.Format()}.duplicates", FS.Csv);
+                AppSvc.TableEmit(src.Duplicates, XedPaths.Imports().Path(file));
+            }
 
             void EmitBlockDetail(InstImportBlocks src)
             {

@@ -12,8 +12,6 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
-        XedImport XedImport => Service(Wf.XedImport);
-
         [CmdOp("xed/check/widths")]
         Outcome CheckWidths(CmdArgs args)
         {

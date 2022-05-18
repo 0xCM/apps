@@ -21,6 +21,9 @@ namespace Z0
             [Render(18)]
             public InstClass Class;
 
+            [Render(8)]
+            public MachineMode Mode;
+
             [Render(62)]
             public InstForm Form;
 

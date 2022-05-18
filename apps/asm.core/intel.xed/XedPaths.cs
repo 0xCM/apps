@@ -59,16 +59,6 @@ namespace Z0
             where T : struct
                 => RuleTargets() + Tables.filename<T>();
 
-        public FS.FilePath RuleTable<T>(string suffix)
-            where T : struct
-                => RuleTargets() + Suffixed<T>(suffix);
-
-        public FS.FilePath IsaFormsPath(ChipCode chip)
-            => Targets("isaforms") + FS.file(string.Format("xed.isa.{0}", chip), FS.Csv);
-
-        public FS.FilePath ChipMapTarget()
-            => RefTargets() + FS.file("xed.chipmap", FS.Csv);
-
         public FS.FilePath FormCatalogPath()
             => RefTargets() + FS.file(Tables.identify<FormImport>().Format(), FS.Csv);
 
@@ -113,16 +103,6 @@ namespace Z0
 
         public FS.FolderPath RefTargets()
             => Targets() + FS.folder("refs");
-
-        public FS.FilePath RefTarget(string name, FileKind kind)
-            => RefTargets() + FS.file(string.Format("xed.refs.{0}", name), kind.Ext());
-
-        public FS.FilePath RefTable<T>()
-            where T : struct
-                => RefTargets() + Tables.filename<T>("xed.refs");
-
-        public FS.FilePath DisasmTarget(IProjectWs project, string name, FS.FileExt ext)
-            => DisasmTargets(project) + FS.file(string.Format("{0}.xed.disasm", name), ext);
 
         public FS.FolderPath RulePages()
             => RuleTargets() + FS.folder("pages");

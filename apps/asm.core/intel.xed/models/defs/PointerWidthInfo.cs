@@ -14,12 +14,16 @@ namespace Z0
 
             public const byte FieldCount = 4;
 
+            [Render(6)]
             public byte Seq;
 
+            [Render(12)]
             public text15 Name;
 
+            [Render(6)]
             public char Symbol;
 
+            [Render(1)]
             public NativeSize Size;
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,12,6,1};

@@ -6,18 +6,18 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public readonly struct ChipIsa
+        public class IsaForms : ConcurrentDictionary<ChipCode, ChipIsa>
         {
-            public readonly ChipCode Chip;
 
-            public readonly Index<FormImport> Forms;
-
-            [MethodImpl(Inline)]
-            public ChipIsa(ChipCode kind, FormImport[] forms)
+            public IsaForms(Dictionary<ChipCode,ChipIsa> src)
+                : base(src)
             {
-                Chip = kind;
-                Forms = forms;
+
+
             }
+
+            public static implicit operator IsaForms(Dictionary<ChipCode,ChipIsa> src)
+                => new IsaForms(src);
         }
     }
 }

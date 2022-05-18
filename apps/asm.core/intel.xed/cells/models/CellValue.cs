@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static core;
+    using static XedModels;
 
     using CK = XedRules.RuleCellKind;
 
@@ -256,6 +257,10 @@ namespace Z0
             [MethodImpl(Inline)]
             public ref readonly Hex8 AsHexLit()
                 => ref @as<Hex8>(Data.First);
+
+            [MethodImpl(Inline)]
+            public ref readonly MachineMode AsMode()
+                => ref @as<MachineMode>(Data.First);
 
             [MethodImpl(Inline)]
             public ref readonly SegVar AsSegVar()

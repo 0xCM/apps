@@ -14,6 +14,8 @@ namespace Z0
 
             public Index<InstBlockImport> Imports;
 
+            public Index<InstBlockImport> Duplicates;
+
             public InstBlockLines BlockLines;
 
             public LineMap<InstBlockLineSpec> LineMap;
@@ -27,6 +29,8 @@ namespace Z0
 
             public string Header(InstForm form)
                 => FormHeaders[form];
+
+            public SortedLookup<string,InstBlockImport> ImportLookup;
         }
     }
 }

@@ -6,10 +6,24 @@ namespace Z0
 {
     using static XedRules;
     using static XedModels;
-    using static XedModels.ChipCode;
     using static core;
     using Asm;
 
+    partial class XTend
+    {
+        public static void AddRange<T>(this HashSet<T> dst, HashSet<T> src)
+        {
+            foreach(var item in src)
+                dst.Add(item);
+        }
+
+        public static void AddRange<T>(this ConcurrentBag<T> dst, HashSet<T> src)
+        {
+            foreach(var item in src)
+                dst.Add(item);
+        }
+
+    }
     public partial class XedImport : AppService<XedImport>
     {
         XedPaths XedPaths => Service(Wf.XedPaths);
@@ -47,9 +61,15 @@ namespace Z0
                 EmitIsaForms,
                 EmitIsaImports,
                 EmitCpuIdImports,
-                EmitBroadcastDefs
+                EmitBroadcastDefs,
+                () => Emit(CalcFieldDefs()),
+                () => Emit(CalcPointerWidths()),
+                () => Emit(XedOperands.Views.OpWidths)
             );
         }
+
+       public Index<PointerWidthInfo> CalcPointerWidths()
+            => Data(nameof(PointerWidthInfo), () => mapi(PointerWidths.Where(x => x.Kind != 0), (i,w) => w.ToRecord((byte)i)));
 
         public InstImportBlocks CalcInstImports()
             => BlockImporter.CalcImports();
@@ -69,12 +89,6 @@ namespace Z0
         void EmitCpuIdImports()
             => AppSvc.TableEmit(Xed.Views.CpuIdImport, Targets().Table<CpuIdImport>());
 
-        public static ref readonly Index<InstBlockField> BlockFields
-        {
-            [MethodImpl(Inline)]
-            get => ref _BlockFields;
-        }
-
         void EmitFormImports()
             => Emit(Xed.Views.FormImports);
 
@@ -82,10 +96,16 @@ namespace Z0
             => AppSvc.TableEmit(src, Targets().Table<FormImport>());
 
         public void ImportInstBlocks()
-            => BlockImporter.Import(Xed.Views.InstImports);
+            => BlockImporter.Import(Xed.Views.InstImports, PllExec);
 
-        FS.FilePath ChipMapTarget()
-            => Targets().Path(FS.file("xed.chipmap", FS.Csv));
+        void Emit(ReadOnlySpan<XedFieldDef> src)
+            => AppSvc.TableEmit(src, XedPaths.Imports().Table<XedFieldDef>());
+
+        void Emit(ReadOnlySpan<PointerWidthInfo> src)
+            => AppSvc.TableEmit(src, XedPaths.Imports().Table<PointerWidthInfo>());
+
+        void Emit(ReadOnlySpan<OpWidthRecord> src)
+            => AppSvc.TableEmit(src, XedPaths.Imports().Table<OpWidthRecord>());
 
         public void EmitChipMap()
         {
@@ -101,67 +121,125 @@ namespace Z0
                 foreach(var kind in mapped)
                     dst.WriteLine(string.Format(RowFormat, counter++ , code, kind));
             }
-            AppSvc.FileEmit(dst.Emit(),counter, ChipMapTarget());
+
+            AppSvc.FileEmit(dst.Emit(), counter, Targets().Path(FS.file("xed.chipmap", FS.Csv)));
+        }
+
+        public ConcurrentDictionary<InstIsaKind,HashSet<FormImport>> CalcIsaFormImports()
+        {
+            return Data(nameof(CalcIsaFormImports),Calc);
+
+            ConcurrentDictionary<InstIsaKind,HashSet<FormImport>> Calc()
+            {
+                var codes = Symbols.index<ChipCode>();
+                var forms = Xed.Views.FormImports;
+                var formisa = forms.Select(x => (x.InstForm.Kind, x.IsaKind)).ToDictionary();
+                var isakinds = formisa.Values.ToHashSet();
+                var isaforms = cdict<InstIsaKind,HashSet<FormImport>>();
+                var lookup = cdict<ChipCode,HashSet<FormImport>>();
+                iter(isakinds, k => isaforms[k] = new());
+                iter(codes.Kinds, code => lookup[code] = new());
+                iter(forms, f => isaforms[f.IsaKind].Add(f));
+                return isaforms;
+            }
+        }
+
+        public Index<FormImport> CalcIsaForms(ChipCode chip)
+        {
+            var imports = CalcIsaFormImports();
+            var dst = bag<FormImport>();
+            iter(Xed.Views.ChipMap[chip], kind => {
+                if(imports.TryGetValue(kind, out var forms))
+                    dst.AddRange(forms);
+            },true);
+            return dst.ToHashSet().ToIndex().Sort().Resequence();
+        }
+
+        public IsaForms CalcIsaForms()
+        {
+            var dst = cdict<ChipCode,Index<FormImport>>();
+            var imports = CalcIsaFormImports();
+            var map = Xed.Views.ChipMap;
+            iter(map.Codes, chip => dst.TryAdd(chip, CalcIsaForms(chip)),true);
+            return dst.Map(x => (x.Key, new ChipIsa(x.Key,x.Value))).ToDictionary();
         }
 
         public void EmitIsaForms()
         {
-            var codes = new ChipCode[]{
-                I86,
-                I186,
-                I286,
-                I386,
-                I486,
-                PENTIUM,
-                PENTIUM2,
-                PENTIUM3,
-                PENTIUM4,
-                PENRYN,
-                NEHALEM,
-                P4PRESCOTT,
-                IVYBRIDGE,
-                BROADWELL,
-                SKYLAKE,
-                SKYLAKE_SERVER,
-                TIGER_LAKE,
-                CASCADE_LAKE,
-                KNL,
-                SAPPHIRE_RAPIDS
-                };
-
-            EmitIsaForms(codes);
-        }
-
-        public void EmitIsaForms(ReadOnlySpan<ChipCode> codes)
-        {
-            var map = Xed.Views.ChipMap;
-            iter(codes, code => EmitIsaForms(map, code), PllExec);
-        }
-
-        FS.FilePath IsaTarget(ChipCode chip)
-            => Targets("isaforms").Path(FS.file(string.Format("xed.isa.{0}", chip), FS.Csv));
-
-        void EmitIsaForms(ChipMap map, ChipCode chip)
-        {
+            var codes = Symbols.index<ChipCode>();
             var forms = Xed.Views.FormImports;
-            var kinds = map[chip].ToHashSet();
-            var matches = list<FormImport>();
-            var count = forms.Count;
-            for(var i=0; i<count; i++)
+            var map = Xed.Views.ChipMap;
+            var formisa = forms.Select(x => (x.InstForm.Kind, x.IsaKind)).ToDictionary();
+            var isakinds = formisa.Values.ToHashSet();
+            var isaforms = cdict<InstIsaKind,HashSet<FormImport>>();
+            iter(isakinds, k => isaforms[k] = new());
+            iter(forms, f => isaforms[f.IsaKind].Add(f));
+            iter(codes.Kinds, chip => {
+                var kinds = map[chip];
+                var dst = Targets("isaforms").Path(FS.file(string.Format("xed.isa.{0}", chip), FS.Csv));
+                var matches = bag<FormImport>();
+                iter(kinds, k => {
+                    if(isaforms.TryGetValue(k, out var forms))
+                        matches.AddRange(forms);
+                    });
+                AppSvc.TableEmit(matches.ToArray().Sort().Resequence(), dst);
+            },PllExec);
+        }
+
+        public Index<XedFieldDef> CalcFieldDefs()
+        {
+            var src = XedPaths.DocSource(XedDocKind.Fields);
+            var dst = list<XedFieldDef>();
+            var result = Outcome.Success;
+            var line = EmptyString;
+            var lines = src.ReadLines().Reader();
+            while(lines.Next(out line))
             {
-                ref readonly var form = ref forms[i];
-                if(kinds.Contains(form.IsaKind))
-                    matches.Add(form);
+                var content = line.Trim();
+                if(text.empty(content) || text.begins(content,Chars.Hash))
+                    continue;
+
+                var cells = text.split(text.despace(content), Chars.Space).Reader();
+                var record = XedFieldDef.Empty;
+                record.Name = cells.Next();
+
+                cells.Next();
+                result = FieldTypes.ExprKind(cells.Next(), out XedFieldType ft);
+                if(result.Fail)
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(record.FieldType), cells.Prior()));
+                else
+                    record.FieldType = ft;
+
+                result = DataParser.parse(cells.Next(), out record.Width);
+                if(result.Fail)
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(record.Width), cells.Prior()));
+
+                if(!Visibilities.ExprKind(cells.Next(), out record.Visibility))
+                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(record.Visibility), cells.Prior()));
+
+                dst.Add(record);
             }
 
-            AppSvc.TableEmit(matches.ToArray().Sort().Resequence(), IsaTarget(chip));
+            return dst.ToArray().Sort();
         }
 
         static Index<InstBlockField> _BlockFields;
 
+        static Symbols<VisibilityKind> Visibilities;
+
+        static Symbols<XedFieldType> FieldTypes;
+
+        static Symbols<PointerWidthKind> PointerWidthKinds;
+
+        static Index<PointerWidth> PointerWidths;
+
         static XedImport()
         {
             _BlockFields = Symbols.index<InstBlockField>().Kinds.ToArray();
+            PointerWidthKinds = Symbols.index<PointerWidthKind>();
+            PointerWidths = map(PointerWidthKinds.View, s => (PointerWidth)s.Kind);
+            Visibilities = Symbols.index<VisibilityKind>();
+            FieldTypes = Symbols.index<XedFieldType>();
         }
     }
 }

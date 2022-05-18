@@ -60,7 +60,7 @@ namespace Z0
                     case Mode16:
                         dst = ModeKind.LONG_COMPAT_16;
                     break;
-                    case Default:
+                    case ModeClass.Default:
                     case Not64:
                     case Mode32:
                         dst = ModeKind.LONG_COMPAT_32;
@@ -137,6 +137,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public static bool operator!=(MachineMode a, MachineMode b)
                 => !a.Equals(b);
+
+            public static MachineMode Default => new MachineMode(ModeClass.Default);
         }
     }
 }

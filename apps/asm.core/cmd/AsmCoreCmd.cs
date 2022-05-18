@@ -20,15 +20,9 @@ namespace Z0
 
         XedDisasmSvc Disasm => Xed.Disasm;
 
+        XedImport XedImport => Xed.Import;
+
         XedDb XedDb => Xed.XedDb;
-
-        [MethodImpl(Inline)]
-        StringRef Ref(string src)
-            => Xed.Alloc.String(src);
-
-        [MethodImpl(Inline)]
-        Label Label(string src)
-            => Xed.Alloc.Label(src);
 
         ref readonly RuleTables RuleTables
             => ref Xed.Views.RuleTables;

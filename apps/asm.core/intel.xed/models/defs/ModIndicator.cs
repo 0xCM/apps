@@ -10,10 +10,6 @@ namespace Z0
         [DataWidth(Width, 8)]
         public readonly struct ModIndicator : IComparable<ModIndicator>, IEquatable<ModIndicator>
         {
-            [MethodImpl(Inline), Op]
-            public static ModIndicator mod(uint2 src)
-                => new ModIndicator((ModKind)(byte)src + 1);
-
             public const byte Width = num3.Width;
 
             public readonly ModKind Kind;

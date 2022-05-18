@@ -10,7 +10,7 @@ namespace Z0
         [Record(TableId)]
         public struct OpWidthRecord : IComparable<OpWidthRecord>
         {
-            public const string TableId = "widths";
+            public const string TableId = "xed.widths";
 
             [Render(12)]
             public OpWidthCode Code;

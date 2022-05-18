@@ -35,6 +35,20 @@ namespace Z0
                 return dst;
             }
 
+            static Index<InstBlockImport> calc(Index<InstBlockImport> src, out SortedLookup<string,InstBlockImport> dst)
+            {
+                var dupes = list<InstBlockImport>();
+                var lookup = cdict<string,InstBlockImport>();
+                for(var i=0; i<src.Count; i++)
+                {
+                    ref readonly var import = ref src[i];
+                    if(!lookup.TryAdd(import.Form.Format(), import))
+                        dupes.Add(import);
+                }
+                dst = lookup;
+                return dupes.ToIndex().Sort();
+            }
+
             public static InstImportBlocks calc(MemoryFile src)
             {
                 return data(nameof(InstImportBlocks),Calc);
@@ -49,6 +63,7 @@ namespace Z0
                     dst.BlockLines = ds.BlockLines;
                     dst.LineMap = ds.MappedForms;
                     dst.Imports = ds.BlockImports.Index().Sort().Resequence();
+                    dst.Duplicates = calc(dst.Imports, out dst.ImportLookup);
                     var fds = forms(ds);
                     dst.FormBlocks = fds.Descriptions;
                     dst.FormHeaders = fds.Headers;
@@ -158,7 +173,7 @@ namespace Z0
                                 InstParser.parse(value, out import.Pattern);
                                 var fields = InstCells.sort(import.Pattern.Cells);
                                 import.Pattern = new (fields);
-
+                                XedPatterns.mode(import.Pattern, out import.Mode);
                             }
                             catch(Exception e)
                             {

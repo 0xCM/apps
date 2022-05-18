@@ -41,6 +41,7 @@ namespace Z0
                 result = DataParser.eparse(src.Category, out dst.Category);
                 result = XedParsers.parse(src.Form, out dst.InstForm);
                 dst.Seq = (ushort)dst.InstForm.Kind;
+                dst.FormId = (ushort)dst.InstForm.Kind;
                 result = DataParser.eparse(src.IsaSet, out dst.IsaKind);
                 dst.Attributes = XedPatterns.attributes(src.Attributes);
                 return true;
@@ -91,6 +92,10 @@ namespace Z0
                 result = XedParsers.parse(reader.Next(), out dst.Seq);
                 if(result.Fail)
                     return (false, AppMsg.ParseFailure.Format(nameof(dst.Seq), reader.Prior()));
+
+                result = XedParsers.parse(reader.Next(), out dst.FormId);
+                if(result.Fail)
+                    return (false, AppMsg.ParseFailure.Format(nameof(dst.FormId), reader.Prior()));
 
                 result = XedParsers.parse(reader.Next(), out dst.InstForm);
                 if(result.Fail)

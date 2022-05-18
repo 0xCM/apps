@@ -29,15 +29,6 @@ namespace Z0
                     Headers[form] = string.Format("{0,-64} | {1:D5} | {2:D2} | {3:D6} | {4:D6}", form, seq, line.Lines, line.MinLine, line.MaxLine);
                 }
             }
-
-            public string Description(InstForm form)
-                => Descriptions[form];
-
-            public string Header(InstForm form)
-                => Headers[form];
-
-            public ref readonly SortedLookup<InstForm,uint> FormSeq()
-                => ref Sorted;
         }
     }
 }

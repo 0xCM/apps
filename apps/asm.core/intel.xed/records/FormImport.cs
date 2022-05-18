@@ -6,7 +6,6 @@
 namespace Z0
 {
     using static XedRules;
-    using static XedModels;
 
     partial struct XedModels
     {
@@ -17,6 +16,9 @@ namespace Z0
 
             [Render(8)]
             public ushort Seq;
+
+            [Render(8)]
+            public ushort FormId;
 
             [Render(60)]
             public InstForm InstForm;

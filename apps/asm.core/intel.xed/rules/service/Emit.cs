@@ -133,9 +133,6 @@ namespace Z0
         public void Emit(ReadOnlySpan<MacroDef> src)
             => AppSvc.TableEmit(src, MacroDef.RenderWidths, XedPaths.RuleTable<MacroDef>());
 
-        public void Emit(ReadOnlySpan<PointerWidthInfo> src)
-            => AppSvc.TableEmit(src, PointerWidthInfo.RenderWidths, XedPaths.Table<PointerWidthInfo>());
-
         public void Emit(ReadOnlySpan<InstOpCode> src)
             => AppSvc.TableEmit(src, XedPaths.InstTable<InstOpCode>());
 
@@ -144,12 +141,6 @@ namespace Z0
 
         public void Emit(ReadOnlySpan<InstOpClass> src)
             => AppSvc.TableEmit(src, XedPaths.Table<InstOpClass>());
-
-        public void Emit(ReadOnlySpan<XedFieldDef> src)
-            => AppSvc.TableEmit(src, XedPaths.RefTable<XedFieldDef>());
-
-        public void Emit(ReadOnlySpan<OpWidthRecord> src)
-            => AppSvc.TableEmit(src, XedPaths.RefTable<OpWidthRecord>());
 
         public void Emit(ReadOnlySpan<RuleExpr> src)
             => AppSvc.TableEmit(src, XedPaths.RuleTable<RuleExpr>());

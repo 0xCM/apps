@@ -13,13 +13,13 @@ namespace Z0
         {
             exec(PllExec,
                 () => AppSvc.TableEmit(OpCodeKinds.Instance.Records, XedPaths.Table<OcMapKind>()),
-                EmitOpWidths,
-                () => Emit(CalcPointerWidths().View),
+                //EmitOpWidths,
+                //() => Emit(CalcPointerWidths().View),
                 () => Emit(mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i))),
                 () => Emit(CalcMacroDefs().View),
                 () => Emit(XedFields.Defs.Positioned),
-                EmitSymbolicFields,
-                () => Emit(ImportFieldDefs())
+                EmitSymbolicFields
+                //() => Emit(ImportFieldDefs())
             );
 
             Emit(patterns, rules);
@@ -28,7 +28,7 @@ namespace Z0
         void EmitSymbolicFields()
             => ApiMd.EmitTokenSet(XedFields.EffectiveFields.create(), XedPaths.Target("xed.fields.symbolic", FS.Csv));
 
-        public void EmitOpWidths()
-            => Emit(XedOperands.Views.OpWidths);
+        // public void EmitOpWidths()
+        //     => Emit(XedOperands.Views.OpWidths);
     }
 }

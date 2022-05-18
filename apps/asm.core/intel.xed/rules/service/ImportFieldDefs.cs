@@ -11,41 +11,41 @@ namespace Z0
 
     partial class XedRules
     {
-        Index<XedFieldDef> ImportFieldDefs()
-        {
-            var src = XedPaths.DocSource(XedDocKind.Fields);
-            var dst = list<XedFieldDef>();
-            var result = Outcome.Success;
-            var line = EmptyString;
-            var lines = src.ReadLines().Reader();
-            while(lines.Next(out line))
-            {
-                var content = line.Trim();
-                if(text.empty(content) || text.begins(content,Chars.Hash))
-                    continue;
+        // Index<XedFieldDef> ImportFieldDefs()
+        // {
+        //     var src = XedPaths.DocSource(XedDocKind.Fields);
+        //     var dst = list<XedFieldDef>();
+        //     var result = Outcome.Success;
+        //     var line = EmptyString;
+        //     var lines = src.ReadLines().Reader();
+        //     while(lines.Next(out line))
+        //     {
+        //         var content = line.Trim();
+        //         if(text.empty(content) || text.begins(content,Chars.Hash))
+        //             continue;
 
-                var cells = text.split(text.despace(content), Chars.Space).Reader();
-                var record = XedFieldDef.Empty;
-                record.Name = cells.Next();
+        //         var cells = text.split(text.despace(content), Chars.Space).Reader();
+        //         var record = XedFieldDef.Empty;
+        //         record.Name = cells.Next();
 
-                cells.Next();
-                result = FieldTypes.ExprKind(cells.Next(), out XedFieldType ft);
-                if(result.Fail)
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(record.FieldType), cells.Prior()));
-                else
-                    record.FieldType = ft;
+        //         cells.Next();
+        //         result = FieldTypes.ExprKind(cells.Next(), out XedFieldType ft);
+        //         if(result.Fail)
+        //             Errors.Throw(AppMsg.ParseFailure.Format(nameof(record.FieldType), cells.Prior()));
+        //         else
+        //             record.FieldType = ft;
 
-                result = DataParser.parse(cells.Next(), out record.Width);
-                if(result.Fail)
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(record.Width), cells.Prior()));
+        //         result = DataParser.parse(cells.Next(), out record.Width);
+        //         if(result.Fail)
+        //             Errors.Throw(AppMsg.ParseFailure.Format(nameof(record.Width), cells.Prior()));
 
-                if(!Visibilities.ExprKind(cells.Next(), out record.Visibility))
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(record.Visibility), cells.Prior()));
+        //         if(!Visibilities.ExprKind(cells.Next(), out record.Visibility))
+        //             Errors.Throw(AppMsg.ParseFailure.Format(nameof(record.Visibility), cells.Prior()));
 
-                dst.Add(record);
-            }
+        //         dst.Add(record);
+        //     }
 
-            return dst.ToArray().Sort();
-        }
+        //     return dst.ToArray().Sort();
+        // }
     }
 }
