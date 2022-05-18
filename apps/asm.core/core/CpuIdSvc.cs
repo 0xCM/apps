@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using static core;
 
-    public readonly struct CpuIdSvc
+    public class CpuIdSvc : AppService<CpuIdSvc>
     {
         public static uint EmitRecords(ReadOnlySpan<CpuIdRow> src, FS.FilePath dst)
         {
@@ -22,7 +22,7 @@ namespace Z0.Asm
         {
             using var writer = dst.AsciWriter();
             var buffer = text.buffer();
-            CpuIdSvc.regvals(src, buffer);
+            regvals(src, buffer);
             writer.WriteLine(buffer.Emit());
         }
 
@@ -170,7 +170,7 @@ namespace Z0.Asm
             return outcome;
         }
 
-        public static Index<CpuIdRow> LoadCpuIdImports(FS.FilePath src)
+        public static Index<CpuIdRow> LoadImports(FS.FilePath src)
         {
             const byte FieldCount = CpuIdRow.FieldCount;
             const char Delimiter = Chars.Pipe;
@@ -199,6 +199,38 @@ namespace Z0.Asm
 
             return dst.Index();
         }
-    }
 
+        public Index<CpuIdRow> Import(FS.FolderPath src, FS.FilePath records, FS.FilePath bits)
+        {
+            var data = CpuIdSvc.import(src);
+            EmitRecords(data, records);
+            EmitBits(data, bits);
+            return data;
+        }
+
+        public void ImportSources()
+            => Emit(CpuIdSvc.import(Ws.Sources().Datasets("sde.cpuid")));
+
+        void EmitBits(ReadOnlySpan<CpuIdRow> src)
+        {
+            var result = Outcome.Success;
+            var dst = Ws.Tables().Path("asm.cpuid.bits", FS.Csv);
+            var emitting = EmittingFile(dst);
+            EmitBits(src,dst);
+            EmittedFile(emitting,src.Length);
+        }
+
+        void EmitRows(ReadOnlySpan<CpuIdRow> src)
+        {
+            var result = Outcome.Success;
+            var dst = Ws.Tables().TablePath<CpuIdRow>("tables");
+            EmitRecords(src,dst);
+        }
+
+        void Emit(ReadOnlySpan<CpuIdRow> src)
+        {
+            EmitRows(src);
+            EmitBits(src);
+        }
+    }
 }

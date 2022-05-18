@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.IO;
     using System.Linq;
 
     using static core;
 
     public class AsmTables : AppService<AsmTables>
     {
-
         [MethodImpl(Inline)]
         public static CorrelationToken token(uint docid, MemoryAddress ip)
             => math.or(math.sll(docid, 24),  (uint)ip);
@@ -435,57 +433,6 @@ namespace Z0.Asm
             }
 
             return (true,kRows);
-        }
-
-        public Index<CpuIdRow> ImportCpuIdData(FS.FolderPath src, FS.FilePath records, FS.FilePath bits)
-        {
-            var data = CpuIdSvc.import(src);
-            EmitRecords(data, records);
-            EmitBits(data, bits);
-            return data;
-        }
-
-        public void ImportCpuIdSources()
-            => Emit(CpuIdSvc.import(Ws.Sources().Datasets("sde.cpuid")));
-
-        public void EmitBits(ReadOnlySpan<CpuIdRow> src, FS.FilePath dst)
-        {
-            var emitting = EmittingFile(dst);
-            CpuIdSvc.EmitBits(src,dst);
-            EmittedFile(emitting, src.Length);
-        }
-
-        void EmitBits(ReadOnlySpan<CpuIdRow> src)
-        {
-            var result = Outcome.Success;
-            var dst = Ws.Tables().Path("asm.cpuid.bits", FS.Csv);
-            var emitting = EmittingFile(dst);
-            EmitBits(src,dst);
-            EmittedFile(emitting,src.Length);
-        }
-
-        public void EmitRecords(ReadOnlySpan<CpuIdRow> src, FS.FilePath dst)
-            => EmittedTable(EmittingTable<CpuIdRow>(dst), CpuIdSvc.EmitRecords(src,dst));
-
-        void EmitRows(ReadOnlySpan<CpuIdRow> src)
-        {
-            var result = Outcome.Success;
-            var dst = Ws.Tables().TablePath<CpuIdRow>("tables");
-            EmitRecords(src,dst);
-        }
-
-        void Emit(ReadOnlySpan<CpuIdRow> src)
-        {
-            EmitRows(src);
-            EmitBits(src);
-        }
-
-        public Index<CpuIdRow> ImportCpuId()
-        {
-            var src = CpuIdSvc.import(Ws.Sources().Datasets("sde.cpuid"));
-            EmitRows(src);
-            EmitBits(src);
-            return src;
         }
 
     }

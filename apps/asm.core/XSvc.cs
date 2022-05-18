@@ -31,8 +31,8 @@ namespace Z0
         public static XedDb XedDb(this IWfRuntime wf)
             => Z0.XedDb.create(wf);
 
-        public static XedDataTypes XedDataTypes(this IWfRuntime wf)
-            => Z0.XedDataTypes.create(wf);
+        public static CpuIdSvc CpuId(this IWfRuntime wf)
+            => CpuIdSvc.create(wf);
 
         public static XedDisasmSvc XedDisasm(this IWfRuntime wf)
             => Z0.XedDisasmSvc.create(wf);

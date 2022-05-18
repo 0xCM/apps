@@ -30,14 +30,6 @@ namespace Z0
             => Asm.AsmJmpPipe.create(wf);
 
         [Op]
-        public static AsmImmWriter ImmWriter(this IWfRuntime wf, in ApiHostUri host)
-            => new AsmImmWriter(wf, host);
-
-        [Op]
-        public static AsmImmWriter ImmWriter(this IWfRuntime wf, in ApiHostUri host, FS.FolderPath root)
-            => new AsmImmWriter(wf, host, root);
-
-        [Op]
         public static AsmDecoder AsmDecoder(this IWfRuntime wf)
             => Asm.AsmDecoder.create(wf);
 

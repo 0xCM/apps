@@ -4,11 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
+
+    public static partial class XTend
+    {
+        [Op]
+        public static AsmImmWriter ImmWriter(this IWfRuntime wf, in ApiHostUri host)
+            => new AsmImmWriter(wf, host);
+
+        [Op]
+        public static AsmImmWriter ImmWriter(this IWfRuntime wf, in ApiHostUri host, FS.FolderPath root)
+            => new AsmImmWriter(wf, host, root);
+    }
 
     public readonly struct AsmImmWriter : IAsmImmWriter
     {

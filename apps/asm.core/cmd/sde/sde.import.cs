@@ -8,11 +8,13 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
+        CpuIdSvc CpuId => Service(Wf.CpuId);
+
         [CmdOp("sde/import")]
         Outcome LoadCpuidRows(CmdArgs args)
         {
             var result = Outcome.Success;
-            var src = AsmTables.ImportCpuIdData(
+            var src = CpuId.Import(
                 AppDb.CpuIdSources(),
                 AppDb.SdeTargets().Path("cpuid.records", FileKind.Csv),
                 AppDb.SdeTargets().Path("cpuid.bits", FileKind.Csv)
@@ -20,7 +22,5 @@ namespace Z0
 
             return result;
         }
-
-
     }
 }

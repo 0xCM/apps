@@ -4,25 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     [ApiHost]
-    public unsafe readonly struct RegKindConverter
+    public unsafe readonly struct KindConverter
     {
         [Op]
-        public static RegKindConverter create()
+        public static KindConverter create()
         {
             var pIce = gptr(RegConversionData.IceRegisters);
             var pKind = pvoid(RegConversionData.Kinds);
-            return new RegKindConverter(pIce, pKind);
+            return new KindConverter(pIce, pKind);
         }
 
         [MethodImpl(Inline), Op]
-        RegKindConverter(void* pIce, void* pKind)
+        KindConverter(void* pIce, void* pKind)
         {
             IceSource = pIce;
             KindSource = pKind;
