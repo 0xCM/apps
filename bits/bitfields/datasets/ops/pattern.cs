@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly partial struct BfDatasets
+    partial struct BfDatasets
     {
         /// <summary>
         /// Creates a bitfield render pattern predicated on a sequence of segment widths
         /// </summary>
         /// <param name="widths"></param>
-        public static string bitrender(Index<byte> widths, char sep = Chars.Space)
+        public static string pattern(Index<byte> widths, char sep = Chars.Space)
         {
             var dst = text.buffer();
             var count = widths.Count;
@@ -30,7 +30,7 @@ namespace Z0
         /// <param name="src"></param>
         /// <typeparam name="F"></typeparam>
         /// <typeparam name="T"></typeparam>
-        public static string bitrender<F,T>(BfDataset<F,T> src)
+        public static string pattern<F,T>(BfDataset<F,T> src)
             where F : unmanaged, Enum
             where T : unmanaged
         {

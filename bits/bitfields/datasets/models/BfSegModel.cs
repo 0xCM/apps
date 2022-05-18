@@ -12,7 +12,7 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId), Doc("Describes a segment in a bitfield")]
     public struct BfSegModel
     {
-        public const string TableId = "bitfields.models.segments";
+        public const string TableId = "bitfield.segs";
 
         /// <summary>
         /// The segment name

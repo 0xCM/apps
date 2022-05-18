@@ -10,7 +10,7 @@ namespace Z0
 
         uint FieldCount {get;}
 
-        string BitrenderPattern {get;}
+        string BitstringPattern {get;}
 
         ref readonly Index<uint> Offsets {get;}
 

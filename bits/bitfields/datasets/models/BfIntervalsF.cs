@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     public readonly struct BfIntervals<F>
         where F : unmanaged
     {
@@ -49,6 +51,14 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => Data.Edit;
+        }
+
+        public BfIntervals Untype()
+        {
+            var dst = alloc<BfInterval>(Count);
+            for(var i=0; i<Count; i++)
+                seek(dst,i) = this[i];
+            return dst;
         }
 
         public string Format()

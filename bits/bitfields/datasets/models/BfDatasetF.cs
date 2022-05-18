@@ -6,39 +6,47 @@ namespace Z0
 {
     using api = BfDatasets;
 
-    public class BfDataset<F,T> : IBfDataset<F>
+    public class BfDataset<F> : IBfDataset<F>
         where F : unmanaged, Enum
-        where T : unmanaged
     {
-        public readonly uint FieldCount;
-
         public readonly asci64 Name;
 
-        readonly Index<F> _Fields;
+        public readonly uint FieldCount;
 
-        readonly Dictionary<F,uint> _Indices;
+        readonly Index<F> _Fields;
 
         readonly Index<uint> _Offsets;
 
         readonly Index<byte> _Widths;
 
-        readonly BfIntervals<F> _Intervals;
+        readonly Dictionary<F,uint> _Indices;
+
+        readonly BfIntervals<F> _Int;
+
+        public readonly string BitstringPattern;
 
         readonly Index<BitMask> _Masks;
 
-        readonly string BitrenderPattern;
+        readonly BfIntervals _UTInt;
 
-        public BfDataset(F[] fields, Dictionary<F,uint> indices, byte[] widths)
+        public BfDataset(asci64 name, F[] fields, Dictionary<F,uint> indices, byte[] widths)
         {
-            Name = typeof(F).Name;
+            FieldCount = (uint)Require.equal(fields.Length, widths.Length);
+            Name = name;
             _Fields = fields;
             _Indices = indices;
             _Widths = widths;
-            FieldCount = (uint)Require.equal(fields.Length, widths.Length);
-            _Offsets = api.offsets(this);
-            _Intervals = api.intervals(this);
+            _Offsets = api.offsets(widths);
+            _Int = api.intervals(this);
             _Masks = api.masks(this);
-            BitrenderPattern = api.bitrender(this);
+            BitstringPattern = api.pattern(widths, Chars.Space);
+            _UTInt = _Int.Untype();
+        }
+
+        public ref readonly BfIntervals<F> Intervals
+        {
+            [MethodImpl(Inline)]
+            get => ref _Int;
         }
 
         public ref readonly Index<F> Fields
@@ -59,11 +67,17 @@ namespace Z0
             get => ref _Widths;
         }
 
-        public ref readonly BfIntervals<F> Intervals
-        {
-            [MethodImpl(Inline)]
-            get => ref _Intervals;
-        }
+        asci64 IBfDataset.Name
+            => Name;
+
+        uint IBfDataset.FieldCount
+            => FieldCount;
+
+        string IBfDataset.BitstringPattern
+            => BitstringPattern;
+
+        ref readonly BfIntervals IBfDataset.Intervals
+            => ref _UTInt;
 
         public ref readonly Index<BitMask> Masks
         {
@@ -71,53 +85,35 @@ namespace Z0
             get => ref _Masks;
         }
 
-        asci64 IBfDataset.Name
-            => Name;
-
-        uint IBfDataset.FieldCount
-            => FieldCount;
-
-        string IBfDataset.BitrenderPattern
-            => BitrenderPattern;
-
-        ref readonly BfIntervals IBfDataset.Intervals
-            => throw new NotImplementedException();
-
         [MethodImpl(Inline)]
         public uint Index(F field)
             => _Indices[field];
 
         [MethodImpl(Inline)]
-        public ref readonly F Field(int index)
-            => ref Fields[index];
-
-        [MethodImpl(Inline)]
-        public ref readonly F Field(uint index)
+        public ref readonly F Field(byte index)
             => ref Fields[index];
 
         [MethodImpl(Inline)]
         public ref readonly byte Width(F field)
-            => ref Widths[Index(field)];
+            => ref _Widths[Index(field)];
 
         [MethodImpl(Inline)]
         public ref readonly uint Offset(F field)
-            => ref Offsets[Index(field)];
-
-        [MethodImpl(Inline)]
-        public ref readonly BitMask Mask(F field)
-            => ref Masks[Index(field)];
+            => ref _Offsets[Index(field)];
 
         [MethodImpl(Inline)]
         public ref readonly BfInterval<F> Interval(F field)
             => ref Intervals[Index(field)];
 
         [MethodImpl(Inline)]
-        public T Extract(F field, T src)
-            => api.extract(this, field, src);
+        public T Extract<T>(T src, F field)
+            where T : unmanaged
+                => api.segvalue(src, Offset(field), Width(field));
 
         [MethodImpl(Inline)]
-        public K Extract<K>(F field, T src)
-            where K : unmanaged
-                => core.@as<T,K>(api.extract(this, field, src));
+        public T Extract<S,T>(S src, F field)
+            where T : unmanaged
+            where S : unmanaged
+                => api.segvalue<F,S,T>(src, field, this);
     }
 }

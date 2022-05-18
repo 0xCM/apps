@@ -31,10 +31,10 @@ namespace Z0
 
     public class AppServices : AppService<AppServices>
     {
-
-
         public new void Babble<T>(T content)
             => WfMsg.Babble(content);
+
+        public AppDb AppDb => Service(Wf.AppDb);
 
         protected new void Babble(string pattern, params object[] args)
             => WfMsg.Babble(pattern, args);

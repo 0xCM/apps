@@ -57,7 +57,7 @@ namespace Z0
                 => string.Format("{0,-16} {1, -4} {2}",
                     ExtractField(src),
                     ExtractOperator(src),
-                    //(num4)(byte)ExtractDataKind(src),
+                    (num4)(byte)ExtractDataKind(src),
                     ExtractValue(src)
                     );
 

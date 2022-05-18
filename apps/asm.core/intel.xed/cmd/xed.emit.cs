@@ -12,25 +12,6 @@ namespace Z0
         [CmdOp("xed/emit/opcodes")]
         Outcome EmitOpCodes(CmdArgs args)
         {
-            var bitfield = XedOpCodes.bitfield();
-            var segs = Bitfields.segmodels(bitfield);
-            var formatter = Tables.formatter<BfSegModel>();
-            Write(formatter.FormatHeader());
-            iter(segs, seg => Write(formatter.Format(seg)));
-            var intervals = bitfield.Intervals;
-            for(var i=0; i<intervals.Count; i++)
-            {
-                Write(intervals[i]);
-            }
-            // var src = XedOpCodes.pack(bitfield, Xed.Views.OpCodes);
-            // var formatter = XedOpCodes.formatter(bitfield);
-            // for(var i=0; i<src.Count; i++)
-            // {
-            //     ref readonly var ocid = ref src[i];
-            //     var text = formatter.Invoke(ocid);
-            //     Write(text);
-
-            // }
             return true;
         }
 

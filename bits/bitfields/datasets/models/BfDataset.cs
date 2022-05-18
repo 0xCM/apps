@@ -24,17 +24,18 @@ namespace Z0
 
         readonly Index<BitMask> _Masks;
 
-        public readonly string BitrenderPattern;
+        public readonly string BitstringPattern;
 
         public BfDataset(asci64 name, Index<string> fields, Dictionary<string,uint> indices, Index<byte> widths)
         {
+            Name = name;
             FieldCount = widths.Count;
             _Indices = indices;
             _Widths = widths;
             _Offsets = api.offsets(widths);
             _Intervals = Bitfields.intervals(_Offsets, widths);
             _Masks = api.masks(this);
-            BitrenderPattern = api.bitrender(widths, Chars.Space);
+            BitstringPattern = api.pattern(widths, Chars.Space);
         }
 
         public ref readonly Index<uint> Offsets
@@ -70,8 +71,8 @@ namespace Z0
         uint IBfDataset.FieldCount
             => FieldCount;
 
-        string IBfDataset.BitrenderPattern
-            => BitrenderPattern;
+        string IBfDataset.BitstringPattern
+            => BitstringPattern;
 
         asci64 IBfDataset.Name
             => Name;
@@ -115,6 +116,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public T Extract<T>(uint index, T src)
             where T : unmanaged
-                => api.segment(src, Offset(index), Width(index));
+                => api.segvalue(src, Offset(index), Width(index));
     }
 }

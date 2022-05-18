@@ -11,16 +11,19 @@ namespace Z0
         /// <summary>
         /// The field for which the interval is defined
         /// </summary>
+        [Render(16)]
         public readonly F Field;
 
         /// <summary>
         /// The index of the first bit in the segment
         /// </summary>
+        [Render(8)]
         public readonly uint Offset;
 
         /// <summary>
         /// The segment width
         /// </summary>
+        [Render(8)]
         public readonly byte Width;
 
         [MethodImpl(Inline)]
@@ -40,6 +43,10 @@ namespace Z0
             get => (byte)Bitfields.endpos(Offset,Width);
         }
 
+        [MethodImpl(Inline)]
+        public BfInterval Untype()
+            => new BfInterval(Offset,Width);
+
         public int CompareTo(BfInterval src)
             => Offset.CompareTo(src.Offset);
 
@@ -51,6 +58,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator BfInterval(BfInterval<F> src)
-            => new BfInterval(src.Offset,src.Width);
+            => src.Untype();
     }
 }
