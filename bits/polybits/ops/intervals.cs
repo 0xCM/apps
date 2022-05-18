@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial struct BfDatasets
+    partial class PolyBits
     {
         public static Index<BfInterval<F>> intervals<F>(BfDataset<F> src)
             where F : unmanaged, Enum

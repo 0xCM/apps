@@ -9,9 +9,6 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
-        public static PolyBits PolyBits(this IWfRuntime wf)
-            => Z0.PolyBits.create(wf);
-
         public static AsmCodeGen AsmCodeGen(this IWfRuntime wf)
             => Asm.AsmCodeGen.create(wf);
 
@@ -51,10 +48,6 @@ namespace Z0
         [Op]
         public static ApiResPackEmitter ResPackEmitter(this IWfRuntime wf)
             => Z0.ApiResPackEmitter.create(wf);
-
-        [Op]
-        public static PbCmd PbCmd(this IWfRuntime wf)
-            => Z0.PbCmd.create(wf);
 
         [Op]
         public static AsmDocs AsmDocs(this IWfRuntime wf)

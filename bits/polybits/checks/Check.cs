@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
     using static core;
-
     using static PbChecks.Field32;
 
     using FK = PbChecks.Field32.FieldName;
@@ -26,7 +24,7 @@ namespace Z0
         AppDb AppDb => AppSvc.AppDb;
 
         static BfDataset<FieldName,Field32> opcodes()
-            => BfDatasets.create<FieldName,FieldWidth,Field32>("xed.opcodes");
+            => PolyBits.dataset<FieldName,FieldWidth,Field32>("xed.opcodes");
 
         public static Index<Field32> pack(BfDataset<FieldName,Field32> spec, ReadOnlySpan<Field32Source> src, bool pll = true)
         {
@@ -48,7 +46,7 @@ namespace Z0
 
         public static Func<Field32,string> formatter(BfDataset<FieldName,Field32> spec)
             => src => string.Format("{0,-18} | 0x{1} | {2,-6} | {3,-6} | {4,-6}",
-                    spec.Extract<InstClass>(FK.Class, src),
+                    spec.Extract<num16>(FK.Class, src),
                     spec.Extract<Hex8>(FK.Hex8, src),
                     spec.Extract<BitIndicator>(FK.Lock, src),
                     spec.Extract<BitIndicator>(FK.Rex, src),
@@ -83,7 +81,7 @@ namespace Z0
 
         void Check(N0 n)
         {
-            var bf = BfDatasets.create<Fields3>($"Bf{n}", Widths0);
+            var bf = PolyBits.dataset<Fields3>($"Bf{n}", Widths0);
             Render(bf);
         }
 
@@ -92,7 +90,7 @@ namespace Z0
             var bf = opcodes();
             var formatter = Tables.formatter<BfSegModel>();
             var intervals = bf.Intervals;
-            var segs = BfDatasets.segs(bf);
+            var segs = PolyBits.segs(bf);
             AppSvc.TableEmit(segs, AppDb.Targets("pb").Table<BfSegModel>($"{bf.Name}"));
 
             // Write(formatter.FormatHeader());
@@ -110,27 +108,6 @@ namespace Z0
             Check(n0);
             Check(n1);
             //AppSvc.Write(Emitter.Emit());
-        }
-    }
-
-
-    partial class PolyBits
-    {
-        public void Check()
-        {
-            Targets.Delete();
-            BitCheckers.run();
-            //Classifiers.Checks(Wf).Run();
-            var n = n8;
-            var count = Numbers.count(n);
-            var convert = BitConverters.converter(n);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var hex = ref convert.Chars(base16, (ushort)i);
-                ref readonly var bin = ref convert.Chars(base2, (ushort)i);
-            }
-
-            PbChecks.create(Wf).Run();
         }
     }
 }

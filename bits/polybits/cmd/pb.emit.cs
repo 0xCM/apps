@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     partial class PbCmd
     {
         [CmdOp("pb/bv/emit")]
@@ -13,18 +11,18 @@ namespace Z0
         {
             var result = Outcome.Success;
             var filter = "llvm.lists";
-            var sources = AppDb.LlvmSources().Scoped("tables");
-            var targets = AppDb.LlvmTargets().Targets("emitted");
-            var dst = targets.OutDir("bitvectors");
-            dst.Clear();
-            PolyBits.BvEmit(sources, filter, dst);
+            //var sources = AppDb.LlvmSources().Scoped("tables");
+            //var targets = AppDb.LlvmTargets().Targets("emitted");
+            //var dst = targets.OutDir("bitvectors");
+            //dst.Clear();
+            //PolyBits.BvEmit(sources, filter, dst);
             return result;
         }
 
         [CmdOp("pb/emit")]
         Outcome Emit(CmdArgs args)
         {
-            PolyBits.PatternEmit();
+            //PolyBits.PatternEmit();
             return true;
         }
     }

@@ -28,14 +28,14 @@ namespace Z0
         public void CheckBitfield()
         {
             var segs = array(
-                BfDatasets.seg(BF_A.Seg0, 0, 1, Bitfields.mask(Bitfields.segwidth(0,1), 0)),
-                BfDatasets.seg(BF_A.Seg1, 2, 2, Bitfields.mask(Bitfields.segwidth(2,2), 2)),
-                BfDatasets.seg(BF_A.Seg2, 3, 5, Bitfields.mask(Bitfields.segwidth(3,5), 3)),
-                BfDatasets.seg(BF_A.Seg3, 6, 8, Bitfields.mask(Bitfields.segwidth(6,8), 6))
+                PolyBits.seg(BF_A.Seg0, 0, 1, Bitfields.mask(Bitfields.segwidth(0,1), 0)),
+                PolyBits.seg(BF_A.Seg1, 2, 2, Bitfields.mask(Bitfields.segwidth(2,2), 2)),
+                PolyBits.seg(BF_A.Seg2, 3, 5, Bitfields.mask(Bitfields.segwidth(3,5), 3)),
+                PolyBits.seg(BF_A.Seg3, 6, 8, Bitfields.mask(Bitfields.segwidth(6,8), 6))
                 );
 
             var s0 = (byte)0b01_11_10_11;
-            var field = Bitfields.create(BfDatasets.origin(typeof(BF_A)), "test",segs,s0);
+            var field = Bitfields.create(PolyBits.origin(typeof(BF_A)), "test",segs,s0);
             var specs = field.SegSpecs;
             var count = specs.Length;
             var buffer = text.buffer();

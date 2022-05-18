@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = BfDatasets;
+    using api = PolyBits;
 
     public class BfDataset<F,T> : IBfDataset<F>
         where F : unmanaged, Enum
@@ -40,7 +40,7 @@ namespace Z0
             _Offsets = api.offsets(this);
             _Int = api.intervals(this);
             _Masks = api.masks(this);
-            BitstringPattern = api.pattern(this);
+            BitstringPattern = BfDataset.pattern(this);
             _UTInt = _Int.Untype();
         }
 

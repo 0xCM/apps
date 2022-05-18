@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = BfDatasets;
+    using api = PolyBits;
 
     public class BfDataset<F> : IBfDataset<F>
         where F : unmanaged, Enum
@@ -39,7 +39,7 @@ namespace Z0
             _Offsets = api.offsets(widths);
             _Int = api.intervals(this);
             _Masks = api.masks(this);
-            BitstringPattern = api.pattern(widths, Chars.Space);
+            BitstringPattern = BfDataset.pattern(widths, Chars.Space);
             _UTInt = _Int.Untype();
         }
 
@@ -106,14 +106,14 @@ namespace Z0
             => ref Intervals[Index(field)];
 
         [MethodImpl(Inline)]
-        public T Extract<T>(T src, F field)
+        public T Extract<T>(F field, T src)
             where T : unmanaged
-                => api.segval(src, Offset(field), Width(field));
+                => api.extract(Offset(field), Width(field), src);
 
         [MethodImpl(Inline)]
-        public T Extract<S,T>(S src, F field)
+        public T Extract<S,T>(F field, S src)
             where T : unmanaged
             where S : unmanaged
-                => api.segval<F,S,T>(src, field, this);
+                => api.extract<F,S,T>(this, field, src);
     }
 }

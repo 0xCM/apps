@@ -6,12 +6,12 @@ namespace Z0
 {
     using static core;
 
-    partial struct BfDatasets
+    partial class PolyBits
     {
         public static Index<BitMask> masks<W>()
             where W : unmanaged, Enum
         {
-            var widths = BfDatasets.widths<W>();
+            var widths = PolyBits.widths<W>();
             var count = widths.Count;
             var offset = 0u;
             var dst = alloc<BitMask>(count);
@@ -24,11 +24,11 @@ namespace Z0
         /// </summary>
         /// <param name="widths">The 0-based offset of each segment in the field</param>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static void masks(BfDataset spec, Span<BitMask> dst)
+        public static void masks(BfDataset src, Span<BitMask> dst)
         {
             var count = dst.Length;
             for(var i=z8; i<count; i++)
-                seek(dst,i) = Bitfields.mask(spec.Width(i), spec.Offset(i));
+                seek(dst,i) = Bitfields.mask(src.Width(i), src.Offset(i));
         }
 
         /// <summary>
@@ -36,23 +36,23 @@ namespace Z0
         /// </summary>
         /// <param name="widths">The 0-based offset of each segment in the field</param>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static void masks<T>(BfDataset spec, Span<T> dst)
+        public static void masks<T>(BfDataset src, Span<T> dst)
             where T : unmanaged
         {
             var count = dst.Length;
             for(var i=0; i<count; i++)
-                seek(dst,i) = Bitfields.mask<T>(spec.Width(i), spec.Offset(i));
+                seek(dst,i) = Bitfields.mask<T>(src.Width(i), src.Offset(i));
         }
 
         /// <summary>
         /// Computes a sequence of segment masks given a paired offset/width seqence
         /// </summary>
         /// <param name="widths">The 0-based offset of each segment in the field</param>
-        public static Index<BitMask> masks(BfDataset spec)
+        public static Index<BitMask> masks(BfDataset src)
         {
-            var dst = alloc<BitMask>(spec.FieldCount);
-            for(var i=z8; i<spec.FieldCount; i++)
-                seek(dst,i) = Bitfields.mask(spec.Width(i), spec.Offset(i));
+            var dst = alloc<BitMask>(src.FieldCount);
+            for(var i=z8; i<src.FieldCount; i++)
+                seek(dst,i) = Bitfields.mask(src.Width(i), src.Offset(i));
             return dst;
         }
 
@@ -60,16 +60,16 @@ namespace Z0
         /// Computes a sequence of segment masks given a paired offset/width seqence
         /// </summary>
         /// <param name="widths">The 0-based offset of each segment in the field</param>
-        public static Index<BitMask> masks<F>(BfDataset<F> spec)
+        public static Index<BitMask> masks<F>(BfDataset<F> src)
             where F : unmanaged, Enum
         {
-            var dst = alloc<BitMask>(spec.FieldCount);
-            var fields = spec.Fields;
-            for(var i=0; i<spec.FieldCount; i++)
+            var dst = alloc<BitMask>(src.FieldCount);
+            var fields = src.Fields;
+            for(var i=0; i<src.FieldCount; i++)
             {
                 ref readonly var field = ref fields[i];
-                var m = Numbers.max(spec.Width(field));
-                seek(dst,i) = m << (int)spec.Offset(field);
+                var m = Numbers.max(src.Width(field));
+                seek(dst,i) = m << (int)src.Offset(field);
             }
             return dst;
         }
@@ -78,12 +78,12 @@ namespace Z0
         /// Computes a sequence of segment masks given a paired offset/width seqence
         /// </summary>
         /// <param name="widths">The 0-based offset of each segment in the field</param>
-        public static Index<T> masks<T>(BfDataset ds)
+        public static Index<T> masks<T>(BfDataset src)
             where T : unmanaged
         {
-            var dst = alloc<T>(ds.FieldCount);
-            for(var i=z8; i<ds.FieldCount; i++)
-                seek(dst,i) = Bitfields.mask<T>(ds.Width(i), ds.Offset(i));
+            var dst = alloc<T>(src.FieldCount);
+            for(var i=z8; i<src.FieldCount; i++)
+                seek(dst,i) = Bitfields.mask<T>(src.Width(i), src.Offset(i));
             return dst;
         }
 

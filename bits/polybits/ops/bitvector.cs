@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial struct BfDatasets
+    partial class PolyBits
     {
         public static Index<BfModel> bitvectors(DbSources sources, string filter)
             => bitvectors(sources.Files(FileKind.Csv).Where(f => f.FileName.StartsWith(filter)));

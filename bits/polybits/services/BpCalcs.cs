@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = BfDatasets;
+    using api = BitPatterns;
 
     public class BpCalcs
     {

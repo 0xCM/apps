@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial struct BfDatasets
+    partial class PolyBits
     {
         public static Dictionary<F,uint> indices<F>()
             where F : unmanaged,Enum

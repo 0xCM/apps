@@ -6,6 +6,13 @@ namespace Z0
 {
     public static class XSvc
     {
+        public static PolyBits PolyBits(this IWfRuntime wf)
+            => Z0.PolyBits.create(wf);
+
+        [Op]
+        public static PbCmd PbCmd(this IWfRuntime wf)
+            => Z0.PbCmd.create(wf);
+
         [Op]
         public static BitfieldServices Bitfields(this IWfRuntime wf)
             => Z0.BitfieldServices.create(wf);

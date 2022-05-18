@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public readonly partial struct BfDatasets
+    partial class PolyBits
     {
         /// <summary>
         /// Infers bitfield segment widths from an enum

@@ -4,17 +4,60 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = BfDatasets;
+    using api = PolyBits;
 
     public class BfDataset : IBfDataset
     {
+        /// <summary>
+        /// Creates a bitfield render pattern predicated on a sequence of segment widths
+        /// </summary>
+        /// <param name="widths"></param>
+        [Op]
+        public static string pattern(Index<byte> widths, char sep = Chars.Space)
+        {
+            var dst = text.buffer();
+            var count = widths.Count;
+            for(var i=0u; i<count; i++)
+            {
+                var slot = RP.slot(i, math.negate((sbyte)widths[i]));
+                dst.Append(slot);
+                if(i != count - 1)
+                    dst.Append(sep);
+            }
+            return dst.Emit();
+        }
+
+        /// <summary>
+        /// Creates a bitfield render pattern predicated a dataset definition
+        /// </summary>
+        /// <param name="src"></param>
+        /// <typeparam name="F"></typeparam>
+        /// <typeparam name="T"></typeparam>
+        public static string pattern<F,T>(BfDataset<F,T> src)
+            where F : unmanaged, Enum
+            where T : unmanaged
+        {
+            var dst = text.buffer();
+            var fields = src.Fields;
+            for(var i=0u; i<src.FieldCount; i++)
+            {
+                ref readonly var field = ref src.Fields[i];
+                ref readonly var w = ref src.Width(field);
+                var slot = RP.slot(i, math.negate((sbyte)w));
+                dst.Append(slot);
+                if(i != src.FieldCount - 1)
+                    dst.Append(Chars.Space);
+            }
+            return dst.Emit();
+        }
+
         public readonly asci64 Name;
 
         public readonly uint FieldCount;
 
-        readonly Index<string> _Fields;
+        readonly Index<Char5Seq> _Fields;
 
-        readonly Dictionary<string,uint> _Indices;
+        readonly Dictionary<Char5Seq,uint> _Indices;
 
         readonly Index<uint> _Offsets;
 
@@ -26,16 +69,17 @@ namespace Z0
 
         public readonly string BitstringPattern;
 
-        public BfDataset(asci64 name, Index<string> fields, Dictionary<string,uint> indices, Index<byte> widths)
+        public BfDataset(asci64 name, Index<Char5Seq> fields, Dictionary<Char5Seq,uint> indices, Index<byte> widths)
         {
             Name = name;
+            _Fields = fields;
             FieldCount = widths.Count;
             _Indices = indices;
             _Widths = widths;
             _Offsets = api.offsets(widths);
             _Intervals = Bitfields.intervals(_Offsets, widths);
             _Masks = api.masks(this);
-            BitstringPattern = api.pattern(widths, Chars.Space);
+            BitstringPattern = pattern(widths, Chars.Space);
         }
 
         public ref readonly Index<uint> Offsets
@@ -56,7 +100,7 @@ namespace Z0
             get => ref _Intervals;
         }
 
-        public ref readonly Index<string> Fields
+        public ref readonly Index<Char5Seq> Fields
         {
             [MethodImpl(Inline)]
             get => ref _Fields;
@@ -78,7 +122,7 @@ namespace Z0
             => Name;
 
         [MethodImpl(Inline)]
-        public uint Index(asci64 field)
+        public uint Index(Char5Seq field)
             => _Indices[field];
 
         [MethodImpl(Inline)]
@@ -116,6 +160,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public T Extract<T>(uint index, T src)
             where T : unmanaged
-                => api.segval(src, Offset(index), Width(index));
+                => api.extract(Offset(index), Width(index), src);
     }
 }

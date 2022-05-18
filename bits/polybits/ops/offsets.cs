@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial struct BfDatasets
+    partial class PolyBits
     {
         /// <summary>
         /// Computes a sequence of bitfield offsets predicated on enum with literals that specify segment widths

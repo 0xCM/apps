@@ -15,7 +15,7 @@ namespace Z0
         public readonly record struct RuleBits
         {
             public static RuleBits create()
-                => new RuleBits(BfDatasets.create<Segment,RuleFieldBits>("Rules", FieldKindWidth, OperatorWidth, DataKindWidth, ValueWidth), FieldRender.create());
+                => new RuleBits(PolyBits.dataset<Segment,RuleFieldBits>("Rules", FieldKindWidth, OperatorWidth, DataKindWidth, ValueWidth), FieldRender.create());
 
             public readonly BfDataset<Segment,RuleFieldBits> Dataset;
 

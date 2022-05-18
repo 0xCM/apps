@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = BfDatasets;
-
     public class BpInfo
     {
         /// <summary>
@@ -51,7 +49,7 @@ namespace Z0
             MinSize = minsize;
             Segs = segs;
             Descriptor = descriptor;
-            Spec = api.spec(this);
+            Spec = BitPatterns.spec(this);
         }
 
         /// <summary>

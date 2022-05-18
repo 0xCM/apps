@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static BfDatasets;
+    using static BitPatterns;
 
     using P = AsmBitPatterns;
 
