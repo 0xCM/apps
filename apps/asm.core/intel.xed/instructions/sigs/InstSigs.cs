@@ -11,7 +11,6 @@ namespace Z0
     {
         public partial class InstSigs
         {
-
             static Index<SigToken> CalcSigTokens() => new SigToken[]{
                 "agen",
 
@@ -58,13 +57,19 @@ namespace Z0
 
             public static void render(Pairings<InstPattern,InstSig> src, ITextEmitter dst)
             {
-                const string RenderPattern = "{0,-18} | {1,-6} | {2,-26} | {3}";
-                dst.AppendLineFormat(RenderPattern, "Instruction", "Lock", "OpCode", "Vector");
+                const string RenderPattern = "{0,-18} | {1,-6} | {2,-26} | {3,-86} | {4}";
+                dst.AppendLineFormat(RenderPattern, "Instruction", "Lock", "OpCode", "Vector", "PackedWidth");
                 for(var i=0; i<src.Count; i++)
                 {
                     ref readonly var pattern = ref src[i].Left;
                     ref readonly var vector = ref src[i].Right;
-                    dst.AppendLineFormat(RenderPattern, classifier(pattern.InstClass), pattern.Lock, pattern.OpCode, vector);
+                    dst.AppendLineFormat(RenderPattern,
+                        classifier(pattern.InstClass),
+                        pattern.Lock,
+                        pattern.OpCode,
+                        vector,
+                        vector.PackedWidth
+                        );
                 }
             }
 
@@ -84,8 +89,7 @@ namespace Z0
                 for(var i=z8; i<count; i++)
                 {
                     ref readonly var op = ref ops[i];
-                    var ind = InstSigs.indicator(op.Name);
-                    dst[i] = InstSig.op(op.Index, op.Name, ind, op.Kind, op.BitWidth);
+                    dst[i] = InstSig.op(op.Index, op.Name, InstSigs.indicator(op.Name), op.Kind, op.BitWidth);
                 }
                 return dst;
             }

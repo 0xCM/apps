@@ -9,9 +9,11 @@ namespace Z0
 
     partial struct XedModels
     {
-        [DataWidth(num5.Width)]
+        [DataWidth(Width)]
         public readonly struct OpName : IComparable<OpName>
         {
+            public const byte Width = num5.Width;
+
             public readonly OpNameKind Kind;
 
             [MethodImpl(Inline)]

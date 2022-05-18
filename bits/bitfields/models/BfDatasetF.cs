@@ -6,7 +6,7 @@ namespace Z0
 {
     using api = BfDatasets;
 
-    public class BfdDataset<F> : IBfDataset<F>
+    public class BfDataset<F> : IBfDataset<F>
         where F : unmanaged, Enum
     {
         public readonly asci64 Name;
@@ -27,7 +27,7 @@ namespace Z0
 
         readonly Index<BitMask> _Masks;
 
-        public BfdDataset(F[] fields, Dictionary<F,uint> indices, byte[] widths)
+        public BfDataset(F[] fields, Dictionary<F,uint> indices, byte[] widths)
         {
             FieldCount = (uint)Require.equal(fields.Length, widths.Length);
             Name = typeof(F).Name;
@@ -105,11 +105,17 @@ namespace Z0
         [MethodImpl(Inline)]
         public T Extract<T>(F field, T src)
             where T : unmanaged
-                => Bitfields.extract(src, (byte)Offset(field), Width(field));
+                => api.segment(src, Offset(field), Width(field));
 
         [MethodImpl(Inline)]
-        public T Extract<T>(F field, uint src)
+        public T Extract<S,T>(F field, S src)
             where T : unmanaged
-                => core.@as<uint,T>(Bitfields.extract(src, (byte)Offset(field), Width(field)));
+            where S : unmanaged
+                => core.@as<ulong,T>(api.segment(core.bw64(src), Offset(field), Width(field)));
+
+        // [MethodImpl(Inline)]
+        // public T Extract<T>(F field, uint src)
+        //     where T : unmanaged
+        //         => core.@as<uint,T>(Bitfields.extract(src, (byte)Offset(field), Width(field)));
     }
 }

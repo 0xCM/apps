@@ -8,7 +8,7 @@ namespace Z0
 
     partial struct BfDatasets
     {
-        public static Index<BfInterval<F>> intervals<F>(BfdDataset<F> src)
+        public static Index<BfInterval<F>> intervals<F>(BfDataset<F> src)
             where F : unmanaged, Enum
                 => map(src.Fields, field => new BfInterval<F>(field, src.Offset(field), src.Width(field)));
 

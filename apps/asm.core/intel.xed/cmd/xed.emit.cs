@@ -70,14 +70,6 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("xed/emit/analysis")]
-        Outcome EmitAnalysis(CmdArgs args)
-        {
-            var analyzer = new RuleAnalyzer(this, (data,count,path) => FileEmit(data, count,path, TextEncodingKind.Asci));
-            analyzer.Run(CellTables);
-            return true;
-        }
-
         [CmdOp("xed/emit/layouts")]
         Outcome EmitLayouts(CmdArgs args)
         {

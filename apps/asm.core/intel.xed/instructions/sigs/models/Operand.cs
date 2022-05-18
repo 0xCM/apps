@@ -13,7 +13,7 @@ namespace Z0
             [StructLayout(StructLayout,Pack=1), DataWidth(Width)]
             public readonly struct Operand
             {
-                public const byte Width = num3.Width + num5.Width + num4.Width + num13.Width;
+                public const byte Width = num3.Width + OpName.Width + OpIndicator.Width + num8.Width + num16.Width;
 
                 public readonly num3 Pos;
 
@@ -36,6 +36,5 @@ namespace Z0
                 }
             }
         }
-
     }
 }

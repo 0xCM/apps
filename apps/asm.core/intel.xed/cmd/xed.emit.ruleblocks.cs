@@ -46,10 +46,36 @@ namespace Z0
                 if(i < names.Count - 1)
                 {
                     var i1 = offsets[i+1];
-                    target = new RuleTableBlock(kind, name, i0, core.segment(view, i0, i1 - 1).ToArray());
+                    var seg = core.segment(view, i0, i1 - 1);
+                    var parts = list<string>();
+                    for(var j=0; j<seg.Length; j++)
+                    {
+                        var part = text.trim(text.despace(skip(seg,j)));
+                        if(text.empty(part) || text.begins(part,Chars.Hash) || text.ends(part, "::") || text.ends(part, "()") || text.begins(part, "SEQUENCE "))
+                            continue;
+
+                        var k = text.index(part,Chars.Hash);
+                        if(k>0)
+                            parts.Add(text.left(part,k));
+                        else
+                            parts.Add(part);
+                    }
+                    target = new RuleTableBlock(kind, name, i0, parts.ToArray());
+
                 }
                 else
-                    target = new RuleTableBlock(kind, name, i0, core.slice(view, i0).ToArray());
+                {
+                    var seg = core.slice(view, i0);
+                    var parts = list<string>();
+                    for(var j=0; j<seg.Length; j++)
+                    {
+                        var part = text.trim(text.despace(skip(seg,j)));
+                        if(text.empty(part) || text.begins(part,Chars.Hash))
+                            continue;
+                        parts.Add(part);
+                    }
+                    target = new RuleTableBlock(kind, name, i0, parts.ToArray());
+                }
             }
 
             return dst.Sort();
@@ -70,6 +96,10 @@ namespace Z0
                 var offset = string.Format("{0:D5}", block.Offset);
                 found.Add(block.TableName);
                 dst.AppendLine($"{seq} {block.TableKind} {string.Format(RP.slot(0,-32),block.TableName)} | {offset}");
+                for(var j=0; j<block.Data.Count; j++)
+                {
+                    dst.IndentLine(12, block.Data[j]);
+                }
             }
 
             FileEmit(dst.Emit(), count, XedPaths.RuleTarget("names", FS.Csv));

@@ -48,11 +48,30 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("xed/check/bitfields")]
+        [CmdOp("xed/bf/check")]
         Outcome CheckBitfields(CmdArgs args)
         {
-            var bf = RuleFieldBits.create();
-            Write(bf.Dataset.Intervals.Format());
+            var bitfield = RuleBits.create();
+            Write(bitfield.Dataset.Intervals.Format());
+            return true;
+        }
+
+        [CmdOp("xed/rules/bits")]
+        Outcome EmitAnalysis(CmdArgs args)
+        {
+            var bitfield = RuleBits.create();
+            var dst = text.emitter();
+            dst.AppendLine(bitfield.RowHeader());
+            bitfield.Format(CellTables,dst);
+            AppSvc.FileEmit(dst.Emit(), 23, XedPaths.RuleTargets().Path("xed.rules.bits", FileKind.Csv));
+
+            var bits = bitfield.Bits(CellTables);
+            for(var i=0; i<bits.Count; i++)
+            {
+                ref readonly var field = ref bits[i];
+                Write(bitfield.Format(field));
+            }
+
             return true;
         }
     }

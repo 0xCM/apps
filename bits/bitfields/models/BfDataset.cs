@@ -115,6 +115,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public T Extract<T>(uint index, T src)
             where T : unmanaged
-                => Bitfields.extract(src, (byte)Offset(index), Width(index));
+                => api.segment(src, Offset(index), Width(index));
     }
 }

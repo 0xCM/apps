@@ -151,7 +151,7 @@ namespace Z0
 
         public void EmitCatalog()
         {
-            Paths.Targets().Delete();
+            Paths.Output().Delete();
             var tables = Views.RuleTables;
             var patterns = Views.Patterns;
             Emit(XedFields.Defs.Positioned);

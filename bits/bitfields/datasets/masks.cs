@@ -60,7 +60,7 @@ namespace Z0
         /// Computes a sequence of segment masks given a paired offset/width seqence
         /// </summary>
         /// <param name="widths">The 0-based offset of each segment in the field</param>
-        public static Index<BitMask> masks<F>(BfdDataset<F> spec)
+        public static Index<BitMask> masks<F>(BfDataset<F> spec)
             where F : unmanaged, Enum
         {
             var dst = alloc<BitMask>(spec.FieldCount);

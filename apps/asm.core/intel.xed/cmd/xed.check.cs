@@ -122,7 +122,6 @@ namespace Z0
 
         }
 
-
         SectionHeader header(RuleCaller target)
         {
             var rule = target.ToRule();

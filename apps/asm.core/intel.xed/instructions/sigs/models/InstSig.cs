@@ -22,10 +22,13 @@ namespace Z0
 
                 public readonly byte N;
 
+                public readonly ushort PackedWidth;
+
                 public InstSig(byte n)
                 {
                     N = n;
                     Ops = alloc<Operand>(n);
+                    PackedWidth = (ushort)(n*Operand.Width);
                 }
 
                 readonly Index<Operand> Ops;

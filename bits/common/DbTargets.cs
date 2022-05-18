@@ -24,6 +24,12 @@ namespace Z0
             }
         }
 
+        public DbTargets(FS.FolderPath root)
+        {
+            Scope = root.FolderName.Format();
+            Root = FS.dir(root.Format(PathSeparator.FS).Replace($"/{Scope}", EmptyString));
+        }
+
         public DbTargets Delete()
         {
             OutDir().Delete();
