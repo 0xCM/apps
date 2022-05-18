@@ -5,13 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Immutable;
-    using System.Reflection;
-    using System.Reflection.Metadata;
     using System.Text;
-
-    using static Root;
 
     partial class CliReader
     {

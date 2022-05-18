@@ -4,14 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.IO;
-    using System.Runtime.CompilerServices;
-    using System.Reflection.Metadata;
-    using System.Reflection;
-    using System.Reflection.PortableExecutable;
 
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -22,14 +16,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static CliArchive archive(FS.FolderPath root)
             => new CliArchive(root);
-
-        [Op]
-        public static bool valid(FS.FilePath src)
-        {
-            using var stream = File.OpenRead(src.Name);
-            using var reader = new PEReader(stream);
-            return reader.HasMetadata;
-        }
 
         public static Index<byte,CliTableKind> TableKinds()
         {
@@ -58,28 +44,6 @@ namespace Z0
         public static void visualize(FS.FilePath src, FS.FilePath dst)
             => Mdv.run(src.Name,dst.Name);
 
-        [MethodImpl(Inline), Op]
-        public unsafe static MetadataReaderProvider ReaderProvider(Assembly src)
-        {
-            var metadata = Clr.metadata(src);
-            return ReaderProvider(metadata.BaseAddress.Pointer<byte>(), metadata.Size);
-        }
-
-        [MethodImpl(Inline), Op]
-        unsafe static MetadataReaderProvider ReaderProvider(byte* pSrc, ByteSize size)
-            => MetadataReaderProvider.FromMetadataImage(pSrc, size);
-
-        [MethodImpl(Inline), Op]
-        public static MetadataReaderProvider ReaderProvider(Stream stream, MetadataStreamOptions options = MetadataStreamOptions.Default)
-            => MetadataReaderProvider.FromMetadataStream(stream, options);
-
-        [MethodImpl(Inline), Op]
-        public unsafe static MetadataReaderProvider PdbReaderProvider(byte* pSrc, ByteSize size)
-            => MetadataReaderProvider.FromPortablePdbImage(pSrc, size);
-
-        [MethodImpl(Inline), Op]
-        public static MetadataReaderProvider PdbReaderProvider(Stream src, MetadataStreamOptions options = MetadataStreamOptions.Default)
-            => MetadataReaderProvider.FromPortablePdbStream(src, options);
     }
 
     [ApiHost]

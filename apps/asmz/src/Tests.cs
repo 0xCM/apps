@@ -90,7 +90,6 @@ namespace Z0.Asm
             iter(fields, f => Wf.Row(f.Name + ": " + f.FieldType.Name));
         }
 
-
         void ShowCases2()
         {
             const string LogName = "CoreCLR_Windows_NT__x64__Debug.log";

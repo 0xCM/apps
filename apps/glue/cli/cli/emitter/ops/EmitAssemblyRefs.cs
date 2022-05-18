@@ -58,7 +58,7 @@ namespace Z0
         {
             var path = FS.path(src.Location);
             var counter = 0u;
-            if(Cli.valid(path))
+            if(ClrModules.valid(path))
             {
                 using var reader = PeReader.create(path);
                 var refs = reader.ReadAssemblyRefs();

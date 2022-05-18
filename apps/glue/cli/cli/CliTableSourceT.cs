@@ -4,28 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-    using System.Reflection.Metadata;
-    using System.Reflection.PortableExecutable;
-
-    using static Root;
-
-    public readonly struct ExternalModule
-    {
-        public string Name {get;}
-
-        [MethodImpl(Inline)]
-        public ExternalModule(string name)
-        {
-            Name = name;
-        }
-
-        [MethodImpl(Inline)]
-        public static implicit operator ExternalModule(string name)
-            => new ExternalModule(name);
-    }
     public sealed class CliTableSource<T> : TableSource<CliTableSource<T>,T>
         where T : struct, IRecord<T>
     {

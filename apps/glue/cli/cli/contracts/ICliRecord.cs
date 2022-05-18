@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public interface ICliRecord : IRecord
     {
         CliTableKind TableKind {get;}

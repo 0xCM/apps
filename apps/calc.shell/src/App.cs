@@ -78,7 +78,6 @@ namespace Z0
         void Run(N3 n)
         {
             LogHeader(MethodInfo.GetCurrentMethod(), n);
-
             var provider = PageBank16x4x4.allocated();
             var block = provider.Block(n0);
             var segsize = 32;

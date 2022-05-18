@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection.Metadata;
-    using System.Reflection.Metadata.Ecma335;
-
     partial class CliReader
     {
         public ReadOnlySpan<CliBlob> ReadBlobInfo()

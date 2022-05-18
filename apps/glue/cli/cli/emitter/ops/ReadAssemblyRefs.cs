@@ -11,7 +11,7 @@ namespace Z0
         public ReadOnlySpan<AssemblyRefInfo> ReadAssemblyRefs(Assembly src)
         {
             var path = FS.path(src.Location);
-            if(Cli.valid(path))
+            if(ClrModules.valid(path))
             {
                 using var reader = PeReader.create(path);
                 return reader.ReadAssemblyRefs();
@@ -29,7 +29,7 @@ namespace Z0
             {
                 ref readonly var assembly = ref skip(components,i);
                 var path = FS.path(assembly.Location);
-                if(Cli.valid(path))
+                if(ClrModules.valid(path))
                 {
                     using var reader = PeReader.create(path);
                     var refs = reader.ReadAssemblyRefs();

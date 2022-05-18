@@ -4,13 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection.Metadata;
-    using System.Reflection.Metadata.Ecma335;
-    using System.Linq;
-
-    using static Root;
     using static core;
 
     partial class CliReader

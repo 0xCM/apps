@@ -4,18 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Reflection.Metadata;
-
     using static core;
 
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct CliHandleData : ITextual, IComparable<CliHandleData>, IEquatable<CliHandleData>
     {
-
-        // [MethodImpl(Inline), Op]
-        // public static Handle handle(CliHandleData src)
-        //     => @as<CliHandleData,Handle>(src);
-
         [MethodImpl(Inline), Op]
         public Handle handle(CliToken src)
             => handle(new CliHandleData(src.Table, src.Row));

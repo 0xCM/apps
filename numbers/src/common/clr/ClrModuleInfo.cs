@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.InteropServices;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ClrComponentInfo
+    public struct ClrModuleInfo
     {
-        public const string TableId = "cli.component";
+        public const string TableId = "clr.modules";
 
         public FS.FilePath ImgPath;
 

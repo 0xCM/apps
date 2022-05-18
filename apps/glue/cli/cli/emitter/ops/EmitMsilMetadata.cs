@@ -27,7 +27,7 @@ namespace Z0
         {
             var methods = ReadOnlySpan<MsilMetadata>.Empty;
             var srcPath = FS.path(src.Location);
-            if(Cli.valid(srcPath))
+            if(ClrModules.valid(srcPath))
             {
                 using var reader = PeReader.create(srcPath);
                 methods = reader.ReadMsil();

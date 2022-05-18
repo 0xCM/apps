@@ -6,7 +6,6 @@ namespace Z0
 {
     using System.IO;
 
-    using static Root;
     using static core;
 
     partial class CliEmitter

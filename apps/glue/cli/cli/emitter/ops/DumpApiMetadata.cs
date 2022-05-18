@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection.Metadata;
-    using System.Reflection.PortableExecutable;
     using System.IO;
-    using System.Reflection;
 
     using static core;
 
@@ -19,7 +14,7 @@ namespace Z0
         {
             try
             {
-                if(Cli.valid(src))
+                if(ClrModules.valid(src))
                 {
                     var flow = Wf.EmittingFile(dst);
                     using var stream = File.OpenRead(src.Name);
@@ -51,7 +46,7 @@ namespace Z0
             if(clear)
                 dst.Clear();
 
-            var srcpaths = src.AllFiles.Where(f => f.Is(FS.Exe) || f.Is(FS.Dll)).Where(f => Cli.valid(f));
+            var srcpaths = src.AllFiles.Where(f => f.Is(FS.Exe) || f.Is(FS.Dll)).Where(f => ClrModules.valid(f));
             var count = srcpaths.Count;
             var flows = alloc<Arrow<FS.FilePath>>(count);
             for(var i=0; i<count; i++)
