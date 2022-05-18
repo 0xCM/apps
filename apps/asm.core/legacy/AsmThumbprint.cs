@@ -16,26 +16,6 @@ namespace Z0.Asm
             return distinct.Array().ToSortedSpan();
         }
 
-        // public static Outcome load(FS.FilePath src, out AsmThumbprint[] dst)
-        // {
-        //     var buffer = list<AsmThumbprint>();
-        //     var result = Outcome.Success;
-        //     dst = sys.empty<AsmThumbprint>();
-        //     using var reader = src.Utf8Reader();
-        //     while(!reader.EndOfStream)
-        //     {
-        //         var data = reader.ReadLine();
-        //         result = AsmThumbprint.parse(data, out var thumbprint);
-        //         if(result.Fail)
-        //             break;
-        //         else
-        //             buffer.Add(thumbprint);
-        //     }
-        //     if(result)
-        //         dst = buffer.ToArray();
-        //     return result;
-        // }
-
         [MethodImpl(Inline),Op]
         public static AsmThumbprint define(AsmExpr statement, AsmSigInfo sig, AsmOpCodeString opcode, AsmHexCode encoded)
             => new AsmThumbprint(statement, sig, opcode, encoded);
