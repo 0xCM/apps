@@ -4,9 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiHost]
-    public readonly partial struct EvalPrimal
+    [Free]
+    public interface ICheckBinarySVFD<W,F,T>
+        where T : unmanaged
+        where W : ITypeWidth
+        where F : IBinaryOp<T>
     {
-
+        void CheckSVF(F f);
     }
 }

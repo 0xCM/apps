@@ -4,14 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface ICheckBinarySVFD<W,F,T>
+    public interface ICheckSF128<S,T> : IFunc<S,Vector128<T>,bit>
+        where S : unmanaged
         where T : unmanaged
-        where W : ITypeWidth
-        where F : IBinaryOp<T>
     {
-        void CheckSVF(F f);
+
+    }
+
+    [Free]
+    public interface ICheckSF256<S,T> : IFunc<S, Vector256<T>, bit>
+        where S : unmanaged
+        where T : unmanaged
+    {
+
     }
 }

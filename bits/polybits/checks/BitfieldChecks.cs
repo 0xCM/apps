@@ -24,8 +24,7 @@ namespace Z0
             Seg3 = 3
         }
 
-        [Op]
-        public void Exec()
+        public void Run(ITextEmitter log)
         {
             var segs = array(
                 PolyBits.seg(BF_A.Seg0, 0, 1, Bitfields.mask(Bitfields.segwidth(0,1), 0)),
@@ -38,8 +37,7 @@ namespace Z0
             var field = Bitfields.create(PolyBits.origin(typeof(BF_A)), "test",segs,s0);
             var specs = field.SegSpecs;
             var count = specs.Length;
-            var buffer = text.buffer();
-            buffer.Append("[");
+            log.Append("[");
             for(byte i=0; i<count; i++)
             {
                 ref readonly var seg = ref skip(specs,i);
@@ -47,11 +45,17 @@ namespace Z0
                 var j=0u;
 
                 var bitstring = BitRender.gformat(state, (byte)seg.Width);
-                buffer.Append(string.Format("{0}={1}",seg.Format(), bitstring));
+                log.Append(string.Format("{0}={1}",seg.Format(), bitstring));
                 if(i !=count -1)
-                    buffer.Append(" | ");
+                    log.Append(" | ");
             }
-            buffer.Append("]");
+            log.Append("]");
+        }
+
+        public override void Run()
+        {
+            var log = text.emitter();
+            Run(log);
         }
     }
 }

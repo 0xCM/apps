@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly struct CheckBinaryPredSF8<T> : ICheckSF<T,T,bool>
+    public readonly struct CheckTernaryOpSF<T> : ICheckSF<T,T,T,T>
         where T : unmanaged
     {
         public ITestContext Context {get;}
@@ -17,7 +12,7 @@ namespace Z0
         public bool ExcludeZero {get;}
 
         [MethodImpl(Inline)]
-        public CheckBinaryPredSF8(ITestContext context, bool xz = false)
+        public CheckTernaryOpSF(ITestContext context, bool xz = false)
         {
             Context = context;
             ExcludeZero = xz;

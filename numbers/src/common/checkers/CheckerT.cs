@@ -91,17 +91,14 @@ namespace Z0
                 Ran(running, string.Format("{0,-32} | Fail | {1}", name, result.Message), FlairKind.Error);
         }
 
-        public void Run()
+        public virtual void Run()
         {
             try
             {
                 Prepare();
                 var count = Methods.Count;
-                var args = sys.empty<object>();
                 for(var i=0; i<count; i++)
-                {
                     Run(Methods[i]);
-                }
             }
             catch(Exception e)
             {

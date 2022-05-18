@@ -15,6 +15,7 @@ namespace Z0
                 (nameof(CheckBitNumbers), CheckBitNumbers),
                 (nameof(CheckBitReplication), CheckBitReplication),
                 (nameof(CheckSegVars), CheckSegVars),
+                (nameof(CheckBitfields), CheckBitfields),
                 (nameof(CheckBv256), CheckBv256),
                 (nameof(CheckPack64x1), CheckPack64x1),
                 (nameof(CheckUnpack4x1), CheckUnpack4x1)
@@ -23,6 +24,12 @@ namespace Z0
         public static BitVector256<T> bv256<T>()
             where T : unmanaged
                 => default;
+
+        static void CheckBitfields(ITextEmitter log)
+        {
+            var checks = new BitfieldChecks();
+            checks.Run(log);
+        }
 
         static void CheckBv256(ITextEmitter log)
         {

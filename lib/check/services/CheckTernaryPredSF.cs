@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct CheckTernaryPredSF<T> : ICheckSF<T,T,T,bit>
         where T : unmanaged
     {

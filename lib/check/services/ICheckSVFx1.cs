@@ -4,14 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static cpu;
     using static core;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     public readonly struct CheckSVF<T> : ICheckSVF<T>
         where T : unmanaged
