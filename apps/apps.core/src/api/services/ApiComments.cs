@@ -59,7 +59,7 @@ namespace Z0
                             let key = c.Key
                             let value = c.Value
                         where key.Contains(m.Value)
-                            where value.Kind == ApiCommentTarget.Method
+                            where value.Type == ApiCommentTarget.Method
                         select (Type:m.Key, Method:key, value);
 
                     var types = (from groups in selected.Map(x => (x.Type, x.Method, Comment:x.value)).GroupBy(x => x.Type)
@@ -77,7 +77,7 @@ namespace Z0
                         {
                             (var _, var method, var comment) = rows[j];
                             var ms = MethodCommentSig.from(comment);
-                            doc[k] = Markdown.section(k, header(3, ms.Format()), comment.Summary);
+                            doc[k] = Markdown.section(k, header(3, ms.Format()), comment.Description);
                         }
                         var dst = AppDb.ApiTargets().Targets("markdown").Path(string.Format("z0.lib.{0}", typename), FileKind.Md);
                         FileEmit(doc.Format(), k, dst);
@@ -90,25 +90,27 @@ namespace Z0
 
         public Dictionary<FS.FilePath, Dictionary<string,string>> Collect()
         {
-            var dir = ProjectDb.Subdir("api/comments");
-            dir.Clear();
+            var targets = AppDb.ApiTargets("comments");
+            targets.Clear();
             var src = Pull();
             var dst = new Dictionary<FS.FilePath, Dictionary<string,ApiComment>>();
+            var formatter = Tables.formatter<ApiComment>();
             foreach(var part in src.Keys)
             {
                 var id = part.FileName.WithoutExtension.Name;
-                var path = ProjectDb.TablePath<ApiComment>("api/comments", id);
+                var file = FS.file(string.Format("{0}.{1}", "api.comments", part.FileName.WithoutExtension.Name), FS.Csv);
+                var path = targets.Path(file);
                 var flow = EmittingTable<ApiComment>(path);
                 var docs = new Dictionary<string, ApiComment>();
                 dst[part] = docs;
                 using var writer = path.Writer();
-
+                writer.AppendLine(formatter.FormatHeader());
                 var kvp = src[part];
                 foreach(var key in kvp.Keys)
                 {
-                    var member = parse(key, kvp[key]).OnSuccess(d => docs[d.Identifer] = d);
+                    var member = parse(key, kvp[key]).OnSuccess(d => docs[d.Name] = d);
                     if(member.Succeeded)
-                        writer.WriteLine(format(member.Value));
+                        writer.WriteLine(formatter.Format(member.Value));
                 }
                 EmittedTable(flow, kvp.Count);
             }
@@ -138,6 +140,7 @@ namespace Z0
 
         public ApiCommentDataset Calc()
         {
+            var targets = AppDb.ApiTargets("comments");
             var xmlData = new Dictionary<FS.FilePath, Dictionary<string,string>>();
             var archive = core.controller().RuntimeArchive();
             var xmlFiles = archive.XmlFiles;
@@ -146,15 +149,15 @@ namespace Z0
                 var elements = ParseXmlData(xmlfile.ReadText());
                 if(elements.Count != 0)
                     xmlData[xmlfile] = elements;
-
             }
 
             var comments = new Dictionary<FS.FilePath, Dictionary<string,ApiComment>>();
             var csvRows = core.dict<FS.FilePath,List<string>>();
+            var formatter = Tables.formatter<ApiComment>();
             foreach(var part in xmlData.Keys)
             {
-                var id = part.FileName.WithoutExtension.Name;
-                var path = ProjectDb.TablePath<ApiComment>("api/comments", id);
+                var file = FS.file(string.Format("{0}.{1}", "api.comments", part.FileName.WithoutExtension.Name), FS.Csv);
+                var path = targets.Path(file);
                 var docs = new Dictionary<string, ApiComment>();
                 comments[part] = docs;
                 csvRows[path] = new();
@@ -165,14 +168,12 @@ namespace Z0
                     var result = parse(key, kvp[key], out ApiComment comment);
                     docs[key] = comment;
                     if(result)
-                        csvRows[path].Add(format(comment));
+                        csvRows[path].Add(formatter.Format(comment));
                 }
             }
 
             return new(xmlData, comments, csvRows);
         }
-
-        const string Sep = "| ";
 
         public static ApiCommentTarget kind(char src)
             => src switch {
@@ -183,12 +184,10 @@ namespace Z0
                 _ => ApiCommentTarget.None,
             };
 
-        public static string format(ApiComment src)
-            => text.concat(src.Kind.ToString().PadRight(12), Sep, src.Identifer.PadRight(70), Sep, src.Summary);
-
         Dictionary<FS.FilePath, Dictionary<string,string>> Pull()
         {
             var archive = core.controller().RuntimeArchive();
+            var targets = AppDb.ApiTargets("comments");
             var paths = archive.XmlFiles;
             var dst = new Dictionary<FS.FilePath, Dictionary<string,string>>();
             var t = default(ApiComment);
@@ -201,12 +200,8 @@ namespace Z0
                 if(parsed.Count != 0)
                 {
                     dst[xmlfile] = parsed;
-                    var id = string.Format("{0}.{1}", "api.comments", xmlfile.FileName.WithoutExtension.Name);
-                    var path = ProjectDb.FilePath("api/comments", id, FS.Xml);
-                    var emitting = EmittingFile(path);
-                    using var writer = path.Utf8Writer();
-                    writer.WriteLine(data);
-                    EmittedFile(emitting, parsed.Count);
+                    var file = FS.file(string.Format("{0}.{1}", "api.comments", xmlfile.FileName.WithoutExtension.Name), FS.Xml);
+                    FileEmit(data, parsed.Count, targets.Path(file));
                 }
 
             }

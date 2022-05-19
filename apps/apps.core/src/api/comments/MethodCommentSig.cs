@@ -23,7 +23,7 @@ namespace Z0
             Type = EmptyString;
             Method = EmptyString;
             Operands = sys.empty<string>();
-            var data = text.remove(src.Identifer,"Z0.");
+            var data = text.remove(src.Name,"Z0.");
             var i = text.index(data, Chars.Dot);
             if(i>0)
             {

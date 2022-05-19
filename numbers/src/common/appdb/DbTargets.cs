@@ -49,6 +49,9 @@ namespace Z0
         FS.FolderPath OutDir()
             => Root + FS.folder(Scope);
 
+        public FS.FolderPath Dir(string scope)
+            => Root + FS.folder(scope);
+
         public FS.FolderPath OutDir(string scope)
             => OutDir() + FS.folder(scope);
 
