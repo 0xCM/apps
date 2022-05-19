@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Free]
-    public interface inum : IDataType
+    public interface INumber : IDataType
     {
         byte PackedWidth {get;}
 
@@ -24,13 +24,16 @@ namespace Z0
     }
 
     [Free]
-    public interface inum<T> : inum, IEquatable<T>, IComparable<T>
-        where T : unmanaged, inum<T>
+    public interface INumber<T> : INumber, IEquatable<T>, IComparable<T>
+        where T : unmanaged, INumber<T>
     {
         asci64 IDataType.Name
             => typeof(T).Name;
 
-        byte inum.NativeWidth
+        byte INumber.NativeWidth
             => (byte)core.width<T>();
+
+        S Convert<S>()
+            where S : unmanaged;
     }
 }

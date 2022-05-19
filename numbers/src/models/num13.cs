@@ -15,7 +15,7 @@ namespace Z0
     /// Defines a 13-bit number
     /// </summary>
     [DataWidth(Width), ApiComplete]
-    public readonly struct num13 : inum<T>
+    public readonly struct num13 : INumber<T>
     {
         public readonly D Value;
 
@@ -27,10 +27,10 @@ namespace Z0
         num13(ulong src)
             => Value = (D)src;
 
-        byte inum.PackedWidth
+        byte INumber.PackedWidth
             => Width;
 
-        ulong inum.Value
+        ulong INumber.Value
             => Value;
 
         public const byte Width = 13;
@@ -208,6 +208,11 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Value == MaxValue;
         }
+
+        [MethodImpl(Inline)]
+        public S Convert<S>()
+            where S : unmanaged
+                => @as<T,S>(this);
 
         [MethodImpl(Inline)]
         public string Format()

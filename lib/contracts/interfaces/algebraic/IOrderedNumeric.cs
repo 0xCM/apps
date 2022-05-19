@@ -4,15 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    public interface IOrderedNumeric<S> :  IStepwise<S>,  IOrdered<S>,  INumeric<S>
+        where S : IOrderedNumeric<S>, new() {}
+
     /// <summary>
-    /// Characterizes a reification structure over an integer type
+    /// Characterizes a structural number with order
     /// </summary>
     /// <typeparam name="S">The reification type</typeparam>
     /// <typeparam name="T">The underlying type</typeparam>
-    public interface IInteger<S,T> : IInteger<S>
-        where S : IInteger<S,T>, new() { }
+    public interface IOrderedNumeric<S,T> : IOrderedNumeric<S>
+        where S : IOrderedNumeric<S,T>, new() {}
 
-    public interface IInteger<S> :  IRealNumber<S>, IStepwise<S>
-        where S : IInteger<S>, new()
-    { }
 }

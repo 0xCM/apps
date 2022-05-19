@@ -7,23 +7,22 @@ namespace Z0
 {
     partial class XedRules
     {
-        [SymSource(xed), DataWidth(3,8)]
-        public enum OperatorKind : byte
+        [DataWidth(InstField.KindWidth)]
+        public enum InstFieldKind : byte
         {
-            [Symbol(RuleOperator.EmptySym)]
             None,
 
-            [Symbol(RuleOperator.EqSym)]
-            Eq,
+            BitLit,
 
-            [Symbol(RuleOperator.NeSym)]
-            Ne,
+            HexLit,
 
-            [Symbol(RuleOperator.AndSym)]
-            And,
+            InstSeg,
 
-            [Symbol(RuleOperator.ImplSym)]
-            Impl,
+            NeqExpr,
+
+            ExExpr,
+
+            NtCall,
         }
     }
 }

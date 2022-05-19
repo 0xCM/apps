@@ -7,9 +7,15 @@ namespace Z0
 {
     partial class XedRules
     {
-        [DataWidth(PackedWidth,AlignedWidth)]
+        [DataWidth(Width)]
         public readonly struct RuleOperator : IComparable<RuleOperator>, IEquatable<RuleOperator>
         {
+            public const byte Width = 3;
+
+            const byte AlignedWidth = 8;
+
+            public static DataSize DataSize => new (Width, AlignedWidth);
+
             public const string EmptySym = EmptyString;
 
             public const string EqSym = "=";
@@ -43,12 +49,6 @@ namespace Z0
                 }
                 return dst;
             }
-
-            internal const byte PackedWidth = 4;
-
-            internal const byte AlignedWidth = 8;
-
-            public static DataSize DataSize => new (PackedWidth, AlignedWidth);
 
             public static RuleOperator None => OperatorKind.None;
 

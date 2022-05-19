@@ -15,7 +15,7 @@ namespace Z0
     /// Defines a 12-bit number
     /// </summary>
     [DataWidth(Width), ApiComplete]
-    public readonly struct num12 : inum<T>
+    public readonly struct num12 : INumber<T>
     {
         public readonly D Value;
 
@@ -180,10 +180,10 @@ namespace Z0
             return result;
         }
 
-        byte inum.PackedWidth
+        byte INumber.PackedWidth
             => Width;
 
-        ulong inum.Value
+        ulong INumber.Value
             => Value;
 
         [MethodImpl(Inline)]
@@ -207,6 +207,11 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Value == MaxValue;
         }
+
+        [MethodImpl(Inline)]
+        public S Convert<S>()
+            where S : unmanaged
+                => @as<T,S>(this);
 
         [MethodImpl(Inline)]
         public string Format()

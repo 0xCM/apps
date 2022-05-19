@@ -9,7 +9,7 @@ namespace Z0
     /// </summary>
     /// <typeparam name="S">The structure type</typeparam>
     /// <typeparam name="T">The underlying operand type</typeparam>
-    public interface INumber<S> :
+    public interface INumeric<S> :
             ISubtractive<S>,
             IAbsolitive<S>,
             IAdditiveGroup<S>,
@@ -17,8 +17,17 @@ namespace Z0
             ISemiring<S>,
             IDivisive<S>,
             INaturallyPowered<S>
-        where S : INumber<S>, new()
+        where S : INumeric<S>, new()
     {
 
     }
+
+
+    // /// <summary>
+    // /// Characterizes a numeric thing
+    // /// </summary>
+    // public interface INumeric : IComparable, IConvertible, IFormattable
+    // {
+
+    // }
 }

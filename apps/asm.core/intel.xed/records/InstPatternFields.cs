@@ -12,7 +12,7 @@ namespace Z0
         [Record(TableId)]
         public struct InstFieldRow
         {
-            public const string TableId = "xed.inst.patterns.fields";
+            const string TableId = "xed.inst.patterns.fields";
 
             [Render(12)]
             public uint PatternId;
@@ -44,23 +44,14 @@ namespace Z0
             [Render(16)]
             public InstSeg Seg;
 
-            [Render(16)]
-            public FieldSeg SegField;
-
-            [Render(16)]
-            public SegVar SegVar;
-
             [Render(22)]
             public Nonterminal Nonterminal;
-
-            [Render(22)]
-            public EmptyZero<ushort> IntVal;
 
             [Render(12)]
             public EmptyZero<Hex8> HexLiteral;
 
             [Render(12)]
-            public EmptyZero<uint5> BitLiteral;
+            public LiteralBits BitLiteral;
 
             public static InstFieldRow Empty => default;
         }

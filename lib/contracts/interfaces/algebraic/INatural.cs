@@ -10,7 +10,7 @@ namespace Z0
     /// bounds implied by the underlying data structure
     /// </summary>
     /// <typeparam name="S">The type of the realizing structure</typeparam>
-    public interface INatural<S> : IInteger<S>, INonNegative<S>
+    public interface INatural<S> : IIntegral<S>, INonNegative<S>
         where S : INatural<S>, new()
     {
 

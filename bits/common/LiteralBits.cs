@@ -124,6 +124,50 @@ namespace Z0
         public static implicit operator byte(LiteralBits src)
             => src.Value;
 
+        [MethodImpl(Inline)]
+        public static implicit operator LiteralBits(uint5 src)
+            => new LiteralBits(5,src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator LiteralBits(uint4 src)
+            => new LiteralBits(4,src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator LiteralBits(uint3 src)
+            => new LiteralBits(3,src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator LiteralBits(uint2 src)
+            => new LiteralBits(2,src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator LiteralBits(uint1 src)
+            => new LiteralBits(1,src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator LiteralBits(bit src)
+            => new LiteralBits(1,src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator LiteralBits(num5 src)
+            => new LiteralBits(5,src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator LiteralBits(num4 src)
+            => new LiteralBits(4,src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator LiteralBits(num3 src)
+            => new LiteralBits(3,src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator LiteralBits(num2 src)
+            => new LiteralBits(2,src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator LiteralBits(num1 src)
+            => new LiteralBits(1,src);
+
         public static LiteralBits Empty => default;
     }
 }

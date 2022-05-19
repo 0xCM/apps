@@ -12,7 +12,7 @@ namespace Z0
     using N = N14;
 
     [DataWidth(Width), ApiComplete]
-    public readonly struct num14 : inum<T>
+    public readonly struct num14 : INumber<T>
     {
         public readonly D Value;
 
@@ -24,10 +24,10 @@ namespace Z0
         num14(ulong src)
             => Value = (D)src;
 
-        byte inum.PackedWidth
+        byte INumber.PackedWidth
             => Width;
 
-        ulong inum.Value
+        ulong INumber.Value
             => Value;
 
         public const byte Width = 14;
@@ -205,6 +205,11 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Value == MaxValue;
         }
+
+        [MethodImpl(Inline)]
+        public S Convert<S>()
+            where S : unmanaged
+                => @as<T,S>(this);
 
         [MethodImpl(Inline)]
         public string Format()

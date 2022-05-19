@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class XTend
     {
         /// <summary>
@@ -24,7 +19,7 @@ namespace Z0
     /// A numbered box
     /// </summary>
     [IdentityProvider(typeof(BoxedNumber))]
-    public readonly struct BoxedNumber : INumeric, IEquatable<BoxedNumber>, ITypeIdentityProvider<BoxedNumber>
+    public readonly struct BoxedNumber : IEquatable<BoxedNumber>, ITypeIdentityProvider<BoxedNumber>, IComparable, IConvertible, IFormattable
     {
         public static BoxedNumberConverter Converter => default;
 

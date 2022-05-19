@@ -5,7 +5,7 @@
 namespace Z0
 {
     public interface IFloating<S> :
-        IRealNumber<S>,
+        IRealNumeric<S>,
         IFractional<S>,
         ISubtractive<S>,
         ITrigonmetric<S>

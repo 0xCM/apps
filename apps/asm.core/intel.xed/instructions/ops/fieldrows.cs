@@ -41,12 +41,6 @@ namespace Z0
                 case RuleCellKind.InstSeg:
                     dst.Seg = src.AsInstSeg();
                 break;
-                case RuleCellKind.FieldSeg:
-                    dst.SegField = src.ToFieldSeg();
-                break;
-                case RuleCellKind.SegVar:
-                    dst.SegVar = src.AsSegVar();
-                break;
                 case RuleCellKind.BitLit:
                     dst.BitLiteral = src.AsBitLit();
                 break;
@@ -54,18 +48,14 @@ namespace Z0
                 case RuleCellKind.EqExpr:
                     dst.FieldExpr = src.ToCellExpr();
                 break;
-                case RuleCellKind.NtExpr:
-                    dst.Nonterminal = dst.FieldExpr.Value.ToRuleName();
-                break;
                 case RuleCellKind.HexLit:
                     dst.HexLiteral = src.AsHexLit();
-                break;
-                case RuleCellKind.IntVal:
-                    dst.IntVal = src.AsWord();
                 break;
                 case RuleCellKind.NtCall:
                     dst.Nonterminal = src.AsNonterm();
                 break;
+                default:
+                    throw new NotSupportedException();
             }
 
             return dst;

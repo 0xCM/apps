@@ -10,8 +10,8 @@ namespace Z0
     /// Characterizes a structured real
     /// </summary>
     /// <typeparam name="S">The reification type</typeparam>
-    public interface IRealNumber<S> : IOrderedNumber<S>, ITrigonmetric<S>, IComparable<S>
-        where S : IRealNumber<S>, new()
+    public interface IRealNumeric<S> : IOrderedNumeric<S>, ITrigonmetric<S>, IComparable<S>
+        where S : IRealNumeric<S>, new()
     {
 
     }
@@ -21,8 +21,8 @@ namespace Z0
     /// </summary>
     /// <typeparam name="S">The reification type</typeparam>
     /// <typeparam name="T">The underlying type</typeparam>
-    public interface IRealNumber<S,T> : IRealNumber<S>
-        where S : IRealNumber<S,T>, new()
+    public interface IRealNumeric<S,T> : IRealNumeric<S>
+        where S : IRealNumeric<S,T>, new()
     {
 
     }

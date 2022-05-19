@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IBoundReal<S> :  IRealNumber<S>
+    public interface IBoundReal<S> :  IRealNumeric<S>
         where S : IBoundReal<S>, new()
     {
 
