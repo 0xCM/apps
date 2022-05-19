@@ -13,29 +13,33 @@ namespace Z0.Asm
 
         public const byte FieldCount = 7;
 
+        [Render(64)]
+        public InstForm Form;
+
+        [Render(42)]
         public string Name;
 
-        public DelimitedIndex<string> CpuId;
-
-        public DelimitedIndex<string> Types;
-
-        public string Category;
-
-        public string Signature;
-
+        [Render(56)]
         public string Instruction;
 
-        public IFormType IForm;
+        [Render(32)]
+        public DelimitedIndex<string> CpuId;
+
+        [Render(32)]
+        public DelimitedIndex<string> Types;
+
+        [Render(32)]
+        public string Category;
+
+        [Render(1)]
+        public string Signature;
 
         public int CompareTo(IntelIntrinsic src)
         {
-            var result = CpuId.Format().CompareTo(src.CpuId.Format());
+            var result = Form.CompareTo(src.Form);
             if(result == 0)
                 result = Name.CompareTo(src.Name);
             return result;
         }
-
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{42,32,32,32,120,56,120};
     }
 }

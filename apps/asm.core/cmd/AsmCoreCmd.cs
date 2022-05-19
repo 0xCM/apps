@@ -54,6 +54,8 @@ namespace Z0
 
         AsmRegSets Regs => Service(AsmRegSets.create);
 
+        IntelIntrinsicSvc Intrinsics => Service(Wf.IntelIntrinsics);
+
         ref readonly RuleTables RuleTables
             => ref Xed.Views.RuleTables;
 

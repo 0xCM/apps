@@ -8,13 +8,6 @@ namespace Z0
 
     partial class PolyBits
     {
-        public static string format(BfInterval src)
-            => string.Format("[{0}:{1}]", src.MaxPos, src.Offset);
-
-        public static string format<F>(BfInterval<F> src)
-            where F : unmanaged
-                => string.Format("{0}[{1}:{2}]", src.Field, src.MaxPos, src.Offset);
-
         public static string format(ReadOnlySpan<BfInterval> src)
         {
             var dst = text.buffer();
@@ -28,7 +21,7 @@ namespace Z0
                     dst.Append(Chars.Space);
                 }
 
-                dst.Append(format(skip(src,i)));
+                dst.Append(skip(src,i));
 
             }
             return dst.Emit();
@@ -48,7 +41,7 @@ namespace Z0
                     dst.Append(Chars.Space);
                 }
 
-                dst.Append(format(skip(src,i)));
+                dst.Append(skip(src,i));
 
             }
             return dst.Emit();

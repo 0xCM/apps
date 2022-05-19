@@ -10,6 +10,7 @@ namespace Z0
     public readonly struct BfSegModel<K>
         where K : unmanaged
     {
+        public readonly K Field;
         /// <summary>
         /// The segment name
         /// </summary>
@@ -36,13 +37,20 @@ namespace Z0
         public readonly BitMask Mask;
 
         [MethodImpl(Inline)]
-        public BfSegModel(asci64 name, uint min, uint max, BitMask mask)
+        public BfSegModel(K field, uint min, uint max, BitMask mask)
         {
-            SegName = name;
+            Field = field;
+            SegName = field.ToString();
             MinPos = min;
             MaxPos = max;
             Width = (byte)bits.segwidth(MinPos,MaxPos);
             Mask = mask;
+        }
+
+        public BfInterval Interval
+        {
+            [MethodImpl(Inline)]
+            get => new BfInterval(MinPos,Width);
         }
 
         public string Format()

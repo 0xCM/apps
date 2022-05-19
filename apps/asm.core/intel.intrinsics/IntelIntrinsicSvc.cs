@@ -13,6 +13,8 @@ namespace Z0.Asm
 
     public class IntelIntrinsicSvc  : AppService<IntelIntrinsicSvc>
     {
+        AppServices AppSvc => Service(Wf.AppServices);
+
         FS.FolderPath Sources()
             => Ws.Project("db").Subdir("sources/intel");
 
@@ -93,52 +95,37 @@ namespace Z0.Asm
             if(instruction(src, out var ix))
             {
                 dst.Instruction = string.Format("{0} {1}", ix.name, ix.form);
-                dst.IForm = ix.xed;
+                dst.Form = ix.xed;
             }
             else
             {
                 dst.Instruction = EmptyString;
-                dst.IForm = default;
+                dst.Form = default;
             }
         }
 
         void EmitRecords(Index<Intrinsic> src)
         {
-            var rows = list<IntelIntrinsic>();
-            Summarize(src, rows);
-            rows.Sort();
-            TableEmit(rows.ViewDeposited(), IntelIntrinsic.RenderWidths, TableTargetPath());
-        }
-
-
-        readonly struct NameComparer : IComparer<IntelIntrinsic>
-        {
-            public int Compare(IntelIntrinsic x, IntelIntrinsic y)
-            {
-                var result = x.Category.CompareTo(y.Category);
-                if(result == 0)
-                    result = x.Name.CompareTo(y.Name);
-                return result;
-            }
+            var buffer = list<IntelIntrinsic>();
+            Summarize(src, buffer);
+            AppSvc.TableEmit(buffer.Index().Sort(), TableTargetPath());
         }
 
         void EmitRecords(Index<Intrinsic> src, string type)
         {
             var rows = list<IntelIntrinsic>();
             Summarize(src, rows);
-            var selected = list<IntelIntrinsic>();
+            var buffer = list<IntelIntrinsic>();
             foreach(var row in rows)
             {
                 foreach(var t in row.Types)
                 {
                     if(t == type)
-                        selected.Add(row);
+                        buffer.Add(row);
                 }
             }
 
-            selected.Sort(new NameComparer());
-
-            TableEmit(selected.ViewDeposited(), IntelIntrinsic.RenderWidths, TableTargetPath(type.ToLower()));
+            AppSvc.TableEmit(buffer.Index().Sort(), TableTargetPath(type.ToLower()));
         }
 
         Index<Intrinsic> Parse(XmlDoc src)

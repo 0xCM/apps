@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IProjectProvider
+    partial class ProjectCmdProvider
     {
-        IProjectWs Project();
-
-        IProjectWs Project(ProjectId id);
+        [CmdOp("cult/import")]
+        Outcome ImportCultData(CmdArgs args)
+            => Wf.CultProcessor().Process();
     }
 }

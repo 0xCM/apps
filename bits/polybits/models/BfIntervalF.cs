@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using api = PolyBits;
+
     [StructLayout(LayoutKind.Sequential,Pack=1)]
     public readonly record struct BfInterval<F> : IComparable<BfInterval>
         where F : unmanaged
@@ -34,24 +36,31 @@ namespace Z0
             Width = width;
         }
 
+        public BfSegExpr Expr
+        {
+            [MethodImpl(Inline)]
+            get => api.expr(this);
+        }
+
         /// <summary>
         /// The index of the last bit in the segment
         /// </summary>
         public readonly byte MaxPos
         {
             [MethodImpl(Inline)]
-            get => (byte)PolyBits.endpos(Offset,Width);
+            get => (byte)api.endpos(Offset,Width);
         }
 
         [MethodImpl(Inline)]
         public BfInterval Untype()
             => new BfInterval(Offset,Width);
 
+        [MethodImpl(Inline)]
         public int CompareTo(BfInterval src)
             => Offset.CompareTo(src.Offset);
 
         public string Format()
-            => PolyBits.format(this);
+            => Expr.Format();
 
         public override string ToString()
             => Format();

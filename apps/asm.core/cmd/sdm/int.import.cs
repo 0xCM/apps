@@ -5,23 +5,17 @@
 namespace Z0
 {
     using Asm;
-
     using static core;
 
-    partial class ProjectCmdProvider
+    partial class AsmCoreCmd
     {
-        [CmdOp("intrinsics/import")]
+        [CmdOp("int/import")]
         Outcome ImportIntrinsics(CmdArgs args)
         {
-            var intrinsics = IntelIntrinsics.Emit();
+            var intrinsics = Intrinsics.Emit();
             var types = intrinsics.SelectMany(x => x.parameters).Select(x => x.type.Format().Remove("*").Remove("const").Trim()).Distinct().Sort();
             iter(types, t => Write(t));
-
             return true;
         }
-
-        [CmdOp("cult/import")]
-        Outcome ImportCultData(CmdArgs args)
-            => Wf.CultProcessor().Process();
     }
 }

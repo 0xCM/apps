@@ -54,6 +54,12 @@ namespace Z0
             Mask = mask;
         }
 
+        public BfInterval Interval
+        {
+            [MethodImpl(Inline)]
+            get => new BfInterval(MinPos,Width);
+        }
+
         public string Format()
             => api.expr(this);
 

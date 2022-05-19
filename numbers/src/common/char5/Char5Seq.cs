@@ -7,7 +7,7 @@ namespace Z0
     using static core;
     using static Char5;
 
-    public readonly struct Char5Seq
+    public readonly record struct Char5Seq
     {
         readonly ulong Data;
 
@@ -15,7 +15,7 @@ namespace Z0
 
         const byte SegWidth = 5;
 
-        public static Char5Seq seg<S>(in S src, byte offset)
+        public static Char5Seq from<S>(in S src, byte offset)
             where S : struct, IAsciSeq<S>
         {
             var storage = 0ul;
@@ -170,16 +170,30 @@ namespace Z0
 
         public string Format()
         {
-            var dst = CharBlock12.Empty;
-            var buffer = dst.Data;
-            var count = Length;
-            for(var i=z8; i<count; i++)
-                seek(buffer,i) = this[i];
-            return new string(slice(dst.Data, 0, count));
+            if(IsEmpty)
+            {
+                return EmptyString;
+            }
+            else
+            {
+                var dst = CharBlock12.Empty;
+                var buffer = dst.Data;
+                var count = Length;
+                for(var i=z8; i<count; i++)
+                    seek(buffer,i) = this[i];
+                return new string(slice(dst.Data, 0, count));
+            }
         }
 
         public override string ToString()
             => Format();
+
+        public override int GetHashCode()
+            => (int)alg.hash.combine((uint)Data, (uint)(Data >> 32));
+
+        [MethodImpl(Inline)]
+        public bool Equals(Char5Seq src)
+            => Data == src.Data;
 
         [MethodImpl(Inline)]
         public static explicit operator ulong(Char5Seq src)

@@ -4,25 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class PolyBits
     {
-        public static string expr(in BfSegModel src)
-        {
-            if(src.Width == 1)
-                return string.Format("{0}[{1}]", src.SegName, src.MinPos);
-            else
-                return string.Format("{0}[{1}:{2}]", src.SegName, endpos(src.MinPos, src.Width), src.MinPos);
-        }
-
-        public static string expr<K>(in BfSegModel<K> src)
+        public static BfSegExpr expr<K>(in BfInterval<K> src)
             where K : unmanaged
-        {
-            if(src.Width == 1)
-                return string.Format("{0}[{1}]", src.SegName, src.MinPos);
-            else
-                return string.Format("{0}[{1}:{2}]", src.SegName, endpos(src.MinPos, src.Width), src.MinPos);
-        }
+                => new BfSegExpr(Char5Seq.parse(src.Field.ToString()), src);
+
+        [MethodImpl(Inline), Op]
+        public static BfSegExpr expr(in BfInterval src)
+            => new BfSegExpr(Char5Seq.Empty, src);
+
+        public static BfSegExpr expr(in BfSegModel src)
+            => new BfSegExpr(Char5Seq.parse(src.SegName.Format()), src.Interval);
+
+        public static BfSegExpr expr<K>(in BfSegModel<K> src)
+            where K : unmanaged
+                => new BfSegExpr(Char5Seq.parse(src.SegName.Format()), src.Interval);
     }
 }
