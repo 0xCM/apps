@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = Bitfields;
-
     [StructLayout(StructLayout,Pack=1), Doc("Describes a bitfield")]
     public readonly struct BfModel
     {
@@ -25,27 +23,27 @@ namespace Z0
         public readonly uint SegCount;
 
         /// <summary>
-        /// The accumulated width of the defined segments
+        /// The bitfield size
         /// </summary>
-        public readonly uint TotalWidth;
+        public readonly DataSize Size;
 
         readonly Index<BfSegModel> Data;
 
         [MethodImpl(Inline)]
-        public BfModel(BfOrigin origin, string name, Index<BfSegModel> segs, uint width)
+        public BfModel(BfOrigin origin, string name, Index<BfSegModel> segs, DataSize size)
         {
             Demand.lteq(name.Length, asci64.Size);
+            Size = size;
             Origin = origin;
             Name = name;
             SegCount = segs.Count;
-            TotalWidth = width;
             Data = segs;
         }
 
         public bool IsBitvector
         {
             [MethodImpl(Inline)]
-            get => SegCount == TotalWidth;
+            get => SegCount == Size.Packed;
         }
 
         public Span<BfSegModel> Segments
@@ -77,7 +75,7 @@ namespace Z0
             => Seg(i).Width;
 
         public string Format()
-            => api.format(this);
+            => PolyBits.format(this);
 
         public override string ToString()
             => Format();

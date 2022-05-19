@@ -14,6 +14,8 @@ namespace Z0
 
         public readonly asci64 Name;
 
+        public readonly DataSize Size;
+
         readonly Index<F> _Fields;
 
         readonly Dictionary<F,uint> _Indices;
@@ -30,7 +32,7 @@ namespace Z0
 
         readonly BfIntervals _UTInt;
 
-        public BfDataset(asci64 name, F[] fields, Dictionary<F,uint> indices, byte[] widths)
+        public BfDataset(asci64 name, NativeSize size, F[] fields, Dictionary<F,uint> indices, byte[] widths)
         {
             Name = name;
             _Fields = fields;
@@ -39,6 +41,7 @@ namespace Z0
             FieldCount = (uint)Require.equal(fields.Length, widths.Length);
             _Offsets = api.offsets(this);
             _Int = api.intervals(this);
+            Size = new (_Int.Width, size.Width);
             _Masks = api.masks(this);
             BitstringPattern = BfDataset.pattern(this);
             _UTInt = _Int.Untype();
@@ -76,6 +79,9 @@ namespace Z0
 
         asci64 IBfDataset.Name
             => Name;
+
+        DataSize IBfDataset.Size
+            => Size;
 
         uint IBfDataset.FieldCount
             => FieldCount;

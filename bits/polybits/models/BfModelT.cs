@@ -25,20 +25,20 @@ namespace Z0
         public readonly uint SegCount;
 
         /// <summary>
-        /// The accumulated width of the defined segments
+        /// The bitfield size
         /// </summary>
-        public readonly uint TotalWidth;
+        public readonly DataSize Size;
 
         readonly Index<BfSegModel<T>> Data;
 
         [MethodImpl(Inline)]
-        public BfModel(BfOrigin origin, string name, Index<BfSegModel<T>> segments, uint width)
+        public BfModel(BfOrigin origin, string name, Index<BfSegModel<T>> segments, DataSize size)
         {
             Origin = origin;
             Name = name;
             SegCount = segments.Count;
             Data = segments;
-            TotalWidth = width;
+            Size = size;
         }
 
         public ref BfSegModel<T> this[uint i]

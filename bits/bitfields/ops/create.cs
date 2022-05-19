@@ -53,11 +53,7 @@ namespace Z0
         public static Bitfield<T,K> create<T,K>(BfOrigin origin, string name, BfSegModel<K>[] segs, T state)
             where T : unmanaged
             where K : unmanaged
-        {
-            var w = totalwidth(@readonly(segs));
-            var m = new BfModel<K>(origin, name, segs, w);
-            return new Bitfield<T,K>(m,state);
-        }
+                => new Bitfield<T,K>(new BfModel<K>(origin, name, segs, PolyBits.minsize(@readonly(segs))), state);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Bitfield256<T> create<T>(Vector256<byte> widths, Vector256<T> state)

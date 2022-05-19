@@ -53,6 +53,8 @@ namespace Z0
 
         public readonly asci64 Name;
 
+        public readonly DataSize Size;
+
         public readonly uint FieldCount;
 
         readonly Index<Char5Seq> _Fields;
@@ -69,7 +71,7 @@ namespace Z0
 
         public readonly string BitstringPattern;
 
-        public BfDataset(asci64 name, Index<Char5Seq> fields, Dictionary<Char5Seq,uint> indices, Index<byte> widths)
+        public BfDataset(asci64 name, NativeSize size, Index<Char5Seq> fields, Dictionary<Char5Seq,uint> indices, Index<byte> widths)
         {
             Name = name;
             _Fields = fields;
@@ -77,7 +79,8 @@ namespace Z0
             _Indices = indices;
             _Widths = widths;
             _Offsets = api.offsets(widths);
-            _Intervals = Bitfields.intervals(_Offsets, widths);
+            _Intervals = PolyBits.intervals(_Offsets, widths);
+            Size = new (_Intervals.Width, size.Width);
             _Masks = api.masks(this);
             BitstringPattern = pattern(widths, Chars.Space);
         }
@@ -120,6 +123,9 @@ namespace Z0
 
         asci64 IBfDataset.Name
             => Name;
+
+        DataSize IBfDataset.Size
+            => Size;
 
         [MethodImpl(Inline)]
         public uint Index(Char5Seq field)

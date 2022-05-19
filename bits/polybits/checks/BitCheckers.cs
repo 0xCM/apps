@@ -7,10 +7,23 @@ namespace Z0
     using static core;
     using static Char5;
 
-    public static class BitCheckers
+    public class BitCheckers
     {
-        public static void run(bool pll = true)
-            =>
+        public static void run(IWfRuntime wf, bool pll = true)
+        {
+            var checkers = new BitCheckers(wf);
+            checkers.Run(pll);
+        }
+
+        IWfRuntime Wf;
+
+        public BitCheckers(IWfRuntime wf)
+        {
+            Wf = wf;
+        }
+
+        public void Run(bool pll)
+        {
             CheckRunner.run(pll,
                 (nameof(CheckBitNumbers), CheckBitNumbers),
                 (nameof(CheckBitReplication), CheckBitReplication),
@@ -21,17 +34,19 @@ namespace Z0
                 (nameof(CheckUnpack4x1), CheckUnpack4x1)
             );
 
-        public static BitVector256<T> bv256<T>()
+        }
+
+        static BitVector256<T> bv256<T>()
             where T : unmanaged
                 => default;
 
-        static void CheckBitfields(ITextEmitter log)
+        void CheckBitfields(ITextEmitter log)
         {
-            var checks = new BitfieldChecks();
+            var checks = BitfieldChecks.create(Wf);
             checks.Run(log);
         }
 
-        static void CheckBv256(ITextEmitter log)
+        void CheckBv256(ITextEmitter log)
         {
             var width = 256;
             var storage = ByteBlock32.Empty;
@@ -53,7 +68,7 @@ namespace Z0
             }
         }
 
-        static void CheckBitReplication(ITextEmitter log)
+        void CheckBitReplication(ITextEmitter log)
         {
             const byte PW = 4;
 
@@ -90,7 +105,7 @@ namespace Z0
             log.WriteLine(R3.FormatBits());
         }
 
-        static void CheckBitNumbers(ITextEmitter log)
+        void CheckBitNumbers(ITextEmitter log)
         {
             BitNumber.validate(n3, (byte)0b0000_0111, log);
             BitNumber.validate(n6, (byte)0b0011_1000, log);
@@ -102,7 +117,7 @@ namespace Z0
             BitNumber.validate(n6, (uint)0b0011_1000, log);
         }
 
-        static void CheckSegVars(ITextEmitter log)
+        void CheckSegVars(ITextEmitter log)
         {
             var a = Code.A;
             var b = Code.B;
@@ -122,7 +137,7 @@ namespace Z0
             log.WriteLine(result);
         }
 
-        static void CheckUnpack4x1(ITextEmitter log)
+        void CheckUnpack4x1(ITextEmitter log)
         {
             const byte a0 = 0b1111;
             const byte a1 = 0b1110;
@@ -237,7 +252,7 @@ namespace Z0
             dst.Append(slice(buffer,0,length));
         }
 
-        static void CheckPack64x1(BitVector64 input)
+        void CheckPack64x1(BitVector64 input)
         {
             var storage = ByteBlock64.Empty;
             var unpacked = recover<bit>(storage.Bytes);
@@ -249,7 +264,7 @@ namespace Z0
                 Require.equal(packed[i], skip(unpacked,i));
         }
 
-        static void CheckPack64x1(ITextEmitter dst)
+        void CheckPack64x1(ITextEmitter dst)
         {
             var a = 0xAAAAAAAAAAAAAAAAul;
             CheckPack64x1(a);

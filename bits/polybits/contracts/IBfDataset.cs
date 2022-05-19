@@ -8,6 +8,8 @@ namespace Z0
     {
         asci64 Name {get;}
 
+        DataSize Size {get;}
+
         uint FieldCount {get;}
 
         string BitstringPattern {get;}

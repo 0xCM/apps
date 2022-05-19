@@ -30,14 +30,14 @@ namespace Z0
         public readonly byte MaxPos
         {
             [MethodImpl(Inline)]
-            get => (byte)Bitfields.endpos(Offset,Width);
+            get => (byte)PolyBits.endpos(Offset,Width);
         }
 
         public int CompareTo(BfInterval src)
             => Offset.CompareTo(src.Offset);
 
         public string Format()
-            => Bitfields.format(this);
+            => PolyBits.format(this);
 
         public override string ToString()
             => Format();

@@ -8,6 +8,10 @@ namespace Z0
 
     partial class PolyBits
     {
+        [MethodImpl(Inline), Op]
+        public static uint endpos(uint offset, uint width)
+            => ((offset + width) - 1);
+
         public static Index<BitMask> masks<W>()
             where W : unmanaged, Enum
         {

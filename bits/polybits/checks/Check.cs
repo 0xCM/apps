@@ -9,22 +9,21 @@ namespace Z0
 
     using FK = PbChecks.Field32.FieldName;
 
-    public partial class PbChecks
+    public partial class PbChecks : Checker<PbChecks>
     {
-        AppServices AppSvc;
-
-        ITextEmitter Emitter;
-
-        public PbChecks(IWfRuntime wf)
-        {
-            AppSvc = wf.AppServices();
-            Emitter = text.emitter();
-        }
+        AppServices AppSvc => Service(Wf.AppServices);
 
         AppDb AppDb => AppSvc.AppDb;
 
-        static BfDataset<FieldName,Field32> opcodes()
-            => PolyBits.dataset<FieldName,FieldWidth,Field32>("xed.opcodes");
+        ITextEmitter Emitter;
+
+        public PbChecks()
+        {
+            Emitter = text.emitter();
+        }
+
+        static BfDataset<FieldName,Field32> dataset(N1 n)
+            => PolyBits.dataset<FieldName,FieldWidth,Field32>("field32", NativeSizeCode.W32);
 
         public static Index<Field32> pack(BfDataset<FieldName,Field32> spec, ReadOnlySpan<Field32Source> src, bool pll = true)
         {
@@ -53,9 +52,6 @@ namespace Z0
                     spec.Extract<BitIndicator>(FK.Mod, src)
                     );
 
-        public static PbChecks create(IWfRuntime wf)
-            => new PbChecks(wf);
-
         enum Fields3
         {
             Field0,
@@ -65,9 +61,9 @@ namespace Z0
             Field2
         }
 
-        static string[] DsHeaders = new string[]{"Name", "Fields", "SegPattern", "Intervals"};
+        static string[] DsHeaders = new string[]{"Name",  "Packed", "Native", "Fields", "SegPattern", "Intervals"};
 
-        static string DsPattern = "{0,-16} | {1,-6} | {2,-32} | {3}";
+        static string DsPattern = "{0,-16} | {1,-6} | {2,-6} | {3,-6} | {4,-32} | {5}";
 
         static ReadOnlySpan<byte> Widths0 => new byte[3]{4,3,5};
 
@@ -76,22 +72,23 @@ namespace Z0
 
         void Render(IBfDataset src)
         {
-            Emitter.AppendLineFormat(DsPattern, src.Name, src.FieldCount, src.BitstringPattern, src.Intervals);
+            Emitter.AppendLineFormat(DsPattern, src.Name, src.Size.Packed, src.Size.Native, src.FieldCount, src.BitstringPattern, src.Intervals);
         }
 
         void Check(N0 n)
         {
-            var bf = PolyBits.dataset<Fields3>($"Bf{n}", Widths0);
+            var bf = PolyBits.dataset<Fields3>($"Bf{n}", NativeSizeCode.W32, Widths0);
             Render(bf);
         }
 
         void Check(N1 n)
         {
-            var bf = opcodes();
+            var bf = dataset(n);
             var formatter = Tables.formatter<BfSegModel>();
-            var intervals = bf.Intervals;
             var segs = PolyBits.segs(bf);
             AppSvc.TableEmit(segs, AppDb.Targets("pb").Table<BfSegModel>($"{bf.Name}"));
+            var intervals = bf.Intervals;
+
 
             // Write(formatter.FormatHeader());
             // iter(segs, seg => Write(formatter.Format(seg)));
@@ -102,12 +99,12 @@ namespace Z0
 
         }
 
-        public void Run()
+        public override void Run()
         {
             RenderHeader(Emitter);
             Check(n0);
             Check(n1);
-            //AppSvc.Write(Emitter.Emit());
+            AppSvc.Write(Emitter.Emit());
         }
     }
 }

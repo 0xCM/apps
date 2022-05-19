@@ -22,7 +22,7 @@ namespace Z0
         public void Check()
         {
             Targets.Delete();
-            BitCheckers.run();
+            BitCheckers.run(Wf);
             var n = n8;
             var count = Numbers.count(n);
             var convert = BitConverters.converter(n);

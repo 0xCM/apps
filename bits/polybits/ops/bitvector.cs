@@ -11,10 +11,6 @@ namespace Z0
         public static Index<BfModel> bitvectors(DbSources sources, string filter)
             => bitvectors(sources.Files(FileKind.Csv).Where(f => f.FileName.StartsWith(filter)));
 
-        [MethodImpl(Inline), Op]
-        public static BfModel model(BfOrigin origin, string name, Index<BfSegModel> segs)
-            => new BfModel(origin, name, segs, Bitfields.totalwidth(segs));
-
         public static Index<BfModel> bitvectors(FS.Files src)
         {
             var items = sys.empty<ListItem>();

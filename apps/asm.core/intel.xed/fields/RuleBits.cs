@@ -15,17 +15,19 @@ namespace Z0
         public readonly record struct RuleBits
         {
             public static RuleBits create()
-                => new RuleBits(PolyBits.dataset<Segment,RuleFieldBits>("Rules", FieldKindWidth, OperatorWidth, DataKindWidth, ValueWidth), FieldRender.create());
+                => new RuleBits(PolyBits.dataset<Segment,RuleFieldBits>("Rules", RuleFieldBits.NativeSize,
+                    FieldKindWidth,
+                    OperatorWidth,
+                    DataKindWidth,
+                    ValueWidth)
+                    );
 
             public readonly BfDataset<Segment,RuleFieldBits> Dataset;
 
-            readonly FieldRender Render;
-
             [MethodImpl(Inline)]
-            RuleBits(BfDataset<Segment,RuleFieldBits> src, FieldRender render)
+            RuleBits(BfDataset<Segment,RuleFieldBits> src)
             {
                 Dataset = src;
-                Render = render;
             }
 
             const byte FieldKindWidth = 6;

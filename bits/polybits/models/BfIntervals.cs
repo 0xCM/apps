@@ -8,10 +8,13 @@ namespace Z0
     {
         readonly Index<BfInterval> Data;
 
+        public readonly uint Width;
+
         [MethodImpl(Inline)]
         public BfIntervals(BfInterval[] src)
         {
             Data = src;
+            Width = src.Select(x => x.Width).Sum();
         }
 
         public uint Count
@@ -51,7 +54,7 @@ namespace Z0
         }
 
         public string Format()
-            => Bitfields.format(View);
+            => PolyBits.format(View);
 
         public override string ToString()
             => Format();

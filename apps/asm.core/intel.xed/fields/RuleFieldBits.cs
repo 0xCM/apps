@@ -9,9 +9,11 @@ namespace Z0
         /// <summary>
         /// Value[28:13] DataKind[12:9] Operator[8:6] FieldKind[5:0]
         /// </summary>
-        [StructLayout(LayoutKind.Sequential,Pack=1,Size =4)]
+        [StructLayout(LayoutKind.Sequential,Pack=1,Size=4)]
         public readonly record struct RuleFieldBits
         {
+            public const NativeSizeCode NativeSize = NativeSizeCode.W32;
+
             [MethodImpl(Inline)]
             public static implicit operator uint(RuleFieldBits src)
                 => core.@as<RuleFieldBits,uint>(src);

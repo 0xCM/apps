@@ -61,6 +61,7 @@ namespace Z0
             }
             return j - i0;
         }
+
         public static Index<BfSegModel> segs(in asci64 src)
         {
             var names = indicators(src);
