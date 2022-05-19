@@ -68,13 +68,16 @@ namespace Z0
         {
             var count = src.SymbolCount;
             var entries = alloc<SymHeapEntry>(count);
+            var remains = src.CharCount*2;
             for(var i=0u; i<count; i++)
             {
                 ref var entry = ref seek(entries,i);
+                remains -= src.Size(i);
                 entry.Key = i;
-                entry.Offset = src.Offset(i);
-                entry.Source = src.Source(i);
+                entry.Offset = src.Offset(i)*2;
                 entry.Size = src.Size(i);
+                entry.Remains = remains;
+                entry.Source = src.Source(i);
                 entry.Name = src.Name(i);
                 entry.Value = src.Value(i);
                 entry.Expression = text.format(src.Expression(i));
@@ -99,11 +102,13 @@ namespace Z0
             dst.SymbolCount = stats.SymbolCount;;
             dst.EntryCount = stats.EntryCount;
             dst.ExprLengths = alloc<uint>(stats.EntryCount);
+            dst.CharCount = stats.CharCount;
             dst.Expr = alloc<char>(stats.CharCount);
             dst.ExprOffsets = alloc<uint>(stats.EntryCount);
             dst.Values = alloc<SymVal>(stats.EntryCount);
             dst.Names = alloc<Identifier>(stats.EntryCount);
             dst.Sources = alloc<Identifier>(stats.EntryCount);
+            var size=0u;
             var offset=0u;
             for(var i=0u; i<dst.SymbolCount; i++)
             {
@@ -115,8 +120,10 @@ namespace Z0
                 dst.Name(i) = row.Name;
                 dst.Offset(i) = offset;
                 dst.Source(i) = row.Type;
-                chars.CopyTo(dst.Expression(i));
-                offset += (length*2);
+                Demand.lteq(offset + length, stats.CharCount);
+                chars.CopyTo(slice(dst.Expr.Edit, offset, length));
+                offset += length;
+                size += length*2;
             }
 
             return dst;

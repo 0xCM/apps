@@ -34,7 +34,7 @@ namespace Z0
                 EmitParsers,
                 EmitApiTables,
                 EmitApiCommands,
-                //() => EmitSymHeap(symlits),
+                () => EmitSymHeap(symlits),
                 () => EmitSymLits(symlits)
             );
 

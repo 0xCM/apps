@@ -45,7 +45,7 @@ namespace Z0
             => AppSvc.TableEmit(CalcEntries(src), dst);
 
         public void EmitSymHeap(SymHeap src)
-            => AppSvc.TableEmit(CalcEntries(src), ApiTargets().Table<SymHeapEntry>());
+            => AppSvc.TableEmit(CalcEntries(src), ApiTargets().Table<SymHeapEntry>(), TextEncodingKind.Unicode);
 
         public Index<ClrEnumRecord> EmitEnums(Assembly src, FS.FilePath dst)
         {
@@ -77,7 +77,7 @@ namespace Z0
             var rows = Symbols.literals<E>();
             var count = rows.Length;
             var formatter = Tables.formatter<SymLiteralRow>();
-            using var writer = dst.Writer();
+            using var writer = dst.Writer(TextEncodingKind.Unicode);
             writer.WriteLine(formatter.FormatHeader());
             for(var i=0; i<count; i++)
                 writer.WriteLine(formatter.Format(rows[i]));
@@ -88,7 +88,7 @@ namespace Z0
         public Index<SymLiteralRow> EmitSymLits(Assembly[] src, FS.FilePath dst)
         {
             var rows = CalcSymLits(src);
-            AppSvc.TableEmit(rows, dst);
+            AppSvc.TableEmit(rows, dst, TextEncodingKind.Unicode);
             return rows;
         }
 

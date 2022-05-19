@@ -137,10 +137,10 @@ namespace Z0
             => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<BitMaskInfo>());
 
         public void Emit(ReadOnlySpan<SymLiteralRow> src)
-            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<SymLiteralRow>());
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Path("api.symbols", FileKind.Csv), TextEncodingKind.Unicode);
 
         public void Emit(ReadOnlySpan<CompilationLiteral> src)
-            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<CompilationLiteral>());
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<CompilationLiteral>(), TextEncodingKind.Unicode);
 
         public void Emit(ReadOnlySpan<DataTypeRecord> src)
             => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<DataTypeRecord>());
@@ -149,7 +149,7 @@ namespace Z0
             => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ApiFlowSpec>());
 
         public void Emit(ReadOnlySpan<ClrEnumRecord> src)
-            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ClrEnumRecord>());
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ClrEnumRecord>(), TextEncodingKind.Unicode);
 
         public FS.FilePath EmitTypeList(string name, ReadOnlySpan<Type> src)
         {

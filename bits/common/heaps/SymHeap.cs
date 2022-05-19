@@ -29,6 +29,8 @@ namespace Z0
 
         internal uint EntryCount;
 
+        public uint CharCount;
+
         [MethodImpl(Inline), Op]
         public ref Identifier Source(uint index)
             => ref Sources[index];

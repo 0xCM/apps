@@ -18,14 +18,17 @@ namespace Z0
         [Render(6)]
         public uint Size;
 
-        [Render(32)]
-        public Identifier Source;
+        [Render(12)]
+        public Hex32 Remains;
 
         [Render(64)]
-        public Identifier Name;
+        public Identifier Source;
 
         [Render(16)]
         public SymVal Value;
+
+        [Render(64)]
+        public Identifier Name;
 
         [Render(1)]
         public SymExpr Expression;
