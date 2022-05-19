@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     partial class IntelIntrinsics
     {
-        public struct Category : ITextual
+        public struct Category
         {
             public const string ElementName = "category";
 

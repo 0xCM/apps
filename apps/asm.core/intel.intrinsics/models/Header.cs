@@ -4,14 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     partial class IntelIntrinsics
     {
-        public struct Header : ITextual
+        public struct Header
         {
             public const string ElementName = "header";
 

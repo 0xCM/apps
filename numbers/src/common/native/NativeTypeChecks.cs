@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    public class NativeTypeChecks
+    public class NativeTypeChecks : Checker<NativeTypeChecks>
     {
         public static void classify_numeric_width()
         {

@@ -4,10 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiHost]
-    public partial class NativeTypes
+    public interface INativeLiteral
     {
-        const NumericKind Closure = NumericKind.All;
+        Label Name {get;}
 
+        ReadOnlySpan<byte> Data {get;}
+    }
+
+    public interface INativeLiteral<T> : INativeLiteral
+        where T : unmanaged
+    {
+        T Value {get;}
     }
 }

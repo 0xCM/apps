@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     /*
     _mm_add_epi16  | __m128i _mm_add_epi16(__m128i a, __m128i b)  | PADDW xmm, xmm | PADDW_XMMdq_XMMdq
     _mm_add_epi32  | __m128i _mm_add_epi32(__m128i a, __m128i b)  | PADDD xmm, xmm | PADDD_XMMdq_XMMdq

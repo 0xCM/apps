@@ -17,7 +17,7 @@ namespace Z0.Asm
                 => Format();
         }
 
-        public struct CpuId : ITextual
+        public struct CpuId
         {
             public const string ElementName = "CPUID";
 

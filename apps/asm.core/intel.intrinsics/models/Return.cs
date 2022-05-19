@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     partial class IntelIntrinsics
     {
-        public struct Return : ITextual
+        public struct Return
         {
             public const string ElementName = "return";
 

@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     partial class IntelIntrinsics
     {
-        public readonly struct DataType : ITextual
+        public readonly struct DataType
         {
             public string Name {get;}
 

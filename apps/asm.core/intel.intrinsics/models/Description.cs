@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     partial class IntelIntrinsics
     {
-        public struct Description : ITextual
+        public struct Description
         {
             public const string ElementName = "description";
 
