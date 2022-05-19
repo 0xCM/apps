@@ -7,6 +7,7 @@ namespace Z0.Asm
 	/// <summary>
 	/// Flow control
 	/// </summary>
+	[Ignore]
 	public enum IceFlowControl : byte
 	{
 		/// <summary>

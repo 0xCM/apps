@@ -6,6 +6,18 @@ namespace Z0
 {
     using static core;
 
+    [StructLayout(StructLayout,Pack=1)]
+    public struct SymHeapStats
+    {
+        public uint SymbolCount;
+
+        public uint EntryCount;
+
+        public uint CharCount;
+
+        public uint DataSize;
+    }
+
     [ApiHost]
     public readonly struct SymHeaps
     {
@@ -39,19 +51,15 @@ namespace Z0
             where K : unmanaged
             where A : unmanaged
             where T : unmanaged
-                => new SymHeapEntry<K, A, T>(key, offset, length);
-
-        [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> expr(SymHeap src, uint index)
-            => slice(src.ExprData.View, src.ExprOffsets[index], src.ExprLengths[index]);
+                => new SymHeapEntry<K,A,T>(key, offset, length);
 
         [MethodImpl(Inline), Op]
         public static uint charcount(ReadOnlySpan<SymLiteralRow> src)
         {
             var counter = 0u;
             var kSrc = src.Length;
-            for(var i=0; i<kSrc; i++)
-                counter += (uint)skip(src,i).Symbol.CharCount;
+            for(var i=0; i<src.Length; i++)
+                counter += skip(src,i).Symbol.CharCount;
             return counter;
         }
 
@@ -66,6 +74,7 @@ namespace Z0
                 entry.Key = i;
                 entry.Offset = src.Offset(i);
                 entry.Source = src.Source(i);
+                entry.Size = src.Size(i);
                 entry.Name = src.Name(i);
                 entry.Value = src.Value(i);
                 entry.Expression = text.format(src.Expression(i));
@@ -73,42 +82,41 @@ namespace Z0
             return entries;
         }
 
+        public static SymHeapStats stats(ReadOnlySpan<SymLiteralRow> src)
+        {
+            var dst = new SymHeapStats();
+            dst.SymbolCount = (uint)src.Length;
+            dst.EntryCount = (uint)bits.next((Pow2x32)bits.xmsb(dst.SymbolCount));
+            dst.CharCount = charcount(src);
+            dst.DataSize = dst.CharCount*2;
+            return dst;
+        }
         [Op]
         public static SymHeap create(ReadOnlySpan<SymLiteralRow> src)
         {
             var dst = new SymHeap();
-            var count = (uint)src.Length;
-            var kEntry = (uint)bits.next((Pow2x32)bits.xmsb(count));
-            dst.SymbolCount = count;
-            dst.EntryCount = kEntry;
-            dst.ExprLengths = alloc<uint>(kEntry);
-            dst.Values = alloc<SymVal>(kEntry);
-            dst.Names = alloc<Identifier>(kEntry);
-            dst.ExprData = alloc<char>(charcount(src));
-            dst.ExprOffsets = alloc<uint>(kEntry);
-            dst.Sources = alloc<Identifier>(kEntry);
-            ref var exprwidths = ref dst.ExprLengths.First;
-            ref var values = ref dst.Values.First;
-            ref var symdst = ref dst.ExprData.First;
-            ref var offsets = ref dst.ExprOffsets.First;
-
-            ref var id = ref dst.Names.First;
-            ref var sources = ref dst.Sources.First;
-            var exprOffset=0u;
-            for(var i=0; i<count; i++)
+            var stats = SymHeaps.stats(src);
+            dst.SymbolCount = stats.SymbolCount;;
+            dst.EntryCount = stats.EntryCount;
+            dst.ExprLengths = alloc<uint>(stats.EntryCount);
+            dst.Expr = alloc<char>(stats.CharCount);
+            dst.ExprOffsets = alloc<uint>(stats.EntryCount);
+            dst.Values = alloc<SymVal>(stats.EntryCount);
+            dst.Names = alloc<Identifier>(stats.EntryCount);
+            dst.Sources = alloc<Identifier>(stats.EntryCount);
+            var offset=0u;
+            for(var i=0u; i<dst.SymbolCount; i++)
             {
                 ref readonly var row = ref skip(src,i);
-                var symsrc = row.Symbol.Data;
-                var namesrc = span(row.Name.Text);
-                var width = (ushort)symsrc.Length;
-                seek(exprwidths, i) = (ushort)symsrc.Length;
-                seek(values, i) = row.Value;
-                seek(id, i) = row.Name;
-                seek(offsets,i) = exprOffset;
-                seek(sources,i) = row.Type;
-                symsrc.CopyTo(cover(seek(symdst, exprOffset), (ushort)symsrc.Length));
-
-                exprOffset += width;
+                var chars = row.Symbol.Data;
+                var length = (uint)chars.Length;
+                dst.Length(i) = length;
+                dst.Value(i) = row.Value;
+                dst.Name(i) = row.Name;
+                dst.Offset(i) = offset;
+                dst.Source(i) = row.Type;
+                chars.CopyTo(dst.Expression(i));
+                offset += (length*2);
             }
 
             return dst;

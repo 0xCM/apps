@@ -7,7 +7,7 @@ namespace Z0
     using static core;
     using static FileFlowTypes;
 
-    partial class ProjectCmdProvider
+    partial class ProjectCmd
     {
         [CmdOp("mc/cleanse")]
         Outcome ExecMcCleanse(CmdArgs args)

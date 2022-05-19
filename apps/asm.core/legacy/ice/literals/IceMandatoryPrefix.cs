@@ -7,6 +7,7 @@ namespace Z0.Asm
 	/// <summary>
 	/// Mandatory prefix
 	/// </summary>
+	[Ignore]
 	public enum IceMandatoryPrefix
     {
 		/// <summary>

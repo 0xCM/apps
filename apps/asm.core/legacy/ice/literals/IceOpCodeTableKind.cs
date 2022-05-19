@@ -7,6 +7,7 @@ namespace Z0.Asm
 	/// <summary>
 	/// Opcode table
 	/// </summary>
+	[Ignore]
 	public enum IceOpCodeTableKind
     {
 		/// <summary>

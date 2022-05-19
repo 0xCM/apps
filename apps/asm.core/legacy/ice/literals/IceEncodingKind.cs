@@ -7,6 +7,7 @@ namespace Z0.Asm
 	/// <summary>
 	/// Instruction encoding
 	/// </summary>
+	[Ignore]
 	public enum IceEncodingKind
     {
 		/// <summary>

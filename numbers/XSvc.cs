@@ -9,8 +9,8 @@ namespace Z0
         public static FileCatalog FileCatalog(this IProjectWs ws)
             => Z0.FileCatalog.load(ws);
 
-        public static AppCmdRunner AppCmdRunner(this IWfRuntime wf)
-            => Z0.AppCmdRunner.create(wf);
+        public static WsCmdRunner AppCmdRunner(this IWfRuntime wf)
+            => Z0.WsCmdRunner.create(wf);
 
         [Op]
         public static WsProjects WsProjects(this IWfRuntime wf)

@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    public partial class GlobalCommands : AppCmdService<GlobalCommands,CmdShellState>, ICmdRunner
+    public partial class GlobalCmd : AppCmdService<GlobalCmd,CmdShellState>, ICmdRunner
     {
         public static void dispatch(ReadOnlySpan<string> args)
         {
@@ -47,7 +47,7 @@ namespace Z0
             }
         }
 
-        public GlobalCommands()
+        public GlobalCmd()
         {
         }
 
@@ -97,8 +97,8 @@ namespace Z0
         {
             var cmd = wf.ProjectCommands();
             var asmrt = AsmCmdRt.runtime(wf, false);
-            ProjectCmdProvider.inject(asmrt, cmd);
-            var projects = ProjectCmdProvider.inject((ICmdRunner)this, cmd);
+            ProjectCmd.inject(asmrt, cmd);
+            var projects = ProjectCmd.inject((ICmdRunner)this, cmd);
             return array<ICmdProvider>(
                 this,
                 projects,
@@ -159,7 +159,7 @@ namespace Z0
 
         Outcome EmitShellCommands(ICmdDispatcher dispatcher)
         {
-            var dst = ProjectDb.Api() + FS.file("api.shell.commands", FS.Csv);
+            var dst = ProjectDb.Api() + FS.file($"api.commands.{GetType().Name.ToLower()}", FS.Csv);
             return EmitCommands(dispatcher, dst);
         }
 

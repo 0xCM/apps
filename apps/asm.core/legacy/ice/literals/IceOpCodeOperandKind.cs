@@ -7,6 +7,7 @@ namespace Z0.Asm
 	/// <summary>
 	/// Operand kind
 	/// </summary>
+	[Ignore]
 	public enum IceOpCodeOperandKind
     {
 		/// <summary>

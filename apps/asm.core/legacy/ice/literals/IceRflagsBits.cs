@@ -10,7 +10,7 @@ namespace Z0.Asm
 	/// <summary>
 	/// RFLAGS bits supported by the instruction info code
 	/// </summary>
-	[Flags]
+	[Flags,Ignore]
 	public enum IceRflagsBits
     {
 		None	= 0,

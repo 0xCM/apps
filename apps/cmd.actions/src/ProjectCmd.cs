@@ -6,16 +6,16 @@ namespace Z0
 {
     using Asm;
 
-    public partial class ProjectCmdProvider : AppCmdProvider<ProjectCmdProvider>, IProjectProvider
+    public partial class ProjectCmd : AppCmdProvider<ProjectCmd>, IProjectProvider
     {
         ICmdRunner Commands;
 
         AsmCmdRt AsmRt;
 
-        public static ProjectCmdProvider inject(ICmdRunner src, ProjectCmdProvider dst)
+        public static ProjectCmd inject(ICmdRunner src, ProjectCmd dst)
             => dst.With(src);
 
-        public static ProjectCmdProvider inject(AsmCmdRt src, ProjectCmdProvider dst)
+        public static ProjectCmd inject(AsmCmdRt src, ProjectCmd dst)
             => dst.With(src);
 
         ProjectDataServices ProjectData => Service(() => Wf.ProjectData().With(AsmRt));
@@ -32,13 +32,13 @@ namespace Z0
 
         AsmFlowCommands AsmFlowCommands => Service(Wf.AsmFlowCommands);
 
-        public ProjectCmdProvider With(AsmCmdRt rt)
+        public ProjectCmd With(AsmCmdRt rt)
         {
             AsmRt = rt;
             return this;
         }
 
-        public ProjectCmdProvider With(ICmdRunner runner)
+        public ProjectCmd With(ICmdRunner runner)
         {
             Commands = runner;
             return this;

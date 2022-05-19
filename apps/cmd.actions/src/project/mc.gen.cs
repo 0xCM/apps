@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    partial class ProjectCmdProvider
+    partial class ProjectCmd
     {
         [CmdOp("mc/gen")]
         Outcome GenAsm(CmdArgs args)

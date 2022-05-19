@@ -6,7 +6,7 @@ namespace Z0
 {
     using Asm;
 
-    partial class ApiCmdProvider
+    partial class ApiCmd
     {
         [CmdOp("api/capture")]
         Outcome Capture(CmdArgs args)

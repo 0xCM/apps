@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Ice
 {
+	[Ignore]
     public enum IceInstructionFieldSize : byte
     {
         NextRip = 8,

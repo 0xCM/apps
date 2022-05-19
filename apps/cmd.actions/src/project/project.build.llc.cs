@@ -6,7 +6,7 @@ namespace Z0
 {
     using llvm;
 
-    partial class ProjectCmdProvider
+    partial class ProjectCmd
     {
         [CmdOp("project/build/llc")]
         Outcome LlcBuild(CmdArgs args)

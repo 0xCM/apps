@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    public partial class ApiCmdProvider : AppCmdProvider<ApiCmdProvider>
+    public partial class ApiCmd : AppCmdProvider<ApiCmd>
     {
         AppDb AppDb => Service(Wf.AppDb);
 

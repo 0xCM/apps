@@ -7,22 +7,24 @@ namespace Z0
     [Record(TableId)]
     public struct ApiCmdRow
     {
-        public const string TableId = "api.commands";
+        const string TableId = "api.commands";
 
-        public const byte FieldCount = 6;
-
+        [Render(22)]
         public string CmdName;
 
+        [Render(22)]
         public string CmdType;
 
+        [Render(36)]
         public string ArgName;
 
+        [Render(48)]
         public TypeSpec DataType;
 
+        [Render(32)]
         public string Expression;
 
+        [Render(1)]
         public string DefaultValue;
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{22,22,36,48,32,3};
     }
 }

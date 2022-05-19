@@ -4,10 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public static partial class XSvc
     {
+        public static ApiEmitters ApiEmitters(this IWfRuntime wf)
+            => Z0.ApiEmitters.create(wf);
+
         [Op]
         public static ApiAssets ApiAssets(this IWfRuntime wf)
             => Z0.ApiAssets.create(wf);

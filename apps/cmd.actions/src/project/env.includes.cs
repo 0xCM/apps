@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial class ProjectCmdProvider
+    partial class ProjectCmd
     {
         [CmdOp("env/includes")]
         Outcome LoadToolEnv(CmdArgs args)

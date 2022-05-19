@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class AppCmdRunner : AppCmdService<AppCmdRunner,CmdShellState>, ICmdRunner, IProjectProvider
+    public class WsCmdRunner : AppCmdService<WsCmdRunner,CmdShellState>, ICmdRunner, IProjectProvider
     {
         public void RunCmd(string name)
         {

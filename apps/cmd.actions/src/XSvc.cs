@@ -8,13 +8,13 @@ namespace Z0
 
     public static partial class XSvc
     {
-        public static ApiCmdProvider ApiCommands(this IWfRuntime wf)
-            => ApiCmdProvider.create(wf);
+        public static ApiCmd ApiCommands(this IWfRuntime wf)
+            => ApiCmd.create(wf);
 
-        public static CheckCmdProvider CheckCommands(this IWfRuntime wf)
-            => CheckCmdProvider.create(wf);
+        public static CheckCmd CheckCommands(this IWfRuntime wf)
+            => CheckCmd.create(wf);
 
-        public static ProjectCmdProvider ProjectCommands(this IWfRuntime wf)
-            => ProjectCmdProvider.create(wf);
+        public static ProjectCmd ProjectCommands(this IWfRuntime wf)
+            => ProjectCmd.create(wf);
     }
 }

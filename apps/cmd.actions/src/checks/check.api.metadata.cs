@@ -7,7 +7,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    partial class CheckCmdProvider
+    partial class CheckCmd
     {
         [CmdOp("check/api/metadata")]
         Outcome CheckMetadata(CmdArgs args)

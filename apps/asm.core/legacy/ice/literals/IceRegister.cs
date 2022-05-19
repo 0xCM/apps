@@ -8,6 +8,7 @@ namespace Z0.Asm
 	/// <summary>
 	/// A register
 	/// </summary>
+	[Ignore]
 	public enum IceRegister : byte
     {
         None = 0,

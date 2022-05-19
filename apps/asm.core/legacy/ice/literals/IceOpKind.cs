@@ -7,6 +7,7 @@ namespace Z0.Asm
 	/// <summary>
 	/// Instruction operand kind
 	/// </summary>
+	[Ignore]
 	public enum IceOpKind : byte
 	{
 		/// <summary>

@@ -9,6 +9,8 @@
   <ItemGroup>
     <ProjectReference Include="$(CmdActions)" />
     <ProjectReference Include="$(TestChecks)" />
+    <ProjectReference Include="$(CodeGenLlvm)" />
+    <ProjectReference Include="$(CodeGenIntel)" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>

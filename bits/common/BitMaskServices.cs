@@ -11,7 +11,9 @@ namespace Z0
 
     public sealed class BitMaskServices : AppService<BitMaskServices>
     {
-        public static Index<BitMaskInfo> descriptions(Type src)
+        AppServices AppSvc => Service(Wf.AppServices);
+
+        public static Index<BitMaskInfo> masks(Type src)
         {
             var fields = span(src.LiteralFields());
             var dst = list<BitMaskInfo>();
@@ -21,7 +23,7 @@ namespace Z0
                 var tc = Type.GetTypeCode(field.FieldType);
                 var vRaw = field.GetRawConstantValue();
                 if(IsMultiLiteral(field))
-                    dst.AddRange(descriptions(polymorphic(field), vRaw));
+                    dst.AddRange(masks(polymorphic(field), vRaw));
                 else if(IsBinaryLiteral(field))
                     dst.Add(BitMaskData.describe(binaryliteral(field,vRaw)));
                 else
@@ -30,69 +32,60 @@ namespace Z0
             return dst.ToArray();
         }
 
-        public static Index<BitMaskInfo> descriptions(LiteralInfo src, object value)
+        public static Index<BitMaskInfo> masks(LiteralInfo src, object value)
         {
-            if(src.Polymorphic)
+            var input = src.Text;
+            var fence = RenderFence.define(Chars.LBracket, Chars.RBracket);
+            var content = input;
+            var fenced = text.fenced(input, fence);
+            if(fenced)
             {
-                var input = src.Text;
-                var fence = RenderFence.define(Chars.LBracket, Chars.RBracket);
-                var content = input;
-                var fenced = text.fenced(input, fence);
-                if(fenced)
-                {
-                    if(!text.unfence(input, fence, out content))
-                        return sys.empty<BitMaskInfo>();
-                }
-
-                var components = @readonly(content.SplitClean(FieldDelimiter));
-                var count = components.Length;
-                var dst = alloc<BitMaskInfo>(count);
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var component = ref skip(components,i);
-                    var length = component.Length;
-                    if(length > 0)
-                    {
-                        var nbi = NumericBases.indicator(first(component));
-                        var nbk = NumericBases.kind(nbi);
-
-                        if(nbi != 0)
-                            seek(dst, i) = BitMaskData.describe(Numeric.literal(nbk, src.Name, value, component.Substring(1)));
-                        else
-                        {
-                            nbi = NumericBases.indicator(component[length - 1]);
-                            nbi = nbi != 0 ? nbi : NBI.Base2;
-                            seek(dst, i) = BitMaskData.describe(Numeric.literal(nbk, src.Name, value, component.Substring(0, length - 1)));
-                        }
-                    }
-                    else
-                        seek(dst, i) = BitMaskData.describe(NumericLiteral.Empty);
-                }
+                if(!text.unfence(input, fence, out content))
+                    return sys.empty<BitMaskInfo>();
             }
 
-            return sys.empty<BitMaskInfo>();
+            var components = @readonly(content.SplitClean(FieldDelimiter));
+            var count = components.Length;
+            var dst = alloc<BitMaskInfo>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var component = ref skip(components,i);
+                var length = component.Length;
+                if(length > 0)
+                {
+                    var nbi = NumericBases.indicator(first(component));
+                    var nbk = NumericBases.kind(nbi);
+
+                    if(nbi != 0)
+                        seek(dst, i) = BitMaskData.describe(Numeric.literal(nbk, src.Name, value, component.Substring(1)));
+                    else
+                    {
+                        nbi = NumericBases.indicator(component[length - 1]);
+                        nbi = nbi != 0 ? nbi : NBI.Base2;
+                        seek(dst, i) = BitMaskData.describe(Numeric.literal(nbk, src.Name, value, component.Substring(0, length - 1)));
+                    }
+                }
+                else
+                    seek(dst, i) = BitMaskData.describe(NumericLiteral.Empty);
+            }
+
+            return dst;
         }
 
-        public BitMaskServices()
-        {
-        }
+        public Index<BitMaskInfo> CalcMasks()
+            => Data(nameof(BitMaskInfo), () => CalcMasks(typeof(BitMaskLiterals)));
 
-        public Index<BitMaskInfo> Load()
-            => Load(DefaultProvider);
-
-        public Index<BitMaskInfo> Load(Type src)
-            => descriptions(src);
+        public Index<BitMaskInfo> CalcMasks(Type src)
+            => masks(src);
 
         public Index<BitMaskInfo> Emit()
             => Emit(ProjectDb.ApiTablePath<BitMaskInfo>());
 
         public Index<BitMaskInfo> Emit(FS.FilePath dst)
         {
-            var masks = Load();
-            TableEmit(masks.View, BitMaskInfo.RenderWidths, dst);
+            var masks = CalcMasks();
+            AppSvc.TableEmit(masks, dst);
             return masks;
         }
-
-        static Type DefaultProvider => typeof(BitMaskLiterals);
     }
 }

@@ -38,7 +38,7 @@ namespace Z0
 
         [Op]
         public static Index<SymLiteralRow> literals(Index<Assembly> src)
-            => literals(Enums.types(src).OrderBy(src => src.Name));
+            => literals(Enums.types(src).Ignore().OrderBy(src => src.Name));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         static void fill<E>(ReadOnlySpan<Sym<E>> src, Span<SymLiteralRow> dst)

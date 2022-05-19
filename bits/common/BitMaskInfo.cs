@@ -4,25 +4,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     [Record(TableId)]
     public struct BitMaskInfo : IRecord<BitMaskInfo>
     {
-        public const string TableId = "api.bitmasks";
+        const string TableId = "api.bitmasks";
 
-        public const byte FieldCount = 5;
-
+        [Render(32)]
         public string Name;
 
+        [Render(8)]
         public NumericBaseKind Base;
 
+        [Render(12)]
         public TypeSpec DataType;
 
+        [Render(82)]
         public BitMaskData MaskData;
 
+        [Render(1)]
         public string Text;
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[]{32,8,12,82,1};
     }
 }

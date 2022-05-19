@@ -12,6 +12,16 @@ namespace Z0
 
         AppServices AppSvc => Service(Wf.AppServices);
 
+        public Symbolism Symbols => Service(Wf.Symbolism);
+
+        public ApiComments Comments => Service(Wf.ApiComments);
+
+        public ApiAssets Assets => Service(Wf.ApiAssets);
+
+        public BitMaskServices BitMasks => Service(Wf.ApiBitMasks);
+
+        public ApiCatalogs Catalogs => Service(Wf.ApiCatalogs);
+
         Index<Assembly> _ApiParts;
 
         protected override void Initialized()
@@ -19,25 +29,26 @@ namespace Z0
             _ApiParts = ApiRuntimeCatalog.Components;
         }
 
-        public ApiComments Comments => Service(Wf.ApiComments);
-
-        public ApiAssets Assets => Service(Wf.ApiAssets);
-
-        public BitMaskServices ApiBitMasks => Service(Wf.ApiBitMasks);
-
-        public Symbolism Symbolism => Service(Wf.Symbolism);
-
         public ref readonly Index<Assembly> ApiParts
         {
             [MethodImpl(Inline)]
             get => ref _ApiParts;
         }
 
+        public Index<TableDefRecord> CalcTableDefs()
+            => Data(nameof(TableDefRecord), () => Catalogs.TableDefRecords());
+
         public Index<SymLiteralRow> CalcSymLits()
-            => Data(nameof(CalcSymLits), ()=> Symbols.literals(ApiParts));
+            => Symbols.CalcSymLits();
 
         public SymHeap CalcSymHeap(Index<SymLiteralRow> src)
-            => SymHeaps.create(src);
+            => Symbols.CalcSymHeap(src);
+
+        public void EmitSymHeap(SymHeap src)
+            => Symbols.EmitSymHeap(src);
+
+        public Index<BitMaskInfo> CalcBitMasks()
+            => BitMasks.CalcMasks();
 
         public Index<CompilationLiteral> CalcCompilationLits()
             => Data(nameof(CalcCompilationLits), () => LiteralProvider.CompilationLiterals(ApiParts));
@@ -47,32 +58,65 @@ namespace Z0
 
         public Index<ApiFlowSpec> CalcDataFlows()
         {
-            var src = ApiDataFlow.discover(ApiParts);
-            var count = src.Length;
-            var buffer = alloc<ApiFlowSpec>(count);
-            for(var i=0; i<count; i++)
+            return(Data(nameof(ApiFlowSpec),Calc));
+
+            Index<ApiFlowSpec> Calc()
             {
-                ref var dst = ref seek(buffer,i);
-                ref readonly var flow = ref src[i];
-                dst.Actor = flow.Actor.Name;
-                dst.Source = flow.Source?.ToString() ?? EmptyString;
-                dst.Target = flow.Target?.ToString() ?? EmptyString;
-                dst.Description = flow.Format();
+                var src = ApiDataFlow.discover(ApiParts);
+                var count = src.Length;
+                var buffer = alloc<ApiFlowSpec>(count);
+                for(var i=0; i<count; i++)
+                {
+                    ref var dst = ref seek(buffer,i);
+                    ref readonly var flow = ref src[i];
+                    dst.Actor = flow.Actor.Name;
+                    dst.Source = flow.Source?.ToString() ?? EmptyString;
+                    dst.Target = flow.Target?.ToString() ?? EmptyString;
+                    dst.Description = flow.Format();
+                }
+                return buffer.Sort();
             }
-            return buffer.Sort();
         }
 
-        public Index<SymHeapEntry> CalcHeapEntries(SymHeap src)
-            => SymHeaps.entries(src);
+        public Index<ApiCmdRow> CalcApiCommands()
+        {
+            var types = Cmd.types(ApiRuntimeCatalog.Components);
+            var buffer = list<ApiCmdRow>();
+            foreach(var type in types)
+            {
+                var name = type.Tag<CmdAttribute>().Require().Name;
+                var cmdargs = type.DeclaredInstanceFields();
+                var instance = Activator.CreateInstance(type);
+                var values = ClrFields.values(instance);
+                foreach(var arg in cmdargs)
+                {
+                    var cmdarg = new ApiCmdRow();
+                    cmdarg.CmdName = name;
+                    cmdarg.CmdType = type.Name;
+                    cmdarg.ArgName = arg.Name;
+                    cmdarg.DataType = TypeSyntax.infer(arg.FieldType);
+                    cmdarg.Expression = arg.Tag<CmdArgAttribute>().MapValueOrDefault(x => x.Expression, EmptyString);
+                    cmdarg.DefaultValue = values[arg.Name].Value?.ToString() ?? EmptyString;
+                    buffer.Add(cmdarg);
+                }
+            }
 
-        public void Emit(SymHeap src)
-            => AppSvc.TableEmit(CalcHeapEntries(src), AppDb.ApiTargets().Table<SymHeapEntry>());
+            return buffer.ToIndex();
+        }
+
+        public Index<ClrEnumRecord> CalcEnumRecords(Assembly src)
+            => Data(src.GetSimpleName() + nameof(ClrEnumRecord), () => Enums.records(src));
+
+        public Index<Type> CalcEnumTypes()
+            => ApiParts.Storage
+                .Enums()
+                .Where(x => x.ContainsGenericParameters == false && nonempty(x.Namespace));
 
         public void EmitBitMasks()
-            => ApiBitMasks.Emit();
+            => Emit(CalcBitMasks());
 
-        public void EmitComments()
-            => Comments.Collect();
+        public Dictionary<FS.FilePath, Dictionary<string,string>> EmitComments()
+            => Data(nameof(EmitComments), () => Comments.Collect());
 
         public void EmitApiMd()
             => Comments.EmitMarkdownDocs(new string[]{
@@ -84,9 +128,13 @@ namespace Z0
                 nameof(BitMaskLiterals),
                 });
 
-        public ReadOnlySpan<SymLiteralRow> EmitSymLiterals<E>(FS.FilePath dst)
-            where E : unmanaged, Enum
-                => Service(Wf.Symbolism).EmitLiterals<E>(dst);
+        public void Emit(ReadOnlySpan<ApiCmdRow> src)
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ApiCmdRow>());
+        public void Emit(ReadOnlySpan<TableDefRecord> src)
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<TableDefRecord>());
+
+        public void Emit(ReadOnlySpan<BitMaskInfo> src)
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<BitMaskInfo>());
 
         public void Emit(ReadOnlySpan<SymLiteralRow> src)
             => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<SymLiteralRow>());
@@ -100,26 +148,17 @@ namespace Z0
         public void Emit(ReadOnlySpan<ApiFlowSpec> src)
             => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ApiFlowSpec>());
 
-        Index<ClrEnumRecord> CalcEnumRecords(Assembly src)
-            => Enums.records(src);
+        public void Emit(ReadOnlySpan<ClrEnumRecord> src)
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ClrEnumRecord>());
 
-        void Emit(ReadOnlySpan<ClrEnumRecord> src)
-            => TableEmit(src, AppDb.ApiTargets().Table<ClrEnumRecord>());
-
-        public FS.FilePath EmitEnumList()
+        public FS.FilePath EmitTypeList(string name, ReadOnlySpan<Type> src)
         {
-            var dst = AppDb.ApiTargets().Path("api.enums.types", FileKind.List);
-            var src = ApiParts
-                .Where(x => !x.FullName.Contains("codegen."))
-                .Storage.Enums()
-                .Where(x => x.ContainsGenericParameters == false && nonempty(x.Namespace));
-            var emitting = EmittingFile(dst);
-            var count = src.Length;
-            using var writer = dst.Utf8Writer();
-            for(var i=0; i<count; i++)
-                writer.WriteLine(skip(src,i).AssemblyQualifiedName);
-            EmittedFile(emitting,count);
-            return dst;
+            var path = AppDb.ApiTargets().Path(name, FileKind.List);
+            var dst = text.emitter();
+            for(var i=0; i<src.Length; i++)
+                dst.AppendLine(skip(src,i).AssemblyQualifiedName);
+            AppSvc.FileEmit(dst.Emit(), src.Length, path);
+            return path;
         }
     }
 }

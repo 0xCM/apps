@@ -7,6 +7,7 @@ namespace Z0.Asm
 	/// <summary>
 	/// Operand, register and memory access
 	/// </summary>
+	[Ignore]
 	public enum IceOpAccess
     {
 		/// <summary>

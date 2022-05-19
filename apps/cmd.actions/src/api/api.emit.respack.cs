@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ApiCmdProvider
+    partial class ApiCmd
     {
         [CmdOp("api/emit/respack")]
         Outcome EmitResPack(CmdArgs args)

@@ -4,25 +4,27 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Record(RecordId)]
+    [Record(RecordId), StructLayout(StructLayout, Pack=1)]
     public struct TableDefRecord
     {
-        public const string RecordId = "api.tables";
+        const string RecordId = "api.tables";
 
-        public const byte FieldCount = 6;
-
+        [Render(8)]
         public uint Seq;
 
+        [Render(36)]
         public TableId TableId;
 
+        [Render(36)]
         public Name TableType;
 
+        [Render(12)]
         public ushort FieldIndex;
 
+        [Render(36)]
         public Name FieldName;
 
+        [Render(1)]
         public Identifier FieldType;
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,36,36,12,36,1};
     }
 }

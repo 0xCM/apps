@@ -12,7 +12,7 @@ namespace Z0
             {
                 term.inform(string.Format("Received:[{0}]", args.Delimit()));
 
-                GlobalCommands.dispatch(args);
+                GlobalCmd.dispatch(args);
             }
             else
                 term.inform("Nothing to do");

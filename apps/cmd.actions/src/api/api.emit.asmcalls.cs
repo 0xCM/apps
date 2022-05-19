@@ -6,10 +6,8 @@ namespace Z0
 {
     using Asm;
 
-    partial class ApiCmdProvider
+    partial class ApiCmd
     {
-        BitMaskServices ApiBitmasks => Service(Wf.ApiBitMasks);
-
         [CmdOp("api/emit/asmcalls")]
         protected Outcome EmitCallTable(CmdArgs args)
         {

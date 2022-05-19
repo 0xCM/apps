@@ -5,6 +5,7 @@
 namespace Z0.Asm
 {
 	/// <summary>Instruction condition code (used by <c>Jcc</c>, <c>SETcc</c>, <c>CMOVcc</c>)</summary>
+	[Ignore]
 	public enum IceConditionCode
     {
 		/// <summary>The instruction doesn&apos;t have a condition code</summary>

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class CheckCmdProvider : AppCmdProvider<CheckCmdProvider>
+    public partial class CheckCmd : AppCmdProvider<CheckCmd>
     {
         AppDb AppDb => Service(Wf.AppDb);
 

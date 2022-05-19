@@ -7,7 +7,8 @@ namespace Z0.Asm
 	/// <summary>
 	/// Default code size when an instruction was decoded
 	/// </summary>
-	public enum IceCodeSize
+	[Ignore]
+    public enum IceCodeSize
     {
 		/// <summary>
 		/// Unknown size

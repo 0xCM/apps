@@ -15,6 +15,9 @@ namespace Z0
         [Render(12)]
         public Address32 Offset;
 
+        [Render(6)]
+        public uint Size;
+
         [Render(32)]
         public Identifier Source;
 

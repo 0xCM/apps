@@ -12,8 +12,40 @@ namespace Z0
 
         AppServices AppSvc => Service(Wf.AppServices);
 
-        DbTargets SymTargets()
-            => AppDb.Targets("api/symbols");
+        DbTargets ApiTargets()
+            => AppDb.Targets("api");
+
+        /// <summary>
+        /// Discovers symbolic literals defined in a specified component collection
+        /// </summary>
+        public Index<SymLiteralRow> CalcSymLits(Assembly[] src)
+            => Symbols.literals(src);
+
+        /// <summary>
+        /// Discovers symbolic literals defined in the api catalog
+        /// </summary>
+        public Index<SymLiteralRow> CalcSymLits()
+            => Data(nameof(SymLiteralRow), () => Symbols.literals(ApiRuntimeCatalog.Components));
+
+        /// <summary>
+        /// Discovers the symbolic literals for parametrically-identified symbol type
+        /// </summary>
+        /// <typeparam name="E">The defining type</typeparam>
+        public Index<SymLiteralRow> CalcSymLits<E>()
+            where E : unmanaged, Enum
+                => Symbols.literals<E>();
+
+        public SymHeap CalcSymHeap(Index<SymLiteralRow> src)
+            => Data(nameof(SymHeap), () => SymHeaps.create(src));
+
+        Index<SymHeapEntry> CalcEntries(SymHeap src)
+            => Data(SymHeap.id(src),() => SymHeaps.entries(src));
+
+        public void EmitSymHeap(SymHeap src, FS.FilePath dst)
+            => AppSvc.TableEmit(CalcEntries(src), dst);
+
+        public void EmitSymHeap(SymHeap src)
+            => AppSvc.TableEmit(CalcEntries(src), ApiTargets().Table<SymHeapEntry>());
 
         public Index<ClrEnumRecord> EmitEnums(Assembly src, FS.FilePath dst)
         {
@@ -23,69 +55,22 @@ namespace Z0
             return records;
         }
 
-        public SymHeap EmitSymHeap()
-            => EmitSymHeap(Symbols.literals(ApiRuntimeCatalog.Components));
-
-        public SymHeap EmitSymHeap(string name, params Type[] src)
-        {
-            var heap = SymHeaps.create(Symbols.literals(src));
-            AppSvc.TableEmit(SymHeaps.entries(heap), SymTargets().Table<SymHeapEntry>(name));
-            return heap;
-        }
-
-        public SymHeap EmitSymHeap<E>(FS.FilePath dst)
-            where E : unmanaged, Enum
-                => EmitHeap(Symbols.literals<E>(), dst);
-
-        public SymHeap EmitSymHeap(ReadOnlySpan<SymLiteralRow> src)
-            => EmitHeap(src, SymTargets().Table<SymHeapEntry>());
-
-        public SymHeap EmitHeap(ReadOnlySpan<SymLiteralRow> src, FS.FilePath dst)
-        {
-            var heap = SymHeaps.create(src);
-            AppSvc.TableEmit(SymHeaps.entries(heap), dst);
-            return heap;
-        }
-
-        public void EmitHeap(string name, SymHeap src)
-            => AppSvc.TableEmit(SymHeaps.entries(src), SymTargets().Table<SymHeapEntry>(name));
-
-        public ReadOnlySpan<SymLiteralRow> EmitLiterals()
-            => EmitLiterals(SymTargets().Table<SymLiteralRow>());
+        public Index<SymLiteralRow> EmitLiterals()
+            => EmitLiterals(ApiTargets().Table<SymLiteralRow>());
 
         public Index<SymLiteralRow> EmitLiterals(FS.FilePath dst)
-            => EmitLiterals(ApiRuntimeCatalog.Components, dst);
-
-        /// <summary>
-        /// Discovers symbolic literals defined in a specified component collection
-        /// </summary>
-        public Index<SymLiteralRow> DiscoverLiterals(Assembly[] src)
-            => Symbols.literals(src);
-
-        /// <summary>
-        /// Discovers all symbolic literals everywhere
-        /// </summary>
-        public Index<SymLiteralRow> DiscoverLiterals()
-            => Symbols.literals(ApiRuntimeCatalog.Components);
-
-        /// <summary>
-        /// Discovers the symbolic literals for parametrically-identified symbol type
-        /// </summary>
-        /// <typeparam name="E">The defining type</typeparam>
-        public Index<SymLiteralRow> DiscoverLiterals<E>()
-            where E : unmanaged, Enum
-                => Symbols.literals<E>();
+            => EmitSymLits(ApiRuntimeCatalog.Components, dst);
 
         /// <summary>
         /// Emits the symbolic literals for parametrically-identified symbol type
         /// </summary>
         /// <typeparam name="E">The defining typ
         /// e</typeparam>
-        public Index<SymLiteralRow> EmitLiterals<E>()
+        public Index<SymLiteralRow> EmitSymLits<E>()
             where E : unmanaged, Enum
-                => EmitLiterals<E>(SymTargets().Table<SymLiteralRow>(typeof(E).FullName));
+                => EmitSymLits<E>(ApiTargets().Table<SymLiteralRow>(typeof(E).FullName));
 
-        public Index<SymLiteralRow> EmitLiterals<E>(FS.FilePath dst)
+        public Index<SymLiteralRow> EmitSymLits<E>(FS.FilePath dst)
             where E : unmanaged, Enum
         {
             var flow = EmittingTable<SymLiteralRow>(dst);
@@ -100,47 +85,23 @@ namespace Z0
             return rows;
         }
 
-        public Index<SymLiteralRow> EmitLiterals(Assembly[] src, FS.FilePath dst)
+        public Index<SymLiteralRow> EmitSymLits(Assembly[] src, FS.FilePath dst)
         {
-            var rows = Symbols.literals(src);
-            TableEmit(rows.View, dst);
+            var rows = CalcSymLits(src);
+            AppSvc.TableEmit(rows, dst);
             return rows;
         }
 
-        public ReadOnlySpan<Sym<K>> EmitSymbols<K>(FS.FolderPath dir)
-            where K : unmanaged, Enum
-        {
-            var symbols = Symbols.index<K>().View;
-            EmitSymbols(symbols, dir);
-            return symbols;
-        }
-
-        public void EmitSymbols<K>(ReadOnlySpan<Sym<K>> src, FS.FolderPath dir)
-            where K : unmanaged
-        {
-            var dst  = dir + FS.file(typeof(K).Name.ToLower(), FS.Csv);
-            var count = src.Length;
-            if(count != 0)
-            {
-                var flow = EmittingFile(dst);
-                using var writer = dst.Writer();
-                writer.WriteLine(Symbols.header());
-                for(var i=0; i<count; i++)
-                    writer.WriteLine(skip(src,i));
-                EmittedFile(flow, count);
-            }
-        }
-
-        public Index<SymInfo> EmitTokenSpecs(Type src)
+        public Index<SymInfo> EmitTokens(Type src)
         {
             var tokens = Symbols.syminfo(src);
-            WfEmit.TableEmit(tokens, SymTargets().Table<SymInfo>("tokens" + "." +  src.Name.ToLower()));
+            WfEmit.TableEmit(tokens, ApiTargets().Table<SymInfo>("tokens" + "." +  src.Name.ToLower()));
             return tokens;
         }
 
-        public Index<SymInfo> LoadTokenSpecs(string name)
+        public Index<SymInfo> LoadTokens(string name)
         {
-            var src = SymTargets().Table<SymInfo>("tokens" + "." +  name.ToLower());
+            var src = ApiTargets().Table<SymInfo>("tokens" + "." +  name.ToLower());
             using var reader = src.TableReader<SymInfo>(SymbolicParse.parse);
             var header = reader.Header.Split(Chars.Pipe);
             if(header.Length != SymInfo.FieldCount)

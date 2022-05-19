@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using System.Collections.Generic;
     using System.Linq;
 
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -59,7 +55,7 @@ namespace Z0
         {
             var dst = ProjectDb.Subdir("api") + FS.file("api.tables", FS.Csv);
             var src = TableDefRecords();
-            TableEmit(src.View, TableDefRecord.RenderWidths, dst);
+            TableEmit(src.View, dst);
             return src;
         }
 

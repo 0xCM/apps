@@ -4,10 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     public abstract class WsCmdService<S> : AppCmdService<S,CmdShellState>
         where S : WsCmdService<S>, new()
     {
-        AppCmdRunner CmdExec
+        WsCmdRunner CmdExec
             => Service(Wf.AppCmdRunner);
 
         IProjectProvider ProjectProvider
@@ -34,5 +35,29 @@ namespace Z0
 
         protected void LoadProject(string name)
             => Dispatcher.Dispatch("project", new CmdArg[]{new CmdArg(EmptyString, name)});
+
+        public void EmitCommands()
+        {
+            EmitCommands(Dispatcher);
+        }
+
+        [CmdOp(".commands")]
+        protected Outcome EmitShellCommands(CmdArgs args)
+        {
+            EmitCommands();
+            return true;
+        }
+
+        void EmitCommands(ICmdDispatcher dispatcher)
+            => EmitCommands(dispatcher, AppDb.Targets("api").Path(FS.file($"api.{GetType().Name.ToLower()}.cmd", FS.Csv)));
+
+        void EmitCommands(ICmdDispatcher dispatcher, FS.FilePath dst)
+        {
+            iter(dispatcher.SupportedActions, cmd => Write(cmd));
+            var emitting = EmittingFile(dst);
+            using var writer = dst.Writer();
+            iter(dispatcher.SupportedActions, cmd => writer.WriteLine(cmd));
+            EmittedFile(emitting, dispatcher.SupportedActions.Length);
+        }
     }
 }

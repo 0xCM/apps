@@ -35,7 +35,10 @@ namespace Z0
 
         const NumericKind Closure = UnsignedInts;
 
-         public static ValueClassifier<K,T> classifier<K,T>()
+        public static ValueClassifier classifier(Type src)
+            => (ValueClassifier)Lookup.GetOrAdd(src, _ => create(src));
+
+        public static ValueClassifier<K,T> classifier<K,T>()
             where K : unmanaged, Enum
             where T : unmanaged
                 => (ValueClassifier<K,T>)Lookup.GetOrAdd(typeof(K), _ => create<K,T>());
@@ -113,6 +116,24 @@ namespace Z0
             Lookup = new();
         }
 
+        static ValueClassifier create(Type src)
+        {
+            var symbols = Symbols.untyped(src);
+            var count = symbols.Count;
+            var names = alloc<Label>(count);
+            var values = alloc<LabeledValue<ulong>>(count);
+            var classes = alloc<ValueClass>(count);
+            var dst = new ValueClassifier(src.Name, names, symbols, values, classes);
+            for(var i=0u; i<symbols.Count; i++)
+            {
+                ref readonly var sym = ref symbols[i];
+                dst.Sym(i) = sym;
+                dst.SymName(i) = sym.Name;
+                dst.Value(i) = (sym.Name,sym.Value);
+                dst.Class(i) = new ValueClass(sym.Key, sym.Class.Name, sym.Name, sym.Expr.Text, sym.Value);
+            }
+            return dst;
+        }
          static ValueClassifier<K,T> create<K,T>()
             where K : unmanaged, Enum
             where T : unmanaged

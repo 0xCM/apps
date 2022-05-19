@@ -7,6 +7,7 @@ namespace Z0.Asm
 	/// <summary>
 	/// Tuple type (EVEX) which can be used to get the disp8 scale factor N
 	/// </summary>
+	[Ignore]
 	public enum IceTupleType
     {
 		/// <summary>

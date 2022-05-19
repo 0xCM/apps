@@ -9,9 +9,7 @@ namespace Z0.Asm
     [Record(TableId)]
     public struct IntelIntrinsic : IComparable<IntelIntrinsic>
     {
-        public const string TableId = "intel.intrinsics";
-
-        public const byte FieldCount = 7;
+        const string TableId = "intel.intrinsics";
 
         [Render(64)]
         public InstForm Form;

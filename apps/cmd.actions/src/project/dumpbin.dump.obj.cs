@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ProjectCmdProvider
+    partial class ProjectCmd
     {
         [CmdOp("dumpbin/dump/obj")]
         Outcome DumpObj(CmdArgs args)

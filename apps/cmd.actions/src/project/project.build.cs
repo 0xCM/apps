@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ProjectCmdProvider
+    partial class ProjectCmd
     {
         Dictionary<string,string> BuildCmdNames {get;}
             = core.array(("mc.models", "project/build/asm"),

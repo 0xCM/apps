@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ProjectCmdProvider
+    partial class ProjectCmd
     {
         [CmdOp("project/mcasm")]
         Outcome McAsmDocs(CmdArgs args)

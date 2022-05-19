@@ -7,6 +7,7 @@ namespace Z0.Asm
 	/// <summary>
 	/// Rounding control
 	/// </summary>
+	[Ignore]
 	public enum IceRoundingControl
     {
 		/// <summary>

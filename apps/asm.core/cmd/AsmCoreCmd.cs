@@ -28,8 +28,6 @@ namespace Z0
 
         CsLang CsLang => Service(Wf.CsLang);
 
-        BitMaskServices ApiBitMasks => Service(Wf.ApiBitMasks);
-
         ApiComments ApiComments => Service(Wf.ApiComments);
 
         AsmDocs AsmDocs => Service(Wf.AsmDocs);

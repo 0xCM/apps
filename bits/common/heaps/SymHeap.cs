@@ -4,15 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = SymHeaps;
-
     public class SymHeap
     {
+        [MethodImpl(Inline), Op]
+        public static Span<char> expr(SymHeap src, uint index)
+            => core.slice(src.Expr.Edit, src.ExprOffsets[index], src.ExprLengths[index]);
+
+        public static asci16 id(SymHeap src)
+            => string.Format("H{0:X4}x{1:X4}x{2:X6}",src.SymbolCount, src.EntryCount, src.ExprLengths.Storage.Sum());
+
         internal Index<Identifier> Sources;
 
         internal Index<Identifier> Names;
 
-        internal Index<char> ExprData;
+        internal Index<char> Expr;
 
         internal Index<uint> ExprLengths;
 
@@ -25,27 +30,30 @@ namespace Z0
         internal uint EntryCount;
 
         [MethodImpl(Inline), Op]
-        public ref readonly Identifier Source(uint index)
+        public ref Identifier Source(uint index)
             => ref Sources[index];
-
         [Op]
-        public ref readonly Identifier Name(uint index)
+        public ref Identifier Name(uint index)
             => ref Names[index];
 
         [MethodImpl(Inline), Op]
-        public ref readonly uint Offset(uint index)
+        public ref uint Offset(uint index)
             => ref ExprOffsets[index];
 
         [MethodImpl(Inline), Op]
-        public ref readonly uint Width(uint index)
+        public ref uint Length(uint index)
             => ref ExprLengths[index];
 
         [MethodImpl(Inline), Op]
-        public ref readonly SymVal Value(uint index)
+        public uint Size(uint index)
+            => Length(index)*2;
+
+        [MethodImpl(Inline), Op]
+        public ref SymVal Value(uint index)
             => ref Values[index];
 
         [MethodImpl(Inline), Op]
-        public ReadOnlySpan<char> Expression(uint index)
-            => api.expr(this, index);
+        public Span<char> Expression(uint index)
+            => expr(this, index);
     }
 }

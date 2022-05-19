@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    partial class ApiCmdProvider
+    partial class ApiCmd
     {
         [CmdOp("api/emit/asmhex")]
         Outcome ApiEmitAsmHexText(CmdArgs args)

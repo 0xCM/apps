@@ -8,6 +8,7 @@ namespace Z0.Asm
 	/// <summary>
 	/// Mnemonic
 	/// </summary>
+	[Ignore]
 	public enum IceMnemonic {
 
 		INVALID,

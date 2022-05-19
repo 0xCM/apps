@@ -30,6 +30,22 @@ namespace Z0
             _Classes = classes;
         }
 
+        [MethodImpl(Inline)]
+        internal ref Label SymName(uint index)
+            => ref _ClassNames[index];
+
+        [MethodImpl(Inline)]
+        internal ref LabeledValue<ulong> Value(uint index)
+            => ref _Values[index];
+
+        [MethodImpl(Inline)]
+        internal ref Sym Sym(uint index)
+            => ref _Symbols[index];
+
+        [MethodImpl(Inline)]
+        internal ref ValueClass Class(uint index)
+            => ref _Classes[index];
+
         public ref readonly ValueClass this[uint i]
         {
             [MethodImpl(Inline)]
