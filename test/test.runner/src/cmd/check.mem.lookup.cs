@@ -6,9 +6,9 @@ namespace Z0
 {
     using static core;
 
-    partial class AppCommands
+    partial class CheckRunCmd
     {
-        [CmdOp("check/memory/lookup")]
+        [CmdOp("check/mem/lookup")]
         public Outcome CheckMemoryLookup(CmdArgs args)
         {
             var capacity = Pow2.T16;

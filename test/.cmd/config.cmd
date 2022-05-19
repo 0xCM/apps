@@ -1,5 +1,5 @@
 @echo off
-set ProjId=test
+set ProjId=test.runner
 set AppName=ztest
 call %~dp0..\..\apps\.cmd\project-config.cmd
-call %BuildProjCmd%
+::set ExePath=%ZDev%\.build\bin

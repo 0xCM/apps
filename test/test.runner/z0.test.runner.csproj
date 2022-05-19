@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <AssemblyName>ztest</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
