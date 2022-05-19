@@ -21,6 +21,12 @@ namespace Z0
                 Value = value;
             }
 
+            public RuleCellKind CellKind
+            {
+                [MethodImpl(Inline)]
+                get => Value.CellKind;
+            }
+
             public readonly FieldKind Field
             {
                 [MethodImpl(Inline)]

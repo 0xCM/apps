@@ -9,10 +9,10 @@ namespace Z0
 
     partial class XedRules
     {
-        [DataWidth(2),StructLayout(StructLayout,Size =1)]
+        [DataWidth(Width), StructLayout(StructLayout,Size =1)]
         public readonly record struct InstOperator : IComparable<InstOperator>
         {
-            public const byte Width = 2;
+            public const byte Width = num2.Width;
 
             public const string EqSym = "=";
 

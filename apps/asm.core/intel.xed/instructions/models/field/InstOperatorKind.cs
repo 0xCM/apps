@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using O = XedRules.InstOperator;
 
     partial class XedRules

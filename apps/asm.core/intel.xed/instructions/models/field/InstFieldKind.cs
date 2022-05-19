@@ -20,7 +20,7 @@ namespace Z0
 
             NeqExpr,
 
-            ExExpr,
+            EqExpr,
 
             NtCall,
         }
