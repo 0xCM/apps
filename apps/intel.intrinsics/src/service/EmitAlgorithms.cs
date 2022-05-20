@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Xml;
-    using System.IO;
-
     using static core;
     using static IntrinsicsDoc;
 
@@ -19,7 +16,7 @@ namespace Z0
             var flow = EmittingFile(dst);
             using var writer = dst.Writer();
             for(var i=0; i<count; i++)
-                writer.WriteLine(Formatter.FormatAlgorithm(skip(src,i)));
+                writer.WriteLine(AlgRender.format(skip(src,i)));
             EmittedFile(flow, count);
         }
     }

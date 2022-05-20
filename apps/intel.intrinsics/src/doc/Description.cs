@@ -6,16 +6,16 @@ namespace Z0
 {
     partial class IntrinsicsDoc
     {
-        public struct Description
+        public readonly record struct Description
         {
             public const string ElementName = "description";
 
-            public string Content;
+            public readonly string Content;
 
             [MethodImpl(Inline)]
             public Description(string src)
             {
-                Content = src.Replace('\t', ' ');
+                Content = text.despace(src.Replace('\t', ' '));
             }
 
             public string Format()

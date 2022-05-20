@@ -13,6 +13,66 @@ namespace Z0
 
     partial class IntelIntrinsicSvc
     {
+        static Index<IntrinsicDef> read(XmlDoc src)
+        {
+            var entries = new IntrinsicDef[MaxDefCount];
+            var i = -1;
+            using var reader = XmlReader.Create(new StringReader(src.Content));
+            while (reader.Read() && i<MaxDefCount - 1)
+            {
+                if(reader.NodeType == XmlNodeType.Element)
+                {
+                    switch(reader.Name)
+                    {
+                        case IntrinsicDef.ElementName:
+                            i++;
+                            entries[i] = IntrinsicDef.Empty;
+                            entries[i].content = reader.Value;
+                            entries[i].tech = reader[nameof(IntrinsicDef.tech)];
+                            entries[i].name = reader[nameof(IntrinsicDef.name)];
+                        break;
+
+                        case Operation.ElementName:
+                            read(reader, ref entries[i].operation);
+                        break;
+
+                        case Description.ElementName:
+                            read(reader, ref entries[i].description);
+                        break;
+
+                        case Return.ElementName:
+                            read(reader, ref entries[i].@return);
+                        break;
+
+                        case CpuId.ElementName:
+                            read(reader, entries[i].CPUID);
+                        break;
+
+                        case Category.ElementName:
+                            read(reader, ref entries[i].category);
+                        break;
+
+                        case Instruction.ElementName:
+                            read(reader, entries[i].instructions);
+                        break;
+
+                        case InstructionType.ElementType:
+                            read(reader, entries[i].types);
+                        break;
+
+                        case IntrinsicsDoc.Parameter.ElementName:
+                            read(reader, entries[i].parameters);
+                        break;
+                        case Header.ElementName:
+                            read(reader, ref entries[i].header);
+                        break;
+                    }
+                }
+            }
+
+            return slice(span(entries),0,i).ToArray().Sort();
+        }
+
         static void read(XmlReader reader, ref Operation dst)
         {
             const string amp = "&amp;";
@@ -25,13 +85,13 @@ namespace Z0
             => dst.Add(reader.ReadInnerXml());
 
         static void read(XmlReader reader, ref Category dst)
-            => dst.Content = reader.ReadInnerXml();
+            => dst = reader.ReadInnerXml();
 
         static void read(XmlReader reader, ref Header dst)
-            => dst.Content = reader.ReadInnerXml();
+            => dst = reader.ReadInnerXml();
 
         static void read(XmlReader reader, ref Description dst)
-            => dst.Content = reader.ReadInnerXml().Replace("\n", " ");
+            => dst =  reader.ReadInnerXml().Replace("\n", " ");
 
         static void read(XmlReader reader, ref Return dst)
         {
@@ -43,26 +103,30 @@ namespace Z0
 
         static void read(XmlReader reader, Parameters dst)
         {
-            var element = new Parameter();
-            element.varname = reader[nameof(Parameter.varname)];
-            element.etype = reader[nameof(Parameter.etype)];
-            element.type = reader[nameof(Parameter.type)];
-            element.memwidth =  reader[nameof(Parameter.memwidth)];
-            dst.Add(element);
+            var target = new IntrinsicsDoc.Parameter();
+            target.varname = reader[nameof(target.varname)] ?? EmptyString;
+            target.etype = reader[nameof(target.etype)] ?? EmptyString;
+            target.type = reader[nameof(target.type)] ?? EmptyString;
+            target.memwidth = reader[nameof(target.memwidth)] ?? EmptyString;
+            target.immwidth = reader[nameof(target.immwidth)] ?? EmptyString;
+            dst.Add(target);
+            // dst.Add(new (
+            //     varname:reader[nameof(IntrinsicsDoc.Operand.varname)],
+            //     etype:reader[nameof(IntrinsicsDoc.Operand.type)],
+            //     type:reader[nameof(IntrinsicsDoc.Operand.etype)],
+            //     memwidth:reader[nameof(IntrinsicsDoc.Operand.memwidth)]
+            //     ));
         }
 
         static void read(XmlReader reader, InstructionTypes dst)
-        {
-            dst.Add(new InstructionType(reader.ReadInnerXml()));
-        }
+            => dst.Add(reader.ReadInnerXml());
 
         static void read(XmlReader reader, Instructions dst)
-        {
-            var element = new Instruction();
-            element.name = reader[nameof(Instruction.name)];
-            element.form = reader[nameof(Instruction.form)];
-            element.xed = Enums.parse(reader[nameof(Instruction.xed)], default(IFormType));
-            dst.Add(element);
-        }
+            => dst.Add(new (
+                name: reader[nameof(Instruction.name)],
+                form: reader[nameof(Instruction.form)],
+                xed: Enums.parse(reader[nameof(Instruction.xed)], default(IFormType)))
+                );
+
     }
 }

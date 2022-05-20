@@ -6,27 +6,27 @@ namespace Z0
 {
     partial class IntrinsicsDoc
     {
-        public readonly record struct Header
+        public readonly record struct Sig
         {
-            public const string ElementName = "header";
+            public readonly Return Return;
 
-            public readonly string Content;
+            public readonly string Name;
+
+            public readonly Parameters Params;
 
             [MethodImpl(Inline)]
-            public Header(string src)
+            public Sig(Return ret, string name, Parameters ops)
             {
-                Content = src;
+                Return = ret;
+                Name = name;
+                Params = ops;
             }
 
             public string Format()
-                => Content;
+                => string.Format("{0} {1}({2})", Return, Name, string.Join(", ", Params));
 
             public override string ToString()
-                => Content;
-
-            [MethodImpl(Inline)]
-            public static implicit operator Header(string src)
-                => new Header(src);
+                => Format();
         }
     }
 }

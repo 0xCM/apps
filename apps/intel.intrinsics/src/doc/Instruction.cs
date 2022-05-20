@@ -5,18 +5,19 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedRules;
 
     partial class IntrinsicsDoc
     {
-        public struct Instruction
+        public readonly struct Instruction
         {
             public const string ElementName = "instruction";
 
-            public string name;
+            public readonly string name;
 
-            public string form;
+            public readonly string form;
 
-            public IFormType xed;
+            public readonly IFormType xed;
 
             public Instruction(string name, string form, IFormType xed)
             {
@@ -36,6 +37,9 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => !IsEmpty;
             }
+
+            public InstClass InstClass
+                => InstClass.parse(name, out _);
 
             public string Format()
                 => IsEmpty ? EmptyString : string.Format("{0} {1}", name, form);

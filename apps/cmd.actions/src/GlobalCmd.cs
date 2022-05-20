@@ -12,25 +12,31 @@ namespace Z0
     {
         static ICmdProvider[] _Providers;
 
-        public new static GlobalCmd create(IWfRuntime wf)
+        public static GlobalCmd init(IWfRuntime wf, GlobalCmd svc, AsmCmdRt asmrt, ICmdProvider[] providers)
         {
-            var svc = new GlobalCmd();
-            var asmrt = AsmCmdRt.runtime(wf, false);
-            var cmd = wf.ProjectCommands();
-            _Providers = array<ICmdProvider>(
-                svc,
-                ProjectCmd.inject(svc, asmrt, cmd),
-                asmrt.Commands,
-                wf.PbCmd(),
-                wf.ApiCommands(),
-                wf.LlvmCommands(),
-                wf.CheckCommands(),
-                wf.AsmCommands()
-                );
-
+            _Providers = providers;
             svc.Init(wf);
             return svc;
         }
+
+        // public new static GlobalCmd create(IWfRuntime wf)
+        // {
+        //     var svc = new GlobalCmd();
+        //     var asmrt = AsmCmdRt.runtime(wf, false);
+        //     var cmd = wf.ProjectCommands();
+        //     var providers = array<ICmdProvider>(
+        //         svc,
+        //         ProjectCmd.inject(svc, asmrt, cmd),
+        //         asmrt.Commands,
+        //         wf.PbCmd(),
+        //         wf.ApiCommands(),
+        //         wf.LlvmCommands(),
+        //         wf.CheckCommands(),
+        //         wf.AsmCommands()
+        //         );
+
+        //     return init(wf, svc, asmrt, providers);
+        // }
 
         public static void dispatch(ReadOnlySpan<string> args)
         {

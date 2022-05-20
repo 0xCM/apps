@@ -4,15 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static IntrinsicsDoc;
-
-
-    partial class IntelIntrinsicSvc
+    public enum CmdActionKind : byte
     {
+        None,
 
+        Arity0,
 
-        static string sig(IntrinsicDef src)
-            => string.Format("{0} {1}({2})", src.@return,  src.name,  string.Join(", ", src.parameters.ToArray()));
+        Arity1,
 
+        Func
     }
 }

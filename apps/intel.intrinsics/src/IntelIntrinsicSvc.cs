@@ -4,13 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Xml;
-    using System.IO;
-
     using static core;
     using static IntrinsicsDoc;
 
-    public partial class IntelIntrinsicSvc  : AppService<IntelIntrinsicSvc>
+    public partial class IntelIntrinsicSvc : AppService<IntelIntrinsicSvc>
     {
         const int MaxDefCount = Pow2.T13;
 
@@ -18,7 +15,15 @@ namespace Z0
 
         AppDb AppDb => Service(Wf.AppDb);
 
-        IntrinsicFormatter Formatter => Service(() => new IntrinsicFormatter());
+        public Index<IntrinsicDef> Emit()
+        {
+            var parsed = ParseDoc();
+            EmitAlgorithms(parsed);
+            var records = EmitRecords(parsed);
+            EmitRecords(records,"Integer");
+            EmitDeclarations(parsed);
+            return parsed;
+        }
 
         public void Check()
         {
@@ -55,80 +60,10 @@ namespace Z0
             seek(specs,2) = NativeSigs.op("op2", NativeTypes.u32());
         }
 
-        public Index<IntrinsicDef> Emit()
-        {
-            var parsed = ParseXmlDoc().Sort();
-            EmitAlgorithms(parsed);
-            var records = EmitRecords(parsed);
-            EmitRecords(records,"Integer");
-            EmitDeclarations(parsed);
-            return parsed;
-        }
-
-        XmlDoc ReadXmlDoc()
+        XmlDoc LoadDocXml()
             => XmlSource().ReadUtf8();
 
-        Index<IntrinsicDef> ParseXmlDoc()
-            => Parse(ReadXmlDoc());
-
-        Index<IntrinsicDef> Parse(XmlDoc src)
-        {
-            var entries = new IntrinsicDef[MaxDefCount];
-            var i = -1;
-            using var reader = XmlReader.Create(new StringReader(src.Content));
-            while (reader.Read() && i<MaxDefCount - 1)
-            {
-                if(reader.NodeType == XmlNodeType.Element)
-                {
-                    switch(reader.Name)
-                    {
-                        case IntrinsicDef.ElementName:
-                            i++;
-                            entries[i] = IntrinsicDef.Empty;
-                            entries[i].content = reader.Value;
-                            entries[i].tech = reader[nameof(IntrinsicDef.tech)];
-                            entries[i].name = reader[nameof(IntrinsicDef.name)];
-                        break;
-
-                        case Operation.ElementName:
-                            read(reader, ref entries[i].operation);
-                        break;
-
-                        case Description.ElementName:
-                            read(reader, ref entries[i].description);
-                        break;
-
-                        case Return.ElementName:
-                            read(reader, ref entries[i].@return);
-                        break;
-
-                        case CpuId.ElementName:
-                            read(reader, entries[i].CPUID);
-                        break;
-
-                        case Category.ElementName:
-                            read(reader, ref entries[i].category);
-                        break;
-
-                        case Instruction.ElementName:
-                            read(reader, entries[i].instructions);
-                        break;
-
-                        case InstructionType.ElementType:
-                            read(reader, entries[i].types);
-                        break;
-
-                        case Parameter.ElementName:
-                            read(reader, entries[i].parameters);
-                        break;
-                        case Header.ElementName:
-                            read(reader, ref entries[i].header);
-                        break;
-                    }
-                }
-            }
-
-            return slice(span(entries),0,i).ToArray();
-        }
+        Index<IntrinsicDef> ParseDoc()
+            => read(LoadDocXml());
     }
 }

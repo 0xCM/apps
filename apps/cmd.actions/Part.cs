@@ -22,13 +22,3 @@ namespace Z0.Parts
     {
     }
 }
-
-namespace Z0
-{
-    public static partial class XTend
-    {
-        [Op]
-        public static GlobalCmd GlobalCommands(this IWfRuntime wf)
-            => Z0.GlobalCmd.create(wf);
-    }
-}

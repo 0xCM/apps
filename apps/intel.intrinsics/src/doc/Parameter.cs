@@ -6,7 +6,7 @@ namespace Z0
 {
     partial class IntrinsicsDoc
     {
-        public struct Parameter
+        public record struct Parameter
         {
             public const string ElementName = "parameter";
 
@@ -17,6 +17,8 @@ namespace Z0
             public string etype;
 
             public string memwidth;
+
+            public string immwidth;
 
             public string Format()
                 => string.Format("{0} {1}", type, varname);

@@ -8,7 +8,6 @@ namespace Z0
 
     using static core;
 
-
     partial struct Msg
     {
         public static MsgPattern<ProjectId> ProjectUndefined
@@ -205,7 +204,7 @@ namespace Z0
             return Cmd.cmdspec(input);
         }
 
-        public void Run()
+        public virtual void Run()
         {
             var input = Next();
             while(input.Name != ".exit")

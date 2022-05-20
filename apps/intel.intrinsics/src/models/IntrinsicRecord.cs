@@ -7,6 +7,8 @@ namespace Z0
     using static XedModels;
     using static IntrinsicsDoc;
 
+    using R = XedRules;
+
     partial class IntelIntrinsics
     {
         [Record(TableId)]
@@ -17,20 +19,23 @@ namespace Z0
             [Render(8)]
             public uint Key;
 
+            [Render(42)]
+            public string Name;
+
+            [Render(32)]
+            public DelimitedIndex<CpuId> CpuId;
+
             [Render(8)]
             public ushort FormId;
 
             [Render(64)]
             public InstForm InstForm;
 
-            [Render(42)]
-            public string Name;
+            [Render(18)]
+            public R.InstClass InstClass;
 
             [Render(56)]
-            public Instruction Instruction;
-
-            [Render(32)]
-            public DelimitedIndex<CpuId> CpuId;
+            public Instruction InstSig;
 
             [Render(32)]
             public DelimitedIndex<InstructionType> Types;
@@ -39,7 +44,7 @@ namespace Z0
             public string Category;
 
             [Render(1)]
-            public string Signature;
+            public Sig Signature;
 
             uint ISequential.Seq
             {

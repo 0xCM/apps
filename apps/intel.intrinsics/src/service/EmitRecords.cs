@@ -7,6 +7,7 @@ namespace Z0
     using static core;
     using static IntrinsicsDoc;
     using static IntelIntrinsics;
+    using R = XedRules;
     using static XedModels;
 
     partial class IntelIntrinsicSvc
@@ -72,16 +73,6 @@ namespace Z0
                 fill(skip(src,i), out seek(dst,i));
         }
 
-        // static void Summarize(ReadOnlySpan<IntrinsicDef> src, List<IntrinsicRecord> dst)
-        // {
-        //     var count = src.Length;
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         fill(skip(src,i), out var record);
-        //         dst.Add(record);
-        //     }
-        // }
-
         static void fill(in IntrinsicDef src, out IntrinsicRecord dst)
         {
             dst.Key = 0;
@@ -89,17 +80,19 @@ namespace Z0
             dst.CpuId = src.CPUID;
             dst.Types = src.types;
             dst.Category = src.category;
-            dst.Signature = sig(src);
+            dst.Signature = src.Sig();
 
-            if(instruction(src, out var ix))
+            if(instruction(src, out var inst))
             {
-                dst.Instruction = ix;
-                dst.InstForm = ix.xed;
-                dst.FormId = (ushort)ix.xed;
+                dst.InstSig = inst;
+                dst.InstForm = inst.xed;
+                dst.FormId = (ushort)inst.xed;
+                dst.InstClass = inst.InstClass;
             }
             else
             {
-                dst.Instruction = Instruction.Empty;
+                dst.InstClass = R.InstClass.Empty;
+                dst.InstSig = Instruction.Empty;
                 dst.InstForm = InstForm.Empty ;
                 dst.FormId = 0;
             }

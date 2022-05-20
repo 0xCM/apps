@@ -12,6 +12,12 @@ namespace Z0
         [DataWidth(Width)]
         public readonly struct InstClass : IComparable<InstClass>, IEquatable<InstClass>
         {
+            public static InstClass parse(string src, out bool result)
+            {
+                result = XedParsers.parse(src, out InstClass dst);
+                return dst;
+            }
+
             public const byte Width = num11.Width;
 
             public readonly IClass Kind;

@@ -21,5 +21,8 @@ namespace Z0
 
         public static AppServices AppServices(this IWfRuntime wf)
             => Z0.AppServices.create(wf);
+
+        public static CheckRunner CheckRunner(this IWfRuntime wf)
+            => Z0.CheckRunner.create(wf);
     }
 }

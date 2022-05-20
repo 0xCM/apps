@@ -10,5 +10,9 @@ namespace Z0
         [Op]
         public static IntelIntrinsicSvc IntelIntrinsics(this IWfRuntime wf)
             => IntelIntrinsicSvc.create(wf);
+
+        [Op]
+        public static Z0.IntelInstrinsicsCmd IntelIntrinsicsCmd(this IWfRuntime wf)
+            => Z0.IntelInstrinsicsCmd.create(wf);
     }
 }

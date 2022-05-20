@@ -5,13 +5,11 @@
 namespace Z0
 {
     using static core;
-
     using static IntrinsicTypeNames;
     using static NativeTypes;
     using static CTypeNames;
 
     using I = IntrinsicTypeNames;
-
     using C = CTypeNames;
 
     public readonly struct InstrinsicTypes
@@ -47,7 +45,6 @@ namespace Z0
             map.Map(__m256i, i256());
             map.Map(__m256bh, seg256x16f());
             map.Map(__m256, seg256x32f());
-
             map.Map(__m256d, seg256x64f());
 
             map.Map(__m512, seg512x32f());

@@ -16,6 +16,16 @@ namespace Z0
             return runtime;
         }
 
+        public static AsmCmdRt runtime(IWfRuntime wf, Index<ICmdProvider> providers, bool start = true)
+        {
+            var runtime = create(wf);
+            runtime.XedRt = XedRuntime.create(wf);
+            runtime.CmdSvc = AsmCoreCmd.create(wf, runtime, providers);
+            if(start)
+                runtime.Xed.Start();
+            return runtime;
+        }
+
         AsmCoreCmd CmdSvc;
 
         XedRuntime XedRt;

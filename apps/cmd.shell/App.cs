@@ -4,16 +4,35 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
+    using static core;
 
     [Free]
     sealed class AppCmdShell : WfApp<AppCmdShell>
     {
         IAppCmdService CmdService;
 
+        public static GlobalCmd commands(IWfRuntime wf)
+        {
+            var svc = new GlobalCmd();
+            var asmrt = AsmCmdRt.runtime(wf, false);
+            var projects = wf.ProjectCommands();
+            var providers = array<ICmdProvider>(
+                svc,
+                ProjectCmd.inject(svc, asmrt, projects),
+                asmrt.Commands,
+                wf.PbCmd(),
+                wf.ApiCommands(),
+                wf.LlvmCommands(),
+                wf.CheckCommands(),
+                wf.AsmCommands()
+                );
+
+            return GlobalCmd.init(wf, svc, asmrt, providers);
+        }
+
         protected override void Initialized()
         {
-            CmdService = Wf.GlobalCommands();
+            CmdService = commands(Wf);
         }
 
         protected override void Disposing()
@@ -27,7 +46,7 @@ namespace Z0
         public static void Main(params string[] args)
         {
             using var wf = WfAppLoader.load();
-            using var shell = create(wf);
+            using var shell = commands(wf);
             shell.Run();
         }
     }

@@ -4,14 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     [Free]
     sealed class App : WfApp<App>
     {
-        AsmCmdRt CmdRt;
+        static AsmCmdRt CmdRt;
 
         protected override void Initialized()
         {
-            CmdRt = AsmCmdRt.runtime(Wf);
+            var providers = array<ICmdProvider>(Wf.PbCmd());
+            CmdRt = AsmCmdRt.runtime(Wf, new ICmdProvider[]{
+                Wf.PbCmd(),
+                Wf.IntelIntrinsicsCmd()
+            });
         }
 
         protected override void Disposing()

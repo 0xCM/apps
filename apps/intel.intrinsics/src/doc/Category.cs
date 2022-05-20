@@ -8,11 +8,11 @@ namespace Z0
 
     partial class IntrinsicsDoc
     {
-        public struct Category
+        public readonly record struct Category
         {
             public const string ElementName = "category";
 
-            public string Content;
+            public readonly string Content;
 
             [MethodImpl(Inline)]
             public Category(string src)

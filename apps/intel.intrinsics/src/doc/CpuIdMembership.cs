@@ -13,6 +13,10 @@ namespace Z0
 
             public override string ToString()
                 => Format();
+
+            public bool IsEmpty => Count == 0;
+
+            public bool IsNonEmpty => Count != 0;
         }
     }
 }

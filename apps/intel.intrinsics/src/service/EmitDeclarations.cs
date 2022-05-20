@@ -19,7 +19,7 @@ namespace Z0
             var count = src.Length;
             using var writer = dst.Writer();
             for(var i=0; i<count; i++)
-                writer.WriteLine(string.Format("{0};", sig(skip(src,i))));
+                writer.WriteLine(string.Format("{0};", skip(src,i).Sig()));
             EmittedFile(flow, count);
         }
     }

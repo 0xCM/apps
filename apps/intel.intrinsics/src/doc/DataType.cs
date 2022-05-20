@@ -6,9 +6,9 @@ namespace Z0
 {
     partial class IntrinsicsDoc
     {
-        public readonly struct DataType
+        public readonly record struct DataType
         {
-            public string Name {get;}
+            public readonly string Name;
 
             [MethodImpl(Inline)]
             public DataType(string src)

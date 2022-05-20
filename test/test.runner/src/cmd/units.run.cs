@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    class TestRunner : TestApp<TestRunner>
-    {
-        protected override Assembly TargetComponent
-            => Parts.TestUnits.Assembly;
-    }
-
     partial class CheckRunCmd
     {
         [CmdOp("units/run")]

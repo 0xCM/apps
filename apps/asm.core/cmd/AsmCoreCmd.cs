@@ -10,10 +10,6 @@ namespace Z0
 
     public partial class AsmCoreCmd : WsCmdService<AsmCoreCmd>
     {
-        XedRuntime Xed;
-
-        AsmCmdRt CmdRt;
-
         XedDocs XedDocs => CmdRt.XedDocs;
 
         XedPaths XedPaths => CmdRt.XedPaths;
@@ -52,7 +48,15 @@ namespace Z0
 
         AsmRegSets Regs => Service(AsmRegSets.create);
 
-        //IntelIntrinsicSvc Intrinsics => Service(Wf.IntelIntrinsics);
+        CheckRunner CheckRunner => Service(Wf.CheckRunner);
+
+        [CmdOp("checks/run")]
+        void ChecksExec()
+            => CheckRunner.Run();
+
+        [CmdOp("checks/list")]
+        void ChecksList()
+            => CheckRunner.ListChecks();
 
         ref readonly RuleTables RuleTables
             => ref Xed.Views.RuleTables;
@@ -66,17 +70,25 @@ namespace Z0
         ref readonly Index<RuleExpr> RuleExpr
             => ref Xed.Views.RuleExpr;
 
-        public AsmCoreCmd With(XedRuntime xed)
-        {
-            Xed = xed;
-            return this;
-        }
+        // public AsmCoreCmd With(XedRuntime xed)
+        // {
+        //     Xed = xed;
+        //     return this;
+        // }
 
         public AsmCoreCmd With(AsmCmdRt runtime)
         {
             CmdRt = runtime;
             Xed = runtime.Xed;
             return this;
+        }
+
+        public static AsmCoreCmd create(IWfRuntime wf, AsmCmdRt amsrt, ICmdProvider[] providers)
+        {
+            CmdRt = amsrt;
+            Xed = amsrt.Xed;
+            Providers = providers;
+            return create(wf);
         }
 
         protected override AppDb AppDb
@@ -91,9 +103,17 @@ namespace Z0
         }
 
         protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
-            => new ICmdProvider[]{
-                this,
-                wf.PbCmd()
-            };
+            => Providers + core.array((ICmdProvider)this);
+            // => new ICmdProvider[]{
+            //     this,
+            //     wf.PbCmd()
+            // };
+
+
+        static XedRuntime Xed;
+
+        static AsmCmdRt CmdRt;
+
+        static Index<ICmdProvider> Providers;
     }
 }
