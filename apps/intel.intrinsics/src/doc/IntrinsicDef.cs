@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class IntrinsicsDoc
     {
-        public struct Intrinsic : IComparable<Intrinsic>
+        public struct IntrinsicDef : IComparable<IntrinsicDef>
         {
             public const string ElementName = "intrinsic";
 
@@ -34,13 +36,33 @@ namespace Z0
 
             public Header header;
 
-            public int CompareTo(Intrinsic src)
+            public int CompareTo(IntrinsicDef src)
             {
                 var result = CPUID.Format().CompareTo(src.CPUID.Format());
                 if(result == 0)
                     result = name.CompareTo(src.name);
                 return result;
             }
+
+            static IntrinsicDef init()
+            {
+                var dst = new IntrinsicDef();
+                dst.tech = EmptyString;
+                dst.name = EmptyString;
+                dst.content = EmptyString;
+                dst.types = new InstructionTypes();
+                dst.CPUID = new CpuIdMembership();
+                dst.category = EmptyString;
+                dst.@return = Return.Empty;
+                dst.parameters = new Parameters();
+                dst.description = EmptyString;
+                dst.operation = new Operation(list<TextLine>());
+                dst.instructions = new Instructions();
+                dst.header = EmptyString;
+                return dst;
+            }
+
+            public static IntrinsicDef Empty => init();
         }
     }
 }

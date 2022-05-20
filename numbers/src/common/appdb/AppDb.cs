@@ -29,6 +29,6 @@ namespace Z0
             => new DbTargets(Root, scope);
 
         public DbSources Sources(string scope)
-            => new DbSources(Root, scope);
+            => new DbSources(Root + FS.folder("sources"), scope);
     }
 }

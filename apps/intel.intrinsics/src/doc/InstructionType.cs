@@ -6,17 +6,33 @@ namespace Z0
 {
     partial class IntrinsicsDoc
     {
-        public struct InstructionType
+        public readonly record struct InstructionType : IComparable<InstructionType>
         {
             public const string ElementType = "type";
 
-            public string Content;
+            public readonly string Content;
 
             [MethodImpl(Inline)]
             public InstructionType(string src)
             {
                 Content = src;
             }
+
+            public Hash32 Hash
+            {
+                [MethodImpl(Inline)]
+                get => Content.GetHashCode();
+            }
+
+            public override int GetHashCode()
+                => Hash;
+
+            public int CompareTo(InstructionType src)
+                => Content.CompareTo(src.Content);
+
+            [MethodImpl(Inline)]
+            public bool Equals(InstructionType src)
+                => Content == src.Content;
 
             public string Format()
                 => Content;

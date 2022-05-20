@@ -22,6 +22,5 @@ namespace Z0
         public const string @double = "double";
 
         public const string @void = "void";
-
     }
 }
