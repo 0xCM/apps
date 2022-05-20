@@ -12,11 +12,8 @@ namespace Z0
 
         AsmCmdRt AsmRt;
 
-        public static ProjectCmd inject(ICmdRunner src, ProjectCmd dst)
-            => dst.With(src);
-
-        public static ProjectCmd inject(AsmCmdRt src, ProjectCmd dst)
-            => dst.With(src);
+        public static ProjectCmd inject(ICmdRunner runner, AsmCmdRt runtime, ProjectCmd dst)
+            => dst.With(runner).With(runtime);
 
         ProjectDataServices ProjectData => Service(() => Wf.ProjectData().With(AsmRt));
 
@@ -24,11 +21,11 @@ namespace Z0
 
         AsmRegSets Regs => Service(AsmRegSets.create);
 
+        IntelIntrinsicSvc IntelIntrinsics => Service(Wf.IntelIntrinsics);
+
         DumpBin DumpBin => Service(Wf.DumpBin);
 
         CoffServices CoffServices => Service(Wf.CoffServices);
-
-        IntelIntrinsicSvc IntelIntrinsics => Service(Wf.IntelIntrinsics);
 
         AsmFlowCommands AsmFlowCommands => Service(Wf.AsmFlowCommands);
 

@@ -8,6 +8,7 @@
     <AsmOperands>$(AppsRoot)asm.operands/z0.asm.operands.csproj</AsmOperands>
     <AsmPrototypes>$(AppsRoot)asm.prototypes/z0.asm.prototypes.csproj</AsmPrototypes>
     <AsmServices>$(AppsRoot)asm.services/z0.asm.services.csproj</AsmServices>
+    <IntelIntrinsics>$(AppsRoot)intel.intrinsics/z0.intel.intrinsics.csproj</IntelIntrinsics>
 
     <Capture>$(AppsRoot)capture/z0.capture.csproj</Capture>
     <CpuDsl>$(AppsRoot)cpu.dsl/z0.cpu.dsl.csproj</CpuDsl>

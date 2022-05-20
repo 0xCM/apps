@@ -80,10 +80,6 @@ namespace Z0
             => Asm.IntelSdm.create(wf);
 
         [Op]
-        public static IntelIntrinsicSvc IntelIntrinsics(this IWfRuntime wf)
-            => Asm.IntelIntrinsicSvc.create(wf);
-
-        [Op]
         public static IntelSdmPaths SdmPaths(this IWfRuntime wf)
             => Asm.IntelSdmPaths.create(wf);
 

@@ -30,10 +30,18 @@ namespace Z0
         /// <summary>
         /// Discovers the symbolic literals for parametrically-identified symbol type
         /// </summary>
-        /// <typeparam name="E">The defining type</typeparam>
+        /// <typeparam name="E">The symbol type</typeparam>
         public Index<SymLiteralRow> CalcSymLits<E>()
             where E : unmanaged, Enum
                 => Symbols.literals<E>();
+
+        /// <summary>
+        /// Computes a <see cref='SymHeap'/> for a parametrically-identified symbol type
+        /// </summary>
+        /// <typeparam name="E">The symbol type</typeparam>
+        public SymHeap CalcSymHeap<E>()
+            where E : unmanaged, Enum
+                => SymHeaps.create(CalcSymLits<E>());
 
         public SymHeap CalcSymHeap(Index<SymLiteralRow> src)
             => Data(nameof(SymHeap), () => SymHeaps.create(src));

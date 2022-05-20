@@ -117,6 +117,10 @@ namespace Z0
             => Seg128x64i;
 
         [MethodImpl(Inline), Op]
+        public static NativeType seg128x16f()
+            => Seg128x16f;
+
+        [MethodImpl(Inline), Op]
         public static NativeType seg128x32f()
             => Seg128x32f;
 
@@ -157,6 +161,10 @@ namespace Z0
             => Seg256x64i;
 
         [MethodImpl(Inline), Op]
+        public static NativeType seg256x16f()
+            => Seg256x16f;
+
+        [MethodImpl(Inline), Op]
         public static NativeType seg256x32f()
             => Seg256x32f;
 
@@ -195,6 +203,10 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static NativeType seg512x64i()
             => Seg512x64i;
+
+        [MethodImpl(Inline), Op]
+        public static NativeType seg512x16f()
+            => Seg512x16f;
 
         [MethodImpl(Inline), Op]
         public static NativeType seg512x32f()

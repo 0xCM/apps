@@ -9,32 +9,32 @@ namespace Z0
     partial class NativeTypes
     {
         [MethodImpl(Inline), Op]
+        public static NativeCellType cell(NativeSize size, NativeClass @class)
+            => new NativeCellType(size, @class);
+
+        [MethodImpl(Inline), Op]
         public static NativeType @void()
             => NativeType.define(NativeCellType.Void);
 
         [MethodImpl(Inline), Op]
-        public static NativeType cell(NativeSize size, NativeClass @class)
-            => new NativeType(NativeCellType.define(size,@class));
-
-        [MethodImpl(Inline), Op]
         public static NativeType unsigned(NativeSize size)
-            => new NativeType(NativeCellType.define(size, NativeClass.U));
+            => new NativeType(cell(size, NativeClass.U));
 
         [MethodImpl(Inline), Op]
         public static NativeType signed(NativeSize size)
-            => new NativeType(NativeCellType.define(size, NativeClass.I));
+            => new NativeType(cell(size, NativeClass.I));
 
         [MethodImpl(Inline), Op]
         public static NativeType fractional(NativeSize size)
-            => new NativeType(NativeCellType.define(size, NativeClass.F));
+            => new NativeType(cell(size, NativeClass.F));
 
         [MethodImpl(Inline), Op]
         public static NativeType character(NativeSize size)
-            => new NativeType(NativeCellType.define(size, NativeClass.C));
+            => new NativeType(cell(size, NativeClass.C));
 
         [MethodImpl(Inline), Op]
         public static NativeType bit()
-            => new NativeType(NativeCellType.define(W.W8, NativeClass.B));
+            => new NativeType(cell(W.W8, NativeClass.B));
 
         [MethodImpl(Inline), Op]
         public static NativeType u8()

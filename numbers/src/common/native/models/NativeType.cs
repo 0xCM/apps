@@ -10,24 +10,16 @@ namespace Z0
         public static NativeType define(NativeCellType src)
             => new NativeType(src);
 
-        [MethodImpl(Inline)]
-        public static NativeType define(NativeSegType src)
-            => new NativeType(src);
-
-        [MethodImpl(Inline)]
-        public static NativeType define(NativeSegKind src)
-            => new NativeType(src);
-
         readonly ushort Data;
 
         [MethodImpl(Inline)]
-        internal NativeType(NativeCellType src)
+        public NativeType(NativeCellType src)
         {
             Data = core.@as<NativeCellType,byte>(src);
         }
 
         [MethodImpl(Inline)]
-        internal NativeType(NativeSegType src)
+        public NativeType(NativeSegType src)
         {
             Data = core.@as<NativeSegType,ushort>(src);
         }

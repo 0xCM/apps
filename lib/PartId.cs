@@ -165,11 +165,23 @@ public enum PartId : byte
     [Symbol("expr")]
     Expr,
 
+    [Symbol("intel.intrinsics")]
+    IntelIntrinsics,
+
+    [Symbol("intel.xed")]
+    IntelXed,
+
+    [Symbol("intel.sdm")]
+    IntelSdm,
+
+    [Symbol("intel.sde")]
+    IntelSde,
+
     // ~ Generated 64 .. 127
     // ~ -------------------------------------------------------------------------------
 
     [Symbol("codegen.common")]
-    CgCommon = Pow2.T06,
+    CgCommon = 100,
 
     [Symbol("codegen.intel")]
     CgIntel = CgCommon + 1,

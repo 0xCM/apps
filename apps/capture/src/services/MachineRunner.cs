@@ -48,8 +48,8 @@ namespace Z0
                 // if(options.EmitXedCatalogs)
                 //     Wf.IntelXed().EmitCatalog();
 
-                if(options.EmitIntrinsicsInfo)
-                    Wf.IntelIntrinsics().Emit();
+                // if(options.EmitIntrinsicsInfo)
+                //     Wf.IntelIntrinsics().Emit();
 
                 if(options.EmitSymbolicLiterals)
                     Wf.Symbolism().EmitLiterals();

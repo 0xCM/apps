@@ -55,7 +55,7 @@ namespace Z0
             => ref Values[index];
 
         [MethodImpl(Inline), Op]
-        public Span<char> Expression(uint index)
+        public Span<char> Symbol(uint index)
             => expr(this, index);
     }
 }

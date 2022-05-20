@@ -11,6 +11,7 @@
     <ProjectReference Include="$(TestChecks)" />
     <ProjectReference Include="$(CodeGenLlvm)" />
     <ProjectReference Include="$(CodeGenIntel)" />
+    <ProjectReference Include="$(IntelIntrinsics)" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>

@@ -6,22 +6,10 @@ namespace Z0
 {
     using static core;
 
-    [StructLayout(StructLayout,Pack=1)]
-    public struct SymHeapStats
-    {
-        public uint SymbolCount;
-
-        public uint EntryCount;
-
-        public uint CharCount;
-
-        public uint DataSize;
-    }
-
     [ApiHost]
     public readonly struct SymHeaps
     {
-        public static SymHeap<K,uint,ushort> heap<K>()
+        public static SymHeap<K,uint,ushort> create<K>()
             where K : unmanaged, Enum
         {
             var symbols = Symbols.index<K>();
@@ -38,7 +26,7 @@ namespace Z0
                 ref readonly var symbol = ref symbols[i];
                 var expr = symbol.Expr.Data;
                 var length = (ushort)expr.Length;
-                entry = new SymHeapEntry<K, uint, ushort>(symbol.Kind, offset, length);
+                entry = new SymHeapEntry<K,uint,ushort>(symbol.Kind, offset, length);
                 buffer.Append(expr);
                 offset += length;
             }
@@ -80,7 +68,7 @@ namespace Z0
                 entry.Source = src.Source(i);
                 entry.Name = src.Name(i);
                 entry.Value = src.Value(i);
-                entry.Expression = text.format(src.Expression(i));
+                entry.Expression = text.format(src.Symbol(i));
             }
             return entries;
         }
@@ -94,6 +82,7 @@ namespace Z0
             dst.DataSize = dst.CharCount*2;
             return dst;
         }
+
         [Op]
         public static SymHeap create(ReadOnlySpan<SymLiteralRow> src)
         {

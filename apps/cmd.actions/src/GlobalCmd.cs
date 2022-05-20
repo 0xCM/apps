@@ -10,6 +10,28 @@ namespace Z0
 
     public partial class GlobalCmd : AppCmdService<GlobalCmd,CmdShellState>, ICmdRunner
     {
+        static ICmdProvider[] _Providers;
+
+        public new static GlobalCmd create(IWfRuntime wf)
+        {
+            var svc = new GlobalCmd();
+            var asmrt = AsmCmdRt.runtime(wf, false);
+            var cmd = wf.ProjectCommands();
+            _Providers = array<ICmdProvider>(
+                svc,
+                ProjectCmd.inject(svc, asmrt, cmd),
+                asmrt.Commands,
+                wf.PbCmd(),
+                wf.ApiCommands(),
+                wf.LlvmCommands(),
+                wf.CheckCommands(),
+                wf.AsmCommands()
+                );
+
+            svc.Init(wf);
+            return svc;
+        }
+
         public static void dispatch(ReadOnlySpan<string> args)
         {
             try
@@ -95,20 +117,21 @@ namespace Z0
 
         protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
         {
-            var cmd = wf.ProjectCommands();
-            var asmrt = AsmCmdRt.runtime(wf, false);
-            ProjectCmd.inject(asmrt, cmd);
-            var projects = ProjectCmd.inject((ICmdRunner)this, cmd);
-            return array<ICmdProvider>(
-                this,
-                projects,
-                asmrt.Commands,
-                wf.PbCmd(),
-                wf.ApiCommands(),
-                wf.LlvmCommands(),
-                wf.CheckCommands(),
-                wf.AsmCommands()
-                );
+            return _Providers;
+            // var asmrt = AsmCmdRt.runtime(wf, false);
+            // var cmd = wf.ProjectCommands();
+            // ProjectCmd.inject(asmrt, cmd);
+            // var projects = ProjectCmd.inject((ICmdRunner)this, cmd);
+            // return array<ICmdProvider>(
+            //     this,
+            //     projects,
+            //     asmrt.Commands,
+            //     wf.PbCmd(),
+            //     wf.ApiCommands(),
+            //     wf.LlvmCommands(),
+            //     wf.CheckCommands(),
+            //     wf.AsmCommands()
+            //     );
         }
 
         [CmdOp("asm-gen-models")]

@@ -4,16 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct NativeCellType : INativeType<NativeCellType>
+    public readonly record struct NativeCellType : INativeType<NativeCellType>
     {
-        [MethodImpl(Inline)]
-        public static NativeCellType define(NativeSize size, NativeClass @class)
-            => new NativeCellType(size, @class);
-
         readonly byte Data;
 
         [MethodImpl(Inline)]
-        internal NativeCellType(NativeSize size, NativeClass @class)
+        public NativeCellType(NativeSize size, NativeClass @class)
         {
             Data = (byte)((uint)size.Code | (uint)@class << 4);
         }
@@ -55,9 +51,6 @@ namespace Z0
 
         public override string ToString()
             => Format();
-
-        public override bool Equals(object src)
-            => src is NativeCellType t && Equals(t);
 
         public static NativeCellType Void => default;
     }

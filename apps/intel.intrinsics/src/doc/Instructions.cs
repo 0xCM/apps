@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-    using static core;
-
-    partial class AsmCoreCmd
+    partial class IntrinsicsDoc
     {
+        public class Instructions : List<Instruction>
+        {
+        }
     }
 }

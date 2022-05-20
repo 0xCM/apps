@@ -6,7 +6,7 @@ namespace Z0
 {
     using static NativeOpMods;
 
-    public readonly struct NativeOpMod
+    public readonly record struct NativeOpMod
     {
         readonly NativeOpMods Data;
 
@@ -70,6 +70,13 @@ namespace Z0
             get => Data == 0;
         }
 
+        public override int GetHashCode()
+            => (int)Data;
+
+        [MethodImpl(Inline)]
+        public bool Equals(NativeOpMod src)
+            => Data == src.Data;
+
         public string Format()
             => Data.ToString();
 
@@ -84,26 +91,6 @@ namespace Z0
         public static implicit operator NativeOpMods(NativeOpMod src)
             => (NativeOpMods)src.Data;
 
-
         public static NativeOpMod Empty => default;
     }
-
-    [Flags]
-    public enum NativeOpMods : ushort
-    {
-        None,
-
-        Pointer = 1,
-
-        Const = 2,
-
-        Ref = 4,
-
-        In = 8,
-
-        Out = 16,
-
-        Unsigned = 32,
-    }
 }
-

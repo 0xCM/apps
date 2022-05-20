@@ -31,5 +31,6 @@ namespace Z0.Asm
 {
     public static partial class XTend
     {
+
     }
 }
