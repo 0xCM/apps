@@ -15,12 +15,11 @@ namespace Z0
             Unserviced = WsUnserviced.create(Ws);
         }
 
-        [MethodImpl(Inline)]
-        public IProjectWs Project(ProjectId id)
-            => Unserviced.Project(id);
-
         public FS.FolderPath ProjectData()
             => Unserviced.ProjectData();
+
+        // public FileCatalog Catalog(IProjectWs ws)
+        //     => FileCatalog.load(ws);
 
         public IProjectWs Project(FS.FolderPath root, ProjectId id)
             => Unserviced.Project(root, id);
@@ -35,7 +34,7 @@ namespace Z0
             => Unserviced.ProjectData(project) + FS.file(project.Name.Format(), kind.Ext());
 
         public FS.FilePath ProjectFile(IProjectWs project, string suffix, FileKind kind)
-            => Unserviced.ProjectFile(project,suffix, kind);
+            => Unserviced.ProjectFile(project, suffix, kind);
 
         public FS.FilePath Table<T>(IProjectWs project)
             where T : struct
@@ -60,20 +59,11 @@ namespace Z0
             }
         }
 
-        public WsDataFlows LoadBuildFlowIndex(IProjectWs project)
-            => WsDataFlows.create(FileCatalog.load(project), LoadBuildFlows(project));
-
-        public WsContext Context(IProjectProvider provider)
-            => WsContext.create(provider, provider.Project(), LoadBuildFlowIndex(provider.Project()));
-
-        public WsContext Context(IProjectProvider provider, IProjectWs project)
-            => WsContext.create(provider, project, LoadBuildFlowIndex(project));
-
         public FS.FolderPath CleanOutDir(IProjectWs project)
             => project.OutDir().Clear(true);
 
-        void EmitCatalog(IProjectWs project, FileCatalog catalog)
-            => TableEmit(catalog.Entries().View, FileRef.RenderWidths, ProjectDb.ProjectTable<FileRef>(project));
+        void EmitCatalog(IProjectWs project, FileCatalog src)
+            => TableEmit(src.Entries().View, FileRef.RenderWidths, ProjectDb.ProjectTable<FileRef>(project));
 
         public FileCatalog EmitCatalog(WsContext context)
         {
@@ -82,10 +72,10 @@ namespace Z0
             return catalog;
         }
 
-        public FileCatalog EmitCatalog(IProjectWs project)
+        public FileCatalog EmitCatalog(IProjectWs ws)
         {
-            var catalog = Z0.FileCatalog.load(project);
-            EmitCatalog(project, catalog);
+            var catalog = FileCatalog.load(ws);
+            EmitCatalog(ws, catalog);
             return catalog;
         }
 
@@ -150,10 +140,10 @@ namespace Z0
             return true;
         }
 
-        Index<ToolCmdFlow> LoadBuildFlows(IProjectWs project)
+        public Index<ToolCmdFlow> LoadBuildFlows(IProjectWs ws)
         {
             const byte FieldCount = ToolCmdFlow.FieldCount;
-            var lines = ProjectFile(project, "build.flows", FileKind.Csv).ReadLines(TextEncodingKind.Asci,true);
+            var lines = ProjectFile(ws, "build.flows", FileKind.Csv).ReadLines(TextEncodingKind.Asci,true);
             var buffer = alloc<ToolCmdFlow>(lines.Length - 1);
             var src = lines.Reader();
             src.Next(out _);

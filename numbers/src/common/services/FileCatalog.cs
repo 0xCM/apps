@@ -11,7 +11,7 @@ namespace Z0
         public static FileCatalog load(IProjectWs src)
         {
             var dst = new FileCatalog();
-            dst.Include(src);
+            dst.Include(Require.notnull(src));
             return dst;
         }
 
@@ -72,11 +72,15 @@ namespace Z0
 
         public FileRef this[FS.FilePath path]
         {
+            [MethodImpl(Inline)]
             get => Entry(path);
         }
 
         public FileRef this[uint docid]
-            => Entry(docid);
+        {
+            [MethodImpl(Inline)]
+            get => Entry(docid);
+        }
 
         static FileKind Match(FS.FilePath src)
         {

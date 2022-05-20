@@ -5,17 +5,30 @@
 namespace Z0
 {
     using static core;
+
     public abstract class WsCmdService<S> : AppCmdService<S,CmdShellState>
         where S : WsCmdService<S>, new()
     {
-        WsCmdRunner CmdExec
-            => Service(Wf.AppCmdRunner);
+        static IWsCmdRunner CmdExec;
 
-        IProjectProvider ProjectProvider
-            => CmdExec;
+        protected virtual WsProjects Projects {get; private set;}
 
-        protected virtual WsProjects Projects
-            => Service(Wf.WsProjects);
+        protected virtual void ProjectSelected(IProjectWs ws)
+        {
+
+        }
+
+        protected override void OnInit()
+        {
+            if(CmdExec == null)
+            {
+                var runner = WsCmdRunner.create(Wf);
+                runner.ProjectSelected += ProjectSelected;
+                CmdExec = runner;
+            }
+            Projects = WsProjects.create(Wf);
+            base.OnInit();
+        }
 
         protected virtual AppServices AppSvc
             => Service(Wf.AppServices);
@@ -23,23 +36,26 @@ namespace Z0
         protected virtual AppDb AppDb
             => Service(Wf.AppDb);
 
+        // protected WsContext Context(string project)
+        //     => WsContext.create(CmdExec, project);
+
         protected WsContext Context()
-            => Projects.Context(ProjectProvider);
+            => WsContext.create(this, CmdExec.Project().Project);
 
         [CmdOp("project")]
-        protected Outcome LoadProject(CmdArgs args)
+        protected void LoadProject(CmdArgs args)
             => CmdExec.LoadProject(args);
 
         protected void RunCmd(string name, CmdArgs args)
             => Dispatcher.Dispatch(name, args);
 
-        protected void LoadProject(string name)
-            => Dispatcher.Dispatch("project", new CmdArg[]{new CmdArg(EmptyString, name)});
+        protected void ProjectLoad(string name)
+        {
+            Dispatcher.Dispatch("project", new CmdArg[]{new CmdArg(EmptyString, name)});
+        }
 
         public void EmitCommands()
-        {
-            EmitCommands(Dispatcher);
-        }
+            => EmitCommands(Dispatcher);
 
         [CmdOp(".commands")]
         protected Outcome EmitShellCommands(CmdArgs args)

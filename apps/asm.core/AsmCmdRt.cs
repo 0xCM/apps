@@ -6,16 +6,6 @@ namespace Z0
 {
     public class AsmCmdRt : AppService<AsmCmdRt>
     {
-        public static AsmCmdRt runtime(IWfRuntime wf, bool start = true)
-        {
-            var runtime = create(wf);
-            runtime.XedRt = XedRuntime.create(wf);
-            runtime.CmdSvc = AsmCoreCmd.create(wf).With(runtime);
-            if(start)
-                runtime.Xed.Start();
-            return runtime;
-        }
-
         public static AsmCmdRt runtime(IWfRuntime wf, Index<ICmdProvider> providers, bool start = true)
         {
             var runtime = create(wf);
@@ -25,6 +15,9 @@ namespace Z0
                 runtime.Xed.Start();
             return runtime;
         }
+
+        public static AsmCmdRt runtime(IWfRuntime wf, bool start = true)
+            => runtime(wf, sys.empty<ICmdProvider>(), start);
 
         AsmCoreCmd CmdSvc;
 

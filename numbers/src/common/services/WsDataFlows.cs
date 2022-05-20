@@ -8,9 +8,6 @@ namespace Z0
 
     public class WsDataFlows
     {
-        public static WsDataFlows create(FileCatalog files, ReadOnlySpan<ToolCmdFlow> src)
-            => new WsDataFlows(files, src);
-
         ConstLookup<FS.FileUri,List<FS.FileUri>> Lookup;
 
         ConstLookup<FS.FileUri,FS.FileUri> Ancestors;
@@ -120,7 +117,7 @@ namespace Z0
             }
         }
 
-        WsDataFlows(FileCatalog files, ReadOnlySpan<ToolCmdFlow> src)
+        internal WsDataFlows(FileCatalog files, ReadOnlySpan<ToolCmdFlow> src)
         {
             FileCatalog = files;
             var count = src.Length;

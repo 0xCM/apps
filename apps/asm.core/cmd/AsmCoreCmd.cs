@@ -10,6 +10,25 @@ namespace Z0
 
     public partial class AsmCoreCmd : WsCmdService<AsmCoreCmd>
     {
+        static XedRuntime Xed;
+
+        static AsmCmdRt CmdRt;
+
+        static Index<ICmdProvider> Providers;
+
+        static AsmCoreCmd Instance;
+
+        public static AsmCoreCmd create(IWfRuntime wf, AsmCmdRt amsrt, ICmdProvider[] providers)
+        {
+            CmdRt = amsrt;
+            Xed = amsrt.Xed;
+            Providers = providers;
+            Instance = create(wf);
+            return Instance;
+        }
+
+        IProjectWs _Project;
+
         XedDocs XedDocs => CmdRt.XedDocs;
 
         XedPaths XedPaths => CmdRt.XedPaths;
@@ -24,29 +43,13 @@ namespace Z0
 
         CsLang CsLang => Service(Wf.CsLang);
 
-        ApiComments ApiComments => Service(Wf.ApiComments);
-
         AsmDocs AsmDocs => Service(Wf.AsmDocs);
-
-        AsmTables AsmTables => Service(Wf.AsmTables);
 
         AsmCodeGen AsmCodeGen => Service(Wf.AsmCodeGen);
 
         X86Dispatcher Jumps => Service(() => X86Dispatcher.create(Wf));
 
         IntelSdm Sdm => Service(Wf.IntelSdm);
-
-        ApiCodeBanks ApiCodeBanks => Service(Wf.ApiCodeBanks);
-
-        ApiDataPaths ApiDataPaths => Service(Wf.ApiDataPaths);
-
-        EncodingCollector CodeCollector => Service(Wf.EncodingCollector);
-
-        AsmObjects AsmObjects => Service(Wf.AsmObjects);
-
-        CoffServices CoffServices => Service(Wf.CoffServices);
-
-        AsmRegSets Regs => Service(AsmRegSets.create);
 
         CheckRunner CheckRunner => Service(Wf.CheckRunner);
 
@@ -70,25 +73,10 @@ namespace Z0
         ref readonly Index<RuleExpr> RuleExpr
             => ref Xed.Views.RuleExpr;
 
-        // public AsmCoreCmd With(XedRuntime xed)
-        // {
-        //     Xed = xed;
-        //     return this;
-        // }
-
-        public AsmCoreCmd With(AsmCmdRt runtime)
+        protected override void ProjectSelected(IProjectWs ws)
         {
-            CmdRt = runtime;
-            Xed = runtime.Xed;
-            return this;
-        }
-
-        public static AsmCoreCmd create(IWfRuntime wf, AsmCmdRt amsrt, ICmdProvider[] providers)
-        {
-            CmdRt = amsrt;
-            Xed = amsrt.Xed;
-            Providers = providers;
-            return create(wf);
+            _Project = Require.notnull(ws);
+            Status($"Project {ws.Project} selected");
         }
 
         protected override AppDb AppDb
@@ -99,21 +87,10 @@ namespace Z0
 
         protected override void Initialized()
         {
-            LoadProject("canonical");
+            ProjectLoad("canonical");
         }
 
         protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
             => Providers + core.array((ICmdProvider)this);
-            // => new ICmdProvider[]{
-            //     this,
-            //     wf.PbCmd()
-            // };
-
-
-        static XedRuntime Xed;
-
-        static AsmCmdRt CmdRt;
-
-        static Index<ICmdProvider> Providers;
     }
 }

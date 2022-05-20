@@ -36,8 +36,5 @@ namespace Z0
 
         public IProjectWs Project()
             => _ProjectProvider.Project();
-
-        public IProjectWs Project(ProjectId id)
-            => _ProjectProvider.Project(id);
     }
 }

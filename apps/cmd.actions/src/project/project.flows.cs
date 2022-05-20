@@ -12,7 +12,8 @@ namespace Z0
         Outcome ProjectFlows(CmdArgs args)
         {
             var project = Project();
-            var index = Projects.LoadBuildFlowIndex(project);
+            var context = WsContext.create(this, project.Project);
+            var index = context.Flows;
             var kinds = array(FileKind.ObjAsm, FileKind.XedRawDisasm, FileKind.McAsm, FileKind.Sym);
             var buffer = list<FileRef>();
 

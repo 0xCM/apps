@@ -19,9 +19,6 @@ namespace Z0
 
         public ReadOnlySpan<CoffSymRecord> ListSymbols(IProjectWs ws)
         {
-            var catalog = ws.FileCatalog();
-            var files = catalog.Entries(FileKind.Obj, FileKind.O);
-            var count = files.Count;
             var symbols = LoadSymbols(ws).Symbols();
             return symbols;
         }
@@ -337,7 +334,7 @@ namespace Z0
                     seek(blockbuffer,j) = new AsmCodeBlock(dispenser.Symbol(blockaddress, blockname), codebuffer);
                 }
 
-                var origin = project.FileCatalog().Entry(group.Key);
+                var origin = FileCatalog.load(project).Entry(group.Key);
                 seek(buffer,i) = new AsmCodeBlocks(dispenser.Label(origin.DocName), origin.DocId, blockbuffer);
             }
             return buffer;

@@ -4,8 +4,30 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class WsCmdRunner : AppCmdService<WsCmdRunner,CmdShellState>, ICmdRunner, IProjectProvider
+    public class WsCmdRunner : AppCmdService<WsCmdRunner,CmdShellState>, IWsCmdRunner<WsCmdRunner>
     {
+        IProjectWs _Project;
+
+        public WsCmdRunner()
+        {
+            ProjectSelected += ws => {
+            };
+        }
+
+        public event Action<IProjectWs> ProjectSelected;
+
+        public void Project(IProjectWs ws)
+        {
+            _Project = Require.notnull(ws);
+            ProjectSelected.Invoke(ws);
+        }
+
+        public IProjectWs Project()
+            => Require.notnull(_Project);
+
+        public void LoadProject(CmdArgs args)
+            => LoadProjectSources(Ws.Project(arg(args,0).Value));
+
         public void RunCmd(string name)
         {
             var result = Dispatcher.Dispatch(name);
@@ -47,48 +69,26 @@ namespace Z0
             }
         }
 
-        IProjectWs _Project;
-
-        [MethodImpl(Inline)]
-        public IProjectWs Project()
-            => _Project;
-
-        [MethodImpl(Inline)]
-        public IProjectWs Project(ProjectId id)
+        bool LoadProjectSources(IProjectWs ws)
         {
-            _Project = Ws.Project(id);
-            return Project();
-        }
+            if(ws == null)
+            {
+                Error("Project unspecified");
+                return false;
+            }
 
-        public Outcome LoadProject(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            SelectProject(Ws.Project(arg(args,0).Value));
-            return result;
-        }
+            Project(ws);
+            Status(LoadingSources.Format(ws.Project));
 
-        IProjectWs SelectProject(IProjectWs project)
-        {
-            _Project = project;
-            LoadProjectSources();
-            return Project();
-        }
-
-        Outcome LoadProjectSources()
-        {
-            var project = Project();
-            Write(LoadingSources.Format(project.Project));
-            if(project == null)
-                return (false, "Project unspecified");
-
-            var outcome = Outcome.Success;
-            var dir = project.Home();
-            outcome = dir.Exists;
-            if(outcome)
-                Files(project.SrcFiles());
+            var dir = ws.Home();
+            if(dir.Exists)
+                Files(ws.SrcFiles());
             else
-                outcome = (false, ProjectUndefined.Format(project.Project));
-            return outcome;
+            {
+                Error(ProjectUndefined.Format(ws.Project));
+                return false;
+            }
+            return true;
         }
 
         static MsgPattern<ProjectId> ProjectUndefined

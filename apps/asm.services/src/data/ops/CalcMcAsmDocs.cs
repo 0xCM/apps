@@ -15,7 +15,7 @@ namespace Z0
 
         public Index<McAsmDoc> CalcMcAsmDocs(IProjectWs project)
         {
-            var files = project.FileCatalog().Entries(FileKind.McAsm);
+            var files = FileCatalog.load(project).Entries(FileKind.McAsm);
             var count = files.Count;
             var dst = alloc<McAsmDoc>(count);
             for(var i=0; i<count; i++)

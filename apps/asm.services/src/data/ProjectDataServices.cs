@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static core;
     using llvm;
     using static llvm.SubtargetKind;
-
-    using static XedDisasm;
 
     public partial class ProjectDataServices : AppService<ProjectDataServices>
     {
@@ -42,7 +38,8 @@ namespace Z0
 
         public void Collect(IProjectProvider provider, IProjectWs project)
         {
-            var context = Projects.Context(provider, project);
+            var context = WsContext.create(provider, project);
+            //var context = WsContext.create(this, project.Project);
             AsmObjects.CollectObjects(context);
             CollectObjSyms(context);
             Coff.Collect(context);
