@@ -43,7 +43,7 @@ namespace Z0
         public void Collect(IProjectProvider provider, IProjectWs project)
         {
             var context = Projects.Context(provider, project);
-            CollectObjDump(context);
+            AsmObjects.CollectObjects(context);
             CollectObjSyms(context);
             Coff.Collect(context);
             CollectAsmSyntax(context);
@@ -73,9 +73,6 @@ namespace Z0
             return RunBuildScripts(project, scriptid, EmptyString,runexe);
         }
 
-        // public Outcome<Index<ToolCmdFlow>> BuildAsm(IProjectWs project)
-        //     => RunBuildScripts(project, "build", "asm", false);
-
         public Outcome<Index<ToolCmdFlow>> BuildScoped(IProjectWs project, ScriptId script, string scope)
             => RunBuildScripts(project, script, scope, false);
 
@@ -85,10 +82,8 @@ namespace Z0
         public Outcome<Index<ToolCmdFlow>> BuildCpp(IProjectWs project, bool runexe = false)
             => RunBuildScripts(project, "cpp-build", "cpp", runexe);
 
-
         public Outcome<Index<ToolCmdFlow>> RunBuildScripts(IProjectWs project, ScriptId scriptid, Subject? scope, bool runexe)
             => Projects.RunBuildScripts(project, scriptid, scope, flow => HandleBuildResponse(flow, runexe));
-            //RunBuildScripts(project, scriptid, scope, flow => HandleBuildResponse(flow, runexe));
 
         void RunExe(ToolCmdFlow flow)
         {
@@ -117,8 +112,8 @@ namespace Z0
         public FS.Files McAsmSources(IProjectWs project)
             => project.OutFiles(FileKind.McAsm);
 
-        public FS.FolderPath ObjHexDir(IProjectWs project)
-            => Projects.ProjectData(project, "obj.hex");
+        // public FS.FolderPath ObjHexDir(IProjectWs project)
+        //     => Projects.ProjectData(project, "obj.hex");
 
         public FS.FilePath AsmSyntaxTable(IProjectWs project)
             => Projects.Table<AsmSyntaxRow>(project);
@@ -126,25 +121,25 @@ namespace Z0
         public FS.FilePath AsmInstructionTable(IProjectWs project)
             => Projects.Table<AsmInstructionRow>(project);
 
-        public FS.FilePath AsmEncodingTable(IProjectWs project)
-            => Projects.Table<SummaryRow>(project);
+        // public FS.FilePath AsmEncodingTable(IProjectWs project)
+        //     => Projects.Table<SummaryRow>(project);
 
-        public FS.FolderPath AsmCodeDir(IProjectWs project)
-            => Projects.ProjectData(project, "asm.code");
+        // public FS.FolderPath AsmCodeDir(IProjectWs project)
+        //     => Projects.ProjectData(project, "asm.code");
 
-        public FS.FilePath AsmCodePath(IProjectWs project, string origin)
-            => AsmCodeDir(project) + FS.file(string.Format("{0}.code", origin), FS.Csv);
+        // public FS.FilePath AsmCodePath(IProjectWs project, string origin)
+        //     => AsmCodeDir(project) + FS.file(string.Format("{0}.code", origin), FS.Csv);
 
-        public FS.FilePath ObjBlockPath(IProjectWs project)
-            => Projects.Table<ObjBlock>(project);
+        // public FS.FilePath ObjBlockPath(IProjectWs project)
+        //     => Projects.Table<ObjBlock>(project);
 
         public FS.FilePath BuildFlowPath(IProjectWs project)
             => Projects.ProjectData(project) + FS.file(string.Format("{0}.build.flows", project.Name), FS.Csv);
 
-        public FS.FolderPath RecodedSrcDir(IProjectWs project)
-            => Ws.Project(ProjectNames.McRecoded).SrcDir(project.Project.Format());
+        // public FS.FolderPath RecodedSrcDir(IProjectWs project)
+        //     => Ws.Project(ProjectNames.McRecoded).SrcDir(project.Project.Format());
 
-        public FS.FilePath CoffSymPath(IProjectWs project)
-            => Projects.Table<CoffSymRecord>(project);
+        // public FS.FilePath CoffSymPath(IProjectWs project)
+        //     => Projects.Table<CoffSymRecord>(project);
    }
 }

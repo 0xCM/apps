@@ -6,29 +6,34 @@ namespace Z0
 {
     public class AppDb : AppService<AppDb>
     {
-        FS.FolderPath Root;
+        FS.FolderPath WsRoot;
 
-        public AppDb WithRoot(FS.FolderPath root)
-        {
-            var dst = AppDb.create(Wf);
-            dst.Root = root;
-            return dst;
-        }
+        FS.FolderPath ProjectRoot;
+
+        FS.FolderPath ProjectDbRoot;
+
+        public DbTargets Projects()
+            => new DbTargets(ProjectRoot,EmptyString);
+
+        public DbTargets Project(string name)
+            => Projects().Targets(name);
 
         protected override void Initialized()
         {
-            Root = ProjectDb.Root;
+            WsRoot = Ws.Root;
+            ProjectRoot = WsRoot + FS.folder("projects");
+            ProjectDbRoot = ProjectRoot + FS.folder("db");
         }
 
         [MethodImpl(Inline)]
         public DbTargets Targets()
-            => new DbTargets(Root, EmptyString);
+            => new DbTargets(ProjectDbRoot, EmptyString);
 
         [MethodImpl(Inline)]
         public DbTargets Targets(string scope)
-            => new DbTargets(Root, scope);
+            => new DbTargets(ProjectDbRoot, scope);
 
         public DbSources Sources(string scope)
-            => new DbSources(Root + FS.folder("sources"), scope);
+            => new DbSources(ProjectDbRoot + FS.folder("sources"), scope);
     }
 }

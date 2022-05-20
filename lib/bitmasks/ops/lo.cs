@@ -55,27 +55,6 @@ namespace Z0
             => GetMaskUpToLowestSetBit(src);
 
         /// <summary>
-        /// Logically equivalent to the composite operation (src-1) ^ src that enables the
-        /// lower bits of the source up to and including the least set bit
-        /// </summary>
-        /// <param name="src">The bit source</param>
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        static T lomask2<T>(T src)
-            where T : unmanaged
-        {
-            if(typeof(T) == typeof(byte))
-                return generic<T>(lomask(uint8(src)));
-            else if(typeof(T) == typeof(ushort))
-                return generic<T>(lomask(uint16(src)));
-            else if(typeof(T) == typeof(uint))
-                return generic<T>(lomask(uint32(src)));
-            else if(typeof(T) == typeof(ulong))
-                return generic<T>(lomask(uint64(src)));
-            else
-                throw no<T>();
-        }
-
-        /// <summary>
         /// Produces a sequence of N enabled bits, starting from index 0 and extending to index n - 1
         /// </summary>
         [MethodImpl(Inline), Op, Closures(Closure)]

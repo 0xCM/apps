@@ -4,9 +4,52 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static LimitValues;
+    using static bits;
+
     [ApiHost]
     public struct BitMask
     {
+        /// <summary>
+        /// Creates a mask that covers an inclusive range of bits
+        /// </summary>
+        /// <param name="w">The target width selector</param>
+        /// <param name="i0">The position of the first bit</param>
+        /// <param name="i1">The position of the last bit</param>
+        [MethodImpl(Inline), Enable]
+        public static byte ones(W8 w, byte i0, byte i1)
+            => math.sll(zhi(max(w), segwidth(i0,i1)), i0);
+
+        /// <summary>
+        /// Creates a mask that covers an inclusive range of bits
+        /// </summary>
+        /// <param name="w">The target width selector</param>
+        /// <param name="i0">The position of the first bit</param>
+        /// <param name="i1">The position of the last bit</param>
+        [MethodImpl(Inline), Enable]
+        public static ushort ones(W16 w, byte i0, byte i1)
+            => math.sll(zhi(max(w), segwidth(i0,i1)), i0);
+
+        /// <summary>
+        /// Creates a mask that covers an inclusive range of bits
+        /// </summary>
+        /// <param name="w">The target width selector</param>
+        /// <param name="i0">The position of the first bit</param>
+        /// <param name="i1">The position of the last bit</param>
+        [MethodImpl(Inline), Enable]
+        public static uint ones(W32 w, byte i0, byte i1)
+            => math.sll(zhi(max(w), segwidth(i0,i1)), i0);
+
+        /// <summary>
+        /// Creates a mask that covers an inclusive range of bits
+        /// </summary>
+        /// <param name="w">The target width selector</param>
+        /// <param name="i0">The position of the first bit</param>
+        /// <param name="i1">The position of the last bit</param>
+        [MethodImpl(Inline), Enable]
+        public static ulong ones(W64 w, byte i0, byte i1)
+            => math.sll(zhi(max(w), segwidth(i0,i1)), i0);
+
         [MethodImpl(Inline), Op]
         public static BitMask one(byte width, byte pos)
             => bit.enable(0ul,pos);
@@ -33,19 +76,19 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static BitMask mask(W8 w, byte i0, byte i1)
-            => new BitMask((byte)w, bits.ones(w, i0, i1));
+            => new BitMask((byte)w, ones(w, i0, i1));
 
         [MethodImpl(Inline), Op]
         public static BitMask mask(W16 w, byte i0, byte i1)
-            => new BitMask((byte)w, bits.ones(w, i0, i1));
+            => new BitMask((byte)w, ones(w, i0, i1));
 
         [MethodImpl(Inline), Op]
         public static BitMask mask(W32 w, byte i0, byte i1)
-            => new BitMask((byte)w, bits.ones(w, i0, i1));
+            => new BitMask((byte)w, ones(w, i0, i1));
 
         [MethodImpl(Inline), Op]
         public static BitMask mask(W64 w, byte i0, byte i1)
-            => new BitMask((byte)w, bits.ones(w, i0, i1));
+            => new BitMask((byte)w, ones(w, i0, i1));
 
         [Op]
         public static BitMask mask(NativeSize size, byte i0, byte i1)
