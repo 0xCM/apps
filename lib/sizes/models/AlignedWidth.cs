@@ -334,28 +334,28 @@ namespace Z0
         public static bool operator !=(AlignedWidth a, AlignedWidth b)
             => a.Code != b.Code;
 
-        [MethodImpl(Inline)]
-        public static BitMask operator |(AlignedWidth a, AlignedWidth b)
-            => BitMask.mask((byte)math.max(a.Bits, b.Bits), a.Value | b.Value);
+        // [MethodImpl(Inline)]
+        // public static BitMask operator |(AlignedWidth a, AlignedWidth b)
+        //     => BitMask.mask((byte)math.max(a.Bits, b.Bits), a.Value | b.Value);
 
-        [MethodImpl(Inline)]
-        public static BitMask operator ^(AlignedWidth a, AlignedWidth b)
-            => BitMask.mask((byte)math.max(a.Bits, b.Bits), a.Value ^ b.Value);
+        // [MethodImpl(Inline)]
+        // public static BitMask operator ^(AlignedWidth a, AlignedWidth b)
+        //     => BitMask.mask((byte)math.max(a.Bits, b.Bits), a.Value ^ b.Value);
 
-        [MethodImpl(Inline)]
-        public static BitMask operator &(AlignedWidth a, AlignedWidth b)
-            => BitMask.mask((byte)math.max(a.Bits, b.Bits), a.Value & b.Value);
+        // [MethodImpl(Inline)]
+        // public static BitMask operator &(AlignedWidth a, AlignedWidth b)
+        //     => BitMask.mask((byte)math.max(a.Bits, b.Bits), a.Value & b.Value);
 
-        [MethodImpl(Inline)]
-        public static BitMask operator ~(AlignedWidth a)
-            => BitMask.mask((byte)a.Bits, ~a.Value);
+        // [MethodImpl(Inline)]
+        // public static BitMask operator ~(AlignedWidth a)
+        //     => BitMask.mask((byte)a.Bits, ~a.Value);
 
-        [MethodImpl(Inline)]
-        public static BitMask operator <<(AlignedWidth a, int count)
-            => BitMask.mask((byte)a.Bits, a.Value << count);
+        // [MethodImpl(Inline)]
+        // public static BitMask operator <<(AlignedWidth a, int count)
+        //     => BitMask.mask((byte)a.Bits, a.Value << count);
 
-        [MethodImpl(Inline)]
-        public static BitMask operator >>(AlignedWidth a, int count)
-            => BitMask.mask((byte)a.Bits, a.Value >> count);
+        // [MethodImpl(Inline)]
+        // public static BitMask operator >>(AlignedWidth a, int count)
+        //     => BitMask.mask((byte)a.Bits, a.Value >> count);
     }
 }

@@ -9,10 +9,8 @@ namespace Z0
     partial class XedDataTypes
     {
         [StructLayout(StructLayout,Pack=1)]
-        public readonly struct ExpressionType :  IFieldType<ExpressionType>
+        public readonly record struct ExpressionType :  IFieldType<ExpressionType>
         {
-            public const TypeKind Kind = TypeKind.Expression;
-
             public readonly FieldType Field;
 
             public readonly OperatorType Operator;
@@ -27,13 +25,13 @@ namespace Z0
                 Size = size;
             }
 
-            TypeKind IDataType.Kind
-                => Kind;
+            DataSize IDataType.Size
+                => Size;
 
             FieldKind IFieldType.Field
                 => Field.Field;
 
-            asci32 IDataType.Name
+            asci64 IDataType.Name
                 => Field.DataType.TypeName;
         }
     }

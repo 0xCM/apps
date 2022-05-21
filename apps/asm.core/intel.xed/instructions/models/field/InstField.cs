@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
+    using static Numbers;
     using static core;
 
     partial class XedRules
@@ -71,70 +71,6 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => (Storage & ValueKindMask >> ValueKindOffset).Convert<FieldKind>();
             }
-
-            [MethodImpl(Inline)]
-            public static InstField define(uint5 src)
-            {
-                var fk = InstFieldKind.BitLit;
-                var vk = FieldKind.INVALID;
-                var op = InstOperator.None;
-                var value = (ushort)src;
-
-                return default;
-            }
-
-            [MethodImpl(Inline)]
-            public static InstField define(Hex8 src)
-            {
-                var fk = InstFieldKind.HexLit;
-                var vk = FieldKind.INVALID;
-                var op = InstOperator.None;
-                var value = (ushort)src;
-                return default;
-            }
-
-            [MethodImpl(Inline)]
-            public static InstField define(InstSeg src)
-            {
-                var fk = InstFieldKind.InstSeg;
-                var op = InstOperator.None;
-                var vk = src.Field;
-                var value = z16;
-                return default;
-            }
-
-            [MethodImpl(Inline)]
-            public static InstField define(CellExpr src)
-            {
-                var fk = InstFieldKind.None;
-                var op = InstOperator.None;
-                var vk = src.Field;
-                var value = z16;
-                if(src.CellKind == RuleCellKind.EqExpr)
-                {
-                    fk = InstFieldKind.EqExpr;
-                    op = InstOperator.Eq;
-                }
-                else if(src.CellKind == RuleCellKind.NeqExpr)
-                {
-                    fk = InstFieldKind.NeqExpr;
-                    op = InstOperator.Ne;
-                }
-
-                return default;
-            }
-
-            [MethodImpl(Inline)]
-            public static InstField define(Nonterminal src)
-            {
-                var fk = InstFieldKind.NtCall;
-                var op = InstOperator.None;
-                var vk = FieldKind.INVALID;
-                var value = (ushort)src;
-
-                return default;
-            }
-
 
             [MethodImpl(Inline)]
             public T Value<T>()

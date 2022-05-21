@@ -9,10 +9,8 @@ namespace Z0
     public partial class XedDataTypes
     {
         [StructLayout(StructLayout,Pack=1)]
-        public readonly struct OperatorType : IDataType<OperatorType>
+        public readonly record struct OperatorType : IDataType<OperatorType>
         {
-            public const TypeKind Kind = TypeKind.Operator;
-
             public readonly RuleOperator Operator;
 
             public readonly asci4 Symbol;
@@ -24,10 +22,10 @@ namespace Z0
                 Symbol = op.Symbol;
             }
 
-            TypeKind IDataType.Kind
-                => Kind;
+            DataSize IDataType.Size
+                => default;
 
-            asci32 IDataType.Name
+            asci64 IDataType.Name
                 => Operator.Kind.ToString();
         }
     }

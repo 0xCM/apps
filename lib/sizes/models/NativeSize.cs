@@ -4,8 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using N = NativeSizeCode;
+
     public readonly struct NativeSize
     {
+        public static NativeSize W8 => N.W8;
+
+        public static NativeSize W16 => N.W16;
+
+        public static NativeSize W32 => N.W32;
+
+        public static NativeSize W64 => N.W64;
+
+        public static NativeSize W128 => N.W128;
+
+        public static NativeSize W256 => N.W256;
+
+        public static NativeSize W512 => N.W512;
+
+        public static NativeSize W80 => N.W80;
+
         public readonly NativeSizeCode Code;
 
         public BitWidth Width

@@ -9,10 +9,8 @@ namespace Z0
     partial class XedDataTypes
     {
         [StructLayout(StructLayout,Pack=1)]
-        public readonly struct FieldType : IFieldType<FieldType>
+        public readonly record struct FieldType : IFieldType<FieldType>
         {
-            public const TypeKind Kind = TypeKind.Field;
-
             public readonly FieldKind Field;
 
             public readonly CellType DataType;
@@ -24,13 +22,13 @@ namespace Z0
                 DataType = cell;
             }
 
-            TypeKind IDataType.Kind
-                => Kind;
+            DataSize IDataType.Size
+                => DataType.Size;
 
             FieldKind IFieldType.Field
                 => Field;
 
-            asci32 IDataType.Name
+            asci64 IDataType.Name
                 => DataType.TypeName;
         }
     }

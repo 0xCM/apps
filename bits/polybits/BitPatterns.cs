@@ -62,7 +62,7 @@ namespace Z0
             return j - i0;
         }
 
-        public static Index<BfSegModel> segs(in asci64 src)
+        public static Index<BfSegModel> segs(in BitPattern src)
         {
             var names = indicators(src);
             var count = names.Length;
@@ -108,8 +108,13 @@ namespace Z0
             return dst;
         }
 
+        [MethodImpl(Inline)]
         public static byte datawidth(in BitPattern src)
             => (byte)text.remove(src.Data, Chars.Space).Length;
+
+        [MethodImpl(Inline)]
+        public static DataSize size(in BitPattern src)
+            => Sizes.datasize(datawidth(src));
 
         public static Type datatype(in BitPattern src)
         {

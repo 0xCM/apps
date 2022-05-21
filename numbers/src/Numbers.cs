@@ -233,5 +233,90 @@ namespace Z0
         public static bit gteq<T>(num<T> a, num<T> b)
             where T : unmanaged
                 => gmath.gteq(a.Value,b.Value);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static num2 num<T>(N2 n, T src)
+            where T : unmanaged
+                => (num2)u8(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static num3 num<T>(N3 n, T src)
+            where T : unmanaged
+                => (num3)u8(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static num4 num<T>(N4 n, T src)
+            where T : unmanaged
+                => (num4)u8(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static num5 num<T>(N5 n, T src)
+            where T : unmanaged
+                => (num5)u8(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static num6 num<T>(N6 n, T src)
+            where T : unmanaged
+                => (num6)u8(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static num7 num<T>(N7 n, T src)
+            where T : unmanaged
+                => (num7)u8(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static num8 num<T>(N8 n, T src)
+            where T : unmanaged
+                => (num8)u8(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static num9 num<T>(N9 n, T src)
+            where T : unmanaged
+                => (num9)u16(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static num10 num<T>(N10 n, T src)
+            where T : unmanaged
+                => (num10)u16(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static num11 num<T>(N11 n, T src)
+            where T : unmanaged
+                => (num11)u16(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static num12 num<T>(N12 n, T src)
+            where T : unmanaged
+                => (num12)u16(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static num13 num<T>(N13 n, T src)
+            where T : unmanaged
+                => (num13)u16(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static num14 num<T>(N14 n, T src)
+            where T : unmanaged
+                => (num14)u16(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static num15 num<T>(N15 n, T src)
+            where T : unmanaged
+                => (num15)u16(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static num16 num<T>(N16 n, T src)
+            where T : unmanaged
+                => (num16)u16(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static num17 num<T>(N17 n, T src)
+            where T : unmanaged
+                => (num17)u32(src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static num32 num<T>(N32 n, T src)
+            where T : unmanaged
+                => (num32)u32(src);
     }
 }

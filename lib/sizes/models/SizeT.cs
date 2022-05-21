@@ -8,11 +8,10 @@ namespace Z0
 
     using api = Sizes;
 
-    [DataType("size<t:{0}>")]
     public readonly struct Size<T> : IEquatable<Size<T>>
         where T : unmanaged
     {
-        public T Measure {get;}
+        public readonly T Measure;
 
         [MethodImpl(Inline)]
         public Size(T measure)
@@ -57,6 +56,10 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
+        public DataSize ToDataSize()
+            => api.datasize(Bits);
+
+        [MethodImpl(Inline)]
         public Size<T> Align(T factor)
             => Untyped.Align(bw64(factor));
 
@@ -71,7 +74,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public string Format()
             => Untyped.Format();
-
 
         public override bool Equals(object src)
             => src is Size<T> x && Equals(x);

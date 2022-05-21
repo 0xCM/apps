@@ -98,6 +98,18 @@ namespace Z0
             public void CloseProp(uint offset)
                 => IndentLine(offset, "}");
 
+            public void Attribute(uint offset, string name)
+                => IndentLine(offset, $"[{name}]");
+
+            public void Attribute<T>(uint offset, string name, T args)
+                => IndentLine(offset, $"[{name}({args})]");
+
+            public void LiteralProvider(uint offset)
+                => Attribute(offset, nameof(LiteralProvider));
+
+            public void DataWidth(uint offset, uint packed)
+                => Attribute(offset, nameof(DataWidth), packed);
+
             public void NumericLit<T>(uint offset, string name, T value)
                 => IndentLineFormat(offset,"public const {0} {1} = {2};", typeof(T).DisplayName(), name, value);
 

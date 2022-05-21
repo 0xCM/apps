@@ -9,10 +9,8 @@ namespace Z0
     partial class XedDataTypes
     {
         [StructLayout(StructLayout,Pack=1)]
-        public readonly struct RuleType : IDataType<RuleType>
+        public readonly record struct RuleType : IDataType<RuleType>
         {
-            public const TypeKind Kind = TypeKind.Rule;
-
             public readonly RuleName Rule;
 
             public readonly TypeKey DataType;
@@ -24,10 +22,10 @@ namespace Z0
                 DataType = type;
             }
 
-            TypeKind IDataType.Kind
-                => Kind;
+            public DataSize Size
+                => throw new NotImplementedException();
 
-            asci32 IDataType.Name
+            asci64 IDataType.Name
                 => nameof(RuleName);
         }
     }

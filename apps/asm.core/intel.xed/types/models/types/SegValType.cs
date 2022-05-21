@@ -8,8 +8,11 @@ namespace Z0
 
     partial class XedDataTypes
     {
+        /// <summary>
+        /// Specifies the data typeof a <see cref='FieldSeg'/>
+        /// </summary>
         [StructLayout(StructLayout,Pack=1)]
-        public readonly struct SegValType : IFieldType<SegValType>
+        public readonly record struct SegValType : IFieldType<SegValType>
         {
             public const TypeKind Kind = TypeKind.SegVal;
 
@@ -24,13 +27,13 @@ namespace Z0
                 DataType = type;
             }
 
-            TypeKind IDataType.Kind
-                => Kind;
+            DataSize IDataType.Size
+                => default;
 
             FieldKind IFieldType.Field
                 => Seg.Field;
 
-            asci32 IDataType.Name
+            asci64 IDataType.Name
                 => XedRender.format(Seg.Field);
         }
     }

@@ -7,20 +7,18 @@ namespace Z0
     partial class XedDataTypes
     {
         [StructLayout(StructLayout,Pack=1)]
-        public readonly struct CellType : IDataType<CellType>
+        public readonly record struct CellType : IDataType<CellType>
         {
-            public const TypeKind Kind = TypeKind.Cell;
-
             public readonly TypeKey Key;
 
-            public readonly asci16 TypeName;
+            public readonly asci64 TypeName;
 
             public readonly TypeKey Base;
 
             public readonly DataSize Size;
 
             [MethodImpl(Inline)]
-            public CellType(TypeKey key, asci16 type, TypeKey @base, DataSize size)
+            public CellType(TypeKey key, asci64 type, TypeKey @base, DataSize size)
             {
                 Key = key;
                 TypeName = type;
@@ -28,11 +26,11 @@ namespace Z0
                 Size = size;
             }
 
-            TypeKind IDataType.Kind
-                => Kind;
-
-            asci32 IDataType.Name
+            asci64 IDataType.Name
                 => TypeName;
+
+            DataSize IDataType.Size
+                => Size;
         }
     }
 }

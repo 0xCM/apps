@@ -9,13 +9,12 @@ namespace Z0
     /// <summary>
     /// Specifies data size in bits
     /// </summary>
-    [DataType("bitwidth")]
     public readonly struct BitWidth
     {
         /// <summary>
         /// Specifies a bit count
         /// </summary>
-        public ulong Content {get;}
+        public readonly ulong Content;
 
         /// <summary>
         /// Computes the bit-size of a parametric type
@@ -84,6 +83,7 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Content/8;
         }
+
         public string Format()
             => Content.ToString();
 

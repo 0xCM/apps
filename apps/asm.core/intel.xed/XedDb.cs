@@ -13,7 +13,6 @@ namespace Z0
 
         IMemDb _Store;
 
-
         XedRuntime Xed;
 
         public XedDb With(XedRuntime xed)

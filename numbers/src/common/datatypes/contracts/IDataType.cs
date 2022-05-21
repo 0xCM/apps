@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [Free]
     public interface IDataType
     {
         asci64 Name {get;}
@@ -14,6 +15,7 @@ namespace Z0
             => GetHashCode();
     }
 
+    [Free]
     public interface IDataType<T> : IDataType, IEquatable<T>
         where T : IDataType<T>
     {

@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
-
     partial class XedDataTypes
     {
-        static object KeyLocker = new();
-
-        static TypeKey NextKey(TypeKind kind)
+        public static TypeKey NextKey(TypeKind kind)
         {
             lock(KeyLocker)
             {
@@ -19,5 +15,7 @@ namespace Z0
                 return key;
             }
         }
+
+        static object KeyLocker = new();
     }
 }

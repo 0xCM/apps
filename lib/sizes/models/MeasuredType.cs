@@ -9,7 +9,7 @@ namespace Z0
         public static Index<MeasuredType> symbolic(Assembly src, string group)
         {
             var x = src.Enums().TypeTags<SymSourceAttribute>().Storage.Where(x => x.Right.SymGroup == group).ToIndex();
-            return x.Select(x => new MeasuredType(x.Left, DataTypes.measure(x.Left))).Sort();
+            return x.Select(x => new MeasuredType(x.Left, Sizes.measure(x.Left))).Sort();
         }
 
         public readonly Type Definition;

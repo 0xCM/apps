@@ -53,7 +53,7 @@ namespace Z0
 
         [MethodImpl(Inline),Ignore]
         public ByteSize Align(ulong factor)
-            => api.align(this,factor);
+            => api.align(this, factor);
 
         [MethodImpl(Inline),Ignore]
         public ByteSize Align(long factor)

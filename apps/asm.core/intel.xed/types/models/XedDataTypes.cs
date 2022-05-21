@@ -99,6 +99,7 @@ namespace Z0
                 dst[kinds[i].Kind] = TypeKey.Empty;
         }
 
+
         static XedDataTypes()
         {
             init(out _Keys);
@@ -139,139 +140,12 @@ namespace Z0
 
         }
 
-
-        [MethodImpl(Inline)]
-        public static DataSize size(BitWidth packed)
-            => new DataSize(packed,(uint)(packed % 8 == 0 ? packed/8 : (packed/8) + 1));
-
-        public static PrimalType ToPrimalType(PrimalKind kind)
-            => PrimalType.type(kind);
-
-        public static PrimalKind ToPrimalKind(ClrEnumKind scalar)
-        {
-            var @base = PrimalKind.None;
-            switch(scalar)
-            {
-                case ClrEnumKind.I8:
-                case ClrEnumKind.U8:
-                    @base = PrimalKind.U8;
-                break;
-                case ClrEnumKind.I16:
-                case ClrEnumKind.U16:
-                    @base = PrimalKind.U16;
-                break;
-                case ClrEnumKind.I32:
-                case ClrEnumKind.U32:
-                    @base = PrimalKind.U32;
-                break;
-                case ClrEnumKind.I64:
-                case ClrEnumKind.U64:
-                    @base = PrimalKind.U64;
-                break;
-            }
-            return @base;
-        }
-
-        public static PrimalKind ToPrimalKind(NumericKind src)
-            => src switch{
-                NumericKind.U8 => PrimalKind.U8,
-                NumericKind.U16 => PrimalKind.U16,
-                NumericKind.U32 => PrimalKind.U32,
-                NumericKind.U64 => PrimalKind.U64,
-                NumericKind.I8 => PrimalKind.U8,
-                NumericKind.I16 => PrimalKind.U16,
-                NumericKind.I32 => PrimalKind.U32,
-                NumericKind.I64 => PrimalKind.U64,
-                _ => PrimalKind.None
-            };
-
-        public static LiteralType[] CalcLiteralTypes(params Type[] src)
-        {
-            var count = src.Length;
-            var dst = alloc<LiteralType>(count);
-            for(var i=0; i<count; i++)
-                seek(dst,i) = CalcLiteralType(NextKey(TypeKind.Literal), skip(src,i));
-            return dst;
-        }
-
-        public static LiteralType CalcLiteralType(TypeKey key, Type type)
-        {
-            var @base = CalcPrimitive(type);
-            var name = type.DisplayName();
-            Require.invariant(name.Length <= 32);
-            var tag = type.Tag<WidthAttribute>();
-            var width = (byte)Sizes.bitwidth(type);
-            var packed = width;
-            if(tag)
-                packed = (byte)((NativeSize)tag.Require().TypeWidth).Width;
-            return literal(key, name, @base, new DataSize(packed, @base.Size.NativeWidth));
-        }
-
-        public static PrimalType CalcPrimitive(Type src)
-        {
-            if(src == typeof(bit))
-                return PrimalType.Intrinsic.U1;
-            else if(src == typeof(void))
-                return PrimalType.Intrinsic.Void;
-            else if(src.IsPrimalNumeric())
-                return ToPrimalType(ToPrimalKind(src.NumericKind()));
-            else if(src.IsEnum)
-                return ToPrimalType(ToPrimalKind(src.EnumScalarKind()));
-            else if(src == typeof(Null))
-                return PrimalType.Intrinsic.Empty;
-            else
-                Errors.Throw($"{src.Name} is not primitive");
-            return PrimalType.Intrinsic.Empty;
-        }
-
         [MethodImpl(Inline), Op]
-        public static PrimalType primitive(PrimalKind kind, asci16 name, AlignedWidth width)
-            => new PrimalType(kind, name,width);
-
-        [MethodImpl(Inline), Op]
-        public static LiteralType literal(TypeKey key, asci32 name, PrimalType @base, DataSize size)
-            => new LiteralType(key, name, @base, size);
-
-        [MethodImpl(Inline), Op]
-        public static LiteralType literal(TypeKey key, asci32 name, PrimalType @base, byte size)
-            => new LiteralType(key, name, @base, (size,size));
-
-        [MethodImpl(Inline)]
-        public static LiteralValue literal<T>(TypeKey type, T value)
-            where T : unmanaged
-                => new LiteralValue<T>(type, value);
-
-        [MethodImpl(Inline)]
-        public static LiteralValue literal<T>(LiteralType type, T value)
-            where T : unmanaged
-                => literal(type.Key,value);
-
-        [MethodImpl(Inline), Op]
-        public static TypedLiteral typed(asci32 name, TypeKey @base, DataSize size)
-            => new TypedLiteral(name, @base, size);
-
-        [MethodImpl(Inline), Op]
-        public static TypedLiteral typed(asci32 name, LiteralType @base, DataSize size)
-            => typed(name, @base.Key, size);
-
-        [MethodImpl(Inline), Op]
-        public static NumericType numeric(TypeKey key, asci16 name, DataSize size)
-            => new NumericType(key, name, size);
-
-        [MethodImpl(Inline), Op]
-        public static NumericType numeric(TypeKey key, asci16 name, byte width)
-            => new NumericType(key, name, width);
-
-        [MethodImpl(Inline), Op]
-        public static NumericType numeric(PrimalType key, asci16 name, NumericWidth width)
-            => numeric(key, name, width);
-
-        [MethodImpl(Inline), Op]
-        public static CellType cell(TypeKey key, asci16 name, TypeKey @base, DataSize size)
+        public static CellType cell(TypeKey key, asci64 name, TypeKey @base, DataSize size)
             => new CellType(key, name, @base, size);
 
         [MethodImpl(Inline), Op]
-        public static CellType cell(TypeKey key, asci16 name, PrimalType @base, DataSize size)
+        public static CellType cell(TypeKey key, asci64 name, PrimalType @base, DataSize size)
             => cell(key, name, @base.Key, size);
 
         [MethodImpl(Inline), Op]

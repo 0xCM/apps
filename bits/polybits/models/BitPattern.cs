@@ -14,6 +14,12 @@ namespace Z0
             Data = src;
         }
 
+        public DataSize Size
+        {
+            [MethodImpl(Inline)]
+            get => BitPatterns.size(this);
+        }
+
         public string Format()
             => Data.Format();
 
@@ -30,6 +36,10 @@ namespace Z0
 
         public override int GetHashCode()
             => Data.GetHashCode();
+
+        [MethodImpl(Inline)]
+        public static implicit operator BitPattern(string src)
+            => new BitPattern(src);
 
         [MethodImpl(Inline)]
         public static implicit operator BitPattern(asci64 src)

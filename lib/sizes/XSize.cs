@@ -5,9 +5,9 @@
 namespace Z0
 {
     using static core;
-    using static DataTypes;
+    using static Sizes;
 
-    public static class DataTypesX
+    public static class XDataSize
     {
         [MethodImpl(Inline), Op]
         public static DataSize Sum(this ReadOnlySpan<DataSize> src)
@@ -57,5 +57,4 @@ namespace Z0
         public static DataSize Min(this Span<DataSize> src)
             => min(src);
     }
-
 }

@@ -24,11 +24,9 @@ namespace Z0
             /// </summary>
             TypedLiteral,
 
-            Field,
-
             Operator,
 
-            Expression,
+            Field,
 
             FieldSeg,
 
@@ -40,7 +38,9 @@ namespace Z0
 
             BitLiteral,
 
-            IntLiteral,
+         Expression,
+
+           IntLiteral,
 
             HexLiteral,
 
