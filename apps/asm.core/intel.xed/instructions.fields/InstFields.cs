@@ -10,40 +10,6 @@ namespace Z0
 
     partial class XedRules
     {
-        public readonly struct InstFieldMetrics
-        {
-            /// <summary>
-            /// FieldKind[0,2] ValueKind[3,10] Operator[11,12] Value[16,31]
-            /// </summary>
-            public static BitPattern Pattern => "fff kkkkkkk oo vvvvvvvvvvvvvvvv";
-
-            public const byte KindWidth = num3.Width;
-
-            public const byte OperatorWidth = InstOperator.Width;
-
-            public const byte ValueKindWidth = num7.Width;
-
-            public const byte ValueWidth = num16.Width;
-
-            public const byte Width = KindWidth + ValueKindWidth + OperatorWidth + ValueWidth;
-
-            public const byte KindOffset = 0;
-
-            public const byte OperatorOffset = KindOffset + KindWidth;
-
-            public const byte ValueKindOffset = OperatorOffset + OperatorWidth;
-
-            public const byte ValueOffset = ValueKindOffset + ValueKindWidth;
-
-            public const uint KindMask = num3.MaxValue << KindOffset;
-
-            public const uint OperatorMask = num2.MaxValue << OperatorOffset;
-
-            public const uint ValueKindMask = num7.MaxValue << ValueKindOffset;
-
-            public const uint ValueMask = num16.MaxValue << ValueOffset;
-        }
-
         public class InstFields
         {
             [MethodImpl(Inline)]

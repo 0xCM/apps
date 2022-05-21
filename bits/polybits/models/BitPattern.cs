@@ -20,6 +20,12 @@ namespace Z0
             get => BitPatterns.size(this);
         }
 
+        public int Length
+        {
+            [MethodImpl(Inline)]
+            get => Data.Length;
+        }
+
         public string Format()
             => Data.Format();
 

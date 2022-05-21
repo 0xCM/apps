@@ -25,7 +25,7 @@ namespace Z0
         /// The width of the data represented by the pattern
         /// </summary>
         [Render(12)]
-        public byte DataWidth;
+        public uint DataWidth;
 
         /// <summary>
         /// The minimum amount of storage required to store the represented data

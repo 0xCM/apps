@@ -6,38 +6,21 @@ namespace Z0
 {
     using api = BitPatterns;
 
-    public class BpCalcs
+    public readonly struct BpCalcs<P>
+        where P : unmanaged, IBpDef<P>
     {
-        public readonly BpDef Def;
+        public readonly BpDef<P> Def;
 
         [MethodImpl(Inline)]
-        public BpCalcs(in BpDef def)
+        public BpCalcs(in BpDef<P> def)
         {
             Def = def;
         }
 
-        public ref readonly asci32 Name
+        public BpCalcs Untyped
         {
             [MethodImpl(Inline)]
-            get => ref Def.Name;
-        }
-
-        /// <summary>
-        /// The pattern source
-        /// </summary>
-        public ref readonly BfOrigin Origin
-        {
-            [MethodImpl(Inline)]
-            get => ref Def.Origin;
-        }
-
-        /// <summary>
-        /// The pattern specification
-        /// </summary>
-        public ref readonly BitPattern Pattern
-        {
-            [MethodImpl(Inline)]
-            get => ref Def.Pattern;
+            get => new BpCalcs(Def.Untyped);
         }
 
         /// <summary>
@@ -45,63 +28,71 @@ namespace Z0
         /// </summary>
         [MethodImpl(Inline)]
         public uint BitWidth()
-            => api.bitwidth(Pattern);
+            => Untyped.BitWidth();
 
         [MethodImpl(Inline)]
         public DataSize Size()
-            => api.size(Pattern);
+            => Untyped.Size();
 
         /// <summary>
         /// The minimum amount of storage required to store the represented data
         /// </summary>
         [MethodImpl(Inline)]
         public NativeSize MinSize()
-            => api.minsize(Pattern);
+            => Untyped.MinSize();
 
         /// <summary>
         /// A data type with size of <see cref='MinSize'/> or greater
         /// </summary>
         [MethodImpl(Inline)]
         public Type DataType()
-            => api.datatype(Pattern);
+            => Untyped.DataType();
 
         /// <summary>
         /// The segments in the field
         /// </summary>
         [MethodImpl(Inline)]
         public Index<BfSegModel> Segments()
-            => api.segs(Pattern);
+            => Untyped.Segments();
 
         [MethodImpl(Inline)]
         public BfModel Model()
-            => api.model(Name, Pattern, Origin);
+            => Untyped.Model();
 
         [MethodImpl(Inline)]
         public Index<byte> SegWidths()
-            => api.segwidths(Pattern);
+            => Untyped.SegWidths();
 
         [MethodImpl(Inline)]
         public Index<string> Indicators()
-            => api.indicators(Pattern);
+            => Untyped.Indicators();
 
         [MethodImpl(Inline)]
         public BpInfo Description()
-            => api.describe(Name, Pattern, Origin);
+            => api.describe<P>(Def.Name, Def.Pattern);
 
         /// <summary>
         /// A semantic identifier
         /// </summary>
         [MethodImpl(Inline)]
         public string Descriptor()
-            => api.descriptor(Pattern);
+            => Untyped.Descriptor();
 
         [MethodImpl(Inline)]
         public string BitString(ulong value)
-            => api.bitstring(Def, value);
+            => Untyped.BitString(value);
 
         [MethodImpl(Inline)]
         public string BitString<T>(T value)
             where T : unmanaged
-                => api.bitstring(Def, value);
+                => Untyped.BitString(value);
+
+        [MethodImpl(Inline)]
+        public static implicit operator BpCalcs(BpCalcs<P> src)
+            => src.Untyped;
+
+        [MethodImpl(Inline)]
+        public static implicit operator BpCalcs<P>(P src)
+            => new BpCalcs<P>(new BpDef<P>(src.Name, src.Pattern, src.Origin));
     }
 }

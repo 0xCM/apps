@@ -18,7 +18,7 @@ namespace Z0
                 dst.WriteLine(RP.PageBreak120);
                 dst.AppendLineFormat(RenderPattern,  nameof(BpInfo.Origin), src.Origin);
                 dst.AppendLineFormat(RenderPattern,  nameof(BpInfo.Name), src.Name);
-                dst.AppendLineFormat(RenderPattern,  nameof(BpInfo.Content), src.Content);
+                dst.AppendLineFormat(RenderPattern,  nameof(BpInfo.Pattern), src.Pattern);
                 dst.AppendLineFormat(RenderPattern,  nameof(BpInfo.DataWidth), src.DataWidth);
                 dst.AppendLineFormat(RenderPattern,  nameof(BpInfo.MinSize), src.MinSize);
                 dst.AppendLineFormat(RenderPattern,  nameof(BpInfo.DataType), src.DataType.DisplayName());

@@ -14,7 +14,7 @@ namespace Z0
         /// <summary>
         /// The width of the data represented by the pattern
         /// </summary>
-        public readonly byte DataWidth;
+        public readonly uint DataWidth;
 
         /// <summary>
         /// The minimum amount of storage required to store the represented data
@@ -41,7 +41,7 @@ namespace Z0
         /// </summary>
         public readonly BpSpec Spec;
 
-        internal BpInfo(in BpDef def, byte width, Type datatype, NativeSize minsize, Index<BfSegModel> segs, string descriptor)
+        internal BpInfo(in BpDef def, uint width, Type datatype, NativeSize minsize, Index<BfSegModel> segs, string descriptor)
         {
             Def = def;
             DataWidth = width;
@@ -64,10 +64,10 @@ namespace Z0
         /// <summary>
         /// The pattern specification
         /// </summary>
-        public ref readonly asci64 Content
+        public ref readonly BitPattern Pattern
         {
             [MethodImpl(Inline)]
-            get => ref Def.Content;
+            get => ref Def.Pattern;
         }
 
         /// <summary>

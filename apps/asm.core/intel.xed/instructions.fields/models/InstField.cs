@@ -80,7 +80,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator uint(InstField src)
                 => src.Storage;
-
         }
     }
 }

@@ -21,8 +21,14 @@ namespace Z0
         [CmdOp("xed/emit/instbits")]
         void EmitInstBits()
         {
-            var bp = InstFieldMetrics.Pattern;
-            Write($"{bp} | {bp.Size.Packed} | {bp.Size.Native}");
+            var calcs = InstFieldBits.Calcs;
+
+            Write(calcs.Description().Format());
+            Write(calcs.Descriptor());
+            Write(calcs.Model().Format());
+            // Write(calcs.Def);
+
+            //Write($"{bp} | {bp.Size.Packed} | {bp.Size.Native}");
         }
     }
 }

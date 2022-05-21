@@ -11,25 +11,15 @@ namespace Z0
     {
         public readonly T Value;
 
-        readonly Func<T,string> Render;
-
         [MethodImpl(Inline)]
         public BfOrigin(T value)
         {
             Value = value;
-            Render = (T x) => x?.ToString();
-        }
-
-        public BfOrigin(T value, Func<T,string> render)
-        {
-            Value = value;
-            Render = render;
         }
 
         [MethodImpl(Inline)]
         public string Format()
-            => Render?.Invoke(Value);
-
+            => Value.ToString();
 
         public override string ToString()
             => Format();
@@ -40,6 +30,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator BfOrigin(BfOrigin<T> src)
-            => new BfOrigin(src.Value, (dynamic x) => src.Render((T)x));
+            => new BfOrigin(src.Value, (dynamic x) => ((T)x).ToString());
     }
 }

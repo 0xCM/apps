@@ -6,8 +6,12 @@ namespace Z0
 {
     partial class PolyBits
     {
-        [MethodImpl(Inline), Op]
+        [Op]
+        public static BfModel model(BfOrigin origin, string name, Index<BfSegModel> segs, DataSize size)
+            => new BfModel(origin, name, segs, size);
+
+        [Op]
         public static BfModel model(BfOrigin origin, string name, Index<BfSegModel> segs)
-            => new BfModel(origin, name, segs, minsize(segs));
+            => model(origin, name, segs, minsize(segs));
     }
 }

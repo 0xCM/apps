@@ -7,7 +7,8 @@ namespace Z0
     using api = BitPatterns;
 
     [StructLayout(StructLayout,Pack=1), Record(TableId)]
-    public readonly record struct BpDef : IBpDef
+    public readonly record struct BpDef<P> : IBpDef
+        where P : unmanaged
     {
         const string TableId = "bits.patterns.defs";
 
@@ -15,7 +16,7 @@ namespace Z0
         /// The name of the pattern source
         /// </summary>
         [Render(32)]
-        public readonly BfOrigin Origin;
+        public readonly BfOrigin<P> Origin;
 
         /// <summary>
         /// The pattern name
@@ -30,11 +31,17 @@ namespace Z0
         public readonly BitPattern Pattern;
 
         [MethodImpl(Inline)]
-        public BpDef(in asci32 name, in BitPattern pattern, BfOrigin origin)
+        public BpDef(in asci32 name, in BitPattern pattern, BfOrigin<P> origin)
         {
             Name = name;
             Pattern = pattern;
             Origin = origin;
+        }
+
+        public BpDef Untyped
+        {
+            [MethodImpl(Inline)]
+            get => new BpDef(Name, Pattern, Origin);
         }
 
         public string Format()
@@ -54,5 +61,9 @@ namespace Z0
 
         BfOrigin IBpDef.Origin
             => Origin;
+
+        [MethodImpl(Inline)]
+        public static implicit operator BpDef(BpDef<P> src)
+            => src.Untyped;
     }
 }

@@ -55,7 +55,6 @@ namespace Z0
 
         public void EmitPatterns(string label, Type src)
         {
-            //var prefix = "asm";
             var name = label + ".bits.patterns.info";
             var patterns = BitPatterns.reflected(src);
             EmitDescriptions(name, patterns);
