@@ -4,15 +4,44 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     /// <summary>
     /// Defines a symbolized literal
     /// </summary>
     [Record(TableId), StructLayout(StructLayout)]
     public struct SymLiteralRow : IRecord<SymLiteralRow>
     {
-        public const string TableId = "symbolic.literals";
+        const string TableId = "symbolic.literals";
 
         public const byte FieldCount = 12;
+
+        [Parser]
+        public static Outcome parse(string src, out SymLiteralRow dst)
+        {
+            var outcome = Outcome.Success;
+            var j=0;
+            var cells = text.split(src,Chars.Pipe);
+            if(cells.Length != SymLiteralRow.FieldCount)
+            {
+                dst = default;
+                return (false, AppMsg.FieldCountMismatch.Format(SymLiteralRow.FieldCount, cells.Length));
+            }
+
+            DataParser.parse(skip(cells,j++), out dst.Component);
+            DataParser.parse(skip(cells,j++), out dst.Type);
+            DataParser.parse(skip(cells,j++), out dst.Class);
+            DataParser.parse(skip(cells,j++), out dst.Position);
+            DataParser.parse(skip(cells,j++), out dst.Name);
+            DataParser.parse(skip(cells,j++), out dst.Symbol);
+            DataParser.eparse(skip(cells,j++), out dst.DataType);
+            DataParser.parse(skip(cells,j++), out dst.Value);
+            DataParser.eparse(skip(cells,j++), out dst.NumericBase);
+            DataParser.parse(skip(cells,j++), out dst.Hidden);
+            DataParser.parse(skip(cells,j++), out dst.Description);
+            DataParser.parse(skip(cells,j++), out dst.Identity);
+            return outcome;
+        }
 
         /// <summary>
         /// The component that defines the literal
@@ -41,13 +70,13 @@ namespace Z0
         /// <summary>
         /// The literal name
         /// </summary>
-        [Render(32)]
+        [Render(64)]
         public Identifier Name;
 
         /// <summary>
         /// The symbol, if so attributed, otherwise, the identifier
         /// </summary>
-        [Render(32)]
+        [Render(64)]
         public SymExpr Symbol;
 
         /// <summary>

@@ -100,45 +100,45 @@ namespace Z0
         Seg512u = (SZ.W512 | SC.U << 4) | (1 << 8),
 
         /// <summary>
-        /// A 16-bit segment comprised byte 2 unsigned 8-bit partitions
+        /// A 16-bit segment covering 2 unsigned 8-bit partitions
         /// </summary>
-        [Symbol("16x8u", "A 16-bit segment comprised byte 2 unsigned 8-bit partitions")]
+        [Symbol("16x8u", "A 16-bit segment covering 2 unsigned 8-bit partitions")]
         Seg16x8u = (SZ.W8 | SC.U << 4) | (2 << 8),
 
         /// <summary>
-        /// A 16-bit segment comprised by 2 signed 8-bit partitions
+        /// A 16-bit segment covering 2 signed 8-bit partitions
         /// </summary>
-        [Symbol("16x8i", "A 16-bit segment comprised by 2 signed 8-bit partitions")]
+        [Symbol("16x8i", "A 16-bit segment covering 2 signed 8-bit partitions")]
         Seg16x8i = (SZ.W8 | SC.I << 4) | (2 << 8),
 
         /// <summary>
-        /// A 32-bit segment comprised by 4 unsigned 8-bit partitions
+        /// A 32-bit segment covering 4 unsigned 8-bit partitions
         /// </summary>
-        [Symbol("32x8u", "A 32-bit segment comprised by 4 unsigned 8-bit partitions")]
+        [Symbol("32x8u", "A 32-bit segment covering 4 unsigned 8-bit partitions")]
         Seg32x8u = (SZ.W8 | SC.U << 4) | (4 << 8),
 
         /// <summary>
-        /// A 32-bit segment comprised by 4 unsigned 8-bit partitions
+        /// A 32-bit segment covering 4 unsigned 8-bit partitions
         /// </summary>
-        [Symbol("32x8i", "A 32-bit segment comprised by 4 unsigned 8-bit partitions")]
+        [Symbol("32x8i", "A 32-bit segment covering 4 unsigned 8-bit partitions")]
         Seg32x8i = (SZ.W8 | SC.I << 4) | (4 << 8),
 
         /// <summary>
-        /// A 32-bit segment comprised by 2 unsigned 16-bit partitions
+        /// A 32-bit segment covering 2 unsigned 16-bit partitions
         /// </summary>
-        [Symbol("32x16u", "A 32-bit segment comprised by 2 unsigned 16-bit partitions")]
+        [Symbol("32x16u", "A 32-bit segment covering 2 unsigned 16-bit partitions")]
         Seg32x16u = (SZ.W16 | SC.U << 4) | (2 << 8),
 
         /// <summary>
-        /// A 32-bit block comprised by 2 signed 16-bit partitions
+        /// A 32-bit block covering 2 signed 16-bit partitions
         /// </summary>
-        [Symbol("32x16i", "A 32-bit block comprised by 2 signed 16-bit partitions")]
+        [Symbol("32x16i", "A 32-bit block covering 2 signed 16-bit partitions")]
         Seg32x16i = (SZ.W16 | SC.I << 4) | (2 << 8),
 
         /// <summary>
-        /// A 64-bit block comprised by 8 unsigned 8-bit partitions
+        /// A 64-bit block covering 8 unsigned 8-bit partitions
         /// </summary>
-        [Symbol("64x8u", "A 64-bit block comprised by 8 unsigned 8-bit partitions")]
+        [Symbol("64x8u", "A 64-bit block convering 8 unsigned 8-bit partitions")]
         Seg64x8u = (SZ.W8 | SC.U << 4) | (8 << 8),
 
         /// <summary>
@@ -162,61 +162,61 @@ namespace Z0
         /// <summary>
         /// A 64-bit block covering 2 unsigned 32-bit partitions
         /// </summary>
-        [Symbol("", "")]
+        [Symbol("64x32u", "A 64-bit block covering 2 unsigned 32-bit partitions")]
         Seg64x32u = (SZ.W32 | SC.U << 4) | (2 << 8),
 
         /// <summary>
         /// A 64-bit block covering 2 signed 32-bit partitions
         /// </summary>
-        [Symbol("", "")]
+        [Symbol("64x32i", "A 64-bit block covering 2 signed 32-bit partitions")]
         Seg64x32i = (SZ.W32 | SC.I << 4) | (2 << 8),
 
         /// <summary>
         /// A 64-bit block covering 2 32-bit floating-point partitions
         /// </summary>
-        [Symbol("", "")]
+        [Symbol("64x32f", "A 64-bit block covering 2 32-bit floating-point partitions")]
         Seg64x32f = (SZ.W32 | SC.F << 4) | (2 << 8),
 
         /// <summary>
         /// A 128-bit block covering 16 8-bit unsigned partitions
         /// </summary>
-        [Symbol("", "")]
+        [Symbol("128x8u", "A 128-bit block covering 16 8-bit unsigned partitions")]
         Seg128x8u = (SZ.W8 | SC.U << 4) | (16 << 8),
 
         /// <summary>
         /// A 128-bit block covering 16 8-bit signed partitions
         /// </summary>
-        [Symbol("", "")]
+        [Symbol("128x8i", "A 128-bit block covering 16 8-bit signed partitions")]
         Seg128x8i = (SZ.W8 | SC.I << 4) | (16 << 8),
 
         /// <summary>
         /// A 128-bit block covering 8 16-bit unsigned partitions
         /// </summary>
-        [Symbol("", "A 128-bit block covering 8 16-bit unsigned partitions")]
+        [Symbol("128x16u", "A 128-bit block covering 8 16-bit unsigned partitions")]
         Seg128x16u = (SZ.W16 | SC.U << 4) | (8 << 8),
 
         /// <summary>
         /// A 128-bit block covering 8 16-bit signed partitions
         /// </summary>
-        [Symbol("", "A 128-bit block covering 8 16-bit signed partitions")]
+        [Symbol("128x16i", "A 128-bit block covering 8 16-bit signed partitions")]
         Seg128x16i = (SZ.W16 | SC.I << 4) | (8 << 8),
 
         /// <summary>
         /// A 128-bit block covering 4 32-bit unsigned partitions
         /// </summary>
-        [Symbol("", "A 128-bit block covering 4 32-bit unsigned partitions")]
+        [Symbol("128x32u", "A 128-bit block covering 4 32-bit unsigned partitions")]
         Seg128x32u = (SZ.W32 | SC.U << 4) | (4 << 8),
 
         /// <summary>
         /// A 128-bit block covering 4 32-bit signed partitions
         /// </summary>
-        [Symbol("", "")]
+        [Symbol("128x32i", "A 128-bit block covering 4 32-bit signed partitions")]
         Seg128x32i = (SZ.W32 | SC.I << 4) | (4 << 8),
 
         /// <summary>
         /// A 128-bit block covering 2 64-bit unsigned partitions
         /// </summary>
-        [Symbol("", "")]
+        [Symbol("128x64u", "A 128-bit block covering 2 64-bit unsigned partitions")]
         Seg128x64u = (SZ.W64 | SC.U << 4) | (2 << 8),
 
         /// <summary>
@@ -246,25 +246,25 @@ namespace Z0
         /// <summary>
         /// A 256-bit block covering 32 8-bit unsigned partitions
         /// </summary>
-        [Symbol("", "")]
+        [Symbol("256x8u", "A 256-bit block covering 32 8-bit unsigned partitions")]
         Seg256x8u = (SZ.W8 | SC.U << 4) | (32 << 8),
 
         /// <summary>
         /// A 256-bit block covering 32 8-bit signed partitions
         /// </summary>
-        [Symbol("", "A 256-bit block covering 32 8-bit signed partitions")]
+        [Symbol("256x8i", "A 256-bit block covering 32 8-bit signed partitions")]
         Seg256x8i = (SZ.W8 | SC.I << 4) | (32 << 8),
 
         /// <summary>
         /// A 256-bit block covering 16 16-bit unsigned partitions
         /// </summary>
-        [Symbol("", "A 256-bit block covering 16 16-bit unsigned partitions")]
+        [Symbol("256x16u", "A 256-bit block covering 16 16-bit unsigned partitions")]
         Seg256x16u = (SZ.W16 | SC.U << 4) | (16 << 8),
 
         /// <summary>
         /// A 256-bit block covering 16 16-bit signed partitions
         /// </summary>
-        [Symbol("", "A 256-bit block covering 16 16-bit signed partitions")]
+        [Symbol("256x16i", "A 256-bit block covering 16 16-bit signed partitions")]
         Seg256x16i = (SZ.W16 | SC.I << 4) | (16 << 8),
 
         /// <summary>
@@ -342,7 +342,7 @@ namespace Z0
         /// <summary>
         /// A 512-bit block covering 16 32-bit signed partitions
         /// </summary>
-        [Symbol("", "A 512-bit block covering 16 32-bit signed partitions")]
+        [Symbol("512x32i", "A 512-bit block covering 16 32-bit signed partitions")]
         Seg512x32i = (SZ.W32 | SC.I << 4) | (16 << 8),
 
         /// <summary>

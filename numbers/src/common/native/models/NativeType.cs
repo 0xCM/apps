@@ -80,7 +80,7 @@ namespace Z0
             => src is NativeType t && Equals(t);
 
         public string Format()
-            => NativeTypes.format(this);
+            => NativeRender.format(this);
 
         public override string ToString()
             => Format();

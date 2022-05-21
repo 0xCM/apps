@@ -50,7 +50,7 @@ namespace Z0
             => (int)alg.hash.combine(CellType.GetHashCode(), CellCount);
 
         public string Format()
-            => NativeTypes.format(this);
+            => NativeRender.format(this);
 
         public override string ToString()
             => Format();

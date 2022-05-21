@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
 
     public partial class XedGrids : AppService<XedGrids>
     {

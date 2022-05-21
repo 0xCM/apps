@@ -65,7 +65,7 @@ namespace Z0
         void Run(N2 n)
         {
             LogHeader(MethodInfo.GetCurrentMethod(), n);
-            using var table = SymbolStores.table(Pow2.T14);
+            using var table = SymStores.table(Pow2.T14);
             table.Deposit("abc");
             table.Deposit("def");
             table.Deposit("ghi");

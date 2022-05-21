@@ -6,6 +6,7 @@ namespace Z0
 {
     using static core;
     using static BitMasks;
+    using static math;
 
     [ApiHost]
     public readonly partial struct Numbers
@@ -18,67 +19,27 @@ namespace Z0
 
         internal const NumericKind Closure32 = NumericKind.U32;
 
-        /// <summary>
-        /// Partitions the source into 8 segments, each of effective width 1
-        /// </summary>
-        /// <param name="src">The packed source bits</param>
-        /// <param name="dst">The target buffer</param>
-        [MethodImpl(Inline), Op]
-        public static void unpack8x1(byte src, Span<byte> dst)
-            => unpack1x8(src, ref first(dst));
-
-        /// <summary>
-        /// Partitions the source into 8 segments, each of effective width 1
-        /// </summary>
-        /// <param name="src">The packed source bits</param>
-        /// <param name="dst">The target buffer</param>
-        [MethodImpl(Inline), Op]
-        public static void unpack8x1(byte src, Span<bit> dst)
-            => unpack1x8(src, ref u8(first(dst)));
-
-        /// <summary>
-        /// Distributes each packed source bit to the least significant bit of 8 corresponding target bytes
-        /// </summary>
-        /// <param name="src">The packed source bits</param>
-        /// <param name="dst">A reference to the target buffer</param>
-        [MethodImpl(Inline), Op]
-        public static ref byte unpack1x8(byte src, ref byte dst)
+        [MethodImpl(Inline)]
+        public static ref num4 read(ReadOnlySpan<byte> src, uint index, out num4 dst)
         {
-            seek64(dst, 0) = bits.scatter(src, lsb<ulong>(n8,n1));
+            var cell = ScaledIndex.define(4, -2, index);
+            ref readonly var b = ref skip(src, cell.Offset);
+            dst = cell.Aligned ? num(n4,b) : num(n4, srl(b , (byte)cell.CellWidth));
             return ref dst;
         }
 
-        /// <summary>
-        /// Distributes the first 4 source bits acros 4 segments, each of effective width of 1
-        /// </summary>
-        /// <param name="src">The packed source bits</param>
-        /// <param name="dst">The target buffer</param>
-        [MethodImpl(Inline), Op]
-        public static void unpack4x1(byte src, Span<bit> dst)
-            => first(recover<bit,uint>(dst)) = bits.scatter((uint)src, lsb<uint>(n8, n1));
-
-        /// <summary>
-        /// Partitions the source into 16 segments, each of effective width 1
-        /// </summary>
-        /// <param name="src">The packed source bits</param>
-        /// <param name="dst">The target buffer</param>
-        [MethodImpl(Inline), Op]
-        public static void unpack16x1(ushort src, Span<byte> dst)
+        [MethodImpl(Inline)]
+        public static void write(num4 src, uint index, Span<byte> dst)
         {
-            var mask = BitMasks.lsb<ulong>(n8, n1);
-            ref var lead = ref first(dst);
-            seek64(lead, 0) = bits.scatter((ulong)(byte)src, mask);
-            seek64(lead, 1) = bits.scatter((ulong)((byte)(src >> 8)), mask);
+            const byte UpperMask = 0xF0;
+            const byte LowerMask = 0x0F;
+            var cell = ScaledIndex.define(4, -2, index);
+            ref var c = ref seek(dst, cell.Offset);
+            if(cell.Aligned)
+                c = or(and(c, UpperMask), src);
+            else
+                c = or(sll(src, (byte)cell.CellWidth), and(c, LowerMask));
         }
-
-        /// <summary>
-        /// Partitions the source into 16 segments, each of effective width 1
-        /// </summary>
-        /// <param name="src">The packed source bits</param>
-        /// <param name="dst">The target buffer</param>
-        [MethodImpl(Inline), Op]
-        public static void unpack16x1(ushort src, Span<bit> dst)
-            => unpack16x1(src, recover<bit,byte>(dst));
 
         [MethodImpl(Inline), Op]
         public static ulong max(byte width)
@@ -93,26 +54,6 @@ namespace Z0
         public static uint count<N>(N n)
             where N : unmanaged, ITypeNat
                 => (uint)Pow2.pow((byte)n.NatValue);
-
-        /// <summary>
-        /// Allocates and populates a character span, comprising each value covered by an <typeparamref name='N'>-bit number, expressed as a bitstring of length <typeparamref name='N'>
-        /// </summary>
-        /// <param name="n">The natural bit width</param>
-        /// <typeparam name="N">The natural with type</typeparam>
-        public static Span<char> bitstrings<N>(N n)
-            where N : unmanaged, ITypeNat
-        {
-            var width = (uint)n.NatValue;
-            var count = Numbers.count(n);
-            var buffer = span<char>(count*width);
-            for(var i=0; i<count; i++)
-            {
-                ref var c = ref seek(buffer,i*width);
-                for(byte j=0; j<width; j++)
-                    seek(c,width-1-j) = bit.test(i,(byte)j).ToChar();
-            }
-            return buffer;
-        }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static num2 num<T>(N2 n, T src)

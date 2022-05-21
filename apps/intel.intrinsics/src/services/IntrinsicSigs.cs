@@ -30,7 +30,7 @@ namespace Z0
             => TypeMap[name].Target;
 
         [MethodImpl(Inline)]
-        NativeOperandSpec Op(string name, string type, NativeOpMod mod = default)
+        NativeOpDef Op(string name, string type, NativeOpMod mod = default)
             => NativeTypes.op(name, Type(type), mod);
 
         public NativeSigSpec _mm_add_epi8()

@@ -12,10 +12,10 @@ namespace Z0
 
         public readonly NativeType ReturnType;
 
-        public readonly Index<NativeOperandSpec> Operands;
+        public readonly Index<NativeOpDef> Operands;
 
         [MethodImpl(Inline)]
-        public NativeSigSpec(string scope, string name, NativeType ret, params NativeOperandSpec[] ops)
+        public NativeSigSpec(string scope, string name, NativeType ret, params NativeOpDef[] ops)
         {
             Scope = scope;
             Name = name;
@@ -23,13 +23,13 @@ namespace Z0
             Operands = ops;
         }
 
-        public ref NativeOperandSpec this[uint i]
+        public ref NativeOpDef this[uint i]
         {
             [MethodImpl(Inline)]
             get => ref Operands[i];
         }
 
-        public ref NativeOperandSpec this[int i]
+        public ref NativeOpDef this[int i]
         {
             [MethodImpl(Inline)]
             get => ref Operands[i];

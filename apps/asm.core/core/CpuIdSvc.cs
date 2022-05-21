@@ -8,22 +8,28 @@ namespace Z0.Asm
 
     public class CpuIdSvc : AppService<CpuIdSvc>
     {
-        public static uint EmitRecords(ReadOnlySpan<CpuIdRow> src, FS.FilePath dst)
-        {
-            var formatter = Tables.formatter<CpuIdRow>();
-            using var writer = dst.AsciEmitter();
-            var count = (uint)src.Length;
-            for(var i=0; i<count; i++)
-                writer.WriteLine(formatter.Format(skip(src,i)));
-            return count;
-        }
+        AppServices AppSvc => Service(Wf.AppServices);
 
-        public static void EmitBits(ReadOnlySpan<CpuIdRow> src, FS.FilePath dst)
+        public void EmitRecords(ReadOnlySpan<CpuIdRow> src, FS.FilePath dst)
+            => AppSvc.TableEmit(src,dst);
+
+        // {
+
+        //     var formatter = Tables.formatter<CpuIdRow>();
+        //     using var writer = dst.AsciEmitter();
+        //     var count = (uint)src.Length;
+        //     for(var i=0; i<count; i++)
+        //         writer.WriteLine(formatter.Format(skip(src,i)));
+        //     return count;
+        // }
+
+        public void EmitBits(ReadOnlySpan<CpuIdRow> src, FS.FilePath dst)
         {
-            using var writer = dst.AsciWriter();
-            var buffer = text.buffer();
+            //using var writer = dst.AsciWriter();
+            var buffer = text.emitter();
             regvals(src, buffer);
-            writer.WriteLine(buffer.Emit());
+            AppSvc.FileEmit(buffer.Emit(), src.Length, dst);
+            //writer.WriteLine(buffer.Emit());
         }
 
         public static Index<CpuIdRow> import(FS.FolderPath srcdir)
@@ -124,7 +130,7 @@ namespace Z0.Asm
             return records.ToArray();
         }
 
-        public static void regvals(ReadOnlySpan<CpuIdRow> src, ITextBuffer dst)
+        static void regvals(ReadOnlySpan<CpuIdRow> src, ITextEmitter dst)
         {
             const sbyte ColWidth = 46;
             const byte ColCount = 6;
@@ -137,7 +143,7 @@ namespace Z0.Asm
                 regvals(skip(src,i), dst);
         }
 
-        public static void regvals(in CpuIdRow row, ITextBuffer dst)
+        static void regvals(in CpuIdRow row, ITextEmitter dst)
         {
             var w = n8;
             // eax(in)

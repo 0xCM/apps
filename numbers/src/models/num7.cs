@@ -178,16 +178,6 @@ namespace Z0
             return result;
         }
 
-        [MethodImpl(Inline)]
-        public static ref Span<bit> bits(T src, out Span<bit> dst)
-        {
-            var storage = 0ul;
-            dst = recover<bit>(@bytes(storage));
-            unpack8x1(src,dst);
-            dst = slice(dst, 0, Width);
-            return ref dst;
-        }
-
         byte INumber.PackedWidth
             => Width;
 

@@ -45,14 +45,8 @@ namespace Z0
                 if(options.EmitApiClasses)
                     catalogs.EmitApiClasses();
 
-                // if(options.EmitXedCatalogs)
-                //     Wf.IntelXed().EmitCatalog();
-
-                // if(options.EmitIntrinsicsInfo)
-                //     Wf.IntelIntrinsics().Emit();
-
                 if(options.EmitSymbolicLiterals)
-                    Wf.Symbolism().EmitLiterals();
+                    Wf.SymHeaps().EmitLiterals();
 
                 if(options.EmitApiBitMasks)
                     Wf.ApiBitMasks().Emit();

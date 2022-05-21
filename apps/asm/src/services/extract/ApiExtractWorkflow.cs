@@ -93,7 +93,7 @@ namespace Z0
             var reader = Wf.PdbReader(symbols);
             var flow = Wf.Running(string.Format("Indexing symbols for {0} from {1}", symbols.PePath, symbols.PdbPath));
             var counter = 0u;
-            var buffer = list<PdbModel.Method>();
+            var buffer = list<PdbMethod>();
             for(var i=0; i<hosts.Length; i++)
             {
                 ref readonly var host = ref skip(hosts,i);

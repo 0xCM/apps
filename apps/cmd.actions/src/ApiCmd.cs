@@ -38,10 +38,6 @@ namespace Z0
 
         ApiComments ApiComments => Service(() => Z0.ApiComments.create(Wf));
 
-        Symbolism Symbolism => Service(Wf.Symbolism);
-
-        CgSvc CodeGen => Service(Wf.CodeGen);
-
         EncodingCollector CodeCollector => Service(Wf.EncodingCollector);
 
         Index<ProcessAsmRecord> ProcessAsm() => Data(nameof(ProcessAsm), _LoadProcessAsm);

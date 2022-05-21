@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
     using Microsoft.CodeAnalysis;
 
-    using static Root;
     using static core;
     using static Delegates;
     using static CaSymbolModels;
@@ -145,10 +141,7 @@ namespace Z0
         {
             var count = src.Length;
             for(var i=0; i<count; i++)
-            {
-                ref readonly var a = ref skip(src,i);
-                dst(SymbolizeMethods(a));
-            }
+                dst(SymbolizeMethods(skip(src,i)));
         }
 
         [Op]

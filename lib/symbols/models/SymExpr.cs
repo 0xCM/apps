@@ -4,16 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines the literal content of a symbol
     /// </summary>
     public readonly struct SymExpr : ITextual
     {
+        [Parser]
+        public static Outcome parse(string src, out SymExpr dst)
+        {
+            dst = src ?? EmptyString;
+            return true;
+        }
+
         readonly string Content;
 
         [MethodImpl(Inline)]

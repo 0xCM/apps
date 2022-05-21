@@ -6,10 +6,10 @@ namespace Z0
 {
     partial class AsmCoreCmd
     {
-        [CmdOp("sym/stores/check")]
+        [CmdOp("symbolx/check")]
         Outcome CheckSymStores(CmdArgs args)
         {
-            var store = SymbolStores.symstore<string>(24);
+            var store = SymStores.symstore<string>(24);
             store.Deposit("abc", out var s1);
             Write(s1);
             store.Deposit("def", out var s2);

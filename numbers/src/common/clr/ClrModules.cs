@@ -77,7 +77,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        unsafe static MetadataReaderProvider ReaderProvider(byte* pSrc, ByteSize size)
+        public unsafe static MetadataReaderProvider ReaderProvider(byte* pSrc, ByteSize size)
             => MetadataReaderProvider.FromMetadataImage(pSrc, size);
 
         [MethodImpl(Inline), Op]
@@ -91,7 +91,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static MetadataReaderProvider PdbReaderProvider(Stream src, MetadataStreamOptions options = MetadataStreamOptions.Default)
             => MetadataReaderProvider.FromPortablePdbStream(src, options);
-
-
     }
 }

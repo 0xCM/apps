@@ -16,8 +16,6 @@ namespace Z0
         }
 
         void EmitCilOpCodes()
-        {
-            TableEmit(Cil.opcodes(), AppDb.Targets("lang").Path("cil.opcodes", FileKind.Csv));
-        }
+            => AppSvc.TableEmit(Cil.opcodes(), AppDb.Targets("lang").Path("cil.opcodes", FileKind.Csv));
     }
 }

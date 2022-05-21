@@ -4,13 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     public readonly struct SymKey : ISymKey<SymKey,uint>
     {
+        [Parser]
+        public static Outcome parse(string src, out SymKey dst)
+        {
+            dst = default;
+            var result = DataParser.parse(src, out uint x);
+            if(result)
+                dst = x;
+            return result;
+        }
+
         public uint Value {get;}
 
         [MethodImpl(Inline)]

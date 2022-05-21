@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface INativeType : ITextual
+    public interface INativeType
     {
         NativeSize Size {get;}
 

@@ -36,9 +36,5 @@ namespace Z0
         [Op]
         public static HexEmitter HexEmitter(this IWfRuntime wf)
             => Z0.HexEmitter.create(wf);
-
-        [Op]
-        public static Symbolism Symbolism(this IWfRuntime wf)
-            => Z0.Symbolism.create(wf);
     }
 }

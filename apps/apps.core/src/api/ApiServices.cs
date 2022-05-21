@@ -12,8 +12,6 @@ namespace Z0
 
         AppServices AppSvc => Service(Wf.AppServices);
 
-        public Symbolism Symbols => Service(Wf.Symbolism);
-
         public ApiComments Comments => Service(Wf.ApiComments);
 
         public ApiAssets Assets => Service(Wf.ApiAssets);
@@ -21,6 +19,8 @@ namespace Z0
         public BitMaskServices BitMasks => Service(Wf.ApiBitMasks);
 
         public ApiCatalogs Catalogs => Service(Wf.ApiCatalogs);
+
+        SymHeaps SymHeaps => Service(Wf.SymHeaps);
 
         Index<Assembly> _ApiParts;
 
@@ -35,17 +35,25 @@ namespace Z0
             get => ref _ApiParts;
         }
 
+        public Index<ClrEnumRecord> EmitEnums(Assembly src, FS.FilePath dst)
+        {
+            var records = Enums.records(src);
+            if(records.Length != 0)
+                AppSvc.TableEmit(records, dst);
+            return records;
+        }
+
         public Index<TableDefRecord> CalcTableDefs()
             => Data(nameof(TableDefRecord), () => Catalogs.TableDefRecords());
 
         public Index<SymLiteralRow> CalcSymLits()
-            => Symbols.CalcSymLits();
+            => SymHeaps.CalcSymLits();
 
         public SymHeap CalcSymHeap(Index<SymLiteralRow> src)
-            => Symbols.CalcSymHeap(src);
+            => SymHeaps.heap(src);
 
         public void EmitSymHeap(SymHeap src)
-            => Symbols.EmitSymHeap(src);
+            => SymHeaps.EmitSymHeap(src);
 
         public Index<BitMaskInfo> CalcBitMasks()
             => BitMasks.CalcMasks();

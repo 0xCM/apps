@@ -18,7 +18,7 @@ namespace Z0
         {
             var width = (byte)n.NatValue;
             var count = Numbers.count(n);
-            var src = Numbers.bitstrings(n);
+            var src = PolyBits.bitstrings(n);
             var dst = alloc<asci32>(count);
 
             for(var i=0; i<count; i++)

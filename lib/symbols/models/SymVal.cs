@@ -6,6 +6,16 @@ namespace Z0
 {
     public readonly struct SymVal : IEquatable<SymVal>, ISymVal<ulong>
     {
+        [Parser]
+        public static Outcome parse(string src, out SymVal dst)
+        {
+            dst = default;
+            var result = DataParser.parse(src, out ulong x);
+            if(result)
+                dst = x;
+            return result;
+        }
+
         public ulong Value {get;}
 
         public NumericBaseKind Base {get;}

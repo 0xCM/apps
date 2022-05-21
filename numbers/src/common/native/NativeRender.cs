@@ -5,9 +5,50 @@
 namespace Z0
 {
     using static core;
+    using static NativeTypeMap;
 
     public class NativeRender
     {
+        public static string format(MapEntry src)
+            => string.Format("{0} -> {1}", src.Source, src.Target);
+
+        public static string format(NativeScalar src)
+            => src.IsVoid ? "void" : string.Format("{0}{1}", (ushort)src.Width, NativeTypes.indicator(src.Class));
+
+        public static string format(NativeSegType src)
+            => src.CellCount <= 1 ? format(src.CellType) : string.Format("{0}x{1}", src.Width, format(src.CellType));
+
+        public static string format(NativeType src)
+            => src.IsSegmeted ? format(src.AsSegType()) : format(src.AsCellType());
+
+        public static string format(in NativeSigSpec src, SigFormatStyle style = default)
+        {
+            switch(style)
+            {
+                case SigFormatStyle.Functional:
+                    return functional(src);
+                case SigFormatStyle.C:
+                case SigFormatStyle.CSharp:
+                    return cstyle(src);
+                default:
+                    return RP.Error;
+            }
+        }
+
+        public static string format(in NativeSig src, SigFormatStyle style = default)
+        {
+            switch(style)
+            {
+                case SigFormatStyle.Functional:
+                    return functional(src);
+                case SigFormatStyle.C:
+                case SigFormatStyle.CSharp:
+                    return cstyle(src);
+                default:
+                    return RP.Error;
+            }
+        }
+
         static sbyte patternidx(in NativeOpMod mod)
         {
             sbyte index = -1;
@@ -30,7 +71,7 @@ namespace Z0
             return index;
         }
 
-        public static string format(in NativeOperand src, SigFormatStyle style = default)
+        public static string format(in NativeOp src, SigFormatStyle style = default)
         {
             var mod = src.Mod;
             var index = patternidx(src.Mod);
@@ -55,7 +96,7 @@ namespace Z0
             return string.Format(pattern, src.Type, src.Name);
         }
 
-        public static string format(in NativeOperandSpec src, SigFormatStyle style = default)
+        public static string format(in NativeOpDef src, SigFormatStyle style = default)
         {
             var mod = src.Mod;
             var index = patternidx(src.Mod);
@@ -80,7 +121,7 @@ namespace Z0
             return string.Format(pattern, src.Type, src.Name);
         }
 
-        static string FormatFunctional(in NativeSigSpec src)
+        static string functional(in NativeSigSpec src)
         {
             var dst = text.buffer();
             if(empty(src.Scope))
@@ -103,8 +144,7 @@ namespace Z0
             return dst.Emit();
         }
 
-
-        static string FormatFunctional(in NativeSig src)
+        static string functional(in NativeSig src)
         {
             var dst = text.buffer();
             dst.AppendFormat("{0}::{1}:", src.Scope, src.Name);
@@ -123,7 +163,7 @@ namespace Z0
             return dst.Emit();
         }
 
-        static string FormatC(in NativeSig src)
+        static string cstyle(in NativeSig src)
         {
             var dst = text.buffer();
             dst.AppendFormat("{0} {1}(", src.Return.Type, src.Name);
@@ -142,7 +182,7 @@ namespace Z0
             return dst.Emit();
         }
 
-        static string FormatC(in NativeSigSpec src)
+        static string cstyle(in NativeSigSpec src)
         {
             var dst = text.buffer();
             dst.AppendFormat("{0} {1}(", src.ReturnType, src.Name);
@@ -160,34 +200,6 @@ namespace Z0
 
             dst.Append(");");
             return dst.Emit();
-        }
-
-        public static string format(in NativeSigSpec src, SigFormatStyle style = default)
-        {
-            switch(style)
-            {
-                case SigFormatStyle.Functional:
-                    return FormatFunctional(src);
-                case SigFormatStyle.C:
-                case SigFormatStyle.CSharp:
-                    return FormatC(src);
-                default:
-                    return RP.Error;
-            }
-        }
-
-        public static string format(in NativeSig src, SigFormatStyle style = default)
-        {
-            switch(style)
-            {
-                case SigFormatStyle.Functional:
-                    return FormatFunctional(src);
-                case SigFormatStyle.C:
-                case SigFormatStyle.CSharp:
-                    return FormatC(src);
-                default:
-                    return RP.Error;
-            }
         }
 
         static Index<string> FunctionalFormats = new string[]{

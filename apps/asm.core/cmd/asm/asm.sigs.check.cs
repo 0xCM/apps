@@ -12,7 +12,7 @@ namespace Z0
         Outcome CheckSigs(CmdArgs args)
         {
             using var dispenser = Alloc.allocate();
-            var specs = new NativeOperandSpec[3];
+            var specs = new NativeOpDef[3];
             seek(specs,0) = NativeTypes.ptr("op0", NativeTypes.u8());
             seek(specs,1) = NativeTypes.@const("op1", NativeTypes.i16());
             seek(specs,2) = NativeTypes.@out("op2", NativeTypes.u32());
@@ -31,7 +31,6 @@ namespace Z0
             var x1 = string.Format("{0}:{1}", op1.Name, op1.Type);
             var x2 = string.Format("{0}:{1}", op2.Name, op2.Type);
             Write(sig.Format(SigFormatStyle.C));
-
 
             return true;
         }

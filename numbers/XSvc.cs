@@ -18,5 +18,8 @@ namespace Z0
 
         public static CheckRunner CheckRunner(this IWfRuntime wf)
             => Z0.CheckRunner.create(wf);
+
+        public static SymHeaps SymHeaps(this IWfRuntime wf)
+            => Z0.SymHeaps.create(wf);
     }
 }

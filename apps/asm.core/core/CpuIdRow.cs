@@ -31,8 +31,5 @@ namespace Z0.Asm
 
         [Render(12)]
         public Hex32 Edx;
-
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{12,12,12,12,12,12,12};
     }
 }

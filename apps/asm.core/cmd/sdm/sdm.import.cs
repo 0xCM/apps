@@ -12,9 +12,7 @@ namespace Z0
     {
         [CmdOp("sdm/import")]
         Outcome SdmImport(CmdArgs args)
-        {
-            return Sdm.Import();
-        }
+            => Sdm.Import();
 
         [CmdOp("sdm/markers")]
         Outcome SdmMarkers(CmdArgs args)

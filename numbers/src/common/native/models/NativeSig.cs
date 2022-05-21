@@ -21,7 +21,7 @@ namespace Z0
 
         const uint NameSize = StringSize;
 
-        const uint OperandSize = NativeOperand.StorageSize;
+        const uint OperandSize = NativeOp.StorageSize;
 
         const uint ReturnSize = OperandSize;
 
@@ -68,25 +68,25 @@ namespace Z0
             get => ref @as<StringRef>(seek(Data,NameOffset));
         }
 
-        public ref NativeOperand Return
+        public ref NativeOp Return
         {
             [MethodImpl(Inline)]
-            get => ref @as<NativeOperand>(seek(Data,ReturnOffset));
+            get => ref @as<NativeOp>(seek(Data,ReturnOffset));
         }
 
-        public Span<NativeOperand> Operands
+        public Span<NativeOp> Operands
         {
             [MethodImpl(Inline)]
-            get => recover<NativeOperand>(slice(Data,OperandsOffset, OperandCount*OperandSize));
+            get => recover<NativeOp>(slice(Data,OperandsOffset, OperandCount*OperandSize));
         }
 
-        public ref NativeOperand this[uint i]
+        public ref NativeOp this[uint i]
         {
             [MethodImpl(Inline)]
             get => ref seek(Operands,i);
         }
 
-        public ref NativeOperand this[int i]
+        public ref NativeOp this[int i]
         {
             [MethodImpl(Inline)]
             get => ref seek(Operands,i);

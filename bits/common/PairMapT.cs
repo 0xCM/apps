@@ -45,6 +45,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public ref T Right(int i)
             => ref this[i].Left;
-
     }
 }

@@ -151,16 +151,6 @@ namespace Z0
             return result;
         }
 
-        [MethodImpl(Inline), Op]
-        public static ref Span<bit> bits(T src, out Span<bit> dst)
-        {
-            var storage = 0u;
-            dst = recover<bit>(@bytes(storage));
-            unpack4x1(src,dst);
-            dst = slice(dst,0,3);
-            return ref dst;
-        }
-
         [MethodImpl(Inline)]
         public bool Equals(T src)
             => Value == src.Value;

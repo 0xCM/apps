@@ -4,13 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct SymClass
     {
-        public string Name {get;}
+        [Parser]
+        public static Outcome parse(string src, out SymClass dst)
+        {
+            dst = new SymClass(src);
+            return true;
+        }
+
+        public readonly string Name;
 
         [MethodImpl(Inline)]
         public SymClass(string name)

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using SP = SymbolicParse;
-
     [ApiHost]
     public readonly struct DataParser
     {
@@ -109,13 +107,13 @@ namespace Z0
             => LineInterval.parse(src, out dst);
 
         public static Outcome parse(string src, out SymKey dst)
-            => SP.parse(src, out dst);
+            => SymKey.parse(src, out dst);
 
         public static Outcome parse(string src, out SymVal dst)
-            => SP.parse(src, out dst);
+            => SymVal.parse(src, out dst);
 
         public static Outcome parse(string src, out SymClass dst)
-            => SP.parse(src, out dst);
+            => SymClass.parse(src, out dst);
 
         public static Outcome parse(string src, out LineNumber dst)
             => LineNumber.parse(src, out dst);
@@ -153,7 +151,7 @@ namespace Z0
                 => Sizes.parse(src, out dst);
 
         public static Outcome parse(string src, out SymExpr dst)
-            => SP.parse(src, out dst);
+            => SymExpr.parse(src, out dst);
 
 
         [Parser]

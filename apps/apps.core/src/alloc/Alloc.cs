@@ -19,8 +19,7 @@ namespace Z0
             var total = 0u;
             for(var i=0; i<count; i++)
                 total += (uint)skip(src,i).Length;
-            var storage  = StringBuffers.buffer(total);
-            var alloc = LabelAllocator.alloc(storage);
+            var alloc = LabelAllocator.cover(StringBuffers.buffer(total));
             var labels = core.alloc<Label>(count);
             for(var i=0; i<count; i++)
                 alloc.Alloc(skip(src,i), out seek(labels,i));
@@ -39,7 +38,6 @@ namespace Z0
             var dst = core.alloc<SourceText>(count);
             for(var i=0; i<count; i++)
                 alloc.Alloc(skip(src,i), out seek(dst,i));
-
             return new SourceAllocation(alloc, dst);
         }
 
@@ -49,9 +47,8 @@ namespace Z0
             var total = 0u;
             for(var i=0; i<count; i++)
                 total += (uint)skip(src,i).Length;
-
             var storage = StringBuffers.buffer(total);
-            var allocator = new StringAllocator(storage);
+            var allocator = StringAllocator.cover(storage);
             var dst = core.alloc<StringRef>(count);
             for(var i=0; i<count; i++)
                 allocator.Alloc(skip(src,i), out seek(dst,i));
@@ -120,8 +117,8 @@ namespace Z0
         public AsmCodeDispenser AsmCodes()
             => (AsmCodeDispenser)Data.GetOrAdd(AllocationKind.AsmCode, k => new AsmCodeDispenser(Symbols(), Sources(), Mem(), Labels()));
 
-        public SigDispenser Sigs()
-            =>(SigDispenser)Data.GetOrAdd(AllocationKind.Sig, k => new SigDispenser(Mem(), Strings(), Labels()));
+        public NativeSigDispenser Sigs()
+            =>(NativeSigDispenser)Data.GetOrAdd(AllocationKind.Sig, k => new NativeSigDispenser(Mem(), Strings(), Labels()));
 
         public Alloc()
         {
@@ -145,7 +142,7 @@ namespace Z0
         public SourceText Source(string src)
             => Sources().DispenseSource(src);
 
-        public NativeSig Sig(string scope, string name, NativeType ret, params NativeOperandSpec[] ops)
+        public NativeSig Sig(string scope, string name, NativeType ret, params NativeOpDef[] ops)
             => Sigs().Sig(scope, name,ret,ops);
 
         public NativeSig Sig(NativeSigSpec spec)

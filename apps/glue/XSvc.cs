@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Z0.Asm;
     using Z0.Toolz;
 
     using static core;
@@ -69,7 +68,7 @@ namespace Z0
 
         [Op]
         public static PdbReader PdbReader(this IWfRuntime wf, in PdbSymbolSource src)
-            => Z0.PdbServices.reader(wf,src);
+            => Z0.PdbReader.create(wf,src);
 
         [Op]
         public static ProcessContextPipe ProcessContextPipe(this IWfRuntime wf)
