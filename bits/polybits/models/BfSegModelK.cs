@@ -10,7 +10,11 @@ namespace Z0
     public readonly struct BfSegModel<K>
         where K : unmanaged
     {
+        /// <summary>
+        /// The segment field
+        /// </summary>
         public readonly K Field;
+
         /// <summary>
         /// The segment name
         /// </summary>
@@ -55,7 +59,6 @@ namespace Z0
 
         public string Format()
             => api.expr(this);
-
 
         public override string ToString()
             => Format();

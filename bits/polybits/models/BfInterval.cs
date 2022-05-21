@@ -43,9 +43,18 @@ namespace Z0
             get => (byte)api.endpos(Offset,Width);
         }
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get => (uint)Offset  | (uint)Width << 16;
+        }
+
         [MethodImpl(Inline)]
         public int CompareTo(BfInterval src)
             => Offset.CompareTo(src.Offset);
+
+        public override int GetHashCode()
+            => Hash;
 
         public string Format()
             => Expr.Format();

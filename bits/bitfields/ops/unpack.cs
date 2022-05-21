@@ -68,7 +68,7 @@ namespace Z0
         /// <param name="dst">The target span</param>
         [MethodImpl(Inline), Op]
         public static void unpack64x1(ulong src, Span<bit> dst)
-            => BitPack.pack64x1(src, dst);
+            => BitPack.upack64x1(src, dst);
 
         /// <summary>
         /// Partitions a the source into 2 segments, each of effective width of 4

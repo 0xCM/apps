@@ -20,10 +20,6 @@ namespace Z0
         public num5(D src)
             => Value = crop(src);
 
-        [MethodImpl(Inline)]
-        num5(ulong src)
-            => Value = (D)src;
-
         public const byte Width = 5;
 
         /// <summary>

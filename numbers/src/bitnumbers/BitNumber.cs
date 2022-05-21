@@ -23,7 +23,6 @@ namespace Z0
             var f0 = Require.equal(bs.Format(), bn.Format());
             BitNumber.parse(f0,n, out BitNumber<T> roundtrip);
             Require.equal(f0, roundtrip.Format());
-
             var storage = ByteBlock32.Empty;
             var bits = BitNumber.parse(f0, n, storage);
             var f1 = bits.ToArray().Reverse().Select(x => x.Format()).Concat();

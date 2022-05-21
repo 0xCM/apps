@@ -45,7 +45,7 @@ namespace Z0
         public BitMask Mask;
 
         [MethodImpl(Inline)]
-        public BfSegModel(asci64 name, uint min, uint max, BitMask mask)
+        public BfSegModel(in asci64 name, uint min, uint max, BitMask mask)
         {
             SegName = name;
             MinPos = min;

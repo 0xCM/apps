@@ -20,10 +20,6 @@ namespace Z0
         public num17(D src)
             => Value = crop(src);
 
-        [MethodImpl(Inline)]
-        num17(ulong src)
-            => Value = (D)src;
-
         byte INumber.PackedWidth
             => Width;
 

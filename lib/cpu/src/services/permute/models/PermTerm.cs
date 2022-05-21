@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Describes an individual term of a permutation p, i.e. the point
     /// of evaluation i and its image p(i)
@@ -18,12 +13,12 @@ namespace Z0
         /// <summary>
         /// The point at which the permutation is evaluated
         /// </summary>
-        public int Source {get;}
+        public readonly int Source;
 
         /// <summary>
         /// The result of evaluating the permutation over the source
         /// </summary>
-        public int Target {get;}
+        public readonly int Target;
 
         [MethodImpl(Inline)]
         public PermTerm(int src, int dst)
@@ -46,7 +41,6 @@ namespace Z0
         }
         public string Format()
             => $"{Source} -> {Target}";
-
 
         [MethodImpl(Inline)]
         public bool Equals(PermTerm y)

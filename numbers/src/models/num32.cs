@@ -20,10 +20,6 @@ namespace Z0
         public num32(D src)
             => Value = crop(src);
 
-        [MethodImpl(Inline)]
-        num32(ulong src)
-            => Value = (D)src;
-
         byte INumber.PackedWidth
             => Width;
 
@@ -276,7 +272,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static explicit operator T(ulong src)
-            => create((ushort)src);
+            => create((uint)src);
 
         [MethodImpl(Inline)]
         public static explicit operator bit(T src)

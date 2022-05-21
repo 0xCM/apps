@@ -7,27 +7,28 @@ namespace Z0
     using static core;
     using static Numbers;
 
-    using T = num4;
-    using D = System.Byte;
-    using N = N4;
+    using T = num64;
+    using D = System.UInt64;
+    using N = N64;
 
     [DataWidth(Width), ApiComplete]
-    public readonly struct num4 : INumber<T>
+    public readonly struct num64 : INumber<T>
     {
         public readonly D Value;
 
         [MethodImpl(Inline)]
-        public num4(D src)
-            => Value = crop(src);
+        public num64(D src)
+            => Value = src;
 
-        public const byte Width = 4;
+        byte INumber.PackedWidth
+            => Width;
 
-        /// <summary>
-        /// 15
-        /// </summary>
-        public const D MaxValue = Limit.Max4u;
+        ulong INumber.Value
+            => Value;
 
-        public const D Mod = (D)MaxValue + 1;
+        public const byte Width = 64;
+
+        public const D MaxValue = Limit.Max64u;
 
         public static T Zero => default;
 
@@ -44,17 +45,17 @@ namespace Z0
             => (D)(MaxValue & src);
 
         [MethodImpl(Inline)]
-        public static T force<A>(A src)
-            where A : unmanaged
-                => T.crop(bw8(src));
-
-        [MethodImpl(Inline)]
-        public static T create(ulong src)
-            => new T((D)src);
+        public static T create(D src)
+            => new T(src);
 
         [MethodImpl(Inline)]
         static T cover(D src)
             => @as<D,T>(src);
+
+        [MethodImpl(Inline)]
+        public static T force<A>(A src)
+            where A : unmanaged
+                => cover(bw64(src));
 
         [MethodImpl(Inline), Op]
         public static bit test(T src, byte pos)
@@ -63,6 +64,30 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static T set(T src, byte pos, bit state)
             => math.lt(pos, Width) ? cover(bit.set(src.Value, pos, state)) : src;
+
+        [MethodImpl(Inline)]
+        public static bit eq(T a, T b)
+            => a.Value == b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit ne(T a, T b)
+            => a.Value != b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit gt(T a, T b)
+            => a.Value > b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit ge(T a, T b)
+            => a.Value >= b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit lt(T a, T b)
+            => a.Value < b.Value;
+
+        [MethodImpl(Inline)]
+        public static bit le(T a, T b)
+            => a.Value <= b.Value;
 
         [MethodImpl(Inline), Op]
         public static T negate(T src)
@@ -101,26 +126,16 @@ namespace Z0
             => src.Value != 0 ? cover(math.dec(src.Value)) : Max;
 
         [MethodImpl(Inline), Op]
-        public static T reduce(T src)
-            => cover(math.mod(src.Value, Mod));
-
-        [MethodImpl(Inline), Op]
         public static T add(T a, T b)
-        {
-            var c = math.add(a.Value, b.Value);
-            return cover(math.gteq(c, Mod) ? math.sub(c, Mod) : c);
-        }
+            => cover(math.add(a.Value, b.Value));
 
         [MethodImpl(Inline), Op]
         public static T sub(T a, T b)
-        {
-            var c = math.sub((int)a.Value, (int)b.Value);
-            return cover(c < 0 ? math.add((D)c, Mod) : (D)c);
-        }
+            => cover(math.mul(a.Value, b.Value));
 
         [MethodImpl(Inline), Op]
         public static T mul(T a, T b)
-            => reduce(math.mul(a.Value, b.Value));
+            => cover(math.mul(a.Value, b.Value));
 
         [MethodImpl(Inline), Op]
         public static T div(T a, T b)
@@ -130,14 +145,10 @@ namespace Z0
         public static T mod(T a, T b)
             => cover(math.mod(a.Value, b.Value));
 
-        [MethodImpl(Inline)]
-        public static string bitstring(T src)
-            => BitRender.format(N, src.Value);
-
         [Parser]
         public static bool parse(string src, out T dst)
         {
-            var outcome = byte.TryParse(src, out D x);
+            var outcome = D.TryParse(src, out D x);
             dst = new T((D)(x & MaxValue));
             return outcome;
         }
@@ -145,20 +156,14 @@ namespace Z0
         [Parser]
         public static bool parse(ReadOnlySpan<char> src, out T dst)
         {
-            var result = byte.TryParse(src, out D x);
+            var result = D.TryParse(src, out D x);
             dst = new T((D)(x & MaxValue));
             return result;
         }
 
         [MethodImpl(Inline)]
         public bool Equals(T src)
-            => Value == src.Value;
-
-        byte INumber.PackedWidth
-            => Width;
-
-        ulong INumber.Value
-            => Value;
+            => eq(this, src);
 
         public bit IsZero
         {
@@ -189,7 +194,6 @@ namespace Z0
             where S : unmanaged
                 => @as<T,S>(this);
 
-
         [MethodImpl(Inline)]
         public string Format()
             => Value.ToString();
@@ -208,67 +212,191 @@ namespace Z0
             => src is T t && Equals(t);
 
         [MethodImpl(Inline)]
-        public static implicit operator T(D src)
-            => new T(src);
+        public static implicit operator T(byte src)
+            => create(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator D(T src)
-            => src.Value;
+        public static explicit operator byte(T src)
+            => (byte)src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(sbyte src)
+            => create((uint)src);
 
         [MethodImpl(Inline)]
         public static explicit operator sbyte(T src)
             => (sbyte)src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator ushort(T src)
-            => src.Value;
+        public static explicit operator uint(T src)
+            => (uint)src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator uint(T src)
-            => src.Value;
+        public static implicit operator T(uint src)
+            => create(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(ushort src)
+            => new T(src);
+
+        [MethodImpl(Inline)]
+        public static explicit operator ushort(T src)
+            =>(ushort)src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(short src)
+            => cover((ushort)src);
 
         [MethodImpl(Inline)]
         public static implicit operator ulong(T src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static explicit operator T(ushort src)
-            => create((byte)src);
-
-        [MethodImpl(Inline)]
-        public static explicit operator T(uint src)
-            => create((byte)src);
-
-        [MethodImpl(Inline)]
-        public static explicit operator T(ulong src)
-            => create((byte)src);
+        public static implicit operator T(ulong src)
+            => new T(src);
 
         [MethodImpl(Inline)]
         public static explicit operator bit(T src)
-            => (bit)(src.Value);
+            => (bit)src.Value;
 
         [MethodImpl(Inline)]
-        public static explicit operator num1(num4 src)
-            => new (src.Value);
+        public static explicit operator num1(T src)
+            => (num1)src.Value;
 
         [MethodImpl(Inline)]
-        public static explicit operator num2(num4 src)
-            => new (src.Value);
+        public static explicit operator num2(T src)
+            => (num2)src.Value;
 
         [MethodImpl(Inline)]
         public static explicit operator num3(T src)
-            => new (src.Value);
+            => (num3)src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator num4(num1 src)
+        public static explicit operator num4(T src)
+            => (num4)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num5(T src)
+            => (num5)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num6(T src)
+            => (num6)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num7(T src)
+            => (num7)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num8(T src)
+            => (num8)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num9(T src)
+            => (num9)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num10(T src)
+            => (num10)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num11(T src)
+            => (num11)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num12(T src)
+            => (num12)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num13(T src)
+            => (num13)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num14(T src)
+            => (num14)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num15(T src)
+            => (num15)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num16(T src)
+            => (num16)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator num32(T src)
+            => (num16)src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(bit src)
+            => (ushort)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num1 src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator num4(num2 src)
+        public static implicit operator T(num2 src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator num4(num3 src)
+        public static implicit operator T(num3 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num4 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num5 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num6 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num7 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num8 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num9 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num10 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num11 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num12 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num13 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num14 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num15 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num16 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator T(num32 src)
             => src.Value;
 
         [MethodImpl(Inline)]
@@ -329,38 +457,26 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static bit operator ==(T a, T b)
-            => a.Value == b.Value;
+            => eq(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator !=(T a, T b)
-            => a.Value != b.Value;
+            => ne(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator < (T a, T b)
-            => a.Value < b.Value;
+            => lt(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator <= (T a, T b)
-            => a.Value <= b.Value;
+            => le(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator > (T a, T b)
-            => a.Value > b.Value;
+            => gt(a,b);
 
         [MethodImpl(Inline)]
         public static bit operator >= (T a, T b)
-            => a.Value >= b.Value;
-
-        [MethodImpl(Inline)]
-        public static explicit operator char(num4 src)
-            => (char)Hex.upper(src.Value);
-
-        [MethodImpl(Inline)]
-        public static explicit operator HexUpperSym(num4 src)
-            => (HexUpperSym)Hex.upper(src.Value);
-
-        [MethodImpl(Inline)]
-        public static explicit operator HexLowerSym(num4 src)
-            => (HexLowerSym)Hex.lower(src.Value);
+            => ge(a,b);
     }
 }

@@ -36,6 +36,11 @@ namespace Z0
                 for(var i=0; i<src.Length; i++)
                     dst.AppendLine(formatter.Format(skip(src,i)));
             }
+
+            public static string format(in BfSegExpr src)
+                => src.SegWidth == 1
+                ? string.Format("{0}[{1}]", src.SegName, src.MaxPos)
+                : string.Format("{0}[{1}:{2}]", src.SegName, src.MaxPos, src.MinPos);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Z0
     [ApiHost]
     public partial class PolyBits : AppService<PolyBits>
     {
-        const NumericKind Closure = UnsignedInts;
+        const NumericKind Closure = UInt64k;
 
         /// <summary>
         /// Allocates and populates a character span, comprising each value covered by an <typeparamref name='N'>-bit number, expressed as a bitstring of length <typeparamref name='N'>

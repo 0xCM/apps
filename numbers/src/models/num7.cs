@@ -20,10 +20,6 @@ namespace Z0
         public num7(D src)
             => Value = crop(src);
 
-        [MethodImpl(Inline)]
-        num7(ulong src)
-            => Value = (D)src;
-
         /// <summary>
         /// 127
         /// </summary>

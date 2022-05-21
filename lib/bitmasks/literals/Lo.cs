@@ -147,6 +147,12 @@ namespace Z0
         /// <summary>
         /// [00000000 00000000 00000000 00001111]
         /// </summary>
+        [BitMask("00000000 00000000 00000000 00000011")]
+        public const uint Lo32x2 = Lo8x2;
+
+        /// <summary>
+        /// [00000000 00000000 00000000 00001111]
+        /// </summary>
         [BitMask("00000000 00000000 00000000 00001111")]
         public const uint Lo32x4 = Lo8x4;
 

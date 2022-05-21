@@ -20,6 +20,7 @@ namespace Z0
         /// Computes a sequence of bitfield offsets given a sequence of field widths
         /// </summary>
         /// <param name="widths">The 0-based offset of each segment in the field</param>
+        [Op]
         public static Index<uint> offsets(Index<byte> widths)
         {
             var count = widths.Count;
@@ -42,9 +43,8 @@ namespace Z0
             var offset = z8;
             for(var i=0; i<src.FieldCount; i++)
             {
-                var field = fields[i];
                 seek(dst,i) = offset;
-                offset += src.Width(field);
+                offset += src.Width(fields[i]);
             }
             return dst;
         }

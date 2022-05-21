@@ -188,8 +188,14 @@ namespace Z0
         public override string ToString()
             => Format();
 
+        public Hash32 Hash
+        {
+            [MethodImpl(Inline)]
+            get =>(int)alg.hash.combine((uint)Data, (uint)(Data >> 32));
+        }
+
         public override int GetHashCode()
-            => (int)alg.hash.combine((uint)Data, (uint)(Data >> 32));
+            => Hash;
 
         [MethodImpl(Inline)]
         public bool Equals(Char5Seq src)

@@ -32,7 +32,7 @@ namespace Z0
         /// <param name="src">The source</param>
         /// <param name="dst">The target</param>
         [MethodImpl(Inline), Op]
-        public static Vector128<ulong> pmovzxbq(ByteBlock2 src, out Vector128<ulong> dst)
+        public static Vector128<ulong> pmovzxbq(num16 src, out Vector128<ulong> dst)
             => dst = v64u(ConvertToVector128Int64(vload(w128, src.Bytes)));
     }
 }

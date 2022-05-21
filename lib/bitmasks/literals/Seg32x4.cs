@@ -29,5 +29,6 @@ namespace Z0
 
         [BitMask("11110000 00000000 00000000 00000000")]
         public const uint Seg32x4x7 = Seg32x4x6 << 4;
+
     }
 }
