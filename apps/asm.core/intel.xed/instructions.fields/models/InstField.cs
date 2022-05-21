@@ -57,25 +57,25 @@ namespace Z0
             public InstFieldKind Kind
             {
                 [MethodImpl(Inline)]
-                get =>(Storage & KindMask >> KindOffset).Convert<InstFieldKind>();
+                get =>(Storage & KindMask >> KindOffset).Force<InstFieldKind>();
             }
 
             public InstOperator Operator
             {
                 [MethodImpl(Inline)]
-                get => (Storage & OperatorMask >> OperatorOffset).Convert<InstOperator>();
+                get => (Storage & OperatorMask >> OperatorOffset).Force<InstOperator>();
             }
 
             public FieldKind ValueKind
             {
                 [MethodImpl(Inline)]
-                get => (Storage & ValueKindMask >> ValueKindOffset).Convert<FieldKind>();
+                get => (Storage & ValueKindMask >> ValueKindOffset).Force<FieldKind>();
             }
 
             [MethodImpl(Inline)]
             public T Value<T>()
                 where T : unmanaged
-                    => ValueData.Convert<T>();
+                    => ValueData.Force<T>();
 
             [MethodImpl(Inline)]
             public static implicit operator uint(InstField src)

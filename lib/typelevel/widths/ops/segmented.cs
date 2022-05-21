@@ -13,6 +13,6 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source type</param>
         public static NativeTypeWidth segmented(Type src)
-            => src.Tag<SegmentedAttribute>().MapValueOrElse(a => a.TypeWidth, () => vector(src));
+            => src.Tag<SpanBlockAttribute>().MapValueOrElse(a => a.TypeWidth, () => vector(src));
     }
 }

@@ -13,9 +13,9 @@ namespace Z0
         {
             using var dispenser = Alloc.allocate();
             var specs = new NativeOperandSpec[3];
-            seek(specs,0) = NativeSigs.ptr("op0", NativeTypes.u8());
-            seek(specs,1) = NativeSigs.@const("op1", NativeTypes.i16());
-            seek(specs,2) = NativeSigs.@out("op2", NativeTypes.u32());
+            seek(specs,0) = NativeTypes.ptr("op0", NativeTypes.u8());
+            seek(specs,1) = NativeTypes.@const("op1", NativeTypes.i16());
+            seek(specs,2) = NativeTypes.@out("op2", NativeTypes.u32());
             var sig = dispenser.Sig("funcs","f2", NativeTypes.i32(), specs);
             Write(sig.Format(SigFormatStyle.C));
             sig = dispenser.Sig("funcs","f1", NativeTypes.i32(), specs);

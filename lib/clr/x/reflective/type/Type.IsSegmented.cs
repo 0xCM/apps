@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     partial class ClrQuery
     {
@@ -16,7 +12,7 @@ namespace Z0
         /// </summary>
         /// <param name="t">The type to examine</param>
         [MethodImpl(Inline), Op]
-        public static bool IsSegmented(this Type t)
-            => t.Tagged<SegmentedAttribute>();
+        public static bool IsSpanBlock(this Type t)
+            => t.Tagged<SpanBlockAttribute>();
     }
 }

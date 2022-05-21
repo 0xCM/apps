@@ -8,14 +8,6 @@ namespace Z0
 
     public readonly struct NativeOperandSpec
     {
-        [MethodImpl(Inline)]
-        public static NativeOperandSpec define(string name, NativeType type)
-            => new NativeOperandSpec(name,type);
-
-        [MethodImpl(Inline)]
-        public static NativeOperandSpec define(string name, NativeType type, NativeOpMod mod)
-            => new NativeOperandSpec(name,type, mod);
-
         public readonly string Name;
 
         public readonly NativeType Type;
@@ -55,10 +47,10 @@ namespace Z0
             => Modify(Const | Mod);
 
         public string Format()
-            => NativeSigs.format(this);
+            => NativeRender.format(this);
 
         public string Format(SigFormatStyle style)
-            => NativeSigs.format(this, style);
+            => NativeRender.format(this, style);
 
         public override string ToString()
             => Format();

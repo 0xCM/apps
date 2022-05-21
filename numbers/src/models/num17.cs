@@ -212,8 +212,14 @@ namespace Z0
             get => (uint)Value;
         }
 
+        public Span<byte> Bytes
+        {
+            [MethodImpl(Inline)]
+            get => bytes(this);
+        }
+
         [MethodImpl(Inline)]
-        public S Convert<S>()
+        public S Force<S>()
             where S : unmanaged
                 => @as<T,S>(this);
 

@@ -22,7 +22,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public LockIndicator(bit lockable, bit locked)
             {
-                Data = Numbers.pack(lockable,locked);
+                Data = PolyBits.pack(lockable,locked);
             }
 
             public bit Lockable

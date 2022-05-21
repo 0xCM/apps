@@ -88,7 +88,7 @@ namespace Z0
         }
 
         static bool blocked(Type t)
-            => t.IsSegmented();
+            => t.IsSpanBlock();
 
         public static void test_generic_blocks()
         {

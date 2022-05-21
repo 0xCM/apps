@@ -9,6 +9,6 @@ namespace Z0
     partial class NativeTypes
     {
         public static NumericKind numkind(Type t)
-            => t.IsSegmented() ?  t.SuppliedTypeArgs().First().NumericKind() : NumericKind.None;
+            => t.ContainsGenericParameters ? t.SuppliedTypeArgs().First().NumericKind() : 0;
     }
 }

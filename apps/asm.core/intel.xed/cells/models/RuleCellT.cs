@@ -72,7 +72,7 @@ namespace Z0
             public Hash32 Hash
             {
                 [MethodImpl(Inline)]
-                get => alg.hash.combine(Point.Hash, bw32(Value), Numbers.pack((byte)Field,(byte)Operator));
+                get => alg.hash.combine(Point.Hash, bw32(Value), PolyBits.pack((byte)Field,(byte)Operator));
             }
 
             [MethodImpl(Inline)]

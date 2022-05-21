@@ -24,10 +24,10 @@ namespace Z0
         }
 
         public string Format()
-            => NativeSigs.format(this);
+            => NativeRender.format(this);
 
         public string Format(SigFormatStyle style)
-            => NativeSigs.format(this, style);
+            => NativeRender.format(this, style);
 
         public override string ToString()
             => Format();

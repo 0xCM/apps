@@ -109,7 +109,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public WidthVar(Label name, Kind kind, Width width)
             {
-                Data = Numbers.pack((num2)(byte)kind, convert(width, out _), (num2)(byte)name);
+                Data = PolyBits.pack((num2)(byte)kind, convert(width, out _), (num2)(byte)name);
             }
 
             public bool IsEmpty

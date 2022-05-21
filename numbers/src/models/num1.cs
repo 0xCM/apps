@@ -207,6 +207,12 @@ namespace Z0
             get => Value == MaxValue;
         }
 
+        public Span<byte> Bytes
+        {
+            [MethodImpl(Inline)]
+            get => bytes(this);
+        }
+
         byte INumber.PackedWidth
             => Width;
 
@@ -214,7 +220,7 @@ namespace Z0
             => Value;
 
         [MethodImpl(Inline)]
-        public S Convert<S>()
+        public S Force<S>()
             where S : unmanaged
                 => @as<T,S>(this);
 

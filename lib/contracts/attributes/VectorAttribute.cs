@@ -4,16 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Linq;
-
     /// <summary>
     /// Applied to a user-defined type to identify it as an intrinsic vector (or, rather, should be treated/classified as one)
     /// </summary>
-    public class VectorAttribute : SegmentedAttribute
+    public class VectorAttribute : WidthAttribute
     {
         public VectorAttribute(NativeTypeWidth width)
-            : base(width,false, CpuCellWidth.Numeric)
+            : base(width)
         {
         }
     }

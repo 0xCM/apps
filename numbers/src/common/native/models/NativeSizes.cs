@@ -10,7 +10,7 @@ namespace Z0
     public readonly struct NativeSizes
     {
         [MethodImpl(Inline)]
-        public static NativeSegType seg(NativeCellType type, byte count)
+        public static NativeSegType seg(NativeScalar type, byte count)
             => new NativeSegType(type,count);
 
         [MethodImpl(Inline)]

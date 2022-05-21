@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     public readonly struct NumRender : IRenderRegistrar
     {
         public static IRenderRegistrar Service => new NumRender();
@@ -20,5 +22,29 @@ namespace Z0
         public static RenderDelegate<num8> Fixed8 => src => string.Format("{0:D2}", (byte)src);
 
         public static RenderDelegate<num9> Fixed9 => src => string.Format("{0:D3}", (byte)src);
+
+
+        [MethodImpl(Inline), Op]
+        public static uint render8x8(ReadOnlySpan<num4> src, Span<char> dst, char sep = Chars.Space)
+        {
+            var k=0u;
+            var m=z8;
+            seek(dst,k++) = (char)skip(src,m++);
+            seek(dst,k++) = (char)skip(src,m++);
+
+            seek(dst,k++) = sep;
+            seek(dst,k++) = (char)skip(src,m++);
+            seek(dst,k++) = (char)skip(src,m++);
+
+            seek(dst,k++) = sep;
+            seek(dst,k++) = (char)skip(src,m++);
+            seek(dst,k++) = (char)skip(src,m++);
+
+            seek(dst,k++) = sep;
+            seek(dst,k++) = (char)skip(src,m++);
+            seek(dst,k++) = (char)skip(src,m++);
+
+            return k;
+        }
     }
 }

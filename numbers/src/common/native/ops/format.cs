@@ -6,7 +6,18 @@ namespace Z0
 {
     partial class NativeTypes
     {
-        public static string format(NativeCellType src)
+        // [Formatter]
+        // public static string format(ScalarClass src)
+        // {
+        //     var dst = EmptyString;
+        //     if(src.PackedWidth == src.NativeWidth)
+        //         dst = string.Format("{0}{1}", src.PackedWidth, NativeTypes.indicator(src.Kind));
+        //     else
+        //         dst = string.Format("({0}:{1}){2}", src.PackedWidth, src.NativeWidth, NativeTypes.indicator(src.Kind));
+        //     return dst;
+        // }
+
+        public static string format(NativeScalar src)
             => src.IsVoid ? "void"
                 : string.Format("{0}{1}", indicator(src.Class), (ushort)src.Width);
 

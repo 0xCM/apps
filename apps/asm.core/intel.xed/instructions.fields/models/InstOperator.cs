@@ -99,7 +99,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public T Convert<T>()
                 where T : unmanaged
-                    => Data.Convert<T>();
+                    => Data.Force<T>();
 
             [MethodImpl(Inline)]
             public string Format()

@@ -27,7 +27,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public BitIndicator(bit state, bit enabled)
         {
-            Data = Numbers.pack(state,enabled);
+            Data = PolyBits.pack(state,enabled);
         }
 
         public bit Value

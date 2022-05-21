@@ -6,9 +6,12 @@ namespace Z0
 {
     using static core;
     using System.Runtime.Intrinsics.X86;
+    using static System.Runtime.Intrinsics.X86.Sse41;
+    using static cpu;
 
     partial class PolyBits
     {
+
         [MethodImpl(Inline)]
         static ulong extract(ulong src, byte offset, byte width)
             => Bmi1.X64.BitFieldExtract(src, offset, width);

@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static Numbers;
+    using static PolyBits;
     using static core;
 
     partial class XedRules
@@ -19,7 +20,7 @@ namespace Z0
                 var vk = num(n7, FieldKind.INVALID);
                 var op = num(n2, InstOperator.None);
                 var value = num(n16, src);
-                return Numbers.pack(fk, vk, op, value).Convert<InstField>();
+                return pack(fk, vk, op, value).Force<InstField>();
             }
 
             [MethodImpl(Inline)]
@@ -29,7 +30,7 @@ namespace Z0
                 var vk = num(n7, FieldKind.INVALID);
                 var op = num(n2, InstOperator.None);
                 var value = num(n16, src);
-                return Numbers.pack(fk, vk, op, value).Convert<InstField>();
+                return pack(fk, vk, op, value).Force<InstField>();
             }
 
             [MethodImpl(Inline)]
@@ -39,7 +40,7 @@ namespace Z0
                 var vk = num(n7, src.Field);
                 var op = num(n2, InstOperator.None);
                 var value = num(n16, z16);
-                return Numbers.pack(fk, vk, op, value).Convert<InstField>();
+                return pack(fk, vk, op, value).Force<InstField>();
             }
 
             [MethodImpl(Inline)]
@@ -59,7 +60,7 @@ namespace Z0
                     fk = num(n3, InstFieldKind.NeqExpr);
                     op = num(n2, InstOperator.Ne);
                 }
-                return Numbers.pack(fk, vk, op, value).Convert<InstField>();
+                return pack(fk, vk, op, value).Force<InstField>();
             }
 
             [MethodImpl(Inline)]
@@ -69,7 +70,7 @@ namespace Z0
                 var vk = num(n7, FieldKind.INVALID);
                 var op = num(n2, InstOperator.None);
                 var value = num(n16, src);
-                return Numbers.pack(fk, vk, op, value).Convert<InstField>();
+                return pack(fk, vk, op, value).Force<InstField>();
             }
         }
     }

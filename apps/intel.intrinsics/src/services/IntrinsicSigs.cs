@@ -31,18 +31,18 @@ namespace Z0
 
         [MethodImpl(Inline)]
         NativeOperandSpec Op(string name, string type, NativeOpMod mod = default)
-            => NativeSigs.op(name, Type(type), mod);
+            => NativeTypes.op(name, Type(type), mod);
 
         public NativeSigSpec _mm_add_epi8()
-            => NativeSigs.spec(Scope, nameof(_mm_add_epi8), Type(__m128i), Op("a", __m128i), Op("b", __m128i));
+            => NativeTypes.sig(Scope, nameof(_mm_add_epi8), Type(__m128i), Op("a", __m128i), Op("b", __m128i));
 
         public NativeSigSpec _mm_add_epi16()
-            => NativeSigs.spec(Scope, nameof(_mm_add_epi16), Type(__m128i), Op("a", __m128i), Op("b", __m128i));
+            => NativeTypes.sig(Scope, nameof(_mm_add_epi16), Type(__m128i), Op("a", __m128i), Op("b", __m128i));
 
         public NativeSigSpec _mm_add_epi32()
-            => NativeSigs.spec(Scope, nameof(_mm_add_epi32), Type(__m128i), Op("a", __m128i), Op("b", __m128i));
+            => NativeTypes.sig(Scope, nameof(_mm_add_epi32), Type(__m128i), Op("a", __m128i), Op("b", __m128i));
 
         public NativeSigSpec _mm_add_epi64()
-            => NativeSigs.spec(Scope, nameof(_mm_add_epi64), Type(__m128i), Op("a", __m128i), Op("b", __m128i));
+            => NativeTypes.sig(Scope, nameof(_mm_add_epi64), Type(__m128i), Op("a", __m128i), Op("b", __m128i));
     }
 }

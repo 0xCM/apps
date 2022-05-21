@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     readonly struct TypeIdentityDiviner : ITypeIdentityDiviner
     {
         public TypeIdentity DivineIdentity(Type arg)
@@ -24,7 +19,7 @@ namespace Z0
                 return PrimalIdentity.from(arg).AsTypeIdentity().ToOption();
             else if(arg.IsEnum)
                 return Option.some(EnumIdentity.define(arg).AsTypeIdentity());
-            else if(arg.IsSegmented())
+            else if(arg.IsSpanBlock())
                 return SegmentedId(arg);
             else if(arg.IsArray)
                 return ArrayId(arg);

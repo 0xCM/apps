@@ -216,8 +216,14 @@ namespace Z0
             get => Value == MaxValue;
         }
 
-        [MethodImpl(Inline)]
-        public S Convert<S>()
+        public Span<byte> Bytes
+        {
+            [MethodImpl(Inline)]
+            get => bytes(this);
+        }
+
+       [MethodImpl(Inline)]
+        public S Force<S>()
             where S : unmanaged
                 => @as<T,S>(this);
 

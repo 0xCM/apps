@@ -7,15 +7,15 @@ namespace Z0
     public readonly struct NativeType : INativeType<NativeType>, IEquatable<NativeType>
     {
         [MethodImpl(Inline)]
-        public static NativeType define(NativeCellType src)
+        public static NativeType define(NativeScalar src)
             => new NativeType(src);
 
         readonly ushort Data;
 
         [MethodImpl(Inline)]
-        public NativeType(NativeCellType src)
+        public NativeType(NativeScalar src)
         {
-            Data = core.@as<NativeCellType,byte>(src);
+            Data = core.@as<NativeScalar,byte>(src);
         }
 
         [MethodImpl(Inline)]
@@ -36,10 +36,16 @@ namespace Z0
             get => (Data & 0xFF) != 0;
         }
 
-        public NativeCellType CellType
+        public NativeScalar CellType
         {
             [MethodImpl(Inline)]
-            get => core.@as<NativeType,NativeCellType>(this);
+            get => core.@as<NativeType,NativeScalar>(this);
+        }
+
+        public NativeClass Class
+        {
+            [MethodImpl(Inline)]
+            get => CellType.Class;
         }
 
         public bool IsVoid
@@ -59,8 +65,8 @@ namespace Z0
             => core.@as<NativeType,NativeSegType>(this);
 
         [MethodImpl(Inline)]
-        public NativeCellType AsCellType()
-            => core.@as<NativeType,NativeCellType>(this);
+        public NativeScalar AsCellType()
+            => core.@as<NativeType,NativeScalar>(this);
 
         [MethodImpl(Inline)]
         public bool Equals(NativeType src)
@@ -80,7 +86,7 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator NativeType(NativeCellType src)
+        public static implicit operator NativeType(NativeScalar src)
             => new NativeType(src);
 
         [MethodImpl(Inline)]
@@ -102,7 +108,7 @@ namespace Z0
         public static NativeType Void
         {
             [MethodImpl(Inline)]
-            get => new NativeType(NativeCellType.Void);
+            get => new NativeType(NativeScalar.Void);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Z0
                 {
                     if(argtype.IsVector())
                         last = text.concat(IDI.Vector, width(argtype).FormatValue());
-                    else if(argtype.IsSegmented())
+                    else if(argtype.IsSpanBlock())
                         last = text.concat(IDI.Block, width(argtype).FormatValue());
                     else if(SpanTypes.IsSystemSpan(argtype))
                         last = SpanTypes.kind(argtype).Format();

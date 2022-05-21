@@ -33,7 +33,7 @@ namespace Z0
         // byte INumber.NativeWidth
         //     => (byte)core.width<T>();
 
-        // S Convert<S>()
+        // S Force<S>()
         //     where S : unmanaged;
     }
 }

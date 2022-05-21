@@ -9,7 +9,7 @@ namespace Z0
     partial class NativeTypes
     {
         [MethodImpl(Inline)]
-        public static NativeType seg(NativeCellType cellType, byte cellCount)
+        public static NativeType seg(NativeScalar cellType, byte cellCount)
             => new NativeType(NativeSizes.seg(cellType, cellCount));
 
         [MethodImpl(Inline), Op]
@@ -17,27 +17,27 @@ namespace Z0
             => new NativeType(kind);
 
         [MethodImpl(Inline), Op]
-        public static NativeType seg16(NativeCellType cell)
+        public static NativeType seg16(NativeScalar cell)
             => seg(cell, (byte)(16/cell.Width));
 
         [MethodImpl(Inline), Op]
-        public static NativeType seg32(NativeCellType cell)
+        public static NativeType seg32(NativeScalar cell)
             => seg(cell, (byte)(32/cell.Width));
 
         [MethodImpl(Inline), Op]
-        public static NativeType seg64(NativeCellType cell)
+        public static NativeType seg64(NativeScalar cell)
             => seg(cell, (byte)(64/cell.Width));
 
         [MethodImpl(Inline), Op]
-        public static NativeType seg128(NativeCellType cell)
+        public static NativeType seg128(NativeScalar cell)
             => seg(cell, (byte)(128/cell.Width));
 
         [MethodImpl(Inline), Op]
-        public static NativeType seg256(NativeCellType cell)
+        public static NativeType seg256(NativeScalar cell)
             => seg(cell, (byte)(256/cell.Width));
 
         [MethodImpl(Inline), Op]
-        public static NativeType seg512(NativeCellType cell)
+        public static NativeType seg512(NativeScalar cell)
             => seg(cell, (byte)(256/cell.Width));
 
         [MethodImpl(Inline), Op]

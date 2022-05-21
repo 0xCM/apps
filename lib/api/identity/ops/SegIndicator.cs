@@ -11,7 +11,7 @@ namespace Z0
         [Op]
         public static Option<TypeIndicator> SegIndicator(Type t)
         {
-            if(t.IsSegmented())
+            if(t.IsSpanBlock())
                 return TypeIndicator.Define(IDI.Block);
             else if(t.IsVector())
                 return TypeIndicator.Define(IDI.Vector);
