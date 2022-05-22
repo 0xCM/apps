@@ -8,14 +8,14 @@ namespace Z0
 
     public class t_bitparts : t_bits<t_bitparts>
     {
-        public void bitpart_64x1()
-        {
-            var src = ulong.MaxValue;
-            Span<bit> dst = new bit[64];
-            BitPack.pack64x1(src, dst);
-            for(var i=0; i< dst.Length; i++)
-                Claim.require(dst[i]);
-        }
+        // public void bitpart_64x1()
+        // {
+        //     var src = ulong.MaxValue;
+        //     Span<bit> dst = new bit[64];
+        //     BitPack.pack64x1(src, dst);
+        //     for(var i=0; i< dst.Length; i++)
+        //         Claim.require(dst[i]);
+        // }
 
         public void bitpart_16x4()
         {

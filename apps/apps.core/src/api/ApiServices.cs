@@ -138,9 +138,6 @@ namespace Z0
                 nameof(BitMaskLiterals),
                 });
 
-        // public void EmitApiMd(ApiCommentDataset ds, string[] types)
-        //     => Comments.EmitMarkdownDocs(ds, types);
-
         public void Emit(ReadOnlySpan<ApiCmdRow> src)
             => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ApiCmdRow>());
 

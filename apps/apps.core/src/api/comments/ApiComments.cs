@@ -11,29 +11,13 @@ namespace Z0
     using static core;
     using static Markdown;
 
-    public sealed class ApiComments : AppService<ApiComments>
+    using CT = ApiCommentTarget;
+
+    public sealed partial class ApiComments : AppService<ApiComments>
     {
         AppDb AppDb => Service(Wf.AppDb);
 
-        static Dictionary<string,string> TypeNameReplacements;
-
-        static ApiComments()
-        {
-            TypeNameReplacements = new();
-            TypeNameReplacements.Add("System.Byte","uint8");
-            TypeNameReplacements.Add("System.SByte","int8");
-            TypeNameReplacements.Add("System.UInt16","uint16");
-            TypeNameReplacements.Add("System.Int16","int16");
-            TypeNameReplacements.Add("System.UInt32","uint32");
-            TypeNameReplacements.Add("System.Int32","int32");
-            TypeNameReplacements.Add("System.UInt64","uint64");
-            TypeNameReplacements.Add("System.Int64","int64");
-            TypeNameReplacements.Add("System.Float","float32");
-            TypeNameReplacements.Add("System.Double","float64");
-            TypeNameReplacements.Add("System.String","string");
-        }
-
-        public ApiCommentDataset Calc()
+        public CommentDataset Calc()
         {
             var targets = AppDb.ApiTargets("comments");
             var xmlData = new Dictionary<FS.FilePath, Dictionary<string,string>>();
@@ -69,17 +53,13 @@ namespace Z0
                         csvRows[path].Add(comment);
                         csvRowFormat[path].Add(formatter.Format(comment));
                     }
-                    // var result = parse(key, kvp[key], out ApiComment comment);
-                    // docs[key] = comment;
-                    // if(result)
-                    //     csvRows[path].Add(formatter.Format(comment));
                 }
             }
 
             return new(xmlData, comments, csvRows);
         }
 
-        public ApiCommentDataset EmitMarkdownDocs(ApiCommentDataset ds, string[] _types)
+        public CommentDataset EmitMarkdownDocs(CommentDataset ds, string[] _types)
         {
             var markers = _types.Map(n => (n, string.Format(".{0}.",n))).ToDictionary();
             ref readonly var src = ref ds.TargetCommentLookup;
@@ -112,7 +92,7 @@ namespace Z0
                     {
                         (var _, var method, var comment) = rows[j];
                         var ms = MethodCommentSig.from(comment);
-                        doc[k] = Markdown.section(k, header(3, ms.Format()), comment.Description);
+                        doc[k] = Markdown.section(k, header(3, ms.Format()), comment.Summary);
                     }
                     var dst = AppDb.ApiTargets().Targets("markdown").Path(string.Format("z0.lib.{0}", typename), FileKind.Md);
                     FileEmit(doc.Format(), k, dst);
@@ -159,7 +139,7 @@ namespace Z0
                         {
                             (var _, var method, var comment) = rows[j];
                             var ms = MethodCommentSig.from(comment);
-                            doc[k] = Markdown.section(k, header(3, ms.Format()), comment.Description);
+                            doc[k] = Markdown.section(k, header(3, ms.Format()), comment.Summary);
                         }
                         var dst = AppDb.ApiTargets().Targets("markdown").Path(string.Format("z0.lib.{0}", typename), FileKind.Md);
                         FileEmit(doc.Format(), k, dst);
@@ -191,15 +171,9 @@ namespace Z0
                 foreach(var key in kvp.Keys)
                 {
                     var value = kvp[key];
-                    var result = ParseComent(key, value);
-                    if(result.Succeeded)
-                    {
-                        var comment = result.Value;
-                        docs[comment.TargetName] = comment;
-                        writer.WriteLine(formatter.Format(comment));
-                    }
-                    else
-                        Warn(AppMsg.ParseFailure.Format(key, value));
+                    var comment = ParseComent(key, value).Value;
+                    docs[comment.TargetName] = comment;
+                    writer.WriteLine(formatter.Format(comment));
                 }
                 EmittedTable(flow, kvp.Count);
             }
@@ -208,24 +182,51 @@ namespace Z0
 
         static bool parse(string key, string value, out ApiComment dst)
         {
-            var components = key.SplitClean(Chars.Colon);
-            var result = components.Length == 2 && components[0].Length == 1;
-            if(result)
+            var parts = key.SplitClean(Chars.Colon);
+            var result = parts.Length >= 2 && parts[0].Length == 1;
+            for(var i=0; i<parts.Length; i++)
             {
-                dst = parse(target(components[0][0]), components[1], value);
+                ref readonly var part = ref skip(parts,i);
+                if(nonempty(part))
+                {
+                    ref readonly var c = ref first(part);
+                    switch(target(c))
+                    {
+                        case CT.Type:
+                        break;
+                        case CT.Method:
+                        break;
+                        case CT.Field:
+                        break;
+                        case CT.Property:
+                        break;
+                        case CT.Operand:
+                        break;
+                        case CT.Param:
+                        break;
+                        default:
+                            break;
+                    }
+                }
             }
-            else
-                dst = new ApiComment(0, EmptyString, EmptyString);
 
+            if(result)
+                result = parse(target(parts[0][0]), parts[1], value, out dst);
+            else
+                dst = ApiComment.Empty;
             return result;
         }
 
-        static ApiComment parse(ApiCommentTarget target, string name, string value)
+        static bool parse(ApiCommentTarget target, string name, string data, out ApiComment comment)
         {
-            var content = text.trim(text.unfence(value, RenderFence.define("<summary>", "</summary>")));
-            core.iter(Replacements, kvp => content = text.replace(content, kvp.Key, kvp.Value));
-            content = core.map(content.Lines(), x=> x.Content).Concat(Chars.Eol);
-            return new ApiComment(target, name, content);
+            var result = false;
+            comment = ApiComment.Empty;
+            if(Summary.parse(data, out var summary))
+            {
+                comment = new ApiComment(target, name, summary.Format());
+                result = true;
+            }
+            return result;
         }
 
         static ApiCommentTarget target(char src)
@@ -290,6 +291,21 @@ namespace Z0
             var content = summary;
             core.iter(Replacements,kvp => content = text.replace(content, kvp.Key,kvp.Value));
             return new ApiComment(target,name, content);
+        }
+
+        static bool parse2(string key, string value, out ApiComment dst)
+        {
+            var components = key.SplitClean(Chars.Colon);
+            var result = false;
+            dst = ApiComment.Empty;
+            if(components.Length == 2 && components[0].Length == 1)
+            {
+                var summary = text.replace(
+                              text.unfence(value, RenderFence.define("<summary>", "</summary>"))
+                                 .RemoveAny((char)AsciControlSym.CR, (char)AsciControlSym.LF).Trim(), Chars.Pipe, Chars.Caret);
+                result = parse(target(components[0][0]), components[1], summary, out dst);
+            }
+            return result;
         }
 
         static ParseResult<ApiComment> ParseComent(string key, string value)

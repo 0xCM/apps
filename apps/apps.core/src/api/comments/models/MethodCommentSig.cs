@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static ApiComments;
+
     public readonly struct MethodCommentSig
     {
         public static MethodCommentSig from(in ApiComment src)
@@ -53,7 +55,7 @@ namespace Z0
 
             for(var i=0; i<count; i++)
             {
-                dst.Append(ApiCommentDataset.TypeDisplayName(Operands[i]));
+                dst.Append(CommentDataset.TypeDisplayName(Operands[i]));
                 dst.Append(" -> ");
             }
             dst.Append("| todo");
