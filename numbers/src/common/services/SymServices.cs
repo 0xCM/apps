@@ -8,8 +8,43 @@ namespace Z0
 
     using api = Symbols;
 
+    partial class XTend
+    {
+        [Op]
+        public static SymServices SymServices(this IWfRuntime wf)
+            => Z0.SymServices.create(wf);
+    }
+
     public class SymServices : AppService<SymServices>
     {
+        public static Index<SymKindRow> kindrows<K>()
+            where K : unmanaged, Enum
+        {
+            var src = Symbols.index<K>();
+            var count = src.Count;
+            var dst = alloc<SymKindRow>(count);
+            kinds(src,dst);
+            return dst;
+        }
+
+        public static uint kinds<K>(in Symbols<K> src, Span<SymKindRow> dst)
+            where K : unmanaged
+        {
+            var symbols = src.View;
+            var count = (uint)min(symbols.Length, dst.Length);
+            var type = typeof(K).Name;
+            for(var i=0; i<count; i++)
+            {
+                ref var target = ref seek(dst,i);
+                ref readonly var symbol = ref skip(symbols,i);
+                target.Index = symbol.Key;
+                target.Name = symbol.Name;
+                target.Value = bw64(symbol.Kind);
+                target.Type = type;
+            }
+            return count;
+        }
+
         public Index<SymKindRow> EmitSymKinds<K>(in Symbols<K> src, FS.FilePath dst)
             where K : unmanaged
         {
@@ -17,11 +52,10 @@ namespace Z0
             var kinds = src.Kinds;
             var count = kinds.Length;
             var buffer = alloc<SymKindRow>(count);
-            Symbols.kinds(src,buffer);
-            TableEmit(@readonly(buffer), SymKindRow.RenderWidths, dst);
+            SymServices.kinds(src,buffer);
+            TableEmit(@readonly(buffer), dst);
             return buffer;
         }
-
 
         public Index<SymDetailRow> EmitSymDetails<E>()
             where E : unmanaged, Enum

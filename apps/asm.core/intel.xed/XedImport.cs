@@ -4,10 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static XedRules;
     using static XedModels;
     using static core;
-    using Asm;
 
     partial class XTend
     {
@@ -22,8 +23,8 @@ namespace Z0
             foreach(var item in src)
                 dst.Add(item);
         }
-
     }
+
     public partial class XedImport : AppService<XedImport>
     {
         XedPaths XedPaths => Service(Wf.XedPaths);
@@ -106,6 +107,11 @@ namespace Z0
 
         void Emit(ReadOnlySpan<OpWidthRecord> src)
             => AppSvc.TableEmit(src, XedPaths.Imports().Table<OpWidthRecord>());
+
+        void EmitChips()
+        {
+            var kinds = Symbols.kinds<ChipCode>();
+        }
 
         public void EmitChipMap()
         {

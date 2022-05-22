@@ -57,10 +57,6 @@ namespace Z0
             => Z0.FileSplitter.create(wf);
 
         [Op]
-        public static SymServices SymServices(this IWfRuntime wf)
-            => Z0.SymServices.create(wf);
-
-        [Op]
         public static ApiResProvider ApiResProvider(this IWfRuntime wf)
             => Z0.ApiResProvider.create(wf);
 

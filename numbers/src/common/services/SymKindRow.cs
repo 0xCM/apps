@@ -12,16 +12,16 @@ namespace Z0
         public const byte FieldCount = 4;
 
         /// <summary>
-        /// The declaring type
-        /// </summary>
-        [Render(24)]
-        public Identifier Type;
-
-        /// <summary>
         /// The declaration order
         /// </summary>
         [Render(8)]
         public SymKey Index;
+
+        /// <summary>
+        /// The declaring type
+        /// </summary>
+        [Render(64)]
+        public Identifier Type;
 
         /// <summary>
         /// The kind identifier
@@ -34,8 +34,5 @@ namespace Z0
         /// </summary>
         [Render(1)]
         public ulong Value;
-
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{24,8,24,1};
     }
 }

@@ -23,23 +23,5 @@ namespace Z0
             where K : unmanaged, Enum
                 => index<K>().Kinds;
 
-        [Op, Closures(Closure)]
-        public static uint kinds<K>(in Symbols<K> src, Span<SymKindRow> dst)
-            where K : unmanaged
-        {
-            var symbols = src.View;
-            var count = (uint)min(symbols.Length, dst.Length);
-            var type = typeof(K).Name;
-            for(var i=0; i<count; i++)
-            {
-                ref var target = ref seek(dst,i);
-                ref readonly var symbol = ref skip(symbols,i);
-                target.Index = symbol.Key;
-                target.Name = symbol.Name;
-                target.Value = bw64(symbol.Kind);
-                target.Type = type;
-            }
-            return count;
-        }
     }
 }
