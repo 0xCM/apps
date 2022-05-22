@@ -6,13 +6,13 @@ namespace Z0.llvm
 {
     public partial class LlvmCmdProvider : AppCmdProvider<LlvmCmdProvider>
     {
-        LlvmDataImporter DataImporter => Service(Wf.LlvmDataImporter);
+        LlvmDataImporter Importer => Service(Wf.LlvmDataImporter);
 
         LlvmToolset Toolset => Service(Wf.LLvmToolset);
 
         LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
 
-        LlvmRepo LlvmRepo => Service(Wf.LlvmRepo);
+        LlvmRepo Repo => Service(Wf.LlvmRepo);
 
         LlvmReadObjSvc ReadObj => Service(Wf.LlvmReadObj);
 
@@ -20,10 +20,12 @@ namespace Z0.llvm
 
         LlvmDataEmitter DataEmitter => Service(Wf.LlvmDataEmitter);
 
-        LlvmCodeGen LlvmCodeGen => Service(Wf.LlvmCodeGen);
+        LlvmCodeGen CodeGen => Service(Wf.LlvmCodeGen);
 
-        LlvmConfigSvc LlvmConfig => Service(Wf.LlvmConfig);
+        LlvmConfigSvc Config => Service(Wf.LlvmConfig);
 
-        CgSvc CodeGen => Service(Wf.CodeGen);
+        LlvmQuery Query => DataEmitter.Query;
+
+        //CgSvc CodeGen => Service(Wf.CodeGen);
     }
 }

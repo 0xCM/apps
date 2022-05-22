@@ -11,7 +11,7 @@ namespace Z0.llvm
         [CmdOp(ListNameQuery)]
         Outcome LoadLists(CmdArgs args)
         {
-            Flow(ListNameQuery, DataProvider.SelectLists().Map(x => x.ToNameList()).View);
+            Flow(ListNameQuery, DataProvider.Lists().Map(x => x.ToNameList()).View);
             return true;
         }
     }

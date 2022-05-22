@@ -4,13 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-    using System.Collections.Concurrent;
-
-    using static Root;
-
     public abstract class Entity<K,A>
     {
         protected Dictionary<K,A> Lookup;
@@ -61,6 +54,9 @@ namespace Z0
             var keyf = KeyFunction;
             foreach(var field in src)
             {
+                if(field == null)
+                    continue;
+
                 if(!Lookup.TryAdd(keyf(field), field))
                 {
 

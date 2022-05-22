@@ -9,7 +9,7 @@ namespace Z0.llvm
         [CmdOp("llvm/config")]
         Outcome CollectConfig(CmdArgs args)
         {
-           var config = LlvmConfig.CollectSettings();
+           var config = Config.CollectSettings();
            var items = config.Items;
            foreach(var item in items)
                Write(string.Format("{0}:{1}", item.Key, item.Value));

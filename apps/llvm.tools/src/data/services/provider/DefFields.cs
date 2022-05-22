@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using static LlvmNames;
+
     partial class LlvmDataProvider
     {
-        public RegIdentifiers SelectRegIdentifiers()
-            => (RegIdentifiers)DataSets.GetOrAdd(nameof(SelectRegIdentifiers), _ => DataLoader.LoadRegIdentifiers());
+        public Index<RecordField> DefFields()
+            => SelectFields(Datasets.X86DefFields);
     }
 }

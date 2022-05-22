@@ -4,20 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static LlvmNames;
-
     partial class LlvmDataProvider
     {
-        public Index<TextLine> SelectX86SourceRecords()
-            => SelectSourceRecords(Datasets.X86);
-
-        public Index<TextLine> SelectSourceRecords(string id)
+        public Index<TextLine> SelectRecordLines(string id)
         {
-            return (Index<TextLine>)DataSets.GetOrAdd(nameof(SelectSourceRecords), _ => Load());
-
+            return (Index<TextLine>)DataSets.GetOrAdd(id + "lines", _ => Load());
             Index<TextLine> Load()
             {
-                using var reader = LlvmPaths.DataSourcePath("records",id).Utf8LineReader();
+                using var reader = LlvmPaths.DataSourcePath("records", id).Utf8LineReader();
                 return reader.ReadAll().ToArray();
             }
         }

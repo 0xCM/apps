@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     partial class LlvmDataProvider
     {
-        public Index<LlvmList> SelectLists()
-            => LlvmPaths.ListNames().Map(SelectList);
+        public LlvmOpCodeMap OpCodeMap()
+            => (LlvmOpCodeMap)DataSets.GetOrAdd(nameof(OpCodeMap), _ => DataCalcs.CalcOpCodeMap(SelectEntities()));
     }
 }

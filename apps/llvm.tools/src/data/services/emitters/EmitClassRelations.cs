@@ -70,7 +70,7 @@ namespace Z0.llvm
             }
 
             var collected = dst.ToArray();
-            TableEmit(@readonly(collected), ClassRelations.RenderWidths, LlvmPaths.Table<ClassRelations>());
+            AppSvc.TableEmit(collected, LlvmPaths.Table<ClassRelations>());
             return collected;
         }
 

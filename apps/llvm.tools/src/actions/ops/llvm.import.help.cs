@@ -9,7 +9,7 @@ namespace Z0.llvm
         [CmdOp("llvm/import/help")]
         Outcome ImportHelp(CmdArgs args)
         {
-            DataImporter.ImportToolHelp();
+            Importer.ImportToolHelp();
             return true;
         }
     }

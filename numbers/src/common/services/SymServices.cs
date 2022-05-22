@@ -8,13 +8,6 @@ namespace Z0
 
     using api = Symbols;
 
-    partial class XTend
-    {
-        [Op]
-        public static SymServices SymServices(this IWfRuntime wf)
-            => Z0.SymServices.create(wf);
-    }
-
     public class SymServices : AppService<SymServices>
     {
         public static Index<SymKindRow> kindrows<K>()
@@ -23,7 +16,7 @@ namespace Z0
             var src = Symbols.index<K>();
             var count = src.Count;
             var dst = alloc<SymKindRow>(count);
-            kinds(src,dst);
+            kinds(src, dst);
             return dst;
         }
 
@@ -38,9 +31,9 @@ namespace Z0
                 ref var target = ref seek(dst,i);
                 ref readonly var symbol = ref skip(symbols,i);
                 target.Index = symbol.Key;
-                target.Name = symbol.Name;
                 target.Value = bw64(symbol.Kind);
                 target.Type = type;
+                target.Name = symbol.Name;
             }
             return count;
         }

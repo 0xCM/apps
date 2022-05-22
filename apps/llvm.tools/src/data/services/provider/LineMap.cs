@@ -4,12 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static core;
-    using static LlvmNames;
-
     partial class LlvmDataProvider
     {
-        public LineMap<Identifier> SelectX86DefMap()
-            => SelectLineMap(LlvmPaths.ImportMap(Datasets.X86Defs));
+        public LineMap<Identifier> LineMap(FS.FilePath src)
+            => (LineMap<Identifier>)DataSets.GetOrAdd(src.Format(), _ => DataLoader.LoadLineMap(src));
     }
 }

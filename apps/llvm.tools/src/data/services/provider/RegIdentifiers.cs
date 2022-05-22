@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     partial class LlvmDataProvider
     {
-        public LlvmOpCodeMap SelectOpCodeMap()
-            => (LlvmOpCodeMap)DataSets.GetOrAdd(nameof(SelectOpCodeMap), _ => DataCalcs.CalcOpCodeMap(SelectEntities()));
+        public RegIdentifiers RegIdentifiers()
+            => (RegIdentifiers)DataSets.GetOrAdd(nameof(RegIdentifiers), _ => DataLoader.LoadRegIdentifiers());
     }
 }

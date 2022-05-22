@@ -6,7 +6,11 @@ namespace Z0.llvm
 {
     partial class LlvmDataProvider
     {
-        public LlvmList SelectList(string id)
-            => (LlvmList)DataSets.GetOrAdd("llvm.lists." + id, _ => DataLoader.LoadList(id));
+        public ReadOnlySpan<TextLine> DefLines(Identifier name)
+        {
+            if(SelectDefLookup().Mapped(name, out var interval))
+                return X86RecordLines(interval);
+            return default;
+        }
     }
 }

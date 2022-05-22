@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct ClassRelations : ILineRelations<ClassRelations>
     {
@@ -17,12 +11,16 @@ namespace Z0.llvm
 
         public const byte FieldCount = 4;
 
+        [Render(14)]
         public LineNumber SourceLine;
 
+        [Render(60)]
         public Identifier Name;
 
+        [Render(110)]
         public Lineage Ancestors;
 
+        [Render(1)]
         public string Parameters;
 
         LineNumber ILineRelations.SourceLine

@@ -17,72 +17,55 @@ namespace Z0.llvm
 
         LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
 
-        public void Run(LlvmImportObserver observer)
+        public bool PllExec
         {
-            run(() => observer.EtlStarted());
+            [MethodImpl(Inline)]
+            get => AppData.get().PllExec();
+        }
 
-            var help = ImportToolHelp();
-            run(() => observer.ToolHelpEmitted(help));
-
+        public void Run()
+        {
             var asmids = DataProvider.DiscoverAsmIdentifiers();
-            DataEmitter.EmitAsmIdentifiers(asmids);
-            run(() => observer.AsmIdDefsEmitted(asmids));
-
-            var regids = DataProvider.DiscoverRegIdentifiers();
-            DataEmitter.EmitRegIdentifiers(regids);
-            run(() => observer.RegIdDefsEmitted(regids));
-
-            var records = DataProvider.SelectX86SourceRecords();
-            run(() => observer.SourceRecordsSelected(records));
+            var records = DataProvider.X86RecordLines();
+            exec(PllExec,
+                () => DataEmitter.Emit(asmids),
+                () => DataEmitter.Emit(DataProvider.DiscoverRegIdentifiers()),
+                () => ImportToolHelp()
+            );
 
             var classes = DataEmitter.EmitClassRelations(records);
-            run(() => observer.ClassRelationsEmitted(classes));
+            var defRelations = DataEmitter.EmitDefRelations(records);
+            LineMap<Identifier> defMap = LineMap<Identifier>.Empty;
+            LineMap<Identifier> classMap = LineMap<Identifier>.Empty;
+            exec(PllExec,
+                () => classMap = DataEmitter.EmitLineMap(classes.View, records, Datasets.X86Classes),
+                () => defMap = DataEmitter.EmitLineMap(defRelations.View, records, Datasets.X86Defs)
+            );
 
-            var defs = DataEmitter.EmitDefRelations(records);
-            run(() => observer.DefRelationsEmitted(defs));
+            Index<RecordField> classFields = sys.empty<RecordField>();
+            Index<RecordField> defFields = sys.empty<RecordField>();
+            exec(PllExec,
+                () => classFields = RecordFieldParser.parse(records, classMap),
+                () => defFields = RecordFieldParser.parse(records, defMap)
+            );
 
-            var defMap = DataEmitter.EmitLineMap(defs.View, records, Datasets.X86Defs);
-            run(() => observer.DefMapEmitted(defMap));
+            Index<LlvmEntity> entities = sys.empty<LlvmEntity>();
+            exec(PllExec,
+                //() => entities = DataProvider.SelectEntities(defRelations, defFields),
+                () => DataEmitter.EmitClassFields(classFields),
+                () => DataEmitter.EmitDefFields(defFields)
+            );
 
-            var defFields = RecordFieldParser.parse(records, defMap);
-            DataEmitter.EmitDefFields(defFields);
-            run(() => observer.DefFieldsEmitted(defFields));
-
-            var classMap = DataEmitter.EmitLineMap(classes.View, records, Datasets.X86Classes);
-            run(() => observer.ClassMapEmitted(classMap));
-
-            var classFields = RecordFieldParser.parse(records, classMap);
-            DataEmitter.EmitClassFields(classFields);
-            run(() => observer.ClassFieldsEmitted(classFields));
-
-            var entities = DataProvider.SelectEntities();
-            run(() => observer.EntitiesSelected(entities));
-
+            entities = DataProvider.SelectEntities(defRelations, defFields);
             var instructions = entities.Where(e => e.IsInstruction()).Select(e => e.ToInstruction());
-
-            var lists = DataEmitter.EmitLists(entities);
-            run(() => observer.ListsEmitted(lists));
-
-            var childRelations = DataEmitter.EmitChildRelations(entities);
-            run(() => observer.ChildRelationsEmitted(childRelations));
-
-            var variations = DataCalcs.CalcAsmVariations(asmids, instructions);
-            DataEmitter.EmitAsmVariations(variations);
-            run(() => observer.AsmVariationsEmitted(variations));
-
-            var instdefs = DataCalcs.CalcInstDefs(asmids, entities);
-            DataEmitter.Emit(instdefs.View);
-            run(() => observer.InstDefsEmitted(instdefs));
-
-            var patterns = DataCalcs.CalcInstPatterns(asmids, entities);
-            DataEmitter.EmitInstPatterns(patterns);
-            run(() => observer.InstPatternsEmitted(patterns));
-
-            var ocmap = DataCalcs.CalcOpCodeMap(instructions);
-            var opcodes = DataCalcs.CalcAsmOpCodes(asmids, ocmap);
-            DataEmitter.EmitOpCodes(opcodes.View);
-
-            run(() => observer.EtlCompleted());
+            exec(PllExec,
+                () => DataEmitter.Emit(DataCalcs.CalcInstDefs(asmids, entities)),
+                () => DataEmitter.Emit(DataCalcs.CalcAsmVariations(asmids, instructions)),
+                () => DataEmitter.EmitChildRelations(entities),
+                () => DataEmitter.Emit(DataCalcs.CalcInstPatterns(asmids, entities)),
+                () => DataEmitter.Emit(DataCalcs.CalcAsmOpCodes(asmids, DataCalcs.CalcOpCodeMap(instructions))),
+                () => DataEmitter.EmitLists(entities)
+            );
         }
 
         public Index<ToolHelpDoc> ImportToolHelp()
@@ -103,10 +86,5 @@ namespace Z0.llvm
             return docs;
         }
 
-        public void Run()
-        {
-            var observer = new LlvmImportObserver();
-            Run(observer);
-        }
    }
 }

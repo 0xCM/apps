@@ -9,13 +9,13 @@ namespace Z0.llvm
         public readonly DefRelations Def;
 
         public DefFields(DefRelations def, RecordField[] fields)
-            : base(fields)
+            : base(fields ?? sys.empty<RecordField>())
         {
             Def = def;
         }
 
         protected override Func<RecordField,string> KeyFunction
-            => a => a.Name;
+            => a => text.ifempty(a.Name,EmptyString);
 
         protected ref bit Parse(string attrib, out bit dst)
         {

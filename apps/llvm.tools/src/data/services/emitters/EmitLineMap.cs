@@ -4,26 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-
     using static core;
-
-    using SQ = SymbolicQuery;
 
     partial class LlvmDataEmitter
     {
-        public LineMap<Identifier> EmitLineMap<T>(ReadOnlySpan<T> relations, ReadOnlySpan<TextLine> records, string dstid)
+        public LineMap<Identifier> EmitLineMap<T>(ReadOnlySpan<T> src, ReadOnlySpan<TextLine> records, string dstid)
             where T : struct, ILineRelations<T>
         {
             const uint BufferLength = 256;
             var result = Outcome.Success;
             var linecount = records.Length;
-            var count = relations.Length;
+            var count = src.Length;
             var buffer = span<TextLine>(BufferLength);
             var intervals = list<LineInterval<Identifier>>();
             for(var i=0;i<count; i++)
             {
-                ref readonly var relation = ref skip(relations,i);
+                ref readonly var relation = ref skip(src,i);
                 var k=0;
                 buffer.Clear();
                 var index = relation.SourceLine.Value;
@@ -52,7 +48,6 @@ namespace Z0.llvm
             var _intervals = map.Intervals;
             for(var i=0; i<_intervals.Length; i++)
                 writer.WriteLine(skip(_intervals,i).Format());
-
             EmittedFile(emitting, _intervals.Length);
             return map;
         }

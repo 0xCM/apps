@@ -10,29 +10,8 @@ namespace Z0
     using static Markdown;
     using static core;
 
-
     partial class AsmCoreCmd
     {
-        [CmdOp("xed/check/isa")]
-        Outcome EmitGrids(CmdArgs args)
-        {
-            CheckIsaForms();
-            return true;
-        }
-
-        void CheckIsaForms()
-        {
-            var chip = ChipCode.SKYLAKE;
-            var forms = XedImport.CalcIsaForms(chip);
-            AppSvc.TableEmit(forms, XedPaths.Imports().Targets("isaforms").Path($"xed.isa.{chip}.test", FileKind.Csv));
-
-            // var src = XedImport.CalcIsaForms();
-            // iter(src.Keys, chip =>{
-            //     var forms = src[chip];
-            //     Write(string.Format("{0,-12} | {1}", chip, forms.Forms.Count));
-            // });
-        }
-
         void CheckInstDefs()
         {
             var a = "0x83 MOD[mm] MOD!=3 REG[0b010] RM[nnn] MODRM() SIMM8() LOCK=0";

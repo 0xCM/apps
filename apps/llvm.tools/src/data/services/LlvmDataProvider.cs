@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using static core;
+
     public sealed partial class LlvmDataProvider : GlobalService<LlvmDataProvider,LlvmDataProvider.SvcState>
     {
         public struct SvcState

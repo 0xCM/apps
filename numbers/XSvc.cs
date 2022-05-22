@@ -7,6 +7,10 @@ namespace Z0
     public static class XSvc
     {
         [Op]
+        public static SymServices SymServices(this IWfRuntime wf)
+            => Z0.SymServices.create(wf);
+
+        [Op]
         public static WsProjects WsProjects(this IWfRuntime wf)
             => Z0.WsProjects.create(wf);
 

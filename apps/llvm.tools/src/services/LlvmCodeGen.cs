@@ -53,7 +53,7 @@ namespace Z0.llvm
         }
 
         public void EmitStringTables()
-            => EmitStringTables(DataProvider.SelectLists().Where(x => x.Name != "vcodes"));
+            => EmitStringTables(DataProvider.Lists().Where(x => x.Name != "vcodes"));
 
         public void EmitStringTables(ReadOnlySpan<LlvmList> src)
         {

@@ -14,6 +14,6 @@ namespace Z0.llvm
         }
 
         public void EmitList(LlvmList src, FS.FilePath dst)
-            => TableEmit(src.Items, dst);
+            => AppSvc.TableEmit(src.Items, dst);
     }
 }

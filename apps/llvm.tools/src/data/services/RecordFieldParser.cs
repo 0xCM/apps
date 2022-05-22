@@ -2,13 +2,25 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.llvm
 {
     using static core;
 
     public readonly struct RecordFieldParser
     {
-        [Parser]
+        public static Index<RecordField> parse(ReadOnlySpan<TextLine> src, LineMap<Identifier> map)
+        {
+            var result = Outcome.Success;
+            var icount = map.IntervalCount;
+            var lcount = map.LineCount;
+            var intervals = map.Intervals;
+            var buffer = alloc<RecordField>(lcount);
+            var k = 0;
+            for(var i=0u; i<icount; i++)
+                parse(src, skip(intervals,i), ref k, buffer);
+            return buffer;
+        }
+
         public static Outcome parse(string src, out RecordField dst)
         {
             var result = Outcome.Success;
@@ -23,22 +35,6 @@ namespace Z0
             dst.Name = skip(parts,2);
             dst.Value = skip(parts,3);
             return result;
-        }
-
-        public static Outcome parse(in TextLine src, out RecordField dst)
-            => parse(src.Content, out dst);
-
-        public static Index<RecordField> parse(ReadOnlySpan<TextLine> src, LineMap<Identifier> map)
-        {
-            var result = Outcome.Success;
-            var icount = map.IntervalCount;
-            var lcount = map.LineCount;
-            var intervals = map.Intervals;
-            var buffer = alloc<RecordField>(lcount);
-            var k = 0;
-            for(var i=0u; i<icount; i++)
-                parse(src, skip(intervals,i), ref k, buffer);
-            return buffer;
         }
 
         static void parse(ReadOnlySpan<TextLine> src, in LineInterval<Identifier> interval, ref int k, Span<RecordField> dst)

@@ -12,8 +12,6 @@ namespace Z0
         {
             public const string X86 = "X86.records";
 
-            public const string X86Lined = "x86.records.lined";
-
             public const string X86Defs = "X86.records.defs";
 
             public const string X86DefFields = "X86.records.defs.fields";
@@ -28,7 +26,6 @@ namespace Z0
         {
             public const string OpCodes = "llvm.opcodes";
         }
-
 
         [LiteralProvider("llvm.repo")]
         public readonly struct Repo

@@ -4,22 +4,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.InteropServices;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct ChildRelation
     {
-        public const string TableId = "llvm.entities.relations.child";
+        const string TableId = "llvm.entities.relations.child";
 
+        [Render(8)]
         public uint Key;
 
+        [Render(12)]
         public uint ParentKey;
 
+        [Render(24)]
         public string ParentName;
 
+        [Render(12)]
         public uint ChildSeq;
 
+        [Render(1)]
         public string ChildName;
     }
 }

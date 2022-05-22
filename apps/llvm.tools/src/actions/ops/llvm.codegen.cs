@@ -9,7 +9,7 @@ namespace Z0.llvm
         [CmdOp("llvm/codegen")]
         Outcome GenCode(CmdArgs args)
         {
-            LlvmCodeGen.Run();
+            CodeGen.Run();
             return true;
         }
     }

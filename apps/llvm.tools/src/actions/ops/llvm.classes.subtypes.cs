@@ -44,7 +44,7 @@ namespace Z0.llvm
                 }
             }
 
-            DataEmitter.EmitQueryResults(ClassSubtypeQuery, cname, items.ViewDeposited());
+            Query.EmitFile(ClassSubtypeQuery, cname, items.ViewDeposited());
 
             return result;
         }

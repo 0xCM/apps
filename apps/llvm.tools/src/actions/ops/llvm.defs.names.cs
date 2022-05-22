@@ -11,7 +11,7 @@ namespace Z0.llvm
         [CmdOp(DefNameQuery)]
         Outcome DefNames(CmdArgs args)
         {
-            DataEmitter.EmitQueryResults(DefNameQuery, DataProvider.SelectDefNames().View);
+            Query.EmitFile(DefNameQuery, DataProvider.SelectDefNames().View);
             return true;
         }
     }

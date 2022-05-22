@@ -13,16 +13,20 @@ namespace Z0.llvm
 
         public const byte FieldCount = 4;
 
+        [Render(8)]
         public uint Key;
 
-        public AsciBlock32 Name;
+        [Render(32)]
+        public asci32 Name;
 
+        [Render(16)]
         public AsmMnemonic Mnemonic;
 
+        [Render(1)]
         public AsmVariationCode Code;
 
         [MethodImpl(Inline)]
-        public LlvmAsmVariation(uint id, in AsciBlock32 name, in AsmMnemonic monic, in AsmVariationCode code)
+        public LlvmAsmVariation(uint id, in asci32 name, in AsmMnemonic monic, in AsmVariationCode code)
         {
             Key = id;
             Name = name;

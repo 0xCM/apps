@@ -32,7 +32,7 @@ namespace Z0.llvm
                 }
             }
 
-            DataEmitter.EmitQueryTable("llvm/defs/procs/features", EmptyString, dst.ViewDeposited());
+            Query.EmitTable("llvm.defs.processor.features", dst.ViewDeposited());
 
             return true;
         }

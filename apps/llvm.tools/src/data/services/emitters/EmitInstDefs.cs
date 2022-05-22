@@ -8,16 +8,10 @@ namespace Z0.llvm
 
     partial class LlvmDataEmitter
     {
-        public Index<LlvmInstDef> EmitInstDefs()
-        {
-            var src = DataProvider.SelectInstDefs();
-            Emit(src);
-            return src;
-        }
+        public void EmitInstDefs()
+            => Emit(DataProvider.SelectInstDefs());
 
         public void Emit(ReadOnlySpan<LlvmInstDef> src)
-        {
-            TableEmit(src, LlvmInstDef.RenderWidths, LlvmPaths.Table<LlvmInstDef>());
-        }
+            => TableEmit(src, LlvmInstDef.RenderWidths, LlvmPaths.Table<LlvmInstDef>());
     }
 }

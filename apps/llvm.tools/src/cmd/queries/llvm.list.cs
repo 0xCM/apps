@@ -10,6 +10,6 @@ namespace Z0.llvm
     {
         [CmdOp("llvm/list")]
         Outcome ShowList(CmdArgs args)
-            => Flow("list", DataProvider.SelectList(arg(args,0)).Items);
+            => Flow("list", DataProvider.List(arg(args,0)).Items);
     }
 }

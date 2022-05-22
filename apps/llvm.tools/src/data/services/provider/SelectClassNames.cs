@@ -8,6 +8,6 @@ namespace Z0.llvm
     partial class LlvmDataProvider
     {
         public Index<Identifier> SelectClassNames()
-            => SelectX86ClassMap().Intervals.Select(x => x.Id);
+            => X86ClassMap().Intervals.Select(x => x.Id);
     }
 }

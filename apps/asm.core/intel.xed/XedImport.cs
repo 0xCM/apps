@@ -63,6 +63,7 @@ namespace Z0
                 EmitIsaImports,
                 EmitCpuIdImports,
                 EmitBroadcastDefs,
+                EmitChips,
                 () => Emit(CalcFieldDefs()),
                 () => Emit(CalcPointerWidths()),
                 () => Emit(XedOperands.Views.OpWidths)
@@ -109,9 +110,7 @@ namespace Z0
             => AppSvc.TableEmit(src, XedPaths.Imports().Table<OpWidthRecord>());
 
         void EmitChips()
-        {
-            var kinds = Symbols.kinds<ChipCode>();
-        }
+            => AppSvc.TableEmit(SymServices.kindrows<ChipCode>(), Targets().Path("xed.chips", FileKind.Csv));
 
         public void EmitChipMap()
         {
@@ -131,44 +130,19 @@ namespace Z0
             AppSvc.FileEmit(dst.Emit(), counter, Targets().Path(FS.file("xed.chipmap", FS.Csv)));
         }
 
-        public ConcurrentDictionary<InstIsaKind,HashSet<FormImport>> CalcIsaFormImports()
-        {
-            return Data(nameof(CalcIsaFormImports),Calc);
-
-            ConcurrentDictionary<InstIsaKind,HashSet<FormImport>> Calc()
-            {
-                var codes = Symbols.index<ChipCode>();
-                var forms = Xed.Views.FormImports;
-                var formisa = forms.Select(x => (x.InstForm.Kind, x.IsaKind)).ToDictionary();
-                var isakinds = formisa.Values.ToHashSet();
-                var isaforms = cdict<InstIsaKind,HashSet<FormImport>>();
-                var lookup = cdict<ChipCode,HashSet<FormImport>>();
-                iter(isakinds, k => isaforms[k] = new());
-                iter(codes.Kinds, code => lookup[code] = new());
-                iter(forms, f => isaforms[f.IsaKind].Add(f));
-                return isaforms;
-            }
-        }
-
-        public Index<FormImport> CalcIsaForms(ChipCode chip)
-        {
-            var imports = CalcIsaFormImports();
-            var dst = bag<FormImport>();
-            iter(Xed.Views.ChipMap[chip], kind => {
-                if(imports.TryGetValue(kind, out var forms))
-                    dst.AddRange(forms);
-            },true);
-            return dst.ToHashSet().ToIndex().Sort().Resequence();
-        }
-
-        public IsaForms CalcIsaForms()
-        {
-            var dst = cdict<ChipCode,Index<FormImport>>();
-            var imports = CalcIsaFormImports();
-            var map = Xed.Views.ChipMap;
-            iter(map.Codes, chip => dst.TryAdd(chip, CalcIsaForms(chip)),true);
-            return dst.Map(x => (x.Key, new ChipIsa(x.Key,x.Value))).ToDictionary();
-        }
+        // public ConcurrentDictionary<InstIsaKind,HashSet<FormImport>> CalcIsaFormImports()
+        // {
+        //     var codes = Symbols.index<ChipCode>();
+        //     var forms = Xed.Views.FormImports;
+        //     var formisa = forms.Select(x => (x.InstForm.Kind, x.IsaKind)).ToDictionary();
+        //     var isakinds = formisa.Values.ToHashSet();
+        //     var isaforms = cdict<InstIsaKind,HashSet<FormImport>>();
+        //     var lookup = cdict<ChipCode,HashSet<FormImport>>();
+        //     iter(isakinds, k => isaforms[k] = new());
+        //     iter(codes.Kinds, code => lookup[code] = new());
+        //     iter(forms, f => isaforms[f.IsaKind].Add(f));
+        //     return isaforms;
+        // }
 
         public void EmitIsaForms()
         {

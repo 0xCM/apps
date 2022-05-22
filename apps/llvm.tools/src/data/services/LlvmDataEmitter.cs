@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-
-    using static core;
-
     public partial class LlvmDataEmitter : AppService<LlvmDataEmitter>
     {
         LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
@@ -16,21 +12,24 @@ namespace Z0.llvm
 
         LlvmDataCalcs DataCalcs => Service(Wf.LlvmDataCalcs);
 
+        AppServices AppSvc => Service(Wf.AppServices);
 
-        public void EmitInstPatterns(ReadOnlySpan<LlvmInstPattern> src)
-            => TableEmit(src, LlvmInstPattern.RenderWidths, LlvmPaths.Table<LlvmInstPattern>());
+        public LlvmQuery Query => Service(() => LlvmQuery.create(Wf));
 
-        public void EmitAsmVariations(ReadOnlySpan<LlvmAsmVariation> src)
-            => TableEmit(src, LlvmPaths.Table<LlvmAsmVariation>());
+        public void Emit(ReadOnlySpan<LlvmInstPattern> src)
+            => AppSvc.TableEmit(src, LlvmPaths.Table<LlvmInstPattern>());
 
-        public void EmitRegIdentifiers(RegIdentifiers src)
+        public void Emit(ReadOnlySpan<LlvmAsmVariation> src)
+            => AppSvc.TableEmit(src, LlvmPaths.Table<LlvmAsmVariation>());
+
+        public void Emit(RegIdentifiers src)
         {
             var dst = LlvmPaths.Table("llvm.asm.RegId");
             var list = new LlvmList(dst, src.Values.Select(x => new LlvmListItem(x.Id, x.RegName.Format())));
             EmitList(list, dst);
         }
 
-        public void EmitAsmIdentifiers(AsmIdentifiers src)
+        public void Emit(AsmIdentifiers src)
         {
             var values = src.Values;
             var items = values.Select(x => new LlvmListItem(x.Id, x.Instruction.Format()));
@@ -38,7 +37,7 @@ namespace Z0.llvm
             EmitList(new LlvmList(dst, items), dst);
         }
 
-        public void EmitOpCodes(ReadOnlySpan<LlvmAsmOpCode> src)
-            => TableEmit(src, LlvmPaths.Table<LlvmAsmOpCode>());
+        public void Emit(ReadOnlySpan<LlvmAsmOpCode> src)
+            => AppSvc.TableEmit(src, LlvmPaths.Table<LlvmAsmOpCode>());
     }
 }

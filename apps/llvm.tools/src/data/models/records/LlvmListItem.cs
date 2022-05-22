@@ -7,8 +7,10 @@ namespace Z0.llvm
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct LlvmListItem
     {
+        [Render(8)]
         public readonly uint Key;
 
+        [Render(1)]
         public readonly string Value;
 
         [MethodImpl(Inline)]

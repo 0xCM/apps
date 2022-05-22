@@ -99,6 +99,10 @@ namespace Z0.llvm
             where T : struct
                 => QueryResults() + Z0.Tables.filename<T>();
 
+        public FS.FilePath QueryTable<T>(FS.FileName name)
+            where T : struct
+                => QueryResults() + name;
+
         public FS.FilePath QueryTable<T>(string tag)
             where T : struct
                 => QueryResults()

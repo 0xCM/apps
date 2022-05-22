@@ -20,6 +20,8 @@ namespace Z0.llvm
 
         LlvmDataEmitter DataEmitter => Service(Wf.LlvmDataEmitter);
 
+        public LlvmQuery Query => DataEmitter.Query;
+
         AppDb AppDb => Service(Wf.AppDb);
 
         IProjectWs Data;
@@ -50,25 +52,25 @@ namespace Z0.llvm
         Outcome Flow(string query, FS.Files src)
         {
             Files(src);
-            DataEmitter.EmitQueryResults(query, @readonly(src.View.Map(x => x.ToUri())));
+            Query.EmitFile(query, @readonly(src.View.Map(x => x.ToUri())));
             return true;
         }
 
         Outcome Flow<T>(string query, string args, ReadOnlySpan<T> src)
         {
-            DataEmitter.EmitQueryResults(query, args, src);
+            Query.EmitFile(query, args, src);
             return true;
         }
 
         Outcome Flow<T>(string query, ReadOnlySpan<T> src)
         {
-            DataEmitter.EmitQueryResults(query, src);
+            Query.EmitFile(query, src);
             return true;
         }
 
         Outcome Flow<T>(string query, Index<T> src)
         {
-            DataEmitter.EmitQueryResults(query, src.View);
+            Query.EmitFile(query, src.View);
             return true;
         }
     }

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [Record(TableId)]
     public struct DefRelations : ILineRelations<DefRelations>, IComparable<DefRelations>
     {

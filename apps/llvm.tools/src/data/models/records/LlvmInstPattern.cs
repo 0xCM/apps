@@ -15,14 +15,19 @@ namespace Z0.llvm
 
         public const byte FieldCount = 5;
 
+        [Render(8)]
         public ushort AsmId;
 
+        [Render(24)]
         public Identifier InstName;
 
+        [Render(16)]
         public AsmMnemonic Mnemonic;
 
+        [Render(48)]
         public TextBlock FormatPattern;
 
+        [Render(1)]
         public TextBlock SourceData;
 
         public int CompareTo(LlvmInstPattern src)

@@ -18,7 +18,7 @@ namespace Z0.llvm
             var current = EmptyString;
             var buffer = list<RecordField>();
             var count = fields.Length;
-            var relation = default(DefRelations);
+            var relation = DefRelations.Empty;
             for(var i=0; i<count; i++)
             {
                 ref readonly var field = ref skip(fields,i);

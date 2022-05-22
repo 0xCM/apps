@@ -11,7 +11,7 @@ namespace Z0.llvm
         [CmdOp(DefLineQuery)]
         Outcome Def(CmdArgs args)
         {
-            DataEmitter.EmitQueryResults(DefLineQuery, arg(args,0).Value, DataProvider.SelectDefLines(arg(args,0).Value));
+            Query.EmitFile(DefLineQuery, arg(args,0).Value, DataProvider.DefLines(arg(args,0).Value));
             return true;
         }
     }

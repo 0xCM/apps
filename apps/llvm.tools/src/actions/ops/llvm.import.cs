@@ -9,7 +9,7 @@ namespace Z0.llvm
         [CmdOp("llvm/import")]
         Outcome RunRecordsEtl(CmdArgs args)
         {
-            DataImporter.Run();
+            Importer.Run();
             return true;
         }
     }

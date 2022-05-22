@@ -62,7 +62,7 @@ namespace Z0
             => FS.file(string.Format("{0}.{1}.{2}", Scope, scope, name), kind.Ext());
 
         public FS.FilePath Path(string name, FileKind kind)
-            => OutDir() + File(name,kind);
+            => OutDir() + File(name, kind);
 
         public FS.FilePath Path(FS.FileName file)
             => OutDir() + file;
