@@ -12,13 +12,39 @@ namespace Z0
     {
         ApiServices ApiSvc => Service(Wf.ApiServices);
 
-        ApiEmitters ApiEmitters => Service(Wf.ApiEmitters);
+        ApiEmitters ApiEmitters => ApiSvc.Emitters;
+
+        ApiComments ApiComments => ApiSvc.Comments;
 
         [CmdOp("api/emit")]
         Outcome ApiEmit(CmdArgs args)
         {
             ApiEmitters.Emit();
             return true;
+        }
+
+        [CmdOp("api/emit/comments")]
+        void ApiEmitComments()
+        {
+            var ds = ApiComments.Calc();
+            var types = new string[]{nameof(vpack),
+                nameof(vmask),
+                nameof(cpu),
+                nameof(gcpu),
+                nameof(BitMasks),
+                nameof(BitMaskLiterals),
+            };
+
+            var types2 = new string[]{
+                "z0.lib." + nameof(vpack),
+                "z0.lib." + nameof(vmask),
+                "z0.lib." + nameof(cpu),
+                "z0.lib." + nameof(gcpu),
+                "z0.lib." + nameof(BitMasks),
+                "z0.lib." + nameof(BitMaskLiterals),
+            };
+
+            ApiComments.EmitMarkdownDocs(ds,types);
         }
 
         [CmdOp("api/emit/classes")]

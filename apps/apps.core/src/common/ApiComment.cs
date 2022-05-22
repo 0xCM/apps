@@ -10,18 +10,19 @@ namespace Z0
         const string TableId = "api.comments";
 
         [Render(12)]
-        public ApiCommentTarget Type;
+        public ApiCommentTarget Target;
 
         [Render(140)]
-        public string Name;
+        public string TargetName;
 
         [Render(1)]
         public string Description;
 
-        public ApiComment(ApiCommentTarget kind, string name, string desc)
+        [MethodImpl(Inline)]
+        public ApiComment(ApiCommentTarget target, string name, string desc)
         {
-            Type = kind;
-            Name = name;
+            Target = target;
+            TargetName = ApiCommentDataset.TypeDisplayName(name);
             Description = desc;
         }
     }

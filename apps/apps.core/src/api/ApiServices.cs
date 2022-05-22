@@ -12,6 +12,8 @@ namespace Z0
 
         AppServices AppSvc => Service(Wf.AppServices);
 
+        public ApiEmitters Emitters => Service(Wf.ApiEmitters);
+
         public ApiComments Comments => Service(Wf.ApiComments);
 
         public ApiAssets Assets => Service(Wf.ApiAssets);
@@ -136,8 +138,12 @@ namespace Z0
                 nameof(BitMaskLiterals),
                 });
 
+        // public void EmitApiMd(ApiCommentDataset ds, string[] types)
+        //     => Comments.EmitMarkdownDocs(ds, types);
+
         public void Emit(ReadOnlySpan<ApiCmdRow> src)
             => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ApiCmdRow>());
+
         public void Emit(ReadOnlySpan<TableDefRecord> src)
             => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<TableDefRecord>());
 

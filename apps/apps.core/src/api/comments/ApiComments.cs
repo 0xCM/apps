@@ -33,11 +33,93 @@ namespace Z0
             TypeNameReplacements.Add("System.String","string");
         }
 
-        public static string TypeDisplayName(string src)
+        public ApiCommentDataset Calc()
         {
-            var name = src.Remove("System.Runtime.Intrinsics.").Replace(Chars.LBrace, Chars.Lt).Replace(Chars.RBrace, Chars.Gt).Remove("@");
-            core.iter(TypeNameReplacements,x => name = name.Replace(x.Key,x.Value));
-            return name;
+            var targets = AppDb.ApiTargets("comments");
+            var xmlData = new Dictionary<FS.FilePath, Dictionary<string,string>>();
+            var archive = core.controller().RuntimeArchive();
+            var xmlFiles = archive.XmlFiles;
+            foreach(var xmlfile in xmlFiles)
+            {
+                var elements = ParseXmlData(xmlfile.ReadText());
+                if(elements.Count != 0)
+                    xmlData[xmlfile] = elements;
+            }
+
+            var comments = new Dictionary<FS.FilePath, Dictionary<string,ApiComment>>();
+            var csvRowFormat = dict<FS.FilePath,List<string>>();
+            var csvRows = dict<FS.FilePath,List<ApiComment>>();
+            var formatter = Tables.formatter<ApiComment>();
+            foreach(var part in xmlData.Keys)
+            {
+                var file = FS.file(string.Format("{0}.{1}", "api.comments", part.FileName.WithoutExtension.Name), FS.Csv);
+                var path = targets.Path(file);
+                var docs = new Dictionary<string, ApiComment>();
+                comments[part] = docs;
+                csvRowFormat[path] = new();
+                csvRows[path] = new();
+
+                var kvp = xmlData[part];
+                foreach(var key in kvp.Keys)
+                {
+                    var result = parse(key, kvp[key], out ApiComment comment);
+                    if(result)
+                    {
+                        docs[key] = comment;
+                        csvRows[path].Add(comment);
+                        csvRowFormat[path].Add(formatter.Format(comment));
+                    }
+                    // var result = parse(key, kvp[key], out ApiComment comment);
+                    // docs[key] = comment;
+                    // if(result)
+                    //     csvRows[path].Add(formatter.Format(comment));
+                }
+            }
+
+            return new(xmlData, comments, csvRows);
+        }
+
+        public ApiCommentDataset EmitMarkdownDocs(ApiCommentDataset ds, string[] _types)
+        {
+            var markers = _types.Map(n => (n, string.Format(".{0}.",n))).ToDictionary();
+            ref readonly var src = ref ds.TargetCommentLookup;
+            var paths = src.Keys.ToArray();
+            for(var i=0; i<paths.Length; i++)
+            {
+                ref readonly var path = ref skip(paths,i);
+                var assemblyComments = src[path];
+                var selected =
+                    from c in assemblyComments
+                    from m in markers
+                    let key = c.Key
+                    let value = c.Value
+                    where key.Contains(m.Value)
+                    where value.Target == ApiCommentTarget.Method
+                    select (Type:m.Key, Method:key, value);
+
+                var types = (from groups in selected.Map(x => (x.Type, x.Method, Comment:x.value)).GroupBy(x => x.Type)
+                            let type = groups.Key
+                            select (type, groups.Index())).ToDictionary();
+
+
+                foreach(var typename in types.Keys)
+                {
+                    var rows = types[typename];
+                    var k=0u;
+                    var parts = alloc<ISection>(rows.Length + 1);
+                    var doc = Markdown.doc(parts);
+                    for(var j=0; j<rows.Length; j++, k++)
+                    {
+                        (var _, var method, var comment) = rows[j];
+                        var ms = MethodCommentSig.from(comment);
+                        doc[k] = Markdown.section(k, header(3, ms.Format()), comment.Description);
+                    }
+                    var dst = AppDb.ApiTargets().Targets("markdown").Path(string.Format("z0.lib.{0}", typename), FileKind.Md);
+                    FileEmit(doc.Format(), k, dst);
+                }
+            }
+
+            return ds;
         }
 
         public void EmitMarkdownDocs(string[] _types)
@@ -45,21 +127,21 @@ namespace Z0
             var typenames = _types.ToHashSet();
             var markers = typenames.Map(n => (n,string.Format(".{0}.",n))).ToDictionary();
             var ds = Calc();
-            ref readonly var src = ref ds.Comments;
-            var paths = src.Keys.Array();
+            ref readonly var src = ref ds.TargetCommentLookup;
+            var paths = src.Keys.ToArray();
             for(var i=0; i<paths.Length; i++)
             {
                 ref readonly var path = ref skip(paths,i);
                 if(path.Contains("z0.lib.xml"))
                 {
-                    var comments = src[path];
+                    var assemblyComments = src[path];
                     var selected =
-                        from c in comments
+                        from c in assemblyComments
                         from m in markers
                             let key = c.Key
                             let value = c.Value
                         where key.Contains(m.Value)
-                            where value.Type == ApiCommentTarget.Method
+                        where value.Target == ApiCommentTarget.Method
                         select (Type:m.Key, Method:key, value);
 
                     var types = (from groups in selected.Map(x => (x.Type, x.Method, Comment:x.value)).GroupBy(x => x.Type)
@@ -108,22 +190,20 @@ namespace Z0
                 var kvp = src[part];
                 foreach(var key in kvp.Keys)
                 {
-                    var member = parse(key, kvp[key]).OnSuccess(d => docs[d.Name] = d);
-                    if(member.Succeeded)
-                        writer.WriteLine(formatter.Format(member.Value));
+                    var value = kvp[key];
+                    var result = ParseComent(key, value);
+                    if(result.Succeeded)
+                    {
+                        var comment = result.Value;
+                        docs[comment.TargetName] = comment;
+                        writer.WriteLine(formatter.Format(comment));
+                    }
+                    else
+                        Warn(AppMsg.ParseFailure.Format(key, value));
                 }
                 EmittedTable(flow, kvp.Count);
             }
             return src;
-        }
-
-        public static ApiComment comment2(ApiCommentTarget target, string name, string value)
-        {
-            var content = text.trim(text.unfence(value, RenderFence.define("<summary>", "</summary>")));
-            core.iter(Replacements,kvp => content = text.replace(content, kvp.Key, kvp.Value));
-
-            content = core.map(content.Lines(), x=> x.Content).Concat(Chars.Eol);
-            return new ApiComment(target, name, content);
         }
 
         static bool parse(string key, string value, out ApiComment dst)
@@ -131,51 +211,24 @@ namespace Z0
             var components = key.SplitClean(Chars.Colon);
             var result = components.Length == 2 && components[0].Length == 1;
             if(result)
-                dst = comment2(kind(components[0][0]), components[1], value);
+            {
+                dst = parse(target(components[0][0]), components[1], value);
+            }
             else
                 dst = new ApiComment(0, EmptyString, EmptyString);
 
             return result;
         }
 
-        public ApiCommentDataset Calc()
+        static ApiComment parse(ApiCommentTarget target, string name, string value)
         {
-            var targets = AppDb.ApiTargets("comments");
-            var xmlData = new Dictionary<FS.FilePath, Dictionary<string,string>>();
-            var archive = core.controller().RuntimeArchive();
-            var xmlFiles = archive.XmlFiles;
-            foreach(var xmlfile in xmlFiles)
-            {
-                var elements = ParseXmlData(xmlfile.ReadText());
-                if(elements.Count != 0)
-                    xmlData[xmlfile] = elements;
-            }
-
-            var comments = new Dictionary<FS.FilePath, Dictionary<string,ApiComment>>();
-            var csvRows = core.dict<FS.FilePath,List<string>>();
-            var formatter = Tables.formatter<ApiComment>();
-            foreach(var part in xmlData.Keys)
-            {
-                var file = FS.file(string.Format("{0}.{1}", "api.comments", part.FileName.WithoutExtension.Name), FS.Csv);
-                var path = targets.Path(file);
-                var docs = new Dictionary<string, ApiComment>();
-                comments[part] = docs;
-                csvRows[path] = new();
-
-                var kvp = xmlData[part];
-                foreach(var key in kvp.Keys)
-                {
-                    var result = parse(key, kvp[key], out ApiComment comment);
-                    docs[key] = comment;
-                    if(result)
-                        csvRows[path].Add(formatter.Format(comment));
-                }
-            }
-
-            return new(xmlData, comments, csvRows);
+            var content = text.trim(text.unfence(value, RenderFence.define("<summary>", "</summary>")));
+            core.iter(Replacements, kvp => content = text.replace(content, kvp.Key, kvp.Value));
+            content = core.map(content.Lines(), x=> x.Content).Concat(Chars.Eol);
+            return new ApiComment(target, name, content);
         }
 
-        public static ApiCommentTarget kind(char src)
+        static ApiCommentTarget target(char src)
             => src switch {
                 'T' => ApiCommentTarget.Type,
                 'M' => ApiCommentTarget.Method,
@@ -225,12 +278,12 @@ namespace Z0
 
         [MethodImpl(Inline)]
         static KeyValuePair<K,V> kvp<K,V>(K key, V value)
-            => new KeyValuePair<K, V>(key,value);
+            => new KeyValuePair<K,V>(key,value);
 
         static Dictionary<string,string> Replacements = new (new KeyValuePair<string,string>[]{
-            kvp("&gt;",">")
-            }
-        );
+                    kvp("&gt;",">"),
+                }
+            );
 
         static ApiComment comment(ApiCommentTarget target, string name, string summary)
         {
@@ -239,7 +292,7 @@ namespace Z0
             return new ApiComment(target,name, content);
         }
 
-        static ParseResult<ApiComment> parse(string key, string value)
+        static ParseResult<ApiComment> ParseComent(string key, string value)
         {
             var components = key.SplitClean(Chars.Colon);
             if(components.Length == 2 && components[0].Length == 1)
@@ -248,7 +301,7 @@ namespace Z0
                               text.unfence(value, RenderFence.define("<summary>", "</summary>"))
                                  .RemoveAny((char)AsciControlSym.CR, (char)AsciControlSym.LF).Trim(), Chars.Pipe, Chars.Caret);
 
-                return ParseResult.win(key, comment(kind(components[0][0]), components[1], summary));
+                return ParseResult.win(key, comment(target(components[0][0]), components[1], summary));
             }
             else
                 return ParseResult.fail<ApiComment>(key);

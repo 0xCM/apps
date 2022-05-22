@@ -23,7 +23,7 @@ namespace Z0
             Type = EmptyString;
             Method = EmptyString;
             Operands = sys.empty<string>();
-            var data = text.remove(src.Name,"Z0.");
+            var data = text.remove(src.TargetName,"Z0.");
             var i = text.index(data, Chars.Dot);
             if(i>0)
             {
@@ -53,8 +53,7 @@ namespace Z0
 
             for(var i=0; i<count; i++)
             {
-                var optype = ApiComments.TypeDisplayName(Operands[i]);
-                dst.Append(optype);
+                dst.Append(ApiCommentDataset.TypeDisplayName(Operands[i]));
                 dst.Append(" -> ");
             }
             dst.Append("| todo");
@@ -64,6 +63,5 @@ namespace Z0
 
         public override string ToString()
             => Format();
-
     }
 }
