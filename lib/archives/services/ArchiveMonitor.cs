@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using System.IO;
-
-    using static Root;
 
     public delegate void FileChanged(FileChange description);
 

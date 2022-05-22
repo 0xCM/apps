@@ -10,7 +10,7 @@ namespace Z0
     partial interface IEnvPaths
     {
         FolderPath ParsedExtractRoot()
-            => CaptureRoot() + FS.folder(parsed);
+            => Env.Db + FS.folder(capture) + FS.folder(parsed);
 
         FS.FolderPath ParsedExtractRoot(FS.FolderPath root)
             => CaptureRoot(root) + FS.folder(parsed);

@@ -6,6 +6,14 @@ namespace Z0
 {
     public class FileTypes
     {
+        public static FileKind kind(FS.FileExt src)
+        {
+            var dst = FileKind.None;
+            var symbols = Symbols.index<FileKind>();
+            symbols.ExprKind(src.Format(), out dst);
+            return dst;
+        }
+
         public static FS.FileExt ext(FileKind src)
             => FS.ext(format(src));
 

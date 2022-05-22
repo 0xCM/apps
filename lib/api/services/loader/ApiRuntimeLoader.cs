@@ -15,12 +15,12 @@ namespace Z0
             => path(src).FolderPath;
 
         [Op]
-        internal static FS.Files managed(FS.FolderPath dir, bool libonly)
+        internal static FolderFiles managed(FS.FolderPath dir, bool libonly)
         {
             var src = dir.Exclude("System.Private.CoreLib");
             if(libonly)
                 src = src.Where(x => !x.Format().EndsWith(".exe"));
-            return src.Where(f => FS.managed(f));
+            return new FolderFiles(dir, src.Where(f => FS.managed(f)));
         }
     }
 }

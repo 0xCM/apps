@@ -20,14 +20,22 @@ namespace Z0
         public CommentDataset Calc()
         {
             var targets = AppDb.ApiTargets("comments");
+            var dllPaths = list<FS.FilePath>();
             var xmlData = new Dictionary<FS.FilePath, Dictionary<string,string>>();
             var archive = core.controller().RuntimeArchive();
+            var dllFiles = archive.DllFiles;
             var xmlFiles = archive.XmlFiles;
             foreach(var xmlfile in xmlFiles)
             {
                 var elements = ParseXmlData(xmlfile.ReadText());
                 if(elements.Count != 0)
+                {
                     xmlData[xmlfile] = elements;
+                    var dllfile = dllFiles.Where(f => f.FileName == xmlfile.FileName.ChangeExtension(FS.Dll)).FirstOrDefault();
+                    if(dllfile.IsNonEmpty)
+                        dllPaths.Add(dllfile);
+
+                }
             }
 
             var comments = new Dictionary<FS.FilePath, Dictionary<string,ApiComment>>();
@@ -56,98 +64,49 @@ namespace Z0
                 }
             }
 
-            return new(xmlData, comments, csvRows);
+            return new(xmlData, comments, csvRows, dllFiles);
         }
 
-        public CommentDataset EmitMarkdownDocs(CommentDataset ds, string[] _types)
+        public void EmitMarkdownDocs(CommentDataset ds, string[] _types)
         {
-            var markers = _types.Map(n => (n, string.Format(".{0}.",n))).ToDictionary();
-            ref readonly var src = ref ds.TargetCommentLookup;
-            var paths = src.Keys.ToArray();
-            for(var i=0; i<paths.Length; i++)
-            {
-                ref readonly var path = ref skip(paths,i);
-                var assemblyComments = src[path];
-                var selected =
-                    from c in assemblyComments
-                    from m in markers
-                    let key = c.Key
-                    let value = c.Value
-                    where key.Contains(m.Value)
-                    where value.Target == ApiCommentTarget.Method
-                    select (Type:m.Key, Method:key, value);
+            // var markers = _types.Map(n => (n, string.Format(".{0}.",n))).ToDictionary();
+            // ref readonly var src = ref ds.TargetCommentLookup;
+            // var paths = src.Keys.ToArray();
+            // for(var i=0; i<paths.Length; i++)
+            // {
+            //     ref readonly var path = ref skip(paths,i);
+            //     var assemblyComments = src[path];
+            //     var selected =
+            //         from c in assemblyComments
+            //         from m in markers
+            //         let key = c.Key
+            //         let value = c.Value
+            //         where key.Contains(m.Value)
+            //         where value.Target == ApiCommentTarget.Method
+            //         select (Type:m.Key, Method:key, value);
 
-                var types = (from groups in selected.Map(x => (x.Type, x.Method, Comment:x.value)).GroupBy(x => x.Type)
-                            let type = groups.Key
-                            select (type, groups.Index())).ToDictionary();
-
-
-                foreach(var typename in types.Keys)
-                {
-                    var rows = types[typename];
-                    var k=0u;
-                    var parts = alloc<ISection>(rows.Length + 1);
-                    var doc = Markdown.doc(parts);
-                    for(var j=0; j<rows.Length; j++, k++)
-                    {
-                        (var _, var method, var comment) = rows[j];
-                        var ms = MethodCommentSig.from(comment);
-                        doc[k] = Markdown.section(k, header(3, ms.Format()), comment.Summary);
-                    }
-                    var dst = AppDb.ApiTargets().Targets("markdown").Path(string.Format("z0.lib.{0}", typename), FileKind.Md);
-                    FileEmit(doc.Format(), k, dst);
-                }
-            }
-
-            return ds;
-        }
-
-        public void EmitMarkdownDocs(string[] _types)
-        {
-            var typenames = _types.ToHashSet();
-            var markers = typenames.Map(n => (n,string.Format(".{0}.",n))).ToDictionary();
-            var ds = Calc();
-            ref readonly var src = ref ds.TargetCommentLookup;
-            var paths = src.Keys.ToArray();
-            for(var i=0; i<paths.Length; i++)
-            {
-                ref readonly var path = ref skip(paths,i);
-                if(path.Contains("z0.lib.xml"))
-                {
-                    var assemblyComments = src[path];
-                    var selected =
-                        from c in assemblyComments
-                        from m in markers
-                            let key = c.Key
-                            let value = c.Value
-                        where key.Contains(m.Value)
-                        where value.Target == ApiCommentTarget.Method
-                        select (Type:m.Key, Method:key, value);
-
-                    var types = (from groups in selected.Map(x => (x.Type, x.Method, Comment:x.value)).GroupBy(x => x.Type)
-                                let type = groups.Key
-                                select (type, groups.Index())).ToDictionary();
+            //     var types = (from groups in selected.Map(x => (x.Type, x.Method, Comment:x.value)).GroupBy(x => x.Type)
+            //                 let type = groups.Key
+            //                 select (type, groups.Index())).ToDictionary();
 
 
-                    foreach(var typename in types.Keys)
-                    {
-                        var rows = types[typename];
-                        var k=0u;
-                        var parts = alloc<ISection>(rows.Length + 1);
-                        var doc = Markdown.doc(parts);
-                        for(var j=0; j<rows.Length; j++, k++)
-                        {
-                            (var _, var method, var comment) = rows[j];
-                            var ms = MethodCommentSig.from(comment);
-                            doc[k] = Markdown.section(k, header(3, ms.Format()), comment.Summary);
-                        }
-                        var dst = AppDb.ApiTargets().Targets("markdown").Path(string.Format("z0.lib.{0}", typename), FileKind.Md);
-                        FileEmit(doc.Format(), k, dst);
-                    }
+            //     foreach(var typename in types.Keys)
+            //     {
+            //         var rows = types[typename];
+            //         var k=0u;
+            //         var parts = alloc<ISection>(rows.Length + 1);
+            //         var doc = Markdown.doc(parts);
+            //         for(var j=0; j<rows.Length; j++, k++)
+            //         {
+            //             (var _, var method, var comment) = rows[j];
+            //             var ms = MethodCommentSig.from(comment);
+            //             doc[k] = Markdown.section(k, header(3, ms.Format()), comment.Summary);
+            //         }
+            //         var dst = AppDb.ApiTargets().Targets("markdown").Path(string.Format("z0.lib.{0}", typename), FileKind.Md);
+            //         FileEmit(doc.Format(), k, dst);
+            //     }
+            // }
 
-                    break;
-                }
-            }
         }
 
         public Dictionary<FS.FilePath, Dictionary<string,string>> Collect()
@@ -211,6 +170,7 @@ namespace Z0
             }
 
             if(result)
+
                 result = parse(target(parts[0][0]), parts[1], value, out dst);
             else
                 dst = ApiComment.Empty;

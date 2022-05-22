@@ -11,7 +11,7 @@ namespace Z0
         /// </summary>
         public FS.FolderPath Source {get;}
 
-        public FS.Files ManagedSources {get;}
+        public FolderFiles ManagedSources {get;}
 
         public IApiCatalog Catalog {get;}
 

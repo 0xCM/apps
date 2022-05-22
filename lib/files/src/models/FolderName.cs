@@ -4,14 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct FS
     {
-        [DataType(TypeSyntax.Folder)]
         public readonly struct FolderName : IFsEntry<FolderName>
         {
             public static FS.FolderName version(byte major, byte minor, byte revision)

@@ -9,13 +9,13 @@ namespace Z0
     partial interface IEnvPaths
     {
         FS.FolderPath DevRoot(string id)
-            => DevRoot() + FS.folder(id);
+            => Env.DevRoot + FS.folder(id);
 
         FS.FolderPath PartSrcDir(string id)
-            => ZRoot() + FS.folder(src) + FS.folder(id);
+            => DevRoot(z0) + FS.folder(src) + FS.folder(id);
 
         FS.FolderPath PartSrcDir(PartId id)
-            => ZRoot() + FS.folder(src) + FS.folder(id.Format());
+            => DevRoot(z0) + FS.folder(src) + FS.folder(id.Format());
 
         FS.FilePath PartSrcFile(PartId id, FS.FileName name)
             => PartSrcDir(id) + FS.folder(src) + name;

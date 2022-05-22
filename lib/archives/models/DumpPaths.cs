@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static core;
 
     public readonly struct DumpPaths
     {
-        public FS.FolderPath InputRoot {get;}
+        public readonly FS.FolderPath InputRoot {get;}
 
-        public FS.FolderPath OutputRoot {get;}
+        public readonly FS.FolderPath OutputRoot {get;}
 
         public DumpPaths(FS.FolderPath input, FS.FolderPath output)
         {

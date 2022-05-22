@@ -96,7 +96,7 @@ namespace Z0
         [Op]
         public Index<HexPacked> Emit(SortedIndex<ApiCodeBlock> src, FS.FilePath? dst = null, bool validate = false)
         {
-            var _dst = dst ?? Db.DbTableRoot() + FS.file("apihex", FS.ext("xpack"));
+            var _dst = dst ?? Env.Db + FS.folder(EnvFolders.tables) + FS.file("apihex", FS.ext("xpack"));
             var result = Pack(src, validate);
             var packed = result.View;
             var emitting = EmittingFile(_dst);

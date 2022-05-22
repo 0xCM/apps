@@ -9,7 +9,7 @@ namespace Z0
     partial interface IEnvPaths
     {
         FS.FolderPath RawExtractRoot()
-            => CaptureRoot() + FS.folder(extracts);
+            => Env.Db + FS.folder(capture) + FS.folder(extracts);
 
         FS.Files RawExtractPaths()
             => RawExtractRoot().TopFiles;

@@ -15,13 +15,13 @@ namespace Z0
             => Env.ToolWs;
 
         FS.FolderPath ToolDataRoot()
-            => DbRoot() + FS.folder(tools);
+            => Env.Db + FS.folder(tools);
 
         FS.FolderPath ToolScripts(ToolId tool)
-            => Tools() + FS.folder(tool.Format()) + FS.folder(scripts);
+            => Env.ToolWs + FS.folder(tool.Format()) + FS.folder(scripts);
 
         FS.FolderPath ToolOutDir(ToolId tool)
-            => ToolDataRoot() + FS.folder(tool.Format()) + FS.folder(output);
+            => Env.Db + FS.folder(tools) + FS.folder(tool.Format()) + FS.folder(output);
 
         FS.FilePath ToolScript(ToolId tool, ScriptId script, FS.FileExt? ext = null)
             => ToolScripts(tool) + FS.file(script.Format(), ext ?? FS.Cmd);

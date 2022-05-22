@@ -4,13 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
     public interface IArchiveWriter : IDisposable
     {
 
     }
 
-    [Free]
     public interface IArchiveWriter<H> : IArchiveWriter
         where H : struct, IArchiveWriter<H>
     {

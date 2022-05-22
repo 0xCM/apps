@@ -4,10 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static EnvFolders;
+
     partial interface IEnvPaths
     {
         FS.FolderPath AsmStatementRoot()
-            => DbTableRoot() + FS.folder("asm.statements");
+            => Env.Db + FS.folder(tables) + FS.folder("asm.statements");
 
         FS.FolderPath AsmStatementRoot(FS.FolderPath root)
             => TableRoot(root) + FS.folder("asm.statements");

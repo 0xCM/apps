@@ -4,19 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
-
     using api = RuntimeArchive;
 
     public readonly struct RuntimeAssembly : ITextual
     {
-        public Assembly Component {get;}
+        public readonly Assembly Component;
 
-        public FS.FilePath Path {get;}
+        public readonly FS.FilePath Path;
 
         [MethodImpl(Inline)]
         public RuntimeAssembly(Assembly src, FS.FilePath path)

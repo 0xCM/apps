@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct Artifact<K,T> : IArtifact<K,T>
         where K : unmanaged
         where T : unmanaged

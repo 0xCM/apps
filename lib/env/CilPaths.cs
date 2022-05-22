@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static EnvFolders;
-    using static Root;
 
     public interface ICilPaths : IEnvPaths
     {
@@ -28,7 +24,7 @@ namespace Z0
             => CilDataPaths().Where(f => f.IsOwner(part));
 
         FS.FolderPath CilCodeRoot()
-            => CaptureRoot() + FS.folder(cil);
+            => Env.Db + FS.folder(capture) + FS.folder(cil);
 
         FS.FilePath CilCodePath(FS.FileName name)
             => CilCodeRoot() + name;

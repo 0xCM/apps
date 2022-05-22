@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
     public abstract class ToolService<T> : AppService<T>
         where T : ToolService<T>, new()
     {
@@ -26,55 +20,8 @@ namespace Z0
 
         }
 
-        // void ReceiveCmdStatus(in string src)
-        // {
-
-        // }
-
-        // void ReceiveCmdError(in string src)
-        // {
-        //     Error(src);
-        // }
-
-        // protected void DisplayCmdResponse(ReadOnlySpan<TextLine> src)
-        // {
-        //     var count = src.Length;
-        //     if(count == 0)
-        //         Warn("No response to parse");
-
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         if(CmdResponse.parse(skip(src,i).Content, out var response))
-        //             Write(response);
-        //     }
-        // }
-
-        // protected Outcome Run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
-        //     => ScriptRunner.RunCmd(cmd, vars, ReceiveCmdStatus, ReceiveCmdError, out response);
-
-        // protected Outcome Run(ToolScript spec, out ReadOnlySpan<TextLine> response)
-        //     => ScriptRunner.RunCmd(spec, ReceiveCmdStatus, ReceiveCmdError, out response);
-
-        // protected Outcome RunWinCmd(string spec, out ReadOnlySpan<TextLine> response)
-        //     => CmdRunner.Run(WinCmd.cmd(spec), out response);
-
-        // protected Outcome RunScript(FS.FilePath src, out ReadOnlySpan<TextLine> response)
-        // {
-        //     var result = Outcome.Success;
-
-        //     void OnError(Exception e)
-        //     {
-        //         result = e;
-        //         Error(e);
-        //     }
-
-        //     var cmd = Cmd.cmdline(src.Format(PathSeparator.BS));
-        //     response = ScriptRunner.RunCmd(cmd, OnError);
-        //     return result;
-        // }
-
         protected FS.FolderPath Home
-            => Db.DevWs() + FS.folder("tools") + FS.folder(Id.Format());
+            => Env.DevWs + FS.folder("tools") + FS.folder(Id.Format());
 
         public FS.FolderPath OutDir
             => Paths.ToolOutDir(Id);

@@ -11,13 +11,13 @@ namespace Z0
     partial interface IEnvPaths
     {
         FS.FolderPath TableRoot(FS.FolderPath root)
-            => DbRoot(root) + FS.folder(tables);
+            => root + FS.folder(tables);
 
         FS.FolderPath TableDir(string subject)
-            => DbTableRoot() + FS.folder(subject);
+            => Env.Db + FS.folder(tables) + FS.folder(subject);
 
         FS.FolderPath TableDir(FS.FolderName subject)
-            => DbTableRoot() + subject;
+            => Env.Db + FS.folder(tables) + subject;
 
         FS.FolderPath TableDir(FS.FolderPath root, string subject)
             => TableRoot(root) + FS.folder(subject);
@@ -67,7 +67,7 @@ namespace Z0
         }
 
         FS.FilePath Table<S>(string id, S subject)
-            => DbTableRoot()+ FS.folder(id) + FS.file(RP.format(EnvFolders.qualified, id, subject), DefaultTableExt);
+            => Env.Db + FS.folder(tables) + FS.folder(id) + FS.file(RP.format(EnvFolders.qualified, id, subject), DefaultTableExt);
 
         FS.FilePath Table<S>(FS.FolderPath dir, S subject)
             => dir + FS.file(subject.ToString(), DefaultTableExt);

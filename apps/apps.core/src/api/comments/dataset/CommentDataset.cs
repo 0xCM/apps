@@ -45,27 +45,6 @@ namespace Z0
                 return name;
             }
 
-            public CommentDataset(
-                    Dictionary<FS.FilePath, Dictionary<string,string>> xml,
-                    Dictionary<FS.FilePath, Dictionary<string,ApiComment>> comments,
-                    Dictionary<FS.FilePath, List<ApiComment>> csvFormat
-                    )
-            {
-                TargetXmlLookup = xml.Map(x => (x.Key, TargetXml.create(x.Key, x.Value))).ToDictionary();
-                TargetCommentLookup = comments.Map(x => (x.Key, TargetComments.create(x.Key, x.Value))).ToDictionary();
-                Comments = TargetCommentLookup.Values.ToArray();
-                Xml = TargetXmlLookup.Values.ToArray();
-                CsvRowLookup = csvFormat.Map(x => (x.Key, x.Value.Index())).ToDictionary();
-            }
-
-            public PartComments FindComments(FS.FolderPath dir, PartId part)
-            {
-                var dst = new PartComments();
-                dst.Part = part;
-                dst.CsvPath = CsvPath(dir,part);
-                dst.XmlPath = XmlPath(dir,part);
-                return dst;
-            }
         }
     }
 }

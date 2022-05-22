@@ -11,13 +11,13 @@ namespace Z0
     partial interface IEnvPaths
     {
         FS.FolderPath CaseDir<T>(T subject)
-            => CaseRoot() + FS.folder(string.Format("{0}", subject));
+            => Env.Db + FS.folder(cases) + FS.folder(string.Format("{0}", subject));
 
         FS.FolderPath CaseDir<T,D>(T subject, D discriminator)
             => CaseDir(subject) + FS.folder(string.Format("{0}", discriminator));
 
         FS.FolderPath TestLogRoot()
-            => LogRoot() + FS.folder(tests);
+            => Env.Db + FS.folder(logs) + FS.folder(tests);
 
         FS.FolderPath TestLogDir(PartId id)
             => TestLogRoot() + FS.folder(id.Format());

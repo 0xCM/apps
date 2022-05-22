@@ -4,23 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-    using System.Reflection;
-
-    using static Root;
     using static FS;
 
     partial class XTend
     {
         public static IRuntimeArchive RuntimeArchive(this Assembly src)
-            => new RuntimeArchive(FS.path(src.Location).FolderPath);
+            => Z0.RuntimeArchive.create(src);
     }
 
     [ApiHost]
     public readonly struct RuntimeArchive : IRuntimeArchive
     {
+        public static IRuntimeArchive create(Assembly src)
+            => new RuntimeArchive(FS.path(src.Location).FolderPath);
+
         public FS.FolderPath Root {get;}
 
         public FS.Files Files {get;}

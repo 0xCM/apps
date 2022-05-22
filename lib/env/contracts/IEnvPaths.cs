@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-
     public partial interface IEnvPaths : ITablePaths
     {
         EnvData Env {get;}
@@ -15,7 +12,7 @@ namespace Z0
             => FS.folder(part.Format());
 
         FS.FilePath ControlScript(FS.FileName src)
-            => ControlScripts() + src;
+            => Env.Control + FS.folder(".cmd") + src;
 
         string AppName
             => Assembly.GetEntryAssembly().GetSimpleName();

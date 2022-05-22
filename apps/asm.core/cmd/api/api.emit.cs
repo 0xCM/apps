@@ -27,24 +27,33 @@ namespace Z0
         void ApiEmitComments()
         {
             var ds = ApiComments.Calc();
-            var types = new string[]{nameof(vpack),
-                nameof(vmask),
-                nameof(cpu),
-                nameof(gcpu),
-                nameof(BitMasks),
-                nameof(BitMaskLiterals),
-            };
+            ref readonly var xmlsources = ref ds.XmlSources;
+            iter(xmlsources, path => Write(path.ToUri()));
 
-            var types2 = new string[]{
-                "z0.lib." + nameof(vpack),
-                "z0.lib." + nameof(vmask),
-                "z0.lib." + nameof(cpu),
-                "z0.lib." + nameof(gcpu),
-                "z0.lib." + nameof(BitMasks),
-                "z0.lib." + nameof(BitMaskLiterals),
-            };
+            ref readonly var csvtargets = ref ds.CsvRowLookup;
+            iter(csvtargets.Keys, key => Write(key.ToUri().Format()));
 
-            ApiComments.EmitMarkdownDocs(ds,types);
+            ref readonly var sources = ref ds.Sources;
+            iter(sources, source => Write(source.ToUri()));
+
+            // var types = new string[]{nameof(vpack),
+            //     nameof(vmask),
+            //     nameof(cpu),
+            //     nameof(gcpu),
+            //     nameof(BitMasks),
+            //     nameof(BitMaskLiterals),
+            // };
+
+            // var types2 = new string[]{
+            //     "z0.lib." + nameof(vpack),
+            //     "z0.lib." + nameof(vmask),
+            //     "z0.lib." + nameof(cpu),
+            //     "z0.lib." + nameof(gcpu),
+            //     "z0.lib." + nameof(BitMasks),
+            //     "z0.lib." + nameof(BitMaskLiterals),
+            // };
+
+            //ApiComments.EmitMarkdownDocs(ds,types);
         }
 
         [CmdOp("api/emit/classes")]

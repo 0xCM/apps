@@ -26,19 +26,19 @@ namespace Z0
             => Env.CacheRoot;
 
         FS.FolderPath EtlRoot()
-            => DbRoot() + FS.folder(etl);
+            => Env.Db + FS.folder(etl);
 
         FS.FolderPath DbRoot()
             => Env.Db;
 
         FS.FolderPath ProcessContextRoot()
-            => CacheRoot() + FS.folder(context);
+            => Env.CacheRoot + FS.folder(context);
 
         FS.FolderPath RuntimeRoot()
             => Env.ZBin;
 
         FS.FolderPath DbTableRoot()
-            => DbRoot() + FS.folder(tables);
+            => Env.Db + FS.folder(tables);
 
         FS.FolderPath DumpRoot()
             => FS.dir("j:/dumps");
@@ -50,40 +50,40 @@ namespace Z0
             => Env.Packages;
 
         FS.FolderPath DbDocRoot()
-            => DbRoot() + FS.folder(docs);
+            => Env.Db + FS.folder(docs);
 
         FS.FolderPath JobRoot()
-            => DbRoot() + FS.folder(jobs);
+            => Env.Db + FS.folder(jobs);
 
         FS.FolderPath JobQueue()
             => JobRoot() + FS.folder(queue);
 
         FS.FolderPath ControlScripts()
-            => ControlRoot() + FS.folder(".cmd");
+            => Env.Control + FS.folder(".cmd");
 
         FS.FolderPath IndexRoot()
-            => DbTableRoot() + FS.folder(indices);
+            => Env.Db + FS.folder(tables) + FS.folder(indices);
 
         FS.FolderPath LogRoot()
-            => DbRoot() + FS.folder(logs);
+            => Env.Db + FS.folder(logs);
 
         FS.FolderPath ListRoot()
-            => DbRoot() + FS.folder(lists);
+            => Env.Db + FS.folder(lists);
 
         FS.FolderPath BuildArchiveRoot()
-            => BinaryRoot() + FS.folder(builds);
+            => Env.Db + FS.folder(bin) + FS.folder(builds);
 
         FS.FolderPath CaseRoot()
-            => DbRoot() + FS.folder(cases);
+            => Env.Db + FS.folder(cases);
 
         FS.FolderPath AppLogRoot()
-            => LogRoot() + FS.folder(apps) + FS.folder(AppName);
+            => Env.Db + FS.folder(logs) + FS.folder(apps) + FS.folder(AppName);
 
         FS.FolderPath CmdLogRoot()
-            => LogRoot() + FS.folder(commands);
+            => Env.Db + FS.folder(logs) + FS.folder(commands);
 
         FS.FolderPath BuildLogRoot()
-            => LogRoot() + FS.folder(dotbuild);
+            => Env.Db + FS.folder(logs) + FS.folder(dotbuild);
 
         FS.FolderPath DevRoot()
             => Env.DevRoot;
@@ -92,6 +92,6 @@ namespace Z0
             => DevRoot(z0);
 
         FS.FolderPath CilDataRoot()
-            => CaptureRoot() + FS.folder(cildata);
+            => Env.Db + FS.folder(capture) + FS.folder(cildata);
     }
 }

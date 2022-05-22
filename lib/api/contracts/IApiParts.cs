@@ -12,7 +12,7 @@ namespace Z0
         /// </summary>
         FS.FolderPath Source {get;}
 
-        FS.Files ManagedSources {get;}
+        FolderFiles ManagedSources {get;}
 
         Index<Assembly> Components {get;}
 

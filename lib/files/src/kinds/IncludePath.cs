@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using api = Includes;
 
     public readonly struct IncludePath : ITextual, IIndex<FS.FolderPath>

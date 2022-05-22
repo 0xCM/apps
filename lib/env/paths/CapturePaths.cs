@@ -9,22 +9,22 @@ namespace Z0
     partial interface IEnvPaths
     {
         FS.FolderPath CaptureRoot()
-            => DbRoot() + FS.folder(capture);
+            => Env.Db + FS.folder(capture);
 
         FS.FolderPath CapturePackRoot()
             => Env.CapturePacks;
 
         FS.FolderPath CaptureRoot(FS.FolderPath root)
-            => DbRoot(root) + FS.folder(capture);
+            => root + FS.folder(capture);
 
         FS.FolderPath ImmCaptureRoot()
-            => CaptureRoot() + FS.folder(imm);
+            => Env.Db + FS.folder(capture) + FS.folder(imm);
 
         FS.FolderPath CaptureContextRoot()
-            => CaptureRoot() + FS.folder(context);
+            => Env.Db + FS.folder(capture) + FS.folder(context);
 
         FS.FolderPath AsmCaptureRoot()
-            => CaptureRoot() + FS.folder(asm);
+            => Env.Db + FS.folder(capture) + FS.folder(asm);
 
         FS.Files AsmCapturePaths()
             => AsmCaptureRoot().Files(FS.Asm, true);

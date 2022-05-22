@@ -4,14 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
-
-    [Service]
     public struct ModuleArchive
     {
         /// <summary>
@@ -27,6 +19,7 @@ namespace Z0
         [MethodImpl(Inline)]
         internal ModuleArchive(FS.FolderPath root)
             => Root = root;
+
         public Index<FileModule> ManagedDllFiles()
             => dll_managed().Array();
 

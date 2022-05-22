@@ -9,7 +9,7 @@ namespace Z0
     partial interface IEnvPaths
     {
         FS.FolderPath CatalogRoot()
-            => DbRoot() + FS.folder(catalogs);
+            => Env.Db + FS.folder(catalogs);
 
         FS.FolderPath AsmCatalogRoot()
             => CatalogRoot() + FS.folder(asm);

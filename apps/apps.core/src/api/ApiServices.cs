@@ -128,15 +128,15 @@ namespace Z0
         public Dictionary<FS.FilePath, Dictionary<string,string>> EmitComments()
             => Data(nameof(EmitComments), () => Comments.Collect());
 
-        public void EmitApiMd()
-            => Comments.EmitMarkdownDocs(new string[]{
-                nameof(vpack),
-                nameof(vmask),
-                nameof(cpu),
-                nameof(gcpu),
-                nameof(BitMasks),
-                nameof(BitMaskLiterals),
-                });
+        // public void EmitApiMd()
+        //     => Comments.EmitMarkdownDocs(new string[]{
+        //         nameof(vpack),
+        //         nameof(vmask),
+        //         nameof(cpu),
+        //         nameof(gcpu),
+        //         nameof(BitMasks),
+        //         nameof(BitMaskLiterals),
+        //         });
 
         public void Emit(ReadOnlySpan<ApiCmdRow> src)
             => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<ApiCmdRow>());

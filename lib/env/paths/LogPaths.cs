@@ -29,12 +29,12 @@ namespace Z0
                 : FS.file(id.Format(), X.Log));
 
         FS.FolderPath ShowLogRoot()
-            => LogRoot() + FS.folder(show);
+            => Env.Db + FS.folder(logs) + FS.folder(show);
 
         FS.FilePath ShowLog([Caller]string name = null, FS.FileExt? ext = null)
-            => ShowLogRoot() + FS.file(name, ext ?? X.Log);
+            => Env.Db + FS.folder(logs) + FS.folder(show) + FS.file(name, ext ?? X.Log);
 
         FS.FilePath ShowLog(FS.FileName file)
-            => ShowLogRoot() + file;
+            => Env.Db + FS.folder(logs) + FS.folder(show) + file;
     }
 }

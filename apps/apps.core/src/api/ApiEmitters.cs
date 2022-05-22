@@ -27,7 +27,6 @@ namespace Z0
                 EmitBitMasks,
                 EmitDataFlows,
                 EmitEnumList,
-                EmitApiMd,
                 EmitCompilationLits,
                 EmitComments,
                 EmitParsers,
@@ -39,9 +38,6 @@ namespace Z0
 
         void EmitApiCommands()
             => ApiSvc.Emit(ApiSvc.CalcApiCommands());
-
-        void EmitApiMd()
-            => ApiSvc.EmitApiMd();
 
         void EmitCompilationLits()
             => ApiSvc.Emit(ApiSvc.CalcCompilationLits());

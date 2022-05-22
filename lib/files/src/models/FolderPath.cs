@@ -4,13 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.IO;
-    using System.Collections.Generic;
     using System.Linq;
-
-    using static Root;
 
     partial struct FS
     {
@@ -74,7 +69,7 @@ namespace Z0
                 get => FS.folder(Info.Name);
             }
 
-            public FilePath[] Match(string pattern = null)
+            FilePath[] Match(string pattern = null)
                 => Directory.EnumerateFiles(Name, pattern ?? SearchAll).Array().Select(x => FS.path(x));
 
             public FilePath[] Exclude(string substring, string match = null)
