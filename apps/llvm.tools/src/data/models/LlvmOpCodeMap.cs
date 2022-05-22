@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Collections.Generic;
-
     public class LlvmOpCodeMap : ConstLookup<Identifier,Index<InstEntity>>
     {
         public LlvmOpCodeMap(Dictionary<Identifier,Index<InstEntity>> src)

@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmDataProvider
+    partial class LlvmDataCalcs
     {
-        public LlvmOpCodeMap OpCodeMap(Index<LlvmEntity> src)
-            => (LlvmOpCodeMap)DataSets.GetOrAdd(nameof(OpCodeMap), _ => Instructions(src));
+        public Index<InstEntity> CalcInstructions(Index<LlvmEntity> src)
+            => Data(nameof(InstEntity), () => src.Where(e => e.IsInstruction()).Select(e => e.ToInstruction()));
     }
 }

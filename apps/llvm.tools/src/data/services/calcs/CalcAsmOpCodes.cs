@@ -8,7 +8,7 @@ namespace Z0.llvm
 
     partial class LlvmDataCalcs
     {
-        public LlvmOpCodeMap CalcOpCodeMap(ReadOnlySpan<InstEntity> src)
+        public LlvmOpCodeMap CalcOpCodeMap(Index<InstEntity> src)
         {
             var count = src.Length;
             var dst = dict<Identifier,DataList<InstEntity>>();
@@ -32,12 +32,6 @@ namespace Z0.llvm
                 }
             }
             return dst.Map(x => (x.Key, new Index<InstEntity>(x.Value.Array()))).ToDictionary();
-        }
-
-        public LlvmOpCodeMap CalcOpCodeMap(ReadOnlySpan<LlvmEntity> entities)
-        {
-            var src = entities.Where(e => e.IsInstruction()).Select(e => e.ToInstruction());
-            return CalcOpCodeMap(src);
         }
 
         public Index<LlvmAsmOpCode> CalcAsmOpCodes(AsmIdentifiers asmids, LlvmOpCodeMap src)

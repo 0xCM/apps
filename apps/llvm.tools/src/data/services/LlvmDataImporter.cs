@@ -51,13 +51,12 @@ namespace Z0.llvm
 
             Index<LlvmEntity> entities = sys.empty<LlvmEntity>();
             exec(PllExec,
-                //() => entities = DataProvider.SelectEntities(defRelations, defFields),
+                () => entities = DataProvider.SelectEntities(defRelations, defFields),
                 () => DataEmitter.EmitClassFields(classFields),
                 () => DataEmitter.EmitDefFields(defFields)
             );
 
-            entities = DataProvider.SelectEntities(defRelations, defFields);
-            var instructions = entities.Where(e => e.IsInstruction()).Select(e => e.ToInstruction());
+            var instructions = DataProvider.Instructions(entities);
             exec(PllExec,
                 () => DataEmitter.Emit(DataCalcs.CalcInstDefs(asmids, entities)),
                 () => DataEmitter.Emit(DataCalcs.CalcAsmVariations(asmids, instructions)),
@@ -85,6 +84,5 @@ namespace Z0.llvm
             }
             return docs;
         }
-
    }
 }

@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     partial class LlvmDataProvider
     {
-        public LlvmOpCodeMap OpCodeMap(Index<LlvmEntity> src)
-            => (LlvmOpCodeMap)DataSets.GetOrAdd(nameof(OpCodeMap), _ => Instructions(src));
+        public Index<InstEntity> Instructions(Index<LlvmEntity> src)
+            => (Index<InstEntity>)DataSets.GetOrAdd("Instructions", _ => src.Where(e => e.IsInstruction()).Select(e => e.ToInstruction()));
     }
 }

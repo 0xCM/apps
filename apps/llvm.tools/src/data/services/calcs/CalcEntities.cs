@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-
     using static core;
-    using static Root;
 
     partial class LlvmDataCalcs
     {

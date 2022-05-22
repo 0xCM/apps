@@ -11,10 +11,13 @@ namespace Z0.llvm
 
         public const byte FieldCount = 3;
 
+        [Render(14)]
         public LineNumber SourceLine;
 
+        [Render(64)]
         public Identifier Name;
 
+        [Render(1)]
         public Lineage Ancestors;
 
         LineNumber ILineRelations.SourceLine
@@ -55,8 +58,5 @@ namespace Z0.llvm
             else
                 return i;
         }
-
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{14,64,1};
     }
 }
