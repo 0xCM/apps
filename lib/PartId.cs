@@ -177,6 +177,9 @@ public enum PartId : byte
     [Symbol("intel.sde")]
     IntelSde,
 
+    [Symbol("alloc")]
+    Alloc,
+
     // ~ Generated 64 .. 127
     // ~ -------------------------------------------------------------------------------
 

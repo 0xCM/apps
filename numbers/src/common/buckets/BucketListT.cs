@@ -4,25 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static core;
-    using static Root;
 
-    public class BucketList<L,T>
+    public class BucketList<T>
     {
-        readonly Index<Bucket<L,T>> Data;
+        readonly Index<Bucket<T>> Data;
 
         uint Current;
 
         public BucketList(uint capacity)
         {
-            Data = alloc<Bucket<L,T>>(capacity);
+            Data = alloc<Bucket<T>>(capacity);
             Current = 0;
         }
 
-        public BucketList(Bucket<L,T>[] src)
+        public BucketList(Bucket<T>[] src)
         {
             Data = src;
             Current = (uint)src.Length;
@@ -34,26 +30,20 @@ namespace Z0
             get => Data.Count;
         }
 
-        public uint Count
-        {
-            [MethodImpl(Inline)]
-            get => Current;
-        }
-
-        public ref Bucket<L,T> this[int index]
+        public ref Bucket<T> this[int index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
-        public ref Bucket<L,T> this[uint index]
+        public ref Bucket<T> this[uint index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
         [MethodImpl(Inline)]
-        public BucketList<L,T> Include(params Bucket<L,T>[] src)
+        public BucketList<T> Include(params Bucket<T>[] src)
         {
             for(var i=0; Current<Capacity && i<src.Length; i++, Current++)
                 this[Current] = skip(src,i);
@@ -70,5 +60,6 @@ namespace Z0
             }
             return dst.Emit();
         }
+
     }
 }

@@ -20,6 +20,9 @@
 		},
 		{
 			"path": "..\\expr"
+		},
+		{
+			"path": "..\\alloc"
 		}
 	],
 	"settings": {}

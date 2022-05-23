@@ -9,6 +9,7 @@
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
     <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
+    <PackageReference Include="QuikGraph.Graphviz" Version="2.3.1" />
   </ItemGroup>
 
 </Project>

@@ -6,6 +6,8 @@ namespace Z0
 {
     public static class XSvc
     {
+        public static Parsers Parsers(this IWfRuntime wf)
+            => Z0.Parsers.create(wf);
         [Op]
         public static SymServices SymServices(this IWfRuntime wf)
             => Z0.SymServices.create(wf);
@@ -22,8 +24,5 @@ namespace Z0
 
         public static CheckRunner CheckRunner(this IWfRuntime wf)
             => Z0.CheckRunner.create(wf);
-
-        public static SymHeaps SymHeaps(this IWfRuntime wf)
-            => Z0.SymHeaps.create(wf);
     }
 }

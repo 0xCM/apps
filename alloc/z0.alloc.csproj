@@ -7,12 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="assets/**/*.*" />
     <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
     <ProjectReference Include="$(Numbers)" />
-    <ProjectReference Include="$(Expr)" />
-    <ProjectReference Include="$(Alloc)" />
-
   </ItemGroup>
 
 </Project>

@@ -40,6 +40,7 @@
     <Lines>$(MSBuildThisFileDirectory)lines/z0.lines.csproj</Lines>
     <Numbers>$(MSBuildThisFileDirectory)numbers/z0.numbers.csproj</Numbers>
     <Expr>$(MSBuildThisFileDirectory)expr/z0.expr.csproj</Expr>
+    <Alloc>$(MSBuildThisFileDirectory)alloc/z0.alloc.csproj</Alloc>
 
     <TestChecks>$(MSBuildThisFileDirectory)test/test.checks/z0.test.checks.csproj</TestChecks>
 

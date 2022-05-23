@@ -28,8 +28,5 @@ namespace Z0
 
         [Render(1)]
         public RuntimeLiteralValue<string> Value;
-
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{32,32,12,12,1};
     }
 }

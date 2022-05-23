@@ -19,8 +19,5 @@ namespace Z0
 
         public static CsLang CsLang(this IWfRuntime wf)
             => Z0.CsLang.create(wf);
-
-        public static Parsers Parsers(this IWfRuntime wf)
-            => Z0.Parsers.create(wf);
     }
 }

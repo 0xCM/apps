@@ -75,6 +75,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.test.runner", "..\test\t
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.intel.intrinsics", "intel.intrinsics\z0.intel.intrinsics.csproj", "{17253CEA-25B3-4176-823C-8A91CF956387}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.alloc", "..\alloc\z0.alloc.csproj", "{394CAAE3-5413-4733-8F96-562A82FD8A93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -406,5 +408,17 @@ Global
 		{17253CEA-25B3-4176-823C-8A91CF956387}.Release|x64.Build.0 = Release|Any CPU
 		{17253CEA-25B3-4176-823C-8A91CF956387}.Release|x86.ActiveCfg = Release|Any CPU
 		{17253CEA-25B3-4176-823C-8A91CF956387}.Release|x86.Build.0 = Release|Any CPU
+		{394CAAE3-5413-4733-8F96-562A82FD8A93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{394CAAE3-5413-4733-8F96-562A82FD8A93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{394CAAE3-5413-4733-8F96-562A82FD8A93}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{394CAAE3-5413-4733-8F96-562A82FD8A93}.Debug|x64.Build.0 = Debug|Any CPU
+		{394CAAE3-5413-4733-8F96-562A82FD8A93}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{394CAAE3-5413-4733-8F96-562A82FD8A93}.Debug|x86.Build.0 = Debug|Any CPU
+		{394CAAE3-5413-4733-8F96-562A82FD8A93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{394CAAE3-5413-4733-8F96-562A82FD8A93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{394CAAE3-5413-4733-8F96-562A82FD8A93}.Release|x64.ActiveCfg = Release|Any CPU
+		{394CAAE3-5413-4733-8F96-562A82FD8A93}.Release|x64.Build.0 = Release|Any CPU
+		{394CAAE3-5413-4733-8F96-562A82FD8A93}.Release|x86.ActiveCfg = Release|Any CPU
+		{394CAAE3-5413-4733-8F96-562A82FD8A93}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
