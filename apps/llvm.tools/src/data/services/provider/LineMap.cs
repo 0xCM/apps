@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     partial class LlvmDataProvider
     {
-        public LineMap<Identifier> LineMap(FS.FilePath src)
-            => (LineMap<Identifier>)DataSets.GetOrAdd(src.Format(), _ => DataLoader.LoadLineMap(src));
+        public LineMap<string> LineMap(FS.FilePath src)
+            => (LineMap<string>)DataSets.GetOrAdd(src.Format(), _ => DataLoader.LoadLineMap(src));
     }
 }

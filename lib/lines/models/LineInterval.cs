@@ -41,6 +41,39 @@ namespace Z0
             return result;
         }
 
+        [Parser]
+        public static Outcome parse<T>(string src, IParser<T> parser,  out LineInterval<T> dst)
+        {
+            var result = Outcome.Success;
+            dst = LineInterval<T>.Empty;
+            var i = text.index(src,Chars.Colon);
+            if(i >= 0)
+            {
+                result = text.unfence(src, LineInterval.RangeFence, out var rs);
+                if(result.Fail)
+                    return result;
+
+                var parts = text.split(rs, LineInterval.RangeDelimiter);
+                if(parts.Length != 2)
+                {
+                    result = (false, string.Format("The range of {0} cannot be determined", src));
+                    return result;
+                }
+
+                result = LineNumber.parse(skip(parts,0), out var min);
+                if(result.Fail)
+                    return result;
+
+                result = LineNumber.parse(skip(parts,1), out var max);
+                if(result.Fail)
+                    return result;
+
+                parser.Parse(text.left(src,i), out var id);
+                dst = new LineInterval<T>(id,min,max);
+            }
+            return result;
+        }
+
         public static Fence<char> RangeFence
             => (Chars.LBracket, Chars.RBracket);
 

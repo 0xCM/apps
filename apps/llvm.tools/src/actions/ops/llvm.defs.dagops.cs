@@ -22,7 +22,7 @@ namespace Z0.llvm
                 dst.Add(string.Format("{0,-24} | {1,-16} | {2,-24} | {3}", entity.EntityName, entity.Type, entity.OperandType, entity.MIOperandInfo));
             }
 
-            Query.EmitFile(DagOpQuery, @readonly(dst.Array()));
+            Query.FileEmit(DagOpQuery, @readonly(dst.Array()));
 
             return true;
         }

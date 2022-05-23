@@ -8,7 +8,7 @@ namespace Z0.llvm
 
     partial class LlvmDataCalcs
     {
-        public IdentityMap<uint> CalcIdentityMap(LineMap<Identifier> src)
+        public IdentityMap<uint> CalcIdentityMap(LineMap<string> src)
         {
             var lookup = new IdentityMap<uint>();
             iteri(src.Intervals, (i,entry) => lookup.Include(entry.Id, (entry.MinLine, entry.MaxLine)));

@@ -8,11 +8,11 @@ namespace Z0
         where T : IEquatable<T>, IComparable<T>
         where K : unmanaged
     {
-        public K Kind {get;}
+        public readonly K Kind;
 
-        public T Source {get;}
+        public readonly T Source;
 
-        public T Target {get;}
+        public readonly T Target;
 
         [MethodImpl(Inline)]
         public Dependency(K kind, T src, T dst)
@@ -21,6 +21,18 @@ namespace Z0
             Source = src;
             Target = dst;
         }
+
+        T IArrow<T,T>.Source
+            => Source;
+
+        T IArrow<T,T>.Target
+            => Target;
+
+        T QuikGraph.IEdge<T>.Source
+            => Source;
+
+        T QuikGraph.IEdge<T>.Target
+            => Target;
 
         ulong KindValue
         {

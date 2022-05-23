@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct CalcHosts
     {
         [Closures(AllNumeric), Parse]
@@ -18,7 +13,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public readonly T Invoke(string a)
             {
-                if(NumericParser.create<T>().Parse(a, out var dst))
+                if(Numeric.parser<T>().Parse(a, out var dst))
                     return dst;
                 else
                     return default;

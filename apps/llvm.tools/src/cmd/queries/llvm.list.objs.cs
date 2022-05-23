@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static core;
-
     partial class LlvmCmd
     {
-        [CmdOp("llvm/list")]
-        Outcome ShowList(CmdArgs args)
-            => Flow("list", DataProvider.List(arg(args,0)).Items);
+        [CmdOp("llvm/list/objs")]
+        void LLvmBuildObj()
+            => Flow(LlvmRepo.BuildOutput(FS.Obj));
     }
 }

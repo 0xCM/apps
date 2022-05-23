@@ -2,11 +2,14 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    partial class LlvmDataProvider
+    partial struct Numeric
     {
-        public Index<string> DefNames()
-            => X86DefMap().Intervals.Select(x => x.Id);
+        [MethodImpl(Inline), Op, Closures(AllNumeric)]
+        public static NumericParser<T> parser<T>()
+            where T : unmanaged
+                => default;
     }
+
 }

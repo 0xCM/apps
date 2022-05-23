@@ -8,7 +8,7 @@ namespace Z0.llvm
 
     partial class LlvmDataProvider
     {
-        public LineMap<Identifier> X86ClassMap()
+        public LineMap<string> X86ClassMap()
             => LineMap(LlvmPaths.ImportMap(Datasets.X86Classes));
     }
 }

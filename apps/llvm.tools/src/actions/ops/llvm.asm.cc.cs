@@ -19,7 +19,7 @@ namespace Z0.llvm
             });
 
             var specs = @readonly(conditions.Map(x => string.Format("{0,-16} {1}", x.EntityName, x["Fragments"])));
-            Query.EmitFile("llvm/asm/cc", specs);
+            Query.FileEmit("llvm/asm/cc", specs);
         }
     }
 }

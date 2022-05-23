@@ -4,9 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmDataProvider
+    using static core;
+
+    partial class LlvmCmd
     {
-        public Index<string> DefNames()
-            => X86DefMap().Intervals.Select(x => x.Id);
+        [CmdOp("llvm/emit/list")]
+        Outcome ShowList(CmdArgs args)
+            => Flow("list", DataProvider.List(arg(args,0)).Items);
     }
 }

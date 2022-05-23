@@ -11,7 +11,7 @@ namespace Z0.llvm
         [CmdOp("llvm/emit/lineage")]
         Outcome QueryClassLineage(CmdArgs args)
         {
-            Query.EmitFile(ClassLineageQuery, DataProvider.ClassLineage().Values);
+            Query.FileEmit(ClassLineageQuery, DataProvider.ClassLineage().Values);
             return true;
         }
     }

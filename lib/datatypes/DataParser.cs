@@ -103,7 +103,7 @@ namespace Z0
         public static Outcome parse(string src, out Hash64 dst)
             => Hash64.parse(src, out dst);
 
-        public static Outcome parse(string src, out LineInterval<Identifier> dst)
+        public static Outcome parse<T>(string src, out LineInterval<Identifier> dst)
             => LineInterval.parse(src, out dst);
 
         public static Outcome parse(string src, out SymKey dst)

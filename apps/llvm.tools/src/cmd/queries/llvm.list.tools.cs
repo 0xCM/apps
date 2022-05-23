@@ -6,10 +6,8 @@ namespace Z0.llvm
 {
     partial class LlvmCmd
     {
-        const string ClassLineQuery = "llvm/classes/lines";
-
-        [CmdOp(ClassLineQuery)]
-        Outcome Class(CmdArgs args)
-            => Flow(ClassLineQuery, arg(args,0).Value, DataProvider.ClassLines(arg(args,0).Value));
+        [CmdOp("llvm/list/tools")]
+        void ListExe()
+            => Flow(LlvmRepo.BuildOutput(FS.Exe));
     }
 }

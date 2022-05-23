@@ -16,8 +16,6 @@ namespace Z0.llvm
             var count = lookup.LineCount;
             using var reader = LlvmPaths.DataSourcePath("records", id).LineReader(TextEncodingKind.Asci);
             var lines = reader.ReadAll().ToArray().Index();
-            if(lines.Count != lookup.LineCount)
-                Warn($"Line count mismatch: {lines.Count} != {lookup.LineCount}");
             return (Index<TextLine>)DataSets.GetOrAdd(id + "lines", _ => lines);
         }
             //=> SelectRecordLines(Datasets.X86);

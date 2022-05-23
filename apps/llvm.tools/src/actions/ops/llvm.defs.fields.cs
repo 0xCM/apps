@@ -23,7 +23,7 @@ namespace Z0.llvm
                 if(result.Fail)
                     return result;
 
-                Query.EmitFile(DefFieldQuery, slice(DataProvider.DefFields().View, offset, length));
+                Query.FileEmit(DefFieldQuery, slice(DataProvider.DefFields().View, offset, length));
             }
             return result;
         }

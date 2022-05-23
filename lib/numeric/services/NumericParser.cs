@@ -11,6 +11,14 @@ namespace Z0
     [ApiHost]
     public readonly struct NumericParser
     {
+        public static NumericParser<T> create<T>()
+            where T : unmanaged
+                => default;
+
+        [MethodImpl(Inline), ParseFunction, Closures(AllNumeric)]
+        public static bool parse<T>(string src, out T dst)
+            => parse_u(src, out dst);
+
         [MethodImpl(Inline)]
         static bool IsHexLiteral(string src)
             => text.begins(src, HexFormatSpecs.PreSpec);
@@ -63,15 +71,6 @@ namespace Z0
             }
             return result;
         }
-
-        [MethodImpl(Inline), Op, Closures(AllNumeric)]
-        public static NumericParser<T> create<T>()
-            where T : unmanaged
-                => default(NumericParser<T>);
-
-        [MethodImpl(Inline), ParseFunction, NumericClosures(AllNumeric)]
-        public static bool parse<T>(string src, out T dst)
-            => parse_u(src, out dst);
 
         [MethodImpl(Inline)]
         static bool parse_u<T>(string src, out T dst)

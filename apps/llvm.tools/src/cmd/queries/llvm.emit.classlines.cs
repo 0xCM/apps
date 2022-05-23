@@ -4,9 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmDataProvider
+    partial class LlvmCmd
     {
-        public Index<string> DefNames()
-            => X86DefMap().Intervals.Select(x => x.Id);
+        [CmdOp("llvm/emit/classlines")]
+        void ClassLines(CmdArgs args)
+            => Query.EmitFile("llvm.classes.lines", arg(args,0).Value, DataProvider.ClassLines(arg(args,0).Value));
     }
 }

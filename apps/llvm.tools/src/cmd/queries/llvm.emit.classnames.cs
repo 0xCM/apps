@@ -6,10 +6,8 @@ namespace Z0.llvm
 {
     partial class LlvmCmd
     {
-        const string ClassNameQuery = "llvm/classes/names";
-
-        [CmdOp(ClassNameQuery)]
-        Outcome ClassNames(CmdArgs args)
-            => Flow(ClassNameQuery, DataProvider.ClassNames());
+        [CmdOp("llvm/emit/classnames")]
+        void EmitClassNames()
+            => Query.FileEmit("llvm.classes.names", DataProvider.ClassNames().View);
     }
 }

@@ -8,10 +8,8 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        const string InstQuery = "llvm/inst";
-
-        [CmdOp(InstQuery)]
-        public Outcome ShowInst(CmdArgs args)
+        [CmdOp("llvm/emit/asmstrings")]
+        void EmitAsmStrings()
         {
             var entities = DataProvider.SelectEntities();
             var count = entities.Length;
@@ -28,8 +26,8 @@ namespace Z0.llvm
                     specs.Add(inst.AsmString);
                 }
             }
-            Flow(InstQuery, specs.ViewDeposited());
-            return true;
+
+            Query.TableEmit("llvm.asm.strings", specs.ViewDeposited());
         }
     }
 }

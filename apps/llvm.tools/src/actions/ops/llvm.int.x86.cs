@@ -26,7 +26,7 @@ namespace Z0.llvm
                 }
             }
 
-            Query.EmitFile("llvm/int/x86", specs.ViewDeposited());
+            Query.FileEmit("llvm/int/x86", specs.ViewDeposited());
 
             return true;
         }

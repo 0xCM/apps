@@ -32,7 +32,7 @@ namespace Z0.llvm
                 }
             }
 
-            Query.EmitTable("llvm.defs.processor.features", dst.ViewDeposited());
+            Query.TableEmit("llvm.defs.processor.features", dst.ViewDeposited());
 
             return true;
         }

@@ -11,7 +11,7 @@ namespace Z0.llvm
         [CmdOp(DefLineageQuery)]
         Outcome QueryDefLineage(CmdArgs args)
         {
-            Query.EmitFile(DefLineageQuery, DataProvider.DefLineage().Values);
+            Query.FileEmit(DefLineageQuery, DataProvider.DefLineage().Values);
             return true;
         }
     }

@@ -6,14 +6,11 @@ namespace Z0.llvm
 {
     partial class LlvmCmd
     {
-        const string DefRelationsQuery = "llvm/defs/relations";
-
-        [CmdOp(DefRelationsQuery)]
-        Outcome SelectDefRelations(CmdArgs args)
+        [CmdOp("llvm/emit/relations")]
+        void EmitDefRelations()
         {
             var relations = DataProvider.DefDependencies();
-            Flow(DefRelationsQuery, relations);
-            return true;
+            Query.FileEmit("llvm.defs.relations", relations.View);
         }
     }
 }

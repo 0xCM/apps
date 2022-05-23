@@ -6,13 +6,8 @@ namespace Z0.llvm
 {
     partial class LlvmCmd
     {
-        const string ListNameQuery = "llvm/lists/names";
-
-        [CmdOp(ListNameQuery)]
-        Outcome LoadLists(CmdArgs args)
-        {
-            Flow(ListNameQuery, DataProvider.Lists().Map(x => x.ToNameList()).View);
-            return true;
-        }
+        [CmdOp("llvm/emit/listnames")]
+        void LoadLists()
+            => Query.FileEmit("llvm.lists.names", DataProvider.Lists().Map(x => x.ToNameList()).View);
     }
 }

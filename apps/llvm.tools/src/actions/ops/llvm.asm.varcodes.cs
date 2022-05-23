@@ -16,7 +16,7 @@ namespace Z0.llvm
             var src = DataProvider.AsmVariations();
             var dst = hashset<AsmVariationCode>();
             iter(src, v => dst.Add(v.Code));
-            Query.EmitFile(AsmVarCodeQuery, @readonly(dst.Array().Sort()));
+            Query.FileEmit(AsmVarCodeQuery, @readonly(dst.Array().Sort()));
         }
     }
 }

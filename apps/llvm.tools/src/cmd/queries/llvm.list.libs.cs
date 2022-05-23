@@ -4,9 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmDataProvider
+    partial class LlvmCmd
     {
-        public Index<string> DefNames()
-            => X86DefMap().Intervals.Select(x => x.Id);
+        [CmdOp("llvm/list/libs")]
+        void LLvmBuildLibs()
+            => Flow(LlvmRepo.BuildOutput(FS.Lib));
     }
 }

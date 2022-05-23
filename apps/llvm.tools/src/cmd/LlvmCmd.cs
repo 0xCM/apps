@@ -52,25 +52,13 @@ namespace Z0.llvm
         Outcome Flow(string query, FS.Files src)
         {
             Files(src);
-            Query.EmitFile(query, @readonly(src.View.Map(x => x.ToUri())));
-            return true;
-        }
-
-        Outcome Flow<T>(string query, string args, ReadOnlySpan<T> src)
-        {
-            Query.EmitFile(query, args, src);
+            Query.FileEmit(query, @readonly(src.View.Map(x => x.ToUri())));
             return true;
         }
 
         Outcome Flow<T>(string query, ReadOnlySpan<T> src)
         {
-            Query.EmitFile(query, src);
-            return true;
-        }
-
-        Outcome Flow<T>(string query, Index<T> src)
-        {
-            Query.EmitFile(query, src.View);
+            Query.FileEmit(query, src);
             return true;
         }
     }

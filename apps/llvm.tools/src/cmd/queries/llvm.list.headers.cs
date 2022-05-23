@@ -6,10 +6,8 @@ namespace Z0.llvm
 {
     partial class LlvmCmd
     {
-        const string RepoBuildExeQuery = "llvm/repo/build/exe";
-
-        [CmdOp(RepoBuildExeQuery)]
-        Outcome LLvmBuildTargets(CmdArgs args)
-            => Flow(LlvmRepo.BuildOutput(FS.Exe));
+        [CmdOp("llvm/list/headers")]
+        void LlvmHeaders()
+            => Flow(LlvmRepo.Files(FS.H));
     }
 }

@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     partial class LlvmDataProvider
     {
-        public Index<Identifier> ClassNames()
+        public Index<string> ClassNames()
             => X86ClassMap().Intervals.Select(x => x.Id);
     }
 }
