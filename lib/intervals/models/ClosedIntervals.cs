@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using api = Intervals;
@@ -16,11 +12,11 @@ namespace Z0
     /// Defines a segmented partition over a contiguous buffer
     /// </summary>
     public ref struct ClosedIntervals<T>
-        where T : unmanaged
+        where T : unmanaged, IEquatable<T>
     {
         readonly Index<T> Buffer;
 
-        public Index<ClosedInterval<uint>> Ranges;
+        public Index<ClosedInterval<T>> Ranges;
 
         public uint SegCount;
 
@@ -28,12 +24,12 @@ namespace Z0
         public ClosedIntervals(Index<T> buffer, uint max)
         {
             Buffer = buffer;
-            Ranges = alloc<ClosedInterval<uint>>(max);
+            Ranges = alloc<ClosedInterval<T>>(max);
             SegCount = 0;
         }
 
         [MethodImpl(Inline)]
-        public ClosedIntervals(Index<T> buffer, Index<ClosedInterval<uint>> ranges)
+        public ClosedIntervals(Index<T> buffer, Index<ClosedInterval<T>> ranges)
         {
             Buffer = buffer;
             Ranges = ranges;
@@ -47,15 +43,15 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public ref ClosedInterval<uint> Range(byte index)
+        public ref ClosedInterval<T> Range(byte index)
             => ref Ranges[index];
 
         [MethodImpl(Inline)]
-        public ref ClosedInterval<uint> Range(uint index)
+        public ref ClosedInterval<T> Range(uint index)
             => ref Ranges[index];
 
         [MethodImpl(Inline)]
-        public void Range(uint index, uint i0, uint i1)
+        public void Range(uint index, T i0, T i1)
             => Range(index) = (i0,i1);
 
         public string Format()

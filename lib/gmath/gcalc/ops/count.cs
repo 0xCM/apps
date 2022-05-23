@@ -27,7 +27,7 @@ namespace Z0
         /// <typeparam name="T">The point domain</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static uint count<T>(in Histogram<T> src, uint index)
-            where T : unmanaged, IComparable<T>
+            where T : unmanaged, IEquatable<T>, IComparable<T>
                 => (uint)src.Counts[index-1];
 
         /// <summary>

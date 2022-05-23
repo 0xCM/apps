@@ -4,17 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-
     using static core;
 
     partial class LlvmDataCalcs
     {
-        public IdentityMap<Interval<uint>> CalcIdentityMap(LineMap<Identifier> src)
+        public IdentityMap<uint> CalcIdentityMap(LineMap<Identifier> src)
         {
-            var lookup = new IdentityMap<Interval<uint>>();
-            iteri(src.Intervals, (i,entry) => lookup.Map(entry.Id, (entry.MinLine,entry.MaxLine)));
-            return lookup;
+            var lookup = new IdentityMap<uint>();
+            iteri(src.Intervals, (i,entry) => lookup.Include(entry.Id, (entry.MinLine, entry.MaxLine)));
+            return lookup.Seal();
         }
     }
 }

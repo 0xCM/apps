@@ -16,11 +16,6 @@ namespace Z0
 
     }
 
-    [ApiHost]
-    public partial class Partition
-    {
-
-    }
 
     public static partial class XTend
     {

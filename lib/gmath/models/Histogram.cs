@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
 
-    using static Root;
-
-    [DataType("histogram<t:{0}>")]
     public struct Histogram<T>
-        where T : unmanaged, IComparable<T>
+        where T : unmanaged, IEquatable<T>, IComparable<T>
     {
         public ClosedInterval<T> Domain {get;}
 

@@ -5,6 +5,7 @@
 namespace Z0
 {
     using System.Linq;
+
     using static core;
 
     [ApiHost]
@@ -250,7 +251,7 @@ namespace Z0
 
         [Op, Closures(Closure)]
         public static DeferredSource<T> create<T>(IBoundSource src, ClosedInterval<T> domain, Func<T,bool> filter = null)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
                 => create(forever(src, domain, filter));
 
         /// <summary>
@@ -293,7 +294,7 @@ namespace Z0
 
         [Op, Closures(Closure)]
         static IEnumerable<T> forever<T>(IBoundSource src, ClosedInterval<T> domain, Func<T,bool> filter)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
                 => filter != null
                 ? some(src, Intervals.closed(domain.Min, domain.Max), filter)
                 : forever(src, domain);
@@ -328,7 +329,7 @@ namespace Z0
 
         [Op, Closures(Closure)]
         static IEnumerable<T> forever<T>(IBoundSource src, ClosedInterval<T> domain)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
                 => domain.IsDegenerate ? forever<T>(src) : forever(src, domain.Min, domain.Max);
 
         /// <summary>

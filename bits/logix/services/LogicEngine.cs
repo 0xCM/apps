@@ -191,7 +191,7 @@ namespace Z0
 
         [Op, Closures(Closure)]
         public static IReadOnlyList<T> solve<T>(ComparisonExpr<T> expr, Interval<T> domain, int varyix)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var sln = new List<T>();
             var level0 = domain.Increments<T>();
@@ -208,7 +208,7 @@ namespace Z0
 
         [Op, Closures(Closure)]
         public static IReadOnlyList<T> solve<T>(ComparisonExpr<T> expr, Interval<T> domain)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var sln = new List<T>();
             var level0 = domain.Increments<T>();

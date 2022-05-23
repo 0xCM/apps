@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct Intervals
     {
         /// <summary>
@@ -18,7 +13,7 @@ namespace Z0
         /// <typeparam name="T">The interval domain</typeparam>
         [MethodImpl(Inline), Op, Closures(UInt64k)]
         public static U01<T> unit<T>()
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
                 => default;
     }
 }

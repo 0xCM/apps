@@ -4,17 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct gcalc
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static T grain<T>(in ClosedInterval<T> src, ulong width = 100ul)
-            where T : unmanaged, IComparable<T>
+            where T : unmanaged, IEquatable<T>, IComparable<T>
                 => generic<T>(src.Width/core.min(src.Width, width));
     }
 }

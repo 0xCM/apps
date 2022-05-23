@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static core;
     using static NumericClaims;
 
@@ -56,7 +54,7 @@ namespace Z0
         }
 
         public static void spans<F,G,T,R>(ITestContext context,  F f, G g, bool nonz = false)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
             where R : unmanaged
             where F : IFunc<T,R>
             where G : IFunc<T,R>

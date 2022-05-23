@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
 
     public interface ITestCaseIdentity : IClaimValidator

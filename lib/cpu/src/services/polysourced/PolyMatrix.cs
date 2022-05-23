@@ -102,7 +102,7 @@ namespace Z0
         /// <typeparam name="T">The element type</typeparam>
          public static Matrix256<N,T> MatrixBlock<N,T>(this IBoundSource random, Interval<T>? domain = null)
             where N : unmanaged, ITypeNat
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
                 => Z0.Matrix.blockload<N,T>(random.SpanBlocks(n256, domain.ValueOrElse(() => ClosedInterval<T>.Full), CellCalcs.blockcount<N,N,T>(n256)));
 
          /// <summary>
@@ -128,7 +128,7 @@ namespace Z0
           static Matrix256<N,T> MatrixBlock<N,S,T>(this IBoundSource random, Interval<S>? domain = null, N n = default,  T rep = default)
             where N : unmanaged, ITypeNat
             where T : unmanaged
-            where S : unmanaged
+            where S : unmanaged, IEquatable<S>
                 => random.MatrixBlock<N,S>(domain).Convert<T>();
 
          /// <summary>

@@ -4,18 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using S = Surrogates;
 
     public class t_arithmetic : t_mathsvc<t_arithmetic>
     {
         [MethodImpl(Inline)]
         void add_check<T>(S.BinaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.add<T>();
             var validator = this.BinaryOpMatch(t);
@@ -25,7 +20,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         void sub_check<T>(S.BinaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.sub<T>();
             var validator = this.BinaryOpMatch(t);
@@ -35,7 +30,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         void mul_check<T>(S.BinaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.mul<T>();
             var validator = this.BinaryOpMatch(t);
@@ -45,7 +40,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         void div_check<T>(S.BinaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.div<T>();
             var validator = this.BinaryOpMatch(true,t);
@@ -55,7 +50,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         void mod_check<T>(S.BinaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.mod<T>();
             var validator = this.BinaryOpMatch(true,t);
@@ -65,7 +60,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         void modmul_check<T>(S.TernaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.modmul<T>();
             var validator = this.TernaryOpMatch(true,t);
@@ -75,7 +70,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         void clamp_check<T>(S.BinaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.clamp<T>();
             var validator = this.BinaryOpMatch(t);
@@ -85,7 +80,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         void inc_check<T>(S.UnaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.inc<T>();
             var comparer = this.UnaryOpMatch(t);
@@ -95,7 +90,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         void dec_check<T>(S.UnaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.dec<T>();
             var comparer = this.UnaryOpMatch(t);
@@ -105,7 +100,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         void negate_check<T>(S.UnaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.negate<T>();
             var comparer = this.UnaryOpMatch(t);
@@ -115,7 +110,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         void abs_check<T>(S.UnaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.abs<T>();
             var comparer = this.UnaryOpMatch(t);
@@ -229,7 +224,6 @@ namespace Z0
             modmul_check(S.ternary(fmath.modmul, name, z64f));
             modmul_check(S.ternary(fmath.modmul, name, z32f));
         }
-
 
         public void clamp_check()
         {

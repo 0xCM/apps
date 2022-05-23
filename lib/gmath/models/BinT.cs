@@ -4,18 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Represents one or more occurrence of a value within an interval
     /// </summary>
     /// <typeparam name="T">The value domain</typeparam>
     [DataType("bin<t:{0}>")]
     public struct Bin<T>
-        where T : unmanaged, IComparable<T>
+        where T : unmanaged, IEquatable<T>, IComparable<T>
     {
         internal int Counter;
 

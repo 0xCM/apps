@@ -15,6 +15,23 @@ namespace Z0.llvm
         public uint EmitFile<T>(string query, ReadOnlySpan<T> src)
             => EmitFile(query, string.Empty, src);
 
+        // public Index<DefRelations> QueryDefRelations(Func<DefRelations,bool> predicate)
+        // {
+        //     var relations = Provider.DefRelations();
+        //     var count = relations.Count;
+        //     var dst = hashset<DefRelations>();
+        //     for(var i=0; i<count; i++)
+        //     {
+        //         ref readonly var relation = ref relations[i];
+        //         ref readonly var child = ref relation.Name;
+        //         var ancestors = relation.AncestorNames;
+        //         if(ancestors.Length != 0 && predicate(relation))
+        //             dst.Add(relation);
+        //     }
+
+        //     return dst.Array().Sort();
+        // }
+
         public uint EmitFile<T>(string query, string args, ReadOnlySpan<T> src)
         {
             var count = (uint)src.Length;

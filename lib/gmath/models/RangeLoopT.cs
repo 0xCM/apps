@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public struct RangeLoop<T> : ITextual
         where T : unmanaged, IComparable<T>
     {

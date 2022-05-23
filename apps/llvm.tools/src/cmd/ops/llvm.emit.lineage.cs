@@ -15,8 +15,8 @@ namespace Z0.llvm
         Outcome EmitLineageSummary(CmdArgs args)
         {
             var result = Outcome.Success;
-            var defrel = DataProvider.SelectDefRelations();
-            var classrel = DataProvider.SelectClassRelations();
+            var defrel = DataProvider.DefRelations();
+            var classrel = DataProvider.ClassRelations();
 
             var dst = Data.Log("llvm.lineage");
             var emitting = EmittingFile(dst);

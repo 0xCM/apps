@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     /// <summary>
     /// Characterizes a value emitter that supports placing upper and/or lower bounds on the values produced
     /// </summary>
@@ -69,7 +67,7 @@ namespace Z0
         /// <param name="domain">The domain of the random variable</param>
         /// <typeparam name="T">The point type</typeparam>
         T Next<T>(ClosedInterval<T> domain)
-            where T : unmanaged
-                => Next(domain.Min, domain.Max);
+             where T : unmanaged, IEquatable<T>
+               => Next(domain.Min, domain.Max);
     }
 }

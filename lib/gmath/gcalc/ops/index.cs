@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct gcalc
     {
         /// <summary>
@@ -19,7 +14,7 @@ namespace Z0
         /// <typeparam name="T">The point domain</typeparam>
         [MethodImpl(Inline), Op, Closures(UInt64k)]
         public static uint index<T>(in Histogram<T> src, T point)
-            where T : unmanaged, IComparable<T>
+            where T : unmanaged, IEquatable<T>, IComparable<T>
         {
             var partitions = src.Partitions.Length;
             for(var i = 1u; i<partitions; i++)

@@ -4,17 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct gcalc
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ulong sum<T>(ReadOnlySpan<Bin<T>> bins)
-            where T : unmanaged, IComparable<T>
+            where T : unmanaged, IEquatable<T>, IComparable<T>
         {
             var sum = 0ul;
             var count = bins.Length;

@@ -4,17 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
     /// Defines a unit interval
     /// </summary>
     public readonly struct U01<T>
-        where T : unmanaged
+        where T : unmanaged, IEquatable<T>
     {
         public T Left
         {

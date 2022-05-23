@@ -11,7 +11,7 @@ namespace Z0.llvm
         [CmdOp(DefRelationsQuery)]
         Outcome SelectDefRelations(CmdArgs args)
         {
-            var relations = DataProvider.SelectDefRelationArrows();
+            var relations = DataProvider.DefDependencies();
             Flow(DefRelationsQuery, relations);
             return true;
         }

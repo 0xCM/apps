@@ -11,14 +11,12 @@ namespace Z0.llvm
         const string AsmVarCodeQuery = "llvm/asm/varcodes";
 
         [CmdOp(AsmVarCodeQuery)]
-        Outcome EmitVarCodes(CmdArgs args)
+        void EmitVarCodes(CmdArgs args)
         {
-            var src = DataProvider.SelectAsmVariations();
+            var src = DataProvider.AsmVariations();
             var dst = hashset<AsmVariationCode>();
             iter(src, v => dst.Add(v.Code));
-            var codes = dst.Array().Sort();
-            Query.EmitFile(AsmVarCodeQuery,@readonly(codes));
-            return true;
+            Query.EmitFile(AsmVarCodeQuery, @readonly(dst.Array().Sort()));
         }
     }
 }

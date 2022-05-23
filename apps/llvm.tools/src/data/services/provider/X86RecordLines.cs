@@ -10,9 +10,19 @@ namespace Z0.llvm
     partial class LlvmDataProvider
     {
         public Index<TextLine> X86RecordLines()
-            => SelectRecordLines(Datasets.X86);
+        {
+            var id = Datasets.X86;
+            var lookup = DefLineLookup();
+            var count = lookup.LineCount;
+            using var reader = LlvmPaths.DataSourcePath("records", id).LineReader(TextEncodingKind.Asci);
+            var lines = reader.ReadAll().ToArray().Index();
+            if(lines.Count != lookup.LineCount)
+                Warn($"Line count mismatch: {lines.Count} != {lookup.LineCount}");
+            return (Index<TextLine>)DataSets.GetOrAdd(id + "lines", _ => lines);
+        }
+            //=> SelectRecordLines(Datasets.X86);
 
-        public ReadOnlySpan<TextLine> X86RecordLines(Interval<uint> range)
-            => slice(X86RecordLines().View, range.Left - 1, range.Right - range.Left + 1);
+        public ReadOnlySpan<TextLine> X86RecordLines(ClosedInterval<uint> range)
+            => slice(X86RecordLines().View, range.Min - 1, range.Max - range.Min + 1);
     }
 }

@@ -52,7 +52,7 @@ namespace Z0
         public void part0()
         {
             var src = closed(5,12);
-            var dst = Partition.measured(src,1);
+            var dst = Partitions.measured(src,1);
             var fmt = dst.Map(x => x.ToString()).Join(", ");
             Claim.eq(src.Length() + 1, dst.Length);
             ClaimNumeric.eq(Arrays.from(5,6,7,8,9,10,11,12).ToSpan(),dst);
@@ -61,7 +61,7 @@ namespace Z0
         public void part1()
         {
             var src = closed(5,20);
-            var dst = Partition.width(src,1);
+            var dst = Partitions.width(src,1);
             var fmt = dst.Map(x => x.ToString()).Join(" + ");
             Claim.eq(src.Right - src.Left, dst.Length);
 
@@ -78,7 +78,7 @@ namespace Z0
         public void part2()
         {
             var src = closed(5,20);
-            var dst = Partition.width(src,1);
+            var dst = Partitions.width(src,1);
             var fmt = dst.Map(x => x.ToString()).Join(" + ");
             Claim.eq(src.Right - src.Left, dst.Length);
             Claim.eq(lclosed(5,6), dst.First());
@@ -88,7 +88,7 @@ namespace Z0
         public void part3()
         {
             var src = open(5,20);
-            var dst = Partition.width(src,1);
+            var dst = Partitions.width(src,1);
             var fmt = dst.Map(x => x.ToString()).Join(" + ");
             Claim.eq(src.Right - src.Left, dst.Length);
             Claim.eq(open(5,6), dst.First());
@@ -98,7 +98,7 @@ namespace Z0
         public void part4()
         {
             var src = rclosed(1,100);
-            var dst = Partition.measured(src,10);
+            var dst = Partitions.measured(src,10);
             Claim.eq(10,dst.Length);
             Claim.eq(1, dst.First());
             Claim.eq(100, dst.Last());
@@ -107,7 +107,7 @@ namespace Z0
         public void part6()
         {
             var src = closed(1,103);
-            var dst = Partition.width(src,13);
+            var dst = Partitions.width(src,13);
             var fmt = dst.Map(x => x.Format()).Join(" + ");
             Claim.require(dst.Last().Closed);
         }
@@ -115,7 +115,7 @@ namespace Z0
         protected void points_check<T>(T min, T max, T width)
             where T : unmanaged, IComparable<T>, IEquatable<T>
         {
-            var points = Partition.measured(open(min, max), width);
+            var points = Partitions.measured(open(min, max), width);
             var len = gmath.sub(max,min);
             var deltaSum = zero<T>();
             for(var i=0; i<points.Length - 1; i++)

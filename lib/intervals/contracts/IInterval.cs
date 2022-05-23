@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public interface IInterval
+    [Free]
+    public interface IInterval : ITextual
     {
         /// <summary>
         ///  Specifies whether the interval contains its left endpoint
@@ -66,5 +62,26 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Kind == IntervalKind.LeftOpen;
         }
+    }
+
+    /// <summary>
+    /// Characterizes a contiguous segment of homogenous values that lie within left and right boundaries
+    /// </summary>
+    /// <remarks>
+    /// Note that extended real numbers may also serve as endpoints,enabling representations such as (-∞,3] and (-3, ∞).
+    /// </remarks>
+    [Free]
+    public interface IInterval<T> : IInterval
+        where T : unmanaged
+    {
+        /// <summary>
+        ///  The left endpoint
+        /// </summary>
+        T Left {get;}
+
+        /// <summary>
+        ///  The right endpoint
+        /// </summary>
+        T Right {get;}
     }
 }

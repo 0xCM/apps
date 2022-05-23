@@ -8,7 +8,6 @@ namespace Z0
 
     partial class gmath
     {
-
         /// <summary>
         /// Compares two operands via their <see cref='IComparable'> implementations
         /// </summary>

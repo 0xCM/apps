@@ -36,8 +36,5 @@ namespace Z0.llvm
             Name = name;
             Ancestors = ancestors;
         }
-
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{14,60,110,1};
     }
 }

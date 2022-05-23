@@ -27,11 +27,11 @@ namespace Z0.llvm
 
         public void EmitAsmIds()
         {
-            var asmids = DataProvider.SelectAsmIdentifiers().ToItemList();
+            var asmids = DataProvider.AsmIdentifiers().ToItemList();
             var name = "AsmId";
             ItemList<string> items = (name, asmids.Map(x => new ListItem<string>(x.Key, x.Value.Format())));
             CsLang.GenStringTable(TargetNs, ClrEnumKind.U16, items, CgTarget.Llvm);
-            var literals = @readonly(map(DataProvider.SelectAsmIdentifiers().Entries,e => Literals.define(e.Key, e.Value.Id)));
+            var literals = @readonly(map(DataProvider.AsmIdentifiers().Entries,e => Literals.define(e.Key, e.Value.Id)));
             var buffer = text.buffer();
             var offset = 0u;
             buffer.IndentLineFormat(offset, "namespace {0}", "Z0");

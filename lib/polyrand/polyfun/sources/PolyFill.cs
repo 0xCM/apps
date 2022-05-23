@@ -18,7 +18,7 @@ namespace Z0
         /// <param name="dst">The target span</param>
         /// <typeparam name="T">The cell type</typeparam>
         public static void Fill<T>(this IBoundSource source, Index<T> dst)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
                 => source.Fill(ClosedInterval<T>.Full, dst.Length, ref dst.First);
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Z0
         /// <param name="dst">The target span</param>
         /// <typeparam name="T">The cell type</typeparam>
         public static void Fill<T>(this IBoundSource source, Span<T> dst)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
                 => source.Fill(ClosedInterval<T>.Full, dst.Length, ref first(dst));
 
         /// <summary>

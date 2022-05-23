@@ -10,7 +10,7 @@ namespace Z0.llvm
 
     partial class LlvmDataCalcs
     {
-        public Index<LlvmInstDef> CalcInstDefs(AsmIdentifiers asmids, ReadOnlySpan<LlvmEntity> entities)
+        public Index<LlvmInstDef> CalcInstDefs(AsmIdentifiers lookup, ReadOnlySpan<LlvmEntity> entities)
         {
             var found = list<Paired<ushort,InstEntity>>();
             var count = entities.Length;
@@ -20,7 +20,7 @@ namespace Z0.llvm
                 if(entity.IsInstruction())
                 {
                     var inst = entity.ToInstruction();
-                    if(asmids.Find(inst.InstName, out var id))
+                    if(lookup.Find(inst.InstName, out var id))
                         found.Add((id.Id,inst));
                 }
             }

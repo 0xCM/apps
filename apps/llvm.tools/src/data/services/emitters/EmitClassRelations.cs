@@ -8,22 +8,6 @@ namespace Z0.llvm
 
     partial class LlvmDataEmitter
     {
-        static bool lineage(string content, out Lineage dst)
-        {
-            var m = SQ.index(content, Chars.FSlash, Chars.FSlash);
-            if(m >= 0)
-            {
-                var chain = text.trim(text.right(content, m + 1)).Split(Chars.Space);
-                if(chain.Length > 0)
-                {
-                    dst = Lineage.path(chain);
-                    return true;
-                }
-            }
-            dst = Lineage.Empty;
-            return false;
-        }
-
         public Index<ClassRelations> EmitClassRelations(ReadOnlySpan<TextLine> src)
         {
             const string Marker = "class ";
@@ -57,7 +41,7 @@ namespace Z0.llvm
                         var record = new ClassRelations();
                         record.SourceLine = line.LineNumber;
                         record.Name = name;
-                        lineage(content, out record.Ancestors);
+                        LlvmDataCalcs.lineage(content, out record.Ancestors);
                         record.Parameters = parameters;
                         dst.Add(record);
                     }

@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Logix
 {
-    using System;
     using System.Linq;
 
-    using static Root;
     using static BitLogicSpec;
     using static LogixEngine;
 

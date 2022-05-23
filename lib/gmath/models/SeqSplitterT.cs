@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Partitions T-cell sequences predicated on a supplied delimiter
     /// </summary>

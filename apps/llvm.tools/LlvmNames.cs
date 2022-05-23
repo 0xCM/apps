@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     public readonly struct LlvmNames
     {
         [LiteralProvider("llvm.datasets")]

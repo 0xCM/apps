@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Logix
 {
-    using System;
     using System.Linq;
-    using System.Collections.Generic;
-    using System.Reflection;
 
     using static TypedLogicSpec;
 
@@ -50,7 +47,7 @@ namespace Z0.Logix
         }
 
         IReadOnlyList<T> solve<T>(VariedExpr<N1,T> expr, LogixLiteral<T> match, Interval<T> domain)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var dst = new List<T>();
             var level = domain.Increments<T>();
@@ -66,7 +63,7 @@ namespace Z0.Logix
         }
 
         IReadOnlyList<T> solve<T>(VariedExpr<N2,T> expr, LogixLiteral<T> match, Interval<T> domain)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var sln = new List<T>();
             var level0 = domain.Increments<T>();

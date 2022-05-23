@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     partial class XTend
     {
         public static Span<T> Increments<T>(this Interval<T> src)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
                 => gcalc.increments(src.ToClosed());
     }
 }

@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-
     using Asm;
 
     [Record(TableId)]
@@ -14,28 +13,35 @@ namespace Z0.llvm
 
         public const byte FieldCount = 9;
 
+        [Render(6)]
         public ushort AsmId;
 
+        [Render(6)]
         public bit CgOnly;
 
+        [Render(6)]
         public bit Pseudo;
 
+        [Render(32)]
         public Identifier InstName;
 
+        [Render(16)]
         public AsmMnemonic Mnemonic;
 
+        [Render(12)]
         public AsmVariationCode VarCode;
 
+        [Render(54)]
         public TextBlock FormatPattern;
 
+        [Render(86)]
         public dag<IExpr> InOperandList;
 
+        [Render(1)]
         public dag<IExpr> OutOperandList;
 
         [MethodImpl(Inline)]
         public int CompareTo(LlvmInstDef src)
             => AsmId.CompareTo(src.AsmId);
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,6,6,24,16,12,54,64,1};
     }
 }

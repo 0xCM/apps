@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct gcalc
@@ -18,7 +14,7 @@ namespace Z0
         /// <param name="src">The histogram to query</param>
         /// <typeparam name="T">The point domain</typeparam>
         public static Span<Bin<T>> bins<T>(in Histogram<T> src)
-            where T : unmanaged, IComparable<T>
+            where T : unmanaged, IEquatable<T>, IComparable<T>
         {
             var segments = src.Partitions.Length;
             var dst = span<Bin<T>>(src.Partitions.Length - 1);
@@ -33,7 +29,7 @@ namespace Z0
         /// <typeparam name="T">The point domain</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static void  bins<T>(in Histogram<T> src, Span<Bin<T>> dst)
-            where T : unmanaged, IComparable<T>
+            where T : unmanaged, IEquatable<T>, IComparable<T>
         {
             var segments = src.Partitions.Length;
             for(var i = 1u; i<segments; i++)

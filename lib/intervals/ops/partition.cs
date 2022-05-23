@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct Intervals
@@ -36,7 +32,7 @@ namespace Z0
         /// <param name="width">The partition width</param>
         /// <typeparam name="T">The integer type, at most 64-bits wide</typeparam>
         public static T[] partition<T>(in ClosedInterval<T> src, T width)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var dst = list<T>();
             dst.Add(src.Min);

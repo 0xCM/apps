@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct gcalc
@@ -18,7 +14,7 @@ namespace Z0
         /// <typeparam name="T"></typeparam>
         [Op, Closures(Closure)]
         public static Histogram<T> histogram<T>()
-            where T : unmanaged, IComparable<T>
+            where T : unmanaged, IEquatable<T>, IComparable<T>
         {
             var domain = new ClosedInterval<T>(Limits.minval<T>(), Limits.maxval<T>());
             var grain = domain.Width;
@@ -27,7 +23,7 @@ namespace Z0
 
         [Op, Closures(Closure)]
         public static Histogram<T> histogram<T>(in ClosedInterval<T> src, T grain)
-            where T : unmanaged, IComparable<T>
+            where T : unmanaged, IEquatable<T>, IComparable<T>
         {
             var parts = Intervals.partition(src,grain);
             var counts = alloc<uint>(parts.Length);

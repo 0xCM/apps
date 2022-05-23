@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct gcalc
@@ -20,7 +16,7 @@ namespace Z0
         /// <typeparam name="T">The point domain</typeparam>
         [MethodImpl(Inline), Op, Closures(UInt64k)]
         public static void deposit<T>(ReadOnlySpan<T> src, in Histogram<T> dst)
-            where T : unmanaged, IComparable<T>
+            where T : unmanaged, IEquatable<T>, IComparable<T>
         {
             ref var counts = ref first(span(dst.Counts));
             ref readonly var points = ref first(src);
@@ -42,7 +38,7 @@ namespace Z0
         /// <typeparam name="T">The point domain</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static void deposit<T>(T src, in Histogram<T> dst, Action<T> undeposited = null)
-            where T : unmanaged, IComparable<T>
+            where T : unmanaged, IEquatable<T>, IComparable<T>
         {
             var deposited = false;
             var segments = dst.Partitions.Length;

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct Intervals
@@ -30,12 +26,12 @@ namespace Z0
         /// <typeparam name="T">The interval domain</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static bool contains<T>(in ClosedInterval<T> src, T x)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
                 => between(uint64(x), left(src), right(src));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static bool contains<T>(ClosedInterval<T> src, T point)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             if(size<T>() == 1)
                 return u8(point) >= u8(src.Min) && u8(point) <= u8(src.Max);

@@ -10,21 +10,6 @@ namespace Z0
     using static XedModels;
     using static core;
 
-    partial class XTend
-    {
-        public static void AddRange<T>(this HashSet<T> dst, HashSet<T> src)
-        {
-            foreach(var item in src)
-                dst.Add(item);
-        }
-
-        public static void AddRange<T>(this ConcurrentBag<T> dst, HashSet<T> src)
-        {
-            foreach(var item in src)
-                dst.Add(item);
-        }
-    }
-
     public partial class XedImport : AppService<XedImport>
     {
         XedPaths XedPaths => Service(Wf.XedPaths);

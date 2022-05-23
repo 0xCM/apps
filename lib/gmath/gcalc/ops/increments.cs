@@ -66,7 +66,7 @@ namespace Z0
                 => increments(k, (uint)dst.Length, ref first(dst));
 
         public static T[] increments<T>(ClosedInterval<T> src)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var count = (int)src.Width + 1;
             var dst = sys.alloc<T>(count);
@@ -76,7 +76,7 @@ namespace Z0
 
         [Op, Closures(Closure)]
         public static void increments<T>(ClosedInterval<T> src, Span<T> dst)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var min = src.Min;
             var max = src.Max;

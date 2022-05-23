@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using S = Surrogates;
 
     public class t_compare : t_mathsvc<t_compare>
@@ -31,7 +26,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         void eq_check<T>(S.BinaryPredicate<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.eq<T>();
             var validator = this.BinaryPredicateMatch(t);
@@ -57,7 +52,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         void neq_check<T>(S.BinaryPredicate<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.neq<T>();
             var validator = this.BinaryPredicateMatch(t);
@@ -82,7 +77,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         void gt_check<T>(S.BinaryPredicate<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.gt<T>();
             var validator = this.BinaryPredicateMatch(t);
@@ -106,7 +101,7 @@ namespace Z0
         }
 
         void gteq_check<T>(S.BinaryPredicate<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.gteq<T>();
             var validator = this.BinaryPredicateMatch(t);
@@ -130,7 +125,7 @@ namespace Z0
         }
 
         void lt_check<T>(S.BinaryPredicate<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.lt<T>();
             var validator = this.BinaryPredicateMatch(t);
@@ -154,7 +149,7 @@ namespace Z0
         }
 
         void lteq_check<T>(S.BinaryPredicate<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.lteq<T>();
             var validator = this.BinaryPredicateMatch(t);
@@ -178,7 +173,7 @@ namespace Z0
         }
 
         void max_check<T>(S.BinaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.max<T>();
             var validator = this.BinaryOpMatch(t);
@@ -202,7 +197,7 @@ namespace Z0
         }
 
         void min_check<T>(S.BinaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.min<T>();
             var validator = this.BinaryOpMatch(t);

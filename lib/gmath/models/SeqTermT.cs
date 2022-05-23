@@ -4,15 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    /// <summary>
-    /// Defines a sequence term
-    /// </summary>
-    [DataType("seqterm<t:{0}>")]
     public readonly struct SeqTerm<T>
     {
         /// <summary>

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct gcalc
     {
         /// <summary>
@@ -19,7 +14,7 @@ namespace Z0
         /// <typeparam name="T">The interval domain</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Bin<T> bin<T>(in ClosedInterval<T> src, uint count)
-            where T : unmanaged, IComparable<T>
+            where T : unmanaged, IEquatable<T>, IComparable<T>
                 => new Bin<T>(src, count);
     }
 }

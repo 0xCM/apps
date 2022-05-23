@@ -28,7 +28,7 @@ namespace Z0.llvm
                         if(empty(name))
                             continue;
 
-                        lineage(content, out var a);
+                        LlvmDataCalcs.lineage(content, out var a);
                         record.Specify(line.LineNumber, name, a);
                         dst.Add(record);
                     }

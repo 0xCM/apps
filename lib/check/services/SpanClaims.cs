@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static core;
 
     public readonly struct SpanClaims : ICheckSpans

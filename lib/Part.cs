@@ -5,6 +5,8 @@
 global using System;
 global using System.Collections.Generic;
 global using System.Collections.Concurrent;
+global using System.Collections;
+
 global using System.Reflection;
 global using System.Reflection.Metadata;
 global using System.Runtime.Intrinsics;
@@ -55,7 +57,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]
         public static RenderPattern<T,ClosedInterval<T>> NotIn<T>()
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
                 => "not({0} in {1})";
 
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]

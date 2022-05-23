@@ -6,9 +6,9 @@ namespace Z0.llvm
 {
     partial class LlvmDataProvider
     {
-        public ReadOnlySpan<TextLine> DefLines(Identifier name)
+        public ReadOnlySpan<TextLine> DefLines(string name)
         {
-            if(SelectDefLookup().Mapped(name, out var interval))
+            if(DefLineLookup().Find(name, out var interval))
                 return X86RecordLines(interval);
             return default;
         }

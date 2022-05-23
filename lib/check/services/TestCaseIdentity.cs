@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-
     using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
 
     public readonly struct TestCaseIdentity : ITestCaseIdentity

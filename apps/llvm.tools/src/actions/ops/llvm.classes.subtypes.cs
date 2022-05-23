@@ -16,7 +16,7 @@ namespace Z0.llvm
         Outcome Subtypes(CmdArgs args)
         {
             var result = Outcome.Success;
-            var defs = DataProvider.SelectDefRelations();
+            var defs = DataProvider.DefRelations();
             var cname = arg(args,0).Value;
             var counter = 0u;
             var items = list<ListItem<Identifier>>();

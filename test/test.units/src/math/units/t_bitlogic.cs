@@ -11,7 +11,7 @@ namespace Z0
     public class t_bitlogic : t_mathsvc<t_bitlogic>
     {
         void and_check<T>(S.BinaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = C.and<T>();
             var validator = this.BinaryOpMatch(t);
@@ -20,7 +20,7 @@ namespace Z0
         }
 
         void or_check<T>(S.BinaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.or<T>();
             var validator = this.BinaryOpMatch(t);
@@ -29,7 +29,7 @@ namespace Z0
         }
 
         void xor_check<T>(S.BinaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.xor<T>();
             var validator = this.BinaryOpMatch(t);
@@ -38,7 +38,7 @@ namespace Z0
         }
 
         void nand_check<T>(S.BinaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.nand<T>();
             var validator = this.BinaryOpMatch(t);
@@ -47,7 +47,7 @@ namespace Z0
         }
 
         void nor_check<T>(S.BinaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.nor<T>();
             var validator = this.BinaryOpMatch(t);
@@ -56,7 +56,7 @@ namespace Z0
         }
 
         void xnor_check<T>(S.BinaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.xnor<T>();
             var validator = this.BinaryOpMatch(t);
@@ -65,7 +65,7 @@ namespace Z0
         }
 
         void not_check<T>(S.UnaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.not<T>();
             var validator = this.UnaryOpMatch(t);
@@ -75,7 +75,7 @@ namespace Z0
 
 
         void impl_check<T>(S.BinaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.impl<T>();
             var validator = this.BinaryOpMatch(t);
@@ -84,7 +84,7 @@ namespace Z0
         }
 
         void nonimpl_check<T>(S.BinaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.nonimpl<T>();
             var validator = this.BinaryOpMatch(t);
@@ -93,7 +93,7 @@ namespace Z0
         }
 
         void cimpl_check<T>(S.BinaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.cimpl<T>();
             var validator = this.BinaryOpMatch(t);
@@ -102,7 +102,7 @@ namespace Z0
         }
 
         void cnonimpl_check<T>(S.BinaryOp<T> f, T t = default)
-            where  T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var g = Calcs.cnonimpl<T>();
             var validator = this.BinaryOpMatch(t);

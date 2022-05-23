@@ -8,12 +8,7 @@ namespace Z0.llvm
 
     partial class LlvmDataEmitter
     {
-        public Index<ChildRelation> EmitChildRelations(ReadOnlySpan<LlvmEntity> entities)
-        {
-            var records = DataCalcs.CalcChildRelations(entities);
-            var path = LlvmPaths.Table<ChildRelation>();
-            TableEmit(records.View, path);
-            return records;
-        }
+        public void EmitChildRelations(ReadOnlySpan<LlvmEntity> src)
+            => AppSvc.TableEmit(DataCalcs.CalcChildRelations(src), LlvmPaths.Table<ChildRelation>());
     }
 }

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -15,33 +11,27 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-        [Op]
-        public static bool parse(string src, ClosedInterval<int> bounds, out int dst, out Outcome outcome)
-        {
-            outcome = NumericParser.parse(src, out dst);
-            if(!outcome)
-                return false;
+        [MethodImpl(Inline)]
+        public static IntervalRange<T,W> range<T,W>(T name, W min, W max)
+            where W : unmanaged ,IEquatable<W>, IComparable<W>
+                => new IntervalRange<T,W>(name, (min, max));
 
-            if(!contains(bounds,dst))
-            {
-                outcome = (false, $"The parsed value {dst} is not with the required range {bounds}");
-                return false;
-            }
-            return true;
-        }
+        public static IntervalComparer<T> comparer<T>()
+            where T : unmanaged, IComparable<T>, IEquatable<T>
+                => default;
 
         [MethodImpl(Inline)]
         static ulong left<T>(in ClosedInterval<T> src)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
                 => uint64(src.Min);
 
         [MethodImpl(Inline)]
         static ulong right<T>(in ClosedInterval<T> src)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
                 => uint64(src.Max);
 
         public static string format<T>(ClosedIntervals<T> src)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
         {
             var dst = text.buffer();
             dst.Append("<<");

@@ -53,7 +53,6 @@ namespace Z0
             check_select<ushort>(n256);
             check_select<uint>(n256);
             check_select<ulong>(n256);
-
         }
 
         void check_select<T>()
@@ -69,7 +68,6 @@ namespace Z0
                 for(var j=0; j<x.Width; j++)
                     Claim.eq(x[j], BitLogix.select(a[j],b[j],c[j]));
             }
-
         }
 
         void check_select<T>(N128 n = default)
@@ -90,7 +88,6 @@ namespace Z0
                 for(var j=0; j<sx.Length; j++)
                     Claim.eq(sx[j], NumericLogixOps.select(sa[j], sb[j], sc[j]));
             }
-
         }
 
 
@@ -112,7 +109,6 @@ namespace Z0
                 for(var j=0; j<sx.Length; j++)
                     Claim.eq(sx[j], NumericLogixOps.select(sa[j], sb[j], sc[j]));
             }
-
         }
 
         void check_op_identity<T>(TernaryBitLogicKind id)

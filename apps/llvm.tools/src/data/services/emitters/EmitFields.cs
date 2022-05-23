@@ -8,13 +8,16 @@ namespace Z0.llvm
 
     partial class LlvmDataEmitter
     {
-        public void EmitDefFields(ReadOnlySpan<RecordField> src)
+        public Index<RecordField> EmitDefFields(Index<RecordField> src)
             => EmitFields(src, Datasets.X86DefFields);
 
-        public void EmitClassFields(ReadOnlySpan<RecordField> src)
+        public Index<RecordField> EmitClassFields(Index<RecordField> src)
             => EmitFields(src, Datasets.X86ClassFields);
 
-        void EmitFields(ReadOnlySpan<RecordField> src, string id)
-            => AppSvc.TableEmit<RecordField>(src, RecordField.RenderWidths, LlvmPaths.Table(id));
+        Index<RecordField> EmitFields(Index<RecordField> src, string id)
+        {
+            AppSvc.TableEmit<RecordField>(src, RecordField.RenderWidths, LlvmPaths.Table(id));
+            return src;
+        }
     }
 }

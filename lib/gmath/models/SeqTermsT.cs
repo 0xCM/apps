@@ -4,15 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines a data structure for sparse/partial sequence representation
     /// </summary>
-    [DataType("seqterms<t:{0}>")]
     public readonly struct SeqTerms<T> : IIndex<SeqTerm<T>>
     {
         readonly Index<SeqTerm<T>> Data;

@@ -25,39 +25,45 @@ namespace Z0.llvm
 
         public void Run()
         {
-            var asmids = DataProvider.DiscoverAsmIdentifiers();
-            var records = DataProvider.X86RecordLines();
-            exec(PllExec,
-                () => DataEmitter.Emit(asmids),
-                () => DataEmitter.Emit(DataProvider.DiscoverRegIdentifiers()),
-                () => ImportToolHelp()
-            );
-
-            var classes = DataEmitter.EmitClassRelations(records);
-            var defRelations = DataEmitter.EmitDefRelations(records);
+            var lines = DataProvider.X86RecordLines();
+            Index<DefRelations> defRelations = sys.empty<DefRelations>();
             LineMap<Identifier> defMap = LineMap<Identifier>.Empty;
             LineMap<Identifier> classMap = LineMap<Identifier>.Empty;
-            exec(PllExec,
-                () => classMap = DataEmitter.EmitLineMap(classes.View, records, Datasets.X86Classes),
-                () => defMap = DataEmitter.EmitLineMap(defRelations.View, records, Datasets.X86Defs)
-            );
-
             Index<RecordField> classFields = sys.empty<RecordField>();
             Index<RecordField> defFields = sys.empty<RecordField>();
             exec(PllExec,
-                () => classFields = RecordFieldParser.parse(records, classMap),
-                () => defFields = RecordFieldParser.parse(records, defMap)
+                () => ImportToolHelp(),
+                () => DataEmitter.Emit(DataProvider.DiscoverRegIdentifiers()),
+                () => classMap = EmitClasses(lines),
+                () => defMap = EmitDefs(lines, out defRelations)
             );
 
-            Index<LlvmEntity> entities = sys.empty<LlvmEntity>();
             exec(PllExec,
-                () => entities = DataProvider.SelectEntities(defRelations, defFields),
-                () => DataEmitter.EmitClassFields(classFields),
-                () => DataEmitter.EmitDefFields(defFields)
+                () => classFields = DataEmitter.EmitClassFields(RecordFieldParser.parse(lines, classMap)),
+                () => defFields = DataEmitter.EmitDefFields(RecordFieldParser.parse(lines, defMap))
             );
 
+            Emit(DataProvider.SelectEntities(defRelations, defFields));
+        }
+
+        LineMap<Identifier> EmitClasses(Index<TextLine> lines)
+        {
+            var classes = DataEmitter.EmitClassRelations(lines);
+            return DataEmitter.EmitLineMap(classes.View, lines, Datasets.X86Classes);
+        }
+
+        LineMap<Identifier> EmitDefs(Index<TextLine> lines, out Index<DefRelations> defs)
+        {
+            defs = DataEmitter.EmitDefRelations(lines);
+            return DataEmitter.EmitLineMap(defs.View, lines, Datasets.X86Defs);
+        }
+
+        void Emit(Index<LlvmEntity> entities)
+        {
+            var asmids = DataProvider.DiscoverAsmIdentifiers();
             var instructions = DataProvider.Instructions(entities);
             exec(PllExec,
+                () => DataEmitter.Emit(asmids),
                 () => DataEmitter.Emit(DataCalcs.CalcInstDefs(asmids, entities)),
                 () => DataEmitter.Emit(DataCalcs.CalcAsmVariations(asmids, instructions)),
                 () => DataEmitter.EmitChildRelations(entities),

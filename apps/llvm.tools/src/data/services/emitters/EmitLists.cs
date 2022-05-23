@@ -12,7 +12,7 @@ namespace Z0.llvm
         {
             FS.Files paths = LlvmPaths.ListNames().Map(x => LlvmPaths.ListImportPath(x));
             paths.Delete();
-            return EmitLists(entities, DataProvider.SelectConfiguredListNames());
+            return EmitLists(entities, DataProvider.ConfiguredListNames());
         }
 
         Index<LlvmList> EmitLists(Index<LlvmEntity> src, ReadOnlySpan<string> classes)

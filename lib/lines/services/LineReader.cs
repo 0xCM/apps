@@ -60,6 +60,14 @@ namespace Z0
             return result;
         }
 
+        public uint Read(Span<TextLine> dst)
+        {
+            var i=0u;
+            while(i < dst.Length && Next(out var line))
+                seek(dst, i++) = line;
+            return i;
+        }
+
         public ReadOnlySpan<TextLine> ReadAll()
         {
             var dst = list<TextLine>();

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static core;
-
     public sealed class AsmIdentifiers : ConstLookup<Identifier,AsmIdentifier>
     {
         public AsmIdentifiers(AsmIdentifier[] src)

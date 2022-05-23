@@ -12,6 +12,6 @@ namespace Z0.llvm
             => Emit(DataProvider.SelectInstDefs());
 
         public void Emit(ReadOnlySpan<LlvmInstDef> src)
-            => TableEmit(src, LlvmInstDef.RenderWidths, LlvmPaths.Table<LlvmInstDef>());
+            => AppSvc.TableEmit(src, LlvmPaths.Table<LlvmInstDef>());
     }
 }

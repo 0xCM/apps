@@ -88,7 +88,7 @@ namespace Z0
         /// <param name="filter">An optional filter that refines the domain</param>
         /// <typeparam name="T">The primal random value type</typeparam>
         public static Span<T> NonZeroSpan<T>(this IBoundSource source, int length)
-            where T : unmanaged
+            where T : unmanaged, IEquatable<T>
                 => source.Span<T>(length, ClosedInterval<T>.Full, x => core.nonzero(x));
 
         [Op, Closures(Closure)]

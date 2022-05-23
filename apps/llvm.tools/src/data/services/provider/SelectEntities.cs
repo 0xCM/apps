@@ -18,6 +18,6 @@ namespace Z0.llvm
             => (Index<LlvmEntity>)CalcEntities(relations, fields);
 
         public Index<LlvmEntity> SelectEntities()
-            => (Index<LlvmEntity>)CalcEntities(SelectDefRelations(), DefFields());
+            => (Index<LlvmEntity>)CalcEntities(DefRelations(), DefFields());
     }
 }

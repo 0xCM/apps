@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static core;
 
     public class t_collector : t_gmath<t_collector>

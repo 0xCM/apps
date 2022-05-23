@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using api = CheckLengths;
 
     public interface ICheckLengths : IClaimValidator
