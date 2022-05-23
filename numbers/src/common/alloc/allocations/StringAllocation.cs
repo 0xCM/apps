@@ -4,9 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    /// <summary>
+    /// Owns a sequence of <see cref='StringRef'/> allocations
+    /// </summary>
     public sealed class StringAllocation : Allocation<StringRef>
     {
-        internal StringAllocation(IBufferAllocator allocator, StringRef[] allocated)
+        public StringAllocation(IBufferAllocator allocator, StringRef[] allocated)
             : base(allocator, allocated)
         {
         }

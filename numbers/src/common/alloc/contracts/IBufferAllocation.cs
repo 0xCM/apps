@@ -4,6 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    /// <summary>
+    /// Characterizes a container that owns a sequence of <typeparamref name='T'/> allocations
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IBufferAllocation<T> : IBufferAllocation
         where T : unmanaged
     {

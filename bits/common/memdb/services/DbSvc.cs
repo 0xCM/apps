@@ -16,7 +16,6 @@ namespace Z0
             {
                 Db = db;
             }
-
         }
     }
 }

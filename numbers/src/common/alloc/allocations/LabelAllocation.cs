@@ -4,9 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    /// <summary>
+    /// Owns a sequence of <see cref='Label'/> allocations
+    /// </summary>
     public sealed class LabelAllocation : Allocation<Label>
     {
-        internal LabelAllocation(IBufferAllocator allocator, Label[] labels)
+        public LabelAllocation(IBufferAllocator allocator, Label[] labels)
             : base(allocator, labels)
         {
         }

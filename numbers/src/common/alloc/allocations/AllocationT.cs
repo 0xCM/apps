@@ -4,6 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    /// <summary>
+    /// Abstraction for a container that owns a sequence of <typeparamref name='T'/> allocations
+    /// </summary>
+    /// <typeparam name="T">The allocated content</typeparam>
     public abstract class Allocation<T> : IBufferAllocation<T>
         where T : unmanaged
     {

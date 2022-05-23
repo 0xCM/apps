@@ -4,9 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    /// <summary>
+    /// Owns a sequence of <see cref='SourceText'/> allocations
+    /// </summary>
     public sealed class SourceAllocation : Allocation<SourceText>
     {
-        internal SourceAllocation(IBufferAllocator allocator, SourceText[] allocated)
+        public SourceAllocation(IBufferAllocator allocator, SourceText[] allocated)
             : base(allocator, allocated)
         {
         }

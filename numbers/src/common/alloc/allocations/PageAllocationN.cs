@@ -6,6 +6,10 @@ namespace Z0
 {
     using static core;
 
+    /// <summary>
+    /// Owns <typeparamref name='N'/> page allocations
+    /// </summary>
+    /// <typeparam name="N"></typeparam>
     public class PageAllocation<N> : IBufferAllocation
         where N : unmanaged, ITypeNat
     {
@@ -16,7 +20,7 @@ namespace Z0
 
         readonly NativeBuffer Buffer;
 
-        internal PageAllocation()
+        public PageAllocation()
         {
             Buffer = memory.native(PageSize*nat32u<N>());
         }

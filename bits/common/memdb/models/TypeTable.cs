@@ -9,8 +9,6 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct TypeTable : ITable<TypeTable>
         {
-            public const ObjectKind ObjKind = ObjectKind.TypeTable;
-
             public readonly uint TypeKey;
 
             public readonly Label TypeName;
