@@ -10,7 +10,6 @@ namespace Z0
 
     partial struct Lines
     {
-
         [MethodImpl(Inline), Op]
         public static uint lines(string src, Span<string> dst, bool keepblank = false, bool trim = true)
         {

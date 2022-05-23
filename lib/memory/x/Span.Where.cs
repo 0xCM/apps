@@ -6,8 +6,10 @@ namespace Z0
 {
     partial class XTend
     {
-        [MethodImpl(Inline)]
-        public static T Single<T>(this T[] src)
-            => Arrays.single(src);
-    }
+         public static Span<T> Where<T>(this Span<T> src, Func<T, bool> f)
+            => Spans.where(src, f);
+
+        public static Span<T> Where<T>(this ReadOnlySpan<T> src, Func<T, bool> f)
+            => Spans.where(src, f);
+   }
 }

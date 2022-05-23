@@ -29,11 +29,12 @@ namespace Z0
 {
     public static partial class XTend
     {
-        public static AsmCmdProvider AsmCommands(this IWfRuntime wf)
-            => AsmCmdProvider.create(wf);
+        // public static AsmCmdProvider AsmCommands(this IWfRuntime wf)
+        //     => AsmCmdProvider.create(wf);
 
         public static AsmFlowCommands AsmFlowCommands(this IWfRuntime wf)
             => Z0.AsmFlowCommands.create(wf);
+
         [Op]
         public static ProjectDataServices ProjectData(this IWfRuntime wf)
             => Z0.ProjectDataServices.create(wf);

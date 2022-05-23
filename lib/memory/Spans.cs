@@ -12,6 +12,26 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         /// <summary>
+        /// Allocates and populates a new array by filtering the source array with a specified predicate
+        /// </summary>
+        /// <param name="src">The source array</param>
+        /// <param name="f">The predicate</param>
+        /// <typeparam name="T">The array element type</typeparam>
+        [Op, Closures(Closure)]
+        public static Span<T> where<T>(ReadOnlySpan<T> src, Func<T,bool> f)
+        {
+            var count = Arrays.count(src,f);
+            Span<T> dst = alloc<T>(count);
+            var k = 0;
+            for(var i=0; i<src.Length; i++)
+            {
+                if(f(skip(src,i)))
+                    seek(dst,k++) = skip(src,i);
+            }
+            return slice(dst,0,k);
+        }
+
+        /// <summary>
         /// Declares a span to be sorted
         /// </summary>
         /// <param name="src"></param>

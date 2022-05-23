@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    partial class XArray
+    partial class XTend
     {
         /// <summary>
         /// Reverses an array in-place
@@ -15,7 +13,7 @@ namespace Z0
         /// <typeparam name="T">The element type</typeparam>
         public static T[] Reverse<T>(this T[] src)
         {
-            Array.Reverse(src);
+            System.Array.Reverse(src);
             return src;
         }
     }

@@ -7,7 +7,7 @@ namespace Z0
     partial struct Lines
     {
         [MethodImpl(Inline), Op]
-        public static LineRange range(uint min, uint max, TextLine[] data)
-            => new LineRange(min, max, data);
+        public static LineRange range(uint min, uint max, TextLine[] src)
+            => new LineRange(min, max, src);
     }
 }

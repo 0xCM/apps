@@ -4,12 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    partial struct Lines
+    public partial class GenCmd :  AppCmdProvider<GenCmd>
     {
-        [Op]
-        public static string format(in LineNumber src)
-            => string.Format(LineNumber.RenderPattern, src.Value);
+
+
     }
 }

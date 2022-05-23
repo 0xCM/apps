@@ -27,11 +27,5 @@ namespace Z0.llvm
                 Write(expr2);
             return result;
         }
-
-        void EmitTestLogs()
-        {
-            var src = LlvmTests.logs(FS.path(@"J:\llvm\toolset\logs\llvm-tests-detail.json"));
-            AppSvc.TableEmit(src, LlvmPaths.Table<LlvmTestLogEntry>());
-        }
     }
 }

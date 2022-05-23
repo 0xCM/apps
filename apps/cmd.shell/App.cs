@@ -5,6 +5,7 @@
 namespace Z0
 {
     using llvm;
+
     using static core;
 
     [Free]
@@ -16,16 +17,16 @@ namespace Z0
         {
             var svc = new GlobalCmd();
             var asmrt = AsmCmdRt.runtime(wf, false);
-            var projects = wf.ProjectCommands();
             var providers = array<ICmdProvider>(
                 svc,
-                ProjectCmd.inject(svc, asmrt, projects),
-                asmrt.Commands,
-                wf.PbCmd(),
-                wf.ApiCommands(),
+                ProjectCmd.inject(svc, asmrt, ProjectCmd.create(wf)),
                 LlvmCmdProvider.create(wf, LlvmCmd.create(wf)),
-                wf.CheckCommands(),
-                wf.AsmCommands()
+                asmrt.Commands,
+                PbCmd.create(wf),
+                ApiCmd.create(wf),
+                CheckCmd.create(wf),
+                GenCmd.create(wf),
+                AsmCmdProvider.create(wf)
                 );
 
             return GlobalCmd.init(wf, svc, asmrt, providers);

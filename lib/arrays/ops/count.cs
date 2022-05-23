@@ -6,14 +6,18 @@ namespace Z0
 {
     using static core;
 
-    partial class XTend
+    partial struct Arrays
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static void Iter<T>(this Span<T> src, Action<T> f)
-            => iter(src, f);
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static void Iter<T>(this ReadOnlySpan<T> src, Action<T> f)
-            => iter(src, f);
-    }
+        public static uint count<T>(ReadOnlySpan<T> src, Func<T,bool> f)
+        {
+            var k = 0u;
+            for(var i=0; i<src.Length; i++)
+            {
+                if(f(skip(src,i)))
+                    k++;
+            }
+            return k;
+        }
+   }
 }

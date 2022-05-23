@@ -83,7 +83,7 @@ namespace Z0.Asm
         public Outcome<uint> CreateLinedDoc(FS.FilePath src, FS.FilePath dst, Pair<TextEncodingKind> encoding)
         {
             var flow = Wf.Running(string.Format("{0} => {1}", src.ToUri(), dst.ToUri()));
-            var outcome = FS.lines(src,dst,encoding);
+            var outcome = Lines.copy(src,dst,encoding);
             if(outcome)
                 Wf.Ran(flow, string.Format("Emitted {0} lines", outcome.Data));
             else

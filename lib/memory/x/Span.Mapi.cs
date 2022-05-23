@@ -8,18 +8,21 @@ namespace Z0
 
     partial class XTend
     {
-        /// <summary>
-        /// Populates a target array by casting each elements of a source aray to the target element type
-        /// </summary>
-        /// <param name="src">The source array</param>
-        /// <typeparam name="T"></typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static T[] Cast<T>(this object[] src)
+        public static T[] Mapi<S,T>(this ReadOnlySpan<S> src, Func<int,S,T> f)
         {
             var count = src.Length;
             var dst = new T[count];
             for(var i=0; i<count; i++)
-                seek(dst,i) = (T)skip(src,i);
+                seek(dst, i) = f(i, skip(src,i));
+            return dst;
+        }
+
+        public static T[] Mapi<S,T>(this Span<S> src, Func<int,S,T> f)
+        {
+            var count = src.Length;
+            var dst = new T[count];
+            for(var i=0; i<count; i++)
+                seek(dst, i) = f(i, skip(src,i));
             return dst;
         }
     }

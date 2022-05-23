@@ -9,16 +9,8 @@ namespace Z0
     partial class XTend
     {
         [MethodImpl(Inline)]
-        public static Index<T> Filter<T>(this ReadOnlySpan<T> src, Func<T, bool> f)
-            => ArrayUtil.where(src, f);
-
-        [MethodImpl(Inline)]
         public static Index<T> Filter<T>(this T[] src, Func<T, bool> f)
-            => ArrayUtil.where(src, f);
-
-        [MethodImpl(Inline)]
-        public static Index<T> Filter<T>(this Span<T> src, Func<T, bool> f)
-            => ArrayUtil.where(src, f);
+            => src.Where(f);
 
         [MethodImpl(Inline)]
         public static Index<T> ToIndex<T>(this T[] src)

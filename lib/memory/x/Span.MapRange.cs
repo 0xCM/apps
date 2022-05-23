@@ -8,7 +8,7 @@ namespace Z0
 
     partial class XTend
     {
-       /// <summary>
+        /// <summary>
         /// Projects a range of elements from a source span to a target span
         /// </summary>
         /// <param name="src">The source span</param>
@@ -17,9 +17,9 @@ namespace Z0
         /// <param name="f">The projector</param>
         /// <typeparam name="S">The source type</typeparam>
         /// <typeparam name="T">The target type</typeparam>
-        public static Span<T> MapRange<S,T>(this ReadOnlySpan<S> src, int offset, int length, Func<S,T> f)
+        public static T[] MapRange<S,T>(this ReadOnlySpan<S> src, int offset, int length, Func<S,T> f)
         {
-            Span<T> dst = new T[length];
+            var dst = new T[length];
             for (uint i = (uint)offset; i<length; i++)
                 seek(dst,i) = f(skip(src,i));
             return dst;
@@ -35,7 +35,7 @@ namespace Z0
         /// <typeparam name="S">The source type</typeparam>
         /// <typeparam name="T">The target type</typeparam>
         [MethodImpl(Inline)]
-        public static Span<T> MapRange<S,T>(this Span<S> src, int offset, int length, Func<S,T> f)
+        public static T[] MapRange<S,T>(this Span<S> src, int offset, int length, Func<S,T> f)
             => src.ReadOnly().MapRange(offset,length, f);
 
         /// <summary>

@@ -48,27 +48,27 @@ namespace Z0.Asm
         public ReadOnlySpan<AsmOcToken> Tokens()
             => Buffer();
 
-        public Index<AsmOcToken> Tokens(AsmOcTokenKind kind)
-            => Tokens().Filter(t => t.Kind == kind);
+        public Span<AsmOcToken> Tokens(AsmOcTokenKind kind)
+            => Tokens().Where(t => t.Kind == kind);
 
         public AsmOcValue OcValue()
         {
             var hex = Tokens(AsmOcTokenKind.Hex8);
-            var count = hex.Count;
+            var count = hex.Length;
             var dst = AsmOcValue.Empty;
             switch(count)
             {
                 case 1:
-                    dst = new AsmOcValue((byte)hex[0]);
+                    dst = new AsmOcValue((byte)skip(hex, 0));
                 break;
                 case 2:
-                    dst = new AsmOcValue((byte)hex[0], (byte)hex[1]);
+                    dst = new AsmOcValue((byte)skip(hex, 0), (byte)skip(hex, 1));
                 break;
                 case 3:
-                    dst = new AsmOcValue((byte)hex[0], (byte)hex[1], (byte)hex[2]);
+                    dst = new AsmOcValue((byte)skip(hex, 0), (byte)skip(hex, 1), (byte)skip(hex, 2));
                 break;
                 case 4:
-                    dst = new AsmOcValue((byte)hex[0], (byte)hex[1], (byte)hex[2], (byte)hex[3]);
+                    dst = new AsmOcValue((byte)skip(hex, 0), (byte)skip(hex, 1), (byte)skip(hex, 2), (byte)skip(hex, 3));
                 break;
             }
             return dst;

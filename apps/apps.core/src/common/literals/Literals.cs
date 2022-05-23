@@ -10,6 +10,12 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        // public static ItemList<Constant<T>> items<T>(string name, ReadOnlySpan<T> src)
+        //     => new (name, src.Mapi((i,x) => new ListItem<Constant<T>>((uint)i,x)));
+
+        public static ItemList<Constant<T>> items<T>(string name, T[] src)
+            => new (name, src.Mapi((i,x) => new ListItem<Constant<T>>((uint)i,x)));
+
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Literal<T> define<T>(Identifier name, T value)
             => new Literal<T>(name, value);

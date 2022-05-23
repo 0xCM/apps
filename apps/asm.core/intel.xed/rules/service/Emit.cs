@@ -10,6 +10,19 @@ namespace Z0
 
     partial class XedRules
     {
+        public void EmitCatalog(Index<InstPattern> patterns, RuleTables rules)
+        {
+            exec(PllExec,
+                () => AppSvc.TableEmit(OpCodeKinds.Instance.Records, XedPaths.Table<OcMapKind>()),
+                () => Emit(mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i))),
+                () => Emit(CalcMacroDefs().View),
+                () => Emit(XedFields.Defs.Positioned),
+                () => ApiMd.EmitTokenSet(XedFields.EffectiveFields.create(), XedPaths.Target("xed.fields.symbolic", FS.Csv))
+            );
+
+            Emit(patterns, rules);
+        }
+
         public void Emit(Index<InstPattern> patterns, RuleTables rules)
         {
             exec(PllExec,

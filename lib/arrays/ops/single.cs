@@ -6,15 +6,15 @@ namespace Z0
 {
     using static core;
 
-    partial class XTend
+    partial struct Arrays
     {
-        public static T[] Distinct<T>(this T[] src)
+        [Op, Closures(Closure)]
+        public static T single<T>(T[] src)
         {
             var count = src.Length;
-            var dst = new HashSet<T>(count);
-            for(var i=0; i<count; i++)
-                dst.Add(skip(src,i));
-            return dst.Array();
+            if(count != 1)
+                Errors.Throw($"There are {src.Length} elements where there should be exactly 1");
+            return core.first(src);
         }
     }
 }

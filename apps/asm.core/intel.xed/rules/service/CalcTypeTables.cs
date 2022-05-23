@@ -10,9 +10,6 @@ namespace Z0
 
     partial class XedRules
     {
-        static D Data<D>(XedViewKind index, Func<D> f)
-            => data<D>(index.ToString(), f);
-
         public static Index<TypeTableRow> CalcTypeTableRows(Index<TypeTable> src)
             => src.SelectMany(x => x.Rows).Sort().Resequence();
 

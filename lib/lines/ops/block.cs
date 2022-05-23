@@ -4,16 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial struct Lines
     {
         [MethodImpl(Inline), Op]
         public static LineBlock block(in TextArea area, TextLine[] lines)
-            => new LineBlock(area,lines);
+            => LineBlock.create(area,lines);
 
         [MethodImpl(Inline), Op]
         public static LineBlocks blocks(TextArea[] areas, TextLine[] lines)
-            => new LineBlocks(areas,lines);
+            => LineBlocks.create(areas,lines);
     }
 }

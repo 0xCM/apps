@@ -49,7 +49,7 @@ namespace Z0
                 EmitCpuIdImports,
                 EmitBroadcastDefs,
                 EmitChips,
-                () => Emit(CalcFieldDefs()),
+                () => Emit(CalcFieldImports()),
                 () => Emit(CalcPointerWidths()),
                 () => Emit(XedOperands.Views.OpWidths)
             );
@@ -85,8 +85,8 @@ namespace Z0
         public void ImportInstBlocks()
             => BlockImporter.Import(Xed.Views.InstImports, PllExec);
 
-        void Emit(ReadOnlySpan<XedFieldDef> src)
-            => AppSvc.TableEmit(src, XedPaths.Imports().Table<XedFieldDef>());
+        void Emit(ReadOnlySpan<FieldImport> src)
+            => AppSvc.TableEmit(src, XedPaths.Imports().Table<FieldImport>());
 
         void Emit(ReadOnlySpan<PointerWidthInfo> src)
             => AppSvc.TableEmit(src, XedPaths.Imports().Table<PointerWidthInfo>());
@@ -115,20 +115,6 @@ namespace Z0
             AppSvc.FileEmit(dst.Emit(), counter, Targets().Path(FS.file("xed.chipmap", FS.Csv)));
         }
 
-        // public ConcurrentDictionary<InstIsaKind,HashSet<FormImport>> CalcIsaFormImports()
-        // {
-        //     var codes = Symbols.index<ChipCode>();
-        //     var forms = Xed.Views.FormImports;
-        //     var formisa = forms.Select(x => (x.InstForm.Kind, x.IsaKind)).ToDictionary();
-        //     var isakinds = formisa.Values.ToHashSet();
-        //     var isaforms = cdict<InstIsaKind,HashSet<FormImport>>();
-        //     var lookup = cdict<ChipCode,HashSet<FormImport>>();
-        //     iter(isakinds, k => isaforms[k] = new());
-        //     iter(codes.Kinds, code => lookup[code] = new());
-        //     iter(forms, f => isaforms[f.IsaKind].Add(f));
-        //     return isaforms;
-        // }
-
         public void EmitIsaForms()
         {
             var codes = Symbols.index<ChipCode>();
@@ -149,43 +135,6 @@ namespace Z0
                     });
                 AppSvc.TableEmit(matches.ToArray().Sort().Resequence(), dst);
             },PllExec);
-        }
-
-        public Index<XedFieldDef> CalcFieldDefs()
-        {
-            var src = XedPaths.DocSource(XedDocKind.Fields);
-            var dst = list<XedFieldDef>();
-            var result = Outcome.Success;
-            var line = EmptyString;
-            var lines = src.ReadLines().Reader();
-            while(lines.Next(out line))
-            {
-                var content = line.Trim();
-                if(text.empty(content) || text.begins(content,Chars.Hash))
-                    continue;
-
-                var cells = text.split(text.despace(content), Chars.Space).Reader();
-                var record = XedFieldDef.Empty;
-                record.Name = cells.Next();
-
-                cells.Next();
-                result = FieldTypes.ExprKind(cells.Next(), out XedFieldType ft);
-                if(result.Fail)
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(record.FieldType), cells.Prior()));
-                else
-                    record.FieldType = ft;
-
-                result = DataParser.parse(cells.Next(), out record.Width);
-                if(result.Fail)
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(record.Width), cells.Prior()));
-
-                if(!Visibilities.ExprKind(cells.Next(), out record.Visibility))
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(record.Visibility), cells.Prior()));
-
-                dst.Add(record);
-            }
-
-            return dst.ToArray().Sort();
         }
 
         static Index<InstBlockField> _BlockFields;

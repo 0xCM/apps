@@ -26,6 +26,5 @@ namespace Z0
 
             return false;
         }
-
     }
 }

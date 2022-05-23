@@ -6,7 +6,11 @@ namespace Z0
 {
     public readonly struct LineBlocks
     {
-        public Index<TextArea> Areas {get;}
+        [MethodImpl(Inline), Op]
+        public static LineBlocks create(TextArea[] areas, TextLine[] lines)
+            => new LineBlocks(areas, lines);
+
+        public readonly Index<TextArea> Areas;
 
         readonly Index<TextLine> _Lines;
 

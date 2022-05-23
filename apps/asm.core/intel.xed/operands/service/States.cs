@@ -6,16 +6,12 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedRules;
-    using static core;
 
     using M = XedModels;
-
     using B = System.ReadOnlySpan<bit>;
     using U2 = System.ReadOnlySpan<uint2>;
     using U3 = System.ReadOnlySpan<uint3>;
     using REGS = System.ReadOnlySpan<XedRegId>;
-
 
     partial class XedOperands
     {

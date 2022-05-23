@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
+    using static core;
 
-    partial class XArray
+    partial class XTend
     {
         /// <summary>
         /// Transforms an array via an indexed mapping function
@@ -20,7 +20,7 @@ namespace Z0
             var count = src.Length;
             var dst = new T[count];
             for(var i=0; i<count; i++)
-                dst[i] = f(i,src[i]);
+                seek(dst, i) = f(i, skip(src,i));
             return dst;
         }
     }

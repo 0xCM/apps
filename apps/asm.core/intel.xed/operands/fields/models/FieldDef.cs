@@ -10,7 +10,7 @@ namespace Z0
         [Record(TableName), StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct FieldDef : IComparable<FieldDef>
         {
-            public const string TableName = "xed.fields.defs";
+            public const string TableName = "xed.fields.reflected";
 
             [Render(8)]
             public byte Pos;

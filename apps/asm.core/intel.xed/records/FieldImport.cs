@@ -10,9 +10,9 @@ namespace Z0
     partial class XedRules
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
-        public struct XedFieldDef : IComparable<XedFieldDef>
+        public struct FieldImport : IComparable<FieldImport>
         {
-            public const string TableId = "xed.fields.defs";
+            const string TableId = "xed.fields.import";
 
             [Render(32)]
             public text31 Name;
@@ -26,10 +26,10 @@ namespace Z0
             [Render(1)]
             public VisibilityKind Visibility;
 
-            public int CompareTo(XedFieldDef src)
+            public int CompareTo(FieldImport src)
                 => Name.CompareTo(src.Name);
 
-            public static XedFieldDef Empty => default;
+            public static FieldImport Empty => default;
         }
     }
 }

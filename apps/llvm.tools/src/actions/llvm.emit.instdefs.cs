@@ -7,11 +7,7 @@ namespace Z0.llvm
     partial class LlvmCmdProvider
     {
         [CmdOp("llvm/emit/instdefs")]
-        Outcome EmitInst(CmdArgs args)
-        {
-            DataEmitter.EmitInstDefs();
-            return true;
-        }
-
+        void EmitInst()
+            => DataEmitter.EmitInstDefs();
     }
 }

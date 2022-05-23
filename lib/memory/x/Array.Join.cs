@@ -8,27 +8,6 @@ namespace Z0
 
     partial class XArray
     {
-        public static bool AnyTest<T>(this T[] src, Func<T,bool> predicate)
-        {
-            foreach(var item in src)
-            {
-                if(predicate(item))
-                    return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Defines an array-specific join operator
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="selector"></param>
-        /// <typeparam name="S"></typeparam>
-        /// <typeparam name="T"></typeparam>
-        public static T[] SelectMany<S,T>(this S[] src, Func<S,IEnumerable<T>> selector)
-            => Enumerable.SelectMany(src, selector).ToArray();
-
-        /// <summary>
         /// Sequentially condenses a sequence of arrays into a single array
         /// </summary>
         /// <param name="src">The many</param>
