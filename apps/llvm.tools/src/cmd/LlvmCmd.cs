@@ -4,34 +4,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-
     using static core;
 
     public sealed partial class LlvmCmd : AppCmdService<LlvmCmd,CmdShellState>
     {
-        LlvmToolset Toolset => Service(Wf.LLvmToolset);
-
         LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
-
-        LlvmRepo LlvmRepo => Service(Wf.LlvmRepo);
 
         LlvmDataProvider DataProvider => Service(Wf.LlvmDataProvider);
 
         LlvmDataEmitter DataEmitter => Service(Wf.LlvmDataEmitter);
 
-        public LlvmQuery Query => DataEmitter.Query;
+        AppServices AppSvc => Service(Wf.AppServices);
 
-        AppDb AppDb => Service(Wf.AppDb);
+        public LlvmQuery Query => DataEmitter.Query;
 
         IProjectWs Data;
 
-        ToolId SelectedTool;
-
-        public LlvmCmd()
-        {
-            SelectedTool = ToolId.Empty;
-        }
+        public void EmitInstAlias()
+            => AppSvc.TableEmit(DataProvider.InstAliases(), LlvmPaths.Table<LlvmInstAlias>());
 
         protected override void Initialized()
         {
@@ -41,24 +31,12 @@ namespace Z0.llvm
         }
 
         protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
-            => array<ICmdProvider>(this, this, LlvmCmdProvider.create(wf));
-
-        Outcome Flow(FS.Files src)
-        {
-            Files(src);
-            return true;
-        }
+            => array<ICmdProvider>(this, this, LlvmCmdProvider.create(wf, this));
 
         Outcome Flow(string query, FS.Files src)
         {
             Files(src);
             Query.FileEmit(query, @readonly(src.View.Map(x => x.ToUri())));
-            return true;
-        }
-
-        Outcome Flow<T>(string query, ReadOnlySpan<T> src)
-        {
-            Query.FileEmit(query, src);
             return true;
         }
     }

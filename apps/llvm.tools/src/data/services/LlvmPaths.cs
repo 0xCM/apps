@@ -19,35 +19,20 @@ namespace Z0.llvm
         public FS.FolderPath DataHome()
             => LlvmData.Home();
 
-        public FS.FolderPath Imports()
-            => Db.Subdir("llvm");
-
         public FS.FolderPath Tables()
-            => Imports() + FS.folder("tables");
+            => Db.Subdir("llvm") + FS.folder("tables");
 
         public FS.FolderPath RecordImports()
-            => Imports() + FS.folder("records");
+            => Db.Subdir("llvm") + FS.folder("records");
 
         public FS.FolderPath ToolImports()
-            => Imports() + FS.folder("tools");
+            => Db.Subdir("llvm") + FS.folder("tools");
 
         public FS.FolderPath Queries()
-            => Imports() + FS.folder("queries");
+            => Db.Subdir("llvm") + FS.folder("queries");
 
-        public FS.FolderPath QueryResults()
-            => Queries() + FS.folder("results");
-
-        public FS.FolderPath QuerySpecs()
-            => Queries() + FS.folder("specs");
-
-        public FS.FilePath QueryResult(FS.FileName file)
-            => QueryResults() + file;
-
-        public FS.FilePath QuerySpec(string id)
-            => QuerySpecs() + FS.file(id, FS.ext("query"));
-
-        public FS.FilePath RecordImport(string id, FS.FileExt ext)
-            =>  RecordImports() + FS.file(id, ext);
+        public FS.FilePath Query(FS.FileName file)
+            => Db.Subdir("llvm") + FS.folder("queries") + file;
 
         public FS.FilePath ImportMap(string id)
             => RecordImports() + FS.file(id, FS.ext("map"));
@@ -79,37 +64,19 @@ namespace Z0.llvm
         public FS.FolderPath LlvmRoot
             => Env.LlvmRoot;
 
-        public FS.FolderPath TmpDir()
-            => DataHome() + FS.folder(".tmp");
-
-        public FS.FilePath TmpFile(string id, FS.FileExt ext)
-            => TmpDir() + FS.file(id,ext);
-
-        public FS.FolderPath Tables(string scope)
-            => Tables() + FS.folder(scope);
+        public FS.FilePath File(string id, FS.FileExt ext)
+            => Db.Subdir("llvm") + FS.folder("files") + FS.file(id,ext);
 
         public FS.FilePath Table<T>()
             where T : struct
-                => Tables() + Z0.Tables.filename<T>();
+                => Db.Subdir("llvm") + FS.folder("tables") + Z0.Tables.filename<T>();
 
         public FS.FilePath Table(string id)
-            => Tables() + FS.file(id, FS.Csv);
+            => Db.Subdir("llvm") + FS.folder("tables") + FS.file(id, FS.Csv);
 
-        public FS.FilePath QueryTable<T>()
+        public FS.FilePath Table<T>(string id)
             where T : struct
-                => QueryResults() + Z0.Tables.filename<T>();
-
-        public FS.FilePath QueryTable<T>(FS.FileName name)
-            where T : struct
-                => QueryResults() + name;
-
-        public FS.FilePath QueryTable<T>(string tag)
-            where T : struct
-                => QueryResults()
-                + (text.nonempty(tag)
-                ? FS.file(string.Format("{0}.{1}", Z0.Tables.identify<T>(), tag), FS.Csv)
-                : FS.file(Z0.Tables.identify<T>().Format(), FS.Csv)
-                );
+                => Db.Subdir("llvm") + FS.folder("tables") + FS.file(id,FS.Csv);
 
         public FS.Files Lists()
             => Tables().Files(FS.Csv).Where(f => f.FileName.StartsWith("llvm.lists."));
@@ -128,11 +95,5 @@ namespace Z0.llvm
 
         public FS.FolderPath CodeGen()
             => Env.ZDev + FS.folder("codegen/codegen.llvm/src");
-
-        public FS.FilePath CodeGenPath(string id, FS.FileExt ext)
-            => CodeGen() + FS.file(id,ext);
-
-        public FS.FilePath StringTablePath(string id, FS.FileExt ext)
-            => CodeGen() + FS.folder("stringtables") + FS.file(id,ext);
     }
 }

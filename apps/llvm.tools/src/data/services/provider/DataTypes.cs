@@ -6,12 +6,9 @@ namespace Z0.llvm
 {
     using System;
 
-    partial class LlvmDataEmitter
+    partial class LlvmDataProvider
     {
-        public void EmitInstDefs()
-            => Emit(DataProvider.InstDefs());
-
-        public void Emit(ReadOnlySpan<LlvmInstDef> src)
-            => AppSvc.TableEmit(src, LlvmPaths.Table<LlvmInstDef>());
+        public Index<LlvmDataType> DataTypes(Index<RecordField> src)
+            => (Index<LlvmDataType>)DataSets.GetOrAdd("DataTypes", _ => DataCalcs.CalcDataTypes(src));
     }
 }

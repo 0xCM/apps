@@ -4,11 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static LlvmNames;
-
     partial class LlvmDataProvider
     {
-        public Index<RecordField> ClassFields()
-            => Fields(Datasets.X86Classes);
+        public Index<LlvmInstDef> InstDefs()
+            => (Index<LlvmInstDef>)DataSets.GetOrAdd(nameof(InstDefs), key => DataCalcs.CalcInstDefs(AsmIdentifiers(), Entities()));
     }
 }

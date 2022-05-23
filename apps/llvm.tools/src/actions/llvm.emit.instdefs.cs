@@ -4,11 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static LlvmNames;
-
-    partial class LlvmDataProvider
+    partial class LlvmCmdProvider
     {
-        public Index<RecordField> ClassFields()
-            => Fields(Datasets.X86Classes);
+        [CmdOp("llvm/emit/instdefs")]
+        Outcome EmitInst(CmdArgs args)
+        {
+            DataEmitter.EmitInstDefs();
+            return true;
+        }
+
     }
 }

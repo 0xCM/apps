@@ -43,7 +43,7 @@ namespace Z0.llvm
                 () => defFields = DataEmitter.EmitDefFields(RecordFieldParser.parse(lines, defMap))
             );
 
-            Emit(DataProvider.SelectEntities(defRelations, defFields));
+            Emit(DataProvider.Entities(defRelations, defFields));
         }
 
         LineMap<Identifier> EmitClasses(Index<TextLine> lines)

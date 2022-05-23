@@ -4,27 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-
     using Asm;
 
     [Record(TableId)]
     public struct LlvmInstAlias : IComparable<LlvmInstAlias>
     {
-        public const string TableId = "llvm.inst.alias";
+        const string TableId = "llvm.inst.alias";
 
-        public const byte FieldCount = 4;
-
+        [Render(24)]
         public Identifier InstName;
 
+        [Render(16)]
         public AsmMnemonic Mnemonic;
 
+        [Render(48)]
         public TextBlock AsmString;
 
+        [Render(1)]
         public TextBlock Syntax;
+
         public int CompareTo(LlvmInstAlias src)
             => InstName.CompareTo(src.InstName);
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{24,16,48,1};
     }
 }

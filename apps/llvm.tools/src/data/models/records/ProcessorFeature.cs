@@ -5,9 +5,9 @@
 namespace Z0.llvm
 {
     [Record(TableId)]
-    public struct ProcessorFeature
+    public struct CpuFeature
     {
-        public const string TableId = "llvm.processor.feature";
+        public const string TableId = "llvm.cpu.feature";
 
         [Render(8)]
         public uint Seq;

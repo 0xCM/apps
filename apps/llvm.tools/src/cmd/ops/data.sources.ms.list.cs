@@ -8,8 +8,6 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        CgSvc Generators => Service(Wf.CodeGen);
-
         [CmdOp("sources/ms/cs/keywords")]
         Outcome CsKeywords(CmdArgs args)
         {

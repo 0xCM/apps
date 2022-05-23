@@ -16,7 +16,7 @@ namespace Z0
 
         [Op]
         public static LlvmCmdProvider LlvmCommands(this IWfRuntime wf)
-            => LlvmCmdProvider.create(wf);
+            => llvm.LlvmCmdProvider.create(wf);
         [Op]
         public static LlvmTableLoader LlvmTableLoader(this IWfRuntime wf)
             => llvm.LlvmTableLoader.create(wf);

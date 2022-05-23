@@ -4,11 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static LlvmNames;
-
-    partial class LlvmDataProvider
+    partial class LlvmCmdProvider
     {
-        public Index<RecordField> ClassFields()
-            => Fields(Datasets.X86Classes);
+        [CmdOp("llvm/emit/relations")]
+        void EmitDefRelations()
+        {
+            var relations = DataProvider.DefDependencies();
+            Query.FileEmit("llvm.defs.relations", relations.View);
+        }
     }
 }

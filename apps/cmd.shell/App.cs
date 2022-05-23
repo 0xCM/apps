@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using llvm;
     using static core;
 
     [Free]
@@ -22,7 +23,7 @@ namespace Z0
                 asmrt.Commands,
                 wf.PbCmd(),
                 wf.ApiCommands(),
-                wf.LlvmCommands(),
+                LlvmCmdProvider.create(wf, LlvmCmd.create(wf)),
                 wf.CheckCommands(),
                 wf.AsmCommands()
                 );

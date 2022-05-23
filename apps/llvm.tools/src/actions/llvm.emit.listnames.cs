@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static LlvmNames;
-
-    partial class LlvmDataProvider
+    partial class LlvmCmdProvider
     {
-        public Index<RecordField> ClassFields()
-            => Fields(Datasets.X86Classes);
+        [CmdOp("llvm/emit/listnames")]
+        void EmitListNames()
+            => Query.FileEmit("llvm.lists.names", DataProvider.Lists().Map(x => x.ToNameList()).View);
     }
 }

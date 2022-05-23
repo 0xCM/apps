@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static core;
-    using static Root;
-
     partial class LlvmCmd
     {
-        [CmdOp(".test")]
         Outcome Test(CmdArgs args)
         {
             var result = Outcome.Success;
@@ -32,57 +28,10 @@ namespace Z0.llvm
             return result;
         }
 
-        [CmdOp(".test-logs")]
-        Outcome ReadJson(CmdArgs args)
+        void EmitTestLogs()
         {
-            var result = Outcome.Success;
-            var entries = LlvmTests.TestLog(FS.path(@"J:\llvm\toolset\logs\llvm-tests-detail.json"));
-            Write(string.Format("Parsed {0} entries", entries.Length));
-            return result;
-        }
-
-        [CmdOp("llc/help")]
-        Outcome ParseHelp(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            result = Toolset.HelpDoc(ToolNames.llc, out var doc);
-            if(result.Fail)
-                return result;
-
-            doc = doc.Load();
-            var choices = list<string>();
-            var lines = Lines.read(doc.Content.Text);
-            var count = lines.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var line = ref skip(lines,i);
-                var content = line.Content.Trim();
-                var k = text.whitespace(content);
-                var name = EmptyString;
-                if(k > 0)
-                    name = text.left(content,k);
-
-                if(text.empty(name))
-                    continue;
-                var _name = name.Trim();
-                if(text.index(_name,Chars.Eq) == 0)
-                {
-                    var choice = text.substring(_name,1);
-                    choices.Add(choice);
-                }
-                else
-                {
-                    if(choices.Count != 0)
-                    {
-                        Write(string.Format("  choices: {0}", choices.Delimit()));
-                        choices.Clear();
-                    }
-
-                    Write(name.Trim());
-                }
-            }
-
-            return result;
+            var src = LlvmTests.logs(FS.path(@"J:\llvm\toolset\logs\llvm-tests-detail.json"));
+            AppSvc.TableEmit(src, LlvmPaths.Table<LlvmTestLogEntry>());
         }
     }
 }
