@@ -9,38 +9,50 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
     public struct ObjDumpRow : IComparable<ObjDumpRow>
     {
-        public const string TableId = "llvm.objdump";
-
-        public const byte FieldCount = 14;
+        const string TableId = "llvm.objdump";
 
         public const string BlockStartMarker = "<blockstart>";
 
+        [Render(ColWidths.Seq)]
         public uint Seq;
 
+        [Render(ColWidths.DocSeq)]
         public uint DocSeq;
 
+        [Render(ColWidths.OriginId)]
         public Hex32 OriginId;
 
+        [Render(ColWidths.EncodingId)]
         public EncodingId EncodingId;
 
+        [Render(ColWidths.InstructionId)]
         public InstructionId InstructionId;
 
+        [Render(ColWidths.SectionName)]
         public TextBlock Section;
 
+        [Render(ColWidths.BlockAddress)]
         public MemoryAddress BlockAddress;
 
+        [Render(ColWidths.BlockName)]
         public TextBlock BlockName;
 
+        [Render(ColWidths.IP)]
         public Address32 IP;
 
+        [Render(ColWidths.Size)]
         public byte Size;
 
+        [Render(ColWidths.Encoded)]
         public AsmHexCode Encoded;
 
+        [Render(ColWidths.AsmExpr)]
         public AsmExpr Asm;
 
+        [Render(ColWidths.SyntaxComment)]
         public AsmInlineComment Comment;
 
+        [Render(1)]
         public FS.FileUri Source;
 
         public string DocName
@@ -86,22 +98,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => text.contains(Asm.Format(), BlockStartMarker);
         }
-
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{
-                ColWidths.Seq,
-                ColWidths.DocSeq,
-                ColWidths.OriginId,
-                ColWidths.EncodingId,
-                ColWidths.InstructionId,
-                12,
-                16,
-                ColWidths.BlockName,
-                ColWidths.IP,
-                ColWidths.Size,
-                ColWidths.Encoded,
-                ColWidths.AsmExpr,
-                90,
-                1};
     }
 }

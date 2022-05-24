@@ -117,6 +117,14 @@ namespace Z0
             => src.Code;
 
         [MethodImpl(Inline)]
+        public static implicit operator BinaryDigitValue(BinaryDigit src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator BinaryDigit(BinaryDigitValue src)
+            => new BinaryDigit(src);
+
+        [MethodImpl(Inline)]
         public static implicit operator BinaryDigit(bit src)
             => new BinaryDigit(src);
 

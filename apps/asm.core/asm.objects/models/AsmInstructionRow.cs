@@ -13,18 +13,25 @@ namespace Z0
 
         public const byte FieldCount = 7;
 
+        [Render(ColWidths.Seq)]
         public uint Seq;
 
+        [Render(ColWidths.DocSeq)]
         public uint DocSeq;
 
+        [Render(ColWidths.OriginId)]
         public Hex32 OriginId;
 
+        [Render(ColWidths.OriginName)]
         public @string OriginName;
 
+        [Render(32)]
         public Identifier AsmName;
 
+        [Render(ColWidths.AsmExpr)]
         public AsmExpr Asm;
 
+        [Render(1)]
         public FS.FileUri Source;
 
         public AsmRowKey RowKey
@@ -47,15 +54,15 @@ namespace Z0
             return result;
         }
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{
-            ColWidths.Seq,
-            ColWidths.DocSeq,
-            ColWidths.OriginId,
-            ColWidths.OriginName,
-            32,
-            ColWidths.AsmExpr,
-            1
-            };
+        // public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{
+        //     ColWidths.Seq,
+        //     ColWidths.DocSeq,
+        //     ColWidths.OriginId,
+        //     ColWidths.OriginName,
+        //     32,
+        //     ColWidths.AsmExpr,
+        //     1
+        //     };
 
         public static AsmInstructionRow Empty => default;
 

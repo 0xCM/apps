@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class PbCmd : WsCmdService<PbCmd>
+    public partial class PbCmd : AppService<PbCmd>
     {
         PolyBits PolyBits => Service(Wf.PolyBits);
     }

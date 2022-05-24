@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static core;
 
     partial class ProjectDataServices
@@ -44,7 +42,7 @@ namespace Z0
             }
 
             var records = buffer.ToArray();
-            TableEmit(@readonly(records), AsmInstructionRow.RenderWidths, AsmInstructionTable(project));
+            AppSvc.TableEmit(records, AsmInstructionTable(project));
             return records;
         }
     }

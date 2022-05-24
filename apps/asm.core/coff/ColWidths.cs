@@ -63,5 +63,9 @@ namespace Z0
         public const byte SymbolName = 24;
 
         public const byte RegName = 6;
+
+        public const byte SectionName = 12;
+
+        public const byte SyntaxComment = 90;
     }
 }

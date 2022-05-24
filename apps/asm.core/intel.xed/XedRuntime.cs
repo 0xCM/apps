@@ -12,7 +12,6 @@ namespace Z0
     using static XedModels;
     using static core;
     using static XedOperands;
-    using static MemDb;
 
     using I = XedViewKind;
 
@@ -30,7 +29,7 @@ namespace Z0
 
         public IAllocProvider Alloc => _Alloc;
 
-        public WsProjects Projects => Service(Wf.WsProjects);
+        public WsProjects Projects => Wf.WsProjects();
 
         public new XedPaths Paths => XedPaths.Service;
 
@@ -44,7 +43,9 @@ namespace Z0
 
         public AppDb AppDb => Wf.AppDb();
 
-        AppServices AppSvc => Service(Wf.AppServices);
+        public new WsCmdRunner CmdRunner => Wf.WsCmdRunner();
+
+        AppServices AppSvc => Wf.AppServices();
 
         ConcurrentDictionary<uint,IMachine> Machines = new();
 
@@ -80,11 +81,6 @@ namespace Z0
             _Alloc = Z0.Alloc.allocate();
         }
 
-        public XedRuntime With(AsmCmdRt runtime)
-        {
-            CmdRt = runtime;
-            return this;
-        }
         void CalcCpuIdImports()
         {
             var parsed = Import.CalcCpuIdImports();

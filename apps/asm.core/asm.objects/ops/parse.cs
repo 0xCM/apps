@@ -8,45 +8,16 @@ namespace Z0
 
     using static core;
 
-    partial class ProjectDataServices
+    partial class AsmObjects
     {
-        public Index<ObjSymRow> CollectObjSyms(WsContext context)
+        public static Outcome parse(WsContext context, in FileRef src, out Index<ObjDumpRow> dst)
+            => new ObjDumpParser().ParseSource(context, src, out dst);
+
+
+        public static Outcome parse(string src, ref uint seq, out ObjSymRow dst)
         {
             var result = Outcome.Success;
-            var project = context.Project;
-            var src = project.OutFiles(FS.Sym).View;
-            var count = src.Length;
-            var formatter = Tables.formatter<ObjSymRow>(ObjSymRow.RenderWidths);
-            var buffer = list<ObjSymRow>();
-            var seq = 0u;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var path = ref skip(src,i);
-                var origin = context.Root(path);
-                var fref = context.Ref(path);
-                using var reader = path.Utf8LineReader();
-                var counter = 0u;
-                while(reader.Next(out var line))
-                {
-                    if(ParseSymRow(line, ref counter, out var sym))
-                    {
-                        sym.Seq = seq++;
-                        sym.OriginId = origin.DocId;
-                        buffer.Add(sym);
-                    }
-                }
-            }
-
-            var rows = buffer.ToArray();
-            TableEmit(@readonly(rows), ObjSymRow.RenderWidths, ProjectDb.ProjectTable<ObjSymRow>(project));
-            //context.Receiver.Collected(rows);
-            return rows;
-        }
-
-        Outcome ParseSymRow(TextLine src, ref uint seq, out ObjSymRow dst)
-        {
-            var result = Outcome.Success;
-            var content = src.Content;
+            var content = src;
             dst = default;
             var j = text.index(content, Chars.Colon);
             if(j > 0)

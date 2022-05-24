@@ -21,6 +21,9 @@ namespace Z0
         public static WsProjects WsProjects(this IWfRuntime wf)
             => Services.Service<WsProjects>(wf);
 
+        public static WsCmdRunner WsCmdRunner(this IWfRuntime wf)
+            => Services.Service<WsCmdRunner>(wf);
+
         [Op]
         public static AppDb AppDb(this IWfRuntime wf)
             => Services.Service<AppDb>(wf);

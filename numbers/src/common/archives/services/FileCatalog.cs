@@ -15,9 +15,8 @@ namespace Z0
             return dst;
         }
 
-        [MethodImpl(Inline)]
-        public static ReadOnlySpan<FileKind> KnownKinds()
-            => _FileKinds;
+        public static FileCatalog load(ProjectId project)
+            => load(DevWs.create(Env.load().DevWs).Project(project));
 
         readonly PllMap<uint,FileRef> IdMap;
 

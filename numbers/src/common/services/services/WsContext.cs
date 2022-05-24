@@ -8,33 +8,13 @@ namespace Z0
 
     public class WsContext
     {
-        static WsUnserviced Unserviced = WsUnserviced.create();
-
-        public static IProjectWs project(IAppService service, ProjectId id)
-            => service.Ws.Project(id);
-
-        public static IProjectProvider provider(IProjectWs ws)
-            => ProjectProvider.create(ws);
-
-        public static WsContext create(IAppService service, ProjectId id)
-            => create(provider(project(service,id)));
-
-        public static WsContext create(IProjectProvider provider)
-            => create(provider, provider.Project(), flows(provider.Project()));
-
-        public static WsContext create(IProjectProvider provider, IProjectWs project)
-            => create(provider, project, flows(project));
-
-        public static WsContext create(IProjectProvider projects, IProjectWs project, WsDataFlows flows)
-            => new WsContext(projects, project, flows);
+        public static WsContext create(IProjectWs project)
+            => new WsContext(project, flows(project));
 
         static WsDataFlows flows(IProjectWs ws)
-            => flows(FileCatalog.load(ws), commands(ws));
-
-        static Index<ToolCmdFlow> commands(IProjectWs ws)
         {
-            const byte FieldCount = ToolCmdFlow.FieldCount;
-            var lines = Unserviced.ProjectFile(ws, "build.flows", FileKind.Csv).ReadLines(TextEncodingKind.Asci,true);
+            var unserviced = WsUnserviced.create();
+            var lines = unserviced.ProjectFile(ws, "build.flows", FileKind.Csv).ReadLines(TextEncodingKind.Asci,true);
             var buffer = alloc<ToolCmdFlow>(lines.Length - 1);
             var src = lines.Reader();
             src.Next(out _);
@@ -42,7 +22,7 @@ namespace Z0
             while(src.Next(out var line))
             {
                 var cells = text.trim(text.split(line,Chars.Pipe));
-                Require.equal(cells.Length,FieldCount);
+                Require.equal(cells.Length,ToolCmdFlow.FieldCount);
                 var reader = cells.Reader();
                 ref var dst = ref seek(buffer,i++);
                 DataParser.parse(reader.Next(), out dst.Tool).Require();
@@ -51,25 +31,19 @@ namespace Z0
                 DataParser.parse(reader.Next(), out dst.SourcePath).Require();
                 DataParser.parse(reader.Next(), out dst.TargetPath).Require();
             }
-            return buffer;
+            return new (FileCatalog.load(ws), buffer);
         }
 
-        static WsDataFlows flows(FileCatalog files, ReadOnlySpan<ToolCmdFlow> src)
-            => new WsDataFlows(files, src);
+        public readonly IProjectWs Project;
 
-        public IProjectProvider Projects {get;}
+        public readonly FileCatalog Catalog;
 
-        public IProjectWs Project {get;}
+        public readonly WsDataFlows Flows;
 
-        public FileCatalog Catalog {get;}
-
-        public WsDataFlows Flows {get;}
-
-        WsContext(IProjectProvider projects, IProjectWs project, WsDataFlows flows)
+        WsContext(IProjectWs project, WsDataFlows flows)
         {
-            Projects = projects;
             Project = project;
-            Catalog = flows.FileCatalog;
+            Catalog = flows.Catalog;
             Flows = flows;
         }
 

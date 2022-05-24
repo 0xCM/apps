@@ -14,27 +14,33 @@ namespace Z0
 
         Index<WsDataFlow> Data;
 
-        public FileCatalog FileCatalog {get;}
+        public readonly FileCatalog Catalog;
+
+        public ref readonly Index<WsDataFlow> Completed
+        {
+            [MethodImpl(Inline)]
+            get => ref Data;
+        }
 
         public Index<FileRef> Files(FileKind k0)
-            => FileCatalog.Entries(k0);
+            => Catalog.Entries(k0);
 
         public Index<FileRef> Files(FileKind k0, FileKind k1)
-            => FileCatalog.Entries(k0, k1);
+            => Catalog.Entries(k0, k1);
 
         public Index<FileRef> Files(FileKind k0, FileKind k1, FileKind k2)
-            => FileCatalog.Entries(k0, k1, k2);
+            => Catalog.Entries(k0, k1, k2);
 
         public Index<FileRef> Sources(FileKind kind)
-            => FileCatalog.Entries(kind).Where(e => Lookup.ContainsKey(e.Path));
+            => Catalog.Entries(kind).Where(e => Lookup.ContainsKey(e.Path));
 
         public Index<FileRef> Sources()
-            => map(Lookup.Keys, x => FileCatalog.Entry(x.Path));
+            => map(Lookup.Keys, x => Catalog.Entry(x.Path));
 
         public bool Root(FS.FilePath dst, out FileRef source)
         {
             var buffer = list<FileRef>();
-            var target = FileCatalog[dst];
+            var target = Catalog[dst];
             Lineage(target, buffer);
             buffer.Reverse();
             if(buffer.Count != 0)
@@ -52,7 +58,7 @@ namespace Z0
         public Index<FileRef> Lineage(FS.FilePath dst)
         {
             var buffer = list<FileRef>();
-            var target = FileCatalog[dst];
+            var target = Catalog[dst];
             buffer.Add(target);
             Lineage(target, buffer);
             buffer.Reverse();
@@ -72,7 +78,7 @@ namespace Z0
         {
             if(Ancestors.Find(dst, out var uri))
             {
-                src = FileCatalog.Entry(uri.Path);
+                src = Catalog.Entry(uri.Path);
                 return true;
             }
             else
@@ -85,7 +91,7 @@ namespace Z0
         public Index<FileRef> Targets(FS.FilePath src)
         {
             if(Lookup.Find(src, out var targets))
-                return map(targets, x => FileCatalog.Entry(x.Path));
+                return map(targets, x => Catalog.Entry(x.Path));
             else
                 return sys.empty<FileRef>();
         }
@@ -119,7 +125,7 @@ namespace Z0
 
         internal WsDataFlows(FileCatalog files, ReadOnlySpan<ToolCmdFlow> src)
         {
-            FileCatalog = files;
+            Catalog = files;
             var count = src.Length;
             var flows = alloc<WsDataFlow>(count);
             var lookup = dict<FS.FileUri,List<FS.FileUri>>();

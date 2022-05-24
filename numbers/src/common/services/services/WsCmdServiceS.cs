@@ -9,26 +9,7 @@ namespace Z0
     public abstract class WsCmdService<S> : AppCmdService<S,CmdShellState>
         where S : WsCmdService<S>, new()
     {
-        static IWsCmdRunner CmdExec;
-
-        protected virtual WsProjects Projects {get; private set;}
-
-        protected virtual void ProjectSelected(IProjectWs ws)
-        {
-
-        }
-
-        protected override void OnInit()
-        {
-            if(CmdExec == null)
-            {
-                var runner = WsCmdRunner.create(Wf);
-                runner.ProjectSelected += ProjectSelected;
-                CmdExec = runner;
-            }
-            Projects = WsProjects.create(Wf);
-            base.OnInit();
-        }
+        protected abstract new IWsCmdRunner CmdRunner {get;}
 
         protected virtual AppServices AppSvc
             => Service(Wf.AppServices);
@@ -36,23 +17,18 @@ namespace Z0
         protected virtual AppDb AppDb
             => Service(Wf.AppDb);
 
-        // protected WsContext Context(string project)
-        //     => WsContext.create(CmdExec, project);
-
         protected WsContext Context()
-            => WsContext.create(this, CmdExec.Project().Project);
+            => WsContext.create(CmdRunner.Project());
 
         [CmdOp("project")]
         protected void LoadProject(CmdArgs args)
-            => CmdExec.LoadProject(args);
+            => CmdRunner.LoadProject(args);
 
         protected void RunCmd(string name, CmdArgs args)
             => Dispatcher.Dispatch(name, args);
 
         protected void ProjectLoad(string name)
-        {
-            Dispatcher.Dispatch("project", new CmdArg[]{new CmdArg(EmptyString, name)});
-        }
+            => Dispatcher.Dispatch("project", new CmdArg[]{new CmdArg(EmptyString, name)});
 
         public void EmitCommands()
             => EmitCommands(Dispatcher);

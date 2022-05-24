@@ -5,25 +5,27 @@
 namespace Z0
 {
     using Asm;
-    using System.Linq;
 
     using static core;
 
     public partial class AsmObjects : AppService<AsmObjects>
     {
-        public static Outcome parse(WsContext context, in FileRef src, out Index<ObjDumpRow> dst)
-            => new ObjDumpParser().ParseSource(context, src, out dst);
-
         AppDb AppDb => Service(Wf.AppDb);
 
         AppServices AppSvc => Service(Wf.AppServices);
 
-        CoffServices CoffServices => Service(Wf.CoffServices);
+        CoffServices Coff => Service(Wf.CoffServices);
 
-        public ReadOnlySpan<CoffSymRecord> ListSymbols(IProjectWs ws)
+        public Index<AsmCodeMapEntry> MapAsm(IProjectWs ws, Alloc dispenser)
         {
-            var symbols = LoadSymbols(ws).Symbols();
-            return symbols;
+            var map = AsmObjects.map(ws, LoadRows(ws), dispenser);
+            AppSvc.TableEmit(map, Paths.CodeMap(ws));
+            return map;
+        }
+
+        public void CollectCoffData(WsContext context)
+        {
+            Coff.Collect(context);
         }
 
         public new AsmObjPaths Paths
@@ -32,8 +34,70 @@ namespace Z0
             get => AppDb;
         }
 
+        public Index<ObjSymRow> LoadObjSyms(IProjectWs project)
+            => LoadObjSyms(ProjectDb.ProjectTable<ObjSymRow>(project));
+
+        public Index<ObjSymRow> LoadObjSyms(FS.FilePath src)
+        {
+            const byte FieldCount = ObjSymRow.FieldCount;
+            var result = Outcome.Success;
+            var lines = src.ReadLines(true);
+            var count = lines.Count - 1;
+            var dst = alloc<ObjSymRow>(count);
+            var j=0;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var line = ref lines[i+1];
+                var cells = text.trim(text.split(line, Chars.Pipe));
+                Require.equal(cells.Length,FieldCount);
+                var reader = cells.Reader();
+                ref var row = ref seek(dst,i);
+                DataParser.parse(reader.Next(), out row.Seq).Require();
+                DataParser.parse(reader.Next(), out row.DocSeq).Require();
+                DataParser.parse(reader.Next(), out row.OriginId).Require();
+                DataParser.parse(reader.Next(), out row.Offset).Require();
+                SymCodes.ExprKind(reader.Next(), out row.Code);
+                SymKinds.ExprKind(reader.Next(), out row.Kind);
+                DataParser.parse(reader.Next(), out row.Name).Require();
+                DataParser.parse(reader.Next(), out row.Source).Require();
+            }
+
+            return dst;
+        }
+        public Index<ObjSymRow> CollectObjSyms(WsContext context)
+        {
+            var result = Outcome.Success;
+            var project = context.Project;
+            var src = project.OutFiles(FS.Sym).View;
+            var count = src.Length;
+            var formatter = Tables.formatter<ObjSymRow>();
+            var buffer = list<ObjSymRow>();
+            var seq = 0u;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var path = ref skip(src,i);
+                var origin = context.Root(path);
+                var fref = context.Ref(path);
+                using var reader = path.Utf8LineReader();
+                var counter = 0u;
+                while(reader.Next(out var line))
+                {
+                    if(AsmObjects.parse(line.Content, ref counter, out var sym))
+                    {
+                        sym.Seq = seq++;
+                        sym.OriginId = origin.DocId;
+                        buffer.Add(sym);
+                    }
+                }
+            }
+
+            var rows = buffer.ToArray();
+            AppSvc.TableEmit(rows, ProjectDb.ProjectTable<ObjSymRow>(project));
+            return rows;
+        }
+
         public CoffSymIndex LoadSymbols(IProjectWs ws)
-            => CoffServices.LoadSymIndex(ws);
+            => Coff.LoadSymIndex(ws);
 
         public Index<ObjDumpRow> LoadRows(IProjectWs project)
             => rows(Paths.ObjRowsPath(project));
@@ -70,7 +134,8 @@ namespace Z0
             }
             return buffer;
         }
-        public void EmitAsmCode(WsContext context)
+
+        public void EmitRecoded(WsContext context)
         {
             using var alloc = Alloc.allocate();
             var code = EmitAsmCode(context, alloc);
@@ -84,7 +149,7 @@ namespace Z0
             var rows = ConsolidateRows(context);
             var blocks = AsmObjects.blocks(rows);
             AppSvc.TableEmit(blocks.View, Paths.ObjBlockPath(context.Project));
-            EmitAsmCode(context);
+            EmitRecoded(context);
             return new ObjDumpBlocks(blocks,rows);
         }
 
@@ -117,7 +182,6 @@ namespace Z0
         Index<AsmCodeBlocks> EmitAsmCode(WsContext context, Alloc alloc)
         {
             Paths.AsmTargets(context.Project).Clear();
-
             var files = context.Catalog.Entries(FileKind.ObjAsm);
             var count = files.Count;
             var seq = 0u;
@@ -129,7 +193,7 @@ namespace Z0
                 if(result.Fail)
                     Errors.Throw(result.Message);
 
-                var blocks = DistillBlocks(context, file, ref seq, rows, alloc);
+                var blocks = AsmObjects.blocks(context, file, ref seq, rows, alloc);
                 dst.Add(blocks);
                 EmitAsmCode(context, blocks, Paths.AsmCode(context.Project, file.Path.FileName.Format()));
             }
@@ -175,7 +239,7 @@ namespace Z0
             var src = project.OutFiles(FileKind.ObjAsm).Storage.Sort();
             var result = Outcome.Success;
             var count = src.Length;
-            var formatter = Tables.formatter<ObjDumpRow>(ObjDumpRow.RenderWidths);
+            var formatter = Tables.formatter<ObjDumpRow>();
             var buffer = bag<ObjDumpRow>();
 
             iter(src, path => {
@@ -201,146 +265,18 @@ namespace Z0
             for(var i=0u; i<data.Length; i++)
                 seek(data,i).Seq = i;
 
-            TableEmit(@readonly(data), ObjDumpRow.RenderWidths, TextEncodingKind.Asci, Paths.ObjRowsPath(project));
+            AppSvc.TableEmit(data, Paths.ObjRowsPath(project));
             return data;
         }
 
-        public AsmCodeBlocks DistillBlocks(WsContext context, in FileRef file, ref uint seq, Index<ObjDumpRow> src, Alloc dispenser)
+        static Symbols<ObjSymCode> SymCodes;
+
+        static Symbols<ObjSymKind> SymKinds;
+
+        static AsmObjects()
         {
-            var blocks = src.GroupBy(x => x.BlockAddress).Array();
-            var blockbuffer = alloc<AsmCodeBlock>(blocks.Length);
-            for(var i=0; i<blocks.Length; i++)
-            {
-                ref readonly var block = ref skip(blocks,i);
-                var blockcode = block.Array();
-                var blockname = first(blockcode).BlockName.Format();
-                var blockaddress = block.Key;
-                var codebuffer = alloc<AsmCode>(blockcode.Length);
-                for(var k=0; k<blockcode.Length; k++)
-                {
-                    ref readonly var row = ref skip(blockcode,k);
-                    var encoding = new AsmEncodingInfo();
-                    encoding.Seq = seq++;
-                    encoding.DocSeq = row.DocSeq;
-                    encoding.EncodingId = row.EncodingId;
-                    encoding.OriginId = row.OriginId;
-                    encoding.InstructionId = row.InstructionId;
-                    encoding.IP = row.IP;
-                    encoding.Encoded = row.Encoded.Bytes;
-                    encoding.Size = row.Size;
-                    encoding.Asm = row.Asm.Content;
-                    seek(codebuffer,k) = dispenser.AsmCode(encoding);
-                }
-                seek(blockbuffer,i) = new AsmCodeBlock(dispenser.Symbol(blockaddress,blockname), codebuffer);
-            }
-            var origin = context.Root(file);
-            return new AsmCodeBlocks(dispenser.Label(origin.DocName), origin.DocId, blockbuffer);
-        }
-
-        public void MapAsmCode(IProjectWs ws, Alloc dispenser)
-        {
-            var entries = MapAsmCode(ws, LoadRows(ws), dispenser);
-            TableEmit(entries.View, AsmCodeMapEntry.RenderWidths, Paths.CodeMap(ws));
-        }
-
-        Index<AsmCodeMapEntry> MapAsmCode(IProjectWs project, Index<ObjDumpRow> src, Alloc dispenser)
-        {
-            var distilled = DistillBlocks(project, src, dispenser);
-            var entries = list<AsmCodeMapEntry>();
-            for(var i=0; i<distilled.Count; i++)
-            {
-                ref readonly var blocks = ref distilled[i];
-                if(blocks.Count == 0)
-                    continue;
-
-                var blocknumber = 0u;
-                var @base = MemoryAddress.Zero;
-
-                for(var j=0; j<blocks.Count; j++)
-                {
-                    ref readonly var block = ref blocks[j];
-                    var count = block.Count;
-                    ref readonly var address = ref block.Label.Location.Address;
-                    ref readonly var name = ref block.Label.Name;
-                    for(var k=0; k<count; k++)
-                    {
-                        ref readonly var c = ref block[k];
-
-                        if(j==0 && k==0)
-                            @base = c.Encoded.BaseAddress;
-
-                        var entry = new AsmCodeMapEntry();
-                        entry.Seq = c.Seq;
-                        entry.DocSeq = c.DocSeq;
-                        entry.EncodingId = c.EncodingId;
-                        entry.OriginId = blocks.OriginId;
-                        entry.InstructionId = AsmBytes.instid(blocks.OriginId, c.IP, c.Encoding);
-                        entry.OriginName = blocks.OriginName;
-                        entry.BlockNumber = blocknumber;
-                        entry.BlockName = name;
-                        entry.BlockAddress = address;
-                        entry.IP = c.IP;
-                        entry.Size = c.EncodingSize;
-                        entry.Encoded = c.Encoded;
-                        entry.Asm = c.Asm;
-                        entry.BlockSize = block.Size;
-                        entries.Add(entry);
-                    }
-
-                    blocknumber++;
-                }
-            }
-
-            var records = entries.ToArray().Sort();
-            return records;
-        }
-
-        Index<AsmCodeBlocks> DistillBlocks(IProjectWs project, Index<ObjDumpRow> src, Alloc dispenser)
-        {
-            var collected = dict<uint, AsmCodeBlocks>();
-            var groups = src.GroupBy(x => x.OriginId).Array();
-            var buffer = alloc<AsmCodeBlocks>(groups.Length);
-            for(var i=0; i<groups.Length; i++)
-            {
-                ref readonly var group = ref skip(groups,i);
-                var blocks = group.ToArray().GroupBy(x => x.BlockName).Array();
-                if(blocks.Length == 0)
-                    continue;
-
-                var blockbuffer = alloc<AsmCodeBlock>(blocks.Length);
-                for(var j=0; j<blocks.Length; j++)
-                {
-                    ref readonly var block = ref skip(blocks,j);
-                    var blockcode = block.Array();
-                    if(blockcode.Length == 0)
-                        continue;
-
-                    var blockname = block.Key.Format();
-                    var blockaddress = first(blockcode).BlockAddress;
-                    var codebuffer = alloc<AsmCode>(blockcode.Length);
-                    for(var k=0; k<blockcode.Length; k++)
-                    {
-                        ref readonly var row = ref skip(blockcode,k);
-                        var encoding = new AsmEncodingInfo();
-                        encoding.Seq = row.Seq;
-                        encoding.DocSeq = row.DocSeq;
-                        encoding.EncodingId = row.EncodingId;
-                        encoding.OriginId = row.OriginId;
-                        encoding.IP = row.IP;
-                        encoding.Encoded = row.Encoded.Bytes;
-                        encoding.InstructionId = row.InstructionId;
-                        encoding.Size = row.Size;
-                        encoding.Asm = row.Asm.Content;
-                        seek(codebuffer,k) = dispenser.AsmCode(encoding);
-                    }
-
-                    seek(blockbuffer,j) = new AsmCodeBlock(dispenser.Symbol(blockaddress, blockname), codebuffer);
-                }
-
-                var origin = FileCatalog.load(project).Entry(group.Key);
-                seek(buffer,i) = new AsmCodeBlocks(dispenser.Label(origin.DocName), origin.DocId, blockbuffer);
-            }
-            return buffer;
+            SymCodes = Symbols.index<ObjSymCode>();
+            SymKinds = Symbols.index<ObjSymKind>();
         }
     }
 }

@@ -27,8 +27,6 @@ namespace Z0
             return Instance;
         }
 
-        IProjectWs _Project;
-
         XedDocs XedDocs => CmdRt.XedDocs;
 
         XedPaths XedPaths => CmdRt.XedPaths;
@@ -51,6 +49,10 @@ namespace Z0
 
         CheckRunner CheckRunner => Service(Wf.CheckRunner);
 
+        protected override IWsCmdRunner CmdRunner
+            => Xed.CmdRunner;
+
+
         [CmdOp("checks/run")]
         void ChecksExec()
             => CheckRunner.Run();
@@ -71,17 +73,8 @@ namespace Z0
         ref readonly Index<RuleExpr> RuleExpr
             => ref Xed.Views.RuleExpr;
 
-        protected override void ProjectSelected(IProjectWs ws)
-        {
-            _Project = Require.notnull(ws);
-            Status($"Project {ws.Project} selected");
-        }
-
         protected override AppDb AppDb
             => Xed.AppDb;
-
-        protected override WsProjects Projects
-            => Xed.Projects;
 
         protected override void Initialized()
         {

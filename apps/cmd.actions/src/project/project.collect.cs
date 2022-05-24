@@ -9,12 +9,8 @@ namespace Z0
     partial class ProjectCmd
     {
         [CmdOp("project/collect")]
-        Outcome Collect(CmdArgs args)
-        {
-            var project = Project();
-            ProjectData.Collect(this, project);
-            return true;
-        }
+        void Collect()
+            => ProjectData.Collect(Project());
 
         void MergeDirectives(in McAsmDoc src)
         {

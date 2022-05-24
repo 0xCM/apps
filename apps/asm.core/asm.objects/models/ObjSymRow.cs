@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     [Record(TableId)]
     public struct ObjSymRow
     {
@@ -13,20 +11,28 @@ namespace Z0
 
         public const byte FieldCount = 8;
 
+        [Render(ColWidths.Seq)]
         public uint Seq;
 
+        [Render(ColWidths.DocSeq)]
         public uint DocSeq;
 
+        [Render(ColWidths.OriginId)]
         public Hex32 OriginId;
 
+        [Render(10)]
         public Hex32 Offset;
 
+        [Render(6)]
         public ObjSymCode Code;
 
+        [Render(ColWidths.SymbolName)]
         public ObjSymKind Kind;
 
+        [Render(80)]
         public string Name;
 
+        [Render(1)]
         public FS.FileUri Source;
 
         public AsmRowKey RowKey
@@ -34,16 +40,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => (Seq,DocSeq,OriginId);
         }
-
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{
-                ColWidths.Seq,
-                ColWidths.DocSeq,
-                ColWidths.OriginId,
-                10,
-                6,
-                ColWidths.SymbolName,
-                80,
-                1};
     }
 }

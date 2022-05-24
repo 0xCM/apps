@@ -87,10 +87,11 @@ namespace Z0
 
         internal XedMachine(XedRuntime xed)
         {
+            var ws = WsUnserviced.create(Xed.Ws);
             Xed = xed;
             Wf = xed.Wf;
             var projects = Projects;
-            Ws = projects.Project(projects.ProjectData(), Identifier);
+            Ws = ws.Project(ws.ProjectData(), Identifier);
             RuntimeState = new(NextId());
             RuleTables = Xed.Views.RuleTables;
             _Emitter = Emitter.create(this, StatusWriter);

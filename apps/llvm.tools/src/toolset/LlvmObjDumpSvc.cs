@@ -30,7 +30,7 @@ namespace Z0.llvm
             var result = OmniScript.Run(cmd, vars.ToCmdVars(), out var response);
             if(result)
             {
-               var items = Projects.ParseCmdResponse(response);
+               var items = CmdResponse.parse(response);
                iter(items, item => Write(item));
             }
             return result;

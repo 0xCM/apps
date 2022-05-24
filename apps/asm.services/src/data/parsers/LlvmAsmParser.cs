@@ -34,11 +34,6 @@ namespace Z0.Asm
 
         FileRef DocSource;
 
-        Index<DecimalDigitValue> _DigitBuffer;
-
-        Span<DecimalDigitValue> DigitBuffer()
-            => _DigitBuffer.Clear();
-
         public McAsmDoc ParseMcAsmDoc(in FileRef fref)
         {
             DocSource = fref;
@@ -56,7 +51,6 @@ namespace Z0.Asm
             Encodings = new();
             Syntax = new();
             DocLines = new();
-            _DigitBuffer = alloc<DecimalDigitValue>(12);
 
             for(var i=0u; i<count; i++)
                 Parse(skip(data,i));
@@ -139,9 +133,7 @@ namespace Z0.Asm
                         var comment = asmcomment.Content;
                         if(comment.Contains(InstructionMarker))
                         {
-                            var number = DigitBuffer();
                             var i = text.index(comment, InstructionMarker) + InstructionMarker.Length;
-                            //var dcount = DigitParser.digits(base10, text.slice(comment,i), 0u, number);
                             var inst = text.remove(text.slice(comment,i), Chars.Gt);
                             var j = text.whitespace(inst);
                             if(j != NotFound)

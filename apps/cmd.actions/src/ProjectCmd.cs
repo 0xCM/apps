@@ -15,6 +15,8 @@ namespace Z0
         public static ProjectCmd inject(ICmdRunner runner, AsmCmdRt runtime, ProjectCmd dst)
             => dst.With(runner).With(runtime);
 
+        AsmObjects AsmObjects => Service(Wf.AsmObjects);
+
         ProjectDataServices ProjectData => Service(() => Wf.ProjectData().With(AsmRt));
 
         WsProjects Projects => Service(Wf.WsProjects);
