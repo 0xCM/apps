@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.IO;
 
-    partial struct FS
+    [Record(TableId)]
+    public struct FileDescription
     {
         [Op]
         public static FileDescription describe(FS.FilePath src)
@@ -21,5 +21,23 @@ namespace Z0
             dst.Size = info.Length;
             return dst;
         }
+
+        public const string TableId = "fs.info";
+
+        public FS.FilePath Path;
+
+        public ByteSize Size;
+
+        public Timestamp CreateTS;
+
+        public Timestamp UpdateTS;
+
+        public FileAttributeSet Attributes;
+
+        public string Format()
+            => string.Format("{0,-12}{1}", Size.Kb, Path.ToUri());
+
+        public override string ToString()
+            => Format();
     }
 }

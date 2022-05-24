@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public interface IImmArchive : IFileArchive
     {
         FS.FolderPath[] ImmDirs(PartId part)
@@ -51,20 +46,5 @@ namespace Z0
 
         FS.FilePath AsmImmPath(FS.FolderPath root, PartId owner, ApiHostUri host, OpIdentity id, bool refined)
             => ImmSubDir(root, FS.folder(owner.Format(), host.HostName)) + id.ToFileName(refined ? "r" : EmptyString, FS.Asm);
-    }
-
-    public readonly struct ImmArchive : IImmArchive
-    {
-        public FS.FolderPath Root {get;}
-
-        [MethodImpl(Inline)]
-        public ImmArchive(FS.FolderPath src)
-        {
-            Root = src;
-        }
-
-        [MethodImpl(Inline)]
-        public static implicit operator ImmArchive(FS.FolderPath src)
-            => new ImmArchive(src);
     }
 }

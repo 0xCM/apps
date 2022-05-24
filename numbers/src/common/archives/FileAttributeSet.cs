@@ -11,7 +11,7 @@ namespace Z0
     /// </summary>
     public readonly struct FileAttributeSet
     {
-        FileAttributes Attributes {get;}
+        readonly FileAttributes Attributes;
 
         [MethodImpl(Inline)]
         public FileAttributeSet(FileAttributes src)

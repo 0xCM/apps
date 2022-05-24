@@ -4,10 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
+    public static class XArchives
+    {
+        public static FileDescription Description(this FS.FilePath src)
+            => FileDescription.describe(src);
 
-    using static Root;
+        public static Index<FileDescription> Descriptions(this FS.Files src)
+            => src.Map(FileDescription.describe);
+    }
 
     public readonly struct ExeFile : IFsEntry<ExeFile>
     {

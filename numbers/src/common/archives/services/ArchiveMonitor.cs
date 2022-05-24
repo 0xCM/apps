@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Threading.Tasks;
     using System.IO;
 
     public class ArchiveMonitor : IArchiveMonitor
@@ -16,7 +15,7 @@ namespace Z0
 
         readonly FileSystemWatcher Watcher;
 
-        readonly FS.ChangeHandler Handler;
+        readonly FileChangeHandler Handler;
 
         event FileChanged Listener;
 

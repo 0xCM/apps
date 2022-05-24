@@ -22,14 +22,6 @@ namespace Z0
             for(var i=0; i<count; i++)
                 seek(dst,i) = f(skip(src,i));
             return dst;
-
-            // Span<S> source = src;
-            // var count = source.Length;
-            // var buffer = new T[count];
-            // Span<T> target = buffer;
-            // for(var i=0; i<count; i++)
-            //     target[i] = f(source[i]);
-            // return buffer;
         }
 
         public static T[] Select<S,T>(this ReadOnlySpan<S> src, Func<S,T> f)

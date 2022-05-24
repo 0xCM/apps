@@ -12,6 +12,8 @@ global using System.Reflection.PortableExecutable;
 global using System.Runtime.Intrinsics;
 global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
+global using System.Threading;
+global using System.Threading.Tasks;
 
 global using static Z0.Root;
 

@@ -6,6 +6,9 @@ namespace Z0
 {
     using static FileChangeKind;
 
+    [Free]
+    public delegate void FileChangeHandler(FileChange change);
+
     [Record(TableId)]
     public struct FileChange : IRecord<FileChange>
     {
