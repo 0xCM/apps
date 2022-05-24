@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection.PortableExecutable;
-    using System.Runtime.InteropServices;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct PeSectionHeader : IRecord<PeSectionHeader>
     {
@@ -31,5 +27,4 @@ namespace Z0
 
         public Address32 EntryPoint;
     }
-
 }

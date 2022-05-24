@@ -4,18 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-    using System.Reflection.Metadata;
-    using System.Reflection.PortableExecutable;
-    using System.Reflection.Metadata.Ecma335;
     using System.IO;
     using System.Linq;
 
-    using static Root;
     using static core;
-    using static PeRecords;
 
     public partial class PeReader : IDisposable
     {

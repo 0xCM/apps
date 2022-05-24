@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static core;
 
     public partial class GlobalCmd : AppCmdService<GlobalCmd,CmdShellState>, ICmdRunner

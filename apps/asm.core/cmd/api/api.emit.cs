@@ -35,25 +35,13 @@ namespace Z0
 
             ref readonly var sources = ref ds.Sources;
             iter(sources, source => Write(source.ToUri()));
+        }
 
-            // var types = new string[]{nameof(vpack),
-            //     nameof(vmask),
-            //     nameof(cpu),
-            //     nameof(gcpu),
-            //     nameof(BitMasks),
-            //     nameof(BitMaskLiterals),
-            // };
-
-            // var types2 = new string[]{
-            //     "z0.lib." + nameof(vpack),
-            //     "z0.lib." + nameof(vmask),
-            //     "z0.lib." + nameof(cpu),
-            //     "z0.lib." + nameof(gcpu),
-            //     "z0.lib." + nameof(BitMasks),
-            //     "z0.lib." + nameof(BitMaskLiterals),
-            // };
-
-            //ApiComments.EmitMarkdownDocs(ds,types);
+        [CmdOp("api/emit/index")]
+        void EmitRuntimeMembers()
+        {
+            var service = ApiRuntime.create(Wf);
+            var members = service.EmitRuntimeIndex();
         }
 
         [CmdOp("api/emit/classes")]

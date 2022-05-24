@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-
     using static Msg;
 
     public sealed class ApiResProvider : AppService<ApiResProvider>

@@ -4,18 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    [RecordGroup]
-    public readonly partial struct PeRecords
+    public readonly struct PeRecords
     {
         [MethodImpl(Inline), Op]
-        public static DirectoryInfo directory(Address32 rva, uint size)
+        public static PeDirInfo directory(Address32 rva, uint size)
         {
-            var dst = new DirectoryInfo();
+            var dst = new PeDirInfo();
             dst.Rva = rva;
             dst.Size = size;
             return dst;

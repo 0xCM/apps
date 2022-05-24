@@ -52,11 +52,6 @@ namespace Z0.Asm
             return content;
         }
 
-        void EmitRuntimeMembers()
-        {
-            var service = ApiRuntime.create(Wf);
-            var members = service.EmitRuntimeIndex();
-        }
 
         public void ProccessCultFiles()
         {
@@ -130,13 +125,6 @@ namespace Z0.Asm
             using var clrmd = ClrMdSvc.create(Wf);
             clrmd.ParseDump();
         }
-
-        // void EmitAsmAsssetCatalog()
-        // {
-
-        //     var catalogs = Wf.Assets();
-        //     catalogs.EmitIndex(AsmData.Assets, Db.Root);
-        // }
 
         void ShowMemory()
         {
@@ -220,37 +208,6 @@ namespace Z0.Asm
             var dst = dir + FS.file("xxhsum", FS.Asm);
             processor.ParseDisassembly(src,dst);
         }
-
-        // void Dispatch(string cmd, CmdArgs args)
-        // {
-        //     var commands = Wf.GlobalCommands();
-        //     var result = commands.Dispatcher.Dispatch(cmd,args);
-        //     if(result.Fail)
-        //         Wf.Error(result.Message);
-        // }
-
-        // void Dispatch()
-        // {
-        //     var input = Wf.Args;
-        //     if(input.Length == 0)
-        //     {
-        //         Error("Command unspecified");
-        //         return;
-        //     }
-
-        //     var cmd = input[0];
-        //     if(input.Length == 1)
-        //         Dispatch(cmd, CmdArgs.Empty);
-        //     else
-        //     {
-        //         var values = slice(span(input),1);
-        //         var count = values.Length;
-        //         var args = alloc<CmdArg>(count);
-        //         for(ushort i=0; i<count; i++)
-        //             seek(args,i) = Cmd.arg(i,skip(values,i));
-        //         Dispatch(cmd, args);
-        //     }
-        // }
 
         static void render(EventWrittenEventArgs src, ITextBuffer dst)
         {

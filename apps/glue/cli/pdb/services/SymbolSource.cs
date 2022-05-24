@@ -6,6 +6,8 @@ namespace Z0
 {
     using static core;
 
+    using System.IO;
+
     public ref struct PdbSymbolSource
     {
         /// <summary>

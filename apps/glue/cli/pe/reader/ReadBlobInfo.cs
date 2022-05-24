@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection.Metadata;
-    using System.Reflection.Metadata.Ecma335;
-    using System.Collections.Generic;
-
     partial class PeReader
     {
         public ReadOnlySpan<CliBlob> ReadBlobInfo()

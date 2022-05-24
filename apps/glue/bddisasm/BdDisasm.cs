@@ -2,17 +2,14 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Toolz
+namespace Z0
 {
-    using System;
-
     using static core;
     using static Root;
 
     [ApiHost]
     public sealed partial class BdDisasm : ToolService<BdDisasm>
     {
-
         [Op]
         public static uint render(Bitness src, ref uint i, Span<char> dst)
         {

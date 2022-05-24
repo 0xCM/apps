@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.InteropServices;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct ApiRuntimeMember : IRecord<ApiRuntimeMember>

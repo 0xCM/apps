@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection.Metadata;
-    using System.Reflection.PortableExecutable;
     using System.IO;
 
     public readonly struct PeStream : IDisposable

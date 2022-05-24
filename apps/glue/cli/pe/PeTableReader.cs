@@ -4,18 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection.Metadata;
-    using System.Reflection.Metadata.Ecma335;
     using System.IO;
-    using System.Reflection.PortableExecutable;
 
-    using static Root;
     using static core;
-    using static PeRecords;
 
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
     using I = System.Reflection.Metadata.Ecma335.TableIndex;
 
     [Free, ApiHost]
@@ -68,18 +60,18 @@ namespace Z0
         public const string OffsetPatternText = "{0,-60} | {1,-16}";
 
         [MethodImpl(Inline)]
-        static string[] labels(FieldOffset src)
-            => typeof(FieldOffset).DeclaredInstanceFields().Select(x => x.Name);
+        static string[] labels(PeFieldOffset src)
+            => typeof(PeFieldOffset).DeclaredInstanceFields().Select(x => x.Name);
 
         [MethodImpl(Inline)]
-        static string format(FieldOffset src)
+        static string format(PeFieldOffset src)
             => RP.format(OffsetPatternText, src.Name, src.Value);
 
         [Op]
-        public static void save(ReadOnlySpan<FieldOffset> src, FS.FilePath dst)
+        public static void save(ReadOnlySpan<PeFieldOffset> src, FS.FilePath dst)
         {
             using var writer = dst.Writer();
-            var l = labels(default(FieldOffset));
+            var l = labels(default(PeFieldOffset));
             writer.WriteLine(RP.format(OffsetPatternText, l[0], l[1]));
             for(var i=0u; i<src.Length; i++)
                 writer.WriteLine(format(skip(src,i)));

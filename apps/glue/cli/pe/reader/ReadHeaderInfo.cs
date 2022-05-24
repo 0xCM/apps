@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static PeRecords;
     using static core;
 
     partial class PeReader

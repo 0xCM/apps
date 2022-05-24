@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Z0.Toolz;
-
     using static core;
 
     public static partial class XTend
@@ -26,16 +24,12 @@ namespace Z0
             => Z0.SourceSymbolic.create(wf);
 
         [Op]
-        public static Robocopy Robocopy(this IWfRuntime wf)
-            => Toolz.Robocopy.create(wf);
-
-        [Op]
         public static CultProcessor CultProcessor(this IWfRuntime wf)
             => Z0.CultProcessor.create(wf);
 
         [Op]
         public static BdDisasm BdDisasm(this IWfRuntime wf)
-            => Toolz.BdDisasm.create(wf);
+            => Z0.BdDisasm.create(wf);
 
         [Op]
         public static WinSdk WinSdk(this IWfRuntime wf)
