@@ -144,7 +144,7 @@ namespace Z0
 
             void ExecCmd(CmdLine src)
             {
-                OmniScript.Run(src, CmdVars.Empty, runlog, OnExecStatus, OnExecError, out var output);
+                Scripters.run(src, CmdVars.Empty, runlog, OnExecStatus, OnExecError, out var output);
                 var responses = CmdResponse.parse(output.Where(x => !x.Contains(WarningMarker) && !x.Contains(ErrorMarker)));
                 counter += (uint)responses.Length;
                 iter(responses, r => flows.AppendLine(r.Format()));

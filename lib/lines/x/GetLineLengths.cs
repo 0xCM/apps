@@ -5,12 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-
-    using static Root;
-
-    partial class XText
+    partial class XTend
     {
         public static int[] GetLineLengths(this string text)
         {

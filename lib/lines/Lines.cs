@@ -4,8 +4,47 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
     using static core;
+
+    using System.IO;
+
+    partial class XTend
+    {
+        [MethodImpl(Inline), Op]
+        public static TextLine ReadLine(this StreamReader src, uint number)
+            => new TextLine(number, src.ReadLine());
+
+        [Op]
+        public static bool ReadLine(this StringReader src, uint number, out TextLine dst)
+        {
+            var data = src.ReadLine();
+            if(data == null)
+            {
+                dst = TextLine.Empty;
+                return false;
+            }
+            else
+            {
+                dst = new TextLine(number, data);
+                return true;
+            }
+        }
+
+        public static ReadOnlySpan<TextLine> Lines(this string src, bool keepblank = false, bool trim = true)
+            => Z0.Lines.read(src, keepblank, trim);
+
+        [Op]
+        public static LineReader Utf8LineReader(this FS.FilePath src)
+            => new LineReader(src.Utf8Reader());
+
+        [MethodImpl(Inline), Op]
+        public static LineReader ToLineReader(this StreamReader src)
+            => new LineReader(src);
+
+        [Op]
+        public static LineReader LineReader(this FS.FilePath src, TextEncodingKind encoding)
+            => src.Reader(encoding).ToLineReader();
+    }
 
     [ApiHost]
     public readonly partial struct Lines
