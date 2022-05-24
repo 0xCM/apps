@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Linq;
     using Microsoft.Diagnostics.Runtime;
 
@@ -22,7 +21,7 @@ namespace Z0
 
         protected override void OnInit()
         {
-            DumpPaths = Db.DumpPaths();
+            DumpPaths = Z0.DumpPaths.create(Env);
         }
 
         public void ParseDump()

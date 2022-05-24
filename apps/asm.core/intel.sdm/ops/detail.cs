@@ -25,14 +25,14 @@ namespace Z0.Asm
                 return (false, AppMsg.ParseFailure.Format(nameof(dst.OpCodeKey), skip(cells,i-1)));
 
             dst.Mnemonic = skip(cells, i++).ToUpperInvariant();
-            DataParser.block(skip(cells,i++).Trim(), out dst.OpCodeText);
+            DataParser.block(skip(cells,i++).Trim(), out dst.OpCodeExpr);
             AsmParser.parse(skip(cells,i++), out dst.OpCodeValue);
 
             ref readonly var sigsrc = ref skip(cells,i++);
             if(sigsrc.Length == 0)
-                dst.SigText = EmptyString;
+                dst.AsmSig = EmptyString;
             else
-                dst.SigText = sigsrc;
+                dst.AsmSig = sigsrc;
             DataParser.block(skip(cells, i++), out dst.EncXRef);
             DataParser.block(skip(cells, i++), out dst.Mode64);
             DataParser.block(skip(cells, i++), out dst.Mode32);

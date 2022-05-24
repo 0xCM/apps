@@ -10,9 +10,11 @@ namespace Z0
 
     public sealed class PdbSymbolStore : AppService<PdbSymbolStore>
     {
+        SymbolPaths SymPaths => Z0.SymbolPaths.create(Env);
+
         public FS.Files EmitDefaultSymbolPaths(FS.FilePath dst)
         {
-            var paths = SymbolPaths(Db.DebugSymbolPaths().DefaultSymbolCache());
+            var paths = SymbolPaths(SymPaths.DefaultSymbolCache());
             var buffer = text.buffer();
             FS.render(paths.View, buffer);
             using var writer = dst.Writer();

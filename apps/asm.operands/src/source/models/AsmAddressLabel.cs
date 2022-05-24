@@ -14,10 +14,10 @@ namespace Z0.Asm
             Address = address;
         }
 
-        public AsmPartKind PartKind
+        public AsmCellKind PartKind
         {
             [MethodImpl(Inline)]
-            get => AsmPartKind.Label;
+            get => AsmCellKind.Label;
         }
 
         public bool IsEmpty

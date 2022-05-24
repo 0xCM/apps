@@ -90,7 +90,7 @@ namespace Z0.Asm
                         case "Opcode":
                         var octext = text.despace(ocfixups.Apply(text.trim(content)));
                         var oc = AsmOpCode.Empty;
-                        target.OpCodeText = octext;
+                        target.OpCodeExpr = octext;
                         if(empty(octext))
                             valid = false;
                         else
@@ -109,7 +109,7 @@ namespace Z0.Asm
                             }
 
                             var sig = FixupSig(content);
-                            target.SigText = NormalizeSig(sig);
+                            target.AsmSig = NormalizeSig(sig);
                             target.Mnemonic = monic;
                             valid = true;
                         break;

@@ -20,8 +20,8 @@ namespace Z0.Asm
             Content = content;
         }
 
-        public AsmPartKind PartKind
-            => AsmPartKind.Block;
+        public AsmCellKind PartKind
+            => AsmCellKind.Block;
 
         public string Format()
             => AsmRender.spec(this);

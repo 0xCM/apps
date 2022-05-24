@@ -7,15 +7,15 @@ namespace Z0.Asm
     public readonly struct AsmCell : IAsmSourcePart, INullity
     {
         [MethodImpl(Inline)]
-        public static AsmCell define(string content, AsmPartKind kind)
+        public static AsmCell define(string content, AsmCellKind kind)
             => new AsmCell(kind, content);
 
         public @string Content {get;}
 
-        public AsmPartKind PartKind {get;}
+        public AsmCellKind PartKind {get;}
 
         [MethodImpl(Inline)]
-        public AsmCell(AsmPartKind kind, string content)
+        public AsmCell(AsmCellKind kind, string content)
         {
             Content = content;
             PartKind = kind;

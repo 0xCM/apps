@@ -267,7 +267,7 @@ namespace Z0.Asm
                 dst.AppendLine(part.Format());
                 switch(part.PartKind)
                 {
-                    case AsmPartKind.Block:
+                    case AsmCellKind.Block:
                         dst.AppendLine();
                     break;
                 }

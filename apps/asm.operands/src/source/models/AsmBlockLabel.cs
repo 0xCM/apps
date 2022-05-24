@@ -15,10 +15,10 @@ namespace Z0.Asm
         public AsmBlockLabel(Identifier name)
             => Name = name;
 
-        AsmPartKind IAsmSourcePart.PartKind
+        AsmCellKind IAsmSourcePart.PartKind
         {
             [MethodImpl(Inline)]
-            get => AsmPartKind.BlockLabel;
+            get => AsmCellKind.BlockLabel;
         }
 
         public bool IsEmpty
@@ -49,7 +49,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmCell(AsmBlockLabel src)
-            => AsmCell.define(src.Format(), AsmPartKind.BlockLabel);
+            => AsmCell.define(src.Format(), AsmCellKind.BlockLabel);
 
         public static AsmBlockLabel Empty
         {

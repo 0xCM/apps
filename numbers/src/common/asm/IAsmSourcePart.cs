@@ -6,6 +6,6 @@ namespace Z0.Asm
 {
     public interface IAsmSourcePart : ITextual
     {
-        AsmPartKind PartKind {get;}
+        AsmCellKind PartKind {get;}
     }
 }

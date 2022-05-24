@@ -5,6 +5,7 @@
 namespace Z0
 {
     using Asm;
+    using static core;
 
     partial class AsmCoreCmd
     {
@@ -17,8 +18,8 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var detail = ref src[i];
-                ref readonly var input = ref detail.OpCodeText;
-                AsmOpCodes.parse(detail.OpCodeText, out var opcode).Require();
+                ref readonly var input = ref detail.OpCodeExpr;
+                AsmOpCodes.parse(detail.OpCodeExpr, out var opcode).Require();
                 result = CheckEquality(input, opcode);
                 if(result.Fail)
                 {
@@ -26,7 +27,7 @@ namespace Z0
                     break;
                 }
 
-                Write(string.Format("{0,-6} | {1,-16} | {2,-28} | {3}", detail.OpCodeKey, opcode.OcValue(), opcode, detail.SigText));
+                Write(string.Format("{0,-6} | {1,-16} | {2,-28} | {3}", detail.OpCodeKey, opcode.OcValue(), opcode, detail.AsmSig));
             }
 
             return result;
@@ -44,7 +45,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var detail = ref details[i];
-                AsmSigs.parse(detail.SigText, out var sig);
+                AsmSigs.parse(detail.AsmSig, out var sig);
                 buffer.Append(sig.Mnemonic.Format());
                 if(sig.OpCount != 0)
                 {

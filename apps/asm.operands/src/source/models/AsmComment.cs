@@ -12,10 +12,10 @@ namespace Z0.Asm
         public AsmComment(TextBlock text)
             => Content = text;
 
-        AsmPartKind IAsmSourcePart.PartKind
+        AsmCellKind IAsmSourcePart.PartKind
         {
             [MethodImpl(Inline)]
-            get => AsmPartKind.Comment;
+            get => AsmCellKind.Comment;
         }
 
         public bool IsNonEmpty
@@ -47,7 +47,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmCell(AsmComment src)
-            => AsmCell.define(src.Format(), AsmPartKind.Comment);
+            => AsmCell.define(src.Format(), AsmCellKind.Comment);
 
         public static AsmComment Empty
         {

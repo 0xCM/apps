@@ -2,12 +2,14 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
+    using Asm;
+
     [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]
     public struct SdmOpCodeDetail : IRecord<SdmOpCodeDetail>, IComparable<SdmOpCodeDetail>
     {
-        public const string TableId = "sdm.opcodes.details";
+        const string TableId = "sdm.opcodes.details";
 
         public const byte FieldCount = 11;
 
@@ -18,13 +20,13 @@ namespace Z0.Asm
         public AsmMnemonic Mnemonic;
 
         [Render(36)]
-        public CharBlock36 OpCodeText;
+        public CharBlock36 OpCodeExpr;
 
         [Render(36)]
         public AsmOcValue OpCodeValue;
 
         [Render(64)]
-        public CharBlock64 SigText;
+        public CharBlock64 AsmSig;
 
         [Render(8)]
         public CharBlock8 EncXRef;
@@ -51,7 +53,7 @@ namespace Z0.Asm
             {
                 result = OpCodeValue.CompareTo(src.OpCodeValue);
                 if(result == 0)
-                    result = SigText.String.CompareTo(src.SigText.String, NoCase);
+                    result = AsmSig.String.CompareTo(src.AsmSig.String, NoCase);
             }
 
             return result;

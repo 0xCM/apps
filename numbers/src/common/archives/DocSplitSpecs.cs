@@ -7,11 +7,29 @@ namespace Z0
     using static core;
     using static DocSplitSpec;
 
-    public readonly struct DocSplitSpecs
+    public readonly struct DocSplits
     {
-        public static DocSplitSpecs Service => default;
+        public static LineRange split(FS.FilePath src, TextEncodingKind encoding, in DocSplitSpec spec, IReceiver<LineRange> dst)
+        {
+            using var reader = src.Reader(encoding);
+            var counter = 1u;
+            var count = spec.LastLine - spec.FirstLine + 1;
+            var range = Lines.range(spec.FirstLine, spec.LastLine, alloc<TextLine>(count));
+            var lines = range.Edit;
+            var i=0;
+            var line = reader.ReadLine();
+            while(line != null && counter++ <= spec.LastLine && i<count)
+            {
+                line = reader.ReadLine();
+                if(counter >= spec.FirstLine)
+                    seek(lines, i++) = Lines.line(counter, line);
+            }
 
-        public Outcome Load(FS.FilePath src, out RecordSet<DocSplitSpec> dst)
+            dst.Deposit(range);
+            return range;
+        }
+
+        public static Outcome load(FS.FilePath src, out RecordSet<DocSplitSpec> dst)
         {
             dst = RecordSet<DocSplitSpec>.Empty;
 
@@ -32,14 +50,14 @@ namespace Z0
             var records = dst.Edit;
             for(var i=0; i<count; i++)
             {
-                outcome = Load(skip(rows,i), out seek(records,i));
+                outcome = load(skip(rows,i), out seek(records,i));
                 if(outcome.Fail)
                     break;
             }
             return outcome;
         }
 
-        public Outcome Load(in TextRow src, out DocSplitSpec dst)
+        public static Outcome load(in TextRow src, out DocSplitSpec dst)
         {
             var outcome = Outcome.Success;
             dst = default;

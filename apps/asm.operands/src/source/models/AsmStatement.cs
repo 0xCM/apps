@@ -26,10 +26,10 @@ namespace Z0.Asm
             get => Data.IsNonEmpty;
         }
 
-        public AsmPartKind PartKind
+        public AsmCellKind PartKind
         {
             [MethodImpl(Inline)]
-            get => AsmPartKind.Instruction;
+            get => AsmCellKind.Instruction;
         }
 
         public string Format()

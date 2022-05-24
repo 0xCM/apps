@@ -5,7 +5,7 @@
 namespace Z0
 {
     public readonly struct RecordSet<T>
-        where T : struct, IRecord<T>
+        where T : struct
     {
         readonly T[] Data;
 

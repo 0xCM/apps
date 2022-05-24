@@ -4,13 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct EnvData
     {
+        public static EnvData load()
+            => new EnvData(Env.load());
+
         readonly Env Source;
 
         [MethodImpl(Inline)]

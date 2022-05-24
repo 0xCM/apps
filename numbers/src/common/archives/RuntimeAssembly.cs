@@ -6,7 +6,7 @@ namespace Z0
 {
     using api = RuntimeArchive;
 
-    public readonly struct RuntimeAssembly : ITextual
+    public readonly struct RuntimeAssembly
     {
         public readonly Assembly Component;
 

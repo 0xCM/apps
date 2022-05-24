@@ -28,8 +28,8 @@ namespace Z0.Asm
             get => Value.IsNonEmpty;
         }
 
-        AsmPartKind IAsmSourcePart.PartKind
-            => AsmPartKind.DirectiveOp;
+        AsmCellKind IAsmSourcePart.PartKind
+            => AsmCellKind.DirectiveOp;
 
         public string Format()
             => Value;
@@ -43,7 +43,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmCell(AsmDirectiveOp src)
-            => new AsmCell(AsmPartKind.DirectiveOp, src.Value);
+            => new AsmCell(AsmCellKind.DirectiveOp, src.Value);
 
         public static AsmDirectiveOp Empty => new AsmDirectiveOp(EmptyString);
     }

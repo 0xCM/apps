@@ -56,8 +56,8 @@ namespace Z0.Asm
             get => Length != 0;
         }
 
-        AsmPartKind IAsmSourcePart.PartKind
-            => AsmPartKind.Mnemonic;
+        AsmCellKind IAsmSourcePart.PartKind
+            => AsmCellKind.Mnemonic;
 
         public override int GetHashCode()
             => Content.GetHashCode();

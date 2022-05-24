@@ -4,18 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+
     public class DotNet : AppService<DotNet>
     {
+
+        SymbolPaths SymPaths => SymbolPaths.create(Env);
+
         public void DumpImages(byte major = 3, byte minor = 1, byte revision = 12)
         {
             var emitter = MemoryEmitter.create(Wf);
-            var src = Db.DebugSymbolPaths().DotNetSymbolDir(major, minor, revision);
+            var src = SymPaths.DotNetSymbolDir(major, minor, revision);
             if(!src.Exists)
             {
                 Wf.Error(FS.Msg.DirDoesNotExist.Format(src));
                 return;
             }
-            var dst = Db.DotNetImageDumps().DumpDir(major, minor, revision);
+            var dst = SymPaths.DotNetSymbolDir(major, minor, revision);
             dst.Clear();
             emitter.DumpImages(src, dst);
         }

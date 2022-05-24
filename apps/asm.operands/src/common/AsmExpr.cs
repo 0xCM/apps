@@ -81,10 +81,10 @@ namespace Z0.Asm
             get => IsEmpty || Content.StartsWith("(bad)");
         }
 
-        public AsmPartKind PartKind
+        public AsmCellKind PartKind
         {
             [MethodImpl(Inline)]
-            get => AsmPartKind.Expr;
+            get => AsmCellKind.Expr;
         }
 
         [MethodImpl(Inline)]
@@ -105,7 +105,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmCell(AsmExpr src)
-            => AsmCell.define(src.Format(), AsmPartKind.Expr);
+            => AsmCell.define(src.Format(), AsmCellKind.Expr);
 
         public static AsmExpr Empty
         {

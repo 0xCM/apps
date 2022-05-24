@@ -25,10 +25,10 @@ namespace Z0.Asm
             Data = ((ulong)width << Cut) | (offset & OffsetMask);
         }
 
-        AsmPartKind IAsmSourcePart.PartKind
+        AsmCellKind IAsmSourcePart.PartKind
         {
             [MethodImpl(Inline)]
-            get => AsmPartKind.OffsetLabel;
+            get => AsmCellKind.OffsetLabel;
         }
 
         public ulong OffsetValue
@@ -67,6 +67,6 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmCell(AsmOffsetLabel src)
-            => AsmCell.define(src.Format(), AsmPartKind.OffsetLabel);
+            => AsmCell.define(src.Format(), AsmCellKind.OffsetLabel);
     }
 }

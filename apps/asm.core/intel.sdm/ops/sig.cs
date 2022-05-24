@@ -10,7 +10,7 @@ namespace Z0.Asm
         public static AsmSigExpr sig(in SdmOpCodeDetail src)
         {
             var dst = AsmSigExpr.Empty;
-            var sig = src.SigText.Format().Trim();
+            var sig = src.AsmSig.Format().Trim();
             var mnemonic = src.Mnemonic;
             var j = text.index(sig, Chars.Space);
             if(j > 0)

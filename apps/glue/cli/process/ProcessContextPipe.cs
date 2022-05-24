@@ -115,7 +115,8 @@ namespace Z0
             }
             if(selection.EmitDump)
             {
-                context.DumpPath = Db.DumpPath(dst, process, ts);
+                var archive = DumpArchive.create();
+                context.DumpPath = archive.DumpPath(process, ts);
                 EmitDump(process, context.DumpPath);
             }
             if(selection.EmitHashes)

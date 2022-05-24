@@ -6,15 +6,10 @@ namespace Z0
 {
     using static EnvFolders;
 
-    using SP = SymbolPaths;
-
     partial interface IEnvPaths
     {
         ICilPaths CilPaths
             => new CilPaths(Env);
-
-        SymbolPaths DebugSymbolPaths()
-            => SP.create(Env);
 
         IImmArchive ImmArchive()
             => new ImmArchive(ImmCaptureRoot());
@@ -39,9 +34,6 @@ namespace Z0
 
         FS.FolderPath DbTableRoot()
             => Env.Db + FS.folder(tables);
-
-        FS.FolderPath DumpRoot()
-            => FS.dir("j:/dumps");
 
         FS.FolderPath LibRoot()
             => Env.Libs;

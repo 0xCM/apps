@@ -7,7 +7,7 @@ namespace Z0.Asm
     using System;
 
     [Flags]
-    public enum AsmPartKind : uint
+    public enum AsmCellKind : uint
     {
         None = 0,
 

@@ -11,12 +11,12 @@ namespace Z0.Asm
         /// </summary>
         public GridPoint<uint> Location {get;}
 
-        public AsmPartKind PartKind {get;}
+        public AsmCellKind PartKind {get;}
 
         public T Content {get;}
 
         [MethodImpl(Inline)]
-        public AsmCell(GridPoint<uint> loc, AsmPartKind kind, T data)
+        public AsmCell(GridPoint<uint> loc, AsmCellKind kind, T data)
         {
             Location = loc;
             Content = data;

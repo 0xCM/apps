@@ -28,7 +28,7 @@ namespace Z0.Asm
 
         public static AsmInstruction Empty => default;
 
-        public AsmPartKind PartKind
-            => AsmPartKind.Instruction;
+        public AsmCellKind PartKind
+            => AsmCellKind.Instruction;
     }
 }

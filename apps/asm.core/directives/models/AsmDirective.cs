@@ -14,7 +14,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmCell(AsmDirective src)
-            => asm.cell(src.Format(), AsmPartKind.Directive);
+            => asm.cell(src.Format(), AsmCellKind.Directive);
 
         public static AsmDirective Empty => new AsmDirective(EmptyString, EmptyString, EmptyString, EmptyString);
     }

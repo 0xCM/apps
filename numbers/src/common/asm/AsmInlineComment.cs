@@ -22,10 +22,10 @@ namespace Z0.Asm
             Content = content;
         }
 
-        public AsmPartKind PartKind
+        public AsmCellKind PartKind
         {
             [MethodImpl(Inline)]
-            get => AsmPartKind.InlineComment;
+            get => AsmCellKind.InlineComment;
         }
 
         public string Format()
@@ -37,9 +37,9 @@ namespace Z0.Asm
         public static implicit operator string(AsmInlineComment src)
             => src.Format();
 
-        [MethodImpl(Inline)]
-        public static implicit operator AsmCell(AsmInlineComment src)
-            => AsmCell.define(src.Format(), src.PartKind);
+        // [MethodImpl(Inline)]
+        // public static implicit operator AsmCell(AsmInlineComment src)
+        //     => AsmCell.define(src.Format(), src.PartKind);
 
         public static AsmInlineComment Empty
         {

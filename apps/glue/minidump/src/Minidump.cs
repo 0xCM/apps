@@ -35,7 +35,8 @@ namespace Z0
 
         public void Summarize()
         {
-            var src = Wf.Db().DumpPath("capture");
+            var archive = DumpArchive.create();
+            var src = archive.DumpPath("capture");
             if(src.Exists)
             {
                 var formatter = Tables.formatter<DumpFileHeader>(16);

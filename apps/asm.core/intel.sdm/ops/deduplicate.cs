@@ -17,7 +17,7 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
             {
                 ref readonly var input = ref skip(src,i);
-                var logicalKey = input.SigText.Format() + input.OpCodeText.Format();
+                var logicalKey = input.AsmSig.Format() + input.OpCodeExpr.Format();
                 if(logicalKeys.Contains(logicalKey))
                     continue;
                 else

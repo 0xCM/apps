@@ -134,7 +134,8 @@ namespace Z0
             var pipe = Wf.ProcessContextPipe();
             var summaries = pipe.EmitPartitions(process, ts);
             var details = pipe.EmitRegions(process, ts);
-            pipe.EmitDump(process, Db.DumpPath(process, ts));
+            var archive = DumpArchive.create();
+            pipe.EmitDump(process, archive.DumpPath(process, ts));
             return ts;
         }
 

@@ -29,10 +29,10 @@ namespace Z0.Asm
             Op3 = op3;
         }
 
-        AsmPartKind IAsmSourcePart.PartKind
+        AsmCellKind IAsmSourcePart.PartKind
         {
             [MethodImpl(Inline)]
-            get => AsmPartKind.Directive;
+            get => AsmCellKind.Directive;
         }
 
         public bool IsEmpty
