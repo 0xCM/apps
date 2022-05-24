@@ -6,13 +6,14 @@ namespace Z0
 {
     using static core;
 
-    using SQ = SymbolicQuery;
     using BDS = BinaryDigitSym;
     using BDV = BinaryDigitValue;
     using ODV = OctalDigitValue;
     using DSF = DecimalSymFacet;
     using DDV = DecimalDigitValue;
     using HDV = HexDigitValue;
+
+    using C = AsciCode;
 
     partial struct Digital
     {
@@ -424,5 +425,227 @@ namespace Z0
         /// <param name="src">The perm spec</param>
         public static NatSpan<N4,byte> digits(Perm4L src)
             => digits(src, NatSpans.alloc<N4,byte>());
+
+
+        /// <summary>
+        /// Extracts a contiguous base-2 digit sequence
+        /// </summary>
+        /// <param name="base"></param>
+        /// <param name="src"></param>
+        /// <param name="offset"></param>
+        /// <param name="dst"></param>
+        [MethodImpl(Inline), Op]
+        public static uint digits(Base2 @base, ReadOnlySpan<char> src, uint offset, Span<char> dst)
+        {
+            var max = min(src.Length, dst.Length);
+            var counter = 0u;
+            for(var i=offset; i<max; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(Digital.test(@base,c))
+                    seek(dst,counter++) = c;
+                else
+                    break;
+            }
+            return counter;
+        }
+
+        /// <summary>
+        /// Extracts a contiguous base-2 digit sequence
+        /// </summary>
+        /// <param name="base">The base selector</param>
+        /// <param name="src">The data source</param>
+        /// <param name="dst">The target</param>
+        [MethodImpl(Inline), Op]
+        public static uint digits(Base2 @base, ReadOnlySpan<char> src, Span<char> dst)
+            => digits(@base, src, 0, dst);
+
+        /// <summary>
+        /// Extracts a contiguous source digit sequence
+        /// </summary>
+        /// <param name="base">The numeric base selector</param>
+        /// <param name="src">The source</param>
+        /// <param name="dst">The target</param>
+        [MethodImpl(Inline), Op]
+        public static uint digits(ReadOnlySpan<C> src, Span<BinaryDigit> dst)
+        {
+            var max = min(src.Length, dst.Length);
+            var counter = 0u;
+            for(var i=0; i<max; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(Digital.test(base2, c))
+                    seek(dst,counter++) = c;
+                else
+                    break;
+            }
+            return counter;
+        }
+
+        /// <summary>
+        /// Extracts a contiguous source digit sequence
+        /// </summary>
+        /// <param name="base">The numeric base selector</param>
+        /// <param name="src">The source</param>
+        /// <param name="dst">The target</param>
+        [MethodImpl(Inline), Op]
+        public static uint digits(ReadOnlySpan<char> src, Span<BinaryDigit> dst)
+        {
+            var max = min(src.Length, dst.Length);
+            var counter = 0u;
+            for(var i=0; i<max; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(Digital.test(base2,c))
+                    seek(dst,counter++) = c;
+                else
+                    break;
+            }
+            return counter;
+        }
+
+        /// <summary>
+        /// Extracts a contiguous base-10 digit sequence
+        /// </summary>
+        /// <param name="base">The base selector</param>
+        /// <param name="src">The data source</param>
+        /// <param name="dst">The target</param>
+        [MethodImpl(Inline), Op]
+        public static uint digits(Base10 @base, ReadOnlySpan<char> src, uint offset, Span<char> dst)
+        {
+            var max = min(src.Length, dst.Length);
+            var counter = 0u;
+            for(var i=offset; i<max; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(Digital.test(@base,c))
+                    seek(dst,counter++) = c;
+                else
+                    break;
+            }
+            return counter;
+        }
+
+        /// <summary>
+        /// Extracts a contiguous base-10 digit sequence
+        /// </summary>
+        /// <param name="base">The base selector</param>
+        /// <param name="src">The data source</param>
+        /// <param name="dst">The target</param>
+        [MethodImpl(Inline), Op]
+        public static uint digits(Base10 @base, ReadOnlySpan<char> src, Span<char> dst)
+            => digits(@base, src, 0, dst);
+
+        /// <summary>
+        /// Extracts a contiguous base-10 digit sequence
+        /// </summary>
+        /// <param name="base">The base selector</param>
+        /// <param name="src">The data source</param>
+        /// <param name="dst">The target</param>
+        [MethodImpl(Inline), Op]
+        public static uint digits(Base10 @base, ReadOnlySpan<C> src, Span<C> dst)
+        {
+            var max = min(src.Length, dst.Length);
+            var counter = 0u;
+            for(var i=0; i<max; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(Digital.test(@base,c))
+                    seek(dst,counter++) = c;
+                else
+                    break;
+            }
+            return counter;
+        }
+
+        /// <summary>
+        /// Extracts a contiguous base-16 digit sequence
+        /// </summary>
+        /// <param name="base">The base selector</param>
+        /// <param name="src">The data source</param>
+        /// <param name="dst">The target</param>
+        [MethodImpl(Inline), Op]
+        public static uint digits(Base16 @base, ReadOnlySpan<char> src, uint offset, Span<char> dst)
+        {
+            var max = min(src.Length, dst.Length);
+            var counter = 0u;
+            for(var i=offset; i<max; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(Digital.test(@base,c))
+                    seek(dst,counter++) = c;
+                else
+                    break;
+            }
+            return counter;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static void digits(ReadOnlySpan<HexLowerSym> src, Span<HexDigitValue> dst)
+        {
+            var count = src.Length;
+            for(var i=0u; i<count; i++)
+                seek(dst,i) = Hex.digit(skip(src,i));
+        }
+
+        [MethodImpl(Inline), Op]
+        public static void digits(ReadOnlySpan<HexUpperSym> src, Span<HexDigitValue> dst)
+        {
+            var count = src.Length;
+            for(var i=0u; i<count; i++)
+                seek(dst,i) = Hex.digit(skip(src,i));
+        }
+
+        /// <summary>
+        /// Extracts a contiguous base-16 digit sequence
+        /// </summary>
+        /// <param name="base">The base selector</param>
+        /// <param name="src">The data source</param>
+        /// <param name="dst">The target</param>
+        [MethodImpl(Inline), Op]
+        public static uint digits(Base16 @base, ReadOnlySpan<char> src, Span<char> dst)
+            => digits(@base, src, 0, dst);
+
+        /// <summary>
+        /// Extracts a contiguous hex digit sequence
+        /// </summary>
+        /// <param name="src">The source</param>
+        /// <param name="dst">The target</param>
+        [MethodImpl(Inline), Op]
+        public static uint digits(ReadOnlySpan<C> src, Span<HexDigit> dst)
+        {
+            var max = min(src.Length, dst.Length);
+            var counter = 0u;
+            for(var i=0; i<max; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(Digital.test(base16, c))
+                    seek(dst,counter++) = Digital.digit(base16, (char)c);
+                else
+                    break;
+            }
+            return counter;
+        }
+
+        /// <summary>
+        /// Parses a contiguous hex digit sequence
+        /// </summary>
+        /// <param name="src">The data source</param>
+        /// <param name="dst">The target</param>
+        [MethodImpl(Inline), Op]
+        public static uint digits(ReadOnlySpan<char> src, Span<HexDigit> dst)
+        {
+            var max = min(src.Length, dst.Length);
+            var counter = 0u;
+            for(var i=0; i<max; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(Digital.test(base16, c))
+                    seek(dst,counter++) = Digital.digit(base16, c);
+                else
+                    break;
+            }
+            return counter;
+        }
     }
 }

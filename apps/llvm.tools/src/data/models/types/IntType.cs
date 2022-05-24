@@ -13,7 +13,7 @@ namespace Z0.llvm
     /// <remarks>
     /// From https://llvm.org/docs/LangRef.html#integer-type
     /// </remarks>
-    public readonly struct IntType : ILlvmDataType<IntType>, IComparable<IntType>
+    public readonly struct IntType : IComparable<IntType>
     {
         [MethodImpl(Inline)]
         public static IntType define(uint width)
@@ -36,7 +36,7 @@ namespace Z0.llvm
                 return Empty;
         }
 
-        readonly uint BitWidth {get;}
+        readonly uint BitWidth;
 
         [MethodImpl(Inline)]
         public IntType(uint width)
@@ -97,12 +97,5 @@ namespace Z0.llvm
         public const uint MaxWidth = Pow2.T23;
 
         public static IntType Empty => default;
-    }
-
-    public readonly struct Integer<W>
-        where W : unmanaged, ITypeNat
-    {
-        public static implicit operator IntType(Integer<W> src)
-            => new IntType(core.nat32u<W>());
     }
 }

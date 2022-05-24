@@ -1,8 +1,8 @@
-//-----------------------------------------------------------------------------------------//
-// Source : LLVM - https://github.com/llvm/llvm-project/
-// License: Apache-2.0 WITH LLVM-exception
-//-----------------------------------------------------------------------------------------//
-namespace Z0.llvm
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0
 {
     public readonly struct list<T> : IIndex<T>
     {
@@ -11,7 +11,7 @@ namespace Z0.llvm
             Outcome parse(string src, out list<T> dst)
             {
                 var input = text.fenced(src, RenderFence.Bracketed, out _) ? text.unfence(src, RenderFence.Bracketed) : src;
-                var seqparser = new SeqParser<T>(",", new ParseFunction<T>(itemparser));
+                var seqparser = new SeqParser<T>(new ParseFunction<T>(itemparser), ",");
                 var result = seqparser.Parse(src, out var items);
                 if(result)
                     dst = new list<T>(type, items);

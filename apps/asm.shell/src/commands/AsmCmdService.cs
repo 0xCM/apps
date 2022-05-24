@@ -8,8 +8,6 @@ namespace Z0.Asm
     {
         IWorkspace AsmWs;
 
-        IntelSdm Sdm => Service(Wf.IntelSdm);
-
         AsmRegSets RegSets => Service(AsmRegSets.create);
 
         AsmTables AsmTables => Service(Wf.AsmTables);
@@ -23,8 +21,6 @@ namespace Z0.Asm
         AppModules AppModules => Service(Wf.AppModules);
 
         PdbIndexBuilder PdbIndexBuilder => Service(Wf.PdbIndexBuilder);
-
-        WsProjects WsProjects => Service(Wf.WsProjects);
 
         IPolyrand Random;
 

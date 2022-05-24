@@ -68,7 +68,7 @@ namespace Z0
 
         void EmitParsers()
         {
-            var parsers = Parsers.discover(ApiRuntimeCatalog.Components, out var log);
+            var parsers = Parsers.discover(ApiRuntimeCatalog.Components);
             var targets = parsers.Keys;
             var dst = text.emitter();
             iter(targets, target => dst.AppendLineFormat("parse:string -> {0}", target.DisplayName()));

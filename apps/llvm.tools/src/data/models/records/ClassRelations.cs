@@ -28,13 +28,5 @@ namespace Z0.llvm
 
         Identifier ILineRelations.Name
             => Name;
-
-        [MethodImpl(Inline)]
-        public void Specify(LineNumber line, Identifier name, Lineage ancestors)
-        {
-            SourceLine = line;
-            Name = name;
-            Ancestors = ancestors;
-        }
     }
 }

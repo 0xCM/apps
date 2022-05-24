@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
@@ -45,5 +41,30 @@ namespace Z0
             var count = Hex.render(@case, src, buffer);
             return new string(slice(buffer,0,count));
         }
+
+        [Op]
+        public static string format(ReadOnlySpan<BinaryDigit> src)
+        {
+            Span<char> dst = stackalloc char[src.Length];
+            render(src,dst);
+            return text.format(dst);
+        }
+
+        [Op]
+        public static string format(ReadOnlySpan<DecimalDigit> src)
+        {
+            Span<char> dst = stackalloc char[src.Length];
+            render(src,dst);
+            return text.format(dst);
+        }
+
+        [Op]
+        public static string format(ReadOnlySpan<HexDigit> src)
+        {
+            Span<char> dst = stackalloc char[src.Length];
+            render(src,dst);
+            return text.format(dst);
+        }
+
     }
 }

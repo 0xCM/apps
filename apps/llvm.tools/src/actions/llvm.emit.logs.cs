@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     partial class LlvmCmdProvider
     {
-        [CmdOp("llvm/emit/tests/logs")]
+        [CmdOp("llvm/emit/logs")]
         void EmitTestLogs()
         {
             const string LlvmId = "llvm";
@@ -26,7 +26,10 @@ namespace Z0.llvm
         void EmitTestLogs(string id)
         {
             var logs = LlvmTests.logs(FS.dir(@"J:\llvm\toolset\logs") + FS.file(id + "-tests-detail", FS.Json));
-            AppSvc.TableEmit(logs, Paths.Table<LlvmTestLogEntry>("llvm.tests.logs." + id + ".detail"));
+            AppSvc.TableEmit(logs, Paths.LogTargets().Table<LlvmTestLogEntry>("llvm.tests.logs." + id + ".detail"));
         }
+
+
+
     }
 }

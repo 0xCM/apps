@@ -15,20 +15,28 @@ namespace Z0
 
         public uint Index;
 
+        [Render(16)]
         public Name Identity;
 
+        [Render(16)]
         public MemoryAddress StartAddress;
 
+        [Render(16)]
         public MemoryAddress EndAddress;
 
+        [Render(16)]
         public ByteSize Size;
 
+        [Render(12)]
         public MemType Type;
 
+        [Render(16)]
         public PageProtection Protection;
 
+        [Render(16)]
         public MemState State;
 
+        [Render(1)]
         public TextBlock FullIdentity;
 
         public MemoryRange Range

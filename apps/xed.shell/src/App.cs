@@ -14,7 +14,7 @@ namespace Z0
         protected override void Initialized()
         {
             var providers = array<ICmdProvider>(Wf.PbCmd());
-            CmdRt = AsmCmdRt.runtime(Wf, new ICmdProvider[]{
+            CmdRt = Wf.AsmCmdRt(new ICmdProvider[]{
                 Wf.PbCmd(),
                 Wf.IntelIntrinsicsCmd()
             });

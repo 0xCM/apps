@@ -2,11 +2,10 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    partial class LlvmDataEmitter
+    public interface ISpanSeqParser<S,T>
     {
-        public void EmitChildRelations(ReadOnlySpan<LlvmEntity> src)
-            => AppSvc.TableEmit(DataCalcs.CalcChildRelations(src), LlvmPaths.Table<ChildRelation>());
+        uint Parse(ReadOnlySpan<S> src, Span<T> dst);
     }
 }

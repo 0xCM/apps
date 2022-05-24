@@ -16,6 +16,12 @@ namespace Z0
             return true;
         }
 
+        [CmdOp("check/ancestry")]
+        void CheckAncestors()
+        {
+            AncestryChecks.create(Wf).Run();
+        }
+
         void CheckMetadata(PartId part)
         {
             var tool = Wf.Roslyn();

@@ -16,6 +16,9 @@ namespace Z0.llvm
 
         public LlvmQuery Query => Service(() => LlvmQuery.create(Wf));
 
+        public void Emit(string id, Index<LlvmTestLogEntry> src)
+            => AppSvc.TableEmit(src, LlvmPaths.LogTargets().Table<LlvmTestLogEntry>("llvm.tests.logs." + id + ".detail"));
+
         public void Emit(ReadOnlySpan<LlvmInstPattern> src)
             => AppSvc.TableEmit(src, LlvmPaths.Table<LlvmInstPattern>());
 

@@ -23,6 +23,19 @@ namespace Z0.llvm
             get => AppData.get().PllExec();
         }
 
+        public void ImportTestLogs()
+        {
+            iter(new string[]
+            {
+                "clang",
+                "llvm",
+                "lldb",
+                "lld",
+                "mlir",
+                "polly"
+            }, id => DataEmitter.Emit(id, DataProvider.TestLogs(id)), PllExec);
+        }
+
         public void Run()
         {
             var lines = DataProvider.X86RecordLines();
@@ -33,6 +46,7 @@ namespace Z0.llvm
             Index<RecordField> defFields = sys.empty<RecordField>();
             exec(PllExec,
                 () => ImportToolHelp(),
+                ImportTestLogs,
                 () => DataEmitter.Emit(DataProvider.DiscoverRegIdentifiers()),
                 () => classMap = EmitClasses(lines),
                 () => defMap = EmitDefs(lines, out defRelations)

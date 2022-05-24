@@ -10,6 +10,21 @@ namespace Z0
 
     partial struct Digital
     {
+        public static uint parse(ReadOnlySpan<char> src, out GBlock64<BinaryDigit> dst)
+        {
+            var count = src.Length;
+            var j = 0u;
+            dst = default;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(test(base2, c))
+                    dst[j++] = digit(base2,c);
+                else
+                    break;
+            }
+            return j;
+        }
         [Op]
         public static Outcome parse(Base10 @base, ReadOnlySpan<C> src, out ushort dst)
         {

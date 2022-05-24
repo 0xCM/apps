@@ -10,7 +10,7 @@ namespace Z0
         Outcome MapMemory(CmdArgs args)
         {
             var dst = ProjectDb.LogTable<ProcessMemoryRegion>();
-            TableEmit(ImageMemory.regions().View, dst);
+            AppSvc.TableEmit(ImageMemory.regions().View, dst);
             return true;
         }
     }

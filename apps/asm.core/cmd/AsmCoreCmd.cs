@@ -37,8 +37,6 @@ namespace Z0
 
         XedDisasmSvc Disasm => CmdRt.XedDisasm;
 
-        XedImport XedImport => CmdRt.XedImport;
-
         XedDb XedDb => CmdRt.XedDb;
 
         CsLang CsLang => Service(Wf.CsLang);

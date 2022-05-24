@@ -12,6 +12,7 @@ namespace Z0
         public static EnumParser<E> create<E>()
             where E : unmanaged, Enum
                 => new();
+
         readonly SymIndex Syms;
 
         public EnumParser(Type src)

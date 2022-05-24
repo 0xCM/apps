@@ -6,22 +6,22 @@ namespace Z0
 {
     public class AsmCmdRt : AppService<AsmCmdRt>
     {
-        public static AsmCmdRt runtime(IWfRuntime wf, Index<ICmdProvider> providers, bool start = true)
-        {
-            var runtime = create(wf);
-            runtime.XedRt = XedRuntime.create(wf);
-            runtime.CmdSvc = AsmCoreCmd.create(wf, runtime, providers);
-            if(start)
-                runtime.Xed.Start();
-            return runtime;
-        }
+        // public static AsmCmdRt runtime(IWfRuntime wf, Index<ICmdProvider> providers, bool start = true)
+        // {
+        //     var runtime = AsmCmdRt.create(wf);
+        //     runtime.XedRt = XedRuntime.create(wf);
+        //     runtime.CmdSvc = AsmCoreCmd.create(wf, runtime, providers);
+        //     if(start)
+        //         runtime.Xed.Start();
+        //     return runtime;
+        // }
 
-        public static AsmCmdRt runtime(IWfRuntime wf, bool start = true)
-            => runtime(wf, sys.empty<ICmdProvider>(), start);
+        // public static AsmCmdRt runtime(IWfRuntime wf, bool start = true)
+        //     => runtime(wf, sys.empty<ICmdProvider>(), start);
 
-        AsmCoreCmd CmdSvc;
+        internal AsmCoreCmd CmdSvc;
 
-        XedRuntime XedRt;
+        internal XedRuntime XedRt;
 
         public ref readonly XedRuntime Xed
         {
@@ -35,17 +35,15 @@ namespace Z0
             get => CmdSvc;
         }
 
-        public XedDocs XedDocs => Service(() => Wf.XedDocs().With(Xed));
+        public XedDocs XedDocs => Xed.Docs;
 
-        public XedDb XedDb => Service(() => Wf.XedDb().With(Xed));
+        public XedDb XedDb => Xed.XedDb;
 
-        public XedPaths XedPaths => Service(() => XedPaths.Service);
+        public XedPaths XedPaths => XedPaths.Service;
 
-        public XedRules XedRules => Service(() => Wf.XedRules().With(Xed));
+        public XedRules XedRules => Xed.Rules;
 
-        public XedDisasmSvc XedDisasm => Service(() => Wf.XedDisasm().With(Xed));
-
-        public XedImport XedImport => Service(() => Wf.XedImport().With(Xed));
+        public XedDisasmSvc XedDisasm => Wf.XedDisasm(Xed);
 
         protected override void Disposing()
         {

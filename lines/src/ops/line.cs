@@ -4,14 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
-
     using static core;
 
-    using C = AsciCode;
-
-   partial class AsciLines
-   {
+    partial class AsciLines
+    {
         [MethodImpl(Inline), Op]
         public static AsciLine line(ReadOnlySpan<byte> src, uint offset, uint length)
             => new AsciLine(slice(src,offset,length));

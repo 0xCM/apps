@@ -6,7 +6,6 @@ namespace Z0.llvm
 {
     using Asm;
 
-    using static Root;
     using static LlvmNames;
 
     /// <summary>

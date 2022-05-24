@@ -74,6 +74,5 @@ namespace Z0.llvm
             }
             return entries.ToIndex();
         }
-
     }
 }

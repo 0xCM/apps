@@ -8,14 +8,14 @@ namespace Z0
 
     public readonly struct SeqParser<T> : IParser<T[]>
     {
-        readonly ParseFunction<T> TermParser;
+        readonly IParser<T> TermParser;
 
         readonly string Delimiter;
 
         readonly bool SplitClean;
 
         [MethodImpl(Inline)]
-        public SeqParser(string delimiter, ParseFunction<T> tp, bool clean = true)
+        public SeqParser(IParser<T> tp, string delimiter, bool clean = true)
         {
             Delimiter = delimiter;
             TermParser = tp;

@@ -41,6 +41,10 @@ namespace Z0
         public static HexDigitSym symbol(LowerCased @case, HexDigitValue src)
             => (HexDigitSym)code(@case, src);
 
+        [MethodImpl(Inline), Op]
+        public static HexDigitSym symbol(LetterCaseKind @case, HexDigitValue src)
+            => @case == LetterCaseKind.Upper ? symbol(UpperCase, src) : symbol(LowerCase, src);
+
         [MethodImpl(Inline)]
         public static HexDigitSym symbol<C>(C @case, HexDigitValue src)
             where C : unmanaged, ILetterCase

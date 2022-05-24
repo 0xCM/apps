@@ -32,21 +32,17 @@ namespace Z0
 
         public WsProjects Projects => Service(Wf.WsProjects);
 
-        public new XedPaths Paths => Service(Wf.XedPaths);
+        public new XedPaths Paths => XedPaths.Service;
 
-        public XedDocs Docs => Service(() => Wf.XedDocs().With(this));
+        public XedDocs Docs => Wf.XedDocs(this);
 
-        public XedDb XedDb => Service(() => Wf.XedDb().With(this));
+        public XedDb XedDb => Wf.XedDb(this);
 
-        public XedRules Rules => Service(() => Wf.XedRules().With(this));
+        public XedRules Rules => Wf.XedRules(this);
 
-        public XedDisasmSvc Disasm => Service(() => Wf.XedDisasm().With(this));
+        public XedImport Import => Wf.XedImport(this);
 
-        public XedOpCodes XedOpCodes => Service(() => Wf.XedOpCodes().With(this));
-
-        public XedImport Import => Service(() => Wf.XedImport().With(this));
-
-        public AppDb AppDb => Service(Wf.AppDb);
+        public AppDb AppDb => Wf.AppDb();
 
         AppServices AppSvc => Service(Wf.AppServices);
 

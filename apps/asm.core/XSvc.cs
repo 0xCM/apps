@@ -6,44 +6,71 @@ namespace Z0
 {
     using Z0.Asm;
 
+    sealed class ServiceCache : ServiceCache<ServiceCache>
+    {
+
+
+    }
+
     [ApiHost]
     public static class XSvc
     {
-        public static AsmCodeGen AsmCodeGen(this IWfRuntime wf)
-            => Asm.AsmCodeGen.create(wf);
+        static ServiceCache Svc = new();
+
+        static AsmCmdRt runtime(IWfRuntime wf, Index<ICmdProvider> providers, bool start = true)
+        {
+            var runtime = Z0.AsmCmdRt.create(wf);
+            runtime.XedRt = XedRuntime.create(wf);
+            runtime.CmdSvc = AsmCoreCmd.create(wf, runtime, providers);
+            if(start)
+                runtime.Xed.Start();
+            return runtime;
+        }
+
+        public static AsmCmdRt AsmCmdRt(this IWfRuntime wf, Index<ICmdProvider> providers, bool start = true)
+            => Svc.Service<AsmCmdRt>(wf, _ => runtime(wf, providers, start));
+
+        public static AsmCmdRt AsmCmdRt(this IWfRuntime wf, bool start = true)
+            => Svc.Service<AsmCmdRt>(wf, _ => runtime(wf, sys.empty<ICmdProvider>(), start));
 
         [Op]
-        public static XedImport XedImport(this IWfRuntime wf)
-            => Z0.XedImport.create(wf);
+        public static IntelSdm IntelSdm(this IWfRuntime wf)
+            => Svc.Service<IntelSdm>(wf);
 
         [Op]
-        public static XedRules XedRules(this IWfRuntime wf)
-            => Z0.XedRules.create(wf);
+        public static XedImport XedImport(this IWfRuntime wf, XedRuntime xed)
+            => Svc.Service<XedImport>(wf).With(xed);
 
         [Op]
-        public static XedOpCodes XedOpCodes(this IWfRuntime wf)
-            => Z0.XedOpCodes.create(wf);
+        public static XedRules XedRules(this IWfRuntime wf, XedRuntime xed)
+            => Svc.Service<XedRules>(wf).With(xed);
 
         [Op]
-        public static XedDb XedDb(this IWfRuntime wf)
-            => Z0.XedDb.create(wf);
+        public static XedDb XedDb(this IWfRuntime wf, XedRuntime xed)
+            => Svc.Service<XedDb>(wf).With(xed);
 
-        public static CpuIdSvc CpuId(this IWfRuntime wf)
-            => CpuIdSvc.create(wf);
+        [Op]
+        public static XedDisasmSvc XedDisasm(this IWfRuntime wf, XedRuntime xed)
+            => Svc.Service<XedDisasmSvc>(wf).With(xed);
 
-        public static XedDisasmSvc XedDisasm(this IWfRuntime wf)
-            => Z0.XedDisasmSvc.create(wf);
-
-        public static XedDocs XedDocs(this IWfRuntime wf)
-            => Z0.XedDocs.create(wf);
+        public static XedDocs XedDocs(this IWfRuntime wf, XedRuntime xed)
+            => Svc.Service<XedDocs>(wf).With(xed);
 
         [Op]
         public static XedTool XedTool(this IWfRuntime wf)
-            => Z0.XedTool.create(wf);
+            => Svc.Service<XedTool>(wf);
 
         [Op]
         public static XedPaths XedPaths(this IWfRuntime wf)
             => Z0.XedPaths.Service;
+
+        [Op]
+        public static CpuIdSvc CpuId(this IWfRuntime wf)
+            => Svc.Service<CpuIdSvc>(wf);
+
+        [Op]
+        public static AsmCodeGen AsmCodeGen(this IWfRuntime wf)
+            => Svc.Service<AsmCodeGen>(wf);
 
         [Op]
         public static ApiResPackEmitter ResPackEmitter(this IWfRuntime wf)
@@ -76,10 +103,6 @@ namespace Z0
             => Asm.ProcessAsmBuffers.create(wf);
 
         [Op]
-        public static IntelSdm IntelSdm(this IWfRuntime wf)
-            => Asm.IntelSdm.create(wf);
-
-        [Op]
         public static IntelSdmPaths SdmPaths(this IWfRuntime wf)
             => Asm.IntelSdmPaths.create(wf);
 
@@ -105,13 +128,13 @@ namespace Z0
 
         [Op]
         public static CoffServices CoffServices(this IWfRuntime wf)
-            => Z0.CoffServices.create(wf);
+            => Svc.Service<CoffServices>(wf);
 
         [Op]
         public static AsmTables AsmTables(this IWfRuntime wf)
-            => Asm.AsmTables.create(wf);
+            => Svc.Service<AsmTables>(wf);
 
         public static EncodingCollector EncodingCollector(this IWfRuntime wf)
-            => Z0.EncodingCollector.create(wf);
+            => Svc.Service<EncodingCollector>(wf);
    }
 }

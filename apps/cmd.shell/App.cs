@@ -16,7 +16,8 @@ namespace Z0
         public static GlobalCmd commands(IWfRuntime wf)
         {
             var svc = new GlobalCmd();
-            var asmrt = AsmCmdRt.runtime(wf, false);
+            //var asmrt = AsmCmdRt.runtime(wf, false);
+            var asmrt = wf.AsmCmdRt(false);
             var providers = array<ICmdProvider>(
                 svc,
                 ProjectCmd.inject(svc, asmrt, ProjectCmd.create(wf)),

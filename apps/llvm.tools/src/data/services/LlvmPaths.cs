@@ -16,6 +16,9 @@ namespace Z0.llvm
             Db = Ws.ProjectDb();
         }
 
+        public DbTargets LogTargets()
+            => new DbTargets(Db.Subdir("llvm"), "logs");
+
         public FS.FolderPath DataHome()
             => LlvmData.Home();
 

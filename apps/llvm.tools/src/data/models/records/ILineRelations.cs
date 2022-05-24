@@ -9,12 +9,9 @@ namespace Z0
         LineNumber SourceLine {get;}
 
         Identifier Name {get;}
-
-        void Specify(LineNumber line, Identifier name, Lineage ancestors);
-
     }
 
-    public interface ILineRelations<T> : ILineRelations,  IRecord<T>
+    public interface ILineRelations<T> : ILineRelations
         where T : struct, ILineRelations<T>
     {
     }

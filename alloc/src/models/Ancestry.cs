@@ -4,42 +4,46 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    public class Lineage2 : IEquatable<Lineage2>
+    public class Ancestry : IEquatable<Ancestry>
     {
-        public static Lineage2 parse(string src, LabelDispenser dispenser)
-        {
-            const string sep = "->";
-            var input = text.trim(src);
-            if(empty(input))
-                return Lineage2.Empty;
+        public readonly Index<Label> Ancestors;
 
-            else if(input.Contains(sep))
-            {
-                var parts = @readonly(input.Split(sep).Select(x => x.Trim()));
-                var count = parts.Length;
-                if(count == 0)
-                    return Lineage2.Empty;
+        public readonly Label Name;
 
-                if(count == 1)
-                {
-                    var name = dispenser.Label(first(parts));
-                    return new Lineage2(name);
-                }
-                else
-                {
-                    var names = alloc<Label>(count-1);
-                    for(var i=1; i<count; i++)
-                        seek(names,i-1) = dispenser.Label(skip(parts,i));
-                    return new Lineage2(first(parts), names);
-                }
-            }
-            else
-                return new Lineage2(input);
-        }
+        public readonly bool IsEmpty;
 
-        public bool Equals(Lineage2 src)
+        // public static Ancestry parse(string src, LabelDispenser dispenser)
+        // {
+        //     const string sep = "->";
+        //     var input = text.trim(src);
+        //     if(empty(input))
+        //         return Ancestry.Empty;
+
+        //     else if(input.Contains(sep))
+        //     {
+        //         var parts = @readonly(input.Split(sep).Select(x => x.Trim()));
+        //         var count = parts.Length;
+        //         if(count == 0)
+        //             return Ancestry.Empty;
+
+        //         if(count == 1)
+        //         {
+        //             var name = dispenser.Label(first(parts));
+        //             return new Ancestry(name);
+        //         }
+        //         else
+        //         {
+        //             var names = alloc<Label>(count-1);
+        //             for(var i=1; i<count; i++)
+        //                 seek(names,i-1) = dispenser.Label(skip(parts,i));
+        //             return new Ancestry(first(parts), names);
+        //         }
+        //     }
+        //     else
+        //         return new Ancestry(input);
+        // }
+
+        public bool Equals(Ancestry src)
         {
             if(src is null)
                 return false;
@@ -62,32 +66,25 @@ namespace Z0
             return true;
         }
 
-        Lineage2(Label name, Label[] ancestors)
+        internal Ancestry(Label name, Label[] ancestors)
         {
             Name = name;
             Ancestors = ancestors;
             IsEmpty = false;
         }
 
-        Lineage2(Label name)
+        internal Ancestry(Label name)
         {
             Name = name;
             Ancestors = Index<Label>.Empty;
             IsEmpty = false;
         }
 
-        Lineage2()
+        Ancestry()
         {
             Name = EmptyString;
             IsEmpty = true;
         }
-
-
-        public Index<Label> Ancestors {get;}
-
-        public Label Name {get;}
-
-        public bool IsEmpty {get;}
 
         public bool IsNonEmpty
         {
@@ -123,6 +120,6 @@ namespace Z0
 
         const string LeftToRight = " -> ";
 
-       public static Lineage2 Empty => new Lineage2();
+        public static Ancestry Empty => new Ancestry();
     }
 }

@@ -16,5 +16,9 @@ namespace Z0
                     service.Init(wf);
                     return service;
                 });
+
+        public S Service<S>(IWfRuntime wf, Func<IWfRuntime,S> factory)
+            where S : AppService<S>, new()
+                => (S)Lookup.GetOrAdd(typeof(S), _ => factory(wf));
     }
 }

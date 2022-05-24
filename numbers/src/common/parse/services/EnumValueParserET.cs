@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     public readonly struct EnumValueParser<E,T> : IParser<T>
         where E : unmanaged, Enum
         where T : unmanaged
@@ -33,12 +31,6 @@ namespace Z0
                 if(result)
                     dst = Numeric.force<T>(value);
             }
-
-            if(result)
-            {
-
-            }
-
             return result;
         }
     }

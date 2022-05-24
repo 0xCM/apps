@@ -15,10 +15,10 @@ namespace Z0
 
         const string D1 = "1";
 
-        public readonly V Value;
+        public readonly BinaryDigitValue Value;
 
         [MethodImpl(Inline)]
-        public BinaryDigit(V value)
+        public BinaryDigit(BinaryDigitValue value)
         {
             Value = value;
         }
@@ -33,6 +33,18 @@ namespace Z0
         public BinaryDigit(BinaryDigitSym src)
         {
             Value = src == BinaryDigitSym.b1 ? V.b1 : V.b0;
+        }
+
+        [MethodImpl(Inline)]
+        public BinaryDigit(char src)
+        {
+            Value = (BinaryDigitSym)src == BinaryDigitSym.b1 ? V.b1 : V.b0;
+        }
+
+        [MethodImpl(Inline)]
+        public BinaryDigit(AsciCode src)
+        {
+            Value = (BinaryDigitSym)src == BinaryDigitSym.b1 ? V.b1 : V.b0;
         }
 
         [MethodImpl(Inline)]
@@ -90,6 +102,14 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator BinaryDigit(BinaryDigitSym src)
+            => new BinaryDigit(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator BinaryDigit(char src)
+            => new BinaryDigit(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator BinaryDigit(AsciCode src)
             => new BinaryDigit(src);
 
         [MethodImpl(Inline)]

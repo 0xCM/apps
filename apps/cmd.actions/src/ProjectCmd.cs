@@ -29,6 +29,8 @@ namespace Z0
 
         AsmFlowCommands AsmFlowCommands => Service(Wf.AsmFlowCommands);
 
+        AppServices AppSvc => Wf.AppServices();
+
         public ProjectCmd With(AsmCmdRt rt)
         {
             AsmRt = rt;

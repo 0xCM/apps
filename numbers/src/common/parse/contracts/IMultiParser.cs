@@ -2,11 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    partial class LlvmDataEmitter
+    public interface IMultiParser
     {
-        public void EmitChildRelations(ReadOnlySpan<LlvmEntity> src)
-            => AppSvc.TableEmit(DataCalcs.CalcChildRelations(src), LlvmPaths.Table<ChildRelation>());
+        Outcome Parse(Type t, string src, out dynamic dst);
+
+        Outcome Parse<T>(string src, out T dst);
     }
 }

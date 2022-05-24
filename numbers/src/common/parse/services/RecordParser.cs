@@ -6,13 +6,12 @@ namespace Z0
 {
     using static core;
 
-    readonly struct RecordParser : IParser<object>
+    public readonly struct RecordParser : IParser<object>
     {
         readonly ReflectedTable Table;
 
         readonly IMultiParser Parser;
 
-        [MethodImpl(Inline)]
         public RecordParser(ReflectedTable table, IMultiParser parser)
         {
             Table = table;

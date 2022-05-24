@@ -65,5 +65,38 @@ namespace Z0
             render(@base, src, dst);
             return dst;
         }
+
+        /// <summary>
+        /// Formats a span of binary digits as a contiguous block
+        /// </summary>
+        /// <param name="src">The source digits</param>
+        [MethodImpl(Inline), Op]
+        public static void render(ReadOnlySpan<BinaryDigit> src, Span<char> dst)
+        {
+            for(var i=0u; i<src.Length; i++)
+                seek(dst,i) = skip(src,i).Char;
+        }
+
+        /// <summary>
+        /// Formats a span of binary digits as a contiguous block
+        /// </summary>
+        /// <param name="src">The source digits</param>
+        [MethodImpl(Inline), Op]
+        public static void render(ReadOnlySpan<DecimalDigit> src, Span<char> dst)
+        {
+            for(var i=0u; i<src.Length; i++)
+                seek(dst,i) = skip(src,i).Char;
+        }
+
+        /// <summary>
+        /// Formats a span of binary digits as a contiguous block
+        /// </summary>
+        /// <param name="src">The source digits</param>
+        [MethodImpl(Inline), Op]
+        public static void render(ReadOnlySpan<HexDigit> src, Span<char> dst)
+        {
+            for(var i=0u; i<src.Length; i++)
+                seek(dst,i) = skip(src,i).Char;
+        }
     }
 }

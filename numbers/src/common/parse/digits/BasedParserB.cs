@@ -2,11 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    partial class LlvmDataEmitter
+    public abstract class BasedParser<B>
+        where B : unmanaged, INumericBase
     {
-        public void EmitChildRelations(ReadOnlySpan<LlvmEntity> src)
-            => AppSvc.TableEmit(DataCalcs.CalcChildRelations(src), LlvmPaths.Table<ChildRelation>());
+        public B Base => default;
     }
 }
