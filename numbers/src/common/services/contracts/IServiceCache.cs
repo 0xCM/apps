@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [RecordGroup]
-    public readonly partial struct ProcessMemory
+    public interface IServiceCache
     {
-
+        S Service<S>(IWfRuntime wf)
+            where S : AppService<S>, new();
     }
 }

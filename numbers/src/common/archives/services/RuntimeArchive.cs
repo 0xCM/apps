@@ -6,27 +6,12 @@ namespace Z0
 {
     using static FS;
 
-    partial class XTend
-    {
-    }
-
     [ApiHost]
     public readonly struct RuntimeArchive : IRuntimeArchive
     {
-        public static IRuntimeArchive create(Assembly src)
-            => new RuntimeArchive(FS.path(src.Location).FolderPath);
-
         public FS.FolderPath Root {get;}
 
         public FS.Files Files {get;}
-
-        [MethodImpl(Inline)]
-        public static IRuntimeArchive create()
-            => new RuntimeArchive(FS.dir(RuntimeEnvironment.GetRuntimeDirectory()));
-
-        [MethodImpl(Inline)]
-        public static RuntimeArchive create(FS.FolderPath src)
-            => new RuntimeArchive(src);
 
         [Op]
         public static string format(RuntimeAssembly src)

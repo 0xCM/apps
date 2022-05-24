@@ -6,13 +6,13 @@ namespace Z0
 {
     partial struct ClrMdRecords
     {
-        public readonly struct PdbInfo
+        public readonly record struct PdbInfo
         {
-            public Guid Id {get;}
+            public readonly Guid Id;
 
-            public int Revision {get;}
+            public readonly int Revision;
 
-            public FS.FilePath Path {get;}
+            public readonly FS.FilePath Path;
 
             [MethodImpl(Inline)]
             public PdbInfo(Guid id, int rev, FS.FilePath path)

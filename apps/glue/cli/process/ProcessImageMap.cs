@@ -4,15 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct ProcessImageMap
+    public class ProcessImageMap
     {
-        public ProcessMemoryState Process {get;}
+        public readonly ProcessMemoryState Process;
 
-        public Index<LocatedImageInfo> Images {get;}
+        public readonly Index<LocatedImageInfo> Images;
 
-        public Index<MemoryAddress> Locations {get;}
+        public readonly Index<MemoryAddress> Locations;
 
-        public Index<ProcessModuleRow> Modules {get;}
+        public readonly Index<ProcessModuleRow> Modules;
 
         [MethodImpl(Inline)]
         public ProcessImageMap(ProcessMemoryState state, LocatedImageInfo[] images, Index<MemoryAddress> locations, ProcessModuleRow[] modules)

@@ -72,6 +72,6 @@ namespace Z0
             => PdbSymbolSource.create(module);
 
         public ModuleArchive Archive()
-            => ModuleArchive.create(FS.path(controller().Location).FolderPath);
+            => FileArchives.modules(FS.path(controller().Location).FolderPath);
     }
 }

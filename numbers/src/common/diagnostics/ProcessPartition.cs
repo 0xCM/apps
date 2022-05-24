@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.InteropServices;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ProcessPartition : IRecord<ProcessPartition>
+    public struct ProcessPartition
     {
         public const string TableId = "image.process.partitions";
 

@@ -15,26 +15,32 @@ namespace Z0
 
             public const byte FieldCount = 9;
 
+            [Render(64)]
             public StringAddress Name;
 
+            [Render(16)]
             public MemoryAddress Address;
 
+            [Render(16)]
             public MemoryAddress ImageBase;
 
+            [Render(16)]
             public MemoryAddress AssemblyAddress;
 
+            [Render(16)]
             public MemoryAddress MetadataAddress;
 
+            [Render(16)]
             public ByteSize MetadataSize;
 
+            [Render(16)]
             public ClrMd.ModuleLayout Layout;
 
+            [Render(164)]
             public PdbInfo Pdb;
 
+            [Render(84)]
             public StringAddress ModulePath;
-
-            public static ReadOnlySpan<byte> RenderWidths
-                => new byte[FieldCount]{64, 16, 16, 16, 16, 16, 16, 164, 8,};
         }
     }
 }

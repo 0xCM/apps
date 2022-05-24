@@ -8,7 +8,6 @@ namespace Z0
 
     public class ApiSegmentLocator : AppService<ApiSegmentLocator>
     {
-
         static MsgPattern<Address16> SegSelectorNotFound => "Selector {0} not found";
 
         static MsgPattern<Count> LocatingSegments => "Locating segments for {0} methods";

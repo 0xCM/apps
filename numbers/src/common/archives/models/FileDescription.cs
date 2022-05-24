@@ -4,24 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
-
     [Record(TableId)]
     public struct FileDescription
     {
-        [Op]
-        public static FileDescription describe(FS.FilePath src)
-        {
-            var dst = new FileDescription();
-            var info = new FileInfo(src.Name);
-            dst.Path = src;
-            dst.Attributes = info.Attributes;
-            dst.CreateTS = info.CreationTime;
-            dst.UpdateTS = info.LastWriteTime;
-            dst.Size = info.Length;
-            return dst;
-        }
-
         public const string TableId = "fs.info";
 
         public FS.FilePath Path;

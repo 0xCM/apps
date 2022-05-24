@@ -4,23 +4,34 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    sealed class ServiceCache : ServiceCache<ServiceCache>
+    {
+
+
+    }
+
     public static class XSvc
     {
+        static ServiceCache Services = new();
+
         public static Parsers Parsers(this IWfRuntime wf)
-            => Z0.Parsers.create(wf);
-        [Op]
-        public static SymServices SymServices(this IWfRuntime wf)
-            => Z0.SymServices.create(wf);
+            => Services.Service<Parsers>(wf);
 
         [Op]
         public static WsProjects WsProjects(this IWfRuntime wf)
-            => Z0.WsProjects.create(wf);
+            => Services.Service<WsProjects>(wf);
 
+        [Op]
         public static AppDb AppDb(this IWfRuntime wf)
-            => Z0.AppDb.create(wf);
+            => Services.Service<AppDb>(wf);
 
+        [Op]
+        public static DumpArchives DumpArchives(this IWfRuntime wf)
+            => Services.Service<DumpArchives>(wf);
+
+        [Op]
         public static AppServices AppServices(this IWfRuntime wf)
-            => Z0.AppServices.create(wf);
+            => Services.Service<AppServices>(wf);
 
         public static CheckRunner CheckRunner(this IWfRuntime wf)
             => Z0.CheckRunner.create(wf);

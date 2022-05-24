@@ -111,11 +111,11 @@ namespace Z0
         public Index<FS.FilePath> EmitScripts(FS.FolderPath src, FS.FolderPath dst)
         {
             var paths = list<FS.FilePath>();
-            var archive = ModuleArchive.create(src);
-            var exe = archive.NativeExeFiles();
-            var lib = archive.StaticLibs();
-            var dll = archive.NativeDllFiles();
-            var obj = archive.ObjFiles();
+            var archive = FileArchives.modules(src);
+            var exe = archive.NativeExe();
+            var lib = archive.Lib();
+            var dll = archive.NativeDll();
+            var obj = archive.Obj();
             var sid = Identifier.Empty;
             var cmd = DumpBin.CmdId.None;
             var ext = FS.FileExt.Empty;
@@ -141,7 +141,8 @@ namespace Z0
             return paths.ToArray();
         }
 
-        FS.FilePath EmitScript(CmdId cmd, FileModule[] src, FS.FileExt ext, FS.FolderPath dst)
+        FS.FilePath EmitScript<T>(CmdId cmd, Index<T> src, FS.FileExt ext, FS.FolderPath dst)
+            where T : IFileModule
         {
             var sid = ScriptId(cmd, ext);
             var script = Script(sid, cmd, src, dst);

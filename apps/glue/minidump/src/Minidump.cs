@@ -35,7 +35,7 @@ namespace Z0
 
         public void Summarize()
         {
-            var archive = DumpArchive.create();
+            var archive = Wf.DumpArchives().Default();
             var src = archive.DumpPath("capture");
             if(src.Exists)
             {

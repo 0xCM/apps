@@ -12,40 +12,39 @@ namespace Z0
 
     public sealed class DumpParser : AppService<DumpParser>
     {
-        DumpPaths DumpPaths;
+        DumpArchives DumpArchives => Wf.DumpArchives();
+
+        DumpPaths DumpPaths => DumpArchives.DumpPaths();
+
+        AppServices AppSvc => Wf.AppServices();
 
         public DumpParser()
         {
 
         }
 
-        protected override void OnInit()
-        {
-            DumpPaths = Z0.DumpPaths.create(Env);
-        }
-
         public void ParseDump()
         {
-            var current = DumpPaths.CurrentDump();
+            var current = DumpPaths.Current();
             if(current.IsNonEmpty)
             {
-                var flow = Wf.Running(string.Format("Parsing dump {0}", current.FileName));
+                var flow = Running(string.Format("Parsing dump {0}", current.FileName));
                 ParseDump(current);
-                Wf.Ran(flow);
+                Ran(flow);
             }
             else
-                Wf.Warn(string.Format("No *.{0} files were found in {1}", FS.Dmp, DumpPaths.InputRoot.Format(PathSeparator.FS)));
+                Warn(string.Format("No *.{0} files were found in {1}", FS.Dmp, DumpPaths.InputRoot.Format(PathSeparator.FS)));
         }
 
-        uint Emit(ProcDumpIdentity id, ReadOnlySpan<DR.ModuleInfo> src, FS.FolderPath dir)
-            => TableEmit(src, DR.ModuleInfo.RenderWidths, Db.Table<DR.ModuleInfo>(dir));
+        void Emit(ProcDumpIdentity id, ReadOnlySpan<DR.ModuleInfo> src, FS.FolderPath dir)
+            => AppSvc.TableEmit(src, Db.Table<DR.ModuleInfo>(dir));
 
         ExecToken Emit(ProcDumpIdentity id, ReadOnlySpan<DR.MethodTableToken> src, FS.FolderPath dir)
-            => WfEmit.TableEmit(src, Db.Table<DR.MethodTableToken>(dir));
+            => AppSvc.TableEmit(src, Db.Table<DR.MethodTableToken>(dir));
 
         void Emit(ProcDumpIdentity id, DP.ModuleProcessPresult src)
         {
-            var dst = DumpPaths.OutputDir(id);
+            var dst = DumpPaths.Targets(id);
             Emit(id, src.Modules, dst);
             Emit(id, src.MethodTables, dst);
         }
@@ -54,22 +53,20 @@ namespace Z0
         {
             using var dataTarget = DataTarget.LoadDump(src.Name);
             using var runtime = dataTarget.ClrVersions.Single().CreateRuntime();
-
             var id = ProcDumpIdentity.from(src);
             if(id.IsNonEmpty)
             {
-                var running = Wf.Running(string.Format("Parsing {0}", src.ToUri()));
+                var running = Running(string.Format("Parsing {0}", src.ToUri()));
                 var modules = runtime.EnumerateModules().Array();
                 var sink = EmissionSink.create(GetType());
                 var processor = DP.module(sink);
                 processor.Process(modules);
                 Emit(id, processor.Processed());
-
-                Wf.Ran(running, string.Format("Parsed {0}", src.ToUri()));
+                Ran(running, string.Format("Parsed {0}", src.ToUri()));
             }
             else
             {
-                Wf.Error(string.Format("Could not identify {0}", src.ToUri()));
+                Error(string.Format("Could not identify {0}", src.ToUri()));
             }
         }
     }

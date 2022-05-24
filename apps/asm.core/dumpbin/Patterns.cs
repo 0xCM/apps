@@ -34,20 +34,9 @@ namespace Z0
             return FS.Log;
         }
 
-        public static CmdScript script(DumpBin tool, string name, CmdId id, FileModule[] src, FS.FolderPath outdir)
-        {
-            var buffer = text.buffer();
-            foreach(var module in src)
-            {
-                var cmd = tool.Command(id, module.Path, outdir);
-                buffer.AppendLine(cmd.Format());
-            }
-
-            return CmdScript.create(name, buffer.Emit());
-        }
-
-        public CmdScript Script(string name, CmdId id, FileModule[] src, FS.FolderPath outdir)
-            => script(this, name, id, src, outdir);
+        public CmdScript Script<T>(string name, CmdId id, Index<T> src, FS.FolderPath outdir)
+            where T : IFileModule
+                => script(this, name, id, src, outdir);
 
         public CmdScriptExpr Command(CmdId id, FS.FilePath src, FS.FolderPath outdir)
         {

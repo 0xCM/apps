@@ -12,13 +12,15 @@ namespace Z0
 
     public partial class ProcessContextPipe : AppService<ProcessContextPipe>
     {
+        DumpArchives DumpArchives => Wf.DumpArchives();
+
         public Timestamp EmitContext()
         {
             var ts = core.timestamp();
             var process = Process.GetCurrentProcess();
             var summaries = EmitPartitions(process, ts);
             var details = EmitRegions(process, ts);
-            var archive = DumpArchive.create();
+            var archive = DumpArchives.Default();
             EmitDump(process, archive.DumpPath(process, ts));
             return ts;
         }
@@ -126,7 +128,7 @@ namespace Z0
             }
             if(selection.EmitDump)
             {
-                var archive = DumpArchive.create();
+                var archive = DumpArchives.Default();
                 context.DumpPath = archive.DumpPath(process, ts);
                 EmitDump(process, context.DumpPath);
             }

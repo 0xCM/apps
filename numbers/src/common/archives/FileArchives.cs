@@ -4,42 +4,50 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.IO;
-
     using static core;
-
-    partial class XTend
-    {
-        public static string SrcId(this FS.FilePath src, params FileKind[] kinds)
-            => src.FileName.SrcId(kinds);
-
-        public static string SrcId(this FS.FileName src, params FileKind[] kinds)
-        {
-            var file = src.Format();
-            var count = kinds.Length;
-            var id = EmptyString;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var kind = ref skip(kinds,i);
-                var ext = kind.Ext();
-                var j = text.index(file, "." + ext);
-                if(j >0)
-                {
-                    id = text.left(file,j);
-                    break;
-                }
-            }
-            return id;
-        }
-    }
 
     [ApiHost]
     public readonly struct FileArchives
     {
+        public static FileDescription describe(FS.FilePath src)
+        {
+            var dst = new FileDescription();
+            var info = new FileInfo(src.Name);
+            dst.Path = src;
+            dst.Attributes = info.Attributes;
+            dst.CreateTS = info.CreationTime;
+            dst.UpdateTS = info.LastWriteTime;
+            dst.Size = info.Length;
+            return dst;
+        }
+
+        public static Index<FileDescription> describe(FS.Files src)
+            => src.Map(describe);
+
+        /// <summary>
+        /// Creates an archive over both managed and unmanaged modules
+        /// </summary>
+        /// <param name="root">The archive root</param>
+        [MethodImpl(Inline), Op]
+        public static ModuleArchive modules(FS.FolderPath root)
+            => new ModuleArchive(root);
+
+        public static IRuntimeArchive runtime()
+            => new RuntimeArchive(FS.dir(RuntimeEnvironment.GetRuntimeDirectory()));
+
+        public static IRuntimeArchive runtime(FS.FolderPath src)
+            => new RuntimeArchive(src);
+
+        public static IRuntimeArchive runtime(Assembly src)
+            => new RuntimeArchive(FS.path(src.Location).FolderPath);
+
+        public static FS.Files search(FS.FolderPath src, FS.FileExt[] ext, uint limit = 0)
+            => limit != 0 ? match(src, limit, ext) : match(src, ext);
+
         [Op]
         public static ListFilesCmd listcmd(IEnvPaths paths, string label)
         {
-            var archive = RuntimeArchive.create();
+            var archive = runtime();
             var types = array(FS.Dll, FS.Exe, FS.Pdb, FS.Lib, FS.Xml, FS.Json);
             return listcmd(paths, label, archive.Root, types);
         }
@@ -59,7 +67,7 @@ namespace Z0
         [Op]
         public static CmdResult<ListFilesCmd,FS.Files> exec(ListFilesCmd cmd)
         {
-            var _list = list(cmd.SourceDir, cmd.Extensions, cmd.EmissionLimit);
+            var _list = search(cmd.SourceDir, cmd.Extensions, cmd.EmissionLimit);
             var outcome = emit(_list, cmd.FileUriMode, cmd.TargetPath);
             return outcome ? Cmd.ok(cmd,_list) : Cmd.fail(cmd, outcome.Message);
         }
@@ -81,7 +89,7 @@ namespace Z0
         }
 
         [Op]
-        public static ListedFiles list(FS.FilePath[] src)
+        public static ListedFiles listed(FS.FilePath[] src)
             => new ListedFiles(src.Mapi((i,x) => new ListedFile(i,x)));
 
         [Op]
@@ -96,15 +104,10 @@ namespace Z0
         public static ListedFiles list(FS.FolderPath src, bool recurse = false)
             => src.Files(recurse).Storage.Mapi((i,x) =>new ListedFile((uint)i, x));
 
-        public static FS.Files list(FS.FolderPath src, FS.FileExt[] ext, uint limit = 0)
-        {
-            var list = limit != 0 ? match(src, limit, ext) : match(src, ext);
-            return list;
-        }
 
         [Op]
         public static ListedFiles list(FileArchive src, string pattern, bool recurse)
-            => list(Directory.EnumerateFiles(src.Root.Name, pattern, option(recurse)).Array().Select(x => FS.path(pattern)));
+            => listed(Directory.EnumerateFiles(src.Root.Name, pattern, option(recurse)).Array().Select(x => FS.path(pattern)));
 
         [MethodImpl(Inline), Op]
         public static IFileArchive create(FS.FolderPath root)
@@ -146,6 +149,5 @@ namespace Z0
                 return e;
             }
         }
-
     }
 }

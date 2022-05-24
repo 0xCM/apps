@@ -6,8 +6,6 @@ namespace Z0
 {
     using Asm;
 
-    using static XedDisasm;
-
     public readonly struct AsmObjPaths
     {
         readonly AppDb AppDb;

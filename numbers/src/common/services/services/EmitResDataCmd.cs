@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Reflection;
-
     [Cmd(CmdName)]
     public struct EmitResDataCmd : ICmd<EmitResDataCmd>
     {

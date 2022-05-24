@@ -4,15 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public static class XArchives
-    {
-        public static FileDescription Description(this FS.FilePath src)
-            => FileDescription.describe(src);
-
-        public static Index<FileDescription> Descriptions(this FS.Files src)
-            => src.Map(FileDescription.describe);
-    }
-
     public readonly struct ExeFile : IFsEntry<ExeFile>
     {
         public FS.FilePath Path {get;}

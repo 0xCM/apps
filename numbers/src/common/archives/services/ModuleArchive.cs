@@ -4,89 +4,81 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct ModuleArchive
+    public readonly struct ModuleArchive : IModuleArchive
     {
-        /// <summary>
-        /// Creates an archive over both managed and unmanaged modules
-        /// </summary>
-        /// <param name="root">The archive root</param>
-        [MethodImpl(Inline), Op]
-        public static ModuleArchive create(FS.FolderPath root)
-            => new ModuleArchive(root);
-
-        public FS.FolderPath Root {get;}
+        public readonly FS.FolderPath Root {get;}
 
         [MethodImpl(Inline)]
         internal ModuleArchive(FS.FolderPath root)
             => Root = root;
 
-        public Index<FileModule> ManagedDllFiles()
-            => dll_managed().Array();
+        public Index<ManagedDllFile> ManagedDll()
+            => ManagedDllFiles().Array();
 
-        public Index<FileModule> NativeDllFiles()
-            => dll_native().Array();
+        public Index<NativeDllFile> NativeDll()
+            => NativeDllFiles().Array();
 
-        public Index<FileModule> ManagedExeFiles()
-            => exe_managed().Array();
+        public Index<ManagedExeFile> ManagedExe()
+            => ManagedExeFiles().Array();
 
-        public Index<FileModule> NativeExeFiles()
-            => exe_native().Array();
+        public Index<NativeExeFile> NativeExe()
+            => NativeExeFiles().Array();
 
-        public Index<FileModule> StaticLibs()
-            => lib_native().Array();
+        public Index<NativeLibFile> Lib()
+            => NativeLibFiles().Array();
 
-        public Index<FileModule> ArchiveFiles()
-            => modules().Array();
+        public Index<FileModule> Members()
+            => Modules().Array();
 
-        public Index<FileModule> ObjFiles()
-            => obj_files().Array();
+        public Index<ObjFile> Obj()
+            => ObjFiles().Array();
 
         public bool IsManaged(FS.FilePath src, out AssemblyName name)
             => FS.managed(src, out name);
 
-        IEnumerable<FileModule> obj_files()
+        IEnumerable<ObjFile> ObjFiles()
         {
             foreach(var path in Root.Files(true))
                 if(path.Is(FS.Obj))
-                    yield return new NativeLibFile(path);
+                    yield return new ObjFile(path);
         }
 
-        IEnumerable<FileModule> dll_managed()
+        IEnumerable<ManagedDllFile> ManagedDllFiles()
         {
             foreach(var path in Root.Files(true).Where(f => f.Is(FS.Dll)))
                 if(IsManaged(path, out var assname))
                     yield return new ManagedDllFile(path, assname);
         }
 
-        IEnumerable<FileModule> dll_native()
+        IEnumerable<NativeDllFile> NativeDllFiles()
         {
             foreach(var path in Root.Files(true).Where(f => f.Is(FS.Dll)))
                 if(FS.native(path))
                     yield return new NativeDllFile(path);
         }
 
-        IEnumerable<FileModule> exe_managed()
+        IEnumerable<ManagedExeFile> ManagedExeFiles()
         {
             foreach(var path in Root.Files(true).Where(f => f.Is(FS.Exe)))
                 if(IsManaged(path, out var assname))
                     yield return new ManagedExeFile(path, assname);
         }
 
-        IEnumerable<FileModule> exe_native()
+        IEnumerable<NativeExeFile> NativeExeFiles()
         {
             foreach(var path in Root.Files(true).Where(f => f.Is(FS.Exe)))
                 if(FS.native(path))
                     yield return new NativeExeFile(path);
         }
 
-        IEnumerable<FileModule> lib_native()
+        IEnumerable<NativeLibFile> NativeLibFiles()
         {
             foreach(var path in Root.Files(true))
                 if(path.Is(FS.Lib))
                     yield return new NativeLibFile(path);
         }
 
-       IEnumerable<FileModule> modules()
+       IEnumerable<FileModule> Modules()
         {
             foreach(var path in Root.Files(true))
             {

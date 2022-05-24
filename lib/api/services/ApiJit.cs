@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Linq;
-    using System.Collections.Generic;
-    using System.Reflection;
+    using System.Diagnostics;
 
     using static core;
 
@@ -20,7 +18,7 @@ namespace Z0
 
         public ApiMembers JitCatalog(IApiCatalog catalog)
         {
-            var @base = Runtime.CurrentProcess.BaseAddress;
+            var @base = Process.GetCurrentProcess().MainModule.BaseAddress;
             var parts = catalog.Parts;
             var kParts = parts.Length;
             var flow = Wf.Running(Msg.JittingParts.Format(kParts));
