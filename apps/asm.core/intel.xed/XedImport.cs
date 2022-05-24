@@ -12,6 +12,18 @@ namespace Z0
 
     public partial class XedImport : AppService<XedImport>
     {
+        public static ReadOnlySpan<AsmBroadcastDef> BroadcastDefs
+        {
+            [MethodImpl(Inline), Op]
+            get => _BroadcastDefs;
+        }
+
+        public static ReadOnlySpan<OpWidthRecord> OpWidths
+        {
+            [MethodImpl(Inline), Op]
+            get => _OpWidths;
+        }
+
         XedPaths XedPaths => Service(Wf.XedPaths);
 
         AppServices AppSvc => Service(Wf.AppServices);
@@ -51,7 +63,7 @@ namespace Z0
                 EmitChips,
                 () => Emit(CalcFieldImports()),
                 () => Emit(CalcPointerWidths()),
-                () => Emit(XedOperands.Views.OpWidths)
+                () => Emit(Xed.Views.OpWidths)
             );
         }
 
@@ -68,7 +80,7 @@ namespace Z0
             => FormImporter.calc(XedPaths.DocSource(XedDocKind.FormData));
 
         void EmitBroadcastDefs()
-            => AppSvc.TableEmit(XedOperands.Views.BroadcastDefs, Targets().Table<BroadcastDef>());
+            => AppSvc.TableEmit(XedImport.BroadcastDefs, Targets().Table<AsmBroadcastDef>());
 
         void EmitIsaImports()
             => AppSvc.TableEmit(Xed.Views.IsaImport, Targets().Table<IsaImport>());
@@ -147,8 +159,17 @@ namespace Z0
 
         static Index<PointerWidth> PointerWidths;
 
+        static Index<OpWidthRecord> _OpWidths;
+
+        static Index<AsmBroadcastDef> _BroadcastDefs;
+
+        static ConstLookup<OpWidthCode,OpWidthRecord> _OpWidthLookup;
+
         static XedImport()
         {
+            widths(out _OpWidths);
+            broadcasts(out _BroadcastDefs);
+            lookup(out _OpWidthLookup);
             _BlockFields = Symbols.index<InstBlockField>().Kinds.ToArray();
             PointerWidthKinds = Symbols.index<PointerWidthKind>();
             PointerWidths = map(PointerWidthKinds.View, s => (PointerWidth)s.Kind);

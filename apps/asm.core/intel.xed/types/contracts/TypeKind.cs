@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedDataTypes
+    partial class XedTypes
     {
         [DataWidth(num5.Width)]
         public enum TypeKind : byte
@@ -19,9 +19,6 @@ namespace Z0
 
             Cell,
 
-            /// <summary>
-            /// Classifies a named literal
-            /// </summary>
             TypedLiteral,
 
             Operator,
@@ -38,9 +35,9 @@ namespace Z0
 
             BitLiteral,
 
-         Expression,
+            Expression,
 
-           IntLiteral,
+            IntLiteral,
 
             HexLiteral,
 

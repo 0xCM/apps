@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedDataTypes
+    partial class XedTypes
     {
         [StructLayout(StructLayout,Pack=1)]
         public readonly record struct CellType : IDataType<CellType>

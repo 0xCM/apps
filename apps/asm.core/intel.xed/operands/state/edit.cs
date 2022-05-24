@@ -15,7 +15,7 @@ namespace Z0
 
     partial class XedOperands
     {
-        partial struct Edit
+        public readonly struct Edit
         {
             [MethodImpl(Inline), Op]
             public static ref InstClass iclass(ref OperandState src)

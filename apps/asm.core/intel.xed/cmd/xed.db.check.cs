@@ -58,26 +58,5 @@ namespace Z0
             FileEmit(rDst.Emit(), m, AppDb.Logs().Targets(scope).Path($"{scope}.rows.{suffix}", FileKind.Txt), TextEncodingKind.Asci);
             FileEmit(cDst.Emit(), m, AppDb.Logs().Targets(scope).Path($"{scope}.cols.{suffix}", FileKind.Txt), TextEncodingKind.Asci);
         }
-
-
-        [CmdOp("memdb/check")]
-        Outcome CheckMemDb(CmdArgs args)
-        {
-            CheckMemDb((32,32));
-            CheckMemDb((12,12));
-            CheckMemDb((8,8));
-            CheckMemDb((256,256));
-
-            var size = 1073741824ul;
-            var mb = size/1024;
-
-            var db = XedDb.Store;
-            //var db = MemDb.open(AppDb.Targets("memdb").Path("runtime", FileKind.Bin), new Gb(1));
-            var path = XedPaths.InstDumpSource();
-            var data = path.ReadBytes();
-            var token = db.Store(data);
-
-           return true;
-        }
     }
 }

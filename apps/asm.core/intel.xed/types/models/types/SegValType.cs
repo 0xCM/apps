@@ -6,7 +6,7 @@ namespace Z0
 {
     using static XedRules;
 
-    partial class XedDataTypes
+    partial class XedTypes
     {
         /// <summary>
         /// Specifies the data typeof a <see cref='FieldSeg'/>

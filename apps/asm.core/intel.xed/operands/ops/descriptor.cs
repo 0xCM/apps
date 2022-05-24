@@ -14,8 +14,8 @@ namespace Z0
             const string RenderPattern = "{0,-6} {1,-3} {2,-10} {3,-12}";
             src.ElementType(out var et);
             src.WidthCode(out var w);
-            var bw = XedOperands.width(mode,w).Bits;
-            var wi = describe(w);
+            var bw = XedImport.width(mode,w).Bits;
+            var wi = XedImport.describe(w);
             if(XedOperands.reglit(src, out Register reg))
                 bw = XedOperands.width(reg);
 

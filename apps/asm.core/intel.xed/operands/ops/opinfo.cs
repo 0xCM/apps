@@ -26,9 +26,9 @@ namespace Z0
             if(widthcode(src, out wc))
             {
                 dst.WidthCode = wc;
-                var w = width(mode,wc);
+                var w = XedImport.width(mode,wc);
                 dst.BitWidth = w.Bits;
-                var wi = describe(wc);
+                var wi = XedImport.describe(wc);
                 dst.SegType = wi.SegType;
                 dst.ElementType = wi.ElementType;
                 dst.ElementWidth = wi.ElementWidth;

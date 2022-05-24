@@ -6,7 +6,7 @@ namespace Z0
 {
     using static XedRules;
 
-    partial class XedDataTypes
+    partial class XedTypes
     {
         [Free]
         public interface IFieldType : IDataType

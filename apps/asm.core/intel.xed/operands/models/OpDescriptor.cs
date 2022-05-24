@@ -20,14 +20,14 @@ namespace Z0
                 dst.Name = src.Name;
                 src.ElementType(out dst.ElementType);
                 src.WidthCode(out dst.Code);
-                var w = XedOperands.width(mode, dst.Code);
+                var w = XedImport.width(mode, dst.Code);
                 if(w.IsNonEmpty)
                     dst.BitWidth = w.Bits;
                 if(src.IsReg && src.RegLiteral(out dst.RegLit))
                     dst.BitWidth = XedOperands.width(dst.RegLit);
                 if(src.Nonterminal(out dst.Rule))
                     GprWidth.widths(dst.Rule, out dst.GprWidth);
-                var wi = XedOperands.describe(dst.Code);
+                var wi = XedImport.describe(dst.Code);
                 if(wi.SegType.CellCount > 1)
                     dst.Seg = new Segmentation(wi.SegType.DataWidth, wi.SegType.CellWidth, dst.ElementType.Indicator, wi.SegType.CellCount);
                 return dst;

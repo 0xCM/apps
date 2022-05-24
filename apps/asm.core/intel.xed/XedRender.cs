@@ -585,7 +585,7 @@ namespace Z0
             if(src == 0)
                 return EmptyString;
 
-            var bcasts = XedOperands.Views.BroadcastDefs;
+            var bcasts = XedImport.BroadcastDefs;
             var index = (byte)src;
             if(index < bcasts.Length)
                 return skip(bcasts,index).Symbol.Format();

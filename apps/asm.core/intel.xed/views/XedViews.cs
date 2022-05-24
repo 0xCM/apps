@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static XedRules;
     using static XedModels;
     using static XedImport;
@@ -128,6 +130,24 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => ref Load<InstImportBlocks>(XedViewKind.InstImports);
+        }
+
+        public ref readonly Index<AsmBroadcastDef> AsmBroadcastDefs
+        {
+            [MethodImpl(Inline)]
+            get => ref Load<Index<AsmBroadcastDef>>(XedViewKind.AsmBroadcastDefs);
+        }
+
+        public ref readonly Index<OpWidthRecord> OpWidths
+        {
+            [MethodImpl(Inline)]
+            get => ref Load<Index<OpWidthRecord>>(XedViewKind.OpWidths);
+        }
+
+        public ref readonly ConstLookup<OpWidthCode,OpWidthRecord> OpWidthLookup
+        {
+            [MethodImpl(Inline)]
+            get => ref Load<ConstLookup<OpWidthCode,OpWidthRecord>>(XedViewKind.OpWidthLookup);
         }
     }
 }

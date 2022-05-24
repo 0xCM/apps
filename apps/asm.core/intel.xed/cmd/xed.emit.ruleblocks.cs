@@ -9,6 +9,36 @@ namespace Z0
 
     partial class AsmCoreCmd
     {
+        [CmdOp("xed/emit/ruleblocks")]
+        void EmitRuleBlocks()
+        {
+            var known = Symbols.kinds<RuleName>().Where(x => x != 0).ToArray().Map(x => x.ToString()).ToHashSet();
+            var found = hashset<string>();
+            var dst = text.emitter();
+            var _blocks = blocks();
+            var count = _blocks.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var block = ref _blocks[i];
+                var seq = string.Format("{0:D3}",i);
+                var offset = string.Format("{0:D5}", block.Offset);
+                found.Add(block.TableName);
+                dst.AppendLine($"{seq} {block.TableKind} {string.Format(RP.slot(0,-32),block.TableName)} | {offset}");
+                for(var j=0; j<block.Data.Count; j++)
+                {
+                    dst.IndentLine(12, block.Data[j]);
+                }
+            }
+
+            FileEmit(dst.Emit(), count, XedPaths.RuleTarget("names", FS.Csv));
+
+            foreach(var f in found)
+            {
+                if(!known.Contains(f))
+                    Write($"Not known: {f}");
+            }
+        }
+
         public static Index<RuleTableBlock> blocks()
             => (blocks(RuleTableKind.ENC) + blocks(RuleTableKind.DEC)).Sort();
 
@@ -81,36 +111,5 @@ namespace Z0
             return dst.Sort();
         }
 
-        [CmdOp("xed/emit/ruleblocks")]
-        Outcome EmitRuleBlocks(CmdArgs args)
-        {
-            var known = Symbols.kinds<RuleName>().Where(x => x != 0).ToArray().Map(x => x.ToString()).ToHashSet();
-            var found = hashset<string>();
-            var dst = text.emitter();
-            var _blocks = blocks();
-            var count = _blocks.Count;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var block = ref _blocks[i];
-                var seq = string.Format("{0:D3}",i);
-                var offset = string.Format("{0:D5}", block.Offset);
-                found.Add(block.TableName);
-                dst.AppendLine($"{seq} {block.TableKind} {string.Format(RP.slot(0,-32),block.TableName)} | {offset}");
-                for(var j=0; j<block.Data.Count; j++)
-                {
-                    dst.IndentLine(12, block.Data[j]);
-                }
-            }
-
-            FileEmit(dst.Emit(), count, XedPaths.RuleTarget("names", FS.Csv));
-
-            foreach(var f in found)
-            {
-                if(!known.Contains(f))
-                    Write($"Not known: {f}");
-            }
-
-            return true;
-        }
     }
 }

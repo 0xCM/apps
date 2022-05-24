@@ -15,23 +15,23 @@ namespace Z0
         {
             if(pll)
             {
-                var dst = bag<Entry>();
+                var dst = bag<StateRecord>();
                 iter(src.Blocks, b => dst.Add(state(b)));
                 return new OperandStates(dst.Array().Sort());
             }
             else
             {
                 ref readonly var blocks = ref src.Blocks;
-                var buffer = alloc<Entry>(blocks.Count);
+                var buffer = alloc<StateRecord>(blocks.Count);
                 for(var i=0u; i<blocks.Count; i++ )
                     seek(buffer,i) = state(blocks[i]);
                 return new OperandStates(buffer);
             }
         }
 
-        public static Entry state(in DisasmBlock block)
+        public static StateRecord state(in DisasmBlock block)
         {
-            var dst = Entry.Empty;
+            var dst = StateRecord.Empty;
             dst.Asm = block.ParseAsm();
             dst.Ops = block.ParseOps();
             dst.Fields = block.ParseProps().ParseFields(out dst.State);

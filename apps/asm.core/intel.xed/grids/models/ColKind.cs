@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using TK = XedDataTypes.TypeKind;
+    using TK = XedTypes.TypeKind;
 
     partial class XedGrids
     {

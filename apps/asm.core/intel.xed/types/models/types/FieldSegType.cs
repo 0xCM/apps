@@ -6,7 +6,7 @@ namespace Z0
 {
     using static XedRules;
 
-    public partial class XedDataTypes
+    public partial class XedTypes
     {
         [StructLayout(StructLayout,Pack=1)]
         public readonly record struct FieldSegType : IFieldType<FieldSegType>

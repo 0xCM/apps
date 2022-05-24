@@ -37,8 +37,8 @@ namespace Z0
 
         public static InstOpClass opclass(MachineMode mode, in OpSpec spec)
         {
-            var desc = describe(spec.WidthCode);
-            var width = XedOperands.width(mode, spec.WidthCode);
+            var desc = XedImport.describe(spec.WidthCode);
+            var width = XedImport.width(mode, spec.WidthCode);
             var dst =  new InstOpClass {
                         Kind = spec.Kind,
                         BitWidth = width.Bits,

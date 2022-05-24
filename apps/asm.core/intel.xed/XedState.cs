@@ -7,14 +7,5 @@ namespace Z0
 {
     public partial class XedState : AppService<XedState>
     {
-        public readonly partial struct Edit
-        {
-
-        }
-
-        public readonly partial struct Code
-        {
-
-        }
     }
 }

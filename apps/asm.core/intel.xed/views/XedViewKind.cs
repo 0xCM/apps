@@ -35,6 +35,12 @@ namespace Z0
 
         FormImports,
 
-        InstImports
+        InstImports,
+
+        AsmBroadcastDefs,
+
+        OpWidths,
+
+        OpWidthLookup
     }
 }
