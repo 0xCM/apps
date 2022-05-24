@@ -10,11 +10,6 @@ namespace Z0
 
     partial class XedDisasmModels
     {
-
-    }
-
-    partial class XedDisasm
-    {
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public record struct OpDetail
         {

@@ -7,6 +7,7 @@ namespace Z0
 {
     using static XedModels;
 
+
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential, Pack=1)]

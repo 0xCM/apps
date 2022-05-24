@@ -4,12 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedDisasm;
+
     partial class XedDisasmModels
-    {
-
-    }
-
-    partial class XedDisasm
     {
         public class XedDisasmSummary
         {
