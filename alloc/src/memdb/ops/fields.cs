@@ -4,12 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Free]
-    public interface IArchiveMonitor : IMonitor<FS.FolderPath>
+    partial class MemDb
     {
-        FS.FolderPath Root {get;}
-
-        FS.FolderPath IMonitor<FS.FolderPath>.Subject
-            => Root;
+        public static ClrRecordFields fields(Type a, Type b)
+            => (Tables.fields(a).Index() + Tables.fields(b).Index()).Storage;
     }
 }

@@ -7,8 +7,6 @@ namespace Z0
     using System.Threading.Tasks;
     using System.IO;
 
-    public delegate void FileChanged(FileChange description);
-
     public class ArchiveMonitor : IArchiveMonitor
     {
         public static IArchiveMonitor start(FS.FolderPath path, FileChanged listener, bool recursive = true, string filter = null)

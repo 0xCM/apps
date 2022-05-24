@@ -35,7 +35,6 @@ namespace Z0
         ref readonly T First
             => ref first(View);
 
-
         string ITextual.Format()
         {
             var dst = text.buffer();

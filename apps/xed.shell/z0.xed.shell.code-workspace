@@ -23,6 +23,9 @@
 		},
 		{
 			"path": "..\\intel.intrinsics"
+		},
+		{
+			"path": "..\\..\\alloc"
 		}
 	],
 	"settings": {}

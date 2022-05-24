@@ -10,6 +10,8 @@ namespace Z0
     {
         WsUnserviced Unserviced;
 
+        AppServices AppSvc => Service(Wf.AppServices);
+
         protected override void Initialized()
         {
             Unserviced = WsUnserviced.create(Ws);
@@ -17,9 +19,6 @@ namespace Z0
 
         public FS.FolderPath ProjectData()
             => Unserviced.ProjectData();
-
-        // public FileCatalog Catalog(IProjectWs ws)
-        //     => FileCatalog.load(ws);
 
         public IProjectWs Project(FS.FolderPath root, ProjectId id)
             => Unserviced.Project(root, id);
@@ -63,7 +62,7 @@ namespace Z0
             => project.OutDir().Clear(true);
 
         void EmitCatalog(IProjectWs project, FileCatalog src)
-            => TableEmit(src.Entries().View, FileRef.RenderWidths, ProjectDb.ProjectTable<FileRef>(project));
+            => AppSvc.TableEmit(src.Entries(), ProjectDb.ProjectTable<FileRef>(project));
 
         public FileCatalog EmitCatalog(WsContext context)
         {

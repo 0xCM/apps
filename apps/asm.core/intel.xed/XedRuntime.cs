@@ -12,6 +12,8 @@ namespace Z0
     using static XedModels;
     using static core;
     using static XedOperands;
+    using static MemDb;
+
     using I = XedViewKind;
 
     public partial class XedRuntime : AppService<XedRuntime>
@@ -110,8 +112,8 @@ namespace Z0
 
         void CalcTypeTables()
         {
-            Views.Store(I.TypeTables, XedRules.CalcTypeTables(Alloc));
-            Views.Store(I.TypeTableRows, XedRules.CalcTypeTableRows(Views.TypeTables));
+            Views.Store(I.TypeTables, MemDb.typetables(Alloc, typeof(XedDb).Assembly,"xed"));
+            Views.Store(I.TypeTableRows, MemDb.rows(Views.TypeTables));
         }
 
         void RunCalcs()

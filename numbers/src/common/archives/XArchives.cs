@@ -6,6 +6,9 @@ namespace Z0
 {
     partial class XTend
     {
+        public static IRuntimeArchive RuntimeArchive(this Assembly src)
+            => Z0.RuntimeArchive.create(src);
+
         public static ByteSize TotalSize(this HexDataRow[] src)
             => src.Select(x => x.Data.Count).Sum();
 

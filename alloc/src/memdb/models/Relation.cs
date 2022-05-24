@@ -30,7 +30,7 @@ namespace Z0
             public uint Id
             {
                 [MethodImpl(Inline)]
-                get => Bitfields.join(Source,Target);
+                get => (uint)Source | (uint)Target << 16;
             }
 
             public Arrow<ushort> Arrow
@@ -51,7 +51,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public static explicit operator Relation(uint id)
             {
-                Bitfields.split(id, out var src, out var dst);
+                split(id, out var src, out var dst);
                 return new Relation(src,dst);
             }
 

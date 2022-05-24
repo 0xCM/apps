@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class MemDb
+    partial class MemDb
     {
-        [MethodImpl(Inline), Op]
-        public static DbDataType type(uint seq, asci32 name, asci32 primitive, DataSize size, asci32 refinement = default)
-            => new DbDataType(seq, name, primitive, size, !refinement.IsNull, refinement);
-
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public readonly record struct DbDataType : IType<DbDataType>
         {

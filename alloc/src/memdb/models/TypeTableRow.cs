@@ -9,9 +9,7 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1), Record(TableId)]
         public record struct TypeTableRow : IRow<TypeTableRow>
         {
-            public const ObjectKind ObjKind = ObjectKind.TypeTableRow;
-
-            public const string TableId = "typetables";
+            const string TableId = "typetables";
 
             [Render(8)]
             public uint Seq;

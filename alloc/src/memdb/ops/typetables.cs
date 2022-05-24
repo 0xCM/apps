@@ -1,36 +1,38 @@
 //-----------------------------------------------------------------------------
-// Derivative Work based on https://github.com/intelxed/xed
-// Author : Chris Moore
-// License: https://github.com/intelxed/xed/blob/main/LICENSE
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
     using static core;
-    using static MemDb;
 
-    partial class XedRules
+    partial class MemDb
     {
-        public static Index<TypeTableRow> CalcTypeTableRows(Index<TypeTable> src)
+        [MethodImpl(Inline), Op]
+        public static DbDataType type(uint seq, asci32 name, asci32 primitive, DataSize size, asci32 refinement = default)
+            => new DbDataType(seq, name, primitive, size, !refinement.IsNull, refinement);
+
+        public static Index<TypeTableRow> rows(Index<TypeTable> src)
             => src.SelectMany(x => x.Rows).Sort().Resequence();
 
-        public static Index<TypeTable> CalcTypeTables(IStringAllocProvider alloc)
+        public static Index<TypeTable> typetables(IStringAllocProvider alloc, Assembly src, string group)
         {
-            var types = MeasuredType.symbolic(typeof(XedDb).Assembly, "xed");
+            var types = MeasuredType.symbolic(src, group);
             Index<TypeTable> tables = core.alloc<TypeTable>(types.Count);
             for(var i=0; i<types.Count; i++)
-                tables[i] = CalcTypeTable(alloc, types[i]);
+                tables[i] = MemDb.typetable(alloc, types[i]);
             return tables.Sort();
         }
 
-        static TypeTable CalcTypeTable(IStringAllocProvider alloc, MeasuredType type)
+        public static TypeTable typetable(IStringAllocProvider alloc, MeasuredType type)
         {
             var symbols = Symbols.syminfo(type.Definition);
-            Index<TypeTableRow> rows = core.alloc<TypeTableRow>(symbols.Count);
+            Index<TypeTableRow> rows = alloc<TypeTableRow>(symbols.Count);
             for(var j=0; j<symbols.Count; j++)
             {
                 ref readonly var sym = ref symbols[j];
                 ref var row = ref rows[j];
-                row.Seq = DbObjects.NextSeq(ObjectKind.TypeTableRow);
+                row.Seq = NextSeq(ObjectKind.TypeTableRow);
                 row.TypeName = alloc.Label(type.Definition.Name);
                 row.LiteralName = alloc.Label(sym.Name.Text);
                 row.Position = (ushort)sym.Index;
@@ -42,7 +44,7 @@ namespace Z0
             }
 
             return new TypeTable(
-                DbObjects.NextSeq(ObjectKind.TypeTable),
+                NextSeq(ObjectKind.TypeTable),
                 alloc.Label(type.Definition.Name),
                 type.Size,
                 rows

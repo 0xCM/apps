@@ -6,16 +6,11 @@ namespace Z0
 {
     partial class MemDb
     {
-        public class DbSvc
+        [MethodImpl(Inline), Op]
+        static void split(uint src, out ushort a, out ushort b)
         {
-            readonly DbObjects _Objects;
-
-            readonly MemDb Db;
-
-            DbSvc(MemDb db)
-            {
-                Db = db;
-            }
+            a = (ushort)(src & 0x0000_FFFF);
+            b = (ushort)((src & 0xFFFF_0000) >> 16);
         }
     }
 }

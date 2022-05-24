@@ -8,7 +8,7 @@ namespace Z0
 
     partial class MemDb
     {
-        public static ClrRecordFields fields(Type a, Type b)
-            => (Tables.fields(a).Index() + Tables.fields(b).Index()).Storage;
+        public static Grid<T> grid<T>(Dim2<uint> shape)
+            => new Grid<T>(new RowGrid<T>(shape), new ColGrid<T>(shape));
     }
 }

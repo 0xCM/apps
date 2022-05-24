@@ -8,6 +8,14 @@ namespace Z0
 
     public partial class MemDb : IMemDb
     {
+        const byte ObjTypeCount = 24;
+
+        static Index<ObjectKind,uint> ObjSeqSource = sys.alloc<uint>(ObjTypeCount);
+
+        [MethodImpl(Inline)]
+        public static uint NextSeq(ObjectKind kind)
+            => inc(ref ObjSeqSource[kind]);
+
         static readonly ConcurrentDictionary<FS.FilePath, MemDb> Opened = new();
 
         [MethodImpl(Inline)]

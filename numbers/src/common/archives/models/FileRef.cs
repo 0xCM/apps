@@ -7,18 +7,21 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
     public readonly struct FileRef : IComparable<FileRef>
     {
-        public const string TableId = "files.index";
+        const string TableId = "files.index";
 
-        public const byte FieldCount = 4;
-
+        [Render(8)]
         public readonly uint Seq;
 
+        [Render(12)]
         public readonly Hex32 DocId;
 
+        [Render(12)]
         public readonly FileKind Kind;
 
+        [Render(16)]
         public readonly Timestamp Timestamp;
 
+        [Render(1)]
         public readonly FS.FilePath Path;
 
         [MethodImpl(Inline)]
@@ -60,8 +63,6 @@ namespace Z0
 
         public override string ToString()
             => Format();
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,16,24,1};
 
         public static FileRef Empty => default;
     }
