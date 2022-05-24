@@ -12,6 +12,17 @@ namespace Z0
 
     public partial class ProcessContextPipe : AppService<ProcessContextPipe>
     {
+        public Timestamp EmitContext()
+        {
+            var ts = core.timestamp();
+            var process = Process.GetCurrentProcess();
+            var summaries = EmitPartitions(process, ts);
+            var details = EmitRegions(process, ts);
+            var archive = DumpArchive.create();
+            EmitDump(process, archive.DumpPath(process, ts));
+            return ts;
+        }
+
         public ProcessContextPaths ContextPaths {get; private set;}
 
         protected override void OnInit()

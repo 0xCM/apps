@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Diagnostics;
-
     using Z0.Asm;
 
     using static core;
@@ -17,33 +14,36 @@ namespace Z0
 
         ApiImmEmitter ImmEmitter => Service(Wf.ImmEmitter);
 
+        ProcessContextPipe Pipe => Service(Wf.ProcessContextPipe);
+
+        ApiCatalogs ApiCatalogs => Service(Wf.ApiCatalogs);
+
         [Op]
         public ReadOnlySpan<AsmHostRoutines> Capture(ReadOnlySpan<IApiHost> hosts, FS.FolderPath dst)
         {
-            var capture = Wf.ApiCapture();
             var hostcount = hosts.Length;
-            var routines = list<AsmHostRoutines>();
+            var buffer = list<AsmHostRoutines>();
             for(var i=0; i<hostcount; i++)
-                routines.Add(capture.CaptureHost(skip(hosts,i), dst));
-            return routines.ViewDeposited();
+                buffer.Add(ApiCapture.CaptureHost(skip(hosts,i), dst));
+            return buffer.ViewDeposited();
         }
 
         public void EmitImm(Index<PartId> parts, FS.FolderPath root)
         {
-            var flow = Wf.Running(nameof(EmitImm));
-            Wf.ImmEmitter().Emit(parts, root);
+            var flow = Running(nameof(EmitImm));
+            ImmEmitter.Emit(parts, root);
             Wf.Ran(flow);
         }
 
         public void EmitImm(ReadOnlySpan<ApiHostUri> hosts, FS.FolderPath root, Delegates.SpanReceiver<AsmRoutine> receiver = null)
         {
             var flow = Running(nameof(EmitImm));
-            Wf.ImmEmitter().Emit(hosts, root, receiver);
+            ImmEmitter.Emit(hosts, root, receiver);
             Ran(flow);
         }
 
         public Index<AsmHostRoutines> Capture(Index<PartId> parts)
-            => Capture(Wf.ApiCatalog.PartIdentities, DefaultOptions);
+            => Capture(ApiRuntimeCatalog.PartIdentities, DefaultOptions);
 
         static ApiMembers members(Index<AsmHostRoutines> src)
             => ApiMembers.create(src.SelectMany(x => x.Members));
@@ -58,10 +58,7 @@ namespace Z0
                 EmitImm(parts);
 
             if((options & CaptureWorkflowOptions.CaptureContext) != 0)
-            {
-                var ts = EmitContext();
-                EmitRebase(members(captured), ts);
-            }
+                EmitRebase(members(captured), Pipe.EmitContext());
 
             Ran(flow);
             return captured;
@@ -69,7 +66,7 @@ namespace Z0
 
         public Index<AsmHostRoutines> Capture(ReadOnlySpan<ApiHostUri> hosts, CaptureWorkflowOptions options)
         {
-            using var flow = Wf.Running(nameof(Capture));
+            var flow = Running(nameof(Capture));
             Status(Seq.enclose(hosts).Format());
             var captured = CaptureHosts(hosts);
 
@@ -77,11 +74,9 @@ namespace Z0
                 EmitImm(hosts);
 
             if((options & CaptureWorkflowOptions.CaptureContext) != 0)
-            {
-                var ts = EmitContext();
-                EmitRebase(AsmHostRoutines.members(captured), ts);
-            }
+                EmitRebase(AsmHostRoutines.members(captured), Pipe.EmitContext());
 
+            Ran(flow);
             return captured;
         }
 
@@ -122,22 +117,21 @@ namespace Z0
         {
             var rebasing = Running(nameof(EmitRebase));
             var dst = Db.ContextTable<ApiCatalogEntry>(ts);
-            var entries = Wf.ApiCatalogs().EmitApiCatalog(members, dst);
+            var entries = ApiCatalogs.EmitApiCatalog(members, dst);
             Ran(rebasing);
         }
 
-        Timestamp EmitContext()
-        {
-            var ts = core.timestamp();
-            var dir = Db.CaptureContextRoot();
-            var process = Process.GetCurrentProcess();
-            var pipe = Wf.ProcessContextPipe();
-            var summaries = pipe.EmitPartitions(process, ts);
-            var details = pipe.EmitRegions(process, ts);
-            var archive = DumpArchive.create();
-            pipe.EmitDump(process, archive.DumpPath(process, ts));
-            return ts;
-        }
+        // Timestamp EmitContext()
+        // {
+        //     var ts = core.timestamp();
+        //     var process = Process.GetCurrentProcess();
+        //     var pipe = Wf.ProcessContextPipe();
+        //     var summaries = pipe.EmitPartitions(process, ts);
+        //     var details = pipe.EmitRegions(process, ts);
+        //     var archive = DumpArchive.create();
+        //     pipe.EmitDump(process, archive.DumpPath(process, ts));
+        //     return ts;
+        // }
 
         const CaptureWorkflowOptions DefaultOptions = CaptureWorkflowOptions.CaptureContext | CaptureWorkflowOptions.EmitImm;
     }
