@@ -7,10 +7,7 @@ namespace Z0
 {
     using System.Diagnostics;
     using System.IO;
-    using System.Runtime.InteropServices;
     using System.Text;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     using Windows;
 

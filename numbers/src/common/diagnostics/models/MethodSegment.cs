@@ -11,20 +11,28 @@ namespace Z0
 
         public const byte FieldCount = 8;
 
+        [Render(16)]
         public uint MethodIndex;
 
+        [Render(16)]
         public MemoryAddress EntryPoint;
 
+        [Render(16)]
         public uint SegIndex;
 
+        [Render(16)]
         public Address16 SegSelector;
 
+        [Render(16)]
         public ByteSize SegSize;
 
+        [Render(16)]
         public MemoryAddress SegStart;
 
+        [Render(16)]
         public MemoryAddress SegEnd;
 
+        [Render(1)]
         public utf8 Uri;
 
         public static ReadOnlySpan<byte> RenderWidths

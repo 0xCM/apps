@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct AddressBankEntry : IRecord<AddressBankEntry>
+    public struct AddressBankEntry
     {
         public const string TableId = "address-bank.entry";
 

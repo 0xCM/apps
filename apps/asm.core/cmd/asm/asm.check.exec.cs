@@ -4,15 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
+    using Asm;
 
     using static core;
     using static CodeExecCases;
 
-    partial class AsmCmdProvider
+    partial class AsmCoreCmd
     {
         [CmdOp("asm/check/exec")]
-        Outcome CheckCodeExec(CmdArgs args)
+        void CheckCodeExec()
         {
             var result = Outcome.Success;
             using var buffer = CodeBuffer.allocate();
@@ -20,7 +20,6 @@ namespace Z0
             CheckUnaryOpExec(buffer);
             CheckUnaryFuncExec(buffer);
             CheckFxPointers();
-            return result;
         }
 
         static unsafe string fx1()
@@ -109,6 +108,5 @@ namespace Z0
 
         public static ReadOnlySpan<byte> vadd_128x8u
             => new byte[22]{0xc5,0xf8,0x77,0x66,0x90,0xc5,0xf9,0x10,0x02,0xc4,0xc1,0x79,0xfc,0x00,0xc5,0xf9,0x11,0x01,0x48,0x8b,0xc1,0xc3};
-
     }
 }

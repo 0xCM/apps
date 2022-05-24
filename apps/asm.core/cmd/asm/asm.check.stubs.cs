@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static core;
 
     using K = Asm.AsmOcTokenKind;
@@ -89,15 +91,81 @@ namespace Z0
             return 0;
         }
 
-        [CmdOp("asm/check/stubs")]
-        Outcome CheckStubDispatch(CmdArgs args)
+
+        [CmdOp("asm/stubs/check")]
+        void CheckStubDispatch()
         {
             var stubs = Jumps;
             if(stubs.Create<ulong>(0))
                 Write(stubs.EncodeDispatch(0).FormatHexData());
-            return true;
+
+            var dispatcher = X86Dispatcher.create(Wf);
+            if(dispatcher.Create<ulong>(0))
+            {
+                var encoded = dispatcher.EncodeDispatch(0);
+                Write(encoded.FormatHexData());
+            }
         }
 
+        [Free]
+        public interface ICalc64
+        {
+            ulong Add(ulong a, ulong b);
+
+            ulong Sub(ulong a, ulong b);
+
+            ulong Mul(ulong a, ulong b);
+
+            ulong Mod(ulong a, ulong b);
+        }
+
+        public readonly struct Calc64 : ICalc64
+        {
+            [Op]
+            public ulong Add(ulong a, ulong b)
+                => math.add(a,b);
+
+            [Op]
+            public ulong Mod(ulong a, ulong b)
+                => math.mod(a,b);
+
+            [Op]
+            public ulong Mul(ulong a, ulong b)
+                => math.mul(a,b);
+
+            [Op]
+            public ulong Sub(ulong a, ulong b)
+                => math.sub(a,b);
+        }
+
+        [CmdOp("asm/stubs/find")]
+        Outcome FindJumpStubs(CmdArgs args)
+        {
+            void Api()
+            {
+                using var symbols = Alloc.symbols();
+                //var stubs = CodeCollector.LoadCaptured(symbols, ApiHostUri.from(typeof(cpu)));
+                // foreach(var stub in stubs)
+                // {
+
+                // }
+            }
+
+            void Search()
+            {
+                using var symbols = Alloc.symbols();
+                var host = typeof(Calc64);
+                var contract = typeof(ICalc64);
+                //var stubs = CodeCollector.CollectLive(symbols,host);
+                //Write(stubs.View, LiveMemberCode.RenderWidths);
+                var imap = Clr.imap(host,contract);
+                Write(imap.Format());
+            }
+
+            Api();
+
+            return true;
+        }
 
         public class TableInfo
         {

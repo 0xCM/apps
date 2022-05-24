@@ -4,13 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static core;
 
-    partial class AsmCmdProvider
+    partial class AsmCoreCmd
     {
-        [CmdOp("asm/check/hexpack")]
+        [CmdOp("asm/check/objhex")]
+        Outcome CheckObjHex(CmdArgs args)
+        {
+            var project = Project();
+            var context = WsContext.create(project);
+            return Coff.CheckObjHex(context);
+        }
+
+        [CmdOp("asm/check/hex")]
         unsafe Outcome CheckHexPack(CmdArgs args)
         {
             var result = Outcome.Success;

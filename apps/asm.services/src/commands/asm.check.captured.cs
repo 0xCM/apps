@@ -35,7 +35,6 @@ namespace Z0
             Require.equal((ByteSize)size, bank.CodeSize);
         }
 
-
         [CmdOp("asm/check/capture-spec")]
         Outcome CheckCapturedSpec(CmdArgs args)
         {
@@ -73,10 +72,8 @@ namespace Z0
                 else
                 {
                     blockmem++;
-
                     flair = FlairKind.Data;
                 }
-
 
                 Write(string.Format(RenderPattern, i, blockmem, target, size, delta, blocksz, token.Host, token.Sig), flair);
             }

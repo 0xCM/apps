@@ -16,17 +16,9 @@ namespace Z0
 
         ApiCodeBanks ApiCodeBanks => Service(Wf.ApiCodeBanks);
 
-        EncodingCollector CodeCollector => Service(Wf.EncodingCollector);
-
-        WsProjects Projects => Service(Wf.WsProjects);
-
         CoffServices CoffServices => Service(Wf.CoffServices);
 
         IProjectProvider _ProjectProvider;
-
-        CsLang CsLang => Service(Wf.CsLang);
-
-        AppDb AppDb => Service(Wf.AppDb);
 
         public AsmCmdProvider With(IProjectProvider provider)
         {

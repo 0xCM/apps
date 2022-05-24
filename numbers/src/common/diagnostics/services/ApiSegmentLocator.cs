@@ -61,13 +61,13 @@ namespace Z0
                 }
                 if(!matched)
                 {
-                    Wf.Error(string.Format("Could not locate the segment containing the entry point {0} for {1}", method.EntryPoint, method.Uri));
+                    Error(string.Format("Could not locate the segment containing the entry point {0} for {1}", method.EntryPoint, method.Uri));
                     break;
                 }
             }
 
-            var located = TableEmit(@readonly(buffer), MethodSegment.RenderWidths, Db.Table<MethodSegment>(dir));
-            Ran(flow, LocatedSegments.Format(located, count));
+            TableEmit(@readonly(buffer), Db.Table<MethodSegment>(dir));
+            Ran(flow, LocatedSegments.Format(buffer.Length, count));
             return locations.Array().Sort();
         }
     }

@@ -27,6 +27,8 @@ namespace Z0
             return Instance;
         }
 
+        CoffServices Coff => Wf.CoffServices();
+
         XedDocs XedDocs => CmdRt.XedDocs;
 
         XedPaths XedPaths => CmdRt.XedPaths;
@@ -52,6 +54,8 @@ namespace Z0
         protected override IWsCmdRunner CmdRunner
             => Xed.CmdRunner;
 
+        IProjectWs Project()
+            => CmdRunner.Project();
 
         [CmdOp("checks/run")]
         void ChecksExec()

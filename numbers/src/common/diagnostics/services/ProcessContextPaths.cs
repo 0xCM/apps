@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Diagnostics;
-
-    using static Root;
-
     public readonly struct ProcessContextPaths
     {
         public FS.FolderPath Root {get;}

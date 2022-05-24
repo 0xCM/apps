@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    public readonly struct AddressBankIndex : ITextual
+    public readonly struct AddressBankIndex
     {
         public ushort Selector {get;}
 

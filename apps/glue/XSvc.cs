@@ -71,14 +71,6 @@ namespace Z0
             => Z0.PdbReader.create(wf,src);
 
         [Op]
-        public static ProcessContextPipe ProcessContextPipe(this IWfRuntime wf)
-            => Z0.ProcessContextPipe.create(wf);
-
-        [Op]
-        public static RegionProcessor RegionProcessor(this IWfRuntime wf)
-            => Z0.RegionProcessor.create(wf);
-
-        [Op]
         public static PdbIndex PdbIndex(this IWfRuntime wf)
             => Z0.PdbIndex.create(wf);
 

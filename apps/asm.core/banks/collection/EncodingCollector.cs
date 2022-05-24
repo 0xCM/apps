@@ -91,14 +91,13 @@ namespace Z0
         public Outcome Collect()
         {
             using var symbols = Alloc.symbols();
-            var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
+            var members = Collect(symbols, MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
             Emit(members, DataPaths.Path(FS.Csv), DataPaths.Path(FS.Hex));
             return true;
         }
 
         Index<CollectedEncoding> Collect(SymbolDispenser symbols, ReadOnlySpan<MethodEntryPoint> src)
             => DivineCode(CollectRaw(symbols, src));
-
 
         Index<CollectedEncoding> DivineCode(ReadOnlySpan<RawMemberCode> src)
         {
@@ -425,7 +424,9 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var candidate = ref skip(candidates,i);
-                var location = ClrJit.jit(candidate);
+                var target = ClrJit.jit(candidate);
+
+
                 //var target = ApiCodeCollector.GetTargetAddress(ClrJit.jit(candidate), out _);
             }
 
@@ -488,6 +489,7 @@ namespace Z0
 
         static unsafe MemorySeg AccessorCode(MemoryAddress target)
             => new MemorySeg(target, 24);
+
         class EncodedMembers
         {
             readonly ConcurrentDictionary<uint,CollectedEncoding> Data;

@@ -54,10 +54,6 @@ namespace Z0
             => Z0.SegmentTraverser.create(wf);
 
         [Op]
-        public static ApiSegmentLocator ApiSegmentLocator(this IWfRuntime wf)
-            => Z0.ApiSegmentLocator.create(wf);
-
-        [Op]
         public static AsmAnalyzer AsmAnalyzer(this IWfRuntime wf)
             => Z0.AsmAnalyzer.create(wf);
 
