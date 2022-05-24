@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static XedRules;
+    using static XedDisasmModels;
 
     partial class XedDisasm
     {
@@ -19,7 +20,7 @@ namespace Z0
             {
                 Fields = fields;
                 State = OperandState.Empty;
-                Summary = SummaryRow.Empty;
+                Summary = XedDisasmRow.Empty;
                 Lines = DisasmBlock.Empty;
                 Asm = AsmInfo.Empty;
                 Props = InstFieldValues.Empty;
@@ -32,7 +33,7 @@ namespace Z0
             {
                 Fields.Clear();
                 State = OperandState.Empty;
-                Summary = SummaryRow.Empty;
+                Summary = XedDisasmRow.Empty;
                 Lines = DisasmBlock.Empty;
                 Asm = AsmInfo.Empty;
                 Props = InstFieldValues.Empty;
@@ -47,7 +48,7 @@ namespace Z0
 
             public DisasmBlock Lines;
 
-            public SummaryRow Summary;
+            public XedDisasmRow Summary;
 
             public AsmInfo Asm;
 

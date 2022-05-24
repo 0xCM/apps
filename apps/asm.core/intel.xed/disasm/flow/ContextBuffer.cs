@@ -20,7 +20,7 @@ namespace Z0
 
             DetailBlock _Block;
 
-            Summary _Summary;
+            XedDisasmSummary _Summary;
 
             AsmInfo _AsmInfo;
 
@@ -41,7 +41,7 @@ namespace Z0
                 => ref _Block;
 
             [MethodImpl(Inline)]
-            public ref Summary Summary()
+            public ref XedDisasmSummary Summary()
                 => ref _Summary;
 
             [MethodImpl(Inline)]
@@ -88,7 +88,7 @@ namespace Z0
                 _FieldKinds = alloc<FieldKind>(Fields.MaxCount);
                 _DataFile = XedDisasm.DataFile.Empty;
                 _Block = DetailBlock.Empty;
-                _Summary = XedDisasm.Summary.Empty;
+                _Summary = XedDisasm.XedDisasmSummary.Empty;
                 _AsmInfo = XedRules.AsmInfo.Empty;
                 _Props = InstFieldValues.Empty;
                 _Encoding = EncodingExtract.Empty;

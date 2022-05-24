@@ -4,8 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedDisasm;
     using Asm;
+
+    using static XedDisasm;
 
     public readonly struct AsmObjPaths
     {
@@ -48,7 +49,7 @@ namespace Z0
             => AsmTargets(ws).Table<AsmInstructionRow>(ws.Project);
 
         public FS.FilePath AsmEncodingTable(IProjectWs ws)
-            => AsmTargets(ws).Table<SummaryRow>(ws.Project);
+            => AsmTargets(ws).Table<XedDisasmRow>(ws.Project);
 
         public FS.FilePath ObjBlockPath(IProjectWs ws)
             => AsmTargets(ws).Table<ObjBlock>(ws.Project);

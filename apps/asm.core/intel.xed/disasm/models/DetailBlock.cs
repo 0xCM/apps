@@ -9,6 +9,12 @@ namespace Z0
 
     using static XedRules;
     using static XedModels;
+    using static XedDisasmModels;
+
+    partial class XedDisasmModels
+    {
+
+    }
 
     partial class XedDisasm
     {
@@ -16,12 +22,12 @@ namespace Z0
         {
             public DetailBlockRow DetailRow;
 
-            public readonly SummaryLines SummaryLines;
+            public readonly XedDisasmLines SummaryLines;
 
             public readonly Instruction Instruction;
 
             [MethodImpl(Inline)]
-            public DetailBlock(DetailBlockRow detail, in SummaryLines lines, in Instruction inst)
+            public DetailBlock(DetailBlockRow detail, in XedDisasmLines lines, in Instruction inst)
             {
                 DetailRow = detail;
                 SummaryLines = lines;
@@ -38,7 +44,7 @@ namespace Z0
                 get => ref DetailRow.Ops;
             }
 
-            public ref readonly SummaryRow SummaryRow
+            public ref readonly XedDisasmRow SummaryRow
             {
                 [MethodImpl(Inline)]
                 get => ref SummaryLines.Row;
@@ -143,7 +149,7 @@ namespace Z0
             public int CompareTo(DetailBlock src)
                 => DetailRow.CompareTo(src.DetailRow);
 
-            public static DetailBlock Empty => new DetailBlock(DetailBlockRow.Empty, SummaryLines.Empty, Instruction.Empty);
+            public static DetailBlock Empty => new DetailBlock(DetailBlockRow.Empty, XedDisasmLines.Empty, Instruction.Empty);
         }
     }
 }

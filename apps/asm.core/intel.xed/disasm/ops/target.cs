@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+
     partial class XedDisasm
     {
         public static ITarget target()

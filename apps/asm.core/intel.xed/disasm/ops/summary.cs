@@ -7,18 +7,19 @@ namespace Z0
     using Asm;
 
     using static core;
+    using static XedDisasmModels;
 
     partial class XedDisasm
     {
-        public static Summary summary(WsContext context, in DataFile src)
+        public static XedDisasmSummary summary(WsContext context, in DataFile src)
         {
-            var lines = bag<SummaryLines>();
+            var lines = bag<XedDisasmLines>();
             summary(src.Source, context.Root(src.Source), src.Blocks, lines).Require();
             var sorted = lines.ToArray().Sort();
-            return new Summary(src, src.Origin, resequence(sorted.Select(line => line.Row)), sorted);
+            return new XedDisasmSummary(src, src.Origin, resequence(sorted.Select(line => line.Row)), sorted);
         }
 
-        static Outcome summary(in FileRef src, in FileRef origin, Index<DisasmBlock> blocks, ConcurrentBag<SummaryLines> dst)
+        static Outcome summary(in FileRef src, in FileRef origin, Index<DisasmBlock> blocks, ConcurrentBag<XedDisasmLines> dst)
         {
             var lines = NumberedLines(blocks);
             var expr = expressions(blocks);
@@ -29,7 +30,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var line = ref lines[i];
-                var record = new SummaryRow();
+                var record = new XedDisasmRow();
                 result = DisasmParse.parse(line.Content, out record.Encoded);
                 if(result.Fail)
                     return result;

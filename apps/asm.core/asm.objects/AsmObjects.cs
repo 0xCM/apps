@@ -11,6 +11,9 @@ namespace Z0
 
     public partial class AsmObjects : AppService<AsmObjects>
     {
+        public static Outcome parse(WsContext context, in FileRef src, out Index<ObjDumpRow> dst)
+            => new ObjDumpParser().ParseSource(context, src, out dst);
+
         AppDb AppDb => Service(Wf.AppDb);
 
         AppServices AppSvc => Service(Wf.AppServices);

@@ -5,16 +5,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    partial class XedDisasmModels
+    {
+
+    }
+
     partial class XedDisasm
     {
         public class Document
         {
-            public readonly Summary Summary;
+            public readonly XedDisasmSummary Summary;
 
             public readonly Detail Detail;
 
             [MethodImpl(Inline)]
-            public Document(Summary summary, Detail detail)
+            public Document(XedDisasmSummary summary, Detail detail)
             {
                 Summary = summary;
                 Detail = detail;
@@ -33,14 +38,14 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public void Deconstruct(out Summary s, out Detail d)
+            public void Deconstruct(out XedDisasmSummary s, out Detail d)
             {
                 s = Summary;
                 d = Detail;
             }
 
             [MethodImpl(Inline)]
-            public static implicit operator Document((Summary s, Detail d) src)
+            public static implicit operator Document((XedDisasmSummary s, Detail d) src)
                 => new Document(src.s,src.d);
         }
     }

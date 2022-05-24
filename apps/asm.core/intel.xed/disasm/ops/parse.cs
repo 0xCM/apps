@@ -7,10 +7,11 @@ namespace Z0
     using static core;
     using static XedRules;
     using static XedModels;
+    using static XedDisasmModels;
 
     partial class XedDisasm
     {
-        public static Outcome parse(in SummaryLines src, out Instruction dst)
+        public static Outcome parse(in XedDisasmLines src, out Instruction dst)
         {
             ref readonly var block = ref src.Block;
             var props = block.ParseProps();

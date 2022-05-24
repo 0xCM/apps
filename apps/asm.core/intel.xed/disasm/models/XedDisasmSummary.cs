@@ -4,9 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    partial class XedDisasmModels
+    {
+
+    }
+
     partial class XedDisasm
     {
-        public class Summary
+        public class XedDisasmSummary
         {
             public readonly uint RowCount;
 
@@ -14,11 +19,11 @@ namespace Z0
 
             public readonly FileRef Origin;
 
-            public readonly Index<SummaryRow> Rows;
+            public readonly Index<XedDisasmRow> Rows;
 
-            public readonly Index<SummaryLines> LineIndex;
+            public readonly Index<XedDisasmLines> LineIndex;
 
-            internal Summary(in DataFile src, in FileRef origin, Index<SummaryRow> rows, SummaryLines[] lines)
+            internal XedDisasmSummary(in DataFile src, in FileRef origin, Index<XedDisasmRow> rows, XedDisasmLines[] lines)
             {
                 DataFile = src;
                 Origin = origin;
@@ -33,13 +38,13 @@ namespace Z0
                 get => DataFile.Source;
             }
 
-            public ref SummaryRow this[int i]
+            public ref XedDisasmRow this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Rows[i];
             }
 
-            public ref SummaryRow this[uint i]
+            public ref XedDisasmRow this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Rows[i];
@@ -48,8 +53,8 @@ namespace Z0
             public override int GetHashCode()
                 => DataFile.Source.GetHashCode();
 
-            public static Summary Empty
-                => new Summary(DataFile.Empty, FileRef.Empty, sys.empty<SummaryRow>(),  sys.empty<SummaryLines>());
+            public static XedDisasmSummary Empty
+                => new XedDisasmSummary(DataFile.Empty, FileRef.Empty, sys.empty<XedDisasmRow>(),  sys.empty<XedDisasmLines>());
         }
     }
 }

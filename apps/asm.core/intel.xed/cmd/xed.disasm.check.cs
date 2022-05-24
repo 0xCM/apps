@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
     using static XedDisasm;
-    using static XedOperands;
+    using static XedDisasmModels;
     using static XedRules;
     using static XedFields;
 

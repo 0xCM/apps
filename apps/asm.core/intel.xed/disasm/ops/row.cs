@@ -11,6 +11,7 @@ namespace Z0
     using static XedModels;
     using static XedOperands;
     using static XedRules;
+    using static XedDisasmModels;
 
     partial class XedDisasm
     {
@@ -36,7 +37,7 @@ namespace Z0
             return dst;
         }
 
-        static DetailBlockRow row(in SummaryLines src)
+        static DetailBlockRow row(in XedDisasmLines src)
         {
             ref readonly var lines = ref src.Block;
             ref readonly var summary = ref src.Row;

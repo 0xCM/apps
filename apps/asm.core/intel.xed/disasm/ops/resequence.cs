@@ -17,7 +17,7 @@ namespace Z0
             return src;
         }
 
-        public static Index<SummaryRow> resequence(Index<SummaryRow> src)
+        public static Index<XedDisasmRow> resequence(Index<XedDisasmRow> src)
         {
             var dst = src.Sort();
             var count = dst.Count;

@@ -10,6 +10,7 @@ namespace Z0
     using static XedModels;
     using static XedDisasm;
     using static XedOperands;
+    using static XedDisasmModels;
 
     partial class XedDisasmSvc
     {

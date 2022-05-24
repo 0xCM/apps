@@ -9,6 +9,11 @@ namespace Z0
 
     using Asm;
 
+    partial class XedDisasmModels
+    {
+
+    }
+
     partial class XedDisasm
     {
         public readonly record struct Operand

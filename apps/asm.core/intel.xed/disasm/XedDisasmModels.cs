@@ -5,11 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    partial class XedDisasm
+    public partial class XedDisasmModels
     {
-        [MethodImpl(Inline), Op]
-        public static IContextBuffer buffer(WsContext context, in FileRef src)
-            => new ContextBuffer(src);
+
+
     }
 }

@@ -6,6 +6,8 @@ namespace Z0
 {
     using static core;
 
+    using static XedDisasmModels;
+
     partial class XedDisasm
     {
         public static Index<DataFile> datafiles(WsContext context, bool pll = true)

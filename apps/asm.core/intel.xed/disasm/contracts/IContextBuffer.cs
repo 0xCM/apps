@@ -23,7 +23,7 @@ namespace Z0
 
             ref DetailBlock Block();
 
-            ref Summary Summary();
+            ref XedDisasmSummary Summary();
 
             ref AsmInfo AsmInfo();
 

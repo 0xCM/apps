@@ -13,7 +13,7 @@ namespace Z0
     {
         void EmitConsolidated(WsContext context, Index<Document> src)
         {
-            var summaries = bag<SummaryRow>();
+            var summaries = bag<XedDisasmRow>();
             var details = bag<DetailBlock>();
             iter(src, pair =>{
                 iter(pair.Summary.Rows, r => summaries.Add(r));
@@ -43,7 +43,7 @@ namespace Z0
             EmittedFile(emitting, src.Count);
         }
 
-        void EmitConsolidated(WsContext context, Index<SummaryRow> src)
-            => AppSvc.TableEmit(resequence(src), Projects.Table<SummaryRow>(context.Project));
+        void EmitConsolidated(WsContext context, Index<XedDisasmRow> src)
+            => AppSvc.TableEmit(resequence(src), Projects.Table<XedDisasmRow>(context.Project));
     }
 }
