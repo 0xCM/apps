@@ -26,6 +26,9 @@
 		},
 		{
 			"path": "..\\..\\alloc"
+		},
+		{
+			"path": "..\\..\\archives"
 		}
 	],
 	"settings": {}

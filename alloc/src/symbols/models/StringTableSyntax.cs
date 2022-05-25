@@ -6,6 +6,18 @@ namespace Z0
 {
     public readonly struct StringTableSyntax
     {
+        [MethodImpl(Inline), Op]
+        public static StringTableSyntax define(Identifier ns, Identifier table, Identifier index, ClrEnumKind kind, Identifier indexNs)
+            => new StringTableSyntax(ns, table, index, kind, indexNs);
+
+        [MethodImpl(Inline), Op]
+        public static StringTableSyntax define(Identifier ns, Identifier table)
+            => new StringTableSyntax(ns, table);
+
+        [MethodImpl(Inline), Op]
+        public static StringTableSyntax define(Identifier ns, Identifier table, Identifier @enum, bool parametric = true)
+            => new StringTableSyntax(ns, table, @enum, parametric);
+
         public readonly Identifier TableNs;
 
         public readonly Identifier TableName;

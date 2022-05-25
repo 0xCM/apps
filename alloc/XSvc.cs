@@ -4,20 +4,35 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    sealed class ServiceCache : AppServices<ServiceCache>
+    {
+        public SymHeaps SymHeaps(IWfRuntime wf)
+            => Service<SymHeaps>(wf);
+
+        public ApiEmitters ApiEmitters(IWfRuntime wf)
+            => Service<ApiEmitters>(wf);
+
+        public ApiComments ApiComments(IWfRuntime wf)
+            => Service<ApiComments>(wf);
+
+        public ApiServices ApiServices(IWfRuntime wf)
+            => Service<ApiServices>(wf);
+    }
+
     public static class XSvc
     {
+        static ServiceCache Services => ServiceCache.Instance;
+
         public static SymHeaps SymHeaps(this IWfRuntime wf)
-            => Z0.SymHeaps.create(wf);
+            => Services.SymHeaps(wf);
 
         public static ApiEmitters ApiEmitters(this IWfRuntime wf)
-            => Z0.ApiEmitters.create(wf);
+            => Services.ApiEmitters(wf);
 
-        [Op]
         public static ApiComments ApiComments(this IWfRuntime wf)
-            => Z0.ApiComments.create(wf);
+            => Services.ApiComments(wf);
 
         public static ApiServices ApiServices(this IWfRuntime wf)
-            => Z0.ApiServices.create(wf);
-
+            => Services.ApiServices(wf);
     }
 }

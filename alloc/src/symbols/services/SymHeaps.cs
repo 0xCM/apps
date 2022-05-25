@@ -13,6 +13,14 @@ namespace Z0
 
         AppSvcOps AppSvc => Service(Wf.AppSvc);
 
+
+        [MethodImpl(Inline), Op]
+        public static Span<char> expr(SymHeap src, uint index)
+            => core.slice(src.Expr.Edit, src.ExprOffsets[index], src.ExprLengths[index]);
+
+        public static asci16 id(SymHeap src)
+            => string.Format("H{0:X4}x{1:X4}x{2:X6}",src.SymbolCount, src.EntryCount, src.ExprLengths.Storage.Sum());
+
         /// <summary>
         /// Discovers symbolic literals defined in a specified component collection
         /// </summary>
@@ -151,7 +159,7 @@ namespace Z0
             => Data(nameof(SymLiteralRow), () => Symbols.literals(ApiRuntimeCatalog.Components));
 
         Index<SymHeapEntry> CalcEntries(SymHeap src)
-            => Data(SymHeap.id(src),() => SymHeaps.entries(src));
+            => Data(id(src),() => SymHeaps.entries(src));
 
         public void EmitSymHeap(SymHeap src, FS.FilePath dst)
             => AppSvc.TableEmit(CalcEntries(src), dst);
@@ -159,8 +167,7 @@ namespace Z0
         public void EmitSymHeap(SymHeap src)
             => AppSvc.TableEmit(CalcEntries(src), ApiTargets().Table<SymHeapEntry>(), TextEncodingKind.Unicode);
 
-
-         public Index<SymLiteralRow> EmitLiterals()
+        public Index<SymLiteralRow> EmitLiterals()
             => EmitLiterals(ApiTargets().Table<SymLiteralRow>());
 
         public Index<SymLiteralRow> EmitLiterals(FS.FilePath dst)

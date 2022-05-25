@@ -134,7 +134,8 @@ namespace Z0
             }
             return dst;
         }
-         static ValueClassifier<K,T> create<K,T>()
+
+        static ValueClassifier<K,T> create<K,T>()
             where K : unmanaged, Enum
             where T : unmanaged
         {

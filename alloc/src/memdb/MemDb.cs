@@ -8,15 +8,21 @@ namespace Z0
 
     public partial class MemDb : IMemDb
     {
-        const byte ObjTypeCount = 24;
+        public static IMemDb open(FS.FilePath store)
+            => open(store,0);
 
-        static Index<ObjectKind,uint> ObjSeqSource = sys.alloc<uint>(ObjTypeCount);
+        public static IMemDb open(FS.FilePath store, ByteSize capacity)
+            => Opened.GetOrAdd(store, s =>  new MemDb(s, capacity));
+
+        public static IMemDb open(FS.FilePath store, Gb capacity)
+            => Opened.GetOrAdd(store, s =>  new MemDb(s, capacity.Size));
+
+        public static IMemDb open(FS.FilePath store, Mb capacity)
+            => Opened.GetOrAdd(store, s =>  new MemDb(s, capacity.Size));
 
         [MethodImpl(Inline)]
         public static uint NextSeq(ObjectKind kind)
             => inc(ref ObjSeqSource[kind]);
-
-        static readonly ConcurrentDictionary<FS.FilePath, MemDb> Opened = new();
 
         [MethodImpl(Inline)]
         static AllocToken token(MemoryAddress @base, uint offset, uint size)
@@ -81,5 +87,11 @@ namespace Z0
 
         MemoryFileInfo IMemDb.Description
             => Description;
+
+        static readonly ConcurrentDictionary<FS.FilePath,MemDb> Opened = new();
+
+        const byte ObjTypeCount = 24;
+
+        static Index<ObjectKind,uint> ObjSeqSource = sys.alloc<uint>(ObjTypeCount);
     }
 }

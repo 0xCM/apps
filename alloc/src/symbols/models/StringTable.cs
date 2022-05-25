@@ -92,13 +92,13 @@ namespace Z0
             get => _Offsets.Storage;
         }
 
-        public string Format()
-            => api.format(0, this);
+        // public string Format()
+        //     => CsLang.format(0, this);
 
-        public string Format(uint margin)
-            => api.format(margin, this);
+        // public string Format(uint margin)
+        //     => CsLang.format(margin, this);
 
-        public override string ToString()
-            => Format();
+        // public override string ToString()
+        //     => Format();
     }
 }

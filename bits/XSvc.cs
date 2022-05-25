@@ -4,37 +4,41 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    sealed class ServiceCache : AppServices<ServiceCache>
+    {
+        public PolyBits PolyBits(IWfRuntime wf)
+            => Service<PolyBits>(wf);
+
+        [Op]
+        public PbCmd PbCmd(IWfRuntime wf)
+            => Service<PbCmd>(wf);
+
+        [Op]
+        public BitfieldServices Bitfields(IWfRuntime wf)
+            => Service<BitfieldServices>(wf);
+
+        [Op]
+        public BitMaskServices ApiBitMasks(IWfRuntime wf)
+            => Service<BitMaskServices>(wf);
+    }
+
     public static class XSvc
     {
+        static ServiceCache Services => ServiceCache.Instance;
+
         public static PolyBits PolyBits(this IWfRuntime wf)
-            => Z0.PolyBits.create(wf);
+            => Services.PolyBits(wf);
 
         [Op]
         public static PbCmd PbCmd(this IWfRuntime wf)
-            => Z0.PbCmd.create(wf);
+            => Services.PbCmd(wf);
 
         [Op]
         public static BitfieldServices Bitfields(this IWfRuntime wf)
-            => Z0.BitfieldServices.create(wf);
+            => Services.Bitfields(wf);
 
         [Op]
         public static BitMaskServices ApiBitMasks(this IWfRuntime wf)
-            => Z0.BitMaskServices.create(wf);
-
-        [Op]
-        public static HexCsvReader HexCsvReader(this IWfRuntime wf)
-            => Z0.HexCsvReader.create(wf);
-
-        [Op]
-        public static HexCsvWriter HexCsvWriter(this IWfRuntime wf)
-            => Z0.HexCsvWriter.create(wf);
-
-        [Op]
-        public static HexDataReader HexDataReader(this IWfRuntime context)
-            => Z0.HexDataReader.create(context);
-
-        [Op]
-        public static HexEmitter HexEmitter(this IWfRuntime wf)
-            => Z0.HexEmitter.create(wf);
+            => Services.ApiBitMasks(wf);
     }
 }

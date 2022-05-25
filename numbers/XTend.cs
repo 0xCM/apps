@@ -10,7 +10,6 @@ namespace Z0
     {
         const NumericKind Closure = Root.UnsignedInts;
 
-
         [MethodImpl(Inline)]
         public static bool Test<E>(this E src, E flag)
             where E : unmanaged, Enum
