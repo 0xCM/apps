@@ -16,13 +16,7 @@ namespace Z0
 
         public ApiComments Comments => Service(Wf.ApiComments);
 
-        //public ApiAssets Assets => Service(Wf.ApiAssets);
-
-        //public BitMaskServices BitMasks => Service(Wf.ApiBitMasks);
-
         public ApiCatalogs Catalogs => Service(Wf.ApiCatalogs);
-
-        SymHeaps SymHeaps => Service(Wf.SymHeaps);
 
         Index<Assembly> _ApiParts;
 
@@ -47,15 +41,6 @@ namespace Z0
 
         public Index<TableDefRecord> CalcTableDefs()
             => Data(nameof(TableDefRecord), () => Catalogs.TableDefRecords());
-
-        public Index<SymLiteralRow> CalcSymLits()
-            => SymHeaps.CalcSymLits();
-
-        public SymHeap CalcSymHeap(Index<SymLiteralRow> src)
-            => SymHeaps.heap(src);
-
-        public void EmitSymHeap(SymHeap src)
-            => SymHeaps.EmitSymHeap(src);
 
         // public Index<BitMaskInfo> CalcBitMasks()
         //     => BitMasks.CalcMasks();

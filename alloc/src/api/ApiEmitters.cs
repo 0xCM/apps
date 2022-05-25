@@ -10,6 +10,8 @@ namespace Z0
     {
         ApiServices ApiSvc => Service(Wf.ApiServices);
 
+        SymHeaps SymHeaps => Wf.SymHeaps();
+
         AppSvcOps AppSvc
             => Service(Wf.AppSvc);
 
@@ -18,7 +20,7 @@ namespace Z0
 
         public void Emit()
         {
-            ApiEmit(ApiSvc.CalcSymLits());
+            ApiEmit(SymHeaps.CalcSymLits());
         }
 
         void ApiEmit(Index<SymLiteralRow> symlits)
@@ -58,7 +60,7 @@ namespace Z0
             => ApiSvc.Emit(src);
 
         void EmitSymHeap(Index<SymLiteralRow> src)
-            => ApiSvc.EmitSymHeap(ApiSvc.CalcSymHeap(src));
+            => SymHeaps.EmitSymHeap(SymHeaps.create(src));
 
         void EmitApiTables()
             => ApiSvc.Emit(ApiSvc.CalcTableDefs());

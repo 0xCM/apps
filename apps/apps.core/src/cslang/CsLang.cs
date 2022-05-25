@@ -80,11 +80,13 @@ namespace Z0
             dst.IndentLine(margin, StaticLambdaProp(nameof(MemoryAddress), OffsetBaseProp, Call("address", OffsetsProp)));
             dst.AppendLine();
 
+            var FactoryName = string.Format("{0}.{1}", nameof(memory), nameof(memory.strings));
+            var FactoryCreate = Call(FactoryName, OffsetsProp, DataProp);
 
             if(src.Syntax.Parametric)
-                dst.IndentLine(margin, StaticLambdaProp(string.Format("{0}<{1}>", nameof(MemoryStrings), syntax.EnumName), StringsProp, Call("strings.memory", OffsetsProp, DataProp)));
+                dst.IndentLine(margin, StaticLambdaProp(string.Format("{0}<{1}>", nameof(MemoryStrings), syntax.EnumName), StringsProp, FactoryCreate));
             else
-                dst.IndentLine(margin, StaticLambdaProp(nameof(MemoryStrings), StringsProp, Call("strings.memory", OffsetsProp, DataProp)));
+                dst.IndentLine(margin, StaticLambdaProp(nameof(MemoryStrings), StringsProp, FactoryCreate));
             dst.AppendLine();
 
             dst.IndentLine(margin, GSpanRes.format(Z0.SpanRes.bytespan(OffsetsProp, src.OffsetStorage)));
@@ -362,14 +364,14 @@ namespace Z0
 
         public void GenStringTable(Identifier targetNs, Identifier table, ReadOnlySpan<string> values, CgTarget dst)
         {
-            var syntax = StringTableSyntax.define(targetNs, table);
+            var syntax = StringTableSyntax.define(targetNs, table, true);
             EmitTableCode(syntax, values, dst);
             EmitTableData(StringTables.define(syntax, values), dst);
         }
 
         public void GenStringTable(Identifier ns, Identifier table, Identifier @enum, ReadOnlySpan<string> values, CgTarget cgdst)
         {
-            var syntax = StringTableSyntax.define(ns, table, @enum);
+            var syntax = StringTableSyntax.define(ns, table, @enum, true);
             EmitTableCode(syntax, values, cgdst);
             EmitTableData(StringTables.define(syntax, values), cgdst);
         }

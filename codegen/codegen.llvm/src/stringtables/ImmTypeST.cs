@@ -1,5 +1,6 @@
 namespace Z0.llvm.stringtables
 {
+    using System;
 
     using static core;
 
@@ -17,21 +18,8 @@ namespace Z0.llvm.stringtables
         NoImm = 9,
     }
 
-    [STHost]
-    public readonly struct ImmTypeST : ISTHost<ImmTypeST,ImmTypeKind>
+    public readonly struct ImmTypeST
     {
-        public static STRes<ImmTypeKind> STRes
-        {
-            [MethodImpl(Inline)]
-            get => new (EntryCount, CharCount, CharBase, OffsetBase, Strings);
-        }
-
-        public STRes<ImmTypeKind> Res
-        {
-            [MethodImpl(Inline)]
-            get => STRes;
-        }
-
         public const uint EntryCount = 10;
 
         public const uint CharCount = 66;
@@ -40,15 +28,11 @@ namespace Z0.llvm.stringtables
 
         public static MemoryAddress OffsetBase => address(Offsets);
 
-        public static MemoryStrings Strings => strings.memory(Offsets,Data);
+        public static MemoryStrings<ImmTypeKind> Strings => strings.memory(Offsets,Data);
 
         public static ReadOnlySpan<byte> Offsets => new byte[40]{0x00,0x00,0x00,0x00,0x05,0x00,0x00,0x00,0x0f,0x00,0x00,0x00,0x14,0x00,0x00,0x00,0x1e,0x00,0x00,0x00,0x24,0x00,0x00,0x00,0x29,0x00,0x00,0x00,0x2d,0x00,0x00,0x00,0x36,0x00,0x00,0x00,0x3d,0x00,0x00,0x00};
 
         public static ReadOnlySpan<char> Data => new char[66]{'I','m','m','1','6','I','m','m','1','6','P','C','R','e','l','I','m','m','3','2','I','m','m','3','2','P','C','R','e','l','I','m','m','3','2','S','I','m','m','6','4','I','m','m','8','I','m','m','8','P','C','R','e','l','I','m','m','8','R','e','g','N','o','I','m','m',};
-
-        [MethodImpl(Inline)]
-        public static implicit operator STRes<ImmTypeKind>(ImmTypeST src)
-            => STRes;
     }
 
 }

@@ -7,6 +7,10 @@ namespace Z0
     [StructLayout(StructLayout,Pack=1, Size=Size)]
     public readonly struct MemoryStrings
     {
+        [MethodImpl(Inline), Op]
+        public static uint count(ReadOnlySpan<byte> offsets)
+            => (uint)(offsets.Length/4);
+
         public const ushort Size = 8 + 16;
 
         public readonly uint EntryCount;
@@ -65,5 +69,9 @@ namespace Z0
             [MethodImpl(Inline)]
             get => strings.offsets(this);
         }
+
+        public MemoryStrings<K> Kinded<K>()
+            where K : unmanaged
+                =>  core.@as<MemoryStrings,MemoryStrings<K>>(this);
     }
 }
