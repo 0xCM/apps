@@ -79,6 +79,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.diagnostics", "..\diagno
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.intel.core", "intel.core\z0.intel.core.csproj", "{AD3F6675-9AD0-411F-89AF-C1639BCD8B07}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.extract", "..\extract\z0.extract.csproj", "{03BA628D-C42B-47E7-A305-2839659DEA27}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -446,5 +448,17 @@ Global
 		{AD3F6675-9AD0-411F-89AF-C1639BCD8B07}.Release|x64.Build.0 = Release|Any CPU
 		{AD3F6675-9AD0-411F-89AF-C1639BCD8B07}.Release|x86.ActiveCfg = Release|Any CPU
 		{AD3F6675-9AD0-411F-89AF-C1639BCD8B07}.Release|x86.Build.0 = Release|Any CPU
+		{03BA628D-C42B-47E7-A305-2839659DEA27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03BA628D-C42B-47E7-A305-2839659DEA27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03BA628D-C42B-47E7-A305-2839659DEA27}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{03BA628D-C42B-47E7-A305-2839659DEA27}.Debug|x64.Build.0 = Debug|Any CPU
+		{03BA628D-C42B-47E7-A305-2839659DEA27}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{03BA628D-C42B-47E7-A305-2839659DEA27}.Debug|x86.Build.0 = Debug|Any CPU
+		{03BA628D-C42B-47E7-A305-2839659DEA27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03BA628D-C42B-47E7-A305-2839659DEA27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03BA628D-C42B-47E7-A305-2839659DEA27}.Release|x64.ActiveCfg = Release|Any CPU
+		{03BA628D-C42B-47E7-A305-2839659DEA27}.Release|x64.Build.0 = Release|Any CPU
+		{03BA628D-C42B-47E7-A305-2839659DEA27}.Release|x86.ActiveCfg = Release|Any CPU
+		{03BA628D-C42B-47E7-A305-2839659DEA27}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

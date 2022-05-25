@@ -70,6 +70,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.diagnostics", "diagnosti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.intel.core", "apps\intel.core\z0.intel.core.csproj", "{B5E487E0-F392-4AD5-B21F-96E673EAA8EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.extract", "extract\z0.extract.csproj", "{505DF6E1-3F8D-488C-A0B2-53FA361F94D8}"
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -467,6 +469,18 @@ Global
 		{B5E487E0-F392-4AD5-B21F-96E673EAA8EE}.Release|x64.Build.0 = Release|Any CPU
 		{B5E487E0-F392-4AD5-B21F-96E673EAA8EE}.Release|x86.ActiveCfg = Release|Any CPU
 		{B5E487E0-F392-4AD5-B21F-96E673EAA8EE}.Release|x86.Build.0 = Release|Any CPU
+		{505DF6E1-3F8D-488C-A0B2-53FA361F94D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{505DF6E1-3F8D-488C-A0B2-53FA361F94D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{505DF6E1-3F8D-488C-A0B2-53FA361F94D8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{505DF6E1-3F8D-488C-A0B2-53FA361F94D8}.Debug|x64.Build.0 = Debug|Any CPU
+		{505DF6E1-3F8D-488C-A0B2-53FA361F94D8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{505DF6E1-3F8D-488C-A0B2-53FA361F94D8}.Debug|x86.Build.0 = Debug|Any CPU
+		{505DF6E1-3F8D-488C-A0B2-53FA361F94D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{505DF6E1-3F8D-488C-A0B2-53FA361F94D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{505DF6E1-3F8D-488C-A0B2-53FA361F94D8}.Release|x64.ActiveCfg = Release|Any CPU
+		{505DF6E1-3F8D-488C-A0B2-53FA361F94D8}.Release|x64.Build.0 = Release|Any CPU
+		{505DF6E1-3F8D-488C-A0B2-53FA361F94D8}.Release|x86.ActiveCfg = Release|Any CPU
+		{505DF6E1-3F8D-488C-A0B2-53FA361F94D8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{98C27CCC-6206-4F75-9BFF-93B036C36CC5} = {6C54EB12-43B5-44E9-BD57-E77807D9FB3B}

@@ -55,10 +55,6 @@ namespace Z0
 
         public static MsgPattern<ByteSize,ProcessMemoryRegion> TraversedRegion => "Traversed {0} bytes from {0}";
 
-        public static MsgPattern<ApiHostUri> ExtractingHost => "Extracting {0} members";
-
-        public static MsgPattern<Count,ApiHostUri> ExtractedHost => "Extracted {0} members from {1}";
-
         public static MsgPattern<Count> ExtractingResolved => "Extracting data for {0} resolved parts";
 
         public static MsgPattern<Count> ExtractedResolved => "Extracted data for {0} members";

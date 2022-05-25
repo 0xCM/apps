@@ -5,10 +5,9 @@
 
 namespace Z0
 {
-    struct Msg
+    [ApiHost]
+    public static partial class XTend
     {
         const NumericKind Closure = Root.UnsignedInts;
-
-
     }
 }
