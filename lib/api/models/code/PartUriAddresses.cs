@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using LU = System.Collections.Generic.Dictionary<MemoryAddress,OpUri>;
 
     public readonly struct PartUriAddresses

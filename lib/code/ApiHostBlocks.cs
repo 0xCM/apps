@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
@@ -18,7 +14,7 @@ namespace Z0
         /// <summary>
         /// The defining host
         /// </summary>
-        public ApiHostUri Host {get;}
+        public readonly ApiHostUri Host {get;}
 
         /// <summary>
         /// The host-owned code

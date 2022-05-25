@@ -4,32 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Threading.Tasks;
-
     using static core;
+    using Asm;
 
     partial class ApiExtractor
     {
-        uint ExtractPart(ResolvedPart src, IApiPack pack)
+        ApiCodeExtractor CodeExtractor => Service(Wf.CodeExtractor);
+
+        ApiHostDataset ExtractHostDatast(in ResolvedHost src, IApiPack pack)
         {
-            var hosts = src.Hosts.View;
-            var count = (uint)hosts.Length;
-            if(count == 0)
-                return 0;
-
-            var counter = 0u;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var host = ref skip(hosts,i);
-                var extracted = ExtractHostDatast(host, pack);
-                counter += extracted.Routines.Count;
-                DatasetReceiver.Add(extracted);
-            }
-            return counter;
+            //var code = ExtractCode(src, pack);
+            var code = CodeExtractor.ExtractHostCode(src, pack, PackArchive);
+            return CreateDataset(code, EmitRoutines(code));
         }
-
-        public Task<uint> BeginExtractPart(ResolvedPart src, IApiPack pack)
-            => run(() => ExtractPart(src,pack));
     }
 }

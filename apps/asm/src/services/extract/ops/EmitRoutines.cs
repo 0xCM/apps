@@ -4,18 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
+    using Z0.Asm;
 
     partial class ApiExtractor
     {
-        uint EmitRawHex(ApiHostUri host, ReadOnlySpan<ApiMemberExtract> src)
+        Index<AsmRoutine> EmitRoutines(ApiHostCode code)
         {
-            var count = (uint)src.Length;
-            if(count == 0)
-                return 0;
-
-            HexPacks.Emit(ApiHex.blocks(src), PackArchive.RawHexPath(host));
-            return count;
+            var decoded = DecodeMembers(code);
+            EmitAsmSource(code.Resolved.Host, decoded);
+            return decoded;
         }
     }
 }

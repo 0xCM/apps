@@ -6,7 +6,7 @@ namespace Z0
 {
     public readonly struct AsmSourceBlock
     {
-        public Index<TextLine> Code {get;}
+        public readonly Index<TextLine> Code;
 
         [MethodImpl(Inline)]
         public AsmSourceBlock(Index<TextLine> lines)

@@ -4,19 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
-
     public class ApiMemberExtract : IComparable<ApiMemberExtract>
     {
         public ApiExtractBlock Block {get; private set;}
 
-        public OpUri OpUri {get;}
+        public readonly OpUri OpUri;
 
-        public ApiMember Member {get;}
+        public readonly ApiMember Member;
 
         [MethodImpl(Inline)]
         public ApiMemberExtract(ApiMember member, ApiExtractBlock block)
@@ -26,11 +20,11 @@ namespace Z0
             Block = block;
         }
 
-        public ApiMemberExtract WithBlock(ApiExtractBlock block)
-        {
-            Block = block;
-            return this;
-        }
+        // public ApiMemberExtract WithBlock(ApiExtractBlock block)
+        // {
+        //     Block = block;
+        //     return this;
+        // }
 
         public bool IsEmpty
         {

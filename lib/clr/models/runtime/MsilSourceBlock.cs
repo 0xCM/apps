@@ -6,29 +6,25 @@ namespace Z0
 {
     public readonly struct MsilSourceBlock
     {
-        [MethodImpl(Inline), Op]
-        public static MsilSourceBlock create(CliToken id, CliSig sig, BinaryCode encoded, MethodImplAttributes attributes = default)
-            => new MsilSourceBlock(id, sig, encoded);
-
         /// <summary>
         /// The source method token
         /// </summary>
-        public CliToken Token {get;}
+        public readonly CliToken Token;
 
         /// <summary>
         /// The source method signature
         /// </summary>
-        public CliSig Sig {get;}
+        public readonly CliSig Sig;
 
         /// <summary>
         /// The encoded cil
         /// </summary>
-        public BinaryCode Encoded {get;}
+        public readonly BinaryCode Encoded;
 
         /// <summary>
         /// Applied attributes
         /// </summary>
-        public MethodImplAttributes Attributes {get;}
+        public readonly MethodImplAttributes Attributes;
 
         [MethodImpl(Inline)]
         public MsilSourceBlock(CliToken id, CliSig sig, BinaryCode encoded, MethodImplAttributes attributes = default)

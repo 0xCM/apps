@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Threading.Tasks;
-
     using static core;
 
     partial class ApiExtractor
@@ -20,23 +17,13 @@ namespace Z0
             return counter;
         }
 
-        uint ExtractParts(ResolvedPart[] src, bool pll, IApiPack pack)
-        {
-            var flow = Running(Msg.ExtractingResolved.Format(src.Length));
-            var counter = 0u;
-            if(pll)
-            {
-                var tasks = src.Select(p => BeginExtractPart(p,pack));
-                Task.WaitAll(tasks);
-                iter(tasks, t => counter += t.Result);
-            }
-            else
-            {
-                counter = ExtractParts(src, pack);
-            }
-            Ran(flow, string.Format(Msg.ExtractedResolved.Format(counter)));
-
-            return counter;
-        }
+        // uint ExtractParts(ResolvedPart[] src, IApiPack pack)
+        // {
+        //     var flow = Running(Msg.ExtractingResolved.Format(src.Length));
+        //     var counter = 0u;
+        //     counter = ExtractParts(src, pack);
+        //     Ran(flow, string.Format(Msg.ExtractedResolved.Format(counter)));
+        //     return counter;
+        // }
     }
 }

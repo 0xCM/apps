@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     /// <summary>
     /// Encoded x86 bytes extracted from a memory source with a known (nonzero) location
     /// </summary>
@@ -19,12 +13,12 @@ namespace Z0
         /// <summary>
         /// The head of the memory location from which the data originated
         /// </summary>
-        public MemoryAddress BaseAddress {get;}
+        public readonly MemoryAddress BaseAddress {get;}
 
         /// <summary>
         /// The encoded content
         /// </summary>
-        public BinaryCode Code {get;}
+        public readonly BinaryCode Code {get;}
 
         [MethodImpl(Inline)]
         public CodeBlock(MemoryAddress src, byte[] data)

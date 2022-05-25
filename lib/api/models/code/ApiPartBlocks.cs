@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct ApiPartBlocks : IIndex<ApiHostBlocks>
     {
-        public PartId PartId {get;}
+        public readonly PartId PartId;
 
-        public Index<ApiHostBlocks> Blocks {get;}
+        public readonly Index<ApiHostBlocks> Blocks;
 
         [MethodImpl(Inline)]
         public ApiPartBlocks(PartId part, Index<ApiHostBlocks> blocks)

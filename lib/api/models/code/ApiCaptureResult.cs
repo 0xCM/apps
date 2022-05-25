@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct ApiCaptureResult
     {
         [MethodImpl(Inline), Op]
@@ -17,11 +13,11 @@ namespace Z0
         /// <summary>
         /// The capture termination code indicating why the capture process reached end-state
         /// </summary>
-        public ExtractTermCode TermCode {get;}
+        public readonly ExtractTermCode TermCode;
 
-        public CodeBlockPair Pair {get;}
+        public readonly CodeBlockPair Pair;
 
-        public MemoryRange CaptureRange {get;}
+        public readonly MemoryRange CaptureRange;
 
         [MethodImpl(Inline)]
         public ApiCaptureResult(ExtractTermCode term,  MemoryRange range, CodeBlockPair pair)

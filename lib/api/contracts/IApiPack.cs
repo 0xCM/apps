@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Diagnostics;
 
     public interface IApiPack : IFileArchive

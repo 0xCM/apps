@@ -4,22 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using Z0.Asm;
 
     using static core;
 
     partial class ApiExtractor
     {
-        Index<AsmRoutine> DecodeMembers(ReadOnlySpan<ApiMemberCode> src)
+        Index<AsmRoutine> DecodeMembers(ApiHostCode code)
         {
-            var count = src.Length;
+            var data = code.Parsed.View;
+            var count = data.Length;
             var buffer = alloc<AsmRoutine>(count);
             ref var dst = ref first(buffer);
             for(var i=0; i<count; i++)
             {
-                ref readonly var member = ref skip(src,i);
+                ref readonly var member = ref skip(data,i);
                 var outcome = Decoder.DecodeRoutine(member, out var decoded);
                 if(outcome)
                 {

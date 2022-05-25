@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
-
     /// <summary>
     /// Pairs an api member with the executable code derived from that member
     /// </summary>
@@ -18,22 +12,22 @@ namespace Z0
         /// <summary>
         /// The extraction index
         /// </summary>
-        public uint Sequence {get;}
+        public readonly uint Sequence;
 
         /// <summary>
         /// The member to which executable code is attached
         /// </summary>
-        public ApiMember Member {get;}
+        public readonly ApiMember Member;
 
         /// <summary>
         /// The extraction termination code
         /// </summary>
-        public ExtractTermCode TermCode {get;}
+        public readonly ExtractTermCode TermCode;
 
         /// <summary>
         /// The encoded data
         /// </summary>
-        public ApiCodeBlock Encoded {get;}
+        public readonly ApiCodeBlock Encoded;
 
         [MethodImpl(Inline)]
         public ApiMemberCode(ApiMember member, ApiCodeBlock code, uint seq = 0, ExtractTermCode term = 0)

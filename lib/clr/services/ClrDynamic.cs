@@ -14,17 +14,16 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline), Op]
+        public static MsilSourceBlock msil(CliToken id, CliSig sig, BinaryCode encoded, MethodImplAttributes attributes = default)
+            => new MsilSourceBlock(id, sig, encoded);
+
+        [MethodImpl(Inline), Op]
         public static MethodBase method(RuntimeMethodHandle src)
             => MethodBase.GetMethodFromHandle(src);
 
         [Op]
         public static MsilCompilation compilation(DynamicMethod src)
-        {
-            var flags = src.GetMethodImplementationFlags();
-            MemoryAddress address = _pointer(src);
-            var msil = MsilSourceBlock.create(default, src.ResolveSignature(), msildata(src), flags);
-            return new MsilCompilation(msil, address);
-        }
+            => new MsilCompilation(msil(default, src.ResolveSignature(), msildata(src), src.GetMethodImplementationFlags()), _pointer(src));
 
         [Op]
         public static MsilCompilation compilation(DynamicDelegate src)
@@ -32,11 +31,7 @@ namespace Z0
 
         [Op]
         public static MsilCompilation compilation(MemoryAddress @base, MethodInfo src)
-        {
-            var flags = src.GetMethodImplementationFlags();
-            var msil = MsilSourceBlock.create(default, src.ResolveSignature(), src.GetMethodBody().GetILAsByteArray(), flags);
-            return new MsilCompilation(msil, @base);
-        }
+            => new MsilCompilation(msil(default, src.ResolveSignature(), src.GetMethodBody().GetILAsByteArray(), src.GetMethodImplementationFlags()), @base);
 
         [Op]
         public static RuntimeMethodHandle handle(DynamicMethod src)

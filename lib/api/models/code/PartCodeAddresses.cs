@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using KVP = KeyValuePairs<MemoryAddress,ApiCodeBlock>;
 
     public readonly struct PartCodeAddresses
     {
-        public Index<PartId> Parts {get;}
+        public readonly Index<PartId> Parts;
 
         readonly KVP Data;
 

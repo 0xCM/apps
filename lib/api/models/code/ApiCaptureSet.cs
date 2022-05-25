@@ -7,7 +7,7 @@ namespace Z0
     public class ApiCaptureSet
     {
         [MethodImpl(Inline), Op]
-        public static ApiCaptureSet create(OpUri id, MsilSourceBlock msil,  CodeBlock hex, AsmSourceBlock asm, MethodDisplaySig sig)
+        public static ApiCaptureSet create(OpUri id, MsilSourceBlock msil, CodeBlock hex, AsmSourceBlock asm, MethodDisplaySig sig)
             => new ApiCaptureSet(id, msil, hex, asm,sig);
 
         [MethodImpl(Inline), Op]
@@ -29,15 +29,15 @@ namespace Z0
         public static MsilSourceBlock msil(in ApiMsil src, MethodImplAttributes attributes = default)
             => msil(src.Token, src.CliSig, src.CliCode, attributes);
 
-        public OpUri Id {get;}
+        public readonly OpUri Id;
 
-        public MsilSourceBlock Msil {get;}
+        public readonly MsilSourceBlock Msil;
 
-        public CodeBlock Hex {get;}
+        public readonly CodeBlock Hex;
 
-        public AsmSourceBlock Asm {get;}
+        public readonly AsmSourceBlock Asm;
 
-        public MethodDisplaySig DisplaySig {get;}
+        public readonly MethodDisplaySig DisplaySig;
 
         [MethodImpl(Inline)]
         public ApiCaptureSet(in OpUri id, in MsilSourceBlock msil,  in CodeBlock hex, in AsmSourceBlock asm, in MethodDisplaySig sig)

@@ -84,7 +84,7 @@ namespace Z0
             => ResolveParts(Wf.ApiCatalog.Parts.ToReadOnlySpan(), pack);
 
         void ExtractParts(IApiPack pack)
-            => ExtractParts(ResolvedParts, false, pack);
+            => ExtractParts(ResolvedParts, pack);
 
         void EmitProcessContext(IApiPack pack)
         {
@@ -123,6 +123,8 @@ namespace Z0
 
         ReadOnlySpan<ApiCatalogEntry> EmitApiCatalog(Timestamp ts)
             => ApiCatalogs.EmitApiCatalog(ApiMembers.create(CollectedDatasets.SelectMany(x => x.Members)), PackArchive.ApiCatalogPath());
+
+
 
         internal ApiCollection Run(ApiExtractChannel receivers, IApiPack pack)
         {

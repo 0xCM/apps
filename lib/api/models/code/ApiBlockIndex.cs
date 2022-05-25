@@ -4,21 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.Linq;
-
-    using static Root;
 
     public class ApiBlockIndex
     {
-        PartCodeAddresses CodeAddresses;
+        readonly PartCodeAddresses CodeAddresses;
 
-        PartUriAddresses UriLocations;
+        readonly PartUriAddresses UriLocations;
 
-        PartCodeIndex PartIndex;
+        readonly PartCodeIndex PartIndex;
 
-        ApiCodeLookup UriCode;
+        readonly ApiCodeLookup UriCode;
 
         [MethodImpl(Inline)]
         public ApiBlockIndex(PartCodeAddresses memories, PartUriAddresses memuri, PartCodeIndex parts, ApiCodeLookup code)
@@ -141,13 +137,9 @@ namespace Z0
                 return ApiHostBlocks.Empty;
         }
 
-        [MethodImpl(Inline), Op]
-        static ApiPartCode combine(PartId part, ApiHostBlocks[] src)
-            => new ApiPartCode(part,src);
-
-        [MethodImpl(Inline)]
-        public ApiPartCode PartCodeBlocks(PartId id)
-            => combine(id, Hosts.Map(HostCodeBlocks));
+        // [MethodImpl(Inline)]
+        // public ApiPartCode PartCodeBlocks(PartId id)
+        //     => ApiPartCode.create(id, Hosts.Map(HostCodeBlocks));
 
         public ApiCodeBlock this[MemoryAddress location]
         {
@@ -161,11 +153,11 @@ namespace Z0
             get => HostCodeBlocks(id);
         }
 
-        public ApiPartCode this[PartId id]
-        {
-            [MethodImpl(Inline)]
-            get => PartCodeBlocks(id);
-        }
+        // public ApiPartCode this[PartId id]
+        // {
+        //     [MethodImpl(Inline)]
+        //     get => PartCodeBlocks(id);
+        // }
 
         public static ApiBlockIndex Empty
         {
