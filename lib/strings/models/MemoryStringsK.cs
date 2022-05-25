@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    using api = strings;
+    using api = MemoryStrings;
 
     public readonly struct MemoryStrings<K>
         where K : unmanaged

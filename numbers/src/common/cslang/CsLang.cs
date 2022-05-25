@@ -14,6 +14,19 @@ namespace Z0
     {
         ConstLookup<CgTarget,string> TargetExpressions;
 
+        public CsLang()
+        {
+            var symbols = Symbols.index<CgTarget>();
+            var count = symbols.Count;
+            var targets = dict<CgTarget,string>();
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var sym = ref symbols[i];
+                targets[sym.Kind] = sym.Expr.Format();
+            }
+            TargetExpressions = targets;
+        }
+
         public static uint csharp(in StringTableSyntax syntax, ItemList<string> src, ITextEmitter dst)
         {
             dst.WriteLine(string.Format("namespace {0}", syntax.TableNs));
@@ -114,19 +127,6 @@ namespace Z0
             dst.IndentLine(margin, Chars.RBrace);
         }
 
-
-        public CsLang()
-        {
-            var symbols = Symbols.index<CgTarget>();
-            var count = symbols.Count;
-            var targets = dict<CgTarget,string>();
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var sym = ref symbols[i];
-                targets[sym.Kind] = sym.Expr.Format();
-            }
-            TargetExpressions = targets;
-        }
 
         public static CsEmitter emitter()
             => new();
@@ -374,22 +374,6 @@ namespace Z0
             var syntax = StringTableSyntax.define(ns, table, @enum, true);
             EmitTableCode(syntax, values, cgdst);
             EmitTableData(StringTables.define(syntax, values), cgdst);
-        }
-
-        public void AppendResProp(StringTableSyntax syntax, CsEmitter dst)
-        {
-            /*
-                public static STRes<ImmTypeKind> STRes
-                {
-                    [MethodImpl(Inline)]
-                    get => new (EntryCount, CharCount, CharBase, OffsetBase, Strings);
-                }
-            */
-            var margin = 0u;
-            var factory = "new (EntryCount, CharCount, CharBase, OffsetBase, Strings);";
-            dst.OpenPublicStaticProp(margin,  $"{nameof(STRes)}<{syntax.EnumName}>", nameof(STRes));
-            dst.PropBody(margin, "new (EntryCount, CharCount, CharBase, OffsetBase, Strings)");
-            dst.CloseProp(margin);
         }
 
         FS.FileUri EmitTableCode(StringTableSyntax syntax, ItemList<string> src, CgTarget cgdst)

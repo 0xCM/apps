@@ -92,7 +92,7 @@ namespace Z0
 
             var dir = pack.Archive().ContextRoot();
             var process = Process.GetCurrentProcess();
-            var pipe = Wf.ProcessContextPipe();
+            var pipe = Wf.RuntimeServices();
             var procparts = pipe.EmitPartitions(process, ts, dir);
             var regions = pipe.EmitRegions(process, ts, dir);
             pipe.EmitDump(process, pack.ProcDumpPath(process, ts));

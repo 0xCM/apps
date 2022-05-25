@@ -9,16 +9,6 @@ namespace Z0
     partial struct strings
     {
         [MethodImpl(Inline)]
-        static T generic<T>(long src)
-            where T : unmanaged
-                => @as<T>(bytes(src));
-
-        [MethodImpl(Inline)]
-        static T generic<T>(ulong src)
-            where T : unmanaged
-                => @as<T>(bytes(src));
-
-        [MethodImpl(Inline)]
         public static MemoryString<K> @string<K>(in MemoryStrings<K> src, K index)
             where K : unmanaged
                 => new MemoryString<K>(src.CharBase + offset(src, index), (int)length(src,index));

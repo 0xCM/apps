@@ -46,11 +46,8 @@ namespace Z0.llvm
             writer.WriteLine(buffer.Emit());
         }
 
-        public void EmitStringTable(LlvmList src)
-        {
-            var path = LlvmPaths.ListImportPath(src.Name);
-            CsLang.GenStringTable(TargetNs, ClrEnumKind.U32, src.ToItemList(), CgTarget.Llvm);
-        }
+        StringTable EmitStringTable(LlvmList src)
+            => CsLang.GenStringTable(TargetNs, ClrEnumKind.U32, src.ToItemList(), CgTarget.Llvm);
 
         public void EmitStringTables()
             => EmitStringTables(DataProvider.Lists().Where(x => x.Name != "vcodes"));

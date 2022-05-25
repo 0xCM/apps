@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static CsLang;
+
     sealed class ServiceCache : AppServices<ServiceCache>
     {
         public Parsers Parsers(IWfRuntime wf)
@@ -26,6 +28,22 @@ namespace Z0
 
         public CheckRunner CheckRunner(IWfRuntime wf)
             => Service<CheckRunner>(wf);
+
+        public CsLang CsLang(IWfRuntime wf)
+            => Service<CsLang>(wf);
+
+        public GStringLits GenLiterals(IWfRuntime wf)
+            => Service<GStringLits>(wf);
+
+        public GAsciLookup GenAsciLookups(IWfRuntime wf)
+            => Service<GAsciLookup>(wf);
+
+        public GRecord GenRecords(IWfRuntime wf)
+            => Service<GRecord>(wf);
+
+        public GLiteralProvider GenLiteralProviders(IWfRuntime wf)
+            => Service<GLiteralProvider>(wf);
+
     }
 
     public static class XSvc
@@ -52,5 +70,20 @@ namespace Z0
 
         public static CheckRunner CheckRunner(this IWfRuntime wf)
             => Services.CheckRunner(wf);
+
+        public static GStringLits GenLiterals(this IWfRuntime wf)
+            => GStringLits.create(wf);
+
+        public static GAsciLookup GenAsciLookups(this IWfRuntime wf)
+            => GAsciLookup.create(wf);
+
+        public static GRecord GenRecords(this IWfRuntime wf)
+            => GRecord.create(wf);
+
+        public static GLiteralProvider GenLiteralProviders(this IWfRuntime wf)
+            => GLiteralProvider.create(wf);
+
+        public static CsLang CsLang(this IWfRuntime wf)
+            => Services.CsLang(wf);
     }
 }

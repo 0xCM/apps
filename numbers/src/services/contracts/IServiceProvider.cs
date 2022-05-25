@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IServiceCache
+    public interface IServiceProvider
     {
         Assembly HostComponent {get;}
 
@@ -21,16 +21,16 @@ namespace Z0
             where S : IAppService<S>, new();
     }
 
-    public interface IServiceCache<T> : IServiceCache
-        where T : IServiceCache<T>, new()
+    public interface IServiceProvider<T> : IServiceProvider
+        where T : IServiceProvider<T>, new()
     {
-        Assembly IServiceCache.HostComponent
+        Assembly IServiceProvider.HostComponent
             => typeof(T).Assembly;
 
-        PartId IServiceCache.PartId
+        PartId IServiceProvider.PartId
             => HostComponent.Id();
 
-        ReadOnlySpan<Type> IServiceCache.HostTypes
+        ReadOnlySpan<Type> IServiceProvider.HostTypes
             => typeof(T).DeclaredPublicInstanceMethods().Concrete().Select(x => x.ReturnType);
     }
 }

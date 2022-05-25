@@ -16,7 +16,7 @@ namespace Z0
         /// <summary>
         /// The maximum number of symbols in the string
         /// </summary>
-        public uint Length {get;}
+        public readonly uint Length;
 
         [MethodImpl(Inline)]
         public StringRefs(ReadOnlySpan<char> src)
@@ -55,11 +55,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public StringRef Word(ulong index, ulong length)
-            => strings.word(this, index, length);
+            => StringRef.word(this, index, length);
 
         [MethodImpl(Inline)]
         public StringRef Word(long index, long length)
-            => strings.word(this, index, length);
+            => StringRef.word(this, index, length);
 
         public ref readonly char this[ulong index]
         {
@@ -76,17 +76,17 @@ namespace Z0
         public StringRef this[long offset, long length]
         {
             [MethodImpl(Inline)]
-            get => strings.word(this, offset, length);
+            get => StringRef.word(this, offset, length);
         }
 
         public StringRef this[ulong offset, ulong length]
         {
             [MethodImpl(Inline)]
-            get => strings.word(this, offset, length);
+            get => StringRef.word(this, offset, length);
         }
 
         public string Format()
-            => strings.format(this);
+            => text.format(View);
 
 
         public override string ToString()

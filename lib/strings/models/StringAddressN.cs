@@ -49,7 +49,7 @@ namespace Z0
             => strings.render(this, ref i, dst);
 
         public string Format()
-            => strings.format(this);
+            => StringAddress.format(this);
 
         public override string ToString()
             => Format();

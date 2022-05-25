@@ -25,7 +25,7 @@ namespace Z0.Asm
         void CollectMemStats()
         {
             var dst = Db.ProcessContextRoot();
-            var pipe = Wf.ProcessContextPipe();
+            var pipe = Wf.RuntimeServices();
             var ts = core.timestamp();
             var flags = ProcessContextFlag.Detail | ProcessContextFlag.Summary | ProcessContextFlag.Hashes;
             var prejit = pipe.Emit(dst, ts, "prejit", flags);

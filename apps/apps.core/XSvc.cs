@@ -11,7 +11,6 @@ namespace Z0
             => Z0.ApiAssets.create(wf);
 
 
-        public static CsLang CsLang(this IWfRuntime wf)
-            => Z0.CsLang.create(wf);
+
     }
 }

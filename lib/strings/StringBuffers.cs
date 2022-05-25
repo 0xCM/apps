@@ -11,6 +11,23 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        /// <summary>
+        /// Computes the total length of the source strings
+        /// </summary>
+        /// <param name="src">The source strings</param>
+        [MethodImpl(Inline), Op]
+        public static uint length(ReadOnlySpan<string> src)
+        {
+            var counter = 0u;
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var s = ref skip(src,i);
+                counter += (uint)s.Length;
+            }
+            return counter;
+        }
+
         [Op, Closures(Closure)]
         public static StringBuffer<S> buffer<S>(uint length)
             where S : unmanaged

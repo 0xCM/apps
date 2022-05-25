@@ -30,6 +30,6 @@ namespace Z0.Parts
 {
     public sealed partial class Alloc : Part<Alloc>
     {
-        public static IServiceCache Services => ServiceCache.Instance;
+        public static IServiceProvider Services => ServiceCache.Instance;
     }
 }

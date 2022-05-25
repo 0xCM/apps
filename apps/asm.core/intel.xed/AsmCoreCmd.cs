@@ -39,7 +39,7 @@ namespace Z0
 
         XedDb XedDb => CmdRt.XedDb;
 
-        CsLang CsLang => Service(Wf.CsLang);
+        CsLang CsLang => Wf.CsLang();
 
         AsmDocs AsmDocs => Service(Wf.AsmDocs);
 
@@ -49,7 +49,7 @@ namespace Z0
 
         IntelSdm Sdm => Service(Wf.IntelSdm);
 
-        CheckRunner CheckRunner => Service(Wf.CheckRunner);
+        CheckRunner CheckRunner => Wf.CheckRunner();
 
         protected override IWsCmdRunner CmdRunner
             => Xed.CmdRunner;

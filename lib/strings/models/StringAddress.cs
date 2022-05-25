@@ -11,22 +11,35 @@ namespace Z0
     /// </summary>
     public unsafe readonly struct StringAddress : IAddressable
     {
+        [MethodImpl(Inline), Op]
+        public static StringAddress from(string src)
+            => new StringAddress(core.address(src));
+
         [MethodImpl(Inline)]
         public static StringAddress<N> natural<N>(string src)
             where N : unmanaged, ITypeNat
         {
             if(src.Length >= Typed.nat32i<N>())
-                return new StringAddress<N>(strings.address(src));
+                return new StringAddress<N>(from(src));
             else
                 return default;
         }
+
+        [MethodImpl(Inline), Op]
+        public static unsafe string format(StringAddress src)
+            => new string(src.Address.Pointer<char>());
+
+        [MethodImpl(Inline), Op]
+        public static unsafe string format<N>(StringAddress<N> src)
+            where N : unmanaged, ITypeNat
+                => new string(src.Address.Pointer<char>());
 
         public readonly MemoryAddress Address;
 
         [MethodImpl(Inline)]
         public StringAddress(MemoryAddress location)
         {
-            Address = location == 0 ? strings.address(EmptyString) : location;
+            Address = location == 0 ? core.address(EmptyString) : location;
         }
 
         public ReadOnlySpan<char> Chars
@@ -53,7 +66,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public unsafe string Format()
-            => strings.format(this);
+            => StringAddress.format(this);
 
         public override string ToString()
             => Format();
@@ -83,17 +96,16 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator StringAddress(string src)
-            => strings.address(src);
+            => from(src);
 
         [MethodImpl(Inline)]
         public static implicit operator StringAddress(Name src)
-            => strings.address(src.Content);
+            => from(src.Content);
 
         public static StringAddress Zero
         {
             [MethodImpl(Inline)]
             get => new StringAddress(0);
         }
-
     }
 }

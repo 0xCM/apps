@@ -53,11 +53,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public StringRef<C> Word(ulong index, ulong length)
-            => strings.word(this, index, length);
+            => StringRef.word(this, index, length);
 
         [MethodImpl(Inline)]
         public StringRef<C> Word(long index, long length)
-            => strings.word(this, index, length);
+            => StringRef.word(this, index, length);
 
         public ref readonly C this[ulong index]
         {
@@ -74,17 +74,17 @@ namespace Z0
         public StringRef<C> this[long offset, long length]
         {
             [MethodImpl(Inline)]
-            get => strings.word(this, offset, length);
+            get => StringRef.word(this, offset, length);
         }
 
         public StringRef<C> this[ulong offset, ulong length]
         {
             [MethodImpl(Inline)]
-            get => strings.word(this, offset, length);
+            get => StringRef.word(this, offset, length);
         }
 
         public string Format()
-            => strings.format(this);
+            => StringRef.format(this);
 
 
         public override string ToString()

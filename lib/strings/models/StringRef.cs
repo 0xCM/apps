@@ -11,6 +11,42 @@ namespace Z0
     /// </summary>
     public unsafe readonly struct StringRef : IMemoryString<char>, IComparable<StringRef>, IEquatable<StringRef>
     {
+        const NumericKind Closure = UnsignedInts;
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static StringRef<S> word<S>(in StringRefs<S> src, ulong index, ulong length)
+            where S : unmanaged
+                => new StringRef<S>(src.Address(index), (uint)length);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static StringRef<S> word<S>(in StringRefs<S> src, long index, long length)
+            where S : unmanaged
+                => new StringRef<S>(src.Address(index), (uint)length);
+
+        [MethodImpl(Inline), Op]
+        public static StringRef word(in StringRefs src, ulong index, ulong length)
+            => new StringRef(src.Address(index), (uint)length);
+
+        [MethodImpl(Inline), Op]
+        public static StringRef word(in StringRefs src, long index, long length)
+            => new StringRef(src.Address(index), (uint)length);
+
+        [Op]
+        public static string format(in StringRef src)
+            => new string(src.Cells);
+
+        public static string format<S>(in StringRef<S> src)
+            where S : unmanaged
+                => new string(core.recover<S,char>(src.View));
+
+        [Op]
+        public static string format(in StringRefs src)
+            => new string(src.View);
+
+        public static string format<S>(in StringRefs<S> src)
+            where S : unmanaged
+                => new string(core.recover<S,char>(src.View));
+
         public MemoryAddress Address {get;}
 
         public uint Length {get;}
@@ -74,7 +110,7 @@ namespace Z0
             => Cells.CompareTo(src.Cells, StringComparison.InvariantCulture);
 
         public string Format()
-            => strings.format(this);
+            => format(this);
 
 
         public override string ToString()

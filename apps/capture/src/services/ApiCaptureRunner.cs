@@ -14,7 +14,7 @@ namespace Z0
 
         ApiImmEmitter ImmEmitter => Service(Wf.ImmEmitter);
 
-        RuntimeServices Pipe => Service(Wf.ProcessContextPipe);
+        RuntimeServices Pipe => Service(Wf.RuntimeServices);
 
         ApiCatalogs ApiCatalogs => Service(Wf.ApiCatalogs);
 

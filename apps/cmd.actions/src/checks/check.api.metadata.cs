@@ -20,7 +20,7 @@ namespace Z0
         [CmdOp("memory/dump")]
         void EmitDump()
         {
-            Wf.ProcessContextPipe().EmitContext();
+            Wf.RuntimeServices().EmitContext();
         }
 
         [CmdOp("native/check")]

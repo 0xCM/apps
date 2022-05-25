@@ -2,7 +2,7 @@ namespace Z0.llvm
 {
     using static core;
 
-    using stringtables;
+    using strings;
 
     [ApiComplete]
     public readonly struct GenStrings
@@ -10,7 +10,7 @@ namespace Z0.llvm
         public static MemoryStrings<ushort> OpCodes
         {
             [MethodImpl(Inline)]
-            get => strings.memory<ushort>(InstructionST.Offsets, InstructionST.Data);
+            get => MemoryStrings.create<ushort>(InstructionST.Offsets, InstructionST.Data);
         }
     }
 
@@ -19,7 +19,7 @@ namespace Z0.llvm
         Outcome LabelTest1()
         {
             var result = Outcome.Success;
-            var data = strings.memory(InstructionST.Offsets, InstructionST.Data);
+            var data = MemoryStrings.create(InstructionST.Offsets, InstructionST.Data);
             var count = data.EntryCount;
 
             for(var i=0; i<count; i++)
@@ -49,14 +49,14 @@ namespace Z0.llvm
         public void RunAll()
         {
             var result = Outcome.Success;
-            var runtime = strings.memory(AVX512ST.Offsets, AVX512ST.Data);
+            var runtime = MemoryStrings.create(AVX512ST.Offsets, AVX512ST.Data);
             var offsets = runtime.Offsets;
             var count = runtime.EntryCount;
             var formatter = Tables.formatter<MemoryStrings>(16);
             var symbols = Symbols.index<AVX512Kind>();
             for(var i=0; i<offsets.Length; i++)
             {
-                var l = strings.length(runtime, i);
+                var l = MemoryStrings.length(runtime, i);
                 if(l == 0)
                     break;
                 var k = (AVX512Kind)i;

@@ -5,7 +5,7 @@
 namespace Z0
 {
     [ServiceCache]
-    public abstract class AppServices<T> : IServiceCache<T>
+    public abstract class AppServices<T> : IServiceProvider<T>
         where T : AppServices<T>, new()
     {
         public static T Instance = new();

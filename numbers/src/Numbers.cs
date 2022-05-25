@@ -19,6 +19,10 @@ namespace Z0
 
         internal const NumericKind Closure32 = NumericKind.U32;
 
+        [MethodImpl(Inline), Op]
+        public static num2 pack(bit a, bit b)
+            => (num2)((uint)a | (uint)b << 1);
+
         [MethodImpl(Inline)]
         public static ref num4 read(ReadOnlySpan<byte> src, uint index, out num4 dst)
         {
