@@ -79,6 +79,13 @@ namespace Z0
             get => ref @as<byte,AsciSymbol>(skip(Data,index));
         }
 
+        [MethodImpl(Inline)]
+        public uint Render(Span<char> dst)
+        {
+            var i=0u;
+            return AsciLines.render(this, ref i, dst);
+        }
+
         public string Format()
         {
             Span<char> buffer = stackalloc char[RenderLength];

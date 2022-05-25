@@ -20,9 +20,6 @@ namespace Z0
 
             public ConcurrentDictionary<InstForm,string> FormData = new();
 
-            public static ReadOnlySpan<LineStats> stats(MemoryFile src)
-                => AsciLines.stats(src.View(),400000);
-
             static FormImportDatasets forms(BlockImportDatasets src, bool pll = true)
             {
                 var dst = new FormImportDatasets();
@@ -49,9 +46,12 @@ namespace Z0
                 return dupes.ToIndex().Sort();
             }
 
-            public static InstImportBlocks calc(MemoryFile src)
+            public static void calc(Action<InstImportBlocks> dst)
+                => dst(calc(XedPaths.Service.InstDumpSource().MemoryMap(true)));
+
+            static InstImportBlocks calc(MemoryFile src)
             {
-                return data(nameof(InstImportBlocks),Calc);
+                return data(nameof(InstImportBlocks), Calc);
 
                 InstImportBlocks Calc()
                 {
@@ -60,6 +60,7 @@ namespace Z0
                     var lines = AsciLines.lines(src);
                     CalcBlockLines(lines, ds);
                     CalcDatasets(lines, ds);
+                    dst.DataSource = src;
                     dst.BlockLines = ds.BlockLines;
                     dst.LineMap = ds.MappedForms;
                     dst.Imports = ds.BlockImports.Index().Sort().Resequence();

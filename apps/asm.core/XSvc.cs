@@ -6,6 +6,8 @@ namespace Z0
 {
     using Z0.Asm;
 
+    using static XedImport;
+
     sealed class ServiceCache : AppServices<ServiceCache>
     {
         static AsmCmdRt runtime(IWfRuntime wf, Index<ICmdProvider> providers, bool start = true)
@@ -59,6 +61,10 @@ namespace Z0
 
         public CpuIdSvc CpuId(IWfRuntime wf)
             => Service<CpuIdSvc>(wf);
+
+        public InstBlockImporter BlockImporter(IWfRuntime wf)
+            => Service<InstBlockImporter>(wf);
+
     }
 
     [ApiHost]
@@ -84,16 +90,17 @@ namespace Z0
         public static XedRules XedRules(this IWfRuntime wf, XedRuntime xed)
             => Services.XedRules(wf, xed);
 
-        [Op]
         public static XedDb XedDb(this IWfRuntime wf, XedRuntime xed)
             => Services.XedDb(wf, xed);
 
-        [Op]
         public static XedDisasmSvc XedDisasm(this IWfRuntime wf, XedRuntime xed)
             => Services.XedDisasm(wf, xed);
 
         public static XedDocs XedDocs(this IWfRuntime wf, XedRuntime xed)
             => Services.XedDocs(wf, xed);
+
+        public static InstBlockImporter BlockImporter(this IWfRuntime wf)
+            => Services.BlockImporter(wf);
 
         public static CoffServices CoffServices(this IWfRuntime wf)
             => Services.CoffServices(wf);

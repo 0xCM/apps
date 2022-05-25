@@ -4,50 +4,41 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
     using static core;
 
     partial class XedImport
     {
-        public partial class InstBlockImporter
+        public class InstBlockImporter : AppService<InstBlockImporter>
         {
-            readonly AppSvcOps AppSvc;
+            XedPaths XedPaths => Wf.XedPaths();
 
-            XedPaths XedPaths;
+            AppSvcOps AppSvc => Wf.AppSvc();
 
-            public InstBlockImporter(AppSvcOps svc)
+            public bool PllExec
             {
-                AppSvc = svc;
-                XedPaths = XedPaths.Service;
+                [MethodImpl(Inline)]
+                get => AppData.get().PllExec();
             }
 
-            MemoryFile InstDumpFile()
-                => data(nameof(InstDumpFile), () => XedPaths.InstDumpSource().MemoryMap(true));
-
-            public InstImportBlocks CalcImports()
-                => CalcImports(InstDumpFile());
-
-            public InstImportBlocks CalcImports(MemoryFile src)
-                => BlockImportDatasets.calc(src);
-
-            public ReadOnlySpan<LineStats> CalcStats(MemoryFile src)
-                => BlockImportDatasets.stats(src);
+            public static ReadOnlySpan<LineStats> stats(MemoryFile src)
+                => AsciLines.stats(src.View(), 400000);
 
             public void EmitStats(ReadOnlySpan<LineStats> src)
                 => Emit(src);
 
-            public void Import(InstImportBlocks src, bool pll = true)
+            public void Import(InstImportBlocks src)
             {
                 XedPaths.Imports().Delete();
-                exec(pll,
+                exec(PllExec,
                     () => EmitRecords(src),
                     () => EmitBlockDetail(src),
-                    () => EmitLineMap(src)
+                    () => EmitLineMap(src),
+                    () => EmitStats(stats(src.DataSource))
                 );
             }
 
             void EmitLineMap(InstImportBlocks src)
-                => EmitLineMap(src.LineMap, XedPaths.Imports().Table<InstBlockLineSpec>());
+                => EmitLineMap(src.LineMap);
 
             void Emit(ReadOnlySpan<LineStats> src)
             {
@@ -85,19 +76,16 @@ namespace Z0
                 AppSvc.FileEmit(emitter.Emit(), count, path);
             }
 
-            void EmitLineMap(LineMap<InstBlockLineSpec> data, FS.FilePath dst)
+            void EmitLineMap(LineMap<InstBlockLineSpec> data)
             {
                 const string Pattern = "{0,-6} | {1,-12} | {2,-12} | {3,-12} | {4,-12} | {5,-6} | {6,-64} | {7}";
+                var dst = XedPaths.Imports().Table<InstBlockLineSpec>();
                 var formatter = Tables.formatter<InstBlockLineSpec>();
                 var emitting = AppSvc.EmittingTable<InstBlockLineSpec>(dst);
                 using var writer = dst.AsciWriter();
                 writer.WriteLine(formatter.FormatHeader());
                 for(var i=0u; i<data.IntervalCount; i++)
-                {
-                    ref readonly var seg = ref data[i];
-                    ref readonly var content = ref seg.Id;
-                    writer.WriteLine(formatter.Format(content));
-                }
+                    writer.WriteLine(formatter.Format(data[i].Id));
                 AppSvc.EmittedTable(emitting, data.IntervalCount);
             }
         }

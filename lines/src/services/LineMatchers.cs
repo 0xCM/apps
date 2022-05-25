@@ -19,9 +19,9 @@ namespace Z0
             state.LineCount++;
 
             if(AsciLines.number(data, out var length, out var num))
-                dst = new AsciLine<byte>(num, data);
+                dst = new AsciLine<byte>(data);
             else
-                dst = new AsciLine<byte>(state.LineCount, data);
+                dst = new AsciLine<byte>(data);
 
             state.Offset+=length;
 
@@ -40,9 +40,9 @@ namespace Z0
             state.LineCount++;
 
             if(AsciLines.number(data, out var length, out var num))
-                dst = new AsciLine<char>(num, data);
+                dst = new AsciLine<char>(data);
             else
-                dst = new AsciLine<char>(state.LineCount, data);
+                dst = new AsciLine<char>(data);
 
             state.Offset+=length;
 
@@ -63,9 +63,9 @@ namespace Z0
             State.LineCount++;
 
             if(AsciLines.number(data, out var length, out var num))
-                dst = new AsciLine<T>(num, recover<byte,T>(slice(data, (int)length)).ToArray());
+                dst = new AsciLine<T>(recover<byte,T>(slice(data, (int)length)));
             else
-                dst = new AsciLine<T>(State.LineCount, recover<byte,T>(data).ToArray());
+                dst = new AsciLine<T>(recover<byte,T>(data));
 
             State.Offset+=length;
 
@@ -106,7 +106,6 @@ namespace Z0
 
             return dst.ViewDeposited();
         }
-
 
         [Op]
         public static void match(ReadOnlySpan<char> src, char c0, char c1, Action<int> signal)
@@ -443,6 +442,5 @@ namespace Z0
                 }
             }
         }
-
     }
 }

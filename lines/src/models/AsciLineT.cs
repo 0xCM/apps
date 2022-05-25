@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct AsciLine<T>
+    public readonly ref struct AsciLine<T>
         where T : unmanaged
     {
-        readonly Index<T> Data;
+        readonly ReadOnlySpan<T> Data;
 
         [MethodImpl(Inline)]
-        public AsciLine(uint number, T[] src)
+        public AsciLine(ReadOnlySpan<T> src)
         {
             Data = src;
         }
@@ -18,7 +18,7 @@ namespace Z0
         public ReadOnlySpan<T> View
         {
             [MethodImpl(Inline)]
-            get => Data.View;
+            get => Data;
         }
 
         public int Length
@@ -42,7 +42,7 @@ namespace Z0
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Data.IsNonEmpty;
+            get => Data.Length != 0;
         }
 
         public string Format()
@@ -54,7 +54,7 @@ namespace Z0
         public static AsciLine<T> Empty
         {
             [MethodImpl(Inline)]
-            get => new AsciLine<T>(0,core.array<T>());
+            get => new AsciLine<T>(core.array<T>());
         }
     }
 }

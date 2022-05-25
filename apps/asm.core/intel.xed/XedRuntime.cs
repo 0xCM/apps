@@ -83,9 +83,10 @@ namespace Z0
 
         void CalcCpuIdImports()
         {
-            var parsed = Import.CalcCpuIdImports();
-            Views.Store(I.CpuIdImport, parsed.CpuIdRecords);
-            Views.Store(I.IsaImport, parsed.IsaRecords);
+            Import.CalcCpuIdImports(data => {
+                Views.Store(I.CpuIdImport, data.CpuIdRecords);
+                Views.Store(I.IsaImport, data.IsaRecords);
+            });
         }
 
         static RuleTables CalcRuleTables()
@@ -116,9 +117,9 @@ namespace Z0
                 CalcInstDefs,
                 () => Views.Store(I.AsmBroadcastDefs, Import.CalcBroadcastDefs()),
                 () => Views.Store(I.OpWidths, Import.CalcOpWidths()),
-                () => Views.Store(I.InstImports, Import.CalcInstImports()),
-                () => Views.Store(I.FormImports, Import.CalcFormImports()),
-                () => Views.Store(I.ChipMap, XedRules.CalcChipMap())
+                () => Import.CalcInstImports(data => Views.Store(I.InstImports, data)),
+                () => Import.CalcFormImports(data => Views.Store(I.FormImports, data)),
+                () => XedRules.CalcChipMap(data =>  Views.Store(I.ChipMap, data))
                 );
 
             exec(PllExec,

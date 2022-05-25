@@ -10,6 +10,8 @@ namespace Z0
     {
         public class InstImportBlocks
         {
+            public MemoryFile DataSource;
+
             public SortedLookup<InstForm,uint> Forms;
 
             public Index<InstBlockImport> Imports;

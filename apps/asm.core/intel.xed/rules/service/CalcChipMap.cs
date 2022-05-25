@@ -10,7 +10,10 @@ namespace Z0
 
     partial class XedRules
     {
-        public static ChipMap CalcChipMap()
+        public static void CalcChipMap(Action<ChipMap> dst)
+            => dst(CalcChipMap());
+
+        static ChipMap CalcChipMap()
         {
             var kinds = Symbols.index<InstIsaKind>();
             var src = XedPaths.Service.ChipMapSource();

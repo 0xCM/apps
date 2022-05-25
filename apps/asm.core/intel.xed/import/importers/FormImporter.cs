@@ -22,8 +22,6 @@ namespace Z0
                 var count = src.Count;
                 var dst = alloc<FormImport>(count);
                 parse(src,dst);
-                // for(var i=z16; i<count; i++)
-                //     parse(src[i], i, out seek(rows,i)).Require();
                 return dst.Sort().Resequence();
             }
 
@@ -165,7 +163,6 @@ namespace Z0
 
                 return records.ToArray();
             }
-
 
             static Outcome ParseSummary(TextLine src, out FormSource dst)
             {

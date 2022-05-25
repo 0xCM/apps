@@ -7,11 +7,6 @@ namespace Z0
     [StructLayout(StructLayout,Pack=1)]
     public record struct BlockPartition
     {
-        // [MethodImpl(Inline)]
-        // public static BlockPartition calc<W>(ByteSize size, uint parts, W bw = default)
-        //     where W : unmanaged, IDataWidth
-        //         => calc(size, parts, (uint)bw.BitWidth);
-
         [MethodImpl(Inline)]
         public static BlockPartition calc(ByteSize size, BitWidth bw, uint parts)
         {

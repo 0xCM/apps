@@ -4,6 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
+    using static XedImport;
     partial class AsmCoreCmd
     {
         [CmdOp("xed/import")]
@@ -11,6 +14,15 @@ namespace Z0
         {
             Xed.Import.Run();
             return true;
+        }
+
+        [CmdOp("xed/import/check")]
+        void CheckXedImports()
+        {
+            var blocks = Xed.Views.InstImports;
+            ref readonly var lines = ref blocks.BlockLines;
+            var forms = lines.Keys.Index().Sort();
+            ref readonly var source = ref blocks.DataSource;
         }
     }
 }

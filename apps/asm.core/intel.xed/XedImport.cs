@@ -18,23 +18,17 @@ namespace Z0
             get => _BroadcastDefs;
         }
 
-        public static ReadOnlySpan<OpWidthRecord> OpWidths
-        {
-            [MethodImpl(Inline), Op]
-            get => _OpWidths;
-        }
+        XedPaths XedPaths => Wf.XedPaths();
 
-        XedPaths XedPaths => Service(Wf.XedPaths);
+        AppSvcOps AppSvc => Wf.AppSvc();
 
-        AppSvcOps AppSvc => Service(Wf.AppSvc);
-
-        AppDb AppDb => Service(Wf.AppDb);
+        AppDb AppDb => Wf.AppDb();
 
         DbTargets Targets() => XedPaths.Imports();
 
         DbTargets Targets(string scope) => Targets().Targets(scope);
 
-        InstBlockImporter BlockImporter => Service(() => new InstBlockImporter(AppSvc));
+        InstBlockImporter BlockImporter => Wf.BlockImporter();
 
         XedRuntime Xed;
 
@@ -67,17 +61,17 @@ namespace Z0
             );
         }
 
-       public Index<PointerWidthInfo> CalcPointerWidths()
+        public Index<PointerWidthInfo> CalcPointerWidths()
             => Data(nameof(PointerWidthInfo), () => mapi(PointerWidths.Where(x => x.Kind != 0), (i,w) => w.ToRecord((byte)i)));
 
-        public InstImportBlocks CalcInstImports()
-            => BlockImporter.CalcImports();
+        public void CalcInstImports(Action<InstImportBlocks> dst)
+            => BlockImportDatasets.calc(dst);
 
-        public CpuIdImporter.Output CalcCpuIdImports()
-            => CpuIdImporter.calc();
+        public void CalcCpuIdImports(Action<CpuIdImporter.Output> f)
+            => f(CpuIdImporter.calc());
 
-        public Index<FormImport> CalcFormImports()
-            => FormImporter.calc(XedPaths.DocSource(XedDocKind.FormData));
+        public void CalcFormImports(Action<Index<FormImport>> f)
+            => f(FormImporter.calc(XedPaths.DocSource(XedDocKind.FormData)));
 
         void EmitBroadcastDefs()
             => AppSvc.TableEmit(XedImport.BroadcastDefs, Targets().Table<AsmBroadcastDef>());
@@ -91,11 +85,11 @@ namespace Z0
         void EmitFormImports()
             => Emit(Xed.Views.FormImports);
 
-        public void Emit(ReadOnlySpan<FormImport> src)
+        void Emit(ReadOnlySpan<FormImport> src)
             => AppSvc.TableEmit(src, Targets().Table<FormImport>());
 
-        public void ImportInstBlocks()
-            => BlockImporter.Import(Xed.Views.InstImports, PllExec);
+        void ImportInstBlocks()
+            => BlockImporter.Import(Xed.Views.InstImports);
 
         void Emit(ReadOnlySpan<FieldImport> src)
             => AppSvc.TableEmit(src, XedPaths.Imports().Table<FieldImport>());
@@ -109,7 +103,7 @@ namespace Z0
         void EmitChips()
             => AppSvc.TableEmit(SymServices.kindrows<ChipCode>(), Targets().Path("xed.chips", FileKind.Csv));
 
-        public void EmitChipMap()
+        void EmitChipMap()
         {
             const string RowFormat = "{0,-12} | {1,-24} | {2}";
             var map = Xed.Views.ChipMap;
@@ -127,7 +121,7 @@ namespace Z0
             AppSvc.FileEmit(dst.Emit(), counter, Targets().Path(FS.file("xed.chipmap", FS.Csv)));
         }
 
-        public void EmitIsaForms()
+        void EmitIsaForms()
         {
             var codes = Symbols.index<ChipCode>();
             var forms = Xed.Views.FormImports;

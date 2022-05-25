@@ -13,7 +13,6 @@ namespace Z0
             public InstBlockLines()
             {
 
-
             }
 
             public bool Add(InstBlockLineSpec src)
