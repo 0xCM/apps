@@ -1,4 +1,4 @@
-namespace Z0.llvm.stringtables
+namespace Z0.llvm.strings
 {
     using System;
 
@@ -21,7 +21,7 @@ namespace Z0.llvm.stringtables
 
         public static MemoryAddress OffsetBase => address(Offsets);
 
-        public static MemoryStrings Strings => strings.memory(Offsets,Data);
+        public static MemoryStrings<STIPredicateDeclKind> Strings => memory.strings(Offsets,Data);
 
         public static ReadOnlySpan<byte> Offsets => new byte[12]{0x00,0x00,0x00,0x00,0x11,0x00,0x00,0x00,0x2e,0x00,0x00,0x00};
 

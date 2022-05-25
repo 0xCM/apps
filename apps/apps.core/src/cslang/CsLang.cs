@@ -355,7 +355,7 @@ namespace Z0
         public StringTable GenStringTable(Identifier targetNs, ClrEnumKind kind, ItemList<string> src, CgTarget dst)
         {
             var name = src.Name;
-            var syntax = StringTableSyntax.define(targetNs + ".stringtables", name +"ST", name + "Kind", kind, targetNs);
+            var syntax = StringTableSyntax.define(targetNs, name +"ST", name + "Kind", kind, targetNs);
             var table = StringTables.define(syntax, src);
             EmitTableCode(syntax, src, dst);
             EmitTableData(table, dst);

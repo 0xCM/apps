@@ -16,7 +16,7 @@ namespace Z0.llvm
 
         CsLang CsLang => Service(Wf.CsLang);
 
-        const string TargetNs = "Z0.llvm";
+        const string TargetNs = "Z0.llvm.strings";
 
         public void Run()
         {
