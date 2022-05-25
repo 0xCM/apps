@@ -141,8 +141,8 @@ public enum PartId : byte
     [Symbol("capture.checks")]
     CaptureChecks,
 
-    [Symbol("validity")]
-    Validity,
+    [Symbol("diagnosics")]
+    Diagnostics,
 
     [Symbol("cpu.dsl")]
     CpuDsl,
@@ -153,8 +153,8 @@ public enum PartId : byte
     [Symbol("cpu.test")]
     CpuTest,
 
-    [Symbol("services")]
-    Services,
+    [Symbol("archives")]
+    Archives,
 
     [Symbol("lib")]
     Lib,
@@ -180,7 +180,7 @@ public enum PartId : byte
     [Symbol("alloc")]
     Alloc,
 
-    // ~ Generated 64 .. 127
+    // ~ Generated 100 .. 127
     // ~ -------------------------------------------------------------------------------
 
     [Symbol("codegen.common")]

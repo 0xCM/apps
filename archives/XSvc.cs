@@ -4,12 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public partial class CheckCmd : AppCmdProvider<CheckCmd>
+    sealed class ServiceCache : ServiceCache<ServiceCache>
     {
-        AppDb AppDb => Service(Wf.AppDb);
 
-        Parsers Parsers => Service(Wf.Parsers);
 
-        AppServices AppSvc => Wf.AppServices();
+    }
+
+    public static class XSvc
+    {
+        static ServiceCache Services = new();
+
+
     }
 }

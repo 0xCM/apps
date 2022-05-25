@@ -2,14 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
+
 namespace Z0
 {
-    public partial class CheckCmd : AppCmdProvider<CheckCmd>
+    [ApiHost]
+    public static partial class XTend
     {
-        AppDb AppDb => Service(Wf.AppDb);
-
-        Parsers Parsers => Service(Wf.Parsers);
-
-        AppServices AppSvc => Wf.AppServices();
+        const NumericKind Closure = Root.UnsignedInts;
     }
 }

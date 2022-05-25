@@ -28,9 +28,9 @@ namespace Z0
         public static AppDb AppDb(this IWfRuntime wf)
             => Services.Service<AppDb>(wf);
 
-        [Op]
-        public static DumpArchives DumpArchives(this IWfRuntime wf)
-            => Services.Service<DumpArchives>(wf);
+        // [Op]
+        // public static DumpArchives DumpArchives(this IWfRuntime wf)
+        //     => Services.Service<DumpArchives>(wf);
 
         [Op]
         public static AppServices AppServices(this IWfRuntime wf)
@@ -39,15 +39,15 @@ namespace Z0
         public static CheckRunner CheckRunner(this IWfRuntime wf)
             => Z0.CheckRunner.create(wf);
 
-        public static ApiSegmentLocator ApiSegments(this IWfRuntime wf)
-            => Services.Service<ApiSegmentLocator>(wf);
+        // public static ApiSegmentLocator ApiSegments(this IWfRuntime wf)
+        //     => Services.Service<ApiSegmentLocator>(wf);
 
-        [Op]
-        public static ProcessContextPipe ProcessContextPipe(this IWfRuntime wf)
-            => Z0.ProcessContextPipe.create(wf);
+        // [Op]
+        // public static ProcessContextPipe ProcessContextPipe(this IWfRuntime wf)
+        //     => Z0.ProcessContextPipe.create(wf);
 
-        [Op]
-        public static RegionProcessor RegionProcessor(this IWfRuntime wf)
-            => Z0.RegionProcessor.create(wf);
+        // [Op]
+        // public static RegionProcessor RegionProcessor(this IWfRuntime wf)
+        //     => Z0.RegionProcessor.create(wf);
     }
 }

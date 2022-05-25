@@ -2,14 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
+
 namespace Z0
 {
-    public partial class CheckCmd : AppCmdProvider<CheckCmd>
+    struct Msg
     {
-        AppDb AppDb => Service(Wf.AppDb);
+        const NumericKind Closure = Root.UnsignedInts;
 
-        Parsers Parsers => Service(Wf.Parsers);
-
-        AppServices AppSvc => Wf.AppServices();
     }
 }
