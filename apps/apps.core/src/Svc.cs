@@ -9,9 +9,6 @@ namespace Z0
 
     public static class Svc
     {
-        public static ApiServices ApiServices(this IWfRuntime wf)
-            => Z0.ApiServices.create(wf);
-
         public static GStringLits GenLiterals(this IWfRuntime wf)
             => GStringLits.create(wf);
 

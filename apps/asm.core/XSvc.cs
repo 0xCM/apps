@@ -6,7 +6,7 @@ namespace Z0
 {
     using Z0.Asm;
 
-    sealed class ServiceCache : ServiceCache<ServiceCache>
+    sealed class ServiceCache : AppServices<ServiceCache>
     {
 
 

@@ -45,7 +45,7 @@ namespace Z0
 
         public new WsCmdRunner CmdRunner => Wf.WsCmdRunner();
 
-        AppServices AppSvc => Wf.AppServices();
+        AppSvcOps AppSvc => Wf.AppSvc();
 
         ConcurrentDictionary<uint,IMachine> Machines = new();
 
@@ -73,7 +73,7 @@ namespace Z0
 
         protected override void Initialized()
         {
-            _Views = new(this, Wf.AppServices);
+            _Views = new(this, Wf.AppSvc);
         }
 
         public XedRuntime()

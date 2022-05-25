@@ -11,7 +11,7 @@ namespace Z0.Asm
     {
         CharMapper CharMapper => Service(Wf.CharMapper);
 
-        AppServices AppSvc => Service(Wf.AppServices);
+        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         IntelSdmPaths SdmPaths;
 

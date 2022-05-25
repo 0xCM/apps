@@ -33,7 +33,7 @@ namespace Z0
 
         const string DbScope = "polybits";
 
-        AppServices AppSvc => Service(Wf.AppServices);
+        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         AppDb AppDb => Service(Wf.AppDb);
 

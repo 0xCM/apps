@@ -11,7 +11,7 @@ namespace Z0
 
     public partial class PbChecks : Checker<PbChecks>
     {
-        AppServices AppSvc => Service(Wf.AppServices);
+        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         AppDb AppDb => AppSvc.AppDb;
 

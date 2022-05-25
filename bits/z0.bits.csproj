@@ -13,7 +13,6 @@
     <ProjectReference Include="$(Expr)" />
     <ProjectReference Include="$(Alloc)" />
     <ProjectReference Include="$(Archives)" />
-
   </ItemGroup>
 
 </Project>

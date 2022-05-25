@@ -17,6 +17,15 @@
 		},
 		{
 			"path": "archives"
+		},
+		{
+			"path": "extract"
+		},
+		{
+			"path": "expr"
+		},
+		{
+			"path": "lines"
 		}
 	],
 	"settings": {}

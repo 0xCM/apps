@@ -7,7 +7,7 @@ namespace Z0
 {
     using static core;
 
-    public class AppServices : AppService<AppServices>
+    public class AppSvcOps : AppService<AppSvcOps>
     {
         public new void Babble<T>(T content)
             => WfMsg.Babble(content);
@@ -203,6 +203,5 @@ namespace Z0
             EmittedFile(emitting, counter);
             return true;
         }
-
     }
 }

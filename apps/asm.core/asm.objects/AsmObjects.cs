@@ -12,7 +12,7 @@ namespace Z0
     {
         AppDb AppDb => Service(Wf.AppDb);
 
-        AppServices AppSvc => Service(Wf.AppServices);
+        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         CoffServices Coff => Service(Wf.CoffServices);
 

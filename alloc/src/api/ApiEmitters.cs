@@ -10,8 +10,8 @@ namespace Z0
     {
         ApiServices ApiSvc => Service(Wf.ApiServices);
 
-        AppServices AppSvc
-            => Service(Wf.AppServices);
+        AppSvcOps AppSvc
+            => Service(Wf.AppSvc);
 
         AppDb AppDb
             => Service(Wf.AppDb);
@@ -24,7 +24,7 @@ namespace Z0
         void ApiEmit(Index<SymLiteralRow> symlits)
             => core.exec(true,
                 EmitDataTypes,
-                EmitBitMasks,
+                //EmitBitMasks,
                 EmitDataFlows,
                 EmitEnumList,
                 EmitCompilationLits,
@@ -53,9 +53,6 @@ namespace Z0
 
         void EmitDataTypes()
             => ApiSvc.Emit(ApiSvc.CalcDataTypes());
-
-        void EmitBitMasks()
-            => ApiSvc.Emit(ApiSvc.CalcBitMasks());
 
         void EmitSymLits(Index<SymLiteralRow> src)
             => ApiSvc.Emit(src);

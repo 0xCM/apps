@@ -30,7 +30,7 @@ namespace Z0
         public static CsEmitter emitter()
             => new();
 
-        AppServices AppSvc => Service(Wf.AppServices);
+        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         public void EmitReplicants(Index<ClrEnumAdapter> enums, FS.FilePath dst)
         {

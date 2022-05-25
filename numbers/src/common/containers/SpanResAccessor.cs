@@ -6,9 +6,9 @@ namespace Z0
 {
     public readonly struct SpanResAccessor
     {
-        public MethodEntryPoint Member {get;}
+        public readonly MethodEntryPoint Member {get;}
 
-        public SpanResKind Kind {get;}
+        public readonly SpanResKind Kind {get;}
 
         [MethodImpl(Inline)]
         public SpanResAccessor(MethodInfo member, SpanResKind format)

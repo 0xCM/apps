@@ -4,50 +4,53 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    sealed class ServiceCache : ServiceCache<ServiceCache>
+    sealed class ServiceCache : AppServices<ServiceCache>
     {
+        public Parsers Parsers(IWfRuntime wf)
+            => Service<Parsers>(wf);
 
+        public WsProjects WsProjects(IWfRuntime wf)
+            => Service<WsProjects>(wf);
 
+        public WsCmdRunner WsCmdRunner(IWfRuntime wf)
+            => Service<WsCmdRunner>(wf);
+
+        public AppDb AppDb(IWfRuntime wf)
+            => Service<AppDb>(wf);
+
+        public ApiResProvider ApiResProvider(IWfRuntime wf)
+            => Service<ApiResProvider>(wf);
+
+        public AppSvcOps AppSvc(IWfRuntime wf)
+            => Service<AppSvcOps>(wf);
+
+        public CheckRunner CheckRunner(IWfRuntime wf)
+            => Service<CheckRunner>(wf);
     }
 
     public static class XSvc
     {
-        static ServiceCache Services = new();
+        static ServiceCache Services => ServiceCache.Instance;
 
         public static Parsers Parsers(this IWfRuntime wf)
-            => Services.Service<Parsers>(wf);
+            => Services.Parsers(wf);
 
-        [Op]
         public static WsProjects WsProjects(this IWfRuntime wf)
-            => Services.Service<WsProjects>(wf);
+            => Services.WsProjects(wf);
 
         public static WsCmdRunner WsCmdRunner(this IWfRuntime wf)
-            => Services.Service<WsCmdRunner>(wf);
+            => Services.WsCmdRunner(wf);
 
-        [Op]
         public static AppDb AppDb(this IWfRuntime wf)
-            => Services.Service<AppDb>(wf);
+            => Services.AppDb(wf);
 
-        // [Op]
-        // public static DumpArchives DumpArchives(this IWfRuntime wf)
-        //     => Services.Service<DumpArchives>(wf);
+        public static ApiResProvider ApiResProvider(this IWfRuntime wf)
+            => Services.ApiResProvider(wf);
 
-        [Op]
-        public static AppServices AppServices(this IWfRuntime wf)
-            => Services.Service<AppServices>(wf);
+        public static AppSvcOps AppSvc(this IWfRuntime wf)
+            => Services.AppSvc(wf);
 
         public static CheckRunner CheckRunner(this IWfRuntime wf)
-            => Z0.CheckRunner.create(wf);
-
-        // public static ApiSegmentLocator ApiSegments(this IWfRuntime wf)
-        //     => Services.Service<ApiSegmentLocator>(wf);
-
-        // [Op]
-        // public static ProcessContextPipe ProcessContextPipe(this IWfRuntime wf)
-        //     => Z0.ProcessContextPipe.create(wf);
-
-        // [Op]
-        // public static RegionProcessor RegionProcessor(this IWfRuntime wf)
-        //     => Z0.RegionProcessor.create(wf);
+            => Services.CheckRunner(wf);
     }
 }

@@ -10,7 +10,7 @@ namespace Z0.llvm
     {
         new LlvmPaths Paths => Service(Wf.LlvmPaths);
 
-        AppServices AppSvc => Service(Wf.AppServices);
+        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         public void Emit(FS.Files src, string name)
             => FileEmit(name, @readonly(src.View.Map(x => x.ToUri())));

@@ -11,8 +11,8 @@ namespace Z0
     {
         protected abstract new IWsCmdRunner CmdRunner {get;}
 
-        protected virtual AppServices AppSvc
-            => Service(Wf.AppServices);
+        protected virtual AppSvcOps AppSvc
+            => Service(Wf.AppSvc);
 
         protected virtual AppDb AppDb
             => Service(Wf.AppDb);

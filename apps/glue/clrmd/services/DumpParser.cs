@@ -16,7 +16,7 @@ namespace Z0
 
         DumpPaths DumpPaths => DumpArchives.DumpPaths();
 
-        AppServices AppSvc => Wf.AppServices();
+        AppSvcOps AppSvc => Wf.AppSvc();
 
         public DumpParser()
         {

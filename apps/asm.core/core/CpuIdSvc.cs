@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     public class CpuIdSvc : AppService<CpuIdSvc>
     {
-        AppServices AppSvc => Service(Wf.AppServices);
+        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         public void EmitRecords(ReadOnlySpan<CpuIdRow> src, FS.FilePath dst)
             => AppSvc.TableEmit(src,dst);

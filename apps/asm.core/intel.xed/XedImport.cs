@@ -26,7 +26,7 @@ namespace Z0
 
         XedPaths XedPaths => Service(Wf.XedPaths);
 
-        AppServices AppSvc => Service(Wf.AppServices);
+        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         AppDb AppDb => Service(Wf.AppDb);
 

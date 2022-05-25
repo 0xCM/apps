@@ -11,7 +11,19 @@ namespace Z0
 
     public sealed class BitMaskServices : AppService<BitMaskServices>
     {
-        AppServices AppSvc => Service(Wf.AppServices);
+        AppSvcOps AppSvc => Service(Wf.AppSvc);
+
+
+        public Index<BitMaskInfo> CalcBitMasks()
+            => CalcMasks();
+
+        void EmitBitMasks()
+            => ApiSvc.Emit(ApiSvc.CalcBitMasks());
+
+
+        public void Emit(ReadOnlySpan<BitMaskInfo> src)
+            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<BitMaskInfo>());
+
 
         public static Index<BitMaskInfo> masks(Type src)
         {

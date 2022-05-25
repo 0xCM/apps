@@ -31,5 +31,6 @@ namespace Z0.Parts
 {
     public sealed partial class Numbers : Part<Numbers>
     {
+        public static IServiceCache Services => ServiceCache.Instance;
     }
 }

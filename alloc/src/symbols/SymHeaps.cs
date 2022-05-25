@@ -11,7 +11,7 @@ namespace Z0
     {
         AppDb AppDb => Service(Wf.AppDb);
 
-        AppServices AppSvc => Service(Wf.AppServices);
+        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         /// <summary>
         /// Discovers symbolic literals defined in a specified component collection

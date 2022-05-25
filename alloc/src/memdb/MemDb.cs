@@ -22,7 +22,6 @@ namespace Z0
         static AllocToken token(MemoryAddress @base, uint offset, uint size)
             => new AllocToken(@base,offset, size);
 
-
         public static Index<MemoryFileInfo> Allocated()
             => Opened.Values.Map(x => x.Description);
 

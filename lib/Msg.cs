@@ -6,9 +6,6 @@ namespace Z0
 {
     partial struct Msg
     {
-        public static MsgPattern<FS.FileUri> LoadingSpanAccessors => "Loading respack accessors from {0}";
-
-        public static MsgPattern<Count,FS.FileUri> LoadedSpanAccessors => "Loaded {0} respack accessors from {1}";
 
         public static MsgPattern<Count> LoadingHexFileBlocks => "Loading hex blocks from {0} files";
 

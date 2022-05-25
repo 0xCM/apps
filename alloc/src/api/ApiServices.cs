@@ -10,15 +10,15 @@ namespace Z0
     {
         AppDb AppDb => Service(Wf.AppDb);
 
-        AppServices AppSvc => Service(Wf.AppServices);
+        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         public ApiEmitters Emitters => Service(Wf.ApiEmitters);
 
         public ApiComments Comments => Service(Wf.ApiComments);
 
-        public ApiAssets Assets => Service(Wf.ApiAssets);
+        //public ApiAssets Assets => Service(Wf.ApiAssets);
 
-        public BitMaskServices BitMasks => Service(Wf.ApiBitMasks);
+        //public BitMaskServices BitMasks => Service(Wf.ApiBitMasks);
 
         public ApiCatalogs Catalogs => Service(Wf.ApiCatalogs);
 
@@ -57,8 +57,8 @@ namespace Z0
         public void EmitSymHeap(SymHeap src)
             => SymHeaps.EmitSymHeap(src);
 
-        public Index<BitMaskInfo> CalcBitMasks()
-            => BitMasks.CalcMasks();
+        // public Index<BitMaskInfo> CalcBitMasks()
+        //     => BitMasks.CalcMasks();
 
         public Index<CompilationLiteral> CalcCompilationLits()
             => Data(nameof(CalcCompilationLits), () => LiteralProvider.CompilationLiterals(ApiParts));
@@ -122,8 +122,8 @@ namespace Z0
                 .Enums()
                 .Where(x => x.ContainsGenericParameters == false && nonempty(x.Namespace));
 
-        public void EmitBitMasks()
-            => Emit(CalcBitMasks());
+        // public void EmitBitMasks()
+        //     => Emit(CalcBitMasks());
 
         public Dictionary<FS.FilePath, Dictionary<string,string>> EmitComments()
             => Data(nameof(EmitComments), () => Comments.Collect());
@@ -144,8 +144,8 @@ namespace Z0
         public void Emit(ReadOnlySpan<TableDefRecord> src)
             => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<TableDefRecord>());
 
-        public void Emit(ReadOnlySpan<BitMaskInfo> src)
-            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<BitMaskInfo>());
+        // public void Emit(ReadOnlySpan<BitMaskInfo> src)
+        //     => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<BitMaskInfo>());
 
         public void Emit(ReadOnlySpan<SymLiteralRow> src)
             => AppSvc.TableEmit(src, AppDb.ApiTargets().Path("api.symbols", FileKind.Csv), TextEncodingKind.Unicode);

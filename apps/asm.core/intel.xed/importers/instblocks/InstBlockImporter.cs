@@ -11,11 +11,11 @@ namespace Z0
     {
         public partial class InstBlockImporter
         {
-            readonly AppServices AppSvc;
+            readonly AppSvcOps AppSvc;
 
             XedPaths XedPaths;
 
-            public InstBlockImporter(AppServices svc)
+            public InstBlockImporter(AppSvcOps svc)
             {
                 AppSvc = svc;
                 XedPaths = XedPaths.Service;

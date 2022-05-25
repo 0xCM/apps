@@ -28,13 +28,13 @@ namespace Z0
 
         readonly Index<object> DataStores;
 
-        readonly Func<AppServices> _AppSvc;
+        readonly Func<AppSvcOps> _AppSvc;
 
         readonly XedRuntime Xed;
 
-        readonly AppServices AppSvc;
+        readonly AppSvcOps AppSvc;
 
-        internal XedViews(XedRuntime xed, Func<AppServices> svc)
+        internal XedViews(XedRuntime xed, Func<AppSvcOps> svc)
         {
             _AppSvc = svc;
             AppSvc = svc();

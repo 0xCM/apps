@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct WsFileFlows
+    public class ServiceCacheAttribute : Attribute
     {
 
-
-
     }
-
 }

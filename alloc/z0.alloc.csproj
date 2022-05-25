@@ -9,6 +9,7 @@
   <ItemGroup>
     <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
     <ProjectReference Include="$(Numbers)" />
+    <ProjectReference Include="$(Archives)" />
   </ItemGroup>
 
 </Project>

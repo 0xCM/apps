@@ -31,7 +31,7 @@ namespace Z0
 
         AsmFlowCommands AsmFlowCommands => Service(Wf.AsmFlowCommands);
 
-        AppServices AppSvc => Wf.AppServices();
+        AppSvcOps AppSvc => Wf.AppSvc();
 
         public ProjectCmd With(AsmCmdRt rt)
         {

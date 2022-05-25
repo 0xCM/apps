@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    sealed class ServiceCache : ServiceCache<ServiceCache>
+    sealed class ServiceCache : AppServices<ServiceCache>
     {
 
 

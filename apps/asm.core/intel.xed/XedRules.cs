@@ -23,7 +23,7 @@ namespace Z0
 
         Symbols<XedFieldType> FieldTypes;
 
-        AppServices AppSvc => Service(Wf.AppServices);
+        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         bool PllExec
         {

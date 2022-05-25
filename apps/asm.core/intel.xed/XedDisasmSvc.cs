@@ -11,7 +11,7 @@ namespace Z0
 
         WsProjects Projects => Xed.Projects;
 
-        AppServices AppSvc => Service(Wf.AppServices);
+        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         XedPaths XedPaths => Xed.Paths;
 

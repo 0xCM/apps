@@ -11,7 +11,7 @@ namespace Z0
     {
         const int MaxDefCount = Pow2.T13;
 
-        AppServices AppSvc => Service(Wf.AppServices);
+        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         AppDb AppDb => Service(Wf.AppDb);
 

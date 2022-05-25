@@ -47,7 +47,7 @@ namespace Z0
         public LayoutVectors CalcLayoutVectors(InstLayouts src)
             => Data(nameof(CalcLayoutVectors), () => LayoutCalcs.vectors(src));
 
-        AppServices AppSvc => Service(Wf.AppServices);
+        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         bool PllExec => true;
 

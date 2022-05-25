@@ -12,7 +12,7 @@ namespace Z0
     {
         DumpArchives DumpArchives => Wf.DumpArchives();
 
-        AppServices AppSvc => Wf.AppServices();
+        AppSvcOps AppSvc => Wf.AppSvc();
 
         FS.FolderPath SegDir
             => Db.TableDir("segments");

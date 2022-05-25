@@ -12,7 +12,7 @@ namespace Z0.llvm
 
         LlvmDataCalcs DataCalcs => Service(Wf.LlvmDataCalcs);
 
-        AppServices AppSvc => Service(Wf.AppServices);
+        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         public LlvmQuery Query => Service(() => LlvmQuery.create(Wf));
 

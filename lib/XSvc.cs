@@ -56,9 +56,6 @@ namespace Z0
         public static FileSplitter FileSplitter(this IWfRuntime wf)
             => Z0.FileSplitter.create(wf);
 
-        [Op]
-        public static ApiResProvider ApiResProvider(this IWfRuntime wf)
-            => Z0.ApiResProvider.create(wf);
 
         [Op]
         public static ApiHex ApiHex(this IWfRuntime wf)

@@ -10,7 +10,7 @@ namespace Z0
 
     public partial class ProjectDataServices : AppService<ProjectDataServices>
     {
-        AppServices AppSvc => Wf.AppServices();
+        AppSvcOps AppSvc => Wf.AppSvc();
 
         XedDisasmSvc XedDisasm => AsmRt.XedDisasm;
 

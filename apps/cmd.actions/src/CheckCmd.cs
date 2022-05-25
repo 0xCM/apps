@@ -10,6 +10,6 @@ namespace Z0
 
         Parsers Parsers => Service(Wf.Parsers);
 
-        AppServices AppSvc => Wf.AppServices();
+        AppSvcOps AppSvc => Wf.AppSvc();
     }
 }

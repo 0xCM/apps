@@ -10,7 +10,7 @@ namespace Z0.llvm
 
         LlvmToolset Toolset => Service(Wf.LLvmToolset);
 
-        AppServices AppSvc => Service(Wf.AppServices);
+        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         new LlvmPaths Paths => Service(Wf.LlvmPaths);
 
