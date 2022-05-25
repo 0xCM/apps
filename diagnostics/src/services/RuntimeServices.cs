@@ -8,9 +8,35 @@ namespace Z0
 
     using PCK = ProcessContextFlag;
 
-    public partial class ProcessContextPipe : AppService<ProcessContextPipe>
+    public partial class RuntimeServices : AppService<RuntimeServices>
     {
         DumpArchives DumpArchives => Wf.DumpArchives();
+
+        AppServices AppSvc => Wf.AppServices();
+
+        FS.FolderPath SegDir
+            => Db.TableDir("segments");
+
+        public AddressBank LogSegments()
+        {
+            var bank = ImageMemory.bank(Wf, LogRegions());
+            AppSvc.TableEmit(bank.Segments, Db.Table<ProcessSegment>(SegDir));
+            return bank;
+        }
+
+        public ReadOnlySpan<ProcessMemoryRegion> LogRegions()
+        {
+            var regions = ImageMemory.regions();
+            AppSvc.TableEmit(regions.View, Db.Table<ProcessMemoryRegion>(SegDir));
+            return regions;
+        }
+
+        public AddressBank LogSegments(ReadOnlySpan<ProcessMemoryRegion> src)
+        {
+            var bank = ImageMemory.bank(Wf, src);
+            AppSvc.TableEmit(bank.Segments, Db.Table<ProcessSegment>(SegDir));
+            return bank;
+        }
 
         public Timestamp EmitContext()
         {

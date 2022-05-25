@@ -6,11 +6,11 @@ namespace Z0
 {
     public readonly struct ModuleMemory : ITextual
     {
-        public Name ModuleName {get;}
+        public readonly Name ModuleName;
 
-        public MemoryAddress BaseAddress {get;}
+        public readonly MemoryAddress BaseAddress;
 
-        public ByteSize MemorySize {get;}
+        public readonly ByteSize MemorySize;
 
         [MethodImpl(Inline)]
         public ModuleMemory(Name module, MemoryAddress @base, ByteSize size)

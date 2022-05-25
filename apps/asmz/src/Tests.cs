@@ -130,7 +130,7 @@ namespace Z0.Asm
 
         void CheckFlags()
         {
-            var flags = Clr.@enum<MinidumpRecords.MinidumpType>();
+            var flags = Clr.@enum<MinidumpType>();
             var summary = flags.Describe();
             var count = summary.FieldCount;
             var details = summary.LiteralDetails;

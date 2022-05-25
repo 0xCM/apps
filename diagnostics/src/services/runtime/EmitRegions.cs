@@ -7,7 +7,7 @@ namespace Z0
     using System;
     using System.Diagnostics;
 
-    partial class ProcessContextPipe
+    partial class RuntimeServices
     {
         public Index<ProcessMemoryRegion> EmitRegions(Process process, FS.FilePath dst)
         {

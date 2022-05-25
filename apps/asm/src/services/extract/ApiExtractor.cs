@@ -29,8 +29,6 @@ namespace Z0
 
         ApiPackArchive PackArchive;
 
-        byte[] Buffer;
-
         Index<ResolvedPart> ResolvedParts;
 
         Index<AsmRoutine> SortedRoutines;
@@ -39,11 +37,10 @@ namespace Z0
 
         ApiCatalogs ApiCatalogs;
 
-        ApiHex ApiHex => Service(Wf.ApiHex);
+        ApiCodeExtractor CodeExtractor => Service(Wf.CodeExtractor);
 
         public ApiExtractor()
         {
-            Buffer = ApiExtracts.buffer();
             SortedRoutines = array<AsmRoutine>();
             ResolvedParts = array<ResolvedPart>();
             FormatConfig = AsmFormatConfig.@default(out var _);
@@ -143,7 +140,6 @@ namespace Z0
             return collection;
         }
 
-        FS.FolderPath SegDir
-            => Db.TableDir("segments");
+
     }
 }

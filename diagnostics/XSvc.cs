@@ -26,8 +26,8 @@ namespace Z0
             => Services.Service<ApiSegmentLocator>(wf);
 
         [Op]
-        public static ProcessContextPipe ProcessContextPipe(this IWfRuntime wf)
-            => Z0.ProcessContextPipe.create(wf);
+        public static RuntimeServices ProcessContextPipe(this IWfRuntime wf)
+            => Z0.RuntimeServices.create(wf);
 
         [Op]
         public static RegionProcessor RegionProcessor(this IWfRuntime wf)

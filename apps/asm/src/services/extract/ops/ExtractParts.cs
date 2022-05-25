@@ -16,14 +16,5 @@ namespace Z0
                 counter += ExtractPart(skip(src,i), pack);
             return counter;
         }
-
-        // uint ExtractParts(ResolvedPart[] src, IApiPack pack)
-        // {
-        //     var flow = Running(Msg.ExtractingResolved.Format(src.Length));
-        //     var counter = 0u;
-        //     counter = ExtractParts(src, pack);
-        //     Ran(flow, string.Format(Msg.ExtractedResolved.Format(counter)));
-        //     return counter;
-        // }
     }
 }

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.InteropServices;
-
     partial struct MinidumpRecords
     {
         [StructLayout(LayoutKind.Sequential)]

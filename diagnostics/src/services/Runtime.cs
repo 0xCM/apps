@@ -11,7 +11,7 @@ namespace Z0
     using static core;
 
     [ApiHost]
-    public readonly struct Runtime
+    public class Runtime
     {
         public static ClrAssemblyAdapter EntryAssembly
         {

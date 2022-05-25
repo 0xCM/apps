@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.InteropServices;
-
     partial struct MinidumpRecords
     {
         /// <summary>
         /// https://docs.microsoft.com/en-us/windows/win32/api/verrsrc/ns-verrsrc-vs_fixedfileinfo
         /// </summary>
         [StructLayout(LayoutKind.Sequential), DocRef("sdk-api-src/content/verrsrc/ns-verrsrc-vs_fixedfileinfo.md")]
-        public struct VS_FIXEDFILEINFO : IRecord<VS_FIXEDFILEINFO>
+        public struct VS_FIXEDFILEINFO
         {
             public uint dwSignature;
 

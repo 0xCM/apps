@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static core;
-
-    partial class ApiExtractor
+    public readonly partial struct MinidumpRecords
     {
-
+        const string Docs = "sdk-api-src/content/minidumpapiset/";
     }
 }
