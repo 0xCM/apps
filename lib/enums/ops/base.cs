@@ -17,7 +17,7 @@ namespace Z0
         /// <typeparam name="E">The enum type</typeparam>
         public static ClrEnumKind @base<E>()
             where E : unmanaged, Enum
-             => @base(typeof(E).GetEnumUnderlyingType().NumericKind());
+                => @base(typeof(E).GetEnumUnderlyingType().NumericKind());
 
         /// <summary>
         /// Determines the integral type refined by a value-identified enum type
@@ -34,6 +34,15 @@ namespace Z0
         [Op]
         public static ClrEnumKind @base(Type et)
             => @base(et.GetEnumUnderlyingType().NumericKind());
+
+        [MethodImpl(Inline)]
+        public static ClrEnumKind kind<E>()
+            where E : unmanaged
+                => kind(typeof(E));
+
+        [Op]
+        public static ClrEnumKind kind(Type e)
+            => (ClrEnumKind)PrimalBits.kind(Type.GetTypeCode(e.GetEnumUnderlyingType()));
 
         [Op]
         public static ClrEnumKind @base(NumericKind src)

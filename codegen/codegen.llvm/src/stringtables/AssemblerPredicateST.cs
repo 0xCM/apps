@@ -29,5 +29,4 @@ namespace Z0.llvm.strings
 
         public static ReadOnlySpan<char> Data => new char[57]{'I','n','1','6','B','i','t','M','o','d','e','I','n','3','2','B','i','t','M','o','d','e','I','n','6','4','B','i','t','M','o','d','e','N','o','t','1','6','B','i','t','M','o','d','e','N','o','t','6','4','B','i','t','M','o','d','e',};
     }
-
 }

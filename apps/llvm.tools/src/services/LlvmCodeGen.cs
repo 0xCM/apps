@@ -30,7 +30,7 @@ namespace Z0.llvm
             var asmids = DataProvider.AsmIdentifiers().ToItemList();
             var name = "AsmId";
             ItemList<string> items = (name, asmids.Map(x => new ListItem<string>(x.Key, x.Value.Format())));
-            CsLang.GenStringTable(TargetNs, ClrEnumKind.U16, items, CgTarget.Llvm);
+            CsLang.EmitStringTable(TargetNs, ClrEnumKind.U16, items, CgTarget.Llvm, true);
             var literals = @readonly(map(DataProvider.AsmIdentifiers().Entries,e => Literals.define(e.Key, e.Value.Id)));
             var buffer = text.buffer();
             var offset = 0u;
@@ -46,9 +46,6 @@ namespace Z0.llvm
             writer.WriteLine(buffer.Emit());
         }
 
-        StringTable EmitStringTable(LlvmList src)
-            => CsLang.GenStringTable(TargetNs, ClrEnumKind.U32, src.ToItemList(), CgTarget.Llvm);
-
         public void EmitStringTables()
             => EmitStringTables(DataProvider.Lists().Where(x => x.Name != "vcodes"));
 
@@ -60,5 +57,8 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
                 EmitStringTable(skip(src,i));
         }
+
+        StringTable EmitStringTable(LlvmList src)
+            => CsLang.EmitStringTable(TargetNs, ClrEnumKind.U32, src.ToItemList(), CgTarget.Llvm, true);
    }
 }

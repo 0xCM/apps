@@ -93,7 +93,7 @@ namespace Z0.Asm
                     seek(sigs,i) = forms[keys[i-1]].Sig.Format();
             }
 
-            CsLang.GenStringTable(TargetNamespace, AsmSigTableName, AsmFormDescriptors.FormKindName, sigs, CgTarget.Intel);
+            CsLang.EmitStringTable(TargetNamespace, AsmSigTableName, AsmFormDescriptors.FormKindName, sigs, CgTarget.Intel, false);
         }
     }
 }

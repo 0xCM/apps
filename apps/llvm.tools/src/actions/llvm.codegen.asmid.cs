@@ -12,7 +12,13 @@ namespace Z0.llvm
         Outcome ListAsmIds(CmdArgs args)
         {
             var asmids = DataProvider.AsmIdentifiers().ToItemList();
-            var syntax = StringTableSyntax.define("Z0.llvm", "AsmIdData", "AsmId", ClrEnumKind.U16, "z0.llvm");
+            var syntax = StringTableSpec.define(
+                tableNs: "Z0.llvm",
+                tableName: "AsmIdData",
+                indexName: "AsmId",
+                indexNs: "z0.llvm",
+                @base: ClrEnumKind.U16
+                );
             ItemList<string> items = ("AsmId", asmids.Map(x => new ListItem<string>(x.Key, x.Value.Format())));
             var literals = @readonly(map(DataProvider.AsmIdentifiers().Entries,e => Literals.define(e.Key, e.Value.Id)));
             var dst = text.buffer();

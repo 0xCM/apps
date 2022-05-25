@@ -7,14 +7,15 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
     public struct StringTableRow
     {
-        public const string TableId = "stringtables";
+        const string TableId = "stringtables";
 
-        public const byte FieldCount = 3;
-
+        [Render(24)]
         public string TableName;
 
+        [Render(12)]
         public uint EntryIndex;
 
+        [Render(8)]
         public string EntryName;
 
         [MethodImpl(Inline)]
@@ -30,8 +31,5 @@ namespace Z0
 
         public override string ToString()
             => Format();
-
-        public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{24,12,8};
-    }
+   }
 }

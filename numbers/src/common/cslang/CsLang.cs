@@ -12,6 +12,11 @@ namespace Z0
 
     public partial class CsLang : AppService<CsLang>
     {
+        public static CsEmitter emitter()
+            => new();
+
+        AppSvcOps AppSvc => Service(Wf.AppSvc);
+
         ConstLookup<CgTarget,string> TargetExpressions;
 
         public CsLang()
@@ -26,112 +31,6 @@ namespace Z0
             }
             TargetExpressions = targets;
         }
-
-        public static uint csharp(in StringTableSyntax syntax, ItemList<string> src, ITextEmitter dst)
-        {
-            dst.WriteLine(string.Format("namespace {0}", syntax.TableNs));
-            dst.WriteLine(Open());
-            dst.WriteLine(string.Format("    using {0};", "System"));
-            dst.WriteLine();
-            dst.WriteLine(string.Format("    using static {0};", "core"));
-            dst.WriteLine();
-            dst.WriteLine(CsLang.format(4, StringTables.define(syntax, src)));
-            dst.WriteLine(Close());
-            return (uint)src.Length;
-        }
-
-        public static uint csharp(in StringTableSyntax syntax, ReadOnlySpan<string> src, ITextEmitter dst)
-        {
-            dst.WriteLine(string.Format("namespace {0}", syntax.TableNs));
-            dst.WriteLine(Open());
-            dst.WriteLine(string.Format("    using {0};", "System"));
-            dst.WriteLine();
-            dst.WriteLine(string.Format("    using static {0};", "core"));
-            dst.WriteLine();
-            dst.WriteLine(CsLang.format(4, StringTables.define(syntax, src)));
-            dst.WriteLine(Close());
-            return (uint)src.Length;
-        }
-
-        public static string format(uint margin, in StringTable src)
-        {
-            var dst = text.buffer();
-            CsLang.render(margin, src, dst);
-            return dst.Emit();
-        }
-
-        public static void render(uint margin, StringTable src, ITextBuffer dst)
-        {
-            var syntax = src.Syntax;
-            if(src.EmitIdentifiers)
-            {
-                EmitIndex(margin, src, dst);
-                dst.AppendLine();
-            }
-
-            dst.IndentLine(margin, PublicReadonlyStruct(syntax.TableName));
-            dst.IndentLine(margin, Open());
-            margin+=4;
-
-            var OffsetsProp = nameof(MemoryStrings.Offsets);
-            var DataProp = nameof(MemoryStrings.Data);
-            var EntryCountProp = nameof(MemoryStrings.EntryCount);
-            var CharCountProp = nameof(MemoryStrings.CharCount);
-            var CharBaseProp = nameof(MemoryStrings.CharBase);
-            var OffsetBaseProp = nameof(MemoryStrings.OffsetBase);
-            var StringsProp = "Strings";
-
-            dst.IndentLine(margin, Constant(EntryCountProp, src.EntryCount));
-            dst.AppendLine();
-
-            dst.IndentLine(margin, Constant(CharCountProp, (uint)src.Content.Length));
-            dst.AppendLine();
-
-            dst.IndentLine(margin, StaticLambdaProp(nameof(MemoryAddress), CharBaseProp, Call("address", DataProp)));
-            dst.AppendLine();
-
-            dst.IndentLine(margin, StaticLambdaProp(nameof(MemoryAddress), OffsetBaseProp, Call("address", OffsetsProp)));
-            dst.AppendLine();
-
-            var FactoryName = string.Format("{0}.{1}", nameof(memory), nameof(memory.strings));
-            var FactoryCreate = Call(FactoryName, OffsetsProp, DataProp);
-
-            if(src.Syntax.Parametric)
-                dst.IndentLine(margin, StaticLambdaProp(string.Format("{0}<{1}>", nameof(MemoryStrings), syntax.EnumName), StringsProp, FactoryCreate));
-            else
-                dst.IndentLine(margin, StaticLambdaProp(nameof(MemoryStrings), StringsProp, FactoryCreate));
-            dst.AppendLine();
-
-            dst.IndentLine(margin, GSpanRes.format(Z0.SpanRes.bytespan(OffsetsProp, src.OffsetStorage)));
-            dst.AppendLine();
-            dst.IndentLine(margin, GSpanRes.format(Z0.SpanRes.charspan(DataProp, src.Content)));
-            margin-=4;
-            dst.IndentLine(margin, Close());
-        }
-
-        static void EmitIndex(uint margin, in StringTable src, ITextBuffer dst)
-        {
-            var count = src.EntryCount;
-            var syntax = src.Syntax;
-            dst.IndentLine(margin, string.Format("public enum {0} : {1}", syntax.EnumName, syntax.EnumKind.CsKeyword()));
-            dst.IndentLine(margin, Chars.LBrace);
-            margin+=4;
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var id = ref src.Identifier(i);
-                if(id.IsEmpty)
-                    break;
-                dst.IndentLineFormat(margin, "{0} = {1},", id, i);
-            }
-            margin-=4;
-            dst.IndentLine(margin, Chars.RBrace);
-        }
-
-
-        public static CsEmitter emitter()
-            => new();
-
-        AppSvcOps AppSvc => Service(Wf.AppSvc);
 
         public void EmitReplicants(Index<ClrEnumAdapter> enums, FS.FilePath dst)
         {
@@ -352,59 +251,66 @@ namespace Z0
             return path;
         }
 
-        public StringTable GenStringTable(Identifier targetNs, ClrEnumKind kind, ItemList<string> src, CgTarget dst)
+        public StringTable EmitStringTable(Identifier tableNs, ClrEnumKind @base, ItemList<string> src, CgTarget dst, bool emitIndex)
         {
             var name = src.Name;
-            var syntax = StringTableSyntax.define(targetNs, name +"ST", name + "Kind", kind, targetNs);
+            var syntax = StringTableSpec.define(
+                tableNs: tableNs,
+                tableName: name +"ST",
+                indexNs: tableNs,
+                indexName: name + "Kind",
+                @base: @base,
+                emitIndex: emitIndex);
             var table = StringTables.define(syntax, src);
             EmitTableCode(syntax, src, dst);
             EmitTableData(table, dst);
             return table;
         }
 
-        public void GenStringTable(Identifier targetNs, Identifier table, ReadOnlySpan<string> values, CgTarget dst)
+        public StringTable EmitStringTable(Identifier tableNs, Identifier tableName, Identifier indexName, ReadOnlySpan<string> strings, CgTarget cgdst, bool emitIndex = true)
         {
-            var syntax = StringTableSyntax.define(targetNs, table, true);
-            EmitTableCode(syntax, values, dst);
-            EmitTableData(StringTables.define(syntax, values), dst);
+            var syntax = StringTableSpec.define(
+                tableNs: tableNs,
+                tableName: tableName,
+                indexName: indexName,
+                indexNs: tableNs,
+                @base:0,
+                emitIndex:emitIndex);
+            var table = StringTables.define(syntax, strings);
+            EmitTableCode(syntax, strings, cgdst);
+            EmitTableData(table, cgdst);
+            return table;
         }
 
-        public void GenStringTable(Identifier ns, Identifier table, Identifier @enum, ReadOnlySpan<string> values, CgTarget cgdst)
-        {
-            var syntax = StringTableSyntax.define(ns, table, @enum, true);
-            EmitTableCode(syntax, values, cgdst);
-            EmitTableData(StringTables.define(syntax, values), cgdst);
-        }
-
-        FS.FileUri EmitTableCode(StringTableSyntax syntax, ItemList<string> src, CgTarget cgdst)
+        FS.FileUri EmitTableCode(StringTableSpec syntax, ItemList<string> src, CgTarget cgdst)
         {
             var dst = SourceFile(syntax.TableName, "stringtables", cgdst);
             var emitter = text.emitter();
-            csharp(syntax, src, emitter);
+            render(syntax, src, emitter);
             AppSvc.FileEmit(emitter.Emit(), src.Count, dst);
             return dst;
         }
 
-        FS.FileUri EmitTableCode(StringTableSyntax syntax, ReadOnlySpan<string> src, CgTarget cgdst)
+        FS.FileUri EmitTableCode(StringTableSpec syntax, ReadOnlySpan<string> src, CgTarget cgdst)
         {
             var dst = SourceFile(syntax.TableName, "stringtables", cgdst);
             var emitter = text.emitter();
-            csharp(syntax, src, emitter);
+            render(syntax, src, emitter);
             AppSvc.FileEmit(emitter.Emit(), src.Length, dst);
             return dst;
         }
 
         FS.FileUri EmitTableData(StringTable src, CgTarget target)
         {
-            var dst = DataFile(src.Syntax.TableName, "stringtables", target);
-            var formatter = Tables.formatter<StringTableRow>(StringTableRow.RenderWidths);
+            var dst = DataFile(src.Spec.TableName, "stringtables", target);
+            var formatter = Tables.formatter<StringTableRow>();
             var emitting = EmittingFile(dst);
 
             using var writer = dst.AsciWriter();
             writer.WriteLine(formatter.FormatHeader());
 
             for(var j=0u; j<src.EntryCount; j++)
-                writer.WriteLine(formatter.Format(StringTables.row(src, j)));
+                writer.WriteLine(formatter.Format(StringTables.data(src, j)));
 
             EmittedFile(emitting, src.EntryCount);
             return dst;

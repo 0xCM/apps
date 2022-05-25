@@ -9,11 +9,11 @@ namespace Z0
     partial class StringTables
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static StringTableRow row(in StringTable src, uint index)
-            => new StringTableRow(src.Syntax.TableName, index, text.format(src[index]));
+        public static StringTableRow data(in StringTable src, uint index)
+            => new StringTableRow(src.Spec.TableName, index, text.format(src[index]));
 
         [Op]
-        public static uint rows(ItemList<string> src, Span<StringTableRow> dst)
+        public static uint data(ItemList<string> src, Span<StringTableRow> dst)
         {
             var entries = src.View;
             var count = (uint)min(entries.Length,dst.Length);

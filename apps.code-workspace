@@ -26,6 +26,9 @@
 		},
 		{
 			"path": "lines"
+		},
+		{
+			"path": "codegen"
 		}
 	],
 	"settings": {}

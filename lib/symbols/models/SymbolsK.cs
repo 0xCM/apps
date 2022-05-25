@@ -40,7 +40,7 @@ namespace Z0
             NameMap = CreateNameMap(src);
         }
 
-        static Dictionary<K, Sym<K>> CreateKindMap(Index<Sym<K>> src)
+        static Dictionary<K,Sym<K>> CreateKindMap(Index<Sym<K>> src)
         {
             var dst = dict<K,Sym<K>>();
             var count = src.Count;
@@ -49,7 +49,7 @@ namespace Z0
             return dst;
         }
 
-        static Dictionary<string, Sym<K>> CreateNameMap(Index<Sym<K>> src)
+        static Dictionary<string,Sym<K>> CreateNameMap(Index<Sym<K>> src)
         {
             var dst = dict<string,Sym<K>>();
             var count = src.Count;
@@ -75,10 +75,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => ref bw32(kind) < Data.Length ? ref Data[bw32(kind)] : ref Data[0];
         }
-
-        // [MethodImpl(Inline)]
-        // public bool Includes(K index)
-        //     => bw32(index) < Data.Count;
 
         [MethodImpl(Inline)]
         public bool FindByExpr(SymExpr src, out Sym<K> dst)

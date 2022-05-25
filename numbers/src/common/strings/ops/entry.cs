@@ -9,20 +9,18 @@ namespace Z0
     partial class StringTables
     {
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> chars(StringTable src, int i)
+        public static ReadOnlySpan<char> entry(StringTable src, int i)
         {
-            var offsets = src.Offsets;
-            var i0 = bw32(skip(offsets, i));
+            var i0 = src.Offsets[i];
             var count = src.EntryCount;
-            var data = src.Data;
-            if(i < count - 1)
+            if(i < count-1)
             {
-                var i1 = bw32(skip(offsets, i + 1));
+                var i1 = src.Offsets[i+1];
                 var length = i1 - i0;
-                return slice(data, i0, length);
+                return slice(src.Content.View, i0, length);
             }
             else
-                return slice(data,i0);
+                return slice(src.Content.View, i0);
         }
     }
 }
