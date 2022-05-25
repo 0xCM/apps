@@ -11,6 +11,8 @@ namespace Z0
         where K : unmanaged
         where T : unmanaged
     {
+        public readonly K Kind;
+
         public readonly MemoryAddress Address;
 
         public readonly int Length;
@@ -18,11 +20,12 @@ namespace Z0
         public readonly uint Size;
 
         [MethodImpl(Inline)]
-        public MemoryString(K index, MemoryAddress address, int length)
+        public MemoryString(K kind, MemoryAddress address, int length)
         {
+            Kind = kind;
             Address = address;
             Length = length;
-            Size = (uint)length*size<char>();
+            Size = (uint)length*size<T>();
         }
 
         public unsafe ReadOnlySpan<T> Cells
@@ -39,8 +42,5 @@ namespace Z0
 
         MemoryAddress IMemoryString.Address
             => Address;
-
-        public string Format(IStringFormatter formatter)
-            => formatter.Format(Bytes);
     }
 }

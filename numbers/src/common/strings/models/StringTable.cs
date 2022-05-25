@@ -16,13 +16,16 @@ namespace Z0
 
         public readonly Index<uint> Offsets;
 
+        public readonly Index<StringTableRow> Rows;
+
         [MethodImpl(Inline)]
-        public StringTable(StringTableSpec spec, char[] src, Index<uint> offsets, string[] names)
+        public StringTable(StringTableSpec spec, char[] src, Index<uint> offsets, string[] names, StringTableRow[] rows)
         {
             Spec = spec;
             Content = src;
             Offsets = offsets;
             Names = names;
+            Rows = rows;
         }
 
         [MethodImpl(Inline)]
@@ -32,6 +35,7 @@ namespace Z0
             Content = src;
             Offsets = offsets;
             Names = sys.empty<string>();
+            Rows = sys.empty<StringTableRow>();
         }
 
         [MethodImpl(Inline)]

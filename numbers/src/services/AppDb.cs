@@ -25,6 +25,9 @@ namespace Z0
             ProjectDbRoot = ProjectRoot + FS.folder("db");
         }
 
+        public DbTargets CgTarget(CgTarget dst)
+            => new DbTargets(Env.DevRoot + FS.folder($"codegen/{Symbols.format(dst)}/src"));
+
         [MethodImpl(Inline)]
         public DbTargets Targets()
             => new DbTargets(ProjectDbRoot, EmptyString);

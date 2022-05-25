@@ -4,34 +4,75 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     using static CsPatterns;
 
     partial class CsLang
     {
-        static uint render(in StringTableSpec syntax, ItemList<string> src, ITextEmitter dst)
+        FS.FileUri EmitTableCode(StringTableSpec syntax, ItemList<string> src, CgTarget cgdst)
         {
-            dst.WriteLine(string.Format("namespace {0}", syntax.TableNs));
+            var dst = SourceFile(syntax.TableName, "stringtables", cgdst);
+            var emitter = text.emitter();
+            render(syntax, src, emitter);
+            AppSvc.FileEmit(emitter.Emit(), src.Count, dst);
+            return dst;
+        }
+
+        FS.FileUri EmitTableCode<K>(SymTableSpec<K> spec, FS.FilePath dst)
+            where K : unmanaged
+        {
+            var emitter = text.emitter();
+            var def = StringTables.define(spec);
+            render(def.Spec, spec.Entries, emitter);
+            AppSvc.FileEmit(emitter.Emit(), spec.Entries.Count, dst);
+            return dst;
+        }
+
+        FS.FileUri EmitTableCode(StringTableSpec spec, ReadOnlySpan<string> src, CgTarget cgdst)
+        {
+            var dst = SourceFile(spec.TableName, "stringtables", cgdst);
+            var emitter = text.emitter();
+            render(spec, src, emitter);
+            AppSvc.FileEmit(emitter.Emit(), src.Length, dst);
+            return dst;
+        }
+
+        static uint render(in StringTableSpec spec, ItemList<string> src, ITextEmitter dst)
+        {
+            dst.WriteLine(string.Format("namespace {0}", spec.TableNs));
             dst.WriteLine(Open());
             dst.WriteLine(string.Format("    using {0};", "System"));
             dst.WriteLine();
             dst.WriteLine(string.Format("    using static {0};", "core"));
             dst.WriteLine();
-            var def = StringTables.define(syntax, src);
-            render(4, def, dst);
+            render(4, StringTables.define(spec, src), dst);
             dst.WriteLine(Close());
             return (uint)src.Length;
         }
 
-        static uint render(in StringTableSpec syntax, ReadOnlySpan<string> src, ITextEmitter dst)
+        static uint render<K>(in StringTableSpec spec, ItemList<K,string> src, ITextEmitter dst)
+            where K : unmanaged
         {
-            dst.WriteLine(string.Format("namespace {0}", syntax.TableNs));
+            dst.WriteLine(string.Format("namespace {0}", spec.TableNs));
             dst.WriteLine(Open());
             dst.WriteLine(string.Format("    using {0};", "System"));
             dst.WriteLine();
             dst.WriteLine(string.Format("    using static {0};", "core"));
             dst.WriteLine();
-            var def = StringTables.define(syntax, src);
-            render(4, def, dst);
+            render(4, StringTables.define(spec, src), dst);
+            dst.WriteLine(Close());
+            return (uint)src.Length;
+        }
+
+        static uint render(in StringTableSpec spec, ReadOnlySpan<string> src, ITextEmitter dst)
+        {
+            dst.WriteLine(string.Format("namespace {0}", spec.TableNs));
+            dst.WriteLine(Open());
+            dst.WriteLine(string.Format("    using {0};", "System"));
+            dst.WriteLine();
+            dst.WriteLine(string.Format("    using static {0};", "core"));
+            dst.WriteLine();
+            render(4, StringTables.define(spec, src), dst);
             dst.WriteLine(Close());
             return (uint)src.Length;
         }
@@ -69,7 +110,7 @@ namespace Z0
             dst.IndentLine(margin, StaticLambdaProp(nameof(MemoryAddress), OffsetBaseProp, Call("address", OffsetsProp)));
             dst.AppendLine();
 
-            var FactoryName = string.Format("{0}.{1}", nameof(memory), nameof(memory.strings));
+            var FactoryName = string.Format("{0}.{1}", nameof(MemoryStrings), nameof(MemoryStrings.create));
             var FactoryCreate = Call(FactoryName, OffsetsProp, DataProp);
 
             if(src.Spec.Parametric)

@@ -1,5 +1,5 @@
-TableName                | EntryIndex   | EntryName
-ComplexPatternST         | 0            | addr    
+Table                    | Index        | Content
+ComplexPatternST         | 0            | addr
 ComplexPatternST         | 1            | lea32addr
 ComplexPatternST         | 2            | lea64_32addr
 ComplexPatternST         | 3            | lea64addr

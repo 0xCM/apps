@@ -43,38 +43,74 @@ namespace Z0
             get => Data.OffsetBase;
         }
 
+        [MethodImpl(Inline)]
+        public int Length(uint index)
+            => Data.Length(index);
+
+        [MethodImpl(Inline)]
+        public int Length(int index)
+            => Data.Length(index);
+
+        [MethodImpl(Inline)]
+        public int Length(K index)
+            => Data.Length(bw32(index));
+
+        [MethodImpl(Inline)]
+        public MemoryAddress Address(uint index)
+            => Data.Address(index);
+
+        [MethodImpl(Inline)]
+        public MemoryAddress Address(K index)
+            => Data.Address(@bw32(index));
+
+        [MethodImpl(Inline)]
+        public MemoryAddress Address(int index)
+            => Data.Address(index);
+
         public ReadOnlySpan<char> Cells(K index)
-            => api.chars(Data, bw32(index));
+            => Data[bw32(index)];
 
         public ReadOnlySpan<char> Cells(uint index)
-            => api.chars(Data, index);
+            => Data[index];
 
         public ReadOnlySpan<char> Cells(int index)
-            => api.chars(Data, index);
+            => Data[index];
 
         public MemoryString<K> this[K index]
         {
             [MethodImpl(Inline)]
-            get => api.@string(this, index);
+            get => new MemoryString<K>(index, Address(index), Length(index));
         }
 
-        public MemoryString<K> this[int index]
+        public ReadOnlySpan<char> this[int index]
         {
             [MethodImpl(Inline)]
-            get => api.@string(this, (uint)index);
+            get => Cells(index);
         }
 
-        public MemoryString<K> this[uint index]
+        public ReadOnlySpan<char> this[uint index]
         {
             [MethodImpl(Inline)]
-            get => api.@string(this, index);
+            get => Cells(index);
         }
 
-        public unsafe ReadOnlySpan<uint> Offsets
+        public ReadOnlySpan<uint> Offsets
         {
             [MethodImpl(Inline)]
             get => api.offsets(Data);
         }
+
+        [MethodImpl(Inline)]
+        public MemoryString<K> String(uint index)
+            => new MemoryString<K>(core.@as<uint,K>(index), Address(index), Length(index));
+
+        [MethodImpl(Inline)]
+        public MemoryString<K> String(int index)
+            => new MemoryString<K>(core.@as<int,K>(index), Address(index), Length(index));
+
+        [MethodImpl(Inline)]
+        public MemoryString<K> String(K index)
+            => new MemoryString<K>(index, Address(index), Length(index));
 
         [MethodImpl(Inline)]
         public static implicit operator MemoryStrings<K>(MemoryStrings src)

@@ -9,49 +9,89 @@ namespace Z0
 
     public readonly struct SymTables
     {
-        const string DefaultIndexNs = "Z0";
-
-        const string DefaultTableNs = "Z0.Strings";
-
-        public static StringTable expressions<K>(string ixname = null, string tn = null, string ixns = DefaultIndexNs, string tns = DefaultTableNs)
+        public static SymTableSpec<K> expressions<K>(
+            string tableNs = null,
+            string indexNs = null,
+            string tableName = null,
+            string indexName = null,
+            bool emitIndex = true,
+            bool parametric = true
+            )
             where K : unmanaged, Enum
-                => expressions<K>(spec<K>(ixname, tn, ixns, tns, false));
-
-        public static StringTable names<K>(string ixname = null, string tn = null, string ixns = DefaultIndexNs, string tns = DefaultTableNs)
-            where K : unmanaged, Enum
-                => names<K>(spec<K>(ixname, tn, ixns, tns, false));
-
-        public static StringTable expressions<K>(SymTableSpec spec)
-            where K : unmanaged, Enum
-                => StringTables.define(syntax(spec), SymLists.expressions(Symbols.index<K>()));
-
-        public static StringTable names<K>(SymTableSpec spec)
-            where K : unmanaged, Enum
-                => StringTables.define(syntax(spec), SymLists.names(Symbols.index<K>()));
-
-        public static SymTableSpec spec<K>(string tableNs, string tableName, string indexNs, string indexName, bool emitIndex)
-            where K : unmanaged
         {
-            var dst = new SymTableSpec();
-            dst.IndexName = indexName;
-            dst.TableName = tableName;
-            dst.IndexNs = indexNs;
-            dst.TableNs = tableNs;
-            dst.IndexKind = Enums.kind<K>();
-            dst.Parametric = true;
-            dst.EmitIndex = emitIndex;
+            var dst = new SymTableSpec<K>();
+            spec(
+                tableNs: TableNs<K>(tableNs),
+                indexNs: IndexNs<K>(indexNs),
+                tableName: Table<K>(tableName),
+                indexName: Index<K>(indexName),
+                emitIndex: emitIndex,
+                parametric: parametric,
+                entries: SymLists.expressions(Symbols.index<K>(), Table<K>(tableName)),
+                ref dst);
             return dst;
         }
 
-        [MethodImpl(Inline), Op]
-        static StringTableSpec syntax(SymTableSpec spec)
-            => new StringTableSpec(
-                index: spec.IndexName,
-                table: spec.TableName,
-                indexNs: spec.IndexNs,
-                tableNs: spec.TableNs,
-                @base: spec.IndexKind,
-                parametric: spec.Parametric
-                );
+        public static SymTableSpec<K> names<K>(
+            string tableNs = null,
+            string indexNs = null,
+            string tableName = null,
+            string indexName = null,
+            bool emitIndex = true,
+            bool parametric = true
+            )
+            where K : unmanaged, Enum
+        {
+            var dst = new SymTableSpec<K>();
+            spec(
+                tableNs: TableNs<K>(tableNs),
+                indexNs: IndexNs<K>(indexNs),
+                tableName: Table<K>(tableName),
+                indexName: Index<K>(indexName),
+                emitIndex: emitIndex,
+                parametric: parametric,
+                entries: SymLists.names(Symbols.index<K>(), Table<K>(tableName)),
+                ref dst);
+            return dst;
+        }
+
+        static void spec<K>(string tableNs, string indexNs, string tableName, string indexName, bool emitIndex, bool parametric, ItemList<K,string> entries, ref SymTableSpec<K> dst)
+            where K : unmanaged
+        {
+            dst.Entries = entries;
+            var count = dst.Entries.Count;
+            StringTables.calc(entries, out dst.Strings, out dst.Content, out dst.Offsets);
+            dst.IndexName = indexName;
+            dst.TableName = tableName;
+            dst.IndexNs = indexName;
+            dst.TableNs = tableNs;
+            dst.IndexKind = Enums.kind<K>();
+            dst.Parametric = parametric;
+            dst.EmitIndex = emitIndex;
+            dst.Rows = alloc<StringTableRow>(count);
+            for(var j=0u; j<count; j++)
+            {
+                ref var row = ref dst.Rows[j];
+                row.Index = j;
+                row.Content = entries[j].Value;
+                row.Table = dst.TableName;
+            }
+        }
+
+        static string Table<K>(string name = null)
+            where K : unmanaged
+                => name ?? (typeof(K).Name + "ST");
+
+        static string Index<K>(string name = null)
+            where K : unmanaged
+                => name ?? typeof(K).Name;
+
+        static string IndexNs<K>(string name = null)
+            where K : unmanaged
+                => name ?? "Z0";
+
+        static string TableNs<K>(string name = null)
+            where K : unmanaged
+                => name ?? "Z0.Strings";
     }
 }

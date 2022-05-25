@@ -9,21 +9,52 @@ namespace Z0
     [StructLayout(StructLayout,Pack=1, Size=Size)]
     public unsafe readonly struct MemoryStrings
     {
+        const byte OffsetScale = 4;
+
+
+        [MethodImpl(Inline), Op]
+        public static unsafe ref char first(StringAddress src)
+            => ref core.@ref(src.Address.Pointer<char>());
+
+        [MethodImpl(Inline), Op]
+        public static uint render(StringAddress src, ref uint i, Span<char> dst)
+        {
+            var i0=i;
+            ref var c = ref first(src);
+            var j=0u;
+            while(c != 0 && i < dst.Length)
+                core.seek(dst, i++) = core.skip(c, j++);
+            return j-1;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static MemoryStrings create(uint entries, uint length, MemoryAddress offsetbase, MemoryAddress charbase)
+            => new MemoryStrings(entries, length, offsetbase, charbase);
+
+        [MethodImpl(Inline), Op]
+        public static MemoryStrings create(ReadOnlySpan<byte> offsets, ReadOnlySpan<char> chars)
+            => new MemoryStrings(count(offsets), (uint)chars.Length, core.address(offsets), core.address(chars));
+
+        [MethodImpl(Inline)]
+        public static MemoryStrings<K> create<K>(ReadOnlySpan<byte> offsets, ReadOnlySpan<char> chars)
+            where K : unmanaged
+                => new MemoryStrings<K>(create(offsets, chars));
+
         [MethodImpl(Inline), Op]
         static Label label(ReadOnlySpan<char> src)
             => new Label(address(src), (byte)src.Length);
 
         [MethodImpl(Inline), Op]
-        public static unsafe ReadOnlySpan<char> chars(in MemoryStrings src)
+        public static ReadOnlySpan<char> chars(in MemoryStrings src)
             => core.cover(src.CharBase.Pointer<char>(), src.CharCount);
 
         [MethodImpl(Inline), Op]
-        public static unsafe ReadOnlySpan<char> chars(MemoryAddress @base, int i0, int i1)
+        public static ReadOnlySpan<char> chars(MemoryAddress @base, int i0, int i1)
             => core.cover(@base.Pointer<char>() + i0, (i1 - i0));
 
         [MethodImpl(Inline), Op]
-        public static unsafe ReadOnlySpan<char> chars(in MemoryStrings src, int index)
-            => core.slice(chars(src), offset(src,index), length(src,index));
+        public static ReadOnlySpan<char> chars(in MemoryStrings src, int index)
+            => core.slice(chars(src), offset(src, index), length(src, index));
 
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<char> chars(in MemoryStrings src, uint index)
@@ -48,11 +79,7 @@ namespace Z0
             => core.address(chars(src, index));
 
         [MethodImpl(Inline), Op]
-        public static StringAddress address(string src)
-            => new StringAddress(core.address(src));
-
-        [MethodImpl(Inline), Op]
-        public static StringAddress address(ReadOnlySpan<char> src)
+        static StringAddress address(ReadOnlySpan<char> src)
             => new StringAddress(core.address(src));
 
         [MethodImpl(Inline), Op]
@@ -60,37 +87,15 @@ namespace Z0
             where T : unmanaged
                 => new StringAddress(core.address(src));
 
-        [MethodImpl(Inline), Op]
-        public static STRes table(uint entries, uint chars, MemoryAddress charbase, MemoryAddress offsetbase, MemoryStrings strings)
-            => new STRes(entries,chars,charbase,offsetbase,strings);
-
-        [MethodImpl(Inline), Op]
-        public static STRes<K> table<K>(uint entries, uint chars, MemoryAddress charbase, MemoryAddress offsetbase, MemoryStrings strings)
-            where K : unmanaged
-                => new STRes<K>(entries,chars,charbase,offsetbase,strings);
-
         [MethodImpl(Inline)]
         public static MemoryString<K> @string<K>(in MemoryStrings<K> src, K index)
             where K : unmanaged
-                => new MemoryString<K>(src.CharBase + offset(src, index), (int)length(src,index));
+                => new MemoryString<K>(index, src.CharBase + offset(src, index), length(src,index));
 
         [MethodImpl(Inline)]
         public static MemoryString<K> @string<K>(in MemoryStrings<K> src, uint index)
             where K : unmanaged
-                => new MemoryString<K>(src.CharBase + offset(src,index), (int)length(src,index));
-
-        [MethodImpl(Inline), Op]
-        public static MemoryStrings create(uint entries, uint length, MemoryAddress offsetbase, MemoryAddress charbase)
-            => new MemoryStrings(entries, length, offsetbase, charbase);
-
-        [MethodImpl(Inline), Op]
-        public static MemoryStrings create(ReadOnlySpan<byte> offsets, ReadOnlySpan<char> chars)
-            => new MemoryStrings(count(offsets), (uint)chars.Length, core.address(offsets), core.address(chars));
-
-        [MethodImpl(Inline)]
-        public static MemoryStrings<K> create<K>(ReadOnlySpan<byte> offsets, ReadOnlySpan<char> chars)
-            where K : unmanaged
-                => new MemoryStrings<K>(create(offsets, chars));
+                => new MemoryString<K>(core.@as<uint,K>(index), src.CharBase + offset(src,index), length(src,index));
 
         [MethodImpl(Inline), Op]
         public static uint count(ReadOnlySpan<byte> offsets)
@@ -99,7 +104,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref readonly uint offset(in MemoryStrings strings, int index)
         {
-            var src = core.recover<uint>(core.cover(strings.OffsetBase.Pointer<byte>(), strings.EntryCount*4));
+            var src = core.recover<uint>(core.cover(strings.OffsetBase.Pointer<byte>(), strings.EntryCount*OffsetScale));
             return ref core.skip(src,index);
         }
 
@@ -107,7 +112,7 @@ namespace Z0
         public static ref readonly uint offset<K>(in MemoryStrings<K> strings, uint index)
             where K : unmanaged
         {
-            var src = core.recover<uint>(core.cover(strings.OffsetBase.Pointer<byte>(), strings.EntryCount*4));
+            var src = core.recover<uint>(core.cover(strings.OffsetBase.Pointer<byte>(), strings.EntryCount*OffsetScale));
             return ref core.skip(src, index);
         }
 
@@ -115,33 +120,16 @@ namespace Z0
         public static ref readonly uint offset<K>(in MemoryStrings<K> strings, K index)
             where K : unmanaged
         {
-            var src = core.recover<uint>(core.cover(strings.OffsetBase.Pointer<byte>(), strings.EntryCount*4));
+            var src = core.recover<uint>(core.cover(strings.OffsetBase.Pointer<byte>(), strings.EntryCount*OffsetScale));
             return ref core.skip(src, core.bw32(index));
         }
 
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<uint> offsets(in MemoryStrings src)
-            => core.recover<uint>(core.cover(src.OffsetBase.Pointer<byte>(), src.EntryCount*4));
-
-        /// <summary>
-        /// Computes the total length of the source strings
-        /// </summary>
-        /// <param name="src">The source strings</param>
-        [MethodImpl(Inline), Op]
-        public static uint length(ReadOnlySpan<string> src)
-        {
-            var counter = 0u;
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var s = ref core.skip(src,i);
-                counter += (uint)s.Length;
-            }
-            return counter;
-        }
+            => core.recover<uint>(core.cover(src.OffsetBase.Pointer<byte>(), src.EntryCount*OffsetScale));
 
         [MethodImpl(Inline), Op]
-        public static uint length(in MemoryStrings src, int index)
+        public static int length(in MemoryStrings src, uint index)
         {
             var a = offset(src, index);
             var b = 0u;
@@ -149,11 +137,15 @@ namespace Z0
                 b = src.CharCount;
             else
                 b = offset(src, index + 1);
-            return (uint)(b - a);
+            return (int)(b - a);
         }
 
         [MethodImpl(Inline), Op]
-        public static uint length<K>(in MemoryStrings<K> src, K index)
+        public static int length(in MemoryStrings src, int index)
+            => length(src, (uint)index);
+
+        [MethodImpl(Inline), Op]
+        public static int length<K>(in MemoryStrings<K> src, K index)
             where K : unmanaged
         {
             var a = offset(src, index);
@@ -162,11 +154,11 @@ namespace Z0
                 b = src.CharCount;
             else
                 b = offset(src, core.bw32(index) + 1);
-            return (uint)(b - a);
+            return (int)(b - a);
         }
 
         [MethodImpl(Inline), Op]
-        public static uint length<K>(in MemoryStrings<K> src, uint index)
+        public static int length<K>(in MemoryStrings<K> src, uint index)
             where K : unmanaged
         {
             var a = offset(src, index);
@@ -175,7 +167,7 @@ namespace Z0
                 b = src.CharCount;
             else
                 b = offset(src, index + 1);
-            return (uint)(b - a);
+            return (int)(b - a);
         }
 
         [MethodImpl(Inline), Op]
@@ -187,10 +179,6 @@ namespace Z0
                 c = core.seek(c, counter++);
             return counter;
         }
-
-        [MethodImpl(Inline), Op]
-        public static unsafe ref char first(StringAddress src)
-            => ref core.@ref(src.Address.Pointer<char>());
 
         public const ushort Size = 8 + 16;
 
@@ -224,12 +212,12 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public Label Label(uint index)
-            => label(this[index]);
+        public int Length(uint index)
+            => length(this,index);
 
         [MethodImpl(Inline)]
-        public Label Label(int index)
-            => label(this[index]);
+        public int Length(int index)
+            => length(this,index);
 
         [MethodImpl(Inline)]
         public MemoryAddress Address(uint index)
@@ -238,6 +226,22 @@ namespace Z0
         [MethodImpl(Inline)]
         public MemoryAddress Address(int index)
             => address(this, index);
+
+        [MethodImpl(Inline)]
+        public MemoryString String(uint index)
+            => new MemoryString(Address(index), Length(index));
+
+        [MethodImpl(Inline)]
+        public MemoryString String(int index)
+            => new MemoryString(Address(index), Length(index));
+
+        [MethodImpl(Inline)]
+        public Label Label(uint index)
+            => label(this[index]);
+
+        [MethodImpl(Inline)]
+        public Label Label(int index)
+            => label(this[index]);
 
         public ReadOnlySpan<char> Data
         {
@@ -253,6 +257,6 @@ namespace Z0
 
         public MemoryStrings<K> Kinded<K>()
             where K : unmanaged
-                => core.@as<MemoryStrings,MemoryStrings<K>>(this);
+                => new MemoryStrings<K>(this);
     }
 }

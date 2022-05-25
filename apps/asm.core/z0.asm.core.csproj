@@ -9,5 +9,7 @@
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
     <ProjectReference Include="$(AsmOperands)" />
+    <ProjectReference Include="$(CodeGenIntel)" />
+
   </ItemGroup>
 </Project>

@@ -17,7 +17,7 @@ namespace Z0
         public static StringBuffer buffer(ReadOnlySpan<string> src)
         {
             var count = (uint)src.Length;
-            var dst = StringBuffers.buffer(strings.length(src) + count);
+            var dst = StringBuffers.buffer(text.length(src) + count);
             var counter = 0u;
             for(var i=0; i<count; i++)
             {

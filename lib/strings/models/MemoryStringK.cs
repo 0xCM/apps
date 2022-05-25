@@ -10,6 +10,8 @@ namespace Z0
     public readonly struct MemoryString<K> : IMemoryString<char>
         where K : unmanaged
     {
+        public readonly K Kind;
+
         public readonly MemoryAddress Address;
 
         public readonly int Length;
@@ -17,8 +19,9 @@ namespace Z0
         public readonly uint Size;
 
         [MethodImpl(Inline)]
-        public MemoryString(MemoryAddress address, int length)
+        public MemoryString(K kind, MemoryAddress address, int length)
         {
+            Kind = kind;
             Address = address;
             Length = length;
             Size = (uint)length*size<char>();

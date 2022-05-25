@@ -9,17 +9,17 @@ namespace Z0
     partial class text
     {
         /// <summary>
-        /// Computes the combined length of the source entries
+        /// Computes the total length of the source strings
         /// </summary>
-        /// <param name="src">The data source</param>
+        /// <param name="src">The source strings</param>
         [MethodImpl(Inline), Op]
         public static uint length(ReadOnlySpan<string> src)
         {
-            var total = 0u;
+            var counter = 0u;
             var count = src.Length;
             for(var i=0; i<count; i++)
-                total += (uint)skip(src,i).Length;
-            return total;
+                counter += (uint)skip(src,i).Length;
+            return counter;
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-TableName                | EntryIndex   | EntryName
+Table                    | Index        | Content
 BranchTargetOperandST    | 0            | brtarget
 BranchTargetOperandST    | 1            | brtarget16
 BranchTargetOperandST    | 2            | brtarget32

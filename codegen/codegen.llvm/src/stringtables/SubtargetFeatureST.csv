@@ -1,4 +1,4 @@
-TableName                | EntryIndex   | EntryName
+Table                    | Index        | Content
 SubtargetFeatureST       | 0            | Feature3DNow
 SubtargetFeatureST       | 1            | Feature3DNowA
 SubtargetFeatureST       | 2            | Feature64Bit

@@ -51,7 +51,7 @@ namespace Z0
         public uint Length
         {
             [MethodImpl(Inline)]
-            get => strings.length(this);
+            get => MemoryStrings.length(this);
         }
 
         public bool IsNonZero
@@ -62,7 +62,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public uint Render(ref uint i, Span<char> dst)
-            => strings.render(this, ref i, dst);
+            => MemoryStrings.render(this, ref i, dst);
 
         [MethodImpl(Inline)]
         public unsafe string Format()

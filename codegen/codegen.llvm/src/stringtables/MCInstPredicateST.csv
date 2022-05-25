@@ -1,4 +1,4 @@
-TableName                | EntryIndex   | EntryName
+Table                    | Index        | Content
 MCInstPredicateST        | 0            | CheckLockPrefix
 MCInstPredicateST        | 1            | IsAtomicCompareAndSwap
 MCInstPredicateST        | 2            | IsAtomicCompareAndSwap16B

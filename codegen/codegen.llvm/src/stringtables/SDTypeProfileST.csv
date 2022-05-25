@@ -1,4 +1,4 @@
-TableName                | EntryIndex   | EntryName
+Table                    | Index        | Content
 SDTypeProfileST          | 0            | SDT2ResultBinaryArithWithFlags
 SDTypeProfileST          | 1            | SDTAtomic2
 SDTypeProfileST          | 2            | SDTAtomic3
@@ -8,8 +8,8 @@ SDTypeProfileST          | 5            | SDTAtomicStore
 SDTypeProfileST          | 6            | SDTBinaryArithWithFlags
 SDTypeProfileST          | 7            | SDTBinaryArithWithFlagsInOut
 SDTypeProfileST          | 8            | SDTBlend
-SDTypeProfileST          | 9            | SDTBr   
-SDTypeProfileST          | 10           | SDTBrCC 
+SDTypeProfileST          | 9            | SDTBr
+SDTypeProfileST          | 10           | SDTBrCC
 SDTypeProfileST          | 11           | SDTBrcond
 SDTypeProfileST          | 12           | SDTBrind
 SDTypeProfileST          | 13           | SDTCatchret
@@ -35,7 +35,7 @@ SDTypeProfileST          | 32           | SDTFPVecReduce
 SDTypeProfileST          | 33           | SDTFloatToInt
 SDTypeProfileST          | 34           | SDTFloatToIntRnd
 SDTypeProfileST          | 35           | SDTFmaRound
-SDTypeProfileST          | 36           | SDTIFma 
+SDTypeProfileST          | 36           | SDTIFma
 SDTypeProfileST          | 37           | SDTIStore
 SDTypeProfileST          | 38           | SDTIntBinHiLoOp
 SDTypeProfileST          | 39           | SDTIntBinOp
@@ -49,7 +49,7 @@ SDTypeProfileST          | 46           | SDTIntShiftOp
 SDTypeProfileST          | 47           | SDTIntToFPOp
 SDTypeProfileST          | 48           | SDTIntTruncOp
 SDTypeProfileST          | 49           | SDTIntUnaryOp
-SDTypeProfileST          | 50           | SDTLoad 
+SDTypeProfileST          | 50           | SDTLoad
 SDTypeProfileST          | 51           | SDTLockBinaryArithWithFlags
 SDTypeProfileST          | 52           | SDTLockUnaryArithWithFlags
 SDTypeProfileST          | 53           | SDTMFloatToInt
@@ -57,9 +57,9 @@ SDTypeProfileST          | 54           | SDTMVintToFP
 SDTypeProfileST          | 55           | SDTMaskedLoad
 SDTypeProfileST          | 56           | SDTMaskedStore
 SDTypeProfileST          | 57           | SDTMemBarrier
-SDTypeProfileST          | 58           | SDTNone 
+SDTypeProfileST          | 58           | SDTNone
 SDTypeProfileST          | 59           | SDTOther
-SDTypeProfileST          | 60           | SDTPack 
+SDTypeProfileST          | 60           | SDTPack
 SDTypeProfileST          | 61           | SDTPrefetch
 SDTypeProfileST          | 62           | SDTPtrLeaf
 SDTypeProfileST          | 63           | SDTSFloatToInt
@@ -93,7 +93,7 @@ SDTypeProfileST          | 90           | SDTVecSlice
 SDTypeProfileST          | 91           | SDTVintToFP
 SDTypeProfileST          | 92           | SDTVintToFPRound
 SDTypeProfileST          | 93           | SDTVmtrunc
-SDTypeProfileST          | 94           | SDTVnni 
+SDTypeProfileST          | 94           | SDTVnni
 SDTypeProfileST          | 95           | SDTVtrunc
 SDTypeProfileST          | 96           | SDTX86BrCond
 SDTypeProfileST          | 97           | SDTX86Cmov

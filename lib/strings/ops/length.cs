@@ -37,40 +37,40 @@ namespace Z0
             return (uint)(b - a);
         }
 
-        [MethodImpl(Inline), Op]
-        public static uint length<K>(in MemoryStrings<K> src, K index)
-            where K : unmanaged
-        {
-            var a = offset(src, index);
-            var b = 0u;
-            if(bw32(index) == src.EntryCount - 1)
-                b = src.CharCount;
-            else
-                b = offset(src, bw32(index) + 1);
-            return (uint)(b - a);
-        }
+        // [MethodImpl(Inline), Op]
+        // public static uint length<K>(in MemoryStrings<K> src, K index)
+        //     where K : unmanaged
+        // {
+        //     var a = offset(src, index);
+        //     var b = 0u;
+        //     if(bw32(index) == src.EntryCount - 1)
+        //         b = src.CharCount;
+        //     else
+        //         b = offset(src, bw32(index) + 1);
+        //     return (uint)(b - a);
+        // }
 
-        [MethodImpl(Inline), Op]
-        public static uint length<K>(in MemoryStrings<K> src, uint index)
-            where K : unmanaged
-        {
-            var a = offset(src, index);
-            var b = 0u;
-            if(index == src.EntryCount - 1)
-                b = src.CharCount;
-            else
-                b = offset(src, index + 1);
-            return (uint)(b - a);
-        }
+        // [MethodImpl(Inline), Op]
+        // public static uint length<K>(in MemoryStrings<K> src, uint index)
+        //     where K : unmanaged
+        // {
+        //     var a = offset(src, index);
+        //     var b = 0u;
+        //     if(index == src.EntryCount - 1)
+        //         b = src.CharCount;
+        //     else
+        //         b = offset(src, index + 1);
+        //     return (uint)(b - a);
+        // }
 
-        [MethodImpl(Inline), Op]
-        public static uint length(StringAddress src)
-        {
-            ref var c = ref strings.first(src);
-            var counter = 0u;
-            while(c != 0)
-                c = seek(c, counter++);
-            return counter;
-        }
+        // [MethodImpl(Inline), Op]
+        // public static uint length(StringAddress src)
+        // {
+        //     ref var c = ref MemoryStrings.first(src);
+        //     var counter = 0u;
+        //     while(c != 0)
+        //         c = seek(c, counter++);
+        //     return counter;
+        // }
     }
 }

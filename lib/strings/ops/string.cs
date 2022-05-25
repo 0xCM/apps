@@ -8,14 +8,14 @@ namespace Z0
 
     partial struct strings
     {
-        [MethodImpl(Inline)]
-        public static MemoryString<K> @string<K>(in MemoryStrings<K> src, K index)
-            where K : unmanaged
-                => new MemoryString<K>(src.CharBase + offset(src, index), (int)length(src,index));
+        // [MethodImpl(Inline)]
+        // public static MemoryString<K> @string<K>(in MemoryStrings<K> src, K index)
+        //     where K : unmanaged
+        //         => new MemoryString<K>(src.CharBase + offset(src, index), (int)length(src,index));
 
-        [MethodImpl(Inline)]
-        public static MemoryString<K> @string<K>(in MemoryStrings<K> src, uint index)
-            where K : unmanaged
-                => new MemoryString<K>(src.CharBase + offset(src,index), (int)length(src,index));
+        // [MethodImpl(Inline)]
+        // public static MemoryString<K> @string<K>(in MemoryStrings<K> src, uint index)
+        //     where K : unmanaged
+        //         => new MemoryString<K>(src.CharBase + offset(src,index), (int)length(src,index));
     }
 }

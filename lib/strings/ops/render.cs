@@ -19,15 +19,15 @@ namespace Z0
             return n;
         }
 
-        [MethodImpl(Inline), Op]
-        public static uint render(StringAddress src, ref uint i, Span<char> dst)
-        {
-            var i0=i;
-            ref var c = ref first(src);
-            var j=0u;
-            while(c != 0 && i < dst.Length)
-                seek(dst, i++) = skip(c, j++);
-            return j-1;
-        }
+        // [MethodImpl(Inline), Op]
+        // public static uint render(StringAddress src, ref uint i, Span<char> dst)
+        // {
+        //     var i0=i;
+        //     ref var c = ref first(src);
+        //     var j=0u;
+        //     while(c != 0 && i < dst.Length)
+        //         seek(dst, i++) = skip(c, j++);
+        //     return j-1;
+        // }
     }
 }

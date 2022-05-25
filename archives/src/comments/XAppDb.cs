@@ -13,6 +13,9 @@ namespace Z0
         public static DbTargets CgStage(this AppDb db)
             => db.Targets("cgstage");
 
+        public static DbTargets CgStage(this AppDb db, string scope)
+            => db.Targets($"cgstage/{scope}");
+
         public static DbSources IntelSources(this AppDb db)
             => db.Sources("intel");
 

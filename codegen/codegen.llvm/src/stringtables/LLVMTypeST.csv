@@ -1,4 +1,4 @@
-TableName                | EntryIndex   | EntryName
+Table                    | Index        | Content
 LLVMTypeST               | 0            | anonymous_17
 LLVMTypeST               | 1            | anonymous_18
 LLVMTypeST               | 2            | anonymous_19

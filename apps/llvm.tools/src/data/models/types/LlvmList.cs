@@ -10,20 +10,20 @@ namespace Z0.llvm
     {
         readonly Index<LlvmListItem> Data;
 
-        public Identifier Name {get;}
+        public readonly Identifier Name {get;}
 
         [MethodImpl(Inline)]
         public LlvmList(FS.FilePath path, LlvmListItem[] items)
         {
-            Data = items;
             Name = path.FileName.WithoutExtension.Format().Remove("llvm.lists.");
+            Data = items;
         }
 
         [MethodImpl(Inline)]
         public LlvmList(string name, LlvmListItem[] items)
         {
-            Data = items;
             Name = name;
+            Data = items;
         }
 
         public bool IsEmpty

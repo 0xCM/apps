@@ -15,10 +15,10 @@ namespace Z0
         {
             const string Name = "api.enums.types";
             var src = AppDb.ApiTargets().Path(Name, FileKind.List);
-            var types = CsLang.LoadReplicantTypes(src);
+            var types = CsLang.LoadReplicants(src);
             var name = "EnumDefs";
             var dst = AppDb.CgStage().Path(name, FileKind.Cs);
-            CsLang.GenEnumReplicants(types, dst);
+            CsLang.EmitReplicants(types, dst);
             return true;
         }
 

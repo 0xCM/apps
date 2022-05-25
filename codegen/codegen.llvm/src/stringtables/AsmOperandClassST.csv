@@ -1,4 +1,4 @@
-TableName                | EntryIndex   | EntryName
+Table                    | Index        | Content
 AsmOperandClassST        | 0            | AVX512RCOperand
 AsmOperandClassST        | 1            | ImmAsmOperand
 AsmOperandClassST        | 2            | ImmSExti16i8AsmOperand

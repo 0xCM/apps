@@ -1,6 +1,6 @@
-TableName                | EntryIndex   | EntryName
+Table                    | Index        | Content
 CallingConvST            | 0            | CC_Intel_OCL_BI
-CallingConvST            | 1            | CC_X86  
+CallingConvST            | 1            | CC_X86
 CallingConvST            | 2            | CC_X86_32
 CallingConvST            | 3            | CC_X86_32_C
 CallingConvST            | 4            | CC_X86_32_Common

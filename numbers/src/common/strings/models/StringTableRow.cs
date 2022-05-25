@@ -10,24 +10,16 @@ namespace Z0
         const string TableId = "stringtables";
 
         [Render(24)]
-        public string TableName;
+        public string Table;
 
         [Render(12)]
-        public uint EntryIndex;
+        public uint Index;
 
-        [Render(8)]
-        public string EntryName;
-
-        [MethodImpl(Inline)]
-        public StringTableRow(string table, uint index, string name)
-        {
-            TableName = table;
-            EntryIndex = index;
-            EntryName = name;
-        }
+        [Render(1)]
+        public string Content;
 
         public string Format()
-            => string.Format("{0}[{1}]='{2}'", TableName, EntryIndex, EntryName);
+            => string.Format("{0}[{1}]='{2}'", Table, Index, Content);
 
         public override string ToString()
             => Format();

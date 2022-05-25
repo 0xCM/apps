@@ -5,7 +5,9 @@
 
 namespace Z0
 {
-    public struct SymTableSpec
+    [StructLayout(StructLayout,Pack=1)]
+    public struct SymTableSpec<K>
+        where K : unmanaged
     {
         public string IndexName;
 
@@ -20,5 +22,15 @@ namespace Z0
         public bool Parametric;
 
         public bool EmitIndex;
+
+        public Index<char> Content;
+
+        public Index<uint> Offsets;
+
+        public ItemList<K,string> Entries;
+
+        public Index<StringTableRow> Rows;
+
+        public Index<string> Strings;
     }
 }

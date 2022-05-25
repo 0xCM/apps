@@ -1,4 +1,4 @@
-TableName                | EntryIndex   | EntryName
+Table                    | Index        | Content
 AssemblerPredicateST     | 0            | In16BitMode
 AssemblerPredicateST     | 1            | In32BitMode
 AssemblerPredicateST     | 2            | In64BitMode

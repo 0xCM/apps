@@ -1,4 +1,4 @@
-TableName                | EntryIndex   | EntryName
+Table                    | Index        | Content
 X86MemOffsOperandST      | 0            | offset16_16
 X86MemOffsOperandST      | 1            | offset16_32
 X86MemOffsOperandST      | 2            | offset16_8
