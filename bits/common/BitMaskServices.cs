@@ -13,16 +13,17 @@ namespace Z0
     {
         AppSvcOps AppSvc => Service(Wf.AppSvc);
 
+        ApiServices ApiSvc => Service(Wf.ApiServices);
 
         public Index<BitMaskInfo> CalcBitMasks()
             => CalcMasks();
 
-        void EmitBitMasks()
-            => ApiSvc.Emit(ApiSvc.CalcBitMasks());
+        // void EmitBitMasks()
+        //     => ApiSvc.Emit(ApiSvc.CalcBitMasks());
 
 
-        public void Emit(ReadOnlySpan<BitMaskInfo> src)
-            => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<BitMaskInfo>());
+        // public void Emit(ReadOnlySpan<BitMaskInfo> src)
+        //     => AppSvc.TableEmit(src, AppDb.ApiTargets().Table<BitMaskInfo>());
 
 
         public static Index<BitMaskInfo> masks(Type src)
