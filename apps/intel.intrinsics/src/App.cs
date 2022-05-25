@@ -10,7 +10,7 @@ namespace Z0.Vdsl
 
     class App : WfApp<App>
     {
-        public static void Main(params string[] args)
+        public static void start(params string[] args)
             => run(args, PartId.CpuDsl);
 
         EventQueue Queue;

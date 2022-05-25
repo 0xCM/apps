@@ -9,6 +9,7 @@
     <AsmPrototypes>$(AppsRoot)asm.prototypes/z0.asm.prototypes.csproj</AsmPrototypes>
     <AsmServices>$(AppsRoot)asm.services/z0.asm.services.csproj</AsmServices>
     <IntelIntrinsics>$(AppsRoot)intel.intrinsics/z0.intel.intrinsics.csproj</IntelIntrinsics>
+    <IntelCore>$(AppsRoot)intel.core/z0.intel.core.csproj</IntelCore>
 
     <Capture>$(AppsRoot)capture/z0.capture.csproj</Capture>
     <CpuDsl>$(AppsRoot)cpu.dsl/z0.cpu.dsl.csproj</CpuDsl>

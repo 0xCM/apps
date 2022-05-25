@@ -24,6 +24,14 @@
 		{
 			"path": "..\\alloc"
 		}
-	],
+        ,
+		{
+			"path": "..\\archives"
+		}
+        ,
+		{
+			"path": "..\\diagnostics"
+		}
+    ],
 	"settings": {}
 }

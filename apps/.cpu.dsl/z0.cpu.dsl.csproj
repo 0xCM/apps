@@ -11,6 +11,8 @@
   <ItemGroup>
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(AsmOperands)" />
+    <ProjectReference Include="$(IntelCore)" />
+    <ProjectReference Include="$(IntelIntrinsics)" />
   </ItemGroup>
 
 </Project>

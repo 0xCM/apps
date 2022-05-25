@@ -165,6 +165,9 @@ public enum PartId : byte
     [Symbol("expr")]
     Expr,
 
+    [Symbol("intel.core")]
+    IntelCore,
+
     [Symbol("intel.intrinsics")]
     IntelIntrinsics,
 
