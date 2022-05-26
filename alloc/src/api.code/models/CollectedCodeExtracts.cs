@@ -5,26 +5,6 @@
 namespace Z0
 {
     using System.Collections;
-    using Asm;
-
-    class CollectedCodeExtract
-    {
-        public ApiToken Token;
-
-        public AsmHexCode StubCode;
-
-        public Disp32 Disp;
-
-        public BinaryCode TargetExtract;
-
-        public CollectedCodeExtract(in RawMemberCode raw, BinaryCode extracted)
-        {
-            Token = raw.Token;
-            StubCode = raw.StubCode;
-            Disp = raw.Disp;
-            TargetExtract = extracted;
-        }
-    }
 
     class CollectedCodeExtracts : IEnumerable<CollectedCodeExtract>
     {

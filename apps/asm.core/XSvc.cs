@@ -129,9 +129,6 @@ namespace Z0
         public static DumpBin DumpBin(this IWfRuntime wf)
             => Z0.DumpBin.create(wf);
 
-        public static ApiCodeBanks ApiCodeBanks(this IWfRuntime wf)
-            => Z0.ApiCodeBanks.create(wf);
-
         public static AsmOpCodes AsmOpCodes(this IWfRuntime context)
             => Asm.AsmOpCodes.create(context);
 

@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using System.Linq;
+
+    using Asm;
 
     using static core;
 
@@ -16,6 +16,47 @@ namespace Z0
         ApiJit ApiJit => Service(Wf.ApiJit);
 
         ApiDataPaths DataPaths => Wf.ApiDataPaths();
+
+        public EncodedMembers Encoding()
+        {
+            var result = LoadCollected(out var index, out var code);
+            if(result.Fail)
+                Errors.Throw(result.Message);
+            return members(index,code);
+        }
+
+        public EncodedMembers Encoding(string spec)
+        {
+            var result = Outcome.Success;
+            if(text.nonempty(spec))
+            {
+                var i = text.index(spec, Chars.FSlash);
+                if(i>0)
+                    return Encoding(ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));
+                else
+                    return Encoding(ApiParsers.part(spec));
+            }
+            else
+            {
+                return Encoding();
+            }
+        }
+
+        public EncodedMembers Encoding(PartId src)
+        {
+            var result = LoadCollected(src, out var index, out var code);
+            if(result.Fail)
+                Errors.Throw(result.Message);
+            return members(index,code);
+        }
+
+        public EncodedMembers Encoding(ApiHostUri src)
+        {
+            var result = LoadCollected(src, out var index, out var code);
+            if(result.Fail)
+                Errors.Throw(result.Message);
+            return members(index,code);
+        }
 
         /// <summary>
         /// Determines whether an operation accepts an argument of specified numeric kind
@@ -33,7 +74,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static int arity(ApiCodeBlock src)
             => src.OpUri.OpId.Components.Count() - 1;
-
 
         public Outcome Collect(SymbolDispenser symbols, ApiHostUri src)
         {
@@ -361,31 +401,6 @@ namespace Z0
             return result;
         }
 
-        static Outcome parse(string src, out EncodedMember dst)
-        {
-            const byte FieldCount = EncodedMember.FieldCount;
-            dst = default;
-            var cells = text.split(src, Chars.Pipe);
-            var count = cells.Length;
-            if(count != FieldCount)
-                return (false, AppMsg.CsvDataMismatch.Format(FieldCount,count, src));
-
-            var result = Outcome.Success;
-            var i=0;
-            result = DataParser.parse(skip(cells,i++), out dst.Id);
-            result = DataParser.parse(skip(cells,i++), out dst.EntryAddress);
-            result = DataParser.parse(skip(cells,i++), out dst.EntryRebase);
-            result = DataParser.parse(skip(cells,i++), out dst.TargetAddress);
-            result = DataParser.parse(skip(cells,i++), out dst.TargetRebase);
-            result = DataParser.parse(skip(cells,i++), out dst.StubAsm);
-            result = Disp32.parse(skip(cells,i++), out dst.Disp);
-            result = DataParser.parse(skip(cells,i++), out dst.CodeSize);
-            dst.Host = text.trim(skip(cells,i++));
-            dst.Sig = text.trim(skip(cells,i++));
-            dst.Uri = text.trim(skip(cells,i++));
-            return result;
-        }
-
         [MethodImpl(Inline), Op]
         public static unsafe byte AccessorCode(SpanResAccessor src, out ByteBlock16 dst)
         {
@@ -406,22 +421,24 @@ namespace Z0
         public static MemorySeg AccessorCode(SpanResAccessor src)
             => AccessorCode(GetTargetAddress(src.Member.Location, out _));
 
-        static CapturedAccessor capture(SymbolDispenser symbols, SpanResAccessor src)
-        {
-            var target = GetTargetAddress(src.Member.Location, out _);
-            var token = ApiToken.create(symbols, src.Member, target);
-            var member = new CollectedEncoding(token, AccessorCode(target).View.ToArray());
-            return new CapturedAccessor(member, AccessorData(target), src.Kind);
-        }
 
-        static Index<CapturedAccessor> capture(SymbolDispenser symbols, ReadOnlySpan<SpanResAccessor> accessors)
-        {
-            var count = accessors.Length;
-            var buffer = alloc<CapturedAccessor>(count);
-            for(var i=0; i<count; i++)
-                seek(buffer,i) = capture(symbols, skip(accessors,i));
-            return buffer;
-        }
+
+        // static CapturedAccessor capture(SymbolDispenser symbols, SpanResAccessor src)
+        // {
+        //     var target = GetTargetAddress(src.Member.Location, out _);
+        //     var token = ApiToken.create(symbols, src.Member, target);
+        //     var member = new CollectedEncoding(token, AccessorCode(target).View.ToArray());
+        //     return new CapturedAccessor(member, AccessorData(target), src.Kind);
+        // }
+
+        // static Index<CapturedAccessor> capture(SymbolDispenser symbols, ReadOnlySpan<SpanResAccessor> accessors)
+        // {
+        //     var count = accessors.Length;
+        //     var buffer = alloc<CapturedAccessor>(count);
+        //     for(var i=0; i<count; i++)
+        //         seek(buffer,i) = capture(symbols, skip(accessors,i));
+        //     return buffer;
+        // }
 
         /// <summary>
         /// Queries the source type for ByteSpan property getters
@@ -518,6 +535,5 @@ namespace Z0
                 return members;
             }
         }
-
     }
 }

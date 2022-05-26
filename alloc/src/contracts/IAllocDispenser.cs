@@ -8,4 +8,10 @@ namespace Z0
     {
         AllocationKind DispensedKind {get;}
     }
+
+    public interface IAllocDispenser<D> : IAllocDispenser
+        where D : IAllocDispenser<D>
+    {
+
+    }
 }

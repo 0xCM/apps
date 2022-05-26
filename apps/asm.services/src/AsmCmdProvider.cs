@@ -14,8 +14,6 @@ namespace Z0
 
         AsmOpCodes OpCodes => Service(Wf.AsmOpCodes);
 
-        ApiCodeBanks ApiCodeBanks => Service(Wf.ApiCodeBanks);
-
         CoffServices CoffServices => Service(Wf.CoffServices);
 
         IProjectProvider _ProjectProvider;

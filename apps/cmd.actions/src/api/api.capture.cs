@@ -20,6 +20,7 @@ namespace Z0
             return result;
         }
 
+        ApiCode ApiCode => Wf.ApiCode();
 
         Outcome EmitAsm(string spec)
         {
@@ -27,7 +28,7 @@ namespace Z0
             var path = DataPaths.Path(spec, FS.Asm);
             var emitting = EmittingFile(path);
             using var writer = path.Writer();
-            using var bank = ApiCodeBanks.Encoding(spec);
+            using var bank = ApiCode.Encoding(spec);
             var count = bank.MemberCount;
             for(var i=0; i<count; i++)
             {
@@ -54,6 +55,5 @@ namespace Z0
             result = EmitAsm(spec);
             return result;
         }
-
     }
 }

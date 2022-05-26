@@ -94,7 +94,7 @@ namespace Z0
         public static PageDispenser pages(uint count)
             => new PageDispenser(count);
 
-        ConcurrentDictionary<AllocationKind, IAllocDispenser> Data;
+        ConcurrentDictionary<AllocationKind,IAllocDispenser> Data;
 
         public LabelDispenser Labels()
             => (LabelDispenser)Data.GetOrAdd(AllocationKind.Label, k => Alloc.labels());
@@ -169,5 +169,18 @@ namespace Z0
 
         public AsmCode AsmCode(in AsmEncodingInfo src)
             => AsmCodes().AsmCode(src);
+
+        public static D dispenser<D>(Func<D> f)
+            where D : IAllocDispenser
+        {
+            var dispensed = f();
+            Dispensed.TryAdd(inc(ref Seq), dispensed);
+            return dispensed;
+        }
+
+        static ConcurrentDictionary<uint,IAllocDispenser> Dispensed = new();
+
+        static uint Seq;
+
     }
 }
