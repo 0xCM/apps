@@ -6,16 +6,8 @@ namespace Z0
 {
     using static core;
 
-    [ApiHost]
-    public class SymStores : AppService<SymStores>
+    partial class Heaps
     {
-        static int SegCount;
-
-        const NumericKind Closure = UnsignedInts;
-
-        public static SymTable table(ByteSize capacity)
-            => new SymTable(1024, capacity);
-
         [Op, Closures(UInt64k)]
         public static SymStore<T> symstore<T>(ushort capacity)
             => new SymStore<T>((ushort)inc(ref SegCount), alloc<T>(capacity));

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = SymHeaps;
+    using api = Heaps;
 
     public class SymHeap
     {

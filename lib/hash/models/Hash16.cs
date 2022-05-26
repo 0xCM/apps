@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [DataType("hash<w:16>")]
     public readonly struct Hash16 : IHashCode<ushort,ushort>
     {
         [Parser]

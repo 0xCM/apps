@@ -46,7 +46,7 @@ namespace Z0
                     catalogs.EmitApiClasses();
 
                 if(options.EmitSymbolicLiterals)
-                    Wf.SymHeaps().EmitLiterals();
+                    Wf.Heaps().EmitSymLits();
 
                 if(options.EmitApiBitMasks)
                     Wf.ApiBitMasks().Emit();

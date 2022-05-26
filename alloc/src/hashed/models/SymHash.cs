@@ -7,6 +7,7 @@ namespace Z0
     /// <summary>
     /// Pairs a symbol with it's hash
     /// </summary>
+    [StructLayout(StructLayout,Pack=1)]
     public readonly struct SymHash
     {
         public readonly StringRef Symbol;

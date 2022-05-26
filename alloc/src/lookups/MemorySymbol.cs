@@ -39,12 +39,6 @@ namespace Z0
             get => !IsEmpty;
         }
 
-        public static MemorySymbol Empty
-        {
-            [MethodImpl(Inline)]
-            get => new MemorySymbol(0, 0, 0, 0, SymExpr.Empty);
-        }
-
         [MethodImpl(Inline)]
         public int CompareTo(MemorySymbol src)
             => Address.CompareTo(src.Address);
@@ -55,5 +49,11 @@ namespace Z0
 
         public override int GetHashCode()
             => (int)HashCode;
+
+        public static MemorySymbol Empty
+        {
+            [MethodImpl(Inline)]
+            get => new MemorySymbol(0, 0, 0, 0, SymExpr.Empty);
+        }
     }
 }

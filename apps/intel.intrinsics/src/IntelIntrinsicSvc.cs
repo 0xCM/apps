@@ -28,7 +28,7 @@ namespace Z0
         public void Check()
         {
             var specs = new NativeOpDef[3];
-            using var dispenser = Alloc.allocate();
+            using var dispenser = Alloc.create();
 
             var intrinsics = new IntrinsicSigs();
             var f0 = intrinsics._mm_add_epi8();

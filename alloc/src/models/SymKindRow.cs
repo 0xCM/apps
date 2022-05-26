@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct SymKindRow : IRecord<SymKindRow>
+    public struct SymKindRow
     {
         const string TableId = "symbol.kinds";
 

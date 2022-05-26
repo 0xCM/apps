@@ -8,9 +8,6 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-            public SymHeaps SymHeaps(IWfRuntime wf)
-                => Service<SymHeaps>(wf);
-
             public ApiEmitters ApiEmitters(IWfRuntime wf)
                 => Service<ApiEmitters>(wf);
 
@@ -25,12 +22,15 @@ namespace Z0
 
             public ApiDataPaths ApiDataPaths(IWfRuntime wf)
                 => Service<ApiDataPaths>(wf);
+
+            public Heaps Heaps(IWfRuntime wf)
+                => Service<Heaps>(wf);
         }
 
         static Svc Services => Svc.Instance;
 
-        public static SymHeaps SymHeaps(this IWfRuntime wf)
-            => Services.SymHeaps(wf);
+        public static Heaps Heaps(this IWfRuntime wf)
+            => Services.Heaps(wf);
 
         public static ApiEmitters ApiEmitters(this IWfRuntime wf)
             => Services.ApiEmitters(wf);

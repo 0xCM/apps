@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [DataType("hash<w:32>")]
     public readonly struct Hash32 : IHashCode<uint,uint>, IComparable<Hash32>, IEquatable<Hash32>
     {
         [Parser]

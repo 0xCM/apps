@@ -35,30 +35,30 @@ namespace Z0.Asm
             EmittedTable(flow, count);
         }
 
-        ReadOnlySpan<HashEntry> HashPerfect(ReadOnlySpan<AsmFormInfo> src)
-        {
-            Status($"Attempting to find perfect hashes for {src.Length} expressions");
-            var perfect = HashFunctions.perfect(src, x => x.Format(), HashFunctions.strings()).Codes;
-            var count = (uint)perfect.Length;
+        // ReadOnlySpan<HashEntry> HashPerfect(ReadOnlySpan<AsmFormInfo> src)
+        // {
+        //     Status($"Attempting to find perfect hashes for {src.Length} expressions");
+        //     var perfect = HashFunctions.perfect(src, x => x.Format(), HashFunctions.strings()).Codes;
+        //     var count = (uint)perfect.Length;
 
-            Status($"Found {count} distinct hash codes for {src.Length} expressions");
+        //     Status($"Found {count} distinct hash codes for {src.Length} expressions");
 
-            var dst = Db.AsmCatalogTable<HashEntry>();
-            var buffer = alloc<HashEntry>(count);
-            ref var records = ref first(buffer);
-            for(var i=0u; i<count; i++)
-            {
-                ref var record = ref seek(records,i);
-                ref readonly var hash = ref skip(perfect,i);
-                record.Key = (hash.Hash % count);
-                record.Content = hash.Source.Format();
-                record.Code = hash.Hash;
-            }
-            var emitting = EmittingTable<HashEntry>(dst);
-            var ecount = Tables.emit(@readonly(buffer), dst);
-            EmittedTable(emitting, ecount);
-            return buffer;
-        }
+        //     var dst = Db.AsmCatalogTable<HashEntry>();
+        //     var buffer = alloc<HashEntry>(count);
+        //     ref var records = ref first(buffer);
+        //     for(var i=0u; i<count; i++)
+        //     {
+        //         ref var record = ref seek(records,i);
+        //         ref readonly var hash = ref skip(perfect,i);
+        //         record.Key = (hash.Hash % count);
+        //         record.Content = hash.Source.Format();
+        //         record.Code = hash.Hash;
+        //     }
+        //     var emitting = EmittingTable<HashEntry>(dst);
+        //     var ecount = Tables.emit(@readonly(buffer), dst);
+        //     EmittedTable(emitting, ecount);
+        //     return buffer;
+        // }
 
         [MethodImpl(Inline)]
         ref StanfordForm Fill(ushort seq, AsmFormInfo src, ref StanfordForm dst)

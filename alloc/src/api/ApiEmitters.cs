@@ -10,7 +10,7 @@ namespace Z0
     {
         ApiServices ApiSvc => Service(Wf.ApiServices);
 
-        SymHeaps SymHeaps => Wf.SymHeaps();
+        Heaps Heaps => Wf.Heaps();
 
         AppSvcOps AppSvc
             => Service(Wf.AppSvc);
@@ -20,13 +20,70 @@ namespace Z0
 
         public void Emit()
         {
-            ApiEmit(SymHeaps.CalcSymLits());
+            ApiEmit(Heaps.CalcSymLits());
+        }
+
+        DbTargets ApiTargets()
+            => AppDb.Targets("api");
+
+        public Index<SymKindRow> EmitKinds<K>(Symbols<K> src, FS.FilePath dst)
+            where K : unmanaged
+        {
+            var result = Outcome.Success;
+            var kinds = src.Kinds;
+            var count = kinds.Length;
+            var buffer = alloc<SymKindRow>(count);
+            Heaps.symkinds(src, buffer);
+            AppSvc.TableEmit(buffer, dst);
+            return buffer;
+        }
+
+        public Index<SymDetailRow> EmitDetails<E>(Symbols<E> src, FS.FilePath dst)
+            where E : unmanaged, Enum
+        {
+            var count = src.Count;
+            var buffer = alloc<SymDetailRow>(count);
+            for(var i=0; i<count; i++)
+                Symbols.detail(src[i], (ushort)count, out seek(buffer,i));
+            AppSvc.TableEmit(buffer,dst);
+            return buffer;
+        }
+
+        public Index<SymInfo> EmitTokens(Type src)
+        {
+            var tokens = Symbols.syminfo(src);
+            WfEmit.TableEmit(tokens, ApiTargets().Table<SymInfo>("tokens" + "." +  src.Name.ToLower()));
+            return tokens;
+        }
+
+        public Index<SymInfo> LoadTokens(string name)
+        {
+            var src = ApiTargets().Table<SymInfo>("tokens" + "." +  name.ToLower());
+            using var reader = src.TableReader<SymInfo>(SymInfo.parse);
+            var header = reader.Header.Split(Chars.Pipe);
+            if(header.Length != SymInfo.FieldCount)
+            {
+                Error(AppMsg.FieldCountMismatch.Format(SymInfo.FieldCount, header.Length));
+                return Index<SymInfo>.Empty;
+            }
+            var dst = list<SymInfo>();
+            while(!reader.Complete)
+            {
+                var outcome = reader.ReadRow(out var row);
+                if(!outcome)
+                {
+                    Error(outcome.Message);
+                    break;
+                }
+                dst.Add(row);
+            }
+
+            return dst.ToArray();
         }
 
         void ApiEmit(Index<SymLiteralRow> symlits)
             => core.exec(true,
                 EmitDataTypes,
-                //EmitBitMasks,
                 EmitDataFlows,
                 EmitEnumList,
                 EmitCompilationLits,
@@ -60,7 +117,7 @@ namespace Z0
             => ApiSvc.Emit(src);
 
         void EmitSymHeap(Index<SymLiteralRow> src)
-            => SymHeaps.EmitSymHeap(SymHeaps.create(src));
+            => Heaps.Emit(Heaps.symbols(src));
 
         void EmitApiTables()
             => ApiSvc.Emit(ApiSvc.CalcTableDefs());

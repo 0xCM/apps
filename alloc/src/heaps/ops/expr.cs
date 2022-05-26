@@ -4,5 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    partial class Heaps
+    {
+        [MethodImpl(Inline), Op]
+        public static Span<char> expr(SymHeap src, uint index)
+            => core.slice(src.Expr.Edit, src.ExprOffsets[index], src.ExprLengths[index]);
+    }
 }

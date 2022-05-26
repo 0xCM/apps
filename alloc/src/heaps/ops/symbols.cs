@@ -6,13 +6,46 @@ namespace Z0
 {
     using static core;
 
-    partial class SymHeaps
+    partial class Heaps
     {
+        /// <summary>
+        /// Computes a <see cref='SymHeap'/> for a parametrically-identified symbol type
+        /// </summary>
+        /// <typeparam name="E">The symbol type</typeparam>
+        public static SymHeap symbols<E>()
+            where E : unmanaged, Enum
+                => symbols(symlits<E>());
+
+        public static SymHeap<K,uint,ushort> symbols<K>(W32 wKey, W16 wVal)
+            where K : unmanaged, Enum
+        {
+            var symbols = Symbols.index<K>();
+            var kinds = symbols.Kinds;
+            var buffer = text.buffer();
+            var count = symbols.Count;
+            var offsets = alloc<uint>(count);
+            var lengths = alloc<ushort>(count);
+            var entries = alloc<SymHeapEntry<K,uint,ushort>>(count);
+            var offset = 0u;
+            for(var i=0; i<symbols.Count; i++)
+            {
+                ref var entry = ref seek(entries,i);
+                ref readonly var symbol = ref symbols[i];
+                var expr = symbol.Expr.Data;
+                var length = (ushort)expr.Length;
+                entry = new SymHeapEntry<K,uint,ushort>(symbol.Kind, offset, length);
+                buffer.Append(expr);
+                offset += length;
+            }
+
+            return new SymHeap<K,uint,ushort>(entries,buffer.Emit());
+        }
+
         [Op]
-        public static SymHeap create(ReadOnlySpan<SymLiteralRow> src)
+        public static SymHeap symbols(ReadOnlySpan<SymLiteralRow> src)
         {
             var dst = new SymHeap();
-            var stats = SymHeaps.stats(src);
+            var stats = Heaps.stats(src);
             dst.SymbolCount = stats.SymbolCount;;
             dst.EntryCount = stats.EntryCount;
             dst.ExprLengths = alloc<uint>(stats.EntryCount);
@@ -42,31 +75,5 @@ namespace Z0
 
             return dst;
         }
-
-        public static SymHeap<K,uint,ushort> create<K>()
-            where K : unmanaged, Enum
-        {
-            var symbols = Symbols.index<K>();
-            var kinds = symbols.Kinds;
-            var buffer = text.buffer();
-            var count = symbols.Count;
-            var offsets = alloc<uint>(count);
-            var lengths = alloc<ushort>(count);
-            var entries = alloc<SymHeapEntry<K,uint,ushort>>(count);
-            var offset = 0u;
-            for(var i=0; i<symbols.Count; i++)
-            {
-                ref var entry = ref seek(entries,i);
-                ref readonly var symbol = ref symbols[i];
-                var expr = symbol.Expr.Data;
-                var length = (ushort)expr.Length;
-                entry = new SymHeapEntry<K,uint,ushort>(symbol.Kind, offset, length);
-                buffer.Append(expr);
-                offset += length;
-            }
-
-            return new SymHeap<K,uint,ushort>(entries,buffer.Emit());
-        }
-
     }
 }

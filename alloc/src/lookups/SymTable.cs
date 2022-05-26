@@ -8,6 +8,9 @@ namespace Z0
 
     public class SymTable : IBufferAllocation
     {
+        public static SymTable create(ByteSize capacity)
+            => new SymTable(1024, capacity);
+
         StringBuffer _Strings;
 
         Index<SymHash> _Symbols;

@@ -15,7 +15,7 @@ namespace Z0
         internal readonly uint LastSegment;
 
         [MethodImpl(Inline)]
-        internal ReadOnlyHeap(ReadOnlySpan<T> segs, uint[] offsets)
+        public ReadOnlyHeap(ReadOnlySpan<T> segs, uint[] offsets)
         {
             Segments = segs;
             Offsets = offsets;

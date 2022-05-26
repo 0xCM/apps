@@ -78,7 +78,7 @@ namespace Z0
 
         public XedRuntime()
         {
-            _Alloc = Z0.Alloc.allocate();
+            _Alloc = Z0.Alloc.create();
         }
 
         void CalcCpuIdImports()

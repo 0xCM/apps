@@ -137,7 +137,7 @@ namespace Z0
 
         public void EmitRecoded(WsContext context)
         {
-            using var alloc = Alloc.allocate();
+            using var alloc = Alloc.create();
             var code = EmitAsmCode(context, alloc);
             Paths.RecodedTargets(context.Project).Clear();
             for(var i=0; i<code.Count; i++)

@@ -10,7 +10,7 @@ namespace Z0
 
     public class Alloc : IDisposable, IAllocProvider
     {
-        public static Alloc allocate()
+        public static Alloc create()
             => new Alloc();
 
         public static LabelAllocation labels(ReadOnlySpan<string> src)
@@ -181,6 +181,5 @@ namespace Z0
         static ConcurrentDictionary<uint,IAllocDispenser> Dispensed = new();
 
         static uint Seq;
-
     }
 }

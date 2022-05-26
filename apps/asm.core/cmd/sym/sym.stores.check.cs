@@ -9,7 +9,7 @@ namespace Z0
         [CmdOp("symbolx/check")]
         Outcome CheckSymStores(CmdArgs args)
         {
-            var store = SymStores.symstore<string>(24);
+            var store = Heaps.symstore<string>(24);
             store.Deposit("abc", out var s1);
             Write(s1);
             store.Deposit("def", out var s2);

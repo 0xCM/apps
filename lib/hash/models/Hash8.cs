@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [DataType("hash<w:8>")]
     public readonly struct Hash8 : IHashCode<byte,byte>
     {
         [Parser]
@@ -38,10 +37,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Hash8(byte src)
             => new Hash8(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator Hash<byte,byte>(Hash8 src)
-            => new Hash<byte,byte>(src.Value);
 
         [MethodImpl(Inline)]
         public static Hash16 operator | (Hash8 a, Hash8 b)
