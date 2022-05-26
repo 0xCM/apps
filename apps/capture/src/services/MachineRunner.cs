@@ -29,7 +29,7 @@ namespace Z0
                     Wf.AsmRowBuilder().Emit(blocks);
 
                 if(options.EmitHexIndex)
-                    Wf.ApiHex().EmitIndex(sorted, Db.IndexFile(ApiHexIndexRow.TableId));
+                    Wf.ApiHex().EmitIndex(sorted, Db.IndexFile("api.hex.index"));
 
                 if(options.EmitHexPack)
                     Wf.ApiHexPacks().Emit(sorted);

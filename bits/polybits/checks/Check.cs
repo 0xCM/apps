@@ -11,9 +11,9 @@ namespace Z0
 
     public partial class PbChecks : Checker<PbChecks>
     {
-        AppSvcOps AppSvc => Service(Wf.AppSvc);
+        AppSvcOps AppSvc => Wf.AppSvc();
 
-        AppDb AppDb => AppSvc.AppDb;
+        AppDb AppDb => Wf.AppDb();
 
         ITextEmitter Emitter;
 

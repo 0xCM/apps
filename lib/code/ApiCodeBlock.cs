@@ -13,12 +13,12 @@ namespace Z0
         /// <summary>
         /// The operation uri
         /// </summary>
-        public OpUri OpUri {get;}
+        public readonly OpUri OpUri;
 
         /// <summary>
         /// The encoded operation data
         /// </summary>
-        public CodeBlock Code {get;}
+        public readonly CodeBlock Code;
 
         [MethodImpl(Inline)]
         public ApiCodeBlock(MemoryAddress @base, OpUri uri, BinaryCode src)

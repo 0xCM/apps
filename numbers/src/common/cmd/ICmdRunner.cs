@@ -17,8 +17,6 @@ namespace Z0
     {
         void Project(IProjectWs ws);
 
-        FileCatalog ProjectFiles {get;}
-
         void LoadProject(CmdArgs args);
     }
 

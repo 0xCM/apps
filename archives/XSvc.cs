@@ -8,26 +8,29 @@ namespace Z0
     {
         sealed class Svc : AppServices<Svc>
         {
-            [Op]
             public HexCsvReader HexCsvReader(IWfRuntime wf)
                 => Service<HexCsvReader>(wf);
 
-            [Op]
             public HexCsvWriter HexCsvWriter(IWfRuntime wf)
                 => Service<HexCsvWriter>(wf);
 
-            [Op]
             public HexDataReader HexDataReader(IWfRuntime wf)
                 => Service<HexDataReader>(wf);
 
-            [Op]
             public HexEmitter HexEmitter(IWfRuntime wf)
                 => Service<HexEmitter>(wf);
 
             public Tooling Tooling(IWfRuntime wf)
                 => Service<Tooling>(wf);
 
+            public WsProjects WsProjects(IWfRuntime wf)
+                => Service<WsProjects>(wf);
 
+            public WsCmdRunner WsCmdRunner(IWfRuntime wf)
+                => Service<WsCmdRunner>(wf);
+
+            public AppDb AppDb(IWfRuntime wf)
+                => Service<AppDb>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -46,6 +49,16 @@ namespace Z0
 
         public static Tooling Tooling(this IWfRuntime wf)
             => Services.Tooling(wf);
+
+        public static WsProjects WsProjects(this IWfRuntime wf)
+            => Services.WsProjects(wf);
+
+        public static WsCmdRunner WsCmdRunner(this IWfRuntime wf)
+            => Services.WsCmdRunner(wf);
+
+        public static AppDb AppDb(this IWfRuntime wf)
+            => Services.AppDb(wf);
+
 
     }
 }

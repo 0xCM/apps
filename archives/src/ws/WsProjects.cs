@@ -10,13 +10,6 @@ namespace Z0
     {
         WsUnserviced Unserviced;
 
-
-        // protected Tooling Tooling => Service(Wf.Tooling);
-
-        // protected ConstLookup<ToolId,ToolProfile> ToolProfiles
-        //     => Data(nameof(ToolProfiles), () => Tooling.LoadProfiles(Env.Toolbase));
-
-
         protected override void Initialized()
         {
             Unserviced = WsUnserviced.create(Ws);

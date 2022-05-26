@@ -37,5 +37,9 @@ namespace Z0
             [MethodImpl(Inline)]
             get => new MemoryBlocks(Index<MemoryBlock>.Empty);
         }
+
+        [MethodImpl(Inline)]
+        public static implicit operator MemoryBlocks(MemoryBlock[] src)
+            => new MemoryBlocks(src);
     }
 }

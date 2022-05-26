@@ -6,7 +6,7 @@ namespace Z0
 {
     public class ApiMemberExtract : IComparable<ApiMemberExtract>
     {
-        public ApiExtractBlock Block {get; private set;}
+        public readonly ApiExtractBlock Block;
 
         public readonly OpUri OpUri;
 
@@ -19,12 +19,6 @@ namespace Z0
             Member = member;
             Block = block;
         }
-
-        // public ApiMemberExtract WithBlock(ApiExtractBlock block)
-        // {
-        //     Block = block;
-        //     return this;
-        // }
 
         public bool IsEmpty
         {

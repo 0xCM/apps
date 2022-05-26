@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static Root;
     using static core;
 
     public class ApiHexPacks : AppService<ApiHexPacks>
@@ -40,7 +37,7 @@ namespace Z0
             var flow = Running(string.Format("Loading {0} packs", src.Length));
             var lookup = new Lookup<FS.FilePath,MemoryBlocks>();
             var errors = new Lookup<FS.FilePath,Outcome>();
-            iter(src, path => load(path, lookup, errors), true);
+            iter(src, path => lookup.Include(path, ApiHex.memory(path)), true);
             var result = lookup.Seal();
             var count = result.EntryCount;
             var entries = result.Entries;
@@ -126,15 +123,6 @@ namespace Z0
             var total = MemoryStore.emit(MemoryStore.pack(src), writer);
             EmittedFile(flow, (uint)total);
             return total;
-        }
-
-        static void load(FS.FilePath src, Lookup<FS.FilePath,MemoryBlocks> success, Lookup<FS.FilePath,Outcome> fail)
-        {
-            var result = ApiHex.load(src, out var pack);
-            if(result.Fail)
-                fail.Include(src, result);
-            else
-                success.Include(src, pack);
         }
     }
 }

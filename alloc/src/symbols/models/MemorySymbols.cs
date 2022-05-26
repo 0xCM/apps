@@ -61,10 +61,10 @@ namespace Z0
             return count;
         }
 
-        public static MemorySymbols alloc(uint capacity)
+        public static MemorySymbols create(uint capacity)
             => new MemorySymbols(capacity);
 
-        public static MemorySymbols alloc(int capacity)
+        public static MemorySymbols create(int capacity)
             => new MemorySymbols((uint)capacity);
 
         [MethodImpl(Inline), Op]

@@ -129,7 +129,7 @@ namespace Z0
             if(count == 0)
                 return;
 
-            HexPacks.Emit(ApiHex.blocks(src), rawPath);
+            HexPacks.Emit(ApiHex.memory(src), rawPath);
         }
     }
 }

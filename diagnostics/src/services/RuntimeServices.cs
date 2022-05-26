@@ -60,7 +60,7 @@ namespace Z0
         {
             var details = src.Regions.View;
             var count = details.Length;
-            var symbols = MemorySymbols.alloc(count);
+            var symbols = MemorySymbols.create(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var detail = ref skip(details,i);
@@ -73,7 +73,7 @@ namespace Z0
         {
             var summaries = src.Partitions.View;
             var count = summaries.Length;
-            var symbols = MemorySymbols.alloc(count);
+            var symbols = MemorySymbols.create(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var summary = ref skip(summaries,i);

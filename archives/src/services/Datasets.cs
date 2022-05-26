@@ -8,8 +8,13 @@ namespace Z0
 
     using static core;
 
-    public partial class Datasets
+    public class Datasets
     {
+        [MethodImpl(Inline)]
+        public static RecordSet<T> records<T>(T[] src)
+            where T : struct
+                => new RecordSet<T>(src);
+
         static void AppendLine(TableColumns cols, object[] args, ITextBuffer dst)
             => dst.AppendLine(cols.Format(args));
 

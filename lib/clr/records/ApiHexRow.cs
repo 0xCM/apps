@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.InteropServices;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct ApiHexRow : IRecord<ApiHexRow>
     {
@@ -26,5 +24,7 @@ namespace Z0
         public OpUri Uri;
 
         public BinaryCode Data;
+
+        public static ApiHexRow Empty => default;
     }
 }

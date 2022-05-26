@@ -5,9 +5,11 @@
 namespace Z0
 {
     using Asm;
+    using static core;
 
     partial class AsmCoreCmd
     {
+
         [CmdOp("asm/cases/emit")]
         Outcome EmitAsmCases(CmdArgs args)
         {

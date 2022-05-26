@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct MemorySymbol : IRecord<MemorySymbol>, IComparable<MemorySymbol>, IEquatable<MemorySymbol>
+    [StructLayout(StructLayout,Pack=1)]
+    public struct MemorySymbol : IComparable<MemorySymbol>, IEquatable<MemorySymbol>
     {
         public uint Key;
 
