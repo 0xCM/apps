@@ -11,6 +11,18 @@ namespace Z0
     /// </summary>
     public readonly struct Deferred<T> : IDeferred<Deferred<T>,T>
     {
+        [MethodImpl(Inline)]
+        public static Deferred<X> cover<X>(IEnumerable<X> src)
+            => new Deferred<X>(src);
+
+        [MethodImpl(Inline)]
+        public static Deferred<T> concat(Deferred<T> head, Deferred<T> tail)
+            => head.Concat(tail);
+
+        [MethodImpl(Inline)]
+        public static Deferred<T> concat(Deferred<T> s1, Deferred<T> s2, Deferred<T> s3)
+            => s1.Concat(s2).Concat(s3);
+
         readonly IEnumerable<T> E;
 
         [MethodImpl(Inline)]
@@ -30,27 +42,38 @@ namespace Z0
         public Deferred<T> WithContent(IEnumerable<T> src)
             => new Deferred<T>(src);
 
-        public Deferred<T> Concat(Deferred<T> rhs)
-            => new Deferred<T>(Content.Concat(rhs.Content));
+        public Deferred<T> Concat(Deferred<T> tail)
+            => new Deferred<T>(Content.Concat(tail.Content));
 
-        public Deferred<Y> Select<Y>(Func<T,Y> selector)
-             => new Deferred<Y>(from x in Content select selector(x));
+        public Deferred<Y> Select<Y>(Func<T,Y> project)
+             => cover(
+                 from x in Content
+                 select project(x)
+                 );
 
         public Deferred<Z> SelectMany<Y,Z>(Func<T,Deferred<Y>> lift, Func<T,Y,Z> project)
-            => new Deferred<Z>(from x in Content
-                          from y in lift(x).Content
-                          select project(x, y));
+            => cover(
+                from x in Content
+                from y in lift(x).Content
+                select project(x, y)
+                );
 
         public Deferred<Y> SelectMany<Y>(Func<T,Deferred<Y>> lift)
-            => new Deferred<Y>(from x in Content
-                          from y in lift(x).Content
-                          select y);
+            => cover(
+                from x in Content
+                from y in lift(x).Content
+                select y
+                );
 
         public Deferred<T> Where(Func<T,bool> predicate)
-            => new Deferred<T>(from x in Content where predicate(x) select x);
+            => cover(
+                from x in Content
+                where predicate(x)
+                select x
+                );
 
-        public static Deferred<T> operator + (Deferred<T> lhs, Deferred<T> rhs)
-            => lhs.Concat(rhs);
+        public static Deferred<T> operator + (Deferred<T> head, Deferred<T> tail)
+            => head.Concat(tail);
 
         /// <summary>
         /// Implicitly constructs a sequence from an array

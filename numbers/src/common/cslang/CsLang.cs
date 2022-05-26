@@ -65,7 +65,7 @@ namespace Z0
             => new GBinaryKind(max);
 
         public GLiteralProvider LiteralProviders()
-            => Service(Wf.GenLiteralProviders);
+            => Service(Wf.GenLitProviders);
 
         public GHexStrings HexStrings()
             => Service(() => GHexStrings.create(Wf));

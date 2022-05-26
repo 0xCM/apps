@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     unsafe partial struct memory
     {
         [MethodImpl(Inline), Op, Closures(AllNumeric)]

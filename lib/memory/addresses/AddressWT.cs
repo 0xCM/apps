@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [DataType("address<w:{0},t:{1}>")]
     public readonly struct Address<W,T> : IAddress<Address<W,T>,T>
         where W : unmanaged, INumericWidth
         where T : unmanaged

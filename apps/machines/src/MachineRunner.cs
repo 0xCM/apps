@@ -317,30 +317,6 @@ namespace Z0.Machines
             }
         }
 
-        public unsafe void Run(N30 n)
-        {
-            var count = Pow2.T12;
-            using var buffer0 = memory.native<uint>(count);
-            using var buffer1 = memory.native<uint>(count);
-            using var buffer2 = memory.native<uint>(count);
-            Random.Fill(buffer0.Edit);
-            Random.Fill(buffer1.Edit);
-            var r0 = Seq.reader(buffer0);
-            var r1 = Seq.reader(buffer1);
-            var reader = Seq.reader(r0,r1);
-            var editor = Seq.editor(buffer2);
-
-            while(reader.Next(out var c0, out var c1))
-                editor.Next(out var _) = math.xor(c0,c1);
-
-            var result = Seq.reader(buffer2);
-            var counter = 0u;
-            while(result.Next(out var r))
-            {
-                Write(string.Format("{0:D5} {1:x}", counter++, r.FormatHex()));
-            }
-        }
-
         void Run(N32 n)
         {
             var evals = BinaryBitLogicOps.canonical(w1);
@@ -385,9 +361,6 @@ namespace Z0.Machines
                     break;
                     case 29:
                         Run(n29);
-                    break;
-                    case 30:
-                        Run(n30);
                     break;
                     case 32:
                         Run(n32);

@@ -4,15 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    sealed class ServiceCache : AppServices<ServiceCache>
-    {
-
-
-    }
-
     public static class XSvc
     {
-        static ServiceCache Services = new();
+        sealed class Svc : AppServices<Svc>
+        {
 
+
+        }
+
+
+        static Svc Services = new();
     }
 }

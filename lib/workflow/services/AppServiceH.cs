@@ -92,16 +92,11 @@ namespace Z0
 
         protected IToolWs Tools => Service(Ws.Tools);
 
-        protected Tooling Tooling => Service(Wf.Tooling);
-
         public OmniScript OmniScript => Service(Wf.OmniScript);
 
         protected ScriptRunner ScriptRunner => Service(Wf.ScriptRunner);
 
         protected CmdLineRunner CmdRunner => Service(Wf.CmdLineRunner);
-
-        protected ConstLookup<ToolId,ToolProfile> ToolProfiles
-            => Data(nameof(ToolProfiles), () => Tooling.LoadProfiles(Env.Toolbase));
 
         public virtual Type ContractType
             => typeof(H);

@@ -12,7 +12,6 @@ namespace Z0
     /// <summary>
     /// Defines a reference to a runtime memory segment
     /// </summary>
-    [DataType("memseg")]
     public readonly struct MemorySeg : IMemorySegment, ITextual, IEquatable<MemorySeg>, IHashed
     {
         public const byte SZ = 16;

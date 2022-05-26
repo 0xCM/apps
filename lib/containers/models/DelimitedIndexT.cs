@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [DataType("dindex<t:{0}>")]
     public readonly struct DelimitedIndex<T> : IIndex<T>, ITextual
     {
         public readonly Index<T> Data;

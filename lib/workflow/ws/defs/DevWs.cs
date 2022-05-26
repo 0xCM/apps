@@ -35,58 +35,6 @@ namespace Z0
             get => _WsRoot;
         }
 
-        public Outcome Select(Identifier name, out IWorkspace dst)
-        {
-            var result = Outcome.Failure;
-            dst = default;
-            var id = name.Format();
-            switch(id)
-            {
-                case api:
-                    dst = Api();
-                break;
-                case envdb:
-                    dst = EnvDb();
-                break;
-                case asm:
-                    dst = Asm();
-                break;
-                case control:
-                    dst = Control();
-                break;
-                case docs:
-                    dst = Docs();
-                break;
-                case projects:
-                    dst = Projects();
-                break;
-                case sources:
-                    dst = Sources();
-                break;
-                case logs:
-                    dst = Logs();
-                break;
-                case gen:
-                    dst = Gen();
-                break;
-                case tools:
-                    dst = Tools();
-                break;
-                case tables:
-                    dst = Tables();
-                break;
-                case output:
-                    dst = Output();
-                break;
-                case imports:
-                    dst = Imports();
-                break;
-            }
-            if(dst != null)
-                result = true;
-            return result;
-        }
-
         public IWorkspace Api()
             => ApiWs.create(_WsRoot + FS.folder(api));
 

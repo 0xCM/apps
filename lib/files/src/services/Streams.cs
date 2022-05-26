@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.IO;
     using System.Text;
-
-    using static Root;
 
     [ApiHost]
     public readonly struct Streams

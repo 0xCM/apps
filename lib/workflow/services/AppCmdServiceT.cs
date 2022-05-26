@@ -80,12 +80,12 @@ namespace Z0
             return result;
         }
 
-        [CmdOp("tools/profiles")]
-        protected Outcome ShowToolProfiles(CmdArgs args)
-        {
-            iter(ToolProfiles.Values, profile => Write(string.Format("{0,-12} {1,-32} {2}", profile.Memberhisp, profile.Id, profile.Path)));
-            return true;
-        }
+        // [CmdOp("tools/profiles")]
+        // protected Outcome ShowToolProfiles(CmdArgs args)
+        // {
+        //     iter(ToolProfiles.Values, profile => Write(string.Format("{0,-12} {1,-32} {2}", profile.Memberhisp, profile.Id, profile.Path)));
+        //     return true;
+        // }
 
 
         [CmdOp("cmd/cd")]

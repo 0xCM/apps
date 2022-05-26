@@ -83,36 +83,6 @@ namespace Z0
         public static unsafe MemoryAddress address<T>(T[] src, int index)
             =>  pvoid(seek(src,index));
 
-        [MethodImpl(Inline), Op]
-        public static Address8 address8(byte src)
-            => new Address8(src);
 
-        [MethodImpl(Inline), Op]
-        public static Address16 address16(ushort src)
-            => new Address16(src);
-
-        [MethodImpl(Inline), Op]
-        public static Address32 address32(uint src)
-            => new Address32(src);
-
-        [MethodImpl(Inline), Op]
-        public static Address64 address64(ulong src)
-            => new Address64(src);
-
-        [MethodImpl(Inline), Op]
-        public static Address<W8,byte> address(W8 w, byte src)
-            => new Address<W8,byte>(src);
-
-        [MethodImpl(Inline), Op]
-        public static Address<W16,ushort> address(W16 w, ushort src)
-            => new Address<W16,ushort>(src);
-
-        [MethodImpl(Inline), Op]
-        public static Address<W32,uint> address(W32 w, uint src)
-            => new Address<W32,uint>(src);
-
-        [MethodImpl(Inline), Op]
-        public static Address<W64,ulong> address(W64 w, ulong src)
-            => new Address<W64,ulong>(src);
     }
 }

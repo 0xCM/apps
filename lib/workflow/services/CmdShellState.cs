@@ -48,10 +48,6 @@ namespace Z0
             => _Workspace;
 
         [MethodImpl(Inline)]
-        public Outcome Workspace(string name)
-            => Ws.Select(name, out _Workspace);
-
-        [MethodImpl(Inline)]
         public ApiPath Api()
             => _Api;
 

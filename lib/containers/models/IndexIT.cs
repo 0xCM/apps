@@ -8,10 +8,17 @@ namespace Z0
 
     using static core;
 
-    [DataType("index<i:{0},t:{1}>")]
     public readonly struct Index<I,T> : IIndex<I,T>
         where I : unmanaged
     {
+        [MethodImpl(Inline)]
+        public static Index<I,X> cover<X>(X[] src)
+            => new Index<I,X>(src);
+
+        [MethodImpl(Inline)]
+        public static Index<I,X> load<X>(IEnumerable<X> src)
+            => new Index<I,X>(src.Array());
+
         readonly Index<T> Data;
 
         [MethodImpl(Inline)]
@@ -82,26 +89,29 @@ namespace Z0
         public string Format()
             => Data.Format();
 
-        /// <summary>
-        /// Creates an indexed sequence from a parameter array
-        /// </summary>
-        /// <param name="src">The data source</param>
-        /// <typeparam name="T">The cell type</typeparam>
-        [MethodImpl(Inline), Op, Closures(UInt8k)]
-        static Index<I,X> view<X>(IEnumerable<X> src)
-            => new Index<I,X>(src.ToArray());
-
         public Index<I,Y> Select<Y>(Func<T,Y> selector)
              => Index.map(Data.Storage, selector);
 
         public Index<I,Z> SelectMany<Y,Z>(Func<T,Index<I,Y>> lift, Func<T,Y,Z> project)
-            => view(from x in Data.Storage from y in lift(x).Data.Storage select project(x, y));
+            => load(
+                from x in Data.Storage
+                from y in lift(x).Storage
+                select project(x, y)
+                );
 
         public Index<I,Y> SelectMany<Y>(Func<T,Index<I,Y>> lift)
-            => view(from x in Data.Storage from y in lift(x).Data.Storage select y);
+            => load(
+                from x in Data.Storage
+                from y in lift(x).Data.Storage
+                select y
+                );
 
         public Index<I,T> Where(Func<T,bool> predicate)
-            => view(from x in Data.Storage where predicate(x) select x);
+            => cover(
+                from x in Data.Storage
+                where predicate(x)
+                select x
+                );
 
         [MethodImpl(Inline)]
         public static implicit operator Index<I,T>(T[] src)

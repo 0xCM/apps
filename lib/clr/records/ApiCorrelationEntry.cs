@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.InteropServices;
-
-    [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ApiCorrelationEntry : IRecord<ApiCorrelationEntry>
+    [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
+    public struct ApiCorrelationEntry
     {
         public const string TableId = "api.correlations";
 
