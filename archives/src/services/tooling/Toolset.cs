@@ -4,18 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public class Toolset
     {
-        public FS.FolderPath InstallBase {get;}
+        public readonly FS.FolderPath InstallBase;
 
-        public Index<ToolProfile> Profiles {get;}
+        public readonly Index<ToolProfile> Profiles;
 
-        public Index<ToolDeployment> Deployments {get;}
+        public readonly Index<ToolDeployment> Deployments;
 
         [MethodImpl(Inline)]
         public Toolset(FS.FolderPath @base, ToolProfile[] profiles)

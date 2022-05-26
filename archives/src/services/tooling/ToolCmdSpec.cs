@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct ToolCmdSpec : ITextual
+    public struct ToolCmdSpec
     {
         /// <summary>
         /// The path to the tool executable
@@ -15,7 +15,11 @@ namespace Z0
         /// The arguments to pass to the tool
         /// </summary>
         public Index<string> Args;
+
         public string Format()
             => string.Format("{0} {0}", ToolPath.Format(PathSeparator.BS), Args.Format());
+
+        public override string ToString()
+            => Format();
     }
 }

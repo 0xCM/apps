@@ -17,16 +17,6 @@ namespace Z0
         public static EventHubClient client(IEventHub hub, IWfEventSink sink, Action connect, Action exec)
             => new EventHubClient(hub, sink, connect, exec);
 
-        /// <summary>
-        /// Creates a T-parametric sink predicated on a <see cref='Receiver{T}'/> process function
-        /// </summary>
-        /// <param name="wf">The workflow context</param>
-        /// <param name="f">The process function</param>
-        /// <typeparam name="T">The data type</typeparam>
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static SpanSink<T> sink<T>(Receiver<T> f)
-            => new SpanSink<T>(f);
-
         [MethodImpl(Inline)]
         public static HubRelay relay(EventReceiver receiver)
             => new HubRelay(receiver);

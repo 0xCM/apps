@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiHost]
     public readonly struct PwshCmd
     {
         [Op]

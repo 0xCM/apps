@@ -6,7 +6,7 @@ namespace Z0
 {
     public readonly struct CmdScripts : IFileArchive
     {
-        public FS.FolderPath Root {get;}
+        public readonly FS.FolderPath Root {get;}
 
         [MethodImpl(Inline)]
         public CmdScripts(FS.FolderPath root)

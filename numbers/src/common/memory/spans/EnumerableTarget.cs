@@ -4,13 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-    using System.Collections;
-
-    using static Root;
-
     public struct EnumerableTarget<T> : IEnumerableTarget<T>
     {
         IteratorRelay<T> Relay;

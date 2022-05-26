@@ -16,6 +16,16 @@ namespace Z0
             => new SpanBuffer<T>(new T[count]);
 
         /// <summary>
+        /// Creates a T-parametric sink predicated on a <see cref='Receiver{T}'/> process function
+        /// </summary>
+        /// <param name="wf">The workflow context</param>
+        /// <param name="f">The process function</param>
+        /// <typeparam name="T">The data type</typeparam>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static SpanSink<T> sink<T>(Receiver<T> f)
+            => new SpanSink<T>(f);
+
+        /// <summary>
         /// Allocates a span-predicated S/T ring buffer
         /// </summary>
         /// <param name="capacity">The segment count</param>

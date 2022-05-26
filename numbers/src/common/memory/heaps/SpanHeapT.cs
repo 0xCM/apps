@@ -4,19 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using api = memory;
+    using api = Heaps;
 
-    public readonly struct Heap<K,T>
-        where K : unmanaged
+    public readonly ref struct SpanHeap<T>
     {
-        internal readonly Index<T> Segments;
+        internal readonly Span<T> Segments;
 
-        internal readonly Index<K,uint> Offsets;
+        internal readonly Index<uint> Offsets;
 
         internal readonly uint LastSegment;
 
         [MethodImpl(Inline)]
-        internal Heap(Index<T> segs, Index<K,uint> offsets)
+        internal SpanHeap(Span<T> segs, uint[] offsets)
         {
             Segments = segs;
             Offsets = offsets;
@@ -24,10 +23,10 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public Span<T> Segment(K index)
+        public Span<T> Segment(uint index)
             => api.segment(this, index);
 
-        public Span<T> this[K index]
+        public ReadOnlySpan<T> this[uint index]
         {
             [MethodImpl(Inline)]
             get => Segment(index);
@@ -36,7 +35,7 @@ namespace Z0
         public uint SegCount
         {
             [MethodImpl(Inline)]
-            get => Segments.Count;
+            get => (uint)Segments.Length;
         }
     }
 }

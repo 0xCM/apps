@@ -106,7 +106,7 @@ namespace Z0.Asm
                 s0 + s1 + s2
                 );
 
-            var heap = memory.heap(text.span(segments), offsets);
+            var heap = Heaps.heap(text.span(segments), offsets);
             for(var i=0u; i<offsets.Length; i++)
             {
                 var seg = text.format(heap.Segment(i));

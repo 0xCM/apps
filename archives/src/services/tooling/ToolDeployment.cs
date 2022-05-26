@@ -4,15 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct ToolDeployment
     {
-        public ToolId Id {get;}
+        public readonly ToolId Id {get;}
 
-        public FS.FilePath Path {get;}
+        public readonly FS.FilePath Path {get;}
 
         [MethodImpl(Inline)]
         public ToolDeployment(ToolId id, FS.FilePath path)
