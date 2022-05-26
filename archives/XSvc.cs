@@ -23,6 +23,11 @@ namespace Z0
             [Op]
             public HexEmitter HexEmitter(IWfRuntime wf)
                 => Service<HexEmitter>(wf);
+
+            public Tooling Tooling(IWfRuntime wf)
+                => Service<Tooling>(wf);
+
+
         }
 
         static Svc Services => Svc.Instance;
@@ -38,5 +43,9 @@ namespace Z0
 
         public static HexEmitter HexEmitter(this IWfRuntime wf)
             => Services.HexEmitter(wf);
+
+        public static Tooling Tooling(this IWfRuntime wf)
+            => Services.Tooling(wf);
+
     }
 }

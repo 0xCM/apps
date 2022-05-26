@@ -112,7 +112,7 @@ namespace Z0
             where N : unmanaged, ITypeNat
             where T : unmanaged
         {
-            var dst = MatrixIO.blockread<M,N,T>(src);
+            var dst = blockread<M,N,T>(src);
             if(NumericKinds.floating<T>())
                 dst.Apply(x => gfp.round<T>(x,4));
             return dst;
@@ -126,7 +126,7 @@ namespace Z0
             using var writer = dst.Writer();
             if(NumericKinds.floating<T>())
                 src.Apply(x => gfp.round<T>(x,4));
-            MatrixIO.write(src,writer);
+            write(src, writer);
             return src;
         }
 

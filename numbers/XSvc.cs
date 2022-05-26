@@ -54,9 +54,6 @@ namespace Z0
             public MemorySeqChecks MemorySeqChecks(IWfRuntime wf)
                 => Service<MemorySeqChecks>(wf);
 
-            public Tooling Tooling(IWfRuntime wf)
-                => Service<Tooling>(wf);
-
             public AssetServices Assets(IWfRuntime wf)
                 => Service<AssetServices>(wf);
 
@@ -105,9 +102,6 @@ namespace Z0
 
         public static CsLang CsLang(this IWfRuntime wf)
             => Services.CsLang(wf);
-
-        public static Tooling Tooling(this IWfRuntime wf)
-            => Services.Tooling(wf);
 
         public static AssetServices Assets(this IWfRuntime wf)
             => Services.Assets(wf);

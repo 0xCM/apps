@@ -4,16 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines a text document format scheme
     /// </summary>
     public struct TextDocFormat
     {
+        public static ReadOnlySpan<string> split(string src, in TextDocFormat spec)
+            => text.nonempty(src) ? spec.SplitClean ? src.SplitClean(spec.Delimiter) : src.Split(spec.Delimiter) : sys.empty<string>();
+
         /// <summary>
         /// Specifies the default delimiter to use with structured content
         /// </summary>

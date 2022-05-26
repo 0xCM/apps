@@ -162,46 +162,6 @@ namespace Z0
             where T : struct
                 => TableEmit(@readonly(src), widths, dst, fk, encoding);
 
-        public Outcome EmitToolCatalog()
-        {
-            var subdirs = Tools.Root.SubDirs();
-            var counter = 0u;
-            var formatter = Tables.formatter<ToolConfig>(16);
-            var dst = Tools.Inventory();
-            var emitting = EmittingFile(dst);
-            using var writer = dst.AsciWriter();
-            foreach(var dir in subdirs)
-            {
-                var configCmd = dir + FS.file(WsAtoms.config, FS.Cmd);
-                if(configCmd.Exists)
-                {
-                    var config =  dir + FS.folder(WsAtoms.logs) + FS.file(WsAtoms.config, FS.Log);
-                    if(config.Exists)
-                    {
-                        var result = Tooling.parse(config.ReadText(), out var c);
-                        if(result.Fail)
-                        {
-                            Error(string.Format("{0}:{1}", config.ToUri(), result.Message));
-                            continue;
-                        }
 
-                        var settings = formatter.Format(c,RecordFormatKind.KeyValuePairs);
-                        var title = string.Format("# {0}", c.ToolId);
-                        var sep = string.Format("# {0}", RP.PageBreak80);
-
-                        Write(title, FlairKind.Status);
-                        Write(sep);
-                        Write(settings);
-                        writer.WriteLine(title);
-                        writer.WriteLine(sep);
-                        writer.WriteLine(settings);
-                        counter++;
-                    }
-                }
-            }
-
-            EmittedFile(emitting, counter);
-            return true;
-        }
     }
 }

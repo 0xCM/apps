@@ -8,19 +8,13 @@ namespace Z0
 
     public ref struct FixedTextGrid
     {
-        public static FixedTextGrid load(uint width, ReadOnlySpan<char> src)
-            => new FixedTextGrid(width,src);
-
-        public static FixedTextGrid load(uint width, string src)
-            => new FixedTextGrid(width, src);
-
         readonly ReadOnlySpan<char> Data;
 
-        public uint RowWidth {get;}
+        public readonly uint RowWidth;
 
-        public uint RowCount {get;}
+        public readonly uint RowCount;
 
-        internal FixedTextGrid(uint width, ReadOnlySpan<char> data)
+        public FixedTextGrid(uint width, ReadOnlySpan<char> data)
         {
             Data = data;
             RowWidth = width;
@@ -44,7 +38,7 @@ namespace Z0
             get => Row(index);
         }
 
-        public void Render(ITextBuffer dst)
+        public void Render(ITextEmitter dst)
         {
             for(var i=0u; i<RowCount; i++)
                 dst.AppendLine(new string(Row(i)));
@@ -52,7 +46,7 @@ namespace Z0
 
         public string Format()
         {
-            var dst = text.buffer();
+            var dst = text.emitter();
             Render(dst);
             return dst.Emit();
         }

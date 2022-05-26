@@ -4,22 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public class TextGrid
     {
-        public Index<TextRow> RowData {get;}
+        public readonly Index<TextRow> RowData;
 
-        public TextDocFormat Format {get;}
+        public readonly TextDocFormat Format;
 
-        public TextDocHeader Header {get;}
+        public readonly TextDocHeader Header;
 
-        public uint RowCount {get;}
+        public readonly uint RowCount;
 
-        public uint ColCount {get;}
+        public readonly uint ColCount;
 
         [MethodImpl(Inline)]
         public TextGrid(TextDocFormat format, TextDocHeader header, params TextRow[] rows)

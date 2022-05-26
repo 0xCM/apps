@@ -11,11 +11,68 @@ namespace Z0
     [ApiHost]
     public readonly struct TextGrids
     {
+        [Op]
+        public static Outcome<Count> normalize(Asset src, string delimiter, ReadOnlySpan<byte> widths, FS.FilePath dst)
+        {
+            var data = text.utf8(src.Bytes());
+            var result = parse(data, out var doc);
+            if(result.Fail)
+                return result;
+
+            return normalize(data, delimiter, widths, dst);
+        }
+
+        [Op]
+        public static Outcome<Count> normalize(string data, string delimiter, ReadOnlySpan<byte> widths, FS.FilePath dst)
+        {
+            var result = parse(data, out var doc);
+            var fieldCount = widths.Length;
+            var header = doc.Header.ToRowHeader(delimiter, widths);
+            if(header.CellCount != fieldCount)
+                return (false,Tables.FieldCountMismatch.Format(fieldCount, header.CellCount));
+
+            using var writer = dst.Writer();
+            writer.WriteLine(header.Format());
+
+            var rows = doc.Rows;
+            var count = rows.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var row = ref skip(rows,i);
+                var cells = row.Cells;
+                if(row.CellCount != fieldCount)
+                    return (false, Tables.FieldCountMismatch.Format(fieldCount, row.CellCount));
+
+                for(var j=0; j<fieldCount; j++)
+                {
+                    ref readonly var cell = ref skip(cells,j);
+                    var formatted = cell.Format(-skip(widths,j));
+                    if(j != 0)
+                        formatted = string.Format("{0}{1}",delimiter, formatted);
+                    if(j != fieldCount - 1)
+                        writer.Write(formatted);
+                    else
+                        writer.WriteLine(formatted);
+                }
+            }
+
+            return (true, count);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static FixedTextGrid @fixed(uint width, ReadOnlySpan<char> src)
+            => new FixedTextGrid(width,src);
+
+        [MethodImpl(Inline), Op]
+        public static FixedTextGrid @fixed(uint width, string src)
+            => new FixedTextGrid(width, src);
+
+
         public static Outcome load(FS.FilePath src, uint width, out FixedTextGrid dst)
         {
             try
             {
-                dst = FixedTextGrid.load(width,src.ReadUnicode());
+                dst = @fixed(width, src.ReadUnicode());
                 return true;
             }
             catch(Exception e)
@@ -123,7 +180,7 @@ namespace Z0
         [Op]
         public static bool header(TextLine src, in TextDocFormat spec, out TextDocHeader dst)
         {
-            var parts = src.Split(spec);
+            var parts = TextDocFormat.split(src.Content, spec);
             var count = parts.Length;
             var buffer = list<string>();
 
@@ -214,7 +271,7 @@ namespace Z0
 
                     if(fmt.HasHeader && docheader.IsNone() && rows.Count == 0)
                     {
-                        if(TextGrids.header(line, fmt, out var _docheader))
+                        if(header(line, fmt, out var _docheader))
                             docheader = _docheader;
                     }
                     else
@@ -273,7 +330,7 @@ namespace Z0
 
                     if(fmt.HasHeader && docheader.IsNone() && rows.Count == 0)
                     {
-                        if(TextGrids.header(line, fmt, out var _docheader))
+                        if(header(line, fmt, out var _docheader))
                             docheader = _docheader;
                     }
                     else
@@ -309,7 +366,7 @@ namespace Z0
             {
                 if(spec.HasHeader)
                 {
-                    var parts = src.Split(spec);
+                    var parts = TextDocFormat.split(src.Content, spec);
                     var count = parts.Length;
                     var buffer = alloc<TextBlock>(count);
                     ref var target= ref first(buffer);
