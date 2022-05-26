@@ -1,0 +1,29 @@
+{
+	"folders": [
+		{
+			"path": "..\\notes"
+		},
+		{
+			"path": "..\\numbers"
+		},
+		{
+			"path": "..\\alloc"
+		},
+		{
+			"path": "..\\archives"
+		},
+		{
+			"path": "..\\bits"
+		},
+		{
+			"path": "..\\diagnostics"
+		},
+		{
+			"path": "..\\lines"
+		},
+        {
+			"path": "."
+		},
+	],
+	"settings": {}
+}
