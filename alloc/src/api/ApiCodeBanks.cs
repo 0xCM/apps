@@ -12,15 +12,15 @@ namespace Z0
     {
         ApiDataPaths DataPaths => Service(Wf.ApiDataPaths);
 
-        public ApiEncodingBank Encoding()
+        public EncodedMembers Encoding()
         {
             var result = LoadCollected(out var index, out var code);
             if(result.Fail)
                 Errors.Throw(result.Message);
-            return ApiEncodingBank.load(index,code);
+            return EncodedMembers.load(index,code);
         }
 
-        public ApiEncodingBank Encoding(string spec)
+        public EncodedMembers Encoding(string spec)
         {
             var result = Outcome.Success;
             if(text.nonempty(spec))
@@ -37,23 +37,23 @@ namespace Z0
             }
         }
 
-        public ApiEncodingBank Encoding(PartId src)
+        public EncodedMembers Encoding(PartId src)
         {
             var result = LoadCollected(src, out var index, out var code);
             if(result.Fail)
                 Errors.Throw(result.Message);
-            return ApiEncodingBank.load(index,code);
+            return EncodedMembers.load(index,code);
         }
 
-        public ApiEncodingBank Encoding(ApiHostUri src)
+        public EncodedMembers Encoding(ApiHostUri src)
         {
             var result = LoadCollected(src, out var index, out var code);
             if(result.Fail)
                 Errors.Throw(result.Message);
-            return ApiEncodingBank.load(index,code);
+            return EncodedMembers.load(index,code);
         }
 
-        Outcome LoadCollected(PartId src, out Index<EncodedMemberInfo> index, out BinaryCode data)
+        Outcome LoadCollected(PartId src, out Index<EncodedMember> index, out BinaryCode data)
         {
             var result = Outcome.Success;
             var rA = LoadIndex(DataPaths.Path(src,FS.Csv), out index);
@@ -65,7 +65,7 @@ namespace Z0
             return result;
         }
 
-        Outcome LoadCollected(out Index<EncodedMemberInfo> index, out BinaryCode data)
+        Outcome LoadCollected(out Index<EncodedMember> index, out BinaryCode data)
         {
             var result = Outcome.Success;
             var rA = LoadIndex(DataPaths.Path(FS.Csv), out index);
@@ -77,7 +77,7 @@ namespace Z0
             return result;
         }
 
-        Outcome LoadCollected(ApiHostUri src, out Index<EncodedMemberInfo> index, out BinaryCode data)
+        Outcome LoadCollected(ApiHostUri src, out Index<EncodedMember> index, out BinaryCode data)
         {
             var result = Outcome.Success;
             var rA = LoadIndex(DataPaths.Path(src, FS.Csv), out index);
@@ -89,12 +89,12 @@ namespace Z0
             return result;
         }
 
-        Outcome LoadIndex(FS.FilePath src, out Index<EncodedMemberInfo> dst)
+        Outcome LoadIndex(FS.FilePath src, out Index<EncodedMember> dst)
         {
             var result = Outcome.Success;
             var lines = src.ReadLines(true);
             var count = lines.Count - 1;
-            dst = alloc<EncodedMemberInfo>(count);
+            dst = alloc<EncodedMember>(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var line = ref lines[i + 1];
@@ -126,9 +126,9 @@ namespace Z0
             return result;
         }
 
-        static Outcome parse(string src, out EncodedMemberInfo dst)
+        static Outcome parse(string src, out EncodedMember dst)
         {
-            const byte FieldCount = EncodedMemberInfo.FieldCount;
+            const byte FieldCount = EncodedMember.FieldCount;
             dst = default;
             var cells = text.split(src, Chars.Pipe);
             var count = cells.Length;

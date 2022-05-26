@@ -38,7 +38,7 @@ namespace Z0
 
         ApiComments ApiComments => Service(() => Z0.ApiComments.create(Wf));
 
-        EncodingCollector CodeCollector => Service(Wf.EncodingCollector);
+        ApiCode CodeCollector => Wf.ApiCode();
 
         Index<ProcessAsmRecord> ProcessAsm() => Data(nameof(ProcessAsm), _LoadProcessAsm);
 

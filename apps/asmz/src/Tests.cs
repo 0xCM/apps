@@ -251,12 +251,6 @@ namespace Z0.Asm
             return 0;
         }
 
-        void ListDescriptors()
-        {
-            var descriptors = ApiCode.descriptors(Wf);
-            Wf.Row($"Loaded {descriptors.Count} descriptors");
-        }
-
         void FilterApiBlocks()
         {
             var blocks = Wf.ApiCatalogs().Correlate();

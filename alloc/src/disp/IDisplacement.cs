@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [Free]
     public interface IDisplacement : IAsmOp
     {
@@ -17,7 +15,6 @@ namespace Z0.Asm
         bool Positive => Value > 0;
 
         bool Negative => Value < 0;
-
     }
 
     [Free]

@@ -42,6 +42,9 @@ namespace Z0
             return this;
         }
 
+        public DbSources ToSource()
+            => new DbSources(Root, Scope);
+
         [MethodImpl(Inline)]
         public DbTargets Targets(string scope)
             => new DbTargets(OutDir(), scope);

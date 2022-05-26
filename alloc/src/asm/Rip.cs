@@ -43,6 +43,5 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static explicit operator ulong(Rip src)
             => src.Address;
-
     }
 }

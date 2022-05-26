@@ -19,6 +19,12 @@ namespace Z0
 
             public ApiServices ApiServices(IWfRuntime wf)
                 => Service<ApiServices>(wf);
+
+            public ApiCode ApiCode(IWfRuntime wf)
+                => Service<ApiCode>(wf);
+
+            public ApiDataPaths ApiDataPaths(IWfRuntime wf)
+                => Service<ApiDataPaths>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -34,5 +40,11 @@ namespace Z0
 
         public static ApiServices ApiServices(this IWfRuntime wf)
             => Services.ApiServices(wf);
+
+        public static ApiCode ApiCode(this IWfRuntime wf)
+            => Services.ApiCode(wf);
+
+        public static ApiDataPaths ApiDataPaths(this IWfRuntime wf)
+            => Services.ApiDataPaths(wf);
     }
 }

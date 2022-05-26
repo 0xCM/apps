@@ -22,7 +22,7 @@ namespace Z0.Asm
                 return (false, FS.missing(path));
 
             var counter = 0u;
-            ApiHex.load(path, out MemoryBlocks dst);
+            var dst = ApiHex.memory(path);
 
             var blocks = dst.Sort().View;
             var buffer = span<char>(Pow2.T16);

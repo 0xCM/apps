@@ -78,15 +78,12 @@ namespace Z0
         public static AsmCmdRt AsmCmdRt(this IWfRuntime wf, bool start = true)
             => Services.AsmCmdRt(wf, start);
 
-        [Op]
         public static IntelSdm IntelSdm(this IWfRuntime wf)
             => Services.IntelSdm(wf);
 
-        [Op]
         public static XedImport XedImport(this IWfRuntime wf, XedRuntime xed)
             => Services.XedImport(wf, xed);
 
-        [Op]
         public static XedRules XedRules(this IWfRuntime wf, XedRuntime xed)
             => Services.XedRules(wf, xed);
 
@@ -120,20 +117,17 @@ namespace Z0
         public static CpuIdSvc CpuId(this IWfRuntime wf)
             => Services.CpuId(wf);
 
-        public static AsmCodeGen AsmCodeGen(this IWfRuntime wf)
-            => Services.Service<AsmCodeGen>(wf);
-
         public static ApiResPackEmitter ResPackEmitter(this IWfRuntime wf)
             => Z0.ApiResPackEmitter.create(wf);
+
+        public static AsmCodeGen AsmCodeGen(this IWfRuntime wf)
+            => Services.Service<AsmCodeGen>(wf);
 
         public static AsmDocs AsmDocs(this IWfRuntime wf)
             => Asm.AsmDocs.create(wf);
 
         public static DumpBin DumpBin(this IWfRuntime wf)
             => Z0.DumpBin.create(wf);
-
-        public static ApiDataPaths ApiDataPaths(this IWfRuntime wf)
-            => Z0.ApiDataPaths.create(wf);
 
         public static ApiCodeBanks ApiCodeBanks(this IWfRuntime wf)
             => Z0.ApiCodeBanks.create(wf);
@@ -161,8 +155,5 @@ namespace Z0
 
         public static NDisasm NDisasm(this IWfRuntime wf)
             => Z0.NDisasm.create(wf);
-
-        public static EncodingCollector EncodingCollector(this IWfRuntime wf)
-            => Services.Service<EncodingCollector>(wf);
    }
 }

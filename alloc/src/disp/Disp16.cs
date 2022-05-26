@@ -81,7 +81,7 @@ namespace Z0.Asm
             => Value == src.Value;
 
         public string Format()
-            => AsmRender.disp(this);
+            => Disp.format(this);
 
         public override string ToString()
             => Format();
@@ -126,8 +126,5 @@ namespace Z0.Asm
         public static explicit operator Disp16(ByteSize src)
             => new Disp16((short)src);
 
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(Disp16 src)
-            => new AsmOperand(src);
     }
 }

@@ -179,7 +179,7 @@ namespace Z0.Asm
         public static AsmHexCode asmhex(string src)
         {
             var dst = AsmHexCode.Empty;
-            AsmParser.asmhex(src.Trim(), out dst);
+            asmhex(src.Trim(), out dst);
             return dst;
         }
 

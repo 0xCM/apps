@@ -6,13 +6,13 @@ namespace Z0
 {
     public readonly struct ApiCodeBlockHeader
     {
-        public OpUri Uri {get;}
+        public readonly OpUri Uri;
 
-        public @string DisplaySig {get;}
+        public readonly @string DisplaySig;
 
-        public CodeBlock CodeBlock {get;}
+        public readonly CodeBlock CodeBlock;
 
-        public ExtractTermCode TermCode {get;}
+        public readonly ExtractTermCode TermCode;
 
         [MethodImpl(Inline)]
         public ApiCodeBlockHeader(OpUri uri, string sig, CodeBlock code, ExtractTermCode term)

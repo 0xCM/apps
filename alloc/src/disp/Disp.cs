@@ -10,6 +10,70 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack = 1),DataWidth(72)]
     public readonly struct Disp : IDisplacement, IEquatable<Disp>
     {
+        public static string format<T>(T src, bool @signop = false)
+            where T : IDisplacement
+        {
+            var dst = text.buffer();
+            var value = src.Value;
+            if(src.Negative)
+            {
+                if(@signop)
+                {
+                    dst.Append(Chars.Dash);
+                    dst.Append(Chars.Space);
+                }
+                else
+                    dst.Append(Chars.Dash);
+
+                switch(src.Size.Code)
+                {
+                    case NativeSizeCode.W8:
+                        dst.Append(((byte)((~((byte)value) + 1))).FormatHex(zpad:false, uppercase:true));
+                    break;
+                    case NativeSizeCode.W16:
+                        dst.Append(((ushort)((~((ushort)value) + 1))).FormatHex(zpad:false, uppercase:true));
+                    break;
+                    case NativeSizeCode.W32:
+                        dst.Append(((uint)((~((uint)value) + 1))).FormatHex(zpad:false, uppercase:true));
+                    break;
+                    case NativeSizeCode.W64:
+                        dst.Append(((ulong)((~((ulong)value) + 1))).FormatHex(zpad:false, uppercase:true));
+                    break;
+                    default:
+                        dst.Append(string.Format("error<{0}>", src.Size.Code));
+                    break;
+                }
+            }
+            else
+            {
+                if(@signop)
+                {
+                    dst.Append(Chars.Plus);
+                    dst.Append(Chars.Space);
+                }
+
+                switch(src.Size.Code)
+                {
+                    case NativeSizeCode.W8:
+                        dst.Append(((byte)value).FormatHex(zpad:false, uppercase:true));
+                    break;
+                    case NativeSizeCode.W16:
+                        dst.Append(((ushort)value).FormatHex(zpad:false, uppercase:true));
+                    break;
+                    case NativeSizeCode.W32:
+                        dst.Append(((uint)value).FormatHex(zpad:false, uppercase:true));
+                    break;
+                    case NativeSizeCode.W64:
+                        dst.Append(((long)value).FormatHex(zpad:false, uppercase:true));
+                    break;
+                    default:
+                        dst.Append(string.Format("error<{0}>", src.Size.Code));
+                    break;
+                }
+            }
+            return dst.Emit();
+        }
+
         [Parser]
         public static Outcome parse(string src, NativeSize size, out Disp dst)
         {
@@ -96,7 +160,7 @@ namespace Z0.Asm
             => Value == src.Value;
 
         public string Format()
-            => AsmRender.disp(this);
+            => Disp.format(this);
 
         public override string ToString()
             => Format();

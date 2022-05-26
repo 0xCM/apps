@@ -20,7 +20,7 @@ namespace Z0
             return result;
         }
 
-        void CheckSize(ApiEncodingBank bank)
+        void CheckSize(EncodedMembers bank)
         {
             var count = bank.MemberCount;
             var rebase = MemoryAddress.Zero;

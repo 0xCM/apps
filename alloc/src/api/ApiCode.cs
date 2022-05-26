@@ -4,20 +4,36 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     using Asm;
 
-    public class EncodingCollector : AppService<EncodingCollector>
+    using System.Linq;
+
+    using static core;
+
+    [ApiHost]
+    public partial class ApiCode : AppService<ApiCode>
     {
         ApiJit ApiJit => Service(Wf.ApiJit);
 
-        ApiDataPaths DataPaths => Service(Wf.ApiDataPaths);
+        ApiDataPaths DataPaths => Wf.ApiDataPaths();
 
-        public Index<CapturedAccessor> CaptureAccessors(SymbolDispenser symbols)
-        {
-            return sys.empty<CapturedAccessor>();
-        }
+        /// <summary>
+        /// Determines whether an operation accepts an argument of specified numeric kind
+        /// </summary>
+        /// <param name="src">The encoded operation</param>
+        /// <param name="match">The kind to match</param>
+        [Op]
+        public static bool accepts(ApiCodeBlock src, NumericKind match)
+            => TypeIdentity.numeric(src.Id.Components.Skip(2)).Contains(match);
+
+        /// <summary>
+        /// Determines the arity of the encoded operation
+        /// </summary>
+        /// <param name="src">The encoded operation</param>
+        [MethodImpl(Inline), Op]
+        public static int arity(ApiCodeBlock src)
+            => src.OpUri.OpId.Components.Count() - 1;
+
 
         public Outcome Collect(SymbolDispenser symbols, ApiHostUri src)
         {
@@ -29,7 +45,7 @@ namespace Z0
             }
             else
             {
-                return (false, Msg.NotFound.Format(src.Format()));
+                return (false, AppMsg.NotFound.Format(src.Format()));
             }
         }
 
@@ -44,7 +60,7 @@ namespace Z0
             }
             else
             {
-                return (false,Msg.NotFound.Format(src.Format()));
+                return (false, AppMsg.NotFound.Format(src.Format()));
             }
         }
 
@@ -59,7 +75,7 @@ namespace Z0
             }
             else
             {
-                return (false,Msg.NotFound.Format(src.Format()));
+                return (false, AppMsg.NotFound.Format(src.Format()));
             }
         }
 
@@ -139,7 +155,7 @@ namespace Z0
             var emitting = EmittingFile(data);
             using var writer = data.AsciWriter();
             var count = members.Count;
-            var descriptions = alloc<EncodedMemberInfo>(count);
+            var descriptions = alloc<EncodedMember>(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var member = ref members[i];
@@ -156,13 +172,13 @@ namespace Z0
             }
 
             EmittedFile(emitting, count);
-            TableEmit(@readonly(descriptions), EncodedMemberInfo.RenderWidths, index);
+            TableEmit(@readonly(descriptions), EncodedMember.RenderWidths, index);
         }
 
-        static EncodedMemberInfo Describe(in CollectedEncoding member)
+        static EncodedMember Describe(in CollectedEncoding member)
         {
             var token = member.Token;
-            var dst = new EncodedMemberInfo();
+            var dst = new EncodedMember();
             dst.Id = token.Id;
             dst.EntryAddress = token.EntryAddress;
             dst.TargetAddress = token.TargetAddress;
@@ -182,12 +198,12 @@ namespace Z0
             return dst;
         }
 
-        EncodedMembers Parse(Dictionary<ApiHostUri,CollectedCodeExtracts> src)
+        EncodingLookup Parse(Dictionary<ApiHostUri,CollectedCodeExtracts> src)
         {
             var running = Running(Msg.ParsingHosts.Format(src.Count));
             var buffer = alloc<byte>(Pow2.T14);
             var parser = EncodingParser.create(buffer);
-            var dst = new EncodedMembers();
+            var dst = new EncodingLookup();
             var counter = 0u;
             foreach(var host in src.Keys)
             {
@@ -231,7 +247,7 @@ namespace Z0
             ByteReader.read5(data, buffer);
             if(JmpRel32.test(buffer))
             {
-                stub = asm.asmhex(slice(buffer,0,5));
+                stub = AsmHexCode.asmhex(slice(buffer,0,5));
                 target = AsmRel32.target((src, 5), stub.Bytes);
             }
             return target;
@@ -272,7 +288,7 @@ namespace Z0
             return false;
         }
 
-        Outcome LoadCollected(out Index<EncodedMemberInfo> index, out BinaryCode data)
+        Outcome LoadCollected(out Index<EncodedMember> index, out BinaryCode data)
         {
             var result = Outcome.Success;
             var rA = LoadIndex(DataPaths.Path(FS.Csv), out index);
@@ -284,7 +300,7 @@ namespace Z0
             return result;
         }
 
-        Outcome LoadCollected(PartId src, out Index<EncodedMemberInfo> index, out BinaryCode data)
+        Outcome LoadCollected(PartId src, out Index<EncodedMember> index, out BinaryCode data)
         {
             var result = Outcome.Success;
             var rA = LoadIndex(DataPaths.Path(src,FS.Csv), out index);
@@ -296,7 +312,7 @@ namespace Z0
             return result;
         }
 
-        Outcome LoadCollected(ApiHostUri src, out Index<EncodedMemberInfo> index, out BinaryCode data)
+        Outcome LoadCollected(ApiHostUri src, out Index<EncodedMember> index, out BinaryCode data)
         {
             var result = Outcome.Success;
             var rA = LoadIndex(DataPaths.Path(src, FS.Csv), out index);
@@ -308,12 +324,12 @@ namespace Z0
             return result;
         }
 
-        Outcome LoadIndex(FS.FilePath src, out Index<EncodedMemberInfo> dst)
+        Outcome LoadIndex(FS.FilePath src, out Index<EncodedMember> dst)
         {
             var result = Outcome.Success;
             var lines = src.ReadLines(true);
             var count = lines.Count - 1;
-            dst = alloc<EncodedMemberInfo>(count);
+            dst = alloc<EncodedMember>(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var line = ref lines[i + 1];
@@ -345,9 +361,9 @@ namespace Z0
             return result;
         }
 
-        static Outcome parse(string src, out EncodedMemberInfo dst)
+        static Outcome parse(string src, out EncodedMember dst)
         {
-            const byte FieldCount = EncodedMemberInfo.FieldCount;
+            const byte FieldCount = EncodedMember.FieldCount;
             dst = default;
             var cells = text.split(src, Chars.Pipe);
             var count = cells.Length;
@@ -384,15 +400,15 @@ namespace Z0
 
         [Op]
         public static MemorySeg AccessorData(SpanResAccessor src)
-            => AccessorData(EncodingCollector.GetTargetAddress(src.Member.Location, out _));
+            => AccessorData(GetTargetAddress(src.Member.Location, out _));
 
         [Op]
         public static MemorySeg AccessorCode(SpanResAccessor src)
-            => AccessorCode(EncodingCollector.GetTargetAddress(src.Member.Location, out _));
+            => AccessorCode(GetTargetAddress(src.Member.Location, out _));
 
         static CapturedAccessor capture(SymbolDispenser symbols, SpanResAccessor src)
         {
-            var target = EncodingCollector.GetTargetAddress(src.Member.Location, out _);
+            var target = GetTargetAddress(src.Member.Location, out _);
             var token = ApiToken.create(symbols, src.Member, target);
             var member = new CollectedEncoding(token, AccessorCode(target).View.ToArray());
             return new CapturedAccessor(member, AccessorData(target), src.Kind);
@@ -429,14 +445,6 @@ namespace Z0
 
                 //var target = ApiCodeCollector.GetTargetAddress(ClrJit.jit(candidate), out _);
             }
-
-            // return src.StaticProperties()
-            //      .Ignore()
-            //       .WithPropertyType(ResAccessorTypes)
-            //       .Select(p => p.GetGetMethod(true))
-            //       .Where(m  => m != null)
-            //       .Concrete()
-            //       .Select(x => new SpanResAccessor(x, ResKind(x.ReturnType)));
         }
 
         [Op]
@@ -490,11 +498,11 @@ namespace Z0
         static unsafe MemorySeg AccessorCode(MemoryAddress target)
             => new MemorySeg(target, 24);
 
-        class EncodedMembers
+        class EncodingLookup
         {
             readonly ConcurrentDictionary<uint,CollectedEncoding> Data;
 
-            public EncodedMembers()
+            public EncodingLookup()
             {
                 Data = new();
             }
@@ -510,5 +518,6 @@ namespace Z0
                 return members;
             }
         }
+
     }
 }

@@ -6,13 +6,12 @@ namespace Z0
 {
     using static core;
 
-    public class ApiEncodingBank : IDisposable
+    public class EncodedMembers : IDisposable
     {
-        public static ApiEncodingBank load(Index<EncodedMemberInfo> index, BinaryCode data)
+        public static EncodedMembers load(Index<EncodedMember> index, BinaryCode data)
         {
             var dst = new EncodingData();
-            var comparer = EncodedMemberComparer.create(EncodedMemberComparer.ModeKind.Target);
-            index.Sort(comparer);
+            index.Sort(EncodedMember.comparer(EncodedMember.CmpKind.Target));
             var bytes = data.View;
             var offset = 0u;
             var count = index.Count;
@@ -43,10 +42,10 @@ namespace Z0
             dst.CodeBuffer = memory.gcpin(data.Storage);
             dst.Offsets = offsets;
             dst.Tokens = tokens;
-            return new ApiEncodingBank(dst);
+            return new EncodedMembers(dst);
         }
 
-        static Outcome entry(in EncodedMemberInfo src, out MethodEntryPoint dst)
+        static Outcome entry(in EncodedMember src, out MethodEntryPoint dst)
         {
             var result = ApiUri.parse(src.Uri, out var uri);
             dst = MethodEntryPoint.Empty;
@@ -62,7 +61,7 @@ namespace Z0
 
         EncodingData Data;
 
-        internal ApiEncodingBank(EncodingData data)
+        internal EncodedMembers(EncodingData data)
         {
             Data = data;
         }
@@ -114,11 +113,11 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public ref readonly EncodedMemberInfo Description(uint i)
+        public ref readonly EncodedMember Description(uint i)
             => ref Data.Index[i];
 
         [MethodImpl(Inline), Op]
-        public ref readonly EncodedMemberInfo Description(int i)
+        public ref readonly EncodedMember Description(int i)
             => ref Data.Index[i];
 
         [MethodImpl(Inline), Op]
@@ -135,7 +134,7 @@ namespace Z0
         {
             internal SymbolDispenser Symbols;
 
-            internal Index<EncodedMemberInfo> Index;
+            internal Index<EncodedMember> Index;
 
             internal ManagedBuffer CodeBuffer;
 

@@ -9,6 +9,78 @@ namespace Z0.Asm
     [ApiHost,DataWidth(128)]
     public struct AsmHexCode : IEquatable<AsmHexCode>, IComparable<AsmHexCode>
     {
+        [Op]
+        public static bool asmhex(ReadOnlySpan<char> src, out AsmHexCode dst)
+        {
+            var storage = Cells.alloc(w128);
+            var size = Hex.parse(src, storage.Bytes);
+            if(size == 0 || size > 15)
+            {
+                dst = AsmHexCode.Empty;
+                return false;
+            }
+            else
+            {
+                dst = new AsmHexCode(storage);
+                dst.Cell(15) = (byte)size;
+                return true;
+            }
+        }
+
+        [Op]
+        public static AsmHexCode asmhex(string src)
+        {
+            var dst = AsmHexCode.Empty;
+            asmhex(src.Trim(), out dst);
+            return dst;
+        }
+
+
+        [MethodImpl(Inline), Op]
+        public static uint bitstring(in AsmHexCode src, Span<char> dst)
+        {
+            var i=0u;
+            return BitRender.render8x4(slice(src.Bytes, 0, src.Size), ref i, dst);
+        }
+
+        [Op]
+        public static string bitstring(in AsmHexCode src)
+        {
+            if(src.IsEmpty)
+                return default;
+
+            CharBlocks.alloc(n256, out var block);
+            var dst = block.Data;
+            var count = bitstring(src, dst);
+            if(count == 0)
+                return EmptyString;
+
+            return text.format(slice(dst, 0, count));
+        }
+
+        [MethodImpl(Inline), Op]
+        public static AsmHexCode asmhex(ReadOnlySpan<byte> src)
+        {
+            var cell = Cells.alloc(w128);
+            var count = (byte)min(src.Length, 15);
+            var dst = bytes(cell);
+            for(var i=0; i<count; i++)
+                seek(dst,i) = skip(src,i);
+            BitNumbers.cell8(cell, 15) = count;
+            return new AsmHexCode(cell);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static AsmHexCode asmhex(ulong src)
+        {
+            var size = bits.effsize(src);
+            var data = slice(bytes(src), 0, size);
+            var storage = 0ul;
+            var buffer = bytes(storage);
+            core.reverse(data, buffer);
+            return new AsmHexCode(Cells.cell128(u64(first(buffer)), (ulong)size << 56));
+        }
+
         public const byte SizeIndex = 15;
 
         Cell128 Data;
@@ -68,7 +140,7 @@ namespace Z0.Asm
             => (uint)Data.Lo;
 
         public string BitString
-            => asm.bitstring(this);
+            => bitstring(this);
 
         public override int GetHashCode()
             => hash(this);
@@ -92,19 +164,19 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmHexCode(BinaryCode src)
-            => asm.asmhex(src.View);
+            => asmhex(src.View);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmHexCode(ReadOnlySpan<byte> src)
-            => asm.asmhex(src);
+            => asmhex(src);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmHexCode(byte[] src)
-            => asm.asmhex(src);
+            => asmhex(src);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmHexCode(string src)
-            => AsmParser.asmhex(src);
+            => asmhex(src);
 
         [MethodImpl(Inline)]
         public static bool operator ==(AsmHexCode a, AsmHexCode b)

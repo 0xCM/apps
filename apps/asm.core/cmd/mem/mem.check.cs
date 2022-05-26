@@ -19,6 +19,76 @@ namespace Z0
 
         ApiHex ApiHex => Service(Wf.ApiHex);
 
+
+
+        void CheckHex()
+        {
+            var src = AppDb.ApiTargets().Dir("capture");
+            CheckPackedHex(src);
+        }
+
+        void CheckPackedHex(FS.FolderPath src)
+        {
+            var result = Outcome.Success;
+            var ext = FS.ext(FS.ext("parsed"), FS.XPack);
+            var files = src.Files(ext).ToReadOnlySpan();
+            var count = files.Length;
+            var hex = list<ApiHostHex>();
+            for(var i=0; i<count; i++)
+            {
+                var file = skip(files,i);
+                var elements = file.FileName.Format().Split(Chars.Dot).ToReadOnlySpan();
+                if(elements.Length < 2)
+                    continue;
+
+                var part = skip(elements,0);
+                var id = ApiParsers.part(part);
+                if(id == 0)
+                    continue;
+
+                var uri = ApiHostUri.define(id, skip(elements,1));
+                Write(uri);
+
+                var blocks = ApiHex.memory(file);
+                hex.Add((uri, blocks));
+            }
+        }
+
+        public static FS.FilePath csv(FS.FolderPath src, ApiHostUri host)
+            => src + host.FileName(FS.PCsv);
+
+        DbSources CaptureSources()
+            => AppDb.ApiTargets("capture").ToSource();
+
+        void ListDescriptors()
+        {
+            // var descriptors = ApiCode.descriptors(Wf);
+            // Wf.Row($"Loaded {descriptors.Count} descriptors");
+        }
+
+
+        void PackHex()
+        {
+
+        }
+        void PackHex(FS.FolderPath src, ApiHostUri host)
+        {
+            var counter = 0u;
+            var memory = ApiHex.memory(csv(src, host));
+            var blocks = memory.Sort().View;
+            var buffer = span<char>(Pow2.T16);
+            var dir = AppDb.ApiTargets("capture.test").Dir(string.Format("{0}.{1}", host.Part.Format(), host.HostName));
+            var count = blocks.Length;
+            for(var i=0; i<count; i++)
+            {
+                var dst = dir + FS.file(string.Format("{0:D5}", i), FS.XArray);
+                var length = Hex.hexarray(skip(blocks,i).View, buffer);
+                var content = text.format(slice(buffer,0,length));
+                using var writer = dst.AsciWriter();
+                writer.WriteLine(content);
+            }
+        }
+
         Outcome CheckLookups(ITextEmitter log)
         {
             var capacity = Pow2.T16;

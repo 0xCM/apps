@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct EncodedMemberInfo : IComparable<EncodedMemberInfo>
+    public struct EncodedMember : IComparable<EncodedMember>
     {
         public const string TableId = "api.members.info";
 
@@ -36,9 +36,39 @@ namespace Z0
         public @string Uri;
 
         [MethodImpl(Inline)]
-        public int CompareTo(EncodedMemberInfo src)
+        public int CompareTo(EncodedMember src)
             => EntryAddress.CompareTo(src.EntryAddress);
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{16,16,16,16,16,24,10,8,32,120,1};
+
+        public static IComparer<EncodedMember> comparer(CmpKind kind)
+            => new Cmp(kind);
+
+        public enum CmpKind : byte
+        {
+            Entry,
+
+            Target,
+        }
+
+        readonly struct Cmp : IComparer<EncodedMember>
+        {
+            readonly CmpKind Mode;
+
+            [MethodImpl(Inline)]
+            public Cmp(CmpKind mode)
+            {
+                Mode = mode;
+            }
+
+            [MethodImpl(Inline)]
+            public int Compare(EncodedMember x, EncodedMember y)
+            {
+                if(Mode == CmpKind.Entry)
+                    return x.EntryAddress.CompareTo(y.EntryAddress);
+                else
+                    return x.TargetAddress.CompareTo(y.TargetAddress);
+            }
+        }
     }
 }
