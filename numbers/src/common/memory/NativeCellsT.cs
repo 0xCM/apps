@@ -61,11 +61,6 @@ namespace Z0
         public Span<T> Cells(uint offset, uint count)
             => cover(@as<T>(Rebase(offset)), count);
 
-
-        // [MethodImpl(Inline)]
-        // public Span<NativeCell<T>> Cells(uint offset, uint count)
-        //     => cover(Cell(offset), count);
-
         [MethodImpl(Inline)]
         public ref NativeCell<T> Cell(uint index)
             => ref core.@as<NativeCell<T>>((BaseAddress + CellSize*index).Pointer());
