@@ -30,10 +30,6 @@ namespace Z0
             => Z0.AppSettings.create(wf);
 
         [Op]
-        public static ApiHex ApiHex(this IWfRuntime wf)
-            => Z0.ApiHex.create(wf);
-
-        [Op]
         public static ApiRuntime ApiRuntime(this IWfRuntime wf)
             => Z0.ApiRuntime.create(wf);
 

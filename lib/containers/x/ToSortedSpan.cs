@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Concurrent;
-
     partial class XTend
     {
         public static SortedSpan<T> ToSortedSpan<T>(this T[] src)

@@ -13,6 +13,10 @@ namespace Z0
     partial class XApi
     {
         [Op]
+        public static ApiHex ApiHex(this IWfRuntime wf)
+            => Z0.ApiHex.create(wf);
+
+        [Op]
         public static ApiHostUri ApiHostUri(this Type host)
         {
             if(host != null)
