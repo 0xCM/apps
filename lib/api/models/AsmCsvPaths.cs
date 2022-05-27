@@ -4,15 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct AsmCsvPaths
     {
-        public FS.FilePath AsmPath {get;}
+        public readonly FS.FilePath AsmPath {get;}
 
-        public FS.FilePath CsvPath {get;}
+        public readonly FS.FilePath CsvPath {get;}
 
         [MethodImpl(Inline)]
         public AsmCsvPaths(FS.FilePath asm, FS.FilePath csv)

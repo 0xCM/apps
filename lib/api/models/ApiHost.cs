@@ -9,17 +9,17 @@ namespace Z0
     /// </summary>
     public readonly struct ApiHost : IApiHost, IComparable<ApiHost>
     {
-        public PartId PartId {get;}
+        public readonly PartId PartId {get;}
 
-        public Type HostType {get;}
+        public readonly Type HostType {get;}
 
-        public Identifier HostName {get;}
+        public readonly Identifier HostName {get;}
 
-        public ApiHostUri HostUri {get;}
+        public readonly ApiHostUri HostUri {get;}
 
-        public Index<MethodInfo> Methods {get;}
+        public readonly Index<MethodInfo> Methods {get;}
 
-        Dictionary<string,MethodInfo> Index {get;}
+        readonly Dictionary<string,MethodInfo> Index {get;}
 
         [MethodImpl(Inline)]
         public ApiHost(Type type, string name, PartId part, ApiHostUri uri, MethodInfo[] methods, Dictionary<string,MethodInfo> index)

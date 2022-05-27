@@ -4,19 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines a link between an identified resource and an emission target
     /// </summary>
     public readonly struct ResEmission
     {
-        public Asset Source {get;}
+        public readonly Asset Source;
 
-        public FS.FilePath Target {get;}
+        public readonly FS.FilePath Target;
 
         [MethodImpl(Inline)]
         public ResEmission(Asset src, FS.FilePath dst)

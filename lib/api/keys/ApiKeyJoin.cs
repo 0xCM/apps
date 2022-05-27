@@ -4,19 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using api = ApiKeys;
 
     public readonly struct ApiKeyJoin
     {
-        public ApiKeySeg Left {get;}
+        public readonly ApiKeySeg Left;
 
-        public ApiKeySeg Right {get;}
+        public readonly ApiKeySeg Right;
 
         [MethodImpl(Inline)]
         public ApiKeyJoin(ApiKeySeg left, ApiKeySeg right)

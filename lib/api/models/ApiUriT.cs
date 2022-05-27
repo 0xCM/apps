@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct ApiUri<T> : IApiUri<ApiUri<T>>
     {
-        public T Value {get;}
+        readonly public T Value {get;}
 
         public string UriText
         {

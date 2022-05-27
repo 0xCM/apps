@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     /// <summary>
     /// Identifies a cell within the context of a table
     /// </summary>
@@ -19,12 +13,12 @@ namespace Z0
         /// <summary>
         /// A zero-based row index
         /// </summary>
-        public uint Row {get;}
+        public readonly uint Row;
 
         /// <summary>
         /// A zero-based column index
         /// </summary>
-        public uint Col {get;}
+        public readonly uint Col;
 
         [MethodImpl(Inline)]
         public CellIndex(uint row, uint col)

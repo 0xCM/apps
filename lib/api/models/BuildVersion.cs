@@ -9,15 +9,15 @@ namespace Z0
     /// </summary>
     public readonly struct BuildVersion
     {
-        public int Major {get;}
+        public readonly int Major;
 
-        public int Minor {get;}
+        public readonly int Minor;
 
-        public int Patch {get;}
+        public readonly int Patch;
 
-        public string Pre {get;}
+        public readonly string Pre;
 
-        public string Build {get;}
+        public readonly string Build;
 
         [MethodImpl(Inline)]
         public BuildVersion(int major, int minor, int patch, string pre = "", string build = "")

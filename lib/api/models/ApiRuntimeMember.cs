@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ApiRuntimeMember : IRecord<ApiRuntimeMember>
+    public struct ApiRuntimeMember
     {
         public const string TableId ="api.member";
 

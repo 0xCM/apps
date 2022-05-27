@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Collects the types defined by a part
     /// </summary>
@@ -18,9 +13,9 @@ namespace Z0
         public static ApiPartTypes from(IPart src)
             => new ApiPartTypes(src.Id, src.Owner.Types());
 
-        public PartId Part {get;}
+        public readonly PartId Part;
 
-        public Index<Type> Types {get;}
+        public readonly Index<Type> Types;
 
         [MethodImpl(Inline)]
         public ApiPartTypes(PartId part, Type[] types)

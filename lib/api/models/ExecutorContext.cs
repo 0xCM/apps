@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct ExecutorContext
     {
-        public dynamic State {get;}
+        public readonly dynamic State;
 
         [MethodImpl(Inline)]
         public ExecutorContext(dynamic state)

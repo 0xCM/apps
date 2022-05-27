@@ -4,19 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines a catalog over <see cref='ApiMember'/> values for a specified <see cref='IApiHost'/>
     /// </summary>
     public readonly struct ApiHostCatalog
     {
-        public IApiHost Host {get;}
+        public readonly IApiHost Host;
 
-        public ApiMembers Members {get;}
+        public readonly ApiMembers Members;
 
         [MethodImpl(Inline)]
         public ApiHostCatalog(IApiHost host, ApiMembers src)

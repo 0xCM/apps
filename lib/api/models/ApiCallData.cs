@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     [StructLayout(LayoutKind.Sequential)]
@@ -19,9 +14,9 @@ namespace Z0
             where T : unmanaged, IApiCall<T>
                 => new ApiCallData(call.Api, slice(bytes(call), 16));
 
-        public ApiKey Api {get;}
+        public readonly ApiKey Api;
 
-        public ReadOnlySpan<byte> Bytes {get;}
+        public readonly ReadOnlySpan<byte> Bytes;
 
         [MethodImpl(Inline)]
         public ApiCallData(ApiKey api, ReadOnlySpan<byte> src)

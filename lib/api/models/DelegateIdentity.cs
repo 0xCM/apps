@@ -4,33 +4,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct DelegateIdentity : IIdentifiedType<DelegateIdentity>
     {
         /// <summary>
         /// The type parameters that define the full delegate signature that includes the return type
         /// as the last identity in the array
         /// </summary>
-        public TypeIdentity[] Parameters {get;}
+        public readonly TypeIdentity[] Parameters {get;}
 
         /// <summary>
         /// The unadorned name of the delegate type
         /// </summary>
-        public string DelegateName {get;}
+        public readonly string DelegateName {get;}
 
         /// <summary>
         /// The identifier computed from the name and parameter identities
         /// </summary>
-        public string IdentityText {get;}
+        public readonly string IdentityText {get;}
 
         /// <summary>
         /// Indicates whether identifier should be rendered with a generic marker
         /// </summary>
-        public bool Generic {get;}
+        public readonly bool Generic {get;}
 
         [MethodImpl(Inline)]
         public static DelegateIdentity Define(string identity, string name, bool generic, TypeIdentity[] parameters)

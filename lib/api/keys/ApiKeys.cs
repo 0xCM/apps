@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Threading;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -57,10 +52,6 @@ namespace Z0
         public static ApiKeySeg segment(ushort src)
             => new ApiKeySeg(src);
 
-        // [MethodImpl(Inline)]
-        // public static ApiKeySeg segment(ApiKey src, byte index)
-        //     => cpu.vextract(src.V16u, index);
-
         [MethodImpl(Inline), Op]
         public static ApiKeyJoin join(ReadOnlySpan<byte> src)
             => first(span32u(src));
@@ -76,24 +67,6 @@ namespace Z0
             var right = (ushort)(src >> 16);
             return new ApiKeyJoin(left,right);
         }
-
-        // [MethodImpl(Inline), Op]
-        // public static ApiKeyJoin join(ApiKey src, byte i, byte j)
-        // {
-        //     var m = mask(ApiKey.W, i, j);
-        //     var a = cpu.vshuf16x8(src.V8u, m);
-        //     var b = cpu.v32u(a);
-        //     var d = cpu.vextract(b,0);
-        //     return join(d);
-        // }
-
-        // [MethodImpl(Inline), Op]
-        // public static ReadOnlySpan<byte> data(ApiKey src)
-        // {
-        //     var dst = Cells.alloc(ApiKey.W);
-        //     gcpu.vstore(src.V8u, ref dst);
-        //     return dst.Bytes;
-        // }
 
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<byte> data(ApiKeyJoin src)
@@ -125,14 +98,5 @@ namespace Z0
         public static ApiKey<K> kind<K>(K kind, ApiKey src)
             where K : unmanaged
                 => insert(src, 2, segment(bw16(kind)));
-
-        // [MethodImpl(Inline), Op]
-        // internal static Vector128<byte> mask(W128 w, byte i, byte j)
-        // {
-        //     var storage = recover<ushort>(Cells.alloc(w).Bytes);
-        //     seek(storage, i) = ushort.MaxValue;
-        //     seek(storage, j) = ushort.MaxValue;
-        //     return cpu.vload(w, recover<byte>(storage));
-        // }
     }
 }

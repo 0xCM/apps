@@ -4,28 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct ApiMethodNG : IHostedApiMethod
     {
         /// <summary>
         /// The delcaring host
         /// </summary>
-        public IApiHost Host {get;}
+        public readonly IApiHost Host {get;}
 
         /// <summary>
         /// The operation identity
         /// </summary>
-        public OpIdentity Id {get;}
+        public readonly OpIdentity Id {get;}
 
         /// <summary>
         /// The concrete method that defines the operation
         /// </summary>
-        public MethodInfo Method {get;}
+        public readonly MethodInfo Method {get;}
 
         /// <summary>
         /// Classifies the method as nongeneric

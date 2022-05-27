@@ -4,15 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct ApiClassifier
     {
-        public Name Type {get;}
+        public readonly Name Type;
 
-        public Index<SymLiteralRow> Literals {get;}
+        public readonly Index<SymLiteralRow> Literals;
 
         [MethodImpl(Inline)]
         public ApiClassifier(Name type, Index<SymLiteralRow> literals)

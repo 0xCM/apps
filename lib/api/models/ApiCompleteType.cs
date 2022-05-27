@@ -4,13 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-    using System.Collections.Generic;
-
-    using static Root;
-
     public class ApiCompleteType : IApiHost, IComparable<ApiCompleteType>
     {
         public PartId PartId {get;}

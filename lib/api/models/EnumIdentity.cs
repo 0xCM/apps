@@ -4,21 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Identifies an <see cref='Enum'/>
     /// </summary>
     public readonly struct EnumIdentity : IIdentifiedType<EnumIdentity>
     {
-        public string IdentityText {get;}
+        public readonly string IdentityText {get;}
 
-        public Identifier TypeName {get;}
+        public readonly Identifier TypeName {get;}
 
-        public NumericKind BaseType {get;}
+        public readonly NumericKind BaseType {get;}
 
         [MethodImpl(Inline)]
         public static EnumIdentity define(Type src)
