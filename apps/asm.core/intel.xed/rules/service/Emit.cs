@@ -17,7 +17,7 @@ namespace Z0
                 () => Emit(mapi(RuleMacros.matches().Values.ToArray().Sort(), (i,m) => m.WithSeq((uint)i))),
                 () => Emit(CalcMacroDefs().View),
                 () => Emit(XedFields.Defs.Positioned),
-                () => ApiMd.EmitTokenSet(XedFields.EffectiveFields.create(), XedPaths.Target("xed.fields.symbolic", FS.Csv))
+                () => ApiMd.EmitTokens(XedFields.EffectiveFields.create(), XedPaths.Target("xed.fields.symbolic", FS.Csv))
             );
 
             Emit(patterns, rules);

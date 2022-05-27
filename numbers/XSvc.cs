@@ -62,9 +62,6 @@ namespace Z0
 
             public ApiCatalogs ApiCatalogs(IWfRuntime wf)
                 => Service<ApiCatalogs>(wf);
-
-            public ApiMetadataService ApiMetadata(IWfRuntime wf)
-                =>Service<ApiMetadataService>(wf);
         }
 
         public static Parsers Parsers(this IWfRuntime wf)
@@ -126,8 +123,5 @@ namespace Z0
 
         public static ApiPackages ApiPackages(this IEnvPaths src)
             => src.PackageRoot();
-
-        public static ApiMetadataService ApiMetadata(this IWfRuntime wf)
-            => Services.ApiMetadata(wf);
     }
 }

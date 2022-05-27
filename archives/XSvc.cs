@@ -31,6 +31,15 @@ namespace Z0
 
             public AppDb AppDb(IWfRuntime wf)
                 => Service<AppDb>(wf);
+
+            public ApiMd ApiMetadata(IWfRuntime wf)
+                => Service<ApiMd>(wf);
+
+            public MsilPipe MsilSvc(IWfRuntime wf)
+                => Service<MsilPipe>(wf);
+
+            public ApiJit Jit(IWfRuntime wf)
+                => Service<ApiJit>(wf);
         }
 
         static Svc Services => Svc.Instance;
@@ -58,5 +67,14 @@ namespace Z0
 
         public static AppDb AppDb(this IWfRuntime wf)
             => Services.AppDb(wf);
+
+        public static ApiMd ApiMetadata(this IWfRuntime wf)
+            => Services.ApiMetadata(wf);
+
+        public static MsilPipe MsilSvc(this IWfRuntime wf)
+            => Services.MsilSvc(wf);
+
+        public static ApiJit Jit(this IWfRuntime wf)
+            => Services.Jit(wf);
     }
 }

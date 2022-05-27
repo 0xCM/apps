@@ -18,7 +18,7 @@ namespace Z0
 
         ApiPackArchive ApiPacks => ApiPackArchive.create(AppDb.ApiTargets("capture"));
 
-        ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
+        ApiMd ApiMetadata => Service(Wf.ApiMetadata);
 
         ApiHexPacks HexPacks => Wf.HexPack();
 

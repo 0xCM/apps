@@ -54,7 +54,7 @@ namespace Z0
 
         XedPaths XedPaths => Xed.Paths;
 
-        ApiMetadataService ApiMd => Service(Wf.ApiMetadata);
+        ApiMd ApiMd => Service(Wf.ApiMetadata);
 
         AppDb AppDb => Service(Wf.AppDb);
 

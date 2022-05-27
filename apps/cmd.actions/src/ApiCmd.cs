@@ -12,7 +12,7 @@ namespace Z0
     {
         ApiHex ApiHex => Service(Wf.ApiHex);
 
-        ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
+        ApiMd ApiMetadata => Service(Wf.ApiMetadata);
 
         AsmTables AsmTables => Service(Wf.AsmTables);
 

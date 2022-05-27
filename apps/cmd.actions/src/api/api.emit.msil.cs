@@ -7,11 +7,11 @@ namespace Z0
     partial class ApiCmd
     {
         [CmdOp("api/emit/msil")]
-        Outcome EmitMsil(CmdArgs args)
+        void EmitMsil()
             => ApiMetadata.EmitMsil();
 
         [CmdOp("api/emit/msil-host")]
-        Outcome EmitHostMsil(CmdArgs args)
+        void EmitHostMsil(CmdArgs args)
             => ApiMetadata.EmitHostMsil(arg(args,0));
     }
 }
