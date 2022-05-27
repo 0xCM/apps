@@ -10,7 +10,7 @@ namespace Z0
 
     partial class ApiCode
     {
-        static Index<CollectedEncoding> divine(ReadOnlySpan<RawMemberCode> src, Action<string> log)
+        static Index<CollectedEncoding> divine(ReadOnlySpan<RawMemberCode> src, Action<IWfEvent> log)
         {
             var count = src.Length;
             var buffer = span<byte>(Pow2.T16);

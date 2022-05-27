@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [Free]
     public interface IWfEvent : IAppEvent
     {
@@ -26,7 +23,6 @@ namespace Z0
     {
 
     }
-
 
     /// <summary>
     /// Characterizes a reified event with parametric content

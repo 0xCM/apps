@@ -155,7 +155,7 @@ namespace Z0
         }
 
         Index<CollectedEncoding> Collect(SymbolDispenser symbols, ReadOnlySpan<MethodEntryPoint> src)
-            => divine(collect(symbols, src), x => Write(x));
+            => divine(collect(symbols, src), x => Write(x.Format(), x.Flair));
 
         Index<EncodedMember> Emit(Index<CollectedEncoding> src, FS.FilePath hex, FS.FilePath csv)
         {
