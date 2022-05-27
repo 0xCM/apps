@@ -4,17 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
 
     [StructLayout(LayoutKind.Sequential, Pack =1)]
     public readonly struct ApiHostHex
     {
-        public ApiHostUri Host {get;}
+        public readonly ApiHostUri Host;
 
-        public MemoryBlocks Hex {get;}
+        public readonly MemoryBlocks Hex;
 
         [MethodImpl(Inline)]
         public ApiHostHex(ApiHostUri uri, MemoryBlocks hex)

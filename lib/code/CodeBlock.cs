@@ -13,12 +13,12 @@ namespace Z0
         /// <summary>
         /// The head of the memory location from which the data originated
         /// </summary>
-        public readonly MemoryAddress BaseAddress {get;}
+        public readonly MemoryAddress BaseAddress;
 
         /// <summary>
         /// The encoded content
         /// </summary>
-        public readonly BinaryCode Code {get;}
+        public readonly BinaryCode Code;
 
         [MethodImpl(Inline)]
         public CodeBlock(MemoryAddress src, byte[] data)

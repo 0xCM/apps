@@ -6,7 +6,6 @@ namespace Z0
 {
     using static core;
 
-    [DataType("memcells<t:{0}>")]
     public readonly struct MemoryCells<T>
         where T : unmanaged
     {

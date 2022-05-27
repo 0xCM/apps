@@ -4,29 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct ApiExtractBlock : IComparable<ApiExtractBlock>
     {
         /// <summary>
         /// The Extract's base address
         /// </summary>
-        public MemoryAddress BaseAddress {get;}
+        public readonly MemoryAddress BaseAddress;
 
         /// <summary>
         /// The operation uri
         /// </summary>
-        public Name Uri {get;}
+        public readonly Name Uri;
 
         /// <summary>
         /// The enExtractd operation data
         /// </summary>
-        public readonly BinaryCode Encoded {get;}
+        public readonly BinaryCode Encoded;
 
         [MethodImpl(Inline)]
         public ApiExtractBlock(MemoryAddress @base, Name uri, BinaryCode src)

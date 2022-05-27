@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    [DataType("memslot"), ApiHost]
+    [ApiHost]
     public struct MemorySlot
     {
         [MethodImpl(Inline), Op]

@@ -319,21 +319,6 @@ namespace Z0
         public Index<ApiCodeBlock> ReadBlocks(FS.FilePath src)
             => code(src);
 
-        // {
-        //     var flow = Running(string.Format("Reading blocks from {0}", src.ToUri()));
-        //     var loaded = ReadRows(src);
-        //     var rowcount = loaded.Length;
-        //     var blocks = list<ApiCodeBlock>(256);
-        //     if(rowcount != 0)
-        //     {
-        //         var rows = loaded;
-        //         for(var j=0; j<rowcount; j++)
-        //             blocks.Add(code(skip(rows, j)));
-        //     }
-        //     Ran(flow, string.Format("Read {0} blocks from {1}", blocks.Count, src));
-        //     return blocks.ToArray();
-        // }
-
         [Op]
         public Count ReadBlocks(FS.FilePath src, List<ApiCodeBlock> dst)
         {
@@ -347,35 +332,6 @@ namespace Z0
         [Op]
         public SortedIndex<ApiCodeBlock> ReadBlocks(FS.Files src, bool pll = true)
             => code(src,pll);
-
-        // {
-        //     var count = src.Length;
-        //     if(count == 0)
-        //         return SortedIndex<ApiCodeBlock>.Empty;
-
-        //     var flow = Running(Msg.LoadingHexFileBlocks.Format(count));
-        //     var view = src.View;
-        //     var blocks = list<ApiCodeBlock>(42000);
-        //     var counter = 0;
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var path = ref skip(view,i);
-        //         var loaded = ReadRows(path);
-        //         var rowcount = loaded.Length;
-        //         if(rowcount != 0)
-        //         {
-        //             var rows = loaded;
-        //             for(var j=0; j<rowcount; j++)
-        //                 blocks.Add(code(skip(rows, j)));
-        //         }
-
-        //         counter += rowcount;
-        //     }
-
-        //     Ran(flow, Msg.LoadedHexBlocks.Format(counter));
-
-        //     return SortedIndex<ApiCodeBlock>.sort(blocks.ToArray());
-        // }
 
         [Op]
         public Index<ApiHexRow> WriteBlocks(ApiHostUri uri, ReadOnlySpan<ApiMemberCode> src, FS.FolderPath dst)

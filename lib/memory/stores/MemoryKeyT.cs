@@ -4,13 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [DataType("memkey<t:{0}>")]
     public readonly struct MemoryKey<T>
         where T : IEquatable<T>
     {
         readonly MemoryRange Range;
 
-        public T Data {get;}
+        public readonly T Data;
 
         [MethodImpl(Inline)]
         public MemoryKey(MemoryAddress min, MemoryAddress max, T data)

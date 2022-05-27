@@ -7,9 +7,9 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct CodeHostKey
     {
-        public uint Component {get;}
+        public readonly uint Component;
 
-        public uint HostSeq {get;}
+        public readonly uint HostSeq;
 
         [MethodImpl(Inline)]
         public CodeHostKey(uint component, uint host)

@@ -7,10 +7,9 @@ namespace Z0
     /// <summary>
     /// Specifies a block of memory along with the base address from which it originated
     /// </summary>
-    [DataType("memblock")]
     public readonly struct MemoryBlock : IComparable<MemoryBlock>
     {
-        public MemoryRange Origin {get;}
+        public readonly MemoryRange Origin;
 
         readonly BinaryCode Data;
 

@@ -4,18 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct CodeKey
     {
-        public CodeHostKey HostKey {get;}
+        public readonly CodeHostKey HostKey;
 
-        public uint BlockSeq {get;}
+        public readonly uint BlockSeq;
 
         [MethodImpl(Inline)]
         public CodeKey(CodeHostKey host, uint block)

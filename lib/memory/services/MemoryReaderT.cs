@@ -18,7 +18,7 @@ namespace Z0
         MemoryReaderState<T> State;
 
         [MethodImpl(Inline)]
-        internal MemoryReader(T* pSrc, int count)
+        public MemoryReader(T* pSrc, int count)
         {
             Source = pSrc;
             State = new MemoryReaderState<T>(count, 0);

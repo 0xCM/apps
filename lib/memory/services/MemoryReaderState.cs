@@ -8,7 +8,7 @@ namespace Z0
 
     unsafe struct MemoryReaderState<T>
     {
-        public int CellCount {get;}
+        public readonly int CellCount;
 
         public int Position;
 
@@ -27,7 +27,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public MemoryReaderState<S> Covert<S>()
+        public MemoryReaderState<S> Convert<S>()
             where S : unmanaged
         {
             var bytes = (uint)CellCount*size<T>();

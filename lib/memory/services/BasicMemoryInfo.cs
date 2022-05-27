@@ -7,7 +7,7 @@ namespace Z0
     using Windows;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct BasicMemoryInfo : IRecord<BasicMemoryInfo>
+    public struct BasicMemoryInfo
     {
         public const string TableId = "memory.basic";
 

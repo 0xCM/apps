@@ -123,10 +123,6 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        [MethodImpl(Inline)]
-        public EncodedStream Stream()
-            => new EncodedStream(this);
-
         public int CompareTo(BinaryCode src)
             => View.SequenceCompareTo(src.View);
 
