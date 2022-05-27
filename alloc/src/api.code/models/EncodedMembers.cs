@@ -25,7 +25,7 @@ namespace Z0
         public ReadOnlySpan<byte> Code(uint i)
         {
             var offset = Data.Offsets[i];
-            var size =  Data.Index[i].CodeSize;
+            var size =  Data.Members[i].CodeSize;
             return slice(Data.CodeBuffer.View, offset, size);
         }
 
@@ -37,7 +37,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public unsafe MemorySeg Segment(uint i)
-            => new MemorySeg(Data.CodeBuffer.BaseAddress + Data.Offsets[i], Data.Index[i].CodeSize);
+            => new MemorySeg(Data.CodeBuffer.BaseAddress + Data.Offsets[i], Data.Members[i].CodeSize);
 
         [MethodImpl(Inline), Op]
         public unsafe MemorySeg Segment(int i)
@@ -62,28 +62,28 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public ref readonly EncodedMember Description(uint i)
-            => ref Data.Index[i];
+        public ref readonly EncodedMember Member(uint i)
+            => ref Data.Members[i];
 
         [MethodImpl(Inline), Op]
-        public ref readonly EncodedMember Description(int i)
-            => ref Data.Index[i];
+        public ref readonly EncodedMember Member(int i)
+            => ref Data.Members[i];
 
         [MethodImpl(Inline), Op]
         public MemberEncoding Encoding(int i)
-            => new MemberEncoding(Token(i), Data.Index[i].CodeSize);
+            => new MemberEncoding(Token(i), Data.Members[i].CodeSize);
 
         public uint MemberCount
         {
             [MethodImpl(Inline)]
-            get => Data.Index.Count;
+            get => Data.Tokens.Count;
         }
 
         internal class EncodingData
         {
             internal SymbolDispenser Symbols;
 
-            internal Index<EncodedMember> Index;
+            internal Index<EncodedMember> Members;
 
             internal ManagedBuffer CodeBuffer;
 

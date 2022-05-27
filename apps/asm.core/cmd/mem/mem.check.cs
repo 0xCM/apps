@@ -56,12 +56,6 @@ namespace Z0
         DbSources CaptureSources()
             => AppDb.ApiTargets("capture").ToSource();
 
-        void ListDescriptors()
-        {
-            // var descriptors = ApiCode.descriptors(Wf);
-            // Wf.Row($"Loaded {descriptors.Count} descriptors");
-        }
-
 
         void PackHex()
         {
@@ -140,12 +134,14 @@ namespace Z0
         [CmdOp("asm/check/captured")]
         Outcome CheckCaptured2(CmdArgs args)
         {
+            using var symbols = Alloc.dispenser(Alloc.symbols);
+
             var result = Outcome.Success;
             var spec = EmptyString;
             if(args.Count != 0)
                 spec = text.trim(arg(args,0).Value.Format());
 
-            using var members = ApiCode.Encoding(spec);
+            var members = ApiCode.Load(symbols, spec);
             CheckSize(members);
 
             return result;
@@ -169,14 +165,16 @@ namespace Z0
         [CmdOp("asm/check/capture-spec")]
         Outcome CheckCapturedSpec(CmdArgs args)
         {
+            using var symbols = Alloc.dispenser(Alloc.symbols);
+
             var result = Outcome.Success;
             var spec = EmptyString;
             if(args.Count != 0)
                 spec = text.trim(arg(args,0).Value.Format());
 
             const string RenderPattern = "{0,-8} | {1, -8} | {2,-8} | {3,-5} | {4,-8} | {5,-8} | {6,-32} | {7}";
-            using var bank = ApiCode.Encoding(spec);
-            var count = bank.MemberCount;
+            var members = ApiCode.Load(symbols, spec);
+            var count = members.MemberCount;
             var target = MemoryAddress.Zero;
             var size = 0;
             var delta = 0;
@@ -185,9 +183,8 @@ namespace Z0
             var blockmem = 0u;
             for(var i=0; i<count; i++)
             {
-                var code = bank.Code(i);
-                ref readonly var desc = ref bank.Description(i);
-                ref readonly var token = ref bank.Token(i);
+                var code = members.Code(i);
+                ref readonly var token = ref members.Token(i);
                 delta = (int)(token.TargetAddress - (target + size));
                 blocksz += (int)(token.TargetAddress - target);
                 target = token.TargetAddress;

@@ -8,55 +8,60 @@ namespace Z0
 
     partial class ApiCode
     {
-        public static EncodedMembers members(Index<EncodedMember> index, BinaryCode data)
+        static EncodedMembers members(SymbolDispenser symbols, Index<CollectedEncoding> src)
         {
             var dst = new EncodedMembers.EncodingData();
-            index.Sort(EncodedMember.comparer(EncodedMember.CmpKind.Target));
-            var bytes = data.View;
+            var total = 0u;
+            src.Sort();
+            iter(src, c => total += c.Code.Size);
+            var binary = code(total, src);
             var offset = 0u;
-            var count = index.Count;
+            var count = src.Count;
             var offsets = alloc<uint>(count);
             var tokens = alloc<ApiToken>(count);
-            var dispenser = Alloc.dispenser(Alloc.symbols);
             for(var i=0; i<count; i++)
             {
-                ref readonly var info = ref index[i];
-                ref readonly var size = ref info.CodeSize;
-                if(offset + size > bytes.Length)
-                    Errors.Throw(string.Format("Offset exceeded at {0} for {1}", i, info.Uri));
-
+                ref readonly var info = ref src[i];
+                var size = info.Code.Size;
                 seek(offsets,i) = offset;
-
-                var result = entry(info, out var ep);
-                if(result.Fail)
-                    Errors.Throw(result.Message);
-
-                seek(tokens,i) = ApiToken.create(dispenser, ep, info.TargetAddress);
-                var code = slice(bytes, offset, size);
-
                 offset += size;
             }
-
-            dst.Symbols = dispenser;
-            dst.Index = index;
-            dst.CodeBuffer = ManagedBuffer.pin(data.Storage);
+            dst.Symbols = symbols;
+            dst.CodeBuffer = ManagedBuffer.pin(binary.Storage);
             dst.Offsets = offsets;
             dst.Tokens = tokens;
             return new EncodedMembers(dst);
         }
 
-        static Outcome entry(in EncodedMember src, out MethodEntryPoint dst)
+        static EncodedMembers members(SymbolDispenser symbols, Index<EncodedMember> src, BinaryCode code)
         {
-            var result = ApiUri.parse(src.Uri, out var uri);
-            dst = MethodEntryPoint.Empty;
-            if(result)
+            var dst = new EncodedMembers.EncodingData();
+            src.Sort(EncodedMember.comparer(EncodedMember.CmpKind.Target));
+            var offset = 0u;
+            var count = src.Count;
+            var offsets = alloc<uint>(count);
+            var tokens = alloc<ApiToken>(count);
+            for(var i=0; i<count; i++)
             {
-                if(uri.IsEmpty)
-                    result = (false, string.Format("Empty uri for {0}", src.Uri));
-                else
-                    dst = new MethodEntryPoint(src.EntryAddress, Require.notnull(uri), src.Sig);
+                ref readonly var info = ref src[i];
+                ref readonly var size = ref info.CodeSize;
+                if(offset + size > code.Length)
+                    Errors.Throw(string.Format("Offset exceeded at {0} for {1}", i, info.Uri));
+
+                seek(offsets,i) = offset;
+                ApiUri.parse(info.Uri, out var uri).Require();
+                var e = new MethodEntryPoint(info.EntryAddress, Require.notnull(uri), info.Sig);
+                seek(tokens,i) = token(symbols, e, info.TargetAddress);
+                var segment = slice(code.View, offset, size);
+                offset += size;
             }
-            return result;
+
+            dst.Symbols = symbols;
+            dst.Members = src;
+            dst.CodeBuffer = ManagedBuffer.pin(code.Storage);
+            dst.Offsets = offsets;
+            dst.Tokens = tokens;
+            return new EncodedMembers(dst);
         }
     }
 }

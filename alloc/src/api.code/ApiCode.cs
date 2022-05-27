@@ -4,382 +4,178 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Linq;
-
-    using Asm;
-
     using static core;
 
     public partial class ApiCode : AppService<ApiCode>
     {
         ApiJit ApiJit => Service(Wf.ApiJit);
 
-        ApiCodeFiles ApiCodeFiles => Wf.ApiCodeFiles();
+        ApiHex ApiHex => Service(Wf.ApiHex);
+
+        new ApiCodeFiles Files => Wf.ApiCodeFiles();
 
         AppSvcOps AppSvc => Wf.AppSvc();
 
-        public EncodedMembers Load()
+        public EncodedMembers Load(SymbolDispenser symbols)
         {
-            var result = Load(out var index, out var code);
-            if(result.Fail)
-                Errors.Throw(result.Message);
-            return members(index,code);
+            Load(out var index, out var code);
+            return members(symbols, index, code);
         }
 
-        public EncodedMembers Encoding(string spec)
+        public EncodedMembers Load(SymbolDispenser symbols, string spec)
         {
-            var result = Outcome.Success;
             if(text.nonempty(spec))
             {
                 var i = text.index(spec, Chars.FSlash);
                 if(i>0)
-                    return Load(ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));
+                    return Load(symbols, ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));
                 else
-                    return Load(ApiParsers.part(spec));
+                    return Load(symbols, ApiParsers.part(spec));
             }
             else
-                return Load();
+                return Load(symbols);
         }
 
-        public EncodedMembers Load(PartId src)
+        public EncodedMembers Load(SymbolDispenser symbols, ApiHostUri src)
         {
-            var result = Load(src, out var index, out var code);
-            if(result.Fail)
-                Errors.Throw(result.Message);
-            return members(index,code);
+            Load(src, out var index, out var code);
+            return members(symbols, index, code);
         }
 
-        public EncodedMembers Load(ApiHostUri src)
+        public EncodedMembers Load(SymbolDispenser symbols, PartId src)
         {
-            var result = Load(src, out var index, out var code);
-            if(result.Fail)
-                Errors.Throw(result.Message);
-            return members(index,code);
+            Load(src, out var index, out var code);
+            return members(symbols, index, code);
         }
 
-        /// <summary>
-        /// Determines whether an operation accepts an argument of specified numeric kind
-        /// </summary>
-        /// <param name="src">The encoded operation</param>
-        /// <param name="match">The kind to match</param>
-        [Op]
-        public static bool accepts(ApiCodeBlock src, NumericKind match)
-            => TypeIdentity.numeric(src.Id.Components.Skip(2)).Contains(match);
+        public Index<EncodedMember> Collect(SymbolDispenser symbols)
+        {
+            var collected = Collect(symbols, MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
+            return Emit(collected, Files.Path(FS.Csv), Files.Path(FS.Hex));
+        }
 
-        public Outcome Collect(SymbolDispenser symbols, ApiHostUri src)
+        public Index<EncodedMember> Collect(SymbolDispenser symbols, ApiHostUri src)
         {
             if(ApiRuntimeCatalog.FindHost(src, out var host))
             {
-                var members = Collect(symbols, MethodEntryPoints.create(ApiJit.JitHost(host)));
-                Emit(members, ApiCodeFiles.Csv(src), ApiCodeFiles.Hex(src));
-                return true;
+                var collected = Collect(symbols, MethodEntryPoints.create(ApiJit.JitHost(host)));
+                return Emit(collected, Files.Path(src, FS.Hex), Files.Path(src, FS.Csv));
             }
             else
             {
-                return (false, AppMsg.NotFound.Format(src.Format()));
+                Errors.Throw(AppMsg.NotFound.Format(src.Format()));
+                return sys.empty<EncodedMember>();
             }
         }
 
-        public Outcome Collect(ApiHostUri src)
-        {
-            if(ApiRuntimeCatalog.FindHost(src, out var host))
-            {
-                using var symbols = Alloc.symbols();
-                var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitHost(host)));
-                Emit(members, ApiCodeFiles.Csv(src), ApiCodeFiles.Hex(src));
-                return true;
-            }
-            else
-            {
-                return (false, AppMsg.NotFound.Format(src.Format()));
-            }
-        }
-
-        public Outcome Collect(PartId src)
+        public Index<EncodedMember> Collect(SymbolDispenser symbols, PartId src)
         {
             if(ApiRuntimeCatalog.FindPart(src, out var part))
             {
-                using var symbols = Alloc.symbols();
-                var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitPart(part)));
-                Emit(members, ApiCodeFiles.Path(src, FS.Csv), ApiCodeFiles.Path(src,FS.Hex));
-                return true;
+                var collected = Collect(symbols, MethodEntryPoints.create(ApiJit.JitPart(part)));
+                var emitted = Emit(collected, Files.Path(src, FS.Hex), Files.Path(src, FS.Csv));
+                return emitted;
             }
             else
             {
-                return (false, AppMsg.NotFound.Format(src.Format()));
+                Errors.Throw(AppMsg.NotFound.Format(src.Format()));
+                return sys.empty<EncodedMember>();
             }
         }
 
-        public Outcome Collect(SymbolDispenser symbols)
+        public Index<EncodedMember> Collect()
         {
-            var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
-            Emit(members, ApiCodeFiles.Path(FS.Csv), ApiCodeFiles.Path(FS.Hex));
-            return true;
+            using var symbols = Alloc.symbols();
+            var collected = Collect(symbols, MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
+            return Emit(collected, Files.Path(FS.Csv), Files.Path(FS.Hex));
         }
 
-        public Outcome Collect(string spec)
+        void Load(out Index<EncodedMember> index, out BinaryCode data)
         {
-            var result = Outcome.Success;
-            var members = Index<CollectedEncoding>.Empty;
+            ApiCode.hex(Files.Path(FS.Hex), out data).Require();
+            ApiCode.index(Files.Path(FS.Csv), out index).Require();
+        }
+
+        void Load(PartId src, out Index<EncodedMember> index, out BinaryCode data)
+        {
+            ApiCode.index(Files.Path(src, FS.Csv), out index).Require();
+            hex(Files.Path(src, FS.Hex), out data).Require();
+        }
+
+        void Load(ApiHostUri src, out Index<EncodedMember> index, out BinaryCode data)
+        {
+            ApiCode.hex(Files.Hex(src), out data).Require();
+            ApiCode.index(Files.Csv(src), out index).Require();
+        }
+
+        public Index<EncodedMember> Collect(SymbolDispenser symbols, string spec)
+        {
+            var emitted = Index<EncodedMember>.Empty;
             if(text.nonempty(spec))
             {
                 var i = text.index(spec, Chars.FSlash);
                 if(i>0)
-                    result = Collect(ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));
+                    emitted = Collect(symbols, ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));
                 else
-                    result = Collect(ApiParsers.part(spec));
+                    emitted = Collect(symbols, ApiParsers.part(spec));
             }
             else
-                result = Collect();
+                emitted = Collect(symbols);
 
-            return result;
+            return emitted;
         }
 
-        public Outcome Collect()
+        public Index<EncodedMember> Collect(ApiHostUri src)
         {
             using var symbols = Alloc.symbols();
-            var members = Collect(symbols, MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
-            Emit(members, ApiCodeFiles.Path(FS.Csv), ApiCodeFiles.Path(FS.Hex));
-            return true;
+            return Collect(symbols, src);
+        }
+
+        public Index<EncodedMember> Collect(PartId src)
+        {
+            using var symbols = Alloc.symbols();
+            return Collect(symbols, src);
+        }
+
+        public Index<EncodedMember> Collect(string spec)
+        {
+            var emitted = Index<EncodedMember>.Empty;
+            if(text.nonempty(spec))
+            {
+                var i = text.index(spec, Chars.FSlash);
+                if(i>0)
+                    emitted = Collect(ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));
+                else
+                    emitted = Collect(ApiParsers.part(spec));
+            }
+            else
+                emitted = Collect();
+
+            return emitted;
         }
 
         Index<CollectedEncoding> Collect(SymbolDispenser symbols, ReadOnlySpan<MethodEntryPoint> src)
-            => DivineCode(collect(symbols, src));
+            => divine(collect(symbols, src), x => Write(x));
 
-        Index<CollectedEncoding> DivineCode(ReadOnlySpan<RawMemberCode> src)
+        Index<EncodedMember> Emit(Index<CollectedEncoding> src, FS.FilePath hex, FS.FilePath csv)
         {
-            var count = src.Length;
-            var buffer = span<byte>(Pow2.T16);
-            var host = ApiHostUri.Empty;
-            var lookup = dict<ApiHostUri,CollectedCodeExtracts>();
-            var max = ByteSize.Zero;
+            var collected = src.Sort();
+            var count = collected.Count;
+            var emitting = EmittingFile(hex);
+            var size = ApiCode.hex(collected, hex);
+            EmittedFile(emitting,count);
+            var encoded = alloc<EncodedMember>(count);
+            for(var i=0; i<count; i++)
+                seek(encoded,i) = describe(collected[i]);
+            var rebase = min(encoded.Select(x => (ulong)x.EntryAddress).Min(), encoded.Select(x => (ulong)x.TargetAddress).Min());
             for(var i=0; i<count; i++)
             {
-                buffer.Clear();
-                ref readonly var raw = ref skip(src,i);
-                var uri = raw.Uri;
-
-                if(raw.StubCode != raw.Stub.Encoding)
-                {
-                    Error("Stub code mismatch");
-                    break;
-                }
-
-                if(uri.Host != host)
-                    host = uri.Host;
-
-                var extract = slice(buffer,0, ApiExtracts.extract(raw.Target, buffer));
-                var extracted = new CollectedCodeExtract(raw, extract.ToArray());
-                if(lookup.TryGetValue(host, out var extracts))
-                    extracts.Include(extracted);
-                else
-                    lookup[host] = new CollectedCodeExtracts(extracted);
+                seek(encoded,i).EntryRebase = skip(encoded,i).EntryAddress - rebase;
+                seek(encoded,i).TargetRebase = skip(encoded,i).TargetAddress - rebase;
             }
 
-            return Parse(lookup).Emit();
-        }
-
-        void Emit(Index<CollectedEncoding> src, FS.FilePath index, FS.FilePath data)
-        {
-            var options = HexFormatSpecs.options();
-            var members = src.Sort();
-            var emitting = EmittingFile(data);
-            using var writer = data.AsciWriter();
-            var count = members.Count;
-            var descriptions = alloc<EncodedMember>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var member = ref members[i];
-                seek(descriptions,i) = describe(member);
-                writer.WriteLine(member.Code.Format(options));
-            }
-
-            var rebase = min(descriptions.Select(x => (ulong)x.EntryAddress).Min(), descriptions.Select(x => (ulong)x.TargetAddress).Min());
-            for(var i=0; i<count; i++)
-            {
-                ref var dst = ref seek(descriptions,i);
-                dst.EntryRebase = dst.EntryAddress - rebase;
-                dst.TargetRebase = dst.TargetAddress - rebase;
-            }
-
-            EmittedFile(emitting, count);
-            AppSvc.TableEmit(descriptions, index);
-        }
-
-        EncodingLookup Parse(Dictionary<ApiHostUri,CollectedCodeExtracts> src)
-        {
-            var running = Running(Msg.ParsingHosts.Format(src.Count));
-            var buffer = alloc<byte>(Pow2.T14);
-            var parser = EncodingParser.create(buffer);
-            var dst = new EncodingLookup();
-            var counter = 0u;
-            foreach(var host in src.Keys)
-            {
-                var parsing = Running(Msg.ParsingHostMembers.Format(host));
-                var extracts = src[host];
-                foreach(var extract in extracts)
-                {
-                    var result = parser.Parse(extract.TargetExtract);
-                    dst.Include(new CollectedEncoding(extract.Token, parser.Parsed));
-                    counter++;
-                }
-                Ran(parsing, Msg.ParsedHostMembers.Format(extracts.Count, host));
-            }
-
-            Ran(running, Msg.ParsedHosts.Format(counter, src.Keys.Count));
-            return dst;
-        }
-
-        Outcome Load(out Index<EncodedMember> index, out BinaryCode data)
-        {
-            var result = Outcome.Success;
-            var rA = load(ApiCodeFiles.Path(FS.Csv), out index);
-            var rB = load(ApiCodeFiles.Path(FS.Hex), out data);
-            if(rA.Fail)
-                result = rA;
-            else
-                result = rB;
-            return result;
-        }
-
-        Outcome Load(PartId src, out Index<EncodedMember> index, out BinaryCode data)
-        {
-            var result = Outcome.Success;
-            var rA = load(ApiCodeFiles.Path(src, FS.Csv), out index);
-            var rB = load(ApiCodeFiles.Path(src, FS.Hex), out data);
-            if(rA.Fail)
-                result = rA;
-            else
-                result = rB;
-            return result;
-        }
-
-        Outcome Load(ApiHostUri src, out Index<EncodedMember> index, out BinaryCode data)
-        {
-            var result = Outcome.Success;
-            var rA = load(ApiCodeFiles.Csv(src), out index);
-            var rB = load(ApiCodeFiles.Hex(src), out data);
-            if(rA.Fail)
-                result = rA;
-            else
-                result = rB;
-            return result;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static unsafe byte AccessorCode(SpanResAccessor src, out ByteBlock16 dst)
-        {
-            dst = ByteBlock16.Empty;
-            var seg = AccessorData(src);
-            var size = (byte)seg.Size;
-            var data = cover<byte>(seg.BaseAddress.Pointer<byte>(), seg.Size);
-            for(var i=0; i<size; i++)
-                dst[i] = skip(data,i);
-            return size;
-        }
-
-        [Op]
-        public static MemorySeg AccessorData(SpanResAccessor src)
-            => AccessorData(stub(src.Member.Location, out _));
-
-        [Op]
-        public static MemorySeg AccessorCode(SpanResAccessor src)
-            => AccessorCode(stub(src.Member.Location, out _));
-
-        /// <summary>
-        /// Queries the source type for ByteSpan property getters
-        /// </summary>
-        /// <param name="src">The type to query</param>
-        [Op]
-        public void FindAccessors(SymbolDispenser symbols, Type src, List<CapturedAccessor> dst)
-        {
-            var candidates = src.StaticProperties()
-                 .Ignore()
-                  .WithPropertyType(ResAccessorTypes)
-                  .Select(p => p.GetGetMethod(true))
-                  .Where(m  => m != null)
-                  .Concrete();
-            var count = candidates.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var candidate = ref skip(candidates,i);
-                var target = ClrJit.jit(candidate);
-
-
-                //var target = ApiCodeCollector.GetTargetAddress(ClrJit.jit(candidate), out _);
-            }
-        }
-
-        [Op]
-        static SpanResKind ResKind(Type match)
-        {
-            ref readonly var src = ref first(span(ResAccessorTypes));
-            var kind = SpanResKind.None;
-            if(skip(src,0).Equals(match))
-                kind = SpanResKind.ByteSpan;
-            else if(skip(src,1).Equals(match))
-                kind = SpanResKind.CharSpan;
-            return kind;
-        }
-
-        static Type ByteSpanAcessorType
-            => typeof(ReadOnlySpan<byte>);
-
-        static Type CharSpanAcessorType
-            => typeof(ReadOnlySpan<char>);
-
-        static Type[] ResAccessorTypes
-            => new Type[]{ByteSpanAcessorType, CharSpanAcessorType};
-
-        static unsafe bool IsAccessor(MemoryAddress target)
-        {
-            var data = cover(target.Pointer<byte>(), 24);
-            var result = true;
-            result &= skip(data,0) == 0x48;
-            result &= skip(data,1) == 0xb8;
-            result &= skip(data,10) == 0x48;
-            result &= skip(data,11) == 0x89;
-            result &= skip(data,20) == 0x48;
-            result &= skip(data,21) == 0x8b;
-            return result;
-        }
-
-        // 24 bytes: [48 b8 c0 f3 bf 2b 38 01 00 00] [48 89 01] [c7 41 08 20 00 00 00] [48 8b c1 c3]
-        // 0 | 00 | mov r64,imm64       # 10        | [48 b8] [c0 f3 bf 2b 38 01 00 00]
-        // 1 | 10 | mov [rcx],rax       # 3         | 48 89 01
-        // 2 | 13 | mov r/m32, imm32    # 7         | [c7 41 08] 20 00 00 00
-        // 3 | 20 | mov r64, r/m64      # 3         | 48 8b c1
-        // 4 | 23 ret                   # 1         | c3
-        static unsafe MemorySeg AccessorData(MemoryAddress target)
-        {
-            var data = cover(target.Pointer<byte>(), 24);
-            var address = @as<MemoryAddress>(slice(data,2,8));
-            var size = @as<uint>(slice(data, 13 + 3, 4));
-            return new MemorySeg(address, size);
-        }
-
-        static unsafe MemorySeg AccessorCode(MemoryAddress target)
-            => new MemorySeg(target, 24);
-
-        class EncodingLookup
-        {
-            readonly ConcurrentDictionary<uint,CollectedEncoding> Data;
-
-            public EncodingLookup()
-            {
-                Data = new();
-            }
-
-            public bool Include(in CollectedEncoding src)
-                => Data.TryAdd(src.Token.EntryId,src);
-
-            public Index<CollectedEncoding> Emit(bool clear = true)
-            {
-                var members = Data.Values.Array();
-                if(clear)
-                    Data.Clear();
-                return members;
-            }
+            AppSvc.TableEmit(encoded, csv);
+            return encoded;
         }
     }
 }

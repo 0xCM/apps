@@ -58,7 +58,5 @@ namespace Z0
 
         public static AppDb AppDb(this IWfRuntime wf)
             => Services.AppDb(wf);
-
-
     }
 }

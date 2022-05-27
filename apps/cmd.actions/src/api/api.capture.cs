@@ -9,24 +9,24 @@ namespace Z0
     partial class ApiCmd
     {
         [CmdOp("api/capture")]
-        Outcome Capture(CmdArgs args)
+        void Capture(CmdArgs args)
         {
             var spec = EmptyString;
             if(args.Count != 0)
                 spec = text.trim(arg(args,0).Value.Format());
-            var result = ApiCode.Collect(spec);
-            if(result)
-                result = EmitAsm(spec);
-            return result;
+
+            using var symbols = Alloc.dispenser(Alloc.symbols);
+            ApiCode.Collect(symbols, spec);
+            EmitAsm(symbols, spec);
         }
 
-        Outcome EmitAsm(string spec)
+        Outcome EmitAsm(SymbolDispenser symbols, string spec)
         {
             var result = Outcome.Success;
             var path = ApiCodeFiles.Path(spec, FS.Asm);
             var emitting = EmittingFile(path);
             using var writer = path.Writer();
-            using var members = ApiCode.Encoding(spec);
+            var members = ApiCode.Load(symbols, spec);
             var count = members.MemberCount;
             for(var i=0; i<count; i++)
             {
@@ -46,11 +46,12 @@ namespace Z0
         [CmdOp("api/asm")]
         Outcome EmitAsm(CmdArgs args)
         {
+            using var symbols = Alloc.dispenser(Alloc.symbols);
             var result = Outcome.Success;
             var spec = EmptyString;
             if(args.Count != 0)
                 spec = text.trim(arg(args,0).Value.Format());
-            result = EmitAsm(spec);
+            result = EmitAsm(symbols,spec);
             return result;
         }
     }

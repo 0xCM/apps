@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Linq;
-
     using Asm;
 
     using static core;
@@ -20,9 +18,7 @@ namespace Z0
             {
                 ref readonly var entry = ref skip(entries,i);
                 var buffer = Cells.alloc(w64).Bytes;
-                ref var data = ref entry.Location.Ref<byte>();
-                ByteReader.read5(data, buffer);
-                ref var dst = ref seek(code,i);
+                ByteReader.read5(entry.Location.Ref<byte>(), buffer);
                 collect(symbols, entry, out seek(code, i));
             }
             return code;
@@ -39,12 +35,10 @@ namespace Z0
             {
                 dst.Disp = AsmRel32.disp(dst.StubCode.Bytes);
                 dst.Stub = new JmpStub(entry.Location, target);
-                dst.Token = ApiToken.create(symbols, entry, target);
+                dst.Token = token(symbols, entry, target);
             }
             else
-            {
-                dst.Token = ApiToken.create(symbols, entry);
-            }
+                dst.Token = token(symbols, entry);
         }
     }
 }

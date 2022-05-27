@@ -10,6 +10,13 @@ namespace Z0
 
     partial class ApiCode
     {
+        public static ReadOnlySpan<byte> parse(in RawMemberCode src, Span<byte> dst)
+        {
+            if(src.StubCode != src.Stub.Encoding)
+                Errors.Throw("Stub code mismatch");
+            return slice(dst,0, ApiExtracts.extract(src.Target, dst));
+        }
+
         [Parser]
         public static Outcome parse(string src, out EncodedMember dst)
         {

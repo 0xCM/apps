@@ -10,9 +10,9 @@ namespace Z0
 
     partial class ApiCode
     {
-        static EncodedMember describe(in CollectedEncoding member)
+        static EncodedMember describe(in CollectedEncoding src)
         {
-            var token = member.Token;
+            var token = src.Token;
             var dst = new EncodedMember();
             dst.Id = token.Id;
             dst.EntryAddress = token.EntryAddress;
@@ -22,7 +22,7 @@ namespace Z0
                 dst.Disp = AsmRel32.disp((token.EntryAddress, JmpRel32.InstSize), token.TargetAddress);
                 dst.StubAsm = string.Format("jmp near ptr {0:x}h", (int)AsmRel32.reltarget(dst.Disp));
             }
-            dst.CodeSize = (ushort)member.Code.Size;
+            dst.CodeSize = (ushort)src.Code.Size;
             dst.Sig = token.Sig.Format();
             dst.Uri = token.Uri.Format();
             var result = ApiUri.parse(dst.Uri, out var uri);

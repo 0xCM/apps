@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    struct RawMemberCode
+    public struct RawMemberCode
     {
         public ApiToken Token;
 

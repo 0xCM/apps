@@ -8,26 +8,25 @@ namespace Z0
 
     partial class ApiCode
     {
-        static Outcome load(FS.FilePath src, out Index<EncodedMember> dst)
+        public static ByteSize hex(Index<CollectedEncoding> src, FS.FilePath dst)
         {
-            var result = Outcome.Success;
-            var lines = src.ReadLines(true);
-            var count = lines.Count - 1;
-            dst = alloc<EncodedMember>(count);
-            for(var i=0; i<count; i++)
+            var options = HexFormatSpecs.options();
+            using var writer = dst.AsciWriter();
+            var size = 0u;
+            for(var i=0; i<src.Count; i++)
             {
-                result = parse(lines[i + 1], out dst[i]);
-                if(result.Fail)
-                    break;
+                ref readonly var code = ref src[i].Code;
+                writer.WriteLine(code.Format(options));
+                size += code.Size;
             }
 
-            return result;
+            return size;
         }
 
-        static Outcome load(FS.FilePath path, out BinaryCode dst)
+        public static Outcome hex(FS.FilePath src, out BinaryCode dst)
         {
             var result = Outcome.Success;
-            var cells = path.ReadLines().SelectMany(x => text.split(x,Chars.Space));
+            var cells = src.ReadLines().SelectMany(x => text.split(x,Chars.Space));
             var count = cells.Count;
             var data = alloc<byte>(count);
             for(var i=0; i<count; i++)
